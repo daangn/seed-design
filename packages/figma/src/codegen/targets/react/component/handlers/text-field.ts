@@ -44,6 +44,8 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
   return defineComponentHandler<TextInputFieldProperties>(
     metadata.templateTextField.key,
     (node, traverse) => {
+      const props = node.componentProperties;
+
       const [textInputOutline] = findAllInstances<TextInputOutlineProperties>({
         node,
         key: TEXT_INPUT_OUTLINE_KEY,
@@ -63,10 +65,10 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
       });
 
       const fieldProps = {
-        ...(fieldHeader
+        ...(props["Show Header#40606:8"].value && fieldHeader
           ? (fieldHeaderHandler.transform(fieldHeader, traverse).props as FieldHeaderProps)
           : {}),
-        ...(fieldFooter
+        ...(props["Show Footer#40606:9"].value && fieldFooter
           ? (fieldFooterHandler.transform(fieldFooter, traverse).props as FieldFooterProps)
           : {}),
       };
@@ -90,6 +92,12 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
             }),
             ...(textInputOutline.componentProperties.State.value === "Read Only" && {
               readOnly: true,
+            }),
+            ...(textInputOutline.componentProperties.State.value === "Error" && {
+              invalid: true,
+            }),
+            ...(textInputOutline.componentProperties.State.value === "Error Focused" && {
+              invalid: true,
             }),
             ...(textInputOutline.componentProperties["Has Prefix#32514:10"].value === true &&
               prefix &&

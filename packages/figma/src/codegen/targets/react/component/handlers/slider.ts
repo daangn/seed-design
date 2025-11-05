@@ -54,11 +54,13 @@ export const createSliderFieldHandler = (ctx: ComponentHandlerDeps) => {
       });
 
       const sliderProps = sliderHandler.transform(slider, traverse).props;
+
+      // maxGraphemeCount and required can't be props of Slider
       const { required: __required, ...headerProps } =
         props["Show Header#40606:8"].value && fieldHeader
           ? (fieldHeaderHandler.transform(fieldHeader, traverse).props as FieldHeaderProps)
           : {};
-      const footerProps =
+      const { maxGraphemeCount: __maxGraphemeCount, ...footerProps } =
         props["Show Footer#40606:9"].value && fieldFooter
           ? (fieldFooterHandler.transform(fieldFooter, traverse).props as FieldFooterProps)
           : {};
