@@ -36,6 +36,10 @@ import { createReactionButtonHandler } from "./handlers/reaction-button";
 import { createSegmentedControlHandler } from "./handlers/segmented-control";
 import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/select-box";
 import { createSkeletonHandler } from "./handlers/skeleton";
+import {
+  createSliderHandler,
+  createSliderFieldHandler,
+} from "@/codegen/targets/react/component/handlers/slider";
 import { createSnackbarHandler } from "./handlers/snackbar";
 import { createSwitchMarkHandler } from "@/codegen/targets/react/component/handlers/switch-mark";
 import { createSwitchHandler } from "./handlers/switch";
@@ -94,6 +98,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createSelectBoxGroupHandler,
   createSelectBoxHandler,
   createSliderHandler,
+  createSliderFieldHandler,
   createSkeletonHandler,
   createSnackbarHandler,
   createSwitchHandler,

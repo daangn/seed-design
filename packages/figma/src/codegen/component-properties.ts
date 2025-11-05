@@ -1,16 +1,17 @@
 import type { InferComponentDefinition } from "@/codegen/core";
-import type * as metadata from "@/entities/data/__generated__/component-sets";
+import type * as sets from "@/entities/data/__generated__/component-sets";
+import type * as components from "@/entities/data/__generated__/components";
 
 export type ActionButtonProperties = InferComponentDefinition<
-  typeof metadata.actionButton.componentPropertyDefinitions
+  typeof sets.actionButton.componentPropertyDefinitions
 >;
 
 export type ActionButtonGhostProperties = InferComponentDefinition<
-  typeof metadata.actionButtonGhostButton.componentPropertyDefinitions
+  typeof sets.actionButtonGhostButton.componentPropertyDefinitions
 >;
 
 export type AlertDialogProperties = InferComponentDefinition<
-  typeof metadata.alertDialog.componentPropertyDefinitions
+  typeof sets.alertDialog.componentPropertyDefinitions
 >;
 
 export type AlertDialogFooterProperties = InferComponentDefinition<{
@@ -29,35 +30,35 @@ export type AlertDialogFooterProperties = InferComponentDefinition<{
 }>;
 
 export type AvatarProperties = InferComponentDefinition<
-  typeof metadata.avatar.componentPropertyDefinitions
+  typeof sets.avatar.componentPropertyDefinitions
 >;
 
 export type AvatarStackProperties = InferComponentDefinition<
-  typeof metadata.avatarStack.componentPropertyDefinitions
+  typeof sets.avatarStack.componentPropertyDefinitions
 >;
 
 export type BadgeProperties = InferComponentDefinition<
-  typeof metadata.badge.componentPropertyDefinitions
+  typeof sets.badge.componentPropertyDefinitions
 >;
 
 export type BottomSheetProperties = InferComponentDefinition<
-  typeof metadata.bottomSheet.componentPropertyDefinitions
+  typeof sets.bottomSheet.componentPropertyDefinitions
 >;
 
 export type CalloutProperties = InferComponentDefinition<
-  typeof metadata.callout.componentPropertyDefinitions
+  typeof sets.callout.componentPropertyDefinitions
 >;
 
 export type CheckboxProperties = InferComponentDefinition<
-  typeof metadata.checkbox.componentPropertyDefinitions
+  typeof sets.checkbox.componentPropertyDefinitions
 >;
 
 export type CheckmarkProperties = InferComponentDefinition<
-  typeof metadata.checkmark.componentPropertyDefinitions
+  typeof sets.checkmark.componentPropertyDefinitions
 >;
 
 export type ChipProperties = InferComponentDefinition<
-  typeof metadata.chip.componentPropertyDefinitions
+  typeof sets.chip.componentPropertyDefinitions
 >;
 
 export type ChipIconSuffixProperties = InferComponentDefinition<{
@@ -69,19 +70,92 @@ export type ChipIconSuffixProperties = InferComponentDefinition<{
 }>;
 
 export type ContextualFloatingButtonProperties = InferComponentDefinition<
-  typeof metadata.contextualFloatingButton.componentPropertyDefinitions
+  typeof sets.contextualFloatingButton.componentPropertyDefinitions
 >;
 
 export type DividerProperties = InferComponentDefinition<
-  typeof metadata.divider.componentPropertyDefinitions
+  typeof sets.divider.componentPropertyDefinitions
 >;
 
 export type ErrorStateProperties = InferComponentDefinition<
-  typeof metadata.templateErrorState.componentPropertyDefinitions
+  typeof sets.templateErrorState.componentPropertyDefinitions
 >;
 
+export type FieldHeaderProperties = InferComponentDefinition<{
+  "Label#34796:0": {
+    type: "TEXT";
+    defaultValue: "라벨";
+  };
+  "Has Indicator#34796:1": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Has Suffix#34796:2": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  Weight: {
+    type: "VARIANT";
+    defaultValue: "Medium";
+    variantOptions: ["Medium", "Bold"];
+  };
+}>;
+
+export type FieldIndicatorProperties = InferComponentDefinition<{
+  "Required Label#40606:3": {
+    type: "TEXT";
+    defaultValue: "선택";
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Required Mark";
+    variantOptions: ["Required Mark", "Text"];
+  };
+}>;
+
+export type FieldFooterProperties = InferComponentDefinition<{
+  "Text#2770:0": {
+    type: "TEXT";
+    defaultValue: "도움말 텍스트 입력";
+  };
+  "Has Prefix#2778:13": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Error Text#32821:0": {
+    type: "TEXT";
+    defaultValue: "에러 메시지 입력";
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Description With Character Count";
+    variantOptions: ["Description", "Description With Character Count", "Character Count"];
+  };
+  Error: {
+    type: "VARIANT";
+    defaultValue: "false";
+    variantOptions: ["true", "false"];
+  };
+}>;
+
+export type FieldCharacterCountProperties = InferComponentDefinition<{
+  "Counter#40960:0": {
+    type: "TEXT";
+    defaultValue: "10";
+  };
+  "Max Count#40960:4": {
+    type: "TEXT";
+    defaultValue: "500";
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Null";
+    variantOptions: ["Null", "Has Value", "Error"];
+  };
+}>;
+
 export type MenuSheetProperties = InferComponentDefinition<
-  typeof metadata.menuSheet.componentPropertyDefinitions
+  typeof sets.menuSheet.componentPropertyDefinitions
 >;
 
 export type MenuSheetGroupProperties = InferComponentDefinition<{
@@ -124,7 +198,7 @@ export type MenuSheetItemProperties = InferComponentDefinition<{
 }>;
 
 export type FloatingActionButtonProperties = InferComponentDefinition<
-  typeof metadata.floatingActionButton.componentPropertyDefinitions
+  typeof sets.floatingActionButton.componentPropertyDefinitions
 >;
 
 export type FloatingActionButtonButtonItemProperties = InferComponentDefinition<{
@@ -177,7 +251,7 @@ export type FloatingActionButtonMenuItemProperties = InferComponentDefinition<{
 }>;
 
 export type HelpBubbleProperties = InferComponentDefinition<
-  typeof metadata.helpBubble.componentPropertyDefinitions
+  typeof sets.helpBubble.componentPropertyDefinitions
 >;
 
 // lives in a different file
@@ -190,7 +264,7 @@ export type IdentityPlaceholderProperties = InferComponentDefinition<{
 }>;
 
 export type PageBannerProperties = InferComponentDefinition<
-  typeof metadata.pageBanner.componentPropertyDefinitions
+  typeof sets.pageBanner.componentPropertyDefinitions
 >;
 
 export type PageBannerButtonProperties = InferComponentDefinition<{
@@ -201,11 +275,11 @@ export type PageBannerButtonProperties = InferComponentDefinition<{
 }>;
 
 export type ListHeaderProperties = InferComponentDefinition<
-  typeof metadata.listHeader.componentPropertyDefinitions
+  typeof sets.listHeader.componentPropertyDefinitions
 >;
 
 export type ListItemProperties = InferComponentDefinition<
-  typeof metadata.listItem.componentPropertyDefinitions
+  typeof sets.listItem.componentPropertyDefinitions
 >;
 
 export type ListItemPrefixIconProperties = InferComponentDefinition<{
@@ -225,35 +299,35 @@ export type ListItemSuffixIconProperties = InferComponentDefinition<{
 }>;
 
 export type MannerTempProperties = InferComponentDefinition<
-  typeof metadata.mannerTemp.componentPropertyDefinitions
+  typeof sets.mannerTemp.componentPropertyDefinitions
 >;
 
 export type MannerTempBadgeProperties = InferComponentDefinition<
-  typeof metadata.mannerTempBadge.componentPropertyDefinitions
+  typeof sets.mannerTempBadge.componentPropertyDefinitions
 >;
 
-export type MultilineTextFieldProperties = InferComponentDefinition<
-  typeof metadata.multilineTextField.componentPropertyDefinitions
->;
+// export type MultilineTextFieldProperties = InferComponentDefinition<
+//   typeof metadata.multilineTextField.componentPropertyDefinitions
+// >;
 
 export type ProgressCircleProperties = InferComponentDefinition<
-  typeof metadata.progressCircle.componentPropertyDefinitions
+  typeof sets.progressCircle.componentPropertyDefinitions
 >;
 
 export type RadioProperties = InferComponentDefinition<
-  typeof metadata.radio.componentPropertyDefinitions
+  typeof sets.radio.componentPropertyDefinitions
 >;
 
 export type RadioMarkProperties = InferComponentDefinition<
-  typeof metadata.radioMark.componentPropertyDefinitions
+  typeof sets.radioMark.componentPropertyDefinitions
 >;
 
 export type ReactionButtonProperties = InferComponentDefinition<
-  typeof metadata.reactionButton.componentPropertyDefinitions
+  typeof sets.reactionButton.componentPropertyDefinitions
 >;
 
 export type SegmentedControlProperties = InferComponentDefinition<
-  typeof metadata.segmentedControl.componentPropertyDefinitions
+  typeof sets.segmentedControl.componentPropertyDefinitions
 >;
 
 export type SegmentedControlItemProperties = InferComponentDefinition<{
@@ -269,11 +343,11 @@ export type SegmentedControlItemProperties = InferComponentDefinition<{
 }>;
 
 export type SkeletonProperties = InferComponentDefinition<
-  typeof metadata.skeleton.componentPropertyDefinitions
+  typeof sets.skeleton.componentPropertyDefinitions
 >;
 
 export type SliderProperties = InferComponentDefinition<
-  typeof metadata.slider.componentPropertyDefinitions
+  typeof sets.slider.componentPropertyDefinitions
 >;
 
 export type SliderTicksProperties = InferComponentDefinition<{
@@ -289,36 +363,40 @@ export type SliderTicksProperties = InferComponentDefinition<{
   };
 }>;
 
+export type SliderFieldProperties = InferComponentDefinition<
+  typeof sets.templateSliderField.componentPropertyDefinitions
+>;
+
 export type SnackbarProperties = InferComponentDefinition<
-  typeof metadata.snackbar.componentPropertyDefinitions
+  typeof sets.snackbar.componentPropertyDefinitions
 >;
 
 export type SwitchProperties = InferComponentDefinition<
-  typeof metadata._switch.componentPropertyDefinitions
+  typeof sets._switch.componentPropertyDefinitions
 >;
 
 export type SwitchMarkProperties = InferComponentDefinition<
-  typeof metadata.switchMark.componentPropertyDefinitions
+  typeof sets.switchMark.componentPropertyDefinitions
 >;
 
 export type ToggleButtonProperties = InferComponentDefinition<
-  typeof metadata.toggleButton.componentPropertyDefinitions
+  typeof sets.toggleButton.componentPropertyDefinitions
 >;
 
 export type SelectBoxGroupProperties = InferComponentDefinition<
-  typeof metadata.templateSelectBoxGroup.componentPropertyDefinitions
+  typeof sets.templateSelectBoxGroup.componentPropertyDefinitions
 >;
 
 export type SelectBoxProperties = InferComponentDefinition<
-  typeof metadata.selectBox.componentPropertyDefinitions
+  typeof sets.selectBox.componentPropertyDefinitions
 >;
 
-export type TextFieldProperties = InferComponentDefinition<
-  typeof metadata.textField.componentPropertyDefinitions
->;
+// export type TextFieldProperties = InferComponentDefinition<
+//   typeof metadata.textField.componentPropertyDefinitions
+// >;
 
 export type AppBarProperties = InferComponentDefinition<
-  typeof metadata.topNavigation.componentPropertyDefinitions
+  typeof sets.topNavigation.componentPropertyDefinitions
 >;
 
 export type AppBarMainProperties = InferComponentDefinition<{
@@ -418,7 +496,7 @@ export type AppBarRightIconButtonProperties = InferComponentDefinition<{
 }>;
 
 export type TabsProperties = InferComponentDefinition<
-  typeof metadata.tabs.componentPropertyDefinitions
+  typeof sets.tabs.componentPropertyDefinitions
 >;
 
 export type TabsLineWrapperProperties = InferComponentDefinition<{
@@ -513,7 +591,7 @@ export type ChipTabsTriggerProperties = InferComponentDefinition<{
 }>;
 
 export type TagGroupProperties = InferComponentDefinition<
-  typeof metadata.tagGroup.componentPropertyDefinitions
+  typeof sets.tagGroup.componentPropertyDefinitions
 >;
 
 export type TagGroupItemProperties = InferComponentDefinition<{
