@@ -166,14 +166,17 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
         ...(placeholder && {
           placeholder: placeholder.characters,
         }),
-        ...(value && {
-          defaultValue: value.characters,
-        }),
       };
 
       return createLocalSnippetElement(
         "TextField",
-        { ...fieldProps, ...commonProps },
+        {
+          ...fieldProps,
+          ...commonProps,
+          ...(value && {
+            defaultValue: value.characters,
+          }),
+        },
         createLocalSnippetElement("TextFieldInput", inputProps),
       );
     },
@@ -209,15 +212,6 @@ export const createTextareaFieldHandler = (ctx: ComponentHandlerDeps) => {
           : {}),
       };
 
-      const commonProps = {
-        ...(textarea.componentProperties.State.value === "Disabled" && {
-          disabled: true,
-        }),
-        ...(textarea.componentProperties.State.value === "Read Only" && {
-          readOnly: true,
-        }),
-      };
-
       // these can be fragile but better than having 9 different handlers
       const placeholder = findOne(
         node,
@@ -233,6 +227,15 @@ export const createTextareaFieldHandler = (ctx: ComponentHandlerDeps) => {
         autoresize: textarea.componentProperties["Auto Size (Figma Only)"].value === "true",
         ...(placeholder && {
           placeholder: placeholder.characters,
+        }),
+      };
+
+      const commonProps = {
+        ...(textarea.componentProperties.State.value === "Disabled" && {
+          disabled: true,
+        }),
+        ...(textarea.componentProperties.State.value === "Read Only" && {
+          readOnly: true,
         }),
         ...(value && {
           defaultValue: value.characters,
