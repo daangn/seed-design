@@ -1,71 +1,16 @@
 import type { InferComponentDefinition } from "@/codegen/core";
-import type * as metadata from "@/entities/data/__generated__/component-sets";
+import type * as sets from "@/entities/data/__generated__/component-sets";
 
 export type ActionButtonProperties = InferComponentDefinition<
-  typeof metadata.actionButton.componentPropertyDefinitions
+  typeof sets.actionButton.componentPropertyDefinitions
 >;
 
-export type ActionButtonGhostProperties = InferComponentDefinition<{
-  "Label#30511:2": {
-    type: "TEXT";
-    defaultValue: "라벨";
-  };
-  "Prefix Icon#30511:3": {
-    type: "INSTANCE_SWAP";
-    defaultValue: "26621:24682";
-    preferredValues: [];
-  };
-  "Suffix Icon#30525:0": {
-    type: "INSTANCE_SWAP";
-    defaultValue: "26621:23545";
-    preferredValues: [
-      {
-        type: "COMPONENT_SET";
-        key: "c8415f85843e5aea5a1d3620d03d16b643bf86cd";
-      },
-      {
-        type: "COMPONENT_SET";
-        key: "0d0a2bc648a2c4e1f06a56a30ef16299b6e91037";
-      },
-      {
-        type: "COMPONENT_SET";
-        key: "8f28ae559baf8f388d84ccc3ad65a282966e1b05";
-      },
-      {
-        type: "COMPONENT_SET";
-        key: "57341e8a9961bf31590240dd288e57c76969098d";
-      },
-    ];
-  };
-  "Icon#30525:15": {
-    type: "INSTANCE_SWAP";
-    defaultValue: "34885:102336";
-    preferredValues: [];
-  };
-  Bleed: {
-    type: "VARIANT";
-    defaultValue: "true";
-    variantOptions: ["true", "false"];
-  };
-  Size: {
-    type: "VARIANT";
-    defaultValue: "Medium";
-    variantOptions: ["Xsmall", "Small", "Medium", "Large"];
-  };
-  Layout: {
-    type: "VARIANT";
-    defaultValue: "Icon First";
-    variantOptions: ["Text Only", "Icon First", "Icon Last", "Icon Only"];
-  };
-  State: {
-    type: "VARIANT";
-    defaultValue: "Enabled";
-    variantOptions: ["Enabled", "Pressed", "Loading", "Disabled"];
-  };
-}>;
+export type ActionButtonGhostProperties = InferComponentDefinition<
+  typeof sets.actionButtonGhostButton.componentPropertyDefinitions
+>;
 
 export type AlertDialogProperties = InferComponentDefinition<
-  typeof metadata.alertDialog.componentPropertyDefinitions
+  typeof sets.alertDialog.componentPropertyDefinitions
 >;
 
 export type AlertDialogFooterProperties = InferComponentDefinition<{
@@ -84,35 +29,35 @@ export type AlertDialogFooterProperties = InferComponentDefinition<{
 }>;
 
 export type AvatarProperties = InferComponentDefinition<
-  typeof metadata.avatar.componentPropertyDefinitions
+  typeof sets.avatar.componentPropertyDefinitions
 >;
 
 export type AvatarStackProperties = InferComponentDefinition<
-  typeof metadata.avatarStack.componentPropertyDefinitions
+  typeof sets.avatarStack.componentPropertyDefinitions
 >;
 
 export type BadgeProperties = InferComponentDefinition<
-  typeof metadata.badge.componentPropertyDefinitions
+  typeof sets.badge.componentPropertyDefinitions
 >;
 
 export type BottomSheetProperties = InferComponentDefinition<
-  typeof metadata.bottomSheet.componentPropertyDefinitions
+  typeof sets.bottomSheet.componentPropertyDefinitions
 >;
 
 export type CalloutProperties = InferComponentDefinition<
-  typeof metadata.callout.componentPropertyDefinitions
+  typeof sets.callout.componentPropertyDefinitions
 >;
 
 export type CheckboxProperties = InferComponentDefinition<
-  typeof metadata.checkbox.componentPropertyDefinitions
+  typeof sets.checkbox.componentPropertyDefinitions
 >;
 
 export type CheckmarkProperties = InferComponentDefinition<
-  typeof metadata.checkmark.componentPropertyDefinitions
+  typeof sets.checkmark.componentPropertyDefinitions
 >;
 
 export type ChipProperties = InferComponentDefinition<
-  typeof metadata.chip.componentPropertyDefinitions
+  typeof sets.chip.componentPropertyDefinitions
 >;
 
 export type ChipIconSuffixProperties = InferComponentDefinition<{
@@ -124,19 +69,92 @@ export type ChipIconSuffixProperties = InferComponentDefinition<{
 }>;
 
 export type ContextualFloatingButtonProperties = InferComponentDefinition<
-  typeof metadata.contextualFloatingButton.componentPropertyDefinitions
+  typeof sets.contextualFloatingButton.componentPropertyDefinitions
 >;
 
 export type DividerProperties = InferComponentDefinition<
-  typeof metadata.divider.componentPropertyDefinitions
+  typeof sets.divider.componentPropertyDefinitions
 >;
 
 export type ErrorStateProperties = InferComponentDefinition<
-  typeof metadata.templateErrorState.componentPropertyDefinitions
+  typeof sets.templateErrorState.componentPropertyDefinitions
 >;
 
+export type FieldHeaderProperties = InferComponentDefinition<{
+  "Label#34796:0": {
+    type: "TEXT";
+    defaultValue: "라벨";
+  };
+  "Has Indicator#34796:1": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Has Suffix#34796:2": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  Weight: {
+    type: "VARIANT";
+    defaultValue: "Medium";
+    variantOptions: ["Medium", "Bold"];
+  };
+}>;
+
+export type FieldIndicatorProperties = InferComponentDefinition<{
+  "Required Label#40606:3": {
+    type: "TEXT";
+    defaultValue: "선택";
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Required Mark";
+    variantOptions: ["Required Mark", "Text"];
+  };
+}>;
+
+export type FieldFooterProperties = InferComponentDefinition<{
+  "Text#2770:0": {
+    type: "TEXT";
+    defaultValue: "도움말 텍스트 입력";
+  };
+  "Has Prefix#2778:13": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Error Text#32821:0": {
+    type: "TEXT";
+    defaultValue: "에러 메시지 입력";
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Description With Character Count";
+    variantOptions: ["Description", "Description With Character Count", "Character Count"];
+  };
+  Error: {
+    type: "VARIANT";
+    defaultValue: "false";
+    variantOptions: ["true", "false"];
+  };
+}>;
+
+export type FieldCharacterCountProperties = InferComponentDefinition<{
+  "Counter#40960:0": {
+    type: "TEXT";
+    defaultValue: "10";
+  };
+  "Max Count#40960:4": {
+    type: "TEXT";
+    defaultValue: "500";
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Null";
+    variantOptions: ["Null", "Has Value", "Error"];
+  };
+}>;
+
 export type MenuSheetProperties = InferComponentDefinition<
-  typeof metadata.menuSheet.componentPropertyDefinitions
+  typeof sets.menuSheet.componentPropertyDefinitions
 >;
 
 export type MenuSheetGroupProperties = InferComponentDefinition<{
@@ -179,7 +197,7 @@ export type MenuSheetItemProperties = InferComponentDefinition<{
 }>;
 
 export type FloatingActionButtonProperties = InferComponentDefinition<
-  typeof metadata.floatingActionButton.componentPropertyDefinitions
+  typeof sets.floatingActionButton.componentPropertyDefinitions
 >;
 
 export type FloatingActionButtonButtonItemProperties = InferComponentDefinition<{
@@ -232,9 +250,10 @@ export type FloatingActionButtonMenuItemProperties = InferComponentDefinition<{
 }>;
 
 export type HelpBubbleProperties = InferComponentDefinition<
-  typeof metadata.helpBubble.componentPropertyDefinitions
+  typeof sets.helpBubble.componentPropertyDefinitions
 >;
 
+// lives in a different file
 export type IdentityPlaceholderProperties = InferComponentDefinition<{
   Identity: {
     type: "VARIANT";
@@ -244,7 +263,7 @@ export type IdentityPlaceholderProperties = InferComponentDefinition<{
 }>;
 
 export type PageBannerProperties = InferComponentDefinition<
-  typeof metadata.pageBanner.componentPropertyDefinitions
+  typeof sets.pageBanner.componentPropertyDefinitions
 >;
 
 export type PageBannerButtonProperties = InferComponentDefinition<{
@@ -255,11 +274,11 @@ export type PageBannerButtonProperties = InferComponentDefinition<{
 }>;
 
 export type ListHeaderProperties = InferComponentDefinition<
-  typeof metadata.listHeader.componentPropertyDefinitions
+  typeof sets.listHeader.componentPropertyDefinitions
 >;
 
 export type ListItemProperties = InferComponentDefinition<
-  typeof metadata.listItem.componentPropertyDefinitions
+  typeof sets.listItem.componentPropertyDefinitions
 >;
 
 export type ListItemPrefixIconProperties = InferComponentDefinition<{
@@ -279,35 +298,31 @@ export type ListItemSuffixIconProperties = InferComponentDefinition<{
 }>;
 
 export type MannerTempProperties = InferComponentDefinition<
-  typeof metadata.mannerTemp.componentPropertyDefinitions
+  typeof sets.mannerTemp.componentPropertyDefinitions
 >;
 
 export type MannerTempBadgeProperties = InferComponentDefinition<
-  typeof metadata.mannerTempBadge.componentPropertyDefinitions
->;
-
-export type MultilineTextFieldProperties = InferComponentDefinition<
-  typeof metadata.multilineTextField.componentPropertyDefinitions
+  typeof sets.mannerTempBadge.componentPropertyDefinitions
 >;
 
 export type ProgressCircleProperties = InferComponentDefinition<
-  typeof metadata.progressCircle.componentPropertyDefinitions
+  typeof sets.progressCircle.componentPropertyDefinitions
 >;
 
 export type RadioProperties = InferComponentDefinition<
-  typeof metadata.radio.componentPropertyDefinitions
+  typeof sets.radio.componentPropertyDefinitions
 >;
 
 export type RadioMarkProperties = InferComponentDefinition<
-  typeof metadata.radioMark.componentPropertyDefinitions
+  typeof sets.radioMark.componentPropertyDefinitions
 >;
 
 export type ReactionButtonProperties = InferComponentDefinition<
-  typeof metadata.reactionButton.componentPropertyDefinitions
+  typeof sets.reactionButton.componentPropertyDefinitions
 >;
 
 export type SegmentedControlProperties = InferComponentDefinition<
-  typeof metadata.segmentedControl.componentPropertyDefinitions
+  typeof sets.segmentedControl.componentPropertyDefinitions
 >;
 
 export type SegmentedControlItemProperties = InferComponentDefinition<{
@@ -323,39 +338,56 @@ export type SegmentedControlItemProperties = InferComponentDefinition<{
 }>;
 
 export type SkeletonProperties = InferComponentDefinition<
-  typeof metadata.skeleton.componentPropertyDefinitions
+  typeof sets.skeleton.componentPropertyDefinitions
+>;
+
+export type SliderProperties = InferComponentDefinition<
+  typeof sets.slider.componentPropertyDefinitions
+>;
+
+export type SliderTicksProperties = InferComponentDefinition<{
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Continuous";
+    variantOptions: ["Continuous", "Discrete"];
+  };
+  Step: {
+    type: "VARIANT";
+    defaultValue: "2";
+    variantOptions: ["2", "3", "4", "5"];
+  };
+}>;
+
+export type SliderFieldProperties = InferComponentDefinition<
+  typeof sets.templateSliderField.componentPropertyDefinitions
 >;
 
 export type SnackbarProperties = InferComponentDefinition<
-  typeof metadata.snackbar.componentPropertyDefinitions
+  typeof sets.snackbar.componentPropertyDefinitions
 >;
 
 export type SwitchProperties = InferComponentDefinition<
-  typeof metadata._switch.componentPropertyDefinitions
+  typeof sets._switch.componentPropertyDefinitions
 >;
 
 export type SwitchMarkProperties = InferComponentDefinition<
-  typeof metadata.switchMark.componentPropertyDefinitions
+  typeof sets.switchMark.componentPropertyDefinitions
 >;
 
 export type ToggleButtonProperties = InferComponentDefinition<
-  typeof metadata.toggleButton.componentPropertyDefinitions
+  typeof sets.toggleButton.componentPropertyDefinitions
 >;
 
 export type SelectBoxGroupProperties = InferComponentDefinition<
-  typeof metadata.templateSelectBoxGroup.componentPropertyDefinitions
+  typeof sets.templateSelectBoxGroup.componentPropertyDefinitions
 >;
 
 export type SelectBoxProperties = InferComponentDefinition<
-  typeof metadata.selectBox.componentPropertyDefinitions
->;
-
-export type TextFieldProperties = InferComponentDefinition<
-  typeof metadata.textField.componentPropertyDefinitions
+  typeof sets.selectBox.componentPropertyDefinitions
 >;
 
 export type AppBarProperties = InferComponentDefinition<
-  typeof metadata.topNavigation.componentPropertyDefinitions
+  typeof sets.topNavigation.componentPropertyDefinitions
 >;
 
 export type AppBarMainProperties = InferComponentDefinition<{
@@ -455,7 +487,7 @@ export type AppBarRightIconButtonProperties = InferComponentDefinition<{
 }>;
 
 export type TabsProperties = InferComponentDefinition<
-  typeof metadata.tabs.componentPropertyDefinitions
+  typeof sets.tabs.componentPropertyDefinitions
 >;
 
 export type TabsLineWrapperProperties = InferComponentDefinition<{
@@ -550,7 +582,7 @@ export type ChipTabsTriggerProperties = InferComponentDefinition<{
 }>;
 
 export type TagGroupProperties = InferComponentDefinition<
-  typeof metadata.tagGroup.componentPropertyDefinitions
+  typeof sets.tagGroup.componentPropertyDefinitions
 >;
 
 export type TagGroupItemProperties = InferComponentDefinition<{
@@ -589,3 +621,230 @@ export type TagGroupItemProperties = InferComponentDefinition<{
     variantOptions: ["Regular", "Bold"];
   };
 }>;
+
+export type TextInputFieldProperties = InferComponentDefinition<
+  typeof sets.templateTextField.componentPropertyDefinitions
+>;
+
+export type TextInputOutlineProperties = InferComponentDefinition<{
+  "Has Prefix#32514:10": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Loading Text#32734:0": {
+    type: "TEXT";
+    defaultValue: "단서를 모아서 추리 중...";
+  };
+  "Has Suffix#32865:68": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: [
+      "Enabled",
+      "Focused",
+      "Error",
+      "Error Focused",
+      "Disabled",
+      "Read Only",
+      "AI Loading (Figma Only)",
+    ];
+  };
+}>;
+
+export type TextInputOutlinePrefixProperties = InferComponentDefinition<{
+  "Icon#34021:2": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "32633:80013";
+    preferredValues: [];
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Icon";
+    variantOptions: ["Icon", "Custom (Figma Only)"];
+  };
+}>;
+
+export type TextInputOutlineSuffixProperties = InferComponentDefinition<{
+  "Suffix Text#34021:4": {
+    type: "TEXT";
+    defaultValue: "원";
+  };
+  "Icon#45391:0": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "34885:102331";
+    preferredValues: [];
+  };
+  "Type (Figma Only)": {
+    type: "VARIANT";
+    defaultValue: "Text";
+    variantOptions: ["Text", "Icon", "Icon Button (Ghost Button)", "Custom"];
+  };
+}>;
+
+export type TextInputUnderlinePrefixProperties = InferComponentDefinition<{
+  "Icon#34021:2": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "32633:80013";
+    preferredValues: [];
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Icon";
+    variantOptions: ["Icon", "Custom (Figma Only)"];
+  };
+}>;
+
+export type TextInputUnderlineSuffixProperties = InferComponentDefinition<{
+  "Suffix Text#34021:4": {
+    type: "TEXT";
+    defaultValue: "원";
+  };
+  "Icon#45391:5": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "34885:102331";
+    preferredValues: [];
+  };
+  "Type (Figma Only)": {
+    type: "VARIANT";
+    defaultValue: "Text";
+    variantOptions: ["Text", "Icon", "Icon Button (Ghost Button)", "Custom"];
+  };
+}>;
+
+export type TextInputUnderlineProperties = InferComponentDefinition<{
+  "Show Footer#33213:14": {
+    type: "BOOLEAN";
+    defaultValue: true;
+  };
+  "Has Prefix#34125:0": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Has Suffix#34125:8": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Show Header#34125:16": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: [
+      "Enabled",
+      "Focused",
+      "Error",
+      "Error Focused",
+      "Disabled",
+      "Read Only",
+      "AI Loading (Figma Only)",
+    ];
+  };
+}>;
+
+export type TextareaFieldProperties = InferComponentDefinition<
+  typeof sets.templateTextareaField.componentPropertyDefinitions
+>;
+
+export type TextareaProperties = InferComponentDefinition<{
+  "Auto Size (Figma Only)": {
+    type: "VARIANT";
+    defaultValue: "true";
+    variantOptions: ["true", "false"];
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: [
+      "Enabled",
+      "Focused",
+      "Error",
+      "Error Focused",
+      "Disabled",
+      "Read Only",
+      "AI Loading (Figma Only)",
+    ];
+  };
+}>;
+
+export type FieldButtonProperties = InferComponentDefinition<
+  typeof sets.templateCustomPickerField.componentPropertyDefinitions
+>;
+
+export type InputButtonProperties = InferComponentDefinition<{
+  "Has Prefix#32514:10": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Has Suffix#32865:68": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: ["Enabled", "Error", "Disabled", "Read Only", "Pressed", "Error Pressed"];
+  };
+}>;
+
+export type InputButtonPrefixProperties = InferComponentDefinition<{
+  "Icon#34021:2": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "34885:102321";
+    preferredValues: [
+      {
+        type: "COMPONENT_SET";
+        key: "e6ff71538e21f2e117c72727e5e5cc526d2328ba";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "b4cad90025daa85c417154f8f61e09fbddb34fa7";
+      },
+    ];
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Icon";
+    variantOptions: ["Icon", "Custom (Figma Only)"];
+  };
+}>;
+
+export type InputButtonSuffixProperties = InferComponentDefinition<{
+  "Suffix Text#34021:4": {
+    type: "TEXT";
+    defaultValue: "원";
+  };
+  "Icon#37963:0": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "43573:11862";
+    preferredValues: [
+      {
+        type: "COMPONENT_SET";
+        key: "422f4be7a88e2c41c079de9202e0b8e7da429971";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "5c704613ff444e38fe356e3991738965bd43fcec";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "29314e598cfae33d3b325feaaa39cb71449d521a";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "ffe429c229000d814017f87a62ff9746639e3bbb";
+      },
+    ];
+  };
+  "Type (Figma Only)": {
+    type: "VARIANT";
+    defaultValue: "Icon";
+    variantOptions: ["Icon", "Text", "Custom"];
+  };
+}>;
+
+export type GenericFieldButtonProps = InferComponentDefinition<{}>;

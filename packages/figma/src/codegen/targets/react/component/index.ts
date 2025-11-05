@@ -19,6 +19,13 @@ import { createChipHandler } from "./handlers/chip";
 import { createContextualFloatingButtonHandler } from "./handlers/contextual-floating-button";
 import { createDividerHandler } from "./handlers/divider";
 import { createErrorStateHandler } from "./handlers/error-state";
+import {
+  createFieldButtonHandler,
+  createAddressFieldHandler,
+  createDatePickerFieldHandler,
+  createSelectFieldHandler,
+  createTimePickerFieldHandler,
+} from "@/codegen/targets/react/component/handlers/field-button";
 import { createFloatingActionButtonHandler } from "./handlers/floating-action-button";
 import { createHelpBubbleHandler } from "./handlers/help-bubble";
 import { createIdentityPlaceholderHandler } from "./handlers/identity-placeholder";
@@ -27,7 +34,6 @@ import { createListItemHandler } from "@/codegen/targets/react/component/handler
 import { createMannerTempBadgeHandler } from "./handlers/manner-temp-badge";
 import { createMannerTempHandler } from "./handlers/manner-temp";
 import { createMenuSheetHandler } from "./handlers/menu-sheet";
-import { createMultilineTextFieldHandler } from "./handlers/multiline-text-field";
 import { createPageBannerHandler } from "./handlers/page-banner";
 import { createProgressCircleHandler } from "./handlers/progress-circle";
 import { createRadioGroupItemHandler } from "@/codegen/targets/react/component/handlers/radio-group";
@@ -36,11 +42,15 @@ import { createReactionButtonHandler } from "./handlers/reaction-button";
 import { createSegmentedControlHandler } from "./handlers/segmented-control";
 import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/select-box";
 import { createSkeletonHandler } from "./handlers/skeleton";
+import {
+  createSliderHandler,
+  createSliderFieldHandler,
+} from "@/codegen/targets/react/component/handlers/slider";
 import { createSnackbarHandler } from "./handlers/snackbar";
 import { createSwitchMarkHandler } from "@/codegen/targets/react/component/handlers/switch-mark";
 import { createSwitchHandler } from "./handlers/switch";
 import { createTabsHandler } from "@/codegen/targets/react/component/handlers/tabs";
-import { createTextFieldHandler } from "./handlers/text-field";
+import { createTextInputFieldHandler, createTextareaFieldHandler } from "./handlers/text-field";
 import { createToggleButtonHandler } from "./handlers/toggle-button";
 import {
   createTagGroupHandler,
@@ -62,19 +72,40 @@ export function bindComponentHandler<T extends NormalizedInstanceNode["component
 export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> = [
   createActionButtonGhostHandler,
   createActionButtonHandler,
-  createAlertDialogHandler,
-  createAppBarHandler,
-  createAvatarHandler,
-  createAvatarStackHandler,
+  createTextInputFieldHandler,
+  createTextareaFieldHandler,
   createBadgeHandler,
-  createBottomSheetHandler,
+  createChipHandler,
   createCalloutHandler,
+  createPageBannerHandler,
   createCheckboxHandler,
   createCheckmarkHandler,
-  createChipHandler,
-  createContextualFloatingButtonHandler,
+  createRadioGroupItemHandler,
+  createRadioMarkHandler,
+  createSwitchHandler,
+  createSwitchMarkHandler,
+  createAlertDialogHandler,
   createDividerHandler,
+  createAvatarHandler,
+  createAvatarStackHandler,
+  createSegmentedControlHandler,
+  createSelectBoxGroupHandler,
+  createSelectBoxHandler,
+  createSliderHandler,
+  createSliderFieldHandler,
+  createTabsHandler,
+  createTagGroupHandler,
+  createTagGroupItemHandler,
+  createToggleButtonHandler,
+  createAppBarHandler,
+  createBottomSheetHandler,
+  createFieldButtonHandler,
+  createAddressFieldHandler,
+  createDatePickerFieldHandler,
+  createSelectFieldHandler,
+  createTimePickerFieldHandler,
   createErrorStateHandler,
+  createContextualFloatingButtonHandler,
   createFloatingActionButtonHandler,
   createHelpBubbleHandler,
   createIdentityPlaceholderHandler,
@@ -83,22 +114,8 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createMannerTempBadgeHandler,
   createMannerTempHandler,
   createMenuSheetHandler,
-  createMultilineTextFieldHandler,
-  createPageBannerHandler,
   createProgressCircleHandler,
-  createRadioGroupItemHandler,
-  createRadioMarkHandler,
   createReactionButtonHandler,
-  createSegmentedControlHandler,
-  createSelectBoxGroupHandler,
-  createSelectBoxHandler,
   createSkeletonHandler,
   createSnackbarHandler,
-  createSwitchHandler,
-  createSwitchMarkHandler,
-  createTabsHandler,
-  createTagGroupHandler,
-  createTagGroupItemHandler,
-  createTextFieldHandler,
-  createToggleButtonHandler,
 ];

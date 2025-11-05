@@ -28,9 +28,8 @@ export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
       ...(props["Show Description#25192:0"].value === true && {
         description: props["Description#19787:7"].value,
       }),
-      ...(props["Show Close Button#19787:11"].value === false && {
-        hideCloseButton: true,
-      }),
+      showHandle: props["Show Handle#49774:6"].value,
+      showCloseButton: props["Show Close Button#19787:11"].value,
     };
 
     const bodyNodes = findAllInstances({
