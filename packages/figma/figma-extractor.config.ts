@@ -16,7 +16,7 @@ const config = createConfig({
   pipelines: {
     "component-sets": createPipeline()
       .source(sources.componentSets)
-      .filter(({ name }) => name.startsWith("🔵 ") || name.startsWith("🟢 "))
+      .filter(({ name }) => name.includes("🔵 ") || name.includes("🟢 "))
       .sort((a, b) => a.name.localeCompare(b.name))
       .transform(({ name, key, componentPropertyDefinitions }) => ({
         name: getSafeIdentifierName(name),
@@ -43,7 +43,7 @@ const config = createConfig({
 
     components: createPipeline()
       .source(sources.components)
-      .filter(({ name }) => name.startsWith("🔵 ") || name.startsWith("🟢 "))
+      .filter(({ name }) => name.includes("🔵 ") || name.includes("🟢 "))
       .sort((a, b) => a.name.localeCompare(b.name))
       .transform(({ name, key, componentPropertyDefinitions }) => ({
         name: getSafeIdentifierName(name),

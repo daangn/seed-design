@@ -1896,3 +1896,76 @@ export declare const topNavigation: {
     }
   }
 };
+
+export declare const actionButtonGhostButton: {
+  "name": "actionButtonGhostButton",
+  "key": "ea69291fb4d76217419f3d9613ae16aadafb56a5",
+  "componentPropertyDefinitions": {
+    "Label#30511:2": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#30511:3": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": []
+    },
+    "Suffix Icon#30525:0": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT_SET",
+          "key": "c8415f85843e5aea5a1d3620d03d16b643bf86cd"
+        },
+        {
+          "type": "COMPONENT_SET",
+          "key": "0d0a2bc648a2c4e1f06a56a30ef16299b6e91037"
+        },
+        {
+          "type": "COMPONENT_SET",
+          "key": "8f28ae559baf8f388d84ccc3ad65a282966e1b05"
+        },
+        {
+          "type": "COMPONENT_SET",
+          "key": "57341e8a9961bf31590240dd288e57c76969098d"
+        }
+      ]
+    },
+    "Icon#30525:15": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": []
+    },
+    "Bleed": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "true",
+        "false"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Xsmall",
+        "Small",
+        "Medium",
+        "Large"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text Only",
+        "Icon First",
+        "Icon Last",
+        "Icon Only"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Loading",
+        "Disabled"
+      ]
+    }
+  }
+};
