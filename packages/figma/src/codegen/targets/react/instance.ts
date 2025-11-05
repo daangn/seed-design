@@ -59,6 +59,10 @@ export function createInstanceTransformer({
             (field) => OVERRIDE_ACCEPTABLE_PROPERTIES.has(field as NodeChangeProperty) === false,
           );
 
+        if (overriddenFields.length === 0) {
+          return handled;
+        }
+
         return {
           ...handled,
           meta: {
