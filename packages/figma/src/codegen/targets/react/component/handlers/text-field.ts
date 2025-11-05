@@ -130,6 +130,18 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
 
           return {
             variant: "underline",
+            ...(textInputUnderline.componentProperties.State.value === "Disabled" && {
+              disabled: true,
+            }),
+            ...(textInputUnderline.componentProperties.State.value === "Read Only" && {
+              readOnly: true,
+            }),
+            ...(textInputUnderline.componentProperties.State.value === "Error" && {
+              invalid: true,
+            }),
+            ...(textInputUnderline.componentProperties.State.value === "Error Focused" && {
+              invalid: true,
+            }),
             ...(textInputUnderline.componentProperties["Has Prefix#34125:0"].value === true &&
               prefix &&
               prefix.componentProperties.Type.value === "Icon" && {
