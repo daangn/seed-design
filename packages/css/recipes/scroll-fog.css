@@ -1,0 +1,19 @@
+.seed-scroll-fog {
+    position: relative;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    mask-image: var(--fog-mask-image, none);
+    -webkit-mask-image: var(--fog-mask-image, none);
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+}
+.seed-scroll-fog--hideScrollBar_true root {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.seed-scroll-fog--hideScrollBar_true root::-webkit-scrollbar {
+    display: none;
+}
