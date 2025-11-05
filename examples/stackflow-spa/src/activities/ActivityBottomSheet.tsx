@@ -25,7 +25,10 @@ const ActivityBottomSheet: ActivityComponentType = () => {
         showHandle={true}
         title="제목"
         description="다람쥐 헌 쳇바퀴에 타고파"
-        layerIndex={activity.zIndex * 5}
+        // TODO: there should be an API to get z-indices of AppScreen elements
+        // since overlay components are often portalled, CSS variables might not be enough
+        // z-index of AppBar is base + 4 (see the recipe)
+        layerIndex={activity.zIndex + 4}
       >
         <BottomSheetBody alignItems="center" justifyContent="center" height="300px">
           Handle을 드래그하여 시트를 조절할 수 있습니다.
