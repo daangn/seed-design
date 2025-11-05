@@ -26,7 +26,7 @@ const SLIDER_TICK_KEY = "ace432ffb7a2af13bce549b19c932ac5f96a9a78";
 function getSliderComment(props: { markers?: unknown; ticks?: unknown } & Record<string, unknown>) {
   return [
     "min, max, step 값을 적절히 조정해주세요.",
-    props.markers && "markers 배열을 채워주세요..",
+    props.markers && "markers 배열을 채워주세요.",
     props.ticks && "ticks 배열을 채워주세요.",
   ]
     .filter(Boolean)
