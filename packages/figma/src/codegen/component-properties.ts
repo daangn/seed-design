@@ -1,6 +1,5 @@
 import type { InferComponentDefinition } from "@/codegen/core";
 import type * as sets from "@/entities/data/__generated__/component-sets";
-import type * as components from "@/entities/data/__generated__/components";
 
 export type ActionButtonProperties = InferComponentDefinition<
   typeof sets.actionButton.componentPropertyDefinitions
@@ -771,3 +770,81 @@ export type TextareaProperties = InferComponentDefinition<{
     ];
   };
 }>;
+
+export type FieldButtonProperties = InferComponentDefinition<
+  typeof sets.templateCustomPickerField.componentPropertyDefinitions
+>;
+
+export type InputButtonProperties = InferComponentDefinition<{
+  "Has Prefix#32514:10": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Has Suffix#32865:68": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: ["Enabled", "Error", "Disabled", "Read Only", "Pressed", "Error Pressed"];
+  };
+}>;
+
+export type InputButtonPrefixProperties = InferComponentDefinition<{
+  "Icon#34021:2": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "34885:102321";
+    preferredValues: [
+      {
+        type: "COMPONENT_SET";
+        key: "e6ff71538e21f2e117c72727e5e5cc526d2328ba";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "b4cad90025daa85c417154f8f61e09fbddb34fa7";
+      },
+    ];
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Icon";
+    variantOptions: ["Icon", "Custom (Figma Only)"];
+  };
+}>;
+
+export type InputButtonSuffixProperties = InferComponentDefinition<{
+  "Suffix Text#34021:4": {
+    type: "TEXT";
+    defaultValue: "원";
+  };
+  "Icon#37963:0": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "43573:11862";
+    preferredValues: [
+      {
+        type: "COMPONENT_SET";
+        key: "422f4be7a88e2c41c079de9202e0b8e7da429971";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "5c704613ff444e38fe356e3991738965bd43fcec";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "29314e598cfae33d3b325feaaa39cb71449d521a";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "ffe429c229000d814017f87a62ff9746639e3bbb";
+      },
+    ];
+  };
+  "Type (Figma Only)": {
+    type: "VARIANT";
+    defaultValue: "Icon";
+    variantOptions: ["Icon", "Text", "Custom"];
+  };
+}>;
+
+export type GenericFieldButtonProps = InferComponentDefinition<{}>;
