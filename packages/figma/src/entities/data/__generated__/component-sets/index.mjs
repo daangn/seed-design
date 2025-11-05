@@ -150,12 +150,6 @@ export const templateErrorState = {
     "Description#16237:5": {
       "type": "TEXT"
     },
-    "Text Button Label#17042:0": {
-      "type": "TEXT"
-    },
-    "Show Text Button#48705:0": {
-      "type": "BOOLEAN"
-    },
     "Variant": {
       "type": "VARIANT",
       "variantOptions": [

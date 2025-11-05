@@ -41,6 +41,33 @@ const config = createConfig({
         ]);
       }),
 
+    components: createPipeline()
+      .source(sources.components)
+      .filter(({ name }) => name.startsWith("🔵 ") || name.startsWith("🟢 "))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .transform(({ name, key, componentPropertyDefinitions }) => ({
+        name: getSafeIdentifierName(name),
+        key,
+        ...(componentPropertyDefinitions && {
+          componentPropertyDefinitions: Object.fromEntries(
+            Object.entries(componentPropertyDefinitions).map(([key, { defaultValue, ...rest }]) => [
+              key,
+              rest,
+            ]),
+          ),
+        }),
+      }))
+      .write(async (items, { utils, write, pipelineName }) => {
+        const mjs = items.map((item) => utils.toMjs(item.name, item).trim()).join("\n\n");
+
+        const dts = items.map((item) => utils.toDts(item.name, item).trim()).join("\n\n");
+
+        await Promise.all([
+          write(`${pipelineName}/index.mjs`, mjs),
+          write(`${pipelineName}/index.d.ts`, dts),
+        ]);
+      }),
+
     variables: createPipeline()
       .source(sources.variables)
       .filter(({ hiddenFromPublishing }) => !hiddenFromPublishing)
