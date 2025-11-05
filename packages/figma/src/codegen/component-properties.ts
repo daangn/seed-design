@@ -306,10 +306,6 @@ export type MannerTempBadgeProperties = InferComponentDefinition<
   typeof sets.mannerTempBadge.componentPropertyDefinitions
 >;
 
-// export type MultilineTextFieldProperties = InferComponentDefinition<
-//   typeof metadata.multilineTextField.componentPropertyDefinitions
-// >;
-
 export type ProgressCircleProperties = InferComponentDefinition<
   typeof sets.progressCircle.componentPropertyDefinitions
 >;
@@ -390,10 +386,6 @@ export type SelectBoxGroupProperties = InferComponentDefinition<
 export type SelectBoxProperties = InferComponentDefinition<
   typeof sets.selectBox.componentPropertyDefinitions
 >;
-
-// export type TextFieldProperties = InferComponentDefinition<
-//   typeof metadata.textField.componentPropertyDefinitions
-// >;
 
 export type AppBarProperties = InferComponentDefinition<
   typeof sets.topNavigation.componentPropertyDefinitions
@@ -628,5 +620,154 @@ export type TagGroupItemProperties = InferComponentDefinition<{
     type: "VARIANT";
     defaultValue: "Regular";
     variantOptions: ["Regular", "Bold"];
+  };
+}>;
+
+export type TextInputFieldProperties = InferComponentDefinition<
+  typeof sets.templateTextField.componentPropertyDefinitions
+>;
+
+export type TextInputOutlineProperties = InferComponentDefinition<{
+  "Has Prefix#32514:10": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Loading Text#32734:0": {
+    type: "TEXT";
+    defaultValue: "단서를 모아서 추리 중...";
+  };
+  "Has Suffix#32865:68": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: [
+      "Enabled",
+      "Focused",
+      "Error",
+      "Error Focused",
+      "Disabled",
+      "Read Only",
+      "AI Loading (Figma Only)",
+    ];
+  };
+}>;
+
+export type TextInputOutlinePrefixProperties = InferComponentDefinition<{
+  "Icon#34021:2": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "32633:80013";
+    preferredValues: [];
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Icon";
+    variantOptions: ["Icon", "Custom (Figma Only)"];
+  };
+}>;
+
+export type TextInputOutlineSuffixProperties = InferComponentDefinition<{
+  "Suffix Text#34021:4": {
+    type: "TEXT";
+    defaultValue: "원";
+  };
+  "Icon#45391:0": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "34885:102331";
+    preferredValues: [];
+  };
+  "Type (Figma Only)": {
+    type: "VARIANT";
+    defaultValue: "Text";
+    variantOptions: ["Text", "Icon", "Icon Button (Ghost Button)", "Custom"];
+  };
+}>;
+
+export type TextInputUnderlinePrefixProperties = InferComponentDefinition<{
+  "Icon#34021:2": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "32633:80013";
+    preferredValues: [];
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Icon";
+    variantOptions: ["Icon", "Custom (Figma Only)"];
+  };
+}>;
+
+export type TextInputUnderlineSuffixProperties = InferComponentDefinition<{
+  "Suffix Text#34021:4": {
+    type: "TEXT";
+    defaultValue: "원";
+  };
+  "Icon#45391:5": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "34885:102331";
+    preferredValues: [];
+  };
+  "Type (Figma Only)": {
+    type: "VARIANT";
+    defaultValue: "Text";
+    variantOptions: ["Text", "Icon", "Icon Button (Ghost Button)", "Custom"];
+  };
+}>;
+
+export type TextInputUnderlineProperties = InferComponentDefinition<{
+  "Show Footer#33213:14": {
+    type: "BOOLEAN";
+    defaultValue: true;
+  };
+  "Has Prefix#34125:0": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Has Suffix#34125:8": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Show Header#34125:16": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: [
+      "Enabled",
+      "Focused",
+      "Error",
+      "Error Focused",
+      "Disabled",
+      "Read Only",
+      "AI Loading (Figma Only)",
+    ];
+  };
+}>;
+
+export type TextareaFieldProperties = InferComponentDefinition<
+  typeof sets.templateTextareaField.componentPropertyDefinitions
+>;
+
+export type TextareaProperties = InferComponentDefinition<{
+  "Auto Size (Figma Only)": {
+    type: "VARIANT";
+    defaultValue: "true";
+    variantOptions: ["true", "false"];
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: [
+      "Enabled",
+      "Focused",
+      "Error",
+      "Error Focused",
+      "Disabled",
+      "Read Only",
+      "AI Loading (Figma Only)",
+    ];
   };
 }>;

@@ -27,7 +27,6 @@ import { createListItemHandler } from "@/codegen/targets/react/component/handler
 import { createMannerTempBadgeHandler } from "./handlers/manner-temp-badge";
 import { createMannerTempHandler } from "./handlers/manner-temp";
 import { createMenuSheetHandler } from "./handlers/menu-sheet";
-import { createMultilineTextFieldHandler } from "./handlers/multiline-text-field";
 import { createPageBannerHandler } from "./handlers/page-banner";
 import { createProgressCircleHandler } from "./handlers/progress-circle";
 import { createRadioGroupItemHandler } from "@/codegen/targets/react/component/handlers/radio-group";
@@ -44,13 +43,12 @@ import { createSnackbarHandler } from "./handlers/snackbar";
 import { createSwitchMarkHandler } from "@/codegen/targets/react/component/handlers/switch-mark";
 import { createSwitchHandler } from "./handlers/switch";
 import { createTabsHandler } from "@/codegen/targets/react/component/handlers/tabs";
-import { createTextFieldHandler } from "./handlers/text-field";
+import { createTextInputFieldHandler, createTextareaFieldHandler } from "./handlers/text-field";
 import { createToggleButtonHandler } from "./handlers/toggle-button";
 import {
   createTagGroupHandler,
   createTagGroupItemHandler,
 } from "@/codegen/targets/react/component/handlers/tag-group";
-import { createSliderHandler } from "@/codegen/targets/react/component/handlers/slider";
 
 export type { ComponentHandlerDeps };
 export type UnboundComponentHandler<T extends NormalizedInstanceNode["componentProperties"]> = (
@@ -88,7 +86,6 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createMannerTempBadgeHandler,
   createMannerTempHandler,
   createMenuSheetHandler,
-  createMultilineTextFieldHandler,
   createPageBannerHandler,
   createProgressCircleHandler,
   createRadioGroupItemHandler,
@@ -106,6 +103,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createTabsHandler,
   createTagGroupHandler,
   createTagGroupItemHandler,
-  createTextFieldHandler,
+  createTextInputFieldHandler,
+  createTextareaFieldHandler,
   createToggleButtonHandler,
 ];

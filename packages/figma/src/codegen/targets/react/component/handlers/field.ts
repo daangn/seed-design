@@ -98,6 +98,7 @@ export type FieldFooterProps = FieldCharacterCountProps & {
  */
 export const createFieldFooterHandler = (ctx: ComponentHandlerDeps) => {
   const characterCountHandler = createFieldCharacterCountHandler(ctx);
+
   return defineComponentHandler<FieldFooterProperties>(FIELD_FOOTER_KEY, (node, traverse) => {
     const { componentProperties: props } = node;
 
