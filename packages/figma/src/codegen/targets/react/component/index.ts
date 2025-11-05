@@ -46,6 +46,7 @@ import {
   createTagGroupHandler,
   createTagGroupItemHandler,
 } from "@/codegen/targets/react/component/handlers/tag-group";
+import { createSliderHandler } from "@/codegen/targets/react/component/handlers/slider";
 
 export type { ComponentHandlerDeps };
 export type UnboundComponentHandler<T extends NormalizedInstanceNode["componentProperties"]> = (
@@ -92,6 +93,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createSegmentedControlHandler,
   createSelectBoxGroupHandler,
   createSelectBoxHandler,
+  createSliderHandler,
   createSkeletonHandler,
   createSnackbarHandler,
   createSwitchHandler,

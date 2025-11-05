@@ -272,6 +272,23 @@ export type SkeletonProperties = InferComponentDefinition<
   typeof metadata.skeleton.componentPropertyDefinitions
 >;
 
+export type SliderProperties = InferComponentDefinition<
+  typeof metadata.slider.componentPropertyDefinitions
+>;
+
+export type SliderTicksProperties = InferComponentDefinition<{
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Continuous";
+    variantOptions: ["Continuous", "Discrete"];
+  };
+  Step: {
+    type: "VARIANT";
+    defaultValue: "2";
+    variantOptions: ["2", "3", "4", "5"];
+  };
+}>;
+
 export type SnackbarProperties = InferComponentDefinition<
   typeof metadata.snackbar.componentPropertyDefinitions
 >;
