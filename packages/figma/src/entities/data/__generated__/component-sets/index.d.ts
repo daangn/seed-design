@@ -108,11 +108,40 @@ export declare const templateCompletion: {
   }
 };
 
+export declare const templateCustomPickerField: {
+  "name": "templateCustomPickerField",
+  "key": "91d73dfc297a467d78dc91ade6ff9be9a152619e",
+  "componentPropertyDefinitions": {
+    "Show Header#40606:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:9": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Error",
+        "Disabled",
+        "Read Only"
+      ]
+    },
+    "Has Value": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    }
+  }
+};
+
 export declare const templateErrorState: {
   "name": "templateErrorState",
   "key": "39b4ecd0b5b4d35f4dc5791765ca04aa062a5172",
   "componentPropertyDefinitions": {
-    "Show Buttons#9080:5": {
+    "Show Action Button#9080:5": {
       "type": "BOOLEAN"
     },
     "Title#16237:0": {
@@ -121,8 +150,11 @@ export declare const templateErrorState: {
     "Description#16237:5": {
       "type": "TEXT"
     },
-    "Secondary Action Label#17042:0": {
+    "Text Button Label#17042:0": {
       "type": "TEXT"
+    },
+    "Show Text Button#48705:0": {
+      "type": "BOOLEAN"
     },
     "Variant": {
       "type": "VARIANT",
@@ -161,6 +193,86 @@ export declare const templateSelectBoxGroup: {
         "4",
         "5",
         "6"
+      ]
+    }
+  }
+};
+
+export declare const templateSliderField: {
+  "name": "templateSliderField",
+  "key": "7d2b449bcfb28ebf3c509ed76a141511f7d955eb",
+  "componentPropertyDefinitions": {
+    "Show Header#40606:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:9": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Error",
+        "Disabled",
+        "Read Only",
+        "Pressed"
+      ]
+    }
+  }
+};
+
+export declare const templateTextField: {
+  "name": "templateTextField",
+  "key": "0a83a0ff9d18d98a14536b21aa5411622f9f0c05",
+  "componentPropertyDefinitions": {
+    "Show Header#40606:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:9": {
+      "type": "BOOLEAN"
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Outline",
+        "Underline"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Focused",
+        "Error",
+        "Error Focused",
+        "Disabled",
+        "Read Only",
+        "AI Loading (Figma Only)"
+      ]
+    }
+  }
+};
+
+export declare const templateTextareaField: {
+  "name": "templateTextareaField",
+  "key": "cdc688eccd78b947289e8089a620bdc494f6c809",
+  "componentPropertyDefinitions": {
+    "Show Header#40606:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:9": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Focused",
+        "Error",
+        "Error Focused",
+        "Disabled",
+        "Read Only",
+        "AI Loading (Figma Only)"
       ]
     }
   }
@@ -461,6 +573,9 @@ export declare const bottomSheet: {
       ]
     },
     "Show Safe Area#25488:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Handle#49774:6": {
       "type": "BOOLEAN"
     },
     "Header Layout": {
@@ -852,8 +967,8 @@ export declare const listHeader: {
       "type": "VARIANT",
       "variantOptions": [
         "None",
-        "Button",
-        "Custom"
+        "Custom",
+        "Button"
       ]
     },
     "Variant": {
@@ -1151,75 +1266,6 @@ export declare const menuSheet: {
   }
 };
 
-export declare const multilineTextField: {
-  "name": "multilineTextField",
-  "key": "88b2399c930c85f9ce2972163a078bc684b84bbe",
-  "componentPropertyDefinitions": {
-    "Show Header#870:0": {
-      "type": "BOOLEAN"
-    },
-    "Placeholder#958:0": {
-      "type": "TEXT"
-    },
-    "Show Footer#958:25": {
-      "type": "BOOLEAN"
-    },
-    "Show Description#958:50": {
-      "type": "BOOLEAN"
-    },
-    "Show Character count#958:75": {
-      "type": "BOOLEAN"
-    },
-    "Show Indicator#1259:0": {
-      "type": "BOOLEAN"
-    },
-    "Filled Text#1304:0": {
-      "type": "TEXT"
-    },
-    "Max Character Count#15327:175": {
-      "type": "TEXT"
-    },
-    "Description#15327:212": {
-      "type": "TEXT"
-    },
-    "Indicator#15327:286": {
-      "type": "TEXT"
-    },
-    "Label#15327:323": {
-      "type": "TEXT"
-    },
-    "Character Count#15327:360": {
-      "type": "TEXT"
-    },
-    "Size": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Medium",
-        "Large",
-        "XLarge"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Focused",
-        "Invalid",
-        "Invalid-Focused",
-        "Disabled",
-        "Read Only"
-      ]
-    },
-    "Filled": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "True",
-        "False"
-      ]
-    }
-  }
-};
-
 export declare const pageBanner: {
   "name": "pageBanner",
   "key": "ce587d0f21754af05240cb32a4880227cb0ea1e1",
@@ -1386,38 +1432,6 @@ export declare const radioMark: {
   }
 };
 
-export declare const rangeSlider: {
-  "name": "rangeSlider",
-  "key": "64fc49184979e0be40aa367ca98868601eb7dad5",
-  "componentPropertyDefinitions": {
-    "Steps": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Disabled"
-      ]
-    },
-    "Marker": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Min Max",
-        "All"
-      ]
-    }
-  }
-};
-
 export declare const reactionButton: {
   "name": "reactionButton",
   "key": "ec43e4e881f7048e95601f8b58c01a0905a174e0",
@@ -1494,6 +1508,29 @@ export declare const resizableChild: {
         "24",
         "28",
         "32"
+      ]
+    }
+  }
+};
+
+export declare const scrollFog: {
+  "name": "scrollFog",
+  "key": "0a06ea65fe164e0245fde6ac6c97135990a4de3c",
+  "componentPropertyDefinitions": {
+    "Orientation": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Top ⬇️",
+        "Bottom ⬆️",
+        "Right ➡️",
+        "Left ⬅️"
+      ]
+    },
+    "Layer": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Floating"
       ]
     }
   }
@@ -1576,31 +1613,30 @@ export declare const skeleton: {
 
 export declare const slider: {
   "name": "slider",
-  "key": "aee027230a478315e380704c4523141e67e464ee",
+  "key": "c748f314f790eb804138bd105bfb0bd0584c9aa1",
   "componentPropertyDefinitions": {
-    "Steps": {
+    "Has Tick Mark#47921:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Active Track#48156:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Markers#49596:0": {
+      "type": "BOOLEAN"
+    },
+    "Value": {
       "type": "VARIANT",
       "variantOptions": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4"
+        "Single",
+        "Range"
       ]
     },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
+        "Pressed",
         "Disabled"
-      ]
-    },
-    "Marker": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Min Max",
-        "All"
       ]
     }
   }
@@ -1765,106 +1801,6 @@ export declare const tagGroup: {
         "2",
         "3",
         "4"
-      ]
-    }
-  }
-};
-
-export declare const textField: {
-  "name": "textField",
-  "key": "c49873c37a639f0dffdea4efd0eb43760d66c141",
-  "componentPropertyDefinitions": {
-    "Show Header#870:0": {
-      "type": "BOOLEAN"
-    },
-    "Placeholder#958:0": {
-      "type": "TEXT"
-    },
-    "Show Footer#958:25": {
-      "type": "BOOLEAN"
-    },
-    "Show Description#958:50": {
-      "type": "BOOLEAN"
-    },
-    "Show Character Count#958:75": {
-      "type": "BOOLEAN"
-    },
-    "Show Suffix#958:100": {
-      "type": "BOOLEAN"
-    },
-    "Show Prefix#958:125": {
-      "type": "BOOLEAN"
-    },
-    "Show Indicator#1259:0": {
-      "type": "BOOLEAN"
-    },
-    "Show Prefix Text#1267:0": {
-      "type": "BOOLEAN"
-    },
-    "Prefix Icon#1267:25": {
-      "type": "INSTANCE_SWAP",
-      "preferredValues": []
-    },
-    "Show Prefix Icon#1267:50": {
-      "type": "BOOLEAN"
-    },
-    "Show Suffix Icon#1267:75": {
-      "type": "BOOLEAN"
-    },
-    "Suffix Icon #1267:100": {
-      "type": "INSTANCE_SWAP",
-      "preferredValues": []
-    },
-    "Show Suffix Text#1267:125": {
-      "type": "BOOLEAN"
-    },
-    "Filled Text#1304:0": {
-      "type": "TEXT"
-    },
-    "Description#12626:5": {
-      "type": "TEXT"
-    },
-    "Label#14964:0": {
-      "type": "TEXT"
-    },
-    "Max Character Count#15327:27": {
-      "type": "TEXT"
-    },
-    "Character Count#15327:64": {
-      "type": "TEXT"
-    },
-    "Prefix Text#15327:101": {
-      "type": "TEXT"
-    },
-    "Suffix Text#15327:138": {
-      "type": "TEXT"
-    },
-    "Indicator#15327:249": {
-      "type": "TEXT"
-    },
-    "Size": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Medium",
-        "Large(Default)"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Focused",
-        "Invalid",
-        "Invalid-Focused",
-        "Disabled",
-        "Read Only"
-      ]
-    },
-    "Filled": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "True",
-        "False"
       ]
     }
   }
