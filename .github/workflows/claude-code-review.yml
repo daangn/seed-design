@@ -1,28 +1,37 @@
 name: Claude PR Review
 
+# 자동 리뷰
+# on:
+#   pull_request:
+#     types: [opened, synchronize, ready_for_review, reopened]
+#     paths-ignore:
+#       # if all the files match here, the workflow will be skipped
+#       # if some files do not match here, the workflow will run even though some files match so claude should filter diff by itself
+#       - "**/package.json"
+#       - "**/archive/**/*"
+#       - "**/.next/**/*"
+#       - "**/__testfixtures__/**/*"
+#       - "**/__generated__/**/*"
+#       - "**/__registry__/**/*"
+#       - "**/public/**/*"
+#       - "packages/css/**/*"
+#       - "**/schema.json"
+#       - "packages/qvism-preset/src/vars/**/*"
+#       - "packages/qvism-preset/src/token.css"
+#       - "packages/qvism-preset/src/tokens.ts"
+#       - "packages/tailwind3-plugin/src/index.ts"
+#       - "packages/tailwind4-theme/src/index.css"
+
 on:
-  pull_request:
-    types: [opened, synchronize, ready_for_review, reopened]
-    paths-ignore:
-      # if all the files match here, the workflow will be skipped
-      # if some files do not match here, the workflow will run even though some files match so claude should filter diff by itself
-      - "**/package.json"
-      - "**/archive/**/*"
-      - "**/.next/**/*"
-      - "**/__testfixtures__/**/*"
-      - "**/__generated__/**/*"
-      - "**/__registry__/**/*"
-      - "**/public/**/*"
-      - "packages/css/**/*"
-      - "**/schema.json"
-      - "packages/qvism-preset/src/vars/**/*"
-      - "packages/qvism-preset/src/token.css"
-      - "packages/qvism-preset/src/tokens.ts"
-      - "packages/tailwind3-plugin/src/index.ts"
-      - "packages/tailwind4-theme/src/index.css"
+  issue_comment:
+    types: [created]
 
 jobs:
   claude-code-action:
+    if: |
+      github.event.issue.pull_request &&
+      startsWith(github.event.comment.body, '/claude-review')
+
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
@@ -278,4 +287,4 @@ jobs:
               mcp__github_inline_comment__create_inline_comment,
               Read,
               Write
-             "
+            "
