@@ -3,6 +3,23 @@ name: Claude PR Review
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
+    paths-ignore:
+      # if all the files match here, the workflow will be skipped
+      # if some files do not match here, the workflow will run even though some files match so claude should filter diff by itself
+      - "**/package.json"
+      - "**/archive/**/*"
+      - "**/.next/**/*"
+      - "**/__testfixtures__/**/*"
+      - "**/__generated__/**/*"
+      - "**/__registry__/**/*"
+      - "**/public/**/*"
+      - "packages/css/**/*"
+      - "**/schema.json"
+      - "packages/qvism-preset/src/vars/**/*"
+      - "packages/qvism-preset/src/token.css"
+      - "packages/qvism-preset/src/tokens.ts"
+      - "packages/tailwind3-plugin/src/index.ts"
+      - "packages/tailwind4-theme/src/index.css"
 
 jobs:
   claude-code-action:
@@ -16,27 +33,47 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Run Claude PR Action
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
           track_progress: true
+          use_sticky_comment: true
+
+          # the following line is excluded from the prompt because the comments are given as a global context
+          # see: https://github.com/anthropics/claude-code-action/blob/108e9829000952e342fefd85a76436e7a1dd1058/src/create-prompt/index.ts#L520
+          # `To see more details about the PR, you can use `gh pr view` but should *without* `--comments` to avoid redundant information.`
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
 
-            Please review this pull request with a focus on:
+            Please review this pull request, **in Korean (한국어)**, with a focus on:
             - Code quality and best practices
             - Potential bugs or issues
-            - Security implications
             - Performance considerations
 
-            Note: The PR branch is already checked out in the current working directory.
+            To see the diff that needs to be reviewed, you must run this exact command. Note that the PR branch is already checked out in the current working directory.
 
-            Use `gh pr comment` for top-level feedback.
+            git diff $(git merge-base ${{ github.event.pull_request.base.ref }} HEAD) -- . \
+            ':(exclude)**/package.json' \
+            ':(exclude)**/archive/**/*' \
+            ':(exclude)**/.next/**/*' \
+            ':(exclude)**/__testfixtures__/**/*' \
+            ':(exclude)**/__generated__/**/*' \
+            ':(exclude)**/__registry__/**/*' \
+            ':(exclude)**/public/**/*' \
+            ':(exclude)packages/css/**/*' \
+            ':(exclude)**/schema.json' \
+            ':(exclude)packages/qvism-preset/src/vars/**/*' \
+            ':(exclude)packages/qvism-preset/src/token.css' \
+            ':(exclude)packages/qvism-preset/src/tokens.ts' \
+            ':(exclude)packages/tailwind3-plugin/src/index.ts' \
+            ':(exclude)packages/tailwind4-theme/src/index.css'
+
+            Use `gh pr comment` for *concise* top-level feedback.
             Use `mcp__github_inline_comment__create_inline_comment` to highlight specific code issues.
             Only post GitHub comments - don't submit review text as messages.
           claude_args: |
-            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr view:*),Bash(git diff:*),Bash(git merge-base:*)"
