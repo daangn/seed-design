@@ -433,7 +433,7 @@
         "@seed-design/react-progress": "1.0.0",
         "@seed-design/react-pull-to-refresh": "1.0.1",
         "@seed-design/react-radio-group": "1.0.0",
-        "@seed-design/react-scrollable": "1.0.0",
+        "@seed-design/react-scrollable": "0.0.1",
         "@seed-design/react-segmented-control": "1.0.0",
         "@seed-design/react-slider": "1.0.0",
         "@seed-design/react-snackbar": "1.0.0",
@@ -684,7 +684,7 @@
     },
     "packages/react-headless/scrollable": {
       "name": "@seed-design/react-scrollable",
-      "version": "1.0.0",
+      "version": "0.0.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.0.1",
         "@seed-design/dom-utils": "1.0.0",
