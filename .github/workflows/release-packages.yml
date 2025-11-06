@@ -33,15 +33,13 @@ jobs:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6 # this is faster than `bun install -g npm@latest`
         with:
           node-version: "24"
-          registry-url: "https://registry.npmjs.org"
 
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "1.2.0"
+          bun-version: "1.2"
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
@@ -50,7 +48,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: npm run release
+          publish: bun release
           version: bun version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
