@@ -13,20 +13,6 @@ import {
 import { useFlow } from "../stackflow";
 import { VStack } from "@seed-design/react";
 import { send } from "@stackflow/compat-await-push";
-import { useDialogContext } from "@seed-design/react/primitive";
-import { useEffect } from "react";
-
-/**
- * This demonstrates how the dialog should be in sync with the activity state when using uncontrolled (`defaultOpen`)
- */
-function DialogActivitySync() {
-  const activity = useActivity();
-  const { setOpen } = useDialogContext();
-
-  useEffect(() => setOpen(activity.isActive), [activity.isActive, setOpen]);
-
-  return null;
-}
 
 const ActivityAlertDialog: ActivityComponentType = () => {
   const activity = useActivity();
@@ -45,8 +31,7 @@ const ActivityAlertDialog: ActivityComponentType = () => {
   };
 
   return (
-    <AlertDialogRoot defaultOpen onOpenChange={handleClose}>
-      <DialogActivitySync />
+    <AlertDialogRoot open={activity.isActive} onOpenChange={handleClose}>
       {/* TODO: there should be an API to get z-indices of AppScreen elements */}
       {/* since overlay components are often portalled, CSS variables might not be enough */}
       {/* z-index of AppBar is base + 4 (see the recipe) */}

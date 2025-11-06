@@ -6,6 +6,7 @@ import React from "react";
 import { seedPlugin } from "@seed-design/stackflow";
 import ActivityHome from "../activities/ActivityHome";
 import ActivityNotFound from "../activities/ActivityNotFound";
+import { iframeSyncPlugin } from "./iframeSyncPlugin";
 import { theme } from "./theme";
 
 /**
@@ -54,6 +55,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     seedPlugin({
       theme,
     }),
+    iframeSyncPlugin(),
     historySyncPlugin({
       fallbackActivity: () => "ActivityNotFound",
       routes: {
