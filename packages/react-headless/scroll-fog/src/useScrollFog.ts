@@ -80,6 +80,9 @@ export function useScrollFog(props: UseScrollFogProps) {
           setCanScrollTop(false);
           setCanScrollBottom(false);
         }
+      } else {
+        setCanScrollTop(false);
+        setCanScrollBottom(false);
       }
 
       // Horizontal scroll
@@ -94,6 +97,9 @@ export function useScrollFog(props: UseScrollFogProps) {
           setCanScrollLeft(false);
           setCanScrollRight(false);
         }
+      } else {
+        setCanScrollLeft(false);
+        setCanScrollRight(false);
       }
     };
 
