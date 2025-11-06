@@ -10,6 +10,7 @@ on:
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
+      - ".github/workflows/docs-deploy-storybook-alpha-pages.yml"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

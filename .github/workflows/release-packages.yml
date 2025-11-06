@@ -9,6 +9,7 @@ on:
       - "packages/**"
       - "docs/**"
       - ".changeset/**"
+      - ".github/workflows/release-packages.yml"
   workflow_dispatch:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}

@@ -8,6 +8,7 @@ on:
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
+      - ".github/workflows/docs-deploy-production-pages.yml"
   workflow_dispatch:
 
 concurrency:

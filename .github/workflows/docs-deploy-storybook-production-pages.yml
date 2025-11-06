@@ -8,6 +8,7 @@ on:
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
+      - ".github/workflows/docs-deploy-storybook-production-pages.yml"
   workflow_dispatch:
 
 env:
