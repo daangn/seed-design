@@ -44,8 +44,28 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Create initial review comment
+        id: initial-comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            🤖 **Claude Code Review 시작**
+
+            안녕하세요! Claude가 이 PR을 리뷰하고 있습니다. 잠시만 기다려주세요... ⏳
+
+            ## 🔍 리뷰 항목
+            - 코드 품질 및 모범 사례 검토
+            - 잠재적 버그 및 이슈 탐지
+            - 성능 및 보안 고려사항 분석
+            - Prompt Studio 특화 가이드라인 준수 확인
+
+            리뷰가 완료되면 이 댓글을 업데이트해드릴게요! 😊
+
       - name: Run Claude PR Action
         uses: anthropics/claude-code-action@v1
+        env:
+          CLAUDE_COMMENT_ID: ${{ steps.initial-comment.outputs.comment-id }}
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
           track_progress: true
