@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "1.0.7",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -43,8 +43,10 @@
     "@seed-design/react-avatar": "1.0.0",
     "@seed-design/react-checkbox": "1.0.0",
     "@seed-design/react-dialog": "1.0.0",
-    "@seed-design/react-field": "0.0.0",
-    "@seed-design/react-popover": "1.0.1",
+    "@seed-design/react-drawer": "1.0.1",
+    "@seed-design/react-field": "1.0.0",
+    "@seed-design/react-field-button": "1.0.0",
+    "@seed-design/react-popover": "1.0.2",
     "@seed-design/react-portal": "1.0.0",
     "@seed-design/react-primitive": "1.0.0",
     "@seed-design/react-progress": "1.0.0",
@@ -52,21 +54,20 @@
     "@seed-design/react-radio-group": "1.0.0",
     "@seed-design/react-scroll-fog": "1.0.0",
     "@seed-design/react-segmented-control": "1.0.0",
-    "@seed-design/react-slider": "0.0.0",
+    "@seed-design/react-slider": "1.0.0",
     "@seed-design/react-snackbar": "1.0.0",
     "@seed-design/react-switch": "1.0.0",
     "@seed-design/react-tabs": "1.0.0",
-    "@seed-design/react-text-field": "1.0.0",
+    "@seed-design/react-text-field": "1.1.0",
     "@seed-design/react-toggle": "1.0.0",
-    "clsx": "^2.1.1"
+    "clsx": "^2.1.1",
+    "unicode-segmenter": "^0.14.0"
   },
   "peerDependencies": {
-    "@seed-design/css": "1.0.7",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@seed-design/css": "1.0.7",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^5.0.0",

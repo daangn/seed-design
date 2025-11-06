@@ -1,16 +1,13 @@
-import { field as vars } from "../vars/component";
+import { field as vars, fieldLabel as labelVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { invalid, not, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 
-const field = defineSlotRecipe({
+export const field = defineSlotRecipe({
   name: "field",
   slots: [
     "root",
     "header",
-    "label",
-    "indicatorText",
-    "indicatorIcon",
     "footer",
     "description",
     "errorMessage",
@@ -34,34 +31,6 @@ const field = defineSlotRecipe({
 
       paddingInline: vars.base.enabled.header.paddingX,
       gap: vars.base.enabled.header.gap,
-    },
-    label: {
-      color: vars.base.enabled.label.color,
-      fontSize: vars.base.enabled.label.fontSize,
-      lineHeight: vars.base.enabled.label.lineHeight,
-    },
-    indicatorText: {
-      display: "inline-block",
-      verticalAlign: "bottom",
-
-      paddingInlineStart: vars.base.enabled.indicatorText.paddingLeft,
-
-      color: vars.base.enabled.indicatorText.color,
-      fontSize: vars.base.enabled.indicatorText.fontSize,
-      lineHeight: vars.base.enabled.indicatorText.lineHeight,
-      fontWeight: vars.base.enabled.indicatorText.fontWeight,
-    },
-    indicatorIcon: {
-      display: "inline-block",
-      verticalAlign: "top",
-
-      width: vars.base.enabled.indicatorIcon.size,
-      height: vars.base.enabled.indicatorIcon.size,
-
-      marginBlockStart: vars.base.enabled.indicatorIcon.paddingTop,
-      marginInlineStart: vars.base.enabled.indicatorIcon.paddingLeft,
-
-      color: vars.base.enabled.indicatorIcon.color,
     },
     footer: {
       display: "flex",
@@ -126,23 +95,58 @@ const field = defineSlotRecipe({
       },
     },
   },
-  defaultVariants: {
-    weight: "medium",
+  variants: {},
+  defaultVariants: {},
+});
+
+export const fieldLabel = defineSlotRecipe({
+  name: "field-label",
+  slots: ["root", "indicatorText", "indicatorIcon"],
+  base: {
+    root: {
+      color: labelVars.base.enabled.root.color,
+      fontSize: labelVars.base.enabled.root.fontSize,
+      lineHeight: labelVars.base.enabled.root.lineHeight,
+    },
+    indicatorText: {
+      display: "inline",
+      verticalAlign: "bottom",
+
+      paddingInlineStart: vars.base.enabled.indicatorText.paddingLeft,
+
+      color: vars.base.enabled.indicatorText.color,
+      fontSize: vars.base.enabled.indicatorText.fontSize,
+      lineHeight: vars.base.enabled.indicatorText.lineHeight,
+      fontWeight: vars.base.enabled.indicatorText.fontWeight,
+    },
+    indicatorIcon: {
+      display: "inline",
+      verticalAlign: "top",
+
+      width: vars.base.enabled.indicatorIcon.size,
+      height: vars.base.enabled.indicatorIcon.size,
+
+      marginBlockStart: vars.base.enabled.indicatorIcon.paddingTop,
+      marginInlineStart: vars.base.enabled.indicatorIcon.paddingLeft,
+
+      color: vars.base.enabled.indicatorIcon.color,
+    },
   },
   variants: {
     weight: {
       medium: {
-        label: {
-          fontWeight: vars.weightMedium.enabled.label.fontWeight,
+        root: {
+          fontWeight: labelVars.weightMedium.enabled.root.fontWeight,
         },
       },
       bold: {
-        label: {
-          fontWeight: vars.weightBold.enabled.label.fontWeight,
+        root: {
+          fontWeight: labelVars.weightBold.enabled.root.fontWeight,
         },
       },
     },
   },
+  defaultVariants: {
+    weight: "medium",
+  },
 });
-
-export default field;

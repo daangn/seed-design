@@ -48,6 +48,7 @@ async function mapProperty(
   const value = valueToEstree({
     type: entry.type,
     default: entry.tags.find((tag) => tag.name === "default" || tag.name === "defaultValue")?.text,
+    required: entry.required,
   }) as ObjectExpression;
 
   if (entry.description) {

@@ -101,6 +101,77 @@ Trigger 외의 방식으로 BottomSheet를 열고 닫을 수 있습니다. 이 �
   ```
 </ComponentExample>
 
+### Snap Points
+
+`snapPoints` prop을 사용하여 BottomSheet의 커스텀 스냅 포인트를 설정할 수 있습니다.
+
+<ComponentExample name="react/bottom-sheet/snap-points">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/snap-points.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Fade From Index
+
+`<BottomSheetRoot>`에 `fadeFromIndex` prop을 전달하여 뒷 배경이 어두워지는 시작 인덱스를 설정할 수 있습니다.
+
+<ComponentExample name="react/bottom-sheet/fade-from-index">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/fade-from-index.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Show Handle
+
+`<BottomSheetContent>`에 `showHandle` prop을 전달하여 Handle을 표시할 수 있습니다.
+기본 값은 `false`입니다.
+
+<ComponentExample name="react/bottom-sheet/show-handle">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/show-handle.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Show Close Button
+
+`<BottomSheetContent>`에 `showCloseButton` prop을 전달하여 닫기 버튼을 표시할 수 있습니다.
+기본 값은 `true`입니다.
+
+showCloseButton을 `false`로 설정하면 닫기 버튼이 표시되지 않습니다.
+이 경우 유저가 BottomSheet를 닫을 수 있는 방법을 제공해야 합니다.
+
+<ComponentExample name="react/bottom-sheet/show-close-button">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/show-close-button.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Dismissible
+
+`dismissible` prop을 `false`로 설정하면 closeOnEscape, closeOnInteractOutside, draggable 기능이 비활성화됩니다.
+의도적으로 BottomSheet를 닫을 수 없게 하고 싶을 때 사용합니다. 이외에는 유저가 BottomSheet를 닫을 수 있는 방법을 제공해야 합니다.
+
+<ComponentExample name="react/bottom-sheet/dismissible">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/dismissible.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Bottom Inset
 
 `<BottomSheetContent>`에 `style` prop을 전달하여 아래 여백을 주기 위해 사용합니다.
@@ -109,19 +180,6 @@ Trigger 외의 방식으로 BottomSheet를 열고 닫을 수 있습니다. 이 �
   ```json doc-gen:file
   {
     "file": "examples/react/bottom-sheet/bottom-inset.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Hide Close Button
-
-`<BottomSheetContent>`에 `hideCloseButton` prop을 전달하여 닫기 버튼을 숨길 수 있습니다.
-
-<ComponentExample name="react/bottom-sheet/hide-close-button">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/bottom-sheet/hide-close-button.tsx",
     "codeblock": true
   }
   ```

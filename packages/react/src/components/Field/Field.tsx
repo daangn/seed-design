@@ -5,10 +5,16 @@ import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
+import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { InternalIcon } from "../private/Icon";
 import clsx from "clsx";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(field);
+const {
+  withContext: withLabelContext,
+  withProvider: withLabelProvider,
+  useClassNames: useLabelClassNames,
+} = createSlotRecipeContext(fieldLabel);
 const withStateProps = createWithStateProps([useFieldContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -26,16 +32,16 @@ export const FieldHeader = withContext<HTMLDivElement, FieldHeaderProps>(
   "header",
 );
 
-export interface FieldLabelProps extends Field.LabelProps {}
+export interface FieldLabelProps extends FieldLabelVariantProps, Field.LabelProps {}
 
-export const FieldLabel = withContext<HTMLLabelElement, FieldLabelProps>(Field.Label, "label");
+export const FieldLabel = withLabelProvider<HTMLLabelElement, FieldLabelProps>(Field.Label, "root");
 
 export interface FieldIndicatorTextProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+    React.HTMLAttributes<HTMLSpanElement> {}
 
-export const FieldIndicatorText = withContext<HTMLDivElement, FieldIndicatorTextProps>(
-  withStateProps(Primitive.div),
+export const FieldIndicatorText = withLabelContext<HTMLSpanElement, FieldIndicatorTextProps>(
+  withStateProps(Primitive.span),
   "indicatorText",
 );
 
@@ -43,7 +49,7 @@ export interface FieldRequiredIndicatorProps extends React.SVGProps<SVGElement> 
 
 export const FieldRequiredIndicator = forwardRef<SVGSVGElement, FieldRequiredIndicatorProps>(
   ({ className, ...props }, ref) => {
-    const { indicatorIcon } = useClassNames();
+    const { indicatorIcon } = useLabelClassNames();
 
     return (
       <InternalIcon

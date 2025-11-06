@@ -1,5 +1,3 @@
-"use client";
-
 import { HStack, NotificationBadge, ChipTabs as SeedChipTabs } from "@seed-design/react";
 import { forwardRef } from "react";
 

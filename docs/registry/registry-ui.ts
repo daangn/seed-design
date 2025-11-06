@@ -21,7 +21,16 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "error-state.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
+        },
+      ],
+    },
+    {
+      id: "field-button",
+      snippets: [
+        {
+          path: "field-button.tsx",
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },
@@ -57,7 +66,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "bottom-sheet.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },
@@ -250,7 +259,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "page-banner.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },
@@ -304,7 +313,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "text-field.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },

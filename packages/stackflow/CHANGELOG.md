@@ -1,5 +1,22 @@
 # @seed-design/stackflow
 
+## 1.1.0
+
+### Patch Changes
+
+- b131282: AppScreen에 `tone` 속성을 조절해 그라데이션이 들어간 투명한 배경을 사용할 수 있습니다.
+
+  - AppBar에 있던 `tone` 속성을 AppScreen에서도 사용할 수 있도록 이동합니다.
+  - AppScreen, AppBar 둘 다 `tone` 속성을 사용할 수 있도록 합니다.
+
+- Updated dependencies [d6bb84d]
+- Updated dependencies [a55f584]
+- Updated dependencies [191005f]
+- Updated dependencies [b131282]
+- Updated dependencies [6af6501]
+- Updated dependencies [33def2d]
+  - @seed-design/css@1.1.0
+
 ## 1.0.5
 
 ### Patch Changes

@@ -16,7 +16,7 @@ import {
   type Side,
 } from "@floating-ui/react";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 
 export interface PositioningOptions {
   /**
@@ -167,7 +167,6 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
     open,
     placement: options.placement,
     onOpenChange: onOpenChange,
-    whileElementsMounted: autoUpdate,
     middleware: [
       getOffsetMiddleware(arrowTipOffset, options),
       getFlipMiddleware(options),
@@ -175,7 +174,16 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
       getArrowMiddleware(arrowEl, options),
       rectMiddleware,
     ],
+    // instead of defining `whileElementsMounted` here, we use an effect below
   });
+
+  // https://floating-ui.com/docs/react#anchoring
+  useEffect(() => {
+    if (!open) return;
+    if (!refs.reference.current || !refs.floating.current) return;
+
+    return autoUpdate(refs.reference.current, refs.floating.current, context.update);
+  }, [open, refs.reference, refs.floating, context]);
 
   const [side, alignment] = context.placement.split("-") as [Side, Alignment | undefined];
 

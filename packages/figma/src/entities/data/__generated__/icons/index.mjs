@@ -1389,6 +1389,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "8c85104333ba7cc69fc866b41770316a6bd226d9": {
+    "name": "icon_grid_dot5",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "29482f6a02c7c0fe2d714271ca540c197e2c5e9a": {
+    "name": "icon_grid_dot5",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "94396773c3208ff19b7650bb7f48de6600492c83": {
     "name": "icon_grid_heart",
     "type": "monochrome",
@@ -1776,6 +1786,16 @@ export const FIGMA_ICONS = {
   },
   "dbd5f8ede83fdd89509f63e6b6c63a8844843755": {
     "name": "icon_microwave",
+    "type": "monochrome",
+    "weight": "Line"
+  },
+  "af40e22f4795e41a24778fae19232b7ffe8d0b95": {
+    "name": "icon_midcut_square",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "7c104076f1c7d9bbe9e14f5957012f2c7a5710d7": {
+    "name": "icon_midcut_square",
     "type": "monochrome",
     "weight": "Line"
   },
@@ -3181,6 +3201,10 @@ export const FIGMA_ICONS = {
     "name": "icon_gift",
     "type": "multicolor"
   },
+  "e44bf2ccec8dd6a9b720e15f1660854234aeb9ca": {
+    "name": "icon_grid_dot5",
+    "type": "multicolor"
+  },
   "9d3511905b35064003bf689e7f536f120e1fa5ad": {
     "name": "icon_horizline_viewfinder",
     "type": "multicolor"
@@ -3271,6 +3295,10 @@ export const FIGMA_ICONS = {
   },
   "ae6349466d605178799d1b46644f0d35702ca358": {
     "name": "icon_sneaker_lifted_leftside",
+    "type": "multicolor"
+  },
+  "e8eb13395b0696f63d148a8c31401b21382f03ef": {
+    "name": "icon_sofa",
     "type": "multicolor"
   },
   "7fa76e36cb5397446a8ac3105d882ea685290c1b": {

@@ -25,6 +25,7 @@ export default function SliderField() {
       <Divider />
       <Slider
         label="Invalid Slider"
+        labelWeight="bold"
         min={0}
         max={1000}
         defaultValues={[500]}

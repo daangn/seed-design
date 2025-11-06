@@ -18,10 +18,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const conditionMap = {
-  invalid: {
-    valid: { invalid: false },
-    invalid: { invalid: true },
-  },
   disabled: {
     enabled: { disabled: false },
     disabled: { disabled: true },
@@ -50,11 +46,6 @@ const CommonStoryTemplate: Story = {
   args: {
     min: 0,
     max: 100,
-
-    label: "슬라이더",
-    indicator: "인디케이터",
-    description: "Exercitation dolore elit est mollit labore officia.",
-    errorMessage: "This is an error message.",
 
     ticks: [20, 40, 60, 80],
   },

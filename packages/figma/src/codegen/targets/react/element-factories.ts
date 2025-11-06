@@ -1,7 +1,7 @@
 import { createElement, type ElementNode } from "@/codegen/core";
 
 const SEED_REACT_IMPORT_PATH = "@seed-design/react";
-const LOCAL_SNIPPET_BASE_PATH = "@/seed-design/ui";
+const LOCAL_SNIPPET_BASE_PATH = "seed-design/ui";
 const MONOCHROME_ICON_IMPORT_PATH = "@karrotmarket/react-monochrome-icon";
 const MULTICOLOR_ICON_IMPORT_PATH = "@karrotmarket/react-multicolor-icon";
 
