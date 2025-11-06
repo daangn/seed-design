@@ -39,7 +39,10 @@ const ActivityMenuSheet: ActivityComponentType = () => {
 
   return (
     <MenuSheetRoot open={activity.isActive} onOpenChange={handleClose}>
-      <MenuSheetContent title="Actions" layerIndex={activity.zIndex * 5}>
+      {/* TODO: there should be an API to get z-indices of AppScreen elements */}
+      {/* since overlay components are often portalled, CSS variables might not be enough */}
+      {/* z-index of AppBar is base + 4 (see the recipe) */}
+      <MenuSheetContent title="Actions" layerIndex={activity.zIndex + 4}>
         <MenuSheetGroup>
           <MenuSheetItem onClick={handleAction("add")}>
             <PrefixIcon svg={<IconPlusLine />} />

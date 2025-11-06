@@ -8,6 +8,7 @@ on:
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
+      - ".github/workflows/docs-deploy-storybook-production-pages.yml"
   workflow_dispatch:
 
 env:
@@ -23,13 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "24.11.0"
-
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "1.2.0"
+          bun-version: "1.2.23"
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile

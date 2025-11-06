@@ -1,5 +1,11 @@
 # @seed-design/figma
 
+## 1.1.2
+
+### Patch Changes
+
+- 4c5d7c4: Figma 토큰 정보 및 Codegen 핸들러를 최신화합니다.
+
 ## 1.1.0
 
 ### Patch Changes

@@ -5,7 +5,7 @@ import {
   IconChevronRightLine,
   IconLockLine,
   IconPersonCircleLine,
-  IconQuestionmarkCircleLine,
+  IconQuestionmarkCircleFill,
 } from "@karrotmarket/react-monochrome-icon";
 import { Divider, Icon, PrefixIcon, VStack } from "@seed-design/react";
 
@@ -57,13 +57,13 @@ export default function () {
           <h2>List Header with Action Button</h2>
           <ActionButton
             variant="ghost"
-            size="xsmall"
+            size="small"
             color="fg.neutralSubtle"
             fontWeight="medium"
             bleedX="asPadding"
             bleedY="asPadding"
           >
-            <PrefixIcon svg={<IconQuestionmarkCircleLine />} />
+            <PrefixIcon svg={<IconQuestionmarkCircleFill />} />
             도움말
           </ActionButton>
         </ListHeader>

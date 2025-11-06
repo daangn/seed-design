@@ -363,7 +363,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.0",
+      "version": "1.1.2",
       "dependencies": {
         "@seed-design/css": "1.0.7",
         "change-case": "^5.4.4",
@@ -379,7 +379,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.0",
+      "version": "1.1.2",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
