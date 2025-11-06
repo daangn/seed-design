@@ -3,9 +3,6 @@ name: Claude PR Review
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
-  push:
-    paths:
-      - ".github/workflows/claude-code-review.yml"
 
 jobs:
   claude-code-action:
