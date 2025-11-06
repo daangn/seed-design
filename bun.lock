@@ -126,7 +126,7 @@
       "name": "@seed-design/figma-extractor",
       "version": "1.0.0",
       "bin": {
-        "figma-extractor": "./bin/index.mjs",
+        "figma-extractor": "./bin/index.mjs"
       },
       "dependencies": {
         "@figma/rest-api-spec": "^0.34.0",
@@ -149,7 +149,7 @@
       "name": "@seed-design/qvism-cli",
       "version": "0.0.0",
       "bin": {
-        "qvism": "./bin/qvism.mjs",
+        "qvism": "./bin/qvism.mjs"
       },
       "dependencies": {
         "@seed-design/qvism-core": "0.0.0",
@@ -181,7 +181,7 @@
       "name": "@seed-design/rootage-cli",
       "version": "0.0.0",
       "bin": {
-        "rootage": "./bin/index.mjs",
+        "rootage": "./bin/index.mjs"
       },
       "dependencies": {
         "@seed-design/rootage-artifacts": "1.0.6",
@@ -271,7 +271,7 @@
       "name": "@seed-design/cli",
       "version": "1.0.0",
       "bin": {
-        "seed-design": "./bin/index.mjs",
+        "seed-design": "./bin/index.mjs"
       },
       "dependencies": {
         "@antfu/ni": "^27.0.0",
@@ -348,7 +348,7 @@
       "name": "@seed-design/docs-mcp",
       "version": "0.1.0",
       "bin": {
-        "seed-docs-mcp": "./dist/stdio.js",
+        "seed-docs-mcp": "./dist/stdio.js"
       },
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.15.0",
@@ -363,7 +363,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.0",
+      "version": "1.1.2",
       "dependencies": {
         "@seed-design/css": "1.0.7",
         "change-case": "^5.4.4",
@@ -379,7 +379,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.0",
+      "version": "1.1.2",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
