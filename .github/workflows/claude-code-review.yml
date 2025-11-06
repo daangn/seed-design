@@ -39,17 +39,44 @@ jobs:
       pull-requests: write
       id-token: write
     steps:
-      - name: Checkout repository
+      - name: Get PR details
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            core.setOutput('number', pr.data.number);
+            core.setOutput('ref', pr.data.head.ref);
+            core.setOutput('sha', pr.data.head.sha);
+            core.setOutput('base_ref', pr.data.base.ref);
+
+      - name: Checkout PR branch
         uses: actions/checkout@v5
         with:
+          ref: ${{ steps.pr.outputs.sha }}
           fetch-depth: 0
+
+      - name: Add reaction
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'eyes'
+            });
 
       - name: Create initial review comment
         id: initial-comment
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ github.event.issue.number }}
           body: |
             🤖 **Claude Code Review 시작**
 
@@ -77,7 +104,7 @@ jobs:
           # `To see more details about the PR, you can use `gh pr view` but should *without* `--comments` to avoid redundant information.`
           prompt: |
             REPO: ${{ github.repository }}
-            PR NUMBER: ${{ github.event.pull_request.number }}
+            PR NUMBER: ${{ steps.pr.outputs.number }}
 
             ultrathink: 심사숙고해서 리뷰를 진행하세요.
 
@@ -91,8 +118,8 @@ jobs:
 
             <pr-info>
             - GITHUB OWNER: ${{ github.repository_owner }}
-            - PR_NUMBER: ${{ steps.branch_info.outputs.pr_number }}
-            - TARGET_REF: ${{ steps.branch_info.outputs.target_ref }}
+            - PR_NUMBER: ${{ steps.pr.outputs.number }}
+            - TARGET_REF: ${{ steps.pr.outputs.base_ref }}
             </pr-info>
 
             <review-philosophy>
@@ -107,7 +134,7 @@ jobs:
             2. PR 제목과 설명 - 사용자의 의도와 목적 파악
             3. 변경 파일들의 전체 그림 - 무엇을 하려는지 이해
             4. git log --oneline -10 - 최근 개발 방향과 패턴 확인
-            5. 이전 PR 코멘트 확인 (`gh pr view ${{ steps.branch_info.outputs.pr_number }} --comments`)
+            5. 이전 PR 코멘트 확인 (`gh pr view ${{ steps.pr.outputs.number }} --comments`)
                - 이미 논의된 내용 파악
                - 무시된 제안은 다시 제안하지 않기
                - 사용자의 선호 패턴 학습
@@ -241,7 +268,7 @@ jobs:
 
             To see the diff that needs to be reviewed, you must run this exact command. Note that the PR branch is already checked out in the current working directory.
 
-            git diff $(git merge-base ${{ github.event.pull_request.base.ref }} HEAD) -- . \
+            git diff $(git merge-base ${{ steps.pr.outputs.base_ref }} HEAD) -- . \
             ':(exclude)**/package.json' \
             ':(exclude)**/archive/**/*' \
             ':(exclude)**/.next/**/*' \
@@ -309,3 +336,27 @@ jobs:
               Read,
               Write
             "
+
+      - name: Add success reaction
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'hooray'
+            });
+
+      - name: Add failure reaction
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '-1'
+            });
