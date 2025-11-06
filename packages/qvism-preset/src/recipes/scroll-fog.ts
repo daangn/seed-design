@@ -10,16 +10,16 @@ const scrollFog = defineRecipe({
 
     // 4-directional gradients for fog effect
     maskImage: [
-      "linear-gradient(to bottom, transparent 0, #000 calc(var(--scroll-fog-can-scroll-top) * var(--scroll-fog-size-top)))",
-      "linear-gradient(to top, transparent 0, #000 calc(var(--scroll-fog-can-scroll-bottom) * var(--scroll-fog-size-bottom)))",
-      "linear-gradient(to right, transparent 0, #000 calc(var(--scroll-fog-can-scroll-left) * var(--scroll-fog-size-left)))",
-      "linear-gradient(to left, transparent 0, #000 calc(var(--scroll-fog-can-scroll-right) * var(--scroll-fog-size-right)))",
+      "linear-gradient(to bottom, transparent 0, #000 calc(var(--scrollable-top) * var(--scroll-fog-size-top)))",
+      "linear-gradient(to top, transparent 0, #000 calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom)))",
+      "linear-gradient(to right, transparent 0, #000 calc(var(--scrollable-left) * var(--scroll-fog-size-left)))",
+      "linear-gradient(to left, transparent 0, #000 calc(var(--scrollable-right) * var(--scroll-fog-size-right)))",
     ].join(", "),
     WebkitMaskImage: [
-      "linear-gradient(to bottom, transparent 0, #000 calc(var(--scroll-fog-can-scroll-top) * var(--scroll-fog-size-top)))",
-      "linear-gradient(to top, transparent 0, #000 calc(var(--scroll-fog-can-scroll-bottom) * var(--scroll-fog-size-bottom)))",
-      "linear-gradient(to right, transparent 0, #000 calc(var(--scroll-fog-can-scroll-left) * var(--scroll-fog-size-left)))",
-      "linear-gradient(to left, transparent 0, #000 calc(var(--scroll-fog-can-scroll-right) * var(--scroll-fog-size-right)))",
+      "linear-gradient(to bottom, transparent 0, #000 calc(var(--scrollable-top) * var(--scroll-fog-size-top)))",
+      "linear-gradient(to top, transparent 0, #000 calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom)))",
+      "linear-gradient(to right, transparent 0, #000 calc(var(--scrollable-left) * var(--scroll-fog-size-left)))",
+      "linear-gradient(to left, transparent 0, #000 calc(var(--scrollable-right) * var(--scroll-fog-size-right)))",
     ].join(", "),
     maskSize: "100% 100%, 100% 100%, 100% 100%, 100% 100%",
     WebkitMaskSize: "100% 100%, 100% 100%, 100% 100%, 100% 100%",

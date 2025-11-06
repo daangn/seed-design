@@ -433,7 +433,7 @@
         "@seed-design/react-progress": "1.0.0",
         "@seed-design/react-pull-to-refresh": "1.0.1",
         "@seed-design/react-radio-group": "1.0.0",
-        "@seed-design/react-scroll-fog": "1.0.0",
+        "@seed-design/react-scrollable": "1.0.0",
         "@seed-design/react-segmented-control": "1.0.0",
         "@seed-design/react-slider": "1.0.0",
         "@seed-design/react-snackbar": "1.0.0",
@@ -682,8 +682,8 @@
         "react-dom": ">=18.0.0",
       },
     },
-    "packages/react-headless/scroll-fog": {
-      "name": "@seed-design/react-scroll-fog",
+    "packages/react-headless/scrollable": {
+      "name": "@seed-design/react-scrollable",
       "version": "1.0.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.0.1",
@@ -2254,7 +2254,7 @@
 
     "@seed-design/react-radio-group": ["@seed-design/react-radio-group@workspace:packages/react-headless/radio-group"],
 
-    "@seed-design/react-scroll-fog": ["@seed-design/react-scroll-fog@workspace:packages/react-headless/scroll-fog"],
+    "@seed-design/react-scrollable": ["@seed-design/react-scrollable@workspace:packages/react-headless/scrollable"],
 
     "@seed-design/react-segmented-control": ["@seed-design/react-segmented-control@workspace:packages/react-headless/segmented-control"],
 

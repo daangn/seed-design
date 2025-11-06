@@ -52,7 +52,7 @@
     "@seed-design/react-progress": "1.0.0",
     "@seed-design/react-pull-to-refresh": "1.0.1",
     "@seed-design/react-radio-group": "1.0.0",
-    "@seed-design/react-scroll-fog": "1.0.0",
+    "@seed-design/react-scrollable": "1.0.0",
     "@seed-design/react-segmented-control": "1.0.0",
     "@seed-design/react-slider": "1.0.0",
     "@seed-design/react-snackbar": "1.0.0",

@@ -1,25 +1,60 @@
 import { scrollFog, type ScrollFogVariantProps } from "@seed-design/css/recipes/scroll-fog";
-import {
-  ScrollFog as ScrollFogPrimitive,
-  type ScrollFogProps as ScrollFogPrimitiveProps,
-} from "@seed-design/react-scroll-fog";
+import { Scrollable, type ScrollableProps } from "@seed-design/react-scrollable";
 import clsx from "clsx";
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 
-export interface ScrollFogProps extends ScrollFogVariantProps, ScrollFogPrimitiveProps {}
+type SizesConfig = {
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export interface ScrollFogProps extends ScrollFogVariantProps, ScrollableProps {
+  /**
+   * Size of the fog effect in pixels
+   * @default 20
+   */
+  size?: number;
+  /**
+   * Size of the fog effect for each direction in pixels
+   */
+  sizes?: SizesConfig;
+}
 
 export const ScrollFog = forwardRef<HTMLDivElement, ScrollFogProps>(
-  ({ className, hideScrollBar, ...props }, ref) => {
+  ({ className, hideScrollBar, size = 20, sizes, style, ...props }, ref) => {
     const [variantProps, restProps] = scrollFog.splitVariantProps({
       hideScrollBar,
       ...props,
     });
     const scrollFogClassName = scrollFog(variantProps);
+
+    const sizeStyle = useMemo(() => {
+      const finalSizes = {
+        top: sizes?.top ?? size,
+        bottom: sizes?.bottom ?? size,
+        left: sizes?.left ?? size,
+        right: sizes?.right ?? size,
+      };
+
+      return {
+        "--scroll-fog-size-top": `${finalSizes.top}px`,
+        "--scroll-fog-size-bottom": `${finalSizes.bottom}px`,
+        "--scroll-fog-size-left": `${finalSizes.left}px`,
+        "--scroll-fog-size-right": `${finalSizes.right}px`,
+      };
+    }, [size, sizes]);
+
     return (
-      <ScrollFogPrimitive
+      <Scrollable
+        ref={ref}
         className={clsx(scrollFogClassName, className)}
         {...restProps}
-        ref={ref}
+        style={{
+          ...style,
+          ...sizeStyle,
+        }}
       />
     );
   },

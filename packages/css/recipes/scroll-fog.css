@@ -3,8 +3,8 @@
     overflow: auto;
     height: 100%;
     width: 100%;
-    mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--scroll-fog-can-scroll-top) * var(--scroll-fog-size-top))), linear-gradient(to top, transparent 0, #000 calc(var(--scroll-fog-can-scroll-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, transparent 0, #000 calc(var(--scroll-fog-can-scroll-left) * var(--scroll-fog-size-left))), linear-gradient(to left, transparent 0, #000 calc(var(--scroll-fog-can-scroll-right) * var(--scroll-fog-size-right)));
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--scroll-fog-can-scroll-top) * var(--scroll-fog-size-top))), linear-gradient(to top, transparent 0, #000 calc(var(--scroll-fog-can-scroll-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, transparent 0, #000 calc(var(--scroll-fog-can-scroll-left) * var(--scroll-fog-size-left))), linear-gradient(to left, transparent 0, #000 calc(var(--scroll-fog-can-scroll-right) * var(--scroll-fog-size-right)));
+    mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--scrollable-top) * var(--scroll-fog-size-top))), linear-gradient(to top, transparent 0, #000 calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, transparent 0, #000 calc(var(--scrollable-left) * var(--scroll-fog-size-left))), linear-gradient(to left, transparent 0, #000 calc(var(--scrollable-right) * var(--scroll-fog-size-right)));
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--scrollable-top) * var(--scroll-fog-size-top))), linear-gradient(to top, transparent 0, #000 calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, transparent 0, #000 calc(var(--scrollable-left) * var(--scroll-fog-size-left))), linear-gradient(to left, transparent 0, #000 calc(var(--scrollable-right) * var(--scroll-fog-size-right)));
     mask-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
     -webkit-mask-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
     mask-repeat: no-repeat;
