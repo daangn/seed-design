@@ -10,7 +10,7 @@ export default function ScrollFogHideScrollbar() {
         borderRadius: "8px",
       }}
     >
-      <ScrollFog hideScrollBar placement={["top", "bottom"]}>
+      <ScrollFog hideScrollBar placement={["top", "bottom", "left", "right"]}>
         <div
           style={{
             display: "grid",

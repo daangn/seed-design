@@ -9,13 +9,7 @@ export default function ScrollFogHorizontal() {
         width: "300px",
       }}
     >
-      <ScrollFog
-        placement={["left", "right"]}
-        style={{
-          overflowX: "auto",
-          overflowY: "hidden",
-        }}
-      >
+      <ScrollFog placement={["left", "right"]}>
         <HStack gap="x3" p="x4" style={{ width: "max-content" }}>
           {Array.from({ length: 15 }, (_, i) => (
             <div
@@ -28,7 +22,7 @@ export default function ScrollFogHorizontal() {
                 textAlign: "center",
               }}
             >
-              카드 {i + 1}
+              {i + 1}
             </div>
           ))}
         </HStack>

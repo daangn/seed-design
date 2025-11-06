@@ -10,7 +10,7 @@ export default function ScrollFogAllDirections() {
         borderRadius: "8px",
       }}
     >
-      <ScrollFog placement={["right", "bottom", "left", "top"]}>
+      <ScrollFog placement={["top", "bottom", "left", "right"]}>
         <div
           style={{
             display: "grid",
