@@ -12,8 +12,8 @@ export default function ScrollFogPreview() {
     >
       <ScrollFog>
         <VStack gap="x4" p="x4" width="full">
-          {Array.from({ length: 20 }, (_, i) => (
-            <Box key={i} bg="bg.layerDefault" px="x4" py="x3" borderRadius="r2">
+          {Array.from({ length: 20 }, (_, i) => ( 
+            <Box key={i} bg="gray" px="x4" py="x3" borderRadius="r2">
               항목 {i + 1}
             </Box>
           ))}

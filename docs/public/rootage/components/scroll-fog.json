@@ -1,0 +1,43 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "scroll-fog",
+    "name": "Scroll Fog"
+  },
+  "data": {
+    "id": "scroll-fog",
+    "name": "Scroll Fog",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "opaqueColor": {
+              "type": "color"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "opaqueColor": {
+                  "type": "color",
+                  "value": "$color.bg.layer-default"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

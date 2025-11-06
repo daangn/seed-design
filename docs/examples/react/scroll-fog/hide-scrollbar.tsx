@@ -1,6 +1,6 @@
 import { ScrollFog } from "@seed-design/react";
 
-export default function ScrollFogAllDirections() {
+export default function ScrollFogHideScrollbar() {
   return (
     <div
       style={{
@@ -10,7 +10,7 @@ export default function ScrollFogAllDirections() {
         borderRadius: "8px",
       }}
     >
-      <ScrollFog placement={["right", "bottom", "left", "top"]}>
+      <ScrollFog hideScrollBar placement={["top", "bottom"]}>
         <div
           style={{
             display: "grid",

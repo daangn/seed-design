@@ -3,17 +3,19 @@
     overflow: auto;
     height: 100%;
     width: 100%;
-    mask-image: var(--fog-mask-image, none);
-    -webkit-mask-image: var(--fog-mask-image, none);
-    mask-size: 100% 100%;
-    -webkit-mask-size: 100% 100%;
+    mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--scroll-fog-can-scroll-top) * var(--scroll-fog-size-top))), linear-gradient(to top, transparent 0, #000 calc(var(--scroll-fog-can-scroll-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, transparent 0, #000 calc(var(--scroll-fog-can-scroll-left) * var(--scroll-fog-size-left))), linear-gradient(to left, transparent 0, #000 calc(var(--scroll-fog-can-scroll-right) * var(--scroll-fog-size-right)));
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--scroll-fog-can-scroll-top) * var(--scroll-fog-size-top))), linear-gradient(to top, transparent 0, #000 calc(var(--scroll-fog-can-scroll-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, transparent 0, #000 calc(var(--scroll-fog-can-scroll-left) * var(--scroll-fog-size-left))), linear-gradient(to left, transparent 0, #000 calc(var(--scroll-fog-can-scroll-right) * var(--scroll-fog-size-right)));
+    mask-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    -webkit-mask-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
     mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
 }
-.seed-scroll-fog--hideScrollBar_true root {
+.seed-scroll-fog--hideScrollBar_true {
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
-.seed-scroll-fog--hideScrollBar_true root::-webkit-scrollbar {
+.seed-scroll-fog--hideScrollBar_true::-webkit-scrollbar {
     display: none;
 }

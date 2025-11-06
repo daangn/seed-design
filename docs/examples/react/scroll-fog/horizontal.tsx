@@ -23,7 +23,7 @@ export default function ScrollFogHorizontal() {
               style={{
                 minWidth: "120px",
                 padding: "20px",
-                backgroundColor: "var(--seed-color-bg-layer-default)",
+                backgroundColor: "gray",
                 borderRadius: "4px",
                 textAlign: "center",
               }}

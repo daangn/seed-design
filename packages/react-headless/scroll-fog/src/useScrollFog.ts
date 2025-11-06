@@ -1,6 +1,28 @@
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { ScrollPlacement, SizesConfig, VisibilityState } from "./types";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+type ScrollPlacement = "top" | "bottom" | "left" | "right";
+
+interface SizesConfig {
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+}
+
+interface VisibilityState {
+  top: boolean;
+  bottom: boolean;
+  left: boolean;
+  right: boolean;
+}
+
+export interface ScrollState {
+  canScrollTop: boolean;
+  canScrollBottom: boolean;
+  canScrollLeft: boolean;
+  canScrollRight: boolean;
+}
 
 export interface UseScrollFogProps {
   /**
@@ -109,70 +131,6 @@ export function useScrollFog(props: UseScrollFogProps) {
     [canScrollTop, canScrollBottom, canScrollLeft, canScrollRight],
   );
 
-  const scrollState = useMemo(
-    () => ({
-      canScrollTop,
-      canScrollBottom,
-      canScrollLeft,
-      canScrollRight,
-    }),
-    [canScrollTop, canScrollBottom, canScrollLeft, canScrollRight],
-  );
-
-  const getMaskImage = useCallback(() => {
-    const hasTop = placement.includes("top");
-    const hasBottom = placement.includes("bottom");
-    const hasLeft = placement.includes("left");
-    const hasRight = placement.includes("right");
-
-    const topSize = sizes?.top ?? size;
-    const bottomSize = sizes?.bottom ?? size;
-    const leftSize = sizes?.left ?? size;
-    const rightSize = sizes?.right ?? size;
-
-    // 2D: vertical + horizontal
-    if ((hasTop || hasBottom) && (hasLeft || hasRight)) {
-      const topPart =
-        hasTop && scrollState.canScrollTop ? `transparent 0px, black ${topSize}px` : "black 0px";
-      const bottomPart =
-        hasBottom && scrollState.canScrollBottom
-          ? `black calc(100% - ${bottomSize}px), transparent 100%`
-          : "black 100%";
-      const leftPart =
-        hasLeft && scrollState.canScrollLeft ? `transparent 0px, black ${leftSize}px` : "black 0px";
-      const rightPart =
-        hasRight && scrollState.canScrollRight
-          ? `black calc(100% - ${rightSize}px), transparent 100%`
-          : "black 100%";
-
-      return `linear-gradient(to bottom, ${topPart}, ${bottomPart}), linear-gradient(to right, ${leftPart}, ${rightPart})`;
-    }
-
-    // 1D: vertical only
-    if (hasTop || hasBottom) {
-      const topPart =
-        hasTop && scrollState.canScrollTop ? `transparent 0px, black ${topSize}px` : "black 0px";
-      const bottomPart =
-        hasBottom && scrollState.canScrollBottom
-          ? `black calc(100% - ${bottomSize}px), transparent 100%`
-          : "black 100%";
-      return `linear-gradient(to bottom, ${topPart}, ${bottomPart})`;
-    }
-
-    // 1D: horizontal only
-    if (hasLeft || hasRight) {
-      const leftPart =
-        hasLeft && scrollState.canScrollLeft ? `transparent 0px, black ${leftSize}px` : "black 0px";
-      const rightPart =
-        hasRight && scrollState.canScrollRight
-          ? `black calc(100% - ${rightSize}px), transparent 100%`
-          : "black 100%";
-      return `linear-gradient(to right, ${leftPart}, ${rightPart})`;
-    }
-
-    return "none";
-  }, [placement, size, sizes, scrollState]);
-
   return useMemo(
     () => ({
       refs: { root: rootRef },
@@ -180,10 +138,17 @@ export function useScrollFog(props: UseScrollFogProps) {
         ...stateProps,
         style: {
           ...stateProps.style,
-          "--fog-mask-image": getMaskImage(),
+          "--scroll-fog-can-scroll-top": canScrollTop ? "1" : "0",
+          "--scroll-fog-can-scroll-bottom": canScrollBottom ? "1" : "0",
+          "--scroll-fog-can-scroll-left": canScrollLeft ? "1" : "0",
+          "--scroll-fog-can-scroll-right": canScrollRight ? "1" : "0",
+          "--scroll-fog-size-top": `${sizes?.top ?? size}px`,
+          "--scroll-fog-size-bottom": `${sizes?.bottom ?? size}px`,
+          "--scroll-fog-size-left": `${sizes?.left ?? size}px`,
+          "--scroll-fog-size-right": `${sizes?.right ?? size}px`,
         } as React.CSSProperties,
       }),
     }),
-    [stateProps, getMaskImage],
+    [stateProps, canScrollTop, canScrollBottom, canScrollLeft, canScrollRight, size, sizes],
   );
 }
