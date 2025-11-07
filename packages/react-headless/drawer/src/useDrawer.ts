@@ -263,7 +263,13 @@ export function useDrawer(props: DialogProps) {
     dragStartTime.current = new Date();
 
     if (isIOS()) {
-      window.addEventListener("touchend", () => (isAllowedToDrag.current = false), { once: true });
+      window.addEventListener(
+        "touchend",
+        () => {
+          isAllowedToDrag.current = false;
+        },
+        { once: true },
+      );
     }
     (event.target as HTMLElement).setPointerCapture(event.pointerId);
 
@@ -648,9 +654,9 @@ export function useDrawer(props: DialogProps) {
       }, TRANSITIONS.ENTER_DURATION * 1000);
 
       return () => clearTimeout(timeoutId);
-    } else {
-      setShouldOverlayAnimate(false);
     }
+
+    setShouldOverlayAnimate(false);
   }, [isOpen, snapPoints, fadeFromIndex]);
 
   return useMemo(

@@ -16,7 +16,7 @@ export interface DrawerRootProps extends DialogProps {
 }
 
 export const DrawerRoot = (props: DrawerRootProps) => {
-  const { children, defaultOpen, dismissible, onOpenChange, modal } = props;
+  const { children, defaultOpen, dismissible, modal } = props;
   const api = useDrawer(props);
   return (
     <DialogPrimitive.Root
@@ -31,7 +31,6 @@ export const DrawerRoot = (props: DrawerRootProps) => {
         }
 
         api.setIsOpen(open);
-        onOpenChange?.(open);
       }}
       modal={modal}
     >
