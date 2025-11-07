@@ -459,6 +459,7 @@
   --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-300);
   --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-400);
   --seed-color-bg-warning-weak-pressed: var(--seed-color-palette-yellow-200);
+  --seed-color-bg-state-layer-pressed: #00000007;
   --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
   --seed-color-stroke-brand-solid: var(--seed-color-palette-carrot-700);
   --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
@@ -652,6 +653,7 @@
   --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-800);
   --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-900);
   --seed-color-bg-warning-weak-pressed: var(--seed-color-palette-yellow-200);
+  --seed-color-bg-state-layer-pressed: #ffffff17;
   --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
   --seed-color-stroke-brand-solid: var(--seed-color-palette-carrot-700);
   --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
@@ -3071,6 +3073,18 @@
   position: relative;
 }
 
+.seed-chip__root:before {
+  content: "";
+  border-radius: inherit;
+  z-index: -1;
+  pointer-events: none;
+  transition-property: background-color, opacity;
+  transition-duration: var(--seed-duration-d4);
+  transition-timing-function: var(--seed-timing-function-easing);
+  position: absolute;
+  inset: 0;
+}
+
 .seed-chip__root:is(:focus, [data-focus]) {
   outline: none;
 }
@@ -3109,6 +3123,13 @@
 
 .seed-chip__root--variant_solid {
   background: var(--seed-color-bg-neutral-weak);
+}
+
+.seed-chip__root--variant_solid:before {
+  display: none;
+}
+
+.seed-chip__root--variant_solid {
   --seed-icon-color: var(--seed-color-fg-neutral);
 }
 
@@ -3143,13 +3164,15 @@
 }
 
 .seed-chip__root--variant_outlineStrong {
-  background: var(--seed-color-bg-layer-default);
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-  --seed-icon-color: var(--seed-color-fg-neutral);
 }
 
-.seed-chip__root--variant_outlineStrong:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-  background: var(--seed-color-bg-layer-default-pressed);
+.seed-chip__root--variant_outlineStrong:before {
+  background: none;
+}
+
+.seed-chip__root--variant_outlineStrong {
+  --seed-icon-color: var(--seed-color-fg-neutral);
 }
 
 .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]) {
@@ -3157,8 +3180,8 @@
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
 }
 
-.seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-  background: var(--seed-color-bg-neutral-inverted-pressed);
+.seed-chip__root--variant_outlineStrong:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])):before, .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])):before {
+  background: var(--seed-color-bg-state-layer-pressed);
 }
 
 .seed-chip__root--variant_outlineStrong:is(:disabled, [disabled], [data-disabled]) {
@@ -3178,13 +3201,15 @@
 }
 
 .seed-chip__root--variant_outlineWeak {
-  background: var(--seed-color-bg-layer-default);
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-  --seed-icon-color: var(--seed-color-fg-neutral);
 }
 
-.seed-chip__root--variant_outlineWeak:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-  background: var(--seed-color-bg-layer-default-pressed);
+.seed-chip__root--variant_outlineWeak:before {
+  background: none;
+}
+
+.seed-chip__root--variant_outlineWeak {
+  --seed-icon-color: var(--seed-color-fg-neutral);
 }
 
 .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]) {
@@ -3192,8 +3217,8 @@
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-contrast);
 }
 
-.seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-  background: var(--seed-color-bg-neutral-weak-pressed);
+.seed-chip__root--variant_outlineWeak:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])):before, .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])):before {
+  background: var(--seed-color-bg-state-layer-pressed);
 }
 
 .seed-chip__root--variant_outlineWeak:is(:disabled, [disabled], [data-disabled]) {

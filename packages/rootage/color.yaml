@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 25-10-15
+  lastUpdated: 25-11-07
 data:
   collection: color
   tokens:
@@ -594,6 +594,10 @@ data:
       values:
         theme-light: $color.palette.yellow-200
         theme-dark: $color.palette.yellow-200
+    $color.bg.state-layer-pressed:
+      values:
+        theme-light: "#00000007"
+        theme-dark: "#FFFFFF17"
     $color.stroke.brand-weak:
       values:
         theme-light: $color.palette.carrot-300

@@ -44,6 +44,13 @@
             }
           }
         },
+        "stateLayer": {
+          "properties": {
+            "color": {
+              "type": "color"
+            }
+          }
+        },
         "label": {
           "properties": {
             "color": {
@@ -349,10 +356,6 @@
                     "value": 1,
                     "unit": "px"
                   }
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
                 }
               },
               "label": {
@@ -386,10 +389,10 @@
               "pressed"
             ],
             "slots": {
-              "root": {
+              "stateLayer": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.state-layer-pressed"
                 }
               }
             }
@@ -450,10 +453,10 @@
               " pressed"
             ],
             "slots": {
-              "root": {
+              "stateLayer": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-inverted-pressed"
+                  "value": "$color.bg.state-layer-pressed"
                 }
               }
             }
@@ -495,10 +498,6 @@
                     "value": 1,
                     "unit": "px"
                   }
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
                 }
               },
               "label": {
@@ -532,10 +531,10 @@
               "pressed"
             ],
             "slots": {
-              "root": {
+              "stateLayer": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.state-layer-pressed"
                 }
               }
             }
@@ -576,10 +575,10 @@
               " pressed"
             ],
             "slots": {
-              "root": {
+              "stateLayer": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-weak-pressed"
+                  "value": "$color.bg.state-layer-pressed"
                 }
               }
             }

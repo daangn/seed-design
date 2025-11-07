@@ -84,8 +84,7 @@ export declare const vars: {
     "enabled": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "strokeWidth": "1px",
-        "color": "var(--seed-color-bg-layer-default)"
+        "strokeWidth": "1px"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"
@@ -101,8 +100,8 @@ export declare const vars: {
       }
     },
     "pressed": {
-      "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+      "stateLayer": {
+        "color": "var(--seed-color-bg-state-layer-pressed)"
       }
     },
     "disabled": {
@@ -128,8 +127,8 @@ export declare const vars: {
       }
     },
     "selectedPressed": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+      "stateLayer": {
+        "color": "var(--seed-color-bg-state-layer-pressed)"
       }
     },
     "selectedDisabled": {
@@ -142,8 +141,7 @@ export declare const vars: {
     "enabled": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "strokeWidth": "1px",
-        "color": "var(--seed-color-bg-layer-default)"
+        "strokeWidth": "1px"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"
@@ -159,8 +157,8 @@ export declare const vars: {
       }
     },
     "pressed": {
-      "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+      "stateLayer": {
+        "color": "var(--seed-color-bg-state-layer-pressed)"
       }
     },
     "disabled": {
@@ -175,8 +173,8 @@ export declare const vars: {
       }
     },
     "selectedPressed": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+      "stateLayer": {
+        "color": "var(--seed-color-bg-state-layer-pressed)"
       }
     },
     "selectedDisabled": {

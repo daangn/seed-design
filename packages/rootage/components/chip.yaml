@@ -29,6 +29,10 @@ data:
             type: cubicBezier
           opacity:
             type: number
+      stateLayer:
+        properties:
+          color:
+            type: color
       label:
         properties:
           color:
@@ -127,7 +131,6 @@ data:
         root:
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
-          color: $color.bg.layer-default
         label:
           color: $color.fg.neutral
         prefixIcon:
@@ -137,8 +140,8 @@ data:
         icon:
           color: $color.fg.neutral
       pressed:
-        root:
-          color: $color.bg.layer-default-pressed
+        stateLayer:
+          color: $color.bg.state-layer-pressed
       disabled:
         root:
           opacity: 0.5
@@ -154,8 +157,8 @@ data:
         icon:
           color: $color.fg.neutral-inverted
       selected, pressed:
-        root:
-          color: $color.bg.neutral-inverted-pressed
+        stateLayer:
+          color: $color.bg.state-layer-pressed
       selected, disabled:
         root:
           opacity: 0.5
@@ -165,7 +168,6 @@ data:
         root:
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
-          color: $color.bg.layer-default
         label:
           color: $color.fg.neutral
         prefixIcon:
@@ -175,8 +177,8 @@ data:
         icon:
           color: $color.fg.neutral
       pressed:
-        root:
-          color: $color.bg.layer-default-pressed
+        stateLayer:
+          color: $color.bg.state-layer-pressed
       disabled:
         root:
           opacity: 0.5
@@ -185,8 +187,8 @@ data:
           strokeColor: $color.stroke.neutral-contrast
           color: $color.bg.neutral-weak
       selected, pressed:
-        root:
-          color: $color.bg.neutral-weak-pressed
+        stateLayer:
+          color: $color.bg.state-layer-pressed
       selected, disabled:
         root:
           opacity: 0.5

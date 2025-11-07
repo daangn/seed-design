@@ -3,7 +3,7 @@
   "metadata": {
     "id": "color",
     "name": "Color",
-    "lastUpdated": "25-10-15"
+    "lastUpdated": "25-11-07"
   },
   "data": {
     "collection": "color",
@@ -1769,6 +1769,18 @@
           "theme-dark": {
             "type": "color",
             "value": "$color.palette.yellow-200"
+          }
+        }
+      },
+      "$color.bg.state-layer-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#00000007"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#FFFFFF17"
           }
         }
       },
