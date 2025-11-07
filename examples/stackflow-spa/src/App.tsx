@@ -7,7 +7,7 @@ import { Stack } from "./stackflow";
 
 const App: React.FC = () => {
   return (
-    <div>
+    <div style={{ minHeight: "100vh" }}>
       <PreferenceProvider>
         <SnackbarProvider>
           <Suspense>
