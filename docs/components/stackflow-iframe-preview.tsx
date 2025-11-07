@@ -88,7 +88,7 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
         </Box>
         <Navigation url={currentUrl} onBack={handleBack} onForward={handleForward} />
       </VStack>
-      <ActivityStackPanel activities={activityStack} />
+      <ActivityStackPanel activities={activityStack} getActivityHref={getActivityGitHubUrl} />
     </HStack>
   );
 }
@@ -107,13 +107,19 @@ function IframePreview({ path, onLoad }: { path: string; onLoad: () => void }) {
       title="Stackflow Example"
       onLoad={onLoad}
       style={{ width: "100%", height: "100%", border: "none" }}
-      sandbox="allow-scripts allow-same-origin"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
       loading="lazy"
     />
   );
 }
 
-function ActivityStackPanel({ activities }: { activities: SerializedActivity[] }) {
+function ActivityStackPanel({
+  activities,
+  getActivityHref,
+}: {
+  activities: SerializedActivity[];
+  getActivityHref: (activityName: string) => string;
+}) {
   const [hideExitDone, setHideExitDone] = useState(true);
 
   const filteredActivities = activities.filter(
@@ -134,19 +140,27 @@ function ActivityStackPanel({ activities }: { activities: SerializedActivity[] }
           <HStack key={activity.id} gap="x2" align="center">
             <Flex
               minWidth="200px"
-              px="x2_5"
-              py="x2"
+              px="x3"
+              py="x1_5"
               align="center"
               borderRadius="r2"
               background={activity.isActive ? "bg.brandWeak" : "bg.neutralWeak"}
             >
-              <Text
-                textStyle={activity.isActive ? "t3Bold" : "t3Regular"}
-                color={activity.isActive ? "fg.brand" : "fg.neutralSubtle"}
-                className="font-mono"
+              <a
+                href={getActivityHref(activity.name)}
+                target="_blank"
+                rel="noreferrer"
+                className="no-underline"
               >
-                {activity.name}
-              </Text>
+                <Text
+                  textStyle={activity.isActive ? "t3Bold" : "t3Regular"}
+                  color={activity.isActive ? "fg.brand" : "fg.neutralSubtle"}
+                  textDecorationLine="underline"
+                  className="font-mono"
+                >
+                  {activity.name}
+                </Text>
+              </a>
             </Flex>
             <Text
               textStyle="t2Medium"
@@ -227,15 +241,17 @@ function Navigation({
 
 function getStackflowSpaUrl(path: string): string {
   const baseURL = (() => {
-    // Local development
-    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    if (process.env.NODE_ENV === "development") {
+      // TODO: this can be better
+      // 1. dev server can be at any host in a local network
+      // 2. be in sync with actual dev server port
       return "http://localhost:5173";
     }
 
     // Branch previews
-    // Docs URL: https://<branch>.seed-design-v3.pages.dev
+    // Docs URL: https://<branch>.seed-design.pages.dev
     // QA URL:   https://<branch>.seed-design-qa.pages.dev
-    if (window.location.hostname.endsWith(".seed-design-v3.pages.dev")) {
+    if (window.location.hostname.endsWith(".seed-design.pages.dev")) {
       const branch = window.location.hostname.split(".")[0];
 
       return `https://${branch}.seed-design-qa.pages.dev`;
@@ -248,12 +264,17 @@ function getStackflowSpaUrl(path: string): string {
   return new URL(path, baseURL).toString();
 }
 
+function getActivityGitHubUrl(activityName: string) {
+  return `https://github.com/daangn/seed-design/blob/dev/examples/stackflow-spa/src/activities/${activityName}.tsx`;
+}
+
 function formatUrl(urlString: string) {
   const url = new URL(urlString);
-  const path = url
-    .toString()
-    .replace(new RegExp(`^${url.origin}`), "")
-    .replace(/\/$/g, "");
+  const path = url.toString().replace(new RegExp(`^${url.origin}`), "");
+
+  if (path === "/") {
+    return { origin: `${url.origin}/`, path: "" };
+  }
 
   return { origin: url.origin, path };
 }

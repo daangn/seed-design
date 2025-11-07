@@ -10,15 +10,13 @@ const App: React.FC = () => {
   useIframeSync();
 
   return (
-    <div style={{ minHeight: "100vh" }}>
-      <PreferenceProvider>
-        <SnackbarProvider>
-          <Suspense>
-            <Stack />
-          </Suspense>
-        </SnackbarProvider>
-      </PreferenceProvider>
-    </div>
+    <PreferenceProvider>
+      <SnackbarProvider>
+        <Suspense>
+          <Stack />
+        </Suspense>
+      </SnackbarProvider>
+    </PreferenceProvider>
   );
 };
 

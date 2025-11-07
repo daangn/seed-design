@@ -18,6 +18,8 @@ import { theme } from "./theme";
 
 const { Stack, useFlow, useStepFlow } = stackflow({
   activities: {
+    // NOTE: please make sure activity names and file names are the same
+    // this is because docs provides direct links to activity source code based on this convention
     ActivityHome,
     ActivityActionButton: React.lazy(() => import("../activities/ActivityActionButton")),
     ActivityChipButton: React.lazy(() => import("../activities/ActivityChipButton")),
