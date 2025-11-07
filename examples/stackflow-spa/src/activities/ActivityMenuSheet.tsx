@@ -1,4 +1,4 @@
-import { useActivity, type ActivityComponentType } from "@stackflow/react";
+import { useActivity, type ActivityComponentType } from "@stackflow/react/future";
 
 import {
   IconPencilLine,
@@ -10,7 +10,7 @@ import {
   MenuSheetGroup,
   MenuSheetItem,
   MenuSheetRoot,
-} from "../seed-design/ui/menu-sheet";
+} from "seed-design/ui/menu-sheet";
 import { createCallbackActivity } from "../stackflow/createCallbackActivity";
 import { PrefixIcon } from "@seed-design/react";
 
@@ -23,7 +23,13 @@ export const menuSheetCallback = createCallbackActivity(
   },
 );
 
-const ActivityMenuSheet: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityMenuSheet: {};
+  }
+}
+
+const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
   const { pop } = menuSheetCallback.useCallbackPop();
   const activity = useActivity();
 

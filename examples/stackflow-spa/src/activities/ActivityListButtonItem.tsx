@@ -4,20 +4,15 @@ import {
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
+import type { ActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { ActionButton } from "../seed-design/ui/action-button";
-import { Avatar } from "../seed-design/ui/avatar";
-import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import {
-  List,
-  ListDivider,
-  ListButtonItem,
-  type ListButtonItemProps,
-} from "../seed-design/ui/list";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { ActionButton } from "seed-design/ui/action-button";
+import { Avatar } from "seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { List, ListDivider, ListButtonItem, type ListButtonItemProps } from "seed-design/ui/list";
 import {
   AlertDialogContent,
   AlertDialogDescription,
@@ -26,8 +21,8 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../seed-design/ui/alert-dialog";
-import { useStepDialog } from "../seed-design/util/use-step-dialog";
+} from "seed-design/ui/alert-dialog";
+import { useStepDialog } from "seed-design/util/use-step-dialog";
 
 const contentVariants = [
   { key: "title", detail: null },
@@ -95,7 +90,13 @@ const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButton
 );
 AlertDialogListButtonItem.displayName = "AlertDialogListButtonItem";
 
-const ActivityListButtonItem: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityListButtonItem: {};
+  }
+}
+
+const ActivityListButtonItem: ActivityComponentType<"ActivityListButtonItem"> = () => {
   return (
     <AppScreen>
       <AppBar>

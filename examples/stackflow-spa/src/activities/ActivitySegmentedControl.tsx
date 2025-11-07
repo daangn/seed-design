@@ -1,10 +1,16 @@
-import type { ActivityComponentType } from "@stackflow/react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { SegmentedControl, SegmentedControlItem } from "../seed-design/ui/segmented-control";
+import type { ActivityComponentType } from "@stackflow/react/future";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { VStack } from "@seed-design/react";
 
-const ActivitySegmentedControl: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivitySegmentedControl: {};
+  }
+}
+
+const ActivitySegmentedControl: ActivityComponentType<"ActivitySegmentedControl"> = () => {
   return (
     <AppScreen>
       <AppBar>

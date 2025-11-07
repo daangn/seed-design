@@ -1,5 +1,5 @@
-import { useStack } from "@stackflow/react";
 import { useEffect } from "react";
+import { useStack } from "@stackflow/react/future";
 import type { Activity } from "@stackflow/core";
 
 type SerializedActivity = Pick<Activity, "id" | "name" | "isActive" | "transitionState">;

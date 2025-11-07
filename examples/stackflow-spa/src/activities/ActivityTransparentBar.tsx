@@ -1,4 +1,4 @@
-import type { ActivityComponentType } from "@stackflow/react";
+import type { ActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarLeft,
@@ -6,13 +6,19 @@ import {
   AppBarMain,
   AppBarBackButton,
   AppBarIconButton,
-} from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import img from "../assets/peng.jpeg";
 
-const ActivityTransparentBar: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityTransparentBar: {};
+  }
+}
+
+const ActivityTransparentBar: ActivityComponentType<"ActivityTransparentBar"> = () => {
   return (
     <AppScreen layerOffsetTop="none" tone="transparent">
       <AppBar>

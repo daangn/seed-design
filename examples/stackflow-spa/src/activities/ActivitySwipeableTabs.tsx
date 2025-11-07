@@ -1,11 +1,17 @@
 import { Box, HStack, PullToRefresh, Text, VStack } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { ProgressCircle } from "../seed-design/ui/progress-circle";
-import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "../seed-design/ui/tabs";
+import type { ActivityComponentType } from "@stackflow/react/future";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { ProgressCircle } from "seed-design/ui/progress-circle";
+import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
-const ActivitySwipeableTabs: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivitySwipeableTabs: {};
+  }
+}
+
+const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = () => {
   return (
     <AppScreen>
       <AppBar>

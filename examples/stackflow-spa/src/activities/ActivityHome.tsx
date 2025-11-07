@@ -7,14 +7,14 @@ import {
   VStack,
   useSnackbarAdapter,
 } from "@seed-design/react";
-import { useActivity, type ActivityComponentType } from "@stackflow/react";
+import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
-import { List, ListButtonItem } from "../seed-design/ui/list";
-import { ListHeader } from "../seed-design/ui/list-header";
-import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { DialogPushTrigger } from "../seed-design/stackflow/DialogPushTrigger";
-import { ActionButton } from "../seed-design/ui/action-button";
+import { List, ListButtonItem } from "seed-design/ui/list";
+import { ListHeader } from "seed-design/ui/list-header";
+import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { DialogPushTrigger } from "seed-design/stackflow/DialogPushTrigger";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogContent,
   AlertDialogDescription,
@@ -23,12 +23,11 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../seed-design/ui/alert-dialog";
-import { Snackbar } from "../seed-design/ui/snackbar";
-import { useStepDialog } from "../seed-design/util/use-step-dialog";
-import { useFlow } from "../stackflow";
+} from "seed-design/ui/alert-dialog";
+import { Snackbar } from "seed-design/ui/snackbar";
+import { useStepDialog } from "seed-design/util/use-step-dialog";
 import { menuSheetCallback } from "./ActivityMenuSheet";
-import { Callout } from "../seed-design/ui/callout";
+import { Callout } from "seed-design/ui/callout";
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import { receive } from "@stackflow/compat-await-push";
@@ -42,7 +41,13 @@ type NavigationSection = {
   items: NavigationItem[];
 };
 
-const ActivityHome: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityHome: {};
+  }
+}
+
+const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   const { push } = useFlow();
   const { dialogProps, setOpen } = useStepDialog();
   const snackbarAdapter = useSnackbarAdapter();

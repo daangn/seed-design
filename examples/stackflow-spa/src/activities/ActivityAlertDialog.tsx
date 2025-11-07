@@ -1,6 +1,6 @@
-import { useActivity, type ActivityComponentType } from "@stackflow/react";
+import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 
-import { ActionButton } from "../seed-design/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
   AlertDialogContent,
@@ -9,12 +9,17 @@ import {
   AlertDialogHeader,
   AlertDialogRoot,
   AlertDialogTitle,
-} from "../seed-design/ui/alert-dialog";
-import { useFlow } from "../stackflow";
+} from "seed-design/ui/alert-dialog";
 import { VStack } from "@seed-design/react";
 import { send } from "@stackflow/compat-await-push";
 
-const ActivityAlertDialog: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityAlertDialog: {};
+  }
+}
+
+const ActivityAlertDialog: ActivityComponentType<"ActivityAlertDialog"> = () => {
   const activity = useActivity();
   const { pop, push } = useFlow();
 

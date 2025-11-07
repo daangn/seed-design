@@ -1,15 +1,20 @@
-import { useActivity, type ActivityComponentType } from "@stackflow/react";
+import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 
-import { ActionButton } from "../seed-design/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   BottomSheetBody,
   BottomSheetContent,
   BottomSheetFooter,
   BottomSheetRoot,
-} from "../seed-design/ui/bottom-sheet";
-import { useFlow } from "../stackflow";
+} from "seed-design/ui/bottom-sheet";
 
-const ActivityBottomSheet: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityBottomSheet: {};
+  }
+}
+
+const ActivityBottomSheet: ActivityComponentType<"ActivityBottomSheet"> = () => {
   const { pop } = useFlow();
   const activity = useActivity();
 

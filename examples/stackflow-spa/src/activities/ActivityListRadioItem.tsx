@@ -1,12 +1,12 @@
 import { RadioGroup, Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
+import type { ActivityComponentType } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { List, ListDivider, ListRadioItem } from "../seed-design/ui/list";
-import { RadioMark } from "../seed-design/ui/radio-group";
-import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { Avatar } from "../seed-design/ui/avatar";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { List, ListDivider, ListRadioItem } from "seed-design/ui/list";
+import { RadioMark } from "seed-design/ui/radio-group";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { Avatar } from "seed-design/ui/avatar";
 import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
@@ -49,7 +49,13 @@ const stateVariants = [
   { key: "disabled", disabled: true },
 ] as const;
 
-const ActivityListRadioItem: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityListRadioItem: {};
+  }
+}
+
+const ActivityListRadioItem: ActivityComponentType<"ActivityListRadioItem"> = () => {
   return (
     <AppScreen>
       <AppBar>

@@ -1,6 +1,6 @@
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
-import { useActivity, useActivityParams } from "@stackflow/react";
-import { useStepFlow } from "@stackflow/react/future";
+import type { RegisteredActivityName } from "@stackflow/config";
+import { useActivity, useActivityParams, useStepFlow } from "@stackflow/react/future";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 
 export interface UseStepDialogProps {
@@ -8,14 +8,17 @@ export interface UseStepDialogProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-export function useStepDialog(props: UseStepDialogProps = {}) {
+export function useStepDialog<ActivityName extends RegisteredActivityName>(
+  props: UseStepDialogProps = {},
+) {
   const [open, setOpen] = useState(props.defaultOpen ?? false);
 
   const id = useId();
   const activity = useActivity();
-  const { pushStep, popStep } = useStepFlow(activity.name as any);
-  const params = useActivityParams<Record<string, string>>();
-  const isDialogPersist = params[id] === "dialog";
+  const { pushStep, popStep } = useStepFlow(activity.name as RegisteredActivityName);
+
+  const params = useActivityParams<ActivityName>();
+  const isDialogPersist = params[id as keyof typeof params] === "dialog";
 
   useEffect(() => {
     if (!isDialogPersist) {

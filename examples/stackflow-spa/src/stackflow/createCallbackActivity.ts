@@ -1,13 +1,13 @@
+import type { InferActivityParams, RegisteredActivityName } from "@stackflow/config";
+import { useFlow } from "@stackflow/react/future";
 import { useEffect } from "react";
-import type { ActivityName, ActivityParamOf } from "./Stack";
-import { useFlow } from "./useFlow";
 
-export interface CallbackActivity<ID extends ActivityName, Type> {
-  useCallbackPush: () => (param: ActivityParamOf<ID>) => Promise<Type | undefined>;
+export interface CallbackActivity<ID extends RegisteredActivityName, Type> {
+  useCallbackPush: () => (param: InferActivityParams<ID>) => Promise<Type | undefined>;
   useCallbackPop: () => { pop: (data?: Type | undefined) => void };
 }
 
-export function createCallbackActivity<ID extends ActivityName, Type>(
+export function createCallbackActivity<ID extends RegisteredActivityName, Type>(
   id: ID,
   _type: Type,
 ): CallbackActivity<ID, Type> {
@@ -16,14 +16,14 @@ export function createCallbackActivity<ID extends ActivityName, Type>(
   function useCallbackPush() {
     const { push } = useFlow();
 
-    const callbackPush = (param: ActivityParamOf<ID>): Promise<Type | undefined> => {
+    const callbackPush = (param: InferActivityParams<ID>): Promise<Type | undefined> => {
       if (resolvePromise && process.env.NODE_ENV !== "production") {
         console.warn(
           `resolvePromise already exists for ${id}. You are trying to push same callback activity twice.`,
         );
       }
 
-      push(id as ActivityName, param);
+      push(id, param);
       return new Promise((resolve) => {
         resolvePromise = resolve;
       });
