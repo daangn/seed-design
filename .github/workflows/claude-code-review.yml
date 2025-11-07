@@ -1,27 +1,5 @@
 name: Claude PR Review
 
-# 자동 리뷰
-# on:
-#   pull_request:
-#     types: [opened, synchronize, ready_for_review, reopened]
-#     paths-ignore:
-#       # if all the files match here, the workflow will be skipped
-#       # if some files do not match here, the workflow will run even though some files match so claude should filter diff by itself
-#       - "**/package.json"
-#       - "**/archive/**/*"
-#       - "**/.next/**/*"
-#       - "**/__testfixtures__/**/*"
-#       - "**/__generated__/**/*"
-#       - "**/__registry__/**/*"
-#       - "**/public/**/*"
-#       - "packages/css/**/*"
-#       - "**/schema.json"
-#       - "packages/qvism-preset/src/vars/**/*"
-#       - "packages/qvism-preset/src/token.css"
-#       - "packages/qvism-preset/src/tokens.ts"
-#       - "packages/tailwind3-plugin/src/index.ts"
-#       - "packages/tailwind4-theme/src/index.css"
-
 on:
   issue_comment:
     types: [created]
@@ -41,7 +19,7 @@ jobs:
     steps:
       - name: Get PR details
         id: pr
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const pr = await github.rest.pulls.get({
@@ -61,7 +39,7 @@ jobs:
           fetch-depth: 0
 
       - name: Add reaction
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             github.rest.reactions.createForIssueComment({
@@ -71,29 +49,8 @@ jobs:
               content: 'eyes'
             });
 
-      - name: Create initial review comment
-        id: initial-comment
-        uses: peter-evans/create-or-update-comment@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.issue.number }}
-          body: |
-            🤖 **Claude Code Review 시작**
-
-            안녕하세요! Claude가 이 PR을 리뷰하고 있습니다. 잠시만 기다려주세요... ⏳
-
-            ## 🔍 리뷰 항목
-            - 코드 품질 및 모범 사례 검토
-            - 잠재적 버그 및 이슈 탐지
-            - 성능 및 보안 고려사항 분석
-            - Prompt Studio 특화 가이드라인 준수 확인
-
-            리뷰가 완료되면 이 댓글을 업데이트해드릴게요! 😊
-
       - name: Run Claude PR Action
         uses: anthropics/claude-code-action@v1
-        env:
-          CLAUDE_COMMENT_ID: ${{ steps.initial-comment.outputs.comment-id }}
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
           track_progress: true
@@ -212,8 +169,7 @@ jobs:
             <step-5-summary-feedback>
 
             <github-comment-update>
-            리뷰 진행 중/완료 후 mcp__github_comment__update_claude_comment 도구를 사용하여
-            초기 댓글(ID: $CLAUDE_COMMENT_ID)을 다음 구조로 업데이트:
+            다음 구조로 업데이트:
 
             ```markdown
             🤖 **Claude Code Review 완료**
@@ -339,7 +295,7 @@ jobs:
 
       - name: Add success reaction
         if: success()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             github.rest.reactions.createForIssueComment({
@@ -351,7 +307,7 @@ jobs:
 
       - name: Add failure reaction
         if: failure()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             github.rest.reactions.createForIssueComment({

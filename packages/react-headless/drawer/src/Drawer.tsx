@@ -54,7 +54,7 @@ export const DrawerPositioner = forwardRef<HTMLDivElement, DrawerPositionerProps
     <Primitive.div
       ref={ref}
       {...props}
-      style={{ pointerEvents: api.isOpen ? undefined : "none" }}
+      style={{ pointerEvents: api.isOpen ? undefined : "none", ...props.style }}
     />
   );
 });
