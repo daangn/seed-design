@@ -10,7 +10,7 @@
     mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
     mask-composite: intersect;
-    -webkit-mask-composite: source-in;
+    -webkit-mask-composite: intersect;
 }
 .seed-scroll-fog--hideScrollBar_true {
     scrollbar-width: none;

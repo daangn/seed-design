@@ -5731,7 +5731,7 @@
   height: 100%;
   mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--scrollable-top) * var(--scroll-fog-size-top))), linear-gradient(to top, transparent 0, #000 calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, transparent 0, #000 calc(var(--scrollable-left) * var(--scroll-fog-size-left))), linear-gradient(to left, transparent 0, #000 calc(var(--scrollable-right) * var(--scroll-fog-size-right)));
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--scrollable-top) * var(--scroll-fog-size-top))), linear-gradient(to top, transparent 0, #000 calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, transparent 0, #000 calc(var(--scrollable-left) * var(--scroll-fog-size-left))), linear-gradient(to left, transparent 0, #000 calc(var(--scrollable-right) * var(--scroll-fog-size-right)));
-  -webkit-mask-composite: source-in;
+  -webkit-mask-composite: intersect;
   position: relative;
   overflow: auto;
   -webkit-mask-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;

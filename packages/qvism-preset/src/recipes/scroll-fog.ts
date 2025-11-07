@@ -26,7 +26,7 @@ const scrollFog = defineRecipe({
     maskRepeat: "no-repeat",
     WebkitMaskRepeat: "no-repeat",
     maskComposite: "intersect",
-    WebkitMaskComposite: "source-in",
+    WebkitMaskComposite: "intersect",
   },
   variants: {
     hideScrollBar: {
