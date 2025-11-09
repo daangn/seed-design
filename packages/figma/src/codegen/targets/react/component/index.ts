@@ -56,6 +56,10 @@ import {
   createTagGroupHandler,
   createTagGroupItemHandler,
 } from "@/codegen/targets/react/component/handlers/tag-group";
+import {
+  createLegacyTextFieldHandler,
+  createLegacyMultilineTextFieldHandler,
+} from "./handlers/legacy-text-field";
 
 export type { ComponentHandlerDeps };
 export type UnboundComponentHandler<T extends NormalizedInstanceNode["componentProperties"]> = (
@@ -74,6 +78,10 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createActionButtonHandler,
   createTextInputFieldHandler,
   createTextareaFieldHandler,
+
+  createLegacyTextFieldHandler,
+  createLegacyMultilineTextFieldHandler,
+
   createBadgeHandler,
   createChipHandler,
   createCalloutHandler,
