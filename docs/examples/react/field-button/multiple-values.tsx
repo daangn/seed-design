@@ -69,7 +69,7 @@ export default function FieldButtonMultipleValues() {
           <ActionButton type="reset" variant="neutralWeak">
             초기화
           </ActionButton>
-          <ActionButton type="submit" flexGrow={1}>
+          <ActionButton type="submit" variant="neutralSolid" flexGrow={1}>
             제출
           </ActionButton>
         </HStack>

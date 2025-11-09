@@ -65,19 +65,6 @@ npx @seed-design/cli@latest add ui:field-button
   ```
 </ComponentExample>
 
-### Using as an `input`
-
-`FieldButton`에 `values` prop을 제공하는 경우 폼 제출에 활용할 수 있도록 `<input type="hidden" />`을 함께 렌더링합니다.
-
-<ComponentExample name="react/field-button/form-control">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/field-button/form-control.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
 ### Clear Button
 
 `showClearButton` prop을 `true`로 설정하면 Clear Button이 표시됩니다. `showClearButton`을 `true`로 설정하는 경우 `onValuesChange` prop을 제공해야 합니다.
@@ -206,6 +193,19 @@ npx @seed-design/cli@latest add ui:field-button
 
 ### Use Cases
 
+#### Form
+
+`FieldButton`에 `values` prop을 제공하는 경우 폼 제출에 활용할 수 있도록 `<input type="hidden" />`을 함께 렌더링합니다.
+
+<ComponentExample name="react/field-button/form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 #### Form and Bottom Sheet
 
 <ComponentExample name="react/field-button/form-bottom-sheet">
@@ -219,10 +219,10 @@ npx @seed-design/cli@latest add ui:field-button
 
 #### React Hook Form
 
-<ComponentExample name="react/field-button/react-hook-form">
+<ComponentExample name="react/field-button/react-hook-form-simple">
   ```json doc-gen:file
   {
-    "file": "examples/react/field-button/react-hook-form.tsx",
+    "file": "examples/react/field-button/react-hook-form-simple.tsx",
     "codeblock": true
   }
   ```

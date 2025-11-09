@@ -73,6 +73,7 @@ export default function FieldButtonFormBottomSheet() {
         </BottomSheetRoot>
         <FieldButton
           label="상품명"
+          showClearButton={formData.name !== ""}
           values={[formData.name]}
           onValuesChange={([value]) => updateFormData("name")(value)}
           buttonProps={{
@@ -87,7 +88,9 @@ export default function FieldButtonFormBottomSheet() {
           )}
         </FieldButton>
       </HStack>
-      <ActionButton type="submit">제출</ActionButton>
+      <ActionButton type="submit" variant="neutralSolid">
+        제출
+      </ActionButton>
     </VStack>
   );
 }

@@ -4,7 +4,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import { useState, type FormEvent } from "react";
 
-export default function FieldButtonFormControl() {
+export default function FieldButtonForm() {
   const [count, setCount] = useState(0);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -39,7 +39,9 @@ export default function FieldButtonFormControl() {
             <FieldButtonValue>현재 카운트: {count}</FieldButtonValue>
           </FieldButton>
         </HStack>
-        <ActionButton type="submit">제출</ActionButton>
+        <ActionButton type="submit" variant="neutralSolid">
+          제출
+        </ActionButton>
       </form>
     </VStack>
   );
