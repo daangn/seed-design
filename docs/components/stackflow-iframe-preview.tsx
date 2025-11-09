@@ -7,7 +7,9 @@ import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { Switch } from "seed-design/ui/switch";
+import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useSimpleReveal } from "simple-reveal";
+import type { AppScreenVariant } from "@seed-design/css/recipes/app-screen";
 
 interface StackflowIframePreviewProps {
   path: string;
@@ -19,6 +21,7 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentUrl, setCurrentUrl] = useState<string | null>(null);
   const [activityStack, setActivityStack] = useState<SerializedActivity[]>([]);
+  const [theme, setTheme] = useState<AppScreenVariant["theme"]>("android");
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -46,6 +49,11 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
+  useEffect(() => {
+    const iframe = document.querySelector("iframe");
+    iframe?.contentWindow?.postMessage({ type: "THEME_CHANGE", theme }, "*");
+  }, [theme]);
+
   const handleBack = () => {
     const iframe = document.querySelector("iframe");
     iframe?.contentWindow?.postMessage({ type: "NAVIGATE_BACK" }, "*");
@@ -63,33 +71,40 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
   });
 
   return (
-    <HStack
-      position="relative"
-      width="full"
-      justify="center"
-      gap="x8"
-      ref={ref}
-      className={cn()}
-      style={{ margin: "3rem 0", ...style }}
-    >
-      <VStack gap="x4" align="center" width="360px">
-        <Box
-          width="360px"
-          height="640px"
-          position="relative"
-          borderWidth={1}
-          borderColor="stroke.neutralWeak"
-          borderRadius="r2"
-          overflowX="hidden"
-          overflowY="hidden"
-        >
-          <IframePreview path={path} onLoad={() => setIsLoaded(true)} />
-          <LoadingOverlay visible={!isLoaded} />
-        </Box>
-        <Navigation url={currentUrl} onBack={handleBack} onForward={handleForward} />
-      </VStack>
-      <ActivityStackPanel activities={activityStack} getActivityHref={getActivityGitHubUrl} />
-    </HStack>
+    <VStack gap="x8" align="center" width="full" className={cn()} style={style} ref={ref}>
+      <HStack gap="x8" wrap justify="center">
+        <VStack align="center" gap="spacingY.componentDefault">
+          <Box
+            width="360px"
+            height="640px"
+            position="relative"
+            borderWidth={1}
+            borderColor="stroke.neutralWeak"
+            borderRadius="r2"
+            overflowX="hidden"
+            overflowY="hidden"
+          >
+            <IframePreview path={path} onLoad={() => setIsLoaded(true)} />
+            <LoadingOverlay visible={!isLoaded} />
+          </Box>
+          <SegmentedControl
+            aria-label="Theme"
+            disabled={!isLoaded}
+            value={theme}
+            onValueChange={(value) => setTheme(value as AppScreenVariant["theme"])}
+          >
+            <SegmentedControlItem value="android">android</SegmentedControlItem>
+            <SegmentedControlItem value="cupertino">cupertino</SegmentedControlItem>
+          </SegmentedControl>
+        </VStack>
+        <ActivityStackPanel
+          disabled={!isLoaded}
+          activities={activityStack}
+          getActivityHref={getActivityGitHubUrl}
+        />
+      </HStack>
+      <Navigation url={currentUrl} onBack={handleBack} onForward={handleForward} />
+    </VStack>
   );
 }
 
@@ -114,9 +129,11 @@ function IframePreview({ path, onLoad }: { path: string; onLoad: () => void }) {
 }
 
 function ActivityStackPanel({
+  disabled,
   activities,
   getActivityHref,
 }: {
+  disabled?: boolean;
   activities: SerializedActivity[];
   getActivityHref: (activityName: string) => string;
 }) {
@@ -128,32 +145,22 @@ function ActivityStackPanel({
 
   return (
     <VStack gap="x4" justify="space-between" align="flex-start">
-      <Switch
-        size="16"
-        tone="neutral"
-        label="Hide exit-done activities"
-        checked={hideExitDone}
-        onCheckedChange={setHideExitDone}
-      />
-      <Flex gap="x2" direction="column-reverse" pb="80px" width="300px">
+      <Flex gap="x2" direction="column-reverse" width="300px" grow>
         {filteredActivities.map((activity) => (
-          <HStack key={activity.id} gap="x2" align="center">
+          <VStack key={activity.id} gap="x2" align="flex-start">
             <Flex
+              asChild
               minWidth="200px"
               px="x3"
-              py="x1_5"
+              py="x3"
               align="center"
               borderRadius="r2"
               background={activity.isActive ? "bg.brandWeak" : "bg.neutralWeak"}
+              className="no-underline"
             >
-              <a
-                href={getActivityHref(activity.name)}
-                target="_blank"
-                rel="noreferrer"
-                className="no-underline"
-              >
+              <a href={getActivityHref(activity.name)} target="_blank" rel="noreferrer">
                 <Text
-                  textStyle={activity.isActive ? "t3Bold" : "t3Regular"}
+                  textStyle={activity.isActive ? "t2Bold" : "t2Regular"}
                   color={activity.isActive ? "fg.brand" : "fg.neutralSubtle"}
                   textDecorationLine="underline"
                   className="font-mono"
@@ -163,15 +170,23 @@ function ActivityStackPanel({
               </a>
             </Flex>
             <Text
-              textStyle="t2Medium"
+              textStyle="t1Medium"
               className="font-mono"
               color={activity.transitionState.endsWith("active") ? "fg.brand" : "fg.neutralSubtle"}
             >
               {activity.transitionState}
             </Text>
-          </HStack>
+          </VStack>
         ))}
       </Flex>
+      <Switch
+        size="16"
+        tone="neutral"
+        label="Hide exit-done activities"
+        checked={hideExitDone}
+        onCheckedChange={setHideExitDone}
+        disabled={disabled}
+      />
     </VStack>
   );
 }
@@ -197,35 +212,7 @@ function Navigation({
 }) {
   return (
     <VStack gap="x4" align="center" width="full">
-      {url ? (
-        (() => {
-          const { origin, path } = formatUrl(url);
-
-          return (
-            <Text
-              className="font-mono transition-opacity opacity-100"
-              align="center"
-              textStyle="t3Medium"
-              color="fg.neutralSubtle"
-            >
-              <Text textStyle="t3Medium">{origin}</Text>
-              <Text textStyle="t3Bold" color="fg.neutral" className="empty:hidden">
-                {path}
-              </Text>
-            </Text>
-          );
-        })()
-      ) : (
-        <Text
-          className="font-mono transition-opacity opacity-0"
-          align="center"
-          textStyle="t3Medium"
-          color="fg.neutralSubtle"
-        >
-          Loading...
-        </Text>
-      )}
-      <HStack gap="x2" align="center">
+      <HStack gap="x1_5" align="center">
         <ActionButton variant="ghost" size="small" onClick={onBack} disabled={!url}>
           <PrefixIcon svg={<IconChevronLeftLine />} />
           Back
@@ -235,6 +222,34 @@ function Navigation({
           <SuffixIcon svg={<IconChevronRightLine />} />
         </ActionButton>
       </HStack>
+      {url ? (
+        (() => {
+          const { origin, path } = formatUrl(url);
+
+          return (
+            <Text
+              className="font-mono transition-opacity opacity-100"
+              align="center"
+              textStyle="t1Medium"
+              color="fg.neutralSubtle"
+            >
+              <Text textStyle="t1Medium">{origin}</Text>
+              <Text textStyle="t1Bold" color="fg.neutral" className="empty:hidden">
+                {path}
+              </Text>
+            </Text>
+          );
+        })()
+      ) : (
+        <Text
+          className="font-mono transition-opacity opacity-0"
+          align="center"
+          textStyle="t1Medium"
+          color="fg.neutralSubtle"
+        >
+          Loading...
+        </Text>
+      )}
     </VStack>
   );
 }

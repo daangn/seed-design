@@ -22,7 +22,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
-import { useStepDialog } from "seed-design/util/use-step-dialog";
+import { useStepOverlay } from "seed-design/util/use-step-overlay";
+import { useTheme } from "../contexts/ThemeContext";
 
 const contentVariants = [
   { key: "title", detail: null },
@@ -65,7 +66,7 @@ const suffixVariants = [
 
 const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
   (props, ref) => {
-    const { dialogProps, setOpen } = useStepDialog();
+    const { dialogProps, setOpen } = useStepOverlay();
 
     return (
       <AlertDialogRoot {...dialogProps}>
@@ -98,7 +99,7 @@ declare module "@stackflow/config" {
 
 const ActivityListButtonItem: ActivityComponentType<"ActivityListButtonItem"> = () => {
   return (
-    <AppScreen>
+    <AppScreen theme={useTheme().theme}>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

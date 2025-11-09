@@ -4,9 +4,12 @@ import { PreferenceProvider } from "./hooks/usePreference";
 import { useIframeSync } from "./hooks/useIframeSync";
 import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { Stack } from "./stackflow";
+import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 
-const App: React.FC = () => {
-  useIframeSync();
+function AppContent() {
+  const { setTheme } = useTheme();
+
+  useIframeSync({ onThemeChange: setTheme });
 
   return (
     <PreferenceProvider>
@@ -16,6 +19,14 @@ const App: React.FC = () => {
         </Suspense>
       </SnackbarProvider>
     </PreferenceProvider>
+  );
+}
+
+const App: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 };
 

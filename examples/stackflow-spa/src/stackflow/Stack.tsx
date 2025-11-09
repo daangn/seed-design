@@ -38,6 +38,13 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityTransparentBar: lazy(() => import("../activities/ActivityTransparentBar" as any)),
     ActivityAlertDialog: lazy(() => import("../activities/ActivityAlertDialog" as any)),
     ActivityBottomSheet: lazy(() => import("../activities/ActivityBottomSheet" as any)),
+    ActivityBottomSheetExample: lazy(
+      () => import("../activities/ActivityBottomSheetExample" as any),
+    ),
+    ActivityBottomSheetSimple: lazy(() => import("../activities/ActivityBottomSheetSimple" as any)),
+    ActivityBottomSheetForm: lazy(() => import("../activities/ActivityBottomSheetForm" as any)),
+    ActivityBottomSheetNested: lazy(() => import("../activities/ActivityBottomSheetNested" as any)),
+    ActivityBottomSheetDetail: lazy(() => import("../activities/ActivityBottomSheetDetail" as any)),
     ActivityMannerTempLevel: lazy(() => import("../activities/ActivityMannerTempLevel" as any)),
     ActivityAvatarStack: lazy(() => import("../activities/ActivityAvatarStack" as any)),
     ActivityAvatar: lazy(() => import("../activities/ActivityAvatar" as any)),

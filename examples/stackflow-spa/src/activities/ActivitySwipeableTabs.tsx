@@ -4,6 +4,7 @@ import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
+import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -13,7 +14,7 @@ declare module "@stackflow/config" {
 
 const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = () => {
   return (
-    <AppScreen>
+    <AppScreen theme={useTheme().theme}>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 
-export function useIframeSync() {
+interface UseIframeSyncOptions {
+  onThemeChange?: (theme: "cupertino" | "android") => void;
+}
+
+export function useIframeSync({ onThemeChange }: UseIframeSyncOptions = {}) {
   useEffect(() => {
     if (window.parent === window) return;
 
@@ -19,6 +23,14 @@ export function useIframeSync() {
 
         case "NAVIGATE_FORWARD": {
           history.forward();
+
+          break;
+        }
+
+        case "THEME_CHANGE": {
+          if (event.data.theme === "cupertino" || event.data.theme === "android") {
+            onThemeChange?.(event.data.theme);
+          }
 
           break;
         }
@@ -50,5 +62,5 @@ export function useIframeSync() {
       history.pushState = originalPushState;
       history.replaceState = originalReplaceState;
     };
-  }, []);
+  }, [onThemeChange]);
 }

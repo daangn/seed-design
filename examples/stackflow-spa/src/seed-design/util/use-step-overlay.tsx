@@ -3,13 +3,13 @@ import type { RegisteredActivityName } from "@stackflow/config";
 import { useActivity, useActivityParams, useStepFlow } from "@stackflow/react/future";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 
-export interface UseStepDialogProps {
+export interface UseStepOverlayProps {
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 
-export function useStepDialog<ActivityName extends RegisteredActivityName>(
-  props: UseStepDialogProps = {},
+export function useStepOverlay<ActivityName extends RegisteredActivityName>(
+  props: UseStepOverlayProps = {},
 ) {
   const [open, setOpen] = useState(props.defaultOpen ?? false);
 
@@ -21,9 +21,7 @@ export function useStepDialog<ActivityName extends RegisteredActivityName>(
   const isDialogPersist = params[id as keyof typeof params] === "dialog";
 
   useEffect(() => {
-    if (!isDialogPersist) {
-      setOpen(false);
-    }
+    if (!isDialogPersist) setOpen(false);
   }, [isDialogPersist]);
 
   const onOpenChange = useCallbackRef(props.onOpenChange);
@@ -31,6 +29,7 @@ export function useStepDialog<ActivityName extends RegisteredActivityName>(
     (open: boolean) => {
       setOpen(open);
       onOpenChange?.(open);
+
       if (open) {
         if (!isDialogPersist) {
           pushStep({

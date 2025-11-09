@@ -25,9 +25,10 @@ import {
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
 import { Snackbar } from "seed-design/ui/snackbar";
-import { useStepDialog } from "seed-design/util/use-step-dialog";
+import { useStepOverlay } from "seed-design/util/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { Callout } from "seed-design/ui/callout";
+import { useTheme } from "../contexts/ThemeContext";
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import { receive } from "@stackflow/compat-await-push";
@@ -49,7 +50,7 @@ declare module "@stackflow/config" {
 
 const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   const { push } = useFlow();
-  const { dialogProps, setOpen } = useStepDialog();
+  const { dialogProps, setOpen } = useStepOverlay();
   const snackbarAdapter = useSnackbarAdapter();
   const { zIndex } = useActivity();
 
@@ -217,7 +218,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   ];
 
   return (
-    <AppScreen>
+    <AppScreen theme={useTheme().theme}>
       <AppBar>
         <AppBarMain title="Home" />
         <AppBarRight>

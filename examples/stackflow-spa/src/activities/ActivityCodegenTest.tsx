@@ -5,6 +5,7 @@ import { Avatar } from "seed-design/ui/avatar";
 import { ToggleButton } from "seed-design/ui/toggle-button";
 import { IconPlusFill, IconStarFill } from "@karrotmarket/react-monochrome-icon";
 import { Box, VStack, HStack, Text, Icon, PrefixIcon } from "@seed-design/react";
+import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -14,7 +15,7 @@ declare module "@stackflow/config" {
 
 const ActivityCodegenTest: ActivityComponentType<"ActivityCodegenTest"> = () => {
   return (
-    <AppScreen>
+    <AppScreen theme={useTheme().theme}>
       <AppBar>
         <AppBarMain title="Codegen Test" />
       </AppBar>

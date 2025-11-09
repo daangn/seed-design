@@ -3,6 +3,7 @@ import type { ActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
+import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -12,7 +13,7 @@ declare module "@stackflow/config" {
 
 const ActivityAnimatedTabs: ActivityComponentType<"ActivityAnimatedTabs"> = () => {
   return (
-    <AppScreen>
+    <AppScreen theme={useTheme().theme}>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

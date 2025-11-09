@@ -5,6 +5,7 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { mannerTempBadgeVariantMap } from "@seed-design/css/recipes/manner-temp-badge";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { MannerTempBadge, type MannerTempBadgeProps } from "seed-design/ui/manner-temp-badge";
+import { useTheme } from "../contexts/ThemeContext";
 
 const initialVariants = {
   temperature: 36.5,
@@ -19,7 +20,7 @@ declare module "@stackflow/config" {
 
 const ActivityMannerTempLevel: ActivityComponentType<"ActivityMannerTempLevel"> = () => {
   return (
-    <AppScreen>
+    <AppScreen theme={useTheme().theme}>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

@@ -35,6 +35,11 @@ export const config = defineConfig({
     { name: "ActivityListCheckItem", route: "/list-item-check" },
     { name: "ActivityListRadioItem", route: "/list-item-radio" },
     { name: "ActivityNotFound", route: "/404" },
+    { name: "ActivityBottomSheetExample", route: "/examples/bottom-sheet" },
+    { name: "ActivityBottomSheetSimple", route: "/examples/bottom-sheet/simple" },
+    { name: "ActivityBottomSheetForm", route: "/examples/bottom-sheet/form" },
+    { name: "ActivityBottomSheetNested", route: "/examples/bottom-sheet/nested" },
+    { name: "ActivityBottomSheetDetail", route: "/examples/bottom-sheet/detail" },
   ],
   transitionDuration: theme === "cupertino" ? 350 : 300,
 });

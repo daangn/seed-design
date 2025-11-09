@@ -7,6 +7,7 @@ import { avatarStackVariantMap } from "@seed-design/css/recipes/avatar-stack";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { Avatar, AvatarStack, type AvatarStackProps } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { useTheme } from "../contexts/ThemeContext";
 
 const initialVariants = {
   size: "64",
@@ -20,7 +21,7 @@ declare module "@stackflow/config" {
 
 const ActivityAvatarStack: ActivityComponentType<"ActivityAvatarStack"> = () => {
   return (
-    <AppScreen>
+    <AppScreen theme={useTheme().theme}>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
