@@ -8,8 +8,8 @@
     bottom: 0;
     left: 0;
     overscroll-behavior-y: none;
-    --sheet-z-index: 2;
-    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
+    --sheet-z-index: 9;
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, var(--active-z-index-base, 0)));
 }
 .seed-bottom-sheet__backdrop {
     position: fixed;
@@ -18,7 +18,7 @@
     bottom: 0;
     left: 0;
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, var(--active-z-index-base, 0)));
 }
 .seed-bottom-sheet__backdrop:is([data-state="open"], [data-open])[data-snap-points='false'] {
     animation-name: fade-in;
@@ -51,7 +51,7 @@
     flex-direction: column;
     box-sizing: border-box;
     word-break: break-all;
-    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, var(--active-z-index-base, 0)));
     background: var(--seed-color-bg-layer-floating);
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);

@@ -27,8 +27,8 @@ const dialog = defineSlotRecipe({
       left: 0,
       overscrollBehaviorY: "none",
 
-      "--dialog-z-index": "2",
-      zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
+      "--dialog-z-index": "9",
+      zIndex: "calc(var(--dialog-z-index) + var(--layer-index, var(--active-z-index-base, 0)))",
     },
     backdrop: {
       position: "fixed",
@@ -37,7 +37,7 @@ const dialog = defineSlotRecipe({
       bottom: 0,
       left: 0,
       background: vars.base.enabled.backdrop.color,
-      zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
+      zIndex: "calc(var(--dialog-z-index) + var(--layer-index, var(--active-z-index-base, 0)))",
 
       [pseudo(open)]: enterAnimation({
         timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
@@ -57,7 +57,7 @@ const dialog = defineSlotRecipe({
       flexDirection: "column",
       boxSizing: "border-box",
       wordBreak: "break-all",
-      zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
+      zIndex: "calc(var(--dialog-z-index) + var(--layer-index, var(--active-z-index-base, 0)))",
 
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,

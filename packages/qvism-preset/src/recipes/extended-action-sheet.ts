@@ -34,8 +34,8 @@ const extendedActionSheet = defineSlotRecipe({
       left: 0,
       overscrollBehaviorY: "none",
 
-      "--sheet-z-index": "2",
-      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
+      "--sheet-z-index": "9",
+      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, var(--active-z-index-base, 0)))",
     },
     backdrop: {
       position: "fixed",
@@ -44,7 +44,7 @@ const extendedActionSheet = defineSlotRecipe({
       bottom: 0,
       left: 0,
       background: vars.base.enabled.backdrop.color,
-      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
+      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, var(--active-z-index-base, 0)))",
 
       [pseudo(not(open))]: exitAnimation({
         timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
@@ -64,7 +64,7 @@ const extendedActionSheet = defineSlotRecipe({
       flexDirection: "column",
       boxSizing: "border-box",
       wordBreak: "break-all",
-      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
+      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, var(--active-z-index-base, 0)))",
 
       background: vars.base.enabled.content.color,
       paddingInline: vars.base.enabled.content.paddingX,

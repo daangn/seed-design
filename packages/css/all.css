@@ -1143,8 +1143,8 @@
 
 .seed-action-sheet__positioner {
   overscroll-behavior-y: none;
-  --sheet-z-index: 2;
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  --sheet-z-index: 9;
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   justify-content: center;
   align-items: flex-end;
   display: flex;
@@ -1154,7 +1154,7 @@
 
 .seed-action-sheet__backdrop {
   background: var(--seed-color-bg-overlay);
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   position: fixed;
   inset: 0;
 }
@@ -1183,7 +1183,7 @@
 .seed-action-sheet__content {
   box-sizing: border-box;
   word-break: break-all;
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   background: var(--seed-color-bg-layer-floating);
   border-top-left-radius: var(--seed-radius-r5);
   border-top-right-radius: var(--seed-radius-r5);
@@ -2498,8 +2498,8 @@
 
 .seed-bottom-sheet__positioner {
   overscroll-behavior-y: none;
-  --sheet-z-index: 2;
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  --sheet-z-index: 9;
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   justify-content: center;
   align-items: flex-end;
   display: flex;
@@ -2509,7 +2509,7 @@
 
 .seed-bottom-sheet__backdrop {
   background: var(--seed-color-bg-overlay);
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   position: fixed;
   inset: 0;
 }
@@ -2543,7 +2543,7 @@
 .seed-bottom-sheet__content {
   box-sizing: border-box;
   word-break: break-all;
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   background: var(--seed-color-bg-layer-floating);
   border-top-left-radius: var(--seed-radius-r6);
   border-top-right-radius: var(--seed-radius-r6);
@@ -3675,8 +3675,8 @@
 
 .seed-dialog__positioner {
   overscroll-behavior-y: none;
-  --dialog-z-index: 2;
-  z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
+  --dialog-z-index: 9;
+  z-index: calc(var(--dialog-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   justify-content: center;
   align-items: center;
   display: flex;
@@ -3686,7 +3686,7 @@
 
 .seed-dialog__backdrop {
   background: var(--seed-color-bg-overlay);
-  z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--dialog-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   position: fixed;
   inset: 0;
 }
@@ -3715,7 +3715,7 @@
 .seed-dialog__content {
   box-sizing: border-box;
   word-break: break-all;
-  z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--dialog-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   background: var(--seed-color-bg-layer-floating);
   max-width: 272px;
   margin: auto var(--seed-dimension-x8);
@@ -3783,8 +3783,8 @@
 
 .seed-extended-action-sheet__positioner {
   overscroll-behavior-y: none;
-  --sheet-z-index: 2;
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  --sheet-z-index: 9;
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   justify-content: center;
   align-items: flex-end;
   display: flex;
@@ -3794,7 +3794,7 @@
 
 .seed-extended-action-sheet__backdrop {
   background: var(--seed-color-bg-overlay);
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   position: fixed;
   inset: 0;
 }
@@ -3823,7 +3823,7 @@
 .seed-extended-action-sheet__content {
   box-sizing: border-box;
   word-break: break-all;
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   background: var(--seed-color-bg-layer-floating);
   padding-inline: var(--seed-dimension-spacing-x-global-gutter);
   padding-block: var(--seed-dimension-x4);
@@ -4951,8 +4951,8 @@
 
 .seed-menu-sheet__positioner {
   overscroll-behavior-y: none;
-  --sheet-z-index: 2;
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  --sheet-z-index: 9;
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   justify-content: center;
   align-items: flex-end;
   display: flex;
@@ -4962,7 +4962,7 @@
 
 .seed-menu-sheet__backdrop {
   background: var(--seed-color-bg-overlay);
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   position: fixed;
   inset: 0;
 }
@@ -4991,7 +4991,7 @@
 .seed-menu-sheet__content {
   box-sizing: border-box;
   word-break: break-all;
-  z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+  z-index: calc(var(--sheet-z-index)  + var(--layer-index, var(--active-z-index-base, 0)));
   background: var(--seed-color-bg-layer-floating);
   padding-inline: var(--seed-dimension-spacing-x-global-gutter);
   padding-block: var(--seed-dimension-x4);

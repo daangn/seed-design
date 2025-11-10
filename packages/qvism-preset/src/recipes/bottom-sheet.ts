@@ -28,8 +28,8 @@ const bottomSheet = defineSlotRecipe({
       left: 0,
       overscrollBehaviorY: "none",
 
-      "--sheet-z-index": "2",
-      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
+      "--sheet-z-index": "9",
+      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, var(--active-z-index-base, 0)))",
     },
     backdrop: {
       position: "fixed",
@@ -38,7 +38,7 @@ const bottomSheet = defineSlotRecipe({
       bottom: 0,
       left: 0,
       background: vars.base.enabled.backdrop.color,
-      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
+      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, var(--active-z-index-base, 0)))",
 
       [pseudo(open, "[data-snap-points='false']")]: {
         animationName: "fade-in",
@@ -78,7 +78,7 @@ const bottomSheet = defineSlotRecipe({
       flexDirection: "column",
       boxSizing: "border-box",
       wordBreak: "break-all",
-      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
+      zIndex: "calc(var(--sheet-z-index) + var(--layer-index, var(--active-z-index-base, 0)))",
 
       background: vars.base.enabled.content.color,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
