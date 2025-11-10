@@ -17,15 +17,11 @@ declare module "@stackflow/config" {
 }
 
 const AlertDialogStackflow: ActivityComponentType<"react/alert-dialog/stackflow"> = () => {
-  const activity = useActivity();
   const { pop } = useFlow();
 
   return (
     <AlertDialogRoot defaultOpen onOpenChange={(open) => !open && pop()}>
-      {/* TODO: there should be an API to get z-indices of AppScreen elements */}
-      {/* since overlay components are often portalled, CSS variables might not be enough */}
-      {/* z-index of AppBar is base + 4 (see the recipe) */}
-      <AlertDialogContent layerIndex={activity.zIndex + 4}>
+      <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>제목</AlertDialogTitle>
           <AlertDialogDescription>Stackflow</AlertDialogDescription>

@@ -37,10 +37,7 @@ const ActivityAlertDialog: ActivityComponentType<"ActivityAlertDialog"> = () => 
 
   return (
     <AlertDialogRoot open={activity.isActive} onOpenChange={handleClose}>
-      {/* TODO: there should be an API to get z-indices of AppScreen elements */}
-      {/* since overlay components are often portalled, CSS variables might not be enough */}
-      {/* z-index of AppBar is base + 4 (see the recipe) */}
-      <AlertDialogContent layerIndex={activity.zIndex + 4}>
+      <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>제목</AlertDialogTitle>
           <AlertDialogDescription>다람쥐 헌 쳇바퀴에 타고파</AlertDialogDescription>

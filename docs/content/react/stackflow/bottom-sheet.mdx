@@ -1,11 +1,11 @@
 ---
 title: Bottom Sheet
-description: BottomSheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
+description: Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
 ---
 
 ## 개요
 
-Stackflow에서 BottomSheet를 사용하는 방법은 크게 두 가지가 있습니다.
+Bottom Sheet를 Stackflow와 함께 사용하는 방법은 두 가지가 있습니다.
 
 <Card title="Bottom Sheet" href="/react/components/bottom-sheet">
 
@@ -13,52 +13,32 @@ Bottom Sheet 컴포넌트에 대해 자세히 알아봅니다.
 
 </Card>
 
-### Activity
-
-BottomSheet 전체를 하나의 [Activity](https://stackflow.so/docs/get-started/activity)로 만드는 방법입니다.
-
-- 독립적인 페이지로 취급되어야 하는 BottomSheet
-- URL 접속 시 바텀 시트를 열어야 하는 경우
-
-### Step
-
-BottomSheet가 표시된 상태를 하나의 [Step](https://stackflow.so/docs/get-started/navigating-step)으로 만들 수 있습니다.
-
-- 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 BottomSheet를 닫고 싶은 경우
+## Making a Bottom Sheet Activity
 
 <StackflowExample path="/examples/bottom-sheet" />
 
-## Making a Bottom Sheet Activity
+BottomSheet 전체를 하나의 [Activity](https://stackflow.so/docs/get-started/activity)로 만들 수 있습니다. 아래와 같은 경우에 유용합니다.
 
-BottomSheet를 Activity로 만들 때 가장 중요한 것은 Activity의 생명주기(`activity.isActive`)와 BottomSheet의 열림/닫힘 상태를 연결하는 것입니다.
+- 독립적인 페이지로 취급되어야 하는 BottomSheet
+- URL 접속 시 바텀 시트를 열어야 하는 경우 (딥링킹)
+
+BottomSheet가
 
 ```tsx
-import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
-import {
-  BottomSheetContent,
-  BottomSheetFooter,
-  BottomSheetRoot,
-} from "seed-design/ui/bottom-sheet";
-import { ActionButton } from "seed-design/ui/action-button";
-
-const MyBottomSheetActivity: ActivityComponentType<"MyBottomSheetActivity"> = () => {
+const ActivityBottomSheetSimple: ActivityComponentType<"ActivityBottomSheetSimple"> = () => {
   const { pop } = useFlow();
   const activity = useActivity();
 
-  const handleClose = (open: boolean) => {
-    if (!open) pop(); // BottomSheet가 닫힐 때 Activity를 스택에서 제거
-  };
-
   return (
-    <BottomSheetRoot open={activity.isActive} onOpenChange={handleClose}>
+    {/* [!code highlight] */}
+    <BottomSheetRoot open={activity.isActive} onOpenChange={(open) => !open && pop()}>
       <BottomSheetContent
         showHandle
         showCloseButton={false}
-        title="제목"
-        layerIndex={activity.zIndex + 4}
+        title="Activity로 만들어진 BottomSheet"
       >
         <BottomSheetFooter>
-          <ActionButton onClick={() => pop()} variant="neutralSolid" size="large">
+          <ActionButton onClick={pop} variant="neutralSolid" size="large">
             확인
           </ActionButton>
         </BottomSheetFooter>
@@ -70,55 +50,11 @@ const MyBottomSheetActivity: ActivityComponentType<"MyBottomSheetActivity"> = ()
 
 ## Syncing BottomSheet State with a Step
 
+**BottomSheet가 표시된 상태를 하나의 [Step](https://stackflow.so/docs/get-started/navigating-step)으로** 만들 수 있습니다. 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 BottomSheet를 닫고 싶은 경우 유용합니다.
+
 ### 기본 구조
 
 Step 패턴은 `useStepOverlay` 훅을 사용하여 Activity 내에서 BottomSheet를 오버레이로 표시합니다.
-
-```tsx
-import { Portal } from "@seed-design/react";
-import { useActivity } from "@stackflow/react/future";
-import { useStepOverlay } from "seed-design/util/use-step-overlay";
-import {
-  BottomSheetContent,
-  BottomSheetFooter,
-  BottomSheetRoot,
-  BottomSheetTrigger,
-} from "seed-design/ui/bottom-sheet";
-import { ListButtonItem } from "seed-design/ui/list";
-import { ActionButton } from "seed-design/ui/action-button";
-
-const MyActivity: ActivityComponentType<"MyActivity"> = () => {
-  const { dialogProps, setOpen } = useStepOverlay();
-  const { zIndex } = useActivity();
-
-  return (
-    <AppScreen>
-      <AppBar><AppBarMain title="Example" /></AppBar>
-      <AppScreenContent>
-        <BottomSheetRoot {...dialogProps}>
-          <BottomSheetTrigger asChild>
-            <ListButtonItem title="BottomSheet 열기" />
-          </BottomSheetTrigger>
-          <Portal>
-            <BottomSheetContent
-              showHandle
-              showCloseButton={false}
-              title="제목"
-              layerIndex={zIndex + 4}
-            >
-              <BottomSheetFooter>
-                <ActionButton onClick={() => setOpen(false)} variant="neutralSolid" size="large">
-                  확인
-                </ActionButton>
-              </BottomSheetFooter>
-            </BottomSheetContent>
-          </Portal>
-        </BottomSheetRoot>
-      </AppScreenContent>
-    </AppScreen>
-  );
-};
-```
 
 ### 핵심 요소
 
@@ -126,101 +62,15 @@ const MyActivity: ActivityComponentType<"MyActivity"> = () => {
 
 Step 패턴에서는 `useStepOverlay`를 사용하여 BottomSheet의 상태를 관리합니다.
 
-```tsx
-const { dialogProps, setOpen } = useStepOverlay();
-```
-
 - `dialogProps`: BottomSheetRoot에 전달할 props (`open`, `onOpenChange` 포함)
 - `setOpen`: BottomSheet를 열고 닫는 함수
 
 #### 2. Portal 사용
 
-Step 패턴에서는 반드시 `<Portal>`로 BottomSheetContent를 감싸야 합니다.
+Step 패턴에서는 `<Portal>`로 BottomSheetContent를 감싸야 합니다.
 
-왜?
-
-```tsx
-<Portal>
-  <BottomSheetContent layerIndex={zIndex + 4}>
-    {/* content */}
-  </BottomSheetContent>
-</Portal>
-```
-
-Portal을 사용하면 BottomSheet가 DOM 계층 구조의 최상위로 이동하여 올바른 렌더링과 z-index 관리가 보장됩니다.
+이는 BottomSheet가 현재 Activity의 DOM 계층 구조 밖에서 렌더링되게 함으로써 Stackflow UI와의 충돌을 방지합니다.
 
 #### 3. layerIndex 설정
 
 현재 활성화된 Activity 위에 BottomSheet가 올바르게 표시되도록 `layerIndex`를 설정합니다.
-
-```tsx
-<BottomSheetContent layerIndex={activity.zIndex + 4}>
-  {/* AppBar의 z-index는 base + 4이므로, 그 위에 표시되도록 +4를 추가 */}
-</BottomSheetContent>
-```
-
-## Activity vs Step 선택 가이드
-
-| 기준 | Activity 패턴 | Step 패턴 |
-|------|--------------|-----------|
-| **URL 필요** | ✅ 각 BottomSheet가 고유 URL을 가짐 | ❌ URL 없음 |
-| **브라우저 히스토리** | ✅ 뒤로 가기로 닫을 수 있음 | ❌ 히스토리에 추가되지 않음 |
-| **딥링크** | ✅ 지원 | ❌ 미지원 |
-| **Portal 필요** | ❌ 불필요 | ✅ 필수 |
-| **Context 유지** | ❌ 새로운 Activity | ✅ 현재 Activity의 context 유지 |
-| **네비게이션 스택** | ✅ 스택에 추가됨 | ❌ 스택에 추가되지 않음 |
-
-**Activity 패턴 사용 예시:**
-- 설정 페이지
-- 필터링 옵션 (URL로 공유 가능해야 하는 경우)
-- 독립적인 폼
-
-**Step 패턴 사용 예시:**
-- 빠른 선택 메뉴
-- 간단한 확인 다이얼로그
-- 추가 정보 표시
-
-## 주의사항
-
-### Activity 패턴
-
-#### Activity 파라미터
-BottomSheet Activity도 일반 Activity처럼 파라미터를 받을 수 있습니다.
-
-```tsx
-declare module "@stackflow/config" {
-  interface Register {
-    DetailBottomSheet: {
-      id: string;
-      title: string;
-    };
-  }
-}
-
-const DetailBottomSheet: ActivityComponentType<"DetailBottomSheet"> = () => {
-  const { params } = useActivity();
-  const { id, title } = params;
-  // ...
-};
-
-// 호출
-push("DetailBottomSheet", { id: "123", title: "상세정보" });
-```
-
-### Step 패턴
-
-#### useStepOverlay vs useState
-`useState` 대신 `useStepOverlay`를 사용해야 합니다. 이 훅은 Stackflow와의 통합을 위해 최적화되어 있습니다.
-
-```tsx
-// ❌ useState 사용
-const [open, setOpen] = useState(false);
-
-// ✅ useStepOverlay 사용
-const { dialogProps, setOpen } = useStepOverlay();
-```
-
-## 관련 문서
-
-- [Bottom Sheet 컴포넌트](/react/components/bottom-sheet) - Bottom Sheet 컴포넌트의 전체 API와 예제
-- [App Screen](/react/stackflow/app-screen) - Stackflow Activity 화면 구성

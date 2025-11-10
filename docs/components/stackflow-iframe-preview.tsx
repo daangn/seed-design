@@ -2,7 +2,11 @@
 
 import type { Activity } from "@stackflow/core";
 import { Box, Flex, HStack, PrefixIcon, SuffixIcon, Text, VStack } from "@seed-design/react";
-import { IconChevronLeftLine, IconChevronRightLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconArrowUpRightFill,
+  IconChevronLeftLine,
+  IconChevronRightLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
@@ -148,27 +152,29 @@ function ActivityStackPanel({
       <Flex gap="x2" direction="column-reverse" width="300px" grow>
         {filteredActivities.map((activity) => (
           <VStack key={activity.id} gap="x2" align="flex-start">
-            <Flex
+            <HStack
               asChild
               minWidth="200px"
               px="x3"
               py="x3"
+              gap="x1_5"
               align="center"
               borderRadius="r2"
+              color={activity.isActive ? "fg.brand" : "fg.neutral"}
               background={activity.isActive ? "bg.brandWeak" : "bg.neutralWeak"}
               className="no-underline"
             >
               <a href={getActivityHref(activity.name)} target="_blank" rel="noreferrer">
                 <Text
                   textStyle={activity.isActive ? "t2Bold" : "t2Regular"}
-                  color={activity.isActive ? "fg.brand" : "fg.neutralSubtle"}
                   textDecorationLine="underline"
                   className="font-mono"
                 >
                   {activity.name}
                 </Text>
+                <IconArrowUpRightFill size={12} />
               </a>
-            </Flex>
+            </HStack>
             <Text
               textStyle="t1Medium"
               className="font-mono"

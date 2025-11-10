@@ -50,9 +50,10 @@ declare module "@stackflow/config" {
 
 const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   const { push } = useFlow();
-  const { dialogProps, setOpen } = useStepOverlay();
+  const { overlayProps, setOpen } = useStepOverlay();
   const snackbarAdapter = useSnackbarAdapter();
-  const { zIndex } = useActivity();
+
+  const { zIndex: activityIndex } = useActivity();
 
   const navigationSections: NavigationSection[] = [
     {
@@ -75,15 +76,12 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
         {
           title: "AlertDialog (step)",
           component: (
-            <AlertDialogRoot {...dialogProps}>
+            <AlertDialogRoot {...overlayProps}>
               <AlertDialogTrigger asChild>
                 <ListButtonItem title="AlertDialog (step)" />
               </AlertDialogTrigger>
               <Portal>
-                {/* TODO: there should be an API to get z-indices of AppScreen elements */}
-                {/* since overlay components are often portalled, CSS variables might not be enough */}
-                {/* z-index of AppBar is base + 4 (see the recipe) */}
-                <AlertDialogContent layerIndex={zIndex + 4}>
+                <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>제목</AlertDialogTitle>
                     <AlertDialogDescription>
@@ -211,6 +209,10 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
     {
       title: "Misc",
       items: [
+        {
+          title: `Push to here (current activityIndex: ${activityIndex})`,
+          onClick: () => push("ActivityHome", {}),
+        },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
       ],

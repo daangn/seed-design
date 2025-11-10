@@ -18,39 +18,41 @@ export function useStepOverlay<ActivityName extends RegisteredActivityName>(
   const { pushStep, popStep } = useStepFlow(activity.name as RegisteredActivityName);
 
   const params = useActivityParams<ActivityName>();
-  const isDialogPersist = params[id as keyof typeof params] === "dialog";
+  const isOverlayPersist = params[id as keyof typeof params] === "overlay";
 
   useEffect(() => {
-    if (!isDialogPersist) setOpen(false);
-  }, [isDialogPersist]);
+    if (!isOverlayPersist) {
+      setOpen(false);
+    }
+  }, [isOverlayPersist]);
 
   const onOpenChange = useCallbackRef(props.onOpenChange);
+
   const handleOpenChange = useCallback(
     (open: boolean) => {
       setOpen(open);
       onOpenChange?.(open);
 
-      if (open) {
-        if (!isDialogPersist) {
-          pushStep({
-            ...params,
-            [id]: "dialog",
-          });
-        }
-      } else {
-        if (isDialogPersist) {
-          popStep();
-        }
+      if (open && !isOverlayPersist) {
+        pushStep({ ...params, [id]: "overlay" });
+
+        return;
+      }
+
+      if (!open && isOverlayPersist) {
+        popStep();
+
+        return;
       }
     },
-    [pushStep, popStep, onOpenChange, isDialogPersist, params, id],
+    [pushStep, popStep, onOpenChange, isOverlayPersist, params, id],
   );
 
   return useMemo(
     () => ({
       open,
       setOpen: handleOpenChange,
-      dialogProps: {
+      overlayProps: {
         open,
         onOpenChange: handleOpenChange,
       },

@@ -19,7 +19,13 @@ export function StackflowExample(props: StackflowExampleProps) {
 
   if (path)
     return (
-      <Box borderColor="stroke.neutralMuted" borderWidth={1} borderRadius="r4" p="x5">
+      <Box
+        borderColor="stroke.neutralMuted"
+        borderWidth={1}
+        borderRadius="r4"
+        p="x5"
+        style={{ marginBlock: "2em" }}
+      >
         <StackflowIframePreview path={path} />
       </Box>
     );

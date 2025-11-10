@@ -19,18 +19,13 @@ const ActivityBottomSheetNested: ActivityComponentType<"ActivityBottomSheetNeste
   const { pop, push } = useFlow();
   const activity = useActivity();
 
-  const handleClose = (open: boolean) => {
-    if (!open) pop();
-  };
-
   return (
-    <BottomSheetRoot open={activity.isActive} onOpenChange={handleClose}>
+    <BottomSheetRoot open={activity.isActive} onOpenChange={(open) => !open && pop()}>
       <BottomSheetContent
         showHandle
         showCloseButton={false}
         title="옵션 선택"
         description="각 옵션을 선택하면 상세 화면으로 이동합니다"
-        layerIndex={activity.zIndex + 4}
       >
         <BottomSheetBody>
           <VStack gap="x2" py="x1">
@@ -57,7 +52,7 @@ const ActivityBottomSheetNested: ActivityComponentType<"ActivityBottomSheetNeste
           </VStack>
         </BottomSheetBody>
         <BottomSheetFooter>
-          <ActionButton onClick={() => pop()} variant="neutralSolid">
+          <ActionButton onClick={pop} variant="neutralSolid">
             닫기
           </ActionButton>
         </BottomSheetFooter>

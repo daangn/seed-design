@@ -1,10 +1,22 @@
-import { Box, HStack, PullToRefresh, Text, VStack } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import { Box, HStack, Portal, PullToRefresh, Tabs, Text, VStack } from "@seed-design/react";
+import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 import { useTheme } from "../contexts/ThemeContext";
+import {
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogRoot,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "seed-design/ui/alert-dialog";
+import { ListButtonItem } from "seed-design/ui/list";
+import { ActionButton } from "seed-design/ui/action-button";
+import { useStepOverlay } from "seed-design/util/use-step-overlay";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -13,6 +25,9 @@ declare module "@stackflow/config" {
 }
 
 const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = () => {
+  const { overlayProps, setOpen } = useStepOverlay();
+  const { push } = useFlow();
+
   return (
     <AppScreen theme={useTheme().theme}>
       <AppBar>
@@ -45,9 +60,35 @@ const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = ()
                 </PullToRefresh.Indicator>
                 <PullToRefresh.Content>
                   <VStack>
-                    <Box overflowX="scroll" data-embla-prevent-drag>
+                    <Box overflowX="scroll" {...Tabs.carouselPreventDrag}>
                       <Box width="1000px">Scrolling Area</Box>
                     </Box>
+                    <AlertDialogRoot {...overlayProps}>
+                      <AlertDialogTrigger asChild>
+                        <ListButtonItem title="AlertDialog (step)" />
+                      </AlertDialogTrigger>
+                      <Portal>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>제목</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <VStack gap="x2">
+                              <ActionButton onClick={() => setOpen(false)}>확인</ActionButton>
+                              <ActionButton
+                                variant="neutralSolid"
+                                onClick={() => push("ActivityChipButton", {})}
+                              >
+                                Push
+                              </ActionButton>
+                            </VStack>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </Portal>
+                    </AlertDialogRoot>
                     <Feed />
                     <Feed />
                     <Feed />
