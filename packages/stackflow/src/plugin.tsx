@@ -12,8 +12,6 @@ export const seedPlugin =
     key: "seed-design",
 
     onChanged: ({ actions }) => {
-      if (typeof window === "undefined") return;
-
       const activeActivity = actions.getStack().activities.find((activity) => activity.isActive);
 
       // this logic is from useZIndexBase (@stackflow/react-ui-core)
