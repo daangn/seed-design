@@ -8,10 +8,10 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import type { DrawerDirection } from "./types";
-import { useDrawer, type DialogProps } from "./useDrawer";
+import { useDrawer, type UseDrawerProps } from "./useDrawer";
 import { DrawerProvider, useDrawerContext } from "./useDrawerContext";
 
-export interface DrawerRootProps extends DialogProps {
+export interface DrawerRootProps extends UseDrawerProps {
   children?: React.ReactNode;
 }
 
