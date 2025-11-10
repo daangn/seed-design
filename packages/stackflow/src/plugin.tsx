@@ -19,6 +19,10 @@ export const seedPlugin =
       // this logic is from useZIndexBase (@stackflow/react-ui-core)
       const activeZIndexBase = activeActivity ? activeActivity.zIndex * 5 : 0;
 
+      // if overlay component itself is an activity,
+      // its z-index would be +5 higher than it logically should be (since it's the active activity)
+      // but not a big deal
+
       document.body.style.setProperty("--active-z-index-base", `${activeZIndexBase}`);
     },
 
