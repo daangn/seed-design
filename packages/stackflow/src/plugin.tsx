@@ -12,9 +12,9 @@ export const seedPlugin =
     key: "seed-design",
 
     onChanged: ({ actions }) => {
-      const stack = actions.getStack();
+      if (typeof window === "undefined") return;
 
-      const activeActivity = stack.activities.find((activity) => activity.isActive);
+      const activeActivity = actions.getStack().activities.find((activity) => activity.isActive);
 
       // this logic is from useZIndexBase (@stackflow/react-ui-core)
       const activeZIndexBase = activeActivity ? activeActivity.zIndex * 5 : 0;
