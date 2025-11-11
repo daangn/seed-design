@@ -45,7 +45,6 @@ import pullToRefresh from "./recipes/pull-to-refresh";
 import radio from "./recipes/radio";
 import radiomark from "./recipes/radiomark";
 import reactionButton from "./recipes/reaction-button";
-import scrollFog from "./recipes/scroll-fog";
 import segmentedControl from "./recipes/segmented-control";
 import skeleton from "./recipes/skeleton";
 import switchMark from "./recipes/switch-mark";
@@ -104,7 +103,6 @@ export const recipes = {
   radio,
   radiomark,
   reactionButton,
-  scrollFog,
   segmentedControl,
   selectBox,
   selectBoxGroup,

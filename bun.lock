@@ -126,7 +126,7 @@
       "name": "@seed-design/figma-extractor",
       "version": "1.0.0",
       "bin": {
-        "figma-extractor": "./bin/index.mjs"
+        "figma-extractor": "./bin/index.mjs",
       },
       "dependencies": {
         "@figma/rest-api-spec": "^0.34.0",
@@ -149,7 +149,7 @@
       "name": "@seed-design/qvism-cli",
       "version": "0.0.0",
       "bin": {
-        "qvism": "./bin/qvism.mjs"
+        "qvism": "./bin/qvism.mjs",
       },
       "dependencies": {
         "@seed-design/qvism-core": "0.0.0",
@@ -181,7 +181,7 @@
       "name": "@seed-design/rootage-cli",
       "version": "0.0.0",
       "bin": {
-        "rootage": "./bin/index.mjs"
+        "rootage": "./bin/index.mjs",
       },
       "dependencies": {
         "@seed-design/rootage-artifacts": "1.0.6",
@@ -271,7 +271,7 @@
       "name": "@seed-design/cli",
       "version": "1.0.0",
       "bin": {
-        "seed-design": "./bin/index.mjs"
+        "seed-design": "./bin/index.mjs",
       },
       "dependencies": {
         "@antfu/ni": "^27.0.0",
@@ -348,7 +348,7 @@
       "name": "@seed-design/docs-mcp",
       "version": "0.1.0",
       "bin": {
-        "seed-docs-mcp": "./dist/stdio.js"
+        "seed-docs-mcp": "./dist/stdio.js",
       },
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.15.0",
@@ -433,7 +433,6 @@
         "@seed-design/react-progress": "1.0.0",
         "@seed-design/react-pull-to-refresh": "1.0.1",
         "@seed-design/react-radio-group": "1.0.0",
-        "@seed-design/react-scrollable": "0.0.1",
         "@seed-design/react-segmented-control": "1.0.0",
         "@seed-design/react-slider": "1.0.0",
         "@seed-design/react-snackbar": "1.0.0",
@@ -669,24 +668,6 @@
       "version": "1.0.0",
       "dependencies": {
         "@radix-ui/react-use-controllable-state": "1.2.2",
-        "@seed-design/dom-utils": "1.0.0",
-        "@seed-design/react-primitive": "1.0.0",
-      },
-      "devDependencies": {
-        "@types/react": "^19.1.6",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
-      },
-      "peerDependencies": {
-        "react": ">=18.0.0",
-        "react-dom": ">=18.0.0",
-      },
-    },
-    "packages/react-headless/scrollable": {
-      "name": "@seed-design/react-scrollable",
-      "version": "0.0.1",
-      "dependencies": {
-        "@radix-ui/react-compose-refs": "^1.0.1",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
       },
@@ -2253,8 +2234,6 @@
     "@seed-design/react-pull-to-refresh": ["@seed-design/react-pull-to-refresh@workspace:packages/react-headless/pull-to-refresh"],
 
     "@seed-design/react-radio-group": ["@seed-design/react-radio-group@workspace:packages/react-headless/radio-group"],
-
-    "@seed-design/react-scrollable": ["@seed-design/react-scrollable@workspace:packages/react-headless/scrollable"],
 
     "@seed-design/react-segmented-control": ["@seed-design/react-segmented-control@workspace:packages/react-headless/segmented-control"],
 
