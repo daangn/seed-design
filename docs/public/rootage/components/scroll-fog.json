@@ -11,8 +11,14 @@
       "slots": {
         "root": {
           "properties": {
-            "opaqueColor": {
+            "fromColor": {
               "type": "color"
+            },
+            "toColor": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
             }
           }
         }
@@ -29,9 +35,20 @@
             ],
             "slots": {
               "root": {
-                "opaqueColor": {
+                "fromColor": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "#00000000"
+                },
+                "toColor": {
+                  "type": "color",
+                  "value": "#000000ff"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 20,
+                    "unit": "px"
+                  }
                 }
               }
             }

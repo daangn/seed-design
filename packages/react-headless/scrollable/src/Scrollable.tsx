@@ -10,9 +10,13 @@ export interface ScrollableProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const Scrollable = forwardRef<HTMLDivElement, ScrollableProps>((props, ref) => {
-  const api = useScrollable(props);
+  const { placement = ["top", "bottom"], onVisibilityChange, ...restProps } = props;
+  const api = useScrollable({ placement, onVisibilityChange });
   return (
-    <Primitive.div ref={composeRefs(api.refs.root, ref)} {...mergeProps(api.rootProps, props)} />
+    <Primitive.div
+      ref={composeRefs(api.refs.root, ref)}
+      {...mergeProps(api.rootProps, restProps)}
+    />
   );
 });
 

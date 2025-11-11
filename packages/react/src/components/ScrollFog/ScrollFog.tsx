@@ -2,6 +2,7 @@ import { scrollFog, type ScrollFogVariantProps } from "@seed-design/css/recipes/
 import { Scrollable, type ScrollableProps } from "@seed-design/react-scrollable";
 import clsx from "clsx";
 import { forwardRef, useMemo } from "react";
+import { scrollFog as vars } from "@seed-design/css/vars/component";
 
 type SizesConfig = {
   top?: number;
@@ -23,28 +24,32 @@ export interface ScrollFogProps extends ScrollFogVariantProps, ScrollableProps {
 }
 
 export const ScrollFog = forwardRef<HTMLDivElement, ScrollFogProps>(
-  ({ className, hideScrollBar, size = 20, sizes, style, ...props }, ref) => {
+  (
+    { className, hideScrollBar, size = vars.base.enabled.root.size, sizes, style, ...props },
+    ref,
+  ) => {
     const [variantProps, restProps] = scrollFog.splitVariantProps({
       hideScrollBar,
       ...props,
     });
     const scrollFogClassName = scrollFog(variantProps);
+    const sizePx = typeof size === "number" ? `${size}px` : size;
 
     const sizeStyle = useMemo(() => {
       const finalSizes = {
-        top: sizes?.top ?? size,
-        bottom: sizes?.bottom ?? size,
-        left: sizes?.left ?? size,
-        right: sizes?.right ?? size,
+        top: sizes?.top ? `${sizes.top}px` : sizePx,
+        bottom: sizes?.bottom ? `${sizes.bottom}px` : sizePx,
+        left: sizes?.left ? `${sizes.left}px` : sizePx,
+        right: sizes?.right ? `${sizes.right}px` : sizePx,
       };
 
       return {
-        "--scroll-fog-size-top": `${finalSizes.top}px`,
-        "--scroll-fog-size-bottom": `${finalSizes.bottom}px`,
-        "--scroll-fog-size-left": `${finalSizes.left}px`,
-        "--scroll-fog-size-right": `${finalSizes.right}px`,
+        "--scroll-fog-size-top": finalSizes.top,
+        "--scroll-fog-size-bottom": finalSizes.bottom,
+        "--scroll-fog-size-left": finalSizes.left,
+        "--scroll-fog-size-right": finalSizes.right,
       };
-    }, [size, sizes]);
+    }, [sizePx, sizes]);
 
     return (
       <Scrollable
