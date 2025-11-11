@@ -62,6 +62,13 @@ export const HelpBubblePositioner = withContext<HTMLDivElement, HelpBubblePositi
   "positioner",
 );
 
+export interface HelpBubblePositionerPortalProps extends PopoverPrimitive.PositionerPortalProps {}
+
+export const HelpBubblePositionerPortal = withContext<
+  HTMLDivElement,
+  HelpBubblePositionerPortalProps
+>(PopoverPrimitive.PositionerPortal, "positioner");
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubbleContentProps
@@ -127,6 +134,7 @@ export const HelpBubbleArrowTip = forwardRef<SVGSVGElement, HelpBubbleArrowTipPr
     );
   },
 );
+HelpBubbleArrowTip.displayName = "HelpBubbleArrowTip";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
