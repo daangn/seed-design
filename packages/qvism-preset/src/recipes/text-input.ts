@@ -58,14 +58,6 @@ const textInput = defineSlotRecipe({
       [pseudo(disabled, "::placeholder")]: {
         color: vars.base.disabled.placeholder.color,
       },
-
-      [pseudo(readOnly)]: {
-        color: vars.base.readonly.value.color,
-      },
-
-      [pseudo(readOnly, "::placeholder")]: {
-        color: vars.base.readonly.placeholder.color,
-      },
     },
     prefixText: {
       color: vars.base.enabled.prefixText.color,
@@ -110,6 +102,11 @@ const textInput = defineSlotRecipe({
 
           [pseudo(disabled)]: {
             backgroundColor: vars.variantOutline.disabled.root.color,
+          },
+
+          // apply disabled style if readonly && disabled both are true
+          [pseudo(readOnly, not(disabled))]: {
+            backgroundColor: vars.variantOutline.readonly.root.color,
           },
         },
         value: {
@@ -187,6 +184,14 @@ const textInput = defineSlotRecipe({
           [pseudo("::placeholder")]: {
             fontSize: vars.variantUnderline.enabled.placeholder.fontSize,
             lineHeight: vars.variantUnderline.enabled.placeholder.lineHeight,
+          },
+
+          [pseudo(readOnly, not(disabled))]: {
+            color: vars.variantUnderline.readonly.value.color,
+          },
+
+          [pseudo(readOnly, not(disabled), "::placeholder")]: {
+            color: vars.variantUnderline.readonly.placeholder.color,
           },
         },
         prefixText: {

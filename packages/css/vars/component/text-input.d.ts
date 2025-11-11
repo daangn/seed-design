@@ -47,14 +47,6 @@ export declare const vars: {
         "strokeColor": "var(--seed-color-stroke-critical-solid)"
       }
     },
-    "readonly": {
-      "value": {
-        "color": "var(--seed-color-fg-neutral-muted)"
-      },
-      "placeholder": {
-        "color": "var(--seed-color-fg-neutral-muted)"
-      }
-    },
     "disabled": {
       "value": {
         "color": "var(--seed-color-fg-disabled)"
@@ -105,6 +97,11 @@ export declare const vars: {
         "strokeWidth": "2px"
       }
     },
+    "readonly": {
+      "root": {
+        "color": "var(--seed-color-bg-disabled)"
+      }
+    },
     "disabled": {
       "root": {
         "color": "var(--seed-color-bg-disabled)"
@@ -148,6 +145,14 @@ export declare const vars: {
     "invalid": {
       "root": {
         "strokeBottomWidth": "2px"
+      }
+    },
+    "readonly": {
+      "value": {
+        "color": "var(--seed-color-fg-neutral-muted)"
+      },
+      "placeholder": {
+        "color": "var(--seed-color-fg-neutral-muted)"
       }
     }
   },

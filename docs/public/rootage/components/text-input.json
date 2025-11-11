@@ -284,25 +284,6 @@
           },
           {
             "states": [
-              "readonly"
-            ],
-            "slots": {
-              "value": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-muted"
-                }
-              },
-              "placeholder": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-muted"
-                }
-              }
-            }
-          },
-          {
-            "states": [
               "disabled"
             ],
             "slots": {
@@ -441,6 +422,19 @@
           },
           {
             "states": [
+              "readonly"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.disabled"
+                }
+              }
+            }
+          },
+          {
+            "states": [
               "disabled"
             ],
             "slots": {
@@ -559,6 +553,25 @@
                     "value": 2,
                     "unit": "px"
                   }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "readonly"
+            ],
+            "slots": {
+              "value": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "placeholder": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
                 }
               }
             }
