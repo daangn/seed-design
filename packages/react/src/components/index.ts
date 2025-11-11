@@ -45,6 +45,7 @@ export * from "./PullToRefresh";
 export * from "./RadioGroup";
 export * from "./ReactionButton";
 export * from "./ResponsivePair";
+export * from "./ScrollFog";
 export * from "./SegmentedControl";
 export * from "./SelectBox";
 export * from "./Skeleton";

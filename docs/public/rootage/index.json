@@ -150,6 +150,9 @@
       "path": "/components/reaction-button.json"
     },
     {
+      "path": "/components/scroll-fog.json"
+    },
+    {
       "path": "/components/segmented-control-item.json"
     },
     {

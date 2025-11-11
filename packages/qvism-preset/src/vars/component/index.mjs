@@ -45,6 +45,7 @@ export { vars as progressCircle } from "./progress-circle.mjs";
 export { vars as radio } from "./radio.mjs";
 export { vars as radiomark } from "./radiomark.mjs";
 export { vars as reactionButton } from "./reaction-button.mjs";
+export { vars as scrollFog } from "./scroll-fog.mjs";
 export { vars as segmentedControlItem } from "./segmented-control-item.mjs";
 export { vars as segmentedControl } from "./segmented-control.mjs";
 export { vars as selectBox } from "./select-box.mjs";

@@ -5745,6 +5745,32 @@
   --seed-prefix-icon-size: 18px;
 }
 
+.seed-scroll-fog {
+  --scroll-fog-from-color: #0000;
+  --scroll-fog-to-color: #000;
+  width: 100%;
+  height: 100%;
+  mask-image: linear-gradient(to bottom, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-top) * var(--scroll-fog-size-top))), linear-gradient(to top, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-left) * var(--scroll-fog-size-left))), linear-gradient(to left, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-right) * var(--scroll-fog-size-right)));
+  -webkit-mask-image: linear-gradient(to bottom, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-top) * var(--scroll-fog-size-top))), linear-gradient(to top, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom))), linear-gradient(to right, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-left) * var(--scroll-fog-size-left))), linear-gradient(to left, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-right) * var(--scroll-fog-size-right)));
+  -webkit-mask-composite: source-in;
+  position: relative;
+  overflow: auto;
+  -webkit-mask-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  mask-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mask-composite: intersect;
+}
+
+.seed-scroll-fog--hideScrollBar_true {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.seed-scroll-fog--hideScrollBar_true::-webkit-scrollbar {
+  display: none;
+}
+
 .seed-segmented-control__root {
   box-sizing: border-box;
   max-width: 100%;
