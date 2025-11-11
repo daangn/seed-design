@@ -145,6 +145,13 @@
           },
           "defaultValue": "outline"
         },
+        "size": {
+          "values": {
+            "large": {},
+            "medium": {}
+          },
+          "defaultValue": "large"
+        },
         "type": {
           "values": {
             "multiline": {}
@@ -163,10 +170,6 @@
             ],
             "slots": {
               "root": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2_5"
-                },
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-weak"
@@ -314,10 +317,6 @@
             ],
             "slots": {
               "root": {
-                "minHeight": {
-                  "type": "dimension",
-                  "value": "$dimension.x13"
-                },
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r3"
@@ -332,58 +331,6 @@
                     "value": 1,
                     "unit": "px"
                   }
-                }
-              },
-              "value": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              },
-              "placeholder": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              },
-              "prefixText": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              },
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
-                }
-              },
-              "suffixText": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              },
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
                 }
               }
             }
@@ -450,6 +397,160 @@
       },
       {
         "variants": {
+          "variant": "outline",
+          "size": "large"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                },
+                "minHeight": {
+                  "type": "dimension",
+                  "value": "$dimension.x13"
+                }
+              },
+              "value": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                }
+              },
+              "placeholder": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                }
+              },
+              "prefixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                }
+              },
+              "prefixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                }
+              },
+              "suffixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                }
+              },
+              "suffixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "outline",
+          "size": "medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "minHeight": {
+                  "type": "dimension",
+                  "value": "$dimension.x10"
+                }
+              },
+              "value": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
+              },
+              "placeholder": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
+              },
+              "prefixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
+              },
+              "prefixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              },
+              "suffixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
+              },
+              "suffixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
           "variant": "underline"
         },
         "definitions": [
@@ -459,6 +560,10 @@
             ],
             "slots": {
               "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                },
                 "minHeight": {
                   "type": "dimension",
                   "value": "$dimension.x10"
@@ -580,7 +685,8 @@
       },
       {
         "variants": {
-          "type": "multiline"
+          "type": "multiline",
+          "size": "large"
         },
         "definitions": [
           {
@@ -599,6 +705,37 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x3_5"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "type": "multiline",
+          "size": "medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "minHeight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 90,
+                    "unit": "px"
+                  }
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 11,
+                    "unit": "px"
+                  }
                 }
               }
             }
