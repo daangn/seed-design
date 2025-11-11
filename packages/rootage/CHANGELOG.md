@@ -1,5 +1,19 @@
 # @seed-design/rootage-artifacts
 
+## 1.1.1
+
+### Patch Changes
+
+- f4e07bb: 1.1 이전 버전과 호환 가능하도록 임시적으로 사용할 text-input size=medium variant를 추가합니다.
+
+  - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+- 114dafd: text-input의 readonly 스타일을 업데이트합니다.
+
+  - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+- bc3cd6f: ScrollFog 컴포넌트를 추가합니다
+
 ## 1.1.0
 
 ### Minor Changes

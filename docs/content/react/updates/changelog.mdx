@@ -3,6 +3,97 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.11.11
+
+일반적인 CSS Reset을 사용하지 않는 환경에서도 스타일이 의도한 대로 표시될 수 있도록 수정합니다. [`15c658b`](https://github.com/daangn/seed-design/commit/15c658b7cd78c2f4fe53b018f51f6770c5b6a02e)
+
+- `list-header`에 `box-sizing: border-box;` 추가
+- `button`으로 렌더링되는 컴포넌트 스타일 수정
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.3](https://npmjs.com/package/@seed-design/css/v/1.1.3)
+
+---
+
+PopoverPositionerPortal과 HelpBubblePositionerPortal을 추가합니다. [`2c302a5`](https://github.com/daangn/seed-design/commit/2c302a56459bb8e9c9be8d166cc73da2205b0707)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.3](https://npmjs.com/package/@seed-design/react/v/1.1.3)
+- 📦 [@seed-design/react-popover@1.0.3](https://npmjs.com/package/@seed-design/react-popover/v/1.0.3)
+
+---
+
+Release `@seed-design/react-scrollable` [`bc3cd6f`](https://github.com/daangn/seed-design/commit/bc3cd6fd1cdbf1d2c39fbe85ce6ecd735ee5b624)
+
+영향받는 패키지
+- 📦 [@seed-design/react-scrollable@1.0.0](https://npmjs.com/package/@seed-design/react-scrollable/v/1.0.0)
+
+---
+
+BottomSheetContent에 style 객체가 전달되지 않는 버그를 수정합니다. [`4102a4b`](https://github.com/daangn/seed-design/commit/4102a4b74fd89a007af590d2afa8866099cdc182)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.2](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.2)
+
+---
+
+1.1 이전 버전과 호환 가능하도록 임시적으로 사용할 text-input size=medium variant를 추가합니다. [`f4e07bb`](https://github.com/daangn/seed-design/commit/f4e07bbed1a138d9864c966144f6655af7b062b1)
+
+- 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.3](https://npmjs.com/package/@seed-design/css/v/1.1.3)
+- 📦 [@seed-design/rootage-artifacts@1.1.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.1)
+
+---
+
+Export 수정: `DialogProps` → `UseDrawerProps` [`e272ef8`](https://github.com/daangn/seed-design/commit/e272ef8d2df763e8a5c2ad4bbd644815e353890f)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.2](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.2)
+
+---
+
+uncontrolled 상태에서 onOpenChange가 두번 호출되는 버그를 수정합니다
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.2](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.2)
+
+---
+
+body에 강제로 스타일을 주입하는 noBodyStyles 옵션의 기본값을 true로 변경합니다 [`4971dcc`](https://github.com/daangn/seed-design/commit/4971dcce69a3af0119a4321dd8d7221b1d519a92)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.2](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.2)
+
+---
+
+Figma Codegen 컴포넌트 핸들러를 업데이트합니다. 레거시 Text Field에 대한 Codegen을 한시적으로 지원합니다. [`d986fd5`](https://github.com/daangn/seed-design/commit/d986fd5fb9e353b7acf8a9e080d24fe10920a22c)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.1.3](https://npmjs.com/package/@seed-design/figma/v/1.1.3)
+
+---
+
+text-input의 readonly 스타일을 업데이트합니다. [`114dafd`](https://github.com/daangn/seed-design/commit/114dafdebb6aa0579b5543a4bfeb38b4439d641a)
+
+- 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.3](https://npmjs.com/package/@seed-design/css/v/1.1.3)
+- 📦 [@seed-design/rootage-artifacts@1.1.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.1)
+
+---
+
+ScrollFog 컴포넌트를 추가합니다 [`bc3cd6f`](https://github.com/daangn/seed-design/commit/bc3cd6fd1cdbf1d2c39fbe85ce6ecd735ee5b624)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.3](https://npmjs.com/package/@seed-design/css/v/1.1.3)
+- 📦 [@seed-design/react@1.1.3](https://npmjs.com/package/@seed-design/react/v/1.1.3)
+- 📦 [@seed-design/rootage-artifacts@1.1.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.1)
+
+---
+
 ## 2025.11.05
 
 Figma 토큰 정보 및 Codegen 핸들러를 최신화합니다. [`4c5d7c4`](https://github.com/daangn/seed-design/commit/4c5d7c4f2d14ae25041f8603d0389aa7a6cdd386)

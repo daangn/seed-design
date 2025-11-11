@@ -1,5 +1,11 @@
 # @seed-design/react-popover
 
+## 1.0.3
+
+### Patch Changes
+
+- 2c302a5: PopoverPositionerPortal과 HelpBubblePositionerPortal을 추가합니다.
+
 ## 1.0.2
 
 ### Patch Changes
