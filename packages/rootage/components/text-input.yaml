@@ -90,7 +90,6 @@ data:
     base:
       enabled:
         root:
-          gap: $dimension.x2_5
           strokeColor: $color.stroke.neutral-weak
           strokeColorDuration: $duration.d3
           strokeColorTimingFunction: $timing-function.easing
@@ -129,10 +128,26 @@ data:
     variant=outline:
       enabled:
         root:
-          minHeight: $dimension.x13
           cornerRadius: $radius.r3
           paddingX: $dimension.x4
           strokeWidth: 1px
+      focused:
+        root:
+          strokeWidth: 2px
+      invalid:
+        root:
+          strokeWidth: 2px
+      readonly:
+        root:
+          color: $color.bg.disabled
+      disabled:
+        root:
+          color: $color.bg.disabled
+    variant=outline,size=large:
+      enabled:
+        root:
+          gap: $dimension.x2_5
+          minHeight: $dimension.x13
         value:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
@@ -149,21 +164,32 @@ data:
           lineHeight: $line-height.t5
         suffixIcon:
           size: $dimension.x5
-      focused:
+    variant=outline,size=medium:
+      enabled:
         root:
-          strokeWidth: 2px
-      invalid:
-        root:
-          strokeWidth: 2px
-      readonly:
-        root:
-          color: $color.bg.disabled
-      disabled:
-        root:
-          color: $color.bg.disabled
+          gap: $dimension.x1_5
+          minHeight: $dimension.x10
+        value:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        placeholder:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        prefixText:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        prefixIcon:
+          size: $dimension.x4
+        suffixText:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        suffixIcon:
+          size: $dimension.x4
+
     variant=underline:
       enabled:
         root:
+          gap: $dimension.x2_5
           minHeight: $dimension.x10
           strokeBottomWidth: 1px
         value:
@@ -193,8 +219,14 @@ data:
           color: $color.fg.neutral-muted
         placeholder:
           color: $color.fg.neutral-muted
-    type=multiline:
+    type=multiline,size=large:
       enabled:
         root:
           minHeight: 95px
           paddingY: $dimension.x3_5
+    type=multiline,size=medium:
+      enabled:
+        root:
+          minHeight: 90px
+          paddingY: 11px
+  
