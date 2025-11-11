@@ -50,9 +50,9 @@
         "@sanity/image-url": "^1.2.0",
         "@sanity/table": "^2.0.0",
         "@sanity/vision": "^4.10.2",
-        "@seed-design/css": "1.1.0",
+        "@seed-design/css": "1.1.3",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.1.1",
+        "@seed-design/react": "1.1.3",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.0",
@@ -331,7 +331,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.1.0",
+      "version": "1.1.3",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -363,7 +363,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.2",
+      "version": "1.1.3",
       "dependencies": {
         "@seed-design/css": "1.1.0",
         "change-case": "^5.4.4",
@@ -379,7 +379,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.2",
+      "version": "1.1.3",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
@@ -414,7 +414,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.1.1",
+      "version": "1.1.3",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -424,16 +424,16 @@
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.0",
         "@seed-design/react-dialog": "1.0.0",
-        "@seed-design/react-drawer": "1.0.1",
+        "@seed-design/react-drawer": "1.0.2",
         "@seed-design/react-field": "1.0.0",
         "@seed-design/react-field-button": "1.0.0",
-        "@seed-design/react-popover": "1.0.2",
+        "@seed-design/react-popover": "1.0.3",
         "@seed-design/react-portal": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-progress": "1.0.0",
         "@seed-design/react-pull-to-refresh": "1.0.1",
         "@seed-design/react-radio-group": "1.0.0",
-        "@seed-design/react-scrollable": "0.0.1",
+        "@seed-design/react-scrollable": "1.0.0",
         "@seed-design/react-segmented-control": "1.0.0",
         "@seed-design/react-slider": "1.0.0",
         "@seed-design/react-snackbar": "1.0.0",
@@ -523,7 +523,7 @@
     },
     "packages/react-headless/drawer": {
       "name": "@seed-design/react-drawer",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -581,7 +581,7 @@
     },
     "packages/react-headless/popover": {
       "name": "@seed-design/react-popover",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
@@ -684,7 +684,7 @@
     },
     "packages/react-headless/scrollable": {
       "name": "@seed-design/react-scrollable",
-      "version": "0.0.1",
+      "version": "1.0.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.0.1",
         "@seed-design/dom-utils": "1.0.0",
@@ -836,7 +836,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "1.1.0",
+      "version": "1.1.1",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
@@ -862,7 +862,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.1.0",
+        "@seed-design/css": "1.1.3",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@stackflow/react-ui-core": "^1.3.2",
@@ -876,7 +876,7 @@
         "vite-plugin-dts": "^4.5.3",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.0",
+        "@seed-design/css": ">=1.1.3",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "@stackflow/react-ui-core": ">=1.3.2",

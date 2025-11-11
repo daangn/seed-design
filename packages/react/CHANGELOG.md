@@ -1,5 +1,21 @@
 # @seed-design/react
 
+## 1.1.3
+
+### Patch Changes
+
+- 2c302a5: PopoverPositionerPortal과 HelpBubblePositionerPortal을 추가합니다.
+- bc3cd6f: ScrollFog 컴포넌트를 추가합니다
+- Updated dependencies [2c302a5]
+- Updated dependencies [bc3cd6f]
+- Updated dependencies [4102a4b]
+- Updated dependencies [e272ef8]
+- Updated dependencies [fbc9cb0]
+- Updated dependencies [4971dcc]
+  - @seed-design/react-popover@1.0.3
+  - @seed-design/react-scrollable@1.0.0
+  - @seed-design/react-drawer@1.0.2
+
 ## 1.1.1
 
 ### Patch Changes

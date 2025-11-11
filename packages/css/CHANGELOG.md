@@ -1,5 +1,24 @@
 # @seed-design/css
 
+## 1.1.3
+
+### Patch Changes
+
+- 15c658b: 일반적인 CSS Reset을 사용하지 않는 환경에서도 스타일이 의도한 대로 표시될 수 있도록 수정합니다.
+
+  - `list-header`에 `box-sizing: border-box;` 추가
+  - `button`으로 렌더링되는 컴포넌트 스타일 수정
+
+- f4e07bb: 1.1 이전 버전과 호환 가능하도록 임시적으로 사용할 text-input size=medium variant를 추가합니다.
+
+  - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+- 114dafd: text-input의 readonly 스타일을 업데이트합니다.
+
+  - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+- bc3cd6f: ScrollFog 컴포넌트를 추가합니다
+
 ## 1.1.0
 
 ### Minor Changes

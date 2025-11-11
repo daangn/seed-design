@@ -1,5 +1,16 @@
 # @seed-design/figma
 
+## 1.1.3
+
+### Patch Changes
+
+- d986fd5: Figma Codegen 컴포넌트 핸들러를 업데이트합니다. 레거시 Text Field에 대한 Codegen을 한시적으로 지원합니다.
+- Updated dependencies [15c658b]
+- Updated dependencies [f4e07bb]
+- Updated dependencies [114dafd]
+- Updated dependencies [bc3cd6f]
+  - @seed-design/css@1.1.3
+
 ## 1.1.2
 
 ### Patch Changes
