@@ -1,6 +1,6 @@
 import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
-import { useController, useForm } from "react-hook-form";
+import { useController, useForm, type Control } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Checkbox } from "seed-design/ui/checkbox";
 
@@ -32,21 +32,9 @@ export default function CheckboxReactHookForm() {
   return (
     <VStack gap="x3" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
       <VStack>
-        {POSSIBLE_FRUIT_VALUES.map((name) => {
-          const {
-            field: { value, ...restProps },
-            fieldState: { invalid },
-          } = useController({ name, control });
-          return (
-            <Checkbox
-              key={name}
-              label={name}
-              checked={value}
-              inputProps={restProps}
-              invalid={invalid}
-            />
-          );
-        })}
+        {POSSIBLE_FRUIT_VALUES.map((name) => (
+          <CheckboxItem key={name} name={name} control={control} />
+        ))}
       </VStack>
       <HStack gap="x2">
         <ActionButton type="reset" variant="neutralWeak">
@@ -60,10 +48,26 @@ export default function CheckboxReactHookForm() {
         >
           mango 선택
         </ActionButton>
-        <ActionButton type="submit" flexGrow={1}>
+        <ActionButton type="submit" variant="neutralSolid" flexGrow={1}>
           제출
         </ActionButton>
       </HStack>
     </VStack>
+  );
+}
+
+interface CheckboxItemProps {
+  name: keyof FormValues;
+  control: Control<FormValues>;
+}
+
+function CheckboxItem({ name, control }: CheckboxItemProps) {
+  const {
+    field: { value, ...restProps },
+    fieldState: { invalid },
+  } = useController({ name, control });
+
+  return (
+    <Checkbox key={name} label={name} checked={value} inputProps={restProps} invalid={invalid} />
   );
 }

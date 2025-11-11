@@ -50,7 +50,9 @@ export default function RadioGroupReactHookForm() {
         </RadioGroup>
 
         <HStack gap="x3">
-          <ActionButton type="submit">Submit</ActionButton>
+          <ActionButton type="submit" variant="neutralSolid">
+            Submit
+          </ActionButton>
           <ActionButton variant="neutralWeak" onClick={onReset}>
             Reset
           </ActionButton>

@@ -29,15 +29,29 @@ const textInputSlotNames = [
 ];
 
 const defaultVariant = {
-  "variant": "outline"
+  "variant": "outline",
+  "size": "large"
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "variant": "outline",
+    "size": "large"
+  },
+  {
+    "variant": "outline",
+    "size": "medium"
+  }
+];
 
 export const textInputVariantMap = {
   "variant": [
     "outline",
     "underline"
+  ],
+  "size": [
+    "large",
+    "medium"
   ]
 };
 

@@ -35,11 +35,16 @@ const inputButton = defineSlotRecipe({
       position: "absolute",
       zIndex: -1,
 
-      inset: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
 
       cursor: "pointer",
 
       border: "none",
+      padding: 0,
+
       borderRadius: vars.base.enabled.root.cornerRadius,
       backgroundColor: "transparent",
 
@@ -144,6 +149,8 @@ const inputButton = defineSlotRecipe({
 
       border: "none",
       backgroundColor: "transparent",
+
+      padding: 0,
 
       ...onlyIcon({
         size: vars.base.enabled.clearButton.size,

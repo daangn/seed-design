@@ -19,7 +19,7 @@ export {
   type DrawerTriggerProps,
 } from "./Drawer";
 
-export { useDrawer, type DialogProps } from "./useDrawer";
+export { useDrawer, type UseDrawerProps } from "./useDrawer";
 export { useDrawerContext, type DrawerContextValue } from "./useDrawerContext";
 
 export * as Drawer from "./Drawer.namespace";

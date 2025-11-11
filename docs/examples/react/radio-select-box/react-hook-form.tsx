@@ -50,7 +50,7 @@ export default function RadioSelectBoxReactHookForm() {
         >
           mango 선택
         </ActionButton>
-        <ActionButton type="submit" flexGrow={1}>
+        <ActionButton type="submit" variant="neutralSolid" flexGrow={1}>
           제출
         </ActionButton>
       </HStack>

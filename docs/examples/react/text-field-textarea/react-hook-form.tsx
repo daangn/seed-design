@@ -11,11 +11,11 @@ interface FormValues {
 
 export default function TextFieldTextareaReactHookForm() {
   const { handleSubmit, reset, control } = useForm<FormValues>({
+    reValidateMode: "onSubmit",
     defaultValues: {
       bio: "",
       address: "",
     },
-    shouldFocusError: true,
   });
 
   const {
@@ -40,13 +40,15 @@ export default function TextFieldTextareaReactHookForm() {
     },
   });
 
-  const onValid = useCallback((data: FormValues) => {
-    window.alert(JSON.stringify(data, null, 2));
-  }, []);
+  const onValid = useCallback(
+    (data: FormValues) => window.alert(JSON.stringify(data, null, 2)),
+    [],
+  );
 
   const onReset = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
+
       reset();
     },
     [reset],
@@ -56,6 +58,7 @@ export default function TextFieldTextareaReactHookForm() {
     (event: KeyboardEvent) => {
       if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
         event.preventDefault();
+
         handleSubmit(onValid)();
       }
     },
@@ -95,7 +98,7 @@ export default function TextFieldTextareaReactHookForm() {
         <ActionButton type="reset" variant="neutralWeak">
           초기화
         </ActionButton>
-        <ActionButton type="submit" flexGrow={1}>
+        <ActionButton type="submit" variant="neutralSolid" flexGrow={1}>
           제출
         </ActionButton>
       </HStack>

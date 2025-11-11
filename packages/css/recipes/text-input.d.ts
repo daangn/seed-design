@@ -3,6 +3,10 @@ declare interface TextInputVariant {
   * @default "outline"
   */
   variant: "outline" | "underline";
+/**
+  * @default "large"
+  */
+  size: "large" | "medium";
 }
 
 declare type TextInputVariantMap = {

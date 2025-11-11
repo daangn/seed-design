@@ -20,6 +20,10 @@ const menuSheetItem = defineRecipe({
     lineHeight: vars.base.enabled.label.lineHeight,
     fontWeight: vars.base.enabled.label.fontWeight,
 
+    border: "none",
+    fontFamily: "inherit",
+    outline: "none",
+
     [pseudo(active)]: {
       backgroundColor: vars.base.pressed.root.color,
     },

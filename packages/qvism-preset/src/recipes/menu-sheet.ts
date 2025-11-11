@@ -22,7 +22,10 @@ const menuSheet = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "flex-end",
-      inset: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
       overscrollBehaviorY: "none",
 
       "--sheet-z-index": "2",
@@ -30,7 +33,10 @@ const menuSheet = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      inset: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
@@ -84,6 +90,9 @@ const menuSheet = defineSlotRecipe({
       fontSize: vars.base.enabled.title.fontSize,
       lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
+
+      // since title is an h2
+      margin: 0,
     },
     list: {
       display: "flex",
@@ -117,6 +126,10 @@ const menuSheet = defineSlotRecipe({
       paddingInline: closeVars.base.enabled.root.paddingX,
       paddingBlock: closeVars.base.enabled.root.paddingY,
       borderRadius: closeVars.base.enabled.root.cornerRadius,
+
+      border: "none",
+      fontFamily: "inherit",
+      outline: "none",
 
       color: closeVars.base.enabled.label.color,
       fontSize: closeVars.base.enabled.label.fontSize,

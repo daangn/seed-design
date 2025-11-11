@@ -10,6 +10,8 @@ const listHeader = defineRecipe({
     gap: vars.base.enabled.root.gap,
     justifyContent: "space-between",
 
+    boxSizing: "border-box",
+
     paddingInline: vars.base.enabled.root.paddingX,
     paddingBlock: vars.base.enabled.root.paddingY,
 

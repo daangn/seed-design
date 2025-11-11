@@ -14,7 +14,7 @@ import { usePositionFixed } from "./use-position-fixed";
 import { isInput, usePreventScroll } from "./use-prevent-scroll";
 import { useSnapPoints } from "./use-snap-points";
 
-export interface DialogProps {
+export interface UseDrawerProps {
   activeSnapPoint?: number | string | null;
   setActiveSnapPoint?: (snapPoint: number | string | null) => void;
   children?: React.ReactNode;
@@ -26,7 +26,8 @@ export interface DialogProps {
    */
   closeThreshold?: number;
   /**
-   * When `true` the `body` doesn't get any styles assigned from Vaul
+   * When `true` the `body` doesn't get any styles assigned from Drawer
+   * @default true
    */
   noBodyStyles?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -123,7 +124,7 @@ export interface DialogProps {
   closeOnEscape?: boolean;
 }
 
-export function useDrawer(props: DialogProps) {
+export function useDrawer(props: UseDrawerProps) {
   const {
     open: openProp,
     onOpenChange,
@@ -141,7 +142,7 @@ export function useDrawer(props: DialogProps) {
     modal = true,
     onClose,
     nested,
-    noBodyStyles = false,
+    noBodyStyles = true,
     direction = "bottom",
     defaultOpen = false,
     disablePreventScroll = true,
@@ -263,7 +264,13 @@ export function useDrawer(props: DialogProps) {
     dragStartTime.current = new Date();
 
     if (isIOS()) {
-      window.addEventListener("touchend", () => (isAllowedToDrag.current = false), { once: true });
+      window.addEventListener(
+        "touchend",
+        () => {
+          isAllowedToDrag.current = false;
+        },
+        { once: true },
+      );
     }
     (event.target as HTMLElement).setPointerCapture(event.pointerId);
 
@@ -614,7 +621,7 @@ export function useDrawer(props: DialogProps) {
         }
 
         if (snapPoints && snapPoints.length > 0 && !keyboardIsOpen.current) {
-          drawerRef.current.style.bottom = `0px`;
+          drawerRef.current.style.bottom = "0px";
         } else {
           drawerRef.current.style.bottom = `${Math.max(diffFromInitial, 0)}px`;
         }
@@ -648,9 +655,9 @@ export function useDrawer(props: DialogProps) {
       }, TRANSITIONS.ENTER_DURATION * 1000);
 
       return () => clearTimeout(timeoutId);
-    } else {
-      setShouldOverlayAnimate(false);
     }
+
+    setShouldOverlayAnimate(false);
   }, [isOpen, snapPoints, fadeFromIndex]);
 
   return useMemo(

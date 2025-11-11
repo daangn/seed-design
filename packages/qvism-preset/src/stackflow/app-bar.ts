@@ -155,7 +155,10 @@ export const appBar = defineSlotRecipe({
         content: '""',
         position: "absolute",
         pointerEvents: "none",
-        inset: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
         zIndex: -1,
       },
     },
@@ -174,6 +177,11 @@ export const appBar = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+
+      border: "none",
+      background: "none",
+      fontFamily: "inherit",
+      padding: 0,
     },
     icon: {
       display: "inline-block",
