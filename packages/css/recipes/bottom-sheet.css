@@ -3,14 +3,20 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     overscroll-behavior-y: none;
     --sheet-z-index: 2;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
 }
 .seed-bottom-sheet__backdrop {
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background: var(--seed-color-bg-overlay);
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
 }
@@ -150,7 +156,10 @@
 .seed-bottom-sheet__closeButton:after {
     content: "";
     position: absolute;
-    inset: calc((28px - 44px) / 2);
+    top: calc((28px - 44px) / 2);
+    right: calc((28px - 44px) / 2);
+    bottom: calc((28px - 44px) / 2);
+    left: calc((28px - 44px) / 2);
 }
 .seed-bottom-sheet__header--headerAlign_left {
     justify-content: flex-start;

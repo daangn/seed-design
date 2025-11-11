@@ -4542,6 +4542,7 @@
   transition: box-shadow var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   background-color: #0000;
   border: none;
+  padding: 0;
   position: absolute;
   inset: 0;
 }
@@ -4633,6 +4634,7 @@
   --seed-icon-color: var(--seed-color-fg-neutral-subtle);
   background-color: #0000;
   border: none;
+  padding: 0;
 }
 
 .seed-link-content {

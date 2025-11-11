@@ -97,14 +97,20 @@ const listItem = defineSlotRecipe({
       "&:after": {
         content: "''",
         position: "absolute",
-        inset: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
       },
 
       // this is for showing the active state
       [pseudo(":before")]: {
         content: "''",
         position: "absolute",
-        inset: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
         zIndex: -1,
         transitionProperty: "background-color",
         transitionDuration: vars.base.enabled.root.colorDuration,
