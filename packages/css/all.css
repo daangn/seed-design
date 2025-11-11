@@ -1343,8 +1343,12 @@
 }
 
 .seed-app-bar__iconButton {
+  background: none;
+  border: none;
   justify-content: center;
   align-items: center;
+  padding: 0;
+  font-family: inherit;
   display: flex;
 }
 
@@ -2720,6 +2724,7 @@
   --seed-prefix-icon-size: var(--seed-dimension-x4);
   --seed-suffix-icon-size: var(--seed-dimension-x4);
   border: none;
+  text-decoration: none;
   display: flex;
 }
 
@@ -4537,6 +4542,7 @@
   transition: box-shadow var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   background-color: #0000;
   border: none;
+  padding: 0;
   position: absolute;
   inset: 0;
 }
@@ -4628,6 +4634,7 @@
   --seed-icon-color: var(--seed-color-fg-neutral-subtle);
   background-color: #0000;
   border: none;
+  padding: 0;
 }
 
 .seed-link-content {
@@ -4680,6 +4687,7 @@
 .seed-list-header {
   align-items: center;
   gap: var(--seed-dimension-x2_5);
+  box-sizing: border-box;
   width: 100%;
   padding-inline: var(--seed-dimension-spacing-x-global-gutter);
   padding-block: var(--seed-dimension-x2);
@@ -4759,9 +4767,13 @@
   align-items: flex-start;
   gap: var(--seed-box-gap);
   --seed-box-padding-right: var(--seed-dimension-x2_5);
-  padding-right: var(--seed-box-padding-right);
+  padding: 0 var(--seed-box-padding-right) 0 0;
+  background: none;
+  border: none;
   flex-direction: column;
   flex-grow: 1;
+  font-family: inherit;
+  text-decoration: none;
   display: inline-flex;
 }
 
@@ -5025,6 +5037,7 @@
   font-size: var(--seed-font-size-t6);
   line-height: var(--seed-line-height-t6);
   font-weight: var(--seed-font-weight-bold);
+  margin: 0;
 }
 
 .seed-menu-sheet__list {
@@ -5056,9 +5069,12 @@
   padding-block: var(--seed-dimension-x3_5);
   border-radius: var(--seed-radius-r3);
   color: var(--seed-color-fg-neutral);
+  font-family: inherit;
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-medium);
+  border: none;
+  outline: none;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -5079,6 +5095,9 @@
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-regular);
+  border: none;
+  outline: none;
+  font-family: inherit;
   display: flex;
 }
 

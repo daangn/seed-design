@@ -14,6 +14,7 @@
     padding-block: var(--seed-dimension-x3_5);
     gap: var(--seed-dimension-x3);
     border-radius: var(--seed-radius-r2_5);
+    text-decoration: none;
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-size: var(--seed-dimension-x4);
 }

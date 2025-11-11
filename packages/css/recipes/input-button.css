@@ -12,9 +12,13 @@
 .seed-input-button__button {
     position: absolute;
     z-index: -1;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     cursor: pointer;
     border: none;
+    padding: 0;
     border-radius: var(--seed-radius-r3);
     background-color: transparent;
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
@@ -93,6 +97,7 @@
     cursor: pointer;
     border: none;
     background-color: transparent;
+    padding: 0;
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
 }
