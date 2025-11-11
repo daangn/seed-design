@@ -40,7 +40,6 @@ const listItem = defineSlotRecipe({
       ...onlyIcon({
         color: vars.base.enabled.prefixIcon.color,
         size: vars.base.enabled.prefixIcon.size,
-        // marginTop: `calc(${prefixIconVerticalAdjustMargin})`,
       }),
 
       [pseudo(disabled)]: {
@@ -84,10 +83,15 @@ const listItem = defineSlotRecipe({
       alignItems: "flex-start",
       flexGrow: 1,
 
+      border: "none",
+      background: "none",
+      fontFamily: "inherit",
       "--seed-box-gap": vars.base.enabled.content.gap,
       gap: "var(--seed-box-gap)",
       "--seed-box-padding-right": vars.base.enabled.content.paddingRight,
-      paddingRight: "var(--seed-box-padding-right)",
+      padding: "0 var(--seed-box-padding-right) 0 0",
+
+      textDecoration: "none",
 
       // this ensures the touch size of the content to be the size of the root
       "&:after": {

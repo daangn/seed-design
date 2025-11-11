@@ -29,6 +29,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    background: none;
+    font-family: inherit;
+    padding: 0;
 }
 .seed-app-bar__icon {
     display: inline-block;

@@ -29,6 +29,8 @@ const callout = defineSlotRecipe({
 
       borderRadius: vars.base.enabled.root.cornerRadius,
 
+      textDecoration: "none",
+
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,
       }),

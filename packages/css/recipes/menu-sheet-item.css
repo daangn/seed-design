@@ -10,6 +10,9 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
+    border: none;
+    font-family: inherit;
+    outline: none;
 }
 .seed-menu-sheet-item:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-weak-pressed);

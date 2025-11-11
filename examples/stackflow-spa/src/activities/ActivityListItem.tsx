@@ -41,10 +41,18 @@ const suffixVariants = [
     key: "buttons",
     element: (
       <>
-        <ActionButton size="xsmall" variant="neutralWeak">
+        <ActionButton
+          size="xsmall"
+          variant="neutralWeak"
+          onClick={() => window.alert("Button clicked")}
+        >
           라벨
         </ActionButton>
-        <ActionButton size="xsmall" variant="neutralWeak">
+        <ActionButton
+          size="xsmall"
+          variant="neutralWeak"
+          onClick={() => window.alert("Button clicked")}
+        >
           라벨
         </ActionButton>
       </>

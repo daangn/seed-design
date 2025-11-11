@@ -84,6 +84,9 @@ const menuSheet = defineSlotRecipe({
       fontSize: vars.base.enabled.title.fontSize,
       lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
+
+      // since title is an h2
+      margin: 0,
     },
     list: {
       display: "flex",
@@ -117,6 +120,10 @@ const menuSheet = defineSlotRecipe({
       paddingInline: closeVars.base.enabled.root.paddingX,
       paddingBlock: closeVars.base.enabled.root.paddingY,
       borderRadius: closeVars.base.enabled.root.cornerRadius,
+
+      border: "none",
+      fontFamily: "inherit",
+      outline: "none",
 
       color: closeVars.base.enabled.label.color,
       fontSize: closeVars.base.enabled.label.fontSize,
