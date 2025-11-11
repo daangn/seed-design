@@ -26,7 +26,8 @@ export interface UseDrawerProps {
    */
   closeThreshold?: number;
   /**
-   * When `true` the `body` doesn't get any styles assigned from Vaul
+   * When `true` the `body` doesn't get any styles assigned from Drawer
+   * @default true
    */
   noBodyStyles?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -141,7 +142,7 @@ export function useDrawer(props: UseDrawerProps) {
     modal = true,
     onClose,
     nested,
-    noBodyStyles = false,
+    noBodyStyles = true,
     direction = "bottom",
     defaultOpen = false,
     disablePreventScroll = true,
