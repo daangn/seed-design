@@ -13,6 +13,7 @@ import {
 } from "seed-design/ui/menu-sheet";
 import { createCallbackActivity } from "../stackflow/createCallbackActivity";
 import { PrefixIcon } from "@seed-design/react";
+import { useZIndexBase } from "@seed-design/stackflow";
 
 type Action = "add" | "edit" | "delete" | "test1" | "test2";
 
@@ -45,7 +46,7 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
 
   return (
     <MenuSheetRoot open={activity.isActive} onOpenChange={handleClose}>
-      <MenuSheetContent title="Actions">
+      <MenuSheetContent title="Actions" layerIndex={useZIndexBase()}>
         <MenuSheetGroup>
           <MenuSheetItem onClick={handleAction("add")}>
             <PrefixIcon svg={<IconPlusLine />} />

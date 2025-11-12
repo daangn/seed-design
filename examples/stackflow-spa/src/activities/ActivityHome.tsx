@@ -25,7 +25,7 @@ import {
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
 import { Snackbar } from "seed-design/ui/snackbar";
-import { useStepOverlay } from "seed-design/util/use-step-overlay";
+import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { Callout } from "seed-design/ui/callout";
 import { useTheme } from "../contexts/ThemeContext";
@@ -51,7 +51,7 @@ declare module "@stackflow/config" {
 
 const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   const { push } = useFlow();
-  const { overlayProps, setOpen } = useStepOverlay();
+  const { overlayProps, setOpen } = useStepOverlay({ id: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
 
   const { zIndex: activityIndex } = useActivity();
@@ -82,7 +82,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                 <ListButtonItem title="AlertDialog (step)" />
               </AlertDialogTrigger>
               <Portal>
-                <AlertDialogContent layerIndex={useZIndexBase()}>
+                <AlertDialogContent layerIndex={useZIndexBase({ modifier: +1 })}>
                   <AlertDialogHeader>
                     <AlertDialogTitle>제목</AlertDialogTitle>
                     <AlertDialogDescription>
@@ -94,7 +94,10 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                       <ActionButton onClick={() => setOpen(false)}>확인</ActionButton>
                       <ActionButton
                         variant="neutralSolid"
-                        onClick={() => push("ActivityChipButton", {})}
+                        onClick={() => {
+                          setOpen(false);
+                          push("ActivityChipButton", {});
+                        }}
                       >
                         Push
                       </ActionButton>

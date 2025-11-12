@@ -22,8 +22,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
-import { useStepOverlay } from "seed-design/util/use-step-overlay";
+import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { useTheme } from "../contexts/ThemeContext";
+import { useZIndexBase } from "@seed-design/stackflow";
 
 const contentVariants = [
   { key: "title", detail: null },
@@ -66,14 +67,14 @@ const suffixVariants = [
 
 const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
   (props, ref) => {
-    const { overlayProps, setOpen } = useStepOverlay();
+    const { overlayProps, setOpen } = useStepOverlay({ id: "alert-dialog" });
 
     return (
       <AlertDialogRoot {...overlayProps}>
         <AlertDialogTrigger asChild>
           <ListButtonItem ref={ref} onClick={() => setOpen(true)} {...props} />
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent layerIndex={useZIndexBase()}>
           <AlertDialogHeader>
             <AlertDialogTitle>consectetur</AlertDialogTitle>
             <AlertDialogDescription>

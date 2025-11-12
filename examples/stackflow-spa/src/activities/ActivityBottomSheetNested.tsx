@@ -9,7 +9,6 @@ import {
   BottomSheetFooter,
   BottomSheetRoot,
 } from "seed-design/ui/bottom-sheet";
-import { HelpBubbleAnchor } from "seed-design/ui/help-bubble";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -19,10 +18,10 @@ declare module "@stackflow/config" {
 
 const ActivityBottomSheetNested: ActivityComponentType<"ActivityBottomSheetNested"> = () => {
   const { pop, push } = useFlow();
-  const activity = useActivity();
+  const { isActive } = useActivity();
 
   return (
-    <BottomSheetRoot open={activity.isActive} onOpenChange={(open) => !open && pop()}>
+    <BottomSheetRoot open={isActive} onOpenChange={(open) => !open && pop()}>
       <BottomSheetContent
         showHandle
         showCloseButton={false}
@@ -32,19 +31,13 @@ const ActivityBottomSheetNested: ActivityComponentType<"ActivityBottomSheetNeste
       >
         <BottomSheetBody>
           <VStack gap="x2" py="x1">
-            <HelpBubbleAnchor
-              open
-              title="Ad in incididunt ea dolor adipisicing magna reprehenderit aute enim qui. Consectetur est occaecat ipsum amet ex consectetur. Non dolor Lorem deserunt tempor proident Lorem reprehenderit tempor. Consectetur eu sint irure."
-              contentProps={{ style: { maxWidth: "100px" } }}
+            <ActionButton
+              variant="neutralWeak"
+              onClick={() => push("ActivityBottomSheetDetail", { title: "설정" })}
             >
-              <ActionButton
-                variant="neutralWeak"
-                onClick={() => push("ActivityBottomSheetDetail", { title: "설정" })}
-              >
-                <PrefixIcon svg={<IconGearLine />} />
-                설정
-              </ActionButton>
-            </HelpBubbleAnchor>
+              <PrefixIcon svg={<IconGearLine />} />
+              설정
+            </ActionButton>
             <ActionButton
               variant="neutralWeak"
               onClick={() => push("ActivityBottomSheetDetail", { title: "도움말" })}
