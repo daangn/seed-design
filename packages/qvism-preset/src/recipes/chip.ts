@@ -106,7 +106,7 @@ const chip = defineSlotRecipe({
       },
       outlineStrong: {
         root: {
-          background: vars.variantOutlineStrong.enabled.root.color,
+          background: "transparent",
           boxShadow: `inset 0 0 0 ${vars.variantOutlineStrong.enabled.root.strokeWidth} ${vars.variantOutlineStrong.enabled.root.strokeColor}`,
 
           ...onlyIcon({
@@ -145,7 +145,7 @@ const chip = defineSlotRecipe({
       },
       outlineWeak: {
         root: {
-          background: vars.variantOutlineWeak.enabled.root.color,
+          background: "transparent",
           boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.enabled.root.strokeColor}`,
 
           ...onlyIcon({

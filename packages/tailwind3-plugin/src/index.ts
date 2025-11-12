@@ -203,6 +203,7 @@ export default plugin(
   "bg-warning-solid": "var(--seed-color-bg-warning-solid)",
   "bg-warning-solid-pressed": "var(--seed-color-bg-warning-solid-pressed)",
   "bg-warning-weak-pressed": "var(--seed-color-bg-warning-weak-pressed)",
+  "bg-transparent-pressed": "var(--seed-color-bg-transparent-pressed)",
   "stroke-brand-weak": "var(--seed-color-stroke-brand-weak)",
   "stroke-brand-solid": "var(--seed-color-stroke-brand-solid)",
   "stroke-critical-weak": "var(--seed-color-stroke-critical-weak)",

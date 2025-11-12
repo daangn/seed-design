@@ -349,10 +349,6 @@
                     "value": 1,
                     "unit": "px"
                   }
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
                 }
               },
               "label": {
@@ -389,7 +385,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -495,10 +491,6 @@
                     "value": 1,
                     "unit": "px"
                   }
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
                 }
               },
               "label": {
@@ -535,7 +527,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }

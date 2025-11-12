@@ -84,8 +84,7 @@ export const vars = {
     "enabled": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "strokeWidth": "1px",
-        "color": "var(--seed-color-bg-layer-default)"
+        "strokeWidth": "1px"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"
@@ -102,7 +101,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
@@ -142,8 +141,7 @@ export const vars = {
     "enabled": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "strokeWidth": "1px",
-        "color": "var(--seed-color-bg-layer-default)"
+        "strokeWidth": "1px"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"
@@ -160,7 +158,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
