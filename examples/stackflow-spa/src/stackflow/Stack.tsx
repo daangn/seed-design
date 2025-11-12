@@ -3,7 +3,6 @@ import { seedPlugin } from "@seed-design/stackflow";
 import ActivityHome from "../activities/ActivityHome";
 import ActivityNotFound from "../activities/ActivityNotFound";
 import { iframeSyncPlugin } from "./iframeSyncPlugin";
-import { theme } from "./theme";
 import { stackflow, lazy } from "@stackflow/react/future";
 import { config } from "./stackflow.config";
 import { historySyncPlugin } from "@stackflow/plugin-history-sync";
@@ -19,7 +18,8 @@ export const { Stack, actions, stepActions } = stackflow({
   plugins: [
     basicRendererPlugin(),
     seedPlugin({
-      theme,
+      // this will be overridden by theme context
+      theme: "cupertino",
     }),
     iframeSyncPlugin(),
     historySyncPlugin({

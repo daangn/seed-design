@@ -11,6 +11,7 @@ import {
 import { Checkbox } from "seed-design/ui/checkbox";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
+import { useZIndexBase } from "@seed-design/stackflow";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -62,7 +63,12 @@ const ActivityBottomSheetForm: ActivityComponentType<"ActivityBottomSheetForm"> 
 
   return (
     <BottomSheetRoot open={activity.isActive} onOpenChange={(open) => !open && pop()}>
-      <BottomSheetContent showHandle showCloseButton={false} title="정보 입력">
+      <BottomSheetContent
+        showHandle
+        showCloseButton={false}
+        title="정보 입력"
+        layerIndex={useZIndexBase()}
+      >
         <form
           ref={form}
           onSubmit={(e) => {

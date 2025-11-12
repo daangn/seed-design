@@ -1,5 +1,5 @@
 import { BottomSheetFooter, Portal, VStack } from "@seed-design/react";
-import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { List, ListButtonItem } from "seed-design/ui/list";
@@ -11,8 +11,9 @@ import {
   BottomSheetTrigger,
 } from "seed-design/ui/bottom-sheet";
 import { useTheme } from "../contexts/ThemeContext";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
+import { useZIndexBase } from "@seed-design/stackflow";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -25,11 +26,10 @@ const ActivityBottomSheetExample: ActivityComponentType<"ActivityBottomSheetExam
 
   const [isPortalledBottomSheetOpen, setIsPortalledBottomSheetOpen] = useState(false);
 
+  const zIndexBase = useZIndexBase();
+
   return (
-    <AppScreen
-      theme={useTheme().theme}
-      // ref={() => setStack(document.querySelector("[data-stackflow-stack]"))}
-    >
+    <AppScreen theme={useTheme().theme}>
       <AppBar>
         <AppBarMain title="BottomSheet as an Activity" />
       </AppBar>
@@ -70,6 +70,7 @@ const ActivityBottomSheetExample: ActivityComponentType<"ActivityBottomSheetExam
                   showCloseButton={false}
                   title="단순 Body Portal"
                   description="적절한 z-index 추가가 필요함"
+                  layerIndex={zIndexBase}
                 >
                   <BottomSheetFooter>
                     <ActionButton
@@ -87,30 +88,29 @@ const ActivityBottomSheetExample: ActivityComponentType<"ActivityBottomSheetExam
               title="Push to here"
               onClick={() => push("ActivityBottomSheetExample", {})}
             />
-            {/* <BottomSheetRoot>
+            <BottomSheetRoot>
               <BottomSheetTrigger asChild>
-                <ListButtonItem title="Stack 안으로 Portal" />
+                <ListButtonItem title="Portal 안 함" />
               </BottomSheetTrigger>
-              <Portal container={stack}>
-                <BottomSheetContent
-                  showHandle
-                  showCloseButton={false}
-                  title="Stack 안으로 Portal"
-                  description="z-index 핸들이 필요 없음"
-                >
-                  <BottomSheetBody>
-                    <ActionButton onClick={() => push("ActivityBottomSheetSimple", {})}>
-                      Push another Activity
-                    </ActionButton>
-                  </BottomSheetBody>
-                  <BottomSheetFooter>
-                    <ActionButton variant="neutralSolid" size="large">
-                      확인
-                    </ActionButton>
-                  </BottomSheetFooter>
-                </BottomSheetContent>
-              </Portal>
-            </BottomSheetRoot> */}
+              <BottomSheetContent
+                showHandle
+                showCloseButton={false}
+                title="Portal 안 함"
+                description="z-index 핸들이 필요 없음"
+                layerIndex={zIndexBase}
+              >
+                <BottomSheetBody>
+                  <ActionButton onClick={() => push("ActivityBottomSheetSimple", {})}>
+                    Push another Activity
+                  </ActionButton>
+                </BottomSheetBody>
+                <BottomSheetFooter>
+                  <ActionButton variant="neutralSolid" size="large">
+                    확인
+                  </ActionButton>
+                </BottomSheetFooter>
+              </BottomSheetContent>
+            </BottomSheetRoot>
           </List>
         </VStack>
       </AppScreenContent>

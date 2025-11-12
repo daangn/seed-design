@@ -1,3 +1,4 @@
+import { useZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 
 import { ActionButton } from "seed-design/ui/action-button";
@@ -20,7 +21,12 @@ const ActivityBottomSheet: ActivityComponentType<"ActivityBottomSheet"> = () => 
 
   return (
     <BottomSheetRoot open={activity.isActive} onOpenChange={(open) => !open && pop()}>
-      <BottomSheetContent showHandle={true} title="제목" description="다람쥐 헌 쳇바퀴에 타고파">
+      <BottomSheetContent
+        showHandle={true}
+        title="제목"
+        description="다람쥐 헌 쳇바퀴에 타고파"
+        layerIndex={useZIndexBase()}
+      >
         <BottomSheetBody alignItems="center" justifyContent="center" height="300px">
           Handle을 드래그하여 시트를 조절할 수 있습니다.
         </BottomSheetBody>

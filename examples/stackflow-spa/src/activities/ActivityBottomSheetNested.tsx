@@ -1,5 +1,6 @@
 import { IconGearLine, IconILowercaseSerifCircleLine } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon, VStack } from "@seed-design/react";
+import { useZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -8,6 +9,7 @@ import {
   BottomSheetFooter,
   BottomSheetRoot,
 } from "seed-design/ui/bottom-sheet";
+import { HelpBubbleAnchor } from "seed-design/ui/help-bubble";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -26,16 +28,23 @@ const ActivityBottomSheetNested: ActivityComponentType<"ActivityBottomSheetNeste
         showCloseButton={false}
         title="옵션 선택"
         description="각 옵션을 선택하면 상세 화면으로 이동합니다"
+        layerIndex={useZIndexBase()}
       >
         <BottomSheetBody>
           <VStack gap="x2" py="x1">
-            <ActionButton
-              variant="neutralWeak"
-              onClick={() => push("ActivityBottomSheetDetail", { title: "설정" })}
+            <HelpBubbleAnchor
+              open
+              title="Ad in incididunt ea dolor adipisicing magna reprehenderit aute enim qui. Consectetur est occaecat ipsum amet ex consectetur. Non dolor Lorem deserunt tempor proident Lorem reprehenderit tempor. Consectetur eu sint irure."
+              contentProps={{ style: { maxWidth: "100px" } }}
             >
-              <PrefixIcon svg={<IconGearLine />} />
-              설정
-            </ActionButton>
+              <ActionButton
+                variant="neutralWeak"
+                onClick={() => push("ActivityBottomSheetDetail", { title: "설정" })}
+              >
+                <PrefixIcon svg={<IconGearLine />} />
+                설정
+              </ActionButton>
+            </HelpBubbleAnchor>
             <ActionButton
               variant="neutralWeak"
               onClick={() => push("ActivityBottomSheetDetail", { title: "도움말" })}

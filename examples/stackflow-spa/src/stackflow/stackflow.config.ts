@@ -1,5 +1,4 @@
 import { defineConfig } from "@stackflow/config";
-import { theme } from "./theme";
 
 export const config = defineConfig({
   initialActivity: () => "ActivityHome",
@@ -41,5 +40,5 @@ export const config = defineConfig({
     { name: "ActivityBottomSheetNested", route: "/examples/bottom-sheet/nested" },
     { name: "ActivityBottomSheetDetail", route: "/examples/bottom-sheet/detail" },
   ],
-  transitionDuration: theme === "cupertino" ? 350 : 300,
+  transitionDuration: 350,
 });

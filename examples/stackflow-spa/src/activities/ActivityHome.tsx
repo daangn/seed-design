@@ -32,6 +32,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import { receive } from "@stackflow/compat-await-push";
+import { useZIndexBase } from "@seed-design/stackflow";
 
 type NavigationItem =
   | { title: string; onClick: () => void; component?: never }
@@ -81,7 +82,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                 <ListButtonItem title="AlertDialog (step)" />
               </AlertDialogTrigger>
               <Portal>
-                <AlertDialogContent>
+                <AlertDialogContent layerIndex={useZIndexBase()}>
                   <AlertDialogHeader>
                     <AlertDialogTitle>제목</AlertDialogTitle>
                     <AlertDialogDescription>

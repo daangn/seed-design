@@ -1,3 +1,4 @@
+import { useZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -36,6 +37,7 @@ const ActivityBottomSheetSimple: ActivityComponentType<"ActivityBottomSheetSimpl
         showHandle
         showCloseButton={false}
         title="Activity로 만들어진 BottomSheet"
+        layerIndex={useZIndexBase()}
       >
         <BottomSheetFooter>
           <ActionButton onClick={pop} variant="neutralSolid" size="large">

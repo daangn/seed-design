@@ -9,6 +9,8 @@ import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { Chip, type ButtonChipProps } from "seed-design/ui/chip";
 import { Icon } from "@seed-design/react";
 import { useTheme } from "../contexts/ThemeContext";
+import { useEffect } from "react";
+import { useActivity } from "@stackflow/react/future";
 
 const initialVariants = {
   size: "medium",
@@ -23,6 +25,15 @@ declare module "@stackflow/config" {
 }
 
 const ActivityChipButton: ActivityComponentType<"ActivityChipButton"> = () => {
+  const activity = useActivity();
+
+  useEffect(() => {
+    console.log('ChipButton mounted - activity.id:', activity.id);
+    return () => {
+      console.log('ChipButton unmounting - activity.id:', activity.id);
+    };
+  }, [activity.id]);
+
   return (
     <AppScreen theme={useTheme().theme}>
       <AppBar>
