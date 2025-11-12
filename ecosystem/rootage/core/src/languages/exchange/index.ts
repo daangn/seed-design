@@ -41,7 +41,10 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
         for (const { mode, value } of decl.values) {
           valueMap[mode] = {
             type: "color",
-            value: value.kind === "ColorHexLit" ? value.value : value.identifier,
+            value:
+              value.kind === "ColorHexLit"
+                ? value.value
+                : value.identifier,
           };
         }
         break;
@@ -141,9 +144,15 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
   function buildValue(prop: AST.PropertyDeclaration): Exchange.Value {
     switch (prop.kind) {
       case "ColorPropertyDeclaration":
+        if (!prop.value) {
+          throw new Error(`ColorPropertyDeclaration has undefined value for property: ${prop.property}`);
+        }
         return {
           type: "color",
-          value: prop.value.kind === "ColorHexLit" ? prop.value.value : prop.value.identifier,
+          value:
+            prop.value.kind === "ColorHexLit"
+              ? prop.value.value
+              : prop.value.identifier,
         };
       case "DimensionPropertyDeclaration":
         return {

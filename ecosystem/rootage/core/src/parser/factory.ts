@@ -57,7 +57,7 @@ import type {
 /**
  * ColorHexLit factory
  */
-export function createColorHexLit(value: `#${string}`): ColorHexLit {
+export function createColorHexLit(value: `#${string}` | "transparent"): ColorHexLit {
   return {
     kind: "ColorHexLit",
     value,

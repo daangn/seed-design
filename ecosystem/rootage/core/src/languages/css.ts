@@ -88,7 +88,8 @@ export function createStringifier(
   }
 
   function valueOrToken(value: ValueLit | TokenLit): string {
-    return value.kind === "TokenLit" ? tokenReference(value) : staticStringifier.value(value);
+    if (value.kind === "TokenLit") return tokenReference(value);
+    return staticStringifier.value(value);
   }
 
   function declaration({ decl, mode }: { decl: TokenDeclaration; mode: string }) {

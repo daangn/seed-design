@@ -112,6 +112,9 @@ function parsePropertyDeclaration(property: string, lhValue: Document.Value): Pr
 
     case "gradient":
       return factory.createGradientPropertyDeclaration(property, parseGradientValue(lhValue));
+
+    default:
+      throw new Error("Unknown property type in parsePropertyDeclaration");
   }
 }
 

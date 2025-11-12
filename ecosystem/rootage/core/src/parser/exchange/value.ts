@@ -68,8 +68,8 @@ export function parseColorValue(colorVal: Document.Color): ColorHexLit | TokenLi
     // It's a token reference
     return factory.createTokenLit(c);
   }
-  // Otherwise c is `#...`
-  return factory.createColorHexLit(c as `#${string}`);
+  // c is `#...` or "transparent"
+  return factory.createColorHexLit(c as `#${string}` | "transparent");
 }
 
 /* ------------------ Dimension ------------------ */

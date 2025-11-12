@@ -1,6 +1,6 @@
 export type TokenRef = `$${string}`;
 
-export type ColorLit = `#${string}`;
+export type ColorLit = `#${string}` | "transparent";
 export type DimensionLit = {
   value: number;
   unit: "px" | "rem";

@@ -66,7 +66,7 @@ const chip = defineSlotRecipe({
     variant: {
       solid: {
         root: {
-          background: vars.variantSolid.enabled.root.color,
+          backgroundColor: vars.variantSolid.enabled.root.color,
 
           ...onlyIcon({
             color: vars.variantSolid.enabled.icon.color,
@@ -74,17 +74,17 @@ const chip = defineSlotRecipe({
 
           [pseudo(checked)]: {
             boxShadow: "none",
-            background: vars.variantSolid.selected.root.color,
+            backgroundColor: vars.variantSolid.selected.root.color,
 
             ...onlyIcon({
               color: vars.variantSolid.selected.icon.color,
             }),
           },
           [pseudo(active, not(disabled))]: {
-            background: vars.variantSolid.pressed.root.color,
+            backgroundColor: vars.variantSolid.pressed.root.color,
           },
           [pseudo(checked, active, not(disabled))]: {
-            background: vars.variantSolid.selectedPressed.root.color,
+            backgroundColor: vars.variantSolid.selectedPressed.root.color,
           },
           [pseudo(disabled)]: {
             opacity: vars.variantSolid.disabled.root.opacity,
@@ -106,7 +106,7 @@ const chip = defineSlotRecipe({
       },
       outlineStrong: {
         root: {
-          background: vars.variantOutlineStrong.enabled.root.color,
+          backgroundColor: vars.variantOutlineStrong.enabled.root.color,
           boxShadow: `inset 0 0 0 ${vars.variantOutlineStrong.enabled.root.strokeWidth} ${vars.variantOutlineStrong.enabled.root.strokeColor}`,
 
           ...onlyIcon({
@@ -114,16 +114,16 @@ const chip = defineSlotRecipe({
           }),
 
           [pseudo(active, not(disabled))]: {
-            background: vars.variantOutlineStrong.pressed.root.color,
+            backgroundColor: vars.variantOutlineStrong.pressed.root.color,
           },
           [pseudo(checked)]: {
-            background: vars.variantOutlineStrong.selected.root.color,
+            backgroundColor: vars.variantOutlineStrong.selected.root.color,
             ...onlyIcon({
               color: vars.variantOutlineStrong.selected.icon.color,
             }),
           },
           [pseudo(checked, active, not(disabled))]: {
-            background: vars.variantOutlineStrong.selectedPressed.root.color,
+            backgroundColor: vars.variantOutlineStrong.selectedPressed.root.color,
           },
           [pseudo(disabled)]: {
             opacity: vars.variantOutlineStrong.disabled.root.opacity,
@@ -145,7 +145,7 @@ const chip = defineSlotRecipe({
       },
       outlineWeak: {
         root: {
-          background: vars.variantOutlineWeak.enabled.root.color,
+          backgroundColor: vars.variantOutlineWeak.enabled.root.color,
           boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.enabled.root.strokeColor}`,
 
           ...onlyIcon({
@@ -153,14 +153,14 @@ const chip = defineSlotRecipe({
           }),
 
           [pseudo(active, not(disabled))]: {
-            background: vars.variantOutlineWeak.pressed.root.color,
+            backgroundColor: vars.variantOutlineWeak.pressed.root.color,
           },
           [pseudo(checked)]: {
-            background: vars.variantOutlineWeak.selected.root.color,
+            backgroundColor: vars.variantOutlineWeak.selected.root.color,
             boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.selected.root.strokeColor}`,
           },
           [pseudo(checked, active, not(disabled))]: {
-            background: vars.variantOutlineWeak.selectedPressed.root.color,
+            backgroundColor: vars.variantOutlineWeak.selectedPressed.root.color,
           },
           [pseudo(disabled)]: {
             opacity: vars.variantOutlineWeak.disabled.root.opacity,

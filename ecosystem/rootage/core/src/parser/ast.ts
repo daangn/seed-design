@@ -3,7 +3,7 @@ export type TokenRef = `$${string}`;
 // Literal
 export interface ColorHexLit {
   kind: "ColorHexLit";
-  value: `#${string}`;
+  value: `#${string}` | "transparent";
 }
 
 export interface DimensionLit {

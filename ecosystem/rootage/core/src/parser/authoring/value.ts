@@ -2,18 +2,24 @@ import type * as AST from "../ast";
 import * as factory from "../factory";
 import type * as Document from "./types";
 
-function isHexColor(expr: unknown): expr is Document.Color {
+function isValidColor(expr: unknown): expr is Document.Color | "transparent" {
   if (typeof expr !== "string") {
     return false;
   }
 
+  // Accept "transparent" as a valid color keyword
+  if (expr === "transparent") {
+    return true;
+  }
+
+  // Check if it's a hex color
   const regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/;
   return regex.test(expr);
 }
 
 function parseColor(expr: unknown): AST.ColorHexLit | null {
-  if (isHexColor(expr)) {
-    return factory.createColorHexLit(expr);
+  if (isValidColor(expr)) {
+    return factory.createColorHexLit(expr as `#${string}` | "transparent");
   }
   return null;
 }

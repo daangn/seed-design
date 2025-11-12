@@ -1,6 +1,6 @@
 export type TokenRef = `$${string}`;
 
-export type Color = `#${string}`;
+export type Color = `#${string}` | "transparent";
 export type Dimension = `${number}px` | `${number}rem`;
 export type Number = number;
 export type Duration = `${number}${"ms" | "s"}`;

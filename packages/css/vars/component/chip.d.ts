@@ -85,7 +85,7 @@ export declare const vars: {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
-        "color": "var(--seed-color-bg-layer-default)"
+        "color": "transparent"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"

@@ -67,9 +67,12 @@ export function createStringifier(options: { prefix?: string } = {}) {
 
           for (const propertyDecl of slotDecl.body) {
             const propertyKey = propertyDecl.property;
-            const expr = propertyDecl.value;
+            const value = propertyDecl.value;
 
-            property[propertyKey] = cssStringifier.valueOrToken(expr);
+            if (!value) {
+              throw new Error(`Missing value for property: ${propertyKey}`);
+            }
+            property[propertyKey] = cssStringifier.valueOrToken(value);
           }
 
           slot[slotKey] = property;

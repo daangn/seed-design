@@ -160,8 +160,16 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
         ]
       },
       "colorShorthand": {
-        "type": "string",
-        "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$"
+        "oneOf": [
+          {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$"
+          },
+          {
+            "type": "string",
+            "enum": ["transparent"]
+          }
+        ]
       },
       "dimensionShorthand": {
         "type": "string",
