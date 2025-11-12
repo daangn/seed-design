@@ -17,11 +17,11 @@ import { useZIndexBase } from "@seed-design/stackflow";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityBottomSheetExample: {};
+    ActivityBottomSheetActivity: {};
   }
 }
 
-const ActivityBottomSheetExample: ActivityComponentType<"ActivityBottomSheetExample"> = () => {
+const ActivityBottomSheetActivity: ActivityComponentType<"ActivityBottomSheetActivity"> = () => {
   const { push } = useFlow();
 
   const [isPortalledBottomSheetOpen, setIsPortalledBottomSheetOpen] = useState(false);
@@ -86,7 +86,7 @@ const ActivityBottomSheetExample: ActivityComponentType<"ActivityBottomSheetExam
             </BottomSheetRoot>
             <ListButtonItem
               title="Push to here"
-              onClick={() => push("ActivityBottomSheetExample", {})}
+              onClick={() => push("ActivityBottomSheetActivity", {})}
             />
             <BottomSheetRoot>
               <BottomSheetTrigger asChild>
@@ -118,4 +118,4 @@ const ActivityBottomSheetExample: ActivityComponentType<"ActivityBottomSheetExam
   );
 };
 
-export default ActivityBottomSheetExample;
+export default ActivityBottomSheetActivity;

@@ -7,7 +7,7 @@ import {
   IconChevronLeftLine,
   IconChevronRightLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { Switch } from "seed-design/ui/switch";
@@ -26,9 +26,13 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
   const [currentUrl, setCurrentUrl] = useState<string | null>(null);
   const [activityStack, setActivityStack] = useState<SerializedActivity[]>([]);
   const [theme, setTheme] = useState<AppScreenVariant["theme"]>("android");
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
+      // Only handle messages from this specific iframe
+      if (event.source !== iframeRef.current?.contentWindow) return;
+
       switch (event.data.type) {
         case "URL_CHANGE": {
           if (typeof event.data.url !== "string") return;
@@ -54,18 +58,15 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
   }, []);
 
   useEffect(() => {
-    const iframe = document.querySelector("iframe");
-    iframe?.contentWindow?.postMessage({ type: "THEME_CHANGE", theme }, "*");
+    iframeRef.current?.contentWindow?.postMessage({ type: "THEME_CHANGE", theme }, "*");
   }, [theme]);
 
   const handleBack = () => {
-    const iframe = document.querySelector("iframe");
-    iframe?.contentWindow?.postMessage({ type: "NAVIGATE_BACK" }, "*");
+    iframeRef.current?.contentWindow?.postMessage({ type: "NAVIGATE_BACK" }, "*");
   };
 
   const handleForward = () => {
-    const iframe = document.querySelector("iframe");
-    iframe?.contentWindow?.postMessage({ type: "NAVIGATE_FORWARD" }, "*");
+    iframeRef.current?.contentWindow?.postMessage({ type: "NAVIGATE_FORWARD" }, "*");
   };
 
   const { cn, ref, style } = useSimpleReveal({
@@ -88,7 +89,7 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
             overflowX="hidden"
             overflowY="hidden"
           >
-            <IframePreview path={path} onLoad={() => setIsLoaded(true)} />
+            <IframePreview path={path} onLoad={() => setIsLoaded(true)} iframeRef={iframeRef} />
             <LoadingOverlay visible={!isLoaded} />
           </Box>
           <SegmentedControl
@@ -112,7 +113,15 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
   );
 }
 
-function IframePreview({ path, onLoad }: { path: string; onLoad: () => void }) {
+function IframePreview({
+  path,
+  onLoad,
+  iframeRef,
+}: {
+  path: string;
+  onLoad: () => void;
+  iframeRef: React.RefObject<HTMLIFrameElement | null>;
+}) {
   const [rendered, setRendered] = useState(false);
 
   useEffect(() => setRendered(true), []);
@@ -121,6 +130,7 @@ function IframePreview({ path, onLoad }: { path: string; onLoad: () => void }) {
 
   return (
     <iframe
+      ref={iframeRef}
       // getStackflowSpaUrl should be run in a browser
       src={getStackflowSpaUrl(path)}
       title="Stackflow Example"
@@ -233,17 +243,19 @@ function Navigation({
           const { origin, path } = formatUrl(url);
 
           return (
-            <Text
-              className="font-mono transition-opacity opacity-100"
-              align="center"
-              textStyle="t1Medium"
-              color="fg.neutralSubtle"
+            <a
+              href={url}
+              target="_blank"
+              rel="noreferrer"
+              className="font-mono transition-opacity opacity-100 text-center line-clamp-1 break-all"
             >
-              <Text textStyle="t1Medium">{origin}</Text>
+              <Text textStyle="t1Medium" color="fg.neutralSubtle">
+                {origin}
+              </Text>
               <Text textStyle="t1Bold" color="fg.neutral" className="empty:hidden">
                 {path}
               </Text>
-            </Text>
+            </a>
           );
         })()
       ) : (

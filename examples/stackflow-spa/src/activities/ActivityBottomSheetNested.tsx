@@ -33,14 +33,16 @@ const ActivityBottomSheetNested: ActivityComponentType<"ActivityBottomSheetNeste
           <VStack gap="x2" py="x1">
             <ActionButton
               variant="neutralWeak"
-              onClick={() => push("ActivityBottomSheetDetail", { title: "설정" })}
+              onClick={() => push("ActivityDetail", { title: "설정", body: "설정 화면입니다." })}
             >
               <PrefixIcon svg={<IconGearLine />} />
               설정
             </ActionButton>
             <ActionButton
               variant="neutralWeak"
-              onClick={() => push("ActivityBottomSheetDetail", { title: "도움말" })}
+              onClick={() =>
+                push("ActivityDetail", { title: "도움말", body: "도움말 화면입니다." })
+              }
             >
               <PrefixIcon svg={<IconILowercaseSerifCircleLine />} />
               도움말

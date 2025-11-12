@@ -14,6 +14,10 @@ export function useIframeSync({ onThemeChange }: UseIframeSyncOptions = {}) {
     sendUrl();
 
     const handleMessage = (event: MessageEvent) => {
+      // Only handle messages from our direct parent (the docs page that embedded us)
+      // This prevents conflicts when multiple iframes are on the same page
+      if (event.source !== window.parent) return;
+
       switch (event.data.type) {
         case "NAVIGATE_BACK": {
           history.back();
