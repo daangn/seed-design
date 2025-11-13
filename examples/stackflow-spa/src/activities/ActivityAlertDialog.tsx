@@ -10,7 +10,7 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
 } from "seed-design/ui/alert-dialog";
-import { VStack } from "@seed-design/react";
+import { ResponsivePair } from "@seed-design/react";
 import { send } from "@stackflow/compat-await-push";
 import { useZIndexBase } from "@seed-design/stackflow";
 
@@ -44,14 +44,22 @@ const ActivityAlertDialog: ActivityComponentType<"ActivityAlertDialog"> = () => 
           <AlertDialogDescription>다람쥐 헌 쳇바퀴에 타고파</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <VStack gap="x2">
+          <ResponsivePair gap="x2">
             <AlertDialogAction asChild>
-              <ActionButton>확인</ActionButton>
+              <ActionButton variant="neutralWeak">확인</ActionButton>
             </AlertDialogAction>
-            <ActionButton variant="neutralSolid" onClick={() => push("ActivityChipButton", {})}>
+            <ActionButton
+              variant="neutralSolid"
+              onClick={() =>
+                push("ActivityDetail", {
+                  title: "AlertDialog에서 Push됨",
+                  body: "다람쥐 헌 쳇바퀴에 타고파",
+                })
+              }
+            >
               Push
             </ActionButton>
-          </VStack>
+          </ResponsivePair>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>

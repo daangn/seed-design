@@ -6,11 +6,11 @@ import { ActionButton } from "seed-design/ui/action-button";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityBottomSheetActivity: {};
+    ActivityAlertDialogActivity: {};
   }
 }
 
-const ActivityBottomSheetActivity: ActivityComponentType<"ActivityBottomSheetActivity"> = () => {
+const ActivityAlertDialogActivity: ActivityComponentType<"ActivityAlertDialogActivity"> = () => {
   const { push } = useFlow();
 
   return (
@@ -26,14 +26,14 @@ const ActivityBottomSheetActivity: ActivityComponentType<"ActivityBottomSheetAct
           <ActionButton
             variant="neutralSolid"
             flexGrow
-            onClick={() => push("ActivityBottomSheet", {})}
+            onClick={() => push("ActivityAlertDialog", {})}
           >
-            ActivityBottomSheet을 Push
+            ActivityAlertDialog를 Push
           </ActionButton>
           <ActionButton
             variant="neutralWeak"
             flexGrow
-            onClick={() => push("ActivityBottomSheetActivity", {})}
+            onClick={() => push("ActivityAlertDialogActivity", {})}
           >
             지금 열린 이 Activity를 Push
           </ActionButton>
@@ -43,4 +43,4 @@ const ActivityBottomSheetActivity: ActivityComponentType<"ActivityBottomSheetAct
   );
 };
 
-export default ActivityBottomSheetActivity;
+export default ActivityAlertDialogActivity;

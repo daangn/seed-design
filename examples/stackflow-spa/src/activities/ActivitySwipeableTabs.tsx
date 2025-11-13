@@ -26,7 +26,7 @@ declare module "@stackflow/config" {
 }
 
 const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = () => {
-  const { overlayProps, setOpen } = useStepOverlay({ id: "alert-dialog" });
+  const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const { push } = useFlow();
 
   return (

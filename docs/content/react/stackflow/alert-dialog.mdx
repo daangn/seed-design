@@ -1,22 +1,22 @@
 ---
-title: Bottom Sheet
-description: Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
+title: Alert Dialog
+description: Alert Dialog를 Stackflow와 함께 사용하는 방법을 안내합니다.
 ---
 
-<Card title="Bottom Sheet" href="/react/components/bottom-sheet">
+<Card title="Alert Dialog" href="/react/components/alert-dialog">
 
-Bottom Sheet 컴포넌트에 대해 자세히 알아봅니다.
+Alert Dialog 컴포넌트에 대해 자세히 알아봅니다.
 
 </Card>
 
-## Making a Bottom Sheet Activity
+## Making an Alert Dialog Activity
 
-**일반적인 경우 Bottom Sheet를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들어 사용하는 것을 권장합니다.**
+**일반적인 경우 Alert Dialog를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들어 사용하는 것을 권장합니다.**
 
 - Activity로 관리되므로, 하위 Activity보다 높고 상위 Activity보다는 낮은 z-index를 갖도록 관리하기 쉽습니다.
-- 딥링킹이 가능합니다. (URL 접속으로 Bottom Sheet를 열 수 있습니다.)
+- 딥링킹이 가능합니다. (URL 접속으로 Alert Dialog를 열 수 있습니다.)
 
-<StackflowExample path="/bottom-sheet-activity" />
+<StackflowExample path="/alert-dialog-activity" />
 
 ### Usage
 
@@ -25,51 +25,60 @@ import { useZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 // ... more imports
 
-const ActivityBottomSheetSimple: ActivityComponentType<"ActivityBottomSheetSimple"> = () => {
-  const { pop } = useFlow();
+const ActivityAlertDialog: ActivityComponentType<"ActivityAlertDialog"> = () => {
+  const { pop, push } = useFlow();
 
   return (
     {/* [!code highlight] */}
-    <BottomSheetRoot open={useActivity().isActive} onOpenChange={(open) => !open && pop()}>
-      <BottomSheetContent
-        title="Activity로 만들어진 BottomSheet"
-        // [!code highlight]
-        layerIndex={useZIndexBase()}
-      >
-        <BottomSheetFooter>
-          <ActionButton onClick={pop}>
-            확인
-          </ActionButton>
-        </BottomSheetFooter>
-      </BottomSheetContent>
-    </BottomSheetRoot>
+    <AlertDialogRoot open={useActivity().isActive} onOpenChange={(open) => !open && pop()}>
+      {/* [!code highlight] */}
+      <AlertDialogContent layerIndex={useZIndexBase()}>
+        <AlertDialogHeader>
+          <AlertDialogTitle>제목</AlertDialogTitle>
+          <AlertDialogDescription>설명 텍스트</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <VStack gap="x2">
+            <AlertDialogAction asChild>
+              <ActionButton>확인</ActionButton>
+            </AlertDialogAction>
+            <ActionButton
+              variant="neutralSolid"
+              onClick={() => push("AnotherActivity", {})}
+            >
+              다른 화면으로 이동
+            </ActionButton>
+          </VStack>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialogRoot>
   );
 };
 ```
 
-1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Bottom Sheet가 열리도록 합니다.
-1. `onOpenChange`를 통해 Bottom Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
-1. `layerIndex={useZIndexBase()}`로 Bottom Sheet Activity의 z-index 기준점을 전달합니다.
+1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Alert Dialog가 열리도록 합니다.
+1. `onOpenChange`를 통해 Alert Dialog가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
+1. `layerIndex={useZIndexBase()}`로 Alert Dialog Activity의 z-index 기준점을 전달합니다.
     - [`useZIndexBase`에 대해 자세히 알아보기](#about-usezindexbase)
 
-## Syncing BottomSheet State with a Step
+## Syncing Alert Dialog State with a Step
 
-Bottom Sheet를 Activity로 만들 수 없는 경우, Bottom Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)과 동기화할 수 있습니다.
+Alert Dialog를 Activity로 만들 수 없는 경우, Alert Dialog가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)과 동기화할 수 있습니다.
 
-- 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Bottom Sheet를 닫을 수 있습니다.
-- `BottomSheetTrigger`를 사용하여 Bottom Sheet를 열고 닫을 수 있습니다.
+- 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Alert Dialog를 닫을 수 있습니다.
+- `AlertDialogTrigger`를 사용하여 Alert Dialog를 열고 닫을 수 있습니다.
 
 <Callout type="warn" title="제약 사항">
 
-**Activity로 만들지 않은 Bottom Sheet에서 다른 Activity를 push하기 전, z-index 문제를 방지하기 위해 Bottom Sheet를 닫으세요.**
+**Activity로 만들지 않은 Alert Dialog에서 다른 Activity를 push하기 전, z-index 문제를 방지하기 위해 Alert Dialog를 닫으세요.**
 
-Bottom Sheet를 닫을 수 없거나, Bottom Sheet를 연 Activity로 돌아왔을 때 Bottom Sheet가 열린 상태를 유지해야 하는 경우 [Bottom Sheet를 Activity로](#making-a-bottom-sheet-activity) 만들어 사용하는 것을 권장합니다.
-  
-Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요소 중 일부가 상위 AppScreen 요소보다 위에 위치합니다. 이 제약으로 인해, 열린 상태의 Bottom Sheet는 독립적인 Activity로 만들지 않는 경우 하위 Activity와 상위 Activity 사이에 위치시키는 것이 불가능합니다.
+Alert Dialog를 닫을 수 없거나, Alert Dialog를 연 Activity로 돌아왔을 때 Alert Dialog가 열린 상태를 유지해야 하는 경우 [Alert Dialog를 Activity로](#making-an-alert-dialog-activity) 만들어 사용하는 것을 권장합니다.
+
+Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요소 중 일부가 상위 AppScreen 요소보다 위에 위치합니다. 이 제약으로 인해, 열린 상태의 Alert Dialog는 독립적인 Activity로 만들지 않는 경우 하위 Activity와 상위 Activity 사이에 위치시키는 것이 불가능합니다.
 
 </Callout>
 
-<StackflowExample path="/bottom-sheet-step" />
+<StackflowExample path="/alert-dialog-step" />
 
 ### Usage
 
@@ -83,7 +92,7 @@ import { useEffect, useState } from "react";
 declare module "@stackflow/config" {
   interface Register {
     ActivityHome: {
-      "bottom-sheet"?: "open";
+      "alert-dialog"?: "open";
     };
   }
 }
@@ -95,7 +104,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   const { pushStep, popStep } = useStepFlow("ActivityHome");
   const params = useActivityParams<"ActivityHome">();
   // [!code highlight]
-  const isOverlayOpen = params["bottom-sheet"] === "open";
+  const isOverlayOpen = params["alert-dialog"] === "open";
 
   // [!code highlight]
   useEffect(() => {
@@ -109,7 +118,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
     setOpen(newOpen);
 
     if (newOpen && !isOverlayOpen) {
-      pushStep((params) => ({ ...params, "bottom-sheet": "open" }));
+      pushStep((params) => ({ ...params, "alert-dialog": "open" }));
 
       return;
     }
@@ -123,43 +132,46 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 
   return (
     <AppScreen>
-      <BottomSheetRoot open={open} onOpenChange={onOpenChange}>
-        <BottomSheetTrigger asChild>
+      <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
+        <AlertDialogTrigger asChild>
           <ActionButton>Open</ActionButton>
-        </BottomSheetTrigger>
+        </AlertDialogTrigger>
         {/* [!code highlight] */}
         <Portal>
-          <BottomSheetContent
-            title="Step으로 관리되는 Bottom Sheet"
-            // [!code highlight]
-            layerIndex={useZIndexBase({ modifier: +1 })}
-          >
-            <BottomSheetFooter>
+          {/* [!code highlight] */}
+          <AlertDialogContent layerIndex={useZIndexBase({ modifier: +1 })}>
+            <AlertDialogHeader>
+              <AlertDialogTitle>제목</AlertDialogTitle>
+              <AlertDialogDescription>
+                설명 텍스트
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
               <HStack gap="x2">
                 <ActionButton onClick={() => setOpen(false)}>취소</ActionButton>
                 <ActionButton
                   onClick={() => {
                     // [!code highlight]
-                    setOpen(false); // 다른 Activity로 이동하기 전에는 Bottom Sheet를 닫으세요.
+                    setOpen(false); // 다른 Activity로 이동하기 전에는 Alert Dialog를 닫으세요.
                     push("ActivityNext");
                   }}
                 >
                   다음
                 </ActionButton>
               </HStack>
-            </BottomSheetFooter>
-          </BottomSheetContent>
+            </AlertDialogFooter>
+          </AlertDialogContent>
         {/* [!code highlight] */}
         </Portal>
-      </BottomSheetRoot>
+      </AlertDialogRoot>
     </AppScreen>
   );
 };
 ```
 
-1. `Portal`을 사용하여 Bottom Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
+1. `Portal`을 사용하여 Alert Dialog가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
 1. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
-1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Bottom Sheet의 `open` 상태를 동기화합니다.
+1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Alert Dialog의 `open` 상태를 동기화합니다.
 1. `layerIndex={useZIndexBase({ modifier: +1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
     - [`useZIndexBase`에 대해 자세히 알아보기](#about-usezindexbase)
 
@@ -180,35 +192,38 @@ const MyActivity: ActivityComponentType = () => {
   return (
     <AppScreen>
       {/* [!code highlight] */}
-      <BottomSheetRoot {...overlayProps}>
-        <BottomSheetTrigger asChild>
+      <AlertDialogRoot {...overlayProps}>
+        <AlertDialogTrigger asChild>
           <ActionButton>Open</ActionButton>
-        </BottomSheetTrigger>
+        </AlertDialogTrigger>
         {/* [!code highlight] */}
         <Portal>
-          <BottomSheetContent
-            title="Step으로 관리되는 Bottom Sheet"
-            // [!code highlight]
-            layerIndex={useZIndexBase({ modifier: +1 })}
-          >
-            <BottomSheetFooter>
+          {/* [!code highlight] */}
+          <AlertDialogContent layerIndex={useZIndexBase({ modifier: +1 })} >
+            <AlertDialogHeader>
+              <AlertDialogTitle>제목</AlertDialogTitle>
+              <AlertDialogDescription>
+                설명 텍스트
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
               <HStack gap="x2">
                 <ActionButton onClick={() => setOpen(false)}>취소</ActionButton>
                 <ActionButton
                   onClick={() => {
                     // [!code highlight]
-                    setOpen(false); // 다른 Activity로 이동하기 전에는 Bottom Sheet를 닫으세요.
+                    setOpen(false); // 다른 Activity로 이동하기 전에는 Alert Dialog를 닫으세요.
                     push("ActivityNext");
                   }}
                 >
                   다음
                 </ActionButton>
               </HStack>
-            </BottomSheetFooter>
-          </BottomSheetContent>
+            </AlertDialogFooter>
+          </AlertDialogContent>
         {/* [!code highlight] */}
         </Portal>
-      </BottomSheetRoot>
+      </AlertDialogRoot>
     </AppScreen>
   );
 };
@@ -216,7 +231,7 @@ const MyActivity: ActivityComponentType = () => {
 
 ## About `useZIndexBase`
 
-`useZIndexBase`는 각 Activity의 z-index 기준점을 반환하는 훅입니다..
+`useZIndexBase`는 각 Activity의 z-index 기준점을 반환하는 훅입니다.
 
 <Accordions>
 <Accordion title="useZIndexBase는 어떤 값을 반환하나요?">
@@ -224,8 +239,8 @@ const MyActivity: ActivityComponentType = () => {
 - `useActivity().zIndex * 5`를 반환합니다. `useActivity().zIndex`는 현재 Activity가 enter된 Activity 중 몇 번째 Activity인지를 나타내는 값입니다.
 - AppScreen을 구성하는 요소들(layer, appbar, dim, edge)은 `useZIndexBase()` 값을 바탕으로 계산된 z-index를 갖습니다.
   ```
-  ┌─ 2번 BottomSheet Activity
-  │  └─ BottomSheet: 12 (2 × 5 + 2)
+  ┌─ 2번 AlertDialog Activity
+  │  └─ AlertDialog: 12 (2 × 5 + 2)
   ├─ 1번 AppScreen Activity
   │  ├─ appbar: 12 (1 × 5 + 7)
   │  ├─ edge: 9 (1 × 5 + 4)
@@ -243,10 +258,10 @@ const MyActivity: ActivityComponentType = () => {
 
 - `modifier` 옵션은 현재 Activity가 아닌 다음 Activity의 z-index 기준점을 사용하고 싶을 때 사용합니다.
 - 예를 들어, `useZIndexBase({ modifier: +1 })`는 다음 Activity의 z-index 기준점을 반환합니다.
-- 이는 Step 패턴에서 현재 Activity 위에 BottomSheet를 표시할 때 유용합니다.
+- 이는 Step 패턴에서 현재 Activity 위에 AlertDialog를 표시할 때 유용합니다.
   ```
-  ┌─ 1번 AppScreen Activity에서 modifier: +1로 띄운 BottomSheet (예: Step 패턴)
-  │  └─ BottomSheet: 12 ((1 + 1) × 5 + 2)
+  ┌─ 1번 AppScreen Activity에서 modifier: +1로 띄운 AlertDialog (예: Step 패턴)
+  │  └─ AlertDialog: 12 ((1 + 1) × 5 + 2)
   ├─ 1번 AppScreen Activity
   │  ├─ appbar: 12 (1 × 5 + 7)
   │  ├─ edge: 9 (1 × 5 + 4)

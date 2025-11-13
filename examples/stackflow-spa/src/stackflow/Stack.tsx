@@ -31,9 +31,13 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityHome,
     ActivityNotFound,
 
-    // TODO: remove type assertion after stackflow fixees types
+    // TODO: remove type assertion after stackflow fixes types
     ActivityActionButton: lazy(() => import("../activities/ActivityActionButton" as any)),
     ActivityAlertDialog: lazy(() => import("../activities/ActivityAlertDialog" as any)),
+    ActivityAlertDialogActivity: lazy(
+      () => import("../activities/ActivityAlertDialogActivity" as any),
+    ),
+    ActivityAlertDialogStep: lazy(() => import("../activities/ActivityAlertDialogStep" as any)),
     ActivityAnimatedTabs: lazy(() => import("../activities/ActivityAnimatedTabs" as any)),
     ActivityAvatar: lazy(() => import("../activities/ActivityAvatar" as any)),
     ActivityAvatarStack: lazy(() => import("../activities/ActivityAvatarStack" as any)),
@@ -41,7 +45,6 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityBottomSheetActivity: lazy(
       () => import("../activities/ActivityBottomSheetActivity" as any),
     ),
-    ActivityBottomSheetForm: lazy(() => import("../activities/ActivityBottomSheetForm" as any)),
     ActivityBottomSheetStep: lazy(() => import("../activities/ActivityBottomSheetStep" as any)),
     ActivityChipButton: lazy(() => import("../activities/ActivityChipButton" as any)),
     ActivityChipToggle: lazy(() => import("../activities/ActivityChipToggle" as any)),
@@ -58,6 +61,9 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityListSwitchItem: lazy(() => import("../activities/ActivityListSwitchItem" as any)),
     ActivityMannerTempLevel: lazy(() => import("../activities/ActivityMannerTempLevel" as any)),
     ActivityMenuSheet: lazy(() => import("../activities/ActivityMenuSheet" as any)),
+    ActivityMenuSheetActivity: lazy(() => import("../activities/ActivityMenuSheetActivity" as any)),
+    ActivityMenuSheetSimple: lazy(() => import("../activities/ActivityMenuSheetSimple" as any)),
+    ActivityMenuSheetStep: lazy(() => import("../activities/ActivityMenuSheetStep" as any)),
     ActivityMixedVersionTest: lazy(() => import("../activities/ActivityMixedVersionTest" as any)),
     ActivityPartialDarkMode: lazy(() => import("../activities/ActivityPartialDarkMode" as any)),
     ActivityPerfCheck: lazy(() => import("../activities/ActivityPerfCheck" as any)),

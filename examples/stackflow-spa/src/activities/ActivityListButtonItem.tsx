@@ -67,7 +67,7 @@ const suffixVariants = [
 
 const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
   (props, ref) => {
-    const { overlayProps, setOpen } = useStepOverlay({ id: "alert-dialog" });
+    const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
 
     return (
       <AlertDialogRoot {...overlayProps}>

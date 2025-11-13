@@ -119,7 +119,7 @@ function ActivityStackPanel({
   getActivityHref: (activityName: string) => string;
 }) {
   return (
-    <Flex gap="x2" direction="column-reverse" width="300px" grow>
+    <Flex gap="x2" direction="column-reverse" width="300px">
       {activities
         .filter((activity) => activity.transitionState !== "exit-done")
         .map((activity) => (

@@ -51,7 +51,7 @@ declare module "@stackflow/config" {
 
 const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   const { push } = useFlow();
-  const { overlayProps, setOpen } = useStepOverlay({ id: "alert-dialog" });
+  const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
 
   const { zIndex: activityIndex } = useActivity();

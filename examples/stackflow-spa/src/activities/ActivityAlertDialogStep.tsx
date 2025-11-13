@@ -11,26 +11,29 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
-  BottomSheetContent,
-  BottomSheetFooter,
-  BottomSheetRoot,
-  BottomSheetTrigger,
-} from "seed-design/ui/bottom-sheet";
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogRoot,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "seed-design/ui/alert-dialog";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityBottomSheetStep: {
-      "bottom-sheet"?: "open";
+    ActivityAlertDialogStep: {
+      "alert-dialog"?: "open";
     };
   }
 }
 
-const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> = () => {
+const ActivityAlertDialogStep: ActivityComponentType<"ActivityAlertDialogStep"> = () => {
   const [open, setOpen] = useState(false);
   const { push } = useFlow();
-  const { pushStep, popStep } = useStepFlow("ActivityBottomSheetStep");
-  const params = useActivityParams<"ActivityBottomSheetStep">();
-  const isOverlayOpen = params["bottom-sheet"] === "open";
+  const { pushStep, popStep } = useStepFlow("ActivityAlertDialogStep");
+  const params = useActivityParams<"ActivityAlertDialogStep">();
+  const isOverlayOpen = params["alert-dialog"] === "open";
 
   useEffect(() => {
     if (!isOverlayOpen) {
@@ -46,7 +49,7 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
     setOpen(newOpen);
 
     if (newOpen && !isOverlayOpen) {
-      pushStep((params) => ({ ...params, "bottom-sheet": "open" }));
+      pushStep((params) => ({ ...params, "alert-dialog": "open" }));
       return;
     }
 
@@ -62,22 +65,23 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
         <AppBarMain title="Step" />
       </AppBar>
       <AppScreenContent>
-        <BottomSheetRoot open={open} onOpenChange={onOpenChange}>
-          <BottomSheetTrigger asChild>
+        <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
+          <AlertDialogTrigger asChild>
             <VStack p="x5" justify="center" gap="x4">
               <ActionButton variant="neutralSolid" flexGrow>
-                Bottom Sheet 열기
+                Alert Dialog 열기
               </ActionButton>
             </VStack>
-          </BottomSheetTrigger>
+          </AlertDialogTrigger>
           <Portal>
-            <BottomSheetContent
-              showHandle
-              title="Step"
-              description="Step과 Bottom Sheet의 상태가 동기화되어 있기 때문에 뒤로 가기로 닫을 수 있습니다."
-              layerIndex={useZIndexBase({ modifier: +1 })}
-            >
-              <BottomSheetFooter>
+            <AlertDialogContent layerIndex={useZIndexBase({ modifier: +1 })}>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Step</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Step과 Alert Dialog의 상태가 동기화되어 있기 때문에 뒤로 가기로 닫을 수 있습니다.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
                 <HStack gap="x2">
                   <ActionButton onClick={() => setOpen(false)} variant="neutralWeak">
                     닫기
@@ -86,25 +90,25 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
                     flexGrow
                     variant="neutralSolid"
                     onClick={() => {
-                      // 이 Bottom Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
-                      // BottomSheet를 먼저 닫고 다음 Activity를 push해야 합니다.
+                      // 이 Alert Dialog는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
+                      // Alert Dialog를 먼저 닫고 다음 Activity를 push해야 합니다.
                       setOpen(false);
                       push("ActivityDetail", {
-                        title: "Bottom Sheet에서 이동한 화면",
-                        body: "Bottom Sheet를 닫고 이동했습니다.",
+                        title: "Alert Dialog에서 이동한 화면",
+                        body: "Alert Dialog를 닫고 이동했습니다.",
                       });
                     }}
                   >
                     Push
                   </ActionButton>
                 </HStack>
-              </BottomSheetFooter>
-            </BottomSheetContent>
+              </AlertDialogFooter>
+            </AlertDialogContent>
           </Portal>
-        </BottomSheetRoot>
+        </AlertDialogRoot>
       </AppScreenContent>
     </AppScreen>
   );
 };
 
-export default ActivityBottomSheetStep;
+export default ActivityAlertDialogStep;

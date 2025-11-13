@@ -3,8 +3,10 @@ import { useActivity, useActivityParams, useStepFlow } from "@stackflow/react/fu
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 
+// a purely stackflow related hook except `open` and `onOpenChange` management
+
 export interface UseStepOverlayProps {
-  id?: string;
+  key?: string;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
@@ -17,7 +19,7 @@ export function useStepOverlay(props: UseStepOverlayProps = {}) {
   const { pushStep, popStep } = useStepFlow(activity.name as RegisteredActivityName);
 
   const params = useActivityParams<RegisteredActivityName>();
-  const isOverlayPersist = params[(props.id || id) as keyof typeof params] === "open";
+  const isOverlayPersist = params[(props.key || id) as keyof typeof params] === "open";
 
   useEffect(() => {
     if (!isOverlayPersist) {
@@ -33,7 +35,7 @@ export function useStepOverlay(props: UseStepOverlayProps = {}) {
       onOpenChange?.(open);
 
       if (open && !isOverlayPersist) {
-        pushStep({ ...params, [props.id || id]: "open" });
+        pushStep((params) => ({ ...params, [props.key || id]: "open" }));
 
         return;
       }
@@ -44,7 +46,7 @@ export function useStepOverlay(props: UseStepOverlayProps = {}) {
         return;
       }
     },
-    [pushStep, popStep, onOpenChange, isOverlayPersist, params, id, props.id],
+    [pushStep, popStep, onOpenChange, isOverlayPersist, id, props.key],
   );
 
   return useMemo(

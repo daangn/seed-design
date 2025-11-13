@@ -1,22 +1,22 @@
 ---
-title: Bottom Sheet
-description: Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
+title: Menu Sheet
+description: Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
 ---
 
-<Card title="Bottom Sheet" href="/react/components/bottom-sheet">
+<Card title="Menu Sheet" href="/react/components/menu-sheet">
 
-Bottom Sheet 컴포넌트에 대해 자세히 알아봅니다.
+Menu Sheet 컴포넌트에 대해 자세히 알아봅니다.
 
 </Card>
 
-## Making a Bottom Sheet Activity
+## Making a Menu Sheet Activity
 
-**일반적인 경우 Bottom Sheet를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들어 사용하는 것을 권장합니다.**
+**일반적인 경우 Menu Sheet를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들어 사용하는 것을 권장합니다.**
 
 - Activity로 관리되므로, 하위 Activity보다 높고 상위 Activity보다는 낮은 z-index를 갖도록 관리하기 쉽습니다.
-- 딥링킹이 가능합니다. (URL 접속으로 Bottom Sheet를 열 수 있습니다.)
+- 딥링킹이 가능합니다. (URL 접속으로 Menu Sheet를 열 수 있습니다.)
 
-<StackflowExample path="/bottom-sheet-activity" />
+<StackflowExample path="/menu-sheet-activity" />
 
 ### Usage
 
@@ -25,51 +25,66 @@ import { useZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 // ... more imports
 
-const ActivityBottomSheetSimple: ActivityComponentType<"ActivityBottomSheetSimple"> = () => {
+const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
   const { pop } = useFlow();
+
+  const handleAction = (action: string) => {
+    console.log("선택한 액션:", action);
+  
+    pop();
+  };
 
   return (
     {/* [!code highlight] */}
-    <BottomSheetRoot open={useActivity().isActive} onOpenChange={(open) => !open && pop()}>
-      <BottomSheetContent
-        title="Activity로 만들어진 BottomSheet"
+    <MenuSheetRoot open={useActivity().isActive} onOpenChange={(open) => !open && pop()}>
+      <MenuSheetContent
+        title="Actions"
         // [!code highlight]
         layerIndex={useZIndexBase()}
       >
-        <BottomSheetFooter>
-          <ActionButton onClick={pop}>
-            확인
-          </ActionButton>
-        </BottomSheetFooter>
-      </BottomSheetContent>
-    </BottomSheetRoot>
+        <MenuSheetGroup>
+          <MenuSheetItem onClick={() => handleAction("add")}>
+            <PrefixIcon svg={<IconPlusLine />} />
+            추가
+          </MenuSheetItem>
+          <MenuSheetItem onClick={() => handleAction("edit")}>
+            <PrefixIcon svg={<IconPencilLine />} />
+            수정
+          </MenuSheetItem>
+          <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
+            <PrefixIcon svg={<IconTrashcanLine />} />
+            삭제
+          </MenuSheetItem>
+        </MenuSheetGroup>
+      </MenuSheetContent>
+    </MenuSheetRoot>
   );
 };
 ```
 
-1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Bottom Sheet가 열리도록 합니다.
-1. `onOpenChange`를 통해 Bottom Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
-1. `layerIndex={useZIndexBase()}`로 Bottom Sheet Activity의 z-index 기준점을 전달합니다.
+1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Menu Sheet가 열리도록 합니다.
+1. `onOpenChange`를 통해 Menu Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
+1. `layerIndex={useZIndexBase()}`로 Menu Sheet Activity의 z-index 기준점을 전달합니다.
     - [`useZIndexBase`에 대해 자세히 알아보기](#about-usezindexbase)
 
-## Syncing BottomSheet State with a Step
+## Syncing Menu Sheet State with a Step
 
-Bottom Sheet를 Activity로 만들 수 없는 경우, Bottom Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)과 동기화할 수 있습니다.
+Menu Sheet를 Activity로 만들 수 없는 경우, Menu Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)과 동기화할 수 있습니다.
 
-- 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Bottom Sheet를 닫을 수 있습니다.
-- `BottomSheetTrigger`를 사용하여 Bottom Sheet를 열고 닫을 수 있습니다.
+- 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Menu Sheet를 닫을 수 있습니다.
+- `MenuSheetTrigger`를 사용하여 Menu Sheet를 열고 닫을 수 있습니다.
 
 <Callout type="warn" title="제약 사항">
 
-**Activity로 만들지 않은 Bottom Sheet에서 다른 Activity를 push하기 전, z-index 문제를 방지하기 위해 Bottom Sheet를 닫으세요.**
+**Activity로 만들지 않은 Menu Sheet에서 다른 Activity를 push하는 경우, push하기 전 Menu Sheet를 닫으세요.**
 
-Bottom Sheet를 닫을 수 없거나, Bottom Sheet를 연 Activity로 돌아왔을 때 Bottom Sheet가 열린 상태를 유지해야 하는 경우 [Bottom Sheet를 Activity로](#making-a-bottom-sheet-activity) 만들어 사용하는 것을 권장합니다.
-  
-Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요소 중 일부가 상위 AppScreen 요소보다 위에 위치합니다. 이 제약으로 인해, 열린 상태의 Bottom Sheet는 독립적인 Activity로 만들지 않는 경우 하위 Activity와 상위 Activity 사이에 위치시키는 것이 불가능합니다.
+Menu Sheet를 닫을 수 없거나, Menu Sheet를 연 Activity로 돌아왔을 때 Menu Sheet가 열린 상태를 유지해야 하는 경우 [Menu Sheet를 Activity로](#making-a-menu-sheet-activity) 만들어 사용하는 것을 권장합니다.
+
+Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요소 중 일부가 상위 AppScreen 요소보다 위에 위치합니다. 이 제약으로 인해, 열린 상태의 Menu Sheet는 독립적인 Activity로 만들지 않는 경우 하위 Activity와 상위 Activity 사이에 위치시키는 것이 불가능합니다.
 
 </Callout>
 
-<StackflowExample path="/bottom-sheet-step" />
+<StackflowExample path="/menu-sheet-step" />
 
 ### Usage
 
@@ -83,7 +98,7 @@ import { useEffect, useState } from "react";
 declare module "@stackflow/config" {
   interface Register {
     ActivityHome: {
-      "bottom-sheet"?: "open";
+      "menu-sheet"?: "open";
     };
   }
 }
@@ -95,7 +110,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   const { pushStep, popStep } = useStepFlow("ActivityHome");
   const params = useActivityParams<"ActivityHome">();
   // [!code highlight]
-  const isOverlayOpen = params["bottom-sheet"] === "open";
+  const isOverlayOpen = params["menu-sheet"] === "open";
 
   // [!code highlight]
   useEffect(() => {
@@ -109,7 +124,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
     setOpen(newOpen);
 
     if (newOpen && !isOverlayOpen) {
-      pushStep((params) => ({ ...params, "bottom-sheet": "open" }));
+      pushStep((params) => ({ ...params, "menu-sheet": "open" }));
 
       return;
     }
@@ -121,45 +136,56 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
     }
   };
 
+  const handleAction = (action: string) => {
+    console.log("선택한 액션:", action);
+    setOpen(false);
+  };
+
   return (
     <AppScreen>
-      <BottomSheetRoot open={open} onOpenChange={onOpenChange}>
-        <BottomSheetTrigger asChild>
+      <MenuSheetRoot open={open} onOpenChange={onOpenChange}>
+        <MenuSheetTrigger asChild>
           <ActionButton>Open</ActionButton>
-        </BottomSheetTrigger>
+        </MenuSheetTrigger>
         {/* [!code highlight] */}
         <Portal>
-          <BottomSheetContent
-            title="Step으로 관리되는 Bottom Sheet"
+          <MenuSheetContent
+            title="Actions"
             // [!code highlight]
             layerIndex={useZIndexBase({ modifier: +1 })}
           >
-            <BottomSheetFooter>
-              <HStack gap="x2">
-                <ActionButton onClick={() => setOpen(false)}>취소</ActionButton>
-                <ActionButton
-                  onClick={() => {
-                    // [!code highlight]
-                    setOpen(false); // 다른 Activity로 이동하기 전에는 Bottom Sheet를 닫으세요.
-                    push("ActivityNext");
-                  }}
-                >
-                  다음
-                </ActionButton>
-              </HStack>
-            </BottomSheetFooter>
-          </BottomSheetContent>
+            <MenuSheetGroup>
+              <MenuSheetItem onClick={() => handleAction("add")}>
+                추가
+              </MenuSheetItem>
+              <MenuSheetItem onClick={() => handleAction("edit")}>
+                수정
+              </MenuSheetItem>
+              <MenuSheetItem
+                onClick={() => {
+                  // [!code highlight]
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  push("ActivityNext");
+                }}
+              >
+                Push
+              </MenuSheetItem>
+              <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
+                삭제
+              </MenuSheetItem>
+            </MenuSheetGroup>
+          </MenuSheetContent>
         {/* [!code highlight] */}
         </Portal>
-      </BottomSheetRoot>
+      </MenuSheetRoot>
     </AppScreen>
   );
 };
 ```
 
-1. `Portal`을 사용하여 Bottom Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
+1. `Portal`을 사용하여 Menu Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
 1. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
-1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Bottom Sheet의 `open` 상태를 동기화합니다.
+1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Menu Sheet의 `open` 상태를 동기화합니다.
 1. `layerIndex={useZIndexBase({ modifier: +1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
     - [`useZIndexBase`에 대해 자세히 알아보기](#about-usezindexbase)
 
@@ -177,38 +203,49 @@ const MyActivity: ActivityComponentType = () => {
   // [!code highlight]
   const { overlayProps, setOpen } = useStepOverlay();
 
+  const handleAction = (action: string) => {
+    console.log("선택한 액션:", action);
+    setOpen(false);
+  };
+
   return (
     <AppScreen>
       {/* [!code highlight] */}
-      <BottomSheetRoot {...overlayProps}>
-        <BottomSheetTrigger asChild>
+      <MenuSheetRoot {...overlayProps}>
+        <MenuSheetTrigger asChild>
           <ActionButton>Open</ActionButton>
-        </BottomSheetTrigger>
+        </MenuSheetTrigger>
         {/* [!code highlight] */}
         <Portal>
-          <BottomSheetContent
-            title="Step으로 관리되는 Bottom Sheet"
+          <MenuSheetContent
+            title="Actions"
             // [!code highlight]
             layerIndex={useZIndexBase({ modifier: +1 })}
           >
-            <BottomSheetFooter>
-              <HStack gap="x2">
-                <ActionButton onClick={() => setOpen(false)}>취소</ActionButton>
-                <ActionButton
-                  onClick={() => {
-                    // [!code highlight]
-                    setOpen(false); // 다른 Activity로 이동하기 전에는 Bottom Sheet를 닫으세요.
-                    push("ActivityNext");
-                  }}
-                >
-                  다음
-                </ActionButton>
-              </HStack>
-            </BottomSheetFooter>
-          </BottomSheetContent>
+            <MenuSheetGroup>
+              <MenuSheetItem onClick={() => handleAction("add")}>
+                추가
+              </MenuSheetItem>
+              <MenuSheetItem onClick={() => handleAction("edit")}>
+                수정
+              </MenuSheetItem>
+              <MenuSheetItem
+                onClick={() => {
+                  // [!code highlight]
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  push("ActivityNext");
+                }}
+              >
+                Push
+              </MenuSheetItem>
+              <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
+                삭제
+              </MenuSheetItem>
+            </MenuSheetGroup>
+          </MenuSheetContent>
         {/* [!code highlight] */}
         </Portal>
-      </BottomSheetRoot>
+      </MenuSheetRoot>
     </AppScreen>
   );
 };
