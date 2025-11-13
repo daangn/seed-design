@@ -164,26 +164,7 @@ export const appScreen = defineSlotRecipe({
     },
     tone: {
       layer: {},
-      transparent: {
-        layer: {
-          "--transparent-gradient-dim-height": "120px",
-          "--transparent-gradient-dim-offset": "-54px",
-          "--transparent-gradient-dim-background":
-            "linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.00) 100%)",
-
-          "&:after": {
-            content: "''",
-            display: "block",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: "var(--transparent-gradient-dim-height)",
-            transform: "translateY(var(--transparent-gradient-dim-offset))",
-            background: "var(--transparent-gradient-dim-background)",
-          },
-        },
-      },
+      transparent: {},
     },
   },
   defaultVariants: {

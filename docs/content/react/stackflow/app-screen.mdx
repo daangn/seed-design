@@ -90,15 +90,29 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 ### Transparent
 
-AppScreen의 `tone` 속성을 `transparent`로 설정하여 투명한 배경을 사용할 수 있습니다.
+AppBar의 `tone` 속성을 `transparent`로 설정하여 투명한 배경을 사용할 수 있습니다.
 
 - `AppBar`의 배경이 투명해집니다.
-- `AppScreen` 상단에 하얀색 계열의 컨텐츠가 있을 경우를 대비해 그라데이션이 추가됩니다.
+- `AppBar` 상단에 하얀색 계열의 컨텐츠가 있을 경우를 대비해 그라데이션이 추가됩니다.
+- `AppScreen이` 아닌 `AppBar`에 추가된 그라데이션이기 때문에 `AppBar`가 고정돼서 스크롤되면 그라데이션이 같이 움직입니다.
 
 <StackflowExample names={["react/app-screen/transparent"]}>
   ```json doc-gen:file
   {
     "file": "examples/react/app-screen/transparent.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+### With Intersection Observer
+
+Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변경해서 하얀색 계열의 컨텐츠가 있을 경우를 대비해 그라데이션이 추가되도록 합니다.
+
+<StackflowExample names={["react/app-screen/with-intersection-observer"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-screen/with-intersection-observer.tsx",
     "codeblock": true
   }
   ```

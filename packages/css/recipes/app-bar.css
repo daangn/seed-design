@@ -249,8 +249,13 @@
 .seed-app-bar__icon--tone_layer {
     color: var(--seed-icon-color, var(--seed-color-fg-neutral));
 }
+.seed-app-bar__root--tone_transparent {
+    --transparent-gradient-dim-height: 120px;
+    --transparent-gradient-dim-background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.00) 100%);
+}
 .seed-app-bar__root--tone_transparent:before {
-    background-color: #00000000;
+    height: var(--transparent-gradient-dim-height);
+    background: var(--transparent-gradient-dim-background);
 }
 .seed-app-bar__icon--tone_transparent {
     color: var(--seed-icon-color, var(--seed-color-palette-static-white));

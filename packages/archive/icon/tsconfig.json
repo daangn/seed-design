@@ -1,6 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
+    "incremental": true,
+
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
