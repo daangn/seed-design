@@ -1571,8 +1571,14 @@
   color: var(--seed-icon-color, var(--seed-color-fg-neutral));
 }
 
+.seed-app-bar__root--tone_transparent {
+  --transparent-gradient-dim-height: 120px;
+  --transparent-gradient-dim-background: linear-gradient(180deg, #00000059 0%, #0000 100%);
+}
+
 .seed-app-bar__root--tone_transparent:before {
-  background-color: #0000;
+  height: var(--transparent-gradient-dim-height);
+  background: var(--transparent-gradient-dim-background);
 }
 
 .seed-app-bar__icon--tone_transparent {
@@ -2019,24 +2025,6 @@
 
 .seed-app-screen__layer--layerOffsetBottom_safeArea {
   padding-bottom: var(--seed-safe-area-bottom);
-}
-
-.seed-app-screen__layer--tone_transparent {
-  --transparent-gradient-dim-height: 120px;
-  --transparent-gradient-dim-offset: -54px;
-  --transparent-gradient-dim-background: linear-gradient(180deg, #00000059 0%, #0000 100%);
-}
-
-.seed-app-screen__layer--tone_transparent:after {
-  content: "";
-  height: var(--transparent-gradient-dim-height);
-  transform: translateY(var(--transparent-gradient-dim-offset));
-  background: var(--transparent-gradient-dim-background);
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
 }
 
 .seed-article {

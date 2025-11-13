@@ -266,19 +266,3 @@
 .seed-app-screen__layer--layerOffsetBottom_safeArea {
     padding-bottom: var(--seed-safe-area-bottom);
 }
-.seed-app-screen__layer--tone_transparent {
-    --transparent-gradient-dim-height: 120px;
-    --transparent-gradient-dim-offset: -54px;
-    --transparent-gradient-dim-background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.00) 100%);
-}
-.seed-app-screen__layer--tone_transparent:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--transparent-gradient-dim-height);
-    transform: translateY(var(--transparent-gradient-dim-offset));
-    background: var(--transparent-gradient-dim-background);
-}
