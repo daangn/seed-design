@@ -17,23 +17,17 @@ type StackflowExampleProps = (
 export function StackflowExample(props: StackflowExampleProps) {
   const { names, path, children } = props;
 
-  if (path)
-    return (
-      <Box
-        borderColor="stroke.neutralMuted"
-        borderWidth={1}
-        borderRadius="r4"
-        p="x5"
-        style={{ marginBlock: "2em" }}
-      >
-        <StackflowIframePreview path={path} />
-      </Box>
-    );
-
   return (
     <ErrorBoundary>
       <Tabs items={["미리보기", "코드"]}>
-        <Tab value="미리보기">{names && <StackflowPreview names={names} />}</Tab>
+        <Tab value="미리보기">
+          {names && <StackflowPreview names={names} />}
+          {path && (
+            <Box p="x2">
+              <StackflowIframePreview path={path} />
+            </Box>
+          )}
+        </Tab>
         <Tab value="코드">{children}</Tab>
       </Tabs>
     </ErrorBoundary>
