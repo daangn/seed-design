@@ -1,6 +1,11 @@
 import { useNullableActivity } from "@stackflow/react-ui-core";
 
 interface UseZIndexBaseParams {
+  /**
+   * Offset to add to the current activity index before calculating z-index.
+   * Typically +1 is safe for step-based overlays to appear above the current activity.
+   * @default 0
+   */
   modifier?: number;
 }
 

@@ -27,7 +27,6 @@ const ActivityBottomSheet: ActivityComponentType<"ActivityBottomSheet"> = () => 
 
   const snackbar = useSnackbarAdapter();
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [nameError, setNameError] = useState<string | null>(null);
 
   const handleSubmit = () => {
@@ -41,23 +40,19 @@ const ActivityBottomSheet: ActivityComponentType<"ActivityBottomSheet"> = () => 
     }
 
     setNameError(null);
-    setIsSubmitting(true);
+    pop();
 
-    setTimeout(() => {
-      pop();
-
-      snackbar.create({
-        render: () => (
-          <Snackbar
-            variant="positive"
-            message={JSON.stringify({
-              name: formData.get("name"),
-              subscribe: formData.get("subscribe"),
-            })}
-          />
-        ),
-      });
-    }, 500);
+    snackbar.create({
+      render: () => (
+        <Snackbar
+          variant="positive"
+          message={JSON.stringify({
+            name: formData.get("name"),
+            subscribe: formData.get("subscribe"),
+          })}
+        />
+      ),
+    });
   };
 
   return (
@@ -85,7 +80,6 @@ const ActivityBottomSheet: ActivityComponentType<"ActivityBottomSheet"> = () => 
                 description="본명이 아니어도 괜찮아요."
                 invalid={!!nameError}
                 errorMessage={nameError}
-                disabled={isSubmitting}
               >
                 <TextFieldInput placeholder="이름을 입력하세요" />
               </TextField>
@@ -93,18 +87,12 @@ const ActivityBottomSheet: ActivityComponentType<"ActivityBottomSheet"> = () => 
                 label="뉴스레터 구독하기"
                 tone="neutral"
                 inputProps={{ name: "subscribe" }}
-                disabled={isSubmitting}
               />
             </VStack>
           </BottomSheetBody>
           <BottomSheetFooter>
             <HStack gap="x2">
-              <ActionButton
-                type="button"
-                variant="neutralWeak"
-                onClick={pop}
-                disabled={isSubmitting}
-              >
+              <ActionButton type="button" variant="neutralWeak" onClick={pop}>
                 닫기
               </ActionButton>
               <ActionButton
@@ -116,17 +104,10 @@ const ActivityBottomSheet: ActivityComponentType<"ActivityBottomSheet"> = () => 
                     body: "이 Activity를 pop하면 이전 Activity의 Bottom Sheet가 열린 상태로 표시됩니다.",
                   })
                 }
-                disabled={isSubmitting}
               >
                 Push
               </ActionButton>
-              <ActionButton
-                type="submit"
-                variant="neutralSolid"
-                flexGrow
-                disabled={isSubmitting}
-                loading={isSubmitting}
-              >
+              <ActionButton type="submit" variant="neutralSolid" flexGrow>
                 제출
               </ActionButton>
             </HStack>
