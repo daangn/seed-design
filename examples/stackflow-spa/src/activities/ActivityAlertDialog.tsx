@@ -12,7 +12,7 @@ import {
 } from "seed-design/ui/alert-dialog";
 import { ResponsivePair } from "@seed-design/react";
 import { send } from "@stackflow/compat-await-push";
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -38,7 +38,7 @@ const ActivityAlertDialog: ActivityComponentType<"ActivityAlertDialog"> = () => 
 
   return (
     <AlertDialogRoot open={activity.isActive} onOpenChange={handleClose}>
-      <AlertDialogContent layerIndex={useZIndexBase()}>
+      <AlertDialogContent layerIndex={useActivityZIndexBase()}>
         <AlertDialogHeader>
           <AlertDialogTitle>제목</AlertDialogTitle>
           <AlertDialogDescription>다람쥐 헌 쳇바퀴에 타고파</AlertDialogDescription>

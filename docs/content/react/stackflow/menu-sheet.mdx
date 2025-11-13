@@ -21,7 +21,7 @@ Menu Sheet 컴포넌트에 대해 자세히 알아봅니다.
 ### Usage
 
 ```tsx
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 // ... more imports
 
@@ -40,7 +40,7 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
       <MenuSheetContent
         title="Actions"
         // [!code highlight]
-        layerIndex={useZIndexBase()}
+        layerIndex={useActivityZIndexBase()}
       >
         <MenuSheetGroup>
           <MenuSheetItem onClick={() => handleAction("add")}>
@@ -64,8 +64,8 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
 
 1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Menu Sheet가 열리도록 합니다.
 1. `onOpenChange`를 통해 Menu Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
-1. `layerIndex={useZIndexBase()}`로 Menu Sheet Activity의 z-index 기준점을 전달합니다.
-    - [`useZIndexBase`에 대해 자세히 알아보기](#about-usezindexbase)
+1. `layerIndex={useActivityZIndexBase()}`로 Menu Sheet Activity의 z-index 기준점을 전달합니다.
+    - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
 
 ## Syncing Menu Sheet State with a Step
 
@@ -89,7 +89,7 @@ Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요�
 ### Usage
 
 ```tsx
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { Portal } from "@seed-design/react";
 import { useActivity, useActivityParams, useFlow, useStepFlow, type ActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
@@ -152,7 +152,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
           <MenuSheetContent
             title="Actions"
             // [!code highlight]
-            layerIndex={useZIndexBase({ modifier: +1 })}
+            layerIndex={useActivityZIndexBase({ offset: 1 })}
           >
             <MenuSheetGroup>
               <MenuSheetItem onClick={() => handleAction("add")}>
@@ -186,15 +186,15 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 1. `Portal`을 사용하여 Menu Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
 1. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
 1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Menu Sheet의 `open` 상태를 동기화합니다.
-1. `layerIndex={useZIndexBase({ modifier: +1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
-    - [`useZIndexBase`에 대해 자세히 알아보기](#about-usezindexbase)
+1. `layerIndex={useActivityZIndexBase({ offset: 1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
+    - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
 
 ### `useStepOverlay`
 
 #2와 #3을 일반화하여 `useStepOverlay`를 사용하면 편리합니다. `useStepOverlay` 구현 예시는 [코드](https://github.com/daangn/seed-design/blob/dev/examples/stackflow-spa/src/seed-design/stackflow/use-step-overlay.ts)를 참고하세요.
 
 ```tsx
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { Portal } from "@seed-design/react";
 import { useStepOverlay } from "./use-step-overlay";
 // ... more imports
@@ -220,7 +220,7 @@ const MyActivity: ActivityComponentType = () => {
           <MenuSheetContent
             title="Actions"
             // [!code highlight]
-            layerIndex={useZIndexBase({ modifier: +1 })}
+            layerIndex={useActivityZIndexBase({ offset: 1 })}
           >
             <MenuSheetGroup>
               <MenuSheetItem onClick={() => handleAction("add")}>
@@ -251,15 +251,15 @@ const MyActivity: ActivityComponentType = () => {
 };
 ```
 
-## About `useZIndexBase`
+## About `useActivityZIndexBase`
 
-`useZIndexBase`는 각 Activity의 z-index 기준점을 반환하는 훅입니다.
+`useActivityZIndexBase`는 각 Activity의 z-index 기준점을 반환하는 훅입니다.
 
 <Accordions>
-<Accordion title="useZIndexBase는 어떤 값을 반환하나요?">
+<Accordion title="useActivityZIndexBase는 어떤 값을 반환하나요?">
 
 - `useActivity().zIndex * 5`를 반환합니다. `useActivity().zIndex`는 현재 Activity가 enter된 Activity 중 몇 번째 Activity인지를 나타내는 값입니다.
-- AppScreen을 구성하는 요소들(layer, appbar, dim, edge)은 `useZIndexBase()` 값을 바탕으로 계산된 z-index를 갖습니다.
+- AppScreen을 구성하는 요소들(layer, appbar, dim, edge)은 `useActivityZIndexBase()` 값을 바탕으로 계산된 z-index를 갖습니다.
   ```
   ┌─ 2번 BottomSheet Activity
   │  └─ BottomSheet: 12 (2 × 5 + 2)
@@ -276,13 +276,13 @@ const MyActivity: ActivityComponentType = () => {
   ```
 
 </Accordion>
-<Accordion title="modifier 옵션은 무엇인가요?">
+<Accordion title="offset 옵션은 무엇인가요?">
 
-- `modifier` 옵션은 현재 Activity가 아닌 다음 Activity의 z-index 기준점을 사용하고 싶을 때 사용합니다.
-- 예를 들어, `useZIndexBase({ modifier: +1 })`는 다음 Activity의 z-index 기준점을 반환합니다.
+- `offset` 옵션은 현재 Activity가 아닌 다음 Activity의 z-index 기준점을 사용하고 싶을 때 사용합니다.
+- 예를 들어, `useActivityZIndexBase({ offset: 1 })`는 다음 Activity의 z-index 기준점을 반환합니다.
 - 이는 Step 패턴에서 현재 Activity 위에 BottomSheet를 표시할 때 유용합니다.
   ```
-  ┌─ 1번 AppScreen Activity에서 modifier: +1로 띄운 BottomSheet (예: Step 패턴)
+  ┌─ 1번 AppScreen Activity에서 offset: 1로 띄운 BottomSheet (예: Step 패턴)
   │  └─ BottomSheet: 12 ((1 + 1) × 5 + 2)
   ├─ 1번 AppScreen Activity
   │  ├─ appbar: 12 (1 × 5 + 7)
@@ -297,17 +297,17 @@ const MyActivity: ActivityComponentType = () => {
   ```
 
 </Accordion>
-<Accordion title="@stackflow/react-ui-core useZIndexBase와 @seed-design/stackflow useZIndexBase는 어떻게 다른가요?">
+<Accordion title="@stackflow/react-ui-core useZIndexBase와 @seed-design/stackflow useActivityZIndexBase는 어떻게 다른가요?">
 
 - 두 훅 모두 현재 Activity가 enter된 Activity 중 **몇 번째 Activity인지를 바탕으로 z-index 스타일링에 필요한 값을 반환하는 훅입니다.**
-- 두 훅이 반환하는 값은 같으나, `@stackflow/plugin-basic-ui`가 아닌, SEED 컴포넌트를 사용하는 경우 SEED가 관리하는 `@seed-design/stackflow` 패키지의 `useZIndexBase` 훅을 사용하는 것을 권장합니다.
-- `@stackflow/react-ui-core` 패키지의 `useZIndexBase`는 `modifier` 옵션을 제공하지 않습니다.
-- `@seed-design/stackflow@1.1.1`부터 `useZIndexBase` 훅이 제공됩니다.
+- 두 훅이 반환하는 값은 같으나, `@stackflow/plugin-basic-ui`가 아닌, SEED 컴포넌트를 사용하는 경우 SEED가 관리하는 `@seed-design/stackflow` 패키지의 `useActivityZIndexBase` 훅을 사용하는 것을 권장합니다.
+- `@stackflow/react-ui-core` 패키지의 `useActivityZIndexBase`는 `offset` 옵션을 제공하지 않습니다.
+- `@seed-design/stackflow@1.1.1`부터 `useActivityZIndexBase` 훅이 제공됩니다.
 
 </Accordion>
 <Accordion title="기존에 layerIndex에 수동으로 z-index 값을 지정해주던 코드는 어떻게 변경해야 하나요?">
 
-`layerIndex`를 `useActivity().zIndex * 5 + n` 형태로 지정하고 있었다면 `useZIndexBase() + n`으로 변경할 수 있습니다. 변경 과정에서 `+ n`이 필요한지 함께 검토해보세요.
+`layerIndex`를 `useActivity().zIndex * 5 + n` 형태로 지정하고 있었다면 `useActivityZIndexBase() + n`으로 변경할 수 있습니다. 변경 과정에서 `+ n`이 필요한지 함께 검토해보세요.
 
 </Accordion>
 </Accordions>

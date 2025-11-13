@@ -1,5 +1,5 @@
 import { HStack, Portal, VStack } from "@seed-design/react";
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
   useActivityParams,
   useFlow,
@@ -74,7 +74,7 @@ const ActivityAlertDialogStep: ActivityComponentType<"ActivityAlertDialogStep"> 
             </VStack>
           </AlertDialogTrigger>
           <Portal>
-            <AlertDialogContent layerIndex={useZIndexBase({ modifier: +1 })}>
+            <AlertDialogContent layerIndex={useActivityZIndexBase({ offset: 1 })}>
               <AlertDialogHeader>
                 <AlertDialogTitle>Step</AlertDialogTitle>
                 <AlertDialogDescription>

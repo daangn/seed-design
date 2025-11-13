@@ -1,5 +1,5 @@
 import { PrefixIcon } from "@seed-design/react";
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 import {
   IconPencilLine,
@@ -40,7 +40,7 @@ const ActivityMenuSheetSimple: ActivityComponentType<"ActivityMenuSheetSimple"> 
 
   return (
     <MenuSheetRoot open={isActive} onOpenChange={handleClose}>
-      <MenuSheetContent title="Actions" layerIndex={useZIndexBase()}>
+      <MenuSheetContent title="Actions" layerIndex={useActivityZIndexBase()}>
         <MenuSheetGroup>
           <MenuSheetItem onClick={() => handleAction("add")}>
             <PrefixIcon svg={<IconPlusLine />} />

@@ -32,7 +32,7 @@ import { Callout } from "seed-design/ui/callout";
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import { receive } from "@stackflow/compat-await-push";
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 type NavigationItem =
   | { title: string; onClick: () => void; component?: never }
@@ -82,7 +82,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                 <ListButtonItem title="AlertDialog (step)" />
               </AlertDialogTrigger>
               <Portal>
-                <AlertDialogContent layerIndex={useZIndexBase({ modifier: +1 })}>
+                <AlertDialogContent layerIndex={useActivityZIndexBase({ offset: 1 })}>
                   <AlertDialogHeader>
                     <AlertDialogTitle>제목</AlertDialogTitle>
                     <AlertDialogDescription>

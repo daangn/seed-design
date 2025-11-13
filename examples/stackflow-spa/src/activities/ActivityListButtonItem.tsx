@@ -24,7 +24,7 @@ import {
 } from "seed-design/ui/alert-dialog";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 const contentVariants = [
   { key: "title", detail: null },
@@ -74,7 +74,7 @@ const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButton
         <AlertDialogTrigger asChild>
           <ListButtonItem ref={ref} onClick={() => setOpen(true)} {...props} />
         </AlertDialogTrigger>
-        <AlertDialogContent layerIndex={useZIndexBase()}>
+        <AlertDialogContent layerIndex={useActivityZIndexBase()}>
           <AlertDialogHeader>
             <AlertDialogTitle>consectetur</AlertDialogTitle>
             <AlertDialogDescription>

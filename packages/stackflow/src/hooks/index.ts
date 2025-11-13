@@ -1,1 +1,1 @@
-export * from "./useZIndexBase";
+export { useActivityZIndexBase } from "./useActivityZIndexBase";

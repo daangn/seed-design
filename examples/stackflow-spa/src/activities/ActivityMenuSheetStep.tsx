@@ -1,5 +1,5 @@
 import { Portal, VStack } from "@seed-design/react";
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
   useActivityParams,
   useFlow,
@@ -87,7 +87,7 @@ const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = ()
             </VStack>
           </MenuSheetTrigger>
           <Portal>
-            <MenuSheetContent title="Step" layerIndex={useZIndexBase({ modifier: +1 })}>
+            <MenuSheetContent title="Step" layerIndex={useActivityZIndexBase({ offset: 1 })}>
               <MenuSheetGroup>
                 <MenuSheetItem onClick={() => handleAction("add")}>
                   <PrefixIcon svg={<IconPlusLine />} />

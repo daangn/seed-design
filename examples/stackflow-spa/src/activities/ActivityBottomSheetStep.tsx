@@ -1,5 +1,5 @@
 import { HStack, Portal, VStack } from "@seed-design/react";
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
   useActivityParams,
   useFlow,
@@ -75,7 +75,7 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
               showHandle
               title="Step"
               description="Step과 Bottom Sheet의 상태가 동기화되어 있기 때문에 뒤로 가기로 닫을 수 있습니다."
-              layerIndex={useZIndexBase({ modifier: +1 })}
+              layerIndex={useActivityZIndexBase({ offset: 1 })}
             >
               <BottomSheetFooter>
                 <HStack gap="x2">

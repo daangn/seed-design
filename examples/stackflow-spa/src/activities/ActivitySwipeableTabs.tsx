@@ -17,7 +17,7 @@ import {
 import { ListButtonItem } from "seed-design/ui/list";
 import { ActionButton } from "seed-design/ui/action-button";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -69,7 +69,7 @@ const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = ()
                         <ListButtonItem title="AlertDialog (step)" />
                       </AlertDialogTrigger>
                       <Portal>
-                        <AlertDialogContent layerIndex={useZIndexBase()}>
+                        <AlertDialogContent layerIndex={useActivityZIndexBase()}>
                           <AlertDialogHeader>
                             <AlertDialogTitle>제목</AlertDialogTitle>
                             <AlertDialogDescription>

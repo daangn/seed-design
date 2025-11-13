@@ -1,4 +1,4 @@
-import { useZIndexBase } from "@seed-design/stackflow";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { ActivityComponentType, useFlow } from "@stackflow/react/future";
 import {
   AlertDialogAction,
@@ -21,7 +21,7 @@ const AlertDialogStackflow: ActivityComponentType<"react/alert-dialog/stackflow"
 
   return (
     <AlertDialogRoot defaultOpen onOpenChange={(open) => !open && pop()}>
-      <AlertDialogContent layerIndex={useZIndexBase()}>
+      <AlertDialogContent layerIndex={useActivityZIndexBase()}>
         <AlertDialogHeader>
           <AlertDialogTitle>제목</AlertDialogTitle>
           <AlertDialogDescription>Stackflow</AlertDialogDescription>
