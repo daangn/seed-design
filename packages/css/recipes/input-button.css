@@ -28,7 +28,7 @@
     cursor: not-allowed;
     background-color: var(--seed-color-bg-disabled);
 }
-.seed-input-button__button:is(:active, [data-active]) {
+.seed-input-button__button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-layer-default-pressed);
 }
 .seed-input-button__button:is(:focus, [data-focus]) {

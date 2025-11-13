@@ -1,6 +1,6 @@
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo, disabled, active, focus, invalid } from "../utils/pseudo";
+import { pseudo, disabled, active, focus, invalid, not } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
 
 const inputButton = defineSlotRecipe({
@@ -58,7 +58,7 @@ const inputButton = defineSlotRecipe({
         backgroundColor: vars.base.disabled.root.color,
       },
 
-      [pseudo(active)]: {
+      [pseudo(not(disabled), active)]: {
         backgroundColor: vars.base.pressed.root.color,
       },
 
