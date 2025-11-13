@@ -10,7 +10,6 @@ import {
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
-import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -20,7 +19,7 @@ declare module "@stackflow/config" {
 
 const ActivityLayerBar: ActivityComponentType<"ActivityLayerBar"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar tone="layer" divider>
         <AppBarLeft>
           <AppBarBackButton />

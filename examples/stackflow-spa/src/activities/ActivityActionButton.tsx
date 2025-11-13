@@ -9,7 +9,6 @@ import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ActionButton, type ActionButtonProps } from "seed-design/ui/action-button";
-import { useTheme } from "../contexts/ThemeContext";
 
 const initialVariants = {
   variant: "brandSolid",
@@ -25,7 +24,7 @@ declare module "@stackflow/config" {
 
 const ActivityActionButton: ActivityComponentType<"ActivityActionButton"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

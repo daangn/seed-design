@@ -3,7 +3,6 @@ import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { VStack } from "@seed-design/react";
-import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -13,7 +12,7 @@ declare module "@stackflow/config" {
 
 const ActivitySegmentedControl: ActivityComponentType<"ActivitySegmentedControl"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

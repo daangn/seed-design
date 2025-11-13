@@ -12,7 +12,6 @@ import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { List, ListDivider, ListItem } from "seed-design/ui/list";
 import { Fragment } from "react";
-import { useTheme } from "../contexts/ThemeContext";
 
 const prefixVariants = [
   { key: "none", element: null },
@@ -69,7 +68,7 @@ declare module "@stackflow/config" {
 
 const ActivityListItem: ActivityComponentType<"ActivityListItem"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

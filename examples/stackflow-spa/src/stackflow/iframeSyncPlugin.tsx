@@ -3,11 +3,11 @@ import { StackSyncObserver } from "../components/StackSyncObserver";
 
 export const iframeSyncPlugin = (): StackflowReactPlugin => () => ({
   key: "iframe-sync",
-  wrapActivity({ activity }) {
+  wrapStack({ stack }) {
     return (
       <>
         <StackSyncObserver />
-        {activity.render()}
+        {stack.render()}
       </>
     );
   },

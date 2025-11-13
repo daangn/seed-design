@@ -4,7 +4,7 @@ import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
-import { useTheme } from "../contexts/ThemeContext";
+
 import {
   AlertDialogContent,
   AlertDialogDescription,
@@ -30,7 +30,7 @@ const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = ()
   const { push } = useFlow();
 
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

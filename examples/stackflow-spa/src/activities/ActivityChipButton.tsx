@@ -8,7 +8,7 @@ import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { Chip, type ButtonChipProps } from "seed-design/ui/chip";
 import { Icon } from "@seed-design/react";
-import { useTheme } from "../contexts/ThemeContext";
+
 import { useEffect } from "react";
 import { useActivity } from "@stackflow/react/future";
 
@@ -28,14 +28,14 @@ const ActivityChipButton: ActivityComponentType<"ActivityChipButton"> = () => {
   const activity = useActivity();
 
   useEffect(() => {
-    console.log('ChipButton mounted - activity.id:', activity.id);
+    console.log("ChipButton mounted - activity.id:", activity.id);
     return () => {
-      console.log('ChipButton unmounting - activity.id:', activity.id);
+      console.log("ChipButton unmounting - activity.id:", activity.id);
     };
   }, [activity.id]);
 
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

@@ -4,7 +4,6 @@ import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
-import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -14,7 +13,7 @@ declare module "@stackflow/config" {
 
 const ActivityHelpBubble: ActivityComponentType<"ActivityHelpBubble"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

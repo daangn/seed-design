@@ -11,7 +11,6 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import img from "../assets/peng.jpeg";
-import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -21,7 +20,7 @@ declare module "@stackflow/config" {
 
 const ActivityTransparentBar: ActivityComponentType<"ActivityTransparentBar"> = () => {
   return (
-    <AppScreen theme={useTheme().theme} layerOffsetTop="none" tone="transparent">
+    <AppScreen layerOffsetTop="none" tone="transparent">
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

@@ -12,7 +12,6 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { List, ListDivider, ListLinkItem } from "seed-design/ui/list";
-import { useTheme } from "../contexts/ThemeContext";
 
 const prefixVariants = [
   { key: "none", element: null },
@@ -61,7 +60,7 @@ declare module "@stackflow/config" {
 
 const ActivityListLinkItem: ActivityComponentType<"ActivityListLinkItem"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

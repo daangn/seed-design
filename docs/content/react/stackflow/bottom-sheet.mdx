@@ -3,14 +3,6 @@ title: Bottom Sheet
 description: Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
 ---
 
-Bottom Sheet를 Stackflow와 함께 사용하는 방법은 두 가지가 있습니다.
-
-1. [**Bottom Sheet를 Activity로 만들기 (권장)**](#making-a-bottom-sheet-activity)
-- Bottom Sheet에 고유한 URL을 부여하고, 접속 시 Bottom Sheet를 열고 싶을 때 (딥링킹)
-2. [**Bottom Sheet가 열린 상태를 Step으로 관리하기**](#syncing-bottomsheet-state-with-a-step)
-- 현재 Activity를 유지하면서도, 뒤로 가기 버튼으로 닫히는 Bottom Sheet를 표시하고 싶을 때
-- `BottomSheetTrigger`를 사용하여 Bottom Sheet를 열고 닫고 싶을 때
-
 <Card title="Bottom Sheet" href="/react/components/bottom-sheet">
 
 Bottom Sheet 컴포넌트에 대해 자세히 알아봅니다.
@@ -19,17 +11,17 @@ Bottom Sheet 컴포넌트에 대해 자세히 알아봅니다.
 
 ## Making a Bottom Sheet Activity
 
-Bottom Sheet 전체를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들 수 있습니다. 일반적인 경우 이 방법을 권장합니다.
+**일반적인 경우 Bottom Sheet를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들어 사용하는 것을 권장합니다.**
 
 - Activity로 관리되므로, 하위 Activity보다 높고 상위 Activity보다는 낮은 z-index를 갖도록 관리하기 쉽습니다.
 - 딥링킹이 가능합니다. (URL 접속으로 Bottom Sheet를 열 수 있습니다.)
 
-<StackflowExample path="/examples/bottom-sheet-activity" />
+<StackflowExample path="/bottom-sheet-activity" />
 
 ### Usage
 
 ```tsx
-import { useZIndexBase } from "@seed-design/stackflow"; // [!code highlight]
+import { useZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 // ... more imports
 
@@ -62,12 +54,10 @@ const ActivityBottomSheetSimple: ActivityComponentType<"ActivityBottomSheetSimpl
 
 ## Syncing BottomSheet State with a Step
 
-Bottom Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)과 동기화할 수 있습니다.
+Bottom Sheet를 Activity로 만들 수 없는 경우, Bottom Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)과 동기화할 수 있습니다.
 
 - 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Bottom Sheet를 닫을 수 있습니다.
 - `BottomSheetTrigger`를 사용하여 Bottom Sheet를 열고 닫을 수 있습니다.
-
-<StackflowExample path="/examples/bottom-sheet-step" />
 
 <Callout type="warn" title="제약 사항">
 
@@ -79,12 +69,12 @@ Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요�
 
 </Callout>
 
+<StackflowExample path="/bottom-sheet-step" />
+
 ### Usage
 
 ```tsx
-// [!code highlight]
 import { useZIndexBase } from "@seed-design/stackflow";
-// [!code highlight]
 import { Portal } from "@seed-design/react";
 import { useActivity, useActivityParams, useFlow, useStepFlow, type ActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
@@ -158,7 +148,6 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                 </ActionButton>
               </HStack>
             </BottomSheetFooter>
-          {/* [!code highlight] */}
           </BottomSheetContent>
         {/* [!code highlight] */}
         </Portal>
@@ -170,18 +159,17 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 
 1. `Portal`을 사용하여 Bottom Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
 1. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
-1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Bottom Sheet의 상태를 동기화합니다.
+1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Bottom Sheet의 `open` 상태를 동기화합니다.
 1. `layerIndex={useZIndexBase({ modifier: +1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
     - [`useZIndexBase`에 대해 자세히 알아보기](#about-usezindexbase)
+
+### `useStepOverlay`
 
 #2와 #3을 일반화하여 `useStepOverlay`를 사용하면 편리합니다. `useStepOverlay` 구현 예시는 [코드](https://github.com/daangn/seed-design/blob/dev/examples/stackflow-spa/src/seed-design/use-step-overlay.ts)를 참고하세요.
 
 ```tsx
-// [!code highlight]
 import { useZIndexBase } from "@seed-design/stackflow";
-// [!code highlight]
 import { Portal } from "@seed-design/react";
-// [!code highlight]
 import { useStepOverlay } from "./use-step-overlay";
 // ... more imports
 
@@ -217,7 +205,6 @@ const MyActivity: ActivityComponentType = () => {
                 </ActionButton>
               </HStack>
             </BottomSheetFooter>
-          {/* [!code highlight] */}
           </BottomSheetContent>
         {/* [!code highlight] */}
         </Portal>
@@ -228,6 +215,9 @@ const MyActivity: ActivityComponentType = () => {
 ```
 
 ## About `useZIndexBase`
+
+`BottomSheetContent` 컴포넌트가 Activity 위
+의 `layerIndex` prop에 전달하는 `useZIndexBase` 훅에 대한 자주 묻는 질문입니다.
 
 <Accordions>
 <Accordion title="useZIndexBase는 어떤 값을 반환하나요?">

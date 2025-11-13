@@ -1,19 +1,11 @@
 "use client";
 
 import type { Activity } from "@stackflow/core";
-import { Box, Flex, HStack, PrefixIcon, SuffixIcon, Text, VStack } from "@seed-design/react";
-import {
-  IconArrowUpRightFill,
-  IconChevronLeftLine,
-  IconChevronRightLine,
-} from "@karrotmarket/react-monochrome-icon";
+import { Box, Flex, HStack, Text, VStack } from "@seed-design/react";
+import { IconArrowUpRightFill } from "@karrotmarket/react-monochrome-icon";
 import { useEffect, useRef, useState } from "react";
-import { ActionButton } from "seed-design/ui/action-button";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
-import { Switch } from "seed-design/ui/switch";
-import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useSimpleReveal } from "simple-reveal";
-import type { AppScreenVariant } from "@seed-design/css/recipes/app-screen";
 
 interface StackflowIframePreviewProps {
   path: string;
@@ -25,7 +17,6 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentUrl, setCurrentUrl] = useState<string | null>(null);
   const [activityStack, setActivityStack] = useState<SerializedActivity[]>([]);
-  const [theme, setTheme] = useState<AppScreenVariant["theme"]>("android");
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -57,18 +48,6 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
-  useEffect(() => {
-    iframeRef.current?.contentWindow?.postMessage({ type: "THEME_CHANGE", theme }, "*");
-  }, [theme]);
-
-  const handleBack = () => {
-    iframeRef.current?.contentWindow?.postMessage({ type: "NAVIGATE_BACK" }, "*");
-  };
-
-  const handleForward = () => {
-    iframeRef.current?.contentWindow?.postMessage({ type: "NAVIGATE_FORWARD" }, "*");
-  };
-
   const { cn, ref, style } = useSimpleReveal({
     delay: 200,
     rootMargin: "-200px",
@@ -76,39 +55,28 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
   });
 
   return (
-    <VStack gap="x8" align="center" width="full" className={cn()} style={style} ref={ref}>
+    <VStack gap="x6" align="center" width="full" className={cn()} style={style} ref={ref}>
       <HStack gap="x8" wrap justify="center">
-        <VStack align="center" gap="spacingY.componentDefault">
-          <Box
-            width="360px"
-            height="640px"
-            position="relative"
-            borderWidth={1}
-            borderColor="stroke.neutralWeak"
-            borderRadius="r2"
-            overflowX="hidden"
-            overflowY="hidden"
-          >
-            <IframePreview path={path} onLoad={() => setIsLoaded(true)} iframeRef={iframeRef} />
-            <LoadingOverlay visible={!isLoaded} />
-          </Box>
-          <SegmentedControl
-            aria-label="Theme"
-            disabled={!isLoaded}
-            value={theme}
-            onValueChange={(value) => setTheme(value as AppScreenVariant["theme"])}
-          >
-            <SegmentedControlItem value="android">android</SegmentedControlItem>
-            <SegmentedControlItem value="cupertino">cupertino</SegmentedControlItem>
-          </SegmentedControl>
-        </VStack>
+        <Box
+          width="360px"
+          height="640px"
+          position="relative"
+          borderWidth={1}
+          borderColor="stroke.neutralWeak"
+          borderRadius="r2"
+          overflowX="hidden"
+          overflowY="hidden"
+        >
+          <IframePreview path={path} onLoad={() => setIsLoaded(true)} iframeRef={iframeRef} />
+          <LoadingOverlay visible={!isLoaded} />
+        </Box>
         <ActivityStackPanel
           disabled={!isLoaded}
           activities={activityStack}
           getActivityHref={getActivityGitHubUrl}
         />
       </HStack>
-      <Navigation url={currentUrl} onBack={handleBack} onForward={handleForward} />
+      <Navigation url={currentUrl} />
     </VStack>
   );
 }
@@ -143,7 +111,6 @@ function IframePreview({
 }
 
 function ActivityStackPanel({
-  disabled,
   activities,
   getActivityHref,
 }: {
@@ -151,20 +118,14 @@ function ActivityStackPanel({
   activities: SerializedActivity[];
   getActivityHref: (activityName: string) => string;
 }) {
-  const [hideExitDone, setHideExitDone] = useState(true);
-
-  const filteredActivities = activities.filter(
-    (activity) => !(hideExitDone && activity.transitionState === "exit-done"),
-  );
-
   return (
-    <VStack gap="x4" justify="space-between" align="flex-start">
-      <Flex gap="x2" direction="column-reverse" width="300px" grow>
-        {filteredActivities.map((activity) => (
+    <Flex gap="x2" direction="column-reverse" width="300px" grow>
+      {activities
+        .filter((activity) => activity.transitionState !== "exit-done")
+        .map((activity) => (
           <VStack key={activity.id} gap="x2" align="flex-start">
             <HStack
               asChild
-              minWidth="200px"
               px="x3"
               py="x3"
               gap="x1_5"
@@ -176,13 +137,14 @@ function ActivityStackPanel({
             >
               <a href={getActivityHref(activity.name)} target="_blank" rel="noreferrer">
                 <Text
+                  lineHeight="130%"
                   textStyle={activity.isActive ? "t2Bold" : "t2Regular"}
                   textDecorationLine="underline"
                   className="font-mono"
                 >
                   {activity.name}
                 </Text>
-                <IconArrowUpRightFill size={12} />
+                <IconArrowUpRightFill size={10} className="flex-none" />
               </a>
             </HStack>
             <Text
@@ -194,16 +156,7 @@ function ActivityStackPanel({
             </Text>
           </VStack>
         ))}
-      </Flex>
-      <Switch
-        size="16"
-        tone="neutral"
-        label="Hide exit-done activities"
-        checked={hideExitDone}
-        onCheckedChange={setHideExitDone}
-        disabled={disabled}
-      />
-    </VStack>
+    </Flex>
   );
 }
 
@@ -217,58 +170,35 @@ function LoadingOverlay({ visible }: { visible: boolean }) {
   );
 }
 
-function Navigation({
-  url,
-  onBack,
-  onForward,
-}: {
-  url: string | null;
-  onBack: () => void;
-  onForward: () => void;
-}) {
-  return (
-    <VStack gap="x4" align="center" width="full">
-      <HStack gap="x1_5" align="center">
-        <ActionButton variant="ghost" size="small" onClick={onBack} disabled={!url}>
-          <PrefixIcon svg={<IconChevronLeftLine />} />
-          Back
-        </ActionButton>
-        <ActionButton variant="ghost" size="small" onClick={onForward} disabled={!url}>
-          Forward
-          <SuffixIcon svg={<IconChevronRightLine />} />
-        </ActionButton>
-      </HStack>
-      {url ? (
-        (() => {
-          const { origin, path } = formatUrl(url);
+function Navigation({ url }: { url: string | null }) {
+  if (!url)
+    return (
+      <Text
+        className="font-mono transition-opacity opacity-0"
+        align="center"
+        textStyle="t1Medium"
+        color="fg.neutralSubtle"
+      >
+        Loading...
+      </Text>
+    );
 
-          return (
-            <a
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              className="font-mono transition-opacity opacity-100 text-center line-clamp-1 break-all"
-            >
-              <Text textStyle="t1Medium" color="fg.neutralSubtle">
-                {origin}
-              </Text>
-              <Text textStyle="t1Bold" color="fg.neutral" className="empty:hidden">
-                {path}
-              </Text>
-            </a>
-          );
-        })()
-      ) : (
-        <Text
-          className="font-mono transition-opacity opacity-0"
-          align="center"
-          textStyle="t1Medium"
-          color="fg.neutralSubtle"
-        >
-          Loading...
-        </Text>
-      )}
-    </VStack>
+  const { origin, path } = formatUrl(url);
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className="font-mono transition-opacity opacity-100 text-center line-clamp-1 break-all decoration-neutral-400"
+    >
+      <Text textStyle="t1Medium" color="fg.neutralSubtle">
+        {origin}
+      </Text>
+      <Text textStyle="t1Bold" color="fg.neutralMuted" className="empty:hidden">
+        {path}
+      </Text>
+    </a>
   );
 }
 

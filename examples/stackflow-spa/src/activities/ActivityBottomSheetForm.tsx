@@ -1,4 +1,4 @@
-import { HStack, VStack } from "@seed-design/react";
+import { HStack, PrefixIcon, VStack } from "@seed-design/react";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 import { useRef, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -12,6 +12,7 @@ import { Checkbox } from "seed-design/ui/checkbox";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import { useZIndexBase } from "@seed-design/stackflow";
+import { IconGearLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -20,8 +21,7 @@ declare module "@stackflow/config" {
 }
 
 const ActivityBottomSheetForm: ActivityComponentType<"ActivityBottomSheetForm"> = () => {
-  const { pop } = useFlow();
-
+  const { push, pop } = useFlow();
   const activity = useActivity();
 
   const form = useRef<HTMLFormElement>(null);
@@ -102,17 +102,28 @@ const ActivityBottomSheetForm: ActivityComponentType<"ActivityBottomSheetForm"> 
             <HStack gap="x2">
               <ActionButton
                 type="button"
-                onClick={pop}
                 variant="neutralWeak"
-                size="large"
+                onClick={pop}
                 disabled={isSubmitting}
               >
-                취소
+                닫기
+              </ActionButton>
+              <ActionButton
+                type="button"
+                variant="neutralWeak"
+                onClick={() =>
+                  push("ActivityDetail", {
+                    title: "Activity",
+                    body: "이 Activity를 pop하면 이전 Activity의 Bottom Sheet가 열린 상태로 표시됩니다.",
+                  })
+                }
+                disabled={isSubmitting}
+              >
+                Push
               </ActionButton>
               <ActionButton
                 type="submit"
                 variant="neutralSolid"
-                size="large"
                 flexGrow
                 disabled={isSubmitting}
                 loading={isSubmitting}

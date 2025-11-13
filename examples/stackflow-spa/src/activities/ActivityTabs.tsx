@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
-import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -14,7 +13,7 @@ declare module "@stackflow/config" {
 
 const ActivityTabs: ActivityComponentType<"ActivityTabs"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

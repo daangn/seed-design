@@ -23,7 +23,7 @@ import {
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
-import { useTheme } from "../contexts/ThemeContext";
+
 import { useZIndexBase } from "@seed-design/stackflow";
 
 const contentVariants = [
@@ -100,7 +100,7 @@ declare module "@stackflow/config" {
 
 const ActivityListButtonItem: ActivityComponentType<"ActivityListButtonItem"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

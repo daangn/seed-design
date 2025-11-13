@@ -2,7 +2,6 @@ import { Box, Text } from "@seed-design/react";
 import { useActivity, type ActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -17,7 +16,7 @@ const ActivityDetail: ActivityComponentType<"ActivityDetail"> = () => {
   const { params } = useActivity();
 
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

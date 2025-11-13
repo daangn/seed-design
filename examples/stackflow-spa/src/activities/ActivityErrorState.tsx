@@ -4,7 +4,6 @@ import React from "react";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ErrorState, type ErrorStateProps } from "seed-design/ui/error-state";
 import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
-import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -16,7 +15,7 @@ const ActivityErrorState: ActivityComponentType<"ActivityErrorState"> = () => {
   const [variant, setVariant] = React.useState<ErrorStateProps["variant"]>("default");
   const [hideAppBarTitle, setHideAppBarTitle] = React.useState(false);
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

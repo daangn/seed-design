@@ -28,7 +28,7 @@ import { Snackbar } from "seed-design/ui/snackbar";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { Callout } from "seed-design/ui/callout";
-import { useTheme } from "../contexts/ThemeContext";
+
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import { receive } from "@stackflow/compat-await-push";
@@ -224,7 +224,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   ];
 
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarMain title="Home" />
         <AppBarRight>

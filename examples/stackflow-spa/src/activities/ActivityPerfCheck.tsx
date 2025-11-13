@@ -4,7 +4,6 @@ import { useState } from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
-import { useTheme } from "../contexts/ThemeContext";
 
 const ITER = 5000;
 
@@ -70,7 +69,7 @@ declare module "@stackflow/config" {
 
 const ActivityPerfCheck: ActivityComponentType<"ActivityPerfCheck"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

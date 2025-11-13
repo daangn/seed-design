@@ -11,7 +11,6 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, VStack } from "@seed-design/react";
-import { useTheme } from "../contexts/ThemeContext";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -21,7 +20,7 @@ declare module "@stackflow/config" {
 
 const ActivityPartialDarkMode: ActivityComponentType<"ActivityPartialDarkMode"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar tone="layer" divider>
         <AppBarLeft>
           <AppBarBackButton />

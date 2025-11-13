@@ -8,7 +8,6 @@ import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ReactionButton, type ReactionButtonProps } from "seed-design/ui/reaction-button";
 import { IconFaceSmileCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Count, PrefixIcon } from "@seed-design/react";
-import { useTheme } from "../contexts/ThemeContext";
 
 const initialVariants = {
   size: "small",
@@ -22,7 +21,7 @@ declare module "@stackflow/config" {
 
 const ActivityReactionButton: ActivityComponentType<"ActivityReactionButton"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

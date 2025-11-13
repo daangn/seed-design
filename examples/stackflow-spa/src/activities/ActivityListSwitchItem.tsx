@@ -12,7 +12,6 @@ import {
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { SwitchMark } from "seed-design/ui/switch";
-import { useTheme } from "../contexts/ThemeContext";
 
 const positionVariants = [
   { key: "prefix", position: "prefix" },
@@ -64,7 +63,7 @@ declare module "@stackflow/config" {
 
 const ActivityListSwitchItem: ActivityComponentType<"ActivityListSwitchItem"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

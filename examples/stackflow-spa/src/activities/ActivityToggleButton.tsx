@@ -8,7 +8,6 @@ import { IconThumbUpFill } from "@karrotmarket/react-monochrome-icon";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ToggleButton, type ToggleButtonProps } from "seed-design/ui/toggle-button";
 import { PrefixIcon } from "@seed-design/react";
-import { useTheme } from "../contexts/ThemeContext";
 
 const initialVariants = {
   variant: "brandSolid",
@@ -23,7 +22,7 @@ declare module "@stackflow/config" {
 
 const ActivityToggleButton: ActivityComponentType<"ActivityToggleButton"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

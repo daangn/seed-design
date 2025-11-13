@@ -8,7 +8,6 @@ import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { Chip, type ToggleChipProps } from "seed-design/ui/chip";
 import { Icon } from "@seed-design/react";
-import { useTheme } from "../contexts/ThemeContext";
 
 const initialVariants = {
   size: "medium",
@@ -24,7 +23,7 @@ declare module "@stackflow/config" {
 
 const ActivityChipToggle: ActivityComponentType<"ActivityChipToggle"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

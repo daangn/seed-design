@@ -12,7 +12,6 @@ import {
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { useTheme } from "../contexts/ThemeContext";
 
 const positionVariants = [
   { key: "prefix", position: "prefix" },
@@ -69,7 +68,7 @@ declare module "@stackflow/config" {
 
 const ActivityListCheckItem: ActivityComponentType<"ActivityListCheckItem"> = () => {
   return (
-    <AppScreen theme={useTheme().theme}>
+    <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
