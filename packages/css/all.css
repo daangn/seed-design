@@ -4535,13 +4535,18 @@
   inset: 0;
 }
 
-.seed-input-button__button:is(:disabled, [disabled], [data-disabled]) {
+.seed-input-button__button[data-disabled] {
   cursor: not-allowed;
   background-color: var(--seed-color-bg-disabled);
 }
 
-.seed-input-button__button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+.seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:active, [data-active]) {
   background-color: var(--seed-color-bg-layer-default-pressed);
+}
+
+.seed-input-button__button[data-readonly]:not([data-disabled]) {
+  cursor: default;
+  background-color: var(--seed-color-bg-disabled);
 }
 
 .seed-input-button__button:is(:focus, [data-focus]) {
@@ -4564,8 +4569,12 @@
   overflow: hidden;
 }
 
-.seed-input-button__value:is(:disabled, [disabled], [data-disabled]) {
+.seed-input-button__value[data-disabled] {
   color: var(--seed-color-fg-disabled);
+}
+
+.seed-input-button__value[data-readonly]:not([data-disabled]) {
+  color: var(--seed-color-fg-neutral);
 }
 
 .seed-input-button__placeholder {
@@ -4580,8 +4589,12 @@
   overflow: hidden;
 }
 
-.seed-input-button__placeholder:is(:disabled, [disabled], [data-disabled]) {
+.seed-input-button__placeholder[data-disabled] {
   color: var(--seed-color-fg-disabled);
+}
+
+.seed-input-button__placeholder[data-readonly]:not([data-disabled]) {
+  color: var(--seed-color-fg-placeholder);
 }
 
 .seed-input-button__prefixText {

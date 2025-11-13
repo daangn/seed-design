@@ -1,6 +1,6 @@
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo, disabled, active, focus, invalid, not } from "../utils/pseudo";
+import { pseudo, active, focus, invalid, not, readOnly } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
 
 const inputButton = defineSlotRecipe({
@@ -53,13 +53,18 @@ const inputButton = defineSlotRecipe({
       // strokeColor transition duration & timing function values are the same as strokeWidth transition values
       transition: `box-shadow ${vars.base.enabled.root.strokeColorDuration} ${vars.base.enabled.root.strokeColorTimingFunction}, background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
 
-      [pseudo(disabled)]: {
+      [pseudo("[data-disabled]")]: {
         cursor: "not-allowed",
         backgroundColor: vars.base.disabled.root.color,
       },
 
-      [pseudo(not(disabled), active)]: {
+      [pseudo(not("[data-disabled]"), not(readOnly), active)]: {
         backgroundColor: vars.base.pressed.root.color,
+      },
+
+      [pseudo(readOnly, not("[data-disabled]"))]: {
+        cursor: "default",
+        backgroundColor: vars.base.readonly.root.color,
       },
 
       [pseudo(focus)]: {
@@ -85,8 +90,12 @@ const inputButton = defineSlotRecipe({
 
       pointerEvents: "none",
 
-      [pseudo(disabled)]: {
+      [pseudo("[data-disabled]")]: {
         color: vars.base.disabled.value.color,
+      },
+
+      [pseudo(readOnly, not("[data-disabled]"))]: {
+        color: vars.base.readonly.value.color,
       },
     },
     placeholder: {
@@ -104,8 +113,12 @@ const inputButton = defineSlotRecipe({
 
       pointerEvents: "none",
 
-      [pseudo(disabled)]: {
+      [pseudo("[data-disabled]")]: {
         color: vars.base.disabled.placeholder.color,
+      },
+
+      [pseudo(readOnly, not("[data-disabled]"))]: {
+        color: vars.base.readonly.placeholder.color,
       },
     },
     prefixText: {
