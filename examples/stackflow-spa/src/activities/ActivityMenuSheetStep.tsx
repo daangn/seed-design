@@ -69,7 +69,7 @@ const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = ()
     snackbar.create({
       render: () => <Snackbar variant="positive" message={`선택한 액션: ${action}`} />,
     });
-    setOpen(false);
+    popStep();
   };
 
   return (

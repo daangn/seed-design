@@ -54,7 +54,7 @@ const ActivityBottomSheetSimple: ActivityComponentType<"ActivityBottomSheetSimpl
 
 ## Syncing BottomSheet State with a Step
 
-Bottom Sheet를 Activity로 만들 수 없는 경우, Bottom Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)과 동기화할 수 있습니다.
+Bottom Sheet를 Activity로 만들 수 없는 경우, Bottom Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)으로 만들 수 있습니다.
 
 - 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Bottom Sheet를 닫을 수 있습니다.
 - `BottomSheetTrigger`를 사용하여 Bottom Sheet를 열고 닫을 수 있습니다.
@@ -136,7 +136,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
           >
             <BottomSheetFooter>
               <HStack gap="x2">
-                <ActionButton onClick={() => setOpen(false)}>취소</ActionButton>
+                <ActionButton onClick={() => popStep()}>취소</ActionButton>
                 <ActionButton
                   onClick={() => {
                     // [!code highlight]
@@ -176,6 +176,8 @@ import { useStepOverlay } from "./use-step-overlay";
 const MyActivity: ActivityComponentType = () => {
   // [!code highlight]
   const { overlayProps, setOpen } = useStepOverlay();
+  const { popStep } = useStepFlow("MyActivity");
+  const { push } = useFlow();
 
   return (
     <AppScreen>
@@ -193,7 +195,7 @@ const MyActivity: ActivityComponentType = () => {
           >
             <BottomSheetFooter>
               <HStack gap="x2">
-                <ActionButton onClick={() => setOpen(false)}>취소</ActionButton>
+                <ActionButton onClick={() => popStep()}>취소</ActionButton>
                 <ActionButton
                   onClick={() => {
                     // [!code highlight]

@@ -78,12 +78,12 @@ const ActivityAlertDialogStep: ActivityComponentType<"ActivityAlertDialogStep"> 
               <AlertDialogHeader>
                 <AlertDialogTitle>Step</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Step과 Alert Dialog의 상태가 동기화되어 있기 때문에 뒤로 가기로 닫을 수 있습니다.
+                  Alert Dialog가 Step으로 만들어져 있기 때문에 뒤로 가기로 닫을 수 있습니다.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <HStack gap="x2">
-                  <ActionButton onClick={() => setOpen(false)} variant="neutralWeak">
+                  <ActionButton onClick={() => popStep()} variant="neutralWeak">
                     닫기
                   </ActionButton>
                   <ActionButton

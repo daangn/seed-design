@@ -74,12 +74,12 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
             <BottomSheetContent
               showHandle
               title="Step"
-              description="Step과 Bottom Sheet의 상태가 동기화되어 있기 때문에 뒤로 가기로 닫을 수 있습니다."
+              description="Bottom Sheet가 Step으로 만들어져 있기 때문에 뒤로 가기로 닫을 수 있습니다."
               layerIndex={useActivityZIndexBase({ offset: 1 })}
             >
               <BottomSheetFooter>
                 <HStack gap="x2">
-                  <ActionButton onClick={() => setOpen(false)} variant="neutralWeak">
+                  <ActionButton onClick={() => popStep()} variant="neutralWeak">
                     닫기
                   </ActionButton>
                   <ActionButton

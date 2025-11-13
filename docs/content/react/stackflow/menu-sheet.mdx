@@ -69,7 +69,7 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
 
 ## Syncing Menu Sheet State with a Step
 
-Menu Sheet를 Activity로 만들 수 없는 경우, Menu Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)과 동기화할 수 있습니다.
+Menu Sheet를 Activity로 만들 수 없는 경우, Menu Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)으로 만들 수 있습니다.
 
 - 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Menu Sheet를 닫을 수 있습니다.
 - `MenuSheetTrigger`를 사용하여 Menu Sheet를 열고 닫을 수 있습니다.
@@ -138,7 +138,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 
   const handleAction = (action: string) => {
     console.log("선택한 액션:", action);
-    setOpen(false);
+    popStep();
   };
 
   return (
@@ -202,10 +202,12 @@ import { useStepOverlay } from "./use-step-overlay";
 const MyActivity: ActivityComponentType = () => {
   // [!code highlight]
   const { overlayProps, setOpen } = useStepOverlay();
+  const { popStep } = useStepFlow("MyActivity");
+  const { push } = useFlow();
 
   const handleAction = (action: string) => {
     console.log("선택한 액션:", action);
-    setOpen(false);
+    popStep();
   };
 
   return (
