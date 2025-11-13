@@ -4,7 +4,7 @@ import {
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import { useStepFlow, type ActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { Fragment } from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
@@ -68,6 +68,7 @@ const suffixVariants = [
 const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
   (props, ref) => {
     const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
+    const { popStep } = useStepFlow("ActivityListButtonItem");
 
     return (
       <AlertDialogRoot {...overlayProps}>
@@ -83,7 +84,7 @@ const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButton
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <ActionButton onClick={() => setOpen(false)}>닫기</ActionButton>
+            <ActionButton onClick={() => popStep()}>닫기</ActionButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogRoot>

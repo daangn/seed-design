@@ -74,7 +74,7 @@ const ActivityAlertDialogStep: ActivityComponentType<"ActivityAlertDialogStep"> 
             </VStack>
           </AlertDialogTrigger>
           <Portal>
-            <AlertDialogContent layerIndex={useActivityZIndexBase({ offset: 1 })}>
+            <AlertDialogContent layerIndex={useActivityZIndexBase({ activityOffset: 1 })}>
               <AlertDialogHeader>
                 <AlertDialogTitle>Step</AlertDialogTitle>
                 <AlertDialogDescription>
@@ -92,7 +92,7 @@ const ActivityAlertDialogStep: ActivityComponentType<"ActivityAlertDialogStep"> 
                     onClick={() => {
                       // 이 Alert Dialog는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
                       // Alert Dialog를 먼저 닫고 다음 Activity를 push해야 합니다.
-                      setOpen(false);
+                      popStep();
                       push("ActivityDetail", {
                         title: "Alert Dialog에서 이동한 화면",
                         body: "Alert Dialog를 닫고 이동했습니다.",

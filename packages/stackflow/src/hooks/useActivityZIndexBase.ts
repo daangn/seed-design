@@ -9,7 +9,7 @@ interface UseActivityZIndexBaseParams {
    *
    * @default 0
    */
-  offset?: number;
+  activityOffset?: number;
 }
 
 const Z_INDEX_SPACING = 5;
@@ -22,5 +22,5 @@ const Z_INDEX_SPACING = 5;
 export function useActivityZIndexBase(params?: UseActivityZIndexBaseParams): number {
   const activity = useNullableActivity();
 
-  return ((activity?.zIndex ?? 0) + (params?.offset ?? 0)) * Z_INDEX_SPACING;
+  return ((activity?.zIndex ?? 0) + (params?.activityOffset ?? 0)) * Z_INDEX_SPACING;
 }

@@ -75,7 +75,7 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
               showHandle
               title="Step"
               description="Bottom Sheet가 Step으로 만들어져 있기 때문에 뒤로 가기로 닫을 수 있습니다."
-              layerIndex={useActivityZIndexBase({ offset: 1 })}
+              layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
             >
               <BottomSheetFooter>
                 <HStack gap="x2">
@@ -88,7 +88,7 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
                     onClick={() => {
                       // 이 Bottom Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
                       // BottomSheet를 먼저 닫고 다음 Activity를 push해야 합니다.
-                      setOpen(false);
+                      popStep();
                       push("ActivityDetail", {
                         title: "Bottom Sheet에서 이동한 화면",
                         body: "Bottom Sheet를 닫고 이동했습니다.",

@@ -87,7 +87,10 @@ const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = ()
             </VStack>
           </MenuSheetTrigger>
           <Portal>
-            <MenuSheetContent title="Step" layerIndex={useActivityZIndexBase({ offset: 1 })}>
+            <MenuSheetContent
+              title="Step"
+              layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
+            >
               <MenuSheetGroup>
                 <MenuSheetItem onClick={() => handleAction("add")}>
                   <PrefixIcon svg={<IconPlusLine />} />
@@ -107,7 +110,7 @@ const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = ()
                   onClick={() => {
                     // 이 Menu Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
                     // Menu Sheet를 먼저 닫고 다음 Activity를 push해야 합니다.
-                    setOpen(false);
+                    popStep();
                     push("ActivityDetail", {
                       title: "Menu Sheet에서 이동한 화면",
                       body: "Menu Sheet를 닫고 이동했습니다.",

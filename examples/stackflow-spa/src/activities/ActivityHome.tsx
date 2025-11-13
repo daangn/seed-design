@@ -7,7 +7,12 @@ import {
   VStack,
   useSnackbarAdapter,
 } from "@seed-design/react";
-import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import {
+  useActivity,
+  useFlow,
+  useStepFlow,
+  type ActivityComponentType,
+} from "@stackflow/react/future";
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
@@ -56,6 +61,8 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 
   const { zIndex: activityIndex } = useActivity();
 
+  const { popStep } = useStepFlow("ActivityHome");
+
   const navigationSections: NavigationSection[] = [
     {
       title: "AppBars",
@@ -82,7 +89,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                 <ListButtonItem title="AlertDialog (step)" />
               </AlertDialogTrigger>
               <Portal>
-                <AlertDialogContent layerIndex={useActivityZIndexBase({ offset: 1 })}>
+                <AlertDialogContent layerIndex={useActivityZIndexBase({ activityOffset: 1 })}>
                   <AlertDialogHeader>
                     <AlertDialogTitle>제목</AlertDialogTitle>
                     <AlertDialogDescription>
@@ -91,11 +98,11 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <VStack gap="x2">
-                      <ActionButton onClick={() => setOpen(false)}>확인</ActionButton>
+                      <ActionButton onClick={() => popStep()}>확인</ActionButton>
                       <ActionButton
                         variant="neutralSolid"
                         onClick={() => {
-                          setOpen(false);
+                          popStep();
                           push("ActivityChipButton", {});
                         }}
                       >

@@ -178,7 +178,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
           <MenuSheetContent
             title="Actions"
             // [!code highlight]
-            layerIndex={useActivityZIndexBase({ offset: 1 })}
+            layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
           >
             <MenuSheetGroup>
               <MenuSheetItem onClick={() => handleAction("add")}>
@@ -190,7 +190,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
               <MenuSheetItem
                 onClick={() => {
                   // [!code highlight]
-                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  popStep(); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
               >
@@ -212,7 +212,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 1. `Portal`을 사용하여 Menu Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
 1. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
 1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Menu Sheet의 `open` 상태를 동기화합니다.
-1. `layerIndex={useActivityZIndexBase({ offset: 1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
+1. `layerIndex={useActivityZIndexBase({ activityOffset: 1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
     - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
 
 ### `useStepOverlay`
@@ -248,7 +248,7 @@ const MyActivity: ActivityComponentType = () => {
           <MenuSheetContent
             title="Actions"
             // [!code highlight]
-            layerIndex={useActivityZIndexBase({ offset: 1 })}
+            layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
           >
             <MenuSheetGroup>
               <MenuSheetItem onClick={() => handleAction("add")}>
@@ -260,7 +260,7 @@ const MyActivity: ActivityComponentType = () => {
               <MenuSheetItem
                 onClick={() => {
                   // [!code highlight]
-                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  popStep(); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
               >
@@ -304,13 +304,13 @@ const MyActivity: ActivityComponentType = () => {
   ```
 
 </Accordion>
-<Accordion title="offset 옵션은 무엇인가요?">
+<Accordion title="activityOffset 옵션은 무엇인가요?">
 
-- `offset` 옵션은 현재 Activity가 아닌 다음 Activity의 z-index 기준점을 사용하고 싶을 때 사용합니다.
-- 예를 들어, `useActivityZIndexBase({ offset: 1 })`는 다음 Activity의 z-index 기준점을 반환합니다.
+- `activityOffset` 옵션은 현재 Activity가 아닌 다음 Activity의 z-index 기준점을 사용하고 싶을 때 사용합니다.
+- 예를 들어, `useActivityZIndexBase({ activityOffset: 1 })`는 다음 Activity의 z-index 기준점을 반환합니다.
 - 이는 Step 패턴에서 현재 Activity 위에 BottomSheet를 표시할 때 유용합니다.
   ```
-  ┌─ 1번 AppScreen Activity에서 offset: 1로 띄운 BottomSheet (예: Step 패턴)
+  ┌─ 1번 AppScreen Activity에서 activityOffset: 1로 띄운 BottomSheet (예: Step 패턴)
   │  └─ BottomSheet: 12 ((1 + 1) × 5 + 2)
   ├─ 1번 AppScreen Activity
   │  ├─ appbar: 12 (1 × 5 + 7)
@@ -329,7 +329,7 @@ const MyActivity: ActivityComponentType = () => {
 
 - 두 훅 모두 현재 Activity가 enter된 Activity 중 **몇 번째 Activity인지를 바탕으로 z-index 스타일링에 필요한 값을 반환하는 훅입니다.**
 - 두 훅이 반환하는 값은 같으나, `@stackflow/plugin-basic-ui`가 아닌, SEED 컴포넌트를 사용하는 경우 SEED가 관리하는 `@seed-design/stackflow` 패키지의 `useActivityZIndexBase` 훅을 사용하는 것을 권장합니다.
-- `@stackflow/react-ui-core` 패키지의 `useActivityZIndexBase`는 `offset` 옵션을 제공하지 않습니다.
+- `@stackflow/react-ui-core` 패키지의 `useActivityZIndexBase`는 `activityOffset` 옵션을 제공하지 않습니다.
 - `@seed-design/stackflow@1.1.1`부터 `useActivityZIndexBase` 훅이 제공됩니다.
 
 </Accordion>
