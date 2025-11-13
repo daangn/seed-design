@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 1.1.4
+
+### Patch Changes
+
+- 795668c: Stackflow의 AppScreen에 있던 gradient 스타일을 AppBar로 이동합니다
+
 ## 1.1.3
 
 ### Patch Changes
