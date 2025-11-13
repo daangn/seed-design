@@ -167,3 +167,11 @@ data:
           color: $color.fg.disabled
         placeholder:
           color: $color.fg.disabled
+
+      readonly:
+        root:
+          color: $color.bg.disabled
+        value:
+          color: $color.fg.neutral
+        placeholder:
+          color: $color.fg.placeholder

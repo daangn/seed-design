@@ -375,6 +375,31 @@
                 }
               }
             }
+          },
+          {
+            "states": [
+              "readonly"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.disabled"
+                }
+              },
+              "value": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "placeholder": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.placeholder"
+                }
+              }
+            }
           }
         ]
       }
