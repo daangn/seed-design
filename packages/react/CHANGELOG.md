@@ -1,5 +1,11 @@
 # @seed-design/react
 
+## 1.1.4
+
+### Patch Changes
+
+- 77d304d: `@radix-ui/react-dialog` 의존성을 추가해 React 패키지를 Portable하게 수정합니다
+
 ## 1.1.3
 
 ### Patch Changes

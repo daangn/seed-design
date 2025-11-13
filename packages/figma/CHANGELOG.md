@@ -1,5 +1,12 @@
 # @seed-design/figma
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [795668c]
+  - @seed-design/css@1.1.4
+
 ## 1.1.3
 
 ### Patch Changes
