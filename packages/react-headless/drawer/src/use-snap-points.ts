@@ -20,8 +20,8 @@ export function useSnapPoints({
   setActiveSnapPointProp?(snapPoint: number | null | string): void;
   snapPoints?: (number | string)[];
   fadeFromIndex?: number;
-  drawerRef: React.RefObject<HTMLDivElement>;
-  overlayRef: React.RefObject<HTMLDivElement>;
+  drawerRef: React.RefObject<HTMLDivElement | null>;
+  overlayRef: React.RefObject<HTMLDivElement | null>;
   onSnapPointChange(activeSnapPointIndex: number): void;
   direction?: DrawerDirection;
   container?: HTMLElement | null | undefined;
@@ -29,7 +29,7 @@ export function useSnapPoints({
 }) {
   const [activeSnapPoint, setActiveSnapPoint] = useControllableState<string | number | null>({
     prop: activeSnapPointProp,
-    defaultProp: snapPoints?.[0],
+    defaultProp: snapPoints?.[0] ?? null,
     onChange: setActiveSnapPointProp,
   });
 
@@ -119,7 +119,7 @@ export function useSnapPoints({
         return width;
       }) ?? []
     );
-  }, [snapPoints, windowDimensions, container]);
+  }, [snapPoints, windowDimensions, container, direction]);
 
   const activeSnapPointOffset = React.useMemo(
     () => (activeSnapPointIndex !== null ? snapPointsOffset?.[activeSnapPointIndex] : null),
