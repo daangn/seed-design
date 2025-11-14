@@ -2920,6 +2920,7 @@
 .seed-checkmark__root {
   box-sizing: border-box;
   margin-top: var(--checkmark-margin-top, 0);
+  transition: background-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   flex-shrink: 0;
   position: relative;
 }
@@ -2945,7 +2946,7 @@
 }
 
 .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  background: var(--seed-color-bg-layer-default-pressed);
+  background: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-checkmark__root--variant_square:is(:disabled, [disabled], [data-disabled]) {
@@ -2962,7 +2963,7 @@
 }
 
 .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  background: var(--seed-color-bg-layer-default-pressed);
+  background: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-checkmark__icon--variant_ghost {
