@@ -146,6 +146,7 @@
   --color-bg-warning-solid: var(--seed-color-bg-warning-solid);
   --color-bg-warning-solid-pressed: var(--seed-color-bg-warning-solid-pressed);
   --color-bg-warning-weak-pressed: var(--seed-color-bg-warning-weak-pressed);
+  --color-bg-transparent: var(--seed-color-bg-transparent);
   --color-bg-transparent-pressed: var(--seed-color-bg-transparent-pressed);
   --color-stroke-brand-weak: var(--seed-color-stroke-brand-weak);
   --color-stroke-brand-solid: var(--seed-color-stroke-brand-solid);
