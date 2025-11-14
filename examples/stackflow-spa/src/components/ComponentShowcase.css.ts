@@ -12,6 +12,8 @@ export const root = style({
   transformOrigin: "top left",
 
   overflow: "auto",
+
+  flexGrow: 1,
 });
 
 export const grid = style({
