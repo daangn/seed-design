@@ -38,7 +38,6 @@
     "@seed-design/stackflow": "1.1.0",
     "@stackflow/config": "^1.2.1",
     "@stackflow/core": "^1.2.0",
-    "@stackflow/plugin-basic-ui": "^1.14.0",
     "@stackflow/plugin-renderer-basic": "^1.1.13",
     "@stackflow/react": "^1.5.1",
     "change-case": "^5.4.4",

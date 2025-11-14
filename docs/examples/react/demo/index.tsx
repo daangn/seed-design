@@ -9,7 +9,7 @@ import { Recommendations } from "@/examples/react/demo/tabs/recommendations";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/demo/index": unknown;
+    "react/demo/index": {};
   }
 }
 

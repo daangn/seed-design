@@ -13,7 +13,7 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/app-screen/transparent-bar": unknown;
+    "react/app-screen/transparent-bar": {};
   }
 }
 

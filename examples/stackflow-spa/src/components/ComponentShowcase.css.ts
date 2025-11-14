@@ -4,14 +4,14 @@ import { style } from "@vanilla-extract/css";
 export const root = style({
   display: "grid",
   alignItems: "start",
-  justifyContent: "center",
-  justifyItems: "start",
 
   paddingBlock: vars.$dimension.x4,
   paddingInline: vars.$dimension.x4,
   gap: vars.$dimension.x4,
 
   transformOrigin: "top left",
+
+  overflow: "auto",
 });
 
 export const grid = style({

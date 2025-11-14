@@ -12,7 +12,7 @@ import {
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/alert-dialog/stackflow": unknown;
+    "react/alert-dialog/stackflow": {};
   }
 }
 
