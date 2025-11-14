@@ -119,7 +119,7 @@ data:
           color: $color.bg.neutral-weak-pressed
       selected,loading:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
           strokeWidth: 1px
     size=xsmall:
       enabled:

@@ -323,7 +323,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 },
                 "strokeWidth": {
                   "type": "dimension",

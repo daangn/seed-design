@@ -76,7 +76,7 @@ export const vars = {
     },
     "selectedLoading": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)",
+        "color": "var(--seed-color-bg-transparent-pressed)",
         "strokeWidth": "1px"
       }
     }

@@ -5718,7 +5718,7 @@
 }
 
 .seed-reaction-button:is([aria-pressed="true"], [data-pressed])[data-loading] {
-  background: var(--seed-color-bg-layer-default-pressed);
+  background: var(--seed-color-bg-transparent-pressed);
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-brand-weak);
   --track-color: var(--seed-color-palette-carrot-200);
   --range-color: var(--seed-color-fg-brand);
