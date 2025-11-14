@@ -68,7 +68,9 @@ data:
     base:
       enabled:
         root:
-          color: $color.bg.neutral-weak
+          strokeColor: $color.stroke.neutral-muted
+          strokeWidth: 1px
+          color: $color.bg.transparent
           colorDuration: $duration.d4
           colorTimingFunction: $timing-function.easing
         label:
@@ -84,10 +86,10 @@ data:
           rangeColor: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.neutral-weak-pressed
+          color: $color.bg.transparent-pressed
       selected:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
           strokeColor: $color.stroke.brand-weak
           strokeWidth: 1px
         label:
@@ -101,7 +103,7 @@ data:
           rangeColor: $color.fg.brand
       selected,pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
           color: $color.bg.disabled

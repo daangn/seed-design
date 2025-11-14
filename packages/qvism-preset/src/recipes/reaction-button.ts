@@ -28,10 +28,11 @@ const reactionButton = defineRecipe({
       outline: "none",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     background: vars.base.enabled.root.color,
     fontWeight: vars.base.enabled.label.fontWeight,
     color: vars.base.enabled.label.color,
+    boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
     "--track-color": vars.base.enabled.progressCircle.trackColor,
     "--range-color": vars.base.enabled.progressCircle.rangeColor,
