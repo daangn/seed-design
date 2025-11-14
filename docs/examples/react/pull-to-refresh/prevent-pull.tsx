@@ -9,7 +9,7 @@ import {
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/pull-to-refresh/prevent-pull": unknown;
+    "react/pull-to-refresh/prevent-pull": {};
   }
 }
 

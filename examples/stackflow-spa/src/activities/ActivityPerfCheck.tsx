@@ -1,9 +1,9 @@
 import { Box } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
+import type { ActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { ActionButton } from "../seed-design/ui/action-button";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { ActionButton } from "seed-design/ui/action-button";
 
 const ITER = 5000;
 
@@ -61,7 +61,13 @@ export function PerfTest() {
   );
 }
 
-const ActivityPerfCheck: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityPerfCheck: {};
+  }
+}
+
+const ActivityPerfCheck: ActivityComponentType<"ActivityPerfCheck"> = () => {
   return (
     <AppScreen>
       <AppBar>

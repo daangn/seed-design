@@ -4,14 +4,14 @@ import {
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
+import type { ActivityComponentType } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { ActionButton } from "../seed-design/ui/action-button";
-import { Avatar } from "../seed-design/ui/avatar";
-import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { List, ListDivider, ListLinkItem } from "../seed-design/ui/list";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { ActionButton } from "seed-design/ui/action-button";
+import { Avatar } from "seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { List, ListDivider, ListLinkItem } from "seed-design/ui/list";
 
 const prefixVariants = [
   { key: "none", element: null },
@@ -52,7 +52,13 @@ const suffixVariants = [
   },
 ];
 
-const ActivityListLinkItem: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityListLinkItem: {};
+  }
+}
+
+const ActivityListLinkItem: ActivityComponentType<"ActivityListLinkItem"> = () => {
   return (
     <AppScreen>
       <AppBar>

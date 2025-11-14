@@ -1,17 +1,17 @@
-import type { ActivityComponentType } from "@stackflow/react";
+import type { ActivityComponentType } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { List, ListDivider, ListSwitchItem } from "../seed-design/ui/list";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { List, ListDivider, ListSwitchItem } from "seed-design/ui/list";
 import { Icon } from "@seed-design/react";
-import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { Avatar } from "../seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { Avatar } from "seed-design/ui/avatar";
 import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { SwitchMark } from "../seed-design/ui/switch";
+import { SwitchMark } from "seed-design/ui/switch";
 
 const positionVariants = [
   { key: "prefix", position: "prefix" },
@@ -55,7 +55,13 @@ const stateVariants = [
   { key: "neutral-disabled-checked", defaultChecked: true, disabled: true, tone: "neutral" },
 ] as const;
 
-const ActivityListSwitchItem: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityListSwitchItem: {};
+  }
+}
+
+const ActivityListSwitchItem: ActivityComponentType<"ActivityListSwitchItem"> = () => {
   return (
     <AppScreen>
       <AppBar>

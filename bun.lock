@@ -58,7 +58,6 @@
         "@seed-design/stackflow": "1.1.0",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
-        "@stackflow/plugin-basic-ui": "^1.14.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
         "@stackflow/react": "^1.5.1",
         "change-case": "^5.4.4",
@@ -107,6 +106,7 @@
         "@types/react-dom": "^19.1.5",
         "chalk": "^5.3.0",
         "chromatic": "^13.0.0",
+        "concurrently": "^9.2.1",
         "estree-util-value-to-estree": "^3.4.0",
         "hast-util-to-estree": "^3.1.3",
         "mdast-util-mdx-jsx": "^3.2.0",
@@ -243,10 +243,11 @@
         "@seed-design/stackflow": "1.1.0",
         "@seed-design/stylesheet": "1.1.1",
         "@stackflow/compat-await-push": "^1.1.13",
-        "@stackflow/core": "^1.2.0",
-        "@stackflow/plugin-history-sync": "^1.7.1",
+        "@stackflow/config": "^1.2.1",
+        "@stackflow/core": "^1.3.0",
+        "@stackflow/plugin-history-sync": "^1.8.1",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
-        "@stackflow/react": "^1.5.1",
+        "@stackflow/react": "^1.8.0",
         "@vanilla-extract/css": "^1.17.1",
         "clsx": "^2.1.1",
         "react": "^19.2.0",
@@ -265,6 +266,7 @@
         "typescript": "^5.9.2",
         "vite": "^7.0.6",
         "vite-plugin-checker": "^0.11.0",
+        "vite-tsconfig-paths": "^5.1.4",
       },
     },
     "packages/cli": {
@@ -2346,8 +2348,6 @@
 
     "@stackflow/core": ["@stackflow/core@1.3.0", "", { "dependencies": { "react-fast-compare": "^3.2.2" } }, "sha512-y2AXD6PKWdFnt9khXS+qfYT8yGvp0EvBM+/3doaI3v0itU6/0gII94A5lBhJpwb38gIpHfws1cvwODjTb9Ttfg=="],
 
-    "@stackflow/plugin-basic-ui": ["@stackflow/plugin-basic-ui@1.16.1", "", { "dependencies": { "@stackflow/react-ui-core": "^1.3.3", "@vanilla-extract/css": "^1.15.3", "@vanilla-extract/dynamic": "^2.1.1", "@vanilla-extract/private": "^1.0.5", "@vanilla-extract/recipes": "^0.5.3", "clsx": "^2.1.1" }, "peerDependencies": { "@stackflow/core": "^1.1.0-canary.0", "@stackflow/react": "^1.3.2-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-ioKMux3RmvaCbnaMjybxrhFmRvmAOp62UB56XZjUJSs5mTHw3CixHo0vOKG8qS1cEMrsuRqq4BkjKZPHjmM7vA=="],
-
     "@stackflow/plugin-history-sync": ["@stackflow/plugin-history-sync@1.8.1", "", { "dependencies": { "flatted": "^3.3.1", "history": "^5.3.0", "react18-use": "^0.4.1", "url-pattern": "^1.0.3" }, "peerDependencies": { "@stackflow/config": "^1.0.1-canary.0", "@stackflow/core": "^1.1.0-canary.0", "@stackflow/react": "^1.3.2-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-hp/X5TSM5f3rWj0LQmw1yYrvID7wksjL/ml8o5U33t8p8JcUvYThcZ7DEhI0QpDI8taPasV1gWOhW2ns6as5Bg=="],
 
     "@stackflow/plugin-renderer-basic": ["@stackflow/plugin-renderer-basic@1.1.13", "", { "peerDependencies": { "@stackflow/core": "^1.1.0-canary.0", "@stackflow/react": "^1.3.2-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-8C5QwFagDycFuBLfQ9ynVfpDeO9qeIeGYS3GkZ1Drv3nlc7lE0q1DAGJHLXGLTdra9mzsHCirrGR6sgYa1OA0w=="],
@@ -2626,13 +2626,9 @@
 
     "@vanilla-extract/css": ["@vanilla-extract/css@1.17.4", "", { "dependencies": { "@emotion/hash": "^0.9.0", "@vanilla-extract/private": "^1.0.9", "css-what": "^6.1.0", "cssesc": "^3.0.0", "csstype": "^3.0.7", "dedent": "^1.5.3", "deep-object-diff": "^1.1.9", "deepmerge": "^4.2.2", "lru-cache": "^10.4.3", "media-query-parser": "^2.0.2", "modern-ahocorasick": "^1.0.0", "picocolors": "^1.0.0" } }, "sha512-m3g9nQDWPtL+sTFdtCGRMI1Vrp86Ay4PBYq1Bo7Bnchj5ElNtAJpOqD+zg+apthVA4fB7oVpMWNjwpa6ElDWFQ=="],
 
-    "@vanilla-extract/dynamic": ["@vanilla-extract/dynamic@2.1.5", "", { "dependencies": { "@vanilla-extract/private": "^1.0.9" } }, "sha512-QGIFGb1qyXQkbzx6X6i3+3LMc/iv/ZMBttMBL+Wm/DetQd36KsKsFg5CtH3qy+1hCA/5w93mEIIAiL4fkM8ycw=="],
-
     "@vanilla-extract/integration": ["@vanilla-extract/integration@8.0.4", "", { "dependencies": { "@babel/core": "^7.23.9", "@babel/plugin-syntax-typescript": "^7.23.3", "@vanilla-extract/babel-plugin-debug-ids": "^1.2.2", "@vanilla-extract/css": "^1.17.4", "dedent": "^1.5.3", "esbuild": "npm:esbuild@>=0.17.6 <0.26.0", "eval": "0.1.8", "find-up": "^5.0.0", "javascript-stringify": "^2.0.1", "mlly": "^1.4.2" } }, "sha512-cmOb7tR+g3ulKvFtSbmdw3YUyIS1d7MQqN+FcbwNhdieyno5xzUyfDCMjeWJhmCSMvZ6WlinkrOkgs6SHB+FRg=="],
 
     "@vanilla-extract/private": ["@vanilla-extract/private@1.0.9", "", {}, "sha512-gT2jbfZuaaCLrAxwXbRgIhGhcXbRZCG3v4TTUnjw0EJ7ArdBRxkq4msNJkbuRkCgfIK5ATmprB5t9ljvLeFDEA=="],
-
-    "@vanilla-extract/recipes": ["@vanilla-extract/recipes@0.5.7", "", { "peerDependencies": { "@vanilla-extract/css": "^1.0.0" } }, "sha512-Fvr+htdyb6LVUu+PhH61UFPhwkjgDEk8L4Zq9oIdte42sntpKrgFy90MyTRtGwjVALmrJ0pwRUVr8UoByYeW8A=="],
 
     "@vanilla-extract/vite-plugin": ["@vanilla-extract/vite-plugin@5.1.1", "", { "dependencies": { "@vanilla-extract/compiler": "^0.3.1", "@vanilla-extract/integration": "^8.0.4" }, "peerDependencies": { "vite": "^5.0.0 || ^6.0.0 || ^7.0.0" } }, "sha512-Nd1worqkHrd8XED4ZAA7Wmkd3pCqCwpmzCBVF8v6T1BSLHGXQE5HYflVgygw0CsIAbFRMS6zQBIk4F4/r/YKIw=="],
 

@@ -2,13 +2,8 @@ import { vars } from "@seed-design/css/vars";
 import { style } from "@vanilla-extract/css";
 
 export const root = style({
-  position: "fixed",
-  bottom: 0,
-  left: 0,
-  right: 0,
   display: "flex",
   flexDirection: "column",
-  zIndex: 1000,
 
   backgroundColor: vars.$color.bg.layerDefault,
   borderTop: `1px solid ${vars.$color.stroke.neutralMuted}`,

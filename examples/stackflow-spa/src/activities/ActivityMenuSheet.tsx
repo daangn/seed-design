@@ -1,4 +1,4 @@
-import { useActivity, type ActivityComponentType } from "@stackflow/react";
+import { useActivity, type ActivityComponentType } from "@stackflow/react/future";
 
 import {
   IconPencilLine,
@@ -10,9 +10,10 @@ import {
   MenuSheetGroup,
   MenuSheetItem,
   MenuSheetRoot,
-} from "../seed-design/ui/menu-sheet";
+} from "seed-design/ui/menu-sheet";
 import { createCallbackActivity } from "../stackflow/createCallbackActivity";
 import { PrefixIcon } from "@seed-design/react";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 type Action = "add" | "edit" | "delete" | "test1" | "test2";
 
@@ -23,7 +24,13 @@ export const menuSheetCallback = createCallbackActivity(
   },
 );
 
-const ActivityMenuSheet: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityMenuSheet: {};
+  }
+}
+
+const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
   const { pop } = menuSheetCallback.useCallbackPop();
   const activity = useActivity();
 
@@ -39,10 +46,7 @@ const ActivityMenuSheet: ActivityComponentType = () => {
 
   return (
     <MenuSheetRoot open={activity.isActive} onOpenChange={handleClose}>
-      {/* TODO: there should be an API to get z-indices of AppScreen elements */}
-      {/* since overlay components are often portalled, CSS variables might not be enough */}
-      {/* z-index of AppBar is base + 4 (see the recipe) */}
-      <MenuSheetContent title="Actions" layerIndex={activity.zIndex + 4}>
+      <MenuSheetContent title="Actions" layerIndex={useActivityZIndexBase()}>
         <MenuSheetGroup>
           <MenuSheetItem onClick={handleAction("add")}>
             <PrefixIcon svg={<IconPlusLine />} />

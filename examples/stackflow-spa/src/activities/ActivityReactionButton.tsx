@@ -1,11 +1,11 @@
-import type { ActivityComponentType } from "@stackflow/react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import type { ActivityComponentType } from "@stackflow/react/future";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { reactionButtonVariantMap } from "@seed-design/css/recipes/reaction-button";
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { ReactionButton, type ReactionButtonProps } from "../seed-design/ui/reaction-button";
+import { ReactionButton, type ReactionButtonProps } from "seed-design/ui/reaction-button";
 import { IconFaceSmileCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Count, PrefixIcon } from "@seed-design/react";
 
@@ -13,7 +13,13 @@ const initialVariants = {
   size: "small",
 } satisfies ReactionButtonProps;
 
-const ActivityReactionButton: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityReactionButton: {};
+  }
+}
+
+const ActivityReactionButton: ActivityComponentType<"ActivityReactionButton"> = () => {
   return (
     <AppScreen>
       <AppBar>

@@ -1,12 +1,18 @@
-import type { ActivityComponentType } from "@stackflow/react";
-import { AppBar, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { Avatar } from "../seed-design/ui/avatar";
-import { ToggleButton } from "../seed-design/ui/toggle-button";
+import type { ActivityComponentType } from "@stackflow/react/future";
+import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { Avatar } from "seed-design/ui/avatar";
+import { ToggleButton } from "seed-design/ui/toggle-button";
 import { IconPlusFill, IconStarFill } from "@karrotmarket/react-monochrome-icon";
 import { Box, VStack, HStack, Text, Icon, PrefixIcon } from "@seed-design/react";
 
-const ActivityCodegenTest: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityCodegenTest: {};
+  }
+}
+
+const ActivityCodegenTest: ActivityComponentType<"ActivityCodegenTest"> = () => {
   return (
     <AppScreen>
       <AppBar>

@@ -1,21 +1,20 @@
-import type React from "react";
-
 import { Suspense } from "react";
 import { PreferenceProvider } from "./hooks/usePreference";
-import { SnackbarProvider } from "./seed-design/ui/snackbar";
+import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { Stack } from "./stackflow";
+import { useURLSync } from "./hooks/useUrlSync";
 
-const App: React.FC = () => {
+const App = () => {
+  useURLSync();
+
   return (
-    <div style={{ minHeight: "100vh" }}>
-      <PreferenceProvider>
-        <SnackbarProvider>
-          <Suspense>
-            <Stack />
-          </Suspense>
-        </SnackbarProvider>
-      </PreferenceProvider>
-    </div>
+    <PreferenceProvider>
+      <SnackbarProvider>
+        <Suspense>
+          <Stack />
+        </Suspense>
+      </SnackbarProvider>
+    </PreferenceProvider>
   );
 };
 

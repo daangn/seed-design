@@ -4,6 +4,7 @@ on:
       - "*"
 
     paths:
+      - "docs/**"
       - "examples/stackflow-spa/**"
       - "packages/css/**"
       - "packages/react/**"
