@@ -80,7 +80,7 @@
     color: var(--seed-color-fg-neutral);
 }
 .seed-chip__root--variant_outlineStrong {
-    background: transparent;
+    background: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     --seed-icon-color: var(--seed-color-fg-neutral);
 }
@@ -110,7 +110,7 @@
     color: var(--seed-color-fg-neutral);
 }
 .seed-chip__root--variant_outlineWeak {
-    background: transparent;
+    background: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     --seed-icon-color: var(--seed-color-fg-neutral);
 }

@@ -125,6 +125,7 @@ data:
     variant=outlineStrong:
       enabled:
         root:
+          color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
         label:
@@ -162,6 +163,7 @@ data:
     variant=outlineWeak:
       enabled:
         root:
+          color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
         label:

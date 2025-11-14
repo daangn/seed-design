@@ -83,6 +83,7 @@ export const vars = {
   "variantOutlineStrong": {
     "enabled": {
       "root": {
+        "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px"
       },
@@ -140,6 +141,7 @@ export const vars = {
   "variantOutlineWeak": {
     "enabled": {
       "root": {
+        "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px"
       },

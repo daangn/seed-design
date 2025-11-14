@@ -339,6 +339,10 @@
             ],
             "slots": {
               "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
@@ -481,6 +485,10 @@
             ],
             "slots": {
               "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
