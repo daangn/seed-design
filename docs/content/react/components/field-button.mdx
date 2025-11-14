@@ -69,7 +69,7 @@ npx @seed-design/cli@latest add ui:field-button
 
 `showClearButton` prop을 `true`로 설정하면 Clear Button이 표시됩니다. `showClearButton`을 `true`로 설정하는 경우 `onValuesChange` prop을 제공해야 합니다.
 
-`FieldButton`이 `disabled`인 경우 Clear Button은 표시되지 않습니다.
+`FieldButton`이 `disabled` 또는 `readOnly` 상태인 경우 Clear Button은 표시되지 않습니다.
 
 <ComponentExample name="react/field-button/clear-button">
   ```json doc-gen:file
@@ -120,76 +120,6 @@ npx @seed-design/cli@latest add ui:field-button
 ```
 
 화면을 볼 수 있는 사용자는 Field Button이 클릭할 수 있는 요소라는 점과, Field Button을 클릭했을 때 일어날 동작을 쉽게 예측할 수 있지만, 스크린 리더 사용자는 `button`에 `aria-label` 속성이 없는 경우 Field Button을 클릭했을 때 어떤 일이 일어날지 파악하기 어렵습니다.
-
-### State
-
-#### Enabled
-
-<ComponentExample name="react/field-button/enabled">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/field-button/enabled.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-#### Disabled
-
-<ComponentExample name="react/field-button/disabled">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/field-button/disabled.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Customizable Parts
-
-#### Prefix
-
-<ComponentExample name="react/field-button/prefix">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/field-button/prefix.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-#### Suffix
-
-<ComponentExample name="react/field-button/suffix">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/field-button/suffix.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-#### Both Affixes
-
-<ComponentExample name="react/field-button/both-affixes">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/field-button/both-affixes.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-#### Indicator
-
-<ComponentExample name="react/field-button/indicator">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/field-button/indicator.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
 
 ### Use Cases
 
@@ -245,6 +175,93 @@ npx @seed-design/cli@latest add ui:field-button
   ```json doc-gen:file
   {
     "file": "examples/react/field-button/multiple-values.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### State
+
+#### Enabled
+
+<ComponentExample name="react/field-button/enabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/enabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Disabled
+
+- `values`를 제공할 때 렌더링되는 `<input type="hidden" />`도 함께 `disabled` 처리되어 폼 제출 시 값이 전송되지 않습니다.
+- `<button>` 요소도 `disabled` 처리되어 클릭할 수 없게 됩니다.
+
+<ComponentExample name="react/field-button/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Read Only
+
+- `values`를 제공할 때 렌더링되는 `<input type="hidden" />`은 영향을 받지 않습니다.
+- `<button>` 요소는 `disabled` 처리되어 클릭할 수 없게 됩니다.
+
+<ComponentExample name="react/field-button/read-only">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/read-only.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizable Parts
+
+#### Prefix
+
+<ComponentExample name="react/field-button/prefix">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/prefix.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Suffix
+
+<ComponentExample name="react/field-button/suffix">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/suffix.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Both Affixes
+
+<ComponentExample name="react/field-button/both-affixes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/both-affixes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Indicator
+
+<ComponentExample name="react/field-button/indicator">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/indicator.tsx",
     "codeblock": true
   }
   ```

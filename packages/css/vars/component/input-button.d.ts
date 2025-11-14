@@ -74,6 +74,17 @@ export declare const vars: {
       "placeholder": {
         "color": "var(--seed-color-fg-disabled)"
       }
+    },
+    "readonly": {
+      "root": {
+        "color": "var(--seed-color-bg-disabled)"
+      },
+      "value": {
+        "color": "var(--seed-color-fg-neutral)"
+      },
+      "placeholder": {
+        "color": "var(--seed-color-fg-placeholder)"
+      }
     }
   }
 }

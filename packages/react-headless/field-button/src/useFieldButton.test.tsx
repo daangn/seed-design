@@ -103,6 +103,15 @@ describe("useFieldButton", () => {
     expect(button).toHaveAttribute("aria-disabled", "true");
   });
 
+  it("should have readOnly state when readOnly prop is true", () => {
+    const { getByRole } = setUp(<FieldButton readOnly />);
+    const button = getByRole("button", { name: "Click me" });
+
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("data-readonly");
+    expect(button).toHaveAttribute("aria-disabled", "true");
+  });
+
   it("should have invalid state when invalid prop is true", () => {
     const { getByRole } = setUp(<FieldButton invalid />);
     const button = getByRole("button", { name: "Click me" });
@@ -156,6 +165,26 @@ describe("useFieldButton", () => {
 
     fireEvent.pointerLeave(root);
     expect(button).not.toHaveAttribute("data-active");
+  });
+
+  it("should not disable hidden inputs when readOnly (unlike disabled)", () => {
+    const { container } = setUp(<FieldButton readOnly values={["value1", "value2"]} />);
+    const hiddenInputs = container.querySelectorAll('input[type="hidden"]');
+
+    expect(hiddenInputs).toHaveLength(2);
+    expect(hiddenInputs[0]).not.toBeDisabled();
+    expect(hiddenInputs[1]).not.toBeDisabled();
+    expect(hiddenInputs[0]).toHaveValue("value1");
+    expect(hiddenInputs[1]).toHaveValue("value2");
+  });
+
+  it("should disable hidden inputs when disabled", () => {
+    const { container } = setUp(<FieldButton disabled values={["value1", "value2"]} />);
+    const hiddenInputs = container.querySelectorAll('input[type="hidden"]');
+
+    expect(hiddenInputs).toHaveLength(2);
+    expect(hiddenInputs[0]).toBeDisabled();
+    expect(hiddenInputs[1]).toBeDisabled();
   });
 
   it("should render without description and errorMessage", () => {
@@ -213,6 +242,19 @@ describe("useFieldButton", () => {
       const handleValuesChange = vi.fn();
       const { getByText, user } = setUp(
         <FieldButton disabled values={["value1"]} onValuesChange={handleValuesChange} />,
+      );
+      const clearButton = getByText("Clear");
+
+      expect(clearButton).toHaveAttribute("hidden");
+
+      await user.click(clearButton);
+      expect(handleValuesChange).not.toHaveBeenCalled();
+    });
+
+    it("should hide clear button when readOnly", async () => {
+      const handleValuesChange = vi.fn();
+      const { getByText, user } = setUp(
+        <FieldButton readOnly values={["value1"]} onValuesChange={handleValuesChange} />,
       );
       const clearButton = getByText("Clear");
 

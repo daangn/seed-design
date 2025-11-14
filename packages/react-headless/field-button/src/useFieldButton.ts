@@ -57,14 +57,25 @@ export interface UseFieldButtonProps extends UseFieldButtonStateProps {
    */
   invalid?: boolean;
 
+  /**
+   * @default false
+   */
+  readOnly?: boolean;
+
   name?: string;
 }
 
 export type UseFieldButtonReturn = ReturnType<typeof useFieldButton>;
 
-export function useFieldButton(props: UseFieldButtonProps) {
+export function useFieldButton({
+  values: propValues,
+  onValuesChange,
+  disabled = false,
+  invalid = false,
+  readOnly = false,
+  name,
+}: UseFieldButtonProps) {
   const id = useId();
-  const { values: propValues, onValuesChange, disabled = false, invalid = false, name } = props;
 
   const {
     values: stateValues,
@@ -96,6 +107,7 @@ export function useFieldButton(props: UseFieldButtonProps) {
     "data-focus-visible": dataAttr(isFocusVisible),
     "data-disabled": dataAttr(disabled),
     "data-invalid": dataAttr(invalid),
+    "data-readonly": dataAttr(readOnly),
   });
 
   return {
@@ -103,6 +115,8 @@ export function useFieldButton(props: UseFieldButtonProps) {
     active: isActive,
     focused: isFocused,
     invalid,
+    disabled,
+    readOnly,
 
     setIsFocused,
     setIsFocusVisible,
@@ -127,9 +141,9 @@ export function useFieldButton(props: UseFieldButtonProps) {
       ...stateProps,
 
       type: "button",
-      disabled,
+      disabled: disabled || readOnly,
 
-      "aria-disabled": ariaAttr(disabled),
+      "aria-disabled": ariaAttr(disabled || readOnly),
       "aria-describedby": ariaDescribedBy,
 
       // note that pointerdown and pointerup are attached to the button, not the root
@@ -155,11 +169,11 @@ export function useFieldButton(props: UseFieldButtonProps) {
       ...stateProps,
 
       type: "button",
-      disabled,
+      disabled: disabled || readOnly,
 
       onClick: useCallback(() => setValues([]), [setValues]),
 
-      hidden: disabled,
+      hidden: disabled || readOnly,
     }),
 
     getHiddenInputProps: useCallback(
@@ -171,10 +185,11 @@ export function useFieldButton(props: UseFieldButtonProps) {
         return inputProps({
           type: "hidden",
           value,
+          disabled, // disabled field button should not submit values, while readonly field button should submit values
           name: name || id,
         });
       },
-      [stateValues, name, id],
+      [stateValues, name, id, disabled],
     ),
 
     descriptionProps: elementProps({

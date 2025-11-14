@@ -25,6 +25,14 @@ const conditionMap = {
       disabled: true,
     },
   },
+  readOnly: {
+    false: {
+      readOnly: false,
+    },
+    true: {
+      readOnly: true,
+    },
+  },
   invalid: {
     false: {
       invalid: false,

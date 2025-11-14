@@ -2,7 +2,7 @@ import { bottomSheet, type BottomSheetVariantProps } from "@seed-design/css/reci
 import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import type { StyleProps } from "../../utils/styled";
+import { withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withRootProvider, withContext } = createSlotRecipeContext(bottomSheet);
 
@@ -89,7 +89,7 @@ export interface BottomSheetBodyProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const BottomSheetBody = withContext<HTMLDivElement, BottomSheetBodyProps>(
-  Primitive.div,
+  withStyleProps(Primitive.div),
   "body",
 );
 
