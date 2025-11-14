@@ -138,7 +138,7 @@
 }
 .seed-action-button--variant_brandOutline {
     border-style: solid;
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-color-bg-transparent);
     border-width: 1px;
     border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-brand);
@@ -150,10 +150,10 @@
     --range-color: var(--seed-color-bg-brand-solid);
 }
 .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-action-button--variant_brandOutline:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-color-bg-transparent);
     border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
@@ -161,11 +161,11 @@
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_brandOutline[data-loading] {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-color-bg-transparent);
 }
 .seed-action-button--variant_neutralOutline {
     border-style: solid;
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-color-bg-transparent);
     border-width: 1px;
     border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-neutral);
@@ -177,10 +177,10 @@
     --range-color: var(--seed-color-fg-neutral);
 }
 .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-action-button--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-color-bg-transparent);
     border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
@@ -188,7 +188,7 @@
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_neutralOutline[data-loading] {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-color-bg-transparent);
 }
 .seed-action-button--variant_ghost {
     background: #ffffff00;
@@ -203,7 +203,7 @@
     --range-color: var(--seed-color-fg-neutral);
 }
 .seed-action-button--variant_ghost:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-action-button--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
     background: #ffffff00;
@@ -213,7 +213,7 @@
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_ghost[data-loading] {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-action-button--size_xsmall {
     height: var(--seed-dimension-x8);

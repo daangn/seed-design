@@ -208,7 +208,7 @@ data:
     variant=neutralOutline:
       enabled:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
         label:
@@ -224,10 +224,10 @@ data:
           rangeColor: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.disabled
@@ -239,11 +239,11 @@ data:
           color: $color.fg.disabled
       loading:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
     variant=brandOutline:
       enabled:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
         label:
@@ -259,10 +259,10 @@ data:
           rangeColor: $color.bg.brand-solid
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.disabled
@@ -274,7 +274,7 @@ data:
           color: $color.fg.disabled
       loading:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
     variant=ghost:
       enabled:
         root:
@@ -292,7 +292,7 @@ data:
           rangeColor: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
           color: "#ffffff00"
@@ -306,7 +306,7 @@ data:
           color: $color.fg.disabled
       loading:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
     size=xsmall:
       enabled:
         root:

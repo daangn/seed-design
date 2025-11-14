@@ -860,7 +860,7 @@
 }
 
 .seed-action-button--variant_brandOutline {
-  background: var(--seed-color-bg-layer-default);
+  background: var(--seed-color-bg-transparent);
   border-style: solid;
   border-width: 1px;
   border-color: var(--seed-color-stroke-neutral-muted);
@@ -874,11 +874,11 @@
 }
 
 .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
-  background: var(--seed-color-bg-layer-default-pressed);
+  background: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-action-button--variant_brandOutline:is(:disabled, [disabled], [data-disabled]) {
-  background: var(--seed-color-bg-layer-default);
+  background: var(--seed-color-bg-transparent);
   border-color: var(--seed-color-stroke-neutral-muted);
   color: var(--seed-color-fg-disabled);
   --seed-prefix-icon-color: var(--seed-color-fg-disabled);
@@ -887,11 +887,11 @@
 }
 
 .seed-action-button--variant_brandOutline[data-loading] {
-  background: var(--seed-color-bg-layer-default);
+  background: var(--seed-color-bg-transparent);
 }
 
 .seed-action-button--variant_neutralOutline {
-  background: var(--seed-color-bg-layer-default);
+  background: var(--seed-color-bg-transparent);
   border-style: solid;
   border-width: 1px;
   border-color: var(--seed-color-stroke-neutral-muted);
@@ -905,11 +905,11 @@
 }
 
 .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
-  background: var(--seed-color-bg-layer-default-pressed);
+  background: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-action-button--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
-  background: var(--seed-color-bg-layer-default);
+  background: var(--seed-color-bg-transparent);
   border-color: var(--seed-color-stroke-neutral-muted);
   color: var(--seed-color-fg-disabled);
   --seed-prefix-icon-color: var(--seed-color-fg-disabled);
@@ -918,7 +918,7 @@
 }
 
 .seed-action-button--variant_neutralOutline[data-loading] {
-  background: var(--seed-color-bg-layer-default);
+  background: var(--seed-color-bg-transparent);
 }
 
 .seed-action-button--variant_ghost {
@@ -935,7 +935,7 @@
 }
 
 .seed-action-button--variant_ghost:is(:active, [data-active]) {
-  background: var(--seed-color-bg-layer-default-pressed);
+  background: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-action-button--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
@@ -947,7 +947,7 @@
 }
 
 .seed-action-button--variant_ghost[data-loading] {
-  background: var(--seed-color-bg-layer-default-pressed);
+  background: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-action-button--size_xsmall {
