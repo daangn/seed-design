@@ -4,6 +4,7 @@ import { style } from "@vanilla-extract/css";
 export const root = style({
   display: "grid",
   alignItems: "start",
+  justifyItems: "start",
 
   paddingBlock: vars.$dimension.x4,
   paddingInline: vars.$dimension.x4,
