@@ -64,6 +64,8 @@ const chipTabs = defineSlotRecipe({
       paddingTop: triggerVars.base.enabled.root.paddingY,
       paddingBottom: triggerVars.base.enabled.root.paddingY,
       fontWeight: triggerVars.base.enabled.label.fontWeight,
+
+      transition: `background-color ${triggerVars.base.enabled.root.colorDuration} ${triggerVars.base.enabled.root.colorTimingFunction}`,
     },
   },
   variants: {

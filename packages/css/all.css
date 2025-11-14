@@ -3317,6 +3317,7 @@
   padding-bottom: var(--seed-dimension-x2);
   font-family: inherit;
   font-weight: var(--seed-font-weight-medium);
+  transition: background-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   border: none;
   justify-content: center;
   align-items: center;
@@ -3356,7 +3357,7 @@
 }
 
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
-  background-color: var(--seed-color-bg-layer-default-pressed);
+  background-color: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
@@ -3386,7 +3387,7 @@
 }
 
 .seed-chip-tabs__trigger--variant_neutralOutline:is(:active, [data-active]) {
-  background-color: var(--seed-color-bg-layer-default-pressed);
+  background-color: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-chip-tabs__trigger--variant_neutralOutline:is(:selected, [data-selected]):is(:active, [data-active]) {
