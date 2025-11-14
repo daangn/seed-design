@@ -8,6 +8,7 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x4)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
+        "color": "var(--seed-color-bg-transparent)",
         "colorDuration": "var(--seed-duration-d3)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "strokeColorDuration": "var(--seed-duration-d3)",
@@ -54,7 +55,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "invalid": {

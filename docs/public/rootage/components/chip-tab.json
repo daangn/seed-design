@@ -286,6 +286,10 @@
             ],
             "slots": {
               "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
                 "stroke": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"

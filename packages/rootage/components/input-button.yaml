@@ -104,6 +104,7 @@ data:
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak
 
+          color: $color.bg.transparent
           colorDuration: $duration.d3
           colorTimingFunction: $timing-function.easing
           strokeColorDuration: $duration.d3
@@ -122,7 +123,6 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
-          
           color: $color.fg.placeholder
 
         prefixText:
@@ -146,14 +146,13 @@ data:
           size: $dimension.x5
 
           color: $color.fg.neutral-muted
-        
         clearButton:
           size: 22px
           color: $color.fg.neutral-subtle
 
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
 
       invalid:
         root:

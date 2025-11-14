@@ -92,7 +92,7 @@
     color: var(--seed-color-fg-disabled);
 }
 .seed-chip-tabs__trigger--variant_neutralOutline {
-    background-color: transparent;
+    background-color: var(--seed-color-bg-transparent);
     border: 1px solid var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-neutral);
 }

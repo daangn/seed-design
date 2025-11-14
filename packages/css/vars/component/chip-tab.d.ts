@@ -78,6 +78,7 @@ export declare const vars: {
   "variantNeutralOutline": {
     "enabled": {
       "root": {
+        "color": "var(--seed-color-bg-transparent)",
         "stroke": "var(--seed-color-stroke-neutral-muted)"
       },
       "label": {

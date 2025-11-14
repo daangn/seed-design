@@ -82,6 +82,7 @@ data:
     variant=neutralOutline:
       enabled:
         root:
+          color: $color.bg.transparent
           stroke: $color.stroke.neutral-muted
         label:
           color: $color.fg.neutral
