@@ -5862,11 +5862,13 @@
   padding-block: var(--seed-dimension-x5);
   border-radius: var(--seed-radius-r3);
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+  background-color: var(--seed-color-bg-transparent);
+  transition: background-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   display: flex;
 }
 
 .seed-select-box__root:is(:active, [data-active]) {
-  background-color: var(--seed-color-bg-layer-default-pressed);
+  background-color: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-select-box__root:is(:checked, [data-checked]) {

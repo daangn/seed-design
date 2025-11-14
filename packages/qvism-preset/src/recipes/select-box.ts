@@ -31,6 +31,8 @@ export const selectBox = defineSlotRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
 
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+      backgroundColor: vars.base.enabled.root.color,
+      transition: `background-color ${vars.base.enabled.root.colorTransitionDuration} ${vars.base.enabled.root.colorTransitionTimingFunction}`,
 
       [pseudo(active)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
