@@ -15,6 +15,7 @@ Menu Sheet 컴포넌트에 대해 자세히 알아봅니다.
 
 - Activity로 관리되므로, 하위 Activity보다 높고 상위 Activity보다는 낮은 z-index를 갖도록 관리하기 쉽습니다.
 - 딥링킹이 가능합니다. (URL 접속으로 Menu Sheet를 열 수 있습니다.)
+- [@stackflow/plugin-basic-ui](https://www.npmjs.com/package/@stackflow/plugin-basic-ui) `BottomSheet`에서의 마이그레이션이 쉽습니다.
 
 <StackflowExample path="/menu-sheet-activity">
   ```json doc-gen:file
@@ -328,7 +329,7 @@ const MyActivity: ActivityComponentType = () => {
 <Accordion title="@stackflow/react-ui-core useZIndexBase와 @seed-design/stackflow useActivityZIndexBase는 어떻게 다른가요?">
 
 - 두 훅 모두 현재 Activity가 enter된 Activity 중 **몇 번째 Activity인지를 바탕으로 z-index 스타일링에 필요한 값을 반환하는 훅입니다.**
-- 두 훅이 반환하는 값은 같으나, `@stackflow/plugin-basic-ui`가 아닌, SEED 컴포넌트를 사용하는 경우 SEED가 관리하는 `@seed-design/stackflow` 패키지의 `useActivityZIndexBase` 훅을 사용하는 것을 권장합니다.
+- 두 훅이 반환하는 값은 같으나, `[@stackflow/plugin-basic-ui](https://www.npmjs.com/package/@stackflow/plugin-basic-ui)`가 아닌, SEED 컴포넌트를 사용하는 경우 SEED가 관리하는 `@seed-design/stackflow` 패키지의 `useActivityZIndexBase` 훅을 사용하는 것을 권장합니다.
 - `@stackflow/react-ui-core` 패키지의 `useActivityZIndexBase`는 `activityOffset` 옵션을 제공하지 않습니다.
 - `@seed-design/stackflow@1.1.1`부터 `useActivityZIndexBase` 훅이 제공됩니다.
 
