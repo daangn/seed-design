@@ -4757,12 +4757,12 @@
 .seed-list-item__content {
   box-sizing: border-box;
   text-align: start;
+  background-color: var(--seed-color-bg-transparent);
   --seed-box-gap: var(--seed-dimension-x0_5);
   align-items: flex-start;
   gap: var(--seed-box-gap);
   --seed-box-padding-right: var(--seed-dimension-x2_5);
   padding: 0 var(--seed-box-padding-right) 0 0;
-  background: none;
   border: none;
   flex-direction: column;
   flex-grow: 1;
@@ -4788,7 +4788,7 @@
 }
 
 .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before, .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
-  background-color: var(--seed-color-bg-layer-default-pressed);
+  background-color: var(--seed-color-bg-transparent-pressed);
 }
 
 .seed-list-item__title {

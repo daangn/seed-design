@@ -20,6 +20,8 @@ data:
             type: color
       content:
         properties:
+          color:
+            type: color
           gap:
             type: dimension
           paddingRight:
@@ -83,6 +85,7 @@ data:
           colorDuration: $duration.d3
           colorTimingFunction: $timing-function.easing
         content:
+          color: $color.bg.transparent
           gap: $dimension.x0_5
           paddingRight: $dimension.x2_5
         title:
@@ -115,7 +118,7 @@ data:
           color: $color.palette.carrot-100
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         title:
           color: $color.fg.disabled
