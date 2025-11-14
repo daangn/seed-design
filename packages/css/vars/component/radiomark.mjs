@@ -2,6 +2,8 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
+        "colorDuration": "var(--seed-duration-d3)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)"
@@ -12,7 +14,7 @@ export const vars = {
     },
     "enabledPressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "enabledSelected": {
@@ -28,6 +30,7 @@ export const vars = {
     },
     "disabledSelected": {
       "root": {
+        "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-palette-gray-300)"
       },
       "icon": {

@@ -24,6 +24,8 @@ const radiomark = defineSlotRecipe({
 
       marginTop: "var(--radiomark-margin-top, 0)", // 수직 위치 보정
 
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+
       [pseudo(not(disabled), active)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
@@ -37,7 +39,7 @@ const radiomark = defineSlotRecipe({
       },
 
       [pseudo(disabled, checked)]: {
-        background: "none",
+        backgroundColor: vars.base.disabledSelected.root.color,
         borderWidth: vars.base.enabled.root.strokeWidth,
         borderColor: vars.base.disabledSelected.root.strokeColor,
       },
