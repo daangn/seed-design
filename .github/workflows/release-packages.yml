@@ -53,6 +53,8 @@ jobs:
           version: bun version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
 
       - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR의 base 브랜치를 체크아웃해요
         if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets == 'true'

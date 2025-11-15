@@ -281,8 +281,10 @@
         "@babel/parser": "^7.27.0",
         "@babel/plugin-transform-typescript": "^7.27.0",
         "@clack/prompts": "^0.11.0",
+        "@seed-design/react": "^1.1.4",
         "cac": "^6.7.14",
         "cosmiconfig": "^9.0.0",
+        "dedent": "^1.7.0",
         "execa": "^9.5.2",
         "findup-sync": "^5.0.0",
         "fs-extra": "^11.3.0",
@@ -294,6 +296,7 @@
       "devDependencies": {
         "@types/babel__core": "^7.20.5",
         "@types/fs-extra": "^11.0.4",
+        "dotenv": "^17.2.3",
         "esbuild": "^0.25.3",
         "type-fest": "^5.0.0",
         "typescript": "^5.9.2",
@@ -5465,6 +5468,8 @@
     "@sanity/uuid/uuid": ["uuid@8.3.2", "", { "bin": { "uuid": "dist/bin/uuid" } }, "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg=="],
 
     "@sanity/visual-editing/react-compiler-runtime": ["react-compiler-runtime@1.0.0", "", { "peerDependencies": { "react": "^17.0.0 || ^18.0.0 || ^19.0.0 || ^0.0.0-experimental" } }, "sha512-rRfjYv66HlG8896yPUDONgKzG5BxZD1nV9U6rkm+7VCuvQc903C4MjcoZR4zPw53IKSOX9wMQVpA1IAbRtzQ7w=="],
+
+    "@seed-design/cli/@seed-design/react": ["@seed-design/react@1.1.4", "", { "dependencies": { "@radix-ui/react-compose-refs": "^1.1.2", "@radix-ui/react-dialog": "^1.1.15", "@radix-ui/react-slot": "^1.2.3", "@radix-ui/react-use-controllable-state": "1.2.2", "@radix-ui/react-use-layout-effect": "^1.1.1", "@seed-design/dom-utils": "1.0.0", "@seed-design/react-avatar": "1.0.0", "@seed-design/react-checkbox": "1.0.0", "@seed-design/react-dialog": "1.0.0", "@seed-design/react-drawer": "1.0.2", "@seed-design/react-field": "1.0.0", "@seed-design/react-field-button": "1.0.0", "@seed-design/react-popover": "1.0.3", "@seed-design/react-portal": "1.0.0", "@seed-design/react-primitive": "1.0.0", "@seed-design/react-progress": "1.0.0", "@seed-design/react-pull-to-refresh": "1.0.1", "@seed-design/react-radio-group": "1.0.0", "@seed-design/react-scrollable": "1.0.0", "@seed-design/react-segmented-control": "1.0.0", "@seed-design/react-slider": "1.0.0", "@seed-design/react-snackbar": "1.0.0", "@seed-design/react-switch": "1.0.0", "@seed-design/react-tabs": "1.0.0", "@seed-design/react-text-field": "1.1.0", "@seed-design/react-toggle": "1.0.0", "clsx": "^2.1.1", "unicode-segmenter": "^0.14.0" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-16QfaNxPSsthQvGMAE1FgvINb5G3zPZytjr+KvuJiWlAYqXzS/PQkNBkYm+l83dhaMeN419O3l+cNGrDzzQhmQ=="],
 
     "@seed-design/docs/zod": ["zod@4.1.12", "", {}, "sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ=="],
 

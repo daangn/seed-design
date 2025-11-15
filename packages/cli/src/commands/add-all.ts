@@ -10,6 +10,7 @@ import type { CAC } from "cac";
 import { BASE_URL } from "../constants";
 import { highlight } from "../utils/color";
 import { installDependencies } from "../utils/install";
+import { analytics } from "../utils/analytics";
 
 const addAllOptionsSchema = z.object({
   registryIds: z.array(z.string()).optional(),
@@ -39,6 +40,7 @@ export const addAllCommand = (cli: CAC) => {
     .example("seed-design add-all ui --include-deprecated")
     .example("seed-design add-all ui lib breeze")
     .action(async (registryIds, opts) => {
+      const startTime = Date.now();
       p.intro("seed-design add-all");
 
       const {
@@ -156,25 +158,52 @@ export const addAllCommand = (cli: CAC) => {
 
       await writeRegistryItemSnippets({ registryItemsToAdd, rootPath, cwd, baseUrl, config });
 
-      const { installed, filtered } = await installDependencies({
-        cwd,
-        deps: Array.from(npmDependenciesToAdd),
-      });
+      try {
+        const { installed, filtered } = await installDependencies({
+          cwd,
+          deps: Array.from(npmDependenciesToAdd),
+        });
 
-      if (installed.size === 0) {
-        p.log.message("모든 의존성이 이미 설치되어 있어요.");
-      }
-
-      if (installed.size) {
-        p.log.message(`의존성 설치 완료: ${highlight(Array.from(installed).join(", "))}`);
-
-        if (filtered.size) {
-          p.log.message(
-            `설치하지 않은 의존성 (이미 설치됨): ${highlight(Array.from(filtered).join(", "))}`,
-          );
+        if (installed.size === 0) {
+          p.log.message("모든 의존성이 이미 설치되어 있어요.");
         }
-      }
 
-      p.outro("완료했어요.");
+        if (installed.size) {
+          p.log.message(`의존성 설치 완료: ${highlight(Array.from(installed).join(", "))}`);
+
+          if (filtered.size) {
+            p.log.message(
+              `설치하지 않은 의존성 (이미 설치됨): ${highlight(Array.from(filtered).join(", "))}`,
+            );
+          }
+        }
+
+        // add-all 성공 이벤트 추적
+        const duration = Date.now() - startTime;
+        await analytics.track(options.cwd, {
+          event: "add-all",
+          properties: {
+            registries: selectedRegistryIds,
+            items_count: itemKeys.length,
+            include_deprecated: options.includeDeprecated || false,
+            dependencies_count: npmDependenciesToAdd.size,
+            duration_ms: duration,
+          },
+        });
+
+        p.outro("완료했어요.");
+      } catch (error) {
+        // 실패 이벤트 추적
+        await analytics.track(options.cwd, {
+          event: "command-failed",
+          properties: {
+            command: "add-all",
+            error_type: error instanceof Error ? error.name : "Unknown",
+            error_message: error instanceof Error ? error.message : String(error),
+          },
+        });
+
+        throw error;
+      }
     });
 };
