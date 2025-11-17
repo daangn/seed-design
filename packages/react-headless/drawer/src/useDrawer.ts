@@ -9,9 +9,8 @@ import {
   VELOCITY_THRESHOLD,
   WINDOW_TOP_OFFSET,
 } from "./constants";
-import { dampenValue, getTranslate, isVertical, reset, set } from "./helpers";
+import { dampenValue, getTranslate, isInput, isVertical, reset, set } from "./helpers";
 import { usePositionFixed } from "./use-position-fixed";
-import { isInput, usePreventScroll } from "./use-prevent-scroll";
 import { useSnapPoints } from "./use-snap-points";
 
 export interface UseDrawerProps {
@@ -71,12 +70,7 @@ export interface UseDrawerProps {
    */
   defaultOpen?: boolean;
   /**
-   * When set to `true` prevents scrolling on the document body on mount, and restores it on unmount.
-   * @default false
-   */
-  disablePreventScroll?: boolean;
-  /**
-   * When `true` it will reposition inputs rather than scroll them into view if the keyboard is in the way.
+   * When `true` Vaul will reposition inputs rather than scroll then into view if the keyboard is in the way.
    * Setting it to `false` will fall back to the default browser behavior.
    * @default true when {@link snapPoints} is defined
    */
@@ -145,7 +139,6 @@ export function useDrawer(props: UseDrawerProps) {
     noBodyStyles = true,
     direction = "bottom",
     defaultOpen = false,
-    disablePreventScroll = true,
     snapToSequentialPoint = false,
     preventScrollRestoration = false,
     repositionInputs = true,
@@ -186,7 +179,6 @@ export function useDrawer(props: UseDrawerProps) {
 
   const [hasBeenOpened, setHasBeenOpened] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [justReleased, setJustReleased] = useState<boolean>(false);
   const [shouldOverlayAnimate, setShouldOverlayAnimate] = useState<boolean>(false);
 
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -232,17 +224,6 @@ export function useDrawer(props: UseDrawerProps) {
     onSnapPointChange,
     direction,
     snapToSequentialPoint,
-  });
-
-  usePreventScroll({
-    isDisabled:
-      !isOpen ||
-      isDragging ||
-      !modal ||
-      justReleased ||
-      !hasBeenOpened ||
-      !repositionInputs ||
-      !disablePreventScroll,
   });
 
   const { restorePositionSetting } = usePositionFixed({
@@ -501,13 +482,6 @@ export function useDrawer(props: UseDrawerProps) {
     const timeTaken = dragEndTime.current.getTime() - dragStartTime.current.getTime();
     const distMoved = pointerStart.current - (isVertical(direction) ? event.pageY : event.pageX);
     const velocity = Math.abs(distMoved) / timeTaken;
-
-    if (velocity > 0.05) {
-      setJustReleased(true);
-      setTimeout(() => {
-        setJustReleased(false);
-      }, 200);
-    }
 
     if (snapPoints) {
       const directionMultiplier = direction === "bottom" || direction === "right" ? 1 : -1;
