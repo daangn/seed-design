@@ -35,6 +35,16 @@ export const breezeDocs = defineDocs({
   },
 });
 
+export const lynxDocs = defineDocs({
+  dir: "content/lynx",
+  docs: {
+    async: true,
+    schema: frontmatterSchema.extend({
+      deprecated: z.string().optional(),
+    }),
+  },
+});
+
 export default defineConfig({
   lastModifiedTime: "git",
   mdxOptions: {

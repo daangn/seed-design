@@ -46,7 +46,7 @@ export interface UseDrawerProps {
   handleOnly?: boolean;
   /**
    * When `false` dragging, clicking outside, pressing esc, etc. will not close the drawer.
-   * Use this in comination with the `open` prop, otherwise you won't be able to open/close the drawer.
+   * Use this in combination with the `open` prop, otherwise you won't be able to open/close the drawer.
    * @default true
    */
   dismissible?: boolean;
@@ -93,7 +93,7 @@ export interface UseDrawerProps {
 
   /**
    * Array of snap points to use.
-   * Example: snapPoints={[0, 100, 200]} will use the first snap point at 0px, the second at 100px, and the third at 200px.
+   * Example: snapPoints={["100px", "200px", 1]} will use the snap points 100px, 200px and fully open (1 = 100% of the container).
    * @default undefined
    */
   snapPoints?: (number | string)[];

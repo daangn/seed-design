@@ -1,6 +1,6 @@
+import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
 import { getConfig } from "@/src/utils/get-config";
 import { resolveDependencies } from "@/src/utils/resolve-dependencies";
-import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
 import { writeRegistryItemSnippets } from "@/src/utils/write";
 import * as p from "@clack/prompts";
 import path from "path";
@@ -8,6 +8,7 @@ import { z } from "zod";
 
 import type { CAC } from "cac";
 import { BASE_URL } from "../constants";
+import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import { installDependencies } from "../utils/install";
 
@@ -39,6 +40,7 @@ export const addAllCommand = (cli: CAC) => {
     .example("seed-design add-all ui --include-deprecated")
     .example("seed-design add-all ui lib breeze")
     .action(async (registryIds, opts) => {
+      const startTime = Date.now();
       p.intro("seed-design add-all");
 
       const {
@@ -156,25 +158,44 @@ export const addAllCommand = (cli: CAC) => {
 
       await writeRegistryItemSnippets({ registryItemsToAdd, rootPath, cwd, baseUrl, config });
 
-      const { installed, filtered } = await installDependencies({
-        cwd,
-        deps: Array.from(npmDependenciesToAdd),
-      });
+      try {
+        const { installed, filtered } = await installDependencies({
+          cwd,
+          deps: Array.from(npmDependenciesToAdd),
+        });
 
-      if (installed.size === 0) {
-        p.log.message("모든 의존성이 이미 설치되어 있어요.");
-      }
-
-      if (installed.size) {
-        p.log.message(`의존성 설치 완료: ${highlight(Array.from(installed).join(", "))}`);
-
-        if (filtered.size) {
-          p.log.message(
-            `설치하지 않은 의존성 (이미 설치됨): ${highlight(Array.from(filtered).join(", "))}`,
-          );
+        if (installed.size === 0) {
+          p.log.message("모든 의존성이 이미 설치되어 있어요.");
         }
+
+        if (installed.size) {
+          p.log.message(`의존성 설치 완료: ${highlight(Array.from(installed).join(", "))}`);
+
+          if (filtered.size) {
+            p.log.message(
+              `설치하지 않은 의존성 (이미 설치됨): ${highlight(Array.from(filtered).join(", "))}`,
+            );
+          }
+        }
+
+        p.outro("완료했어요.");
+      } catch (error) {
+        p.log.error(`추가에 실패했어요. ${error}`);
+        p.outro(highlight("작업이 취소됐어요."));
+        process.exit(1);
       }
 
-      p.outro("완료했어요.");
+      // add-all 성공 이벤트 추적
+      const duration = Date.now() - startTime;
+      await analytics.track(options.cwd, {
+        event: "add-all",
+        properties: {
+          registries: selectedRegistryIds,
+          items_count: itemKeys.length,
+          include_deprecated: options.includeDeprecated || false,
+          dependencies_count: npmDependenciesToAdd.size,
+          duration_ms: duration,
+        },
+      });
     });
 };

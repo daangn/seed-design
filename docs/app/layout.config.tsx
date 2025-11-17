@@ -1,7 +1,7 @@
-import { reactSource, source, breezeSource } from "@/app/source";
+import { reactSource, source, breezeSource, lynxSource } from "@/app/source";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
-import { Atom, File } from "lucide-react";
+import { Atom, File, Package } from "lucide-react";
 import type { PropsWithChildren } from "react";
 
 function SidebarTabIconContainer({
@@ -52,6 +52,16 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         ),
       },
       {
+        title: "Lynx",
+        description: "Lynx 프레임워크",
+        url: "/lynx",
+        icon: (
+          <SidebarTabIconContainer className="[--tab-color:var(--lynx-color)]">
+            <Package />
+          </SidebarTabIconContainer>
+        ),
+      },
+      {
         title: "Breeze",
         description: "유용한 UI 유틸리티 컴포넌트",
         url: "/breeze",
@@ -94,6 +104,15 @@ export const docsOptions: DocsLayoutProps = {
 export const reactOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: await reactSource.getTransformedReactPageTree(),
+  nav: {
+    ...baseOptions.nav,
+    transparentMode: "none",
+  },
+};
+
+export const lynxOptions: DocsLayoutProps = {
+  ...baseOptions,
+  tree: await lynxSource.getTransformedLynxPageTree(),
   nav: {
     ...baseOptions.nav,
     transparentMode: "none",

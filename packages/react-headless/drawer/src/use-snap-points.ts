@@ -84,6 +84,12 @@ export function useSnapPoints({
 
     return (
       snapPoints?.map((snapPoint) => {
+        // FIXME
+        // 1 -> container 100% << expected
+        // 0.5 -> container 50% << expected
+        // 300px -> 300 -> 300px << expected
+        // 15rem -> 15 -> 15px << this makes no sense, should fix or disallow
+
         const isPx = typeof snapPoint === "string";
         let snapPointAsNumber = 0;
 
