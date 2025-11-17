@@ -485,6 +485,7 @@
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
+        "@seed-design/react-supports": "0.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -609,6 +610,7 @@
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
+        "@seed-design/react-supports": "0.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -628,6 +630,7 @@
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
+        "@seed-design/react-supports": "0.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -657,6 +660,19 @@
         "react-dom": ">=18.0.0",
       },
     },
+    "packages/react-headless/supports": {
+      "name": "@seed-design/react-supports",
+      "version": "0.0.1",
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
     "packages/react-headless/switch": {
       "name": "@seed-design/react-switch",
       "version": "1.0.0",
@@ -664,6 +680,7 @@
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
+        "@seed-design/react-supports": "0.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -685,6 +702,7 @@
         "@radix-ui/react-use-size": "^1.1.1",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
+        "@seed-design/react-supports": "0.0.1",
         "embla-carousel-auto-height": "^8.6.0",
         "embla-carousel-react": "^8.6.0",
       },
@@ -707,6 +725,7 @@
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
+        "@seed-design/react-supports": "0.0.1",
         "unicode-segmenter": "^0.14.0",
       },
       "devDependencies": {
@@ -2156,6 +2175,8 @@
     "@seed-design/react-segmented-control": ["@seed-design/react-segmented-control@workspace:packages/react-headless/segmented-control"],
 
     "@seed-design/react-snackbar": ["@seed-design/react-snackbar@workspace:packages/react-headless/snackbar"],
+
+    "@seed-design/react-supports": ["@seed-design/react-supports@workspace:packages/react-headless/supports"],
 
     "@seed-design/react-switch": ["@seed-design/react-switch@workspace:packages/react-headless/switch"],
 
