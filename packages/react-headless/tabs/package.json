@@ -33,6 +33,7 @@
     "@radix-ui/react-use-size": "^1.1.1",
     "@seed-design/dom-utils": "1.0.0",
     "@seed-design/react-primitive": "1.0.0",
+    "@seed-design/react-supports": "0.0.0",
     "embla-carousel-auto-height": "^8.6.0",
     "embla-carousel-react": "^8.6.0"
   },

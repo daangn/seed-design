@@ -1,6 +1,7 @@
 import { ariaAttr, buttonProps, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
 import { useCallback, useId, useState } from "react";
 import { getDescriptionId, getErrorMessageId } from "./dom";
+import { useSupports } from "@seed-design/react-supports";
 
 interface UseFieldButtonStateProps {
   values?: string[];
@@ -76,6 +77,7 @@ export function useFieldButton({
   name,
 }: UseFieldButtonProps) {
   const id = useId();
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   const {
     values: stateValues,
@@ -157,11 +159,15 @@ export function useFieldButton({
 
       onBlur() {
         setIsFocused(false);
-        setIsFocusVisible(false);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(false);
+        }
       },
       onFocus(event) {
         setIsFocused(true);
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
     }),
 
