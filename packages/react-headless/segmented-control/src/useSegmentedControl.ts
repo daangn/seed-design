@@ -2,6 +2,7 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useId, useMemo, useState } from "react";
 
 import { dataAttr, elementProps, inputProps, visuallyHidden } from "@seed-design/dom-utils";
+import { useSupports } from "@seed-design/react-supports";
 import * as dom from "./dom";
 
 interface UseSegmentedControlStateProps {
@@ -94,6 +95,7 @@ export function useSegmentedControl(props: UseSegmentedControlProps) {
   const { disabled, form, name } = props;
 
   const isControlled = props.value !== undefined;
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   const stateProps = elementProps({
     "data-disabled": dataAttr(disabled),
@@ -186,7 +188,9 @@ export function useSegmentedControl(props: UseSegmentedControlProps) {
             if (event.target.checked) {
               setValue(itemProps.value);
             }
-            setIsFocusVisible(event.target.matches(":focus-visible"));
+            if (isFocusVisibleSupported) {
+              setIsFocusVisible(event.target.matches(":focus-visible"));
+            }
           },
           onBlur() {
             setFocusedValue(null);
@@ -194,7 +198,9 @@ export function useSegmentedControl(props: UseSegmentedControlProps) {
           },
           onFocus(event) {
             setFocusedValue(itemProps.value);
-            setIsFocusVisible(event.target.matches(":focus-visible"));
+            if (isFocusVisibleSupported) {
+              setIsFocusVisible(event.target.matches(":focus-visible"));
+            }
           },
           onKeyDown(event) {
             if (event.key === " ") {

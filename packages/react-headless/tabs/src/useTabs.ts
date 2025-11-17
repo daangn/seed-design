@@ -6,6 +6,7 @@ import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import * as dom from "./dom";
 import { getNextIndex, getPrevIndex, scrollTabIntoView } from "./utils";
 import { useIsSSR } from "./useIsSSR";
+import { useSupports } from "@seed-design/react-supports";
 
 export interface UseTabsStateProps {
   value?: string;
@@ -286,6 +287,7 @@ export function useTabs(props: UseTabsProps) {
   } = useTabsState(props);
   const { orientation = "horizontal" } = props;
   const focused = interactionState === "focused";
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   const stateProps = useMemo(
     () =>
@@ -410,7 +412,9 @@ export function useTabs(props: UseTabsProps) {
           },
           onFocus(event) {
             events.tabFocus(props.value);
-            events.setIsFocusVisible(event.target.matches(":focus-visible"));
+            if (isFocusVisibleSupported) {
+              events.setIsFocusVisible(event.target.matches(":focus-visible"));
+            }
           },
           onBlur(event) {
             const target = event.relatedTarget as HTMLElement | null;

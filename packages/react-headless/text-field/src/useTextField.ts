@@ -1,6 +1,7 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { ariaAttr, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
 import { useId, useState, type TextareaHTMLAttributes, type InputHTMLAttributes } from "react";
+import { useSupports } from "@seed-design/react-supports";
 
 interface UseTextFieldStateProps {
   value?: string;
@@ -73,6 +74,8 @@ export function useTextField(props: UseTextFieldProps) {
     required = false,
   } = props;
 
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
+
   const {
     value: stateValue,
     isHovered,
@@ -143,8 +146,10 @@ export function useTextField(props: UseTextFieldProps) {
       name: props.name || id,
 
       onChange: (event) => {
-        setIsFocusVisible(event.target.matches(":focus-visible"));
         setValue(event.target.value);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
       onBlur() {
         setIsFocused(false);
@@ -152,7 +157,9 @@ export function useTextField(props: UseTextFieldProps) {
       },
       onFocus(event) {
         setIsFocused(true);
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
     }) as InputHTMLAttributes<HTMLInputElement> | TextareaHTMLAttributes<HTMLTextAreaElement>,
   };

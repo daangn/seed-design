@@ -8,6 +8,7 @@ import {
   labelProps,
   visuallyHidden,
 } from "@seed-design/dom-utils";
+import { useSupports } from "@seed-design/react-supports";
 
 interface UseSwitchStateProps {
   checked?: boolean;
@@ -65,6 +66,8 @@ export function useSwitch(props: UseSwitchProps) {
     setIsFocusVisible,
     isFocusVisible,
   } = useSwitchState(props);
+
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   const stateProps = elementProps({
     "data-checked": dataAttr(isChecked),
@@ -127,11 +130,15 @@ export function useSwitch(props: UseSwitchProps) {
       ...stateProps,
       onChange(event) {
         setIsChecked(event.currentTarget.checked);
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
       onFocus(event) {
         setIsFocused(true);
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
       onBlur() {
         setIsFocused(false);
