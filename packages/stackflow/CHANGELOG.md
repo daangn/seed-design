@@ -1,5 +1,13 @@
 # @seed-design/stackflow
 
+## 1.1.5
+
+### Patch Changes
+
+- 7529e31: @seed-design/stackflow 패키지에서 `useActivityZIndexBase` 훅을 제공합니다.
+- Updated dependencies [53290ab]
+  - @seed-design/css@1.1.5
+
 ## 1.1.0
 
 ### Patch Changes

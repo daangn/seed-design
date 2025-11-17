@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-segmented-control",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -31,7 +31,7 @@
     "@radix-ui/react-use-controllable-state": "1.2.2",
     "@seed-design/dom-utils": "1.0.0",
     "@seed-design/react-primitive": "1.0.0",
-    "@seed-design/react-supports": "0.0.0"
+    "@seed-design/react-supports": "0.0.1"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",
