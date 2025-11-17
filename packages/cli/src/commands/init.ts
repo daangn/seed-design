@@ -82,19 +82,6 @@ export const initCommand = (cli: CAC) => {
         const relativePath = path.relative(process.cwd(), targetPath);
         stop(`seed-design.json 파일이 ${highlight(relativePath)}에 생성됐어요.`);
 
-        // init 성공 이벤트 추적
-        const duration = Date.now() - startTime;
-        await analytics.track(options.cwd, {
-          event: "init",
-          properties: {
-            tsx: config.tsx,
-            rsc: config.rsc,
-            telemetry: config.telemetry,
-            yes_option: isYesOption,
-            duration_ms: duration,
-          },
-        });
-
         p.log.info(highlight("seed-design add {component} 명령어로 컴포넌트를 추가해보세요!"));
         p.log.info(
           highlight("seed-design add 명령어로 추가할 수 있는 모든 컴포넌트를 확인해보세요."),
@@ -117,5 +104,18 @@ export const initCommand = (cli: CAC) => {
         p.outro(highlight("작업이 취소됐어요."));
         process.exit(1);
       }
+
+      // init 성공 이벤트 추적
+      const duration = Date.now() - startTime;
+      await analytics.track(options.cwd, {
+        event: "init",
+        properties: {
+          tsx: config.tsx,
+          rsc: config.rsc,
+          telemetry: config.telemetry,
+          yes_option: isYesOption,
+          duration_ms: duration,
+        },
+      });
     });
 };

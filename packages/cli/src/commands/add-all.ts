@@ -178,24 +178,24 @@ export const addAllCommand = (cli: CAC) => {
           }
         }
 
-        // add-all 성공 이벤트 추적
-        const duration = Date.now() - startTime;
-        await analytics.track(options.cwd, {
-          event: "add-all",
-          properties: {
-            registries: selectedRegistryIds,
-            items_count: itemKeys.length,
-            include_deprecated: options.includeDeprecated || false,
-            dependencies_count: npmDependenciesToAdd.size,
-            duration_ms: duration,
-          },
-        });
-
         p.outro("완료했어요.");
       } catch (error) {
         p.log.error(`추가에 실패했어요. ${error}`);
         p.outro(highlight("작업이 취소됐어요."));
         process.exit(1);
       }
+
+      // add-all 성공 이벤트 추적
+      const duration = Date.now() - startTime;
+      await analytics.track(options.cwd, {
+        event: "add-all",
+        properties: {
+          registries: selectedRegistryIds,
+          items_count: itemKeys.length,
+          include_deprecated: options.includeDeprecated || false,
+          dependencies_count: npmDependenciesToAdd.size,
+          duration_ms: duration,
+        },
+      });
     });
 };

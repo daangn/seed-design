@@ -201,34 +201,32 @@ export const addCommand = (cli: CAC) => {
             );
           }
         }
-
-        // add 성공 이벤트 추적
-        const duration = Date.now() - startTime;
-        const uniqueRegistries = new Set(registryItemsToAdd.map((r) => r.registryId));
-        const hasDeprecated = selectedItemKeys.some((itemKey) => {
-          const [registryId, ...rest] = itemKey.split(":");
-          const itemId = rest.join(":");
-          return publicRegistries
-            .find((r) => r.id === registryId)
-            ?.items.find((i) => i.id === itemId)?.deprecated;
-        });
-
-        await analytics.track(options.cwd, {
-          event: "add",
-          properties: {
-            items_count: filteredItemKeys.length,
-            registries: Array.from(uniqueRegistries),
-            has_deprecated: hasDeprecated,
-            dependencies_count: npmDependenciesToAdd.size,
-            duration_ms: duration,
-          },
-        });
-
         p.outro("완료했어요.");
       } catch (error) {
         p.log.error(`추가에 실패했어요. ${error}`);
         p.outro(highlight("작업이 취소됐어요."));
         process.exit(1);
       }
+
+      // add 성공 이벤트 추적
+      const duration = Date.now() - startTime;
+      const uniqueRegistries = new Set(registryItemsToAdd.map((r) => r.registryId));
+      const hasDeprecated = selectedItemKeys.some((itemKey) => {
+        const [registryId, ...rest] = itemKey.split(":");
+        const itemId = rest.join(":");
+        return publicRegistries.find((r) => r.id === registryId)?.items.find((i) => i.id === itemId)
+          ?.deprecated;
+      });
+
+      await analytics.track(options.cwd, {
+        event: "add",
+        properties: {
+          items_count: filteredItemKeys.length,
+          registries: Array.from(uniqueRegistries),
+          has_deprecated: hasDeprecated,
+          dependencies_count: npmDependenciesToAdd.size,
+          duration_ms: duration,
+        },
+      });
     });
 };
