@@ -159,7 +159,9 @@ export function useFieldButton({
 
       onBlur() {
         setIsFocused(false);
-        setIsFocusVisible(false);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(false);
+        }
       },
       onFocus(event) {
         setIsFocused(true);

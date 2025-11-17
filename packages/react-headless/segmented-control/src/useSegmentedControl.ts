@@ -194,7 +194,9 @@ export function useSegmentedControl(props: UseSegmentedControlProps) {
           },
           onBlur() {
             setFocusedValue(null);
-            setIsFocusVisible(false);
+            if (isFocusVisibleSupported) {
+              setIsFocusVisible(false);
+            }
           },
           onFocus(event) {
             setFocusedValue(itemProps.value);

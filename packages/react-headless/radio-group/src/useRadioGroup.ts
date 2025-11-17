@@ -179,7 +179,9 @@ export function useRadioGroup(props: UseRadioGroupProps) {
           },
           onBlur() {
             setFocusedValue(null);
-            setIsFocusVisible(false);
+            if (isFocusVisibleSupported) {
+              setIsFocusVisible(false);
+            }
           },
           onFocus(event) {
             setFocusedValue(itemProps.value);

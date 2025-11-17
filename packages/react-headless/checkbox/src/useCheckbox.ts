@@ -163,7 +163,9 @@ export function useCheckbox(props: UseCheckboxProps) {
       },
       onBlur() {
         setIsFocused(false);
-        setIsFocusVisible(false);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(false);
+        }
       },
       onKeyDown(event) {
         if (event.key === " ") {

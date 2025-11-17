@@ -153,7 +153,9 @@ export function useTextField(props: UseTextFieldProps) {
       },
       onBlur() {
         setIsFocused(false);
-        setIsFocusVisible(false);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(false);
+        }
       },
       onFocus(event) {
         setIsFocused(true);

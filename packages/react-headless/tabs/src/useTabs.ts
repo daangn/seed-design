@@ -27,6 +27,7 @@ function useTabsState(props: UseTabsStateProps) {
 
   const [focusedValue, setFocusedValue] = useState<string | null>(null);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   const [listEl, listRef] = useState<HTMLElement | null>(null);
   const [selectedTriggerEl, setSelectedTriggerEl] = useState<HTMLElement | null>(null);
@@ -99,44 +100,56 @@ function useTabsState(props: UseTabsStateProps) {
   const arrowPrevEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectPrev();
-      setIsFocusVisible(true);
+      if (isFocusVisibleSupported) {
+        setIsFocusVisible(true);
+      }
     }
-  }, [interactionState, actions.selectPrev]);
+  }, [interactionState, actions.selectPrev, isFocusVisibleSupported]);
 
   const arrowNextEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectNext();
-      setIsFocusVisible(true);
+      if (isFocusVisibleSupported) {
+        setIsFocusVisible(true);
+      }
     }
-  }, [interactionState, actions.selectNext]);
+  }, [interactionState, actions.selectNext, isFocusVisibleSupported]);
 
   const arrowUpEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectPrev();
-      setIsFocusVisible(true);
+      if (isFocusVisibleSupported) {
+        setIsFocusVisible(true);
+      }
     }
-  }, [interactionState, actions.selectPrev]);
+  }, [interactionState, actions.selectPrev, isFocusVisibleSupported]);
 
   const arrowDownEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectNext();
-      setIsFocusVisible(true);
+      if (isFocusVisibleSupported) {
+        setIsFocusVisible(true);
+      }
     }
-  }, [interactionState, actions.selectNext]);
+  }, [interactionState, actions.selectNext, isFocusVisibleSupported]);
 
   const homeEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectFirst();
-      setIsFocusVisible(true);
+      if (isFocusVisibleSupported) {
+        setIsFocusVisible(true);
+      }
     }
-  }, [interactionState, actions.selectFirst]);
+  }, [interactionState, actions.selectFirst, isFocusVisibleSupported]);
 
   const endEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectLast();
-      setIsFocusVisible(true);
+      if (isFocusVisibleSupported) {
+        setIsFocusVisible(true);
+      }
     }
-  }, [interactionState, actions.selectLast]);
+  }, [interactionState, actions.selectLast, isFocusVisibleSupported]);
 
   const tabFocusEvent = useCallback(
     (value: string) => {
@@ -175,16 +188,20 @@ function useTabsState(props: UseTabsStateProps) {
   const selectNextEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectNext();
-      setIsFocusVisible(true);
+      if (isFocusVisibleSupported) {
+        setIsFocusVisible(true);
+      }
     }
-  }, [interactionState, actions.selectNext]);
+  }, [interactionState, actions.selectNext, isFocusVisibleSupported]);
 
   const selectPrevEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectPrev();
-      setIsFocusVisible(true);
+      if (isFocusVisibleSupported) {
+        setIsFocusVisible(true);
+      }
     }
-  }, [interactionState, actions.selectPrev]);
+  }, [interactionState, actions.selectPrev, isFocusVisibleSupported]);
 
   const setContentIndexEvent = useCallback(
     (index: number) => {
@@ -251,6 +268,7 @@ function useTabsState(props: UseTabsStateProps) {
     isFocusVisible,
     contentIndex,
     events,
+    isFocusVisibleSupported,
   };
 }
 
@@ -284,10 +302,10 @@ export function useTabs(props: UseTabsProps) {
     focusedValue,
     isFocusVisible,
     contentIndex,
+    isFocusVisibleSupported,
   } = useTabsState(props);
   const { orientation = "horizontal" } = props;
   const focused = interactionState === "focused";
-  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   const stateProps = useMemo(
     () =>
@@ -421,7 +439,9 @@ export function useTabs(props: UseTabsProps) {
             if (target?.getAttribute("role") !== "tab") {
               events.tabBlur();
             }
-            events.setIsFocusVisible(false);
+            if (isFocusVisibleSupported) {
+              events.setIsFocusVisible(false);
+            }
           },
         }),
       };
