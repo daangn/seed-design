@@ -1,4 +1,4 @@
-import { docs, reactDocs, breezeDocs } from "@/.source";
+import { docs, reactDocs, breezeDocs, lynxDocs } from "@/.source";
 import { getRootageMetadata } from "@/components/rootage";
 import { IconContainer } from "@/components/ui/icon";
 import type { Node, Root } from "fumadocs-core/page-tree";
@@ -99,6 +99,12 @@ const baseBreezeSource = loader({
   icon: iconHandler,
 });
 
+const baseLynxSource = loader({
+  baseUrl: "/lynx",
+  source: lynxDocs.toFumadocsSource(),
+  icon: iconHandler,
+});
+
 // Transform page trees with badges
 async function getTransformedPageTree(): Promise<Root> {
   return await transformPageTreeWithBadges(baseSource.pageTree, baseSource);
@@ -110,6 +116,10 @@ async function getTransformedReactPageTree(): Promise<Root> {
 
 async function getTransformedBreezePageTree(): Promise<Root> {
   return await transformPageTreeWithBadges(baseBreezeSource.pageTree, baseBreezeSource);
+}
+
+async function getTransformedLynxPageTree(): Promise<Root> {
+  return await transformPageTreeWithBadges(baseLynxSource.pageTree, baseLynxSource);
 }
 
 // Export sources with lazy-loaded transformed page trees
@@ -126,4 +136,9 @@ export const reactSource = {
 export const breezeSource = {
   ...baseBreezeSource,
   getTransformedBreezePageTree,
+};
+
+export const lynxSource = {
+  ...baseLynxSource,
+  getTransformedLynxPageTree,
 };
