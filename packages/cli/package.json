@@ -45,7 +45,7 @@
     "@types/babel__core": "^7.20.5",
     "@types/fs-extra": "^11.0.4",
     "dotenv": "^17.2.3",
-    "esbuild": "^0.25.3",
+    "esbuild": "^0.27.0",
     "type-fest": "^5.0.0",
     "typescript": "^5.9.2"
   },
