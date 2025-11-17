@@ -74,6 +74,11 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
 
   // PostHog API 호출 (fire-and-forget)
   try {
+    if (!process.env.POSTHOG_HOST || !process.env.POSTHOG_API_KEY) {
+      console.warn("[Analytics] Missing POSTHOG_HOST or POSTHOG_API_KEY");
+      return;
+    }
+
     const url = `${process.env.POSTHOG_HOST}/capture`;
     const headers = {
       "Content-Type": "application/json",
