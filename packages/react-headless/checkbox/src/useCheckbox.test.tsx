@@ -32,6 +32,11 @@ function Checkbox(props: CheckboxRootProps) {
 }
 
 describe("useCheckbox", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   it("should render the checkbox correctly", () => {
     const { getByRole } = setUp(<Checkbox />);
     const checkbox = getByRole("checkbox");

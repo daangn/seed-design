@@ -39,6 +39,11 @@ function FieldButton(props: FieldButtonRootProps) {
 }
 
 describe("useFieldButton", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   it("should render the field button correctly", () => {
     const { getByRole } = setUp(<FieldButton />);
     const button = getByRole("button", { name: "Click me" });

@@ -111,6 +111,10 @@ afterEach(cleanup);
 
 describe("useTabs", () => {
   window.ResizeObserver = ResizeObserver;
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
 
   const tabItems: Record<string, TabItem> = {
     tab1: {

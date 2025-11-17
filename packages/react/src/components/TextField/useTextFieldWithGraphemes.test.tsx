@@ -55,6 +55,11 @@ const TextFieldWithGraphemes = (props: TextFieldWithGraphemesProps) => {
 };
 
 describe("useTextFieldWithGraphemes", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   describe("basic functionality", () => {
     it("should render with empty default value", () => {
       const { getByTestId } = setUp(<TextFieldWithGraphemes />);

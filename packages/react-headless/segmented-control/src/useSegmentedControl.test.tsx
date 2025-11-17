@@ -42,6 +42,11 @@ function SegmentedControlItem({ children, ...otherProps }: SegmentedControlItemP
 }
 
 describe("useSegmentedControl", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   const values = ["first", "second", "third"];
 
   describe("uncontrolled", () => {
