@@ -1,5 +1,24 @@
 # @seed-design/react
 
+## 1.1.5
+
+### Patch Changes
+
+- 03ff678: BottomSheetBody에 제공한 style 관련 prop(`paddingX` 등)이 적용되지 않고 DOM으로 bleed되는 문제를 수정합니다.
+- ae1b768: :focus-visible selector를 사용하기 전 브라우저에서 selector를 지원하는지 확인합니다.
+- Updated dependencies [53290ab]
+- Updated dependencies [cc8864d]
+- Updated dependencies [ae1b768]
+  - @seed-design/react-field-button@1.0.1
+  - @seed-design/react-drawer@1.0.3
+  - @seed-design/react-segmented-control@1.0.1
+  - @seed-design/react-radio-group@1.0.1
+  - @seed-design/react-text-field@1.1.1
+  - @seed-design/react-checkbox@1.0.1
+  - @seed-design/react-switch@1.0.1
+  - @seed-design/react-field@1.0.1
+  - @seed-design/react-tabs@1.0.1
+
 ## 1.1.4
 
 ### Patch Changes

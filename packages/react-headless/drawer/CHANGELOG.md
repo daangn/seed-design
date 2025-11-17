@@ -1,5 +1,11 @@
 # @seed-design/react-drawer
 
+## 1.0.3
+
+### Patch Changes
+
+- cc8864d: use-prevent-scroll 로직을 삭제합니다
+
 ## 1.0.2
 
 ### Patch Changes

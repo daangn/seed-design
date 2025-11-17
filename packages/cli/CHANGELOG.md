@@ -1,5 +1,11 @@
 # @seed-design/cli
 
+## 1.1.0
+
+### Minor Changes
+
+- a6ae76f: telemetry 옵션을 추가합니다
+
 ## 1.0.0
 
 ### Major Changes

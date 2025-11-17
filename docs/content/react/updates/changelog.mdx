@@ -3,6 +3,61 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.11.17
+
+BottomSheetBody에 제공한 style 관련 prop(`paddingX` 등)이 적용되지 않고 DOM으로 bleed되는 문제를 수정합니다. [`03ff678`](https://github.com/daangn/seed-design/commit/03ff678ce576d85a37185f4551bfa99927a9bea6)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.5](https://npmjs.com/package/@seed-design/react/v/1.1.5)
+
+---
+
+FieldButton에 Read Only 상태를 추가합니다. Disabled 상태인 FieldButton은 내부 `<input />`도 `disabled` 속성을 갖도록 수정합니다. [`53290ab`](https://github.com/daangn/seed-design/commit/53290abaeda978d623317efb425de42ed2becd7d)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.5](https://npmjs.com/package/@seed-design/css/v/1.1.5)
+- 📦 [@seed-design/react-field-button@1.0.1](https://npmjs.com/package/@seed-design/react-field-button/v/1.0.1)
+- 📦 [@seed-design/rootage-artifacts@1.1.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.2)
+
+---
+
+@seed-design/stackflow 패키지에서 `useActivityZIndexBase` 훅을 제공합니다. [`7529e31`](https://github.com/daangn/seed-design/commit/7529e315c3c430b371ada6adf1d75f0ddb1badc0)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.5](https://npmjs.com/package/@seed-design/stackflow/v/1.1.5)
+
+---
+
+use-prevent-scroll 로직을 삭제합니다 [`cc8864d`](https://github.com/daangn/seed-design/commit/cc8864d3cff5a7d4c06d56709d7eaffe6e11fc15)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.3](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.3)
+
+---
+
+:focus-visible selector를 사용하기 전 브라우저에서 selector를 지원하는지 확인합니다. [`ae1b768`](https://github.com/daangn/seed-design/commit/ae1b76808dcc411fd34206195b517bc94035ecca)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.5](https://npmjs.com/package/@seed-design/react/v/1.1.5)
+- 📦 [@seed-design/react-checkbox@1.0.1](https://npmjs.com/package/@seed-design/react-checkbox/v/1.0.1)
+- 📦 [@seed-design/react-field@1.0.1](https://npmjs.com/package/@seed-design/react-field/v/1.0.1)
+- 📦 [@seed-design/react-field-button@1.0.1](https://npmjs.com/package/@seed-design/react-field-button/v/1.0.1)
+- 📦 [@seed-design/react-radio-group@1.0.1](https://npmjs.com/package/@seed-design/react-radio-group/v/1.0.1)
+- 📦 [@seed-design/react-segmented-control@1.0.1](https://npmjs.com/package/@seed-design/react-segmented-control/v/1.0.1)
+- 📦 [@seed-design/react-supports@0.0.1](https://npmjs.com/package/@seed-design/react-supports/v/0.0.1)
+- 📦 [@seed-design/react-switch@1.0.1](https://npmjs.com/package/@seed-design/react-switch/v/1.0.1)
+- 📦 [@seed-design/react-tabs@1.0.1](https://npmjs.com/package/@seed-design/react-tabs/v/1.0.1)
+- 📦 [@seed-design/react-text-field@1.1.1](https://npmjs.com/package/@seed-design/react-text-field/v/1.1.1)
+
+---
+
+telemetry 옵션을 추가합니다 [`a6ae76f`](https://github.com/daangn/seed-design/commit/a6ae76fde02f957e53b5dcfe57f32420cfb95a85)
+
+영향받는 패키지
+- 📦 [@seed-design/cli@1.1.0](https://npmjs.com/package/@seed-design/cli/v/1.1.0)
+
+---
+
 ## 2025.11.13
 
 `@radix-ui/react-dialog` 의존성을 추가해 React 패키지를 Portable하게 수정합니다 [`77d304d`](https://github.com/daangn/seed-design/commit/77d304d3ddaed22cc247e3250390ecbe0309a8ba)
