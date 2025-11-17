@@ -68,7 +68,9 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
 
   // 사용자에게 텔레메트리 수집 중임을 알림 (세션당 한 번만)
   if (!hasShownMessage) {
-    p.log.info("📊 사용 데이터 수집 중 (비활성화: seed-design.json)");
+    p.log.info(
+      "📊 사용 데이터 수집 중 (비활성화: seed-design.json 또는 DISABLE_TELEMETRY 환경 변수)",
+    );
     hasShownMessage = true;
   }
 
@@ -92,21 +94,21 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
         ...properties,
         $process_person_profile: false,
       },
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
     };
-
     // 5초 타임아웃 설정
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
-
-    await fetch(url, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeout);
+    try {
+      await fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeout);
+    }
   } catch {
     // 에러 발생 시 조용히 무시 (CLI 블로킹 방지)
   }
