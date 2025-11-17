@@ -1792,7 +1792,7 @@
           },
           "theme-dark": {
             "type": "color",
-            "value": "$color.palette.static-white-alpha-100"
+            "value": "$color.palette.static-white-alpha-50"
           }
         }
       },

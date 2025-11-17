@@ -601,7 +601,7 @@ data:
     $color.bg.transparent-pressed:
       values:
         theme-light: $color.palette.static-black-alpha-100
-        theme-dark: $color.palette.static-white-alpha-100
+        theme-dark: $color.palette.static-white-alpha-50
     $color.stroke.brand-weak:
       values:
         theme-light: $color.palette.carrot-300

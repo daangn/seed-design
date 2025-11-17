@@ -454,7 +454,7 @@ export const tokens = {
   --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-900);
   --seed-color-bg-warning-weak-pressed: var(--seed-color-palette-yellow-200);
   --seed-color-bg-transparent: #ffffff00;
-  --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-white-alpha-100);
+  --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-white-alpha-50);
   --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
   --seed-color-stroke-brand-solid: var(--seed-color-palette-carrot-700);
   --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
