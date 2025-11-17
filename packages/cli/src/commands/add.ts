@@ -226,17 +226,9 @@ export const addCommand = (cli: CAC) => {
 
         p.outro("완료했어요.");
       } catch (error) {
-        // 실패 이벤트 추적
-        await analytics.track(options.cwd, {
-          event: "command-failed",
-          properties: {
-            command: "add",
-            error_type: error instanceof Error ? error.name : "Unknown",
-            error_message: error instanceof Error ? error.message : String(error),
-          },
-        });
-
-        throw error;
+        p.log.error(`추가에 실패했어요. ${error}`);
+        p.outro(highlight("작업이 취소됐어요."));
+        process.exit(1);
       }
     });
 };

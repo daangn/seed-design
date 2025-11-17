@@ -1,6 +1,6 @@
+import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
 import { getConfig } from "@/src/utils/get-config";
 import { resolveDependencies } from "@/src/utils/resolve-dependencies";
-import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
 import { writeRegistryItemSnippets } from "@/src/utils/write";
 import * as p from "@clack/prompts";
 import path from "path";
@@ -8,9 +8,9 @@ import { z } from "zod";
 
 import type { CAC } from "cac";
 import { BASE_URL } from "../constants";
+import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import { installDependencies } from "../utils/install";
-import { analytics } from "../utils/analytics";
 
 const addAllOptionsSchema = z.object({
   registryIds: z.array(z.string()).optional(),
@@ -193,17 +193,9 @@ export const addAllCommand = (cli: CAC) => {
 
         p.outro("완료했어요.");
       } catch (error) {
-        // 실패 이벤트 추적
-        await analytics.track(options.cwd, {
-          event: "command-failed",
-          properties: {
-            command: "add-all",
-            error_type: error instanceof Error ? error.name : "Unknown",
-            error_message: error instanceof Error ? error.message : String(error),
-          },
-        });
-
-        throw error;
+        p.log.error(`추가에 실패했어요. ${error}`);
+        p.outro(highlight("작업이 취소됐어요."));
+        process.exit(1);
       }
     });
 };

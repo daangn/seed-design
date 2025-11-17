@@ -113,16 +113,6 @@ export const initCommand = (cli: CAC) => {
 
         p.outro("작업이 완료됐어요.");
       } catch (error) {
-        // 실패 이벤트 추적
-        await analytics.track(options.cwd, {
-          event: "command-failed",
-          properties: {
-            command: "init",
-            error_type: error instanceof Error ? error.name : "Unknown",
-            error_message: error instanceof Error ? error.message : String(error),
-          },
-        });
-
         p.log.error(`seed-design.json 파일 생성에 실패했어요. ${error}`);
         p.outro(highlight("작업이 취소됐어요."));
         process.exit(1);
