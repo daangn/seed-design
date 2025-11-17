@@ -8,6 +8,7 @@ import {
   labelProps,
   visuallyHidden,
 } from "@seed-design/dom-utils";
+import { useSupports } from "@seed-design/react-supports";
 
 interface UseCheckboxStateProps {
   checked?: boolean;
@@ -89,6 +90,8 @@ export function useCheckbox(props: UseCheckboxProps) {
     isFocusVisible,
   } = useCheckboxState(props);
 
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
+
   const stateProps = elementProps({
     "data-checked": dataAttr(isChecked),
     "data-indeterminate": dataAttr(isIndeterminate),
@@ -148,15 +151,21 @@ export function useCheckbox(props: UseCheckboxProps) {
       ...stateProps,
       onChange(event) {
         setIsChecked(event.currentTarget.checked);
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
       onFocus(event) {
         setIsFocused(true);
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
       onBlur() {
         setIsFocused(false);
-        setIsFocusVisible(false);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(false);
+        }
       },
       onKeyDown(event) {
         if (event.key === " ") {

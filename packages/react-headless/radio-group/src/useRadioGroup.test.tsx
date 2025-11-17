@@ -48,6 +48,11 @@ function ControlledRadioGroup(
 }
 
 describe("useRadioGroup", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   const FIRST_VALUE = "first";
   const SECOND_VALUE = "second";
   const THIRD_VALUE = "third";

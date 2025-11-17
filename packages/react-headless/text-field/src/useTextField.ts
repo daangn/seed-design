@@ -5,6 +5,7 @@ import { useCallback, useId, useMemo, useState } from "react";
 import { splitGraphemes } from "unicode-segmenter/grapheme";
 import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
 import { memoize } from "./memoize";
+import { useSupports } from "@seed-design/react-supports";
 
 export interface UseTextFieldStateProps {
   value?: string;
@@ -128,6 +129,8 @@ export function useTextField(props: UseTextFieldProps) {
     maxGraphemeCount,
   } = props;
 
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
+
   const {
     refs,
     renderedElements,
@@ -224,16 +227,22 @@ export function useTextField(props: UseTextFieldProps) {
       id: getInputId(id),
       name: props.name || id,
       onChange: (event) => {
-        setIsFocusVisible(event.target.matches(":focus-visible"));
         setValue(event.target.value);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
       onBlur() {
         setIsFocused(false);
-        setIsFocusVisible(false);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(false);
+        }
       },
       onFocus(event) {
         setIsFocused(true);
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
     }) as
       | React.InputHTMLAttributes<HTMLInputElement>

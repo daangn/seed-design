@@ -1,5 +1,17 @@
 # @seed-design/react
 
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies
+  - @seed-design/react-segmented-control@1.0.1
+  - @seed-design/react-radio-group@1.0.1
+  - @seed-design/react-text-field@1.0.1
+  - @seed-design/react-checkbox@1.0.1
+  - @seed-design/react-switch@1.0.1
+  - @seed-design/react-tabs@1.0.1
+
 ## 1.0.7
 
 ### Patch Changes

@@ -69,6 +69,11 @@ function SlicingControlledTextField(props: Omit<TextFieldProps, "value" | "onVal
 }
 
 describe("useTextField", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   describe("aria test", () => {
     it("should render the input with aria-invalid=true when isInvalid=true", () => {
       const { getByRole } = setUp(<TextField invalid />);

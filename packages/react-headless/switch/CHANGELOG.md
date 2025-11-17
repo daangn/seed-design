@@ -1,5 +1,11 @@
 # @seed-design/react-switch
 
+## 1.0.1
+
+### Patch Changes
+
+- :focus-visible selector를 사용하기 전 브라우저에서 selector를 지원하는지 확인합니다.
+
 ## 1.0.0
 
 ### Major Changes
