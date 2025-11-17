@@ -1,12 +1,12 @@
-import type { ActivityComponentType } from "@stackflow/react";
+import type { ActivityComponentType } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { List, ListDivider, ListCheckItem } from "../seed-design/ui/list";
-import { Checkmark } from "../seed-design/ui/checkbox";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { List, ListDivider, ListCheckItem } from "seed-design/ui/list";
+import { Checkmark } from "seed-design/ui/checkbox";
 import { Icon } from "@seed-design/react";
-import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { Avatar } from "../seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { Avatar } from "seed-design/ui/avatar";
 import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
@@ -60,7 +60,13 @@ const stateVariants = [
   },
 ] as const;
 
-const ActivityListCheckItem: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityListCheckItem: {};
+  }
+}
+
+const ActivityListCheckItem: ActivityComponentType<"ActivityListCheckItem"> = () => {
   return (
     <AppScreen>
       <AppBar>

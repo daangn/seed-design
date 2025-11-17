@@ -1,9 +1,15 @@
 import { Box, VStack } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import type { ActivityComponentType } from "@stackflow/react/future";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
-const ActivityMixedVersionTest: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityMixedVersionTest: {};
+  }
+}
+
+const ActivityMixedVersionTest: ActivityComponentType<"ActivityMixedVersionTest"> = () => {
   return (
     <AppScreen>
       <AppBar>

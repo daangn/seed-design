@@ -10,6 +10,10 @@
     "strict": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "verbatimModuleSyntax": true
-  }
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "seed-design/*": ["./src/seed-design/*"]
+    }
+  },
+  "include": ["src"]
 }

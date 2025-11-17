@@ -10,6 +10,7 @@ import type { CAC } from "cac";
 import { BASE_URL } from "../constants";
 import { highlight } from "../utils/color";
 import { installDependencies } from "../utils/install";
+import { analytics } from "../utils/analytics";
 
 const addOptionsSchema = z.object({
   itemIds: z.array(z.string()).optional(),
@@ -38,6 +39,7 @@ export const addCommand = (cli: CAC) => {
     .example("seed-design add ui:action-button")
     .example("seed-design add ui:alert-dialog")
     .action(async (itemIds, opts) => {
+      const startTime = Date.now();
       p.intro("seed-design add");
 
       const {
@@ -180,25 +182,51 @@ export const addCommand = (cli: CAC) => {
         config,
       });
 
-      const { installed, filtered } = await installDependencies({
-        cwd,
-        deps: Array.from(npmDependenciesToAdd),
+      try {
+        const { installed, filtered } = await installDependencies({
+          cwd,
+          deps: Array.from(npmDependenciesToAdd),
+        });
+
+        if (installed.size === 0) {
+          p.log.message("모든 의존성이 이미 설치되어 있어요.");
+        }
+
+        if (installed.size) {
+          p.log.message(`의존성 설치 완료: ${highlight(Array.from(installed).join(", "))}`);
+
+          if (filtered.size) {
+            p.log.message(
+              `설치하지 않은 의존성 (이미 설치됨): ${highlight(Array.from(filtered).join(", "))}`,
+            );
+          }
+        }
+        p.outro("완료했어요.");
+      } catch (error) {
+        p.log.error(`추가에 실패했어요. ${error}`);
+        p.outro(highlight("작업이 취소됐어요."));
+        process.exit(1);
+      }
+
+      // add 성공 이벤트 추적
+      const duration = Date.now() - startTime;
+      const uniqueRegistries = new Set(registryItemsToAdd.map((r) => r.registryId));
+      const hasDeprecated = selectedItemKeys.some((itemKey) => {
+        const [registryId, ...rest] = itemKey.split(":");
+        const itemId = rest.join(":");
+        return publicRegistries.find((r) => r.id === registryId)?.items.find((i) => i.id === itemId)
+          ?.deprecated;
       });
 
-      if (installed.size === 0) {
-        p.log.message("모든 의존성이 이미 설치되어 있어요.");
-      }
-
-      if (installed.size) {
-        p.log.message(`의존성 설치 완료: ${highlight(Array.from(installed).join(", "))}`);
-
-        if (filtered.size) {
-          p.log.message(
-            `설치하지 않은 의존성 (이미 설치됨): ${highlight(Array.from(filtered).join(", "))}`,
-          );
-        }
-      }
-
-      p.outro("완료했어요.");
+      await analytics.track(options.cwd, {
+        event: "add",
+        properties: {
+          items_count: filteredItemKeys.length,
+          registries: Array.from(uniqueRegistries),
+          has_deprecated: hasDeprecated,
+          dependencies_count: npmDependenciesToAdd.size,
+          duration_ms: duration,
+        },
+      });
     });
 };

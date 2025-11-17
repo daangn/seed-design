@@ -1,7 +1,7 @@
 import { client } from "@/sanity/lib/client";
 import { ALL_COMPONENTS_QUERY } from "@/sanity/lib/queries";
 import { ComponentData, PlatformStatus } from "@/sanity/lib/types";
-import { HelpBubbleTrigger } from "@/registry/ui/help-bubble";
+import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
 import { Badge } from "@seed-design/react";
 import Link from "next/link";

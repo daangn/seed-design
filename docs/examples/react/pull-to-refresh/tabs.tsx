@@ -11,7 +11,7 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tab
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/pull-to-refresh/tabs": unknown;
+    "react/pull-to-refresh/tabs": {};
   }
 }
 

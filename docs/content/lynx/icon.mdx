@@ -1,0 +1,160 @@
+---
+title: Icon
+description: Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.
+---
+
+## Installation
+
+Monochrome
+
+```package-install
+npm install @karrotmarket/lynx-monochrome-icon
+```
+
+Multicolor
+
+```package-install
+npm install @karrotmarket/lynx-multicolor-icon
+```
+
+## Loader Configuration
+
+아이콘 로더를 설정해야 합니다.
+
+<Callout>
+lynx 3.5 기준으로 SVG를 지원하지 않기 때문에 로더를 설정해 이를 WebP로 변환하는 역할을 합니다.
+`@karrotmarket/lynx-*-icon` 패키지는 내부적으로 `karrotmarket/assets-*` 패키지의 SVG를 사용하는데, 이를 로컬에서 `sharp`를 사용해서 WebP로 변환하는 역할을 합니다.
+</Callout>
+
+```package-install
+npm install -D sharp
+```
+
+<Files>
+  <File name="package.json" />
+  <File name="rsbuild.config.ts" />
+  <File name="icon-loader.js" />
+</Files>
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from '@lynx-js/rspeedy'
+
+import { pluginQRCode } from '@lynx-js/qrcode-rsbuild-plugin'
+import { pluginReactLynx } from '@lynx-js/react-rsbuild-plugin'
+import { pluginTypeCheck } from '@rsbuild/plugin-type-check'
+
+export default defineConfig({
+  plugins: [
+    pluginQRCode({
+      schema(url) {
+        // We use `?fullscreen=true` to open the page in LynxExplorer in full screen mode
+        return `${url}?fullscreen=true`
+      },
+    }),
+    pluginReactLynx(),
+    pluginTypeCheck(),
+  ],
+
+  tools: {
+    rspack(config) {
+      // SVG 규칙을 찾아서 예외처리하고, 새로운 SVG 규칙을 추가합니다
+      if (config.module?.rules) {
+        config.module.rules = config.module.rules.map((rule) => {
+          if (
+            !rule ||
+            typeof rule !== "object" ||
+            !(rule.test instanceof RegExp)
+          ) {
+            return rule;
+          }
+
+          return {
+            ...rule,
+            exclude: [
+              ...(Array.isArray(rule.exclude) ? rule.exclude : []),
+              /\.svg$/,
+            ],
+          };
+        });
+        config.module.rules.unshift({
+          test: /\.svg$/,
+          use: {
+            loader: "./icon-loader.js",
+          },
+        });
+      }
+
+      return config;
+    },
+  },
+})
+```
+
+```js title="icon-loader.js"
+import sharp from "sharp";
+
+const MONOCHROME_ICON_MAX_SIZE = 24 * 3;
+const MONOCHROME_ICON_QUALITY = 90;
+const ICON_MONOCHROME_PATH = "@karrotmarket/assets-monochrome/svg/";
+const ICON_MULTICOLOR_PATH = "@karrotmarket/assets-multicolor/svg/";
+
+async function iconLoader(source) {
+  const callback = this.async();
+  const resourcePath = this.resourcePath;
+
+  if (!resourcePath.includes(ICON_MONOCHROME_PATH) && !resourcePath.includes(ICON_MULTICOLOR_PATH)) {
+    return callback(null, source);
+  }
+
+  const size = MONOCHROME_ICON_MAX_SIZE;
+  const quality = MONOCHROME_ICON_QUALITY;
+
+  try {
+    const buffer = await sharp(Buffer.from(source))
+      .resize({
+        width: size,
+        fit: "contain",
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .webp({ quality })
+      .toBuffer();
+
+    const base64String = buffer.toString("base64");
+    const dataUrl = `data:image/webp;base64,${base64String}`;
+
+    callback(null, `export default "${dataUrl}"`);
+  } catch (err) {
+    callback(err);
+  }
+}
+
+iconLoader.raw = true;
+
+export default iconLoader;
+```
+
+## Icon Library
+
+전체 아이콘 목록은 [Icon Library](/docs/foundation/iconography/library) 페이지에서 확인할 수 있습니다.
+
+## Usage
+
+아이콘 패키지 설치 및 로더 설정을 완료한 후, 프로젝트에서 아이콘을 사용할 수 있습니다.
+
+```tsx
+import { IconArrow2ClockwiseCircularFill, IconArrow2ClockwiseCircularLine } from "@karrotmarket/lynx-monochrome-icon"
+import { IconCamera } from "@karrotmarket/lynx-multicolor-icon"
+
+export function App() {
+  return (
+    <view>
+      {"모노크롬 아이콘은 color가 필수입니다."}
+      <IconArrow2ClockwiseCircularLine size={24} color='gray' />
+      <IconArrow2ClockwiseCircularFill size={30} color='gray' />
+
+      {"멀티컬러 아이콘은 color가 없습니다."}
+      <IconCamera size={30} />
+    </view>
+  )
+}
+```

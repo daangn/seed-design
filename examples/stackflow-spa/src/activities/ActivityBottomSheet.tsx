@@ -1,43 +1,118 @@
-import { useActivity, type ActivityComponentType } from "@stackflow/react";
-
-import { ActionButton } from "../seed-design/ui/action-button";
+import { HStack, VStack } from "@seed-design/react";
+import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useRef, useState } from "react";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   BottomSheetBody,
   BottomSheetContent,
   BottomSheetFooter,
   BottomSheetRoot,
-} from "../seed-design/ui/bottom-sheet";
-import { useFlow } from "../stackflow";
+} from "seed-design/ui/bottom-sheet";
+import { Checkbox } from "seed-design/ui/checkbox";
+import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
-const ActivityBottomSheet: ActivityComponentType = () => {
-  const { pop } = useFlow();
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityBottomSheet: {};
+  }
+}
+
+const ActivityBottomSheet: ActivityComponentType<"ActivityBottomSheet"> = () => {
+  const { push, pop } = useFlow();
   const activity = useActivity();
 
-  const handleClose = (open: boolean) => {
-    if (!open) {
-      pop();
+  const form = useRef<HTMLFormElement>(null);
+
+  const snackbar = useSnackbarAdapter();
+
+  const [nameError, setNameError] = useState<string | null>(null);
+
+  const handleSubmit = () => {
+    if (!form.current) return;
+    const formData = new FormData(form.current);
+
+    if (!formData.get("name")) {
+      setNameError("이름을 입력해주세요.");
+
+      return;
     }
+
+    setNameError(null);
+    pop();
+
+    snackbar.create({
+      render: () => (
+        <Snackbar
+          variant="positive"
+          message={JSON.stringify({
+            name: formData.get("name"),
+            subscribe: formData.get("subscribe"),
+          })}
+        />
+      ),
+    });
   };
 
   return (
-    <BottomSheetRoot open={activity.isActive} onOpenChange={handleClose}>
+    <BottomSheetRoot open={activity.isActive} onOpenChange={(open) => !open && pop()}>
       <BottomSheetContent
-        showHandle={true}
-        title="제목"
-        description="다람쥐 헌 쳇바퀴에 타고파"
-        // TODO: there should be an API to get z-indices of AppScreen elements
-        // since overlay components are often portalled, CSS variables might not be enough
-        // z-index of AppBar is base + 4 (see the recipe)
-        layerIndex={activity.zIndex + 4}
+        showHandle
+        showCloseButton={false}
+        title="정보 입력"
+        layerIndex={useActivityZIndexBase()}
       >
-        <BottomSheetBody alignItems="center" justifyContent="center" height="300px">
-          Handle을 드래그하여 시트를 조절할 수 있습니다.
-        </BottomSheetBody>
-        <BottomSheetFooter>
-          <ActionButton onClick={() => pop()} variant="neutralSolid" size="large">
-            확인
-          </ActionButton>
-        </BottomSheetFooter>
+        <form
+          ref={form}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
+          <BottomSheetBody>
+            <VStack gap="spacingY.componentDefault">
+              <TextField
+                required
+                showRequiredIndicator
+                name="name"
+                label="이름"
+                description="본명이 아니어도 괜찮아요."
+                invalid={!!nameError}
+                errorMessage={nameError}
+              >
+                <TextFieldInput placeholder="이름을 입력하세요" />
+              </TextField>
+              <Checkbox
+                label="뉴스레터 구독하기"
+                tone="neutral"
+                inputProps={{ name: "subscribe" }}
+              />
+            </VStack>
+          </BottomSheetBody>
+          <BottomSheetFooter>
+            <HStack gap="x2">
+              <ActionButton type="button" variant="neutralWeak" onClick={pop}>
+                닫기
+              </ActionButton>
+              <ActionButton
+                type="button"
+                variant="neutralWeak"
+                onClick={() =>
+                  push("ActivityDetail", {
+                    title: "Activity",
+                    body: "이 Activity를 pop하면 이전 Activity의 Bottom Sheet가 열린 상태로 표시됩니다.",
+                  })
+                }
+              >
+                Push
+              </ActionButton>
+              <ActionButton type="submit" variant="neutralSolid" flexGrow>
+                제출
+              </ActionButton>
+            </HStack>
+          </BottomSheetFooter>
+        </form>
       </BottomSheetContent>
     </BottomSheetRoot>
   );

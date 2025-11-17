@@ -9,9 +9,8 @@ import {
   VELOCITY_THRESHOLD,
   WINDOW_TOP_OFFSET,
 } from "./constants";
-import { dampenValue, getTranslate, isVertical, reset, set } from "./helpers";
+import { dampenValue, getTranslate, isInput, isVertical, reset, set } from "./helpers";
 import { usePositionFixed } from "./use-position-fixed";
-import { isInput, usePreventScroll } from "./use-prevent-scroll";
 import { useSnapPoints } from "./use-snap-points";
 
 export interface UseDrawerProps {
@@ -47,7 +46,7 @@ export interface UseDrawerProps {
   handleOnly?: boolean;
   /**
    * When `false` dragging, clicking outside, pressing esc, etc. will not close the drawer.
-   * Use this in comination with the `open` prop, otherwise you won't be able to open/close the drawer.
+   * Use this in combination with the `open` prop, otherwise you won't be able to open/close the drawer.
    * @default true
    */
   dismissible?: boolean;
@@ -70,11 +69,6 @@ export interface UseDrawerProps {
    * @default false
    */
   defaultOpen?: boolean;
-  /**
-   * When set to `true` prevents scrolling on the document body on mount, and restores it on unmount.
-   * @default false
-   */
-  disablePreventScroll?: boolean;
   /**
    * When `true` Vaul will reposition inputs rather than scroll then into view if the keyboard is in the way.
    * Setting it to `false` will fall back to the default browser behavior.
@@ -99,7 +93,7 @@ export interface UseDrawerProps {
 
   /**
    * Array of snap points to use.
-   * Example: snapPoints={[0, 100, 200]} will use the first snap point at 0px, the second at 100px, and the third at 200px.
+   * Example: snapPoints={["100px", "200px", 1]} will use the snap points 100px, 200px and fully open (1 = 100% of the container).
    * @default undefined
    */
   snapPoints?: (number | string)[];
@@ -145,7 +139,6 @@ export function useDrawer(props: UseDrawerProps) {
     noBodyStyles = true,
     direction = "bottom",
     defaultOpen = false,
-    disablePreventScroll = true,
     snapToSequentialPoint = false,
     preventScrollRestoration = false,
     repositionInputs = true,
@@ -186,7 +179,6 @@ export function useDrawer(props: UseDrawerProps) {
 
   const [hasBeenOpened, setHasBeenOpened] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [justReleased, setJustReleased] = useState<boolean>(false);
   const [shouldOverlayAnimate, setShouldOverlayAnimate] = useState<boolean>(false);
 
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -232,17 +224,6 @@ export function useDrawer(props: UseDrawerProps) {
     onSnapPointChange,
     direction,
     snapToSequentialPoint,
-  });
-
-  usePreventScroll({
-    isDisabled:
-      !isOpen ||
-      isDragging ||
-      !modal ||
-      justReleased ||
-      !hasBeenOpened ||
-      !repositionInputs ||
-      !disablePreventScroll,
   });
 
   const { restorePositionSetting } = usePositionFixed({
@@ -501,13 +482,6 @@ export function useDrawer(props: UseDrawerProps) {
     const timeTaken = dragEndTime.current.getTime() - dragStartTime.current.getTime();
     const distMoved = pointerStart.current - (isVertical(direction) ? event.pageY : event.pageX);
     const velocity = Math.abs(distMoved) / timeTaken;
-
-    if (velocity > 0.05) {
-      setJustReleased(true);
-      setTimeout(() => {
-        setJustReleased(false);
-      }, 200);
-    }
 
     if (snapPoints) {
       const directionMultiplier = direction === "bottom" || direction === "right" ? 1 : -1;

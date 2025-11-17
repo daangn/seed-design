@@ -3,6 +3,7 @@ import { useMemo, useRef, useState } from "react";
 import { getGridColumnCount, getVariantCombination } from "../helper";
 import { ComponentShowcase } from "./ComponentShowcase";
 import ControlPanel from "./ControlPanel";
+import { VStack } from "@seed-design/react";
 
 type ComponentAnalyzerProviderProps<T extends Record<string, string[]>> = {
   variantsMap: T;
@@ -29,18 +30,10 @@ export function ComponentAnalyzer<T extends Record<string, string[]>>(
   const gridColumns = getGridColumnCount(variantsMap, variants);
 
   return (
-    <div
-      ref={screenRef}
-      style={{
-        overflow: "auto",
-        height: "calc(100vh - var(--stackflow-plugin-basic-ui-app-bar-height))",
-        paddingBottom: controlPanelRef.current?.clientHeight,
-      }}
-    >
+    <VStack gap="x2" justify="space-between" height="full" ref={screenRef}>
       <ComponentShowcase gridColumns={gridColumns}>
         {variantCombination.map((variant) => render(variant))}
       </ComponentShowcase>
-
       <ControlPanel
         ref={controlPanelRef}
         variantMap={variantsMap}
@@ -52,6 +45,6 @@ export function ComponentAnalyzer<T extends Record<string, string[]>>(
           });
         }}
       />
-    </div>
+    </VStack>
   );
 }

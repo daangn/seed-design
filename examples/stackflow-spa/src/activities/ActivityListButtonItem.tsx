@@ -4,20 +4,15 @@ import {
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
+import { useStepFlow, type ActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { ActionButton } from "../seed-design/ui/action-button";
-import { Avatar } from "../seed-design/ui/avatar";
-import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import {
-  List,
-  ListDivider,
-  ListButtonItem,
-  type ListButtonItemProps,
-} from "../seed-design/ui/list";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { ActionButton } from "seed-design/ui/action-button";
+import { Avatar } from "seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { List, ListDivider, ListButtonItem, type ListButtonItemProps } from "seed-design/ui/list";
 import {
   AlertDialogContent,
   AlertDialogDescription,
@@ -26,8 +21,10 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../seed-design/ui/alert-dialog";
-import { useStepDialog } from "../seed-design/util/use-step-dialog";
+} from "seed-design/ui/alert-dialog";
+import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
+
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 const contentVariants = [
   { key: "title", detail: null },
@@ -70,14 +67,15 @@ const suffixVariants = [
 
 const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
   (props, ref) => {
-    const { dialogProps, setOpen } = useStepDialog();
+    const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
+    const { popStep } = useStepFlow("ActivityListButtonItem");
 
     return (
-      <AlertDialogRoot {...dialogProps}>
+      <AlertDialogRoot {...overlayProps}>
         <AlertDialogTrigger asChild>
           <ListButtonItem ref={ref} onClick={() => setOpen(true)} {...props} />
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent layerIndex={useActivityZIndexBase()}>
           <AlertDialogHeader>
             <AlertDialogTitle>consectetur</AlertDialogTitle>
             <AlertDialogDescription>
@@ -86,7 +84,7 @@ const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButton
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <ActionButton onClick={() => setOpen(false)}>닫기</ActionButton>
+            <ActionButton onClick={() => popStep()}>닫기</ActionButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogRoot>
@@ -95,7 +93,13 @@ const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButton
 );
 AlertDialogListButtonItem.displayName = "AlertDialogListButtonItem";
 
-const ActivityListButtonItem: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityListButtonItem: {};
+  }
+}
+
+const ActivityListButtonItem: ActivityComponentType<"ActivityListButtonItem"> = () => {
   return (
     <AppScreen>
       <AppBar>

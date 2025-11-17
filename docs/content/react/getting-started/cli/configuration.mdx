@@ -27,7 +27,8 @@ CLI로 seed-design을 추가하는 방법을 알아봐요.
 {
   "rsc": false,
   "tsx": true,
-  "path": "./seed-design"
+  "path": "./seed-design",
+  "telemetry": true
 }
 ```
 </Tab>
@@ -91,6 +92,47 @@ TypeScript를 사용할지 설정해요.
 {
   "tsx": true | false // default: true
 }
+```
+
+### telemetry
+
+텔레메트리 데이터 수집 여부를 설정해요.
+
+SEED Design CLI는 개선을 위해 익명 사용 데이터를 수집해요.
+개인 정보는 수집하지 않으며, 커맨드 사용 패턴과 성능 지표만 수집해요.
+
+```json title="seed-design.json"
+{
+  "telemetry": true | false // default: true
+}
+```
+
+#### 수집되는 데이터
+- 사용된 커맨드 (init, add, add-all)
+- 설정 옵션 (tsx, rsc 사용 여부)
+- 성능 지표 (실행 시간)
+- 기술 환경 (Node.js 버전, OS 플랫폼)
+
+#### 수집되지 않는 데이터
+- 프로젝트 경로, 파일 이름
+- 컴포넌트 이름
+- 소스 코드
+- 개인 식별 정보
+
+#### 비활성화 방법
+
+**1. seed-design.json 설정**
+```json
+{
+  "telemetry": false
+}
+```
+
+**2. 환경 변수 설정**
+```bash
+export DISABLE_TELEMETRY=true
+# 또는
+export SEED_DISABLE_TELEMETRY=true
 ```
 
 ### $schema

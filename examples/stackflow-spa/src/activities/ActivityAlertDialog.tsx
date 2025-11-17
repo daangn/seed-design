@@ -1,6 +1,6 @@
-import { useActivity, type ActivityComponentType } from "@stackflow/react";
+import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 
-import { ActionButton } from "../seed-design/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
   AlertDialogContent,
@@ -9,26 +9,18 @@ import {
   AlertDialogHeader,
   AlertDialogRoot,
   AlertDialogTitle,
-} from "../seed-design/ui/alert-dialog";
-import { useFlow } from "../stackflow";
-import { VStack } from "@seed-design/react";
+} from "seed-design/ui/alert-dialog";
+import { ResponsivePair } from "@seed-design/react";
 import { send } from "@stackflow/compat-await-push";
-import { useDialogContext } from "@seed-design/react/primitive";
-import { useEffect } from "react";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
-/**
- * This demonstrates how the dialog should be in sync with the activity state when using uncontrolled (`defaultOpen`)
- */
-function DialogActivitySync() {
-  const activity = useActivity();
-  const { setOpen } = useDialogContext();
-
-  useEffect(() => setOpen(activity.isActive), [activity.isActive, setOpen]);
-
-  return null;
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityAlertDialog: {};
+  }
 }
 
-const ActivityAlertDialog: ActivityComponentType = () => {
+const ActivityAlertDialog: ActivityComponentType<"ActivityAlertDialog"> = () => {
   const activity = useActivity();
   const { pop, push } = useFlow();
 
@@ -45,25 +37,29 @@ const ActivityAlertDialog: ActivityComponentType = () => {
   };
 
   return (
-    <AlertDialogRoot defaultOpen onOpenChange={handleClose}>
-      <DialogActivitySync />
-      {/* TODO: there should be an API to get z-indices of AppScreen elements */}
-      {/* since overlay components are often portalled, CSS variables might not be enough */}
-      {/* z-index of AppBar is base + 4 (see the recipe) */}
-      <AlertDialogContent layerIndex={activity.zIndex + 4}>
+    <AlertDialogRoot open={activity.isActive} onOpenChange={handleClose}>
+      <AlertDialogContent layerIndex={useActivityZIndexBase()}>
         <AlertDialogHeader>
           <AlertDialogTitle>제목</AlertDialogTitle>
           <AlertDialogDescription>다람쥐 헌 쳇바퀴에 타고파</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <VStack gap="x2">
+          <ResponsivePair gap="x2">
             <AlertDialogAction asChild>
-              <ActionButton>확인</ActionButton>
+              <ActionButton variant="neutralWeak">확인</ActionButton>
             </AlertDialogAction>
-            <ActionButton variant="neutralSolid" onClick={() => push("ActivityChipButton", {})}>
+            <ActionButton
+              variant="neutralSolid"
+              onClick={() =>
+                push("ActivityDetail", {
+                  title: "AlertDialog에서 Push됨",
+                  body: "다람쥐 헌 쳇바퀴에 타고파",
+                })
+              }
+            >
               Push
             </ActionButton>
-          </VStack>
+          </ResponsivePair>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>

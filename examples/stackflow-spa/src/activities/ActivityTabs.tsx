@@ -1,11 +1,17 @@
 import { Box } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
+import type { ActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "../seed-design/ui/tabs";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
-const ActivityTabs: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityTabs: {};
+  }
+}
+
+const ActivityTabs: ActivityComponentType<"ActivityTabs"> = () => {
   return (
     <AppScreen>
       <AppBar>

@@ -1,8 +1,14 @@
-import type { ActivityComponentType } from "@stackflow/react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import type { ActivityComponentType } from "@stackflow/react/future";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
-const ActivityNotFound: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityNotFound: {};
+  }
+}
+
+const ActivityNotFound: ActivityComponentType<"ActivityNotFound"> = () => {
   return (
     <AppScreen>
       <AppBar>
