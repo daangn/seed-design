@@ -1,6 +1,6 @@
 ---
 title: Icon
-description: Lynx 아이콘 패키지 설치 및 사용 방법
+description: Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.
 ---
 
 ## Installation
@@ -22,8 +22,8 @@ npm install @karrotmarket/lynx-multicolor-icon
 아이콘 로더를 설정해야 합니다.
 
 <Callout>
-로더가 하는 역할은 현재 lynx 3.5 기준으로 SVG를 지원하지 않습니다.
-`karrotmarket/assets-*` 패키지의 SVG를 사용할 때, 로컬에서 `sharp`를 사용해서 WebP로 변환하는 역할을 합니다.
+lynx 3.5 기준으로 SVG를 지원하지 않기 때문에 로더를 설정해 이를 WebP로 변환하는 역할을 합니다.
+`@karrotmarket/lynx-*-icon` 패키지는 내부적으로 `karrotmarket/assets-*` 패키지의 SVG를 사용하는데, 이를 로컬에서 `sharp`를 사용해서 WebP로 변환하는 역할을 합니다.
 </Callout>
 
 ```package-install
