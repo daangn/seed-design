@@ -80,7 +80,8 @@ const dialog = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      paddingInline: vars.base.enabled.header.paddingX,
+      paddingLeft: vars.base.enabled.header.paddingX,
+      paddingRight: vars.base.enabled.header.paddingX,
       paddingTop: vars.base.enabled.header.paddingTop,
       gap: vars.base.enabled.header.gap,
     },
@@ -106,7 +107,8 @@ const dialog = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
 
-      paddingInline: vars.base.enabled.footer.paddingX,
+      paddingLeft: vars.base.enabled.footer.paddingX,
+      paddingRight: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
     },

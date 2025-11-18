@@ -11,8 +11,10 @@ const menuSheetItem = defineRecipe({
 
     backgroundColor: vars.base.enabled.root.color,
     minHeight: vars.base.enabled.root.minHeight,
-    paddingInline: vars.base.enabled.root.paddingX,
-    paddingBlock: vars.base.enabled.root.paddingY,
+    paddingLeft: vars.base.enabled.root.paddingX,
+    paddingRight: vars.base.enabled.root.paddingX,
+    paddingTop: vars.base.enabled.root.paddingY,
+    paddingBottom: vars.base.enabled.root.paddingY,
     gap: vars.base.enabled.root.gap,
     boxShadow: `inset 0 calc(-1 * ${rootVars.base.enabled.divider.strokeBottomWidth}) 0 ${rootVars.base.enabled.divider.strokeColor}`,
 

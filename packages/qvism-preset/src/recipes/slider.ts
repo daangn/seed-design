@@ -158,8 +158,10 @@ const slider = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       background: vars.base.enabled.valueIndicatorRoot.color,
-      paddingInline: vars.base.enabled.valueIndicatorRoot.paddingX,
-      paddingBlock: vars.base.enabled.valueIndicatorRoot.paddingY,
+      paddingLeft: vars.base.enabled.valueIndicatorRoot.paddingX,
+      paddingRight: vars.base.enabled.valueIndicatorRoot.paddingX,
+      paddingTop: vars.base.enabled.valueIndicatorRoot.paddingY,
+      paddingBottom: vars.base.enabled.valueIndicatorRoot.paddingY,
       borderRadius: vars.base.enabled.valueIndicatorRoot.cornerRadius,
 
       color: vars.base.enabled.valueIndicatorLabel.color,

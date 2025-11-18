@@ -168,7 +168,8 @@ const bottomSheet = defineSlotRecipe({
       "--seed-box-max-height": "initial",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
-      paddingInline: "var(--seed-box-padding-x)",
+      paddingLeft: "var(--seed-box-padding-x)",
+      paddingRight: "var(--seed-box-padding-x)",
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
       maxHeight: "var(--seed-box-max-height)",
@@ -179,7 +180,9 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      paddingInline: vars.base.enabled.footer.paddingX,
+      paddingLeft: vars.base.enabled.footer.paddingX,
+      paddingRight: vars.base.enabled.footer.paddingX,
+
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
     },

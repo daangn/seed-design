@@ -30,7 +30,8 @@ const textInput = defineSlotRecipe({
 
       fontWeight: vars.base.enabled.value.fontWeight,
 
-      paddingInline: 0,
+      paddingLeft: 0,
+      paddingRight: 0,
 
       [pseudo(":is(input)")]: {
         // browser sets the default width of inputs based on the 'size' prop of the input (e.g. <input size="20" />)
@@ -176,31 +177,31 @@ const textInput = defineSlotRecipe({
         },
         value: {
           [pseudo(":first-child")]: {
-            paddingInlineStart: vars.variantOutline.enabled.root.paddingX,
+            paddingLeft: vars.variantOutline.enabled.root.paddingX,
           },
 
           [pseudo(":last-child")]: {
-            paddingInlineEnd: vars.variantOutline.enabled.root.paddingX,
+            paddingRight: vars.variantOutline.enabled.root.paddingX,
           },
         },
         prefixText: {
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.variantOutline.enabled.root.paddingX,
+            marginLeft: vars.variantOutline.enabled.root.paddingX,
           },
         },
         prefixIcon: {
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.variantOutline.enabled.root.paddingX,
+            marginLeft: vars.variantOutline.enabled.root.paddingX,
           },
         },
         suffixText: {
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.variantOutline.enabled.root.paddingX,
+            marginRight: vars.variantOutline.enabled.root.paddingX,
           },
         },
         suffixIcon: {
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.variantOutline.enabled.root.paddingX,
+            marginRight: vars.variantOutline.enabled.root.paddingX,
           },
         },
       },
@@ -263,7 +264,8 @@ const textInput = defineSlotRecipe({
         value: {
           [pseudo(":is(textarea)")]: {
             minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
-            paddingBlock: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+            paddingTop: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+            paddingBottom: vars.typeMultilineSizeLarge.enabled.root.paddingY,
           },
         },
       },
@@ -271,7 +273,8 @@ const textInput = defineSlotRecipe({
         value: {
           [pseudo(":is(textarea)")]: {
             minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
-            paddingBlock: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+            paddingTop: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+            paddingBottom: vars.typeMultilineSizeMedium.enabled.root.paddingY,
           },
         },
       },
