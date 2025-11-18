@@ -73,7 +73,7 @@ data:
                 blur: 6px
                 spread: 0px
                 color: "#00000026"
-          colorDuration: $duration.d4
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         progressCircle:
           size: 16px

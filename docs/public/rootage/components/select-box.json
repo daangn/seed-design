@@ -94,7 +94,7 @@
               "root": {
                 "colorTransitionDuration": {
                   "type": "duration",
-                  "value": "$duration.d3"
+                  "value": "$duration.color-transition"
                 },
                 "colorTransitionTimingFunction": {
                   "type": "cubicBezier",

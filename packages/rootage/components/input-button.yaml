@@ -105,11 +105,11 @@ data:
           strokeColor: $color.stroke.neutral-weak
 
           color: $color.bg.transparent
-          colorDuration: $duration.d3
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-          strokeColorDuration: $duration.d3
+          strokeColorDuration: $duration.color-transition
           strokeColorTimingFunction: $timing-function.easing
-          strokeWidthDuration: $duration.d3
+          strokeWidthDuration: $duration.color-transition
           strokeWidthTimingFunction: $timing-function.easing
 
         value:

@@ -4,7 +4,7 @@ export const vars = {
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
         "shadow": "0px 2px 6px 0px #00000026",
-        "colorDuration": "var(--seed-duration-d4)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "progressCircle": {

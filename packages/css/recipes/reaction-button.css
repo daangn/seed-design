@@ -19,7 +19,7 @@
     outline: none;
 }
 .seed-reaction-button {
-    transition: background-color var(--seed-duration-d4) var(--seed-timing-function-easing), box-shadow var(--seed-duration-d4) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
     background: var(--seed-color-bg-transparent);
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);

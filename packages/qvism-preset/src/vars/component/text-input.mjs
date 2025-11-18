@@ -3,7 +3,7 @@ export const vars = {
     "enabled": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
-        "strokeColorDuration": "var(--seed-duration-d3)",
+        "strokeColorDuration": "var(--seed-duration-color-transition)",
         "strokeColorTimingFunction": "var(--seed-timing-function-easing)",
         "strokeWidthDuration": "var(--seed-duration-d3)",
         "strokeWidthTimingFunction": "var(--seed-timing-function-easing)"

@@ -38,7 +38,7 @@ data:
           height: 4px
           color: $color.palette.gray-400
           borderRadius: 9999px
-          colorDuration: $duration.d4
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         touchArea:
           width: 44px

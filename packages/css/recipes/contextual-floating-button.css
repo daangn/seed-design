@@ -38,7 +38,7 @@
     --seed-icon-size: 22px;
     --size: 16px;
     --thickness: 2px;
-    transition: background-color var(--seed-duration-d4) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-contextual-floating-button--variant_solid {
     background: var(--seed-color-bg-neutral-inverted);

@@ -3,7 +3,7 @@
     width: 100%;
     align-items: center;
     overflow: hidden;
-    transition: box-shadow var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-text-input__value {
     box-sizing: border-box;

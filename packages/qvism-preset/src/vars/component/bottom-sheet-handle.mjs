@@ -7,7 +7,7 @@ export const vars = {
         "height": "4px",
         "color": "var(--seed-color-palette-gray-400)",
         "borderRadius": "9999px",
-        "colorDuration": "var(--seed-duration-d4)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "touchArea": {
