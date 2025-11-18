@@ -3,6 +3,60 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.11.18
+
+transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 추가 [`dfe6c1e`](https://github.com/daangn/seed-design/commit/dfe6c1e12f7b88b1ebdabbe54e4fc504b700489a)
+
+- `$color.bg.transparent-pressed` 컬러와 `$color.bg.transparent` 컬러가 추가되었습니다.
+- 다음 컴포넌트들의 색상이 transparent 관련 토큰으로 변경되었습니다.
+  - `Chip` (outlineStrong, outlineWeak)
+  - `Action Button` (neutralOutline, brandOutline, ghost)
+  - `Checkmark`
+  - `Tabs` (outline)
+  - `List Item`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Select Box`
+- 다음 컴포넌트들의 color transition이 추가되었습니다. (duration: $duration.d3, timing-function: $timing-function.easing)
+  - `Checkmark`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Select Box`
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.6](https://npmjs.com/package/@seed-design/css/v/1.1.6)
+- 📦 [@seed-design/rootage-artifacts@1.1.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.3)
+- 📦 [@seed-design/tailwind3-plugin@1.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.1.6)
+- 📦 [@seed-design/tailwind4-theme@1.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.1.6)
+
+---
+
+다음 컴포넌트들의 color transition을 `$duration.color-transition` (d3) 토큰으로 변경합니다 [`a09e6b4`](https://github.com/daangn/seed-design/commit/a09e6b49f84e622f75563c85897992033301c3f3)
+
+- `Action Button`
+- `Bottom Sheet Handle`
+- `Checkmark`
+- `Tabs` (outline)
+- `Chip`
+- `Contextual Floating Button`
+- `Floating Action Button`
+- `Input Button`
+- `List Item`
+- `Radiomark`
+- `Reaction Button`
+- `Segmented Control Item`
+- `Select Box`
+- `Text Input`
+- `Toggle Button`
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.6](https://npmjs.com/package/@seed-design/css/v/1.1.6)
+- 📦 [@seed-design/rootage-artifacts@1.1.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.3)
+- 📦 [@seed-design/tailwind3-plugin@1.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.1.6)
+- 📦 [@seed-design/tailwind4-theme@1.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.1.6)
+
+---
+
 ## 2025.11.17
 
 BottomSheetBody에 제공한 style 관련 prop(`paddingX` 등)이 적용되지 않고 DOM으로 bleed되는 문제를 수정합니다. [`03ff678`](https://github.com/daangn/seed-design/commit/03ff678ce576d85a37185f4551bfa99927a9bea6)

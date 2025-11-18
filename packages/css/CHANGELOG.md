@@ -1,5 +1,45 @@
 # @seed-design/css
 
+## 1.1.6
+
+### Patch Changes
+
+- dfe6c1e: transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 추가
+
+  - `$color.bg.transparent-pressed` 컬러와 `$color.bg.transparent` 컬러가 추가되었습니다.
+  - 다음 컴포넌트들의 색상이 transparent 관련 토큰으로 변경되었습니다.
+    - `Chip` (outlineStrong, outlineWeak)
+    - `Action Button` (neutralOutline, brandOutline, ghost)
+    - `Checkmark`
+    - `Tabs` (outline)
+    - `List Item`
+    - `Radiomark`
+    - `Reaction Button`
+    - `Select Box`
+  - 다음 컴포넌트들의 color transition이 추가되었습니다. (duration: $duration.d3, timing-function: $timing-function.easing)
+    - `Checkmark`
+    - `Radiomark`
+    - `Reaction Button`
+    - `Select Box`
+
+- a09e6b4: 다음 컴포넌트들의 color transition을 `$duration.color-transition` (d3) 토큰으로 변경합니다
+
+  - `Action Button`
+  - `Bottom Sheet Handle`
+  - `Checkmark`
+  - `Tabs` (outline)
+  - `Chip`
+  - `Contextual Floating Button`
+  - `Floating Action Button`
+  - `Input Button`
+  - `List Item`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Segmented Control Item`
+  - `Select Box`
+  - `Text Input`
+  - `Toggle Button`
+
 ## 1.1.5
 
 ### Patch Changes
