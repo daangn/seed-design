@@ -542,7 +542,8 @@ export default plugin(
   "d3": "var(--seed-duration-d3)",
   "d4": "var(--seed-duration-d4)",
   "d5": "var(--seed-duration-d5)",
-  "d6": "var(--seed-duration-d6)"
+  "d6": "var(--seed-duration-d6)",
+  "color-transition": "var(--seed-duration-color-transition)"
 },
         transitionTimingFunction: {
   "linear": "var(--seed-timing-function-linear)",
