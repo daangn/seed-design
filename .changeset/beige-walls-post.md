@@ -5,8 +5,21 @@
 "@seed-design/css": patch
 ---
 
-컬러 추가 및 Chip 컴포넌트의 Outline Variant 배경 컬러 변경
+transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 추가
 
-- `$color.bg.transparent-pressed` 컬러가 추가되었습니다.
-- Chip 컴포넌트의 Outline Variant의 enabled 상태가 transparent로 변경되었습니다.
-- Chip 컴포넌트의 Outline Variant의 pressed 상태가 `$color.bg.transparent-pressed` 컬러로 변경되었습니다.
+- `$color.bg.transparent-pressed` 컬러와 `$color.bg.transparent` 컬러가 추가되었습니다.
+- 다음 컴포넌트들의 색상이 transparent 관련 토큰으로 변경되었습니다.
+  - `Chip` (outlineStrong, outlineWeak)
+  - `Action Button` (neutralOutline, brandOutline, ghost)
+  - `Checkmark`
+  - `Tabs` (outline)
+  - `List Item` (List)
+  - `Radiomark`
+  - `Reaction Button`
+  - `Select Box`
+- 다음 컴포넌트들의 color transition이 추가되었습니다. (duration: $duration.d3, timing-function: $timing-function.easing)
+  - `Checkmark`
+  - `Radiomark`
+  - `List Item` (List)
+  - `Reaction Button`
+  - `Select Box`
