@@ -9,11 +9,11 @@ export declare const vars: {
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "color": "var(--seed-color-bg-transparent)",
-        "colorDuration": "var(--seed-duration-d3)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeColorDuration": "var(--seed-duration-d3)",
+        "strokeColorDuration": "var(--seed-duration-color-transition)",
         "strokeColorTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeWidthDuration": "var(--seed-duration-d3)",
+        "strokeWidthDuration": "var(--seed-duration-color-transition)",
         "strokeWidthTimingFunction": "var(--seed-timing-function-easing)"
       },
       "value": {

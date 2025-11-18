@@ -54,7 +54,7 @@ data:
     base:
       enabled:
         root:
-          colorTransitionDuration: $duration.d3
+          colorTransitionDuration: $duration.color-transition
           colorTransitionTimingFunction: $timing-function.easing
           paddingX: $dimension.x4
           paddingY: $dimension.x5

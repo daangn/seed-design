@@ -9,7 +9,7 @@
     border-radius: var(--seed-radius-r3);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     background-color: var(--seed-color-bg-transparent);
-    transition: background-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-select-box__root:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-transparent-pressed);

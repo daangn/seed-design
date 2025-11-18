@@ -7,7 +7,7 @@
     height: 4px;
     background-color: var(--seed-color-palette-gray-400);
     border-radius: 9999px;
-    transition: background-color var(--seed-duration-d4) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
     touch-action: pan-y;
 }
 .seed-bottom-sheet-handle__root:is(:active, [data-active]) {

@@ -192,7 +192,7 @@
                 },
                 "colorDuration": {
                   "type": "duration",
-                  "value": "$duration.d3"
+                  "value": "$duration.color-transition"
                 },
                 "colorTimingFunction": {
                   "type": "cubicBezier",
@@ -200,7 +200,7 @@
                 },
                 "strokeColorDuration": {
                   "type": "duration",
-                  "value": "$duration.d3"
+                  "value": "$duration.color-transition"
                 },
                 "strokeColorTimingFunction": {
                   "type": "cubicBezier",
@@ -208,7 +208,7 @@
                 },
                 "strokeWidthDuration": {
                   "type": "duration",
-                  "value": "$duration.d3"
+                  "value": "$duration.color-transition"
                 },
                 "strokeWidthTimingFunction": {
                   "type": "cubicBezier",

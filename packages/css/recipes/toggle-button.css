@@ -22,7 +22,7 @@
     cursor: not-allowed;
 }
 .seed-toggle-button {
-    transition: background-color var(--seed-duration-d4) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
     font-weight: var(--seed-font-weight-bold);
 }
 .seed-toggle-button--variant_brandSolid {

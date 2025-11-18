@@ -2,7 +2,7 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "colorDuration": "var(--seed-duration-d3)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "paddingY": "var(--seed-dimension-x2)",
         "cornerRadius": "var(--seed-radius-full)"

@@ -3,7 +3,7 @@
     box-sizing: border-box;
     flex-shrink: 0;
     margin-top: var(--checkmark-margin-top, 0);
-    transition: background-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-checkmark__icon {
     display: none;

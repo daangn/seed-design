@@ -407,6 +407,7 @@
         { "const": "$dimension.x7", "title": "$dimension.x7", "description": "default: 28px", "markdownDescription": "- default: `28px`" },
         { "const": "$dimension.x8", "title": "$dimension.x8", "description": "default: 32px", "markdownDescription": "- default: `32px`" },
         { "const": "$dimension.x9", "title": "$dimension.x9", "description": "default: 36px", "markdownDescription": "- default: `36px`" },
+        { "const": "$duration.color-transition", "title": "$duration.color-transition", "description": "default: $duration.d3", "markdownDescription": "- default: `$duration.d3`" },
         { "const": "$duration.d1", "title": "$duration.d1", "description": "default: 50ms", "markdownDescription": "- default: `50ms`" },
         { "const": "$duration.d2", "title": "$duration.d2", "description": "default: 100ms", "markdownDescription": "- default: `100ms`" },
         { "const": "$duration.d3", "title": "$duration.d3", "description": "default: 150ms", "markdownDescription": "- default: `150ms`" },

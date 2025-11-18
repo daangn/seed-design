@@ -214,6 +214,7 @@
   --duration-d4: var(--seed-duration-d4);
   --duration-d5: var(--seed-duration-d5);
   --duration-d6: var(--seed-duration-d6);
+  --duration-color-transition: var(--seed-duration-color-transition);
   --font-size-t1: var(--seed-font-size-t1);
   --font-size-t2: var(--seed-font-size-t2);
   --font-size-t3: var(--seed-font-size-t3);

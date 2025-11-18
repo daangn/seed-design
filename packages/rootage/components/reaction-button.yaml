@@ -71,7 +71,7 @@ data:
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
           color: $color.bg.transparent
-          colorDuration: $duration.d4
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         label:
           color: $color.fg.neutral

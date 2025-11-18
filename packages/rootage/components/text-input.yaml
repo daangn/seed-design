@@ -91,7 +91,7 @@ data:
       enabled:
         root:
           strokeColor: $color.stroke.neutral-weak
-          strokeColorDuration: $duration.d3
+          strokeColorDuration: $duration.color-transition
           strokeColorTimingFunction: $timing-function.easing
           strokeWidthDuration: $duration.d3
           strokeWidthTimingFunction: $timing-function.easing
@@ -229,4 +229,3 @@ data:
         root:
           minHeight: 90px
           paddingY: 11px
-  

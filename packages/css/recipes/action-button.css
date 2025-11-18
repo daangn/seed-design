@@ -42,7 +42,7 @@
     cursor: not-allowed;
 }
 .seed-action-button {
-    transition: background-color var(--seed-duration-d4) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-action-button--variant_brandSolid {
     background: var(--seed-color-bg-brand-solid);

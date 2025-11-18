@@ -73,7 +73,7 @@ data:
     base:
       enabled:
         root:
-          colorDuration: $duration.d4
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         label:
           fontWeight: $font-weight.bold
