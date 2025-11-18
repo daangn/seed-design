@@ -80,12 +80,12 @@
     color: var(--seed-color-fg-neutral);
 }
 .seed-chip__root--variant_outlineStrong {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     --seed-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-chip__root--variant_outlineStrong:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]) {
     background: var(--seed-color-bg-neutral-inverted);
@@ -110,12 +110,12 @@
     color: var(--seed-color-fg-neutral);
 }
 .seed-chip__root--variant_outlineWeak {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     --seed-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-chip__root--variant_outlineWeak:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]) {
     background: var(--seed-color-bg-neutral-weak);

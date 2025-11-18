@@ -8,6 +8,7 @@ export const vars = {
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "content": {
+        "color": "var(--seed-color-bg-transparent)",
         "gap": "var(--seed-dimension-x0_5)",
         "paddingRight": "var(--seed-dimension-x2_5)"
       },
@@ -51,7 +52,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {

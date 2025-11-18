@@ -46,7 +46,7 @@ const inputButton = defineSlotRecipe({
       padding: 0,
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      backgroundColor: "transparent",
+      backgroundColor: vars.base.enabled.root.color,
 
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 

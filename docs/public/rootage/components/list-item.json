@@ -30,6 +30,9 @@
         },
         "content": {
           "properties": {
+            "color": {
+              "type": "color"
+            },
             "gap": {
               "type": "dimension"
             },
@@ -151,6 +154,10 @@
                 }
               },
               "content": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x0_5"
@@ -275,7 +282,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }

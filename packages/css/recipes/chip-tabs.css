@@ -49,6 +49,7 @@
     padding-top: var(--seed-dimension-x2);
     padding-bottom: var(--seed-dimension-x2);
     font-weight: var(--seed-font-weight-medium);
+    transition: background-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-chip-tabs__list--size_medium {
     gap: 8px;
@@ -77,7 +78,7 @@
     color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-default-pressed);
+    background-color: var(--seed-color-bg-transparent-pressed);
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);
@@ -91,7 +92,7 @@
     color: var(--seed-color-fg-disabled);
 }
 .seed-chip-tabs__trigger--variant_neutralOutline {
-    background-color: transparent;
+    background-color: var(--seed-color-bg-transparent);
     border: 1px solid var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-neutral);
 }
@@ -101,7 +102,7 @@
     color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-chip-tabs__trigger--variant_neutralOutline:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-default-pressed);
+    background-color: var(--seed-color-bg-transparent-pressed);
 }
 .seed-chip-tabs__trigger--variant_neutralOutline:is(:selected, [data-selected]):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);

@@ -186,6 +186,10 @@
                   "type": "color",
                   "value": "$color.stroke.neutral-weak"
                 },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
                 "colorDuration": {
                   "type": "duration",
                   "value": "$duration.d3"
@@ -326,7 +330,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }

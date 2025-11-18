@@ -8,6 +8,10 @@ data:
     slots:
       root:
         properties:
+          colorTransitionDuration:
+            type: duration
+          colorTransitionTimingFunction:
+            type: cubicBezier
           paddingX:
             type: dimension
           paddingY:
@@ -50,12 +54,15 @@ data:
     base:
       enabled:
         root:
+          colorTransitionDuration: $duration.d3
+          colorTransitionTimingFunction: $timing-function.easing
           paddingX: $dimension.x4
           paddingY: $dimension.x5
           gap: $dimension.x2_5
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-muted
           cornerRadius: $radius.r3
+          color: $color.bg.transparent
         content:
           gap: $dimension.x0_5
         label:
@@ -71,7 +78,7 @@ data:
 
       enabled,pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
 
       enabled,selected:
         root:

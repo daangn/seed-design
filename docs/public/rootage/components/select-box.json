@@ -11,6 +11,12 @@
       "slots": {
         "root": {
           "properties": {
+            "colorTransitionDuration": {
+              "type": "duration"
+            },
+            "colorTransitionTimingFunction": {
+              "type": "cubicBezier"
+            },
             "paddingX": {
               "type": "dimension"
             },
@@ -86,6 +92,14 @@
             ],
             "slots": {
               "root": {
+                "colorTransitionDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "colorTransitionTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x4"
@@ -112,6 +126,10 @@
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r3"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
                 }
               },
               "content": {
@@ -167,7 +185,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }

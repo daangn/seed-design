@@ -54,7 +54,7 @@
     align-items: flex-start;
     flex-grow: 1;
     border: none;
-    background: none;
+    background-color: var(--seed-color-bg-transparent);
     font-family: inherit;
     --seed-box-gap: var(--seed-dimension-x0_5);
     gap: var(--seed-box-gap);
@@ -83,10 +83,10 @@
     transition-timing-function: var(--seed-timing-function-easing);
 }
 .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
-    background-color: var(--seed-color-bg-layer-default-pressed);
+    background-color: var(--seed-color-bg-transparent-pressed);
 }
 .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
-    background-color: var(--seed-color-bg-layer-default-pressed);
+    background-color: var(--seed-color-bg-transparent-pressed);
 }
 .seed-list-item__title {
     flex-shrink: 0;

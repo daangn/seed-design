@@ -3,7 +3,7 @@
   "metadata": {
     "id": "color",
     "name": "Color",
-    "lastUpdated": "25-10-15"
+    "lastUpdated": "25-11-14"
   },
   "data": {
     "collection": "color",
@@ -1769,6 +1769,30 @@
           "theme-dark": {
             "type": "color",
             "value": "$color.palette.yellow-200"
+          }
+        }
+      },
+      "$color.bg.transparent": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#00000000"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#ffffff00"
+          }
+        }
+      },
+      "$color.bg.transparent-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-black-alpha-100"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-white-alpha-50"
           }
         }
       },

@@ -9,6 +9,10 @@ data:
     slots:
       root:
         properties:
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
           size:
             type: dimension
           color:
@@ -31,6 +35,8 @@ data:
     base:
       enabled:
         root:
+          colorDuration: $duration.d3
+          colorTimingFunction: $timing-function.easing
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak
           cornerRadius: $radius.full
@@ -38,7 +44,7 @@ data:
           cornerRadius: $radius.full
       enabled,pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       enabled,selected:
         root:
           strokeWidth: 0px
@@ -48,6 +54,7 @@ data:
           color: $color.palette.gray-300
       disabled,selected:
         root:
+          color: $color.bg.transparent
           strokeColor: $color.palette.gray-300
         icon:
           color: $color.palette.gray-300
@@ -79,7 +86,7 @@ data:
           size: $dimension.x2
       disabled:
         icon:
-          size: $dimension.x2_5 
+          size: $dimension.x2_5
     size=large:
       enabled:
         root:

@@ -11,9 +11,10 @@
     border-color: var(--seed-color-stroke-neutral-weak);
     border-radius: var(--seed-radius-full);
     margin-top: var(--radiomark-margin-top, 0);
+    transition: background-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-default-pressed);
+    background-color: var(--seed-color-bg-transparent-pressed);
 }
 .seed-radiomark__root:is(:checked, [data-checked]) {
     border-width: 0px;
@@ -22,7 +23,7 @@
     background-color: var(--seed-color-palette-gray-300);
 }
 .seed-radiomark__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
-    background: none;
+    background-color: var(--seed-color-bg-transparent);
     border-width: 1px;
     border-color: var(--seed-color-palette-gray-300);
 }
