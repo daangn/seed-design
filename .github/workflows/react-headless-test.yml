@@ -27,7 +27,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build headless common dependencies
-        run: bun --filter @seed-design/dom-utils build && bun --filter @seed-design/react-primitive build
+        run: bun --filter @seed-design/dom-utils build && bun headless:build
 
       - name: Run tests
         run: bun headless:test

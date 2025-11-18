@@ -26,6 +26,11 @@ function setUp(jsx: ReactElement) {
 }
 
 describe("TextField", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   describe("props merging", () => {
     describe("TextFieldInput", () => {
       it("should merge props from TextFieldRoot", () => {

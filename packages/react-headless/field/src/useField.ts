@@ -1,6 +1,7 @@
 import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
 import { useCallback, useId, useState } from "react";
 import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
+import { useSupports } from "@seed-design/react-supports";
 
 function useFieldState() {
   const [isHovered, setIsHovered] = useState(false);
@@ -71,6 +72,8 @@ export type UseFieldReturn = ReturnType<typeof useField>;
 export function useField(props: UseFieldProps) {
   const id = useId();
   const { disabled = false, invalid = false, readOnly = false, required = false } = props;
+
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   const {
     refs,
@@ -157,15 +160,21 @@ export function useField(props: UseFieldProps) {
     }),
     inputHandlers: inputProps({
       onChange: (event) => {
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
       onBlur() {
         setIsFocused(false);
-        setIsFocusVisible(false);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(false);
+        }
       },
       onFocus(event) {
         setIsFocused(true);
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
     }),
 

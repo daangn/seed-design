@@ -35,6 +35,11 @@ const TextField = ({
 };
 
 describe("useTextField", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   describe("basic functionality", () => {
     it("should render and type correctly", async () => {
       const { getByRole, user } = setUp(<TextField />);

@@ -92,6 +92,11 @@ const Field = forwardRef<HTMLDivElement, TestFieldProps>(
 Field.displayName = "Field";
 
 describe("Field components", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   describe("basic functionality", () => {
     it("should render as a label element", () => {
       const { getByTestId } = setUp(

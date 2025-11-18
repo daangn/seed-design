@@ -1,5 +1,14 @@
 # @seed-design/react-field-button
 
+## 1.0.1
+
+### Patch Changes
+
+- 53290ab: FieldButton에 Read Only 상태를 추가합니다. Disabled 상태인 FieldButton은 내부 `<input />`도 `disabled` 속성을 갖도록 수정합니다.
+- ae1b768: :focus-visible selector를 사용하기 전 브라우저에서 selector를 지원하는지 확인합니다.
+- Updated dependencies [ae1b768]
+  - @seed-design/react-supports@0.0.1
+
 ## 1.0.0
 
 ### Major Changes
