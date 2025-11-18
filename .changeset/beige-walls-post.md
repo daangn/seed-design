@@ -13,13 +13,12 @@ transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 
   - `Action Button` (neutralOutline, brandOutline, ghost)
   - `Checkmark`
   - `Tabs` (outline)
-  - `List Item` (List)
+  - `List Item`
   - `Radiomark`
   - `Reaction Button`
   - `Select Box`
 - 다음 컴포넌트들의 color transition이 추가되었습니다. (duration: $duration.d3, timing-function: $timing-function.easing)
   - `Checkmark`
   - `Radiomark`
-  - `List Item` (List)
   - `Reaction Button`
   - `Select Box`
