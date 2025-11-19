@@ -1,6 +1,6 @@
 ---
 title: Scroll Fog
-description: Scroll Fog는 스크롤 가능한 컨테이너의 가장자리에 점진적으로 사라지는 fog(안개) 효과를 적용하여, 추가 콘텐츠가 있음을 시각적으로 표현하는 컴포넌트입니다.
+description: Scroll Fog는 스크롤 가능한 컨테이너의 가장자리에 점진적으로 사라지는 fog(안개) 효과를 적용하는 컴포넌트입니다. ScrollFog를 사용할 때는 반드시 충분한 padding을 제공해야 합니다.
 ---
 
 <ComponentExample name="react/scroll-fog/preview">
@@ -27,14 +27,9 @@ import { ScrollFog } from "@seed-design/react";
 <div style={{ maxHeight: "300px" }}>
   <ScrollFog>
     {/* 스크롤 가능한 콘텐츠 */}
+    <div style={{ padding: "20px 0" }}>Content</div>
   </ScrollFog>
 </div>
-```
-
-## Usage
-
-```tsx
-<ScrollFog>Scrollable content</ScrollFog>
 ```
 
 ## Props
@@ -43,11 +38,35 @@ import { ScrollFog } from "@seed-design/react";
 
 <react-type-table path="../packages/react/src/components/ScrollFog/ScrollFog.tsx" name="ScrollFogProps" />
 
+## Component Examples
+
+ScrollFog는 항상 fog 효과를 표시하므로, 지정된 방향에 충분한 padding이 필요합니다.
+
+- **최소 padding**: 20px을 유지해야 합니다.
+- **화면 전체 차지하는 세로 스크롤**: 하단 80px, 상단 20px padding 권장
+- **가로 스크롤**: 20px 좌우 padding 권장
+
+```tsx
+// 상하 스크롤 - 상하 padding 필요
+<ScrollFog placement={["top", "bottom"]}>
+  <div style={{ padding: "20px 0 80px 0" }}>Content</div>
+</ScrollFog>
+
+// 좌우 스크롤 - 좌우 padding 필요
+<ScrollFog placement={["left", "right"]}>
+  <div style={{ padding: "0 20px" }}>Content</div>
+</ScrollFog>
+```
+
+- [Bottom Sheet - 하단 80px, 상단 20px padding](/react/components/bottom-sheet#with-scroll-fog)
+- [Chip Tabs - 20px 좌우 padding](/react/components/chip-tabs#with-scroll-fog)
+
 ## Examples
 
 ### Horizontal Scroll
 
 가로 스크롤이 필요한 경우 `placement={["left", "right"]}`를 사용하여 좌우 fog 효과를 적용할 수 있습니다.
+좌우 20px의 padding을 제공하여 컨텐츠가 잘리지 않도록 해야 합니다.
 
 <ComponentExample name="react/scroll-fog/horizontal">
   ```json doc-gen:file
@@ -101,19 +120,6 @@ import { ScrollFog } from "@seed-design/react";
   ```json doc-gen:file
   {
     "file": "examples/react/scroll-fog/hide-scrollbar.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### On Visibility Change
-
-`onVisibilityChange` 속성을 이용해 스크롤 효과의 가시성이 변경될 때 콜백을 호출할 수 있습니다.
-
-<ComponentExample name="react/scroll-fog/on-visibility-change">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/scroll-fog/on-visibility-change.tsx",
     "codeblock": true
   }
   ```

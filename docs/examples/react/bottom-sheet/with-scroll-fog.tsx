@@ -19,7 +19,14 @@ const BottomSheetMaxHeight = () => {
         <BottomSheetBody>
           <VStack maxHeight="300px" overflowY="auto">
             <ScrollFog placement={["top", "bottom"]}>
-              <VStack justifyContent="center" alignItems="center" gap="x4" height="100%" py="80px">
+              <VStack
+                justifyContent="center"
+                alignItems="center"
+                gap="x4"
+                height="100%"
+                pb="80px"
+                pt="20px"
+              >
                 <Box width="100%" height="100px" bg="bg.layerBasement" />
                 <Box width="100%" height="100px" bg="bg.layerBasement" />
                 <Box width="100%" height="100px" bg="bg.layerBasement" />
