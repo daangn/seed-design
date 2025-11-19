@@ -43,7 +43,8 @@
 }
 .seed-app-bar__root--theme_cupertino {
     height: calc(44px + var(--seed-safe-area-top));
-    padding-inline: var(--seed-dimension-x4);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
     padding-top: var(--seed-safe-area-top);
 }
 .seed-app-bar__iconButton--theme_cupertino {
@@ -62,7 +63,8 @@
 }
 .seed-app-bar__root--theme_android {
     height: calc(56px + var(--seed-safe-area-top));
-    padding-inline: var(--seed-dimension-x4);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
     padding-top: var(--seed-safe-area-top);
 }
 .seed-app-bar__iconButton--theme_android {

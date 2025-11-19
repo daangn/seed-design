@@ -2,8 +2,10 @@
     display: flex;
     flex-direction: column;
     background: var(--seed-color-bg-neutral-inverted);
-    padding-inline: var(--seed-dimension-x3);
-    padding-block: var(--seed-dimension-x2_5);
+    padding-left: var(--seed-dimension-x3);
+    padding-right: var(--seed-dimension-x3);
+    padding-top: var(--seed-dimension-x2_5);
+    padding-bottom: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
     word-break: keep-all;
     --seed-box-max-width: initial;

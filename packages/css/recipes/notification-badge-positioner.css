@@ -7,27 +7,27 @@
 }
 .seed-notification-badge-positioner--attach_icon {
     translate: 100% -100%;
-    inset-block-end: auto;
-    inset-inline-start: auto
+    bottom: auto;
+    left: auto
 }
 .seed-notification-badge-positioner--attach_text {
     translate: 100% 0%;
-    inset-block-end: auto;
-    inset-inline-start: auto
+    bottom: auto;
+    left: auto
 }
 .seed-notification-badge-positioner--size_small {}
 .seed-notification-badge-positioner--size_large {}
 .seed-notification-badge-positioner--size_large-attach_icon {
-    inset-block-start: 14px;
-    inset-inline-end: 8px
+    top: 14px;
+    right: 8px
 }
 .seed-notification-badge-positioner--size_small-attach_icon {
-    inset-block-start: 7px;
-    inset-inline-end: 7px
+    top: 7px;
+    right: 7px
 }
 .seed-notification-badge-positioner--size_large-attach_text {
-    inset-inline-end: calc(-1 * 2px)
+    right: calc(-1 * 2px)
 }
 .seed-notification-badge-positioner--size_small-attach_text {
-    inset-inline-end: calc(-1 * 2px)
+    right: calc(-1 * 2px)
 }

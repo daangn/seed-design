@@ -16,8 +16,9 @@
     z-index: -1;
     will-change: transform;
     transform: translateX(calc(var(--segment-index) * 100%));
-    inset-block: var(--seed-dimension-x1);
-    inset-inline-start: var(--seed-dimension-x1);
+    top: var(--seed-dimension-x1);
+    bottom: var(--seed-dimension-x1);
+    left: var(--seed-dimension-x1);
     width: calc((100% - var(--seed-dimension-x1) * 2) / var(--segment-count));
     border-radius: var(--seed-radius-full);
     background-color: var(--seed-color-palette-gray-00);
@@ -37,8 +38,10 @@
     min-height: 34px;
     gap: var(--seed-dimension-x1_5);
     height: 100%;
-    padding-inline: var(--seed-dimension-x6);
-    padding-block: var(--seed-dimension-x1_5);
+    padding-left: var(--seed-dimension-x6);
+    padding-right: var(--seed-dimension-x6);
+    padding-top: var(--seed-dimension-x1_5);
+    padding-bottom: var(--seed-dimension-x1_5);
     border-radius: var(--seed-radius-full);
     font-weight: var(--seed-font-weight-bold);
     font-size: var(--seed-font-size-t5);
