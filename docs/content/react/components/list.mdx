@@ -128,6 +128,8 @@ import { List, ListItem } from "seed-design/ui/list";
 
 `ListButtonItem` 또는 `ListLinkItem`를 사용해서 리스트 항목 전체를 클릭 가능하도록 만들 수 있습니다.
 
+`prefix` 또는 `suffix`에 클릭할 수 있는 요소를 포함하는 경우 `z-index: 1`, `position: relative`, `isolation: isolate` 등의 스타일을 적용하여 클릭 이벤트가 리스트 항목과 별개로 동작하도록 하세요. `ActionButton`, `ToggleButton` 등 SEED React 컴포넌트는 추가적으로 스타일을 적용하지 않아도 됩니다.
+
 <ComponentExample name="react/list/clickable">
   ```json doc-gen:file
   {
@@ -236,6 +238,32 @@ import { List, ListItem } from "seed-design/ui/list";
   ```json doc-gen:file
   {
     "file": "examples/react/list/bottom-sheet.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Alignment
+
+`alignItems` prop으로 `prefix`와 `suffix`의 정렬 방식을 조정할 수 있습니다.
+
+<ComponentExample name="react/list/alignment">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/list/alignment.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Border Radius
+
+`borderRadius` prop으로 active 상태에서 적용되는 리스트 항목의 모서리 둥글기를 조정할 수 있습니다. 카드 등 모서리가 둥근 컨테이너 안에 리스트를 넣는 경우 유용합니다.
+
+<ComponentExample name="react/list/border-radius">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/list/border-radius.tsx",
     "codeblock": true
   }
   ```

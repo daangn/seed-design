@@ -28,13 +28,6 @@ export default function ListAffixes() {
       />
       <ListDivider />
       <ListItem
-        prefix={<Avatar size="48" fallback={<IdentityPlaceholder />} />}
-        title="Prefix에 Avatar 넣고 상단으로 정렬하기. 일반적으로 `title`이 길어질 때 사용합니다. Veniam elit velit esse ea incididunt sunt sit aute."
-        detail="Et proident sit ullamco ut voluptate."
-        alignItems="flex-start"
-      />
-      <ListDivider />
-      <ListItem
         title="Prefix에 아이콘 넣기"
         detail="Deserunt nulla elit est."
         prefix={<Icon svg={<IconILowercaseSerifCircleLine />} />}

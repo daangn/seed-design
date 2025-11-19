@@ -15,6 +15,7 @@ export default function ListDisabled() {
         <ListButtonItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
           title="활성화된 ListButtonItem"
+          detail="Cupidatat et pariatur amet."
           suffix={<Icon svg={<IconChevronRightLine />} />}
         />
       </List>
@@ -41,6 +42,7 @@ export default function ListDisabled() {
           disabled
           prefix={<Icon svg={<IconSlashCircleLine />} />}
           title="비활성화된 ListButtonItem"
+          detail="Cupidatat et pariatur amet."
           suffix={<Icon svg={<IconChevronRightLine />} />}
         />
       </List>

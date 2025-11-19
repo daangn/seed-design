@@ -28,7 +28,15 @@ export const ListRoot = forwardRef<HTMLUListElement, ListRootProps>(
 
 export interface ListItemProps
   extends PrimitiveProps,
-    Pick<StyleProps, "alignItems">,
+    Pick<
+      StyleProps,
+      | "alignItems"
+      | "borderRadius"
+      | "borderTopLeftRadius"
+      | "borderTopRightRadius"
+      | "borderBottomLeftRadius"
+      | "borderBottomRightRadius"
+    >,
     React.HTMLAttributes<HTMLLIElement>,
     ListItemVariantProps {}
 
