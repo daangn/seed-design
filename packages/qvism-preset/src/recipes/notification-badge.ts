@@ -14,13 +14,15 @@ export const notificationBadgePositioner = defineRecipe({
     attach: {
       icon: {
         translate: "100% -100%",
-        insetBlockEnd: "auto",
-        insetInlineStart: "auto",
+
+        bottom: "auto",
+        left: "auto",
       },
       text: {
         translate: "100% 0%",
-        insetBlockEnd: "auto",
-        insetInlineStart: "auto",
+
+        bottom: "auto",
+        left: "auto",
       },
     },
     size: {
@@ -33,30 +35,30 @@ export const notificationBadgePositioner = defineRecipe({
       size: "large",
       attach: "icon",
       css: {
-        insetBlockStart: vars.sizeLarge.enabled.root.iconAttachedInsetTop,
-        insetInlineEnd: vars.sizeLarge.enabled.root.iconAttachedInsetEnd,
+        top: vars.sizeLarge.enabled.root.iconAttachedInsetTop,
+        right: vars.sizeLarge.enabled.root.iconAttachedInsetEnd,
       },
     },
     {
       size: "small",
       attach: "icon",
       css: {
-        insetBlockStart: vars.sizeSmall.enabled.root.iconAttachedInsetTop,
-        insetInlineEnd: vars.sizeSmall.enabled.root.iconAttachedInsetEnd,
+        top: vars.sizeSmall.enabled.root.iconAttachedInsetTop,
+        right: vars.sizeSmall.enabled.root.iconAttachedInsetEnd,
       },
     },
     {
       size: "large",
       attach: "text",
       css: {
-        insetInlineEnd: `calc(-1 * ${vars.sizeLarge.enabled.root.textAttachedGap})`,
+        right: `calc(-1 * ${vars.sizeLarge.enabled.root.textAttachedGap})`,
       },
     },
     {
       size: "small",
       attach: "text",
       css: {
-        insetInlineEnd: `calc(-1 * ${vars.sizeSmall.enabled.root.textAttachedGap})`,
+        right: `calc(-1 * ${vars.sizeSmall.enabled.root.textAttachedGap})`,
       },
     },
   ],
@@ -94,8 +96,10 @@ export const notificationBadge = defineRecipe({
         minHeight: vars.sizeLarge.enabled.root.minHeight,
         borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
 
-        paddingInline: vars.sizeLarge.enabled.root.paddingX,
-        paddingBlock: vars.sizeLarge.enabled.root.paddingY,
+        paddingLeft: vars.sizeLarge.enabled.root.paddingX,
+        paddingRight: vars.sizeLarge.enabled.root.paddingX,
+        paddingTop: vars.sizeLarge.enabled.root.paddingY,
+        paddingBottom: vars.sizeLarge.enabled.root.paddingY,
 
         fontSize: vars.sizeLarge.enabled.label.fontSize,
         lineHeight: vars.sizeLarge.enabled.label.lineHeight,

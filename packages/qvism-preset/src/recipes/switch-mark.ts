@@ -65,8 +65,8 @@ const switchMarkRecipe = defineSlotRecipe({
     size: {
       32: {
         root: {
-          minInlineSize: vars.size32.enabled.root.width,
-          minBlockSize: vars.size32.enabled.root.height,
+          minWidth: vars.size32.enabled.root.width,
+          minHeight: vars.size32.enabled.root.height,
           padding: `${vars.size32.enabled.root.paddingY} ${vars.size32.enabled.root.paddingX}`,
         },
         thumb: {
@@ -80,8 +80,8 @@ const switchMarkRecipe = defineSlotRecipe({
       },
       24: {
         root: {
-          minInlineSize: vars.size24.enabled.root.width,
-          minBlockSize: vars.size24.enabled.root.height,
+          minWidth: vars.size24.enabled.root.width,
+          minHeight: vars.size24.enabled.root.height,
           padding: `${vars.size24.enabled.root.paddingY} ${vars.size24.enabled.root.paddingX}`,
         },
         thumb: {
@@ -95,8 +95,8 @@ const switchMarkRecipe = defineSlotRecipe({
       },
       16: {
         root: {
-          minInlineSize: vars.size16.enabled.root.width,
-          minBlockSize: vars.size16.enabled.root.height,
+          minWidth: vars.size16.enabled.root.width,
+          minHeight: vars.size16.enabled.root.height,
           padding: `${vars.size16.enabled.root.paddingY} ${vars.size16.enabled.root.paddingX}`,
         },
         thumb: {

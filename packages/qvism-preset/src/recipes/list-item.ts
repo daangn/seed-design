@@ -19,8 +19,10 @@ const listItem = defineSlotRecipe({
       width: "100%",
       zIndex: 0,
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
+      paddingTop: vars.base.enabled.root.paddingY,
+      paddingBottom: vars.base.enabled.root.paddingY,
 
       "--seed-box-align-items": "center",
       alignItems: "var(--seed-box-align-items)",

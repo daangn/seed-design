@@ -12,8 +12,10 @@ const helpBubble = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       background: vars.base.enabled.root.color,
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
+      paddingTop: vars.base.enabled.root.paddingY,
+      paddingBottom: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
       wordBreak: "keep-all",
 

@@ -29,7 +29,8 @@ const inputButton = defineSlotRecipe({
 
       height: vars.base.enabled.root.height,
       gap: vars.base.enabled.root.gap,
-      paddingInline: vars.base.enabled.root.paddingX,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
     },
     button: {
       position: "absolute",

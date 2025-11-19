@@ -82,8 +82,10 @@
 }
 .seed-contextual-floating-button--layout_withText {
     min-height: 36px;
-    padding-inline: var(--seed-dimension-x3_5);
-    padding-block: var(--seed-dimension-x2);
+    padding-left: var(--seed-dimension-x3_5);
+    padding-right: var(--seed-dimension-x3_5);
+    padding-top: var(--seed-dimension-x2);
+    padding-bottom: var(--seed-dimension-x2);
     gap: var(--seed-dimension-x1);
     --seed-prefix-icon-size: 16px;
 }
