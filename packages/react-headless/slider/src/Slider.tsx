@@ -25,6 +25,7 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       getAriaValuetext,
       getAriaLabelledby,
       getValueIndicatorLabel,
+      valueIndicatorTrigger,
       invalid,
       max,
       min,
@@ -50,6 +51,7 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       getAriaValuetext,
       getAriaLabelledby,
       getValueIndicatorLabel,
+      valueIndicatorTrigger,
       invalid,
       max,
       min,
@@ -78,8 +80,7 @@ SliderRoot.displayName = "SliderRoot";
 export interface SliderRangeProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SliderRange = React.forwardRef<HTMLDivElement, SliderRangeProps>((props, ref) => {
-  const { getRangeProps } = useSliderContext();
-  const rangeProps = getRangeProps();
+  const { rangeProps } = useSliderContext();
 
   return <Primitive.div ref={ref} {...mergeProps(rangeProps, props)} />;
 });
@@ -156,9 +157,11 @@ export const SliderValueIndicatorRoot = React.forwardRef<
   SliderValueIndicatorRootProps
 >(({ thumbIndex, ...props }, ref) => {
   const { getValueIndicatorProps } = useSliderContext();
-  const { rootProps } = getValueIndicatorProps(thumbIndex);
+  const { rootProps, rootRef } = getValueIndicatorProps(thumbIndex);
 
-  return <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />;
+  const composedRef = composeRefs(ref, rootRef);
+
+  return <Primitive.div ref={composedRef} {...mergeProps(rootProps, props)} />;
 });
 SliderValueIndicatorRoot.displayName = "SliderValueIndicatorRoot";
 

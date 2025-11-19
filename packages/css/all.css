@@ -6069,9 +6069,12 @@
 }
 
 .seed-slider__valueIndicatorRoot {
+  box-sizing: border-box;
   background: var(--seed-color-bg-neutral-inverted);
-  padding-inline: var(--seed-dimension-x1_5);
-  padding-block: var(--seed-dimension-x0_5);
+  padding-left: var(--seed-dimension-x1_5);
+  padding-right: var(--seed-dimension-x1_5);
+  padding-top: var(--seed-dimension-x0_5);
+  padding-bottom: var(--seed-dimension-x0_5);
   border-radius: var(--seed-radius-r1);
   color: var(--seed-color-fg-neutral-inverted);
   font-size: var(--seed-font-size-t1);
@@ -6079,72 +6082,68 @@
   font-weight: var(--seed-font-weight-medium);
   white-space: pre-wrap;
   text-align: center;
-  width: max-content;
-  bottom: calc(100% + var(--seed-dimension-x3));
-  opacity: 0;
   flex-direction: column;
+  align-items: center;
+  width: max-content;
   display: flex;
   position: absolute;
+  top: 50%;
 }
 
 .seed-slider__valueIndicatorRoot[data-dir="ltr"] {
-  left: calc(var(--indicator-position) * 1% + var(--indicator-offset));
-  transform: translateX(-50%);
+  left: calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset));
+  transform: translate(-50%, calc(-100% - var(--seed-dimension-x5) / 2 - var(--seed-dimension-x3)));
 }
 
 .seed-slider__valueIndicatorRoot[data-dir="rtl"] {
-  right: calc(var(--indicator-position) * 1% + var(--indicator-offset));
-  transform: translateX(50%);
+  right: calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset));
+  transform: translate(50%, calc(-100% - var(--seed-dimension-x5) / 2 - var(--seed-dimension-x3)));
 }
 
-.seed-slider__valueIndicatorRoot[data-thumb-dragging] {
-  opacity: 1;
-}
-
-.seed-slider__valueIndicatorRoot[data-thumb-dragging][data-dir="ltr"] {
+.seed-slider__valueIndicatorRoot[data-value-indicator-shown][data-dir="ltr"] {
   animation: seed-enter;
   animation-timing-function: var(--seed-timing-function-enter);
   animation-duration: var(--seed-duration-d4);
   --seed-enter-translate-x: -50%;
-  --seed-enter-translate-y: var(--seed-dimension-x3);
+  --seed-enter-translate-y: calc(-100% - var(--seed-dimension-x5) / 2);
   --seed-enter-opacity: 0;
   --seed-enter-scale: .9;
 }
 
-.seed-slider__valueIndicatorRoot[data-thumb-dragging][data-dir="rtl"] {
+.seed-slider__valueIndicatorRoot[data-value-indicator-shown][data-dir="rtl"] {
   animation: seed-enter;
   animation-timing-function: var(--seed-timing-function-enter);
   animation-duration: var(--seed-duration-d4);
   --seed-enter-translate-x: 50%;
-  --seed-enter-translate-y: var(--seed-dimension-x3);
+  --seed-enter-translate-y: calc(-100% - var(--seed-dimension-x5) / 2);
   --seed-enter-opacity: 0;
   --seed-enter-scale: .9;
 }
 
-.seed-slider__valueIndicatorRoot:not([data-thumb-dragging])[data-dir="ltr"] {
+.seed-slider__valueIndicatorRoot:not([data-value-indicator-shown])[data-dir="ltr"] {
   animation: seed-exit;
   animation-timing-function: var(--seed-timing-function-easing);
   animation-duration: var(--seed-duration-d4);
   --seed-exit-translate-x: -50%;
-  --seed-exit-translate-y: var(--seed-dimension-x3);
+  --seed-exit-translate-y: calc(-100% - var(--seed-dimension-x5) / 2);
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
   animation-fill-mode: forwards;
 }
 
-.seed-slider__valueIndicatorRoot:not([data-thumb-dragging])[data-dir="rtl"] {
+.seed-slider__valueIndicatorRoot:not([data-value-indicator-shown])[data-dir="rtl"] {
   animation: seed-exit;
   animation-timing-function: var(--seed-timing-function-easing);
   animation-duration: var(--seed-duration-d4);
   --seed-exit-translate-x: 50%;
-  --seed-exit-translate-y: var(--seed-dimension-x3);
+  --seed-exit-translate-y: calc(-100% - var(--seed-dimension-x5) / 2);
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
   animation-fill-mode: forwards;
 }
 
-.seed-slider__valueIndicatorRoot:is(:hidden, [hidden], [data-hidden]) {
-  display: none !important;
+.seed-slider__valueIndicatorRoot:not([data-value-indicator-shown]):not([data-indicator-ever-shown]) {
+  animation-duration: 0s;
 }
 
 .seed-slider__valueIndicatorArrow {
@@ -6152,8 +6151,16 @@
   height: var(--seed-dimension-x2_5);
   position: absolute;
   top: 100%;
-  left: 50%;
+}
+
+.seed-slider__valueIndicatorArrow[data-dir="ltr"] {
+  left: calc(50% + (var(--thumb-offset)  - var(--indicator-label-offset)));
   transform: translateX(-50%);
+}
+
+.seed-slider__valueIndicatorArrow[data-dir="rtl"] {
+  right: calc(50% + (var(--thumb-offset)  - var(--indicator-label-offset)));
+  transform: translateX(50%);
 }
 
 .seed-slider__valueIndicatorArrowTip {

@@ -4,13 +4,14 @@ import {
   sliderTick as tickVars,
 } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
-import { disabled, pseudo, focus, not, hidden } from "../utils/pseudo";
+import { disabled, pseudo, focus, not } from "../utils/pseudo";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import * as duration from "../vars/duration";
 import * as timingFunction from "../vars/timing-function";
 
 const dragging = "[data-dragging]";
 const thumbDragging = "[data-thumb-dragging]";
+const valueIndicatorShown = "[data-value-indicator-shown]";
 
 const slider = defineSlotRecipe({
   name: "slider",
@@ -157,9 +158,18 @@ const slider = defineSlotRecipe({
     valueIndicatorRoot: {
       display: "flex",
       flexDirection: "column",
+      alignItems: "center",
+
+      position: "absolute",
+      top: "50%",
+
+      boxSizing: "border-box",
       background: vars.base.enabled.valueIndicatorRoot.color,
-      paddingInline: vars.base.enabled.valueIndicatorRoot.paddingX,
-      paddingBlock: vars.base.enabled.valueIndicatorRoot.paddingY,
+      paddingLeft: vars.base.enabled.valueIndicatorRoot.paddingX,
+      paddingRight: vars.base.enabled.valueIndicatorRoot.paddingX,
+      paddingTop: vars.base.enabled.valueIndicatorRoot.paddingY,
+      paddingBottom: vars.base.enabled.valueIndicatorRoot.paddingY,
+
       borderRadius: vars.base.enabled.valueIndicatorRoot.cornerRadius,
 
       color: vars.base.enabled.valueIndicatorLabel.color,
@@ -172,26 +182,17 @@ const slider = defineSlotRecipe({
 
       width: "max-content",
 
-      position: "absolute",
-      bottom: `calc(100% + ${vars.base.enabled.valueIndicatorRoot.offsetY})`,
-
-      opacity: 0,
-
       [pseudo("[data-dir='ltr']")]: {
-        left: "calc(var(--indicator-position) * 1% + var(--indicator-offset))",
-        transform: "translateX(-50%)",
+        left: "calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset))",
+        transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - ${vars.base.enabled.valueIndicatorRoot.offsetY}))`,
       },
 
       [pseudo("[data-dir='rtl']")]: {
-        right: "calc(var(--indicator-position) * 1% + var(--indicator-offset))",
-        transform: "translateX(50%)",
+        right: "calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset))",
+        transform: `translate(50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - ${vars.base.enabled.valueIndicatorRoot.offsetY}))`,
       },
 
-      [pseudo(thumbDragging)]: {
-        opacity: 1,
-      },
-
-      [pseudo(thumbDragging, "[data-dir='ltr']")]: {
+      [pseudo(valueIndicatorShown, "[data-dir='ltr']")]: {
         ...enterAnimation({
           scale: vars.base.enabled.valueIndicatorRoot.enterScale,
           opacity: vars.base.enabled.valueIndicatorRoot.enterOpacity,
@@ -199,11 +200,11 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "-50%",
-          translateY: vars.base.enabled.valueIndicatorRoot.offsetY,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
         }),
       },
 
-      [pseudo(thumbDragging, "[data-dir='rtl']")]: {
+      [pseudo(valueIndicatorShown, "[data-dir='rtl']")]: {
         ...enterAnimation({
           scale: vars.base.enabled.valueIndicatorRoot.enterScale,
           opacity: vars.base.enabled.valueIndicatorRoot.enterOpacity,
@@ -211,11 +212,11 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "50%",
-          translateY: vars.base.enabled.valueIndicatorRoot.offsetY,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
         }),
       },
 
-      [pseudo(not(thumbDragging), "[data-dir='ltr']")]: {
+      [pseudo(not(valueIndicatorShown), "[data-dir='ltr']")]: {
         ...exitAnimation({
           scale: vars.base.enabled.valueIndicatorRoot.exitScale,
           opacity: vars.base.enabled.valueIndicatorRoot.exitOpacity,
@@ -223,11 +224,11 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "-50%",
-          translateY: vars.base.enabled.valueIndicatorRoot.offsetY,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
         }),
       },
 
-      [pseudo(not(thumbDragging), "[data-dir='rtl']")]: {
+      [pseudo(not(valueIndicatorShown), "[data-dir='rtl']")]: {
         ...exitAnimation({
           scale: vars.base.enabled.valueIndicatorRoot.exitScale,
           opacity: vars.base.enabled.valueIndicatorRoot.exitOpacity,
@@ -235,12 +236,13 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "50%",
-          translateY: vars.base.enabled.valueIndicatorRoot.offsetY,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
         }),
       },
 
-      [pseudo(hidden)]: {
-        display: "none !important",
+      // Prevent animation when indicator has never been shown
+      [pseudo(not(valueIndicatorShown), not("[data-indicator-ever-shown]"))]: {
+        animationDuration: "0s",
       },
     },
     valueIndicatorArrow: {
@@ -249,10 +251,18 @@ const slider = defineSlotRecipe({
       height: vars.base.enabled.valueIndicatorArrow.width,
 
       position: "absolute",
-
       top: "100%",
-      left: "50%",
-      transform: "translateX(-50%)",
+
+      // Center horizontally with offset to align with thumb
+      [pseudo("[data-dir='ltr']")]: {
+        left: "calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)))",
+        transform: "translateX(-50%)",
+      },
+
+      [pseudo("[data-dir='rtl']")]: {
+        right: "calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)))",
+        transform: "translateX(50%)",
+      },
     },
     valueIndicatorArrowTip: {
       // svg has default display of inline, which makes it be affected by line-height
