@@ -4275,6 +4275,11 @@
   opacity: 0;
 }
 
+.seed-help-bubble__positioner {
+  --popover-z-index: 99;
+  z-index: calc(var(--popover-z-index)  + var(--z-index-offset, 0));
+}
+
 .seed-help-bubble__content {
   background: var(--seed-color-bg-neutral-inverted);
   padding-left: var(--seed-dimension-x3);
