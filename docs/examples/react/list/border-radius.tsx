@@ -1,7 +1,9 @@
-import { List, ListCheckItem } from "seed-design/ui/list";
+import { List, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
 import { Checkmark } from "seed-design/ui/checkbox";
+import { RadioMark } from "seed-design/ui/radio-group";
 import { HStack, VStack } from "@seed-design/react";
+import { RadioGroup } from "@seed-design/react/primitive";
 
 export default function ListBorderRadius() {
   return (
@@ -23,18 +25,16 @@ export default function ListBorderRadius() {
         borderWidth={1}
         borderColor="stroke.neutralWeak"
       >
-        <ListHeader as="h2">카드 radius: r3_5</ListHeader>
-        <List as="fieldset">
+        <ListHeader as="h2">카드 borderRadius: r3_5</ListHeader>
+        <List as="fieldset" itemBorderRadius="r2">
           <ListCheckItem
             defaultChecked
             title="borderRadius: r2"
             suffix={<Checkmark size="large" tone="neutral" />}
-            borderRadius="r2"
           />
           <ListCheckItem
             title="borderRadius: r2"
             suffix={<Checkmark size="large" tone="neutral" />}
-            borderRadius="r2"
           />
         </List>
       </VStack>
@@ -47,19 +47,20 @@ export default function ListBorderRadius() {
         borderWidth={1}
         borderColor="stroke.neutralWeak"
       >
-        <ListHeader as="h2">카드 radius: 22px</ListHeader>
-        <List as="fieldset">
-          <ListCheckItem
-            defaultChecked
-            title="borderRadius: r3"
-            suffix={<Checkmark size="large" tone="neutral" />}
-            borderRadius="r3"
-          />
-          <ListCheckItem
-            title="borderRadius: r3"
-            suffix={<Checkmark size="large" tone="neutral" />}
-            borderRadius="r3"
-          />
+        <ListHeader as="h2">카드 borderRadius: 22px</ListHeader>
+        <List asChild itemBorderRadius="r3">
+          <RadioGroup.Root defaultValue="0">
+            <ListRadioItem
+              value="0"
+              title="borderRadius: r3"
+              suffix={<RadioMark size="large" tone="neutral" />}
+            />
+            <ListRadioItem
+              value="1"
+              title="borderRadius: r3"
+              suffix={<RadioMark size="large" tone="neutral" />}
+            />
+          </RadioGroup.Root>
         </List>
       </VStack>
     </HStack>

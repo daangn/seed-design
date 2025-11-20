@@ -66,7 +66,7 @@ export interface ListButtonItemProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
-  ({ title, detail, prefix, suffix, alignItems, borderRadius, rootRef, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, alignItems, rootRef, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     const stateProps = React.useMemo(
@@ -75,12 +75,7 @@ export const ListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItem
     );
 
     return (
-      <SeedList.Item
-        ref={rootRef}
-        alignItems={alignItems}
-        borderRadius={borderRadius}
-        {...variantProps}
-      >
+      <SeedList.Item ref={rootRef} alignItems={alignItems} {...variantProps}>
         {prefix && <SeedList.Prefix {...stateProps}>{prefix}</SeedList.Prefix>}
         <SeedList.Content asChild>
           <button type="button" ref={ref} {...otherProps}>
@@ -112,16 +107,11 @@ export interface ListLinkItemProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListLinkItem = React.forwardRef<HTMLAnchorElement, ListLinkItemProps>(
-  ({ title, detail, prefix, suffix, alignItems, borderRadius, rootRef, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, alignItems, rootRef, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     return (
-      <SeedList.Item
-        ref={rootRef}
-        alignItems={alignItems}
-        borderRadius={borderRadius}
-        {...variantProps}
-      >
+      <SeedList.Item ref={rootRef} alignItems={alignItems} {...variantProps}>
         {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
         <SeedList.Content asChild>
           <a ref={ref} {...otherProps}>
@@ -155,14 +145,11 @@ export interface ListSwitchItemProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListSwitchItem = React.forwardRef<HTMLInputElement, ListSwitchItemProps>(
-  (
-    { title, detail, prefix, suffix, inputProps, alignItems, borderRadius, rootRef, ...props },
-    ref,
-  ) => {
+  ({ title, detail, prefix, suffix, inputProps, alignItems, rootRef, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     return (
-      <SeedList.Item {...variantProps} alignItems={alignItems} borderRadius={borderRadius} asChild>
+      <SeedList.Item {...variantProps} alignItems={alignItems} asChild>
         <SwitchPrimitive.Root ref={rootRef} {...otherProps}>
           {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
           <SeedList.Content>
@@ -197,14 +184,11 @@ export interface ListCheckItemProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListCheckItem = React.forwardRef<HTMLInputElement, ListCheckItemProps>(
-  (
-    { title, detail, prefix, suffix, inputProps, alignItems, borderRadius, rootRef, ...props },
-    ref,
-  ) => {
+  ({ title, detail, prefix, suffix, inputProps, alignItems, rootRef, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     return (
-      <SeedList.Item {...variantProps} alignItems={alignItems} borderRadius={borderRadius} asChild>
+      <SeedList.Item {...variantProps} alignItems={alignItems} asChild>
         <CheckboxPrimitive.Root ref={rootRef} {...otherProps}>
           {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
           <SeedList.Content>
@@ -239,14 +223,11 @@ export interface ListRadioItemProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListRadioItem = React.forwardRef<HTMLInputElement, ListRadioItemProps>(
-  (
-    { title, detail, prefix, suffix, inputProps, alignItems, borderRadius, rootRef, ...props },
-    ref,
-  ) => {
+  ({ title, detail, prefix, suffix, inputProps, alignItems, rootRef, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     return (
-      <SeedList.Item {...variantProps} alignItems={alignItems} borderRadius={borderRadius} asChild>
+      <SeedList.Item {...variantProps} alignItems={alignItems} asChild>
         <RadioGroupPrimitive.Item ref={rootRef} {...otherProps}>
           {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
           <SeedList.Content>

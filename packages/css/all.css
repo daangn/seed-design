@@ -4727,7 +4727,6 @@
   padding-bottom: var(--seed-dimension-x3);
   --seed-box-align-items: center;
   align-items: var(--seed-box-align-items);
-  --seed-box-border-radius: var(--seed-dimension-x2_5);
   border: none;
   font-family: inherit;
   display: flex;
@@ -4804,7 +4803,7 @@
   background-color: var(--seed-color-bg-transparent-pressed);
   left: var(--seed-dimension-x1_5);
   right: var(--seed-dimension-x1_5);
-  border-radius: var(--seed-box-border-radius);
+  border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
 }
 
 .seed-list-item__title {

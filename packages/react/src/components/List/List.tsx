@@ -4,7 +4,7 @@ import { listItem, type ListItemVariantProps } from "@seed-design/css/recipes/li
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withStyleProps, type StyleProps } from "../../utils/styled";
+import { handleRadius, withStyleProps, type StyleProps } from "../../utils/styled";
 import { VStack, type VStackProps } from "../Stack";
 import { useCheckboxContext } from "@seed-design/react-checkbox";
 import { createWithStateProps } from "../../utils/createWithStateProps";
@@ -18,25 +18,31 @@ const withStateProps = createWithStateProps([
   { useContext: useSwitchContext, strict: false },
 ]);
 
-export interface ListRootProps extends VStackProps {}
+export interface ListRootProps extends VStackProps {
+  itemBorderRadius?: StyleProps["borderRadius"];
+}
 
 export const ListRoot = forwardRef<HTMLUListElement, ListRootProps>(
-  ({ as = "ul", ...props }, ref) => {
-    return <VStack as={as} ref={ref as React.ForwardedRef<HTMLDivElement>} {...props} />;
+  ({ as = "ul", style, itemBorderRadius, ...props }, ref) => {
+    return (
+      <VStack
+        as={as}
+        ref={ref as React.ForwardedRef<HTMLDivElement>}
+        style={
+          {
+            ...style,
+            "--list-item-border-radius": handleRadius(itemBorderRadius),
+          } as React.CSSProperties
+        }
+        {...props}
+      />
+    );
   },
 );
 
 export interface ListItemProps
   extends PrimitiveProps,
-    Pick<
-      StyleProps,
-      | "alignItems"
-      | "borderRadius"
-      | "borderTopLeftRadius"
-      | "borderTopRightRadius"
-      | "borderBottomLeftRadius"
-      | "borderBottomRightRadius"
-    >,
+    Pick<StyleProps, "alignItems">,
     React.HTMLAttributes<HTMLLIElement>,
     ListItemVariantProps {}
 

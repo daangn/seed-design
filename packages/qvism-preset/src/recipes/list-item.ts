@@ -26,8 +26,6 @@ const listItem = defineSlotRecipe({
 
       "--seed-box-align-items": "center",
       alignItems: "var(--seed-box-align-items)",
-
-      "--seed-box-border-radius": vars.base.pressed.root.cornerRadius,
     },
     prefix: {
       display: "inline-flex",
@@ -124,7 +122,7 @@ const listItem = defineSlotRecipe({
         left: vars.base.pressed.root.marginX,
         right: vars.base.pressed.root.marginX,
 
-        borderRadius: "var(--seed-box-border-radius)",
+        borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
       },
 
       // otherwise, see if it has [data-active]. e.g. ListCheckItem
@@ -135,7 +133,7 @@ const listItem = defineSlotRecipe({
         left: vars.base.pressed.root.marginX,
         right: vars.base.pressed.root.marginX,
 
-        borderRadius: "var(--seed-box-border-radius)",
+        borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
       },
     },
     title: {
