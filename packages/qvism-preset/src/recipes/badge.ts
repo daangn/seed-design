@@ -28,8 +28,10 @@ const badge = defineSlotRecipe({
         root: {
           maxWidth: vars.sizeMedium.enabled.root.maxWidth,
           minHeight: vars.sizeMedium.enabled.root.minHeight,
-          paddingInline: vars.sizeMedium.enabled.root.paddingX,
-          paddingBlock: vars.sizeMedium.enabled.root.paddingY,
+          paddingLeft: vars.sizeMedium.enabled.root.paddingX,
+          paddingRight: vars.sizeMedium.enabled.root.paddingX,
+          paddingTop: vars.sizeMedium.enabled.root.paddingY,
+          paddingBottom: vars.sizeMedium.enabled.root.paddingY,
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
 
           fontSize: vars.sizeMedium.enabled.label.fontSize,
@@ -40,8 +42,10 @@ const badge = defineSlotRecipe({
         root: {
           maxWidth: vars.sizeLarge.enabled.root.maxWidth,
           minHeight: vars.sizeLarge.enabled.root.minHeight,
-          paddingInline: vars.sizeLarge.enabled.root.paddingX,
-          paddingBlock: vars.sizeLarge.enabled.root.paddingY,
+          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
+          paddingRight: vars.sizeLarge.enabled.root.paddingX,
+          paddingTop: vars.sizeLarge.enabled.root.paddingY,
+          paddingBottom: vars.sizeLarge.enabled.root.paddingY,
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
 
           fontSize: vars.sizeLarge.enabled.label.fontSize,

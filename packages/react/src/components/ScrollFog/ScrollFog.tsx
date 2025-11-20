@@ -1,8 +1,9 @@
 import { scrollFog, type ScrollFogVariantProps } from "@seed-design/css/recipes/scroll-fog";
-import { Scrollable, type ScrollableProps } from "@seed-design/react-scrollable";
 import clsx from "clsx";
 import { forwardRef, useMemo } from "react";
 import { scrollFog as vars } from "@seed-design/css/vars/component";
+
+type ScrollPlacement = "top" | "bottom" | "left" | "right";
 
 type SizesConfig = {
   top?: number;
@@ -11,12 +12,21 @@ type SizesConfig = {
   right?: number;
 };
 
-export interface ScrollFogProps extends ScrollFogVariantProps, ScrollableProps {
+export interface ScrollFogProps
+  extends ScrollFogVariantProps,
+    React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Placement of fog effect
+   * @default ["top", "bottom"]
+   */
+  placement?: ScrollPlacement[];
+
   /**
    * Size of the fog effect in pixels
    * @default 20
    */
   size?: number;
+
   /**
    * Size of the fog effect for each direction in pixels
    */
@@ -25,7 +35,15 @@ export interface ScrollFogProps extends ScrollFogVariantProps, ScrollableProps {
 
 export const ScrollFog = forwardRef<HTMLDivElement, ScrollFogProps>(
   (
-    { className, hideScrollBar, size = vars.base.enabled.root.size, sizes, style, ...props },
+    {
+      className,
+      hideScrollBar,
+      placement = ["top", "bottom"],
+      size = vars.base.enabled.root.size,
+      sizes,
+      style,
+      ...props
+    },
     ref,
   ) => {
     const [variantProps, restProps] = scrollFog.splitVariantProps({
@@ -48,18 +66,23 @@ export const ScrollFog = forwardRef<HTMLDivElement, ScrollFogProps>(
         "--scroll-fog-size-bottom": finalSizes.bottom,
         "--scroll-fog-size-left": finalSizes.left,
         "--scroll-fog-size-right": finalSizes.right,
-      };
-    }, [sizePx, sizes]);
+        // placement에 포함된 방향만 1, 나머지는 0
+        "--scrollable-top": placement.includes("top") ? "1" : "0",
+        "--scrollable-bottom": placement.includes("bottom") ? "1" : "0",
+        "--scrollable-left": placement.includes("left") ? "1" : "0",
+        "--scrollable-right": placement.includes("right") ? "1" : "0",
+      } as React.CSSProperties;
+    }, [sizePx, sizes, placement]);
 
     return (
-      <Scrollable
+      <div
         ref={ref}
         className={clsx(scrollFogClassName, className)}
-        {...restProps}
         style={{
           ...style,
           ...sizeStyle,
         }}
+        {...restProps}
       />
     );
   },

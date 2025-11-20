@@ -10,7 +10,7 @@ const radio = defineSlotRecipe({
       display: "inline-flex",
       alignItems: "flex-start",
       position: "relative",
-      maxInlineSize: "100%",
+      maxWidth: "100%",
       verticalAlign: "top",
       isolation: "isolate",
       cursor: "pointer",
@@ -51,7 +51,7 @@ const radio = defineSlotRecipe({
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
           lineHeight: vars.sizeLarge.enabled.label.lineHeight,
-          marginBlockStart: "calc(18px - 0.65625rem)", // 수직 위치 보정, 36 / 2 - label.lineHeight / 2
+          marginTop: `calc(${vars.sizeLarge.enabled.root.minHeight} / 2 - ${vars.sizeLarge.enabled.label.lineHeight} / 2)`, // 수직 위치 보정
         },
       },
       medium: {
@@ -62,7 +62,7 @@ const radio = defineSlotRecipe({
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
           lineHeight: vars.sizeMedium.enabled.label.lineHeight,
-          marginBlockStart: "calc(16px - 0.59375rem)", // 수직 위치 보정, 32 / 2 - label.lineHeight / 2
+          marginTop: `calc(${vars.sizeMedium.enabled.root.minHeight} / 2 - ${vars.sizeMedium.enabled.label.lineHeight} / 2)`, // 수직 위치 보정
         },
       },
     },

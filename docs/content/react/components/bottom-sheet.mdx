@@ -180,7 +180,10 @@ showCloseButton을 `false`로 설정하면 닫기 버튼이 표시되지 않습�
 
 ### With Scroll Fog
 
-`<BottomSheetContent>`에 [Scroll Fog](/react/components/scroll-fog)를 사용하여 스크롤 힌트 효과를 적용할 수 있습니다.
+`<BottomSheetBody>`에 [Scroll Fog](/react/components/scroll-fog)를 사용하여 스크롤 힌트 효과를 적용할 수 있습니다.
+
+ScrollFog는 항상 효과를 표시하므로, 충분한 padding을 제공해야 합니다.
+권장 padding인 하단 `80px`, 상단 `20px`을 유지해야 합니다.
 
 <ComponentExample name="react/bottom-sheet/with-scroll-fog">
   ```json doc-gen:file

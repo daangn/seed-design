@@ -122,8 +122,10 @@ const contextualFloatingButton = defineRecipe({
     layout: {
       withText: {
         minHeight: vars.layoutWithText.enabled.root.minHeight,
-        paddingInline: vars.layoutWithText.enabled.root.paddingX,
-        paddingBlock: vars.layoutWithText.enabled.root.paddingY,
+        paddingLeft: vars.layoutWithText.enabled.root.paddingX,
+        paddingRight: vars.layoutWithText.enabled.root.paddingX,
+        paddingTop: vars.layoutWithText.enabled.root.paddingY,
+        paddingBottom: vars.layoutWithText.enabled.root.paddingY,
         gap: vars.layoutWithText.enabled.root.gap,
 
         ...prefixIcon({

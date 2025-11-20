@@ -10,8 +10,10 @@
     text-align: start;
     width: 100%;
     min-height: 50px;
-    padding-inline: var(--seed-dimension-x3_5);
-    padding-block: var(--seed-dimension-x3_5);
+    padding-left: var(--seed-dimension-x3_5);
+    padding-right: var(--seed-dimension-x3_5);
+    padding-top: var(--seed-dimension-x3_5);
+    padding-bottom: var(--seed-dimension-x3_5);
     gap: var(--seed-dimension-x3);
     border-radius: var(--seed-radius-r2_5);
     text-decoration: none;
@@ -22,7 +24,7 @@
     cursor: pointer;
 }
 .seed-callout__content {
-    margin-inline-end: auto;
+    margin-right: auto;
     line-height: var(--seed-line-height-t4);
 }
 .seed-callout__title {
