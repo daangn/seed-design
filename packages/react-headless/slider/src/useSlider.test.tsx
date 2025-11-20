@@ -9,6 +9,8 @@ import {
   SliderRange,
   SliderThumb,
   SliderHiddenInput,
+  SliderValueIndicatorRoot,
+  SliderValueIndicatorLabel,
   type SliderRootProps,
 } from "./Slider";
 
@@ -1872,6 +1874,569 @@ describe("useSlider", () => {
       await user.keyboard("{ArrowUp}");
 
       expect(hiddenInput.value).toBe("51");
+    });
+  });
+
+  describe("Value Indicator - Active Mode (Default)", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("shows value indicator only when dragging in active mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Initially not shown
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Start dragging
+      await user.pointer([
+        { target: thumb, coords: { clientX: 50, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      // Should be shown while dragging
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Move during drag
+      await user.pointer([{ target: root, coords: { clientX: 60, clientY: 5 } }]);
+
+      // Should still be shown
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Release
+      await user.pointer([
+        { target: root, coords: { clientX: 60, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+
+      // Should not be shown after release in active mode
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("shows value indicator when clicking track in active mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Click and hold on track
+      await user.pointer([
+        { target: root, coords: { clientX: 75, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      // Should show indicator not immediately
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Move to drag
+      await user.pointer([{ target: root, coords: { clientX: 70, clientY: 5 } }]);
+
+      // Will be shown
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Release
+      await user.pointer([
+        { target: root, coords: { clientX: 70, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+
+      // Should not be shown after release
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
+  });
+
+  describe("Value Indicator - Hover Mode", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("shows value indicator during drag in hover mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Start dragging
+      await user.pointer([
+        { target: thumb, coords: { clientX: 50, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      // Should be shown while dragging
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Move during drag
+      await user.pointer([{ target: root, coords: { clientX: 60, clientY: 5 } }]);
+
+      // Should still be shown
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("keeps indicator open when transitioning from drag to hover", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Mock getBoundingClientRect for both root and thumb
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      vi.spyOn(thumb, "getBoundingClientRect").mockReturnValue({
+        left: 48,
+        right: 52,
+        width: 4,
+        top: 3,
+        bottom: 7,
+        height: 4,
+        x: 48,
+        y: 3,
+        toJSON: () => {},
+      });
+
+      // Start dragging
+      await user.pointer([
+        { target: thumb, coords: { clientX: 50, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Release pointer while still over thumb
+      await user.pointer([
+        { target: thumb, coords: { clientX: 50, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+
+      // Should remain shown because pointer is still over thumb
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("keeps indicator open while dragging even when mouse leaves thumb in hover mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Start dragging from thumb
+      await user.pointer([
+        { target: thumb, coords: { clientX: 50, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Simulate mouse leaving thumb element by triggering mouseleave
+      // In actual usage, this would happen when dragging away from the thumb
+      thumb.dispatchEvent(new MouseEvent("mouseleave", { bubbles: true }));
+
+      // Should still be shown because we're actively dragging
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Continue dragging
+      await user.pointer([{ target: root, coords: { clientX: 60, clientY: 5 } }]);
+
+      // Should still be shown
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+    });
+  });
+
+  describe("Value Indicator - Multiple Thumbs", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("shows only the dragged thumb's indicator in active mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[25, 75]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb0 = getByTestId("slider-thumb-0");
+      const indicator0 = getByTestId("slider-value-indicator-0");
+      const indicator1 = getByTestId("slider-value-indicator-1");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Start dragging first thumb
+      await user.pointer([
+        { target: thumb0, coords: { clientX: 25, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      // Only first indicator should be shown
+      expect(indicator0).toHaveAttribute("data-value-indicator-shown");
+      expect(indicator1).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Move during drag
+      await user.pointer([{ target: root, coords: { clientX: 30, clientY: 5 } }]);
+
+      // Still only first indicator shown
+      expect(indicator0).toHaveAttribute("data-value-indicator-shown");
+      expect(indicator1).not.toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("shows only one value indicator when thumb crosses over another thumb", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[30, 70]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb0 = getByTestId("slider-thumb-0");
+      const indicator0 = getByTestId("slider-value-indicator-0");
+      const indicator1 = getByTestId("slider-value-indicator-1");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Start dragging first thumb (at value 30)
+      await user.pointer([
+        { target: thumb0, coords: { clientX: 30, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      // Initially, only first indicator should be shown
+      expect(indicator0).toHaveAttribute("data-value-indicator-shown");
+      expect(indicator1).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Drag past the second thumb (value 70) to position 80
+      await user.pointer([{ target: root, coords: { clientX: 80, clientY: 5 } }]);
+
+      expect(indicator0).not.toHaveAttribute("data-value-indicator-shown");
+      expect(indicator1).toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("shows only one value indicator when thumb crosses over another thumb in hover mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[30, 70]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb0 = getByTestId("slider-thumb-0");
+      const indicator0 = getByTestId("slider-value-indicator-0");
+      const indicator1 = getByTestId("slider-value-indicator-1");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Start dragging first thumb (at value 30)
+      await user.pointer([
+        { target: thumb0, coords: { clientX: 30, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      // Initially, only first indicator should be shown
+      expect(indicator0).toHaveAttribute("data-value-indicator-shown");
+      expect(indicator1).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Drag past the second thumb (value 70) to position 80
+      await user.pointer([{ target: root, coords: { clientX: 80, clientY: 5 } }]);
+
+      expect(indicator0).not.toHaveAttribute("data-value-indicator-shown");
+      expect(indicator1).toHaveAttribute("data-value-indicator-shown");
+    });
+  });
+
+  describe("Value Indicator - Disabled State", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("does not show value indicator on hover when disabled", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          disabled
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Hover over thumb
+      await user.hover(thumb);
+
+      // Should not be shown when disabled
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
+  });
+
+  describe("Value Indicator - Data Attributes", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("has correct CSS custom properties", () => {
+      const { getByTestId } = setUp(
+        <SliderWithValueIndicator min={0} max={100} defaultValues={[50]} />,
+      );
+
+      const indicator = getByTestId("slider-value-indicator-0");
+      const style = indicator.getAttribute("style");
+
+      // Should have the required CSS custom properties
+      expect(style).toContain("--indicator-label-position");
+      expect(style).toContain("--indicator-label-offset");
+      expect(style).toContain("--thumb-offset");
     });
   });
 });
