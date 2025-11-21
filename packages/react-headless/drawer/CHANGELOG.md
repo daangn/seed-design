@@ -1,5 +1,11 @@
 # @seed-design/react-drawer
 
+## 1.0.4
+
+### Patch Changes
+
+- e3806c1: BottomSheet에 handleOnly 옵션이 정상적으로 동작하지 않는 이슈를 수정합니다
+
 ## 1.0.3
 
 ### Patch Changes
