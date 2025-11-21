@@ -47,6 +47,7 @@ const CommonStoryTemplate: Story = {
     min: 0,
     max: 100,
 
+    getValueIndicatorLabel: ({ thumbIndex, value }) => `Thumb ${thumbIndex}: ${value}`,
     ticks: [20, 40, 60, 80],
   },
   render: (args) => (

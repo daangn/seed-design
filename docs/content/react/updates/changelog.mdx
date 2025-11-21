@@ -3,6 +3,94 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.11.20
+
+Scroll Fog 컴포넌트가 항상 fog를 표시하게 변경하고 padding 가이드라인을 추가합니다 [`f4c62f6`](https://github.com/daangn/seed-design/commit/f4c62f6af1dc97627c818624a7359581a0f7cb40)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.7](https://npmjs.com/package/@seed-design/react/v/1.1.7)
+
+---
+
+스타일시트에서 logical property(padding-block 등)를 physical property(padding-left 및 padding-right 등)로 교체합니다. (브라우저 지원) [`bee919c`](https://github.com/daangn/seed-design/commit/bee919c028232078b4ba69c90e729bbd33508a11)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.7](https://npmjs.com/package/@seed-design/css/v/1.1.7)
+
+---
+
+Slider Value Indicator가 표시되는 조건을 설정하는 `valueIndicatorTrigger` prop을 추가합니다. ("active"|"hover", 기본값: "active") [`1340675`](https://github.com/daangn/seed-design/commit/13406751def0ba4c7efd3cf2a8bfbd62c8b63fbd)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.7](https://npmjs.com/package/@seed-design/css/v/1.1.7)
+- 📦 [@seed-design/react@1.1.7](https://npmjs.com/package/@seed-design/react/v/1.1.7)
+- 📦 [@seed-design/react-slider@1.0.1](https://npmjs.com/package/@seed-design/react-slider/v/1.0.1)
+
+---
+
+Slider Value Indicator가 Track 양 끝에 있을 때 Track 바깥 영역을 차지하지 않도록 수정합니다. [`1340675`](https://github.com/daangn/seed-design/commit/13406751def0ba4c7efd3cf2a8bfbd62c8b63fbd)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.7](https://npmjs.com/package/@seed-design/css/v/1.1.7)
+- 📦 [@seed-design/react@1.1.7](https://npmjs.com/package/@seed-design/react/v/1.1.7)
+- 📦 [@seed-design/react-slider@1.0.1](https://npmjs.com/package/@seed-design/react-slider/v/1.0.1)
+
+---
+
+## 2025.11.18
+
+transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 추가 [`dfe6c1e`](https://github.com/daangn/seed-design/commit/dfe6c1e12f7b88b1ebdabbe54e4fc504b700489a)
+
+- `$color.bg.transparent-pressed` 컬러와 `$color.bg.transparent` 컬러가 추가되었습니다.
+- 다음 컴포넌트들의 색상이 transparent 관련 토큰으로 변경되었습니다.
+  - `Chip` (outlineStrong, outlineWeak)
+  - `Action Button` (neutralOutline, brandOutline, ghost)
+  - `Checkmark`
+  - `Tabs` (outline)
+  - `List Item`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Select Box`
+- 다음 컴포넌트들의 color transition이 추가되었습니다. (duration: $duration.d3, timing-function: $timing-function.easing)
+  - `Checkmark`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Select Box`
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.6](https://npmjs.com/package/@seed-design/css/v/1.1.6)
+- 📦 [@seed-design/rootage-artifacts@1.1.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.3)
+- 📦 [@seed-design/tailwind3-plugin@1.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.1.6)
+- 📦 [@seed-design/tailwind4-theme@1.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.1.6)
+
+---
+
+다음 컴포넌트들의 color transition을 `$duration.color-transition` (d3) 토큰으로 변경합니다 [`a09e6b4`](https://github.com/daangn/seed-design/commit/a09e6b49f84e622f75563c85897992033301c3f3)
+
+- `Action Button`
+- `Bottom Sheet Handle`
+- `Checkmark`
+- `Tabs` (outline)
+- `Chip`
+- `Contextual Floating Button`
+- `Floating Action Button`
+- `Input Button`
+- `List Item`
+- `Radiomark`
+- `Reaction Button`
+- `Segmented Control Item`
+- `Select Box`
+- `Text Input`
+- `Toggle Button`
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.6](https://npmjs.com/package/@seed-design/css/v/1.1.6)
+- 📦 [@seed-design/rootage-artifacts@1.1.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.3)
+- 📦 [@seed-design/tailwind3-plugin@1.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.1.6)
+- 📦 [@seed-design/tailwind4-theme@1.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.1.6)
+
+---
+
 ## 2025.11.17
 
 BottomSheetBody에 제공한 style 관련 prop(`paddingX` 등)이 적용되지 않고 DOM으로 bleed되는 문제를 수정합니다. [`03ff678`](https://github.com/daangn/seed-design/commit/03ff678ce576d85a37185f4551bfa99927a9bea6)

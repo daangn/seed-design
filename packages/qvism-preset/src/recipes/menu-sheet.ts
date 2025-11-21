@@ -61,8 +61,10 @@ const menuSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
-      paddingInline: vars.base.enabled.content.paddingX,
-      paddingBlock: vars.base.enabled.content.paddingY,
+      paddingLeft: vars.base.enabled.content.paddingX,
+      paddingRight: vars.base.enabled.content.paddingX,
+      paddingTop: vars.base.enabled.content.paddingY,
+      paddingBottom: vars.base.enabled.content.paddingY,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
 
@@ -123,8 +125,10 @@ const menuSheet = defineSlotRecipe({
 
       backgroundColor: closeVars.base.enabled.root.color,
       minHeight: closeVars.base.enabled.root.minHeight,
-      paddingInline: closeVars.base.enabled.root.paddingX,
-      paddingBlock: closeVars.base.enabled.root.paddingY,
+      paddingLeft: closeVars.base.enabled.root.paddingX,
+      paddingRight: closeVars.base.enabled.root.paddingX,
+      paddingTop: closeVars.base.enabled.root.paddingY,
+      paddingBottom: closeVars.base.enabled.root.paddingY,
       borderRadius: closeVars.base.enabled.root.cornerRadius,
 
       border: "none",

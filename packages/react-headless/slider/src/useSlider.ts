@@ -15,6 +15,7 @@ import {
 import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
 import { useSize } from "@radix-ui/react-use-size";
 import { useIsSSR } from "./useIsSSR";
+import { useElementSizesMap } from "./useElementSizesMap";
 
 import {
   getClosestValueIndex,
@@ -22,6 +23,7 @@ import {
   getDecimalCount,
   getNextSortedValues,
   getThumbInBoundsOffset,
+  getStickyLabelOffset,
   hasMinStepsBetweenValues,
   linearScale,
   roundValue,
@@ -82,8 +84,11 @@ function useSliderState({
   const dragTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerDownPosition = useRef<number>(0);
   const thumbRefsMap = useRef<Map<number, HTMLElement | null>>(new Map());
+  const valueIndicatorRootRefsMap = useRef<Map<number, HTMLElement | null>>(new Map());
 
   const firstThumbSize = useSize(thumbRefsMap.current.get(0) ?? null);
+  const rootSize = useSize(rootEl);
+  const valueIndicatorRootSizes = useElementSizesMap(valueIndicatorRootRefsMap);
 
   const [values, setValues] = useControllableState({
     prop: propValues,
@@ -99,8 +104,12 @@ function useSliderState({
   const uncommittedValuesRef = useRef<number[] | null>(null);
 
   const [isHovered, setIsHovered] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(false); // actual active state regardless of disabled/readOnly
   const [isDragging, setIsDragging] = useState(false);
+  const [isPointerDown, setIsPointerDown] = useState(false);
+  const [openThumbIndex, setOpenThumbIndex] = useState<number | null>(null);
+  const [activeThumbIndex, setActiveThumbIndex] = useState<number | null>(null);
+  const [shownIndicators, setShownIndicators] = useState<Set<number>>(new Set());
 
   const updateValues = useCallback(
     (value: number, atIndex: number, options?: { commit?: boolean }) => {
@@ -128,7 +137,16 @@ function useSliderState({
 
         if (!hasChanged) return prevValues;
 
-        valueIndexToChangeRef.current = nextValues.indexOf(nextValue);
+        const newIndex = nextValues.indexOf(nextValue);
+        valueIndexToChangeRef.current = newIndex;
+
+        // Update activeThumbIndex when thumbs cross over during drag
+        // This ensures only one value indicator is shown
+        if (isDragging || isPointerDown) {
+          setActiveThumbIndex(newIndex);
+          // Also update openThumbIndex for hover mode to prevent both indicators from showing
+          setOpenThumbIndex(newIndex);
+        }
 
         if (options?.commit) {
           uncommittedValuesRef.current = null;
@@ -142,7 +160,17 @@ function useSliderState({
         return nextValues;
       });
     },
-    [min, max, step, allowedValues, minStepsBetweenThumbs, setValues, onValuesCommit],
+    [
+      min,
+      max,
+      step,
+      allowedValues,
+      minStepsBetweenThumbs,
+      setValues,
+      onValuesCommit,
+      isDragging,
+      isPointerDown,
+    ],
   );
 
   const getValueFromPointer = useCallback(
@@ -251,6 +279,9 @@ function useSliderState({
     },
 
     firstThumbSize,
+    rootSize,
+    valueIndicatorRootRefsMap,
+    valueIndicatorRootSizes,
 
     min,
     max,
@@ -272,6 +303,14 @@ function useSliderState({
     setIsActive,
     isDragging,
     setIsDragging,
+    isPointerDown,
+    setIsPointerDown,
+    openThumbIndex,
+    setOpenThumbIndex,
+    activeThumbIndex,
+    setActiveThumbIndex,
+    shownIndicators,
+    setShownIndicators,
 
     getValueFromPointer,
 
@@ -316,6 +355,11 @@ export interface UseSliderProps extends UseSliderStateProps {
   getValueIndicatorLabel?: (params: { value: number; thumbIndex: number }) => React.ReactNode;
 
   /**
+   * @default "active"
+   */
+  valueIndicatorTrigger?: "active" | "hover";
+
+  /**
    * @default 150
    */
   dragStartDelayInMilliseconds?: number;
@@ -334,6 +378,7 @@ export function useSlider({
   getAriaLabel,
   getAriaLabelledby,
   getValueIndicatorLabel = ({ value }) => value,
+  valueIndicatorTrigger = "active",
   dragStartDelayInMilliseconds = 150,
 
   ...props
@@ -360,6 +405,11 @@ export function useSlider({
     [api.dir, api.isHovered, api.isActive, api.isDragging, disabled, readOnly, invalid, isSSR],
   );
 
+  const getHasEverBeenShown = useCallback(
+    (index: number) => api.shownIndicators.has(index),
+    [api.shownIndicators],
+  );
+
   const rootProps = useMemo(
     () =>
       elementProps({
@@ -377,6 +427,8 @@ export function useSlider({
           if (disabled) return;
           if (event.target instanceof HTMLElement === false) return;
 
+          api.setIsPointerDown(true);
+
           api.valuesBeforeSlideStartRef.current = api.values;
 
           event.target.setPointerCapture(event.pointerId);
@@ -390,14 +442,16 @@ export function useSlider({
             // target is thumb
             event.target.focus();
 
-            api.valueIndexToChangeRef.current = getClosestValueIndex(
+            const thumbIndex = getClosestValueIndex(
               api.values,
               api.getValueFromPointer(event.clientX),
             );
+            api.valueIndexToChangeRef.current = thumbIndex;
 
             if (readOnly) return;
 
             api.setIsDragging(true);
+            api.setActiveThumbIndex(thumbIndex);
             return;
           }
 
@@ -417,11 +471,16 @@ export function useSlider({
           // keep where the pointer was down
           api.pointerDownPosition.current = event.clientX;
 
+          // Immediately determine which thumb will be affected
+          const valueAtPointer = api.getValueFromPointer(event.clientX);
+          const closestIndex = getClosestValueIndex(api.values, valueAtPointer);
+          api.valueIndexToChangeRef.current = closestIndex;
+          api.setActiveThumbIndex(closestIndex);
+
           // defer drag start to see if it's a slide or a click
           api.dragTimerRef.current = setTimeout(() => {
             api.setIsDragging(true);
-
-            api.handleSlideStart(api.getValueFromPointer(api.pointerDownPosition.current));
+            api.handleSlideStart(valueAtPointer);
           }, dragStartDelayInMilliseconds);
         },
         onPointerMove: (event) => {
@@ -435,15 +494,15 @@ export function useSlider({
           api.setIsDragging(true);
 
           if (api.dragTimerRef.current) {
-            // if we had a drag timer running, clear it and determine which thumb to move based on the saved pointer down position
+            // if we had a drag timer running, clear it and start dragging immediately
             clearTimeout(api.dragTimerRef.current);
-
             api.dragTimerRef.current = null;
 
-            api.valueIndexToChangeRef.current = getClosestValueIndex(
-              api.values,
-              api.getValueFromPointer(api.pointerDownPosition.current),
-            );
+            // The activeThumbIndex was already set in pointerDown
+            // Just verify valueIndexToChangeRef matches
+            if (api.activeThumbIndex !== null) {
+              api.valueIndexToChangeRef.current = api.activeThumbIndex;
+            }
           }
 
           // moves the thumb being dragged
@@ -451,12 +510,34 @@ export function useSlider({
         },
         onPointerUp: (event) => {
           api.setIsActive(false);
-          api.setIsDragging(false);
+          api.setIsPointerDown(false);
 
           if (event.target instanceof HTMLElement === false) return;
           if (event.target.hasPointerCapture(event.pointerId) === false) return;
 
           event.target.releasePointerCapture(event.pointerId);
+
+          // Check if pointer is over the thumb that was being dragged
+          // This prevents flicker when transitioning from drag to hover
+          if (api.isDragging && event.clientX !== undefined && api.activeThumbIndex !== null) {
+            const thumbElement = api.thumbRefsMap.current.get(api.activeThumbIndex);
+            if (thumbElement) {
+              const rect = thumbElement.getBoundingClientRect();
+              const isOverThumb =
+                event.clientX >= rect.left &&
+                event.clientX <= rect.right &&
+                event.clientY >= rect.top &&
+                event.clientY <= rect.bottom;
+
+              if (isOverThumb) {
+                // Keep open state when transitioning from drag to hover
+                api.setOpenThumbIndex(api.activeThumbIndex);
+              }
+            }
+          }
+
+          api.setIsDragging(false);
+          api.setActiveThumbIndex(null);
 
           if (api.dragTimerRef.current) {
             clearTimeout(api.dragTimerRef.current);
@@ -528,17 +609,23 @@ export function useSlider({
         },
       }),
     [
+      api.activeThumbIndex,
       api.adjustValueByStep,
       api.dir,
       api.getValueFromPointer,
       api.handleSlideEnd,
       api.handleSlideMove,
       api.handleSlideStart,
+      api.isDragging,
+      api.setActiveThumbIndex,
       api.setIsActive,
       api.setIsDragging,
       api.setIsHovered,
+      api.setIsPointerDown,
+      api.setOpenThumbIndex,
       api.setToEnd,
       api.setToStart,
+      api.thumbRefsMap,
       api.updateValues,
       api.values,
       disabled,
@@ -550,7 +637,7 @@ export function useSlider({
     ],
   );
 
-  const getRangeProps = useCallback(() => {
+  const rangeProps = useMemo(() => {
     const percentages = api.values.map((value) =>
       convertValueToPercentage(value, api.min, api.max),
     );
@@ -580,6 +667,8 @@ export function useSlider({
         isLtr ? 1 : -1,
       );
 
+      const hasEverBeenShown = getHasEverBeenShown(index);
+
       return elementProps({
         ...stateProps,
 
@@ -601,6 +690,7 @@ export function useSlider({
         "data-thumb-dragging": dataAttr(
           api.isDragging && api.valueIndexToChangeRef.current === index,
         ),
+        "data-value-indicator-shown": dataAttr(hasEverBeenShown),
 
         tabIndex: disabled ? -1 : 0, // readonly thumbs should still be focusable
         style: {
@@ -610,13 +700,26 @@ export function useSlider({
         onFocus: () => {
           api.valueIndexToChangeRef.current = index;
         },
+        onMouseEnter: () => {
+          if (disabled) return;
+
+          api.setOpenThumbIndex(index);
+        },
+        onMouseLeave: () => {
+          // Only close if this thumb is not actively being dragged
+          if (!(api.isDragging && api.activeThumbIndex === index)) {
+            api.setOpenThumbIndex(null);
+          }
+        },
       });
     },
     [
+      api.activeThumbIndex,
       api.firstThumbSize,
       api.isDragging,
       api.max,
       api.min,
+      api.setOpenThumbIndex,
       api.values,
       disabled,
       getAriaLabel,
@@ -625,6 +728,8 @@ export function useSlider({
       invalid,
       isLtr,
       readOnly,
+      stateProps,
+      getHasEverBeenShown,
     ],
   );
 
@@ -711,15 +816,48 @@ export function useSlider({
         return {
           rootProps: elementProps({}),
           labelProps: elementProps({}),
+          rootRef: () => {},
         };
 
       const percent = convertValueToPercentage(value, api.min, api.max);
 
-      const thumbInBoundsOffset = getThumbInBoundsOffset(
-        api.firstThumbSize?.width ?? 0,
+      const indicatorWidth = api.valueIndicatorRootSizes.get(index)?.width ?? 0;
+      const trackWidth = api.rootSize?.width ?? 0;
+      const thumbWidth = api.firstThumbSize?.width ?? 0;
+
+      // Calculate thumb offset for arrow (arrow should follow thumb position)
+      const thumbInBoundsOffset = getThumbInBoundsOffset(thumbWidth, percent, 1);
+
+      // Use sticky offset calculation for value indicator root (accounting for thumb offset)
+      // Must use the same direction as thumbInBoundsOffset for correct arrow positioning
+      const indicatorOffset = getStickyLabelOffset(
+        indicatorWidth,
         percent,
+        thumbWidth,
+        trackWidth,
         1,
       );
+
+      // Visibility logic by trigger mode:
+      // - 'active' (default): ONLY show when dragging
+      // - 'hover': Show when hovering OR dragging
+      const isShown = (() => {
+        switch (valueIndicatorTrigger) {
+          case "hover":
+            return (
+              api.openThumbIndex === index ||
+              (api.isDragging && api.valueIndexToChangeRef.current === index)
+            );
+          case "active":
+            return api.isDragging && api.valueIndexToChangeRef.current === index;
+        }
+      })();
+
+      const hasEverBeenShown = getHasEverBeenShown(index);
+
+      if (isShown && !hasEverBeenShown) {
+        setTimeout(() => api.setShownIndicators((prev) => new Set(prev).add(index)), 0);
+      }
 
       return {
         rootProps: elementProps({
@@ -729,24 +867,38 @@ export function useSlider({
           "data-thumb-dragging": dataAttr(
             api.isDragging && api.valueIndexToChangeRef.current === index,
           ),
+          "data-value-indicator-shown": dataAttr(isShown),
+          "data-indicator-ever-shown": dataAttr(hasEverBeenShown),
 
           style: {
-            "--indicator-position": percent,
-            "--indicator-offset": `${thumbInBoundsOffset}px`,
+            "--indicator-label-position": percent,
+            "--indicator-label-offset": `${indicatorOffset}px`,
+            "--thumb-offset": `${thumbInBoundsOffset}px`,
           } as CSSProperties,
         }),
         labelProps: elementProps({
           children: getValueIndicatorLabel({ value, thumbIndex: index }),
         }),
+        rootRef: (node: HTMLElement | null) => {
+          api.valueIndicatorRootRefsMap.current.set(index, node);
+        },
       };
     },
     [
-      api.firstThumbSize?.width,
       api.isDragging,
       api.max,
       api.min,
+      api.openThumbIndex,
+      api.setShownIndicators,
       api.values,
+      api.valueIndicatorRootSizes,
+      api.valueIndexToChangeRef,
+      api.rootSize?.width,
+      api.firstThumbSize?.width,
       getValueIndicatorLabel,
+      stateProps,
+      valueIndicatorTrigger,
+      getHasEverBeenShown,
     ],
   );
 
@@ -766,7 +918,7 @@ export function useSlider({
     isDragging: api.isDragging,
 
     rootProps,
-    getRangeProps,
+    rangeProps,
     getThumbProps,
     getThumbRef,
     getHiddenInputProps,

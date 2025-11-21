@@ -16,8 +16,10 @@
 .seed-badge__root--size_medium {
     max-width: 7.5rem;
     min-height: var(--seed-dimension-x5);
-    padding-inline: var(--seed-dimension-x1_5);
-    padding-block: var(--seed-dimension-x0_5);
+    padding-left: var(--seed-dimension-x1_5);
+    padding-right: var(--seed-dimension-x1_5);
+    padding-top: var(--seed-dimension-x0_5);
+    padding-bottom: var(--seed-dimension-x0_5);
     border-radius: var(--seed-radius-r1);
     font-size: var(--seed-font-size-t1);
     line-height: var(--seed-line-height-t1)
@@ -25,8 +27,10 @@
 .seed-badge__root--size_large {
     max-width: 6.75rem;
     min-height: var(--seed-dimension-x6);
-    padding-inline: var(--seed-dimension-x2);
-    padding-block: var(--seed-dimension-x1);
+    padding-left: var(--seed-dimension-x2);
+    padding-right: var(--seed-dimension-x2);
+    padding-top: var(--seed-dimension-x1);
+    padding-bottom: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-r1_5);
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2)

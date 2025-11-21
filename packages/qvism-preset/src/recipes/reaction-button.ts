@@ -88,8 +88,10 @@ const reactionButton = defineRecipe({
     size: {
       xsmall: {
         height: vars.sizeXsmall.enabled.root.minHeight,
-        paddingInline: vars.sizeXsmall.enabled.root.paddingX,
-        paddingBlock: vars.sizeXsmall.enabled.root.paddingY,
+        paddingLeft: vars.sizeXsmall.enabled.root.paddingX,
+        paddingRight: vars.sizeXsmall.enabled.root.paddingX,
+        paddingTop: vars.sizeXsmall.enabled.root.paddingY,
+        paddingBottom: vars.sizeXsmall.enabled.root.paddingY,
         gap: vars.sizeXsmall.enabled.root.gap,
         borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
 
@@ -109,8 +111,10 @@ const reactionButton = defineRecipe({
       },
       small: {
         height: vars.sizeSmall.enabled.root.minHeight,
-        paddingInline: vars.sizeSmall.enabled.root.paddingX,
-        paddingBlock: vars.sizeSmall.enabled.root.paddingY,
+        paddingLeft: vars.sizeSmall.enabled.root.paddingX,
+        paddingRight: vars.sizeSmall.enabled.root.paddingX,
+        paddingTop: vars.sizeSmall.enabled.root.paddingY,
+        paddingBottom: vars.sizeSmall.enabled.root.paddingY,
         gap: vars.sizeSmall.enabled.root.gap,
         borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
 

@@ -123,7 +123,8 @@
     --seed-box-max-height: initial;
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
-    padding-inline: var(--seed-box-padding-x);
+    padding-left: var(--seed-box-padding-x);
+    padding-right: var(--seed-box-padding-x);
     height: var(--seed-box-height);
     min-height: var(--seed-box-min-height);
     max-height: var(--seed-box-max-height);
@@ -133,7 +134,8 @@
 .seed-bottom-sheet__footer {
     display: flex;
     flex-direction: column;
-    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
+    padding-left: var(--seed-dimension-spacing-x-global-gutter);
+    padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x3);
     padding-bottom: var(--seed-dimension-x4);
 }

@@ -4,11 +4,15 @@ export declare const vars: {
       "root": {
         "paddingY": "var(--seed-dimension-x3)",
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
+        "color": "var(--seed-color-bg-transparent)",
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "marginDuration": "var(--seed-duration-d3)",
+        "marginTimingFunction": "var(--seed-timing-function-easing)",
+        "borderRadiusDuration": "var(--seed-duration-d3)",
+        "borderRadiusTimingFunction": "var(--seed-timing-function-easing)"
       },
       "content": {
-        "color": "var(--seed-color-bg-transparent)",
         "gap": "var(--seed-dimension-x0_5)",
         "paddingRight": "var(--seed-dimension-x2_5)"
       },
@@ -45,14 +49,21 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-subtle)"
       }
     },
-    "highlighted": {
-      "root": {
-        "color": "var(--seed-color-palette-carrot-100)"
-      }
-    },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)",
+        "marginX": "var(--seed-dimension-x1_5)",
+        "cornerRadius": "var(--seed-dimension-x2_5)"
+      }
+    },
+    "highlighted": {
+      "root": {
+        "color": "var(--seed-color-bg-brand-weak)"
+      }
+    },
+    "highlightedPressed": {
+      "root": {
+        "color": "var(--seed-color-bg-brand-weak-pressed)"
       }
     },
     "disabled": {
@@ -60,7 +71,7 @@ export declare const vars: {
         "color": "var(--seed-color-fg-disabled)"
       },
       "detail": {
-        "color": "var(--seed-color-fg-neutral-subtle)"
+        "color": "var(--seed-color-fg-disabled)"
       },
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"

@@ -7,7 +7,8 @@
     isolation: isolate;
     height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
-    padding-inline: var(--seed-dimension-x4);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
 }
 .seed-input-button__button {
     position: absolute;

@@ -34,8 +34,8 @@
     background: var(--seed-color-palette-static-white);
 }
 .seed-switch-mark__root--size_16 {
-    min-inline-size: 26px;
-    min-block-size: 16px;
+    min-width: 26px;
+    min-height: 16px;
     padding: 2px 2px;
 }
 .seed-switch-mark__thumb--size_16 {
@@ -46,8 +46,8 @@
     transform: scale(1) translateX(calc(26px - 16px));
 }
 .seed-switch-mark__root--size_24 {
-    min-inline-size: 38px;
-    min-block-size: 24px;
+    min-width: 38px;
+    min-height: 24px;
     padding: 2px 2px;
 }
 .seed-switch-mark__thumb--size_24 {
@@ -58,8 +58,8 @@
     transform: scale(1) translateX(calc(38px - 24px));
 }
 .seed-switch-mark__root--size_32 {
-    min-inline-size: 52px;
-    min-block-size: 32px;
+    min-width: 52px;
+    min-height: 32px;
     padding: 3px 3px;
 }
 .seed-switch-mark__thumb--size_32 {
