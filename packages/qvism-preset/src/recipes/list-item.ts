@@ -81,6 +81,7 @@ const listItem = defineSlotRecipe({
       alignItems: "flex-start",
       flexGrow: 1,
 
+      backgroundColor: "transparent",
       border: "none",
       fontFamily: "inherit",
       "--seed-box-gap": vars.base.enabled.content.gap,

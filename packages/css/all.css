@@ -4807,6 +4807,7 @@
   gap: var(--seed-box-gap);
   --seed-box-padding-right: var(--seed-dimension-x2_5);
   padding: 0 var(--seed-box-padding-right) 0 0;
+  background-color: #0000;
   border: none;
   flex-direction: column;
   flex-grow: 1;

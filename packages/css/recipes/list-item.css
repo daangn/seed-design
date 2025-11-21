@@ -52,6 +52,7 @@
     flex-direction: column;
     align-items: flex-start;
     flex-grow: 1;
+    background-color: transparent;
     border: none;
     font-family: inherit;
     --seed-box-gap: var(--seed-dimension-x0_5);
