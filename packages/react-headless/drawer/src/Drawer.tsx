@@ -325,6 +325,7 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
     isOpen,
     onPress,
     onDrag,
+    onRelease,
   } = useDrawerContext();
 
   const closeTimeoutIdRef = useRef<number | null>(null);
@@ -396,7 +397,10 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
       onPointerMove={(e) => {
         if (handleOnly) onDrag(e);
       }}
-      // onPointerUp is already handled by the content component
+      onPointerUp={(e) => {
+        if (handleOnly) onRelease(e);
+        handleCancelInteraction();
+      }}
       data-drawer-visible={isOpen ? "true" : "false"}
       data-handle=""
       aria-hidden="true"
