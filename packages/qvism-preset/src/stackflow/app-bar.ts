@@ -68,7 +68,8 @@ export const appBarMain = defineSlotRecipe({
           bottom: 0,
           left: 0,
           right: 0,
-          paddingInline: "var(--centered-title-padding-x, 0)",
+          paddingLeft: "var(--centered-title-padding-x, 0)",
+          paddingRight: "var(--centered-title-padding-x, 0)",
           pointerEvents: "none",
         },
       },
@@ -193,7 +194,8 @@ export const appBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.themeCupertino.enabled.root.minHeight} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeCupertino.enabled.root.paddingX,
+          paddingLeft: vars.themeCupertino.enabled.root.paddingX,
+          paddingRight: vars.themeCupertino.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -217,7 +219,8 @@ export const appBar = defineSlotRecipe({
       android: {
         root: {
           height: `calc(${vars.themeAndroid.enabled.root.minHeight} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeAndroid.enabled.root.paddingX,
+          paddingLeft: vars.themeAndroid.enabled.root.paddingX,
+          paddingRight: vars.themeAndroid.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {

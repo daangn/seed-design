@@ -101,8 +101,10 @@
     height: var(--seed-dimension-x8);
     border-radius: var(--seed-radius-full);
     gap: var(--seed-dimension-x1);
-    padding-inline: var(--seed-dimension-x3_5);
-    padding-block: var(--seed-dimension-x1_5);
+    padding-left: var(--seed-dimension-x3_5);
+    padding-right: var(--seed-dimension-x3_5);
+    padding-top: var(--seed-dimension-x1_5);
+    padding-bottom: var(--seed-dimension-x1_5);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     --size: 14px;
@@ -114,8 +116,10 @@
     height: var(--seed-dimension-x9);
     border-radius: var(--seed-radius-full);
     gap: var(--seed-dimension-x1);
-    padding-inline: var(--seed-dimension-x4);
-    padding-block: var(--seed-dimension-x2);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
+    padding-top: var(--seed-dimension-x2);
+    padding-bottom: var(--seed-dimension-x2);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     --size: 14px;

@@ -29,7 +29,8 @@ export const field = defineSlotRecipe({
       justifyContent: "space-between",
       alignItems: "center",
 
-      paddingInline: vars.base.enabled.header.paddingX,
+      paddingLeft: vars.base.enabled.header.paddingX,
+      paddingRight: vars.base.enabled.header.paddingX,
       gap: vars.base.enabled.header.gap,
     },
     footer: {
@@ -37,7 +38,8 @@ export const field = defineSlotRecipe({
       justifyContent: "space-between",
       alignItems: "flex-start",
 
-      paddingInline: vars.base.enabled.footer.paddingX,
+      paddingLeft: vars.base.enabled.footer.paddingX,
+      paddingRight: vars.base.enabled.footer.paddingX,
       gap: vars.base.enabled.footer.gap,
     },
     description: {
@@ -112,7 +114,7 @@ export const fieldLabel = defineSlotRecipe({
       display: "inline",
       verticalAlign: "bottom",
 
-      paddingInlineStart: vars.base.enabled.indicatorText.paddingLeft,
+      paddingLeft: vars.base.enabled.indicatorText.paddingLeft,
 
       color: vars.base.enabled.indicatorText.color,
       fontSize: vars.base.enabled.indicatorText.fontSize,
@@ -126,8 +128,8 @@ export const fieldLabel = defineSlotRecipe({
       width: vars.base.enabled.indicatorIcon.size,
       height: vars.base.enabled.indicatorIcon.size,
 
-      marginBlockStart: vars.base.enabled.indicatorIcon.paddingTop,
-      marginInlineStart: vars.base.enabled.indicatorIcon.paddingLeft,
+      marginTop: vars.base.enabled.indicatorIcon.paddingTop,
+      marginLeft: vars.base.enabled.indicatorIcon.paddingLeft,
 
       color: vars.base.enabled.indicatorIcon.color,
     },

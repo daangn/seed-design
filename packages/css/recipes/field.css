@@ -8,14 +8,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-inline: var(--seed-dimension-x0_5);
+    padding-left: var(--seed-dimension-x0_5);
+    padding-right: var(--seed-dimension-x0_5);
     gap: var(--seed-dimension-x2_5);
 }
 .seed-field__footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding-inline: var(--seed-dimension-x0_5);
+    padding-left: var(--seed-dimension-x0_5);
+    padding-right: var(--seed-dimension-x0_5);
     gap: var(--seed-dimension-x2);
 }
 .seed-field__description {

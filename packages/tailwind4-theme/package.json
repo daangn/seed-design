@@ -3,6 +3,11 @@
   "version": "1.1.6",
   "description": "SEED 디자인 토큰을 Tailwind CSS 4.0에서 사용하기 위한 플러그인",
   "main": "index.css",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/tailwind4-theme"
+  },
   "files": [
     "index.css",
     "README.md"

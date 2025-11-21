@@ -1,5 +1,13 @@
 # @seed-design/css
 
+## 1.1.7
+
+### Patch Changes
+
+- bee919c: 스타일시트에서 logical property(padding-block 등)를 physical property(padding-left 및 padding-right 등)로 교체합니다. (브라우저 지원)
+- 1340675: Slider Value Indicator가 표시되는 조건을 설정하는 `valueIndicatorTrigger` prop을 추가합니다. ("active"|"hover", 기본값: "active")
+- 1340675: Slider Value Indicator가 Track 양 끝에 있을 때 Track 바깥 영역을 차지하지 않도록 수정합니다.
+
 ## 1.1.6
 
 ### Patch Changes

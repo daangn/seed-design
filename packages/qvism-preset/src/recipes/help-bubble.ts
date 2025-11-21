@@ -8,12 +8,18 @@ const helpBubble = defineSlotRecipe({
   name: "help-bubble",
   slots: ["positioner", "content", "arrow", "arrowTip", "title", "description", "closeButton"],
   base: {
+    positioner: {
+      "--popover-z-index": "99",
+      zIndex: "calc(var(--popover-z-index) + var(--z-index-offset, 0))",
+    },
     content: {
       display: "flex",
       flexDirection: "column",
       background: vars.base.enabled.root.color,
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
+      paddingTop: vars.base.enabled.root.paddingY,
+      paddingBottom: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
       wordBreak: "keep-all",
 

@@ -51,6 +51,49 @@ export function getThumbInBoundsOffset(width: number, left: number, direction: n
 }
 
 /**
+ * Calculates the offset needed to keep a label centered on the thumb position
+ * but sticky to the track edges when it would overflow.
+ *
+ * @param labelWidth - The width of the label element
+ * @param thumbPosition - The thumb position as a percentage (0-100)
+ * @param thumbWidth - The width of the thumb element
+ * @param trackWidth - The width of the track
+ * @param direction - 1 for LTR, -1 for RTL
+ * @returns The offset in pixels to apply to the label
+ */
+export function getStickyLabelOffset(
+  labelWidth: number,
+  thumbPosition: number,
+  thumbWidth: number,
+  trackWidth: number,
+  direction: number
+) {
+  // If we don't have dimensions, no offset
+  if (!labelWidth || !trackWidth) return 0;
+
+  const halfLabelWidth = labelWidth / 2;
+
+  // First calculate the thumb's offset to keep it in bounds
+  const thumbOffset = getThumbInBoundsOffset(thumbWidth, thumbPosition, direction);
+
+  // Calculate the actual thumb center position (percentage position + thumb offset)
+  const naturalCenterPx = (thumbPosition / 100) * trackWidth + thumbOffset;
+
+  // Calculate the bounds where the label can be positioned (in pixels)
+  const minCenterPx = halfLabelWidth;
+  const maxCenterPx = trackWidth - halfLabelWidth;
+
+  // Clamp the center position within bounds
+  const clampedCenterPx = Math.max(minCenterPx, Math.min(maxCenterPx, naturalCenterPx));
+
+  // Calculate the offset from the natural position (which already includes thumb offset)
+  // So we return the total offset needed from the base percentage position
+  const totalOffsetPx = clampedCenterPx - (thumbPosition / 100) * trackWidth;
+
+  return totalOffsetPx * direction;
+}
+
+/**
  * Gets an array of steps between each value.
  *
  * @example

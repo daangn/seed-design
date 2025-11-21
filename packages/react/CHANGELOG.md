@@ -1,5 +1,16 @@
 # @seed-design/react
 
+## 1.1.7
+
+### Patch Changes
+
+- f4c62f6: Scroll Fog 컴포넌트가 항상 fog를 표시하게 변경하고 padding 가이드라인을 추가합니다
+- 1340675: Slider Value Indicator가 표시되는 조건을 설정하는 `valueIndicatorTrigger` prop을 추가합니다. ("active"|"hover", 기본값: "active")
+- 1340675: Slider Value Indicator가 Track 양 끝에 있을 때 Track 바깥 영역을 차지하지 않도록 수정합니다.
+- Updated dependencies [1340675]
+- Updated dependencies [1340675]
+  - @seed-design/react-slider@1.0.1
+
 ## 1.1.5
 
 ### Patch Changes

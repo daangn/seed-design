@@ -51,9 +51,9 @@
         "@sanity/image-url": "^1.2.0",
         "@sanity/table": "^2.0.0",
         "@sanity/vision": "^4.10.2",
-        "@seed-design/css": "1.1.6",
+        "@seed-design/css": "1.1.7",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.1.5",
+        "@seed-design/react": "1.1.7",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.5",
@@ -335,7 +335,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.1.6",
+      "version": "1.1.7",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -367,7 +367,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.6",
+      "version": "1.1.7",
       "dependencies": {
         "@seed-design/css": "1.1.0",
         "change-case": "^5.4.4",
@@ -383,7 +383,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.6",
+      "version": "1.1.7",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
@@ -418,7 +418,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.1.5",
+      "version": "1.1.7",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -438,9 +438,8 @@
         "@seed-design/react-progress": "1.0.0",
         "@seed-design/react-pull-to-refresh": "1.0.1",
         "@seed-design/react-radio-group": "1.0.1",
-        "@seed-design/react-scrollable": "1.0.0",
         "@seed-design/react-segmented-control": "1.0.1",
-        "@seed-design/react-slider": "1.0.0",
+        "@seed-design/react-slider": "1.0.1",
         "@seed-design/react-snackbar": "1.0.0",
         "@seed-design/react-switch": "1.0.1",
         "@seed-design/react-tabs": "1.0.1",
@@ -731,10 +730,11 @@
     },
     "packages/react-headless/slider": {
       "name": "@seed-design/react-slider",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-controllable-state": "^1.2.2",
+        "@radix-ui/react-use-layout-effect": "^1.1.1",
         "@radix-ui/react-use-size": "^1.1.1",
         "@seed-design/dom-utils": "^1.0.0",
         "@seed-design/react-primitive": "^1.0.0",
@@ -888,7 +888,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.1.6",
+        "@seed-design/css": "1.1.7",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@stackflow/react-ui-core": "^1.3.2",
@@ -902,7 +902,7 @@
         "vite-plugin-dts": "^4.5.3",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.6",
+        "@seed-design/css": ">=1.1.7",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "@stackflow/react-ui-core": ">=1.3.2",

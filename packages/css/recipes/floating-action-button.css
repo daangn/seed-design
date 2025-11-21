@@ -46,7 +46,8 @@
     overflow: hidden;
 }
 .seed-floating-action-button__root--extended_true {
-    padding-inline: var(--seed-dimension-x4_5);
+    padding-left: var(--seed-dimension-x4_5);
+    padding-right: var(--seed-dimension-x4_5);
     height: 48px;
     width: fit-content;
     max-width: 999px;

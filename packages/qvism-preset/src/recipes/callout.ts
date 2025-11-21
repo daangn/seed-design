@@ -23,8 +23,11 @@ const callout = defineSlotRecipe({
       width: "100%",
       minHeight: vars.base.enabled.root.minHeight,
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
+      paddingTop: vars.base.enabled.root.paddingY,
+      paddingBottom: vars.base.enabled.root.paddingY,
+
       gap: vars.base.enabled.root.gap,
 
       borderRadius: vars.base.enabled.root.cornerRadius,
@@ -43,7 +46,7 @@ const callout = defineSlotRecipe({
       },
     },
     content: {
-      marginInlineEnd: "auto",
+      marginRight: "auto",
 
       // we define lineHeight here because some reset.css sets default line-height
       // e.g. tailwind preflight sets * { line-height: 1.5 }

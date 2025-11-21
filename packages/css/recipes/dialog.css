@@ -74,7 +74,8 @@
 .seed-dialog__header {
     display: flex;
     flex-direction: column;
-    padding-inline: var(--seed-dimension-x5);
+    padding-left: var(--seed-dimension-x5);
+    padding-right: var(--seed-dimension-x5);
     padding-top: var(--seed-dimension-x5);
     gap: var(--seed-dimension-x1_5);
 }
@@ -97,7 +98,8 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding-inline: var(--seed-dimension-x5);
+    padding-left: var(--seed-dimension-x5);
+    padding-right: var(--seed-dimension-x5);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x5);
 }

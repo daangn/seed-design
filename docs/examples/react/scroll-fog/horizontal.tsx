@@ -10,7 +10,7 @@ export default function ScrollFogHorizontal() {
       }}
     >
       <ScrollFog placement={["left", "right"]}>
-        <HStack gap="x3" p="x4" style={{ width: "max-content" }}>
+        <HStack gap="x3" px="20px" py="x4" style={{ width: "max-content" }}>
           {Array.from({ length: 15 }, (_, i) => (
             <div
               key={i}

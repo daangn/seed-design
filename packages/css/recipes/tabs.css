@@ -84,7 +84,8 @@
     background-color: var(--seed-color-fg-neutral);
 }
 .seed-tabs__list--triggerLayout_fill {
-    padding-inline: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
     justify-content: space-around;
 }
 .seed-tabs__indicator--triggerLayout_fill {
@@ -99,7 +100,8 @@
     right: var(--seed-dimension-spacing-x-global-gutter);
 }
 .seed-tabs__list--triggerLayout_hug {
-    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
+    padding-left: var(--seed-dimension-spacing-x-global-gutter);
+    padding-right: var(--seed-dimension-spacing-x-global-gutter);
     justify-content: flex-start;
 }
 .seed-tabs__indicator--triggerLayout_hug {
@@ -133,8 +135,10 @@
 }
 .seed-tabs__trigger--size_small {
     min-height: 40px;
-    padding-inline: var(--seed-dimension-x2_5);
-    padding-block: var(--seed-dimension-x2_5);
+    padding-left: var(--seed-dimension-x2_5);
+    padding-right: var(--seed-dimension-x2_5);
+    padding-top: var(--seed-dimension-x2_5);
+    padding-bottom: var(--seed-dimension-x2_5);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
@@ -147,8 +151,10 @@
 }
 .seed-tabs__trigger--size_medium {
     min-height: 44px;
-    padding-inline: var(--seed-dimension-x2_5);
-    padding-block: var(--seed-dimension-x2_5);
+    padding-left: var(--seed-dimension-x2_5);
+    padding-right: var(--seed-dimension-x2_5);
+    padding-top: var(--seed-dimension-x2_5);
+    padding-bottom: var(--seed-dimension-x2_5);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
