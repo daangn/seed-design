@@ -17,7 +17,7 @@ export function handleColor(color: string | undefined) {
     return undefined;
   }
   const [type, value] = color.split(".");
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$color[type]?.[value] ?? color;
 }
 
@@ -36,7 +36,7 @@ export function handleDimension(dimension: string | 0 | undefined): string | und
 
   const [type, value] = dimension.split(".");
 
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$dimension[dimension] ?? vars.$dimension[type]?.[value] ?? dimension;
 }
 
@@ -64,11 +64,11 @@ export function handlePaddingWithSafeArea(
   return paddingValue;
 }
 
-function handleRadius(radius: string | 0 | undefined) {
+export function handleRadius(radius: string | 0 | undefined) {
   if (radius == null) {
     return undefined;
   }
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$radius[radius] ?? radius;
 }
 
@@ -77,7 +77,7 @@ function handleGradient(gradientToken: string | undefined, direction: string | u
     return undefined;
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   const colorStops = vars.$gradient[gradientToken];
   if (!colorStops) {
     return undefined;
@@ -91,7 +91,6 @@ function handleDisplay(display: string | undefined) {
     return undefined;
   }
 
-  // @ts-ignore
   if (process.env.NODE_ENV !== "production") {
     if (display === "inlineFlex" || display === "inlineBlock") {
       console.warn(
@@ -115,7 +114,6 @@ function handleFlexDirection(flexDirection: string | undefined) {
     return undefined;
   }
 
-  // @ts-ignore
   if (process.env.NODE_ENV !== "production") {
     if (flexDirection === "rowReverse" || flexDirection === "columnReverse") {
       console.warn(
@@ -139,7 +137,6 @@ function handleJustifyContent(justifyContent: string | undefined) {
     return undefined;
   }
 
-  // @ts-ignore
   if (process.env.NODE_ENV !== "production") {
     if (justifyContent === "flexStart" || justifyContent === "flexEnd") {
       console.warn(
@@ -169,7 +166,6 @@ function handleAlignItems(alignItems: string | undefined) {
     return undefined;
   }
 
-  // @ts-ignore
   if (process.env.NODE_ENV !== "production") {
     if (alignItems === "flexStart" || alignItems === "flexEnd") {
       console.warn(
@@ -652,7 +648,7 @@ export function withStyleProps<P extends {}, R>(
   const Node = forwardRef<R, P>((props, ref) => {
     const { style, restProps } = useStyleProps(props);
 
-    // @ts-ignore
+    // @ts-expect-error
     return <Component ref={ref} style={style} {...restProps} />;
   });
 
