@@ -2073,6 +2073,7 @@
   mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
   position: absolute;
   inset: 0;
+  transform: translateZ(0);
   mask-repeat: no-repeat;
   mask-composite: subtract;
 }
@@ -2091,6 +2092,7 @@
   mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
   display: block;
   overflow: hidden;
+  transform: translateZ(0);
   mask-repeat: no-repeat;
   mask-composite: subtract;
 }
@@ -2116,6 +2118,7 @@
   align-items: center;
   display: flex;
   overflow: hidden;
+  transform: translateZ(0);
   mask-repeat: no-repeat;
   mask-composite: subtract;
 }
