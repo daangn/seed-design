@@ -1,6 +1,7 @@
-import { randomUUID } from "node:crypto";
 import * as p from "@clack/prompts";
 import { getConfig } from "./get-config";
+import os from "os";
+import { highlight } from "@/src/utils/color";
 
 const EVENT_PREFIX = "seed_cli";
 
@@ -17,14 +18,14 @@ interface TrackOptions {
  * 3. seed-design.json의 telemetry 설정
  * 4. 기본값 true (Opt-out)
  */
-async function isTelemetryEnabled(cwd: string): Promise<boolean> {
+const isTelemetryEnabled = await (async () => {
   // 1. 환경 변수 체크
   if (process.env.DISABLE_TELEMETRY === "true") return false;
   if (process.env.SEED_DISABLE_TELEMETRY === "true") return false;
 
   // 2. seed-design.json 체크
   try {
-    const config = await getConfig(cwd);
+    const config = await getConfig(process.cwd());
     if (config?.telemetry === false) return false;
   } catch {
     // 설정 파일이 없거나 읽기 실패 시 기본값 사용
@@ -32,46 +33,44 @@ async function isTelemetryEnabled(cwd: string): Promise<boolean> {
 
   // 3. 기본값
   return true;
-}
-
-/**
- * 익명 세션 ID를 생성합니다.
- * 각 CLI 실행마다 새로운 UUID가 생성됩니다.
- */
-function generateSessionId(): string {
-  return randomUUID();
-}
+})();
 
 // 세션당 한 번만 생성
-const sessionId = generateSessionId();
+const userInfo = {
+  userAgent:
+    typeof navigator !== "undefined" && navigator.userAgent
+      ? navigator.userAgent
+      : `Unavailable (${process.release.name} ${process.version})`,
+  os: `${os.type()} ${os.version()} ${os.arch()}`,
+  username: os.userInfo().username,
+};
 
 // 세션당 한 번만 메시지 표시
-let hasShownMessage = false;
+let hasShownDisclaimer = false;
+
+function showDisclaimer() {
+  if (isTelemetryEnabled === false || hasShownDisclaimer) return;
+
+  p.log.info(
+    `${highlight("📊 SEED CLI는 사용 데이터를 수집합니다.")}\n비활성화하려면, seed-design.json에서 \`{ telemetry: false }\`를 설정하거나 DISABLE_TELEMETRY=true 환경 변수를 설정하세요.`,
+  );
+
+  hasShownDisclaimer = true;
+}
 
 /**
  * PostHog에 이벤트를 전송합니다.
  */
-async function track(cwd: string, { event, properties = {} }: TrackOptions): Promise<void> {
-  const enabled = await isTelemetryEnabled(cwd);
-
-  if (!enabled) {
-    return;
-  }
+async function track({ event, properties = {} }: TrackOptions): Promise<void> {
+  if (isTelemetryEnabled === false) return;
 
   const fullEvent = `${EVENT_PREFIX}.${event}`;
 
   // Dev 모드: 콘솔에만 출력
   if (process.env.NODE_ENV === "dev") {
     console.log(`📊 [Telemetry] ${fullEvent}`, properties);
-    return;
-  }
 
-  // 사용자에게 텔레메트리 수집 중임을 알림 (세션당 한 번만)
-  if (!hasShownMessage) {
-    p.log.info(
-      "📊 사용 데이터 수집 중 (비활성화: seed-design.json 또는 DISABLE_TELEMETRY 환경 변수)",
-    );
-    hasShownMessage = true;
+    return;
   }
 
   // PostHog API 호출 (fire-and-forget)
@@ -89,9 +88,10 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
     const payload = {
       api_key: process.env.POSTHOG_API_KEY,
       event: fullEvent,
-      distinct_id: sessionId,
+      distinct_id: `cli.${userInfo.username}`,
       properties: {
         ...properties,
+        ...userInfo,
         $process_person_profile: false,
       },
       timestamp: new Date().toISOString(),
@@ -116,4 +116,5 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
 
 export const analytics = {
   track,
+  showDisclaimer,
 };

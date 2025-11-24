@@ -41,7 +41,9 @@ export const addAllCommand = (cli: CAC) => {
     .example("seed-design add-all ui lib breeze")
     .action(async (registryIds, opts) => {
       const startTime = Date.now();
+
       p.intro("seed-design add-all");
+      analytics.showDisclaimer();
 
       const {
         success,
@@ -179,23 +181,38 @@ export const addAllCommand = (cli: CAC) => {
         }
 
         p.outro("완료했어요.");
+
+        // add-all 성공 이벤트 추적
+        const duration = Date.now() - startTime;
+
+        await analytics.track({
+          event: "add-all",
+          properties: {
+            registry_ids: selectedRegistryIds,
+            registry_items_to_add: registryItemsToAdd,
+
+            include_deprecated: options.includeDeprecated || false,
+
+            installed_dependencies: Array.from(installed),
+            already_installed_dependencies: Array.from(filtered),
+
+            duration_ms: duration,
+          },
+        });
       } catch (error) {
         p.log.error(`추가에 실패했어요. ${error}`);
         p.outro(highlight("작업이 취소됐어요."));
+
+        await analytics.track({
+          event: "add-all.error",
+          properties: {
+            error: `${error}`,
+
+            registry_ids: selectedRegistryIds,
+          },
+        });
+
         process.exit(1);
       }
-
-      // add-all 성공 이벤트 추적
-      const duration = Date.now() - startTime;
-      await analytics.track(options.cwd, {
-        event: "add-all",
-        properties: {
-          registries: selectedRegistryIds,
-          items_count: itemKeys.length,
-          include_deprecated: options.includeDeprecated || false,
-          dependencies_count: npmDependenciesToAdd.size,
-          duration_ms: duration,
-        },
-      });
     });
 };

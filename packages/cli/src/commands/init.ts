@@ -24,7 +24,9 @@ export const initCommand = (cli: CAC) => {
     .option("-y, --yes", "모든 질문에 대해 기본값으로 답변합니다.")
     .action(async (opts) => {
       const startTime = Date.now();
+
       p.intro("seed-design.json 파일 생성");
+      analytics.showDisclaimer();
 
       const options = initOptionsSchema.parse(opts);
       const isYesOption = options.yes;
@@ -107,7 +109,7 @@ export const initCommand = (cli: CAC) => {
 
       // init 성공 이벤트 추적
       const duration = Date.now() - startTime;
-      await analytics.track(options.cwd, {
+      await analytics.track({
         event: "init",
         properties: {
           tsx: config.tsx,

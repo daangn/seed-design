@@ -40,7 +40,9 @@ export const addCommand = (cli: CAC) => {
     .example("seed-design add ui:alert-dialog")
     .action(async (itemIds, opts) => {
       const startTime = Date.now();
+
       p.intro("seed-design add");
+      analytics.showDisclaimer();
 
       const {
         success,
@@ -202,31 +204,37 @@ export const addCommand = (cli: CAC) => {
           }
         }
         p.outro("완료했어요.");
+
+        // add 성공 이벤트 추적
+        const duration = Date.now() - startTime;
+
+        await analytics.track({
+          event: "add",
+          properties: {
+            selected_item_keys: selectedItemKeys,
+            filtered_item_keys: filteredItemKeys,
+
+            installed_dependencies: Array.from(installed),
+            already_installed_dependencies: Array.from(filtered),
+
+            duration_ms: duration,
+          },
+        });
       } catch (error) {
         p.log.error(`추가에 실패했어요. ${error}`);
         p.outro(highlight("작업이 취소됐어요."));
+
+        analytics.track({
+          event: "add.error",
+          properties: {
+            error: `${error}`,
+
+            selected_item_keys: selectedItemKeys,
+            filtered_item_keys: filteredItemKeys,
+          },
+        });
+
         process.exit(1);
       }
-
-      // add 성공 이벤트 추적
-      const duration = Date.now() - startTime;
-      const uniqueRegistries = new Set(registryItemsToAdd.map((r) => r.registryId));
-      const hasDeprecated = selectedItemKeys.some((itemKey) => {
-        const [registryId, ...rest] = itemKey.split(":");
-        const itemId = rest.join(":");
-        return publicRegistries.find((r) => r.id === registryId)?.items.find((i) => i.id === itemId)
-          ?.deprecated;
-      });
-
-      await analytics.track(options.cwd, {
-        event: "add",
-        properties: {
-          items_count: filteredItemKeys.length,
-          registries: Array.from(uniqueRegistries),
-          has_deprecated: hasDeprecated,
-          dependencies_count: npmDependenciesToAdd.size,
-          duration_ms: duration,
-        },
-      });
     });
 };
