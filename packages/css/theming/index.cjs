@@ -43,8 +43,35 @@ function generateThemingScript({ mode = DefaultColorModeValue, fontScaling = fal
       } catch (e) {}
 
       try {
-        if (${fontScaling} && document.documentElement.dataset.seedPlatform === 'ios') {
-          document.documentElement.dataset.seedFontScaling = 'enabled';
+        if (${fontScaling}) {
+          var platform = document.documentElement.dataset.seedPlatform;
+
+          if (platform === 'ios') {
+            document.documentElement.dataset.seedFontScaling = 'enabled';
+
+            function applyIOSFontScaling() {
+              try {
+                var tempEl = document.createElement('div');
+                tempEl.style.cssText = 'position:absolute;visibility:hidden;font-size:16px;font:-apple-system-body;';
+                document.body.appendChild(tempEl);
+                var size = parseFloat(window.getComputedStyle(tempEl).fontSize);
+                document.body.removeChild(tempEl);
+                var mult = Math.max(0.8, Math.min(1.35, (size / 16) * 0.9412));
+                document.documentElement.dataset.seedFontMultiplier = mult.toFixed(2);
+              } catch (e) {}
+            }
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', applyIOSFontScaling);
+            } else {
+              applyIOSFontScaling();
+            }
+          } else if (platform === 'android') {
+            var fontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+            var scale = Math.max(0.8, Math.min(1.5, fontSize / 16));
+            document.documentElement.dataset.seedFontMultiplier = scale.toFixed(2);
+            document.documentElement.dataset.seedFontScaling = 'enabled';
+          }
         }
       } catch (e) {}
     })(window, document, '${mode}');
