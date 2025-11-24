@@ -128,6 +128,24 @@
                   "type": "number",
                   "value": "$font-weight.regular"
                 }
+              },
+              "description": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                }
               }
             }
           },

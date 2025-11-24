@@ -49,6 +49,11 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
+        description:
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
+          fontWeight: $font-weight.medium
+          color: $color.fg.neutral-subtle
       pressed:
         root:
           color: $color.bg.neutral-weak-pressed
