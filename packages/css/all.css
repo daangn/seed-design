@@ -2547,6 +2547,7 @@
   background: var(--seed-color-bg-layer-floating);
   border-top-left-radius: var(--seed-radius-r6);
   border-top-right-radius: var(--seed-radius-r6);
+  padding-bottom: var(--seed-safe-area-bottom);
   touch-action: none;
   will-change: transform;
   transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive);
@@ -5044,7 +5045,7 @@
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
   padding-right: var(--seed-dimension-spacing-x-global-gutter);
   padding-top: var(--seed-dimension-x4);
-  padding-bottom: var(--seed-dimension-x4);
+  padding-bottom: calc(var(--seed-dimension-x4)  + var(--seed-safe-area-bottom));
   border-top-left-radius: var(--seed-radius-r5);
   border-top-right-radius: var(--seed-radius-r5);
   flex-direction: column;

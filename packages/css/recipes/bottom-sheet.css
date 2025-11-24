@@ -55,6 +55,7 @@
     background: var(--seed-color-bg-layer-floating);
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
+    padding-bottom: var(--seed-safe-area-bottom);
     touch-action: none;
     will-change: transform;
     transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive);

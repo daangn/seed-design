@@ -83,6 +83,7 @@ const bottomSheet = defineSlotRecipe({
       background: vars.base.enabled.content.color,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+      paddingBottom: "var(--seed-safe-area-bottom)",
 
       // Performance and interaction
       touchAction: "none",
