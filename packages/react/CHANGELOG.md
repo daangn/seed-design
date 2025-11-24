@@ -1,5 +1,15 @@
 # @seed-design/react
 
+## 1.1.8
+
+### Patch Changes
+
+- 8752805: List Item에 신규 active(pressed) 스타일을 적용하고, disabled 상태에서 detail 영역의 색상을 수정합니다.
+- 8edbf00: @seed-design/react에서 unicode-segmenter가 externalize되지 않는 문제를 수정합니다.
+- e3806c1: BottomSheet에 handleOnly 옵션이 정상적으로 동작하지 않는 이슈를 수정합니다
+- Updated dependencies [e3806c1]
+  - @seed-design/react-drawer@1.0.4
+
 ## 1.1.7
 
 ### Patch Changes
