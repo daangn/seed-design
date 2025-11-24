@@ -43,7 +43,6 @@ export const addAllCommand = (cli: CAC) => {
       const startTime = Date.now();
 
       p.intro("seed-design add-all");
-      analytics.showDisclaimer();
 
       const {
         success,
@@ -61,6 +60,8 @@ export const addAllCommand = (cli: CAC) => {
       const baseUrl = options.baseUrl;
       const config = await getConfig(cwd);
       const rootPath = path.resolve(cwd, config.path);
+
+      await analytics.showDisclaimer({ cwd });
 
       const { start, stop } = p.spinner();
 
@@ -185,7 +186,7 @@ export const addAllCommand = (cli: CAC) => {
         // add-all 성공 이벤트 추적
         const duration = Date.now() - startTime;
 
-        await analytics.track({
+        await analytics.track(cwd, {
           event: "add-all",
           properties: {
             registry_ids: selectedRegistryIds,
@@ -203,7 +204,7 @@ export const addAllCommand = (cli: CAC) => {
         p.log.error(`추가에 실패했어요. ${error}`);
         p.outro(highlight("작업이 취소됐어요."));
 
-        await analytics.track({
+        await analytics.track(cwd, {
           event: "add-all.error",
           properties: {
             error: `${error}`,

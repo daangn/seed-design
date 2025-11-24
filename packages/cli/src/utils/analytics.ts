@@ -20,14 +20,14 @@ interface TrackOptions {
  * 3. seed-design.json의 telemetry 설정
  * 4. 기본값 true (Opt-out)
  */
-const isTelemetryEnabled = await (async () => {
+async function getIsTelemetryEnabled({ cwd }: { cwd: string }): Promise<boolean> {
   // 1. 환경 변수 체크
   if (process.env.DISABLE_TELEMETRY === "true") return false;
   if (process.env.SEED_DISABLE_TELEMETRY === "true") return false;
 
   // 2. seed-design.json 체크
   try {
-    const config = await getConfig(process.cwd());
+    const config = await getConfig(cwd);
     if (config?.telemetry === false) return false;
   } catch {
     // 설정 파일이 없거나 읽기 실패 시 기본값 사용
@@ -35,7 +35,7 @@ const isTelemetryEnabled = await (async () => {
 
   // 3. 기본값
   return true;
-})();
+}
 
 // 세션당 한 번만 생성
 const userInfo = {
@@ -50,8 +50,8 @@ const userInfo = {
 // 세션당 한 번만 메시지 표시
 let hasShownDisclaimer = false;
 
-function showDisclaimer() {
-  if (isTelemetryEnabled === false || hasShownDisclaimer) return;
+async function showDisclaimer({ cwd }: { cwd: string }) {
+  if ((await getIsTelemetryEnabled({ cwd })) || hasShownDisclaimer) return;
 
   p.log.info(
     `${highlight("📊 SEED CLI는 사용 데이터를 수집합니다.")}
@@ -62,7 +62,9 @@ function showDisclaimer() {
   hasShownDisclaimer = true;
 }
 
-const gitInfo = await (async () => {
+let gitInfo = null;
+
+async function getGitInfo() {
   const git = simpleGit();
 
   try {
@@ -81,15 +83,17 @@ const gitInfo = await (async () => {
   } catch {
     return null;
   }
-})();
+}
 
 const sessionId = randomUUID();
 
 /**
  * PostHog에 이벤트를 전송합니다.
  */
-async function track({ event, properties = {} }: TrackOptions): Promise<void> {
-  if (isTelemetryEnabled === false) return;
+async function track(cwd: string, { event, properties = {} }: TrackOptions): Promise<void> {
+  if ((await getIsTelemetryEnabled({ cwd })) === false) return;
+
+  gitInfo = gitInfo || (await getGitInfo());
 
   const fullEvent = `${EVENT_PREFIX}.${event}`;
 

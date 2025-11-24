@@ -42,7 +42,6 @@ export const addCommand = (cli: CAC) => {
       const startTime = Date.now();
 
       p.intro("seed-design add");
-      analytics.showDisclaimer();
 
       const {
         success,
@@ -68,6 +67,8 @@ export const addCommand = (cli: CAC) => {
       const baseUrl = options.baseUrl;
       const config = await getConfig(cwd);
       const rootPath = path.resolve(cwd, config.path);
+
+      await analytics.showDisclaimer({ cwd });
 
       const { start, stop } = p.spinner();
 
@@ -208,7 +209,7 @@ export const addCommand = (cli: CAC) => {
         // add 성공 이벤트 추적
         const duration = Date.now() - startTime;
 
-        await analytics.track({
+        await analytics.track(cwd, {
           event: "add",
           properties: {
             selected_item_keys: selectedItemKeys,
@@ -224,7 +225,7 @@ export const addCommand = (cli: CAC) => {
         p.log.error(`추가에 실패했어요. ${error}`);
         p.outro(highlight("작업이 취소됐어요."));
 
-        await analytics.track({
+        await analytics.track(cwd, {
           event: "add.error",
           properties: {
             error: `${error}`,

@@ -26,7 +26,6 @@ export const initCommand = (cli: CAC) => {
       const startTime = Date.now();
 
       p.intro("seed-design.json 파일 생성");
-      analytics.showDisclaimer();
 
       const options = initOptionsSchema.parse(opts);
       const isYesOption = options.yes;
@@ -36,6 +35,8 @@ export const initCommand = (cli: CAC) => {
         path: "./seed-design",
         telemetry: true,
       };
+
+      await analytics.showDisclaimer({ cwd: options.cwd });
 
       if (!isYesOption) {
         const group = await p.group(
@@ -109,7 +110,7 @@ export const initCommand = (cli: CAC) => {
 
       // init 성공 이벤트 추적
       const duration = Date.now() - startTime;
-      await analytics.track({
+      await analytics.track(options.cwd, {
         event: "init",
         properties: {
           tsx: config.tsx,
