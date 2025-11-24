@@ -184,6 +184,7 @@
         }
       ],
       "id": "error-state",
+      "deprecated": true,
       "dependencies": [
         "@seed-design/css",
         "@seed-design/react"
@@ -420,6 +421,25 @@
           "registryId": "ui",
           "itemIds": [
             "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "result-section.tsx"
+        }
+      ],
+      "id": "result-section",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
           ]
         }
       ]

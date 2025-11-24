@@ -18,6 +18,7 @@ export const registryUI: Registry = {
     },
     {
       id: "error-state",
+      deprecated: true,
       snippets: [
         {
           path: "error-state.tsx",
@@ -345,6 +346,16 @@ export const registryUI: Registry = {
         {
           path: "list-header.tsx",
           dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
+    {
+      id: "result-section",
+      snippets: [
+        {
+          path: "result-section.tsx",
+          // TODO: fix patch version later
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },

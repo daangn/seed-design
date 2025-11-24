@@ -1,0 +1,20 @@
+{
+  "id": "result-section",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "action-button"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "result-section.tsx",
+      "content": "/**\n * @file ui:result-section\n * @requires @seed-design/react@~1.1.0\n * @requires @seed-design/css@~1.1.0\n **/\n\n\"use client\";\n\nimport { Text, VStack, type TextProps, type unstable_StyleProps } from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { ActionButton, type ActionButtonProps } from \"./action-button\";\n\nexport interface ResultSectionProps\n  extends Omit<React.HTMLAttributes<HTMLDivElement>, \"title\" | \"children\"> {\n  /**\n   * @default \"large\"\n   */\n  size?: \"large\" | \"medium\";\n\n  asset?: React.ReactNode;\n  title?: React.ReactNode;\n  description?: React.ReactNode;\n\n  primaryActionProps?: ActionButtonProps;\n  secondaryActionProps?: ActionButtonProps;\n}\n\nconst textStyles = {\n  title: {\n    large: \"t8Bold\",\n    medium: \"t5Bold\",\n  },\n  description: {\n    large: \"t5Regular\",\n    medium: \"t4Regular\",\n  },\n} as const satisfies Record<\n  string,\n  Record<NonNullable<ResultSectionProps[\"size\"]>, NonNullable<TextProps[\"textStyle\"]>>\n>;\n\nconst gaps = {\n  betweenTexts: {\n    large: \"x3\",\n    medium: \"x2\",\n  },\n  betweenActions: {\n    large: \"x5\",\n    medium: \"x4\",\n  },\n} as const satisfies Record<\n  string,\n  Record<NonNullable<ResultSectionProps[\"size\"]>, unstable_StyleProps[\"gap\"]>\n>;\n\nconst paddings = {\n  textTop: {\n    large: undefined,\n    medium: \"x2\",\n  },\n  textBottom: {\n    large: \"x7\",\n    medium: \"x8\",\n  },\n} as const satisfies Record<\n  string,\n  Record<NonNullable<ResultSectionProps[\"size\"]>, unstable_StyleProps[\"p\"]>\n>;\n\n/**\n * @see https://seed-design.io/react/components/result-section\n */\nexport const ResultSection = React.forwardRef<HTMLDivElement, ResultSectionProps>((props, ref) => {\n  const {\n    size = \"large\",\n    asset,\n    title,\n    description,\n    primaryActionProps,\n    secondaryActionProps,\n    ...otherProps\n  } = props;\n  return (\n    <VStack ref={ref} justify=\"center\" align=\"center\" px=\"x12\" py=\"x4\" grow {...otherProps}>\n      {asset}\n      <VStack\n        gap={gaps.betweenTexts[size]}\n        pt={paddings.textTop[size]}\n        pb={paddings.textBottom[size]}\n      >\n        <Text\n          align=\"center\"\n          whiteSpace=\"pre-line\"\n          color=\"fg.neutral\"\n          textStyle={textStyles.title[size]}\n        >\n          {title}\n        </Text>\n        <Text\n          align=\"center\"\n          whiteSpace=\"pre-line\"\n          color=\"fg.neutralSubtle\"\n          textStyle={textStyles.description[size]}\n        >\n          {description}\n        </Text>\n      </VStack>\n      {(primaryActionProps || secondaryActionProps) && (\n        <VStack align=\"center\" gap={gaps.betweenActions[size]}>\n          {primaryActionProps && <ActionButton variant=\"neutralWeak\" {...primaryActionProps} />}\n          {secondaryActionProps && (\n            <ActionButton\n              variant=\"ghost\"\n              color=\"fg.neutral\"\n              fontWeight=\"bold\"\n              bleedX=\"asPadding\"\n              bleedY=\"asPadding\"\n              {...secondaryActionProps}\n            />\n          )}\n        </VStack>\n      )}\n    </VStack>\n  );\n});\nResultSection.displayName = \"ResultSection\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n"
+    }
+  ]
+}
