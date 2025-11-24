@@ -250,7 +250,7 @@ description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장�
 
 모든 이미지는 다음 경로 패턴을 따릅니다:
 
-```
+```sh
 /docs/public/docs/components/{component-id}/{section-name}.webp
 ```
 
@@ -361,7 +361,7 @@ description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장�
 ### 예시 1: Simple 타입 문서 생성
 
 **사용자 입력**:
-```
+```text
 Component ID: checkbox
 Documentation Type: simple
 ```
@@ -395,7 +395,7 @@ Checkbox는 사용자가 여러 옵션 중 하나 이상을 선택할 수 있게
 ### 예시 2: Comprehensive 타입 문서 생성
 
 **사용자 입력**:
-```
+```text
 Component ID: action-button
 Documentation Type: comprehensive
 Custom Sections:
