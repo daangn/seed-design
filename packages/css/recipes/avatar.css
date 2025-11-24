@@ -30,7 +30,6 @@
     mask-repeat: no-repeat;
     mask-composite: subtract;
     transform: translateZ(0);
-    will-change: transform;
 }
 .seed-avatar__image {
     display: block;
@@ -49,7 +48,6 @@
     mask-repeat: no-repeat;
     mask-composite: subtract;
     transform: translateZ(0);
-    will-change: transform;
 }
 .seed-avatar__image:not([data-loading-state='loaded']) {
     display: none;
@@ -74,7 +72,6 @@
     mask-repeat: no-repeat;
     mask-composite: subtract;
     transform: translateZ(0);
-    will-change: transform;
 }
 .seed-avatar__fallback[data-loading-state='loaded'] {
     display: none;

@@ -32,7 +32,6 @@ const mask: Properties = {
   maskComposite: "subtract",
 
   transform: "translateZ(0)",
-  willChange: "transform",
 };
 
 const avatar = defineSlotRecipe({
