@@ -224,7 +224,7 @@ export const addCommand = (cli: CAC) => {
         p.log.error(`추가에 실패했어요. ${error}`);
         p.outro(highlight("작업이 취소됐어요."));
 
-        analytics.track({
+        await analytics.track({
           event: "add.error",
           properties: {
             error: `${error}`,

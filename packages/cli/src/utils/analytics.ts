@@ -2,6 +2,8 @@ import * as p from "@clack/prompts";
 import { getConfig } from "./get-config";
 import os from "os";
 import { highlight } from "@/src/utils/color";
+import { simpleGit } from "simple-git";
+import { randomUUID } from "crypto";
 
 const EVENT_PREFIX = "seed_cli";
 
@@ -42,7 +44,7 @@ const userInfo = {
       ? navigator.userAgent
       : `Unavailable (${process.release.name} ${process.version})`,
   os: `${os.type()} ${os.version()} ${os.arch()}`,
-  username: os.userInfo().username,
+  // username: os.userInfo().username,
 };
 
 // 세션당 한 번만 메시지 표시
@@ -52,11 +54,36 @@ function showDisclaimer() {
   if (isTelemetryEnabled === false || hasShownDisclaimer) return;
 
   p.log.info(
-    `${highlight("📊 SEED CLI는 사용 데이터를 수집합니다.")}\n비활성화하려면, seed-design.json에서 \`{ telemetry: false }\`를 설정하거나 DISABLE_TELEMETRY=true 환경 변수를 설정하세요.`,
+    `${highlight("📊 SEED CLI는 사용 데이터를 수집합니다.")}
+비활성화하려면 seed-design.json에서 \`{ telemetry: false }\`를 설정하거나 DISABLE_TELEMETRY=true 환경 변수를 설정하세요.
+수집되는 정보: JavaScript 런타임 및 운영 체제, Git 원격 저장소 URL 및 브랜치 이름, SEED CLI 명령어 사용 정보`,
   );
 
   hasShownDisclaimer = true;
 }
+
+const gitInfo = await (async () => {
+  const git = simpleGit();
+
+  try {
+    const { current } = await git.branchLocal();
+    const remotes = (await git.getRemotes(true)).map(({ name, refs: { fetch } }) => ({
+      name,
+      url: fetch,
+    }));
+
+    const origin = remotes.find(({ name }) => name === "origin") ?? remotes[0];
+
+    return {
+      origin: origin?.url ?? null,
+      branch: current,
+    };
+  } catch {
+    return null;
+  }
+})();
+
+const sessionId = randomUUID();
 
 /**
  * PostHog에 이벤트를 전송합니다.
@@ -88,10 +115,12 @@ async function track({ event, properties = {} }: TrackOptions): Promise<void> {
     const payload = {
       api_key: process.env.POSTHOG_API_KEY,
       event: fullEvent,
-      distinct_id: `cli.${userInfo.username}`,
+      // distinct_id: `cli.${userInfo.username}`,
+      distinct_id: sessionId,
       properties: {
         ...properties,
         ...userInfo,
+        ...gitInfo,
         $process_person_profile: false,
       },
       timestamp: new Date().toISOString(),
