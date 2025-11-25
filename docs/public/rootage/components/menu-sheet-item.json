@@ -38,7 +38,30 @@
             }
           }
         },
+        "content": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
         "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "description": {
           "properties": {
             "color": {
               "type": "color"
@@ -115,6 +138,12 @@
                   }
                 }
               },
+              "content": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                }
+              },
               "label": {
                 "fontSize": {
                   "type": "dimension",
@@ -127,6 +156,24 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
+                }
+              },
+              "description": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
                 }
               }
             }
