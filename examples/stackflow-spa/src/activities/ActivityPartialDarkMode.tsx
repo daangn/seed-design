@@ -21,7 +21,7 @@ declare module "@stackflow/config" {
 const ActivityPartialDarkMode: ActivityComponentType<"ActivityPartialDarkMode"> = () => {
   return (
     <AppScreen>
-      <AppBar tone="layer" divider>
+      <AppBar divider>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>

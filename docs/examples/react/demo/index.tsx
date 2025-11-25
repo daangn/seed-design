@@ -35,7 +35,7 @@ const DemoActivity: ActivityComponentType<"react/demo/index"> = () => {
         }}
       />
       <AppScreen>
-        <AppBar tone="layer">
+        <AppBar>
           <AppBarMain title="Demo" />
         </AppBar>
         <AppScreenContent>

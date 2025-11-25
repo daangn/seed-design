@@ -47,8 +47,8 @@ const DemoArticleDetail: ActivityComponentType<"react/demo/article-detail"> = ({
   const [isImageLoading, setIsImageLoading] = useState(true);
 
   return (
-    <AppScreen layerOffsetTop="none">
-      <AppBar tone="transparent">
+    <AppScreen layerOffsetTop="none" tone="transparent">
+      <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>

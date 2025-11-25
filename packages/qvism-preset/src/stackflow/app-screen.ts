@@ -17,6 +17,8 @@ import {
   swipeBackSwipingBehind,
 } from "./pseudo";
 
+const OVERSCROLL_GRADIENT_OFFSET = "400px";
+
 export const appScreen = defineSlotRecipe({
   name: "app-screen",
   slots: ["root", "layer", "dim", "edge"],
@@ -166,12 +168,80 @@ export const appScreen = defineSlotRecipe({
       layer: {},
       transparent: {},
     },
+    gradient: {
+      true: {},
+      false: {},
+    },
   },
+  compoundVariants: [
+    {
+      tone: "transparent",
+      gradient: true,
+      css: {
+        layer: {
+          "&::before": {
+            content: "''",
+            display: "block",
+            position: "sticky",
+            left: 0,
+            right: 0,
+            top: 0,
+            marginBottom: `calc(-1 * (66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top)))`,
+            height: `calc(66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top))`,
+
+            // since we're using sticky, iOS overscroll will snap to top of the layer and won't show the gradient in the overscrolled area.
+            // so we extend the gradient area into the overscroll area and use transform to move it up.
+            // rgba(0, 0, 0, 0.2) is for natural blending with iOS status bar. if we use rgba(0, 0, 0, 0.35) on 0%, the gradient looks off
+            background: `linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.35) ${OVERSCROLL_GRADIENT_OFFSET}, rgba(0, 0, 0, 0.00) 100%)`,
+            pointerEvents: "none",
+            zIndex: 1,
+          },
+        },
+      },
+    },
+    {
+      tone: "transparent",
+      gradient: true,
+      layerOffsetBottom: "none",
+      css: {
+        layer: {
+          "&::before": {
+            transform: `translateY(-${OVERSCROLL_GRADIENT_OFFSET})`,
+          },
+        },
+      },
+    },
+    {
+      tone: "transparent",
+      gradient: true,
+      layerOffsetTop: "safeArea",
+      css: {
+        layer: {
+          "&::before": {
+            transform: `translateY(calc(-${OVERSCROLL_GRADIENT_OFFSET} - var(--seed-safe-area-top)))`,
+          },
+        },
+      },
+    },
+    {
+      tone: "transparent",
+      gradient: true,
+      layerOffsetTop: "appBar",
+      css: {
+        layer: {
+          "&::before": {
+            transform: `translateY(calc(-${OVERSCROLL_GRADIENT_OFFSET} - var(--app-bar-offset)))`,
+          },
+        },
+      },
+    },
+  ],
   defaultVariants: {
     theme: "cupertino",
     transitionStyle: "slideFromRightIOS",
     layerOffsetTop: "appBar",
     layerOffsetBottom: "none",
     tone: "layer",
+    gradient: true,
   },
 });

@@ -1579,13 +1579,7 @@
 }
 
 .seed-app-bar__root--tone_transparent {
-  --transparent-gradient-dim-height: 120px;
-  --transparent-gradient-dim-background: linear-gradient(180deg, #00000059 0%, #0000 100%);
-}
-
-.seed-app-bar__root--tone_transparent:before {
-  height: var(--transparent-gradient-dim-height);
-  background: var(--transparent-gradient-dim-background);
+  background-color: #0000;
 }
 
 .seed-app-bar__icon--tone_transparent {
@@ -2033,6 +2027,32 @@
 
 .seed-app-screen__layer--layerOffsetBottom_safeArea {
   padding-bottom: var(--seed-safe-area-bottom);
+}
+
+.seed-app-screen__layer--tone_transparent-gradient_true:before {
+  content: "";
+  margin-bottom: calc(-1 * (66px + 400px + var(--seed-safe-area-top)));
+  height: calc(66px + 400px + var(--seed-safe-area-top));
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(#0003 0%, #00000059 400px, #0000 100%);
+  display: block;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetBottom_none:before {
+  transform: translateY(-400px);
+}
+
+.seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_safeArea:before {
+  transform: translateY(calc(-400px - var(--seed-safe-area-top)));
+}
+
+.seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_appBar:before {
+  transform: translateY(calc(-400px - var(--app-bar-offset)));
 }
 
 .seed-article {
