@@ -11,6 +11,9 @@ export declare const vars: {
       "prefixIcon": {
         "size": "22px"
       },
+      "content": {
+        "gap": "var(--seed-dimension-x0_5)"
+      },
       "label": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",

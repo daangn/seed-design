@@ -24,7 +24,21 @@ data:
             type: dimension
           color:
             type: color
+      content:
+        properties:
+          gap:
+            type: dimension
       label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      description:
         properties:
           color:
             type: color
@@ -45,6 +59,8 @@ data:
           gap: $dimension.x3_5
         prefixIcon:
           size: 22px
+        content:
+          gap: $dimension.x0_5
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5

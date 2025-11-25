@@ -38,7 +38,30 @@
             }
           }
         },
+        "content": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
         "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "description": {
           "properties": {
             "color": {
               "type": "color"
@@ -113,6 +136,12 @@
                     "value": 22,
                     "unit": "px"
                   }
+                }
+              },
+              "content": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
                 }
               },
               "label": {
