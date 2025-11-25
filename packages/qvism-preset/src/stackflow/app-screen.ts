@@ -189,9 +189,9 @@ export const appScreen = defineSlotRecipe({
             marginBottom: `calc(-1 * (66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top)))`,
             height: `calc(66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top))`,
 
-            // since we're using sticky, iOS overscroll will snap to top of the layer and won't show the gradient in the overscrolled area.
-            // so we extend the gradient area into the overscroll area and use transform to move it up.
-            // rgba(0, 0, 0, 0.2) is for natural blending with iOS status bar. if we use rgba(0, 0, 0, 0.35) on 0%, the gradient looks off
+            // since we're using sticky, when iOS overscroll happens the before pseudoelement will stick to the top of `layer` and won't show the gradient in the overscroll area.
+            // so we extend the height of the gradient and use transform to move it up to the possible gradient area.
+            // rgba(0, 0, 0, 0.2) is for a natural look; if we use rgba(0, 0, 0, 0.35) on 0% the gradient looks off
             background: `linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.35) ${OVERSCROLL_GRADIENT_OFFSET}, rgba(0, 0, 0, 0.00) 100%)`,
             pointerEvents: "none",
             zIndex: 1,
