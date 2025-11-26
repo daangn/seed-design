@@ -3,6 +3,32 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.11.26
+
+`AppBar`에 적용되는 그라디언트를 `AppScreen`으로 이동합니다. [`37d332d`](https://github.com/daangn/seed-design/commit/37d332daf30f0f61e4e1692e896021a73b38287c)
+
+- `<AppBar tone="transparent">`를 사용하는 경우 `tone="transparent"`를 `AppScreen`으로 옮겨 그라디언트를 표시할 수 있습니다.
+- `AppScreen`에 `gradient={false}`를 설정하여 그라디언트를 숨길 수 있습니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.9](https://npmjs.com/package/@seed-design/css/v/1.1.9)
+
+---
+
+iOS 웹뷰 환경에서 Avatar가 정상적으로 렌더링되지 않는 문제를 수정합니다. [`77517f1`](https://github.com/daangn/seed-design/commit/77517f16067b72e4792e12105e93a7b0cc1d0292)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.9](https://npmjs.com/package/@seed-design/css/v/1.1.9)
+
+---
+
+Stackflow 플러그인이 최신이 아닌 data attribute에 의해 잘못된 트랜지션을 재생하지 않도록 수정합니다. [`afa281b`](https://github.com/daangn/seed-design/commit/afa281b2a802359c64b549e58c1d499792d28e29)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.9](https://npmjs.com/package/@seed-design/stackflow/v/1.1.9)
+
+---
+
 ## 2025.11.21
 
 List Item에 신규 active(pressed) 스타일을 적용하고, disabled 상태에서 detail 영역의 색상을 수정합니다. [`8752805`](https://github.com/daangn/seed-design/commit/87528054e18200ab6098abfe66186ee2cddaf9e0)
