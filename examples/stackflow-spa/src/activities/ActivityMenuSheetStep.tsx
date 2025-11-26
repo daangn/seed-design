@@ -8,7 +8,7 @@ import {
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
+import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
   MenuSheetContent,
@@ -19,6 +19,7 @@ import {
 } from "seed-design/ui/menu-sheet";
 import { PrefixIcon } from "@seed-design/react";
 import {
+  IconHouseLine,
   IconPencilLine,
   IconPlusLine,
   IconTrashcanLine,
@@ -76,6 +77,11 @@ const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = ()
     <AppScreen>
       <AppBar>
         <AppBarMain title="Step" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <MenuSheetRoot open={open} onOpenChange={onOpenChange}>

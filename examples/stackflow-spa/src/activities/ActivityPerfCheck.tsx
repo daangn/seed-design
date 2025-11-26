@@ -1,9 +1,11 @@
 import { Box } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
 import { useState } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarRight, AppBarIconButton } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 const ITER = 5000;
 
@@ -68,6 +70,8 @@ declare module "@stackflow/config" {
 }
 
 const ActivityPerfCheck: ActivityComponentType<"ActivityPerfCheck"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -75,6 +79,11 @@ const ActivityPerfCheck: ActivityComponentType<"ActivityPerfCheck"> = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain>Performance Check</AppBarMain>
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <PerfTest />

@@ -1,4 +1,4 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarLeft,
@@ -9,7 +9,8 @@ import {
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
-import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
+import { IconBellLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+import { ActionButton } from "seed-design/ui/action-button";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -18,9 +19,11 @@ declare module "@stackflow/config" {
 }
 
 const ActivityLayerBar: ActivityComponentType<"ActivityLayerBar"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
-      <AppBar tone="layer" divider>
+      <AppBar divider>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
@@ -32,15 +35,20 @@ const ActivityLayerBar: ActivityComponentType<"ActivityLayerBar"> = () => {
           <AppBarIconButton>
             <IconBellLine />
           </AppBarIconButton>
-          <AppBarIconButton>
-            <IconBellLine />
-          </AppBarIconButton>
-          <AppBarIconButton>
-            <IconBellLine />
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
           </AppBarIconButton>
         </AppBarRight>
       </AppBar>
-      <AppScreenContent />
+      <AppScreenContent>
+        <ActionButton
+          variant="neutralSolid"
+          flexGrow
+          onClick={() => push("ActivityTransparentBar", {})}
+        >
+          ActivityTransparentBar
+        </ActionButton>
+      </AppScreenContent>
     </AppScreen>
   );
 };

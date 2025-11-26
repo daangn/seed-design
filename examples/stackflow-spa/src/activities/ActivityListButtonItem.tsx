@@ -2,12 +2,13 @@ import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
+  IconHouseLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import { useStepFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useStepFlow, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
@@ -100,6 +101,8 @@ declare module "@stackflow/config" {
 }
 
 const ActivityListButtonItem: ActivityComponentType<"ActivityListButtonItem"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -107,6 +110,11 @@ const ActivityListButtonItem: ActivityComponentType<"ActivityListButtonItem"> = 
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="ListButtonItem" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent
         ptr

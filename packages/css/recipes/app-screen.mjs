@@ -25,10 +25,31 @@ const defaultVariant = {
   "transitionStyle": "slideFromRightIOS",
   "layerOffsetTop": "appBar",
   "layerOffsetBottom": "none",
-  "tone": "layer"
+  "tone": "layer",
+  "gradient": true
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "tone": "transparent",
+    "gradient": true
+  },
+  {
+    "tone": "transparent",
+    "gradient": true,
+    "layerOffsetBottom": "none"
+  },
+  {
+    "tone": "transparent",
+    "gradient": true,
+    "layerOffsetTop": "safeArea"
+  },
+  {
+    "tone": "transparent",
+    "gradient": true,
+    "layerOffsetTop": "appBar"
+  }
+];
 
 export const appScreenVariantMap = {
   "theme": [
@@ -51,6 +72,10 @@ export const appScreenVariantMap = {
   "tone": [
     "layer",
     "transparent"
+  ],
+  "gradient": [
+    true,
+    false
   ]
 };
 
