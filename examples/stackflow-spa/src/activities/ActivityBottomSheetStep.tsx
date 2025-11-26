@@ -8,8 +8,9 @@ import {
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
+import { AppBar, AppBarMain, AppBarIconButton, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import {
   BottomSheetContent,
   BottomSheetFooter,
@@ -60,6 +61,11 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
     <AppScreen>
       <AppBar>
         <AppBarMain title="Step" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <BottomSheetRoot open={open} onOpenChange={onOpenChange}>

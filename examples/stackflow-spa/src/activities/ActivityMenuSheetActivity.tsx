@@ -1,6 +1,7 @@
 import { VStack } from "@seed-design/react";
 import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 
@@ -20,6 +21,11 @@ const ActivityMenuSheetActivity: ActivityComponentType<"ActivityMenuSheetActivit
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="Activity" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <VStack p="x5" justify="center" gap="x4">

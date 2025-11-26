@@ -37,6 +37,7 @@ export const config = defineConfig({
     { route: "/mixed-version-test", name: "ActivityMixedVersionTest" },
     { route: "/partial-dark-mode", name: "ActivityPartialDarkMode" },
     { route: "/perf-check", name: "ActivityPerfCheck" },
+    { route: "/plugin-basic-ui", name: "ActivityPluginBasicUI" },
     { route: "/reaction-button", name: "ActivityReactionButton" },
     { route: "/segmented-control", name: "ActivitySegmentedControl" },
     { route: "/swipeable-tabs", name: "ActivitySwipeableTabs" },

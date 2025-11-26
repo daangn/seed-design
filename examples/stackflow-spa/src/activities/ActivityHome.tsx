@@ -16,7 +16,14 @@ import {
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
-import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { DialogPushTrigger } from "seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -56,7 +63,7 @@ declare module "@stackflow/config" {
 
 const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   const { push } = useFlow();
-  const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
+  const { overlayProps } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
 
   const { zIndex: activityIndex } = useActivity();
@@ -106,7 +113,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                           push("ActivityChipButton", {});
                         }}
                       >
-                        Push
+                        ActivityChipButton
                       </ActionButton>
                     </VStack>
                   </AlertDialogFooter>
@@ -226,6 +233,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
         },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
+        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
       ],
     },
   ];
@@ -233,6 +241,11 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   return (
     <AppScreen>
       <AppBar>
+        {activityIndex > 0 && (
+          <AppBarLeft>
+            <AppBarBackButton />
+          </AppBarLeft>
+        )}
         <AppBarMain title="Home" />
         <AppBarRight>
           <AppBarIconButton>
@@ -246,7 +259,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <VStack gap="spacingY.componentDefault">
+        <VStack gap="spacingY.componentDefault" pb="safeArea">
           <Box px="spacingX.globalGutter">
             <Callout
               tone="critical"
@@ -257,7 +270,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
               {...PullToRefresh.preventPull}
             />
           </Box>
-          <VStack gap="spacingY.componentDefault">
+          <VStack gap="spacingY.componentDefault" pb="spacingY.componentDefault">
             {navigationSections.map((section, sectionIndex) => (
               <>
                 <VStack key={section.title}>

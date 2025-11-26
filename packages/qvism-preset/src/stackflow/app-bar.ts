@@ -291,14 +291,7 @@ export const appBar = defineSlotRecipe({
       },
       transparent: {
         root: {
-          "--transparent-gradient-dim-height": "120px",
-          "--transparent-gradient-dim-background":
-            "linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.00) 100%)",
-
-          "&:before": {
-            height: "var(--transparent-gradient-dim-height)",
-            background: "var(--transparent-gradient-dim-background)",
-          },
+          backgroundColor: vars.toneTransparent.enabled.root.color,
         },
         icon: {
           color: `var(--seed-icon-color, ${vars.toneTransparent.enabled.icon.color})`,

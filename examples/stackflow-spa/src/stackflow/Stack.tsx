@@ -6,6 +6,8 @@ import { iframeSyncPlugin } from "./iframeSyncPlugin";
 import { stackflow, lazy } from "@stackflow/react/future";
 import { config } from "./stackflow.config";
 import { historySyncPlugin } from "@stackflow/plugin-history-sync";
+import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
+import { theme } from "./theme";
 
 /**
  * Stackflow는 웹뷰 내에서 Stack Navigation UI를 도와주는 도구에요.
@@ -17,10 +19,8 @@ export const { Stack, actions, stepActions } = stackflow({
   config,
   plugins: [
     basicRendererPlugin(),
-    seedPlugin({
-      // this will be overridden by theme context
-      theme: "cupertino",
-    }),
+    basicUIPlugin({ theme }),
+    seedPlugin({ theme }),
     iframeSyncPlugin(),
     historySyncPlugin({
       config,
@@ -67,6 +67,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityMixedVersionTest: lazy(() => import("../activities/ActivityMixedVersionTest" as any)),
     ActivityPartialDarkMode: lazy(() => import("../activities/ActivityPartialDarkMode" as any)),
     ActivityPerfCheck: lazy(() => import("../activities/ActivityPerfCheck" as any)),
+    ActivityPluginBasicUI: lazy(() => import("../activities/ActivityPluginBasicUI" as any)),
     ActivityReactionButton: lazy(() => import("../activities/ActivityReactionButton" as any)),
     ActivitySegmentedControl: lazy(() => import("../activities/ActivitySegmentedControl" as any)),
     ActivitySwipeableTabs: lazy(() => import("../activities/ActivitySwipeableTabs" as any)),
