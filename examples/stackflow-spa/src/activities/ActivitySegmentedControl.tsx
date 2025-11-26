@@ -1,8 +1,10 @@
 import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { useFlow } from "@stackflow/react/future";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarRight, AppBarIconButton } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { VStack } from "@seed-design/react";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -11,6 +13,8 @@ declare module "@stackflow/config" {
 }
 
 const ActivitySegmentedControl: ActivityComponentType<"ActivitySegmentedControl"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -18,6 +22,11 @@ const ActivitySegmentedControl: ActivityComponentType<"ActivitySegmentedControl"
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="Segmented Control" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <VStack align="center">

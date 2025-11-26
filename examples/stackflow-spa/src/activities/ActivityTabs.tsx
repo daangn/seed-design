@@ -1,9 +1,11 @@
 import { Box } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarRight, AppBarIconButton } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -12,6 +14,8 @@ declare module "@stackflow/config" {
 }
 
 const ActivityTabs: ActivityComponentType<"ActivityTabs"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -19,6 +23,11 @@ const ActivityTabs: ActivityComponentType<"ActivityTabs"> = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="Tabs" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <Box p="x4">Sticky Tablist</Box>

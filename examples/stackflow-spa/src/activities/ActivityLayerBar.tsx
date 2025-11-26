@@ -9,7 +9,7 @@ import {
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
-import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
+import { IconBellLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 
 declare module "@stackflow/config" {
@@ -35,11 +35,8 @@ const ActivityLayerBar: ActivityComponentType<"ActivityLayerBar"> = () => {
           <AppBarIconButton>
             <IconBellLine />
           </AppBarIconButton>
-          <AppBarIconButton>
-            <IconBellLine />
-          </AppBarIconButton>
-          <AppBarIconButton>
-            <IconBellLine />
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
           </AppBarIconButton>
         </AppBarRight>
       </AppBar>
@@ -49,7 +46,7 @@ const ActivityLayerBar: ActivityComponentType<"ActivityLayerBar"> = () => {
           flexGrow
           onClick={() => push("ActivityTransparentBar", {})}
         >
-          Push
+          ActivityTransparentBar
         </ActionButton>
       </AppScreenContent>
     </AppScreen>

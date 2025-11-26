@@ -1,7 +1,8 @@
 import { Box, Text } from "@seed-design/react";
-import { useActivity, type ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -14,6 +15,7 @@ declare module "@stackflow/config" {
 
 const ActivityDetail: ActivityComponentType<"ActivityDetail"> = () => {
   const { params } = useActivity();
+  const { push } = useFlow();
 
   return (
     <AppScreen>
@@ -22,6 +24,11 @@ const ActivityDetail: ActivityComponentType<"ActivityDetail"> = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title={params.title} />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <Box px="spacingX.globalGutter" py="x3">

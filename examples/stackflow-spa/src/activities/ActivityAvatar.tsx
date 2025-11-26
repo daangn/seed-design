@@ -1,6 +1,7 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarIconButton, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 import { avatarStackVariantMap } from "@seed-design/css/recipes/avatar-stack";
 
@@ -19,6 +20,8 @@ declare module "@stackflow/config" {
 }
 
 const ActivityAvatar: ActivityComponentType<"ActivityAvatar"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -26,6 +29,11 @@ const ActivityAvatar: ActivityComponentType<"ActivityAvatar"> = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain>Avatar</AppBarMain>
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <ComponentAnalyzer

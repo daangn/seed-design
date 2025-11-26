@@ -9,9 +9,9 @@ import {
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
 
-import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
+import { IconBellLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import img from "../assets/peng.jpeg";
-import { Divider, VStack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useState } from "react";
@@ -44,8 +44,8 @@ const ActivityTransparentBar: ActivityComponentType<"ActivityTransparentBar"> = 
           <AppBarIconButton>
             <IconBellLine />
           </AppBarIconButton>
-          <AppBarIconButton>
-            <IconBellLine />
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
           </AppBarIconButton>
         </AppBarRight>
       </AppBar>
@@ -74,7 +74,14 @@ const ActivityTransparentBar: ActivityComponentType<"ActivityTransparentBar"> = 
               flexGrow
               onClick={() => push("ActivityLayerBar", {})}
             >
-              Push
+              ActivityLayerBar
+            </ActionButton>
+            <ActionButton
+              variant="neutralSolid"
+              flexGrow
+              onClick={() => push("ActivityPluginBasicUI", {})}
+            >
+              ActivityPluginBasicUI
             </ActionButton>
           </VStack>
           <img src={img} alt="penguin" />
