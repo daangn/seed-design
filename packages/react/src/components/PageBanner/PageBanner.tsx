@@ -34,7 +34,7 @@ export const PageBannerRoot = forwardRef<HTMLDivElement, PageBannerRootProps>(
   },
 );
 
-// Use these instead when the following ts implements this:
+// Use these instead when ts implements this:
 // Control flow analysis for destructured rest element of discriminated union
 // https://github.com/microsoft/TypeScript/issues/15300
 
