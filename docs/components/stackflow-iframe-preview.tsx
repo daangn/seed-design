@@ -221,7 +221,7 @@ function getStackflowSpaUrl(path: string): string {
     }
 
     // Production
-    return "https://seed-design-qa.pages.dev";
+    return "https://qa.seed-design.io";
   })();
 
   return new URL(path, baseURL).toString();
