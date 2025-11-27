@@ -1,4 +1,4 @@
-import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarLeft,
@@ -18,7 +18,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityLayerBar: ActivityComponentType<"ActivityLayerBar"> = () => {
+const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => {
   const { push } = useFlow();
 
   return (

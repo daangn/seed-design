@@ -1,8 +1,15 @@
 import { RadioGroup, Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { List, ListDivider, ListRadioItem } from "seed-design/ui/list";
 import { RadioMark } from "seed-design/ui/radio-group";
@@ -57,7 +64,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityListRadioItem: ActivityComponentType<"ActivityListRadioItem"> = () => {
+const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"> = () => {
   const { push } = useFlow();
 
   return (

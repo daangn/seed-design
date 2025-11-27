@@ -1,4 +1,4 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import {
   AppBar,
@@ -19,7 +19,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityPartialDarkMode: ActivityComponentType<"ActivityPartialDarkMode"> = () => {
+const ActivityPartialDarkMode: StaticActivityComponentType<"ActivityPartialDarkMode"> = () => {
   const { push } = useFlow();
 
   return (

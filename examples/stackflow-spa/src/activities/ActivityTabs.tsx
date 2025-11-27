@@ -1,8 +1,15 @@
 import { Box } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarRight, AppBarIconButton } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
@@ -13,7 +20,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityTabs: ActivityComponentType<"ActivityTabs"> = () => {
+const ActivityTabs: StaticActivityComponentType<"ActivityTabs"> = () => {
   const { push } = useFlow();
 
   return (

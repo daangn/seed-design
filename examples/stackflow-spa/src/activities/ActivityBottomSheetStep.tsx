@@ -4,7 +4,7 @@ import {
   useActivityParams,
   useFlow,
   useStepFlow,
-  type ActivityComponentType,
+  type StaticActivityComponentType,
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -26,7 +26,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> = () => {
+const ActivityBottomSheetStep: StaticActivityComponentType<"ActivityBottomSheetStep"> = () => {
   const [open, setOpen] = useState(false);
   const { push } = useFlow();
   const { pushStep, popStep } = useStepFlow("ActivityBottomSheetStep");

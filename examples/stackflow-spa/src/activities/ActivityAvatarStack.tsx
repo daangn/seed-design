@@ -1,5 +1,12 @@
-import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarIconButton, AppBarRight } from "seed-design/ui/app-bar";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarIconButton,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
@@ -19,7 +26,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityAvatarStack: ActivityComponentType<"ActivityAvatarStack"> = () => {
+const ActivityAvatarStack: StaticActivityComponentType<"ActivityAvatarStack"> = () => {
   const { push } = useFlow();
 
   return (

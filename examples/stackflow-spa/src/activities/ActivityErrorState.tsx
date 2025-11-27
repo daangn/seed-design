@@ -1,10 +1,17 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 
 import React from "react";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ErrorState, type ErrorStateProps } from "seed-design/ui/error-state";
-import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton, AppBarIconButton, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarLeft,
+  AppBarMain,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
@@ -13,7 +20,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityErrorState: ActivityComponentType<"ActivityErrorState"> = () => {
+const ActivityErrorState: StaticActivityComponentType<"ActivityErrorState"> = () => {
   const [variant, setVariant] = React.useState<ErrorStateProps["variant"]>("default");
   const [hideAppBarTitle, setHideAppBarTitle] = React.useState(false);
   const { push } = useFlow();

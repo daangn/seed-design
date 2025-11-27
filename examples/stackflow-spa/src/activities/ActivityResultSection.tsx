@@ -1,4 +1,4 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 
 import React from "react";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
@@ -13,7 +13,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityResultSection: ActivityComponentType<"ActivityResultSection"> = () => {
+const ActivityResultSection: StaticActivityComponentType<"ActivityResultSection"> = () => {
   const [size, setSize] = React.useState<ResultSectionProps["size"]>("large");
   const [showAsset, setShowAsset] = React.useState(true);
   return (

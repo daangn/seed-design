@@ -5,9 +5,16 @@ import {
   IconHouseLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
@@ -68,7 +75,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityListItem: ActivityComponentType<"ActivityListItem"> = () => {
+const ActivityListItem: StaticActivityComponentType<"ActivityListItem"> = () => {
   const { push } = useFlow();
 
   return (

@@ -4,7 +4,7 @@ import {
   useActivityParams,
   useFlow,
   useStepFlow,
-  type ActivityComponentType,
+  type StaticActivityComponentType,
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -34,7 +34,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = () => {
+const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"> = () => {
   const [open, setOpen] = useState(false);
   const { push } = useFlow();
   const { pushStep, popStep } = useStepFlow("ActivityMenuSheetStep");

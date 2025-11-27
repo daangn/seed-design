@@ -1,7 +1,14 @@
 import { VStack } from "@seed-design/react";
-import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 
@@ -11,7 +18,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityMenuSheetActivity: ActivityComponentType<"ActivityMenuSheetActivity"> = () => {
+const ActivityMenuSheetActivity: StaticActivityComponentType<"ActivityMenuSheetActivity"> = () => {
   const { push } = useFlow();
 
   return (

@@ -1,5 +1,12 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { chipVariantMap } from "@seed-design/css/recipes/chip";
@@ -25,7 +32,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityChipButton: ActivityComponentType<"ActivityChipButton"> = () => {
+const ActivityChipButton: StaticActivityComponentType<"ActivityChipButton"> = () => {
   const activity = useActivity();
   const { push } = useFlow();
 

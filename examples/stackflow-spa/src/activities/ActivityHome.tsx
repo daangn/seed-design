@@ -11,7 +11,7 @@ import {
   useActivity,
   useFlow,
   useStepFlow,
-  type ActivityComponentType,
+  type StaticActivityComponentType,
 } from "@stackflow/react/future";
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
@@ -61,7 +61,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
+const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
   const { push } = useFlow();
   const { overlayProps } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();

@@ -1,7 +1,14 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { List, ListDivider, ListCheckItem } from "seed-design/ui/list";
 import { Checkmark } from "seed-design/ui/checkbox";
@@ -68,7 +75,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityListCheckItem: ActivityComponentType<"ActivityListCheckItem"> = () => {
+const ActivityListCheckItem: StaticActivityComponentType<"ActivityListCheckItem"> = () => {
   const { push } = useFlow();
 
   return (

@@ -1,4 +1,4 @@
-import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarBackButton,
@@ -29,7 +29,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityActionButton: ActivityComponentType<"ActivityActionButton"> = () => {
+const ActivityActionButton: StaticActivityComponentType<"ActivityActionButton"> = () => {
   const { push } = useFlow();
 
   return (

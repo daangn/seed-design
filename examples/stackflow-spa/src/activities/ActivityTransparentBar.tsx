@@ -1,4 +1,4 @@
-import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarLeft,
@@ -23,7 +23,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityTransparentBar: ActivityComponentType<"ActivityTransparentBar"> = () => {
+const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBar"> = () => {
   const [layerOffsetTop, setLayerOffsetTop] =
     useState<NonNullable<AppScreenProps["layerOffsetTop"]>>("none");
   const [gradient, setGradient] = useState<NonNullable<AppScreenProps["gradient"]>>(true);
