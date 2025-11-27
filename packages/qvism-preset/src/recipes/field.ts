@@ -35,7 +35,6 @@ export const field = defineSlotRecipe({
     },
     footer: {
       display: "flex",
-      justifyContent: "space-between",
       alignItems: "flex-start",
 
       paddingLeft: vars.base.enabled.footer.paddingX,
@@ -71,6 +70,14 @@ export const field = defineSlotRecipe({
         marginRight: vars.base.enabled.errorIcon.paddingRight,
         marginTop: `calc((${vars.base.enabled.errorMessage.lineHeight} - ${vars.base.enabled.errorIcon.size}) / 2)`,
       }),
+    },
+    characterCountArea: {
+      marginLeft: "auto",
+
+      // we define lineHeight here because some reset.css sets default line-height
+      // e.g. tailwind preflight sets * { line-height: 1.5 }
+      fontSize: vars.base.enabled.characterCount.fontSize,
+      lineHeight: vars.base.enabled.characterCount.lineHeight,
     },
     characterCount: {
       color: vars.base.enabled.characterCount.color,
