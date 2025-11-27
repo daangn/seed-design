@@ -354,7 +354,6 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "result-section.tsx",
-          // TODO: fix patch version later
           dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],

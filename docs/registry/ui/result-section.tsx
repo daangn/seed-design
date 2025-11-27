@@ -1,7 +1,7 @@
 "use client";
 
-import { Text, VStack, type TextProps, type unstable_StyleProps } from "@seed-design/react";
 import * as React from "react";
+import { Text, VStack, type TextProps, type VStackProps } from "@seed-design/react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 
 export interface ResultSectionProps
@@ -33,33 +33,16 @@ const textStyles = {
   Record<NonNullable<ResultSectionProps["size"]>, NonNullable<TextProps["textStyle"]>>
 >;
 
-const gaps = {
-  betweenTexts: {
-    large: "x3",
-    medium: "x2",
+const textContainerProperties = {
+  large: {
+    gap: "x3",
+    pb: "x7",
   },
-  betweenActions: {
-    large: "x5",
-    medium: "x4",
+  medium: {
+    gap: "x2",
+    pb: "x6",
   },
-} as const satisfies Record<
-  string,
-  Record<NonNullable<ResultSectionProps["size"]>, unstable_StyleProps["gap"]>
->;
-
-const paddings = {
-  textTop: {
-    large: undefined,
-    medium: "x2",
-  },
-  textBottom: {
-    large: "x7",
-    medium: "x8",
-  },
-} as const satisfies Record<
-  string,
-  Record<NonNullable<ResultSectionProps["size"]>, unstable_StyleProps["p"]>
->;
+} as const satisfies Record<NonNullable<ResultSectionProps["size"]>, VStackProps>;
 
 /**
  * @see https://seed-design.io/react/components/result-section
@@ -77,11 +60,7 @@ export const ResultSection = React.forwardRef<HTMLDivElement, ResultSectionProps
   return (
     <VStack ref={ref} justify="center" align="center" px="x12" py="x4" grow {...otherProps}>
       {asset}
-      <VStack
-        gap={gaps.betweenTexts[size]}
-        pt={paddings.textTop[size]}
-        pb={paddings.textBottom[size]}
-      >
+      <VStack {...textContainerProperties[size]}>
         <Text
           align="center"
           whiteSpace="pre-line"
@@ -93,18 +72,26 @@ export const ResultSection = React.forwardRef<HTMLDivElement, ResultSectionProps
         <Text
           align="center"
           whiteSpace="pre-line"
-          color="fg.neutralSubtle"
+          color="fg.neutralMuted"
           textStyle={textStyles.description[size]}
         >
           {description}
         </Text>
       </VStack>
       {(primaryActionProps || secondaryActionProps) && (
-        <VStack align="center" gap={gaps.betweenActions[size]}>
-          {primaryActionProps && <ActionButton variant="neutralWeak" {...primaryActionProps} />}
+        <VStack align="center" gap="x5">
+          {primaryActionProps && (
+            <ActionButton
+              variant="neutralWeak"
+              size="medium"
+              layout="withText"
+              {...primaryActionProps}
+            />
+          )}
           {secondaryActionProps && (
             <ActionButton
               variant="ghost"
+              size="small"
               color="fg.neutral"
               fontWeight="bold"
               bleedX="asPadding"

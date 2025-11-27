@@ -12,7 +12,7 @@ export default function ResultSectionPreview() {
           </Box>
         }
         title="결과 타이틀"
-        description="상태에 대한 부가 설명이 필요한 경우 적어주세요"
+        description="부가 설명을 적어주세요"
         primaryActionProps={{
           children: "Primary Action",
           onClick: () => window.alert("Primary Action Clicked"),

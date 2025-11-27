@@ -6,7 +6,7 @@ import { ResultSection } from "@/registry/ui/result-section";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Box, Flex, Icon, VStack } from "@seed-design/react";
 import { ActivityComponentType } from "@stackflow/react/future";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ComponentProps } from "react";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -16,7 +16,7 @@ declare module "@stackflow/config" {
 
 type RefundStatus = "in-progress" | "failed";
 
-const resultSectionContent = {
+const resultSectionProperties = {
   "in-progress": {
     title: "환불을 요청하고 있어요",
     description: "잠시만 기다려주세요",
@@ -35,7 +35,7 @@ const resultSectionContent = {
       </Box>
     ),
   },
-} satisfies Record<RefundStatus, React.ComponentProps<typeof ResultSection>>;
+} satisfies Record<RefundStatus, ComponentProps<typeof ResultSection>>;
 
 const ResultSectionStackflow: ActivityComponentType<
   "react/result-section/cta-progress-circle"
@@ -55,7 +55,7 @@ const ResultSectionStackflow: ActivityComponentType<
       </AppBar>
       <AppScreenContent>
         <VStack grow gap="x4" height="full" pb="safeArea">
-          <ResultSection {...resultSectionContent[refundStatus]} />
+          <ResultSection {...resultSectionProperties[refundStatus]} />
           <Flex p="x4" width="full" px="spacingX.globalGutter" pt="x3" pb="x2">
             <ActionButton
               flexGrow
