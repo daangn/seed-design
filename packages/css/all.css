@@ -4119,7 +4119,6 @@
 .seed-field__footer {
   padding-left: var(--seed-dimension-x0_5);
   padding-right: var(--seed-dimension-x0_5);
-  justify-content: space-between;
   align-items: flex-start;
   gap: var(--seed-dimension-x2);
   display: flex;
@@ -4147,6 +4146,12 @@
   --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
   --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4)  - var(--seed-dimension-x4)) / 2);
   display: flex;
+}
+
+.seed-field__characterCountArea {
+  font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
+  margin-left: auto;
 }
 
 .seed-field__characterCount {
