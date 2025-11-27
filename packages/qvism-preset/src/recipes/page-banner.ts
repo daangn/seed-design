@@ -133,6 +133,7 @@ const pageBanner = defineSlotRecipe({
       positive: {},
       warning: {},
       critical: {},
+      magic: {},
     },
   },
   compoundVariants: [
@@ -423,6 +424,35 @@ const pageBanner = defineSlotRecipe({
         },
         button: {
           color: vars.toneCriticalVariantSolid.enabled.button.color,
+        },
+      },
+    },
+    {
+      tone: "magic",
+      variant: "weak",
+      css: {
+        root: {
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient})`,
+
+          ...prefixIcon({
+            color: vars.toneMagicVariantWeak.enabled.prefixIcon.color,
+          }),
+          ...suffixIcon({
+            color: vars.toneMagicVariantWeak.enabled.suffixIcon.color,
+          }),
+
+          [pseudo(":is(button)", active)]: {
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient})`,
+          },
+        },
+        title: {
+          color: vars.toneMagicVariantWeak.enabled.title.color,
+        },
+        description: {
+          color: vars.toneMagicVariantWeak.enabled.description.color,
+        },
+        button: {
+          color: vars.toneMagicVariantWeak.enabled.button.color,
         },
       },
     },

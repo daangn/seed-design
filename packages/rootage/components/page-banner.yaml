@@ -16,6 +16,8 @@ data:
             type: dimension
           color:
             type: color
+          gradient:
+            type: gradient
       prefixIcon:
         properties:
           size:
@@ -271,3 +273,20 @@ data:
       pressed:
         root:
           color: $color.bg.critical-solid-pressed
+    tone=magic, variant=weak:
+      enabled:
+        root:
+          gradient: $gradient.glow-magic
+        prefixIcon:
+          color: $color.fg.neutral
+        title:
+          color: $color.fg.neutral
+        description:
+          color: $color.fg.neutral
+        button:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+      pressed:
+        root:
+          gradient: $gradient.glow-magic-pressed

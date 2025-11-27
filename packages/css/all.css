@@ -5506,6 +5506,20 @@
   color: var(--seed-color-palette-static-white);
 }
 
+.seed-page-banner__root--tone_magic-variant_weak {
+  background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic));
+  --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+  --seed-suffix-icon-color: var(--seed-color-fg-neutral);
+}
+
+.seed-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
+  background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+}
+
+.seed-page-banner__title--tone_magic-variant_weak, .seed-page-banner__description--tone_magic-variant_weak, .seed-page-banner__button--tone_magic-variant_weak {
+  color: var(--seed-color-fg-neutral);
+}
+
 .seed-progress-circle__root {
   box-sizing: border-box;
   display: inline-flex;
