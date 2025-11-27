@@ -45,6 +45,9 @@ export const config = defineConfig({
     { route: "/tabs", name: "ActivityTabs" },
     { route: "/toggle-button", name: "ActivityToggleButton" },
     { route: "/transparent-bar", name: "ActivityTransparentBar" },
+
+    { route: "/demo/home", name: "ActivityDemoHome" },
+    { route: "/demo/article-detail", name: "ActivityDemoArticleDetail" },
   ],
   transitionDuration: theme === "cupertino" ? 350 : 300,
 });

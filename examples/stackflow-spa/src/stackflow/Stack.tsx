@@ -8,6 +8,8 @@ import { config } from "./stackflow.config";
 import { historySyncPlugin } from "@stackflow/plugin-history-sync";
 import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
 import { theme } from "./theme";
+import ActivityDemoArticleDetail from "../activities/ActivityDemoArticleDetail";
+import ActivityDemoHome from "../activities/ActivityDemoHome";
 
 /**
  * Stackflow는 웹뷰 내에서 Stack Navigation UI를 도와주는 도구에요.
@@ -30,6 +32,9 @@ export const { Stack, actions, stepActions } = stackflow({
   components: {
     ActivityHome,
     ActivityNotFound,
+
+    ActivityDemoHome,
+    ActivityDemoArticleDetail,
 
     ActivityActionButton: lazy(() => import("../activities/ActivityActionButton")),
     ActivityAlertDialog: lazy(() => import("../activities/ActivityAlertDialog")),

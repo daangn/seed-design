@@ -1,8 +1,8 @@
-import { ActionButton } from "@/registry/ui/action-button";
-import { AppBar, AppBarMain } from "@/registry/ui/app-bar";
-import { AppScreen, AppScreenContent } from "@/registry/ui/app-screen";
-import { ProgressCircle } from "@/registry/ui/progress-circle";
-import { ResultSection } from "@/registry/ui/result-section";
+import { ActionButton } from "seed-design/ui/action-button";
+import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { ProgressCircle } from "seed-design/ui/progress-circle";
+import { ResultSection } from "seed-design/ui/result-section";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Box, Flex, Icon, VStack } from "@seed-design/react";
 import { ActivityComponentType } from "@stackflow/react/future";
