@@ -214,6 +214,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
+        { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
       ],
     },
