@@ -19,7 +19,7 @@ export const PageBannerRoot = forwardRef<HTMLDivElement, PageBannerRootProps>(
   ({ className, ...props }, ref) => {
     if (props.variant === "solid" && props.tone === "magic") {
       console.error(
-        `\`${props.tone}\` tone is not available for \`${props.variant}\` variant in PageBanner components. Please use variant="weak" a different tone instead.`,
+        `\`${props.tone}\` tone is not available for \`${props.variant}\` variant in PageBanner components. Please use variant="weak" or a different tone instead.`,
       );
     }
 
