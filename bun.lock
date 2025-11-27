@@ -2380,7 +2380,7 @@
 
     "@stackflow/plugin-renderer-basic": ["@stackflow/plugin-renderer-basic@1.1.13", "", { "peerDependencies": { "@stackflow/core": "^1.1.0-canary.0", "@stackflow/react": "^1.3.2-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-8C5QwFagDycFuBLfQ9ynVfpDeO9qeIeGYS3GkZ1Drv3nlc7lE0q1DAGJHLXGLTdra9mzsHCirrGR6sgYa1OA0w=="],
 
-    "@stackflow/react": ["@stackflow/react@1.8.0", "", { "dependencies": { "react-fast-compare": "^3.2.2" }, "peerDependencies": { "@stackflow/config": "^1.0.1-canary.0", "@stackflow/core": "^1.1.0-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-eddwZVLsr/1rw2STaFOYYCJygf0EKrFalz8nxc+NGl6S1fglAmygG3LXuO6nw6oHJ603xfUcFZp34x783dz4tQ=="],
+    "@stackflow/react": ["@stackflow/react@1.9.0", "", { "dependencies": { "react-fast-compare": "^3.2.2" }, "peerDependencies": { "@stackflow/config": "^1.0.1-canary.0", "@stackflow/core": "^1.1.0-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-TcsXCiUMc2uxhpUZOmQzENwQMFrD+viUfHPt1Sf3geI3gfpRmUg3R0tXUtRCzSMnmVKDFy/0XaFI+HXEyw6Rsw=="],
 
     "@stackflow/react-ui-core": ["@stackflow/react-ui-core@1.3.3", "", { "peerDependencies": { "@stackflow/core": "^1.1.0-canary.0", "@stackflow/react": "^1.3.2-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-YXxVskDVq18EftHzGZAkawJePFhHSFwFZUqet4aq34u/BL4OG3kHTojetZWDXRPjbHDiCwUrARVT5q7azg5H4A=="],
 
@@ -5501,8 +5501,6 @@
     "@sanity/visual-editing/react-compiler-runtime": ["react-compiler-runtime@1.0.0", "", { "peerDependencies": { "react": "^17.0.0 || ^18.0.0 || ^19.0.0 || ^0.0.0-experimental" } }, "sha512-rRfjYv66HlG8896yPUDONgKzG5BxZD1nV9U6rkm+7VCuvQc903C4MjcoZR4zPw53IKSOX9wMQVpA1IAbRtzQ7w=="],
 
     "@seed-design/docs/zod": ["zod@4.1.12", "", {}, "sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ=="],
-
-    "@seed-design/stackflow-spa/@stackflow/react": ["@stackflow/react@1.9.0", "", { "dependencies": { "react-fast-compare": "^3.2.2" }, "peerDependencies": { "@stackflow/config": "^1.0.1-canary.0", "@stackflow/core": "^1.1.0-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-TcsXCiUMc2uxhpUZOmQzENwQMFrD+viUfHPt1Sf3geI3gfpRmUg3R0tXUtRCzSMnmVKDFy/0XaFI+HXEyw6Rsw=="],
 
     "@seed-design/tailwind3-plugin/tailwindcss": ["tailwindcss@3.4.18", "", { "dependencies": { "@alloc/quick-lru": "^5.2.0", "arg": "^5.0.2", "chokidar": "^3.6.0", "didyoumean": "^1.2.2", "dlv": "^1.1.3", "fast-glob": "^3.3.2", "glob-parent": "^6.0.2", "is-glob": "^4.0.3", "jiti": "^1.21.7", "lilconfig": "^3.1.3", "micromatch": "^4.0.8", "normalize-path": "^3.0.0", "object-hash": "^3.0.0", "picocolors": "^1.1.1", "postcss": "^8.4.47", "postcss-import": "^15.1.0", "postcss-js": "^4.0.1", "postcss-load-config": "^4.0.2 || ^5.0 || ^6.0", "postcss-nested": "^6.2.0", "postcss-selector-parser": "^6.1.2", "resolve": "^1.22.8", "sucrase": "^3.35.0" }, "bin": { "tailwind": "lib/cli.js", "tailwindcss": "lib/cli.js" } }, "sha512-6A2rnmW5xZMdw11LYjhcI5846rt9pbLSabY5XPxo+XWdxwZaFEn47Go4NzFiHu9sNNmr/kXivP1vStfvMaK1GQ=="],
 
