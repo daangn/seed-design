@@ -79,12 +79,7 @@ export const ResultSection = React.forwardRef<HTMLDivElement, ResultSectionProps
       {(primaryActionProps || secondaryActionProps) && (
         <VStack align="center" gap="x5">
           {primaryActionProps && (
-            <ActionButton
-              variant="neutralWeak"
-              size="medium"
-              layout="withText"
-              {...primaryActionProps}
-            />
+            <ActionButton variant="neutralWeak" size="medium" {...primaryActionProps} />
           )}
           {secondaryActionProps && (
             <ActionButton
