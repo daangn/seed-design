@@ -21,6 +21,7 @@ export const config = defineConfig({
     { route: "/codegen-test", name: "ActivityCodegenTest" },
     { route: "/detail", name: "ActivityDetail" },
     { route: "/error-state", name: "ActivityErrorState" },
+    { route: "/result-section", name: "ActivityResultSection" },
     { route: "/help-bubble", name: "ActivityHelpBubble" },
     { route: "/layer-bar", name: "ActivityLayerBar" },
     { route: "/list-item-button", name: "ActivityListButtonItem" },

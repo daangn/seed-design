@@ -69,6 +69,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityPerfCheck: lazy(() => import("../activities/ActivityPerfCheck" as any)),
     ActivityPluginBasicUI: lazy(() => import("../activities/ActivityPluginBasicUI" as any)),
     ActivityReactionButton: lazy(() => import("../activities/ActivityReactionButton" as any)),
+    ActivityResultSection: lazy(() => import("../activities/ActivityResultSection" as any)),
     ActivitySegmentedControl: lazy(() => import("../activities/ActivitySegmentedControl" as any)),
     ActivitySwipeableTabs: lazy(() => import("../activities/ActivitySwipeableTabs" as any)),
     ActivityTabs: lazy(() => import("../activities/ActivityTabs" as any)),

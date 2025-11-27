@@ -5,6 +5,9 @@ import * as React from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 import type { ScopedColorBg } from "@seed-design/css/vars";
 
+/**
+ * @deprecated Use result-section instead.
+ */
 export interface ErrorStateProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "color"> {
   title?: React.ReactNode;
@@ -40,6 +43,7 @@ const descriptionTextStyle = {
 } as const satisfies Record<string, NonNullable<TextProps["textStyle"]>>;
 
 /**
+ * @deprecated Use result-section instead.
  * @see https://seed-design.io/react/components/error-state
  */
 export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>((props, ref) => {
