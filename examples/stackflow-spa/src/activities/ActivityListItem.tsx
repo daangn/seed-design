@@ -40,6 +40,8 @@ const prefixVariants = [
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "lorem ipsum dolor sit amet" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
 ];
 
 const suffixVariants = [
@@ -116,6 +118,7 @@ const ActivityListItem: StaticActivityComponentType<"ActivityListItem"> = () => 
                       detail={content.detail}
                       prefix={prefix.element}
                       suffix={suffix.element}
+                      highlighted={content.highlighted}
                     />
                     {showDivider && <ListDivider />}
                   </Fragment>

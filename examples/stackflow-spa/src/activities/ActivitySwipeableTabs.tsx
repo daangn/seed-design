@@ -82,7 +82,9 @@ const ActivitySwipeableTabs: StaticActivityComponentType<"ActivitySwipeableTabs"
                         <ListButtonItem title="AlertDialog (step)" />
                       </AlertDialogTrigger>
                       <Portal>
-                        <AlertDialogContent layerIndex={useActivityZIndexBase()}>
+                        <AlertDialogContent
+                          layerIndex={useActivityZIndexBase({ activityOffset: +1 })}
+                        >
                           <AlertDialogHeader>
                             <AlertDialogTitle>제목</AlertDialogTitle>
                             <AlertDialogDescription>

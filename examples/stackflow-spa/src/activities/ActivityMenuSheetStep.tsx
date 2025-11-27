@@ -42,15 +42,7 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
   const isOverlayOpen = params["menu-sheet"] === "open";
   const snackbar = useSnackbarAdapter();
 
-  useEffect(() => {
-    if (!isOverlayOpen) {
-      setOpen(false);
-    }
-
-    if (isOverlayOpen) {
-      setOpen(true);
-    }
-  }, [isOverlayOpen]);
+  useEffect(() => setOpen(isOverlayOpen), [isOverlayOpen]);
 
   const onOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -70,7 +62,7 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
     snackbar.create({
       render: () => <Snackbar variant="positive" message={`선택한 액션: ${action}`} />,
     });
-    popStep();
+    setOpen(false);
   };
 
   return (
@@ -116,7 +108,7 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
                   onClick={() => {
                     // 이 Menu Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
                     // Menu Sheet를 먼저 닫고 다음 Activity를 push해야 합니다.
-                    popStep();
+                    setOpen(false);
                     push("ActivityDetail", {
                       title: "Menu Sheet에서 이동한 화면",
                       body: "Menu Sheet를 닫고 이동했습니다.",

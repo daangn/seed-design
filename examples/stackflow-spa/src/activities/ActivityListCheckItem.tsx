@@ -30,6 +30,8 @@ const positionVariants = [
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "추가 설명이 포함된 체크박스입니다" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
 ];
 
 const prefixVariants = [
@@ -128,6 +130,7 @@ const ActivityListCheckItem: StaticActivityComponentType<"ActivityListCheckItem"
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
                             suffix={suffix.element}
+                            highlighted={content.highlighted}
                           />
                           {showDivider && <ListDivider as="div" />}
                         </Fragment>
@@ -161,6 +164,7 @@ const ActivityListCheckItem: StaticActivityComponentType<"ActivityListCheckItem"
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
                             prefix={prefix.element}
+                            highlighted={content.highlighted}
                           />
                           {showDivider && <ListDivider as="div" />}
                         </Fragment>

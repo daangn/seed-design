@@ -4,8 +4,8 @@ import {
   IconPersonCircleLine,
   IconHouseLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Icon } from "@seed-design/react";
-import { useStepFlow, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { Icon, Portal } from "@seed-design/react";
 import * as React from "react";
 import { Fragment } from "react";
 import {
@@ -37,6 +37,15 @@ import { useActivityZIndexBase } from "@seed-design/stackflow";
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "lorem ipsum dolor sit amet" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
+  { key: "title-detail-disabled", detail: "lorem ipsum dolor sit amet", disabled: true },
+  {
+    key: "title-detail-highlighted-disabled",
+    detail: "lorem ipsum dolor sit amet",
+    highlighted: true,
+    disabled: true,
+  },
 ];
 
 const prefixVariants = [
@@ -76,25 +85,26 @@ const suffixVariants = [
 const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
   (props, ref) => {
     const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
-    const { popStep } = useStepFlow("ActivityListButtonItem");
 
     return (
       <AlertDialogRoot {...overlayProps}>
         <AlertDialogTrigger asChild>
           <ListButtonItem ref={ref} onClick={() => setOpen(true)} {...props} />
         </AlertDialogTrigger>
-        <AlertDialogContent layerIndex={useActivityZIndexBase()}>
-          <AlertDialogHeader>
-            <AlertDialogTitle>consectetur</AlertDialogTitle>
-            <AlertDialogDescription>
-              Veniam qui nulla minim sit ad Lorem fugiat consequat ad consequat velit ullamco
-              proident id.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <ActionButton onClick={() => popStep()}>닫기</ActionButton>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+        <Portal>
+          <AlertDialogContent layerIndex={useActivityZIndexBase({ activityOffset: +1 })}>
+            <AlertDialogHeader>
+              <AlertDialogTitle>consectetur</AlertDialogTitle>
+              <AlertDialogDescription>
+                Veniam qui nulla minim sit ad Lorem fugiat consequat ad consequat velit ullamco
+                proident id.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <ActionButton onClick={() => setOpen(false)}>닫기</ActionButton>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </Portal>
       </AlertDialogRoot>
     );
   },
@@ -148,6 +158,8 @@ const ActivityListButtonItem: StaticActivityComponentType<"ActivityListButtonIte
                       detail={content.detail}
                       prefix={prefix.element}
                       suffix={suffix.element}
+                      highlighted={content.highlighted}
+                      disabled={content.disabled}
                     />
                     {showDivider && <ListDivider />}
                   </Fragment>

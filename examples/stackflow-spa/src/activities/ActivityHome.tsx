@@ -63,12 +63,10 @@ declare module "@stackflow/config" {
 
 const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
   const { push } = useFlow();
-  const { overlayProps } = useStepOverlay({ key: "alert-dialog" });
+  const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
 
   const { zIndex: activityIndex } = useActivity();
-
-  const { popStep } = useStepFlow("ActivityHome");
 
   const navigationSections: NavigationSection[] = [
     {
@@ -105,11 +103,11 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <VStack gap="x2">
-                      <ActionButton onClick={() => popStep()}>확인</ActionButton>
+                      <ActionButton onClick={() => setOpen(false)}>확인</ActionButton>
                       <ActionButton
                         variant="neutralSolid"
                         onClick={() => {
-                          popStep();
+                          setOpen(false);
                           push("ActivityChipButton", {});
                         }}
                       >
@@ -265,6 +263,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
             <Callout
               tone="critical"
               prefixIcon={<Icon svg={<IconHandPointUpLine />} />}
+              title="foobar"
               description="이 영역에서는 Pull to Refresh 동작이 발생하지 않습니다. Exercitation cillum velit
               aliquip deserunt Lorem. Eiusmod proident duis occaecat consequat veniam do commodo
               occaecat duis irure ea sunt officia cupidatat."

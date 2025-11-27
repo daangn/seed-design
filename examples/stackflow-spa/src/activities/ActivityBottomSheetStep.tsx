@@ -33,15 +33,7 @@ const ActivityBottomSheetStep: StaticActivityComponentType<"ActivityBottomSheetS
   const params = useActivityParams<"ActivityBottomSheetStep">();
   const isOverlayOpen = params["bottom-sheet"] === "open";
 
-  useEffect(() => {
-    if (!isOverlayOpen) {
-      setOpen(false);
-    }
-
-    if (isOverlayOpen) {
-      setOpen(true);
-    }
-  }, [isOverlayOpen]);
+  useEffect(() => setOpen(isOverlayOpen), [isOverlayOpen]);
 
   const onOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -85,7 +77,7 @@ const ActivityBottomSheetStep: StaticActivityComponentType<"ActivityBottomSheetS
             >
               <BottomSheetFooter>
                 <HStack gap="x2">
-                  <ActionButton onClick={() => popStep()} variant="neutralWeak">
+                  <ActionButton onClick={() => setOpen(false)} variant="neutralWeak">
                     닫기
                   </ActionButton>
                   <ActionButton
@@ -94,7 +86,7 @@ const ActivityBottomSheetStep: StaticActivityComponentType<"ActivityBottomSheetS
                     onClick={() => {
                       // 이 Bottom Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
                       // BottomSheet를 먼저 닫고 다음 Activity를 push해야 합니다.
-                      popStep();
+                      setOpen(false);
                       push("ActivityDetail", {
                         title: "Bottom Sheet에서 이동한 화면",
                         body: "Bottom Sheet를 닫고 이동했습니다.",

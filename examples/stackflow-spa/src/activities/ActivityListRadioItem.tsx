@@ -30,6 +30,8 @@ const positionVariants = [
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "추가 설명이 포함된 라디오입니다" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
 ];
 
 const prefixVariants = [
@@ -122,6 +124,7 @@ const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"
                               prefix={<RadioMark size="large" />}
                               disabled={state.disabled}
                               suffix={suffix.element}
+                              highlighted={content.highlighted}
                             />
                             {showDivider && <ListDivider as="div" />}
                           </Fragment>
@@ -156,6 +159,7 @@ const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"
                               suffix={<RadioMark size="large" />}
                               disabled={state.disabled}
                               prefix={prefix.element}
+                              highlighted={content.highlighted}
                             />
                             {showDivider && <ListDivider as="div" />}
                           </Fragment>

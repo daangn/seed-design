@@ -165,7 +165,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 
   const handleAction = (action: string) => {
     console.log("선택한 액션:", action);
-    popStep();
+    setOpen(false);
   };
 
   return (
@@ -191,7 +191,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
               <MenuSheetItem
                 onClick={() => {
                   // [!code highlight]
-                  popStep(); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
               >
@@ -261,7 +261,7 @@ const MyActivity: ActivityComponentType = () => {
               <MenuSheetItem
                 onClick={() => {
                   // [!code highlight]
-                  popStep(); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
               >
