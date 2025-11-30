@@ -18,7 +18,6 @@ import { createCheckmarkHandler } from "@/codegen/targets/react/component/handle
 import { createChipHandler } from "./handlers/chip";
 import { createContextualFloatingButtonHandler } from "./handlers/contextual-floating-button";
 import { createDividerHandler } from "./handlers/divider";
-import { createErrorStateHandler } from "./handlers/error-state";
 import {
   createFieldButtonHandler,
   createAddressFieldHandler,
@@ -39,6 +38,7 @@ import { createProgressCircleHandler } from "./handlers/progress-circle";
 import { createRadioGroupItemHandler } from "@/codegen/targets/react/component/handlers/radio-group";
 import { createRadioMarkHandler } from "@/codegen/targets/react/component/handlers/radio-mark";
 import { createReactionButtonHandler } from "./handlers/reaction-button";
+import { createResultSectionHandler } from "./handlers/result-section";
 import { createSegmentedControlHandler } from "./handlers/segmented-control";
 import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/select-box";
 import { createSkeletonHandler } from "./handlers/skeleton";
@@ -112,7 +112,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createDatePickerFieldHandler,
   createSelectFieldHandler,
   createTimePickerFieldHandler,
-  createErrorStateHandler,
+  createResultSectionHandler,
   createContextualFloatingButtonHandler,
   createFloatingActionButtonHandler,
   createHelpBubbleHandler,

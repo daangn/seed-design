@@ -40,9 +40,9 @@
       "version": "0.0.0",
       "dependencies": {
         "@fumadocs/mdx-remote": "^1.3.2",
-        "@karrotmarket/icon-data": "^1.0.0",
-        "@karrotmarket/react-monochrome-icon": "^1.0.0",
-        "@karrotmarket/react-multicolor-icon": "^1.0.0",
+        "@karrotmarket/icon-data": "^1.13.0",
+        "@karrotmarket/react-monochrome-icon": "^1.8.0",
+        "@karrotmarket/react-multicolor-icon": "^1.5.0",
         "@orama/orama": "^3.1.3",
         "@portabletext/react": "^5.0.0",
         "@sanity/asset-utils": "^2.3.0",
@@ -236,7 +236,8 @@
       "name": "@seed-design/stackflow-spa",
       "version": "0.0.0",
       "dependencies": {
-        "@karrotmarket/react-monochrome-icon": "^1.0.0",
+        "@karrotmarket/react-monochrome-icon": "^1.8.0",
+        "@karrotmarket/react-multicolor-icon": "^1.5.0",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
         "@seed-design/css": "1.1.9",
@@ -330,8 +331,8 @@
         "typescript": "^5.9.2",
       },
       "optionalDependencies": {
-        "@karrotmarket/react-monochrome-icon": "^1.0.0",
-        "@karrotmarket/react-multicolor-icon": "^1.0.0",
+        "@karrotmarket/react-monochrome-icon": "^1.8.0",
+        "@karrotmarket/react-multicolor-icon": "^1.5.0",
       },
     },
     "packages/css": {
@@ -370,14 +371,14 @@
       "name": "@seed-design/figma",
       "version": "1.1.9",
       "dependencies": {
-        "@seed-design/css": "1.1.0",
+        "@seed-design/css": "1.1.9",
         "change-case": "^5.4.4",
         "ts-pattern": "^5.7.0",
       },
       "devDependencies": {
         "@figma/plugin-typings": "^1.110.0",
         "@figma/rest-api-spec": "^0.34.0",
-        "@karrotmarket/icon-data": "^1.6.0",
+        "@karrotmarket/icon-data": "^1.13.0",
         "@seed-design/figma-extractor": "^1.0.0",
         "typescript": "^5.9.2",
       },
@@ -1039,11 +1040,11 @@
       "name": "figma-mcp",
       "version": "1.0.0",
       "dependencies": {
-        "@karrotmarket/react-monochrome-icon": "^1.0.0",
-        "@seed-design/css": "1.1.0",
-        "@seed-design/figma": "1.1.2",
+        "@karrotmarket/react-monochrome-icon": "^1.8.0",
+        "@seed-design/css": "1.1.9",
+        "@seed-design/figma": "1.1.9",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.1.1",
+        "@seed-design/react": "1.1.8",
         "@seed-design/vite-plugin": "1.1.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
@@ -1083,10 +1084,10 @@
       "version": "1.0.0",
       "dependencies": {
         "@figmazing/event": "0.0.1",
-        "@karrotmarket/react-monochrome-icon": "^1.0.0",
-        "@seed-design/css": "^1.1.0",
+        "@karrotmarket/react-monochrome-icon": "^1.8.0",
+        "@seed-design/css": "^1.1.9",
         "@seed-design/migration-index": "^1.0.0",
-        "@seed-design/react": "^1.1.1",
+        "@seed-design/react": "^1.1.8",
         "@seed-design/vite-plugin": "^1.1.0",
         "color-delta-e": "^1.3.0",
         "normalize.css": "^8.0.1",
@@ -1734,11 +1735,11 @@
 
     "@juggle/resize-observer": ["@juggle/resize-observer@3.4.0", "", {}, "sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA=="],
 
-    "@karrotmarket/icon-data": ["@karrotmarket/icon-data@1.10.0", "", {}, "sha512-44AhbE6O36iGK4MLpr4KfcMMTXn9ahuXDvXnP7OTdMBebcT4gC5FFKpl7DFOtQBendKyC/JyMH5Xdd9uUy/+uA=="],
+    "@karrotmarket/icon-data": ["@karrotmarket/icon-data@1.13.0", "", {}, "sha512-tr1pYd494mMP1zsngMrJzl6/uHQjj4STyi80fIbCR4xYnXiFjIWi83f6SQLI48QAHZ+1++qEV+VgOtJqakNFNg=="],
 
-    "@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@1.6.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-s0mEsKPpcHuBowmsZ2li4o5c2RbUfUNL2NwGci2Te6oW78BNwDFH3EmdzctF+nKoB7kwHssX7Vuc8vsEVn0ePg=="],
+    "@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@1.8.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-FAgGZnNVSD2dGBBNcEmiWk81LT2cbkVhvessImgikZW2+tO/Cy1sybvByqKHKD/tho9GeL9ez2EqfjTgocjhWA=="],
 
-    "@karrotmarket/react-multicolor-icon": ["@karrotmarket/react-multicolor-icon@1.4.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-cC31w091hRp1T8EpugZs2HR7L64CuRtL4Af1uFiblDjFvLilyUGsnzZmBm+YYe6hlVY0Z1BnY6Xm1GceLdGi9g=="],
+    "@karrotmarket/react-multicolor-icon": ["@karrotmarket/react-multicolor-icon@1.5.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-XjlVNXEbrM4klCJxTTy3u1kkhYlqsxxU/4MkygZStSLJ7jCtL5dLrK2x6qlLU4m8hGDBZVGH2V64p5ydnI6tSg=="],
 
     "@kwsites/file-exists": ["@kwsites/file-exists@1.1.1", "", { "dependencies": { "debug": "^4.1.1" } }, "sha512-m9/5YGR18lIwxSFDwfE3oA7bWuq9kdau6ugN4H2rJeyhFQZcG9AgSHkQtSD15a8WvTgfz9aikZMrKPHvbpqFiw=="],
 

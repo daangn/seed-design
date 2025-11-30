@@ -8,7 +8,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@karrotmarket/react-monochrome-icon": "^1.0.0",
+    "@karrotmarket/react-monochrome-icon": "^1.8.0",
+    "@karrotmarket/react-multicolor-icon": "^1.5.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@seed-design/css": "1.1.9",
