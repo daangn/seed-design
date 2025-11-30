@@ -23,6 +23,19 @@ export declare const templateInformationList: {
   "key": "a111395555825f77d152f84e047e5e798fb53023"
 };
 
+export declare const templateResultPage: {
+  "name": "templateResultPage",
+  "key": "88ff5d153a95a2532925b191960d3401d5fd94a6",
+  "componentPropertyDefinitions": {
+    "Show Top Navigation#28427:3": {
+      "type": "BOOLEAN"
+    },
+    "Show Bottom Action Bar#44990:7": {
+      "type": "BOOLEAN"
+    }
+  }
+};
+
 export declare const templateSelectField: {
   "name": "templateSelectField",
   "key": "a43d16a5c3cbb5fe22ca230d6a28338da21c7562"
@@ -113,9 +126,4 @@ export declare const field: {
 export declare const icon: {
   "name": "icon",
   "key": "598895dbeb853cbfff37bd50ddc65874375fc1b1"
-};
-
-export declare const iOsSelection: {
-  "name": "iOsSelection",
-  "key": "c348849476b058d7d24fe7588c81b1af1b46befe"
 };

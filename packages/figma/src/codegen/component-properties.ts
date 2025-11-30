@@ -76,10 +76,6 @@ export type DividerProperties = InferComponentDefinition<
   typeof sets.divider.componentPropertyDefinitions
 >;
 
-export type ErrorStateProperties = InferComponentDefinition<
-  typeof sets.templateErrorState.componentPropertyDefinitions
->;
-
 export type FieldHeaderProperties = InferComponentDefinition<{
   "Label#34796:0": {
     type: "TEXT";
@@ -319,6 +315,10 @@ export type RadioMarkProperties = InferComponentDefinition<
 
 export type ReactionButtonProperties = InferComponentDefinition<
   typeof sets.reactionButton.componentPropertyDefinitions
+>;
+
+export type ResultSectionProperties = InferComponentDefinition<
+  typeof sets.templateResultSection.componentPropertyDefinitions
 >;
 
 export type SegmentedControlProperties = InferComponentDefinition<

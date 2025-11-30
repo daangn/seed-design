@@ -79,35 +79,6 @@ export const templateChipGroup = {
   }
 };
 
-export const templateCompletion = {
-  "name": "templateCompletion",
-  "key": "d91c789c66c2da665d820318f1a4d8671946eb79",
-  "componentPropertyDefinitions": {
-    "Description#28427:4": {
-      "type": "TEXT"
-    },
-    "Title#28427:5": {
-      "type": "TEXT"
-    },
-    "Show Description#28427:6": {
-      "type": "BOOLEAN"
-    },
-    "Show Button#28427:7": {
-      "type": "BOOLEAN"
-    },
-    "Show Top Navigation#28427:8": {
-      "type": "BOOLEAN"
-    },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Screen",
-        "Dialog"
-      ]
-    }
-  }
-};
-
 export const templateCustomPickerField = {
   "name": "templateCustomPickerField",
   "key": "91d73dfc297a467d78dc91ade6ff9be9a152619e",
@@ -121,7 +92,7 @@ export const templateCustomPickerField = {
     "State": {
       "type": "VARIANT",
       "variantOptions": [
-        "Default",
+        "Enabled",
         "Error",
         "Disabled",
         "Read Only"
@@ -137,31 +108,70 @@ export const templateCustomPickerField = {
   }
 };
 
-export const templateErrorState = {
-  "name": "templateErrorState",
-  "key": "39b4ecd0b5b4d35f4dc5791765ca04aa062a5172",
+export const templateResultSection = {
+  "name": "templateResultSection",
+  "key": "fabd52c41c63d921e37e0a1de373e4df2b496f30",
   "componentPropertyDefinitions": {
-    "Show Action Button#9080:5": {
-      "type": "BOOLEAN"
-    },
     "Title#16237:0": {
       "type": "TEXT"
     },
     "Description#16237:5": {
       "type": "TEXT"
     },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Default",
-        "Basement"
+    "Asset Type#45154:9": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "3f2ed06bd34fbaf24d371cefa973e09e2c2572bf"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "bf1ad3ad5c45a2e94fd800f7f6ecbe52ba0667ab"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "d357dcf0fbff80f3bfa70fe4fd5d48a9bddd1b49"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "a53df434b562c1eeb04dab9abd88431989c5fc33"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "5e53811a1e1444deccb5147b6a57196a3be467c9"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "3ff3999d2d2bbed2c7656210793d4f083901f73b"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "56fcf964b7784ca83eaf6c9b1531de6150d23a0d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "5652618ddd66c844ab977d083d0dc41cb98f98ae"
+        }
       ]
     },
-    "Layout": {
+    "Show Asset#45154:14": {
+      "type": "BOOLEAN"
+    },
+    "Show Buttons#53435:0": {
+      "type": "BOOLEAN"
+    },
+    "ㄴShow First Button#53766:0": {
+      "type": "BOOLEAN"
+    },
+    "ㄴShow Second Button#53766:3": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
       "type": "VARIANT",
       "variantOptions": [
-        "With Title",
-        "Description Only"
+        "Large",
+        "Medium"
       ]
     }
   }
@@ -205,11 +215,11 @@ export const templateSliderField = {
     "State": {
       "type": "VARIANT",
       "variantOptions": [
-        "Default",
+        "Enabled",
+        "Pressed",
         "Error",
         "Disabled",
-        "Read Only",
-        "Pressed"
+        "Read Only"
       ]
     }
   }
@@ -235,7 +245,7 @@ export const templateTextField = {
     "State": {
       "type": "VARIANT",
       "variantOptions": [
-        "Default",
+        "Enabled",
         "Focused",
         "Error",
         "Error Focused",
@@ -260,7 +270,7 @@ export const templateTextareaField = {
     "State": {
       "type": "VARIANT",
       "variantOptions": [
-        "Default",
+        "Enabled",
         "Focused",
         "Error",
         "Error Focused",
@@ -291,7 +301,8 @@ export const templateTopNavigation = {
     "Variants": {
       "type": "VARIANT",
       "variantOptions": [
-        "Main Tab",
+        "Root",
+        "Root Preset",
         "Standard",
         "Standard Transparent",
         "Large Title"
@@ -570,6 +581,9 @@ export const bottomSheet = {
       "type": "BOOLEAN"
     },
     "Show Handle#49774:6": {
+      "type": "BOOLEAN"
+    },
+    "Show Scroll Fog(Figma Only)#53171:3": {
       "type": "BOOLEAN"
     },
     "Header Layout": {
@@ -1114,8 +1128,7 @@ export const listItem = {
       "variantOptions": [
         "Enabled",
         "Pressed",
-        "Disabled",
-        "Highlighted"
+        "Disabled"
       ]
     },
     "Variants": {
@@ -1124,56 +1137,12 @@ export const listItem = {
         "Single Line",
         "Multi Line"
       ]
-    }
-  }
-};
-
-export const mainTabNavigationGlobal = {
-  "name": "mainTabNavigationGlobal",
-  "key": "a694a1da14a5c1d7d5c66bc78218c0c61fb388ab",
-  "componentPropertyDefinitions": {
-    "Title#6406:6": {
-      "type": "TEXT"
     },
-    "Button Label#6409:18": {
-      "type": "TEXT"
-    },
-    "Title Type": {
+    "Highlighted": {
       "type": "VARIANT",
       "variantOptions": [
-        "Text",
-        "Text +  Button"
-      ]
-    },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Layer Default",
-        "Transparent"
-      ]
-    }
-  }
-};
-
-export const mainTabNavigationKr = {
-  "name": "mainTabNavigationKr",
-  "key": "41d3601e6b4c632a56cdc8fad485a76c026fdd8e",
-  "componentPropertyDefinitions": {
-    "Title#6406:6": {
-      "type": "TEXT"
-    },
-    "Title Type": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Text",
-        "Button"
-      ]
-    },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Layer Default",
-        "Transparent"
+        "True",
+        "False"
       ]
     }
   }
@@ -1239,7 +1208,7 @@ export const menuSheet = {
     "Show Safe Area#25531:15": {
       "type": "BOOLEAN"
     },
-    "Show Description#32984:0": {
+    "Show Header Description#32984:0": {
       "type": "BOOLEAN"
     },
     "Menu Group Count": {
@@ -1254,7 +1223,8 @@ export const menuSheet = {
       "type": "VARIANT",
       "variantOptions": [
         "Text Only",
-        "Text with Icon"
+        "Text with Icon",
+        "Text with Subtext"
       ]
     }
   }
@@ -1507,24 +1477,46 @@ export const resizableChild = {
   }
 };
 
-export const scrollFog = {
-  "name": "scrollFog",
-  "key": "0a06ea65fe164e0245fde6ac6c97135990a4de3c",
+export const rootTopNavigationGlobal = {
+  "name": "rootTopNavigationGlobal",
+  "key": "a694a1da14a5c1d7d5c66bc78218c0c61fb388ab",
   "componentPropertyDefinitions": {
-    "Orientation": {
+    "Title#6406:6": {
+      "type": "TEXT"
+    },
+    "Button Label#6409:18": {
+      "type": "TEXT"
+    },
+    "Show Button#52619:0": {
+      "type": "BOOLEAN"
+    },
+    "Title Type": {
       "type": "VARIANT",
       "variantOptions": [
-        "Top ⬇️",
-        "Bottom ⬆️",
-        "Right ➡️",
-        "Left ⬅️"
+        "Text"
       ]
     },
-    "Layer": {
+    "Variant": {
       "type": "VARIANT",
       "variantOptions": [
-        "Default",
-        "Floating"
+        "Layer Default"
+      ]
+    }
+  }
+};
+
+export const rootTopNavigationKr = {
+  "name": "rootTopNavigationKr",
+  "key": "41d3601e6b4c632a56cdc8fad485a76c026fdd8e",
+  "componentPropertyDefinitions": {
+    "Title#6406:6": {
+      "type": "TEXT"
+    },
+    "Title Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text",
+        "Button"
       ]
     }
   }
@@ -1607,7 +1599,7 @@ export const skeleton = {
 
 export const slider = {
   "name": "slider",
-  "key": "c748f314f790eb804138bd105bfb0bd0584c9aa1",
+  "key": "14b3278452f03fa01ecc8012a07f124766714566",
   "componentPropertyDefinitions": {
     "Has Tick Mark#47921:0": {
       "type": "BOOLEAN"
