@@ -6,18 +6,7 @@ import { TabsRoot, TabsTrigger, TabsList, TabsCarousel, TabsContent } from "seed
 import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { ResultSection } from "seed-design/ui/result-section";
 import { IconArticleFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
-import {
-  Flex,
-  HStack,
-  VStack,
-  Icon,
-  Box,
-  Text,
-  Badge,
-  TagGroup,
-  Portal,
-  Tabs,
-} from "@seed-design/react";
+import { Flex, HStack, VStack, Icon, Box, Text, Badge, TagGroup, Portal } from "@seed-design/react";
 import { Chip } from "seed-design/ui/chip";
 import {
   BottomSheetBody,
@@ -94,7 +83,7 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
                 </TabsTrigger>
               ))}
             </TabsList>
-            <TabsCarousel>
+            <TabsCarousel swipeable>
               <TabsContent value={TABS[0].value}>
                 <Recommendations />
               </TabsContent>
