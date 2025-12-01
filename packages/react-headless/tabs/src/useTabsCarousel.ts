@@ -16,6 +16,16 @@ export interface UseTabsCarouselStateProps {
   dragThreshold?: number;
 
   onSettle?: () => void;
+
+  /**
+   * 스와이프 시작 시 호출됩니다.
+   */
+  onSwipeStart?: () => void;
+
+  /**
+   * 스와이프 종료 시 호출됩니다.
+   */
+  onSwipeEnd?: () => void;
 }
 
 const autoHeight = AutoHeight();
@@ -41,6 +51,8 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
   );
 
   const onSettle = useCallbackRef(props.onSettle);
+  const onSwipeStart = useCallbackRef(props.onSwipeStart);
+  const onSwipeEnd = useCallbackRef(props.onSwipeEnd);
 
   useEffect(() => {
     const select = emblaApi?.on("select", () => {
@@ -52,11 +64,21 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
       onSettle?.();
     });
 
+    const pointerDown = emblaApi?.on("pointerDown", () => {
+      onSwipeStart?.();
+    });
+
+    const pointerUp = emblaApi?.on("pointerUp", () => {
+      onSwipeEnd?.();
+    });
+
     return () => {
       select?.clear();
       settle?.clear();
+      pointerDown?.clear();
+      pointerUp?.clear();
     };
-  }, [emblaApi, api.setContentIndex, onSettle]);
+  }, [emblaApi, api.setContentIndex, onSettle, onSwipeStart, onSwipeEnd]);
 
   const getContentIndex = useCallbackRef(() => api.contentIndex);
   useEffect(() => {
