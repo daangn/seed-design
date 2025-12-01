@@ -7,12 +7,7 @@ import {
   VStack,
   useSnackbarAdapter,
 } from "@seed-design/react";
-import {
-  useActivity,
-  useFlow,
-  useStepFlow,
-  type StaticActivityComponentType,
-} from "@stackflow/react/future";
+import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
@@ -221,6 +216,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "TextField", onClick: () => push("ActivityTextField", {}) },
       ],
     },
     {

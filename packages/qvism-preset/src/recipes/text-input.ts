@@ -2,6 +2,8 @@ import { textInput as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, focus, disabled, not, readOnly, invalid } from "../utils/pseudo";
 
+const MAX_DURATION_SECONDS = 2147483647;
+
 const textInput = defineSlotRecipe({
   name: "text-input",
   slots: ["root", "value", "prefixText", "prefixIcon", "suffixText", "suffixIcon"],
@@ -43,6 +45,23 @@ const textInput = defineSlotRecipe({
       [pseudo("::placeholder")]: {
         color: vars.base.enabled.placeholder.color,
         fontWeight: vars.base.enabled.placeholder.fontWeight,
+      },
+
+      // disable browser default background colors
+      // we can't just set backgroundColor: "transparent" because user agent stylesheets include !important flag
+      // might want to set a huge boxShadow to cover the background color, but that causes the root boxShadow to be hidden
+      [pseudo(":is(:-webkit-autofill, :autofill)")]: {
+        // disable browser default text color
+        WebkitTextFillColor: vars.base.enabled.value.color,
+
+        // delay transition
+        transition: `background-color ${MAX_DURATION_SECONDS}s ${MAX_DURATION_SECONDS}s`,
+
+        // Chrome 120~
+        "@supports (background-clip: text)": {
+          backgroundClip: "text",
+          transition: "none",
+        },
       },
 
       [pseudo(disabled)]: {

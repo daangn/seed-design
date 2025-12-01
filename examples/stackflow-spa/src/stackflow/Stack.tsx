@@ -73,6 +73,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivitySegmentedControl: lazy(() => import("../activities/ActivitySegmentedControl")),
     ActivitySwipeableTabs: lazy(() => import("../activities/ActivitySwipeableTabs")),
     ActivityTabs: lazy(() => import("../activities/ActivityTabs")),
+    ActivityTextField: lazy(() => import("../activities/ActivityTextField")),
     ActivityToggleButton: lazy(() => import("../activities/ActivityToggleButton")),
     ActivityTransparentBar: lazy(() => import("../activities/ActivityTransparentBar")),
   },

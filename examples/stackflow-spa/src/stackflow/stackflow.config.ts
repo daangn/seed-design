@@ -43,6 +43,7 @@ export const config = defineConfig({
     { route: "/segmented-control", name: "ActivitySegmentedControl" },
     { route: "/swipeable-tabs", name: "ActivitySwipeableTabs" },
     { route: "/tabs", name: "ActivityTabs" },
+    { route: "/text-field", name: "ActivityTextField" },
     { route: "/toggle-button", name: "ActivityToggleButton" },
     { route: "/transparent-bar", name: "ActivityTransparentBar" },
 
