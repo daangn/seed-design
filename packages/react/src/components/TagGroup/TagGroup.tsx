@@ -5,7 +5,7 @@ import {
   type TagGroupItemVariantProps,
 } from "@seed-design/css/recipes/tag-group-item";
 import { createRecipeContext } from "../../utils/createRecipeContext";
-import { forwardRef, Children } from "react";
+import { forwardRef, Children, Fragment } from "react";
 import clsx from "clsx";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import { mergeProps } from "@seed-design/dom-utils";
@@ -29,16 +29,19 @@ export const TagGroupRoot = forwardRef<HTMLSpanElement, TagGroupRootProps>(
     return (
       <PropsProvider value={tagGroupItemVariantProps}>
         <Primitive.span ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
-          {Children.map(children, (child, index) => (
-            <>
-              {index > 0 && (
-                <Primitive.span aria-hidden className={classNames.separator}>
-                  {separator}
-                </Primitive.span>
-              )}
-              {child}
-            </>
-          ))}
+          {Children.toArray(children)
+            .filter((child) => child !== null && child !== undefined)
+            .map((child, index) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: those fragments won't change order
+              <Fragment key={index}>
+                {index > 0 && (
+                  <Primitive.span aria-hidden className={classNames.separator}>
+                    {separator}
+                  </Primitive.span>
+                )}
+                {child}
+              </Fragment>
+            ))}
         </Primitive.span>
       </PropsProvider>
     );
