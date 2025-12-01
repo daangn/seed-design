@@ -36,9 +36,6 @@
             "strokeColor": {
               "type": "color"
             },
-            "shadow": {
-              "type": "shadow"
-            },
             "transformDuration": {
               "type": "duration"
             },
@@ -92,30 +89,6 @@
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
-                },
-                "shadow": {
-                  "type": "shadow",
-                  "value": [
-                    {
-                      "color": "#0000000d",
-                      "offsetX": {
-                        "value": 0,
-                        "unit": "px"
-                      },
-                      "offsetY": {
-                        "value": 1,
-                        "unit": "px"
-                      },
-                      "blur": {
-                        "value": 6,
-                        "unit": "px"
-                      },
-                      "spread": {
-                        "value": 0,
-                        "unit": "px"
-                      }
-                    }
-                  ]
                 },
                 "transformDuration": {
                   "type": "duration",

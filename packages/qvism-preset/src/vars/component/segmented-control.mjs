@@ -11,7 +11,6 @@ export const vars = {
         "cornerRadius": "var(--seed-radius-full)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "shadow": "0px 1px 6px 0px #0000000d",
         "transformDuration": "var(--seed-duration-d4)",
         "transformTimingFunction": "var(--seed-timing-function-easing)"
       }
