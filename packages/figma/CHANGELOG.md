@@ -1,5 +1,16 @@
 # @seed-design/figma
 
+## 1.1.10
+
+### Patch Changes
+
+- 23e9246: Figma 엔티티 및 Codegen을 업데이트합니다. (신규 아이콘 및 `ResultSection` Codegen 지원)
+- Updated dependencies [db5de74]
+- Updated dependencies [70d11b8]
+- Updated dependencies [c03a3dd]
+- Updated dependencies [a12e49b]
+  - @seed-design/css@1.1.10
+
 ## 1.1.9
 
 ### Patch Changes
