@@ -1,5 +1,4 @@
 ---
-"@seed-design/codemod": patch
 "@seed-design/figma": patch
 ---
 

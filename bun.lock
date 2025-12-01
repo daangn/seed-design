@@ -331,8 +331,8 @@
         "typescript": "^5.9.2",
       },
       "optionalDependencies": {
-        "@karrotmarket/react-monochrome-icon": "^1.8.0",
-        "@karrotmarket/react-multicolor-icon": "^1.5.0",
+        "@karrotmarket/react-monochrome-icon": "^1.0.0",
+        "@karrotmarket/react-multicolor-icon": "^1.0.0",
       },
     },
     "packages/css": {
@@ -463,6 +463,7 @@
         "vite-plugin-dts": "^4.5.4",
       },
       "peerDependencies": {
+        "@seed-design/css": ">=1.1.0",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
