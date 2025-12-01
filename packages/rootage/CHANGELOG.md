@@ -1,5 +1,12 @@
 # @seed-design/rootage-artifacts
 
+## 1.1.5
+
+### Patch Changes
+
+- db5de74: PageBanner에 tone="magic" 스타일을 추가합니다.
+- 70d11b8: Segmented Control의 스타일을 업데이트합니다: Indicator에서 shadow 정의를 제거합니다.
+
 ## 1.1.4
 
 ### Patch Changes
