@@ -27,7 +27,7 @@ export interface RemarkFigmaImageOptions {
  * Remark plugin that transforms Figma node IDs into image URLs at build time.
  *
  * Transforms:
- * - `<FigmaImage id="..." alt="..." />` → `<img src="..." alt="..." />`
+ * - `<FigmaImage id="..." alt="..." />` → `<ImageZoom src="..." alt="..." />`
  * - `<DoImage figmaId="..." />` → `<DoImage src="..." />`
  * - `<DontImage figmaId="..." />` → `<DontImage src="..." />`
  */
@@ -112,7 +112,7 @@ function transformNode(node: MdxJsxFlowElement, imageUrl: string): void {
       throw new Error("[remark-figma-image] FigmaImage requires an 'alt' prop for accessibility");
     }
 
-    // Transform <FigmaImage id="..." /> to <ImageZoom src="..." width={773} height={396} />
+    // Transform <FigmaImage id="..." /> to <ImageZoom src="..." width={...} height={...} />
     node.name = "ImageZoom";
     node.attributes = node.attributes.filter(
       (attr) => !(attr.type === "mdxJsxAttribute" && attr.name === "id"),
