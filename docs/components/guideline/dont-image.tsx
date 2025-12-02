@@ -6,10 +6,11 @@ import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 interface DontImageProps {
   src: string;
   alt: string;
+  body: string;
   className?: string;
 }
 
-export function DontImage({ src, alt, className }: DontImageProps) {
+export function DontImage({ src, alt, body, className }: DontImageProps) {
   return (
     <figure className={clsx("flex flex-col", className)}>
       <ImageZoom
@@ -28,7 +29,7 @@ export function DontImage({ src, alt, className }: DontImageProps) {
           size={16}
         />
         <span className="text-fg-critical-contrast text-sm font-bold shrink-0">Don&apos;t</span>
-        <span className="text-fg-critical-contrast text-sm">{alt}</span>
+        <span className="text-fg-critical-contrast text-sm">{body}</span>
       </div>
     </figure>
   );

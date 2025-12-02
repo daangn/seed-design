@@ -6,10 +6,11 @@ import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 interface DoImageProps {
   src: string;
   alt: string;
+  body: string;
   className?: string;
 }
 
-export function DoImage({ src, alt, className }: DoImageProps) {
+export function DoImage({ src, alt, body, className }: DoImageProps) {
   return (
     <figure className={clsx("flex flex-col", className)}>
       <ImageZoom
@@ -28,7 +29,7 @@ export function DoImage({ src, alt, className }: DoImageProps) {
           size={16}
         />
         <span className="text-fg-positive-contrast text-sm font-bold shrink-0">Do</span>
-        <span className="text-fg-positive-contrast text-sm">{alt}</span>
+        <span className="text-fg-positive-contrast text-sm">{body}</span>
       </div>
     </figure>
   );

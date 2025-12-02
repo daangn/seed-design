@@ -7,36 +7,36 @@ description: 사용자가 특정 액션을 실행할 수 있도록 도와주는 
 
 ## Anatomy
 
-![Anatomy Image](/docs/components/action-button/anatomy.webp)
+<FigmaImage id="46072:20760" alt="Action Button의 Anatomy 이미지" />
 
 ## Props
 
-| 속성        | 값                                                                                     | 기본값    |
-| ----------- | -------------------------------------------------------------------------------------- | --------- |
-| size        | xsmall, small, medium, large                                                           | medium    |
+| 속성        | 값                                                                                       | 기본값    |
+| ----------- | ---------------------------------------------------------------------------------------- | --------- |
+| size        | xsmall, small, medium, large                                                             | medium    |
 | variant     | brand solid, neutral solid, neutral weak, critical solid, brand outline, neutral outline |           |
-| layout      | with text, icon only                                                                   | with text |
-| disabled    | true, false                                                                            | false     |
-| loading     | true, false                                                                            | false     |
-| prefix icon | icon                                                                                   |           |
-| suffix icon | icon                                                                                   |           |
+| layout      | with text, icon only                                                                     | with text |
+| disabled    | true, false                                                                              | false     |
+| loading     | true, false                                                                              | false     |
+| prefix icon | icon                                                                                     |           |
+| suffix icon | icon                                                                                     |           |
 
 ### Size
 
-![Size](/docs/components/action-button/props-size.webp)
+![Action Button이 지원하는 Size 나열](/docs/components/action-button/props-size.webp)
 
 - Action Button은 XSmall, Small, Medium, Large 네 가지 사이즈로 제공됩니다.
 - Small 과 Medium은 화면 중앙에서 범용적으로 사용되며, large는 주로 CTA 역할로 사용됩니다. XSmall은 작은 공간에서 효율적으로 사용할 수 있는 Pill 형태로 제공됩니다.
 
 ### Variant
 
-![Variant](/docs/components/action-button/props-variant.webp)
+![Action Button이 지원하는 Variant 나열](/docs/components/action-button/props-variant.webp)
 
 - Action Button은 Neutral Solid, Brand Solid, Neutral Weak, Brand Outline, Neutral Outline, Critical Solid 총 6가지 Variant로 구성됩니다.
 
 ### Layout
 
-![Layout](/docs/components/action-button/props-layout.webp)
+![Action Button이 지원하는 Layout 나열](/docs/components/action-button/props-layout.webp)
 
 - Action Button은 라벨과 아이콘의 조합으로 구성되며, 아이콘은 버튼의 목적을 시각적으로 강조하거나 동작을 보조합니다.
 - 라벨 앞, 뒤 또는 아이콘만으로 구성할 수 있어 상황에 맞게 유연하게 활용할 수 있습니다. 다만, 라벨 가독성을 해치지않도록 아이콘은 제한적으로 사용하는 것을 권장합니다.
@@ -44,13 +44,13 @@ description: 사용자가 특정 액션을 실행할 수 있도록 도와주는 
 
 ### State
 
-![State](/docs/components/action-button/props-state.webp)
+![Action Button이 가질 수 있는 상태 나열](/docs/components/action-button/props-state.webp)
 
 - Action Button은 Enabled, Pressed, Loading, Disabled 상태를 가집니다.
 
 ### Width
 
-![Width](/docs/components/action-button/props-width.webp)
+![Action Button의 두 가지 너비 정책](/docs/components/action-button/props-width.webp)
 
 - Action Button은 컨테이너의 전체 너비를 채우거나 콘텐츠에 맞게 조정할 수 있습니다. 각 Size마다 기본 최소 너비가 설정되어 있으며, 필요에 따라 최소 너비와 최대 너비를 지정할 수 있습니다.
 
@@ -58,25 +58,24 @@ description: 사용자가 특정 액션을 실행할 수 있도록 도와주는 
 
 ### Hierarchy
 
-![Action Button Hierarchy](/docs/components/action-button/guidelines-hierarchy-1.webp)
+![High emphasis: Brand Solid, Neutral Solid, Critical Solid. Medium emphasis: Neutral Weak. Low emphasis: Brand Outline, Neutral Outline, Ghost](/docs/components/action-button/guidelines-hierarchy-1.webp)
 
-
-| Emphasis   | Variant                        | 화면 내 개수             | Usage    |
-| ---------- | -----------------------------  | ----------------------------- | --------- |
-| High       |  Brand Solid, Neutral Solid, Critical Solid   | 1        |  가장 중요한 역할의 CTA에 사용            |
-| Medium     |  Neutral Weak, Brand Outline, Neutral Outline | 여러 개        |        대부분의 액션에 사용, High emphasis 버튼과 조합하여 사용      |
-| Low        |  Ghost                                | 여러 개        |     중요도가 낮은 보조 액션을 표현할 때 사용, Brand Outline, Neutral Outline을 조합하여 사용         |
+| Emphasis | Variant                                    | 화면 내 개수 | 사용 예                                                                                  |
+| -------- | ------------------------------------------ | ------------ | ---------------------------------------------------------------------------------------- |
+| High     | Brand Solid, Neutral Solid, Critical Solid | 1            | 가장 중요한 역할의 CTA에 사용                                                            |
+| Medium   | Neutral Weak                               | 여러 개      | 대부분의 액션에 사용, High emphasis 버튼과 조합하여 사용                                 |
+| Low      | Brand Outline, Neutral Outline, Ghost      | 여러 개      | 중요도가 낮은 보조 액션을 표현할 때 사용, Brand Outline, Neutral Outline을 조합하여 사용 |
 
 - Action Button의 시각적 주목도는 배경색 대비에 따라 달라집니다.
 - 화면에서 강조하려는 정도에 따라 적절한 Variant를 선택해서 사용해주세요.
 
 ### Variant Usage
 
-![Variant Usage](/docs/components/action-button/guidelines-variant-usage-1.webp)
+![Brand Solid 및 Neutral Solid 사용 예](/docs/components/action-button/guidelines-variant-usage-1.webp)
 
-![Variant Usage](/docs/components/action-button/guidelines-variant-usage-2.webp)
+![Critical Solid 및 Neutral Weak 사용 예](/docs/components/action-button/guidelines-variant-usage-2.webp)
 
-![Variant Usage](/docs/components/action-button/guidelines-variant-usage-3.webp)
+![Neutral Outline 및 Brand Outline 사용 예](/docs/components/action-button/guidelines-variant-usage-3.webp)
 
 화면 내 중요도에 따라 적절한 Variant를 선택해서 사용합니다.
 
@@ -89,9 +88,13 @@ description: 사용자가 특정 액션을 실행할 수 있도록 도와주는 
 
 ### Brand Color Usage
 
-![Brand Color Usage](/docs/components/action-button/guidelines-brand-color-usage-1.webp)
+![Brand Variant 사용 예](/docs/components/action-button/guidelines-brand-color-usage-1.webp)
 
-<DontImage src="/docs/components/action-button/guidelines-brand-color-dont-usage-1.webp" alt="무분별하게 Brand 컬러를 사용하지 않습니다." />
+<DontImage
+  src="/docs/components/action-button/guidelines-brand-color-dont-usage-1.webp"
+  alt="Brand 컬러를 무분별하게 사용하는 예시 이미지"
+  body="무분별하게 Brand 컬러를 사용하지 않습니다."
+/>
 
 - Brand 컬러는 브랜드의 정체성과 가치를 전달하는 중요 자산으로, 로고, 대표 버튼, 핵심 메시지 등 브랜드 상징 요소에 집중 사용해야 합니다.
 - Brand 컬러를 과다 사용하면 의미와 강조도가 분산됩니다. '이웃 간의 연결' 의미를 전달하는 곳에 사용하세요.
@@ -101,43 +104,55 @@ description: 사용자가 특정 액션을 실행할 수 있도록 도와주는 
 
 #### Solid Combination
 
-![Solid Combination](/docs/components/action-button/guidelines-multiple-variant-combination-usage-1.webp)
+![Solid Variant 사용 예](/docs/components/action-button/guidelines-multiple-variant-combination-usage-1.webp)
 
 Neutral Weak와 Neutral Solid 또는 Brand Solid 버튼을 조합하면 액션의 위계를 명확하게 표현할 수 있습니다. 이 조합은 시각적 부담을 줄이면서도 직관적인 경험을 제공하며, 사용자가 의사결정을 빠르고 쉽게 내릴 수 있도록 돕습니다.
 
 #### Outline Combination
 
-![Outline Combination](/docs/components/action-button/guidelines-multiple-variant-combination-usage-2.webp)
+![Outline Variant 사용 예](/docs/components/action-button/guidelines-multiple-variant-combination-usage-2.webp)
 
 Neutral Outline과 Brand Outline은 강조도가 낮은 서브 액션을 표현하는 데 적합합니다. 두 버튼을 나란히 조합하면 위계를 명확히 전달할 수 있습니다. 한 화면에 버튼이 여러 번 나타날 때 사용을 권장합니다.
 
 #### Layout
 
-![Layout](/docs/components/action-button/guidelines-multiple-layout-usage-1.webp)
+![너비가 다른 두 버튼 사용 예](/docs/components/action-button/guidelines-multiple-layout-usage-1.webp)
 
 - 2개 이상의 버튼을 조합하여 사용하는 경우 상황에 따라 적절한 레이아웃을 구성해야 합니다.
 - Solid 조합에서 Neutral Weak가 초기화, 닫기와 같이 Dismiss의 의미를 가질 경우 3:7 비율을 활용해 액션 위계를 명확히 표현하는 것을 권장합니다.
 - Neutral Weak처럼 강조 위계가 낮은 Variant는 비슷한 위계의 액션 두 개를 나란히 사용할 수 있습니다. 액션이 두 개를 초과할 경우, Icon Only 버튼을 활용해 사용자가 추가 액션을 확인할 수 있도록 합니다.
 
 <Grid>
-  <DoImage src="/docs/components/action-button/guidelines-multiple-layout-do-usage-1.webp" alt="Neutral Weak 버튼을 나란히 사용할 수 있습니다." />
-  <DontImage src="/docs/components/action-button/guidelines-multiple-layout-dont-usage-1.webp" alt="버튼을 4개 이상 나란히 사용하지 않습니다." />
+  <DoImage
+    src="/docs/components/action-button/guidelines-multiple-layout-do-usage-1.webp"
+    body="Neutral Weak 버튼을 나란히 사용할 수 있습니다."
+  />
+  <DontImage
+    src="/docs/components/action-button/guidelines-multiple-layout-dont-usage-1.webp"
+    body="버튼을 4개 이상 나란히 사용하지 않습니다."
+  />
 </Grid>
 
 ### Long Label
 
-![Long Label](/docs/components/action-button/guidelines-long-label-usage-1.webp)
+![버튼의 레이블이 길어지는 경우 레이아웃이 wrap된 모습](/docs/components/action-button/guidelines-long-label-usage-1.webp)
 
 - 긴 Label이 필요하거나 번역했을 때 의도하지 않게 길어지는 경우, 폰트 스케일링으로 큰 텍스트를 사용하는 경우 Action Button 레이아웃이 Overflow될 수 있습니다.
 - 이 경우 구현체에서 [Responsive Pair](/react/components/alert-dialog#responsive-wrapping) 유틸리티를 사용하여 설정된 로직에 따라서 자동으로 레이아웃을 전환할 수 있습니다.
 
 ### With Icon
 
-![With Icon](/docs/components/action-button/guidelines-with-icon-usage-1.webp)
+![아이콘과 함께 사용한 버튼](/docs/components/action-button/guidelines-with-icon-usage-1.webp)
 
 <Grid>
-  <DontImage src="/docs/components/action-button/guidelines-with-icon-dont-usage-1.webp" alt="아이콘을 무분별하게 사용하지 않습니다." />
-  <DontImage src="/docs/components/action-button/guidelines-with-icon-dont-usage-2.webp" alt="라벨의 앞과 뒤에 아이콘을 동시에 표시할 수 없습니다." />
+  <DontImage
+    src="/docs/components/action-button/guidelines-with-icon-dont-usage-1.webp"
+    body="아이콘을 무분별하게 사용하지 않습니다."
+  />
+  <DontImage
+    src="/docs/components/action-button/guidelines-with-icon-dont-usage-2.webp"
+    body="라벨의 앞과 뒤에 아이콘을 동시에 표시할 수 없습니다."
+  />
 </Grid>
 
 - 아이콘은 버튼의 동작을 시각적으로 표현하고 강조하는 데 도움을 줍니다.
@@ -148,21 +163,21 @@ Neutral Outline과 Brand Outline은 강조도가 낮은 서브 액션을 표현�
 
 ### Action Button vs Chip
 
-![Action Button vs Chip](/docs/components/action-button/comparision-action-button-vs-chip-1.webp)
+![Action Button과 Chip](/docs/components/action-button/comparision-action-button-vs-chip-1.webp)
 
 Action Button과 Chip은 유사한 형태를 가진 컴포넌트이지만, 사용 목적과 제공하는 기능에 차이가 있습니다.
 
-|    | Action Button                        | Chip             | 
-| ---------- | -----------------------------  | ----------------------------- |
-| 목적       |   액션 실행   |  정보 표현 + 선택 표현       | 
-| 예시       |  ‘완료’, ‘제출’, ‘다음’, ‘삭제’    |    필터 (‘서초4동 외 34'), 옵션 선택 (‘0~6개월')     | 
-| 표현       | Label만 봐도 액션이 예상됨     |    선택하거나 활성화된 내용을 표시     | 
-| 목적       |   어떠한 행동을 하는지 인지하는 것이 중요   |  현재 어떤 조건/정보가 활성 상태인지 확인하는 게 중요       | 
-| 패턴       | 단일로도 사용 가능     |    2개 이상 그룹으로 사용 권장     | 
+|      | Action Button                           | Chip                                                 |
+| ---- | --------------------------------------- | ---------------------------------------------------- |
+| 목적 | 액션 실행                               | 정보 표현 + 선택 표현                                |
+| 예시 | ‘완료’, ‘제출’, ‘다음’, ‘삭제’          | 필터 (‘서초4동 외 34'), 옵션 선택 (‘0~6개월')        |
+| 표현 | Label만 봐도 액션이 예상됨              | 선택하거나 활성화된 내용을 표시                      |
+| 목적 | 어떠한 행동을 하는지 인지하는 것이 중요 | 현재 어떤 조건/정보가 활성 상태인지 확인하는 게 중요 |
+| 패턴 | 단일로도 사용 가능                      | 2개 이상 그룹으로 사용 권장                          |
 
 ## Differences from V2
 
-![Differences from V2](/docs/components/action-button/differences-with-v2-1.webp)
+![V2 Box Button의 Variant 나열과 V3 Action Button의 Variant 나열](/docs/components/action-button/differences-with-v2-1.webp)
 
 - Variants: Neutral Solid, Brand Outline, Neutral Outline 타입이 추가되고 V2의 Primary Low가 삭제됐습니다.
 - Shape: 더 둥근 형태로 Radius 값이 변경되어, 부드러운 인상으로 개선됐습니다.
