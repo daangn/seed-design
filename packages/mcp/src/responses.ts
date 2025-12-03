@@ -1,23 +1,10 @@
+import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { formatError } from "./logger";
-
-/**
- * Helper type for a tool response content item
- */
-export type ContentItem =
-  | { type: "text"; text: string }
-  | { type: "image"; data: string; mimeType: string };
-
-/**
- * Helper type for a tool response
- */
-export type ToolResponse = {
-  content: ContentItem[];
-};
 
 /**
  * Format an object response
  */
-export function formatObjectResponse(result: unknown): ToolResponse {
+export function formatObjectResponse(result: unknown): CallToolResult {
   return {
     content: [
       {
@@ -31,7 +18,7 @@ export function formatObjectResponse(result: unknown): ToolResponse {
 /**
  * Format a text response
  */
-export function formatTextResponse(text: string): ToolResponse {
+export function formatTextResponse(text: string): CallToolResult {
   return {
     content: [
       {
@@ -45,7 +32,7 @@ export function formatTextResponse(text: string): ToolResponse {
 /**
  * Format an image response
  */
-export function formatImageResponse(imageData: string, mimeType = "image/png"): ToolResponse {
+export function formatImageResponse(imageData: string, mimeType = "image/png"): CallToolResult {
   return {
     content: [
       {
@@ -60,7 +47,7 @@ export function formatImageResponse(imageData: string, mimeType = "image/png"): 
 /**
  * Format an error response
  */
-export function formatErrorResponse(toolName: string, error: unknown): ToolResponse {
+export function formatErrorResponse(toolName: string, error: unknown): CallToolResult {
   return {
     content: [
       {
@@ -74,7 +61,7 @@ export function formatErrorResponse(toolName: string, error: unknown): ToolRespo
 /**
  * Format a progress response with initial message
  */
-export function formatProgressResponse(initialMessage: string, result: unknown): ToolResponse {
+export function formatProgressResponse(initialMessage: string, result: unknown): CallToolResult {
   return {
     content: [
       {
