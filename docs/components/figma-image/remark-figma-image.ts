@@ -52,12 +52,12 @@ export function remarkFigmaImage({
     if (figmaNodes.size === 0) return;
 
     const client = createFigmaClient(accessToken);
-    const imageUrls = await fetchFigmaImageUrls(
+    const imageUrls = await fetchFigmaImageUrls({
       client,
       fileKey,
-      Array.from(figmaNodes.keys()),
-      fetchUrlsOptions,
-    );
+      nodeIds: Array.from(figmaNodes.keys()),
+      options: fetchUrlsOptions,
+    });
 
     for (const [figmaId, nodes] of figmaNodes) {
       const url = imageUrls.get(figmaId);

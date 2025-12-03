@@ -1,32 +1,60 @@
 import { Api as Figma } from "figma-api";
 import * as FigmaRestAPI from "@figma/rest-api-spec";
+import { FlatCache } from "flat-cache";
+import findCacheDirectory from "find-cache-directory";
 
-// Retry logic for rate limits (429)
-const maxRetries = 3;
+const LOG_PREFIX = "[remark-figma-image]";
+const MAX_RETRIES = 3;
+const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 
-// In-memory cache to avoid hitting rate limits during dev server hot reloads
-// Persists for the duration of the dev server session
-const imageUrlCache = new Map<string, string>();
+const isCacheDisabled = process.env.FIGMA_CACHE_DISABLED === "1";
 
-function getCacheKey(fileKey: string, nodeId: string): string {
-  return `${fileKey}:${nodeId}`;
-}
+// will be node_modules/.cache/remark-figma-image
+const cacheDir = findCacheDirectory({ name: "remark-figma-image" });
+
+if (!cacheDir) throw new Error("Could not determine cache directory");
+
+const imageUrlCache = new FlatCache({
+  cacheDir,
+  cacheId: "urls",
+  ttl: CACHE_TTL_MS,
+});
+
+// imageUrlCache.load("urls", cacheDir);
+
+// Figma API
 
 export type FetchFigmaImageUrlsOptions = Omit<FigmaRestAPI.GetImagesQueryParams, "ids" | "version">;
 
-export async function fetchFigmaImageUrls(
-  client: Figma,
-  fileKey: string,
-  nodeIds: string[],
-  options: FetchFigmaImageUrlsOptions = {},
-): Promise<Map<string, string>> {
+export function createFigmaClient(accessToken: string): Figma {
+  if (!accessToken) throw new Error("FIGMA_PERSONAL_ACCESS_TOKEN is required");
+  return new Figma({ personalAccessToken: accessToken });
+}
+
+export async function fetchFigmaImageUrls({
+  client,
+  fileKey,
+  nodeIds,
+  options = {},
+}: {
+  client: Figma;
+  fileKey: string;
+  nodeIds: string[];
+  options?: FetchFigmaImageUrlsOptions;
+}): Promise<Map<string, string>> {
   if (nodeIds.length === 0) return new Map();
 
   const result = new Map<string, string>();
   const uncachedIds: string[] = [];
 
+  // nextjs calls fetchFigmaImageUrls multiple times in parallel even with a single FigmaImage
+  // so we load the cache here to ensure we always have the latest data
+  imageUrlCache.load("urls", cacheDir);
+
   for (const nodeId of nodeIds) {
-    const cached = imageUrlCache.get(getCacheKey(fileKey, nodeId));
+    const cached = isCacheDisabled
+      ? undefined
+      : imageUrlCache.get<string>(getCacheKey(fileKey, nodeId));
 
     if (cached) {
       result.set(nodeId, cached);
@@ -35,20 +63,21 @@ export async function fetchFigmaImageUrls(
     }
   }
 
+  if (result.size > 0) {
+    console.log(`${LOG_PREFIX} Cache hit for ${result.size} image(s)`);
+  }
+
   if (uncachedIds.length === 0) {
-    console.log(`[remark-figma-image] Cache hit for ${nodeIds.length} image(s)`);
     return result;
   }
 
   console.log(
-    result.size > 0
-      ? `[remark-figma-image] Cache hit: ${result.size}, fetching: ${uncachedIds.length}`
-      : `[remark-figma-image] Fetching ${uncachedIds.length} image(s) from Figma API...`,
+    `${LOG_PREFIX} Fetching ${uncachedIds.length} image(s) from Figma API... (options: ${JSON.stringify(options)})`,
   );
 
   let lastError: Error | null = null;
 
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     try {
       const response = await client.getImages(
         { file_key: fileKey },
@@ -60,40 +89,46 @@ export async function fetchFigmaImageUrls(
       const images = response.images ?? {};
 
       for (const [nodeId, url] of Object.entries(images)) {
-        if (url) {
-          result.set(nodeId, url);
+        if (!url) continue;
 
-          imageUrlCache.set(getCacheKey(fileKey, nodeId), url);
-        }
+        result.set(nodeId, url);
+        imageUrlCache.set(getCacheKey(fileKey, nodeId), url);
       }
+
+      imageUrlCache.save();
 
       return result;
     } catch (error) {
-      // TODO: check if this is how figma gives rate limit errors
-      if (error instanceof Error && error.message.includes("429")) {
-        lastError = error;
+      lastError = error instanceof Error ? error : new Error(String(error));
 
-        const waitTime = 2 ** attempt * 3000; // 3s, 6s, 12s
+      if (!isRetryableError(error)) throw error;
 
-        console.log(`[remark-figma-image] Rate limited, waiting ${waitTime}ms before retry...`);
+      const waitTime = 2 ** attempt * 3000; // 3s, 6s, 12s
 
-        await delay(waitTime);
+      console.log(
+        `${LOG_PREFIX} ${lastError.message}, waiting ${waitTime}ms (attempt ${attempt + 1}/${MAX_RETRIES})...`,
+      );
 
-        continue;
-      }
-
-      // Non-rate-limit errors: throw immediately
-      throw error;
+      await delay(waitTime);
     }
   }
 
   throw lastError ?? new Error("Failed to fetch Figma images after retries");
 }
 
-export function createFigmaClient(accessToken: string): Figma {
-  if (!accessToken) throw new Error("FIGMA_PERSONAL_ACCESS_TOKEN is required");
+// Helpers
 
-  return new Figma({ personalAccessToken: accessToken });
+function getCacheKey(fileKey: string, nodeId: string): string {
+  return `${fileKey}:${nodeId}`;
 }
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetryableError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+
+  // TODO: Improve error detection
+  return false;
+}
