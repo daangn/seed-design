@@ -1,5 +1,11 @@
 # @seed-design/stackflow
 
+## 1.1.11
+
+### Patch Changes
+
+- ea488c5: @seed-design/stackflow: @stackflow/react-ui-core를 peerDependencies에서 dependencies로 이동합니다.
+
 ## 1.1.9
 
 ### Patch Changes
