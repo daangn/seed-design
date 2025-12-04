@@ -3,9 +3,10 @@ import * as FigmaRestAPI from "@figma/rest-api-spec";
 import { FlatCache } from "flat-cache";
 import findCacheDirectory from "find-cache-directory";
 
-const LOG_PREFIX = "[remark-figma-image]";
+const LOG_PREFIX = "\n[remark-figma-image]";
 const MAX_RETRIES = 3;
 const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
+const CACHE_ID = "urls";
 
 const isCacheDisabled = process.env.FIGMA_CACHE_DISABLED === "1";
 
@@ -16,11 +17,11 @@ if (!cacheDir) throw new Error("Could not determine cache directory");
 
 const imageUrlCache = new FlatCache({
   cacheDir,
-  cacheId: "urls",
+  cacheId: CACHE_ID,
   ttl: CACHE_TTL_MS,
 });
 
-// imageUrlCache.load("urls", cacheDir);
+// imageUrlCache.load(CACHE_ID, cacheDir);
 
 // Figma API
 
@@ -49,7 +50,7 @@ export async function fetchFigmaImageUrls({
 
   // nextjs calls fetchFigmaImageUrls multiple times in parallel even with a single FigmaImage
   // so we load the cache here to ensure we always have the latest data
-  imageUrlCache.load("urls", cacheDir);
+  imageUrlCache.load(CACHE_ID, cacheDir);
 
   for (const nodeId of nodeIds) {
     const cached = isCacheDisabled

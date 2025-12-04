@@ -11,6 +11,7 @@ export const docs = defineDocs({
     async: true,
     schema: frontmatterSchema.extend({
       deprecated: z.string().optional(),
+      coverImageFigmaId: z.string().optional(),
     }),
   },
 });

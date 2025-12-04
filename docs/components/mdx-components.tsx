@@ -79,4 +79,6 @@ export const mdxComponents: MDXComponents = {
   DontImage,
 
   ImageZoom,
+
+  FigmaImage: () => null,
 };

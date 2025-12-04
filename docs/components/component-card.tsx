@@ -9,10 +9,10 @@ interface ComponentCardProps {
   title: string;
   description?: string;
   href: string;
-  imagePath: string;
+  coverImageSrc?: string;
 }
 
-export function ComponentCard({ title, description, href, imagePath }: ComponentCardProps) {
+export function ComponentCard({ title, description, href, coverImageSrc }: ComponentCardProps) {
   const [error, setError] = useState<SyntheticEvent<HTMLImageElement, Event> | null>(null);
 
   return (
@@ -21,11 +21,11 @@ export function ComponentCard({ title, description, href, imagePath }: Component
       className="group flex flex-col overflow-hidden rounded-lg border border-fd-border bg-fd-card transition-colors hover:bg-fd-accent/50"
     >
       <div className="relative aspect-4/3 w-full overflow-hidden bg-fd-muted flex items-center justify-center">
-        {error ? (
+        {!coverImageSrc || error ? (
           <IconPictureFill className="h-10 w-10 text-fd-muted-foreground/20 group-hover:scale-105 transition-transform" />
         ) : (
           <Image
-            src={imagePath}
+            src={coverImageSrc}
             alt={`${title} anatomy`}
             onError={setError}
             fill
