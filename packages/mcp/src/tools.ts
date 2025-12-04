@@ -302,8 +302,8 @@ export function registerTools(
           format: format || "PNG",
           scale: scale || 1,
         });
-        const typedResult = result as { imageData: string; mimeType: string };
-        return formatImageResponse(typedResult.imageData, typedResult.mimeType || "image/png");
+        const typedResult = result as { base64: string; mimeType: string };
+        return formatImageResponse(typedResult.base64, typedResult.mimeType || "image/png");
       } catch (error) {
         return formatErrorResponse("export_node_as_image", error);
       }
@@ -346,9 +346,9 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     async ({ nodeId, x, y }) => {
       try {
         const result = await sendCommandToFigma("clone_node", { nodeId, x, y });
-        const typedResult = result as { name: string; id: string };
+        const typedResult = result as { id: string; originalId: string; x?: number; y?: number; success: boolean };
         return formatTextResponse(
-          `Cloned node "${typedResult.name}" with new ID: ${typedResult.id}${x !== undefined && y !== undefined ? ` at position (${x}, ${y})` : ""}`,
+          `Cloned node with new ID: ${typedResult.id}${x !== undefined && y !== undefined ? ` at position (${x}, ${y})` : ""}`,
         );
       } catch (error) {
         return formatErrorResponse("clone_node", error);
