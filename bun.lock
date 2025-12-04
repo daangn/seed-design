@@ -56,7 +56,7 @@
         "@seed-design/react": "1.1.10",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
-        "@seed-design/stackflow": "1.1.9",
+        "@seed-design/stackflow": "1.1.11",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
@@ -385,7 +385,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.10",
+      "version": "1.1.11",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
@@ -881,7 +881,7 @@
     },
     "packages/stackflow": {
       "name": "@seed-design/stackflow",
-      "version": "1.1.9",
+      "version": "1.1.11",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
