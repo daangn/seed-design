@@ -17,7 +17,7 @@ const AlertDialogWrap = () => {
     // You can set z-index dialog with "--layer-index" custom property. useful for stackflow integration.
     <AlertDialogRoot>
       <AlertDialogTrigger asChild>
-        <ActionButton>열기</ActionButton>
+        <ActionButton variant="neutralSolid">열기</ActionButton>
       </AlertDialogTrigger>
       <AlertDialogContent layerIndex={50}>
         <AlertDialogHeader>

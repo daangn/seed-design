@@ -16,7 +16,9 @@ const AlertDialogControlled = () => {
 
   return (
     <>
-      <ActionButton onClick={() => setOpen(true)}>열기</ActionButton>
+      <ActionButton variant="neutralSolid" onClick={() => setOpen(true)}>
+        열기
+      </ActionButton>
       <AlertDialogRoot open={open} onOpenChange={setOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>

@@ -15,7 +15,7 @@ const AlertDialogSingle = () => {
   return (
     <AlertDialogRoot>
       <AlertDialogTrigger asChild>
-        <ActionButton>열기</ActionButton>
+        <ActionButton variant="neutralSolid">열기</ActionButton>
       </AlertDialogTrigger>
       <AlertDialogContent layerIndex={50}>
         <AlertDialogHeader>
