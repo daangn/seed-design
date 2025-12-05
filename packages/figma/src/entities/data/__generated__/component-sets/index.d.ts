@@ -6,9 +6,7 @@ export declare const templateBannerDetach: {
       "type": "VARIANT",
       "variantOptions": [
         "Title + Description",
-        "Description + Title",
-        "Layout3",
-        "Layout4"
+        "Description + Title"
       ]
     },
     "Rounded": {
@@ -1261,7 +1259,8 @@ export declare const pageBanner: {
         "Informative",
         "Positive",
         "Warning",
-        "Critical"
+        "Critical",
+        "Magic"
       ]
     },
     "Variant": {
