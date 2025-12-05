@@ -29,10 +29,7 @@ description: Skeleton은 콘텐츠가 로딩되는 동안 화면의 윤곽을 �
 
 ### Radius
 
-<FigmaImage
-  id=""
-  alt="Skeleton의 Radius Property - 0, 8, 16, 9999"
-/>
+<FigmaImage id="" alt="Skeleton의 Radius Property - 0, 8, 16, 9999" />
 
 스켈레톤의 Radius 값은 표현하려는 콘텐츠의 형태에 따라 0, 8, 16, 9999를 사용합니다.
 
@@ -42,19 +39,13 @@ description: Skeleton은 콘텐츠가 로딩되는 동안 화면의 윤곽을 �
 
 ### Tone
 
-<FigmaImage
-  id=""
-  alt="Skeleton의 Tone Property - Neutral, Magic"
-/>
+<FigmaImage id="" alt="Skeleton의 Tone Property - Neutral, Magic" />
 
 일반 콘텐츠는 **neutral**, AI 활용 콘텐츠는 **magic** 스타일을 사용합니다.
 
 ### Animation
 
-<FigmaImage
-  id=""
-  alt="Skeleton의 Animation - Shimmer 애니메이션"
-/>
+<FigmaImage id="" alt="Skeleton의 Animation - Shimmer 애니메이션" />
 
 스켈레톤은 로딩 중임을 나타내기 위해 시머(Shimmer) 애니메이션을 기본으로 제공합니다.
 
@@ -64,10 +55,7 @@ description: Skeleton은 콘텐츠가 로딩되는 동안 화면의 윤곽을 �
 
 ### 스켈레톤의 사용
 
-<FigmaImage
-  id=""
-  alt="Skeleton 사용 예시 - 검색 화면과 상세 화면에서의 활용"
-/>
+<FigmaImage id="" alt="Skeleton 사용 예시 - 검색 화면과 상세 화면에서의 활용" />
 
 Skeleton은 주로 목록이나 카드 뷰, 리스트 뷰와 같은 반복되는 데이터 기반의 화면 또는 곧 나타날 콘텐츠의 구조를 미리 보여줄 수 있는 페이지에서 사용됩니다.
 
@@ -75,10 +63,7 @@ Skeleton은 주로 목록이나 카드 뷰, 리스트 뷰와 같은 반복되는
 
 ### 상황에 맞는 Tone 사용하기
 
-<FigmaImage
-  id=""
-  alt="Tone 사용 예시 - Neutral과 Magic 스타일"
-/>
+<FigmaImage id="" alt="Tone 사용 예시 - Neutral과 Magic 스타일" />
 
 데이터 종류에 따라 스켈레톤이 다른 색상으로 표시됩니다. 맥락에 알맞은 Tone을 선택하여 사용해주세요.
 
@@ -89,10 +74,7 @@ Skeleton은 주로 목록이나 카드 뷰, 리스트 뷰와 같은 반복되는
 
 ### Skeleton VS Progress Circle
 
-<FigmaImage
-  id=""
-  alt="Skeleton과 Progress Circle 비교"
-/>
+<FigmaImage id="" alt="Skeleton과 Progress Circle 비교" />
 
 Skeleton과 Progress Circle은 콘텐츠 로딩 상태를 보여준다는 공통점 때문에 자주 혼동될 수 있습니다.
 
@@ -100,18 +82,15 @@ Skeleton은 무엇이 로딩될지 콘텐츠의 구조를 보여주는 반면, �
 
 #### 비교표
 
-|  | **Skeleton** | **Progress Circle (Indeterminate)** |
-| --- | --- | --- |
-| **핵심 용도** | 콘텐츠의 구조를 미리 볼 수 있음 | 콘텐츠의 형태와 상관 없이 시스템이 작동 중이라는 사실을 알려줌 |
-| **위치** | 콘텐츠가 실제로 표시될 영역에 표시 | 특정 영역(특정 컴포넌트)의 중앙 또는 화면 전체에 표시 |
-| **특징** | 넓은 영역의 콘텐츠가 한 번에 로딩될 때 반복되는 컨텐츠가 로딩될 때 | 데이터 저장, 일부 새로고침 등 특정 행동으로 인해 로딩될 때 |
-| **로딩 시간** | 상대적으로 긴 로딩 시간에 적합 (1~10초 내) | 짧은 로딩 시에 적합 (1~4초 내) |
-| **애니메이션** | 곧 내용이 나타날 것을 표현하는 shimmer 애니메이션이 나타남 | 지속적인 회전 애니메이션이 나타남 |
+|                | **Skeleton**                                                       | **Progress Circle (Indeterminate)**                            |
+| -------------- | ------------------------------------------------------------------ | -------------------------------------------------------------- |
+| **핵심 용도**  | 콘텐츠의 구조를 미리 볼 수 있음                                    | 콘텐츠의 형태와 상관 없이 시스템이 작동 중이라는 사실을 알려줌 |
+| **위치**       | 콘텐츠가 실제로 표시될 영역에 표시                                 | 특정 영역(특정 컴포넌트)의 중앙 또는 화면 전체에 표시          |
+| **특징**       | 넓은 영역의 콘텐츠가 한 번에 로딩될 때 반복되는 컨텐츠가 로딩될 때 | 데이터 저장, 일부 새로고침 등 특정 행동으로 인해 로딩될 때     |
+| **로딩 시간**  | 상대적으로 긴 로딩 시간에 적합 (1~10초 내)                         | 짧은 로딩 시에 적합 (1~4초 내)                                 |
+| **애니메이션** | 곧 내용이 나타날 것을 표현하는 shimmer 애니메이션이 나타남         | 지속적인 회전 애니메이션이 나타남                              |
 
-<FigmaImage
-  id=""
-  alt="Skeleton과 Progress Circle 사용 예시 비교"
-/>
+<FigmaImage id="" alt="Skeleton과 Progress Circle 사용 예시 비교" />
 
 ## Spec
 
