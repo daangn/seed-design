@@ -1,0 +1,122 @@
+---
+title: Bottom Navigation
+description: 앱의 루트 페이지 하단에 고정되어 있는 네비게이션 바로, 다섯 개의 상위 탭 간 이동을 제공합니다.
+---
+
+<PlatformStatusTable componentId="bottom-navigation" />
+
+## Anatomy
+
+<FigmaImage
+  id=""
+  alt="Bottom Navigation의 Anatomy 이미지. 한국 버전과 글로벌 버전(EN/JP)의 구조를 보여줍니다."
+/>
+
+Bottom Navigation은 아이콘과 라벨로 구성된 탭 아이템, 그리고 이를 감싸는 Container로 이루어집니다. 각 탭 아이템에는 Notification Badge를 표시할 수 있습니다.
+
+북미와 일본의 글로벌 앱에서는 Bottom Navigation 중앙에 브랜드 컬러의 글쓰기 버튼이 위치합니다. 이 버튼을 선택하면 탭 이동이 아닌 글쓰기 화면으로 바로 이동합니다.
+
+**Divider 두께**
+
+iOS에서 상단 Divider는 1px로 구현됩니다(@2x에서 0.5pt, @3x에서 0.33pt). 피그마에서는 일반적으로 @3x 화면을 기준으로 작업하므로, 0.33px로 그려져 있으니 참고해 주세요.
+
+## Props
+
+### State
+
+<FigmaImage
+  id=""
+  alt="Bottom Navigation의 State - Selected/Unselected 상태에서 각각 Enabled, Disabled"
+/>
+
+Bottom Navigation의 탭 아이템은 Selected/Unselected 상태에서 각각 Enabled, Disabled 상태를 가집니다.
+
+### Badge Property
+
+<FigmaImage
+  id=""
+  alt="Bottom Navigation의 Badge Property - Small, Large 사이즈"
+/>
+
+Bottom Navigation의 탭 아이템에는 Notification Badge를 표시할 수 있습니다.
+
+Notification Badge는 Small, Large 두 가지 사이즈로 표시할 수 있습니다.
+
+- **Large size**는 라벨을 포함해 구체적인 알림 수나 상태 정보를 제공합니다. 채팅과 같이 알림의 세부 정보가 중요한 경우 사용합니다.
+- **Small size**는 간결한 도트 형태로, 텍스트 없이 상태 변화만 표시합니다. 알림의 존재 여부만 중요한 경우 사용합니다.
+
+## Guidelines
+
+### Bottom Navigation 넓이
+
+<FigmaImage
+  id=""
+  alt="Bottom Navigation의 최대 너비 480 제한 예시"
+/>
+
+Bottom Navigation의 내부 컨테이너는 최대 너비를 480으로 제한하여, 화면이 넓어져도 탭 아이템들이 과도하게 퍼지지 않도록 합니다.
+
+**iOS는 최대넓이를 적용할 수 없어 화면이 넓어져도 좌우 여백 없이 탭 아이템이 균등하게 배치됩니다.**
+
+### Label은 간결하게 작성하기
+
+<FigmaImage
+  id=""
+  alt="Label 간결하게 작성하기 예시"
+/>
+
+탭 라벨은 짧고 간결하게 작성하세요. (한글 5자, 영문 10자 이내) 폰트 스케일이 큰 경우 라벨이 줄바꿈될 수 있습니다.
+
+**iOS의 UITabBar에는 폰트 스케일이 적용되지 않습니다.**
+
+### 탭 아이템 개수
+
+<FigmaImage
+  id=""
+  alt="탭 아이템 개수 제한 - 5개 이하 권장"
+/>
+
+Bottom Navigation 탭 아이템은 5개를 넘지 않도록 해주세요. 더 많은 구분이 필요하다면 화면 상단에 Tabs를 사용하는 것을 고려해주세요.
+
+### 탭에 Badge 표시하기
+
+<FigmaImage
+  id=""
+  alt="탭에 Badge 표시하기 예시 - Small, Large 사이즈"
+/>
+
+Bottom Navigation 탭 아이템에 Notification Badge를 표시할 수 있습니다.
+
+Badge는 두 가지 사이즈로 제공됩니다. Small 사이즈는 새로운 활동을 점으로 표시하고, Large 사이즈는 알림 숫자를 표시합니다.
+
+Large 사이즈는 1부터 99까지 표시되며, 100 이상일 경우 99+로 표시됩니다. 0일 때는 표시되지 않습니다.
+
+3개 이상의 탭에 Badge가 표시되지 않도록 주의해주세요.
+
+### 아이콘 스타일
+
+<FigmaImage
+  id=""
+  alt="아이콘 스타일 - Fill 스타일 사용"
+/>
+
+탭 아이콘은 Fill 스타일을 사용하세요. 활성화 여부는 컬러 톤으로 구분합니다.
+
+**Fill 스타일과 Line 스타일을 혼용하지 마세요.**
+
+## Bottom Navigation V3 변경점
+
+### 주요 변경점
+
+<FigmaImage
+  id=""
+  alt="Bottom Navigation V2와 V3 비교 Playground"
+/>
+
+탭 아이템에 Notification Badge 컴포넌트를 적용했습니다.
+
+Figma에서만 제공하던 OS Indicator 속성을 삭제했어요. OS Indicator 사용에 대해서는 가이드를 참고해주세요.
+
+## Spec
+
+<ComponentSpecBlock id="bottom-navigation" />

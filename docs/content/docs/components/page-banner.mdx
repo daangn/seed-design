@@ -5,20 +5,184 @@ description: 페이지 상단에 위치하며 사용자에게 전체적인 상�
 
 <PlatformStatusTable componentId="page-banner" />
 
-## 개요
+## Anatomy
 
-### 옵션 테이블
+<FigmaImage
+  id=""
+  alt="Page Banner의 Anatomy 이미지. Container, Prefix Icon, Title, Link Text, Chevron, Dismiss 버튼으로 구성됩니다."
+/>
 
-| 속성         | 값                                                | 기본값  |
-| ------------ | ------------------------------------------------- | ------- |
-| type         | display, actionable, dismissible                  | display |
-| tone         | neutral, positive, informative, warning, critical | neutral |
-| variant      | weak, solid                                       | weak    |
-| prefix icon  | icon                                              |         |
-| title        | string                                            |         |
-| description  | string                                            |         |
-| button label | string                                            |         |
+Page Banner는 메시지 텍스트를 감싸고 있는 컨테이너로 구성되어 있으며, 필요에 따라 Prefix Icon, Title, Link Text, Chevon, Dismiss 버튼을 표시할 수 있습니다.
 
-## 스펙
+## Props
+
+### Variant
+
+<FigmaImage
+  id=""
+  alt="Page Banner의 Variant - Neutral, Informative, Positive, Warning, Critical 다섯 가지 Tone과 Weak, Solid 스타일"
+/>
+
+Page Banner는 Neutral, Informative, Positive, Warning, Critical 다섯 가지 Tone으로 구성되어 있으며, 각 Tone은 Weak와 Solid 두 가지 스타일을 가집니다.
+
+### Prefix Icon Property
+
+<FigmaImage
+  id=""
+  alt="Page Banner의 Prefix Icon Property"
+/>
+
+Prefix Icon을 표시할 수 있습니다. 아이콘은 Fill 타입 사용을 권장합니다.
+
+### Title Property
+
+<FigmaImage
+  id=""
+  alt="Page Banner의 Title Property"
+/>
+
+Show Title Property로 Title을 표시할 수 있습니다.
+
+### State
+
+<FigmaImage
+  id=""
+  alt="Page Banner의 State - Actionable Page Banner의 Pressed 상태"
+/>
+
+Actionable Page Banner에는 Pressed 상태가 있습니다.
+
+### Interaction
+
+<FigmaImage
+  id=""
+  alt="Page Banner의 Interaction 종류"
+/>
+
+Page Banner 우측 영역에 표시되는 요소에 따라 다른 Interaction을 가질 수 있습니다.
+
+## Guidelines
+
+### Page Banner의 위치
+
+<FigmaImage
+  id=""
+  alt="Page Banner의 위치 예시 - 페이지 상단 배치 및 스크롤 고정"
+/>
+
+Page Banner는 페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.
+
+항상 페이지 최상단에 배치되며(상단 이미지가 있는 경우 이미지 하단), 한 화면에 하나만 존재할 수 있습니다.
+
+스크롤 시에도 Page Banner를 상단에 고정하여 표시할 수 있습니다. 이 경우, 개발자에게 인터랙션 가이드를 명확히 제공해야 합니다.
+
+**한 화면에 여러 개의 Page Banner가 표시되지 않도록 주의해주세요.**
+
+### Title, Description 사이 간격 표시
+
+<FigmaImage
+  id=""
+  alt="Page Banner의 Title과 Description 사이 간격 표시 예시"
+/>
+
+Page Banner의 Title은 Inline 요소로, 텍스트처럼 줄을 차지하지 않고 배치됩니다.
+
+Figma에서는 Inline 요소 표현이 어려워 Title과 Description 사이의 여백을 두 번의 띄어쓰기로 표시합니다.
+
+실제 구현체에서는 Inline 요소로 표현되어 요소 간 간격이 이미 지정되어 있습니다. Figma 시안 작업에도 공백이 들어가도록 유의해서 사용해주세요.
+
+### 제목과 내용 작성하기
+
+<Grid>
+  <DontImage
+    figmaId=""
+    body="제목은 상태를 나타내는 짧은 단어로 사용해주세요."
+    alt="Page Banner 제목 작성 나쁜 예시"
+  />
+  <DoImage
+    figmaId=""
+    body="Page Banner 제목은 검토중, 미노출, 제재됨과 같이 상태를 나타내는 짧은 단어로 표시하고, 꼭 필요한 경우에만 사용합니다."
+    alt="Page Banner 제목 작성 좋은 예시"
+  />
+</Grid>
+
+Page Banner 제목은 검토중, 미노출, 제재됨과 같이 상태를 나타내는 짧은 단어로 표시하고, 꼭 필요한 경우에만 사용합니다. 본문은 핵심 내용만 간결하게 작성하며, 제목에서 언급한 내용을 반복하지 않습니다.
+
+### Page Banner로 상태 표시하기
+
+<FigmaImage
+  id=""
+  alt="Page Banner로 다양한 상태 표시 예시 - Neutral, Informative, Positive, Warning, Critical"
+/>
+
+Page Banner는 페이지의 중요한 상태 변화나 사용자 액션에 대한 피드백을 전달합니다. 상황에 맞는 Tone을 선택해서 사용해주세요.
+
+- **Neutral**: 상태가 특별히 없거나, 상태값이 명확하지 않은 초기 상태
+- **Informative**: 베타 기능 안내, 사용자 권한 제한, 정보 기반 메시지
+- **Positive**: 승인됨, 발행됨, 저장 성공, 검토 통과
+- **Warning**: 만료 임박, 제출 누락, 필수 정보 부족 등 잠재적 문제 상태
+- **Critical**: 검수 거절, 제재 상태, 편집 불가, 유효성 검증 실패
+
+### 주요 기능 또는 서비스의 진입점을 표시하기
+
+<FigmaImage
+  id=""
+  alt="Actionable Page Banner를 서비스 진입점으로 활용한 예시 - 안심결제, 부동산 서비스, 이웃광고, 편의점 택배"
+/>
+
+Actionable Page Banner는 주요 기능 또는 서비스의 진입점으로 활용할 수 있습니다.
+
+### Dismissible 인터랙션 사용하기
+
+<Grid>
+  <DoImage
+    figmaId=""
+    body="Dismissible 인터랙션은 사용자에게 한 번만 전달해도 충분한 정보에 한해 사용합니다."
+    alt="Dismissible 인터랙션 좋은 사용 예시"
+  />
+  <DontImage
+    figmaId=""
+    body="경고·오류 메시지에 Dismissible 인터랙션을 사용하지 않습니다."
+    alt="Dismissible 인터랙션 나쁜 사용 예시"
+  />
+</Grid>
+
+Dismissible 인터랙션은 사용자에게 한 번만 전달해도 충분한 정보에 한해 사용하며, 경고·오류 메시지에는 사용하지 않습니다.
+
+닫은 후에 동일한 메시지가 반복해서 표시되지 않도록 주의해주세요.
+
+### Page Banner, Callout 비교
+
+<FigmaImage
+  id=""
+  alt="Page Banner와 Callout 비교 표 - 위치, 너비, 용도, 메시지 범위, Sticky 속성 비교"
+/>
+
+Page Banner와 Callout 컴포넌트는 모두 사용자에게 메시지를 전달하지만, 용도, 시각적 무게, 위치, 메시지의 범위가 다르기 때문에 명확하게 구분하여 사용해야 합니다.
+
+| | Callout | Page Banner |
+|---|---|---|
+| **위치** | 콘텐츠 흐름 내 (본문 중간) | 페이지 상단 |
+| **너비** | 콘텐츠 너비 (제한적) | 전체 너비 (gutter 없이 가로 확장) |
+| **용도** | 팁, 기능 설명, 위험 요소 주의 | 페이지 상태, 제재, 기능 활성화 안내 등 |
+| **메시지 범위** | 로컬 (해당 기능/내용에 국한) | 글로벌 (페이지 전체) |
+| **Sticky 속성** | 없음 (스크롤과 함께 이동) | 있음 (상단 고정 가능) |
+
+## Page Banner V3 변경점
+
+### 주요 변경점
+
+<FigmaImage
+  id=""
+  alt="Page Banner V2와 V3 비교 Playground"
+/>
+
+컴포넌트의 이름이 'Inline Alert'에서 'Page Banner'로 바뀌었습니다.
+
+Interaction에 따라 세 가지로 구분되어 있던 컴포넌트를 하나로 합쳤습니다.
+
+내용이 2줄 이상 표시될 때 Prefix, Suffix 요소가 텍스트 상단에 정렬되도록 조정하여 시각적으로 안정적인 레이아웃을 만들었습니다.
+
+## Spec
 
 <ComponentSpecBlock id="page-banner" />

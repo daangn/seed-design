@@ -1,20 +1,147 @@
 ---
 title: Badge
-description: Badge는 객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.
+description: 객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.
 ---
 
 <PlatformStatusTable componentId="badge" />
 
-## 개요
+## Anatomy
 
-### 옵션 테이블
+<FigmaImage
+  id=""
+  alt="Badge의 Anatomy 이미지"
+/>
 
-| 속성    | 값                                                       | 기본값  |
-| ------- | -------------------------------------------------------- | ------- |
-| size    | medium, large                                            | medium  |
-| variant | weak, solid, outline                                     | weak    |
-| tone    | neutral, brand, informative, positive, warning, critical | neutral |
+## Props
 
-## 스펙
+### Size
+
+<FigmaImage
+  id=""
+  alt="Badge의 Size Property - Large, Medium"
+/>
+
+Badge는 Large, Medium 두 가지 사이즈로 제공됩니다.
+
+### Tone
+
+<FigmaImage
+  id=""
+  alt="Badge의 Tone Property - Neutral, Brand, Informative, Positive, Warning, Critical"
+/>
+
+Neutral, Brand, Informative, Positive, Warning, Critical 다섯 가지 색상으로 구성되어 있으며, 전달하고자 하는 의미와 맥락에 맞게 사용할 수 있습니다.
+
+### Variant
+
+<FigmaImage
+  id=""
+  alt="Badge의 Variant Property - Solid, Outline, Weak"
+/>
+
+시각적인 주목도에 따라 선택하여 사용할 수 있도록 Outline, Weak, Solid 세 가지 Variant를 제공합니다.
+
+## Guidelines
+
+### 적절한 스타일 사용하기
+
+<FigmaImage
+  id=""
+  alt="Badge의 스타일별 사용 예시 - Solid, Outline, Weak"
+/>
+
+Badge는 Solid, Outline, Weak 세 가지 스타일을 제공합니다. 각 스타일은 강조도와 시각적 무게감이 다르므로 상황에 맞게 선택하는 것이 중요합니다.
+
+**Solid:** 배경이 복잡하거나 이미지 위에 Badge가 겹치는 경우, 텍스트가 잘 읽히도록 명도 대비가 높은 Solid 스타일을 사용합니다. 또한 강한 주목도가 필요한 경우 사용할 수 있습니다.
+
+**Outline:** 중간 정도의 주목도를 가진 Outline 스타일은 본문 또는 상세 화면에서 사용합니다.
+
+**Weak:** 반복적인 구조를 가진 환경에서는 과도하게 강조된 Badge가 시각적 부담을 줄 수 있습니다. 이런 경우에는 주목도가 낮은 Weak 스타일을 사용하는 것이 더 적합합니다.
+
+**배경색이 있는 경우에는 Weak 스타일 사용을 권장하지 않습니다.**
+
+### Brand 컬러는 꼭 필요한 곳에만 사용하기
+
+<FigmaImage
+  id=""
+  alt="Badge Brand 컬러 사용 예시"
+/>
+
+Brand 컬러는 브랜드의 정체성과 가치를 전달하는 중요 자산으로, 로고, 대표 버튼, 핵심 메시지 등 브랜드 상징 요소에 집중 사용해야 합니다.
+
+Badge는 부가 정보 전달용 보조 요소로, 브랜드 컬러를 과다 사용하면 의미와 강조도가 분산됩니다. '이웃 간의 연결' 의미를 전달하는 곳에 사용하세요.
+
+### Badge의 활용
+
+<FigmaImage
+  id=""
+  alt="Badge 활용 예시 - 카테고리 표시, 부가 정보 표시, 상태 표시"
+/>
+
+**카테고리 표시**
+
+Badge는 콘텐츠를 그룹화하거나 분류하는 카테고리 태그로 활용할 수 있습니다. 이때는 Weak 스타일을 사용을 권장합니다.
+
+**부가 정보 및 혜택 전달**
+
+Badge는 주요 정보뿐만 아니라 사용자에게 유용한 부가 정보를 전달하는 데 활용할 수 있습니다. 이러한 경우, 사용자의 시선을 끌면서도 주요 콘텐츠를 방해하지 않도록 Weak 스타일을 적용합니다.
+
+**상태 표시**
+
+Badge를 활용하면 항목의 현재 상태를 간결하게 표현할 수 있습니다. 사용자가 상태를 직관적으로 파악할 수 있도록 각 상태에 맞는 적절한 컬러를 사용해주세요.
+
+- **Neutral:** 상태가 특별히 없거나, 상태값이 명확하지 않은 초기 상태
+- **Informative:** 베타 기능 안내, 사용자 권한 제한, 정보 기반 메시지
+- **Positive:** 완료, 적용됨, 승인됨, 발행됨, 저장 성공, 검토 통과
+- **Warning:** 만료 임박, 제출 누락, 필수 정보 부족 등 잠재적 문제 상태
+- **Critical:** 검수 거절, 제재 상태, 편집 불가, 유효성 검증 실패
+
+### 너무 많은 Badge를 나열하지 않기
+
+<FigmaImage
+  id=""
+  alt="Badge 나열 예시"
+/>
+
+Badge는 정보 전달에 효과적이지만, 한 화면이나 요소에 너무 많은 Badge를 나열하면 오히려 시각적 혼란을 줄 수 있습니다.
+
+중요한 정보만 골라 최소하고, 하나의 객체에는 1~2개 이하의 Badge만 사용하는 것이 권장됩니다.
+
+### 너무 긴 라벨을 사용하지 않기
+
+<FigmaImage
+  id=""
+  alt="Badge 라벨 길이 예시"
+/>
+
+Badge는 짧고 명확한 정보를 전달하는 데 최적화된 UI 요소입니다. 라벨이 너무 길어지면 컴포넌트의 형태가 깨지거나 레이아웃을 해칠 수 있으며, 읽기에도 불편합니다. 가능하면 2~3단어 이내로 간결하게 작성하고, 필요시 말줄임 사용을 고려하세요.
+
+**max-width가 설정되어 있어 10글자 이상이면 말줄임 처리됩니다. 글자를 전부 표시해야 한다면 따로 구현이 필요하므로 엔지니어와 논의해주세요.**
+
+### 버튼처럼 클릭 가능한 요소로 사용하지 않기
+
+<FigmaImage
+  id=""
+  alt="Badge를 버튼으로 사용하지 않기"
+/>
+
+Badge는 정적인 정보 전달에 적합한 컴포넌트이며, 사용자의 클릭을 유도하는 행동 요소(CTA)로 사용하는 것은 권장하지 않습니다.
+
+액션이 필요한 경우엔 Chip 또는 Button 컴포넌트를 사용해주세요.
+
+## Badge V3 변경점
+
+### 주요 변경점
+
+<FigmaImage
+  id=""
+  alt="Badge V2와 V3 비교 Playground"
+/>
+
+잘 사용되지 않는 Pill 타입을 제거했습니다.
+
+Warning Tone을 새롭게 추가했습니다.
+
+## Spec
 
 <ComponentSpecBlock id="badge" />

@@ -1,0 +1,129 @@
+---
+title: Divider
+description: 시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.
+---
+
+<PlatformStatusTable componentId="divider" />
+
+## Anatomy
+
+<FigmaImage
+  id=""
+  alt="Divider의 Anatomy 이미지. Divider와 Inset(Optional)으로 구성됩니다."
+/>
+
+stroke/neutral-muted, stroke/neutral-subtle 컬러 토큰으로 채워진 1px 레이어로 구성되며, 필요에 따라 inset 레이아웃을 표시할 수 있습니다.
+
+## Props
+
+### Tone
+
+<FigmaImage
+  id=""
+  alt="Divider의 Tone Property - Neutral Muted, Neutral Subtle"
+/>
+
+일반적인 상황에서 사용하는 **Neutral Muted**, 약한 구분을 위해 사용하는 **Neutral Subtle** 톤이 있으며, 필요에 따라 다른 stroke 토큰을 넣어 사용할 수 있습니다.
+
+### Orientation Property
+
+<FigmaImage
+  id=""
+  alt="Divider의 Orientation Property - Horizontal, Vertical"
+/>
+
+세로로 쌓이는 레이아웃에서 Horizontal 방향을 사용하며, 가로로 나열되는 레이아웃에서 Vertical 방향을 사용합니다.
+
+### Inset Property
+
+<FigmaImage
+  id=""
+  alt="Divider의 Inset Property - Figma Only 배지 포함"
+/>
+
+전체 너비(full-width)를 차지하지 않고, 양 옆 Gutter 만큼의 내부 여백을 두고 콘텐츠 영역 안쪽에 배치하는 Inset 속성을 제공합니다.
+
+**Figma Only**: Inset Property는 Figma에서만 사용 가능합니다.
+
+## Guidelines
+
+### 적절한 시각적 구분자 선택하기
+
+<FigmaImage
+  id=""
+  alt="Inset Divider, Full-width Divider, 8px Gap 비교 예시"
+/>
+
+화면 내 콘텐츠를 구분하는 방식으로는 Inset Divider, Full-width Divider, 그리고 Basement 레이어 위에 Default 레이어를 올려 8px Gap을 주는 세 가지 방법이 있습니다.
+
+각 방식은 사용 목적과 맥락이 다르므로, 상황에 맞게 적절한 방식을 선택해야 합니다.
+
+- **Inset Divider**: 가장 약한 구분 방식으로, 같은 그룹 내에서 내용을 구분할 때 사용합니다.
+- **Full-width Divider**: 중간 정도의 구분 방식으로, 그룹을 구분할 때 사용합니다. 액션 영역을 구분하는 용도로도 활용할 수 있습니다.
+- **8px Gap**: 가장 강한 구분 방식으로, 기존 내용과 크게 구분되는 내용을 표시할 때 사용합니다.
+
+**8px Divider는 존재하지 않습니다. Basement Layer 위에 Default Layer를 올리고 그 사이에 간격을 두는 방식으로 구현해주세요.**
+
+### 불필요한 Divider 사용하지 않기
+
+<Grid>
+  <DoImage
+    figmaId=""
+    body="Divider 없이 자연스럽게 구분되는 리스트"
+    alt="Divider 없이 리스트 아이템들이 자연스럽게 구분되는 예시"
+  />
+  <DontImage
+    figmaId=""
+    body="불필요하게 Divider가 추가된 리스트"
+    alt="각 리스트 아이템 사이에 불필요한 Divider가 추가된 예시"
+  />
+</Grid>
+
+반복되는 레이아웃(예: 리스트)에서는 요소 간 구분이 자연스럽게 이루어지므로 Divider가 필요하지 않을 수 있습니다. Divider를 사용하기 전에 반드시 필요한지 검토해주세요.
+
+### 마지막 Divider는 표시하지 않기
+
+<Grid>
+  <DoImage
+    figmaId=""
+    body="마지막 섹션에 Divider가 없는 화면"
+    alt="화면의 마지막 섹션에 Divider가 표시되지 않은 올바른 예시"
+  />
+  <DontImage
+    figmaId=""
+    body="마지막 섹션에 Divider가 있는 화면"
+    alt="화면의 마지막 섹션 하단에 불필요한 Divider가 표시된 잘못된 예시"
+  />
+</Grid>
+
+Divider는 맥락을 구분하기 위해 컨텐츠 사이에 들어가는 요소로 화면의 마지막 섹션이나 요소 하단에는 Divider를 표시하지 않습니다.
+
+### Vertical Divider
+
+<FigmaImage
+  id=""
+  alt="Vertical Divider 사용 예시"
+/>
+
+Vertical 방향 Divider는 가로 방향 레이아웃에서 단을 구분할 때 사용할 수 있습니다.
+
+## Divider V3 변경점
+
+### 주요 변경점
+
+<FigmaImage
+  id=""
+  alt="Divider V2와 V3 비교 Playground"
+/>
+
+피그마에서만 사용할 수 있었던 Divider 컴포넌트의 구현체를 제공합니다.
+
+Divider의 컬러가 고정된 팔레트 컬러에서 투명도가 들어간 컬러로 조정되었습니다.
+
+Vertical 레이아웃이 추가되었습니다.
+
+Inset 옵션이 추가되었습니다.
+
+## Spec
+
+<ComponentSpecBlock id="divider" />
