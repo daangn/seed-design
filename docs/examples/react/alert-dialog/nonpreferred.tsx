@@ -1,4 +1,4 @@
-import { ResponsivePair } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
@@ -11,7 +11,7 @@ import {
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
 
-const AlertDialogCritical = () => {
+const AlertDialogNonpreferred = () => {
   return (
     // You can set z-index dialog with "--layer-index" custom property. useful for stackflow integration.
     <AlertDialogRoot>
@@ -21,18 +21,28 @@ const AlertDialogCritical = () => {
       <AlertDialogContent layerIndex={50}>
         <AlertDialogHeader>
           <AlertDialogTitle>제목</AlertDialogTitle>
-          <AlertDialogDescription>파괴적, 비가역적 작업을 경고합니다.</AlertDialogDescription>
+          <AlertDialogDescription>중립적인 선택지를 제공합니다.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          {/* ResponsivePair component wraps layout if button content is too long. */}
-          <ResponsivePair gap="x2">
-            <AlertDialogAction variant="neutralWeak">취소</AlertDialogAction>
-            <AlertDialogAction variant="criticalSolid">확인</AlertDialogAction>
-          </ResponsivePair>
+          <VStack gap="x4" alignSelf="stretch">
+            <AlertDialogAction size="medium" variant="neutralSolid" layout="withText">
+              라벨
+            </AlertDialogAction>
+            <AlertDialogAction
+              size="medium"
+              variant="ghost"
+              layout="withText"
+              color="fg.neutralMuted"
+              fontWeight="bold"
+              bleedY="asPadding"
+            >
+              라벨
+            </AlertDialogAction>
+          </VStack>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>
   );
 };
 
-export default AlertDialogCritical;
+export default AlertDialogNonpreferred;
