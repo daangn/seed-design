@@ -513,6 +513,150 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+@utility t1-regular-static {
+    font-size: var(--seed-font-size-t1-static);
+    line-height: var(--seed-line-height-t1-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t1-medium-static {
+    font-size: var(--seed-font-size-t1-static);
+    line-height: var(--seed-line-height-t1-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t1-bold-static {
+    font-size: var(--seed-font-size-t1-static);
+    line-height: var(--seed-line-height-t1-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t2-regular-static {
+    font-size: var(--seed-font-size-t2-static);
+    line-height: var(--seed-line-height-t2-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t2-medium-static {
+    font-size: var(--seed-font-size-t2-static);
+    line-height: var(--seed-line-height-t2-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t2-bold-static {
+    font-size: var(--seed-font-size-t2-static);
+    line-height: var(--seed-line-height-t2-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t3-regular-static {
+    font-size: var(--seed-font-size-t3-static);
+    line-height: var(--seed-line-height-t3-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t3-medium-static {
+    font-size: var(--seed-font-size-t3-static);
+    line-height: var(--seed-line-height-t3-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t3-bold-static {
+    font-size: var(--seed-font-size-t3-static);
+    line-height: var(--seed-line-height-t3-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t4-regular-static {
+    font-size: var(--seed-font-size-t4-static);
+    line-height: var(--seed-line-height-t4-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t4-medium-static {
+    font-size: var(--seed-font-size-t4-static);
+    line-height: var(--seed-line-height-t4-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t4-bold-static {
+    font-size: var(--seed-font-size-t4-static);
+    line-height: var(--seed-line-height-t4-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t5-regular-static {
+    font-size: var(--seed-font-size-t5-static);
+    line-height: var(--seed-line-height-t5-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t5-medium-static {
+    font-size: var(--seed-font-size-t5-static);
+    line-height: var(--seed-line-height-t5-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t5-bold-static {
+    font-size: var(--seed-font-size-t5-static);
+    line-height: var(--seed-line-height-t5-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t6-regular-static {
+    font-size: var(--seed-font-size-t6-static);
+    line-height: var(--seed-line-height-t6-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t6-medium-static {
+    font-size: var(--seed-font-size-t6-static);
+    line-height: var(--seed-line-height-t6-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t6-bold-static {
+    font-size: var(--seed-font-size-t6-static);
+    line-height: var(--seed-line-height-t6-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t7-regular-static {
+    font-size: var(--seed-font-size-t7-static);
+    line-height: var(--seed-line-height-t7-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t7-medium-static {
+    font-size: var(--seed-font-size-t7-static);
+    line-height: var(--seed-line-height-t7-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t7-bold-static {
+    font-size: var(--seed-font-size-t7-static);
+    line-height: var(--seed-line-height-t7-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t8-bold-static {
+    font-size: var(--seed-font-size-t8-static);
+    line-height: var(--seed-line-height-t8-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t9-bold-static {
+    font-size: var(--seed-font-size-t9-static);
+    line-height: var(--seed-line-height-t9-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t10-bold-static {
+    font-size: var(--seed-font-size-t10-static);
+    line-height: var(--seed-line-height-t10-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
 @utility size-* {
   width: --value(--dimension-*);
   height: --value(--dimension-*);

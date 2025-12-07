@@ -51,7 +51,31 @@
             "t7Bold": {},
             "t8Bold": {},
             "t9Bold": {},
-            "t10Bold": {}
+            "t10Bold": {},
+            "t1RegularStatic": {},
+            "t1MediumStatic": {},
+            "t1BoldStatic": {},
+            "t2RegularStatic": {},
+            "t2MediumStatic": {},
+            "t2BoldStatic": {},
+            "t3RegularStatic": {},
+            "t3MediumStatic": {},
+            "t3BoldStatic": {},
+            "t4RegularStatic": {},
+            "t4MediumStatic": {},
+            "t4BoldStatic": {},
+            "t5RegularStatic": {},
+            "t5MediumStatic": {},
+            "t5BoldStatic": {},
+            "t6RegularStatic": {},
+            "t6MediumStatic": {},
+            "t6BoldStatic": {},
+            "t7RegularStatic": {},
+            "t7MediumStatic": {},
+            "t7BoldStatic": {},
+            "t8BoldStatic": {},
+            "t9BoldStatic": {},
+            "t10BoldStatic": {}
           },
           "defaultValue": "screenTitle"
         }
@@ -776,6 +800,678 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t10"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t1RegularStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t1-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t1-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t1MediumStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t1-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t1-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t1BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t1-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t1-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t2RegularStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t2-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t2-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t2MediumStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t2-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t2-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t2BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t2-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t2-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t3RegularStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t3MediumStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t3BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t4RegularStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t4MediumStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t4BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t5RegularStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t5MediumStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t5BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t6RegularStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t6MediumStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t6BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t7RegularStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t7-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t7-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t7MediumStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t7-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t7-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t7BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t7-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t7-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t8BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t8-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t8-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t9BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t9-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t9-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t10BoldStatic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t10-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t10-static"
                 },
                 "fontWeight": {
                   "type": "number",

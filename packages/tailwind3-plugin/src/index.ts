@@ -445,6 +445,126 @@ export default plugin(
     "fontSize": "var(--seed-font-size-t10)",
     "lineHeight": "var(--seed-line-height-t10)",
     "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t1-regular-static": {
+    "fontSize": "var(--seed-font-size-t1-static)",
+    "lineHeight": "var(--seed-line-height-t1-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t1-medium-static": {
+    "fontSize": "var(--seed-font-size-t1-static)",
+    "lineHeight": "var(--seed-line-height-t1-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t1-bold-static": {
+    "fontSize": "var(--seed-font-size-t1-static)",
+    "lineHeight": "var(--seed-line-height-t1-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t2-regular-static": {
+    "fontSize": "var(--seed-font-size-t2-static)",
+    "lineHeight": "var(--seed-line-height-t2-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t2-medium-static": {
+    "fontSize": "var(--seed-font-size-t2-static)",
+    "lineHeight": "var(--seed-line-height-t2-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t2-bold-static": {
+    "fontSize": "var(--seed-font-size-t2-static)",
+    "lineHeight": "var(--seed-line-height-t2-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t3-regular-static": {
+    "fontSize": "var(--seed-font-size-t3-static)",
+    "lineHeight": "var(--seed-line-height-t3-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t3-medium-static": {
+    "fontSize": "var(--seed-font-size-t3-static)",
+    "lineHeight": "var(--seed-line-height-t3-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t3-bold-static": {
+    "fontSize": "var(--seed-font-size-t3-static)",
+    "lineHeight": "var(--seed-line-height-t3-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t4-regular-static": {
+    "fontSize": "var(--seed-font-size-t4-static)",
+    "lineHeight": "var(--seed-line-height-t4-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t4-medium-static": {
+    "fontSize": "var(--seed-font-size-t4-static)",
+    "lineHeight": "var(--seed-line-height-t4-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t4-bold-static": {
+    "fontSize": "var(--seed-font-size-t4-static)",
+    "lineHeight": "var(--seed-line-height-t4-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t5-regular-static": {
+    "fontSize": "var(--seed-font-size-t5-static)",
+    "lineHeight": "var(--seed-line-height-t5-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t5-medium-static": {
+    "fontSize": "var(--seed-font-size-t5-static)",
+    "lineHeight": "var(--seed-line-height-t5-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t5-bold-static": {
+    "fontSize": "var(--seed-font-size-t5-static)",
+    "lineHeight": "var(--seed-line-height-t5-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t6-regular-static": {
+    "fontSize": "var(--seed-font-size-t6-static)",
+    "lineHeight": "var(--seed-line-height-t6-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t6-medium-static": {
+    "fontSize": "var(--seed-font-size-t6-static)",
+    "lineHeight": "var(--seed-line-height-t6-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t6-bold-static": {
+    "fontSize": "var(--seed-font-size-t6-static)",
+    "lineHeight": "var(--seed-line-height-t6-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t7-regular-static": {
+    "fontSize": "var(--seed-font-size-t7-static)",
+    "lineHeight": "var(--seed-line-height-t7-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t7-medium-static": {
+    "fontSize": "var(--seed-font-size-t7-static)",
+    "lineHeight": "var(--seed-line-height-t7-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t7-bold-static": {
+    "fontSize": "var(--seed-font-size-t7-static)",
+    "lineHeight": "var(--seed-line-height-t7-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t8-bold-static": {
+    "fontSize": "var(--seed-font-size-t8-static)",
+    "lineHeight": "var(--seed-line-height-t8-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t9-bold-static": {
+    "fontSize": "var(--seed-font-size-t9-static)",
+    "lineHeight": "var(--seed-line-height-t9-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t10-bold-static": {
+    "fontSize": "var(--seed-font-size-t10-static)",
+    "lineHeight": "var(--seed-line-height-t10-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
   }
 },
         spacing: {
