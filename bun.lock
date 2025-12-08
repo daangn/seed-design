@@ -51,9 +51,9 @@
         "@sanity/image-url": "^1.2.0",
         "@sanity/table": "^2.0.0",
         "@sanity/vision": "^4.10.2",
-        "@seed-design/css": "1.1.10",
+        "@seed-design/css": "1.1.12",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.1.10",
+        "@seed-design/react": "1.1.12",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.11",
@@ -337,7 +337,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.1.10",
+      "version": "1.1.12",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -369,7 +369,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.10",
+      "version": "1.1.12",
       "dependencies": {
         "@seed-design/css": "1.1.9",
         "change-case": "^5.4.4",
@@ -385,7 +385,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.11",
+      "version": "1.1.12",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
@@ -420,7 +420,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.1.10",
+      "version": "1.1.12",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -430,8 +430,8 @@
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.1",
-        "@seed-design/react-dialog": "1.0.0",
-        "@seed-design/react-drawer": "1.0.4",
+        "@seed-design/react-dialog": "1.0.1",
+        "@seed-design/react-drawer": "1.0.5",
         "@seed-design/react-field": "1.0.1",
         "@seed-design/react-field-button": "1.0.1",
         "@seed-design/react-popover": "1.0.3",
@@ -463,7 +463,7 @@
         "vite-plugin-dts": "^4.5.4",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.10",
+        "@seed-design/css": ">=1.1.12",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -510,7 +510,7 @@
     },
     "packages/react-headless/dialog": {
       "name": "@seed-design/react-dialog",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@radix-ui/react-dismissable-layer": "^1.1.7",
         "@radix-ui/react-focus-scope": "^1.1.4",
@@ -531,7 +531,7 @@
     },
     "packages/react-headless/drawer": {
       "name": "@seed-design/react-drawer",
-      "version": "1.0.4",
+      "version": "1.0.5",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -892,7 +892,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.1.10",
+        "@seed-design/css": "1.1.12",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -905,7 +905,7 @@
         "vite-plugin-dts": "^4.5.3",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.10",
+        "@seed-design/css": ">=1.1.12",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "react": ">=18.0.0",

@@ -1,5 +1,11 @@
 # @seed-design/react-drawer
 
+## 1.0.5
+
+### Patch Changes
+
+- 69ccc6e: Overlay 컴포넌트에 skipAnimation 옵션을 추가합니다
+
 ## 1.0.4
 
 ### Patch Changes
