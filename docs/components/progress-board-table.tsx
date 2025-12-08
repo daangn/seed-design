@@ -95,8 +95,8 @@ export async function ProgressBoardTable() {
   const platforms: PlatformKey[] = ["figma", "react", "ios", "android"];
   const stats = platforms.reduce(
     (acc, platform) => {
-      const total = components.filter((c) => c[statusKey] !== "not-planned").length;
       const statusKey = `${platform}Status` as keyof ComponentData;
+      const total = components.filter((c) => c[statusKey] !== "not-planned").length;
       const ready = components.filter((c) => c[statusKey] === "ready").length;
       acc[platform] = { ready, total, percentage: Math.round((ready / total) * 100) };
       return acc;
