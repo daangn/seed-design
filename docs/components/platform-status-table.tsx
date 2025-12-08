@@ -23,6 +23,7 @@ const statusConfig: Record<
   "in-progress": { label: "In Progress", tone: "warning" },
   "not-ready": { label: "Not Ready", tone: "neutral" },
   deprecated: { label: "Deprecated", tone: "neutral" },
+  "not-planned": { label: "Not Planned", tone: "neutral" },
 };
 
 function isExternalUrl(url: string): boolean {
@@ -61,7 +62,7 @@ function PlatformCard({
             viewBox="0 0 20 20"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="flex-shrink-0"
+            className="shrink-0"
             aria-label="External link"
           >
             <title>External link</title>

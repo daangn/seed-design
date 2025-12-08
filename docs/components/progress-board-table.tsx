@@ -15,6 +15,7 @@ const statusConfig: Record<
   "in-progress": { label: "In Progress", tone: "warning", variant: "weak" },
   "not-ready": { label: "Not Ready", tone: "neutral", variant: "weak" },
   deprecated: { label: "Deprecated", tone: "neutral", variant: "weak" },
+  "not-planned": { label: "Not Planned", tone: "neutral", variant: "weak" },
 };
 
 function StatusBadge({
@@ -94,7 +95,7 @@ export async function ProgressBoardTable() {
   const platforms: PlatformKey[] = ["figma", "react", "ios", "android"];
   const stats = platforms.reduce(
     (acc, platform) => {
-      const total = components.length;
+      const total = components.filter((c) => c[statusKey] !== "not-planned").length;
       const statusKey = `${platform}Status` as keyof ComponentData;
       const ready = components.filter((c) => c[statusKey] === "ready").length;
       acc[platform] = { ready, total, percentage: Math.round((ready / total) * 100) };
