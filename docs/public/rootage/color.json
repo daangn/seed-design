@@ -2215,6 +2215,126 @@
             "value": "#fe6a5d"
           }
         }
+      },
+      "$color.banner.blue": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#e1f7ff"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#0d2a3a"
+          }
+        }
+      },
+      "$color.banner.cool-gray": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#ebf1f5"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#242c33"
+          }
+        }
+      },
+      "$color.banner.green": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#f0fbe5"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#1e361c"
+          }
+        }
+      },
+      "$color.banner.orange": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#fff2e1"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#42230a"
+          }
+        }
+      },
+      "$color.banner.pink": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#ffebf1"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#3b172c"
+          }
+        }
+      },
+      "$color.banner.purple": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#f5ecff"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#2e1e45"
+          }
+        }
+      },
+      "$color.banner.red": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#ffecee"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#3a0f15"
+          }
+        }
+      },
+      "$color.banner.teal": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#e6faf6"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#143633"
+          }
+        }
+      },
+      "$color.banner.warm-gray": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#f2f0ee"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#2f2b27"
+          }
+        }
+      },
+      "$color.banner.yellow": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#fffae1"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#3e2b00"
+          }
+        }
       }
     }
   }

@@ -198,6 +198,16 @@
     "tokenRef": {
       "type": "string",
       "anyOf": [
+        { "const": "$color.banner.blue", "title": "$color.banner.blue", "description": "theme-light: #e1f7ff\ntheme-dark: #0d2a3a", "markdownDescription": "- theme-light: `#e1f7ff`\n\n- theme-dark: `#0d2a3a`" },
+        { "const": "$color.banner.cool-gray", "title": "$color.banner.cool-gray", "description": "theme-light: #ebf1f5\ntheme-dark: #242c33", "markdownDescription": "- theme-light: `#ebf1f5`\n\n- theme-dark: `#242c33`" },
+        { "const": "$color.banner.green", "title": "$color.banner.green", "description": "theme-light: #f0fbe5\ntheme-dark: #1e361c", "markdownDescription": "- theme-light: `#f0fbe5`\n\n- theme-dark: `#1e361c`" },
+        { "const": "$color.banner.orange", "title": "$color.banner.orange", "description": "theme-light: #fff2e1\ntheme-dark: #42230a", "markdownDescription": "- theme-light: `#fff2e1`\n\n- theme-dark: `#42230a`" },
+        { "const": "$color.banner.pink", "title": "$color.banner.pink", "description": "theme-light: #ffebf1\ntheme-dark: #3b172c", "markdownDescription": "- theme-light: `#ffebf1`\n\n- theme-dark: `#3b172c`" },
+        { "const": "$color.banner.purple", "title": "$color.banner.purple", "description": "theme-light: #f5ecff\ntheme-dark: #2e1e45", "markdownDescription": "- theme-light: `#f5ecff`\n\n- theme-dark: `#2e1e45`" },
+        { "const": "$color.banner.red", "title": "$color.banner.red", "description": "theme-light: #ffecee\ntheme-dark: #3a0f15", "markdownDescription": "- theme-light: `#ffecee`\n\n- theme-dark: `#3a0f15`" },
+        { "const": "$color.banner.teal", "title": "$color.banner.teal", "description": "theme-light: #e6faf6\ntheme-dark: #143633", "markdownDescription": "- theme-light: `#e6faf6`\n\n- theme-dark: `#143633`" },
+        { "const": "$color.banner.warm-gray", "title": "$color.banner.warm-gray", "description": "theme-light: #f2f0ee\ntheme-dark: #2f2b27", "markdownDescription": "- theme-light: `#f2f0ee`\n\n- theme-dark: `#2f2b27`" },
+        { "const": "$color.banner.yellow", "title": "$color.banner.yellow", "description": "theme-light: #fffae1\ntheme-dark: #3e2b00", "markdownDescription": "- theme-light: `#fffae1`\n\n- theme-dark: `#3e2b00`" },
         { "const": "$color.bg.brand-solid", "title": "$color.bg.brand-solid", "description": "theme-light: $color.palette.carrot-600\ntheme-dark: $color.palette.carrot-700", "markdownDescription": "- theme-light: `$color.palette.carrot-600`\n\n- theme-dark: `$color.palette.carrot-700`" },
         { "const": "$color.bg.brand-solid-pressed", "title": "$color.bg.brand-solid-pressed", "description": "theme-light: $color.palette.carrot-700\ntheme-dark: $color.palette.carrot-800", "markdownDescription": "- theme-light: `$color.palette.carrot-700`\n\n- theme-dark: `$color.palette.carrot-800`" },
         { "const": "$color.bg.brand-weak", "title": "$color.bg.brand-weak", "description": "theme-light: $color.palette.carrot-100\ntheme-dark: $color.palette.carrot-100", "markdownDescription": "- theme-light: `$color.palette.carrot-100`\n\n- theme-dark: `$color.palette.carrot-100`" },
