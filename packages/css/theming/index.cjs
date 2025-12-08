@@ -57,7 +57,7 @@ function generateThemingScript({ mode = DefaultColorModeValue, fontScaling = fal
                 var size = parseFloat(window.getComputedStyle(tempEl).fontSize);
                 document.body.removeChild(tempEl);
                 var mult = Math.max(0.8, Math.min(1.35, (size / 16) * 0.9412));
-                document.documentElement.dataset.seedFontMultiplier = mult.toFixed(2);
+                document.documentElement.dataset.seedFontMultiplier = parseFloat(mult.toFixed(2)).toString();
               } catch (e) {}
             }
 
@@ -69,7 +69,7 @@ function generateThemingScript({ mode = DefaultColorModeValue, fontScaling = fal
           } else if (platform === 'android') {
             var fontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
             var scale = Math.max(0.8, Math.min(1.5, fontSize / 16));
-            document.documentElement.dataset.seedFontMultiplier = scale.toFixed(2);
+            document.documentElement.dataset.seedFontMultiplier = parseFloat(scale.toFixed(2)).toString();
             document.documentElement.dataset.seedFontScaling = 'enabled';
           }
         }
