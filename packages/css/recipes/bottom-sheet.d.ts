@@ -3,6 +3,10 @@ declare interface BottomSheetVariant {
   * @default "left"
   */
   headerAlign: "left" | "center";
+/**
+  * @default false
+  */
+  skipAnimation: boolean;
 }
 
 declare type BottomSheetVariantMap = {

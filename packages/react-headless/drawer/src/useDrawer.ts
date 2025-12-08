@@ -65,7 +65,7 @@ export interface UseDrawerProps {
    */
   direction?: "top" | "bottom" | "left" | "right";
   /**
-   * Opened by default, skips initial enter animation. Still reacts to `open` state changes
+   * Opened by default. Still reacts to `open` state changes
    * @default false
    */
   defaultOpen?: boolean;
@@ -117,11 +117,6 @@ export interface UseDrawerProps {
    */
   closeOnEscape?: boolean;
 
-  /**
-   * Whether to skip the enter/exit animation.
-   * @default false
-   */
-  skipAnimation?: boolean;
 }
 
 export function useDrawer(props: UseDrawerProps) {
@@ -153,7 +148,6 @@ export function useDrawer(props: UseDrawerProps) {
     autoFocus = false,
     closeOnInteractOutside = true,
     closeOnEscape = true,
-    skipAnimation = false,
   } = props;
 
   const [isOpen = false, setIsOpen] = useControllableState({
@@ -648,7 +642,6 @@ export function useDrawer(props: UseDrawerProps) {
       onRelease,
       onDrag,
       dismissible,
-      skipAnimation,
       handleOnly,
       isOpen,
       isDragging,
@@ -673,7 +666,6 @@ export function useDrawer(props: UseDrawerProps) {
       setActiveSnapPoint,
       onOpenChange,
       dismissible,
-      skipAnimation,
       handleOnly,
       isOpen,
       isDragging,

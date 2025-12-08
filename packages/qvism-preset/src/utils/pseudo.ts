@@ -25,8 +25,6 @@ export const invalid = ":is(:invalid, [data-invalid])";
 
 export const loading = "[data-loading]";
 
-export const skipAnimation = "[data-skip-animation]";
-
 type ConcatStrings<T extends string[]> = T extends [
   infer First extends string,
   ...infer Rest extends string[],

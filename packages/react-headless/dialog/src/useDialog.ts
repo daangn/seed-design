@@ -50,11 +50,6 @@ export interface UseDialogProps extends UseDialogStateProps {
    */
   unmountOnExit?: boolean;
 
-  /**
-   * Whether to skip the enter/exit animation.
-   * @default false
-   */
-  skipAnimation?: boolean;
 }
 
 export type UseDialogReturn = ReturnType<typeof useDialog>;
@@ -71,9 +66,8 @@ export function useDialog(props: UseDialogProps = {}) {
       elementProps({
         "data-open": dataAttr(open),
         "data-hidden": dataAttr(!open),
-        "data-skip-animation": dataAttr(props.skipAnimation ?? false),
       }),
-    [open, props.skipAnimation],
+    [open],
   );
 
   return useMemo(
