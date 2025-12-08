@@ -277,6 +277,9 @@
   --radius-r5: var(--seed-radius-r5);
   --radius-r6: var(--seed-radius-r6);
   --radius-full: var(--seed-radius-full);
+  --shadow-100: var(--seed-shadow-100);
+  --shadow-200: var(--seed-shadow-200);
+  --shadow-300: var(--seed-shadow-300);
   --timing-function-linear: var(--seed-timing-function-linear);
   --timing-function-easing: var(--seed-timing-function-easing);
   --timing-function-enter: var(--seed-timing-function-enter);
@@ -620,6 +623,10 @@
 
 @utility easing-* {
   transition-timing-function: --value(--timing-function-*);
+}
+
+@utility shadow-* {
+  box-shadow: --value(--shadow-*);
 }
 
 @utility bg-gradient-fade-layer-floating-* {
