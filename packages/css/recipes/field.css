@@ -14,7 +14,6 @@
 }
 .seed-field__footer {
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
     padding-left: var(--seed-dimension-x0_5);
     padding-right: var(--seed-dimension-x0_5);
@@ -41,6 +40,11 @@
     --seed-prefix-icon-color: var(--seed-color-fg-critical);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
     --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) / 2);
+}
+.seed-field__characterCountArea {
+    margin-left: auto;
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
 }
 .seed-field__characterCount {
     color: var(--seed-color-fg-neutral);

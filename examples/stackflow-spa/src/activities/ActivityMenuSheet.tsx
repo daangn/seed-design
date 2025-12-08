@@ -1,4 +1,4 @@
-import { useActivity, type ActivityComponentType } from "@stackflow/react/future";
+import { useActivity, type StaticActivityComponentType } from "@stackflow/react/future";
 
 import {
   IconPencilLine,
@@ -30,7 +30,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
+const ActivityMenuSheet: StaticActivityComponentType<"ActivityMenuSheet"> = () => {
   const { pop } = menuSheetCallback.useCallbackPop();
   const activity = useActivity();
 

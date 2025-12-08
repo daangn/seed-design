@@ -168,6 +168,24 @@ npx @seed-design/cli@latest add ui:chip
   ```
 </ComponentExample>
 
+### Listening to Value Changes
+
+- `Chip.Toggle`
+  - `onCheckedChange`를 사용하여 토글 상태 변경을 감지할 수 있습니다.
+  - 이벤트를 활용해야 하는 경우 `inputProps`를 통해 내부 `<input>` 요소에 직접 이벤트 핸들러를 추가할 수 있습니다.
+- `Chip.RadioRoot` / `Chip.RadioItem`
+  - `Chip.RadioRoot`의 `onValueChange`를 사용하여 라디오 버튼의 선택 값 변경을 감지할 수 있습니다.
+  - 이벤트를 활용해야 하는 경우 `Chip.RadioItem`의 `inputProps`를 통해 내부 `<input>` 요소에 직접 이벤트 핸들러를 추가할 수 있습니다.
+  
+<ComponentExample name="react/chip/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/chip/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ## Migrating from ActionChip/ControlChip
 
 [Action Chip](/react/components/action-chip)과 [Control Chip](/react/components/control-chip)을 대체합니다.

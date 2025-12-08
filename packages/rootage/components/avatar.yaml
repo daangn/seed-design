@@ -39,6 +39,7 @@ data:
         root:
           size: 20px
           strokeWidth: 1px
+        # we don't use badge for size 20
     size=24:
       enabled:
         root:

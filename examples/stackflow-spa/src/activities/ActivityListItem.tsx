@@ -2,10 +2,19 @@ import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
+  IconHouseLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
@@ -31,6 +40,8 @@ const prefixVariants = [
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "lorem ipsum dolor sit amet" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
 ];
 
 const suffixVariants = [
@@ -66,7 +77,9 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityListItem: ActivityComponentType<"ActivityListItem"> = () => {
+const ActivityListItem: StaticActivityComponentType<"ActivityListItem"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -74,6 +87,11 @@ const ActivityListItem: ActivityComponentType<"ActivityListItem"> = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="ListItem" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent
         ptr
@@ -100,6 +118,7 @@ const ActivityListItem: ActivityComponentType<"ActivityListItem"> = () => {
                       detail={content.detail}
                       prefix={prefix.element}
                       suffix={suffix.element}
+                      highlighted={content.highlighted}
                     />
                     {showDivider && <ListDivider />}
                   </Fragment>

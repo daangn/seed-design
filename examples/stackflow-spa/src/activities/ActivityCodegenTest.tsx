@@ -1,9 +1,10 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
+import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { Avatar } from "seed-design/ui/avatar";
 import { ToggleButton } from "seed-design/ui/toggle-button";
-import { IconPlusFill, IconStarFill } from "@karrotmarket/react-monochrome-icon";
+import { IconPlusFill, IconStarFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, VStack, HStack, Text, Icon, PrefixIcon } from "@seed-design/react";
 
 declare module "@stackflow/config" {
@@ -12,11 +13,18 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityCodegenTest: ActivityComponentType<"ActivityCodegenTest"> = () => {
+const ActivityCodegenTest: StaticActivityComponentType<"ActivityCodegenTest"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
         <AppBarMain title="Codegen Test" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <VStack bg="bg.layerDefault">

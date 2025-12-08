@@ -88,13 +88,13 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 ## Examples
 
-### Transparent
+### Tones
 
-AppBar의 `tone` 속성을 `transparent`로 설정하여 투명한 배경을 사용할 수 있습니다.
+AppScreen의 `tone` 속성을 `transparent`로 설정하여 투명한 배경을 사용할 수 있습니다.
 
 - `AppBar`의 배경이 투명해집니다.
-- `AppBar` 상단에 하얀색 계열의 컨텐츠가 있을 경우를 대비해 그라데이션이 추가됩니다.
-- `AppScreen이` 아닌 `AppBar`에 추가된 그라데이션이기 때문에 `AppBar`가 고정돼서 스크롤되면 그라데이션이 같이 움직입니다.
+- 모바일 OS 상태바를 포함한 `AppScreen` 상단에 그라디언트가 표시됩니다.
+  - `gradient` 속성을 `false`로 설정하여 숨길 수 있습니다.
 
 <StackflowExample names={["react/app-screen/transparent"]}>
   ```json doc-gen:file
@@ -105,9 +105,9 @@ AppBar의 `tone` 속성을 `transparent`로 설정하여 투명한 배경을 사
   ```
 </StackflowExample>
 
-### With Intersection Observer
+#### With Intersection Observer
 
-Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변경해서 하얀색 계열의 컨텐츠가 있을 경우를 대비해 그라데이션이 추가되도록 합니다.
+Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변경할 수 있습니다.
 
 <StackflowExample names={["react/app-screen/with-intersection-observer"]}>
   ```json doc-gen:file
@@ -117,6 +117,32 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
   }
   ```
 </StackflowExample>
+
+### Layer Offset Top
+
+`layerOffsetTop` 속성을 사용해 `AppScreenContent`의 상단 오프셋을 조정할 수 있습니다.
+
+`tone="transparent"`와 `gradient`를 사용하는 경우, 일반적으로 `layerOffsetTop="none"`을 함께 설정하여 모바일 OS 상태바 영역까지 콘텐츠 영역을 확장합니다.
+
+<Callout type="info">
+
+디스플레이 컷아웃 (notch) 등 safe area를 올바르게 처리하기 위해 `viewport-fit=cover`가 포함된 `viewport` 메타 태그를 사용하세요.
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+```
+
+</Callout>
+
+<div className="grid grid-cols-3 gap-4">
+
+![`layerOffsetTop`을 `none`으로 설정한 스크린샷](/react/stackflow/app-screen/layer-offset-top-none.webp)
+
+![`layerOffsetTop`을 `safeArea`으로 설정한 스크린샷](/react/stackflow/app-screen/layer-offset-top-safe-area.webp)
+
+![`layerOffsetTop`을 `appBar`로 설정한 스크린샷](/react/stackflow/app-screen/layer-offset-top-app-bar.webp)
+
+</div>
 
 ### Customizing App Bar
 

@@ -1,6 +1,15 @@
 import { Box, VStack } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
@@ -9,7 +18,9 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityMixedVersionTest: ActivityComponentType<"ActivityMixedVersionTest"> = () => {
+const ActivityMixedVersionTest: StaticActivityComponentType<"ActivityMixedVersionTest"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -17,6 +28,11 @@ const ActivityMixedVersionTest: ActivityComponentType<"ActivityMixedVersionTest"
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="Mixed Version Test" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <VStack gap="x2">

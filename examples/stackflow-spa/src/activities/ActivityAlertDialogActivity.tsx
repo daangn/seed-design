@@ -1,8 +1,16 @@
 import { VStack } from "@seed-design/react";
-import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarIconButton,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -10,7 +18,9 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityAlertDialogActivity: ActivityComponentType<"ActivityAlertDialogActivity"> = () => {
+const ActivityAlertDialogActivity: StaticActivityComponentType<
+  "ActivityAlertDialogActivity"
+> = () => {
   const { push } = useFlow();
 
   return (
@@ -20,6 +30,11 @@ const ActivityAlertDialogActivity: ActivityComponentType<"ActivityAlertDialogAct
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="Activity" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <VStack p="x5" justify="center" gap="x4">

@@ -1,5 +1,25 @@
 # @seed-design/react
 
+## 1.1.10
+
+### Patch Changes
+
+- a2b874b: `TagGroupRoot`의 children이 `null` 또는 `undefined`를 포함하는 경우 불필요한 separator가 표시되는 문제를 수정합니다.
+- 12ffece: peerDeps에 `@seed-design/css` 패키지가 추가됩니다.
+- db5de74: PageBanner에 tone="magic" 스타일을 추가합니다.
+- a12e49b: Field(TextField)의 스타일을 수정합니다.
+
+  - `maxGraphemeCount`를 사용하지만 `description`을 사용하지 않는 경우 `maxGraphemeCount`가 우측이 아닌 좌측에 표시되는 문제를 수정합니다.
+  - Tailwind Preflight 사용 시 Character Count 영역이 디자인 의도보다 높이를 더 많이 차지하는 문제를 수정합니다.
+
+- Updated dependencies [db5de74]
+- Updated dependencies [70d11b8]
+- Updated dependencies [938bf0b]
+- Updated dependencies [c03a3dd]
+- Updated dependencies [a12e49b]
+  - @seed-design/css@1.1.10
+  - @seed-design/react-tabs@1.0.2
+
 ## 1.1.8
 
 ### Patch Changes

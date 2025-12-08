@@ -1,12 +1,20 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { reactionButtonVariantMap } from "@seed-design/css/recipes/reaction-button";
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ReactionButton, type ReactionButtonProps } from "seed-design/ui/reaction-button";
-import { IconFaceSmileCircleFill } from "@karrotmarket/react-monochrome-icon";
+import { IconFaceSmileCircleFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { Count, PrefixIcon } from "@seed-design/react";
 
 const initialVariants = {
@@ -19,7 +27,9 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityReactionButton: ActivityComponentType<"ActivityReactionButton"> = () => {
+const ActivityReactionButton: StaticActivityComponentType<"ActivityReactionButton"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -27,6 +37,11 @@ const ActivityReactionButton: ActivityComponentType<"ActivityReactionButton"> = 
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain>Reaction Button</AppBarMain>
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <ComponentAnalyzer

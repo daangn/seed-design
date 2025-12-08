@@ -1,5 +1,20 @@
 # @seed-design/stackflow
 
+## 1.1.11
+
+### Patch Changes
+
+- ea488c5: @seed-design/stackflow: @stackflow/react-ui-core를 peerDependencies에서 dependencies로 이동합니다.
+
+## 1.1.9
+
+### Patch Changes
+
+- 4e7e15b: Stackflow 플러그인이 최신이 아닌 data attribute에 의해 잘못된 트랜지션을 재생하지 않도록 수정합니다.
+- Updated dependencies [37d332d]
+- Updated dependencies [77517f1]
+  - @seed-design/css@1.1.9
+
 ## 1.1.5
 
 ### Patch Changes

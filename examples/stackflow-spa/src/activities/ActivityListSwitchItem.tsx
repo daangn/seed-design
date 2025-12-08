@@ -1,6 +1,14 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { List, ListDivider, ListSwitchItem } from "seed-design/ui/list";
 import { Icon } from "@seed-design/react";
@@ -8,6 +16,7 @@ import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { Avatar } from "seed-design/ui/avatar";
 import {
   IconChevronRightLine,
+  IconHouseLine,
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
@@ -61,7 +70,9 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityListSwitchItem: ActivityComponentType<"ActivityListSwitchItem"> = () => {
+const ActivityListSwitchItem: StaticActivityComponentType<"ActivityListSwitchItem"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -69,6 +80,11 @@ const ActivityListSwitchItem: ActivityComponentType<"ActivityListSwitchItem"> = 
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="ListSwitchItem" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent
         ptr

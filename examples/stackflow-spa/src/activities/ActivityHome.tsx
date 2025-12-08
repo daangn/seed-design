@@ -7,16 +7,18 @@ import {
   VStack,
   useSnackbarAdapter,
 } from "@seed-design/react";
-import {
-  useActivity,
-  useFlow,
-  useStepFlow,
-  type ActivityComponentType,
-} from "@stackflow/react/future";
+import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
-import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { DialogPushTrigger } from "seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -54,14 +56,12 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
+const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
   const { push } = useFlow();
   const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
 
   const { zIndex: activityIndex } = useActivity();
-
-  const { popStep } = useStepFlow("ActivityHome");
 
   const navigationSections: NavigationSection[] = [
     {
@@ -98,15 +98,15 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <VStack gap="x2">
-                      <ActionButton onClick={() => popStep()}>확인</ActionButton>
+                      <ActionButton onClick={() => setOpen(false)}>확인</ActionButton>
                       <ActionButton
                         variant="neutralSolid"
                         onClick={() => {
-                          popStep();
+                          setOpen(false);
                           push("ActivityChipButton", {});
                         }}
                       >
-                        Push
+                        ActivityChipButton
                       </ActionButton>
                     </VStack>
                   </AlertDialogFooter>
@@ -214,7 +214,9 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
+        { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "TextField", onClick: () => push("ActivityTextField", {}) },
       ],
     },
     {
@@ -226,6 +228,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
         },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
+        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
       ],
     },
   ];
@@ -233,6 +236,11 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
   return (
     <AppScreen>
       <AppBar>
+        {activityIndex > 0 && (
+          <AppBarLeft>
+            <AppBarBackButton />
+          </AppBarLeft>
+        )}
         <AppBarMain title="Home" />
         <AppBarRight>
           <AppBarIconButton>
@@ -246,18 +254,19 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <VStack gap="spacingY.componentDefault">
+        <VStack gap="spacingY.componentDefault" pb="safeArea">
           <Box px="spacingX.globalGutter">
             <Callout
               tone="critical"
               prefixIcon={<Icon svg={<IconHandPointUpLine />} />}
+              title="foobar"
               description="이 영역에서는 Pull to Refresh 동작이 발생하지 않습니다. Exercitation cillum velit
               aliquip deserunt Lorem. Eiusmod proident duis occaecat consequat veniam do commodo
               occaecat duis irure ea sunt officia cupidatat."
               {...PullToRefresh.preventPull}
             />
           </Box>
-          <VStack gap="spacingY.componentDefault">
+          <VStack gap="spacingY.componentDefault" pb="spacingY.componentDefault">
             {navigationSections.map((section, sectionIndex) => (
               <>
                 <VStack key={section.title}>

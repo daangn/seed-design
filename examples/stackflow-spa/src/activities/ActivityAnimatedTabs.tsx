@@ -1,8 +1,16 @@
 import { Box } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarIconButton,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -10,7 +18,9 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityAnimatedTabs: ActivityComponentType<"ActivityAnimatedTabs"> = () => {
+const ActivityAnimatedTabs: StaticActivityComponentType<"ActivityAnimatedTabs"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -18,6 +28,11 @@ const ActivityAnimatedTabs: ActivityComponentType<"ActivityAnimatedTabs"> = () =
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="Animated Tabs" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <TabsRoot defaultValue="1" contentLayout="hug">

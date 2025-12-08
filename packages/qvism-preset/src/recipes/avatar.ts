@@ -1,7 +1,7 @@
-import type { StyleObject } from "@seed-design/qvism-core";
 import { defineSlotRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
 import { avatar as vars } from "../vars/component";
+import type { Properties } from "csstype";
 
 const CIRCLE_SVG_MASK =
   '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="16" fill="white"/></svg>';
@@ -14,22 +14,24 @@ function toDataUrl(svg: string) {
   return `url('data:image/svg+xml;utf8,${svg}')`;
 }
 
-const mask = {
+const mask: Properties = {
   // NOTE: 얇은 선이 남는 현상을 방지하기 위해 borderRadius 대신 원형 SVG 마스크를 사용합니다.
-  "-webkit-mask-image": `${toDataUrl(CIRCLE_SVG_MASK)}, var(--svg-mask-uri)`,
-  "-webkit-mask-size":
+  WebkitMaskImage: `${toDataUrl(CIRCLE_SVG_MASK)}, var(--svg-mask-uri)`,
+  WebkitMaskSize:
     "100% 100%, var(--badge-mask-size) var(--badge-mask-size)" /* SVG 마스크 크기 제어 */,
-  "-webkit-mask-position":
+  WebkitMaskPosition:
     "0 0, var(--badge-mask-offset) var(--badge-mask-offset)" /* SVG 마스크 위치/오프셋 제어 */,
-  "-webkit-mask-repeat": "no-repeat",
-  "-webkit-mask-composite": "source-out" /* SVG 모양(source)을 제외(out) */,
+  WebkitMaskRepeat: "no-repeat",
+  WebkitMaskComposite: "source-out" /* SVG 모양(source)을 제외(out) */,
 
   // 표준 브라우저 속성
-  "mask-image": `${toDataUrl(CIRCLE_SVG_MASK)}, var(--svg-mask-uri)`,
-  "mask-size": "100% 100%, var(--badge-mask-size) var(--badge-mask-size)",
-  "mask-position": "0 0, var(--badge-mask-offset) var(--badge-mask-offset)",
-  "mask-repeat": "no-repeat",
-  "mask-composite": "subtract",
+  maskImage: `${toDataUrl(CIRCLE_SVG_MASK)}, var(--svg-mask-uri)`,
+  maskSize: "100% 100%, var(--badge-mask-size) var(--badge-mask-size)",
+  maskPosition: "0 0, var(--badge-mask-offset) var(--badge-mask-offset)",
+  maskRepeat: "no-repeat",
+  maskComposite: "subtract",
+
+  transform: "translateZ(0)",
 };
 
 const avatar = defineSlotRecipe({
@@ -74,7 +76,7 @@ const avatar = defineSlotRecipe({
       [pseudo(not("[data-loading-state='loaded']"))]: {
         display: "none",
       },
-    } as StyleObject,
+    },
     fallback: {
       display: "flex",
       justifyContent: "center",

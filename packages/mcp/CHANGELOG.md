@@ -1,5 +1,24 @@
 # @seed-design/mcp
 
+## 1.1.11
+
+### Patch Changes
+
+- b58ac46: Figma MCP가 `export_node_as_image` 툴과 `clone_node` 툴 호출 후 반환 결과를 정상적으로 파싱하지 못하는 문제를 수정합니다.
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [23e9246]
+  - @seed-design/figma@1.1.10
+
+## 1.1.9
+
+### Patch Changes
+
+- @seed-design/figma@1.1.9
+
 ## 1.1.8
 
 ### Patch Changes

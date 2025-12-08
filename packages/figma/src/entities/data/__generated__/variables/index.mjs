@@ -1,4 +1,28 @@
 export const FIGMA_VARIABLES = {
+  "VariableID:54461:116345": {
+    "name": "_legacy/bg/layer-fill",
+    "id": "VariableID:54461:116345",
+    "remote": false,
+    "key": "f015408caaf8301430455d23312a5b0a3cb9fb43",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92912"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92913"
+      }
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
   "VariableID:1:170": {
     "name": "_legacy/stroke/field",
     "id": "VariableID:1:170",
@@ -42,136 +66,6 @@ export const FIGMA_VARIABLES = {
       "1928:8": {
         "type": "VARIABLE_ALIAS",
         "id": "VariableID:30894:36305"
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {}
-  },
-  "VariableID:49495:1861": {
-    "name": "_scroll-fog",
-    "id": "VariableID:49495:1861",
-    "remote": false,
-    "key": "12f1d88d590090e396c9b283bb51d4e89d9016d2",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:29453:35711"
-      },
-      "1928:8": {
-        "r": 1,
-        "g": 1,
-        "b": 1,
-        "a": 1
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {}
-  },
-  "VariableID:49497:1643": {
-    "name": "_scroll-fog/layer-default/0",
-    "id": "VariableID:49497:1643",
-    "remote": false,
-    "key": "fae00f7e2fc2ee7cd4bef58de19f468255ca4c5c",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1:155"
-      },
-      "1928:8": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1:155"
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {}
-  },
-  "VariableID:49497:1644": {
-    "name": "_scroll-fog/layer-default/1",
-    "id": "VariableID:49497:1644",
-    "remote": false,
-    "key": "fac0ada2e11c8d54997dce0fc72a723fce514a9f",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "r": 1,
-        "g": 1,
-        "b": 1,
-        "a": 0
-      },
-      "1928:8": {
-        "r": 0.08627451211214066,
-        "g": 0.09019608050584793,
-        "b": 0.10588235408067703,
-        "a": 0
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {}
-  },
-  "VariableID:49497:1645": {
-    "name": "_scroll-fog/layer-floating/0",
-    "id": "VariableID:49497:1645",
-    "remote": false,
-    "key": "334d485b6f54e6ed8dce767cd150b578f4323ad3",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:238:17662"
-      },
-      "1928:8": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:238:17662"
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {}
-  },
-  "VariableID:49497:1646": {
-    "name": "_scroll-fog/layer-floating/1",
-    "id": "VariableID:49497:1646",
-    "remote": false,
-    "key": "3259bea6c3999bc3ad72999fd3123648544bd002",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "r": 1,
-        "g": 1,
-        "b": 1,
-        "a": 0
-      },
-      "1928:8": {
-        "r": 0.11555555462837219,
-        "g": 0.12638889253139496,
-        "b": 0.14444443583488464,
-        "a": 0
       }
     },
     "scopes": [
@@ -548,7 +442,8 @@ export const FIGMA_VARIABLES = {
     "scopes": [
       "FRAME_FILL",
       "SHAPE_FILL",
-      "STROKE_COLOR"
+      "STROKE_COLOR",
+      "EFFECT_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -578,7 +473,7 @@ export const FIGMA_VARIABLES = {
     "codeSyntax": {}
   },
   "VariableID:1:157": {
-    "name": "bg/layer-fill",
+    "name": "bg/layer-elevated",
     "id": "VariableID:1:157",
     "remote": false,
     "key": "7f7f5cddc3c06ed9d96e55a9276273b642b0e3a8",
@@ -589,7 +484,7 @@ export const FIGMA_VARIABLES = {
     "valuesByMode": {
       "1928:7": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92912"
+        "id": "VariableID:1883:92911"
       },
       "1928:8": {
         "type": "VARIABLE_ALIAS",
@@ -600,7 +495,8 @@ export const FIGMA_VARIABLES = {
       "FRAME_FILL",
       "SHAPE_FILL"
     ],
-    "codeSyntax": {}
+    "codeSyntax": {},
+    "deletedButReferenced": true
   },
   "VariableID:238:17662": {
     "name": "bg/layer-floating",
@@ -1072,6 +968,58 @@ export const FIGMA_VARIABLES = {
       "1928:8": {
         "type": "VARIABLE_ALIAS",
         "id": "VariableID:1883:92956"
+      }
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:52349:2": {
+    "name": "bg/transparent",
+    "id": "VariableID:52349:2",
+    "remote": false,
+    "key": "00e78d0aac4330afd6729d7cce7b7821ef26ae29",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0
+      },
+      "1928:8": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0
+      }
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:52349:3": {
+    "name": "bg/transparent-pressed",
+    "id": "VariableID:52349:3",
+    "remote": false,
+    "key": "25d97fe91509757204110a16673a67adfe7b159b",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36295"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36305"
       }
     },
     "scopes": [
@@ -2163,7 +2111,8 @@ export const FIGMA_VARIABLES = {
       "1:5": "Figma Only iOS",
       "1:6": "Figma Only iOS",
       "1:7": "Figma Only iOS",
-      "1:8": "Roboto"
+      "1:8": "Roboto",
+      "51907:0": "Roboto"
     },
     "scopes": [
       "FONT_FAMILY"
@@ -2183,7 +2132,8 @@ export const FIGMA_VARIABLES = {
       "1:5": "Figma Only iOS Text",
       "1:6": "Figma Only iOS Text",
       "1:7": "Figma Only iOS Text",
-      "1:8": "Roboto"
+      "1:8": "Roboto",
+      "51907:0": "Roboto"
     },
     "scopes": [
       "FONT_FAMILY"
@@ -2203,7 +2153,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 11,
       "1:6": 17,
       "1:7": 8,
-      "1:8": 11
+      "1:8": 11,
+      "51907:0": 16.5
     },
     "scopes": [
       "FONT_SIZE"
@@ -2223,7 +2174,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 26,
       "1:6": 32,
       "1:7": 23,
-      "1:8": 26
+      "1:8": 26,
+      "51907:0": 39
     },
     "scopes": [
       "FONT_SIZE"
@@ -2243,7 +2195,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 26,
       "1:6": 26,
       "1:7": 26,
-      "1:8": 26
+      "1:8": 26,
+      "51907:0": 26
     },
     "scopes": [
       "ALL_SCOPES"
@@ -2263,7 +2216,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 12,
       "1:6": 18,
       "1:7": 9,
-      "1:8": 12
+      "1:8": 12,
+      "51907:0": 18
     },
     "scopes": [
       "FONT_SIZE"
@@ -2283,7 +2237,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 13,
       "1:6": 19,
       "1:7": 10,
-      "1:8": 13
+      "1:8": 13,
+      "51907:0": 19.5
     },
     "scopes": [
       "FONT_SIZE"
@@ -2303,7 +2258,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 14,
       "1:6": 20,
       "1:7": 11,
-      "1:8": 14
+      "1:8": 14,
+      "51907:0": 21
     },
     "scopes": [
       "FONT_SIZE"
@@ -2323,7 +2279,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 16,
       "1:6": 22,
       "1:7": 13,
-      "1:8": 16
+      "1:8": 16,
+      "51907:0": 24
     },
     "scopes": [
       "FONT_SIZE"
@@ -2343,7 +2300,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 18,
       "1:6": 24,
       "1:7": 15,
-      "1:8": 18
+      "1:8": 18,
+      "51907:0": 27
     },
     "scopes": [
       "FONT_SIZE"
@@ -2363,7 +2321,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 20,
       "1:6": 26,
       "1:7": 17,
-      "1:8": 20
+      "1:8": 20,
+      "51907:0": 30
     },
     "scopes": [
       "FONT_SIZE"
@@ -2383,7 +2342,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 22,
       "1:6": 28,
       "1:7": 19,
-      "1:8": 22
+      "1:8": 22,
+      "51907:0": 33
     },
     "scopes": [
       "FONT_SIZE"
@@ -2403,7 +2363,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 24,
       "1:6": 30,
       "1:7": 21,
-      "1:8": 24
+      "1:8": 24,
+      "51907:0": 36
     },
     "scopes": [
       "FONT_SIZE"
@@ -2423,7 +2384,8 @@ export const FIGMA_VARIABLES = {
       "1:5": "bold",
       "1:6": "bold",
       "1:7": "bold",
-      "1:8": "bold"
+      "1:8": "bold",
+      "51907:0": "bold"
     },
     "scopes": [
       "FONT_STYLE"
@@ -2443,7 +2405,8 @@ export const FIGMA_VARIABLES = {
       "1:5": "medium",
       "1:6": "medium",
       "1:7": "medium",
-      "1:8": "medium"
+      "1:8": "medium",
+      "51907:0": "medium"
     },
     "scopes": [
       "FONT_STYLE"
@@ -2463,7 +2426,8 @@ export const FIGMA_VARIABLES = {
       "1:5": "regular",
       "1:6": "regular",
       "1:7": "regular",
-      "1:8": "regular"
+      "1:8": "regular",
+      "51907:0": "regular"
     },
     "scopes": [
       "FONT_STYLE"
@@ -2483,7 +2447,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 30,
       "1:6": 36,
       "1:7": 27,
-      "1:8": 30
+      "1:8": 30,
+      "51907:0": 30
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2504,7 +2469,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 15,
       "1:6": 19,
       "1:7": 10,
-      "1:8": 15
+      "1:8": 15,
+      "51907:0": 22.5
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2524,7 +2490,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 35,
       "1:6": 40,
       "1:7": 31,
-      "1:8": 35
+      "1:8": 35,
+      "51907:0": 52.5
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2544,7 +2511,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 35,
       "1:6": 35,
       "1:7": 35,
-      "1:8": 35
+      "1:8": 35,
+      "51907:0": 35
     },
     "scopes": [
       "ALL_SCOPES"
@@ -2564,7 +2532,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 16,
       "1:6": 22,
       "1:7": 13,
-      "1:8": 16
+      "1:8": 16,
+      "51907:0": 24
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2584,7 +2553,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 18,
       "1:6": 24,
       "1:7": 15,
-      "1:8": 18
+      "1:8": 18,
+      "51907:0": 27
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2604,7 +2574,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 19,
       "1:6": 25,
       "1:7": 16,
-      "1:8": 19
+      "1:8": 19,
+      "51907:0": 28.5
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2624,7 +2595,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 22,
       "1:6": 27,
       "1:7": 18,
-      "1:8": 22
+      "1:8": 22,
+      "51907:0": 33
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2644,7 +2616,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 24,
       "1:6": 29,
       "1:7": 20,
-      "1:8": 24
+      "1:8": 24,
+      "51907:0": 36
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2664,7 +2637,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 27,
       "1:6": 31,
       "1:7": 22,
-      "1:8": 27
+      "1:8": 27,
+      "51907:0": 40.5
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2684,7 +2658,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 30,
       "1:6": 34,
       "1:7": 25,
-      "1:8": 30
+      "1:8": 30,
+      "51907:0": 45
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2704,7 +2679,8 @@ export const FIGMA_VARIABLES = {
       "1:5": 32,
       "1:6": 38,
       "1:7": 29,
-      "1:8": 32
+      "1:8": 32,
+      "51907:0": 48
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2738,35 +2714,6 @@ export const FIGMA_VARIABLES = {
       "ALL_SCOPES"
     ],
     "codeSyntax": {}
-  },
-  "VariableID:12548:1440": {
-    "name": "manner-temp/l1/static",
-    "id": "VariableID:12548:1440",
-    "remote": false,
-    "key": "b2e39001b13e619a940631b952ef0cd8156049cc",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "r": 0.46666666865348816,
-        "g": 0.49803921580314636,
-        "b": 0.529411792755127,
-        "a": 1
-      },
-      "1928:8": {
-        "r": 0.46666666865348816,
-        "g": 0.49803921580314636,
-        "b": 0.529411792755127,
-        "a": 1
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
   },
   "VariableID:12479:23363": {
     "name": "manner-temp/l1/text",
@@ -2880,35 +2827,6 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
-  "VariableID:12548:1441": {
-    "name": "manner-temp/l2/static",
-    "id": "VariableID:12548:1441",
-    "remote": false,
-    "key": "eec52a8d360d27647570d4a53220bfbe0af644ac",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "r": 0.23963896930217743,
-        "g": 0.605954647064209,
-        "b": 0.9475748538970947,
-        "a": 1
-      },
-      "1928:8": {
-        "r": 0.21176470816135406,
-        "g": 0.5607843399047852,
-        "b": 0.886274516582489,
-        "a": 1
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
-  },
   "VariableID:12479:23364": {
     "name": "manner-temp/l2/text",
     "id": "VariableID:12479:23364",
@@ -2964,35 +2882,6 @@ export const FIGMA_VARIABLES = {
       "ALL_SCOPES"
     ],
     "codeSyntax": {}
-  },
-  "VariableID:12548:1442": {
-    "name": "manner-temp/l3/static",
-    "id": "VariableID:12548:1442",
-    "remote": false,
-    "key": "155ad6dee47603c9ae025559345083a8bbf224df",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "r": 0.08627451211214066,
-        "g": 0.7137255072593689,
-        "b": 0.9137254953384399,
-        "a": 1
-      },
-      "1928:8": {
-        "r": 0.08627451211214066,
-        "g": 0.7137255072593689,
-        "b": 0.9137254953384399,
-        "a": 1
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
   },
   "VariableID:12479:23365": {
     "name": "manner-temp/l3/text",
@@ -3050,35 +2939,6 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
-  "VariableID:12548:1443": {
-    "name": "manner-temp/l4/static",
-    "id": "VariableID:12548:1443",
-    "remote": false,
-    "key": "01f8a395aab2c47497262b0da2e4b333abfdb96c",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "r": 0.1882352977991104,
-        "g": 0.7803921699523926,
-        "b": 0.5843137502670288,
-        "a": 1
-      },
-      "1928:8": {
-        "r": 0.1882352977991104,
-        "g": 0.7803921699523926,
-        "b": 0.5843137502670288,
-        "a": 1
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
-  },
   "VariableID:12479:23366": {
     "name": "manner-temp/l4/text",
     "id": "VariableID:12479:23366",
@@ -3135,35 +2995,6 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
-  "VariableID:12548:1444": {
-    "name": "manner-temp/l5/static",
-    "id": "VariableID:12548:1444",
-    "remote": false,
-    "key": "9cedfcdca910a043de0cb216a1f2593a3029ff33",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "r": 1,
-        "g": 0.6313725709915161,
-        "b": 0.07450980693101883,
-        "a": 1
-      },
-      "1928:8": {
-        "r": 1,
-        "g": 0.6313725709915161,
-        "b": 0.07450980693101883,
-        "a": 1
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
-  },
   "VariableID:12479:23367": {
     "name": "manner-temp/l5/text",
     "id": "VariableID:12479:23367",
@@ -3219,35 +3050,6 @@ export const FIGMA_VARIABLES = {
       "ALL_SCOPES"
     ],
     "codeSyntax": {}
-  },
-  "VariableID:12548:1445": {
-    "name": "manner-temp/l6/static",
-    "id": "VariableID:12548:1445",
-    "remote": false,
-    "key": "b7d244e9c771ea91fcd18e6f1c566d84cfb396f8",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "r": 1,
-        "g": 0.43529412150382996,
-        "b": 0.05882352963089943,
-        "a": 1
-      },
-      "1928:8": {
-        "r": 1,
-        "g": 0.43529412150382996,
-        "b": 0.05882352963089943,
-        "a": 1
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
   },
   "VariableID:12479:23368": {
     "name": "manner-temp/l6/text",
@@ -3458,7 +3260,8 @@ export const FIGMA_VARIABLES = {
       "1:5": "iOS",
       "1:6": "iOS",
       "1:7": "iOS",
-      "1:8": "Android"
+      "1:8": "Android",
+      "51907:0": "Android"
     },
     "scopes": [
       "ALL_SCOPES"

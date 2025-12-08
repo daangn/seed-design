@@ -1,5 +1,14 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { mannerTempBadgeVariantMap } from "@seed-design/css/recipes/manner-temp-badge";
@@ -17,7 +26,9 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityMannerTempLevel: ActivityComponentType<"ActivityMannerTempLevel"> = () => {
+const ActivityMannerTempLevel: StaticActivityComponentType<"ActivityMannerTempLevel"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -25,6 +36,11 @@ const ActivityMannerTempLevel: ActivityComponentType<"ActivityMannerTempLevel"> 
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain>MannerTempLevel</AppBarMain>
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <ComponentAnalyzer

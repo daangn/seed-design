@@ -42,7 +42,9 @@ export default defineConfig({
 
     vanillaExtractPlugin(),
 
-    seedDesignPlugin(),
+    seedDesignPlugin({
+      fontScaling: true,
+    }),
 
     process.env.VISUALIZER
       ? visualizer({

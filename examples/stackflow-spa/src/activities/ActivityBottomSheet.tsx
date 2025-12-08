@@ -1,5 +1,5 @@
 import { HStack, VStack } from "@seed-design/react";
-import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useRef, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -19,7 +19,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityBottomSheet: ActivityComponentType<"ActivityBottomSheet"> = () => {
+const ActivityBottomSheet: StaticActivityComponentType<"ActivityBottomSheet"> = () => {
   const { push, pop } = useFlow();
   const activity = useActivity();
 

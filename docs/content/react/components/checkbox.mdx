@@ -115,6 +115,21 @@ npx @seed-design/cli@latest add ui:checkbox
   ```
 </ComponentExample>
 
+### Listening to Value Changes
+
+`onCheckedChange`를 사용하여 체크박스의 선택 상태 변경을 감지할 수 있습니다.
+
+이벤트를 활용해야 하는 경우 `inputProps`를 통해 내부 `<input>` 요소에 직접 이벤트 핸들러를 추가할 수 있습니다.
+
+<ComponentExample name="react/checkbox/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/checkbox/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Use Cases
 
 #### React Hook Form

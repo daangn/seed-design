@@ -1,4 +1,4 @@
-import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -20,7 +20,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityAlertDialog: ActivityComponentType<"ActivityAlertDialog"> = () => {
+const ActivityAlertDialog: StaticActivityComponentType<"ActivityAlertDialog"> = () => {
   const activity = useActivity();
   const { pop, push } = useFlow();
 

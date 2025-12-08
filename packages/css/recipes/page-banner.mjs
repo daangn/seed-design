@@ -77,6 +77,10 @@ const compoundVariants = [
   {
     "tone": "critical",
     "variant": "solid"
+  },
+  {
+    "tone": "magic",
+    "variant": "weak"
   }
 ];
 
@@ -90,7 +94,8 @@ export const pageBannerVariantMap = {
     "informative",
     "positive",
     "warning",
-    "critical"
+    "critical",
+    "magic"
   ]
 };
 

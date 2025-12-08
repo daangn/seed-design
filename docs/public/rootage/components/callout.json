@@ -28,6 +28,9 @@
             },
             "color": {
               "type": "color"
+            },
+            "gradient": {
+              "type": "gradient"
             }
           }
         },
@@ -539,7 +542,7 @@
             ],
             "slots": {
               "root": {
-                "color": {
+                "gradient": {
                   "type": "gradient",
                   "value": "$gradient.glow-magic"
                 }
@@ -582,7 +585,7 @@
             ],
             "slots": {
               "root": {
-                "color": {
+                "gradient": {
                   "type": "gradient",
                   "value": "$gradient.glow-magic-pressed"
                 }

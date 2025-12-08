@@ -1,6 +1,6 @@
 import { PrefixIcon } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
-import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   IconPencilLine,
   IconPlusLine,
@@ -20,7 +20,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityMenuSheetSimple: ActivityComponentType<"ActivityMenuSheetSimple"> = () => {
+const ActivityMenuSheetSimple: StaticActivityComponentType<"ActivityMenuSheetSimple"> = () => {
   const { pop, push } = useFlow();
   const { isActive } = useActivity();
   const snackbar = useSnackbarAdapter();

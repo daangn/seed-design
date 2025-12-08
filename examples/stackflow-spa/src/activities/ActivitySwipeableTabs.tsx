@@ -1,6 +1,13 @@
 import { Box, HStack, Portal, PullToRefresh, Tabs, Text, VStack } from "@seed-design/react";
-import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
@@ -18,6 +25,7 @@ import { ListButtonItem } from "seed-design/ui/list";
 import { ActionButton } from "seed-design/ui/action-button";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -25,7 +33,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = () => {
+const ActivitySwipeableTabs: StaticActivityComponentType<"ActivitySwipeableTabs"> = () => {
   const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const { push } = useFlow();
 
@@ -36,6 +44,11 @@ const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = ()
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="Swipeable Tabs" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <TabsRoot defaultValue="1">
@@ -69,7 +82,9 @@ const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = ()
                         <ListButtonItem title="AlertDialog (step)" />
                       </AlertDialogTrigger>
                       <Portal>
-                        <AlertDialogContent layerIndex={useActivityZIndexBase()}>
+                        <AlertDialogContent
+                          layerIndex={useActivityZIndexBase({ activityOffset: +1 })}
+                        >
                           <AlertDialogHeader>
                             <AlertDialogTitle>제목</AlertDialogTitle>
                             <AlertDialogDescription>
@@ -83,7 +98,7 @@ const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = ()
                                 variant="neutralSolid"
                                 onClick={() => push("ActivityChipButton", {})}
                               >
-                                Push
+                                ActivityChipButton
                               </ActionButton>
                             </VStack>
                           </AlertDialogFooter>

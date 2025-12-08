@@ -1,7 +1,16 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
 
-import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarLeft,
+  AppBarMain,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 
@@ -11,7 +20,9 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityHelpBubble: ActivityComponentType<"ActivityHelpBubble"> = () => {
+const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -19,6 +30,11 @@ const ActivityHelpBubble: ActivityComponentType<"ActivityHelpBubble"> = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain>Help Bubble</AppBarMain>
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <div style={{ display: "flex", paddingTop: "20vh", justifyContent: "center" }}>

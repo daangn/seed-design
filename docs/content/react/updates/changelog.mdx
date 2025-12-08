@@ -3,6 +3,113 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.12.04
+
+@seed-design/stackflow: @stackflow/react-ui-core를 peerDependencies에서 dependencies로 이동합니다. [`ea488c5`](https://github.com/daangn/seed-design/commit/ea488c5da8813d16f9d6401858dfd932d9b53553)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.11](https://npmjs.com/package/@seed-design/stackflow/v/1.1.11)
+
+---
+
+Figma MCP가 `export_node_as_image` 툴과 `clone_node` 툴 호출 후 반환 결과를 정상적으로 파싱하지 못하는 문제를 수정합니다. [`b58ac46`](https://github.com/daangn/seed-design/commit/b58ac46b66c4a9589bd894d072a01a3c3de83c2a)
+
+영향받는 패키지
+- 📦 [@seed-design/mcp@1.1.11](https://npmjs.com/package/@seed-design/mcp/v/1.1.11)
+
+---
+
+## 2025.12.01
+
+Figma 엔티티 및 Codegen을 업데이트합니다. (신규 아이콘 및 `ResultSection` Codegen 지원) [`bc9f9a0`](https://github.com/daangn/seed-design/commit/bc9f9a0462f4fbdd8282d2b107d036e4b7d33632)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.1.10](https://npmjs.com/package/@seed-design/figma/v/1.1.10)
+
+---
+
+`TagGroupRoot`의 children이 `null` 또는 `undefined`를 포함하는 경우 불필요한 separator가 표시되는 문제를 수정합니다. [`a2b874b`](https://github.com/daangn/seed-design/commit/a2b874b790c7d40ce7561d044ceaad176dc7955d)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.10](https://npmjs.com/package/@seed-design/react/v/1.1.10)
+
+---
+
+peerDeps에 `@seed-design/css` 패키지가 추가됩니다. [`12ffece`](https://github.com/daangn/seed-design/commit/12ffece09da7a3740ddc2dba0fc8f65b70210d7a)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.10](https://npmjs.com/package/@seed-design/react/v/1.1.10)
+
+---
+
+PageBanner에 tone="magic" 스타일을 추가합니다. [`db5de74`](https://github.com/daangn/seed-design/commit/db5de74c6c8ad7b434372e498443c5d706f3279b)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.10](https://npmjs.com/package/@seed-design/css/v/1.1.10)
+- 📦 [@seed-design/react@1.1.10](https://npmjs.com/package/@seed-design/react/v/1.1.10)
+- 📦 [@seed-design/rootage-artifacts@1.1.5](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.5)
+
+---
+
+Segmented Control의 스타일을 업데이트합니다: Indicator에서 shadow 정의를 제거합니다. [`70d11b8`](https://github.com/daangn/seed-design/commit/70d11b80ae01b616570468ddc5133740ae1182cb)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.10](https://npmjs.com/package/@seed-design/css/v/1.1.10)
+- 📦 [@seed-design/rootage-artifacts@1.1.5](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.5)
+
+---
+
+TabsCarousel에 onSwipeStart, onSwipeEnd 이벤트 콜백을 추가합니다. [`938bf0b`](https://github.com/daangn/seed-design/commit/938bf0bb413947ef03dcbb3d5cdf36af62cebfb5)
+
+영향받는 패키지
+- 📦 [@seed-design/react-tabs@1.0.2](https://npmjs.com/package/@seed-design/react-tabs/v/1.0.2)
+
+---
+
+TextFieldInput 및 TextFieldTextarea (text-input 스타일시트)에서 브라우저 기본 자동 완성 스타일이 표시되지 않도록 수정합니다. [`c03a3dd`](https://github.com/daangn/seed-design/commit/c03a3dd984a15d66da10127bd37d1b8966b15ec7)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.10](https://npmjs.com/package/@seed-design/css/v/1.1.10)
+
+---
+
+Field(TextField)의 스타일을 수정합니다. [`a12e49b`](https://github.com/daangn/seed-design/commit/a12e49b6f3a7fdec66c12666a35b15a4787d3aca)
+
+- `maxGraphemeCount`를 사용하지만 `description`을 사용하지 않는 경우 `maxGraphemeCount`가 우측이 아닌 좌측에 표시되는 문제를 수정합니다.
+- Tailwind Preflight 사용 시 Character Count 영역이 디자인 의도보다 높이를 더 많이 차지하는 문제를 수정합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.10](https://npmjs.com/package/@seed-design/css/v/1.1.10)
+- 📦 [@seed-design/react@1.1.10](https://npmjs.com/package/@seed-design/react/v/1.1.10)
+
+---
+
+## 2025.11.26
+
+`AppBar`에 적용되는 그라디언트를 `AppScreen`으로 이동합니다. [`37d332d`](https://github.com/daangn/seed-design/commit/37d332daf30f0f61e4e1692e896021a73b38287c)
+
+- `<AppBar tone="transparent">`를 사용하는 경우 `tone="transparent"`를 `AppScreen`으로 옮겨 그라디언트를 표시할 수 있습니다.
+- `AppScreen`에 `gradient={false}`를 설정하여 그라디언트를 숨길 수 있습니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.9](https://npmjs.com/package/@seed-design/css/v/1.1.9)
+
+---
+
+iOS 웹뷰 환경에서 Avatar가 정상적으로 렌더링되지 않는 문제를 수정합니다. [`77517f1`](https://github.com/daangn/seed-design/commit/77517f16067b72e4792e12105e93a7b0cc1d0292)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.9](https://npmjs.com/package/@seed-design/css/v/1.1.9)
+
+---
+
+Stackflow 플러그인이 최신이 아닌 data attribute에 의해 잘못된 트랜지션을 재생하지 않도록 수정합니다. [`afa281b`](https://github.com/daangn/seed-design/commit/afa281b2a802359c64b549e58c1d499792d28e29)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.9](https://npmjs.com/package/@seed-design/stackflow/v/1.1.9)
+
+---
+
 ## 2025.11.21
 
 List Item에 신규 active(pressed) 스타일을 적용하고, disabled 상태에서 detail 영역의 색상을 수정합니다. [`8752805`](https://github.com/daangn/seed-design/commit/87528054e18200ab6098abfe66186ee2cddaf9e0)

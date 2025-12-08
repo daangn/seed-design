@@ -17,6 +17,8 @@ interface FieldWrapperProps extends React.ComponentPropsWithoutRef<typeof Field.
   errorMessage?: React.ReactNode;
   showRequiredIndicator?: boolean;
   children?: React.ReactNode;
+
+  maxGraphemeCount?: number;
 }
 
 const FieldWrapper = React.forwardRef<HTMLDivElement, FieldWrapperProps>(
@@ -29,6 +31,7 @@ const FieldWrapper = React.forwardRef<HTMLDivElement, FieldWrapperProps>(
       showRequiredIndicator,
       children,
       invalid,
+      maxGraphemeCount,
       ...props
     },
     ref,
@@ -36,7 +39,7 @@ const FieldWrapper = React.forwardRef<HTMLDivElement, FieldWrapperProps>(
     const renderHeader = label || indicator;
     const renderDescription = !!description;
     const renderErrorMessage = errorMessage && invalid;
-    const renderFooter = renderDescription || renderErrorMessage;
+    const renderFooter = renderDescription || renderErrorMessage || maxGraphemeCount;
 
     return (
       <Field.Root ref={ref} invalid={invalid} {...props}>
@@ -66,7 +69,7 @@ const FieldWrapper = React.forwardRef<HTMLDivElement, FieldWrapperProps>(
                 {errorMessage}
               </Field.ErrorMessage>
             )}
-            <Field.CharacterCount current={100} max={1000} />
+            {maxGraphemeCount && <Field.CharacterCount current={100} max={maxGraphemeCount} />}
           </Field.Footer>
         )}
       </Field.Root>
@@ -84,25 +87,36 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const label =
+  "Sunt nisi labore nostrud. Proident incididunt cillum ad ullamco aute amet excepteur ipsum aute excepteur ex sint tempor dolor.";
+const indicator =
+  "선택 Nisi consequat elit reprehenderit laboris laboris enim laborum quis adipisicing.";
+const description =
+  "Laborum quis reprehenderit non elit id esse. Duis duis sint anim incididunt aute ad incididunt aute ad duis dolore qui anim enim.";
+const errorMessage =
+  "Aliqua culpa incididunt amet voluptate. Sint ea tempor laboris. Aliqua pariatur veniam magna cupidatat aliquip velit voluptate elit.";
+
 const conditionMap = {
-  invalid: {
-    false: { invalid: false },
-    true: { invalid: true },
+  header: {
+    hidden: {},
+    label: { label },
+    labelWithIndicator: { label, indicator },
+    labelWithRequiredIndicator: { label, showRequiredIndicator: true },
+    labelWithIndicatorAndRequiredIndicator: { label, indicator, showRequiredIndicator: true },
+  },
+  footer: {
+    hidden: {},
+    description: { description },
+    errorMessage: { invalid: true, errorMessage },
+    descriptionWithGraphemeCount: { description, maxGraphemeCount: 200 },
+    errorMessageWithGraphemeCount: { invalid: true, errorMessage, maxGraphemeCount: 200 },
+    graphemeCountOnly: { maxGraphemeCount: 200 },
   },
 };
 
 const CommonStoryTemplate: Story = {
   args: {
     children: <Box bg="bg.brandWeak" height="x8" />,
-    label: "Label Sunt nisi labore nostrud.",
-    indicator:
-      "선택 Nisi consequat elit reprehenderit laboris laboris enim laborum quis adipisicing. Et consequat sit mollit dolor voluptate enim amet duis mollit eu consequat tempor reprehenderit. Veniam ipsum eiusmod in cillum ad ea quis. Lorem pariatur anim ad.",
-    description:
-      "This is a description text. Et deserunt occaecat enim mollit aute proident reprehenderit. Eiusmod est incididunt ipsum velit. Velit ea sunt est voluptate aliqua aliquip ipsum occaecat ullamco. Minim sunt voluptate laborum dolor. Ut nisi aliqua nisi culpa ipsum eu et veniam nulla esse voluptate non. Occaecat sit amet laboris occaecat et est amet voluptate minim.",
-    errorMessage:
-      "This is an error message. Laborum nostrud sint magna reprehenderit consequat fugiat nostrud reprehenderit fugiat eu in enim quis. Aliqua labore consectetur officia minim irure laboris aliquip nisi. Pariatur laboris velit elit officia dolore ad fugiat velit adipisicing Lorem incididunt ipsum ad. Laborum esse Lorem ut esse do. Minim eu cillum proident adipisicing magna excepteur aliquip. Ad ea duis excepteur enim qui dolor incididunt ullamco cillum adipisicing. Commodo non consectetur et id exercitation Lorem aliquip do consectetur nisi excepteur consectetur. Laborum ex esse anim irure tempor nisi irure esse.",
-    showRequiredIndicator: true,
-    required: true,
   },
   render: (args) => (
     <VariantTable
