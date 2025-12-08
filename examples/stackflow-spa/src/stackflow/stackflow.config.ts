@@ -13,6 +13,7 @@ export const config = defineConfig({
     { route: "/animated-tabs", name: "ActivityAnimatedTabs" },
     { route: "/avatar-stack", name: "ActivityAvatarStack" },
     { route: "/avatar", name: "ActivityAvatar" },
+    { route: "/badge", name: "ActivityBadge" },
     { route: "/bottom-sheet-activity", name: "ActivityBottomSheetActivity" },
     { route: "/bottom-sheet-step", name: "ActivityBottomSheetStep" },
     { route: "/bottom-sheet", name: "ActivityBottomSheet" },

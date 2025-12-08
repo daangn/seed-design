@@ -2,10 +2,10 @@ import type { StaticActivityComponentType } from "@stackflow/react/future";
 
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
-import { useSnackbarAdapter, Snackbar } from "seed-design/ui/snackbar";
+import { useSnackbarAdapter, Snackbar, SnackbarAvoidOverlap } from "seed-design/ui/snackbar";
 import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
 import { useRef, type FormEventHandler } from "react";
-import { Box, HStack, ScrollFog, Text, VStack } from "@seed-design/react";
+import { ScrollFog, Text, VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { PageBanner } from "seed-design/ui/page-banner";
 import {
@@ -135,17 +135,21 @@ const ActivityTextField: StaticActivityComponentType<"ActivityTextField"> = () =
                   </VStack>
                 </VStack>
               </ScrollFog>
-              <HStack
-                px="spacingX.globalGutter"
-                py="x3"
-                gap="x2"
-                width="full"
-                style={{ boxSizing: "border-box" }}
-              >
-                <ActionButton flexGrow variant="neutralSolid" size="large" type="submit">
-                  제출
-                </ActionButton>
-              </HStack>
+              <SnackbarAvoidOverlap>
+                <VStack
+                  px="spacingX.globalGutter"
+                  pb="safeArea"
+                  gap="x2"
+                  width="full"
+                  style={{ boxSizing: "border-box" }}
+                >
+                  <VStack py="x3">
+                    <ActionButton flexGrow variant="neutralSolid" size="large" type="submit">
+                      제출
+                    </ActionButton>
+                  </VStack>
+                </VStack>
+              </SnackbarAvoidOverlap>
             </form>
           </VStack>
         </VStack>
