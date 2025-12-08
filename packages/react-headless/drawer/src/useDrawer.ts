@@ -116,6 +116,12 @@ export interface UseDrawerProps {
    * @default true
    */
   closeOnEscape?: boolean;
+
+  /**
+   * Whether to skip the enter/exit animation.
+   * @default false
+   */
+  skipAnimation?: boolean;
 }
 
 export function useDrawer(props: UseDrawerProps) {
@@ -147,6 +153,7 @@ export function useDrawer(props: UseDrawerProps) {
     autoFocus = false,
     closeOnInteractOutside = true,
     closeOnEscape = true,
+    skipAnimation = false,
   } = props;
 
   const [isOpen = false, setIsOpen] = useControllableState({
@@ -189,7 +196,6 @@ export function useDrawer(props: UseDrawerProps) {
   const isAllowedToDrag = useRef<boolean>(false);
   const pointerStart = useRef(0);
   const keyboardIsOpen = useRef(false);
-  const shouldAnimate = useRef(!defaultOpen);
   const previousDiffFromInitial = useRef(0);
   const drawerRef = useRef<HTMLDivElement>(null);
   const drawerHeightRef = useRef(drawerRef.current?.getBoundingClientRect().height || 0);
@@ -543,11 +549,6 @@ export function useDrawer(props: UseDrawerProps) {
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    window.requestAnimationFrame(() => {
-      shouldAnimate.current = true;
-    });
-  }, []);
 
   useEffect(() => {
     function onVisualViewportChange() {
@@ -647,7 +648,7 @@ export function useDrawer(props: UseDrawerProps) {
       onRelease,
       onDrag,
       dismissible,
-      shouldAnimate,
+      skipAnimation,
       handleOnly,
       isOpen,
       isDragging,
@@ -672,6 +673,7 @@ export function useDrawer(props: UseDrawerProps) {
       setActiveSnapPoint,
       onOpenChange,
       dismissible,
+      skipAnimation,
       handleOnly,
       isOpen,
       isDragging,

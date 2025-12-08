@@ -1,7 +1,7 @@
 import { dialog as vars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { not, open, pseudo } from "../utils/pseudo";
+import { not, open, pseudo, skipAnimation } from "../utils/pseudo";
 
 const dialog = defineSlotRecipe({
   name: "dialog",
@@ -39,12 +39,12 @@ const dialog = defineSlotRecipe({
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
 
-      [pseudo(open)]: enterAnimation({
+      [pseudo(open, not(skipAnimation))]: enterAnimation({
         timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
         duration: vars.base.enabled.backdrop.enterDuration,
         opacity: vars.base.enabled.backdrop.enterOpacity,
       }),
-      [pseudo(not(open))]: exitAnimation({
+      [pseudo(not(open), not(skipAnimation))]: exitAnimation({
         timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
         duration: vars.base.enabled.backdrop.exitDuration,
         opacity: vars.base.enabled.backdrop.exitOpacity,
@@ -64,13 +64,13 @@ const dialog = defineSlotRecipe({
       margin: `auto ${vars.base.enabled.content.marginX}`,
       borderRadius: vars.base.enabled.content.cornerRadius,
 
-      [pseudo(open)]: enterAnimation({
+      [pseudo(open, not(skipAnimation))]: enterAnimation({
         timingFunction: vars.base.enabled.content.enterTimingFunction,
         duration: vars.base.enabled.content.enterDuration,
         opacity: vars.base.enabled.content.enterOpacity,
         scale: vars.base.enabled.content.enterScale,
       }),
-      [pseudo(not(open))]: exitAnimation({
+      [pseudo(not(open), not(skipAnimation))]: exitAnimation({
         timingFunction: vars.base.enabled.content.exitTimingFunction,
         duration: vars.base.enabled.content.exitDuration,
         opacity: vars.base.enabled.content.exitOpacity,

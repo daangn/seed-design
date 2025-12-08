@@ -1,7 +1,7 @@
 import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { active, not, open, pseudo } from "../utils/pseudo";
+import { active, not, open, pseudo, skipAnimation } from "../utils/pseudo";
 
 const menuSheet = defineSlotRecipe({
   name: "menu-sheet",
@@ -40,12 +40,12 @@ const menuSheet = defineSlotRecipe({
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
-      [pseudo(not(open))]: exitAnimation({
+      [pseudo(not(open), not(skipAnimation))]: exitAnimation({
         timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
         duration: vars.base.enabled.backdrop.exitDuration,
         opacity: vars.base.enabled.backdrop.exitOpacity,
       }),
-      [pseudo(open)]: enterAnimation({
+      [pseudo(open, not(skipAnimation))]: enterAnimation({
         timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
         duration: vars.base.enabled.backdrop.enterDuration,
         opacity: vars.base.enabled.backdrop.enterOpacity,
@@ -68,12 +68,12 @@ const menuSheet = defineSlotRecipe({
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
 
-      [pseudo(not(open))]: exitAnimation({
+      [pseudo(not(open), not(skipAnimation))]: exitAnimation({
         timingFunction: vars.base.enabled.content.exitTimingFunction,
         duration: vars.base.enabled.content.exitDuration,
         translateY: "100%",
       }),
-      [pseudo(open)]: enterAnimation({
+      [pseudo(open, not(skipAnimation))]: enterAnimation({
         timingFunction: vars.base.enabled.content.enterTimingFunction,
         duration: vars.base.enabled.content.enterDuration,
         translateY: "100%",

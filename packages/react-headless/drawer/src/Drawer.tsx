@@ -71,7 +71,7 @@ export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((p
     snapPoints,
     isOpen,
     shouldFade,
-    shouldAnimate,
+    skipAnimation,
     shouldOverlayAnimate,
   } = useDrawerContext();
   const composedRef = useComposedRefs(ref, overlayRef);
@@ -89,7 +89,7 @@ export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((p
       onMouseUp={onMouseUp}
       data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
       data-snap-points-overlay={isOpen && shouldFade ? "true" : "false"}
-      data-animate={shouldAnimate?.current ? "true" : "false"}
+      data-skip-animation={dataAttr(skipAnimation)}
       data-should-overlay-animate={shouldOverlayAnimate ? "true" : "false"}
       data-open={dataAttr(isOpen)}
       {...props}
@@ -118,7 +118,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     snapPoints,
     container,
     handleOnly,
-    shouldAnimate,
+    skipAnimation,
     autoFocus,
     closeDrawer,
     closeOnInteractOutside,
@@ -183,7 +183,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
       data-drawer=""
       data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
       data-custom-container={container ? "true" : "false"}
-      data-animate={shouldAnimate?.current ? "true" : "false"}
+      data-skip-animation={dataAttr(skipAnimation)}
       {...restProps}
       ref={composedRef}
       style={
