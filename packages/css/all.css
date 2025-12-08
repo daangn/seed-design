@@ -2398,7 +2398,7 @@
 }
 
 .seed-badge__root--size_medium {
-  max-width: 7.5rem;
+  max-width: clamp(calc(108px * var(--seed-font-size-limit-min)), 7.5rem, calc(108px * var(--seed-font-size-limit-max)));
   min-height: var(--seed-dimension-x5);
   padding-left: var(--seed-dimension-x1_5);
   padding-right: var(--seed-dimension-x1_5);
@@ -2410,7 +2410,7 @@
 }
 
 .seed-badge__root--size_large {
-  max-width: 6.75rem;
+  max-width: clamp(calc(120px * var(--seed-font-size-limit-min)), 6.75rem, calc(120px * var(--seed-font-size-limit-max)));
   min-height: var(--seed-dimension-x6);
   padding-left: var(--seed-dimension-x2);
   padding-right: var(--seed-dimension-x2);
@@ -4191,21 +4191,21 @@
 
 .seed-field-label__indicatorText {
   vertical-align: bottom;
+  padding-left: clamp(calc(4px * var(--seed-font-size-limit-min)), .25rem, calc(4px * var(--seed-font-size-limit-max)));
   color: var(--seed-color-fg-neutral-subtle);
   font-size: var(--seed-font-size-t4);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-regular);
-  padding-left: .25rem;
   display: inline;
 }
 
 .seed-field-label__indicatorIcon {
   vertical-align: top;
-  width: .375rem;
-  height: .375rem;
+  width: clamp(calc(6px * var(--seed-font-size-limit-min)), .375rem, calc(6px * var(--seed-font-size-limit-max)));
+  height: clamp(calc(6px * var(--seed-font-size-limit-min)), .375rem, calc(6px * var(--seed-font-size-limit-max)));
+  margin-top: clamp(calc(4px * var(--seed-font-size-limit-min)), .25rem, calc(4px * var(--seed-font-size-limit-max)));
+  margin-left: clamp(calc(2px * var(--seed-font-size-limit-min)), .125rem, calc(2px * var(--seed-font-size-limit-max)));
   color: var(--seed-color-fg-critical);
-  margin-top: .25rem;
-  margin-left: .125rem;
   display: inline;
 }
 
