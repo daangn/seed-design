@@ -104,62 +104,62 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
           <HStack gap="x2" wrap>
             <VStack gap="x2">
               <Badge size="large" variant="outline" tone="neutral">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="outline" tone="brand">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="outline" tone="critical">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="outline" tone="informative">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="outline" tone="positive">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="outline" tone="warning">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
             </VStack>
             <VStack gap="x2">
               <Badge size="large" variant="solid" tone="neutral">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="solid" tone="brand">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="solid" tone="critical">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="solid" tone="informative">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="solid" tone="positive">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="solid" tone="warning">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
             </VStack>
             <VStack gap="x2">
               <Badge size="large" variant="weak" tone="neutral">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="weak" tone="brand">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="weak" tone="critical">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="weak" tone="informative">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="weak" tone="positive">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
               <Badge size="large" variant="weak" tone="warning">
-                t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
               </Badge>
             </VStack>
           </HStack>
