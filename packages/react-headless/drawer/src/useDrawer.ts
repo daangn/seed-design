@@ -65,7 +65,7 @@ export interface UseDrawerProps {
    */
   direction?: "top" | "bottom" | "left" | "right";
   /**
-   * Opened by default, skips initial enter animation. Still reacts to `open` state changes
+   * Opened by default. Still reacts to `open` state changes
    * @default false
    */
   defaultOpen?: boolean;
@@ -116,6 +116,7 @@ export interface UseDrawerProps {
    * @default true
    */
   closeOnEscape?: boolean;
+
 }
 
 export function useDrawer(props: UseDrawerProps) {
@@ -189,7 +190,6 @@ export function useDrawer(props: UseDrawerProps) {
   const isAllowedToDrag = useRef<boolean>(false);
   const pointerStart = useRef(0);
   const keyboardIsOpen = useRef(false);
-  const shouldAnimate = useRef(!defaultOpen);
   const previousDiffFromInitial = useRef(0);
   const drawerRef = useRef<HTMLDivElement>(null);
   const drawerHeightRef = useRef(drawerRef.current?.getBoundingClientRect().height || 0);
@@ -543,11 +543,6 @@ export function useDrawer(props: UseDrawerProps) {
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    window.requestAnimationFrame(() => {
-      shouldAnimate.current = true;
-    });
-  }, []);
 
   useEffect(() => {
     function onVisualViewportChange() {
@@ -647,7 +642,6 @@ export function useDrawer(props: UseDrawerProps) {
       onRelease,
       onDrag,
       dismissible,
-      shouldAnimate,
       handleOnly,
       isOpen,
       isDragging,
