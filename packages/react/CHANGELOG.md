@@ -1,5 +1,17 @@
 # @seed-design/react
 
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies [8d0ad90]
+- Updated dependencies [8f31f93]
+- Updated dependencies [69ccc6e]
+- Updated dependencies [279001a]
+  - @seed-design/css@1.1.12
+  - @seed-design/react-dialog@1.0.1
+  - @seed-design/react-drawer@1.0.5
+
 ## 1.1.10
 
 ### Patch Changes
