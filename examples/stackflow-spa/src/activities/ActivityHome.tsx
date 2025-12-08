@@ -212,6 +212,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
       title: "Other Components",
       items: [
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
+        { title: "Badge", onClick: () => push("ActivityBadge", {}) },
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },

@@ -58,7 +58,7 @@ jobs:
 
       - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR의 base 브랜치를 체크아웃해요
         if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets == 'true'
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
         with:
           ref: changeset-release/${{ github.ref_name }}
 
