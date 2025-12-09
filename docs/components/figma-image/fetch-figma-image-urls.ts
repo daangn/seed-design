@@ -1,7 +1,7 @@
 import { Api as Figma } from "figma-api";
 import * as FigmaRestAPI from "@figma/rest-api-spec";
 import { FlatCache } from "flat-cache";
-import findCacheDirectory from "find-cache-directory";
+import path from "node:path";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
 const MAX_RETRIES = 3;
@@ -10,18 +10,14 @@ const CACHE_ID = "urls";
 
 const isCacheDisabled = process.env.FIGMA_CACHE_DISABLED === "1";
 
-// will be node_modules/.cache/remark-figma-image
-const cacheDir = findCacheDirectory({ name: "remark-figma-image" });
-
-if (!cacheDir) throw new Error("Could not determine cache directory");
+// Store cache in docs/.cache/figma-image (gitignored. persisted via Actions cache)
+const cacheDir = path.resolve(process.cwd(), ".cache/figma-image");
 
 const imageUrlCache = new FlatCache({
   cacheDir,
   cacheId: CACHE_ID,
   ttl: CACHE_TTL_MS,
 });
-
-// imageUrlCache.load(CACHE_ID, cacheDir);
 
 // Figma API
 
@@ -53,9 +49,7 @@ export async function fetchFigmaImageUrls({
   imageUrlCache.load(CACHE_ID, cacheDir);
 
   for (const nodeId of nodeIds) {
-    const cached = isCacheDisabled
-      ? undefined
-      : imageUrlCache.get<string>(getCacheKey(fileKey, nodeId));
+    const cached = isCacheDisabled ? undefined : imageUrlCache.get<string>(getCacheKey(nodeId));
 
     if (cached) {
       result.set(nodeId, cached);
@@ -93,7 +87,7 @@ export async function fetchFigmaImageUrls({
         if (!url) continue;
 
         result.set(nodeId, url);
-        imageUrlCache.set(getCacheKey(fileKey, nodeId), url);
+        imageUrlCache.set(getCacheKey(nodeId), url);
       }
 
       imageUrlCache.save();
@@ -119,8 +113,8 @@ export async function fetchFigmaImageUrls({
 
 // Helpers
 
-function getCacheKey(fileKey: string, nodeId: string): string {
-  return `${fileKey}:${nodeId}`;
+function getCacheKey(nodeId: string): string {
+  return nodeId;
 }
 
 function delay(ms: number): Promise<void> {
