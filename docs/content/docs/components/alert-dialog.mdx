@@ -1,6 +1,7 @@
 ---
 title: Alert Dialog
 description: 사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하세요.
+coverImageFigmaId: 2:37556
 ---
 
 <PlatformStatusTable componentId="alert-dialog" />
@@ -8,7 +9,7 @@ description: 사용자의 확인이 반드시 필요한 경우 강력한 표현 
 ## Anatomy
 
 <FigmaImage
-  id=""
+  id="2:37556"
   alt="Alert Dialog의 Anatomy 이미지. Backdrop(Overlay)와 Dialog Content로 구성됩니다."
 />
 
@@ -18,16 +19,16 @@ Alert Dialog는 Backdrop(Overlay)와 Dialog Content가 결합된 형태로 하�
 
 ### Layout Property
 
-<FigmaImage
-  id=""
-  alt="Alert Dialog의 Layout Property - Action Button 가로 배열과 세로 배열"
-/>
+<FigmaImage id="2:37573" alt="Alert Dialog의 Layout Property" />
 
 Action Button 가로 배열을 기본으로 제공합니다. Action Button Label 길이가 긴 경우 세로 배열을 사용할 수 있습니다.
 
 ### Show Title
 
-<FigmaImage id="" alt="Alert Dialog의 Show Title Property - 제목 표시 여부" />
+<FigmaImage
+  id="2:37606"
+  alt="Alert Dialog의 Show Title Property - 제목 표시 여부"
+/>
 
 상황에 따라서 제목을 표시하지 않을 수 있습니다.
 
@@ -36,8 +37,13 @@ Action Button 가로 배열을 기본으로 제공합니다. Action Button Label
 ### 알림 또는 확인이 필요한 상황에서 사용
 
 <FigmaImage
-  id=""
-  alt="Alert Dialog를 알림 또는 확인이 필요한 상황에서 사용하는 예시 - Neutral과 Brand"
+  id="2:37626"
+  alt="Alert Dialog를 알림 또는 확인이 필요한 상황에서 사용하는 예시 - Neutral"
+/>
+
+<FigmaImage
+  id="2:37630"
+  alt="Alert Dialog를 알림 또는 확인이 필요한 상황에서 사용하는 예시 - Neutral"
 />
 
 Alert Dialog는 사용자가 반드시 알아야할 정보나 옵션 선택이 필요한 경우 사용할 수 있습니다. 기본적으로 Neutral 사용을 권장하지만, 제품의 핵심 가치와 맞닿아 있는 정보를 안내하는 경우 Brand를 사용할 수 있습니다.
@@ -45,18 +51,22 @@ Alert Dialog는 사용자가 반드시 알아야할 정보나 옵션 선택이 �
 ### 경고가 필요한 상황에서 사용
 
 <FigmaImage
-  id=""
+  id="2:37642"
   alt="Alert Dialog를 경고가 필요한 상황에서 사용하는 예시 - Critical"
 />
 
 데이터 삭제, 사용자가 작성한 내용이 지워질 수 있는 경우, 설정 초기화 등 사용자가 행동한 무언가가 유실될 수 있는 상황에서는 Critical로 표현하세요. 경고가 필요한 액션을 의미하는 버튼이 Critical로 표시되어야 합니다.
 
-**Critical Action Button은 경고가 필요한 액션에 지정되어야 합니다.**
+<DontImage
+  figmaId="2:37646"
+  body="Critical Action Button은 경고가 필요한 액션에 지정되어야 합니다."
+  alt="Alert Dialog에서 '취소' 버튼에 Critical을 사용한 예시"
+/>
 
 ### 긴 버튼 Label을 사용하는 경우
 
 <FigmaImage
-  id=""
+  id="2:37681"
   alt="긴 버튼 Label을 사용하는 경우 - Responsive-wrapping 예시"
 />
 
@@ -64,10 +74,10 @@ Alert Dialog는 사용자가 반드시 알아야할 정보나 옵션 선택이 �
 
 **Alert Dialog는 Responsive-wrapping 컨테이너를 제공하기 때문에 설정된 로직에 따라서 자동으로 레이아웃을 전환됩니다.**
 
-### None preferred 레이아웃 사용하기
+### Nonpreferred 레이아웃 사용하기 (사용 시 주의)
 
 <FigmaImage
-  id=""
+  id="2:37695"
   alt="None preferred 레이아웃 사용 예시 - Secondary Ghost Button"
 />
 
@@ -81,12 +91,12 @@ Alert Dialog는 경고, 알림을 목적으로 표시되는 컴포넌트라서 �
 
 <Grid>
   <DontImage
-    figmaId=""
+    figmaId="2:37708"
     body="임의로 커스텀하거나 콘텐츠 정렬을 변경하지 마세요."
     alt="Alert Dialog를 임의로 커스텀하거나 콘텐츠 정렬을 변경한 잘못된 예시"
   />
   <DoImage
-    figmaId=""
+    figmaId="2:37733"
     body="제공되는 형태 그대로 사용하고 정렬을 항상 유지되어야 합니다."
     alt="Alert Dialog를 제공되는 형태 그대로 사용한 올바른 예시"
   />
@@ -94,27 +104,25 @@ Alert Dialog는 경고, 알림을 목적으로 표시되는 컴포넌트라서 �
 
 ### Alert Dialog UX Writing
 
-<FigmaImage id="" alt="Alert Dialog UX Writing 문서 링크" />
-
 적절한 Alert Dialog 안내 문구 작성 방법은 별도 Notion 문서에서 설명합니다.
 
-## Alert Dialog VS Menu Sheet
+## Alert Dialog vs.Menu Sheet
 
 ### Alert Dialog, Menu Sheet 비교
 
-<FigmaImage id="" alt="Alert Dialog와 Menu Sheet 사용 예시 비교" />
+<FigmaImage id="2:37808" alt="Alert Dialog와 Menu Sheet 사용 예시 비교" />
 
 Alert Dialog와 Menu Sheet는 유사한 UI이지만, 사용 목적과 제공하는 기능에 차이가 있습니다.
 
-| 구분           | Alert Dialog                                        | Menu Sheet                                         |
-| -------------- | --------------------------------------------------- | -------------------------------------------------- |
-| 목적           | 반드시 선택이 필요, 되돌릴 수 없는 액션에 대한 안내 | 사용할 수 있는 여러개의 메뉴와 액션을 제공         |
-| 제공 액션 개수 | 2개 이하 (닫기 포함)                                | 2개 이상 (닫기 포함)                               |
-| 액션 구성      | 양자택일 (삭제 여부 / 이탈 여부..)                  | 여러개로 구성                                      |
-| 내용 표시 여부 | 액션에 대한 부연설명이 반드시 필요                  | 설명이 필요 없을 수 있음                           |
-| 표시 위치      | 화면 정중앙                                         | 화면 하단                                          |
-| 닫기 액션      | 명시적인 닫기, 취소 등 버튼을 탭해야 닫힘           | 닫기 같은 버튼이나 Bottom Sheet 바깥을 탭해도 닫힘 |
+| 구분               | Alert Dialog                                        | Menu Sheet                                         |
+| ------------------ | --------------------------------------------------- | -------------------------------------------------- |
+| **목적**           | 반드시 선택이 필요, 되돌릴 수 없는 액션에 대한 안내 | 사용할 수 있는 여러개의 메뉴와 액션을 제공         |
+| **제공 액션 개수** | 2개 이하 (닫기 포함)                                | 2개 이상 (닫기 포함)                               |
+| **액션 구성**      | 양자택일 (삭제 여부 / 이탈 여부..)                  | 여러개로 구성                                      |
+| **내용 표시 여부** | 액션에 대한 부연설명이 반드시 필요                  | 설명이 필요 없을 수 있음                           |
+| **표시 위치**      | 화면 정중앙                                         | 화면 하단                                          |
+| **닫기 액션**      | 명시적인 닫기, 취소 등 버튼을 탭해야 닫힘           | 닫기 같은 버튼이나 Bottom Sheet 바깥을 탭해도 닫힘 |
 
-## Spec
+## Specification
 
 <ComponentSpecBlock id="alert-dialog" />

@@ -1,13 +1,14 @@
 ---
 title: Menu Sheet
 description: Menu Sheet는 사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.
+coverImageFigmaId: 2:142913
 ---
 
 <PlatformStatusTable componentId="menu-sheet" />
 
 ## Anatomy
 
-<FigmaImage id="" alt="Menu Sheet의 Anatomy 이미지" />
+<FigmaImage id="2:142913" alt="Menu Sheet의 Anatomy 이미지" />
 
 Menu Sheet는 Backdrop, Header, Menu Group, Close Button과 함께 조합되어서 제공됩니다.
 
@@ -15,7 +16,7 @@ Menu Sheet는 Backdrop, Header, Menu Group, Close Button과 함께 조합되어�
 
 ### Menu Group Count Property
 
-<FigmaImage id="" alt="Menu Sheet의 Menu Group Count Property" />
+<FigmaImage id="2:142932" alt="Menu Sheet의 Menu Group Count Property" />
 
 Menu Item이 많을 때는 기능이나 관련성에 따라 그룹으로 묶어서 표시할 수 있습니다. 그룹 간에는 시각적 구분을 위해 간격을 제공합니다.
 
@@ -24,7 +25,7 @@ Menu Item이 많을 때는 기능이나 관련성에 따라 그룹으로 묶어�
 ### Layout Property
 
 <FigmaImage
-  id=""
+  id="2:142953"
   alt="Menu Sheet의 Layout Property - Text Only와 Text with Icon"
 />
 
@@ -34,7 +35,7 @@ Menu Item은 Text Only와 Text with Icon 두 가지 레이아웃이 있습니다
 
 ### Menu Item Tone
 
-<FigmaImage id="" alt="Menu Sheet의 Menu Item Tone - Neutral과 Critical" />
+<FigmaImage id="2:142975" alt="Menu Sheet의 Menu Item Tone - Neutral과 Critical" />
 
 Menu Item은 Neutral과 Critical의 두 가지 톤을 가집니다.
 
@@ -44,13 +45,13 @@ Menu Item은 Neutral과 Critical의 두 가지 톤을 가집니다.
 
 ### Show Header
 
-<FigmaImage id="" alt="Menu Sheet의 Show Header Property" />
+<FigmaImage id="2:142997" alt="Menu Sheet의 Show Header Property" />
 
 Header를 활용하여 Menu Sheet의 부가 설명을 추가할 수 있습니다. Header는 Title과 Description으로 구성되며 Header를 사용할 경우 Title은 반드시 포함되어야 합니다.
 
 ### Show Item Description
 
-<FigmaImage id="" alt="Menu Sheet의 Show Item Description Property" />
+<FigmaImage id="2:143014" alt="Menu Sheet의 Show Item Description Property" />
 
 메뉴 아이템의 액션 설명(description)은 'Show Item Description' prop (on/off)을 이용해 제어할 수 있습니다. 다만, 이 prop은 모든 아이템에 공통으로 사용되는 경우가 잘 없기에 사용할 리스트 아이템을 클릭하여 Properties 패널에서 설정을 확인해 주세요.
 
@@ -61,7 +62,7 @@ Header를 활용하여 Menu Sheet의 부가 설명을 추가할 수 있습니다
 ### 아이콘의 사용
 
 <FigmaImage
-  id=""
+  id="2:143038"
   alt="Menu Sheet에서 아이콘 사용 예시 - Text Only와 Text with Icon"
 />
 
@@ -69,11 +70,16 @@ Menu Item 라벨에 아이콘을 함께 표시할 수 있습니다.
 
 아이콘은 라벨만으로 설명이 부족할 때 시각적 단서를 제공하며, 꼭 필요한 경우에만 제한적으로 사용하길 권장합니다.
 
-**Text Only와 Text with Icon 아이템을 함께 사용할 수 없습니다.**
+<DontImage figmaId="2:143052" body="Text Only와 Text with Icon을 함께 사용할 수 없습니다." alt="하나의 Menu Sheet에서 Text Only와 Text with Icon을 함께 사용한 경우" />
 
 ### 메뉴 그룹
 
-<FigmaImage id="" alt="Menu Sheet의 메뉴 그룹 사용 예시" />
+<Grid>
+
+<FigmaImage id="2:143068" alt="Menu Sheet의 메뉴 그룹 사용 예시" />
+<DontImage figmaId="2:143070" body="적어도 하나의 그룹은 2개 이상의 아이템을 포함해야 합니다." alt="모든 메뉴 그룹에 아이템이 1개만 포함된 경우" />
+
+</Grid>
 
 Menu Item이 많을 때는 기능이나 관련성에 따라 그룹으로 묶어서 표시할 수 있습니다.
 
@@ -83,7 +89,7 @@ Menu Item이 많을 때는 기능이나 관련성에 따라 그룹으로 묶어�
 
 ### Critical Tone의 사용
 
-<FigmaImage id="" alt="Menu Sheet에서 Critical Tone 사용 예시" />
+<FigmaImage id="2:143083" alt="Menu Sheet에서 Critical Tone 사용 예시" />
 
 삭제, 신고, 나가기 등 되돌릴 수 없는 작업을 수행하는 아이템은 Critical Tone으로 표현할 수 있습니다.
 
@@ -91,7 +97,7 @@ Critical Tone 아이템은 반드시 하나로 제한되지 않으며, 필요한
 
 ### Header의 사용
 
-<FigmaImage id="" alt="Menu Sheet에서 Header 사용 예시" />
+<FigmaImage id="2:143096" alt="Menu Sheet에서 Header 사용 예시" />
 
 부가적인 설명이 필요한 경우 Header를 사용해서 내용의 설명을 도울 수 있습니다.
 
@@ -101,7 +107,7 @@ Title은 한 줄에 표시될 수 있도록 간결하게 유지하고, Descripti
 
 ### Item Description의 사용
 
-<FigmaImage id="" alt="Menu Sheet에서 Item Description 사용 예시" />
+<FigmaImage id="2:143109" alt="Menu Sheet에서 Item Description 사용 예시" />
 
 기능 이름이 추상적이어서 직접적인 설명이 있어야 오작동을 막는 경우와 같이 선택지를 이해하기 위해 추가 설명이 필요한 경우 사용할 수 있습니다.
 
@@ -111,7 +117,7 @@ Title은 한 줄에 표시될 수 있도록 간결하게 유지하고, Descripti
 
 ### 주요 변경점
 
-<FigmaImage id="" alt="Menu Sheet V2와 V3 비교 Playground" />
+<FigmaImage id="2:143127" alt="Menu Sheet V2와 V3 비교" />
 
 - Action Sheet V2.0과 V2.1(beta) 스타일을 통합하여 하나의 컴포넌트로 제공합니다.
 - 컴포넌트 이름을 'Action Sheet'에서 'Menu Sheet'로 변경했습니다.
@@ -120,6 +126,16 @@ Title은 한 줄에 표시될 수 있도록 간결하게 유지하고, Descripti
 - Overlay 속성은 제거하고 Backdrop 레이어를 기본으로 포함합니다.
 - Figma에서만 제공하던 OS Indicator 속성을 삭제했습니다. OS Indicator 사용은 가이드를 참고해주세요.
 
-## Spec
+## Specification
+
+### Menu Sheet
 
 <ComponentSpecBlock id="menu-sheet" />
+
+### Menu Sheet Item
+
+<ComponentSpecBlock id="menu-sheet-item" />
+
+### Menu Sheet Close Button
+
+<ComponentSpecBlock id="menu-sheet-close-button" />

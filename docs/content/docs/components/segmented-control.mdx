@@ -8,7 +8,7 @@ description: 여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시
 ## Anatomy
 
 <FigmaImage
-  id=""
+  id="2:175859"
   alt="Segmented Control의 Anatomy 이미지. Container, Segment, Label, Badge (Optional)로 구성됩니다."
 />
 
@@ -21,7 +21,7 @@ Segmented Control은 전체를 감싸는 컨테이너(Container) 안에 여러 �
 ### Number of Controls
 
 <FigmaImage
-  id=""
+  id="2:175872"
   alt="Segmented Control의 Number of Controls - 2개, 3개, 4개"
 />
 
@@ -30,7 +30,7 @@ Segmented Control은 전체를 감싸는 컨테이너(Container) 안에 여러 �
 ### State
 
 <FigmaImage
-  id=""
+  id="2:175889"
   alt="Segmented Control의 State - Selected-Enabled, Selected-Pressed, Pressed, Disabled, Selected-Disabled"
 />
 
@@ -40,19 +40,28 @@ Segmented Control은 Selected/Unselected 상태를 통해 세그먼트화된 아
 
 ### 짧고 간단하게 작성하기
 
-<FigmaImage id="" alt="짧고 간단한 라벨 작성 예시" />
+<Grid>
+
+<FigmaImage id="2:175921" alt="인기순, 추천순 Label을 포함하는 Segmented Control" />
+<DontImage figmaId="2:175923" alt="가장 인기있는 리뷰, 추천이 많은 리뷰 Label을 포함하는 Segmented Control" body="Segment를 표현하는 라벨은 짧고 간결하게 작성해주세요." />
+
+</Grid>
 
 라벨은 짧고 간결하게 유지하세요. 라벨이 세그먼트에 비해 너무 길다면 다른 구성 요소를 사용하는 것을 고려해 보세요.
 
 ### 4개 이하로 사용하기
 
-<FigmaImage id="" alt="4개 이하 사용 예시" />
+<Grid>
+<FigmaImage id="2:175935" alt="3개의 선택지를 포함하는 Segmented Control" />
+<DontImage figmaId="2:175937" alt="5개의 선택지를 포함하는 Segmented Control" body="옵션을 5개 이상 사용하지 마세요." />
+</Grid>
+
 
 선택지가 너무 많아지면 사용자가 인식하기 어렵고, 모바일 환경에서는 터치 영역이 좁아져 사용성이 떨어집니다. 더 많은 옵션이 필요하면 Radio group, Checkbox group와 같은 다른 구성 요소를 사용하는 것이 좋습니다.
 
 ### 한 화면에 한 개 이상 사용하지 않기
 
-<FigmaImage id="" alt="한 화면에 한 개만 사용하는 예시" />
+<DontImage figmaId="2:175954" alt="한 화면에 2개의 Segmented Control이 사용된 예시" body="한 화면에 한 개 이상 사용하는 것을 지양해요." />
 
 Segmented Control한 화면에 반복해서 사용하는 것은 권장되지 않습니다.
 
@@ -60,7 +69,7 @@ Segmented Control한 화면에 반복해서 사용하는 것은 권장되지 않
 
 ### Segmented Control로 보기 전환하기
 
-<FigmaImage id="" alt="보기 전환 사용 예시" />
+<FigmaImage id="2:175998" alt="지도, 거리뷰, 3D 중 지도 보기 중 전환하는 예시" />
 
 Segmented Control은 특정 콘텐츠 영역에 직접적인 영향을 미치는 상호작용에 사용해야 합니다.
 
@@ -68,25 +77,21 @@ Segmented Control은 특정 콘텐츠 영역에 직접적인 영향을 미치는
 
 ### 필터링으로 활용하기
 
-<FigmaImage id="" alt="필터링 활용 예시" />
+<FigmaImage id="2:176327" alt="동네 필터링에 활용하는 예시" />
 
 연관된 콘텐츠 그룹을 필터링할 때 Segmented Control을 사용하면 사용자가 보기 내 콘텐츠의 범위를 좁히거나 넓히며 원하는 콘텐츠를 쉽게 찾을 수 있습니다.
 
 ### 보기 내에서 콘텐츠를 탐색하기
 
-<FigmaImage id="" alt="콘텐츠 탐색 예시" />
+<FigmaImage id="2:176510" alt="선택한 항목 별로 다른 내용을 표시하는 예시" />
 
 같은 콘텐츠 목록을 여러 다른 관점이나 기준으로 보여주고 싶을 때, 세그먼트 컨트롤로 각 기준을 손쉽게 전환하도록 만들 수 있습니다.
 
-## Segmented Control VS Tabs
-
-### Segmented Control, Tabs 비교
+## Segmented Control vs.Tabs
 
 Segmented Control과 Tabs는 시각적으로 비슷해서 자주 혼동되지만, 목적과 사용법에 있어 명확한 차이가 있습니다.
 
 **핵심적으로 Tabs는 탐색(Navigation)을 위한 것이고, Segmented Control은 조작(Manipulation)을 위한 것입니다.**
-
-<FigmaImage id="" alt="Segmented Control과 Tabs 비교 표" />
 
 |               | Segmented Control                                            | Tabs                                                      |
 | ------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
@@ -95,10 +100,18 @@ Segmented Control과 Tabs는 시각적으로 비슷해서 자주 혼동되지만
 | **영향 범위** | 현재 화면의 특정 부분에만 영향을 줌                          | 탭 하단의 콘텐츠 영역 전체를 교체함                       |
 | **동작**      | 선택 시 현재 뷰의 데이터만 변경됨                            | 선택 시 새로운 뷰가 로드됨                                |
 
-<FigmaImage id="" alt="Segmented Control과 Tabs 비교 예시 이미지" />
+<Grid>
+<FigmaImage id="2:176716" alt="Tabs를 동네생활, 모임, 단지 간 화면 전환을 위해 사용한 예시" />
+<DontImage figmaId="2:176931" alt="Segmented Control을 동네생활, 모임, 단지 간 화면 전환을 위해 사용한 예시" body="Segmented Control을 탐색 경험에 사용하지 마세요." />
+</Grid>
 
-## Spec
 
-<ComponentSpecBlock id="segmented-control" />
+## Specification
 
-<ComponentSpecBlock id="segmented-control-item" />
+### Segmented Control
+
+<ComponentSpecBlock id="segmented-control" headingComponent="h4" />
+
+### Segmented Control Item
+
+<ComponentSpecBlock id="segmented-control-item" headingComponent="h4" />

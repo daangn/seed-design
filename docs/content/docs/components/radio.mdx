@@ -8,7 +8,7 @@ description: Radio는 여러 옵션 중 하나를 선택할 수 있는 컴포넌
 ## Anatomy
 
 <FigmaImage
-  id=""
+  id="2:161631"
   alt="Radio의 Anatomy 이미지. Radiomark와 Label로 구성됩니다."
 />
 
@@ -19,7 +19,7 @@ Radio는 Radiomark와 Label로 구성됩니다. Radiomark는 개별 컴포넌트
 ### Size, Weight Property
 
 <FigmaImage
-  id=""
+  id="2:161642"
   alt="Radio의 Size와 Weight Property - Medium, Large 사이즈와 Regular, Bold Weight"
 />
 
@@ -27,7 +27,7 @@ Radio는 Medium, Large 사이즈로 제공됩니다. 강조해야하거나 경�
 
 ### Tone
 
-<FigmaImage id="" alt="Radio의 Tone Property - Neutral" />
+<FigmaImage id="2:161661" alt="Radio의 Tone Property - Neutral" />
 
 Radio는 Neutral을 기본으로 제공합니다.
 
@@ -36,7 +36,7 @@ Radio는 Neutral을 기본으로 제공합니다.
 ### State
 
 <FigmaImage
-  id=""
+  id="2:161671"
   alt="Radio의 State - Enabled, Pressed, Disabled, Selected-Enabled, Selected-Pressed, Selected-Disabled"
 />
 
@@ -46,25 +46,38 @@ Radio는 선택(Selected), 미선택(Unselected)상태를 가지며, 이 각각�
 
 ### Radio touch target
 
-<FigmaImage id="" alt="Radio touch target 영역 예시" />
+<FigmaImage id="2:161702" alt="Radio touch target 영역 예시" />
 
-Radio는 Label을 포함한 영역이 Target으로 동작합니다. List처럼 Radiomark를 조합해서 사용하는 경우 전체 Row가 Target 영역이 되어야 합니다.
+Radio는 Label을 포함한 영역이 Target으로 동작합니다.
+
+<FigmaImage id="2:161707" alt="List touch target 영역 예시" />
+
+List처럼 Radiomark를 조합해서 사용하는 경우 전체 Row가 Target 영역이 되어야 합니다.
 
 ### 하나만 선택 가능할 때 사용하기
 
-<FigmaImage id="" alt="Radio를 단일 선택으로 사용하는 예시" />
-
 목록에서 하나의 옵션만 선택할 수 있는 경우 Radio를 사용합니다.
 
+<Grid>
+<FigmaImage id="2:161720" alt="Radio를 단일 선택으로 사용하는 예시" />
 <DontImage
-  figmaId=""
+  figmaId="2:161743"
   body="목록에서 여러 옵션을 선택할 수 있는 경우 Checkbox를 사용하세요."
-  alt="여러 옵션 선택이 가능한 경우 Checkbox를 사용하는 예시"
+  alt="여러 옵션 선택이 가능한 상황에서 Radio를 사용하는 예시"
 />
+</Grid>
 
 ### 기본 선택 제공하기
 
-<FigmaImage id="" alt="Radio 기본 선택 제공 예시" />
+<Grid>
+<FigmaImage id="2:161776" alt="Radio 기본 선택 제공 예시" />
+<DontImage
+  figmaId="2:161798"
+  body="권장되거나 빈번하게 사용되는 옵션을 기본으로 제공하세요."
+  alt="Radio 기본 선택이 제공되지 않은 예시"
+/>
+</Grid>
+
 
 Radio를 제공할 때는 사용자의 고민을 덜어주고 빠른 선택을 돕기 위해 가장 일반적인 선택지를 기본으로 제공하는 것을 권장합니다.
 
@@ -72,7 +85,14 @@ Radio를 제공할 때는 사용자의 고민을 덜어주고 빠른 선택을 �
 
 ### 가로로 나열하지 않기
 
-<FigmaImage id="" alt="Radio를 가로로 나열하지 않는 예시" />
+<Grid>
+<FigmaImage id="2:161830" alt="Radio를 세로로 나열한 예시" />
+<DontImage
+  figmaId="2:161835"
+  body="수평으로 배열해야 할 경우, 각 요소가 명확히 구분되도록 충분한 간격(Gap)을 확보해주세요."
+  alt="Radio를 가로로 나열한 예시"
+/>
+</Grid>
 
 여러 Radio를 사용할 시 수직으로 쌓아 올리는 것이 기본적인 정렬 방식입니다. 가로로 나열 시 레이블의 길이가 길어지거나 화면 너비가 좁아질 때 어떤 버튼에 해당하는지 혼동을 일으킬 수 있으므로 지양합니다.
 
@@ -80,13 +100,18 @@ Radio를 제공할 때는 사용자의 고민을 덜어주고 빠른 선택을 �
 
 ### 옵션 개수에 따라 적절한 컴포넌트 사용하기
 
-<FigmaImage id="" alt="옵션 개수에 따른 Radio와 Input Button 사용 예시" />
+<Grid>
+<FigmaImage id="2:161854" alt="Radio를 사용한 예시" />
+<FigmaImage id="2:162228" alt="Select Box (Radio)를 사용한 예시" />
+</Grid>
+
+<FigmaImage id="2:162267" alt="Input Button을 통해 Radio로 구성된 List가 포함된 Bottom Sheet를 연 예시" />
 
 사용자에게 명확하고 효율적인 선택 경험을 제공하기 위해, 선택해야 할 옵션의 개수는 컴포넌트를 결정하는 중요한 기준이 됩니다.
 
 **Radio Group**: 선택지가 2개에서 6개 사이일 때 사용합니다.
 
-- 사용자가 각 옵션의 차이를 명확히 비교하고 신중하게 선택해야 할 때 (예: 배송 방법 - 일반 배송 vs 특급 배송)
+- 사용자가 각 옵션의 차이를 명확히 비교하고 신중하게 선택해야 할 때 (예: 배송 방법 - 일반 배송 vs.특급 배송)
 - 설정, 주문서, 설문조사 등 '서류' 형태의 폼일 때
 
 **Input Button**: 선택지가 6개 이상으로 많거나, 앞으로 더 늘어날 가능성이 있을 때 사용합니다.
@@ -96,11 +121,9 @@ Radio를 제공할 때는 사용자의 고민을 덜어주고 빠른 선택을 �
 - 화면이 복잡하거나 다른 중요한 정보가 많을 때
 - 출생연도, 국가 등 많은 옵션이 나타나고, 옵션이 추가될 수 있을 때
 
-Input Button은 곧 배포될 예정입니다.
+## Radio vs.Checkbox vs.Chip Group
 
-## Radio VS Checkbox VS Chip Group
-
-<FigmaImage id="" alt="Radio, Checkbox, Chip Group 비교표" />
+<FigmaImage id="2:162407" alt="Radio, Checkbox, Chip Group 비교표" />
 
 Radio와 Checkbox, Chip Group의 선택 기준을 제안합니다.
 
@@ -117,7 +140,7 @@ Radio와 Checkbox, Chip Group의 선택 기준을 제안합니다.
 
 ### 주요 변경점
 
-<FigmaImage id="" alt="Radio V2와 V3 비교 Playground" />
+<FigmaImage id="2:162309" alt="Radio V2와 V3 비교" />
 
 **색상 시스템 개편**: 주요 버튼(Primary Button)과 같은 핵심 액션과의 시각적 혼동을 방지하기 위해 기존 Brand 컬러를 제거했습니다. 대신, UI 전반의 시각적 위계를 고려하여 새롭게 Neutral 톤을 추가했습니다.
 
@@ -126,6 +149,12 @@ Radio와 Checkbox, Chip Group의 선택 기준을 제안합니다.
 - **Radio Mark**: 레이블 없이 단독으로 표현되며, 다양하게 조합될 수 있습니다.
 - **Radio**: 텍스트 레이블과 함께 사용하는 표준 컴포넌트입니다.
 
-## Spec
+## Specification
 
-<ComponentSpecBlock id="radio" />
+### Radio
+
+<ComponentSpecBlock id="radio" headingComponent="h3" />
+
+### Radio Mark
+
+<ComponentSpecBlock id="radiomark" headingComponent="h3" />

@@ -1,6 +1,7 @@
 ---
 title: Notification Badge
 description: 아이콘, 버튼, 메뉴 등 UI 요소에 표시되어 새로운 알림이나 읽지 않은 메시지 수를 나타내는 컴포넌트입니다.
+coverImageFigmaId: 2:145065
 ---
 
 <PlatformStatusTable componentId="notification-badge" />
@@ -8,7 +9,7 @@ description: 아이콘, 버튼, 메뉴 등 UI 요소에 표시되어 새로운 �
 ## Anatomy
 
 <FigmaImage
-  id=""
+  id="2:145065"
   alt="Notification Badge의 Anatomy 이미지. Large Badge Container, Large Badge Label, Small Badge로 구성됩니다."
 />
 
@@ -18,7 +19,7 @@ Notification Badge는 Large Size와 Small Size로 구성되어 있습니다. Lar
 
 ### Size
 
-<FigmaImage id="" alt="Notification Badge의 Size Property - Small, Large" />
+<FigmaImage id="2:145082" alt="Notification Badge의 Size Property - Small, Large" />
 
 Notification Badge는 Small, Large 두 가지 사이즈를 제공합니다.
 
@@ -31,8 +32,18 @@ Notification Badge는 Small, Large 두 가지 사이즈를 제공합니다.
 ### Notification Badge의 위치
 
 <FigmaImage
-  id=""
-  alt="Notification Badge의 위치 예시 - Top Navigation, Bottom Navigation, Tabs"
+  id="2:145108"
+  alt="Notification Badge의 위치 예시 - Top Navigation"
+/>
+
+<FigmaImage
+  id="2:145115"
+  alt="Notification Badge의 위치 예시 - Bottom Navigation"
+/>
+
+<FigmaImage
+  id="2:145126"
+  alt="Notification Badge의 위치 예시 - Tabs"
 />
 
 Notification Badge는 일반적으로 우측 상단에 위치하며, 다른 컴포넌트에 포함되어 사용됩니다.
@@ -44,26 +55,49 @@ Notification Badge는 일반적으로 우측 상단에 위치하며, 다른 컴�
 ### Notification Badge의 동작
 
 <FigmaImage
-  id=""
-  alt="Notification Badge의 동작 예시 - 읽지 않은 메시지 표시, 확인 후 Badge는 사라짐"
+  id="2:145143"
+  alt="Notification Badge의 동작 예시 - 읽지 않은 메시지 표시, 확인하지 않은 알림 표시"
 />
 
 Notification Badge는 읽지 않은 메시지나 확인되지 않은 알림과 같은 핵심 상태가 있을 때만 표시합니다.
+
+<FigmaImage
+  id="2:145182"
+  alt="Notification Badge의 동작 예시 - 확인 후 Badge는 사라짐"
+/>
 
 사용자가 알림을 확인하거나 상호작용을 완료하면 Badge는 즉시 사라져 "알림이 처리됨"이라는 시각적 피드백을 제공합니다.
 
 ### Label 표시
 
+<Grid>
+
 <FigmaImage
-  id=""
-  alt="Label 표시 예시 - 최대 숫자 표기, 숫자 0은 표시하지 않습니다"
+  id="2:145196"
+  alt="Label 표시 예시 - 최대 숫자 표기"
 />
+<DontImage
+  figmaId="2:145200"
+  body="숫자 0은 표시하지 않습니다"
+  alt="Label에 숫자 0이 표시된 예시"
+ />
+
+ </Grid>
 
 Large Badge의 Label은 최대 4자(필요시 "+" 기호 포함)로 제한됩니다. 0은 표시하지 않습니다.
 
 ### Notification Badge 남용하지 않기
 
-<FigmaImage id="" alt="Notification Badge 남용하지 않기 예시" />
+<Grid>
+
+<FigmaImage id="2:145213" alt="Notification Badge 남용하지 않기 예시" />
+<DontImage
+  figmaId="2:145252"
+  body="한 화면 안에서 Notification Badge를 남용하지 않습니다."
+  alt="한 화면의 3개의 Notification Badge가 사용된 예시"
+ />
+
+</Grid>
 
 Badge는 강한 색상과 대비를 가지고 있어 한 화면에 여러 개 표시될 경우 사용자에게 시각적 피로를 주고 정보 인지를 방해할 수 있습니다.
 
@@ -73,8 +107,8 @@ Badge는 강한 색상과 대비를 가지고 있어 한 화면에 여러 개 �
 
 ### 주요 변경점
 
-<FigmaImage id="" alt="Notification Badge V2와 V3 비교 Playground" />
+<FigmaImage id="2:145312" alt="Notification Badge V2와 V3 비교" />
 
-## Spec
+## Specification
 
 <ComponentSpecBlock id="notification-badge" />

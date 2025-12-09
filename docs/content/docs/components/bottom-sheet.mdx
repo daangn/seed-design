@@ -1,6 +1,7 @@
 ---
 title: Bottom Sheet
 description: 화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.
+coverImageFigmaId: 2:52133
 ---
 
 <PlatformStatusTable componentId="bottom-sheet" />
@@ -8,7 +9,7 @@ description: 화면 하단에서 올라오는 모달 컴포넌트입니다. 추�
 ## Anatomy
 
 <FigmaImage
-  id=""
+  id="2:52133"
   alt="Bottom Sheet의 Anatomy 이미지. Backdrop, Container, Header, Close button, Footer로 구성됩니다."
 />
 
@@ -19,8 +20,8 @@ Bottom Sheet는 Backdrop, Container, Header, Close button, Footer가 조합되�
 ### Header Layout Property
 
 <FigmaImage
-  id=""
-  alt="Bottom Sheet의 Header Layout Property - Title과 Description의 위치 변경"
+  id="2:52148"
+  alt="Bottom Sheet의 Header Layout Property"
 />
 
 Header는 Title과 Description으로 구성되며 컨텐츠에 따라 위치를 변경할 수 있습니다.
@@ -28,7 +29,12 @@ Header는 Title과 Description으로 구성되며 컨텐츠에 따라 위치를 
 ### Show Handle Property
 
 <FigmaImage
-  id=""
+  id="2:52172"
+  alt="Bottom Sheet의 Show Handle Property - Handle 표시 여부"
+/>
+
+<FigmaImage
+  id="2:52179"
   alt="Bottom Sheet의 Show Handle Property - Handle의 Enabled와 Pressed 상태"
 />
 
@@ -37,18 +43,23 @@ Bottom Sheet를 드래그로 닫거나, 스냅 포인트를 설정해 확장 및
 ### Show Close Button Property
 
 <FigmaImage
-  id=""
+  id="2:52194"
   alt="Bottom Sheet의 Show Close Button Property - Close Button 표시 여부"
 />
 
 Close Button 사용 여부를 제공합니다. Close Button은 내부에 터치 영역을 보장하기 위한 프레임이 포함되어있습니다.
+
+<FigmaImage
+  id="2:52201"
+  alt="Bottom Sheet의 Close Button의 Target Size"
+/>
 
 **Close Button의 Target Size는 40\*40입니다.**
 
 ### Show Description Property
 
 <FigmaImage
-  id=""
+  id="2:52212"
   alt="Bottom Sheet의 Show Description Property - Description 표시 여부"
 />
 
@@ -57,17 +68,26 @@ Header를 사용할 경우 Title은 반드시 포함되어야 하고, Descriptio
 ### Show Footer Property
 
 <FigmaImage
-  id=""
+  id="2:52225"
   alt="Bottom Sheet의 Show Footer Property - Footer 표시 여부"
 />
 
 Footer 사용 여부를 제공합니다.
 
+### Bottom Sheet Content (Figma Only)
+
+Bottom Sheet Container 내부에는 디자인 편의를 위해서 Bottom Sheet에 자주 활용되는 케이스를 제공합니다.
+
+<FigmaImage
+  id="2:52240"
+  alt="Bottom Sheet의 Content Area"
+/>
+
 ## Guidelines
 
 ### Bottom Sheet의 Content Area
 
-<FigmaImage id="" alt="Bottom Sheet의 Content Area - 유연한 크기 조정" />
+<FigmaImage id="2:52297" alt="Bottom Sheet의 Content Area - 유연한 크기 조정" />
 
 Bottom sheet는 콘텐츠의 양과 사용 가능한 공간에 따라 유연하게 크기가 조정되고 모든 요소들을 담을 수 있습니다.
 
@@ -77,15 +97,20 @@ Content Area의 크기는 내부에 담긴 요소들이 차지하는 공간에 �
 
 ### Bottom Sheet 최대 너비
 
-<FigmaImage id="" alt="Bottom Sheet 최대 너비 480px" />
+<FigmaImage id="2:52308" alt="Bottom Sheet 최대 너비 480px" />
 
 Bottom sheet는 화면 너비 최대 480까지 보여집니다.
 
 ### Bottom Sheet의 닫기 동작
 
 <FigmaImage
-  id=""
-  alt="Bottom Sheet의 닫기 동작 - 드래그, 바깥 영역 터치, CTA, Close Button"
+  id="2:52320"
+  alt="Bottom Sheet의 닫기 동작 - 드래그, 바깥 영역 터치"
+/>
+
+<FigmaImage
+  id="2:52328"
+  alt="Bottom Sheet의 닫기 동작 - CTA, Close Button"
 />
 
 Bottom Sheet는 기본적으로 아래로 드래그하거나 바깥을 누르면 닫힙니다. 필요에 따라 상단이나 하단 CTA에 닫는 동작을 추가할 수 있습니다.
@@ -94,7 +119,9 @@ Bottom Sheet는 기본적으로 아래로 드래그하거나 바깥을 누르면
 
 ### Snap Point 사용하기
 
-<FigmaImage id="" alt="Bottom Sheet의 Snap Point - 확장 및 축소" />
+<FigmaImage id="2:52347" alt="Bottom Sheet를 위로 드래그해서 확장" />
+
+<FigmaImage id="2:52373" alt="Bottom Sheet를 아래로 드래그해서 축소" />
 
 Bottom Sheet에 Snap Point를 추가하여 시트의 높이를 확장하거나 축소할 수 있습니다.
 
@@ -106,7 +133,12 @@ Bottom Sheet에 Snap Point를 추가하여 시트의 높이를 확장하거나 �
 
 ### Bottom Sheet 최대 높이
 
-<FigmaImage id="" alt="Bottom Sheet 최대 높이 - 화면 높이의 90%" />
+<Grid>
+
+<FigmaImage id="2:52411" alt="Bottom Sheet이 최대 높이를 차지한 예시" />
+<FigmaImage id="2:52452" alt="Bottom Sheet 대신 개별 페이지로 표현한 예시" />
+
+</Grid>
 
 Bottom Sheet의 최대 높이는 화면 전체 높이의 90%를 넘지 않는 걸 권장해요.
 
@@ -115,31 +147,35 @@ Bottom Sheet의 컨텐츠가 많아 화면 전체 높이의 90%를 넘는 경우
 ### 스크롤 시
 
 <FigmaImage
-  id=""
-  alt="Bottom Sheet 스크롤 - Content Area 내 스크롤과 Scroll Fog"
+  id="2:52504"
+  alt="Bottom Sheet의 스크롤 영역"
 />
 
-Bottom Sheet의 컨텐츠가 많거나 해상도 등으로 인해 화면 전체 높이의 90%를 넘는 경우 스크롤이 발생해요. 스크롤은 content area내에서 발생해요. 스크롤이 발생되는 경우, 하단에 컨텐츠가 더 있다는 것을 알려주는 시각적 장치로 Scroll Fog가 나타나요.
+Bottom Sheet의 컨텐츠가 많거나 해상도 등으로 인해 화면 전체 높이의 90%를 넘는 경우 스크롤이 발생해요. 스크롤은 content area내에서 발생해요.
+
+<FigmaImage 
+  id="2:52510"
+  alt="Bottom Sheet의 Scroll Fog 예시" />
+
+스크롤이 발생되는 경우, 하단에 컨텐츠가 더 있다는 것을 알려주는 시각적 장치로 Scroll Fog가 나타나요.
 
 ### Title, Description의 길이
 
-<FigmaImage id="" alt="Title과 Description의 길이 - 너무 길지 않게" />
+<DontImage figmaId="2:52560" body="글이 너무 길어지지 않도록 주의해주세요." alt="너무 긴 Title과 Description을 사용하는 예시" />
 
 글이 너무 길어지지 않도록 주의해주세요.
 
 ### 키보드가 나타날 경우
 
-<FigmaImage id="" alt="Bottom Sheet에서 키보드 표시" />
+<FigmaImage id="2:52622" alt="Bottom Sheet에서 키보드 표시" />
 
 Bottom sheet에서 텍스트 필드와 같은 요소를 통해 키보드를 활성화해야 하는 경우, 키보드가 sheet 하단에 나타납니다.
-
-**컴포넌트 디태치 없이 Bottom Action Bar에서 'Show Keyboard'로 표현할 수 있어요.**
 
 ## Bottom Sheet V3 변경점
 
 ### 주요 변경점
 
-<FigmaImage id="" alt="Bottom Sheet V2와 V3 비교 Playground" />
+<FigmaImage id="2:52275" alt="Bottom Sheet V2와 V3 비교" />
 
 V3 Foundation Color, Radius 토큰을 적용하며 배경과 아이템의 색상을 조정했습니다.
 
@@ -153,6 +189,6 @@ Instance Swap 기능을 활용해 내용을 쉽게 수정할 수 있도록 구�
 
 닫기 버튼의 스타일을 조정하고, Touch Area를 포함해 접근성을 높였습니다.
 
-## Spec
+## Specification
 
 <ComponentSpecBlock id="bottom-sheet" />
