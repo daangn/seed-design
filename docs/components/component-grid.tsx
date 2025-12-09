@@ -16,7 +16,7 @@ export function ComponentGrid() {
       // Only include pages under /docs/components/
       if (!page.url.startsWith("/docs/components/")) return false;
 
-      if (page.data.deprecated) return true;
+      if (page.data.deprecated) return false;
 
       return true;
     })
