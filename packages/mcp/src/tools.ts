@@ -10,6 +10,9 @@ import {
   formatTextResponse,
 } from "./responses";
 import type { FigmaWebSocketClient } from "./websocket";
+import { variableRepository } from "@seed-design/figma";
+
+const variables = variableRepository.getVariableList();
 
 export function registerTools(
   server: McpServer,
@@ -169,7 +172,7 @@ export function registerTools(
     async ({ nodeId }) => {
       try {
         const result: any = await sendCommandToFigma("get_node_info", { nodeId });
-        const normalizer = createRestNormalizer(result);
+        const normalizer = createRestNormalizer({ ...result, variables });
         const node = normalizer(result.document);
 
         const noInferPipeline = figma.createPipeline({
@@ -217,7 +220,7 @@ export function registerTools(
         const results = await Promise.all(
           nodeIds.map(async (nodeId) => {
             const result: any = await sendCommandToFigma("get_node_info", { nodeId });
-            const normalizer = createRestNormalizer(result);
+            const normalizer = createRestNormalizer({ ...result, variables });
             const node = normalizer(result.document);
 
             const noInferPipeline = figma.createPipeline({
@@ -264,7 +267,7 @@ export function registerTools(
     async ({ nodeId }) => {
       try {
         const result: any = await sendCommandToFigma("get_node_info", { nodeId });
-        const normalizer = createRestNormalizer(result);
+        const normalizer = createRestNormalizer({ ...result, variables });
 
         const pipeline = react.createPipeline({
           shouldInferAutoLayout: true,
@@ -346,7 +349,13 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     async ({ nodeId, x, y }) => {
       try {
         const result = await sendCommandToFigma("clone_node", { nodeId, x, y });
-        const typedResult = result as { id: string; originalId: string; x?: number; y?: number; success: boolean };
+        const typedResult = result as {
+          id: string;
+          originalId: string;
+          x?: number;
+          y?: number;
+          success: boolean;
+        };
         return formatTextResponse(
           `Cloned node with new ID: ${typedResult.id}${x !== undefined && y !== undefined ? ` at position (${x}, ${y})` : ""}`,
         );

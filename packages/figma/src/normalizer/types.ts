@@ -1,9 +1,22 @@
 import type * as FigmaRestSpec from "@figma/rest-api-spec";
 
-export type NormalizedIsLayerTrait = Pick<
-  FigmaRestSpec.IsLayerTrait,
-  "type" | "id" | "name" | "boundVariables"
->;
+export type NormalizedVariableAlias = Omit<FigmaRestSpec.VariableAlias, "id"> & {
+  key: string;
+};
+
+type ReplaceVariableAliasIdWithKey<T> = T extends FigmaRestSpec.VariableAlias
+  ? NormalizedVariableAlias
+  : T extends Array<infer U>
+    ? Array<ReplaceVariableAliasIdWithKey<U>>
+    : T extends object
+      ? {
+          [K in keyof T]: ReplaceVariableAliasIdWithKey<T[K]>;
+        }
+      : T;
+
+export type NormalizedIsLayerTrait = Pick<FigmaRestSpec.IsLayerTrait, "type" | "id" | "name"> & {
+  boundVariables?: ReplaceVariableAliasIdWithKey<FigmaRestSpec.IsLayerTrait["boundVariables"]>;
+};
 
 export type NormalizedCornerTrait = Pick<
   FigmaRestSpec.CornerTrait,
@@ -34,6 +47,23 @@ export type NormalizedHasGeometryTrait = Pick<
   "fills" | "strokes" | "strokeWeight" | "styles"
 > & {
   fillStyleKey?: string;
+};
+
+export type NormalizedShadow =
+  | (Pick<FigmaRestSpec.DropShadowEffect, "type" | "color" | "offset" | "radius" | "spread"> & {
+      boundVariables?: ReplaceVariableAliasIdWithKey<
+        FigmaRestSpec.DropShadowEffect["boundVariables"]
+      >;
+    })
+  | (Pick<FigmaRestSpec.InnerShadowEffect, "type" | "color" | "offset" | "radius" | "spread"> & {
+      boundVariables?: ReplaceVariableAliasIdWithKey<
+        FigmaRestSpec.InnerShadowEffect["boundVariables"]
+      >;
+    });
+
+export type NormalizedHasEffectsTrait = Omit<FigmaRestSpec.HasEffectsTrait, "effects"> & {
+  effects: NormalizedShadow[];
+  effectStyleKey?: string;
 };
 
 export type NormalizedHasFramePropertiesTrait = Pick<
@@ -78,11 +108,13 @@ export type NormalizedTypePropertiesTrait = Pick<
 
 export type NormalizedDefaultShapeTrait = NormalizedIsLayerTrait &
   NormalizedHasLayoutTrait &
-  NormalizedHasGeometryTrait;
+  NormalizedHasGeometryTrait &
+  NormalizedHasEffectsTrait;
 
 export type NormalizedFrameTrait = NormalizedIsLayerTrait &
   NormalizedHasLayoutTrait &
   NormalizedHasGeometryTrait &
+  NormalizedHasEffectsTrait &
   NormalizedHasChildrenTrait &
   NormalizedCornerTrait &
   NormalizedHasFramePropertiesTrait;
