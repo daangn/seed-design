@@ -10,6 +10,13 @@ on:
       - "packages/react/**"
       - "packages/stackflow/**"
       - ".github/workflows/docs-deploy-alpha-pages.yml"
+  workflow_dispatch:
+    inputs:
+      skip-figma-cache:
+        description: 'Skip Figma image cache (fetch fresh images)'
+        required: false
+        type: boolean
+        default: false
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,6 +38,7 @@ jobs:
           bun-version: "1.3.3"
 
       - name: Restore Figma image cache
+        if: ${{ !inputs.skip-figma-cache }}
         uses: actions/cache@v4
         with:
           path: docs/.cache/figma-image
@@ -56,6 +64,8 @@ jobs:
 
       - name: Build Docs
         working-directory: ./docs
+        env:
+          FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
         run: |
           bun run build
 
