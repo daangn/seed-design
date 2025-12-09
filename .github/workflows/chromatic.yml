@@ -5,6 +5,9 @@ name: "Chromatic"
 
 env:
   GITHUB_TOKEN: ${{ github.token }}
+  # running fumadocs-mdx in docs requires these
+  FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
+  FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
 # Event for the workflow
 on:

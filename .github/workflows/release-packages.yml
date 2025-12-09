@@ -16,6 +16,9 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # running fumadocs-mdx in docs requires these
+  FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
+  FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
 jobs:
   release:
