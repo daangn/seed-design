@@ -22,7 +22,10 @@ Top Navigation은 Root 타입과 Standard 타입, 두 가지로 나뉩니다. �
   alt="Top Navigation Title Type - Root 타입의 Title 영역"
 />
 
-<FigmaImage id="2:207951" alt="Top Navigation Title Type - Standard 타입의 Title 영역" />
+<FigmaImage
+  id="2:207951"
+  alt="Top Navigation Title Type - Standard 타입의 Title 영역"
+/>
 
 Root Top Navigation의 Title 영역에는 Label만 표시하는 Text 타입과, 선택 시 동작이 있는 Button 타입을 선택하여 사용할 수 있습니다.
 
@@ -30,7 +33,10 @@ Standard Top Navigation의 경우 Title 영역을 Slot으로 구성하여 조금
 
 ### Left Slot
 
-<FigmaImage id="2:207968" alt="Top Navigation Left Slot - 뒤로가기와 닫기 버튼" />
+<FigmaImage
+  id="2:207968"
+  alt="Top Navigation Left Slot - 뒤로가기와 닫기 버튼"
+/>
 
 Standard 타입 Top Navigation은 2-depth 이상의 화면에서 사용하며, 왼쪽에 네비게이션 액션을 배치할 수 있습니다. 뒤로가기와 닫기 버튼을 배치할 수 있으며, 두 버튼은 서로 다른 동작을 제공합니다. 각 버튼의 차이를 이해하고 정확한 용도에 맞게 사용해야 합니다.
 
@@ -38,17 +44,16 @@ Standard 타입 Top Navigation은 2-depth 이상의 화면에서 사용하며, �
 
 ### Right Slot
 
-<FigmaImage
-  id="2:207985"
-  alt="Top Navigation Right Slot - Root 타입"
+<FigmaImage id="2:207985" alt="Top Navigation Right Slot - Root 타입" />
+
+<FigmaImage id="2:207990" alt="Top Navigation Right Slot - Standard 타입" />
+
+{" "}
+<DontImage
+  figmaId="2:207997"
+  alt="타이틀 영역과 우측 Action 영역이 겹치는 예시"
+  body="타이틀 영역과 우측 Action 영역이 겹치지 않도록 주의해주세요."
 />
-
-<FigmaImage
-  id="2:207990"
-  alt="Top Navigation Right Slot - Standard 타입"
-  />
-
-  <DontImage figmaId="2:207997" alt="타이틀 영역과 우측 Action 영역이 겹치는 예시" body="타이틀 영역과 우측 Action 영역이 겹치지 않도록 주의해주세요." />
 
 Top Navigation 우측은 Slot으로 구성되어 Icon Button 또는 Text Button을 배치할 수 있습니다. Icon Button은 최대 3개까지 추가 가능하며, 타이틀 영역과 겹치지 않도록 개수를 조정하여 사용하는 것을 권장합니다.
 
@@ -62,7 +67,7 @@ Top Navigation 우측은 Slot으로 구성되어 Icon Button 또는 Text Button�
 <FigmaImage
   id="2:208016"
   alt="Top Navigation Notification Badge - Icon Button에 Notification Badge 표시 예시 (Standard 타입)"
-  />
+/>
 
 Icon Button에 Notification Badge를 표시할 수 있습니다. Small과 Large 사이즈 모두 사용 가능하며, Large 사이즈는 숫자 정보가 필요한 경우에 사용합니다.
 
@@ -70,7 +75,10 @@ Icon Button에 Notification Badge를 표시할 수 있습니다. Small과 Large 
 
 ### Root Top Navigation과 Standard Top Navigation의 차이
 
-<FigmaImage id="2:208039" alt="Root Top Navigation과 Standard Top Navigation 비교" />
+<FigmaImage
+  id="2:208039"
+  alt="Root Top Navigation과 Standard Top Navigation 비교"
+/>
 
 Top Navigation은 Root 타입과 Standard 타입, 두 가지로 나뉩니다. 각 타입은 별도의 구현체와 Figma 컴포넌트로 제공됩니다.
 
@@ -96,7 +104,10 @@ Top Navigation은 Root 타입과 Standard 타입, 두 가지로 나뉩니다. �
 
 #### 뒤로가기 (Back)
 
-<FigmaImage id="2:208117" alt="뒤로가기 동작 예시: 2 Depth 게시글 상세 화면에서 Back Button 클릭 → 이전 피드 또는 추천 영역으로 이동" />
+<FigmaImage
+  id="2:208117"
+  alt="뒤로가기 동작 예시: 2 Depth 게시글 상세 화면에서 Back Button 클릭 → 이전 피드 또는 추천 영역으로 이동"
+/>
 
 네비게이션 스택을 기반으로 현재 화면을 이전 화면으로 되돌립니다. 히스토리 기반(History Back)과 계층 기반(Hierarchy Back)으로 구분되며, 화면의 목적과 진입 경로에 따라 선택해서 사용합니다.
 
@@ -105,7 +116,10 @@ Top Navigation은 Root 타입과 Standard 타입, 두 가지로 나뉩니다. �
 
 #### 닫기 (Close)
 
-<FigmaImage id="2:208221" alt="닫기 동작 예시: 글쓰기 화면에서 Close Button 클릭 → 최초 진입점으로 이동" />
+<FigmaImage
+  id="2:208221"
+  alt="닫기 동작 예시: 글쓰기 화면에서 Close Button 클릭 → 최초 진입점으로 이동"
+/>
 
 현재 화면을 종료하고 상위 레이어로 복귀합니다. 페이지 히스토리를 거슬러 올라가는 것이 아니라, 열려있는 모달, 바텀시트, 전체 화면 등을 닫는 동작입니다.
 
@@ -149,15 +163,27 @@ Top Navigation은 Root 타입과 Standard 타입, 두 가지로 나뉩니다. �
 
 ### 타이틀 작성하기
 
-<FigmaImage id="2:208739" alt="Top Navigation Root 타입에서 Icon Button을 2개와 3개 사용한 예시" />
+<FigmaImage
+  id="2:208739"
+  alt="Top Navigation Root 타입에서 Icon Button을 2개와 3개 사용한 예시"
+/>
 
 <FigmaImage id="2:208776" alt="Top Navigation Root 타입 - KR & Global" />
 
-<FigmaImage id="2:208806" alt="Top Navigation Standard 타입에서 Icon Button을 2개와 3개 사용한 예시 (iOS)" />
+<FigmaImage
+  id="2:208806"
+  alt="Top Navigation Standard 타입에서 Icon Button을 2개와 3개 사용한 예시 (iOS)"
+/>
 
-<FigmaImage id="2:208848" alt="Top Navigation Standard 타입에서 Icon Button을 2개와 3개 사용한 예시 (Android)" />
+<FigmaImage
+  id="2:208848"
+  alt="Top Navigation Standard 타입에서 Icon Button을 2개와 3개 사용한 예시 (Android)"
+/>
 
-<FigmaImage id="2:208889" alt="Top Navigation Standard 타입에서 Title 말줄임이 발생하는 예시" />
+<FigmaImage
+  id="2:208889"
+  alt="Top Navigation Standard 타입에서 Title 말줄임이 발생하는 예시"
+/>
 
 타이틀은 한 줄로 표시되도록 간결하게 작성합니다. 액션 개수에 따라 타이틀 길이가 자동 조정되며, 길어지면 말줄임으로 표시됩니다. 글로벌 앱에서는 말줄임 대신 그라디언트로 표시됩니다.
 
@@ -165,21 +191,34 @@ Top Navigation은 Root 타입과 Standard 타입, 두 가지로 나뉩니다. �
 
 ### 우측 액션 영역 사용하기
 
-<FigmaImage id="2:208927" alt="우측 액션 영역에 Icon Button과 Text Button을 사용하는 예시" />
+<FigmaImage
+  id="2:208927"
+  alt="우측 액션 영역에 Icon Button과 Text Button을 사용하는 예시"
+/>
 
 Top Navigation 우측에는 화면에서 접근 가능한 보조 액션을 표시할 수 있습니다. 아이콘 버튼은 최대 2개까지 표시하는 것을 권장합니다. 필요시 3개까지 표시할 수 있으나, 타이틀 텍스트가 충분히 표시되지 않을 수 있으니 주의하세요. 텍스트 버튼은 1개만 표시할 수 있습니다.
 
-<DoImage figmaId="2:208956" alt="우측 액션 영역에 Menu Sheet를 호출하는 더보기 버튼을 추가한 예시" body="보조 액션이 많은 경우 중요한 액션만 노출하고 나머지는 숨기는 것이 좋습니다." />
+<DoImage
+  figmaId="2:208956"
+  alt="우측 액션 영역에 Menu Sheet를 호출하는 더보기 버튼을 추가한 예시"
+  body="보조 액션이 많은 경우 중요한 액션만 노출하고 나머지는 숨기는 것이 좋습니다."
+/>
 
 액션이 3개를 초과하는 경우, 더보기 버튼과 메뉴 시트를 조합하여 중요한 액션만 노출하고 나머지는 숨기는 것을 권장합니다.
 
 ### 스크롤 시 동작
 
-<FigmaImage id="2:209010" alt="스크롤 시 Top Navigation 고정 예시 (기본 스크롤 동작)" />
+<FigmaImage
+  id="2:209010"
+  alt="스크롤 시 Top Navigation 고정 예시 (기본 스크롤 동작)"
+/>
 
 탑 네비게이션은 스크롤 시 항상 상단에 고정되는 동작을 기본으로 가집니다. 고정된 영역과 스크롤되는 영역을 구분하기 위해 별도의 시각적인 장치를 표시하지 않습니다.
 
-<FigmaImage id="2:209072" alt="스크롤 시 Top Navigation 배경 색상이 채워지는 예시 (배경이 투명한 Top Navigation의 스크롤 동작)" />
+<FigmaImage
+  id="2:209072"
+  alt="스크롤 시 Top Navigation 배경 색상이 채워지는 예시 (배경이 투명한 Top Navigation의 스크롤 동작)"
+/>
 
 배경이 투명한 Top Navigation을 사용하는 경우 스크롤할 때 배경색이 채워지는 동작을 가집니다.
 

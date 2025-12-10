@@ -8,7 +8,10 @@ coverImageFigmaId: 2:166732
 
 ## Principle
 
-<FigmaImage id="2:166732" alt="Scroll Fog가 Scroll Area 컴포넌트 위에 적용된 예시" />
+<FigmaImage
+  id="2:166732"
+  alt="Scroll Fog가 Scroll Area 컴포넌트 위에 적용된 예시"
+/>
 
 Scroll Fog는 스타일링 유틸리티로서 Scroll Area 컴포넌트 위에 덧씌워지는 방식으로 적용됩니다. Scroll Fog는 반드시 스크롤이 발생하는 영역 위에 겹쳐지도록(Overlap) 배치되어야 합니다.
 
@@ -51,14 +54,8 @@ Figma에서는 디자인 도구의 제약으로 인해 Fog/Fade와 콘텐츠 배
 Scroll Fog의 크기(높이 또는 너비)는 최소 Padding값인 20px을 가지고 있습니다.
 
 <Grid>
-<FigmaImage
-  id="2:166616"
-  alt="적절한 Scroll Fog 크기 예시 - 세로 스크롤"
-/>
-<FigmaImage
-  id="2:166624"
-  alt="적절한 Scroll Fog 크기 예시 - 가로 스크롤"
-/>
+  <FigmaImage id="2:166616" alt="적절한 Scroll Fog 크기 예시 - 세로 스크롤" />
+  <FigmaImage id="2:166624" alt="적절한 Scroll Fog 크기 예시 - 가로 스크롤" />
 </Grid>
 
 **세로(Vertical) 스크롤 영역의 경우**: 범위는 사용자가 콘텐츠가 남아있음을 충분히 인지하게 하면서도, 중요한 정보를 과도하게 가리지 않아야 합니다. 기본적으로 하단 80px, 상단 20px padding을 권장합니다.
@@ -71,9 +68,15 @@ Scroll Fog의 크기(높이 또는 너비)는 최소 Padding값인 20px을 가�
 
 ### Scroll Fog와 Padding의 관계
 
-<FigmaImage id="2:166668" alt="Scroll Fog가 List와 함께 사용된 상황에서 스크롤이 시작 지점에 있는 예시" />
+<FigmaImage
+  id="2:166668"
+  alt="Scroll Fog가 List와 함께 사용된 상황에서 스크롤이 시작 지점에 있는 예시"
+/>
 
-<FigmaImage id="2:166690" alt="Scroll Fog가 List와 함께 사용된 상황에서 스크롤이 끝 지점에 있는 예시" />
+<FigmaImage
+  id="2:166690"
+  alt="Scroll Fog가 List와 함께 사용된 상황에서 스크롤이 끝 지점에 있는 예시"
+/>
 
 Fog의 깊이가 예를 들어 40px로 결정되었다면, 이 값은 단순히 시각적 효과의 크기가 아니라 콘텐츠 영역에 상응하는 패딩(Padding)을 확보하는 기준이 됩니다. 이로 인해, 스크롤을 끝까지 완료했을 때 (상단, 하단, 좌측, 우측 끝에 도달했을 때) 콘텐츠가 뷰포트 경계에 붙지 않도록 시각적인 여유와 안정감을 영구적으로 보장할 수 있습니다. 따라서 Fog 깊이를 확정하는 순간, 해당 값은 곧 최소 패딩의 기준이 됩니다.
 

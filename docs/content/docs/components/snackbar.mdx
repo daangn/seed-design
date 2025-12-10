@@ -49,14 +49,14 @@ Snackbar는 낮은 심각도의 상태를 공유하는 용도로만 사용해야
 
 ### Snackbar의 위치와 레이아웃
 
-<FigmaImage
-  id="32:92812"
-  alt="Snackbar 위치와 레이아웃 - Safe Area"
-/>
+<FigmaImage id="32:92812" alt="Snackbar 위치와 레이아웃 - Safe Area" />
 
 Snackbar는 기본적으로 화면 하단 중앙에 배치되며, 컴포넌트 자체에 여백을 포함합니다. 배치 시 OS의 세이프 에어리어를 고려해야 합니다.
 
-<FigmaImage id="32:92818" alt="Snackbar 위치와 레이아웃 - Floating Action Button 위에 표시된 경우" />
+<FigmaImage
+  id="32:92818"
+  alt="Snackbar 위치와 레이아웃 - Floating Action Button 위에 표시된 경우"
+/>
 
 화면에 Floating Action Button이 있을 때 Snackbar가 나타나면, Snackbar는 항상 Floating Action Button 위에 표시됩니다.
 
@@ -71,8 +71,16 @@ Snackbar에는 최대 너비가 지정되어 있으며, 화면 너비가 이를 
 #### 간결하게 작성하기
 
 <Grid>
-  <DoImage figmaId="32:92844" alt="Snackbar 내용으로 '게시글을 저장했어요'가 표시된 예시" body="좋은 예" />
-  <DontImage figmaId="32:92851" alt="Snackbar 내용으로 '업로드 처리가 완료되었습니다'가 표시된 예시" body="나쁜 예" />
+  <DoImage
+    figmaId="32:92844"
+    alt="Snackbar 내용으로 '게시글을 저장했어요'가 표시된 예시"
+    body="좋은 예"
+  />
+  <DontImage
+    figmaId="32:92851"
+    alt="Snackbar 내용으로 '업로드 처리가 완료되었습니다'가 표시된 예시"
+    body="나쁜 예"
+  />
 </Grid>
 
 메시지 내용은 3단어 이하로 간단하고 짧게 작성하는 것을 권장합니다. 명사+동사 형식으로 일관성 있게 표현하고, 사용자 액션에 대한 결과를 우선적으로 표시하세요. 시각적 간결함을 위해 마침표는 생략해주세요.
@@ -80,8 +88,16 @@ Snackbar에는 최대 너비가 지정되어 있으며, 화면 너비가 이를 
 #### 행동 유도 문구 활용하기
 
 <Grid>
-  <DoImage figmaId="32:92859" alt="Snackbar 내용으로 '방해금지 시간을 변경했어요'가, Action 레이블로 '되돌리기'가 표시된 예시" body="좋은 예" />
-  <DontImage figmaId="32:92866" alt="Snackbar 내용으로 '네트워크 문제로 인해 연결이 끊어져 연결이 해제되었습니다'가 표시된 예시" body="나쁜 예" />
+  <DoImage
+    figmaId="32:92859"
+    alt="Snackbar 내용으로 '방해금지 시간을 변경했어요'가, Action 레이블로 '되돌리기'가 표시된 예시"
+    body="좋은 예"
+  />
+  <DontImage
+    figmaId="32:92866"
+    alt="Snackbar 내용으로 '네트워크 문제로 인해 연결이 끊어져 연결이 해제되었습니다'가 표시된 예시"
+    body="나쁜 예"
+  />
 </Grid>
 
 사용자가 취할 수 있는 액션은 동사 원형으로 표현해 즉각적인 이해를 돕습니다. "되돌리기", "보기", "확인하기" 등의 명확한 버튼을 제공합니다.
@@ -92,14 +108,24 @@ Snackbar에는 최대 너비가 지정되어 있으며, 화면 너비가 이를 
 
 ### Snackbar의 동작
 
-<FigmaImage id="32:92882" alt="Snackbar 동작 - 5초 후 자동 닫힘, Snackbar 내용이 긴 경우 5초보다 길게 설정" />
+<FigmaImage
+  id="32:92882"
+  alt="Snackbar 동작 - 5초 후 자동 닫힘, Snackbar 내용이 긴 경우 5초보다 길게 설정"
+/>
 
 Snackbar는 기본적으로 5초 동안 표시됩니다. 메시지 내용이 길 경우, 사용자가 충분히 인지할 수 있도록 표시 시간을 적절히 조정해주세요.
 
 <Grid>
 
-<FigmaImage id="32:92892" alt="Snackbar 동작 - 사용자가 터치를 유지하는 경우 타이머 일시정지" />
-<DontImage figmaId="32:92898" alt="한 화면에 3개의 Snackbar가 동시에 표시된 예시" body="한 번에 여러 개의 Snackbar를 표시하지 않습니다." />
+<FigmaImage
+  id="32:92892"
+  alt="Snackbar 동작 - 사용자가 터치를 유지하는 경우 타이머 일시정지"
+/>
+<DontImage
+  figmaId="32:92898"
+  alt="한 화면에 3개의 Snackbar가 동시에 표시된 예시"
+  body="한 번에 여러 개의 Snackbar를 표시하지 않습니다."
+/>
 
 </Grid>
 
@@ -111,8 +137,15 @@ Snackbar는 기본적으로 5초 동안 표시됩니다. 메시지 내용이 길
 
 <Grid>
 
-<FigmaImage id="32:92916" alt="Snackbar Action 레이블로 '되돌리기'가 표시된 예시" />
-<DontImage figmaId="32:92920" alt="Snackbar Action 레이블로 '확인'이 표시된 예시" body="구체적인 액션을 명확하게 담은 단어를 사용해주세요." />
+<FigmaImage
+  id="32:92916"
+  alt="Snackbar Action 레이블로 '되돌리기'가 표시된 예시"
+/>
+<DontImage
+  figmaId="32:92920"
+  alt="Snackbar Action 레이블로 '확인'이 표시된 예시"
+  body="구체적인 액션을 명확하게 담은 단어를 사용해주세요."
+/>
 
 </Grid>
 
