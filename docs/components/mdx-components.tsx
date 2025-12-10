@@ -37,7 +37,11 @@ export const mdxComponents: MDXComponents = {
   img: (props) => <ImageZoom {...props} />,
 
   // Layout
-  Grid: ({ children }) => <div className="grid grid-cols-1 md:grid-cols-2 gap-2">{children}</div>,
+  Grid: ({ children }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2 md:items-start my-[2em] [&>figure]:my-0">
+      {children}
+    </div>
+  ),
 
   // Components
   ManualInstallation,
