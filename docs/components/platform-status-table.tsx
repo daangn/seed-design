@@ -85,7 +85,7 @@ function PlatformCard({
   const baseClassName = `
     flex items-center
     rounded-lg border border-fd-border p-4
-    ${isDisabled ? "text-fd-muted-foreground cursor-default" : "hover:bg-fd-muted/30 cursor-pointer"}
+    ${isDisabled ? "text-fd-muted-foreground cursor-default" : ""} ${href ? "hover:bg-fd-muted/30 cursor-pointer" : ""}
   `;
 
   if (!href || isDisabled) {
