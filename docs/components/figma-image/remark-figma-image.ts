@@ -84,6 +84,8 @@ function extractFigmaId({ name, attributes }: MdxJsxFlowElement): string | null 
       (attr): attr is MdxJsxAttribute => attr.type === "mdxJsxAttribute" && attr.name === "id",
     );
 
+    if (!idAttr) throw new Error("[remark-figma-image] FigmaImage requires an 'id' prop");
+
     return typeof idAttr?.value === "string" ? idAttr.value : null;
   }
 
