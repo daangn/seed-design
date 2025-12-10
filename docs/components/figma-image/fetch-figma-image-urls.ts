@@ -4,7 +4,7 @@ import { FlatCache } from "flat-cache";
 import path from "node:path";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
-const MAX_RETRIES = 30;
+const MAX_RETRIES = 7;
 const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 const CACHE_ID = "urls";
 
