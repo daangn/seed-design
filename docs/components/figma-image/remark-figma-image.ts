@@ -123,6 +123,11 @@ function transformNode(node: MdxJsxFlowElement, imageUrl: string): void {
       { type: "mdxJsxAttribute", name: "src", value: imageUrl },
       { type: "mdxJsxAttribute", name: "width", value: `${DEFAULT_IMAGE_WIDTH}` },
       { type: "mdxJsxAttribute", name: "height", value: `${DEFAULT_IMAGE_HEIGHT}` },
+      {
+        type: "mdxJsxAttribute",
+        name: "className",
+        value: "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
+      },
     );
 
     return;

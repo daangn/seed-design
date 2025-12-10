@@ -28,17 +28,26 @@ import { PlatformStatusTable } from "./platform-status-table";
 import { ProgressBoardTable } from "./progress-board-table";
 import { ViteIcon, WebpackIcon } from "./tool-icon";
 import { typeTableGenerator } from "./type-table/generator";
+import clsx from "clsx";
 
 const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
 
-  img: (props) => <ImageZoom {...props} />,
+  img: ({ className, ...rest }) => (
+    <ImageZoom
+      className={clsx(
+        className,
+        "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
+      )}
+      {...rest}
+    />
+  ),
 
   // Layout
   Grid: ({ children }) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2 md:items-start my-[2em] [&>figure]:my-0">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2 md:items-start my-[2em] [&>figure]:my-0 not-prose">
       {children}
     </div>
   ),
