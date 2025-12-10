@@ -1,0 +1,171 @@
+---
+title: Slider
+description: 지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.
+coverImageFigmaId: 2:185865
+---
+
+<PlatformStatusTable componentId="slider" />
+
+## Anatomy
+
+<FigmaImage
+  id="2:185865"
+  alt="Slider의 Anatomy 이미지. Value Indicator (Optional), Handle, Track (Active, Inactive), Steps, Marker로 구성됩니다."
+/>
+
+<FigmaImage
+  id="2:185876"
+  alt="Slider의 Anatomy 이미지 (Active 상태에서 Value Indicator가 표시된 예시)"
+/>
+
+Slider는 Track(Active, Inactive), Handle, Steps, Marker로 이뤄져있습니다.
+
+## Props
+
+### Value
+
+<FigmaImage id="2:185888" alt="Slider의 Value Property - Single, Range" />
+
+Slider는 선택하는 Value에 따라 핸들 개수가 바뀝니다.
+
+| Value 타입 | 설명                             |
+| ---------- | -------------------------------- |
+| **Single** | 하나의 값을 선택할 수 있습니다.  |
+| **Range**  | 두 개의 값을 선택할 수 있습니다. |
+
+### State
+
+<FigmaImage id="2:185900" alt="Slider의 State - Enabled, Active, Disabled" />
+
+| State        | 설명                                                                                     |
+| ------------ | ---------------------------------------------------------------------------------------- |
+| **Enabled**  | Slider가 작동할 준비가 된 표준 상태입니다.                                               |
+| **Active**   | 사용자가 핸들(Handle)을 현재 클릭(터치)하고 있거나 드래그하는 바로 그 순간을 의미합니다. |
+| **Disabled** | Slider가 화면에 보이지만 상호작용이 완전히 불가능한 상태입니다.                          |
+
+### Tick Mark property
+
+Tick Mark는 사용성에 따라 두 모드 중 하나를 사용할 수 있습니다.
+
+<FigmaImage
+  id="2:185915"
+  alt="Slider의 Tick Mark property - Continuous Mode, Discrete Mode"
+/>
+
+#### 연속형(Continuous) 모드: '시각적 가이드'를 위한 Tick Mark
+
+연속형 모드에서는 사용자가 값의 위치를 쉽게 파악할 수 있도록 참조점(Reference point)으로 틱 마크를 제공할 수 있습니다.
+
+#### 이산형(Discrete) 모드: '스냅(Snap)'을 위한 Tick Mark
+
+이산형 모드에서 틱 마크는 사용자가 선택할 수 있는 유일한 값(Step)을 의미합니다. 이를 시각적으로 보여줄 수 있도록, 연속적인 모드보다 훨씬 더 큰 Tick Mark를 가지고 있습니다.
+
+<FigmaImage id="2:185921" alt="Slider의 Tick Mark property - Step의 개수" />
+
+Tick Mark는 총 2~5개의 스텝을 표현할 수 있습니다.
+
+### Markers Property
+
+<FigmaImage id="2:185938" alt="Slider의 Markers Property 예시" />
+
+Markers는 Tick Mark의 정보를 전달합니다. step에 맞게 count를 설정할 수 있으며, min/max와 같은 경우 count 2로 표현합니다.
+
+### Active Track
+
+<FigmaImage id="2:185956" alt="Slider의 Active Track - Show, Hide" />
+
+핸들이 시작점부터 현재 위치까지 지나온 경로를 보여주는 **활성 트랙(Active Track)**은 사용자의 선택에 따라 표시(Show)하거나 숨길(Hide) 수 있습니다.
+
+기본적으로 선택된 값의 크기나 진행 정도를 시각적으로 명확하게 전달할 수 있도록 Active Track이 보여집니다.
+
+특정한 값 자체를 선택하는 것이 중요할 때 Active Track을 숨겨 선택된 값을 강조할 수 있습니다.
+
+## Guidelines
+
+### Slider touch target
+
+<FigmaImage id="2:185979" alt="Slider touch target 예시 - Handle과 Track" />
+
+| Touch Target     | 설명                                                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **Handle(핸들)** | 가장 기본이 되는 터치 대상입니다. 사용자가 값을 미세하게 조절하기 위해 누르고 드래그(Drag)하는 주된 컨트롤러입니다. |
+| **Track(트랙)**  | 핸들이 움직이는 경로인 트랙 전체 또한 터치 대상입니다. 트랙을 터치하는 경우 Tap jump로 터치한 영역으로 이동됩니다.  |
+
+### Drag
+
+<FigmaImage id="2:185990" alt="Slider Drag 동작 예시" />
+
+Slider에서 다양한 행동으로 값을 선택할 수 있습니다. 기본적으로 Handle을 드래그해서 값을 선택할 수 있습니다.
+
+### Tap jump
+
+<FigmaImage id="2:186000" alt="Slider Tap jump 동작 예시 - Continuous Mode" />
+
+<FigmaImage id="2:186007" alt="Slider Tap jump 동작 예시 - Discrete Mode" />
+
+트랙의 원하는 지점을 탭하면, 핸들이 해당 위치로 바로 이동하며 값이 선택됩니다.
+
+| 모드                       | 동작                                                                                                |
+| -------------------------- | --------------------------------------------------------------------------------------------------- |
+| **연속적인 경우**          | 0부터 100까지의 Slider에서 사용자가 트랙의 73% 지점을 클릭하면, 썸은 정확히 73의 값으로 이동합니다. |
+| **움직임이 제한적인 경우** | 클릭한 위치에서 가장 가까운 단계(Step)로 자동 보정(반올림)되어 '스냅'됩니다.                        |
+
+### 상황에 맞게 단계 제공하기
+
+<FigmaImage id="2:186022" alt="상황에 맞게 단계 제공하기 - Continuous Mode" />
+
+<FigmaImage id="2:186047" alt="상황에 맞게 단계 제공하기 - Discrete Mode" />
+
+Slider는 기본적으로 연속적인(Continuous) 값을 다루지만, 사용자가 선택해야 하는 값의 성격에 따라, 의도적으로 움직임을 제한하는(Discrete) 단계를 제공할지 결정해야 합니다.
+
+| 모드                       | 설명                                                                     | 사용 예시                                    |
+| -------------------------- | ------------------------------------------------------------------------ | -------------------------------------------- |
+| **연속적인 경우**          | 트랙 위를 부드럽게 움직이는 표준 Slider입니다.                           | 볼륨, 밝기 등 주관적이고 연속적인 값         |
+| **움직임이 제한적인 경우** | 정해진 단위로만 증가/감소하며, 정해진 단계 외의 값을 선택할 수 없습니다. | 별점(1~5), 수량(10, 20, 30), 할인율(5% 단위) |
+
+### 합리적인 기본값을 제공하기
+
+<FigmaImage id="2:186079" alt="합리적인 기본값 제공 예시" />
+
+'합리적인 기본값(Reasonable Default)'은 사용자가 페이지에 진입하거나 컴포넌트를 처음 마주했을 때, 미리 설정되어 있는 Slider의 초기값을 의미합니다.
+
+이 값은 사용자의 추가 조작 없이도 가장 안전하거나, 가장 일반적이거나, 가장 권장되는 상태를 제공하여 사용자의 수고를 덜고 실수를 방지하는 데 목적이 있습니다.
+
+### 현재 값을 명확히 표시하기
+
+<FigmaImage
+  id="2:186114"
+  alt="현재 값을 명확히 표시하기 - Value indicator 활용 예시"
+/>
+
+현재 값을 명확히 표시하는 것은 의도한 대로 시스템이 작동하고 있음을 인지하는 데 중요하기에 Active시 현재의 값을 보여주는 Value indicator를 활용하는 것이 좋습니다.
+
+### Value Indicator 오버플로우 방지하기
+
+<FigmaImage id="2:186162" alt="Value Indicator 오버플로우 방지 예시" />
+
+Thumb이 트랙 양 끝에 도달하면, Value Indicator가 영역을 벗어나지 않도록 안쪽으로 위치를 보정합니다.
+
+## Slider V3 변경점
+
+### 주요 변경점
+
+<FigmaImage id="2:186231" alt="Slider V2와 V3 비교" />
+
+- **색상 시스템 개편**: 주요 버튼(Primary Button)과 같은 핵심 액션과의 시각적 혼동을 방지하기 위해 기존 Brand 컬러를 제거했습니다. 대신, UI 전반의 시각적 위계를 고려하여 새롭게 Neutral 톤을 추가했습니다.
+- **Active 상태 추가**: 접근성(Accessibility)과 사용성(Usability) 향상을 위해, 사용자가 핸들을 성공적으로 잡고 제어 중임을 즉각적으로 알려주는 active(활성/누름) 상태가 추가되었습니다.
+- **tick mark - Mode 추가**: Slider가 특정 단계로만 움직이는 '이산형(Discrete)' 모드인지, 부드럽게 조절되는 '연속형(Continuous)' 모드인지 사용자가 명확히 구분할 수 있도록, 사용 상황에 맞춘 틱 마크(tick mark)의 Mode를 추가했습니다.
+
+## Specification
+
+### Slider
+
+<ComponentSpecBlock id="slider" headingComponent="h4" />
+
+### Slider Tick
+
+<ComponentSpecBlock id="slider-tick" headingComponent="h4" />
+
+### Slider Thumb
+
+<ComponentSpecBlock id="slider-thumb" headingComponent="h4" />

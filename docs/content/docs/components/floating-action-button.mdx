@@ -1,0 +1,143 @@
+---
+title: Floating Action Button
+description: 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.
+coverImageFigmaId: 2:132112
+---
+
+<PlatformStatusTable componentId="floating-action-button" />
+
+## Anatomy
+
+<FigmaImage
+  id="2:132112"
+  alt="Floating Action Button의 Anatomy 이미지. Icon, Label, Container로 구성됩니다."
+/>
+
+Floating Action Button는 Icon과 Label, 내용을 감싸고 있는 Container로 구성되어 있습니다.
+
+## Props
+
+### Type
+
+<FigmaImage id="2:132134" alt="Floating Action Button의 Type - Button Type" />
+
+<FigmaImage id="2:132155" alt="Floating Action Button의 Type - Menu Type" />
+
+Floating Action Button은 Button 타입과 Menu 타입 두 가지로 구분됩니다.
+
+Button 타입은 클릭 시 즉시 동작이 실행되고, Menu 타입은 클릭하면 메뉴가 펼쳐집니다.
+
+Menu 타입은 Floating Action Button에 여러 선택 옵션이 필요한 경우에 사용합니다.
+
+Enabled 상태에서 두 타입의 형태가 동일하지만, 메뉴가 나타나는 동작이 다르므로 유의해서 사용해주세요.
+
+### State
+
+<FigmaImage
+  id="2:132179"
+  alt="Floating Action Button의 State - Enabled, Pressed"
+/>
+
+Floating Action Button은 Enabled, Pressed 상태를 가집니다.
+
+### Extended Property
+
+<FigmaImage id="2:132193" alt="Floating Action Button의 Extended Property" />
+
+Extended Property를 켜면 텍스트를 표시할 수 있습니다. 이를 통해 기능을 텍스트로 명확히 표현하여 직관성을 높일 수 있습니다.
+
+### Scroll Behavior
+
+<FigmaImage id="2:132206" alt="Floating Action Button의 Scroll Behavior" />
+
+Extended 상태의 Floating Action Button은 스크롤을 내릴 경우 라벨을 숨길 수 있습니다. 스크롤을 다시 올릴 경우 라벨이 나타납니다.
+
+## Guidelines
+
+### Floating Action Button의 위치
+
+<FigmaImage id="2:132238" alt="Floating Action Button 위치" />
+
+<DontImage
+  figmaId="2:132254"
+  body="우측 하단에 위치해야 합니다."
+  alt="Floating Action Button이 화면 중앙에 위치한 예시"
+/>
+
+<Grid>
+
+<DontImage
+  figmaId="2:132265"
+  body="화면에 하나만 존재할 수 있습니다."
+  alt="화면에 여러 개의 Floating Action Button이 존재하는 예시"
+/>
+<FigmaImage
+  id="2:132273"
+  alt="Floating Action Button이 화면 우측 하단에 위치한 예시"
+/>
+
+</Grid>
+
+Floating Action Button은 화면 우측 하단에 위치해야 하며, 화면 내 주요 액션으로 하나만 존재할 수 있습니다.
+
+하단에 고정된 요소가 있는 경우 고정된 요소를 기준으로 여백을 확보해야 합니다.
+
+여러개의 선택지가 필요한 경우 Menu Type을 사용할 수 있습니다.
+
+### Snackbar와의 위치 관계
+
+<FigmaImage id="2:132282" alt="Floating Action Button과 Snackbar의 위치 관계" />
+
+화면에 Floating Action Button이 있을 때 [Snackbar](/docs/components/snackbar)가 나타나면, Snackbar는 항상 Floating Action Button 위에 표시됩니다.
+
+### Label
+
+<Grid>
+
+<FigmaImage
+  id="2:132299"
+  alt="Floating Action Button의 레이블로 '글쓰기'를 사용한 예시"
+/>
+<DontImage
+  figmaId="2:132303"
+  body="Label이 길어지지 않게 주의해주세요."
+  alt="Floating Action Button의 레이블로 '여러 물건 올리기'를 사용한 예시"
+/>
+
+</Grid>
+
+Extended 옵션을 사용하면 텍스트로 기능을 명시함으로써 직관성을 높일 수 있습니다. 텍스트 라벨이 너무 길어지지 않도록 주의해서 사용해주세요.
+
+### Color
+
+<Grid>
+
+<FigmaImage
+  id="2:132318"
+  alt="Floating Action Button의 색상을 있는 그대로 사용한 예시"
+/>
+<DontImage
+  figmaId="2:132322"
+  body="색상을 변경할 수 없습니다."
+  alt="Floating Action Button의 색상을 변경한 예시"
+/>
+
+</Grid>
+
+Floating Action Button은 화면 내에서 가장 중요한 액션을 나타내며, 하나만 표시할 수 있고 색상 변경이 불가능합니다.
+
+중요도가 낮은 보조적인 액션(White, Neutral 등)을 표현할 때는 [Contextual Floating Button](/docs/components/contextual-floating-button)을 사용해주세요.
+
+## Floating Action Button V3 변경점
+
+### 주요 변경점
+
+<FigmaImage id="2:132345" alt="Floating Action Button V2와 V3 비교" />
+
+- Floating Action Button, Extended FAB, Main FAB로 구분되어 있던 컴포넌트를 용례에 따라 **Floating Action Button, [Contextual Floating Button](/docs/components/contextual-floating-button)**으로 새롭게 구분했습니다.
+- Floating Action Button은 Brand Tone, 단일 사이즈만 제공하며 화면에 하나만 존재할 수 있습니다.
+- 보조적인 역할을 하는 떠 있는 버튼은 [Contextual Floating Button](/docs/components/contextual-floating-button)으로 용례를 구분했습니다.
+
+## Specification
+
+<ComponentSpecBlock id="floating-action-button" />

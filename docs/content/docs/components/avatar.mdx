@@ -1,30 +1,116 @@
 ---
 title: Avatar
-description: 사용자 프로필 이미지나 아이콘을 원형으로 표시하는 컴포넌트입니다. 사용자를 시각적으로 식별하고 개인화된 경험을 제공할 때 사용됩니다.
+description: 사용자의 프로필 이미지를 표시하는 컴포넌트입니다.
+coverImageFigmaId: 2:41718
 ---
 
 <PlatformStatusTable componentId="avatar" />
 
-## 개요
+## Anatomy
 
-### 옵션 테이블 (Avatar)
+<FigmaImage
+  id="2:41718"
+  alt="Avatar의 Anatomy 이미지. Image Area와 Border로 구성되며 Badge를 표시할 수 있습니다."
+/>
 
-| 속성 | 값                         | 기본값 |
-| ---- | -------------------------- | ------ |
-| size | 20, 24, 36, 48, 64, 80, 96 |        |
+Avatar는 이미지를 표시하는 Image Area, Border로 구성되어 있으며 필요에 따라 Badge를 표시할 수 있습니다.
 
-## 개요
+## Props
 
-### 옵션 테이블 (Avatar Stack)
+### Size
 
-| 속성 | 값                 | 기본값 |
-| ---- | ------------------ | ------ |
-| size | 20, 24, 36, 48, 64 |        |
+<FigmaImage
+  id="2:41735"
+  alt="Avatar의 Size Property - 20부터 108까지 9개의 사이즈"
+/>
 
-## 스펙 (Avatar)
+Avatar는 최소 20부터 108까지 9개의 사이즈를 제공합니다. 이외의 사이즈를 사용하는 경우 border의 두께를 일정하게 유지하도록 유의해주세요.
+
+### Fallback Image
+
+<FigmaImage id="2:41764" alt="Avatar의 Fallback Image" />
+
+이미지 콘텐츠를 표시할 수 없는 경우 Fallback 이미지가 표시됩니다.
+
+### Badge
+
+<FigmaImage
+  id="2:41776"
+  alt="Avatar의 Badge Property - Circle, Shield, Flower 타입"
+/>
+
+우측 하단에 Badge를 표시할 수 있습니다. Badge는 형태에 따라 Circle, Shield, Flower 세 가지 타입을 제공합니다.
+
+### Avatar Stack
+
+<FigmaImage id="2:41796" alt="Avatar Stack 컴포넌트" />
+
+여러 개의 Avatar를 표시할 때는 Avatar Stack 컴포넌트를 사용할 수 있습니다. 개수를 조정해야 하는 경우에는 앞에서부터 숨긴 후 사용합니다.
+
+## Guidelines
+
+### Size 선택하기
+
+<FigmaImage
+  id="2:41813"
+  alt="Avatar Size 선택 가이드 - 사용처에 따른 권장 사이즈"
+/>
+
+Avatar는 최소 20부터 108까지 9개의 사이즈를 제공합니다. 사이즈는 상황에 맞게 사용할 수 있으며, 상황 별 권장하는 사이즈는 다음과 같습니다.
+
+| Size   | 권장 사용처           |
+| ------ | --------------------- |
+| **20** | 댓글을 남긴 사용자    |
+| **24** | 답글 프로필           |
+| **36** | 댓글 프로필           |
+| **42** | 게시글 상세 내 프로필 |
+| **48** | 작은 리스트           |
+| **56** | 큰 리스트             |
+| **64** | 프로필 상세, 캐러셀   |
+| **96** | 프로필 수정           |
+
+<FigmaImage id="2:41926" alt="Size 48 및 56 Avatar 예시" />
+
+<FigmaImage id="2:41964" alt="Size 42 및 64 Avatar 예시" />
+
+<FigmaImage id="2:42143" alt="Size 64 및 108 Avatar 예시" />
+
+### Badge 표시하기
+
+<FigmaImage
+  id="2:42249"
+  alt="Avatar Badge 표시 예시 - 다양한 배경에서의 Badge 표현"
+/>
+
+Avatar의 Badge는 마스킹 형태로 구현되어 있습니다. 이는 디폴트 레이어처럼 플랫한 배경뿐만 아니라, 이미지나 영상 콘텐츠 위에 Avatar를 표시하는 상황에서도 배지와 Avatar 사이 간격을 자연스럽게 표현해 줍니다.
+
+마스킹되는 배지의 모양은 Circle, Shield, Flower 세 가지입니다. 각각 같은 모양의 아이콘을 배지로 넣을 수 있으며, Circle의 경우 Custom Slot으로 사용처에서 원하는 에셋을 만들어 사용할 수 있습니다.
+
+### Badge에 Custom Slot 사용하기
+
+<FigmaImage id="2:42313" alt="Badge Custom Slot 사용 예시" />
+
+Circle 타입의 배지에는 Custom Slot을 사용하여 컴포넌트를 Detach하지 않고, 원하는 요소를 추가하여 사용할 수 있습니다.
+
+Slot을 사용하는 방법은 가이드를 참고하세요.
+
+## Avatar V3 변경점
+
+### 주요 변경점
+
+<FigmaImage id="2:42340" alt="Avatar V2와 V3 비교" />
+
+- **Fallback Image가 컴포넌트에 포함되지 않습니다.**
+- Badge, Stack 표현이 마스킹 방식으로 변경되었습니다.
+- 컴포넌트 이름이 'Avatar Group'에서 'Avatar Stack'으로 변경되었습니다.
+- Avatar Stack에서 가장 위에 올라오는 요소를 선택할 수 있는 Top Item Prop을 제거했습니다.
+
+## Specification
+
+### Avatar
 
 <ComponentSpecBlock id="avatar" />
 
-## 스펙 (Avatar Stack)
+### Avatar Stack
 
 <ComponentSpecBlock id="avatar-stack" />

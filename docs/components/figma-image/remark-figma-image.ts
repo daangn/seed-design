@@ -84,6 +84,8 @@ function extractFigmaId({ name, attributes }: MdxJsxFlowElement): string | null 
       (attr): attr is MdxJsxAttribute => attr.type === "mdxJsxAttribute" && attr.name === "id",
     );
 
+    if (!idAttr) throw new Error("[remark-figma-image] FigmaImage requires an 'id' prop");
+
     return typeof idAttr?.value === "string" ? idAttr.value : null;
   }
 
@@ -121,6 +123,11 @@ function transformNode(node: MdxJsxFlowElement, imageUrl: string): void {
       { type: "mdxJsxAttribute", name: "src", value: imageUrl },
       { type: "mdxJsxAttribute", name: "width", value: `${DEFAULT_IMAGE_WIDTH}` },
       { type: "mdxJsxAttribute", name: "height", value: `${DEFAULT_IMAGE_HEIGHT}` },
+      {
+        type: "mdxJsxAttribute",
+        name: "className",
+        value: "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
+      },
     );
 
     return;

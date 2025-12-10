@@ -75,7 +75,7 @@ export default defineConfig({
           fileKey: process.env.FIGMA_FILE_KEY,
           accessToken: process.env.FIGMA_PERSONAL_ACCESS_TOKEN,
           fetchUrlsOptions: {
-            format: "jpg",
+            format: "png",
             scale: 2,
           },
         },
