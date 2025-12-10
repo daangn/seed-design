@@ -45,15 +45,15 @@ placement는 스크롤 가능한 콘텐츠가 오버플로우되어 가려지는
   alt="Scroll Fog의 Layer Property - layer-basement, layer-default, layer-floating (다크 모드)"
 />
 
-Figma에서는 디자인 도구의 제약으로 인해 Fog/Fade와 콘텐츠 배경 사이에 색상 유격이 발생할 수 있습니다. 이를 해결하기 위해 컴포넌트는 Layer Prop을 제공합니다. 디자이너는 이 Prop을 통해 Fog의 그라데이션 끝 색상을 콘텐츠의 실제 배경색과 명시적으로 일치시켜 시각적 일관성을 확보해야 합니다.
+Scroll Fog는 배경에 어떤 색상이 들어와도 그라디언트가 투명으로 자연스럽게 전환되어야 합니다.
 
-**구현체는 mask-image 속성을 사용하여 유연하게 해결합니다. 따라서 배경에 어떤 색상이 들어와도 투명으로 자연스럽게 전환되어 일관성이 유지됩니다.**
+Figma에서는 디자인 도구의 제약으로 인해 Fog/Fade와 콘텐츠 배경 사이에 색상 유격이 발생할 수 있습니다. 이를 해결하기 위해 Figma 컴포넌트는 Layer Prop을 제공합니다. Figma에서 Scroll Fog를 사용하는 경우, 그라디언트 끝 색상을 콘텐츠의 실제 배경색과 명시적으로 일치시켜 시각적 일관성을 확보해야 합니다.
 
 ## Guidelines
 
 ### 적절한 Scroll Fog 크기 찾기
 
-Scroll Fog의 크기(높이 또는 너비)는 최소 Padding값인 20px을 가지고 있습니다.
+Scroll Fog의 크기(높이 또는 너비)는 최소 Padding 값인 20px을 가지고 있습니다.
 
 <Grid>
   <FigmaImage id="2:166616" alt="적절한 Scroll Fog 크기 예시 - 세로 스크롤" />
