@@ -6,5 +6,5 @@ export * as $fontWeight from "./font-weight.mjs";
 export * as $gradient from "./gradient.mjs";
 export * as $lineHeight from "./line-height.mjs";
 export * as $radius from "./radius.mjs";
-export * as $shadow from "./shadow/index.mjs";
+export * as $shadow from "./shadow.mjs";
 export * as $timingFunction from "./timing-function.mjs";
