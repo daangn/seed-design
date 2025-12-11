@@ -326,8 +326,8 @@ data:
         suffixIcon:
           size: $dimension.x3_5
         label:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
     size=xsmall, layout=iconOnly:
       enabled:
         root:
