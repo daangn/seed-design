@@ -29,26 +29,31 @@ export function ComponentGrid() {
     });
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pb-10 not-prose">
+    <ul className="grid grid-cols-2 md:grid-cols-3 gap-4 pb-10 not-prose items-stretch">
       {componentPages.map(async (page) => {
         return (
-          <ComponentCard
-            {...(page.data.coverImageFigmaId && {
-              coverImageSrc: (
-                await fetchFigmaImageUrls({
-                  client,
-                  fileKey: process.env.FIGMA_FILE_KEY!,
-                  nodeIds: [page.data.coverImageFigmaId],
-                })
-              ).get(page.data.coverImageFigmaId),
-            })}
-            key={page.url}
-            title={page.data.title}
-            description={page.data.description}
-            href={page.url}
-          />
+          <li key={page.url}>
+            <ComponentCard
+              className="h-full"
+              {...(page.data.coverImageFigmaId && {
+                coverImageSrc: (
+                  await fetchFigmaImageUrls({
+                    client,
+                    fileKey: process.env.FIGMA_FILE_KEY!,
+                    nodeIds: [page.data.coverImageFigmaId],
+                    options: {
+                      scale: 3,
+                    },
+                  })
+                ).get(page.data.coverImageFigmaId),
+              })}
+              title={page.data.title}
+              description={page.data.description}
+              href={page.url}
+            />
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

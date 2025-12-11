@@ -22,14 +22,14 @@ export function DontImage({ src, alt, body, className }: DontImageProps) {
         loading="lazy"
         draggable={false}
       />
-      <div className="w-full flex gap-2.5 p-3 items-center bg-bg-critical-weak rounded-r2">
+      <div className="w-full flex gap-2 p-3 bg-bg-critical-weak rounded-r2">
         <Icon
           svg={<IconXmarkCircleFill className="shrink-0" />}
           size="x5"
           color="fg.criticalContrast"
         />
-        <div className="text-fg-critical-contrast text-sm flex flex-col">
-          <div className="font-bold">Don’t</div>
+        <div className="text-fg-critical-contrast text-sm flex flex-col break-keep">
+          <div className="font-bold leading-5">Don’t</div>
           <div>{body}</div>
         </div>
       </div>
