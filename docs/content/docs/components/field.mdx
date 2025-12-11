@@ -16,7 +16,7 @@ coverImageFigmaId: 39:21550
 Field는 Header, Input, Footer 세 영역으로 구성됩니다.
 
 - Header에는 Label, Requirement Mark, 필요 시 Suffix Slot에 Sub Action이 포함됩니다.
-- Input은 Text Input, Textarea, Input Button 등 실제 입력 UI가 들어오는 영역입니다.
+- Input은 [Text Input](/docs/components/text-input), [Textarea](/docs/components/text-input#textarea), [Input Button](/docs/components/input-button) 등 실제 입력 UI가 들어오는 영역입니다.
 - Footer는 Helper Text, Error Message, Character Count를 통해 보조 정보를 제공합니다.
 
 ## Properties
@@ -30,7 +30,7 @@ Field는 Header, Input, Footer 세 영역으로 구성됩니다.
 
 Label은 Medium과 Bold 두 가지 Weight를 제공합니다. Label 텍스트는 명사형으로 작성하고 마침표를 사용하지 않으며, 한 줄로 표현하는 것이 좋습니다. 필요한 경우에만 최대 두 줄까지 사용할 수 있습니다.
 
-Label 우측에 필수 입력 여부를 표시할 수 있습니다. 필수값은 Requirement Mark로, 선택값은 Text로 표시합니다.
+Label 우측에 필수 입력 여부를 표시할 수 있습니다. 필수 값은 Requirement Mark로, 선택 값은 Text로 표시합니다.
 
 Suffix Slot은 Label 우측에 위치하며, Ghost Button이나 Icon을 통해 보조 액션 기능을 제공합니다.
 
@@ -50,7 +50,7 @@ SEED에서 제공하는 Input 컴포넌트는 아래와 같으며, 이들을 조
 <Card href="/docs/components/text-input" title="Text Field">
   Text Input을 포함한 Field
 </Card>
-<Card href="/docs/components/textarea" title="Textarea Field">
+<Card href="/docs/components/text-input#textarea" title="Textarea Field">
   Textarea를 포함한 Field
 </Card>
 <Card href="/docs/components/input-button" title="Select Field (Field Button)">
@@ -62,7 +62,7 @@ SEED에서 제공하는 Input 컴포넌트는 아래와 같으며, 이들을 조
 
 </Cards>
 
-사용처에서 입력 경험에 특수한 포맷이나 마스킹 등의 기능을 추가하고 싶은 경우 포맷과 동작을 직접 정의해서 사용할 수 있습니다.
+특수한 포맷이나 마스킹 등의 기능이 필요한 경우, 포맷과 동작을 직접 정의해서 사용할 수 있습니다.
 
 ### Footer Property
 
@@ -97,9 +97,7 @@ Field 컴포넌트를 사용하려면 먼저 Form의 기본 구조를 이해해�
 
 Form은 Input에 입력된 값이 유효한지 검증(Validation)하고 값을 전달(Submit)하는 과정을 거칩니다.
 
-검증(Validation)은 일반적으로 두 가지 방식 중 하나를 선택할 수 있습니다.
-
-검증 방식은 상황에 따라 혼합하여 사용할 수 있습니다. 필수값이나 글자수 확인과 같은 단순한 검증은 인라인 방식을, 비즈니스 로직이나 서버 규칙은 제출 시 검증을 적용합니다. 보안이나 금융 정보와 같이 오입력 위험이 큰 필드는 즉시 피드백을 제공하는 인라인 검증을 권장합니다.
+검증(Validation)은 일반적으로 두 가지 방식이 있으며, 상황에 따라 혼합하여 사용할 수 있습니다. 필수 값이나 글자 수 확인 등의 단순한 검증은 인라인 방식을, 비즈니스 로직이나 서버 규칙은 제출 시 검증을 적용합니다. 보안이나 금융 정보와 같이 오입력 위험이 큰 필드는 즉시 피드백을 제공하는 인라인 검증을 권장합니다.
 
 #### 제출 시 검증 (Validation on Submit)
 
@@ -117,7 +115,7 @@ Field 단위로 검증을 진행합니다. Input 요소에서 Focus가 떠난 �
 
 <FigmaImage id="2:111575" alt="이탈 시 안내 다이얼로그가 표시되는 예시" />
 
-작성, 수정 화면에 진입한 후에 다시 이탈하려는 경우 입력된 값이 지워질 수 있다는 경고 안내를 표시해야 합니다.
+작성, 수정 화면에 진입한 후에 다시 이탈하려는 경우 입력된 값이 지워질 수 있다는 경고 안내를 [Alert Dialog](/docs/components/alert-dialog) 등을 통해 표시해야 합니다.
 
 <FigmaImage
   id="2:111625"
@@ -143,13 +141,13 @@ Field 단위로 검증을 진행합니다. Input 요소에서 Focus가 떠난 �
 
 <FigmaImage id="2:111716" alt="단일 화면 Form 구성 예시" />
 
-어떤 엔티티를 생성, 수정할 때 활용할 수 있는 UX 패턴입니다. Form은 엔티티의 데이터 프로퍼티를 값을 입력하거나 수정할 수 있도록 구성되어있어야 합니다. 생성(Create)과 수정(Update) Form은 가능하면 동일한 구성을 유지해야 합니다.
+어떤 엔티티를 생성, 수정할 때 활용할 수 있는 UX 패턴입니다. Form은 엔티티의 데이터를 입력하거나 수정할 수 있도록 구성되어 있어야 합니다. 생성(Create) Form과 수정(Update) Form은 가능하면 동일한 구성을 유지해야 합니다.
 
 ### 단계별 Form 구성하기
 
 <FigmaImage id="2:111771" alt="단계별 Form 구성 예시" />
 
-상위에 선택한 옵션에 추가적인 데이터 입력이나 수정이 필요한 경우 활용할 수 있는 UX 패턴입니다. 모바일 화면이 여러개의 Form, Input으로 복잡해지는 경우에도 활용할 수 있습니다.
+이전 단계에서 선택한 옵션에 추가적인 데이터 입력이나 수정이 필요한 경우 활용할 수 있는 UX 패턴입니다. 모바일 화면이 여러 개의 Form, Input으로 복잡해지는 경우에도 활용할 수 있습니다.
 
 상황이나 구성하고자 하는 플로우에 따라서 단일 화면 Form과 혼합해서 구성할 수 있습니다.
 
