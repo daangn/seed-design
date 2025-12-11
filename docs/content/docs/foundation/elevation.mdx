@@ -35,23 +35,23 @@ Elevation 시스템을 효과적으로 관리하기 위해, 레벨을 'Global'�
 
 페이지의 기본 레이아웃을 구성하는 레이어입니다.
 
-해당 페이지에서 Card, List, TextField처럼 페이지를 구성하는 개별 콘텐츠 블록이나 TopNavigation 같은 앱이 주요 레이아웃 요소가 표현됩니다.
+해당 페이지에서 Card, [List](/docs/components/list), [TextField](/docs/components/text-input)처럼 페이지를 구성하는 개별 콘텐츠 블록이나 [Top Navigation](/docs/components/top-navigation) 같은 앱이 주요 레이아웃 요소가 표현됩니다.
 
 ### Level 2: Bottom Sheet, Menu Sheet
 
 <FigmaImage id="1:25192" alt="Level 2 Bottom Sheet 예시 이미지" />
 
-화면을 덮으며 독립적인 '쌓임 맥락(Stacking Context)'을 생성하는 컴포넌트입니다.
+[Bottom Sheet](/docs/components/bottom-sheet), [Menu Sheet](/docs/components/menu-sheet)처럼 화면을 덮으며 독립적인 '쌓임 맥락(Stacking Context)'을 생성하는 컴포넌트입니다.
 
-이때 Bottom Sheet는 그 자체로 새로운 Global Context가 됩니다. 따라서 그 위에 배치되는 List는 이 기준 바닥 위에 쌓이는 Local 컴포넌트로 인식되어, Bottom Sheet 표면 위에 명확하게 표시됩니다.
+이때 [Bottom Sheet](/docs/components/bottom-sheet)는 그 자체로 새로운 Global Context가 됩니다. 따라서 그 위에 배치되는 [List](/docs/components/list)는 이 기준 바닥 위에 쌓이는 Local 컴포넌트로 인식되어, Bottom Sheet 표면 위에 명확하게 표시됩니다.
 
 ### Level 3: Alert Dialog
 
 <FigmaImage id="1:25237" alt="Level 3 Alert Dialog 예시 이미지" />
 
-시스템 내에서 가장 긴급한 정보를 처리하는 '최상위 모달(Critical Modal)' 입니다.
+[Alert Dialog](/docs/components/alert-dialog)는 시스템 내에서 가장 긴급한 정보를 처리하는 '최상위 모달(Critical Modal)' 입니다.
 
-이 레벨은 사용자의 즉각적이고 완전한 집중을 강제합니다. 따라서 Bottom Sheet(Level 2)와 같이 이미 활성화된 다른 모달을 포함하여, 앱의 모든 UI 요소 중 가장 최상단에 표시되어야 합니다.
+이 레벨은 사용자의 즉각적이고 완전한 집중을 강제합니다. 따라서 [Bottom Sheet](/docs/components/bottom-sheet)(Level 2)와 같이 이미 활성화된 다른 모달을 포함하여, 앱의 모든 UI 요소 중 가장 최상단에 표시되어야 합니다.
 
 ## 페이지 위 페이지 표현하기
 
@@ -68,13 +68,13 @@ Global과 Local의 맥락은 페이지 위에 페이지(Page-over-Page)'가 쌓�
   alt="Local Level 내부 Component 간 Level 비교 다이어그램"
 />
 
-Button, List, Tab과 같은 콘텐츠를 표현하는 컴포넌트는 자신이 속한 부모 표면(Global)의 Level을 그대로 승계하는 Local의 성격을 띄지만, 그 안에서 시각적 위계와 중요도를 구분하기 위해 Level 1~3으로 나누고 있습니다.
+[Action Button](/docs/components/action-button), [List](/docs/components/list), [Tabs](/docs/components/tabs) 등 콘텐츠를 표현하는 컴포넌트는 자신이 속한 부모 표면(Global)의 Level을 그대로 승계하는 Local의 성격을 띄지만, 그 안에서 시각적 위계와 중요도를 구분하기 위해 Level 1~3으로 나누고 있습니다.
 
 ### Level 1: Main Contents
 
 <FigmaImage id="1:25408" alt="Level 1 Main Contents 예시 이미지" />
 
-List, Callout, Tabs, Top Navigation 등을 포함하는 Level 1 컴포넌트는 페이지의 기본 레이아웃(골격)을 형성하는 요소들입니다.
+[List](/docs/components/list), [Callout](/docs/components/callout), [Tabs](/docs/components/tabs), [Top Navigation](/docs/components/top-navigation) 등을 포함하는 Level 1 컴포넌트는 페이지의 기본 레이아웃(골격)을 형성하는 요소들입니다.
 
 ### Level 2: Floating Actions
 
@@ -94,8 +94,8 @@ Level 3는 사용자 흐름을 방해하지 않으면서도 즉각적인 확인�
 
 같은 Elevation Level을 가지더라도, 그 안에서 위계를 세분화하여 명확한 쌓임 순서를 정의할 수 있습니다.
 
-Top Navigation과 List는 동일한 Level 1이지만, 스크롤 시 List가 자연스럽게 Top Navigation 아래로 들어가도록 배치되어야 합니다.
-이런 경우, 콘텐츠가 겹칠 때 Top navigation의 elevation level을 높이지 않습니다. 대신 그림자나 라인(스타일)을 추가하여 '구분감'을 줍니다.
+[Top Navigation](/docs/components/top-navigation)과 [List](/docs/components/list)는 동일한 Level 1이지만, 스크롤 시 List가 자연스럽게 Top Navigation 아래로 들어가도록 배치되어야 합니다.
+이런 경우, 콘텐츠가 겹칠 때 [Top Navigation](/docs/components/top-navigation)의 elevation level을 높이지 않습니다. 대신 그림자나 라인(스타일)을 추가하여 '구분감'을 줍니다.
 
 이러한 구분감은 Elevation을 표현하는 3가지 방법 중 하나를 사용해 표현합니다.
 
@@ -115,13 +115,13 @@ Elevation을 표현하는 시각적 요소는 다양하게 존재합니다. SEED
   <FigmaImage id="1:25843" alt="Floating Action Button 예시" />
 </Grid>
 
-배경색의 색상을 변경하여 표현하는 방식입니다. 기본 배경 색상의 밝기나 채도를 조절합니다. 혹은 특정 컨텍스트를 가질 때, 톤 차이가 아닌 전혀 다른 색상을 배경색으로 사용해 elevation을 나타낼 수도 있습니다.
+배경색의 색상을 변경하여 표현하는 방식입니다. [Snackbar](/docs/components/snackbar), [Floating Action Button](/docs/components/floating-action-button)이 대표적인 예시입니다. 기본 배경 색상의 밝기나 채도를 조절합니다. 혹은 특정 컨텍스트를 가질 때, 톤 차이가 아닌 전혀 다른 색상을 배경색으로 사용해 elevation을 나타낼 수도 있습니다.
 
 ### Shadow
 
 <FigmaImage id="1:25860" alt="Contextual Floating Button 예시" />
 
-Elevation을 표현하는 가장 전통적이고 직관적인 방법입니다. 빛이 있다는 가정 하에 얼마나 높이 떠 있는지를 그림자의 크기, 퍼짐(blur), 투명도로 표현합니다.
+Elevation을 표현하는 가장 전통적이고 직관적인 방법입니다. [Contextual Floating Button](/docs/components/contextual-floating-button)이 대표적인 예시입니다. 빛이 있다는 가정 하에 얼마나 높이 떠 있는지를 그림자의 크기, 퍼짐(blur), 투명도로 표현합니다.
 
 <TokenReference groups={["shadow"]} />
 
@@ -131,7 +131,7 @@ Elevation을 표현하는 가장 전통적이고 직관적인 방법입니다. �
 
 <FigmaImage id="1:25876" alt="Bottom Navigation의 예시" />
 
-Surface의 가장자리에 테두리를 추가하여 영역을 구분하고 높낮이를 암시하는 방식입니다.
+Surface의 가장자리에 테두리를 추가하여 영역을 구분하고 높낮이를 암시하는 방식입니다. [Bottom Navigation](/docs/components/bottom-navigation)이 대표적인 예시입니다.
 
 ## Color: Layer Token
 
@@ -147,7 +147,7 @@ Layer Token은 '콘텐츠를 담는 컨테이너'의 표면 색상을 정의합�
 | Token                                                                                    | 설명                                                                                                                                       |
 | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | [**`$color.bg.layer-basement`**](/docs/foundation/design-token/%24color.bg.layer-basement) | 가장 낮은 0단계의 '대지'입니다. 앱의 가장 깊은 곳에 위치하는 전체 배경색입니다.                                                            |
-| [**`$color.bg.layer-default`**](/docs/foundation/design-token/%24color.bg.layer-default)   | basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField)가 이 레이어 위에서 표현됩니다.                          |
+| [**`$color.bg.layer-default`**](/docs/foundation/design-token/%24color.bg.layer-default)   | basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠([List](/docs/components/list), [TextField](/docs/components/text-input))가 이 레이어 위에서 표현됩니다.                          |
 | [**`$color.bg.layer-floating`**](/docs/foundation/design-token/%24color.bg.layer-floating) | 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다. |
 
 **`$color.bg.layer-fill`은 더이상 사용하지 않습니다. 사용을 원하는 경우 [`$color.bg.neutral-weak`](/docs/foundation/design-token/%24color.bg.neutral-weak)을 사용하거나, 디자인 시스템팀에 문의해주세요.**
