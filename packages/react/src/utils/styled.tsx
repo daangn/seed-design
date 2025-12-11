@@ -8,6 +8,7 @@ import type {
   SpacingX,
   SpacingY,
   Gradient,
+  Shadow,
 } from "@seed-design/css/vars";
 import { vars } from "@seed-design/css/vars";
 import { forwardRef } from "react";
@@ -49,6 +50,15 @@ function handleBleed(
   }
 
   return handleDimension(dimension);
+}
+
+function handleShadow(shadow: Shadow | (string & {}) | undefined) {
+  if (!shadow) {
+    return undefined;
+  }
+
+  // @ts-expect-error
+  return vars.$shadow[shadow] ?? shadow;
 }
 
 export function handlePaddingWithSafeArea(
@@ -251,6 +261,8 @@ export interface StyleProps {
   borderBottomRightRadius?: Radius | 0 | (string & {});
 
   borderBottomLeftRadius?: Radius | 0 | (string & {});
+
+  boxShadow?: Shadow | (string & {});
 
   width?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
@@ -523,6 +535,7 @@ export function useStyleProps<T extends UseStyleProps>(
     borderTopRightRadius,
     borderBottomRightRadius,
     borderBottomLeftRadius,
+    boxShadow,
     width,
     minWidth,
     maxWidth,
@@ -597,6 +610,7 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-border-top-right-radius": handleRadius(borderTopRightRadius),
       "--seed-box-border-bottom-right-radius": handleRadius(borderBottomRightRadius),
       "--seed-box-border-bottom-left-radius": handleRadius(borderBottomLeftRadius),
+      "--seed-box-box-shadow": handleShadow(boxShadow),
       "--seed-box-width": handleDimension(width),
       "--seed-box-min-width": handleDimension(minWidth),
       "--seed-box-max-width": handleDimension(maxWidth),
