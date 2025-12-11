@@ -1,5 +1,16 @@
 # @seed-design/css
 
+## 1.1.12
+
+### Patch Changes
+
+- 8d0ad90: seedFontMultiplier, seedFontScaling attribute를 추가합니다
+  - seedFontMultiplier: 폰트 크기 스케일링 계수 (e.g. 0.8, 1.35, 1.5, 1)
+  - seedFontScaling: 폰트 크기 스케일링 활성화 여부 (e.g. "enabled")
+- 8f31f93: cssnano 등 CSS 최적화 도구를 사용할 때, `bleedX`와 `bleedY` 중 한 가지 속성만 정의하는 경우 bleed가 적용되지 않던 문제를 수정합니다.
+- 69ccc6e: Overlay 컴포넌트에 skipAnimation 옵션을 추가합니다
+- 279001a: Badge의 크기와 Field의 indicator 크기 및 여백이 폰트 스케일링 제한의 영향을 받도록 업데이트합니다.
+
 ## 1.1.10
 
 ### Patch Changes

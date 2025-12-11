@@ -36,11 +36,17 @@ const dialogSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "skipAnimation": false
+};
 
 const compoundVariants = [];
 
-export const dialogVariantMap = {};
+export const dialogVariantMap = {
+  "skipAnimation": [
+    false
+  ]
+};
 
 export const dialogVariantKeys = Object.keys(dialogVariantMap);
 

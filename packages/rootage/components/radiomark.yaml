@@ -49,15 +49,6 @@ data:
         root:
           strokeWidth: 0px
           strokeColor: "#00000000"
-      disabled:
-        root:
-          color: $color.palette.gray-300
-      disabled,selected:
-        root:
-          color: $color.bg.transparent
-          strokeColor: $color.palette.gray-300
-        icon:
-          color: $color.palette.gray-300
 
     tone=brand:
       enabled,selected:
@@ -68,6 +59,16 @@ data:
       enabled,selected,pressed:
         root:
           color: $color.bg.brand-solid-pressed
+      disabled:
+        root:
+          color: $color.palette.gray-300
+      disabled,selected:
+        root:
+          color: $color.bg.transparent
+          strokeWidth: 1px
+          strokeColor: $color.palette.gray-300
+        icon:
+          color: $color.palette.gray-300
     tone=neutral:
       enabled,selected:
         root:
@@ -77,6 +78,16 @@ data:
       enabled,selected,pressed:
         root:
           color: $color.bg.neutral-inverted-pressed
+      disabled:
+        root:
+          color: $color.palette.gray-300
+      disabled,selected:
+        root:
+          color: $color.bg.transparent
+          strokeWidth: 1px
+          strokeColor: $color.palette.gray-300
+        icon:
+          color: $color.palette.gray-300
 
     size=medium:
       enabled:

@@ -1,6 +1,6 @@
 ---
 title: Bottom Sheet
-description: Bottom sheet는 화면 하단에 고정되어 이전 화면과 관련된 콘텐츠를 표시합니다. 사용자에게 추가적인 정보, 작업 또는 메뉴를 제공하는 데 사용됩니다.
+description: 화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.
 ---
 
 <ComponentExample name="react/bottom-sheet/preview">
@@ -217,6 +217,19 @@ ScrollFog는 항상 효과를 표시하므로, 충분한 padding을 제공해야
   ```json doc-gen:file
   {
     "file": "examples/react/bottom-sheet/handle-only.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Skip Animation
+
+`skipAnimation` prop을 사용하여 BottomSheet의 enter/exit 애니메이션을 건너뛸 수 있습니다.
+
+<ComponentExample name="react/bottom-sheet/skip-animation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/skip-animation.tsx",
     "codeblock": true
   }
   ```

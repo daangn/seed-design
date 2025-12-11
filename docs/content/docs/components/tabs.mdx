@@ -1,22 +1,151 @@
 ---
 title: Tabs
-description: 관련된 콘텐츠 그룹을 구분하고 전환할 수 있게 해주는 컴포넌트입니다. 사용자가 같은 계층의 서로 다른 콘텐츠 영역을 탐색할 때 사용됩니다.
+description: 한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.
+coverImageFigmaId: 39:21608
 ---
 
 <PlatformStatusTable componentId="tabs" />
 
-## 개요
+## Anatomy
 
-### 옵션 테이블
+<FigmaImage id="2:198581" alt="Tabs의 Anatomy 이미지 (Line Type)" />
 
-| 속성        | 값     | 기본값 |
-| ----------- | ------ | ------ |
-| size        | small, medium | medium |
-| layout        | hug, fill | hug |
+<FigmaImage id="2:198593" alt="Tabs의 Anatomy 이미지 (Chip Type)" />
 
-## 스펙
+Tabs는 Label이 있는 Tab Item의 모음으로 구성되어 있습니다. Tab Item에는 필요에 따라 [Notification Badge](/docs/components/notification-badge)를 표시할 수 있습니다.
 
-<ComponentSpecBlock id="tablist" />
+## Properties
 
-<ComponentSpecBlock id="tab" />
+### Variant
 
+<FigmaImage
+  id="2:198611"
+  alt="Tabs의 Variant Property - Line Type과 Chip Type"
+/>
+
+Tabs 컴포넌트는 두 가지 타입으로 구성되어 있습니다.
+
+| Type     | 스타일/레이아웃                                                                 |
+| -------- | ------------------------------------------------------------------------------- |
+| **Line** | Fill 레이아웃 (Tab Item을 꽉 차게 표시), Hug 레이아웃 (레이블 길이에 맞게 표시) |
+| **Chip** | Solid 스타일, Outline 스타일                                                    |
+
+### Size
+
+<FigmaImage id="2:198632" alt="Tabs Line Type의 Size - Medium, Small" />
+<FigmaImage id="2:198648" alt="Tabs Chip Type의 Size - Large, Medium" />
+
+Line 타입은 Medium, Small 두 가지 Size를 가집니다. Chip 타입은 Large, Medium 두 가지 Size를 가집니다.
+
+### State
+
+<FigmaImage id="2:198670" alt="Tabs의 State - Enabled, Selected, Disabled" />
+
+Tab Item은 Enabled, Selected, Disabled 상태를 가집니다.
+
+### Notification Property
+
+<FigmaImage
+  id="2:198713"
+  alt="Tabs의 Notification Property - Notification Badge 표시 예시"
+/>
+
+Tab Item에 탭에 새로운 콘텐츠가 있음을 알리는 [Notification Badge](/docs/components/notification-badge)를 표시할 수 있습니다.
+
+## Guidelines
+
+### Tabs 사이즈와 스타일 선택
+
+<FigmaImage id="2:198737" alt="Line Style - Medium과 Small 사이즈" />
+<FigmaImage id="2:199124" alt="Chip Style - Large와 Medium 사이즈" />
+
+Tabs 컴포넌트는 Line과 Chip 두 가지 스타일로 구성되어 있습니다.
+
+Line 타입은 Medium과 Small 두 가지 사이즈를 제공하며, Chip 타입은 Large와 Medium 두 가지 사이즈를 제공합니다. 화면 내 다른 요소와의 조합, 주목도에 따라 스타일과 사이즈를 선택하여 사용할 수 있습니다.
+
+Large 사이즈는 화면 전체 콘텐츠를 전환하는 Navigation 역할에 적합하며, Medium 사이즈는 좁은 영역이나 스크롤 중간에서 서브 콘텐츠를 전환할 때 사용합니다.
+
+Chip 타입을 사용하는 경우, 화면 전체의 콘텐츠를 전환하는 경우에 Solid 스타일을, 일부 콘텐츠를 전환하는 경우에는 Outline 타입을 사용하길 권장합니다.
+
+<Grid>
+  <FigmaImage
+    id="2:199322"
+    alt="Line 스타일 Tabs와 Filter Chip을 조합하여 사용하는 예시"
+    body="Line 스타일 Tabs와 Filter Chip을 조합하여 사용"
+  />
+  <DontImage
+    figmaId="2:199353"
+    alt="Chip 스타일 Tabs와 Filter Chip을 중복하여 사용하는 예시"
+    body="Chip 스타일을 중복하여 사용하는 것은 권장하지 않습니다."
+  />
+</Grid>
+
+또한 화면 내 다른 [Chip](/docs/components/chip) 요소와 조합하여 사용하는 경우 동작에 혼란이 없도록 서로 다른 스타일을 적용해야 합니다.
+
+### Line 스타일에서 Fill과 Hug 레이아웃 사용하기
+
+<Grid>
+  <FigmaImage id="2:199400" alt="Fill 레이아웃 예시" />
+  <FigmaImage id="2:199440" alt="Hug 레이아웃 예시" />
+</Grid>
+
+Line 타입에서는 Tab Item을 꽉 차게 표시하는 Fill 레이아웃과 Tab Item을 레이블 길이에 맞게 표시하는 Hug 레이아웃을 사용할 수 있습니다.
+
+Fill 레이아웃은 Tab Item이 많지 않을 경우에 적합하며, 최대 5개의 탭을 표시할 수 있습니다.
+
+**Tab Item이 6개 이상이거나 레이블이 길어지는 경우에는 Hug 레이아웃 사용을 권장합니다.**
+
+### 탭에 새로운 콘텐츠가 있음을 알리기
+
+<Grid>
+  <FigmaImage
+    id="2:199479"
+    alt="Notification Badge를 이벤트 탭에만 표시한 예시"
+  />
+  <DontImage
+    figmaId="2:199519"
+    alt="여러 탭에 동시에 Notification Badge를 표시하는 예시"
+    body="Notification을 여러 탭에 동시에 표시하는 것은 지양해야 합니다."
+  />
+</Grid>
+
+Tab Item에는 새로운 콘텐츠가 있음을 알리는 Notification Badge를 표시할 수 있습니다.
+
+**Notification Badge는 콘텐츠를 확인하면 사라지는 동작을 하며, 여러 탭에 동시에 표시하는 것은 지양해야 합니다.**
+
+### 2 Depth로 Tabs 구조 사용하기
+
+<FigmaImage
+  id="2:199569"
+  alt="2 Depth Tabs 구조 예시 - Line Fill + Solid Chip, Line Hug + Outline Chip"
+/>
+
+2차 카테고리와 같이 Tab의 구조를 이중으로 표시하는 경우 서로 다른 탭의 스타일을 조합하여 사용합니다.
+
+**1차 분류에는 Line 타입, 2차 분류에는 Chip 타입의 Tabs를 조합하여 사용하는 것을 권장합니다.**
+
+## Tabs V3 변경점
+
+<FigmaImage id="2:199645" alt="Tabs V2와 V3 비교" />
+
+- Chip 스타일의 Variant를 추가했습니다.
+- 기존 사이즈를 Medium으로 하며, 새롭게 Large 사이즈를 추가했습니다.
+- Line Fill 레이아웃에서 Active Indicator의 좌우 여백이 추가되었습니다.
+
+## Specification
+
+### Tablist
+
+<ComponentSpecBlock id="tablist" headingComponent="h4" />
+
+### Tab
+
+<ComponentSpecBlock id="tab" headingComponent="h4" />
+
+### Chip Tablist
+
+<ComponentSpecBlock id="chip-tablist" headingComponent="h4" />
+
+### Chip Tab
+
+<ComponentSpecBlock id="chip-tab" headingComponent="h4" />

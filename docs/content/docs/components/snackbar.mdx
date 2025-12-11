@@ -1,100 +1,171 @@
 ---
 title: Snackbar
-description: Snackbar는 사용자 액션의 결과나 프로세스의 결과를 알려주는 일시적인 알림 요소입니다. 화면 하단에 표시되며 자동으로 사라집니다.
+description: 화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.
+coverImageFigmaId: 39:21603
 ---
 
 <PlatformStatusTable componentId="snackbar" />
 
 ## Anatomy
 
-- region
-- root
-- message
-- prefix icon
-- action
+<FigmaImage
+  id="32:92509"
+  alt="Snackbar의 Anatomy 이미지. Container, Text, Prefix Icon, Action으로 구성됩니다."
+/>
 
-## Options
+Snackbar 컴포넌트는 텍스트와 컨테이너로 구성되며 필요에 따라 Prefix Icon과 Action을 표시할 수 있습니다.
 
-### Variants
+## Properties
 
-#### Default
-기본 스낵바입니다. 특별한 상태가 없는 일반적인 알림에 적합합니다.
+### Variant
 
-#### Positive
-성공적인 액션이나 프로세스 완료를 알릴 때 사용됩니다. Prefix icon으로 `checkmark_circle_fill`을 사용합니다.
+<FigmaImage
+  id="32:92525"
+  alt="Snackbar의 Variant Property - Default, Positive, Critical"
+/>
 
-#### Critical
-오류나 주의가 필요한 상황을 알릴 때 사용됩니다. Prefix icon으로 `exclamationmark_circle_fill`을 사용합니다.
+Snackbar 컴포넌트는 기본적인 메시지 전달을 위한 Default, 완료나 성공 메시지를 표현하는 Positive, 오류나 실패 메시지를 표현하는 Critical 총 세 가지 타입을 제공합니다.
 
-### Message
-스낵바의 핵심 내용을 담은 텍스트입니다. 간결하고 명확해야 합니다.
+### Action Property
 
-### Action label (Optional)
-사용자가 스낵바와 관련하여 취할 수 있는 액션의 라벨입니다.
+<FigmaImage id="32:92546" alt="Snackbar의 Action Property - Text 버튼" />
 
-### Timeout
-스낵바가 자동으로 사라지는 시간입니다. 기본값은 5초입니다.
+Text로 구성된 보조 Action을 표시할 수 있습니다.
 
-## Behaviors
+## Guidelines
 
-### 자동 사라짐
-스낵바는 기본적으로 Timeout 후 자동으로 사라집니다. 메시지 길이에 따라 노출 시간이 달라집니다.
+### Snackbar 사용하기
 
-### 애니메이션
-진입과 퇴장 시 opacity와 scale 애니메이션을 적용합니다.
+<FigmaImage id="32:92573" alt="Snackbar 사용 예시" />
 
-### 연속 표시
-여러 개의 스낵바가 트리거되면 한 번에 하나씩만 표시됩니다. 첫 번째 스낵바가 사라진 후 두 번째 스낵바가 표시됩니다.
+Snackbar는 텍스트를 통해 간결한 피드백을 제공하는 컴포넌트입니다.
 
-### Text Overflow
-텍스트가 영역에 비해 길면 다음 줄로 줄바꿈됩니다. 가능한 한 줄바꿈을 피하고 짧은 텍스트를 사용하는 것이 좋습니다.
+저장/업로드/동기화 등 백그라운드 작업 완료 알림이나 사용자가 방금 수행한 액션에 대한 안내 용도로 사용할 수 있습니다. 또한 '되돌리기' 등 짧은 시간 동안만 유효한 보조 액션을 제공합니다.
 
-### Region
-Region은 스낵바가 표시될 영역으로, 화면 가장자리 및 피해야 할 요소와의 간격을 정의합니다. Root는 Region 내에 배치됩니다.
+Snackbar는 낮은 심각도의 상태를 공유하는 용도로만 사용해야 하며, 다음 상황에서는 사용을 피해야 합니다.
 
-## Usage Guidelines
+| 사용을 피해야 할 상황              | 대안                                                                                         |
+| ---------------------------------- | -------------------------------------------------------------------------------------------- |
+| 사용자의 결정이 필요한 중요한 선택 | [Bottom Sheet](/docs/components/bottom-sheet), [Alert Dialog](/docs/components/alert-dialog) |
+| 지속적으로 표시되어야 하는 경고    | [Page Banner](/docs/components/page-banner), [Callout](/docs/components/callout)             |
+| 여러 단계 안내나 긴 텍스트         | [Help Bubble](/docs/components/help-bubble), [Callout](/docs/components/callout)             |
 
-### 적절한 사용 사례:
+### Snackbar의 위치와 레이아웃
 
-- 사용자의 액션에 대한 즉각적인 피드백 제공
-- 사용자가 방금 수행한 작업의 결과 확인
-- 비중요 정보 전달 (예: "메시지가 전송되었습니다")
+<FigmaImage id="32:92812" alt="Snackbar 위치와 레이아웃 - Safe Area" />
 
-### 부적절한 사용 사례:
+Snackbar는 기본적으로 화면 하단 중앙에 배치되며, 컴포넌트 자체에 여백을 포함합니다. 배치 시 OS의 세이프 에어리어를 고려해야 합니다.
 
-- 중요하거나 긴급한 알림
-- 사용자 응답이 필수적인 메시지
-- 시스템 주도적 알림 (사용자 액션에 응답하지 않는)
+<FigmaImage
+  id="32:92818"
+  alt="Snackbar 위치와 레이아웃 - Floating Action Button 위에 표시된 경우"
+/>
 
-### 문구
+화면에 [Floating Action Button](/docs/components/floating-action-button)이 있을 때 Snackbar가 나타나면, Snackbar는 항상 [Floating Action Button](/docs/components/floating-action-button) 위에 표시됩니다.
 
-#### Message:
-- 명확하고 간결하게 작성 (이상적으로 3단어 이하)
-- 명사 + 동사 패턴 사용
-- 이미 발생한 일을 확인하는 방식으로 작성
-- 마침표 없이 작성
-- Good: "파일이 저장되었어요"
-- Bad: "귀하의 파일이 성공적으로 저장되었습니다."
+텍스트가 길어 줄바꿈이 발생할 경우, 아이콘과 보조 버튼은 중앙 정렬됩니다.
 
-#### Action label:
-- 동사로 시작 (예: "실행", "취소", "보기")
-- 1-2단어로 간결하게 작성
-- "취소" 같은 일반적인 단어보다 구체적인 액션 사용
-- 메시지와 연결되는 용어 사용
-- Good: "실행취소"
-- Bad: "확인"
+<FigmaImage id="32:92828" alt="Snackbar 최대 너비 예시" />
 
-### 배치
-- 화면 하단 중앙에 배치합니다.
-- 하단 네비게이션 요소가 있다면 그 위에 배치합니다.
-- 중요한 UI 요소나 자주 사용하는 터치 영역을 가리지 않도록 배치합니다. (예: FAB)
+Snackbar에는 최대 너비가 지정되어 있으며, 화면 너비가 이를 초과할 경우 화면 중앙에 배치됩니다.
 
-### 접근성
-- 인지 및 시각 장애가 있는 사용자는 메시지 읽는 데 더 많은 시간이 필요할 수 있습니다.
-- 중요한 정보는 스낵바 외에 다른 방법으로도 제공해야 합니다.
-- 스크린리더 혹은 키보드로 Snackbar에 접근한 경우 사용자가 스스로 닫을 때까지 남아있어야 합니다.
-- 스스로 닫을 수 있도록, Visually Hidden 처리된 닫기 버튼이 있어야 합니다.
+### 내용 작성하기
 
-## 스펙
+#### 간결하게 작성하기
+
+<Grid>
+  <DoImage
+    figmaId="32:92844"
+    alt="Snackbar 내용으로 '게시글을 저장했어요'가 표시된 예시"
+    body="좋은 예"
+  />
+  <DontImage
+    figmaId="32:92851"
+    alt="Snackbar 내용으로 '업로드 처리가 완료되었습니다'가 표시된 예시"
+    body="나쁜 예"
+  />
+</Grid>
+
+메시지 내용은 3단어 이하로 간단하고 짧게 작성하는 것을 권장합니다. 명사+동사 형식으로 일관성 있게 표현하고, 사용자 액션에 대한 결과를 우선적으로 표시하세요. 시각적 간결함을 위해 마침표는 생략해주세요.
+
+#### 행동 유도 문구 활용하기
+
+<Grid>
+  <DoImage
+    figmaId="32:92859"
+    alt="Snackbar 내용으로 '방해금지 시간을 변경했어요'가, Action 레이블로 '되돌리기'가 표시된 예시"
+    body="좋은 예"
+  />
+  <DontImage
+    figmaId="32:92866"
+    alt="Snackbar 내용으로 '네트워크 문제로 인해 연결이 끊어져 연결이 해제되었습니다'가 표시된 예시"
+    body="나쁜 예"
+  />
+</Grid>
+
+사용자가 취할 수 있는 액션은 동사 원형으로 표현해 즉각적인 이해를 돕습니다. "되돌리기", "보기", "확인하기" 등의 명확한 버튼을 제공합니다.
+
+#### 긍정문 사용하기
+
+명확하고 긍정적인 표현으로 혼란을 방지합니다. "실패하지 않았어요" 등의 이중 부정보다 "업로드 완료"처럼 직접적인 표현을 사용합니다.
+
+### Snackbar의 동작
+
+<FigmaImage
+  id="32:92882"
+  alt="Snackbar 동작 - 5초 후 자동 닫힘, Snackbar 내용이 긴 경우 5초보다 길게 설정"
+/>
+
+Snackbar는 기본적으로 5초 동안 표시됩니다. 메시지 내용이 길 경우, 사용자가 충분히 인지할 수 있도록 표시 시간을 적절히 조정해주세요.
+
+<Grid>
+
+<FigmaImage
+  id="32:92892"
+  alt="Snackbar 동작 - 사용자가 터치를 유지하는 경우 타이머 일시정지"
+/>
+<DontImage
+  figmaId="32:92898"
+  alt="한 화면에 3개의 Snackbar가 동시에 표시된 예시"
+  body="한 번에 여러 개의 Snackbar를 표시하지 않습니다."
+/>
+
+</Grid>
+
+사용자가 Snackbar에 터치를 유지하는 경우 타이머가 일시정지됩니다. 이를 통해 메시지를 더 오래 확인하고 싶을 때 Snackbar를 화면에 계속 표시할 수 있습니다.
+
+화면에는 한 번에 1개의 Snackbar만 표시합니다. 새로운 Snackbar가 발생하면 자동으로 큐에 추가되어, 현재 표시 중인 항목이 사라진 후 순차적으로 표시됩니다.
+
+### 액션 사용하기
+
+<Grid>
+
+<FigmaImage
+  id="32:92916"
+  alt="Snackbar Action 레이블로 '되돌리기'가 표시된 예시"
+/>
+<DontImage
+  figmaId="32:92920"
+  alt="Snackbar Action 레이블로 '확인'이 표시된 예시"
+  body="구체적인 액션을 명확하게 담은 단어를 사용해주세요."
+/>
+
+</Grid>
+
+최대 1개의 보조 액션 버튼을 Snackbar에 표시할 수 있습니다. 사용자가 빠르게 인지할 수 있도록 1-2단어로 간결하게 작성하는 것을 권장합니다.
+
+액션 라벨에는 '취소', '확인' 등의 일반적이고 모호한 단어보다는 '되돌리기', '목록보기'와 같이 더 구체적인 액션을 명확하게 담은 단어를 사용해주세요.
+
+내용의 추가 또는 삭제와 같은 중요한 변경 사항이 발생했을 때는 사용자가 쉽게 되돌릴 수 있도록 '되돌리기' 옵션을 함께 표시하는 것이 좋습니다.
+
+## Snackbar V3 변경점
+
+<FigmaImage id="32:92943" alt="Snackbar V2와 V3 비교" />
+
+- 컴포넌트에 상하좌우 여백을 포함하여 더 쉽게 위치를 조정할 수 있도록 개선했습니다.
+- 아이콘의 크기와 라운드 값을 조정했습니다.
+- Positive와 Critical 타입의 아이콘을 Line에서 Fill 스타일로 변경하여 가시성을 개선했습니다.
+
+## Specification
 
 <ComponentSpecBlock id="snackbar" />

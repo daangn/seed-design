@@ -61,7 +61,7 @@ export default async function Page(props: { params: Promise<{ slug?: string }> }
     <DocsPage toc={toc}>
       <DocsTitle>{page.title}</DocsTitle>
       <DocsDescription>{page.description}</DocsDescription>
-      <DocsBody>
+      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <SanityImage value={page.thumbnail} className="rounded-[26px]" />
         <PortableContent content={page.content} />
       </DocsBody>

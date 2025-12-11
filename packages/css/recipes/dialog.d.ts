@@ -1,5 +1,8 @@
 declare interface DialogVariant {
-  
+  /**
+  * @default false
+  */
+  skipAnimation: boolean;
 }
 
 declare type DialogVariantMap = {

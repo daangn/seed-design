@@ -6,6 +6,7 @@ const statusOptions = [
   { title: "❌ 준비안됨", value: "not-ready" },
   { title: "🚧 작업중", value: "in-progress" },
   { title: "⚠️ 사용중단", value: "deprecated" },
+  { title: "🛑 계획없음", value: "not-planned" },
 ];
 
 const platforms = [

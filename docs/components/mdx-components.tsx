@@ -19,6 +19,7 @@ import { MDXComponents } from "mdx/types";
 import { BreezeManualInstallation } from "./breeze-manual-installation";
 import { DoImage } from "./guideline/do-image";
 import { DontImage } from "./guideline/dont-image";
+import { Image } from "./guideline/image";
 import { IconLibrary } from "./iconography/icons";
 import { ColorMigrationIndex } from "./migration/color-migration-index";
 import { V2Icon, V2IconColor, V3Icon } from "./migration/icon";
@@ -28,16 +29,29 @@ import { PlatformStatusTable } from "./platform-status-table";
 import { ProgressBoardTable } from "./progress-board-table";
 import { ViteIcon, WebpackIcon } from "./tool-icon";
 import { typeTableGenerator } from "./type-table/generator";
+import clsx from "clsx";
 
 const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
 
-  img: (props) => <ImageZoom {...props} />,
+  img: ({ className, ...rest }) => (
+    <ImageZoom
+      className={clsx(
+        className,
+        "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
+      )}
+      {...rest}
+    />
+  ),
 
   // Layout
-  Grid: ({ children }) => <div className="grid grid-cols-1 md:grid-cols-2 gap-2">{children}</div>,
+  Grid: ({ children }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ... not-prose [&>ul]:list-disc [&>ul]:pl-4">
+      {children}
+    </div>
+  ),
 
   // Components
   ManualInstallation,
@@ -77,4 +91,9 @@ export const mdxComponents: MDXComponents = {
   // Guidelines
   DoImage,
   DontImage,
+  Image,
+
+  ImageZoom,
+
+  FigmaImage: () => null,
 };

@@ -19,8 +19,11 @@ SEED 타이포그래피 시스템은 폰트 크기, 줄 높이, 폰트 두께 �
 사용자의 디바이스 환경을 고려하여, 시스템 폰트를 사용합니다. 이는 다양한 국가와 문화권에서 사용되는 여러 기기 및 운영 체제에서 일관된 사용자 경험과 가독성을 보장합니다.
 
 웹에서는 다음과 같은 폰트 스택을 적용할 수 있습니다:
+
 ```css
-font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+  "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 ```
 
 ## 타이포그래피 토큰
@@ -56,7 +59,10 @@ font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI
 - screen title: 화면에 크게 표시되는 주요 제목이나 타이틀.
 - article body: 게시물이나 콘텐츠 중심 섹션의 본문 텍스트.
 
-<ComponentSpecBlock id="typography" variants={["textStyle=screenTitle", "textStyle=articleBody"]} />
+<ComponentSpecBlock
+  id="typography"
+  variants={["textStyle=screenTitle", "textStyle=articleBody"]}
+/>
 
 ### 스케일 텍스트 스타일
 
@@ -73,7 +79,7 @@ font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI
 - **상대 단위 사용**: 고정 단위(px) 대신 rem과 같은 상대 단위를 사용하여 사용자의 폰트 크기 설정을 존중합니다.
 - **시맨틱 우선**: 특정 역할이 요구되는 경우(예: 화면 제목, 게시물 본문) 시맨틱 텍스트 스타일을 사용하여 디자인 의도와 기능을 함께 담아냅니다.
 
-타이포그래피 사용에 도움이 필요하신가요? #_design-system 채널에서 질문해주세요.
+타이포그래피 사용에 도움이 필요하신가요? #\_design-system 채널에서 질문해주세요.
 
 ## 링크
 

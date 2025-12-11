@@ -1,5 +1,8 @@
 declare interface MenuSheetVariant {
-  
+  /**
+  * @default false
+  */
+  skipAnimation: boolean;
 }
 
 declare type MenuSheetVariantMap = {

@@ -39,17 +39,6 @@ const menuSheet = defineSlotRecipe({
       left: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
-
-      [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
-        duration: vars.base.enabled.backdrop.exitDuration,
-        opacity: vars.base.enabled.backdrop.exitOpacity,
-      }),
-      [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
-        duration: vars.base.enabled.backdrop.enterDuration,
-        opacity: vars.base.enabled.backdrop.enterOpacity,
-      }),
     },
     content: {
       position: "relative",
@@ -67,17 +56,6 @@ const menuSheet = defineSlotRecipe({
       paddingBottom: vars.base.enabled.content.paddingY,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
-
-      [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.content.exitTimingFunction,
-        duration: vars.base.enabled.content.exitDuration,
-        translateY: "100%",
-      }),
-      [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.content.enterTimingFunction,
-        duration: vars.base.enabled.content.enterDuration,
-        translateY: "100%",
-      }),
     },
     header: {
       display: "flex",
@@ -145,8 +123,39 @@ const menuSheet = defineSlotRecipe({
       },
     },
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    skipAnimation: {
+      false: {
+        backdrop: {
+          [pseudo(open)]: enterAnimation({
+            timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
+            duration: vars.base.enabled.backdrop.enterDuration,
+            opacity: vars.base.enabled.backdrop.enterOpacity,
+          }),
+          [pseudo(not(open))]: exitAnimation({
+            timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
+            duration: vars.base.enabled.backdrop.exitDuration,
+            opacity: vars.base.enabled.backdrop.exitOpacity,
+          }),
+        },
+        content: {
+          [pseudo(open)]: enterAnimation({
+            timingFunction: vars.base.enabled.content.enterTimingFunction,
+            duration: vars.base.enabled.content.enterDuration,
+            translateY: "100%",
+          }),
+          [pseudo(not(open))]: exitAnimation({
+            timingFunction: vars.base.enabled.content.exitTimingFunction,
+            duration: vars.base.enabled.content.exitDuration,
+            translateY: "100%",
+          }),
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    skipAnimation: false,
+  },
 });
 
 export default menuSheet;

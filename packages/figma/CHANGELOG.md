@@ -1,5 +1,16 @@
 # @seed-design/figma
 
+## 1.1.12
+
+### Patch Changes
+
+- 6d680ba: Figma Codegen 정보를 최신화합니다.
+- Updated dependencies [8d0ad90]
+- Updated dependencies [8f31f93]
+- Updated dependencies [69ccc6e]
+- Updated dependencies [279001a]
+  - @seed-design/css@1.1.12
+
 ## 1.1.10
 
 ### Patch Changes
