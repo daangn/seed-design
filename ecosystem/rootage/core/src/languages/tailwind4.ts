@@ -266,6 +266,7 @@ ${styleLines.join("\n")}
       "font-*": { fontWeight: "--font-weight-*" },
       "duration-*": { transitionDuration: "--duration-*" },
       "easing-*": { transitionTimingFunction: "--timing-function-*" },
+      "shadow-*": { boxShadow: "--shadow-*" },
     };
 
     Object.entries(otherUtilities).forEach(([name, props]) => {

@@ -231,6 +231,9 @@
       "path": "/radius.json"
     },
     {
+      "path": "/shadow.json"
+    },
+    {
       "path": "/timing-function.json"
     }
   ]
