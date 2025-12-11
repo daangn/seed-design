@@ -22,14 +22,14 @@ export function DoImage({ src, alt, body, className }: DoImageProps) {
         loading="lazy"
         draggable={false}
       />
-      <div className="w-full flex gap-2.5 p-3 items-center bg-bg-positive-weak rounded-r2">
+      <div className="w-full flex gap-2 p-3 bg-bg-positive-weak rounded-r2">
         <Icon
           svg={<IconCheckmarkCircleFill className="shrink-0" />}
           size="x5"
           color="fg.positiveContrast"
         />
-        <div className="text-fg-positive-contrast text-sm flex flex-col">
-          <div className="font-bold">Do</div>
+        <div className="text-fg-positive-contrast text-sm flex flex-col break-keep">
+          <div className="font-bold leading-5">Do</div>
           <div>{body}</div>
         </div>
       </div>
