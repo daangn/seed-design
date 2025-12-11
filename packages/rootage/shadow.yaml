@@ -6,7 +6,7 @@ metadata:
 data:
   collection: color
   tokens:
-    $shadow.100:
+    $shadow.s1:
       values:
         theme-light:
           type: shadow
@@ -24,7 +24,7 @@ data:
               blur: 4px
               spread: 0px
               color: "#00000080"
-    $shadow.200:
+    $shadow.s2:
       values:
         theme-light:
           type: shadow
@@ -42,7 +42,7 @@ data:
               blur: 10px
               spread: 0px
               color: "#000000ad"
-    $shadow.300:
+    $shadow.s3:
       description: 화면의 다른 요소들보다 가장 높은 계층에 위치할 때 사용됩니다.
       values:
         theme-light:

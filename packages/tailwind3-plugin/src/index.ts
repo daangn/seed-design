@@ -554,9 +554,9 @@ export default plugin(
   "exit-expressive": "var(--seed-timing-function-exit-expressive)"
 },
         boxShadow: {
-  "100": "var(--seed-shadow-100)",
-  "200": "var(--seed-shadow-200)",
-  "300": "var(--seed-shadow-300)"
+  "s1": "var(--seed-shadow-s1)",
+  "s2": "var(--seed-shadow-s2)",
+  "s3": "var(--seed-shadow-s3)"
 },
       },
     },

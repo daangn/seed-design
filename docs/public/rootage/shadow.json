@@ -8,7 +8,7 @@
   "data": {
     "collection": "color",
     "tokens": {
-      "$shadow.100": {
+      "$shadow.s1": {
         "values": {
           "theme-light": {
             "type": "shadow",
@@ -60,7 +60,7 @@
           }
         }
       },
-      "$shadow.200": {
+      "$shadow.s2": {
         "values": {
           "theme-light": {
             "type": "shadow",
@@ -112,7 +112,7 @@
           }
         }
       },
-      "$shadow.300": {
+      "$shadow.s3": {
         "values": {
           "theme-light": {
             "type": "shadow",

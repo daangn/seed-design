@@ -1,3 +1,3 @@
-export const 100 = "var(--seed-shadow-100)";
-export const 200 = "var(--seed-shadow-200)";
-export const 300 = "var(--seed-shadow-300)";
+export const s1 = "var(--seed-shadow-s1)";
+export const s2 = "var(--seed-shadow-s2)";
+export const s3 = "var(--seed-shadow-s3)";

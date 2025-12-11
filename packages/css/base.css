@@ -505,9 +505,9 @@
   --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f58a 46%, #fff9f58a 54%, #fff9f500 100%;
   --seed-gradient-highlight-magic-pressed: #e14f00 20%, #ae58bf 100%;
   --seed-gradient-highlight-magic: #f60 20%, #d25aca 100%;
-  --seed-shadow-100: 0px 1px 4px 0px #00000014;
-  --seed-shadow-200: 0px 2px 10px 0px #0000001a;
-  --seed-shadow-300: 0px 4px 16px 0px #0000001f;
+  --seed-shadow-s1: 0px 1px 4px 0px #00000014;
+  --seed-shadow-s2: 0px 2px 10px 0px #0000001a;
+  --seed-shadow-s3: 0px 4px 16px 0px #0000001f;
 }
 
 :root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"], :root[data-seed-color-mode="dark-only"], :root [data-seed-color-mode="dark-only"] {
@@ -703,9 +703,9 @@
   --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f51a 46%, #fff9f51a 54%, #fff9f500 100%;
   --seed-gradient-highlight-magic-pressed: #ff9e65 20%, #e89bee 100%;
   --seed-gradient-highlight-magic: #f60 20%, #d25aca 100%;
-  --seed-shadow-100: 0px 1px 4px 0px #00000080;
-  --seed-shadow-200: 0px 2px 10px 0px #000000ad;
-  --seed-shadow-300: 0px 4px 16px 0px #000c;
+  --seed-shadow-s1: 0px 1px 4px 0px #00000080;
+  --seed-shadow-s2: 0px 2px 10px 0px #000000ad;
+  --seed-shadow-s3: 0px 4px 16px 0px #000c;
 }
 
 @keyframes seed-enter {
