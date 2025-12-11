@@ -39,7 +39,7 @@ jobs:
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: docs/.cache/figma-image
           key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/**/*.mdx') }}
@@ -47,7 +47,7 @@ jobs:
             ${{ runner.os }}-figma-images-
 
       - name: Restore Next.js cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: docs/.next/cache
           # Generate a new cache whenever packages or source files change.
