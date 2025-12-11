@@ -129,27 +129,7 @@
                 },
                 "shadow": {
                   "type": "shadow",
-                  "value": [
-                    {
-                      "color": "#00000026",
-                      "offsetX": {
-                        "value": 0,
-                        "unit": "px"
-                      },
-                      "offsetY": {
-                        "value": 2,
-                        "unit": "px"
-                      },
-                      "blur": {
-                        "value": 6,
-                        "unit": "px"
-                      },
-                      "spread": {
-                        "value": 0,
-                        "unit": "px"
-                      }
-                    }
-                  ]
+                  "value": "$shadow.s3"
                 },
                 "colorDuration": {
                   "type": "duration",

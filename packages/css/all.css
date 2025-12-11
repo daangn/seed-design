@@ -3535,6 +3535,7 @@
 
 .seed-contextual-floating-button {
   border-radius: var(--seed-radius-full);
+  box-shadow: var(--seed-shadow-s3);
   font-size: var(--seed-font-size-t4);
   line-height: var(--seed-line-height-t4);
   font-weight: var(--seed-font-weight-medium);
@@ -3554,7 +3555,6 @@
   --size: 16px;
   --thickness: 2px;
   transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
-  box-shadow: 0 2px 6px #00000026;
 }
 
 .seed-contextual-floating-button--variant_solid {
@@ -4250,6 +4250,7 @@
 .seed-floating-action-button__root {
   background: var(--seed-color-bg-brand-solid);
   border-radius: var(--seed-radius-full);
+  box-shadow: var(--seed-shadow-s3);
   color: var(--seed-color-palette-static-white);
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
@@ -4257,7 +4258,6 @@
   transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 2px 6px #00000026;
 }
 
 .seed-floating-action-button__root:is(:active, [data-active]) {
