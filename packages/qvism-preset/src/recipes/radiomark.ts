@@ -35,13 +35,15 @@ const radiomark = defineSlotRecipe({
       },
 
       [pseudo(disabled)]: {
-        backgroundColor: vars.base.disabled.root.color,
+        // we use toneBrand here; rootage needs some more clarification on this
+        backgroundColor: vars.toneBrand.disabled.root.color,
       },
 
       [pseudo(disabled, checked)]: {
-        backgroundColor: vars.base.disabledSelected.root.color,
-        borderWidth: vars.base.enabled.root.strokeWidth,
-        borderColor: vars.base.disabledSelected.root.strokeColor,
+        // we use toneBrand here; rootage needs some more clarification on this
+        backgroundColor: vars.toneBrand.disabledSelected.root.color,
+        borderWidth: vars.toneBrand.disabledSelected.root.strokeWidth,
+        borderColor: vars.toneBrand.disabledSelected.root.strokeColor,
       },
     },
     icon: {
@@ -53,7 +55,8 @@ const radiomark = defineSlotRecipe({
       },
 
       [pseudo(disabled, checked)]: {
-        color: vars.base.disabledSelected.icon.color,
+        // we use toneBrand here; rootage needs some more clarification on this
+        color: vars.toneBrand.disabledSelected.icon.color,
       },
     },
   },
