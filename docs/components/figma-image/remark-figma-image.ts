@@ -11,7 +11,7 @@ import {
 const DEFAULT_IMAGE_WIDTH = 1080;
 const DEFAULT_IMAGE_HEIGHT = 720;
 
-const FIMGA_ID_PROP_SUPPORTED_COMPONENTS = ["DoImage", "DontImage"];
+const FIMGA_ID_PROP_SUPPORTED_COMPONENTS = ["DoImage", "DontImage", "Image"];
 
 // Root type derived from remark processor (same pattern as remark-react-type-table)
 // biome-ignore lint/suspicious/noExplicitAny: this is for removing mdast dependency which is actually deprecated

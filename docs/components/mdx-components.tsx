@@ -19,6 +19,7 @@ import { MDXComponents } from "mdx/types";
 import { BreezeManualInstallation } from "./breeze-manual-installation";
 import { DoImage } from "./guideline/do-image";
 import { DontImage } from "./guideline/dont-image";
+import { Image } from "./guideline/image";
 import { IconLibrary } from "./iconography/icons";
 import { ColorMigrationIndex } from "./migration/color-migration-index";
 import { V2Icon, V2IconColor, V3Icon } from "./migration/icon";
@@ -47,7 +48,7 @@ export const mdxComponents: MDXComponents = {
 
   // Layout
   Grid: ({ children }) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2 md:items-start my-[2em] [&>figure]:my-0 not-prose">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ... not-prose [&>ul]:list-disc [&>ul]:pl-4">
       {children}
     </div>
   ),
@@ -90,6 +91,7 @@ export const mdxComponents: MDXComponents = {
   // Guidelines
   DoImage,
   DontImage,
+  Image,
 
   ImageZoom,
 

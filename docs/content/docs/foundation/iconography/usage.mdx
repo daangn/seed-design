@@ -2,3 +2,265 @@
 title: Usage
 description: 아이콘과 다른 디자인 요소 간의 상호작용 및 아이콘 사용 방법에 대해 설명합니다.
 ---
+
+## Size
+
+아이콘은 기본적으로 24px 크기로 제공되며, 인터페이스 용도에 맞게 비율을 유지하며 조정할 수 있습니다.
+사용자의 시각적 인지를 고려하여 아래와 같은 최소 크기 및 베리언츠를 권장합니다.
+
+- 아이콘의 최소 크기는 **12px**로 제한합니다.
+- **15px** 이하의 작은 사이즈에서는 시각적 복잡도를 줄이기 위해 Fill 사용을 권장합니다.
+
+<Image
+  src="/docs/foundation/iconography/usage/size-monochrome.webp"
+  alt="모노크롬 아이콘 사이즈"
+/>
+
+<Image
+  src="/docs/foundation/iconography/usage/size-multicolor.webp"
+  alt="멀티컬러 아이콘 사이즈"
+/>
+
+## Touch Area
+
+아이콘을 단독 버튼으로 사용할 경우, 가독성과 터치 용이성을 위해 충분한 여백이 필요합니다.
+아이콘의 터치 영역은 최소 40px 이상을 확보해야 하며, 24px 크기에서는 44px 이상의 여백을 권장합니다.
+
+<Image
+  src="/docs/foundation/iconography/usage/toucharea-20px.webp"
+  alt="20px 크기 아이콘 터치 영역"
+/>
+
+<Image
+  src="/docs/foundation/iconography/usage/toucharea-24px.webp"
+  alt="24px 크기 아이콘 터치 영역"
+/>
+
+## Color
+
+<Image
+  src="/docs/foundation/iconography/usage/color-monochrome.jpg"
+  alt="모노크롬 아이콘 색상"
+/>
+
+<Image
+  src="/docs/foundation/iconography/usage/color-multicolor.jpg"
+  alt="멀티컬러 아이콘 색상"
+/>
+
+## Variants
+
+모노크롬 아이콘은 다양한 시각적 표현과 폰트의 맥락에 맞춰, Line과 Fill 두 가지 타입으로 제공됩니다.
+사용 목적에 따라 각 타입의 장점이 다르므로, 상황에 맞게 선택하여 적용하는 것이 중요합니다.
+가이드의 권장 사항과 Best Practice를 참고하여 적절한 아이콘을 선택해 주세요.
+
+<Image
+  src="/docs/foundation/iconography/usage/variants.webp"
+  alt="Fill and Line"
+/>
+
+### Line
+
+Line 아이콘을 사용할 경우 Fill 아이콘 보다 디테일하고 세부적인 설명이 가능합니다.
+명확한 시각적 개념을 전달하기 위한 상황에서는 Line 아이콘 사용을 권장합니다.
+
+### Fill
+
+Fill 아이콘은 일반적으로 Line 아이콘 보다 인식 속도가 빠르고,
+더 단순한 형태를 제공하여 아이콘을 더욱 알아보기 쉽게 만들어주며 확장성도 향상시킨다는 결과가 있습니다.
+UI내에서 On,Off와 같은 상태 전환을 표현하며, 시각적으로 더 무게감있고 명료한 형태를 가집니다. [Fill 타입 아이콘의 직관성](https://cdr.lib.unc.edu/concern/masters_papers/6w924g35w)
+
+## With Typography
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/with-typography-margin-align.jpg"
+  alt="Margin and Align"
+/>
+
+**Margin & Align**
+한 줄에 배치할 때, 아이콘과 텍스트 사이 여백은 Unit으로 설정하며 높이의 중앙 정렬이 되도록 적용합니다.
+
+</Grid>
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/with-typography-text-styles.webp"
+  alt="Text Style"
+/>
+
+**Text Style**
+아이콘과 텍스트를 한 줄에 함께 배치할 때 적절한 크기 조합을 권장합니다.
+대표적인 16, 20, 24px 아이콘 사례를 참고하세요.
+
+</Grid>
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/with-typography-font-weight.webp"
+  alt="Font Weight"
+/>
+
+**Font Weight**
+아이콘 타입을 선택할 때에는 텍스트와의 조합을 고려합니다.
+얇은 글씨와는 Line 아이콘을, 굵은 글씨와는 Fill 아이콘을 사용합니다.
+
+</Grid>
+
+## Usage
+
+### Page
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/best-practices-title.jpg"
+/>
+
+- 영역 타이틀 (22px, Fill)
+
+</Grid>
+
+### Components
+
+#### Buttons
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/best-practices-buttons-1.jpg"
+/>
+
+- 홈 진입점 (16px, Fill)
+- 채팅방 상단 버튼 (15px, Fill)
+- Chips (16px, Fill)
+- Menu FAB (20px, 24px, Fill)
+
+</Grid>
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/best-practices-buttons-2.jpg"
+  alt="Buttons"
+/>
+
+</Grid>
+
+#### Feed
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/best-practices-feed.jpg"
+  alt="Feed"
+/>
+
+- With Label (13px, Fill)
+- Reactions (15px, Fill)
+- More Button (20px, Line)
+
+</Grid>
+
+#### List
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/best-practices-list-1.jpg"
+/>
+
+- Prefix icon (22px, Line)
+- Action Button (14px, Line)
+
+</Grid>
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/best-practices-list-2.jpg"
+  alt="List"
+/>
+
+</Grid>
+
+#### Informative List
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/best-practices-informative-list.jpg"
+  alt="Informative List"
+/>
+
+- Prefix icon (16px, Fill)
+- Sub text (14px, Line)
+- Expand button (14px, Line)
+
+</Grid>
+
+### Variants
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/variants-usage-top-navigation.jpg"
+  alt="Top Navigation"
+/>
+
+**Top Navigation**
+상단 네비게이션에서는 다른 영역의 주목도를 고려하여 Line 아이콘을 사용합니다.
+
+</Grid>
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/variants-usage-bottom-navigation.jpg"
+  alt="Bottom Navigation"
+/>
+
+**Bottom Navigation**
+하단 네비게이션에서 다섯 개의 메인 탭은 단순하고 직관적인 Fill 아이콘을 사용했습니다.
+이는 아이콘의 가독성을 높이고 화면 하단에 시각적 안정감을 부여합니다.
+
+</Grid>
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/variants-usage-state.jpg"
+  alt="State"
+/>
+
+**State**
+UI에서 OFF, ON 개념이 있는 버튼의 상태 전환을 표현할 때는 Default(Line), On(Fill), Off(Line+Slash)을 사용합니다.
+
+</Grid>
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/variants-usage-container.jpg"
+  alt="Container"
+/>
+
+**Container**
+아이콘이 컨테이너 안에 배치되는 경우, Fill 사용을 권장합니다. (Buttons, Chips)
+
+</Grid>
+
+<Grid>
+
+<Image
+  src="/docs/foundation/iconography/usage/variants-usage-small-case.jpg"
+  alt="Small Case"
+/>
+
+**Small Case** 
+16px 이하 작은 크기에서는 형태의 복잡도를 줄이기 위해 Fill 사용을 권장합니다.
+
+</Grid>

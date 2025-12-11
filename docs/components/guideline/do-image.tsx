@@ -12,7 +12,7 @@ interface DoImageProps {
 
 export function DoImage({ src, alt, body, className }: DoImageProps) {
   return (
-    <figure className={clsx("flex flex-col gap-1.5 not-prose my-[2em]", className)}>
+    <figure className={clsx("flex flex-col gap-1.5 not-prose my-4", className)}>
       <ImageZoom
         src={src}
         alt={alt}
