@@ -33,7 +33,8 @@ export async function generateStaticParams(): Promise<StaticParams[]> {
       return slugsExtensionAttached;
     })
     .filter((slugs) => slugs !== undefined)
-    .map(([_firstSlug, ...restSlugs]) => ({ path: restSlugs }));
+    .map(([_firstSlug, ...restSlugs]) => ({ path: restSlugs }))
+    .filter(({ path }) => path.length > 0);
 
   return componentPageSlugs;
 }
