@@ -40,9 +40,9 @@
       "version": "0.0.0",
       "dependencies": {
         "@fumadocs/mdx-remote": "^1.3.2",
-        "@karrotmarket/icon-data": "^1.13.0",
-        "@karrotmarket/react-monochrome-icon": "^1.8.0",
-        "@karrotmarket/react-multicolor-icon": "^1.5.0",
+        "@karrotmarket/icon-data": "^1.15.0",
+        "@karrotmarket/react-monochrome-icon": "^1.9.0",
+        "@karrotmarket/react-multicolor-icon": "^1.6.0",
         "@orama/orama": "^3.1.3",
         "@portabletext/react": "^5.0.0",
         "@sanity/asset-utils": "^2.3.0",
@@ -1742,7 +1742,7 @@
 
     "@juggle/resize-observer": ["@juggle/resize-observer@3.4.0", "", {}, "sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA=="],
 
-    "@karrotmarket/icon-data": ["@karrotmarket/icon-data@1.13.0", "", {}, "sha512-tr1pYd494mMP1zsngMrJzl6/uHQjj4STyi80fIbCR4xYnXiFjIWi83f6SQLI48QAHZ+1++qEV+VgOtJqakNFNg=="],
+    "@karrotmarket/icon-data": ["@karrotmarket/icon-data@1.15.0", "", {}, "sha512-I2iicpFgY/h/blPirww7encFWR/3QuB/Vlt1nyFu18kDil33C6XweAHx2rfzsDSJ0k3LN9hJ3Eye8e9SsDbRIg=="],
 
     "@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@1.8.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-FAgGZnNVSD2dGBBNcEmiWk81LT2cbkVhvessImgikZW2+tO/Cy1sybvByqKHKD/tho9GeL9ez2EqfjTgocjhWA=="],
 
@@ -5522,7 +5522,13 @@
 
     "@sanity/visual-editing/react-compiler-runtime": ["react-compiler-runtime@1.0.0", "", { "peerDependencies": { "react": "^17.0.0 || ^18.0.0 || ^19.0.0 || ^0.0.0-experimental" } }, "sha512-rRfjYv66HlG8896yPUDONgKzG5BxZD1nV9U6rkm+7VCuvQc903C4MjcoZR4zPw53IKSOX9wMQVpA1IAbRtzQ7w=="],
 
+    "@seed-design/docs/@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@1.9.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-F8zzP1klzWVkNkou8Owww9uR95M9dp550sMGPySKAZjprFd8YYp1LUg0W3UgDb2ZYQ2SdzT3DajxW7cvCn1y+Q=="],
+
+    "@seed-design/docs/@karrotmarket/react-multicolor-icon": ["@karrotmarket/react-multicolor-icon@1.6.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-tPvIh7VbNOBIk6K6N5YvpHhyylXiUqFEBHsvl28mHhzi1YlJBzGsrZE0kiLO/X5aEYVwTU0DuMMoEZUfI9RVoA=="],
+
     "@seed-design/docs/zod": ["zod@4.1.12", "", {}, "sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ=="],
+
+    "@seed-design/figma/@karrotmarket/icon-data": ["@karrotmarket/icon-data@1.13.0", "", {}, "sha512-tr1pYd494mMP1zsngMrJzl6/uHQjj4STyi80fIbCR4xYnXiFjIWi83f6SQLI48QAHZ+1++qEV+VgOtJqakNFNg=="],
 
     "@seed-design/figma-extractor/figma-api": ["figma-api@2.0.1-beta", "", { "dependencies": { "@types/node": "^22.8.7", "axios": "^0.27.2" } }, "sha512-Hegr8g5UGIr3T5yRGUQsMy43OkQgx25zL1w7k5KRf6ady11mXIDq0k9DOpgWRyUltcd4GI001wOZz37J6osOkg=="],
 
