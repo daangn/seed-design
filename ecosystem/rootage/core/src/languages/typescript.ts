@@ -132,7 +132,13 @@ export function createStringifier(options: { prefix?: string } = {}) {
     return Object.entries(groups).map(([group, expressions]) => {
       const definitions = expressions.map((expression) => {
         const key = camelCasePreserveUnderscoreBetweenNumbers(expression.key);
+
+        if (key.match(/^\d/)) {
+          throw new Error(`Token key cannot start with a number: ${expression.key}`);
+        }
+
         const value = cssStringifier.tokenReference(expression);
+
         return { key, value };
       });
 

@@ -19,7 +19,7 @@
 }
 .seed-contextual-floating-button {
     border-radius: var(--seed-radius-full);
-    box-shadow: 0px 2px 6px 0px #00000026;
+    box-shadow: var(--seed-shadow-s3);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-medium);
