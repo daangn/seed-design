@@ -33,7 +33,7 @@ Foreground, Background, Stroke 세 가지 기본 속성으로 시작합니다.
 
 ## Role (역할)
 
-전경, 배경, 스트로크의 기본 카테고리에 더해 brand, neutral, positive와 같은 특정 역할을 포함합니다. 이러한 역할 키워드는 색상 간의 기능적, 의미적 차이를 표현할 수 있는 레이어를 추가합니다. 일부 역할은 여러 카테고리에 걸쳐 적용될 수 있으며(e.g. fg/brand, bg/brand, stroke/brand), 사용자 인터페이스 전반에 걸쳐 일관된 사용을 보장합니다.
+전경, 배경, 스트로크의 기본 카테고리에 더해 brand, neutral, positive와 같은 특정 역할을 포함합니다. 이러한 역할 키워드는 색상 간의 기능적, 의미적 차이를 표현할 수 있는 레이어를 추가합니다. 일부 역할은 여러 카테고리에 걸쳐 적용될 수 있으며(e.g. [$color.fg.brand](/docs/foundation/design-token/%24color.fg.brand), [$color.bg.brand-solid](/docs/foundation/design-token/%24color.bg.brand-solid), [$color.stroke.brand-solid](/docs/foundation/design-token/%24color.stroke.brand-solid)), 사용자 인터페이스 전반에 걸쳐 일관된 사용을 보장합니다.
 
 ### Brand
 
@@ -46,10 +46,10 @@ Brand 색상은 브랜드와 관련된 요소들이 즉각적으로 인식될 �
   alt="Brand Role 규칙"
 />
 
-- fg/brand
-- bg/brand-solid
-- bg/brand-solid-pressed
-- stroke/brand
+- [$color.fg.brand](/docs/foundation/design-token/%24color.fg.brand)
+- [$color.bg.brand-solid](/docs/foundation/design-token/%24color.bg.brand-solid)
+- [$color.bg.brand-solid-pressed](/docs/foundation/design-token/%24color.bg.brand-solid-pressed)
+- [$color.stroke.brand-solid](/docs/foundation/design-token/%24color.stroke.brand-solid)
 
 </Grid>
 
@@ -73,12 +73,12 @@ Neutral 색상은 일반적인 콘텐츠에 사용되는 기본 색상입니다.
   alt="Neutral Role 규칙"
 />
 
-- fg/neutral
-- fg/neutral-muted
-- fg/neutral-subtle
-- fg/neutral-inverted
-- bg/neutral-solid
-- bg/neutral-weak
+- [$color.fg.neutral](/docs/foundation/design-token/%24color.fg.neutral)
+- [$color.fg.neutral-muted](/docs/foundation/design-token/%24color.fg.neutral-muted)
+- [$color.fg.neutral-subtle](/docs/foundation/design-token/%24color.fg.neutral-subtle)
+- [$color.fg.neutral-inverted](/docs/foundation/design-token/%24color.fg.neutral-inverted)
+- [$color.bg.neutral-solid](/docs/foundation/design-token/%24color.bg.neutral-solid)
+- [$color.bg.neutral-weak](/docs/foundation/design-token/%24color.bg.neutral-weak)
 
 </Grid>
 
@@ -102,10 +102,10 @@ Positive 색상은 성공적인 작업, 확인, 또는 긍정적인 상태를 �
   alt="Positive Role 규칙"
 />
 
-- fg/positive
-- fg/positive-contrast
-- bg/positive-solid
-- bg/positive-solid-pressed
+- [$color.fg.positive](/docs/foundation/design-token/%24color.fg.positive)
+- [$color.fg.positive-contrast](/docs/foundation/design-token/%24color.fg.positive-contrast)
+- [$color.bg.positive-solid](/docs/foundation/design-token/%24color.bg.positive-solid)
+- [$color.bg.positive-solid-pressed](/docs/foundation/design-token/%24color.bg.positive-solid-pressed)
 
 </Grid>
 
@@ -129,10 +129,10 @@ Warning 색상은 사용자의 주의가 필요한 경고 메시지나 안내 �
   alt="Warning Role 규칙"
 />
 
-- fg/warning
-- fg/warning-contrast
-- bg/warning-soild
-- bg/warning-weak
+- [$color.fg.warning](/docs/foundation/design-token/%24color.fg.warning)
+- [$color.fg.warning-contrast](/docs/foundation/design-token/%24color.fg.warning-contrast)
+- [$color.bg.warning-solid](/docs/foundation/design-token/%24color.bg.warning-solid)
+- [$color.bg.warning-weak](/docs/foundation/design-token/%24color.bg.warning-weak)
 
 </Grid>
 
@@ -156,10 +156,10 @@ Critical 색상은 오류, 경고 또는 중요한 문제를 나타내는 데 �
   alt="Critical Role 규칙"
 />
 
-- fg/critical
-- fg/critical-contrast
-- bg/critical-solid
-- bg/critical-weak
+- [$color.fg.critical](/docs/foundation/design-token/%24color.fg.critical)
+- [$color.fg.critical-contrast](/docs/foundation/design-token/%24color.fg.critical-contrast)
+- [$color.bg.critical-solid](/docs/foundation/design-token/%24color.bg.critical-solid)
+- [$color.bg.critical-weak](/docs/foundation/design-token/%24color.bg.critical-weak)
 
 </Grid>
 
@@ -183,10 +183,10 @@ Informative 색상은 사용자에게 유용한 정보를 제공하거나 상태
   alt="Informative Role 규칙"
 />
 
-- fg/informative
-- fg/informative-contrast
-- bg/informative-solid
-- bg/informative-weak
+- [$color.fg.informative](/docs/foundation/design-token/%24color.fg.informative)
+- [$color.fg.informative-contrast](/docs/foundation/design-token/%24color.fg.informative-contrast)
+- [$color.bg.informative-solid](/docs/foundation/design-token/%24color.bg.informative-solid)
+- [$color.bg.informative-weak](/docs/foundation/design-token/%24color.bg.informative-weak)
 
 </Grid>
 
@@ -203,19 +203,13 @@ Informative 색상은 사용자에게 유용한 정보를 제공하거나 상태
 
 레이어 색상은 인터페이스의 깊이와 계층 구조를 나타내는 데 사용됩니다. UI에서 다양한 레이어를 시각적으로 구분하는 데 도움을 줍니다.
 
-<Image
-  src="/docs/foundation/color/color-role/layer-1.webp"
-  alt="Layer 규칙"
-/>
+<Image src="/docs/foundation/color/color-role/layer-1.webp" alt="Layer 규칙" />
 
-<Image
-  src="/docs/foundation/color/color-role/layer-2.webp"
-  alt="Layer 규칙"
-/>
+<Image src="/docs/foundation/color/color-role/layer-2.webp" alt="Layer 규칙" />
 
 ## Variant
 
-같은 역할을 가진 색상이라도 의도에 따라 다양한 변형이 필요할 수 있습니다. 예를 들어, Positive 역할을 가진 배경은 낮은 강조도를 가진 positive-weak 또는 높은 강조도를 가진 positive-solid 같은 변형을 가질 수 있습니다.
+같은 역할을 가진 색상이라도 의도에 따라 다양한 변형이 필요할 수 있습니다. 예를 들어, Positive 역할을 가진 배경은 낮은 강조도를 가진 [$color.bg.positive-weak](/docs/foundation/design-token/%24color.bg.positive-weak) 또는 높은 강조도를 가진 [$color.bg.positive-solid](/docs/foundation/design-token/%24color.bg.positive-solid) 같은 변형을 가질 수 있습니다.
 
 ## Status
 

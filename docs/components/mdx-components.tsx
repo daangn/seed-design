@@ -48,7 +48,7 @@ export const mdxComponents: MDXComponents = {
 
   // Layout
   Grid: ({ children }) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ... not-prose [&>ul]:list-disc [&>ul]:pl-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2 md:items-start my-[2em] [&>figure]:my-0 not-prose [&>ul]:list-disc [&>ul]:p-2.5 [&>ul]:pl-8">
       {children}
     </div>
   ),

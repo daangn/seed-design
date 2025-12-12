@@ -65,14 +65,7 @@ data:
       enabled:
         root:
           cornerRadius: $radius.full
-          shadow:
-            type: shadow
-            value:
-              - offsetX: 0px
-                offsetY: 2px
-                blur: 6px
-                spread: 0px
-                color: "#00000026"
+          shadow: $shadow.s3
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         progressCircle:
