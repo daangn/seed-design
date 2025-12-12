@@ -392,8 +392,8 @@ export declare const vars: {
         "size": "var(--seed-dimension-x3_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--seed-font-size-t3)",
+        "lineHeight": "var(--seed-line-height-t3)"
       }
     }
   },
