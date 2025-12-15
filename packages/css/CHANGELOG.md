@@ -1,5 +1,16 @@
 # @seed-design/css
 
+## 1.1.13
+
+### Patch Changes
+
+- 9be0581: `radiomark` Rootage 정의를 명확화합니다. (스타일 변경사항 없음)
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+- 739937f: Button들의 xsmall variant의 텍스트 사이즈를 t4에서 t3로 변경해요.
+
 ## 1.1.12
 
 ### Patch Changes
