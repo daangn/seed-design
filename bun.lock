@@ -451,7 +451,7 @@
         "@seed-design/react-text-field": "1.1.1",
         "@seed-design/react-toggle": "1.0.0",
         "clsx": "^2.1.1",
-        "unicode-segmenter": "^0.14.0",
+        "unicode-segmenter": "^0.14.4",
       },
       "devDependencies": {
         "@types/react": "^19.2.2",
@@ -5094,7 +5094,7 @@
 
     "unicode-property-aliases-ecmascript": ["unicode-property-aliases-ecmascript@2.2.0", "", {}, "sha512-hpbDzxUY9BFwX+UeBnxv3Sh1q7HFxj48DTmXchNgRa46lO8uj3/1iEn3MiNUYTg1g9ctIqXCCERn8gYZhHC5lQ=="],
 
-    "unicode-segmenter": ["unicode-segmenter@0.14.0", "", {}, "sha512-AH4lhPCJANUnSLEKnM4byboctePJzltF4xj8b+NbNiYeAkAXGh7px2K/4NANFp7dnr6+zB3e6HLu8Jj8SKyvYg=="],
+    "unicode-segmenter": ["unicode-segmenter@0.14.4", "", {}, "sha512-pR5VCiCrLrKOL6FRW61jnk9+wyMtKKowq+jyFY9oc6uHbWKhDL4yVRiI4YZPksGMK72Pahh8m0cn/0JvbDDyJg=="],
 
     "unicorn-magic": ["unicorn-magic@0.4.0", "", {}, "sha512-wH590V9VNgYH9g3lH9wWjTrUoKsjLF6sGLjhR4sH1LWpLmCOH0Zf7PukhDA8BiS7KHe4oPNkcTHqYkj7SOGUOw=="],
 
