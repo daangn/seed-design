@@ -1,9 +1,10 @@
 export * as $color from "./color";
+export * as $dimension from "./dimension";
 export * as $duration from "./duration";
 export * as $fontSize from "./font-size";
 export * as $fontWeight from "./font-weight";
 export * as $gradient from "./gradient";
 export * as $lineHeight from "./line-height";
 export * as $radius from "./radius";
+export * as $shadow from "./shadow"
 export * as $timingFunction from "./timing-function";
-export * as $dimension from "./dimension";

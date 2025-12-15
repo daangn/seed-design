@@ -22,7 +22,7 @@
     overflow: hidden;
     background: var(--seed-color-bg-brand-solid);
     border-radius: var(--seed-radius-full);
-    box-shadow: 0px 2px 6px 0px #00000026;
+    box-shadow: var(--seed-shadow-s3);
     color: var(--seed-color-palette-static-white);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);

@@ -141,43 +141,6 @@
                 }
               }
             }
-          },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-300"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "disabled",
-              "selected"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.transparent"
-                },
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.palette.gray-300"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-300"
-                }
-              }
-            }
           }
         ]
       },
@@ -220,6 +183,50 @@
                 }
               }
             }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              }
+            }
           }
         ]
       },
@@ -259,6 +266,50 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-inverted-pressed"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
                 }
               }
             }

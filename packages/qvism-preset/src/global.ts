@@ -164,6 +164,9 @@ export const globalCss = defineGlobalCss({
     borderTopLeftRadius: "var(--seed-box-border-top-left-radius)",
     borderTopRightRadius: "var(--seed-box-border-top-right-radius)",
 
+    "--seed-box-box-shadow": "initial",
+    boxShadow: "var(--seed-box-box-shadow)",
+
     "--seed-box-display": "block",
     "--seed-box-position": "initial",
     display: "var(--seed-box-display)",

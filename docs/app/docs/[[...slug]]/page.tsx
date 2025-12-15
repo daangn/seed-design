@@ -29,7 +29,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     <DocsPage toc={toc} full={page.data.full} lastUpdate={lastModified}>
       <DocsTitle>{displayTitle}</DocsTitle>
       <DocsDescription>{displayDescription}</DocsDescription>
-      <DocsBody>
+      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <MDX components={mdxComponents} />
       </DocsBody>
     </DocsPage>

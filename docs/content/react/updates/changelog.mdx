@@ -3,6 +3,47 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.12.08
+
+Figma Codegen 정보를 최신화합니다. [`6d680ba`](https://github.com/daangn/seed-design/commit/6d680baf7b106d97f64e41b0e4aa7156959ec49e)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.1.12](https://npmjs.com/package/@seed-design/figma/v/1.1.12)
+
+---
+
+seedFontMultiplier, seedFontScaling attribute를 추가합니다 [`8d0ad90`](https://github.com/daangn/seed-design/commit/8d0ad90ca761954a066025ee0075fac90bd9a9e5)
+- seedFontMultiplier: 폰트 크기 스케일링 계수 (e.g. 0.8, 1.35, 1.5, 1)
+- seedFontScaling: 폰트 크기 스케일링 활성화 여부 (e.g. "enabled")
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.12](https://npmjs.com/package/@seed-design/css/v/1.1.12)
+
+---
+
+cssnano 등 CSS 최적화 도구를 사용할 때, `bleedX`와 `bleedY` 중 한 가지 속성만 정의하는 경우 bleed가 적용되지 않던 문제를 수정합니다. [`8f31f93`](https://github.com/daangn/seed-design/commit/8f31f9315b18031c816ecc61dcec9a984e474318)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.12](https://npmjs.com/package/@seed-design/css/v/1.1.12)
+
+---
+
+Overlay 컴포넌트에 skipAnimation 옵션을 추가합니다 [`69ccc6e`](https://github.com/daangn/seed-design/commit/69ccc6e7d13ff1790bfb0b9924669e6ad63ea49c)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.12](https://npmjs.com/package/@seed-design/css/v/1.1.12)
+- 📦 [@seed-design/react-dialog@1.0.1](https://npmjs.com/package/@seed-design/react-dialog/v/1.0.1)
+- 📦 [@seed-design/react-drawer@1.0.5](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.5)
+
+---
+
+Badge의 크기와 Field의 indicator 크기 및 여백이 폰트 스케일링 제한의 영향을 받도록 업데이트합니다. [`279001a`](https://github.com/daangn/seed-design/commit/279001a99f13accf981654438e1bbee632b62476)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.12](https://npmjs.com/package/@seed-design/css/v/1.1.12)
+
+---
+
 ## 2025.12.04
 
 @seed-design/stackflow: @stackflow/react-ui-core를 peerDependencies에서 dependencies로 이동합니다. [`ea488c5`](https://github.com/daangn/seed-design/commit/ea488c5da8813d16f9d6401858dfd932d9b53553)

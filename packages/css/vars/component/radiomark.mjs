@@ -22,20 +22,6 @@ export const vars = {
         "strokeWidth": "0px",
         "strokeColor": "#00000000"
       }
-    },
-    "disabled": {
-      "root": {
-        "color": "var(--seed-color-palette-gray-300)"
-      }
-    },
-    "disabledSelected": {
-      "root": {
-        "color": "var(--seed-color-bg-transparent)",
-        "strokeColor": "var(--seed-color-palette-gray-300)"
-      },
-      "icon": {
-        "color": "var(--seed-color-palette-gray-300)"
-      }
     }
   },
   "toneBrand": {
@@ -51,6 +37,21 @@ export const vars = {
       "root": {
         "color": "var(--seed-color-bg-brand-solid-pressed)"
       }
+    },
+    "disabled": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-300)"
+      }
+    },
+    "disabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-palette-gray-300)"
+      },
+      "icon": {
+        "color": "var(--seed-color-palette-gray-300)"
+      }
     }
   },
   "toneNeutral": {
@@ -65,6 +66,21 @@ export const vars = {
     "enabledSelectedPressed": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+      }
+    },
+    "disabled": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-300)"
+      }
+    },
+    "disabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-palette-gray-300)"
+      },
+      "icon": {
+        "color": "var(--seed-color-palette-gray-300)"
       }
     }
   },

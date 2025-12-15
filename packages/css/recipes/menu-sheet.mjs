@@ -40,11 +40,17 @@ const menuSheetSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "skipAnimation": false
+};
 
 const compoundVariants = [];
 
-export const menuSheetVariantMap = {};
+export const menuSheetVariantMap = {
+  "skipAnimation": [
+    false
+  ]
+};
 
 export const menuSheetVariantKeys = Object.keys(menuSheetVariantMap);
 

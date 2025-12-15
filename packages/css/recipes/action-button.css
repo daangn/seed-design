@@ -259,8 +259,8 @@
     --seed-box-padding-right: var(--seed-dimension-x3_5);
     --seed-box-padding-top: var(--seed-dimension-x1_5);
     --seed-box-padding-bottom: var(--seed-dimension-x1_5);
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
+    font-size: var(--seed-font-size-t3);
+    line-height: var(--seed-line-height-t3);
 }
 .seed-action-button--size_xsmall-layout_iconOnly {
     min-width: var(--seed-dimension-x8);

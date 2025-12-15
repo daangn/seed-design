@@ -1,0 +1,100 @@
+---
+title: Contextual Floating Button
+description: 화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.
+coverImageFigmaId: 39:21531
+---
+
+<PlatformStatusTable componentId="contextual-floating-button" />
+
+## Anatomy
+
+<FigmaImage
+  id="2:95152"
+  alt="Contextual Floating Button의 Anatomy 이미지. Container, Icon, Label로 구성됩니다."
+/>
+
+Contextual Floating Button은 Icon과 Label, 내용을 감싸고 있는 Container로 구성되어 있습니다.
+
+## Properties
+
+### Tone
+
+<FigmaImage
+  id="2:95165"
+  alt="Contextual Floating Button의 Tone Property - Solid, Layer"
+/>
+
+Contextual Floating Button은 Solid와 Layer 두 가지 스타일을 가집니다. 시각적인 주목도에 따라 사용할 수 있습니다.
+
+### Layout
+
+<FigmaImage
+  id="2:95179"
+  alt="Contextual Floating Button의 Layout Property - Icon First, Icon Only"
+/>
+
+Layer 스타일의 Contextual Floating Button은 Icon Only 레이아웃을 사용할 수 있습니다.
+
+### State
+
+<FigmaImage
+  id="2:95193"
+  alt="Contextual Floating Button의 State - Enabled, Pressed, Loading, Disabled"
+/>
+
+Enabled, Pressed, Loading, Disabled 상태를 가집니다.
+
+## Guidelines
+
+### Contextual Floating Button의 사용
+
+<FigmaImage id="2:95225" alt="Contextual Floating Button 사용 예시" />
+
+Contextual Floating Button은 화면 위에 떠있고, 조건적으로 노출되는 보조 액션 버튼입니다.
+
+화면의 주 액션을 담당하는 [Floating Action Button](/docs/components/floating-action-button)과 달리, 특정 문맥 또는 사용자 상호작용에 따라 유동적으로 등장합니다.
+
+### Contextual Floating Button의 위치
+
+<FigmaImage id="2:95292" alt="Contextual Floating Button의 위치 예시" />
+
+<FigmaImage
+  id="2:95308"
+  alt="Contextual Floating Button과 고정 요소와의 여백"
+/>
+
+Contextual Floating Button은 고정된 위치에 있지 않고, 콘텐츠 근처에 자유롭게 배치될 수 있는 유연성을 가집니다. 또한 한 화면 내에서 여러 개의 버튼을 동시에 표시할 수 있습니다.
+
+화면 내 고정된 요소가 있는 경우 고정된 요소를 기준으로 여백을 확보해야 합니다.
+
+### Tone
+
+<FigmaImage
+  id="2:95351"
+  alt="Contextual Floating Button의 Tone 사용 예시 - Solid와 Layer"
+/>
+
+Contextual Floating Button은 Solid와 Layer 두 가지 스타일을 가집니다. 상황에 따라 선택해서 사용할 수 있습니다.
+
+| Tone      | 사용 상황                                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------------ |
+| **Solid** | 배경과 대비되는 강조된 보조 액션으로 중요도 높거나 컨텍스트와 강하게 연결된 행동 유도 시 적합합니다.   |
+| **Layer** | 시각적 부담 없이 부드럽게 액션을 유도합니다. 인라인 흐름에 잘 녹아들고 지나친 주목을 피할 수 있습니다. |
+
+### Label의 길이
+
+<FigmaImage id="2:95415" alt="Contextual Floating Button의 Label 길이 예시" />
+
+Label이 길어질 경우 줄바꿈 됩니다. 한 줄에 표시될 수 있도록 간결하게 유지해주세요.
+
+## Contextual Floating Button V3 변경점
+
+<FigmaImage id="2:95443" alt="Contextual Floating Button V2와 V3 비교" />
+
+- Floating Action Button, Extended FAB, Main FAB로 구분되어 있던 컴포넌트를 용례에 따라 [Floating Action Button](/docs/components/floating-action-button), Contextual Floating Button으로 새롭게 구분했습니다.
+- [Floating Action Button](/docs/components/floating-action-button)은 Brand Tone, 단일 사이즈만 제공하며 화면에 하나만 존재할 수 있습니다.
+- 보조적인 역할을 하는 떠 있는 버튼은 Contextual Floating Button으로 용례를 구분했습니다.
+
+## Specification
+
+<ComponentSpecBlock id="contextual-floating-button" />

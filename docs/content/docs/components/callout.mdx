@@ -1,24 +1,171 @@
 ---
 title: Callout
-description: 사용자의 주목을 끌어 중요한 정보를 강조하는 컴포넌트입니다.
+description: 사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.
+coverImageFigmaId: 39:21526
 ---
 
 <PlatformStatusTable componentId="callout" />
 
-## 개요
+## Anatomy
 
-### 옵션 테이블
+<FigmaImage
+  id="2:89471"
+  alt="Callout의 Anatomy 이미지. Container, Prefix Icon, Title, Description, Link Text, Suffix Icon으로 구성됩니다."
+/>
 
-| 속성        | 값                                           | 기본값  |
-| ----------- | -------------------------------------------- | ------- |
-| interaction | default, actionable, dismissible             |         |
-| tone        | neutral, informative, warning, critical, magic | neutral |
-| prefix icon | icon                                         |         |
-| suffix icon | icon                                         |         |
-| title       | string                                       |         |
-| description | string                                       |         |
-| link label  | string                                       |         |
+Callout은 텍스트 내용을 감싸고 있는 Container로 구성되어 있으며, 필요에 따라 Prefix Icon, Title, Link Text, Suffix Icon을 표시할 수 있습니다.
 
-## 스펙
+## Properties
+
+### Interaction
+
+<FigmaImage
+  id="2:89486"
+  alt="Callout의 Interaction Property - Display, Actionable, Dismissible"
+/>
+
+Callout은 정보를 표시하는 Display, 선택하여 동작을 실행할 수 있는 Actionable, 스스로를 제거할 수 있는 Dismissible 세 가지 동작을 가질 수 있습니다.
+
+### Tone
+
+<FigmaImage
+  id="2:89505"
+  alt="Callout의 Tone Property - Neutral, Informative, Warning, Critical, Positive, Magic"
+/>
+
+Callout은 메시지의 목적에 따라 여섯 가지 톤을 선택하여 사용할 수 있습니다.
+
+### Prefix Icon Property
+
+<Grid>
+
+<FigmaImage id="2:89532" alt="Callout의 Prefix Icon Property" />
+<DontImage
+  figmaId="2:89539"
+  body="아이콘은 Fill 타입을 사용해주세요."
+  alt="Callout에 Line 타입 아이콘을 사용한 예시"
+/>
+
+</Grid>
+
+Prefix Icon을 표시할 수 있습니다. **아이콘은 Fill 타입 사용을 권장합니다.**
+
+### Title Property
+
+<FigmaImage id="2:89551" alt="Callout의 Title Property" />
+
+Show Title Property로 Title을 표시할 수 있습니다.
+
+### Link Text Property
+
+<Grid>
+
+<FigmaImage id="2:89565" alt="Callout의 Link Text Property" />
+<DontImage
+  figmaId="2:89572"
+  body="Actionable Callout에서는 Link Text를 사용하지 마세요."
+  alt="Actionable Callout에서 Link Text를 사용하는 예시"
+/>
+
+</Grid>
+
+Link Text를 표시할 수 있습니다. **Container가 모두 클릭 영역인 Actionable Callout에서는 Link Text 표시를 권장하지 않습니다.**
+
+### State
+
+<FigmaImage id="2:89584" alt="Callout의 State - Enabled, Pressed" />
+
+Actionable Callout에는 Pressed 상태가 있습니다.
+
+## Guidelines
+
+### Title, Description, Link Text 사이 간격 표시
+
+<FigmaImage
+  id="2:89609"
+  alt="Title, Description, Link Text 사이 간격 표시 예시"
+/>
+
+Callout의 Title과 Link Text는 Inline 요소로, 텍스트처럼 줄을 차지하지 않고 배치됩니다.
+
+Title과 Description 사이, 본문과 Link Text 사이의 여백은 두 번의 띄어쓰기로 표시합니다.
+
+### 제목과 내용 작성하기
+
+<Grid>
+
+<FigmaImage id="2:89624" alt="Callout 제목과 내용 작성 예시" />
+<DontImage
+  figmaId="2:89626"
+  body="제목이 길어지지 않게 주의해주세요."
+  alt="제목에 문장을 사용한 예시"
+/>
+
+</Grid>
+
+Callout 제목은 알림, 안내, 새소식, 공지와 같이 그 성격을 나타내는 짧은 단어로 표시합니다. 본문은 핵심 내용만 간결하게 작성하고, 제목에서 언급한 내용을 반복하지 않도록 합니다.
+
+### 상황에 맞는 Tone 사용하기
+
+Callout은 Neutral, Informative, Critical, Positive, Warning, Magic 총 여섯 가지의 Tone을 제공합니다. 맥락에 알맞은 Tone을 선택하여 사용해주세요.
+
+<FigmaImage
+  id="2:89639"
+  alt="Callout의 Tone 사용 예시 - Neutral, Informative"
+/>
+
+<FigmaImage id="2:89706" alt="Callout의 Tone 사용 예시 - Critical, Positive" />
+
+<FigmaImage id="2:89788" alt="Callout의 Tone 사용 예시 - Warning, Magic" />
+
+| Tone            | 사용 상황                                                                              |
+| --------------- | -------------------------------------------------------------------------------------- |
+| **Neutral**     | 중립적이고 일반적인 메시지를 전달할 때 사용합니다.                                     |
+| **Informative** | 사용자의 이해를 돕기 위한 유용한 정보, 가이드, 팁 등을 제공할 때 사용합니다.           |
+| **Critical**    | 심각한 오류나 즉각적인 사용자 조치가 필요한 경우 사용합니다.                           |
+| **Positive**    | 사용자에게 성취, 성공, 혜택 등 긍정적인 피드백이나 격려 메시지를 전달할 때 사용합니다. |
+| **Warning**     | 사용자의 행동에 주의가 필요하거나, 잠재적 문제를 사전에 알릴 때 사용합니다.            |
+| **Magic**       | AI를 활용하여 특별한 경험을 주는 기능을 나타낼 때 사용합니다.                          |
+
+### Link Text를 Nudge 용도로 사용하지 않기
+
+<Grid>
+
+<FigmaImage id="2:89863" alt="Link Text 없이 Actionable Callout 사용 예시" />
+<DontImage
+  figmaId="2:89884"
+  alt="Link Text를 Nudge 용도로 사용하는 예시"
+  body="Link Text는 Nudge 용도로 사용하지 않습니다."
+/>
+
+</Grid>
+
+링크는 보조적인 내용을 전달하는 용도로만 사용해주세요. 사용자의 행동을 유도하거나 상태를 강조해야 한다면 Actionable Callout을 사용하세요.
+
+### Dismissible 인터랙션 사용하기
+
+<Grid>
+
+<FigmaImage id="2:89916" alt="Dismissible Callout 사용 예시" />
+<DontImage
+  figmaId="2:90163"
+  body="경고·오류 메시지에 Dismissible Callout을 사용하지 않습니다."
+  alt="경고·오류 메시지에 Dismissible Callout을 사용하는 예시"
+/>
+
+</Grid>
+
+Dismissible Callout은 사용자에게 한 번만 전달해도 충분한 정보에 한해 사용하며, 경고·오류 메시지에는 사용하지 않습니다.
+
+닫은 후에 동일한 메시지가 반복해서 표시되지 않도록 주의해주세요.
+
+## Callout V3 변경점
+
+<FigmaImage id="2:90200" alt="Callout V2와 V3 비교" />
+
+- Interaction에 따라 분리되어 있던 세 가지 Callout 컴포넌트를 하나로 합쳤습니다.
+- Prefix Icon의 정렬을 텍스트 높이의 중앙으로 조절하여 두 줄 이상의 경우에도 시각적으로 안정적인 레이아웃을 만들었어요.
+
+## Specification
 
 <ComponentSpecBlock id="callout" />

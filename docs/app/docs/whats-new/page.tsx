@@ -37,7 +37,7 @@ export default async function Page() {
     <DocsPage>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
-      <DocsBody>
+      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <div className="not-prose grid grid-cols-1 sm:grid-cols-2 gap-[20px]">
           {articles?.map((item) => (
             <Link href={`/docs/whats-new/${item.slug.current}`} key={item.slug.current}>

@@ -35,7 +35,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <DocsPage tableOfContent={{ enabled: false }}>
       <DocsTitle>{tokenId}</DocsTitle>
       <DocsDescription>{decl.description}</DocsDescription>
-      <DocsBody>
+      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <h2>Definition</h2>
         <div className="flex flex-col space-y-4">
           {resolvedTokens.map(({ mode, resolved: { path, value } }) => (

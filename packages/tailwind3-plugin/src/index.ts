@@ -673,6 +673,11 @@ export default plugin(
   "enter-expressive": "var(--seed-timing-function-enter-expressive)",
   "exit-expressive": "var(--seed-timing-function-exit-expressive)"
 },
+        boxShadow: {
+  "s1": "var(--seed-shadow-s1)",
+  "s2": "var(--seed-shadow-s2)",
+  "s3": "var(--seed-shadow-s3)"
+},
       },
     },
   },
