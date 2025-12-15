@@ -16,11 +16,6 @@ export const revalidate = false;
 export async function generateStaticParams(): Promise<StaticParams[]> {
   const foundationPageSlugs = source
     .getPages()
-    .filter((page) => {
-      // Include foundation only
-      const [firstSlug] = page.slugs;
-      return firstSlug === "foundation";
-    })
     .filter(shouldGenerateFoundationLLMText)
     .map((page) => {
       // Attach .txt extension to the last slug

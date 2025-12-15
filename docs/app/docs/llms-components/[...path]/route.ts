@@ -16,11 +16,6 @@ export const revalidate = false;
 export async function generateStaticParams(): Promise<StaticParams[]> {
   const componentPageSlugs = source
     .getPages()
-    .filter((page) => {
-      // Include components only
-      const [firstSlug] = page.slugs;
-      return firstSlug === "components";
-    })
     .filter(shouldGenerateComponentLLMText)
     .map((page) => {
       // Attach .txt extension to the last slug
