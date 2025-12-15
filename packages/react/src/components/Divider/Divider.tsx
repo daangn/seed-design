@@ -60,6 +60,7 @@ export const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
         borderWidth={0}
         {...(orientation === "vertical" && { borderRightWidth: thickness })}
         {...(orientation === "horizontal" && { borderBottomWidth: thickness })}
+        {...props}
         style={{
           ...(inset &&
             orientation === "horizontal" && {
@@ -73,7 +74,6 @@ export const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
             }),
           ...props.style,
         }}
-        {...props}
       />
     );
   },
