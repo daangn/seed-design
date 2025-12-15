@@ -1,5 +1,20 @@
 # @seed-design/react
 
+## 1.1.13
+
+### Patch Changes
+
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+- 8f54b80: unicode-segmenter 0.14.4 버전을 설치합니다.
+- fce8668: Divider 자체적으로 16px의 여백을 가지는 `inset` 옵션을 추가합니다.
+- Updated dependencies [9be0581]
+- Updated dependencies [cc4a45a]
+- Updated dependencies [739937f]
+  - @seed-design/css@1.1.13
+
 ## 1.1.12
 
 ### Patch Changes
