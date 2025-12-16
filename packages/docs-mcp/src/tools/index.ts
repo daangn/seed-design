@@ -1,8 +1,17 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { Tool } from "../types.js";
-import { listReactComponentsTool, listBreezeComponentsTool } from "./list-components.js";
-import { getReactComponentTool, getBreezeComponentTool } from "./get-component.js";
+import {
+  listReactComponentsTool,
+  listBreezeComponentsTool,
+  listDocsComponentsTool,
+} from "./list-components.js";
+import {
+  getReactComponentTool,
+  getBreezeComponentTool,
+  getDocsComponentTool,
+} from "./get-component.js";
 import { getReactChangelogTool } from "./get-changelog.js";
+import { searchSeedDocsTool } from "./search-docs.js";
 
 const tools: Tool[] = [
   // React component tools
@@ -13,6 +22,13 @@ const tools: Tool[] = [
   // Breeze component tools
   listBreezeComponentsTool,
   getBreezeComponentTool,
+
+  // Docs component tools (Design Guidelines)
+  listDocsComponentsTool,
+  getDocsComponentTool,
+
+  // Search tools
+  searchSeedDocsTool,
 ];
 
 const registeredToolCache = new Map<string, Tool>();

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { Tool } from "../types.js";
-import { fetchReactComponent, fetchBreezeComponent } from "../fetch.js";
+import { fetchReactComponent, fetchBreezeComponent, fetchDocsComponent } from "../fetch.js";
 
 export const getReactComponentTool: Tool = {
   name: "get_react_component",
@@ -77,6 +77,51 @@ export const getBreezeComponentTool: Tool = {
               {
                 type: "text",
                 text: `Error fetching Breeze component '${componentName}': ${
+                  error instanceof Error ? error.message : "Unknown error"
+                }\n\nPlease check if the component name is correct (use kebab-case format).`,
+              },
+            ],
+            isError: true,
+          };
+        }
+      },
+    );
+  },
+};
+
+export const getDocsComponentTool: Tool = {
+  name: "get_docs_component",
+  description:
+    "Get design guidelines for a specific SEED component including anatomy, properties, variants, and usage recommendations.",
+  exec(server, { name, description }) {
+    server.tool(
+      name,
+      description,
+      {
+        componentName: z
+          .string()
+          .describe(
+            "The component name in kebab-case (e.g., 'action-button', 'avatar', 'bottom-sheet')",
+          ),
+      },
+      async ({ componentName }) => {
+        try {
+          const content = await fetchDocsComponent(componentName);
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: content,
+              },
+            ],
+          };
+        } catch (error) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: `Error fetching design guidelines for '${componentName}': ${
                   error instanceof Error ? error.message : "Unknown error"
                 }\n\nPlease check if the component name is correct (use kebab-case format).`,
               },
