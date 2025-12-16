@@ -89,3 +89,7 @@
 strong {
   font-weight: 700;
 }
+
+article .prose {
+  padding-bottom: 3rem;
+}
