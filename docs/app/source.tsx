@@ -20,7 +20,7 @@ function getGitLastModifiedDates(): Map<string, Date> {
   try {
     // Get last modified dates for all files in content directories
     // Run from the repository root (parent of docs folder)
-    const repoRoot = path.resolve(process.cwd(), "..");
+    const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
     const result = execSync(
       'git log --format="%H %aI" --name-only --diff-filter=ACMR -- "docs/content"',
       { encoding: "utf-8", maxBuffer: 10 * 1024 * 1024, cwd: repoRoot },
