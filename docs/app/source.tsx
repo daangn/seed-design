@@ -1,10 +1,55 @@
-import { docs, reactDocs, breezeDocs, lynxDocs } from "@/.source";
+import { breezeDocs, docs, lynxDocs, reactDocs } from "@/.source";
 import { getRootageMetadata } from "@/components/rootage";
 import { IconContainer } from "@/components/ui/icon";
 import type { Node, Root } from "fumadocs-core/page-tree";
 import { loader } from "fumadocs-core/source";
+import { execSync } from "node:child_process";
+import path from "node:path";
 
+import { NotificationBadge } from "@seed-design/react";
 import { icons } from "lucide-react";
+
+// Cache for git last modified dates
+let gitDatesCache: Map<string, Date> | null = null;
+
+function getGitLastModifiedDates(): Map<string, Date> {
+  if (gitDatesCache) return gitDatesCache;
+
+  gitDatesCache = new Map();
+
+  try {
+    // Get last modified dates for all files in content directories
+    // Run from the repository root (parent of docs folder)
+    const repoRoot = path.resolve(process.cwd(), "..");
+    const result = execSync(
+      'git log --format="%H %aI" --name-only --diff-filter=ACMR -- "docs/content"',
+      { encoding: "utf-8", maxBuffer: 10 * 1024 * 1024, cwd: repoRoot },
+    );
+
+    const lines = result.split("\n");
+    let currentDate: Date | null = null;
+
+    for (const line of lines) {
+      if (!line.trim()) continue;
+
+      // Check if this is a commit line (hash + ISO date)
+      const commitMatch = line.match(/^[a-f0-9]{40} (.+)$/);
+      if (commitMatch) {
+        currentDate = new Date(commitMatch[1]);
+        continue;
+      }
+
+      // This is a file path - only set if we don't already have a date (first commit = most recent)
+      if (currentDate && line.startsWith("docs/content/") && !gitDatesCache.has(line)) {
+        gitDatesCache.set(line, currentDate);
+      }
+    }
+  } catch (error) {
+    console.warn("Failed to get git last modified dates:", error);
+  }
+
+  return gitDatesCache;
+}
 
 const DeprecatedBadge = () => {
   return (
@@ -13,6 +58,19 @@ const DeprecatedBadge = () => {
     </span>
   );
 };
+
+const UpdatedBadge = () => {
+  return <NotificationBadge size="small" style={{ transform: "translateX(6px)" }} />;
+};
+
+const RECENTLY_UPDATED_DAYS = 14;
+
+function isRecentlyUpdated(lastModified: Date | undefined): boolean {
+  if (!lastModified) return false;
+  const fourteenDaysAgo = new Date();
+  fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - RECENTLY_UPDATED_DAYS);
+  return new Date(lastModified) > fourteenDaysAgo;
+}
 
 function getComponentIdFromUrl(url: string): string | null {
   const urlParts = url.split("/");
@@ -23,28 +81,49 @@ function getComponentIdFromUrl(url: string): string | null {
 async function transformPageTreeWithBadges(
   tree: Root,
   sourceLoader: typeof baseSource,
+  contentDir: string,
 ): Promise<Root> {
   try {
     async function transformNode(node: Node): Promise<Node> {
       if (node.type === "page") {
-        const componentId = getComponentIdFromUrl(node.url);
         const page = sourceLoader.getNodePage(node);
-        if (!componentId) return node;
+        if (!page) return node;
 
-        // 1. Check frontmatter deprecated (priority 1)
-        const frontmatterDeprecated = page?.data?.deprecated;
-        // 2. Get rootage metadata once if needed
-        const metadata = frontmatterDeprecated ? null : await getRootageMetadata(componentId);
-        // Determine deprecated status and message
-        const deprecated = frontmatterDeprecated ? true : Boolean(metadata?.deprecated);
-        // 3. Check updated status (priority 3) - only if not deprecated
-        if (deprecated) {
+        // 1. Check deprecated status (only for component pages)
+        const componentId = getComponentIdFromUrl(node.url);
+        let isDeprecated = false;
+        if (componentId) {
+          const frontmatterDeprecated = page?.data?.deprecated;
+          const metadata = frontmatterDeprecated ? null : await getRootageMetadata(componentId);
+          isDeprecated = frontmatterDeprecated ? true : Boolean(metadata?.deprecated);
+        }
+
+        // 2. Check updated status (for all pages, only if not deprecated)
+        const gitDates = getGitLastModifiedDates();
+        const filePath = `docs/content/${contentDir}/${page.path}`;
+        const lastModified = gitDates.get(filePath);
+        const isUpdated = !isDeprecated && isRecentlyUpdated(lastModified);
+
+        // 3. Render badges
+        if (isDeprecated) {
           return {
             ...node,
             name: (
               <span className="flex items-center" key={node.$id}>
                 <span>{node.name}</span>
                 <DeprecatedBadge />
+              </span>
+            ),
+          };
+        }
+
+        if (isUpdated) {
+          return {
+            ...node,
+            name: (
+              <span className="flex items-center" key={node.$id}>
+                {node.name}
+                <UpdatedBadge />
               </span>
             ),
           };
@@ -107,19 +186,19 @@ const baseLynxSource = loader({
 
 // Transform page trees with badges
 async function getTransformedPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseSource.pageTree, baseSource);
+  return await transformPageTreeWithBadges(baseSource.pageTree, baseSource, "docs");
 }
 
 async function getTransformedReactPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseReactSource.pageTree, baseReactSource);
+  return await transformPageTreeWithBadges(baseReactSource.pageTree, baseReactSource, "react");
 }
 
 async function getTransformedBreezePageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseBreezeSource.pageTree, baseBreezeSource);
+  return await transformPageTreeWithBadges(baseBreezeSource.pageTree, baseBreezeSource, "breeze");
 }
 
 async function getTransformedLynxPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseLynxSource.pageTree, baseLynxSource);
+  return await transformPageTreeWithBadges(baseLynxSource.pageTree, baseLynxSource, "lynx");
 }
 
 // Export sources with lazy-loaded transformed page trees
