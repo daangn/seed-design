@@ -1,9 +1,9 @@
-import { switchMark as vars } from "../vars/component";
+import { switchmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { checked, disabled, pseudo } from "../utils/pseudo";
 
-const switchMarkRecipe = defineSlotRecipe({
-  name: "switch-mark",
+const switchmarkRecipe = defineSlotRecipe({
+  name: "switchmark",
   slots: ["root", "thumb"],
   base: {
     root: {
@@ -14,7 +14,7 @@ const switchMarkRecipe = defineSlotRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
       background: vars.base.enabled.root.color,
 
-      margin: "var(--switch-mark-margin-top, 0) 0", // 수직 위치 보정
+      margin: "var(--switchmark-margin-top, 0) 0", // 수직 위치 보정
 
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}`,
 
@@ -116,4 +116,4 @@ const switchMarkRecipe = defineSlotRecipe({
   },
 });
 
-export default switchMarkRecipe;
+export default switchmarkRecipe;

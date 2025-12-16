@@ -22,7 +22,7 @@ export const createSwitchHandler = (_ctx: ComponentHandlerDeps) =>
       };
 
       if (props["Layout(Figma Only)"].value === "🚫[Switch Mark 사용] Switch Only") {
-        return createLocalSnippetElement("SwitchMark", commonProps);
+        return createLocalSnippetElement("Switchmark", commonProps);
       }
 
       return createLocalSnippetElement("Switch", {

@@ -1,14 +1,13 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "switch-mark",
-    "name": "Switch Mark",
-    "deprecated": "Use Switchmark instead.",
+    "id": "switchmark",
+    "name": "Switchmark",
     "lastUpdated": "25-12-16"
   },
   "data": {
-    "id": "switch-mark",
-    "name": "Switch Mark",
+    "id": "switchmark",
+    "name": "Switchmark",
     "schema": {
       "slots": {
         "root": {

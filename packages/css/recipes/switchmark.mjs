@@ -1,14 +1,14 @@
-import './switch-mark.css';
+import './switchmark.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const switchMarkSlotNames = [
+const switchmarkSlotNames = [
   [
     "root",
-    "seed-switch-mark__root"
+    "seed-switchmark__root"
   ],
   [
     "thumb",
-    "seed-switch-mark__thumb"
+    "seed-switchmark__thumb"
   ]
 ];
 
@@ -19,7 +19,7 @@ const defaultVariant = {
 
 const compoundVariants = [];
 
-export const switchMarkVariantMap = {
+export const switchmarkVariantMap = {
   "tone": [
     "neutral",
     "brand"
@@ -31,11 +31,11 @@ export const switchMarkVariantMap = {
   ]
 };
 
-export const switchMarkVariantKeys = Object.keys(switchMarkVariantMap);
+export const switchmarkVariantKeys = Object.keys(switchmarkVariantMap);
 
-export function switchMark(props) {
+export function switchmark(props) {
   return Object.fromEntries(
-    switchMarkSlotNames.map(([slot, className]) => {
+    switchmarkSlotNames.map(([slot, className]) => {
       return [
         slot,
         createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
@@ -44,6 +44,6 @@ export function switchMark(props) {
   );
 }
 
-Object.assign(switchMark, { splitVariantProps: (props) => splitVariantProps(props, switchMarkVariantMap) });
+Object.assign(switchmark, { splitVariantProps: (props) => splitVariantProps(props, switchmarkVariantMap) });
 
-// @recipe(seed): switch-mark
+// @recipe(seed): switchmark

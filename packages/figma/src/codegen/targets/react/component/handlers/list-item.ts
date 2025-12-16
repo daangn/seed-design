@@ -102,7 +102,7 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
     const disabled = props.State.value === "Disabled";
 
     const tag = (() => {
-      if (suffix?.tag === "SwitchMark") {
+      if (suffix?.tag === "Switchmark") {
         return "ListSwitchItem";
       }
 

@@ -1,4 +1,4 @@
-import type { SwitchMarkProperties } from "@/codegen/component-properties";
+import type { SwitchmarkProperties } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createLocalSnippetHelper } from "../../element-factories";
@@ -7,9 +7,9 @@ import { match } from "ts-pattern";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("switch");
 
-export const createSwitchMarkHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<SwitchMarkProperties>(
-    metadata.switchMark.key,
+export const createSwitchmarkHandler = (_ctx: ComponentHandlerDeps) =>
+  defineComponentHandler<SwitchmarkProperties>(
+    metadata.switchmark.key,
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")
@@ -21,6 +21,6 @@ export const createSwitchMarkHandler = (_ctx: ComponentHandlerDeps) =>
         size: props.Size.value,
       };
 
-      return createLocalSnippetElement("SwitchMark", commonProps);
+      return createLocalSnippetElement("Switchmark", commonProps);
     },
   );

@@ -47,7 +47,7 @@ import {
   createSliderFieldHandler,
 } from "@/codegen/targets/react/component/handlers/slider";
 import { createSnackbarHandler } from "./handlers/snackbar";
-import { createSwitchMarkHandler } from "@/codegen/targets/react/component/handlers/switch-mark";
+import { createSwitchmarkHandler } from "@/codegen/targets/react/component/handlers/switchmark";
 import { createSwitchHandler } from "./handlers/switch";
 import { createTabsHandler } from "@/codegen/targets/react/component/handlers/tabs";
 import { createTextInputFieldHandler, createTextareaFieldHandler } from "./handlers/text-field";
@@ -91,7 +91,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createRadioGroupItemHandler,
   createRadioMarkHandler,
   createSwitchHandler,
-  createSwitchMarkHandler,
+  createSwitchmarkHandler,
   createAlertDialogHandler,
   createDividerHandler,
   createAvatarHandler,

@@ -56,6 +56,7 @@ export { vars as slider } from "./slider";
 export { vars as snackbar } from "./snackbar";
 export { vars as switchMark } from "./switch-mark";
 export { vars as switch } from "./switch";
+export { vars as switchmark } from "./switchmark";
 export { vars as tab } from "./tab";
 export { vars as tablist } from "./tablist";
 export { vars as tagGroupItem } from "./tag-group-item";

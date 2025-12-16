@@ -370,8 +370,8 @@ export type SwitchProperties = InferComponentDefinition<
   typeof sets._switch.componentPropertyDefinitions
 >;
 
-export type SwitchMarkProperties = InferComponentDefinition<
-  typeof sets.switchMark.componentPropertyDefinitions
+export type SwitchmarkProperties = InferComponentDefinition<
+  typeof sets.switchmark.componentPropertyDefinitions
 >;
 
 export type ToggleButtonProperties = InferComponentDefinition<
