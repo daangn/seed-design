@@ -85,9 +85,10 @@ await initializeTools(server);
 - `list_docs_components` - List all available SEED Design component guidelines
 - `get_docs_component` - Get design guidelines for a specific component (anatomy, properties, usage)
 
-### Search
+### Foundation
 
-- `search_seed_docs` - Search across all SEED Design documentation (supports filtering by: design, react, breeze, lynx)
+- `list_foundation` - List all available SEED Design foundation topics (color, typography, spacing, etc.)
+- `get_foundation` - Get detailed documentation for a specific foundation topic
 
 ## Development
 

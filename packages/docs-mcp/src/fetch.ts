@@ -69,17 +69,19 @@ export async function fetchReactComponentList(): Promise<ComponentInfo[]> {
   const components: ComponentInfo[] = [];
 
   for (const line of lines) {
-    // Extract component names from URLs or list items
-    const match = line.match(/llms-components\/([a-z-]+)\.txt/) || line.match(/^-?\s*([a-z-]+)/i);
+    // URL 패턴에서만 추출 - 일반 텍스트 무시
+    const match = line.match(/llms-components\/([a-z-]+)\.txt/);
     if (match) {
       const name = match[1];
-      components.push({
-        name,
-        title: name
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" "),
-      });
+      // 마크다운 링크에서 타이틀 추출 시도
+      const titleMatch = line.match(/\[([^\]]+)\]/);
+      const title = titleMatch
+        ? titleMatch[1]
+        : name
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+      components.push({ name, title });
     }
   }
 
@@ -120,16 +122,19 @@ export async function fetchBreezeComponentList(): Promise<ComponentInfo[]> {
   const components: ComponentInfo[] = [];
 
   for (const line of lines) {
-    const match = line.match(/llms\/components\/([a-z-]+)\.txt/) || line.match(/^-?\s*([a-z-]+)/i);
+    // URL 패턴에서만 추출 - 일반 텍스트 무시
+    const match = line.match(/llms\/components\/([a-z-]+)\.txt/);
     if (match) {
       const name = match[1];
-      components.push({
-        name,
-        title: name
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" "),
-      });
+      // 마크다운 링크에서 타이틀 추출 시도
+      const titleMatch = line.match(/\[([^\]]+)\]/);
+      const title = titleMatch
+        ? titleMatch[1]
+        : name
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+      components.push({ name, title });
     }
   }
 

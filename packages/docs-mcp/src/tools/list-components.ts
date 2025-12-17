@@ -1,5 +1,10 @@
-import { fetchReactComponentList, fetchBreezeComponentList, fetchDocsComponentList } from "../fetch.js";
-import type { Tool, ComponentInfo } from "../types.js";
+import {
+  fetchReactComponentList,
+  fetchBreezeComponentList,
+  fetchDocsComponentList,
+  fetchFoundationList,
+} from "../fetch.js";
+import type { Tool, ComponentInfo, FoundationInfo } from "../types.js";
 
 export const listReactComponentsTool: Tool<{ componentList: ComponentInfo[] }> = {
   name: "list_react_components",
@@ -87,6 +92,54 @@ export const listDocsComponentsTool: Tool<{ componentList: ComponentInfo[] }> = 
           {
             type: "text",
             text: `Found ${components.length} component design guidelines:\n\n${formatted}`,
+          },
+        ],
+      };
+    });
+  },
+};
+
+export const listFoundationTool: Tool<{ foundationList: FoundationInfo[] }> = {
+  name: "list_foundation",
+  description:
+    "List all available SEED Design foundation topics including color, typography, spacing, iconography, and more.",
+  async ctx() {
+    try {
+      const foundationList = await fetchFoundationList();
+      return { foundationList };
+    } catch (error) {
+      throw new Error(
+        `Failed to initialize list foundation tool: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
+    }
+  },
+  exec(server, { ctx, name, description }) {
+    server.tool(name, description, {}, async () => {
+      const foundations = ctx.foundationList;
+
+      // Group by category
+      const grouped = foundations.reduce(
+        (acc, f) => {
+          const cat = f.category || "general";
+          if (!acc[cat]) acc[cat] = [];
+          acc[cat].push(f);
+          return acc;
+        },
+        {} as Record<string, FoundationInfo[]>,
+      );
+
+      const formatted = Object.entries(grouped)
+        .map(([category, items]) => {
+          const itemList = items.map((f) => `  - ${f.title} (${f.name})`).join("\n");
+          return `**${category.charAt(0).toUpperCase() + category.slice(1)}**:\n${itemList}`;
+        })
+        .join("\n\n");
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Found ${foundations.length} foundation topics:\n\n${formatted}`,
           },
         ],
       };

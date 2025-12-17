@@ -4,14 +4,15 @@ import {
   listReactComponentsTool,
   listBreezeComponentsTool,
   listDocsComponentsTool,
+  listFoundationTool,
 } from "./list-components.js";
 import {
   getReactComponentTool,
   getBreezeComponentTool,
   getDocsComponentTool,
+  getFoundationTool,
 } from "./get-component.js";
 import { getReactChangelogTool } from "./get-changelog.js";
-import { searchSeedDocsTool } from "./search-docs.js";
 
 const tools: Tool[] = [
   // React component tools
@@ -27,8 +28,9 @@ const tools: Tool[] = [
   listDocsComponentsTool,
   getDocsComponentTool,
 
-  // Search tools
-  searchSeedDocsTool,
+  // Foundation tools
+  listFoundationTool,
+  getFoundationTool,
 ];
 
 const registeredToolCache = new Map<string, Tool>();

@@ -1,6 +1,11 @@
 import { z } from "zod";
 import type { Tool } from "../types.js";
-import { fetchReactComponent, fetchBreezeComponent, fetchDocsComponent } from "../fetch.js";
+import {
+  fetchReactComponent,
+  fetchBreezeComponent,
+  fetchDocsComponent,
+  fetchFoundation,
+} from "../fetch.js";
 
 export const getReactComponentTool: Tool = {
   name: "get_react_component",
@@ -124,6 +129,51 @@ export const getDocsComponentTool: Tool = {
                 text: `Error fetching design guidelines for '${componentName}': ${
                   error instanceof Error ? error.message : "Unknown error"
                 }\n\nPlease check if the component name is correct (use kebab-case format).`,
+              },
+            ],
+            isError: true,
+          };
+        }
+      },
+    );
+  },
+};
+
+export const getFoundationTool: Tool = {
+  name: "get_foundation",
+  description:
+    "Get detailed documentation for a specific SEED Design foundation topic (color, typography, spacing, iconography, etc.).",
+  exec(server, { name, description }) {
+    server.tool(
+      name,
+      description,
+      {
+        topic: z
+          .string()
+          .describe(
+            "The foundation topic path (e.g., 'spacing', 'color/palette', 'iconography/overview', 'typography/overview')",
+          ),
+      },
+      async ({ topic }) => {
+        try {
+          const content = await fetchFoundation(topic);
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: content,
+              },
+            ],
+          };
+        } catch (error) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: `Error fetching foundation topic '${topic}': ${
+                  error instanceof Error ? error.message : "Unknown error"
+                }\n\nPlease check if the topic path is correct. Use list_foundation to see available topics.`,
               },
             ],
             isError: true,
