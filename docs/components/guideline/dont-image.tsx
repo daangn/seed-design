@@ -18,7 +18,7 @@ export function DontImage({ src, alt, body, className }: DontImageProps) {
         alt={alt}
         width={773}
         height={396}
-        className="w-full object-cover border border-bg-critical-solid rounded-r2"
+        className="w-full object-cover border border-bg-critical-solid rounded-r2 [&_img]:my-0 bg-palette-gray-100 dark:bg-palette-gray-900"
         loading="lazy"
         draggable={false}
       />
