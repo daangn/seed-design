@@ -385,7 +385,7 @@
               "icon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-muted"
+                  "value": "$color.fg.neutral"
                 }
               }
             }

@@ -3062,7 +3062,7 @@
 }
 
 .seed-checkmark__icon--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
-  color: var(--seed-color-fg-neutral-muted);
+  color: var(--seed-color-fg-neutral);
 }
 
 .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {

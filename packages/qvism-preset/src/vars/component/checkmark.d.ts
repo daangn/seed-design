@@ -107,7 +107,7 @@ export declare const vars: {
   "variantGhostToneNeutral": {
     "enabledSelected": {
       "icon": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--seed-color-fg-neutral)"
       }
     },
     "pressedSelected": {

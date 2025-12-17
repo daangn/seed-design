@@ -100,7 +100,7 @@ data:
     variant=ghost,tone=neutral:
       enabled,selected:
         icon:
-          color: $color.fg.neutral-muted
+          color: $color.fg.neutral
       pressed,selected:
         root:
           color: $color.palette.gray-200
