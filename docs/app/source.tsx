@@ -3,53 +3,9 @@ import { getRootageMetadata } from "@/components/rootage";
 import { IconContainer } from "@/components/ui/icon";
 import type { Node, Root } from "fumadocs-core/page-tree";
 import { loader } from "fumadocs-core/source";
-import { execSync } from "node:child_process";
-import path from "node:path";
 
 import { NotificationBadge } from "@seed-design/react";
 import { icons } from "lucide-react";
-
-// Cache for git last modified dates
-let gitDatesCache: Map<string, Date> | null = null;
-
-function getGitLastModifiedDates(): Map<string, Date> {
-  if (gitDatesCache) return gitDatesCache;
-
-  gitDatesCache = new Map();
-
-  try {
-    // Get last modified dates for all files in content directories
-    // Run from the repository root (parent of docs folder)
-    const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
-    const result = execSync(
-      'git log --format="%H %aI" --name-only --diff-filter=ACMR -- "docs/content"',
-      { encoding: "utf-8", maxBuffer: 10 * 1024 * 1024, cwd: repoRoot },
-    );
-
-    const lines = result.split("\n");
-    let currentDate: Date | null = null;
-
-    for (const line of lines) {
-      if (!line.trim()) continue;
-
-      // Check if this is a commit line (hash + ISO date)
-      const commitMatch = line.match(/^[a-f0-9]{40} (.+)$/);
-      if (commitMatch) {
-        currentDate = new Date(commitMatch[1]);
-        continue;
-      }
-
-      // This is a file path - only set if we don't already have a date (first commit = most recent)
-      if (currentDate && line.startsWith("docs/content/") && !gitDatesCache.has(line)) {
-        gitDatesCache.set(line, currentDate);
-      }
-    }
-  } catch (error) {
-    console.warn("Failed to get git last modified dates:", error);
-  }
-
-  return gitDatesCache;
-}
 
 const DeprecatedBadge = () => {
   return (
@@ -81,7 +37,6 @@ function getComponentIdFromUrl(url: string): string | null {
 async function transformPageTreeWithBadges(
   tree: Root,
   sourceLoader: typeof baseSource,
-  contentDir: string,
 ): Promise<Root> {
   try {
     async function transformNode(node: Node): Promise<Node> {
@@ -99,9 +54,8 @@ async function transformPageTreeWithBadges(
         }
 
         // 2. Check updated status (for all pages, only if not deprecated)
-        const gitDates = getGitLastModifiedDates();
-        const filePath = `docs/content/${contentDir}/${page.path}`;
-        const lastModified = gitDates.get(filePath);
+        // Use fumadocs lastModified from page.data.load()
+        const { lastModified } = await page.data.load();
         const isUpdated = !isDeprecated && isRecentlyUpdated(lastModified);
 
         // 3. Render badges
@@ -186,19 +140,19 @@ const baseLynxSource = loader({
 
 // Transform page trees with badges
 async function getTransformedPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseSource.pageTree, baseSource, "docs");
+  return await transformPageTreeWithBadges(baseSource.pageTree, baseSource);
 }
 
 async function getTransformedReactPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseReactSource.pageTree, baseReactSource, "react");
+  return await transformPageTreeWithBadges(baseReactSource.pageTree, baseReactSource);
 }
 
 async function getTransformedBreezePageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseBreezeSource.pageTree, baseBreezeSource, "breeze");
+  return await transformPageTreeWithBadges(baseBreezeSource.pageTree, baseBreezeSource);
 }
 
 async function getTransformedLynxPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseLynxSource.pageTree, baseLynxSource, "lynx");
+  return await transformPageTreeWithBadges(baseLynxSource.pageTree, baseLynxSource);
 }
 
 // Export sources with lazy-loaded transformed page trees
