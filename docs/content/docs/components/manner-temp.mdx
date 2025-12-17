@@ -1,8 +1,49 @@
 ---
 title: Manner Temp & Manner Temp Badge
-description: 사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도 및 매너 정도를 직관적으로 보여줍니다.
+description: 사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.
 coverImageFigmaId: 39:21559
 ---
+
+## Anatomy
+
+<FigmaImage
+  id="66:16625"
+  alt="Manner Temp와 Manner Temp Badge의 Anatomy 이미지"
+/>
+
+Manner Temp 컴포넌트는 사용자의 신뢰 지표를 온도 기반으로 시각화하는 그래픽 UI 요소입니다. 사용자 프로필이나 게시글 상세에서 매너온도를 강조할 때 사용합니다.
+
+Manner Temp Badge는 매너온도를 배지 형태로 간결하게 표시합니다. 공간이 제한적일 때 매너 온도를 시각적으로 전달하기에 적합합니다.
+
+## Properties
+
+### Level
+
+<FigmaImage
+  id="66:16639"
+  alt="Manner Temp의 Level Property - 10단계 레벨로 표시"
+/>
+
+매너온도는 구간에 따라 10단계 레벨로 표시되며, 각 레벨마다 텍스트 색상과 그래픽이 달라집니다. temperature는 실제 값(숫자)을 받으며, 이를 기반으로 레벨/시각 스타일이 자동 계산됩니다.
+
+## Guidelines
+
+### Manner Temp와 Manner Temp Badge의 사용
+
+<FigmaImage id="66:16678" alt="Manner Temp와 Manner Temp Badge 사용 예시" />
+
+Manner Temp는 매너온도를 시각적으로 강조할 때 사용합니다. 게시글 상세의 판매자 정보처럼 매너온도가 중요한 정보일 때 적합합니다.
+
+Manner Temp Badge는 작은 영역에서 매너온도를 간단히 표현할 때 사용합니다. 매너온도 외에 다른 요약 정보도 함께 표시하는 경우 적합합니다.
+
+## Manner Temp V3 변경점
+
+<FigmaImage id="66:16953" alt="Manner Temp V2와 V3 비교" />
+
+- 구현체를 제공합니다.
+- 매너온도의 단계가 6단계에서 10단계로 확대되었습니다.
+- V2에서는 Blue, Green, Orange, Red 등 다양한 컬러를 사용했지만, V3에서는 Gray, Yellow, Orange, Red로 난색 계열 그라데이션을 적용했습니다.
+- 이모지 에셋을 3D로 교체했습니다.
 
 ## Specification & Platform Status
 
