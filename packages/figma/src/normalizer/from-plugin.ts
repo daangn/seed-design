@@ -4,7 +4,6 @@
  * however it could be better to make users can DI later
  */
 
-import type * as FigmaRestSpec from "@figma/rest-api-spec";
 import type {
   NormalizedSceneNode,
   NormalizedFrameNode,
@@ -21,6 +20,8 @@ import type {
   NormalizedVariableAlias,
   NormalizedCornerTrait,
   NormalizedIsLayerTrait,
+  NormalizedSolidPaint,
+  NormalizedPaint,
 } from "./types";
 import { convertTransformToGradientHandles } from "@/utils/figma-gradient";
 
@@ -303,11 +304,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
     };
   }
 
-  async function normalizeSolidPaint(
-    paint: SolidPaint,
-  ): Promise<
-    FigmaRestSpec.SolidPaint & { boundVariables?: { color?: NormalizedVariableAlias } }
-  > {
+  async function normalizeSolidPaint(paint: SolidPaint): Promise<NormalizedSolidPaint> {
     const normalizedBoundVariables = paint.boundVariables?.color
       ? { color: await normalizeVariableAlias(paint.boundVariables.color) }
       : undefined;
@@ -326,7 +323,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
     };
   }
 
-  async function normalizePaint(paint: Paint): Promise<FigmaRestSpec.Paint> {
+  async function normalizePaint(paint: Paint): Promise<NormalizedPaint> {
     switch (paint.type) {
       case "SOLID":
         return normalizeSolidPaint(paint);
@@ -362,7 +359,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
 
   async function normalizePaints(
     fills: readonly Paint[] | PluginAPI["mixed"],
-  ): Promise<FigmaRestSpec.Paint[]> {
+  ): Promise<NormalizedPaint[]> {
     if (fills === figma.mixed) {
       console.warn("Mixed fills are not supported");
 

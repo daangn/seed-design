@@ -22,6 +22,8 @@ import type {
   NormalizedHasGeometryTrait,
   NormalizedHasEffectsTrait,
   NormalizedHasFramePropertiesTrait,
+  NormalizedPaint,
+  NormalizedSolidPaint,
 } from "./types";
 
 export interface RestNormalizerContext {
@@ -96,26 +98,47 @@ export function createRestNormalizer(
   }
 
   /**
-   * Normalize paint boundVariables (convert variable IDs to keys)
+   * Normalize a solid paint (convert variable IDs to keys in boundVariables)
    */
-  function normalizePaints(
-    paints: FigmaRestSpec.Paint[] | undefined,
-  ): FigmaRestSpec.Paint[] {
+  function normalizeSolidPaint(paint: FigmaRestSpec.SolidPaint): NormalizedSolidPaint {
+    const normalizedBoundVariables = paint.boundVariables?.color
+      ? { color: normalizeVariableAlias(paint.boundVariables.color) }
+      : undefined;
+
+    return {
+      type: paint.type,
+      color: paint.color,
+      visible: paint.visible,
+      blendMode: paint.blendMode,
+      opacity: paint.opacity,
+      ...(normalizedBoundVariables && { boundVariables: normalizedBoundVariables }),
+    };
+  }
+
+  /**
+   * Normalize a single paint (convert variable IDs to keys)
+   */
+  function normalizePaint(paint: FigmaRestSpec.Paint): NormalizedPaint {
+    switch (paint.type) {
+      case "SOLID":
+        return normalizeSolidPaint(paint);
+      case "IMAGE":
+      case "GRADIENT_LINEAR":
+      case "GRADIENT_RADIAL":
+      case "GRADIENT_ANGULAR":
+      case "GRADIENT_DIAMOND":
+        return paint;
+      default:
+        throw new Error(`Unimplemented paint type: ${paint.type}`);
+    }
+  }
+
+  /**
+   * Normalize paints array (convert variable IDs to keys)
+   */
+  function normalizePaints(paints: FigmaRestSpec.Paint[] | undefined): NormalizedPaint[] {
     if (!paints) return [];
-
-    return paints.map((paint) => {
-      if (paint.type !== "SOLID") return paint;
-
-      const solidPaint = paint as FigmaRestSpec.SolidPaint;
-      if (!solidPaint.boundVariables?.color) return paint;
-
-      return {
-        ...solidPaint,
-        boundVariables: {
-          color: normalizeVariableAlias(solidPaint.boundVariables.color),
-        },
-      };
-    });
+    return paints.map(normalizePaint);
   }
 
   /**

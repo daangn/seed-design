@@ -45,6 +45,7 @@ export function createFrameTransformer({
         ...propsConverters.selfLayout(node),
         ...propsConverters.frameFill(node),
         ...propsConverters.stroke(node),
+        ...propsConverters.shadow(node),
       };
 
       const isStretch = props.align === undefined || props.align === "stretch";

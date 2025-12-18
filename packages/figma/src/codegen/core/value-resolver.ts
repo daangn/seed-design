@@ -1,6 +1,7 @@
 import type { StyleService, VariableValueResolved } from "@/entities";
 import type {
   NormalizedCornerTrait,
+  NormalizedHasEffectsTrait,
   NormalizedHasFramePropertiesTrait,
   NormalizedHasGeometryTrait,
   NormalizedHasLayoutTrait,
@@ -84,10 +85,14 @@ export interface ValueResolver<TColor, TGradient, TDimension, TFontDimension, TF
     lineHeight: (
       node: NormalizedTypePropertiesTrait & NormalizedIsLayerTrait,
     ) => string | TFontDimension | undefined;
+    boxShadow: (node: NormalizedHasEffectsTrait & NormalizedIsLayerTrait) => string | undefined;
   };
   getTextStyleValue: (
     node: NormalizedTypePropertiesTrait & NormalizedIsLayerTrait,
   ) => string | undefined; // TODO: we might turn this into a generic; not sure yet
+  getEffectStyleValue: (
+    node: NormalizedHasEffectsTrait & NormalizedIsLayerTrait,
+  ) => string | undefined;
 }
 
 export interface ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension, TFontWeight> {
@@ -95,12 +100,20 @@ export interface ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension
   variableNameFormatter: (props: { slug: string[] }) => string;
   styleService: StyleService;
   textStyleNameFormatter: (props: { slug: string[] }) => string;
+  effectStyleNameFormatter: (props: { slug: string[] }) => string;
   fillStyleResolver: (props: { slug: string[] }) => TGradient | undefined;
   rawValueFormatters: {
     color: (value: RGBA) => string | TColor;
     dimension: (value: number) => string | TDimension;
     fontDimension: (value: number) => string | TFontDimension;
     fontWeight: (value: number) => string | TFontWeight;
+    boxShadow: (value: {
+      type: "DROP_SHADOW" | "INNER_SHADOW";
+      color: RGBA;
+      offset: { x: number; y: number };
+      radius: number;
+      spread?: number;
+    }) => string;
   };
   shouldInferVariableName: boolean;
 }
@@ -110,6 +123,7 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
   variableNameFormatter,
   styleService,
   textStyleNameFormatter,
+  effectStyleNameFormatter,
   fillStyleResolver,
   rawValueFormatters,
   shouldInferVariableName,
@@ -323,6 +337,28 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
         node.style.lineHeightPx,
         "LINE_HEIGHT",
       ),
+    boxShadow: (node) => {
+      if (!node.effects || node.effects.length === 0) {
+        return undefined;
+      }
+
+      // Check if any effect has a color variable binding
+      const firstEffect = node.effects[0];
+      const colorKey = firstEffect?.boundVariables?.color?.key;
+
+      if (colorKey) {
+        // If color is variable-bound, return the variable name
+        return getVariableName(colorKey);
+      }
+
+      // Fall back to raw shadow value
+      return firstEffect
+        ? rawValueFormatters.boxShadow({
+            ...firstEffect,
+            type: firstEffect.type ?? "DROP_SHADOW",
+          })
+        : undefined;
+    },
   };
 
   function getTextStyleValue(node: NormalizedTypePropertiesTrait & NormalizedIsLayerTrait) {
@@ -337,8 +373,21 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
     return textStyleNameFormatter({ slug });
   }
 
+  function getEffectStyleValue(node: NormalizedHasEffectsTrait & NormalizedIsLayerTrait) {
+    if (!node.effectStyleKey) return undefined;
+
+    const slug = styleService.getSlug(node.effectStyleKey);
+
+    if (!slug) {
+      return undefined;
+    }
+
+    return effectStyleNameFormatter({ slug });
+  }
+
   return {
     getFormattedValue,
     getTextStyleValue,
+    getEffectStyleValue,
   };
 }

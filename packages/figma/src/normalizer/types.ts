@@ -42,10 +42,23 @@ export type NormalizedHasLayoutTrait = Pick<
   | "maxWidth"
 >;
 
-export type NormalizedHasGeometryTrait = Pick<
-  FigmaRestSpec.HasGeometryTrait,
-  "fills" | "strokes" | "strokeWeight" | "styles"
+export type NormalizedSolidPaint = Omit<FigmaRestSpec.SolidPaint, "boundVariables"> & {
+  boundVariables?: {
+    color?: NormalizedVariableAlias;
+  };
+};
+
+export type NormalizedPaint =
+  | NormalizedSolidPaint
+  | FigmaRestSpec.GradientPaint
+  | FigmaRestSpec.ImagePaint;
+
+export type NormalizedHasGeometryTrait = Omit<
+  Pick<FigmaRestSpec.HasGeometryTrait, "fills" | "strokes" | "strokeWeight" | "styles">,
+  "fills" | "strokes"
 > & {
+  fills: NormalizedPaint[];
+  strokes: NormalizedPaint[];
   fillStyleKey?: string;
 };
 

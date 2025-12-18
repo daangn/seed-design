@@ -2,6 +2,7 @@ import { createPropsConverter, definePropsConverter, type PropsConverter } from 
 import type {
   NormalizedCornerTrait,
   NormalizedHasChildrenTrait,
+  NormalizedHasEffectsTrait,
   NormalizedHasFramePropertiesTrait,
   NormalizedHasGeometryTrait,
   NormalizedHasLayoutTrait,
@@ -18,6 +19,7 @@ export interface PropsConverters {
   shapeFill: PropsConverter<FillTrait, FillProps>;
   textFill: PropsConverter<FillTrait, FillProps>;
   stroke: PropsConverter<StrokeTrait, StrokeProps>;
+  shadow: PropsConverter<ShadowTrait, ShadowProps>;
   typeStyle: PropsConverter<TypeStyleTrait, TypeStyleProps>;
 }
 
@@ -33,6 +35,8 @@ export type RadiusTrait = NormalizedCornerTrait & NormalizedIsLayerTrait;
 export type FillTrait = NormalizedIsLayerTrait & NormalizedHasGeometryTrait;
 
 export type StrokeTrait = NormalizedIsLayerTrait & NormalizedHasGeometryTrait;
+
+export type ShadowTrait = NormalizedIsLayerTrait & NormalizedHasEffectsTrait;
 
 export type TypeStyleTrait = NormalizedTypePropertiesTrait & NormalizedIsLayerTrait;
 
@@ -228,6 +232,29 @@ export function createTypeStylePropsConverter(
       fontWeight: valueResolver.getFormattedValue.fontWeight(node),
       lineHeight: valueResolver.getFormattedValue.lineHeight(node),
       maxLines,
+    };
+  });
+}
+
+export interface ShadowProps {
+  boxShadowStyle?: string;
+  boxShadow?: string;
+}
+
+export function createShadowPropsConverter(
+  valueResolver: FigmaValueResolver,
+): PropsConverter<ShadowTrait, ShadowProps> {
+  return definePropsConverter((node: ShadowTrait) => {
+    const effectStyleName = valueResolver.getEffectStyleValue(node);
+    if (effectStyleName) {
+      return {
+        boxShadowStyle: effectStyleName,
+      };
+    }
+
+    const boxShadow = valueResolver.getFormattedValue.boxShadow(node);
+    return {
+      boxShadow,
     };
   });
 }

@@ -1,9 +1,8 @@
-import type { SolidPaint } from "@figma/rest-api-spec";
 import type {
   NormalizedHasGeometryTrait,
   NormalizedInstanceNode,
-  NormalizedIsLayerTrait,
   NormalizedSceneNode,
+  NormalizedSolidPaint,
 } from "../normalizer";
 
 export function traverseNode(
@@ -56,7 +55,7 @@ export function findAllInstances<T>({ node, key }: { node: NormalizedSceneNode; 
 
 export function getFirstSolidFill(node: NormalizedHasGeometryTrait) {
   const fills = node.fills.filter(
-    (fill): fill is SolidPaint =>
+    (fill): fill is NormalizedSolidPaint =>
       fill.type === "SOLID" && (!("visible" in fill) || fill.visible === true),
   );
 
@@ -67,14 +66,16 @@ export function getFirstSolidFill(node: NormalizedHasGeometryTrait) {
   return fills[0];
 }
 
-export function getFirstFillVariable(node: NormalizedIsLayerTrait) {
-  return node.boundVariables?.fills?.[0];
+export function getFirstFillVariable(node: NormalizedHasGeometryTrait) {
+  const fill = getFirstSolidFill(node);
+  // Access paint-level boundVariables.color (normalized to have key instead of id)
+  return fill?.boundVariables?.color;
 }
 
 export function getFirstStroke(node: NormalizedHasGeometryTrait) {
   const strokes =
     node.strokes?.filter(
-      (stroke): stroke is SolidPaint =>
+      (stroke): stroke is NormalizedSolidPaint =>
         stroke.type === "SOLID" && (!("visible" in stroke) || stroke.visible === true),
     ) ?? [];
 
@@ -85,6 +86,8 @@ export function getFirstStroke(node: NormalizedHasGeometryTrait) {
   return strokes[0];
 }
 
-export function getFirstStrokeVariable(node: NormalizedIsLayerTrait) {
-  return node.boundVariables?.strokes?.[0];
+export function getFirstStrokeVariable(node: NormalizedHasGeometryTrait) {
+  const stroke = getFirstStroke(node);
+  // Access paint-level boundVariables.color (normalized to have key instead of id)
+  return stroke?.boundVariables?.color;
 }
