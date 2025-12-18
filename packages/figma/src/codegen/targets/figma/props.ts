@@ -148,7 +148,7 @@ export function createRadiusPropsConverter(valueResolver: FigmaValueResolver) {
 }
 
 export interface FillProps {
-  fill?: string;
+  fill?: string | { value: string; direction?: string };
 }
 
 export function createFrameFillPropsConverter(valueResolver: FigmaValueResolver) {
