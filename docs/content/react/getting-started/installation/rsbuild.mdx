@@ -1,6 +1,6 @@
 ---
-title: Vite
-description: Vite 프로젝트에서 Seed Design을 설치하고 사용하는 방법을 알아봅니다.
+title: Rsbuild
+description: Rsbuild 프로젝트에서 Seed Design을 설치하고 사용하는 방법을 알아봅니다.
 ---
 
 <Steps>
@@ -17,6 +17,7 @@ description: Vite 프로젝트에서 Seed Design을 설치하고 사용하는 �
 </Step>
 
 <Step>
+
 ### base.css import하기
 
 ```ts title="index.tsx"
@@ -61,6 +62,7 @@ npx @seed-design/cli@latest init
 </Tab>
 
 <Tab value="직접 추가">
+
 아래 파일을 프로젝트 루트에 생성해주세요.
 
 ```json title="seed-design.json"
@@ -81,13 +83,14 @@ npx @seed-design/cli@latest init
 ### tsconfig.json 설정하기
 
 <Callout>
-  위에서 설정한 [seed-design.json
-  path](/react/getting-started/cli/configuration#path)의 경로와 동일해야 해요.
+
+위에서 설정한 [seed-design.json path](/react/getting-started/cli/configuration#path)의 경로와 동일해야 해요.
+
 </Callout>
 
 </Step>
 
-```json title="tsconfig.app.json"
+```json title="tsconfig.json"
 {
   "compilerOptions": {
     // ... your options
@@ -104,10 +107,10 @@ npx @seed-design/cli@latest init
 
 <Step>
 
-### Vite config 수정하기
+### Rsbuild config 수정하기
 
 ```package-install
-npm install -D @seed-design/vite-plugin vite-tsconfig-paths
+npm install -D @seed-design/rsbuild-plugin
 ```
 
 <Callout>
@@ -116,17 +119,15 @@ npm install -D @seed-design/vite-plugin vite-tsconfig-paths
 
 </Callout>
 
-```ts title="vite.config.ts"
-import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
-import { seedDesignPlugin } from "@seed-design/vite-plugin"; // [!code highlight]
-import tsconfigPaths from "vite-tsconfig-paths"; // [!code highlight]
+```ts title="rsbuild.config.ts"
+import { defineConfig } from "@rsbuild/core";
+import { pluginReact } from "@rsbuild/plugin-react";
+import { seedDesignPlugin } from "@seed-design/rsbuild-plugin"; // [!code highlight]
 
 export default defineConfig({
   plugins: [
-    react(),
+    pluginReact(),
     seedDesignPlugin(), // [!code highlight]
-    tsconfigPaths(), // [!code highlight]
   ],
 });
 ```
