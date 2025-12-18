@@ -69,11 +69,9 @@ export async function fetchReactComponentList(): Promise<ComponentInfo[]> {
   const components: ComponentInfo[] = [];
 
   for (const line of lines) {
-    // URL 패턴에서만 추출 - 일반 텍스트 무시
     const match = line.match(/llms-components\/([a-z-]+)\.txt/);
     if (match) {
       const name = match[1];
-      // 마크다운 링크에서 타이틀 추출 시도
       const titleMatch = line.match(/\[([^\]]+)\]/);
       const title = titleMatch
         ? titleMatch[1]
@@ -122,11 +120,9 @@ export async function fetchBreezeComponentList(): Promise<ComponentInfo[]> {
   const components: ComponentInfo[] = [];
 
   for (const line of lines) {
-    // URL 패턴에서만 추출 - 일반 텍스트 무시
     const match = line.match(/llms\/components\/([a-z-]+)\.txt/);
     if (match) {
       const name = match[1];
-      // 마크다운 링크에서 타이틀 추출 시도
       const titleMatch = line.match(/\[([^\]]+)\]/);
       const title = titleMatch
         ? titleMatch[1]
