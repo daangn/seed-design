@@ -1,5 +1,11 @@
 # @seed-design/docs-mcp
 
+## 0.2.0
+
+### Minor Changes
+
+- f385599: `list_foundation`, `get_foundation`, `list_docs_components`, `get_docs_component` tools 추가
+
 ## 0.1.0
 
 ### Minor Changes
