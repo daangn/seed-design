@@ -8,6 +8,13 @@ export const DOCS_ENDPOINTS = {
   REACT_CHANGELOG: "/react/llms-changelog.txt",
   REACT_FULL: "/react/llms-full.txt",
 
+  // Docs documentation endpoints (Design Guidelines)
+  DOCS_OVERVIEW: "/docs/llms.txt",
+  DOCS_COMPONENTS_LIST: "/docs/llms-components.txt",
+  DOCS_COMPONENTS: "/docs/llms-components",
+  DOCS_FOUNDATION_LIST: "/docs/llms-foundation.txt",
+  DOCS_FOUNDATION: "/docs/llms-foundation",
+
   // Sitemap
   SITEMAP: "/sitemap.xml",
 } as const;
