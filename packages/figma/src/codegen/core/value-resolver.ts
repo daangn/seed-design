@@ -243,83 +243,83 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
   >["getFormattedValue"] = {
     width: (node) =>
       processDimension(
-        node.boundVariables?.size?.x?.id,
+        node.boundVariables?.size?.x?.key,
         node.absoluteBoundingBox?.width,
         "WIDTH_HEIGHT",
       ),
     height: (node) =>
       processDimension(
-        node.boundVariables?.size?.y?.id,
+        node.boundVariables?.size?.y?.key,
         node.absoluteBoundingBox?.height,
         "WIDTH_HEIGHT",
       ),
     minWidth: (node) =>
-      processDimension(node.boundVariables?.minWidth?.id, node.minWidth, "WIDTH_HEIGHT"),
+      processDimension(node.boundVariables?.minWidth?.key, node.minWidth, "WIDTH_HEIGHT"),
     minHeight: (node) =>
-      processDimension(node.boundVariables?.minHeight?.id, node.minHeight, "WIDTH_HEIGHT"),
+      processDimension(node.boundVariables?.minHeight?.key, node.minHeight, "WIDTH_HEIGHT"),
     maxWidth: (node) =>
-      processDimension(node.boundVariables?.maxWidth?.id, node.maxWidth, "WIDTH_HEIGHT"),
+      processDimension(node.boundVariables?.maxWidth?.key, node.maxWidth, "WIDTH_HEIGHT"),
     maxHeight: (node) =>
-      processDimension(node.boundVariables?.maxHeight?.id, node.maxHeight, "WIDTH_HEIGHT"),
+      processDimension(node.boundVariables?.maxHeight?.key, node.maxHeight, "WIDTH_HEIGHT"),
     paddingLeft: (node) =>
-      processDimension(node.boundVariables?.paddingLeft?.id, node.paddingLeft, "GAP"),
+      processDimension(node.boundVariables?.paddingLeft?.key, node.paddingLeft, "GAP"),
     paddingRight: (node) =>
-      processDimension(node.boundVariables?.paddingRight?.id, node.paddingRight, "GAP"),
+      processDimension(node.boundVariables?.paddingRight?.key, node.paddingRight, "GAP"),
     paddingTop: (node) =>
-      processDimension(node.boundVariables?.paddingTop?.id, node.paddingTop, "GAP"),
+      processDimension(node.boundVariables?.paddingTop?.key, node.paddingTop, "GAP"),
     paddingBottom: (node) =>
-      processDimension(node.boundVariables?.paddingBottom?.id, node.paddingBottom, "GAP"),
+      processDimension(node.boundVariables?.paddingBottom?.key, node.paddingBottom, "GAP"),
     itemSpacing: (node) =>
-      processDimension(node.boundVariables?.itemSpacing?.id, node.itemSpacing, "GAP"),
+      processDimension(node.boundVariables?.itemSpacing?.key, node.itemSpacing, "GAP"),
     frameFill: (node) =>
       node.fillStyleKey
         ? processFillStyle(node.fillStyleKey)
         : processColor(
-            getFirstFillVariable(node)?.id,
+            getFirstFillVariable(node)?.key,
             getFirstSolidFill(node)?.color,
             "FRAME_FILL",
           ),
     shapeFill: (node) =>
-      processColor(getFirstFillVariable(node)?.id, getFirstSolidFill(node)?.color, "SHAPE_FILL"),
+      processColor(getFirstFillVariable(node)?.key, getFirstSolidFill(node)?.color, "SHAPE_FILL"),
     textFill: (node) =>
-      processColor(getFirstFillVariable(node)?.id, getFirstSolidFill(node)?.color, "TEXT_FILL"),
+      processColor(getFirstFillVariable(node)?.key, getFirstSolidFill(node)?.color, "TEXT_FILL"),
     stroke: (node) =>
-      processColor(getFirstStrokeVariable(node)?.id, getFirstStroke(node)?.color, "STROKE_COLOR"),
+      processColor(getFirstStrokeVariable(node)?.key, getFirstStroke(node)?.color, "STROKE_COLOR"),
     topLeftRadius: (node) =>
       processDimension(
-        node.boundVariables?.topLeftRadius?.id,
+        node.boundVariables?.topLeftRadius?.key,
         node.rectangleCornerRadii?.[0] ?? node.cornerRadius,
         "CORNER_RADIUS",
       ),
     topRightRadius: (node) =>
       processDimension(
-        node.boundVariables?.topRightRadius?.id,
+        node.boundVariables?.topRightRadius?.key,
         node.rectangleCornerRadii?.[1] ?? node.cornerRadius,
         "CORNER_RADIUS",
       ),
     bottomLeftRadius: (node) =>
       processDimension(
-        node.boundVariables?.bottomLeftRadius?.id,
+        node.boundVariables?.bottomLeftRadius?.key,
         node.rectangleCornerRadii?.[2] ?? node.cornerRadius,
         "CORNER_RADIUS",
       ),
     bottomRightRadius: (node) =>
       processDimension(
-        node.boundVariables?.bottomRightRadius?.id,
+        node.boundVariables?.bottomRightRadius?.key,
         node.rectangleCornerRadii?.[3] ?? node.cornerRadius,
         "CORNER_RADIUS",
       ),
     fontSize: (node) =>
       processFontDimension(
-        node.boundVariables?.fontSize?.[0]?.id,
+        node.boundVariables?.fontSize?.[0]?.key,
         node.style.fontSize,
         "FONT_SIZE",
       ),
     fontWeight: (node) =>
-      processFontWeight(node.boundVariables?.fontWeight?.[0]?.id, node.style.fontWeight),
+      processFontWeight(node.boundVariables?.fontWeight?.[0]?.key, node.style.fontWeight),
     lineHeight: (node) =>
       processFontDimension(
-        node.boundVariables?.lineHeight?.[0]?.id,
+        node.boundVariables?.lineHeight?.[0]?.key,
         node.style.lineHeightPx,
         "LINE_HEIGHT",
       ),
