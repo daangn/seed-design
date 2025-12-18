@@ -6,6 +6,7 @@
 @source ".";
 @source "../components";
 @source "../content";
+@source "../examples";
 @source "../sanity";
 @source "../../node_modules/fumadocs-ui/dist/**/*.js";
 

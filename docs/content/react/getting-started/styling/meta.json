@@ -1,0 +1,5 @@
+{
+  "title": "Styling",
+  "icon": "Palette",
+  "pages": ["theming", "tailwind-css"]
+}
