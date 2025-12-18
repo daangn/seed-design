@@ -157,9 +157,9 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       minWidth: node.minWidth ?? undefined,
       maxHeight: node.maxHeight ?? undefined,
       maxWidth: node.maxWidth ?? undefined,
-      fills: normalizePaints(node.fills),
+      fills: await normalizePaints(node.fills),
       ...(fillStyleKey ? { fillStyleKey } : {}),
-      strokes: normalizePaints(node.strokes),
+      strokes: await normalizePaints(node.strokes),
       strokeWeight: node.strokeWeight === figma.mixed ? undefined : node.strokeWeight,
       children: await normalizeNodes(node.children),
     };
@@ -303,9 +303,15 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
     };
   }
 
-  function normalizeSolidPaint(
+  async function normalizeSolidPaint(
     paint: SolidPaint,
-  ): FigmaRestSpec.SolidPaint & { boundVariables?: SolidPaint["boundVariables"] } {
+  ): Promise<
+    FigmaRestSpec.SolidPaint & { boundVariables?: { color?: NormalizedVariableAlias } }
+  > {
+    const normalizedBoundVariables = paint.boundVariables?.color
+      ? { color: await normalizeVariableAlias(paint.boundVariables.color) }
+      : undefined;
+
     return {
       type: paint.type,
       color: {
@@ -316,11 +322,11 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       },
       visible: paint.visible,
       blendMode: paint.blendMode ?? "NORMAL",
-      boundVariables: paint.boundVariables,
+      ...(normalizedBoundVariables && { boundVariables: normalizedBoundVariables }),
     };
   }
 
-  function normalizePaint(paint: Paint): FigmaRestSpec.Paint {
+  async function normalizePaint(paint: Paint): Promise<FigmaRestSpec.Paint> {
     switch (paint.type) {
       case "SOLID":
         return normalizeSolidPaint(paint);
@@ -354,14 +360,16 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
     }
   }
 
-  function normalizePaints(fills: readonly Paint[] | PluginAPI["mixed"]): FigmaRestSpec.Paint[] {
+  async function normalizePaints(
+    fills: readonly Paint[] | PluginAPI["mixed"],
+  ): Promise<FigmaRestSpec.Paint[]> {
     if (fills === figma.mixed) {
       console.warn("Mixed fills are not supported");
 
       return [];
     }
 
-    return fills.map(normalizePaint);
+    return Promise.all(fills.map(normalizePaint));
   }
 
   function normalizeRadiusProps(
@@ -417,9 +425,9 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       absoluteBoundingBox: node.absoluteBoundingBox,
       relativeTransform: node.relativeTransform,
       layoutPositioning: node.layoutPositioning,
-      fills: normalizePaints(node.fills),
+      fills: await normalizePaints(node.fills),
       ...(fillStyleKey ? { fillStyleKey } : {}),
-      strokes: normalizePaints(node.strokes),
+      strokes: await normalizePaints(node.strokes),
       strokeWeight: node.strokeWeight === figma.mixed ? undefined : node.strokeWeight,
       minHeight: node.minHeight ?? undefined,
       minWidth: node.minWidth ?? undefined,

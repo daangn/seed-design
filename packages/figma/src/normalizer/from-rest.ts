@@ -96,6 +96,29 @@ export function createRestNormalizer(
   }
 
   /**
+   * Normalize paint boundVariables (convert variable IDs to keys)
+   */
+  function normalizePaints(
+    paints: FigmaRestSpec.Paint[] | undefined,
+  ): FigmaRestSpec.Paint[] {
+    if (!paints) return [];
+
+    return paints.map((paint) => {
+      if (paint.type !== "SOLID") return paint;
+
+      const solidPaint = paint as FigmaRestSpec.SolidPaint;
+      if (!solidPaint.boundVariables?.color) return paint;
+
+      return {
+        ...solidPaint,
+        boundVariables: {
+          color: normalizeVariableAlias(solidPaint.boundVariables.color),
+        },
+      };
+    });
+  }
+
+  /**
    * Extract corner radius properties from a node.
    */
   function normalizeRadiusProps(
@@ -143,9 +166,9 @@ export function createRestNormalizer(
       minWidth: node.minWidth,
       maxHeight: node.maxHeight,
       maxWidth: node.maxWidth,
-      fills: node.fills,
+      fills: normalizePaints(node.fills),
       fillStyleKey: node.styles?.["fill"] ? ctx.styles[node.styles["fill"]]?.key : undefined,
-      strokes: node.strokes,
+      strokes: normalizePaints(node.strokes),
       strokeWeight: node.strokeWeight,
       effects: normalizeEffects(node.effects),
       effectStyleKey: node.styles?.["effect"] ? ctx.styles[node.styles["effect"]]?.key : undefined,
@@ -318,9 +341,9 @@ export function createRestNormalizer(
       minWidth: node.minWidth,
       maxHeight: node.maxHeight,
       maxWidth: node.maxWidth,
-      fills: node.fills,
+      fills: normalizePaints(node.fills),
       fillStyleKey: node.styles?.["fill"] ? ctx.styles[node.styles["fill"]]?.key : undefined,
-      strokes: node.strokes,
+      strokes: normalizePaints(node.strokes),
       strokeWeight: node.strokeWeight,
       children: normalizeNodes(node.children),
     };
