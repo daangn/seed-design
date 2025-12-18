@@ -18,7 +18,7 @@ export const createResultSectionHandler = (ctx: ComponentHandlerDeps) => {
   const ghostButtonHandler = createActionButtonGhostHandler(ctx);
 
   return defineComponentHandler<ResultSectionProperties>(
-    metadata.templateResultSection.key,
+    metadata.resultSection.key,
     (node, traverse) => {
       const props = node.componentProperties;
 
