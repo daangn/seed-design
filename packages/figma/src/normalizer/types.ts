@@ -43,9 +43,7 @@ export type NormalizedHasLayoutTrait = Pick<
 >;
 
 export type NormalizedSolidPaint = Omit<FigmaRestSpec.SolidPaint, "boundVariables"> & {
-  boundVariables?: {
-    color?: NormalizedVariableAlias;
-  };
+  boundVariables?: ReplaceVariableAliasIdWithKey<FigmaRestSpec.SolidPaint["boundVariables"]>;
 };
 
 export type NormalizedPaint =
@@ -54,7 +52,7 @@ export type NormalizedPaint =
   | FigmaRestSpec.ImagePaint;
 
 export type NormalizedHasGeometryTrait = Omit<
-  Pick<FigmaRestSpec.HasGeometryTrait, "fills" | "strokes" | "strokeWeight" | "styles">,
+  Pick<FigmaRestSpec.HasGeometryTrait, "fills" | "strokes" | "strokeWeight">,
   "fills" | "strokes"
 > & {
   fills: NormalizedPaint[];
@@ -106,7 +104,10 @@ export interface NormalizedTextSegment {
     italic?: boolean;
     textDecoration?: string;
     letterSpacing?: number;
-    lineHeight?: number | { unit: string; value: number };
+    /**
+     * in pixels
+     */
+    lineHeight?: number;
   };
 }
 
@@ -179,7 +180,8 @@ export interface NormalizedBooleanOperationNode
   extends NormalizedIsLayerTrait,
     NormalizedHasChildrenTrait,
     NormalizedHasLayoutTrait,
-    NormalizedHasGeometryTrait {
+    NormalizedHasGeometryTrait,
+    NormalizedHasEffectsTrait {
   type: FigmaRestSpec.BooleanOperationNode["type"];
 }
 

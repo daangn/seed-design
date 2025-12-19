@@ -3,6 +3,12 @@
  * so we cannot use the Plugin API types directly e.g. getNodeByIdAsync
  */
 
+/**
+ * NOTE: types of MinimalFillsTrait["styles"] can be found here:
+ * https://developers.figma.com/docs/rest-api/component-types/#style-type
+ * Record<"text" | "fill" | "stroke" | "effect" | "grid", string>
+ */
+
 import type * as FigmaRestSpec from "@figma/rest-api-spec";
 import type {
   NormalizedSceneNode,
@@ -18,18 +24,28 @@ import type {
   NormalizedVariableAlias,
   NormalizedIsLayerTrait,
   NormalizedCornerTrait,
-  NormalizedHasLayoutTrait,
-  NormalizedHasGeometryTrait,
-  NormalizedHasEffectsTrait,
   NormalizedHasFramePropertiesTrait,
   NormalizedPaint,
   NormalizedSolidPaint,
+  NormalizedDefaultShapeTrait,
 } from "./types";
 
 export interface RestNormalizerContext {
+  /**
+   * A map of style **ID** to style data
+   */
   styles: Record<string, FigmaRestSpec.Style>;
+  /**
+   * A map of component **ID** to component data
+   */
   components: Record<string, FigmaRestSpec.Component>;
+  /**
+   * A map of component set **ID** to component set data
+   */
   componentSets: Record<string, FigmaRestSpec.ComponentSet>;
+  /**
+   * A map of variable **ID** to variable data
+   */
   variables: Record<string, { key: string }>;
 }
 
@@ -69,19 +85,13 @@ export function createRestNormalizer(
       "minWidth",
     ];
 
-    const normalizeAlias = (
-      alias: FigmaRestSpec.VariableAlias | undefined,
-    ): NormalizedVariableAlias | undefined => {
-      return alias ? normalizeVariableAlias(alias) : undefined;
-    };
-
     const entries = Object.entries(rest)
       .filter(([key, value]) => value && needsResolution.includes(key))
       .map(([key, value]) => {
         if (Array.isArray(value)) {
           return [key, value.map(normalizeVariableAlias)];
         }
-        return [key, normalizeAlias(value as FigmaRestSpec.VariableAlias)];
+        return [key, normalizeVariableAlias(value as FigmaRestSpec.VariableAlias)];
       });
 
     const resolved = Object.fromEntries(entries);
@@ -90,34 +100,28 @@ export function createRestNormalizer(
       ...resolved,
       ...(size && {
         size: {
-          x: normalizeAlias(size.x),
-          y: normalizeAlias(size.y),
+          ...(size.x && { x: normalizeVariableAlias(size.x) }),
+          ...(size.y && { y: normalizeVariableAlias(size.y) }),
         },
       }),
     };
   }
 
-  /**
-   * Normalize a solid paint (convert variable IDs to keys in boundVariables)
-   */
   function normalizeSolidPaint(paint: FigmaRestSpec.SolidPaint): NormalizedSolidPaint {
-    const normalizedBoundVariables = paint.boundVariables?.color
-      ? { color: normalizeVariableAlias(paint.boundVariables.color) }
-      : undefined;
-
     return {
       type: paint.type,
       color: paint.color,
       visible: paint.visible,
       blendMode: paint.blendMode,
       opacity: paint.opacity,
-      ...(normalizedBoundVariables && { boundVariables: normalizedBoundVariables }),
+      ...(paint.boundVariables?.color && {
+        boundVariables: {
+          color: normalizeVariableAlias(paint.boundVariables.color),
+        },
+      }),
     };
   }
 
-  /**
-   * Normalize a single paint (convert variable IDs to keys)
-   */
   function normalizePaint(paint: FigmaRestSpec.Paint): NormalizedPaint {
     switch (paint.type) {
       case "SOLID":
@@ -133,29 +137,22 @@ export function createRestNormalizer(
     }
   }
 
-  /**
-   * Normalize paints array (convert variable IDs to keys)
-   */
   function normalizePaints(paints: FigmaRestSpec.Paint[] | undefined): NormalizedPaint[] {
     if (!paints) return [];
+
     return paints.map(normalizePaint);
   }
 
-  /**
-   * Extract corner radius properties from a node.
-   */
-  function normalizeRadiusProps(
-    node: Pick<FigmaRestSpec.RectangleNode, "cornerRadius" | "rectangleCornerRadii">,
-  ): NormalizedCornerTrait {
-    return {
-      cornerRadius: node.cornerRadius,
-      rectangleCornerRadii: node.rectangleCornerRadii,
-    };
+  function normalizeRadiusProps({
+    cornerRadius,
+    rectangleCornerRadii,
+  }: Pick<
+    FigmaRestSpec.RectangleNode,
+    "cornerRadius" | "rectangleCornerRadii"
+  >): NormalizedCornerTrait {
+    return { cornerRadius, rectangleCornerRadii };
   }
 
-  /**
-   * Extract shape properties: layout, geometry, and effects.
-   */
   function normalizeShapeProps(
     node: Pick<
       FigmaRestSpec.FrameNode,
@@ -176,7 +173,7 @@ export function createRestNormalizer(
       | "maxWidth"
       | "effects"
     >,
-  ): NormalizedHasLayoutTrait & NormalizedHasGeometryTrait & NormalizedHasEffectsTrait {
+  ): Omit<NormalizedDefaultShapeTrait, keyof NormalizedIsLayerTrait> {
     return {
       layoutGrow: node.layoutGrow,
       layoutAlign: node.layoutAlign,
@@ -198,9 +195,6 @@ export function createRestNormalizer(
     };
   }
 
-  /**
-   * Extract auto-layout properties for frame-like nodes.
-   */
   function normalizeAutolayoutProps(
     node: Pick<
       FigmaRestSpec.FrameNode,
@@ -274,26 +268,57 @@ export function createRestNormalizer(
 
   function normalizeFrameNode(node: FigmaRestSpec.FrameNode): NormalizedFrameNode {
     return {
+      // NormalizedIsLayerTrait
       type: node.type,
       id: node.id,
       name: node.name,
       boundVariables: normalizeBoundVariables(node.boundVariables),
-      ...normalizeRadiusProps(node),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait, NormalizedHasFramePropertiesTrait
       ...normalizeShapeProps(node),
+
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasFramePropertiesTrait
       ...normalizeAutolayoutProps(node),
+
+      // NormalizedHasChildrenTrait
+      children: normalizeNodes(node.children),
+    };
+  }
+
+  function normalizeComponentNode(node: FigmaRestSpec.ComponentNode): NormalizedComponentNode {
+    return {
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: normalizeBoundVariables(node.boundVariables),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
+      ...normalizeShapeProps(node),
+
+      // NormalizedHasCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasFramePropertiesTrait
+      ...normalizeAutolayoutProps(node),
+
+      // NormalizedHasChildrenTrait
       children: normalizeNodes(node.children),
     };
   }
 
   function normalizeGroupNode(node: FigmaRestSpec.GroupNode): NormalizedFrameNode {
     return {
+      // NormalizedIsLayerTrait
       type: "FRAME",
       id: node.id,
       name: node.name,
       boundVariables: normalizeBoundVariables(node.boundVariables),
-      cornerRadius: undefined,
-      rectangleCornerRadii: undefined,
-      // Layout properties from the node
+
+      // NormalizedHasLayoutTrait
       layoutGrow: node.layoutGrow,
       layoutAlign: node.layoutAlign,
       layoutSizingHorizontal: node.layoutSizingHorizontal,
@@ -301,9 +326,26 @@ export function createRestNormalizer(
       absoluteBoundingBox: node.absoluteBoundingBox,
       relativeTransform: node.relativeTransform,
       layoutPositioning: node.layoutPositioning,
+      minHeight: node.minHeight,
+      minWidth: node.minWidth,
+      maxHeight: node.maxHeight,
+      maxWidth: node.maxWidth,
+
+      // NormalizedHasGeometryTrait
       fills: [],
+      fillStyleKey: undefined,
       strokes: [],
+      strokeWeight: undefined,
+
+      // NormalizedHasEffectsTrait
       effects: [],
+      effectStyleKey: undefined,
+
+      // NormalizedCornerTrait
+      cornerRadius: undefined,
+      rectangleCornerRadii: undefined,
+
+      // NormalizedHasFramePropertiesTrait
       layoutMode: undefined,
       layoutWrap: undefined,
       paddingLeft: undefined,
@@ -316,30 +358,40 @@ export function createRestNormalizer(
       counterAxisSizingMode: undefined,
       itemSpacing: undefined,
       counterAxisSpacing: undefined,
+
+      // NormalizedHasChildrenTrait
       children: normalizeNodes(node.children),
     };
   }
 
   function normalizeRectangleNode(node: FigmaRestSpec.RectangleNode): NormalizedRectangleNode {
     return {
+      //  NormalizedIsLayerTrait
       type: node.type,
       id: node.id,
       name: node.name,
       boundVariables: normalizeBoundVariables(node.boundVariables),
+
+      // NormalizedCornerTrait
       ...normalizeRadiusProps(node),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
       ...normalizeShapeProps(node),
     };
   }
 
   function normalizeVectorNode(node: FigmaRestSpec.VectorNode): NormalizedVectorNode {
     return {
+      // NormalizedIsLayerTrait
       type: node.type,
       id: node.id,
       name: node.name,
       boundVariables: normalizeBoundVariables(node.boundVariables),
-      // VectorNode doesn't have individual corner radii like RectangleNode
-      cornerRadius: node.cornerRadius,
-      rectangleCornerRadii: undefined,
+
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
       ...normalizeShapeProps(node),
     };
   }
@@ -348,11 +400,13 @@ export function createRestNormalizer(
     node: FigmaRestSpec.BooleanOperationNode,
   ): NormalizedBooleanOperationNode {
     return {
+      // NormalizedIsLayerTrait
       type: node.type,
       id: node.id,
       name: node.name,
       boundVariables: normalizeBoundVariables(node.boundVariables),
-      // BooleanOperationNode only needs layout and geometry traits
+
+      // NormalizedHasLayoutTrait
       layoutGrow: node.layoutGrow,
       layoutAlign: node.layoutAlign,
       layoutSizingHorizontal: node.layoutSizingHorizontal,
@@ -364,10 +418,18 @@ export function createRestNormalizer(
       minWidth: node.minWidth,
       maxHeight: node.maxHeight,
       maxWidth: node.maxWidth,
+
+      // NormalizedHasGeometryTrait
       fills: normalizePaints(node.fills),
       fillStyleKey: node.styles?.["fill"] ? ctx.styles[node.styles["fill"]]?.key : undefined,
       strokes: normalizePaints(node.strokes),
       strokeWeight: node.strokeWeight,
+
+      // NormalizedHasEffectsTrait
+      effects: normalizeEffects(node.effects),
+      effectStyleKey: node.styles?.["effect"] ? ctx.styles[node.styles["effect"]]?.key : undefined,
+
+      // NormalizedHasChildrenTrait
       children: normalizeNodes(node.children),
     };
   }
@@ -375,9 +437,8 @@ export function createRestNormalizer(
   function normalizeTextNode(node: FigmaRestSpec.TextNode): NormalizedTextNode {
     // Convert TypeStyle to NormalizedTextSegment.style format
     function normalizeSegmentStyle(
-      typeStyle: FigmaRestSpec.TypeStyle | undefined,
+      typeStyle: FigmaRestSpec.TypeStyle,
     ): NormalizedTextSegment["style"] {
-      if (!typeStyle) return {};
       return {
         fontFamily: typeStyle.fontFamily,
         fontWeight: typeStyle.fontWeight,
@@ -385,7 +446,6 @@ export function createRestNormalizer(
         italic: typeStyle.italic,
         textDecoration: typeStyle.textDecoration,
         letterSpacing: typeStyle.letterSpacing,
-        // Map lineHeightPx to lineHeight for NormalizedTextSegment.style
         lineHeight: typeStyle.lineHeightPx,
       };
     }
@@ -455,51 +515,51 @@ export function createRestNormalizer(
     }
 
     return {
+      // NormalizedIsLayerTrait
       type: node.type,
       id: node.id,
       name: node.name,
       boundVariables: normalizeBoundVariables(node.boundVariables),
+
+      // NormalizedTypePropertiesTrait
       style: node.style,
       characters: node.characters,
       textStyleKey: node.styles?.["text"] ? ctx.styles[node.styles["text"]]?.key : undefined,
       segments: segmentTextNode(node),
-      ...normalizeShapeProps(node),
-    };
-  }
 
-  function normalizeComponentNode(node: FigmaRestSpec.ComponentNode): NormalizedComponentNode {
-    return {
-      type: node.type,
-      id: node.id,
-      name: node.name,
-      boundVariables: normalizeBoundVariables(node.boundVariables),
-      ...normalizeRadiusProps(node),
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
       ...normalizeShapeProps(node),
-      ...normalizeAutolayoutProps(node),
-      children: normalizeNodes(node.children),
     };
   }
 
   function normalizeInstanceNode(node: FigmaRestSpec.InstanceNode): NormalizedInstanceNode {
     const mainComponent = ctx.components[node.componentId];
+
     if (!mainComponent) {
       throw new Error(`Component ${node.componentId} not found`);
     }
+
     const componentSet = mainComponent.componentSetId
       ? ctx.componentSets[mainComponent.componentSetId]
       : undefined;
+
     const componentProperties: NormalizedInstanceNode["componentProperties"] = {};
 
     for (const [key, value] of Object.entries(node.componentProperties ?? {})) {
       componentProperties[key] = value;
+
       if (value.type === "INSTANCE_SWAP") {
+        // unless value.type === "BOOLEAN", value.value is string
         const swappedComponent = ctx.components[value.value as string];
+
         if (swappedComponent) {
           componentProperties[key].componentKey = swappedComponent.key;
         }
+
         const swappedComponentSet = swappedComponent?.componentSetId
           ? ctx.componentSets[swappedComponent.componentSetId]
           : undefined;
+
         if (swappedComponentSet) {
           componentProperties[key].componentSetKey = swappedComponentSet.key;
         }
@@ -507,17 +567,28 @@ export function createRestNormalizer(
     }
 
     return {
+      // NormalizedIsLayerTrait
       type: node.type,
       id: node.id,
       name: node.name,
       boundVariables: normalizeBoundVariables(node.boundVariables),
-      ...normalizeRadiusProps(node),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
       ...normalizeShapeProps(node),
+
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasFramePropertiesTrait
       ...normalizeAutolayoutProps(node),
+
+      // NormalizedHasChildrenTrait
       children: normalizeNodes(node.children),
+
+      // NormalizedInstanceNode specific
+      componentProperties,
       componentKey: mainComponent.key,
       componentSetKey: componentSet?.key,
-      componentProperties,
       overrides: node.overrides,
     };
   }
