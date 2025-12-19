@@ -21,14 +21,12 @@ import type {
   NormalizedVectorNode,
   NormalizedBooleanOperationNode,
   NormalizedShadow,
-  NormalizedVariableAlias,
-  NormalizedIsLayerTrait,
   NormalizedCornerTrait,
   NormalizedHasFramePropertiesTrait,
   NormalizedPaint,
-  NormalizedSolidPaint,
   NormalizedDefaultShapeTrait,
   NormalizedHasEffectsTrait,
+  NormalizedIsLayerTrait,
 } from "./types";
 
 export interface RestNormalizerContext {
@@ -44,10 +42,6 @@ export interface RestNormalizerContext {
    * A map of component set **ID** to component set data
    */
   componentSets: Record<string, FigmaRestSpec.ComponentSet>;
-  /**
-   * A map of variable **ID** to variable data
-   */
-  variables: Record<string, { key: string }>;
 }
 
 export function createRestNormalizer(
@@ -85,80 +79,43 @@ export function createRestNormalizer(
     }
   }
 
-  function normalizeVariableAlias(alias: FigmaRestSpec.VariableAlias): NormalizedVariableAlias {
-    const variable = ctx.variables?.[alias.id];
-    return {
-      type: alias.type,
-      key: variable?.key ?? alias.id, // fallback to id if not found
-    };
-  }
-
-  /**
-   * normalize bound variables to have variable keys instead of ids
-   */
   function normalizeBoundVariables(
     boundVariables: FigmaRestSpec.IsLayerTrait["boundVariables"] | undefined,
-  ): NormalizedIsLayerTrait["boundVariables"] {
+  ) {
     if (!boundVariables) return undefined;
 
-    const normalizeAlias = (alias: FigmaRestSpec.VariableAlias | undefined) =>
-      alias ? normalizeVariableAlias(alias) : undefined;
-
-    const normalizeAliasArray = (aliases: FigmaRestSpec.VariableAlias[] | undefined) =>
-      aliases?.map(normalizeVariableAlias);
-
     return {
-      fills: normalizeAliasArray(boundVariables.fills),
-      strokes: normalizeAliasArray(boundVariables.strokes),
-      itemSpacing: normalizeAlias(boundVariables.itemSpacing),
-      counterAxisSpacing: normalizeAlias(boundVariables.counterAxisSpacing),
-      topLeftRadius: normalizeAlias(boundVariables.topLeftRadius),
-      topRightRadius: normalizeAlias(boundVariables.topRightRadius),
-      bottomLeftRadius: normalizeAlias(boundVariables.bottomLeftRadius),
-      bottomRightRadius: normalizeAlias(boundVariables.bottomRightRadius),
-      paddingTop: normalizeAlias(boundVariables.paddingTop),
-      paddingRight: normalizeAlias(boundVariables.paddingRight),
-      paddingBottom: normalizeAlias(boundVariables.paddingBottom),
-      paddingLeft: normalizeAlias(boundVariables.paddingLeft),
-      minWidth: normalizeAlias(boundVariables.minWidth),
-      maxWidth: normalizeAlias(boundVariables.maxWidth),
-      minHeight: normalizeAlias(boundVariables.minHeight),
-      maxHeight: normalizeAlias(boundVariables.maxHeight),
-      fontSize: normalizeAliasArray(boundVariables.fontSize),
-      fontWeight: normalizeAliasArray(boundVariables.fontWeight),
-      lineHeight: normalizeAliasArray(boundVariables.lineHeight),
-      size: {
-        x: normalizeAlias(boundVariables.size?.x),
-        y: normalizeAlias(boundVariables.size?.y),
-      },
-    };
-  }
-
-  function normalizeSolidPaint(paint: FigmaRestSpec.SolidPaint): NormalizedSolidPaint {
-    return {
-      type: paint.type,
-      color: paint.color,
-      visible: paint.visible,
-      blendMode: paint.blendMode,
-      opacity: paint.opacity,
-      ...(paint.boundVariables?.color && {
-        boundVariables: {
-          color: normalizeVariableAlias(paint.boundVariables.color),
-        },
-      }),
+      fills: boundVariables.fills,
+      strokes: boundVariables.strokes,
+      itemSpacing: boundVariables.itemSpacing,
+      counterAxisSpacing: boundVariables.counterAxisSpacing,
+      topLeftRadius: boundVariables.topLeftRadius,
+      topRightRadius: boundVariables.topRightRadius,
+      bottomLeftRadius: boundVariables.bottomLeftRadius,
+      bottomRightRadius: boundVariables.bottomRightRadius,
+      paddingTop: boundVariables.paddingTop,
+      paddingRight: boundVariables.paddingRight,
+      paddingBottom: boundVariables.paddingBottom,
+      paddingLeft: boundVariables.paddingLeft,
+      minWidth: boundVariables.minWidth,
+      maxWidth: boundVariables.maxWidth,
+      minHeight: boundVariables.minHeight,
+      maxHeight: boundVariables.maxHeight,
+      fontSize: boundVariables.fontSize,
+      fontWeight: boundVariables.fontWeight,
+      lineHeight: boundVariables.lineHeight,
+      size: boundVariables.size,
     };
   }
 
   function normalizePaint(paint: FigmaRestSpec.Paint): NormalizedPaint {
     switch (paint.type) {
       case "SOLID":
-        return normalizeSolidPaint(paint);
       case "IMAGE":
       case "GRADIENT_LINEAR":
       case "GRADIENT_RADIAL":
       case "GRADIENT_ANGULAR":
       case "GRADIENT_DIAMOND":
-        // already matches NormalizedPaint
         return paint;
       default:
         throw new Error(`Unimplemented paint type: ${paint.type}`);
@@ -192,20 +149,14 @@ export function createRestNormalizer(
       )
       .map((effect): NormalizedShadow => {
         const { type, color, offset, radius, spread, boundVariables } = effect;
+
         return {
           type,
           color,
           offset,
           radius,
           spread,
-          ...(boundVariables && {
-            // Filter out undefined values to match plugin behavior
-            boundVariables: Object.fromEntries(
-              Object.entries(boundVariables)
-                .filter(([_, value]) => value)
-                .map(([key, value]) => [key, normalizeVariableAlias(value)]),
-            ),
-          }),
+          boundVariables,
         };
       });
 

@@ -1,44 +1,28 @@
 import type * as FigmaRestSpec from "@figma/rest-api-spec";
 
-export type NormalizedVariableAlias = Omit<FigmaRestSpec.VariableAlias, "id"> & {
-  key: string;
-};
-
-type ReplaceVariableAliasIdWithKey<T> = T extends FigmaRestSpec.VariableAlias
-  ? NormalizedVariableAlias
-  : T extends Array<infer U>
-    ? Array<ReplaceVariableAliasIdWithKey<U>>
-    : T extends object
-      ? {
-          [K in keyof T]: ReplaceVariableAliasIdWithKey<T[K]>;
-        }
-      : T;
-
 export type NormalizedIsLayerTrait = Pick<FigmaRestSpec.IsLayerTrait, "type" | "id" | "name"> & {
-  boundVariables?: ReplaceVariableAliasIdWithKey<
-    Pick<
-      NonNullable<FigmaRestSpec.IsLayerTrait["boundVariables"]>,
-      | "fills"
-      | "strokes"
-      | "itemSpacing"
-      | "counterAxisSpacing"
-      | "bottomLeftRadius"
-      | "bottomRightRadius"
-      | "topLeftRadius"
-      | "topRightRadius"
-      | "paddingBottom"
-      | "paddingLeft"
-      | "paddingRight"
-      | "paddingTop"
-      | "maxHeight"
-      | "minHeight"
-      | "maxWidth"
-      | "minWidth"
-      | "fontSize"
-      | "fontWeight"
-      | "lineHeight"
-      | "size"
-    >
+  boundVariables?: Pick<
+    NonNullable<FigmaRestSpec.IsLayerTrait["boundVariables"]>,
+    | "fills"
+    | "strokes"
+    | "itemSpacing"
+    | "counterAxisSpacing"
+    | "bottomLeftRadius"
+    | "bottomRightRadius"
+    | "topLeftRadius"
+    | "topRightRadius"
+    | "paddingBottom"
+    | "paddingLeft"
+    | "paddingRight"
+    | "paddingTop"
+    | "maxHeight"
+    | "minHeight"
+    | "maxWidth"
+    | "minWidth"
+    | "fontSize"
+    | "fontWeight"
+    | "lineHeight"
+    | "size"
   >;
 };
 
@@ -66,9 +50,7 @@ export type NormalizedHasLayoutTrait = Pick<
   | "maxWidth"
 >;
 
-export type NormalizedSolidPaint = Omit<FigmaRestSpec.SolidPaint, "boundVariables"> & {
-  boundVariables?: ReplaceVariableAliasIdWithKey<FigmaRestSpec.SolidPaint["boundVariables"]>;
-};
+export type NormalizedSolidPaint = FigmaRestSpec.SolidPaint;
 
 export type NormalizedPaint =
   | NormalizedSolidPaint
@@ -85,16 +67,14 @@ export type NormalizedHasGeometryTrait = Omit<
 };
 
 export type NormalizedShadow =
-  | (Pick<FigmaRestSpec.DropShadowEffect, "type" | "color" | "offset" | "radius" | "spread"> & {
-      boundVariables?: ReplaceVariableAliasIdWithKey<
-        FigmaRestSpec.DropShadowEffect["boundVariables"]
-      >;
-    })
-  | (Pick<FigmaRestSpec.InnerShadowEffect, "type" | "color" | "offset" | "radius" | "spread"> & {
-      boundVariables?: ReplaceVariableAliasIdWithKey<
-        FigmaRestSpec.InnerShadowEffect["boundVariables"]
-      >;
-    });
+  | Pick<
+      FigmaRestSpec.DropShadowEffect,
+      "type" | "color" | "offset" | "radius" | "spread" | "boundVariables"
+    >
+  | Pick<
+      FigmaRestSpec.InnerShadowEffect,
+      "type" | "color" | "offset" | "radius" | "spread" | "boundVariables"
+    >;
 
 export type NormalizedHasEffectsTrait = Omit<FigmaRestSpec.HasEffectsTrait, "effects"> & {
   effects: NormalizedShadow[];

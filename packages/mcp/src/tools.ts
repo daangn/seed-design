@@ -10,9 +10,6 @@ import {
   formatTextResponse,
 } from "./responses";
 import type { FigmaWebSocketClient } from "./websocket";
-import { variableRepository } from "@seed-design/figma";
-
-const variables = variableRepository.getVariableList();
 
 export function registerTools(
   server: McpServer,
@@ -172,7 +169,7 @@ export function registerTools(
     async ({ nodeId }) => {
       try {
         const result: any = await sendCommandToFigma("get_node_info", { nodeId });
-        const normalizer = createRestNormalizer({ ...result, variables });
+        const normalizer = createRestNormalizer(result);
         const node = normalizer(result.document);
 
         const noInferPipeline = figma.createPipeline({
@@ -220,7 +217,7 @@ export function registerTools(
         const results = await Promise.all(
           nodeIds.map(async (nodeId) => {
             const result: any = await sendCommandToFigma("get_node_info", { nodeId });
-            const normalizer = createRestNormalizer({ ...result, variables });
+            const normalizer = createRestNormalizer(result);
             const node = normalizer(result.document);
 
             const noInferPipeline = figma.createPipeline({
@@ -267,7 +264,7 @@ export function registerTools(
     async ({ nodeId }) => {
       try {
         const result: any = await sendCommandToFigma("get_node_info", { nodeId });
-        const normalizer = createRestNormalizer({ ...result, variables });
+        const normalizer = createRestNormalizer(result);
 
         const pipeline = react.createPipeline({
           shouldInferAutoLayout: true,

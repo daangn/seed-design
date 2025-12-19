@@ -17,10 +17,8 @@ import type {
   NormalizedShadow,
   NormalizedDefaultShapeTrait,
   NormalizedHasFramePropertiesTrait,
-  NormalizedVariableAlias,
   NormalizedCornerTrait,
   NormalizedIsLayerTrait,
-  NormalizedSolidPaint,
   NormalizedPaint,
   NormalizedTextSegment,
 } from "./types";
@@ -58,105 +56,42 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
     }
   }
 
-  async function normalizeVariableAlias({
-    id,
-    type,
-  }: VariableAlias): Promise<NormalizedVariableAlias> {
-    return {
-      type,
-      key: (await figma.variables.getVariableByIdAsync(id))?.key ?? id,
-    };
-  }
-
   /**
-   * normalize bound variables to have variable keys instead of ids
+   * Pick specific fields from boundVariables
    */
-  async function normalizeBoundVariables({
+  function normalizeBoundVariables({
     boundVariables,
-  }: Pick<FrameNode, "boundVariables">): Promise<NormalizedIsLayerTrait["boundVariables"]> {
+  }: Pick<FrameNode, "boundVariables">): NormalizedIsLayerTrait["boundVariables"] {
     if (!boundVariables) return undefined;
 
-    const normalizeAlias = async (alias: VariableAlias | undefined) =>
-      alias ? await normalizeVariableAlias(alias) : undefined;
-
-    const normalizeAliasArray = async (aliases: VariableAlias[] | undefined) =>
-      aliases ? await Promise.all(aliases.map(normalizeVariableAlias)) : undefined;
-
-    const [
-      fills,
-      strokes,
-      itemSpacing,
-      counterAxisSpacing,
-      topLeftRadius,
-      topRightRadius,
-      bottomLeftRadius,
-      bottomRightRadius,
-      paddingTop,
-      paddingRight,
-      paddingBottom,
-      paddingLeft,
-      minWidth,
-      maxWidth,
-      minHeight,
-      maxHeight,
-      fontSize,
-      fontWeight,
-      lineHeight,
-      { x: width, y: height },
-    ] = await Promise.all([
-      normalizeAliasArray(boundVariables.fills),
-      normalizeAliasArray(boundVariables.strokes),
-      normalizeAlias(boundVariables.itemSpacing),
-      normalizeAlias(boundVariables.counterAxisSpacing),
-      normalizeAlias(boundVariables.topLeftRadius),
-      normalizeAlias(boundVariables.topRightRadius),
-      normalizeAlias(boundVariables.bottomLeftRadius),
-      normalizeAlias(boundVariables.bottomRightRadius),
-      normalizeAlias(boundVariables.paddingTop),
-      normalizeAlias(boundVariables.paddingRight),
-      normalizeAlias(boundVariables.paddingBottom),
-      normalizeAlias(boundVariables.paddingLeft),
-      normalizeAlias(boundVariables.minWidth),
-      normalizeAlias(boundVariables.maxWidth),
-      normalizeAlias(boundVariables.minHeight),
-      normalizeAlias(boundVariables.maxHeight),
-      normalizeAliasArray(boundVariables.fontSize),
-      normalizeAliasArray(boundVariables.fontWeight),
-      normalizeAliasArray(boundVariables.lineHeight),
-      {
-        x: await normalizeAlias(boundVariables.width),
-        y: await normalizeAlias(boundVariables.height),
-      },
-    ]);
-
     return {
-      fills,
-      strokes,
-      itemSpacing,
-      counterAxisSpacing,
-      topLeftRadius,
-      topRightRadius,
-      bottomLeftRadius,
-      bottomRightRadius,
-      paddingTop,
-      paddingRight,
-      paddingBottom,
-      paddingLeft,
-      minWidth,
-      maxWidth,
-      minHeight,
-      maxHeight,
-      fontSize,
-      fontWeight,
-      lineHeight,
+      fills: boundVariables.fills,
+      strokes: boundVariables.strokes,
+      itemSpacing: boundVariables.itemSpacing,
+      counterAxisSpacing: boundVariables.counterAxisSpacing,
+      topLeftRadius: boundVariables.topLeftRadius,
+      topRightRadius: boundVariables.topRightRadius,
+      bottomLeftRadius: boundVariables.bottomLeftRadius,
+      bottomRightRadius: boundVariables.bottomRightRadius,
+      paddingTop: boundVariables.paddingTop,
+      paddingRight: boundVariables.paddingRight,
+      paddingBottom: boundVariables.paddingBottom,
+      paddingLeft: boundVariables.paddingLeft,
+      minWidth: boundVariables.minWidth,
+      maxWidth: boundVariables.maxWidth,
+      minHeight: boundVariables.minHeight,
+      maxHeight: boundVariables.maxHeight,
+      fontSize: boundVariables.fontSize,
+      fontWeight: boundVariables.fontWeight,
+      lineHeight: boundVariables.lineHeight,
       size: {
-        x: width,
-        y: height,
+        x: boundVariables.width,
+        y: boundVariables.height,
       },
     };
   }
 
-  async function normalizeSolidPaint(paint: SolidPaint): Promise<NormalizedSolidPaint> {
+  function normalizeSolidPaint(paint: SolidPaint): NormalizedPaint {
     return {
       type: paint.type,
       color: {
@@ -168,15 +103,11 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       visible: paint.visible,
       blendMode: paint.blendMode ?? "NORMAL",
       opacity: paint.opacity,
-      ...(paint.boundVariables?.color && {
-        boundVariables: {
-          color: await normalizeVariableAlias(paint.boundVariables.color),
-        },
-      }),
+      boundVariables: paint.boundVariables,
     };
   }
 
-  async function normalizePaint(paint: Paint): Promise<NormalizedPaint> {
+  function normalizePaint(paint: Paint): NormalizedPaint {
     switch (paint.type) {
       case "SOLID":
         return normalizeSolidPaint(paint);
@@ -210,16 +141,14 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
     }
   }
 
-  async function normalizePaints(
-    fills: readonly Paint[] | PluginAPI["mixed"],
-  ): Promise<NormalizedPaint[]> {
+  function normalizePaints(fills: readonly Paint[] | PluginAPI["mixed"]): NormalizedPaint[] {
     if (fills === figma.mixed) {
       console.warn("Mixed fills are not supported");
 
       return [];
     }
 
-    return Promise.all(fills.map(normalizePaint));
+    return fills.map(normalizePaint);
   }
 
   function normalizeRadiusProps(
@@ -247,52 +176,27 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
         ? (await figma.getStyleByIdAsync(node.effectStyleId))?.key
         : undefined;
 
-    const effects = (
-      await Promise.all(
-        node.effects.map(async (effect) => {
-          if (!effect.visible) return null;
+    const effects = node.effects
+      .filter((effect): effect is DropShadowEffect | InnerShadowEffect => {
+        if (!effect.visible) return false;
 
-          switch (effect.type) {
-            case "DROP_SHADOW":
-            case "INNER_SHADOW": {
-              const { type, color, offset, radius, boundVariables, spread } = effect;
+        return effect.type === "DROP_SHADOW" || effect.type === "INNER_SHADOW";
+      })
+      .map((effect): NormalizedShadow => {
+        const { type, color, offset, radius, spread, boundVariables } = effect;
 
-              return {
-                type,
-                color,
-                offset,
-                radius,
-                spread,
-                ...(boundVariables && {
-                  boundVariables: Object.fromEntries(
-                    await Promise.all(
-                      Object.entries(boundVariables)
-                        // Figma API sometimes includes null values in boundVariables
-                        .filter(([_, value]) => value)
-                        .map(async ([key, value]) => [key, await normalizeVariableAlias(value)]),
-                    ),
-                  ),
-                }),
-              } satisfies NormalizedShadow;
-            }
-            case "BACKGROUND_BLUR":
-            case "GLASS":
-            case "LAYER_BLUR":
-            case "NOISE":
-            case "TEXTURE": {
-              return null;
-            }
-            default:
-              // @ts-expect-error
-              throw new Error(`Unimplemented effect type: ${effect.type}`);
-          }
-        }),
-      )
-    ).filter((effect) => effect !== null);
+        return {
+          type,
+          color,
+          offset,
+          radius,
+          spread,
+          boundVariables,
+        };
+      });
 
     return {
       ...(effectStyleKey ? { effectStyleKey } : {}),
-      // ...(effects.length > 0 ? { effects } : {}),
       effects,
     };
   }
@@ -380,7 +284,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       type: node.type,
       id: node.id,
       name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
+      boundVariables: normalizeBoundVariables(node),
 
       // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
       ...(await normalizeShapeProps(node)),
@@ -402,7 +306,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       type: node.type,
       id: node.id,
       name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
+      boundVariables: normalizeBoundVariables(node),
 
       // NormalizedCornerTrait
       ...normalizeRadiusProps(node),
@@ -465,7 +369,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       type: node.type,
       id: node.id,
       name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
+      boundVariables: normalizeBoundVariables(node),
 
       // NormalizedTypePropertiesTrait
       // NOTE: this normalization is incomplete compared to from-rest.ts normalizer
@@ -519,7 +423,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       type: node.type,
       id: node.id,
       name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
+      boundVariables: normalizeBoundVariables(node),
 
       // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
       ...(await normalizeShapeProps(node)),
@@ -567,7 +471,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       type: node.type,
       id: node.id,
       name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
+      boundVariables: normalizeBoundVariables(node),
 
       // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
       ...(await normalizeShapeProps(node)),
@@ -596,7 +500,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       type: node.type,
       id: node.id,
       name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
+      boundVariables: normalizeBoundVariables(node),
 
       // NormalizedCornerTrait
       cornerRadius: node.cornerRadius === figma.mixed ? undefined : node.cornerRadius,
@@ -620,7 +524,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       type: node.type,
       id: node.id,
       name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
+      boundVariables: normalizeBoundVariables(node),
 
       // NormalizedHasLayoutTrait
       layoutGrow: node.layoutGrow as 0 | 1 | undefined,
@@ -657,7 +561,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       type: "FRAME",
       id: node.id,
       name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
+      boundVariables: normalizeBoundVariables(node),
 
       // NormalizedHasLayoutTrait
       layoutGrow: (node.inferredAutoLayout?.layoutGrow ?? node.layoutGrow) as 0 | 1 | undefined,
