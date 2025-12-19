@@ -1,6 +1,6 @@
 /**
  * from-plugin is guaranteed to be run in the Figma Plugin environment
- * so we can use the Plugin API types directly (figma.getNodeByIdAsync etc)
+ * so we can use the Plugin API types directly (figma.getNodeByIdAsync, node.getMainComponentAsync etc)
  * however it could be better to make users can DI later
  */
 
@@ -99,6 +99,10 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       maxWidth,
       minHeight,
       maxHeight,
+      fontSize,
+      fontWeight,
+      lineHeight,
+      { x: width, y: height },
     ] = await Promise.all([
       normalizeAliasArray(boundVariables.fills),
       normalizeAliasArray(boundVariables.strokes),
@@ -116,6 +120,13 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       normalizeAlias(boundVariables.maxWidth),
       normalizeAlias(boundVariables.minHeight),
       normalizeAlias(boundVariables.maxHeight),
+      normalizeAliasArray(boundVariables.fontSize),
+      normalizeAliasArray(boundVariables.fontWeight),
+      normalizeAliasArray(boundVariables.lineHeight),
+      {
+        x: await normalizeAlias(boundVariables.width),
+        y: await normalizeAlias(boundVariables.height),
+      },
     ]);
 
     return {
@@ -135,6 +146,13 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       maxWidth,
       minHeight,
       maxHeight,
+      fontSize,
+      fontWeight,
+      lineHeight,
+      size: {
+        x: width,
+        y: height,
+      },
     };
   }
 

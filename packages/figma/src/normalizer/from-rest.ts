@@ -124,6 +124,13 @@ export function createRestNormalizer(
       maxWidth: normalizeAlias(boundVariables.maxWidth),
       minHeight: normalizeAlias(boundVariables.minHeight),
       maxHeight: normalizeAlias(boundVariables.maxHeight),
+      fontSize: normalizeAliasArray(boundVariables.fontSize),
+      fontWeight: normalizeAliasArray(boundVariables.fontWeight),
+      lineHeight: normalizeAliasArray(boundVariables.lineHeight),
+      size: {
+        x: normalizeAlias(boundVariables.size?.x),
+        y: normalizeAlias(boundVariables.size?.y),
+      },
     };
   }
 

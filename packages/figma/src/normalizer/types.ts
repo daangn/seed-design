@@ -34,6 +34,10 @@ export type NormalizedIsLayerTrait = Pick<FigmaRestSpec.IsLayerTrait, "type" | "
       | "minHeight"
       | "maxWidth"
       | "minWidth"
+      | "fontSize"
+      | "fontWeight"
+      | "lineHeight"
+      | "size"
     >
   >;
 };
