@@ -11,8 +11,10 @@ export function traverseNode(
 ) {
   callback(node);
 
-  if ("children" in node) {
-    node.children.forEach((child) => traverseNode(child, callback));
+  if (!("children" in node)) return;
+
+  for (const child of node.children) {
+    traverseNode(child, callback);
   }
 }
 
@@ -68,7 +70,7 @@ export function getFirstSolidFill(node: NormalizedHasGeometryTrait) {
 
 export function getFirstFillVariable(node: NormalizedHasGeometryTrait) {
   const fill = getFirstSolidFill(node);
-  // Access paint-level boundVariables.color (normalized to have key instead of id)
+
   return fill?.boundVariables?.color;
 }
 
@@ -88,6 +90,6 @@ export function getFirstStroke(node: NormalizedHasGeometryTrait) {
 
 export function getFirstStrokeVariable(node: NormalizedHasGeometryTrait) {
   const stroke = getFirstStroke(node);
-  // Access paint-level boundVariables.color (normalized to have key instead of id)
+
   return stroke?.boundVariables?.color;
 }

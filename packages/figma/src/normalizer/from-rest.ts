@@ -101,45 +101,29 @@ export function createRestNormalizer(
   ): NormalizedIsLayerTrait["boundVariables"] {
     if (!boundVariables) return undefined;
 
-    const { size, componentProperties: _componentProperties, ...rest } = boundVariables;
+    const normalizeAlias = (alias: FigmaRestSpec.VariableAlias | undefined) =>
+      alias ? normalizeVariableAlias(alias) : undefined;
 
-    const needsResolution = [
-      "fills",
-      "itemSpacing",
-      "counterAxisSpacing",
-      "bottomLeftRadius",
-      "bottomRightRadius",
-      "topLeftRadius",
-      "topRightRadius",
-      "paddingBottom",
-      "paddingLeft",
-      "paddingRight",
-      "paddingTop",
-      "maxHeight",
-      "minHeight",
-      "maxWidth",
-      "minWidth",
-    ];
-
-    const entries = Object.entries(rest)
-      .filter(([key, value]) => value && needsResolution.includes(key))
-      .map(([key, value]) => {
-        if (Array.isArray(value)) {
-          return [key, value.map(normalizeVariableAlias)];
-        }
-        return [key, normalizeVariableAlias(value as FigmaRestSpec.VariableAlias)];
-      });
-
-    const resolved = Object.fromEntries(entries);
+    const normalizeAliasArray = (aliases: FigmaRestSpec.VariableAlias[] | undefined) =>
+      aliases?.map(normalizeVariableAlias);
 
     return {
-      ...resolved,
-      ...(size && {
-        size: {
-          ...(size.x && { x: normalizeVariableAlias(size.x) }),
-          ...(size.y && { y: normalizeVariableAlias(size.y) }),
-        },
-      }),
+      fills: normalizeAliasArray(boundVariables.fills),
+      strokes: normalizeAliasArray(boundVariables.strokes),
+      itemSpacing: normalizeAlias(boundVariables.itemSpacing),
+      counterAxisSpacing: normalizeAlias(boundVariables.counterAxisSpacing),
+      topLeftRadius: normalizeAlias(boundVariables.topLeftRadius),
+      topRightRadius: normalizeAlias(boundVariables.topRightRadius),
+      bottomLeftRadius: normalizeAlias(boundVariables.bottomLeftRadius),
+      bottomRightRadius: normalizeAlias(boundVariables.bottomRightRadius),
+      paddingTop: normalizeAlias(boundVariables.paddingTop),
+      paddingRight: normalizeAlias(boundVariables.paddingRight),
+      paddingBottom: normalizeAlias(boundVariables.paddingBottom),
+      paddingLeft: normalizeAlias(boundVariables.paddingLeft),
+      minWidth: normalizeAlias(boundVariables.minWidth),
+      maxWidth: normalizeAlias(boundVariables.maxWidth),
+      minHeight: normalizeAlias(boundVariables.minHeight),
+      maxHeight: normalizeAlias(boundVariables.maxHeight),
     };
   }
 

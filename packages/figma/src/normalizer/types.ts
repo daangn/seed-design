@@ -15,7 +15,27 @@ type ReplaceVariableAliasIdWithKey<T> = T extends FigmaRestSpec.VariableAlias
       : T;
 
 export type NormalizedIsLayerTrait = Pick<FigmaRestSpec.IsLayerTrait, "type" | "id" | "name"> & {
-  boundVariables?: ReplaceVariableAliasIdWithKey<FigmaRestSpec.IsLayerTrait["boundVariables"]>;
+  boundVariables?: ReplaceVariableAliasIdWithKey<
+    Pick<
+      NonNullable<FigmaRestSpec.IsLayerTrait["boundVariables"]>,
+      | "fills"
+      | "strokes"
+      | "itemSpacing"
+      | "counterAxisSpacing"
+      | "bottomLeftRadius"
+      | "bottomRightRadius"
+      | "topLeftRadius"
+      | "topRightRadius"
+      | "paddingBottom"
+      | "paddingLeft"
+      | "paddingRight"
+      | "paddingTop"
+      | "maxHeight"
+      | "minHeight"
+      | "maxWidth"
+      | "minWidth"
+    >
+  >;
 };
 
 export type NormalizedCornerTrait = Pick<

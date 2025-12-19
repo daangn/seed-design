@@ -76,50 +76,65 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
   }: Pick<FrameNode, "boundVariables">): Promise<NormalizedIsLayerTrait["boundVariables"]> {
     if (!boundVariables) return undefined;
 
-    const { width, height, componentProperties: _componentProperties, ...rest } = boundVariables;
+    const normalizeAlias = async (alias: VariableAlias | undefined) =>
+      alias ? await normalizeVariableAlias(alias) : undefined;
 
-    const needsResolution = [
-      "fills",
-      "itemSpacing",
-      "counterAxisSpacing",
-      "bottomLeftRadius",
-      "bottomRightRadius",
-      "topLeftRadius",
-      "topRightRadius",
-      "paddingBottom",
-      "paddingLeft",
-      "paddingRight",
-      "paddingTop",
-      "maxHeight",
-      "minHeight",
-      "maxWidth",
-      "minWidth",
-    ];
+    const normalizeAliasArray = async (aliases: VariableAlias[] | undefined) =>
+      aliases ? await Promise.all(aliases.map(normalizeVariableAlias)) : undefined;
 
-    const entries = await Promise.all(
-      Object.entries(rest)
-        // Figma API sometimes includes null values in boundVariables
-        .filter(([key, value]) => value && needsResolution.includes(key))
-        .map(async ([key, value]) => {
-          if (Array.isArray(value))
-            return [key, await Promise.all(value.map(normalizeVariableAlias))];
-
-          return [key, await normalizeVariableAlias(value)];
-        }),
-    );
-
-    const resolved: Omit<NormalizedFrameNode["boundVariables"], "width" | "height"> =
-      Object.fromEntries(entries);
+    const [
+      fills,
+      strokes,
+      itemSpacing,
+      counterAxisSpacing,
+      topLeftRadius,
+      topRightRadius,
+      bottomLeftRadius,
+      bottomRightRadius,
+      paddingTop,
+      paddingRight,
+      paddingBottom,
+      paddingLeft,
+      minWidth,
+      maxWidth,
+      minHeight,
+      maxHeight,
+    ] = await Promise.all([
+      normalizeAliasArray(boundVariables.fills),
+      normalizeAliasArray(boundVariables.strokes),
+      normalizeAlias(boundVariables.itemSpacing),
+      normalizeAlias(boundVariables.counterAxisSpacing),
+      normalizeAlias(boundVariables.topLeftRadius),
+      normalizeAlias(boundVariables.topRightRadius),
+      normalizeAlias(boundVariables.bottomLeftRadius),
+      normalizeAlias(boundVariables.bottomRightRadius),
+      normalizeAlias(boundVariables.paddingTop),
+      normalizeAlias(boundVariables.paddingRight),
+      normalizeAlias(boundVariables.paddingBottom),
+      normalizeAlias(boundVariables.paddingLeft),
+      normalizeAlias(boundVariables.minWidth),
+      normalizeAlias(boundVariables.maxWidth),
+      normalizeAlias(boundVariables.minHeight),
+      normalizeAlias(boundVariables.maxHeight),
+    ]);
 
     return {
-      ...resolved,
-      ...(width &&
-        height && {
-          size: {
-            x: await normalizeVariableAlias(width),
-            y: await normalizeVariableAlias(height),
-          },
-        }),
+      fills,
+      strokes,
+      itemSpacing,
+      counterAxisSpacing,
+      topLeftRadius,
+      topRightRadius,
+      bottomLeftRadius,
+      bottomRightRadius,
+      paddingTop,
+      paddingRight,
+      paddingBottom,
+      paddingLeft,
+      minWidth,
+      maxWidth,
+      minHeight,
+      maxHeight,
     };
   }
 
