@@ -1,7 +1,7 @@
 import type * as FigmaRestSpec from "@figma/rest-api-spec";
 
 export type NormalizedVariableAlias = Omit<FigmaRestSpec.VariableAlias, "id"> & {
-  key?: string;
+  key: string;
 };
 
 type ReplaceVariableAliasIdWithKey<T> = T extends FigmaRestSpec.VariableAlias

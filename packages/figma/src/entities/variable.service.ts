@@ -2,6 +2,7 @@ import {
   isIdenticalVariableValue,
   isInsideScope,
   isVariableAlias,
+  sanitizeVariableId,
 } from "@/utils/figma-variable";
 import type { Variable, VariableScope, VariableValueResolved } from "./variable.interface";
 import type { VariableRepository } from "./variable.repository";
@@ -25,7 +26,8 @@ export function createVariableService({
 
   // private
   function getName(key: string) {
-    const variable = variableRepository.findVariableByKey(key);
+    const sanitizedId = sanitizeVariableId(key);
+    const variable = variableRepository.findVariableByKey(sanitizedId);
 
     if (!variable) {
       return undefined;

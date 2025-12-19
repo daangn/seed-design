@@ -89,7 +89,7 @@ export function createRestNormalizer(
     const variable = ctx.variables?.[alias.id];
     return {
       type: alias.type,
-      key: variable?.key,
+      key: variable?.key ?? alias.id, // fallback to id if not found
     };
   }
 

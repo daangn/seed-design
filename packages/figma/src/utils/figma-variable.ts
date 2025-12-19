@@ -1,5 +1,10 @@
 import type { VariableScope } from "@figma/rest-api-spec";
 
+// boundVariable.id is formatted as "VariableID:{key}/{localId}", we have to extract the key
+export function sanitizeVariableId(id: string) {
+  return id.replace("VariableID:", "").split("/")[0]!;
+}
+
 export function isVariableAlias(value: unknown): value is VariableAlias {
   return (
     typeof value === "object" &&
