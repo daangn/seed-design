@@ -46,6 +46,7 @@ export interface ContainerLayoutProps {
   counterAxisAlignItems?: "MIN" | "CENTER" | "MAX" | "BASELINE";
   layoutWrap?: "WRAP" | "NO_WRAP";
   itemSpacing?: number | string; // string when variable
+  counterAxisSpacing?: number | string; // string when variable
   paddingTop?: number | string; // string when variable
   paddingBottom?: number | string; // string when variable
   paddingLeft?: number | string; // string when variable
@@ -68,6 +69,7 @@ export function createContainerLayoutPropsConverter(
       counterAxisAlignItems: ({ counterAxisAlignItems }) => counterAxisAlignItems,
       layoutWrap: ({ layoutWrap }) => layoutWrap,
       itemSpacing: (node) => valueResolver.getFormattedValue.itemSpacing(node),
+      counterAxisSpacing: (node) => valueResolver.getFormattedValue.counterAxisSpacing(node),
       paddingTop: (node) => valueResolver.getFormattedValue.paddingTop(node),
       paddingBottom: (node) => valueResolver.getFormattedValue.paddingBottom(node),
       paddingLeft: (node) => valueResolver.getFormattedValue.paddingLeft(node),

@@ -64,6 +64,9 @@ export interface ValueResolver<TColor, TGradient, TDimension, TFontDimension, TF
     itemSpacing: (
       node: NormalizedHasFramePropertiesTrait & NormalizedIsLayerTrait,
     ) => string | TDimension | undefined;
+    counterAxisSpacing: (
+      node: NormalizedHasFramePropertiesTrait & NormalizedIsLayerTrait,
+    ) => string | TDimension | undefined;
     topLeftRadius: (
       node: NormalizedCornerTrait & NormalizedIsLayerTrait,
     ) => string | TDimension | undefined;
@@ -285,6 +288,12 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
       processDimension(node.boundVariables?.paddingBottom?.key, node.paddingBottom, "GAP"),
     itemSpacing: (node) =>
       processDimension(node.boundVariables?.itemSpacing?.key, node.itemSpacing, "GAP"),
+    counterAxisSpacing: (node) =>
+      processDimension(
+        node.boundVariables?.counterAxisSpacing?.key,
+        node.counterAxisSpacing,
+        "GAP",
+      ),
     frameFill: (node) =>
       node.fillStyleKey
         ? processFillStyle(node.fillStyleKey)
