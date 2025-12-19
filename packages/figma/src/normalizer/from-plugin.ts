@@ -22,6 +22,7 @@ import type {
   NormalizedIsLayerTrait,
   NormalizedSolidPaint,
   NormalizedPaint,
+  NormalizedTextSegment,
 } from "./types";
 import { convertTransformToGradientHandles } from "@/utils/figma-gradient";
 
@@ -31,284 +32,98 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
   }
 
   async function normalizeNode(node: SceneNode): Promise<NormalizedSceneNode> {
-    if (node.type === "FRAME") {
-      return normalizeFrameNode(node);
+    switch (node.type) {
+      case "FRAME":
+        return normalizeFrameNode(node);
+      case "RECTANGLE":
+        return normalizeRectangleNode(node);
+      case "TEXT":
+        return normalizeTextNode(node);
+      case "COMPONENT":
+        return normalizeComponentNode(node);
+      case "INSTANCE":
+        return normalizeInstanceNode(node);
+      case "VECTOR":
+        return normalizeVectorNode(node);
+      case "BOOLEAN_OPERATION":
+        return normalizeBooleanOperationNode(node);
+      case "GROUP":
+        return normalizeGroupNodeAsFrameNode(node);
+      default:
+        return {
+          type: "UNHANDLED",
+          id: node.id,
+          original: node,
+        };
     }
-    if (node.type === "GROUP") {
-      return normalizeGroupNode(node);
-    }
-    if (node.type === "RECTANGLE") {
-      return normalizeRectangleNode(node);
-    }
-    if (node.type === "VECTOR") {
-      return normalizeVectorNode(node);
-    }
-    if (node.type === "BOOLEAN_OPERATION") {
-      return normalizeBooleanOperationNode(node);
-    }
-    if (node.type === "TEXT") {
-      return normalizeTextNode(node);
-    }
-    if (node.type === "COMPONENT") {
-      return normalizeComponentNode(node);
-    }
-    if (node.type === "INSTANCE") {
-      return normalizeInstanceNode(node);
-    }
+  }
 
+  async function normalizeVariableAlias({
+    id,
+    type,
+  }: VariableAlias): Promise<NormalizedVariableAlias> {
     return {
-      type: "UNHANDLED",
-      id: node.id,
-      original: node,
+      type,
+      key: (await figma.variables.getVariableByIdAsync(id))?.key ?? id,
     };
   }
 
-  async function normalizeFrameNode(node: FrameNode): Promise<NormalizedFrameNode> {
-    return {
-      type: node.type,
-      id: node.id,
-      name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
-      ...normalizeRadiusProps(node),
-      ...(await normalizeAutolayoutProps(node)),
-      children: await normalizeNodes(node.children),
-    };
-  }
+  /**
+   * normalize bound variables to have variable keys instead of ids
+   */
+  async function normalizeBoundVariables({
+    boundVariables,
+  }: Pick<FrameNode, "boundVariables">): Promise<NormalizedIsLayerTrait["boundVariables"]> {
+    if (!boundVariables) return undefined;
 
-  async function normalizeGroupNode(
-    node: GroupNode & { inferredAutoLayout?: FrameNode["inferredAutoLayout"] },
-  ): Promise<NormalizedFrameNode> {
-    return {
-      type: "FRAME",
-      id: node.id,
-      name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
-      cornerRadius: undefined,
-      rectangleCornerRadii: undefined,
-      layoutGrow: (node.inferredAutoLayout?.layoutGrow ?? node.layoutGrow) as 0 | 1 | undefined,
-      layoutAlign: node.inferredAutoLayout?.layoutAlign ?? node.layoutAlign,
-      layoutSizingHorizontal: node.layoutSizingHorizontal,
-      layoutSizingVertical: node.layoutSizingVertical,
-      absoluteBoundingBox: node.absoluteBoundingBox,
-      relativeTransform: node.relativeTransform,
-      layoutPositioning: node.layoutPositioning,
-      layoutMode: node.inferredAutoLayout?.layoutMode,
-      layoutWrap: node.inferredAutoLayout?.layoutWrap,
-      paddingLeft: node.inferredAutoLayout?.paddingLeft,
-      paddingRight: node.inferredAutoLayout?.paddingRight,
-      paddingTop: node.inferredAutoLayout?.paddingTop,
-      paddingBottom: node.inferredAutoLayout?.paddingBottom,
-      primaryAxisAlignItems: node.inferredAutoLayout?.primaryAxisAlignItems,
-      counterAxisAlignItems: node.inferredAutoLayout?.counterAxisAlignItems,
-      primaryAxisSizingMode: node.inferredAutoLayout?.primaryAxisSizingMode,
-      counterAxisSizingMode: node.inferredAutoLayout?.counterAxisSizingMode,
-      itemSpacing: node.inferredAutoLayout?.itemSpacing,
-      counterAxisSpacing: node.inferredAutoLayout?.counterAxisSpacing ?? undefined,
-      fills: [],
-      strokes: [],
-      effects: [],
-      children: await normalizeNodes(node.children),
-    };
-  }
+    const { width, height, componentProperties: _componentProperties, ...rest } = boundVariables;
 
-  async function normalizeRectangleNode(node: RectangleNode): Promise<NormalizedRectangleNode> {
-    return {
-      type: node.type,
-      id: node.id,
-      name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
-      ...normalizeRadiusProps(node),
-      ...(await normalizeShapeProps(node)),
-    };
-  }
-
-  async function normalizeVectorNode(node: VectorNode): Promise<NormalizedVectorNode> {
-    return {
-      type: node.type,
-      id: node.id,
-      name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
-      cornerRadius: node.cornerRadius === figma.mixed ? undefined : node.cornerRadius,
-      rectangleCornerRadii: undefined,
-      ...(await normalizeShapeProps(node)),
-    };
-  }
-
-  async function normalizeBooleanOperationNode(
-    node: BooleanOperationNode,
-  ): Promise<NormalizedBooleanOperationNode> {
-    const fillStyleKey =
-      typeof node.fillStyleId === "string"
-        ? (await figma.getStyleByIdAsync(node.fillStyleId))?.key
-        : undefined;
-
-    return {
-      type: node.type,
-      id: node.id,
-      name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
-      layoutGrow: node.layoutGrow as 0 | 1 | undefined,
-      layoutAlign: node.layoutAlign,
-      layoutSizingHorizontal: node.layoutSizingHorizontal,
-      layoutSizingVertical: node.layoutSizingVertical,
-      absoluteBoundingBox: node.absoluteBoundingBox,
-      relativeTransform: node.relativeTransform,
-      layoutPositioning: node.layoutPositioning,
-      minHeight: node.minHeight ?? undefined,
-      minWidth: node.minWidth ?? undefined,
-      maxHeight: node.maxHeight ?? undefined,
-      maxWidth: node.maxWidth ?? undefined,
-      fills: await normalizePaints(node.fills),
-      ...(fillStyleKey ? { fillStyleKey } : {}),
-      strokes: await normalizePaints(node.strokes),
-      strokeWeight: node.strokeWeight === figma.mixed ? undefined : node.strokeWeight,
-      children: await normalizeNodes(node.children),
-    };
-  }
-  async function normalizeTextNode(node: TextNode): Promise<NormalizedTextNode> {
-    const segments = node.getStyledTextSegments([
-      "fontSize",
-      "fontWeight",
-      "fontName",
-      "letterSpacing",
-      "lineHeight",
-      "paragraphSpacing",
-      "textStyleId",
+    const needsResolution = [
       "fills",
-      "boundVariables",
-      "textDecoration",
-    ]);
-    const first = segments[0];
+      "itemSpacing",
+      "counterAxisSpacing",
+      "bottomLeftRadius",
+      "bottomRightRadius",
+      "topLeftRadius",
+      "topRightRadius",
+      "paddingBottom",
+      "paddingLeft",
+      "paddingRight",
+      "paddingTop",
+      "maxHeight",
+      "minHeight",
+      "maxWidth",
+      "minWidth",
+    ];
 
-    const textStyleKey =
-      typeof node.textStyleId === "string"
-        ? (await figma.getStyleByIdAsync(node.textStyleId))?.key
-        : undefined;
+    const entries = await Promise.all(
+      Object.entries(rest)
+        // Figma API sometimes includes null values in boundVariables
+        .filter(([key, value]) => value && needsResolution.includes(key))
+        .map(async ([key, value]) => {
+          if (Array.isArray(value))
+            return [key, await Promise.all(value.map(normalizeVariableAlias))];
 
-    const normalizeLetterSpacing = (
-      ls: typeof first.letterSpacing,
-      fontSize: number,
-    ): number | undefined => {
-      if (ls.unit === "PIXELS") return ls.value;
-      if (ls.unit === "PERCENT") return (fontSize * ls.value) / 100;
+          return [key, await normalizeVariableAlias(value)];
+        }),
+    );
 
-      return undefined;
-    };
-
-    const normalizeLineHeight = (
-      lh: typeof first.lineHeight,
-      fontSize: number,
-    ): number | undefined => {
-      if (lh.unit === "PIXELS") return lh.value;
-      if (lh.unit === "PERCENT") return (fontSize * lh.value) / 100;
-
-      return undefined;
-    };
-
-    const isItalic = (fontName: FontName): boolean => {
-      return fontName.style.toLowerCase().includes("italic");
-    };
+    const resolved: Omit<NormalizedFrameNode["boundVariables"], "width" | "height"> =
+      Object.fromEntries(entries);
 
     return {
-      type: node.type,
-      id: node.id,
-      name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
-      style: {
-        fontFamily: first.fontName.family,
-        fontPostScriptName: null,
-        fontStyle: first.fontName.style,
-        italic: isItalic(first.fontName),
-        fontWeight: first.fontWeight,
-        fontSize: first.fontSize,
-        textAlignHorizontal: node.textAlignHorizontal,
-        textAlignVertical: node.textAlignVertical,
-        letterSpacing: normalizeLetterSpacing(first.letterSpacing, first.fontSize),
-        paragraphSpacing: first.paragraphSpacing,
-        textDecoration: segments[0].textDecoration,
-        lineHeightPx: normalizeLineHeight(first.lineHeight, first.fontSize),
-        lineHeightUnit:
-          first.lineHeight.unit === "PIXELS"
-            ? "PIXELS"
-            : first.lineHeight.unit === "PERCENT"
-              ? "FONT_SIZE_%"
-              : undefined,
-      },
-      ...(textStyleKey ? { textStyleKey } : {}),
-      characters: node.characters,
-      segments: segments.map((segment) => ({
-        characters: segment.characters,
-        start: segment.start,
-        end: segment.end,
-        style: {
-          fontSize: segment.fontSize,
-          fontWeight: segment.fontWeight,
-          fontFamily: segment.fontName.family,
-          italic: isItalic(segment.fontName),
-          letterSpacing: normalizeLetterSpacing(segment.letterSpacing, segment.fontSize),
-          lineHeight: normalizeLineHeight(segment.lineHeight, segment.fontSize),
-          textDecoration: segment.textDecoration,
-        },
-      })),
-      ...(await normalizeShapeProps(node)),
-    };
-  }
-
-  async function normalizeComponentNode(node: ComponentNode): Promise<NormalizedComponentNode> {
-    return {
-      type: node.type,
-      id: node.id,
-      name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
-      ...normalizeRadiusProps(node),
-      ...(await normalizeAutolayoutProps(node)),
-      children: await normalizeNodes(node.children),
-    };
-  }
-
-  async function normalizeInstanceNode(node: InstanceNode): Promise<NormalizedInstanceNode> {
-    const mainComponent = await node.getMainComponentAsync();
-    if (!mainComponent) {
-      throw new Error("Instance node has no main component");
-    }
-
-    const componentProperties: NormalizedInstanceNode["componentProperties"] = {};
-    for (const [key, value] of Object.entries(node.componentProperties)) {
-      componentProperties[key] = value;
-      if (value.type === "INSTANCE_SWAP") {
-        const mainComponent = (await figma.getNodeByIdAsync(
-          value.value as string,
-        )) as ComponentNode;
-        if (mainComponent) {
-          componentProperties[key].componentKey = mainComponent.key;
-          if (mainComponent.parent?.type === "COMPONENT_SET") {
-            componentProperties[key].componentSetKey = mainComponent.parent.key;
-          }
-        }
-      }
-    }
-
-    return {
-      type: node.type,
-      id: node.id,
-      name: node.name,
-      boundVariables: await normalizeBoundVariables(node),
-      ...normalizeRadiusProps(node),
-      ...(await normalizeAutolayoutProps(node)),
-      children: await normalizeNodes(node.children),
-      componentKey: mainComponent.key,
-      componentSetKey:
-        mainComponent.parent?.type === "COMPONENT_SET" ? mainComponent.parent.key : undefined,
-      componentProperties,
-      overrides: node.overrides,
+      ...resolved,
+      ...(width &&
+        height && {
+          size: {
+            x: await normalizeVariableAlias(width),
+            y: await normalizeVariableAlias(height),
+          },
+        }),
     };
   }
 
   async function normalizeSolidPaint(paint: SolidPaint): Promise<NormalizedSolidPaint> {
-    const normalizedBoundVariables = paint.boundVariables?.color
-      ? { color: await normalizeVariableAlias(paint.boundVariables.color) }
-      : undefined;
-
     return {
       type: paint.type,
       color: {
@@ -319,7 +134,12 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       },
       visible: paint.visible,
       blendMode: paint.blendMode ?? "NORMAL",
-      ...(normalizedBoundVariables && { boundVariables: normalizedBoundVariables }),
+      opacity: paint.opacity,
+      ...(paint.boundVariables?.color && {
+        boundVariables: {
+          color: await normalizeVariableAlias(paint.boundVariables.color),
+        },
+      }),
     };
   }
 
@@ -386,54 +206,6 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
     };
   }
 
-  async function normalizeShapeProps(
-    node: Pick<
-      RectangleNode,
-      | "fills"
-      | "fillStyleId"
-      | "strokes"
-      | "strokeWeight"
-      | "layoutGrow"
-      | "layoutAlign"
-      | "layoutSizingHorizontal"
-      | "layoutSizingVertical"
-      | "absoluteBoundingBox"
-      | "relativeTransform"
-      | "layoutPositioning"
-      | "minHeight"
-      | "minWidth"
-      | "maxHeight"
-      | "maxWidth"
-      | "effects"
-      | "effectStyleId"
-    > &
-      Partial<Pick<FrameNode, "inferredAutoLayout">>,
-  ): Promise<Omit<NormalizedDefaultShapeTrait, "type" | "id" | "name" | "boundVariables">> {
-    const fillStyleKey =
-      typeof node.fillStyleId === "string"
-        ? (await figma.getStyleByIdAsync(node.fillStyleId))?.key
-        : undefined;
-
-    return {
-      layoutGrow: (node.inferredAutoLayout?.layoutGrow ?? node.layoutGrow) as 0 | 1 | undefined,
-      layoutAlign: node.inferredAutoLayout?.layoutAlign ?? node.layoutAlign,
-      layoutSizingHorizontal: node.layoutSizingHorizontal,
-      layoutSizingVertical: node.layoutSizingVertical,
-      absoluteBoundingBox: node.absoluteBoundingBox,
-      relativeTransform: node.relativeTransform,
-      layoutPositioning: node.layoutPositioning,
-      fills: await normalizePaints(node.fills),
-      ...(fillStyleKey ? { fillStyleKey } : {}),
-      strokes: await normalizePaints(node.strokes),
-      strokeWeight: node.strokeWeight === figma.mixed ? undefined : node.strokeWeight,
-      minHeight: node.minHeight ?? undefined,
-      minWidth: node.minWidth ?? undefined,
-      maxHeight: node.maxHeight ?? undefined,
-      maxWidth: node.maxWidth ?? undefined,
-      ...(await normalizeEffectProps(node)),
-    };
-  }
-
   async function normalizeEffectProps(
     node: Pick<RectangleNode, "effects" | "effectStyleId">,
   ): Promise<NormalizedHasEffectsTrait> {
@@ -492,14 +264,63 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
     };
   }
 
+  async function normalizeShapeProps(
+    node: Pick<
+      RectangleNode,
+      | "fills"
+      | "fillStyleId"
+      | "strokes"
+      | "strokeWeight"
+      | "layoutGrow"
+      | "layoutAlign"
+      | "layoutSizingHorizontal"
+      | "layoutSizingVertical"
+      | "absoluteBoundingBox"
+      | "relativeTransform"
+      | "layoutPositioning"
+      | "minHeight"
+      | "minWidth"
+      | "maxHeight"
+      | "maxWidth"
+      | "effects"
+      | "effectStyleId"
+    > &
+      Partial<Pick<FrameNode, "inferredAutoLayout">>,
+  ): Promise<Omit<NormalizedDefaultShapeTrait, keyof NormalizedIsLayerTrait>> {
+    const fillStyleKey =
+      typeof node.fillStyleId === "string"
+        ? (await figma.getStyleByIdAsync(node.fillStyleId))?.key
+        : undefined;
+
+    return {
+      // NormalizedHasLayoutTrait
+      layoutGrow: (node.inferredAutoLayout?.layoutGrow ?? node.layoutGrow) as 0 | 1 | undefined,
+      layoutAlign: node.inferredAutoLayout?.layoutAlign ?? node.layoutAlign,
+      layoutSizingHorizontal: node.layoutSizingHorizontal,
+      layoutSizingVertical: node.layoutSizingVertical,
+      absoluteBoundingBox: node.absoluteBoundingBox,
+      relativeTransform: node.relativeTransform,
+      layoutPositioning: node.layoutPositioning,
+      minHeight: node.minHeight ?? undefined,
+      minWidth: node.minWidth ?? undefined,
+      maxHeight: node.maxHeight ?? undefined,
+      maxWidth: node.maxWidth ?? undefined,
+
+      // NormalizedHasGeometryTrait
+      fills: await normalizePaints(node.fills),
+      fillStyleKey,
+      strokes: await normalizePaints(node.strokes),
+      strokeWeight: node.strokeWeight === figma.mixed ? undefined : node.strokeWeight,
+
+      // NormalizedHasEffectsTrait
+      ...(await normalizeEffectProps(node)),
+    };
+  }
+
   async function normalizeAutolayoutProps(
     node: Omit<FrameNode, "type" | "clone">,
-  ): Promise<
-    NormalizedHasFramePropertiesTrait &
-      Omit<NormalizedDefaultShapeTrait, "type" | "id" | "name" | "boundVariables">
-  > {
+  ): Promise<NormalizedHasFramePropertiesTrait> {
     return {
-      ...(await normalizeShapeProps(node)),
       layoutMode: node.inferredAutoLayout?.layoutMode ?? node.layoutMode,
       layoutWrap: node.inferredAutoLayout?.layoutWrap ?? node.layoutWrap,
       paddingLeft: node.inferredAutoLayout?.paddingLeft ?? node.paddingLeft,
@@ -520,68 +341,334 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
     };
   }
 
-  async function normalizeVariableAlias({
-    id,
-    type,
-  }: VariableAlias): Promise<NormalizedVariableAlias> {
+  async function normalizeFrameNode(node: FrameNode): Promise<NormalizedFrameNode> {
     return {
-      type,
-      key: (await figma.variables.getVariableByIdAsync(id))?.key ?? id,
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: await normalizeBoundVariables(node),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
+      ...(await normalizeShapeProps(node)),
+
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasFramePropertiesTrait
+      ...(await normalizeAutolayoutProps(node)),
+
+      // NormalizedHasChildrenTrait
+      children: await normalizeNodes(node.children),
     };
   }
 
-  /**
-   * normalize bound variables to have variable keys instead of ids
-   */
-  async function normalizeBoundVariables({
-    boundVariables,
-  }: Pick<FrameNode, "boundVariables">): Promise<NormalizedIsLayerTrait["boundVariables"]> {
-    if (!boundVariables) return undefined;
+  async function normalizeRectangleNode(node: RectangleNode): Promise<NormalizedRectangleNode> {
+    return {
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: await normalizeBoundVariables(node),
 
-    const { width, height, componentProperties: _componentProperties, ...rest } = boundVariables;
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
 
-    const needsResolution = [
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
+      ...(await normalizeShapeProps(node)),
+    };
+  }
+
+  async function normalizeTextNode(node: TextNode): Promise<NormalizedTextNode> {
+    const segments = node.getStyledTextSegments([
+      "fontName",
+      "fontWeight",
+      "fontSize",
+      "letterSpacing",
+      "lineHeight",
+      "paragraphSpacing",
+      "textStyleId",
       "fills",
-      "itemSpacing",
-      "counterAxisSpacing",
-      "bottomLeftRadius",
-      "bottomRightRadius",
-      "topLeftRadius",
-      "topRightRadius",
-      "paddingBottom",
-      "paddingLeft",
-      "paddingRight",
-      "paddingTop",
-      "maxHeight",
-      "minHeight",
-      "maxWidth",
-      "minWidth",
-    ];
+      "boundVariables",
+      "textDecoration",
+    ]);
+    const first = segments[0];
 
-    const entries = await Promise.all(
-      Object.entries(rest)
-        // Figma API sometimes includes null values in boundVariables
-        .filter(([key, value]) => value && needsResolution.includes(key))
-        .map(async ([key, value]) => {
-          if (Array.isArray(value))
-            return [key, await Promise.all(value.map(normalizeVariableAlias))];
+    const textStyleKey =
+      typeof node.textStyleId === "string"
+        ? (await figma.getStyleByIdAsync(node.textStyleId))?.key
+        : undefined;
 
-          return [key, await normalizeVariableAlias(value)];
-        }),
-    );
+    const normalizeLetterSpacing = (
+      letterSpacing: LetterSpacing,
+      fontSize: number,
+    ): NormalizedTextSegment["style"]["letterSpacing"] => {
+      if (letterSpacing.unit === "PIXELS") return letterSpacing.value;
+      if (letterSpacing.unit === "PERCENT") return (fontSize * letterSpacing.value) / 100;
 
-    const resolved: Omit<NormalizedFrameNode["boundVariables"], "width" | "height"> =
-      Object.fromEntries(entries);
+      return undefined;
+    };
+
+    const normalizeLineHeight = (
+      lineHeight: LineHeight,
+      fontSize: number,
+    ): NormalizedTextSegment["style"]["lineHeight"] => {
+      if (lineHeight.unit === "PIXELS") return lineHeight.value;
+      if (lineHeight.unit === "PERCENT") return (fontSize * lineHeight.value) / 100;
+
+      return undefined;
+    };
+
+    const isItalic = (fontName: FontName): boolean => {
+      // {
+      //   family: "SF Mono",
+      //   style: "Bold Italic"
+      // }
+      return fontName.style.toLowerCase().includes("italic");
+    };
 
     return {
-      ...resolved,
-      ...(width &&
-        height && {
-          size: {
-            x: await normalizeVariableAlias(width),
-            y: await normalizeVariableAlias(height),
-          },
-        }),
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: await normalizeBoundVariables(node),
+
+      // NormalizedTypePropertiesTrait
+      // NOTE: this normalization is incomplete compared to from-rest.ts normalizer
+      style: {
+        fontFamily: first.fontName.family,
+        fontPostScriptName: null,
+        fontStyle: first.fontName.style,
+        italic: isItalic(first.fontName),
+        fontWeight: first.fontWeight,
+        fontSize: first.fontSize,
+        textAlignHorizontal: node.textAlignHorizontal,
+        textAlignVertical: node.textAlignVertical,
+        letterSpacing: normalizeLetterSpacing(first.letterSpacing, first.fontSize),
+        paragraphSpacing: first.paragraphSpacing,
+        textDecoration: first.textDecoration,
+        lineHeightPx: normalizeLineHeight(first.lineHeight, first.fontSize),
+        lineHeightUnit:
+          first.lineHeight.unit === "PIXELS"
+            ? "PIXELS"
+            : first.lineHeight.unit === "PERCENT"
+              ? "FONT_SIZE_%"
+              : undefined,
+        boundVariables: first.boundVariables,
+        maxLines: node.maxLines ?? undefined,
+      },
+      characters: node.characters,
+      textStyleKey,
+      segments: segments.map((segment) => ({
+        characters: segment.characters,
+        start: segment.start,
+        end: segment.end,
+        style: {
+          fontSize: segment.fontSize,
+          fontWeight: segment.fontWeight,
+          fontFamily: segment.fontName.family,
+          italic: isItalic(segment.fontName),
+          letterSpacing: normalizeLetterSpacing(segment.letterSpacing, segment.fontSize),
+          lineHeight: normalizeLineHeight(segment.lineHeight, segment.fontSize),
+          textDecoration: segment.textDecoration,
+        },
+      })),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
+      ...(await normalizeShapeProps(node)),
+    };
+  }
+
+  async function normalizeComponentNode(node: ComponentNode): Promise<NormalizedComponentNode> {
+    return {
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: await normalizeBoundVariables(node),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
+      ...(await normalizeShapeProps(node)),
+
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasFramePropertiesTrait
+      ...(await normalizeAutolayoutProps(node)),
+
+      // NormalizedHasChildrenTrait
+      children: await normalizeNodes(node.children),
+    };
+  }
+
+  async function normalizeInstanceNode(node: InstanceNode): Promise<NormalizedInstanceNode> {
+    const mainComponent = await node.getMainComponentAsync();
+    if (!mainComponent) {
+      throw new Error("Instance node has no main component");
+    }
+
+    const componentProperties: NormalizedInstanceNode["componentProperties"] = {};
+
+    for (const [key, value] of Object.entries(node.componentProperties)) {
+      componentProperties[key] = value;
+
+      if (value.type === "INSTANCE_SWAP") {
+        // unless value.type === "BOOLEAN", value.value is string
+        const swappedComponent = (await figma.getNodeByIdAsync(
+          value.value as string,
+        )) as ComponentNode;
+
+        if (swappedComponent) {
+          componentProperties[key].componentKey = swappedComponent.key;
+
+          if (swappedComponent.parent?.type === "COMPONENT_SET") {
+            componentProperties[key].componentSetKey = swappedComponent.parent.key;
+          }
+        }
+      }
+    }
+
+    return {
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: await normalizeBoundVariables(node),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
+      ...(await normalizeShapeProps(node)),
+
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasFramePropertiesTrait
+      ...(await normalizeAutolayoutProps(node)),
+
+      // NormalizedHasChildrenTrait
+      children: await normalizeNodes(node.children),
+
+      // NormalizedInstanceNode specific
+      componentProperties,
+      componentKey: mainComponent.key,
+      componentSetKey:
+        mainComponent.parent?.type === "COMPONENT_SET" ? mainComponent.parent.key : undefined,
+      overrides: node.overrides,
+    };
+  }
+
+  async function normalizeVectorNode(node: VectorNode): Promise<NormalizedVectorNode> {
+    return {
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: await normalizeBoundVariables(node),
+
+      // NormalizedCornerTrait
+      cornerRadius: node.cornerRadius === figma.mixed ? undefined : node.cornerRadius,
+      rectangleCornerRadii: undefined, // VectorNode does not have individual corner radii
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
+      ...(await normalizeShapeProps(node)),
+    };
+  }
+
+  async function normalizeBooleanOperationNode(
+    node: BooleanOperationNode,
+  ): Promise<NormalizedBooleanOperationNode> {
+    const fillStyleKey =
+      typeof node.fillStyleId === "string"
+        ? (await figma.getStyleByIdAsync(node.fillStyleId))?.key
+        : undefined;
+
+    return {
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: await normalizeBoundVariables(node),
+
+      // NormalizedHasLayoutTrait
+      layoutGrow: node.layoutGrow as 0 | 1 | undefined,
+      layoutAlign: node.layoutAlign,
+      layoutSizingHorizontal: node.layoutSizingHorizontal,
+      layoutSizingVertical: node.layoutSizingVertical,
+      absoluteBoundingBox: node.absoluteBoundingBox,
+      relativeTransform: node.relativeTransform,
+      layoutPositioning: node.layoutPositioning,
+      minHeight: node.minHeight ?? undefined,
+      minWidth: node.minWidth ?? undefined,
+      maxHeight: node.maxHeight ?? undefined,
+      maxWidth: node.maxWidth ?? undefined,
+
+      // NormalizedHasGeometryTrait
+      fills: await normalizePaints(node.fills),
+      fillStyleKey,
+      strokes: await normalizePaints(node.strokes),
+      strokeWeight: node.strokeWeight === figma.mixed ? undefined : node.strokeWeight,
+
+      // NormalizedHasEffectsTrait
+      ...(await normalizeEffectProps(node)),
+
+      // NormalizedHasChildrenTrait
+      children: await normalizeNodes(node.children),
+    };
+  }
+
+  async function normalizeGroupNodeAsFrameNode(
+    node: GroupNode & { inferredAutoLayout?: FrameNode["inferredAutoLayout"] },
+  ): Promise<NormalizedFrameNode> {
+    return {
+      // NormalizedIsLayerTrait
+      type: "FRAME",
+      id: node.id,
+      name: node.name,
+      boundVariables: await normalizeBoundVariables(node),
+
+      // NormalizedHasLayoutTrait
+      layoutGrow: (node.inferredAutoLayout?.layoutGrow ?? node.layoutGrow) as 0 | 1 | undefined,
+      layoutAlign: node.inferredAutoLayout?.layoutAlign ?? node.layoutAlign,
+      layoutSizingHorizontal: node.layoutSizingHorizontal,
+      layoutSizingVertical: node.layoutSizingVertical,
+      absoluteBoundingBox: node.absoluteBoundingBox,
+      relativeTransform: node.relativeTransform,
+      layoutPositioning: node.layoutPositioning,
+      minHeight: node.minHeight ?? undefined,
+      minWidth: node.minWidth ?? undefined,
+      maxHeight: node.maxHeight ?? undefined,
+      maxWidth: node.maxWidth ?? undefined,
+
+      // NormalizedHasGeometryTrait
+      fills: [],
+      fillStyleKey: undefined,
+      strokes: [],
+      strokeWeight: undefined,
+
+      // NormalizedHasEffectsTrait
+      effects: [],
+      effectStyleKey: undefined,
+
+      // NormalizedCornerTrait
+      cornerRadius: undefined,
+      rectangleCornerRadii: undefined,
+
+      // NormalizedHasFramePropertiesTrait
+      layoutMode: node.inferredAutoLayout?.layoutMode,
+      layoutWrap: node.inferredAutoLayout?.layoutWrap,
+      paddingLeft: node.inferredAutoLayout?.paddingLeft,
+      paddingRight: node.inferredAutoLayout?.paddingRight,
+      paddingTop: node.inferredAutoLayout?.paddingTop,
+      paddingBottom: node.inferredAutoLayout?.paddingBottom,
+      primaryAxisAlignItems: node.inferredAutoLayout?.primaryAxisAlignItems,
+      counterAxisAlignItems: node.inferredAutoLayout?.counterAxisAlignItems,
+      primaryAxisSizingMode: node.inferredAutoLayout?.primaryAxisSizingMode,
+      counterAxisSizingMode: node.inferredAutoLayout?.counterAxisSizingMode,
+      itemSpacing: node.inferredAutoLayout?.itemSpacing,
+      counterAxisSpacing: node.inferredAutoLayout?.counterAxisSpacing ?? undefined,
+
+      // NormalizedHasChildrenTrait
+      children: await normalizeNodes(node.children),
     };
   }
 
