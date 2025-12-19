@@ -404,5 +404,26 @@ export const FIGMA_STYLES = [
     "name": "semantic/screen-title",
     "description": "26",
     "remote": false
+  },
+  {
+    "styleType": "EFFECT",
+    "key": "4717150d124a52434b2777609b046aa73a94c7ba",
+    "name": "shadow/s1",
+    "description": "",
+    "remote": false
+  },
+  {
+    "styleType": "EFFECT",
+    "key": "906bc739e1b77bc1719762826f6d1154893c8266",
+    "name": "shadow/s2",
+    "description": "",
+    "remote": false
+  },
+  {
+    "styleType": "EFFECT",
+    "key": "56f376d9146d9e158ba127ee8347c3cbf8329f19",
+    "name": "shadow/s3",
+    "description": "화면의 다른 요소들보다 가장 높은 계층에 위치할 때 사용됩니다.",
+    "remote": false
   }
 ];
