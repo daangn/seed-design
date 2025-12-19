@@ -10,8 +10,8 @@ export function createStyleService({
 }: {
   styleRepository: StyleRepository;
 }): StyleService {
-  function getName(id: string) {
-    const style = styleRepository.findOneByKey(id);
+  function getName(key: string) {
+    const style = styleRepository.findOneByKey(key);
 
     if (!style) {
       return undefined;
@@ -20,8 +20,8 @@ export function createStyleService({
     return style.name;
   }
 
-  function getSlug(id: string): string[] | undefined {
-    const name = getName(id);
+  function getSlug(key: string): string[] | undefined {
+    const name = getName(key);
 
     if (!name) {
       return undefined;

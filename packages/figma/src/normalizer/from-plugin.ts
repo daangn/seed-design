@@ -64,7 +64,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
   }: VariableAlias): Promise<NormalizedVariableAlias> {
     return {
       type,
-      key: (await figma.variables.getVariableByIdAsync(id))?.key ?? id,
+      key: (await figma.variables.getVariableByIdAsync(id))?.key,
     };
   }
 
