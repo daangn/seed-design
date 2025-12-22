@@ -289,11 +289,7 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
     itemSpacing: (node) =>
       processDimension(node.boundVariables?.itemSpacing?.id, node.itemSpacing, "GAP"),
     counterAxisSpacing: (node) =>
-      processDimension(
-        node.boundVariables?.counterAxisSpacing?.id,
-        node.counterAxisSpacing,
-        "GAP",
-      ),
+      processDimension(node.boundVariables?.counterAxisSpacing?.id, node.counterAxisSpacing, "GAP"),
     frameFill: (node) =>
       node.fillStyleKey
         ? processFillStyle(node.fillStyleKey)
@@ -347,26 +343,9 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
         "LINE_HEIGHT",
       ),
     boxShadow: (node) => {
-      if (!node.effects || node.effects.length === 0) {
-        return undefined;
-      }
+      if (node.effects.length === 0) return undefined;
 
-      // Check if any effect has a color variable binding
-      const firstEffect = node.effects[0];
-      const colorId = firstEffect?.boundVariables?.color?.id;
-
-      if (colorId) {
-        // If color is variable-bound, return the variable name
-        return getVariableName(colorId);
-      }
-
-      // Fall back to raw shadow value
-      return firstEffect
-        ? rawValueFormatters.boxShadow({
-            ...firstEffect,
-            type: firstEffect.type ?? "DROP_SHADOW",
-          })
-        : undefined;
+      return node.effects.map(rawValueFormatters.boxShadow).join(", ");
     },
   };
 

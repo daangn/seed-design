@@ -182,18 +182,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
 
         return effect.type === "DROP_SHADOW" || effect.type === "INNER_SHADOW";
       })
-      .map((effect): NormalizedShadow => {
-        const { type, color, offset, radius, spread, boundVariables } = effect;
-
-        return {
-          type,
-          color,
-          offset,
-          radius,
-          spread,
-          boundVariables,
-        };
-      });
+      .map(({ blendMode, visible, ...rest }): NormalizedShadow => rest);
 
     return {
       ...(effectStyleKey ? { effectStyleKey } : {}),

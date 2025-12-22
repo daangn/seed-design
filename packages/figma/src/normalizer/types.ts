@@ -67,14 +67,16 @@ export type NormalizedHasGeometryTrait = Omit<
 };
 
 export type NormalizedShadow =
-  | Pick<
+  | (Pick<
       FigmaRestSpec.DropShadowEffect,
-      "type" | "color" | "offset" | "radius" | "spread" | "boundVariables"
-    >
-  | Pick<
+      "color" | "offset" | "radius" | "spread" | "boundVariables"
+    > &
+      Required<Pick<FigmaRestSpec.DropShadowEffect, "type">>)
+  | (Pick<
       FigmaRestSpec.InnerShadowEffect,
-      "type" | "color" | "offset" | "radius" | "spread" | "boundVariables"
-    >;
+      "color" | "offset" | "radius" | "spread" | "boundVariables"
+    > &
+      Required<Pick<FigmaRestSpec.InnerShadowEffect, "type">>);
 
 export type NormalizedHasEffectsTrait = Omit<FigmaRestSpec.HasEffectsTrait, "effects"> & {
   effects: NormalizedShadow[];

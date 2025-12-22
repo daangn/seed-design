@@ -64,17 +64,22 @@ export const defaultFillStyleResolver = ({ slug }: { slug: string[] }) => {
   };
 };
 
-function formatBoxShadow(value: {
+function formatBoxShadow({
+  type,
+  color,
+  offset,
+  radius,
+  spread,
+}: {
   type: "DROP_SHADOW" | "INNER_SHADOW";
   color: RGBA;
   offset: { x: number; y: number };
   radius: number;
   spread?: number;
 }): string {
-  const { type, color, offset, radius, spread } = value;
   const inset = type === "INNER_SHADOW" ? "inset " : "";
   const colorStr = toCssRgba(color);
-  const spreadStr = spread !== undefined ? ` ${spread}px` : "";
+  const spreadStr = spread ? ` ${spread}px` : "";
 
   return `${inset}${offset.x}px ${offset.y}px ${radius}px${spreadStr} ${colorStr}`;
 }
