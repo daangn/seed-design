@@ -1,5 +1,11 @@
 # @seed-design/figma
 
+## 1.1.14
+
+### Patch Changes
+
+- c1f818f: Figma Codegen & MCP에서 `boxShadow` 코드 생성을 지원하고 엔티티 정보를 최신화합니다.
+
 ## 1.1.13
 
 ### Patch Changes
