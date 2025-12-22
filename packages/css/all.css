@@ -5190,6 +5190,7 @@
   font-weight: var(--seed-font-weight-regular);
   border: none;
   outline: none;
+  margin: 0;
   font-family: inherit;
   display: flex;
 }

@@ -18,6 +18,9 @@ const menuSheetItem = defineRecipe({
     gap: vars.base.enabled.root.gap,
     boxShadow: `inset 0 calc(-1 * ${rootVars.base.enabled.divider.strokeBottomWidth}) 0 ${rootVars.base.enabled.divider.strokeColor}`,
 
+    // iOS 15 has default margin on buttons
+    margin: 0,
+
     fontSize: vars.base.enabled.label.fontSize,
     lineHeight: vars.base.enabled.label.lineHeight,
     fontWeight: vars.base.enabled.label.fontWeight,
