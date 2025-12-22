@@ -15,6 +15,10 @@ export const DOCS_ENDPOINTS = {
   DOCS_FOUNDATION_LIST: "/docs/llms-foundation.txt",
   DOCS_FOUNDATION: "/docs/llms-foundation",
 
+  // Rootage (Design Tokens & Component Specs)
+  ROOTAGE_INDEX: "/rootage/index.json",
+  ROOTAGE_BASE: "/rootage",
+
   // Sitemap
   SITEMAP: "/sitemap.xml",
 } as const;

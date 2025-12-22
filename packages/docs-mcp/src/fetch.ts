@@ -237,6 +237,33 @@ export async function fetchFoundation(topic: string): Promise<string> {
 }
 
 /**
+ * Rootage index.json structure
+ */
+export interface RootageIndex {
+  name: string;
+  version: string;
+  resources: Array<{ path: string }>;
+}
+
+/**
+ * Fetches the rootage index (list of all available resources)
+ */
+export async function fetchRootageIndex(): Promise<RootageIndex> {
+  return fetchWithCache<RootageIndex>(`${SEED_BASE_URL}/rootage/index.json`, "fetch rootage index");
+}
+
+/**
+ * Fetches a specific rootage resource by path
+ * @param path - Resource path from index.json (e.g., '/color.json', '/components/action-button.json')
+ */
+export async function fetchRootageResource(path: string): Promise<unknown> {
+  return fetchWithCache<unknown>(
+    `${SEED_BASE_URL}/rootage${path}`,
+    `fetch rootage resource ${path}`,
+  );
+}
+
+/**
  * Clear the cache
  */
 export function clearCache(): void {

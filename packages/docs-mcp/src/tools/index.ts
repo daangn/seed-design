@@ -13,6 +13,7 @@ import {
   getFoundationTool,
 } from "./get-component.js";
 import { getReactChangelogTool } from "./get-changelog.js";
+import { getRootageTool } from "./get-rootage.js";
 
 const tools: Tool[] = [
   // React component tools
@@ -31,6 +32,9 @@ const tools: Tool[] = [
   // Foundation tools
   listFoundationTool,
   getFoundationTool,
+
+  // Rootage tools
+  getRootageTool,
 ];
 
 const registeredToolCache = new Map<string, Tool>();
