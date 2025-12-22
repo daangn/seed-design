@@ -5895,6 +5895,7 @@
   border-radius: var(--seed-radius-full);
   background-color: var(--seed-color-bg-neutral-weak);
   isolation: isolate;
+  grid-auto-rows: 1fr;
   grid-auto-columns: 1fr;
   grid-auto-flow: column;
   align-items: center;
