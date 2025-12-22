@@ -1,4 +1,4 @@
-import type { RadioMarkProperties } from "@/codegen/component-properties";
+import type { RadiomarkProperties } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createLocalSnippetHelper } from "../../element-factories";
@@ -8,9 +8,9 @@ import { match } from "ts-pattern";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("radio-group");
 
-export const createRadioMarkHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<RadioMarkProperties>(
-    metadata.radioMark.key,
+export const createRadiomarkHandler = (_ctx: ComponentHandlerDeps) =>
+  defineComponentHandler<RadiomarkProperties>(
+    metadata.radiomark.key,
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")

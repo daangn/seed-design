@@ -309,8 +309,8 @@ export type RadioProperties = InferComponentDefinition<
   typeof sets.radio.componentPropertyDefinitions
 >;
 
-export type RadioMarkProperties = InferComponentDefinition<
-  typeof sets.radioMark.componentPropertyDefinitions
+export type RadiomarkProperties = InferComponentDefinition<
+  typeof sets.radiomark.componentPropertyDefinitions
 >;
 
 export type ReactionButtonProperties = InferComponentDefinition<
@@ -318,7 +318,7 @@ export type ReactionButtonProperties = InferComponentDefinition<
 >;
 
 export type ResultSectionProperties = InferComponentDefinition<
-  typeof sets.templateResultSection.componentPropertyDefinitions
+  typeof sets.resultSection.componentPropertyDefinitions
 >;
 
 export type SegmentedControlProperties = InferComponentDefinition<
@@ -370,8 +370,8 @@ export type SwitchProperties = InferComponentDefinition<
   typeof sets._switch.componentPropertyDefinitions
 >;
 
-export type SwitchMarkProperties = InferComponentDefinition<
-  typeof sets.switchMark.componentPropertyDefinitions
+export type SwitchmarkProperties = InferComponentDefinition<
+  typeof sets.switchmark.componentPropertyDefinitions
 >;
 
 export type ToggleButtonProperties = InferComponentDefinition<
