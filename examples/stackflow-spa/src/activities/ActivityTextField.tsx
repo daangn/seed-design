@@ -133,6 +133,23 @@ const ActivityTextField: StaticActivityComponentType<"ActivityTextField"> = () =
                       />
                     </TextField>
                   </VStack>
+                  <VStack gap="x2" p="x2">
+                    <Text as="p" textStyle="articleBody">
+                      Nisi qui nostrud sint est laborum cillum. Ut consequat ex amet anim nulla
+                      adipisicing enim. Magna eu culpa laborum nulla ad pariatur. Aliqua labore
+                      mollit fugiat aliqua mollit et velit commodo nostrud consequat dolore laboris
+                      amet proident nisi. Sit et nisi id qui consectetur dolor ad exercitation quis
+                      do sit officia in nostrud quis. Voluptate dolore elit fugiat. Sint velit eu
+                      sint laboris occaecat laboris fugiat nostrud deserunt eu irure excepteur
+                      consectetur commodo consequat.
+                    </Text>
+                    <Text as="p" textStyle="articleBody">
+                      Irure Lorem reprehenderit consectetur reprehenderit occaecat occaecat ex
+                      cupidatat eu. Proident ut tempor sit. Ex consequat magna id nulla consequat
+                      eiusmod elit. Ut culpa velit ea qui occaecat ex non consectetur anim qui.
+                      Velit laborum exercitation laboris.
+                    </Text>
+                  </VStack>
                 </VStack>
               </ScrollFog>
               <SnackbarAvoidOverlap>
