@@ -14,12 +14,44 @@ import {
 } from "./get-component.js";
 import { getReactChangelogTool } from "./get-changelog.js";
 import { getRootageTool } from "./get-rootage.js";
+import { discoverToolsTool } from "./discover-tools.js";
+import {
+  listReactGettingStartedTool,
+  getReactGettingStartedTool,
+  listReactStackflowTool,
+  getReactStackflowTool,
+  listReactDeveloperToolsTool,
+  getReactDeveloperToolsTool,
+  listReactMigrationTool,
+  getReactMigrationTool,
+  listReactAIIntegrationTool,
+  getReactAIIntegrationTool,
+  listReactUpdatesTool,
+  getReactUpdatesTool,
+} from "./react-sections.js";
 
 const tools: Tool[] = [
+  // Discovery tool (call this first to understand available tools)
+  discoverToolsTool,
+
   // React component tools
   listReactComponentsTool,
   getReactComponentTool,
   getReactChangelogTool,
+
+  // React section tools
+  listReactGettingStartedTool,
+  getReactGettingStartedTool,
+  listReactStackflowTool,
+  getReactStackflowTool,
+  listReactDeveloperToolsTool,
+  getReactDeveloperToolsTool,
+  listReactMigrationTool,
+  getReactMigrationTool,
+  listReactAIIntegrationTool,
+  getReactAIIntegrationTool,
+  listReactUpdatesTool,
+  getReactUpdatesTool,
 
   // Breeze component tools
   listBreezeComponentsTool,

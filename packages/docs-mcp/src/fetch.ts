@@ -106,6 +106,116 @@ export async function fetchReactChangelog(): Promise<string> {
   );
 }
 
+// ============================================================================
+// React Section Fetch Functions
+// ============================================================================
+
+/**
+ * Generic function to fetch a React section list
+ */
+async function fetchReactSectionList(
+  section: string,
+  urlPath: string,
+): Promise<Array<{ name: string; title: string; path: string }>> {
+  const content = await fetchWithCache<string>(
+    `${SEED_BASE_URL}/react/llms-${urlPath}.txt`,
+    `fetch React ${section} list`,
+  );
+
+  // Parse the topic list from the text content
+  const lines = content.split("\n").filter((line) => line.trim());
+  const topics: Array<{ name: string; title: string; path: string }> = [];
+
+  for (const line of lines) {
+    // Extract paths from URLs like /react/llms-getting-started/installation/vite.txt
+    const match = line.match(new RegExp(`llms-${urlPath}/([a-z-/]+)\\.txt`));
+    if (match) {
+      const path = match[1];
+      const parts = path.split("/");
+      const name = parts[parts.length - 1];
+      // Extract title from markdown link like [Installation with Vite](...)
+      const titleMatch = line.match(/\[([^\]]+)\]/);
+      const title = titleMatch
+        ? titleMatch[1]
+        : name
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+      topics.push({ name, title, path });
+    }
+  }
+
+  return topics;
+}
+
+/**
+ * Generic function to fetch a React section document
+ */
+async function fetchReactSectionDoc(
+  section: string,
+  urlPath: string,
+  docPath: string,
+): Promise<string> {
+  return fetchWithCache<string>(
+    `${SEED_BASE_URL}/react/llms-${urlPath}/${docPath}.txt`,
+    `fetch React ${section} document ${docPath}`,
+  );
+}
+
+// Getting Started
+export async function fetchReactGettingStartedList() {
+  return fetchReactSectionList("getting started", "getting-started");
+}
+
+export async function fetchReactGettingStartedDoc(path: string) {
+  return fetchReactSectionDoc("getting started", "getting-started", path);
+}
+
+// Stackflow
+export async function fetchReactStackflowList() {
+  return fetchReactSectionList("Stackflow", "stackflow");
+}
+
+export async function fetchReactStackflowDoc(path: string) {
+  return fetchReactSectionDoc("Stackflow", "stackflow", path);
+}
+
+// Developer Tools
+export async function fetchReactDeveloperToolsList() {
+  return fetchReactSectionList("developer tools", "developer-tools");
+}
+
+export async function fetchReactDeveloperToolsDoc(path: string) {
+  return fetchReactSectionDoc("developer tools", "developer-tools", path);
+}
+
+// Migration
+export async function fetchReactMigrationList() {
+  return fetchReactSectionList("migration", "migration");
+}
+
+export async function fetchReactMigrationDoc(path: string) {
+  return fetchReactSectionDoc("migration", "migration", path);
+}
+
+// AI Integration
+export async function fetchReactAIIntegrationList() {
+  return fetchReactSectionList("AI integration", "ai-integration");
+}
+
+export async function fetchReactAIIntegrationDoc(path: string) {
+  return fetchReactSectionDoc("AI integration", "ai-integration", path);
+}
+
+// Updates
+export async function fetchReactUpdatesList() {
+  return fetchReactSectionList("updates", "updates");
+}
+
+export async function fetchReactUpdatesDoc(path: string) {
+  return fetchReactSectionDoc("updates", "updates", path);
+}
+
 /**
  * Fetches the list of Breeze components
  */
