@@ -1,6 +1,6 @@
 # @seed-design/docs-mcp
 
-MCP (Model Context Protocol) tools for accessing SEED Design documentation. This package provides LLMs with structured access to SEED Design's React and Breeze component documentation, changelogs, and more.
+MCP (Model Context Protocol) tools for accessing SEED Design documentation. This package provides LLMs with structured access to SEED Design's React and Breeze component documentation, design guidelines, Rootage specifications, and more.
 
 ## Installation
 
@@ -90,6 +90,12 @@ await initializeTools(server);
 - `list_foundation` - List all available SEED Design foundation topics (color, typography, spacing, etc.)
 - `get_foundation` - Get detailed documentation for a specific foundation topic
 
+### Rootage (Design Tokens & Component Specs)
+
+- `get_rootage` - Get SEED Design rootage specifications (design tokens and component specs)
+  - Without path: Returns index with all available resources
+  - With path: Returns specific resource (e.g., `/color.json`, `/components/action-button.json`)
+
 ## Development
 
 ```bash
@@ -101,6 +107,15 @@ bun run dev
 
 # Build the package
 bun run build
+
+# Lint check
+bun run lint
+
+# Lint fix
+bun run lint:fix
+
+# Type check
+bun run typecheck
 
 # Clean build artifacts
 bun run clean

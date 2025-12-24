@@ -39,6 +39,9 @@
     "clean": "rm -rf dist",
     "build": "bunchee",
     "dev": "bun ./dist/stdio.js",
+    "lint": "biome check ./src",
+    "lint:fix": "biome check --fix ./src",
+    "typecheck": "tsc --noEmit",
     "prepublishOnly": "bun run build"
   },
   "dependencies": {
