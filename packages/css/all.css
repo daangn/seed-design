@@ -1645,6 +1645,7 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  min-width: 0;
   height: 100%;
   display: flex;
 }
