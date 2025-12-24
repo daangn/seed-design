@@ -3,6 +3,44 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.12.24
+
+iOS 15 이하 기기에서 MenuSheetItem이 의도하지 않은 margin을 갖는 문제를 수정합니다. [`76acd7e`](https://github.com/daangn/seed-design/commit/76acd7eebc0b537acf1c4fe2e82271a0a04c9cf3)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.15](https://npmjs.com/package/@seed-design/css/v/1.1.15)
+
+---
+
+AppScreen 스와이프 중 취소 시 트랜지션이 끝난 뒤에도 `GlobalInteraction`의 `data-swipe-back-state`가 `idle`로 되돌아가지 않고 `canceling`으로 남아 있는 문제를 수정합니다. [`e4b0ce8`](https://github.com/daangn/seed-design/commit/e4b0ce8009f3dc7edbb142a5c02df10a860df4fe)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.15](https://npmjs.com/package/@seed-design/stackflow/v/1.1.15)
+
+---
+
+`theme=“android”`인 AppScreen 또는 AppBar에 속한 AppBarMain의 title과 subtitle 말줄임(truncation)이 적용되지 않는 문제를 수정합니다. [`7a428ec`](https://github.com/daangn/seed-design/commit/7a428ec62c84f1746b4316ea1965c8c9d63b7da5)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.15](https://npmjs.com/package/@seed-design/css/v/1.1.15)
+
+---
+
+- `get_rootage` tool 추가 (design token 및 component spec 조회) [`63b65db`](https://github.com/daangn/seed-design/commit/63b65db36dedeb421f164aa9f2fd3c048fa476d7)
+- React 문서 조회 기능 개선 및 fetch 함수 통합
+
+영향받는 패키지
+- 📦 [@seed-design/docs-mcp@0.3.0](https://npmjs.com/package/@seed-design/docs-mcp/v/0.3.0)
+
+---
+
+iOS 17 이하 기기에서 SegmentedControlItem의 높이가 잘못 설정될 수 있는 문제를 수정합니다. [`498a9e7`](https://github.com/daangn/seed-design/commit/498a9e7013662a19f941f3e42edaa125685cf62a)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.15](https://npmjs.com/package/@seed-design/css/v/1.1.15)
+
+---
+
 ## 2025.12.22
 
 Figma Codegen & MCP에서 `boxShadow` 코드 생성을 지원하고 엔티티 정보를 최신화합니다. [`c1f818f`](https://github.com/daangn/seed-design/commit/c1f818f92b8e07f43fd5def3a28430342da0ef90)
