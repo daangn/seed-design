@@ -51,12 +51,12 @@
         "@sanity/image-url": "^1.2.0",
         "@sanity/table": "^2.0.0",
         "@sanity/vision": "^4.10.2",
-        "@seed-design/css": "1.1.13",
+        "@seed-design/css": "1.1.15",
         "@seed-design/migration-index": "1.0.0",
         "@seed-design/react": "1.1.13",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
-        "@seed-design/stackflow": "1.1.11",
+        "@seed-design/stackflow": "1.1.15",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
@@ -340,7 +340,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.1.13",
+      "version": "1.1.15",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -355,7 +355,7 @@
     },
     "packages/docs-mcp": {
       "name": "@seed-design/docs-mcp",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "bin": {
         "seed-docs-mcp": "./dist/stdio.js",
       },
@@ -372,7 +372,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.14",
+      "version": "1.1.15",
       "dependencies": {
         "@seed-design/css": "1.1.12",
         "change-case": "^5.4.4",
@@ -388,7 +388,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.14",
+      "version": "1.1.15",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
@@ -884,7 +884,7 @@
     },
     "packages/stackflow": {
       "name": "@seed-design/stackflow",
-      "version": "1.1.11",
+      "version": "1.1.15",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -895,7 +895,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.1.13",
+        "@seed-design/css": "1.1.15",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -908,7 +908,7 @@
         "vite-plugin-dts": "^4.5.3",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.13",
+        "@seed-design/css": ">=1.1.15",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "react": ">=18.0.0",
