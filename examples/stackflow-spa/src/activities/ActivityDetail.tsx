@@ -1,5 +1,5 @@
 import { Box, Text } from "@seed-design/react";
-import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarBackButton,
@@ -20,8 +20,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityDetail: StaticActivityComponentType<"ActivityDetail"> = () => {
-  const { params } = useActivity();
+const ActivityDetail: StaticActivityComponentType<"ActivityDetail"> = ({ params }) => {
   const { push } = useFlow();
 
   return (
