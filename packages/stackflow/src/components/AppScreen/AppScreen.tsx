@@ -34,12 +34,13 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     <ClassNamesProvider value={classNames}>
       <AppBarPropsProvider
         value={useMemo(
-          () => ({ theme: variantProps.theme, transitionStyle, tone: variantProps.tone }),
-          [variantProps.theme, transitionStyle, variantProps.tone],
+          () => ({ ...variantProps, transitionStyle }),
+          [variantProps, transitionStyle],
         )}
       >
         <AppScreenPrimitive.Root
           ref={ref}
+          data-transition-style={transitionStyle}
           {...mergeProps({ className: classNames.root }, otherProps)}
         />
       </AppBarPropsProvider>
