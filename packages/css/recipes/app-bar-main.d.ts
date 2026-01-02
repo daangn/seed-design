@@ -15,6 +15,10 @@ declare interface AppBarMainVariant {
   * @default "layer"
   */
   tone: "layer" | "transparent";
+/**
+  * @default "top"
+  */
+  exitTransitionBehavior: "top" | "own";
 }
 
 declare type AppBarMainVariantMap = {

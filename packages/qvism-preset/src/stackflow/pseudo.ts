@@ -23,3 +23,20 @@ export const swipeBackCompleting =
   "[data-swipe-back-state=completing] &[data-activity-is-top]:not(#\\#)";
 export const swipeBackCompletingBehind =
   "[data-swipe-back-state=completing] &:not([data-activity-is-top]):not(#\\#)";
+
+export const pushBehindFollowTop = (topStyle: string): string =>
+  `[data-global-transition-state=enter-active][data-top-transition-style="${topStyle}"][data-top-activity-type="full-screen"] &:not([data-activity-is-top]):not(#\\#):not(#\\#)`;
+export const popBehindFollowTop = (topStyle: string): string =>
+  `[data-global-transition-state=exit-active][data-top-transition-style="${topStyle}"][data-top-activity-type="full-screen"] &:not([data-activity-is-top]):not(#\\#):not(#\\#)`;
+export const idleBehindFollowTop = (topStyle: string): string =>
+  `[data-swipe-back-state=idle][data-global-transition-state=enter-done][data-top-transition-style="${topStyle}"][data-top-activity-type="full-screen"] &:not([data-activity-is-top]):not(#\\#):not(#\\#)`;
+export const swipeBackSwipingBehindFollowTop = (topStyle: string): string =>
+  `[data-swipe-back-state=swiping][data-top-transition-style="${topStyle}"] &:not([data-activity-is-top]):not(#\\#):not(#\\#)`;
+export const swipeBackCancelingBehindFollowTop = (topStyle: string): string =>
+  `[data-swipe-back-state=canceling][data-top-transition-style="${topStyle}"] &:not([data-activity-is-top]):not(#\\#):not(#\\#)`;
+export const swipeBackCompletingBehindFollowTop = (topStyle: string): string =>
+  `[data-swipe-back-state=completing][data-top-transition-style="${topStyle}"] &:not([data-activity-is-top]):not(#\\#):not(#\\#)`;
+
+// Used for z-index adjustments when behind a specific transition style
+export const behindWhenTopIs = (topStyle: string): string =>
+  `[data-top-transition-style="${topStyle}"] &:not([data-activity-is-top]):not(#\\#):not(#\\#)`;

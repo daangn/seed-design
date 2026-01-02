@@ -15,6 +15,10 @@ declare interface AppBarVariant {
   * @default false
   */
   divider: boolean;
+/**
+  * @default "top"
+  */
+  exitTransitionBehavior: "top" | "own";
 }
 
 declare type AppBarVariantMap = {

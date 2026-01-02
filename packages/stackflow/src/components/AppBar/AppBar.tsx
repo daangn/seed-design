@@ -28,13 +28,7 @@ export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) =
 
   return (
     <ClassNamesProvider value={classNames}>
-      <MainPropsProvider
-        value={{
-          theme: variantProps.theme,
-          transitionStyle: variantProps.transitionStyle,
-          tone: variantProps.tone,
-        }}
-      >
+      <MainPropsProvider value={variantProps}>
         <AppBarPrimitive.Root
           ref={ref}
           {...mergeProps({ className: classNames.root }, otherProps)}
