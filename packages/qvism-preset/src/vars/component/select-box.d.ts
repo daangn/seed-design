@@ -2,12 +2,15 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
+        "colorTransitionDuration": "var(--seed-duration-color-transition)",
+        "colorTransitionTimingFunction": "var(--seed-timing-function-easing)",
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x5)",
         "gap": "var(--seed-dimension-x2_5)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "cornerRadius": "var(--seed-radius-r3)"
+        "cornerRadius": "var(--seed-radius-r3)",
+        "color": "var(--seed-color-bg-transparent)"
       },
       "content": {
         "gap": "var(--seed-dimension-x0_5)"
@@ -27,7 +30,7 @@ export declare const vars: {
     },
     "enabledPressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "enabledSelected": {

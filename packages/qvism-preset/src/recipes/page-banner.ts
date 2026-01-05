@@ -9,7 +9,7 @@ const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.ba
 
 const pageBanner = defineSlotRecipe({
   name: "page-banner",
-  slots: ["root", "textContent", "title", "description", "button", "closeButton"],
+  slots: ["root", "content", "body", "title", "description", "button", "closeButton"],
   base: {
     root: {
       boxSizing: "border-box",
@@ -26,8 +26,10 @@ const pageBanner = defineSlotRecipe({
       width: "100%",
       minHeight: vars.base.enabled.root.minHeight,
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
+      paddingTop: vars.base.enabled.root.paddingY,
+      paddingBottom: vars.base.enabled.root.paddingY,
 
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,
@@ -43,22 +45,20 @@ const pageBanner = defineSlotRecipe({
       [pseudo(":is(button)")]: {
         cursor: "pointer",
       },
-
-      // This is a temporary fix.
-      // In the snippet ui/page-banner.tsx, replace Box with some proper slot with the following styles on next minor release.
-      "& .seed-box": {
-        lineHeight: vars.base.enabled.description.lineHeight,
-        // flexGrow: 1,
-      },
     },
-    textContent: {
+    content: {
       display: "flex",
       flexWrap: "wrap",
       alignItems: "center",
       justifyContent: "space-between",
       flexGrow: 1,
 
-      gap: vars.base.enabled.textContent.gap,
+      gap: vars.base.enabled.content.gap,
+    },
+    body: {
+      lineHeight: vars.base.enabled.description.lineHeight,
+
+      flexGrow: 1,
     },
     title: {
       flexShrink: 0,
@@ -133,6 +133,7 @@ const pageBanner = defineSlotRecipe({
       positive: {},
       warning: {},
       critical: {},
+      magic: {},
     },
   },
   compoundVariants: [
@@ -423,6 +424,35 @@ const pageBanner = defineSlotRecipe({
         },
         button: {
           color: vars.toneCriticalVariantSolid.enabled.button.color,
+        },
+      },
+    },
+    {
+      tone: "magic",
+      variant: "weak",
+      css: {
+        root: {
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient})`,
+
+          ...prefixIcon({
+            color: vars.toneMagicVariantWeak.enabled.prefixIcon.color,
+          }),
+          ...suffixIcon({
+            color: vars.toneMagicVariantWeak.enabled.suffixIcon.color,
+          }),
+
+          [pseudo(":is(button)", active)]: {
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient})`,
+          },
+        },
+        title: {
+          color: vars.toneMagicVariantWeak.enabled.title.color,
+        },
+        description: {
+          color: vars.toneMagicVariantWeak.enabled.description.color,
+        },
+        button: {
+          color: vars.toneMagicVariantWeak.enabled.button.color,
         },
       },
     },

@@ -79,14 +79,14 @@ export const createMenuSheetHandler = (ctx: ComponentHandlerDeps) => {
     // TODO: React 구현체에 description 추가 이후
     // const description = props["Description Text#21827:0"].value;
 
-    const { labelAlignment } = match(props.Layout.value)
-      .with("Text with Icon", () => ({ labelAlignment: undefined }))
-      .with("Text Only", () => ({ labelAlignment: "center" }))
+    const { labelAlign } = match(props.Layout.value)
+      .with("Text with Icon", () => ({ labelAlign: "left" }))
+      .with("Text Only", () => ({ labelAlign: "center" }))
       .exhaustive();
 
     const content = createLocalSnippetElement(
       "MenuSheetContent",
-      { title, labelAlignment },
+      { title, labelAlign },
       contentChildren,
       {
         comment: title

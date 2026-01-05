@@ -42,3 +42,5 @@ export type Dimension = Exclude<keyof TokenObject["$dimension"], "spacingX" | "s
 export type SpacingX = keyof TokenObject["$dimension"]["spacingX"];
 
 export type SpacingY = keyof TokenObject["$dimension"]["spacingY"];
+
+export type Shadow = keyof TokenObject["$shadow"];

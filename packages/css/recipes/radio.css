@@ -2,7 +2,7 @@
     display: inline-flex;
     align-items: flex-start;
     position: relative;
-    max-inline-size: 100%;
+    max-width: 100%;
     vertical-align: top;
     isolation: isolate;
     cursor: pointer;
@@ -30,7 +30,7 @@
 .seed-radio__label--size_large {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
-    margin-block-start: calc(18px - 0.65625rem);
+    margin-top: calc(var(--seed-dimension-x9) / 2 - var(--seed-line-height-t5) / 2);
 }
 .seed-radio__root--size_medium {
     min-height: var(--seed-dimension-x8);
@@ -39,5 +39,5 @@
 .seed-radio__label--size_medium {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
-    margin-block-start: calc(16px - 0.59375rem);
+    margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2);
 }

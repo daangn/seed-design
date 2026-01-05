@@ -11,6 +11,12 @@
       "slots": {
         "root": {
           "properties": {
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
             "size": {
               "type": "dimension"
             },
@@ -69,6 +75,14 @@
             ],
             "slots": {
               "root": {
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
@@ -102,7 +116,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -124,39 +138,6 @@
                 "strokeColor": {
                   "type": "color",
                   "value": "#00000000"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-300"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "disabled",
-              "selected"
-            ],
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.palette.gray-300"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-300"
                 }
               }
             }
@@ -202,6 +183,50 @@
                 }
               }
             }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              }
+            }
           }
         ]
       },
@@ -241,6 +266,50 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-inverted-pressed"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-300"
                 }
               }
             }

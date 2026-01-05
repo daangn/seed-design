@@ -184,7 +184,9 @@
         }
       ],
       "id": "error-state",
+      "deprecated": true,
       "dependencies": [
+        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -205,6 +207,19 @@
       "id": "extended-action-sheet",
       "deprecated": true,
       "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "field-button.tsx"
+        }
+      ],
+      "id": "field-button",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -413,6 +428,25 @@
     {
       "snippets": [
         {
+          "path": "result-section.tsx"
+        }
+      ],
+      "id": "result-section",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "segmented-control.tsx"
         }
       ],
@@ -439,6 +473,19 @@
             "radio-group"
           ]
         }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "slider.tsx"
+        }
+      ],
+      "id": "slider",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
+        "@seed-design/react"
       ]
     },
     {
@@ -484,6 +531,7 @@
       "id": "text-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ]
     },

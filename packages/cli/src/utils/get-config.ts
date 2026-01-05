@@ -17,6 +17,7 @@ export const configSchema = z
     rsc: z.coerce.boolean().default(false),
     tsx: z.coerce.boolean().default(true),
     path: z.string(),
+    telemetry: z.coerce.boolean().optional().default(true),
   })
   .strict();
 

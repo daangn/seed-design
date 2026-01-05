@@ -1,12 +1,17 @@
 import type { MetadataRoute } from "next";
 import { baseUrl } from "@/app/metadata";
-import { source, reactSource } from "@/app/source";
+import { source, reactSource, breezeSource, lynxSource } from "@/app/source";
 
 export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return await Promise.all(
-    [...source.getPages(), ...reactSource.getPages()].map(async (page) => {
+    [
+      ...source.getPages(),
+      ...reactSource.getPages(),
+      ...breezeSource.getPages(),
+      ...lynxSource.getPages(),
+    ].map(async (page) => {
       const { lastModified } = await page.data.load();
 
       return {

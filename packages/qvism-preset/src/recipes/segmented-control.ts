@@ -21,6 +21,7 @@ const segmentedControl = defineSlotRecipe({
 
       gridAutoFlow: "column",
       gridAutoColumns: "1fr",
+      gridAutoRows: "1fr",
 
       alignItems: "center",
 
@@ -32,14 +33,15 @@ const segmentedControl = defineSlotRecipe({
       willChange: "transform",
       transform: "translateX(calc(var(--segment-index) * 100%))",
 
-      insetBlock: vars.base.enabled.root.padding,
-      insetInlineStart: vars.base.enabled.root.padding,
+      top: vars.base.enabled.root.padding,
+      bottom: vars.base.enabled.root.padding,
+      left: vars.base.enabled.root.padding,
       width: `calc((100% - ${vars.base.enabled.root.padding} * 2) / var(--segment-count))`,
 
       borderRadius: vars.base.enabled.indicator.cornerRadius,
       backgroundColor: vars.base.enabled.indicator.color,
 
-      boxShadow: `${vars.base.enabled.indicator.shadow}, inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
 
       transition: `transform ${vars.base.enabled.indicator.transformDuration} ${vars.base.enabled.indicator.transformTimingFunction}`,
     },
@@ -61,8 +63,10 @@ const segmentedControl = defineSlotRecipe({
       // ensures every item has the height of the tallest item (e.g. item with 2+ lines of label)
       height: "100%",
 
-      paddingInline: itemVars.base.enabled.root.paddingX,
-      paddingBlock: itemVars.base.enabled.root.paddingY,
+      paddingLeft: itemVars.base.enabled.root.paddingX,
+      paddingRight: itemVars.base.enabled.root.paddingX,
+      paddingTop: itemVars.base.enabled.root.paddingY,
+      paddingBottom: itemVars.base.enabled.root.paddingY,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
       fontWeight: itemVars.base.enabled.label.fontWeight,

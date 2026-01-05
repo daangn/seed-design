@@ -1,7 +1,7 @@
 import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, Icon, VStack } from "@seed-design/react";
 import { useState } from "react";
-import { List, ListDivider, ListItem } from "seed-design/ui/list";
+import { List, ListDivider, ListItem, ListButtonItem } from "seed-design/ui/list";
 import { Switch } from "seed-design/ui/switch";
 
 export default function ListHighlighted() {
@@ -10,17 +10,28 @@ export default function ListHighlighted() {
   return (
     <VStack width="360px" gap="x4">
       <List>
-        <ListItem
+        <ListButtonItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
-          title="하이라이트되지 않은 항목"
+          title="버튼"
           detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
+          onClick={() => {}}
         />
         <ListDivider />
-        <ListItem
+        <ListButtonItem
           highlighted
           prefix={<Icon svg={<IconPersonCircleLine />} />}
-          title="하이라이트된 항목"
+          title="하이라이트된 버튼"
           detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
+          onClick={() => {}}
+        />
+        <ListDivider />
+        <ListButtonItem
+          highlighted
+          disabled
+          prefix={<Icon svg={<IconPersonCircleLine />} />}
+          title="하이라이트 및 비활성화된 버튼"
+          detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
+          onClick={() => {}}
         />
       </List>
       <List>

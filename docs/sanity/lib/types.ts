@@ -7,7 +7,7 @@ export interface SanityImageType {
   };
 }
 
-export type PlatformStatus = "ready" | "not-ready" | "in-progress" | "deprecated";
+export type PlatformStatus = "ready" | "not-ready" | "in-progress" | "deprecated" | "not-planned";
 
 export interface ComponentData {
   id: string;

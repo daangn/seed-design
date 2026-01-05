@@ -49,6 +49,7 @@ export interface UseDialogProps extends UseDialogStateProps {
    * @default false
    */
   unmountOnExit?: boolean;
+
 }
 
 export type UseDialogReturn = ReturnType<typeof useDialog>;

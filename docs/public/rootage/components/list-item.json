@@ -25,11 +25,20 @@
             },
             "color": {
               "type": "color"
+            },
+            "marginX": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
             }
           }
         },
         "content": {
           "properties": {
+            "color": {
+              "type": "color"
+            },
             "gap": {
               "type": "dimension"
             },
@@ -141,11 +150,31 @@
                   "type": "dimension",
                   "value": "$dimension.spacing-x.global-gutter"
                 },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
                 "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "marginDuration": {
                   "type": "duration",
                   "value": "$duration.d3"
                 },
-                "colorTimingFunction": {
+                "marginTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "borderRadiusDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "borderRadiusTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 }
@@ -256,26 +285,48 @@
           },
           {
             "states": [
-              "highlighted"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.carrot-100"
-                }
-              }
-            }
-          },
-          {
-            "states": [
               "pressed"
             ],
             "slots": {
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
+                },
+                "marginX": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "highlighted"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.brand-weak"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "highlighted",
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.brand-weak-pressed"
                 }
               }
             }
@@ -294,7 +345,7 @@
               "detail": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-subtle"
+                  "value": "$color.fg.disabled"
                 }
               },
               "prefixIcon": {

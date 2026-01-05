@@ -3,8 +3,8 @@ export declare const vars: {
     "enabled": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
-        "shadow": "0px 2px 6px 0px #00000026",
-        "colorDuration": "var(--seed-duration-d4)",
+        "shadow": "var(--seed-shadow-s3)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "progressCircle": {

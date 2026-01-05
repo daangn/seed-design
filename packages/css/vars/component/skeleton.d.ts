@@ -41,7 +41,7 @@ export declare const vars: {
         "color": "var(--seed-color-palette-gray-200)"
       },
       "shimmer": {
-        "color": "var(--seed-gradient-shimmer-neutral)"
+        "gradient": "var(--seed-gradient-shimmer-neutral)"
       }
     }
   },
@@ -51,7 +51,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-magic-weak)"
       },
       "shimmer": {
-        "color": "var(--seed-gradient-shimmer-magic)"
+        "gradient": "var(--seed-gradient-shimmer-magic)"
       }
     }
   }

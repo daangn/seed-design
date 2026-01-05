@@ -10,7 +10,7 @@ export const vars = {
         "size": "var(--seed-dimension-x4)",
         "marginRight": "var(--seed-dimension-x2)"
       },
-      "textContent": {
+      "content": {
         "gap": "var(--seed-dimension-x1_5)"
       },
       "title": {
@@ -303,6 +303,33 @@ export const vars = {
     "pressed": {
       "root": {
         "color": "var(--seed-color-bg-critical-solid-pressed)"
+      }
+    }
+  },
+  "toneMagicVariantWeak": {
+    "enabled": {
+      "root": {
+        "gradient": "var(--seed-gradient-glow-magic)"
+      },
+      "prefixIcon": {
+        "color": "var(--seed-color-fg-neutral)"
+      },
+      "title": {
+        "color": "var(--seed-color-fg-neutral)"
+      },
+      "description": {
+        "color": "var(--seed-color-fg-neutral)"
+      },
+      "button": {
+        "color": "var(--seed-color-fg-neutral)"
+      },
+      "suffixIcon": {
+        "color": "var(--seed-color-fg-neutral)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "gradient": "var(--seed-gradient-glow-magic-pressed)"
       }
     }
   }

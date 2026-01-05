@@ -4,7 +4,7 @@ import { listItem, type ListItemVariantProps } from "@seed-design/css/recipes/li
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withStyleProps, type StyleProps } from "../../utils/styled";
+import { handleRadius, withStyleProps, type StyleProps } from "../../utils/styled";
 import { VStack, type VStackProps } from "../Stack";
 import { useCheckboxContext } from "@seed-design/react-checkbox";
 import { createWithStateProps } from "../../utils/createWithStateProps";
@@ -12,16 +12,31 @@ import { useRadioGroupItemContext } from "@seed-design/react-radio-group";
 import { useSwitchContext } from "@seed-design/react-switch";
 
 const { withContext, withProvider } = createSlotRecipeContext(listItem);
-const withStateProps = createWithStateProps(
-  [useCheckboxContext, useRadioGroupItemContext, useSwitchContext],
-  { strict: false },
-);
+const withStateProps = createWithStateProps([
+  { useContext: useCheckboxContext, strict: false },
+  { useContext: useRadioGroupItemContext, strict: false },
+  { useContext: useSwitchContext, strict: false },
+]);
 
-export interface ListRootProps extends VStackProps {}
+export interface ListRootProps extends VStackProps {
+  itemBorderRadius?: StyleProps["borderRadius"];
+}
 
 export const ListRoot = forwardRef<HTMLUListElement, ListRootProps>(
-  ({ as = "ul", ...props }, ref) => {
-    return <VStack as={as} ref={ref as React.ForwardedRef<HTMLDivElement>} {...props} />;
+  ({ as = "ul", style, itemBorderRadius, ...props }, ref) => {
+    return (
+      <VStack
+        as={as}
+        ref={ref as React.ForwardedRef<HTMLDivElement>}
+        style={
+          {
+            ...style,
+            "--list-item-border-radius": handleRadius(itemBorderRadius),
+          } as React.CSSProperties
+        }
+        {...props}
+      />
+    );
   },
 );
 

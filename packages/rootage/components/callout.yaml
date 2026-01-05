@@ -20,6 +20,8 @@ data:
             type: dimension
           color:
             type: color
+          gradient:
+            type: gradient
       prefixIcon:
         properties:
           size:
@@ -178,7 +180,7 @@ data:
     tone=magic:
       enabled:
         root:
-          color: $gradient.glow-magic
+          gradient: $gradient.glow-magic
         prefixIcon:
           color: $color.fg.neutral
         title:
@@ -191,4 +193,4 @@ data:
           color: $color.fg.neutral
       pressed:
         root:
-          color: $gradient.glow-magic-pressed
+          gradient: $gradient.glow-magic-pressed

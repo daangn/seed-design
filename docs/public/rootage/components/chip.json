@@ -144,7 +144,7 @@
               "root": {
                 "colorDuration": {
                   "type": "duration",
-                  "value": "$duration.d4"
+                  "value": "$duration.color-transition"
                 },
                 "colorTimingFunction": {
                   "type": "cubicBezier",
@@ -339,6 +339,10 @@
             ],
             "slots": {
               "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
@@ -349,10 +353,6 @@
                     "value": 1,
                     "unit": "px"
                   }
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
                 }
               },
               "label": {
@@ -389,7 +389,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -485,6 +485,10 @@
             ],
             "slots": {
               "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
@@ -495,10 +499,6 @@
                     "value": 1,
                     "unit": "px"
                   }
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
                 }
               },
               "label": {
@@ -535,7 +535,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }

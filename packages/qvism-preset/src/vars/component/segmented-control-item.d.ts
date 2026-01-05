@@ -8,7 +8,7 @@ export declare const vars: {
         "paddingY": "var(--seed-dimension-x1_5)",
         "cornerRadius": "var(--seed-radius-full)",
         "gap": "var(--seed-dimension-x1_5)",
-        "colorDuration": "var(--seed-duration-d4)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "label": {
@@ -16,7 +16,7 @@ export declare const vars: {
         "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-bold)",
         "color": "var(--seed-color-fg-neutral-subtle)",
-        "colorDuration": "var(--seed-duration-d4)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       }
     },

@@ -3,6 +3,647 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.12.24
+
+iOS 15 이하 기기에서 MenuSheetItem이 의도하지 않은 margin을 갖는 문제를 수정합니다. [`76acd7e`](https://github.com/daangn/seed-design/commit/76acd7eebc0b537acf1c4fe2e82271a0a04c9cf3)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.15](https://npmjs.com/package/@seed-design/css/v/1.1.15)
+
+---
+
+AppScreen 스와이프 중 취소 시 트랜지션이 끝난 뒤에도 `GlobalInteraction`의 `data-swipe-back-state`가 `idle`로 되돌아가지 않고 `canceling`으로 남아 있는 문제를 수정합니다. [`e4b0ce8`](https://github.com/daangn/seed-design/commit/e4b0ce8009f3dc7edbb142a5c02df10a860df4fe)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.15](https://npmjs.com/package/@seed-design/stackflow/v/1.1.15)
+
+---
+
+`theme=“android”`인 AppScreen 또는 AppBar에 속한 AppBarMain의 title과 subtitle 말줄임(truncation)이 적용되지 않는 문제를 수정합니다. [`7a428ec`](https://github.com/daangn/seed-design/commit/7a428ec62c84f1746b4316ea1965c8c9d63b7da5)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.15](https://npmjs.com/package/@seed-design/css/v/1.1.15)
+
+---
+
+- `get_rootage` tool 추가 (design token 및 component spec 조회) [`63b65db`](https://github.com/daangn/seed-design/commit/63b65db36dedeb421f164aa9f2fd3c048fa476d7)
+- React 문서 조회 기능 개선 및 fetch 함수 통합
+
+영향받는 패키지
+- 📦 [@seed-design/docs-mcp@0.3.0](https://npmjs.com/package/@seed-design/docs-mcp/v/0.3.0)
+
+---
+
+iOS 17 이하 기기에서 SegmentedControlItem의 높이가 잘못 설정될 수 있는 문제를 수정합니다. [`498a9e7`](https://github.com/daangn/seed-design/commit/498a9e7013662a19f941f3e42edaa125685cf62a)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.15](https://npmjs.com/package/@seed-design/css/v/1.1.15)
+
+---
+
+## 2025.12.22
+
+Figma Codegen & MCP에서 `boxShadow` 코드 생성을 지원하고 엔티티 정보를 최신화합니다. [`c1f818f`](https://github.com/daangn/seed-design/commit/c1f818f92b8e07f43fd5def3a28430342da0ef90)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.1.14](https://npmjs.com/package/@seed-design/figma/v/1.1.14)
+
+---
+
+## 2025.12.18
+
+`list_foundation`, `get_foundation`, `list_docs_components`, `get_docs_component` tools 추가 [`f385599`](https://github.com/daangn/seed-design/commit/f3855998785f9b5d9ee2bea1e997c2c22b20cbf2)
+
+영향받는 패키지
+- 📦 [@seed-design/docs-mcp@0.2.0](https://npmjs.com/package/@seed-design/docs-mcp/v/0.2.0)
+
+---
+
+## 2025.12.15
+
+`radiomark` Rootage 정의를 명확화합니다. (스타일 변경사항 없음) [`9be0581`](https://github.com/daangn/seed-design/commit/9be0581cd36d3d350284445b4a7fd75898bb1823)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.13](https://npmjs.com/package/@seed-design/css/v/1.1.13)
+- 📦 [@seed-design/rootage-artifacts@1.1.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.6)
+
+---
+
+신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다. [`cc4a45a`](https://github.com/daangn/seed-design/commit/cc4a45a00a93c987447255b3cc6bee9182e520a9)
+
+- React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.13](https://npmjs.com/package/@seed-design/css/v/1.1.13)
+- 📦 [@seed-design/react@1.1.13](https://npmjs.com/package/@seed-design/react/v/1.1.13)
+- 📦 [@seed-design/rootage-artifacts@1.1.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.6)
+- 📦 [@seed-design/tailwind3-plugin@1.1.13](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.1.13)
+- 📦 [@seed-design/tailwind4-theme@1.1.13](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.1.13)
+
+---
+
+unicode-segmenter 0.14.4 버전을 설치합니다. [`8f54b80`](https://github.com/daangn/seed-design/commit/8f54b80e81adf6415e5b687bf25da33dd3c82ea9)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.13](https://npmjs.com/package/@seed-design/react/v/1.1.13)
+
+---
+
+Button들의 xsmall variant의 텍스트 사이즈를 t4에서 t3로 변경해요. [`739937f`](https://github.com/daangn/seed-design/commit/739937fefe4ffcc21e57216508053fe60bfa958d)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.13](https://npmjs.com/package/@seed-design/css/v/1.1.13)
+- 📦 [@seed-design/rootage-artifacts@1.1.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.6)
+
+---
+
+Divider 자체적으로 16px의 여백을 가지는 `inset` 옵션을 추가합니다. [`fce8668`](https://github.com/daangn/seed-design/commit/fce866834642a0a516a85efdce65f1637ae28181)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.13](https://npmjs.com/package/@seed-design/react/v/1.1.13)
+
+---
+
+## 2025.12.08
+
+Figma Codegen 정보를 최신화합니다. [`6d680ba`](https://github.com/daangn/seed-design/commit/6d680baf7b106d97f64e41b0e4aa7156959ec49e)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.1.12](https://npmjs.com/package/@seed-design/figma/v/1.1.12)
+
+---
+
+seedFontMultiplier, seedFontScaling attribute를 추가합니다 [`8d0ad90`](https://github.com/daangn/seed-design/commit/8d0ad90ca761954a066025ee0075fac90bd9a9e5)
+- seedFontMultiplier: 폰트 크기 스케일링 계수 (e.g. 0.8, 1.35, 1.5, 1)
+- seedFontScaling: 폰트 크기 스케일링 활성화 여부 (e.g. "enabled")
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.12](https://npmjs.com/package/@seed-design/css/v/1.1.12)
+
+---
+
+cssnano 등 CSS 최적화 도구를 사용할 때, `bleedX`와 `bleedY` 중 한 가지 속성만 정의하는 경우 bleed가 적용되지 않던 문제를 수정합니다. [`8f31f93`](https://github.com/daangn/seed-design/commit/8f31f9315b18031c816ecc61dcec9a984e474318)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.12](https://npmjs.com/package/@seed-design/css/v/1.1.12)
+
+---
+
+Overlay 컴포넌트에 skipAnimation 옵션을 추가합니다 [`69ccc6e`](https://github.com/daangn/seed-design/commit/69ccc6e7d13ff1790bfb0b9924669e6ad63ea49c)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.12](https://npmjs.com/package/@seed-design/css/v/1.1.12)
+- 📦 [@seed-design/react-dialog@1.0.1](https://npmjs.com/package/@seed-design/react-dialog/v/1.0.1)
+- 📦 [@seed-design/react-drawer@1.0.5](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.5)
+
+---
+
+Badge의 크기와 Field의 indicator 크기 및 여백이 폰트 스케일링 제한의 영향을 받도록 업데이트합니다. [`279001a`](https://github.com/daangn/seed-design/commit/279001a99f13accf981654438e1bbee632b62476)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.12](https://npmjs.com/package/@seed-design/css/v/1.1.12)
+
+---
+
+## 2025.12.04
+
+@seed-design/stackflow: @stackflow/react-ui-core를 peerDependencies에서 dependencies로 이동합니다. [`ea488c5`](https://github.com/daangn/seed-design/commit/ea488c5da8813d16f9d6401858dfd932d9b53553)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.11](https://npmjs.com/package/@seed-design/stackflow/v/1.1.11)
+
+---
+
+Figma MCP가 `export_node_as_image` 툴과 `clone_node` 툴 호출 후 반환 결과를 정상적으로 파싱하지 못하는 문제를 수정합니다. [`b58ac46`](https://github.com/daangn/seed-design/commit/b58ac46b66c4a9589bd894d072a01a3c3de83c2a)
+
+영향받는 패키지
+- 📦 [@seed-design/mcp@1.1.11](https://npmjs.com/package/@seed-design/mcp/v/1.1.11)
+
+---
+
+## 2025.12.01
+
+Figma 엔티티 및 Codegen을 업데이트합니다. (신규 아이콘 및 `ResultSection` Codegen 지원) [`bc9f9a0`](https://github.com/daangn/seed-design/commit/bc9f9a0462f4fbdd8282d2b107d036e4b7d33632)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.1.10](https://npmjs.com/package/@seed-design/figma/v/1.1.10)
+
+---
+
+`TagGroupRoot`의 children이 `null` 또는 `undefined`를 포함하는 경우 불필요한 separator가 표시되는 문제를 수정합니다. [`a2b874b`](https://github.com/daangn/seed-design/commit/a2b874b790c7d40ce7561d044ceaad176dc7955d)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.10](https://npmjs.com/package/@seed-design/react/v/1.1.10)
+
+---
+
+peerDeps에 `@seed-design/css` 패키지가 추가됩니다. [`12ffece`](https://github.com/daangn/seed-design/commit/12ffece09da7a3740ddc2dba0fc8f65b70210d7a)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.10](https://npmjs.com/package/@seed-design/react/v/1.1.10)
+
+---
+
+PageBanner에 tone="magic" 스타일을 추가합니다. [`db5de74`](https://github.com/daangn/seed-design/commit/db5de74c6c8ad7b434372e498443c5d706f3279b)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.10](https://npmjs.com/package/@seed-design/css/v/1.1.10)
+- 📦 [@seed-design/react@1.1.10](https://npmjs.com/package/@seed-design/react/v/1.1.10)
+- 📦 [@seed-design/rootage-artifacts@1.1.5](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.5)
+
+---
+
+Segmented Control의 스타일을 업데이트합니다: Indicator에서 shadow 정의를 제거합니다. [`70d11b8`](https://github.com/daangn/seed-design/commit/70d11b80ae01b616570468ddc5133740ae1182cb)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.10](https://npmjs.com/package/@seed-design/css/v/1.1.10)
+- 📦 [@seed-design/rootage-artifacts@1.1.5](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.5)
+
+---
+
+TabsCarousel에 onSwipeStart, onSwipeEnd 이벤트 콜백을 추가합니다. [`938bf0b`](https://github.com/daangn/seed-design/commit/938bf0bb413947ef03dcbb3d5cdf36af62cebfb5)
+
+영향받는 패키지
+- 📦 [@seed-design/react-tabs@1.0.2](https://npmjs.com/package/@seed-design/react-tabs/v/1.0.2)
+
+---
+
+TextFieldInput 및 TextFieldTextarea (text-input 스타일시트)에서 브라우저 기본 자동 완성 스타일이 표시되지 않도록 수정합니다. [`c03a3dd`](https://github.com/daangn/seed-design/commit/c03a3dd984a15d66da10127bd37d1b8966b15ec7)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.10](https://npmjs.com/package/@seed-design/css/v/1.1.10)
+
+---
+
+Field(TextField)의 스타일을 수정합니다. [`a12e49b`](https://github.com/daangn/seed-design/commit/a12e49b6f3a7fdec66c12666a35b15a4787d3aca)
+
+- `maxGraphemeCount`를 사용하지만 `description`을 사용하지 않는 경우 `maxGraphemeCount`가 우측이 아닌 좌측에 표시되는 문제를 수정합니다.
+- Tailwind Preflight 사용 시 Character Count 영역이 디자인 의도보다 높이를 더 많이 차지하는 문제를 수정합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.10](https://npmjs.com/package/@seed-design/css/v/1.1.10)
+- 📦 [@seed-design/react@1.1.10](https://npmjs.com/package/@seed-design/react/v/1.1.10)
+
+---
+
+## 2025.11.26
+
+`AppBar`에 적용되는 그라디언트를 `AppScreen`으로 이동합니다. [`37d332d`](https://github.com/daangn/seed-design/commit/37d332daf30f0f61e4e1692e896021a73b38287c)
+
+- `<AppBar tone="transparent">`를 사용하는 경우 `tone="transparent"`를 `AppScreen`으로 옮겨 그라디언트를 표시할 수 있습니다.
+- `AppScreen`에 `gradient={false}`를 설정하여 그라디언트를 숨길 수 있습니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.9](https://npmjs.com/package/@seed-design/css/v/1.1.9)
+
+---
+
+iOS 웹뷰 환경에서 Avatar가 정상적으로 렌더링되지 않는 문제를 수정합니다. [`77517f1`](https://github.com/daangn/seed-design/commit/77517f16067b72e4792e12105e93a7b0cc1d0292)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.9](https://npmjs.com/package/@seed-design/css/v/1.1.9)
+
+---
+
+Stackflow 플러그인이 최신이 아닌 data attribute에 의해 잘못된 트랜지션을 재생하지 않도록 수정합니다. [`afa281b`](https://github.com/daangn/seed-design/commit/afa281b2a802359c64b549e58c1d499792d28e29)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.9](https://npmjs.com/package/@seed-design/stackflow/v/1.1.9)
+
+---
+
+## 2025.11.21
+
+List Item에 신규 active(pressed) 스타일을 적용하고, disabled 상태에서 detail 영역의 색상을 수정합니다. [`8752805`](https://github.com/daangn/seed-design/commit/87528054e18200ab6098abfe66186ee2cddaf9e0)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.8](https://npmjs.com/package/@seed-design/css/v/1.1.8)
+- 📦 [@seed-design/react@1.1.8](https://npmjs.com/package/@seed-design/react/v/1.1.8)
+- 📦 [@seed-design/rootage-artifacts@1.1.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.4)
+
+---
+
+Help Bubble이 기본적으로 z-index 99를 가지도록 수정합니다. (HelpBubblePositioner 또는 HelpBubblePositionerPortal에 직접 인라인 스타일을 적용한 경우 인라인 스타일이 우선 적용됩니다.) [`ee98674`](https://github.com/daangn/seed-design/commit/ee98674aa0799515ead6e7c437aed8b8232c8798)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.8](https://npmjs.com/package/@seed-design/css/v/1.1.8)
+
+---
+
+@seed-design/react에서 unicode-segmenter가 externalize되지 않는 문제를 수정합니다. [`8edbf00`](https://github.com/daangn/seed-design/commit/8edbf003d327a8aec36b51edee40345cbc9c1d98)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.8](https://npmjs.com/package/@seed-design/react/v/1.1.8)
+
+---
+
+BottomSheet에 handleOnly 옵션이 정상적으로 동작하지 않는 이슈를 수정합니다 [`e3806c1`](https://github.com/daangn/seed-design/commit/e3806c1ea1937ef0b19c9acf6293fd0a87645e7c)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.8](https://npmjs.com/package/@seed-design/react/v/1.1.8)
+- 📦 [@seed-design/react-drawer@1.0.4](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.4)
+
+---
+
+## 2025.11.20
+
+Scroll Fog 컴포넌트가 항상 fog를 표시하게 변경하고 padding 가이드라인을 추가합니다 [`f4c62f6`](https://github.com/daangn/seed-design/commit/f4c62f6af1dc97627c818624a7359581a0f7cb40)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.7](https://npmjs.com/package/@seed-design/react/v/1.1.7)
+
+---
+
+스타일시트에서 logical property(padding-block 등)를 physical property(padding-left 및 padding-right 등)로 교체합니다. (브라우저 지원) [`bee919c`](https://github.com/daangn/seed-design/commit/bee919c028232078b4ba69c90e729bbd33508a11)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.7](https://npmjs.com/package/@seed-design/css/v/1.1.7)
+
+---
+
+Slider Value Indicator가 표시되는 조건을 설정하는 `valueIndicatorTrigger` prop을 추가합니다. ("active"|"hover", 기본값: "active") [`1340675`](https://github.com/daangn/seed-design/commit/13406751def0ba4c7efd3cf2a8bfbd62c8b63fbd)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.7](https://npmjs.com/package/@seed-design/css/v/1.1.7)
+- 📦 [@seed-design/react@1.1.7](https://npmjs.com/package/@seed-design/react/v/1.1.7)
+- 📦 [@seed-design/react-slider@1.0.1](https://npmjs.com/package/@seed-design/react-slider/v/1.0.1)
+
+---
+
+Slider Value Indicator가 Track 양 끝에 있을 때 Track 바깥 영역을 차지하지 않도록 수정합니다. [`1340675`](https://github.com/daangn/seed-design/commit/13406751def0ba4c7efd3cf2a8bfbd62c8b63fbd)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.7](https://npmjs.com/package/@seed-design/css/v/1.1.7)
+- 📦 [@seed-design/react@1.1.7](https://npmjs.com/package/@seed-design/react/v/1.1.7)
+- 📦 [@seed-design/react-slider@1.0.1](https://npmjs.com/package/@seed-design/react-slider/v/1.0.1)
+
+---
+
+## 2025.11.18
+
+transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 추가 [`dfe6c1e`](https://github.com/daangn/seed-design/commit/dfe6c1e12f7b88b1ebdabbe54e4fc504b700489a)
+
+- `$color.bg.transparent-pressed` 컬러와 `$color.bg.transparent` 컬러가 추가되었습니다.
+- 다음 컴포넌트들의 색상이 transparent 관련 토큰으로 변경되었습니다.
+  - `Chip` (outlineStrong, outlineWeak)
+  - `Action Button` (neutralOutline, brandOutline, ghost)
+  - `Checkmark`
+  - `Tabs` (outline)
+  - `List Item`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Select Box`
+- 다음 컴포넌트들의 color transition이 추가되었습니다. (duration: $duration.d3, timing-function: $timing-function.easing)
+  - `Checkmark`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Select Box`
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.6](https://npmjs.com/package/@seed-design/css/v/1.1.6)
+- 📦 [@seed-design/rootage-artifacts@1.1.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.3)
+- 📦 [@seed-design/tailwind3-plugin@1.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.1.6)
+- 📦 [@seed-design/tailwind4-theme@1.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.1.6)
+
+---
+
+다음 컴포넌트들의 color transition을 `$duration.color-transition` (d3) 토큰으로 변경합니다 [`a09e6b4`](https://github.com/daangn/seed-design/commit/a09e6b49f84e622f75563c85897992033301c3f3)
+
+- `Action Button`
+- `Bottom Sheet Handle`
+- `Checkmark`
+- `Tabs` (outline)
+- `Chip`
+- `Contextual Floating Button`
+- `Floating Action Button`
+- `Input Button`
+- `List Item`
+- `Radiomark`
+- `Reaction Button`
+- `Segmented Control Item`
+- `Select Box`
+- `Text Input`
+- `Toggle Button`
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.6](https://npmjs.com/package/@seed-design/css/v/1.1.6)
+- 📦 [@seed-design/rootage-artifacts@1.1.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.3)
+- 📦 [@seed-design/tailwind3-plugin@1.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.1.6)
+- 📦 [@seed-design/tailwind4-theme@1.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.1.6)
+
+---
+
+## 2025.11.17
+
+BottomSheetBody에 제공한 style 관련 prop(`paddingX` 등)이 적용되지 않고 DOM으로 bleed되는 문제를 수정합니다. [`03ff678`](https://github.com/daangn/seed-design/commit/03ff678ce576d85a37185f4551bfa99927a9bea6)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.5](https://npmjs.com/package/@seed-design/react/v/1.1.5)
+
+---
+
+FieldButton에 Read Only 상태를 추가합니다. Disabled 상태인 FieldButton은 내부 `<input />`도 `disabled` 속성을 갖도록 수정합니다. [`53290ab`](https://github.com/daangn/seed-design/commit/53290abaeda978d623317efb425de42ed2becd7d)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.5](https://npmjs.com/package/@seed-design/css/v/1.1.5)
+- 📦 [@seed-design/react-field-button@1.0.1](https://npmjs.com/package/@seed-design/react-field-button/v/1.0.1)
+- 📦 [@seed-design/rootage-artifacts@1.1.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.2)
+
+---
+
+@seed-design/stackflow 패키지에서 `useActivityZIndexBase` 훅을 제공합니다. [`7529e31`](https://github.com/daangn/seed-design/commit/7529e315c3c430b371ada6adf1d75f0ddb1badc0)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.5](https://npmjs.com/package/@seed-design/stackflow/v/1.1.5)
+
+---
+
+use-prevent-scroll 로직을 삭제합니다 [`cc8864d`](https://github.com/daangn/seed-design/commit/cc8864d3cff5a7d4c06d56709d7eaffe6e11fc15)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.3](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.3)
+
+---
+
+:focus-visible selector를 사용하기 전 브라우저에서 selector를 지원하는지 확인합니다. [`ae1b768`](https://github.com/daangn/seed-design/commit/ae1b76808dcc411fd34206195b517bc94035ecca)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.5](https://npmjs.com/package/@seed-design/react/v/1.1.5)
+- 📦 [@seed-design/react-checkbox@1.0.1](https://npmjs.com/package/@seed-design/react-checkbox/v/1.0.1)
+- 📦 [@seed-design/react-field@1.0.1](https://npmjs.com/package/@seed-design/react-field/v/1.0.1)
+- 📦 [@seed-design/react-field-button@1.0.1](https://npmjs.com/package/@seed-design/react-field-button/v/1.0.1)
+- 📦 [@seed-design/react-radio-group@1.0.1](https://npmjs.com/package/@seed-design/react-radio-group/v/1.0.1)
+- 📦 [@seed-design/react-segmented-control@1.0.1](https://npmjs.com/package/@seed-design/react-segmented-control/v/1.0.1)
+- 📦 [@seed-design/react-supports@0.0.1](https://npmjs.com/package/@seed-design/react-supports/v/0.0.1)
+- 📦 [@seed-design/react-switch@1.0.1](https://npmjs.com/package/@seed-design/react-switch/v/1.0.1)
+- 📦 [@seed-design/react-tabs@1.0.1](https://npmjs.com/package/@seed-design/react-tabs/v/1.0.1)
+- 📦 [@seed-design/react-text-field@1.1.1](https://npmjs.com/package/@seed-design/react-text-field/v/1.1.1)
+
+---
+
+telemetry 옵션을 추가합니다 [`a6ae76f`](https://github.com/daangn/seed-design/commit/a6ae76fde02f957e53b5dcfe57f32420cfb95a85)
+
+영향받는 패키지
+- 📦 [@seed-design/cli@1.1.0](https://npmjs.com/package/@seed-design/cli/v/1.1.0)
+
+---
+
+## 2025.11.13
+
+`@radix-ui/react-dialog` 의존성을 추가해 React 패키지를 Portable하게 수정합니다 [`77d304d`](https://github.com/daangn/seed-design/commit/77d304d3ddaed22cc247e3250390ecbe0309a8ba)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.4](https://npmjs.com/package/@seed-design/react/v/1.1.4)
+
+---
+
+Stackflow의 AppScreen에 있던 gradient 스타일을 AppBar로 이동합니다 [`795668c`](https://github.com/daangn/seed-design/commit/795668c57c76661222b6136b8d2e6a364da4ecbd)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.4](https://npmjs.com/package/@seed-design/css/v/1.1.4)
+
+---
+
+## 2025.11.11
+
+일반적인 CSS Reset을 사용하지 않는 환경에서도 스타일이 의도한 대로 표시될 수 있도록 수정합니다. [`15c658b`](https://github.com/daangn/seed-design/commit/15c658b7cd78c2f4fe53b018f51f6770c5b6a02e)
+
+- `list-header`에 `box-sizing: border-box;` 추가
+- `button`으로 렌더링되는 컴포넌트 스타일 수정
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.3](https://npmjs.com/package/@seed-design/css/v/1.1.3)
+
+---
+
+PopoverPositionerPortal과 HelpBubblePositionerPortal을 추가합니다. [`2c302a5`](https://github.com/daangn/seed-design/commit/2c302a56459bb8e9c9be8d166cc73da2205b0707)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.3](https://npmjs.com/package/@seed-design/react/v/1.1.3)
+- 📦 [@seed-design/react-popover@1.0.3](https://npmjs.com/package/@seed-design/react-popover/v/1.0.3)
+
+---
+
+Release `@seed-design/react-scrollable` [`bc3cd6f`](https://github.com/daangn/seed-design/commit/bc3cd6fd1cdbf1d2c39fbe85ce6ecd735ee5b624)
+
+영향받는 패키지
+- 📦 [@seed-design/react-scrollable@1.0.0](https://npmjs.com/package/@seed-design/react-scrollable/v/1.0.0)
+
+---
+
+BottomSheetContent에 style 객체가 전달되지 않는 버그를 수정합니다. [`4102a4b`](https://github.com/daangn/seed-design/commit/4102a4b74fd89a007af590d2afa8866099cdc182)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.2](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.2)
+
+---
+
+1.1 이전 버전과 호환 가능하도록 임시적으로 사용할 text-input size=medium variant를 추가합니다. [`f4e07bb`](https://github.com/daangn/seed-design/commit/f4e07bbed1a138d9864c966144f6655af7b062b1)
+
+- 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.3](https://npmjs.com/package/@seed-design/css/v/1.1.3)
+- 📦 [@seed-design/rootage-artifacts@1.1.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.1)
+
+---
+
+Export 수정: `DialogProps` → `UseDrawerProps` [`e272ef8`](https://github.com/daangn/seed-design/commit/e272ef8d2df763e8a5c2ad4bbd644815e353890f)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.2](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.2)
+
+---
+
+uncontrolled 상태에서 onOpenChange가 두번 호출되는 버그를 수정합니다
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.2](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.2)
+
+---
+
+body에 강제로 스타일을 주입하는 noBodyStyles 옵션의 기본값을 true로 변경합니다 [`4971dcc`](https://github.com/daangn/seed-design/commit/4971dcce69a3af0119a4321dd8d7221b1d519a92)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.2](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.2)
+
+---
+
+Figma Codegen 컴포넌트 핸들러를 업데이트합니다. 레거시 Text Field에 대한 Codegen을 한시적으로 지원합니다. [`d986fd5`](https://github.com/daangn/seed-design/commit/d986fd5fb9e353b7acf8a9e080d24fe10920a22c)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.1.3](https://npmjs.com/package/@seed-design/figma/v/1.1.3)
+
+---
+
+text-input의 readonly 스타일을 업데이트합니다. [`114dafd`](https://github.com/daangn/seed-design/commit/114dafdebb6aa0579b5543a4bfeb38b4439d641a)
+
+- 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.3](https://npmjs.com/package/@seed-design/css/v/1.1.3)
+- 📦 [@seed-design/rootage-artifacts@1.1.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.1)
+
+---
+
+Scroll Fog 컴포넌트를 추가합니다 [`bc3cd6f`](https://github.com/daangn/seed-design/commit/bc3cd6fd1cdbf1d2c39fbe85ce6ecd735ee5b624)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.3](https://npmjs.com/package/@seed-design/css/v/1.1.3)
+- 📦 [@seed-design/react@1.1.3](https://npmjs.com/package/@seed-design/react/v/1.1.3)
+- 📦 [@seed-design/rootage-artifacts@1.1.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.1)
+
+---
+
+## 2025.11.05
+
+Figma 토큰 정보 및 Codegen 핸들러를 최신화합니다. [`4c5d7c4`](https://github.com/daangn/seed-design/commit/4c5d7c4f2d14ae25041f8603d0389aa7a6cdd386)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.1.2](https://npmjs.com/package/@seed-design/figma/v/1.1.2)
+
+---
+
+## 2025.11.04 #2
+
+@seed-design/react-drawer 패키지 배포 [`68b5eab`](https://github.com/daangn/seed-design/commit/68b5eab1849292f0ed5c286d22ac3fe1316c36c6)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.1](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.1)
+
+---
+
+## 2025.11.04
+
+(BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다. [`6af6501`](https://github.com/daangn/seed-design/commit/6af6501e132c2c1c61f4c56f644a4d29e178ab89)
+
+- 스타일 업데이트
+- size 통일 및 variant (underline) 추가
+- 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
+
+Field Button 컴포넌트를 추가합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.0](https://npmjs.com/package/@seed-design/css/v/1.1.0)
+- 📦 [@seed-design/react@1.1.0](https://npmjs.com/package/@seed-design/react/v/1.1.0)
+- 📦 [@seed-design/react-field-button@1.0.0](https://npmjs.com/package/@seed-design/react-field-button/v/1.0.0)
+- 📦 [@seed-design/react-text-field@1.1.0](https://npmjs.com/package/@seed-design/react-text-field/v/1.1.0)
+- 📦 [@seed-design/rootage-artifacts@1.1.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.0)
+
+---
+
+Slider 컴포넌트를 추가합니다. [`a55f584`](https://github.com/daangn/seed-design/commit/a55f584860439f373b50328c654d313d7f6dbb57)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.0](https://npmjs.com/package/@seed-design/css/v/1.1.0)
+- 📦 [@seed-design/react@1.1.0](https://npmjs.com/package/@seed-design/react/v/1.1.0)
+- 📦 [@seed-design/react-field@1.0.0](https://npmjs.com/package/@seed-design/react-field/v/1.0.0)
+- 📦 [@seed-design/react-slider@1.0.0](https://npmjs.com/package/@seed-design/react-slider/v/1.0.0)
+- 📦 [@seed-design/rootage-artifacts@1.1.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.0)
+
+---
+
+Action Button 컴포넌트를 `variant=ghost`로 사용하는 경우 `fontWeight`를 사용자화할 수 있도록 업데이트합니다. [`6af6501`](https://github.com/daangn/seed-design/commit/6af6501e132c2c1c61f4c56f644a4d29e178ab89)
+
+(BREAKING CHANGE: Error State snippet을 다시 설치해야 합니다.) Error State 스니펫에서 Action Button을 활용하도록 업데이트합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.0](https://npmjs.com/package/@seed-design/css/v/1.1.0)
+- 📦 [@seed-design/figma@1.1.0](https://npmjs.com/package/@seed-design/figma/v/1.1.0)
+- 📦 [@seed-design/react@1.1.0](https://npmjs.com/package/@seed-design/react/v/1.1.0)
+
+---
+
+AppScreen에 `tone` 속성을 조절해 그라데이션이 들어간 투명한 배경을 사용할 수 있습니다. [`b131282`](https://github.com/daangn/seed-design/commit/b131282c00acb631486135896bcc598989afa15c)
+
+- AppBar에 있던 `tone` 속성을 AppScreen에서도 사용할 수 있도록 이동합니다.
+- AppScreen, AppBar 둘 다 `tone` 속성을 사용할 수 있도록 합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.0](https://npmjs.com/package/@seed-design/css/v/1.1.0)
+- 📦 [@seed-design/stackflow@1.1.0](https://npmjs.com/package/@seed-design/stackflow/v/1.1.0)
+
+---
+
+`@seed-design/react-drawer` 1.0.0 [`33def2d`](https://github.com/daangn/seed-design/commit/33def2d31449d484e08e1102a84cc31eb07175c4)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.0](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.0)
+
+---
+
+(BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다. [`6af6501`](https://github.com/daangn/seed-design/commit/6af6501e132c2c1c61f4c56f644a4d29e178ab89)
+
+- Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
+- `PageBanner.TextContent`를 `PageBanner.Content`로 이름 변경합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.0](https://npmjs.com/package/@seed-design/css/v/1.1.0)
+- 📦 [@seed-design/react@1.1.0](https://npmjs.com/package/@seed-design/react/v/1.1.0)
+- 📦 [@seed-design/rootage-artifacts@1.1.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.0)
+
+---
+
+닫힌 HelpBubbleAnchor/HelpBubbleTrigger가 불필요하게 리렌더링되지 않도록 수정합니다. [`0c1ab6a`](https://github.com/daangn/seed-design/commit/0c1ab6abaf964e2d8041bf41ba816df19d19d027)
+
+영향받는 패키지
+- 📦 [@seed-design/react-popover@1.0.2](https://npmjs.com/package/@seed-design/react-popover/v/1.0.2)
+
+---
+
+(BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다. [`33def2d`](https://github.com/daangn/seed-design/commit/33def2d31449d484e08e1102a84cc31eb07175c4)
+
+- vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
+- vaul과 동일한 인터페이스를 가지고 있습니다. (snap-points, fade-from-index, etc.)
+- `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.0](https://npmjs.com/package/@seed-design/css/v/1.1.0)
+- 📦 [@seed-design/react@1.1.0](https://npmjs.com/package/@seed-design/react/v/1.1.0)
+- 📦 [@seed-design/rootage-artifacts@1.1.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.0)
+
+---
+
 ## 2025.10.27
 
 Article에서 selection 색상에 대한 정의를 제거합니다. [`e52d6d1`](https://github.com/daangn/seed-design/commit/e52d6d161cd466b16966dc1f9bbe02abfb63921d)

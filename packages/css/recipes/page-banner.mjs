@@ -7,8 +7,12 @@ const pageBannerSlotNames = [
     "seed-page-banner__root"
   ],
   [
-    "textContent",
-    "seed-page-banner__textContent"
+    "content",
+    "seed-page-banner__content"
+  ],
+  [
+    "body",
+    "seed-page-banner__body"
   ],
   [
     "title",
@@ -73,6 +77,10 @@ const compoundVariants = [
   {
     "tone": "critical",
     "variant": "solid"
+  },
+  {
+    "tone": "magic",
+    "variant": "weak"
   }
 ];
 
@@ -86,7 +94,8 @@ export const pageBannerVariantMap = {
     "informative",
     "positive",
     "warning",
-    "critical"
+    "critical",
+    "magic"
   ]
 };
 

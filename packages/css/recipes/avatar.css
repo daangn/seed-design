@@ -29,6 +29,7 @@
     mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     mask-repeat: no-repeat;
     mask-composite: subtract;
+    transform: translateZ(0);
 }
 .seed-avatar__image {
     display: block;
@@ -46,6 +47,7 @@
     mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     mask-repeat: no-repeat;
     mask-composite: subtract;
+    transform: translateZ(0);
 }
 .seed-avatar__image:not([data-loading-state='loaded']) {
     display: none;
@@ -69,6 +71,7 @@
     mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     mask-repeat: no-repeat;
     mask-composite: subtract;
+    transform: translateZ(0);
 }
 .seed-avatar__fallback[data-loading-state='loaded'] {
     display: none;

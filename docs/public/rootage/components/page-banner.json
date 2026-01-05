@@ -22,6 +22,9 @@
             },
             "color": {
               "type": "color"
+            },
+            "gradient": {
+              "type": "gradient"
             }
           }
         },
@@ -38,7 +41,7 @@
             }
           }
         },
-        "textContent": {
+        "content": {
           "properties": {
             "gap": {
               "type": "dimension"
@@ -123,7 +126,8 @@
             "positive": {},
             "informative": {},
             "warning": {},
-            "critical": {}
+            "critical": {},
+            "magic": {}
           },
           "defaultValue": "neutral"
         },
@@ -169,7 +173,7 @@
                   "value": "$dimension.x2"
                 }
               },
-              "textContent": {
+              "content": {
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"
@@ -873,6 +877,70 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.critical-solid-pressed"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "magic",
+          "variant": "weak"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gradient": {
+                  "type": "gradient",
+                  "value": "$gradient.glow-magic"
+                }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "title": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "description": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "button": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "suffixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "gradient": {
+                  "type": "gradient",
+                  "value": "$gradient.glow-magic-pressed"
                 }
               }
             }

@@ -14,11 +14,50 @@ description: 숫자를 부드럽게 애니메이션하는 유틸리티 컴포넌
 
 ## Installation
 
+Dependency:
+
+```package-install
+npm install motion
+```
+
+Snippet:
+
 ```package-install
 npx @seed-design/cli@latest add breeze:animate-number
 ```
 
 <BreezeManualInstallation name="animate-number" />
+
+## Configuration
+
+animate-number 컴포넌트는 motion의 `m.` 컴포넌트를 사용합니다. lazy loading을 위해 프로젝트에 MotionProvider를 설정해야 합니다.
+
+자세한 내용은 [Motion Lazy Motion 문서](https://motion.dev/docs/react-lazy-motion)를 참고하세요.
+
+```tsx title="MotionProvider.tsx"
+"use client";
+
+import { LazyMotion } from "motion/react";
+import type { ReactNode } from "react";
+
+const loadFeatures = () => import("motion/react").then((res) => res.domAnimation);
+
+export function MotionProvider({ children }: { children: ReactNode }) {
+  return <LazyMotion features={loadFeatures}>{children}</LazyMotion>;
+}
+```
+
+```tsx title="index.tsx"
+import { createRoot } from 'react-dom/client'
+import App from './App.tsx'
+import { MotionProvider } from './MotionProvider.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <MotionProvider>
+    <App />
+  </MotionProvider>
+)
+```
 
 ## Props
 

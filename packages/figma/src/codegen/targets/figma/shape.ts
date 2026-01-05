@@ -33,6 +33,7 @@ export function createVectorTransformer({
         ...propsConverters.radius(node),
         ...propsConverters.stroke(node),
         ...propsConverters.shapeFill(node),
+        ...propsConverters.shadow(node),
       },
       [],
       {

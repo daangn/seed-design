@@ -1,0 +1,42 @@
+.seed-slider-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: max-content;
+    color: var(--seed-color-fg-neutral-muted);
+    font-weight: var(--seed-font-weight-regular);
+    font-size: var(--seed-font-size-t3);
+    line-height: var(--seed-line-height-t3);
+}
+.seed-slider-marker[data-dir='ltr'] {
+    left: calc(var(--marker-position) * 1% + var(--marker-offset));
+}
+.seed-slider-marker[data-dir='rtl'] {
+    right: calc(var(--marker-position) * 1% + var(--marker-offset));
+}
+.seed-slider-marker:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-slider-marker--align_start[data-dir='ltr'] {
+    text-align: left;
+}
+.seed-slider-marker--align_start[data-dir='rtl'] {
+    text-align: right;
+}
+.seed-slider-marker--align_center {
+    text-align: center;
+}
+.seed-slider-marker--align_center[data-dir='ltr'] {
+    transform: translateX(-50%);
+}
+.seed-slider-marker--align_center[data-dir='rtl'] {
+    transform: translateX(50%);
+}
+.seed-slider-marker--align_end[data-dir='ltr'] {
+    text-align: right;
+    transform: translateX(-100%);
+}
+.seed-slider-marker--align_end[data-dir='rtl'] {
+    text-align: left;
+    transform: translateX(100%);
+}

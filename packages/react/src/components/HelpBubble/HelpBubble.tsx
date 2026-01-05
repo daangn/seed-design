@@ -62,6 +62,13 @@ export const HelpBubblePositioner = withContext<HTMLDivElement, HelpBubblePositi
   "positioner",
 );
 
+export interface HelpBubblePositionerPortalProps extends PopoverPrimitive.PositionerPortalProps {}
+
+export const HelpBubblePositionerPortal = withContext<
+  HTMLDivElement,
+  HelpBubblePositionerPortalProps
+>(PopoverPrimitive.PositionerPortal, "positioner");
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubbleContentProps
@@ -88,7 +95,7 @@ export const HelpBubbleArrow = withContext<HTMLDivElement, HelpBubbleArrowProps>
 export interface HelpBubbleArrowTipProps extends React.SVGProps<SVGSVGElement> {
   /**
    * radius of the arrow tip
-   * @default 1
+   * @default 2
    */
   tipRadius?: number;
 }
@@ -127,6 +134,7 @@ export const HelpBubbleArrowTip = forwardRef<SVGSVGElement, HelpBubbleArrowTipPr
     );
   },
 );
+HelpBubbleArrowTip.displayName = "HelpBubbleArrowTip";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

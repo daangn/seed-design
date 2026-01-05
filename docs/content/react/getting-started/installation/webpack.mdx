@@ -17,16 +17,18 @@ description: Webpack 프로젝트에서 Seed Design을 설치하고 사용하는
 </Step>
 
 <Step>
+
 ### base.css import하기
 
 ```ts title="index.tsx"
 import "@seed-design/css/base.css";
 ```
+
 </Step>
 
 <Step>
 
-### webpack config 설정하기
+### Webpack config 설정하기
 
 ```ts title="vite.config.ts"
 +import { SeedDesignPlugin } from '@seed-design/webpack-plugin';
@@ -37,6 +39,7 @@ export default defineConfig({
   ]
 })
 ```
+
 </Step>
 
 <Step>
@@ -54,10 +57,10 @@ export default defineConfig({
 ```sh
 npx @seed-design/cli@latest init
 ```
-
 <Step>
 
 ### seed-design 설정
+
 ```sh
 ◇  TypeScript를 사용중이신가요?
 │  Yes
@@ -68,11 +71,13 @@ npx @seed-design/cli@latest init
 ◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
 │  ./seed-design
 ```
+
 </Step>
 </Steps>
 </Tab>
 
 <Tab value="직접 추가">
+
 아래 파일을 프로젝트 루트에 생성해주세요.
 
 ```json title="seed-design.json"
@@ -82,6 +87,7 @@ npx @seed-design/cli@latest init
   "path": "./seed-design"
 }
 ```
+
 </Tab>
 </Tabs>
 
@@ -99,7 +105,6 @@ npx @seed-design/cli@latest add ui:action-button
 
 <Step>
 
-
 ### tsconfig.json 설정하기
 
 </Step>
@@ -107,15 +112,24 @@ npx @seed-design/cli@latest add ui:action-button
 ```json title="tsconfig.json"
 {
   "compilerOptions": {
-    // your options
-    "paths": { // [!code highlight]
-      "seed-design/*": [ // [!code highlight]
-        "./seed-design/*" // [!code highlight]
-      ] // [!code highlight]
-    } // [!code highlight]
+    // ... your options
+    "paths": {
+      // [!code highlight]
+      "seed-design/*": [
+        // [!code highlight]
+        "./seed-design/*"
+      ]
+    }
   }
 }
 ```
 
-
 </Steps>
+
+---
+
+<Card title="Getting Started with Stackflow" href="/react/stackflow/getting-started">
+
+SEED AppScreen을 사용하기 위해 SEED Stackflow 플러그인을 설정하는 방법을 알아봅니다.
+
+</Card>

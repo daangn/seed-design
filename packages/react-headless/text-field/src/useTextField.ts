@@ -1,88 +1,35 @@
-import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
-import { useCallback, useId, useMemo, useState } from "react";
-import { splitGraphemes } from "unicode-segmenter/grapheme";
-import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
-import { memoize } from "./memoize";
+import { ariaAttr, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
+import { useId, useState, type TextareaHTMLAttributes, type InputHTMLAttributes } from "react";
+import { useSupports } from "@seed-design/react-supports";
 
-export interface UseTextFieldStateProps {
+interface UseTextFieldStateProps {
   value?: string;
   defaultValue?: string;
-  onValueChange?: (values: {
-    value: string;
-    graphemes: string[];
-    slicedValue: string;
-    slicedGraphemes: string[];
-  }) => void;
-  maxGraphemeCount?: number | undefined;
+  onValueChange?: (value: string) => void;
 }
 
-const getGraphemes = (string: string) => Array.from(splitGraphemes(string));
-const memoizedGetGraphemes = memoize(getGraphemes);
-
-export function useTextFieldState({
+function useTextFieldState({
   value: __value,
   defaultValue,
-  onValueChange: __onValueChange,
-  maxGraphemeCount,
+  onValueChange,
 }: UseTextFieldStateProps) {
-  const onValueChange = useCallbackRef(__onValueChange);
-
-  const handleValueChange = useCallback(
-    (value: string) => {
-      const graphemes = memoizedGetGraphemes(value);
-      const slicedGraphemes = maxGraphemeCount ? graphemes.slice(0, maxGraphemeCount) : graphemes;
-      const slicedValue = slicedGraphemes.join("");
-
-      onValueChange({ value, graphemes, slicedValue, slicedGraphemes });
-    },
-    [maxGraphemeCount, onValueChange],
-  );
-
   const [value, setValue] = useControllableState({
     prop: __value,
-    defaultProp: defaultValue,
-    onChange: handleValueChange,
+    defaultProp: defaultValue ?? "",
+    onChange: onValueChange,
   });
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
 
-  const graphemes = useMemo(() => memoizedGetGraphemes(value ?? ""), [value]);
-
-  const [isLabelRendered, setIsLabelRendered] = useState(false);
-  const labelRef = useCallback((node: HTMLLabelElement | null) => {
-    setIsLabelRendered(!!node);
-  }, []);
-  const [isDescriptionRendered, setIsDescriptionRendered] = useState(false);
-  const descriptionRef = useCallback((node: HTMLElement | null) => {
-    setIsDescriptionRendered(!!node);
-  }, []);
-  const [isErrorMessageRendered, setIsErrorMessageRendered] = useState(false);
-  const errorMessageRef = useCallback((node: HTMLElement | null) => {
-    setIsErrorMessageRendered(!!node);
-  }, []);
-
   return {
-    refs: {
-      label: labelRef,
-      description: descriptionRef,
-      errorMessage: errorMessageRef,
-    },
-
     value,
-    graphemes,
     isHovered,
     isActive,
     isFocused,
     isFocusVisible,
-    renderedElements: {
-      label: isLabelRendered,
-      description: isDescriptionRendered,
-      errorMessage: isErrorMessageRendered,
-    },
 
     setValue,
     setIsHovered,
@@ -125,14 +72,12 @@ export function useTextField(props: UseTextFieldProps) {
     invalid = false,
     readOnly = false,
     required = false,
-    maxGraphemeCount,
   } = props;
 
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
+
   const {
-    refs,
-    renderedElements,
     value: stateValue,
-    graphemes,
     isHovered,
     isActive,
     isFocused,
@@ -146,18 +91,9 @@ export function useTextField(props: UseTextFieldProps) {
     value: propValue,
     defaultValue,
     onValueChange,
-    maxGraphemeCount,
   });
 
   const isUncontrolled = propValue === undefined;
-
-  const ariaDescribedBy =
-    [
-      renderedElements.description ? getDescriptionId(id) : false,
-      renderedElements.errorMessage ? getErrorMessageId(id) : false,
-    ]
-      .filter(Boolean)
-      .join(" ") || undefined;
 
   const stateProps = elementProps({
     "data-hover": dataAttr(isHovered),
@@ -168,16 +104,10 @@ export function useTextField(props: UseTextFieldProps) {
     "data-disabled": dataAttr(disabled),
     "data-invalid": dataAttr(invalid),
     "data-empty": dataAttr(stateValue === ""),
-    "data-grapheme-count-exceeded": dataAttr(
-      graphemes.length > (maxGraphemeCount ?? Number.POSITIVE_INFINITY),
-    ),
   });
 
   return {
-    refs,
-
     value: stateValue,
-    graphemes,
     active: isActive,
     focused: isFocused,
     invalid,
@@ -205,49 +135,34 @@ export function useTextField(props: UseTextFieldProps) {
       },
     }),
 
-    labelProps: labelProps({
-      ...stateProps,
-      id: getLabelId(id),
-      htmlFor: getInputId(id),
-    }),
-
     inputProps: inputProps({
       ...stateProps,
       ...(isUncontrolled && defaultValue && { defaultValue }),
       ...(!isUncontrolled && { value: stateValue }),
-      ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
-      "aria-describedby": ariaDescribedBy,
       "aria-required": ariaAttr(required),
       "aria-invalid": ariaAttr(invalid),
       disabled,
       readOnly,
-      id: getInputId(id),
       name: props.name || id,
+
       onChange: (event) => {
-        setIsFocusVisible(event.target.matches(":focus-visible"));
         setValue(event.target.value);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
       onBlur() {
         setIsFocused(false);
-        setIsFocusVisible(false);
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(false);
+        }
       },
       onFocus(event) {
         setIsFocused(true);
-        setIsFocusVisible(event.target.matches(":focus-visible"));
+        if (isFocusVisibleSupported) {
+          setIsFocusVisible(event.target.matches(":focus-visible"));
+        }
       },
-    }) as
-      | React.InputHTMLAttributes<HTMLInputElement>
-      | React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-
-    descriptionProps: elementProps({
-      ...stateProps,
-      ...(invalid && { style: { display: "none" } }),
-      id: getDescriptionId(id),
-    }),
-
-    errorMessageProps: elementProps({
-      ...stateProps,
-      id: getErrorMessageId(id),
-    }),
+    }) as InputHTMLAttributes<HTMLInputElement> | TextareaHTMLAttributes<HTMLTextAreaElement>,
   };
 }

@@ -23,7 +23,6 @@
     "change-case": "^5.4.4",
     "es-toolkit": "^1.35.0",
     "execa": "^9.5.2",
-    "glob": "^11.0.2",
     "jscodeshift": "^17.3.0",
     "picocolors": "^1.1.1",
     "postcss": "^8.5.3",
@@ -37,7 +36,7 @@
     "@types/node": "^24.0.0",
     "csv-parse": "^6.0.0",
     "dotenv": "^17.0.0",
-    "esbuild": "^0.25.3",
+    "esbuild": "^0.27.0",
     "typescript": "^5.9.2"
   },
   "optionalDependencies": {

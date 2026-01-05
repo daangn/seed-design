@@ -1,49 +1,318 @@
 name: Claude PR Review
 
 on:
-  pull_request:
-    types: [opened]
+  issue_comment:
+    types: [created]
 
 jobs:
   claude-code-action:
+    if: |
+      github.event.issue.pull_request &&
+      startsWith(github.event.comment.body, '/claude-review')
+
     runs-on: ubuntu-latest
-    if: github.actor != 'renovate[bot]'
+    timeout-minutes: 60
     permissions:
       contents: read
-      pull-requests: read
-      issues: read
+      pull-requests: write
       id-token: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
+      - name: Get PR details
+        id: pr
+        uses: actions/github-script@v8
         with:
-          fetch-depth: 1
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            core.setOutput('number', pr.data.number);
+            core.setOutput('ref', pr.data.head.ref);
+            core.setOutput('sha', pr.data.head.sha);
+            core.setOutput('base_ref', pr.data.base.ref);
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.pr.outputs.sha }}
+          fetch-depth: 0
+
+      - name: Add reaction
+        uses: actions/github-script@v8
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'eyes'
+            });
 
       - name: Run Claude PR Action
-        uses: anthropics/claude-code-action@main
+        uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          timeout_minutes: "60"
-          allowed_tools: |
-            mcp__github__create_pending_pull_request_review
-            mcp__github__add_pull_request_review_comment_to_pending_review
-            mcp__github__submit_pending_pull_request_review
-            mcp__github__get_pull_request_diff
-          direct_prompt: |
-            Please review this PR and provide inline feedback using the GitHub review system. Follow these steps:
+          anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
+          track_progress: true
+          use_sticky_comment: true
 
-            1. **Start a review**: Use `mcp__github__create_pending_pull_request_review` to begin a pending review
-            2. **Get diff information**: Use `mcp__github__get_pull_request_diff` to understand the code changes and line numbers
-            3. **Add inline comments**: Use `mcp__github__add_pull_request_review_comment_to_pending_review` for each specific piece of feedback on particular lines
-            4. **Submit the review**: Use `mcp__github__submit_pending_pull_request_review` with event type "COMMENT" (not "REQUEST_CHANGES") to publish all comments as a non-blocking review
+          # the following line is excluded from the prompt because the comments are given as a global context
+          # see: https://github.com/anthropics/claude-code-action/blob/108e9829000952e342fefd85a76436e7a1dd1058/src/create-prompt/index.ts#L520
+          # `To see more details about the PR, you can use `gh pr view` but should *without* `--comments` to avoid redundant information.`
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ steps.pr.outputs.number }}
 
-            Focus your review on:
+            ultrathink: 심사숙고해서 리뷰를 진행하세요.
+
+            Please review this pull request, **in Korean (한국어)**, with a focus on:
             - Code quality and best practices
-            - Potential bugs or security issues
+            - Potential bugs or issues
             - Performance considerations
-            - Maintainability and readability
-            - Architecture and design decisions
-            - Documentation completeness
 
-            Provide specific, actionable feedback. Use inline comments for line-specific issues and include an overall summary when submitting the review. 
-            **Important**: Submit as "COMMENT" type so the review doesn't block the PR. Please write the review in **Korean**.
+            <thoughtful-pr-review>
+            이 Pull Request를 원칙 기반으로 심사숙고하여 리뷰해주세요.
+
+            <pr-info>
+            - GITHUB OWNER: ${{ github.repository_owner }}
+            - PR_NUMBER: ${{ steps.pr.outputs.number }}
+            - TARGET_REF: ${{ steps.pr.outputs.base_ref }}
+            </pr-info>
+
+            <review-philosophy>
+            당신은 이 프로젝트를 함께 만들어가는 동료입니다.
+            비평가가 아닌 협력자로서, 사용자의 의도를 존중하며
+            정말 필요한 피드백만 제공합니다.
+            </review-philosophy>
+
+            <step-1-deep-understanding>
+            먼저 다음을 통해 완전히 이해하세요:
+            1. AGENTS.md 전체 읽기 - 특히 "PR Review Guidelines" 섹션 숙지
+            2. PR 제목과 설명 - 사용자의 의도와 목적 파악
+            3. 변경 파일들의 전체 그림 - 무엇을 하려는지 이해
+            4. git log --oneline -10 - 최근 개발 방향과 패턴 확인
+            5. 이전 PR 코멘트 확인 (`gh pr view ${{ steps.pr.outputs.number }} --comments`)
+               - 이미 논의된 내용 파악
+               - 무시된 제안은 다시 제안하지 않기
+               - 사용자의 선호 패턴 학습
+            </step-1-deep-understanding>
+
+            <step-2-contextual-analysis>
+            PR의 실제 내용을 깊이 분석하여 유형 파악:
+
+            <pr-type-detection>
+            다음을 종합적으로 분석하여 PR 유형을 파악하세요:
+            - 변경 파일들의 성격: 어떤 종류의 파일들이 수정되었는가?
+            - 코드 변경 패턴: 추가/삭제/수정의 비율과 범위
+            - PR 설명과 연결된 이슈: 어떤 문제를 해결하려는가?
+            - 커밋 메시지들: 작업의 진행 과정과 의도
+            </pr-type-detection>
+
+            <review-strategy-by-type>
+            - 긴급 버그 수정: 문제 해결에 집중, 최소한의 지적만
+            - 일반 버그 수정: 근본 원인 해결 확인, 재발 방지 체크
+            - 새 기능 추가: 기능 완성도, 엣지케이스, 사용성
+            - 리팩토링: 동작 변경 없음 확인, 일관성 개선 검증
+            - 구조 변경: 영향 범위 파악, 하위 호환성 체크
+            - 후속 PR: 이전 PR과의 연결성, 전체 그림에서의 위치
+            - 성능 개선: 실제 개선 검증, 부작용 확인
+            - 문서/설정 변경: 정확성과 완전성만 체크
+            </review-strategy-by-type>
+            </step-2-contextual-analysis>
+
+            <step-3-thoughtful-judgment>
+            각 발견사항에 대해 자문:
+            - "이것이 PR의 성공을 막는가?"
+            - "사용자가 이미 알고 있을 가능성이 있는가?"
+            - "지금 당장 수정이 필요한가?"
+            - "내 제안이 PR 범위를 벗어나는가?"
+            - "이전에 유사한 제안이 거절된 적이 있는가?"
+            </step-3-thoughtful-judgment>
+
+            <step-4-inline-comments>
+            <developer-intent-based-comments>
+            인라인 코멘트는 개발자의 의도와 PR 목적에 충실해야 합니다:
+
+            <pr-type-comment-focus>
+            - 버그 수정 PR → 버그 해결과 직접 관련된 이슈만
+            - 기능 추가 PR → 새 기능의 완성도와 안정성
+            - 리팩토링 PR → 코드 품질과 일관성 개선
+            - 성능 개선 PR → 성능 최적화와 관련된 부분
+            - 문서/설정 PR → 정확성과 명확성
+            </pr-type-comment-focus>
+
+            <when-to-comment>
+            다음 경우에만 인라인 코멘트:
+            ☑ PR에서 수정한 부분과 직접 관련
+            ☑ PR 목적에 부합하는 피드백
+            ☑ 간단하게 수정 가능한 범위
+            ☑ 구체적인 해결책 제시 가능
+            ☑ 개발자가 놓쳤을 가능성이 있는 것
+            </when-to-comment>
+
+            <comment-tone-and-format>
+            - 동료의 관점: "이 부분은 ~하면 어떨까요?"
+            - 구체적 제안: 가능하면 코드 예시 포함
+            - 이유 설명: 왜 중요한지 간단히
+            - 유연성 부여: "고려해보시면 좋을 것 같아요"
+            </comment-tone-and-format>
+
+            <focus-breakers-to-avoid>
+            ❌ 버그 수정 PR에 구조 변경 제안
+            ❌ 기능 개선 PR에 대규모 리팩토링 제안
+            ❌ 긴급 수정에 장기적 개선 제안
+            ❌ PR 범위를 벗어난 "김에" 제안
+            ❌ 이미 작동하는 코드의 선호도 차이
+            </focus-breakers-to-avoid>
+            </step-4-inline-comments>
+
+            <step-5-summary-feedback>
+
+            <github-comment-update>
+            다음 구조로 업데이트:
+
+            ```markdown
+            🤖 **Claude Code Review 완료**
+
+            ## 📌 PR 이해
+            [PR 목적과 의도를 한 문장으로 요약]
+
+            ## ✅ 리뷰 결과
+
+            ### 🔴 필수 수정사항 (배포 전 반드시)
+            [정말 크리티컬한 이슈만. 없으면 "없음" 표시]
+
+            ### 🟡 권장 개선사항 (선택적)
+            [있으면 좋은 개선점들]
+
+            ### 💚 잘한 점
+            [긍정적인 포인트가 있다면]
+
+            ## 🎯 결론
+            [approve/request-changes 결정과 이유]
+            ```
+            </github-comment-update>
+            </step-5-summary-feedback>
+
+            <absolute-dont-do>
+            <no-repetition>
+            - 이전 PR에서 거절/무시된 제안 반복
+            - 사용자가 의도적으로 선택한 패턴 비판
+            - AGENTS.md에 명시된 "알려진 기술 부채" 언급
+            </no-repetition>
+
+            <stay-in-scope>
+            - PR 목적과 관계없는 "김에" 제안
+            - 3개 이상 파일 수정 필요한 대규모 변경
+            - 아키텍처 레벨 리팩토링 제안
+            </stay-in-scope>
+
+            <watch-your-tone>
+            - 가르치려는 태도 ("이렇게 하는 게 맞아요")
+            - 완벽주의적 요구 ("모든 곳에 적용해야...")
+            - 비현실적 제안 ("전체를 다시 작성하면...")
+            </watch-your-tone>
+            </absolute-dont-do>
+
+            <project-specific-context>
+            AGENTS.md의 "프로젝트별 특수 컨텍스트" 섹션을 반드시 참조하여
+            프로젝트별 특수사항과 알려진 기술 부채를 이해하고 리뷰하세요.
+            </project-specific-context>
+
+            건설적이고 실용적인 리뷰로 프로젝트 발전에 기여해주세요.
+            </thoughtful-pr-review>
+
+            To see the diff that needs to be reviewed, you must run this exact command. Note that the PR branch is already checked out in the current working directory.
+
+            git diff $(git merge-base ${{ steps.pr.outputs.base_ref }} HEAD) -- . \
+            ':(exclude)**/package.json' \
+            ':(exclude)**/archive/**/*' \
+            ':(exclude)**/.next/**/*' \
+            ':(exclude)**/__testfixtures__/**/*' \
+            ':(exclude)**/__generated__/**/*' \
+            ':(exclude)**/__registry__/**/*' \
+            ':(exclude)**/public/**/*' \
+            ':(exclude)packages/css/**/*' \
+            ':(exclude)**/schema.json' \
+            ':(exclude)packages/qvism-preset/src/vars/**/*' \
+            ':(exclude)packages/qvism-preset/src/token.css' \
+            ':(exclude)packages/qvism-preset/src/tokens.ts' \
+            ':(exclude)packages/tailwind3-plugin/src/index.ts' \
+            ':(exclude)packages/tailwind4-theme/src/index.css'
+
+            Use `gh pr comment` for *concise* top-level feedback.
+            Use `mcp__github_inline_comment__create_inline_comment` to highlight specific code issues.
+            Only post GitHub comments - don't submit review text as messages.
+          claude_args: |
+            --model claude-sonnet-4-5-20250929
+            --allowedTools "
+              Bash(cat *),
+              Bash(find *),
+              Bash(gh pr:*),
+              Bash(git blame *),
+              Bash(git diff *),
+              Bash(git log *),
+              Bash(git show *),
+              Bash(git status),
+              Bash(grep:*),
+              Bash(head *),
+              Bash(ls *),
+              Bash(npm run *),
+              Bash(python -c *),
+              Bash(python -m pytest *),
+              Bash(python -m ruff *),
+              Bash(tail *),
+              Bash(tree *),
+              Bash(uv *),
+              Edit,
+              Glob,
+              Grep,
+              mcp__github__add_comment_to_pending_review,
+              mcp__github__create_and_submit_pull_request_review,
+              mcp__github__create_pending_pull_request_review,
+              mcp__github__create_pull_request_review,
+              mcp__github__create_review_comment,
+              mcp__github__delete_pending_pull_request_review,
+              mcp__github__get_file_contents,
+              mcp__github__get_issue_comments,
+              mcp__github__get_me,
+              mcp__github__get_pull_request_comments,
+              mcp__github__get_pull_request_diff,
+              mcp__github__get_pull_request_files,
+              mcp__github__get_pull_request_reviews,
+              mcp__github__get_pull_request,
+              mcp__github__get_repository,
+              mcp__github__list_pull_requests,
+              mcp__github__submit_pending_pull_request_review,
+              mcp__github_ci__download_job_log,
+              mcp__github_ci__get_ci_status,
+              mcp__github_ci__get_workflow_run_details,
+              mcp__github_comment__update_claude_comment,
+              mcp__github_inline_comment__create_inline_comment,
+              Read,
+              Write
+            "
+
+      - name: Add success reaction
+        if: success()
+        uses: actions/github-script@v8
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'hooray'
+            });
+
+      - name: Add failure reaction
+        if: failure()
+        uses: actions/github-script@v8
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '-1'
+            });

@@ -1,12 +1,14 @@
 import * as p from "@clack/prompts";
 import fs from "fs-extra";
 import path from "path";
-import { highlight } from "../utils/color";
 import { z } from "zod";
+import { analytics } from "../utils/analytics";
+import { highlight } from "../utils/color";
 
 import type { Config } from "@/src/utils/get-config";
 
 import type { CAC } from "cac";
+import dedent from "dedent";
 
 const initOptionsSchema = z.object({
   cwd: z.string(),
@@ -21,6 +23,7 @@ export const initCommand = (cli: CAC) => {
     })
     .option("-y, --yes", "모든 질문에 대해 기본값으로 답변합니다.")
     .action(async (opts) => {
+      const startTime = Date.now();
       p.intro("seed-design.json 파일 생성");
 
       const options = initOptionsSchema.parse(opts);
@@ -29,6 +32,7 @@ export const initCommand = (cli: CAC) => {
         rsc: false,
         tsx: true,
         path: "./seed-design",
+        telemetry: true,
       };
 
       if (!isYesOption) {
@@ -51,6 +55,11 @@ export const initCommand = (cli: CAC) => {
                 defaultValue: "./seed-design",
                 placeholder: "./seed-design",
               }),
+            telemetry: () =>
+              p.confirm({
+                message: `개선을 위해 ${highlight("익명 사용 데이터")}를 수집할까요?`,
+                initialValue: true,
+              }),
           },
           {
             onCancel: () => {
@@ -72,15 +81,41 @@ export const initCommand = (cli: CAC) => {
         await fs.writeFile(targetPath, `${JSON.stringify(config, null, 2)}\n`, "utf-8");
         const relativePath = path.relative(process.cwd(), targetPath);
         stop(`seed-design.json 파일이 ${highlight(relativePath)}에 생성됐어요.`);
+
         p.log.info(highlight("seed-design add {component} 명령어로 컴포넌트를 추가해보세요!"));
         p.log.info(
           highlight("seed-design add 명령어로 추가할 수 있는 모든 컴포넌트를 확인해보세요."),
         );
+
+        p.note(
+          dedent(`SEED Design CLI는 개선을 위해 익명 사용 데이터를 수집해요.
+
+      비활성화하려면:
+        • seed-design.json에서 ${highlight('"telemetry": false')}로 설정
+        • ${highlight("DISABLE_TELEMETRY=true")} 환경 변수 설정
+
+      자세한 내용: https://seed-design.com/react/getting-started/cli/configuration#telemetry`),
+          "Telemetry 안내",
+        );
+
         p.outro("작업이 완료됐어요.");
       } catch (error) {
         p.log.error(`seed-design.json 파일 생성에 실패했어요. ${error}`);
         p.outro(highlight("작업이 취소됐어요."));
         process.exit(1);
       }
+
+      // init 성공 이벤트 추적
+      const duration = Date.now() - startTime;
+      await analytics.track(options.cwd, {
+        event: "init",
+        properties: {
+          tsx: config.tsx,
+          rsc: config.rsc,
+          telemetry: config.telemetry,
+          yes_option: isYesOption,
+          duration_ms: duration,
+        },
+      });
     });
 };

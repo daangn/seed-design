@@ -64,6 +64,8 @@ const chipTabs = defineSlotRecipe({
       paddingTop: triggerVars.base.enabled.root.paddingY,
       paddingBottom: triggerVars.base.enabled.root.paddingY,
       fontWeight: triggerVars.base.enabled.label.fontWeight,
+
+      transition: `background-color ${triggerVars.base.enabled.root.colorDuration} ${triggerVars.base.enabled.root.colorTimingFunction}`,
     },
   },
   variants: {
@@ -125,7 +127,7 @@ const chipTabs = defineSlotRecipe({
       },
       neutralOutline: {
         trigger: {
-          backgroundColor: "transparent",
+          backgroundColor: triggerVars.variantNeutralOutline.enabled.root.color,
           border: `1px solid ${triggerVars.variantNeutralOutline.enabled.root.stroke}`,
 
           color: triggerVars.variantNeutralOutline.enabled.label.color,

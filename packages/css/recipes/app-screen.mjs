@@ -24,10 +24,32 @@ const defaultVariant = {
   "theme": "cupertino",
   "transitionStyle": "slideFromRightIOS",
   "layerOffsetTop": "appBar",
-  "layerOffsetBottom": "none"
+  "layerOffsetBottom": "none",
+  "tone": "layer",
+  "gradient": true
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "tone": "transparent",
+    "gradient": true
+  },
+  {
+    "tone": "transparent",
+    "gradient": true,
+    "layerOffsetBottom": "none"
+  },
+  {
+    "tone": "transparent",
+    "gradient": true,
+    "layerOffsetTop": "safeArea"
+  },
+  {
+    "tone": "transparent",
+    "gradient": true,
+    "layerOffsetTop": "appBar"
+  }
+];
 
 export const appScreenVariantMap = {
   "theme": [
@@ -46,6 +68,14 @@ export const appScreenVariantMap = {
   "layerOffsetBottom": [
     "none",
     "safeArea"
+  ],
+  "tone": [
+    "layer",
+    "transparent"
+  ],
+  "gradient": [
+    true,
+    false
   ]
 };
 

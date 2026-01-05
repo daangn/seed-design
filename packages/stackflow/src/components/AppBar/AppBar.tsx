@@ -1,13 +1,13 @@
 import { Slot } from "@radix-ui/react-slot";
+import { appBar, type AppBarVariantProps } from "@seed-design/css/recipes/app-bar";
+import { appBarMain, type AppBarMainVariantProps } from "@seed-design/css/recipes/app-bar-main";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { type AppBarVariantProps, appBar } from "@seed-design/css/recipes/app-bar";
 import clsx from "clsx";
 import { forwardRef } from "react";
 import { AppBar as AppBarPrimitive } from "../../primitive";
 import { useAppBarContext } from "../../primitive/AppBar/useAppBarContext";
 import { createStyleContext } from "../../utils/createStyleContext";
-import { appBarMain, type AppBarMainVariantProps } from "@seed-design/css/recipes/app-bar-main";
 
 const { PropsProvider, ClassNamesProvider, useProps, withContext, useClassNames } =
   createStyleContext(appBar);
@@ -24,7 +24,6 @@ export interface AppBarProps extends AppBarVariantProps, AppBarPrimitive.RootPro
 export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) => {
   const contextProps = useProps();
   const [variantProps, otherProps] = appBar.splitVariantProps({ ...contextProps, ...props });
-
   const classNames = appBar(variantProps);
 
   return (

@@ -17,17 +17,15 @@ const listItem = defineSlotRecipe({
       position: "relative",
       display: "flex",
       width: "100%",
-      zIndex: 0,
+      isolation: "isolate",
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
+      paddingTop: vars.base.enabled.root.paddingY,
+      paddingBottom: vars.base.enabled.root.paddingY,
 
       "--seed-box-align-items": "center",
       alignItems: "var(--seed-box-align-items)",
-
-      transitionProperty: "background-color",
-      transitionDuration: vars.base.enabled.root.colorDuration,
-      transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
     },
     prefix: {
       display: "inline-flex",
@@ -40,7 +38,6 @@ const listItem = defineSlotRecipe({
       ...onlyIcon({
         color: vars.base.enabled.prefixIcon.color,
         size: vars.base.enabled.prefixIcon.size,
-        // marginTop: `calc(${prefixIconVerticalAdjustMargin})`,
       }),
 
       [pseudo(disabled)]: {
@@ -84,38 +81,60 @@ const listItem = defineSlotRecipe({
       alignItems: "flex-start",
       flexGrow: 1,
 
+      backgroundColor: "transparent",
+      border: "none",
+      fontFamily: "inherit",
       "--seed-box-gap": vars.base.enabled.content.gap,
       gap: "var(--seed-box-gap)",
       "--seed-box-padding-right": vars.base.enabled.content.paddingRight,
-      paddingRight: "var(--seed-box-padding-right)",
+      padding: "0 var(--seed-box-padding-right) 0 0",
+
+      textDecoration: "none",
 
       // this ensures the touch size of the content to be the size of the root
-      "&:after": {
+      "&::after": {
         content: "''",
         position: "absolute",
-        inset: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
       },
 
       // this is for showing the active state
-      [pseudo(":before")]: {
+      [pseudo("::before")]: {
         content: "''",
         position: "absolute",
-        inset: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
         zIndex: -1,
-        transitionProperty: "background-color",
+
+        transitionProperty: "background-color, left, right, border-radius",
         transitionDuration: vars.base.enabled.root.colorDuration,
         transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
       },
 
       // :active pseudoselector is only allowed when the item is a button or an anchor
-      [pseudo(":is(button, a)", not(disabled), active, ":before")]: {
+      [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
+
+        left: vars.base.pressed.root.marginX,
+        right: vars.base.pressed.root.marginX,
+
+        borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
       },
 
       // otherwise, see if it has [data-active]. e.g. ListCheckItem
       // this restriction prevents noninteractive(static/presentation/decorative) list items from having an active style
-      [pseudo(not(disabled), "[data-active]", ":before")]: {
+      [pseudo(not(disabled), "[data-active]", "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
+
+        left: vars.base.pressed.root.marginX,
+        right: vars.base.pressed.root.marginX,
+
+        borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
       },
     },
     title: {
@@ -145,8 +164,20 @@ const listItem = defineSlotRecipe({
     highlighted: {
       false: {},
       true: {
-        root: {
-          backgroundColor: vars.base.highlighted.root.color,
+        content: {
+          // we define highlighted style (not active) in content::before rather than root
+          // because it should transition into active style smoothly
+          [pseudo("::before")]: {
+            backgroundColor: vars.base.highlighted.root.color,
+          },
+
+          [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
+            backgroundColor: vars.base.highlightedPressed.root.color,
+          },
+
+          [pseudo(not(disabled), "[data-active]", "::before")]: {
+            backgroundColor: vars.base.highlightedPressed.root.color,
+          },
         },
       },
     },

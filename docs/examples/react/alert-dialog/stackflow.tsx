@@ -1,4 +1,4 @@
-import { useActivity } from "@stackflow/react";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { ActivityComponentType, useFlow } from "@stackflow/react/future";
 import {
   AlertDialogAction,
@@ -12,17 +12,16 @@ import {
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/alert-dialog/stackflow": unknown;
+    "react/alert-dialog/stackflow": {};
   }
 }
 
 const AlertDialogStackflow: ActivityComponentType<"react/alert-dialog/stackflow"> = () => {
-  const activity = useActivity();
   const { pop } = useFlow();
 
   return (
     <AlertDialogRoot defaultOpen onOpenChange={(open) => !open && pop()}>
-      <AlertDialogContent layerIndex={activity.zIndex * 5}>
+      <AlertDialogContent layerIndex={useActivityZIndexBase()}>
         <AlertDialogHeader>
           <AlertDialogTitle>제목</AlertDialogTitle>
           <AlertDialogDescription>Stackflow</AlertDialogDescription>

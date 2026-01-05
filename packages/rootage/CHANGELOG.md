@@ -1,5 +1,115 @@
 # @seed-design/rootage-artifacts
 
+## 1.1.6
+
+### Patch Changes
+
+- 9be0581: `radiomark` Rootage 정의를 명확화합니다. (스타일 변경사항 없음)
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+- 739937f: Button들의 xsmall variant의 텍스트 사이즈를 t4에서 t3로 변경해요.
+
+## 1.1.5
+
+### Patch Changes
+
+- db5de74: PageBanner에 tone="magic" 스타일을 추가합니다.
+- 70d11b8: Segmented Control의 스타일을 업데이트합니다: Indicator에서 shadow 정의를 제거합니다.
+
+## 1.1.4
+
+### Patch Changes
+
+- 8752805: List Item에 신규 active(pressed) 스타일을 적용하고, disabled 상태에서 detail 영역의 색상을 수정합니다.
+
+## 1.1.3
+
+### Patch Changes
+
+- dfe6c1e: transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 추가
+
+  - `$color.bg.transparent-pressed` 컬러와 `$color.bg.transparent` 컬러가 추가되었습니다.
+  - 다음 컴포넌트들의 색상이 transparent 관련 토큰으로 변경되었습니다.
+    - `Chip` (outlineStrong, outlineWeak)
+    - `Action Button` (neutralOutline, brandOutline, ghost)
+    - `Checkmark`
+    - `Tabs` (outline)
+    - `List Item`
+    - `Radiomark`
+    - `Reaction Button`
+    - `Select Box`
+  - 다음 컴포넌트들의 color transition이 추가되었습니다. (duration: $duration.d3, timing-function: $timing-function.easing)
+    - `Checkmark`
+    - `Radiomark`
+    - `Reaction Button`
+    - `Select Box`
+
+- a09e6b4: 다음 컴포넌트들의 color transition을 `$duration.color-transition` (d3) 토큰으로 변경합니다
+
+  - `Action Button`
+  - `Bottom Sheet Handle`
+  - `Checkmark`
+  - `Tabs` (outline)
+  - `Chip`
+  - `Contextual Floating Button`
+  - `Floating Action Button`
+  - `Input Button`
+  - `List Item`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Segmented Control Item`
+  - `Select Box`
+  - `Text Input`
+  - `Toggle Button`
+
+## 1.1.2
+
+### Patch Changes
+
+- 53290ab: FieldButton에 Read Only 상태를 추가합니다. Disabled 상태인 FieldButton은 내부 `<input />`도 `disabled` 속성을 갖도록 수정합니다.
+
+## 1.1.1
+
+### Patch Changes
+
+- f4e07bb: 1.1 이전 버전과 호환 가능하도록 임시적으로 사용할 text-input size=medium variant를 추가합니다.
+
+  - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+- 114dafd: text-input의 readonly 스타일을 업데이트합니다.
+
+  - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+- bc3cd6f: ScrollFog 컴포넌트를 추가합니다
+
+## 1.1.0
+
+### Minor Changes
+
+- a55f584: Slider 컴포넌트를 추가합니다.
+- 33def2d: (BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
+
+  - vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
+  - vaul과 동일한 인터페이스를 가지고 있습니다. (snap-points, fade-from-index, etc.)
+  - `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
+
+### Patch Changes
+
+- d6bb84d: (BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다.
+
+  - 스타일 업데이트
+  - size 통일 및 variant (underline) 추가
+  - 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
+
+  Field Button 컴포넌트를 추가합니다.
+
+- 6af6501: (BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다.
+
+  - Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
+  - `PageBanner.TextContent`를 `PageBanner.Content`로 이름 변경합니다.
+
 ## 1.0.6
 
 ### Patch Changes

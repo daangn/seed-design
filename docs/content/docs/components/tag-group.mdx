@@ -1,0 +1,137 @@
+---
+title: Tag Group
+description: 아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.
+coverImageFigmaId: 39:21611
+---
+
+<PlatformStatusTable componentId="tag-group" />
+
+## Anatomy
+
+<FigmaImage
+  id="66:23462"
+  alt="Tag Group의 Anatomy 이미지. Tag와 Separator로 구성됩니다."
+/>
+
+Tag Group은 아이콘과 텍스트로 구성된 Tag와 이를 구분하는 Separator로 이루어져 있습니다.
+
+## Properties
+
+### Size
+
+<FigmaImage
+  id="66:23476"
+  alt="Tag Group의 Size Property - t2(12pt), t3(13pt), t4(14pt)"
+/>
+
+Tag Group은 t2(12pt), t3(13pt), t4(14pt) 세 가지 사이즈가 있습니다.
+
+### Tag Item Tone
+
+<FigmaImage
+  id="66:23494"
+  alt="Tag Item의 Tone Property - Neutral Subtle, Neutral, Brand"
+/>
+
+Tag Item은 Neutral Subtle, Neutral, Brand 세 가지 색상을 사용할 수 있으며, 각 Item마다 다른 색상을 조합할 수 있습니다.
+
+### Tag Item Weight
+
+<FigmaImage id="66:23512" alt="Tag Item의 Weight Property - Regular, Bold" />
+
+Tag Item의 라벨은 Regular, Bold 두 가지 두께로 표시할 수 있으며, 각 Item마다 다른 두께를 조합할 수 있습니다.
+
+### Tag Item Icon
+
+<FigmaImage
+  id="66:23527"
+  alt="Tag Item의 Icon Property - Prefix, Suffix 위치"
+/>
+
+Tag Item은 아이콘과 라벨을 함께 사용할 수 있습니다. 아이콘은 라벨의 앞(prefix) 또는 뒤(suffix)에 위치합니다. 앞뒤 모두에 아이콘을 표시하는 것은 권장하지 않습니다.
+
+## Guidelines
+
+### Tag Group의 사용 맥락
+
+<FigmaImage
+  id="66:23555"
+  alt="Tag Group 사용 맥락 예시 - 카드, 상세 페이지, 유저 프로필"
+/>
+
+Tag Group은 하나의 UI 요소 안에서 여러 단편적인 정보를 압축적으로 표현하기 위해 사용됩니다. 사용자가 콘텐츠의 핵심 맥락을 빠르게 이해할 수 있도록 돕는 것이 주요 목적입니다.
+
+다음과 같은 UI 상황에서 활용하는 것을 권장합니다:
+
+- 카드형 콘텐츠에서 메타데이터 표시
+- 상세 페이지에서 부가 정보 묶음 제시
+- 유저 프로필 영역에 활동 요약 정보 표시
+
+### Tag Item의 조합
+
+Tag Item의 Tone, Weight, Layout 속성은 각 Item마다 다르게 적용해 조합할 수 있습니다. 단, 사이즈는 모두 동일하게 사용해야 합니다.
+
+<Grid>
+  <DoImage
+    figmaId="66:26736"
+    body="Tag마다 Tone, Weight, Layout 속성을 다르게 적용할 수 있습니다."
+    alt="Tag Item 조합 Do 예시 - 각 Tag마다 다른 속성 적용"
+  />
+  <DontImage
+    figmaId="66:26745"
+    body="Tag Item은 모두 같은 사이즈를 사용해주세요."
+    alt="Tag Item 조합 Don't 예시 - 서로 다른 사이즈 사용"
+  />
+</Grid>
+
+### Tag 내용 작성하기
+
+Tag Group은 스캔 가능한 정보를 한 줄에 요약하는 목적을 갖기 때문에, 텍스트는 가능한 한 짧고 명확해야 합니다. 가능한 줄바꿈이 발생하지 않도록 6~10자 내로 정보를 표시해주세요.
+
+<Grid>
+  <DoImage
+    figmaId="66:26757"
+    body="텍스트는 불필요한 조사·접속어를 제외하고 간결하게 작성합니다."
+    alt="Tag 내용 작성 Do 예시 - 간결한 텍스트"
+  />
+  <DontImage
+    figmaId="66:26775"
+    body="텍스트는 가능한 줄바꿈되지 않도록 짧고 명확하게 작성해주세요."
+    alt="Tag 내용 작성 Don't 예시 - 긴 텍스트로 줄바꿈 발생"
+  />
+</Grid>
+
+### Tag 우선순위 설정
+
+<FigmaImage id="66:26822" alt="Tag 우선순위 설정 예시 - 말줄임 처리" />
+
+태그 길이가 지나치게 긴 경우, 화면 너비 제약으로 일부 태그에 말줄임 처리(ellipsis)가 필요할 수 있습니다. 이때 태그의 우선순위를 지정하면 우선순위가 낮은 태그부터 말줄임이 적용됩니다.
+
+우선순위를 지정하지 않으면 태그 내용이 줄바꿈되어 표시됩니다.
+
+### Tag의 줄바꿈
+
+<FigmaImage id="66:26882" alt="Tag 줄바꿈 예시 - 문자 단위 줄바꿈" />
+
+Tag Group은 기본적으로 한 줄에 정보를 요약하도록 설계되어 있습니다. 하지만 태그 정보가 말줄임(Ellipsis)될 때 사용자가 정보를 제대로 이해하기 어렵다면, 줄바꿈을 허용하는 것이 더 적절할 수 있습니다. 폰트 스케일링으로 텍스트 크기를 크게 설정한 경우에도 줄바꿈이 발생할 수 있습니다.
+
+Tag Group 내 태그는 '문자 단위(word-break: break-all)'로 줄바꿈됩니다. 이는 태그가 여러 줄로 표시되더라도 하나의 정보 단위로 인지되도록 하기 위함입니다.
+
+## Tag Group V3 변경점
+
+<FigmaImage id="66:26924" alt="Tag Group V2와 V3 비교" />
+
+- 피그마 라이브러리에만 있던 컴포넌트를 React 구현체로 제공합니다.
+- 사용자가 실제 읽어야 할 정보(label)와 구분 역할의 dot(⸱)을 시각적, 구조적으로 명확히 분리했어요.
+- dot(⸱)에는 `aria-hidden="true"` 속성을 부여하여 스크린 리더가 읽지 않도록 처리했습니다.
+- 개별 Tag Item의 속성을 변경할 수 있도록 피그마 인터페이스를 개선했습니다.
+
+## Specification
+
+### Tag Group
+
+<ComponentSpecBlock id="tag-group" headingComponent="h4" />
+
+### Tag Group Item
+
+<ComponentSpecBlock id="tag-group-item" headingComponent="h4" />

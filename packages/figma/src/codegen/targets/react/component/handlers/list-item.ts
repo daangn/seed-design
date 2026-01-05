@@ -141,7 +141,7 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
           tag === "ListSwitchItem") && {
           disabled: true,
         }),
-      ...(props.State.value === "Highlighted" && {
+      ...(props.Highlighted.value === "True" && {
         highlighted: true,
       }),
     };

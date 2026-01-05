@@ -27,7 +27,7 @@
             "timingFunction": {
               "type": "cubicBezier"
             },
-            "color": {
+            "gradient": {
               "type": "gradient"
             }
           }
@@ -184,7 +184,7 @@
                 }
               },
               "shimmer": {
-                "color": {
+                "gradient": {
                   "type": "gradient",
                   "value": "$gradient.shimmer-neutral"
                 }
@@ -210,7 +210,7 @@
                 }
               },
               "shimmer": {
-                "color": {
+                "gradient": {
                   "type": "gradient",
                   "value": "$gradient.shimmer-magic"
                 }

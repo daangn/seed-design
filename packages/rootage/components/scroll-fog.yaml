@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=./schema.json
+# parts: root
+kind: ComponentSpec
+metadata:
+  id: scroll-fog
+  name: Scroll Fog
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          fromColor:
+            type: color
+          toColor:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          fromColor: "#00000000"
+          toColor: "#000000ff"
+          size: 20px

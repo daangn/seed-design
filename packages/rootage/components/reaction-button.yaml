@@ -68,8 +68,10 @@ data:
     base:
       enabled:
         root:
-          color: $color.bg.neutral-weak
-          colorDuration: $duration.d4
+          strokeColor: $color.stroke.neutral-muted
+          strokeWidth: 1px
+          color: $color.bg.transparent
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         label:
           color: $color.fg.neutral
@@ -84,10 +86,10 @@ data:
           rangeColor: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.neutral-weak-pressed
+          color: $color.bg.transparent-pressed
       selected:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
           strokeColor: $color.stroke.brand-weak
           strokeWidth: 1px
         label:
@@ -101,7 +103,7 @@ data:
           rangeColor: $color.fg.brand
       selected,pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
           color: $color.bg.disabled
@@ -117,7 +119,7 @@ data:
           color: $color.bg.neutral-weak-pressed
       selected,loading:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
           strokeWidth: 1px
     size=xsmall:
       enabled:

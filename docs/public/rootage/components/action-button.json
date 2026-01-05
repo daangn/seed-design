@@ -153,7 +153,7 @@
               "root": {
                 "colorDuration": {
                   "type": "duration",
-                  "value": "$duration.d4"
+                  "value": "$duration.color-transition"
                 },
                 "colorTimingFunction": {
                   "type": "cubicBezier",
@@ -651,7 +651,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.bg.transparent"
                 },
                 "strokeColor": {
                   "type": "color",
@@ -709,7 +709,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -722,7 +722,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.bg.transparent"
                 },
                 "strokeColor": {
                   "type": "color",
@@ -763,7 +763,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.bg.transparent"
                 }
               }
             }
@@ -783,7 +783,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.bg.transparent"
                 },
                 "strokeColor": {
                   "type": "color",
@@ -841,7 +841,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -854,7 +854,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.bg.transparent"
                 },
                 "strokeColor": {
                   "type": "color",
@@ -895,7 +895,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.bg.transparent"
                 }
               }
             }
@@ -962,7 +962,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -1012,7 +1012,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -1099,11 +1099,11 @@
               "label": {
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t4"
+                  "value": "$font-size.t3"
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t4"
+                  "value": "$line-height.t3"
                 }
               }
             }

@@ -18,7 +18,7 @@ data:
             type: duration
           timingFunction:
             type: cubicBezier
-          color:
+          gradient:
             type: gradient
   definitions:
     base:
@@ -47,10 +47,10 @@ data:
         root:
           color: $color.palette.gray-200
         shimmer:
-          color: $gradient.shimmer-neutral
+          gradient: $gradient.shimmer-neutral
     tone=magic:
       enabled:
         root:
           color: $color.bg.magic-weak
         shimmer:
-          color: $gradient.shimmer-magic
+          gradient: $gradient.shimmer-magic

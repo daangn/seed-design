@@ -1,0 +1,156 @@
+---
+title: App Screen
+description: Stackflow 네비게이션에서 개별 화면을 구성하는 컴포넌트입니다. 모바일 앱과 같은 화면 전환 경험을 제공할 때 사용됩니다.
+---
+
+<StackflowExample names={["react/app-screen/preview"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-screen/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:app-screen
+```
+
+<ManualInstallation name="app-screen" />
+
+## Usage
+
+```tsx
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarCloseButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+```
+
+```tsx
+<AppScreen theme="cupertino">
+  <AppBar>
+    <AppBarLeft>
+      <AppBarBackButton />
+    </AppBarLeft>
+    <AppBarMain>Title</AppBarMain>
+    <AppBarRight>
+      {/* actions */}
+    </AppBarRight>
+  </AppBar>
+  <AppScreenContent>
+    {/* content */}
+  </AppScreenContent>
+</AppScreen>
+```
+
+## Props
+
+### App Screen
+
+#### `AppScreen`
+
+<react-type-table path="./registry/ui/app-screen.tsx" name="AppScreenProps" />
+
+#### `AppScreenContent`
+
+<react-type-table path="./registry/ui/app-screen.tsx" name="AppScreenContentProps" />
+
+### App Bar
+
+#### `AppBar`
+
+<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarProps" />
+
+#### `AppBarLeft`
+
+<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarLeftProps" />
+
+#### `AppBarMain`
+
+<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarMainProps" />
+
+#### `AppBarRight`
+
+<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarRightProps" />
+
+#### `AppBarIconButton`, `AppBarBackButton`, `AppBarCloseButton`
+
+<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarIconButtonProps" />
+
+## Examples
+
+### Tones
+
+AppScreen의 `tone` 속성을 `transparent`로 설정하여 투명한 배경을 사용할 수 있습니다.
+
+- `AppBar`의 배경이 투명해집니다.
+- 모바일 OS 상태바를 포함한 `AppScreen` 상단에 그라디언트가 표시됩니다.
+  - `gradient` 속성을 `false`로 설정하여 숨길 수 있습니다.
+
+<StackflowExample names={["react/app-screen/transparent"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-screen/transparent.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+#### With Intersection Observer
+
+Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변경할 수 있습니다.
+
+<StackflowExample names={["react/app-screen/with-intersection-observer"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-screen/with-intersection-observer.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+### Layer Offset Top
+
+`layerOffsetTop` 속성을 사용해 `AppScreenContent`의 상단 오프셋을 조정할 수 있습니다.
+
+`tone="transparent"`와 `gradient`를 사용하는 경우, 일반적으로 `layerOffsetTop="none"`을 함께 설정하여 모바일 OS 상태바 영역까지 콘텐츠 영역을 확장합니다.
+
+<Callout type="info">
+
+디스플레이 컷아웃 (notch) 등 safe area를 올바르게 처리하기 위해 `viewport-fit=cover`가 포함된 `viewport` 메타 태그를 사용하세요.
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+```
+
+</Callout>
+
+<div className="grid grid-cols-3 gap-4">
+
+![`layerOffsetTop`을 `none`으로 설정한 스크린샷](/react/stackflow/app-screen/layer-offset-top-none.webp)
+
+![`layerOffsetTop`을 `safeArea`으로 설정한 스크린샷](/react/stackflow/app-screen/layer-offset-top-safe-area.webp)
+
+![`layerOffsetTop`을 `appBar`로 설정한 스크린샷](/react/stackflow/app-screen/layer-offset-top-app-bar.webp)
+
+</div>
+
+### Customizing App Bar
+
+<StackflowExample names={["react/app-screen/app-bar-customization"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-screen/app-bar-customization.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>

@@ -10,8 +10,10 @@
     text-decoration: none;
     border-radius: var(--seed-radius-full);
     min-height: var(--seed-dimension-x5);
-    padding-inline: var(--seed-dimension-x1_5);
-    padding-block: var(--seed-dimension-x0_5);
+    padding-left: var(--seed-dimension-x1_5);
+    padding-right: var(--seed-dimension-x1_5);
+    padding-top: var(--seed-dimension-x0_5);
+    padding-bottom: var(--seed-dimension-x0_5);
     font-size: var(--seed-font-size-t1);
     line-height: var(--seed-line-height-t1);
     font-weight: var(--seed-font-weight-bold)

@@ -12,7 +12,7 @@ import { PageBanner } from "seed-design/ui/page-banner";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/article/prevent-pull": unknown;
+    "react/article/prevent-pull": {};
   }
 }
 

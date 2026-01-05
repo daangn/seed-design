@@ -1,0 +1,24 @@
+.seed-bottom-sheet-handle__root {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    background-color: var(--seed-color-palette-gray-400);
+    border-radius: 9999px;
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    touch-action: pan-y;
+}
+.seed-bottom-sheet-handle__root:is(:active, [data-active]) {
+    background-color: var(--seed-color-palette-gray-500);
+}
+.seed-bottom-sheet-handle__touchArea {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    touch-action: inherit;
+}

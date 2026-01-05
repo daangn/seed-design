@@ -1,6 +1,6 @@
 import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
-import { useController, useForm } from "react-hook-form";
+import { useController, useForm, type Control } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
 import { CheckSelectBox, CheckSelectBoxGroup } from "seed-design/ui/select-box";
 
@@ -33,22 +33,9 @@ export default function CheckSelectBoxReactHookForm() {
     <VStack gap="x3" width="full" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
       <CheckSelectBoxGroup>
         <VStack gap="spacingY.componentDefault">
-          {POSSIBLE_FRUIT_VALUES.map((name) => {
-            const {
-              field: { value, ...restProps },
-              fieldState: { invalid },
-            } = useController({ name, control });
-
-            return (
-              <CheckSelectBox
-                key={name}
-                label={name}
-                checked={value}
-                inputProps={restProps}
-                invalid={invalid}
-              />
-            );
-          })}
+          {POSSIBLE_FRUIT_VALUES.map((name) => (
+            <CheckSelectBoxItem key={name} name={name} control={control} />
+          ))}
         </VStack>
       </CheckSelectBoxGroup>
       <HStack gap="x2">
@@ -58,10 +45,32 @@ export default function CheckSelectBoxReactHookForm() {
         <ActionButton type="button" variant="neutralWeak" onClick={() => setValue("mango", true)}>
           mango 선택
         </ActionButton>
-        <ActionButton type="submit" flexGrow={1}>
+        <ActionButton type="submit" variant="neutralSolid" flexGrow={1}>
           제출
         </ActionButton>
       </HStack>
     </VStack>
+  );
+}
+
+interface CheckSelectBoxItemProps {
+  name: keyof FormValues;
+  control: Control<FormValues>;
+}
+
+function CheckSelectBoxItem({ name, control }: CheckSelectBoxItemProps) {
+  const {
+    field: { value, ...restProps },
+    fieldState: { invalid },
+  } = useController({ name, control });
+
+  return (
+    <CheckSelectBox
+      key={name}
+      label={name}
+      checked={value}
+      inputProps={restProps}
+      invalid={invalid}
+    />
   );
 }

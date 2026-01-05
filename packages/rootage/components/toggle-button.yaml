@@ -62,7 +62,7 @@ data:
     base:
       enabled:
         root:
-          colorDuration: $duration.d4
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         label:
           fontWeight: $font-weight.bold
@@ -171,8 +171,8 @@ data:
         suffixIcon:
           size: $dimension.x3_5
         label:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
         progressCircle:
           size: 14px
           thickness: 2px
