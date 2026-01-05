@@ -19,7 +19,7 @@ import {
   AppBarMain,
   AppBarRight,
 } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
 import { DialogPushTrigger } from "seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -65,10 +65,29 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
 
   const navigationSections: NavigationSection[] = [
     {
-      title: "AppBars",
+      title: "AppBar",
       items: [
         { title: "LayerBar", onClick: () => push("ActivityLayerBar", {}) },
         { title: "TransparentBar", onClick: () => push("ActivityTransparentBar", {}) },
+      ],
+    },
+    {
+      title: "AppScreen",
+      items: [
+        {
+          title: `Push to here (current activityIndex: ${activityIndex})`,
+          onClick: () => push("ActivityHome", {}),
+        },
+        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
+        {
+          title: `transitionStyle="slideFromRightIOS"`,
+          onClick: () => push("ActivityTransitionStyle", { transitionStyle: "slideFromRightIOS" }),
+        },
+        {
+          title: `transitionStyle="fadeFromBottomAndroid"`,
+          onClick: () =>
+            push("ActivityTransitionStyle", { transitionStyle: "fadeFromBottomAndroid" }),
+        },
       ],
     },
     {
@@ -223,13 +242,8 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
     {
       title: "Misc",
       items: [
-        {
-          title: `Push to here (current activityIndex: ${activityIndex})`,
-          onClick: () => push("ActivityHome", {}),
-        },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
-        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
       ],
     },
   ];
