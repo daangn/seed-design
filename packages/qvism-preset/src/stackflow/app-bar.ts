@@ -1,26 +1,19 @@
-import type { StyleObject } from "@seed-design/qvism-core";
 import { defineSlotRecipe } from "../utils/define";
 import { topNavigation as vars } from "../vars/component";
 import { fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
   idle,
   idleBehind,
-  idleBehindFollowTop,
   pop,
   popBehind,
-  popBehindFollowTop,
   push,
   pushBehind,
-  pushBehindFollowTop,
   swipeBackCanceling,
   swipeBackCancelingBehind,
-  swipeBackCancelingBehindFollowTop,
   swipeBackCompleting,
   swipeBackCompletingBehind,
-  swipeBackCompletingBehindFollowTop,
   swipeBackSwiping,
   swipeBackSwipingBehind,
-  swipeBackSwipingBehindFollowTop,
 } from "./pseudo";
 
 export const appBarMain = defineSlotRecipe({
@@ -139,59 +132,12 @@ export const appBarMain = defineSlotRecipe({
         },
       },
     },
-    exitTransitionBehavior: {
-      top: {
-        root: {
-          [pushBehindFollowTop("slideFromRightIOS")]: iOSAnimations.titleBehind.push,
-          [popBehindFollowTop("slideFromRightIOS")]: iOSAnimations.titleBehind.pop,
-          [idleBehindFollowTop("slideFromRightIOS")]: iOSAnimations.titleBehind.idle,
-          [swipeBackSwipingBehindFollowTop("slideFromRightIOS")]:
-            iOSAnimations.titleBehind.interaction,
-          [swipeBackCancelingBehindFollowTop("slideFromRightIOS")]:
-            iOSAnimations.titleBehind.cancel,
-          [swipeBackCompletingBehindFollowTop("slideFromRightIOS")]:
-            iOSAnimations.titleBehind.complete,
-
-          [pushBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [popBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [idleBehindFollowTop("fadeFromBottomAndroid")]: {
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [swipeBackSwipingBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [swipeBackCancelingBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [swipeBackCompletingBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-        } as StyleObject,
-      },
-      own: {},
-    },
   },
   defaultVariants: {
     layout: "titleOnly",
     theme: "cupertino",
     transitionStyle: "slideFromRightIOS",
     tone: "layer",
-    exitTransitionBehavior: "top",
   },
 });
 
@@ -364,57 +310,11 @@ export const appBar = defineSlotRecipe({
         },
       },
     },
-    exitTransitionBehavior: {
-      top: {
-        icon: {
-          [pushBehindFollowTop("slideFromRightIOS")]: iOSAnimations.iconBehind.push,
-          [popBehindFollowTop("slideFromRightIOS")]: iOSAnimations.iconBehind.pop,
-          [idleBehindFollowTop("slideFromRightIOS")]: iOSAnimations.iconBehind.idle,
-          [swipeBackSwipingBehindFollowTop("slideFromRightIOS")]:
-            iOSAnimations.iconBehind.interaction,
-          [swipeBackCancelingBehindFollowTop("slideFromRightIOS")]: iOSAnimations.iconBehind.cancel,
-          [swipeBackCompletingBehindFollowTop("slideFromRightIOS")]:
-            iOSAnimations.iconBehind.complete,
-
-          [pushBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [popBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [idleBehindFollowTop("fadeFromBottomAndroid")]: {
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [swipeBackSwipingBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [swipeBackCancelingBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-          [swipeBackCompletingBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)",
-          },
-        } as StyleObject,
-      },
-      own: {},
-    },
   },
   defaultVariants: {
     theme: "cupertino",
     transitionStyle: "slideFromRightIOS",
     tone: "layer",
     divider: false,
-    exitTransitionBehavior: "top",
   },
 });

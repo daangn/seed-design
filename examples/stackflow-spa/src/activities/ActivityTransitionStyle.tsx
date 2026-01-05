@@ -1,4 +1,4 @@
-import { Box, HStack, Text, VStack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
@@ -11,8 +11,6 @@ import {
 import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
-import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
-import { useState } from "react";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -26,11 +24,9 @@ const ActivityTransitionStyle: StaticActivityComponentType<"ActivityTransitionSt
   params: { transitionStyle },
 }) => {
   const { push } = useFlow();
-  const [exitTransitionBehavior, setExitTransitionBehavior] =
-    useState<NonNullable<AppScreenProps["exitTransitionBehavior"]>>("top");
 
   return (
-    <AppScreen transitionStyle={transitionStyle} exitTransitionBehavior={exitTransitionBehavior}>
+    <AppScreen transitionStyle={transitionStyle}>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
@@ -60,15 +56,6 @@ const ActivityTransitionStyle: StaticActivityComponentType<"ActivityTransitionSt
           >
             fadeFromBottomAndroid
           </ActionButton>
-          <SegmentedControl
-            value={exitTransitionBehavior}
-            onValueChange={(value) =>
-              setExitTransitionBehavior(value as typeof exitTransitionBehavior)
-            }
-          >
-            <SegmentedControlItem value="top">top</SegmentedControlItem>
-            <SegmentedControlItem value="own">own</SegmentedControlItem>
-          </SegmentedControl>
         </VStack>
       </AppScreenContent>
     </AppScreen>

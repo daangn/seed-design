@@ -8,6 +8,8 @@ import { forwardRef } from "react";
 import { AppBar as AppBarPrimitive } from "../../primitive";
 import { useAppBarContext } from "../../primitive/AppBar/useAppBarContext";
 import { createStyleContext } from "../../utils/createStyleContext";
+import { useTopActivity } from "../../primitive/private/useTopActivity";
+import { useActivity } from "@stackflow/react";
 
 const { PropsProvider, ClassNamesProvider, useProps, withContext, useClassNames } =
   createStyleContext(appBar);
@@ -24,11 +26,23 @@ export interface AppBarProps extends AppBarVariantProps, AppBarPrimitive.RootPro
 export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) => {
   const contextProps = useProps();
   const [variantProps, otherProps] = appBar.splitVariantProps({ ...contextProps, ...props });
-  const classNames = appBar(variantProps);
+
+  const topActivityTransitionStyle = useTopActivity().transitionStyle;
+
+  const resolvedVariantProps: AppBarVariantProps = {
+    ...variantProps,
+    ...(useActivity().isTop === false && {
+      transitionStyle: topActivityTransitionStyle as NonNullable<
+        AppBarVariantProps["transitionStyle"]
+      >,
+    }),
+  };
+
+  const classNames = appBar(resolvedVariantProps);
 
   return (
     <ClassNamesProvider value={classNames}>
-      <MainPropsProvider value={variantProps}>
+      <MainPropsProvider value={resolvedVariantProps}>
         <AppBarPrimitive.Root
           ref={ref}
           {...mergeProps({ className: classNames.root }, otherProps)}

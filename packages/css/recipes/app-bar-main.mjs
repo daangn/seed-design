@@ -20,8 +20,7 @@ const defaultVariant = {
   "layout": "titleOnly",
   "theme": "cupertino",
   "transitionStyle": "slideFromRightIOS",
-  "tone": "layer",
-  "exitTransitionBehavior": "top"
+  "tone": "layer"
 };
 
 const compoundVariants = [];
@@ -42,10 +41,6 @@ export const appBarMainVariantMap = {
   "tone": [
     "layer",
     "transparent"
-  ],
-  "exitTransitionBehavior": [
-    "top",
-    "own"
   ]
 };
 

@@ -26,8 +26,7 @@ const defaultVariant = {
   "layerOffsetTop": "appBar",
   "layerOffsetBottom": "none",
   "tone": "layer",
-  "gradient": true,
-  "exitTransitionBehavior": "top"
+  "gradient": true
 };
 
 const compoundVariants = [
@@ -81,10 +80,6 @@ export const appScreenVariantMap = {
   "gradient": [
     true,
     false
-  ],
-  "exitTransitionBehavior": [
-    "top",
-    "own"
   ]
 };
 

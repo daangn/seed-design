@@ -1,28 +1,20 @@
-import type { StyleObject } from "@seed-design/qvism-core";
 import { defineSlotRecipe } from "../utils/define";
 import { vars } from "../vars";
 import { topNavigation as navVars } from "../vars/component";
 import { fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
-  behindWhenTopIs,
   idle,
   idleBehind,
-  idleBehindFollowTop,
   pop,
   popBehind,
-  popBehindFollowTop,
   push,
   pushBehind,
-  pushBehindFollowTop,
   swipeBackCanceling,
   swipeBackCancelingBehind,
-  swipeBackCancelingBehindFollowTop,
   swipeBackCompleting,
   swipeBackCompletingBehind,
-  swipeBackCompletingBehindFollowTop,
   swipeBackSwiping,
   swipeBackSwipingBehind,
-  swipeBackSwipingBehindFollowTop,
 } from "./pseudo";
 
 const OVERSCROLL_GRADIENT_OFFSET = "400px";
@@ -180,54 +172,6 @@ export const appScreen = defineSlotRecipe({
       true: {},
       false: {},
     },
-    exitTransitionBehavior: {
-      top: {
-        root: {
-          // Lower app-bar z-index when behind fadeFromBottomAndroid so dim can cover it
-          // (iOS keeps app-bar at +7 for native swipe-back parallax effect)
-          [behindWhenTopIs("fadeFromBottomAndroid")]: {
-            "--z-index-app-bar": "calc(var(--z-index-base) + 4)",
-          },
-        } as unknown as StyleObject,
-        layer: {
-          [pushBehindFollowTop("slideFromRightIOS")]: iOSAnimations.layerBehind.push,
-          [popBehindFollowTop("slideFromRightIOS")]: iOSAnimations.layerBehind.pop,
-          [idleBehindFollowTop("slideFromRightIOS")]: iOSAnimations.layerBehind.idle,
-          [swipeBackSwipingBehindFollowTop("slideFromRightIOS")]:
-            iOSAnimations.layerBehind.interaction,
-          [swipeBackCancelingBehindFollowTop("slideFromRightIOS")]:
-            iOSAnimations.layerBehind.cancel,
-          [swipeBackCompletingBehindFollowTop("slideFromRightIOS")]:
-            iOSAnimations.layerBehind.complete,
-
-          [pushBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            transform: "translate3d(0, 0, 0)",
-          },
-          [popBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            transform: "translate3d(0, 0, 0)",
-          },
-          [idleBehindFollowTop("fadeFromBottomAndroid")]: {
-            transform: "translate3d(0, 0, 0)",
-          },
-          // fadeFromBottomAndroid doesn't have swipe-back, but if triggered, behind should stay static
-          [swipeBackSwipingBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            transform: "translate3d(0, 0, 0)",
-          },
-          [swipeBackCancelingBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            transform: "translate3d(0, 0, 0)",
-          },
-          [swipeBackCompletingBehindFollowTop("fadeFromBottomAndroid")]: {
-            animation: "none",
-            transform: "translate3d(0, 0, 0)",
-          },
-        } as StyleObject,
-      },
-      own: {},
-    },
   },
   compoundVariants: [
     // theme=android doesn't define dim styles, but slideFromRightIOS needs full-screen dim
@@ -310,6 +254,5 @@ export const appScreen = defineSlotRecipe({
     layerOffsetBottom: "none",
     tone: "layer",
     gradient: true,
-    exitTransitionBehavior: "top",
   },
 });

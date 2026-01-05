@@ -23,10 +23,6 @@ declare interface AppScreenVariant {
   * @default true
   */
   gradient: boolean;
-/**
-  * @default "top"
-  */
-  exitTransitionBehavior: "top" | "own";
 }
 
 declare type AppScreenVariantMap = {
