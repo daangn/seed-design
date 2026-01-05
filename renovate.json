@@ -25,6 +25,10 @@
       ],
       "groupName": "karrot-icon-updates",
       "allowedVersions": "*"
+    },
+    {
+      "matchPackageNames": ["bun"],
+      "groupName": "bun"
     }
   ]
 }

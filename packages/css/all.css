@@ -1814,11 +1814,6 @@
   --app-bar-height: 44px;
 }
 
-.seed-app-screen__dim--theme_cupertino {
-  background: var(--seed-color-bg-overlay);
-  height: 100%;
-}
-
 .seed-app-screen__root--theme_android {
   --app-bar-height: 56px;
 }
@@ -1924,6 +1919,11 @@
   transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
   transform: translate3d(0, 0, 0);
   animation: none !important;
+}
+
+.seed-app-screen__dim--transitionStyle_slideFromRightIOS {
+  background: var(--seed-color-bg-overlay);
+  height: 100%;
 }
 
 [data-global-transition-state="enter-active"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {

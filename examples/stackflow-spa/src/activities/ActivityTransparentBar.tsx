@@ -16,6 +16,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useState } from "react";
 import { Switch } from "seed-design/ui/switch";
+import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -83,28 +84,16 @@ const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBa
             >
               ActivityPluginBasicUI
             </ActionButton>
-            <ActionButton
-              variant="neutralSolid"
-              flexGrow
-              onClick={() =>
-                push("ActivityTransitionStyle", {
-                  transitionStyle: "slideFromRightIOS",
-                })
-              }
-            >
-              ActivityTransitionStyle (slideFromRightIOS)
-            </ActionButton>
-            <ActionButton
-              variant="neutralSolid"
-              flexGrow
-              onClick={() =>
-                push("ActivityTransitionStyle", {
-                  transitionStyle: "fadeFromBottomAndroid",
-                })
-              }
-            >
-              ActivityTransitionStyle (fadeFromBottomAndroid)
-            </ActionButton>
+            {appScreenVariantMap.transitionStyle.map((transitionStyle) => (
+              <ActionButton
+                key={transitionStyle}
+                variant="neutralSolid"
+                flexGrow
+                onClick={() => push("ActivityTransitionStyle", { transitionStyle })}
+              >
+                ActivityTransitionStyle ({transitionStyle})
+              </ActionButton>
+            ))}
           </VStack>
           <img src={img} alt="penguin" />
           <img src={img} alt="penguin" />
