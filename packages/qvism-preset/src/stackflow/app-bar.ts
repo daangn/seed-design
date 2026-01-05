@@ -78,7 +78,10 @@ export const appBarMain = defineSlotRecipe({
           display: "flex",
           alignItems: "center",
           justifyContent: "flex-start",
+
           width: "100%",
+          minWidth: 0, // ensures that the text-overflow works correctly
+
           height: "100%",
         },
       },

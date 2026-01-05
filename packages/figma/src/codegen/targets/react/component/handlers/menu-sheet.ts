@@ -80,7 +80,7 @@ export const createMenuSheetHandler = (ctx: ComponentHandlerDeps) => {
     // const description = props["Description Text#21827:0"].value;
 
     const { labelAlign } = match(props.Layout.value)
-      .with("Text with Icon", "Text with Subtext", () => ({ labelAlign: "left" }))
+      .with("Text with Icon", () => ({ labelAlign: "left" }))
       .with("Text Only", () => ({ labelAlign: "center" }))
       .exhaustive();
 

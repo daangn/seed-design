@@ -45,6 +45,7 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
+    min-width: 0;
     height: 100%
 }
 [data-global-transition-state=enter-active] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {

@@ -34,7 +34,7 @@ export const createPageBannerHandler = (ctx: ComponentHandlerDeps) => {
       .with("Actionable", () => ({ tag: "ActionablePageBanner", suffix: undefined }))
       .with("Dismissible", () => ({ tag: "DismissiblePageBanner", suffix: undefined }))
       .with("Display", () => ({ tag: "PageBanner", suffix: undefined }))
-      .with("With Action", () => {
+      .with("Display (With Action)", () => {
         const [buttonNode] = findAllInstances<PageBannerButtonProperties>({
           node,
           key: SUFFIX_BUTTON_KEY,
@@ -43,7 +43,7 @@ export const createPageBannerHandler = (ctx: ComponentHandlerDeps) => {
 
         return { tag: "PageBanner", suffix };
       })
-      .with("Custom", () => ({
+      .with("Actionable (Custom)", () => ({
         tag: "PageBanner",
         suffix: createElement("div", undefined, "Custom Content"),
       }))

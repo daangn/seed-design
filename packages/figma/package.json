@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/figma",
-  "version": "1.1.13",
+  "version": "1.1.15",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -39,7 +39,7 @@
     "sync-entities": "rm -rf src/entities/data/__generated__ && bun figma-extractor src/entities/data/__generated__"
   },
   "dependencies": {
-    "@seed-design/css": "1.1.13",
+    "@seed-design/css": "1.1.15",
     "change-case": "^5.4.4",
     "ts-pattern": "^5.7.0"
   },

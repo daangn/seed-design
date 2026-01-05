@@ -27,10 +27,10 @@ export const templateResultPage = {
   "name": "templateResultPage",
   "key": "88ff5d153a95a2532925b191960d3401d5fd94a6",
   "componentPropertyDefinitions": {
-    "Show Top Navigation#28427:3": {
+    "Show Top Navigation#56814:4": {
       "type": "BOOLEAN"
     },
-    "Show Bottom Action Bar#44990:7": {
+    "Show Bottom Action Bar#56814:6": {
       "type": "BOOLEAN"
     }
   }

@@ -1645,6 +1645,7 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  min-width: 0;
   height: 100%;
   display: flex;
 }
@@ -5191,6 +5192,7 @@
   font-weight: var(--seed-font-weight-regular);
   border: none;
   outline: none;
+  margin: 0;
   font-family: inherit;
   display: flex;
 }
@@ -5896,6 +5898,7 @@
   border-radius: var(--seed-radius-full);
   background-color: var(--seed-color-bg-neutral-weak);
   isolation: isolate;
+  grid-auto-rows: 1fr;
   grid-auto-columns: 1fr;
   grid-auto-flow: column;
   align-items: center;
