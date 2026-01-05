@@ -30,6 +30,7 @@ export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) =
   const topActivityTransitionStyle = useTopActivity().transitionStyle;
 
   const resolvedVariantProps: AppBarVariantProps = {
+    // this includes the default transitionStyle decided by theme, from contextProps or props
     ...variantProps,
     ...(useActivity().isTop === false && {
       transitionStyle: topActivityTransitionStyle as NonNullable<

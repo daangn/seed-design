@@ -31,12 +31,9 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
 
   const classNames = appScreen({
     ...variantProps,
-    // play top activity's transitionStyle for behind activities
-    ...(useActivity().isTop === false && {
-      transitionStyle: topActivityTransitionStyle as NonNullable<
-        AppScreenVariantProps["transitionStyle"]
-      >,
-    }),
+    transitionStyle: useActivity().isTop
+      ? transitionStyle
+      : (topActivityTransitionStyle as NonNullable<AppScreenVariantProps["transitionStyle"]>),
   });
 
   return (
