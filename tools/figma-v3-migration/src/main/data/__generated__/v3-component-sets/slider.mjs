@@ -1,16 +1,25 @@
 export const metadata = {
   "name": "🟢 Slider",
-  "key": "aee027230a478315e380704c4523141e67e464ee",
+  "key": "14b3278452f03fa01ecc8012a07f124766714566",
   "componentPropertyDefinitions": {
-    "Steps": {
+    "Has Tick Mark#47921:0": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
+    "Show Active Track#48156:0": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
+    "Show Markers#49596:0": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
+    "Value": {
       "type": "VARIANT",
-      "defaultValue": "0",
+      "defaultValue": "Single",
       "variantOptions": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4"
+        "Single",
+        "Range"
       ]
     },
     "State": {
@@ -18,16 +27,8 @@ export const metadata = {
       "defaultValue": "Enabled",
       "variantOptions": [
         "Enabled",
+        "Pressed",
         "Disabled"
-      ]
-    },
-    "Marker": {
-      "type": "VARIANT",
-      "defaultValue": "None",
-      "variantOptions": [
-        "None",
-        "Min Max",
-        "All"
       ]
     }
   }

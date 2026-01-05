@@ -14,7 +14,10 @@
     "dev": "concurrently \"bun run watch:ui\" \"bun run watch:main\"",
     "lint": "biome check .",
     "preview": "vite preview",
-    "extract": "bun figma-extractor src/main/data/__generated__/v3-component-sets component-sets"
+    "extract": "bun figma-extractor src/main/data/__generated__/v3-component-sets component-sets",
+    "typecheck": "bun run typecheck:main && bun run typecheck:ui",
+    "typecheck:main": "tsc --noEmit -p tsconfig.main.json",
+    "typecheck:ui": "tsc --noEmit -p tsconfig.ui.json"
   },
   "dependencies": {
     "@figmazing/event": "0.0.1",
