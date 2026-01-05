@@ -35,6 +35,7 @@ import { Snackbar } from "seed-design/ui/snackbar";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { Callout } from "seed-design/ui/callout";
+import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
@@ -52,11 +53,13 @@ type NavigationSection = {
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityHome: {};
+    ActivityHome: {
+      transitionStyle?: AppScreenProps["transitionStyle"];
+    };
   }
 }
 
-const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
+const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) => {
   const { push } = useFlow();
   const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
@@ -79,15 +82,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
           onClick: () => push("ActivityHome", {}),
         },
         { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
-        {
-          title: `transitionStyle="slideFromRightIOS"`,
-          onClick: () => push("ActivityTransitionStyle", { transitionStyle: "slideFromRightIOS" }),
-        },
-        {
-          title: `transitionStyle="fadeFromBottomAndroid"`,
-          onClick: () =>
-            push("ActivityTransitionStyle", { transitionStyle: "fadeFromBottomAndroid" }),
-        },
+        ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
+          title: `ActivityTransitionStyle (${transitionStyle})`,
+          onClick: () => push("ActivityTransitionStyle", { transitionStyle }),
+        })),
       ],
     },
     {
@@ -249,7 +247,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
   ];
 
   return (
-    <AppScreen>
+    <AppScreen transitionStyle={params.transitionStyle}>
       <AppBar>
         {activityIndex > 0 && (
           <AppBarLeft>

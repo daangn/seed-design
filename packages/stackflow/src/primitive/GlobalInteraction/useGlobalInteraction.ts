@@ -162,8 +162,14 @@ export function useGlobalInteraction() {
       "data-swipe-back-state": swipeBackState,
       "data-global-transition-state": topActivity.transitionState,
       "data-top-activity-type": topActivity.activityType,
+      "data-top-transition-style": topActivity.transitionStyle,
     }),
-    [swipeBackState, topActivity.transitionState, topActivity.activityType],
+    [
+      swipeBackState,
+      topActivity.transitionState,
+      topActivity.activityType,
+      topActivity.transitionStyle,
+    ],
   ) as React.HTMLAttributes<HTMLElement>;
 
   return useMemo(
