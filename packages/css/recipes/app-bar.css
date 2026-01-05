@@ -245,6 +245,27 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 1;
 }
+[data-global-transition-state=enter-active] .seed-app-bar__root--transitionStyle_crossfade[data-activity-is-top] {
+    animation: seed-enter;
+    animation-timing-function: ease-out;
+    animation-duration: 300ms;
+    --seed-enter-translate-x: 0;
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 0;
+    --seed-enter-scale: 1;
+    opacity: 1;
+}
+[data-global-transition-state=exit-active] .seed-app-bar__root--transitionStyle_crossfade[data-activity-is-top] {
+    opacity: 1;
+    animation: seed-exit;
+    animation-timing-function: ease-in;
+    animation-duration: 150ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: 0;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 0;
+    --seed-exit-scale: 1;
+}
 .seed-app-bar__root--tone_layer:before {
     background-color: var(--seed-color-bg-layer-default);
 }

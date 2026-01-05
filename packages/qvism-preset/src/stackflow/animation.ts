@@ -220,3 +220,29 @@ export const fadeFromBottomAndroidAnimations = {
     },
   }),
 };
+
+const crossfadePresence = createPresence(
+  // fade in
+  { duration: "300ms", timingFunction: "ease-out" },
+  // fade out is faster than fade in because it feels better
+  { duration: "150ms", timingFunction: "ease-in" },
+);
+
+export const crossfadeAnimations = {
+  layer: crossfadePresence.getAnimations({
+    in: {
+      opacity: "1",
+    },
+    out: {
+      opacity: "0",
+    },
+  }),
+  appBar: crossfadePresence.getAnimations({
+    in: {
+      opacity: "1",
+    },
+    out: {
+      opacity: "0",
+    },
+  }),
+};

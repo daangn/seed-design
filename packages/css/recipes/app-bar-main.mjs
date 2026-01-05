@@ -36,7 +36,8 @@ export const appBarMainVariantMap = {
   ],
   "transitionStyle": [
     "slideFromRightIOS",
-    "fadeFromBottomAndroid"
+    "fadeFromBottomAndroid",
+    "crossfade"
   ],
   "tone": [
     "layer",
