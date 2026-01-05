@@ -31,10 +31,6 @@ const defaultVariant = {
 
 const compoundVariants = [
   {
-    "theme": "android",
-    "transitionStyle": "slideFromRightIOS"
-  },
-  {
     "tone": "transparent",
     "gradient": true
   },

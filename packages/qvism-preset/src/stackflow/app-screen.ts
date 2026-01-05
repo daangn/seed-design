@@ -72,10 +72,6 @@ export const appScreen = defineSlotRecipe({
         root: {
           "--app-bar-height": navVars.themeCupertino.enabled.root.minHeight,
         },
-        dim: {
-          height: "100%",
-          background: vars.$color.bg.overlay,
-        },
       },
       android: {
         root: {
@@ -113,6 +109,9 @@ export const appScreen = defineSlotRecipe({
           [swipeBackCompletingBehind]: iOSAnimations.layerBehind.complete,
         },
         dim: {
+          height: "100%",
+          background: vars.$color.bg.overlay,
+
           [push]: iOSAnimations.dim.push,
           [pop]: iOSAnimations.dim.pop,
           [idle]: iOSAnimations.dim.idle,
@@ -174,17 +173,6 @@ export const appScreen = defineSlotRecipe({
     },
   },
   compoundVariants: [
-    // theme=android doesn't define dim styles, but slideFromRightIOS needs full-screen dim
-    {
-      theme: "android",
-      transitionStyle: "slideFromRightIOS",
-      css: {
-        dim: {
-          height: "100%",
-          background: vars.$color.bg.overlay,
-        },
-      },
-    },
     {
       tone: "transparent",
       gradient: true,
