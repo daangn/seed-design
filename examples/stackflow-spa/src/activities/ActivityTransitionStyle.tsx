@@ -32,7 +32,8 @@ const ActivityTransitionStyle: StaticActivityComponentType<"ActivityTransitionSt
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain title={transitionStyle} />
+        {/* can be undefined if search parameter isn't provided */}
+        <AppBarMain title={transitionStyle ?? "Transition Styles"} />
         <AppBarRight>
           <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
