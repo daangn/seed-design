@@ -11,6 +11,7 @@ import {
 import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
+import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -40,22 +41,15 @@ const ActivityTransitionStyle: StaticActivityComponentType<"ActivityTransitionSt
       </AppBar>
       <AppScreenContent>
         <VStack px="spacingX.globalGutter" py="x3" gap="x2">
-          <ActionButton
-            variant={transitionStyle === "slideFromRightIOS" ? "neutralWeak" : "neutralSolid"}
-            onClick={() =>
-              push("ActivityTransitionStyle", { transitionStyle: "slideFromRightIOS" })
-            }
-          >
-            slideFromRightIOS
-          </ActionButton>
-          <ActionButton
-            variant={transitionStyle === "fadeFromBottomAndroid" ? "neutralWeak" : "neutralSolid"}
-            onClick={() =>
-              push("ActivityTransitionStyle", { transitionStyle: "fadeFromBottomAndroid" })
-            }
-          >
-            fadeFromBottomAndroid
-          </ActionButton>
+          {appScreenVariantMap.transitionStyle.map((style) => (
+            <ActionButton
+              key={style}
+              variant={transitionStyle === style ? "neutralWeak" : "neutralSolid"}
+              onClick={() => push("ActivityTransitionStyle", { transitionStyle: style })}
+            >
+              {style}
+            </ActionButton>
+          ))}
         </VStack>
       </AppScreenContent>
     </AppScreen>
