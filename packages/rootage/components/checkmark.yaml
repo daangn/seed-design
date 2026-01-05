@@ -29,6 +29,10 @@ data:
             type: color
           size:
             type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
   definitions:
     base:
       enabled:
@@ -80,6 +84,9 @@ data:
       enabled:
         icon:
           color: $color.fg.placeholder
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+
       pressed:
         root:
           color: $color.bg.transparent-pressed

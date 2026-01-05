@@ -73,7 +73,9 @@ export declare const vars: {
   "variantGhost": {
     "enabled": {
       "icon": {
-        "color": "var(--seed-color-fg-placeholder)"
+        "color": "var(--seed-color-fg-placeholder)",
+        "colorDuration": "var(--seed-duration-color-transition)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)"
       }
     },
     "pressed": {

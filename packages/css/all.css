@@ -3014,6 +3014,7 @@
 
 .seed-checkmark__icon--variant_ghost {
   color: var(--seed-color-fg-placeholder);
+  transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
   display: block;
 }
 

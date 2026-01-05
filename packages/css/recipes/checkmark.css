@@ -44,6 +44,7 @@
 .seed-checkmark__icon--variant_ghost {
     display: block;
     color: var(--seed-color-fg-placeholder);
+    transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-checkmark__icon--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
