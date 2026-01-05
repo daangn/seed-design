@@ -83,6 +83,28 @@ const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBa
             >
               ActivityPluginBasicUI
             </ActionButton>
+            <ActionButton
+              variant="neutralSolid"
+              flexGrow
+              onClick={() =>
+                push("ActivityTransitionStyle", {
+                  transitionStyle: "slideFromRightIOS",
+                })
+              }
+            >
+              ActivityTransitionStyle (slideFromRightIOS)
+            </ActionButton>
+            <ActionButton
+              variant="neutralSolid"
+              flexGrow
+              onClick={() =>
+                push("ActivityTransitionStyle", {
+                  transitionStyle: "fadeFromBottomAndroid",
+                })
+              }
+            >
+              ActivityTransitionStyle (fadeFromBottomAndroid)
+            </ActionButton>
           </VStack>
           <img src={img} alt="penguin" />
           <img src={img} alt="penguin" />
