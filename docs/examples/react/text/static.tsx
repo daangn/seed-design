@@ -4,34 +4,34 @@ export default function TextStatic() {
   return (
     <Flex direction="column" gap="x2">
       <Text color="fg.neutral" textStyle="t1StaticRegular">
-        t1Regular
+        t1StaticRegular
       </Text>
       <Text color="fg.neutral" textStyle="t2StaticRegular">
-        t2Regular
+        t2StaticRegular
       </Text>
       <Text color="fg.neutral" textStyle="t3StaticRegular">
-        t3Regular
+        t3StaticRegular
       </Text>
       <Text color="fg.neutral" textStyle="t4StaticRegular">
-        t4Regular
+        t4StaticRegular
       </Text>
       <Text color="fg.neutral" textStyle="t5StaticRegular">
-        t5Regular
+        t5StaticRegular
       </Text>
       <Text color="fg.neutral" textStyle="t6StaticBold">
-        t6Bold
+        t6StaticBold
       </Text>
       <Text color="fg.neutral" textStyle="t7StaticBold">
-        t7Bold
+        t7StaticBold
       </Text>
       <Text color="fg.neutral" textStyle="t8StaticBold">
-        t8Bold
+        t8StaticBold
       </Text>
       <Text color="fg.neutral" textStyle="t9StaticBold">
-        t9Bold
+        t9StaticBold
       </Text>
       <Text color="fg.neutral" textStyle="t10StaticBold">
-        t10Bold
+        t10StaticBold
       </Text>
     </Flex>
   );
