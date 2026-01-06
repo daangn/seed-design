@@ -6,7 +6,7 @@ declare interface AppScreenVariant {
 /**
   * @default "slideFromRightIOS"
   */
-  transitionStyle: "slideFromRightIOS" | "fadeFromBottomAndroid" | "crossfade";
+  transitionStyle: "slideFromRightIOS" | "fadeFromBottomAndroid" | "fadeIn";
 /**
   * @default "appBar"
   */

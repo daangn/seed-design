@@ -245,7 +245,7 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 1;
 }
-[data-global-transition-state=enter-active] .seed-app-bar__root--transitionStyle_crossfade[data-activity-is-top] {
+[data-global-transition-state=enter-active] .seed-app-bar__root--transitionStyle_fadeIn[data-activity-is-top] {
     animation: seed-enter;
     animation-timing-function: ease-out;
     animation-duration: 300ms;
@@ -255,7 +255,7 @@
     --seed-enter-scale: 1;
     opacity: 1;
 }
-[data-global-transition-state=exit-active] .seed-app-bar__root--transitionStyle_crossfade[data-activity-is-top] {
+[data-global-transition-state=exit-active] .seed-app-bar__root--transitionStyle_fadeIn[data-activity-is-top] {
     opacity: 1;
     animation: seed-exit;
     animation-timing-function: ease-in;

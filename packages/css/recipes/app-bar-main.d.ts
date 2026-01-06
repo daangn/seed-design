@@ -10,7 +10,7 @@ declare interface AppBarMainVariant {
 /**
   * @default "slideFromRightIOS"
   */
-  transitionStyle: "slideFromRightIOS" | "fadeFromBottomAndroid" | "crossfade";
+  transitionStyle: "slideFromRightIOS" | "fadeFromBottomAndroid" | "fadeIn";
 /**
   * @default "layer"
   */
