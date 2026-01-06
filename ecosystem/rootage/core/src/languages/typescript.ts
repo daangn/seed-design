@@ -3,7 +3,6 @@ import type {
   ComponentSpecDeclaration,
   StateExpression,
   TokenDeclaration,
-  TokenLit,
   VariantExpression,
 } from "../parser/ast";
 import { createStringifier as createCssStringifier } from "./css";
@@ -11,6 +10,7 @@ import { createStringifier as createCssStringifier } from "./css";
 interface TokenDefinition {
   key: string;
   value: string;
+  description?: string;
 }
 
 interface TokenGroup {
@@ -161,35 +161,35 @@ export function createStringifier(options: { prefix?: string } = {}) {
   }
 
   function getTokenGroups(decls: TokenDeclaration[]): TokenGroup[] {
-    const tokenExpressions = decls.map((decl) => decl.token);
+    const groups: Record<string, TokenDeclaration[]> = {};
 
-    const groups: Record<string, TokenLit[]> = {};
-
-    for (const expression of tokenExpressions) {
-      for (let i = 0; i < expression.group.length; i++) {
-        const group = expression.group.slice(0, i + 1).join("/");
+    // Initialize all groups (including parent groups)
+    for (const decl of decls) {
+      for (let i = 0; i < decl.token.group.length; i++) {
+        const group = decl.token.group.slice(0, i + 1).join("/");
         if (!groups[group]) {
           groups[group] = [];
         }
       }
     }
 
-    for (const expression of tokenExpressions) {
-      const group = expression.group.join("/");
-      groups[group]!.push(expression);
+    // Add declarations to their groups
+    for (const decl of decls) {
+      const group = decl.token.group.join("/");
+      groups[group]!.push(decl);
     }
 
-    return Object.entries(groups).map(([group, expressions]) => {
-      const definitions = expressions.map((expression) => {
-        const key = camelCasePreserveUnderscoreBetweenNumbers(expression.key);
+    return Object.entries(groups).map(([group, groupDecls]) => {
+      const definitions = groupDecls.map((decl) => {
+        const key = camelCasePreserveUnderscoreBetweenNumbers(decl.token.key);
 
         if (key.match(/^\d/)) {
-          throw new Error(`Token key cannot start with a number: ${expression.key}`);
+          throw new Error(`Token key cannot start with a number: ${decl.token.key}`);
         }
 
-        const value = cssStringifier.tokenReference(expression);
+        const value = cssStringifier.tokenReference(decl.token);
 
-        return { key, value };
+        return { key, value, description: decl.description };
       });
 
       return {
@@ -205,9 +205,10 @@ export function createStringifier(options: { prefix?: string } = {}) {
   ): { path: string; code: string }[] {
     return groups.map(({ dir, code }) => {
       const definitions = code
-        .map(({ key, value }) => {
+        .map(({ key, value, description }) => {
           const exportKeyword = isDeclaration ? "export declare const" : "export const";
-          return `${exportKeyword} ${key} = "${value}";`;
+          const jsdoc = isDeclaration && description ? `/** ${description} */\n` : "";
+          return `${jsdoc}${exportKeyword} ${key} = "${value}";`;
         })
         .join("\n");
 
