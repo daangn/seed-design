@@ -1,4 +1,4 @@
-import { docs, reactDocs, breezeDocs, lynxDocs } from "@/.source/server";
+import { docs, reactDocs, breezeDocs, lynxDocs } from "@/.source";
 import { getRootageMetadata } from "@/components/rootage";
 import { IconContainer } from "@/components/ui/icon";
 import type { Node, Root } from "fumadocs-core/page-tree";
