@@ -43,10 +43,6 @@
 .seed-app-screen__root--theme_cupertino {
     --app-bar-height: 44px;
 }
-.seed-app-screen__dim--theme_cupertino {
-    height: 100%;
-    background: var(--seed-color-bg-overlay);
-}
 .seed-app-screen__root--theme_android {
     --app-bar-height: 56px;
 }
@@ -152,6 +148,10 @@
     animation: none !important;
     transform: translate3d(0, 0, 0);
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
+}
+.seed-app-screen__dim--transitionStyle_slideFromRightIOS {
+    height: 100%;
+    background: var(--seed-color-bg-overlay);
 }
 [data-global-transition-state=enter-active] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;

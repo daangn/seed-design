@@ -3,6 +3,7 @@ import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config
 import { remarkFigmaImage } from "./components/figma-image/remark-figma-image";
 import { typeTableGenerator } from "./components/type-table/generator";
 import { remarkReactTypeTable } from "./components/type-table/remark-react-type-table";
+import lastModified from "fumadocs-mdx/plugins/last-modified";
 import z from "zod";
 
 export const docs = defineDocs({
@@ -51,7 +52,7 @@ if (!process.env.FIGMA_FILE_KEY || !process.env.FIGMA_PERSONAL_ACCESS_TOKEN) {
 }
 
 export default defineConfig({
-  lastModifiedTime: "git",
+  plugins: [lastModified()],
   mdxOptions: {
     remarkNpmOptions: {
       persist: {
