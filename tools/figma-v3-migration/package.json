@@ -32,7 +32,7 @@
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
     "@seed-design/figma-extractor": "^1.0.0",
-    "@types/node": "^24.0.0",
+    "@types/node": "^25.0.0",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "@vitejs/plugin-react": "^5.0.0",
