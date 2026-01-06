@@ -42,13 +42,9 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
       <AppBarBackButton />
     </AppBarLeft>
     <AppBarMain>Title</AppBarMain>
-    <AppBarRight>
-      {/* actions */}
-    </AppBarRight>
+    <AppBarRight>{/* actions */}</AppBarRight>
   </AppBar>
-  <AppScreenContent>
-    {/* content */}
-  </AppScreenContent>
+  <AppScreenContent>{/* content */}</AppScreenContent>
 </AppScreen>
 ```
 
@@ -62,7 +58,10 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 #### `AppScreenContent`
 
-<react-type-table path="./registry/ui/app-screen.tsx" name="AppScreenContentProps" />
+<react-type-table
+  path="./registry/ui/app-screen.tsx"
+  name="AppScreenContentProps"
+/>
 
 ### App Bar
 
@@ -84,7 +83,10 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 #### `AppBarIconButton`, `AppBarBackButton`, `AppBarCloseButton`
 
-<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarIconButtonProps" />
+<react-type-table
+  path="./registry/ui/app-bar.tsx"
+  name="AppBarIconButtonProps"
+/>
 
 ## Examples
 
@@ -129,7 +131,10 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
 디스플레이 컷아웃 (notch) 등 safe area를 올바르게 처리하기 위해 `viewport-fit=cover`가 포함된 `viewport` 메타 태그를 사용하세요.
 
 ```html
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover"
+/>
 ```
 
 </Callout>
@@ -151,6 +156,52 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
   {
     "file": "examples/react/app-screen/app-bar-customization.tsx",
     "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+### Transition Styles
+
+`transitionStyle` 속성을 사용해 AppScreen이 최상위로 push되거나 최상위에서 pop될 때 재생할 트랜지션을 지정할 수 있습니다.
+
+<Callout type="info">
+  최상위: `useActivity().isTop === true`인 액티비티로 만들어진 AppScreen을
+  의미합니다.
+</Callout>
+
+별도로 지정하지 않는 경우, `transitionStyle`은 `theme`에 따른 기본값을 갖습니다.
+
+- `theme="cupertino"`: `slideFromRightIOS`
+- `theme="android"`: `fadeFromBottomAndroid`
+
+최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen도 함께 트랜지션을 재생합니다.
+
+<Callout type="warning" title="최상위가 아닌 AppScreen의 트랜지션 스타일">
+
+**`@seed-design/stackflow@1.1.15`까지**
+
+최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 **각 AppScreen의 고유한 `transitionStyle`을 재생합니다**.
+
+- 예를 들면, `transitionStyle="fadeFromBottomAndroid"`인 0번 AppScreen 위에 `transitionStyle="slideFromLeftIOS"`인 1번 AppScreen이 push되는 경우, 0번 AppScreen은 `fadeFromBottomAndroid` 트랜지션을 재생합니다.
+  - 0번 AppScreen이 위치 변화 없이 그대로 유지된 상태에서(`fadeFromBottomAndroid`) 1번 AppScreen이 우측에서 슬라이드 인(`slideFromLeftIOS`)
+
+**이후 버전**
+
+최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 **최상위 AppScreen의 `transitionStyle`을 재생합니다**.
+
+- 같은 스택 내에 여러 `transitionStyle`이 공존할 때 자연스러운 트랜지션을 제공합니다.
+- 예를 들면, `transitionStyle="fadeFromBottomAndroid"`인 0번 AppScreen 위에 `transitionStyle="slideFromLeftIOS"`인 1번 AppScreen이 push되는 경우, 0번 AppScreen은 `slideFromLeftIOS` 트랜지션을 재생합니다.
+  - 0번 AppScreen이 자연스럽게 좌측으로 조금 밀려나며 어두워지고(`slideFromLeftIOS`) 1번 AppScreen이 우측에서 슬라이드 인(`slideFromLeftIOS`)
+
+</Callout>
+
+<StackflowExample path="/transition-style">
+  ```json doc-gen:file
+  {
+    "file": "../examples/stackflow-spa/src/activities/ActivityTransitionStyle.tsx",
+    "codeblock": {
+      "meta": "title='ActivityTransitionStyle.tsx'"
+    }
   }
   ```
 </StackflowExample>

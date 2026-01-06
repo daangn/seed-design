@@ -16,6 +16,7 @@ export function useTopActivity() {
   // TODO: There should be a better way to handle this. We should not rely on the DOM element to get the activity type.
   const [topEl, setTopEl] = useState<HTMLElement | null>(null);
   const activityType = topEl?.dataset["activityType"];
+  const transitionStyle = topEl?.dataset["transitionStyle"];
 
   useLayoutEffect(() => {
     if (!topId) return;
@@ -27,5 +28,6 @@ export function useTopActivity() {
   return {
     transitionState,
     activityType,
+    transitionStyle,
   };
 }
