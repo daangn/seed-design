@@ -92,17 +92,36 @@ export function createStringifier(options: { prefix?: string } = {}) {
   function getComponentSpecDts(decl: ComponentSpecDeclaration) {
     const result = getComponentSpec(decl);
 
-    // Variant value descriptions
-    const variantValueDescMap = new Map<string, string>();
+    // Build variant value description lookup: variantName -> valueName -> description
+    const variantValueDescLookup = new Map<string, Map<string, string>>();
     for (const variant of decl.schema.variants) {
+      const valueDescMap = new Map<string, string>();
       for (const value of variant.values) {
         if (value.description) {
-          // e.g. { name: "size", value: "large" } -> "sizeLarge"
-          const variantKey = camelCase(`${variant.name}-${value.name}`, {
-            mergeAmbiguousCharacters: true,
-          });
-          variantValueDescMap.set(variantKey, value.description);
+          valueDescMap.set(value.name, value.description);
         }
+      }
+      if (valueDescMap.size > 0) {
+        variantValueDescLookup.set(variant.name, valueDescMap);
+      }
+    }
+
+    // Build variant key -> descriptions map from actual variant declarations
+    const variantKeyDescMap = new Map<string, string[]>();
+    for (const variantDecl of decl.body) {
+      const variantKey = stringifyVariantKey(variantDecl.variants);
+      const descriptions: string[] = [];
+
+      for (const variant of variantDecl.variants) {
+        const valueDescMap = variantValueDescLookup.get(variant.name);
+        const desc = valueDescMap?.get(variant.value);
+        if (desc) {
+          descriptions.push(`- \`${variant.name}=${variant.value}\`: ${desc}`);
+        }
+      }
+
+      if (descriptions.length > 0) {
+        variantKeyDescMap.set(variantKey, descriptions);
       }
     }
 
@@ -126,9 +145,10 @@ export function createStringifier(options: { prefix?: string } = {}) {
 
     let json = JSON.stringify(result, null, 2);
 
-    // Add JSDoc for variant values (indent: 2 spaces)
-    for (const [key, desc] of variantValueDescMap) {
-      json = json.replaceAll(`"${key}":`, `/** ${desc} */\n  "${key}":`);
+    // Add JSDoc for variant keys (indent: 2 spaces)
+    for (const [key, descriptions] of variantKeyDescMap) {
+      const jsdoc = `/**\n   * ${descriptions.join("\n   * ")}\n   */`;
+      json = json.replaceAll(`"${key}":`, `${jsdoc}\n  "${key}":`);
     }
 
     // Add JSDoc for slots (indent: 6 spaces)
