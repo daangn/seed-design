@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
-    "@figma/rest-api-spec": "^0.34.0",
+    "@figma/rest-api-spec": "^0.35.0",
     "@karrotmarket/icon-data": "^1.13.0",
     "@seed-design/figma-extractor": "^1.0.0",
     "typescript": "^5.9.2"

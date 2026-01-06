@@ -1,6 +1,6 @@
 import { defineSlotRecipe } from "../utils/define";
 import { topNavigation as vars } from "../vars/component";
-import { fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
+import { fadeInAnimations, fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
   idle,
   idleBehind,
@@ -107,6 +107,7 @@ export const appBarMain = defineSlotRecipe({
         },
       },
       fadeFromBottomAndroid: {},
+      fadeIn: {},
     },
     tone: {
       layer: {
@@ -278,6 +279,12 @@ export const appBar = defineSlotRecipe({
         root: {
           [push]: fadeFromBottomAndroidAnimations.appBar.push,
           [pop]: fadeFromBottomAndroidAnimations.appBar.pop,
+        },
+      },
+      fadeIn: {
+        root: {
+          [push]: fadeInAnimations.appBar.push,
+          [pop]: fadeInAnimations.appBar.pop,
         },
       },
     },

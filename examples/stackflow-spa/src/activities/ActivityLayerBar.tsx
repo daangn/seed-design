@@ -4,7 +4,6 @@ import {
   AppBarLeft,
   AppBarRight,
   AppBarMain,
-  AppBarBackButton,
   AppBarIconButton,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
