@@ -64,13 +64,17 @@ describe("getTokenMjs", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export * as palette from "./palette.mjs";
-      export * as bg from "./bg.mjs";",
+          "code": 
+      "export * as palette from "./palette.mjs";
+      export * as bg from "./bg.mjs";"
+      ,
           "path": "color/index.mjs",
         },
         {
-          "code": "export const gray00 = "var(--test-color-palette-gray-00)";
-      export const gray100 = "var(--test-color-palette-gray-100)";",
+          "code": 
+      "export const gray00 = "var(--test-color-palette-gray-00)";
+      export const gray100 = "var(--test-color-palette-gray-100)";"
+      ,
           "path": "color/palette.mjs",
         },
         {
@@ -121,15 +125,19 @@ describe("getTokenMjs", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export const s1_5 = "var(--test-dimension-s1_5)";
+          "code": 
+      "export const s1_5 = "var(--test-dimension-s1_5)";
 
-      export * as spacingX from "./spacing-x/index.mjs";",
+      export * as spacingX from "./spacing-x/index.mjs";"
+      ,
           "path": "dimension/index.mjs",
         },
         {
-          "code": "export const default = "var(--test-dimension-spacing-x-default)";
+          "code": 
+      "export const default = "var(--test-dimension-spacing-x-default)";
 
-      export * as test from "./test.mjs";",
+      export * as test from "./test.mjs";"
+      ,
           "path": "dimension/spacing-x/index.mjs",
         },
         {
@@ -198,13 +206,17 @@ describe("getTokenDts", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export * as palette from "./palette";
-      export * as bg from "./bg";",
+          "code": 
+      "export * as palette from "./palette";
+      export * as bg from "./bg";"
+      ,
           "path": "color/index.d.ts",
         },
         {
-          "code": "export declare const gray00 = "var(--test-color-palette-gray-00)";
-      export declare const gray100 = "var(--test-color-palette-gray-100)";",
+          "code": 
+      "export declare const gray00 = "var(--test-color-palette-gray-00)";
+      export declare const gray100 = "var(--test-color-palette-gray-100)";"
+      ,
           "path": "color/palette.d.ts",
         },
         {
@@ -250,9 +262,11 @@ describe("getTokenDts", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export declare const s1_5 = "var(--test-dimension-s1_5)";
+          "code": 
+      "export declare const s1_5 = "var(--test-dimension-s1_5)";
 
-      export * as spacingX from "./spacing-x";",
+      export * as spacingX from "./spacing-x";"
+      ,
           "path": "dimension/index.d.ts",
         },
         {
@@ -355,5 +369,163 @@ data:
         }
       }
     }"
+  `);
+});
+
+test("getComponentSpecDts should generate JSDoc for descriptions", () => {
+  // NOTE: values and defaultValue are NOT required in schema.variants
+  // because they can be inferred from definitions via deep merging.
+  // Only descriptions need to be explicitly provided.
+  const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    variants:
+      variant:
+        values:
+          primary:
+            description: Primary variant description
+          secondary:
+            description: Secondary variant description
+      size:
+        values:
+          small:
+            description: Small size description
+    slots:
+      root:
+        description: Root slot description
+        properties:
+          color:
+            type: color
+            description: Color property description
+          padding:
+            type: dimension
+  definitions:
+    variant=primary:
+      enabled:
+        root:
+          color: "#ffffff"
+    variant=secondary:
+      enabled:
+        root:
+          color: "#000000"
+    size=small:
+      enabled:
+        root:
+          padding: 8px
+    size=small, variant=primary:
+      enabled:
+        root:
+          color: "#ffffff"
+          padding: 4px
+`;
+  const model = Authoring.parseComponentSpecDocument(YAML.parse(yaml));
+
+  const result = getComponentSpecDts(model.data);
+
+  expect(result).toMatchInlineSnapshot(`
+    "export declare const vars: {
+      /**
+       * - \`variant=primary\`: Primary variant description
+       */
+      "variantPrimary": {
+        "enabled": {
+          /** Root slot description */
+          "root": {
+            /** Color property description */
+            "color": "#ffffff"
+          }
+        }
+      },
+      /**
+       * - \`variant=secondary\`: Secondary variant description
+       */
+      "variantSecondary": {
+        "enabled": {
+          /** Root slot description */
+          "root": {
+            /** Color property description */
+            "color": "#000000"
+          }
+        }
+      },
+      /**
+       * - \`size=small\`: Small size description
+       */
+      "sizeSmall": {
+        "enabled": {
+          /** Root slot description */
+          "root": {
+            "padding": "8px"
+          }
+        }
+      },
+      /**
+       * - \`size=small\`: Small size description
+       * - \`variant=primary\`: Primary variant description
+       */
+      "sizeSmallVariantPrimary": {
+        "enabled": {
+          /** Root slot description */
+          "root": {
+            /** Color property description */
+            "color": "#ffffff",
+            "padding": "4px"
+          }
+        }
+      }
+    }"
+  `);
+});
+
+test("getTokenDts should generate JSDoc for token descriptions", () => {
+  const models: Authoring.TokensModel[] = [
+    {
+      kind: "Tokens",
+      metadata: {
+        id: "1",
+        name: "color",
+      },
+      data: {
+        collection: "color",
+        tokens: {
+          "$color.bg.brand": {
+            description: "Brand background color",
+            values: {
+              light: "#ff6600",
+              dark: "#ff9900",
+            },
+          },
+          "$color.bg.neutral": {
+            values: {
+              light: "#f0f0f0",
+              dark: "#1a1a1a",
+            },
+          },
+        },
+      },
+    },
+  ];
+
+  const result = getTokenDts(models.flatMap((x) => Authoring.parseTokensDocument(x).data));
+
+  expect(result).toMatchInlineSnapshot(`
+    [
+      {
+        "code": "export * as bg from "./bg";",
+        "path": "color/index.d.ts",
+      },
+      {
+        "code": 
+    "/** Brand background color */
+    export declare const brand = "var(--test-color-bg-brand)";
+    export declare const neutral = "var(--test-color-bg-neutral)";"
+    ,
+        "path": "color/bg.d.ts",
+      },
+    ]
   `);
 });
