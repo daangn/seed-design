@@ -29,6 +29,7 @@ import {
   listReactUpdatesTool,
   getReactUpdatesTool,
 } from "./react-sections.js";
+import { listIconsTool, searchIconsTool, getIconDetailsTool } from "./icon-tools.js";
 
 const tools: Tool[] = [
   // Discovery tool (call this first to understand available tools)
@@ -67,6 +68,11 @@ const tools: Tool[] = [
 
   // Rootage tools
   getRootageTool,
+
+  // Icon tools
+  listIconsTool,
+  searchIconsTool,
+  getIconDetailsTool,
 ];
 
 const registeredToolCache = new Map<string, Tool>();
