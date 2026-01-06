@@ -46,6 +46,7 @@ export const config = defineConfig({
     { route: "/tabs", name: "ActivityTabs" },
     { route: "/text-field", name: "ActivityTextField" },
     { route: "/toggle-button", name: "ActivityToggleButton" },
+    { route: "/transition-style", name: "ActivityTransitionStyle" },
     { route: "/transparent-bar", name: "ActivityTransparentBar" },
 
     { route: "/demo/home", name: "ActivityDemoHome" },

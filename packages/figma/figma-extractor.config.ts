@@ -118,7 +118,10 @@ export declare const FIGMA_VARIABLE_COLLECTIONS: Record<string, VariableCollecti
 
     styles: createPipeline()
       .source(sources.styles)
-      .filter(({ style_type }) => style_type === "TEXT" || style_type === "FILL")
+      .filter(
+        ({ style_type }) =>
+          style_type === "TEXT" || style_type === "FILL" || style_type === "EFFECT",
+      )
       .transform(({ style_type, key, name, description }): Style => {
         return { styleType: style_type, key, name, description, remote: false };
       })

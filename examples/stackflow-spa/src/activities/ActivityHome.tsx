@@ -19,7 +19,7 @@ import {
   AppBarMain,
   AppBarRight,
 } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
 import { DialogPushTrigger } from "seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -35,6 +35,7 @@ import { Snackbar } from "seed-design/ui/snackbar";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { Callout } from "seed-design/ui/callout";
+import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
@@ -52,11 +53,13 @@ type NavigationSection = {
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityHome: {};
+    ActivityHome: {
+      transitionStyle?: AppScreenProps["transitionStyle"];
+    };
   }
 }
 
-const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
+const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) => {
   const { push } = useFlow();
   const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
@@ -65,10 +68,24 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
 
   const navigationSections: NavigationSection[] = [
     {
-      title: "AppBars",
+      title: "AppBar",
       items: [
         { title: "LayerBar", onClick: () => push("ActivityLayerBar", {}) },
         { title: "TransparentBar", onClick: () => push("ActivityTransparentBar", {}) },
+      ],
+    },
+    {
+      title: "AppScreen",
+      items: [
+        {
+          title: `Push to here (current activityIndex: ${activityIndex})`,
+          onClick: () => push("ActivityHome", {}),
+        },
+        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
+        ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
+          title: `ActivityTransitionStyle (${transitionStyle})`,
+          onClick: () => push("ActivityTransitionStyle", { transitionStyle }),
+        })),
       ],
     },
     {
@@ -223,19 +240,14 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = () => {
     {
       title: "Misc",
       items: [
-        {
-          title: `Push to here (current activityIndex: ${activityIndex})`,
-          onClick: () => push("ActivityHome", {}),
-        },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
-        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
       ],
     },
   ];
 
   return (
-    <AppScreen>
+    <AppScreen transitionStyle={params.transitionStyle}>
       <AppBar>
         {activityIndex > 0 && (
           <AppBarLeft>

@@ -3,6 +3,107 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.12.24
+
+iOS 15 이하 기기에서 MenuSheetItem이 의도하지 않은 margin을 갖는 문제를 수정합니다. [`76acd7e`](https://github.com/daangn/seed-design/commit/76acd7eebc0b537acf1c4fe2e82271a0a04c9cf3)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.15](https://npmjs.com/package/@seed-design/css/v/1.1.15)
+
+---
+
+AppScreen 스와이프 중 취소 시 트랜지션이 끝난 뒤에도 `GlobalInteraction`의 `data-swipe-back-state`가 `idle`로 되돌아가지 않고 `canceling`으로 남아 있는 문제를 수정합니다. [`e4b0ce8`](https://github.com/daangn/seed-design/commit/e4b0ce8009f3dc7edbb142a5c02df10a860df4fe)
+
+영향받는 패키지
+- 📦 [@seed-design/stackflow@1.1.15](https://npmjs.com/package/@seed-design/stackflow/v/1.1.15)
+
+---
+
+`theme=“android”`인 AppScreen 또는 AppBar에 속한 AppBarMain의 title과 subtitle 말줄임(truncation)이 적용되지 않는 문제를 수정합니다. [`7a428ec`](https://github.com/daangn/seed-design/commit/7a428ec62c84f1746b4316ea1965c8c9d63b7da5)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.15](https://npmjs.com/package/@seed-design/css/v/1.1.15)
+
+---
+
+- `get_rootage` tool 추가 (design token 및 component spec 조회) [`63b65db`](https://github.com/daangn/seed-design/commit/63b65db36dedeb421f164aa9f2fd3c048fa476d7)
+- React 문서 조회 기능 개선 및 fetch 함수 통합
+
+영향받는 패키지
+- 📦 [@seed-design/docs-mcp@0.3.0](https://npmjs.com/package/@seed-design/docs-mcp/v/0.3.0)
+
+---
+
+iOS 17 이하 기기에서 SegmentedControlItem의 높이가 잘못 설정될 수 있는 문제를 수정합니다. [`498a9e7`](https://github.com/daangn/seed-design/commit/498a9e7013662a19f941f3e42edaa125685cf62a)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.15](https://npmjs.com/package/@seed-design/css/v/1.1.15)
+
+---
+
+## 2025.12.22
+
+Figma Codegen & MCP에서 `boxShadow` 코드 생성을 지원하고 엔티티 정보를 최신화합니다. [`c1f818f`](https://github.com/daangn/seed-design/commit/c1f818f92b8e07f43fd5def3a28430342da0ef90)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.1.14](https://npmjs.com/package/@seed-design/figma/v/1.1.14)
+
+---
+
+## 2025.12.18
+
+`list_foundation`, `get_foundation`, `list_docs_components`, `get_docs_component` tools 추가 [`f385599`](https://github.com/daangn/seed-design/commit/f3855998785f9b5d9ee2bea1e997c2c22b20cbf2)
+
+영향받는 패키지
+- 📦 [@seed-design/docs-mcp@0.2.0](https://npmjs.com/package/@seed-design/docs-mcp/v/0.2.0)
+
+---
+
+## 2025.12.15
+
+`radiomark` Rootage 정의를 명확화합니다. (스타일 변경사항 없음) [`9be0581`](https://github.com/daangn/seed-design/commit/9be0581cd36d3d350284445b4a7fd75898bb1823)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.13](https://npmjs.com/package/@seed-design/css/v/1.1.13)
+- 📦 [@seed-design/rootage-artifacts@1.1.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.6)
+
+---
+
+신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다. [`cc4a45a`](https://github.com/daangn/seed-design/commit/cc4a45a00a93c987447255b3cc6bee9182e520a9)
+
+- React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.13](https://npmjs.com/package/@seed-design/css/v/1.1.13)
+- 📦 [@seed-design/react@1.1.13](https://npmjs.com/package/@seed-design/react/v/1.1.13)
+- 📦 [@seed-design/rootage-artifacts@1.1.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.6)
+- 📦 [@seed-design/tailwind3-plugin@1.1.13](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.1.13)
+- 📦 [@seed-design/tailwind4-theme@1.1.13](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.1.13)
+
+---
+
+unicode-segmenter 0.14.4 버전을 설치합니다. [`8f54b80`](https://github.com/daangn/seed-design/commit/8f54b80e81adf6415e5b687bf25da33dd3c82ea9)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.13](https://npmjs.com/package/@seed-design/react/v/1.1.13)
+
+---
+
+Button들의 xsmall variant의 텍스트 사이즈를 t4에서 t3로 변경해요. [`739937f`](https://github.com/daangn/seed-design/commit/739937fefe4ffcc21e57216508053fe60bfa958d)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.1.13](https://npmjs.com/package/@seed-design/css/v/1.1.13)
+- 📦 [@seed-design/rootage-artifacts@1.1.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.6)
+
+---
+
+Divider 자체적으로 16px의 여백을 가지는 `inset` 옵션을 추가합니다. [`fce8668`](https://github.com/daangn/seed-design/commit/fce866834642a0a516a85efdce65f1637ae28181)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.1.13](https://npmjs.com/package/@seed-design/react/v/1.1.13)
+
+---
+
 ## 2025.12.08
 
 Figma Codegen 정보를 최신화합니다. [`6d680ba`](https://github.com/daangn/seed-design/commit/6d680baf7b106d97f64e41b0e4aa7156959ec49e)

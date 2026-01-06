@@ -27,7 +27,6 @@ import { IconographyMigrationIndex } from "./migration/iconography-migration-ind
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
 import { PlatformStatusTable } from "./platform-status-table";
 import { ProgressBoardTable } from "./progress-board-table";
-import { ViteIcon, WebpackIcon } from "./tool-icon";
 import { typeTableGenerator } from "./type-table/generator";
 import clsx from "clsx";
 
@@ -72,8 +71,6 @@ export const mdxComponents: MDXComponents = {
   CodeBlock,
   Pre,
   AtomIcon,
-  WebpackIcon,
-  ViteIcon,
   StackflowExample,
   TypeTable,
   ReactTypeTable,

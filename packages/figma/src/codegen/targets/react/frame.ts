@@ -45,11 +45,17 @@ export function createFrameTransformer({
         ...propsConverters.selfLayout(node),
         ...propsConverters.frameFill(node),
         ...propsConverters.stroke(node),
+        ...propsConverters.shadow(node),
       };
 
       const isStretch = props.align === undefined || props.align === "stretch";
 
       const layoutComponent = inferLayoutComponent(props, isFlex);
+
+      const hasSpacingMismatch =
+        node.layoutWrap === "WRAP" &&
+        node.counterAxisSpacing !== undefined &&
+        node.itemSpacing !== node.counterAxisSpacing;
 
       const hasImageFill = node.fills.some(({ type }) => type === "IMAGE");
       const imgElement = hasImageFill
@@ -67,15 +73,23 @@ export function createFrameTransformer({
           : transformedChildren),
       ];
 
+      const comment = [
+        hasSpacingMismatch &&
+          // currently counterAxisSpacing is only supported when direction=row
+          `row-gap과 column-gap이 다릅니다. (row-gap: ${node.counterAxisSpacing}, column-gap: ${node.itemSpacing})`,
+      ]
+        .filter((cmt) => cmt)
+        .join(" ");
+
       switch (layoutComponent) {
         case "VStack":
         case "HStack": {
           const { direction: _direction, ...rest } = props;
 
-          return createSeedReactElement(layoutComponent, rest, processedChildren);
+          return createSeedReactElement(layoutComponent, rest, processedChildren, { comment });
         }
         case "Box":
-          return createSeedReactElement("Box", props, processedChildren);
+          return createSeedReactElement("Box", props, processedChildren, { comment });
       }
     },
   );

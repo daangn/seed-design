@@ -1639,6 +1639,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "27885dd88c45e55e1ce6790b6517b663fbc89286": {
+    "name": "icon_keyhole_shield",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "2111483a75d693815d578415279d077e66412da1": {
+    "name": "icon_keyhole_shield",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "fe92b27029511a3fa4745e4d49cba81ee303cf48": {
     "name": "icon_laptop",
     "type": "monochrome",
@@ -3377,6 +3387,10 @@ export const FIGMA_ICONS = {
   },
   "5a0a4fb09505b0c67c47e6c9c5306af6a923334f": {
     "name": "icon_tshirt_bubble2",
+    "type": "multicolor"
+  },
+  "ab66ee11be5539d340a87f1e9ca021fef1db3ef8": {
+    "name": "icon_vest_horizstripe",
     "type": "multicolor"
   },
   "7ddb6f0f63708485a75cb21a25fae01671a34562": {

@@ -1,5 +1,15 @@
 # @seed-design/stackflow
 
+## 1.1.15
+
+### Patch Changes
+
+- e4b0ce8: AppScreen 스와이프 중 취소 시 트랜지션이 끝난 뒤에도 `GlobalInteraction`의 `data-swipe-back-state`가 `idle`로 되돌아가지 않고 `canceling`으로 남아 있는 문제를 수정합니다.
+- Updated dependencies [76acd7e]
+- Updated dependencies [7a428ec]
+- Updated dependencies [498a9e7]
+  - @seed-design/css@1.1.15
+
 ## 1.1.11
 
 ### Patch Changes

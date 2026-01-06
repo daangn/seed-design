@@ -12,9 +12,9 @@
     "@karrotmarket/react-multicolor-icon": "^1.5.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-use-callback-ref": "^1.1.1",
-    "@seed-design/css": "1.1.12",
-    "@seed-design/react": "1.1.12",
-    "@seed-design/stackflow": "1.1.11",
+    "@seed-design/css": "1.1.15",
+    "@seed-design/react": "1.1.13",
+    "@seed-design/stackflow": "1.1.15",
     "@seed-design/stylesheet": "1.1.1",
     "@stackflow/compat-await-push": "^1.1.13",
     "@stackflow/config": "^1.2.1",
@@ -25,14 +25,14 @@
     "@stackflow/react": "^1.9.0",
     "@vanilla-extract/css": "^1.17.1",
     "clsx": "^2.1.1",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@seed-design/cli": "1.1.0",
     "@seed-design/vite-plugin": "^1.1.0",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@vanilla-extract/vite-plugin": "^5.1.1",
     "@vitejs/plugin-legacy": "^7.0.0",
     "@vitejs/plugin-react-swc": "^4.0.0",
@@ -41,6 +41,6 @@
     "typescript": "^5.9.2",
     "vite": "^7.0.6",
     "vite-plugin-checker": "^0.12.0",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^6.0.0"
   }
 }

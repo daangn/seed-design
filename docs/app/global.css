@@ -6,6 +6,7 @@
 @source ".";
 @source "../components";
 @source "../content";
+@source "../examples";
 @source "../sanity";
 @source "../../node_modules/fumadocs-ui/dist/**/*.js";
 
@@ -88,4 +89,8 @@
 
 strong {
   font-weight: 700;
+}
+
+article .prose {
+  padding-bottom: 3rem;
 }

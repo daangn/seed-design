@@ -21,6 +21,7 @@ const segmentedControl = defineSlotRecipe({
 
       gridAutoFlow: "column",
       gridAutoColumns: "1fr",
+      gridAutoRows: "1fr",
 
       alignItems: "center",
 
