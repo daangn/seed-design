@@ -66,6 +66,8 @@ const checkmark = defineSlotRecipe({
           display: "block",
           color: vars.variantGhost.enabled.icon.color,
 
+          transition: `color ${vars.variantGhost.enabled.icon.colorDuration} ${vars.variantGhost.enabled.icon.colorTimingFunction}`,
+
           [pseudo(disabled)]: {
             color: vars.variantGhost.disabled.icon.color,
           },
