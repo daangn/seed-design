@@ -91,7 +91,57 @@ export function createStringifier(options: { prefix?: string } = {}) {
 
   function getComponentSpecDts(decl: ComponentSpecDeclaration) {
     const result = getComponentSpec(decl);
-    return `export declare const vars: ${JSON.stringify(result, null, 2)}`;
+
+    // Variant value descriptions
+    const variantValueDescMap = new Map<string, string>();
+    for (const variant of decl.schema.variants) {
+      for (const value of variant.values) {
+        if (value.description) {
+          // e.g. { name: "size", value: "large" } -> "sizeLarge"
+          const variantKey = camelCase(`${variant.name}-${value.name}`, {
+            mergeAmbiguousCharacters: true,
+          });
+          variantValueDescMap.set(variantKey, value.description);
+        }
+      }
+    }
+
+    // Slot descriptions
+    const slotDescMap = new Map<string, string>();
+    for (const slot of decl.schema.slots) {
+      if (slot.description) {
+        slotDescMap.set(slot.name, slot.description);
+      }
+    }
+
+    // Property descriptions
+    const propertyDescMap = new Map<string, string>();
+    for (const slot of decl.schema.slots) {
+      for (const prop of slot.properties) {
+        if (prop.description) {
+          propertyDescMap.set(prop.name, prop.description);
+        }
+      }
+    }
+
+    let json = JSON.stringify(result, null, 2);
+
+    // Add JSDoc for variant values (indent: 2 spaces)
+    for (const [key, desc] of variantValueDescMap) {
+      json = json.replaceAll(`"${key}":`, `/** ${desc} */\n  "${key}":`);
+    }
+
+    // Add JSDoc for slots (indent: 6 spaces)
+    for (const [key, desc] of slotDescMap) {
+      json = json.replaceAll(`"${key}":`, `/** ${desc} */\n      "${key}":`);
+    }
+
+    // Add JSDoc for properties (indent: 8 spaces)
+    for (const [key, desc] of propertyDescMap) {
+      json = json.replaceAll(`"${key}":`, `/** ${desc} */\n        "${key}":`);
+    }
+
+    return `export declare const vars: ${json}`;
   }
 
   function getComponentSpecIndexMjs(decls: ComponentSpecDeclaration[]) {
