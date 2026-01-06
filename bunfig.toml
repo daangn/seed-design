@@ -1,5 +1,3 @@
-# [install]
-# minimumReleaseAge = 86400 # Available since v1.3.0
-
 [install]
 linker = "isolated"
+minimumReleaseAge = 86400 # 1 day
