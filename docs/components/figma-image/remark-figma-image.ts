@@ -2,16 +2,19 @@ import type { Processor, Transformer } from "unified";
 import type { remark } from "remark";
 import { visit } from "unist-util-visit";
 import type { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import type { Image, Paragraph } from "mdast";
 import {
   createFigmaClient,
   fetchFigmaImageUrls,
   type FetchFigmaImageUrlsOptions,
 } from "./fetch-figma-image-urls";
 
-const DEFAULT_IMAGE_WIDTH = 1080;
-const DEFAULT_IMAGE_HEIGHT = 720;
+const FIGMA_ID_PROP_SUPPORTED_COMPONENTS = ["DoImage", "DontImage"];
 
-const FIMGA_ID_PROP_SUPPORTED_COMPONENTS = ["DoImage", "DontImage", "Image"];
+const DEFAULT_IMAGE_SIZE = {
+  width: 1080,
+  height: 720,
+};
 
 // Root type derived from remark processor (same pattern as remark-react-type-table)
 // biome-ignore lint/suspicious/noExplicitAny: this is for removing mdast dependency which is actually deprecated
@@ -23,11 +26,17 @@ export interface RemarkFigmaImageOptions {
   fetchUrlsOptions?: FetchFigmaImageUrlsOptions;
 }
 
+interface NodeEntry {
+  node: MdxJsxFlowElement;
+  index: number;
+  parent: { children: unknown[] };
+}
+
 /**
  * Remark plugin that transforms Figma node IDs into image URLs at build time.
  *
  * Transforms:
- * - `<FigmaImage id="..." alt="..." />` → `<ImageZoom src="..." alt="..." />`
+ * - `<FigmaImage id="..." alt="..." />` → `![alt](url)`
  * - `<DoImage figmaId="..." />` → `<DoImage src="..." />`
  * - `<DontImage figmaId="..." />` → `<DontImage src="..." />`
  */
@@ -37,15 +46,17 @@ export function remarkFigmaImage({
   fetchUrlsOptions,
 }: RemarkFigmaImageOptions): Transformer<Root, Root> {
   return async (tree) => {
-    const figmaNodes: Map<string, MdxJsxFlowElement[]> = new Map();
+    const figmaNodes: Map<string, NodeEntry[]> = new Map();
 
-    visit(tree, "mdxJsxFlowElement", (node: MdxJsxFlowElement) => {
+    visit(tree, "mdxJsxFlowElement", (node, index, parent) => {
+      if (typeof index !== "number" || !parent) return;
+
       const figmaId = extractFigmaId(node);
 
       if (figmaId) {
         if (!figmaNodes.has(figmaId)) figmaNodes.set(figmaId, []);
 
-        figmaNodes.get(figmaId)!.push(node);
+        figmaNodes.get(figmaId)!.push({ node, index, parent });
       }
     });
 
@@ -59,14 +70,59 @@ export function remarkFigmaImage({
       options: fetchUrlsOptions,
     });
 
-    for (const [figmaId, nodes] of figmaNodes) {
+    for (const [figmaId, entries] of figmaNodes) {
       const url = imageUrls.get(figmaId);
 
       if (!url)
         throw new Error(`[remark-figma-image] Failed to get image URL for Figma node: ${figmaId}`);
 
-      for (const node of nodes) {
-        transformNode(node, url);
+      for (const { node, index, parent } of entries) {
+        if (!node.name) continue;
+
+        if (node.name === "FigmaImage") {
+          const altAttr = node.attributes.find(
+            (attr): attr is MdxJsxAttribute =>
+              attr.type === "mdxJsxAttribute" && attr.name === "alt",
+          );
+
+          if (!altAttr?.value)
+            throw new Error(
+              "[remark-figma-image] FigmaImage requires an 'alt' prop for accessibility",
+            );
+
+          const image: Image = {
+            type: "image",
+            url,
+            alt: typeof altAttr.value === "string" ? altAttr.value : "",
+            data: {
+              // not the actual size, but prevent layout shift through Next.js Image
+              hProperties: DEFAULT_IMAGE_SIZE,
+            },
+          };
+
+          const paragraph: Paragraph = {
+            type: "paragraph",
+            children: [image],
+            position: node.position,
+          };
+
+          parent.children[index] = paragraph;
+
+          continue;
+        }
+
+        // replace figmaId with resolved src
+        if (FIGMA_ID_PROP_SUPPORTED_COMPONENTS.includes(node.name)) {
+          node.attributes = node.attributes.filter(
+            (attr): attr is MdxJsxAttribute =>
+              !(
+                attr.type === "mdxJsxAttribute" &&
+                (attr.name === "figmaId" || attr.name === "src")
+              ),
+          );
+
+          node.attributes.push({ type: "mdxJsxAttribute", name: "src", value: url });
+        }
       }
     }
   };
@@ -90,7 +146,7 @@ function extractFigmaId({ name, attributes }: MdxJsxFlowElement): string | null 
   }
 
   // For components like <DoImage figmaId="..." /> and <DontImage figmaId="..." />
-  if (FIMGA_ID_PROP_SUPPORTED_COMPONENTS.includes(name)) {
+  if (FIGMA_ID_PROP_SUPPORTED_COMPONENTS.includes(name)) {
     const figmaIdAttr = attributes.find(
       (attr): attr is MdxJsxAttribute => attr.type === "mdxJsxAttribute" && attr.name === "figmaId",
     );
@@ -99,45 +155,4 @@ function extractFigmaId({ name, attributes }: MdxJsxFlowElement): string | null 
   }
 
   return null;
-}
-
-/**
- * Transform JSX node by replacing figmaId/id with resolved src URL
- */
-function transformNode(node: MdxJsxFlowElement, imageUrl: string): void {
-  if (node.name === "FigmaImage") {
-    // Validate alt prop is present
-    const hasAlt = node.attributes.some(
-      (attr) => attr.type === "mdxJsxAttribute" && attr.name === "alt",
-    );
-    if (!hasAlt) {
-      throw new Error("[remark-figma-image] FigmaImage requires an 'alt' prop for accessibility");
-    }
-
-    // Transform <FigmaImage id="..." /> to <ImageZoom src="..." width={...} height={...} />
-    node.name = "ImageZoom";
-    node.attributes = node.attributes.filter(
-      (attr) => !(attr.type === "mdxJsxAttribute" && attr.name === "id"),
-    );
-    node.attributes.push(
-      { type: "mdxJsxAttribute", name: "src", value: imageUrl },
-      { type: "mdxJsxAttribute", name: "width", value: `${DEFAULT_IMAGE_WIDTH}` },
-      { type: "mdxJsxAttribute", name: "height", value: `${DEFAULT_IMAGE_HEIGHT}` },
-      {
-        type: "mdxJsxAttribute",
-        name: "className",
-        value: "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
-      },
-    );
-
-    return;
-  }
-
-  // For DoImage/DontImage: remove figmaId and any existing src, then add resolved src
-  node.attributes = node.attributes.filter(
-    (attr) =>
-      !(attr.type === "mdxJsxAttribute" && (attr.name === "figmaId" || attr.name === "src")),
-  );
-
-  node.attributes.push({ type: "mdxJsxAttribute", name: "src", value: imageUrl });
 }

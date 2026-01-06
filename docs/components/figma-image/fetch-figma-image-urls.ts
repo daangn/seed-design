@@ -49,7 +49,9 @@ export async function fetchFigmaImageUrls({
   imageUrlCache.load(CACHE_ID, cacheDir);
 
   for (const nodeId of nodeIds) {
-    const cached = isCacheDisabled ? undefined : imageUrlCache.get<string>(getCacheKey(nodeId));
+    const cached = isCacheDisabled
+      ? undefined
+      : imageUrlCache.get<string>(getCacheKey(nodeId, options));
 
     if (cached) {
       result.set(nodeId, cached);
@@ -87,7 +89,7 @@ export async function fetchFigmaImageUrls({
         if (!url) continue;
 
         result.set(nodeId, url);
-        imageUrlCache.set(getCacheKey(nodeId), url);
+        imageUrlCache.set(getCacheKey(nodeId, options), url);
       }
 
       imageUrlCache.save();
@@ -113,8 +115,9 @@ export async function fetchFigmaImageUrls({
 
 // Helpers
 
-function getCacheKey(nodeId: string): string {
-  return nodeId;
+function getCacheKey(nodeId: string, options: FetchFigmaImageUrlsOptions): string {
+  const optionsKey = JSON.stringify(options, Object.keys(options).sort());
+  return `${nodeId}:${optionsKey}`;
 }
 
 function delay(ms: number): Promise<void> {
