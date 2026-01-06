@@ -18,6 +18,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-palette-static-white)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-palette-static-white)"
       },
@@ -44,6 +45,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
@@ -68,6 +70,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
@@ -94,6 +97,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
@@ -118,6 +122,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -144,6 +149,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
@@ -168,6 +174,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-palette-static-white)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-palette-static-white)"
       },
@@ -194,6 +201,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
@@ -220,6 +228,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -247,6 +256,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
@@ -273,6 +283,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-brand)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-brand)"
       },
@@ -300,6 +311,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
@@ -324,6 +336,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -350,6 +363,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
@@ -404,6 +418,7 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x1_5)",
         "paddingY": "var(--seed-dimension-x1_5)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "size": "var(--seed-dimension-x3_5)"
       }
@@ -447,6 +462,7 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x2)",
         "paddingY": "var(--seed-dimension-x2)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "size": "var(--seed-dimension-x4)"
       }
@@ -490,6 +506,7 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x2_5)",
         "paddingY": "var(--seed-dimension-x2_5)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "size": "18px"
       }
@@ -533,6 +550,7 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x3_5)",
         "paddingY": "var(--seed-dimension-x3_5)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "size": "22px"
       }
