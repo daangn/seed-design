@@ -5,13 +5,15 @@ import { AppScreen as SeedAppScreen } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import { forwardRef } from "react";
 
-export interface AppScreenProps extends SeedAppScreen.RootProps {}
+export interface AppScreenProps extends SeedAppScreen.RootProps {
+  preventSwipeBack?: boolean;
+}
 
 export const AppScreen = forwardRef<HTMLDivElement, AppScreenProps>(
-  ({ children, onSwipeBackEnd, ...otherProps }, ref) => {
+  ({ children, onSwipeBackEnd, preventSwipeBack, ...otherProps }, ref) => {
     const { pop } = useActions();
     const { isRoot } = useActivity();
-    const shouldSwipeBack = !isRoot;
+    const shouldSwipeBack = !isRoot && !preventSwipeBack;
 
     return (
       <SeedAppScreen.Root
