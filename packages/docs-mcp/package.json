@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/docs-mcp",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "The official MCP server for SEED Design documentation",
   "repository": {
     "type": "git",
@@ -39,6 +39,9 @@
     "clean": "rm -rf dist",
     "build": "bunchee",
     "dev": "bun ./dist/stdio.js",
+    "lint": "biome check ./src",
+    "lint:fix": "biome check --fix ./src",
+    "typecheck": "tsc --noEmit",
     "prepublishOnly": "bun run build"
   },
   "dependencies": {

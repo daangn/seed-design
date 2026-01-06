@@ -17,17 +17,17 @@
   },
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^1.8.0",
-    "@seed-design/css": "1.1.12",
-    "@seed-design/figma": "1.1.12",
+    "@seed-design/css": "1.1.15",
+    "@seed-design/figma": "1.1.15",
     "@seed-design/migration-index": "1.0.0",
-    "@seed-design/react": "1.1.12",
+    "@seed-design/react": "1.1.13",
     "@seed-design/vite-plugin": "1.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
-    "@figma/rest-api-spec": "^0.34.0",
+    "@figma/rest-api-spec": "^0.35.0",
     "@types/node": "^25.0.0",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
@@ -37,6 +37,6 @@
     "typescript-eslint": "^8.31.0",
     "vite": "^7.0.0",
     "vite-plugin-singlefile": "^2.2.0",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^6.0.0"
   }
 }

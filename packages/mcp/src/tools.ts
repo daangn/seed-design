@@ -346,7 +346,13 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     async ({ nodeId, x, y }) => {
       try {
         const result = await sendCommandToFigma("clone_node", { nodeId, x, y });
-        const typedResult = result as { id: string; originalId: string; x?: number; y?: number; success: boolean };
+        const typedResult = result as {
+          id: string;
+          originalId: string;
+          x?: number;
+          y?: number;
+          success: boolean;
+        };
         return formatTextResponse(
           `Cloned node with new ID: ${typedResult.id}${x !== undefined && y !== undefined ? ` at position (${x}, ${y})` : ""}`,
         );

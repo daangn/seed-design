@@ -4,6 +4,8 @@ import { forwardRef, useMemo } from "react";
 import { AppScreen as AppScreenPrimitive } from "../../primitive";
 import { createStyleContext } from "../../utils/createStyleContext";
 import { AppBarPropsProvider } from "../AppBar/AppBar";
+import { useTopActivity } from "../../primitive/private/useTopActivity";
+import { useActivity } from "@stackflow/react";
 
 const { ClassNamesProvider, PropsProvider, withContext, useProps } = createStyleContext(appScreen);
 
@@ -21,25 +23,30 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
   const [variantProps, otherProps] = appScreen.splitVariantProps({ ...contextProps, ...props });
 
   // TODO: we have to implement conditional default in recipe; this is temporal workaround.
-  const transitionStyle =
+  const transitionStyle: NonNullable<AppScreenVariantProps["transitionStyle"]> =
     variantProps.transitionStyle ??
     (variantProps.theme === "cupertino" ? "slideFromRightIOS" : "fadeFromBottomAndroid");
 
+  const topActivityTransitionStyle = useTopActivity().transitionStyle;
+
   const classNames = appScreen({
     ...variantProps,
-    transitionStyle,
+    transitionStyle: useActivity().isTop
+      ? transitionStyle
+      : (topActivityTransitionStyle as NonNullable<AppScreenVariantProps["transitionStyle"]>),
   });
 
   return (
     <ClassNamesProvider value={classNames}>
       <AppBarPropsProvider
         value={useMemo(
-          () => ({ theme: variantProps.theme, transitionStyle, tone: variantProps.tone }),
-          [variantProps.theme, transitionStyle, variantProps.tone],
+          () => ({ ...variantProps, transitionStyle }),
+          [variantProps, transitionStyle],
         )}
       >
         <AppScreenPrimitive.Root
           ref={ref}
+          data-transition-style={transitionStyle}
           {...mergeProps({ className: classNames.root }, otherProps)}
         />
       </AppBarPropsProvider>

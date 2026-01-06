@@ -18,6 +18,12 @@ export interface ComponentInfo {
   description?: string;
 }
 
+export interface FoundationInfo {
+  name: string;
+  title: string;
+  category?: string;
+}
+
 export interface ChangelogEntry {
   version: string;
   date?: string;

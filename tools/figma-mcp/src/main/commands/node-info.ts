@@ -1,4 +1,4 @@
-import type { Node, GetFileNodesResponse } from "@figma/rest-api-spec";
+import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 
 type NodeInfo = GetFileNodesResponse["nodes"][string];
 

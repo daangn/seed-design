@@ -1005,8 +1005,8 @@
   --seed-box-padding-right: var(--seed-dimension-x3_5);
   --seed-box-padding-top: var(--seed-dimension-x1_5);
   --seed-box-padding-bottom: var(--seed-dimension-x1_5);
-  font-size: var(--seed-font-size-t4);
-  line-height: var(--seed-line-height-t4);
+  font-size: var(--seed-font-size-t3);
+  line-height: var(--seed-line-height-t3);
 }
 
 .seed-action-button--size_xsmall-layout_iconOnly {
@@ -1645,6 +1645,7 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  min-width: 0;
   height: 100%;
   display: flex;
 }
@@ -1813,11 +1814,6 @@
   --app-bar-height: 44px;
 }
 
-.seed-app-screen__dim--theme_cupertino {
-  background: var(--seed-color-bg-overlay);
-  height: 100%;
-}
-
 .seed-app-screen__root--theme_android {
   --app-bar-height: 56px;
 }
@@ -1923,6 +1919,11 @@
   transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
   transform: translate3d(0, 0, 0);
   animation: none !important;
+}
+
+.seed-app-screen__dim--transitionStyle_slideFromRightIOS {
+  background: var(--seed-color-bg-overlay);
+  height: 100%;
 }
 
 [data-global-transition-state="enter-active"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
@@ -5190,6 +5191,7 @@
   font-weight: var(--seed-font-weight-regular);
   border: none;
   outline: none;
+  margin: 0;
   font-family: inherit;
   display: flex;
 }
@@ -5895,6 +5897,7 @@
   border-radius: var(--seed-radius-full);
   background-color: var(--seed-color-bg-neutral-weak);
   isolation: isolate;
+  grid-auto-rows: 1fr;
   grid-auto-columns: 1fr;
   grid-auto-flow: column;
   align-items: center;
@@ -7456,8 +7459,8 @@
   padding-right: var(--seed-dimension-x3_5);
   padding-top: var(--seed-dimension-x1_5);
   padding-bottom: var(--seed-dimension-x1_5);
-  font-size: var(--seed-font-size-t4);
-  line-height: var(--seed-line-height-t4);
+  font-size: var(--seed-font-size-t3);
+  line-height: var(--seed-line-height-t3);
   --size: 14px;
   --thickness: 2px;
   --seed-prefix-icon-size: var(--seed-dimension-x3_5);

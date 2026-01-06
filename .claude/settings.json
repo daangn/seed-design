@@ -1,17 +1,36 @@
 {
   "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath' | xargs bun biome format --write"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
-        "type": "command",
-        "command": "bash .claude/hooks/skill-activation-prompt.sh",
-        "timeout": 3000
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/skill-activation-prompt.sh",
+            "timeout": 3000
+          }
+        ]
       }
     ],
     "Stop": [
       {
-        "type": "command",
-        "command": "bash .claude/hooks/validation-reminder.sh",
-        "timeout": 2000
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/validation-reminder.sh",
+            "timeout": 2000
+          }
+        ]
       }
     ]
   }

@@ -36,7 +36,7 @@ import { createMenuSheetHandler } from "./handlers/menu-sheet";
 import { createPageBannerHandler } from "./handlers/page-banner";
 import { createProgressCircleHandler } from "./handlers/progress-circle";
 import { createRadioGroupItemHandler } from "@/codegen/targets/react/component/handlers/radio-group";
-import { createRadioMarkHandler } from "@/codegen/targets/react/component/handlers/radio-mark";
+import { createRadiomarkHandler } from "@/codegen/targets/react/component/handlers/radiomark";
 import { createReactionButtonHandler } from "./handlers/reaction-button";
 import { createResultSectionHandler } from "./handlers/result-section";
 import { createSegmentedControlHandler } from "./handlers/segmented-control";
@@ -47,7 +47,7 @@ import {
   createSliderFieldHandler,
 } from "@/codegen/targets/react/component/handlers/slider";
 import { createSnackbarHandler } from "./handlers/snackbar";
-import { createSwitchMarkHandler } from "@/codegen/targets/react/component/handlers/switch-mark";
+import { createSwitchmarkHandler } from "@/codegen/targets/react/component/handlers/switchmark";
 import { createSwitchHandler } from "./handlers/switch";
 import { createTabsHandler } from "@/codegen/targets/react/component/handlers/tabs";
 import { createTextInputFieldHandler, createTextareaFieldHandler } from "./handlers/text-field";
@@ -89,9 +89,9 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createCheckboxHandler,
   createCheckmarkHandler,
   createRadioGroupItemHandler,
-  createRadioMarkHandler,
+  createRadiomarkHandler,
   createSwitchHandler,
-  createSwitchMarkHandler,
+  createSwitchmarkHandler,
   createAlertDialogHandler,
   createDividerHandler,
   createAvatarHandler,

@@ -1,5 +1,29 @@
 # @seed-design/figma
 
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [76acd7e]
+- Updated dependencies [7a428ec]
+- Updated dependencies [498a9e7]
+  - @seed-design/css@1.1.15
+
+## 1.1.14
+
+### Patch Changes
+
+- c1f818f: Figma Codegen & MCP에서 `boxShadow` 코드 생성을 지원하고 엔티티 정보를 최신화합니다.
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies [9be0581]
+- Updated dependencies [cc4a45a]
+- Updated dependencies [739937f]
+  - @seed-design/css@1.1.13
+
 ## 1.1.12
 
 ### Patch Changes

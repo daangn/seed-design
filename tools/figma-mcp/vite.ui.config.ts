@@ -7,7 +7,12 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), viteSingleFile(), seedDesignPlugin(), tsconfigPaths()],
+  plugins: [
+    react(),
+    viteSingleFile(),
+    seedDesignPlugin(),
+    tsconfigPaths({ projects: ["./tsconfig.ui.json"] }),
+  ],
   resolve: {
     alias: {
       "@/*": resolve(__dirname, "src/*"),

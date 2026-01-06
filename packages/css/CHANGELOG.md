@@ -1,5 +1,24 @@
 # @seed-design/css
 
+## 1.1.15
+
+### Patch Changes
+
+- 76acd7e: iOS 15 이하 기기에서 MenuSheetItem이 의도하지 않은 margin을 갖는 문제를 수정합니다.
+- 7a428ec: `theme=“android”`인 AppScreen 또는 AppBar에 속한 AppBarMain의 title과 subtitle 말줄임(truncation)이 적용되지 않는 문제를 수정합니다.
+- 498a9e7: iOS 17 이하 기기에서 SegmentedControlItem의 높이가 잘못 설정될 수 있는 문제를 수정합니다.
+
+## 1.1.13
+
+### Patch Changes
+
+- 9be0581: `radiomark` Rootage 정의를 명확화합니다. (스타일 변경사항 없음)
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+- 739937f: Button들의 xsmall variant의 텍스트 사이즈를 t4에서 t3로 변경해요.
+
 ## 1.1.12
 
 ### Patch Changes
