@@ -1,3 +1,4 @@
+import { remarkFigmaImage } from "@/components/figma-image/remark-figma-image";
 import { remarkNpm } from "fumadocs-core/mdx-plugins";
 import { remarkInclude } from "fumadocs-mdx/config";
 import { remark } from "remark";
@@ -11,6 +12,14 @@ export async function processContent(path: string, content: string): Promise<str
     .use(remarkInclude)
     .use(remarkGfm)
     .use(remarkNpm, { persist: { id: "package-manager" } })
+    .use(remarkFigmaImage, {
+      fileKey: process.env.FIGMA_FILE_KEY!,
+      accessToken: process.env.FIGMA_PERSONAL_ACCESS_TOKEN!,
+      fetchUrlsOptions: {
+        format: "png",
+        scale: 2,
+      },
+    })
     .use(remarkStringify)
     .process({
       path,
