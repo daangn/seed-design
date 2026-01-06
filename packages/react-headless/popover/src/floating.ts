@@ -7,19 +7,16 @@ import {
   shift,
   useFloating,
   type Alignment,
-  type ElementRects,
+  type ExtendedRefs,
+  type FloatingContext,
   type Middleware,
   type Placement,
+  type Rect,
+  type ReferenceType,
   type Side,
 } from "@floating-ui/react";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useMemo, useState } from "react";
-
-declare module "@floating-ui/core" {
-  interface MiddlewareData {
-    rects?: ElementRects;
-  }
-}
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 
 export interface PositioningOptions {
   /**
@@ -125,33 +122,68 @@ const ARROW_FLOATING_STYLE = {
   left: "rotate(270deg)",
 } as const;
 
-export function usePositionedFloating(props: UsePositionedFloatingProps) {
+// Explicit return type interface - leveraging @floating-ui/react types
+export interface UsePositionedFloatingReturn<RT extends ReferenceType = ReferenceType> {
+  open: boolean;
+  onOpenChange: ((open: boolean) => void) | undefined;
+  refs: ExtendedRefs<RT> & {
+    arrow: HTMLElement | null;
+    setArrow: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+    arrowTip: HTMLElement | null;
+    setArrowTip: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+  };
+  rects: {
+    reference: Rect;
+    floating: Rect;
+    arrowTip: { width: number; height: number };
+  };
+  isPositioned: boolean;
+  side: Side;
+  alignment: Alignment | undefined;
+  context: FloatingContext<RT>;
+  floatingStyles: CSSProperties;
+  arrowStyles: CSSProperties;
+}
+
+export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
+  props: UsePositionedFloatingProps,
+): UsePositionedFloatingReturn<RT> {
   const options = { ...defaultPositioningOptions, ...props };
 
   const [open, onOpenChange] = useControllableState({
     prop: props.open,
-    defaultProp: props.defaultOpen,
+    defaultProp: props.defaultOpen ?? false,
     onChange: props.onOpenChange,
   });
   const [arrowEl, setArrowEl] = useState<HTMLElement | null>(null);
-  const arrowWidth = arrowEl?.clientWidth ?? 0;
-  const arrowHeight = arrowEl?.clientHeight ?? 0;
-  const arrowOffset = arrowHeight;
+  const [arrowTipEl, setArrowTipEl] = useState<HTMLElement | null>(null);
 
-  const { refs, context, floatingStyles, middlewareData, isPositioned } = useFloating({
+  const arrowTipWidth = arrowTipEl?.clientWidth ?? 0;
+  const arrowTipHeight = arrowTipEl?.clientHeight ?? 0;
+  const arrowTipOffset = arrowTipHeight;
+
+  const { refs, context, floatingStyles, middlewareData, isPositioned } = useFloating<RT>({
     strategy: options.strategy,
     open,
     placement: options.placement,
     onOpenChange: onOpenChange,
-    whileElementsMounted: autoUpdate,
     middleware: [
-      getOffsetMiddleware(arrowOffset, options),
+      getOffsetMiddleware(arrowTipOffset, options),
       getFlipMiddleware(options),
       getShiftMiddleware(options),
       getArrowMiddleware(arrowEl, options),
       rectMiddleware,
     ],
+    // instead of defining `whileElementsMounted` here, we use an effect below
   });
+
+  // https://floating-ui.com/docs/react#anchoring
+  useEffect(() => {
+    if (!open) return;
+    if (!refs.reference.current || !refs.floating.current) return;
+
+    return autoUpdate(refs.reference.current, refs.floating.current, context.update);
+  }, [open, refs.reference, refs.floating, context]);
 
   const [side, alignment] = context.placement.split("-") as [Side, Alignment | undefined];
 
@@ -175,12 +207,14 @@ export function usePositionedFloating(props: UsePositionedFloatingProps) {
         ...refs,
         arrow: arrowEl,
         setArrow: setArrowEl,
+        arrowTip: arrowTipEl,
+        setArrowTip: setArrowTipEl,
       },
       rects: {
-        ...middlewareData.rects,
-        arrow: {
-          width: arrowWidth,
-          height: arrowHeight,
+        ...middlewareData["rects"],
+        arrowTip: {
+          width: arrowTipWidth,
+          height: arrowTipHeight,
         },
       },
       isPositioned,
@@ -195,15 +229,16 @@ export function usePositionedFloating(props: UsePositionedFloatingProps) {
       onOpenChange,
       refs,
       arrowEl,
-      middlewareData.rects,
+      arrowTipEl,
+      middlewareData["rects"],
       context,
       side,
       alignment,
       floatingStyles,
       arrowStyles,
       isPositioned,
-      arrowWidth,
-      arrowHeight,
+      arrowTipWidth,
+      arrowTipHeight,
     ],
   );
 }

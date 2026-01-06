@@ -1,20 +1,28 @@
 declare interface AppScreenVariant {
   /**
-  * @default cupertino
+  * @default "cupertino"
   */
   theme: "cupertino" | "android";
 /**
-  * @default slideFromRightIOS
+  * @default "slideFromRightIOS"
   */
   transitionStyle: "slideFromRightIOS" | "fadeFromBottomAndroid";
 /**
-  * @default appBar
+  * @default "appBar"
   */
   layerOffsetTop: "none" | "safeArea" | "appBar";
 /**
-  * @default none
+  * @default "none"
   */
   layerOffsetBottom: "none" | "safeArea";
+/**
+  * @default "layer"
+  */
+  tone: "layer" | "transparent";
+/**
+  * @default true
+  */
+  gradient: boolean;
 }
 
 declare type AppScreenVariantMap = {

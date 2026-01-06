@@ -83,18 +83,21 @@ data:
     divider=true:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-subtle
           strokeWidth: 1px
     titleLayout=titleOnly:
       enabled:
         title:
           fontSize: $font-size.t6-static
           fontWeight: $font-weight.bold
+          lineHeight: $line-height.t6-static
     titleLayout=withSubtitle:
       enabled:
         title:
           fontSize: $font-size.t5-static
           fontWeight: $font-weight.bold
+          lineHeight: $line-height.t5-static
         subtitle:
           fontSize: $font-size.t2-static
           fontWeight: $font-weight.regular
+          lineHeight: $line-height.t2-static

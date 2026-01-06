@@ -3,7 +3,7 @@ export declare const vars: {
     "enabled": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
-        "strokeColor": "var(--seed-color-stroke-on-image)"
+        "strokeColor": "var(--seed-color-stroke-neutral-subtle)"
       }
     }
   },
@@ -124,6 +124,22 @@ export declare const vars: {
       "badge": {
         "offset": "65px",
         "size": "32px"
+      }
+    }
+  },
+  "size108": {
+    "enabled": {
+      "root": {
+        "size": "108px",
+        "strokeWidth": "1px"
+      },
+      "badgeMask": {
+        "offset": "70px",
+        "size": "44px"
+      },
+      "badge": {
+        "offset": "74px",
+        "size": "36px"
       }
     }
   }

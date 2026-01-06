@@ -73,7 +73,7 @@ data:
     base:
       enabled:
         root:
-          colorDuration: $duration.d4
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         label:
           fontWeight: $font-weight.bold
@@ -208,8 +208,8 @@ data:
     variant=neutralOutline:
       enabled:
         root:
-          color: $color.bg.layer-default
-          strokeColor: $color.stroke.neutral
+          color: $color.bg.transparent
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
         label:
           color: $color.fg.neutral
@@ -224,11 +224,11 @@ data:
           rangeColor: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
-          color: $color.bg.layer-default
-          strokeColor: $color.stroke.neutral
+          color: $color.bg.transparent
+          strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.disabled
         icon:
@@ -239,12 +239,12 @@ data:
           color: $color.fg.disabled
       loading:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
     variant=brandOutline:
       enabled:
         root:
-          color: $color.bg.layer-default
-          strokeColor: $color.stroke.neutral
+          color: $color.bg.transparent
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
         label:
           color: $color.fg.brand
@@ -259,11 +259,11 @@ data:
           rangeColor: $color.bg.brand-solid
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
-          color: $color.bg.layer-default
-          strokeColor: $color.stroke.neutral
+          color: $color.bg.transparent
+          strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.disabled
         icon:
@@ -274,7 +274,7 @@ data:
           color: $color.fg.disabled
       loading:
         root:
-          color: $color.bg.layer-default
+          color: $color.bg.transparent
     variant=ghost:
       enabled:
         root:
@@ -292,7 +292,7 @@ data:
           rangeColor: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
           color: "#ffffff00"
@@ -306,7 +306,7 @@ data:
           color: $color.fg.disabled
       loading:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
     size=xsmall:
       enabled:
         root:
@@ -326,8 +326,8 @@ data:
         suffixIcon:
           size: $dimension.x3_5
         label:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
     size=xsmall, layout=iconOnly:
       enabled:
         root:
@@ -376,7 +376,7 @@ data:
     size=medium, layout=withText:
       enabled:
         root:
-          gap: $dimension.x1
+          gap: $dimension.x1_5
           paddingX: $dimension.x4
           paddingY: $dimension.x2_5
         prefixIcon:

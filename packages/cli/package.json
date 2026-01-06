@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/cli",
-  "version": "0.0.2",
+  "version": "1.1.0",
   "type": "module",
   "repository": {
     "type": "git",
@@ -25,27 +25,29 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@antfu/ni": "^25.0.0",
+    "@antfu/ni": "^28.0.0",
     "@babel/core": "^7.26.10",
     "@babel/parser": "^7.27.0",
     "@babel/plugin-transform-typescript": "^7.27.0",
     "@clack/prompts": "^0.11.0",
     "cac": "^6.7.14",
     "cosmiconfig": "^9.0.0",
+    "dedent": "^1.7.0",
     "execa": "^9.5.2",
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.3.0",
     "picocolors": "^1.1.1",
     "recast": "^0.23.11",
-    "ts-morph": "^26.0.0",
+    "ts-morph": "^27.0.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
     "@types/fs-extra": "^11.0.4",
-    "esbuild": "^0.25.3",
-    "type-fest": "^4.40.0",
-    "typescript": "^5.8.3"
+    "dotenv": "^17.2.3",
+    "esbuild": "^0.27.0",
+    "type-fest": "^5.0.0",
+    "typescript": "^5.9.2"
   },
   "publishConfig": {
     "access": "public"

@@ -9,7 +9,9 @@ export const SnackbarProvider = SnackbarContext.Provider;
 
 export function useSnackbarContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UseSnackbarContext | null : UseSnackbarContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseSnackbarContext | null : UseSnackbarContext {
   const context = useContext(SnackbarContext);
   if (!context && strict) {
     throw new Error("useSnackbarContext must be used within a SnackbarProvider");

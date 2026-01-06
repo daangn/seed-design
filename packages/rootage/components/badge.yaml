@@ -8,6 +8,8 @@ data:
     slots:
       root:
         properties:
+          maxWidth:
+            type: dimension
           minHeight:
             type: dimension
           paddingX:
@@ -36,6 +38,7 @@ data:
     size=large:
       enabled:
         root:
+          maxWidth: 6.75rem # 108px ÷ 16
           minHeight: $dimension.x6
           paddingX: $dimension.x2
           paddingY: $dimension.x1
@@ -46,6 +49,7 @@ data:
     size=medium:
       enabled:
         root:
+          maxWidth: 7.5rem # 120px ÷ 16
           minHeight: $dimension.x5
           paddingX: $dimension.x1_5
           paddingY: $dimension.x0_5
@@ -53,6 +57,7 @@ data:
         label:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1
+
     variant=weak:
       enabled:
         label:
@@ -67,6 +72,7 @@ data:
           strokeWidth: 1px
         label:
           fontWeight: $font-weight.bold
+
     tone=neutral, variant=weak:
       enabled:
         root:
@@ -82,15 +88,16 @@ data:
     tone=neutral, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.neutral-muted
+
     tone=brand, variant=weak:
       enabled:
         root:
-          color: $color.palette.carrot-100
+          color: $color.bg.brand-weak
         label:
-          color: $color.palette.carrot-900
+          color: $color.fg.brand-contrast
     tone=brand, variant=solid:
       enabled:
         root:
@@ -100,9 +107,10 @@ data:
     tone=brand, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.brand
+          strokeColor: $color.stroke.brand-weak
         label:
           color: $color.fg.brand
+
     tone=informative, variant=weak:
       enabled:
         root:
@@ -118,9 +126,10 @@ data:
     tone=informative, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.informative
+          strokeColor: $color.stroke.informative-weak
         label:
           color: $color.fg.informative
+
     tone=positive, variant=weak:
       enabled:
         root:
@@ -136,9 +145,29 @@ data:
     tone=positive, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.positive
+          strokeColor: $color.stroke.positive-weak
         label:
           color: $color.fg.positive
+
+    tone=warning, variant=weak:
+      enabled:
+        root:
+          color: $color.bg.warning-weak
+        label:
+          color: $color.fg.warning-contrast
+    tone=warning, variant=solid:
+      enabled:
+        root:
+          color: $color.bg.warning-solid
+        label:
+          color: $color.palette.static-black-alpha-900
+    tone=warning, variant=outline:
+      enabled:
+        root:
+          strokeColor: $color.stroke.warning-weak
+        label:
+          color: $color.fg.warning
+
     tone=critical, variant=weak:
       enabled:
         root:
@@ -154,6 +183,6 @@ data:
     tone=critical, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.critical
+          strokeColor: $color.stroke.critical-weak
         label:
           color: $color.fg.critical

@@ -17,18 +17,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const conditionMap = {
-  checked: {
-    true: { checked: true },
-    false: { checked: false },
-  },
-  size: {
-    small: { size: "small", label: "라벨" },
-    medium: { size: "medium" },
+  disabled: {
+    false: { disabled: false },
+    true: { disabled: true },
   },
 };
 
 const CommonStoryTemplate: Story = {
-  args: {},
+  args: {
+    label: "라벨",
+  },
   render: (args) => (
     <VariantTable
       Component={meta.component}

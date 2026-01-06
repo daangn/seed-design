@@ -8,12 +8,19 @@ import {
 import { Checkbox, RadioGroup } from "@seed-design/react/primitive";
 import * as React from "react";
 
+/**
+ * @deprecated Use Chip.Toggle or Chip.Button instead.
+ */
 export interface ToggleControlChipProps extends SeedControlChipBaseProps, Checkbox.RootProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
 }
 
+/**
+ * @deprecated Use Chip.Toggle or Chip.Button instead.
+ * @see https://v3.seed-design.io/react/components/control-chip
+ */
 export const ToggleControlChip = React.forwardRef<HTMLInputElement, ToggleControlChipProps>(
   ({ children, size, layout = "withText", inputProps, rootRef, ...otherProps }, ref) => {
     return (
@@ -28,8 +35,15 @@ export const ToggleControlChip = React.forwardRef<HTMLInputElement, ToggleContro
 );
 ToggleControlChip.displayName = "ControlChip.Toggle";
 
+/**
+ * @deprecated Use Chip.Toggle or Chip.Button instead.
+ */
 export interface ButtonControlChipProps extends SeedControlChipProps {}
 
+/**
+ * @deprecated Use Chip.Toggle or Chip.Button instead.
+ * @see https://v3.seed-design.io/react/components/control-chip
+ */
 export const ButtonControlChip = React.forwardRef<HTMLButtonElement, ButtonControlChipProps>(
   ({ children, ...otherProps }, ref) => {
     return (
@@ -41,16 +55,29 @@ export const ButtonControlChip = React.forwardRef<HTMLButtonElement, ButtonContr
 );
 ButtonControlChip.displayName = "ControlChip.Button";
 
+/**
+ * @deprecated Use Chip.Toggle or Chip.Button instead.
+ */
 export interface RadioControlChipRootProps extends RadioGroup.RootProps {}
 
+/**
+ * @deprecated Use Chip.Toggle or Chip.Button instead.
+ * @see https://v3.seed-design.io/react/components/control-chip
+ */
 export const RadioControlChipRoot = RadioGroup.Root;
 
+/**
+ * @deprecated Use Chip.Toggle or Chip.Button instead.
+ */
 export interface RadioControlChipItemProps extends SeedControlChipBaseProps, RadioGroup.ItemProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
 }
 
+/**
+ * @deprecated Use Chip.Toggle or Chip.Button instead.
+ */
 export const RadioControlChipItem = React.forwardRef<HTMLInputElement, RadioControlChipItemProps>(
   ({ children, inputProps, rootRef, size, layout = "withText", ...otherProps }, ref) => {
     return (
@@ -65,6 +92,10 @@ export const RadioControlChipItem = React.forwardRef<HTMLInputElement, RadioCont
 );
 RadioControlChipItem.displayName = "ControlChip.RadioItem";
 
+/**
+ * @deprecated Use Chip.Toggle or Chip.Button instead.
+ * @see https://v3.seed-design.io/react/components/control-chip
+ */
 export const ControlChip = Object.assign(
   () => {
     console.warn(
@@ -78,8 +109,3 @@ export const ControlChip = Object.assign(
     RadioItem: RadioControlChipItem,
   },
 );
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

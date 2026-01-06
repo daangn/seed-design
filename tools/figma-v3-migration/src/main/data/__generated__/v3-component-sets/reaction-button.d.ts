@@ -27,6 +27,14 @@ export declare const metadata: {
         "Small"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "defaultValue": "False",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "defaultValue": "Enabled",
@@ -34,11 +42,7 @@ export declare const metadata: {
         "Enabled",
         "Pressed",
         "Loading",
-        "Selected",
-        "Selected-Pressed",
-        "Selected-Loading",
-        "Disabled",
-        "Disabled-Selected"
+        "Disabled"
       ]
     }
   }

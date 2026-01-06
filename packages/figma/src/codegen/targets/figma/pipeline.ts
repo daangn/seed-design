@@ -9,6 +9,7 @@ import {
   createFrameFillPropsConverter,
   createRadiusPropsConverter,
   createSelfLayoutPropsConverter,
+  createShadowPropsConverter,
   createShapeFillPropsConverter,
   createStrokePropsConverter,
   createTextFillPropsConverter,
@@ -21,8 +22,10 @@ import {
 } from "./shape";
 import { createTextTransformer } from "./text";
 import {
+  defaultEffectStyleNameFormatter,
+  defaultFillStyleResolver,
   defaultRawValueFormatters,
-  defaultStyleNameFormatter,
+  defaultTextStyleNameFormatter,
   defaultVariableNameFormatter,
 } from "./value-resolver";
 
@@ -38,7 +41,9 @@ export function createPipeline(options: CreatePipelineConfig = {}): CodeGenerato
     variableService,
     variableNameFormatter: defaultVariableNameFormatter,
     styleService,
-    styleNameFormatter: defaultStyleNameFormatter,
+    textStyleNameFormatter: defaultTextStyleNameFormatter,
+    effectStyleNameFormatter: defaultEffectStyleNameFormatter,
+    fillStyleResolver: defaultFillStyleResolver,
     rawValueFormatters: defaultRawValueFormatters,
     shouldInferVariableName,
   });
@@ -50,6 +55,7 @@ export function createPipeline(options: CreatePipelineConfig = {}): CodeGenerato
   const textFillPropsConverter = createTextFillPropsConverter(valueResolver);
   const radiusPropsConverter = createRadiusPropsConverter(valueResolver);
   const strokePropsConverter = createStrokePropsConverter(valueResolver);
+  const shadowPropsConverter = createShadowPropsConverter(valueResolver);
   const typeStylePropsConverter = createTypeStylePropsConverter(valueResolver);
 
   const propsConverters = {
@@ -60,6 +66,7 @@ export function createPipeline(options: CreatePipelineConfig = {}): CodeGenerato
     textFill: textFillPropsConverter,
     radius: radiusPropsConverter,
     stroke: strokePropsConverter,
+    shadow: shadowPropsConverter,
     typeStyle: typeStylePropsConverter,
   };
 

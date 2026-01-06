@@ -1,11 +1,28 @@
 import { Box } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "../seed-design/ui/tabs";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
-const ActivityTabs: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityTabs: {};
+  }
+}
+
+const ActivityTabs: StaticActivityComponentType<"ActivityTabs"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -13,6 +30,11 @@ const ActivityTabs: ActivityComponentType = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="Tabs" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <Box p="x4">Sticky Tablist</Box>
@@ -27,39 +49,39 @@ const ActivityTabs: ActivityComponentType = () => {
             <TabsTrigger value="7">Tab 7123123123123</TabsTrigger>
           </TabsList>
           <TabsContent value="1">
-            <Box borderWidth={1} borderColor="stroke.neutral" p="x2" height="1000px">
+            <Box borderWidth={1} borderColor="stroke.neutralMuted" p="x2" height="1000px">
               Tab 1 content
             </Box>
           </TabsContent>
           <TabsContent value="2">
             <AsyncContent>
-              <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
+              <Box borderWidth={1} borderColor="stroke.neutralMuted" px="x2" py="x10">
                 Tab 2 content
               </Box>
             </AsyncContent>
           </TabsContent>
           <TabsContent value="3">
-            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
+            <Box borderWidth={1} borderColor="stroke.neutralMuted" px="x2" py="x10">
               Tab 3 content
             </Box>
           </TabsContent>
           <TabsContent value="4">
-            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
+            <Box borderWidth={1} borderColor="stroke.neutralMuted" px="x2" py="x10">
               Tab 4 content
             </Box>
           </TabsContent>
           <TabsContent value="5">
-            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
+            <Box borderWidth={1} borderColor="stroke.neutralMuted" px="x2" py="x10">
               Tab 5 content
             </Box>
           </TabsContent>
           <TabsContent value="6">
-            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
+            <Box borderWidth={1} borderColor="stroke.neutralMuted" px="x2" py="x10">
               Tab 6 content
             </Box>
           </TabsContent>
           <TabsContent value="7">
-            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
+            <Box borderWidth={1} borderColor="stroke.neutralMuted" px="x2" py="x10">
               Tab 7 content
             </Box>
           </TabsContent>

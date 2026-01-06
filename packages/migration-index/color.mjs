@@ -154,7 +154,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.on-gray-overlay-50",
-    next: ["$color.stroke.on-image"],
+    next: ["$color.stroke.neutral-subtle"],
   },
   {
     previous: "$semantic.color.on-gray-overlay-100",
@@ -163,12 +163,12 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.divider-1",
-    next: ["$color.stroke.neutral-muted"],
+    next: ["$color.stroke.neutral-subtle"],
     alternative: ["$color.palette.static-black-alpha-50"],
   },
   {
     previous: "$semantic.color.divider-2",
-    next: ["$color.stroke.neutral"],
+    next: ["$color.stroke.neutral-muted"],
     alternative: ["$color.palette.gray-300"],
   },
   {
@@ -244,7 +244,7 @@ export const scaleColorMappings = [
   },
   {
     previous: "$scale.color.gray-alpha-50",
-    next: ["$color.palette.gray-200", "$color.stroke.on-image"],
+    next: ["$color.palette.gray-200", "$color.stroke.neutral-subtle"],
   },
   {
     previous: "$scale.color.gray-alpha-100",

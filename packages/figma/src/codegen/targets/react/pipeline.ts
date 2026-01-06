@@ -14,6 +14,7 @@ import {
   createIconSelfLayoutPropsConverter,
   createRadiusPropsConverter,
   createSelfLayoutPropsConverter,
+  createShadowPropsConverter,
   createShapeFillPropsConverter,
   createStrokePropsConverter,
   createTextFillPropsConverter,
@@ -27,8 +28,10 @@ import {
 } from "./shape";
 import { createTextTransformer } from "./text";
 import {
+  defaultEffectStyleNameFormatter,
+  defaultFillStyleResolver,
   defaultRawValueFormatters,
-  defaultStyleNameFormatter,
+  defaultTextStyleNameFormatter,
   defaultVariableNameFormatter,
 } from "./value-resolver";
 
@@ -51,7 +54,9 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
     variableService,
     variableNameFormatter: defaultVariableNameFormatter,
     styleService,
-    styleNameFormatter: defaultStyleNameFormatter,
+    textStyleNameFormatter: defaultTextStyleNameFormatter,
+    effectStyleNameFormatter: defaultEffectStyleNameFormatter,
+    fillStyleResolver: defaultFillStyleResolver,
     rawValueFormatters: defaultRawValueFormatters,
     shouldInferVariableName,
   });
@@ -65,6 +70,7 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
   const vectorChildrenFillPropsConverter = createVectorChildrenFillPropsConverter(valueResolver);
   const radiusPropsConverter = createRadiusPropsConverter(valueResolver);
   const strokePropsConverter = createStrokePropsConverter(valueResolver);
+  const shadowPropsConverter = createShadowPropsConverter(valueResolver);
   const typeStylePropsConverter = createTypeStylePropsConverter({
     valueResolver,
   });
@@ -78,6 +84,7 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
     vectorChildrenFill: vectorChildrenFillPropsConverter,
     radius: radiusPropsConverter,
     stroke: strokePropsConverter,
+    shadow: shadowPropsConverter,
     typeStyle: typeStylePropsConverter,
   };
 

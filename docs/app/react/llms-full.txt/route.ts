@@ -1,28 +1,31 @@
-import { globby } from "globby";
-import matter from "gray-matter";
-import * as fs from "node:fs/promises";
-import { processContent } from "../_llms/process-content";
+import { processContent } from "@/app/react/_llms/process-content";
+import { reactSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
-  const files = await globby([
-    "./content/react/**/*.mdx",
-    "!./content/react/index.mdx",
-    "./content/react/get-started/changelog.mdx",
-  ]);
+  const pages = reactSource
+    .getPages()
+    .filter(({ path }) => {
+      if (["(updates-and-migration)/updates/changelog.mdx", "index.mdx"].includes(path))
+        return false;
+
+      return true;
+    })
+    // components/** -> getting-started/** -> iconography/**
+    .sort((a, b) => a.path.localeCompare(b.path));
 
   const results = await Promise.all(
-    files.map(async (file) => {
-      const fileContent = await fs.readFile(file);
-      const { content, data } = matter(fileContent.toString());
+    pages.map(async (page) => {
+      const rawContent = await page.data.getText("raw");
+      const processed = await processContent(page.path, rawContent || "");
 
-      const processed = await processContent(file, content);
-      return `file: ${file}
-# ${data.title}
+      return `file: ${page.path}
 
-${data.description ?? ""}
-        
+# ${page.data.title}
+
+${page.data.description ?? ""}
+
 ${processed}`;
     }),
   );

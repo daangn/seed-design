@@ -20,12 +20,12 @@ export function useSwipeBack(props: UseSwipeBackProps) {
         "data-swipe-back": "",
       } as React.HTMLAttributes<HTMLDivElement>,
       layerProps: {
-        onTransitionEnd: (e) => {
+        onAnimationEnd: (e) => {
           if (e.target === e.currentTarget) {
             events.reset();
           }
         },
-        onAnimationEnd: (e) => {
+        onTransitionEnd: (e) => {
           if (e.target === e.currentTarget) {
             events.reset();
           }

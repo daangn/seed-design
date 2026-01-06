@@ -4,21 +4,29 @@ import * as React from "react";
 import ErrorBoundary from "./error-boundary";
 
 import { StackflowPreview } from "./stackflow-preview";
+import { StackflowIframePreview } from "./stackflow-iframe-preview";
+import { Box } from "@seed-design/react";
 
-interface StackflowExampleProps {
-  names: string[];
-
+type StackflowExampleProps = (
+  | { names: string[]; path?: never }
+  | { names?: never; path: string }
+) & {
   children?: React.ReactNode;
-}
+};
 
 export function StackflowExample(props: StackflowExampleProps) {
-  const { names, children } = props;
+  const { names, path, children } = props;
 
   return (
     <ErrorBoundary>
       <Tabs items={["미리보기", "코드"]}>
         <Tab value="미리보기">
-          <StackflowPreview names={names} />
+          {names && <StackflowPreview names={names} />}
+          {path && (
+            <Box p="x2">
+              <StackflowIframePreview path={path} />
+            </Box>
+          )}
         </Tab>
         <Tab value="코드">{children}</Tab>
       </Tabs>

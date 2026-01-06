@@ -7,7 +7,7 @@ type SnackbarState = "inactive" | "active" | "persist" | "dismissing";
 interface UseSnackbarStateProps {
   /**
    * Whether to pause the toast when interacted with
-   * @default false
+   * @default true
    */
   pauseOnInteraction?: boolean;
 }
@@ -35,7 +35,7 @@ export interface CreateSnackbarOptions {
   render: () => React.ReactNode;
 }
 
-function useSnackbarState(props: UseSnackbarStateProps) {
+function useSnackbarState({ pauseOnInteraction = true }: UseSnackbarStateProps) {
   const [state, setState] = useState<SnackbarState>("inactive");
   const [queue, setQueue] = useState<CreateSnackbarOptions[]>([]);
   const [currentSnackbar, setCurrentSnackbar] = useState<CreateSnackbarOptions | null>(null);
@@ -104,7 +104,7 @@ function useSnackbarState(props: UseSnackbarStateProps) {
       },
       pause: () => {
         if (state === "active") {
-          if (props.pauseOnInteraction) {
+          if (pauseOnInteraction) {
             setState("persist");
           }
         }
@@ -121,7 +121,7 @@ function useSnackbarState(props: UseSnackbarStateProps) {
         }
       },
     }),
-    [state, push, pop, invokeOnClose, props.pauseOnInteraction],
+    [state, push, pop, invokeOnClose, pauseOnInteraction],
   );
 
   return useMemo(
@@ -205,7 +205,6 @@ export function useSnackbar(props: UseSnackbarProps) {
 
       closeButtonProps: buttonProps({
         type: "button",
-        "aria-label": "Dismiss notification", // TODO: i18n
         onClick() {
           events.dismiss();
         },

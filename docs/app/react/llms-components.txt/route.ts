@@ -1,30 +1,43 @@
-import { globby } from "globby";
+import { baseUrl } from "@/app/metadata";
+import { reactSource } from "@/app/source";
+import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
 
 export const revalidate = false;
-
-const BASE_URL = "https://seed-design.io";
 
 /**
  * This is an entry point for accessing individual component documentation.
  * Each component can be accessed through its specific endpoint.
  */
 export async function GET() {
-  const files = await globby([
-    "./content/react/components/**/*.mdx",
-    "!./content/react/components/concepts/**/*.mdx", // Exclude concept pages
-  ]);
+  const allPages = reactSource.getPages().filter(shouldGenerateLLMFriendlyText);
 
-  const components = files
-    .map((file) => {
-      const relativePath = file.replace("./content/react/components/", "");
-      const componentPath = relativePath.replace(".mdx", "");
-      const cleanPath = componentPath.replace(/\(([^)]+)\)\//g, "$1/");
-      const apiUrl = `${BASE_URL}/react/llms-components/${cleanPath}.txt`;
-      return `- [${cleanPath}](${apiUrl})`;
+  // Separate components
+  const componentPages = allPages.filter(({ slugs }) => {
+    const [firstSlug] = slugs;
+    return firstSlug === "components";
+  });
+
+  // Process components
+  const components = componentPages
+    .map(({ data, slugs }) => {
+      const [_firstSlug, ...restSlugs] = slugs;
+
+      // Attach .txt extension to the last slug
+      const path = restSlugs
+        .map((slug, index) => {
+          if (index === restSlugs.length - 1) return `${slug}.txt`;
+
+          return slug;
+        })
+        .join("/");
+
+      const txtUrl = new URL(`/react/llms-components/${path}`, baseUrl);
+
+      return `- [${data.title}](${txtUrl})`;
     })
-    .sort();
+    .sort((a, b) => a.localeCompare(b));
 
-  const entryContent = `# SEED Design React Components - LLM Reference Entry
+  const response = `# SEED Design React Components - LLM Reference Entry
 
 This is an entry point for accessing individual component documentation.
 Each component can be accessed through its specific endpoint.
@@ -36,7 +49,7 @@ ${components.join("\n")}
 ## Usage
 
 To get information about a specific component, access its endpoint:
-Example: /react/llms-components/action-button
+Example: /react/llms-components/action-button.txt
 
 The response will include the full MDX content for that component, processed and ready for LLM consumption.
 
@@ -46,10 +59,5 @@ The response will include the full MDX content for that component, processed and
 - Changelog: /react/llms-changelog.txt
 `;
 
-  return new Response(entryContent, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Content-Disposition": 'inline; filename="llms-components.txt"',
-    },
-  });
+  return new Response(response);
 }

@@ -1,12 +1,12 @@
 ---
 title: Tabs
-description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+description: 한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.
 ---
 
-<ComponentExample name="tabs-preview">
+<ComponentExample name="react/tabs/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-preview.tsx",
+    "file": "examples/react/tabs/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,30 +15,30 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add tabs
+npx @seed-design/cli@latest add ui:tabs
 ```
 
 <ManualInstallation name="tabs" />
 
 ## Props
 
-### TabsRoot
+### `TabsRoot`
 
 <react-type-table path="./registry/ui/tabs.tsx" name="TabsRootProps" />
 
-### TabsList
+### `TabsList`
 
 <react-type-table path="./registry/ui/tabs.tsx" name="TabsListProps" />
 
-### TabsTrigger
+### `TabsTrigger`
 
 <react-type-table path="./registry/ui/tabs.tsx" name="TabsTriggerProps" />
 
-### TabsCarousel
+### `TabsCarousel`
 
 <react-type-table path="./registry/ui/tabs.tsx" name="TabsCarouselProps" />
 
-### TabsContent
+### `TabsContent`
 
 <react-type-table path="./registry/ui/tabs.tsx" name="TabsContentProps" />
 
@@ -46,10 +46,10 @@ npx @seed-design/cli@latest add tabs
 
 ### Layout Fill (Default)
 
-<ComponentExample name="tabs-layout-fill">
+<ComponentExample name="react/tabs/layout-fill">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-layout-fill.tsx",
+    "file": "examples/react/tabs/layout-fill.tsx",
     "codeblock": true
   }
   ```
@@ -57,10 +57,10 @@ npx @seed-design/cli@latest add tabs
 
 ### Layout Hug
 
-<ComponentExample name="tabs-layout-hug">
+<ComponentExample name="react/tabs/layout-hug">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-layout-hug.tsx",
+    "file": "examples/react/tabs/layout-hug.tsx",
     "codeblock": true
   }
   ```
@@ -68,10 +68,10 @@ npx @seed-design/cli@latest add tabs
 
 ### Size Medium
 
-<ComponentExample name="tabs-size-medium">
+<ComponentExample name="react/tabs/size-medium">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-size-medium.tsx",
+    "file": "examples/react/tabs/size-medium.tsx",
     "codeblock": true
   }
   ```
@@ -79,10 +79,10 @@ npx @seed-design/cli@latest add tabs
 
 ### Size Small (Default)
 
-<ComponentExample name="tabs-size-small">
+<ComponentExample name="react/tabs/size-small">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-size-small.tsx",
+    "file": "examples/react/tabs/size-small.tsx",
     "codeblock": true
   }
   ```
@@ -92,10 +92,10 @@ npx @seed-design/cli@latest add tabs
 
 `TabsCarousel` 컴포넌트로 `TabsContent` 컴포넌트들을 감싸면 탭 변경시 컨텐츠가 자연스럽게 전환됩니다.
 
-<ComponentExample name="tabs-transition">
+<ComponentExample name="react/tabs/transition">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-transition.tsx",
+    "file": "examples/react/tabs/transition.tsx",
     "codeblock": true
   }
   ```
@@ -105,10 +105,10 @@ npx @seed-design/cli@latest add tabs
 
 `TabsCarousel` 컴포넌트에 `swipeable` 속성을 추가하면 스와이프 제스처로 탭을 이동할 수 있습니다.
 
-<ComponentExample name="tabs-swipeable">
+<ComponentExample name="react/tabs/swipeable">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-swipeable.tsx",
+    "file": "examples/react/tabs/swipeable.tsx",
     "codeblock": true
   }
   ```
@@ -118,10 +118,10 @@ npx @seed-design/cli@latest add tabs
 
 `Tabs.carouselPreventDrag`를 사용하면 특정 요소가 드래그 제스처에 반응하지 않도록 설정할 수 있습니다.
 
-<ComponentExample name="tabs-carousel-prevent-drag">
+<ComponentExample name="react/tabs/carousel-prevent-drag">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-carousel-prevent-drag.tsx",
+    "file": "examples/react/tabs/carousel-prevent-drag.tsx",
     "codeblock": true
   }
   ```
@@ -129,10 +129,10 @@ npx @seed-design/cli@latest add tabs
 
 ### Disabled
 
-<ComponentExample name="tabs-disabled">
+<ComponentExample name="react/tabs/disabled">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-disabled.tsx",
+    "file": "examples/react/tabs/disabled.tsx",
     "codeblock": true
   }
   ```
@@ -140,10 +140,10 @@ npx @seed-design/cli@latest add tabs
 
 ### Notification
 
-<ComponentExample name="tabs-notification">
+<ComponentExample name="react/tabs/notification">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-notification.tsx",
+    "file": "examples/react/tabs/notification.tsx",
     "codeblock": true
   }
   ```
@@ -157,10 +157,10 @@ npx @seed-design/cli@latest add tabs
 
 </Callout>
 
-<ComponentExample name="tabs-sticky-list">
+<ComponentExample name="react/tabs/sticky-list">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-sticky-list.tsx",
+    "file": "examples/react/tabs/sticky-list.tsx",
     "codeblock": true
   }
   ```
@@ -180,10 +180,10 @@ TabContent를 사용하지 않고, 컨텐츠 영역을 온전히 소유하고 �
 
 </Callout>
 
-<ComponentExample name="tabs-standalone">
+<ComponentExample name="react/tabs/standalone">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-standalone.tsx",
+    "file": "examples/react/tabs/standalone.tsx",
     "codeblock": true
   }
   ```
@@ -203,10 +203,10 @@ TabContent를 사용하지 않고, 컨텐츠 영역을 온전히 소유하고 �
 
 </Callout>
 
-<ComponentExample name="tabs-dynamic-height">
+<ComponentExample name="react/tabs/dynamic-height">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-dynamic-height.tsx",
+    "file": "examples/react/tabs/dynamic-height.tsx",
     "codeblock": true
   }
   ```
@@ -214,10 +214,10 @@ TabContent를 사용하지 않고, 컨텐츠 영역을 온전히 소유하고 �
 
 ### Scroll to Top
 
-<ComponentExample name="tabs-scroll-top">
+<ComponentExample name="react/tabs/scroll-top">
   ```json doc-gen:file
   {
-    "file": "./components/example/tabs-scroll-top.tsx",
+    "file": "examples/react/tabs/scroll-top.tsx",
     "codeblock": true
   }
   ```

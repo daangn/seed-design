@@ -1,6 +1,7 @@
 import type { StyleService, VariableValueResolved } from "@/entities";
 import type {
   NormalizedCornerTrait,
+  NormalizedHasEffectsTrait,
   NormalizedHasFramePropertiesTrait,
   NormalizedHasGeometryTrait,
   NormalizedHasLayoutTrait,
@@ -16,11 +17,11 @@ import {
 import type { RGBA } from "@figma/rest-api-spec";
 import type { VariableService } from "../../entities/variable.service";
 
-export interface ValueResolver<TColor, TDimension, TFontDimension, TFontWeight> {
+export interface ValueResolver<TColor, TGradient, TDimension, TFontDimension, TFontWeight> {
   getFormattedValue: {
     frameFill: (
       node: NormalizedHasGeometryTrait & NormalizedIsLayerTrait,
-    ) => string | TColor | undefined;
+    ) => string | TColor | TGradient | undefined;
     shapeFill: (
       node: NormalizedHasGeometryTrait & NormalizedIsLayerTrait,
     ) => string | TColor | undefined;
@@ -63,6 +64,9 @@ export interface ValueResolver<TColor, TDimension, TFontDimension, TFontWeight> 
     itemSpacing: (
       node: NormalizedHasFramePropertiesTrait & NormalizedIsLayerTrait,
     ) => string | TDimension | undefined;
+    counterAxisSpacing: (
+      node: NormalizedHasFramePropertiesTrait & NormalizedIsLayerTrait,
+    ) => string | TDimension | undefined;
     topLeftRadius: (
       node: NormalizedCornerTrait & NormalizedIsLayerTrait,
     ) => string | TDimension | undefined;
@@ -84,35 +88,51 @@ export interface ValueResolver<TColor, TDimension, TFontDimension, TFontWeight> 
     lineHeight: (
       node: NormalizedTypePropertiesTrait & NormalizedIsLayerTrait,
     ) => string | TFontDimension | undefined;
+    boxShadow: (node: NormalizedHasEffectsTrait & NormalizedIsLayerTrait) => string | undefined;
   };
   getTextStyleValue: (
     node: NormalizedTypePropertiesTrait & NormalizedIsLayerTrait,
   ) => string | undefined; // TODO: we might turn this into a generic; not sure yet
+  getEffectStyleValue: (
+    node: NormalizedHasEffectsTrait & NormalizedIsLayerTrait,
+  ) => string | undefined;
 }
 
-export interface ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeight> {
+export interface ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension, TFontWeight> {
   variableService: VariableService;
   variableNameFormatter: (props: { slug: string[] }) => string;
   styleService: StyleService;
-  styleNameFormatter: (props: { slug: string[] }) => string;
+  textStyleNameFormatter: (props: { slug: string[] }) => string;
+  effectStyleNameFormatter: (props: { slug: string[] }) => string;
+  fillStyleResolver: (props: { slug: string[] }) => TGradient | undefined;
   rawValueFormatters: {
     color: (value: RGBA) => string | TColor;
     dimension: (value: number) => string | TDimension;
     fontDimension: (value: number) => string | TFontDimension;
     fontWeight: (value: number) => string | TFontWeight;
+    boxShadow: (value: {
+      type: "DROP_SHADOW" | "INNER_SHADOW";
+      color: RGBA;
+      offset: { x: number; y: number };
+      radius: number;
+      spread?: number;
+    }) => string;
   };
   shouldInferVariableName: boolean;
 }
 
-export function createValueResolver<TColor, TDimension, TFontDimension, TFontWeight>({
+export function createValueResolver<TColor, TGradient, TDimension, TFontDimension, TFontWeight>({
   variableService,
   variableNameFormatter,
   styleService,
-  styleNameFormatter,
+  textStyleNameFormatter,
+  effectStyleNameFormatter,
+  fillStyleResolver,
   rawValueFormatters,
   shouldInferVariableName,
-}: ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeight>): ValueResolver<
+}: ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension, TFontWeight>): ValueResolver<
   TColor,
+  TGradient,
   TDimension,
   TFontDimension,
   TFontWeight
@@ -132,32 +152,26 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
       return undefined;
     }
 
-    const inferred = variableService.infer(value, scope);
+    try {
+      const inferred = variableService.infer(value, scope);
 
-    if (!inferred) {
+      if (!inferred) {
+        return undefined;
+      }
+
+      return getVariableName(inferred.key);
+    } catch {
       return undefined;
     }
-
-    return getVariableName(inferred.key);
-  }
-
-  function getStyleName(key: string) {
-    const slug = styleService.getSlug(key);
-
-    if (!slug) {
-      return undefined;
-    }
-
-    return styleNameFormatter({ slug });
   }
 
   function processColor(
-    key: string | undefined,
+    id: string | undefined,
     value: RGBA | undefined,
     scope: "FRAME_FILL" | "SHAPE_FILL" | "STROKE_COLOR" | "TEXT_FILL",
   ) {
-    if (key) {
-      return getVariableName(key);
+    if (id) {
+      return getVariableName(id);
     }
 
     if (value !== undefined) {
@@ -167,13 +181,23 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
     return undefined;
   }
 
+  function processFillStyle(key: string) {
+    const slug = styleService.getSlug(key);
+
+    if (!slug) {
+      return undefined;
+    }
+
+    return fillStyleResolver({ slug });
+  }
+
   function processDimension(
-    key: string | undefined,
+    id: string | undefined,
     value: number | undefined,
     scope: "WIDTH_HEIGHT" | "GAP" | "CORNER_RADIUS",
   ) {
-    if (key) {
-      return getVariableName(key);
+    if (id) {
+      return getVariableName(id);
     }
 
     if (value !== undefined) {
@@ -184,12 +208,12 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
   }
 
   function processFontDimension(
-    key: string | undefined,
+    id: string | undefined,
     value: number | undefined,
     scope: "FONT_SIZE" | "LINE_HEIGHT",
   ) {
-    if (key) {
-      return getVariableName(key);
+    if (id) {
+      return getVariableName(id);
     }
 
     if (value !== undefined) {
@@ -199,9 +223,9 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
     return undefined;
   }
 
-  function processFontWeight(key: string | undefined, value: number | undefined) {
-    if (key) {
-      return getVariableName(key);
+  function processFontWeight(id: string | undefined, value: number | undefined) {
+    if (id) {
+      return getVariableName(id);
     }
 
     if (value !== undefined) {
@@ -229,6 +253,7 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
 
   const getFormattedValue: ValueResolver<
     TColor,
+    TGradient,
     TDimension,
     TFontDimension,
     TFontWeight
@@ -263,8 +288,16 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
       processDimension(node.boundVariables?.paddingBottom?.id, node.paddingBottom, "GAP"),
     itemSpacing: (node) =>
       processDimension(node.boundVariables?.itemSpacing?.id, node.itemSpacing, "GAP"),
+    counterAxisSpacing: (node) =>
+      processDimension(node.boundVariables?.counterAxisSpacing?.id, node.counterAxisSpacing, "GAP"),
     frameFill: (node) =>
-      processColor(getFirstFillVariable(node)?.id, getFirstSolidFill(node)?.color, "FRAME_FILL"),
+      node.fillStyleKey
+        ? processFillStyle(node.fillStyleKey)
+        : processColor(
+            getFirstFillVariable(node)?.id,
+            getFirstSolidFill(node)?.color,
+            "FRAME_FILL",
+          ),
     shapeFill: (node) =>
       processColor(getFirstFillVariable(node)?.id, getFirstSolidFill(node)?.color, "SHAPE_FILL"),
     textFill: (node) =>
@@ -309,18 +342,40 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
         node.style.lineHeightPx,
         "LINE_HEIGHT",
       ),
+    boxShadow: (node) => {
+      if (node.effects.length === 0) return undefined;
+
+      return node.effects.map(rawValueFormatters.boxShadow).join(", ");
+    },
   };
 
   function getTextStyleValue(node: NormalizedTypePropertiesTrait & NormalizedIsLayerTrait) {
-    if (node.textStyleKey) {
-      return getStyleName(node.textStyleKey);
+    if (!node.textStyleKey) return undefined;
+
+    const slug = styleService.getSlug(node.textStyleKey);
+
+    if (!slug) {
+      return undefined;
     }
 
-    return undefined;
+    return textStyleNameFormatter({ slug });
+  }
+
+  function getEffectStyleValue(node: NormalizedHasEffectsTrait & NormalizedIsLayerTrait) {
+    if (!node.effectStyleKey) return undefined;
+
+    const slug = styleService.getSlug(node.effectStyleKey);
+
+    if (!slug) {
+      return undefined;
+    }
+
+    return effectStyleNameFormatter({ slug });
   }
 
   return {
     getFormattedValue,
     getTextStyleValue,
+    getEffectStyleValue,
   };
 }

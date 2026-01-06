@@ -12,7 +12,6 @@ export const createBadgeHandler = (_ctx: ComponentHandlerDeps) =>
       size: handleSizeProp(props.Size.value),
       tone: camelCase(props.Tone.value),
       variant: camelCase(props.Variant.value),
-      shape: camelCase(props.Shape.value),
     };
 
     return createSeedReactElement("Badge", commonProps, props["Label#1584:0"].value);

@@ -1,0 +1,91 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: menu-sheet-item
+  name: Menu Sheet Item
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          minHeight:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          gap:
+            type: dimension
+      prefixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      content:
+        properties:
+          gap:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      description:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.neutral-weak
+          minHeight: 52px
+          paddingX: $dimension.x4
+          paddingY: $dimension.x3_5
+          gap: $dimension.x3_5
+        prefixIcon:
+          size: 22px
+        content:
+          gap: $dimension.x0_5
+        label:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+        description:
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
+          fontWeight: $font-weight.medium
+          color: $color.fg.neutral-subtle
+      pressed:
+        root:
+          color: $color.bg.neutral-weak-pressed
+    tone=neutral:
+      enabled:
+        prefixIcon:
+          color: $color.fg.neutral
+        label:
+          color: $color.fg.neutral
+    tone=critical:
+      enabled:
+        prefixIcon:
+          color: $color.fg.critical
+        label:
+          color: $color.fg.critical
+    labelAlign=left:
+      enabled: {}
+    labelAlign=center:
+      enabled: {}

@@ -8,6 +8,19 @@ import { createSeedReactElement } from "./element-factories";
 import type { IconHandler } from "./icon";
 import type { PropsConverters } from "./props";
 
+const OVERRIDE_ACCEPTABLE_PROPERTIES: Set<NodeChangeProperty> = new Set([
+  "characters",
+  "parent",
+  "locked",
+  "visible",
+  "name",
+  "x",
+  "y",
+  "componentProperties",
+  "componentPropertyDefinitions",
+  "componentPropertyReferences",
+] satisfies NodeChangeProperty[]);
+
 export interface InstanceTransformerDeps {
   iconHandler?: IconHandler;
   propsConverters: PropsConverters;
@@ -37,7 +50,29 @@ export function createInstanceTransformer({
       : componentHandlers[componentKey];
 
     if (componentHandler) {
-      return componentHandler.transform(node);
+      const handled = componentHandler.transform(node, traverse);
+
+      if (node.overrides && node.overrides.length > 0) {
+        const overriddenFields = node.overrides
+          .flatMap(({ overriddenFields }) => overriddenFields)
+          .filter(
+            (field) => OVERRIDE_ACCEPTABLE_PROPERTIES.has(field as NodeChangeProperty) === false,
+          );
+
+        if (overriddenFields.length === 0) {
+          return handled;
+        }
+
+        return {
+          ...handled,
+          meta: {
+            ...handled.meta,
+            comment: `${handled.meta.comment ? `${handled.meta.comment} ` : ""}오버라이드된 필드: ${Array.from(new Set(overriddenFields)).join(", ")}`,
+          },
+        };
+      }
+
+      return handled;
     }
 
     return frameTransformer(node, traverse);

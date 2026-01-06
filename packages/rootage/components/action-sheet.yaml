@@ -3,6 +3,7 @@ kind: ComponentSpec
 metadata:
   id: action-sheet
   name: Action Sheet
+  deprecated: Use menu-sheet instead.
 data:
   schema:
     slots:
@@ -110,5 +111,5 @@ data:
           color: $color.fg.neutral-muted
         divider:
           strokeWidth: 1px
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           marginX: $dimension.spacing-x.global-gutter

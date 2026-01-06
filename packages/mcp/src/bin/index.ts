@@ -7,8 +7,8 @@ import { logger } from "../logger";
 import { createFigmaWebSocketClient } from "../websocket";
 import { registerEditingTools, registerTools } from "../tools";
 import { registerPrompts } from "../prompts";
-import { version } from "../../package.json" assert { type: "json" };
-import type { Server, ServerWebSocket } from "bun";
+import { version } from "../../package.json" with { type: "json" };
+import type { ServerWebSocket } from "bun";
 import { loadConfig, type McpConfig } from "../config";
 
 // Initialize CLI
@@ -53,7 +53,7 @@ async function startWebSocketServer(port: number) {
     port,
     // uncomment this to allow connections in windows wsl
     // hostname: "0.0.0.0",
-    fetch(req: Request, server: Server) {
+    fetch(req, server) {
       // Handle CORS preflight
       if (req.method === "OPTIONS") {
         return new Response(null, {
@@ -83,7 +83,7 @@ async function startWebSocketServer(port: number) {
     },
     websocket: {
       open: handleWebSocketConnection,
-      message(ws: ServerWebSocket<any>, message: string | Buffer) {
+      message(ws, message) {
         try {
           console.log("Received message from client:", message);
           const data = JSON.parse(message as string);
@@ -176,7 +176,7 @@ async function startWebSocketServer(port: number) {
           console.error("Error handling message:", err);
         }
       },
-      close(ws: ServerWebSocket<any>) {
+      close(ws) {
         // Remove client from their channel
         channels.forEach((clients) => {
           clients.delete(ws);

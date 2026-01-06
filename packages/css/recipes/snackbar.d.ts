@@ -1,6 +1,6 @@
 declare interface SnackbarVariant {
   /**
-  * @default default
+  * @default "default"
   */
   variant: "default" | "positive" | "critical";
 }
@@ -11,7 +11,7 @@ declare type SnackbarVariantMap = {
 
 export declare type SnackbarVariantProps = Partial<SnackbarVariant>;
 
-export declare type SnackbarSlotName = "root" | "message" | "prefixIcon" | "actionButton";
+export declare type SnackbarSlotName = "root" | "message" | "prefixIcon" | "actionButton" | "content";
 
 export declare const snackbarVariantMap: SnackbarVariantMap;
 

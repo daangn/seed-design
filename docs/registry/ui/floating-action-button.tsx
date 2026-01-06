@@ -11,7 +11,7 @@ export interface FloatingActionButtonProps
 }
 
 /**
- * @see https://seed-design.io/react/components/fab
+ * @see https://seed-design.io/react/components/floating-action-button
  */
 export const FloatingActionButton = React.forwardRef<
   React.ElementRef<typeof SeedFloatingActionButton.Root>,
@@ -25,8 +25,3 @@ export const FloatingActionButton = React.forwardRef<
   );
 });
 FloatingActionButton.displayName = "FloatingActionButton";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

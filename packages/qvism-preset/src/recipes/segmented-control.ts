@@ -9,7 +9,6 @@ const segmentedControl = defineSlotRecipe({
     root: {
       display: "grid",
       boxSizing: "border-box",
-      minWidth: "fit-content",
       maxWidth: "100%",
 
       position: "relative",
@@ -22,6 +21,7 @@ const segmentedControl = defineSlotRecipe({
 
       gridAutoFlow: "column",
       gridAutoColumns: "1fr",
+      gridAutoRows: "1fr",
 
       alignItems: "center",
 
@@ -33,13 +33,16 @@ const segmentedControl = defineSlotRecipe({
       willChange: "transform",
       transform: "translateX(calc(var(--segment-index) * 100%))",
 
-      insetBlock: vars.base.enabled.root.padding,
-      insetInlineStart: vars.base.enabled.root.padding,
+      top: vars.base.enabled.root.padding,
+      bottom: vars.base.enabled.root.padding,
+      left: vars.base.enabled.root.padding,
       width: `calc((100% - ${vars.base.enabled.root.padding} * 2) / var(--segment-count))`,
 
       borderRadius: vars.base.enabled.indicator.cornerRadius,
       backgroundColor: vars.base.enabled.indicator.color,
-      boxShadow: vars.base.enabled.indicator.shadow,
+
+      boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+
       transition: `transform ${vars.base.enabled.indicator.transformDuration} ${vars.base.enabled.indicator.transformTimingFunction}`,
     },
     item: {
@@ -53,8 +56,17 @@ const segmentedControl = defineSlotRecipe({
       overflowWrap: "break-word",
 
       minWidth: itemVars.base.enabled.root.minWidth,
-      minHeight: itemVars.base.enabled.root.height,
-      paddingInline: itemVars.base.enabled.root.paddingX,
+      minHeight: itemVars.base.enabled.root.minHeight,
+
+      gap: itemVars.base.enabled.root.gap,
+
+      // ensures every item has the height of the tallest item (e.g. item with 2+ lines of label)
+      height: "100%",
+
+      paddingLeft: itemVars.base.enabled.root.paddingX,
+      paddingRight: itemVars.base.enabled.root.paddingX,
+      paddingTop: itemVars.base.enabled.root.paddingY,
+      paddingBottom: itemVars.base.enabled.root.paddingY,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
       fontWeight: itemVars.base.enabled.label.fontWeight,
@@ -62,9 +74,10 @@ const segmentedControl = defineSlotRecipe({
       lineHeight: itemVars.base.enabled.label.lineHeight,
       color: itemVars.base.enabled.label.color,
 
+      transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}`,
+
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
-        fontWeight: itemVars.base.selected.label.fontWeight,
       },
 
       [pseudo(disabled)]: {
@@ -72,7 +85,19 @@ const segmentedControl = defineSlotRecipe({
         color: itemVars.base.disabled.label.color,
       },
 
-      [pseudo(not(checked), active)]: {
+      [pseudo(disabled, checked)]: {
+        // this covers the indicator
+        backgroundColor: itemVars.base.disabledSelected.root.color,
+
+        // this is the same as the indicator stroke
+        boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+      },
+
+      [pseudo(not(disabled), checked, active)]: {
+        backgroundColor: itemVars.base.selectedPressed.root.color,
+      },
+
+      [pseudo(not(disabled), not(checked), active)]: {
         backgroundColor: itemVars.base.pressed.root.color,
       },
     },

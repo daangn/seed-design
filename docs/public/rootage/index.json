@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "0.0.0",
+  "version": "1.1.6",
   "resources": [
     {
       "path": "/collections.json"
@@ -36,6 +36,9 @@
       "path": "/components/bottom-sheet-close-button.json"
     },
     {
+      "path": "/components/bottom-sheet-handle.json"
+    },
+    {
       "path": "/components/bottom-sheet.json"
     },
     {
@@ -43,6 +46,9 @@
     },
     {
       "path": "/components/checkbox.json"
+    },
+    {
+      "path": "/components/checkmark.json"
     },
     {
       "path": "/components/chip-tab.json"
@@ -81,6 +87,12 @@
       "path": "/components/fab.json"
     },
     {
+      "path": "/components/field-label.json"
+    },
+    {
+      "path": "/components/field.json"
+    },
+    {
       "path": "/components/floating-action-button.json"
     },
     {
@@ -93,7 +105,16 @@
       "path": "/components/inline-banner.json"
     },
     {
+      "path": "/components/input-button.json"
+    },
+    {
       "path": "/components/link-content.json"
+    },
+    {
+      "path": "/components/list-header.json"
+    },
+    {
+      "path": "/components/list-item.json"
     },
     {
       "path": "/components/manner-temp-badge.json"
@@ -102,7 +123,19 @@
       "path": "/components/manner-temp.json"
     },
     {
+      "path": "/components/menu-sheet-close-button.json"
+    },
+    {
+      "path": "/components/menu-sheet-item.json"
+    },
+    {
+      "path": "/components/menu-sheet.json"
+    },
+    {
       "path": "/components/notification-badge.json"
+    },
+    {
+      "path": "/components/page-banner.json"
     },
     {
       "path": "/components/progress-circle.json"
@@ -111,7 +144,13 @@
       "path": "/components/radio.json"
     },
     {
+      "path": "/components/radiomark.json"
+    },
+    {
       "path": "/components/reaction-button.json"
+    },
+    {
+      "path": "/components/scroll-fog.json"
     },
     {
       "path": "/components/segmented-control-item.json"
@@ -126,7 +165,19 @@
       "path": "/components/skeleton.json"
     },
     {
+      "path": "/components/slider-thumb.json"
+    },
+    {
+      "path": "/components/slider-tick.json"
+    },
+    {
+      "path": "/components/slider.json"
+    },
+    {
       "path": "/components/snackbar.json"
+    },
+    {
+      "path": "/components/switch-mark.json"
     },
     {
       "path": "/components/switch.json"
@@ -138,10 +189,16 @@
       "path": "/components/tablist.json"
     },
     {
+      "path": "/components/tag-group-item.json"
+    },
+    {
+      "path": "/components/tag-group.json"
+    },
+    {
       "path": "/components/text-button.json"
     },
     {
-      "path": "/components/text-field.json"
+      "path": "/components/text-input.json"
     },
     {
       "path": "/components/toggle-button.json"
@@ -172,6 +229,9 @@
     },
     {
       "path": "/radius.json"
+    },
+    {
+      "path": "/shadow.json"
     },
     {
       "path": "/timing-function.json"

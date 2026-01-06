@@ -8,12 +8,12 @@ export declare const vars: {
         "offsetTimingFunction": "var(--seed-timing-function-easing)"
       },
       "root": {
-        "color": "var(--seed-color-bg-neutral-solid)",
+        "color": "var(--seed-color-bg-neutral-inverted)",
         "cornerRadius": "var(--seed-radius-r2)",
         "minHeight": "44px",
-        "paddingX": "var(--seed-dimension-x4)",
+        "maxWidth": "560px",
+        "paddingX": "var(--seed-dimension-x2_5)",
         "paddingY": "var(--seed-dimension-x2_5)",
-        "gap": "var(--seed-dimension-x2)",
         "enterOpacity": "0",
         "enterScale": "0.8",
         "enterDuration": "var(--seed-duration-d3)",
@@ -23,14 +23,19 @@ export declare const vars: {
         "exitDuration": "var(--seed-duration-d2)",
         "exitTimingFunction": "var(--seed-timing-function-exit)"
       },
+      "content": {
+        "paddingX": "var(--seed-dimension-x1_5)",
+        "gap": "var(--seed-dimension-x2_5)"
+      },
       "message": {
-        "color": "var(--seed-color-palette-static-white)",
+        "color": "var(--seed-color-fg-neutral-inverted)",
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "prefixIcon": {
-        "size": "24px"
+        "size": "24px",
+        "paddingRight": "var(--seed-dimension-x0_5)"
       },
       "actionButton": {
         "targetPaddingX": "var(--seed-dimension-x2)",

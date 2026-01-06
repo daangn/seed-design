@@ -2,8 +2,10 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)",
-        "colorDuration": "var(--seed-duration-d4)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "strokeWidth": "1px",
+        "color": "var(--seed-color-bg-transparent)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "label": {
@@ -24,13 +26,13 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "selected": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-brand)",
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeColor": "var(--seed-color-stroke-brand-weak)",
         "strokeWidth": "1px"
       },
       "label": {
@@ -49,7 +51,7 @@ export const vars = {
     },
     "selectedPressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
@@ -74,7 +76,7 @@ export const vars = {
     },
     "selectedLoading": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)",
+        "color": "var(--seed-color-bg-transparent-pressed)",
         "strokeWidth": "1px"
       }
     }

@@ -17,11 +17,27 @@ export const globalCss = defineGlobalCss({
       "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
     },
 
+    // Font scaling variables
     "--seed-font-size-multiplier": "1",
+    "--seed-font-size-limit-min": "0.8",
+    "--seed-font-size-limit-max": "1.5", // Android default 150%
+    "--seed-line-height-limit-min": "0.8",
+    "--seed-line-height-limit-max": "1.5", // Android default 150%
+  },
+
+  // iOS platform-specific overrides
+  "[data-seed-platform='ios']": {
+    "--seed-font-size-limit-max": "1.35", // iOS 135% limit
+    "--seed-line-height-limit-max": "1.35",
   },
 
   "html[data-seed-platform='ios'][data-seed-font-scaling='enabled']": {
     "@supports (font: -apple-system-body)": {
+      /**
+       * 0.9412 is the font size multiplier for iOS
+       * It converts iOS default 17px to web standard 16px
+       * Individual font sizes are clamped to max 135% in the token system
+       */
       "--seed-font-size-multiplier": "0.9412",
       font: "-apple-system-body",
     },
@@ -45,18 +61,28 @@ export const globalCss = defineGlobalCss({
   ".seed-prefix-icon": {
     width: "var(--seed-prefix-icon-size)",
     height: "var(--seed-prefix-icon-size)",
-    marginLeft: "var(--seed-prefix-icon-margin-left)",
-    marginRight: "var(--seed-prefix-icon-margin-right)",
-    marginTop: "var(--seed-prefix-icon-margin-top)",
     color: "var(--seed-prefix-icon-color, currentColor)",
+
+    marginLeft: "var(--seed-prefix-icon-margin-left, 0)",
+    marginRight: "var(--seed-prefix-icon-margin-right, 0)",
+    marginTop: "var(--seed-prefix-icon-margin-top, 0)",
+    marginBottom: "var(--seed-prefix-icon-margin-bottom, 0)",
+
+    alignSelf: "var(--seed-prefix-icon-align-self)",
+    justifySelf: "var(--seed-prefix-icon-justify-self)",
   },
   ".seed-suffix-icon": {
     width: "var(--seed-suffix-icon-size)",
     height: "var(--seed-suffix-icon-size)",
-    marginLeft: "var(--seed-suffix-icon-margin-left)",
-    marginRight: "var(--seed-suffix-icon-margin-right)",
-    marginTop: "var(--seed-suffix-icon-margin-top)",
     color: "var(--seed-suffix-icon-color, currentColor)",
+
+    marginLeft: "var(--seed-suffix-icon-margin-left, 0)",
+    marginRight: "var(--seed-suffix-icon-margin-right, 0)",
+    marginTop: "var(--seed-suffix-icon-margin-top, 0)",
+    marginBottom: "var(--seed-suffix-icon-margin-bottom, 0)",
+
+    alignSelf: "var(--seed-suffix-icon-align-self)",
+    justifySelf: "var(--seed-suffix-icon-justify-self)",
   },
   ".seed-count": {
     fontSize: "var(--seed-count-font-size)",
@@ -97,10 +123,10 @@ export const globalCss = defineGlobalCss({
     paddingLeft: "var(--seed-box-padding-left)",
     paddingRight: "var(--seed-box-padding-right)",
 
-    "--seed-box-bleed-bottom": "initial",
-    "--seed-box-bleed-top": "initial",
-    "--seed-box-bleed-left": "initial",
-    "--seed-box-bleed-right": "initial",
+    "--seed-box-bleed-bottom": "0px",
+    "--seed-box-bleed-top": "0px",
+    "--seed-box-bleed-left": "0px",
+    "--seed-box-bleed-right": "0px",
     marginTop: "calc(var(--seed-box-bleed-top) * -1)",
     marginBottom: "calc(var(--seed-box-bleed-bottom) * -1)",
     marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
@@ -137,6 +163,9 @@ export const globalCss = defineGlobalCss({
     borderBottomRightRadius: "var(--seed-box-border-bottom-right-radius)",
     borderTopLeftRadius: "var(--seed-box-border-top-left-radius)",
     borderTopRightRadius: "var(--seed-box-border-top-right-radius)",
+
+    "--seed-box-box-shadow": "initial",
+    boxShadow: "var(--seed-box-box-shadow)",
 
     "--seed-box-display": "block",
     "--seed-box-position": "initial",

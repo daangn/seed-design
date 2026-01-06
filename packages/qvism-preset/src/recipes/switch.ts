@@ -1,10 +1,11 @@
 import { switch as vars } from "../vars/component";
+import { switchMark as markVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, pseudo } from "../utils/pseudo";
+import { disabled, pseudo } from "../utils/pseudo";
 
 const switchRecipe = defineSlotRecipe({
   name: "switch",
-  slots: ["root", "control", "thumb", "label"],
+  slots: ["root", "label"],
   base: {
     root: {
       boxSizing: "border-box",
@@ -16,86 +17,68 @@ const switchRecipe = defineSlotRecipe({
 
       verticalAlign: "top",
       isolation: "isolate",
-      opacity: 1,
       cursor: "pointer",
 
       [pseudo(disabled)]: {
-        opacity: vars.base.disabled.root.opacity,
         cursor: "not-allowed",
       },
     },
-    control: {
-      boxSizing: "border-box",
-      display: "block",
-      position: "relative",
+    label: {
+      fontWeight: vars.base.enabled.label.fontWeight,
+      color: vars.base.enabled.label.color,
 
-      borderRadius: vars.base.enabled.control.cornerRadius,
-      background: vars.base.enabled.control.color,
+      transition: `opacity ${vars.base.disabled.label.opacityDuration} ${vars.base.disabled.label.opacityTimingFunction}`,
 
-      transition: "background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms",
-
-      [pseudo(checked)]: {
-        background: vars.base.enabledSelected.control.color,
+      [pseudo(disabled)]: {
+        opacity: vars.base.disabled.label.opacity,
       },
-    },
-    thumb: {
-      borderRadius: vars.base.enabled.thumb.cornerRadius,
-      background: vars.base.enabled.thumb.color,
-
-      transition: "transform 150ms cubic-bezier(0.35, 0, 0.35, 1)",
     },
   },
   variants: {
     size: {
-      medium: {
+      32: {
         root: {
-          minHeight: vars.sizeMedium.enabled.root.height,
-        },
-        control: {
-          minInlineSize: vars.sizeMedium.enabled.control.width,
-          minBlockSize: vars.sizeMedium.enabled.control.height,
-          padding: `${vars.sizeMedium.enabled.control.paddingY} ${vars.sizeMedium.enabled.control.paddingX}`,
-        },
-        thumb: {
-          width: vars.sizeMedium.enabled.thumb.width,
-          height: vars.sizeMedium.enabled.thumb.height,
-          boxShadow: vars.sizeMedium.enabled.thumb.shadow,
+          minHeight: vars.size32.enabled.root.height,
+          gap: vars.size32.enabled.root.gap,
 
-          [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.sizeMedium.enabled.control.width} - ${vars.sizeMedium.enabled.control.height}))`,
-          },
-        },
-      },
-      small: {
-        root: {
-          minHeight: vars.sizeSmall.enabled.root.height,
-          gap: vars.sizeSmall.enabled.root.gap,
-        },
-        control: {
-          minInlineSize: vars.sizeSmall.enabled.control.width,
-          minBlockSize: vars.sizeSmall.enabled.control.height,
-          padding: `${vars.sizeSmall.enabled.control.paddingY} ${vars.sizeSmall.enabled.control.paddingX}`,
-          margin: `calc((${vars.sizeSmall.enabled.root.height} - ${vars.sizeSmall.enabled.control.height}) / 2) 0`, // 수직 위치 보정
-        },
-        thumb: {
-          width: vars.sizeSmall.enabled.thumb.width,
-          height: vars.sizeSmall.enabled.thumb.height,
-
-          [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.sizeSmall.enabled.control.width} - ${vars.sizeSmall.enabled.control.height}))`,
-          },
+          "--switch-mark-margin-top": `calc((${vars.size32.enabled.root.height} - ${markVars.size32.enabled.root.height}) / 2)`, // 수직 위치 보정
         },
         label: {
-          fontSize: vars.sizeSmall.enabled.label.fontSize,
-          lineHeight: vars.sizeSmall.enabled.label.lineHeight,
-          fontWeight: vars.sizeSmall.enabled.label.fontWeight,
-          marginTop: "calc(12px - 0.59375rem)", // 수직 위치 보정, 24 / 2 - label.lineHeight / 2
+          fontSize: vars.size32.enabled.label.fontSize,
+          lineHeight: vars.size32.enabled.label.lineHeight,
+          marginTop: `calc(${vars.size32.enabled.root.height} / 2 - ${vars.size32.enabled.label.lineHeight} / 2)`, // 수직 위치 보정
+        },
+      },
+      24: {
+        root: {
+          minHeight: vars.size24.enabled.root.height,
+          gap: vars.size24.enabled.root.gap,
+
+          "--switch-mark-margin-top": `calc((${vars.size24.enabled.root.height} - ${markVars.size24.enabled.root.height}) / 2)`, // 수직 위치 보정
+        },
+        label: {
+          fontSize: vars.size24.enabled.label.fontSize,
+          lineHeight: vars.size24.enabled.label.lineHeight,
+          marginTop: `calc(${vars.size24.enabled.root.height} / 2 - ${vars.size24.enabled.label.lineHeight} / 2)`, // 수직 위치 보정
+        },
+      },
+      16: {
+        root: {
+          minHeight: vars.size16.enabled.root.height,
+          gap: vars.size16.enabled.root.gap,
+
+          "--switch-mark-margin-top": `calc((${vars.size16.enabled.root.height} - ${markVars.size16.enabled.root.height}) / 2)`, // 수직 위치 보정
+        },
+        label: {
+          fontSize: vars.size16.enabled.label.fontSize,
+          lineHeight: vars.size16.enabled.label.lineHeight,
+          marginTop: `calc(${vars.size16.enabled.root.height} / 2 - ${vars.size16.enabled.label.lineHeight} / 2)`, // 수직 위치 보정
         },
       },
     },
   },
   defaultVariants: {
-    size: "medium",
+    size: 32,
   },
 });
 

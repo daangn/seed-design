@@ -1,12 +1,12 @@
 ---
 title: Help Bubble
-description: Help Bubble은 사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 부가적인 도움말 컴포넌트입니다.
+description: 사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.
 ---
 
-<ComponentExample name="help-bubble-preview">
+<ComponentExample name="react/help-bubble/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/help-bubble-preview.tsx",
+    "file": "examples/react/help-bubble/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,26 +15,67 @@ description: Help Bubble은 사용자에게 컴포넌트의 상태나 특정 기
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add help-bubble
+npx @seed-design/cli@latest add ui:help-bubble
 ```
 
 <ManualInstallation name="help-bubble" />
 
 ## Props
 
+### `HelpBubbleTrigger`
+
 <react-type-table
   path="./registry/ui/help-bubble.tsx"
   name="HelpBubbleTriggerProps"
 />
 
+### `HelpBubbleAnchor`
+
+<react-type-table
+  path="./registry/ui/help-bubble.tsx"
+  name="HelpBubbleAnchorProps"
+/>
+
 ## Examples
+
+### Trigger
+
+`HelpBubbleTrigger`의 `children`을 클릭하면 Help Bubble이 열리고 닫힙니다.
+
+`children`으로는 `button` 등 포커스 가능한 요소를 넣어야 합니다.
+
+<ComponentExample name="react/help-bubble/trigger">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/trigger.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 ### Anchor
 
-<ComponentExample name="help-bubble-anchor">
+`HelpBubbleAnchor`의 `children`은 Help Bubble이 위치를 잡는 데에만 사용되며 클릭으로 열고 닫는 동작은 없습니다.
+
+`defaultOpen`과 `showCloseButton`을 사용하여 적절하게 열리고 닫히도록 하거나, `open` prop을 controlled하게 사용하여 열리고 닫힌 상태를 직접 관리할 수 있습니다.
+
+<ComponentExample name="react/help-bubble/anchor">
   ```json doc-gen:file
   {
-    "file": "./components/example/help-bubble-anchor.tsx",
+    "file": "examples/react/help-bubble/anchor.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Close On Interact Outside
+
+`closeOnInteractOutside` prop을 `false`로 설정하면 Help Bubble 및 `HelpBubbleTrigger`, `HelpBubbleAnchor` 외부를 클릭해도 Help Bubble이 닫히지 않습니다. 기본값은 `true`입니다.
+
+<ComponentExample name="react/help-bubble/close-on-interact-outside">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/close-on-interact-outside.tsx",
     "codeblock": true
   }
   ```
@@ -42,10 +83,10 @@ npx @seed-design/cli@latest add help-bubble
 
 ### Placement
 
-<ComponentExample name="help-bubble-placement">
+<ComponentExample name="react/help-bubble/placement">
   ```json doc-gen:file
   {
-    "file": "./components/example/help-bubble-placement.tsx",
+    "file": "examples/react/help-bubble/placement.tsx",
     "codeblock": true
   }
   ```
@@ -53,10 +94,10 @@ npx @seed-design/cli@latest add help-bubble
 
 ### Flip
 
-<ComponentExample name="help-bubble-flip">
+<ComponentExample name="react/help-bubble/flip">
   ```json doc-gen:file
   {
-    "file": "./components/example/help-bubble-flip.tsx",
+    "file": "examples/react/help-bubble/flip.tsx",
     "codeblock": true
   }
   ```
@@ -64,10 +105,10 @@ npx @seed-design/cli@latest add help-bubble
 
 ### Close Button
 
-<ComponentExample name="help-bubble-close-button">
+<ComponentExample name="react/help-bubble/close-button">
   ```json doc-gen:file
   {
-    "file": "./components/example/help-bubble-close-button.tsx",
+    "file": "examples/react/help-bubble/close-button.tsx",
     "codeblock": true
   }
   ```
@@ -75,10 +116,34 @@ npx @seed-design/cli@latest add help-bubble
 
 ### Title Only
 
-<ComponentExample name="help-bubble-title-only">
+<ComponentExample name="react/help-bubble/title-only">
   ```json doc-gen:file
   {
-    "file": "./components/example/help-bubble-title-only.tsx",
+    "file": "examples/react/help-bubble/title-only.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Setting Width Manually
+
+`contentProps`에 인라인 스타일로 `maxWidth`나 `width`를 설정하여 너비를 조절할 수 있습니다.
+
+<ComponentExample name="react/help-bubble/width">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/width.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Line Breaks
+
+<ComponentExample name="react/help-bubble/line-breaks">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/line-breaks.tsx",
     "codeblock": true
   }
   ```

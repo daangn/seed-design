@@ -28,10 +28,11 @@ const reactionButton = defineRecipe({
       outline: "none",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     background: vars.base.enabled.root.color,
     fontWeight: vars.base.enabled.label.fontWeight,
     color: vars.base.enabled.label.color,
+    boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
     "--track-color": vars.base.enabled.progressCircle.trackColor,
     "--range-color": vars.base.enabled.progressCircle.rangeColor,
@@ -87,8 +88,10 @@ const reactionButton = defineRecipe({
     size: {
       xsmall: {
         height: vars.sizeXsmall.enabled.root.minHeight,
-        paddingInline: vars.sizeXsmall.enabled.root.paddingX,
-        paddingBlock: vars.sizeXsmall.enabled.root.paddingY,
+        paddingLeft: vars.sizeXsmall.enabled.root.paddingX,
+        paddingRight: vars.sizeXsmall.enabled.root.paddingX,
+        paddingTop: vars.sizeXsmall.enabled.root.paddingY,
+        paddingBottom: vars.sizeXsmall.enabled.root.paddingY,
         gap: vars.sizeXsmall.enabled.root.gap,
         borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
 
@@ -108,8 +111,10 @@ const reactionButton = defineRecipe({
       },
       small: {
         height: vars.sizeSmall.enabled.root.minHeight,
-        paddingInline: vars.sizeSmall.enabled.root.paddingX,
-        paddingBlock: vars.sizeSmall.enabled.root.paddingY,
+        paddingLeft: vars.sizeSmall.enabled.root.paddingX,
+        paddingRight: vars.sizeSmall.enabled.root.paddingX,
+        paddingTop: vars.sizeSmall.enabled.root.paddingY,
+        paddingBottom: vars.sizeSmall.enabled.root.paddingY,
         gap: vars.sizeSmall.enabled.root.gap,
         borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
 

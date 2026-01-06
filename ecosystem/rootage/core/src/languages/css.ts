@@ -60,8 +60,19 @@ export const staticStringifier = {
   value: stringifyValueLit,
 };
 
-export function createStringifier(options: { prefix?: string } = {}) {
-  const { prefix } = options;
+export type DeclarationFunction = (params: {
+  decl: TokenDeclaration;
+  mode: string;
+  helpers: {
+    tokenName: (token: TokenLit) => string;
+    valueOrToken: (value: ValueLit | TokenLit) => string;
+  };
+}) => string;
+
+export function createStringifier(
+  options: { prefix?: string; customDeclaration?: DeclarationFunction } = {},
+) {
+  const { prefix, customDeclaration } = options;
 
   function tokenName(token: TokenLit) {
     const words = [
@@ -81,19 +92,14 @@ export function createStringifier(options: { prefix?: string } = {}) {
   }
 
   function declaration({ decl, mode }: { decl: TokenDeclaration; mode: string }) {
+    if (customDeclaration) {
+      return customDeclaration({
+        decl,
+        mode,
+        helpers: { tokenName, valueOrToken },
+      });
+    }
     const value = valueOrToken(decl.values.find((v) => v.mode === mode)!.value);
-    const MULTIPLIER_TOKEN = "var(--seed-font-size-multiplier)";
-
-    // Apply font-size multiplier for font-size tokens (excluding static ones)
-    if (decl.token.group.includes("font-size") && !decl.token.key.toString().includes("static")) {
-      return `${tokenName(decl.token)}: calc(${value} * ${MULTIPLIER_TOKEN});`;
-    }
-
-    // Apply font-size multiplier for line-height tokens as well
-    if (decl.token.group.includes("line-height")) {
-      return `${tokenName(decl.token)}: calc(${value} * ${MULTIPLIER_TOKEN});`;
-    }
-
     return `${tokenName(decl.token)}: ${value};`;
   }
 
@@ -106,9 +112,10 @@ export function createStringifier(options: { prefix?: string } = {}) {
     decls: TokenDeclaration[];
     mode: string;
   }) {
-    const declsStr = decls.map((decl) => declaration({ decl, mode })).join("\n  ");
+    const declarations = decls.map((decl) => declaration({ decl, mode }));
+
     return `${selector} {
-  ${declsStr}
+  ${declarations.join("\n  ")}
 }`;
   }
 
@@ -135,6 +142,7 @@ export interface CssOptions {
       [mode: string]: string;
     };
   };
+  customDeclaration?: DeclarationFunction;
 }
 
 export function getTokenCss(
@@ -144,7 +152,10 @@ export function getTokenCss(
   },
   options: CssOptions,
 ) {
-  const stringifier = createStringifier(options);
+  const stringifier = createStringifier({
+    prefix: options.prefix,
+    customDeclaration: options.customDeclaration,
+  });
   const { tokens, tokenCollections } = ast;
 
   const rules = tokenCollections.flatMap((collection) => {

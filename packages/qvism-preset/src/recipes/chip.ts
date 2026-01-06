@@ -9,6 +9,7 @@ const chip = defineSlotRecipe({
   slots: ["root", "label", "prefixIcon", "suffixIcon", "prefixAvatar"],
   base: {
     root: {
+      position: "relative",
       display: "inline-flex",
       justifyContent: "center",
       alignItems: "center",
@@ -20,6 +21,7 @@ const chip = defineSlotRecipe({
       whiteSpace: "nowrap",
       WebkitFontSmoothing: "antialiased",
       MozOsxFontSmoothing: "grayscale",
+      fontFamily: "inherit",
       flexShrink: 0,
       lineHeight: 1,
 
@@ -34,24 +36,20 @@ const chip = defineSlotRecipe({
       [pseudo(disabled)]: {
         cursor: "not-allowed",
       },
-      ...onlyIcon({
-        color: "inherit",
-      }),
     },
     label: {
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
       fontWeight: vars.base.enabled.label.fontWeight,
-      paddingInline: vars.base.enabled.label.paddingX,
-      color: "inherit",
+      paddingLeft: vars.base.enabled.label.paddingX,
+      paddingRight: vars.base.enabled.label.paddingX,
     },
     prefixIcon: {
       display: "inline-flex",
       alignItems: "center",
       flexShrink: 0,
       paddingLeft: vars.base.enabled.prefixIcon.paddingLeft,
-      ...onlyIcon({ color: "inherit" }),
     },
     prefixAvatar: {
       display: "inline-flex",
@@ -63,7 +61,6 @@ const chip = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
       paddingRight: vars.base.enabled.suffixIcon.paddingRight,
-      ...onlyIcon({ color: "inherit" }),
     },
   },
   variants: {
@@ -71,106 +68,113 @@ const chip = defineSlotRecipe({
       solid: {
         root: {
           background: vars.variantSolid.enabled.root.color,
-          color: vars.variantSolid.enabled.label.color,
+
+          ...onlyIcon({
+            color: vars.variantSolid.enabled.icon.color,
+          }),
+
           [pseudo(checked)]: {
             boxShadow: "none",
             background: vars.variantSolid.selected.root.color,
-            color: vars.variantSolid.selected.label.color,
+
             ...onlyIcon({
-              color: vars.variantSolid.selected.prefixIcon.color,
+              color: vars.variantSolid.selected.icon.color,
             }),
           },
           [pseudo(active, not(disabled))]: {
             background: vars.variantSolid.pressed.root.color,
-            color: vars.variantSolid.pressed.label.color,
-            ...onlyIcon({
-              color: vars.variantSolid.pressed.prefixIcon.color,
-            }),
           },
           [pseudo(checked, active, not(disabled))]: {
             background: vars.variantSolid.selectedPressed.root.color,
-            color: vars.variantSolid.selectedPressed.label.color,
-            ...onlyIcon({
-              color: vars.variantSolid.selectedPressed.prefixIcon.color,
-            }),
           },
           [pseudo(disabled)]: {
             opacity: vars.variantSolid.disabled.root.opacity,
           },
-          ...onlyIcon({
-            color: vars.variantSolid.enabled.icon.color,
-          }),
+        },
+        label: {
+          color: vars.variantSolid.enabled.label.color,
+
+          [pseudo(checked)]: {
+            color: vars.variantSolid.selected.label.color,
+          },
+        },
+        prefixIcon: {
+          color: vars.variantSolid.enabled.prefixIcon.color,
+        },
+        suffixIcon: {
+          color: vars.variantSolid.enabled.suffixIcon.color,
         },
       },
       outlineStrong: {
         root: {
           background: vars.variantOutlineStrong.enabled.root.color,
           boxShadow: `inset 0 0 0 ${vars.variantOutlineStrong.enabled.root.strokeWidth} ${vars.variantOutlineStrong.enabled.root.strokeColor}`,
-          color: vars.variantOutlineStrong.enabled.label.color,
+
+          ...onlyIcon({
+            color: vars.variantOutlineStrong.enabled.icon.color,
+          }),
+
           [pseudo(active, not(disabled))]: {
             background: vars.variantOutlineStrong.pressed.root.color,
-            color: vars.variantOutlineStrong.pressed.label.color,
-            ...onlyIcon({
-              color: vars.variantOutlineStrong.pressed.prefixIcon.color,
-            }),
           },
           [pseudo(checked)]: {
             background: vars.variantOutlineStrong.selected.root.color,
-            color: vars.variantOutlineStrong.selected.label.color,
             ...onlyIcon({
-              color: vars.variantOutlineStrong.selected.prefixIcon.color,
+              color: vars.variantOutlineStrong.selected.icon.color,
             }),
           },
           [pseudo(checked, active, not(disabled))]: {
             background: vars.variantOutlineStrong.selectedPressed.root.color,
-            color: vars.variantOutlineStrong.selectedPressed.label.color,
-            ...onlyIcon({
-              color: vars.variantOutlineStrong.selectedPressed.prefixIcon.color,
-            }),
           },
           [pseudo(disabled)]: {
             opacity: vars.variantOutlineStrong.disabled.root.opacity,
           },
-          ...onlyIcon({
-            color: vars.variantOutlineStrong.enabled.icon.color,
-          }),
+        },
+        label: {
+          color: vars.variantOutlineStrong.enabled.label.color,
+
+          [pseudo(checked)]: {
+            color: vars.variantOutlineStrong.selected.label.color,
+          },
+        },
+        prefixIcon: {
+          color: vars.variantOutlineStrong.enabled.prefixIcon.color,
+        },
+        suffixIcon: {
+          color: vars.variantOutlineStrong.enabled.suffixIcon.color,
         },
       },
       outlineWeak: {
         root: {
           background: vars.variantOutlineWeak.enabled.root.color,
           boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.enabled.root.strokeColor}`,
-          color: vars.variantOutlineWeak.enabled.label.color,
+
+          ...onlyIcon({
+            color: vars.variantOutlineWeak.enabled.icon.color,
+          }),
+
           [pseudo(active, not(disabled))]: {
             background: vars.variantOutlineWeak.pressed.root.color,
-            boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.pressed.root.strokeWidth} ${vars.variantOutlineWeak.pressed.root.strokeColor}`,
-            color: vars.variantOutlineWeak.pressed.label.color,
-            ...onlyIcon({
-              color: vars.variantOutlineWeak.pressed.prefixIcon.color,
-            }),
           },
           [pseudo(checked)]: {
             background: vars.variantOutlineWeak.selected.root.color,
-            boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.selected.root.strokeWidth} ${vars.variantOutlineWeak.selected.root.strokeColor}`,
-            color: vars.variantOutlineWeak.selected.label.color,
-            ...onlyIcon({
-              color: vars.variantOutlineWeak.selected.prefixIcon.color,
-            }),
+            boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.selected.root.strokeColor}`,
           },
           [pseudo(checked, active, not(disabled))]: {
             background: vars.variantOutlineWeak.selectedPressed.root.color,
-            boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.selectedPressed.root.strokeWidth} ${vars.variantOutlineWeak.selectedPressed.root.strokeColor}`,
-            color: vars.variantOutlineWeak.selectedPressed.label.color,
-            ...onlyIcon({
-              color: vars.variantOutlineWeak.selectedPressed.prefixIcon.color,
-            }),
           },
           [pseudo(disabled)]: {
             opacity: vars.variantOutlineWeak.disabled.root.opacity,
           },
-          ...onlyIcon({
-            color: vars.variantOutlineWeak.enabled.icon.color,
-          }),
+        },
+        label: {
+          color: vars.variantOutlineWeak.enabled.label.color,
+        },
+        prefixIcon: {
+          color: vars.variantOutlineWeak.enabled.prefixIcon.color,
+        },
+        suffixIcon: {
+          color: vars.variantOutlineWeak.enabled.suffixIcon.color,
         },
       },
     },
@@ -178,7 +182,9 @@ const chip = defineSlotRecipe({
       large: {
         root: {
           height: vars.sizeLarge.enabled.root.height,
-          paddingInline: vars.sizeLarge.enabled.root.paddingX,
+          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
+          paddingRight: vars.sizeLarge.enabled.root.paddingX,
+
           ...onlyIcon({
             size: vars.sizeLarge.enabled.icon.size,
           }),
@@ -201,7 +207,8 @@ const chip = defineSlotRecipe({
       medium: {
         root: {
           height: vars.sizeMedium.enabled.root.height,
-          paddingInline: vars.sizeMedium.enabled.root.paddingX,
+          paddingLeft: vars.sizeMedium.enabled.root.paddingX,
+          paddingRight: vars.sizeMedium.enabled.root.paddingX,
 
           ...onlyIcon({
             size: vars.sizeMedium.enabled.icon.size,
@@ -225,7 +232,8 @@ const chip = defineSlotRecipe({
       small: {
         root: {
           height: vars.sizeSmall.enabled.root.height,
-          paddingInline: vars.sizeSmall.enabled.root.paddingX,
+          paddingLeft: vars.sizeSmall.enabled.root.paddingX,
+          paddingRight: vars.sizeSmall.enabled.root.paddingX,
 
           ...onlyIcon({
             size: vars.sizeSmall.enabled.icon.size,

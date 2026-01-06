@@ -2,7 +2,7 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "colorDuration": "var(--seed-duration-d4)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "label": {
@@ -213,8 +213,8 @@ export declare const vars: {
   "variantNeutralOutline": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px"
       },
       "label": {
@@ -236,13 +236,13 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "label": {
         "color": "var(--seed-color-fg-disabled)"
@@ -259,15 +259,15 @@ export declare const vars: {
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)"
+        "color": "var(--seed-color-bg-transparent)"
       }
     }
   },
   "variantBrandOutline": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px"
       },
       "label": {
@@ -289,13 +289,13 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "label": {
         "color": "var(--seed-color-fg-disabled)"
@@ -312,7 +312,7 @@ export declare const vars: {
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)"
+        "color": "var(--seed-color-bg-transparent)"
       }
     }
   },
@@ -340,7 +340,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
@@ -362,7 +362,7 @@ export declare const vars: {
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     }
   },
@@ -392,8 +392,8 @@ export declare const vars: {
         "size": "var(--seed-dimension-x3_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--seed-font-size-t3)",
+        "lineHeight": "var(--seed-line-height-t3)"
       }
     }
   },
@@ -467,7 +467,7 @@ export declare const vars: {
   "sizeMediumLayoutWithText": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x1)",
+        "gap": "var(--seed-dimension-x1_5)",
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)"
       },

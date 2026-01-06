@@ -36,6 +36,9 @@
             "minHeight": {
               "type": "dimension"
             },
+            "maxWidth": {
+              "type": "dimension"
+            },
             "paddingX": {
               "type": "dimension"
             },
@@ -71,6 +74,16 @@
             }
           }
         },
+        "content": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
         "message": {
           "properties": {
             "color": {
@@ -94,6 +107,9 @@
             },
             "color": {
               "type": "color"
+            },
+            "paddingRight": {
+              "type": "dimension"
             }
           }
         },
@@ -161,7 +177,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-solid"
+                  "value": "$color.bg.neutral-inverted"
                 },
                 "cornerRadius": {
                   "type": "dimension",
@@ -174,17 +190,20 @@
                     "unit": "px"
                   }
                 },
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 560,
+                    "unit": "px"
+                  }
+                },
                 "paddingX": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.x2_5"
                 },
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
                 },
                 "enterOpacity": {
                   "type": "number",
@@ -219,10 +238,20 @@
                   "value": "$timing-function.exit"
                 }
               },
+              "content": {
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                }
+              },
               "message": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.neutral-inverted"
                 },
                 "fontSize": {
                   "type": "dimension",
@@ -244,6 +273,10 @@
                     "value": 24,
                     "unit": "px"
                   }
+                },
+                "paddingRight": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
                 }
               },
               "actionButton": {

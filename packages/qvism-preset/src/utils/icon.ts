@@ -1,9 +1,16 @@
+import type { Property } from "csstype";
+
 export interface IconProps {
   size?: string;
   color?: string;
-  marginLeft?: string;
-  marginRight?: string;
-  marginTop?: string;
+
+  marginLeft?: Property.MarginLeft;
+  marginRight?: Property.MarginRight;
+  marginTop?: Property.MarginTop;
+  marginBottom?: Property.MarginBottom;
+
+  alignSelf?: Property.AlignSelf;
+  justifySelf?: Property.JustifySelf;
 }
 
 export function prefixIcon(props: IconProps) {
@@ -27,6 +34,18 @@ export function prefixIcon(props: IconProps) {
 
   if (props.marginTop) {
     result["--seed-prefix-icon-margin-top"] = props.marginTop;
+  }
+
+  if (props.marginBottom) {
+    result["--seed-prefix-icon-margin-bottom"] = props.marginBottom;
+  }
+
+  if (props.alignSelf) {
+    result["--seed-prefix-icon-align-self"] = props.alignSelf;
+  }
+
+  if (props.justifySelf) {
+    result["--seed-prefix-icon-justify-self"] = props.justifySelf;
   }
 
   return result;
@@ -53,6 +72,18 @@ export function suffixIcon(props: IconProps) {
 
   if (props.marginTop) {
     result["--seed-suffix-icon-margin-top"] = props.marginTop;
+  }
+
+  if (props.marginBottom) {
+    result["--seed-suffix-icon-margin-bottom"] = props.marginBottom;
+  }
+
+  if (props.alignSelf) {
+    result["--seed-suffix-icon-align-self"] = props.alignSelf;
+  }
+
+  if (props.justifySelf) {
+    result["--seed-suffix-icon-justify-self"] = props.justifySelf;
   }
 
   return result;

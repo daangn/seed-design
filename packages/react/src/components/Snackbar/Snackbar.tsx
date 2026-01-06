@@ -36,11 +36,22 @@ export const SnackbarRoot = withProvider<HTMLDivElement, SnackbarRootProps>(
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface SnackbarContentProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const SnackbarContent = withContext<HTMLDivElement, SnackbarContentProps>(
+  Primitive.div,
+  "content",
+);
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface SnackbarMessageProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const SnackbarMessage = withContext<HTMLDivElement, SnackbarMessageProps>(
+export const SnackbarMessage = withContext<HTMLSpanElement, SnackbarMessageProps>(
   Primitive.span,
   "message",
 );

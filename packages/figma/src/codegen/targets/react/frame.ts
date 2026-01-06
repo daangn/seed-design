@@ -3,7 +3,12 @@ import type {
   NormalizedFrameNode,
   NormalizedInstanceNode,
 } from "@/normalizer";
-import { cloneElement, defineElementTransformer, type ElementTransformer } from "../../core";
+import {
+  cloneElement,
+  createElement,
+  defineElementTransformer,
+  type ElementTransformer,
+} from "../../core";
 import { createSeedReactElement } from "./element-factories";
 import type { ContainerLayoutProps, PropsConverters } from "./props";
 
@@ -40,31 +45,51 @@ export function createFrameTransformer({
         ...propsConverters.selfLayout(node),
         ...propsConverters.frameFill(node),
         ...propsConverters.stroke(node),
+        ...propsConverters.shadow(node),
       };
 
       const isStretch = props.align === undefined || props.align === "stretch";
-      const processedChildren = isStretch
-        ? transformedChildren.map((child) =>
-            child ? cloneElement(child, { alignSelf: undefined }) : child,
-          )
-        : transformedChildren;
 
       const layoutComponent = inferLayoutComponent(props, isFlex);
 
-      if (layoutComponent === "VStack") {
-        const { direction, ...rest } = props;
+      const hasSpacingMismatch =
+        node.layoutWrap === "WRAP" &&
+        node.counterAxisSpacing !== undefined &&
+        node.itemSpacing !== node.counterAxisSpacing;
 
-        return createSeedReactElement("VStack", rest, processedChildren);
-      }
+      const hasImageFill = node.fills.some(({ type }) => type === "IMAGE");
+      const imgElement = hasImageFill
+        ? createElement("img", {
+            src: `https://placehold.co/${node.absoluteBoundingBox?.width ?? 100}x${node.absoluteBoundingBox?.height ?? 100}`,
+          })
+        : undefined;
 
-      if (layoutComponent === "HStack") {
-        const { direction, ...rest } = props;
+      const processedChildren = [
+        imgElement,
+        ...(isStretch
+          ? transformedChildren.map((child) =>
+              child ? cloneElement(child, { alignSelf: undefined }) : child,
+            )
+          : transformedChildren),
+      ];
 
-        return createSeedReactElement("HStack", rest, processedChildren);
-      }
+      const comment = [
+        hasSpacingMismatch &&
+          // currently counterAxisSpacing is only supported when direction=row
+          `row-gap과 column-gap이 다릅니다. (row-gap: ${node.counterAxisSpacing}, column-gap: ${node.itemSpacing})`,
+      ]
+        .filter((cmt) => cmt)
+        .join(" ");
 
-      if (layoutComponent === "Box") {
-        return createSeedReactElement("Box", props, processedChildren);
+      switch (layoutComponent) {
+        case "VStack":
+        case "HStack": {
+          const { direction: _direction, ...rest } = props;
+
+          return createSeedReactElement(layoutComponent, rest, processedChildren, { comment });
+        }
+        case "Box":
+          return createSeedReactElement("Box", props, processedChildren, { comment });
       }
     },
   );

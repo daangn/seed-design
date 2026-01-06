@@ -1,12 +1,20 @@
-import type { ActivityComponentType } from "@stackflow/react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { toggleButtonVariantMap } from "@seed-design/css/recipes/toggle-button";
 
-import { IconThumbUpFill } from "@karrotmarket/react-monochrome-icon";
+import { IconThumbUpFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { ToggleButton, type ToggleButtonProps } from "../seed-design/ui/toggle-button";
+import { ToggleButton, type ToggleButtonProps } from "seed-design/ui/toggle-button";
 import { PrefixIcon } from "@seed-design/react";
 
 const initialVariants = {
@@ -14,7 +22,15 @@ const initialVariants = {
   size: "small",
 } satisfies ToggleButtonProps;
 
-const ActivityToggleButton: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityToggleButton: {};
+  }
+}
+
+const ActivityToggleButton: StaticActivityComponentType<"ActivityToggleButton"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -22,6 +38,11 @@ const ActivityToggleButton: ActivityComponentType = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain>Toggle Button</AppBarMain>
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <ComponentAnalyzer

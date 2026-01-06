@@ -6,6 +6,7 @@
     -moz-osx-font-smoothing: grayscale;
     display: flex;
     align-items: flex-start;
+    text-align: start;
     width: 100%;
     min-height: var(--seed-dimension-x10);
     padding-inline: var(--seed-dimension-x4);
@@ -15,15 +16,12 @@
     --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * 0.5 - var(--seed-dimension-x2_5));
     --seed-suffix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-margin-left: var(--seed-dimension-x4);
-    --seed-suffix-icon-margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * 0.5 - var(--seed-dimension-x2_5));
+    --seed-suffix-icon-align-self: center;
 }
 .seed-inline-banner__root:is(button) {
     cursor: pointer;
 }
 .seed-inline-banner__content {
-    display: inline-flex;
-    box-sizing: border-box;
-    text-align: start;
     margin-inline-end: auto;
 }
 .seed-inline-banner__title {
@@ -31,7 +29,10 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
-    margin-inline-end: 1ch;
+}
+.seed-inline-banner__title::after {
+    content: "  ";
+    white-space: pre;
 }
 .seed-inline-banner__description {
     font-size: var(--seed-font-size-t4);
@@ -47,6 +48,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    margin-block: auto;
     margin-left: var(--seed-dimension-x4);
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2);
@@ -63,10 +65,9 @@
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
     margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -0.5);
-    margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -0.5 + (var(--seed-dimension-x10) - var(--seed-dimension-x4)) * 0.5 - var(--seed-dimension-x2_5));
     margin-left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -0.5 + var(--seed-dimension-x4));
-    --seed-suffix-icon-margin-top: initial;
     --seed-suffix-icon-margin-left: initial;
+    align-self: center;
     border: none;
     background-color: transparent;
     padding: 0;

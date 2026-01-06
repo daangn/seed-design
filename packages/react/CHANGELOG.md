@@ -1,5 +1,511 @@
 # @seed-design/react
 
+## 1.1.13
+
+### Patch Changes
+
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+- 8f54b80: unicode-segmenter 0.14.4 버전을 설치합니다.
+- fce8668: Divider 자체적으로 16px의 여백을 가지는 `inset` 옵션을 추가합니다.
+- Updated dependencies [9be0581]
+- Updated dependencies [cc4a45a]
+- Updated dependencies [739937f]
+  - @seed-design/css@1.1.13
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies [8d0ad90]
+- Updated dependencies [8f31f93]
+- Updated dependencies [69ccc6e]
+- Updated dependencies [279001a]
+  - @seed-design/css@1.1.12
+  - @seed-design/react-dialog@1.0.1
+  - @seed-design/react-drawer@1.0.5
+
+## 1.1.10
+
+### Patch Changes
+
+- a2b874b: `TagGroupRoot`의 children이 `null` 또는 `undefined`를 포함하는 경우 불필요한 separator가 표시되는 문제를 수정합니다.
+- 12ffece: peerDeps에 `@seed-design/css` 패키지가 추가됩니다.
+- db5de74: PageBanner에 tone="magic" 스타일을 추가합니다.
+- a12e49b: Field(TextField)의 스타일을 수정합니다.
+
+  - `maxGraphemeCount`를 사용하지만 `description`을 사용하지 않는 경우 `maxGraphemeCount`가 우측이 아닌 좌측에 표시되는 문제를 수정합니다.
+  - Tailwind Preflight 사용 시 Character Count 영역이 디자인 의도보다 높이를 더 많이 차지하는 문제를 수정합니다.
+
+- Updated dependencies [db5de74]
+- Updated dependencies [70d11b8]
+- Updated dependencies [938bf0b]
+- Updated dependencies [c03a3dd]
+- Updated dependencies [a12e49b]
+  - @seed-design/css@1.1.10
+  - @seed-design/react-tabs@1.0.2
+
+## 1.1.8
+
+### Patch Changes
+
+- 8752805: List Item에 신규 active(pressed) 스타일을 적용하고, disabled 상태에서 detail 영역의 색상을 수정합니다.
+- 8edbf00: @seed-design/react에서 unicode-segmenter가 externalize되지 않는 문제를 수정합니다.
+- e3806c1: BottomSheet에 handleOnly 옵션이 정상적으로 동작하지 않는 이슈를 수정합니다
+- Updated dependencies [e3806c1]
+  - @seed-design/react-drawer@1.0.4
+
+## 1.1.7
+
+### Patch Changes
+
+- f4c62f6: Scroll Fog 컴포넌트가 항상 fog를 표시하게 변경하고 padding 가이드라인을 추가합니다
+- 1340675: Slider Value Indicator가 표시되는 조건을 설정하는 `valueIndicatorTrigger` prop을 추가합니다. ("active"|"hover", 기본값: "active")
+- 1340675: Slider Value Indicator가 Track 양 끝에 있을 때 Track 바깥 영역을 차지하지 않도록 수정합니다.
+- Updated dependencies [1340675]
+- Updated dependencies [1340675]
+  - @seed-design/react-slider@1.0.1
+
+## 1.1.5
+
+### Patch Changes
+
+- 03ff678: BottomSheetBody에 제공한 style 관련 prop(`paddingX` 등)이 적용되지 않고 DOM으로 bleed되는 문제를 수정합니다.
+- ae1b768: :focus-visible selector를 사용하기 전 브라우저에서 selector를 지원하는지 확인합니다.
+- Updated dependencies [53290ab]
+- Updated dependencies [cc8864d]
+- Updated dependencies [ae1b768]
+  - @seed-design/react-field-button@1.0.1
+  - @seed-design/react-drawer@1.0.3
+  - @seed-design/react-segmented-control@1.0.1
+  - @seed-design/react-radio-group@1.0.1
+  - @seed-design/react-text-field@1.1.1
+  - @seed-design/react-checkbox@1.0.1
+  - @seed-design/react-switch@1.0.1
+  - @seed-design/react-field@1.0.1
+  - @seed-design/react-tabs@1.0.1
+
+## 1.1.4
+
+### Patch Changes
+
+- 77d304d: `@radix-ui/react-dialog` 의존성을 추가해 React 패키지를 Portable하게 수정합니다
+
+## 1.1.3
+
+### Patch Changes
+
+- 2c302a5: PopoverPositionerPortal과 HelpBubblePositionerPortal을 추가합니다.
+- bc3cd6f: ScrollFog 컴포넌트를 추가합니다
+- Updated dependencies [2c302a5]
+- Updated dependencies [bc3cd6f]
+- Updated dependencies [4102a4b]
+- Updated dependencies [e272ef8]
+- Updated dependencies [fbc9cb0]
+- Updated dependencies [4971dcc]
+  - @seed-design/react-popover@1.0.3
+  - @seed-design/react-scrollable@1.0.0
+  - @seed-design/react-drawer@1.0.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [68b5eab]
+  - @seed-design/react-drawer@1.0.1
+
+## 1.1.0
+
+### Minor Changes
+
+- a55f584: Slider 컴포넌트를 추가합니다.
+- 191005f: Action Button 컴포넌트를 `variant=ghost`로 사용하는 경우 `fontWeight`를 사용자화할 수 있도록 업데이트합니다.
+
+  (BREAKING CHANGE: Error State snippet을 다시 설치해야 합니다.) Error State 스니펫에서 Action Button을 활용하도록 업데이트합니다.
+
+- 33def2d: (BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
+
+  - vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
+  - vaul과 동일한 인터페이스를 가지고 있습니다. (snap-points, fade-from-index, etc.)
+  - `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
+
+### Patch Changes
+
+- d6bb84d: (BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다.
+
+  - 스타일 업데이트
+  - size 통일 및 variant (underline) 추가
+  - 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
+
+  Field Button 컴포넌트를 추가합니다.
+
+- 6af6501: (BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다.
+
+  - Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
+  - `PageBanner.TextContent`를 `PageBanner.Content`로 이름 변경합니다.
+
+- Updated dependencies [d6bb84d]
+- Updated dependencies [a55f584]
+- Updated dependencies [33def2d]
+- Updated dependencies [0c1ab6a]
+  - @seed-design/react-field-button@1.0.0
+  - @seed-design/react-text-field@1.1.0
+  - @seed-design/react-slider@1.0.0
+  - @seed-design/react-field@1.0.0
+  - @seed-design/react-drawer@1.0.0
+  - @seed-design/react-popover@1.0.2
+
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [e52d6d1]
+- Updated dependencies [97669bc]
+- Updated dependencies [15ab93a]
+- Updated dependencies [50366c0]
+  - @seed-design/css@1.0.7
+
+## 1.0.6
+
+### Patch Changes
+
+- 6aafce0: Tag Group 컴포넌트를 추가합니다. Tag Group은 아이콘 및 텍스트로 이루어진 태그를 구분 기호와 함께 수평 레이아웃으로 표시하는 컴포넌트입니다.
+- f2ddf29: Article 유틸리티 컴포넌트를 추가하고 Text 컴포넌트를 업데이트합니다.
+
+  - Article 컴포넌트는 일관된 selection 스타일 및 줄바꿈 정책을 사용할 수 있게 돕습니다.
+  - Text 컴포넌트에서 textDecorationLine="underline" 및 whiteSpace, userSelect prop을 지원합니다.
+
+- Updated dependencies [6aafce0]
+- Updated dependencies [1902dfa]
+- Updated dependencies [f2ddf29]
+- Updated dependencies [4c33f07]
+- Updated dependencies [3df657f]
+  - @seed-design/css@1.0.6
+
+## 1.0.5
+
+### Patch Changes
+
+- 687b261: `PullToRefresh.preventPull`을 활용하여 `PullToRefreshContent` 내부에서 당겨서 새로고침(PTR) 동작을 비활성화할 수 있습니다.
+- a839fd2: 실제 기본값을 표시하도록 JSDoc을 업데이트합니다.
+- Updated dependencies [f1cf4cd]
+- Updated dependencies [687b261]
+- Updated dependencies [9b91751]
+- Updated dependencies [3898183]
+  - @seed-design/css@1.0.5
+  - @seed-design/react-pull-to-refresh@1.0.1
+
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [b10ff0b]
+  - @seed-design/react-popover@1.0.1
+
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [0b8a02e]
+- Updated dependencies [6c6099d]
+  - @seed-design/css@1.0.3
+
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [6d2e13d]
+  - @seed-design/css@1.0.2
+
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [1420b68]
+  - @seed-design/css@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Minor Changes
+
+- 39a96f1: (**BREAKING CHANGE**: Snackbar Snippet을 다시 설치해야합니다) Snackbar 컴포넌트 변경
+  - Snackbar의 배경색이 다크모드에서 흰색으로 변경됩니다.
+  - Prefix 요소유무에 따라 여백이 변경됩니다.
+  - `npx @seed-design/cli@latest add ui:snackbar` 명령어로 설치하세요.
+
+### Patch Changes
+
+- e038490: (**BREAKING CHANGE**: Snippet을 다시 설치해야 합니다.) Manner Temp, Manner Temp Badge 컴포넌트를 업데이트합니다.
+
+  - snippet 내 오타 수정
+  - 신규 10단계 반영
+  - 업데이트 가이드
+    1. `@seed-design/css@latest @seed-design/react@latest` 설치
+    2. `npx @seed-design/cli@latest add ui:manner-temp ui:manner-temp-badge`로 snippet 최신화
+    3. 온도 범위가 변경되었으므로, `<MannerTemp level="l1" />` 혹은 `<MannerTempBadge level="l1" />`과 같이 `level`을 직접 지정하여 사용하고 있는 경우가 있는지 확인
+
+- a7d07f0: (**BREAKING CHANGE**: `SwitchMark` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) Switch의 토글 영역만을 정의한 Switch Mark 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:switch` 명령어로 설치하세요.
+
+  (**BREAKING CHANGE**: `ListHeader` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) List Header 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:list` 명령어로 설치하세요.
+
+- Updated dependencies [39a96f1]
+- Updated dependencies [34f92f2]
+- Updated dependencies [e038490]
+- Updated dependencies [4153ca5]
+- Updated dependencies [a7d07f0]
+  - @seed-design/css@1.0.0
+  - @seed-design/react-avatar@1.0.0
+  - @seed-design/react-checkbox@1.0.0
+  - @seed-design/react-dialog@1.0.0
+  - @seed-design/react-popover@1.0.0
+  - @seed-design/react-portal@1.0.0
+  - @seed-design/react-primitive@1.0.0
+  - @seed-design/react-progress@1.0.0
+  - @seed-design/react-pull-to-refresh@1.0.0
+  - @seed-design/react-radio-group@1.0.0
+  - @seed-design/react-segmented-control@1.0.0
+  - @seed-design/react-snackbar@1.0.0
+  - @seed-design/react-switch@1.0.0
+  - @seed-design/react-tabs@1.0.0
+  - @seed-design/react-text-field@1.0.0
+  - @seed-design/react-toggle@1.0.0
+  - @seed-design/dom-utils@1.0.0
+
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [0ca19c0]
+- Updated dependencies [11f5e76]
+  - @seed-design/css@0.2.5
+  - @seed-design/react-snackbar@0.0.7
+
+## 0.2.4
+
+### Patch Changes
+
+- 8ebe8a5: Switch, Checkmark, Radio Mark의 스타일을 업데이트합니다.
+
+  - tone=neutral variant를 추가합니다.
+  - Switch의 thumb 크기를 조정합니다.
+
+  Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 수정합니다.
+
+- Updated dependencies [8ebe8a5]
+- Updated dependencies [f61b80d]
+- Updated dependencies [ce047f5]
+  - @seed-design/css@0.2.4
+  - @seed-design/react-tabs@0.0.9
+
+## 0.2.3
+
+### Patch Changes
+
+- 12faf5a: List 컴포넌트를 추가하고, Checkbox 및 Radio 컴포넌트를 개선합니다.
+
+  - List 컴포넌트를 제공하여, 정보를 구조화된 목록 형태로 표시할 수 있도록 합니다.
+  - Checkbox와 Radio의 컨트롤 영역만을 표시하는 Checkmark와 RadioMark를 제공합니다.
+  - Select Box에서 컨트롤 영역을 Checkmark와 RadioMark로 교체합니다.
+  - RadioGroup 컴포넌트를 제공합니다.
+
+- Updated dependencies [a22b8b9]
+- Updated dependencies [5836976]
+- Updated dependencies [12faf5a]
+  - @seed-design/css@0.2.3
+
+## 0.2.2
+
+### Patch Changes
+
+- 9d93518: Text 컴포넌트의 fontSize, lineHeight, color 속성에 string도 사용 가능하도록 변경했습니다.
+
+## 0.2.1
+
+### Patch Changes
+
+- 35984d0: Chip 컴포넌트를 업데이트합니다.
+
+  - 아이콘에 트랜지션 효과가 적용되지 않던 현상을 수정합니다.
+  - Button, Toggle 등 사용되는 방식에 따라 적절한 data prop을 받도록 수정합니다.
+
+- c5bed96: Divider 컴포넌트가 `$color.stroke.neutral-muted` 색상을 기본값으로 사용하도록 수정합니다.
+- Updated dependencies [35984d0]
+  - @seed-design/css@0.2.1
+
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [8448880]
+  - @seed-design/css@0.2.0
+
+## 0.1.15
+
+### Patch Changes
+
+- c51a261: font-size, line-height 토큰에 static variant를 추가합니다.
+
+  - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+  - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+- 9a3c76a: Divider 컴포넌트를 업데이트합니다.
+
+  - `orientation`을 지정할 수 있습니다.
+  - Divider를 `li`로 렌더링하여 `ol`, `ul` 내부에서 사용할 수 있습니다.
+  - Divider를 `div` 또는 `li`로 렌더링하는 경우에도 `role="separator"`를 지정하여 스크린 리더가 Divider를 읽도록 할 수 있습니다.
+
+- Updated dependencies [c51a261]
+- Updated dependencies [5f2ee39]
+- Updated dependencies [8299ba9]
+- Updated dependencies [3de4cec]
+  - @seed-design/css@0.1.15
+  - @seed-design/react-snackbar@0.0.6
+
+## 0.1.14
+
+### Patch Changes
+
+- f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
+  - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
+
+  ```tsx
+  <PageBanner
+    tone="informative"
+    variant="weak"
+    description="사업자 정보를 등록해주세요."
+    suffix={
+      <PageBannerButton asChild>
+        <a href="https://www.daangn.com" target="_blank" rel="noreferrer">
+          새 탭에서 열기
+        </a>
+      </PageBannerButton>
+    }
+  />
+  ```
+
+  시맨틱 색상 토큰을 추가하고 수정합니다.
+
+  - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
+  - `$color.bg.warning-solid-pressed` 추가
+
+- 1982494: Badge 컴포넌트를 업데이트합니다.
+
+  - `tone=warning` variant를 추가합니다.
+  - `maxWidth` 스펙을 추가합니다.
+
+  신규 시맨틱 색상 토큰을 추가합니다.
+
+  - `$color.fg.warning`
+  - `$color.stroke.warning`
+  - `$color.fg.brand-contrast`
+  - `$color.bg.brand-weak`
+  - `$color.bg.brand-weak-pressed`
+
+- Updated dependencies [f806356]
+- Updated dependencies [1982494]
+  - @seed-design/css@0.1.14
+
+## 0.1.13
+
+### Patch Changes
+
+- Updated dependencies [0be9b00]
+  - @seed-design/css@0.1.13
+
+## 0.1.12
+
+### Patch Changes
+
+- 62094b6: Help Bubble의 스타일 문제를 수정합니다.
+
+  - `placement=left-*` / `placement=right-*`에서 arrow가 content와 떨어져 표시되는 문제를 수정합니다.
+
+- Updated dependencies [62094b6]
+  - @seed-design/react-popover@0.0.8
+  - @seed-design/css@0.1.12
+
+## 0.1.11
+
+### Patch Changes
+
+- 9993e0e: 레이아웃 컴포넌트를 사용할 때 `flexGrow`, `flexShrink`, `flexWrap`에도 `true`를 사용할 수 있도록 수정합니다.
+
+  Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를 prepend합니다.
+
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [ef91c21]
+  - @seed-design/css@0.1.10
+
+## 0.1.9
+
+### Patch Changes
+
+- 5a025b7: Switch 컴포넌트를 업데이트합니다.
+
+  - size: medium → 32, small → 16으로 rename합니다.
+    - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+  - size: 24를 추가합니다.
+  - 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+- f9041e9: `CheckSelectBox`, `RadioSelectBox`의 `label`, `description` 영역을 수정합니다.
+
+  - `span` 대신 `div`를 렌더링합니다.
+  - 기본적으로 grow하도록 만들어 Badge 등 추가 요소를 넣기 쉽게 만듭니다.
+
+- Updated dependencies [5a025b7]
+- Updated dependencies [ac35731]
+- Updated dependencies [f9041e9]
+  - @seed-design/css@0.1.9
+
+## 0.1.8
+
+### Patch Changes
+
+- Updated dependencies [609b8f3]
+  - @seed-design/css@0.1.8
+
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [4afe80b]
+  - @seed-design/css@0.1.7
+
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [235147d]
+- Updated dependencies [3c13ad7]
+  - @seed-design/css@0.1.6
+
+## 0.1.5
+
+### Patch Changes
+
+- 861ecb4: Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
+
+  - [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
+  - Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
+
+- Updated dependencies [861ecb4]
+- Updated dependencies [3889eb6]
+  - @seed-design/css@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes

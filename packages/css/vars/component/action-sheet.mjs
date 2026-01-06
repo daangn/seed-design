@@ -38,7 +38,7 @@ export const vars = {
       },
       "divider": {
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "marginX": "var(--seed-dimension-spacing-x-global-gutter)"
       }
     }

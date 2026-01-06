@@ -28,6 +28,9 @@
             },
             "color": {
               "type": "color"
+            },
+            "gradient": {
+              "type": "gradient"
             }
           }
         },
@@ -108,6 +111,7 @@
           "values": {
             "neutral": {},
             "informative": {},
+            "positive": {},
             "warning": {},
             "critical": {},
             "magic": {}
@@ -340,6 +344,69 @@
       },
       {
         "variants": {
+          "tone": "positive"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.positive-weak"
+                }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              },
+              "title": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              },
+              "description": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              },
+              "link": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              },
+              "suffixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.positive-weak-pressed"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
           "tone": "warning"
         },
         "definitions": [
@@ -475,7 +542,7 @@
             ],
             "slots": {
               "root": {
-                "color": {
+                "gradient": {
                   "type": "gradient",
                   "value": "$gradient.glow-magic"
                 }
@@ -518,7 +585,7 @@
             ],
             "slots": {
               "root": {
-                "color": {
+                "gradient": {
                   "type": "gradient",
                   "value": "$gradient.glow-magic-pressed"
                 }

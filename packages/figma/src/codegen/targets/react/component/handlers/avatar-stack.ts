@@ -11,20 +11,25 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("avatar");
 export const createAvatarStackHandler = (ctx: ComponentHandlerDeps) => {
   const avatarHandler = createAvatarHandler(ctx);
 
-  return defineComponentHandler<AvatarStackProperties>(metadata.avatarStack.key, (node) => {
-    const avatarNodes = findAllInstances<AvatarProperties>({
-      node,
-      key: avatarHandler.key,
-    });
+  return defineComponentHandler<AvatarStackProperties>(
+    metadata.avatarStack.key,
+    (node, traverse) => {
+      const avatarNodes = findAllInstances<AvatarProperties>({
+        node,
+        key: avatarHandler.key,
+      });
 
-    const { componentProperties: props } = node;
+      const { componentProperties: props } = node;
 
-    const commonProps = {
-      size: props.Size.value,
-    };
+      const commonProps = {
+        size: props.Size.value,
+      };
 
-    const avatarStackChildren = avatarNodes.map(avatarHandler.transform);
+      const avatarStackChildren = avatarNodes.map((avatarNode) =>
+        avatarHandler.transform(avatarNode, traverse),
+      );
 
-    return createLocalSnippetElement("AvatarStack", commonProps, avatarStackChildren);
-  });
+      return createLocalSnippetElement("AvatarStack", commonProps, avatarStackChildren);
+    },
+  );
 };

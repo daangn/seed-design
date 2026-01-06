@@ -33,12 +33,13 @@ data:
       enabled:
         root:
           cornerRadius: $radius.full
-          strokeColor: $color.stroke.on-image
+          strokeColor: $color.stroke.neutral-subtle
     size=20:
       enabled:
         root:
           size: 20px
           strokeWidth: 1px
+        # we don't use badge for size 20
     size=24:
       enabled:
         root:
@@ -116,3 +117,14 @@ data:
         badge:
           offset: 65px
           size: 32px
+    size=108:
+      enabled:
+        root:
+          size: 108px
+          strokeWidth: 1px
+        badgeMask:
+          offset: 70px
+          size: 44px
+        badge:
+          offset: 74px
+          size: 36px

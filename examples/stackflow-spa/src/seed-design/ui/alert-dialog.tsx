@@ -1,9 +1,14 @@
-"use client";
-
 import { Dialog } from "@seed-design/react";
 import { forwardRef } from "react";
+import { ActionButton, type ActionButtonProps } from "./action-button";
+import type * as React from "react";
 
-export interface AlertDialogRootProps extends Dialog.RootProps {}
+export interface AlertDialogRootProps extends Dialog.RootProps {
+  /**
+   * @default false
+   */
+  closeOnInteractOutside?: Dialog.RootProps["closeOnInteractOutside"];
+}
 
 /**
  * @see https://seed-design.io/react/components/alert-dialog
@@ -54,6 +59,16 @@ export interface AlertDialogFooterProps extends Dialog.FooterProps {}
 
 export const AlertDialogFooter = Dialog.Footer;
 
-export interface AlertDialogActionProps extends Dialog.ActionProps {}
+export interface AlertDialogActionProps
+  extends Omit<Dialog.ActionProps, "color">,
+    ActionButtonProps {}
 
-export const AlertDialogAction = Dialog.Action;
+export const AlertDialogAction = forwardRef<HTMLButtonElement, AlertDialogActionProps>(
+  (props, ref) => {
+    return (
+      <Dialog.Action asChild>
+        <ActionButton {...props} ref={ref} />
+      </Dialog.Action>
+    );
+  },
+);

@@ -1,6 +1,6 @@
 declare interface ProgressCircleVariant {
   /**
-  * @default neutral
+  * @default "neutral"
   */
   tone: "neutral" | "brand" | "staticWhite" | "inherit";
 /**

@@ -1,17 +1,17 @@
+import type { Api as figma } from "figma-api";
 import type {
   Component,
   ComponentSet,
   ComponentSetNode,
   ComponentNode,
 } from "@figma/rest-api-spec";
-import { api } from "./client";
 import { chunk } from "es-toolkit";
 
 export type ComponentMetadataItem = ComponentNode & Partial<Component>;
 
 export type ComponentSetMetadataItem = ComponentSetNode & Partial<ComponentSet>;
 
-async function getComponentSetsInFile(fileKey: string) {
+async function getComponentSetsInFile({ api, fileKey }: { api: figma; fileKey: string }) {
   const {
     meta: { component_sets },
   } = await api.getFileComponentSets({ file_key: fileKey });
@@ -19,7 +19,7 @@ async function getComponentSetsInFile(fileKey: string) {
   return component_sets;
 }
 
-async function getComponentsInFile(fileKey: string) {
+async function getComponentsInFile({ api, fileKey }: { api: figma; fileKey: string }) {
   const {
     meta: { components },
   } = await api.getFileComponents({ file_key: fileKey });
@@ -27,7 +27,15 @@ async function getComponentsInFile(fileKey: string) {
   return components;
 }
 
-async function getNodesInFile({ fileKey, nodeIds }: { fileKey: string; nodeIds: string[] }) {
+async function getNodesInFile({
+  api,
+  fileKey,
+  nodeIds,
+}: {
+  api: figma;
+  fileKey: string;
+  nodeIds: string[];
+}) {
   const chunks = chunk(nodeIds, 500);
 
   if (chunks.length > 1) {
@@ -44,16 +52,21 @@ async function getNodesInFile({ fileKey, nodeIds }: { fileKey: string; nodeIds: 
     }),
   );
 
-  return responses.flatMap(({ nodes }) => Object.values(nodes));
+  // figma sometimes returns null
+  return responses.flatMap(({ nodes }) => Object.values(nodes)).filter((node) => node);
 }
 
 export async function getComponentMetadataItemsInFile({
+  api,
   fileKey,
-}: { fileKey: string }): Promise<ComponentMetadataItem[]> {
-  const componentsInFile = await getComponentsInFile(fileKey);
+}: {
+  api: figma;
+  fileKey: string;
+}): Promise<ComponentMetadataItem[]> {
+  const componentsInFile = await getComponentsInFile({ api, fileKey });
   const componentIds = componentsInFile.map(({ node_id }) => node_id);
 
-  const nodes = await getNodesInFile({ fileKey, nodeIds: componentIds });
+  const nodes = await getNodesInFile({ api, fileKey, nodeIds: componentIds });
 
   const transformed = nodes.map(({ document, components }) => ({
     ...document,
@@ -64,12 +77,16 @@ export async function getComponentMetadataItemsInFile({
 }
 
 export async function getComponentSetMetadataItemsInFile({
+  api,
   fileKey,
-}: { fileKey: string }): Promise<ComponentSetMetadataItem[]> {
-  const componentSetsInFile = await getComponentSetsInFile(fileKey);
+}: {
+  api: figma;
+  fileKey: string;
+}): Promise<ComponentSetMetadataItem[]> {
+  const componentSetsInFile = await getComponentSetsInFile({ api, fileKey });
   const componentSetIds = componentSetsInFile.map(({ node_id }) => node_id);
 
-  const nodes = await getNodesInFile({ fileKey, nodeIds: componentSetIds });
+  const nodes = await getNodesInFile({ api, fileKey, nodeIds: componentSetIds });
 
   const transformed = nodes.map(({ document, componentSets }) => ({
     ...document,

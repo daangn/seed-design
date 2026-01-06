@@ -20,6 +20,8 @@ data:
             type: dimension
           color:
             type: color
+          gradient:
+            type: gradient
       prefixIcon:
         properties:
           size:
@@ -124,6 +126,23 @@ data:
       pressed:
         root:
           color: $color.bg.informative-weak-pressed
+    tone=positive:
+      enabled:
+        root:
+          color: $color.bg.positive-weak
+        prefixIcon:
+          color: $color.fg.positive-contrast
+        title:
+          color: $color.fg.positive-contrast
+        description:
+          color: $color.fg.positive-contrast
+        link:
+          color: $color.fg.positive-contrast
+        suffixIcon:
+          color: $color.fg.positive-contrast
+      pressed:
+        root:
+          color: $color.bg.positive-weak-pressed
     tone=warning:
       enabled:
         root:
@@ -161,7 +180,7 @@ data:
     tone=magic:
       enabled:
         root:
-          color: $gradient.glow-magic
+          gradient: $gradient.glow-magic
         prefixIcon:
           color: $color.fg.neutral
         title:
@@ -174,4 +193,4 @@ data:
           color: $color.fg.neutral
       pressed:
         root:
-          color: $gradient.glow-magic-pressed
+          gradient: $gradient.glow-magic-pressed

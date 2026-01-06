@@ -1,5 +1,386 @@
 # @seed-design/figma
 
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [76acd7e]
+- Updated dependencies [7a428ec]
+- Updated dependencies [498a9e7]
+  - @seed-design/css@1.1.15
+
+## 1.1.14
+
+### Patch Changes
+
+- c1f818f: Figma Codegen & MCP에서 `boxShadow` 코드 생성을 지원하고 엔티티 정보를 최신화합니다.
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies [9be0581]
+- Updated dependencies [cc4a45a]
+- Updated dependencies [739937f]
+  - @seed-design/css@1.1.13
+
+## 1.1.12
+
+### Patch Changes
+
+- 6d680ba: Figma Codegen 정보를 최신화합니다.
+- Updated dependencies [8d0ad90]
+- Updated dependencies [8f31f93]
+- Updated dependencies [69ccc6e]
+- Updated dependencies [279001a]
+  - @seed-design/css@1.1.12
+
+## 1.1.10
+
+### Patch Changes
+
+- 23e9246: Figma 엔티티 및 Codegen을 업데이트합니다. (신규 아이콘 및 `ResultSection` Codegen 지원)
+- Updated dependencies [db5de74]
+- Updated dependencies [70d11b8]
+- Updated dependencies [c03a3dd]
+- Updated dependencies [a12e49b]
+  - @seed-design/css@1.1.10
+
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies [37d332d]
+- Updated dependencies [77517f1]
+  - @seed-design/css@1.1.9
+
+## 1.1.8
+
+### Patch Changes
+
+- Updated dependencies [8752805]
+- Updated dependencies [ee98674]
+  - @seed-design/css@1.1.8
+
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies [bee919c]
+- Updated dependencies [1340675]
+- Updated dependencies [1340675]
+  - @seed-design/css@1.1.7
+
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [dfe6c1e]
+- Updated dependencies [a09e6b4]
+  - @seed-design/css@1.1.6
+
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [53290ab]
+  - @seed-design/css@1.1.5
+
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [795668c]
+  - @seed-design/css@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- d986fd5: Figma Codegen 컴포넌트 핸들러를 업데이트합니다. 레거시 Text Field에 대한 Codegen을 한시적으로 지원합니다.
+- Updated dependencies [15c658b]
+- Updated dependencies [f4e07bb]
+- Updated dependencies [114dafd]
+- Updated dependencies [bc3cd6f]
+  - @seed-design/css@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- 4c5d7c4: Figma 토큰 정보 및 Codegen 핸들러를 최신화합니다.
+
+## 1.1.0
+
+### Patch Changes
+
+- 191005f: Action Button 컴포넌트를 `variant=ghost`로 사용하는 경우 `fontWeight`를 사용자화할 수 있도록 업데이트합니다.
+
+  (BREAKING CHANGE: Error State snippet을 다시 설치해야 합니다.) Error State 스니펫에서 Action Button을 활용하도록 업데이트합니다.
+
+- Updated dependencies [d6bb84d]
+- Updated dependencies [a55f584]
+- Updated dependencies [191005f]
+- Updated dependencies [b131282]
+- Updated dependencies [6af6501]
+- Updated dependencies [33def2d]
+  - @seed-design/css@1.1.0
+
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [e52d6d1]
+- Updated dependencies [97669bc]
+- Updated dependencies [15ab93a]
+- Updated dependencies [50366c0]
+  - @seed-design/css@1.0.7
+
+## 1.0.6
+
+### Patch Changes
+
+- 6aafce0: Tag Group 컴포넌트를 추가합니다. Tag Group은 아이콘 및 텍스트로 이루어진 태그를 구분 기호와 함께 수평 레이아웃으로 표시하는 컴포넌트입니다.
+- Updated dependencies [6aafce0]
+- Updated dependencies [1902dfa]
+- Updated dependencies [f2ddf29]
+- Updated dependencies [4c33f07]
+- Updated dependencies [3df657f]
+  - @seed-design/css@1.0.6
+
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies [f1cf4cd]
+- Updated dependencies [9b91751]
+- Updated dependencies [3898183]
+  - @seed-design/css@1.0.5
+
+## 1.0.3
+
+### Patch Changes
+
+- ac1fd00: Figma Codegen이 Bottom Sheet의 `hideCloseButton` prop을 사용하는 코드를 반환하도록 수정합니다.
+- 8b07555: Figma 아이콘 및 스타일 정보를 최신화합니다.
+- Updated dependencies [0b8a02e]
+- Updated dependencies [6c6099d]
+  - @seed-design/css@1.0.3
+
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [6d2e13d]
+  - @seed-design/css@1.0.2
+
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [1420b68]
+  - @seed-design/css@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- Updated dependencies [39a96f1]
+- Updated dependencies [34f92f2]
+- Updated dependencies [e038490]
+- Updated dependencies [4153ca5]
+- Updated dependencies [a7d07f0]
+  - @seed-design/css@1.0.0
+
+## 0.2.5
+
+### Patch Changes
+
+- bef65a6: Figma Variable & Variable Collection 정보를 최신화합니다.
+- Updated dependencies [0ca19c0]
+  - @seed-design/css@0.2.5
+
+## 0.2.4
+
+### Patch Changes
+
+- afdd1ee: Figma Codegen을 위한 컴포넌트 핸들러를 업데이트합니다.
+
+  - List, Checkmark, RadioMark, Radio, Tabs, ChipTabs 지원
+  - Chip, Divider, HelpBubble, Switch, Checkbox 업데이트
+
+- Updated dependencies [8ebe8a5]
+- Updated dependencies [f61b80d]
+  - @seed-design/css@0.2.4
+
+## 0.2.3
+
+### Patch Changes
+
+- Updated dependencies [a22b8b9]
+- Updated dependencies [5836976]
+- Updated dependencies [12faf5a]
+  - @seed-design/css@0.2.3
+
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [35984d0]
+  - @seed-design/css@0.2.1
+
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [8448880]
+  - @seed-design/css@0.2.0
+
+## 0.1.15
+
+### Patch Changes
+
+- Updated dependencies [c51a261]
+- Updated dependencies [5f2ee39]
+- Updated dependencies [8299ba9]
+- Updated dependencies [3de4cec]
+  - @seed-design/css@0.1.15
+
+## 0.1.14
+
+### Patch Changes
+
+- f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
+  - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
+
+  ```tsx
+  <PageBanner
+    tone="informative"
+    variant="weak"
+    description="사업자 정보를 등록해주세요."
+    suffix={
+      <PageBannerButton asChild>
+        <a href="https://www.daangn.com" target="_blank" rel="noreferrer">
+          새 탭에서 열기
+        </a>
+      </PageBannerButton>
+    }
+  />
+  ```
+
+  시맨틱 색상 토큰을 추가하고 수정합니다.
+
+  - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
+  - `$color.bg.warning-solid-pressed` 추가
+
+- 1982494: Badge 컴포넌트를 업데이트합니다.
+
+  - `tone=warning` variant를 추가합니다.
+  - `maxWidth` 스펙을 추가합니다.
+
+  신규 시맨틱 색상 토큰을 추가합니다.
+
+  - `$color.fg.warning`
+  - `$color.stroke.warning`
+  - `$color.fg.brand-contrast`
+  - `$color.bg.brand-weak`
+  - `$color.bg.brand-weak-pressed`
+
+- Updated dependencies [f806356]
+- Updated dependencies [1982494]
+  - @seed-design/css@0.1.14
+
+## 0.1.13
+
+### Patch Changes
+
+- Updated dependencies [0be9b00]
+  - @seed-design/css@0.1.13
+
+## 0.1.12
+
+### Patch Changes
+
+- Updated dependencies [62094b6]
+  - @seed-design/css@0.1.12
+
+## 0.1.11
+
+### Patch Changes
+
+- 9993e0e: 레이아웃 컴포넌트를 사용할 때 `flexGrow`, `flexShrink`, `flexWrap`에도 `true`를 사용할 수 있도록 수정합니다.
+
+  Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를 prepend합니다.
+
+## 0.1.10
+
+### Patch Changes
+
+- aa40f66: Figma 컴포넌트 정보 및 핸들러를 최신화하고 codegen을 업데이트합니다.
+
+  - Instance에 오버라이드한 내용이 있는 경우 주석으로 알립니다.
+
+- Updated dependencies [ef91c21]
+  - @seed-design/css@0.1.10
+
+## 0.1.9
+
+### Patch Changes
+
+- 5a025b7: Switch 컴포넌트를 업데이트합니다.
+
+  - size: medium → 32, small → 16으로 rename합니다.
+    - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+  - size: 24를 추가합니다.
+  - 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+- f9379e0: Figma 컴포넌트 핸들러 정보를 최신화하고 정확한 prop을 생성하도록 수정합니다.
+
+  - Chip, Progress Circle, Switch 컴포넌트 핸들러를 업데이트합니다.
+  - `grow` 대신 `flexGrow`가 생성되도록, `borderWidth`가 `string`으로 생성되도록 수정합니다.
+
+- Updated dependencies [5a025b7]
+- Updated dependencies [ac35731]
+- Updated dependencies [f9041e9]
+  - @seed-design/css@0.1.9
+
+## 0.1.8
+
+### Patch Changes
+
+- 2e2cc53: - Figma 컴포넌트 핸들러 및 스타일 정보를 최신화합니다.
+  - normalize 과정에서 그라디언트 정보를 포함하도록 수정합니다.
+- Updated dependencies [609b8f3]
+  - @seed-design/css@0.1.8
+
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [4afe80b]
+  - @seed-design/css@0.1.7
+
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [235147d]
+- Updated dependencies [3c13ad7]
+  - @seed-design/css@0.1.6
+
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [861ecb4]
+- Updated dependencies [3889eb6]
+  - @seed-design/css@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes

@@ -11,16 +11,15 @@ export const PullToRefreshRoot = PullToRefresh.Root;
 export interface PullToRefreshIndicatorProps
   extends Omit<PullToRefresh.IndicatorProps, "children"> {}
 
-export const PullToRefreshIndicator = forwardRef<
-  HTMLDivElement,
-  PullToRefreshIndicatorProps
->(({ ...otherProps }, ref) => {
-  return (
-    <PullToRefresh.Indicator ref={ref} {...otherProps}>
-      {(props) => <ProgressCircle size="24" tone="brand" {...props} />}
-    </PullToRefresh.Indicator>
-  );
-});
+export const PullToRefreshIndicator = forwardRef<HTMLDivElement, PullToRefreshIndicatorProps>(
+  ({ ...otherProps }, ref) => {
+    return (
+      <PullToRefresh.Indicator ref={ref} {...otherProps}>
+        {(props) => <ProgressCircle size="24" tone="brand" {...props} />}
+      </PullToRefresh.Indicator>
+    );
+  },
+);
 
 export interface PullToRefreshContentProps extends PullToRefresh.ContentProps {}
 

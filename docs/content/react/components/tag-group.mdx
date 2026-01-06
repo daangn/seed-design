@@ -1,0 +1,136 @@
+---
+title: Tag Group
+description: 아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.
+---
+
+<ComponentExample name="react/tag-group/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tag-group/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Usage
+
+```tsx
+import { TagGroup, TagGroupRoot, TagGroupItem } from "@seed-design/react";
+```
+
+```tsx
+<TagGroupRoot>
+  <TagGroupItem>Tag 1</TagGroupItem>
+  <TagGroupItem>Tag 2</TagGroupItem>
+  <TagGroupItem>Tag 3</TagGroupItem>
+</TagGroupRoot>
+```
+
+```tsx
+<TagGroup.Root>
+  <TagGroup.Item>Tag 1</TagGroup.Item>
+  <TagGroup.Item>Tag 2</TagGroup.Item>
+  <TagGroup.Item>Tag 3</TagGroup.Item>
+</TagGroup.Root>
+```
+
+## Props
+
+### `TagGroupRoot`
+
+<react-type-table
+  path="../packages/react/src/components/TagGroup/TagGroup.tsx"
+  name="TagGroupRootProps"
+/>
+
+### `TagGroupItem`
+
+<react-type-table
+  path="../packages/react/src/components/TagGroup/TagGroup.tsx"
+  name="TagGroupItemProps"
+/>
+
+## Examples
+
+### Sizes
+
+<ComponentExample name="react/tag-group/sizes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tag-group/sizes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Weights
+
+<ComponentExample name="react/tag-group/weights">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tag-group/weights.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Tones
+
+<ComponentExample name="react/tag-group/tones">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tag-group/tones.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Icons
+
+<ComponentExample name="react/tag-group/with-icons">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tag-group/with-icons.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizing `TagGroupItem`
+
+`TagGroupRoot`에 지정한 `size`, `tone`, `weight`을 `TagGroupItem`에서 덮어씌울 수 있습니다.
+
+<ComponentExample name="react/tag-group/customizing-item">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tag-group/customizing-item.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizing Separators
+
+`TagGroupRoot`에 `separator`를 지정하여 구분 기호를 변경할 수 있습니다.
+
+스크린 리더는 각 태그 항목 사이에 지정된 구분 기호를 읽지 않습니다. 의미가 있는(semantic) 정보를 Separator로 사용하는 것을 피하세요.
+
+<ComponentExample name="react/tag-group/customizing-separators">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tag-group/customizing-separators.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Wrapping Behavior
+
+<ComponentExample name="react/tag-group/wrapping-behavior">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tag-group/wrapping-behavior.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

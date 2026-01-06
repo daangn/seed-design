@@ -1,16 +1,24 @@
+import { baseUrl } from "@/app/metadata";
+
 export const revalidate = false;
 
-const BASE_URL = "https://seed-design.io";
-
 export async function GET() {
-  return new Response(`
-# SEED Design React Documentation for LLMs
+  return new Response(`# SEED Design React Documentation for LLMs
 
 ## Documentation Sets
 
-- [Complete documentation](${BASE_URL}/react/llms-full.txt): The complete SEED Design React documentation.
-- [Components Entry](${BASE_URL}/react/llms-components.txt): Entry point for accessing individual component documentation.
-- [Changelog](${BASE_URL}/react/llms-changelog.txt): Latest updates and version history of SEED Design React.
+- [Complete documentation](${new URL("/react/llms-full.txt", baseUrl)}): The complete SEED Design React documentation.
+- [Components Entry](${new URL("/react/llms-components.txt", baseUrl)}): Entry point for accessing individual component documentation.
+- [Changelog](${new URL("/react/llms-changelog.txt", baseUrl)}): Latest updates and version history of SEED Design React.
+
+## Documentation Sections
+
+- [Getting Started](${new URL("/react/llms-getting-started.txt", baseUrl)}): Installation guides, CLI usage, and styling/theming configuration.
+- [Stackflow](${new URL("/react/llms-stackflow.txt", baseUrl)}): Stackflow integration for native-like navigation.
+- [Developer Tools](${new URL("/react/llms-developer-tools.txt", baseUrl)}): Codemods for automated migrations and Figma integration.
+- [Migration](${new URL("/react/llms-migration.txt", baseUrl)}): Migration guides for upgrading from previous versions.
+- [AI Integration](${new URL("/react/llms-ai-integration.txt", baseUrl)}): LLMs.txt specification and MCP integration guides.
+- [Updates](${new URL("/react/llms-updates.txt", baseUrl)}): Version improvements and release notes.
 
 ## Notes
 

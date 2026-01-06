@@ -4,38 +4,46 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: inherit;
+    font-size: unset;
     display: flex;
     align-items: center;
     text-align: start;
     width: 100%;
     min-height: 50px;
-    padding-inline: var(--seed-dimension-x3_5);
-    padding-block: var(--seed-dimension-x3_5);
+    padding-left: var(--seed-dimension-x3_5);
+    padding-right: var(--seed-dimension-x3_5);
+    padding-top: var(--seed-dimension-x3_5);
+    padding-bottom: var(--seed-dimension-x3_5);
     gap: var(--seed-dimension-x3);
     border-radius: var(--seed-radius-r2_5);
+    text-decoration: none;
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-size: var(--seed-dimension-x4);
 }
-.seed-callout__root:is(button) {
+.seed-callout__root:is(button, a) {
     cursor: pointer;
 }
 .seed-callout__content {
-    display: block;
-    margin-inline-end: auto;
+    margin-right: auto;
+    line-height: var(--seed-line-height-t4);
 }
 .seed-callout__title {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
-    margin-inline-end: 1ch;
+}
+.seed-callout__title::after {
+    content: "  ";
+    white-space: pre;
 }
 .seed-callout__description {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);
 }
-.seed-callout__description:not(:last-child) {
-    margin-inline-end: 1ch;
+.seed-callout__description:not(:last-child)::after {
+    content: "  ";
+    white-space: pre;
 }
 .seed-callout__link {
     font-family: inherit;
@@ -69,7 +77,7 @@
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-callout__root--tone_neutral:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-callout__title--tone_neutral {
@@ -86,7 +94,7 @@
     --seed-prefix-icon-color: var(--seed-color-fg-informative-contrast);
     --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
 }
-.seed-callout__root--tone_informative:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-informative-weak-pressed);
 }
 .seed-callout__title--tone_informative {
@@ -98,12 +106,29 @@
 .seed-callout__link--tone_informative {
     color: var(--seed-color-fg-informative-contrast);
 }
+.seed-callout__root--tone_positive {
+    background-color: var(--seed-color-bg-positive-weak);
+    --seed-prefix-icon-color: var(--seed-color-fg-positive-contrast);
+    --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
+}
+.seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-positive-weak-pressed);
+}
+.seed-callout__title--tone_positive {
+    color: var(--seed-color-fg-positive-contrast);
+}
+.seed-callout__description--tone_positive {
+    color: var(--seed-color-fg-positive-contrast);
+}
+.seed-callout__link--tone_positive {
+    color: var(--seed-color-fg-positive-contrast);
+}
 .seed-callout__root--tone_warning {
     background-color: var(--seed-color-bg-warning-weak);
     --seed-prefix-icon-color: var(--seed-color-fg-warning-contrast);
     --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
 }
-.seed-callout__root--tone_warning:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-warning-weak-pressed);
 }
 .seed-callout__title--tone_warning {
@@ -120,7 +145,7 @@
     --seed-prefix-icon-color: var(--seed-color-fg-critical-contrast);
     --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
 }
-.seed-callout__root--tone_critical:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-critical-weak-pressed);
 }
 .seed-callout__title--tone_critical {
@@ -137,7 +162,7 @@
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-callout__root--tone_magic:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
     background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
 }
 .seed-callout__title--tone_magic {

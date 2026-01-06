@@ -6,3 +6,5 @@ export {
   type PullToRefreshIndicatorProps as IndicatorProps,
   type PullToRefreshRootProps as RootProps,
 } from "./PullToRefresh";
+
+export { pullToRefreshPreventPull as preventPull } from "./dom";

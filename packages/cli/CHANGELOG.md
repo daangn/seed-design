@@ -1,5 +1,51 @@
 # @seed-design/cli
 
+## 1.1.0
+
+### Minor Changes
+
+- a6ae76f: telemetry 옵션을 추가합니다
+
+## 1.0.0
+
+### Major Changes
+
+- 950c9e1: **`add` 명령어 사용 방식을 변경합니다.**
+
+  - 항목 추가
+
+  ```sh
+  seed-design add ui:action-button breeze:animate-number # ui 이외 레지스트리의 항목도 추가할 수 있게 되었습니다.
+  ```
+
+  - 특정 레지스트리에 있는 모든 항목 추가
+
+  ```sh
+  seed-design add-all ui lib breeze
+  ```
+
+  - 모든 레지스트리의 모든 항목 추가
+
+  ```sh
+  seed-design add-all --all
+  ```
+
+  패키지 의존성 및 스니펫 의존성 설치 방식을 최적화합니다.
+
+## 0.0.3
+
+### Patch Changes
+
+- 9b271d6: snippet의 deprecated 여부를 기록합니다. cli add 명령 실행 시 snippet 목록에서 deprecate 여부를 표시하고, `--all`로 모든 스니펫 추가 시 기본적으로 deprecated snippet을 제외합니다.
+
+  ```sh
+  seed-design add --all # deprecated snippet 제외
+  ```
+
+  ```sh
+  seed-design add --all --include-deprecated # deprecated snippet 포함
+  ```
+
 ## 0.0.2
 
 ### Patch Changes

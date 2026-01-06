@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/codemod",
-  "version": "0.0.29",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -18,12 +18,11 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/migration-index": "^0.0.28",
+    "@seed-design/migration-index": "^1.0.0",
     "cac": "^6.7.14",
     "change-case": "^5.4.4",
     "es-toolkit": "^1.35.0",
     "execa": "^9.5.2",
-    "glob": "^11.0.2",
     "jscodeshift": "^17.3.0",
     "picocolors": "^1.1.1",
     "postcss": "^8.5.3",
@@ -37,12 +36,12 @@
     "@types/node": "^24.0.0",
     "csv-parse": "^6.0.0",
     "dotenv": "^17.0.0",
-    "esbuild": "^0.25.3",
-    "typescript": "^5.8.3"
+    "esbuild": "^0.27.0",
+    "typescript": "^5.9.2"
   },
   "optionalDependencies": {
-    "@karrotmarket/react-monochrome-icon": "^0.0.29",
-    "@karrotmarket/react-multicolor-icon": "^0.0.23"
+    "@karrotmarket/react-monochrome-icon": "^1.0.0",
+    "@karrotmarket/react-multicolor-icon": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"

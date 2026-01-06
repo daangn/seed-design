@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/figma-extractor",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "bun build.mjs && tsc",
-    "lint:publish": "bun publint"
+    "lint:publish": "bun publint",
+    "test": "vitest"
   },
   "bin": {
     "figma-extractor": "./bin/index.mjs"
@@ -17,7 +18,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts"
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.mjs"
     }
   },
   "files": [
@@ -26,7 +28,7 @@
     "src"
   ],
   "dependencies": {
-    "@figma/rest-api-spec": "^0.33.0",
+    "@figma/rest-api-spec": "^0.35.0",
     "cac": "^6.7.14",
     "change-case": "^5.4.4",
     "cosmiconfig": "^9.0.0",
@@ -38,8 +40,8 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
-    "esbuild": "^0.25.3",
-    "typescript": "^5.8.3"
+    "esbuild": "^0.27.0",
+    "typescript": "^5.9.2"
   },
   "publishConfig": {
     "access": "public"

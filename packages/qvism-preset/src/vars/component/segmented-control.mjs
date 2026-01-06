@@ -7,9 +7,10 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
       "indicator": {
-        "color": "var(--seed-color-bg-layer-default)",
+        "color": "var(--seed-color-palette-gray-00)",
         "cornerRadius": "var(--seed-radius-full)",
-        "shadow": "0px 1px 6px 0px #0000000d",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "transformDuration": "var(--seed-duration-d4)",
         "transformTimingFunction": "var(--seed-timing-function-easing)"
       }

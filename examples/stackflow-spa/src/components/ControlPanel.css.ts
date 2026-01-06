@@ -2,16 +2,11 @@ import { vars } from "@seed-design/css/vars";
 import { style } from "@vanilla-extract/css";
 
 export const root = style({
-  position: "fixed",
-  bottom: 0,
-  left: 0,
-  right: 0,
   display: "flex",
   flexDirection: "column",
-  zIndex: 1000,
 
   backgroundColor: vars.$color.bg.layerDefault,
-  borderTop: `1px solid ${vars.$color.stroke.neutral}`,
+  borderTop: `1px solid ${vars.$color.stroke.neutralMuted}`,
 });
 
 export const item = style({
@@ -22,7 +17,7 @@ export const item = style({
   paddingInline: vars.$dimension.x4,
   minHeight: vars.$dimension.x13,
 
-  borderBottom: `1px solid ${vars.$color.stroke.neutral}`,
+  borderBottom: `1px solid ${vars.$color.stroke.neutralMuted}`,
 });
 
 export const title = style({

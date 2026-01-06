@@ -1,9 +1,9 @@
+import type { Api as figma } from "figma-api";
 import type { LocalVariable } from "@figma/rest-api-spec";
-import { api } from "./client";
 
 export type VariableMetadataItem = LocalVariable;
 
-async function getVariablesInFile({ fileKey }: { fileKey: string }) {
+async function getVariablesInFile({ api, fileKey }: { api: figma; fileKey: string }) {
   const {
     meta: { variables },
   } = await api.getLocalVariables({ file_key: fileKey });
@@ -12,9 +12,13 @@ async function getVariablesInFile({ fileKey }: { fileKey: string }) {
 }
 
 export async function getVariableMetadataItemsInFile({
+  api,
   fileKey,
-}: { fileKey: string }): Promise<LocalVariable[]> {
-  const variablesInFile = await getVariablesInFile({ fileKey });
+}: {
+  api: figma;
+  fileKey: string;
+}): Promise<LocalVariable[]> {
+  const variablesInFile = await getVariablesInFile({ api, fileKey });
 
   return Object.values(variablesInFile);
 }

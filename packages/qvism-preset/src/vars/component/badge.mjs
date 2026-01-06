@@ -2,6 +2,7 @@ export const vars = {
   "sizeLarge": {
     "enabled": {
       "root": {
+        "maxWidth": "6.75rem",
         "minHeight": "var(--seed-dimension-x6)",
         "paddingX": "var(--seed-dimension-x2)",
         "paddingY": "var(--seed-dimension-x1)",
@@ -16,6 +17,7 @@ export const vars = {
   "sizeMedium": {
     "enabled": {
       "root": {
+        "maxWidth": "7.5rem",
         "minHeight": "var(--seed-dimension-x5)",
         "paddingX": "var(--seed-dimension-x1_5)",
         "paddingY": "var(--seed-dimension-x0_5)",
@@ -74,7 +76,7 @@ export const vars = {
   "toneNeutralVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral-muted)"
@@ -84,10 +86,10 @@ export const vars = {
   "toneBrandVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-palette-carrot-100)"
+        "color": "var(--seed-color-bg-brand-weak)"
       },
       "label": {
-        "color": "var(--seed-color-palette-carrot-900)"
+        "color": "var(--seed-color-fg-brand-contrast)"
       }
     }
   },
@@ -104,7 +106,7 @@ export const vars = {
   "toneBrandVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-brand)"
+        "strokeColor": "var(--seed-color-stroke-brand-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-brand)"
@@ -134,7 +136,7 @@ export const vars = {
   "toneInformativeVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-informative)"
+        "strokeColor": "var(--seed-color-stroke-informative-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-informative)"
@@ -164,10 +166,40 @@ export const vars = {
   "tonePositiveVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-positive)"
+        "strokeColor": "var(--seed-color-stroke-positive-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-positive)"
+      }
+    }
+  },
+  "toneWarningVariantWeak": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-bg-warning-weak)"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-warning-contrast)"
+      }
+    }
+  },
+  "toneWarningVariantSolid": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-bg-warning-solid)"
+      },
+      "label": {
+        "color": "var(--seed-color-palette-static-black-alpha-900)"
+      }
+    }
+  },
+  "toneWarningVariantOutline": {
+    "enabled": {
+      "root": {
+        "strokeColor": "var(--seed-color-stroke-warning-weak)"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-warning)"
       }
     }
   },
@@ -194,7 +226,7 @@ export const vars = {
   "toneCriticalVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-critical)"
+        "strokeColor": "var(--seed-color-stroke-critical-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-critical)"

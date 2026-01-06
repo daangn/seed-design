@@ -14,6 +14,16 @@
   "[css]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {}
+  },
+  "[mdx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {}
+  },
   "editor.formatOnSave": true,
   "auto-close-tag.activationOnLanguage": [
     "mdx"

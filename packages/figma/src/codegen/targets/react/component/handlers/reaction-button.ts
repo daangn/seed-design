@@ -11,17 +11,15 @@ export const createReactionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ReactionButtonProperties>(
     metadata.reactionButton.key,
     ({ componentProperties: props }) => {
-      const states = props.State.value.split("-");
-
       const commonProps = {
         size: handleSizeProp(props.Size.value),
-        ...(states.includes("Loading") && {
+        ...(props.State.value === "Loading" && {
           loading: true,
         }),
-        ...(states.includes("Disabled") && {
+        ...(props.State.value === "Disabled" && {
           disabled: true,
         }),
-        ...(states.includes("Selected") && {
+        ...(props.Selected.value === "True" && {
           defaultPressed: true,
         }),
       };

@@ -21,8 +21,10 @@ data:
             type: color
           cornerRadius:
             type: dimension
-          shadow:
-            type: shadow
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
           transformDuration:
             type: duration
           transformTimingFunction:
@@ -35,15 +37,9 @@ data:
           cornerRadius: $radius.full
           color: $color.bg.neutral-weak
         indicator:
-          color: $color.bg.layer-default
+          color: $color.palette.gray-00
           cornerRadius: $radius.full
-          shadow:
-            type: shadow
-            value:
-              - offsetX: 0px
-                offsetY: 1px
-                blur: 6px
-                spread: 0px
-                color: "#0000000d"
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-muted
           transformDuration: $duration.d4
           transformTimingFunction: $timing-function.easing

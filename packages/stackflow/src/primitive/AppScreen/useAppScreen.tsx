@@ -1,7 +1,8 @@
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useNullableActivity, useZIndexBase } from "@stackflow/react-ui-core";
+import { useNullableActivity } from "@stackflow/react-ui-core";
 import { useMemo } from "react";
 import { type UseSwipeBackProps, useSwipeBack } from "../GlobalInteraction/useSwipeBack";
+import { useActivityZIndexBase } from "../../hooks";
 
 export interface UseAppScreenProps extends UseSwipeBackProps {}
 
@@ -14,7 +15,7 @@ export function useAppScreen(props: UseAppScreenProps) {
 
   const { activityProps, layerProps, edgeProps } = useSwipeBack(props);
 
-  const zIndexBase = useZIndexBase();
+  const zIndexBase = useActivityZIndexBase();
   const zIndexStyle = useMemo(
     () =>
       ({

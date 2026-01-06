@@ -1,16 +1,16 @@
 declare interface BadgeVariant {
   /**
-  * @default medium
+  * @default "medium"
   */
   size: "medium" | "large";
 /**
-  * @default solid
+  * @default "solid"
   */
   variant: "weak" | "solid" | "outline";
 /**
-  * @default neutral
+  * @default "neutral"
   */
-  tone: "neutral" | "brand" | "informative" | "positive" | "critical";
+  tone: "neutral" | "brand" | "informative" | "positive" | "warning" | "critical";
 }
 
 declare type BadgeVariantMap = {
@@ -19,11 +19,13 @@ declare type BadgeVariantMap = {
 
 export declare type BadgeVariantProps = Partial<BadgeVariant>;
 
+export declare type BadgeSlotName = "root" | "label";
+
 export declare const badgeVariantMap: BadgeVariantMap;
 
 export declare const badge: ((
   props?: BadgeVariantProps,
-) => string) & {
+) => Record<BadgeSlotName, string>) & {
   splitVariantProps: <T extends BadgeVariantProps>(
     props: T,
   ) => [BadgeVariantProps, Omit<T, keyof BadgeVariantProps>];

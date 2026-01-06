@@ -4,13 +4,12 @@
   "icon": "Palette",
   "pages": [
     "index",
-    "whats-new",
-    "migration",
+    "progress-board",
+    "ai-integration",
     "foundation",
     "components",
     "guidelines",
-    "resources",
-    "---Links---",
-    "[SEED React](/react)"
+    "migration",
+    "resources"
   ]
 }

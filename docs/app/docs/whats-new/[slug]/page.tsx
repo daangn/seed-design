@@ -26,11 +26,7 @@ interface Article {
 
 export const dynamic = "force-static";
 
-export default async function Page(
-  props: {
-    params: Promise<{ slug?: string }>;
-  }
-) {
+export default async function Page(props: { params: Promise<{ slug?: string }> }) {
   const params = await props.params;
   const page = await client.fetch<Article>(
     SINGLE_BLOG_QUERY,
@@ -65,7 +61,7 @@ export default async function Page(
     <DocsPage toc={toc}>
       <DocsTitle>{page.title}</DocsTitle>
       <DocsDescription>{page.description}</DocsDescription>
-      <DocsBody>
+      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <SanityImage value={page.thumbnail} className="rounded-[26px]" />
         <PortableContent content={page.content} />
       </DocsBody>

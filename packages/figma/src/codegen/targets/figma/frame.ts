@@ -25,6 +25,7 @@ export function createFrameTransformer({
         ...propsConverters.selfLayout(node),
         ...propsConverters.frameFill(node),
         ...propsConverters.stroke(node),
+        ...propsConverters.shadow(node),
       };
 
       return createElement(

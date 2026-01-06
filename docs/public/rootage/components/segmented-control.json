@@ -30,8 +30,11 @@
             "cornerRadius": {
               "type": "dimension"
             },
-            "shadow": {
-              "type": "shadow"
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
             },
             "transformDuration": {
               "type": "duration"
@@ -70,35 +73,22 @@
               "indicator": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.palette.gray-00"
                 },
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.full"
                 },
-                "shadow": {
-                  "type": "shadow",
-                  "value": [
-                    {
-                      "color": "#0000000d",
-                      "offsetX": {
-                        "value": 0,
-                        "unit": "px"
-                      },
-                      "offsetY": {
-                        "value": 1,
-                        "unit": "px"
-                      },
-                      "blur": {
-                        "value": 6,
-                        "unit": "px"
-                      },
-                      "spread": {
-                        "value": 0,
-                        "unit": "px"
-                      }
-                    }
-                  ]
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
                 },
                 "transformDuration": {
                   "type": "duration",

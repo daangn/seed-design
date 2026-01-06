@@ -9,6 +9,9 @@ export interface AvatarProps extends SeedAvatar.RootProps {
   fallback?: React.ReactNode;
 }
 
+/**
+ * @see https://seed-design.io/react/components/avatar
+ */
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   ({ src, alt, fallback, children, ...otherProps }, ref) => {
     return (
@@ -29,8 +32,3 @@ export const AvatarBadge = SeedAvatar.Badge;
 export interface AvatarStackProps extends SeedAvatar.StackProps {}
 
 export const AvatarStack = SeedAvatar.Stack;
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

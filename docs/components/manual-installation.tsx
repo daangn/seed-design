@@ -1,4 +1,4 @@
-import type { RegistryUIItemMachineGenerated } from "@/registry/schema";
+import type { GeneratedRegistryItem } from "@/registry/schema";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
@@ -20,7 +20,7 @@ export async function ManualInstallation(props: ManualInstallationProps) {
 
   const json = (await import(`@/public/__registry__/ui/${name}.json`).then((module) => {
     return module.default;
-  })) as RegistryUIItemMachineGenerated;
+  })) as GeneratedRegistryItem;
 
   const packageManagers = ["npm", "yarn", "pnpm", "bun"];
 
@@ -63,8 +63,8 @@ export async function ManualInstallation(props: ManualInstallationProps) {
 
             <Step>
               <Heading as="h3">아래 코드를 복사 후 붙여넣고 사용하세요</Heading>
-              {json?.registries.map((registry) => {
-                return <DynamicCodeBlock key={registry.name} lang="tsx" code={registry.content} />;
+              {json?.snippets.map(({ path, content }) => {
+                return <DynamicCodeBlock key={path} lang="tsx" code={content} />;
               })}
             </Step>
           </Steps>

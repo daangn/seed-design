@@ -1,5 +1,23 @@
 # @seed-design/react-dialog
 
+## 1.0.1
+
+### Patch Changes
+
+- 69ccc6e: Overlay 컴포넌트에 skipAnimation 옵션을 추가합니다
+
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- Updated dependencies [34f92f2]
+  - @seed-design/react-primitive@1.0.0
+  - @seed-design/dom-utils@1.0.0
+
 ## 0.0.5
 
 ### Patch Changes

@@ -3,6 +3,9 @@ import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { active, not, open, pseudo } from "../utils/pseudo";
 
+/**
+ * @deprecated Use `menu-sheet` instead.
+ */
 const actionSheet = defineSlotRecipe({
   name: "action-sheet",
   slots: [
@@ -21,7 +24,10 @@ const actionSheet = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "flex-end",
-      inset: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
       overscrollBehaviorY: "none",
 
       "--sheet-z-index": "2",
@@ -29,7 +35,10 @@ const actionSheet = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      inset: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 

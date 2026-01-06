@@ -1,9 +1,8 @@
 import { ActionButton } from "@/design-system/ui/action-button";
 import { Callout } from "@/design-system/ui/callout";
 import { TextField, TextFieldInput } from "@/design-system/ui/text-field";
-import { Flex, VStack, Text } from "@seed-design/react";
+import { Flex, VStack, Text, type TextProps } from "@seed-design/react";
 import { useEffect, useRef, useState } from "react";
-import { version } from "@seed-design/mcp/package.json" assert { type: "json" };
 
 interface PendingRequest {
   resolve: (value: any) => void;
@@ -29,7 +28,7 @@ export default function App() {
   });
   const [port, setPort] = useState<number>(3055);
   const [connectionStatusMessage, setConnectionStatusMessage] = useState<string>(
-    "Not connected to Cursor MCP server",
+    "MCP 서버에 연결되지 않았어요",
   );
 
   // Use ref to maintain WebSocket state across renders
@@ -44,11 +43,11 @@ export default function App() {
   const connectToServer = async (port: number) => {
     try {
       if (state.connected && state.socket) {
-        updateConnectionStatus(true, "Already connected to server");
+        updateConnectionStatus(true, "이미 연결되어 있어요");
         return;
       }
 
-      updateConnectionStatus(false, "Connecting...");
+      updateConnectionStatus(false, "연결 중...");
 
       const socket = new WebSocket(`ws://localhost:${port}`);
 
@@ -82,10 +81,7 @@ export default function App() {
             // Successfully joined channel
             if (data.message?.result) {
               const channelName = data.channel;
-              updateConnectionStatus(
-                true,
-                `Connected to server on port ${port} in channel: ${channelName}`,
-              );
+              updateConnectionStatus(true, `연결되었어요: 포트: ${port}, 채널: ${channelName}`);
 
               setState((prev) => ({
                 ...prev,
@@ -97,7 +93,7 @@ export default function App() {
                 {
                   pluginMessage: {
                     type: "notify",
-                    message: `Connected to Cursor MCP server on port ${port} in channel: ${channelName}`,
+                    message: `연결되었어요: 포트: ${port}, 채널: ${channelName}`,
                   },
                 },
                 "*",
@@ -121,12 +117,12 @@ export default function App() {
           connected: false,
           socket: null,
         }));
-        updateConnectionStatus(false, "Disconnected from server");
+        updateConnectionStatus(false, "연결이 해제되었어요.");
       };
 
       socket.onerror = (error) => {
         console.error("WebSocket error:", error);
-        updateConnectionStatus(false, "Connection error");
+        updateConnectionStatus(false, "연결 오류가 발생했어요.");
         setState((prev) => ({
           ...prev,
           connected: false,
@@ -148,15 +144,14 @@ export default function App() {
         socket: null,
         connected: false,
       }));
-      updateConnectionStatus(false, "Disconnected from server");
+      updateConnectionStatus(false, "연결이 해제되었어요.");
     }
   };
 
   // Update connection status
   const updateConnectionStatus = (isConnected: boolean, message?: string) => {
     setConnectionStatusMessage(
-      message ||
-        (isConnected ? "Connected to Cursor MCP server" : "Not connected to Cursor MCP server"),
+      message || (isConnected ? "Connected to MCP server" : "Not connected to MCP server"),
     );
   };
 
@@ -296,9 +291,9 @@ export default function App() {
 
   return (
     <VStack px="spacingX.globalGutter" py="x4" gap="x4">
-      <Flex>
+      <Flex p="x0_5">
         <Text textStyle="t5Bold" as="h1">
-          SEED Design System MCP {version}
+          SEED Design MCP
         </Text>
       </Flex>
 
@@ -306,8 +301,9 @@ export default function App() {
         <TextField
           id="port"
           label="WebSocket Server Port"
+          size="medium"
           value={port.toString()}
-          onValueChange={(value) => setPort(Number(value))}
+          onValueChange={({ value }) => setPort(Number(value))}
           disabled={state.connected}
         >
           <TextFieldInput />
@@ -316,7 +312,7 @@ export default function App() {
           <ActionButton
             type="button"
             id="btn-connect"
-            variant="brandSolid"
+            variant="neutralSolid"
             onClick={() => connectToServer(port)}
           >
             Connect
@@ -338,6 +334,17 @@ export default function App() {
         tone={state.connected ? "informative" : "neutral"}
         description={connectionStatusMessage}
       />
+
+      {state.connected === false && (
+        <VStack gap="x2" p="x0_5">
+          <Text textStyle="t3Medium" color="fg.neutralSubtle">
+            MCP 웹소켓 서버를 시작하려면 다음 명령어를 실행하세요.
+          </Text>
+          <Text textStyle="t3Bold" color="fg.neutralMuted" as={"code" as TextProps["as"]}>
+            bunx --bun @seed-design/mcp@latest socket
+          </Text>
+        </VStack>
+      )}
     </VStack>
   );
 }

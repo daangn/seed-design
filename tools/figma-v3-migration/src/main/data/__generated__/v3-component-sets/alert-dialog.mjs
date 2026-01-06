@@ -8,7 +8,7 @@ export const metadata = {
     },
     "Description Text#20361:7": {
       "type": "TEXT",
-      "defaultValue": "본문 내용을 입력해보세요"
+      "defaultValue": "본문 내용을 입력해주세요."
     },
     "Show Title#20361:14": {
       "type": "BOOLEAN",

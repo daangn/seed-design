@@ -1,6 +1,8 @@
+import "dotenv/config";
+
 import esbuild from "esbuild";
 
-import pkg from "./package.json" assert { type: "json" };
+import pkg from "./package.json" with { type: "json" };
 
 esbuild
   .build({
@@ -17,6 +19,8 @@ esbuild
     external: [...Object.keys(pkg.dependencies), "__temp.mjs"],
     define: {
       "process.env.NODE_ENV": `"prod"`,
+      "process.env.POSTHOG_API_KEY": `"${process.env.POSTHOG_API_KEY || ""}"`,
+      "process.env.POSTHOG_HOST": `"${process.env.POSTHOG_HOST || ""}"`,
     },
   })
   .catch(() => process.exit(1));

@@ -3,15 +3,10 @@
   "pages": [
     "---Concepts---",
     "...concepts",
-    "---Layout---",
-    "...(layout)",
-    "---Typography---",
-    "...(typography)",
+    "---Foundation---",
+    "...(foundation)",
     "---Components---",
     "...",
-    "action-chip",
-    "control-chip",
-    "fab",
-    "extended-fab"
+    "(deprecated)"
   ]
 }

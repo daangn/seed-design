@@ -1,0 +1,213 @@
+---
+title: Manual
+description: Seed Design을 번들러 통합 없이 설치하고 사용하는 방법을 알아봅니다.
+---
+
+import { Palette } from "lucide-react";
+
+<Steps>
+<Step>
+
+### 의존성 설치
+
+필요한 의존성들을 설치해요.
+
+```package-install
+@seed-design/react @seed-design/css
+```
+
+</Step>
+
+<Step>
+
+### index.html 수정하기
+
+Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `data-seed-user-color-scheme`
+속성을 통해 라이트/다크모드 전환을 해요.
+
+<Card
+  title="Theming"
+  href="/react/getting-started/styling/theming"
+  icon={<Palette />}
+>
+  테마 속성에 대한 자세한 설명과 활용 방법을 확인합니다.
+</Card>
+
+<Tabs items={['system', 'light only', 'dark only']}>
+  <Tab value="system">
+    ```tsx title="index.html" 
+    <html
+      data-seed // [!code highlight]
+      data-seed-color-mode="system" // [!code highlight]
+      data-seed-user-color-scheme="light" // [!code highlight]
+    >
+      <head>
+        <!-- [!code highlight] -->
+        <meta name="color-scheme" content="light dark" />
+        <script>
+        /* user-color-scheme 설정 스크립트, 필요에 따라 수정하세요 */
+        try {
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+          if ('addEventListener' in prefersDark) {
+            prefersDark.addEventListener('change', apply);
+          } else if ('addListener' in prefersDark) {
+            prefersDark.addListener(apply);
+          }
+
+          if (prefersDark.matches) {
+            document.documentElement.dataset.seedUserColorScheme = 'dark';
+          } else {
+            document.documentElement.dataset.seedUserColorScheme = 'light';
+          }
+
+          function apply() {
+            document.documentElement.dataset.seedUserColorScheme = prefersDark.matches ? 'dark' : 'light';
+          }
+        } catch (e) {}
+        </script>
+      </head>
+    </html>
+    ```
+
+  </Tab>
+  <Tab value="light only">
+    ```tsx title="index.html"
+    <html
+      data-seed // [!code highlight]
+      data-seed-color-mode="light-only" // [!code highlight]
+    >
+      <head>
+        <!-- [!code highlight] -->
+        <meta name="color-scheme" content="light" />
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tab>
+  <Tab value="dark only">
+    ```tsx title="index.html"
+    <html
+      data-seed // [!code highlight]
+      data-seed-color-mode="dark-only" // [!code highlight]
+    >
+      <head>
+        <!-- [!code highlight] -->
+        <meta name="color-scheme" content="dark" />
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+
+### all.css import하기
+
+<Callout>
+
+스타일시트 크기를 줄이기 위해 `base.css` 및 각 컴포넌트의 스타일시트를 따로 import할 수 있어요. 번들러를 사용하는 경우 문서 상단의 번들러 가이드를 통해 컴포넌트 스타일시트를 자동으로 로드할 수 있어요.
+
+</Callout>
+
+```ts title="index.tsx"
+import "@seed-design/css/all.css";
+```
+
+</Step>
+
+<Step>
+
+### seed-design.json 생성하기
+
+<Tabs items={['CLI로 추가', '직접 추가']}>
+<Tab value="CLI로 추가">
+<Steps>
+<Step>
+
+### init 명령어 입력하기
+
+</Step>
+```sh
+npx @seed-design/cli@latest init
+```
+
+<Step>
+
+### seed-design 설정
+
+```sh
+◇  TypeScript를 사용중이신가요?
+│  Yes
+│
+◇  React Server Components를 사용중이신가요?
+│  No
+│
+◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
+│  ./seed-design
+```
+
+</Step>
+</Steps>
+</Tab>
+
+<Tab value="직접 추가">
+
+아래 파일을 프로젝트 루트에 생성해주세요.
+
+```json title="seed-design.json"
+{
+  "rsc": false,
+  "tsx": true,
+  "path": "./seed-design"
+}
+```
+
+</Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+
+### 컴포넌트를 한번 사용해볼까요?
+
+```sh
+npx @seed-design/cli@latest add ui:action-button
+```
+
+</Step>
+
+<Step>
+
+### tsconfig.json 설정하기
+
+</Step>
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    // ... your options
+    "paths": {
+      // [!code highlight]
+      "seed-design/*": [
+        // [!code highlight]
+        "./seed-design/*"
+      ]
+    }
+  }
+}
+```
+
+</Steps>
+
+---
+
+<Card title="Getting Started with Stackflow" href="/react/stackflow/getting-started">
+
+SEED AppScreen을 사용하기 위해 SEED Stackflow 플러그인을 설정하는 방법을 알아봅니다.
+
+</Card>

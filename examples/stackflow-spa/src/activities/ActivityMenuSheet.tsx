@@ -1,0 +1,73 @@
+import { useActivity, type StaticActivityComponentType } from "@stackflow/react/future";
+
+import {
+  IconPencilLine,
+  IconPlusLine,
+  IconTrashcanLine,
+} from "@karrotmarket/react-monochrome-icon";
+import {
+  MenuSheetContent,
+  MenuSheetGroup,
+  MenuSheetItem,
+  MenuSheetRoot,
+} from "seed-design/ui/menu-sheet";
+import { createCallbackActivity } from "../stackflow/createCallbackActivity";
+import { PrefixIcon } from "@seed-design/react";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
+
+type Action = "add" | "edit" | "delete" | "test1" | "test2";
+
+export const menuSheetCallback = createCallbackActivity(
+  "ActivityMenuSheet",
+  {} as {
+    action: Action;
+  },
+);
+
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityMenuSheet: {};
+  }
+}
+
+const ActivityMenuSheet: StaticActivityComponentType<"ActivityMenuSheet"> = () => {
+  const { pop } = menuSheetCallback.useCallbackPop();
+  const activity = useActivity();
+
+  const handleAction = (action: Action) => () => {
+    pop({ action });
+  };
+
+  const handleClose = (open: boolean) => {
+    if (!open) {
+      pop();
+    }
+  };
+
+  return (
+    <MenuSheetRoot open={activity.isActive} onOpenChange={handleClose}>
+      <MenuSheetContent title="Actions" layerIndex={useActivityZIndexBase()}>
+        <MenuSheetGroup>
+          <MenuSheetItem onClick={handleAction("add")}>
+            <PrefixIcon svg={<IconPlusLine />} />
+            Add
+          </MenuSheetItem>
+          <MenuSheetItem onClick={handleAction("edit")}>
+            <PrefixIcon svg={<IconPencilLine />} />
+            Edit
+          </MenuSheetItem>
+        </MenuSheetGroup>
+        <MenuSheetGroup labelAlign="center">
+          <MenuSheetItem onClick={handleAction("test1")}>Test1</MenuSheetItem>
+          <MenuSheetItem onClick={handleAction("test2")}>Test2</MenuSheetItem>
+          <MenuSheetItem onClick={handleAction("delete")} tone="critical" labelAlign="left">
+            <PrefixIcon svg={<IconTrashcanLine />} />
+            Delete
+          </MenuSheetItem>
+        </MenuSheetGroup>
+      </MenuSheetContent>
+    </MenuSheetRoot>
+  );
+};
+
+export default ActivityMenuSheet;

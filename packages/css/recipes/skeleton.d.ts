@@ -4,7 +4,7 @@ declare interface SkeletonVariant {
   */
   radius: "0" | "8" | "16" | "full";
 /**
-  * @default neutral
+  * @default "neutral"
   */
   tone: "neutral" | "magic";
 }

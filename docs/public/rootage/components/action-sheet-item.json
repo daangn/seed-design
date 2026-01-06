@@ -2,7 +2,8 @@
   "kind": "ComponentSpec",
   "metadata": {
     "id": "action-sheet-item",
-    "name": "Action Sheet Item"
+    "name": "Action Sheet Item",
+    "deprecated": "Use menu-sheet-item instead."
   },
   "data": {
     "id": "action-sheet-item",

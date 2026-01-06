@@ -2,6 +2,7 @@
   "recommendations": [
     "biomejs.biome",
     "formulahendry.auto-close-tag",
-    "redhat.vscode-yaml"
+    "redhat.vscode-yaml",
+    "esbenp.prettier-vscode"
   ]
 }

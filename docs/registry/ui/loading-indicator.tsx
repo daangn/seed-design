@@ -7,8 +7,7 @@ import {
 import * as React from "react";
 import { ProgressCircle } from "./progress-circle";
 
-export interface LoadingIndicatorProps
-  extends Omit<SeedLoadingIndicatorProps, "indicator"> {
+export interface LoadingIndicatorProps extends Omit<SeedLoadingIndicatorProps, "indicator"> {
   indicator?: React.ReactNode;
 }
 
@@ -20,11 +19,7 @@ export const LoadingIndicator = React.forwardRef<
   LoadingIndicatorProps
 >(
   (
-    {
-      children,
-      indicator = <ProgressCircle size="inherit" tone="inherit" />,
-      ...otherProps
-    },
+    { children, indicator = <ProgressCircle size="inherit" tone="inherit" />, ...otherProps },
     ref,
   ) => {
     return (
@@ -35,8 +30,3 @@ export const LoadingIndicator = React.forwardRef<
   },
 );
 LoadingIndicator.displayName = "LoadingIndicator";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

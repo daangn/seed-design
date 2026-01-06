@@ -1,13 +1,12 @@
-"use client";
-
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import { Icon, HelpBubble as SeedHelpBubble } from "@seed-design/react";
 import { forwardRef } from "react";
+import type * as React from "react";
 
 export interface HelpBubbleTriggerProps extends Omit<SeedHelpBubble.RootProps, "children"> {
-  title: string;
+  title: React.ReactNode;
 
-  description?: string;
+  description?: React.ReactNode;
 
   showCloseButton?: boolean;
 
@@ -17,16 +16,7 @@ export interface HelpBubbleTriggerProps extends Omit<SeedHelpBubble.RootProps, "
 }
 
 export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTriggerProps>(
-  (props, ref) => {
-    const {
-      showCloseButton = false,
-      title,
-      description,
-      contentProps,
-      children,
-      ...otherProps
-    } = props;
-
+  ({ showCloseButton = false, title, description, contentProps, children, ...otherProps }, ref) => {
     return (
       <SeedHelpBubble.Root {...otherProps}>
         <SeedHelpBubble.Trigger asChild ref={ref}>
@@ -35,17 +25,16 @@ export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTrigger
         <SeedHelpBubble.Positioner>
           <SeedHelpBubble.Content {...contentProps}>
             {showCloseButton ? (
-              <SeedHelpBubble.CloseButton>
+              // You may implement your own i18n for dismiss label
+              <SeedHelpBubble.CloseButton aria-label="닫기">
                 <Icon svg={<IconXmarkLine />} />
               </SeedHelpBubble.CloseButton>
             ) : null}
             <SeedHelpBubble.Arrow>
               <SeedHelpBubble.ArrowTip />
             </SeedHelpBubble.Arrow>
-            <SeedHelpBubble.Title>{props.title}</SeedHelpBubble.Title>
-            {props.description && (
-              <SeedHelpBubble.Description>{props.description}</SeedHelpBubble.Description>
-            )}
+            <SeedHelpBubble.Title>{title}</SeedHelpBubble.Title>
+            {description && <SeedHelpBubble.Description>{description}</SeedHelpBubble.Description>}
           </SeedHelpBubble.Content>
         </SeedHelpBubble.Positioner>
       </SeedHelpBubble.Root>
@@ -54,45 +43,40 @@ export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTrigger
 );
 
 export interface HelpBubbleAnchorProps extends Omit<SeedHelpBubble.RootProps, "children"> {
-  title: string;
+  title: React.ReactNode;
 
-  description?: string;
+  description?: React.ReactNode;
 
   showCloseButton?: boolean;
 
   children?: React.ReactNode;
+
+  contentProps?: SeedHelpBubble.ContentProps;
 }
 
-export const HelpBubbleAnchor = forwardRef<HTMLDivElement, HelpBubbleAnchorProps>((props, ref) => {
-  const {
-    open,
-    defaultOpen,
-    onOpenChange,
-    showCloseButton = false,
-    title,
-    description,
-    ...otherProps
-  } = props;
-
-  return (
-    <SeedHelpBubble.Root>
-      <SeedHelpBubble.Anchor asChild ref={ref} {...otherProps} />
-      <SeedHelpBubble.Positioner>
-        <SeedHelpBubble.Content>
-          {showCloseButton ? (
-            <SeedHelpBubble.CloseButton>
-              <Icon svg={<IconXmarkLine />} />
-            </SeedHelpBubble.CloseButton>
-          ) : null}
-          <SeedHelpBubble.Arrow>
-            <SeedHelpBubble.ArrowTip />
-          </SeedHelpBubble.Arrow>
-          <SeedHelpBubble.Title>{props.title}</SeedHelpBubble.Title>
-          {props.description && (
-            <SeedHelpBubble.Description>{props.description}</SeedHelpBubble.Description>
-          )}
-        </SeedHelpBubble.Content>
-      </SeedHelpBubble.Positioner>
-    </SeedHelpBubble.Root>
-  );
-});
+export const HelpBubbleAnchor = forwardRef<HTMLDivElement, HelpBubbleAnchorProps>(
+  ({ showCloseButton = false, title, description, children, contentProps, ...otherProps }, ref) => {
+    return (
+      <SeedHelpBubble.Root {...otherProps}>
+        <SeedHelpBubble.Anchor asChild ref={ref}>
+          {children}
+        </SeedHelpBubble.Anchor>
+        <SeedHelpBubble.Positioner>
+          <SeedHelpBubble.Content {...contentProps}>
+            {showCloseButton ? (
+              // You may implement your own i18n for dismiss label
+              <SeedHelpBubble.CloseButton aria-label="닫기">
+                <Icon svg={<IconXmarkLine />} />
+              </SeedHelpBubble.CloseButton>
+            ) : null}
+            <SeedHelpBubble.Arrow>
+              <SeedHelpBubble.ArrowTip />
+            </SeedHelpBubble.Arrow>
+            <SeedHelpBubble.Title>{title}</SeedHelpBubble.Title>
+            {description && <SeedHelpBubble.Description>{description}</SeedHelpBubble.Description>}
+          </SeedHelpBubble.Content>
+        </SeedHelpBubble.Positioner>
+      </SeedHelpBubble.Root>
+    );
+  },
+);

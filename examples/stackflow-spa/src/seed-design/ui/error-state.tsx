@@ -1,8 +1,7 @@
-"use client";
-
-import { Text, VStack } from "@seed-design/react";
+import { Text, VStack, type TextProps } from "@seed-design/react";
 import * as React from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
+import type { ScopedColorBg } from "@seed-design/css/vars";
 
 export interface ErrorStateProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "color"> {
@@ -12,7 +11,7 @@ export interface ErrorStateProps
 
   primaryActionProps?: ActionButtonProps;
 
-  secondaryActionProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  secondaryActionProps?: ActionButtonProps;
 
   /**
    * @default "default"
@@ -23,17 +22,20 @@ export interface ErrorStateProps
 const bg = {
   default: "bg.layerDefault",
   basement: "bg.neutralWeak",
-} as const;
+} as const satisfies Record<NonNullable<ErrorStateProps["variant"]>, ScopedColorBg>;
 
 const primaryActionVariant = {
   default: "neutralWeak",
   basement: "neutralOutline",
-} as const;
+} as const satisfies Record<
+  NonNullable<ErrorStateProps["variant"]>,
+  NonNullable<ActionButtonProps["variant"]>
+>;
 
 const descriptionTextStyle = {
   descriptionOnly: "t5Regular",
   withTitle: "t4Regular",
-} as const;
+} as const satisfies Record<string, NonNullable<TextProps["textStyle"]>>;
 
 /**
  * @see https://seed-design.io/react/components/error-state
@@ -47,9 +49,6 @@ export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>((pro
     variant = "default",
     ...otherProps
   } = props;
-  const { children: secondaryActionLabel, ...secondaryActionOtherProps } =
-    secondaryActionProps || {};
-
   return (
     <VStack
       ref={ref}
@@ -80,11 +79,14 @@ export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>((pro
             <ActionButton variant={primaryActionVariant[variant]} {...primaryActionProps} />
           )}
           {secondaryActionProps && (
-            <button {...secondaryActionOtherProps}>
-              <Text color="fg.neutralMuted" textStyle="t4Medium">
-                {secondaryActionLabel}
-              </Text>
-            </button>
+            <ActionButton
+              variant="ghost"
+              color="fg.neutralMuted"
+              fontWeight="medium"
+              bleedX="asPadding"
+              bleedY="asPadding"
+              {...secondaryActionProps}
+            />
           )}
         </VStack>
       )}
@@ -92,8 +94,3 @@ export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>((pro
   );
 });
 ErrorState.displayName = "ErrorState";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

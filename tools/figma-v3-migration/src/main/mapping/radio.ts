@@ -16,11 +16,11 @@ export const radioMapping: ComponentMapping<"✅ Radio v2", "🟢 Radio"> = {
 
     if (isSelected) {
       if (isDisabled) {
-        newProperties.State = "Selected-Disabled";
+        newProperties.State = "Disabled";
       } else if (isPressed || isHovered) {
-        newProperties.State = "Selected-Pressed";
+        newProperties.State = "Pressed";
       } else {
-        newProperties.State = "Selected";
+        newProperties.State = "Enabled";
       }
     } else if (isDisabled) {
       newProperties.State = "Disabled";

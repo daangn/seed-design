@@ -1,12 +1,12 @@
 ---
 title: Chip
-description: Chip은 사용자가 선택, 필터링, 전환과 같은 제어 작업을 수행할 수 있도록 돕는 Pill 형태의 컴포넌트입니다. ActionChip과 ControlChip을 통합한 새로운 컴포넌트입니다.
+description: 사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.
 ---
 
-<ComponentExample name="chip-preview">
+<ComponentExample name="react/chip/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-preview.tsx",
+    "file": "examples/react/chip/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,35 +15,35 @@ description: Chip은 사용자가 선택, 필터링, 전환과 같은 제어 작
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add chip
+npx @seed-design/cli@latest add ui:chip
 ```
 
 <ManualInstallation name="chip" />
 
 ## Props
 
-### Chip.Button
+### `Chip.Button`
 
 <react-type-table
   path="./registry/ui/chip.tsx"
   name="ButtonChipProps"
 />
 
-### Chip.Toggle
+### `Chip.Toggle`
 
 <react-type-table
   path="./registry/ui/chip.tsx"
   name="ToggleChipProps"
 />
 
-### Chip.RadioRoot
+### `Chip.RadioRoot`
 
 <react-type-table
   path="./registry/ui/chip.tsx"
   name="RadioChipRootProps"
 />
 
-### Chip.RadioItem
+### `Chip.RadioItem`
 
 <react-type-table
   path="./registry/ui/chip.tsx"
@@ -52,67 +52,71 @@ npx @seed-design/cli@latest add chip
 
 ## Examples
 
-### Size: Small
+### Sizes
 
-<ComponentExample name="chip-small">
+#### Small
+
+<ComponentExample name="react/chip/small">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-small.tsx",
+    "file": "examples/react/chip/small.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-### Size: Medium
+#### Medium
 
-<ComponentExample name="chip-medium">
+<ComponentExample name="react/chip/medium">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-medium.tsx",
+    "file": "examples/react/chip/medium.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-### Size: Large
+#### Large
 
-<ComponentExample name="chip-large">
+<ComponentExample name="react/chip/large">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-large.tsx",
+    "file": "examples/react/chip/large.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-### Variant: Solid
+### Variants
 
-<ComponentExample name="chip-solid">
+#### Solid
+
+<ComponentExample name="react/chip/solid">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-solid.tsx",
+    "file": "examples/react/chip/solid.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-### Variant: Outline Strong
+#### Outline Strong
 
-<ComponentExample name="chip-outline-strong">
+<ComponentExample name="react/chip/outline-strong">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-outline-strong.tsx",
+    "file": "examples/react/chip/outline-strong.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-### Variant: Outline Weak
+#### Outline Weak
 
-<ComponentExample name="chip-outline-weak">
+<ComponentExample name="react/chip/outline-weak">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-outline-weak.tsx",
+    "file": "examples/react/chip/outline-weak.tsx",
     "codeblock": true
   }
   ```
@@ -120,10 +124,10 @@ npx @seed-design/cli@latest add chip
 
 ### Prefix Icon
 
-<ComponentExample name="chip-prefix-icon">
+<ComponentExample name="react/chip/prefix-icon">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-prefix-icon.tsx",
+    "file": "examples/react/chip/prefix-icon.tsx",
     "codeblock": true
   }
   ```
@@ -131,10 +135,21 @@ npx @seed-design/cli@latest add chip
 
 ### Suffix Icon
 
-<ComponentExample name="chip-suffix-icon">
+<ComponentExample name="react/chip/suffix-icon">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-suffix-icon.tsx",
+    "file": "examples/react/chip/suffix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Icon Only
+
+<ComponentExample name="react/chip/icon-only">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/chip/icon-only.tsx",
     "codeblock": true
   }
   ```
@@ -142,20 +157,38 @@ npx @seed-design/cli@latest add chip
 
 ### Prefix Avatar
 
-아바타와 함께 사용할 수 있습니다.
+[Avatar](/react/components/avatar)와 함께 사용할 수 있습니다.
 
-<ComponentExample name="chip-prefix-avatar">
+<ComponentExample name="react/chip/prefix-avatar">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-prefix-avatar.tsx",
+    "file": "examples/react/chip/prefix-avatar.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-## Migration from ActionChip/ControlChip
+### Listening to Value Changes
 
-기존 ActionChip과 ControlChip은 새로운 Chip 컴포넌트로 통합되었습니다.
+- `Chip.Toggle`
+  - `onCheckedChange`를 사용하여 토글 상태 변경을 감지할 수 있습니다.
+  - 이벤트를 활용해야 하는 경우 `inputProps`를 통해 내부 `<input>` 요소에 직접 이벤트 핸들러를 추가할 수 있습니다.
+- `Chip.RadioRoot` / `Chip.RadioItem`
+  - `Chip.RadioRoot`의 `onValueChange`를 사용하여 라디오 버튼의 선택 값 변경을 감지할 수 있습니다.
+  - 이벤트를 활용해야 하는 경우 `Chip.RadioItem`의 `inputProps`를 통해 내부 `<input>` 요소에 직접 이벤트 핸들러를 추가할 수 있습니다.
+  
+<ComponentExample name="react/chip/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/chip/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Migrating from ActionChip/ControlChip
+
+[Action Chip](/react/components/action-chip)과 [Control Chip](/react/components/control-chip)을 대체합니다.
 
 ### ActionChip → Chip.Button
 
@@ -168,7 +201,9 @@ import { ActionChip } from "@seed-design/react";
 // After
 import { Chip } from "@seed-design/react";
 
-<Chip.Button size="medium" variant="solid">Label</Chip.Button>
+<Chip.Button size="medium" variant="solid">
+  <Chip.Label>Label</Chip.Label>
+</Chip.Button>
 ```
 
 ### ControlChip → Chip.Toggle
@@ -182,5 +217,7 @@ import { ControlChip } from "@seed-design/react";
 // After
 import { Chip } from "@seed-design/react";
 
-<Chip.Toggle size="medium" variant="outlineStrong">Label</Chip.Toggle>
+<Chip.Toggle size="medium" variant="outlineStrong">
+  <Chip.Label>Label</Chip.Label>
+</Chip.Toggle>
 ```

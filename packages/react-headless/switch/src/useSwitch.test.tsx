@@ -34,6 +34,11 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchRootProps>((props, ref) 
 });
 
 describe("useSwitch", () => {
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
+
   it("should render the switch correctly", () => {
     const { getByRole } = setUp(<Switch />);
     const swc = getByRole("switch");

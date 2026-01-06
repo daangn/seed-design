@@ -2,6 +2,7 @@ import { createPropsConverter, definePropsConverter, type PropsConverter } from 
 import type {
   NormalizedCornerTrait,
   NormalizedHasChildrenTrait,
+  NormalizedHasEffectsTrait,
   NormalizedHasFramePropertiesTrait,
   NormalizedHasGeometryTrait,
   NormalizedHasLayoutTrait,
@@ -21,6 +22,7 @@ export interface PropsConverters {
   textFill: PropsConverter<FillTrait, TextFillProps>;
   vectorChildrenFill: PropsConverter<ContainerLayoutTrait, VectorChildrenFillProps>;
   stroke: PropsConverter<StrokeTrait, StrokeProps>;
+  shadow: PropsConverter<ShadowTrait, ShadowProps>;
   typeStyle: PropsConverter<TypeStyleTrait, TypeStyleProps>;
 }
 
@@ -36,6 +38,8 @@ export type RadiusTrait = NormalizedCornerTrait & NormalizedIsLayerTrait;
 export type FillTrait = NormalizedIsLayerTrait & NormalizedHasGeometryTrait;
 
 export type StrokeTrait = NormalizedIsLayerTrait & NormalizedHasGeometryTrait;
+
+export type ShadowTrait = NormalizedIsLayerTrait & NormalizedHasEffectsTrait;
 
 export type TypeStyleTrait = NormalizedTypePropertiesTrait & NormalizedIsLayerTrait;
 
@@ -67,6 +71,7 @@ export function createContainerLayoutPropsConverter(
         match(layoutMode)
           .with("HORIZONTAL", () => "row" as const)
           .with("VERTICAL", () => "column" as const)
+          .with("GRID", () => undefined)
           .with("NONE", () => undefined)
           .with(undefined, () => undefined)
           .exhaustive(),
@@ -143,7 +148,7 @@ export function createContainerLayoutPropsConverter(
 }
 
 export interface SelfLayoutProps {
-  grow?: 0 | 1 | true;
+  flexGrow?: 0 | 1 | true;
   alignSelf?: "stretch";
   width?: string | number;
   height?: string | number;
@@ -162,7 +167,7 @@ export function createSelfLayoutPropsConverter(
       props: {} as SelfLayoutProps,
     },
     handlers: {
-      grow: ({ layoutGrow }) => (layoutGrow === 1 ? true : layoutGrow),
+      flexGrow: ({ layoutGrow }) => (layoutGrow === 1 ? true : layoutGrow),
       alignSelf: ({ layoutAlign }) =>
         match(layoutAlign)
           .with("STRETCH", () => "stretch" as const)
@@ -198,7 +203,7 @@ export function createSelfLayoutPropsConverter(
           : undefined,
     },
     defaults: {
-      grow: 0,
+      flexGrow: 0,
     },
   });
 }
@@ -291,16 +296,23 @@ export function createTypeStylePropsConverter({
   });
 }
 
-export interface FrameFillProps {
-  bg?: string;
-}
+export type FrameFillProps =
+  | { bg?: string | undefined; bgGradient?: never; bgGradientDirection?: never }
+  | { bg?: never; bgGradient: string; bgGradientDirection?: string };
 
 export function createFrameFillPropsConverter(valueResolver: ReactValueResolver) {
   return definePropsConverter<FillTrait, FrameFillProps>((node) => {
     const bg = valueResolver.getFormattedValue.frameFill(node);
 
+    if (bg === undefined || typeof bg === "string") {
+      return {
+        bg,
+      };
+    }
+
     return {
-      bg,
+      bgGradient: bg.value,
+      ...(bg.direction && { bgGradientDirection: bg.direction }),
     };
   });
 }
@@ -364,7 +376,7 @@ export function createVectorChildrenFillPropsConverter(valueResolver: ReactValue
 }
 
 export interface StrokeProps {
-  borderWidth?: number;
+  borderWidth?: string;
   borderColor?: string;
 }
 
@@ -373,11 +385,33 @@ export function createStrokePropsConverter(
 ): PropsConverter<StrokeTrait, StrokeProps> {
   return definePropsConverter((node) => {
     const borderColor = valueResolver.getFormattedValue.stroke(node);
-    const borderWidth = borderColor ? node.strokeWeight : undefined;
+    const borderWidth = borderColor && node.strokeWeight ? `${node.strokeWeight}` : undefined;
 
     return {
       borderColor,
       borderWidth,
+    };
+  });
+}
+
+export interface ShadowProps {
+  boxShadow?: string;
+}
+
+export function createShadowPropsConverter(
+  valueResolver: ReactValueResolver,
+): PropsConverter<ShadowTrait, ShadowProps> {
+  return definePropsConverter((node: ShadowTrait) => {
+    const effectStyleName = valueResolver.getEffectStyleValue(node);
+    if (effectStyleName) {
+      return {
+        boxShadow: effectStyleName,
+      };
+    }
+
+    const boxShadow = valueResolver.getFormattedValue.boxShadow(node);
+    return {
+      boxShadow,
     };
   });
 }

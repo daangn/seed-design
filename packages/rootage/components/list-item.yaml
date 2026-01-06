@@ -1,0 +1,143 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: list-item
+  name: List Item
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          paddingY:
+            type: dimension
+          paddingX:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          color:
+            type: color
+          marginX:
+            type: dimension
+          cornerRadius:
+            type: dimension
+      content:
+        properties:
+          color:
+            type: color
+          gap:
+            type: dimension
+          paddingRight:
+            type: dimension
+      title:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      detail:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      prefix:
+        properties:
+          paddingRight:
+            type: dimension
+      prefixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      suffix:
+        properties:
+          gap:
+            type: dimension
+      suffixText:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      suffixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          paddingY: $dimension.x3
+          paddingX: $dimension.spacing-x.global-gutter
+          color: $color.bg.transparent
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+          marginDuration: $duration.d3
+          marginTimingFunction: $timing-function.easing
+          borderRadiusDuration: $duration.d3
+          borderRadiusTimingFunction: $timing-function.easing
+        content:
+          gap: $dimension.x0_5
+          paddingRight: $dimension.x2_5
+        title:
+          color: $color.fg.neutral
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.medium
+        detail:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
+          fontWeight: $font-weight.regular
+        prefix:
+          paddingRight: $dimension.x3
+        prefixIcon:
+          size: 22px
+          color: $color.fg.neutral
+        suffix:
+          gap: $dimension.x1
+        suffixText:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+        suffixIcon:
+          size: 18px
+          color: $color.fg.neutral-subtle
+      pressed:
+        root:
+          color: $color.bg.transparent-pressed
+          marginX: $dimension.x1_5
+          cornerRadius: $dimension.x2_5
+      highlighted:
+        root:
+          color: $color.bg.brand-weak
+      highlighted,pressed:
+        root:
+          color: $color.bg.brand-weak-pressed
+      disabled:
+        title:
+          color: $color.fg.disabled
+        detail:
+          color: $color.fg.disabled
+        prefixIcon:
+          color: $color.fg.disabled
+        suffixIcon:
+          color: $color.fg.disabled

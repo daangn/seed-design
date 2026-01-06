@@ -1,9 +1,9 @@
+import type { Api as figma } from "figma-api";
 import type { PublishedStyle } from "@figma/rest-api-spec";
-import { api } from "./client";
 
 export type StyleMetadataItem = PublishedStyle;
 
-async function getStylesInFile({ fileKey }: { fileKey: string }) {
+async function getStylesInFile({ api, fileKey }: { api: figma; fileKey: string }) {
   const {
     meta: { styles },
   } = await api.getFileStyles({ file_key: fileKey });

@@ -1,11 +1,42 @@
-import { Box, HStack, PullToRefresh, Text, VStack } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { ProgressCircle } from "../seed-design/ui/progress-circle";
-import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "../seed-design/ui/tabs";
+import { Box, HStack, Portal, PullToRefresh, Tabs, Text, VStack } from "@seed-design/react";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { ProgressCircle } from "seed-design/ui/progress-circle";
+import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
-const ActivitySwipeableTabs: ActivityComponentType = () => {
+import {
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogRoot,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "seed-design/ui/alert-dialog";
+import { ListButtonItem } from "seed-design/ui/list";
+import { ActionButton } from "seed-design/ui/action-button";
+import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+
+declare module "@stackflow/config" {
+  interface Register {
+    ActivitySwipeableTabs: {};
+  }
+}
+
+const ActivitySwipeableTabs: StaticActivityComponentType<"ActivitySwipeableTabs"> = () => {
+  const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -13,6 +44,11 @@ const ActivitySwipeableTabs: ActivityComponentType = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="Swipeable Tabs" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <TabsRoot defaultValue="1">
@@ -38,9 +74,37 @@ const ActivitySwipeableTabs: ActivityComponentType = () => {
                 </PullToRefresh.Indicator>
                 <PullToRefresh.Content>
                   <VStack>
-                    <Box overflowX="scroll" data-embla-prevent-drag>
+                    <Box overflowX="scroll" {...Tabs.carouselPreventDrag}>
                       <Box width="1000px">Scrolling Area</Box>
                     </Box>
+                    <AlertDialogRoot {...overlayProps}>
+                      <AlertDialogTrigger asChild>
+                        <ListButtonItem title="AlertDialog (step)" />
+                      </AlertDialogTrigger>
+                      <Portal>
+                        <AlertDialogContent
+                          layerIndex={useActivityZIndexBase({ activityOffset: +1 })}
+                        >
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>제목</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <VStack gap="x2">
+                              <ActionButton onClick={() => setOpen(false)}>확인</ActionButton>
+                              <ActionButton
+                                variant="neutralSolid"
+                                onClick={() => push("ActivityChipButton", {})}
+                              >
+                                ActivityChipButton
+                              </ActionButton>
+                            </VStack>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </Portal>
+                    </AlertDialogRoot>
                     <Feed />
                     <Feed />
                     <Feed />

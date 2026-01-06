@@ -1,13 +1,12 @@
 {
-  "name": "floating-action-button",
+  "id": "floating-action-button",
   "dependencies": [
     "@seed-design/react"
   ],
-  "registries": [
+  "snippets": [
     {
-      "name": "floating-action-button.tsx",
-      "type": "ui",
-      "content": "\"use client\";\n\nimport { FloatingActionButton as SeedFloatingActionButton } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface FloatingActionButtonProps\n  extends Omit<SeedFloatingActionButton.RootProps, \"children\"> {\n  icon: React.ReactNode;\n\n  label: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/fab\n */\nexport const FloatingActionButton = React.forwardRef<\n  React.ElementRef<typeof SeedFloatingActionButton.Root>,\n  FloatingActionButtonProps\n>(({ icon, label, ...otherProps }, ref) => {\n  return (\n    <SeedFloatingActionButton.Root ref={ref} {...otherProps}>\n      <SeedFloatingActionButton.Icon svg={icon} />\n      <SeedFloatingActionButton.Label>{label}</SeedFloatingActionButton.Label>\n    </SeedFloatingActionButton.Root>\n  );\n});\nFloatingActionButton.displayName = \"FloatingActionButton\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
+      "path": "floating-action-button.tsx",
+      "content": "/**\n * @file ui:floating-action-button\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport { FloatingActionButton as SeedFloatingActionButton } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface FloatingActionButtonProps\n  extends Omit<SeedFloatingActionButton.RootProps, \"children\"> {\n  icon: React.ReactNode;\n\n  label: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/floating-action-button\n */\nexport const FloatingActionButton = React.forwardRef<\n  React.ElementRef<typeof SeedFloatingActionButton.Root>,\n  FloatingActionButtonProps\n>(({ icon, label, ...otherProps }, ref) => {\n  return (\n    <SeedFloatingActionButton.Root ref={ref} {...otherProps}>\n      <SeedFloatingActionButton.Icon svg={icon} />\n      <SeedFloatingActionButton.Label>{label}</SeedFloatingActionButton.Label>\n    </SeedFloatingActionButton.Root>\n  );\n});\nFloatingActionButton.displayName = \"FloatingActionButton\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n"
     }
   ]
 }

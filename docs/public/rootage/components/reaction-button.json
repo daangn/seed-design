@@ -122,13 +122,24 @@
             ],
             "slots": {
               "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-weak"
+                  "value": "$color.bg.transparent"
                 },
                 "colorDuration": {
                   "type": "duration",
-                  "value": "$duration.d4"
+                  "value": "$duration.color-transition"
                 },
                 "colorTimingFunction": {
                   "type": "cubicBezier",
@@ -181,7 +192,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-weak-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -194,11 +205,11 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.bg.transparent"
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.brand"
+                  "value": "$color.stroke.brand-weak"
                 },
                 "strokeWidth": {
                   "type": "dimension",
@@ -247,7 +258,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -312,7 +323,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 },
                 "strokeWidth": {
                   "type": "dimension",

@@ -1,6 +1,5 @@
-"use client";
-
-import { SegmentedControl as SeedSegmentedControl } from "@seed-design/react";
+import { HStack, SegmentedControl as SeedSegmentedControl } from "@seed-design/react";
+import { NotificationBadgePositioner, NotificationBadge } from "@seed-design/react";
 import * as React from "react";
 
 export interface SegmentedControlProps extends SeedSegmentedControl.RootProps {}
@@ -37,23 +36,27 @@ export interface SegmentedControlItemProps extends SeedSegmentedControl.ItemProp
 
   rootRef?: React.Ref<HTMLLabelElement>;
 
-  /**
-   * The label of the item.
-   * Type is restricted to string for consistent width between font-weight changes.
-   * If you need to render a React element, use each element separately.
-   */
-  children: string;
+  notification?: boolean;
 }
 
 /**
  * @see https://seed-design.io/react/components/segmented-control#segmentedcontrolitem
  */
 export const SegmentedControlItem = React.forwardRef<HTMLInputElement, SegmentedControlItemProps>(
-  ({ children, inputProps, rootRef, ...otherProps }, ref) => {
+  ({ children, inputProps, rootRef, notification, ...otherProps }, ref) => {
     return (
       <SeedSegmentedControl.Item ref={rootRef} {...otherProps}>
         <SeedSegmentedControl.ItemHiddenInput ref={ref} {...inputProps} />
-        {children}
+        {notification ? (
+          <HStack position="relative" align="flex-start">
+            {children}
+            <NotificationBadgePositioner size="small" attach="text">
+              <NotificationBadge />
+            </NotificationBadgePositioner>
+          </HStack>
+        ) : (
+          children
+        )}
       </SeedSegmentedControl.Item>
     );
   },

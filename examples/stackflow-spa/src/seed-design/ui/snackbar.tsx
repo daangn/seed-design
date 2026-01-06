@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Snackbar as SeedSnackbar,
   useSnackbarAdapter as useSeedSnackbarAdapter,
@@ -48,6 +46,9 @@ export interface SnackbarProps extends SeedSnackbar.RootProps {
   shouldCloseOnAction?: boolean;
 }
 
+/**
+ * @see https://seed-design.io/react/components/snackbar
+ */
 export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
   (
     {
@@ -74,18 +75,27 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
 
     return (
       <SeedSnackbar.Root ref={ref} variant={variant} {...otherProps}>
-        <SeedSnackbar.PrefixIcon
-          svg={
-            variant === "positive" ? (
-              <IconCheckmarkCircleFill />
-            ) : variant === "critical" ? (
-              <IconExclamationmarkCircleFill />
-            ) : null
-          }
-        />
-        <SeedSnackbar.Message>{message}</SeedSnackbar.Message>
-        <SeedSnackbar.ActionButton onClick={handleAction}>{actionLabel}</SeedSnackbar.ActionButton>
-        <SeedSnackbar.HiddenCloseButton />
+        {variant !== "default" && (
+          <SeedSnackbar.PrefixIcon
+            svg={
+              variant === "positive" ? (
+                <IconCheckmarkCircleFill />
+              ) : variant === "critical" ? (
+                <IconExclamationmarkCircleFill />
+              ) : null
+            }
+          />
+        )}
+        <SeedSnackbar.Content>
+          <SeedSnackbar.Message>{message}</SeedSnackbar.Message>
+          {actionLabel && (
+            <SeedSnackbar.ActionButton onClick={handleAction}>
+              {actionLabel}
+            </SeedSnackbar.ActionButton>
+          )}
+        </SeedSnackbar.Content>
+        {/* You may implement your own i18n for dismiss label */}
+        <SeedSnackbar.HiddenCloseButton>닫기</SeedSnackbar.HiddenCloseButton>
       </SeedSnackbar.Root>
     );
   },

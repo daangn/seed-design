@@ -8,6 +8,10 @@ import {
   popBehind,
   push,
   pushBehind,
+  swipeBackCanceling,
+  swipeBackCancelingBehind,
+  swipeBackCompleting,
+  swipeBackCompletingBehind,
   swipeBackSwiping,
   swipeBackSwipingBehind,
 } from "./pseudo";
@@ -36,16 +40,19 @@ export const appBarMain = defineSlotRecipe({
         title: {
           fontSize: vars.titleLayoutTitleOnly.enabled.title.fontSize,
           fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
+          lineHeight: vars.titleLayoutTitleOnly.enabled.title.lineHeight,
         },
       },
       withSubtitle: {
         title: {
           fontSize: vars.titleLayoutWithSubtitle.enabled.title.fontSize,
           fontWeight: vars.titleLayoutWithSubtitle.enabled.title.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.enabled.title.lineHeight,
         },
         subtitle: {
           fontSize: vars.titleLayoutWithSubtitle.enabled.subtitle.fontSize,
           fontWeight: vars.titleLayoutWithSubtitle.enabled.subtitle.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.enabled.subtitle.lineHeight,
         },
       },
     },
@@ -61,7 +68,8 @@ export const appBarMain = defineSlotRecipe({
           bottom: 0,
           left: 0,
           right: 0,
-          paddingInline: "var(--centered-title-padding-x, 0)",
+          paddingLeft: "var(--centered-title-padding-x, 0)",
+          paddingRight: "var(--centered-title-padding-x, 0)",
           pointerEvents: "none",
         },
       },
@@ -70,7 +78,10 @@ export const appBarMain = defineSlotRecipe({
           display: "flex",
           alignItems: "center",
           justifyContent: "flex-start",
+
           width: "100%",
+          minWidth: 0, // ensures that the text-overflow works correctly
+
           height: "100%",
         },
       },
@@ -83,12 +94,16 @@ export const appBarMain = defineSlotRecipe({
           [pop]: iOSAnimations.title.pop,
           [idle]: iOSAnimations.title.idle,
           [swipeBackSwiping]: iOSAnimations.title.interaction,
+          [swipeBackCanceling]: iOSAnimations.title.cancel,
+          [swipeBackCompleting]: iOSAnimations.title.complete,
 
           // behind
           [pushBehind]: iOSAnimations.titleBehind.push,
           [popBehind]: iOSAnimations.titleBehind.pop,
           [idleBehind]: iOSAnimations.titleBehind.idle,
           [swipeBackSwipingBehind]: iOSAnimations.titleBehind.interaction,
+          [swipeBackCancelingBehind]: iOSAnimations.titleBehind.cancel,
+          [swipeBackCompletingBehind]: iOSAnimations.titleBehind.complete,
         },
       },
       fadeFromBottomAndroid: {},
@@ -144,7 +159,10 @@ export const appBar = defineSlotRecipe({
         content: '""',
         position: "absolute",
         pointerEvents: "none",
-        inset: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
         zIndex: -1,
       },
     },
@@ -163,6 +181,11 @@ export const appBar = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+
+      border: "none",
+      background: "none",
+      fontFamily: "inherit",
+      padding: 0,
     },
     icon: {
       display: "inline-block",
@@ -174,7 +197,8 @@ export const appBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.themeCupertino.enabled.root.minHeight} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeCupertino.enabled.root.paddingX,
+          paddingLeft: vars.themeCupertino.enabled.root.paddingX,
+          paddingRight: vars.themeCupertino.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -188,15 +212,18 @@ export const appBar = defineSlotRecipe({
             marginRight: `calc(-1 * (${vars.themeCupertino.enabled.icon.targetSize} - ${vars.themeCupertino.enabled.icon.size}) / 2)`,
           },
         },
+        // Instead of making another `icon` slot, defining the icon style using ...onlyIcon({}) inside the `iconButton` slot sounds better
+        // if we decide to do so, we should require users to wrap the icon with the <Icon /> component. (currently it's optional)
         icon: {
-          width: vars.themeCupertino.enabled.icon.size,
-          height: vars.themeCupertino.enabled.icon.size,
+          width: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
         },
       },
       android: {
         root: {
           height: `calc(${vars.themeAndroid.enabled.root.minHeight} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeAndroid.enabled.root.paddingX,
+          paddingLeft: vars.themeAndroid.enabled.root.paddingX,
+          paddingRight: vars.themeAndroid.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -211,8 +238,8 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          width: vars.themeAndroid.enabled.icon.size,
-          height: vars.themeAndroid.enabled.icon.size,
+          width: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
         },
         left: {
           paddingRight: "16px",
@@ -225,6 +252,9 @@ export const appBar = defineSlotRecipe({
           [`${push}:before`]: iOSAnimations.appBarBackground.push,
           [`${pop}:before`]: iOSAnimations.appBarBackground.pop,
           [`${idle}:before`]: iOSAnimations.appBarBackground.idle,
+          [`${swipeBackSwiping}:before`]: iOSAnimations.appBarBackground.interaction,
+          [`${swipeBackCanceling}:before`]: iOSAnimations.appBarBackground.cancel,
+          [`${swipeBackCompleting}:before`]: iOSAnimations.appBarBackground.complete,
         },
         icon: {
           // top
@@ -232,12 +262,16 @@ export const appBar = defineSlotRecipe({
           [pop]: iOSAnimations.icon.pop,
           [idle]: iOSAnimations.icon.idle,
           [swipeBackSwiping]: iOSAnimations.icon.interaction,
+          [swipeBackCanceling]: iOSAnimations.icon.cancel,
+          [swipeBackCompleting]: iOSAnimations.icon.complete,
 
           // behind
           [pushBehind]: iOSAnimations.iconBehind.push,
           [popBehind]: iOSAnimations.iconBehind.pop,
           [idleBehind]: iOSAnimations.iconBehind.idle,
           [swipeBackSwipingBehind]: iOSAnimations.iconBehind.interaction,
+          [swipeBackCancelingBehind]: iOSAnimations.iconBehind.cancel,
+          [swipeBackCompletingBehind]: iOSAnimations.iconBehind.complete,
         },
       },
       fadeFromBottomAndroid: {
@@ -255,17 +289,15 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          color: vars.toneLayer.enabled.icon.color,
+          color: `var(--seed-icon-color, ${vars.toneLayer.enabled.icon.color})`,
         },
       },
       transparent: {
         root: {
-          "&:before": {
-            backgroundColor: vars.toneTransparent.enabled.root.color,
-          },
+          backgroundColor: vars.toneTransparent.enabled.root.color,
         },
         icon: {
-          color: vars.toneTransparent.enabled.icon.color,
+          color: `var(--seed-icon-color, ${vars.toneTransparent.enabled.icon.color})`,
         },
       },
     },

@@ -81,7 +81,10 @@ interface TabItem extends TriggerProps {
 function UncontrolledTabs({
   items,
   tabsProps,
-}: { items: Record<string, TabItem>; tabsProps: UseTabsProps }) {
+}: {
+  items: Record<string, TabItem>;
+  tabsProps: UseTabsProps;
+}) {
   return (
     <Tabs {...tabsProps}>
       <TabsList>
@@ -108,6 +111,10 @@ afterEach(cleanup);
 
 describe("useTabs", () => {
   window.ResizeObserver = ResizeObserver;
+  global.CSS = {
+    // @ts-expect-error
+    supports: (_k, _v) => true,
+  };
 
   const tabItems: Record<string, TabItem> = {
     tab1: {

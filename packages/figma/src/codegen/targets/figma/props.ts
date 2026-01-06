@@ -2,6 +2,7 @@ import { createPropsConverter, definePropsConverter, type PropsConverter } from 
 import type {
   NormalizedCornerTrait,
   NormalizedHasChildrenTrait,
+  NormalizedHasEffectsTrait,
   NormalizedHasFramePropertiesTrait,
   NormalizedHasGeometryTrait,
   NormalizedHasLayoutTrait,
@@ -18,6 +19,7 @@ export interface PropsConverters {
   shapeFill: PropsConverter<FillTrait, FillProps>;
   textFill: PropsConverter<FillTrait, FillProps>;
   stroke: PropsConverter<StrokeTrait, StrokeProps>;
+  shadow: PropsConverter<ShadowTrait, ShadowProps>;
   typeStyle: PropsConverter<TypeStyleTrait, TypeStyleProps>;
 }
 
@@ -34,6 +36,8 @@ export type FillTrait = NormalizedIsLayerTrait & NormalizedHasGeometryTrait;
 
 export type StrokeTrait = NormalizedIsLayerTrait & NormalizedHasGeometryTrait;
 
+export type ShadowTrait = NormalizedIsLayerTrait & NormalizedHasEffectsTrait;
+
 export type TypeStyleTrait = NormalizedTypePropertiesTrait & NormalizedIsLayerTrait;
 
 export interface ContainerLayoutProps {
@@ -42,6 +46,7 @@ export interface ContainerLayoutProps {
   counterAxisAlignItems?: "MIN" | "CENTER" | "MAX" | "BASELINE";
   layoutWrap?: "WRAP" | "NO_WRAP";
   itemSpacing?: number | string; // string when variable
+  counterAxisSpacing?: number | string; // string when variable
   paddingTop?: number | string; // string when variable
   paddingBottom?: number | string; // string when variable
   paddingLeft?: number | string; // string when variable
@@ -59,11 +64,12 @@ export function createContainerLayoutPropsConverter(
       props: {} as ContainerLayoutProps,
     },
     handlers: {
-      layoutMode: ({ layoutMode }) => layoutMode ?? "NONE",
+      layoutMode: ({ layoutMode }) => (!layoutMode || layoutMode === "GRID" ? "NONE" : layoutMode),
       primaryAxisAlignItems: ({ primaryAxisAlignItems }) => primaryAxisAlignItems,
       counterAxisAlignItems: ({ counterAxisAlignItems }) => counterAxisAlignItems,
       layoutWrap: ({ layoutWrap }) => layoutWrap,
       itemSpacing: (node) => valueResolver.getFormattedValue.itemSpacing(node),
+      counterAxisSpacing: (node) => valueResolver.getFormattedValue.counterAxisSpacing(node),
       paddingTop: (node) => valueResolver.getFormattedValue.paddingTop(node),
       paddingBottom: (node) => valueResolver.getFormattedValue.paddingBottom(node),
       paddingLeft: (node) => valueResolver.getFormattedValue.paddingLeft(node),
@@ -148,7 +154,7 @@ export function createRadiusPropsConverter(valueResolver: FigmaValueResolver) {
 }
 
 export interface FillProps {
-  fill?: string;
+  fill?: string | { value: string; direction?: string };
 }
 
 export function createFrameFillPropsConverter(valueResolver: FigmaValueResolver) {
@@ -228,6 +234,29 @@ export function createTypeStylePropsConverter(
       fontWeight: valueResolver.getFormattedValue.fontWeight(node),
       lineHeight: valueResolver.getFormattedValue.lineHeight(node),
       maxLines,
+    };
+  });
+}
+
+export interface ShadowProps {
+  boxShadowStyle?: string;
+  boxShadow?: string;
+}
+
+export function createShadowPropsConverter(
+  valueResolver: FigmaValueResolver,
+): PropsConverter<ShadowTrait, ShadowProps> {
+  return definePropsConverter((node: ShadowTrait) => {
+    const effectStyleName = valueResolver.getEffectStyleValue(node);
+    if (effectStyleName) {
+      return {
+        boxShadowStyle: effectStyleName,
+      };
+    }
+
+    const boxShadow = valueResolver.getFormattedValue.boxShadow(node);
+    return {
+      boxShadow,
     };
   });
 }

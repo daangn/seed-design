@@ -2,16 +2,18 @@
 
 import { ExtendedActionSheet as SeedExtendedActionSheet } from "@seed-design/react";
 import { forwardRef } from "react";
+import type * as React from "react";
 
-export interface ExtendedActionSheetRootProps
-  extends SeedExtendedActionSheet.RootProps {}
+/**
+ * @deprecated Use menu-sheet instead.
+ */
+export interface ExtendedActionSheetRootProps extends SeedExtendedActionSheet.RootProps {}
 
 /**
  * @see https://seed-design.io/react/components/extended-action-sheet
+ * @deprecated Use menu-sheet instead.
  */
-export const ExtendedActionSheetRoot = (
-  props: ExtendedActionSheetRootProps,
-) => {
+export const ExtendedActionSheetRoot = (props: ExtendedActionSheetRootProps) => {
   const { children, ...otherProps } = props;
   return (
     <SeedExtendedActionSheet.Root closeOnInteractOutside={true} {...otherProps}>
@@ -20,11 +22,19 @@ export const ExtendedActionSheetRoot = (
   );
 };
 
-export interface ExtendedActionSheetTriggerProps
-  extends SeedExtendedActionSheet.TriggerProps {}
+/**
+ * @deprecated Use menu-sheet instead.
+ */
+export interface ExtendedActionSheetTriggerProps extends SeedExtendedActionSheet.TriggerProps {}
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export const ExtendedActionSheetTrigger = SeedExtendedActionSheet.Trigger;
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export interface ExtendedActionSheetContentProps
   extends Omit<SeedExtendedActionSheet.ContentProps, "title"> {
   title?: React.ReactNode;
@@ -32,6 +42,9 @@ export interface ExtendedActionSheetContentProps
   layerIndex?: number;
 }
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export const ExtendedActionSheetContent = forwardRef<
   HTMLDivElement,
   ExtendedActionSheetContentProps
@@ -55,34 +68,35 @@ export const ExtendedActionSheetContent = forwardRef<
       <SeedExtendedActionSheet.Content ref={ref} {...otherProps}>
         {title && (
           <SeedExtendedActionSheet.Header>
-            <SeedExtendedActionSheet.Title>
-              {title}
-            </SeedExtendedActionSheet.Title>
+            <SeedExtendedActionSheet.Title>{title}</SeedExtendedActionSheet.Title>
           </SeedExtendedActionSheet.Header>
         )}
         <SeedExtendedActionSheet.List>{children}</SeedExtendedActionSheet.List>
         <SeedExtendedActionSheet.Footer>
           {/* You may implement your own i18n for dismiss label */}
-          <SeedExtendedActionSheet.CloseButton>
-            취소
-          </SeedExtendedActionSheet.CloseButton>
+          <SeedExtendedActionSheet.CloseButton>취소</SeedExtendedActionSheet.CloseButton>
         </SeedExtendedActionSheet.Footer>
       </SeedExtendedActionSheet.Content>
     </SeedExtendedActionSheet.Positioner>
   );
 });
 
-export interface ExtendedActionSheetGroupProps
-  extends SeedExtendedActionSheet.GroupProps {}
-
-export const ExtendedActionSheetGroup = SeedExtendedActionSheet.Group;
-
-export interface ExtendedActionSheetItemProps
-  extends SeedExtendedActionSheet.ItemProps {}
-
-export const ExtendedActionSheetItem = SeedExtendedActionSheet.Item;
+/**
+ * @deprecated Use menu-sheet instead.
+ */
+export interface ExtendedActionSheetGroupProps extends SeedExtendedActionSheet.GroupProps {}
 
 /**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
+ * @deprecated Use menu-sheet instead.
  */
+export const ExtendedActionSheetGroup = SeedExtendedActionSheet.Group;
+
+/**
+ * @deprecated Use menu-sheet instead.
+ */
+export interface ExtendedActionSheetItemProps extends SeedExtendedActionSheet.ItemProps {}
+
+/**
+ * @deprecated Use menu-sheet instead.
+ */
+export const ExtendedActionSheetItem = SeedExtendedActionSheet.Item;

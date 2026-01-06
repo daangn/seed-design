@@ -2,7 +2,7 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "colorDuration": "var(--seed-duration-d4)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "label": {
@@ -170,8 +170,8 @@ export declare const vars: {
         "size": "var(--seed-dimension-x3_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--seed-font-size-t3)",
+        "lineHeight": "var(--seed-line-height-t3)"
       },
       "progressCircle": {
         "size": "14px",

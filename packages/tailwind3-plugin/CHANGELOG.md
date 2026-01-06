@@ -1,5 +1,174 @@
 # @seed-design/tailwind3-plugin
 
+## 1.1.13
+
+### Patch Changes
+
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+## 1.1.6
+
+### Patch Changes
+
+- dfe6c1e: transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 추가
+
+  - `$color.bg.transparent-pressed` 컬러와 `$color.bg.transparent` 컬러가 추가되었습니다.
+  - 다음 컴포넌트들의 색상이 transparent 관련 토큰으로 변경되었습니다.
+    - `Chip` (outlineStrong, outlineWeak)
+    - `Action Button` (neutralOutline, brandOutline, ghost)
+    - `Checkmark`
+    - `Tabs` (outline)
+    - `List Item`
+    - `Radiomark`
+    - `Reaction Button`
+    - `Select Box`
+  - 다음 컴포넌트들의 color transition이 추가되었습니다. (duration: $duration.d3, timing-function: $timing-function.easing)
+    - `Checkmark`
+    - `Radiomark`
+    - `Reaction Button`
+    - `Select Box`
+
+- a09e6b4: 다음 컴포넌트들의 color transition을 `$duration.color-transition` (d3) 토큰으로 변경합니다
+
+  - `Action Button`
+  - `Bottom Sheet Handle`
+  - `Checkmark`
+  - `Tabs` (outline)
+  - `Chip`
+  - `Contextual Floating Button`
+  - `Floating Action Button`
+  - `Input Button`
+  - `List Item`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Segmented Control Item`
+  - `Select Box`
+  - `Text Input`
+  - `Toggle Button`
+
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- e038490: (**BREAKING CHANGE**: Snippet을 다시 설치해야 합니다.) Manner Temp, Manner Temp Badge 컴포넌트를 업데이트합니다.
+
+  - snippet 내 오타 수정
+  - 신규 10단계 반영
+  - 업데이트 가이드
+    1. `@seed-design/css@latest @seed-design/react@latest` 설치
+    2. `npx @seed-design/cli@latest add ui:manner-temp ui:manner-temp-badge`로 snippet 최신화
+    3. 온도 범위가 변경되었으므로, `<MannerTemp level="l1" />` 혹은 `<MannerTempBadge level="l1" />`과 같이 `level`을 직접 지정하여 사용하고 있는 경우가 있는지 확인
+
+## 0.2.0
+
+### Minor Changes
+
+- 8448880: 시맨틱 stroke 컬러 토큰을 업데이트합니다.
+
+  **이름이 변경되는 stroke 토큰**
+
+  - [Color Role 규칙](https://seed-design.io/docs/foundation/color/color-role)에 맞춰 일관적인 토큰 이름을 유지할 수 있도록 업데이트합니다.
+  - 이름이 변경되는 stroke 토큰을 사용하고 있는 경우, 간단한 Find & Replace 마이그레이션이 필요합니다.
+
+  | 기존                            | 신규                            | 비고                               |
+  | ------------------------------- | ------------------------------- | ---------------------------------- |
+  | **$color.stroke.neutral-muted** | $color.stroke.neutral-subtle    | 가장 먼저 마이그레이션해야 합니다. |
+  | $color.stroke.on-image          | $color.stroke.neutral-subtle    |
+  | $color.stroke.neutral           | **$color.stroke.neutral-muted** |
+  | $color.stroke.field-focused     | $color.stroke.neutral-contrast  |
+  | $color.stroke.control           | $color.stroke.neutral-weak      |
+  | $color.stroke.field             | $color.stroke.neutral-weak      |
+  | $color.stroke.brand             | $color.stroke.brand-weak        |
+  | $color.stroke.positive          | $color.stroke.positive-weak     |
+  | $color.stroke.informative       | $color.stroke.informative-weak  |
+  | $color.stroke.warning           | $color.stroke.warning-weak      |
+  | $color.stroke.critical          | $color.stroke.critical-weak     |
+
+  **색상이 변경되는 stroke 토큰 (마이그레이션 불필요)**
+
+  `$color.stroke.neutral-contrast` (이름 변경 전 `$color.stroke.field-focused`)
+
+  모든 theme mode에서 `$color.palette.gray-800` → `$color.palette.gray-1000`로 변경되었습니다.
+
+  **신규 stroke 토큰 (마이그레이션 불필요)**
+
+  | 신규                            |
+  | ------------------------------- |
+  | $color.stroke.neutral-solid     |
+  | $color.stroke.brand-solid       |
+  | $color.stroke.positive-solid    |
+  | $color.stroke.informative-solid |
+  | $color.stroke.warning-solid     |
+  | $color.stroke.critical-solid    |
+
+## 0.1.15
+
+### Patch Changes
+
+- c51a261: font-size, line-height 토큰에 static variant를 추가합니다.
+
+  - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+  - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+- 3de4cec: 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
+
+  - CSS 변수 `--seed-{font-size|line-height}-limit-{min|max}` 도입
+  - 빌드 타임 basePx 계산을 런타임 static 토큰 참조로 대체
+  - global.ts에 폰트 스케일링 변수 통합
+
+## 0.1.14
+
+### Patch Changes
+
+- f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
+  - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
+
+  ```tsx
+  <PageBanner
+    tone="informative"
+    variant="weak"
+    description="사업자 정보를 등록해주세요."
+    suffix={
+      <PageBannerButton asChild>
+        <a href="https://www.daangn.com" target="_blank" rel="noreferrer">
+          새 탭에서 열기
+        </a>
+      </PageBannerButton>
+    }
+  />
+  ```
+
+  시맨틱 색상 토큰을 추가하고 수정합니다.
+
+  - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
+  - `$color.bg.warning-solid-pressed` 추가
+
+- 1982494: Badge 컴포넌트를 업데이트합니다.
+
+  - `tone=warning` variant를 추가합니다.
+  - `maxWidth` 스펙을 추가합니다.
+
+  신규 시맨틱 색상 토큰을 추가합니다.
+
+  - `$color.fg.warning`
+  - `$color.stroke.warning`
+  - `$color.fg.brand-contrast`
+  - `$color.bg.brand-weak`
+  - `$color.bg.brand-weak-pressed`
+
+## 0.1.6
+
+### Patch Changes
+
+- 3c13ad7: `highlight-magic-pressed` 그라디언트 토큰을 추가합니다.
+
 ## 0.1.3
 
 ### Patch Changes

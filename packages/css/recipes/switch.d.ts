@@ -1,8 +1,8 @@
 declare interface SwitchVariant {
   /**
-  * @default medium
+  * @default 32
   */
-  size: "medium" | "small";
+  size: "16" | "24" | "32";
 }
 
 declare type SwitchVariantMap = {
@@ -11,7 +11,7 @@ declare type SwitchVariantMap = {
 
 export declare type SwitchVariantProps = Partial<SwitchVariant>;
 
-export declare type SwitchSlotName = "root" | "control" | "thumb" | "label";
+export declare type SwitchSlotName = "root" | "label";
 
 export declare const switchVariantMap: SwitchVariantMap;
 

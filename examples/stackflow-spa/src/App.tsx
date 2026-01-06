@@ -1,12 +1,13 @@
-import type React from "react";
-
 import { Suspense } from "react";
 import { PreferenceProvider } from "./hooks/usePreference";
-import { SnackbarProvider } from "./seed-design/ui/snackbar";
+import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { Stack } from "./stackflow";
+import { useURLSync } from "./hooks/useUrlSync";
 
-const App: React.FC = () => (
-  <div>
+const App = () => {
+  useURLSync();
+
+  return (
     <PreferenceProvider>
       <SnackbarProvider>
         <Suspense>
@@ -14,7 +15,7 @@ const App: React.FC = () => (
         </Suspense>
       </SnackbarProvider>
     </PreferenceProvider>
-  </div>
-);
+  );
+};
 
 export default App;

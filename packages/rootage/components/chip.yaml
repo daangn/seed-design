@@ -9,43 +9,45 @@ data:
     slots:
       root:
         properties:
-          colorDuration:
-            type: duration
-          colorTimingFunction:
-            type: cubicBezier
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
           strokeColor:
             type: color
           strokeWidth:
             type: dimension
-          cornerRadius:
-            type: dimension
           height:
-            type: dimension
-          gap:
             type: dimension
           paddingX:
             type: dimension
           minWidth:
             type: dimension
-          color:
-            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
           opacity:
             type: number
       label:
         properties:
           color:
             type: color
-          fontWeight:
-            type: number
           fontSize:
             type: dimension
           lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          paddingX:
             type: dimension
       prefixIcon:
         properties:
           color:
             type: color
           size:
+            type: dimension
+          paddingLeft:
             type: dimension
       prefixAvatar:
         properties:
@@ -57,6 +59,8 @@ data:
             type: color
           size:
             type: dimension
+          paddingRight:
+            type: dimension
       icon:
         properties:
           color:
@@ -67,7 +71,7 @@ data:
     base:
       enabled:
         root:
-          colorDuration: $duration.d4
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
           cornerRadius: $radius.full
         prefixIcon:
@@ -97,14 +101,6 @@ data:
       pressed:
         root:
           color: $color.bg.neutral-weak-pressed
-        label:
-          color: $color.fg.neutral
-        prefixIcon:
-          color: $color.fg.neutral
-        suffixIcon:
-          color: $color.fg.neutral
-        icon:
-          color: $color.fg.neutral
       disabled:
         root:
           opacity: 0.5
@@ -122,14 +118,6 @@ data:
       selected, pressed:
         root:
           color: $color.bg.neutral-inverted-pressed
-        label:
-          color: $color.fg.neutral-inverted
-        prefixIcon:
-          color: $color.fg.neutral-inverted
-        suffixIcon:
-          color: $color.fg.neutral-inverted
-        icon:
-          color: $color.fg.neutral-inverted
       selected, disabled:
         root:
           opacity: 0.5
@@ -137,9 +125,9 @@ data:
     variant=outlineStrong:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral
+          color: $color.bg.transparent
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
-          color: $color.bg.layer-default
         label:
           color: $color.fg.neutral
         prefixIcon:
@@ -150,17 +138,7 @@ data:
           color: $color.fg.neutral
       pressed:
         root:
-          strokeColor: $color.stroke.neutral
-          strokeWidth: 1px
-          color: $color.bg.layer-default-pressed
-        label:
-          color: $color.fg.neutral
-        prefixIcon:
-          color: $color.fg.neutral
-        suffixIcon:
-          color: $color.fg.neutral
-        icon:
-          color: $color.fg.neutral
+          color: $color.bg.transparent-pressed
       disabled:
         root:
           opacity: 0.5
@@ -178,14 +156,6 @@ data:
       selected, pressed:
         root:
           color: $color.bg.neutral-inverted-pressed
-        label:
-          color: $color.fg.neutral-inverted
-        prefixIcon:
-          color: $color.fg.neutral-inverted
-        suffixIcon:
-          color: $color.fg.neutral-inverted
-        icon:
-          color: $color.fg.neutral-inverted
       selected, disabled:
         root:
           opacity: 0.5
@@ -193,9 +163,9 @@ data:
     variant=outlineWeak:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral
+          color: $color.bg.transparent
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
-          color: $color.bg.layer-default
         label:
           color: $color.fg.neutral
         prefixIcon:
@@ -206,46 +176,17 @@ data:
           color: $color.fg.neutral
       pressed:
         root:
-          strokeColor: $color.stroke.neutral
-          strokeWidth: 1px
-          color: $color.bg.layer-default-pressed
-        label:
-          color: $color.fg.neutral
-        prefixIcon:
-          color: $color.fg.neutral
-        suffixIcon:
-          color: $color.fg.neutral
-        icon:
-          color: $color.fg.neutral
+          color: $color.bg.transparent-pressed
       disabled:
         root:
           opacity: 0.5
       selected:
         root:
-          strokeColor: $color.stroke.field-focused
-          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-contrast
           color: $color.bg.neutral-weak
-        label:
-          color: $color.fg.neutral
-        prefixIcon:
-          color: $color.fg.neutral
-        suffixIcon:
-          color: $color.fg.neutral
-        icon:
-          color: $color.fg.neutral
       selected, pressed:
         root:
-          strokeColor: $color.stroke.field-focused
-          strokeWidth: 1px
           color: $color.bg.neutral-weak-pressed
-        label:
-          color: $color.fg.neutral
-        prefixIcon:
-          color: $color.fg.neutral
-        suffixIcon:
-          color: $color.fg.neutral
-        icon:
-          color: $color.fg.neutral
       selected, disabled:
         root:
           opacity: 0.5

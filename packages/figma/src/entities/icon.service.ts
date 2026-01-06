@@ -8,7 +8,9 @@ export interface IconService {
 
 export function createIconService({
   iconRepository,
-}: { iconRepository: IconRepository }): IconService {
+}: {
+  iconRepository: IconRepository;
+}): IconService {
   function isAvailable(componentKey: string) {
     return iconRepository.getOne(componentKey) !== undefined;
   }

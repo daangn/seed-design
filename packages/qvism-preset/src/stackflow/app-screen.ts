@@ -9,9 +9,15 @@ import {
   popBehind,
   push,
   pushBehind,
+  swipeBackCanceling,
+  swipeBackCancelingBehind,
+  swipeBackCompleting,
+  swipeBackCompletingBehind,
   swipeBackSwiping,
   swipeBackSwipingBehind,
 } from "./pseudo";
+
+const OVERSCROLL_GRADIENT_OFFSET = "400px";
 
 export const appScreen = defineSlotRecipe({
   name: "app-screen",
@@ -66,10 +72,6 @@ export const appScreen = defineSlotRecipe({
         root: {
           "--app-bar-height": navVars.themeCupertino.enabled.root.minHeight,
         },
-        dim: {
-          height: "100%",
-          background: vars.$color.bg.overlay,
-        },
       },
       android: {
         root: {
@@ -95,18 +97,27 @@ export const appScreen = defineSlotRecipe({
           [pop]: iOSAnimations.layer.pop,
           [idle]: iOSAnimations.layer.idle,
           [swipeBackSwiping]: iOSAnimations.layer.interaction,
+          [swipeBackCanceling]: iOSAnimations.layer.cancel,
+          [swipeBackCompleting]: iOSAnimations.layer.complete,
 
           // behind
           [pushBehind]: iOSAnimations.layerBehind.push,
           [popBehind]: iOSAnimations.layerBehind.pop,
           [idleBehind]: iOSAnimations.layerBehind.idle,
           [swipeBackSwipingBehind]: iOSAnimations.layerBehind.interaction,
+          [swipeBackCancelingBehind]: iOSAnimations.layerBehind.cancel,
+          [swipeBackCompletingBehind]: iOSAnimations.layerBehind.complete,
         },
         dim: {
+          height: "100%",
+          background: vars.$color.bg.overlay,
+
           [push]: iOSAnimations.dim.push,
           [pop]: iOSAnimations.dim.pop,
           [idle]: iOSAnimations.dim.idle,
           [swipeBackSwiping]: iOSAnimations.dim.interaction,
+          [swipeBackCanceling]: iOSAnimations.dim.cancel,
+          [swipeBackCompleting]: iOSAnimations.dim.complete,
         },
       },
       fadeFromBottomAndroid: {
@@ -152,11 +163,84 @@ export const appScreen = defineSlotRecipe({
         },
       },
     },
+    tone: {
+      layer: {},
+      transparent: {},
+    },
+    gradient: {
+      true: {},
+      false: {},
+    },
   },
+  compoundVariants: [
+    {
+      tone: "transparent",
+      gradient: true,
+      css: {
+        layer: {
+          "&::before": {
+            content: "''",
+            display: "block",
+            position: "sticky",
+            left: 0,
+            right: 0,
+            top: 0,
+            marginBottom: `calc(-1 * (66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top)))`,
+            height: `calc(66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top))`,
+
+            // since we're using sticky, when iOS overscroll happens the before pseudoelement will stick to the top of `layer` and won't show the gradient in the overscroll area.
+            // so we extend the height of the gradient and use transform to move it up to the possible gradient area.
+            // rgba(0, 0, 0, 0.2) is for a natural look; if we use rgba(0, 0, 0, 0.35) on 0% the gradient looks off
+            background: `linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.35) ${OVERSCROLL_GRADIENT_OFFSET}, rgba(0, 0, 0, 0.00) 100%)`,
+            pointerEvents: "none",
+            zIndex: 1,
+          },
+        },
+      },
+    },
+    {
+      tone: "transparent",
+      gradient: true,
+      layerOffsetBottom: "none",
+      css: {
+        layer: {
+          "&::before": {
+            transform: `translateY(-${OVERSCROLL_GRADIENT_OFFSET})`,
+          },
+        },
+      },
+    },
+    {
+      tone: "transparent",
+      gradient: true,
+      layerOffsetTop: "safeArea",
+      css: {
+        layer: {
+          "&::before": {
+            transform: `translateY(calc(-${OVERSCROLL_GRADIENT_OFFSET} - var(--seed-safe-area-top)))`,
+          },
+        },
+      },
+    },
+    {
+      tone: "transparent",
+      gradient: true,
+      layerOffsetTop: "appBar",
+      css: {
+        layer: {
+          "&::before": {
+            transform: `translateY(calc(-${OVERSCROLL_GRADIENT_OFFSET} - var(--app-bar-offset)))`,
+          },
+        },
+      },
+    },
+  ],
   defaultVariants: {
     theme: "cupertino",
     transitionStyle: "slideFromRightIOS",
     layerOffsetTop: "appBar",
     layerOffsetBottom: "none",
+    tone: "layer",
+    gradient: true,
   },
 });

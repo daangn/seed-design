@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: menu-sheet
+  name: Menu Sheet
+data:
+  schema:
+    slots:
+      backdrop:
+        properties:
+          color:
+            type: color
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitOpacity:
+            type: number
+      content:
+        properties:
+          color:
+            type: color
+          maxWidth:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          topCornerRadius:
+            type: dimension
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+      header:
+        properties:
+          gap:
+            type: dimension
+          paddingBottom:
+            type: dimension
+      title:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      description:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      list:
+        properties:
+          gap:
+            type: dimension
+      group:
+        properties:
+          cornerRadius:
+            type: dimension
+      divider:
+        properties:
+          strokeBottomWidth:
+            type: dimension
+          strokeColor:
+            type: color
+      footer:
+        properties:
+          paddingTop:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        backdrop:
+          color: $color.bg.overlay
+          enterDuration: $duration.d2
+          enterTimingFunction: $timing-function.enter
+          enterOpacity: 0
+          exitDuration: $duration.d2
+          exitTimingFunction: $timing-function.exit
+          exitOpacity: 0
+        content:
+          color: $color.bg.layer-floating
+          maxWidth: 480px
+          paddingX: $dimension.spacing-x.global-gutter
+          paddingY: $dimension.x4
+          topCornerRadius: $radius.r5
+          enterDuration: $duration.d6
+          enterTimingFunction: $timing-function.enter-expressive
+          # Do we need translateY definition here?
+          exitDuration: $duration.d4
+          exitTimingFunction: $timing-function.exit
+        header:
+          gap: $dimension.x1
+          paddingBottom: $dimension.x4
+        title:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+          fontWeight: $font-weight.bold
+          color: $color.fg.neutral
+        description:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+          fontWeight: $font-weight.regular
+          color: $color.fg.neutral-muted
+        # We might need description in near future
+        list:
+          gap: $dimension.x2_5
+        group:
+          cornerRadius: $radius.r4
+        divider:
+          strokeBottomWidth: 1px
+          strokeColor: $color.stroke.neutral-muted
+        footer:
+          paddingTop: $dimension.x2_5

@@ -1,0 +1,5 @@
+{
+  "title": "Installation",
+  "icon": "Cog",
+  "pages": ["vite", "rsbuild", "webpack", "manual"]
+}

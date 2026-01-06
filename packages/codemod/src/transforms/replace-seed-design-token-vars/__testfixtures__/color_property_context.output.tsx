@@ -4,20 +4,20 @@ import { vars } from "@seed-design/css/vars";
 export const styles = {
   // 텍스트 색상 (fg 토큰)
   textColor: {
-    color: vars.$color.palette.gray600
+    color: vars.$color.palette.gray600,
   },
   fill: vars.$color.bg.brandSolid,
-  
+
   // 배경 색상 (bg 토큰)
   background: {
-    backgroundColor: vars.$color.palette.gray600
+    backgroundColor: vars.$color.palette.gray600,
   },
   backgroundGeneral: {
-    background: vars.$color.bg.brandSolid
+    background: vars.$color.bg.brandSolid,
   },
-  
+
   // 테두리 색상 (stroke 토큰)
   border: {
-    borderColor: vars.$color.palette.gray600
+    borderColor: vars.$color.palette.gray600,
   },
 };

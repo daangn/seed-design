@@ -35,9 +35,7 @@ export function TokenTable(props: TokenTableProps) {
   );
 }
 
-function TokenRow(props: {
-  item: TokenTableItem;
-}) {
+function TokenRow(props: { item: TokenTableItem }) {
   const { item } = props;
   const { id, values, resolvedValue } = item;
 

@@ -2,7 +2,8 @@
   "kind": "Tokens",
   "metadata": {
     "id": "duration",
-    "name": "Duration"
+    "name": "Duration",
+    "lastUpdated": "25-11-18"
   },
   "data": {
     "collection": "global",
@@ -70,6 +71,14 @@
               "value": 300,
               "unit": "ms"
             }
+          }
+        }
+      },
+      "$duration.color-transition": {
+        "values": {
+          "default": {
+            "type": "duration",
+            "value": "$duration.d3"
           }
         }
       }

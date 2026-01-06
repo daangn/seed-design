@@ -1,0 +1,133 @@
+---
+title: Text
+description: 텍스트를 표시하는 기본 타이포그래피 컴포넌트입니다. 일관된 글꼴 스타일과 크기를 적용하여 텍스트를 렌더링할 때 사용됩니다.
+---
+
+<ComponentExample name="react/text/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Usage
+
+```tsx
+import { Text } from "@seed-design/react";
+```
+
+```tsx
+<Text />
+```
+
+## Props
+
+<react-type-table path="../packages/react/src/components/Text/Text.tsx" name="TextProps" />
+
+## Examples
+
+### Text Styles
+
+Figma의 Text Style과 대응되는 `textStyle` 속성을 사용하는 것이 기본 방법입니다. `textStyle`은 글꼴 크기, 줄 간격, 글꼴 굵기를 한 번에 설정합니다.
+
+<ComponentExample name="react/text/text-styles">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text/text-styles.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Font Sizes
+
+더 구체적으로 변경이 필요한 경우 `fontSize` 및 `lineHeight` 속성을 각각 사용할 수 있습니다.
+
+`lineHeight` 속성은 `fontSize`에 대응되는 기본값으로 설정되며, `lineHeight` 속성으로 변경이 가능합니다.
+
+<ComponentExample name="react/text/font-sizes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text/font-sizes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Font Weights
+
+더 구체적으로 변경이 필요한 경우 `fontWeight` 속성을 사용할 수 있습니다.
+
+<ComponentExample name="react/text/font-weights">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text/font-weights.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Text Decoration Lines
+
+`textDecorationLine` 속성을 사용하여 텍스트에 밑줄 또는 취소선을 추가할 수 있습니다.
+
+<Callout type="warning" title={"textDecorationLine=\"underline\"을 사용하기 전 읽어보기"}>
+
+- 링크가 아닌 텍스트를 강조하기 위해 밑줄을 적용할 때는 사용자 경험을 고려해야 합니다. 밑줄이 있는 텍스트는 링크로 인식될 수 있으므로, 혼동을 피하기 위해 적절한 상황에서만 사용해야 합니다.
+- 본문 밖 영역에서 인라인 텍스트를 링크 용도로 사용하고자 하는 경우 [ActionButton](/react/components/action-button)을 `variant="ghost" bleedX="asPadding" bleedY="asPadding"` 옵션으로 사용하는 것을 고려해보세요.
+
+</Callout>
+
+<ComponentExample name="react/text/text-decoration-lines">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text/text-decoration-lines.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Max Lines
+
+`maxLines` 속성을 사용하여 텍스트가 차지하는 최대 줄 수를 제한할 수 있습니다. 지정된 줄 수를 초과하는 텍스트는 생략 부호(ellipsis) `…` 로 표시됩니다.
+
+<ComponentExample name="react/text/max-lines">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text/max-lines.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### User Select
+
+`userSelect` 속성을 사용하여 사용자가 텍스트를 선택할 수 있는지 여부를 제어할 수 있습니다.
+
+<ComponentExample name="react/text/user-select">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text/user-select.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### White Space
+
+<Callout type="warning">
+
+`whiteSpace` prop은 `maxLines` prop을 사용하지 않을 때만 적용됩니다.
+
+</Callout>
+
+<ComponentExample name="react/text/white-space">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text/white-space.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

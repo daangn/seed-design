@@ -1,12 +1,12 @@
 ---
 title: Radio Select Box
-description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+description: 라디오 버튼 형태로 하나의 옵션만 선택할 수 있는 드롭다운 컴포넌트입니다. 단일 선택이 필요한 설정이나 필터에서 사용됩니다.
 ---
 
-<ComponentExample name="radio-select-box-preview">
+<ComponentExample name="react/radio-select-box/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/radio-select-box-preview.tsx",
+    "file": "examples/react/radio-select-box/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,7 +15,7 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add select-box
+npx @seed-design/cli@latest add ui:select-box
 ```
 
 <ManualInstallation name="select-box" />
@@ -40,10 +40,36 @@ npx @seed-design/cli@latest add select-box
 
 ### React Hook Form
 
-<ComponentExample name="radio-select-box-react-hook-form">
+<ComponentExample name="react/radio-select-box/react-hook-form">
   ```json doc-gen:file
   {
-    "file": "./components/example/radio-select-box-react-hook-form.tsx",
+    "file": "examples/react/radio-select-box/react-hook-form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizing Label
+
+<ComponentExample name="react/radio-select-box/customizing-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/radio-select-box/customizing-label.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Listening to Value Changes
+
+`RadioSelectBoxRoot`의 `onValueChange`를 사용하여 라디오 버튼의 선택 값 변경을 감지할 수 있습니다.
+
+이벤트를 활용해야 하는 경우 `RadioSelectBoxItem`의 `inputProps`를 통해 내부 `<input>` 요소에 직접 이벤트 핸들러를 추가할 수 있습니다.
+
+<ComponentExample name="react/radio-select-box/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/radio-select-box/value-changes.tsx",
     "codeblock": true
   }
   ```

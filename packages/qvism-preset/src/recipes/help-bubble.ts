@@ -6,16 +6,21 @@ import { enterAnimation, exitAnimation } from "../utils/animation";
 
 const helpBubble = defineSlotRecipe({
   name: "help-bubble",
-  slots: ["positioner", "content", "arrow", "title", "description", "closeButton"],
+  slots: ["positioner", "content", "arrow", "arrowTip", "title", "description", "closeButton"],
   base: {
+    positioner: {
+      "--popover-z-index": "99",
+      zIndex: "calc(var(--popover-z-index) + var(--z-index-offset, 0))",
+    },
     content: {
       display: "flex",
       flexDirection: "column",
       background: vars.base.enabled.root.color,
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
+      paddingTop: vars.base.enabled.root.paddingY,
+      paddingBottom: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
-      boxShadow: vars.base.enabled.root.shadow,
       wordBreak: "keep-all",
 
       "--seed-box-max-width": "initial",
@@ -44,32 +49,44 @@ const helpBubble = defineSlotRecipe({
       },
     },
     arrow: {
+      width: vars.base.enabled.arrow.width,
+      // we're making it square
+      height: vars.base.enabled.arrow.width,
+    },
+    arrowTip: {
+      // svg has default display of inline, which makes it be affected by line-height
+      display: "block",
+
       fill: vars.base.enabled.arrow.color,
+
       width: vars.base.enabled.arrow.width,
       height: vars.base.enabled.arrow.height,
-
-      /**
-       * Prevent the arrow position from being calculated differently due to the font-size of the parent element
-       */
-      fontSize: "0",
     },
     title: {
       color: vars.base.enabled.title.color,
       fontSize: vars.base.enabled.title.fontSize,
       fontWeight: vars.base.enabled.title.fontWeight,
       lineHeight: vars.base.enabled.title.lineHeight,
+
+      whiteSpace: "pre-wrap",
     },
     description: {
       color: vars.base.enabled.description.color,
       fontSize: vars.base.enabled.description.fontSize,
       fontWeight: vars.base.enabled.description.fontWeight,
       lineHeight: vars.base.enabled.description.lineHeight,
+
+      whiteSpace: "pre-wrap",
     },
     closeButton: {
       position: "absolute",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      border: "none",
+      background: "transparent",
+      cursor: "pointer",
+      padding: 0,
 
       top: `calc(${vars.base.enabled.closeButton.fromTop} - ${vars.base.enabled.closeButton.targetSize} / 2 + ${vars.base.enabled.closeButton.size} / 2)`,
       right: `calc(${vars.base.enabled.closeButton.fromRight} - ${vars.base.enabled.closeButton.targetSize} / 2 + ${vars.base.enabled.closeButton.size} / 2)`,

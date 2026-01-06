@@ -10,7 +10,16 @@ const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface DialogRootProps extends DialogVariantProps, DialogPrimitive.RootProps {}
+export interface DialogRootProps extends DialogVariantProps, DialogPrimitive.RootProps {
+  /**
+   * @default true
+   */
+  lazyMount?: DialogPrimitive.RootProps["lazyMount"];
+  /**
+   * @default true
+   */
+  unmountOnExit?: DialogPrimitive.RootProps["unmountOnExit"];
+}
 
 export const DialogRoot = withRootProvider<DialogRootProps>(DialogPrimitive.Root, {
   defaultProps: {

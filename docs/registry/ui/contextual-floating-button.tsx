@@ -7,8 +7,7 @@ import {
 import * as React from "react";
 import { LoadingIndicator } from "./loading-indicator";
 
-export interface ContextualFloatingButtonProps
-  extends SeedContextualFloatingButtonProps {}
+export interface ContextualFloatingButtonProps extends SeedContextualFloatingButtonProps {}
 
 /**
  * @see https://seed-design.io/react/components/contextual-floating-button
@@ -20,17 +19,8 @@ export const ContextualFloatingButton = React.forwardRef<
 >(({ loading = false, children, ...otherProps }, ref) => {
   return (
     <SeedContextualFloatingButton ref={ref} loading={loading} {...otherProps}>
-      {loading && !otherProps.asChild ? (
-        <LoadingIndicator>{children}</LoadingIndicator>
-      ) : (
-        children
-      )}
+      {loading && !otherProps.asChild ? <LoadingIndicator>{children}</LoadingIndicator> : children}
     </SeedContextualFloatingButton>
   );
 });
 ContextualFloatingButton.displayName = "ContextualFloatingButton";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

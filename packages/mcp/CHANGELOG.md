@@ -1,5 +1,256 @@
 # @seed-design/mcp
 
+## 1.1.15
+
+### Patch Changes
+
+- @seed-design/figma@1.1.15
+
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies [c1f818f]
+  - @seed-design/figma@1.1.14
+
+## 1.1.13
+
+### Patch Changes
+
+- @seed-design/figma@1.1.13
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies [6d680ba]
+  - @seed-design/figma@1.1.12
+
+## 1.1.11
+
+### Patch Changes
+
+- b58ac46: Figma MCP가 `export_node_as_image` 툴과 `clone_node` 툴 호출 후 반환 결과를 정상적으로 파싱하지 못하는 문제를 수정합니다.
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [23e9246]
+  - @seed-design/figma@1.1.10
+
+## 1.1.9
+
+### Patch Changes
+
+- @seed-design/figma@1.1.9
+
+## 1.1.8
+
+### Patch Changes
+
+- @seed-design/figma@1.1.8
+
+## 1.1.7
+
+### Patch Changes
+
+- @seed-design/figma@1.1.7
+
+## 1.1.6
+
+### Patch Changes
+
+- @seed-design/figma@1.1.6
+
+## 1.1.5
+
+### Patch Changes
+
+- @seed-design/figma@1.1.5
+
+## 1.1.4
+
+### Patch Changes
+
+- @seed-design/figma@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [d986fd5]
+  - @seed-design/figma@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [4c5d7c4]
+  - @seed-design/figma@1.1.2
+
+## 1.1.0
+
+### Patch Changes
+
+- Updated dependencies [191005f]
+  - @seed-design/figma@1.1.0
+
+## 1.0.7
+
+### Patch Changes
+
+- @seed-design/figma@1.0.7
+
+## 1.0.6
+
+### Patch Changes
+
+- Updated dependencies [6aafce0]
+  - @seed-design/figma@1.0.6
+
+## 1.0.5
+
+### Patch Changes
+
+- @seed-design/figma@1.0.5
+
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [ac1fd00]
+- Updated dependencies [8b07555]
+  - @seed-design/figma@1.0.3
+
+## 1.0.2
+
+### Patch Changes
+
+- @seed-design/figma@1.0.2
+
+## 1.0.1
+
+### Patch Changes
+
+- @seed-design/figma@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- Updated dependencies [34f92f2]
+  - @seed-design/figma@1.0.0
+
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [bef65a6]
+  - @seed-design/figma@0.2.5
+
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies [afdd1ee]
+  - @seed-design/figma@0.2.4
+
+## 0.2.3
+
+### Patch Changes
+
+- @seed-design/figma@0.2.3
+
+## 0.2.1
+
+### Patch Changes
+
+- @seed-design/figma@0.2.1
+
+## 0.2.0
+
+### Patch Changes
+
+- @seed-design/figma@0.2.0
+
+## 0.1.15
+
+### Patch Changes
+
+- @seed-design/figma@0.1.15
+
+## 0.1.14
+
+### Patch Changes
+
+- Updated dependencies [f806356]
+- Updated dependencies [1982494]
+  - @seed-design/figma@0.1.14
+
+## 0.1.13
+
+### Patch Changes
+
+- @seed-design/figma@0.1.13
+
+## 0.1.12
+
+### Patch Changes
+
+- @seed-design/figma@0.1.12
+
+## 0.1.11
+
+### Patch Changes
+
+- Updated dependencies [9993e0e]
+  - @seed-design/figma@0.1.11
+
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [aa40f66]
+  - @seed-design/figma@0.1.10
+
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [5a025b7]
+- Updated dependencies [f9379e0]
+  - @seed-design/figma@0.1.9
+
+## 0.1.8
+
+### Patch Changes
+
+- Updated dependencies [2e2cc53]
+  - @seed-design/figma@0.1.8
+
+## 0.1.7
+
+### Patch Changes
+
+- @seed-design/figma@0.1.7
+
+## 0.1.6
+
+### Patch Changes
+
+- @seed-design/figma@0.1.6
+
+## 0.1.5
+
+### Patch Changes
+
+- @seed-design/figma@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -12,7 +12,17 @@
       "!**/package.json",
       "!**/archive/**/*",
       "!**/.next/**/*",
-      "!**/__testfixtures__"
+      "!**/__testfixtures__/**/*",
+      "!**/__generated__/**/*",
+      "!**/__registry__/**/*",
+      "!**/public/**/*",
+      "!packages/css/**/*",
+      "!**/schema.json",
+      "!packages/qvism-preset/src/vars/**/*",
+      "!packages/qvism-preset/src/token.css",
+      "!packages/qvism-preset/src/tokens.ts",
+      "!packages/tailwind3-plugin/src/index.ts",
+      "!packages/tailwind4-theme/src/index.css"
     ],
     "enabled": true,
     "indentStyle": "space",
@@ -35,7 +45,7 @@
       "!**/.vscode",
       "!**/out",
       "!**/bin",
-      "!**/__testfixtures__"
+      "!**/__testfixtures__/**/*"
     ],
     "rules": {
       "recommended": true,
@@ -90,32 +100,6 @@
     {
       "includes": [
         "**/docs/**/*",
-        "!**/public",
-        "!**/node_modules",
-        "!**/.cache",
-        "!**/lib",
-        "!**/dist"
-      ],
-      "linter": {
-        "rules": {
-          "style": {
-            "noNonNullAssertion": "off"
-          },
-          "correctness": {
-            "useExhaustiveDependencies": "warn"
-          },
-          "a11y": {
-            "noSvgWithoutTitle": "off"
-          }
-        }
-      },
-      "formatter": {
-        "lineWidth": 80
-      }
-    },
-    {
-      "includes": [
-        "**/docs/**/*",
         "!**/*.css",
         "!**/registry/**/*",
         "!**/public/**/*",
@@ -132,7 +116,8 @@
             "useImportType": "off"
           },
           "correctness": {
-            "useExhaustiveDependencies": "warn"
+            "useExhaustiveDependencies": "warn",
+            "noUnusedVariables": "error"
           },
           "a11y": {
             "useKeyWithClickEvents": "off"
