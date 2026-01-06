@@ -1,8 +1,7 @@
 on:
   push:
     branches:
-      - "*"
-
+      - "**"
     paths:
       - "docs/**"
       - "examples/stackflow-spa/**"
