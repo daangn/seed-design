@@ -171,7 +171,6 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
             "type": "string"
           }
         },
-        "required": ["values", "defaultValue"],
         "additionalProperties": false
       },
       "variantValuesSchema": {
