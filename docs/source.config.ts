@@ -1,9 +1,15 @@
 import { fileGenerator, remarkDocGen } from "fumadocs-docgen";
 import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
+import { z } from "zod";
 import { remarkFigmaImage } from "./components/figma-image/remark-figma-image";
 import { typeTableGenerator } from "./components/type-table/generator";
 import { remarkReactTypeTable } from "./components/type-table/remark-react-type-table";
-import z from "zod";
+
+import lastModified from "fumadocs-mdx/plugins/last-modified";
+
+const baseSchema = frontmatterSchema.extend({
+  deprecated: z.string().optional(),
+});
 
 export const docs = defineDocs({
   dir: "content/docs",
@@ -20,9 +26,7 @@ export const reactDocs = defineDocs({
   dir: "content/react",
   docs: {
     async: true,
-    schema: frontmatterSchema.extend({
-      deprecated: z.string().optional(),
-    }),
+    schema: baseSchema as typeof frontmatterSchema,
   },
 });
 
@@ -30,9 +34,7 @@ export const breezeDocs = defineDocs({
   dir: "content/breeze",
   docs: {
     async: true,
-    schema: frontmatterSchema.extend({
-      deprecated: z.string().optional(),
-    }),
+    schema: baseSchema as typeof frontmatterSchema,
   },
 });
 
@@ -40,9 +42,7 @@ export const lynxDocs = defineDocs({
   dir: "content/lynx",
   docs: {
     async: true,
-    schema: frontmatterSchema.extend({
-      deprecated: z.string().optional(),
-    }),
+    schema: baseSchema as typeof frontmatterSchema,
   },
 });
 
@@ -51,7 +51,7 @@ if (!process.env.FIGMA_FILE_KEY || !process.env.FIGMA_PERSONAL_ACCESS_TOKEN) {
 }
 
 export default defineConfig({
-  lastModifiedTime: "git",
+  plugins: [lastModified()],
   mdxOptions: {
     remarkNpmOptions: {
       persist: {
