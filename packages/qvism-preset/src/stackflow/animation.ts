@@ -220,3 +220,29 @@ export const fadeFromBottomAndroidAnimations = {
     },
   }),
 };
+
+const fadeInPresence = createPresence(
+  // fade in
+  { duration: "300ms", timingFunction: "ease-out" },
+  // fade out is faster than fade in because it feels better
+  { duration: "150ms", timingFunction: "ease-in" },
+);
+
+export const fadeInAnimations = {
+  layer: fadeInPresence.getAnimations({
+    in: {
+      opacity: "1",
+    },
+    out: {
+      opacity: "0",
+    },
+  }),
+  appBar: fadeInPresence.getAnimations({
+    in: {
+      opacity: "1",
+    },
+    out: {
+      opacity: "0",
+    },
+  }),
+};
