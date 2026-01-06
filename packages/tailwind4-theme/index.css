@@ -516,145 +516,145 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t1-regular-static {
+@utility t1-static-regular {
     font-size: var(--seed-font-size-t1-static);
     line-height: var(--seed-line-height-t1-static);
     font-weight: var(--seed-font-weight-regular);
   }
 
-@utility t1-medium-static {
+@utility t1-static-medium {
     font-size: var(--seed-font-size-t1-static);
     line-height: var(--seed-line-height-t1-static);
     font-weight: var(--seed-font-weight-medium);
   }
 
-@utility t1-bold-static {
+@utility t1-static-bold {
     font-size: var(--seed-font-size-t1-static);
     line-height: var(--seed-line-height-t1-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t2-regular-static {
+@utility t2-static-regular {
     font-size: var(--seed-font-size-t2-static);
     line-height: var(--seed-line-height-t2-static);
     font-weight: var(--seed-font-weight-regular);
   }
 
-@utility t2-medium-static {
+@utility t2-static-medium {
     font-size: var(--seed-font-size-t2-static);
     line-height: var(--seed-line-height-t2-static);
     font-weight: var(--seed-font-weight-medium);
   }
 
-@utility t2-bold-static {
+@utility t2-static-bold {
     font-size: var(--seed-font-size-t2-static);
     line-height: var(--seed-line-height-t2-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t3-regular-static {
+@utility t3-static-regular {
     font-size: var(--seed-font-size-t3-static);
     line-height: var(--seed-line-height-t3-static);
     font-weight: var(--seed-font-weight-regular);
   }
 
-@utility t3-medium-static {
+@utility t3-static-medium {
     font-size: var(--seed-font-size-t3-static);
     line-height: var(--seed-line-height-t3-static);
     font-weight: var(--seed-font-weight-medium);
   }
 
-@utility t3-bold-static {
+@utility t3-static-bold {
     font-size: var(--seed-font-size-t3-static);
     line-height: var(--seed-line-height-t3-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t4-regular-static {
+@utility t4-static-regular {
     font-size: var(--seed-font-size-t4-static);
     line-height: var(--seed-line-height-t4-static);
     font-weight: var(--seed-font-weight-regular);
   }
 
-@utility t4-medium-static {
+@utility t4-static-medium {
     font-size: var(--seed-font-size-t4-static);
     line-height: var(--seed-line-height-t4-static);
     font-weight: var(--seed-font-weight-medium);
   }
 
-@utility t4-bold-static {
+@utility t4-static-bold {
     font-size: var(--seed-font-size-t4-static);
     line-height: var(--seed-line-height-t4-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t5-regular-static {
+@utility t5-static-regular {
     font-size: var(--seed-font-size-t5-static);
     line-height: var(--seed-line-height-t5-static);
     font-weight: var(--seed-font-weight-regular);
   }
 
-@utility t5-medium-static {
+@utility t5-static-medium {
     font-size: var(--seed-font-size-t5-static);
     line-height: var(--seed-line-height-t5-static);
     font-weight: var(--seed-font-weight-medium);
   }
 
-@utility t5-bold-static {
+@utility t5-static-bold {
     font-size: var(--seed-font-size-t5-static);
     line-height: var(--seed-line-height-t5-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t6-regular-static {
+@utility t6-static-regular {
     font-size: var(--seed-font-size-t6-static);
     line-height: var(--seed-line-height-t6-static);
     font-weight: var(--seed-font-weight-regular);
   }
 
-@utility t6-medium-static {
+@utility t6-static-medium {
     font-size: var(--seed-font-size-t6-static);
     line-height: var(--seed-line-height-t6-static);
     font-weight: var(--seed-font-weight-medium);
   }
 
-@utility t6-bold-static {
+@utility t6-static-bold {
     font-size: var(--seed-font-size-t6-static);
     line-height: var(--seed-line-height-t6-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t7-regular-static {
+@utility t7-static-regular {
     font-size: var(--seed-font-size-t7-static);
     line-height: var(--seed-line-height-t7-static);
     font-weight: var(--seed-font-weight-regular);
   }
 
-@utility t7-medium-static {
+@utility t7-static-medium {
     font-size: var(--seed-font-size-t7-static);
     line-height: var(--seed-line-height-t7-static);
     font-weight: var(--seed-font-weight-medium);
   }
 
-@utility t7-bold-static {
+@utility t7-static-bold {
     font-size: var(--seed-font-size-t7-static);
     line-height: var(--seed-line-height-t7-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t8-bold-static {
+@utility t8-static-bold {
     font-size: var(--seed-font-size-t8-static);
     line-height: var(--seed-line-height-t8-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t9-bold-static {
+@utility t9-static-bold {
     font-size: var(--seed-font-size-t9-static);
     line-height: var(--seed-line-height-t9-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
-@utility t10-bold-static {
+@utility t10-static-bold {
     font-size: var(--seed-font-size-t10-static);
     line-height: var(--seed-line-height-t10-static);
     font-weight: var(--seed-font-weight-bold);

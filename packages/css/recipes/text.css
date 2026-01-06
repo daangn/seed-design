@@ -145,122 +145,122 @@
     --seed-line-height: var(--seed-line-height-t10);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t1RegularStatic {
+.seed-text--textStyle_t1StaticRegular {
     --seed-font-size: var(--seed-font-size-t1-static);
     --seed-line-height: var(--seed-line-height-t1-static);
     --seed-font-weight: var(--seed-font-weight-regular)
 }
-.seed-text--textStyle_t1MediumStatic {
+.seed-text--textStyle_t1StaticMedium {
     --seed-font-size: var(--seed-font-size-t1-static);
     --seed-line-height: var(--seed-line-height-t1-static);
     --seed-font-weight: var(--seed-font-weight-medium)
 }
-.seed-text--textStyle_t1BoldStatic {
+.seed-text--textStyle_t1StaticBold {
     --seed-font-size: var(--seed-font-size-t1-static);
     --seed-line-height: var(--seed-line-height-t1-static);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t2RegularStatic {
+.seed-text--textStyle_t2StaticRegular {
     --seed-font-size: var(--seed-font-size-t2-static);
     --seed-line-height: var(--seed-line-height-t2-static);
     --seed-font-weight: var(--seed-font-weight-regular)
 }
-.seed-text--textStyle_t2MediumStatic {
+.seed-text--textStyle_t2StaticMedium {
     --seed-font-size: var(--seed-font-size-t2-static);
     --seed-line-height: var(--seed-line-height-t2-static);
     --seed-font-weight: var(--seed-font-weight-medium)
 }
-.seed-text--textStyle_t2BoldStatic {
+.seed-text--textStyle_t2StaticBold {
     --seed-font-size: var(--seed-font-size-t2-static);
     --seed-line-height: var(--seed-line-height-t2-static);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t3RegularStatic {
+.seed-text--textStyle_t3StaticRegular {
     --seed-font-size: var(--seed-font-size-t3-static);
     --seed-line-height: var(--seed-line-height-t3-static);
     --seed-font-weight: var(--seed-font-weight-regular)
 }
-.seed-text--textStyle_t3MediumStatic {
+.seed-text--textStyle_t3StaticMedium {
     --seed-font-size: var(--seed-font-size-t3-static);
     --seed-line-height: var(--seed-line-height-t3-static);
     --seed-font-weight: var(--seed-font-weight-medium)
 }
-.seed-text--textStyle_t3BoldStatic {
+.seed-text--textStyle_t3StaticBold {
     --seed-font-size: var(--seed-font-size-t3-static);
     --seed-line-height: var(--seed-line-height-t3-static);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t4RegularStatic {
+.seed-text--textStyle_t4StaticRegular {
     --seed-font-size: var(--seed-font-size-t4-static);
     --seed-line-height: var(--seed-line-height-t4-static);
     --seed-font-weight: var(--seed-font-weight-regular)
 }
-.seed-text--textStyle_t4MediumStatic {
+.seed-text--textStyle_t4StaticMedium {
     --seed-font-size: var(--seed-font-size-t4-static);
     --seed-line-height: var(--seed-line-height-t4-static);
     --seed-font-weight: var(--seed-font-weight-medium)
 }
-.seed-text--textStyle_t4BoldStatic {
+.seed-text--textStyle_t4StaticBold {
     --seed-font-size: var(--seed-font-size-t4-static);
     --seed-line-height: var(--seed-line-height-t4-static);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t5RegularStatic {
+.seed-text--textStyle_t5StaticRegular {
     --seed-font-size: var(--seed-font-size-t5-static);
     --seed-line-height: var(--seed-line-height-t5-static);
     --seed-font-weight: var(--seed-font-weight-regular)
 }
-.seed-text--textStyle_t5MediumStatic {
+.seed-text--textStyle_t5StaticMedium {
     --seed-font-size: var(--seed-font-size-t5-static);
     --seed-line-height: var(--seed-line-height-t5-static);
     --seed-font-weight: var(--seed-font-weight-medium)
 }
-.seed-text--textStyle_t5BoldStatic {
+.seed-text--textStyle_t5StaticBold {
     --seed-font-size: var(--seed-font-size-t5-static);
     --seed-line-height: var(--seed-line-height-t5-static);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t6RegularStatic {
+.seed-text--textStyle_t6StaticRegular {
     --seed-font-size: var(--seed-font-size-t6-static);
     --seed-line-height: var(--seed-line-height-t6-static);
     --seed-font-weight: var(--seed-font-weight-regular)
 }
-.seed-text--textStyle_t6MediumStatic {
+.seed-text--textStyle_t6StaticMedium {
     --seed-font-size: var(--seed-font-size-t6-static);
     --seed-line-height: var(--seed-line-height-t6-static);
     --seed-font-weight: var(--seed-font-weight-medium)
 }
-.seed-text--textStyle_t6BoldStatic {
+.seed-text--textStyle_t6StaticBold {
     --seed-font-size: var(--seed-font-size-t6-static);
     --seed-line-height: var(--seed-line-height-t6-static);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t7RegularStatic {
+.seed-text--textStyle_t7StaticRegular {
     --seed-font-size: var(--seed-font-size-t7-static);
     --seed-line-height: var(--seed-line-height-t7-static);
     --seed-font-weight: var(--seed-font-weight-regular)
 }
-.seed-text--textStyle_t7MediumStatic {
+.seed-text--textStyle_t7StaticMedium {
     --seed-font-size: var(--seed-font-size-t7-static);
     --seed-line-height: var(--seed-line-height-t7-static);
     --seed-font-weight: var(--seed-font-weight-medium)
 }
-.seed-text--textStyle_t7BoldStatic {
+.seed-text--textStyle_t7StaticBold {
     --seed-font-size: var(--seed-font-size-t7-static);
     --seed-line-height: var(--seed-line-height-t7-static);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t8BoldStatic {
+.seed-text--textStyle_t8StaticBold {
     --seed-font-size: var(--seed-font-size-t8-static);
     --seed-line-height: var(--seed-line-height-t8-static);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t9BoldStatic {
+.seed-text--textStyle_t9StaticBold {
     --seed-font-size: var(--seed-font-size-t9-static);
     --seed-line-height: var(--seed-line-height-t9-static);
     --seed-font-weight: var(--seed-font-weight-bold)
 }
-.seed-text--textStyle_t10BoldStatic {
+.seed-text--textStyle_t10StaticBold {
     --seed-font-size: var(--seed-font-size-t10-static);
     --seed-line-height: var(--seed-line-height-t10-static);
     --seed-font-weight: var(--seed-font-weight-bold)

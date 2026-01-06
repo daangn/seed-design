@@ -233,7 +233,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT1RegularStatic": {
+  "textStyleT1StaticRegular": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t1-static)",
@@ -242,7 +242,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT1MediumStatic": {
+  "textStyleT1StaticMedium": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t1-static)",
@@ -251,7 +251,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT1BoldStatic": {
+  "textStyleT1StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t1-static)",
@@ -260,7 +260,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT2RegularStatic": {
+  "textStyleT2StaticRegular": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t2-static)",
@@ -269,7 +269,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT2MediumStatic": {
+  "textStyleT2StaticMedium": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t2-static)",
@@ -278,7 +278,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT2BoldStatic": {
+  "textStyleT2StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t2-static)",
@@ -287,7 +287,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT3RegularStatic": {
+  "textStyleT3StaticRegular": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t3-static)",
@@ -296,7 +296,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT3MediumStatic": {
+  "textStyleT3StaticMedium": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t3-static)",
@@ -305,7 +305,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT3BoldStatic": {
+  "textStyleT3StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t3-static)",
@@ -314,7 +314,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT4RegularStatic": {
+  "textStyleT4StaticRegular": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t4-static)",
@@ -323,7 +323,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT4MediumStatic": {
+  "textStyleT4StaticMedium": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t4-static)",
@@ -332,7 +332,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT4BoldStatic": {
+  "textStyleT4StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t4-static)",
@@ -341,7 +341,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT5RegularStatic": {
+  "textStyleT5StaticRegular": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t5-static)",
@@ -350,7 +350,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT5MediumStatic": {
+  "textStyleT5StaticMedium": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t5-static)",
@@ -359,7 +359,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT5BoldStatic": {
+  "textStyleT5StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t5-static)",
@@ -368,7 +368,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT6RegularStatic": {
+  "textStyleT6StaticRegular": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t6-static)",
@@ -377,7 +377,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT6MediumStatic": {
+  "textStyleT6StaticMedium": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t6-static)",
@@ -386,7 +386,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT6BoldStatic": {
+  "textStyleT6StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t6-static)",
@@ -395,7 +395,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT7RegularStatic": {
+  "textStyleT7StaticRegular": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t7-static)",
@@ -404,7 +404,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT7MediumStatic": {
+  "textStyleT7StaticMedium": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t7-static)",
@@ -413,7 +413,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT7BoldStatic": {
+  "textStyleT7StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t7-static)",
@@ -422,7 +422,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT8BoldStatic": {
+  "textStyleT8StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t8-static)",
@@ -431,7 +431,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT9BoldStatic": {
+  "textStyleT9StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t9-static)",
@@ -440,7 +440,7 @@ export declare const vars: {
       }
     }
   },
-  "textStyleT10BoldStatic": {
+  "textStyleT10StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t10-static)",

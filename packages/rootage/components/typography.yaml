@@ -171,145 +171,145 @@ data:
           fontSize: $font-size.t10
           lineHeight: $line-height.t10
           fontWeight: $font-weight.bold
-    textStyle=t1RegularStatic:
+    textStyle=t1StaticRegular:
       enabled:
         root:
           fontSize: $font-size.t1-static
           lineHeight: $line-height.t1-static
           fontWeight: $font-weight.regular
-    textStyle=t1MediumStatic:
+    textStyle=t1StaticMedium:
       enabled:
         root:
           fontSize: $font-size.t1-static
           lineHeight: $line-height.t1-static
           fontWeight: $font-weight.medium
-    textStyle=t1BoldStatic:
+    textStyle=t1StaticBold:
       enabled:
         root:
           fontSize: $font-size.t1-static
           lineHeight: $line-height.t1-static
           fontWeight: $font-weight.bold
-    textStyle=t2RegularStatic:
+    textStyle=t2StaticRegular:
       enabled:
         root:
           fontSize: $font-size.t2-static
           lineHeight: $line-height.t2-static
           fontWeight: $font-weight.regular
-    textStyle=t2MediumStatic:
+    textStyle=t2StaticMedium:
       enabled:
         root:
           fontSize: $font-size.t2-static
           lineHeight: $line-height.t2-static
           fontWeight: $font-weight.medium
-    textStyle=t2BoldStatic:
+    textStyle=t2StaticBold:
       enabled:
         root:
           fontSize: $font-size.t2-static
           lineHeight: $line-height.t2-static
           fontWeight: $font-weight.bold
-    textStyle=t3RegularStatic:
+    textStyle=t3StaticRegular:
       enabled:
         root:
           fontSize: $font-size.t3-static
           lineHeight: $line-height.t3-static
           fontWeight: $font-weight.regular
-    textStyle=t3MediumStatic:
+    textStyle=t3StaticMedium:
       enabled:
         root:
           fontSize: $font-size.t3-static
           lineHeight: $line-height.t3-static
           fontWeight: $font-weight.medium
-    textStyle=t3BoldStatic:
+    textStyle=t3StaticBold:
       enabled:
         root:
           fontSize: $font-size.t3-static
           lineHeight: $line-height.t3-static
           fontWeight: $font-weight.bold
-    textStyle=t4RegularStatic:
+    textStyle=t4StaticRegular:
       enabled:
         root:
           fontSize: $font-size.t4-static
           lineHeight: $line-height.t4-static
           fontWeight: $font-weight.regular
-    textStyle=t4MediumStatic:
+    textStyle=t4StaticMedium:
       enabled:
         root:
           fontSize: $font-size.t4-static
           lineHeight: $line-height.t4-static
           fontWeight: $font-weight.medium
-    textStyle=t4BoldStatic:
+    textStyle=t4StaticBold:
       enabled:
         root:
           fontSize: $font-size.t4-static
           lineHeight: $line-height.t4-static
           fontWeight: $font-weight.bold
-    textStyle=t5RegularStatic:
+    textStyle=t5StaticRegular:
       enabled:
         root:
           fontSize: $font-size.t5-static
           lineHeight: $line-height.t5-static
           fontWeight: $font-weight.regular
-    textStyle=t5MediumStatic:
+    textStyle=t5StaticMedium:
       enabled:
         root:
           fontSize: $font-size.t5-static
           lineHeight: $line-height.t5-static
           fontWeight: $font-weight.medium
-    textStyle=t5BoldStatic:
+    textStyle=t5StaticBold:
       enabled:
         root:
           fontSize: $font-size.t5-static
           lineHeight: $line-height.t5-static
           fontWeight: $font-weight.bold
-    textStyle=t6RegularStatic:
+    textStyle=t6StaticRegular:
       enabled:
         root:
           fontSize: $font-size.t6-static
           lineHeight: $line-height.t6-static
           fontWeight: $font-weight.regular
-    textStyle=t6MediumStatic:
+    textStyle=t6StaticMedium:
       enabled:
         root:
           fontSize: $font-size.t6-static
           lineHeight: $line-height.t6-static
           fontWeight: $font-weight.medium
-    textStyle=t6BoldStatic:
+    textStyle=t6StaticBold:
       enabled:
         root:
           fontSize: $font-size.t6-static
           lineHeight: $line-height.t6-static
           fontWeight: $font-weight.bold
-    textStyle=t7RegularStatic:
+    textStyle=t7StaticRegular:
       enabled:
         root:
           fontSize: $font-size.t7-static
           lineHeight: $line-height.t7-static
           fontWeight: $font-weight.regular
-    textStyle=t7MediumStatic:
+    textStyle=t7StaticMedium:
       enabled:
         root:
           fontSize: $font-size.t7-static
           lineHeight: $line-height.t7-static
           fontWeight: $font-weight.medium
-    textStyle=t7BoldStatic:
+    textStyle=t7StaticBold:
       enabled:
         root:
           fontSize: $font-size.t7-static
           lineHeight: $line-height.t7-static
           fontWeight: $font-weight.bold
-    textStyle=t8BoldStatic:
+    textStyle=t8StaticBold:
       enabled:
         root:
           fontSize: $font-size.t8-static
           lineHeight: $line-height.t8-static
           fontWeight: $font-weight.bold
-    textStyle=t9BoldStatic:
+    textStyle=t9StaticBold:
       enabled:
         root:
           fontSize: $font-size.t9-static
           lineHeight: $line-height.t9-static
           fontWeight: $font-weight.bold
-    textStyle=t10BoldStatic:
+    textStyle=t10StaticBold:
       enabled:
         root:
           fontSize: $font-size.t10-static

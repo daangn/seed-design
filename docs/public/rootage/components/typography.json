@@ -52,30 +52,30 @@
             "t8Bold": {},
             "t9Bold": {},
             "t10Bold": {},
-            "t1RegularStatic": {},
-            "t1MediumStatic": {},
-            "t1BoldStatic": {},
-            "t2RegularStatic": {},
-            "t2MediumStatic": {},
-            "t2BoldStatic": {},
-            "t3RegularStatic": {},
-            "t3MediumStatic": {},
-            "t3BoldStatic": {},
-            "t4RegularStatic": {},
-            "t4MediumStatic": {},
-            "t4BoldStatic": {},
-            "t5RegularStatic": {},
-            "t5MediumStatic": {},
-            "t5BoldStatic": {},
-            "t6RegularStatic": {},
-            "t6MediumStatic": {},
-            "t6BoldStatic": {},
-            "t7RegularStatic": {},
-            "t7MediumStatic": {},
-            "t7BoldStatic": {},
-            "t8BoldStatic": {},
-            "t9BoldStatic": {},
-            "t10BoldStatic": {}
+            "t1StaticRegular": {},
+            "t1StaticMedium": {},
+            "t1StaticBold": {},
+            "t2StaticRegular": {},
+            "t2StaticMedium": {},
+            "t2StaticBold": {},
+            "t3StaticRegular": {},
+            "t3StaticMedium": {},
+            "t3StaticBold": {},
+            "t4StaticRegular": {},
+            "t4StaticMedium": {},
+            "t4StaticBold": {},
+            "t5StaticRegular": {},
+            "t5StaticMedium": {},
+            "t5StaticBold": {},
+            "t6StaticRegular": {},
+            "t6StaticMedium": {},
+            "t6StaticBold": {},
+            "t7StaticRegular": {},
+            "t7StaticMedium": {},
+            "t7StaticBold": {},
+            "t8StaticBold": {},
+            "t9StaticBold": {},
+            "t10StaticBold": {}
           },
           "defaultValue": "screenTitle"
         }
@@ -812,7 +812,7 @@
       },
       {
         "variants": {
-          "textStyle": "t1RegularStatic"
+          "textStyle": "t1StaticRegular"
         },
         "definitions": [
           {
@@ -840,7 +840,7 @@
       },
       {
         "variants": {
-          "textStyle": "t1MediumStatic"
+          "textStyle": "t1StaticMedium"
         },
         "definitions": [
           {
@@ -868,7 +868,7 @@
       },
       {
         "variants": {
-          "textStyle": "t1BoldStatic"
+          "textStyle": "t1StaticBold"
         },
         "definitions": [
           {
@@ -896,7 +896,7 @@
       },
       {
         "variants": {
-          "textStyle": "t2RegularStatic"
+          "textStyle": "t2StaticRegular"
         },
         "definitions": [
           {
@@ -924,7 +924,7 @@
       },
       {
         "variants": {
-          "textStyle": "t2MediumStatic"
+          "textStyle": "t2StaticMedium"
         },
         "definitions": [
           {
@@ -952,7 +952,7 @@
       },
       {
         "variants": {
-          "textStyle": "t2BoldStatic"
+          "textStyle": "t2StaticBold"
         },
         "definitions": [
           {
@@ -980,7 +980,7 @@
       },
       {
         "variants": {
-          "textStyle": "t3RegularStatic"
+          "textStyle": "t3StaticRegular"
         },
         "definitions": [
           {
@@ -1008,7 +1008,7 @@
       },
       {
         "variants": {
-          "textStyle": "t3MediumStatic"
+          "textStyle": "t3StaticMedium"
         },
         "definitions": [
           {
@@ -1036,7 +1036,7 @@
       },
       {
         "variants": {
-          "textStyle": "t3BoldStatic"
+          "textStyle": "t3StaticBold"
         },
         "definitions": [
           {
@@ -1064,7 +1064,7 @@
       },
       {
         "variants": {
-          "textStyle": "t4RegularStatic"
+          "textStyle": "t4StaticRegular"
         },
         "definitions": [
           {
@@ -1092,7 +1092,7 @@
       },
       {
         "variants": {
-          "textStyle": "t4MediumStatic"
+          "textStyle": "t4StaticMedium"
         },
         "definitions": [
           {
@@ -1120,7 +1120,7 @@
       },
       {
         "variants": {
-          "textStyle": "t4BoldStatic"
+          "textStyle": "t4StaticBold"
         },
         "definitions": [
           {
@@ -1148,7 +1148,7 @@
       },
       {
         "variants": {
-          "textStyle": "t5RegularStatic"
+          "textStyle": "t5StaticRegular"
         },
         "definitions": [
           {
@@ -1176,7 +1176,7 @@
       },
       {
         "variants": {
-          "textStyle": "t5MediumStatic"
+          "textStyle": "t5StaticMedium"
         },
         "definitions": [
           {
@@ -1204,7 +1204,7 @@
       },
       {
         "variants": {
-          "textStyle": "t5BoldStatic"
+          "textStyle": "t5StaticBold"
         },
         "definitions": [
           {
@@ -1232,7 +1232,7 @@
       },
       {
         "variants": {
-          "textStyle": "t6RegularStatic"
+          "textStyle": "t6StaticRegular"
         },
         "definitions": [
           {
@@ -1260,7 +1260,7 @@
       },
       {
         "variants": {
-          "textStyle": "t6MediumStatic"
+          "textStyle": "t6StaticMedium"
         },
         "definitions": [
           {
@@ -1288,7 +1288,7 @@
       },
       {
         "variants": {
-          "textStyle": "t6BoldStatic"
+          "textStyle": "t6StaticBold"
         },
         "definitions": [
           {
@@ -1316,7 +1316,7 @@
       },
       {
         "variants": {
-          "textStyle": "t7RegularStatic"
+          "textStyle": "t7StaticRegular"
         },
         "definitions": [
           {
@@ -1344,7 +1344,7 @@
       },
       {
         "variants": {
-          "textStyle": "t7MediumStatic"
+          "textStyle": "t7StaticMedium"
         },
         "definitions": [
           {
@@ -1372,7 +1372,7 @@
       },
       {
         "variants": {
-          "textStyle": "t7BoldStatic"
+          "textStyle": "t7StaticBold"
         },
         "definitions": [
           {
@@ -1400,7 +1400,7 @@
       },
       {
         "variants": {
-          "textStyle": "t8BoldStatic"
+          "textStyle": "t8StaticBold"
         },
         "definitions": [
           {
@@ -1428,7 +1428,7 @@
       },
       {
         "variants": {
-          "textStyle": "t9BoldStatic"
+          "textStyle": "t9StaticBold"
         },
         "definitions": [
           {
@@ -1456,7 +1456,7 @@
       },
       {
         "variants": {
-          "textStyle": "t10BoldStatic"
+          "textStyle": "t10StaticBold"
         },
         "definitions": [
           {
