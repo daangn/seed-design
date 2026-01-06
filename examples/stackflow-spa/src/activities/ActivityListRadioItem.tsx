@@ -1,14 +1,23 @@
 import { RadioGroup, Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { List, ListDivider, ListRadioItem } from "../seed-design/ui/list";
-import { RadioMark } from "../seed-design/ui/radio-group";
-import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { Avatar } from "../seed-design/ui/avatar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { List, ListDivider, ListRadioItem } from "seed-design/ui/list";
+import { RadioMark } from "seed-design/ui/radio-group";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { Avatar } from "seed-design/ui/avatar";
 import {
   IconChevronRightLine,
+  IconHouseLine,
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
@@ -21,6 +30,8 @@ const positionVariants = [
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "추가 설명이 포함된 라디오입니다" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
 ];
 
 const prefixVariants = [
@@ -49,7 +60,15 @@ const stateVariants = [
   { key: "disabled", disabled: true },
 ] as const;
 
-const ActivityListRadioItem: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityListRadioItem: {};
+  }
+}
+
+const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -57,6 +76,11 @@ const ActivityListRadioItem: ActivityComponentType = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="ListRadioItem" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent
         ptr
@@ -100,6 +124,7 @@ const ActivityListRadioItem: ActivityComponentType = () => {
                               prefix={<RadioMark size="large" />}
                               disabled={state.disabled}
                               suffix={suffix.element}
+                              highlighted={content.highlighted}
                             />
                             {showDivider && <ListDivider as="div" />}
                           </Fragment>
@@ -134,6 +159,7 @@ const ActivityListRadioItem: ActivityComponentType = () => {
                               suffix={<RadioMark size="large" />}
                               disabled={state.disabled}
                               prefix={prefix.element}
+                              highlighted={content.highlighted}
                             />
                             {showDivider && <ListDivider as="div" />}
                           </Fragment>

@@ -17,7 +17,11 @@ export function createRectangleTransformer({
   return defineElementTransformer((node: NormalizedRectangleNode) => {
     return createSeedReactElement(
       "Box",
-      { ...propsConverters.selfLayout(node), background: "palette.gray200" },
+      {
+        ...propsConverters.selfLayout(node),
+        ...propsConverters.shadow(node),
+        background: "palette.gray200",
+      },
       undefined,
       {
         comment: "Rectangle Node Placeholder",

@@ -2,6 +2,8 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
+        "colorDuration": "var(--seed-duration-color-transition)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
         "paddingY": "var(--seed-dimension-x2)",
         "cornerRadius": "var(--seed-radius-full)"
       },
@@ -43,7 +45,7 @@ export declare const vars: {
     },
     "enabledPressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "selected": {
@@ -76,6 +78,7 @@ export declare const vars: {
   "variantNeutralOutline": {
     "enabled": {
       "root": {
+        "color": "var(--seed-color-bg-transparent)",
         "stroke": "var(--seed-color-stroke-neutral-muted)"
       },
       "label": {
@@ -84,7 +87,7 @@ export declare const vars: {
     },
     "enabledPressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "selected": {

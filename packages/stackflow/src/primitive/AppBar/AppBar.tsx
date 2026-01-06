@@ -1,9 +1,9 @@
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { forwardRef } from "react";
 import { useAppBar, type UseAppBarProps } from "./useAppBar";
 import { AppBarProvider, useAppBarContext } from "./useAppBarContext";
-import { mergeProps } from "@seed-design/dom-utils";
-import { composeRefs } from "@radix-ui/react-compose-refs";
 
 export interface AppBarRootProps
   extends PrimitiveProps,

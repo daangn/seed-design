@@ -2,6 +2,7 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useId, useState } from "react";
 
 import { dataAttr, elementProps, inputProps, visuallyHidden } from "@seed-design/dom-utils";
+import { useSupports } from "@seed-design/react-supports";
 
 interface UseRadioGroupStateProps {
   value?: string;
@@ -76,6 +77,7 @@ export function useRadioGroup(props: UseRadioGroupProps) {
   const { disabled, form, name } = props;
 
   const isControlled = value != null;
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   const stateProps = elementProps({
     "data-disabled": dataAttr(disabled),
@@ -171,15 +173,21 @@ export function useRadioGroup(props: UseRadioGroupProps) {
             if (event.target.checked) {
               setValue(itemProps.value);
             }
-            setIsFocusVisible(event.target.matches(":focus-visible"));
+            if (isFocusVisibleSupported) {
+              setIsFocusVisible(event.target.matches(":focus-visible"));
+            }
           },
           onBlur() {
             setFocusedValue(null);
-            setIsFocusVisible(false);
+            if (isFocusVisibleSupported) {
+              setIsFocusVisible(false);
+            }
           },
           onFocus(event) {
             setFocusedValue(itemProps.value);
-            setIsFocusVisible(event.target.matches(":focus-visible"));
+            if (isFocusVisibleSupported) {
+              setIsFocusVisible(event.target.matches(":focus-visible"));
+            }
           },
           onKeyDown(event) {
             if (event.key === " ") {

@@ -2,7 +2,7 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "colorDuration": "var(--seed-duration-d4)",
+        "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "cornerRadius": "var(--seed-radius-full)"
       },
@@ -83,9 +83,9 @@ export const vars = {
   "variantOutlineStrong": {
     "enabled": {
       "root": {
+        "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "strokeWidth": "1px",
-        "color": "var(--seed-color-bg-layer-default)"
+        "strokeWidth": "1px"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"
@@ -102,7 +102,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
@@ -141,9 +141,9 @@ export const vars = {
   "variantOutlineWeak": {
     "enabled": {
       "root": {
+        "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "strokeWidth": "1px",
-        "color": "var(--seed-color-bg-layer-default)"
+        "strokeWidth": "1px"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"
@@ -160,7 +160,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {

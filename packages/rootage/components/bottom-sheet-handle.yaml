@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: bottom-sheet-handle
+  name: Bottom Sheet Handle
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          fromTop:
+            type: dimension
+          width:
+            type: dimension
+          height:
+            type: dimension
+          color:
+            type: color
+          borderRadius:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: timing-function
+      touchArea:
+        properties:
+          width:
+            type: dimension
+          height:
+            type: dimension
+
+  definitions:
+    base:
+      enabled:
+        root:
+          fromTop: 6px
+          width: 36px
+          height: 4px
+          color: $color.palette.gray-400
+          borderRadius: 9999px
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+        touchArea:
+          width: 44px
+          height: 44px
+      pressed:
+        root:
+          color: $color.palette.gray-500

@@ -1,7 +1,8 @@
 import "./reset.css";
+import "./global.css";
 import "@seed-design/stylesheet/global.css";
 import "@seed-design/css/base.css";
-import "./global.css";
+import "@stackflow/plugin-basic-ui/index.css";
 
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";

@@ -1,13 +1,30 @@
-import type { ActivityComponentType } from "@stackflow/react";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
 
 import React from "react";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { ErrorState, type ErrorStateProps } from "../seed-design/ui/error-state";
-import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { ErrorState, type ErrorStateProps } from "seed-design/ui/error-state";
+import {
+  AppBar,
+  AppBarLeft,
+  AppBarMain,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
+import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
-const ActivityErrorState: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityErrorState: {};
+  }
+}
+
+const ActivityErrorState: StaticActivityComponentType<"ActivityErrorState"> = () => {
   const [variant, setVariant] = React.useState<ErrorStateProps["variant"]>("default");
   const [hideAppBarTitle, setHideAppBarTitle] = React.useState(false);
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -15,6 +32,11 @@ const ActivityErrorState: ActivityComponentType = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain>Error State</AppBarMain>
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent
         ptr

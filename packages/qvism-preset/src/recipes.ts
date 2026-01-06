@@ -1,5 +1,6 @@
 import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
+import { field, fieldLabel } from "./recipes/field";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import { selectBox, selectBoxGroup } from "./recipes/select-box";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
@@ -13,6 +14,7 @@ import avatar from "./recipes/avatar";
 import avatarStack from "./recipes/avatar-stack";
 import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
+import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import callout from "./recipes/callout";
 import checkbox from "./recipes/checkbox";
 import checkmark from "./recipes/checkmark";
@@ -29,6 +31,7 @@ import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import inlineBanner from "./recipes/inline-banner";
+import inputButton from "./recipes/input-button";
 import linkContent from "./recipes/link-content";
 import listHeader from "./recipes/list-header";
 import listItem from "./recipes/list-item";
@@ -42,14 +45,16 @@ import pullToRefresh from "./recipes/pull-to-refresh";
 import radio from "./recipes/radio";
 import radiomark from "./recipes/radiomark";
 import reactionButton from "./recipes/reaction-button";
+import scrollFog from "./recipes/scroll-fog";
 import segmentedControl from "./recipes/segmented-control";
 import skeleton from "./recipes/skeleton";
 import switchMark from "./recipes/switch-mark";
 import switchRecipe from "./recipes/switch";
 import tabs from "./recipes/tabs";
 import text from "./recipes/text";
-import textField from "./recipes/text-field";
+import textInput from "./recipes/text-input";
 import toggleButton from "./recipes/toggle-button";
+import { slider, sliderTick, sliderMarker } from "./recipes/slider";
 
 export const recipes = {
   actionButton,
@@ -64,6 +69,7 @@ export const recipes = {
   avatarStack,
   badge,
   bottomSheet,
+  bottomSheetHandle,
   callout,
   checkbox,
   checkmark,
@@ -76,10 +82,13 @@ export const recipes = {
   extendedActionSheetItem,
   extendedFab,
   fab,
+  field,
+  fieldLabel,
   floatingActionButton,
   helpBubble,
   identityPlaceholder,
   inlineBanner,
+  inputButton,
   linkContent,
   listHeader,
   listItem,
@@ -95,10 +104,14 @@ export const recipes = {
   radio,
   radiomark,
   reactionButton,
+  scrollFog,
   segmentedControl,
   selectBox,
   selectBoxGroup,
   skeleton,
+  slider,
+  sliderMarker,
+  sliderTick,
   snackbar,
   snackbarRegion,
   switch: switchRecipe,
@@ -107,6 +120,6 @@ export const recipes = {
   tagGroup,
   tagGroupItem,
   text,
-  textField,
+  textInput,
   toggleButton,
 };

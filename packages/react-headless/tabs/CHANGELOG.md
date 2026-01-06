@@ -1,5 +1,19 @@
 # @seed-design/react-tabs
 
+## 1.0.2
+
+### Patch Changes
+
+- 938bf0b: TabsCarousel에 onSwipeStart, onSwipeEnd 이벤트 콜백을 추가합니다.
+
+## 1.0.1
+
+### Patch Changes
+
+- ae1b768: :focus-visible selector를 사용하기 전 브라우저에서 selector를 지원하는지 확인합니다.
+- Updated dependencies [ae1b768]
+  - @seed-design/react-supports@0.0.1
+
 ## 1.0.0
 
 ### Major Changes

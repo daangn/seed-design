@@ -41,7 +41,8 @@ const bottomSheetSlotNames = [
 ];
 
 const defaultVariant = {
-  "headerAlign": "left"
+  "headerAlign": "left",
+  "skipAnimation": false
 };
 
 const compoundVariants = [];
@@ -50,6 +51,9 @@ export const bottomSheetVariantMap = {
   "headerAlign": [
     "left",
     "center"
+  ],
+  "skipAnimation": [
+    false
   ]
 };
 

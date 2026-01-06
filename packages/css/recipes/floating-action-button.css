@@ -22,12 +22,12 @@
     overflow: hidden;
     background: var(--seed-color-bg-brand-solid);
     border-radius: var(--seed-radius-full);
-    box-shadow: 0px 2px 6px 0px #00000026;
+    box-shadow: var(--seed-shadow-s3);
     color: var(--seed-color-palette-static-white);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
-    transition: background-color var(--seed-duration-d4) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing);
 }
 .seed-floating-action-button__root:is(:active, [data-active]) {
     background: var(--seed-color-bg-brand-solid-pressed);
@@ -46,7 +46,8 @@
     overflow: hidden;
 }
 .seed-floating-action-button__root--extended_true {
-    padding-inline: var(--seed-dimension-x4_5);
+    padding-left: var(--seed-dimension-x4_5);
+    padding-right: var(--seed-dimension-x4_5);
     height: 48px;
     width: fit-content;
     max-width: 999px;

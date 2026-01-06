@@ -1,9 +1,30 @@
 import type * as FigmaRestSpec from "@figma/rest-api-spec";
 
-export type NormalizedIsLayerTrait = Pick<
-  FigmaRestSpec.IsLayerTrait,
-  "type" | "id" | "name" | "boundVariables"
->;
+export type NormalizedIsLayerTrait = Pick<FigmaRestSpec.IsLayerTrait, "type" | "id" | "name"> & {
+  boundVariables?: Pick<
+    NonNullable<FigmaRestSpec.IsLayerTrait["boundVariables"]>,
+    | "fills"
+    | "strokes"
+    | "itemSpacing"
+    | "counterAxisSpacing"
+    | "bottomLeftRadius"
+    | "bottomRightRadius"
+    | "topLeftRadius"
+    | "topRightRadius"
+    | "paddingBottom"
+    | "paddingLeft"
+    | "paddingRight"
+    | "paddingTop"
+    | "maxHeight"
+    | "minHeight"
+    | "maxWidth"
+    | "minWidth"
+    | "fontSize"
+    | "fontWeight"
+    | "lineHeight"
+    | "size"
+  >;
+};
 
 export type NormalizedCornerTrait = Pick<
   FigmaRestSpec.CornerTrait,
@@ -29,11 +50,37 @@ export type NormalizedHasLayoutTrait = Pick<
   | "maxWidth"
 >;
 
-export type NormalizedHasGeometryTrait = Pick<
-  FigmaRestSpec.HasGeometryTrait,
-  "fills" | "strokes" | "strokeWeight" | "styles"
+export type NormalizedSolidPaint = FigmaRestSpec.SolidPaint;
+
+export type NormalizedPaint =
+  | NormalizedSolidPaint
+  | FigmaRestSpec.GradientPaint
+  | FigmaRestSpec.ImagePaint;
+
+export type NormalizedHasGeometryTrait = Omit<
+  Pick<FigmaRestSpec.HasGeometryTrait, "fills" | "strokes" | "strokeWeight">,
+  "fills" | "strokes"
 > & {
+  fills: NormalizedPaint[];
+  strokes: NormalizedPaint[];
   fillStyleKey?: string;
+};
+
+export type NormalizedShadow =
+  | (Pick<
+      FigmaRestSpec.DropShadowEffect,
+      "color" | "offset" | "radius" | "spread" | "boundVariables"
+    > &
+      Required<Pick<FigmaRestSpec.DropShadowEffect, "type">>)
+  | (Pick<
+      FigmaRestSpec.InnerShadowEffect,
+      "color" | "offset" | "radius" | "spread" | "boundVariables"
+    > &
+      Required<Pick<FigmaRestSpec.InnerShadowEffect, "type">>);
+
+export type NormalizedHasEffectsTrait = Omit<FigmaRestSpec.HasEffectsTrait, "effects"> & {
+  effects: NormalizedShadow[];
+  effectStyleKey?: string;
 };
 
 export type NormalizedHasFramePropertiesTrait = Pick<
@@ -63,7 +110,10 @@ export interface NormalizedTextSegment {
     italic?: boolean;
     textDecoration?: string;
     letterSpacing?: number;
-    lineHeight?: number | { unit: string; value: number };
+    /**
+     * in pixels
+     */
+    lineHeight?: number;
   };
 }
 
@@ -78,11 +128,13 @@ export type NormalizedTypePropertiesTrait = Pick<
 
 export type NormalizedDefaultShapeTrait = NormalizedIsLayerTrait &
   NormalizedHasLayoutTrait &
-  NormalizedHasGeometryTrait;
+  NormalizedHasGeometryTrait &
+  NormalizedHasEffectsTrait;
 
 export type NormalizedFrameTrait = NormalizedIsLayerTrait &
   NormalizedHasLayoutTrait &
   NormalizedHasGeometryTrait &
+  NormalizedHasEffectsTrait &
   NormalizedHasChildrenTrait &
   NormalizedCornerTrait &
   NormalizedHasFramePropertiesTrait;
@@ -134,7 +186,8 @@ export interface NormalizedBooleanOperationNode
   extends NormalizedIsLayerTrait,
     NormalizedHasChildrenTrait,
     NormalizedHasLayoutTrait,
-    NormalizedHasGeometryTrait {
+    NormalizedHasGeometryTrait,
+    NormalizedHasEffectsTrait {
   type: FigmaRestSpec.BooleanOperationNode["type"];
 }
 

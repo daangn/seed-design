@@ -8,6 +8,7 @@ const config = {
   reactStrictMode: true,
   transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
   serverExternalPackages: ["ts-morph", "typescript", "oxc-transform", "@shikijs/twoslash"],
+  staticPageGenerationTimeout: 300,
   images: {
     // FIXME: temporal use for static export; will remove after image optimization setup
     unoptimized: true,

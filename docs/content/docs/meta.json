@@ -5,6 +5,7 @@
   "pages": [
     "index",
     "progress-board",
+    "ai-integration",
     "foundation",
     "components",
     "guidelines",

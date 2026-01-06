@@ -18,10 +18,20 @@ export const registryUI: Registry = {
     },
     {
       id: "error-state",
+      deprecated: true,
       snippets: [
         {
           path: "error-state.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
+        },
+      ],
+    },
+    {
+      id: "field-button",
+      snippets: [
+        {
+          path: "field-button.tsx",
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },
@@ -57,7 +67,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "bottom-sheet.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },
@@ -201,6 +211,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "slider",
+      snippets: [
+        {
+          path: "slider.tsx",
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
+        },
+      ],
+    },
+    {
       id: "snackbar",
       snippets: [
         {
@@ -241,7 +260,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "page-banner.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },
@@ -295,7 +314,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "text-field.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },
@@ -327,6 +346,15 @@ export const registryUI: Registry = {
         {
           path: "list-header.tsx",
           dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
+    {
+      id: "result-section",
+      snippets: [
+        {
+          path: "result-section.tsx",
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },

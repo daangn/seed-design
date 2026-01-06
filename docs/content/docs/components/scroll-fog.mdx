@@ -1,0 +1,89 @@
+---
+title: Scroll Fog
+description: 스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.
+coverImageFigmaId: 44:9804
+---
+
+<PlatformStatusTable componentId="scroll-fog" />
+
+## Principle
+
+<FigmaImage
+  id="2:166732"
+  alt="Scroll Fog가 Scroll Area 컴포넌트 위에 적용된 예시"
+/>
+
+Scroll Fog는 스타일링 유틸리티로서 Scroll Area 컴포넌트 위에 덧씌워지는 방식으로 적용됩니다. Scroll Fog는 반드시 스크롤이 발생하는 영역 위에 겹쳐지도록(Overlap) 배치되어야 합니다.
+
+## Properties
+
+### Placement
+
+<FigmaImage
+  id="2:166757"
+  alt="Scroll Fog의 Placement Property - Top, Bottom, Left, Right"
+/>
+
+placement는 스크롤 가능한 콘텐츠가 오버플로우되어 가려지는 지점을 명시합니다. 일반적으로 스크롤 영역의 경계와 일치합니다.
+
+| Placement  | 설명                                                                                                            |
+| ---------- | --------------------------------------------------------------------------------------------------------------- |
+| **top**    | 페이드 효과를 스크롤 영역의 상단 가장자리에 적용합니다. 상단 콘텐츠가 위쪽으로 스크롤 가능할 때 사용합니다.     |
+| **bottom** | 페이드 효과를 스크롤 영역의 하단 가장자리에 적용합니다. 하단 콘텐츠가 아래쪽으로 스크롤 가능할 때 사용합니다.   |
+| **left**   | 페이드 효과를 스크롤 영역의 왼쪽 가장자리에 적용합니다. 좌측 콘텐츠가 왼쪽으로 스크롤 가능할 때 사용합니다.     |
+| **right**  | 페이드 효과를 스크롤 영역의 오른쪽 가장자리에 적용합니다. 우측 콘텐츠가 오른쪽으로 스크롤 가능할 때 사용합니다. |
+
+### Layer
+
+<FigmaImage
+  id="2:166783"
+  alt="Scroll Fog의 Layer Property - Layer Basement, Layer Default, Layer Floating"
+/>
+
+<FigmaImage
+  id="2:166797"
+  alt="Scroll Fog의 Layer Property - Layer Basement, Layer Default, Layer Floating (다크 모드)"
+/>
+
+Scroll Fog는 배경에 어떤 색상이 들어와도 그라디언트가 투명으로 자연스럽게 전환되어야 합니다.
+
+Figma에서는 디자인 도구의 제약으로 인해 Fog/Fade와 콘텐츠 배경 사이에 색상 유격이 발생할 수 있습니다. 이를 해결하기 위해 Figma 컴포넌트는 Layer Prop을 제공합니다. Figma에서 Scroll Fog를 사용하는 경우, 그라디언트 끝 색상을 콘텐츠의 실제 배경색과 명시적으로 일치시켜 시각적 일관성을 확보해야 합니다.
+
+## Guidelines
+
+### 적절한 Scroll Fog 크기 찾기
+
+Scroll Fog의 크기(높이 또는 너비)는 최소 Padding 값인 20px을 가지고 있습니다.
+
+<Grid>
+  <FigmaImage id="2:166616" alt="적절한 Scroll Fog 크기 예시 - 세로 스크롤" />
+  <FigmaImage id="2:166624" alt="적절한 Scroll Fog 크기 예시 - 가로 스크롤" />
+</Grid>
+
+**세로(Vertical) 스크롤 영역의 경우**: 범위는 사용자가 콘텐츠가 남아있음을 충분히 인지하게 하면서도, 중요한 정보를 과도하게 가리지 않아야 합니다. 기본적으로 하단 80px, 상단 20px padding을 권장합니다.
+
+**가로(Horizontal) 스크롤 영역의 경우**: 가로 스크롤은 세로 스크롤에 비해 시각적 정보가 밀집될 가능성이 높습니다. 기본적으로 20px 좌우 padding을 권장합니다.
+
+실제 적용될 콘텐츠의 전체 스크롤 영역 크기에 비례하여 설정하는 것 또한 가능하며, 충분한 시각적 부드러움을 확보하기 위해 스크롤 가능한 영역 크기의 15%에서 20% 사이로 설정하는 것을 권장합니다.
+
+<FigmaImage id="2:166632" alt="Bottom Sheet에서 Scroll Fog 활용 예시" />
+
+### Scroll Fog와 Padding의 관계
+
+<FigmaImage
+  id="2:166668"
+  alt="Scroll Fog가 List와 함께 사용된 상황에서 스크롤이 시작 지점에 있는 예시"
+/>
+
+<FigmaImage
+  id="2:166690"
+  alt="Scroll Fog가 List와 함께 사용된 상황에서 스크롤이 끝 지점에 있는 예시"
+/>
+
+Fog의 깊이가 예를 들어 40px로 결정되었다면, 이 값은 단순히 시각적 효과의 크기가 아니라 콘텐츠 영역에 상응하는 패딩(Padding)을 확보하는 기준이 됩니다. 이로 인해, 스크롤을 끝까지 완료했을 때 (상단, 하단, 좌측, 우측 끝에 도달했을 때) 콘텐츠가 스크롤 영역의 경계에 붙지 않도록 시각적인 여유와 안정감을 영구적으로 보장할 수 있습니다. 따라서 Fog 깊이를 확정하는 순간, 해당 값은 곧 최소 패딩의 기준이 됩니다.
+
+**스크롤 시작/중지 시마다 나타나고 사라지는 경우, 불필요한 시각적 깜빡임(Flicker)을 유발하기에, Scroll Fog는 스크롤 여부와 무관하게 상시 표시됩니다.**
+
+## Specification
+
+<ComponentSpecBlock id="scroll-fog" />

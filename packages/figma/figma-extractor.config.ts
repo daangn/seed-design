@@ -16,7 +16,34 @@ const config = createConfig({
   pipelines: {
     "component-sets": createPipeline()
       .source(sources.componentSets)
-      .filter(({ name }) => name.startsWith("🔵 ") || name.startsWith("🟢 "))
+      .filter(({ name }) => name.includes("🔵 ") || name.includes("🟢 "))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .transform(({ name, key, componentPropertyDefinitions }) => ({
+        name: getSafeIdentifierName(name),
+        key,
+        ...(componentPropertyDefinitions && {
+          componentPropertyDefinitions: Object.fromEntries(
+            Object.entries(componentPropertyDefinitions).map(([key, { defaultValue, ...rest }]) => [
+              key,
+              rest,
+            ]),
+          ),
+        }),
+      }))
+      .write(async (items, { utils, write, pipelineName }) => {
+        const mjs = items.map((item) => utils.toMjs(item.name, item).trim()).join("\n\n");
+
+        const dts = items.map((item) => utils.toDts(item.name, item).trim()).join("\n\n");
+
+        await Promise.all([
+          write(`${pipelineName}/index.mjs`, mjs),
+          write(`${pipelineName}/index.d.ts`, dts),
+        ]);
+      }),
+
+    components: createPipeline()
+      .source(sources.components)
+      .filter(({ name }) => name.includes("🔵 ") || name.includes("🟢 "))
       .sort((a, b) => a.name.localeCompare(b.name))
       .transform(({ name, key, componentPropertyDefinitions }) => ({
         name: getSafeIdentifierName(name),
@@ -91,7 +118,10 @@ export declare const FIGMA_VARIABLE_COLLECTIONS: Record<string, VariableCollecti
 
     styles: createPipeline()
       .source(sources.styles)
-      .filter(({ style_type }) => style_type === "TEXT" || style_type === "FILL")
+      .filter(
+        ({ style_type }) =>
+          style_type === "TEXT" || style_type === "FILL" || style_type === "EFFECT",
+      )
       .transform(({ style_type, key, name, description }): Style => {
         return { styleType: style_type, key, name, description, remote: false };
       })

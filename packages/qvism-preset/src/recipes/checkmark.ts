@@ -12,6 +12,8 @@ const checkmark = defineSlotRecipe({
       flexShrink: 0,
 
       marginTop: "var(--checkmark-margin-top, 0)", // 수직 위치 보정
+
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
     icon: {
       display: "none",

@@ -1,4 +1,5 @@
-import type { ActivityComponentType } from "@stackflow/react";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarLeft,
@@ -6,16 +7,24 @@ import {
   AppBarMain,
   AppBarBackButton,
   AppBarIconButton,
-} from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
-import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
+import { IconBellLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, VStack } from "@seed-design/react";
 
-const ActivityPartialDarkMode: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityPartialDarkMode: {};
+  }
+}
+
+const ActivityPartialDarkMode: StaticActivityComponentType<"ActivityPartialDarkMode"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
-      <AppBar tone="layer" divider>
+      <AppBar divider>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
@@ -26,6 +35,9 @@ const ActivityPartialDarkMode: ActivityComponentType = () => {
           </AppBarIconButton>
           <AppBarIconButton>
             <IconBellLine />
+          </AppBarIconButton>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
           </AppBarIconButton>
         </AppBarRight>
       </AppBar>

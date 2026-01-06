@@ -1,4 +1,12 @@
 export declare const vars: {
+  "base": {
+    "enabled": {
+      "root": {
+        "colorDuration": "var(--seed-duration-color-transition)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)"
+      }
+    }
+  },
   "variantSquare": {
     "enabled": {
       "root": {
@@ -8,7 +16,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "enabledSelected": {
@@ -70,7 +78,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {

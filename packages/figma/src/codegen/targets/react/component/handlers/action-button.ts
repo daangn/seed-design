@@ -9,6 +9,8 @@ import type {
 } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
+import { findOne } from "@/utils/figma-node";
+import type { NormalizedTextNode } from "@/normalizer";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("action-button");
 
@@ -70,60 +72,73 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
 const ACTION_BUTTON_GHOST_BUTTON_KEY = "ea69291fb4d76217419f3d9613ae16aadafb56a5";
 
 export const createActionButtonGhostHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<ActionButtonGhostProperties>(
-    ACTION_BUTTON_GHOST_BUTTON_KEY,
-    ({ componentProperties: props }) => {
-      const states = props.State.value.split("-");
+  defineComponentHandler<ActionButtonGhostProperties>(ACTION_BUTTON_GHOST_BUTTON_KEY, (node) => {
+    const props = node.componentProperties;
 
-      const { layout, children } = match(props.Layout.value)
-        .with("Icon Only", () => ({
-          layout: "iconOnly",
-          children: [
-            createSeedReactElement("Icon", {
-              svg: ctx.iconHandler.transform(props["Icon#30525:15"]),
-            }),
-          ],
-        }))
-        .with("Icon First", () => ({
-          layout: "withText",
-          children: [
-            createSeedReactElement("PrefixIcon", {
-              svg: ctx.iconHandler.transform(props["Prefix Icon#30511:3"]),
-            }),
-            props["Label#30511:2"].value,
-          ],
-        }))
-        .with("Icon Last", () => ({
-          layout: "withText",
-          children: [
-            props["Label#30511:2"].value,
-            createSeedReactElement("SuffixIcon", {
-              svg: ctx.iconHandler.transform(props["Suffix Icon#30525:0"]),
-            }),
-          ],
-        }))
-        .with("Text Only", () => ({
-          layout: "withText",
-          children: props["Label#30511:2"].value,
-        }))
-        .exhaustive();
+    const states = props.State.value.split("-");
 
-      const commonProps = {
-        ...(states.includes("Disabled") && {
-          disabled: true,
-        }),
-        ...(states.includes("Loading") && {
-          loading: true,
-        }),
-        size: handleSizeProp(props.Size.value),
-        variant: "ghost",
-        layout,
-        ...(props.Bleed.value === "true" && {
-          bleedX: "asPadding",
-          bleedY: "asPadding",
-        }),
-      };
+    const buttonWrapperNode = findOne(
+      node,
+      (n) => n.type === "FRAME" && n.layoutPositioning !== "ABSOLUTE",
+    );
 
-      return createLocalSnippetElement("ActionButton", commonProps, children);
-    },
-  );
+    const labelNode = buttonWrapperNode
+      ? (findOne(buttonWrapperNode, (n) => n.type === "TEXT") as NormalizedTextNode | undefined)
+      : undefined;
+
+    const color = labelNode ? ctx.valueResolver.getFormattedValue.textFill(labelNode) : null;
+    const fontWeight = labelNode ? ctx.valueResolver.getFormattedValue.fontWeight(labelNode) : null;
+
+    const { layout, children } = match(props.Layout.value)
+      .with("Icon Only", () => ({
+        layout: "iconOnly",
+        children: [
+          createSeedReactElement("Icon", {
+            svg: ctx.iconHandler.transform(props["Icon#30525:15"]),
+          }),
+        ],
+      }))
+      .with("Icon First", () => ({
+        layout: "withText",
+        children: [
+          createSeedReactElement("PrefixIcon", {
+            svg: ctx.iconHandler.transform(props["Prefix Icon#30511:3"]),
+          }),
+          props["Label#30511:2"].value,
+        ],
+      }))
+      .with("Icon Last", () => ({
+        layout: "withText",
+        children: [
+          props["Label#30511:2"].value,
+          createSeedReactElement("SuffixIcon", {
+            svg: ctx.iconHandler.transform(props["Suffix Icon#30525:0"]),
+          }),
+        ],
+      }))
+      .with("Text Only", () => ({
+        layout: "withText",
+        children: props["Label#30511:2"].value,
+      }))
+      .exhaustive();
+
+    const commonProps = {
+      ...(states.includes("Disabled") && {
+        disabled: true,
+      }),
+      ...(states.includes("Loading") && {
+        loading: true,
+      }),
+      size: handleSizeProp(props.Size.value),
+      variant: "ghost",
+      layout,
+      ...(color && { color }),
+      ...(fontWeight && { fontWeight }),
+      ...(props.Bleed.value === "true" && {
+        bleedX: "asPadding",
+        bleedY: "asPadding",
+      }),
+    };
+
+    return createLocalSnippetElement("ActionButton", commonProps, children);
+  });

@@ -1,19 +1,19 @@
 import { Slot } from "@radix-ui/react-slot";
 import { forwardRef, useState } from "react";
-import type { ActivityName, ActivityParamOf } from "../../stackflow";
+import type { RegisteredActivityName, InferActivityParams } from "@stackflow/config";
 import type { CallbackActivity } from "../../stackflow/createCallbackActivity";
 
-export interface DialogPushTriggerProps<A extends ActivityName, T> {
+export interface DialogPushTriggerProps<A extends RegisteredActivityName, T> {
   children: React.ReactElement;
 
   callbackActivity: CallbackActivity<A, T>;
 
-  params: ActivityParamOf<A>;
+  params: InferActivityParams<A>;
 
   onPop?: (value: T | undefined) => void;
 }
 
-export const DialogPushTrigger: <A extends ActivityName, T>(
+export const DialogPushTrigger: <A extends RegisteredActivityName, T>(
   props: DialogPushTriggerProps<A, T> & { ref?: React.Ref<HTMLButtonElement> },
 ) => React.ReactNode | null = forwardRef(
   ({ children, callbackActivity, params, onPop, ...props }, ref: React.Ref<HTMLButtonElement>) => {

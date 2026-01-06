@@ -203,6 +203,8 @@ export default plugin(
   "bg-warning-solid": "var(--seed-color-bg-warning-solid)",
   "bg-warning-solid-pressed": "var(--seed-color-bg-warning-solid-pressed)",
   "bg-warning-weak-pressed": "var(--seed-color-bg-warning-weak-pressed)",
+  "bg-transparent": "var(--seed-color-bg-transparent)",
+  "bg-transparent-pressed": "var(--seed-color-bg-transparent-pressed)",
   "stroke-brand-weak": "var(--seed-color-stroke-brand-weak)",
   "stroke-brand-solid": "var(--seed-color-stroke-brand-solid)",
   "stroke-critical-weak": "var(--seed-color-stroke-critical-weak)",
@@ -540,7 +542,8 @@ export default plugin(
   "d3": "var(--seed-duration-d3)",
   "d4": "var(--seed-duration-d4)",
   "d5": "var(--seed-duration-d5)",
-  "d6": "var(--seed-duration-d6)"
+  "d6": "var(--seed-duration-d6)",
+  "color-transition": "var(--seed-duration-color-transition)"
 },
         transitionTimingFunction: {
   "linear": "var(--seed-timing-function-linear)",
@@ -549,6 +552,11 @@ export default plugin(
   "exit": "var(--seed-timing-function-exit)",
   "enter-expressive": "var(--seed-timing-function-enter-expressive)",
   "exit-expressive": "var(--seed-timing-function-exit-expressive)"
+},
+        boxShadow: {
+  "s1": "var(--seed-shadow-s1)",
+  "s2": "var(--seed-shadow-s2)",
+  "s3": "var(--seed-shadow-s3)"
 },
       },
     },

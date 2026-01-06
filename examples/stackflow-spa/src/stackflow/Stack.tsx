@@ -1,12 +1,15 @@
-import { historySyncPlugin } from "@stackflow/plugin-history-sync";
 import { basicRendererPlugin } from "@stackflow/plugin-renderer-basic";
-import { stackflow, type ActivityComponentType, type UseActionsOutputType } from "@stackflow/react";
-import React from "react";
-
 import { seedPlugin } from "@seed-design/stackflow";
 import ActivityHome from "../activities/ActivityHome";
 import ActivityNotFound from "../activities/ActivityNotFound";
+import { iframeSyncPlugin } from "./iframeSyncPlugin";
+import { stackflow, lazy } from "@stackflow/react/future";
+import { config } from "./stackflow.config";
+import { historySyncPlugin } from "@stackflow/plugin-history-sync";
+import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
 import { theme } from "./theme";
+import ActivityDemoArticleDetail from "../activities/ActivityDemoArticleDetail";
+import ActivityDemoHome from "../activities/ActivityDemoHome";
 
 /**
  * Stackflow는 웹뷰 내에서 Stack Navigation UI를 도와주는 도구에요.
@@ -14,98 +17,66 @@ import { theme } from "./theme";
  * 웹사이트: https://stackflow.so
  * GitHub: https://github.com/daangn/stackflow
  */
-
-const { Stack, useFlow, useStepFlow } = stackflow({
-  activities: {
-    ActivityHome,
-    ActivityActionButton: React.lazy(() => import("../activities/ActivityActionButton")),
-    ActivityChipButton: React.lazy(() => import("../activities/ActivityChipButton")),
-    ActivityChipToggle: React.lazy(() => import("../activities/ActivityChipToggle")),
-    ActivityHelpBubble: React.lazy(() => import("../activities/ActivityHelpBubble")),
-    ActivityLayerBar: React.lazy(() => import("../activities/ActivityLayerBar")),
-    ActivityTransparentBar: React.lazy(() => import("../activities/ActivityTransparentBar")),
-    ActivityAlertDialog: React.lazy(() => import("../activities/ActivityAlertDialog")),
-    ActivityBottomSheet: React.lazy(() => import("../activities/ActivityBottomSheet")),
-    ActivityMannerTempLevel: React.lazy(() => import("../activities/ActivityMannerTempLevel")),
-    ActivityAvatarStack: React.lazy(() => import("../activities/ActivityAvatarStack")),
-    ActivityAvatar: React.lazy(() => import("../activities/ActivityAvatar")),
-    ActivityToggleButton: React.lazy(() => import("../activities/ActivityToggleButton")),
-    ActivityMenuSheet: React.lazy(() => import("../activities/ActivityMenuSheet")),
-    ActivityReactionButton: React.lazy(() => import("../activities/ActivityReactionButton")),
-    ActivityErrorState: React.lazy(() => import("../activities/ActivityErrorState")),
-    ActivityTabs: React.lazy(() => import("../activities/ActivityTabs")),
-    ActivityAnimatedTabs: React.lazy(() => import("../activities/ActivityAnimatedTabs")),
-    ActivitySwipeableTabs: React.lazy(() => import("../activities/ActivitySwipeableTabs")),
-    ActivitySegmentedControl: React.lazy(() => import("../activities/ActivitySegmentedControl")),
-    ActivityPartialDarkMode: React.lazy(() => import("../activities/ActivityPartialDarkMode")),
-    ActivityMixedVersionTest: React.lazy(() => import("../activities/ActivityMixedVersionTest")),
-    ActivityCodegenTest: React.lazy(() => import("../activities/ActivityCodegenTest")),
-    ActivityPerfCheck: React.lazy(() => import("../activities/ActivityPerfCheck")),
-    ActivityListItem: React.lazy(() => import("../activities/ActivityListItem")),
-    ActivityListButtonItem: React.lazy(() => import("../activities/ActivityListButtonItem")),
-    ActivityListLinkItem: React.lazy(() => import("../activities/ActivityListLinkItem")),
-    ActivityListSwitchItem: React.lazy(() => import("../activities/ActivityListSwitchItem")),
-    ActivityListCheckItem: React.lazy(() => import("../activities/ActivityListCheckItem")),
-    ActivityListRadioItem: React.lazy(() => import("../activities/ActivityListRadioItem")),
-    ActivityNotFound,
-  },
+export const { Stack, actions, stepActions } = stackflow({
+  config,
   plugins: [
     basicRendererPlugin(),
-    seedPlugin({
-      theme,
-    }),
+    basicUIPlugin({ theme }),
+    seedPlugin({ theme }),
+    iframeSyncPlugin(),
     historySyncPlugin({
+      config,
       fallbackActivity: () => "ActivityNotFound",
-      routes: {
-        ActivityHome: "/",
-        ActivityActionButton: "/action-button",
-        ActivityChipButton: "/chip-button",
-        ActivityToggleButton: "/toggle-button",
-        ActivityChipToggle: "/chip-toggle",
-        ActivityHelpBubble: "/help-bubble",
-        ActivityLayerBar: "/layer-bar",
-        ActivityTransparentBar: "/transparent-bar",
-        ActivityAlertDialog: "/alert-dialog",
-        ActivityBottomSheet: "/bottom-sheet",
-        ActivityActionSheet: "/action-sheet",
-        ActivityMenuSheet: "/menu-sheet",
-        ActivityErrorState: "/error",
-        ActivityMannerTempLevel: "/manner-temp-level",
-        ActivityAvatarStack: "/avatar-stack",
-        ActivityAvatar: "/avatar",
-        ActivityReactionButton: "/reaction-button",
-        ActivityTabs: "/tabs",
-        ActivitySwipeableTabs: "/swipeable-tabs",
-        ActivityAnimatedTabs: "/animated-tabs",
-        ActivitySegmentedControl: "/segmented-control",
-        ActivityPartialDarkMode: "/partial-dark-mode",
-        ActivityMixedVersionTest: "/mixed-version-test",
-        ActivityCodegenTest: "/codegen-test",
-        ActivityPerfCheck: "/perf-check",
-        ActivityListItem: "/list-item",
-        ActivityListButtonItem: "/list-item-button",
-        ActivityListLinkItem: "/list-item-link",
-        ActivityListSwitchItem: "/list-item-switch",
-        ActivityListCheckItem: "/list-item-check",
-        ActivityListRadioItem: "/list-item-radio",
-        ActivityNotFound: "/404",
-      },
     }),
   ],
-  transitionDuration: theme === "cupertino" ? 350 : 300,
+  components: {
+    ActivityHome,
+    ActivityNotFound,
+
+    ActivityDemoHome,
+    ActivityDemoArticleDetail,
+
+    ActivityActionButton: lazy(() => import("../activities/ActivityActionButton")),
+    ActivityAlertDialog: lazy(() => import("../activities/ActivityAlertDialog")),
+    ActivityAlertDialogActivity: lazy(() => import("../activities/ActivityAlertDialogActivity")),
+    ActivityAlertDialogStep: lazy(() => import("../activities/ActivityAlertDialogStep")),
+    ActivityAnimatedTabs: lazy(() => import("../activities/ActivityAnimatedTabs")),
+    ActivityAvatar: lazy(() => import("../activities/ActivityAvatar")),
+    ActivityAvatarStack: lazy(() => import("../activities/ActivityAvatarStack")),
+    ActivityBadge: lazy(() => import("../activities/ActivityBadge")),
+    ActivityBottomSheet: lazy(() => import("../activities/ActivityBottomSheet")),
+    ActivityBottomSheetActivity: lazy(() => import("../activities/ActivityBottomSheetActivity")),
+    ActivityBottomSheetStep: lazy(() => import("../activities/ActivityBottomSheetStep")),
+    ActivityChipButton: lazy(() => import("../activities/ActivityChipButton")),
+    ActivityChipToggle: lazy(() => import("../activities/ActivityChipToggle")),
+    ActivityCodegenTest: lazy(() => import("../activities/ActivityCodegenTest")),
+    ActivityDetail: lazy(() => import("../activities/ActivityDetail")),
+    ActivityErrorState: lazy(() => import("../activities/ActivityErrorState")),
+    ActivityHelpBubble: lazy(() => import("../activities/ActivityHelpBubble")),
+    ActivityLayerBar: lazy(() => import("../activities/ActivityLayerBar")),
+    ActivityListButtonItem: lazy(() => import("../activities/ActivityListButtonItem")),
+    ActivityListCheckItem: lazy(() => import("../activities/ActivityListCheckItem")),
+    ActivityListItem: lazy(() => import("../activities/ActivityListItem")),
+    ActivityListLinkItem: lazy(() => import("../activities/ActivityListLinkItem")),
+    ActivityListRadioItem: lazy(() => import("../activities/ActivityListRadioItem")),
+    ActivityListSwitchItem: lazy(() => import("../activities/ActivityListSwitchItem")),
+    ActivityMannerTempLevel: lazy(() => import("../activities/ActivityMannerTempLevel")),
+    ActivityMenuSheet: lazy(() => import("../activities/ActivityMenuSheet")),
+    ActivityMenuSheetActivity: lazy(() => import("../activities/ActivityMenuSheetActivity")),
+    ActivityMenuSheetSimple: lazy(() => import("../activities/ActivityMenuSheetSimple")),
+    ActivityMenuSheetStep: lazy(() => import("../activities/ActivityMenuSheetStep")),
+    ActivityMixedVersionTest: lazy(() => import("../activities/ActivityMixedVersionTest")),
+    ActivityPartialDarkMode: lazy(() => import("../activities/ActivityPartialDarkMode")),
+    ActivityPerfCheck: lazy(() => import("../activities/ActivityPerfCheck")),
+    ActivityPluginBasicUI: lazy(() => import("../activities/ActivityPluginBasicUI")),
+    ActivityReactionButton: lazy(() => import("../activities/ActivityReactionButton")),
+    ActivityResultSection: lazy(() => import("../activities/ActivityResultSection")),
+    ActivitySegmentedControl: lazy(() => import("../activities/ActivitySegmentedControl")),
+    ActivitySwipeableTabs: lazy(() => import("../activities/ActivitySwipeableTabs")),
+    ActivityTabs: lazy(() => import("../activities/ActivityTabs")),
+    ActivityTextField: lazy(() => import("../activities/ActivityTextField")),
+    ActivityToggleButton: lazy(() => import("../activities/ActivityToggleButton")),
+    ActivityTransitionStyle: lazy(() => import("../activities/ActivityTransitionStyle")),
+    ActivityTransparentBar: lazy(() => import("../activities/ActivityTransparentBar")),
+  },
 });
-
-export { Stack };
-export type TypeUseFlow = typeof useFlow;
-export type TypeUseStepFlow = typeof useStepFlow;
-
-export type InferActivities<T> = T extends () => UseActionsOutputType<infer A> ? A : never;
-export type Activities = InferActivities<typeof useFlow>;
-export type ActivityName = keyof Activities;
-export type ActivityParamOf<K extends ActivityName> = Activities[K] extends ActivityComponentType<
-  infer U
->
-  ? U
-  : Activities[K] extends { component: ActivityComponentType<infer U> }
-    ? U
-    : {};

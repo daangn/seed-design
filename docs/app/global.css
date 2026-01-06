@@ -6,6 +6,7 @@
 @source ".";
 @source "../components";
 @source "../content";
+@source "../examples";
 @source "../sanity";
 @source "../../node_modules/fumadocs-ui/dist/**/*.js";
 
@@ -17,6 +18,10 @@
   --primary: var(--design-color);
 }
 
+.lynx {
+  --primary: var(--lynx-color);
+}
+
 .breeze {
   --primary: var(--breeze-color);
 }
@@ -24,6 +29,7 @@
 :root {
   --design-color: hsl(250deg 80% 54%);
   --react-color: hsl(220, 74%, 54%);
+  --lynx-color: rgba(0, 0, 0, 1);
   --breeze-color: hsl(26, 100%, 46%);
 
   --color-fd-background: #ffffff;
@@ -53,6 +59,7 @@
 .dark {
   --design-color: 250 100% 80%;
   --react-color: 217deg 92% 76%;
+  --lynx-color: 280deg 85% 75%;
   --breeze-color: 180deg 82% 76%;
 
   --color-fd-background: #171717;
@@ -82,4 +89,8 @@
 
 strong {
   font-weight: 700;
+}
+
+article .prose {
+  padding-bottom: 3rem;
 }

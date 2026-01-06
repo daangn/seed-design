@@ -2,6 +2,8 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
+        "colorDuration": "var(--seed-duration-color-transition)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)"
@@ -12,26 +14,13 @@ export declare const vars: {
     },
     "enabledPressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "enabledSelected": {
       "root": {
         "strokeWidth": "0px",
         "strokeColor": "#00000000"
-      }
-    },
-    "disabled": {
-      "root": {
-        "color": "var(--seed-color-palette-gray-300)"
-      }
-    },
-    "disabledSelected": {
-      "root": {
-        "strokeColor": "var(--seed-color-palette-gray-300)"
-      },
-      "icon": {
-        "color": "var(--seed-color-palette-gray-300)"
       }
     }
   },
@@ -48,6 +37,21 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-brand-solid-pressed)"
       }
+    },
+    "disabled": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-300)"
+      }
+    },
+    "disabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-palette-gray-300)"
+      },
+      "icon": {
+        "color": "var(--seed-color-palette-gray-300)"
+      }
     }
   },
   "toneNeutral": {
@@ -62,6 +66,21 @@ export declare const vars: {
     "enabledSelectedPressed": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+      }
+    },
+    "disabled": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-300)"
+      }
+    },
+    "disabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-palette-gray-300)"
+      },
+      "icon": {
+        "color": "var(--seed-color-palette-gray-300)"
       }
     }
   },

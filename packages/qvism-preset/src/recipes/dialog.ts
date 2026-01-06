@@ -21,7 +21,10 @@ const dialog = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      inset: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
       overscrollBehaviorY: "none",
 
       "--dialog-z-index": "2",
@@ -29,20 +32,12 @@ const dialog = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      inset: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
-
-      [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
-        duration: vars.base.enabled.backdrop.enterDuration,
-        opacity: vars.base.enabled.backdrop.enterOpacity,
-      }),
-      [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
-        duration: vars.base.enabled.backdrop.exitDuration,
-        opacity: vars.base.enabled.backdrop.exitOpacity,
-      }),
     },
     content: {
       position: "relative",
@@ -57,24 +52,13 @@ const dialog = defineSlotRecipe({
       maxWidth: vars.base.enabled.content.maxWidth,
       margin: `auto ${vars.base.enabled.content.marginX}`,
       borderRadius: vars.base.enabled.content.cornerRadius,
-
-      [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.content.enterTimingFunction,
-        duration: vars.base.enabled.content.enterDuration,
-        opacity: vars.base.enabled.content.enterOpacity,
-        scale: vars.base.enabled.content.enterScale,
-      }),
-      [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.content.exitTimingFunction,
-        duration: vars.base.enabled.content.exitDuration,
-        opacity: vars.base.enabled.content.exitOpacity,
-      }),
     },
     header: {
       display: "flex",
       flexDirection: "column",
 
-      paddingInline: vars.base.enabled.header.paddingX,
+      paddingLeft: vars.base.enabled.header.paddingX,
+      paddingRight: vars.base.enabled.header.paddingX,
       paddingTop: vars.base.enabled.header.paddingTop,
       gap: vars.base.enabled.header.gap,
     },
@@ -100,13 +84,46 @@ const dialog = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
 
-      paddingInline: vars.base.enabled.footer.paddingX,
+      paddingLeft: vars.base.enabled.footer.paddingX,
+      paddingRight: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
     },
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    skipAnimation: {
+      false: {
+        backdrop: {
+          [pseudo(open)]: enterAnimation({
+            timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
+            duration: vars.base.enabled.backdrop.enterDuration,
+            opacity: vars.base.enabled.backdrop.enterOpacity,
+          }),
+          [pseudo(not(open))]: exitAnimation({
+            timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
+            duration: vars.base.enabled.backdrop.exitDuration,
+            opacity: vars.base.enabled.backdrop.exitOpacity,
+          }),
+        },
+        content: {
+          [pseudo(open)]: enterAnimation({
+            timingFunction: vars.base.enabled.content.enterTimingFunction,
+            duration: vars.base.enabled.content.enterDuration,
+            opacity: vars.base.enabled.content.enterOpacity,
+            scale: vars.base.enabled.content.enterScale,
+          }),
+          [pseudo(not(open))]: exitAnimation({
+            timingFunction: vars.base.enabled.content.exitTimingFunction,
+            duration: vars.base.enabled.content.exitDuration,
+            opacity: vars.base.enabled.content.exitOpacity,
+          }),
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    skipAnimation: false,
+  },
 });
 
 export default dialog;

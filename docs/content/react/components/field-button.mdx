@@ -1,0 +1,268 @@
+---
+title: Field Button
+description: 입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.
+---
+
+<ComponentExample name="react/field-button/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:field-button
+```
+
+<ManualInstallation name="field-button" />
+
+## Props
+
+### `FieldButton`
+
+<react-type-table
+  path="./registry/ui/field-button.tsx"
+  name="FieldButtonProps"
+/>
+
+### `FieldButtonValue`
+
+<react-type-table
+  path="./registry/ui/field-button.tsx"
+  name="FieldButtonValueProps"
+/>
+
+### `FieldButtonPlaceholder`
+
+<react-type-table
+  path="./registry/ui/field-button.tsx"
+  name="FieldButtonPlaceholderProps"
+/>
+
+## Examples
+
+### Basic Usage
+
+`FieldButton`은 `TextField`와 유사한 외관을 갖지만, 근본적으로 내부에 `<button>` 요소를 포함하는 컴포넌트입니다. 사용자는 `buttonProps` prop을 통해 버튼의 속성을 제어할 수 있습니다.
+
+- **`buttonProps`**
+  - **`onClick`**: 버튼 클릭 핸들러
+  - **`aria-label`**: 버튼의 접근성 레이블
+- **`children`**
+  - `FieldButtonValue` 또는 `FieldButtonPlaceholder` 등을 사용하여 구성
+  - `FieldButtonValue`와 `FieldButtonPlaceholder`는 스타일 차이만 있을 뿐 기능적으로 동일합니다. 스크린 리더는 두 요소를 읽거나 구분하지 않습니다. **접근성을 위해 `buttonProps["aria-label"]`에 적절한 값을 제공하세요.** 자세한 내용은 [Accessibility](#accessibility) 섹션을 참고하세요.
+
+<ComponentExample name="react/field-button/basic-usage">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/basic-usage.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Clear Button
+
+`showClearButton` prop을 `true`로 설정하면 Clear Button이 표시됩니다. `showClearButton`을 `true`로 설정하는 경우 `onValuesChange` prop을 제공해야 합니다.
+
+`FieldButton`이 `disabled` 또는 `readOnly` 상태인 경우 Clear Button은 표시되지 않습니다.
+
+<ComponentExample name="react/field-button/clear-button">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/clear-button.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `FieldButtonValue` & `FieldButtonPlaceholder`
+
+`<FieldButton>` 내부에 `children`으로 넣어 사용할 수 있는 단순한 `<div>` 요소입니다.
+
+스크린 리더는 `FieldButtonValue`와 `FieldButtonPlaceholder`를 읽지 않습니다. `buttonProps["aria-label"]`에 적절한 값을 제공하여 접근성을 확보하세요. 자세한 내용은 [Accessibility](#accessibility) 섹션을 참고하세요.
+
+<ComponentExample name="react/field-button/value-placeholder">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/value-placeholder.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Accessibility
+
+**Field Button 내부 `button`에 `aria-label` 속성을 제공하세요.** 스크린 리더 사용자가 Field Button을 클릭했을 때 어떤 일이 일어날지 예상할 수 있도록 해야 하며, 현재 선택된 값이 있는 경우 그 값이 무엇인지도 알려야 합니다.
+
+```tsx
+<FieldButton
+  label="사용자 이름" // 스크린 리더는 label을 읽습니다.
+  description="본명을 사용하지 않아도 괜찮습니다." // 스크린 리더는 description을 버튼과 함께 읽습니다.
+  buttonProps={{
+    // [!code highlight]
+    // 버튼을 클릭했을 때 어떤 일이 일어날지, 현재 선택된 값이 무엇인지 알려야 합니다.
+    "aria-label": `사용자 이름 선택 화면 열기. 현재 선택된 이름: ${username || "없음"}`, // [!code highlight]
+    "aria-haspopup": "dialog",
+    onClick: () => setIsUsernamePickerOpen(true),
+  }}
+>
+  {username ? (
+    <FieldButtonValue>{username}</FieldButtonValue> // 스크린 리더는 FieldButtonValue를 읽지 않습니다.
+  ) : (
+    <FieldButtonPlaceholder>김하늘</FieldButtonPlaceholder> // 스크린 리더는 FieldButtonPlaceholder를 읽지 않습니다.
+  )}
+</FieldButton>
+```
+
+화면을 볼 수 있는 사용자는 Field Button이 클릭할 수 있는 요소라는 점과, Field Button을 클릭했을 때 일어날 동작을 쉽게 예측할 수 있지만, 스크린 리더 사용자는 `button`에 `aria-label` 속성이 없는 경우 Field Button을 클릭했을 때 어떤 일이 일어날지 파악하기 어렵습니다.
+
+### Use Cases
+
+#### Form
+
+`FieldButton`에 `values` prop을 제공하는 경우 폼 제출에 활용할 수 있도록 `<input type="hidden" />`을 함께 렌더링합니다.
+
+<ComponentExample name="react/field-button/form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Form and Bottom Sheet
+
+<ComponentExample name="react/field-button/form-bottom-sheet">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/form-bottom-sheet.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### React Hook Form
+
+<ComponentExample name="react/field-button/react-hook-form-simple">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/react-hook-form-simple.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Multiple Values (React Hook Form (Field Array))
+
+<ComponentExample name="react/field-button/field-array">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/field-array.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Multiple Values (Native `form`)
+
+<ComponentExample name="react/field-button/multiple-values">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/multiple-values.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### State
+
+#### Enabled
+
+<ComponentExample name="react/field-button/enabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/enabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Disabled
+
+- `values`를 제공할 때 렌더링되는 `<input type="hidden" />`도 함께 `disabled` 처리되어 폼 제출 시 값이 전송되지 않습니다.
+- `<button>` 요소도 `disabled` 처리되어 클릭할 수 없게 됩니다.
+
+<ComponentExample name="react/field-button/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Read Only
+
+- `values`를 제공할 때 렌더링되는 `<input type="hidden" />`은 영향을 받지 않습니다.
+- `<button>` 요소는 `disabled` 처리되어 클릭할 수 없게 됩니다.
+
+<ComponentExample name="react/field-button/read-only">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/read-only.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizable Parts
+
+#### Prefix
+
+<ComponentExample name="react/field-button/prefix">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/prefix.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Suffix
+
+<ComponentExample name="react/field-button/suffix">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/suffix.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Both Affixes
+
+<ComponentExample name="react/field-button/both-affixes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/both-affixes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Indicator
+
+<ComponentExample name="react/field-button/indicator">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/indicator.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

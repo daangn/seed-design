@@ -8,6 +8,10 @@ data:
     slots:
       root:
         properties:
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
           paddingX:
             type: dimension
           paddingY:
@@ -30,6 +34,8 @@ data:
     base:
       enabled:
         root:
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
           paddingY: $dimension.x2
           cornerRadius: $radius.full
         label:
@@ -56,7 +62,7 @@ data:
           color: $color.fg.neutral
       enabled,pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       selected:
         root:
           color: $color.bg.neutral-inverted
@@ -76,12 +82,13 @@ data:
     variant=neutralOutline:
       enabled:
         root:
+          color: $color.bg.transparent
           stroke: $color.stroke.neutral-muted
         label:
           color: $color.fg.neutral
       enabled,pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       selected:
         root:
           color: $color.bg.neutral-inverted

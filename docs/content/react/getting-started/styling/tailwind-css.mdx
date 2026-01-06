@@ -1,0 +1,190 @@
+---
+title: Tailwind CSS
+description: Tailwind CSS 프로젝트에서 Seed Design 토큰을 사용하는 방법을 알아봅니다.
+---
+
+SEED에서 제공하는 토큰을 Tailwind CSS 3과 4 유틸리티 클래스를 통해 쉽게 사용할 수 있습니다. 사용하는 Tailwind 버전에 맞는 패키지를 선택하세요.
+
+<Tabs items={['Tailwind CSS 4', 'Tailwind CSS 3']}>
+
+<Tab value="Tailwind CSS 4">
+
+<Steps>
+<Step>
+
+### 의존성 설치
+
+```package-install
+@seed-design/css @seed-design/tailwind4-theme
+```
+
+</Step>
+
+<Step>
+
+### base.css import하기
+
+```ts title="index.tsx"
+import "@seed-design/css/base.css";
+import "./style.css"; // 다음 단계 참고
+```
+
+</Step>
+
+<Step>
+
+### CSS 파일 설정하기
+
+```css title="style.css"
+@import "tailwindcss";
+@import "@seed-design/tailwind4-theme";
+```
+
+</Step>
+
+<Step>
+
+### Theming 설정하기
+
+Tailwind CSS 스타일시트는 theming 스크립트와 별개로 작동합니다. 아래 가이드를 참고하여 테마 설정을 진행하세요.
+
+- [Vite](/react/getting-started/installation/vite)
+- [Rsbuild](/react/getting-started/installation/rsbuild)
+- [Webpack](/react/getting-started/installation/webpack)
+- [Manual](/react/getting-started/installation/manual)
+
+</Step>
+
+</Steps>
+
+</Tab>
+
+<Tab value="Tailwind CSS 3">
+
+<Steps>
+<Step>
+
+### 의존성 설치
+
+```package-install
+@seed-design/css @seed-design/tailwind3-plugin
+```
+
+</Step>
+
+<Step>
+
+### base.css import하기
+
+```ts title="index.tsx"
+import "@seed-design/css/base.css";
+```
+
+</Step>
+
+<Step>
+
+### Tailwind 설정 파일 수정하기
+
+```js title="tailwind.config.js"
+import seedPlugin from "@seed-design/tailwind3-plugin"; // [!code highlight]
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [seedPlugin], // [!code highlight]
+};
+```
+
+</Step>
+
+<Step>
+
+### Theming 설정하기
+
+Tailwind CSS 스타일시트는 theming 스크립트와 별개로 작동합니다. 아래 가이드를 참고하여 테마 설정을 진행하세요.
+
+- [Vite](/react/getting-started/installation/vite)
+- [Rsbuild](/react/getting-started/installation/rsbuild)
+- [Webpack](/react/getting-started/installation/webpack)
+- [Manual](/react/getting-started/installation/manual)
+
+</Step>
+
+</Steps>
+
+</Tab>
+
+</Tabs>
+
+## 유틸리티 클래스
+
+SEED 디자인 시스템의 모든 디자인 토큰을 Tailwind 유틸리티 클래스로 사용할 수 있습니다.
+
+### 색상
+
+<ComponentExample name="react/tailwind/colors">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tailwind/colors.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 타이포그래피
+
+<ComponentExample name="react/tailwind/typography">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tailwind/typography.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 크기 및 여백
+
+<ComponentExample name="react/tailwind/spacing">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tailwind/spacing.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 테두리 반경
+
+<ComponentExample name="react/tailwind/border-radius">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tailwind/border-radius.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 그라디언트
+
+<ComponentExample name="react/tailwind/gradient">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tailwind/gradient.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## 관련 문서
+
+Tailwind CSS를 사용하지 않아도 SEED 토큰을 쉽게 사용할 수 있습니다.
+
+<Card href="/react/components/layout/box" title="Box">
+
+레이아웃 컴포넌트에서 SEED 토큰을 사용하는 방법을 알아봅니다.
+
+</Card>

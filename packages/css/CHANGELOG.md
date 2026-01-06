@@ -1,5 +1,179 @@
 # @seed-design/css
 
+## 1.1.15
+
+### Patch Changes
+
+- 76acd7e: iOS 15 이하 기기에서 MenuSheetItem이 의도하지 않은 margin을 갖는 문제를 수정합니다.
+- 7a428ec: `theme=“android”`인 AppScreen 또는 AppBar에 속한 AppBarMain의 title과 subtitle 말줄임(truncation)이 적용되지 않는 문제를 수정합니다.
+- 498a9e7: iOS 17 이하 기기에서 SegmentedControlItem의 높이가 잘못 설정될 수 있는 문제를 수정합니다.
+
+## 1.1.13
+
+### Patch Changes
+
+- 9be0581: `radiomark` Rootage 정의를 명확화합니다. (스타일 변경사항 없음)
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+- 739937f: Button들의 xsmall variant의 텍스트 사이즈를 t4에서 t3로 변경해요.
+
+## 1.1.12
+
+### Patch Changes
+
+- 8d0ad90: seedFontMultiplier, seedFontScaling attribute를 추가합니다
+  - seedFontMultiplier: 폰트 크기 스케일링 계수 (e.g. 0.8, 1.35, 1.5, 1)
+  - seedFontScaling: 폰트 크기 스케일링 활성화 여부 (e.g. "enabled")
+- 8f31f93: cssnano 등 CSS 최적화 도구를 사용할 때, `bleedX`와 `bleedY` 중 한 가지 속성만 정의하는 경우 bleed가 적용되지 않던 문제를 수정합니다.
+- 69ccc6e: Overlay 컴포넌트에 skipAnimation 옵션을 추가합니다
+- 279001a: Badge의 크기와 Field의 indicator 크기 및 여백이 폰트 스케일링 제한의 영향을 받도록 업데이트합니다.
+
+## 1.1.10
+
+### Patch Changes
+
+- db5de74: PageBanner에 tone="magic" 스타일을 추가합니다.
+- 70d11b8: Segmented Control의 스타일을 업데이트합니다: Indicator에서 shadow 정의를 제거합니다.
+- c03a3dd: TextFieldInput 및 TextFieldTextarea (text-input 스타일시트)에서 브라우저 기본 자동 완성 스타일이 표시되지 않도록 수정합니다.
+- a12e49b: Field(TextField)의 스타일을 수정합니다.
+
+  - `maxGraphemeCount`를 사용하지만 `description`을 사용하지 않는 경우 `maxGraphemeCount`가 우측이 아닌 좌측에 표시되는 문제를 수정합니다.
+  - Tailwind Preflight 사용 시 Character Count 영역이 디자인 의도보다 높이를 더 많이 차지하는 문제를 수정합니다.
+
+## 1.1.9
+
+### Patch Changes
+
+- 37d332d: `AppBar`에 적용되는 그라디언트를 `AppScreen`으로 이동합니다.
+
+  - `<AppBar tone="transparent">`를 사용하는 경우 `tone="transparent"`를 `AppScreen`으로 옮겨 그라디언트를 표시할 수 있습니다.
+  - `AppScreen`에 `gradient={false}`를 설정하여 그라디언트를 숨길 수 있습니다.
+
+- 77517f1: iOS 웹뷰 환경에서 Avatar가 정상적으로 렌더링되지 않는 문제를 수정합니다.
+
+## 1.1.8
+
+### Patch Changes
+
+- 8752805: List Item에 신규 active(pressed) 스타일을 적용하고, disabled 상태에서 detail 영역의 색상을 수정합니다.
+- ee98674: Help Bubble이 기본적으로 z-index 99를 가지도록 수정합니다. (HelpBubblePositioner 또는 HelpBubblePositionerPortal에 직접 인라인 스타일을 적용한 경우 인라인 스타일이 우선 적용됩니다.)
+
+## 1.1.7
+
+### Patch Changes
+
+- bee919c: 스타일시트에서 logical property(padding-block 등)를 physical property(padding-left 및 padding-right 등)로 교체합니다. (브라우저 지원)
+- 1340675: Slider Value Indicator가 표시되는 조건을 설정하는 `valueIndicatorTrigger` prop을 추가합니다. ("active"|"hover", 기본값: "active")
+- 1340675: Slider Value Indicator가 Track 양 끝에 있을 때 Track 바깥 영역을 차지하지 않도록 수정합니다.
+
+## 1.1.6
+
+### Patch Changes
+
+- dfe6c1e: transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 추가
+
+  - `$color.bg.transparent-pressed` 컬러와 `$color.bg.transparent` 컬러가 추가되었습니다.
+  - 다음 컴포넌트들의 색상이 transparent 관련 토큰으로 변경되었습니다.
+    - `Chip` (outlineStrong, outlineWeak)
+    - `Action Button` (neutralOutline, brandOutline, ghost)
+    - `Checkmark`
+    - `Tabs` (outline)
+    - `List Item`
+    - `Radiomark`
+    - `Reaction Button`
+    - `Select Box`
+  - 다음 컴포넌트들의 color transition이 추가되었습니다. (duration: $duration.d3, timing-function: $timing-function.easing)
+    - `Checkmark`
+    - `Radiomark`
+    - `Reaction Button`
+    - `Select Box`
+
+- a09e6b4: 다음 컴포넌트들의 color transition을 `$duration.color-transition` (d3) 토큰으로 변경합니다
+
+  - `Action Button`
+  - `Bottom Sheet Handle`
+  - `Checkmark`
+  - `Tabs` (outline)
+  - `Chip`
+  - `Contextual Floating Button`
+  - `Floating Action Button`
+  - `Input Button`
+  - `List Item`
+  - `Radiomark`
+  - `Reaction Button`
+  - `Segmented Control Item`
+  - `Select Box`
+  - `Text Input`
+  - `Toggle Button`
+
+## 1.1.5
+
+### Patch Changes
+
+- 53290ab: FieldButton에 Read Only 상태를 추가합니다. Disabled 상태인 FieldButton은 내부 `<input />`도 `disabled` 속성을 갖도록 수정합니다.
+
+## 1.1.4
+
+### Patch Changes
+
+- 795668c: Stackflow의 AppScreen에 있던 gradient 스타일을 AppBar로 이동합니다
+
+## 1.1.3
+
+### Patch Changes
+
+- 15c658b: 일반적인 CSS Reset을 사용하지 않는 환경에서도 스타일이 의도한 대로 표시될 수 있도록 수정합니다.
+
+  - `list-header`에 `box-sizing: border-box;` 추가
+  - `button`으로 렌더링되는 컴포넌트 스타일 수정
+
+- f4e07bb: 1.1 이전 버전과 호환 가능하도록 임시적으로 사용할 text-input size=medium variant를 추가합니다.
+
+  - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+- 114dafd: text-input의 readonly 스타일을 업데이트합니다.
+
+  - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
+
+- bc3cd6f: ScrollFog 컴포넌트를 추가합니다
+
+## 1.1.0
+
+### Minor Changes
+
+- a55f584: Slider 컴포넌트를 추가합니다.
+- 191005f: Action Button 컴포넌트를 `variant=ghost`로 사용하는 경우 `fontWeight`를 사용자화할 수 있도록 업데이트합니다.
+
+  (BREAKING CHANGE: Error State snippet을 다시 설치해야 합니다.) Error State 스니펫에서 Action Button을 활용하도록 업데이트합니다.
+
+- 33def2d: (BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
+
+  - vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
+  - vaul과 동일한 인터페이스를 가지고 있습니다. (snap-points, fade-from-index, etc.)
+  - `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
+
+### Patch Changes
+
+- d6bb84d: (BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다.
+
+  - 스타일 업데이트
+  - size 통일 및 variant (underline) 추가
+  - 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
+
+  Field Button 컴포넌트를 추가합니다.
+
+- b131282: AppScreen에 `tone` 속성을 조절해 그라데이션이 들어간 투명한 배경을 사용할 수 있습니다.
+
+  - AppBar에 있던 `tone` 속성을 AppScreen에서도 사용할 수 있도록 이동합니다.
+  - AppScreen, AppBar 둘 다 `tone` 속성을 사용할 수 있도록 합니다.
+
+- 6af6501: (BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다.
+
+  - Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
+  - `PageBanner.TextContent`를 `PageBanner.Content`로 이름 변경합니다.
+
 ## 1.0.7
 
 ### Patch Changes

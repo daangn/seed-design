@@ -1,5 +1,6 @@
 import type { ValueResolver } from "@/codegen/core";
 import { toCssRgba } from "@/utils/css";
+import type { RGBA } from "@figma/rest-api-spec";
 import { camelCase } from "change-case";
 
 export type FigmaValueResolver = ValueResolver<
@@ -17,6 +18,9 @@ export const defaultVariableNameFormatter = ({ slug }: { slug: string[] }) =>
     .join("/");
 
 export const defaultTextStyleNameFormatter = ({ slug }: { slug: string[] }) =>
+  slug[slug.length - 1]!;
+
+export const defaultEffectStyleNameFormatter = ({ slug }: { slug: string[] }) =>
   slug[slug.length - 1]!;
 
 export const defaultFillStyleResolver = ({ slug }: { slug: string[] }) => {
@@ -47,9 +51,25 @@ export const defaultFillStyleResolver = ({ slug }: { slug: string[] }) => {
   };
 };
 
+function formatBoxShadow(value: {
+  type: "DROP_SHADOW" | "INNER_SHADOW";
+  color: RGBA;
+  offset: { x: number; y: number };
+  radius: number;
+  spread?: number;
+}): string {
+  const { type, color, offset, radius, spread } = value;
+  const inset = type === "INNER_SHADOW" ? "inset " : "";
+  const colorStr = toCssRgba(color);
+  const spreadStr = spread !== undefined ? ` ${spread}px` : "";
+
+  return `${inset}${offset.x}px ${offset.y}px ${radius}px${spreadStr} ${colorStr}`;
+}
+
 export const defaultRawValueFormatters = {
   color: (value: RGBA) => toCssRgba(value),
   dimension: (value: number) => value,
   fontDimension: (value: number) => value,
   fontWeight: (value: number) => value,
+  boxShadow: formatBoxShadow,
 };

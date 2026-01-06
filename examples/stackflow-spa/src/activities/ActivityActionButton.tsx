@@ -1,14 +1,21 @@
-import type { ActivityComponentType } from "@stackflow/react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarIconButton,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
 
-import { IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
+import { IconChevronDownFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { ActionButton, type ActionButtonProps } from "../seed-design/ui/action-button";
+import { ActionButton, type ActionButtonProps } from "seed-design/ui/action-button";
 
 const initialVariants = {
   variant: "brandSolid",
@@ -16,7 +23,15 @@ const initialVariants = {
   layout: "withText",
 } satisfies ActionButtonProps;
 
-const ActivityActionButton: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityActionButton: {};
+  }
+}
+
+const ActivityActionButton: StaticActivityComponentType<"ActivityActionButton"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -24,6 +39,11 @@ const ActivityActionButton: ActivityComponentType = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain>Action Button</AppBarMain>
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent>
         <ComponentAnalyzer

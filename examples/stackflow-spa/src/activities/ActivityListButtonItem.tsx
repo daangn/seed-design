@@ -2,22 +2,25 @@ import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
+  IconHouseLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { Icon, Portal } from "@seed-design/react";
 import * as React from "react";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { ActionButton } from "../seed-design/ui/action-button";
-import { Avatar } from "../seed-design/ui/avatar";
-import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
 import {
-  List,
-  ListDivider,
-  ListButtonItem,
-  type ListButtonItemProps,
-} from "../seed-design/ui/list";
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { ActionButton } from "seed-design/ui/action-button";
+import { Avatar } from "seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { List, ListDivider, ListButtonItem, type ListButtonItemProps } from "seed-design/ui/list";
 import {
   AlertDialogContent,
   AlertDialogDescription,
@@ -26,12 +29,23 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../seed-design/ui/alert-dialog";
-import { useStepDialog } from "../seed-design/util/use-step-dialog";
+} from "seed-design/ui/alert-dialog";
+import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
+
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "lorem ipsum dolor sit amet" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
+  { key: "title-detail-disabled", detail: "lorem ipsum dolor sit amet", disabled: true },
+  {
+    key: "title-detail-highlighted-disabled",
+    detail: "lorem ipsum dolor sit amet",
+    highlighted: true,
+    disabled: true,
+  },
 ];
 
 const prefixVariants = [
@@ -70,32 +84,42 @@ const suffixVariants = [
 
 const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
   (props, ref) => {
-    const { dialogProps, setOpen } = useStepDialog();
+    const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
 
     return (
-      <AlertDialogRoot {...dialogProps}>
+      <AlertDialogRoot {...overlayProps}>
         <AlertDialogTrigger asChild>
           <ListButtonItem ref={ref} onClick={() => setOpen(true)} {...props} />
         </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>consectetur</AlertDialogTitle>
-            <AlertDialogDescription>
-              Veniam qui nulla minim sit ad Lorem fugiat consequat ad consequat velit ullamco
-              proident id.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <ActionButton onClick={() => setOpen(false)}>닫기</ActionButton>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+        <Portal>
+          <AlertDialogContent layerIndex={useActivityZIndexBase({ activityOffset: +1 })}>
+            <AlertDialogHeader>
+              <AlertDialogTitle>consectetur</AlertDialogTitle>
+              <AlertDialogDescription>
+                Veniam qui nulla minim sit ad Lorem fugiat consequat ad consequat velit ullamco
+                proident id.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <ActionButton onClick={() => setOpen(false)}>닫기</ActionButton>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </Portal>
       </AlertDialogRoot>
     );
   },
 );
 AlertDialogListButtonItem.displayName = "AlertDialogListButtonItem";
 
-const ActivityListButtonItem: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityListButtonItem: {};
+  }
+}
+
+const ActivityListButtonItem: StaticActivityComponentType<"ActivityListButtonItem"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -103,6 +127,11 @@ const ActivityListButtonItem: ActivityComponentType = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="ListButtonItem" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent
         ptr
@@ -129,6 +158,8 @@ const ActivityListButtonItem: ActivityComponentType = () => {
                       detail={content.detail}
                       prefix={prefix.element}
                       suffix={suffix.element}
+                      highlighted={content.highlighted}
+                      disabled={content.disabled}
                     />
                     {showDivider && <ListDivider />}
                   </Fragment>

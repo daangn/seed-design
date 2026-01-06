@@ -71,7 +71,7 @@ data:
     base:
       enabled:
         root:
-          colorDuration: $duration.d4
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
           cornerRadius: $radius.full
         prefixIcon:
@@ -125,9 +125,9 @@ data:
     variant=outlineStrong:
       enabled:
         root:
+          color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
-          color: $color.bg.layer-default
         label:
           color: $color.fg.neutral
         prefixIcon:
@@ -138,7 +138,7 @@ data:
           color: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
           opacity: 0.5
@@ -163,9 +163,9 @@ data:
     variant=outlineWeak:
       enabled:
         root:
+          color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
-          color: $color.bg.layer-default
         label:
           color: $color.fg.neutral
         prefixIcon:
@@ -176,7 +176,7 @@ data:
           color: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
       disabled:
         root:
           opacity: 0.5

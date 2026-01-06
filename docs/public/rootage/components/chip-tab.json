@@ -11,6 +11,12 @@
       "slots": {
         "root": {
           "properties": {
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
             "paddingX": {
               "type": "dimension"
             },
@@ -70,6 +76,14 @@
             ],
             "slots": {
               "root": {
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x2"
@@ -188,7 +202,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }
@@ -272,6 +286,10 @@
             ],
             "slots": {
               "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
                 "stroke": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
@@ -294,7 +312,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }

@@ -1,26 +1,3 @@
-export declare const templateBannerDetach: {
-  "name": "templateBannerDetach",
-  "key": "b9670e4d68d2b1057f28916728a845dc9c160c0f",
-  "componentPropertyDefinitions": {
-    "Layout": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Title + Description",
-        "Description + Title",
-        "Layout3",
-        "Layout4"
-      ]
-    },
-    "Rounded": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "True",
-        "False"
-      ]
-    }
-  }
-};
-
 export declare const templateButtonGroup: {
   "name": "templateButtonGroup",
   "key": "29109a34197f2eb5d390b1d9ebba270979a7b302",
@@ -79,63 +56,47 @@ export declare const templateChipGroup: {
   }
 };
 
-export declare const templateCompletion: {
-  "name": "templateCompletion",
-  "key": "d91c789c66c2da665d820318f1a4d8671946eb79",
+export declare const templateCustomPickerField: {
+  "name": "templateCustomPickerField",
+  "key": "91d73dfc297a467d78dc91ade6ff9be9a152619e",
   "componentPropertyDefinitions": {
-    "Description#28427:4": {
-      "type": "TEXT"
-    },
-    "Title#28427:5": {
-      "type": "TEXT"
-    },
-    "Show Description#28427:6": {
+    "Show Header#40606:8": {
       "type": "BOOLEAN"
     },
-    "Show Button#28427:7": {
+    "Show Footer#40606:9": {
       "type": "BOOLEAN"
     },
-    "Show Top Navigation#28427:8": {
-      "type": "BOOLEAN"
-    },
-    "Variant": {
+    "State": {
       "type": "VARIANT",
       "variantOptions": [
-        "Screen",
-        "Dialog"
+        "Enabled",
+        "Error",
+        "Disabled",
+        "Read Only"
+      ]
+    },
+    "Has Value": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
       ]
     }
   }
 };
 
-export declare const templateErrorState: {
-  "name": "templateErrorState",
-  "key": "39b4ecd0b5b4d35f4dc5791765ca04aa062a5172",
+export declare const templateDisclaimer: {
+  "name": "templateDisclaimer",
+  "key": "e08d2594b76c6c0107e34c0071cab8ef844c8998",
   "componentPropertyDefinitions": {
-    "Show Buttons#9080:5": {
+    "Show Title#54910:2": {
       "type": "BOOLEAN"
     },
-    "Title#16237:0": {
-      "type": "TEXT"
-    },
-    "Description#16237:5": {
-      "type": "TEXT"
-    },
-    "Secondary Action Label#17042:0": {
-      "type": "TEXT"
-    },
-    "Variant": {
+    "Size": {
       "type": "VARIANT",
       "variantOptions": [
-        "Default",
-        "Basement"
-      ]
-    },
-    "Layout": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "With Title",
-        "Description Only"
+        "t4(14pt)",
+        "t5(16pt)"
       ]
     }
   }
@@ -166,6 +127,86 @@ export declare const templateSelectBoxGroup: {
   }
 };
 
+export declare const templateSliderField: {
+  "name": "templateSliderField",
+  "key": "7d2b449bcfb28ebf3c509ed76a141511f7d955eb",
+  "componentPropertyDefinitions": {
+    "Show Header#40606:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:9": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Error",
+        "Disabled",
+        "Read Only"
+      ]
+    }
+  }
+};
+
+export declare const templateTextField: {
+  "name": "templateTextField",
+  "key": "0a83a0ff9d18d98a14536b21aa5411622f9f0c05",
+  "componentPropertyDefinitions": {
+    "Show Header#40606:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:9": {
+      "type": "BOOLEAN"
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Outline",
+        "Underline"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Focused",
+        "Error",
+        "Error Focused",
+        "Disabled",
+        "Read Only",
+        "AI Loading (Figma Only)"
+      ]
+    }
+  }
+};
+
+export declare const templateTextareaField: {
+  "name": "templateTextareaField",
+  "key": "cdc688eccd78b947289e8089a620bdc494f6c809",
+  "componentPropertyDefinitions": {
+    "Show Header#40606:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:9": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Focused",
+        "Error",
+        "Error Focused",
+        "Disabled",
+        "Read Only",
+        "AI Loading (Figma Only)"
+      ]
+    }
+  }
+};
+
 export declare const templateTopNavigation: {
   "name": "templateTopNavigation",
   "key": "74f045c1972dc31d0fddd0a0027537b6779cd0e8",
@@ -185,7 +226,8 @@ export declare const templateTopNavigation: {
     "Variants": {
       "type": "VARIANT",
       "variantOptions": [
-        "Main Tab",
+        "Root",
+        "Root Preset",
         "Standard",
         "Standard Transparent",
         "Large Title"
@@ -461,6 +503,12 @@ export declare const bottomSheet: {
       ]
     },
     "Show Safe Area#25488:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Handle#49774:6": {
+      "type": "BOOLEAN"
+    },
+    "Show Scroll Fog(Figma Only)#53171:3": {
       "type": "BOOLEAN"
     },
     "Header Layout": {
@@ -852,8 +900,8 @@ export declare const listHeader: {
       "type": "VARIANT",
       "variantOptions": [
         "None",
-        "Button",
-        "Custom"
+        "Custom",
+        "Button"
       ]
     },
     "Variant": {
@@ -1005,8 +1053,7 @@ export declare const listItem: {
       "variantOptions": [
         "Enabled",
         "Pressed",
-        "Disabled",
-        "Highlighted"
+        "Disabled"
       ]
     },
     "Variants": {
@@ -1015,56 +1062,12 @@ export declare const listItem: {
         "Single Line",
         "Multi Line"
       ]
-    }
-  }
-};
-
-export declare const mainTabNavigationGlobal: {
-  "name": "mainTabNavigationGlobal",
-  "key": "a694a1da14a5c1d7d5c66bc78218c0c61fb388ab",
-  "componentPropertyDefinitions": {
-    "Title#6406:6": {
-      "type": "TEXT"
     },
-    "Button Label#6409:18": {
-      "type": "TEXT"
-    },
-    "Title Type": {
+    "Highlighted": {
       "type": "VARIANT",
       "variantOptions": [
-        "Text",
-        "Text +  Button"
-      ]
-    },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Layer Default",
-        "Transparent"
-      ]
-    }
-  }
-};
-
-export declare const mainTabNavigationKr: {
-  "name": "mainTabNavigationKr",
-  "key": "41d3601e6b4c632a56cdc8fad485a76c026fdd8e",
-  "componentPropertyDefinitions": {
-    "Title#6406:6": {
-      "type": "TEXT"
-    },
-    "Title Type": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Text",
-        "Button"
-      ]
-    },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Layer Default",
-        "Transparent"
+        "True",
+        "False"
       ]
     }
   }
@@ -1130,15 +1133,15 @@ export declare const menuSheet: {
     "Show Safe Area#25531:15": {
       "type": "BOOLEAN"
     },
-    "Show Description#32984:0": {
+    "Show Header Description#32984:0": {
       "type": "BOOLEAN"
     },
     "Menu Group Count": {
       "type": "VARIANT",
       "variantOptions": [
+        "1",
         "2",
-        "3",
-        "1"
+        "3"
       ]
     },
     "Layout": {
@@ -1146,75 +1149,6 @@ export declare const menuSheet: {
       "variantOptions": [
         "Text Only",
         "Text with Icon"
-      ]
-    }
-  }
-};
-
-export declare const multilineTextField: {
-  "name": "multilineTextField",
-  "key": "88b2399c930c85f9ce2972163a078bc684b84bbe",
-  "componentPropertyDefinitions": {
-    "Show Header#870:0": {
-      "type": "BOOLEAN"
-    },
-    "Placeholder#958:0": {
-      "type": "TEXT"
-    },
-    "Show Footer#958:25": {
-      "type": "BOOLEAN"
-    },
-    "Show Description#958:50": {
-      "type": "BOOLEAN"
-    },
-    "Show Character count#958:75": {
-      "type": "BOOLEAN"
-    },
-    "Show Indicator#1259:0": {
-      "type": "BOOLEAN"
-    },
-    "Filled Text#1304:0": {
-      "type": "TEXT"
-    },
-    "Max Character Count#15327:175": {
-      "type": "TEXT"
-    },
-    "Description#15327:212": {
-      "type": "TEXT"
-    },
-    "Indicator#15327:286": {
-      "type": "TEXT"
-    },
-    "Label#15327:323": {
-      "type": "TEXT"
-    },
-    "Character Count#15327:360": {
-      "type": "TEXT"
-    },
-    "Size": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Medium",
-        "Large",
-        "XLarge"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Focused",
-        "Invalid",
-        "Invalid-Focused",
-        "Disabled",
-        "Read Only"
-      ]
-    },
-    "Filled": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "True",
-        "False"
       ]
     }
   }
@@ -1238,10 +1172,10 @@ export declare const pageBanner: {
       "type": "VARIANT",
       "variantOptions": [
         "Display",
+        "Display (With Action)",
         "Actionable",
         "Dismissible",
-        "With Action",
-        "Custom"
+        "Actionable (Custom)"
       ]
     },
     "Tone": {
@@ -1251,7 +1185,8 @@ export declare const pageBanner: {
         "Informative",
         "Positive",
         "Warning",
-        "Critical"
+        "Critical",
+        "Magic"
       ]
     },
     "Variant": {
@@ -1350,8 +1285,8 @@ export declare const radio: {
   }
 };
 
-export declare const radioMark: {
-  "name": "radioMark",
+export declare const radiomark: {
+  "name": "radiomark",
   "key": "832d696d6e9566610968cd70f128f500ec009d6a",
   "componentPropertyDefinitions": {
     "Size": {
@@ -1381,38 +1316,6 @@ export declare const radioMark: {
         "Enabled",
         "Pressed",
         "Disabled"
-      ]
-    }
-  }
-};
-
-export declare const rangeSlider: {
-  "name": "rangeSlider",
-  "key": "64fc49184979e0be40aa367ca98868601eb7dad5",
-  "componentPropertyDefinitions": {
-    "Steps": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Disabled"
-      ]
-    },
-    "Marker": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Min Max",
-        "All"
       ]
     }
   }
@@ -1499,6 +1402,120 @@ export declare const resizableChild: {
   }
 };
 
+export declare const resultSection: {
+  "name": "resultSection",
+  "key": "fabd52c41c63d921e37e0a1de373e4df2b496f30",
+  "componentPropertyDefinitions": {
+    "Title#16237:0": {
+      "type": "TEXT"
+    },
+    "Description#16237:5": {
+      "type": "TEXT"
+    },
+    "Asset Type#45154:9": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "3f2ed06bd34fbaf24d371cefa973e09e2c2572bf"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "bf1ad3ad5c45a2e94fd800f7f6ecbe52ba0667ab"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "d357dcf0fbff80f3bfa70fe4fd5d48a9bddd1b49"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "a53df434b562c1eeb04dab9abd88431989c5fc33"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "5e53811a1e1444deccb5147b6a57196a3be467c9"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "3ff3999d2d2bbed2c7656210793d4f083901f73b"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "56fcf964b7784ca83eaf6c9b1531de6150d23a0d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "5652618ddd66c844ab977d083d0dc41cb98f98ae"
+        }
+      ]
+    },
+    "Show Asset#45154:14": {
+      "type": "BOOLEAN"
+    },
+    "Show Buttons#53435:0": {
+      "type": "BOOLEAN"
+    },
+    "ㄴShow First Button#53766:0": {
+      "type": "BOOLEAN"
+    },
+    "ㄴShow Second Button#53766:3": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
+    }
+  }
+};
+
+export declare const rootTopNavigationGlobal: {
+  "name": "rootTopNavigationGlobal",
+  "key": "a694a1da14a5c1d7d5c66bc78218c0c61fb388ab",
+  "componentPropertyDefinitions": {
+    "Title#6406:6": {
+      "type": "TEXT"
+    },
+    "Button Label#6409:18": {
+      "type": "TEXT"
+    },
+    "Show Button#52619:0": {
+      "type": "BOOLEAN"
+    },
+    "Title Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text"
+      ]
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Layer Default"
+      ]
+    }
+  }
+};
+
+export declare const rootTopNavigationKr: {
+  "name": "rootTopNavigationKr",
+  "key": "41d3601e6b4c632a56cdc8fad485a76c026fdd8e",
+  "componentPropertyDefinitions": {
+    "Title#6406:6": {
+      "type": "TEXT"
+    },
+    "Title Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text",
+        "Button"
+      ]
+    }
+  }
+};
+
 export declare const segmentedControl: {
   "name": "segmentedControl",
   "key": "3ad7133ba52755867f42f9232375f75639e00d58",
@@ -1576,31 +1593,30 @@ export declare const skeleton: {
 
 export declare const slider: {
   "name": "slider",
-  "key": "aee027230a478315e380704c4523141e67e464ee",
+  "key": "14b3278452f03fa01ecc8012a07f124766714566",
   "componentPropertyDefinitions": {
-    "Steps": {
+    "Has Tick Mark#47921:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Active Track#48156:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Markers#49596:0": {
+      "type": "BOOLEAN"
+    },
+    "Value": {
       "type": "VARIANT",
       "variantOptions": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4"
+        "Single",
+        "Range"
       ]
     },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
+        "Pressed",
         "Disabled"
-      ]
-    },
-    "Marker": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Min Max",
-        "All"
       ]
     }
   }
@@ -1696,8 +1712,8 @@ export declare const _switch: {
   }
 };
 
-export declare const switchMark: {
-  "name": "switchMark",
+export declare const switchmark: {
+  "name": "switchmark",
   "key": "bc53f269089e02a1d241e2a21ac7631bfa49834e",
   "componentPropertyDefinitions": {
     "Size": {
@@ -1765,106 +1781,6 @@ export declare const tagGroup: {
         "2",
         "3",
         "4"
-      ]
-    }
-  }
-};
-
-export declare const textField: {
-  "name": "textField",
-  "key": "c49873c37a639f0dffdea4efd0eb43760d66c141",
-  "componentPropertyDefinitions": {
-    "Show Header#870:0": {
-      "type": "BOOLEAN"
-    },
-    "Placeholder#958:0": {
-      "type": "TEXT"
-    },
-    "Show Footer#958:25": {
-      "type": "BOOLEAN"
-    },
-    "Show Description#958:50": {
-      "type": "BOOLEAN"
-    },
-    "Show Character Count#958:75": {
-      "type": "BOOLEAN"
-    },
-    "Show Suffix#958:100": {
-      "type": "BOOLEAN"
-    },
-    "Show Prefix#958:125": {
-      "type": "BOOLEAN"
-    },
-    "Show Indicator#1259:0": {
-      "type": "BOOLEAN"
-    },
-    "Show Prefix Text#1267:0": {
-      "type": "BOOLEAN"
-    },
-    "Prefix Icon#1267:25": {
-      "type": "INSTANCE_SWAP",
-      "preferredValues": []
-    },
-    "Show Prefix Icon#1267:50": {
-      "type": "BOOLEAN"
-    },
-    "Show Suffix Icon#1267:75": {
-      "type": "BOOLEAN"
-    },
-    "Suffix Icon #1267:100": {
-      "type": "INSTANCE_SWAP",
-      "preferredValues": []
-    },
-    "Show Suffix Text#1267:125": {
-      "type": "BOOLEAN"
-    },
-    "Filled Text#1304:0": {
-      "type": "TEXT"
-    },
-    "Description#12626:5": {
-      "type": "TEXT"
-    },
-    "Label#14964:0": {
-      "type": "TEXT"
-    },
-    "Max Character Count#15327:27": {
-      "type": "TEXT"
-    },
-    "Character Count#15327:64": {
-      "type": "TEXT"
-    },
-    "Prefix Text#15327:101": {
-      "type": "TEXT"
-    },
-    "Suffix Text#15327:138": {
-      "type": "TEXT"
-    },
-    "Indicator#15327:249": {
-      "type": "TEXT"
-    },
-    "Size": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Medium",
-        "Large(Default)"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Focused",
-        "Invalid",
-        "Invalid-Focused",
-        "Disabled",
-        "Read Only"
-      ]
-    },
-    "Filled": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "True",
-        "False"
       ]
     }
   }
@@ -1962,6 +1878,79 @@ export declare const topNavigation: {
         "3 Icon Button",
         "Text Button",
         "None"
+      ]
+    }
+  }
+};
+
+export declare const actionButtonGhostButton: {
+  "name": "actionButtonGhostButton",
+  "key": "ea69291fb4d76217419f3d9613ae16aadafb56a5",
+  "componentPropertyDefinitions": {
+    "Label#30511:2": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#30511:3": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": []
+    },
+    "Suffix Icon#30525:0": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT_SET",
+          "key": "c8415f85843e5aea5a1d3620d03d16b643bf86cd"
+        },
+        {
+          "type": "COMPONENT_SET",
+          "key": "0d0a2bc648a2c4e1f06a56a30ef16299b6e91037"
+        },
+        {
+          "type": "COMPONENT_SET",
+          "key": "8f28ae559baf8f388d84ccc3ad65a282966e1b05"
+        },
+        {
+          "type": "COMPONENT_SET",
+          "key": "57341e8a9961bf31590240dd288e57c76969098d"
+        }
+      ]
+    },
+    "Icon#30525:15": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": []
+    },
+    "Bleed": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "true",
+        "false"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Xsmall",
+        "Small",
+        "Medium",
+        "Large"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text Only",
+        "Icon First",
+        "Icon Last",
+        "Icon Only"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Loading",
+        "Disabled"
       ]
     }
   }

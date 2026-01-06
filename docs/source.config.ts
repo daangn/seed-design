@@ -1,6 +1,6 @@
 import { fileGenerator, remarkDocGen } from "fumadocs-docgen";
-import { remarkNpm } from "fumadocs-core/mdx-plugins";
 import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
+import { remarkFigmaImage } from "./components/figma-image/remark-figma-image";
 import { typeTableGenerator } from "./components/type-table/generator";
 import { remarkReactTypeTable } from "./components/type-table/remark-react-type-table";
 import z from "zod";
@@ -11,6 +11,7 @@ export const docs = defineDocs({
     async: true,
     schema: frontmatterSchema.extend({
       deprecated: z.string().optional(),
+      coverImageFigmaId: z.string().optional(),
     }),
   },
 });
@@ -35,18 +36,29 @@ export const breezeDocs = defineDocs({
   },
 });
 
+export const lynxDocs = defineDocs({
+  dir: "content/lynx",
+  docs: {
+    async: true,
+    schema: frontmatterSchema.extend({
+      deprecated: z.string().optional(),
+    }),
+  },
+});
+
+if (!process.env.FIGMA_FILE_KEY || !process.env.FIGMA_PERSONAL_ACCESS_TOKEN) {
+  throw new Error("FIGMA_FILE_KEY and FIGMA_PERSONAL_ACCESS_TOKEN are required");
+}
+
 export default defineConfig({
   lastModifiedTime: "git",
   mdxOptions: {
+    remarkNpmOptions: {
+      persist: {
+        id: "package-manager",
+      },
+    },
     remarkPlugins: [
-      [
-        remarkNpm,
-        {
-          persist: {
-            id: "package-manager",
-          },
-        },
-      ],
       [remarkDocGen, { generators: [fileGenerator()] }],
       [
         remarkReactTypeTable,
@@ -54,6 +66,17 @@ export default defineConfig({
           generator: typeTableGenerator,
           options: {
             parseDescriptionAsMarkdown: true,
+          },
+        },
+      ],
+      [
+        remarkFigmaImage,
+        {
+          fileKey: process.env.FIGMA_FILE_KEY,
+          accessToken: process.env.FIGMA_PERSONAL_ACCESS_TOKEN,
+          fetchUrlsOptions: {
+            format: "png",
+            scale: 2,
           },
         },
       ],

@@ -18,8 +18,14 @@ data:
             type: cubicBezier
           color:
             type: color
+          marginX:
+            type: dimension
+          cornerRadius:
+            type: dimension
       content:
         properties:
+          color:
+            type: color
           gap:
             type: dimension
           paddingRight:
@@ -80,8 +86,13 @@ data:
         root:
           paddingY: $dimension.x3
           paddingX: $dimension.spacing-x.global-gutter
-          colorDuration: $duration.d3
+          color: $color.bg.transparent
+          colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          marginDuration: $duration.d3
+          marginTimingFunction: $timing-function.easing
+          borderRadiusDuration: $duration.d3
+          borderRadiusTimingFunction: $timing-function.easing
         content:
           gap: $dimension.x0_5
           paddingRight: $dimension.x2_5
@@ -110,17 +121,22 @@ data:
         suffixIcon:
           size: 18px
           color: $color.fg.neutral-subtle
-      highlighted:
-        root:
-          color: $color.palette.carrot-100
       pressed:
         root:
-          color: $color.bg.layer-default-pressed
+          color: $color.bg.transparent-pressed
+          marginX: $dimension.x1_5
+          cornerRadius: $dimension.x2_5
+      highlighted:
+        root:
+          color: $color.bg.brand-weak
+      highlighted,pressed:
+        root:
+          color: $color.bg.brand-weak-pressed
       disabled:
         title:
           color: $color.fg.disabled
         detail:
-          color: $color.fg.neutral-subtle
+          color: $color.fg.disabled
         prefixIcon:
           color: $color.fg.disabled
         suffixIcon:

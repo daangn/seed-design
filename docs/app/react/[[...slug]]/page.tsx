@@ -60,7 +60,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
           <ViewOptions markdownUrl={markdownUrl} githubUrl={getSourceUrl(page.path)} />
         </div>
       )}
-      <DocsBody>
+      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <MDX components={mdxComponents} />
       </DocsBody>
     </DocsPage>

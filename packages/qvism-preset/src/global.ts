@@ -123,10 +123,10 @@ export const globalCss = defineGlobalCss({
     paddingLeft: "var(--seed-box-padding-left)",
     paddingRight: "var(--seed-box-padding-right)",
 
-    "--seed-box-bleed-bottom": "initial",
-    "--seed-box-bleed-top": "initial",
-    "--seed-box-bleed-left": "initial",
-    "--seed-box-bleed-right": "initial",
+    "--seed-box-bleed-bottom": "0px",
+    "--seed-box-bleed-top": "0px",
+    "--seed-box-bleed-left": "0px",
+    "--seed-box-bleed-right": "0px",
     marginTop: "calc(var(--seed-box-bleed-top) * -1)",
     marginBottom: "calc(var(--seed-box-bleed-bottom) * -1)",
     marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
@@ -163,6 +163,9 @@ export const globalCss = defineGlobalCss({
     borderBottomRightRadius: "var(--seed-box-border-bottom-right-radius)",
     borderTopLeftRadius: "var(--seed-box-border-top-left-radius)",
     borderTopRightRadius: "var(--seed-box-border-top-right-radius)",
+
+    "--seed-box-box-shadow": "initial",
+    boxShadow: "var(--seed-box-box-shadow)",
 
     "--seed-box-display": "block",
     "--seed-box-position": "initial",

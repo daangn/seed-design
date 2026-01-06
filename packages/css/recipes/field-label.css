@@ -1,0 +1,29 @@
+.seed-field-label__root {
+    color: var(--seed-color-fg-neutral);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-field-label__indicatorText {
+    display: inline;
+    vertical-align: bottom;
+    padding-left: clamp(calc(4px * var(--seed-font-size-limit-min)), 0.25rem, calc(4px * var(--seed-font-size-limit-max)));
+    color: var(--seed-color-fg-neutral-subtle);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular)
+}
+.seed-field-label__indicatorIcon {
+    display: inline;
+    vertical-align: top;
+    width: clamp(calc(6px * var(--seed-font-size-limit-min)), 0.375rem, calc(6px * var(--seed-font-size-limit-max)));
+    height: clamp(calc(6px * var(--seed-font-size-limit-min)), 0.375rem, calc(6px * var(--seed-font-size-limit-max)));
+    margin-top: clamp(calc(4px * var(--seed-font-size-limit-min)), 0.25rem, calc(4px * var(--seed-font-size-limit-max)));
+    margin-left: clamp(calc(2px * var(--seed-font-size-limit-min)), 0.125rem, calc(2px * var(--seed-font-size-limit-max)));
+    color: var(--seed-color-fg-critical)
+}
+.seed-field-label__root--weight_medium {
+    font-weight: var(--seed-font-weight-medium)
+}
+.seed-field-label__root--weight_bold {
+    font-weight: var(--seed-font-weight-bold)
+}

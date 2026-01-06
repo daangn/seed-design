@@ -1,6 +1,11 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "composite": true,
+    "incremental": true,
     "rootDir": "src",
     "outDir": "lib",
     "jsx": "preserve"

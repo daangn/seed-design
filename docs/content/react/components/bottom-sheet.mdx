@@ -1,6 +1,6 @@
 ---
 title: Bottom Sheet
-description: Bottom sheet는 화면 하단에 고정되어 이전 화면과 관련된 콘텐츠를 표시합니다. 사용자에게 추가적인 정보, 작업 또는 메뉴를 제공하는 데 사용됩니다.
+description: 화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.
 ---
 
 <ComponentExample name="react/bottom-sheet/preview">
@@ -11,6 +11,12 @@ description: Bottom sheet는 화면 하단에 고정되어 이전 화면과 관�
   }
   ```
 </ComponentExample>
+
+<Card title="Stackflow" href="/react/stackflow/bottom-sheet" variant="example">
+
+Stackflow와 Bottom Sheet를 함께 사용하는 방법에 대해 알아보세요.
+
+</Card>
 
 ## Installation
 
@@ -101,6 +107,93 @@ Trigger 외의 방식으로 BottomSheet를 열고 닫을 수 있습니다. 이 �
   ```
 </ComponentExample>
 
+### Snap Points
+
+`snapPoints` prop을 사용하여 BottomSheet의 커스텀 스냅 포인트를 설정할 수 있습니다.
+
+<ComponentExample name="react/bottom-sheet/snap-points">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/snap-points.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Fade From Index
+
+`<BottomSheetRoot>`에 `fadeFromIndex` prop을 전달하여 뒷 배경이 어두워지는 시작 인덱스를 설정할 수 있습니다.
+
+<ComponentExample name="react/bottom-sheet/fade-from-index">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/fade-from-index.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Show Handle
+
+`<BottomSheetContent>`에 `showHandle` prop을 전달하여 Handle을 표시할 수 있습니다.
+기본 값은 `false`입니다.
+
+<ComponentExample name="react/bottom-sheet/show-handle">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/show-handle.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Show Close Button
+
+`<BottomSheetContent>`에 `showCloseButton` prop을 전달하여 닫기 버튼을 표시할 수 있습니다.
+기본 값은 `true`입니다.
+
+showCloseButton을 `false`로 설정하면 닫기 버튼이 표시되지 않습니다.
+이 경우 유저가 BottomSheet를 닫을 수 있는 방법을 제공해야 합니다.
+
+<ComponentExample name="react/bottom-sheet/show-close-button">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/show-close-button.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Dismissible
+
+`dismissible` prop을 `false`로 설정하면 closeOnEscape, closeOnInteractOutside, draggable 기능이 비활성화됩니다.
+의도적으로 BottomSheet를 닫을 수 없게 하고 싶을 때 사용합니다. 이외에는 유저가 BottomSheet를 닫을 수 있는 방법을 제공해야 합니다.
+
+<ComponentExample name="react/bottom-sheet/dismissible">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/dismissible.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Scroll Fog
+
+`<BottomSheetBody>`에 [Scroll Fog](/react/components/scroll-fog)를 사용하여 스크롤 힌트 효과를 적용할 수 있습니다.
+
+ScrollFog는 항상 효과를 표시하므로, 충분한 padding을 제공해야 합니다.
+권장 padding인 하단 `80px`, 상단 `20px`을 유지해야 합니다.
+
+<ComponentExample name="react/bottom-sheet/with-scroll-fog">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/with-scroll-fog.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Bottom Inset
 
 `<BottomSheetContent>`에 `style` prop을 전달하여 아래 여백을 주기 위해 사용합니다.
@@ -114,14 +207,29 @@ Trigger 외의 방식으로 BottomSheet를 열고 닫을 수 있습니다. 이 �
   ```
 </ComponentExample>
 
-### Hide Close Button
+### Handle Only
 
-`<BottomSheetContent>`에 `hideCloseButton` prop을 전달하여 닫기 버튼을 숨길 수 있습니다.
+`<BottomSheetRoot>`에 `handleOnly` prop을 제공하는 경우 쓸어서(swipe) Bottom Sheet를 움직일 수 있는 영역이 핸들 부분으로 제한됩니다.
 
-<ComponentExample name="react/bottom-sheet/hide-close-button">
+이 옵션은 `<BottomSheetContent showHandle={true}>`와 함께 사용할 때만 작동합니다.
+
+<ComponentExample name="react/bottom-sheet/handle-only">
   ```json doc-gen:file
   {
-    "file": "examples/react/bottom-sheet/hide-close-button.tsx",
+    "file": "examples/react/bottom-sheet/handle-only.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Skip Animation
+
+`skipAnimation` prop을 사용하여 BottomSheet의 enter/exit 애니메이션을 건너뛸 수 있습니다.
+
+<ComponentExample name="react/bottom-sheet/skip-animation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/skip-animation.tsx",
     "codeblock": true
   }
   ```

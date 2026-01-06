@@ -146,6 +146,8 @@
   --color-bg-warning-solid: var(--seed-color-bg-warning-solid);
   --color-bg-warning-solid-pressed: var(--seed-color-bg-warning-solid-pressed);
   --color-bg-warning-weak-pressed: var(--seed-color-bg-warning-weak-pressed);
+  --color-bg-transparent: var(--seed-color-bg-transparent);
+  --color-bg-transparent-pressed: var(--seed-color-bg-transparent-pressed);
   --color-stroke-brand-weak: var(--seed-color-stroke-brand-weak);
   --color-stroke-brand-solid: var(--seed-color-stroke-brand-solid);
   --color-stroke-critical-weak: var(--seed-color-stroke-critical-weak);
@@ -212,6 +214,7 @@
   --duration-d4: var(--seed-duration-d4);
   --duration-d5: var(--seed-duration-d5);
   --duration-d6: var(--seed-duration-d6);
+  --duration-color-transition: var(--seed-duration-color-transition);
   --font-size-t1: var(--seed-font-size-t1);
   --font-size-t2: var(--seed-font-size-t2);
   --font-size-t3: var(--seed-font-size-t3);
@@ -274,6 +277,9 @@
   --radius-r5: var(--seed-radius-r5);
   --radius-r6: var(--seed-radius-r6);
   --radius-full: var(--seed-radius-full);
+  --shadow-s1: var(--seed-shadow-s1);
+  --shadow-s2: var(--seed-shadow-s2);
+  --shadow-s3: var(--seed-shadow-s3);
   --timing-function-linear: var(--seed-timing-function-linear);
   --timing-function-easing: var(--seed-timing-function-easing);
   --timing-function-enter: var(--seed-timing-function-enter);
@@ -617,6 +623,10 @@
 
 @utility easing-* {
   transition-timing-function: --value(--timing-function-*);
+}
+
+@utility shadow-* {
+  box-shadow: --value(--shadow-*);
 }
 
 @utility bg-gradient-fade-layer-floating-* {

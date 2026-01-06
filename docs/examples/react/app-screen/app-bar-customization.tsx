@@ -6,7 +6,7 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/app-screen/app-bar-customization": unknown;
+    "react/app-screen/app-bar-customization": {};
   }
 }
 

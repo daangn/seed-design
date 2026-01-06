@@ -1,10 +1,10 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
 import { forwardRef, useRef } from "react";
 import { useAppScreen, type UseAppScreenProps } from "./useAppScreen";
 import { AppScreenProvider, useAppScreenContext } from "./useAppScreenContext";
-import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
 
 export interface AppScreenRootProps
   extends PrimitiveProps,

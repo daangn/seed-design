@@ -1,0 +1,231 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: text-input
+  name: Text Input
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+          minHeight:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          strokeWidth:
+            type: dimension
+          strokeBottomWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          color:
+            type: color
+          strokeColorDuration:
+            type: duration
+          strokeColorTimingFunction:
+            type: cubicBezier
+          strokeWidthDuration:
+            type: duration
+          strokeWidthTimingFunction:
+            type: cubicBezier
+      value:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      placeholder:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      prefixText:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      prefixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      suffixText:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      suffixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          strokeColor: $color.stroke.neutral-weak
+          strokeColorDuration: $duration.color-transition
+          strokeColorTimingFunction: $timing-function.easing
+          strokeWidthDuration: $duration.d3
+          strokeWidthTimingFunction: $timing-function.easing
+        value:
+          color: $color.fg.neutral
+          fontWeight: $font-weight.regular
+        placeholder:
+          color: $color.fg.placeholder
+          fontWeight: $font-weight.regular
+        prefixText:
+          color: $color.fg.neutral-muted
+          fontWeight: $font-weight.regular
+        prefixIcon:
+          color: $color.fg.neutral-muted
+        suffixText:
+          color: $color.fg.neutral-muted
+          fontWeight: $font-weight.regular
+        suffixIcon:
+          color: $color.fg.neutral-muted
+      focused:
+        root:
+          strokeColor: $color.stroke.neutral-contrast
+      invalid:
+        root:
+          strokeColor: $color.stroke.critical-solid
+      invalid,focused:
+        root:
+          strokeColor: $color.stroke.critical-solid # being obvious
+      disabled:
+        value:
+          color: $color.fg.disabled
+        placeholder:
+          color: $color.fg.disabled
+    variant=outline:
+      enabled:
+        root:
+          cornerRadius: $radius.r3
+          paddingX: $dimension.x4
+          strokeWidth: 1px
+      focused:
+        root:
+          strokeWidth: 2px
+      invalid:
+        root:
+          strokeWidth: 2px
+      readonly:
+        root:
+          color: $color.bg.disabled
+      disabled:
+        root:
+          color: $color.bg.disabled
+    variant=outline,size=large:
+      enabled:
+        root:
+          gap: $dimension.x2_5
+          minHeight: $dimension.x13
+        value:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        placeholder:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixIcon:
+          size: $dimension.x5
+        suffixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        suffixIcon:
+          size: $dimension.x5
+    variant=outline,size=medium:
+      enabled:
+        root:
+          gap: $dimension.x1_5
+          minHeight: $dimension.x10
+        value:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        placeholder:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        prefixText:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        prefixIcon:
+          size: $dimension.x4
+        suffixText:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        suffixIcon:
+          size: $dimension.x4
+
+    variant=underline:
+      enabled:
+        root:
+          gap: $dimension.x2_5
+          minHeight: $dimension.x10
+          strokeBottomWidth: 1px
+        value:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        placeholder:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        prefixText:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        prefixIcon:
+          size: $dimension.x6
+        suffixText:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        suffixIcon:
+          size: $dimension.x6
+      focused:
+        root:
+          strokeBottomWidth: 2px
+      invalid:
+        root:
+          strokeBottomWidth: 2px
+      readonly:
+        value:
+          color: $color.fg.neutral-muted
+        placeholder:
+          color: $color.fg.neutral-muted
+    type=multiline,size=large:
+      enabled:
+        root:
+          minHeight: 95px
+          paddingY: $dimension.x3_5
+    type=multiline,size=medium:
+      enabled:
+        root:
+          minHeight: 90px
+          paddingY: 11px

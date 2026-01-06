@@ -1,5 +1,5 @@
 import { useStack } from "@stackflow/react";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export function useTopActivity() {
   const stack = useStack();
@@ -16,8 +16,9 @@ export function useTopActivity() {
   // TODO: There should be a better way to handle this. We should not rely on the DOM element to get the activity type.
   const [topEl, setTopEl] = useState<HTMLElement | null>(null);
   const activityType = topEl?.dataset["activityType"];
+  const transitionStyle = topEl?.dataset["transitionStyle"];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!topId) return;
 
     const el = document.querySelector<HTMLElement>(`[data-activity-id="${topId}"]`);
@@ -27,5 +28,6 @@ export function useTopActivity() {
   return {
     transitionState,
     activityType,
+    transitionStyle,
   };
 }

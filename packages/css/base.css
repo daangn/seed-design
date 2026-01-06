@@ -115,10 +115,10 @@
   padding-bottom: var(--seed-box-padding-bottom);
   padding-left: var(--seed-box-padding-left);
   padding-right: var(--seed-box-padding-right);
-  --seed-box-bleed-bottom: initial;
-  --seed-box-bleed-top: initial;
-  --seed-box-bleed-left: initial;
-  --seed-box-bleed-right: initial;
+  --seed-box-bleed-bottom: 0px;
+  --seed-box-bleed-top: 0px;
+  --seed-box-bleed-left: 0px;
+  --seed-box-bleed-right: 0px;
   margin-top: calc(var(--seed-box-bleed-top) * -1);
   margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
   margin-left: calc(var(--seed-box-bleed-left) * -1);
@@ -152,6 +152,8 @@
   border-bottom-right-radius: var(--seed-box-border-bottom-right-radius);
   border-top-left-radius: var(--seed-box-border-top-left-radius);
   border-top-right-radius: var(--seed-box-border-top-right-radius);
+  --seed-box-box-shadow: initial;
+  box-shadow: var(--seed-box-box-shadow);
   --seed-box-display: block;
   --seed-box-position: initial;
   display: var(--seed-box-display);
@@ -249,6 +251,7 @@
   --seed-duration-d4: .2s;
   --seed-duration-d5: .25s;
   --seed-duration-d6: .3s;
+  --seed-duration-color-transition: var(--seed-duration-d3);
   --seed-font-size-t1: clamp(calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-min, .8)), calc(.6875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-max, 1.5)));
   --seed-font-size-t2: clamp(calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-min, .8)), calc(.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-max, 1.5)));
   --seed-font-size-t3: clamp(calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-min, .8)), calc(.8125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-max, 1.5)));
@@ -459,6 +462,8 @@
   --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-300);
   --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-400);
   --seed-color-bg-warning-weak-pressed: var(--seed-color-palette-yellow-200);
+  --seed-color-bg-transparent: #0000;
+  --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-black-alpha-100);
   --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
   --seed-color-stroke-brand-solid: var(--seed-color-palette-carrot-700);
   --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
@@ -502,6 +507,9 @@
   --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f58a 46%, #fff9f58a 54%, #fff9f500 100%;
   --seed-gradient-highlight-magic-pressed: #e14f00 20%, #ae58bf 100%;
   --seed-gradient-highlight-magic: #f60 20%, #d25aca 100%;
+  --seed-shadow-s1: 0px 1px 4px 0px #00000014;
+  --seed-shadow-s2: 0px 2px 10px 0px #0000001a;
+  --seed-shadow-s3: 0px 4px 16px 0px #0000001f;
 }
 
 :root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"], :root[data-seed-color-mode="dark-only"], :root [data-seed-color-mode="dark-only"] {
@@ -652,6 +660,8 @@
   --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-800);
   --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-900);
   --seed-color-bg-warning-weak-pressed: var(--seed-color-palette-yellow-200);
+  --seed-color-bg-transparent: #fff0;
+  --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-white-alpha-50);
   --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
   --seed-color-stroke-brand-solid: var(--seed-color-palette-carrot-700);
   --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
@@ -695,6 +705,9 @@
   --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f51a 46%, #fff9f51a 54%, #fff9f500 100%;
   --seed-gradient-highlight-magic-pressed: #ff9e65 20%, #e89bee 100%;
   --seed-gradient-highlight-magic: #f60 20%, #d25aca 100%;
+  --seed-shadow-s1: 0px 1px 4px 0px #00000080;
+  --seed-shadow-s2: 0px 2px 10px 0px #000000ad;
+  --seed-shadow-s3: 0px 4px 16px 0px #000c;
 }
 
 @keyframes seed-enter {
@@ -756,5 +769,37 @@
 
   100% {
     stroke-dashoffset: calc(var(--circumference) * -1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes drawer-slide-from-bottom {
+  from {
+    transform: translate3d(0, var(--initial-transform, 100%), 0);
+  }
+
+  to {
+    transform: translate3d(0, var(--snap-point-height, 0), 0);
+  }
+}
+
+@keyframes drawer-slide-to-bottom {
+  to {
+    transform: translate3d(0, var(--initial-transform, 100%), 0);
   }
 }

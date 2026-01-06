@@ -1,4 +1,3 @@
-import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
 import { basicRendererPlugin } from "@stackflow/plugin-renderer-basic";
 import { type ActivityComponentType, stackflow } from "@stackflow/react/future";
 import { defineConfig, type RegisteredActivityName } from "@stackflow/config";
@@ -27,17 +26,6 @@ export const makeStack = ({ activities }: MakeStackProps) => {
     components,
     plugins: [
       basicRendererPlugin(),
-      basicUIPlugin({
-        theme: "cupertino",
-        appBar: {
-          backButton: {
-            ariaLabel: "뒤로 가기",
-          },
-          closeButton: {
-            ariaLabel: "닫기",
-          },
-        },
-      }),
       seedPlugin({
         theme: "cupertino",
       }),

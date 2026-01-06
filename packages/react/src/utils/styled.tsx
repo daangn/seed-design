@@ -8,6 +8,7 @@ import type {
   SpacingX,
   SpacingY,
   Gradient,
+  Shadow,
 } from "@seed-design/css/vars";
 import { vars } from "@seed-design/css/vars";
 import { forwardRef } from "react";
@@ -17,7 +18,7 @@ export function handleColor(color: string | undefined) {
     return undefined;
   }
   const [type, value] = color.split(".");
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$color[type]?.[value] ?? color;
 }
 
@@ -36,7 +37,7 @@ export function handleDimension(dimension: string | 0 | undefined): string | und
 
   const [type, value] = dimension.split(".");
 
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$dimension[dimension] ?? vars.$dimension[type]?.[value] ?? dimension;
 }
 
@@ -49,6 +50,15 @@ function handleBleed(
   }
 
   return handleDimension(dimension);
+}
+
+function handleShadow(shadow: Shadow | (string & {}) | undefined) {
+  if (!shadow) {
+    return undefined;
+  }
+
+  // @ts-expect-error
+  return vars.$shadow[shadow] ?? shadow;
 }
 
 export function handlePaddingWithSafeArea(
@@ -64,11 +74,11 @@ export function handlePaddingWithSafeArea(
   return paddingValue;
 }
 
-function handleRadius(radius: string | 0 | undefined) {
+export function handleRadius(radius: string | 0 | undefined) {
   if (radius == null) {
     return undefined;
   }
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$radius[radius] ?? radius;
 }
 
@@ -77,7 +87,7 @@ function handleGradient(gradientToken: string | undefined, direction: string | u
     return undefined;
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   const colorStops = vars.$gradient[gradientToken];
   if (!colorStops) {
     return undefined;
@@ -91,7 +101,6 @@ function handleDisplay(display: string | undefined) {
     return undefined;
   }
 
-  // @ts-ignore
   if (process.env.NODE_ENV !== "production") {
     if (display === "inlineFlex" || display === "inlineBlock") {
       console.warn(
@@ -115,7 +124,6 @@ function handleFlexDirection(flexDirection: string | undefined) {
     return undefined;
   }
 
-  // @ts-ignore
   if (process.env.NODE_ENV !== "production") {
     if (flexDirection === "rowReverse" || flexDirection === "columnReverse") {
       console.warn(
@@ -139,7 +147,6 @@ function handleJustifyContent(justifyContent: string | undefined) {
     return undefined;
   }
 
-  // @ts-ignore
   if (process.env.NODE_ENV !== "production") {
     if (justifyContent === "flexStart" || justifyContent === "flexEnd") {
       console.warn(
@@ -169,7 +176,6 @@ function handleAlignItems(alignItems: string | undefined) {
     return undefined;
   }
 
-  // @ts-ignore
   if (process.env.NODE_ENV !== "production") {
     if (alignItems === "flexStart" || alignItems === "flexEnd") {
       console.warn(
@@ -255,6 +261,8 @@ export interface StyleProps {
   borderBottomRightRadius?: Radius | 0 | (string & {});
 
   borderBottomLeftRadius?: Radius | 0 | (string & {});
+
+  boxShadow?: Shadow | (string & {});
 
   width?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
@@ -527,6 +535,7 @@ export function useStyleProps<T extends UseStyleProps>(
     borderTopRightRadius,
     borderBottomRightRadius,
     borderBottomLeftRadius,
+    boxShadow,
     width,
     minWidth,
     maxWidth,
@@ -601,6 +610,7 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-border-top-right-radius": handleRadius(borderTopRightRadius),
       "--seed-box-border-bottom-right-radius": handleRadius(borderBottomRightRadius),
       "--seed-box-border-bottom-left-radius": handleRadius(borderBottomLeftRadius),
+      "--seed-box-box-shadow": handleShadow(boxShadow),
       "--seed-box-width": handleDimension(width),
       "--seed-box-min-width": handleDimension(minWidth),
       "--seed-box-max-width": handleDimension(maxWidth),
@@ -652,7 +662,7 @@ export function withStyleProps<P extends {}, R>(
   const Node = forwardRef<R, P>((props, ref) => {
     const { style, restProps } = useStyleProps(props);
 
-    // @ts-ignore
+    // @ts-expect-error
     return <Component ref={ref} style={style} {...restProps} />;
   });
 

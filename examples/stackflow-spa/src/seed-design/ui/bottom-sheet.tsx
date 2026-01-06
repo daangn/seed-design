@@ -1,7 +1,9 @@
+"use client";
+
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
-import { Icon, BottomSheet as SeedBottomSheet } from "@seed-design/react";
-import { forwardRef } from "react";
+import { Icon, BottomSheet as SeedBottomSheet, VisuallyHidden } from "@seed-design/react";
 import type * as React from "react";
+import { forwardRef } from "react";
 
 export interface BottomSheetRootProps extends SeedBottomSheet.RootProps {}
 
@@ -10,11 +12,7 @@ export interface BottomSheetRootProps extends SeedBottomSheet.RootProps {}
  */
 export const BottomSheetRoot = (props: BottomSheetRootProps) => {
   const { children, ...otherProps } = props;
-  return (
-    <SeedBottomSheet.Root closeOnInteractOutside={true} {...otherProps}>
-      {children}
-    </SeedBottomSheet.Root>
-  );
+  return <SeedBottomSheet.Root {...otherProps}>{children}</SeedBottomSheet.Root>;
 };
 
 export interface BottomSheetTriggerProps extends SeedBottomSheet.TriggerProps {}
@@ -29,13 +27,29 @@ export interface BottomSheetContentProps extends Omit<SeedBottomSheet.ContentPro
   layerIndex?: number;
 
   /**
+   * @default true
+   */
+  showCloseButton?: boolean;
+
+  /**
    * @default false
    */
-  hideCloseButton?: boolean;
+  showHandle?: boolean;
 }
 
 export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentProps>(
-  ({ children, title, description, layerIndex, hideCloseButton = false, ...otherProps }, ref) => {
+  (
+    {
+      children,
+      title,
+      description,
+      layerIndex,
+      showCloseButton = true,
+      showHandle = false,
+      ...otherProps
+    },
+    ref,
+  ) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -53,16 +67,23 @@ export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentP
       <SeedBottomSheet.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
         <SeedBottomSheet.Backdrop />
         <SeedBottomSheet.Content ref={ref} {...otherProps}>
+          {showHandle && <SeedBottomSheet.Handle />}
           {shouldRenderHeader && (
             <SeedBottomSheet.Header>
-              {title && <SeedBottomSheet.Title>{title}</SeedBottomSheet.Title>}
+              {title ? (
+                <SeedBottomSheet.Title>{title}</SeedBottomSheet.Title>
+              ) : (
+                <VisuallyHidden asChild>
+                  <SeedBottomSheet.Title>{otherProps["aria-label"] || ""}</SeedBottomSheet.Title>
+                </VisuallyHidden>
+              )}
               {description && (
                 <SeedBottomSheet.Description>{description}</SeedBottomSheet.Description>
               )}
             </SeedBottomSheet.Header>
           )}
           {children}
-          {!hideCloseButton && (
+          {showCloseButton && (
             // You may implement your own i18n for dismiss label
             <SeedBottomSheet.CloseButton aria-label="닫기">
               <Icon svg={<IconXmarkLine />} />

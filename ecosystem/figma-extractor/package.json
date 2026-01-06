@@ -28,7 +28,7 @@
     "src"
   ],
   "dependencies": {
-    "@figma/rest-api-spec": "^0.34.0",
+    "@figma/rest-api-spec": "^0.35.0",
     "cac": "^6.7.14",
     "change-case": "^5.4.4",
     "cosmiconfig": "^9.0.0",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
-    "esbuild": "^0.25.3",
+    "esbuild": "^0.27.0",
     "typescript": "^5.9.2"
   },
   "publishConfig": {

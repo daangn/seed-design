@@ -1,6 +1,6 @@
 ---
 title: Menu Sheet
-description: Menu Sheet는 사용자가 특정 작업에 관한 선택지뿐만 아니라 추가적인 선택지를 제공할 때 사용하는 시트 형태의 컴포넌트입니다.
+description: 사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.
 ---
 
 <ComponentExample name="react/menu-sheet/preview">
@@ -11,6 +11,12 @@ description: Menu Sheet는 사용자가 특정 작업에 관한 선택지뿐만 
   }
   ```
 </ComponentExample>
+
+<Card title="Stackflow" href="/react/stackflow/menu-sheet" variant="example">
+
+Stackflow와 Menu Sheet를 함께 사용하는 방법에 대해 알아보세요.
+
+</Card>
 
 ## Installation
 
@@ -100,6 +106,19 @@ npx @seed-design/cli@latest add ui:menu-sheet
   ```json doc-gen:file
   {
     "file": "examples/react/menu-sheet/overriding-label-align.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Skip Animation
+
+`skipAnimation` prop을 사용하여 MenuSheet의 enter/exit 애니메이션을 건너뛸 수 있습니다.
+
+<ComponentExample name="react/menu-sheet/skip-animation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu-sheet/skip-animation.tsx",
     "codeblock": true
   }
   ```

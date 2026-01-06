@@ -1,5 +1,131 @@
 # @seed-design/figma
 
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [76acd7e]
+- Updated dependencies [7a428ec]
+- Updated dependencies [498a9e7]
+  - @seed-design/css@1.1.15
+
+## 1.1.14
+
+### Patch Changes
+
+- c1f818f: Figma Codegen & MCP에서 `boxShadow` 코드 생성을 지원하고 엔티티 정보를 최신화합니다.
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies [9be0581]
+- Updated dependencies [cc4a45a]
+- Updated dependencies [739937f]
+  - @seed-design/css@1.1.13
+
+## 1.1.12
+
+### Patch Changes
+
+- 6d680ba: Figma Codegen 정보를 최신화합니다.
+- Updated dependencies [8d0ad90]
+- Updated dependencies [8f31f93]
+- Updated dependencies [69ccc6e]
+- Updated dependencies [279001a]
+  - @seed-design/css@1.1.12
+
+## 1.1.10
+
+### Patch Changes
+
+- 23e9246: Figma 엔티티 및 Codegen을 업데이트합니다. (신규 아이콘 및 `ResultSection` Codegen 지원)
+- Updated dependencies [db5de74]
+- Updated dependencies [70d11b8]
+- Updated dependencies [c03a3dd]
+- Updated dependencies [a12e49b]
+  - @seed-design/css@1.1.10
+
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies [37d332d]
+- Updated dependencies [77517f1]
+  - @seed-design/css@1.1.9
+
+## 1.1.8
+
+### Patch Changes
+
+- Updated dependencies [8752805]
+- Updated dependencies [ee98674]
+  - @seed-design/css@1.1.8
+
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies [bee919c]
+- Updated dependencies [1340675]
+- Updated dependencies [1340675]
+  - @seed-design/css@1.1.7
+
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [dfe6c1e]
+- Updated dependencies [a09e6b4]
+  - @seed-design/css@1.1.6
+
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [53290ab]
+  - @seed-design/css@1.1.5
+
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [795668c]
+  - @seed-design/css@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- d986fd5: Figma Codegen 컴포넌트 핸들러를 업데이트합니다. 레거시 Text Field에 대한 Codegen을 한시적으로 지원합니다.
+- Updated dependencies [15c658b]
+- Updated dependencies [f4e07bb]
+- Updated dependencies [114dafd]
+- Updated dependencies [bc3cd6f]
+  - @seed-design/css@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- 4c5d7c4: Figma 토큰 정보 및 Codegen 핸들러를 최신화합니다.
+
+## 1.1.0
+
+### Patch Changes
+
+- 191005f: Action Button 컴포넌트를 `variant=ghost`로 사용하는 경우 `fontWeight`를 사용자화할 수 있도록 업데이트합니다.
+
+  (BREAKING CHANGE: Error State snippet을 다시 설치해야 합니다.) Error State 스니펫에서 Action Button을 활용하도록 업데이트합니다.
+
+- Updated dependencies [d6bb84d]
+- Updated dependencies [a55f584]
+- Updated dependencies [191005f]
+- Updated dependencies [b131282]
+- Updated dependencies [6af6501]
+- Updated dependencies [33def2d]
+  - @seed-design/css@1.1.0
+
 ## 1.0.7
 
 ### Patch Changes

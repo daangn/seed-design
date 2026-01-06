@@ -1,17 +1,26 @@
-import type { ActivityComponentType } from "@stackflow/react";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { List, ListDivider, ListSwitchItem } from "../seed-design/ui/list";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { List, ListDivider, ListSwitchItem } from "seed-design/ui/list";
 import { Icon } from "@seed-design/react";
-import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { Avatar } from "../seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { Avatar } from "seed-design/ui/avatar";
 import {
   IconChevronRightLine,
+  IconHouseLine,
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { SwitchMark } from "../seed-design/ui/switch";
+import { SwitchMark } from "seed-design/ui/switch";
 
 const positionVariants = [
   { key: "prefix", position: "prefix" },
@@ -55,7 +64,15 @@ const stateVariants = [
   { key: "neutral-disabled-checked", defaultChecked: true, disabled: true, tone: "neutral" },
 ] as const;
 
-const ActivityListSwitchItem: ActivityComponentType = () => {
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityListSwitchItem: {};
+  }
+}
+
+const ActivityListSwitchItem: StaticActivityComponentType<"ActivityListSwitchItem"> = () => {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
@@ -63,6 +80,11 @@ const ActivityListSwitchItem: ActivityComponentType = () => {
           <AppBarBackButton />
         </AppBarLeft>
         <AppBarMain title="ListSwitchItem" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <IconHouseLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent
         ptr

@@ -1,8 +1,7 @@
-import { bottomSheet as vars, bottomSheetCloseButton as closeButtonVars } from "../vars/component";
-import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { not, open, pseudo } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
+import { not, open, pseudo } from "../utils/pseudo";
+import { bottomSheetCloseButton as closeButtonVars, bottomSheet as vars } from "../vars/component";
 
 const bottomSheet = defineSlotRecipe({
   name: "bottom-sheet",
@@ -23,7 +22,10 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "flex-end",
-      inset: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
       overscrollBehaviorY: "none",
 
       "--sheet-z-index": "2",
@@ -31,20 +33,25 @@ const bottomSheet = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      inset: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
-      [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
-        duration: vars.base.enabled.backdrop.exitDuration,
-        opacity: vars.base.enabled.backdrop.exitOpacity,
-      }),
-      [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
-        duration: vars.base.enabled.backdrop.enterDuration,
-        opacity: vars.base.enabled.backdrop.enterOpacity,
-      }),
+      /** Snap Points - Transition-based fade (JS sets inline opacity) */
+      [pseudo("[data-snap-points='true']")]: {
+        opacity: 0,
+      },
+
+      [pseudo(not(open), "[data-snap-points='true']", not("[data-snap-points-overlay='true']"))]: {
+        opacity: 0,
+      },
+
+      [pseudo(open, "[data-snap-points-overlay='true']")]: {
+        opacity: 1,
+      },
     },
     content: {
       position: "relative",
@@ -59,16 +66,34 @@ const bottomSheet = defineSlotRecipe({
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
 
-      [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.content.exitTimingFunction,
-        duration: vars.base.enabled.content.exitDuration,
-        translateY: "100%",
-      }),
-      [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.content.enterTimingFunction,
-        duration: vars.base.enabled.content.enterDuration,
-        translateY: "100%",
-      }),
+      // Performance and interaction
+      touchAction: "none",
+      willChange: "transform",
+
+      // Base animation properties
+      transition: `transform ${vars.base.enabled.content.enterDuration} ${vars.base.enabled.content.enterTimingFunction}`,
+
+      /** Snap Points - Initial State (before animation ready) */
+      [pseudo("[data-snap-points='true']")]: {
+        transform: "translate3d(0, var(--initial-transform, 100%), 0)",
+      },
+
+      /** Snap Points - Delayed State */
+      [pseudo("[data-delayed-snap-points='true']")]: {
+        transform: "translate3d(0, var(--snap-point-height, 0), 0)",
+      },
+
+      /** Expand Content Background */
+      "&::after": {
+        top: "100%",
+        height: "200vh",
+        content: '""',
+        position: "absolute",
+        left: 0,
+        right: 0,
+        background: "inherit",
+        zIndex: -1,
+      },
     },
     header: {
       display: "flex",
@@ -105,7 +130,8 @@ const bottomSheet = defineSlotRecipe({
       "--seed-box-max-height": "initial",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
-      paddingInline: "var(--seed-box-padding-x)",
+      paddingLeft: "var(--seed-box-padding-x)",
+      paddingRight: "var(--seed-box-padding-x)",
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
       maxHeight: "var(--seed-box-max-height)",
@@ -116,7 +142,9 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      paddingInline: vars.base.enabled.footer.paddingX,
+      paddingLeft: vars.base.enabled.footer.paddingX,
+      paddingRight: vars.base.enabled.footer.paddingX,
+
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
     },
@@ -133,6 +161,7 @@ const bottomSheet = defineSlotRecipe({
       background: closeButtonVars.base.enabled.root.color,
       width: closeButtonVars.base.enabled.root.size,
       height: closeButtonVars.base.enabled.root.size,
+      cursor: "pointer",
 
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,
@@ -142,7 +171,10 @@ const bottomSheet = defineSlotRecipe({
       "&:after": {
         content: '""',
         position: "absolute",
-        inset: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+        top: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+        right: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+        bottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+        left: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
       },
     },
   },
@@ -163,9 +195,50 @@ const bottomSheet = defineSlotRecipe({
         },
       },
     },
+    skipAnimation: {
+      false: {
+        backdrop: {
+          [pseudo(open, "[data-snap-points='false']")]: {
+            animationName: "fade-in",
+            animationDuration: vars.base.enabled.backdrop.enterDuration,
+            animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
+          },
+          [pseudo(not(open), "[data-snap-points='false']")]: {
+            animationName: "fade-out",
+            animationDuration: vars.base.enabled.backdrop.exitDuration,
+            animationTimingFunction: vars.base.enabled.backdrop.exitTimingFunction,
+          },
+          [pseudo(open, "[data-snap-points='true']", "[data-should-overlay-animate='true']")]: {
+            animationName: "fade-in",
+            animationDuration: vars.base.enabled.backdrop.enterDuration,
+            animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
+          },
+        },
+        content: {
+          animationDuration: vars.base.enabled.content.enterDuration,
+          animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+          [pseudo(open, "[data-snap-points='false']")]: {
+            animationName: "drawer-slide-from-bottom",
+            animationDuration: vars.base.enabled.content.enterDuration,
+            animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+          },
+          [pseudo(not(open), "[data-snap-points='false']")]: {
+            animationName: "drawer-slide-to-bottom",
+            animationDuration: vars.base.enabled.content.exitDuration,
+            animationTimingFunction: vars.base.enabled.content.exitTimingFunction,
+          },
+          [pseudo(open, "[data-delayed-snap-points='true']")]: {
+            animationName: "drawer-slide-from-bottom",
+            animationDuration: vars.base.enabled.content.enterDuration,
+            animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+          },
+        },
+      },
+    },
   },
   defaultVariants: {
     headerAlign: "left",
+    skipAnimation: false,
   },
 });
 

@@ -6,7 +6,7 @@ declare interface PageBannerVariant {
 /**
   * @default "neutral"
   */
-  tone: "neutral" | "informative" | "positive" | "warning" | "critical";
+  tone: "neutral" | "informative" | "positive" | "warning" | "critical" | "magic";
 }
 
 declare type PageBannerVariantMap = {
@@ -15,7 +15,7 @@ declare type PageBannerVariantMap = {
 
 export declare type PageBannerVariantProps = Partial<PageBannerVariant>;
 
-export declare type PageBannerSlotName = "root" | "textContent" | "title" | "description" | "button" | "closeButton";
+export declare type PageBannerSlotName = "root" | "content" | "body" | "title" | "description" | "button" | "closeButton";
 
 export declare const pageBannerVariantMap: PageBannerVariantMap;
 

@@ -23,11 +23,16 @@ const callout = defineSlotRecipe({
       width: "100%",
       minHeight: vars.base.enabled.root.minHeight,
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
+      paddingTop: vars.base.enabled.root.paddingY,
+      paddingBottom: vars.base.enabled.root.paddingY,
+
       gap: vars.base.enabled.root.gap,
 
       borderRadius: vars.base.enabled.root.cornerRadius,
+
+      textDecoration: "none",
 
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,
@@ -41,7 +46,7 @@ const callout = defineSlotRecipe({
       },
     },
     content: {
-      marginInlineEnd: "auto",
+      marginRight: "auto",
 
       // we define lineHeight here because some reset.css sets default line-height
       // e.g. tailwind preflight sets * { line-height: 1.5 }
@@ -231,7 +236,7 @@ const callout = defineSlotRecipe({
       },
       magic: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.color})`,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.gradient})`,
 
           ...prefixIcon({
             color: vars.toneMagic.enabled.prefixIcon.color,
@@ -241,7 +246,7 @@ const callout = defineSlotRecipe({
           }),
 
           [pseudo(":is(button, a)", active)]: {
-            backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.color})`,
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.gradient})`,
           },
         },
         title: {

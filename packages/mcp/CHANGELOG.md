@@ -1,5 +1,101 @@
 # @seed-design/mcp
 
+## 1.1.15
+
+### Patch Changes
+
+- @seed-design/figma@1.1.15
+
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies [c1f818f]
+  - @seed-design/figma@1.1.14
+
+## 1.1.13
+
+### Patch Changes
+
+- @seed-design/figma@1.1.13
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies [6d680ba]
+  - @seed-design/figma@1.1.12
+
+## 1.1.11
+
+### Patch Changes
+
+- b58ac46: Figma MCP가 `export_node_as_image` 툴과 `clone_node` 툴 호출 후 반환 결과를 정상적으로 파싱하지 못하는 문제를 수정합니다.
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [23e9246]
+  - @seed-design/figma@1.1.10
+
+## 1.1.9
+
+### Patch Changes
+
+- @seed-design/figma@1.1.9
+
+## 1.1.8
+
+### Patch Changes
+
+- @seed-design/figma@1.1.8
+
+## 1.1.7
+
+### Patch Changes
+
+- @seed-design/figma@1.1.7
+
+## 1.1.6
+
+### Patch Changes
+
+- @seed-design/figma@1.1.6
+
+## 1.1.5
+
+### Patch Changes
+
+- @seed-design/figma@1.1.5
+
+## 1.1.4
+
+### Patch Changes
+
+- @seed-design/figma@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [d986fd5]
+  - @seed-design/figma@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [4c5d7c4]
+  - @seed-design/figma@1.1.2
+
+## 1.1.0
+
+### Patch Changes
+
+- Updated dependencies [191005f]
+  - @seed-design/figma@1.1.0
+
 ## 1.0.7
 
 ### Patch Changes

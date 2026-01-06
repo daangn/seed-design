@@ -1,5 +1,55 @@
 # @seed-design/stackflow
 
+## 1.1.15
+
+### Patch Changes
+
+- e4b0ce8: AppScreen 스와이프 중 취소 시 트랜지션이 끝난 뒤에도 `GlobalInteraction`의 `data-swipe-back-state`가 `idle`로 되돌아가지 않고 `canceling`으로 남아 있는 문제를 수정합니다.
+- Updated dependencies [76acd7e]
+- Updated dependencies [7a428ec]
+- Updated dependencies [498a9e7]
+  - @seed-design/css@1.1.15
+
+## 1.1.11
+
+### Patch Changes
+
+- ea488c5: @seed-design/stackflow: @stackflow/react-ui-core를 peerDependencies에서 dependencies로 이동합니다.
+
+## 1.1.9
+
+### Patch Changes
+
+- 4e7e15b: Stackflow 플러그인이 최신이 아닌 data attribute에 의해 잘못된 트랜지션을 재생하지 않도록 수정합니다.
+- Updated dependencies [37d332d]
+- Updated dependencies [77517f1]
+  - @seed-design/css@1.1.9
+
+## 1.1.5
+
+### Patch Changes
+
+- 7529e31: @seed-design/stackflow 패키지에서 `useActivityZIndexBase` 훅을 제공합니다.
+- Updated dependencies [53290ab]
+  - @seed-design/css@1.1.5
+
+## 1.1.0
+
+### Patch Changes
+
+- b131282: AppScreen에 `tone` 속성을 조절해 그라데이션이 들어간 투명한 배경을 사용할 수 있습니다.
+
+  - AppBar에 있던 `tone` 속성을 AppScreen에서도 사용할 수 있도록 이동합니다.
+  - AppScreen, AppBar 둘 다 `tone` 속성을 사용할 수 있도록 합니다.
+
+- Updated dependencies [d6bb84d]
+- Updated dependencies [a55f584]
+- Updated dependencies [191005f]
+- Updated dependencies [b131282]
+- Updated dependencies [6af6501]
+- Updated dependencies [33def2d]
+  - @seed-design/css@1.1.0
+
 ## 1.0.5
 
 ### Patch Changes

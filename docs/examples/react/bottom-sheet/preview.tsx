@@ -15,7 +15,7 @@ const BottomSheetPreview = () => {
       </BottomSheetTrigger>
       <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
         {/* If you need to omit padding, pass px={0}. */}
-        <BottomSheetBody minHeight="x16">Content</BottomSheetBody>
+        <BottomSheetBody>Content</BottomSheetBody>
         <BottomSheetFooter>
           <ActionButton variant="neutralSolid">확인</ActionButton>
         </BottomSheetFooter>

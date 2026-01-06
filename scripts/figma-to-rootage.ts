@@ -587,5 +587,147 @@ async function logGradientStyles() {
   console.log(`✅ gradient.yaml 파일이 생성되었습니다: ${gradientWritePath}`);
 }
 
+async function generateShadowTokensFromStyles(): Promise<string> {
+  const styles = await fetchFigmaStyles();
+  const variables = await fetchFigmaVariables();
+  const variableColorMap = createVariableColorMap(variables);
+
+  const shadowStyles = styles.filter((style) => style.style_type === "EFFECT");
+
+  const nodeIds = shadowStyles.map((style) => style.node_id);
+  const nodeDetails = await fetchStyleNodeDetails(nodeIds);
+
+  const tokens: Record<
+    string,
+    {
+      description?: string;
+      values: {
+        "theme-light": { type: string; value: Array<Record<string, string>> };
+        "theme-dark": { type: string; value: Array<Record<string, string>> };
+      };
+    }
+  > = {};
+
+  for (const style of shadowStyles) {
+    const nodeDetail = nodeDetails[style.node_id];
+    if (!nodeDetail?.document) continue;
+
+    const document = nodeDetail.document as Node;
+    if (!("effects" in document) || !Array.isArray(document.effects)) continue;
+
+    const effects = document.effects as Array<{
+      type: string;
+      visible?: boolean;
+      radius?: number;
+      color?: RGBA;
+      offset?: { x: number; y: number };
+      spread?: number;
+      blendMode?: string;
+      boundVariables?: {
+        color?: { id: string };
+      };
+    }>;
+
+    const shadowEffects = effects.filter(
+      (effect) => effect.visible && effect.type === "DROP_SHADOW",
+    );
+
+    if (shadowEffects.length === 0) continue;
+
+    // "shadow/layer-floating" -> "$shadow.layer-floating"
+    const tokenName = `$shadow.${style.name.replace(/^shadow\//, "").replace(/\//g, ".")}`;
+
+    const lightShadowValues = shadowEffects.map((effect) => {
+      const offset = effect.offset || { x: 0, y: 0 };
+      let color: string;
+
+      // resolve boundVariables
+      if (effect.boundVariables?.color?.id) {
+        const variableColors = variableColorMap.get(effect.boundVariables.color.id);
+        color = variableColors?.light || "#00000014";
+      } else {
+        const rgba = effect.color || { r: 0, g: 0, b: 0, a: 0 };
+        color = rgbaToHex(rgba.r, rgba.g, rgba.b, rgba.a);
+      }
+
+      return {
+        offsetX: `${offset.x}px`,
+        offsetY: `${offset.y}px`,
+        blur: `${effect.radius || 0}px`,
+        spread: `${effect.spread || 0}px`,
+        color,
+      };
+    });
+
+    const darkShadowValues = shadowEffects.map((effect) => {
+      const offset = effect.offset || { x: 0, y: 0 };
+      let color: string;
+
+      // resolve boundVariables
+      if (effect.boundVariables?.color?.id) {
+        const variableColors = variableColorMap.get(effect.boundVariables.color.id);
+        color = variableColors?.dark || "#00000014";
+      } else {
+        const rgba = effect.color || { r: 0, g: 0, b: 0, a: 0 };
+        color = rgbaToHex(rgba.r, rgba.g, rgba.b, rgba.a);
+      }
+
+      return {
+        offsetX: `${offset.x}px`,
+        offsetY: `${offset.y}px`,
+        blur: `${effect.radius || 0}px`,
+        spread: `${effect.spread || 0}px`,
+        color,
+      };
+    });
+
+    tokens[tokenName] = {
+      ...(style.description && {
+        description: style.description,
+      }),
+      values: {
+        "theme-light": {
+          type: "shadow",
+          value: lightShadowValues,
+        },
+        "theme-dark": {
+          type: "shadow",
+          value: darkShadowValues,
+        },
+      },
+    };
+  }
+
+  const sortedTokens = Object.fromEntries(
+    Object.entries(tokens).sort(([keyA], [keyB]) => keyA.localeCompare(keyB)),
+  );
+
+  return YAML.stringify({
+    kind: "Tokens",
+    metadata: {
+      id: "shadow",
+      name: "Shadow",
+      lastUpdated: getKoreanDateString(),
+    },
+    data: { collection: "color", tokens: sortedTokens },
+  });
+}
+
+async function logShadowStyles() {
+  console.log("=== Generating Shadow Tokens from Figma Effect Styles ===");
+  const yamlContent = await generateShadowTokensFromStyles();
+
+  const shadowWritePath = path.join(import.meta.dirname, "../packages/rootage/shadow.yaml");
+  if (!fs.existsSync(path.dirname(shadowWritePath))) {
+    fs.mkdirSync(path.dirname(shadowWritePath), { recursive: true });
+  }
+
+  fs.writeFileSync(shadowWritePath, yamlContent);
+  console.log(`✅ shadow.yaml 파일이 생성되었습니다: ${shadowWritePath}`);
+}
+
 // 그라디언트 스타일에서 토큰 생성
 logGradientStyles().catch(console.error);
+
+// 섀도우 스타일에서 토큰 생성
+logShadowStyles().catch(console.error);
