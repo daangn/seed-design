@@ -37,25 +37,36 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <DocsDescription>{decl.description}</DocsDescription>
       <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <h2>Definition</h2>
-        <div className="flex flex-col space-y-4">
-          {resolvedTokens.map(({ mode, resolved: { path, value } }) => (
-            <div key={mode} className="flex items-center space-x-2">
-              {path.map((id) => (
-                <Fragment key={id}>
-                  <div className="flex items-center space-x-2 px-3 py-2 bg-fd-background rounded-md border border-fd-border">
-                    <TypeIndicator value={value} />
-                    <TokenLink id={id} />
-                  </div>
-                  <IconArrowRightLine className="w-4 h-4" />
-                </Fragment>
-              ))}
+        {resolvedTokens.map(({ mode, resolved: { path, value } }) => (
+          <Fragment key={mode}>
+            <h3>{mode}</h3>
+            <div className="flex items-center space-x-2">
+              {path.map((id) => {
+                const tokenDesc = rootage.tokenEntities[id]?.description;
+                return (
+                  <Fragment key={id}>
+                    <div className="flex flex-col gap-1 px-3 py-2 bg-fd-background rounded-md border border-fd-border">
+                      <div className="flex items-center space-x-2">
+                        <TypeIndicator value={value} />
+                        <TokenLink id={id} />
+                      </div>
+                      {tokenDesc && (
+                        <span className="text-fd-muted-foreground text-sm text-pretty break-keep">
+                          {tokenDesc}
+                        </span>
+                      )}
+                    </div>
+                    <IconArrowRightLine className="w-4 h-4" />
+                  </Fragment>
+                );
+              })}
               <div className="flex items-center space-x-2 px-3 py-2 bg-fd-background rounded-md border border-fd-border">
                 <TypeIndicator value={value} />
                 <div>{stringifyValueLit(value)}</div>
               </div>
             </div>
-          ))}
-        </div>
+          </Fragment>
+        ))}
         <h2>References</h2>
         <table>
           <thead>

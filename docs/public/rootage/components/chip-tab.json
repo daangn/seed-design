@@ -31,6 +31,9 @@
             },
             "color": {
               "type": "color"
+            },
+            "stroke": {
+              "type": "color"
             }
           }
         },

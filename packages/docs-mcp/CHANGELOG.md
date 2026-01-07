@@ -1,5 +1,11 @@
 # @seed-design/docs-mcp
 
+## 0.4.0
+
+### Minor Changes
+
+- 0315e98: 아이콘 라이브러리 관련 새로운 도구 3개를 추가합니다. (아이콘 목록 조회, 검색, 상세 정보 조회)
+
 ## 0.3.0
 
 ### Minor Changes

@@ -2,12 +2,14 @@
 
 import { AST, resolveToken, RootageCtx } from "@seed-design/rootage-core";
 import { useMemo, useState } from "react";
-import { TokenCell } from "./token-cell";
+import { DescriptionButton } from "./description-button";
 import { stringifyStates, stringifyTokenLit, stringifyValueLit } from "./rootage";
+import { TokenCell, TokenValue } from "./token-cell";
 
 interface ComponentVariantTableProps {
   rootage: RootageCtx;
   variant: AST.VariantDeclaration;
+  schema: AST.SchemaDeclaration;
 }
 
 interface TableItem {
@@ -15,7 +17,9 @@ interface TableItem {
   stateKey: string;
   slotKey: string;
   propertyKey: string;
-  values: string[];
+  slotDescription?: string;
+  propertyDescription?: string;
+  values: TokenValue[];
   resolvedValue: AST.ValueLit;
 }
 
@@ -25,27 +29,44 @@ export function ComponentVariantTable(props: ComponentVariantTableProps) {
     propertyKey: string;
   } | null>(null);
 
-  const { rootage, variant } = props;
+  const { rootage, variant, schema } = props;
   const tableItems: TableItem[] = useMemo(
     () =>
       variant.body.flatMap((stateDecl) => {
         const stateKey = stringifyStates(stateDecl.states);
         return stateDecl.body.flatMap((slotDecl) => {
           const slotKey = slotDecl.slot;
+          const slotSchema = schema.slots.find((s) => s.name === slotKey);
+
           return slotDecl.body.map((propertyDecl) => {
             const propertyKey = propertyDecl.property;
+            const propertySchema = slotSchema?.properties.find((p) => p.name === propertyKey);
 
             if (propertyDecl.value.kind === "TokenLit") {
               const { path, value } = resolveToken(rootage, stringifyTokenLit(propertyDecl.value), {
                 global: "default",
                 color: "theme-light",
               });
+
+              // Collect descriptions for each token in the resolve chain
+              const valuesWithDescription: TokenValue[] = path.map((tokenRef) => ({
+                ref: tokenRef,
+                description: rootage.tokenEntities[tokenRef]?.description,
+              }));
+              // Add final resolved value
+              valuesWithDescription.push({
+                ref: stringifyValueLit(value),
+                description: undefined,
+              });
+
               return {
                 id: `${stateKey}/${slotKey}/${propertyKey}`,
                 stateKey,
                 slotKey,
                 propertyKey,
-                values: [...path, stringifyValueLit(value)],
+                slotDescription: slotSchema?.description,
+                propertyDescription: propertySchema?.description,
+                values: valuesWithDescription,
                 resolvedValue: value,
               };
             }
@@ -55,13 +76,15 @@ export function ComponentVariantTable(props: ComponentVariantTableProps) {
               stateKey,
               slotKey,
               propertyKey,
-              values: [stringifyValueLit(propertyDecl.value)],
+              slotDescription: slotSchema?.description,
+              propertyDescription: propertySchema?.description,
+              values: [{ ref: stringifyValueLit(propertyDecl.value), description: undefined }],
               resolvedValue: propertyDecl.value,
             };
           });
         });
       }),
-    [rootage, variant],
+    [rootage, variant, schema],
   );
 
   return (
@@ -125,7 +148,16 @@ function ComponentVariantRow(props: {
     onHoverStart,
     onHoverEnd,
   } = props;
-  const { id, stateKey, slotKey, propertyKey, values, resolvedValue } = item;
+  const {
+    id,
+    stateKey,
+    slotKey,
+    propertyKey,
+    slotDescription,
+    propertyDescription,
+    values,
+    resolvedValue,
+  } = item;
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -138,8 +170,22 @@ function ComponentVariantRow(props: {
       onClick={() => setIsExpanded((prev) => !prev)}
     >
       <td>{shouldRenderState ? stateKey : null}</td>
-      <td>{shouldRenderSlot ? slotKey : null}</td>
-      <td>{shouldRenderProperty ? propertyKey : null}</td>
+      <td>
+        {shouldRenderSlot && (
+          <span className="inline-flex items-center gap-1">
+            {slotKey}
+            {slotDescription && <DescriptionButton description={slotDescription} />}
+          </span>
+        )}
+      </td>
+      <td>
+        {shouldRenderProperty && (
+          <span className="inline-flex items-center gap-1">
+            {propertyKey}
+            {propertyDescription && <DescriptionButton description={propertyDescription} />}
+          </span>
+        )}
+      </td>
       <td className="align-middle">
         <TokenCell isExpanded={isExpanded} values={values} resolvedValue={resolvedValue} />
       </td>

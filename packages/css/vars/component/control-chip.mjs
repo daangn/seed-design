@@ -31,7 +31,7 @@ export const vars = {
     },
     "selected": {
       "root": {
-        "strokeWidth": "0",
+        "strokeWidth": "0px",
         "color": "var(--seed-color-bg-neutral-solid-muted)"
       },
       "label": {

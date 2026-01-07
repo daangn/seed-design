@@ -36,9 +36,30 @@ export function parseComponentSpecDeclaration(
     body.push(parseVariantDeclaration(key, value));
   }
 
+  const inferredVariants = inferVariantSchema(model.data.definitions);
+  const explicitVariants = model.data.schema?.variants ?? {};
+
+  const mergedVariants: Document.ComponentSpecVariantSchema = { ...inferredVariants };
+
+  for (const [variantName, explicitVariant] of Object.entries(explicitVariants)) {
+    const inferredVariant = mergedVariants[variantName];
+
+    if (inferredVariant) {
+      mergedVariants[variantName] = {
+        values: { ...inferredVariant.values, ...explicitVariant.values },
+        defaultValue: explicitVariant.defaultValue ?? inferredVariant.defaultValue,
+        description: explicitVariant.description ?? inferredVariant.description,
+      };
+
+      continue;
+    }
+
+    mergedVariants[variantName] = explicitVariant;
+  }
+
   const schema = {
     slots: model.data.schema?.slots ?? {},
-    variants: { ...inferVariantSchema(model.data.definitions), ...model.data.schema?.variants },
+    variants: mergedVariants,
   };
 
   return factory.createComponentSpecDeclaration(id, name, parseSchemaDeclaration(schema), body);

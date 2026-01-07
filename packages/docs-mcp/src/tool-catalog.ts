@@ -17,7 +17,7 @@ export interface ToolCatalogEntry {
   /** Example arguments for the tool */
   exampleArgs?: Record<string, string>;
   /** Tool category for grouping */
-  category: "discovery" | "react" | "breeze" | "design-guidelines" | "rootage";
+  category: "discovery" | "react" | "breeze" | "design-guidelines" | "rootage" | "icons";
 }
 
 export const TOOL_CATALOG: ToolCatalogEntry[] = [
@@ -339,6 +339,49 @@ export const TOOL_CATALOG: ToolCatalogEntry[] = [
     keywords: ["rootage", "token", "spec", "specification", "json", "value", "exact"],
     exampleArgs: { path: "/components/action-button.json" },
     category: "rootage",
+  },
+
+  // ============================================================================
+  // Icon Tools
+  // ============================================================================
+  {
+    name: "list_icons",
+    description: "List available SEED Design icons with type/variant/service filtering",
+    whenToUse: [
+      "When exploring available icons",
+      "When checking what icon styles exist (line/fill)",
+      "When browsing service-specific multicolor icons",
+      "Before searching for specific icons",
+    ],
+    keywords: ["icon", "list", "monochrome", "multicolor", "line", "fill", "서비스", "아이콘"],
+    exampleArgs: { type: "monochrome", variant: "line" },
+    category: "icons",
+  },
+  {
+    name: "search_icons",
+    description: "Search SEED Design icons by keyword (supports English and Korean)",
+    whenToUse: [
+      "When looking for an icon by meaning or concept",
+      "When searching with Korean keywords (e.g., '화살표', '장바구니')",
+      "When finding icons for specific actions or objects",
+    ],
+    keywords: ["icon", "search", "find", "keyword", "아이콘", "검색", "화살표", "arrow"],
+    exampleArgs: { query: "arrow" },
+    category: "icons",
+  },
+  {
+    name: "get_icon_details",
+    description:
+      "Get complete icon details including React component import and documentation link",
+    whenToUse: [
+      "When implementing an icon in React",
+      "When needing the exact import statement",
+      "When checking icon package information",
+      "When getting the documentation link for an icon",
+    ],
+    keywords: ["icon", "details", "import", "react", "component", "usage"],
+    exampleArgs: { iconName: "icon_arrow_left_line" },
+    category: "icons",
   },
 ];
 
