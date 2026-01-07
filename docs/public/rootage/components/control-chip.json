@@ -205,8 +205,11 @@
             "slots": {
               "root": {
                 "strokeWidth": {
-                  "type": "number",
-                  "value": 0
+                  "type": "dimension",
+                  "value": {
+                    "value": 0,
+                    "unit": "px"
+                  }
                 },
                 "color": {
                   "type": "color",
