@@ -23,6 +23,7 @@ data:
           gradient:
             type: gradient
       prefixIcon:
+        description: 아이콘은 Fill 타입 사용을 권장합니다.
         properties:
           size:
             type: dimension
@@ -49,6 +50,7 @@ data:
           color:
             type: color
       link:
+        description: Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다.
         properties:
           fontSize:
             type: dimension
@@ -66,6 +68,21 @@ data:
             type: dimension
           color:
             type: color
+    variants:
+      tone:
+        values:
+          neutral:
+            description: 일반적인 정보를 전달합니다.
+          informative:
+            description: 유용한 정보를 제공합니다.
+          positive:
+            description: 긍정적인 상태를 나타냅니다.
+          warning:
+            description: 주의가 필요한 상태를 나타냅니다.
+          critical:
+            description: 중요한 문제를 나타냅니다.
+          magic:
+            description: AI 기능을 나타냅니다.
   definitions:
     base:
       enabled:

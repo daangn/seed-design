@@ -383,18 +383,22 @@ data:
         theme-light: "#fffffff4"
         theme-dark: "#fffffff4"
     $color.fg.brand:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다.
       values:
         theme-light: $color.palette.carrot-600
         theme-dark: $color.palette.carrot-700
     $color.fg.brand-contrast:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. (contrast)
       values:
         theme-light: $color.palette.carrot-700
         theme-dark: $color.palette.carrot-700
     $color.fg.critical:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다.
       values:
         theme-light: $color.palette.red-700
         theme-dark: $color.palette.red-700
     $color.fg.critical-contrast:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (contrast)
       values:
         theme-light: $color.palette.red-900
         theme-dark: $color.palette.red-900
@@ -403,26 +407,32 @@ data:
         theme-light: $color.palette.gray-500
         theme-dark: $color.palette.gray-500
     $color.fg.informative:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다.
       values:
         theme-light: $color.palette.blue-700
         theme-dark: $color.palette.blue-700
     $color.fg.informative-contrast:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (contrast)
       values:
         theme-light: $color.palette.blue-900
         theme-dark: $color.palette.blue-900
     $color.fg.neutral:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다.
       values:
         theme-light: $color.palette.gray-1000
         theme-dark: $color.palette.gray-1000
     $color.fg.neutral-inverted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)
       values:
         theme-light: $color.palette.gray-00
         theme-dark: $color.palette.gray-100
     $color.fg.neutral-muted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (muted)
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-800
     $color.fg.neutral-subtle:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle)
       values:
         theme-light: $color.palette.gray-700
         theme-dark: $color.palette.gray-700
@@ -431,50 +441,62 @@ data:
         theme-light: $color.palette.gray-600
         theme-dark: $color.palette.gray-600
     $color.fg.positive:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다.
       values:
         theme-light: $color.palette.green-700
         theme-dark: $color.palette.green-700
     $color.fg.positive-contrast:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (contrast)
       values:
         theme-light: $color.palette.green-900
         theme-dark: $color.palette.green-900
     $color.fg.warning:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다.
       values:
         theme-light: $color.palette.yellow-700
         theme-dark: $color.palette.yellow-700
     $color.fg.warning-contrast:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (contrast)
       values:
         theme-light: $color.palette.yellow-900
         theme-dark: $color.palette.yellow-900
     $color.bg.brand-solid:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (solid)
       values:
         theme-light: $color.palette.carrot-600
         theme-dark: $color.palette.carrot-700
     $color.bg.brand-solid-pressed:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (solid-pressed)
       values:
         theme-light: $color.palette.carrot-700
         theme-dark: $color.palette.carrot-800
     $color.bg.brand-weak:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (weak)
       values:
         theme-light: $color.palette.carrot-100
         theme-dark: $color.palette.carrot-100
     $color.bg.brand-weak-pressed:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (weak-pressed)
       values:
         theme-light: $color.palette.carrot-200
         theme-dark: $color.palette.carrot-200
     $color.bg.critical-solid:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.red-700
         theme-dark: $color.palette.red-600
     $color.bg.critical-solid-pressed:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (solid-pressed)
       values:
         theme-light: $color.palette.red-800
         theme-dark: $color.palette.red-700
     $color.bg.critical-weak:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak)
       values:
         theme-light: $color.palette.red-100
         theme-dark: $color.palette.red-100
     $color.bg.critical-weak-pressed:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak-pressed)
       values:
         theme-light: $color.palette.red-200
         theme-dark: $color.palette.red-200
@@ -483,30 +505,37 @@ data:
         theme-light: $color.palette.gray-200
         theme-dark: $color.palette.gray-300
     $color.bg.informative-solid:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid)
       values:
         theme-light: $color.palette.blue-700
         theme-dark: $color.palette.blue-600
     $color.bg.informative-solid-pressed:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid-pressed)
       values:
         theme-light: $color.palette.blue-800
         theme-dark: $color.palette.blue-700
     $color.bg.informative-weak:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak)
       values:
         theme-light: $color.palette.blue-100
         theme-dark: $color.palette.blue-100
     $color.bg.informative-weak-pressed:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak-pressed)
       values:
         theme-light: $color.palette.blue-200
         theme-dark: $color.palette.blue-200
     $color.bg.layer-basement:
+      description: 가장 낮은 0단계의 '대지'입니다. 앱의 가장 깊은 곳에 위치하는 전체 배경색입니다.
       values:
         theme-light: $color.palette.gray-200
         theme-dark: $color.palette.gray-00
     $color.bg.layer-default:
+      description: basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다.
       values:
         theme-light: $color.palette.gray-00
         theme-dark: $color.palette.gray-100
     $color.bg.layer-default-pressed:
+      description: basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다. (pressed)
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
@@ -515,10 +544,12 @@ data:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-200
     $color.bg.layer-floating:
+      description: 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다.
       values:
         theme-light: $color.palette.gray-00
         theme-dark: $color.palette.gray-200
     $color.bg.layer-floating-pressed:
+      description: 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다. (pressed)
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
@@ -527,30 +558,37 @@ data:
         theme-light: "#f9f2ee"
         theme-dark: "#201f1f"
     $color.bg.neutral-inverted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)
       values:
         theme-light: $color.palette.gray-900
         theme-dark: $color.palette.gray-1000
     $color.bg.neutral-inverted-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed)
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-800
     $color.bg.neutral-solid:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)
       values:
         theme-light: $color.palette.gray-1000
         theme-dark: $color.palette.gray-300
     $color.bg.neutral-solid-muted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted)
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-400
     $color.bg.neutral-solid-muted-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted-pressed)
       values:
         theme-light: $color.palette.gray-900
         theme-dark: $color.palette.gray-500
     $color.bg.neutral-weak:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak)
       values:
         theme-light: $color.palette.gray-200
         theme-dark: $color.palette.gray-300
     $color.bg.neutral-weak-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-pressed)
       values:
         theme-light: $color.palette.gray-300
         theme-dark: $color.palette.gray-400
@@ -563,18 +601,22 @@ data:
         theme-light: $color.palette.static-black-alpha-500
         theme-dark: $color.palette.static-black-alpha-500
     $color.bg.positive-solid:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.green-700
         theme-dark: $color.palette.green-500
     $color.bg.positive-solid-pressed:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid-pressed)
       values:
         theme-light: $color.palette.green-800
         theme-dark: $color.palette.green-600
     $color.bg.positive-weak:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (weak)
       values:
         theme-light: $color.palette.green-100
         theme-dark: $color.palette.green-100
     $color.bg.positive-weak-pressed:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (weak-pressed)
       values:
         theme-light: $color.palette.green-200
         theme-dark: $color.palette.green-200
@@ -587,78 +629,97 @@ data:
         theme-light: $color.palette.static-black-alpha-100
         theme-dark: $color.palette.static-white-alpha-50
     $color.bg.warning-solid:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.yellow-300
         theme-dark: $color.palette.yellow-800
     $color.bg.warning-solid-pressed:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid-pressed)
       values:
         theme-light: $color.palette.yellow-400
         theme-dark: $color.palette.yellow-900
     $color.bg.warning-weak:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak)
       values:
         theme-light: $color.palette.yellow-100
         theme-dark: $color.palette.yellow-100
     $color.bg.warning-weak-pressed:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak-pressed)
       values:
         theme-light: $color.palette.yellow-200
         theme-dark: $color.palette.yellow-200
     $color.stroke.brand-solid:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (solid)
       values:
         theme-light: $color.palette.carrot-700
         theme-dark: $color.palette.carrot-700
     $color.stroke.brand-weak:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (weak)
       values:
         theme-light: $color.palette.carrot-300
         theme-dark: $color.palette.carrot-300
     $color.stroke.critical-solid:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.red-700
         theme-dark: $color.palette.red-700
     $color.stroke.critical-weak:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak)
       values:
         theme-light: $color.palette.red-300
         theme-dark: $color.palette.red-300
     $color.stroke.informative-solid:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid)
       values:
         theme-light: $color.palette.blue-700
         theme-dark: $color.palette.blue-700
     $color.stroke.informative-weak:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak)
       values:
         theme-light: $color.palette.blue-300
         theme-dark: $color.palette.blue-300
     $color.stroke.neutral-contrast:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (contrast)
       values:
         theme-light: $color.palette.gray-1000
         theme-dark: $color.palette.gray-1000
     $color.stroke.neutral-muted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (muted)
       values:
         theme-light: $color.palette.static-black-alpha-300
         theme-dark: $color.palette.static-white-alpha-100
     $color.stroke.neutral-solid:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-800
     $color.stroke.neutral-subtle:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle)
       values:
         theme-light: $color.palette.static-black-alpha-200
         theme-dark: $color.palette.static-white-alpha-50
     $color.stroke.neutral-weak:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak)
       values:
         theme-light: $color.palette.gray-400
         theme-dark: $color.palette.gray-400
     $color.stroke.positive-solid:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.green-700
         theme-dark: $color.palette.green-700
     $color.stroke.positive-weak:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (weak)
       values:
         theme-light: $color.palette.green-300
         theme-dark: $color.palette.green-300
     $color.stroke.warning-solid:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.yellow-700
         theme-dark: $color.palette.yellow-700
     $color.stroke.warning-weak:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak)
       values:
         theme-light: $color.palette.yellow-300
         theme-dark: $color.palette.yellow-300

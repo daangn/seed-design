@@ -32,6 +32,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `tone=neutral`: 일반적인 작업을 수행하는 기본 아이템입니다.
+   */
   "toneNeutral": {
     "enabled": {
       "prefixIcon": {
@@ -42,6 +45,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `tone=critical`: 데이터 삭제와 같이 되돌릴 수 없는 작업을 수행하는 아이템입니다.
+   */
   "toneCritical": {
     "enabled": {
       "prefixIcon": {
@@ -52,9 +58,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `labelAlign=left`: 라벨을 왼쪽 정렬합니다.
+   */
   "labelAlignLeft": {
     "enabled": {}
   },
+  /**
+   * - `labelAlign=center`: 라벨을 중앙 정렬합니다.
+   */
   "labelAlignCenter": {
     "enabled": {}
   }

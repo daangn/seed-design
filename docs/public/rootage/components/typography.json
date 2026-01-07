@@ -26,8 +26,12 @@
       "variants": {
         "textStyle": {
           "values": {
-            "screenTitle": {},
-            "articleBody": {},
+            "screenTitle": {
+              "description": "화면에 크게 표시되는 주요 제목이나 타이틀에 사용합니다."
+            },
+            "articleBody": {
+              "description": "게시물이나 콘텐츠 중심 섹션의 본문 텍스트에 사용합니다."
+            },
             "t1Regular": {},
             "t1Medium": {},
             "t1Bold": {},
@@ -52,30 +56,78 @@
             "t8Bold": {},
             "t9Bold": {},
             "t10Bold": {},
-            "t1StaticRegular": {},
-            "t1StaticMedium": {},
-            "t1StaticBold": {},
-            "t2StaticRegular": {},
-            "t2StaticMedium": {},
-            "t2StaticBold": {},
-            "t3StaticRegular": {},
-            "t3StaticMedium": {},
-            "t3StaticBold": {},
-            "t4StaticRegular": {},
-            "t4StaticMedium": {},
-            "t4StaticBold": {},
-            "t5StaticRegular": {},
-            "t5StaticMedium": {},
-            "t5StaticBold": {},
-            "t6StaticRegular": {},
-            "t6StaticMedium": {},
-            "t6StaticBold": {},
-            "t7StaticRegular": {},
-            "t7StaticMedium": {},
-            "t7StaticBold": {},
-            "t8StaticBold": {},
-            "t9StaticBold": {},
-            "t10StaticBold": {}
+            "t1StaticRegular": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t1StaticMedium": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t1StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t2StaticRegular": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t2StaticMedium": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t2StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t3StaticRegular": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t3StaticMedium": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t3StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t4StaticRegular": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t4StaticMedium": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t4StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t5StaticRegular": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t5StaticMedium": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t5StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t6StaticRegular": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t6StaticMedium": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t6StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t7StaticRegular": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t7StaticMedium": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t7StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t8StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t9StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            },
+            "t10StaticBold": {
+              "description": "폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+            }
           },
           "defaultValue": "screenTitle"
         }

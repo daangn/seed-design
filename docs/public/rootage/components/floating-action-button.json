@@ -85,8 +85,12 @@
       "variants": {
         "extended": {
           "values": {
-            "true": {},
-            "false": {}
+            "true": {
+              "description": "라벨이 포함된 확장 형태로, 버튼의 역할을 명확히 전달합니다."
+            },
+            "false": {
+              "description": "아이콘만 표시되는 기본 형태입니다."
+            }
           },
           "defaultValue": "true"
         }

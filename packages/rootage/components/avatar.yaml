@@ -17,12 +17,14 @@ data:
           strokeWidth:
             type: dimension
       badgeMask:
+        description: size=20에서는 지원되지 않습니다.
         properties:
           offset:
             type: dimension
           size:
             type: dimension
       badge:
+        description: size=20에서는 지원되지 않습니다.
         properties:
           offset:
             type: dimension
@@ -39,7 +41,6 @@ data:
         root:
           size: 20px
           strokeWidth: 1px
-        # we don't use badge for size 20
     size=24:
       enabled:
         root:

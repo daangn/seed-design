@@ -1,5 +1,4 @@
 # yaml-language-server: $schema=./schema.json
-# slot=
 kind: ComponentSpec
 metadata:
   id: top-navigation

@@ -1,5 +1,4 @@
 # yaml-language-server: $schema=./schema.json
-# parts: root
 kind: ComponentSpec
 metadata:
   id: scroll-fog

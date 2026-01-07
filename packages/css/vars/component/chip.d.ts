@@ -6,6 +6,7 @@ export declare const vars: {
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "cornerRadius": "var(--seed-radius-full)"
       },
+      /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
         "paddingLeft": "var(--seed-dimension-x1_5)"
       },
@@ -24,6 +25,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=solid`: 기본 스타일입니다.
+   */
   "variantSolid": {
     "enabled": {
       "root": {
@@ -32,6 +36,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -59,6 +64,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
+      /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
@@ -80,6 +86,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=outlineStrong`: 명확한 구분이 필요한 경우 사용합니다.
+   */
   "variantOutlineStrong": {
     "enabled": {
       "root": {
@@ -90,6 +99,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -117,6 +127,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
+      /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
@@ -138,6 +149,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=outlineWeak`: Selection 사용 시 주목도가 낮은 스타일로 권장됩니다.
+   */
   "variantOutlineWeak": {
     "enabled": {
       "root": {
@@ -148,6 +162,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -195,6 +210,7 @@ export declare const vars: {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)"
       },
+      /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
         "size": "var(--seed-dimension-x3_5)"
       },
@@ -219,6 +235,7 @@ export declare const vars: {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)"
       },
+      /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
         "size": "var(--seed-dimension-x4)"
       },
@@ -243,6 +260,7 @@ export declare const vars: {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)"
       },
+      /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
         "size": "var(--seed-dimension-x4)",
         "paddingLeft": "var(--seed-dimension-x1_5)"

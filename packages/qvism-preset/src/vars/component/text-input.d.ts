@@ -55,6 +55,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=outline`: 기본 스타일입니다.
+   */
   "variantOutline": {
     "enabled": {
       "root": {
@@ -84,6 +87,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=outline`: 기본 스타일입니다.
+   */
   "variantOutlineSizeLarge": {
     "enabled": {
       "root": {
@@ -114,6 +120,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=outline`: 기본 스타일입니다.
+   */
   "variantOutlineSizeMedium": {
     "enabled": {
       "root": {
@@ -144,6 +153,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=underline`: 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
+   */
   "variantUnderline": {
     "enabled": {
       "root": {

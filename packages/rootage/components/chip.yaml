@@ -42,6 +42,7 @@ data:
           paddingX:
             type: dimension
       prefixIcon:
+        description: Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다.
         properties:
           color:
             type: color
@@ -67,6 +68,15 @@ data:
             type: color
           size:
             type: dimension
+    variants:
+      variant:
+        values:
+          solid:
+            description: 기본 스타일입니다.
+          outlineStrong:
+            description: 명확한 구분이 필요한 경우 사용합니다.
+          outlineWeak:
+            description: Selection 사용 시 주목도가 낮은 스타일로 권장됩니다.
   definitions:
     base:
       enabled:

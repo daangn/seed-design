@@ -1,5 +1,4 @@
 # yaml-language-server: $schema=./schema.json
-# parts: root, segment, indicator
 kind: ComponentSpec
 metadata:
   id: segmented-control

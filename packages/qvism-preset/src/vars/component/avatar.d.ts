@@ -21,10 +21,12 @@ export declare const vars: {
         "size": "24px",
         "strokeWidth": "1px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badgeMask": {
         "offset": "14px",
         "size": "12px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badge": {
         "offset": "15px",
         "size": "10px"
@@ -37,10 +39,12 @@ export declare const vars: {
         "size": "36px",
         "strokeWidth": "1px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badgeMask": {
         "offset": "20px",
         "size": "18px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badge": {
         "offset": "22px",
         "size": "14px"
@@ -53,10 +57,12 @@ export declare const vars: {
         "size": "42px",
         "strokeWidth": "1px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badgeMask": {
         "offset": "24px",
         "size": "20px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badge": {
         "offset": "26px",
         "size": "16px"
@@ -69,10 +75,12 @@ export declare const vars: {
         "size": "48px",
         "strokeWidth": "1px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badgeMask": {
         "offset": "28px",
         "size": "22px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badge": {
         "offset": "30px",
         "size": "18px"
@@ -85,10 +93,12 @@ export declare const vars: {
         "size": "64px",
         "strokeWidth": "1px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badgeMask": {
         "offset": "40px",
         "size": "26px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badge": {
         "offset": "42px",
         "size": "22px"
@@ -101,10 +111,12 @@ export declare const vars: {
         "size": "80px",
         "strokeWidth": "1px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badgeMask": {
         "offset": "52px",
         "size": "32px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badge": {
         "offset": "54px",
         "size": "28px"
@@ -117,10 +129,12 @@ export declare const vars: {
         "size": "96px",
         "strokeWidth": "1px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badgeMask": {
         "offset": "62px",
         "size": "38px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badge": {
         "offset": "65px",
         "size": "32px"
@@ -133,10 +147,12 @@ export declare const vars: {
         "size": "108px",
         "strokeWidth": "1px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badgeMask": {
         "offset": "70px",
         "size": "44px"
       },
+      /** size=20에서는 지원되지 않습니다. */
       "badge": {
         "offset": "74px",
         "size": "36px"

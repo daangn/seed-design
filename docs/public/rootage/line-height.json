@@ -126,7 +126,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       },
       "$line-height.t2-static": {
         "values": {
@@ -137,7 +138,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       },
       "$line-height.t3-static": {
         "values": {
@@ -148,7 +150,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       },
       "$line-height.t4-static": {
         "values": {
@@ -159,7 +162,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       },
       "$line-height.t5-static": {
         "values": {
@@ -170,7 +174,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       },
       "$line-height.t6-static": {
         "values": {
@@ -181,7 +186,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       },
       "$line-height.t7-static": {
         "values": {
@@ -192,7 +198,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       },
       "$line-height.t8-static": {
         "values": {
@@ -203,7 +210,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       },
       "$line-height.t9-static": {
         "values": {
@@ -214,7 +222,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       },
       "$line-height.t10-static": {
         "values": {
@@ -225,7 +234,8 @@
               "unit": "px"
             }
           }
-        }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
       }
     }
   }

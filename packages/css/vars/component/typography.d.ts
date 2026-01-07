@@ -1,4 +1,7 @@
 export declare const vars: {
+  /**
+   * 화면에 크게 표시되는 주요 제목이나 타이틀에 사용합니다.
+   */
   "textStyleScreenTitle": {
     "enabled": {
       "root": {
@@ -8,6 +11,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 게시물이나 콘텐츠 중심 섹션의 본문 텍스트에 사용합니다.
+   */
   "textStyleArticleBody": {
     "enabled": {
       "root": {
@@ -233,6 +239,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT1StaticRegular": {
     "enabled": {
       "root": {
@@ -242,6 +251,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT1StaticMedium": {
     "enabled": {
       "root": {
@@ -251,6 +263,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT1StaticBold": {
     "enabled": {
       "root": {
@@ -260,6 +275,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT2StaticRegular": {
     "enabled": {
       "root": {
@@ -269,6 +287,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT2StaticMedium": {
     "enabled": {
       "root": {
@@ -278,6 +299,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT2StaticBold": {
     "enabled": {
       "root": {
@@ -287,6 +311,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT3StaticRegular": {
     "enabled": {
       "root": {
@@ -296,6 +323,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT3StaticMedium": {
     "enabled": {
       "root": {
@@ -305,6 +335,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT3StaticBold": {
     "enabled": {
       "root": {
@@ -314,6 +347,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT4StaticRegular": {
     "enabled": {
       "root": {
@@ -323,6 +359,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT4StaticMedium": {
     "enabled": {
       "root": {
@@ -332,6 +371,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT4StaticBold": {
     "enabled": {
       "root": {
@@ -341,6 +383,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT5StaticRegular": {
     "enabled": {
       "root": {
@@ -350,6 +395,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT5StaticMedium": {
     "enabled": {
       "root": {
@@ -359,6 +407,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT5StaticBold": {
     "enabled": {
       "root": {
@@ -368,6 +419,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT6StaticRegular": {
     "enabled": {
       "root": {
@@ -377,6 +431,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT6StaticMedium": {
     "enabled": {
       "root": {
@@ -386,6 +443,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT6StaticBold": {
     "enabled": {
       "root": {
@@ -395,6 +455,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT7StaticRegular": {
     "enabled": {
       "root": {
@@ -404,6 +467,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT7StaticMedium": {
     "enabled": {
       "root": {
@@ -413,6 +479,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT7StaticBold": {
     "enabled": {
       "root": {
@@ -422,6 +491,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT8StaticBold": {
     "enabled": {
       "root": {
@@ -431,6 +503,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT9StaticBold": {
     "enabled": {
       "root": {
@@ -440,6 +515,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT10StaticBold": {
     "enabled": {
       "root": {

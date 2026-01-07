@@ -7,6 +7,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
+   */
   "variantSquare": {
     "enabled": {
       "root": {
@@ -40,6 +43,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
+   * - `tone=brand`: [deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.
+   */
   "variantSquareToneBrand": {
     "enabledSelected": {
       "root": {
@@ -55,6 +62,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
+   */
   "variantSquareToneNeutral": {
     "enabledSelected": {
       "root": {
@@ -70,6 +80,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
+   */
   "variantGhost": {
     "enabled": {
       "icon": {
@@ -94,6 +107,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
+   * - `tone=brand`: [deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.
+   */
   "variantGhostToneBrand": {
     "enabledSelected": {
       "icon": {
@@ -106,6 +123,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
+   */
   "variantGhostToneNeutral": {
     "enabledSelected": {
       "icon": {
@@ -134,6 +154,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
+   */
   "variantSquareSizeMedium": {
     "enabled": {
       "icon": {
@@ -141,6 +164,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
+   */
   "variantSquareSizeLarge": {
     "enabled": {
       "icon": {
@@ -148,6 +174,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
+   */
   "variantGhostSizeMedium": {
     "enabled": {
       "icon": {
@@ -155,6 +184,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
+   */
   "variantGhostSizeLarge": {
     "enabled": {
       "icon": {
