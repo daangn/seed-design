@@ -96,14 +96,16 @@ export function createStringifier(options: { prefix?: string } = {}) {
     const variantValueDescLookup = new Map<string, Map<string, string>>();
     for (const variant of decl.schema.variants) {
       const valueDescMap = new Map<string, string>();
+
       for (const value of variant.values) {
-        if (value.description) {
-          valueDescMap.set(value.name, value.description);
-        }
+        if (value.description === undefined) continue;
+
+        valueDescMap.set(value.name, value.description);
       }
-      if (valueDescMap.size > 0) {
-        variantValueDescLookup.set(variant.name, valueDescMap);
-      }
+
+      if (valueDescMap.size === 0) continue;
+
+      variantValueDescLookup.set(variant.name, valueDescMap);
     }
 
     // Build variant key -> descriptions map from actual variant declarations
@@ -128,18 +130,18 @@ export function createStringifier(options: { prefix?: string } = {}) {
     // Slot descriptions
     const slotDescMap = new Map<string, string>();
     for (const slot of decl.schema.slots) {
-      if (slot.description) {
-        slotDescMap.set(slot.name, slot.description);
-      }
+      if (!slot.description) continue;
+
+      slotDescMap.set(slot.name, slot.description);
     }
 
     // Property descriptions
     const propertyDescMap = new Map<string, string>();
     for (const slot of decl.schema.slots) {
       for (const prop of slot.properties) {
-        if (prop.description) {
-          propertyDescMap.set(prop.name, prop.description);
-        }
+        if (!prop.description) continue;
+
+        propertyDescMap.set(prop.name, prop.description);
       }
     }
 
