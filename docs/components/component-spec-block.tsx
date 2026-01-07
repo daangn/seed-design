@@ -1,3 +1,4 @@
+import type { AST } from "@seed-design/rootage-core";
 import { Fragment } from "react";
 import { ComponentVariantTable } from "./component-variant-table";
 import { getRootage } from "./rootage";
@@ -9,6 +10,30 @@ interface ComponentSpecTableProps {
   headingComponent?: "h3" | "h4";
 
   variants?: string[];
+}
+
+interface VariantDescriptionItem {
+  name: string;
+  description: string;
+}
+
+function getVariantDescriptions(
+  schema: AST.SchemaDeclaration,
+  variants: AST.VariantExpression[],
+): VariantDescriptionItem[] {
+  return variants
+    .map((variant) => {
+      const schemaVariant = schema.variants.find((v) => v.name === variant.name);
+      const schemaValue = schemaVariant?.values.find((v) => v.name === variant.value);
+      if (schemaValue?.description)
+        return {
+          name: `${variant.name}=${variant.value}`,
+          description: schemaValue.description,
+        };
+
+      return null;
+    })
+    .filter((item): item is VariantDescriptionItem => item !== null);
 }
 
 export async function ComponentSpecBlock({
@@ -29,10 +54,25 @@ export async function ComponentSpecBlock({
       return null;
     }
 
+    const variantDescriptions = getVariantDescriptions(componentSpec.schema, variantDecl.variants);
+
     return (
       <Fragment key={variantKey}>
         <HeadingComponent>{variantKey}</HeadingComponent>
-        <ComponentVariantTable rootage={rootage} variant={variantDecl} />
+        {variantDescriptions.length > 0 && (
+          <ul className="text-fd-muted-foreground text-sm mt-1 mb-4 list-disc list-inside">
+            {variantDescriptions.map((item) => (
+              <li key={item.name}>
+                <code>{item.name}</code>: {item.description}
+              </li>
+            ))}
+          </ul>
+        )}
+        <ComponentVariantTable
+          rootage={rootage}
+          variant={variantDecl}
+          schema={componentSpec.schema}
+        />
       </Fragment>
     );
   });

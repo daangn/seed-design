@@ -89,6 +89,9 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
         "data": {
           "type": "object",
           "properties": {
+            "schema": {
+              "$ref": "#/definitions/componentSpecSchema"
+            },
             "definitions": {
               "$ref": "#/definitions/definitions"
             }
@@ -98,6 +101,90 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
       "required": ["kind", "metadata", "data"],
       "additionalProperties": false,
       "definitions": {
+        "componentSpecSchema": {
+          "type": "object",
+          "properties": {
+            "slots": {
+              "$ref": "#/definitions/slotsSchema"
+            },
+            "variants": {
+              "$ref": "#/definitions/variantsSchema"
+            }
+          },
+          "additionalProperties": false
+        },
+        "slotsSchema": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/slotSchema"
+          }
+        },
+        "slotSchema": {
+          "type": "object",
+          "properties": {
+            "properties": {
+              "$ref": "#/definitions/slotPropertiesSchema"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": ["properties"],
+          "additionalProperties": false
+        },
+        "slotPropertiesSchema": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/slotPropertySchema"
+          }
+        },
+        "slotPropertySchema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["color", "dimension", "number", "duration", "cubicBezier", "shadow", "gradient"]
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": ["type"],
+          "additionalProperties": false
+        },
+        "variantsSchema": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/variantSchema"
+          }
+        },
+        "variantSchema": {
+          "type": "object",
+          "properties": {
+            "values": {
+              "$ref": "#/definitions/variantValuesSchema"
+            },
+            "defaultValue": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "variantValuesSchema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
         "definitions": {
           "type": "object",
           "properties": {
