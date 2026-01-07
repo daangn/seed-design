@@ -58,7 +58,8 @@ export const appScreenVariantMap = {
   ],
   "transitionStyle": [
     "slideFromRightIOS",
-    "fadeFromBottomAndroid"
+    "fadeFromBottomAndroid",
+    "fadeIn"
   ],
   "layerOffsetTop": [
     "none",

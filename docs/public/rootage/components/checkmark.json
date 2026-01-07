@@ -41,6 +41,12 @@
             },
             "size": {
               "type": "dimension"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         }
@@ -288,6 +294,14 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.placeholder"
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               }
             }
@@ -385,7 +399,7 @@
               "icon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-muted"
+                  "value": "$color.fg.neutral"
                 }
               }
             }

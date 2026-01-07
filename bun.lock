@@ -366,6 +366,7 @@
         "seed-docs-mcp": "./dist/stdio.js",
       },
       "dependencies": {
+        "@karrotmarket/icon-data": "^1.15.0",
         "@modelcontextprotocol/sdk": "^1.15.0",
         "lru-cache": "^11.0.2",
         "zod": "^3.24.3",

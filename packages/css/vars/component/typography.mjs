@@ -232,5 +232,221 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }
+  },
+  "textStyleT1StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t1-static)",
+        "lineHeight": "var(--seed-line-height-t1-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT1StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t1-static)",
+        "lineHeight": "var(--seed-line-height-t1-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT1StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t1-static)",
+        "lineHeight": "var(--seed-line-height-t1-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT2StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t2-static)",
+        "lineHeight": "var(--seed-line-height-t2-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT2StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t2-static)",
+        "lineHeight": "var(--seed-line-height-t2-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT2StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t2-static)",
+        "lineHeight": "var(--seed-line-height-t2-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT3StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t3-static)",
+        "lineHeight": "var(--seed-line-height-t3-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT3StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t3-static)",
+        "lineHeight": "var(--seed-line-height-t3-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT3StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t3-static)",
+        "lineHeight": "var(--seed-line-height-t3-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT4StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t4-static)",
+        "lineHeight": "var(--seed-line-height-t4-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT4StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t4-static)",
+        "lineHeight": "var(--seed-line-height-t4-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT4StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t4-static)",
+        "lineHeight": "var(--seed-line-height-t4-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT5StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t5-static)",
+        "lineHeight": "var(--seed-line-height-t5-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT5StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t5-static)",
+        "lineHeight": "var(--seed-line-height-t5-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT5StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t5-static)",
+        "lineHeight": "var(--seed-line-height-t5-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT6StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t6-static)",
+        "lineHeight": "var(--seed-line-height-t6-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT6StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t6-static)",
+        "lineHeight": "var(--seed-line-height-t6-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT6StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t6-static)",
+        "lineHeight": "var(--seed-line-height-t6-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT7StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t7-static)",
+        "lineHeight": "var(--seed-line-height-t7-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT7StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t7-static)",
+        "lineHeight": "var(--seed-line-height-t7-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT7StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t7-static)",
+        "lineHeight": "var(--seed-line-height-t7-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT8StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t8-static)",
+        "lineHeight": "var(--seed-line-height-t8-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT9StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t9-static)",
+        "lineHeight": "var(--seed-line-height-t9-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT10StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t10-static)",
+        "lineHeight": "var(--seed-line-height-t10-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
   }
 }

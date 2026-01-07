@@ -1,7 +1,7 @@
 import { defineSlotRecipe } from "../utils/define";
 import { vars } from "../vars";
 import { topNavigation as navVars } from "../vars/component";
-import { fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
+import { fadeInAnimations, fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
   idle,
   idleBehind,
@@ -139,6 +139,25 @@ export const appScreen = defineSlotRecipe({
 
           [push]: fadeFromBottomAndroidAnimations.layer.push,
           [pop]: fadeFromBottomAndroidAnimations.layer.pop,
+        },
+      },
+      // NOTE: this is currently named as fadeIn for consistency with other transitionStyles
+      // (top activity slides in from bottom or slides in from right so it "fades in")
+      // but the actual animation is a pair of enter and exit fade animations.
+      // might want to rename later to crossfade to prevent confusion
+      fadeIn: {
+        root: {
+          "--z-index-dim": "calc(var(--z-index-base) + 0)",
+          "--z-index-layer": "calc(var(--z-index-base) + 3)",
+          "--z-index-edge": "calc(var(--z-index-base) + 4)",
+          "--z-index-app-bar": "calc(var(--z-index-base) + 4)",
+        },
+        dim: {
+          display: "none",
+        },
+        layer: {
+          [push]: fadeInAnimations.layer.push,
+          [pop]: fadeInAnimations.layer.pop,
         },
       },
     },
