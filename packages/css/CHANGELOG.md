@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 1.1.17
+
+### Patch Changes
+
+- 2301c57: 컴포넌트 및 파운데이션 Rootage에 description을 추가합니다. (@seed-design/css/vars JSDoc 추가)
+
 ## 1.1.16
 
 ### Patch Changes
