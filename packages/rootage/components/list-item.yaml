@@ -22,6 +22,14 @@ data:
             type: dimension
           cornerRadius:
             type: dimension
+          marginDuration:
+            type: duration
+          marginTimingFunction:
+            type: cubicBezier
+          borderRadiusDuration:
+            type: duration
+          borderRadiusTimingFunction:
+            type: cubicBezier
       content:
         properties:
           color:
