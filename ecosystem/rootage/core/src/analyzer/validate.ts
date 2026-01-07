@@ -66,10 +66,34 @@ export function validate(ctx: RootageCtx): ValidationResult {
   }
 
   for (const componentSpec of componentSpecs) {
+    const slotSchemaMap = new Map<string, Set<string>>();
+
+    for (const slotSchema of componentSpec.schema.slots) {
+      const propertyNames = new Set(slotSchema.properties.map((p) => p.name));
+
+      slotSchemaMap.set(slotSchema.name, propertyNames);
+    }
+
     for (const variant of componentSpec.body) {
       for (const state of variant.body) {
         for (const slot of state.body) {
+          if (!slotSchemaMap.has(slot.slot)) {
+            return {
+              valid: false,
+              message: `Slot "${slot.slot}" is not defined in schema but used in component spec "${componentSpec.name}"`,
+            };
+          }
+
+          const schemaProperties = slotSchemaMap.get(slot.slot)!;
+
           for (const property of slot.body) {
+            if (!schemaProperties.has(property.property)) {
+              return {
+                valid: false,
+                message: `Property "${property.property}" is not defined in slot "${slot.slot}" schema but used in component spec "${componentSpec.name}"`,
+              };
+            }
+
             if (property.value.kind === "TokenLit") {
               const tokenName = property.value.identifier;
               if (!tokenNameSet.has(tokenName)) {
