@@ -79,8 +79,7 @@
     "vitest": "^4.0.5",
     "watchlist": "^0.3.1",
     "wrangler": "^4.13.0",
-    "yaml": "^2.8.2",
-    "zod": "^4.3.5"
+    "yaml": "^2.8.2"
   },
   "patchedDependencies": {
     "@radix-ui/react-dialog@1.1.15": "patches/@radix-ui%2Freact-dialog@1.1.15.patch"
