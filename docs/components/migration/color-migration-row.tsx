@@ -12,9 +12,14 @@ export function ColorMigrationRow({ item }: { item: TokenMappingItem }) {
       <td>{item.previousTokenId}</td>
       <td className="align-middle space-y-2">
         {item.newTokens.length > 0 &&
-          item.newTokens.map((newToken, index) => (
+          item.newTokens.map((newToken, index) => {
+            const canExpand = newToken.values.length > 1;
+            return (
             <Fragment key={newToken.id}>
-              <div onClick={() => setIsExpanded((prev) => !prev)} className="cursor-pointer">
+              <div
+                onClick={canExpand ? () => setIsExpanded((prev) => !prev) : undefined}
+                className={canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}
+              >
                 <TokenCell
                   isExpanded={isExpanded}
                   values={newToken.values}
@@ -25,7 +30,8 @@ export function ColorMigrationRow({ item }: { item: TokenMappingItem }) {
                 <div className="text-xs text-center">또는</div>
               )}
             </Fragment>
-          ))}
+            );
+          })}
       </td>
       <td>{item.description}</td>
     </tr>

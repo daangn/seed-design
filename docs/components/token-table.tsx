@@ -41,21 +41,17 @@ function TokenRow(props: { item: TokenTableItem }) {
   const { id, description, values, resolvedValue } = item;
 
   const [isExpanded, setIsExpanded] = useState(false);
+  const canExpand = values.length > 1;
 
   return (
     <tr
       key={id}
-      className="hover:bg-fd-muted cursor-pointer"
-      onClick={() => setIsExpanded((prev) => !prev)}
+      className={`hover:bg-fd-muted ${canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}`}
+      onClick={canExpand ? () => setIsExpanded((prev) => !prev) : undefined}
     >
       <td>
         <div className="flex flex-col gap-1">
-          <TokenLink id={id} />
-          {description && (
-            <span className="text-fd-muted-foreground text-xs text-pretty break-keep">
-              {description}
-            </span>
-          )}
+          <TokenLink id={id} description={description} />
         </div>
       </td>
       <td className="align-middle">

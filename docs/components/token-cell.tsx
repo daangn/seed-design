@@ -2,7 +2,6 @@ import IconArrowDownLine from "@karrotmarket/react-monochrome-icon/IconArrowDown
 import type { AST } from "@seed-design/rootage-core";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Fragment } from "react";
-import { DescriptionButton } from "./description-button";
 import { TokenLink } from "./token-link";
 import { TypeIndicator } from "./type-indicator";
 
@@ -29,10 +28,7 @@ export function TokenCell(props: TokenCellProps) {
               <div className="flex items-center gap-2">
                 <TypeIndicator value={resolvedValue} />{" "}
                 {item.ref.startsWith("$") ? (
-                  <span className="inline-flex items-center gap-1">
-                    <TokenLink id={item.ref} />
-                    {item.description && <DescriptionButton description={item.description} />}
-                  </span>
+                  <TokenLink id={item.ref} description={item.description} />
                 ) : (
                   item.ref
                 )}
@@ -48,10 +44,7 @@ export function TokenCell(props: TokenCellProps) {
           <div className="flex items-center gap-2">
             <TypeIndicator value={resolvedValue} />{" "}
             {values[0].ref.startsWith("$") ? (
-              <span className="inline-flex items-center gap-1">
-                <TokenLink id={values[0].ref} />
-                {values[0].description && <DescriptionButton description={values[0].description} />}
-              </span>
+              <TokenLink id={values[0].ref} description={values[0].description} />
             ) : (
               values[0].ref
             )}
@@ -59,7 +52,7 @@ export function TokenCell(props: TokenCellProps) {
         )}
       </div>
       {values.length > 1 ? (
-        <div className="flex h-6 items-center">
+        <div className="flex h-6 items-center gap-0.5">
           {isExpanded ? (
             <ChevronUpIcon className="w-4 h-4" />
           ) : (

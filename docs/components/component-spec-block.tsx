@@ -4,7 +4,7 @@ import { ComponentVariantTable } from "./component-variant-table";
 import { getRootage } from "./rootage";
 import { stringifyVariants } from "./rootage";
 
-interface ComponentSpecTableProps {
+interface ComponentSpecBlockProps {
   id: string;
 
   headingComponent?: "h3" | "h4";
@@ -40,7 +40,7 @@ export async function ComponentSpecBlock({
   id,
   headingComponent: HeadingComponent = "h3",
   variants,
-}: ComponentSpecTableProps) {
+}: ComponentSpecBlockProps) {
   const rootage = await getRootage();
   const componentSpec = rootage.componentSpecEntities[id];
 
@@ -63,7 +63,13 @@ export async function ComponentSpecBlock({
           <ul className="text-fd-muted-foreground text-sm mt-1 mb-4 list-disc list-inside">
             {variantDescriptions.map((item) => (
               <li key={item.name}>
-                <code>{item.name}</code>: {item.description}
+                {variantDescriptions.length > 1 && (
+                  <>
+                    <strong>{item.name}</strong>
+                    {": "}
+                  </>
+                )}
+                {item.description}
               </li>
             ))}
           </ul>
