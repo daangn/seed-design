@@ -280,6 +280,7 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
         ...bgColors,
         ...strokeColors,
         ...mannerTempColors,
+        ...bannerBgColors,
       },
     },
   });

@@ -20,7 +20,9 @@ export declare const vars: {
         "width": "12px",
         "height": "8px",
         "cornerRadius": "2px",
+        /** arrow와 타겟 요소 사이의 거리를 정의합니다. */
         "gutter": "4px",
+        /** arrow와 root의 경계 사이의 최소 간격을 정의합니다. */
         "padding": "14px"
       },
       "title": {

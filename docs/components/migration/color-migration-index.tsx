@@ -1,4 +1,5 @@
 import { getRootage, stringifyValueLit } from "@/components/rootage";
+import { TokenValue } from "@/components/token-cell";
 import {
   scaleColorMappings,
   semanticColorMappings,
@@ -15,7 +16,7 @@ export interface TokenMappingItem {
   previousTokenId: string;
   newTokens: {
     id: string;
-    values: string[];
+    values: TokenValue[];
     resolvedValue: AST.ValueLit;
   }[];
   description?: string;
@@ -37,9 +38,18 @@ export async function ColorMigrationIndex({ prefix }: ColorMigrationIndexProps) 
         color: "theme-light",
       });
 
+      const valuesWithDescription: TokenValue[] = path.map((tokenRef) => ({
+        ref: tokenRef,
+        description: rootage.tokenEntities[tokenRef]?.description,
+      }));
+      valuesWithDescription.push({
+        ref: stringifyValueLit(value),
+        description: undefined,
+      });
+
       return {
         id: newId,
-        values: [...path, stringifyValueLit(value)],
+        values: valuesWithDescription,
         resolvedValue: value,
       };
     }),

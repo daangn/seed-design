@@ -13,6 +13,27 @@
           "properties": {
             "size": {
               "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "translateDuration": {
+              "type": "duration"
+            },
+            "translateTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "scale": {
+              "type": "number"
             }
           }
         }

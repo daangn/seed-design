@@ -51,6 +51,9 @@
             },
             "fontWeight": {
               "type": "number"
+            },
+            "lineHeight": {
+              "type": "dimension"
             }
           }
         },
@@ -64,6 +67,9 @@
             },
             "fontWeight": {
               "type": "number"
+            },
+            "lineHeight": {
+              "type": "dimension"
             }
           }
         }

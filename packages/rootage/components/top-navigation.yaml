@@ -35,6 +35,8 @@ data:
             type: dimension
           fontWeight:
             type: number
+          lineHeight:
+            type: dimension
       subtitle:
         properties:
           color:
@@ -43,6 +45,8 @@ data:
             type: dimension
           fontWeight:
             type: number
+          lineHeight:
+            type: dimension
   definitions:
     theme=cupertino:
       enabled:
