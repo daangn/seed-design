@@ -1,5 +1,14 @@
 # @seed-design/rootage-artifacts
 
+## 1.1.7
+
+### Patch Changes
+
+- 2f29fe8: 정적 텍스트 스타일 추가 (t1Static* ~ t10Static*)
+- 9119723: Checkmark `variant=ghost` `tone=neutral`에서 icon의 색상을 $color.fg.neutral로 변경하고 색상 트랜지션을 추가합니다.
+- 10c0765: 배너 템플릿에 사용되는 `$color.banner.*` 색상 토큰을 추가합니다.
+- b46264a: Rootage에 누락된 Slot Schema 정의 추가 (스타일 변경사항 없음)
+
 ## 1.1.6
 
 ### Patch Changes

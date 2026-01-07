@@ -1,5 +1,12 @@
 # @seed-design/tailwind3-plugin
 
+## 1.1.16
+
+### Patch Changes
+
+- 2f29fe8: 정적 텍스트 스타일 추가 (t1Static* ~ t10Static*)
+- 10c0765: 배너 템플릿에 사용되는 `$color.banner.*` 색상 토큰을 추가합니다.
+
 ## 1.1.13
 
 ### Patch Changes
