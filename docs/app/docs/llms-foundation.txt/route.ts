@@ -50,6 +50,7 @@ The response will include the full MDX content for that topic, processed and rea
 
 ## Additional Resources
 
+- Icon Library (with MCP tools): /docs/llms-icons.txt
 - Components documentation: /docs/llms-components.txt
 - Full documentation index: /docs/llms.txt
 `;
