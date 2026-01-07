@@ -1,9 +1,35 @@
+import type { PropertySchemaDeclaration, TokenDeclaration, ValueLit } from "../parser/ast";
 import type { RootageCtx } from "./types";
 
 interface ValidationResult {
   valid: boolean;
   message: string;
 }
+
+// this might live in ast.ts later but not sure: *Lit["kind"] already shows its type
+const LITERAL_KIND_TO_TYPE: Record<ValueLit["kind"], PropertySchemaDeclaration["type"]> = {
+  ColorHexLit: "color",
+  DimensionLit: "dimension",
+  NumberLit: "number",
+  DurationLit: "duration",
+  CubicBezierLit: "cubicBezier",
+  ShadowLit: "shadow",
+  GradientLit: "gradient",
+};
+
+// this might live in ast.ts later but not sure: *PropertyDeclaration["kind"] already shows its type
+const TOKEN_DECL_KIND_TO_TYPE: Omit<
+  Record<TokenDeclaration["kind"], PropertySchemaDeclaration["type"]>,
+  "UnresolvedTokenDeclaration"
+> = {
+  ColorTokenDeclaration: "color",
+  DimensionTokenDeclaration: "dimension",
+  NumberTokenDeclaration: "number",
+  DurationTokenDeclaration: "duration",
+  CubicBezierTokenDeclaration: "cubicBezier",
+  ShadowTokenDeclaration: "shadow",
+  GradientTokenDeclaration: "gradient",
+};
 
 // TODO: detect cycle in dependency graph
 export function validate(ctx: RootageCtx): ValidationResult {
@@ -51,6 +77,15 @@ export function validate(ctx: RootageCtx): ValidationResult {
   const tokenNames = tokens.map((binding) => binding.token.identifier);
   const tokenNameSet = new Set(tokenNames);
 
+  const tokenTypeMap = new Map<string, PropertySchemaDeclaration["type"]>();
+  for (const tokenBinding of tokens) {
+    // when tokens like $color.fg.brand is used, just skip
+    // TODO: we might resolve -> validate OR resolve in validate but not sure if they're appropriate
+    if (tokenBinding.kind === "UnresolvedTokenDeclaration") continue;
+
+    tokenTypeMap.set(tokenBinding.token.identifier, TOKEN_DECL_KIND_TO_TYPE[tokenBinding.kind]);
+  }
+
   for (const tokenBinding of tokens) {
     for (const { value } of tokenBinding.values) {
       if (value.kind === "TokenLit") {
@@ -66,12 +101,14 @@ export function validate(ctx: RootageCtx): ValidationResult {
   }
 
   for (const componentSpec of componentSpecs) {
-    const slotSchemaMap = new Map<string, Set<string>>();
+    const slotSchemaMap = new Map<string, Map<string, PropertySchemaDeclaration["type"]>>();
 
     for (const slotSchema of componentSpec.schema.slots) {
-      const propertyNames = new Set(slotSchema.properties.map((p) => p.name));
-
-      slotSchemaMap.set(slotSchema.name, propertyNames);
+      const propertyTypeMap = new Map<string, PropertySchemaDeclaration["type"]>();
+      for (const prop of slotSchema.properties) {
+        propertyTypeMap.set(prop.name, prop.type);
+      }
+      slotSchemaMap.set(slotSchema.name, propertyTypeMap);
     }
 
     for (const variant of componentSpec.body) {
@@ -84,10 +121,10 @@ export function validate(ctx: RootageCtx): ValidationResult {
             };
           }
 
-          const schemaProperties = slotSchemaMap.get(slot.slot)!;
+          const propertyTypeMap = slotSchemaMap.get(slot.slot)!;
 
           for (const property of slot.body) {
-            if (!schemaProperties.has(property.property)) {
+            if (!propertyTypeMap.has(property.property)) {
               return {
                 valid: false,
                 message: `Property "${property.property}" is not defined in slot "${slot.slot}" schema but used in component spec "${componentSpec.name}"`,
@@ -102,6 +139,24 @@ export function validate(ctx: RootageCtx): ValidationResult {
                   message: `Token "${tokenName}" is not defined but used in component spec "${componentSpec.name}"`,
                 };
               }
+            }
+
+            const expectedType = propertyTypeMap.get(property.property)!;
+            const actualType = (() => {
+              switch (property.value.kind) {
+                case "TokenLit":
+                  return tokenTypeMap.get(property.value.identifier);
+
+                default:
+                  return LITERAL_KIND_TO_TYPE[property.value.kind];
+              }
+            })();
+
+            if (actualType && actualType !== expectedType) {
+              return {
+                valid: false,
+                message: `Property "${property.property}" expects type "${expectedType}" but got "${actualType}" in component spec "${componentSpec.name}"`,
+              };
             }
           }
         }
