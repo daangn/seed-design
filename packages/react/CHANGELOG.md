@@ -1,5 +1,17 @@
 # @seed-design/react
 
+## 1.1.16
+
+### Patch Changes
+
+- 10c0765: 배너 템플릿에 사용되는 `$color.banner.*` 색상 토큰을 추가합니다.
+- Updated dependencies [2f29fe8]
+- Updated dependencies [9119723]
+- Updated dependencies [6d30b72]
+- Updated dependencies [10c0765]
+- Updated dependencies [5e462db]
+  - @seed-design/css@1.1.16
+
 ## 1.1.13
 
 ### Patch Changes
