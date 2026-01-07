@@ -143,7 +143,7 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["color", "dimension", "number", "duration", "cubicBezier", "shadow", "gradient"]
+            "enum": ["color", "dimension", "number", "duration", "cubicBezier", "shadow", "gradient"]${"" /* NOTE: this should be kept in sync with PropertySchemaDeclaration["type"] */}
           },
           "description": {
             "type": "string"
