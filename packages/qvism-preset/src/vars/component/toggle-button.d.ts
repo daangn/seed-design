@@ -11,7 +11,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=brandSolid`: 브랜드 컬러로 강조된 스타일입니다.
+   * 브랜드 컬러로 강조된 스타일입니다.
    */
   "variantBrandSolid": {
     "enabled": {
@@ -86,7 +86,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=neutralWeak`: 기본적인 토글 스타일입니다.
+   * 기본적인 토글 스타일입니다.
    */
   "variantNeutralWeak": {
     "enabled": {

@@ -35,7 +35,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `tone=neutral`: 일반적인 정보를 전달합니다.
+   * 일반적인 정보를 전달합니다.
    */
   "toneNeutral": {
     "enabled": {
@@ -67,7 +67,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `tone=informative`: 유용한 정보를 제공합니다.
+   * 유용한 정보를 제공합니다.
    */
   "toneInformative": {
     "enabled": {
@@ -99,7 +99,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `tone=positive`: 긍정적인 상태를 나타냅니다.
+   * 긍정적인 상태를 나타냅니다.
    */
   "tonePositive": {
     "enabled": {
@@ -131,7 +131,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `tone=warning`: 주의가 필요한 상태를 나타냅니다.
+   * 주의가 필요한 상태를 나타냅니다.
    */
   "toneWarning": {
     "enabled": {
@@ -163,7 +163,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `tone=critical`: 중요한 문제를 나타냅니다.
+   * 중요한 문제를 나타냅니다.
    */
   "toneCritical": {
     "enabled": {
@@ -195,7 +195,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `tone=magic`: AI 기능을 나타냅니다.
+   * AI 기능을 나타냅니다.
    */
   "toneMagic": {
     "enabled": {

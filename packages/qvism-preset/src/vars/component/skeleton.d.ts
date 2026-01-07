@@ -8,7 +8,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `radius=0`: 기본값입니다.
+   * 기본값입니다.
    */
   "radius0": {
     "enabled": {
@@ -18,7 +18,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `radius=8`: 텍스트 콘텐츠에 사용합니다.
+   * 텍스트 콘텐츠에 사용합니다.
    */
   "radius8": {
     "enabled": {
@@ -28,7 +28,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `radius=16`: 카드 및 썸네일에 사용합니다.
+   * 카드 및 썸네일에 사용합니다.
    */
   "radius16": {
     "enabled": {
@@ -38,7 +38,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `radius=full`: Avatar(원형) 콘텐츠에 사용합니다.
+   * Avatar(원형) 콘텐츠에 사용합니다.
    */
   "radiusFull": {
     "enabled": {
@@ -48,7 +48,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `tone=neutral`: 데이터를 불러오는 일반적인 로딩 경험에 사용합니다.
+   * 데이터를 불러오는 일반적인 로딩 경험에 사용합니다.
    */
   "toneNeutral": {
     "enabled": {
@@ -61,7 +61,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `tone=magic`: AI 기능이 활성화되었을 때 사용합니다.
+   * AI 기능이 활성화되었을 때 사용합니다.
    */
   "toneMagic": {
     "enabled": {

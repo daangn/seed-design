@@ -56,7 +56,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=outline`: 기본 스타일입니다.
+   * 기본 스타일입니다.
    */
   "variantOutline": {
     "enabled": {
@@ -154,7 +154,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=underline`: 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
+   * 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
    */
   "variantUnderline": {
     "enabled": {

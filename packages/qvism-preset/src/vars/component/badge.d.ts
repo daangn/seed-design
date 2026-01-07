@@ -32,7 +32,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=weak`: 반복적인 구조를 가진 환경에서 사용합니다. 배경색이 있는 경우에는 권장하지 않습니다.
+   * 반복적인 구조를 가진 환경에서 사용합니다. 배경색이 있는 경우에는 권장하지 않습니다.
    */
   "variantWeak": {
     "enabled": {
@@ -42,7 +42,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=solid`: 배경이 복잡하거나 이미지 위에 Badge가 겹치는 경우 사용합니다.
+   * 배경이 복잡하거나 이미지 위에 Badge가 겹치는 경우 사용합니다.
    */
   "variantSolid": {
     "enabled": {
@@ -52,7 +52,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=outline`: 중간 정도의 주목도가 필요한 본문 또는 상세 화면에서 사용합니다.
+   * 중간 정도의 주목도가 필요한 본문 또는 상세 화면에서 사용합니다.
    */
   "variantOutline": {
     "enabled": {

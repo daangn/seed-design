@@ -11,7 +11,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=brandSolid`: 브랜드의 핵심 가치를 전달하며, 사용자 간 연결이 일어나는 서비스의 주요 기능에 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
+   * 브랜드의 핵심 가치를 전달하며, 사용자 간 연결이 일어나는 서비스의 주요 기능에 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
    */
   "variantBrandSolid": {
     "enabled": {
@@ -70,7 +70,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=neutralSolid`: 대부분의 화면에서 CTA로 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
+   * 대부분의 화면에서 CTA로 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
    */
   "variantNeutralSolid": {
     "enabled": {
@@ -129,7 +129,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=neutralWeak`: CTA를 제외한 대부분의 액션에 사용됩니다.
+   * CTA를 제외한 대부분의 액션에 사용됩니다.
    */
   "variantNeutralWeak": {
     "enabled": {
@@ -188,7 +188,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=criticalSolid`: 삭제나 초기화처럼 되돌릴 수 없는 중요한 작업에 사용합니다.
+   * 삭제나 초기화처럼 되돌릴 수 없는 중요한 작업에 사용합니다.
    */
   "variantCriticalSolid": {
     "enabled": {
@@ -247,7 +247,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=neutralOutline`: Solid 타입과 함께 사용할 수 없으며, Brand Outline과 조합하여 사용하는 것을 권장합니다.
+   * Solid 타입과 함께 사용할 수 없으며, Brand Outline과 조합하여 사용하는 것을 권장합니다.
    */
   "variantNeutralOutline": {
     "enabled": {
@@ -309,7 +309,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=brandOutline`: Solid 타입과 함께 사용할 수 없으며, Neutral Outline과 조합하여 사용하는 것을 권장합니다.
+   * Solid 타입과 함께 사용할 수 없으며, Neutral Outline과 조합하여 사용하는 것을 권장합니다.
    */
   "variantBrandOutline": {
     "enabled": {
@@ -371,7 +371,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=ghost`: 배경 없이 텍스트와 아이콘만 표시됩니다.
+   * 배경 없이 텍스트와 아이콘만 표시됩니다.
    */
   "variantGhost": {
     "enabled": {
@@ -430,7 +430,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `size=xsmall`: 작은 공간에서 효율적으로 사용할 수 있는 Pill 형태로 제공됩니다.
+   * 작은 공간에서 효율적으로 사용할 수 있는 Pill 형태로 제공됩니다.
    */
   "sizeXsmall": {
     "enabled": {
@@ -487,7 +487,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `size=small`: 화면 중앙에서 범용적으로 사용됩니다.
+   * 화면 중앙에서 범용적으로 사용됩니다.
    */
   "sizeSmall": {
     "enabled": {
@@ -544,7 +544,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `size=medium`: 화면 중앙에서 범용적으로 사용됩니다.
+   * 화면 중앙에서 범용적으로 사용됩니다.
    */
   "sizeMedium": {
     "enabled": {
@@ -601,7 +601,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `size=large`: 주로 CTA 역할로 사용됩니다.
+   * 주로 CTA 역할로 사용됩니다.
    */
   "sizeLarge": {
     "enabled": {

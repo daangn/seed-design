@@ -26,7 +26,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=solid`: 기본 스타일입니다.
+   * 기본 스타일입니다.
    */
   "variantSolid": {
     "enabled": {
@@ -87,7 +87,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=outlineStrong`: 명확한 구분이 필요한 경우 사용합니다.
+   * 명확한 구분이 필요한 경우 사용합니다.
    */
   "variantOutlineStrong": {
     "enabled": {
@@ -150,7 +150,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=outlineWeak`: Selection 사용 시 주목도가 낮은 스타일로 권장됩니다.
+   * Selection 사용 시 주목도가 낮은 스타일로 권장됩니다.
    */
   "variantOutlineWeak": {
     "enabled": {

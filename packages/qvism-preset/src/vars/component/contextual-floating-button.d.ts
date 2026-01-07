@@ -14,7 +14,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=solid`: 배경과 대비되는 강조된 보조 액션으로 중요도 높은 행동 유도 시 적합합니다.
+   * 배경과 대비되는 강조된 보조 액션으로 중요도 높은 행동 유도 시 적합합니다.
    */
   "variantSolid": {
     "enabled": {
@@ -61,7 +61,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `variant=layer`: 시각적 부담 없이 부드럽게 액션을 유도합니다.
+   * 시각적 부담 없이 부드럽게 액션을 유도합니다.
    */
   "variantLayer": {
     "enabled": {
@@ -108,7 +108,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `layout=withText`: 라벨과 아이콘을 함께 표시합니다.
+   * 라벨과 아이콘을 함께 표시합니다.
    */
   "layoutWithText": {
     "enabled": {
@@ -129,7 +129,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `layout=iconOnly`: 아이콘만 표시합니다. 접근성을 위해 aria-label을 제공해야 합니다.
+   * 아이콘만 표시합니다. 접근성을 위해 aria-label을 제공해야 합니다.
    */
   "layoutIconOnly": {
     "enabled": {

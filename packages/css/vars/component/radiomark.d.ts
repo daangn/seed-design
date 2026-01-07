@@ -25,7 +25,7 @@ export declare const vars: {
     }
   },
   /**
-   * - `tone=brand`: [deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.
+   * [deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.
    */
   "toneBrand": {
     "enabledSelected": {

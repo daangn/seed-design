@@ -114,17 +114,26 @@ export function createStringifier(options: { prefix?: string } = {}) {
       const variantKey = stringifyVariantKey(variantDecl.variants);
       const descriptions: string[] = [];
 
+      const isCompound = variantDecl.variants.length > 1;
+
       for (const variant of variantDecl.variants) {
         const valueDescMap = variantValueDescLookup.get(variant.name);
         const desc = valueDescMap?.get(variant.value);
-        if (desc) {
+
+        if (!desc) continue;
+
+        if (isCompound) {
           descriptions.push(`- \`${variant.name}=${variant.value}\`: ${desc}`);
+
+          continue;
         }
+
+        descriptions.push(desc);
       }
 
-      if (descriptions.length > 0) {
-        variantKeyDescMap.set(variantKey, descriptions);
-      }
+      if (descriptions.length === 0) continue;
+
+      variantKeyDescMap.set(variantKey, descriptions);
     }
 
     // Slot descriptions
