@@ -9,6 +9,7 @@ import type {
   SpacingY,
   Gradient,
   Shadow,
+  ScopedColorBanner,
 } from "@seed-design/css/vars";
 import { vars } from "@seed-design/css/vars";
 import { forwardRef } from "react";
@@ -198,9 +199,9 @@ export interface StyleProps {
   /**
    * Shorthand for `background`.
    */
-  bg?: ScopedColorBg | ScopedColorPalette | (string & {});
+  bg?: ScopedColorBg | ScopedColorPalette | ScopedColorBanner | (string & {});
 
-  background?: ScopedColorBg | ScopedColorPalette | (string & {});
+  background?: ScopedColorBg | ScopedColorPalette | ScopedColorBanner | (string & {});
 
   /**
    * Shorthand for `backgroundGradient`.

@@ -742,3 +742,43 @@ data:
       values:
         theme-light: "#e82c45"
         theme-dark: "#fe6a5d"
+    $color.banner.blue:
+      values:
+        theme-light: "#e1f7ff"
+        theme-dark: "#0d2a3a"
+    $color.banner.cool-gray:
+      values:
+        theme-light: "#ebf1f5"
+        theme-dark: "#242c33"
+    $color.banner.green:
+      values:
+        theme-light: "#f0fbe5"
+        theme-dark: "#1e361c"
+    $color.banner.orange:
+      values:
+        theme-light: "#fff2e1"
+        theme-dark: "#42230a"
+    $color.banner.pink:
+      values:
+        theme-light: "#ffebf1"
+        theme-dark: "#3b172c"
+    $color.banner.purple:
+      values:
+        theme-light: "#f5ecff"
+        theme-dark: "#2e1e45"
+    $color.banner.red:
+      values:
+        theme-light: "#ffecee"
+        theme-dark: "#3a0f15"
+    $color.banner.teal:
+      values:
+        theme-light: "#e6faf6"
+        theme-dark: "#143633"
+    $color.banner.warm-gray:
+      values:
+        theme-light: "#f2f0ee"
+        theme-dark: "#2f2b27"
+    $color.banner.yellow:
+      values:
+        theme-light: "#fffae1"
+        theme-dark: "#3e2b00"
