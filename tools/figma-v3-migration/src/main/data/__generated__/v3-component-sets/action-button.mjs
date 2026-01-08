@@ -8,17 +8,17 @@ export const metadata = {
     },
     "Suffix Icon#5987:244": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "20433:60127",
+      "defaultValue": "35764:110857",
       "preferredValues": []
     },
     "Prefix Icon#5987:305": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:24682",
+      "defaultValue": "37665:153410",
       "preferredValues": []
     },
     "Icon#7574:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:24682",
+      "defaultValue": "37665:153410",
       "preferredValues": []
     },
     "Size": {
@@ -46,11 +46,11 @@ export const metadata = {
       "defaultValue": "Neutral Solid",
       "variantOptions": [
         "Neutral Solid",
-        "Neutral Weak",
-        "Neutral Outline",
         "Brand Solid",
+        "Critical Solid",
+        "Neutral Weak",
         "Brand Outline",
-        "Critical Solid"
+        "Neutral Outline"
       ]
     },
     "State": {

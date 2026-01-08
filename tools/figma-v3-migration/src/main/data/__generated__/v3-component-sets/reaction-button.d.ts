@@ -12,7 +12,7 @@ export declare const metadata: {
     },
     "Icon#12379:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:23550",
+      "defaultValue": "39554:139513",
       "preferredValues": []
     },
     "Count#15816:0": {

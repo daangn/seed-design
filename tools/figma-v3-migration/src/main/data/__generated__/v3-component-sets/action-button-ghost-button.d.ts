@@ -8,12 +8,12 @@ export declare const metadata: {
     },
     "Prefix Icon#30511:3": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:24682",
+      "defaultValue": "37665:153410",
       "preferredValues": []
     },
     "Suffix Icon#30525:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:23545",
+      "defaultValue": "35764:110857",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -48,7 +48,7 @@ export declare const metadata: {
     },
     "Size": {
       "type": "VARIANT",
-      "defaultValue": "Medium",
+      "defaultValue": "Xsmall",
       "variantOptions": [
         "Xsmall",
         "Small",
@@ -58,7 +58,7 @@ export declare const metadata: {
     },
     "Layout": {
       "type": "VARIANT",
-      "defaultValue": "Icon First",
+      "defaultValue": "Text Only",
       "variantOptions": [
         "Text Only",
         "Icon First",

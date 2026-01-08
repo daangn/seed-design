@@ -4,7 +4,7 @@ export const metadata = {
   "componentPropertyDefinitions": {
     "Prefix Icon#35087:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:23413",
+      "defaultValue": "34936:109966",
       "preferredValues": []
     },
     "Show Prefix Icon#35087:1": {
@@ -30,9 +30,10 @@ export const metadata = {
       "variantOptions": [
         "Neutral",
         "Informative",
-        "Warning",
         "Critical",
-        "Magic"
+        "Warning",
+        "Magic",
+        "Positive"
       ]
     },
     "Show Title": {

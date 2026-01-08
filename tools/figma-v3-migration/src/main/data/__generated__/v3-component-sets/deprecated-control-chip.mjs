@@ -26,12 +26,12 @@ export const metadata = {
     },
     "Icon#8722:41": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:24682",
+      "defaultValue": "37665:153410",
       "preferredValues": []
     },
     "Suffix Icon#8722:82": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:23688",
+      "defaultValue": "34846:112152",
       "preferredValues": []
     },
     "Size": {
