@@ -1,0 +1,38 @@
+import { aspectRatio as aspectRatioRecipe } from "@seed-design/css/recipes/aspect-ratio";
+import clsx from "clsx";
+import * as React from "react";
+import { Box, type BoxProps } from "../Box/Box";
+
+export interface AspectRatioProps extends BoxProps {
+  /**
+   * The aspect ratio of the aspect ratio container (width / height).
+   * @default 4 / 3
+   */
+  ratio?: number;
+}
+
+export const AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(
+  ({ ratio = 4 / 3, children, className, style, ...rest }, ref) => {
+    const child = React.Children.only(children);
+    const aspectRatio = aspectRatioRecipe();
+
+    return (
+      <Box
+        ref={ref}
+        className={clsx(aspectRatio, className)}
+        style={
+          {
+            // NOTE: aspectRatio는 iOS 15+부터 지원하기 때문에 padding으로 ratio hack을 사용합니다.
+            "--seed-aspect-ratio-padding": `${(1 / ratio) * 100}%`,
+            ...style,
+          } as React.CSSProperties
+        }
+        {...rest}
+      >
+        {child}
+      </Box>
+    );
+  },
+);
+
+AspectRatio.displayName = "AspectRatio";

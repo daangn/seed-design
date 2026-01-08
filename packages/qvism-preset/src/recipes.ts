@@ -7,6 +7,7 @@ import { snackbar, snackbarRegion } from "./recipes/snackbar";
 import { tagGroup, tagGroupItem } from "./recipes/tag-group";
 import actionButton from "./recipes/action-button";
 import actionChip from "./recipes/action-chip";
+import aspectRatio from "./recipes/aspect-ratio";
 import actionSheet from "./recipes/action-sheet";
 import actionSheetItem from "./recipes/action-sheet-item";
 import article from "./recipes/article";
@@ -30,6 +31,7 @@ import fab from "./recipes/fab";
 import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
+import imageFrame from "./recipes/image-frame";
 import inlineBanner from "./recipes/inline-banner";
 import inputButton from "./recipes/input-button";
 import linkContent from "./recipes/link-content";
@@ -61,6 +63,7 @@ export const recipes = {
   actionChip,
   actionSheet,
   actionSheetItem,
+  aspectRatio,
   appBar,
   appBarMain,
   appScreen,
@@ -87,6 +90,7 @@ export const recipes = {
   floatingActionButton,
   helpBubble,
   identityPlaceholder,
+  imageFrame,
   inlineBanner,
   inputButton,
   linkContent,

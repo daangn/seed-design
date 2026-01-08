@@ -25,6 +25,10 @@ export const invalid = ":is(:invalid, [data-invalid])";
 
 export const loading = "[data-loading]";
 
+export const before = "::before";
+export const after = "::after";
+export const directChild = " > *:not(style)";
+
 type ConcatStrings<T extends string[]> = T extends [
   infer First extends string,
   ...infer Rest extends string[],
