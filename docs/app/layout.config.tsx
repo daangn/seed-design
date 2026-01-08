@@ -36,7 +36,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         description: "당근 앱을 위한 디자인 언어",
         url: "/docs",
         icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--design-color)]">
+          <SidebarTabIconContainer>
             <img src="/logo.webp" alt="Seed Icons" className="size-full" />
           </SidebarTabIconContainer>
         ),
@@ -46,7 +46,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         description: "React 라이브러리",
         url: "/react",
         icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--react-color)]">
+          <SidebarTabIconContainer>
             <img src="/react.webp" alt="Seed Icons" className="size-full" />
           </SidebarTabIconContainer>
         ),
@@ -56,7 +56,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         description: "AI 도구 연동 가이드",
         url: "/ai-integration",
         icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--ai-integration-color)]">
+          <SidebarTabIconContainer>
             <IconSparkle2 />
           </SidebarTabIconContainer>
         ),
@@ -66,7 +66,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         description: "Lynx 프레임워크",
         url: "/lynx",
         icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--lynx-color)]">
+          <SidebarTabIconContainer>
             <img src="/lynx.svg" alt="Lynx" className="size-full" />
           </SidebarTabIconContainer>
         ),
