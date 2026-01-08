@@ -1,5 +1,6 @@
+import { IconHashLine, IconTimerLine } from "@karrotmarket/react-monochrome-icon";
 import { AST } from "@seed-design/rootage-core";
-import { HourglassIcon, LayersIcon, RulerIcon, SigmaIcon, SplineIcon } from "lucide-react";
+import { LayersIcon, RulerIcon, SplineIcon } from "./icons";
 
 // Gradient를 CSS linear-gradient로 변환하는 유틸리티 함수
 function gradientToCss(gradient: AST.GradientLit): string {
@@ -56,7 +57,7 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   if (value.kind === "DurationLit") {
     return (
       <div>
-        <HourglassIcon className="w-4 h-4 flex-none" />
+        <IconTimerLine className="w-4 h-4 flex-none" />
       </div>
     );
   }
@@ -64,7 +65,7 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   if (value.kind === "NumberLit") {
     return (
       <div>
-        <SigmaIcon className="w-4 h-4 flex-none" />
+        <IconHashLine className="w-4 h-4 flex-none" />
       </div>
     );
   }

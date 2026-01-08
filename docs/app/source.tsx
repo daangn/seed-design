@@ -1,10 +1,13 @@
+import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
 import { docs, reactDocs, breezeDocs, lynxDocs, aiIntegrationDocs } from "@/.source/server";
 import { getRootageMetadata } from "@/components/rootage";
-import { IconContainer } from "@/components/ui/icon";
 import type { Node, Root } from "fumadocs-core/page-tree";
 import { loader } from "fumadocs-core/source";
+import type { ComponentType, SVGProps } from "react";
 
-import { icons } from "lucide-react";
+const iconMap: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
+  Lock: IconLockLine,
+};
 
 const DeprecatedBadge = () => {
   return (
@@ -74,11 +77,12 @@ async function transformPageTreeWithBadges(
 }
 
 const iconHandler = (icon: string | undefined) => {
-  if (!icon || !(icon in icons)) {
+  if (!icon || !(icon in iconMap)) {
     return undefined;
   }
 
-  return <IconContainer icon={icons[icon as keyof typeof icons]} />;
+  const Icon = iconMap[icon];
+  return <Icon />;
 };
 
 const baseSource = loader({

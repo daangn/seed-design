@@ -14,7 +14,6 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
-import { AtomIcon } from "lucide-react";
 import { MDXComponents } from "mdx/types";
 import { BreezeManualInstallation } from "./breeze-manual-installation";
 import { DoImage } from "./guideline/do-image";
@@ -70,7 +69,6 @@ export const mdxComponents: MDXComponents = {
   Accordions,
   CodeBlock,
   Pre,
-  AtomIcon,
   StackflowExample,
   TypeTable,
   ReactTypeTable,

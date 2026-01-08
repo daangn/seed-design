@@ -1,7 +1,7 @@
-import { reactSource, source, breezeSource, lynxSource, aiIntegrationSource } from "@/app/source";
+import { aiIntegrationSource, breezeSource, lynxSource, reactSource, source } from "@/app/source";
+import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
-import { Atom, File, Package, Bot } from "lucide-react";
 import type { PropsWithChildren } from "react";
 
 function SidebarTabIconContainer({
@@ -37,7 +37,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         url: "/docs",
         icon: (
           <SidebarTabIconContainer className="[--tab-color:var(--design-color)]">
-            <File />
+            <img src="/logo.webp" alt="Seed Icons" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
@@ -47,27 +47,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         url: "/react",
         icon: (
           <SidebarTabIconContainer className="[--tab-color:var(--react-color)]">
-            <Atom />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
-        title: "Lynx",
-        description: "Lynx 프레임워크",
-        url: "/lynx",
-        icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--lynx-color)]">
-            <Package />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
-        title: "Breeze",
-        description: "유용한 UI 유틸리티 컴포넌트",
-        url: "/breeze",
-        icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--breeze-color)]">
-            <Atom />
+            <img src="/react.webp" alt="Seed Icons" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
@@ -77,7 +57,27 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         url: "/ai-integration",
         icon: (
           <SidebarTabIconContainer className="[--tab-color:var(--ai-integration-color)]">
-            <Bot />
+            <IconSparkle2 />
+          </SidebarTabIconContainer>
+        ),
+      },
+      {
+        title: "Lynx",
+        description: "Lynx 프레임워크",
+        url: "/lynx",
+        icon: (
+          <SidebarTabIconContainer className="[--tab-color:var(--lynx-color)]">
+            <img src="/lynx.svg" alt="Lynx" className="size-full" />
+          </SidebarTabIconContainer>
+        ),
+      },
+      {
+        title: "Breeze",
+        description: "유용한 UI 유틸리티 컴포넌트",
+        url: "/breeze",
+        icon: (
+          <SidebarTabIconContainer className="[--tab-color:var(--breeze-color)]">
+            <IconTree />
           </SidebarTabIconContainer>
         ),
       },
