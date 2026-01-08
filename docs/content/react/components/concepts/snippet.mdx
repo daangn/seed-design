@@ -3,7 +3,6 @@ title: Snippet
 description: 자주 사용되는 UI 패턴을 스니펫으로 제공하여 개발 효율성을 높이는 방법을 안내합니다.
 ---
 
-
 ## 개요
 
 Snippet은 **Compound Components**를 기본으로 채택하면서도 개발자 경험(DX)을 최적화하기 위한 해결책입니다. 복잡한 compound components를 간단하게 사용할 수 있도록 도와주는 패턴입니다.
@@ -17,6 +16,7 @@ Snippet은 **Compound Components**를 기본으로 채택하면서도 개발자 
 ```
 
 내부 구현이 숨겨져 있어 다음과 같은 커스터마이징 요구사항을 해결하기 어려웠습니다:
+
 - label에 스타일을 추가하는 방법
 - 체크박스의 아이콘을 변경하는 방법
 - ref를 div와 input에 각각 전달하는 방법
@@ -50,7 +50,7 @@ Compound components는 뛰어난 유연성을 제공하지만, 매번 이렇게 
 npx @seed-design/cli add
 ```
 
-<Card title="CLI Commands" href="/react/getting-started/cli/commands" icon={<Terminal/>}>
+<Card title="CLI Commands" href="/react/getting-started/cli/commands" icon={<IconTerminal/>}>
 
 CLI 명령어에 대해 더 알아봅니다.
 
@@ -82,7 +82,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         <SeedCheckbox.HiddenInput ref={ref} {...inputProps} />
       </SeedCheckbox.Root>
     );
-  },
+  }
 );
 ```
 
@@ -94,9 +94,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 Snippet을 통해 복잡한 compound components를 간단하게 사용할 수 있습니다:
 
 ```tsx
-import { Checkbox } from "@/seed-design/ui/checkbox"
+import { Checkbox } from "@/seed-design/ui/checkbox";
 
-const Demo = () => <Checkbox>Click me</Checkbox>
+const Demo = () => <Checkbox>Click me</Checkbox>;
 ```
 
 </Step>
