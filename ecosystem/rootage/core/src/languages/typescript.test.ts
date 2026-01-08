@@ -415,7 +415,7 @@ data:
   expect(result).toMatchInlineSnapshot(`
     "export declare const vars: {
       /**
-       * - \`variant=primary\`: Primary variant description
+       * Primary variant description
        */
       "variantPrimary": {
         "enabled": {
@@ -427,7 +427,7 @@ data:
         }
       },
       /**
-       * - \`variant=secondary\`: Secondary variant description
+       * Secondary variant description
        */
       "variantSecondary": {
         "enabled": {
@@ -439,7 +439,7 @@ data:
         }
       },
       /**
-       * - \`size=small\`: Small size description
+       * Small size description
        */
       "sizeSmall": {
         "enabled": {
