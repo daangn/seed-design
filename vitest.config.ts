@@ -7,7 +7,7 @@ export default defineConfig({
         test: {
           name: "react-headless",
           include: ["./packages/react-headless/**/*.test.(tsx|ts)"],
-          exclude: ["**/node_modules/**, **/dist/**"],
+          exclude: ["**/node_modules/**", "**/dist/**"],
           environment: "jsdom",
         },
       },
@@ -15,7 +15,7 @@ export default defineConfig({
         test: {
           name: "react",
           include: ["./packages/react/**/*.test.(tsx|ts)"],
-          exclude: ["**/node_modules/**, **/dist/**"],
+          exclude: ["**/node_modules/**", "**/dist/**"],
           environment: "jsdom",
         },
       },
