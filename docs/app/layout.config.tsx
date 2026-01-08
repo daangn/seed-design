@@ -76,7 +76,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         description: "유용한 UI 유틸리티 컴포넌트",
         url: "/breeze",
         icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--breeze-color)]">
+          <SidebarTabIconContainer>
             <IconTree />
           </SidebarTabIconContainer>
         ),
