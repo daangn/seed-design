@@ -1,6 +1,6 @@
 import { IconHashLine, IconTimerLine } from "@karrotmarket/react-monochrome-icon";
 import { AST } from "@seed-design/rootage-core";
-import { LayersIcon, RulerIcon, SplineIcon } from "./icons";
+import { IconLayers, IconRuler, IconSpline } from "./icons";
 
 // Gradient를 CSS linear-gradient로 변환하는 유틸리티 함수
 function gradientToCss(gradient: AST.GradientLit): string {
@@ -49,7 +49,7 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   if (value.kind === "DimensionLit") {
     return (
       <div>
-        <RulerIcon className="w-4 h-4 flex-none" />
+        <IconRuler className="w-4 h-4 flex-none" />
       </div>
     );
   }
@@ -73,7 +73,7 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   if (value.kind === "ShadowLit") {
     return (
       <div>
-        <LayersIcon className="w-4 h-4 flex-none" />
+        <IconLayers className="w-4 h-4 flex-none" />
       </div>
     );
   }
@@ -81,7 +81,7 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   if (value.kind === "CubicBezierLit") {
     return (
       <div>
-        <SplineIcon className="w-4 h-4 flex-none" />
+        <IconSpline className="w-4 h-4 flex-none" />
       </div>
     );
   }

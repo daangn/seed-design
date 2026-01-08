@@ -6,6 +6,11 @@ import { ManualInstallation } from "@/components/manual-installation";
 import { StackflowExample } from "@/components/stackflow-example";
 import { TokenReference } from "@/components/token-reference";
 import { createReactTypeTable } from "@/components/type-table/react-type-table";
+import {
+  IconCarrotLine,
+  IconDocumentLine,
+  IconPaletteLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { CodeBlock, Pre } from "fumadocs-ui/components/codeblock";
 import { File, Files, Folder } from "fumadocs-ui/components/files";
@@ -14,11 +19,13 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
-import { MDXComponents } from "mdx/types";
+import clsx from "clsx";
+import type { MDXComponents } from "mdx/types";
 import { BreezeManualInstallation } from "./breeze-manual-installation";
 import { DoImage } from "./guideline/do-image";
 import { DontImage } from "./guideline/dont-image";
 import { Image } from "./guideline/image";
+import { IconComponent, IconTerminal } from "./icons";
 import { IconLibrary } from "./iconography/icons";
 import { ColorMigrationIndex } from "./migration/color-migration-index";
 import { V2Icon, V2IconColor, V3Icon } from "./migration/icon";
@@ -27,7 +34,6 @@ import { TypographyMigrationIndex } from "./migration/typography-migration-index
 import { PlatformStatusTable } from "./platform-status-table";
 import { ProgressBoardTable } from "./progress-board-table";
 import { typeTableGenerator } from "./type-table/generator";
-import clsx from "clsx";
 
 const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
@@ -82,6 +88,13 @@ export const mdxComponents: MDXComponents = {
   IconographyMigrationIndex,
   ProgressBoardTable,
   PlatformStatusTable,
+
+  // Icons for MDX
+  IconTerminal,
+  IconPalette: IconPaletteLine,
+  IconFile: IconDocumentLine,
+  IconComponent,
+  IconSprout: IconCarrotLine,
 
   // Guidelines
   DoImage,
