@@ -47,6 +47,16 @@ export const lynxDocs = defineDocs({
   },
 });
 
+export const aiIntegrationDocs = defineDocs({
+  dir: "content/ai-integration",
+  docs: {
+    async: true,
+    schema: frontmatterSchema.extend({
+      deprecated: z.string().optional(),
+    }),
+  },
+});
+
 if (!process.env.FIGMA_FILE_KEY || !process.env.FIGMA_PERSONAL_ACCESS_TOKEN) {
   throw new Error("FIGMA_FILE_KEY and FIGMA_PERSONAL_ACCESS_TOKEN are required");
 }

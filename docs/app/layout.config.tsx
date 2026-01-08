@@ -1,7 +1,7 @@
-import { reactSource, source, breezeSource, lynxSource } from "@/app/source";
+import { reactSource, source, breezeSource, lynxSource, aiIntegrationSource } from "@/app/source";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
-import { Atom, File, Package } from "lucide-react";
+import { Atom, File, Package, Bot } from "lucide-react";
 import type { PropsWithChildren } from "react";
 
 function SidebarTabIconContainer({
@@ -71,6 +71,16 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
           </SidebarTabIconContainer>
         ),
       },
+      {
+        title: "AI Integration",
+        description: "AI 도구 연동 가이드",
+        url: "/ai-integration",
+        icon: (
+          <SidebarTabIconContainer className="[--tab-color:var(--ai-integration-color)]">
+            <Bot />
+          </SidebarTabIconContainer>
+        ),
+      },
     ],
   },
   nav: {
@@ -122,6 +132,15 @@ export const lynxOptions: DocsLayoutProps = {
 export const breezeOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: await breezeSource.getTransformedBreezePageTree(),
+  nav: {
+    ...baseOptions.nav,
+    transparentMode: "none",
+  },
+};
+
+export const aiIntegrationOptions: DocsLayoutProps = {
+  ...baseOptions,
+  tree: await aiIntegrationSource.getTransformedAiIntegrationPageTree(),
   nav: {
     ...baseOptions.nav,
     transparentMode: "none",
