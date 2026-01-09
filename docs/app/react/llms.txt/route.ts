@@ -17,7 +17,6 @@ export async function GET() {
 - [Stackflow](${new URL("/react/llms-stackflow.txt", baseUrl)}): Stackflow integration for native-like navigation.
 - [Developer Tools](${new URL("/react/llms-developer-tools.txt", baseUrl)}): Codemods for automated migrations and Figma integration.
 - [Migration](${new URL("/react/llms-migration.txt", baseUrl)}): Migration guides for upgrading from previous versions.
-- [AI Integration](${new URL("/react/llms-ai-integration.txt", baseUrl)}): LLMs.txt specification and MCP integration guides.
 - [Updates](${new URL("/react/llms-updates.txt", baseUrl)}): Version improvements and release notes.
 
 ## Notes

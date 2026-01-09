@@ -8,5 +8,12 @@ import { doDontSectionType } from "./doDontType";
 import guidelineType from "./guideline";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [blockContentType, guidelineType, blogType, categoryType, doDontSectionType, componentType],
+  types: [
+    blockContentType,
+    guidelineType,
+    blogType,
+    categoryType,
+    doDontSectionType,
+    componentType,
+  ],
 };

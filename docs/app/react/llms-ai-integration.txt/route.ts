@@ -1,61 +1,37 @@
 import { baseUrl } from "@/app/metadata";
-import { reactSource } from "@/app/source";
 
 export const revalidate = false;
 
 /**
- * This is an entry point for accessing AI integration documentation.
- * Each topic can be accessed through its specific endpoint.
+ * @deprecated This endpoint has been moved to /ai-integration/llms.txt
+ * This file is kept for backward compatibility and will redirect users to the new location.
  */
 export async function GET() {
-  const allPages = reactSource.getPages();
+  const newUrl = new URL("/ai-integration/llms.txt", baseUrl);
 
-  // Filter ai-integration pages
-  const aiIntegrationPages = allPages.filter(({ slugs }) => {
-    const [firstSlug] = slugs;
-    return firstSlug === "ai-integration";
-  });
+  const response = `# SEED Design AI Integration - Moved
 
-  // Process pages
-  const topics = aiIntegrationPages
-    .map(({ data, slugs }) => {
-      const [_firstSlug, ...restSlugs] = slugs;
+This documentation has been moved to a new location.
 
-      // Attach .txt extension to the last slug
-      const path = restSlugs
-        .map((slug, index) => {
-          if (index === restSlugs.length - 1) return `${slug}.txt`;
-          return slug;
-        })
-        .join("/");
+## New Location
 
-      const txtUrl = new URL(`/react/llms-ai-integration/${path}`, baseUrl);
+Please use the new AI Integration section:
+- Entry point: ${newUrl}
+- MCP documentation: ${new URL("/ai-integration/mcp", baseUrl)}
+- LLMs.txt guide: ${new URL("/ai-integration/llms-txt", baseUrl)}
 
-      return `- [${data.title}](${txtUrl})`;
-    })
-    .sort((a, b) => a.localeCompare(b));
+## Why the change?
 
-  const response = `# SEED Design React AI Integration - LLM Reference Entry
+AI Integration documentation has been consolidated into a dedicated section that covers all SEED Design platforms (React, Docs, Breeze, Lynx).
 
-This is an entry point for accessing AI integration documentation.
-Includes LLMs.txt specification and MCP (Model Context Protocol) integration guides.
+## All llms.txt Entry Points
 
-## Available Topics
-
-${topics.join("\n")}
-
-## Usage
-
-To get information about a specific topic, access its endpoint:
-Example: /react/llms-ai-integration/mcp.txt
-
-The response will include the full MDX content for that topic, processed and ready for LLM consumption.
-
-## Additional Resources
-
-- Components documentation: /react/llms-components.txt
-- Getting started: /react/llms-getting-started.txt
-- Full documentation (all in one): /react/llms-full.txt
+- Root: ${new URL("/llms.txt", baseUrl)}
+- Design: ${new URL("/docs/llms.txt", baseUrl)}
+- React: ${new URL("/react/llms.txt", baseUrl)}
+- Breeze: ${new URL("/breeze/llms.txt", baseUrl)}
+- Lynx: ${new URL("/lynx/llms.txt", baseUrl)}
+- AI Integration: ${newUrl}
 `;
 
   return new Response(response);

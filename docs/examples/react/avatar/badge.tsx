@@ -2,7 +2,7 @@ import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { Avatar, AvatarBadge } from "seed-design/ui/avatar";
 import { Box, HStack } from "@seed-design/react";
 
-export default function() {
+export default function () {
   return (
     <HStack gap="x4">
       <Avatar

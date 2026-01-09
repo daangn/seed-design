@@ -1,7 +1,12 @@
 "use client";
 
+import {
+  IconArrowUpRightLine,
+  IconCheckmarkLine,
+  IconChevronDownLine,
+  IconDocumentLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { useMemo, useState } from "react";
-import { Check, ChevronDown, Copy, ExternalLinkIcon } from "lucide-react";
 import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "fumadocs-ui/components/ui/popover";
@@ -51,7 +56,7 @@ export function LLMCopyButton({
       })}
       onClick={onClick}
     >
-      {checked ? <Check /> : <Copy />}
+      {checked ? <IconCheckmarkLine /> : <IconDocumentLine />}
       마크다운 복사
     </button>
   );
@@ -139,7 +144,7 @@ export function ViewOptions({
         })}
       >
         다른 도구로 열기
-        <ChevronDown className="size-3.5 text-fd-muted-foreground" />
+        <IconChevronDownLine className="size-3.5 text-fd-muted-foreground" />
       </PopoverTrigger>
       <PopoverContent className="flex flex-col overflow-auto">
         {items.map((item) => (
@@ -152,7 +157,7 @@ export function ViewOptions({
           >
             {item.icon}
             {item.title}
-            <ExternalLinkIcon className="text-fd-muted-foreground size-3.5 ms-auto" />
+            <IconArrowUpRightLine className="text-fd-muted-foreground size-3.5 ms-auto" />
           </a>
         ))}
       </PopoverContent>

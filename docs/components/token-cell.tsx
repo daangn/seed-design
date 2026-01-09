@@ -1,6 +1,9 @@
-import IconArrowDownLine from "@karrotmarket/react-monochrome-icon/IconArrowDownLine";
+import {
+  IconArrowDownLine,
+  IconChevronDownLine,
+  IconChevronUpLine,
+} from "@karrotmarket/react-monochrome-icon";
 import type { AST } from "@seed-design/rootage-core";
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Fragment } from "react";
 import { TokenLink } from "./token-link";
 import { TypeIndicator } from "./type-indicator";
@@ -54,9 +57,9 @@ export function TokenCell(props: TokenCellProps) {
       {values.length > 1 ? (
         <div className="flex h-6 items-center gap-0.5">
           {isExpanded ? (
-            <ChevronUpIcon className="w-4 h-4" />
+            <IconChevronUpLine className="w-4 h-4" />
           ) : (
-            <ChevronDownIcon className="w-4 h-4" />
+            <IconChevronDownLine className="w-4 h-4" />
           )}
         </div>
       ) : null}

@@ -1,0 +1,6 @@
+{
+  "title": "AI Integration",
+  "description": "AI 도구와 SEED Design을 함께 활용하는 방법",
+  "icon": "Bot",
+  "pages": ["index", "llms-txt", "figma-mcp", "docs-mcp", "lynx-tools"]
+}
