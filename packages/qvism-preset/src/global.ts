@@ -192,6 +192,7 @@ export const globalCss = defineGlobalCss({
     "--seed-box-flex-direction": "initial",
     "--seed-box-flex-wrap": "initial",
     "--seed-box-justify-content": "initial",
+    "--seed-box-justify-self": "auto",
     "--seed-box-align-items": "stretch",
     "--seed-box-align-content": "stretch",
     "--seed-box-align-self": "auto",
@@ -199,10 +200,16 @@ export const globalCss = defineGlobalCss({
     flexDirection: "var(--seed-box-flex-direction)",
     flexWrap: "var(--seed-box-flex-wrap)",
     justifyContent: "var(--seed-box-justify-content)",
+    justifySelf: "var(--seed-box-justify-self)",
     alignItems: "var(--seed-box-align-items)",
     alignContent: "var(--seed-box-align-content)",
     alignSelf: "var(--seed-box-align-self)",
     gap: "var(--seed-box-gap)",
+
+    "--seed-box-grid-column": "initial",
+    gridColumn: "var(--seed-box-grid-column)",
+    "--seed-box-grid-row": "initial",
+    gridRow: "var(--seed-box-grid-row)",
 
     [pseudo(active)]: {
       "--seed-box-background--active": "var(--seed-box-background)",

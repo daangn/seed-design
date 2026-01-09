@@ -471,6 +471,11 @@ export interface StyleProps {
     | "spaceBetween" // @deprecated Use `space-between` instead.
     | "spaceAround"; // @deprecated Use `space-around` instead.
 
+  /**
+   * In flexbox layout, this property is ignored.
+   */
+  justifySelf?: "flex-start" | "flex-end" | "center" | "stretch";
+
   alignItems?:
     | "flex-start"
     | "flex-end"
@@ -496,6 +501,13 @@ export interface StyleProps {
     | "flexEnd"; // @deprecated Use `flex-end` instead.
 
   gap?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  // Grid Item
+  // NOTE: gridArea는 지원하지 않습니다.
+  // grid-area가 grid-column/row의 shorthand이므로 CSS 변수로 동시에 바인딩하면 충돌합니다.
+  gridColumn?: string;
+
+  gridRow?: string;
 
   // NOTE: Not sure how to treat transform/translate right now, mark as unstable until we have a better solution.
   unstable_transform?: string;
@@ -577,10 +589,13 @@ export function useStyleProps<T extends UseStyleProps>(
     flexDirection,
     flexWrap,
     justifyContent,
+    justifySelf,
     alignItems,
     alignContent,
     alignSelf,
     gap,
+    gridColumn,
+    gridRow,
     unstable_transform,
     _active,
     style,
@@ -644,9 +659,12 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-flex-direction": handleFlexDirection(flexDirection),
       "--seed-box-flex-wrap": flexWrap === true ? "wrap" : flexWrap,
       "--seed-box-justify-content": handleJustifyContent(justifyContent),
+      "--seed-box-justify-self": justifySelf,
       "--seed-box-align-items": handleAlignItems(alignItems),
       "--seed-box-align-content": handleAlignItems(alignContent),
       "--seed-box-align-self": handleAlignItems(alignSelf),
+      "--seed-box-grid-column": gridColumn,
+      "--seed-box-grid-row": gridRow,
       "--seed-box-unstable-transform": unstable_transform,
 
       // Active
