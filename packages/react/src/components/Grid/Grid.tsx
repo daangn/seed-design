@@ -21,21 +21,23 @@ export interface GridProps extends Omit<BoxProps, "display"> {
   /**
    * Shorthand for `gridTemplateColumns`.
    * If number, `repeat({columns}, minmax(0, 1fr))` is applied.
-   *
-   * @default 2
    */
   columns?: number | string;
 
   /**
    * Shorthand for `gridTemplateRows`.
-   *
-   * @default undefined
+   * If number, `repeat({rows}, minmax(0, 1fr))` is applied.
    */
-  rows?: string;
+  rows?: number | string;
+
+  /**
+   * Shorthand for `gridAutoFlow`.
+   */
+  autoFlow?: "row" | "column" | "row dense" | "column dense";
 }
 
 export const Grid = React.forwardRef<HTMLDivElement, GridProps>((props, ref) => {
-  const { align, justify, columns, rows, ...rest } = props;
+  const { align, justify, columns, rows, autoFlow, ...rest } = props;
 
   return (
     // @ts-expect-error: display: "grid" is not allowed in the Box component
@@ -48,7 +50,8 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>((props, ref) => 
         style: {
           "--seed-grid-columns":
             typeof columns === "number" ? `repeat(${columns}, minmax(0, 1fr))` : columns,
-          "--seed-grid-rows": rows,
+          "--seed-grid-rows": typeof rows === "number" ? `repeat(${rows}, minmax(0, 1fr))` : rows,
+          "--seed-grid-auto-flow": autoFlow,
         } as React.CSSProperties,
       })}
     />

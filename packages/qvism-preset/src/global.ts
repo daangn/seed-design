@@ -212,10 +212,12 @@ export const globalCss = defineGlobalCss({
   ".seed-grid": {
     display: "grid",
 
-    "--seed-grid-columns": "repeat(2, minmax(0, 1fr))",
+    "--seed-grid-columns": "initial",
     gridTemplateColumns: "var(--seed-grid-columns)",
     "--seed-grid-rows": "initial",
     gridTemplateRows: "var(--seed-grid-rows)",
+    "--seed-grid-auto-flow": "initial",
+    gridAutoFlow: "var(--seed-grid-auto-flow)",
   },
   ".seed-consistent-width": {
     // Consistent text width between font-weight changes
