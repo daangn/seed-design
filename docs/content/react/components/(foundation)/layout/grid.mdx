@@ -14,28 +14,87 @@ description: Grid 컴포넌트는 CSS Grid를 사용하며 디자인 토큰을 J
 
 ## Props
 
-<react-type-table path="../packages/react/src/components/Grid/Grid.tsx" name="GridProps" />
+### `Grid`
 
-## Columns
+<react-type-table
+  path="../packages/react/src/components/Grid/Grid.tsx"
+  name="GridProps"
+/>
 
-`columns` prop에 number를 전달하면 `repeat(columns, minmax(0, 1fr))` 형태의 grid-template-columns가 적용됩니다.
+### `GridItem`
 
-<ComponentExample name="react/grid/columns-number">
+`GridItem`은 Grid 컨테이너 내에서 아이템의 배치를 제어하는 컴포넌트입니다. Grid 내부의 모든 아이템이 `GridItem`일 필요는 없습니다.
+
+`asChild` prop이 기본으로 `true`이므로, 자식 요소에 직접 grid 속성이 적용됩니다. // TODO
+
+<react-type-table
+  path="../packages/react/src/components/GridItem/GridItem.tsx"
+  name="GridItemProps"
+/>
+
+## Columns and Rows
+
+`<Grid>`의 `columns` 또는 `rows` prop에 number를 지정하여 `grid-template-columns` 또는 `grid-template-rows`를 `repeat(${columns|rows}, minmax(0, 1fr))`로 설정할 수 있습니다.
+
+<ComponentExample name="react/grid/number">
   ```json doc-gen:file
   {
-    "file": "examples/react/grid/columns-number.tsx",
+    "file": "examples/react/grid/number.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-`columns` prop에 string을 전달하면 grid-template-columns가 적용됩니다.
+`<Grid>`의 `columns` 또는 `rows`에 `grid-template-columns` 또는 `grid-template-rows` 값을 직접 지정할 수도 있습니다.
 
-<ComponentExample name="react/grid/columns-string">
+<ComponentExample name="react/grid/string">
   ```json doc-gen:file
   {
-    "file": "examples/react/grid/columns-string.tsx",
+    "file": "examples/react/grid/string.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
+
+## Spanning Items
+
+`<GridItem>`을 활용하여 그리드 아이템이 여러 열이나 행을 차지하도록 할 수 있습니다.
+
+- `colSpan` 또는 `colStart`, `colEnd` prop으로 열 span을 지정합니다. `colSpan="full"`을 전달하면 전체 행를 차지합니다.
+- `rowSpan` 또는 `rowStart`, `rowEnd` prop으로 행 span을 지정합니다. `rowSpan="full"`을 전달하면 전체 열를 차지합니다.
+
+<ComponentExample name="react/grid/spanning">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/grid/spanning.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Auto Rows / Columns
+
+`<Grid>`의 `autoRows` 또는 `autoColumns` prop을 사용하여 암시적으로 생성되는 행이나 열의 크기를 지정할 수 있습니다. 동적으로 아이템이 추가되는 그리드에서 유용합니다.
+
+<ComponentExample name="react/grid/auto-rows-columns">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/grid/auto-rows-columns.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Using Box for Grid Item Placement
+
+`GridItem`은 내부적으로 `colSpan`, `colStart`, `colEnd`, `rowSpan`, `rowStart`, `rowEnd` prop을 `gridColumn` 및 `gridRow` 스타일로 변환하여 `Box`에 적용합니다.
+
+따라서 `Box` 컴포넌트에서 `gridColumn`, `gridRow` prop을 직접 사용할 수도 있습니다.
+
+```tsx
+<Grid columns={3}>
+  <Box gridColumn="span 2">colSpan=2</Box>
+  <Box gridColumn="1 / -1">colSpan=full</Box>
+  <Box gridColumn="2 / 4">colStart=2 colEnd=4</Box>
+</Grid>
+```
