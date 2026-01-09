@@ -3,6 +3,8 @@
     "biomejs.biome",
     "formulahendry.auto-close-tag",
     "redhat.vscode-yaml",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "oven.bun-vscode",
+    "vitest.explorer"
   ]
 }
