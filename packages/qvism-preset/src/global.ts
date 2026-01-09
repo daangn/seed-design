@@ -218,6 +218,12 @@ export const globalCss = defineGlobalCss({
     gridTemplateRows: "var(--seed-grid-rows)",
     "--seed-grid-auto-flow": "initial",
     gridAutoFlow: "var(--seed-grid-auto-flow)",
+    "--seed-grid-auto-columns": "initial",
+    gridAutoColumns: "var(--seed-grid-auto-columns)",
+    "--seed-grid-auto-rows": "initial",
+    gridAutoRows: "var(--seed-grid-auto-rows)",
+    "--seed-grid-justify-items": "stretch",
+    justifyItems: "var(--seed-grid-justify-items)",
   },
   ".seed-consistent-width": {
     // Consistent text width between font-weight changes
