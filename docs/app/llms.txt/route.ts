@@ -10,25 +10,27 @@ SEED Design은 당근마켓의 디자인 시스템입니다.
 
 ## Documentation Sections
 
-각 섹션별로 llms.txt 진입점을 제공합니다.
+각 섹션별로 llms.txt 진입점과 llms-full.txt 전체 문서를 제공합니다.
 
-- [Design Guidelines](${new URL("/docs/llms.txt", baseUrl)}): 컴포넌트 디자인 가이드라인, Foundation (색상, 타이포그래피, 간격 등)
-- [React Library](${new URL("/react/llms.txt", baseUrl)}): React 컴포넌트 라이브러리, API 레퍼런스, 사용 예제
-- [Breeze Utilities](${new URL("/breeze/llms.txt", baseUrl)}): 프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트
-- [Lynx](${new URL("/lynx/llms.txt", baseUrl)}): Lynx 프레임워크
-- [AI Integration](${new URL("/ai-integration/llms.txt", baseUrl)}): MCP, llms.txt 활용법 등 AI 도구 연동 가이드
+| 섹션 | 진입점 | 전체 문서 | 설명 |
+|------|--------|-----------|------|
+| Design Guidelines | [llms.txt](${new URL("/docs/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/docs/llms-full.txt", baseUrl)}) | 컴포넌트 디자인 가이드라인, Foundation |
+| React Library | [llms.txt](${new URL("/react/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/react/llms-full.txt", baseUrl)}) | React 컴포넌트 라이브러리, API 레퍼런스 |
+| Breeze Utilities | [llms.txt](${new URL("/breeze/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/breeze/llms-full.txt", baseUrl)}) | 유틸리티 UI 컴포넌트 |
+| Lynx | [llms.txt](${new URL("/lynx/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/lynx/llms-full.txt", baseUrl)}) | Lynx 프레임워크 |
+| AI Integration | [llms.txt](${new URL("/ai-integration/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/ai-integration/llms-full.txt", baseUrl)}) | AI 도구 연동 가이드 |
 
-## Quick Access
+## Individual Page Access
 
-자주 사용되는 문서에 빠르게 접근할 수 있습니다.
+개별 페이지는 /llms/{section}/{path} 형태로 접근할 수 있습니다.
 
-- [Full React documentation](${new URL("/react/llms-full.txt", baseUrl)}): React 라이브러리의 모든 문서
-- [Component Guidelines](${new URL("/docs/llms-components.txt", baseUrl)}): 디자인 가이드라인 문서 진입점
-- [Foundation](${new URL("/docs/llms-foundation.txt", baseUrl)}): 색상, 타이포그래피, 간격 등 기초 토큰
+예시:
+- ${new URL("/llms/react/components/button.txt", baseUrl)} - Button 컴포넌트 문서
+- ${new URL("/llms/docs/foundation/color.txt", baseUrl)} - Color Foundation 문서
+- ${new URL("/llms/ai-integration/figma-mcp.txt", baseUrl)} - Figma MCP 문서
 
 ## Notes
 
 - 모든 문서는 seed-design.io의 공식 문서와 동기화됩니다.
-- 각 섹션의 llms.txt에서 상세 문서로 접근할 수 있습니다.
-- React 섹션에서는 llms-full.txt를 통해 모든 문서를 한 번에 확인할 수 있습니다.`);
+- llms-full.txt는 해당 섹션의 모든 문서를 하나의 파일로 제공합니다.`);
 }

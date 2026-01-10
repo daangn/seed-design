@@ -69,32 +69,53 @@ await initializeTools(server);
 
 ## Available Tools
 
-### React Components
+### Discovery
 
-- `list_react_components` - List all available SEED React components
-- `get_react_component` - Get detailed documentation for a specific React component
-- `get_react_changelog` - Get changelog for SEED React package
+- `discover_seed_docs` - Discover all available documentation sections and categories. Call this first to understand the documentation structure.
 
-### Breeze Utilities
+### Documentation
 
-- `list_breeze_components` - List all available SEED Breeze utility components
-- `get_breeze_component` - Get detailed documentation for a specific Breeze component
-
-### Design Guidelines
-
-- `list_docs_components` - List all available SEED Design component guidelines
-- `get_docs_component` - Get design guidelines for a specific component (anatomy, properties, usage)
-
-### Foundation
-
-- `list_foundation` - List all available SEED Design foundation topics (color, typography, spacing, etc.)
-- `get_foundation` - Get detailed documentation for a specific foundation topic
+- `list_docs` - List available documents in a section (react, docs, breeze, ai-integration, lynx) with optional category filter
+- `get_doc` - Get the content of a specific document by section and path
+- `get_full_docs` - Get all documents from a section combined into a single text
 
 ### Rootage (Design Tokens & Component Specs)
 
 - `get_rootage` - Get SEED Design rootage specifications (design tokens and component specs)
   - Without path: Returns index with all available resources
   - With path: Returns specific resource (e.g., `/color.json`, `/components/action-button.json`)
+
+### Icons
+
+- `list_icons` - List all available icons with optional type filter
+- `search_icons` - Search icons by keyword
+- `get_icon_details` - Get detailed information about a specific icon
+
+## Documentation Sections
+
+| Section | Description |
+|---------|-------------|
+| `react` | React component library, API references, usage examples |
+| `docs` | Component design guidelines, Foundation (color, typography, spacing) |
+| `breeze` | Ready-to-use utility UI components |
+| `ai-integration` | MCP, llms.txt integration guides |
+| `lynx` | Lynx framework |
+
+## Example Usage
+
+```
+// 1. Discover available sections
+discover_seed_docs()
+
+// 2. List React components
+list_docs({ section: "react", category: "components" })
+
+// 3. Get specific component documentation
+get_doc({ section: "react", path: "components/button" })
+
+// 4. Get AI integration guide
+get_doc({ section: "ai-integration", path: "figma-mcp" })
+```
 
 ## Development
 

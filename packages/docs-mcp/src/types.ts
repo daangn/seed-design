@@ -36,8 +36,14 @@ export interface SearchResult {
   score?: number;
 }
 
-// Package types
 export type PackageType = "react" | "breeze" | "docs";
+
+export interface DocInfo {
+  title: string;
+  path: string;
+  url: string;
+  category?: string;
+}
 
 // Icon types
 export interface IconEntry {
