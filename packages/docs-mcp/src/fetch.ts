@@ -47,6 +47,10 @@ export async function fetchSectionFull(section: SectionId): Promise<string> {
   return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.fullPath}`);
 }
 
+function escapeRegExp(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export async function fetchDocsList(section: SectionId, category?: string): Promise<DocInfo[]> {
   const overview = await fetchSectionOverview(section);
   const config = SECTIONS[section];
@@ -54,7 +58,7 @@ export async function fetchDocsList(section: SectionId, category?: string): Prom
   const lines = overview.split("\n").filter((line) => line.trim());
   const docs: DocInfo[] = [];
 
-  const escapedBasePath = config.basePath.replace(/\//g, "\\/");
+  const escapedBasePath = escapeRegExp(config.basePath);
   const urlPattern = new RegExp(`${escapedBasePath}\\/([a-z0-9-/]+)\\.txt`, "i");
 
   for (const line of lines) {
