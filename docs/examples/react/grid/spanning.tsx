@@ -1,9 +1,9 @@
-import { Box, Divider, Grid, GridItem, HStack } from "@seed-design/react";
+import { Divider, Grid, GridItem, HStack } from "@seed-design/react";
 
 export default function Spanning() {
   return (
     <HStack gap="x4" width="full" height="full" p="x8">
-      <Grid flexGrow columns={3} gap="x2">
+      <Grid flexGrow columns={4} gap="x2">
         <GridItem
           colSpan={2}
           asChild={false}
@@ -28,6 +28,17 @@ export default function Spanning() {
           2
         </GridItem>
         <GridItem
+          asChild={false}
+          display="flex"
+          bg="palette.purple300"
+          color="palette.purple600"
+          borderRadius="r2"
+          alignItems="center"
+          justifyContent="center"
+        >
+          3
+        </GridItem>
+        <GridItem
           colSpan="full"
           asChild={false}
           display="flex"
@@ -37,7 +48,7 @@ export default function Spanning() {
           alignItems="center"
           justifyContent="center"
         >
-          3
+          4
         </GridItem>
         <GridItem
           asChild={false}
@@ -48,7 +59,30 @@ export default function Spanning() {
           alignItems="center"
           justifyContent="center"
         >
-          4
+          5
+        </GridItem>
+        <GridItem
+          rowSpan={2}
+          asChild={false}
+          display="flex"
+          bg="palette.purple600"
+          color="palette.purple200"
+          borderRadius="r2"
+          alignItems="center"
+          justifyContent="center"
+        >
+          6
+        </GridItem>
+        <GridItem
+          asChild={false}
+          display="flex"
+          bg="palette.purple300"
+          color="palette.purple600"
+          borderRadius="r2"
+          alignItems="center"
+          justifyContent="center"
+        >
+          7
         </GridItem>
         <GridItem
           colStart={2}
@@ -61,11 +95,11 @@ export default function Spanning() {
           alignItems="center"
           justifyContent="center"
         >
-          5
+          8
         </GridItem>
       </Grid>
       <Divider orientation="vertical" />
-      <Grid flexGrow rows={3} gap="x2" autoFlow="column">
+      <Grid flexGrow rows={4} gap="x2" autoFlow="column">
         <GridItem
           rowSpan={2}
           asChild={false}
@@ -90,6 +124,17 @@ export default function Spanning() {
           2
         </GridItem>
         <GridItem
+          asChild={false}
+          display="flex"
+          bg="palette.green300"
+          color="palette.green600"
+          borderRadius="r2"
+          alignItems="center"
+          justifyContent="center"
+        >
+          3
+        </GridItem>
+        <GridItem
           rowSpan="full"
           asChild={false}
           display="flex"
@@ -99,7 +144,7 @@ export default function Spanning() {
           alignItems="center"
           justifyContent="center"
         >
-          3
+          4
         </GridItem>
         <GridItem
           asChild={false}
@@ -110,7 +155,30 @@ export default function Spanning() {
           alignItems="center"
           justifyContent="center"
         >
-          4
+          5
+        </GridItem>
+        <GridItem
+          colSpan={2}
+          asChild={false}
+          display="flex"
+          bg="palette.green600"
+          color="palette.green200"
+          borderRadius="r2"
+          alignItems="center"
+          justifyContent="center"
+        >
+          6
+        </GridItem>
+        <GridItem
+          asChild={false}
+          display="flex"
+          bg="palette.green300"
+          color="palette.green600"
+          borderRadius="r2"
+          alignItems="center"
+          justifyContent="center"
+        >
+          7
         </GridItem>
         <GridItem
           rowStart={2}
@@ -123,7 +191,7 @@ export default function Spanning() {
           alignItems="center"
           justifyContent="center"
         >
-          5
+          8
         </GridItem>
       </Grid>
     </HStack>
