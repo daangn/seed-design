@@ -10,6 +10,4 @@ export const ICON_ENDPOINTS = {
   SVG_BASE: "/icons",
 } as const;
 
-export const CACHE_TTL = 15 * 60 * 1000;
-
 export const DEFAULT_TIMEOUT = 30000;
