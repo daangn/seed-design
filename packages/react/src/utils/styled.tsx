@@ -474,7 +474,7 @@ export interface StyleProps {
   /**
    * In flexbox layout, this property is ignored.
    */
-  justifySelf?: "flex-start" | "flex-end" | "center" | "stretch";
+  justifySelf?: "center" | "start" | "end" | "stretch";
 
   alignItems?:
     | "flex-start"
