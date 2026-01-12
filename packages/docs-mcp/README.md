@@ -93,17 +93,17 @@ await initializeTools(server);
 
 ## Documentation Sections
 
-| Section | Description |
-|---------|-------------|
-| `react` | React component library, API references, usage examples |
-| `docs` | Component design guidelines, Foundation (color, typography, spacing) |
-| `breeze` | Ready-to-use utility UI components |
-| `ai-integration` | MCP, llms.txt integration guides |
-| `lynx` | Lynx framework |
+| Section          | Description                                                          |
+| ---------------- | -------------------------------------------------------------------- |
+| `react`          | React component library, API references, usage examples              |
+| `docs`           | Component design guidelines, Foundation (color, typography, spacing) |
+| `breeze`         | Ready-to-use utility UI components                                   |
+| `ai-integration` | MCP, llms.txt integration guides                                     |
+| `lynx`           | Lynx framework                                                       |
 
 ## Example Usage
 
-```
+```text
 // 1. Discover available sections
 discover_seed_docs()
 
