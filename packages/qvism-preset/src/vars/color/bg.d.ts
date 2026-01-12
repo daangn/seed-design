@@ -29,6 +29,7 @@ export declare const layerBasement = "var(--seed-color-bg-layer-basement)";
 export declare const layerDefault = "var(--seed-color-bg-layer-default)";
 /** basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다. (pressed) */
 export declare const layerDefaultPressed = "var(--seed-color-bg-layer-default-pressed)";
+/** @deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다. */
 export declare const layerFill = "var(--seed-color-bg-layer-fill)";
 /** 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다. */
 export declare const layerFloating = "var(--seed-color-bg-layer-floating)";
