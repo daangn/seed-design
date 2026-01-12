@@ -10,39 +10,33 @@ export interface GridItemProps extends Omit<BoxProps, "gridColumn" | "gridRow" |
 
   /**
    * Number of columns to span, or "full" for full width (1 / -1).
-   * @example 2, "full"
    */
   colSpan?: number | "full";
 
   /**
    * Number of rows to span, or "full" for full height (1 / -1).
-   * @example 2, "full"
    */
   rowSpan?: number | "full";
 
   /**
-   * Starting column (1-indexed).
-   * @example 1, "auto"
+   * Starting column
    */
-  colStart?: number | "auto";
+  colStart?: number;
 
   /**
    * Ending column.
-   * @example 3, -1
    */
-  colEnd?: number | "auto";
+  colEnd?: number;
 
   /**
-   * Starting row (1-indexed).
-   * @example 1, "auto"
+   * Starting row
    */
-  rowStart?: number | "auto";
+  rowStart?: number;
 
   /**
    * Ending row.
-   * @example 3, -1
    */
-  rowEnd?: number | "auto";
+  rowEnd?: number;
 
   // NOTE: grid-area is not currently supported here: see Grid.tsx
 }
