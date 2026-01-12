@@ -7,8 +7,8 @@ export default function AutoRowsColumns() {
         {[1, 2, 3, 4, 5].map((n) => (
           <Flex
             key={n}
-            bg="palette.purple300"
-            color="palette.purple700"
+            bg={n === 2 ? "palette.purple600" : "palette.purple300"}
+            color={n === 2 ? "palette.purple200" : "palette.purple700"}
             borderRadius="r2"
             align="center"
             justify="center"
@@ -25,8 +25,8 @@ export default function AutoRowsColumns() {
         {[1, 2, 3, 4, 5].map((n) => (
           <Flex
             key={n}
-            bg="palette.green300"
-            color="palette.green700"
+            bg={n === 2 ? "palette.green600" : "palette.green300"}
+            color={n === 2 ? "palette.green200" : "palette.green700"}
             borderRadius="r2"
             align="center"
             justify="center"
