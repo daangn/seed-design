@@ -3,6 +3,8 @@ title: Grid
 description: Grid 컴포넌트는 CSS Grid를 사용하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.
 ---
 
+import { Component } from "lucide-react";
+
 <ComponentExample name="react/grid/preview">
   ```json doc-gen:file
   {
@@ -24,8 +26,6 @@ description: Grid 컴포넌트는 CSS Grid를 사용하며 디자인 토큰을 J
 ### `GridItem`
 
 `GridItem`은 Grid 컨테이너 내에서 아이템의 배치를 제어하는 컴포넌트입니다. Grid 내부의 모든 아이템이 `GridItem`일 필요는 없습니다.
-
-`asChild` prop이 기본으로 `true`이므로, 자식 요소에 직접 grid 속성이 적용됩니다. // TODO
 
 <react-type-table
   path="../packages/react/src/components/GridItem/GridItem.tsx"
@@ -60,8 +60,8 @@ description: Grid 컴포넌트는 CSS Grid를 사용하며 디자인 토큰을 J
 
 `<GridItem>`을 활용하여 그리드 아이템이 여러 열이나 행을 차지하도록 할 수 있습니다.
 
-- `colSpan` 또는 `colStart`, `colEnd` prop으로 열 span을 지정합니다. `colSpan="full"`을 전달하면 전체 열을 차지합니다.
-- `rowSpan` 또는 `rowStart`, `rowEnd` prop으로 행 span을 지정합니다. `rowSpan="full"`을 전달하면 전체 행을 차지합니다.
+- `colSpan` 또는 `colStart`, `colEnd` prop으로 열 span을 지정합니다. `colSpan="full"`을 전달하면 행 전체 (좌우 양 끝)을 차지합니다.
+- `rowSpan` 또는 `rowStart`, `rowEnd` prop으로 행 span을 지정합니다. `rowSpan="full"`을 전달하면 열 전체 (상하 양 끝)을 차지합니다.
 
 <ComponentExample name="react/grid/spanning">
   ```json doc-gen:file
@@ -97,6 +97,24 @@ description: Grid 컴포넌트는 CSS Grid를 사용하며 디자인 토큰을 J
   }
   ```
 </ComponentExample>
+
+## Using `asChild` Prop
+
+`GridItem`은 `asChild` prop을 사용하여 자식 요소에 직접 grid 속성을 적용할 수 있습니다.
+
+<Card title="Composition" href="/react/components/concepts/composition#aschild-prop" icon={<Component />}>
+
+`asChild` prop에 대해 자세히 알아봅니다.
+
+</Card>
+
+```tsx
+<Grid columns={3}>
+  <GridItem colSpan={2} asChild>
+    <a href="/link">Link spanning 2 columns</a>
+  </GridItem>
+</Grid>
+```
 
 ## Using Box for Grid Item Placement
 

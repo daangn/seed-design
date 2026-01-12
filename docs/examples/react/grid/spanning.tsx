@@ -6,7 +6,6 @@ export default function Spanning() {
       <Grid flexGrow columns={4} gap="x2">
         <GridItem
           colSpan={2}
-          asChild={false}
           display="flex"
           bg="palette.purple600"
           color="palette.purple200"
@@ -17,7 +16,6 @@ export default function Spanning() {
           1
         </GridItem>
         <GridItem
-          asChild={false}
           display="flex"
           bg="palette.purple300"
           color="palette.purple600"
@@ -28,7 +26,6 @@ export default function Spanning() {
           2
         </GridItem>
         <GridItem
-          asChild={false}
           display="flex"
           bg="palette.purple300"
           color="palette.purple600"
@@ -40,7 +37,6 @@ export default function Spanning() {
         </GridItem>
         <GridItem
           colSpan="full"
-          asChild={false}
           display="flex"
           bg="palette.purple600"
           color="palette.purple200"
@@ -51,7 +47,6 @@ export default function Spanning() {
           4
         </GridItem>
         <GridItem
-          asChild={false}
           display="flex"
           bg="palette.purple300"
           color="palette.purple600"
@@ -63,7 +58,6 @@ export default function Spanning() {
         </GridItem>
         <GridItem
           rowSpan={2}
-          asChild={false}
           display="flex"
           bg="palette.purple600"
           color="palette.purple200"
@@ -74,7 +68,6 @@ export default function Spanning() {
           6
         </GridItem>
         <GridItem
-          asChild={false}
           display="flex"
           bg="palette.purple300"
           color="palette.purple600"
@@ -87,7 +80,6 @@ export default function Spanning() {
         <GridItem
           colStart={2}
           colEnd={-1}
-          asChild={false}
           display="flex"
           bg="palette.purple600"
           color="palette.purple200"
@@ -102,7 +94,6 @@ export default function Spanning() {
       <Grid flexGrow rows={4} gap="x2" autoFlow="column">
         <GridItem
           rowSpan={2}
-          asChild={false}
           display="flex"
           bg="palette.green600"
           color="palette.green200"
@@ -113,7 +104,6 @@ export default function Spanning() {
           1
         </GridItem>
         <GridItem
-          asChild={false}
           display="flex"
           bg="palette.green300"
           color="palette.green600"
@@ -124,7 +114,6 @@ export default function Spanning() {
           2
         </GridItem>
         <GridItem
-          asChild={false}
           display="flex"
           bg="palette.green300"
           color="palette.green600"
@@ -136,7 +125,6 @@ export default function Spanning() {
         </GridItem>
         <GridItem
           rowSpan="full"
-          asChild={false}
           display="flex"
           bg="palette.green600"
           color="palette.green200"
@@ -147,7 +135,6 @@ export default function Spanning() {
           4
         </GridItem>
         <GridItem
-          asChild={false}
           display="flex"
           bg="palette.green300"
           color="palette.green600"
@@ -159,7 +146,6 @@ export default function Spanning() {
         </GridItem>
         <GridItem
           colSpan={2}
-          asChild={false}
           display="flex"
           bg="palette.green600"
           color="palette.green200"
@@ -170,7 +156,6 @@ export default function Spanning() {
           6
         </GridItem>
         <GridItem
-          asChild={false}
           display="flex"
           bg="palette.green300"
           color="palette.green600"
@@ -183,7 +168,6 @@ export default function Spanning() {
         <GridItem
           rowStart={2}
           rowEnd={-1}
-          asChild={false}
           display="flex"
           bg="palette.green600"
           color="palette.green200"

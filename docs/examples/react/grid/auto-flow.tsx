@@ -20,7 +20,6 @@ export default function AutoFlow() {
           <GridItem
             key={n}
             {...spanProps}
-            asChild={false}
             display="flex"
             bg={`palette.${color}600`}
             color={`palette.${color}200`}
@@ -34,7 +33,6 @@ export default function AutoFlow() {
         {[3, 4, 5].map((n) => (
           <GridItem
             key={n}
-            asChild={false}
             display="flex"
             bg={`palette.${color}300`}
             color={`palette.${color}600`}

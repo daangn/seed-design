@@ -4,7 +4,7 @@ import { Box, type BoxProps } from "../Box/Box";
 export interface GridItemProps extends Omit<BoxProps, "gridColumn" | "gridRow" | "gridArea"> {
   /**
    * If true, the component will render its children directly without a wrapper element.
-   * @default true
+   * @default false
    */
   asChild?: boolean;
 
@@ -42,7 +42,7 @@ export interface GridItemProps extends Omit<BoxProps, "gridColumn" | "gridRow" |
 }
 
 export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>((props, ref) => {
-  const { asChild = true, colSpan, colStart, colEnd, rowSpan, rowStart, rowEnd, ...rest } = props;
+  const { asChild = false, colSpan, colStart, colEnd, rowSpan, rowStart, rowEnd, ...rest } = props;
 
   const gridColumn = getGridLine(colSpan, colStart, colEnd);
   const gridRow = getGridLine(rowSpan, rowStart, rowEnd);
