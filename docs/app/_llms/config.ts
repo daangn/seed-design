@@ -39,7 +39,8 @@ export const sectionConfigs: Record<Section, SectionConfig> = {
 
 export function getGitHubSourceUrl(section: Section, pagePath: string): string {
   const config = sectionConfigs[section];
-  return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/docs/content/${config.contentDir}/${pagePath}`;
+  const encodedPagePath = pagePath.split("/").map(encodeURIComponent).join("/");
+  return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/docs/content/${config.contentDir}/${encodedPagePath}`;
 }
 
 export function shouldIncludeInFullText(section: Section, pagePath: string): boolean {
