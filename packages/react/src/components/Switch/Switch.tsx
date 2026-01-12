@@ -32,6 +32,15 @@ export interface SwitchRootProps
 
 export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
   ({ className, ...props }, ref) => {
+    if (
+      process.env["NODE_ENV"] !== "production" &&
+      (props.size === "small" || props.size === "medium")
+    ) {
+      console.warn(
+        `[SEED Design System] Switch size='${props.size}' is deprecated and will be removed in @seed-design/react@1.3.0. Use size='${props.size === "small" ? "16" : "32"}' instead.`,
+      );
+    }
+
     const [{ switch: switchVariantProps, switchMark: switchMarkVariantProps }, otherProps] =
       splitMultipleVariantsProps(
         {
