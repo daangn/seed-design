@@ -1,5 +1,11 @@
 # @seed-design/docs-mcp
 
+## 0.5.0
+
+### Minor Changes
+
+- c300110: Tool의 개수를 유지보수 가능한 형태로 줄였습니다
+
 ## 0.4.0
 
 ### Minor Changes
