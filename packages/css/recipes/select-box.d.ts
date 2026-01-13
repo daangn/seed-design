@@ -1,5 +1,8 @@
 declare interface SelectBoxVariant {
-  
+  /**
+  * @default "horizontal"
+  */
+  layout: "horizontal" | "vertical";
 }
 
 declare type SelectBoxVariantMap = {
@@ -8,7 +11,7 @@ declare type SelectBoxVariantMap = {
 
 export declare type SelectBoxVariantProps = Partial<SelectBoxVariant>;
 
-export declare type SelectBoxSlotName = "root" | "content" | "label" | "description";
+export declare type SelectBoxSlotName = "root" | "foo" | "content" | "body" | "label" | "description";
 
 export declare const selectBoxVariantMap: SelectBoxVariantMap;
 

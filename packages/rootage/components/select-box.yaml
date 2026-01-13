@@ -8,83 +8,149 @@ data:
     slots:
       root:
         properties:
-          colorTransitionDuration:
-            type: duration
-          colorTransitionTimingFunction:
-            type: cubicBezier
-          paddingX:
-            type: dimension
-          paddingY:
-            type: dimension
-          gap:
+          cornerRadius:
             type: dimension
           strokeWidth:
             type: dimension
           strokeColor:
             type: color
-          cornerRadius:
-            type: dimension
           color:
             type: color
+          colorTransitionDuration:
+            type: duration
+          colorTransitionTimingFunction:
+            type: cubicBezier
+          strokeColorTransitionDuration:
+            type: duration
+          strokeColorTransitionTimingFunction:
+            type: cubicBezier
+          strokeWidthTransitionDuration:
+            type: duration
+          strokeWidthTransitionTimingFunction:
+            type: cubicBezier
+      foo:
+        properties:
+          gap:
+            type: dimension
+          paddingLeft:
+            type: dimension
+          paddingRight:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
       content:
         properties:
           gap:
             type: dimension
-      label:
+      prefixIcon:
         properties:
           color:
             type: color
-          fontWeight:
-            type: number
+          size:
+            type: dimension
+          marginRight:
+            type: dimension
+          marginBottom:
+            type: dimension
+      body:
+        properties:
+          gap:
+            type: dimension
+          paddingRight:
+            type: dimension
+      label:
+        properties:
+          gap:
+            type: dimension
+          color:
+            type: color
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
+          fontWeight:
+            type: number
       description:
         properties:
           color:
             type: color
-          fontWeight:
-            type: number
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
+          fontWeight:
+            type: number
   definitions:
     base:
       enabled:
         root:
-          colorTransitionDuration: $duration.color-transition
-          colorTransitionTimingFunction: $timing-function.easing
-          paddingX: $dimension.x4
-          paddingY: $dimension.x5
-          gap: $dimension.x2_5
-          strokeWidth: 1px
-          strokeColor: $color.stroke.neutral-muted
           cornerRadius: $radius.r3
           color: $color.bg.transparent
-        content:
+          strokeColor: $color.stroke.neutral-muted
+          strokeWidth: 1px
+          colorTransitionDuration: $duration.color-transition
+          colorTransitionTimingFunction: $timing-function.easing
+          strokeColorTransitionDuration: $duration.color-transition
+          strokeColorTransitionTimingFunction: $timing-function.easing
+          strokeWidthTransitionDuration: $duration.color-transition
+          strokeWidthTransitionTimingFunction: $timing-function.easing
+        foo:
+          gap: $dimension.x2_5
+        prefixIcon:
+          size: 22px
+          color: $color.fg.neutral
+          marginRight: $dimension.x2_5
+        body:
           gap: $dimension.x0_5
         label:
+          gap: $dimension.x1 # might have prefix/suffix
           color: $color.fg.neutral
-          fontWeight: $font-weight.bold
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
+          fontWeight: $font-weight.medium
         description:
           color: $color.fg.neutral-muted
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
           fontWeight: $font-weight.regular
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
+
+      selected:
+        root:
+          strokeWidth: 2px
+      enabled,selected:
+        root:
+          strokeColor: $color.stroke.neutral-contrast
+      disabled:
+        root:
+          strokeColor: $color.stroke.neutral-muted
+        prefixIcon:
+          color: $color.fg.disabled
+        label:
+          color: $color.fg.disabled
+        description:
+          color: $color.fg.disabled
 
       enabled,pressed:
         root:
           color: $color.bg.transparent-pressed
 
-      enabled,selected:
-        root:
-          color: $color.bg.neutral-weak
-          strokeColor: $color.stroke.neutral-weak
+    layout=horizontal:
+      enabled:
+        foo:
+          paddingLeft: $dimension.x5
+          paddingRight: $dimension.x4
+          paddingY: $dimension.x4
+        content: # aligns horizontally
+          gap: $dimension.x3
 
-      enabled,selected,pressed:
-        root:
-          color: $color.bg.neutral-weak-pressed
+    layout=vertical:
+      enabled:
+        foo:
+          paddingX: $dimension.x4
+          paddingY: $dimension.x5
+        content: # aligns vertically
+          gap: $dimension.x2_5
+        prefixIcon:
+          marginRight: $dimension.x3

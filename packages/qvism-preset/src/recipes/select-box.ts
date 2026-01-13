@@ -1,13 +1,23 @@
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
-import { active, checked, pseudo } from "../utils/pseudo";
+import { prefixIcon } from "../utils/icon";
+import { active, checked, disabled, not, pseudo } from "../utils/pseudo";
 import { selectBox as vars } from "../vars/component";
+import { selectBoxGroup as groupVars } from "../vars/component";
+import { selectBoxCheckmark as checkmarkVars } from "../vars/component";
 
 export const selectBoxGroup = defineRecipe({
   name: "select-box-group",
   base: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
+    display: "grid",
+
+    gridTemplateColumns: "repeat(var(--seed-select-box-group--columns, 1), minmax(0, 1fr))",
+
+    rowGap: groupVars.base.enabled.root.gapY,
+    columnGap: groupVars.base.enabled.root.gapX,
+
+    "&:not([data-columns='1'])": {
+      gridAutoRows: "1fr",
+    },
   },
   variants: {},
   defaultVariants: {},
@@ -15,61 +25,194 @@ export const selectBoxGroup = defineRecipe({
 
 export const selectBox = defineSlotRecipe({
   name: "select-box",
-  slots: ["root", "content", "label", "description"],
+  slots: ["root", "foo", "content", "body", "label", "description"],
   base: {
     root: {
       cursor: "pointer",
+      position: "relative",
 
       display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: vars.base.enabled.root.gap,
+      flexDirection: "column",
 
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
-      paddingTop: vars.base.enabled.root.paddingY,
-      paddingBottom: vars.base.enabled.root.paddingY,
+      gridColumn: "span var(--seed-select-box--span, 1)",
 
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
       backgroundColor: vars.base.enabled.root.color,
+
       transition: `background-color ${vars.base.enabled.root.colorTransitionDuration} ${vars.base.enabled.root.colorTransitionTimingFunction}`,
 
-      [pseudo(active)]: {
+      overflow: "hidden",
+
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        borderRadius: "inherit",
+
+        borderStyle: "solid",
+        borderWidth: vars.base.enabled.root.strokeWidth,
+        borderColor: vars.base.enabled.root.strokeColor,
+
+        transition: `border-color ${vars.base.enabled.root.strokeColorTransitionDuration} ${vars.base.enabled.root.strokeColorTransitionTimingFunction}, border-width ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}`,
+
+        pointerEvents: "none",
+      },
+
+      [pseudo(not(disabled), active)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
       [pseudo(checked)]: {
-        backgroundColor: vars.base.enabledSelected.root.color,
-
-        boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabledSelected.root.strokeColor}`,
+        "&::after": {
+          borderWidth: vars.base.selected.root.strokeWidth,
+          borderColor: vars.base.enabledSelected.root.strokeColor,
+        },
       },
 
-      [pseudo(checked, active)]: {
-        backgroundColor: vars.base.enabledSelectedPressed.root.color,
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+        "&::after": {
+          borderColor: vars.base.disabled.root.strokeColor,
+        },
       },
+    },
+    foo: {
+      display: "flex",
+      justifyContent: "space-between",
+
+      gap: vars.base.enabled.foo.gap,
+
+      flexGrow: 1,
     },
     content: {
       display: "flex",
-      flexDirection: "column",
-      flexGrow: 1,
 
-      gap: vars.base.enabled.content.gap,
+      ...prefixIcon({
+        size: vars.base.enabled.prefixIcon.size,
+        color: vars.base.enabled.prefixIcon.color,
+      }),
+
+      [pseudo(disabled)]: {
+        ...prefixIcon({
+          color: vars.base.disabled.prefixIcon.color,
+        }),
+      },
+    },
+    body: {
+      display: "flex",
+      flexDirection: "column",
+
+      gap: vars.base.enabled.body.gap,
+
+      marginRight: "auto",
     },
     label: {
+      display: "flex",
+      alignItems: "center",
+      gap: vars.base.enabled.label.gap,
+      justifyContent: "flex-start",
+
       color: vars.base.enabled.label.color,
 
-      fontWeight: vars.base.enabled.label.fontWeight,
       fontSize: vars.base.enabled.label.fontSize,
       lineHeight: vars.base.enabled.label.lineHeight,
+      fontWeight: vars.base.enabled.label.fontWeight,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.label.color,
+      },
     },
     description: {
       color: vars.base.enabled.description.color,
 
-      fontWeight: vars.base.enabled.description.fontWeight,
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
+      fontWeight: vars.base.enabled.description.fontWeight,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.description.color,
+      },
+    },
+  },
+  variants: {
+    layout: {
+      horizontal: {
+        foo: {
+          alignItems: "center",
+
+          paddingLeft: vars.layoutHorizontal.enabled.foo.paddingLeft,
+          paddingRight: vars.layoutHorizontal.enabled.foo.paddingRight,
+          paddingTop: vars.layoutHorizontal.enabled.foo.paddingY,
+          paddingBottom: vars.layoutHorizontal.enabled.foo.paddingY,
+        },
+        content: {
+          gap: vars.layoutHorizontal.enabled.content.gap,
+        },
+      },
+      vertical: {
+        foo: {
+          paddingLeft: vars.layoutVertical.enabled.foo.paddingX,
+          paddingRight: vars.layoutVertical.enabled.foo.paddingX,
+          paddingTop: vars.layoutVertical.enabled.foo.paddingY,
+          paddingBottom: vars.layoutVertical.enabled.foo.paddingY,
+        },
+        content: {
+          flexDirection: "column",
+          gap: vars.layoutVertical.enabled.content.gap,
+
+          ...prefixIcon({
+            marginRight: vars.layoutVertical.enabled.prefixIcon.marginRight,
+          }),
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    layout: "horizontal",
+  },
+});
+
+export const selectBoxCheckmark = defineSlotRecipe({
+  name: "selectBoxCheckmark",
+  slots: ["root", "icon"],
+  base: {
+    root: {
+      position: "relative",
+      boxSizing: "border-box",
+      flex: "none",
+
+      width: checkmarkVars.base.enabled.root.size,
+      height: checkmarkVars.base.enabled.root.size,
+    },
+    icon: {
+      display: "block",
+      position: "absolute",
+      margin: "auto",
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      textAlign: "center",
+      overflow: "initial",
+
+      width: checkmarkVars.base.enabled.icon.size,
+      height: checkmarkVars.base.enabled.icon.size,
+      color: checkmarkVars.base.enabled.icon.color,
+
+      transition: `color ${checkmarkVars.base.enabled.icon.colorDuration} ${checkmarkVars.base.enabled.icon.colorTimingFunction}`,
+
+      [pseudo(not(disabled), active)]: {
+        color: checkmarkVars.base.pressed.icon.color,
+      },
+
+      [pseudo(not(disabled), checked)]: {
+        color: checkmarkVars.base.enabledSelected.icon.color,
+      },
+
+      [pseudo(disabled)]: {
+        color: checkmarkVars.base.disabled.icon.color,
+      },
     },
   },
   variants: {},

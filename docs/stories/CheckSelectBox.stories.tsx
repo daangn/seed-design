@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { selectBoxGroupVariantMap } from "@seed-design/css/recipes/select-box-group";
-import { CheckSelectBox } from "seed-design/ui/select-box";
+import {
+  CheckSelectBox,
+  CheckSelectBoxCheckmark,
+  CheckSelectBoxGroup,
+} from "seed-design/ui/select-box";
+import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
@@ -16,8 +20,29 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const CheckSelectBoxWrapper = ({ columns, ...props }: { columns?: number }) => {
+  return (
+    <CheckSelectBoxGroup columns={columns}>
+      <CheckSelectBox label="" {...props} />
+      <CheckSelectBox label="" description="보조 설명 텍스트입니다." {...props} />
+      <CheckSelectBox label="" prefixIcon={<IconPersonCircleLine />} {...props} />
+      <CheckSelectBox
+        label=""
+        description="보조 설명 텍스트입니다."
+        prefixIcon={<IconPersonCircleLine />}
+        {...props}
+      />
+    </CheckSelectBoxGroup>
+  );
+};
+
 const conditionMap = {
-  checked: {
+  columns: {
+    1: { columns: 1 },
+    2: { columns: 2 },
+    3: { columns: 3 },
+  },
+  defaultChecked: {
     false: {
       defaultChecked: false,
     },
@@ -25,24 +50,28 @@ const conditionMap = {
       defaultChecked: true,
     },
   },
+  suffix: {
+    checkmark: {
+      suffix: <CheckSelectBoxCheckmark />,
+    },
+    none: {
+      suffix: undefined,
+    },
+  },
 };
 
 const CommonStoryTemplate: Story = {
   args: {
-    defaultValue: "dolor",
-    label: "sint",
-    description: "sint",
+    label: "Aliqua veniam ut nisi dolore velit deserunt excepteur adipisicing",
   },
-  render: (args) => {
-    return (
-      <VariantTable
-        Component={CheckSelectBox}
-        variantMap={selectBoxGroupVariantMap}
-        conditionMap={conditionMap}
-        {...args}
-      />
-    );
-  },
+  render: (args) => (
+    <VariantTable
+      Component={CheckSelectBoxWrapper}
+      variantMap={{}}
+      conditionMap={conditionMap}
+      {...args}
+    />
+  ),
 };
 
 export const LightTheme = CommonStoryTemplate;
