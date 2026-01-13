@@ -1,25 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { selectBoxGroupVariantMap } from "@seed-design/css/recipes/select-box-group";
 import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-box";
+import { PrefixIcon } from "@seed-design/react";
+import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
 
-import { useState } from "react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-
-const Component = () => {
-  const values = ["dolor", "magna", "sint"];
-  const [value, setValue] = useState(values[0]);
-
-  return (
-    <RadioSelectBoxRoot value={value} onValueChange={setValue}>
-      {values.map((value) => (
-        <RadioSelectBoxItem key={value} value={value} label={value} description={value} />
-      ))}
-    </RadioSelectBoxRoot>
-  );
-};
 
 const meta = {
   component: RadioSelectBoxRoot,
@@ -30,13 +17,53 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const RadioSelectBoxWrapper = ({ columns, ...props }: { columns?: number }) => {
+  return (
+    <RadioSelectBoxRoot columns={columns} defaultValue="item1" aria-label="선택 상자 예시">
+      <RadioSelectBoxItem value="item1" label="레이블만" {...props} />
+      <RadioSelectBoxItem
+        value="item2"
+        label="설명 포함"
+        description="보조 설명 텍스트입니다."
+        {...props}
+      />
+      <RadioSelectBoxItem
+        value="item3"
+        label="아이콘 포함"
+        prefixIcon={<PrefixIcon svg={<IconPersonCircleLine />} />}
+        {...props}
+      />
+      <RadioSelectBoxItem
+        value="item4"
+        label="전체 포함"
+        description="보조 설명 텍스트입니다."
+        prefixIcon={<PrefixIcon svg={<IconPersonCircleLine />} />}
+        {...props}
+      />
+    </RadioSelectBoxRoot>
+  );
+};
+
+const conditionMap = {
+  columns: {
+    1: { columns: 1 },
+    2: { columns: 2 },
+    3: { columns: 3 },
+  },
+  disabled: {
+    false: {
+      disabled: false,
+    },
+    true: {
+      disabled: true,
+    },
+  },
+};
+
 const CommonStoryTemplate: Story = {
-  args: {
-    defaultValue: "dolor",
-  },
-  render: function Render(args) {
-    return <VariantTable Component={Component} variantMap={selectBoxGroupVariantMap} {...args} />;
-  },
+  render: () => (
+    <VariantTable Component={RadioSelectBoxWrapper} variantMap={{}} conditionMap={conditionMap} />
+  ),
 };
 
 export const LightTheme = CommonStoryTemplate;

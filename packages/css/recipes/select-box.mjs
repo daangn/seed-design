@@ -7,8 +7,16 @@ const selectBoxSlotNames = [
     "seed-select-box__root"
   ],
   [
+    "foo",
+    "seed-select-box__foo"
+  ],
+  [
     "content",
     "seed-select-box__content"
+  ],
+  [
+    "body",
+    "seed-select-box__body"
   ],
   [
     "label",
@@ -20,11 +28,18 @@ const selectBoxSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "layout": "horizontal"
+};
 
 const compoundVariants = [];
 
-export const selectBoxVariantMap = {};
+export const selectBoxVariantMap = {
+  "layout": [
+    "horizontal",
+    "vertical"
+  ]
+};
 
 export const selectBoxVariantKeys = Object.keys(selectBoxVariantMap);
 

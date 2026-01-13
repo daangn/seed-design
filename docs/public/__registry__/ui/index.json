@@ -463,13 +463,13 @@
       ],
       "id": "select-box",
       "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
           "registryId": "ui",
           "itemIds": [
-            "checkbox",
             "radio-group"
           ]
         }

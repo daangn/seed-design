@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: select-box-checkmark
+  name: Select Box Checkmark
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          size:
+            type: dimension
+      icon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+  definitions:
+    base:
+      enabled:
+        root:
+          size: $dimension.x5
+        icon:
+          size: 15px
+          color: $color.fg.placeholder
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+
+      pressed:
+        icon:
+          color: $color.fg.neutral-subtle
+
+      enabled,selected:
+        icon:
+          color: $color.fg.neutral
+
+      enabled,selected,pressed:
+        icon:
+          color: $color.fg.neutral # being obvious
+
+      disabled:
+        icon:
+          color: $color.fg.disabled
+
+      disabled,selected:
+        icon:
+          color: $color.fg.disabled # being obvious
