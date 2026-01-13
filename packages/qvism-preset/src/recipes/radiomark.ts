@@ -9,7 +9,6 @@ const radiomark = defineSlotRecipe({
     root: {
       borderStyle: "solid",
       boxSizing: "border-box",
-      flexShrink: 0,
       position: "relative",
 
       display: "flex",
