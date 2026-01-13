@@ -10,7 +10,7 @@ export declare const vars: {
         "colorTransitionTimingFunction": "var(--seed-timing-function-easing)",
         "strokeColorTransitionDuration": "var(--seed-duration-color-transition)",
         "strokeColorTransitionTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeWidthTransitionDuration": "var(--seed-duration-color-transition)",
+        "strokeWidthTransitionDuration": "var(--seed-duration-d3)",
         "strokeWidthTransitionTimingFunction": "var(--seed-timing-function-easing)"
       },
       "foo": {

@@ -188,7 +188,7 @@
                 },
                 "strokeWidthTransitionDuration": {
                   "type": "duration",
-                  "value": "$duration.color-transition"
+                  "value": "$duration.d3"
                 },
                 "strokeWidthTransitionTimingFunction": {
                   "type": "cubicBezier",
