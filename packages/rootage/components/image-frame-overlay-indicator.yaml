@@ -37,6 +37,6 @@ data:
           paddingY: $dimension.x0_5
         label:
           color: $color.fg.neutral-inverted
-          fontSize: $font-size.t2-static
-          lineHeight: $line-height.t2-static
+          fontSize: $font-size.t1
+          lineHeight: $line-height.t1
           fontWeight: $font-weight.medium

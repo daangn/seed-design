@@ -11,8 +11,8 @@ export declare const vars: {
       "label": {
         /** 인디케이터 배경색입니다. */
         "color": "var(--seed-color-fg-neutral-inverted)",
-        "fontSize": "var(--seed-font-size-t2-static)",
-        "lineHeight": "var(--seed-line-height-t2-static)",
+        "fontSize": "var(--seed-font-size-t1)",
+        "lineHeight": "var(--seed-line-height-t1)",
         "fontWeight": "var(--seed-font-weight-medium)"
       }
     }

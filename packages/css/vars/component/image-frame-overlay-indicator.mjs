@@ -9,8 +9,8 @@ export const vars = {
       },
       "label": {
         "color": "var(--seed-color-fg-neutral-inverted)",
-        "fontSize": "var(--seed-font-size-t2-static)",
-        "lineHeight": "var(--seed-line-height-t2-static)",
+        "fontSize": "var(--seed-font-size-t1)",
+        "lineHeight": "var(--seed-line-height-t1)",
         "fontWeight": "var(--seed-font-weight-medium)"
       }
     }

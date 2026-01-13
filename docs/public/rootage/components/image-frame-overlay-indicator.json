@@ -79,11 +79,11 @@
                 },
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t2-static"
+                  "value": "$font-size.t1"
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t2-static"
+                  "value": "$line-height.t1"
                 },
                 "fontWeight": {
                   "type": "number",

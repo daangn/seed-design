@@ -86,9 +86,11 @@ export const imageFrameOverlayReactionButton = defineRecipe({
     cursor: "pointer",
     border: "none",
     padding: 0,
+    position: "relative",
 
-    width: reactionButtonVars.base.enabled.root.targetSize,
-    height: reactionButtonVars.base.enabled.root.targetSize,
+    // Layout size is the visible icon size (24)
+    width: reactionButtonVars.base.enabled.root.size,
+    height: reactionButtonVars.base.enabled.root.size,
 
     background: "transparent",
 
@@ -96,6 +98,16 @@ export const imageFrameOverlayReactionButton = defineRecipe({
       size: reactionButtonVars.base.enabled.icon.size,
       color: reactionButtonVars.base.enabled.icon.color,
     }),
+
+    // Expand touch target to targetSize (40) via pseudo-element (bleed)
+    "&::before": {
+      content: "''",
+      position: "absolute",
+      top: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
+      right: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
+      bottom: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
+      left: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
+    },
 
     "&:focus": {
       outline: "none",
