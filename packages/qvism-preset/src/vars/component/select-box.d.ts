@@ -14,15 +14,15 @@ export declare const vars: {
         "strokeWidthTransitionTimingFunction": "var(--seed-timing-function-easing)"
       },
       "foo": {
-        "gap": "var(--seed-dimension-x2_5)"
+        "gap": "var(--seed-dimension-x1_5)"
       },
       "prefixIcon": {
-        "size": "22px",
         "color": "var(--seed-color-fg-neutral)",
-        "marginRight": "var(--seed-dimension-x2_5)"
+        "size": "22px"
       },
       "body": {
-        "gap": "var(--seed-dimension-x0_5)"
+        "gap": "var(--seed-dimension-x0_5)",
+        "paddingRight": "var(--seed-dimension-x1)"
       },
       "label": {
         "gap": "var(--seed-dimension-x1)",
@@ -88,9 +88,6 @@ export declare const vars: {
       },
       "content": {
         "gap": "var(--seed-dimension-x2_5)"
-      },
-      "prefixIcon": {
-        "marginRight": "var(--seed-dimension-x3)"
       }
     }
   }
