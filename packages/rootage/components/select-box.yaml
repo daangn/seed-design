@@ -94,7 +94,7 @@ data:
           colorTransitionTimingFunction: $timing-function.easing
           strokeColorTransitionDuration: $duration.color-transition
           strokeColorTransitionTimingFunction: $timing-function.easing
-          strokeWidthTransitionDuration: $duration.color-transition
+          strokeWidthTransitionDuration: $duration.d3
           strokeWidthTransitionTimingFunction: $timing-function.easing
         foo:
           gap: $dimension.x2_5

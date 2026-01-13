@@ -17,7 +17,7 @@
     border-style: solid;
     border-width: 1px;
     border-color: var(--seed-color-stroke-neutral-muted);
-    transition: border-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), border-width var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: border-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), border-width var(--seed-duration-d3) var(--seed-timing-function-easing);
     pointer-events: none;
 }
 .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
