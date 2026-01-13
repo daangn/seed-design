@@ -76,3 +76,55 @@ import { ImageFrame } from "@seed-design/react";
   }
   ```
 </ComponentExample>
+
+### Overlay
+
+`ImageFrameOverlayPositioner`와 `ImageFrameOverlay`를 사용하여 이미지 위에 오버레이 요소를 배치할 수 있습니다. Badge, Icon, Indicator, ReactionButton 등 다양한 오버레이 컴포넌트를 제공합니다.
+
+<ComponentExample name="react/image-frame/overlay">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/overlay.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Multiple Overlays
+
+여러 위치에 오버레이를 동시에 배치할 수 있습니다.
+
+<ComponentExample name="react/image-frame/overlay-multiple">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/overlay-multiple.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Overlay
+
+`ImageFrameOverlayPositioner`는 모든 React 요소를 children으로 받을 수 있습니다. 미리 정의된 오버레이 컴포넌트 외에도 커스텀 UI를 배치할 수 있습니다.
+
+<ComponentExample name="react/image-frame/overlay-custom">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/overlay-custom.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Inset
+
+`inset` prop으로 오버레이의 여백을 조절할 수 있습니다. 기본값은 `6`입니다.
+
+<ComponentExample name="react/image-frame/overlay-inset">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/overlay-inset.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

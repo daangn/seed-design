@@ -32,6 +32,12 @@ import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import imageFrame from "./recipes/image-frame";
+import {
+  imageFrameOverlayPositioner,
+  imageFrameOverlayIndicator,
+  imageFrameOverlayIcon,
+  imageFrameOverlayReactionButton,
+} from "./recipes/image-frame-overlay";
 import inlineBanner from "./recipes/inline-banner";
 import inputButton from "./recipes/input-button";
 import linkContent from "./recipes/link-content";
@@ -91,6 +97,10 @@ export const recipes = {
   helpBubble,
   identityPlaceholder,
   imageFrame,
+  imageFrameOverlayPositioner,
+  imageFrameOverlayIndicator,
+  imageFrameOverlayIcon,
+  imageFrameOverlayReactionButton,
   inlineBanner,
   inputButton,
   linkContent,

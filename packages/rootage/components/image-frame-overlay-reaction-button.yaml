@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: image-frame-overlay-reaction-button
+  name: Image Frame Overlay Reaction Button
+data:
+  schema:
+    slots:
+      root:
+        description: 하트 아이콘 토글 버튼입니다. 이미지 위에서 좋아요 기능에 사용됩니다.
+        properties:
+          color:
+            type: color
+            description: 버튼 배경색입니다.
+          cornerRadius:
+            type: dimension
+          size:
+            type: dimension
+            description: 보이는 버튼 크기입니다.
+          targetSize:
+            type: dimension
+            description: 터치 영역 크기입니다.
+      icon:
+        description: 하트 아이콘입니다. 기본 상태에서는 IconHeartLine, 선택 상태에서는 IconHeartFill을 사용합니다.
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.palette.static-black-alpha-200
+          cornerRadius: $radius.full
+          size: $dimension.x6
+          targetSize: $dimension.x10
+        icon:
+          color: $color.fg.neutral-inverted
+          size: $dimension.x6
+      selected:
+        icon:
+          color: $color.fg.brand

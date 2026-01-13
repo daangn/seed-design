@@ -1,0 +1,20 @@
+.seed-image-frame-overlay-positioner {
+    position: absolute;
+    z-index: 1
+}
+.seed-image-frame-overlay-positioner--position_top-left {
+    top: 0;
+    left: 0
+}
+.seed-image-frame-overlay-positioner--position_top-right {
+    top: 0;
+    right: 0
+}
+.seed-image-frame-overlay-positioner--position_bottom-left {
+    bottom: 0;
+    left: 0
+}
+.seed-image-frame-overlay-positioner--position_bottom-right {
+    bottom: 0;
+    right: 0
+}

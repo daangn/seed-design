@@ -1,0 +1,99 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "image-frame-overlay-indicator",
+    "name": "Image Frame Overlay Indicator"
+  },
+  "data": {
+    "id": "image-frame-overlay-indicator",
+    "name": "Image Frame Overlay Indicator",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color",
+              "description": "인디케이터 배경색입니다."
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-black-alpha-800"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                }
+              },
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-inverted"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t2-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t2-static"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

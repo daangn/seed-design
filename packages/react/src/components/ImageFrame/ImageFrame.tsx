@@ -3,7 +3,6 @@ import {
   imageFrame as imageFrameRecipe,
   type ImageFrameVariantProps,
 } from "@seed-design/css/recipes/image-frame";
-import clsx from "clsx";
 import * as React from "react";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
 
@@ -21,6 +20,11 @@ export interface ImageFrameProps
   srcSet?: string;
   onLoad?: React.ReactEventHandler<HTMLImageElement>;
   onError?: React.ReactEventHandler<HTMLImageElement>;
+  /**
+   * Overlay elements to be rendered on top of the image.
+   * Use ImageFrameOverlayPositioner to position them.
+   */
+  children?: React.ReactNode;
 }
 
 export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
@@ -41,18 +45,14 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
       srcSet,
       onLoad,
       onError,
+      children,
       ...rest
     },
     ref,
   ) => {
     return (
-      <AspectRatio
-        ref={ref}
-        ratio={ratio}
-        className={clsx(imageFrameRecipe({ rounded, stroke }), className)}
-        {...rest}
-      >
-        <Image.Root>
+      <AspectRatio ref={ref} ratio={ratio} className={className} {...rest}>
+        <Image.Root className={imageFrameRecipe({ rounded, stroke })}>
           <Image.Content
             src={src}
             alt={alt}
@@ -66,6 +66,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
             onError={onError}
           />
           {fallback && <Image.Fallback>{fallback}</Image.Fallback>}
+          {children}
         </Image.Root>
       </AspectRatio>
     );

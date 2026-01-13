@@ -102,6 +102,15 @@
       "path": "/components/identity-placeholder.json"
     },
     {
+      "path": "/components/image-frame-overlay-indicator.json"
+    },
+    {
+      "path": "/components/image-frame-overlay-reaction-button.json"
+    },
+    {
+      "path": "/components/image-frame.json"
+    },
+    {
       "path": "/components/inline-banner.json"
     },
     {

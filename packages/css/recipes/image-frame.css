@@ -1,7 +1,11 @@
+.seed-image-frame {
+    position: relative;
+}
 .seed-image-frame > img, .seed-image-frame > video {
     object-fit: cover;
 }
 .seed-image-frame--rounded_true {
+    overflow: hidden;
     border-radius: var(--seed-radius-r2);
 }
 .seed-image-frame--rounded_true > img, .seed-image-frame--rounded_true > video {

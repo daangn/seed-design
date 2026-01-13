@@ -1,0 +1,6 @@
+.seed-image-frame-overlay-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--seed-color-fg-neutral-inverted)
+}
