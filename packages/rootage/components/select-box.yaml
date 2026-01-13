@@ -50,10 +50,6 @@ data:
             type: color
           size:
             type: dimension
-          marginRight:
-            type: dimension
-          marginBottom:
-            type: dimension
       body:
         properties:
           gap:
@@ -97,13 +93,13 @@ data:
           strokeWidthTransitionDuration: $duration.d3
           strokeWidthTransitionTimingFunction: $timing-function.easing
         foo:
-          gap: $dimension.x2_5
+          gap: $dimension.x1_5
         prefixIcon:
-          size: 22px
           color: $color.fg.neutral
-          marginRight: $dimension.x2_5
+          size: 22px
         body:
           gap: $dimension.x0_5
+          paddingRight: $dimension.x1
         label:
           gap: $dimension.x1 # might have prefix/suffix
           color: $color.fg.neutral
@@ -152,5 +148,3 @@ data:
           paddingY: $dimension.x5
         content: # aligns vertically
           gap: $dimension.x2_5
-        prefixIcon:
-          marginRight: $dimension.x3
