@@ -1,10 +1,13 @@
-import { docs, reactDocs, breezeDocs, lynxDocs } from "@/.source/server";
+import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
+import { docs, reactDocs, breezeDocs, lynxDocs, aiIntegrationDocs } from "@/.source/server";
 import { getRootageMetadata } from "@/components/rootage";
-import { IconContainer } from "@/components/ui/icon";
 import type { Node, Root } from "fumadocs-core/page-tree";
 import { loader } from "fumadocs-core/source";
+import type { ComponentType, SVGProps } from "react";
 
-import { icons } from "lucide-react";
+const iconMap: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
+  Lock: IconLockLine,
+};
 
 const DeprecatedBadge = () => {
   return (
@@ -74,11 +77,12 @@ async function transformPageTreeWithBadges(
 }
 
 const iconHandler = (icon: string | undefined) => {
-  if (!icon || !(icon in icons)) {
+  if (!icon || !(icon in iconMap)) {
     return undefined;
   }
 
-  return <IconContainer icon={icons[icon as keyof typeof icons]} />;
+  const Icon = iconMap[icon];
+  return <Icon />;
 };
 
 const baseSource = loader({
@@ -105,6 +109,12 @@ const baseLynxSource = loader({
   icon: iconHandler,
 });
 
+const baseAiIntegrationSource = loader({
+  baseUrl: "/ai-integration",
+  source: aiIntegrationDocs.toFumadocsSource(),
+  icon: iconHandler,
+});
+
 // Transform page trees with badges
 async function getTransformedPageTree(): Promise<Root> {
   return await transformPageTreeWithBadges(baseSource.pageTree, baseSource);
@@ -120,6 +130,13 @@ async function getTransformedBreezePageTree(): Promise<Root> {
 
 async function getTransformedLynxPageTree(): Promise<Root> {
   return await transformPageTreeWithBadges(baseLynxSource.pageTree, baseLynxSource);
+}
+
+async function getTransformedAiIntegrationPageTree(): Promise<Root> {
+  return await transformPageTreeWithBadges(
+    baseAiIntegrationSource.pageTree,
+    baseAiIntegrationSource,
+  );
 }
 
 // Export sources with lazy-loaded transformed page trees
@@ -141,4 +158,9 @@ export const breezeSource = {
 export const lynxSource = {
   ...baseLynxSource,
   getTransformedLynxPageTree,
+};
+
+export const aiIntegrationSource = {
+  ...baseAiIntegrationSource,
+  getTransformedAiIntegrationPageTree,
 };

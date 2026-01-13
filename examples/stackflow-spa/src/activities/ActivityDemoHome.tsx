@@ -88,7 +88,7 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
                 <Recommendations />
               </TabsContent>
               <TabsContent value={TABS[1].value}>
-                <VStack py="x12">
+                <VStack py="x12" pb="safeArea">
                   <ResultSection
                     asset={
                       <Box pb="x4">
@@ -160,7 +160,7 @@ export function Recommendations() {
   };
 
   return (
-    <VStack gap="spacingY.componentDefault" py="x4">
+    <VStack gap="spacingY.componentDefault" py="x4" pb="safeArea">
       <Flex
         gap="spacingX.betweenChips"
         px="spacingX.globalGutter"
@@ -269,15 +269,19 @@ export function FilterBottomSheet({
         </HStack>
       </BottomSheetBody>
       <BottomSheetFooter>
-        <ActionButton
-          variant="neutralSolid"
-          onClick={() => {
-            onConfirm(selectedOptions);
-            onClose();
-          }}
-        >
-          완료
-        </ActionButton>
+        <HStack pb="safeArea" pt="x3">
+          <ActionButton
+            flexGrow
+            size="large"
+            variant="neutralSolid"
+            onClick={() => {
+              onConfirm(selectedOptions);
+              onClose();
+            }}
+          >
+            완료
+          </ActionButton>
+        </HStack>
       </BottomSheetFooter>
     </BottomSheetContent>
   );

@@ -22,6 +22,7 @@ export const config = defineConfig({
     { route: "/codegen-test", name: "ActivityCodegenTest" },
     { route: "/detail", name: "ActivityDetail" },
     { route: "/error-state", name: "ActivityErrorState" },
+    { route: "/font-scaling", name: "ActivityFontScaling" },
     { route: "/result-section", name: "ActivityResultSection" },
     { route: "/help-bubble", name: "ActivityHelpBubble" },
     { route: "/layer-bar", name: "ActivityLayerBar" },
