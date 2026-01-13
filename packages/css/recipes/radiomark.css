@@ -1,7 +1,6 @@
 .seed-radiomark__root {
     border-style: solid;
     box-sizing: border-box;
-    flex-shrink: 0;
     position: relative;
     display: flex;
     align-items: center;
