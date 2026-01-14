@@ -126,7 +126,7 @@ export function useRadioGroup(props: UseRadioGroupProps) {
       return {
         ...itemState,
 
-        value,
+        value: itemProps.value,
         setFocusedValue,
         setIsFocusVisible,
 

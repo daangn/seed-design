@@ -88,19 +88,8 @@ export const CollapsibleFooter: Story = {
     <RadioSelectBoxRoot defaultValue="item1" aria-label="Footer 테스트">
       <RadioSelectBoxItem
         value="item1"
-        label="항상 표시 + 클릭 시 선택"
-        description="footerCollapsible이 false면 항상 표시되고, 클릭 시 선택됩니다."
-        footer={
-          <Box px="x5" pb="x5">
-            <Text textStyle="t3StaticMedium">이 영역을 클릭해도 항목이 선택됩니다.</Text>
-          </Box>
-        }
-      />
-      <RadioSelectBoxItem
-        value="item2"
-        label="선택 시에만 표시 (collapsible)"
-        description="footerCollapsible이 true면 선택 시에만 표시됩니다."
-        footerCollapsible
+        label="선택 시에만 표시 (기본값)"
+        description="기본적으로 선택 시에만 footer가 보입니다."
         footer={
           <Box px="x5" pb="x5">
             <Text textStyle="t3StaticMedium">이 항목이 선택되었을 때만 보입니다.</Text>
@@ -108,10 +97,20 @@ export const CollapsibleFooter: Story = {
         }
       />
       <RadioSelectBoxItem
+        value="item2"
+        label="항상 표시"
+        description="footerVisibility를 'always'로 설정하면 항상 보입니다."
+        footerVisibility="always"
+        footer={
+          <Box px="x5" pb="x5">
+            <Text textStyle="t3StaticMedium">이 영역을 클릭해도 항목이 선택됩니다.</Text>
+          </Box>
+        }
+      />
+      <RadioSelectBoxItem
         value="item3"
         label="긴 내용 테스트"
         description="동적 높이 변화 테스트"
-        footerCollapsible
         footer={
           <Box bgGradient="highlightMagic" bgGradientDirection="to bottom right" height="300px" />
         }
