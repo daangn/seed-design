@@ -164,6 +164,8 @@ export const selectBox = defineSlotRecipe({
           paddingBottom: vars.layoutHorizontal.enabled.foo.paddingY,
         },
         content: {
+          alignItems: "center",
+
           gap: vars.layoutHorizontal.enabled.content.gap,
         },
       },
@@ -176,6 +178,7 @@ export const selectBox = defineSlotRecipe({
         },
         content: {
           flexDirection: "column",
+
           gap: vars.layoutVertical.enabled.content.gap,
         },
       },

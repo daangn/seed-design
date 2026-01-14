@@ -6148,6 +6148,7 @@
 }
 
 .seed-select-box__content--layout_horizontal {
+  align-items: center;
   gap: var(--seed-dimension-x3);
 }
 
