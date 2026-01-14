@@ -12,7 +12,7 @@ import * as React from "react";
 export interface RadioSelectBoxRootProps extends SeedRadioSelectBox.RootProps {}
 
 /**
- * @see https://seed-design.io/react/components/select-box/radio-select-box
+ * @see https://seed-design.io/react/components/select-box
  */
 export const RadioSelectBoxRoot = React.forwardRef<HTMLDivElement, RadioSelectBoxRootProps>(
   (props, ref) => {
@@ -83,7 +83,7 @@ export interface CheckSelectBoxProps extends Omit<SeedCheckSelectBox.RootProps, 
 }
 
 /**
- * @see https://seed-design.io/react/components/select-box/check-select-box
+ * @see https://seed-design.io/react/components/select-box
  */
 export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxProps>(
   ({ label, description, prefixIcon, suffix, inputProps, rootRef, footer, ...otherProps }, ref) => {
