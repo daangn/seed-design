@@ -540,6 +540,7 @@ data:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
     $color.bg.layer-fill:
+      description: "@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다."
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-200
