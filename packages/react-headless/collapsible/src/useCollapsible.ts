@@ -1,7 +1,7 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import * as dom from "./dom";
 
 export interface UseCollapsibleStateProps {
@@ -64,49 +64,22 @@ export function useCollapsible(props: UseCollapsibleProps) {
     setVisible(true);
   }, [open]);
 
-  const toggle = useCallback(() => {
-    if (disabled) return;
-
-    setOpen((prev) => !prev);
-  }, [disabled, setOpen]);
-
   const panelHeight = open ? `${height}px` : "0px";
 
   const stateProps = useMemo(
     () =>
       elementProps({
+        "data-collapsible": "",
         "data-open": dataAttr(open),
         "data-disabled": dataAttr(disabled),
       }),
     [open, disabled],
   );
 
-  const triggerAriaProps = useMemo(
-    () =>
-      elementProps({
-        "aria-expanded": open,
-        "aria-controls": contentId,
-        "aria-disabled": disabled,
-      }),
-    [open, contentId, disabled],
-  );
-
-  const triggerHandlers = useMemo(
-    () => ({
-      onClick: (event: React.MouseEvent) => {
-        if (event.defaultPrevented) return;
-
-        toggle();
-      },
-    }),
-    [toggle],
-  );
-
   return useMemo(
     () => ({
       open,
       setOpen,
-      toggle,
       disabled,
 
       stateProps,
@@ -115,8 +88,19 @@ export function useCollapsible(props: UseCollapsibleProps) {
         ...stateProps,
         id: triggerId,
       }),
-      triggerAriaProps,
-      triggerHandlers,
+      triggerAriaProps: elementProps({
+        "aria-expanded": open,
+        "aria-controls": contentId,
+        "aria-disabled": disabled,
+      }),
+      triggerHandlers: elementProps({
+        onClick: (event) => {
+          if (event.defaultPrevented) return;
+          if (disabled) return;
+
+          setOpen((prev) => !prev);
+        },
+      }),
 
       contentProps: elementProps({
         ...stateProps,
@@ -128,8 +112,6 @@ export function useCollapsible(props: UseCollapsibleProps) {
         onTransitionEnd: (event: React.TransitionEvent) => {
           if (event.propertyName !== "height") return;
           if (open) return;
-
-          // When collapse transition ends, hide from screen readers and remove from tab order
           setVisible(false);
         },
       }),
@@ -138,19 +120,6 @@ export function useCollapsible(props: UseCollapsibleProps) {
         content: contentRef,
       },
     }),
-    [
-      open,
-      setOpen,
-      toggle,
-      disabled,
-      stateProps,
-      triggerId,
-      triggerAriaProps,
-      triggerHandlers,
-      contentId,
-      hidden,
-      height,
-      panelHeight,
-    ],
+    [open, setOpen, disabled, stateProps, triggerId, contentId, hidden, height, panelHeight],
   );
 }
