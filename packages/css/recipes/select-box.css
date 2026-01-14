@@ -94,6 +94,7 @@
     padding-bottom: var(--seed-dimension-x4);
 }
 .seed-select-box__content--layout_horizontal {
+    align-items: center;
     gap: var(--seed-dimension-x3);
 }
 .seed-select-box__foo--layout_vertical {
