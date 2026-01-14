@@ -1,6 +1,6 @@
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { prefixIcon } from "../utils/icon";
-import { active, checked, disabled, not, pseudo } from "../utils/pseudo";
+import { active, checked, disabled, not, open, pseudo } from "../utils/pseudo";
 import { selectBox as vars } from "../vars/component";
 import { selectBoxGroup as groupVars } from "../vars/component";
 import { selectBoxCheckmark as checkmarkVars } from "../vars/component";
@@ -137,16 +137,20 @@ export const selectBox = defineSlotRecipe({
       },
     },
     footer: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-start",
+
       [pseudo("[data-collapsible]")]: {
         overflow: "hidden",
         height: 0,
         opacity: 0,
 
         // TODO: use proper vars
-        transition: `height ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}, opacity ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}`,
+        transition: `height ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}, opacity 0.1s ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}, transform ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}`,
       },
 
-      [pseudo("[data-collapsible]", checked)]: {
+      [pseudo("[data-collapsible]", open)]: {
         height: "var(--collapsible-content-height)",
         opacity: 1,
       },
