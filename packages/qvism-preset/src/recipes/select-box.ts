@@ -137,10 +137,6 @@ export const selectBox = defineSlotRecipe({
       },
     },
     footer: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "flex-start",
-
       [pseudo("[data-collapsible]")]: {
         overflow: "hidden",
         height: 0,

@@ -43,7 +43,7 @@
     "@seed-design/dom-utils": "1.0.0",
     "@seed-design/react-avatar": "1.0.0",
     "@seed-design/react-checkbox": "1.0.1",
-    "@seed-design/react-collapsible": "1.0.0",
+    "@seed-design/react-collapsible": "0.0.0",
     "@seed-design/react-dialog": "1.0.1",
     "@seed-design/react-drawer": "1.0.5",
     "@seed-design/react-field": "1.0.1",
