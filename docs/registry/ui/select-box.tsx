@@ -46,7 +46,7 @@ export const RadioSelectBoxItem = React.forwardRef<HTMLInputElement, RadioSelect
   ({ label, description, prefixIcon, suffix, inputProps, rootRef, footer, ...otherProps }, ref) => {
     return (
       <SeedRadioSelectBox.Item ref={rootRef} {...otherProps}>
-        <SeedRadioSelectBox.Foo>
+        <SeedRadioSelectBox.Trigger>
           <SeedRadioSelectBox.HiddenInput ref={ref} {...inputProps} />
           <SeedRadioSelectBox.Content>
             {prefixIcon && <PrefixIcon svg={prefixIcon} />}
@@ -58,7 +58,7 @@ export const RadioSelectBoxItem = React.forwardRef<HTMLInputElement, RadioSelect
             </SeedRadioSelectBox.Body>
           </SeedRadioSelectBox.Content>
           {suffix}
-        </SeedRadioSelectBox.Foo>
+        </SeedRadioSelectBox.Trigger>
         {footer && <SeedRadioSelectBox.Footer>{footer}</SeedRadioSelectBox.Footer>}
       </SeedRadioSelectBox.Item>
     );
@@ -89,7 +89,7 @@ export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxP
   ({ label, description, prefixIcon, suffix, inputProps, rootRef, footer, ...otherProps }, ref) => {
     return (
       <SeedCheckSelectBox.Root ref={rootRef} {...otherProps}>
-        <SeedCheckSelectBox.Foo>
+        <SeedCheckSelectBox.Trigger>
           <SeedCheckSelectBox.HiddenInput ref={ref} {...inputProps} />
           <SeedCheckSelectBox.Content>
             {prefixIcon && <PrefixIcon svg={prefixIcon} />}
@@ -101,7 +101,7 @@ export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxP
             </SeedCheckSelectBox.Body>
           </SeedCheckSelectBox.Content>
           {suffix}
-        </SeedCheckSelectBox.Foo>
+        </SeedCheckSelectBox.Trigger>
         {footer && <SeedCheckSelectBox.Footer>{footer}</SeedCheckSelectBox.Footer>}
       </SeedCheckSelectBox.Root>
     );

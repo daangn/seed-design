@@ -13,7 +13,7 @@ export declare const vars: {
         "strokeWidthTransitionDuration": "var(--seed-duration-d3)",
         "strokeWidthTransitionTimingFunction": "var(--seed-timing-function-easing)"
       },
-      "foo": {
+      "trigger": {
         "gap": "var(--seed-dimension-x1_5)"
       },
       "prefixIcon": {
@@ -70,7 +70,7 @@ export declare const vars: {
   },
   "layoutHorizontal": {
     "enabled": {
-      "foo": {
+      "trigger": {
         "paddingLeft": "var(--seed-dimension-x5)",
         "paddingRight": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x4)"
@@ -82,7 +82,7 @@ export declare const vars: {
   },
   "layoutVertical": {
     "enabled": {
-      "foo": {
+      "trigger": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x5)"
       },

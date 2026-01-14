@@ -106,13 +106,13 @@ export const RadioSelectBoxItem = forwardRef<HTMLDivElement, RadioSelectBoxItemP
   },
 );
 
-export interface RadioSelectBoxFooProps
+export interface RadioSelectBoxTriggerProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const RadioSelectBoxFoo = withContext<HTMLDivElement, RadioSelectBoxFooProps>(
+export const RadioSelectBoxTrigger = withContext<HTMLDivElement, RadioSelectBoxTriggerProps>(
   withStateProps(Primitive.label),
-  "foo",
+  "trigger",
 );
 
 export interface RadioSelectBoxContentProps

@@ -28,7 +28,7 @@ data:
             type: duration
           strokeWidthTransitionTimingFunction:
             type: cubicBezier
-      foo:
+      trigger:
         properties:
           gap:
             type: dimension
@@ -92,7 +92,7 @@ data:
           strokeColorTransitionTimingFunction: $timing-function.easing
           strokeWidthTransitionDuration: $duration.d3
           strokeWidthTransitionTimingFunction: $timing-function.easing
-        foo:
+        trigger:
           gap: $dimension.x1_5
         prefixIcon:
           color: $color.fg.neutral
@@ -134,7 +134,7 @@ data:
 
     layout=horizontal:
       enabled:
-        foo:
+        trigger:
           paddingLeft: $dimension.x5
           paddingRight: $dimension.x4
           paddingY: $dimension.x4
@@ -143,7 +143,7 @@ data:
 
     layout=vertical:
       enabled:
-        foo:
+        trigger:
           paddingX: $dimension.x4
           paddingY: $dimension.x5
         content: # aligns vertically

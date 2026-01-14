@@ -111,13 +111,13 @@ export const CheckSelectBoxRoot = forwardRef<HTMLDivElement, CheckSelectBoxRootP
   },
 );
 
-export interface CheckSelectBoxFooProps
+export interface CheckSelectBoxTriggerProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLLabelElement> {}
 
-export const CheckSelectBoxFoo = withContext<HTMLLabelElement, CheckSelectBoxFooProps>(
+export const CheckSelectBoxTrigger = withContext<HTMLLabelElement, CheckSelectBoxTriggerProps>(
   withStateProps(Primitive.label),
-  "foo",
+  "trigger",
 );
 
 export interface CheckSelectBoxContentProps
