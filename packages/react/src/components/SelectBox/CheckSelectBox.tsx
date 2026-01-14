@@ -10,15 +10,22 @@ import {
 import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
-import { forwardRef } from "react";
-import { createRecipeContext } from "../../utils/createRecipeContext";
+import { forwardRef, useId } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
+import {
+  GroupPropsProvider,
+  PropsProvider,
+  ClassNamesProvider,
+  ItemContextProvider,
+  withContext,
+  useProps,
+  useItemContext,
+  getFooterId,
+  type ItemContextValue,
+} from "./context";
 
-const { PropsProvider: GroupPropsProvider } = createRecipeContext(selectBoxGroup);
-const { PropsProvider, ClassNamesProvider, withContext, useProps } =
-  createSlotRecipeContext(selectBox);
 const withStateProps = createWithStateProps([useCheckboxContext]);
 
 export interface CheckSelectBoxGroupProps
@@ -62,7 +69,8 @@ export const CheckSelectBoxGroup = forwardRef<HTMLDivElement, CheckSelectBoxGrou
 
 export interface CheckSelectBoxRootProps
   extends SelectBoxVariantProps,
-    CheckboxPrimitive.RootProps {
+    CheckboxPrimitive.RootProps,
+    Partial<ItemContextValue> {
   /**
    * Number of columns to span in the grid.
    * @default 1
@@ -70,8 +78,10 @@ export interface CheckSelectBoxRootProps
   span?: number;
 }
 
-export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRootProps>(
-  ({ span = 1, className, style, ...props }, ref) => {
+export const CheckSelectBoxRoot = forwardRef<HTMLDivElement, CheckSelectBoxRootProps>(
+  ({ span = 1, footerVisibility = "when-selected", className, style, children, ...props }, ref) => {
+    const id = useId();
+
     const [variantProps, otherProps] = selectBox.splitVariantProps(props);
     const classNames = selectBox({
       ...useProps(),
@@ -79,29 +89,34 @@ export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRoo
     });
 
     return (
-      <ClassNamesProvider value={classNames}>
-        <CheckboxPrimitive.Root
-          className={clsx(classNames.root, className)}
-          ref={ref}
-          style={
-            {
-              ...style,
-              "--seed-select-box--span": span,
-            } as React.CSSProperties
-          }
-          {...otherProps}
-        />
-      </ClassNamesProvider>
+      <ItemContextProvider value={{ footerVisibility, id }}>
+        <ClassNamesProvider value={classNames}>
+          <CheckboxPrimitive.Root asChild {...otherProps}>
+            <Primitive.div
+              className={clsx(classNames.root, className)}
+              ref={ref}
+              style={
+                {
+                  ...style,
+                  "--seed-select-box--span": span,
+                } as React.CSSProperties
+              }
+            >
+              {children}
+            </Primitive.div>
+          </CheckboxPrimitive.Root>
+        </ClassNamesProvider>
+      </ItemContextProvider>
     );
   },
 );
 
 export interface CheckSelectBoxFooProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+    React.HTMLAttributes<HTMLLabelElement> {}
 
-export const CheckSelectBoxFoo = withContext<HTMLDivElement, CheckSelectBoxFooProps>(
-  withStateProps(Primitive.div),
+export const CheckSelectBoxFoo = withContext<HTMLLabelElement, CheckSelectBoxFooProps>(
+  withStateProps(Primitive.label),
   "foo",
 );
 
@@ -169,4 +184,21 @@ export const CheckSelectBoxCheckmarkIcon = withCheckmarkContext<
 
 export interface CheckSelectBoxHiddenInputProps extends CheckboxPrimitive.HiddenInputProps {}
 
-export const CheckSelectBoxHiddenInput = CheckboxPrimitive.HiddenInput;
+export const CheckSelectBoxHiddenInput = forwardRef<
+  HTMLInputElement,
+  CheckSelectBoxHiddenInputProps
+>((props, ref) => {
+  const itemContext = useItemContext();
+  const checkboxContext = useCheckboxContext();
+
+  const ariaProps =
+    itemContext?.footerVisibility === "when-selected"
+      ? {
+          "aria-expanded": checkboxContext?.checked ?? false,
+          "aria-controls": getFooterId(itemContext.id),
+        }
+      : {};
+
+  return <CheckboxPrimitive.HiddenInput ref={ref} {...ariaProps} {...props} />;
+});
+CheckSelectBoxHiddenInput.displayName = "CheckSelectBoxHiddenInput";

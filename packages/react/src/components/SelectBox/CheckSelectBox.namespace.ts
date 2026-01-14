@@ -20,3 +20,8 @@ export {
   type CheckSelectBoxLabelProps as LabelProps,
   type CheckSelectBoxRootProps as RootProps,
 } from "./CheckSelectBox";
+
+export {
+  SelectBoxFooter as Footer,
+  type SelectBoxFooterProps as FooterProps,
+} from "./SelectBoxFooter";

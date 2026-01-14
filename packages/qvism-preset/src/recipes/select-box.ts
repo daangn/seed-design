@@ -25,7 +25,7 @@ export const selectBoxGroup = defineRecipe({
 
 export const selectBox = defineSlotRecipe({
   name: "select-box",
-  slots: ["root", "foo", "content", "body", "label", "description"],
+  slots: ["root", "foo", "content", "body", "label", "description", "footer"],
   base: {
     root: {
       cursor: "pointer",
@@ -81,6 +81,8 @@ export const selectBox = defineSlotRecipe({
       display: "flex",
       justifyContent: "space-between",
 
+      cursor: "pointer", // `label` should have pointer cursor on the element itself
+
       gap: vars.base.enabled.foo.gap,
 
       flexGrow: 1,
@@ -134,6 +136,21 @@ export const selectBox = defineSlotRecipe({
         color: vars.base.disabled.description.color,
       },
     },
+    footer: {
+      [pseudo("[data-collapsible]")]: {
+        overflow: "hidden",
+        height: 0,
+        opacity: 0,
+
+        // TODO: use proper vars
+        transition: `height ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}, opacity ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}`,
+      },
+
+      [pseudo("[data-collapsible]", checked)]: {
+        height: "var(--seed-select-box-panel-height)",
+        opacity: 1,
+      },
+    },
   },
   variants: {
     layout: {
@@ -160,10 +177,6 @@ export const selectBox = defineSlotRecipe({
         content: {
           flexDirection: "column",
           gap: vars.layoutVertical.enabled.content.gap,
-
-          ...prefixIcon({
-            marginRight: vars.layoutVertical.enabled.prefixIcon.marginRight,
-          }),
         },
       },
     },

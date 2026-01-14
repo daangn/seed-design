@@ -8,15 +8,21 @@ import {
   RadioGroup as RadioGroupPrimitive,
   useRadioGroupItemContext,
 } from "@seed-design/react-radio-group";
-import { forwardRef } from "react";
-import { createRecipeContext } from "../../utils/createRecipeContext";
-import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { forwardRef, useId } from "react";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
+import {
+  GroupPropsProvider,
+  PropsProvider,
+  ClassNamesProvider,
+  ItemContextProvider,
+  withContext,
+  useProps,
+  useItemContext,
+  getFooterId,
+  type ItemContextValue,
+} from "./context";
 
-const { PropsProvider: GroupPropsProvider } = createRecipeContext(selectBoxGroup);
-const { PropsProvider, ClassNamesProvider, withContext, useProps } =
-  createSlotRecipeContext(selectBox);
 const withStateProps = createWithStateProps([useRadioGroupItemContext]);
 
 export interface RadioSelectBoxRootProps
@@ -58,7 +64,8 @@ export const RadioSelectBoxRoot = forwardRef<HTMLDivElement, RadioSelectBoxRootP
 
 export interface RadioSelectBoxItemProps
   extends SelectBoxVariantProps,
-    RadioGroupPrimitive.ItemProps {
+    RadioGroupPrimitive.ItemProps,
+    Partial<ItemContextValue> {
   /**
    * Number of columns to span in the grid.
    * @default 1
@@ -66,8 +73,10 @@ export interface RadioSelectBoxItemProps
   span?: number;
 }
 
-export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxItemProps>(
-  ({ span = 1, className, style, ...props }, ref) => {
+export const RadioSelectBoxItem = forwardRef<HTMLDivElement, RadioSelectBoxItemProps>(
+  ({ span = 1, footerVisibility = "when-selected", className, style, children, ...props }, ref) => {
+    const id = useId();
+
     const [variantProps, otherProps] = selectBox.splitVariantProps(props);
     const classNames = selectBox({
       ...useProps(),
@@ -75,19 +84,24 @@ export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxIte
     });
 
     return (
-      <ClassNamesProvider value={classNames}>
-        <RadioGroupPrimitive.Item
-          className={clsx(classNames.root, className)}
-          ref={ref}
-          style={
-            {
-              ...style,
-              "--seed-select-box--span": span,
-            } as React.CSSProperties
-          }
-          {...otherProps}
-        />
-      </ClassNamesProvider>
+      <ItemContextProvider value={{ footerVisibility, id }}>
+        <ClassNamesProvider value={classNames}>
+          <RadioGroupPrimitive.Item asChild {...otherProps}>
+            <Primitive.div
+              className={clsx(classNames.root, className)}
+              ref={ref}
+              style={
+                {
+                  ...style,
+                  "--seed-select-box--span": span,
+                } as React.CSSProperties
+              }
+            >
+              {children}
+            </Primitive.div>
+          </RadioGroupPrimitive.Item>
+        </ClassNamesProvider>
+      </ItemContextProvider>
     );
   },
 );
@@ -97,7 +111,7 @@ export interface RadioSelectBoxFooProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioSelectBoxFoo = withContext<HTMLDivElement, RadioSelectBoxFooProps>(
-  withStateProps(Primitive.div),
+  withStateProps(Primitive.label),
   "foo",
 );
 
@@ -136,3 +150,29 @@ export const RadioSelectBoxDescription = withContext<
   HTMLSpanElement,
   RadioSelectBoxDescriptionProps
 >(withStateProps(Primitive.div), "description");
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface RadioSelectBoxHiddenInputProps extends RadioGroupPrimitive.ItemHiddenInputProps {}
+
+export const RadioSelectBoxHiddenInput = forwardRef<
+  HTMLInputElement,
+  RadioSelectBoxHiddenInputProps
+>((props, ref) => {
+  const itemContext = useItemContext();
+  const radioItemContext = useRadioGroupItemContext({ strict: false });
+
+  const ariaProps =
+    itemContext?.footerVisibility === "when-selected"
+      ? {
+          // NOTE: aria-expanded on role="radio" is not officially supported. See: https://github.com/w3c/aria/issues/1404
+          // but it helps some screen readers to announce the expanded/collapsed state of the footer.
+          // gov.uk applies aria-expanded on the radio input as well. See: https://design-system.service.gov.uk/components/radios/#conditionally-revealing-a-related-question
+          "aria-expanded": radioItemContext?.checked ?? false,
+          "aria-controls": getFooterId(itemContext.id),
+        }
+      : {};
+
+  return <RadioGroupPrimitive.ItemHiddenInput ref={ref} {...ariaProps} {...props} />;
+});
+RadioSelectBoxHiddenInput.displayName = "RadioSelectBoxHiddenInput";

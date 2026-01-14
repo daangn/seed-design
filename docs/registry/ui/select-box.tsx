@@ -4,7 +4,6 @@ import { IconCheckmarkFatFill } from "@karrotmarket/react-monochrome-icon";
 import {
   RadioSelectBox as SeedRadioSelectBox,
   CheckSelectBox as SeedCheckSelectBox,
-  RadioGroup as SeedRadioGroup,
   PrefixIcon,
 } from "@seed-design/react";
 import { RadioMark, type RadioMarkProps } from "./radio-group";
@@ -27,7 +26,7 @@ export const RadioSelectBoxRoot = React.forwardRef<HTMLDivElement, RadioSelectBo
   },
 );
 
-export interface RadioSelectBoxItemProps extends SeedRadioSelectBox.ItemProps {
+export interface RadioSelectBoxItemProps extends Omit<SeedRadioSelectBox.ItemProps, "children"> {
   label: React.ReactNode;
 
   description?: React.ReactNode;
@@ -38,15 +37,17 @@ export interface RadioSelectBoxItemProps extends SeedRadioSelectBox.ItemProps {
 
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
-  rootRef?: React.Ref<HTMLLabelElement>;
+  rootRef?: React.Ref<HTMLDivElement>;
+
+  footer?: React.ReactNode;
 }
 
 export const RadioSelectBoxItem = React.forwardRef<HTMLInputElement, RadioSelectBoxItemProps>(
-  ({ label, description, prefixIcon, suffix, inputProps, rootRef, ...otherProps }, ref) => {
+  ({ label, description, prefixIcon, suffix, inputProps, rootRef, footer, ...otherProps }, ref) => {
     return (
       <SeedRadioSelectBox.Item ref={rootRef} {...otherProps}>
-        <SeedRadioGroup.ItemHiddenInput ref={ref} {...inputProps} />
         <SeedRadioSelectBox.Foo>
+          <SeedRadioSelectBox.HiddenInput ref={ref} {...inputProps} />
           <SeedRadioSelectBox.Content>
             {prefixIcon && <PrefixIcon svg={prefixIcon} />}
             <SeedRadioSelectBox.Body>
@@ -58,13 +59,14 @@ export const RadioSelectBoxItem = React.forwardRef<HTMLInputElement, RadioSelect
           </SeedRadioSelectBox.Content>
           {suffix}
         </SeedRadioSelectBox.Foo>
+        {footer && <SeedRadioSelectBox.Footer>{footer}</SeedRadioSelectBox.Footer>}
       </SeedRadioSelectBox.Item>
     );
   },
 );
 RadioSelectBoxItem.displayName = "RadioSelectBoxItem";
 
-export interface CheckSelectBoxProps extends SeedCheckSelectBox.RootProps {
+export interface CheckSelectBoxProps extends Omit<SeedCheckSelectBox.RootProps, "children"> {
   label: React.ReactNode;
 
   description?: React.ReactNode;
@@ -75,18 +77,20 @@ export interface CheckSelectBoxProps extends SeedCheckSelectBox.RootProps {
 
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
-  rootRef?: React.Ref<HTMLLabelElement>;
+  rootRef?: React.Ref<HTMLDivElement>;
+
+  footer?: React.ReactNode;
 }
 
 /**
  * @see https://seed-design.io/react/components/select-box/check-select-box
  */
 export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxProps>(
-  ({ label, description, prefixIcon, suffix, inputProps, rootRef, ...otherProps }, ref) => {
+  ({ label, description, prefixIcon, suffix, inputProps, rootRef, footer, ...otherProps }, ref) => {
     return (
       <SeedCheckSelectBox.Root ref={rootRef} {...otherProps}>
-        <SeedCheckSelectBox.HiddenInput ref={ref} {...inputProps} />
         <SeedCheckSelectBox.Foo>
+          <SeedCheckSelectBox.HiddenInput ref={ref} {...inputProps} />
           <SeedCheckSelectBox.Content>
             {prefixIcon && <PrefixIcon svg={prefixIcon} />}
             <SeedCheckSelectBox.Body>
@@ -98,6 +102,7 @@ export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxP
           </SeedCheckSelectBox.Content>
           {suffix}
         </SeedCheckSelectBox.Foo>
+        {footer && <SeedCheckSelectBox.Footer>{footer}</SeedCheckSelectBox.Footer>}
       </SeedCheckSelectBox.Root>
     );
   },
