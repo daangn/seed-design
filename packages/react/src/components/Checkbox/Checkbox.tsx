@@ -35,7 +35,7 @@ export interface CheckboxRootProps
 export const CheckboxRoot = Object.assign(
   forwardRef<HTMLLabelElement, CheckboxRootProps>(({ className, ...props }, ref) => {
     if (
-      process.env["NODE_ENV"] !== "production" &&
+      process.env.NODE_ENV !== "production" &&
       (props.weight === "default" || props.weight === "stronger")
     ) {
       console.warn(

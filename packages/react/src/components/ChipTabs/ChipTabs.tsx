@@ -12,7 +12,7 @@ export interface ChipTabsRootProps extends ChipTabsVariantProps, TabsPrimitive.R
 
 export const ChipTabsRoot = forwardRef<HTMLDivElement, ChipTabsRootProps>(
   ({ className, ...props }, ref) => {
-    if (process.env["NODE_ENV"] !== "production" && props.variant === "brandSolid") {
+    if (process.env.NODE_ENV !== "production" && props.variant === "brandSolid") {
       console.warn(
         "[SEED Design System] ChipTabs variant='brandSolid' is deprecated and will be removed in @seed-design/react@1.3.0. Use variant='neutralSolid' or variant='neutralOutline' instead.",
       );

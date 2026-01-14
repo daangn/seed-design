@@ -102,7 +102,7 @@ function handleDisplay(display: string | undefined) {
     return undefined;
   }
 
-  if (process.env["NODE_ENV"] !== "production") {
+  if (process.env.NODE_ENV !== "production") {
     if (display === "inlineFlex" || display === "inlineBlock") {
       console.warn(
         `[SEED Design System] display='${display}' is deprecated and will be removed in @seed-design/react@1.3.0. Use display='${display === "inlineFlex" ? "inline-flex" : "inline-block"}' instead.`,
@@ -125,7 +125,7 @@ function handleFlexDirection(flexDirection: string | undefined) {
     return undefined;
   }
 
-  if (process.env["NODE_ENV"] !== "production") {
+  if (process.env.NODE_ENV !== "production") {
     if (flexDirection === "rowReverse" || flexDirection === "columnReverse") {
       console.warn(
         `[SEED Design System] flexDirection='${flexDirection}' is deprecated and will be removed in @seed-design/react@1.3.0. Use flexDirection='${flexDirection === "rowReverse" ? "row-reverse" : "column-reverse"}' instead.`,
@@ -148,7 +148,7 @@ function handleJustifyContent(justifyContent: string | undefined) {
     return undefined;
   }
 
-  if (process.env["NODE_ENV"] !== "production") {
+  if (process.env.NODE_ENV !== "production") {
     if (justifyContent === "flexStart" || justifyContent === "flexEnd") {
       console.warn(
         `[SEED Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @seed-design/react@1.3.0. Use justifyContent='${justifyContent === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
@@ -177,7 +177,7 @@ function handleAlignItems(alignItems: string | undefined) {
     return undefined;
   }
 
-  if (process.env["NODE_ENV"] !== "production") {
+  if (process.env.NODE_ENV !== "production") {
     if (alignItems === "flexStart" || alignItems === "flexEnd") {
       console.warn(
         `[SEED Design System] alignItems='${alignItems}' is deprecated and will be removed in @seed-design/react@1.3.0. Use alignItems='${alignItems === "flexStart" ? "flex-start" : "flex-end"}' instead.`,

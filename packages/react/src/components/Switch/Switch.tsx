@@ -33,7 +33,7 @@ export interface SwitchRootProps
 export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
   ({ className, ...props }, ref) => {
     if (
-      process.env["NODE_ENV"] !== "production" &&
+      process.env.NODE_ENV !== "production" &&
       (props.size === "small" || props.size === "medium")
     ) {
       console.warn(
