@@ -1,0 +1,173 @@
+---
+title: Select Box
+description: 체크박스 또는 라디오 버튼 형태로 옵션을 선택할 수 있는 컴포넌트입니다. 다중 선택에는 CheckSelectBox를, 단일 선택에는 RadioSelectBox를 사용합니다.
+---
+
+<ComponentExample name="react/select-box/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select-box/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:select-box
+```
+
+<ManualInstallation name="select-box" />
+
+## Props
+
+### Check Select Box
+
+#### `CheckSelectBoxGroup`
+
+<react-type-table
+  path="./registry/ui/select-box.tsx"
+  name="CheckSelectBoxGroupProps"
+/>
+
+#### `CheckSelectBox`
+
+<react-type-table
+  path="./registry/ui/select-box.tsx"
+  name="CheckSelectBoxProps"
+/>
+
+#### `CheckSelectBoxCheckmark`
+
+<react-type-table
+  path="./registry/ui/select-box.tsx"
+  name="CheckSelectBoxCheckmarkProps"
+/>
+
+### Radio Select Box
+
+#### `RadioSelectBoxRoot`
+
+<react-type-table
+  path="./registry/ui/select-box.tsx"
+  name="RadioSelectBoxRootProps"
+/>
+
+#### `RadioSelectBoxItem`
+
+<react-type-table
+  path="./registry/ui/select-box.tsx"
+  name="RadioSelectBoxItemProps"
+/>
+
+#### `RadioSelectBoxRadioMark`
+
+<react-type-table
+  path="./registry/ui/select-box.tsx"
+  name="RadioSelectBoxRadioMarkProps"
+/>
+
+## Examples
+
+### React Hook Form
+
+<ComponentExample name="react/select-box/react-hook-form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select-box/react-hook-form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizing Label
+
+<ComponentExample name="react/select-box/customizing-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select-box/customizing-label.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Listening to Value Changes
+
+`CheckSelectBox`는 `onCheckedChange`를 사용하여 체크박스의 선택 상태 변경을 감지할 수 있습니다.
+
+`RadioSelectBoxRoot`는 `onValueChange`를 사용하여 라디오 버튼의 선택 값 변경을 감지할 수 있습니다.
+
+<ComponentExample name="react/select-box/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select-box/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Grid Layout (Columns)
+
+`columns` prop을 사용하여 여러 열로 배치할 수 있습니다. `columns`가 1보다 크면 하위 요소의 `layout`이 자동으로 `"vertical"`로 설정됩니다.
+
+<ComponentExample name="react/select-box/columns">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select-box/columns.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizing Columns
+
+`span` prop으로 개별 항목이 여러 열을 차지하도록 설정할 수 있습니다. `layout` prop으로 개별 항목의 레이아웃을 오버라이드할 수 있습니다.
+
+<ComponentExample name="react/select-box/customizing-columns">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select-box/customizing-columns.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Suffix
+
+`suffix` prop을 사용하여 체크마크, 라디오 마크, 또는 커스텀 요소를 표시할 수 있습니다. `CheckSelectBoxCheckmark`와 `RadioSelectBoxRadioMark`를 사용하거나, 아이콘이나 텍스트 등 자유로운 요소를 전달할 수 있습니다.
+
+<ComponentExample name="react/select-box/with-suffix">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select-box/with-suffix.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Collapsible Footer
+
+`footer` prop으로 추가 콘텐츠를 표시할 수 있습니다. 기본적으로 항목이 선택되었을 때 footer가 보입니다. `footerVisibility`를 `"always"`로 설정하면 항상 표시됩니다.
+
+<ComponentExample name="react/select-box/collapsible-footer">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select-box/collapsible-footer.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Interactive Footer
+
+`footer`에 `TextFieldTextarea`와 같은 interactive element를 넣을 수 있습니다.
+
+<ComponentExample name="react/select-box/interactive-footer">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select-box/interactive-footer.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

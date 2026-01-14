@@ -59,7 +59,6 @@ export default function ActionButtonPrefixIcon() {
     <>
       <BoxButton prefix={<IconPlusFill />} /> {/* Sprout */}
       <BoxButton suffix={<IconPlusFill />} /> {/* Sprout */}
-
       <ActionButton>
         <PrefixIcon svg={<IconPlusFill />} />
         Prefix Icon
@@ -77,8 +76,6 @@ export default function ActionButtonPrefixIcon() {
 ```
 
 ## Components
-
-
 
 ### Avatar 업데이트
 
@@ -109,9 +106,25 @@ V2의 Dialog와 AlertDialog는 V3에서 [AlertDialog](/react/components/alert-di
 
 ```tsx
 // [!code --]
-import { Dialog, DialogContainer, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@daangn/sprout-components-dialog";
+import {
+  Dialog,
+  DialogContainer,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@daangn/sprout-components-dialog";
 // [!code ++]
-import { AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogRoot, AlertDialogTitle, AlertDialogTrigger } from "seed-design/ui/alert-dialog"; // snippet 제공
+import {
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogRoot,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "seed-design/ui/alert-dialog"; // snippet 제공
 ```
 
 - 기존에 `DialogHeader`로만 구조화되어 있던 부분을 세분화 (`AlertDialogContent`, `AlertDialogHeader`, `AlertDialogFooter`)
@@ -144,7 +157,7 @@ import { ActionButton } from "seed-design/ui/action-button"; // snippet 제공
   - `xlarge` size 제거
   - `Primary` → `Neutral Solid`
   - `Primary low` → `Neutral Weak`
-  - `Secondary` → `Neutral Weak` 
+  - `Secondary` → `Neutral Weak`
   - `Danger` → `Critical Solid`
   - TextButton을 대체하는 `ghost` variant 추가
 - `layout` prop 추가 (`withText`, `iconOnly`)
@@ -165,7 +178,10 @@ V2의 [BoxToggleButton](https://sprout-storybook.vercel.app/?path=/docs/componen
 
 ```tsx
 // [!code --]
-import { BoxToggleButton, CapsuleToggleButton } from "@daangn/sprout-components-button";
+import {
+  BoxToggleButton,
+  CapsuleToggleButton,
+} from "@daangn/sprout-components-button";
 // [!code ++]
 import { ToggleButton } from "seed-design/ui/toggle-button"; // snippet 제공
 // [!code ++]
@@ -237,7 +253,11 @@ V2의 [ChipRadio, ChipRadioGroup](https://sprout-storybook.vercel.app/?path=/doc
 
 ```tsx
 // [!code --]
-import { ChipToggleButton, ChipRadio, ChipRadioGroup } from "@daangn/sprout-components-chips";
+import {
+  ChipToggleButton,
+  ChipRadio,
+  ChipRadioGroup,
+} from "@daangn/sprout-components-chips";
 // [!code ++]
 import { Chip } from "seed-design/ui/chip"; // snippet 제공
 ```
@@ -262,7 +282,6 @@ import { Checkbox } from "seed-design/ui/checkbox"; // snippet 제공
   - `small` size 제거
 - `bold` prop을 `weight`으로 재구성
 
-
 <ComponentExample name="react/checkbox/preview">
   ```json doc-gen:file
   {
@@ -278,9 +297,16 @@ V2에서는 TextField, MultilineTextField 컴포넌트를 따로 제공했지만
 
 ```tsx
 // [!code --]
-import { TextField, MultilineTextField } from "@daangn/sprout-components-text-field";
+import {
+  TextField,
+  MultilineTextField,
+} from "@daangn/sprout-components-text-field";
 // [!code ++]
-import { TextField, TextFieldInput, TextFieldTextarea } from "seed-design/ui/text-field"; // snippet 제공
+import {
+  TextField,
+  TextFieldInput,
+  TextFieldTextarea,
+} from "seed-design/ui/text-field"; // snippet 제공
 ```
 
 - size 제거, variant 추가
@@ -304,9 +330,17 @@ V3에서는 [`PageBanner`](/react/components/page-banner) 컴포넌트로 제공
 
 ```tsx
 // [!code --]
-import { InlineBanner, ActionableInlineBanner, DismissibleInlineBanner } from "@daangn/sprout-components-banner";
+import {
+  InlineBanner,
+  ActionableInlineBanner,
+  DismissibleInlineBanner,
+} from "@daangn/sprout-components-banner";
 // [!code ++]
-import { PageBanner, ActionablePageBanner, DismissiblePageBanner } from "seed-design/ui/page-banner"; // snippet 제공
+import {
+  PageBanner,
+  ActionablePageBanner,
+  DismissiblePageBanner,
+} from "seed-design/ui/page-banner"; // snippet 제공
 ```
 
 - variant -> tone으로 변경 및 옵션 재구성
@@ -327,9 +361,17 @@ import { PageBanner, ActionablePageBanner, DismissiblePageBanner } from "seed-de
 
 ```tsx
 // [!code --]
-import { Callout, ActionableCallout, DismissibleCallout } from "@daangn/sprout-components-callout";
+import {
+  Callout,
+  ActionableCallout,
+  DismissibleCallout,
+} from "@daangn/sprout-components-callout";
 // [!code ++]
-import { Callout, ActionableCallout, DismissibleCallout } from "seed-design/ui/callout"; // snippet 제공
+import {
+  Callout,
+  ActionableCallout,
+  DismissibleCallout,
+} from "seed-design/ui/callout"; // snippet 제공
 ```
 
 - `variant` → `tone`으로 변경 및 옵션 재구성
@@ -345,7 +387,7 @@ import { Callout, ActionableCallout, DismissibleCallout } from "seed-design/ui/c
 
 ### SelectBox 업데이트
 
-V2에서는 `@daangn/sprout-components-select-box` 패키지에서 여러 SelectBox 관련 컴포넌트들을 제공했어요. V3에서는 이러한 컴포넌트들이 목적에 따라 재구성되었어요. 자세한 사용법은 [CheckSelectBox](/react/components/check-select-box) 및 [RadioSelectBox](/react/components/radio-select-box) 문서를 참고해주세요.
+V2에서는 `@daangn/sprout-components-select-box` 패키지에서 여러 SelectBox 관련 컴포넌트들을 제공했어요. V3에서는 이러한 컴포넌트들이 목적에 따라 재구성되었어요. 자세한 사용법은 [CheckSelectBox](/react/components/select-box) 및 [RadioSelectBox](/react/components/select-box) 문서를 참고해주세요.
 
 #### SelectBoxCheck
 
@@ -358,10 +400,10 @@ import { CheckSelectBox, CheckSelectBoxGroup } from "seed-design/ui/select-box";
 
 - `SelectBoxCheck` -> `CheckSelectBox`
 
-<ComponentExample name="react/check-select-box/preview">
+<ComponentExample name="react/select-box/preview">
   ```json doc-gen:file
   {
-    "file": "examples/react/check-select-box/preview.tsx",
+    "file": "examples/react/select-box/preview.tsx",
     "codeblock": true
   }
   ```
@@ -371,18 +413,24 @@ import { CheckSelectBox, CheckSelectBoxGroup } from "seed-design/ui/select-box";
 
 ```tsx
 // [!code --]
-import { SelectBoxRadio, SelectBoxRadioGroup } from "@daangn/sprout-components-select-box";
+import {
+  SelectBoxRadio,
+  SelectBoxRadioGroup,
+} from "@daangn/sprout-components-select-box";
 // [!code ++]
-import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-box"; // snippet 제공
+import {
+  RadioSelectBoxItem,
+  RadioSelectBoxRoot,
+} from "seed-design/ui/select-box"; // snippet 제공
 ```
 
 - `SelectBoxRadio` -> `RadioSelectBoxItem`
 - `SelectBoxRadioGroup` -> `RadioSelectBoxRoot`
 
-<ComponentExample name="react/radio-select-box/preview">
+<ComponentExample name="react/select-box/preview">
   ```json doc-gen:file
   {
-    "file": "examples/react/radio-select-box/preview.tsx",
+    "file": "examples/react/select-box/preview.tsx",
     "codeblock": true
   }
   ```
@@ -396,9 +444,20 @@ import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-bo
 
 ```tsx
 // [!code --]
-import { Tabs, TabList, Tab, TabPanelGroup, TabPanel } from "@daangn/sprout-components-tabs";
+import {
+  Tabs,
+  TabList,
+  Tab,
+  TabPanelGroup,
+  TabPanel,
+} from "@daangn/sprout-components-tabs";
 // [!code ++]
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs"; // snippet 제공
+import {
+  TabsContent,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "seed-design/ui/tabs"; // snippet 제공
 ```
 
 - size 옵션 재구성
@@ -472,9 +531,16 @@ import { ProgressCircle } from "seed-design/ui/progress-circle"; // snippet 제�
 
 ```tsx
 // [!code --]
-import { SnackBar, useSnackbarAdapter } from "@daangn/sprout-components-snackbar";
+import {
+  SnackBar,
+  useSnackbarAdapter,
+} from "@daangn/sprout-components-snackbar";
 // [!code ++]
-import { Snackbar, SnackbarProvider, useSnackbar } from "seed-design/ui/snackbar"; // snippet 제공
+import {
+  Snackbar,
+  SnackbarProvider,
+  useSnackbar,
+} from "seed-design/ui/snackbar"; // snippet 제공
 ```
 
 - variant 옵션 재구성
@@ -495,9 +561,15 @@ import { Snackbar, SnackbarProvider, useSnackbar } from "seed-design/ui/snackbar
 
 ```tsx
 // [!code --]
-import { HelpBubbleAnchor, HelpBubbleTrigger } from "@daangn/sprout-components-help-bubble";
+import {
+  HelpBubbleAnchor,
+  HelpBubbleTrigger,
+} from "@daangn/sprout-components-help-bubble";
 // [!code ++]
-import { HelpBubbleTrigger, HelpBubbleAnchor } from "seed-design/ui/help-bubble"; // snippet 제공
+import {
+  HelpBubbleTrigger,
+  HelpBubbleAnchor,
+} from "seed-design/ui/help-bubble"; // snippet 제공
 ```
 
 <ComponentExample name="react/help-bubble/preview">
