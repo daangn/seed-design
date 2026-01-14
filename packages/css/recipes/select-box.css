@@ -76,13 +76,18 @@
 .seed-select-box__description:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
 }
+.seed-select-box__footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 .seed-select-box__footer[data-collapsible] {
     overflow: hidden;
     height: 0;
     opacity: 0;
-    transition: height var(--seed-duration-d3) var(--seed-timing-function-easing), opacity var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: height var(--seed-duration-d3) var(--seed-timing-function-easing), opacity 0.1s var(--seed-timing-function-easing), transform var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
-.seed-select-box__footer[data-collapsible]:is(:checked, [data-checked]) {
+.seed-select-box__footer[data-collapsible]:is([data-state="open"], [data-open]) {
     height: var(--collapsible-content-height);
     opacity: 1;
 }
