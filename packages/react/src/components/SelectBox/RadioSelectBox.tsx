@@ -3,24 +3,27 @@ import {
   selectBoxGroup,
   type SelectBoxGroupVariantProps,
 } from "@seed-design/css/recipes/select-box-group";
+import {
+  CollapsibleProvider,
+  useCollapsible,
+  useCollapsibleContext,
+} from "@seed-design/react-collapsible";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import {
   RadioGroup as RadioGroupPrimitive,
   useRadioGroupItemContext,
 } from "@seed-design/react-radio-group";
-import { forwardRef, useId } from "react";
+import { forwardRef } from "react";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
 import {
-  GroupPropsProvider,
   PropsProvider,
   ClassNamesProvider,
-  ItemContextProvider,
   withContext,
   useProps,
-  useItemContext,
-  getFooterId,
-  type ItemContextValue,
+  useFooterState,
+  FooterStateProvider,
+  useFooterStateContext,
 } from "./context";
 
 const withStateProps = createWithStateProps([useRadioGroupItemContext]);
@@ -42,41 +45,54 @@ export const RadioSelectBoxRoot = forwardRef<HTMLDivElement, RadioSelectBoxRootP
     const layout = columns === 1 ? "horizontal" : "vertical";
 
     return (
-      <GroupPropsProvider value={{ columns }}>
-        <PropsProvider value={{ layout }}>
-          <RadioGroupPrimitive.Root
-            ref={ref}
-            data-columns={columns}
-            className={clsx(recipeClassName, className)}
-            style={
-              {
-                ...style,
-                "--seed-select-box-group--columns": columns,
-              } as React.CSSProperties
-            }
-            {...otherProps}
-          />
-        </PropsProvider>
-      </GroupPropsProvider>
+      <PropsProvider value={{ layout }}>
+        <RadioGroupPrimitive.Root
+          ref={ref}
+          data-columns={columns}
+          className={clsx(recipeClassName, className)}
+          style={
+            {
+              ...style,
+              "--seed-select-box-group--columns": columns,
+            } as React.CSSProperties
+          }
+          {...otherProps}
+        />
+      </PropsProvider>
     );
   },
 );
 
+function SelectBoxCollapsibleRoot({ children }: { children: React.ReactNode }) {
+  const { checked } = useRadioGroupItemContext();
+  const collapsible = useCollapsible({ open: checked });
+  const footerState = useFooterState();
+
+  return (
+    <CollapsibleProvider value={collapsible}>
+      <FooterStateProvider value={footerState}>{children}</FooterStateProvider>
+    </CollapsibleProvider>
+  );
+}
+
 export interface RadioSelectBoxItemProps
   extends SelectBoxVariantProps,
-    RadioGroupPrimitive.ItemProps,
-    Partial<ItemContextValue> {
+    RadioGroupPrimitive.ItemProps {
   /**
    * Number of columns to span in the grid.
    * @default 1
    */
   span?: number;
+
+  /**
+   * Controls when the footer is visible.
+   * @default "when-selected"
+   */
+  footerVisibility?: "always" | "when-selected";
 }
 
 export const RadioSelectBoxItem = forwardRef<HTMLDivElement, RadioSelectBoxItemProps>(
   ({ span = 1, footerVisibility = "when-selected", className, style, children, ...props }, ref) => {
-    const id = useId();
-
     const [variantProps, otherProps] = selectBox.splitVariantProps(props);
     const classNames = selectBox({
       ...useProps(),
@@ -84,24 +100,26 @@ export const RadioSelectBoxItem = forwardRef<HTMLDivElement, RadioSelectBoxItemP
     });
 
     return (
-      <ItemContextProvider value={{ footerVisibility, id }}>
-        <ClassNamesProvider value={classNames}>
-          <RadioGroupPrimitive.Item asChild {...otherProps}>
-            <Primitive.div
-              className={clsx(classNames.root, className)}
-              ref={ref}
-              style={
-                {
-                  ...style,
-                  "--seed-select-box--span": span,
-                } as React.CSSProperties
-              }
-            >
-              {children}
-            </Primitive.div>
-          </RadioGroupPrimitive.Item>
-        </ClassNamesProvider>
-      </ItemContextProvider>
+      <ClassNamesProvider value={classNames}>
+        <RadioGroupPrimitive.Item asChild {...otherProps}>
+          <Primitive.div
+            className={clsx(classNames.root, className)}
+            ref={ref}
+            style={
+              {
+                ...style,
+                "--seed-select-box--span": span,
+              } as React.CSSProperties
+            }
+          >
+            {footerVisibility === "when-selected" ? (
+              <SelectBoxCollapsibleRoot>{children}</SelectBoxCollapsibleRoot>
+            ) : (
+              children
+            )}
+          </Primitive.div>
+        </RadioGroupPrimitive.Item>
+      </ClassNamesProvider>
     );
   },
 );
@@ -151,28 +169,24 @@ export const RadioSelectBoxDescription = withContext<
   RadioSelectBoxDescriptionProps
 >(withStateProps(Primitive.div), "description");
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface RadioSelectBoxHiddenInputProps extends RadioGroupPrimitive.ItemHiddenInputProps {}
 
 export const RadioSelectBoxHiddenInput = forwardRef<
   HTMLInputElement,
   RadioSelectBoxHiddenInputProps
 >((props, ref) => {
-  const itemContext = useItemContext();
-  const radioItemContext = useRadioGroupItemContext({ strict: false });
+  // when footerVisibility !== "when-selected", this context is automatically unavailable since it's not wrapped in CollapsibleProvider
 
-  const ariaProps =
-    itemContext?.footerVisibility === "when-selected"
-      ? {
-          // NOTE: aria-expanded on role="radio" is not officially supported. See: https://github.com/w3c/aria/issues/1404
-          // but it helps some screen readers to announce the expanded/collapsed state of the footer.
-          // gov.uk applies aria-expanded on the radio input as well. See: https://design-system.service.gov.uk/components/radios/#conditionally-revealing-a-related-question
-          "aria-expanded": radioItemContext?.checked ?? false,
-          "aria-controls": getFooterId(itemContext.id),
-        }
-      : {};
+  // NOTE: aria-expanded on role="radio" is not officially supported. See: https://github.com/w3c/aria/issues/1404
+  // but it helps some screen readers to announce the expanded/collapsed state of the footer.
+  // gov.uk applies aria-expanded on the radio input as well. See: https://design-system.service.gov.uk/components/radios/#conditionally-revealing-a-related-question
+  const collapsibleContext = useCollapsibleContext({ strict: false });
+  const footerStateContext = useFooterStateContext();
 
-  return <RadioGroupPrimitive.ItemHiddenInput ref={ref} {...ariaProps} {...props} />;
+  const triggerAriaProps = footerStateContext?.isFooterRendered
+    ? collapsibleContext?.triggerAriaProps
+    : undefined;
+
+  return <RadioGroupPrimitive.ItemHiddenInput ref={ref} {...triggerAriaProps} {...props} />;
 });
 RadioSelectBoxHiddenInput.displayName = "RadioSelectBoxHiddenInput";

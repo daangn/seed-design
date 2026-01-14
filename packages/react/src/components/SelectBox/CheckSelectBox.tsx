@@ -8,22 +8,25 @@ import {
   type SelectBoxGroupVariantProps,
 } from "@seed-design/css/recipes/select-box-group";
 import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
+import {
+  CollapsibleProvider,
+  useCollapsible,
+  useCollapsibleContext,
+} from "@seed-design/react-collapsible";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
-import { forwardRef, useId } from "react";
+import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import {
-  GroupPropsProvider,
   PropsProvider,
   ClassNamesProvider,
-  ItemContextProvider,
   withContext,
   useProps,
-  useItemContext,
-  getFooterId,
-  type ItemContextValue,
+  useFooterState,
+  FooterStateProvider,
+  useFooterStateContext,
 } from "./context";
 
 const withStateProps = createWithStateProps([useCheckboxContext]);
@@ -46,42 +49,55 @@ export const CheckSelectBoxGroup = forwardRef<HTMLDivElement, CheckSelectBoxGrou
     const layout = columns === 1 ? "horizontal" : "vertical";
 
     return (
-      <GroupPropsProvider value={{ columns }}>
-        <PropsProvider value={{ layout }}>
-          <Primitive.div
-            ref={ref}
-            role="group"
-            data-columns={columns}
-            className={clsx(recipeClassName, className)}
-            style={
-              {
-                ...style,
-                "--seed-select-box-group--columns": columns,
-              } as React.CSSProperties
-            }
-            {...otherProps}
-          />
-        </PropsProvider>
-      </GroupPropsProvider>
+      <PropsProvider value={{ layout }}>
+        <Primitive.div
+          ref={ref}
+          role="group"
+          data-columns={columns}
+          className={clsx(recipeClassName, className)}
+          style={
+            {
+              ...style,
+              "--seed-select-box-group--columns": columns,
+            } as React.CSSProperties
+          }
+          {...otherProps}
+        />
+      </PropsProvider>
     );
   },
 );
 
+function SelectBoxCollapsibleRoot({ children }: { children: React.ReactNode }) {
+  const { checked } = useCheckboxContext();
+  const collapsible = useCollapsible({ open: checked });
+  const footerState = useFooterState();
+
+  return (
+    <CollapsibleProvider value={collapsible}>
+      <FooterStateProvider value={footerState}>{children}</FooterStateProvider>
+    </CollapsibleProvider>
+  );
+}
+
 export interface CheckSelectBoxRootProps
   extends SelectBoxVariantProps,
-    CheckboxPrimitive.RootProps,
-    Partial<ItemContextValue> {
+    CheckboxPrimitive.RootProps {
   /**
    * Number of columns to span in the grid.
    * @default 1
    */
   span?: number;
+
+  /**
+   * Controls when the footer is visible.
+   * @default "when-selected"
+   */
+  footerVisibility?: "always" | "when-selected";
 }
 
 export const CheckSelectBoxRoot = forwardRef<HTMLDivElement, CheckSelectBoxRootProps>(
   ({ span = 1, footerVisibility = "when-selected", className, style, children, ...props }, ref) => {
-    const id = useId();
-
     const [variantProps, otherProps] = selectBox.splitVariantProps(props);
     const classNames = selectBox({
       ...useProps(),
@@ -89,24 +105,26 @@ export const CheckSelectBoxRoot = forwardRef<HTMLDivElement, CheckSelectBoxRootP
     });
 
     return (
-      <ItemContextProvider value={{ footerVisibility, id }}>
-        <ClassNamesProvider value={classNames}>
-          <CheckboxPrimitive.Root asChild {...otherProps}>
-            <Primitive.div
-              className={clsx(classNames.root, className)}
-              ref={ref}
-              style={
-                {
-                  ...style,
-                  "--seed-select-box--span": span,
-                } as React.CSSProperties
-              }
-            >
-              {children}
-            </Primitive.div>
-          </CheckboxPrimitive.Root>
-        </ClassNamesProvider>
-      </ItemContextProvider>
+      <ClassNamesProvider value={classNames}>
+        <CheckboxPrimitive.Root asChild {...otherProps}>
+          <Primitive.div
+            className={clsx(classNames.root, className)}
+            ref={ref}
+            style={
+              {
+                ...style,
+                "--seed-select-box--span": span,
+              } as React.CSSProperties
+            }
+          >
+            {footerVisibility === "when-selected" ? (
+              <SelectBoxCollapsibleRoot>{children}</SelectBoxCollapsibleRoot>
+            ) : (
+              children
+            )}
+          </Primitive.div>
+        </CheckboxPrimitive.Root>
+      </ClassNamesProvider>
     );
   },
 );
@@ -156,8 +174,6 @@ export const CheckSelectBoxDescription = withContext<
   CheckSelectBoxDescriptionProps
 >(withStateProps(Primitive.div), "description");
 
-////////////////////////////////////////////////////////////////////////////////////
-
 const { withProvider: withCheckmarkProvider, withContext: withCheckmarkContext } =
   createSlotRecipeContext(selectBoxCheckmark);
 const withCheckmarkStateProps = createWithStateProps([useCheckboxContext]);
@@ -171,8 +187,6 @@ export const CheckSelectBoxCheckmarkControl = withCheckmarkProvider<
   CheckSelectBoxCheckmarkControlProps
 >(CheckboxPrimitive.Control, "root");
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface CheckSelectBoxCheckmarkIconProps extends InternalIconProps {}
 
 export const CheckSelectBoxCheckmarkIcon = withCheckmarkContext<
@@ -180,25 +194,20 @@ export const CheckSelectBoxCheckmarkIcon = withCheckmarkContext<
   CheckSelectBoxCheckmarkIconProps
 >(withCheckmarkStateProps(InternalIcon), "icon");
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface CheckSelectBoxHiddenInputProps extends CheckboxPrimitive.HiddenInputProps {}
 
 export const CheckSelectBoxHiddenInput = forwardRef<
   HTMLInputElement,
   CheckSelectBoxHiddenInputProps
 >((props, ref) => {
-  const itemContext = useItemContext();
-  const checkboxContext = useCheckboxContext();
+  // when footerVisibility !== "when-selected", this context is automatically unavailable since it's not wrapped in CollapsibleProvider
+  const collapsibleContext = useCollapsibleContext({ strict: false });
+  const footerStateContext = useFooterStateContext();
 
-  const ariaProps =
-    itemContext?.footerVisibility === "when-selected"
-      ? {
-          "aria-expanded": checkboxContext?.checked ?? false,
-          "aria-controls": getFooterId(itemContext.id),
-        }
-      : {};
+  const triggerAriaProps = footerStateContext?.isFooterRendered
+    ? collapsibleContext?.triggerAriaProps
+    : undefined;
 
-  return <CheckboxPrimitive.HiddenInput ref={ref} {...ariaProps} {...props} />;
+  return <CheckboxPrimitive.HiddenInput ref={ref} {...triggerAriaProps} {...props} />;
 });
 CheckSelectBoxHiddenInput.displayName = "CheckSelectBoxHiddenInput";

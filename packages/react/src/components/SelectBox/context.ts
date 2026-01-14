@@ -1,31 +1,28 @@
 import { selectBox } from "@seed-design/css/recipes/select-box";
-import { selectBoxGroup } from "@seed-design/css/recipes/select-box-group";
-import { createContext, useContext } from "react";
-import { createRecipeContext } from "../../utils/createRecipeContext";
+import { createContext, useCallback, useContext, useState } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-export const { PropsProvider: GroupPropsProvider } = createRecipeContext(selectBoxGroup);
 export const { PropsProvider, ClassNamesProvider, withContext, useProps, useClassNames } =
   createSlotRecipeContext(selectBox);
 
-export interface ItemContextValue {
-  /**
-   * Controls when the footer is visible.
-   * - `always`: Footer is always visible
-   * - `when-selected`: Footer is only visible when the item is selected
-   * @default "when-selected"
-   */
-  footerVisibility: "always" | "when-selected";
-
-  id: string;
+interface FooterStateContextValue {
+  isFooterRendered: boolean;
+  footerRef: (node: HTMLDivElement | null) => void;
 }
 
-const ItemContext = createContext<ItemContextValue | null>(null);
+const FooterStateContext = createContext<FooterStateContextValue | null>(null);
 
-export const ItemContextProvider = ItemContext.Provider;
+export function useFooterState() {
+  const [isFooterRendered, setIsFooterRendered] = useState(false);
+  const footerRef = useCallback((node: HTMLDivElement | null) => {
+    setIsFooterRendered(!!node);
+  }, []);
 
-export function useItemContext() {
-  return useContext(ItemContext);
+  return { isFooterRendered, footerRef };
 }
 
-export const getFooterId = (id: string) => `select-box:${id}:footer`;
+export const FooterStateProvider = FooterStateContext.Provider;
+
+export function useFooterStateContext() {
+  return useContext(FooterStateContext);
+}
