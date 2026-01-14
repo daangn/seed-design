@@ -83,7 +83,7 @@
     transition: height var(--seed-duration-d3) var(--seed-timing-function-easing), opacity var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-select-box__footer[data-collapsible]:is(:checked, [data-checked]) {
-    height: var(--seed-select-box-panel-height);
+    height: var(--collapsible-content-height);
     opacity: 1;
 }
 .seed-select-box__trigger--layout_horizontal {

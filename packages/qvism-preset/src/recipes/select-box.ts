@@ -147,7 +147,7 @@ export const selectBox = defineSlotRecipe({
       },
 
       [pseudo("[data-collapsible]", checked)]: {
-        height: "var(--seed-select-box-panel-height)",
+        height: "var(--collapsible-content-height)",
         opacity: 1,
       },
     },

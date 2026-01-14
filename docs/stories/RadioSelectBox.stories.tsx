@@ -115,6 +115,11 @@ export const CollapsibleFooter: Story = {
           <Box bgGradient="highlightMagic" bgGradientDirection="to bottom right" height="300px" />
         }
       />
+      <RadioSelectBoxItem
+        value="item4"
+        label="Footer 없음"
+        description="footer 없이 사용하는 경우 (aria-expanded 없음)"
+      />
     </RadioSelectBoxRoot>
   ),
 };

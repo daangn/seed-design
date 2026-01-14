@@ -6135,7 +6135,7 @@
 }
 
 .seed-select-box__footer[data-collapsible]:is(:checked, [data-checked]) {
-  height: var(--seed-select-box-panel-height);
+  height: var(--collapsible-content-height);
   opacity: 1;
 }
 

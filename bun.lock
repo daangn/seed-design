@@ -438,6 +438,7 @@
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.1",
+        "@seed-design/react-collapsible": "1.0.0",
         "@seed-design/react-dialog": "1.0.1",
         "@seed-design/react-drawer": "1.0.5",
         "@seed-design/react-field": "1.0.1",
@@ -506,6 +507,26 @@
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-supports": "0.0.1",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/collapsible": {
+      "name": "@seed-design/react-collapsible",
+      "version": "1.0.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
+        "@radix-ui/react-use-layout-effect": "^1.1.1",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-primitive": "1.0.0",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -2305,6 +2326,8 @@
     "@seed-design/react-avatar": ["@seed-design/react-avatar@workspace:packages/react-headless/avatar"],
 
     "@seed-design/react-checkbox": ["@seed-design/react-checkbox@workspace:packages/react-headless/checkbox"],
+
+    "@seed-design/react-collapsible": ["@seed-design/react-collapsible@workspace:packages/react-headless/collapsible"],
 
     "@seed-design/react-dialog": ["@seed-design/react-dialog@workspace:packages/react-headless/dialog"],
 
