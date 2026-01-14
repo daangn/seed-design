@@ -1,4 +1,4 @@
-import { Text, VStack } from "@seed-design/react";
+import { HStack, Text, VStack } from "@seed-design/react";
 import {
   CheckSelectBox,
   CheckSelectBoxCheckmark,
@@ -17,8 +17,8 @@ export default function SelectBoxValueChanges() {
   const [radioLastValue, setRadioLastValue] = useState<string | null>(null);
 
   return (
-    <VStack gap="x6" align="center" width="full">
-      <VStack gap="x4" align="center" width="full">
+    <HStack gap="x6" align="center" width="full">
+      <VStack gap="x4" align="center" grow>
         <CheckSelectBoxGroup>
           <CheckSelectBox
             label="Apple"
@@ -34,7 +34,7 @@ export default function SelectBoxValueChanges() {
         </Text>
       </VStack>
 
-      <VStack gap="x4" align="center" width="full">
+      <VStack gap="x4" align="center" grow>
         <RadioSelectBoxRoot
           defaultValue="apple"
           aria-label="Fruit"
@@ -50,6 +50,6 @@ export default function SelectBoxValueChanges() {
           onValueChange called: {radioCount} times, last value: {radioLastValue ?? "-"}
         </Text>
       </VStack>
-    </VStack>
+    </HStack>
   );
 }

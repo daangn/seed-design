@@ -58,6 +58,7 @@ export default function SelectBoxReactHookForm() {
   return (
     <HStack gap="x6" width="full" align="flex-start">
       <VStack
+        grow
         gap="x3"
         as="form"
         onSubmit={checkForm.handleSubmit(onCheckValid)}
@@ -79,6 +80,7 @@ export default function SelectBoxReactHookForm() {
       </VStack>
 
       <VStack
+        grow
         gap="x3"
         as="form"
         onSubmit={radioForm.handleSubmit(onRadioValid)}

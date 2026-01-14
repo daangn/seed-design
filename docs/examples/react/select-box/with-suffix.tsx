@@ -1,4 +1,4 @@
-import { IconPersonCircleLine, IconStarFill } from "@karrotmarket/react-monochrome-icon";
+import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, Text, VStack } from "@seed-design/react";
 import {
   CheckSelectBox,
@@ -11,13 +11,7 @@ import {
 
 export default function SelectBoxWithSuffix() {
   return (
-    <VStack gap="x6">
-      {/* suffix 없음 */}
-      <CheckSelectBoxGroup>
-        <CheckSelectBox label="suffix 없음" />
-        <CheckSelectBox label="suffix 없음" description="기본 스타일" />
-      </CheckSelectBoxGroup>
-
+    <VStack gap="x8">
       {/* CheckSelectBoxCheckmark / RadioSelectBoxRadioMark 사용 */}
       <CheckSelectBoxGroup>
         <CheckSelectBox label="체크마크" suffix={<CheckSelectBoxCheckmark />} />
@@ -28,7 +22,6 @@ export default function SelectBoxWithSuffix() {
           suffix={<CheckSelectBoxCheckmark />}
         />
       </CheckSelectBoxGroup>
-
       <RadioSelectBoxRoot defaultValue="radio1" aria-label="RadioMark 예제">
         <RadioSelectBoxItem
           value="radio1"
@@ -44,21 +37,20 @@ export default function SelectBoxWithSuffix() {
         />
       </RadioSelectBoxRoot>
 
+      {/* suffix 없음 */}
+      <CheckSelectBoxGroup>
+        <CheckSelectBox label="suffix 없음" />
+        <CheckSelectBox label="suffix 없음" description="기본 스타일" />
+      </CheckSelectBoxGroup>
+
       {/* 커스텀 suffix */}
       <CheckSelectBoxGroup>
         <CheckSelectBox
-          label="커스텀 suffix"
-          description="아이콘이나 텍스트 등 자유롭게 사용 가능"
-          suffix={<IconStarFill width={20} height={20} color="var(--seed-color-fg-brand)" />}
-        />
-        <CheckSelectBox
           label="텍스트 suffix"
           suffix={
-            <Box pr="x2">
-              <Text textStyle="t4Medium" color="fg.neutral">
-                +1,000원
-              </Text>
-            </Box>
+            <Text textStyle="t4Medium" color="fg.neutral">
+              +1,000원
+            </Text>
           }
         />
       </CheckSelectBoxGroup>
