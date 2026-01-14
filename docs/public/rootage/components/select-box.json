@@ -43,7 +43,7 @@
             }
           }
         },
-        "foo": {
+        "trigger": {
           "properties": {
             "gap": {
               "type": "dimension"
@@ -189,7 +189,7 @@
                   "value": "$timing-function.easing"
                 }
               },
-              "foo": {
+              "trigger": {
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"
@@ -347,7 +347,7 @@
               "enabled"
             ],
             "slots": {
-              "foo": {
+              "trigger": {
                 "paddingLeft": {
                   "type": "dimension",
                   "value": "$dimension.x5"
@@ -381,7 +381,7 @@
               "enabled"
             ],
             "slots": {
-              "foo": {
+              "trigger": {
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x4"

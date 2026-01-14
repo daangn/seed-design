@@ -33,7 +33,7 @@
 .seed-select-box__root:is(:disabled, [disabled], [data-disabled])::after {
     border-color: var(--seed-color-stroke-neutral-muted);
 }
-.seed-select-box__foo {
+.seed-select-box__trigger {
     display: flex;
     justify-content: space-between;
     cursor: pointer;
@@ -86,7 +86,7 @@
     height: var(--seed-select-box-panel-height);
     opacity: 1;
 }
-.seed-select-box__foo--layout_horizontal {
+.seed-select-box__trigger--layout_horizontal {
     align-items: center;
     padding-left: var(--seed-dimension-x5);
     padding-right: var(--seed-dimension-x4);
@@ -97,7 +97,7 @@
     align-items: center;
     gap: var(--seed-dimension-x3);
 }
-.seed-select-box__foo--layout_vertical {
+.seed-select-box__trigger--layout_vertical {
     padding-left: var(--seed-dimension-x4);
     padding-right: var(--seed-dimension-x4);
     padding-top: var(--seed-dimension-x5);

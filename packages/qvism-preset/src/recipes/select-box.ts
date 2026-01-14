@@ -25,7 +25,7 @@ export const selectBoxGroup = defineRecipe({
 
 export const selectBox = defineSlotRecipe({
   name: "select-box",
-  slots: ["root", "foo", "content", "body", "label", "description", "footer"],
+  slots: ["root", "trigger", "content", "body", "label", "description", "footer"],
   base: {
     root: {
       cursor: "pointer",
@@ -77,13 +77,13 @@ export const selectBox = defineSlotRecipe({
         },
       },
     },
-    foo: {
+    trigger: {
       display: "flex",
       justifyContent: "space-between",
 
       cursor: "pointer", // `label` should have pointer cursor on the element itself
 
-      gap: vars.base.enabled.foo.gap,
+      gap: vars.base.enabled.trigger.gap,
 
       flexGrow: 1,
     },
@@ -155,13 +155,13 @@ export const selectBox = defineSlotRecipe({
   variants: {
     layout: {
       horizontal: {
-        foo: {
+        trigger: {
           alignItems: "center",
 
-          paddingLeft: vars.layoutHorizontal.enabled.foo.paddingLeft,
-          paddingRight: vars.layoutHorizontal.enabled.foo.paddingRight,
-          paddingTop: vars.layoutHorizontal.enabled.foo.paddingY,
-          paddingBottom: vars.layoutHorizontal.enabled.foo.paddingY,
+          paddingLeft: vars.layoutHorizontal.enabled.trigger.paddingLeft,
+          paddingRight: vars.layoutHorizontal.enabled.trigger.paddingRight,
+          paddingTop: vars.layoutHorizontal.enabled.trigger.paddingY,
+          paddingBottom: vars.layoutHorizontal.enabled.trigger.paddingY,
         },
         content: {
           alignItems: "center",
@@ -170,11 +170,11 @@ export const selectBox = defineSlotRecipe({
         },
       },
       vertical: {
-        foo: {
-          paddingLeft: vars.layoutVertical.enabled.foo.paddingX,
-          paddingRight: vars.layoutVertical.enabled.foo.paddingX,
-          paddingTop: vars.layoutVertical.enabled.foo.paddingY,
-          paddingBottom: vars.layoutVertical.enabled.foo.paddingY,
+        trigger: {
+          paddingLeft: vars.layoutVertical.enabled.trigger.paddingX,
+          paddingRight: vars.layoutVertical.enabled.trigger.paddingX,
+          paddingTop: vars.layoutVertical.enabled.trigger.paddingY,
+          paddingBottom: vars.layoutVertical.enabled.trigger.paddingY,
         },
         content: {
           flexDirection: "column",
