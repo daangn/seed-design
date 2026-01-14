@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: gradient
   name: Gradient
-  lastUpdated: 26-01-06
+  lastUpdated: 26-01-14
 data:
   collection: color
   tokens:
@@ -128,9 +128,9 @@ data:
           value:
             - color: "#fff9f500"
               position: 0
-            - color: "#fff9f58a"
+            - color: "#fff9f5cc"
               position: 0.46
-            - color: "#fff9f58a"
+            - color: "#fff9f5cc"
               position: 0.54
             - color: "#fff9f500"
               position: 1
@@ -153,9 +153,9 @@ data:
           value:
             - color: "#ffffff00"
               position: 0
-            - color: "#ffffff66"
+            - color: "#ffffffab"
               position: 0.46
-            - color: "#ffffff66"
+            - color: "#ffffffab"
               position: 0.54
             - color: "#ffffff00"
               position: 1
