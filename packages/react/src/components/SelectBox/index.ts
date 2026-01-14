@@ -20,6 +20,7 @@ export {
   RadioSelectBoxContent,
   RadioSelectBoxDescription,
   RadioSelectBoxFoo,
+  RadioSelectBoxHiddenInput,
   RadioSelectBoxItem,
   RadioSelectBoxLabel,
   RadioSelectBoxRoot,
@@ -27,10 +28,13 @@ export {
   type RadioSelectBoxContentProps,
   type RadioSelectBoxDescriptionProps,
   type RadioSelectBoxFooProps,
+  type RadioSelectBoxHiddenInputProps,
   type RadioSelectBoxItemProps,
   type RadioSelectBoxLabelProps,
   type RadioSelectBoxRootProps,
 } from "./RadioSelectBox";
+
+export { SelectBoxFooter, type SelectBoxFooterProps } from "./SelectBoxFooter";
 
 export * as CheckSelectBox from "./CheckSelectBox.namespace";
 export * as RadioSelectBox from "./RadioSelectBox.namespace";

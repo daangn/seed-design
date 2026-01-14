@@ -6,6 +6,7 @@ import {
   CheckSelectBoxGroup,
 } from "seed-design/ui/select-box";
 import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
+import { Box, Text } from "@seed-design/react";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
@@ -90,3 +91,43 @@ export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { fontScale: "Extra Extra Extra Large" },
 });
+
+export const CollapsibleFooter: Story = {
+  args: {
+    label: "Footer 테스트",
+  },
+  render: () => (
+    <CheckSelectBoxGroup columns={1}>
+      <CheckSelectBox
+        label="항상 표시 + 클릭 시 선택"
+        description="footerCollapsible이 false면 항상 표시되고, 클릭 시 선택됩니다."
+        suffix={<CheckSelectBoxCheckmark />}
+        footer={
+          <Box px="x5" pb="x5">
+            <Text textStyle="t3StaticMedium">이 영역을 클릭해도 항목이 선택됩니다.</Text>
+          </Box>
+        }
+      />
+      <CheckSelectBox
+        label="선택 시에만 표시 (collapsible)"
+        description="footerCollapsible이 true면 선택 시에만 표시됩니다."
+        suffix={<CheckSelectBoxCheckmark />}
+        footerCollapsible
+        footer={
+          <Box px="x5" pb="x5">
+            <Text textStyle="t3StaticMedium">이 항목이 선택되었을 때만 보입니다.</Text>
+          </Box>
+        }
+      />
+      <CheckSelectBox
+        label="긴 내용 테스트"
+        description="동적 높이 변화 테스트"
+        suffix={<CheckSelectBoxCheckmark />}
+        footerCollapsible
+        footer={
+          <Box bgGradient="highlightMagic" bgGradientDirection="to bottom right" height="300px" />
+        }
+      />
+    </CheckSelectBoxGroup>
+  ),
+};

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-box";
-import { PrefixIcon } from "@seed-design/react";
+import { Box, PrefixIcon, Text } from "@seed-design/react";
 import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
 
 import { SeedThemeDecorator } from "./components/decorator";
@@ -82,3 +82,40 @@ export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { fontScale: "Extra Extra Extra Large" },
 });
+
+export const CollapsibleFooter: Story = {
+  render: () => (
+    <RadioSelectBoxRoot defaultValue="item1" aria-label="Footer 테스트">
+      <RadioSelectBoxItem
+        value="item1"
+        label="항상 표시 + 클릭 시 선택"
+        description="footerCollapsible이 false면 항상 표시되고, 클릭 시 선택됩니다."
+        footer={
+          <Box px="x5" pb="x5">
+            <Text textStyle="t3StaticMedium">이 영역을 클릭해도 항목이 선택됩니다.</Text>
+          </Box>
+        }
+      />
+      <RadioSelectBoxItem
+        value="item2"
+        label="선택 시에만 표시 (collapsible)"
+        description="footerCollapsible이 true면 선택 시에만 표시됩니다."
+        footerCollapsible
+        footer={
+          <Box px="x5" pb="x5">
+            <Text textStyle="t3StaticMedium">이 항목이 선택되었을 때만 보입니다.</Text>
+          </Box>
+        }
+      />
+      <RadioSelectBoxItem
+        value="item3"
+        label="긴 내용 테스트"
+        description="동적 높이 변화 테스트"
+        footerCollapsible
+        footer={
+          <Box bgGradient="highlightMagic" bgGradientDirection="to bottom right" height="300px" />
+        }
+      />
+    </RadioSelectBoxRoot>
+  ),
+};

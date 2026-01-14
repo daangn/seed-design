@@ -27,8 +27,8 @@ const selectBoxSlotNames = [
     "seed-select-box__description"
   ],
   [
-    "collapsible",
-    "seed-select-box__collapsible"
+    "footer",
+    "seed-select-box__footer"
   ]
 ];
 
