@@ -5,7 +5,7 @@ import { useCheckboxContext } from "@seed-design/react-checkbox";
 import { Collapsible, useCollapsibleContext } from "@seed-design/react-collapsible";
 import { forwardRef } from "react";
 import clsx from "clsx";
-import { isTabbable } from "tabbable";
+import { isTabbable, isFocusable } from "tabbable";
 import { useClassNames, useFooterStateContext } from "./context";
 
 export interface SelectBoxFooterProps
@@ -40,6 +40,15 @@ export const SelectBoxFooter = forwardRef<HTMLDivElement, SelectBoxFooterProps>(
       if (event.defaultPrevented) return;
 
       if (event.target instanceof HTMLElement && isTabbable(event.target)) return;
+
+      // Check if clicking a label that controls a focusable element
+      if (
+        event.target instanceof HTMLLabelElement &&
+        event.target.control &&
+        isFocusable(event.target.control)
+      ) {
+        return;
+      }
 
       if (checkboxContext) {
         checkboxContext.setChecked((prev) => !prev);
