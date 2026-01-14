@@ -17,6 +17,15 @@ export const vars = {
       }
     }
   },
+  "textStyleArticleNote": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t5)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
   "textStyleT1Regular": {
     "enabled": {
       "root": {

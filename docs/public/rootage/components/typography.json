@@ -32,6 +32,9 @@
             "articleBody": {
               "description": "게시물이나 콘텐츠 중심 섹션의 본문 텍스트에 사용합니다."
             },
+            "articleNote": {
+              "description": "주석, 참고 사항 및 상세 리스트 등 부가 정보에 사용하며, 일반 본문 텍스트에는 사용하지 않습니다."
+            },
             "t1Regular": {},
             "t1Medium": {},
             "t1Bold": {},
@@ -180,6 +183,34 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t6"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "articleNote"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
                 },
                 "fontWeight": {
                   "type": "number",
