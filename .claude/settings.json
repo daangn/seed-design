@@ -9,6 +9,15 @@
             "command": "jq -r '.tool_response.filePath' | xargs bun biome format --write"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-edit-tasks.sh"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
