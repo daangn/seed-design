@@ -1,5 +1,16 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.command' | grep -qE '^(npm|pnpm|yarn)\\s|\\s(npm|pnpm|yarn)\\s|;\\s*(npm|pnpm|yarn)\\s' && { echo '⚠️ Use `bun` instead of npm/pnpm/yarn in this project.' >&2; exit 2; } || exit 0"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit",
