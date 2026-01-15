@@ -31,7 +31,7 @@ export declare const vars: {
   "variantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)"
+        "color": "var(--seed-color-bg-neutral-weak-alpha)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"
@@ -49,7 +49,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--seed-color-bg-neutral-weak-alpha-pressed)"
       }
     },
     "disabled": {

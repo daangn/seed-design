@@ -192,6 +192,8 @@ export default plugin(
   "bg-neutral-solid-muted": "var(--seed-color-bg-neutral-solid-muted)",
   "bg-neutral-solid-muted-pressed": "var(--seed-color-bg-neutral-solid-muted-pressed)",
   "bg-neutral-weak": "var(--seed-color-bg-neutral-weak)",
+  "bg-neutral-weak-alpha": "var(--seed-color-bg-neutral-weak-alpha)",
+  "bg-neutral-weak-alpha-pressed": "var(--seed-color-bg-neutral-weak-alpha-pressed)",
   "bg-neutral-weak-pressed": "var(--seed-color-bg-neutral-weak-pressed)",
   "bg-overlay": "var(--seed-color-bg-overlay)",
   "bg-overlay-muted": "var(--seed-color-bg-overlay-muted)",

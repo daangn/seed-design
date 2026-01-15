@@ -48,6 +48,10 @@ export declare const neutralSolidMuted = "var(--seed-color-bg-neutral-solid-mute
 export declare const neutralSolidMutedPressed = "var(--seed-color-bg-neutral-solid-muted-pressed)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak) */
 export declare const neutralWeak = "var(--seed-color-bg-neutral-weak)";
+/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다. */
+export declare const neutralWeakAlpha = "var(--seed-color-bg-neutral-weak-alpha)";
+/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha-pressed) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다. */
+export declare const neutralWeakAlphaPressed = "var(--seed-color-bg-neutral-weak-alpha-pressed)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-pressed) */
 export declare const neutralWeakPressed = "var(--seed-color-bg-neutral-weak-pressed)";
 export declare const overlay = "var(--seed-color-bg-overlay)";

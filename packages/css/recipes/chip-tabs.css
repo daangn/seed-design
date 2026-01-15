@@ -70,7 +70,7 @@
     padding-right: var(--seed-dimension-x4);
 }
 .seed-chip-tabs__trigger--variant_neutralSolid {
-    background-color: var(--seed-color-bg-neutral-weak);
+    background-color: var(--seed-color-bg-neutral-weak-alpha);
     color: var(--seed-color-fg-neutral);
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]) {
@@ -78,7 +78,7 @@
     color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
+    background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);

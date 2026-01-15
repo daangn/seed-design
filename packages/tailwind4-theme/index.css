@@ -135,6 +135,8 @@
   --color-bg-neutral-solid-muted: var(--seed-color-bg-neutral-solid-muted);
   --color-bg-neutral-solid-muted-pressed: var(--seed-color-bg-neutral-solid-muted-pressed);
   --color-bg-neutral-weak: var(--seed-color-bg-neutral-weak);
+  --color-bg-neutral-weak-alpha: var(--seed-color-bg-neutral-weak-alpha);
+  --color-bg-neutral-weak-alpha-pressed: var(--seed-color-bg-neutral-weak-alpha-pressed);
   --color-bg-neutral-weak-pressed: var(--seed-color-bg-neutral-weak-pressed);
   --color-bg-overlay: var(--seed-color-bg-overlay);
   --color-bg-overlay-muted: var(--seed-color-bg-overlay-muted);
