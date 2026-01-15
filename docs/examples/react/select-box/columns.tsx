@@ -24,9 +24,11 @@ export default function SelectBoxColumns() {
             label="옵션 2"
             suffix={<CheckSelectBoxCheckmark />}
           />
+          {/* layout을 horizontal로 오버라이드 */}
           <CheckSelectBox
             prefixIcon={<IconIcecreamcone />}
             label="옵션 3"
+            layout="horizontal"
             suffix={<CheckSelectBoxCheckmark />}
           />
           <CheckSelectBox
@@ -51,10 +53,12 @@ export default function SelectBoxColumns() {
             label="옵션 2"
             suffix={<RadioSelectBoxRadioMark />}
           />
+          {/* layout을 horizontal로 오버라이드 */}
           <RadioSelectBoxItem
             value="option3"
             prefixIcon={<IconDiamond />}
             label="옵션 3"
+            layout="horizontal"
             suffix={<RadioSelectBoxRadioMark />}
           />
           <RadioSelectBoxItem

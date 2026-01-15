@@ -79,12 +79,6 @@ export interface RadioSelectBoxItemProps
   extends SelectBoxVariantProps,
     RadioGroupPrimitive.ItemProps {
   /**
-   * Number of columns to span in the grid.
-   * @default 1
-   */
-  span?: number;
-
-  /**
    * Controls when the footer is visible.
    * @default "when-selected"
    */
@@ -92,7 +86,7 @@ export interface RadioSelectBoxItemProps
 }
 
 export const RadioSelectBoxItem = forwardRef<HTMLDivElement, RadioSelectBoxItemProps>(
-  ({ span = 1, footerVisibility = "when-selected", className, style, children, ...props }, ref) => {
+  ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
     const [variantProps, otherProps] = selectBox.splitVariantProps(props);
     const classNames = selectBox({
       ...useProps(),
@@ -102,16 +96,7 @@ export const RadioSelectBoxItem = forwardRef<HTMLDivElement, RadioSelectBoxItemP
     return (
       <ClassNamesProvider value={classNames}>
         <RadioGroupPrimitive.Item asChild {...otherProps}>
-          <Primitive.div
-            className={clsx(classNames.root, className)}
-            ref={ref}
-            style={
-              {
-                ...style,
-                "--seed-select-box--span": span,
-              } as React.CSSProperties
-            }
-          >
+          <Primitive.div className={clsx(classNames.root, className)} ref={ref}>
             {footerVisibility === "when-selected" ? (
               <SelectBoxCollapsibleRoot>{children}</SelectBoxCollapsibleRoot>
             ) : (

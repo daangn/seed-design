@@ -34,8 +34,6 @@ export const selectBox = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      gridColumn: "span var(--seed-select-box--span, 1)",
-
       borderRadius: vars.base.enabled.root.cornerRadius,
 
       backgroundColor: vars.base.enabled.root.color,

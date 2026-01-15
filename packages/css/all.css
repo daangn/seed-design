@@ -6037,7 +6037,6 @@
 
 .seed-select-box__root {
   cursor: pointer;
-  grid-column: span var(--seed-select-box--span, 1);
   border-radius: var(--seed-radius-r3);
   background-color: var(--seed-color-bg-transparent);
   transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);

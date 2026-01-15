@@ -109,25 +109,12 @@ npx @seed-design/cli@latest add ui:select-box
 
 ### Grid Layout (Columns)
 
-`columns` prop을 사용하여 여러 열로 배치할 수 있습니다. `columns`가 1보다 크면 하위 요소의 `layout`이 자동으로 `"vertical"`로 설정됩니다.
+`columns` prop을 사용하여 여러 열로 배치할 수 있습니다. `columns`가 1보다 크면 하위 요소의 `layout`이 자동으로 `"vertical"`로 설정됩니다. `layout` prop으로 개별 항목의 레이아웃을 오버라이드할 수 있습니다.
 
 <ComponentExample name="react/select-box/columns">
   ```json doc-gen:file
   {
     "file": "examples/react/select-box/columns.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Customizing Columns
-
-`span` prop으로 개별 항목이 여러 열을 차지하도록 설정할 수 있습니다. `layout` prop으로 개별 항목의 레이아웃을 오버라이드할 수 있습니다.
-
-<ComponentExample name="react/select-box/customizing-columns">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/select-box/customizing-columns.tsx",
     "codeblock": true
   }
   ```
