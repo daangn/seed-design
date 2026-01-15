@@ -310,8 +310,8 @@ export const tokens = {
   --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
   --seed-gradient-highlight-magic-pressed: #e14f00 20%, #ae58bf 100%;
-  --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f58a 46%, #fff9f58a 54%, #fff9f500 100%;
-  --seed-gradient-shimmer-neutral: #ffffff00 0%, #ffffff66 46%, #ffffff66 54%, #ffffff00 100%;
+  --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f5cc 46%, #fff9f5cc 54%, #fff9f500 100%;
+  --seed-gradient-shimmer-neutral: #ffffff00 0%, #ffffffab 46%, #ffffffab 54%, #ffffff00 100%;
   --seed-shadow-s1: 0px 1px 4px 0px #00000014;
   --seed-shadow-s2: 0px 2px 10px 0px #0000001a;
   --seed-shadow-s3: 0px 4px 16px 0px #0000001f;

@@ -34,8 +34,8 @@ export default plugin(
       "glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
       "highlight-magic": "#ff6600 20.00%, #d25aca 100.00%",
       "highlight-magic-pressed": "#e14f00 20.00%, #ae58bf 100.00%",
-      "shimmer-magic": "#fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%",
-      "shimmer-neutral": "#ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%"
+      "shimmer-magic": "#fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%",
+      "shimmer-neutral": "#ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%"
 };
 
     Object.entries(gradientStopsForArbitrary).forEach(([gradientName, colorStops]) => {
@@ -256,8 +256,8 @@ export default plugin(
   "gradient-stops-glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
   "gradient-stops-highlight-magic": "#ff6600 20.00%, #d25aca 100.00%",
   "gradient-stops-highlight-magic-pressed": "#e14f00 20.00%, #ae58bf 100.00%",
-  "gradient-stops-shimmer-magic": "#fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%",
-  "gradient-stops-shimmer-neutral": "#ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%"
+  "gradient-stops-shimmer-magic": "#fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%",
+  "gradient-stops-shimmer-neutral": "#ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%"
 },
         backgroundImage: {
   "fade-layer-floating-to-t": "linear-gradient(to top, #ffffff00 0.00%, #000000 100.00%)",
@@ -308,22 +308,22 @@ export default plugin(
   "highlight-magic-pressed-to-bl": "linear-gradient(to bottom left, #e14f00 20.00%, #ae58bf 100.00%)",
   "highlight-magic-pressed-to-l": "linear-gradient(to left, #e14f00 20.00%, #ae58bf 100.00%)",
   "highlight-magic-pressed-to-tl": "linear-gradient(to top left, #e14f00 20.00%, #ae58bf 100.00%)",
-  "shimmer-magic-to-t": "linear-gradient(to top, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-tr": "linear-gradient(to top right, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-r": "linear-gradient(to right, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-br": "linear-gradient(to bottom right, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-b": "linear-gradient(to bottom, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-bl": "linear-gradient(to bottom left, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-l": "linear-gradient(to left, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-tl": "linear-gradient(to top left, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
-  "shimmer-neutral-to-t": "linear-gradient(to top, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-tr": "linear-gradient(to top right, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-r": "linear-gradient(to right, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-br": "linear-gradient(to bottom right, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-b": "linear-gradient(to bottom, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-bl": "linear-gradient(to bottom left, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-l": "linear-gradient(to left, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-tl": "linear-gradient(to top left, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)"
+  "shimmer-magic-to-t": "linear-gradient(to top, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-tr": "linear-gradient(to top right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-r": "linear-gradient(to right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-br": "linear-gradient(to bottom right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-b": "linear-gradient(to bottom, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-bl": "linear-gradient(to bottom left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-l": "linear-gradient(to left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-tl": "linear-gradient(to top left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+  "shimmer-neutral-to-t": "linear-gradient(to top, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-tr": "linear-gradient(to top right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-r": "linear-gradient(to right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-br": "linear-gradient(to bottom right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-b": "linear-gradient(to bottom, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-bl": "linear-gradient(to bottom left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-l": "linear-gradient(to left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-tl": "linear-gradient(to top left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)"
 },
         typography: {
   "screen-title": {
