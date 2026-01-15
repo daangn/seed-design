@@ -38,7 +38,7 @@ export const selectBox = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.root.color,
 
-      transition: `background-color ${vars.base.enabled.root.colorTransitionDuration} ${vars.base.enabled.root.colorTransitionTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
 
       overflow: "hidden",
 
@@ -52,7 +52,7 @@ export const selectBox = defineSlotRecipe({
         borderWidth: vars.base.enabled.root.strokeWidth,
         borderColor: vars.base.enabled.root.strokeColor,
 
-        transition: `border-color ${vars.base.enabled.root.strokeColorTransitionDuration} ${vars.base.enabled.root.strokeColorTransitionTimingFunction}, border-width ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}`,
+        transition: `border-color ${vars.base.enabled.root.strokeColorDuration} ${vars.base.enabled.root.strokeColorTimingFunction}, border-width ${vars.base.enabled.root.strokeWidthDuration} ${vars.base.enabled.root.strokeWidthTimingFunction}`,
 
         pointerEvents: "none",
       },
@@ -140,13 +140,16 @@ export const selectBox = defineSlotRecipe({
         height: 0,
         opacity: 0,
 
-        // TODO: use proper vars
-        transition: `height ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}, opacity 0.1s ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}, transform ${vars.base.enabled.root.strokeWidthTransitionDuration} ${vars.base.enabled.root.strokeWidthTransitionTimingFunction}`,
+        // when closing
+        transition: `height ${vars.base.enabled.footer.collapseHeightDuration} ${vars.base.enabled.footer.collapseHeightTimingFunction}, opacity ${vars.base.enabled.footer.collapseOpacityDuration} ${vars.base.enabled.footer.collapseOpacityTimingFunction}`,
       },
 
       [pseudo("[data-collapsible]", open)]: {
         height: "var(--collapsible-content-height)",
         opacity: 1,
+
+        // when opening
+        transition: `height ${vars.base.enabled.footer.expandHeightDuration} ${vars.base.enabled.footer.expandHeightTimingFunction}, opacity ${vars.base.enabled.footer.expandOpacityDuration} ${vars.base.enabled.footer.expandOpacityTimingFunction}`,
       },
     },
   },

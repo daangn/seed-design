@@ -23,22 +23,22 @@
             "color": {
               "type": "color"
             },
-            "colorTransitionDuration": {
+            "colorDuration": {
               "type": "duration"
             },
-            "colorTransitionTimingFunction": {
+            "colorTimingFunction": {
               "type": "cubicBezier"
             },
-            "strokeColorTransitionDuration": {
+            "strokeColorDuration": {
               "type": "duration"
             },
-            "strokeColorTransitionTimingFunction": {
+            "strokeColorTimingFunction": {
               "type": "cubicBezier"
             },
-            "strokeWidthTransitionDuration": {
+            "strokeWidthDuration": {
               "type": "duration"
             },
-            "strokeWidthTransitionTimingFunction": {
+            "strokeWidthTimingFunction": {
               "type": "cubicBezier"
             }
           }
@@ -123,6 +123,38 @@
               "type": "number"
             }
           }
+        },
+        "footer": {
+          "properties": {
+            "expandHeightDuration": {
+              "type": "duration",
+              "description": "열릴 때는 천천히 펼쳐지고 빠르게 fade in됩니다."
+            },
+            "expandHeightTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "expandOpacityDuration": {
+              "type": "duration",
+              "description": "열릴 때는 천천히 펼쳐지고 빠르게 fade in됩니다."
+            },
+            "expandOpacityTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "collapseHeightDuration": {
+              "type": "duration",
+              "description": "닫힐 때는 빠르게 접히고 천천히 fade out됩니다."
+            },
+            "collapseHeightTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "collapseOpacityDuration": {
+              "type": "duration",
+              "description": "닫힐 때는 빠르게 접히고 천천히 fade out됩니다."
+            },
+            "collapseOpacityTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
         }
       },
       "variants": {
@@ -164,27 +196,27 @@
                     "unit": "px"
                   }
                 },
-                "colorTransitionDuration": {
+                "colorDuration": {
                   "type": "duration",
                   "value": "$duration.color-transition"
                 },
-                "colorTransitionTimingFunction": {
+                "colorTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 },
-                "strokeColorTransitionDuration": {
+                "strokeColorDuration": {
                   "type": "duration",
                   "value": "$duration.color-transition"
                 },
-                "strokeColorTransitionTimingFunction": {
+                "strokeColorTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 },
-                "strokeWidthTransitionDuration": {
+                "strokeWidthDuration": {
                   "type": "duration",
                   "value": "$duration.d3"
                 },
-                "strokeWidthTransitionTimingFunction": {
+                "strokeWidthTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 }
@@ -256,6 +288,46 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
+                }
+              },
+              "footer": {
+                "expandHeightDuration": {
+                  "type": "duration",
+                  "value": {
+                    "value": 400,
+                    "unit": "ms"
+                  }
+                },
+                "expandHeightTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "expandOpacityDuration": {
+                  "type": "duration",
+                  "value": "$duration.d6"
+                },
+                "expandOpacityTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "collapseHeightDuration": {
+                  "type": "duration",
+                  "value": "$duration.d6"
+                },
+                "collapseHeightTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "collapseOpacityDuration": {
+                  "type": "duration",
+                  "value": {
+                    "value": 400,
+                    "unit": "ms"
+                  }
+                },
+                "collapseOpacityTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               }
             }

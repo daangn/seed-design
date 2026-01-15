@@ -6129,13 +6129,14 @@
 .seed-select-box__footer[data-collapsible] {
   opacity: 0;
   height: 0;
-  transition: height var(--seed-duration-d3) var(--seed-timing-function-easing), opacity .1s var(--seed-timing-function-easing), transform var(--seed-duration-d3) var(--seed-timing-function-easing);
+  transition: height var(--seed-duration-d6) var(--seed-timing-function-easing), opacity .4s var(--seed-timing-function-easing);
   overflow: hidden;
 }
 
 .seed-select-box__footer[data-collapsible]:is([data-state="open"], [data-open]) {
   height: var(--collapsible-content-height);
   opacity: 1;
+  transition: height .4s var(--seed-timing-function-easing), opacity var(--seed-duration-d6) var(--seed-timing-function-easing);
 }
 
 .seed-select-box__trigger--layout_horizontal {

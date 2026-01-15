@@ -6,12 +6,12 @@ export declare const vars: {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
-        "colorTransitionDuration": "var(--seed-duration-color-transition)",
-        "colorTransitionTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeColorTransitionDuration": "var(--seed-duration-color-transition)",
-        "strokeColorTransitionTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeWidthTransitionDuration": "var(--seed-duration-d3)",
-        "strokeWidthTransitionTimingFunction": "var(--seed-timing-function-easing)"
+        "colorDuration": "var(--seed-duration-color-transition)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "strokeColorDuration": "var(--seed-duration-color-transition)",
+        "strokeColorTimingFunction": "var(--seed-timing-function-easing)",
+        "strokeWidthDuration": "var(--seed-duration-d3)",
+        "strokeWidthTimingFunction": "var(--seed-timing-function-easing)"
       },
       "trigger": {
         "gap": "var(--seed-dimension-x1_5)"
@@ -36,6 +36,20 @@ export declare const vars: {
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
         "fontWeight": "var(--seed-font-weight-regular)"
+      },
+      "footer": {
+        /** 열릴 때는 천천히 펼쳐지고 빠르게 fade in됩니다. */
+        "expandHeightDuration": "400ms",
+        "expandHeightTimingFunction": "var(--seed-timing-function-easing)",
+        /** 열릴 때는 천천히 펼쳐지고 빠르게 fade in됩니다. */
+        "expandOpacityDuration": "var(--seed-duration-d6)",
+        "expandOpacityTimingFunction": "var(--seed-timing-function-easing)",
+        /** 닫힐 때는 빠르게 접히고 천천히 fade out됩니다. */
+        "collapseHeightDuration": "var(--seed-duration-d6)",
+        "collapseHeightTimingFunction": "var(--seed-timing-function-easing)",
+        /** 닫힐 때는 빠르게 접히고 천천히 fade out됩니다. */
+        "collapseOpacityDuration": "400ms",
+        "collapseOpacityTimingFunction": "var(--seed-timing-function-easing)"
       }
     },
     "selected": {

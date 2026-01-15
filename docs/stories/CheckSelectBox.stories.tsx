@@ -5,12 +5,18 @@ import {
   CheckSelectBoxCheckmark,
   CheckSelectBoxGroup,
 } from "seed-design/ui/select-box";
-import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
-import { Box, Text } from "@seed-design/react";
+import {
+  IconBarchartSquareLine,
+  IconCheckmarkCircleLine,
+  IconPersonCircleLine,
+  IconPhoneXmarkLine,
+} from "@karrotmarket/react-monochrome-icon";
+import { Box, Divider, HStack, Icon, Text, VStack } from "@seed-design/react";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 
 const meta = {
   component: CheckSelectBox,
@@ -99,6 +105,7 @@ export const CollapsibleFooter: Story = {
   render: () => (
     <CheckSelectBoxGroup columns={1}>
       <CheckSelectBox
+        prefixIcon={<IconPersonCircleLine />}
         label="선택 시에만 표시 (기본값)"
         description="기본적으로 선택 시에만 footer가 보입니다."
         suffix={<CheckSelectBoxCheckmark />}
@@ -110,6 +117,7 @@ export const CollapsibleFooter: Story = {
         }
       />
       <CheckSelectBox
+        prefixIcon={<IconPersonCircleLine />}
         label="항상 표시"
         description="footerVisibility를 'always'로 설정하면 항상 보입니다."
         suffix={<CheckSelectBoxCheckmark />}
@@ -121,11 +129,91 @@ export const CollapsibleFooter: Story = {
         }
       />
       <CheckSelectBox
-        label="긴 내용 테스트"
-        description="동적 높이 변화 테스트"
+        prefixIcon={<IconPersonCircleLine />}
+        label="긴 내용"
+        description="footer에 긴 내용을 넣어도 잘 동작하는지 확인합니다."
         suffix={<CheckSelectBoxCheckmark />}
         footer={
-          <Box bgGradient="highlightMagic" bgGradientDirection="to bottom right" height="300px" />
+          <VStack gap="x3" pb="x5" px="x5">
+            <Divider color="stroke.neutralMuted" as="div" />
+            <HStack align="center" gap="x1_5">
+              <Icon svg={<IconBarchartSquareLine />} size="x5" />
+              <Text textStyle="t5Bold">견적 예시</Text>
+            </HStack>
+            <VStack gap="x2">
+              <HStack align="center" gap="x1_5">
+                <HStack
+                  width="x8"
+                  height="x8"
+                  borderRadius="full"
+                  overflowX="hidden"
+                  overflowY="hidden"
+                >
+                  <IdentityPlaceholder identity="person" />
+                </HStack>
+                <VStack flexGrow>
+                  <HStack justify="space-between" align="center">
+                    <Text textStyle="t5Bold">1,640만원</Text>
+                    <Text textStyle="t4Medium" color="fg.neutralMuted">
+                      개인
+                    </Text>
+                  </HStack>
+                </VStack>
+              </HStack>
+              <HStack align="center" gap="x1_5">
+                <HStack
+                  width="x8"
+                  height="x8"
+                  borderRadius="full"
+                  overflowX="hidden"
+                  overflowY="hidden"
+                >
+                  <IdentityPlaceholder identity="person" />
+                </HStack>
+                <VStack flexGrow>
+                  <HStack justify="space-between" align="center">
+                    <Text textStyle="t5Bold">1,540만원</Text>
+                    <Text textStyle="t4Medium" color="fg.neutralMuted">
+                      딜러
+                    </Text>
+                  </HStack>
+                </VStack>
+              </HStack>
+              <HStack align="center" gap="x1_5">
+                <HStack
+                  width="x8"
+                  height="x8"
+                  borderRadius="full"
+                  overflowX="hidden"
+                  overflowY="hidden"
+                >
+                  <IdentityPlaceholder identity="person" />
+                </HStack>
+                <VStack flexGrow>
+                  <HStack justify="space-between" align="center">
+                    <Text textStyle="t5Bold">1,540만원</Text>
+                    <Text textStyle="t4Medium" color="fg.neutralMuted">
+                      개인
+                    </Text>
+                  </HStack>
+                </VStack>
+              </HStack>
+            </VStack>
+            <VStack gap="x2">
+              <HStack align="center" gap="x1">
+                <Icon svg={<IconPhoneXmarkLine />} size="x4" color="fg.neutralMuted" />
+                <Text textStyle="t3Medium" color="fg.neutralMuted">
+                  딜러와 연락 없이 가격만 받아볼 수 있어요.
+                </Text>
+              </HStack>
+              <HStack align="center" gap="x1">
+                <Icon svg={<IconCheckmarkCircleLine />} size="x4" color="fg.neutralMuted" />
+                <Text textStyle="t3Medium" color="fg.neutralMuted">
+                  원할 때 원하는 사람에게 판매하면 돼요.
+                </Text>
+              </HStack>
+            </VStack>
+          </VStack>
         }
       />
     </CheckSelectBoxGroup>
