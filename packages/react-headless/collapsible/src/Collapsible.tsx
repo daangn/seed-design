@@ -43,7 +43,7 @@ export const CollapsibleTrigger = forwardRef<HTMLButtonElement, CollapsibleTrigg
     return (
       <Primitive.button
         ref={ref}
-        {...mergeProps(api.triggerProps, api.triggerAriaProps, api.triggerHandlers, props)}
+        {...mergeProps(api.stateProps, api.triggerAriaProps, api.triggerHandlers, props)}
       />
     );
   },
@@ -58,18 +58,12 @@ export const CollapsibleContent = forwardRef<HTMLDivElement, CollapsibleContentP
   (props, ref) => {
     const api = useCollapsibleContext();
 
-    return <Primitive.div ref={ref} {...mergeProps(api.contentProps, props)} />;
+    return (
+      <Primitive.div
+        ref={composeRefs(ref, api.refs.content)}
+        {...mergeProps(api.contentProps, props)}
+      />
+    );
   },
 );
 CollapsibleContent.displayName = "CollapsibleContent";
-
-export interface CollapsibleBodyProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const CollapsibleBody = forwardRef<HTMLDivElement, CollapsibleBodyProps>((props, ref) => {
-  const api = useCollapsibleContext();
-
-  return <Primitive.div ref={composeRefs(ref, api.refs.content)} {...props} />;
-});
-CollapsibleBody.displayName = "CollapsibleBody";

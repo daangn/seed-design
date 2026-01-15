@@ -31,7 +31,6 @@ export function useCollapsible(props: UseCollapsibleProps) {
   const { disabled } = props;
 
   const id = useId();
-  const triggerId = dom.getTriggerId(id);
   const contentId = dom.getContentId(id);
 
   const contentRef = useRef<HTMLDivElement>(null);
@@ -84,10 +83,6 @@ export function useCollapsible(props: UseCollapsibleProps) {
 
       stateProps,
 
-      triggerProps: elementProps({
-        ...stateProps,
-        id: triggerId,
-      }),
       triggerAriaProps: elementProps({
         "aria-expanded": open,
         "aria-controls": contentId,
@@ -109,9 +104,10 @@ export function useCollapsible(props: UseCollapsibleProps) {
         style: {
           "--collapsible-content-height": height !== undefined ? panelHeight : undefined,
         } as React.CSSProperties,
-        onTransitionEnd: (event: React.TransitionEvent) => {
+        onTransitionEnd: (event) => {
           if (event.propertyName !== "height") return;
           if (open) return;
+
           setVisible(false);
         },
       }),
@@ -120,6 +116,6 @@ export function useCollapsible(props: UseCollapsibleProps) {
         content: contentRef,
       },
     }),
-    [open, setOpen, disabled, stateProps, triggerId, contentId, hidden, height, panelHeight],
+    [open, setOpen, disabled, stateProps, contentId, hidden, height, panelHeight],
   );
 }
