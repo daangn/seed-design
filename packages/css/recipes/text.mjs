@@ -13,6 +13,7 @@ export const textVariantMap = {
   "textStyle": [
     "screenTitle",
     "articleBody",
+    "articleNote",
     "t1Regular",
     "t1Medium",
     "t1Bold",

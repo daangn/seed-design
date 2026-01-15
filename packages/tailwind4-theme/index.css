@@ -382,6 +382,12 @@
     font-weight: var(--seed-font-weight-regular);
   }
 
+@utility article-note {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
 @utility t1-regular {
     font-size: var(--seed-font-size-t1);
     line-height: var(--seed-line-height-t1);

@@ -336,6 +336,11 @@ export default plugin(
     "lineHeight": "var(--seed-line-height-t6)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
+  "article-note": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t5)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
   "t1-regular": {
     "fontSize": "var(--seed-font-size-t1)",
     "lineHeight": "var(--seed-line-height-t1)",
