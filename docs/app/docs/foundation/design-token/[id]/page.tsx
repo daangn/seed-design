@@ -6,6 +6,7 @@ import { resolveReferences, resolveToken } from "@seed-design/rootage-core";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Fragment } from "react";
 
 function decodeTokenIdFromParams(id: string) {
@@ -17,6 +18,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const rootage = await getRootage();
   const tokenId = decodeTokenIdFromParams(params.id);
   const decl = rootage.tokenEntities[tokenId];
+
+  if (!decl?.collection) {
+    notFound();
+  }
+
   const collection = decl.collection;
   const modes = rootage.tokenCollectionEntities[collection].modes;
 
@@ -96,9 +102,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 export async function generateStaticParams() {
   const rootage = await getRootage();
 
-  return rootage.tokenIds.map((id) => ({
-    id: encodeURIComponent(id),
-  }));
+  // Filter to only include tokens that have valid entities
+  return rootage.tokenIds
+    .filter((id) => rootage.tokenEntities[id]?.collection)
+    .map((id) => ({
+      id: encodeURIComponent(id),
+    }));
 }
 
 export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
