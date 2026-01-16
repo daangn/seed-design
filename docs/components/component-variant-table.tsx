@@ -3,7 +3,7 @@
 import { AST, resolveToken, RootageCtx } from "@seed-design/rootage-core";
 import { useMemo, useState } from "react";
 import { DescriptionButton } from "./description-button";
-import { stringifyStates, stringifyTokenLit, stringifyValueLit } from "./rootage";
+import { stringifyStates, stringifyTokenLit, stringifyValueLit } from "./rootage-utils";
 import { TokenCell, TokenValue } from "./token-cell";
 
 interface ComponentVariantTableProps {

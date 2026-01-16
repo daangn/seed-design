@@ -1,7 +1,7 @@
 import { source } from "@/app/source";
-import { client } from "@/sanity/lib/client";
-import { SanityImage } from "@/sanity/lib/image";
-import { BLOG_QUERY } from "@/sanity/lib/queries";
+import { client } from "@/sanity-studio/lib/client";
+import { SanityImage } from "@/sanity-studio/lib/image";
+import { BLOG_QUERY } from "@/sanity-studio/lib/queries";
 import type { SanityImageAsset } from "@sanity/asset-utils";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import Link from "next/link";

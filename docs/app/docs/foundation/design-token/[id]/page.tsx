@@ -97,7 +97,7 @@ export async function generateStaticParams() {
   const rootage = await getRootage();
 
   return rootage.tokenIds.map((id) => ({
-    id,
+    id: encodeURIComponent(id),
   }));
 }
 
