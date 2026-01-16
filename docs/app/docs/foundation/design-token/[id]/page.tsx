@@ -106,7 +106,7 @@ export async function generateStaticParams() {
   return rootage.tokenIds
     .filter((id) => rootage.tokenEntities[id]?.collection)
     .map((id) => ({
-      id: encodeURIComponent(id),
+      id,
     }));
 }
 
