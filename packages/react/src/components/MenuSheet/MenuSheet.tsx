@@ -15,6 +15,7 @@ const {
   PropsProvider: ItemPropsProvider,
   useProps: useItemProps,
   withContext: withItemContext,
+  ClassNamesProvider: ItemClassNamesProvider,
 } = createSlotRecipeContext(menuSheetItem);
 const withStateProps = createWithStateProps([useDialogContext]);
 
@@ -157,12 +158,14 @@ export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemPr
     const { stateProps } = useDialogContext();
 
     return (
-      <Primitive.button
-        ref={ref}
-        className={clsx(classNames.root, propClassName)}
-        {...stateProps}
-        {...otherProps}
-      />
+      <ItemClassNamesProvider value={classNames}>
+        <Primitive.button
+          ref={ref}
+          className={clsx(classNames.root, propClassName)}
+          {...stateProps}
+          {...otherProps}
+        />
+      </ItemClassNamesProvider>
     );
   },
 );
