@@ -12,7 +12,6 @@ import {
   MenuSheetRoot,
 } from "seed-design/ui/menu-sheet";
 import { createCallbackActivity } from "../stackflow/createCallbackActivity";
-import { PrefixIcon } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 type Action = "add" | "edit" | "delete" | "test1" | "test2";
@@ -48,22 +47,23 @@ const ActivityMenuSheet: StaticActivityComponentType<"ActivityMenuSheet"> = () =
     <MenuSheetRoot open={activity.isActive} onOpenChange={handleClose}>
       <MenuSheetContent title="Actions" layerIndex={useActivityZIndexBase()}>
         <MenuSheetGroup>
-          <MenuSheetItem onClick={handleAction("add")}>
-            <PrefixIcon svg={<IconPlusLine />} />
-            Add
-          </MenuSheetItem>
-          <MenuSheetItem onClick={handleAction("edit")}>
-            <PrefixIcon svg={<IconPencilLine />} />
-            Edit
-          </MenuSheetItem>
+          <MenuSheetItem onClick={handleAction("add")} label="Add" prefixIcon={<IconPlusLine />} />
+          <MenuSheetItem
+            onClick={handleAction("edit")}
+            label="Edit"
+            prefixIcon={<IconPencilLine />}
+          />
         </MenuSheetGroup>
         <MenuSheetGroup labelAlign="center">
-          <MenuSheetItem onClick={handleAction("test1")}>Test1</MenuSheetItem>
-          <MenuSheetItem onClick={handleAction("test2")}>Test2</MenuSheetItem>
-          <MenuSheetItem onClick={handleAction("delete")} tone="critical" labelAlign="left">
-            <PrefixIcon svg={<IconTrashcanLine />} />
-            Delete
-          </MenuSheetItem>
+          <MenuSheetItem onClick={handleAction("test1")} label="Test1" />
+          <MenuSheetItem onClick={handleAction("test2")} label="Test2" />
+          <MenuSheetItem
+            onClick={handleAction("delete")}
+            tone="critical"
+            labelAlign="left"
+            label="Delete"
+            prefixIcon={<IconTrashcanLine />}
+          />
         </MenuSheetGroup>
       </MenuSheetContent>
     </MenuSheetRoot>

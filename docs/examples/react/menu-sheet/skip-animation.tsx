@@ -1,5 +1,4 @@
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
-import { PrefixIcon } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   MenuSheetContent,
@@ -17,18 +16,9 @@ const MenuSheetSkipAnimation = () => {
       </MenuSheetTrigger>
       <MenuSheetContent aria-label="Menu Sheet">
         <MenuSheetGroup>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 1
-          </MenuSheetItem>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 2
-          </MenuSheetItem>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 3
-          </MenuSheetItem>
+          <MenuSheetItem label="Action 1" prefixIcon={<IconEyeSlashLine />} />
+          <MenuSheetItem label="Action 2" prefixIcon={<IconEyeSlashLine />} />
+          <MenuSheetItem label="Action 3" prefixIcon={<IconEyeSlashLine />} />
         </MenuSheetGroup>
       </MenuSheetContent>
     </MenuSheetRoot>

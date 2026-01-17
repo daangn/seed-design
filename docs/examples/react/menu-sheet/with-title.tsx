@@ -1,5 +1,4 @@
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
-import { PrefixIcon } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   MenuSheetContent,
@@ -17,28 +16,13 @@ const MenuSheetWithTitle = () => {
       </MenuSheetTrigger>
       <MenuSheetContent title="Menu Sheet">
         <MenuSheetGroup>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 1
-          </MenuSheetItem>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 2
-          </MenuSheetItem>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 3
-          </MenuSheetItem>
+          <MenuSheetItem label="Action 1" prefixIcon={<IconEyeSlashLine />} />
+          <MenuSheetItem label="Action 2" prefixIcon={<IconEyeSlashLine />} />
+          <MenuSheetItem label="Action 3" prefixIcon={<IconEyeSlashLine />} />
         </MenuSheetGroup>
         <MenuSheetGroup>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 4
-          </MenuSheetItem>
-          <MenuSheetItem tone="critical">
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 5
-          </MenuSheetItem>
+          <MenuSheetItem label="Action 4" prefixIcon={<IconEyeSlashLine />} />
+          <MenuSheetItem label="Action 5" prefixIcon={<IconEyeSlashLine />} tone="critical" />
         </MenuSheetGroup>
       </MenuSheetContent>
     </MenuSheetRoot>
