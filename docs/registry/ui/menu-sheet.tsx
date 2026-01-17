@@ -78,12 +78,12 @@ export const MenuSheetItem = forwardRef<HTMLButtonElement, MenuSheetItemProps>(
     return (
       <SeedMenuSheet.Item ref={ref} {...props}>
         {prefixIcon && <PrefixIcon svg={prefixIcon} />}
-        <SeedMenuSheet.Content>
+        <SeedMenuSheet.ItemContent>
           <SeedMenuSheet.ItemLabel>{label}</SeedMenuSheet.ItemLabel>
           {description && (
             <SeedMenuSheet.ItemDescription>{description}</SeedMenuSheet.ItemDescription>
           )}
-        </SeedMenuSheet.Content>
+        </SeedMenuSheet.ItemContent>
       </SeedMenuSheet.Item>
     );
   },
