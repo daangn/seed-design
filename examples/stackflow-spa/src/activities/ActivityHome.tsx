@@ -272,7 +272,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           <Box px="spacingX.globalGutter">
             <Callout
               tone="critical"
-              prefixIcon={<Icon svg={<IconHandPointUpLine />} />}
+              prefixIcon={<IconHandPointUpLine />}
               title="foobar"
               description="이 영역에서는 Pull to Refresh 동작이 발생하지 않습니다. Exercitation cillum velit
               aliquip deserunt Lorem. Eiusmod proident duis occaecat consequat veniam do commodo
