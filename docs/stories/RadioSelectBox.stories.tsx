@@ -86,6 +86,7 @@ const conditionMap = {
 };
 
 const CommonStoryTemplate: Story = {
+  // @ts-expect-error
   args: {
     label: "Aliqua veniam ut nisi dolore velit deserunt excepteur adipisicing",
   },
