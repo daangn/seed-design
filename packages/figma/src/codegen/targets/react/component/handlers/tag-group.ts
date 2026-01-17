@@ -1,11 +1,13 @@
 import type { TagGroupItemProperties, TagGroupProperties } from "@/codegen/component-properties";
 import { defineComponentHandler, type ElementNode } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
-import { createSeedReactElement } from "../../element-factories";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
 import { findAllInstances } from "@/utils/figma-node";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("tag-group");
 
 export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
   const itemHandler = createTagGroupItemHandler(ctx);
@@ -20,10 +22,10 @@ export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
     })[];
 
     if (items.length === 0) {
-      return createSeedReactElement("TagGroup.Root");
+      return createLocalSnippetElement("TagGroupRoot");
     }
 
-    // if size/weight/tone are all the same among item[n].props, lift them up to TagGroup.Root
+    // if size/weight/tone are all the same among item[n].props, lift them up to TagGroupRoot
 
     const consistent = {
       size: items.map((item) => item.props.size).every((size) => size === items[0].props.size),
@@ -33,8 +35,8 @@ export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
       tone: items.map((item) => item.props.tone).every((tone) => tone === items[0].props.tone),
     };
 
-    return createSeedReactElement(
-      "TagGroup.Root",
+    return createLocalSnippetElement(
+      "TagGroupRoot",
       {
         // lift up consistent props
         ...(consistent.size && { size: items[0].props.size }),
@@ -51,6 +53,7 @@ export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
           tone: consistent.tone ? undefined : item.props.tone,
         },
       })),
+      { comment: "`inline` prop을 통해 한 줄로 표시되도록 할 수 있습니다." },
     );
   });
 };
@@ -67,26 +70,17 @@ export const createTagGroupItemHandler = (ctx: ComponentHandlerDeps) =>
         .with("t4(14pt)", () => "t4")
         .exhaustive();
 
-      const commonProps = {
+      return createLocalSnippetElement("TagGroupItem", {
         size,
         weight: camelCase(props["Weight"].value),
         tone: camelCase(props["Tone"].value),
-      };
-
-      const children = [
-        props.Layout.value === "Icon First"
-          ? createSeedReactElement("PrefixIcon", {
-              svg: ctx.iconHandler.transform(props["Prefix Icon#47948:0"]),
-            })
-          : undefined,
-        props["Label#5409:0"].value,
-        props.Layout.value === "Icon Last"
-          ? createSeedReactElement("SuffixIcon", {
-              svg: ctx.iconHandler.transform(props["Suffix Icon#47948:55"]),
-            })
-          : undefined,
-      ].filter(Boolean);
-
-      return createSeedReactElement("TagGroup.Item", commonProps, children);
+        label: props["Label#5409:0"].value,
+        ...(props.Layout.value === "Icon First" && {
+          prefixIcon: ctx.iconHandler.transform(props["Prefix Icon#47948:0"]),
+        }),
+        ...(props.Layout.value === "Icon Last" && {
+          suffixIcon: ctx.iconHandler.transform(props["Suffix Icon#47948:55"]),
+        }),
+      });
     },
   );
