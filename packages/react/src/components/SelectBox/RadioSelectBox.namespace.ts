@@ -2,22 +2,19 @@ export {
   RadioSelectBoxBody as Body,
   RadioSelectBoxContent as Content,
   RadioSelectBoxDescription as Description,
-  RadioSelectBoxTrigger as Trigger,
+  RadioSelectBoxFooter as Footer,
   RadioSelectBoxHiddenInput as HiddenInput,
   RadioSelectBoxItem as Item,
   RadioSelectBoxLabel as Label,
   RadioSelectBoxRoot as Root,
+  RadioSelectBoxTrigger as Trigger,
   type RadioSelectBoxBodyProps as BodyProps,
   type RadioSelectBoxContentProps as ContentProps,
   type RadioSelectBoxDescriptionProps as DescriptionProps,
-  type RadioSelectBoxTriggerProps as TriggerProps,
+  type RadioSelectBoxFooterProps as FooterProps,
   type RadioSelectBoxHiddenInputProps as HiddenInputProps,
   type RadioSelectBoxItemProps as ItemProps,
   type RadioSelectBoxLabelProps as LabelProps,
   type RadioSelectBoxRootProps as RootProps,
+  type RadioSelectBoxTriggerProps as TriggerProps,
 } from "./RadioSelectBox";
-
-export {
-  SelectBoxFooter as Footer,
-  type SelectBoxFooterProps as FooterProps,
-} from "./SelectBoxFooter";

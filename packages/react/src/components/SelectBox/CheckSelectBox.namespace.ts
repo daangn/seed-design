@@ -4,24 +4,21 @@ export {
   CheckSelectBoxCheckmarkIcon as CheckmarkIcon,
   CheckSelectBoxContent as Content,
   CheckSelectBoxDescription as Description,
-  CheckSelectBoxTrigger as Trigger,
+  CheckSelectBoxFooter as Footer,
   CheckSelectBoxGroup as Group,
   CheckSelectBoxHiddenInput as HiddenInput,
   CheckSelectBoxLabel as Label,
   CheckSelectBoxRoot as Root,
+  CheckSelectBoxTrigger as Trigger,
   type CheckSelectBoxBodyProps as BodyProps,
   type CheckSelectBoxCheckmarkControlProps as CheckmarkControlProps,
   type CheckSelectBoxCheckmarkIconProps as CheckmarkIconProps,
   type CheckSelectBoxContentProps as ContentProps,
   type CheckSelectBoxDescriptionProps as DescriptionProps,
-  type CheckSelectBoxTriggerProps as TriggerProps,
+  type CheckSelectBoxFooterProps as FooterProps,
   type CheckSelectBoxGroupProps as GroupProps,
   type CheckSelectBoxHiddenInputProps as HiddenInputProps,
   type CheckSelectBoxLabelProps as LabelProps,
   type CheckSelectBoxRootProps as RootProps,
+  type CheckSelectBoxTriggerProps as TriggerProps,
 } from "./CheckSelectBox";
-
-export {
-  SelectBoxFooter as Footer,
-  type SelectBoxFooterProps as FooterProps,
-} from "./SelectBoxFooter";

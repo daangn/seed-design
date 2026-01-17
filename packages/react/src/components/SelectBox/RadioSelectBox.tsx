@@ -1,9 +1,11 @@
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { selectBox, type SelectBoxVariantProps } from "@seed-design/css/recipes/select-box";
 import {
   selectBoxGroup,
   type SelectBoxGroupVariantProps,
 } from "@seed-design/css/recipes/select-box-group";
 import {
+  Collapsible,
   CollapsibleProvider,
   useCollapsible,
   useCollapsibleContext,
@@ -13,20 +15,20 @@ import {
   RadioGroup as RadioGroupPrimitive,
   useRadioGroupItemContext,
 } from "@seed-design/react-radio-group";
-import { forwardRef } from "react";
+import { createContext, forwardRef, useCallback, useContext, useState } from "react";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
-import {
-  PropsProvider,
-  ClassNamesProvider,
-  withContext,
-  useProps,
-  useFooterState,
-  FooterStateProvider,
-  useFooterStateContext,
-} from "./context";
+
+const { PropsProvider, ClassNamesProvider, withContext, useProps, useClassNames } =
+  createSlotRecipeContext(selectBox);
 
 const withStateProps = createWithStateProps([useRadioGroupItemContext]);
+
+const FooterContext = createContext<{
+  isFooterRendered: boolean;
+  footerRef: (node: HTMLDivElement | null) => void;
+} | null>(null);
 
 export interface RadioSelectBoxRootProps
   extends SelectBoxGroupVariantProps,
@@ -63,14 +65,20 @@ export const RadioSelectBoxRoot = forwardRef<HTMLDivElement, RadioSelectBoxRootP
   },
 );
 
-function SelectBoxCollapsibleRoot({ children }: { children: React.ReactNode }) {
+function FooterVisibilityProvider({ children }: { children: React.ReactNode }) {
   const { checked } = useRadioGroupItemContext();
   const collapsible = useCollapsible({ open: checked });
-  const footerState = useFooterState();
+
+  const [isFooterRendered, setIsFooterRendered] = useState(false);
+  const footerRef = useCallback((node: HTMLDivElement | null) => {
+    setIsFooterRendered(!!node);
+  }, []);
 
   return (
     <CollapsibleProvider value={collapsible}>
-      <FooterStateProvider value={footerState}>{children}</FooterStateProvider>
+      <FooterContext.Provider value={{ isFooterRendered, footerRef }}>
+        {children}
+      </FooterContext.Provider>
     </CollapsibleProvider>
   );
 }
@@ -101,7 +109,7 @@ export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxIte
           {...otherProps}
         >
           {footerVisibility === "when-selected" ? (
-            <SelectBoxCollapsibleRoot>{children}</SelectBoxCollapsibleRoot>
+            <FooterVisibilityProvider>{children}</FooterVisibilityProvider>
           ) : (
             children
           )}
@@ -168,12 +176,52 @@ export const RadioSelectBoxHiddenInput = forwardRef<
   // but it helps some screen readers to announce the expanded/collapsed state of the footer.
   // gov.uk applies aria-expanded on the radio input as well. See: https://design-system.service.gov.uk/components/radios/#conditionally-revealing-a-related-question
   const collapsibleContext = useCollapsibleContext({ strict: false });
-  const footerStateContext = useFooterStateContext();
+  const footerContext = useContext(FooterContext);
 
-  const triggerAriaProps = footerStateContext?.isFooterRendered
+  const triggerAriaProps = footerContext?.isFooterRendered
     ? collapsibleContext?.triggerAriaProps
     : undefined;
 
   return <RadioGroupPrimitive.ItemHiddenInput ref={ref} {...triggerAriaProps} {...props} />;
 });
 RadioSelectBoxHiddenInput.displayName = "RadioSelectBoxHiddenInput";
+
+export interface RadioSelectBoxFooterProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const RadioSelectBoxFooter = forwardRef<HTMLDivElement, RadioSelectBoxFooterProps>(
+  ({ className, children, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { stateProps } = useRadioGroupItemContext();
+    const collapsibleContext = useCollapsibleContext({ strict: false });
+    const footerContext = useContext(FooterContext);
+
+    const composedRef = composeRefs(ref, footerContext?.footerRef ?? null);
+
+    if (collapsibleContext) {
+      return (
+        <Collapsible.Content
+          ref={composedRef}
+          className={clsx(classNames.footer, className)}
+          {...stateProps}
+          {...props}
+        >
+          {children}
+        </Collapsible.Content>
+      );
+    }
+
+    return (
+      <Primitive.div
+        ref={composedRef}
+        className={clsx(classNames.footer, className)}
+        {...stateProps}
+        {...props}
+      >
+        {children}
+      </Primitive.div>
+    );
+  },
+);
+RadioSelectBoxFooter.displayName = "RadioSelectBoxFooter";

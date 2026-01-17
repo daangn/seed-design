@@ -1,3 +1,4 @@
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { selectBox, type SelectBoxVariantProps } from "@seed-design/css/recipes/select-box";
 import {
   selectBoxCheckmark,
@@ -9,28 +10,27 @@ import {
 } from "@seed-design/css/recipes/select-box-group";
 import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
 import {
+  Collapsible,
   CollapsibleProvider,
   useCollapsible,
   useCollapsibleContext,
 } from "@seed-design/react-collapsible";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
-import { forwardRef } from "react";
+import { createContext, forwardRef, useCallback, useContext, useState } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
-import {
-  PropsProvider,
-  ClassNamesProvider,
-  withContext,
-  useProps,
-  useFooterState,
-  FooterStateProvider,
-  useFooterStateContext,
-} from "./context";
+
+const { PropsProvider, ClassNamesProvider, withContext, useProps, useClassNames } =
+  createSlotRecipeContext(selectBox);
 
 const withStateProps = createWithStateProps([useCheckboxContext]);
 
+const FooterContext = createContext<{
+  isFooterRendered: boolean;
+  footerRef: (node: HTMLDivElement | null) => void;
+} | null>(null);
 export interface CheckSelectBoxGroupProps
   extends SelectBoxGroupVariantProps,
     PrimitiveProps,
@@ -68,14 +68,20 @@ export const CheckSelectBoxGroup = forwardRef<HTMLDivElement, CheckSelectBoxGrou
   },
 );
 
-function SelectBoxCollapsibleRoot({ children }: { children: React.ReactNode }) {
+function FooterVisibilityProvider({ children }: { children: React.ReactNode }) {
   const { checked } = useCheckboxContext();
   const collapsible = useCollapsible({ open: checked });
-  const footerState = useFooterState();
+
+  const [isFooterRendered, setIsFooterRendered] = useState(false);
+  const footerRef = useCallback((node: HTMLDivElement | null) => {
+    setIsFooterRendered(!!node);
+  }, []);
 
   return (
     <CollapsibleProvider value={collapsible}>
-      <FooterStateProvider value={footerState}>{children}</FooterStateProvider>
+      <FooterContext.Provider value={{ isFooterRendered, footerRef }}>
+        {children}
+      </FooterContext.Provider>
     </CollapsibleProvider>
   );
 }
@@ -106,7 +112,7 @@ export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRoo
           {...otherProps}
         >
           {footerVisibility === "when-selected" ? (
-            <SelectBoxCollapsibleRoot>{children}</SelectBoxCollapsibleRoot>
+            <FooterVisibilityProvider>{children}</FooterVisibilityProvider>
           ) : (
             children
           )}
@@ -189,12 +195,52 @@ export const CheckSelectBoxHiddenInput = forwardRef<
 >((props, ref) => {
   // when footerVisibility !== "when-selected", this context is automatically unavailable since it's not wrapped in CollapsibleProvider
   const collapsibleContext = useCollapsibleContext({ strict: false });
-  const footerStateContext = useFooterStateContext();
+  const footerContext = useContext(FooterContext);
 
-  const triggerAriaProps = footerStateContext?.isFooterRendered
+  const triggerAriaProps = footerContext?.isFooterRendered
     ? collapsibleContext?.triggerAriaProps
     : undefined;
 
   return <CheckboxPrimitive.HiddenInput ref={ref} {...triggerAriaProps} {...props} />;
 });
 CheckSelectBoxHiddenInput.displayName = "CheckSelectBoxHiddenInput";
+
+export interface CheckSelectBoxFooterProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const CheckSelectBoxFooter = forwardRef<HTMLDivElement, CheckSelectBoxFooterProps>(
+  ({ className, children, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { stateProps } = useCheckboxContext();
+    const collapsibleContext = useCollapsibleContext({ strict: false });
+    const footerContext = useContext(FooterContext);
+
+    const composedRef = composeRefs(ref, footerContext?.footerRef ?? null);
+
+    if (collapsibleContext) {
+      return (
+        <Collapsible.Content
+          ref={composedRef}
+          className={clsx(classNames.footer, className)}
+          {...stateProps}
+          {...props}
+        >
+          {children}
+        </Collapsible.Content>
+      );
+    }
+
+    return (
+      <Primitive.div
+        ref={composedRef}
+        className={clsx(classNames.footer, className)}
+        {...stateProps}
+        {...props}
+      >
+        {children}
+      </Primitive.div>
+    );
+  },
+);
+CheckSelectBoxFooter.displayName = "CheckSelectBoxFooter";

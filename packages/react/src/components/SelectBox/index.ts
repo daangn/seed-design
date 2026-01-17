@@ -4,6 +4,7 @@ export {
   CheckSelectBoxCheckmarkIcon,
   CheckSelectBoxContent,
   CheckSelectBoxDescription,
+  CheckSelectBoxFooter,
   CheckSelectBoxGroup,
   CheckSelectBoxHiddenInput,
   CheckSelectBoxLabel,
@@ -14,6 +15,7 @@ export {
   type CheckSelectBoxCheckmarkIconProps,
   type CheckSelectBoxContentProps,
   type CheckSelectBoxDescriptionProps,
+  type CheckSelectBoxFooterProps,
   type CheckSelectBoxGroupProps,
   type CheckSelectBoxHiddenInputProps,
   type CheckSelectBoxLabelProps,
@@ -25,6 +27,7 @@ export {
   RadioSelectBoxBody,
   RadioSelectBoxContent,
   RadioSelectBoxDescription,
+  RadioSelectBoxFooter,
   RadioSelectBoxHiddenInput,
   RadioSelectBoxItem,
   RadioSelectBoxLabel,
@@ -33,14 +36,13 @@ export {
   type RadioSelectBoxBodyProps,
   type RadioSelectBoxContentProps,
   type RadioSelectBoxDescriptionProps,
+  type RadioSelectBoxFooterProps,
   type RadioSelectBoxHiddenInputProps,
   type RadioSelectBoxItemProps,
   type RadioSelectBoxLabelProps,
   type RadioSelectBoxRootProps,
   type RadioSelectBoxTriggerProps,
 } from "./RadioSelectBox";
-
-export { SelectBoxFooter, type SelectBoxFooterProps } from "./SelectBoxFooter";
 
 export * as CheckSelectBox from "./CheckSelectBox.namespace";
 export * as RadioSelectBox from "./RadioSelectBox.namespace";
