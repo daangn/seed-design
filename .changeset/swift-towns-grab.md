@@ -16,6 +16,9 @@
   // 전
   import { TagGroupRoot, TagGroupItem } from "@seed-design/react";
 
+  {
+    /* 또는, TagGroup.Root, TagGroup.Item으로 namespace import하는 코드가 있을 수 있습니다. */
+  }
   <TagGroupRoot>
     <TagGroupItem>
       <PrefixIcon svg={<IconLocationpinFill />} />
