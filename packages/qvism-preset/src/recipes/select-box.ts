@@ -9,6 +9,7 @@ export const selectBoxGroup = defineRecipe({
   name: "select-box-group",
   base: {
     display: "grid",
+    width: "100%",
 
     gridTemplateColumns: "repeat(var(--seed-select-box-group--columns, 1), minmax(0, 1fr))",
 
