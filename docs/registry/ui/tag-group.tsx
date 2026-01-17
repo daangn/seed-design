@@ -26,7 +26,7 @@ export const TagGroupItem = React.forwardRef<HTMLDivElement, TagGroupItemProps>(
     return (
       <SeedTagGroup.Item {...props} ref={ref}>
         {prefixIcon && <PrefixIcon svg={prefixIcon} />}
-        <SeedTagGroup.Label>{label}</SeedTagGroup.Label>
+        <SeedTagGroup.ItemLabel>{label}</SeedTagGroup.ItemLabel>
         {suffixIcon && <SuffixIcon svg={suffixIcon} />}
       </SeedTagGroup.Item>
     );
