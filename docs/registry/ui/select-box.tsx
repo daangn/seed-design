@@ -25,6 +25,7 @@ export const RadioSelectBoxRoot = React.forwardRef<HTMLDivElement, RadioSelectBo
     return <SeedRadioSelectBox.Root ref={ref} {...props} />;
   },
 );
+RadioSelectBoxRoot.displayName = "RadioSelectBoxRoot";
 
 export interface RadioSelectBoxItemProps extends Omit<SeedRadioSelectBox.ItemProps, "children"> {
   label: React.ReactNode;
