@@ -10,6 +10,8 @@ export {
   MenuSheetList,
   MenuSheetGroup,
   MenuSheetItem,
+  MenuSheetItemLabel,
+  MenuSheetItemDescription,
   MenuSheetCloseButton,
   type MenuSheetBackdropProps,
   type MenuSheetPositionerProps,
@@ -22,6 +24,8 @@ export {
   type MenuSheetListProps,
   type MenuSheetGroupProps,
   type MenuSheetItemProps,
+  type MenuSheetItemLabelProps,
+  type MenuSheetItemDescriptionProps,
   type MenuSheetCloseButtonProps,
 } from "./MenuSheet";
 

@@ -6,14 +6,16 @@ import {
   type MenuSheetItemVariantProps,
 } from "@seed-design/css/recipes/menu-sheet-item";
 import * as React from "react";
-import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(menuSheet);
-const { PropsProvider: ItemPropsProvider, useProps: useItemProps } =
-  createRecipeContext(menuSheetItem);
+const {
+  PropsProvider: ItemPropsProvider,
+  useProps: useItemProps,
+  withContext: withItemContext,
+} = createSlotRecipeContext(menuSheetItem);
 const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -151,19 +153,46 @@ export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemPr
     const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
     const parentProps = useItemProps();
 
-    const className = menuSheetItem({ ...parentProps, ...variantProps });
+    const classNames = menuSheetItem({ ...parentProps, ...variantProps });
     const { stateProps } = useDialogContext();
 
     return (
       <Primitive.button
         ref={ref}
-        className={clsx(className, propClassName)}
+        className={clsx(classNames.root, propClassName)}
         {...stateProps}
         {...otherProps}
       />
     );
   },
 );
+
+export interface MenuSheetItemContentProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const MenuSheetItemContent = withItemContext<HTMLDivElement, MenuSheetItemContentProps>(
+  withStateProps(Primitive.div),
+  "content",
+);
+
+export interface MenuSheetItemLabelProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
+
+export const MenuSheetItemLabel = withItemContext<HTMLSpanElement, MenuSheetItemLabelProps>(
+  withStateProps(Primitive.span),
+  "label",
+);
+
+export interface MenuSheetItemDescriptionProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
+
+export const MenuSheetItemDescription = withItemContext<
+  HTMLSpanElement,
+  MenuSheetItemDescriptionProps
+>(withStateProps(Primitive.span), "description");
 
 ////////////////////////////////////////////////////////////////////////////////////
 

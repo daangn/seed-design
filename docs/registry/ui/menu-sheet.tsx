@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuSheet as SeedMenuSheet } from "@seed-design/react";
+import { PrefixIcon, MenuSheet as SeedMenuSheet } from "@seed-design/react";
 import { forwardRef } from "react";
 import type * as React from "react";
 
@@ -65,6 +65,26 @@ export interface MenuSheetGroupProps extends SeedMenuSheet.GroupProps {}
 
 export const MenuSheetGroup = SeedMenuSheet.Group;
 
-export interface MenuSheetItemProps extends SeedMenuSheet.ItemProps {}
+export interface MenuSheetItemProps extends Omit<SeedMenuSheet.ItemProps, "children"> {
+  prefixIcon?: React.ReactNode;
 
-export const MenuSheetItem = SeedMenuSheet.Item;
+  label: React.ReactNode;
+
+  description?: React.ReactNode;
+}
+
+export const MenuSheetItem = forwardRef<HTMLButtonElement, MenuSheetItemProps>(
+  ({ prefixIcon, label, description, ...props }, ref) => {
+    return (
+      <SeedMenuSheet.Item ref={ref} {...props}>
+        {prefixIcon && <PrefixIcon svg={prefixIcon} />}
+        <SeedMenuSheet.Content>
+          <SeedMenuSheet.ItemLabel>{label}</SeedMenuSheet.ItemLabel>
+          {description && (
+            <SeedMenuSheet.ItemDescription>{description}</SeedMenuSheet.ItemDescription>
+          )}
+        </SeedMenuSheet.Content>
+      </SeedMenuSheet.Item>
+    );
+  },
+);
