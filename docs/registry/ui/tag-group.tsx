@@ -21,7 +21,7 @@ export interface TagGroupItemProps extends Omit<SeedTagGroup.ItemProps, "childre
 /**
  * @see https://seed-design.io/react/components/tag-group
  */
-export const TagGroupItem = React.forwardRef<HTMLDivElement, TagGroupItemProps>(
+export const TagGroupItem = React.forwardRef<HTMLSpanElement, TagGroupItemProps>(
   ({ prefixIcon, label, suffixIcon, ...props }, ref) => {
     return (
       <SeedTagGroup.Item {...props} ref={ref}>
