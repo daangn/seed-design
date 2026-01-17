@@ -15,7 +15,7 @@ export default function TagGroupCustomizingItem() {
         {/* You can use the compound components to customize the items */}
         <SeedTagGroup.Item weight="bold" tone="neutral" aria-label="평점 4.5">
           <Icon svg={<IconStarFill />} color="fg.brand" />
-          <SeedTagGroup.Label>4.5</SeedTagGroup.Label>
+          <SeedTagGroup.ItemLabel>4.5</SeedTagGroup.ItemLabel>
         </SeedTagGroup.Item>
         <TagGroupItem label="후기 37" />
         <TagGroupItem label="단골 12" />
