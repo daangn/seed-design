@@ -18,31 +18,33 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const inlineStyle = { width: "250px" };
+
 const conditionMap = {
-  nowrap: {
-    false: { nowrap: false },
-    true: { nowrap: true, style: { width: "250px" } },
-  },
-  flexShrink: {
-    none: {},
-    all: {
+  inline: {
+    "false (wrap)": { inline: false },
+    "true (default)": { inline: true, style: inlineStyle },
+    "true (keep first)": {
+      inline: true,
+      style: inlineStyle,
       children: [
         <TagGroupItem
           key="1"
-          flexShrink
+          flexShrink={0}
           label="부산광역시 해운대구"
           suffixIcon={<IconMegaphoneFill />}
         />,
         <TagGroupItem
           key="2"
-          flexShrink
           prefixIcon={<IconCheckmarkCircleFill />}
           label="123 456 789 012 345"
         />,
-        <TagGroupItem key="3" flexShrink label="Ut minim laboris enim" />,
+        <TagGroupItem key="3" label="Ut minim laboris enim" />,
       ],
     },
-    mixed: {
+    "true (mixed ratios)": {
+      inline: true,
+      style: inlineStyle,
       children: [
         <TagGroupItem
           key="1"

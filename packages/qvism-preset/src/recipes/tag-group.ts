@@ -40,7 +40,7 @@ export const tagGroup = defineSlotRecipe({
         },
       },
     },
-    nowrap: {
+    inline: {
       true: {
         root: {
           maxWidth: "100%",
@@ -59,7 +59,7 @@ export const tagGroup = defineSlotRecipe({
   },
   defaultVariants: {
     size: "t2",
-    nowrap: false,
+    inline: false,
   },
 });
 
@@ -71,7 +71,7 @@ export const tagGroupItem = defineSlotRecipe({
       display: "inline-flex",
       alignItems: "center",
 
-      flexShrink: "var(--seed-box-flex-shrink, 0)",
+      flexShrink: "var(--seed-box-flex-shrink, 1)",
       minWidth: 0,
 
       gap: itemVars.base.enabled.root.gap,

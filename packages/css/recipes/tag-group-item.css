@@ -1,7 +1,7 @@
 .seed-tag-group-item__root {
     display: inline-flex;
     align-items: center;
-    flex-shrink: var(--seed-box-flex-shrink, 0);
+    flex-shrink: var(--seed-box-flex-shrink, 1);
     min-width: 0;
     gap: var(--seed-dimension-x0_5)
 }

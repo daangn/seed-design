@@ -6929,19 +6929,19 @@
   line-height: var(--seed-line-height-t4);
 }
 
-.seed-tag-group__root--nowrap_true {
+.seed-tag-group__root--inline_true {
   --tag-group-item-overflow: hidden;
   --tag-group-item-text-overflow: ellipsis;
   --tag-group-item-white-space: nowrap;
   max-width: 100%;
 }
 
-.seed-tag-group__root--nowrap_false {
+.seed-tag-group__root--inline_false {
   flex-wrap: wrap;
 }
 
 .seed-tag-group-item__root {
-  flex-shrink: var(--seed-box-flex-shrink, 0);
+  flex-shrink: var(--seed-box-flex-shrink, 1);
   align-items: center;
   gap: var(--seed-dimension-x0_5);
   min-width: 0;

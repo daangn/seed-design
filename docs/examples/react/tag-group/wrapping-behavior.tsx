@@ -28,37 +28,26 @@ export default function TagGroupWrappingBehavior() {
             <TagGroupItem label="Ut minim laboris enim" />
           </TagGroupRoot>
         </Wrapper>
-        <Wrapper title="nowrap">
-          <TagGroupRoot nowrap>
+        <Wrapper title="inline">
+          <TagGroupRoot inline>
             <TagGroupItem prefixIcon={<IconLocationpinFill />} label="부산광역시 해운대구" />
             <TagGroupItem prefixIcon={<IconBellFill />} label="123 456 789 012 345" />
             <TagGroupItem label="Ut minim laboris enim" />
           </TagGroupRoot>
         </Wrapper>
-        <Wrapper title="nowrap, truncate all items">
-          <TagGroupRoot nowrap>
+        <Wrapper title="inline, keep one fixed">
+          <TagGroupRoot inline>
+            <TagGroupItem prefixIcon={<IconLocationpinFill />} label="부산광역시 해운대구" />
             <TagGroupItem
-              prefixIcon={<IconLocationpinFill />}
-              flexShrink
-              label="부산광역시 해운대구"
+              flexShrink={0}
+              prefixIcon={<IconBellFill />}
+              label="123 456 789 012 345"
             />
-            <TagGroupItem flexShrink prefixIcon={<IconBellFill />} label="123 456 789 012 345" />
-            <TagGroupItem flexShrink label="Ut minim laboris enim" />
+            <TagGroupItem label="Ut minim laboris enim" />
           </TagGroupRoot>
         </Wrapper>
-        <Wrapper title="nowrap, truncate all except one">
-          <TagGroupRoot nowrap>
-            <TagGroupItem
-              prefixIcon={<IconLocationpinFill />}
-              flexShrink
-              label="부산광역시 해운대구"
-            />
-            <TagGroupItem prefixIcon={<IconBellFill />} label="123 456 789 012 345" />
-            <TagGroupItem flexShrink label="Ut minim laboris enim" />
-          </TagGroupRoot>
-        </Wrapper>
-        <Wrapper title="nowrap, mixed flexShrink values">
-          <TagGroupRoot nowrap>
+        <Wrapper title="inline, mixed shrink ratios">
+          <TagGroupRoot inline>
             <TagGroupItem
               prefixIcon={<IconLocationpinFill />}
               flexShrink={1}

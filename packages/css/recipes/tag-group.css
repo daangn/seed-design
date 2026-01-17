@@ -20,12 +20,12 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4)
 }
-.seed-tag-group__root--nowrap_true {
+.seed-tag-group__root--inline_true {
     max-width: 100%;
     --tag-group-item-overflow: hidden;
     --tag-group-item-text-overflow: ellipsis;
     --tag-group-item-white-space: nowrap
 }
-.seed-tag-group__root--nowrap_false {
+.seed-tag-group__root--inline_false {
     flex-wrap: wrap
 }

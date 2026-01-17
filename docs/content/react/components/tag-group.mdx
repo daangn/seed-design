@@ -12,27 +12,13 @@ description: 아이콘과 텍스트 태그를 수평으로 나열해 여러 속�
   ```
 </ComponentExample>
 
-## Usage
+## Installation
 
-```tsx
-import { TagGroup, TagGroupRoot, TagGroupItem } from "@seed-design/react";
+```package-install
+npx @seed-design/cli@latest add ui:tag-group
 ```
 
-```tsx
-<TagGroupRoot>
-  <TagGroupItem>Tag 1</TagGroupItem>
-  <TagGroupItem>Tag 2</TagGroupItem>
-  <TagGroupItem>Tag 3</TagGroupItem>
-</TagGroupRoot>
-```
-
-```tsx
-<TagGroup.Root>
-  <TagGroup.Item>Tag 1</TagGroup.Item>
-  <TagGroup.Item>Tag 2</TagGroup.Item>
-  <TagGroup.Item>Tag 3</TagGroup.Item>
-</TagGroup.Root>
-```
+<ManualInstallation name="tag-group" />
 
 ## Props
 
@@ -98,7 +84,7 @@ import { TagGroup, TagGroupRoot, TagGroupItem } from "@seed-design/react";
 
 ### Customizing `TagGroupItem`
 
-`TagGroupRoot`에 지정한 `size`, `tone`, `weight`을 `TagGroupItem`에서 덮어씌울 수 있습니다.
+`TagGroupRoot`에 지정한 `size`, `tone`, `weight`은 `TagGroupItem`에서 덮어씌울 수 있습니다.
 
 <ComponentExample name="react/tag-group/customizing-item">
   ```json doc-gen:file
@@ -125,6 +111,12 @@ import { TagGroup, TagGroupRoot, TagGroupItem } from "@seed-design/react";
 </ComponentExample>
 
 ### Wrapping Behavior
+
+기본적으로 `TagGroupRoot`는 컨테이너 너비를 초과하면 `TagGroupItem` 또는 separator 단위에서 줄바꿈됩니다.
+
+`TagGroupRoot`에 `inline` prop을 지정하면 `TagGroupRoot`이 한 줄로 유지되고, 컨테이너 너비를 초과하는 경우 기본적으로 모든 `TagGroupItem`의 레이블에서 말줄임이 발생할 수 있습니다.
+
+`inline` prop을 사용하면서 특정 아이템이 축소되지 않도록 하려면 해당 `TagGroupItem`에 `flexShrink={false}`을 지정하세요. `TagGroupItem`에 `flexShrink={숫자}`를 지정하여 컨테이너 너비를 초과할 때 축소되는 우선순위를 조정할 수 있습니다.
 
 <ComponentExample name="react/tag-group/wrapping-behavior">
   ```json doc-gen:file

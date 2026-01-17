@@ -14,7 +14,7 @@ const tagGroupSlotNames = [
 
 const defaultVariant = {
   "size": "t2",
-  "nowrap": false
+  "inline": false
 };
 
 const compoundVariants = [];
@@ -25,7 +25,7 @@ export const tagGroupVariantMap = {
     "t3",
     "t4"
   ],
-  "nowrap": [
+  "inline": [
     true,
     false
   ]
