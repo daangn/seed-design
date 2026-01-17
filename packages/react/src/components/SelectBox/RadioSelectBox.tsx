@@ -85,7 +85,7 @@ export interface RadioSelectBoxItemProps
   footerVisibility?: "always" | "when-selected";
 }
 
-export const RadioSelectBoxItem = forwardRef<HTMLDivElement, RadioSelectBoxItemProps>(
+export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxItemProps>(
   ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
     const [variantProps, otherProps] = selectBox.splitVariantProps(props);
     const classNames = selectBox({
@@ -95,14 +95,16 @@ export const RadioSelectBoxItem = forwardRef<HTMLDivElement, RadioSelectBoxItemP
 
     return (
       <ClassNamesProvider value={classNames}>
-        <RadioGroupPrimitive.Item asChild {...otherProps}>
-          <Primitive.div className={clsx(classNames.root, className)} ref={ref}>
-            {footerVisibility === "when-selected" ? (
-              <SelectBoxCollapsibleRoot>{children}</SelectBoxCollapsibleRoot>
-            ) : (
-              children
-            )}
-          </Primitive.div>
+        <RadioGroupPrimitive.Item
+          ref={ref}
+          className={clsx(classNames.root, className)}
+          {...otherProps}
+        >
+          {footerVisibility === "when-selected" ? (
+            <SelectBoxCollapsibleRoot>{children}</SelectBoxCollapsibleRoot>
+          ) : (
+            children
+          )}
         </RadioGroupPrimitive.Item>
       </ClassNamesProvider>
     );
@@ -114,7 +116,7 @@ export interface RadioSelectBoxTriggerProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioSelectBoxTrigger = withContext<HTMLDivElement, RadioSelectBoxTriggerProps>(
-  withStateProps(Primitive.label),
+  withStateProps(Primitive.div),
   "trigger",
 );
 
@@ -138,19 +140,19 @@ export const RadioSelectBoxBody = withContext<HTMLDivElement, RadioSelectBoxBody
 
 export interface RadioSelectBoxLabelProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const RadioSelectBoxLabel = withContext<HTMLSpanElement, RadioSelectBoxLabelProps>(
+export const RadioSelectBoxLabel = withContext<HTMLDivElement, RadioSelectBoxLabelProps>(
   withStateProps(Primitive.div),
   "label",
 );
 
 export interface RadioSelectBoxDescriptionProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioSelectBoxDescription = withContext<
-  HTMLSpanElement,
+  HTMLDivElement,
   RadioSelectBoxDescriptionProps
 >(withStateProps(Primitive.div), "description");
 

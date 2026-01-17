@@ -12,6 +12,7 @@ interface FooterStateContextValue {
 
 const FooterStateContext = createContext<FooterStateContextValue | null>(null);
 
+// TODO: rename
 export function useFooterState() {
   const [isFooterRendered, setIsFooterRendered] = useState(false);
   const footerRef = useCallback((node: HTMLDivElement | null) => {

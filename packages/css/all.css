@@ -6076,7 +6076,6 @@
 }
 
 .seed-select-box__trigger {
-  cursor: pointer;
   justify-content: space-between;
   gap: var(--seed-dimension-x1_5);
   flex-grow: 1;

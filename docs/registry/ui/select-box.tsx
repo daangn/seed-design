@@ -37,7 +37,7 @@ export interface RadioSelectBoxItemProps extends Omit<SeedRadioSelectBox.ItemPro
 
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
-  rootRef?: React.Ref<HTMLDivElement>;
+  rootRef?: React.Ref<HTMLLabelElement>;
 
   footer?: React.ReactNode;
 }
@@ -77,7 +77,7 @@ export interface CheckSelectBoxProps extends Omit<SeedCheckSelectBox.RootProps, 
 
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
-  rootRef?: React.Ref<HTMLDivElement>;
+  rootRef?: React.Ref<HTMLLabelElement>;
 
   footer?: React.ReactNode;
 }

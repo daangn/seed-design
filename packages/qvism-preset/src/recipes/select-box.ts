@@ -45,7 +45,10 @@ export const selectBox = defineSlotRecipe({
       "&::after": {
         content: '""',
         position: "absolute",
-        inset: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
         borderRadius: "inherit",
 
         borderStyle: "solid",
@@ -78,8 +81,6 @@ export const selectBox = defineSlotRecipe({
     trigger: {
       display: "flex",
       justifyContent: "space-between",
-
-      cursor: "pointer", // `label` should have pointer cursor on the element itself
 
       gap: vars.base.enabled.trigger.gap,
 

@@ -90,7 +90,7 @@ export interface CheckSelectBoxRootProps
   footerVisibility?: "always" | "when-selected";
 }
 
-export const CheckSelectBoxRoot = forwardRef<HTMLDivElement, CheckSelectBoxRootProps>(
+export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRootProps>(
   ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
     const [variantProps, otherProps] = selectBox.splitVariantProps(props);
     const classNames = selectBox({
@@ -100,14 +100,16 @@ export const CheckSelectBoxRoot = forwardRef<HTMLDivElement, CheckSelectBoxRootP
 
     return (
       <ClassNamesProvider value={classNames}>
-        <CheckboxPrimitive.Root asChild {...otherProps}>
-          <Primitive.div className={clsx(classNames.root, className)} ref={ref}>
-            {footerVisibility === "when-selected" ? (
-              <SelectBoxCollapsibleRoot>{children}</SelectBoxCollapsibleRoot>
-            ) : (
-              children
-            )}
-          </Primitive.div>
+        <CheckboxPrimitive.Root
+          ref={ref}
+          className={clsx(classNames.root, className)}
+          {...otherProps}
+        >
+          {footerVisibility === "when-selected" ? (
+            <SelectBoxCollapsibleRoot>{children}</SelectBoxCollapsibleRoot>
+          ) : (
+            children
+          )}
         </CheckboxPrimitive.Root>
       </ClassNamesProvider>
     );
@@ -116,10 +118,10 @@ export const CheckSelectBoxRoot = forwardRef<HTMLDivElement, CheckSelectBoxRootP
 
 export interface CheckSelectBoxTriggerProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLLabelElement> {}
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const CheckSelectBoxTrigger = withContext<HTMLLabelElement, CheckSelectBoxTriggerProps>(
-  withStateProps(Primitive.label),
+export const CheckSelectBoxTrigger = withContext<HTMLDivElement, CheckSelectBoxTriggerProps>(
+  withStateProps(Primitive.div),
   "trigger",
 );
 
@@ -143,19 +145,19 @@ export const CheckSelectBoxBody = withContext<HTMLDivElement, CheckSelectBoxBody
 
 export interface CheckSelectBoxLabelProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const CheckSelectBoxLabel = withContext<HTMLSpanElement, CheckSelectBoxLabelProps>(
+export const CheckSelectBoxLabel = withContext<HTMLDivElement, CheckSelectBoxLabelProps>(
   withStateProps(Primitive.div),
   "label",
 );
 
 export interface CheckSelectBoxDescriptionProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const CheckSelectBoxDescription = withContext<
-  HTMLSpanElement,
+  HTMLDivElement,
   CheckSelectBoxDescriptionProps
 >(withStateProps(Primitive.div), "description");
 

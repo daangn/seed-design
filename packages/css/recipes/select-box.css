@@ -11,7 +11,10 @@
 .seed-select-box__root::after {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     border-radius: inherit;
     border-style: solid;
     border-width: 1px;
@@ -35,7 +38,6 @@
 .seed-select-box__trigger {
     display: flex;
     justify-content: space-between;
-    cursor: pointer;
     gap: var(--seed-dimension-x1_5);
     flex-grow: 1;
 }
