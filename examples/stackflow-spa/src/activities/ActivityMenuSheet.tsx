@@ -1,10 +1,6 @@
 import { useActivity, type StaticActivityComponentType } from "@stackflow/react/future";
 
-import {
-  IconPencilLine,
-  IconPlusLine,
-  IconTrashcanLine,
-} from "@karrotmarket/react-monochrome-icon";
+import { IconPencilLine, IconPlusLine } from "@karrotmarket/react-monochrome-icon";
 import {
   MenuSheetContent,
   MenuSheetGroup,
@@ -50,7 +46,8 @@ const ActivityMenuSheet: StaticActivityComponentType<"ActivityMenuSheet"> = () =
           <MenuSheetItem onClick={handleAction("add")} label="Add" prefixIcon={<IconPlusLine />} />
           <MenuSheetItem
             onClick={handleAction("edit")}
-            label="Edit"
+            label="Edit Proident pariatur do cillum labore nisi ex velit fugiat laboris pariatur consequat mollit ex culpa cillum."
+            description="Aliqua reprehenderit nostrud ea laborum. Aliquip qui sint amet nulla aliqua mollit consequat sint nostrud cupidatat nisi."
             prefixIcon={<IconPencilLine />}
           />
         </MenuSheetGroup>
@@ -60,9 +57,7 @@ const ActivityMenuSheet: StaticActivityComponentType<"ActivityMenuSheet"> = () =
           <MenuSheetItem
             onClick={handleAction("delete")}
             tone="critical"
-            labelAlign="left"
-            label="Delete"
-            prefixIcon={<IconTrashcanLine />}
+            label="Adipisicing commodo et ex ad reprehenderit. Excepteur sint aute voluptate id."
           />
         </MenuSheetGroup>
       </MenuSheetContent>

@@ -83,13 +83,16 @@ const menuSheetItem = defineSlotRecipe({
     },
     labelAlign: {
       left: {
-        root: {
-          justifyContent: "flex-start",
+        content: {
+          textAlign: "start",
         },
       },
       center: {
         root: {
           justifyContent: "center",
+        },
+        content: {
+          alignItems: "center",
         },
       },
     },
