@@ -1,7 +1,6 @@
 .seed-tag-group__root {
     display: inline-flex;
-    align-items: center;
-    flex-wrap: wrap
+    align-items: center
 }
 .seed-tag-group__separator {
     color: var(--seed-color-palette-gray-600);
@@ -20,4 +19,13 @@
 .seed-tag-group__separator--size_t4 {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4)
+}
+.seed-tag-group__root--nowrap_true {
+    max-width: 100%;
+    --tag-group-item-overflow: hidden;
+    --tag-group-item-text-overflow: ellipsis;
+    --tag-group-item-white-space: nowrap
+}
+.seed-tag-group__root--nowrap_false {
+    flex-wrap: wrap
 }
