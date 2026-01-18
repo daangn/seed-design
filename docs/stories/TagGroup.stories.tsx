@@ -18,19 +18,20 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const inlineStyle = { width: "250px" };
+const truncateStyle = { width: "250px" };
 
 const conditionMap = {
-  inline: {
-    "false (wrap)": { inline: false },
-    "true (default)": { inline: true, style: inlineStyle },
+  truncate: {
+    "false (wrap)": { truncate: false },
+    "true (default)": { truncate: true, style: truncateStyle },
     "true (keep first)": {
-      inline: true,
-      style: inlineStyle,
+      truncate: true,
+      style: truncateStyle,
       children: [
         <TagGroupItem
           key="1"
           flexShrink={0}
+          prefixIcon={<IconCheckmarkCircleFill />}
           label="부산광역시 해운대구"
           suffixIcon={<IconMegaphoneFill />}
         />,
@@ -43,12 +44,13 @@ const conditionMap = {
       ],
     },
     "true (mixed ratios)": {
-      inline: true,
-      style: inlineStyle,
+      truncate: true,
+      style: truncateStyle,
       children: [
         <TagGroupItem
           key="1"
           flexShrink={1}
+          prefixIcon={<IconCheckmarkCircleFill />}
           label="부산광역시 해운대구"
           suffixIcon={<IconMegaphoneFill />}
         />,
@@ -68,7 +70,12 @@ const CommonStoryTemplate: Story = {
   args: {
     // this can't be done with Fragment because separators are needed between items
     children: [
-      <TagGroupItem key="1" label="부산광역시 해운대구" suffixIcon={<IconMegaphoneFill />} />,
+      <TagGroupItem
+        key="1"
+        prefixIcon={<IconCheckmarkCircleFill />}
+        label="부산광역시 해운대구"
+        suffixIcon={<IconMegaphoneFill />}
+      />,
       <TagGroupItem key="2" prefixIcon={<IconCheckmarkCircleFill />} label="123 456 789 012 345" />,
       <TagGroupItem key="3" label="Ut minim laboris enim" />,
     ],

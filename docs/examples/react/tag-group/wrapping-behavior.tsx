@@ -28,15 +28,15 @@ export default function TagGroupWrappingBehavior() {
             <TagGroupItem label="Ut minim laboris enim" />
           </TagGroupRoot>
         </Wrapper>
-        <Wrapper title="inline">
-          <TagGroupRoot inline>
+        <Wrapper title="truncate">
+          <TagGroupRoot truncate>
             <TagGroupItem prefixIcon={<IconLocationpinFill />} label="부산광역시 해운대구" />
             <TagGroupItem prefixIcon={<IconBellFill />} label="123 456 789 012 345" />
             <TagGroupItem label="Ut minim laboris enim" />
           </TagGroupRoot>
         </Wrapper>
-        <Wrapper title="inline, keep one fixed">
-          <TagGroupRoot inline>
+        <Wrapper title="truncate, keep one fixed">
+          <TagGroupRoot truncate>
             <TagGroupItem prefixIcon={<IconLocationpinFill />} label="부산광역시 해운대구" />
             <TagGroupItem
               flexShrink={0}
@@ -46,8 +46,8 @@ export default function TagGroupWrappingBehavior() {
             <TagGroupItem label="Ut minim laboris enim" />
           </TagGroupRoot>
         </Wrapper>
-        <Wrapper title="inline, mixed shrink ratios">
-          <TagGroupRoot inline>
+        <Wrapper title="truncate, mixed shrink ratios">
+          <TagGroupRoot truncate>
             <TagGroupItem
               prefixIcon={<IconLocationpinFill />}
               flexShrink={1}

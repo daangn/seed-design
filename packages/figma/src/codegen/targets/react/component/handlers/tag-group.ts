@@ -53,7 +53,7 @@ export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
           tone: consistent.tone ? undefined : item.props.tone,
         },
       })),
-      { comment: "`inline` prop을 통해 한 줄로 표시되도록 할 수 있습니다." },
+      { comment: "`truncate` prop을 통해 한 줄로 표시되도록 할 수 있습니다." },
     );
   });
 };

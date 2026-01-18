@@ -5,9 +5,10 @@
 
 [Tag Group](/react/components/tag-group) 관련 컴포넌트를 업데이트합니다.
 
-- 인라인 레이아웃 및 말줄임 우선순위 옵션을 추가합니다.
-  - `TagGroupRoot`에 `inline` prop을 추가하여 인라인 레이아웃을 사용할 수 있습니다. (기본값: `false`. 기본값 변경 없음)
-  - `TagGroupItem`에 `flexShrink` prop을 추가하여 말줄임 우선순위를 조정할 수 있습니다.
+- `TagGroupItem` 레이블 내부에서 줄바꿈이 발생할 수 있도록 수정합니다. (기존: `TagGroupItem` 또는 separator 전후에서 줄바꿈 발생)
+- 한 줄 레이아웃 및 우선순위 옵션을 추가합니다.
+  - `TagGroupRoot`에 `truncate` prop을 사용하여 한 줄로 유지하고 말줄임 처리를 할 수 있습니다. (기본값: `false`)
+  - `TagGroupItem`에 `flexShrink` prop을 사용하여 말줄임 우선순위를 조정할 수 있습니다.
 - **1.1 → 1.2 업그레이드 시 변경 필요**: `TagGroupItem` 내부 레이블을 `TagGroupItemLabel`로 감싸거나, 신규로 제공되는 Snippet에서 제공하는 API로 교체해주세요.
 
   - `npx @seed-design/cli@latest add ui:tag-group` 명령어로 Snippet을 추가할 수 있습니다.
@@ -17,7 +18,7 @@
   import { TagGroupRoot, TagGroupItem } from "@seed-design/react";
 
   {
-    /* 또는, TagGroup.Root, TagGroup.Item으로 namespace import하는 코드가 있을 수 있습니다. */
+    /* TagGroup.Root, TagGroup.Item처럼 namespace import하는 코드가 있을 수 있습니다. */
   }
   <TagGroupRoot>
     <TagGroupItem>
@@ -33,7 +34,8 @@
   ```
 
   ```tsx
-  // 후 (Compound Component)
+  // 후 (Compound Component 유지)
+
   import {
     TagGroupRoot,
     TagGroupItem,
@@ -56,7 +58,7 @@
   ```
 
   ```tsx
-  // 후 (snippet 사용)
+  // 후 (snippet API로 교체)
   // snippet 없는 경우, `npx @seed-design/cli@latest add ui:tag-group`
 
   import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";

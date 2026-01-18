@@ -1,15 +1,12 @@
 import { tagGroup as vars, tagGroupItem as itemVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
+import { not, pseudo } from "../utils/pseudo";
 
 export const tagGroup = defineSlotRecipe({
   name: "tag-group",
   slots: ["root", "separator"],
   base: {
-    root: {
-      display: "inline-flex",
-      alignItems: "center",
-    },
     separator: {
       color: vars.base.enabled.separator.color,
       fontWeight: vars.base.enabled.separator.fontWeight,
@@ -40,10 +37,14 @@ export const tagGroup = defineSlotRecipe({
         },
       },
     },
-    inline: {
+    truncate: {
       true: {
         root: {
+          display: "inline-flex",
+          alignItems: "center",
           maxWidth: "100%",
+
+          "--tag-group-item-display": "inline-flex",
 
           "--tag-group-item-overflow": "hidden",
           "--tag-group-item-text-overflow": "ellipsis",
@@ -52,14 +53,53 @@ export const tagGroup = defineSlotRecipe({
       },
       false: {
         root: {
-          flexWrap: "wrap",
+          display: "inline-block",
+          fontSize: 0,
+
+          "--tag-group-item-display": "inline",
+
+          "--tag-group-item-overflow": "visible",
+          "--tag-group-item-text-overflow": "clip",
+          "--tag-group-item-white-space": "normal",
+        },
+        separator: {
+          verticalAlign: "middle",
         },
       },
     },
   },
+  compoundVariants: [
+    {
+      size: "t2",
+      truncate: false,
+      css: {
+        root: {
+          lineHeight: itemVars.sizeT2.enabled.label.lineHeight,
+        },
+      },
+    },
+    {
+      size: "t3",
+      truncate: false,
+      css: {
+        root: {
+          lineHeight: itemVars.sizeT3.enabled.label.lineHeight,
+        },
+      },
+    },
+    {
+      size: "t4",
+      truncate: false,
+      css: {
+        root: {
+          lineHeight: itemVars.sizeT4.enabled.label.lineHeight,
+        },
+      },
+    },
+  ],
   defaultVariants: {
     size: "t2",
-    inline: false,
+    truncate: false,
   },
 });
 
@@ -68,13 +108,13 @@ export const tagGroupItem = defineSlotRecipe({
   slots: ["root", "label"],
   base: {
     root: {
-      display: "inline-flex",
-      alignItems: "center",
+      display: "var(--tag-group-item-display)",
+
+      alignItems: "center", // for centering icon+label when inline-flex
+      verticalAlign: "middle", // for centering item itself when root display: inline
 
       flexShrink: "var(--seed-box-flex-shrink, 1)",
       minWidth: 0,
-
-      gap: itemVars.base.enabled.root.gap,
 
       // NOTE: might remove React.Children logic regarding separators from react package, once minimum required version satisfies Safari 17.4
       // currently this is unusable because VoiceOver reads the content of pseudo elements
@@ -87,12 +127,26 @@ export const tagGroupItem = defineSlotRecipe({
       // },}
     },
     label: {
-      display: "inline-block",
+      display: "inline",
+      verticalAlign: "middle", // for centering label when item display: inline
+
       minWidth: 0,
 
-      overflow: "var(--tag-group-item-overflow, visible)",
-      textOverflow: "var(--tag-group-item-text-overflow, clip)",
-      whiteSpace: "var(--tag-group-item-white-space, normal)",
+      overflow: "var(--tag-group-item-overflow)",
+      textOverflow: "var(--tag-group-item-text-overflow)",
+      whiteSpace: "var(--tag-group-item-white-space)",
+
+      // keep-all in latin, break-all in cjk
+      // this is here because some people want to define word-break in their resets
+      wordBreak: "normal",
+
+      [pseudo(not(":first-child"))]: {
+        marginLeft: itemVars.base.enabled.root.gap,
+      },
+
+      [pseudo(not(":last-child"))]: {
+        marginRight: itemVars.base.enabled.root.gap,
+      },
     },
   },
   variants: {
