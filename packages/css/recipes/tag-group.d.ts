@@ -6,7 +6,7 @@ declare interface TagGroupVariant {
 /**
   * @default false
   */
-  inline: boolean;
+  truncate: boolean;
 }
 
 declare type TagGroupVariantMap = {
