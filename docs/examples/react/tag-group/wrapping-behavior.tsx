@@ -16,7 +16,7 @@ export default function TagGroupWrappingBehavior() {
     >
       <VStack
         gap="x2"
-        width="300px"
+        width="350px"
         maxWidth="max-content"
         overflowX="auto"
         style={{ resize: "horizontal" }}
