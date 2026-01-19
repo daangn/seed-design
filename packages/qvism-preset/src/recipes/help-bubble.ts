@@ -104,7 +104,7 @@ const helpBubble = defineSlotRecipe({
       cursor: "pointer",
       padding: `calc((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2)`,
 
-      marginLeft: `calc((-1 * ${vars.base.enabled.root.paddingX}) + ${vars.base.enabled.root.gap})`,
+      marginLeft: `calc(${vars.base.enabled.root.gap} - ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2))`,
       marginRight: `calc(-1 * ${vars.base.enabled.root.paddingX})`,
       marginTop: `calc(-1 * ${vars.base.enabled.root.paddingY})`,
 

@@ -74,7 +74,7 @@
     background: transparent;
     cursor: pointer;
     padding: calc((38px - 14px) / 2);
-    margin-left: calc((-1 * var(--seed-dimension-x3)) + var(--seed-dimension-x1));
+    margin-left: calc(var(--seed-dimension-x1) - ((38px - 14px) / 2));
     margin-right: calc(-1 * var(--seed-dimension-x3));
     margin-top: calc(-1 * var(--seed-dimension-x2_5));
     color: var(--seed-color-fg-neutral-inverted);
