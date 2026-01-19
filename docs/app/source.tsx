@@ -1,3 +1,16 @@
+/**
+ * @deprecated For new code, prefer using lazy source getters from @/app/sources/*
+ *
+ * Example:
+ * ```ts
+ * import { getReactSource } from "@/app/sources/react-source";
+ * const source = await getReactSource();
+ * ```
+ *
+ * This file is kept for backwards compatibility with existing page components.
+ * The new lazy loading pattern in @/app/sources/* improves memory usage
+ * by only loading section data when needed.
+ */
 import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
 import { docs, reactDocs, breezeDocs, lynxDocs, aiIntegrationDocs } from "@/.source/server";
 import { getRootageMetadata } from "@/components/rootage";

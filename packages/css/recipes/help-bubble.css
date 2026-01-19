@@ -34,7 +34,7 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 1;
 }
-.seed-help-bubble__content:is(:hidden, [hidden], [data-hidden]) {
+.seed-help-bubble__content:is([hidden], [data-hidden]) {
     display: none !important;
 }
 .seed-help-bubble__arrow {

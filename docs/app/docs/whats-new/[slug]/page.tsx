@@ -1,7 +1,7 @@
-import { client } from "@/sanity/lib/client";
-import { SanityImage } from "@/sanity/lib/image";
-import { BLOG_QUERY, SINGLE_BLOG_QUERY } from "@/sanity/lib/queries";
-import { PortableContent } from "@/sanity/lib/sanity-content";
+import { client } from "@/sanity-studio/lib/client";
+import { SanityImage } from "@/sanity-studio/lib/image";
+import { BLOG_QUERY, SINGLE_BLOG_QUERY } from "@/sanity-studio/lib/queries";
+import { PortableContent } from "@/sanity-studio/lib/sanity-content";
 import { SanityImageAsset } from "@sanity/asset-utils";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import { Metadata } from "next";
