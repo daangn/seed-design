@@ -16,9 +16,10 @@ export const DeprecatedBadge = () => {
 };
 
 export function getComponentIdFromUrl(url: string): string | null {
-  const urlParts = url.split("/");
-  const isComponentPage = urlParts.includes("components");
-  return isComponentPage ? urlParts[urlParts.length - 1] : null;
+  const segments = url.split("/").filter(Boolean);
+  const componentsIndex = segments.indexOf("components");
+  if (componentsIndex === -1) return null;
+  return segments[componentsIndex + 1] ?? null;
 }
 
 export async function transformPageTreeWithBadges<
