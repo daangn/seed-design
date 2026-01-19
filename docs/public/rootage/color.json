@@ -3,7 +3,7 @@
   "metadata": {
     "id": "color",
     "name": "Color",
-    "lastUpdated": "26-01-06"
+    "lastUpdated": "26-01-15"
   },
   "data": {
     "collection": "color",
@@ -1677,6 +1677,32 @@
           }
         },
         "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak)"
+      },
+      "$color.bg.neutral-weak-alpha": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-black-alpha-200"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-white-alpha-200"
+          }
+        },
+        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다."
+      },
+      "$color.bg.neutral-weak-alpha-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-black-alpha-300"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-white-alpha-300"
+          }
+        },
+        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha-pressed) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다."
       },
       "$color.bg.neutral-weak-pressed": {
         "values": {

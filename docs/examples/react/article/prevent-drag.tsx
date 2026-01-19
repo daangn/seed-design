@@ -28,7 +28,7 @@ const ArticlePreventDrag: ActivityComponentType<"react/article/prevent-drag"> = 
             <TabsContent value="1">
               <VStack gap="x8" style={{ userSelect: "none" }}>
                 <PageBanner
-                  prefixIcon={<Icon svg={<IconExclamationmarkCircleFill />} />}
+                  prefixIcon={<IconExclamationmarkCircleFill />}
                   description="상위 요소에 `user-select: none;` 스타일 적용됨"
                   tone="warning"
                   variant="solid"
