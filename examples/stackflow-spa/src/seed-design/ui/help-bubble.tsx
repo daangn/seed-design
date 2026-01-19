@@ -13,16 +13,31 @@ export interface HelpBubbleTriggerProps extends Omit<SeedHelpBubble.RootProps, "
   children?: React.ReactNode;
 
   contentProps?: SeedHelpBubble.ContentProps;
+
+  zIndexOffset?: number;
 }
 
 export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTriggerProps>(
-  ({ showCloseButton = false, title, description, contentProps, children, ...otherProps }, ref) => {
+  (
+    {
+      showCloseButton = false,
+      title,
+      description,
+      contentProps,
+      zIndexOffset,
+      children,
+      ...otherProps
+    },
+    ref,
+  ) => {
     return (
       <SeedHelpBubble.Root {...otherProps}>
         <SeedHelpBubble.Trigger asChild ref={ref}>
           {children}
         </SeedHelpBubble.Trigger>
-        <SeedHelpBubble.Positioner>
+        <SeedHelpBubble.Positioner
+          style={{ "--z-index-offset": zIndexOffset } as React.CSSProperties}
+        >
           <SeedHelpBubble.Content {...contentProps}>
             <SeedHelpBubble.Arrow>
               <SeedHelpBubble.ArrowTip />
@@ -56,16 +71,31 @@ export interface HelpBubbleAnchorProps extends Omit<SeedHelpBubble.RootProps, "c
   children?: React.ReactNode;
 
   contentProps?: SeedHelpBubble.ContentProps;
+
+  zIndexOffset?: number;
 }
 
 export const HelpBubbleAnchor = forwardRef<HTMLDivElement, HelpBubbleAnchorProps>(
-  ({ showCloseButton = false, title, description, children, contentProps, ...otherProps }, ref) => {
+  (
+    {
+      showCloseButton = false,
+      title,
+      description,
+      contentProps,
+      zIndexOffset,
+      children,
+      ...otherProps
+    },
+    ref,
+  ) => {
     return (
       <SeedHelpBubble.Root {...otherProps}>
         <SeedHelpBubble.Anchor asChild ref={ref}>
           {children}
         </SeedHelpBubble.Anchor>
-        <SeedHelpBubble.Positioner>
+        <SeedHelpBubble.Positioner
+          style={{ "--z-index-offset": zIndexOffset } as React.CSSProperties}
+        >
           <SeedHelpBubble.Content {...contentProps}>
             <SeedHelpBubble.Arrow>
               <SeedHelpBubble.ArrowTip />
