@@ -102,26 +102,21 @@ export const templateDisclaimer = {
   }
 };
 
-export const templateSelectBoxGroup = {
-  "name": "templateSelectBoxGroup",
-  "key": "a3d58bb8540600878742cdcf2608a4b3851667ec",
+export const templateResultPage = {
+  "name": "templateResultPage",
+  "key": "4cc94782abbe7e58f0401c29ad8880a62e512ae7",
   "componentPropertyDefinitions": {
-    "Control": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Checkbox",
-        "Radio"
-      ]
+    "Show Top Navigation#58717:0": {
+      "type": "BOOLEAN"
     },
-    "Item Count": {
+    "Show Bottom Action Bar#59845:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Bottom Action Bar": {
       "type": "VARIANT",
       "variantOptions": [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6"
+        "True",
+        "False"
       ]
     }
   }
@@ -889,6 +884,165 @@ export const helpBubble = {
   }
 };
 
+export const imageFrame = {
+  "name": "imageFrame",
+  "key": "b12f0bdeb6c6a61e0d50fe7e0dfae8ecd323f0aa",
+  "componentPropertyDefinitions": {
+    "Has Image Contents#29729:0": {
+      "type": "BOOLEAN"
+    },
+    "Left Top#58686:0": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "00da9dcf0cc4e408d2e36da56d0701dce6cee6b0"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "0135e13dd2ded277e5d024f2d9ccc37f9aa7cf38"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "146925b01e772269f042df51f8d2cd5b4e492111"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "a711c13770db66a6a9d8dfec9205b301fb4abf4d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "4907a3a324539a374a81c8255ac8ae2fc6769622"
+        }
+      ]
+    },
+    "Show Overlay#58686:33": {
+      "type": "BOOLEAN"
+    },
+    "Right Top#58686:66": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "a711c13770db66a6a9d8dfec9205b301fb4abf4d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "00da9dcf0cc4e408d2e36da56d0701dce6cee6b0"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "0135e13dd2ded277e5d024f2d9ccc37f9aa7cf38"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "146925b01e772269f042df51f8d2cd5b4e492111"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "4907a3a324539a374a81c8255ac8ae2fc6769622"
+        }
+      ]
+    },
+    "Left Bottom#58686:99": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "00da9dcf0cc4e408d2e36da56d0701dce6cee6b0"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "0135e13dd2ded277e5d024f2d9ccc37f9aa7cf38"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "146925b01e772269f042df51f8d2cd5b4e492111"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "a711c13770db66a6a9d8dfec9205b301fb4abf4d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "4907a3a324539a374a81c8255ac8ae2fc6769622"
+        }
+      ]
+    },
+    "Right Bottom#58686:132": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "a711c13770db66a6a9d8dfec9205b301fb4abf4d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "00da9dcf0cc4e408d2e36da56d0701dce6cee6b0"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "0135e13dd2ded277e5d024f2d9ccc37f9aa7cf38"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "146925b01e772269f042df51f8d2cd5b4e492111"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "4907a3a324539a374a81c8255ac8ae2fc6769622"
+        }
+      ]
+    },
+    "ㄴ Left Top#58686:165": {
+      "type": "BOOLEAN"
+    },
+    "ㄴ Right Top#58686:198": {
+      "type": "BOOLEAN"
+    },
+    "ㄴ Left Bottom#58686:231": {
+      "type": "BOOLEAN"
+    },
+    "ㄴ Right Bottom#58686:264": {
+      "type": "BOOLEAN"
+    },
+    "Ratio": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1:1",
+        "2:1",
+        "16:9",
+        "4:3",
+        "6:7",
+        "4:5",
+        "2:3"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "20",
+        "24",
+        "36",
+        "42",
+        "48",
+        "64",
+        "80",
+        "96",
+        "120",
+        "\bFree"
+      ]
+    },
+    "Rounded": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    }
+  }
+};
+
 export const listHeader = {
   "name": "listHeader",
   "key": "609f93ed0608ef0a6d9a351e47595ad631bae0fa",
@@ -1526,43 +1680,6 @@ export const segmentedControl = {
         "2",
         "3",
         "4"
-      ]
-    }
-  }
-};
-
-export const selectBox = {
-  "name": "selectBox",
-  "key": "38722ffeb4c966256a709155e8ddac50c93d7c60",
-  "componentPropertyDefinitions": {
-    "Show Description#3033:0": {
-      "type": "BOOLEAN"
-    },
-    "Description #3033:5": {
-      "type": "TEXT"
-    },
-    "Label#3635:0": {
-      "type": "TEXT"
-    },
-    "Control": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Checkbox",
-        "Radio"
-      ]
-    },
-    "Selected": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "True",
-        "False"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Pressed"
       ]
     }
   }

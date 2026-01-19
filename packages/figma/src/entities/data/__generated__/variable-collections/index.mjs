@@ -56,6 +56,8 @@ export const FIGMA_VARIABLE_COLLECTIONS = {
       "VariableID:1:158",
       "VariableID:1:172",
       "VariableID:1:161",
+      "VariableID:59176:2",
+      "VariableID:59176:3",
       "VariableID:1:159",
       "VariableID:576:22878",
       "VariableID:10181:32557",
@@ -462,7 +464,10 @@ export const FIGMA_VARIABLE_COLLECTIONS = {
       "VariableID:1700:4280",
       "VariableID:1700:4281",
       "VariableID:1700:4282",
-      "VariableID:40279:20413"
+      "VariableID:40279:20413",
+      "VariableID:58766:15457",
+      "VariableID:58766:15458",
+      "VariableID:58766:15459"
     ]
   },
   "VariableCollectionId:6075:34487": {

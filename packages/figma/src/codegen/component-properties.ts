@@ -378,14 +378,6 @@ export type ToggleButtonProperties = InferComponentDefinition<
   typeof sets.toggleButton.componentPropertyDefinitions
 >;
 
-export type SelectBoxGroupProperties = InferComponentDefinition<
-  typeof sets.templateSelectBoxGroup.componentPropertyDefinitions
->;
-
-export type SelectBoxProperties = InferComponentDefinition<
-  typeof sets.selectBox.componentPropertyDefinitions
->;
-
 export type AppBarProperties = InferComponentDefinition<
   typeof sets.topNavigation.componentPropertyDefinitions
 >;
@@ -980,5 +972,40 @@ export type LegacyMultilineTextFieldProperties = InferComponentDefinition<{
   Filled: {
     type: "VARIANT";
     variantOptions: ["True", "False"];
+  };
+}>;
+
+export type LegacySelectBoxProperties = InferComponentDefinition<{
+  "Show Description#3033:0": {
+    type: "BOOLEAN";
+  };
+  "Description #3033:5": {
+    type: "TEXT";
+  };
+  "Label#3635:0": {
+    type: "TEXT";
+  };
+  Control: {
+    type: "VARIANT";
+    variantOptions: ["Checkbox", "Radio"];
+  };
+  Selected: {
+    type: "VARIANT";
+    variantOptions: ["True", "False"];
+  };
+  State: {
+    type: "VARIANT";
+    variantOptions: ["Enabled", "Pressed"];
+  };
+}>;
+
+export type LegacySelectBoxGroupProperties = InferComponentDefinition<{
+  Control: {
+    type: "VARIANT";
+    variantOptions: ["Checkbox", "Radio"];
+  };
+  "Item Count": {
+    type: "VARIANT";
+    variantOptions: ["1", "2", "3", "4", "5", "6"];
   };
 }>;
