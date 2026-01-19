@@ -1082,6 +1082,54 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
+  "VariableID:59176:2": {
+    "name": "bg/neutral-weak-alpha",
+    "id": "VariableID:59176:2",
+    "remote": false,
+    "key": "082218bada1fc4e2688ad59f30a980c191caf7b7",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36296"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36307"
+      }
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:59176:3": {
+    "name": "bg/neutral-weak-alpha-pressed",
+    "id": "VariableID:59176:3",
+    "remote": false,
+    "key": "b67dd2511e5e4f41e0e392925fcccc752c67631f",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36297"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36308"
+      }
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
   "VariableID:1:161": {
     "name": "bg/neutral-weak-pressed",
     "id": "VariableID:1:161",
@@ -1403,6 +1451,69 @@ export const FIGMA_VARIABLES = {
     "scopes": [
       "FRAME_FILL",
       "SHAPE_FILL"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:58766:15459": {
+    "name": "Component utility (Figma Only)/Select Box/1-column",
+    "id": "VariableID:58766:15459",
+    "remote": false,
+    "key": "676178acd6e038ee5fe034a25818c16a4670a5b1",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "(preview-width - x3 ) / 1 값입니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 358,
+      "1:6": 358,
+      "1:7": 358,
+      "1:8": 358,
+      "51907:0": 358
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:58766:15458": {
+    "name": "Component utility (Figma Only)/Select Box/2-column",
+    "id": "VariableID:58766:15458",
+    "remote": false,
+    "key": "932afae9533322f9192fc8274b77a547d42a8804",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "(preview-width - x3 ) / 2 값입니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 173,
+      "1:6": 173,
+      "1:7": 173,
+      "1:8": 173,
+      "51907:0": 173
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:58766:15457": {
+    "name": "Component utility (Figma Only)/Select Box/3-column",
+    "id": "VariableID:58766:15457",
+    "remote": false,
+    "key": "f2cf2dfa2088f54ceafd7206b47bc2d3dbb057b0",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "(preview-width - x3 ) / 3 값입니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 111.33000183105469,
+      "1:6": 111.33000183105469,
+      "1:7": 111.33000183105469,
+      "1:8": 111.33000183105469,
+      "51907:0": 111.33000183105469
+    },
+    "scopes": [
+      "ALL_SCOPES"
     ],
     "codeSyntax": {}
   },
