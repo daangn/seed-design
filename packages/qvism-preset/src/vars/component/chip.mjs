@@ -258,6 +258,7 @@ export const vars = {
       }
     }
   },
+  "layoutWithText": {},
   "sizeSmallLayoutIconOnly": {
     "enabled": {
       "root": {
