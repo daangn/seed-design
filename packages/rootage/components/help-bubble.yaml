@@ -82,6 +82,8 @@ data:
             type: dimension
           targetSize:
             type: dimension
+          marginTop:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -120,5 +122,6 @@ data:
           lineHeight: $line-height.t3
         closeButton:
           color: $color.fg.neutral-inverted
-          size: 14px
+          size: $dimension.x3_5
           targetSize: 38px
+          marginTop: $dimension.x0_5

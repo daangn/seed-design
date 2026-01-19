@@ -73,11 +73,11 @@
     border: none;
     background: transparent;
     cursor: pointer;
-    padding: calc((38px - 14px) / 2);
-    margin-left: calc(var(--seed-dimension-x1) - ((38px - 14px) / 2));
-    margin-right: calc(-1 * var(--seed-dimension-x3));
-    margin-top: calc(-1 * var(--seed-dimension-x2_5));
+    padding: calc((38px - var(--seed-dimension-x3_5)) / 2);
+    margin-left: calc(var(--seed-dimension-x1) - ((38px - var(--seed-dimension-x3_5)) / 2));
+    margin-right: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2));
+    margin-top: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
     color: var(--seed-color-fg-neutral-inverted);
-    --seed-icon-size: 14px;
+    --seed-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
 }

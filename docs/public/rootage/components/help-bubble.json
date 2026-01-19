@@ -125,6 +125,9 @@
             },
             "targetSize": {
               "type": "dimension"
+            },
+            "marginTop": {
+              "type": "dimension"
             }
           }
         }
@@ -284,10 +287,7 @@
                 },
                 "size": {
                   "type": "dimension",
-                  "value": {
-                    "value": 14,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x3_5"
                 },
                 "targetSize": {
                   "type": "dimension",
@@ -295,6 +295,10 @@
                     "value": 38,
                     "unit": "px"
                   }
+                },
+                "marginTop": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
                 }
               }
             }

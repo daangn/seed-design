@@ -43,8 +43,9 @@ export declare const vars: {
       },
       "closeButton": {
         "color": "var(--seed-color-fg-neutral-inverted)",
-        "size": "14px",
-        "targetSize": "38px"
+        "size": "var(--seed-dimension-x3_5)",
+        "targetSize": "38px",
+        "marginTop": "var(--seed-dimension-x0_5)"
       }
     }
   }
