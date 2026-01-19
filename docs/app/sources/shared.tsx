@@ -22,7 +22,8 @@ export function getComponentIdFromUrl(url: string): string | null {
 }
 
 export async function transformPageTreeWithBadges<
-  T extends { getNodePage: (node: Node) => { data?: { deprecated?: boolean } } | undefined },
+  // biome-ignore lint/suspicious/noExplicitAny: getNodePage parameter type varies by source
+  T extends { getNodePage(node: any): { data?: { deprecated?: boolean | string } } | undefined },
 >(tree: Root, sourceLoader: T): Promise<Root> {
   try {
     async function transformNode(node: Node): Promise<Node> {

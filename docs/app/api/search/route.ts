@@ -23,13 +23,13 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
     const [source, reactSource, breezeSource, lynxSource] = await getAllSources();
 
     return Promise.all([
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...source.getPages().map(async (page: any) => {
+      ...source.getPages().map(async (page) => {
         const pageData = page.data;
-        const structuredData =
+        const structuredData = (
           "structuredData" in pageData
             ? pageData.structuredData
-            : (await pageData.load()).structuredData;
+            : (await pageData.load()).structuredData
+        ) as AdvancedIndex["structuredData"];
 
         return {
           id: page.url,
@@ -40,13 +40,13 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
           url: page.url,
         } satisfies AdvancedIndex;
       }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...reactSource.getPages().map(async (page: any) => {
+      ...reactSource.getPages().map(async (page) => {
         const pageData = page.data;
-        const structuredData =
+        const structuredData = (
           "structuredData" in pageData
             ? pageData.structuredData
-            : (await pageData.load()).structuredData;
+            : (await pageData.load()).structuredData
+        ) as AdvancedIndex["structuredData"];
 
         return {
           id: page.url,
@@ -57,13 +57,13 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
           url: page.url,
         } satisfies AdvancedIndex;
       }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...breezeSource.getPages().map(async (page: any) => {
+      ...breezeSource.getPages().map(async (page) => {
         const pageData = page.data;
-        const structuredData =
+        const structuredData = (
           "structuredData" in pageData
             ? pageData.structuredData
-            : (await pageData.load()).structuredData;
+            : (await pageData.load()).structuredData
+        ) as AdvancedIndex["structuredData"];
 
         return {
           id: page.url,
@@ -74,13 +74,13 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
           url: page.url,
         } satisfies AdvancedIndex;
       }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...lynxSource.getPages().map(async (page: any) => {
+      ...lynxSource.getPages().map(async (page) => {
         const pageData = page.data;
-        const structuredData =
+        const structuredData = (
           "structuredData" in pageData
             ? pageData.structuredData
-            : (await pageData.load()).structuredData;
+            : (await pageData.load()).structuredData
+        ) as AdvancedIndex["structuredData"];
 
         return {
           id: page.url,

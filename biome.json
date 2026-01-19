@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.2/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -12,6 +12,8 @@
       "!**/package.json",
       "!**/archive/**/*",
       "!**/.next/**/*",
+      "!**/.storybook/**/*",
+      "!**/.sanity/**/*",
       "!**/__testfixtures__/**/*",
       "!**/__generated__/**/*",
       "!**/__registry__/**/*",

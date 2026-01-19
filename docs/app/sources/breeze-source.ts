@@ -1,12 +1,9 @@
 import type { Root } from "fumadocs-core/page-tree";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type LoaderReturn = any;
-
-let cachedSource: LoaderReturn | null = null;
+let cachedSource: Awaited<ReturnType<typeof createLoader>> | null = null;
 let cachedPageTree: Root | null = null;
 
-async function createLoader(): Promise<LoaderReturn> {
+async function createLoader() {
   const { breezeDocs } = await import("@/.source/server");
   const { loader } = await import("fumadocs-core/source");
   const { iconHandler } = await import("./shared");
@@ -18,7 +15,7 @@ async function createLoader(): Promise<LoaderReturn> {
   });
 }
 
-export async function getBreezeSource(): Promise<LoaderReturn> {
+export async function getBreezeSource() {
   if (!cachedSource) {
     cachedSource = await createLoader();
   }

@@ -45,9 +45,7 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  const loadedData = await page.data.load();
-  const frontmatterDeprecated = (loadedData as any).deprecated;
-  const { deprecated } = await getComponentStatus(params, { deprecated: frontmatterDeprecated });
+  const { deprecated } = await getComponentStatus(params, { deprecated: page.data.deprecated });
 
   // Add (Deprecated) to title if component is deprecated
   const displayTitle =
