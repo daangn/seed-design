@@ -1,10 +1,11 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
-import { reactSource } from "@/app/source";
+import { getReactSource } from "@/app/sources/react-source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const reactSource = await getReactSource();
   const pages = reactSource.getPages() as LLMPage[];
 
   const categories = new Map<string, LLMPage[]>();
