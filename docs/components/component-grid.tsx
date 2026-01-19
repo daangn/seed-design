@@ -1,4 +1,4 @@
-import { source } from "@/app/source";
+import { getDocsSource } from "@/app/sources/docs-source";
 import { ComponentCard } from "@/components/component-card";
 import {
   createFigmaClient,
@@ -7,7 +7,8 @@ import {
 
 const client = createFigmaClient(process.env.FIGMA_PERSONAL_ACCESS_TOKEN!);
 
-export function ComponentGrid() {
+export async function ComponentGrid() {
+  const source = await getDocsSource();
   // Get all component pages
   const allPages = source.getPages();
 
