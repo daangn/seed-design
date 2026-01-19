@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { getBreezeOptions } from "../layout.config";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import DefaultSearchDialog from "@/components/search/search";

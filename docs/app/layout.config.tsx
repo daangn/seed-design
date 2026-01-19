@@ -1,23 +1,4 @@
-import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
-import clsx from "clsx";
-import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
-import type { PropsWithChildren } from "react";
-
-function SidebarTabIconContainer({
-  children,
-  className,
-}: PropsWithChildren<{ className?: string }>) {
-  return (
-    <div
-      className={clsx(
-        className,
-        "[&_svg]:size-full rounded-lg size-full text-(--tab-color) max-md:bg-(--tab-color)/10 max-md:border max-md:p-1.5",
-      )}
-    >
-      {children}
-    </div>
-  );
-}
+import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
 
 /**
  * Shared layout configurations
@@ -30,59 +11,16 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   githubUrl: "https://github.com/daangn/seed-design",
   sidebar: {
     tabs: [
-      {
-        title: "Docs",
-        description: "당근 앱을 위한 디자인 언어",
-        url: "/docs",
-        icon: (
-          <SidebarTabIconContainer>
-            <img src="/logo.webp" alt="Seed Icons" className="size-full" />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
-        title: "React",
-        description: "React 라이브러리",
-        url: "/react",
-        icon: (
-          <SidebarTabIconContainer>
-            <img src="/react.webp" alt="Seed Icons" className="size-full" />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
-        title: "AI Integration",
-        description: "AI 도구 연동 가이드",
-        url: "/ai-integration",
-        icon: (
-          <SidebarTabIconContainer>
-            <IconSparkle2 />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
-        title: "Lynx",
-        description: "Lynx 프레임워크",
-        url: "/lynx",
-        icon: (
-          <SidebarTabIconContainer>
-            <img src="/lynx.svg" alt="Lynx" className="size-full" />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
-        title: "Breeze",
-        description: "유용한 UI 유틸리티 컴포넌트",
-        url: "/breeze",
-        icon: (
-          <SidebarTabIconContainer>
-            <IconTree />
-          </SidebarTabIconContainer>
-        ),
-      },
+      { title: "Docs", url: "/docs" },
+      { title: "React", url: "/react" },
+      { title: "Lynx", url: "/lynx" },
+      { title: "AI Integration", url: "/ai-integration" },
+      { title: "Breeze", url: "/breeze" },
     ],
   },
+  tabMode: "navbar",
   nav: {
+    mode: "top",
     title: (
       <div className="flex gap-2 justify-center items-center">
         <svg
@@ -119,10 +57,6 @@ export async function getReactOptions(): Promise<DocsLayoutProps> {
   return {
     ...baseOptions,
     tree: await getReactPageTree(),
-    nav: {
-      ...baseOptions.nav,
-      transparentMode: "none",
-    },
   };
 }
 
@@ -131,10 +65,6 @@ export async function getLynxOptions(): Promise<DocsLayoutProps> {
   return {
     ...baseOptions,
     tree: await getLynxPageTree(),
-    nav: {
-      ...baseOptions.nav,
-      transparentMode: "none",
-    },
   };
 }
 
@@ -143,10 +73,6 @@ export async function getBreezeOptions(): Promise<DocsLayoutProps> {
   return {
     ...baseOptions,
     tree: await getBreezePageTree(),
-    nav: {
-      ...baseOptions.nav,
-      transparentMode: "none",
-    },
   };
 }
 
@@ -155,9 +81,5 @@ export async function getAiIntegrationOptions(): Promise<DocsLayoutProps> {
   return {
     ...baseOptions,
     tree: await getAiIntegrationPageTree(),
-    nav: {
-      ...baseOptions.nav,
-      transparentMode: "none",
-    },
   };
 }
