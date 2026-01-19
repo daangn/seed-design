@@ -147,6 +147,13 @@ export const HelpBubbleCloseButton = withContext<HTMLButtonElement, HelpBubbleCl
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface HelpBubbleBodyProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const HelpBubbleBody = withContext<HTMLDivElement, HelpBubbleBodyProps>(
+  withStateProps(Primitive.div),
+  "body",
+);
+
 export interface HelpBubbleTitleProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
@@ -155,8 +162,6 @@ export const HelpBubbleTitle = withContext<HTMLSpanElement, HelpBubbleTitleProps
   withStateProps(Primitive.span),
   "title",
 );
-
-////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubbleDescriptionProps
   extends PrimitiveProps,

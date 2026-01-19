@@ -23,6 +23,9 @@
             "paddingY": {
               "type": "dimension"
             },
+            "gap": {
+              "type": "dimension"
+            },
             "enterScale": {
               "type": "number"
             },
@@ -73,6 +76,13 @@
             }
           }
         },
+        "body": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
         "title": {
           "properties": {
             "color": {
@@ -110,12 +120,6 @@
             "color": {
               "type": "color"
             },
-            "fromRight": {
-              "type": "dimension"
-            },
-            "fromTop": {
-              "type": "dimension"
-            },
             "size": {
               "type": "dimension"
             },
@@ -152,6 +156,10 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
                 },
                 "enterScale": {
                   "type": "number",
@@ -227,6 +235,12 @@
                   }
                 }
               },
+              "body": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                }
+              },
               "title": {
                 "color": {
                   "type": "color",
@@ -268,20 +282,6 @@
                   "type": "color",
                   "value": "$color.fg.neutral-inverted"
                 },
-                "fromRight": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 12,
-                    "unit": "px"
-                  }
-                },
-                "fromTop": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 12,
-                    "unit": "px"
-                  }
-                },
                 "size": {
                   "type": "dimension",
                   "value": {
@@ -292,7 +292,7 @@
                 "targetSize": {
                   "type": "dimension",
                   "value": {
-                    "value": 32,
+                    "value": 38,
                     "unit": "px"
                   }
                 }

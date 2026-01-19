@@ -26,17 +26,21 @@ export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTrigger
         </SeedHelpBubble.Trigger>
         <SeedHelpBubble.Positioner>
           <SeedHelpBubble.Content {...contentProps}>
+            <SeedHelpBubble.Arrow>
+              <SeedHelpBubble.ArrowTip />
+            </SeedHelpBubble.Arrow>
+            <SeedHelpBubble.Body>
+              <SeedHelpBubble.Title>{title}</SeedHelpBubble.Title>
+              {description && (
+                <SeedHelpBubble.Description>{description}</SeedHelpBubble.Description>
+              )}
+            </SeedHelpBubble.Body>
             {showCloseButton ? (
               // You may implement your own i18n for dismiss label
               <SeedHelpBubble.CloseButton aria-label="닫기">
                 <Icon svg={<IconXmarkLine />} />
               </SeedHelpBubble.CloseButton>
             ) : null}
-            <SeedHelpBubble.Arrow>
-              <SeedHelpBubble.ArrowTip />
-            </SeedHelpBubble.Arrow>
-            <SeedHelpBubble.Title>{title}</SeedHelpBubble.Title>
-            {description && <SeedHelpBubble.Description>{description}</SeedHelpBubble.Description>}
           </SeedHelpBubble.Content>
         </SeedHelpBubble.Positioner>
       </SeedHelpBubble.Root>
@@ -65,17 +69,21 @@ export const HelpBubbleAnchor = forwardRef<HTMLDivElement, HelpBubbleAnchorProps
         </SeedHelpBubble.Anchor>
         <SeedHelpBubble.Positioner>
           <SeedHelpBubble.Content {...contentProps}>
+            <SeedHelpBubble.Arrow>
+              <SeedHelpBubble.ArrowTip />
+            </SeedHelpBubble.Arrow>
+            <SeedHelpBubble.Body>
+              <SeedHelpBubble.Title>{title}</SeedHelpBubble.Title>
+              {description && (
+                <SeedHelpBubble.Description>{description}</SeedHelpBubble.Description>
+              )}
+            </SeedHelpBubble.Body>
             {showCloseButton ? (
               // You may implement your own i18n for dismiss label
               <SeedHelpBubble.CloseButton aria-label="닫기">
                 <Icon svg={<IconXmarkLine />} />
               </SeedHelpBubble.CloseButton>
             ) : null}
-            <SeedHelpBubble.Arrow>
-              <SeedHelpBubble.ArrowTip />
-            </SeedHelpBubble.Arrow>
-            <SeedHelpBubble.Title>{title}</SeedHelpBubble.Title>
-            {description && <SeedHelpBubble.Description>{description}</SeedHelpBubble.Description>}
           </SeedHelpBubble.Content>
         </SeedHelpBubble.Positioner>
       </SeedHelpBubble.Root>

@@ -6,6 +6,7 @@ export const vars = {
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x3)",
         "paddingY": "var(--seed-dimension-x2_5)",
+        "gap": "var(--seed-dimension-x1)",
         "enterScale": "0.9",
         "enterOpacity": "0",
         "enterDuration": "var(--seed-duration-d4)",
@@ -23,6 +24,9 @@ export const vars = {
         "gutter": "4px",
         "padding": "14px"
       },
+      "body": {
+        "gap": "var(--seed-dimension-x0_5)"
+      },
       "title": {
         "color": "var(--seed-color-fg-neutral-inverted)",
         "fontSize": "var(--seed-font-size-t3)",
@@ -37,10 +41,8 @@ export const vars = {
       },
       "closeButton": {
         "color": "var(--seed-color-fg-neutral-inverted)",
-        "fromRight": "12px",
-        "fromTop": "12px",
         "size": "14px",
-        "targetSize": "32px"
+        "targetSize": "38px"
       }
     }
   }

@@ -6,7 +6,16 @@ import { enterAnimation, exitAnimation } from "../utils/animation";
 
 const helpBubble = defineSlotRecipe({
   name: "help-bubble",
-  slots: ["positioner", "content", "arrow", "arrowTip", "title", "description", "closeButton"],
+  slots: [
+    "positioner",
+    "content",
+    "arrow",
+    "arrowTip",
+    "body",
+    "title",
+    "description",
+    "closeButton",
+  ],
   base: {
     positioner: {
       "--popover-z-index": "99",
@@ -14,14 +23,15 @@ const helpBubble = defineSlotRecipe({
     },
     content: {
       display: "flex",
-      flexDirection: "column",
+      alignItems: "flex-start",
+
       background: vars.base.enabled.root.color,
+
       paddingLeft: vars.base.enabled.root.paddingX,
       paddingRight: vars.base.enabled.root.paddingX,
       paddingTop: vars.base.enabled.root.paddingY,
       paddingBottom: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
-      wordBreak: "keep-all",
 
       "--seed-box-max-width": "initial",
       maxWidth: "var(--seed-box-max-width)",
@@ -62,6 +72,13 @@ const helpBubble = defineSlotRecipe({
       width: vars.base.enabled.arrow.width,
       height: vars.base.enabled.arrow.height,
     },
+    body: {
+      display: "flex",
+      flexDirection: "column",
+      gap: vars.base.enabled.body.gap,
+
+      wordBreak: "keep-all",
+    },
     title: {
       color: vars.base.enabled.title.color,
       fontSize: vars.base.enabled.title.fontSize,
@@ -79,20 +96,19 @@ const helpBubble = defineSlotRecipe({
       whiteSpace: "pre-wrap",
     },
     closeButton: {
-      position: "absolute",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       border: "none",
       background: "transparent",
       cursor: "pointer",
-      padding: 0,
+      padding: `calc((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2)`,
 
-      top: `calc(${vars.base.enabled.closeButton.fromTop} - ${vars.base.enabled.closeButton.targetSize} / 2 + ${vars.base.enabled.closeButton.size} / 2)`,
-      right: `calc(${vars.base.enabled.closeButton.fromRight} - ${vars.base.enabled.closeButton.targetSize} / 2 + ${vars.base.enabled.closeButton.size} / 2)`,
+      marginLeft: `calc((-1 * ${vars.base.enabled.root.paddingX}) + ${vars.base.enabled.root.gap})`,
+      marginRight: `calc(-1 * ${vars.base.enabled.root.paddingX})`,
+      marginTop: `calc(-1 * ${vars.base.enabled.root.paddingY})`,
+
       color: vars.base.enabled.closeButton.color,
-      width: vars.base.enabled.closeButton.targetSize,
-      height: vars.base.enabled.closeButton.targetSize,
 
       ...onlyIcon({
         color: vars.base.enabled.closeButton.color,

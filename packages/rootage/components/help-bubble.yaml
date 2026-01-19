@@ -16,6 +16,8 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          gap:
+            type: dimension
           enterScale:
             type: number
           enterOpacity:
@@ -48,6 +50,10 @@ data:
           padding:
             type: dimension
             description: arrow와 root의 경계 사이의 최소 간격을 정의합니다.
+      body:
+        properties:
+          gap:
+            type: dimension
       title:
         properties:
           color:
@@ -72,10 +78,6 @@ data:
         properties:
           color:
             type: color
-          fromRight:
-            type: dimension
-          fromTop:
-            type: dimension
           size:
             type: dimension
           targetSize:
@@ -88,6 +90,7 @@ data:
           cornerRadius: $radius.r3
           paddingX: $dimension.x3
           paddingY: $dimension.x2_5
+          gap: $dimension.x1
           enterScale: 0.9
           enterOpacity: 0
           enterDuration: $duration.d4
@@ -103,6 +106,8 @@ data:
           cornerRadius: 2px
           gutter: 4px
           padding: 14px
+        body:
+          gap: $dimension.x0_5
         title:
           color: $color.fg.neutral-inverted
           fontSize: $font-size.t3
@@ -115,7 +120,5 @@ data:
           lineHeight: $line-height.t3
         closeButton:
           color: $color.fg.neutral-inverted
-          fromRight: 12px
-          fromTop: 12px
           size: 14px
-          targetSize: 32px
+          targetSize: 38px
