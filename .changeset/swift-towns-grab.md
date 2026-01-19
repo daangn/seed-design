@@ -1,4 +1,5 @@
 ---
+"@seed-design/figma": minor
 "@seed-design/react": minor
 "@seed-design/css": minor
 ---
