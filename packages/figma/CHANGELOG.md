@@ -1,5 +1,11 @@
 # @seed-design/figma
 
+## 1.1.18
+
+### Patch Changes
+
+- e92892a: 아이콘 정보를 업데이트합니다.
+
 ## 1.1.17
 
 ### Patch Changes

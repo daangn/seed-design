@@ -359,7 +359,7 @@
     },
     "packages/docs-mcp": {
       "name": "@seed-design/docs-mcp",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "bin": {
         "seed-docs-mcp": "./dist/stdio.js",
       },
@@ -377,7 +377,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.17",
+      "version": "1.1.18",
       "dependencies": {
         "@seed-design/css": "1.1.17",
         "change-case": "^5.4.4",
@@ -393,7 +393,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.17",
+      "version": "1.1.18",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
