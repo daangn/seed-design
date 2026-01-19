@@ -54,13 +54,13 @@
         "@sanity/image-url": "^2.0.0",
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
-        "@seed-design/css": "1.1.16",
+        "@seed-design/css": "1.1.17",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.1.16",
+        "@seed-design/react": "1.1.17",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.16",
-        "@seed-design/tailwind4-theme": "1.1.16",
+        "@seed-design/tailwind4-theme": "1.1.17",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
@@ -344,7 +344,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.1.16",
+      "version": "1.1.17",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -377,7 +377,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.16",
+      "version": "1.1.17",
       "dependencies": {
         "@seed-design/css": "1.1.16",
         "change-case": "^5.4.4",
@@ -393,7 +393,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.16",
+      "version": "1.1.17",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
@@ -428,7 +428,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.1.16",
+      "version": "1.1.17",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -471,7 +471,7 @@
         "vite-plugin-dts": "^4.5.4",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.16",
+        "@seed-design/css": ">=1.1.17",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -893,7 +893,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "1.1.7",
+      "version": "1.1.8",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
@@ -920,7 +920,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.1.16",
+        "@seed-design/css": "1.1.17",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -933,7 +933,7 @@
         "vite-plugin-dts": "^4.5.3",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.16",
+        "@seed-design/css": ">=1.1.17",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "react": ">=18.0.0",
@@ -946,7 +946,7 @@
     },
     "packages/tailwind3-plugin": {
       "name": "@seed-design/tailwind3-plugin",
-      "version": "1.1.16",
+      "version": "1.1.17",
       "devDependencies": {
         "tailwindcss": "3",
       },
@@ -956,7 +956,7 @@
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
-      "version": "1.1.16",
+      "version": "1.1.17",
       "devDependencies": {
         "tailwindcss": "^4.1.4",
       },
