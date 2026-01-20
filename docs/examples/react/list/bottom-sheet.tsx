@@ -21,7 +21,7 @@ export default function ListBottomSheet() {
   return (
     <BottomSheetRoot open={isOpen} onOpenChange={setIsOpen}>
       <BottomSheetTrigger asChild>
-        <ActionButton>BottomSheet 열기</ActionButton>
+        <ActionButton variant="neutralSolid">BottomSheet 열기</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent title="교통수단" description="이동할 교통수단을 선택해주세요.">
         <VStack asChild pb="safeArea">

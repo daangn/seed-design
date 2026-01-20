@@ -54,7 +54,7 @@
         "@sanity/image-url": "^2.0.0",
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
-        "@seed-design/css": "1.1.17",
+        "@seed-design/css": "1.1.19",
         "@seed-design/migration-index": "1.0.0",
         "@seed-design/react": "1.1.17",
         "@seed-design/react-icon": "^0.7.4",
@@ -344,7 +344,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.1.17",
+      "version": "1.1.19",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -377,7 +377,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.18",
+      "version": "1.1.19",
       "dependencies": {
         "@seed-design/css": "1.1.17",
         "change-case": "^5.4.4",
@@ -393,7 +393,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.18",
+      "version": "1.1.19",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
@@ -942,7 +942,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.1.17",
+        "@seed-design/css": "1.1.19",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -955,7 +955,7 @@
         "vite-plugin-dts": "^4.5.3",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.17",
+        "@seed-design/css": ">=1.1.19",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "react": ">=18.0.0",
