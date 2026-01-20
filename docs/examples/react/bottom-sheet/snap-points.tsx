@@ -16,7 +16,7 @@ const BottomSheetSnapPoints = () => {
   return (
     <BottomSheetRoot snapPoints={snapPoints} activeSnapPoint={snap} setActiveSnapPoint={setSnap}>
       <BottomSheetTrigger asChild>
-        <ActionButton>Open</ActionButton>
+        <ActionButton variant="neutralSolid">Open</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent
         title="제목"

@@ -13,7 +13,7 @@ const BottomSheetHeaderAlign = () => {
     <HStack gap="x4">
       <BottomSheetRoot headerAlign="left">
         <BottomSheetTrigger asChild>
-          <ActionButton>Left (기본값)</ActionButton>
+          <ActionButton variant="neutralSolid">Left (기본값)</ActionButton>
         </BottomSheetTrigger>
         <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
           <BottomSheetBody>Content</BottomSheetBody>
@@ -25,7 +25,7 @@ const BottomSheetHeaderAlign = () => {
 
       <BottomSheetRoot headerAlign="center">
         <BottomSheetTrigger asChild>
-          <ActionButton>Center</ActionButton>
+          <ActionButton variant="neutralSolid">Center</ActionButton>
         </BottomSheetTrigger>
         <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
           <BottomSheetBody>Content</BottomSheetBody>
