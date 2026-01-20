@@ -2742,6 +2742,7 @@
 }
 
 .seed-bottom-sheet__header--headerAlign_center {
+  text-align: center;
   justify-content: center;
   padding-left: 50px;
   padding-right: 50px;
@@ -5145,6 +5146,7 @@
 }
 
 .seed-menu-sheet__header {
+  text-align: center;
   align-items: center;
   gap: var(--seed-dimension-x1);
   padding-bottom: var(--seed-dimension-x4);
