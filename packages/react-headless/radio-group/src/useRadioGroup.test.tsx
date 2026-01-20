@@ -3,13 +3,16 @@ import { cleanup, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 import * as React from "react";
 
 import {
+  RadioGroupDescription,
+  RadioGroupErrorMessage,
   RadioGroupItem,
   RadioGroupItemControl,
   RadioGroupItemHiddenInput,
+  RadioGroupLabel,
   RadioGroupRoot,
   type RadioGroupItemProps,
   type RadioGroupRootProps,
@@ -32,8 +35,40 @@ function Radio(props: RadioGroupItemProps) {
   return (
     <RadioGroupItem {...props}>
       <RadioGroupItemControl data-testid={props.value} />
-      <RadioGroupItemHiddenInput />
+      <RadioGroupItemHiddenInput data-testid={`${props.value}-input`} />
     </RadioGroupItem>
+  );
+}
+
+interface TestRadioGroupProps extends RadioGroupRootProps {
+  label?: ReactNode;
+  description?: ReactNode;
+  errorMessage?: ReactNode;
+  children?: ReactNode;
+}
+
+function TestRadioGroup({
+  label,
+  description,
+  errorMessage,
+  children,
+  ...rootProps
+}: TestRadioGroupProps) {
+  return (
+    <RadioGroupRoot data-testid="radio-group-root" {...rootProps}>
+      {label && <RadioGroupLabel data-testid="radio-group-label">{label}</RadioGroupLabel>}
+      {children}
+      {description && (
+        <RadioGroupDescription data-testid="radio-group-description">
+          {description}
+        </RadioGroupDescription>
+      )}
+      {errorMessage && (
+        <RadioGroupErrorMessage data-testid="radio-group-error-message">
+          {errorMessage}
+        </RadioGroupErrorMessage>
+      )}
+    </RadioGroupRoot>
   );
 }
 
@@ -192,6 +227,246 @@ describe("useRadioGroup", () => {
 
       expect(firstControl).not.toHaveAttribute("data-checked");
       expect(secondControl).toHaveAttribute("data-checked");
+    });
+  });
+
+  describe("invalid prop test", () => {
+    it("should have data-invalid when invalid prop is true", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup invalid>
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      expect(root).toHaveAttribute("data-invalid");
+    });
+
+    it("should have aria-invalid on root when invalid", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup invalid>
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      expect(root).toHaveAttribute("aria-invalid", "true");
+    });
+
+    it("should propagate invalid to items", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup>
+          <Radio value={FIRST_VALUE} invalid />
+          <Radio value={SECOND_VALUE} />
+        </TestRadioGroup>,
+      );
+
+      const firstControl = getByTestId(FIRST_VALUE);
+      const secondControl = getByTestId(SECOND_VALUE);
+
+      expect(firstControl).toHaveAttribute("data-invalid");
+      expect(secondControl).not.toHaveAttribute("data-invalid");
+    });
+  });
+
+  describe("label, description, and error message", () => {
+    it("should render label as div element", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup label="Test Label">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const label = getByTestId("radio-group-label");
+      expect(label).toBeInTheDocument();
+      expect(label.tagName).toBe("DIV");
+    });
+
+    it("should render description as span element", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup description="Test Description">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const description = getByTestId("radio-group-description");
+      expect(description).toBeInTheDocument();
+      expect(description.tagName).toBe("SPAN");
+    });
+
+    it("should render error message as div element", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup errorMessage="Test Error">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const errorMessage = getByTestId("radio-group-error-message");
+      expect(errorMessage).toBeInTheDocument();
+      expect(errorMessage.tagName).toBe("DIV");
+    });
+  });
+
+  describe("aria attributes", () => {
+    it("should have role=radiogroup on root", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup>
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      expect(root).toHaveAttribute("role", "radiogroup");
+    });
+
+    it("should connect label to root with aria-labelledby", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup label="Select Option">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      const label = getByTestId("radio-group-label");
+
+      expect(label).toHaveAttribute("id");
+      expect(root).toHaveAttribute("aria-labelledby", label.getAttribute("id"));
+    });
+
+    it("should connect description to root with aria-describedby", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup description="Choose one option">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      const description = getByTestId("radio-group-description");
+
+      expect(description).toHaveAttribute("id");
+      expect(root).toHaveAttribute("aria-describedby");
+      expect(root.getAttribute("aria-describedby")?.split(" ")).toContain(
+        description.getAttribute("id"),
+      );
+    });
+
+    it("should connect error message to root with aria-describedby", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup errorMessage="Please select an option">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      const errorMessage = getByTestId("radio-group-error-message");
+
+      expect(errorMessage).toHaveAttribute("id");
+      expect(root).toHaveAttribute("aria-describedby");
+      expect(root.getAttribute("aria-describedby")?.split(" ")).toContain(
+        errorMessage.getAttribute("id"),
+      );
+    });
+
+    it("should combine description and error in aria-describedby", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup description="Choose one option" errorMessage="Selection required">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      const description = getByTestId("radio-group-description");
+      const errorMessage = getByTestId("radio-group-error-message");
+
+      const ariaDescribedBy = root.getAttribute("aria-describedby");
+      expect(ariaDescribedBy?.split(" ")).toContain(description.getAttribute("id"));
+      expect(ariaDescribedBy?.split(" ")).toContain(errorMessage.getAttribute("id"));
+    });
+
+    it("should not have aria-labelledby when label is not rendered", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup>
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      expect(root).not.toHaveAttribute("aria-labelledby");
+    });
+
+    it("should not have aria-describedby when neither description nor error is rendered", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup>
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      expect(root).not.toHaveAttribute("aria-describedby");
+    });
+  });
+
+  describe("data attributes propagation", () => {
+    it("should propagate data-disabled to label, description, and error message", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup disabled label="Label" description="Desc" errorMessage="Error">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      const label = getByTestId("radio-group-label");
+      const description = getByTestId("radio-group-description");
+      const errorMessage = getByTestId("radio-group-error-message");
+
+      [root, label, description, errorMessage].forEach((element) => {
+        expect(element).toHaveAttribute("data-disabled");
+      });
+    });
+
+    it("should propagate data-invalid to label, description, and error message", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup invalid label="Label" description="Desc" errorMessage="Error">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const root = getByTestId("radio-group-root");
+      const label = getByTestId("radio-group-label");
+      const description = getByTestId("radio-group-description");
+      const errorMessage = getByTestId("radio-group-error-message");
+
+      [root, label, description, errorMessage].forEach((element) => {
+        expect(element).toHaveAttribute("data-invalid");
+      });
     });
   });
 });

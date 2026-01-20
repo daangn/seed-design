@@ -707,6 +707,7 @@
       "name": "@seed-design/react-radio-group",
       "version": "1.0.1",
       "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",

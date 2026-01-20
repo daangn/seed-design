@@ -1,8 +1,15 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useId, useState } from "react";
+import { useCallback, useId, useState } from "react";
 
-import { dataAttr, elementProps, inputProps, visuallyHidden } from "@seed-design/dom-utils";
+import {
+  ariaAttr,
+  dataAttr,
+  elementProps,
+  inputProps,
+  visuallyHidden,
+} from "@seed-design/dom-utils";
 import { useSupports } from "@seed-design/react-supports";
+import { getDescriptionId, getErrorMessageId, getLabelId } from "./dom";
 
 interface UseRadioGroupStateProps {
   value?: string;
@@ -23,6 +30,19 @@ function useRadioGroupState(props: UseRadioGroupStateProps) {
   const [focusedValue, setFocusedValue] = useState<string | null>(null);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
 
+  const [isLabelRendered, setIsLabelRendered] = useState(false);
+  const labelRef = useCallback((node: HTMLElement | null) => {
+    setIsLabelRendered(!!node);
+  }, []);
+  const [isDescriptionRendered, setIsDescriptionRendered] = useState(false);
+  const descriptionRef = useCallback((node: HTMLElement | null) => {
+    setIsDescriptionRendered(!!node);
+  }, []);
+  const [isErrorMessageRendered, setIsErrorMessageRendered] = useState(false);
+  const errorMessageRef = useCallback((node: HTMLElement | null) => {
+    setIsErrorMessageRendered(!!node);
+  }, []);
+
   return {
     value,
     setValue,
@@ -34,11 +54,32 @@ function useRadioGroupState(props: UseRadioGroupStateProps) {
     setFocusedValue,
     isFocusVisible,
     setIsFocusVisible,
+
+    refs: {
+      label: labelRef,
+      description: descriptionRef,
+      errorMessage: errorMessageRef,
+    },
+    renderedElements: {
+      label: isLabelRendered,
+      description: isDescriptionRendered,
+      errorMessage: isErrorMessageRendered,
+    },
   };
 }
 
 export interface UseRadioGroupProps extends UseRadioGroupStateProps {
+  /**
+   * @default false
+   */
   disabled?: boolean;
+
+  /**
+   * @default false
+   */
+  invalid?: boolean;
+
+  // not implementing required behavior yet; currently we require users to have value or defaultValue
 
   name?: string;
 
@@ -57,8 +98,6 @@ export type UseRadioGroupReturn = ReturnType<typeof useRadioGroup>;
 
 export type GetItemPropsReturn = ReturnType<UseRadioGroupReturn["getItemProps"]>;
 
-const getLabelId = (id: string) => `radio-group:${id}:label`;
-
 export function useRadioGroup(props: UseRadioGroupProps) {
   const id = useId();
   const {
@@ -72,33 +111,63 @@ export function useRadioGroup(props: UseRadioGroupProps) {
     setFocusedValue,
     isFocusVisible,
     setIsFocusVisible,
+    refs,
+    renderedElements,
   } = useRadioGroupState(props);
 
-  const { disabled, form, name } = props;
+  const { disabled = false, invalid = false, form, name } = props;
 
-  const isControlled = value != null;
+  const isControlled = props.value !== undefined;
   const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
+
+  const ariaDescribedBy =
+    [
+      renderedElements.description ? getDescriptionId(id) : false,
+      renderedElements.errorMessage ? getErrorMessageId(id) : false,
+    ]
+      .filter(Boolean)
+      .join(" ") || undefined;
 
   const stateProps = elementProps({
     "data-disabled": dataAttr(disabled),
+    "data-invalid": dataAttr(invalid),
   });
 
   return {
     value,
     setValue,
 
+    refs,
+
+    invalid,
+
     stateProps,
 
     rootProps: elementProps({
       role: "radiogroup",
-      "aria-labelledby": getLabelId(id),
+      ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
+      "aria-describedby": ariaDescribedBy,
+      "aria-invalid": ariaAttr(invalid),
       ...stateProps,
     }),
 
     labelProps: elementProps({
       ...stateProps,
+
       id: getLabelId(id),
-      // TODO: label 클릭 시 체크가 되어있는 radio에 포커스를 잡아야 한다. 체크된 게 없다면, 첫 번째 radio에 포커스를 잡아야 한다.
+    }),
+
+    descriptionProps: elementProps({
+      ...stateProps,
+
+      id: getDescriptionId(id),
+    }),
+
+    errorMessageProps: elementProps({
+      ...stateProps,
+
+      id: getErrorMessageId(id),
+      "aria-live": "polite",
     }),
 
     getItemProps(itemProps: RadioItemProps) {
