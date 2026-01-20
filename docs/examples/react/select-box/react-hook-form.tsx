@@ -56,7 +56,7 @@ export default function SelectBoxReactHookForm() {
   );
 
   return (
-    <HStack gap="x6" width="full" align="flex-start">
+    <HStack gap="x8" p="x4" width="full" align="flex-start">
       <VStack
         grow
         gap="x3"

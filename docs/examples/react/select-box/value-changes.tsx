@@ -17,8 +17,8 @@ export default function SelectBoxValueChanges() {
   const [radioLastValue, setRadioLastValue] = useState<string | null>(null);
 
   return (
-    <HStack gap="x6" align="center" width="full">
-      <VStack gap="x4" align="center" grow>
+    <HStack gap="x8" align="center" width="full" p="x4">
+      <VStack gap="x4" align="center" style={{ flex: 1 }}>
         <CheckSelectBoxGroup>
           <CheckSelectBox
             label="Apple"
@@ -29,12 +29,12 @@ export default function SelectBoxValueChanges() {
             }}
           />
         </CheckSelectBoxGroup>
-        <Text>
+        <Text align="center">
           onCheckedChange called: {checkCount} times, last value: {`${checkLastValue ?? "-"}`}
         </Text>
       </VStack>
 
-      <VStack gap="x4" align="center" grow>
+      <VStack gap="x4" align="center" style={{ flex: 1 }}>
         <RadioSelectBoxRoot
           defaultValue="apple"
           aria-label="Fruit"
@@ -46,7 +46,7 @@ export default function SelectBoxValueChanges() {
           <RadioSelectBoxItem value="apple" label="Apple" suffix={<RadioSelectBoxRadioMark />} />
           <RadioSelectBoxItem value="banana" label="Banana" suffix={<RadioSelectBoxRadioMark />} />
         </RadioSelectBoxRoot>
-        <Text>
+        <Text align="center">
           onValueChange called: {radioCount} times, last value: {radioLastValue ?? "-"}
         </Text>
       </VStack>

@@ -10,7 +10,7 @@ import {
 
 export default function SelectBoxCustomizingLabel() {
   return (
-    <HStack gap="x6" align="flex-start">
+    <HStack gap="x8" align="flex-start" p="x4">
       <CheckSelectBoxGroup>
         <CheckSelectBox label="Apple" defaultChecked suffix={<CheckSelectBoxCheckmark />} />
         <CheckSelectBox

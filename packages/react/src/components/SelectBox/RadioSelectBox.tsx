@@ -30,9 +30,10 @@ const FooterContext = createContext<{
   footerRef: (node: HTMLDivElement | null) => void;
 } | null>(null);
 
-export interface RadioSelectBoxRootProps
+export interface RadioSelectBoxGroupProps
   extends SelectBoxGroupVariantProps,
-    RadioGroupPrimitive.RootProps {
+    PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {
   /**
    * Number of columns in the grid layout. When bigger than 1, child `RadioSelectBoxItem` will have a default layout of "vertical".
    * @default 1
@@ -40,7 +41,7 @@ export interface RadioSelectBoxRootProps
   columns?: number;
 }
 
-export const RadioSelectBoxRoot = forwardRef<HTMLDivElement, RadioSelectBoxRootProps>(
+export const RadioSelectBoxGroup = forwardRef<HTMLDivElement, RadioSelectBoxGroupProps>(
   ({ columns = 1, className, style, ...props }, ref) => {
     const [variantProps, otherProps] = selectBoxGroup.splitVariantProps(props);
     const recipeClassName = selectBoxGroup(variantProps);
@@ -48,7 +49,7 @@ export const RadioSelectBoxRoot = forwardRef<HTMLDivElement, RadioSelectBoxRootP
 
     return (
       <PropsProvider value={{ layout }}>
-        <RadioGroupPrimitive.Root
+        <Primitive.div
           ref={ref}
           data-columns={columns}
           className={clsx(recipeClassName, className)}

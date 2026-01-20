@@ -44,6 +44,7 @@ export * from "./Portal";
 export * from "./ProgressCircle";
 export * from "./PullToRefresh";
 export * from "./RadioGroup";
+export * from "./RadioGroupField";
 export * from "./ReactionButton";
 export * from "./ResponsivePair";
 export * from "./ScrollFog";
