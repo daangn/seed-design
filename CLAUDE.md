@@ -12,7 +12,6 @@ NOTE: Always refer to @AGENTS.md and follow the directions. AGENTS.md files exis
 
 - @AGENTS.md - AI 어시스턴트 가이드라인
 - @TECH.md - 아키텍처 및 기술 상세
-- @instructions/create-component.md - 컴포넌트 생성 상세 가이드
 
 ## Rootage
 
