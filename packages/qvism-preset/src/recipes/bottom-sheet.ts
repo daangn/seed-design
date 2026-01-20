@@ -192,6 +192,8 @@ const bottomSheet = defineSlotRecipe({
           justifyContent: "center",
           paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
           paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
+
+          textAlign: "center",
         },
       },
     },

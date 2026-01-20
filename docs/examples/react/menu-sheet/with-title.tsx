@@ -12,7 +12,7 @@ const MenuSheetWithTitle = () => {
   return (
     <MenuSheetRoot>
       <MenuSheetTrigger asChild>
-        <ActionButton>Open</ActionButton>
+        <ActionButton variant="neutralSolid">Open</ActionButton>
       </MenuSheetTrigger>
       <MenuSheetContent title="Menu Sheet">
         <MenuSheetGroup>

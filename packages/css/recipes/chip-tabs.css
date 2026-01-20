@@ -33,7 +33,7 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
-.seed-chip-tabs__content:not([data-carousel]):not(:is(:selected, [data-selected])) {
+.seed-chip-tabs__content:not([data-carousel]):not(:is([aria-selected=true], [data-selected])) {
     display: none;
 }
 .seed-chip-tabs__trigger {
@@ -73,21 +73,21 @@
     background-color: var(--seed-color-bg-neutral-weak-alpha);
     color: var(--seed-color-fg-neutral);
 }
-.seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]) {
+.seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected=true], [data-selected]) {
     background-color: var(--seed-color-bg-neutral-inverted);
     color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
 }
-.seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
+.seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected=true], [data-selected]):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     color: var(--seed-color-fg-disabled);
 }
-.seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
+.seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]):is([aria-selected=true], [data-selected]) {
     background-color: var(--seed-color-bg-disabled);
     color: var(--seed-color-fg-disabled);
 }
@@ -96,7 +96,7 @@
     border: 1px solid var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-neutral);
 }
-.seed-chip-tabs__trigger--variant_neutralOutline:is(:selected, [data-selected]) {
+.seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected=true], [data-selected]) {
     background-color: var(--seed-color-bg-neutral-inverted);
     border-color: transparent;
     color: var(--seed-color-fg-neutral-inverted);
@@ -104,14 +104,14 @@
 .seed-chip-tabs__trigger--variant_neutralOutline:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-transparent-pressed);
 }
-.seed-chip-tabs__trigger--variant_neutralOutline:is(:selected, [data-selected]):is(:active, [data-active]) {
+.seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected=true], [data-selected]):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);
 }
 .seed-chip-tabs__trigger--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     color: var(--seed-color-fg-disabled);
 }
-.seed-chip-tabs__trigger--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
+.seed-chip-tabs__trigger--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]):is([aria-selected=true], [data-selected]) {
     background-color: var(--seed-color-bg-disabled);
     color: var(--seed-color-fg-disabled);
 }
@@ -119,14 +119,14 @@
     background-color: var(--seed-color-bg-neutral-weak);
     color: var(--seed-color-fg-neutral-muted);
 }
-.seed-chip-tabs__trigger--variant_brandSolid:is(:selected, [data-selected]) {
+.seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected=true], [data-selected]) {
     background-color: var(--seed-color-bg-brand-solid);
     color: var(--seed-color-palette-static-white);
 }
 .seed-chip-tabs__trigger--variant_brandSolid:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
-.seed-chip-tabs__trigger--variant_brandSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
+.seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected=true], [data-selected]):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-brand-solid-pressed);
 }
 .seed-chip-tabs__trigger--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -134,7 +134,7 @@
     background-color: var(--seed-color-bg-disabled);
     color: var(--seed-color-fg-disabled);
 }
-.seed-chip-tabs__trigger--variant_brandSolid:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
+.seed-chip-tabs__trigger--variant_brandSolid:is(:disabled, [disabled], [data-disabled]):is([aria-selected=true], [data-selected]) {
     background-color: var(--seed-color-bg-disabled);
 }
 .seed-chip-tabs__root--contentLayout_fill {
