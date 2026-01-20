@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/react-radio-group",
-  "version": "1.0.1",
+  "name": "@seed-design/react-fieldset",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/react-headless/radio-group"
+    "directory": "packages/react-headless/fieldset"
   },
   "sideEffects": false,
   "type": "module",
@@ -28,11 +28,8 @@
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.2",
-    "@radix-ui/react-use-controllable-state": "1.2.2",
     "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-fieldset": "0.0.0",
-    "@seed-design/react-primitive": "1.0.0",
-    "@seed-design/react-supports": "0.0.1"
+    "@seed-design/react-primitive": "^1.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

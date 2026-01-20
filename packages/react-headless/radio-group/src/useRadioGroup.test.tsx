@@ -428,6 +428,98 @@ describe("useRadioGroup", () => {
       const root = getByTestId("radio-group-root");
       expect(root).not.toHaveAttribute("aria-describedby");
     });
+
+    it("should set aria-live on error message", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup errorMessage="Error">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const errorMessage = getByTestId("radio-group-error-message");
+      expect(errorMessage).toHaveAttribute("aria-live", "polite");
+    });
+  });
+
+  describe("ID generation", () => {
+    it("should generate unique id", () => {
+      const { getByTestId } = setUp(
+        <TestRadioGroup label="Label">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </TestRadioGroup>,
+      );
+
+      const label = getByTestId("radio-group-label");
+      expect(label.id).toMatch(/^fieldset:.+:label$/);
+    });
+  });
+
+  describe("name and form prop", () => {
+    it("should use provided name prop for all radio inputs", () => {
+      const { getByTestId } = setUp(
+        <RadioGroup name="custom-name">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </RadioGroup>,
+      );
+
+      for (const value of values) {
+        const input = getByTestId(`${value}-input`);
+        expect(input).toHaveAttribute("name", "custom-name");
+      }
+    });
+
+    it("should fallback to generated id when name is not provided", () => {
+      const { getByTestId } = setUp(
+        <RadioGroup>
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </RadioGroup>,
+      );
+
+      const firstInput = getByTestId(`${FIRST_VALUE}-input`);
+      const secondInput = getByTestId(`${SECOND_VALUE}-input`);
+
+      // All inputs should have the same name (generated id)
+      expect(firstInput).toHaveAttribute("name");
+      expect(firstInput.getAttribute("name")).toBe(secondInput.getAttribute("name"));
+    });
+
+    it("should use provided form prop for all radio inputs", () => {
+      const { getByTestId } = setUp(
+        <RadioGroup form="my-form">
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </RadioGroup>,
+      );
+
+      for (const value of values) {
+        const input = getByTestId(`${value}-input`);
+        expect(input).toHaveAttribute("form", "my-form");
+      }
+    });
+
+    it("should not have form attribute when form prop is not provided", () => {
+      const { getByTestId } = setUp(
+        <RadioGroup>
+          {values.map((value) => (
+            <Radio key={value} value={value} />
+          ))}
+        </RadioGroup>,
+      );
+
+      for (const value of values) {
+        const input = getByTestId(`${value}-input`);
+        expect(input).not.toHaveAttribute("form");
+      }
+    });
   });
 
   describe("data attributes propagation", () => {

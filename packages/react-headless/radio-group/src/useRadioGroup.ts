@@ -1,5 +1,5 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useCallback, useId, useState } from "react";
+import { useState } from "react";
 
 import {
   ariaAttr,
@@ -8,8 +8,8 @@ import {
   inputProps,
   visuallyHidden,
 } from "@seed-design/dom-utils";
+import { useFieldset } from "@seed-design/react-fieldset";
 import { useSupports } from "@seed-design/react-supports";
-import { getDescriptionId, getErrorMessageId, getLabelId } from "./dom";
 
 interface UseRadioGroupStateProps {
   value?: string;
@@ -30,19 +30,6 @@ function useRadioGroupState(props: UseRadioGroupStateProps) {
   const [focusedValue, setFocusedValue] = useState<string | null>(null);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
 
-  const [isLabelRendered, setIsLabelRendered] = useState(false);
-  const labelRef = useCallback((node: HTMLElement | null) => {
-    setIsLabelRendered(!!node);
-  }, []);
-  const [isDescriptionRendered, setIsDescriptionRendered] = useState(false);
-  const descriptionRef = useCallback((node: HTMLElement | null) => {
-    setIsDescriptionRendered(!!node);
-  }, []);
-  const [isErrorMessageRendered, setIsErrorMessageRendered] = useState(false);
-  const errorMessageRef = useCallback((node: HTMLElement | null) => {
-    setIsErrorMessageRendered(!!node);
-  }, []);
-
   return {
     value,
     setValue,
@@ -54,17 +41,6 @@ function useRadioGroupState(props: UseRadioGroupStateProps) {
     setFocusedValue,
     isFocusVisible,
     setIsFocusVisible,
-
-    refs: {
-      label: labelRef,
-      description: descriptionRef,
-      errorMessage: errorMessageRef,
-    },
-    renderedElements: {
-      label: isLabelRendered,
-      description: isDescriptionRendered,
-      errorMessage: isErrorMessageRendered,
-    },
   };
 }
 
@@ -79,7 +55,8 @@ export interface UseRadioGroupProps extends UseRadioGroupStateProps {
    */
   invalid?: boolean;
 
-  // not implementing required behavior yet; currently we require users to have value or defaultValue
+  // not implementing `required` behavior yet; currently we require users to have value or defaultValue
+  // as well as `readOnly`
 
   name?: string;
 
@@ -99,7 +76,15 @@ export type UseRadioGroupReturn = ReturnType<typeof useRadioGroup>;
 export type GetItemPropsReturn = ReturnType<UseRadioGroupReturn["getItemProps"]>;
 
 export function useRadioGroup(props: UseRadioGroupProps) {
-  const id = useId();
+  const { disabled = false, invalid = false, form, name } = props;
+
+  const fieldset = useFieldset();
+
+  const stateProps = elementProps({
+    "data-disabled": dataAttr(disabled),
+    "data-invalid": dataAttr(invalid),
+  });
+
   const {
     value,
     setValue,
@@ -111,63 +96,46 @@ export function useRadioGroup(props: UseRadioGroupProps) {
     setFocusedValue,
     isFocusVisible,
     setIsFocusVisible,
-    refs,
-    renderedElements,
   } = useRadioGroupState(props);
-
-  const { disabled = false, invalid = false, form, name } = props;
 
   const isControlled = props.value !== undefined;
   const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
-
-  const ariaDescribedBy =
-    [
-      renderedElements.description ? getDescriptionId(id) : false,
-      renderedElements.errorMessage ? getErrorMessageId(id) : false,
-    ]
-      .filter(Boolean)
-      .join(" ") || undefined;
-
-  const stateProps = elementProps({
-    "data-disabled": dataAttr(disabled),
-    "data-invalid": dataAttr(invalid),
-  });
 
   return {
     value,
     setValue,
 
-    refs,
+    refs: fieldset.refs,
 
     invalid,
 
     stateProps,
 
     rootProps: elementProps({
-      role: "radiogroup",
-      ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
-      "aria-describedby": ariaDescribedBy,
-      "aria-invalid": ariaAttr(invalid),
+      ...fieldset.rootProps,
       ...stateProps,
+
+      // fieldset.rootProps gives role="group"
+      // see: https://w3c.github.io/aria/#radiogroup
+      role: "radiogroup",
+
+      "aria-invalid": ariaAttr(invalid),
+      "aria-disabled": ariaAttr(disabled),
     }),
 
     labelProps: elementProps({
+      ...fieldset.labelProps,
       ...stateProps,
-
-      id: getLabelId(id),
     }),
 
     descriptionProps: elementProps({
+      ...fieldset.descriptionProps,
       ...stateProps,
-
-      id: getDescriptionId(id),
     }),
 
     errorMessageProps: elementProps({
+      ...fieldset.errorMessageProps,
       ...stateProps,
-
-      id: getErrorMessageId(id),
-      "aria-live": "polite",
     }),
 
     getItemProps(itemProps: RadioItemProps) {
@@ -233,7 +201,7 @@ export function useRadioGroup(props: UseRadioGroupProps) {
 
         hiddenInputProps: inputProps({
           type: "radio",
-          name: name || id,
+          name: name || fieldset.id,
           form: form,
           value: itemProps.value,
           onChange(event) {
