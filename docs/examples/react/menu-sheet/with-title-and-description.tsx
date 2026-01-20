@@ -8,25 +8,25 @@ import {
   MenuSheetTrigger,
 } from "seed-design/ui/menu-sheet";
 
-const MenuSheetPreview = () => {
+export default function MenuSheetWithTitleAndDescription() {
   return (
     <MenuSheetRoot>
       <MenuSheetTrigger asChild>
         <ActionButton variant="neutralSolid">Open</ActionButton>
       </MenuSheetTrigger>
-      <MenuSheetContent
-        title="proident irure"
-        description="Aliqua fugiat adipisicing magna dolor laborum."
-        aria-label="Menu Sheet"
-      >
+      <MenuSheetContent title="Menu Sheet" description="부가적인 설명이 여기에 표시됩니다.">
         <MenuSheetGroup>
+          <MenuSheetItem label="Action 1" prefixIcon={<IconEyeSlashLine />} />
           <MenuSheetItem
-            label="Action 1"
-            description="Est commodo veniam magna officia ad dolor esse aliquip laboris nisi do."
+            label="Action 2"
             prefixIcon={<IconEyeSlashLine />}
+            description="Ut nulla et id dolor labore ullamco irure est id occaecat."
           />
-          <MenuSheetItem label="Action 2" prefixIcon={<IconEyeSlashLine />} />
-          <MenuSheetItem label="Action 3" prefixIcon={<IconEyeSlashLine />} />
+          <MenuSheetItem
+            label="Action 3"
+            prefixIcon={<IconEyeSlashLine />}
+            description="Ut nulla et id dolor labore ullamco irure est id occaecat."
+          />
         </MenuSheetGroup>
         <MenuSheetGroup>
           <MenuSheetItem label="Action 4" prefixIcon={<IconEyeSlashLine />} />
@@ -35,6 +35,4 @@ const MenuSheetPreview = () => {
       </MenuSheetContent>
     </MenuSheetRoot>
   );
-};
-
-export default MenuSheetPreview;
+}

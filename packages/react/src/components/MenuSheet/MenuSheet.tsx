@@ -97,13 +97,24 @@ export const MenuSheetHeader = withContext<HTMLDivElement, MenuSheetHeaderProps>
   "header",
 );
 
-////////////////////////////////////////////////////////////////////////////////////
-
+// NOTE: uses DialogPrimitive.TitleProps,
+// but actual rendered component is a Primitive.h2 rather than a DialogPrimitive.Title
+// find out why later; h2 is same but missing and some a11y features
 export interface MenuSheetTitleProps extends DialogPrimitive.TitleProps {}
 
 export const MenuSheetTitle = withContext<HTMLHeadingElement, MenuSheetTitleProps>(
   withStateProps(Primitive.h2),
   "title",
+);
+
+// NOTE: uses DialogPrimitive.DescriptionProps,
+// but actual rendered component is a Primitive.p rather than a DialogPrimitive.Description
+// find out why later; p is same but missing and some a11y features
+export interface MenuSheetDescriptionProps extends DialogPrimitive.DescriptionProps {}
+
+export const MenuSheetDescription = withContext<HTMLParagraphElement, MenuSheetDescriptionProps>(
+  withStateProps(Primitive.p),
+  "description",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

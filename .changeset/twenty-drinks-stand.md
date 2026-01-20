@@ -6,8 +6,9 @@
 
 [Menu Sheet](/react/components/menu-sheet) 관련 컴포넌트를 업데이트합니다.
 
-- `MenuSheetItem` 내부에 설명을 추가할 수 있는 인터페이스가 제공됩니다.
-- **1.1 → 1.2 업그레이드 시 변경 필요**: `MenuSheetItem`의 API가 변경되었습니다. snippet을 다시 내려받아 주세요.
+- `MenuSheetContent`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
+- `MenuSheetItem`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
+- **1.1 → 1.2 업그레이드 시 변경 필요**: snippet을 다시 내려받고, `MenuSheetItem`을 사용하는 코드를 아래와 같이 변경하세요.
 
   - `npx @seed-design/cli@latest add ui:menu-sheet`
   - `children` 대신 `label` prop을 사용합니다.

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
 import { menuSheetVariantMap } from "@seed-design/css/recipes/menu-sheet";
-import { Box, PrefixIcon, Text } from "@seed-design/react";
+import { Box } from "@seed-design/react";
 import {
   MenuSheetRoot,
   MenuSheetContent,
@@ -14,7 +14,15 @@ import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import type { ReactNode } from "react";
 
-const MenuSheetPreview = ({ title, prefixIcon }: { title?: ReactNode; prefixIcon?: ReactNode }) => {
+const MenuSheetPreview = ({
+  title,
+  description,
+  prefixIcon,
+}: {
+  title?: ReactNode;
+  description?: ReactNode;
+  prefixIcon?: ReactNode;
+}) => {
   return (
     <Box width="400px" p="x4">
       <style>{`
@@ -30,30 +38,23 @@ const MenuSheetPreview = ({ title, prefixIcon }: { title?: ReactNode; prefixIcon
         }
       `}</style>
       <MenuSheetRoot open>
-        <MenuSheetContent title={title} labelAlign={prefixIcon ? "left" : "center"}>
+        <MenuSheetContent
+          title={title}
+          description={description}
+          labelAlign={prefixIcon ? "left" : "center"}
+        >
           <MenuSheetGroup>
-            <MenuSheetItem>
-              {prefixIcon}
-              <Text>Action 1</Text>
-            </MenuSheetItem>
-            <MenuSheetItem>
-              {prefixIcon}
-              <Text>Action 2</Text>
-            </MenuSheetItem>
-            <MenuSheetItem>
-              {prefixIcon}
-              <Text>Action 3</Text>
-            </MenuSheetItem>
+            <MenuSheetItem prefixIcon={prefixIcon} label="Action 1" />
+            <MenuSheetItem
+              prefixIcon={prefixIcon}
+              label="Action 2"
+              description="항목에 대한 설명"
+            />
+            <MenuSheetItem prefixIcon={prefixIcon} label="Action 3" />
           </MenuSheetGroup>
           <MenuSheetGroup>
-            <MenuSheetItem>
-              {prefixIcon}
-              <Text>Action 4</Text>
-            </MenuSheetItem>
-            <MenuSheetItem tone="critical">
-              {prefixIcon}
-              <Text>Action 5</Text>
-            </MenuSheetItem>
+            <MenuSheetItem prefixIcon={prefixIcon} label="Action 4" />
+            <MenuSheetItem tone="critical" prefixIcon={prefixIcon} label="Action 5" />
           </MenuSheetGroup>
         </MenuSheetContent>
       </MenuSheetRoot>
@@ -80,8 +81,14 @@ const conditionMap = {
     },
     false: { title: undefined },
   },
+  description: {
+    true: {
+      description: "부가적인 설명이 여기에 표시됩니다.",
+    },
+    false: { description: undefined },
+  },
   labelAlign: {
-    left: { prefixIcon: <PrefixIcon svg={<IconEyeSlashLine />} /> },
+    left: { prefixIcon: <IconEyeSlashLine /> },
     center: { prefixIcon: undefined },
   },
 };

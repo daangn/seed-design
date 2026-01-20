@@ -23,11 +23,13 @@ export const MenuSheetTrigger = SeedMenuSheet.Trigger;
 export interface MenuSheetContentProps extends Omit<SeedMenuSheet.ContentProps, "title"> {
   title?: React.ReactNode;
 
+  description?: React.ReactNode;
+
   layerIndex?: number;
 }
 
 export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps>(
-  ({ children, title, layerIndex, ...otherProps }, ref) => {
+  ({ children, title, description, layerIndex, ...otherProps }, ref) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -43,9 +45,10 @@ export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps
       <SeedMenuSheet.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
         <SeedMenuSheet.Backdrop />
         <SeedMenuSheet.Content ref={ref} {...otherProps}>
-          {title && (
+          {(title || description) && (
             <SeedMenuSheet.Header>
-              <SeedMenuSheet.Title>{title}</SeedMenuSheet.Title>
+              {title && <SeedMenuSheet.Title>{title}</SeedMenuSheet.Title>}
+              {description && <SeedMenuSheet.Description>{description}</SeedMenuSheet.Description>}
             </SeedMenuSheet.Header>
           )}
           <SeedMenuSheet.List>{children}</SeedMenuSheet.List>

@@ -76,8 +76,10 @@ export const createMenuSheetHandler = (ctx: ComponentHandlerDeps) => {
       ? props["Title Text#14599:0"].value
       : undefined;
 
-    // TODO: React 구현체에 description 추가 이후
-    // const description = props["Description Text#21827:0"].value;
+    const description =
+      props["Show Header#17043:12"].value && props["Show Header Description#32984:0"].value
+        ? props["Description Text#21827:0"].value
+        : undefined;
 
     const { labelAlign } = match(props.Layout.value)
       .with("Text with Icon", () => ({ labelAlign: "left" }))
@@ -86,7 +88,7 @@ export const createMenuSheetHandler = (ctx: ComponentHandlerDeps) => {
 
     const content = createLocalSnippetElement(
       "MenuSheetContent",
-      { title, labelAlign },
+      { title, description, labelAlign },
       contentChildren,
       {
         comment: title
