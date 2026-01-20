@@ -68,6 +68,7 @@ export interface RadioItemProps {
 
   disabled?: boolean;
 
+  // note: this should be removed in the future since individual radio item shouldn't be invalid independently
   invalid?: boolean;
 }
 
