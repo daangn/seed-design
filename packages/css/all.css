@@ -2742,6 +2742,7 @@
 }
 
 .seed-bottom-sheet__header--headerAlign_center {
+  text-align: center;
   justify-content: center;
   padding-left: 50px;
   padding-right: 50px;
