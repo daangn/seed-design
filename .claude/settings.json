@@ -2,12 +2,20 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Write|Edit|MultiEdit",
+        "matcher": "Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/generated-files-guard.sh",
-            "timeout": 2000
+            "command": "bash .claude/hooks/generated-files-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/generated-files-guard.sh"
           }
         ]
       }

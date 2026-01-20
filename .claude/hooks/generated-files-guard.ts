@@ -20,12 +20,17 @@ const GENERATED_FILE_PATTERNS: Array<{
   regenerateCommand: string;
 }> = [
   {
-    pattern: /packages\/css\/.*\.(ts|css)$/,
-    source: "packages/rootage/",
-    regenerateCommand: "bun generate",
+    pattern: /packages\/css\/(vars|recipes|theming)\/.*/,
+    source: "packages/rootage/ 또는 packages/qvism-preset/",
+    regenerateCommand: "bun generate:all",
   },
   {
-    pattern: /.*\/vars\.ts$/,
+    pattern: /packages\/css\/.*\.(css|min\.css)$/,
+    source: "packages/qvism-preset/",
+    regenerateCommand: "bun generate:all",
+  },
+  {
+    pattern: /packages\/qvism-preset\/src\/vars\/.*/,
     source: "packages/rootage/",
     regenerateCommand: "bun generate",
   },
@@ -63,7 +68,6 @@ try {
     process.exit(0);
   }
 
-  // 4. 생성 파일 패턴 매칭
   for (const { pattern, source, regenerateCommand } of GENERATED_FILE_PATTERNS) {
     if (pattern.test(filePath)) {
       const message = `
@@ -84,19 +88,10 @@ try {
 💡 @generated-files-guard 스킬을 참고하세요.
 `;
 
-      console.log(
-        JSON.stringify({
-          decision: "block",
-          reason: message,
-        }),
-      );
-      process.exit(0);
+      console.error(message);
+      process.exit(2);
     }
   }
-
-  // 5. 생성 파일이 아니면 허용
-  // (출력 없이 종료하면 허용)
 } catch {
-  // 에러가 나도 hook이 실행을 방해하지 않도록 조용히 처리
-  // console.error('Generated files guard error:', error)
+  // 에러 시 조용히 처리하여 hook이 실행을 방해하지 않도록
 }
