@@ -1,5 +1,7 @@
 ---
 "@seed-design/react-collapsible": major
+"@seed-design/react-fieldset": major
+"@seed-design/react-radio-group": minor
 "@seed-design/react": minor
 "@seed-design/css": minor
 "@seed-design/rootage-artifacts": patch
