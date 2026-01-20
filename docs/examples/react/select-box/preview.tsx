@@ -11,7 +11,7 @@ import {
 export default function SelectBoxPreview() {
   return (
     <HStack gap="x6" align="flex-start">
-      <CheckSelectBoxGroup>
+      <CheckSelectBoxGroup aria-label="Fruit">
         <CheckSelectBox label="Apple" defaultChecked suffix={<CheckSelectBoxCheckmark />} />
         <CheckSelectBox
           label="Melon"

@@ -5,7 +5,7 @@
 "@seed-design/rootage-artifacts": patch
 ---
 
-Select Box 관련 컴포넌트를 업데이트합니다.
+[Select Box](/react/components/select-box) 관련 컴포넌트를 업데이트합니다.
 
 - **1.1 → 1.2 업그레이드 시 snippet을 다시 내려받아 주세요.**
   - `npx @seed-design/cli@latest add ui:select-box`
@@ -20,3 +20,4 @@ Select Box 관련 컴포넌트를 업데이트합니다.
 - `label`이 기본적으로 가로 나열되며 `$dimension.x2` gap을 갖는 flex container로 변경되었습니다.
   - **1.1 → 1.2 업그레이드 시 확인 권장**: `label={<HStack gap="x2">{/* ... */}</HStack>}`와 같은 코드는 `HStack`을 `Fragment` 등으로 대체할 수 있습니다.
 - **문제 수정**: `CheckSelectBox`와 `RadioSelectBoxItem`에서 사용되지 않는 `children`을 타입 정의에서 제거합니다.
+- `CheckSelectBoxGroup`에 `label`, `aria-label`, `aria-labelledby` 중 아무것도 설정하지 않은 경우 경고를 표시합니다. (`RadioSelectBoxRoot`는 기존에도 표시)

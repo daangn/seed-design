@@ -96,7 +96,6 @@ export default function SelectBoxFieldset() {
             description="Red를 선택하고 제출해보세요."
             invalid={!!radioErrorMessage}
             errorMessage={radioErrorMessage}
-            disabled
           >
             <RadioSelectBoxItem
               value="red"
@@ -110,7 +109,12 @@ export default function SelectBoxFieldset() {
                 </Box>
               }
             />
-            <RadioSelectBoxItem value="blue" label="Blue" suffix={<RadioSelectBoxRadioMark />} />
+            <RadioSelectBoxItem
+              value="blue"
+              label="Blue"
+              suffix={<RadioSelectBoxRadioMark />}
+              disabled
+            />
             <RadioSelectBoxItem value="green" label="Green" suffix={<RadioSelectBoxRadioMark />} />
           </RadioSelectBoxRoot>
           <ActionButton type="submit" variant="neutralSolid">

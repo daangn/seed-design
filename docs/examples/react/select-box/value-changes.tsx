@@ -19,7 +19,7 @@ export default function SelectBoxValueChanges() {
   return (
     <HStack gap="x8" align="center" width="full" p="x4">
       <VStack gap="x4" align="center" style={{ flex: 1 }}>
-        <CheckSelectBoxGroup>
+        <CheckSelectBoxGroup aria-label="Fruit">
           <CheckSelectBox
             label="Apple"
             suffix={<CheckSelectBoxCheckmark />}

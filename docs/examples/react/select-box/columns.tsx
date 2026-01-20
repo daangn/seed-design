@@ -12,7 +12,7 @@ import {
 export default function SelectBoxColumns() {
   return (
     <VStack gap="x8" p="x4">
-      <CheckSelectBoxGroup columns={2}>
+      <CheckSelectBoxGroup columns={2} aria-label="Grid 레이아웃 예제">
         <CheckSelectBox
           prefixIcon={<IconIcecreamcone />}
           label="옵션 1"

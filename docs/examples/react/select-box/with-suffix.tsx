@@ -12,7 +12,7 @@ import {
 export default function SelectBoxWithSuffix() {
   return (
     <HStack gap="x8">
-      <CheckSelectBoxGroup>
+      <CheckSelectBoxGroup aria-label="Suffix 예제">
         <CheckSelectBox label="체크마크" suffix={<CheckSelectBoxCheckmark />} />
         <CheckSelectBox
           label="텍스트 suffix"

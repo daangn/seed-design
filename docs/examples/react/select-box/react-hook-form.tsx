@@ -64,7 +64,7 @@ export default function SelectBoxReactHookForm() {
         onSubmit={checkForm.handleSubmit(onCheckValid)}
         onReset={onCheckReset}
       >
-        <CheckSelectBoxGroup>
+        <CheckSelectBoxGroup aria-label="Fruit">
           {POSSIBLE_FRUIT_VALUES.map((name) => (
             <CheckSelectBoxItem key={name} name={name} control={checkForm.control} />
           ))}
