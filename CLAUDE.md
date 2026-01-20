@@ -1,8 +1,18 @@
+---
+NOTE: Always refer to @AGENTS.md and follow the directions. AGENTS.md files exist in every directory that matters - always read it first when you read or write files in that directory.
+---
+
 # SEED Design
 
 ## Project Overview
 
 - [Deepwiki SEED Design](https://deepwiki.com/daangn/seed-design)
+
+## 핵심 문서
+
+- @AGENTS.md - AI 어시스턴트 가이드라인
+- @TECH.md - 아키텍처 및 기술 상세
+- @instructions/create-component.md - 컴포넌트 생성 상세 가이드
 
 ## Rootage
 

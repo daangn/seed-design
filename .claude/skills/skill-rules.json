@@ -98,6 +98,87 @@
           "(find|detect|찾기|감지).*(missing|inconsistent|누락|불일치).*(docs|documentation|문서)"
         ]
       }
+    },
+    "monorepo-context-guide": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "description": "현재 작업 위치에서 연관 패키지와 파일을 파악합니다",
+      "promptTriggers": {
+        "keywords": [
+          "monorepo",
+          "package structure",
+          "related files",
+          "dependencies",
+          "context",
+          "모노레포",
+          "패키지 구조",
+          "연관 파일",
+          "의존성",
+          "컨텍스트"
+        ],
+        "intentPatterns": [
+          "(find|show|list|찾기|보여).*(related|연관).*(files|package|파일|패키지)",
+          "(which|어떤).*(packages|패키지).*(depend|의존)",
+          "(understand|파악).*(structure|구조)"
+        ]
+      }
+    },
+    "generated-files-guard": {
+      "type": "guardrail",
+      "enforcement": "warn",
+      "priority": "critical",
+      "description": "자동 생성 파일 수정을 방지합니다",
+      "promptTriggers": {
+        "keywords": [
+          "generated file",
+          "auto-generated",
+          "vars.ts",
+          "packages/css",
+          "생성 파일",
+          "자동 생성",
+          "수정 금지"
+        ],
+        "intentPatterns": [
+          "(edit|modify|change|수정|변경).*(css|vars\\.ts|generated|생성)",
+          "packages/css/",
+          "/dist/"
+        ]
+      }
+    },
+    "component-flow-guide": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "컴포넌트 개발 전체 흐름을 안내합니다 (rootage → recipe → react → storybook → docs → visual test)",
+      "promptTriggers": {
+        "keywords": [
+          "component flow",
+          "development pipeline",
+          "add component",
+          "new component",
+          "컴포넌트 추가",
+          "컴포넌트 흐름",
+          "개발 파이프라인",
+          "새 컴포넌트",
+          "storybook",
+          "스토리북",
+          "visual test",
+          "비주얼 테스트",
+          "agent browser",
+          "qvism recipe",
+          "레시피"
+        ],
+        "intentPatterns": [
+          "(add|create|implement|추가|생성|구현).*(new|새).*(component|컴포넌트)",
+          "(how|where|어떻게|어디).*(start|시작).*(component|컴포넌트)",
+          "rootage.*react",
+          "(full|전체).*(flow|흐름)",
+          "(test|테스트).*(dark|light|font|다크|라이트|폰트)",
+          "storybook.*(theme|테마)",
+          "(component|컴포넌트).*(test|테스트)"
+        ]
+      }
     }
   }
 }
