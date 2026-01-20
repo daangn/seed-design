@@ -52,7 +52,6 @@ export const CheckSelectBoxGroup = forwardRef<HTMLDivElement, CheckSelectBoxGrou
       <PropsProvider value={{ layout }}>
         <Primitive.div
           ref={ref}
-          role="group"
           data-columns={columns}
           className={clsx(recipeClassName, className)}
           style={
