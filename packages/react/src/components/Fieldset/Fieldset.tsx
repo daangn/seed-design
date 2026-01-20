@@ -34,7 +34,7 @@ export const FieldsetHeader = withContext<HTMLDivElement, FieldsetHeaderProps>(
 
 export interface FieldsetLabelProps extends FieldLabelVariantProps, Fieldset.LabelProps {}
 
-export const FieldsetLabel = withLabelProvider<HTMLLabelElement, FieldsetLabelProps>(
+export const FieldsetLabel = withLabelProvider<HTMLDivElement, FieldsetLabelProps>(
   Fieldset.Label,
   "root",
 );
@@ -95,7 +95,7 @@ export const FieldsetDescription = withContext<HTMLSpanElement, FieldsetDescript
 
 export interface FieldsetErrorMessageProps extends Fieldset.ErrorMessageProps {}
 
-export const FieldsetErrorMessage = withContext<HTMLSpanElement, FieldsetErrorMessageProps>(
+export const FieldsetErrorMessage = withContext<HTMLDivElement, FieldsetErrorMessageProps>(
   Fieldset.ErrorMessage,
   "errorMessage",
 );
