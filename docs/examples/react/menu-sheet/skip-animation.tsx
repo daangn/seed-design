@@ -13,7 +13,7 @@ const MenuSheetSkipAnimation = () => {
   return (
     <MenuSheetRoot skipAnimation>
       <MenuSheetTrigger asChild>
-        <ActionButton>Open</ActionButton>
+        <ActionButton variant="neutralSolid">Open</ActionButton>
       </MenuSheetTrigger>
       <MenuSheetContent aria-label="Menu Sheet">
         <MenuSheetGroup>

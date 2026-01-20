@@ -34,7 +34,7 @@ data:
         root:
           padding: $dimension.x1
           cornerRadius: $radius.full
-          color: $color.bg.neutral-weak
+          color: $color.bg.neutral-weak-alpha
         indicator:
           color: $color.palette.gray-00
           cornerRadius: $radius.full

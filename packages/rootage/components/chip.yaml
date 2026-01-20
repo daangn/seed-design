@@ -99,7 +99,7 @@ data:
     variant=solid:
       enabled:
         root:
-          color: $color.bg.neutral-weak
+          color: $color.bg.neutral-weak-alpha
         label:
           color: $color.fg.neutral
         prefixIcon:
@@ -110,7 +110,7 @@ data:
           color: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.neutral-weak-pressed
+          color: $color.bg.neutral-weak-alpha-pressed
       disabled:
         root:
           opacity: 0.5
@@ -250,6 +250,8 @@ data:
           size: $dimension.x7
         icon:
           size: $dimension.x4
+
+    layout=withText: {}
 
     size=small,layout=iconOnly:
       enabled:

@@ -1,45 +1,32 @@
-import { AST, buildContext, css, Exchange } from "@seed-design/rootage-core";
+import "server-only";
 
-export function stringifyVariants(variants: AST.VariantExpression[]) {
-  if (variants.length === 0) {
-    return "base";
-  }
+import { buildContext, Exchange } from "@seed-design/rootage-core";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
-  return variants.map(({ name, value }) => `${name}=${value}`).join(", ");
-}
+// Re-export utility functions for backward compatibility
+export {
+  stringifyVariants,
+  stringifyStates,
+  stringifyTokenLit,
+  stringifyValueLit,
+} from "./rootage-utils";
 
-export function stringifyStates(states: AST.StateExpression[]) {
-  return states.map(({ value }) => value).join(", ");
-}
-
-export function stringifyTokenLit(token: AST.TokenLit): AST.TokenRef {
-  return `$${[...token.group, token.key].join(".")}`;
-}
-
-export function stringifyValueLit(lit: AST.ValueLit): string {
-  switch (lit.kind) {
-    case "DimensionLit":
-      return lit.unit === "rem"
-        ? `${css.staticStringifier.value(lit)} (${lit.value * 16}px)`
-        : css.staticStringifier.value(lit);
-    default:
-      return css.staticStringifier.value(lit);
-  }
-}
+const ROOTAGE_DIR = join(process.cwd(), "public", "rootage");
 
 export const getRootage = async () => {
-  const index: { resources: { path: string }[] } = await import("@/public/rootage/index.json").then(
-    (module) => {
-      return module.default;
-    },
-  );
+  const indexContent = await readFile(join(ROOTAGE_DIR, "index.json"), "utf-8");
+  const index: { resources: { path: string }[] } = JSON.parse(indexContent);
+
   const sourceFiles = await Promise.all(
-    index.resources.map((resource) =>
-      import(`@/public/rootage${resource.path}`).then((res: Exchange.Model) => ({
+    index.resources.map(async (resource) => {
+      const content = await readFile(join(ROOTAGE_DIR, resource.path), "utf-8");
+      const res: Exchange.Model = JSON.parse(content);
+      return {
         fileName: resource.path,
         ast: Exchange.fromObject(res),
-      })),
-    ),
+      };
+    }),
   );
   return buildContext(sourceFiles);
 };

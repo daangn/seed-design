@@ -1,13 +1,12 @@
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import type { ReactNode } from "react";
-import { docsOptions } from "../layout.config";
-import { source } from "../source";
-import { RootProvider } from "fumadocs-ui/provider";
+import { getDocsOptions } from "../layout.config";
+import { RootProvider } from "fumadocs-ui/provider/next";
 import DefaultSearchDialog from "@/components/search/search";
 import { TAGS } from "@/app/api/search/constants";
 
 export default async function Layout({ children }: { children: ReactNode }) {
-  const transformedTree = await source.getTransformedPageTree();
+  const docsOptions = await getDocsOptions();
 
   return (
     <RootProvider
@@ -19,9 +18,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
         },
       }}
     >
-      <DocsLayout {...docsOptions} tree={transformedTree}>
-        {children}
-      </DocsLayout>
+      <DocsLayout {...docsOptions}>{children}</DocsLayout>
     </RootProvider>
   );
 }

@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 26-01-06
+  lastUpdated: 26-01-15
 data:
   collection: color
   tokens:
@@ -540,6 +540,7 @@ data:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
     $color.bg.layer-fill:
+      description: "@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다."
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-200
@@ -587,6 +588,16 @@ data:
       values:
         theme-light: $color.palette.gray-200
         theme-dark: $color.palette.gray-300
+    $color.bg.neutral-weak-alpha:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다.
+      values:
+        theme-light: $color.palette.static-black-alpha-200
+        theme-dark: $color.palette.static-white-alpha-200
+    $color.bg.neutral-weak-alpha-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha-pressed) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다.
+      values:
+        theme-light: $color.palette.static-black-alpha-300
+        theme-dark: $color.palette.static-white-alpha-300
     $color.bg.neutral-weak-pressed:
       description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-pressed)
       values:

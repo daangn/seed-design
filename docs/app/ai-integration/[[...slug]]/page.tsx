@@ -1,4 +1,4 @@
-import { aiIntegrationSource } from "@/app/source";
+import { getAiIntegrationSource } from "@/app/sources/ai-integration-source";
 import type { Metadata } from "next";
 import { DocsPage, DocsBody, DocsTitle, DocsDescription } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
@@ -6,6 +6,7 @@ import { mdxComponents } from "@/components/mdx-components";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
+  const aiIntegrationSource = await getAiIntegrationSource();
   const page = aiIntegrationSource.getPage(params.slug);
   if (!page) notFound();
 
@@ -23,6 +24,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 }
 
 export async function generateStaticParams() {
+  const aiIntegrationSource = await getAiIntegrationSource();
   return aiIntegrationSource.generateParams();
 }
 
@@ -30,6 +32,7 @@ export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
   const params = await props.params;
+  const aiIntegrationSource = await getAiIntegrationSource();
   const page = aiIntegrationSource.getPage(params.slug);
   if (!page) notFound();
 
