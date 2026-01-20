@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { dialogVariantMap } from "@seed-design/css/recipes/dialog";
-import { Box, ResponsivePair } from "@seed-design/react";
+import { Box, ResponsivePair, VStack } from "@seed-design/react";
 import {
   AlertDialogRoot,
   AlertDialogContent,
@@ -65,11 +65,19 @@ const { skipAnimation: _skipAnimation, ...restVariantMap } = dialogVariantMap;
 
 const conditionMap = {
   body: {
-    description: { description: "Description text can be written here" },
-    titleDescription: { title: "Title", description: "Description text can be written here" },
+    description: {
+      description:
+        "이것은 매우 긴 설명 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있으며, 텍스트가 어떻게 줄바꿈되고 레이아웃에 영향을 주는지 확인할 수 있습니다. This is a very long description.",
+    },
+    titleDescription: {
+      title: "이것은 매우 긴 제목 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있습니다.",
+      description:
+        "이것은 매우 긴 설명 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있으며, 텍스트가 어떻게 줄바꿈되고 레이아웃에 영향을 주는지 확인할 수 있습니다. This is a very long description.",
+    },
   },
   actions: {
-    2: {
+    single: { footer: <AlertDialogAction variant="neutralSolid">Confirm</AlertDialogAction> },
+    neutral: {
       footer: (
         <ResponsivePair gap="x2">
           <AlertDialogAction variant="neutralWeak">Cancel</AlertDialogAction>
@@ -77,7 +85,33 @@ const conditionMap = {
         </ResponsivePair>
       ),
     },
-    1: { footer: <AlertDialogAction variant="neutralSolid">Confirm</AlertDialogAction> },
+    critical: {
+      footer: (
+        <ResponsivePair gap="x2">
+          <AlertDialogAction variant="neutralWeak">Cancel</AlertDialogAction>
+          <AlertDialogAction variant="criticalSolid">Delete</AlertDialogAction>
+        </ResponsivePair>
+      ),
+    },
+    nonpreferred: {
+      footer: (
+        <VStack gap="x4" alignSelf="stretch">
+          <AlertDialogAction size="medium" variant="neutralSolid" layout="withText">
+            Confirm
+          </AlertDialogAction>
+          <AlertDialogAction
+            size="medium"
+            variant="ghost"
+            layout="withText"
+            color="fg.neutralMuted"
+            fontWeight="bold"
+            bleedY="asPadding"
+          >
+            Cancel
+          </AlertDialogAction>
+        </VStack>
+      ),
+    },
   },
 };
 

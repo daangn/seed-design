@@ -90,11 +90,16 @@ const conditionMap = {
     false: { showCloseButton: false },
   },
   title: {
-    true: { title: "Title" },
+    true: {
+      title: "이것은 매우 긴 제목 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있습니다.",
+    },
     false: { title: undefined },
   },
   description: {
-    true: { description: "Description text" },
+    true: {
+      description:
+        "이것은 매우 긴 설명 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있으며, 텍스트가 어떻게 줄바꿈되고 레이아웃에 영향을 주는지 확인할 수 있습니다. This is a very long description text that can span multiple lines to test how the component handles text wrapping and layout.",
+    },
     false: { description: undefined },
   },
   showFooter: {

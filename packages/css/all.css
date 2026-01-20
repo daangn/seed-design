@@ -5146,6 +5146,7 @@
 }
 
 .seed-menu-sheet__header {
+  text-align: center;
   align-items: center;
   gap: var(--seed-dimension-x1);
   padding-bottom: var(--seed-dimension-x4);

@@ -74,7 +74,10 @@ const { skipAnimation: _skipAnimation, ...restVariantMap } = menuSheetVariantMap
 
 const conditionMap = {
   title: {
-    true: { title: "Title" },
+    true: {
+      title:
+        "이것은 매우 긴 제목 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있으며, 텍스트가 어떻게 줄바꿈되는지 확인합니다.",
+    },
     false: { title: undefined },
   },
   labelAlign: {
