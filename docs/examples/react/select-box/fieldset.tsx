@@ -53,6 +53,7 @@ export default function SelectBoxFieldset() {
         <form onSubmit={handleCheckSubmit}>
           <CheckSelectBoxGroup
             label="선호하는 과일을 선택하세요"
+            indicator="선택"
             description="Apple을 선택하고 제출해보세요."
             errorMessage={checkErrorMessage}
           >
@@ -90,10 +91,12 @@ export default function SelectBoxFieldset() {
       <VStack asChild gap="spacingY.componentDefault" style={{ flex: 1 }}>
         <form onSubmit={handleRadioSubmit}>
           <RadioSelectBoxRoot
+            label="선호하는 색상을 선택하세요"
+            labelWeight="bold"
+            showRequiredIndicator
+            description="Red를 선택하고 제출해보세요."
             name="color"
             defaultValue="red"
-            label="선호하는 색상을 선택하세요"
-            description="Red를 선택하고 제출해보세요."
             invalid={!!radioErrorMessage}
             errorMessage={radioErrorMessage}
           >
