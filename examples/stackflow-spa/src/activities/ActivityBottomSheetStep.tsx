@@ -76,7 +76,7 @@ const ActivityBottomSheetStep: StaticActivityComponentType<"ActivityBottomSheetS
               layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
             >
               <BottomSheetFooter>
-                <HStack gap="x2" pb="safeArea">
+                <HStack gap="x2">
                   <ActionButton onClick={() => setOpen(false)} variant="neutralWeak">
                     닫기
                   </ActionButton>
