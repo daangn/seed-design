@@ -166,6 +166,14 @@ export type MenuSheetItemProperties = InferComponentDefinition<{
     type: "BOOLEAN";
     defaultValue: true;
   };
+  "Sub Text#51411:0": {
+    type: "TEXT";
+    defaultValue: "설명을 입력해주세요.";
+  };
+  "Show Item Description#51411:19": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
   "Label#55905:8": {
     type: "TEXT";
     defaultValue: "라벨";
@@ -188,7 +196,7 @@ export type MenuSheetItemProperties = InferComponentDefinition<{
   Layout: {
     type: "VARIANT";
     defaultValue: "Text Only";
-    variantOptions: ["Text with Icon", "Text Only"];
+    variantOptions: ["Text Only", "Text with Icon"];
   };
 }>;
 

@@ -17,7 +17,6 @@ import {
   MenuSheetRoot,
   MenuSheetTrigger,
 } from "seed-design/ui/menu-sheet";
-import { PrefixIcon } from "@seed-design/react";
 import {
   IconHouseLine,
   IconPencilLine,
@@ -90,18 +89,22 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
               layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
             >
               <MenuSheetGroup>
-                <MenuSheetItem onClick={() => handleAction("add")}>
-                  <PrefixIcon svg={<IconPlusLine />} />
-                  추가
-                </MenuSheetItem>
-                <MenuSheetItem onClick={() => handleAction("edit")}>
-                  <PrefixIcon svg={<IconPencilLine />} />
-                  수정
-                </MenuSheetItem>
-                <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
-                  <PrefixIcon svg={<IconTrashcanLine />} />
-                  삭제
-                </MenuSheetItem>
+                <MenuSheetItem
+                  onClick={() => handleAction("add")}
+                  label="추가"
+                  prefixIcon={<IconPlusLine />}
+                />
+                <MenuSheetItem
+                  onClick={() => handleAction("edit")}
+                  label="수정"
+                  prefixIcon={<IconPencilLine />}
+                />
+                <MenuSheetItem
+                  onClick={() => handleAction("delete")}
+                  tone="critical"
+                  label="삭제"
+                  prefixIcon={<IconTrashcanLine />}
+                />
               </MenuSheetGroup>
               <MenuSheetGroup labelAlign="center">
                 <MenuSheetItem
@@ -114,9 +117,8 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
                       body: "Menu Sheet를 닫고 이동했습니다.",
                     });
                   }}
-                >
-                  Push
-                </MenuSheetItem>
+                  label="Push"
+                />
               </MenuSheetGroup>
             </MenuSheetContent>
           </Portal>

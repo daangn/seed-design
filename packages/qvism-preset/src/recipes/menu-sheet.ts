@@ -11,6 +11,7 @@ const menuSheet = defineSlotRecipe({
     "content",
     "header",
     "title",
+    "description",
     "list",
     "group",
     "footer",
@@ -73,6 +74,15 @@ const menuSheet = defineSlotRecipe({
       fontWeight: vars.base.enabled.title.fontWeight,
 
       // since title is an h2
+      margin: 0,
+    },
+    description: {
+      color: vars.base.enabled.description.color,
+      fontSize: vars.base.enabled.description.fontSize,
+      lineHeight: vars.base.enabled.description.lineHeight,
+      fontWeight: vars.base.enabled.description.fontWeight,
+
+      // since description is a p
       margin: 0,
     },
     list: {

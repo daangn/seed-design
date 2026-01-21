@@ -51,6 +51,13 @@
     font-weight: var(--seed-font-weight-bold);
     margin: 0;
 }
+.seed-menu-sheet__description {
+    color: var(--seed-color-fg-neutral-muted);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    font-weight: var(--seed-font-weight-regular);
+    margin: 0;
+}
 .seed-menu-sheet__list {
     display: flex;
     flex-direction: column;

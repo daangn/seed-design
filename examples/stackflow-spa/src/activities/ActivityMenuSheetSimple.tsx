@@ -1,4 +1,4 @@
-import { Flex, PrefixIcon, VStack } from "@seed-design/react";
+import { Flex, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
@@ -48,18 +48,22 @@ const ActivityMenuSheetSimple: StaticActivityComponentType<"ActivityMenuSheetSim
     <MenuSheetRoot open={open} onOpenChange={onOpenChange}>
       <MenuSheetContent title="Actions" layerIndex={useActivityZIndexBase()}>
         <MenuSheetGroup>
-          <MenuSheetItem onClick={() => handleAction("add")}>
-            <PrefixIcon svg={<IconPlusLine />} />
-            추가
-          </MenuSheetItem>
-          <MenuSheetItem onClick={() => handleAction("edit")}>
-            <PrefixIcon svg={<IconPencilLine />} />
-            수정
-          </MenuSheetItem>
-          <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
-            <PrefixIcon svg={<IconTrashcanLine />} />
-            삭제
-          </MenuSheetItem>
+          <MenuSheetItem
+            onClick={() => handleAction("add")}
+            label="추가"
+            prefixIcon={<IconPlusLine />}
+          />
+          <MenuSheetItem
+            onClick={() => handleAction("edit")}
+            label="수정"
+            prefixIcon={<IconPencilLine />}
+          />
+          <MenuSheetItem
+            onClick={() => handleAction("delete")}
+            tone="critical"
+            label="삭제"
+            prefixIcon={<IconTrashcanLine />}
+          />
         </MenuSheetGroup>
         <VStack gap="x2">
           <MenuSheetGroup>
@@ -72,9 +76,8 @@ const ActivityMenuSheetSimple: StaticActivityComponentType<"ActivityMenuSheetSim
                     : "MenuSheet가 언마운트되었으므로, 현재 Activity를 pop하는 경우 MenuSheet가 다시 enter 트랜지션을 재생하며 마운트됩니다.",
                 })
               }
-            >
-              Push
-            </MenuSheetItem>
+              label="Push"
+            />
           </MenuSheetGroup>
           <Flex px="x2" py="x1_5">
             <Switch
