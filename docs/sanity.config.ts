@@ -6,14 +6,14 @@
 
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
-import { structure } from "./sanity-studio/structure";
+import { structure } from "./sanity/structure";
 import { structureTool } from "sanity/structure";
 import { presentationTool, defineLocations, defineDocuments } from "sanity/presentation";
 import * as changeCase from "change-case";
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
-import { apiVersion, dataset, projectId } from "./sanity-studio/env";
-import { schema } from "./sanity-studio/schemaTypes";
+import { apiVersion, dataset, projectId } from "./sanity/env";
+import { schema } from "./sanity/schemaTypes";
 
 import { table } from "@sanity/table";
 

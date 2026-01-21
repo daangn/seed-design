@@ -1,13 +1,11 @@
 import { TAGS } from "@/app/api/search/constants";
 import DefaultSearchDialog from "@/components/search/search";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
-import { RootProvider } from "fumadocs-ui/provider/next";
+import { RootProvider } from "fumadocs-ui/provider";
 import type { ReactNode } from "react";
-import { getLynxOptions } from "../layout.config";
+import { lynxOptions } from "../layout.config";
 
-export default async function Layout({ children }: { children: ReactNode }) {
-  const lynxOptions = await getLynxOptions();
-
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <RootProvider
       search={{

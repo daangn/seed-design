@@ -1,6 +1,6 @@
-import { client } from "@/sanity-studio/lib/client";
-import { COMPONENT_QUERY } from "@/sanity-studio/lib/queries";
-import { ComponentData } from "@/sanity-studio/lib/types";
+import { client } from "@/sanity/lib/client";
+import { COMPONENT_QUERY } from "@/sanity/lib/queries";
+import { ComponentData } from "@/sanity/lib/types";
 
 export async function getComponentStatus(
   params: { slug?: string[] },
