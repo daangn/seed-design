@@ -17,8 +17,7 @@
     "incremental": true,
     "paths": {
       "@/*": ["./*"],
-      "seed-design/*": ["registry/*"],
-      "sanity/*": ["./node_modules/sanity/*"]
+      "seed-design/*": ["registry/*"]
     },
     "plugins": [
       {
