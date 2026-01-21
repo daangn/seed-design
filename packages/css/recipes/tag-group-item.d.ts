@@ -19,11 +19,13 @@ declare type TagGroupItemVariantMap = {
 
 export declare type TagGroupItemVariantProps = Partial<TagGroupItemVariant>;
 
+export declare type TagGroupItemSlotName = "root" | "label";
+
 export declare const tagGroupItemVariantMap: TagGroupItemVariantMap;
 
 export declare const tagGroupItem: ((
   props?: TagGroupItemVariantProps,
-) => string) & {
+) => Record<TagGroupItemSlotName, string>) & {
   splitVariantProps: <T extends TagGroupItemVariantProps>(
     props: T,
   ) => [TagGroupItemVariantProps, Omit<T, keyof TagGroupItemVariantProps>];

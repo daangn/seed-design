@@ -525,6 +525,17 @@
     {
       "snippets": [
         {
+          "path": "tag-group.tsx"
+        }
+      ],
+      "id": "tag-group",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "text-field.tsx"
         }
       ],

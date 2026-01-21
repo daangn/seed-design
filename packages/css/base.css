@@ -43,6 +43,7 @@
 }
 
 .seed-icon, .seed-prefix-icon, .seed-suffix-icon {
+  vertical-align: middle;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;

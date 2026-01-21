@@ -256,6 +256,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "tag-group",
+      snippets: [
+        {
+          path: "tag-group.tsx",
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
+        },
+      ],
+    },
+    {
       id: "page-banner",
       snippets: [
         {
