@@ -14,7 +14,7 @@ const BottomSheetShowCloseButton = () => {
   return (
     <BottomSheetRoot open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <BottomSheetTrigger asChild>
-        <ActionButton>Open</ActionButton>
+        <ActionButton variant="neutralSolid">Open</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent
         title="제목"

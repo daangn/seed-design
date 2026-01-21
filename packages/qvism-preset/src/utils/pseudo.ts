@@ -15,11 +15,11 @@ export const checkedOrIndeterminate =
 
 export const pressed = ":is([aria-pressed=true], [data-pressed])";
 
-export const selected = ":is(:selected, [data-selected])";
+export const selected = ":is([aria-selected=true], [data-selected])";
 
 export const open = ':is([data-state="open"], [data-open])';
 
-export const hidden = ":is(:hidden, [hidden], [data-hidden])";
+export const hidden = ":is([hidden], [data-hidden])";
 
 export const invalid = ":is(:invalid, [data-invalid])";
 
