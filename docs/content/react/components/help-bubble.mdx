@@ -38,6 +38,12 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ## Examples
 
+<Callout title="Help Bubble은 기본적으로 Help Bubble 밖 영역에서 pointerdown이 발생할 때 닫힙니다.">
+
+아래 예시들은 대부분 `closeOnInteractOutside={false}`가 설정되어 `pointerdown`이 발생해도 닫히지 않도록 되어 있습니다.
+
+</Callout>
+
 ### Trigger
 
 `HelpBubbleTrigger`의 `children`을 클릭하면 Help Bubble이 열리고 닫힙니다.
@@ -144,6 +150,17 @@ npx @seed-design/cli@latest add ui:help-bubble
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/line-breaks.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `z-index` Offset
+
+<ComponentExample name="react/help-bubble/z-index-offset">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/z-index-offset.tsx",
     "codeblock": true
   }
   ```

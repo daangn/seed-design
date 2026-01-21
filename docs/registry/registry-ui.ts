@@ -233,7 +233,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "help-bubble.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
     },
