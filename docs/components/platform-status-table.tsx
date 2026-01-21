@@ -1,6 +1,6 @@
-import { client } from "@/sanity-studio/lib/client";
-import { COMPONENT_QUERY } from "@/sanity-studio/lib/queries";
-import { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
+import { client } from "@/sanity/lib/client";
+import { COMPONENT_QUERY } from "@/sanity/lib/queries";
+import { ComponentData, PlatformStatus } from "@/sanity/lib/types";
 import { IconArrowRightFill, IconArrowUpRightFill } from "@karrotmarket/react-monochrome-icon";
 import { Badge, Icon } from "@seed-design/react";
 import Link from "next/link";

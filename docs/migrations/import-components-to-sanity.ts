@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { createClient } from "@sanity/client";
 import { promises as fs } from "fs";
 import path from "node:path";
-import { apiVersion, dataset, projectId } from "../sanity-studio/env.js";
+import { apiVersion, dataset, projectId } from "../sanity/env.js";
 
 interface ComponentFrontmatter {
   title: string;
