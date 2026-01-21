@@ -17,13 +17,13 @@ function CustomRadioGroup(
     selected?: boolean;
   },
 ) {
-  const [radioMarkVariantProps, { disabled, selected, ..._otherProps }] =
+  const [radiomarkVariantProps, { disabled, selected, ..._otherProps }] =
     radiomark.splitVariantProps(props);
 
   return (
     <RadioGroup.Root disabled={disabled} value="foo">
       <RadioGroup.Item value={selected ? "foo" : "bar"}>
-        <Radiomark {...radioMarkVariantProps} />
+        <Radiomark {...radiomarkVariantProps} />
         <RadioGroup.ItemHiddenInput />
       </RadioGroup.Item>
     </RadioGroup.Root>
