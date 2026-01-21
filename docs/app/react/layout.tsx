@@ -1,11 +1,13 @@
 import { TAGS } from "@/app/api/search/constants";
 import DefaultSearchDialog from "@/components/search/search";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
-import { RootProvider } from "fumadocs-ui/provider";
+import { RootProvider } from "fumadocs-ui/provider/next";
 import type { ReactNode } from "react";
-import { reactOptions } from "../layout.config";
+import { getReactOptions } from "../layout.config";
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default async function Layout({ children }: { children: ReactNode }) {
+  const reactOptions = await getReactOptions();
+
   return (
     <RootProvider
       search={{

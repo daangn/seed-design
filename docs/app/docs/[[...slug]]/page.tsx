@@ -1,4 +1,4 @@
-import { docsSource } from "@/app/source";
+import { getDocsSource } from "@/app/sources/docs-source";
 import { mdxComponents } from "@/components/mdx-components";
 import { getComponentStatus } from "@/components/rootage";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
@@ -9,7 +9,8 @@ export const dynamic = "force-static";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
-  const page = docsSource.getPage(params.slug ?? []);
+  const source = await getDocsSource();
+  const page = source.getPage(params.slug ?? []);
   if (!page) notFound();
 
   const { body: MDX, toc, lastModified } = await page.data.load();
@@ -37,19 +38,17 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 }
 
 export async function generateStaticParams() {
-  return docsSource.generateParams();
+  const source = await getDocsSource();
+  return source.generateParams();
 }
 
-export async function generateMetadata(props: {
-  params: Promise<{ slug?: string[] }>;
-}): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
-  const page = docsSource.getPage(params.slug);
+  const source = await getDocsSource();
+  const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  const loadedData = await page.data.load();
-  const frontmatterDeprecated = (loadedData as any).deprecated;
-  const { deprecated } = await getComponentStatus(params, { deprecated: frontmatterDeprecated });
+  const { deprecated } = await getComponentStatus(params, { deprecated: page.data.deprecated });
 
   // Add (Deprecated) to title if component is deprecated
   const displayTitle =

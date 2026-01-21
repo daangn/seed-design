@@ -1,10 +1,3 @@
-import {
-  aiIntegrationSource,
-  breezeSource,
-  lynxSource,
-  reactSource,
-  docsSource,
-} from "@/app/source";
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
@@ -114,27 +107,43 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   },
 };
 
-export const docsOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await docsSource.getTransformedPageTree(),
-};
+// Lazy option getters - only load section data when needed
+export async function getDocsOptions(): Promise<DocsLayoutProps> {
+  const { getDocsPageTree } = await import("./sources/docs-source");
+  return {
+    ...baseOptions,
+    tree: await getDocsPageTree(),
+  };
+}
 
-export const reactOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await reactSource.getTransformedReactPageTree(),
-};
+export async function getReactOptions(): Promise<DocsLayoutProps> {
+  const { getReactPageTree } = await import("./sources/react-source");
+  return {
+    ...baseOptions,
+    tree: await getReactPageTree(),
+  };
+}
 
-export const lynxOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await lynxSource.getTransformedLynxPageTree(),
-};
+export async function getLynxOptions(): Promise<DocsLayoutProps> {
+  const { getLynxPageTree } = await import("./sources/lynx-source");
+  return {
+    ...baseOptions,
+    tree: await getLynxPageTree(),
+  };
+}
 
-export const breezeOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await breezeSource.getTransformedBreezePageTree(),
-};
+export async function getBreezeOptions(): Promise<DocsLayoutProps> {
+  const { getBreezePageTree } = await import("./sources/breeze-source");
+  return {
+    ...baseOptions,
+    tree: await getBreezePageTree(),
+  };
+}
 
-export const aiIntegrationOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await aiIntegrationSource.getTransformedAiIntegrationPageTree(),
-};
+export async function getAiIntegrationOptions(): Promise<DocsLayoutProps> {
+  const { getAiIntegrationPageTree } = await import("./sources/ai-integration-source");
+  return {
+    ...baseOptions,
+    tree: await getAiIntegrationPageTree(),
+  };
+}
