@@ -564,6 +564,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Fill"
   },
+  "48d35e692e4cbeb1bfd0b0be28a800061173cf96": {
+    "name": "icon_cart_items",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "15e92fded5d5306b62b634790f724a72ba8f7033": {
+    "name": "icon_cart_items",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "f6be7d2997e4b139ae4850ee21869bc7e59ccc0b": {
     "name": "icon_cart",
     "type": "monochrome",
@@ -1129,6 +1139,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "8a20bac7b3ef03003f4395e5a5455a62fa363efc": {
+    "name": "icon_exclamationmark_chatbubble_rectangular_center",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "2fe5521cf8ac4b67db3a1cd0a03847f54493583a": {
+    "name": "icon_exclamationmark_chatbubble_rectangular_center",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "3e578773a3da74c255c4c9008914b247e0fc3d2b": {
     "name": "icon_exclamationmark_circle",
     "type": "monochrome",
@@ -1636,6 +1656,16 @@ export const FIGMA_ICONS = {
   },
   "558a6ab1add8bf83a774b0555468b669e68bbca0": {
     "name": "icon_keyboard_chevron_down",
+    "type": "monochrome",
+    "weight": "Line"
+  },
+  "27885dd88c45e55e1ce6790b6517b663fbc89286": {
+    "name": "icon_keyhole_shield",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "2111483a75d693815d578415279d077e66412da1": {
+    "name": "icon_keyhole_shield",
     "type": "monochrome",
     "weight": "Line"
   },
@@ -3183,6 +3213,10 @@ export const FIGMA_ICONS = {
     "name": "icon_cart",
     "type": "multicolor"
   },
+  "81a9d09867dbce6bbeca059a24c54ad23130a518": {
+    "name": "icon_cart_items",
+    "type": "multicolor"
+  },
   "51692e1d38d71ff24bbf5c7295da347d7700acbe": {
     "name": "icon_cart_load",
     "type": "multicolor"
@@ -3377,6 +3411,10 @@ export const FIGMA_ICONS = {
   },
   "5a0a4fb09505b0c67c47e6c9c5306af6a923334f": {
     "name": "icon_tshirt_bubble2",
+    "type": "multicolor"
+  },
+  "ab66ee11be5539d340a87f1e9ca021fef1db3ef8": {
+    "name": "icon_vest_horizstripe",
     "type": "multicolor"
   },
   "7ddb6f0f63708485a75cb21a25fae01671a34562": {

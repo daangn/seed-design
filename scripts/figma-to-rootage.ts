@@ -106,7 +106,29 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
     }),
   );
 
-  const fgs = variables.filter((variable) => variable.name.startsWith("fg/"));
+  const resolveValueByMode = (
+    value: LocalVariable["valuesByMode"][keyof LocalVariable["valuesByMode"]],
+  ) => {
+    const isRGBA =
+      typeof value === "object" && "r" in value && "g" in value && "b" in value && "a" in value;
+
+    if (isRGBA) return rgbaToHex(value.r, value.g, value.b, value.a);
+
+    const isAlias = typeof value === "object" && value.type === "VARIABLE_ALIAS";
+
+    if (isAlias) {
+      const name = paletteMap.get(value.id)?.name;
+      if (!name) throw new Error(`${name} is missing palette value`);
+
+      return transformName(name);
+    }
+
+    throw new Error(`${value} has unsupported value type`);
+  };
+
+  const fgs = variables
+    .filter((variable) => variable.name.startsWith("fg/"))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const fgColors = Object.fromEntries(
     fgs.map((fg) => {
@@ -136,7 +158,9 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
     }),
   );
 
-  const bgs = variables.filter((variable) => variable.name.startsWith("bg/"));
+  const bgs = variables
+    .filter((variable) => variable.name.startsWith("bg/"))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const bgColors = Object.fromEntries(
     bgs.map((bg) => {
@@ -147,52 +171,21 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
         throw new Error(`BG ${bg.name} is missing values for light or dark mode`);
       }
 
-      // Check if values are RGBA (hex) or VariableAlias (palette reference)
-      const isLightRGBA =
-        "r" in lightValue && "g" in lightValue && "b" in lightValue && "a" in lightValue;
-      const isDarkRGBA =
-        "r" in darkValue && "g" in darkValue && "b" in darkValue && "a" in darkValue;
-
-      let lightColor: string;
-      let darkColor: string;
-
-      if (isLightRGBA) {
-        const rgba = lightValue as any;
-        lightColor = rgbaToHex(rgba.r, rgba.g, rgba.b, rgba.a);
-      } else {
-        const alias = lightValue as VariableAlias;
-        const lightName = paletteMap.get(alias.id)?.name;
-        if (!lightName) {
-          throw new Error(`BG ${bg.name} is missing palette value for light mode`);
-        }
-        lightColor = transformName(lightName);
-      }
-
-      if (isDarkRGBA) {
-        const rgba = darkValue as any;
-        darkColor = rgbaToHex(rgba.r, rgba.g, rgba.b, rgba.a);
-      } else {
-        const alias = darkValue as VariableAlias;
-        const darkName = paletteMap.get(alias.id)?.name;
-        if (!darkName) {
-          throw new Error(`BG ${bg.name} is missing palette value for dark mode`);
-        }
-        darkColor = transformName(darkName);
-      }
-
       return [
         `$color.${bg.name.split("/").join(".")}`,
         {
           values: {
-            "theme-light": lightColor,
-            "theme-dark": darkColor,
+            "theme-light": resolveValueByMode(lightValue),
+            "theme-dark": resolveValueByMode(darkValue),
           },
         },
       ];
     }),
   );
 
-  const strokes = variables.filter((variable) => variable.name.startsWith("stroke/"));
+  const strokes = variables
+    .filter((variable) => variable.name.startsWith("stroke/"))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const strokeColors = Object.fromEntries(
     strokes.map((stroke) => {
@@ -222,7 +215,9 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
     }),
   );
 
-  const mannerTemps = variables.filter((variable) => variable.name.startsWith("manner-temp/"));
+  const mannerTemps = variables
+    .filter((variable) => variable.name.startsWith("manner-temp/"))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const mannerTempColors = Object.fromEntries(
     mannerTemps.map((mannerTemp) => {
@@ -235,6 +230,31 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
 
       return [
         transformName(mannerTemp.name),
+        {
+          values: {
+            "theme-light": rgbaToHex(lightValue.r, lightValue.g, lightValue.b, lightValue.a),
+            "theme-dark": rgbaToHex(darkValue.r, darkValue.g, darkValue.b, darkValue.a),
+          },
+        },
+      ];
+    }),
+  );
+
+  const bannerBgs = variables
+    .filter((variable) => variable.name.startsWith("banner/"))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const bannerBgColors = Object.fromEntries(
+    bannerBgs.map((bannerBg) => {
+      const lightValue = bannerBg.valuesByMode["1928:7"] as RGBA;
+      const darkValue = bannerBg.valuesByMode["1928:8"] as RGBA;
+
+      if (!lightValue || !darkValue) {
+        throw new Error(`Palette ${bannerBg.name} is missing values for light or dark mode`);
+      }
+
+      return [
+        transformName(bannerBg.name),
         {
           values: {
             "theme-light": rgbaToHex(lightValue.r, lightValue.g, lightValue.b, lightValue.a),
@@ -260,6 +280,7 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
         ...bgColors,
         ...strokeColors,
         ...mannerTempColors,
+        ...bannerBgColors,
       },
     },
   });
@@ -277,21 +298,7 @@ if (!fs.existsSync(path.dirname(writePath))) {
 fs.writeFileSync(
   writePath,
   getColorRootageTokens(
-    figmaVariables
-      .filter((variable) => !variable.remote && !variable.deletedButReferenced)
-      .sort((a, b) => {
-        const aParts = a.name.split("-");
-        const bParts = b.name.split("-");
-        const aName = aParts.slice(0, -1).join("-");
-        const bName = bParts.slice(0, -1).join("-");
-        const aIndex = Number(aParts[aParts.length - 1]);
-        const bIndex = Number(bParts[bParts.length - 1]);
-        if (aName === bName) {
-          return aIndex - bIndex;
-        }
-
-        return aName.localeCompare(bName);
-      }),
+    figmaVariables.filter((variable) => !variable.remote && !variable.deletedButReferenced),
   ),
 );
 
@@ -539,28 +546,30 @@ async function generateGradientTokensFromStyles(): Promise<string> {
 
   // 토큰 생성
   const tokens = Object.fromEntries(
-    Array.from(groupedStyles.entries()).map(([typeName, data]) => [
-      `$gradient.${cleanTokenName(typeName)}`,
-      {
-        description: data.description,
-        values: {
-          "theme-light": {
-            type: "gradient",
-            value: data.gradientStops.map((stop) => ({
-              color: resolveStopColor(stop, "light", variableColorMap),
-              position: roundPosition(stop.position),
-            })),
-          },
-          "theme-dark": {
-            type: "gradient",
-            value: data.gradientStops.map((stop) => ({
-              color: resolveStopColor(stop, "dark", variableColorMap),
-              position: roundPosition(stop.position),
-            })),
+    Array.from(groupedStyles.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([typeName, data]) => [
+        `$gradient.${cleanTokenName(typeName)}`,
+        {
+          description: data.description,
+          values: {
+            "theme-light": {
+              type: "gradient",
+              value: data.gradientStops.map((stop) => ({
+                color: resolveStopColor(stop, "light", variableColorMap),
+                position: roundPosition(stop.position),
+              })),
+            },
+            "theme-dark": {
+              type: "gradient",
+              value: data.gradientStops.map((stop) => ({
+                color: resolveStopColor(stop, "dark", variableColorMap),
+                position: roundPosition(stop.position),
+              })),
+            },
           },
         },
-      },
-    ]),
+      ]),
   );
 
   return YAML.stringify({

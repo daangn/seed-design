@@ -1,5 +1,56 @@
 # @seed-design/figma
 
+## 1.1.19
+
+### Patch Changes
+
+- Updated dependencies [6697fbe]
+  - @seed-design/css@1.1.19
+
+## 1.1.18
+
+### Patch Changes
+
+- e92892a: 아이콘 정보를 업데이트합니다.
+
+## 1.1.17
+
+### Patch Changes
+
+- Updated dependencies [db49a84]
+- Updated dependencies [6fab0e7]
+- Updated dependencies [5faef3a]
+- Updated dependencies [50ee0a6]
+- Updated dependencies [94bebf8]
+- Updated dependencies [8495fae]
+  - @seed-design/css@1.1.17
+
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies [2f29fe8]
+- Updated dependencies [9119723]
+- Updated dependencies [6d30b72]
+- Updated dependencies [10c0765]
+- Updated dependencies [5e462db]
+  - @seed-design/css@1.1.16
+
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [76acd7e]
+- Updated dependencies [7a428ec]
+- Updated dependencies [498a9e7]
+  - @seed-design/css@1.1.15
+
+## 1.1.14
+
+### Patch Changes
+
+- c1f818f: Figma Codegen & MCP에서 `boxShadow` 코드 생성을 지원하고 엔티티 정보를 최신화합니다.
+
 ## 1.1.13
 
 ### Patch Changes

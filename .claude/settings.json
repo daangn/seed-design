@@ -1,17 +1,56 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.command' | grep -qE '^(npm|pnpm|yarn)\\s|\\s(npm|pnpm|yarn)\\s|;\\s*(npm|pnpm|yarn)\\s' && { echo '⚠️ Use `bun` instead of npm/pnpm/yarn in this project.' >&2; exit 2; } || exit 0"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath' | xargs bun biome format --write"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-edit-tasks.sh"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
-        "type": "command",
-        "command": "bash .claude/hooks/skill-activation-prompt.sh",
-        "timeout": 3000
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/skill-activation-prompt.sh",
+            "timeout": 3000
+          }
+        ]
       }
     ],
     "Stop": [
       {
-        "type": "command",
-        "command": "bash .claude/hooks/validation-reminder.sh",
-        "timeout": 2000
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/validation-reminder.sh",
+            "timeout": 2000
+          }
+        ]
       }
     ]
   }

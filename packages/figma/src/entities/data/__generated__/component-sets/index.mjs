@@ -1,24 +1,3 @@
-export const templateBannerDetach = {
-  "name": "templateBannerDetach",
-  "key": "b9670e4d68d2b1057f28916728a845dc9c160c0f",
-  "componentPropertyDefinitions": {
-    "Layout": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Title + Description",
-        "Description + Title"
-      ]
-    },
-    "Rounded": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "True",
-        "False"
-      ]
-    }
-  }
-};
-
 export const templateButtonGroup = {
   "name": "templateButtonGroup",
   "key": "29109a34197f2eb5d390b1d9ebba270979a7b302",
@@ -106,95 +85,38 @@ export const templateCustomPickerField = {
   }
 };
 
-export const templateResultSection = {
-  "name": "templateResultSection",
-  "key": "fabd52c41c63d921e37e0a1de373e4df2b496f30",
+export const templateDisclaimer = {
+  "name": "templateDisclaimer",
+  "key": "e08d2594b76c6c0107e34c0071cab8ef844c8998",
   "componentPropertyDefinitions": {
-    "Title#16237:0": {
-      "type": "TEXT"
-    },
-    "Description#16237:5": {
-      "type": "TEXT"
-    },
-    "Asset Type#45154:9": {
-      "type": "INSTANCE_SWAP",
-      "preferredValues": [
-        {
-          "type": "COMPONENT",
-          "key": "3f2ed06bd34fbaf24d371cefa973e09e2c2572bf"
-        },
-        {
-          "type": "COMPONENT",
-          "key": "bf1ad3ad5c45a2e94fd800f7f6ecbe52ba0667ab"
-        },
-        {
-          "type": "COMPONENT",
-          "key": "d357dcf0fbff80f3bfa70fe4fd5d48a9bddd1b49"
-        },
-        {
-          "type": "COMPONENT",
-          "key": "a53df434b562c1eeb04dab9abd88431989c5fc33"
-        },
-        {
-          "type": "COMPONENT",
-          "key": "5e53811a1e1444deccb5147b6a57196a3be467c9"
-        },
-        {
-          "type": "COMPONENT",
-          "key": "3ff3999d2d2bbed2c7656210793d4f083901f73b"
-        },
-        {
-          "type": "COMPONENT",
-          "key": "56fcf964b7784ca83eaf6c9b1531de6150d23a0d"
-        },
-        {
-          "type": "COMPONENT",
-          "key": "5652618ddd66c844ab977d083d0dc41cb98f98ae"
-        }
-      ]
-    },
-    "Show Asset#45154:14": {
-      "type": "BOOLEAN"
-    },
-    "Show Buttons#53435:0": {
-      "type": "BOOLEAN"
-    },
-    "ㄴShow First Button#53766:0": {
-      "type": "BOOLEAN"
-    },
-    "ㄴShow Second Button#53766:3": {
+    "Show Title#54910:2": {
       "type": "BOOLEAN"
     },
     "Size": {
       "type": "VARIANT",
       "variantOptions": [
-        "Large",
-        "Medium"
+        "t4(14pt)",
+        "t5(16pt)"
       ]
     }
   }
 };
 
-export const templateSelectBoxGroup = {
-  "name": "templateSelectBoxGroup",
-  "key": "a3d58bb8540600878742cdcf2608a4b3851667ec",
+export const templateResultPage = {
+  "name": "templateResultPage",
+  "key": "4cc94782abbe7e58f0401c29ad8880a62e512ae7",
   "componentPropertyDefinitions": {
-    "Control": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Checkbox",
-        "Radio"
-      ]
+    "Show Top Navigation#58717:0": {
+      "type": "BOOLEAN"
     },
-    "Item Count": {
+    "Show Bottom Action Bar#59845:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Bottom Action Bar": {
       "type": "VARIANT",
       "variantOptions": [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6"
+        "True",
+        "False"
       ]
     }
   }
@@ -962,6 +884,165 @@ export const helpBubble = {
   }
 };
 
+export const imageFrame = {
+  "name": "imageFrame",
+  "key": "b12f0bdeb6c6a61e0d50fe7e0dfae8ecd323f0aa",
+  "componentPropertyDefinitions": {
+    "Has Image Contents#29729:0": {
+      "type": "BOOLEAN"
+    },
+    "Left Top#58686:0": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "00da9dcf0cc4e408d2e36da56d0701dce6cee6b0"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "0135e13dd2ded277e5d024f2d9ccc37f9aa7cf38"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "146925b01e772269f042df51f8d2cd5b4e492111"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "a711c13770db66a6a9d8dfec9205b301fb4abf4d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "4907a3a324539a374a81c8255ac8ae2fc6769622"
+        }
+      ]
+    },
+    "Show Overlay#58686:33": {
+      "type": "BOOLEAN"
+    },
+    "Right Top#58686:66": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "a711c13770db66a6a9d8dfec9205b301fb4abf4d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "00da9dcf0cc4e408d2e36da56d0701dce6cee6b0"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "0135e13dd2ded277e5d024f2d9ccc37f9aa7cf38"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "146925b01e772269f042df51f8d2cd5b4e492111"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "4907a3a324539a374a81c8255ac8ae2fc6769622"
+        }
+      ]
+    },
+    "Left Bottom#58686:99": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "00da9dcf0cc4e408d2e36da56d0701dce6cee6b0"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "0135e13dd2ded277e5d024f2d9ccc37f9aa7cf38"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "146925b01e772269f042df51f8d2cd5b4e492111"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "a711c13770db66a6a9d8dfec9205b301fb4abf4d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "4907a3a324539a374a81c8255ac8ae2fc6769622"
+        }
+      ]
+    },
+    "Right Bottom#58686:132": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "a711c13770db66a6a9d8dfec9205b301fb4abf4d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "00da9dcf0cc4e408d2e36da56d0701dce6cee6b0"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "0135e13dd2ded277e5d024f2d9ccc37f9aa7cf38"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "146925b01e772269f042df51f8d2cd5b4e492111"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "4907a3a324539a374a81c8255ac8ae2fc6769622"
+        }
+      ]
+    },
+    "ㄴ Left Top#58686:165": {
+      "type": "BOOLEAN"
+    },
+    "ㄴ Right Top#58686:198": {
+      "type": "BOOLEAN"
+    },
+    "ㄴ Left Bottom#58686:231": {
+      "type": "BOOLEAN"
+    },
+    "ㄴ Right Bottom#58686:264": {
+      "type": "BOOLEAN"
+    },
+    "Ratio": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1:1",
+        "2:1",
+        "16:9",
+        "4:3",
+        "6:7",
+        "4:5",
+        "2:3"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "20",
+        "24",
+        "36",
+        "42",
+        "48",
+        "64",
+        "80",
+        "96",
+        "120",
+        "\bFree"
+      ]
+    },
+    "Rounded": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    }
+  }
+};
+
 export const listHeader = {
   "name": "listHeader",
   "key": "609f93ed0608ef0a6d9a351e47595ad631bae0fa",
@@ -1212,17 +1293,16 @@ export const menuSheet = {
     "Menu Group Count": {
       "type": "VARIANT",
       "variantOptions": [
+        "1",
         "2",
-        "3",
-        "1"
+        "3"
       ]
     },
     "Layout": {
       "type": "VARIANT",
       "variantOptions": [
         "Text Only",
-        "Text with Icon",
-        "Text with Subtext"
+        "Text with Icon"
       ]
     }
   }
@@ -1246,10 +1326,10 @@ export const pageBanner = {
       "type": "VARIANT",
       "variantOptions": [
         "Display",
+        "Display (With Action)",
         "Actionable",
         "Dismissible",
-        "With Action",
-        "Custom"
+        "Actionable (Custom)"
       ]
     },
     "Tone": {
@@ -1359,8 +1439,8 @@ export const radio = {
   }
 };
 
-export const radioMark = {
-  "name": "radioMark",
+export const radiomark = {
+  "name": "radiomark",
   "key": "832d696d6e9566610968cd70f128f500ec009d6a",
   "componentPropertyDefinitions": {
     "Size": {
@@ -1476,6 +1556,75 @@ export const resizableChild = {
   }
 };
 
+export const resultSection = {
+  "name": "resultSection",
+  "key": "fabd52c41c63d921e37e0a1de373e4df2b496f30",
+  "componentPropertyDefinitions": {
+    "Title#16237:0": {
+      "type": "TEXT"
+    },
+    "Description#16237:5": {
+      "type": "TEXT"
+    },
+    "Asset Type#45154:9": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "3f2ed06bd34fbaf24d371cefa973e09e2c2572bf"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "bf1ad3ad5c45a2e94fd800f7f6ecbe52ba0667ab"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "d357dcf0fbff80f3bfa70fe4fd5d48a9bddd1b49"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "a53df434b562c1eeb04dab9abd88431989c5fc33"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "5e53811a1e1444deccb5147b6a57196a3be467c9"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "3ff3999d2d2bbed2c7656210793d4f083901f73b"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "56fcf964b7784ca83eaf6c9b1531de6150d23a0d"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "5652618ddd66c844ab977d083d0dc41cb98f98ae"
+        }
+      ]
+    },
+    "Show Asset#45154:14": {
+      "type": "BOOLEAN"
+    },
+    "Show Buttons#53435:0": {
+      "type": "BOOLEAN"
+    },
+    "ㄴShow First Button#53766:0": {
+      "type": "BOOLEAN"
+    },
+    "ㄴShow Second Button#53766:3": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
+    }
+  }
+};
+
 export const rootTopNavigationGlobal = {
   "name": "rootTopNavigationGlobal",
   "key": "a694a1da14a5c1d7d5c66bc78218c0c61fb388ab",
@@ -1531,43 +1680,6 @@ export const segmentedControl = {
         "2",
         "3",
         "4"
-      ]
-    }
-  }
-};
-
-export const selectBox = {
-  "name": "selectBox",
-  "key": "38722ffeb4c966256a709155e8ddac50c93d7c60",
-  "componentPropertyDefinitions": {
-    "Show Description#3033:0": {
-      "type": "BOOLEAN"
-    },
-    "Description #3033:5": {
-      "type": "TEXT"
-    },
-    "Label#3635:0": {
-      "type": "TEXT"
-    },
-    "Control": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Checkbox",
-        "Radio"
-      ]
-    },
-    "Selected": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "True",
-        "False"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Pressed"
       ]
     }
   }
@@ -1717,8 +1829,8 @@ export const _switch = {
   }
 };
 
-export const switchMark = {
-  "name": "switchMark",
+export const switchmark = {
+  "name": "switchmark",
   "key": "bc53f269089e02a1d241e2a21ac7631bfa49834e",
   "componentPropertyDefinitions": {
     "Size": {

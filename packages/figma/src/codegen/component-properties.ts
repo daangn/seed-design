@@ -309,8 +309,8 @@ export type RadioProperties = InferComponentDefinition<
   typeof sets.radio.componentPropertyDefinitions
 >;
 
-export type RadioMarkProperties = InferComponentDefinition<
-  typeof sets.radioMark.componentPropertyDefinitions
+export type RadiomarkProperties = InferComponentDefinition<
+  typeof sets.radiomark.componentPropertyDefinitions
 >;
 
 export type ReactionButtonProperties = InferComponentDefinition<
@@ -318,7 +318,7 @@ export type ReactionButtonProperties = InferComponentDefinition<
 >;
 
 export type ResultSectionProperties = InferComponentDefinition<
-  typeof sets.templateResultSection.componentPropertyDefinitions
+  typeof sets.resultSection.componentPropertyDefinitions
 >;
 
 export type SegmentedControlProperties = InferComponentDefinition<
@@ -376,14 +376,6 @@ export type SwitchmarkProperties = InferComponentDefinition<
 
 export type ToggleButtonProperties = InferComponentDefinition<
   typeof sets.toggleButton.componentPropertyDefinitions
->;
-
-export type SelectBoxGroupProperties = InferComponentDefinition<
-  typeof sets.templateSelectBoxGroup.componentPropertyDefinitions
->;
-
-export type SelectBoxProperties = InferComponentDefinition<
-  typeof sets.selectBox.componentPropertyDefinitions
 >;
 
 export type AppBarProperties = InferComponentDefinition<
@@ -980,5 +972,40 @@ export type LegacyMultilineTextFieldProperties = InferComponentDefinition<{
   Filled: {
     type: "VARIANT";
     variantOptions: ["True", "False"];
+  };
+}>;
+
+export type LegacySelectBoxProperties = InferComponentDefinition<{
+  "Show Description#3033:0": {
+    type: "BOOLEAN";
+  };
+  "Description #3033:5": {
+    type: "TEXT";
+  };
+  "Label#3635:0": {
+    type: "TEXT";
+  };
+  Control: {
+    type: "VARIANT";
+    variantOptions: ["Checkbox", "Radio"];
+  };
+  Selected: {
+    type: "VARIANT";
+    variantOptions: ["True", "False"];
+  };
+  State: {
+    type: "VARIANT";
+    variantOptions: ["Enabled", "Pressed"];
+  };
+}>;
+
+export type LegacySelectBoxGroupProperties = InferComponentDefinition<{
+  Control: {
+    type: "VARIANT";
+    variantOptions: ["Checkbox", "Radio"];
+  };
+  "Item Count": {
+    type: "VARIANT";
+    variantOptions: ["1", "2", "3", "4", "5", "6"];
   };
 }>;

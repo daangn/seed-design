@@ -1,24 +1,4 @@
-import { reactSource, source, breezeSource, lynxSource } from "@/app/source";
-import clsx from "clsx";
-import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
-import { Atom, File, Package } from "lucide-react";
-import type { PropsWithChildren } from "react";
-
-function SidebarTabIconContainer({
-  children,
-  className,
-}: PropsWithChildren<{ className?: string }>) {
-  return (
-    <div
-      className={clsx(
-        className,
-        "[&_svg]:size-full rounded-lg size-full text-(--tab-color) max-md:bg-(--tab-color)/10 max-md:border max-md:p-1.5",
-      )}
-    >
-      {children}
-    </div>
-  );
-}
+import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
 
 /**
  * Shared layout configurations
@@ -31,49 +11,16 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   githubUrl: "https://github.com/daangn/seed-design",
   sidebar: {
     tabs: [
-      {
-        title: "Docs",
-        description: "당근 앱을 위한 디자인 언어",
-        url: "/docs",
-        icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--design-color)]">
-            <File />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
-        title: "React",
-        description: "React 라이브러리",
-        url: "/react",
-        icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--react-color)]">
-            <Atom />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
-        title: "Lynx",
-        description: "Lynx 프레임워크",
-        url: "/lynx",
-        icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--lynx-color)]">
-            <Package />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
-        title: "Breeze",
-        description: "유용한 UI 유틸리티 컴포넌트",
-        url: "/breeze",
-        icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--breeze-color)]">
-            <Atom />
-          </SidebarTabIconContainer>
-        ),
-      },
+      { title: "Docs", url: "/docs" },
+      { title: "React", url: "/react" },
+      { title: "Lynx", url: "/lynx" },
+      { title: "AI Integration", url: "/ai-integration" },
+      { title: "Breeze", url: "/breeze" },
     ],
   },
+  tabMode: "navbar",
   nav: {
+    mode: "top",
     title: (
       <div className="flex gap-2 justify-center items-center">
         <svg
@@ -96,34 +43,43 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   },
 };
 
-export const docsOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await source.getTransformedPageTree(),
-};
+// Lazy option getters - only load section data when needed
+export async function getDocsOptions(): Promise<DocsLayoutProps> {
+  const { getDocsPageTree } = await import("./sources/docs-source");
+  return {
+    ...baseOptions,
+    tree: await getDocsPageTree(),
+  };
+}
 
-export const reactOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await reactSource.getTransformedReactPageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
-};
+export async function getReactOptions(): Promise<DocsLayoutProps> {
+  const { getReactPageTree } = await import("./sources/react-source");
+  return {
+    ...baseOptions,
+    tree: await getReactPageTree(),
+  };
+}
 
-export const lynxOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await lynxSource.getTransformedLynxPageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
-};
+export async function getLynxOptions(): Promise<DocsLayoutProps> {
+  const { getLynxPageTree } = await import("./sources/lynx-source");
+  return {
+    ...baseOptions,
+    tree: await getLynxPageTree(),
+  };
+}
 
-export const breezeOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await breezeSource.getTransformedBreezePageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
-};
+export async function getBreezeOptions(): Promise<DocsLayoutProps> {
+  const { getBreezePageTree } = await import("./sources/breeze-source");
+  return {
+    ...baseOptions,
+    tree: await getBreezePageTree(),
+  };
+}
+
+export async function getAiIntegrationOptions(): Promise<DocsLayoutProps> {
+  const { getAiIntegrationPageTree } = await import("./sources/ai-integration-source");
+  return {
+    ...baseOptions,
+    tree: await getAiIntegrationPageTree(),
+  };
+}

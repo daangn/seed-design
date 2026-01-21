@@ -13,6 +13,9 @@
           "properties": {
             "width": {
               "type": "dimension"
+            },
+            "color": {
+              "type": "color"
             }
           }
         }

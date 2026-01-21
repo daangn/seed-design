@@ -10,6 +10,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 브랜드 컬러로 강조된 스타일입니다.
+   */
   "variantBrandSolid": {
     "enabled": {
       "root": {
@@ -82,6 +85,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 기본적인 토글 스타일입니다.
+   */
   "variantNeutralWeak": {
     "enabled": {
       "root": {

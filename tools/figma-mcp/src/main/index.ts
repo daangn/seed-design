@@ -2,6 +2,7 @@
 // It handles Figma API commands
 
 import { handleCommand } from "./command-handler";
+import { posthog } from "./posthog";
 
 // Plugin state
 const state = {
@@ -72,6 +73,17 @@ function updateSettings(settings: PluginSettings): void {
     if (savedSettings) {
       updateSettings(savedSettings);
     }
+
+    posthog.capture({
+      event: "plugin_open",
+      properties: {
+        fileName: figma.root.name,
+        fileKey: figma.fileKey,
+
+        username: figma.currentUser?.name,
+        userId: figma.currentUser?.id,
+      },
+    });
   } catch (error) {
     console.error("Error loading settings:", error);
   }

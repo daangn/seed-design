@@ -14,14 +14,17 @@
     "dev": "concurrently \"bun run watch:ui\" \"bun run watch:main\"",
     "lint": "biome check .",
     "preview": "vite preview",
-    "extract": "bun figma-extractor src/main/data/__generated__/v3-component-sets component-sets"
+    "extract": "bun figma-extractor src/main/data/__generated__/v3-component-sets component-sets",
+    "typecheck": "bun run typecheck:main && bun run typecheck:ui",
+    "typecheck:main": "tsc --noEmit -p tsconfig.main.json",
+    "typecheck:ui": "tsc --noEmit -p tsconfig.ui.json"
   },
   "dependencies": {
     "@figmazing/event": "0.0.1",
     "@karrotmarket/react-monochrome-icon": "^1.8.0",
-    "@seed-design/css": "^1.1.13",
+    "@seed-design/css": "^1.1.19",
     "@seed-design/migration-index": "^1.0.0",
-    "@seed-design/react": "^1.1.13",
+    "@seed-design/react": "^1.1.17",
     "@seed-design/vite-plugin": "^1.1.0",
     "color-delta-e": "^1.3.0",
     "normalize.css": "^8.0.1",
@@ -32,7 +35,7 @@
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
     "@seed-design/figma-extractor": "^1.0.0",
-    "@types/node": "^24.0.0",
+    "@types/node": "^25.0.0",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "@vitejs/plugin-react": "^5.0.0",

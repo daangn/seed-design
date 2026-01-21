@@ -58,6 +58,13 @@ data:
             type: dimension
           thickness:
             type: dimension
+    variants:
+      variant:
+        values:
+          brandSolid:
+            description: 브랜드 컬러로 강조된 스타일입니다.
+          neutralWeak:
+            description: 기본적인 토글 스타일입니다.
   definitions:
     base:
       enabled:

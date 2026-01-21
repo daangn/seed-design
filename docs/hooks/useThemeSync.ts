@@ -24,5 +24,9 @@ export const useThemeSync = () => {
       attributes: true,
       attributeFilter: ["style"],
     });
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 };

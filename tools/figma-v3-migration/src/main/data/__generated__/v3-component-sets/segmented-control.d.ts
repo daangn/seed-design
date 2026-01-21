@@ -10,16 +10,6 @@ export declare const metadata: {
         "3",
         "4"
       ]
-    },
-    "Selected Item": {
-      "type": "VARIANT",
-      "defaultValue": "1",
-      "variantOptions": [
-        "1",
-        "2",
-        "3",
-        "4"
-      ]
     }
   }
 };

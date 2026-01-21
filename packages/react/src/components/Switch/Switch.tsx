@@ -1,6 +1,6 @@
 import { Switch as SwitchPrimitive, useSwitchContext } from "@seed-design/react-switch";
 import { switchStyle, type SwitchVariantProps } from "@seed-design/css/recipes/switch";
-import { switchmark, type SwitchmarkVariantProps } from "@seed-design/css/recipes/switchmark";
+import { switchMark, type SwitchMarkVariantProps } from "@seed-design/css/recipes/switch-mark";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
@@ -13,7 +13,7 @@ const {
   withContext: withControlContext,
   PropsProvider: ControlPropsProvider,
   withProvider: withControlProvider,
-} = createSlotRecipeContext(switchmark);
+} = createSlotRecipeContext(switchMark);
 const withStateProps = createWithStateProps([useSwitchContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -25,27 +25,36 @@ type SwitchVariantDeprecatedSizeProps = "small" | "medium";
 
 export interface SwitchRootProps
   extends Omit<SwitchVariantProps, "size">,
-    Omit<SwitchmarkVariantProps, "size">,
+    Omit<SwitchMarkVariantProps, "size">,
     SwitchPrimitive.RootProps {
   size?: SwitchVariantProps["size"] | SwitchVariantDeprecatedSizeProps;
 }
 
 export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
   ({ className, ...props }, ref) => {
-    const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, otherProps] =
+    if (
+      process.env.NODE_ENV !== "production" &&
+      (props.size === "small" || props.size === "medium")
+    ) {
+      console.warn(
+        `[SEED Design System] Switch size='${props.size}' is deprecated and will be removed in @seed-design/react@1.3.0. Use size='${props.size === "small" ? "16" : "32"}' instead.`,
+      );
+    }
+
+    const [{ switch: switchVariantProps, switchMark: switchMarkVariantProps }, otherProps] =
       splitMultipleVariantsProps(
         {
           ...props,
           // TODO: replace this mapping completely
           size: props.size === "small" ? "16" : props.size === "medium" ? "32" : props.size,
         },
-        { switchmark, switch: switchStyle },
+        { switchMark, switch: switchStyle },
       );
 
     const classNames = switchStyle(switchVariantProps);
 
     return (
-      <ControlPropsProvider value={switchmarkVariantProps}>
+      <ControlPropsProvider value={switchMarkVariantProps}>
         <ClassNamesProvider value={classNames}>
           <SwitchPrimitive.Root
             ref={ref}
@@ -61,7 +70,7 @@ SwitchRoot.displayName = "SwitchRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchControlProps extends SwitchmarkVariantProps, SwitchPrimitive.ControlProps {}
+export interface SwitchControlProps extends SwitchMarkVariantProps, SwitchPrimitive.ControlProps {}
 
 export const SwitchControl = withControlProvider<HTMLDivElement, SwitchControlProps>(
   SwitchPrimitive.Control,

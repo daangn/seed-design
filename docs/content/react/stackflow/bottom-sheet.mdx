@@ -68,7 +68,37 @@ const ActivityBottomSheetSimple: ActivityComponentType<"ActivityBottomSheetSimpl
 1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Bottom Sheet가 열리도록 합니다.
 1. `onOpenChange`를 통해 Bottom Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
 1. `layerIndex={useActivityZIndexBase()}`로 Bottom Sheet Activity의 z-index 기준점을 전달합니다.
-    - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+
+- [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+
+#### Keeping Bottom Sheet Mounted
+
+Bottom Sheet Activity 위에 다른 Activity를 push할 때 Bottom Sheet가 unmount되는 것을 방지하려면,
+
+- `open` 상태를 `isActive` 대신 `transitionState`로 관리하고
+- `onOpenChange` 핸들러에서 `!isOpen && isActive`인 경우 `pop()`을 실행하도록 합니다.
+
+이 패턴은 다음 상황에서 유용합니다.
+
+- Bottom Sheet 액티비티 위에 다른 오버레이 컴포넌트 액티비티를 중첩하여 표시하고 싶은 경우
+- 하위 Bottom Sheet 액티비티 내부에 존재하는 Uncontrolled 폼 요소의 상태를 유지하고 싶은 경우
+
+```tsx
+const { isActive, transitionState } = useActivity();
+
+return (
+  <BottomSheetRoot
+    open={
+      // [!code highlight]
+      transitionState === "enter-active" || transitionState === "enter-done"
+    }
+    // [!code highlight]
+    onOpenChange={(open) => !open && isActive && pop()}
+  >
+    {/* ... */}
+  </BottomSheetRoot>
+);
+```
 
 ## Syncing BottomSheet State with a Step
 
@@ -82,7 +112,7 @@ Bottom Sheet를 Activity로 만들 수 없는 경우, Bottom Sheet가 표시된 
 **Activity로 만들지 않은 Bottom Sheet에서 다른 Activity를 push하기 전, z-index 문제를 방지하기 위해 Bottom Sheet를 닫으세요.**
 
 Bottom Sheet를 닫을 수 없거나, Bottom Sheet를 연 Activity로 돌아왔을 때 Bottom Sheet가 열린 상태를 유지해야 하는 경우 [Bottom Sheet를 Activity로](#making-a-bottom-sheet-activity) 만들어 사용하는 것을 권장합니다.
-  
+
 Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요소 중 일부가 상위 AppScreen 요소보다 위에 위치합니다. 이 제약으로 인해, 열린 상태의 Bottom Sheet는 독립적인 Activity로 만들지 않는 경우 하위 Activity와 상위 Activity 사이에 위치시키는 것이 불가능합니다.
 
 </Callout>
@@ -103,7 +133,13 @@ Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요�
 ```tsx
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { Portal } from "@seed-design/react";
-import { useActivity, useActivityParams, useFlow, useStepFlow, type ActivityComponentType } from "@stackflow/react/future";
+import {
+  useActivity,
+  useActivityParams,
+  useFlow,
+  useStepFlow,
+  type ActivityComponentType,
+} from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 // ... more imports
 
@@ -176,7 +212,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
               </HStack>
             </BottomSheetFooter>
           </BottomSheetContent>
-        {/* [!code highlight] */}
+          {/* [!code highlight] */}
         </Portal>
       </BottomSheetRoot>
     </AppScreen>
@@ -188,7 +224,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 1. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
 1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Bottom Sheet의 `open` 상태를 동기화합니다.
 1. `layerIndex={useActivityZIndexBase({ activityOffset: 1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
-    - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+   - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
 
 ### `useStepOverlay`
 
@@ -235,7 +271,7 @@ const MyActivity: ActivityComponentType = () => {
               </HStack>
             </BottomSheetFooter>
           </BottomSheetContent>
-        {/* [!code highlight] */}
+          {/* [!code highlight] */}
         </Portal>
       </BottomSheetRoot>
     </AppScreen>

@@ -9,6 +9,7 @@ import type {
   SpacingY,
   Gradient,
   Shadow,
+  ScopedColorBanner,
 } from "@seed-design/css/vars";
 import { vars } from "@seed-design/css/vars";
 import { forwardRef } from "react";
@@ -104,7 +105,7 @@ function handleDisplay(display: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (display === "inlineFlex" || display === "inlineBlock") {
       console.warn(
-        `[SEED Design System] ${display} is deprecated. Use inline-flex or inline-block instead.`,
+        `[SEED Design System] display='${display}' is deprecated and will be removed in @seed-design/react@1.3.0. Use display='${display === "inlineFlex" ? "inline-flex" : "inline-block"}' instead.`,
       );
     }
   }
@@ -127,7 +128,7 @@ function handleFlexDirection(flexDirection: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (flexDirection === "rowReverse" || flexDirection === "columnReverse") {
       console.warn(
-        `[SEED Design System] ${flexDirection} is deprecated. Use row-reverse or column-reverse instead.`,
+        `[SEED Design System] flexDirection='${flexDirection}' is deprecated and will be removed in @seed-design/react@1.3.0. Use flexDirection='${flexDirection === "rowReverse" ? "row-reverse" : "column-reverse"}' instead.`,
       );
     }
   }
@@ -150,12 +151,12 @@ function handleJustifyContent(justifyContent: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (justifyContent === "flexStart" || justifyContent === "flexEnd") {
       console.warn(
-        `[SEED Design System] ${justifyContent} is deprecated. Use flex-start or flex-end instead.`,
+        `[SEED Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @seed-design/react@1.3.0. Use justifyContent='${justifyContent === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
       );
     }
     if (justifyContent === "spaceBetween" || justifyContent === "spaceAround") {
       console.warn(
-        `[SEED Design System] ${justifyContent} is deprecated. Use space-between or space-around instead.`,
+        `[SEED Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @seed-design/react@1.3.0. Use justifyContent='${justifyContent === "spaceBetween" ? "space-between" : "space-around"}' instead.`,
       );
     }
   }
@@ -179,7 +180,7 @@ function handleAlignItems(alignItems: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (alignItems === "flexStart" || alignItems === "flexEnd") {
       console.warn(
-        `[SEED Design System] ${alignItems} is deprecated. Use flex-start or flex-end instead.`,
+        `[SEED Design System] alignItems='${alignItems}' is deprecated and will be removed in @seed-design/react@1.3.0. Use alignItems='${alignItems === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
       );
     }
   }
@@ -198,9 +199,9 @@ export interface StyleProps {
   /**
    * Shorthand for `background`.
    */
-  bg?: ScopedColorBg | ScopedColorPalette | (string & {});
+  bg?: ScopedColorBg | ScopedColorPalette | ScopedColorBanner | (string & {});
 
-  background?: ScopedColorBg | ScopedColorPalette | (string & {});
+  background?: ScopedColorBg | ScopedColorPalette | ScopedColorBanner | (string & {});
 
   /**
    * Shorthand for `backgroundGradient`.

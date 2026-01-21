@@ -27,7 +27,7 @@ export const vars = {
   "variantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)"
+        "color": "var(--seed-color-bg-neutral-weak-alpha)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"
@@ -44,7 +44,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--seed-color-bg-neutral-weak-alpha-pressed)"
       }
     },
     "disabled": {
@@ -258,6 +258,7 @@ export const vars = {
       }
     }
   },
+  "layoutWithText": {},
   "sizeSmallLayoutIconOnly": {
     "enabled": {
       "root": {

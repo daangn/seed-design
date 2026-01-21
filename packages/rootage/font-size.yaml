@@ -36,32 +36,42 @@ data:
       values:
         default: 1.625rem # 26px ÷ 16
     $font-size.t1-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 11px
     $font-size.t2-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 12px
     $font-size.t3-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 13px
     $font-size.t4-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 14px
     $font-size.t5-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 16px
     $font-size.t6-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 18px
     $font-size.t7-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 20px
     $font-size.t8-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 22px
     $font-size.t9-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 24px
     $font-size.t10-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 26px

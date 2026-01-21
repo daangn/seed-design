@@ -1,5 +1,6 @@
+import { IconHashLine, IconTimerLine } from "@karrotmarket/react-monochrome-icon";
 import { AST } from "@seed-design/rootage-core";
-import { HourglassIcon, LayersIcon, RulerIcon, SigmaIcon, SplineIcon } from "lucide-react";
+import { IconLayers, IconRuler, IconSpline } from "./icons";
 
 // Gradient를 CSS linear-gradient로 변환하는 유틸리티 함수
 function gradientToCss(gradient: AST.GradientLit): string {
@@ -25,7 +26,7 @@ function GradientSwatch(props: { gradient: AST.GradientLit }) {
 
   return (
     <div
-      className="w-4 h-4 rounded-full"
+      className="w-4 h-4 flex-none rounded-full"
       style={{ background: gradientCss }}
       title={gradientText}
       aria-label={gradientText}
@@ -37,13 +38,18 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   const { value } = props;
 
   if (value.kind === "ColorHexLit") {
-    return <div className="w-4 h-4 rounded-full border" style={{ backgroundColor: value.value }} />;
+    return (
+      <div
+        className="w-4 h-4 flex-none rounded-full border"
+        style={{ backgroundColor: value.value }}
+      />
+    );
   }
 
   if (value.kind === "DimensionLit") {
     return (
       <div>
-        <RulerIcon className="w-4 h-4" />
+        <IconRuler className="w-4 h-4 flex-none" />
       </div>
     );
   }
@@ -51,7 +57,7 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   if (value.kind === "DurationLit") {
     return (
       <div>
-        <HourglassIcon className="w-4 h-4" />
+        <IconTimerLine className="w-4 h-4 flex-none" />
       </div>
     );
   }
@@ -59,7 +65,7 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   if (value.kind === "NumberLit") {
     return (
       <div>
-        <SigmaIcon className="w-4 h-4" />
+        <IconHashLine className="w-4 h-4 flex-none" />
       </div>
     );
   }
@@ -67,7 +73,7 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   if (value.kind === "ShadowLit") {
     return (
       <div>
-        <LayersIcon className="w-4 h-4" />
+        <IconLayers className="w-4 h-4 flex-none" />
       </div>
     );
   }
@@ -75,7 +81,7 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
   if (value.kind === "CubicBezierLit") {
     return (
       <div>
-        <SplineIcon className="w-4 h-4" />
+        <IconSpline className="w-4 h-4 flex-none" />
       </div>
     );
   }

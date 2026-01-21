@@ -112,7 +112,8 @@ export const createLegacyTextFieldHandler = (ctx: ComponentHandlerDeps) =>
       const TextFieldChildren = createLocalSnippetElement("TextFieldInput", inputProps);
 
       return createLocalSnippetElement("TextField", commonProps, TextFieldChildren, {
-        comment: "이 Figma 컴포넌트는 @seed-design/react@1.1보다 낮은 버전의 TextField입니다.",
+        comment:
+          "이 Figma 컴포넌트는 @seed-design/react@1.1보다 낮은 버전의 TextField입니다. 신규 컴포넌트로 교체할 수 있습니다.",
       });
     },
   );
@@ -190,7 +191,8 @@ export const createLegacyMultilineTextFieldHandler = (_ctx: ComponentHandlerDeps
       const TextFieldChildren = createLocalSnippetElement("TextFieldTextarea", inputProps);
 
       return createLocalSnippetElement("TextField", commonProps, TextFieldChildren, {
-        comment: "이 Figma 컴포넌트는 @seed-design/react@1.1보다 낮은 버전의 TextField입니다.",
+        comment:
+          "이 Figma 컴포넌트는 @seed-design/react@1.1보다 낮은 버전의 TextField입니다. 신규 컴포넌트로 교체할 수 있습니다.",
       });
     },
   );

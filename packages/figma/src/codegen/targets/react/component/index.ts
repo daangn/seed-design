@@ -36,11 +36,10 @@ import { createMenuSheetHandler } from "./handlers/menu-sheet";
 import { createPageBannerHandler } from "./handlers/page-banner";
 import { createProgressCircleHandler } from "./handlers/progress-circle";
 import { createRadioGroupItemHandler } from "@/codegen/targets/react/component/handlers/radio-group";
-import { createRadioMarkHandler } from "@/codegen/targets/react/component/handlers/radio-mark";
+import { createRadiomarkHandler } from "@/codegen/targets/react/component/handlers/radiomark";
 import { createReactionButtonHandler } from "./handlers/reaction-button";
 import { createResultSectionHandler } from "./handlers/result-section";
 import { createSegmentedControlHandler } from "./handlers/segmented-control";
-import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/select-box";
 import { createSkeletonHandler } from "./handlers/skeleton";
 import {
   createSliderHandler,
@@ -60,6 +59,10 @@ import {
   createLegacyTextFieldHandler,
   createLegacyMultilineTextFieldHandler,
 } from "./handlers/legacy-text-field";
+import {
+  createLegacySelectBoxHandler,
+  createLegacySelectBoxGroupHandler,
+} from "./handlers/legacy-select-box";
 
 export type { ComponentHandlerDeps };
 export type UnboundComponentHandler<T extends NormalizedInstanceNode["componentProperties"]> = (
@@ -89,7 +92,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createCheckboxHandler,
   createCheckmarkHandler,
   createRadioGroupItemHandler,
-  createRadioMarkHandler,
+  createRadiomarkHandler,
   createSwitchHandler,
   createSwitchmarkHandler,
   createAlertDialogHandler,
@@ -97,8 +100,10 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createAvatarHandler,
   createAvatarStackHandler,
   createSegmentedControlHandler,
-  createSelectBoxGroupHandler,
-  createSelectBoxHandler,
+
+  createLegacySelectBoxHandler,
+  createLegacySelectBoxGroupHandler,
+
   createSliderHandler,
   createSliderFieldHandler,
   createTabsHandler,

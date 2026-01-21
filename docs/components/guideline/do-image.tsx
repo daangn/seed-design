@@ -18,7 +18,7 @@ export function DoImage({ src, alt, body, className }: DoImageProps) {
         alt={alt}
         width={773}
         height={396}
-        className="w-full object-cover border border-bg-positive-solid rounded-r2 [&_img]:my-0"
+        className="w-full object-cover border border-bg-positive-solid rounded-r2 [&_img]:my-0 bg-palette-gray-100 dark:bg-palette-gray-900"
         loading="lazy"
         draggable={false}
       />

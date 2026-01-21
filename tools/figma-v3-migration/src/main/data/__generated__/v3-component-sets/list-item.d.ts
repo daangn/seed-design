@@ -148,8 +148,7 @@ export declare const metadata: {
       "variantOptions": [
         "Enabled",
         "Pressed",
-        "Disabled",
-        "Highlighted"
+        "Disabled"
       ]
     },
     "Variants": {
@@ -158,6 +157,14 @@ export declare const metadata: {
       "variantOptions": [
         "Single Line",
         "Multi Line"
+      ]
+    },
+    "Highlighted": {
+      "type": "VARIANT",
+      "defaultValue": "False",
+      "variantOptions": [
+        "True",
+        "False"
       ]
     }
   }

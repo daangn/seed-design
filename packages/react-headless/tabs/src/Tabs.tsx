@@ -132,8 +132,25 @@ export interface TabsCarouselProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const TabsCarousel = forwardRef<HTMLDivElement, TabsCarouselProps>((props, ref) => {
-  const { dragThreshold, loop, swipeable, autoHeight, onSettle, onSwipeStart, onSwipeEnd, ...otherProps } = props;
-  const api = useTabsCarousel({ dragThreshold, loop, swipeable, onSettle, autoHeight, onSwipeStart, onSwipeEnd });
+  const {
+    dragThreshold,
+    loop,
+    swipeable,
+    autoHeight,
+    onSettle,
+    onSwipeStart,
+    onSwipeEnd,
+    ...otherProps
+  } = props;
+  const api = useTabsCarousel({
+    dragThreshold,
+    loop,
+    swipeable,
+    onSettle,
+    autoHeight,
+    onSwipeStart,
+    onSwipeEnd,
+  });
 
   return (
     <TabsCarouselProvider value={api}>
