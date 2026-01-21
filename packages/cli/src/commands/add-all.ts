@@ -18,7 +18,7 @@ const addAllOptionsSchema = z.object({
   includeDeprecated: z.boolean().optional(),
   cwd: z.string(),
   baseUrl: z.string().optional(),
-  bypassDiff: z.boolean().optional(),
+  overwrite: z.boolean().optional(),
 });
 
 export const addAllCommand = (cli: CAC) => {
@@ -38,13 +38,9 @@ export const addAllCommand = (cli: CAC) => {
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
     )
-    .option(
-      "--bypass-diff",
-      "Bypass diff check and overwrite existing files without confirmation",
-      {
-        default: false,
-      },
-    )
+    .option("--overwrite", "Overwrite existing files without confirmation", {
+      default: false,
+    })
     .example("seed-design add-all ui --include-deprecated")
     .example("seed-design add-all ui lib breeze")
     .action(async (registryIds, opts) => {
@@ -170,7 +166,7 @@ export const addAllCommand = (cli: CAC) => {
         cwd,
         baseUrl,
         config,
-        bypassDiff: options.bypassDiff,
+        overwrite: options.overwrite,
       });
 
       try {

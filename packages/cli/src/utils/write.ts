@@ -15,14 +15,14 @@ export async function writeRegistryItemSnippets({
   cwd,
   baseUrl,
   config,
-  bypassDiff = false,
+  overwrite = false,
 }: {
   registryItemsToAdd: { registryId: string; items: PublicRegistry["items"] }[];
   rootPath: string;
   cwd: string;
   baseUrl: string;
   config: Config;
-  bypassDiff?: boolean;
+  overwrite?: boolean;
 }) {
   const registryResult: { name: string; path: string }[] = [];
 
@@ -75,7 +75,7 @@ export async function writeRegistryItemSnippets({
           }
 
           // diff가 있는 경우
-          if (!bypassDiff) {
+          if (!overwrite) {
             // diff 생성 및 색상 적용
             const patch = createPatch(relativePath, existingContent, content);
             const coloredDiff = colorize(patch);
