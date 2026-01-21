@@ -1,5 +1,5 @@
 import { getGitHubSourceUrl } from "@/app/_llms/config";
-import { getReactSource } from "@/app/sources/react-source";
+import { reactSource } from "@/app/source";
 import { mdxComponents } from "@/components/mdx-components";
 import { LLMCopyButton, ViewOptions } from "@/components/page-actions";
 import { getComponentStatus } from "@/components/rootage";
@@ -9,7 +9,6 @@ import { notFound } from "next/navigation";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
-  const reactSource = await getReactSource();
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
@@ -54,13 +53,13 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 }
 
 export async function generateStaticParams() {
-  const reactSource = await getReactSource();
   return reactSource.generateParams();
 }
 
-export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
+export async function generateMetadata(props: {
+  params: Promise<{ slug?: string[] }>;
+}): Promise<Metadata> {
   const params = await props.params;
-  const reactSource = await getReactSource();
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
