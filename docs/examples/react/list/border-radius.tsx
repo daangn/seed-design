@@ -1,7 +1,7 @@
 import { List, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
 import { Checkmark } from "seed-design/ui/checkbox";
-import { RadioMark } from "seed-design/ui/radio-group";
+import { Radiomark } from "seed-design/ui/radio-group";
 import { HStack, VStack } from "@seed-design/react";
 import { RadioGroup } from "@seed-design/react/primitive";
 
@@ -53,12 +53,12 @@ export default function ListBorderRadius() {
             <ListRadioItem
               value="0"
               title="borderRadius: r3"
-              suffix={<RadioMark size="large" tone="neutral" />}
+              suffix={<Radiomark size="large" tone="neutral" />}
             />
             <ListRadioItem
               value="1"
               title="borderRadius: r3"
-              suffix={<RadioMark size="large" tone="neutral" />}
+              suffix={<Radiomark size="large" tone="neutral" />}
             />
           </RadioGroup.Root>
         </List>

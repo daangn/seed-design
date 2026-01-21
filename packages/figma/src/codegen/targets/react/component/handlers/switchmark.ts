@@ -21,6 +21,6 @@ export const createSwitchmarkHandler = (_ctx: ComponentHandlerDeps) =>
         size: props.Size.value,
       };
 
-      return createLocalSnippetElement("SwitchMark", commonProps);
+      return createLocalSnippetElement("Switchmark", commonProps);
     },
   );

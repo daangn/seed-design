@@ -1,6 +1,6 @@
 import { Switch as SwitchPrimitive, useSwitchContext } from "@seed-design/react-switch";
 import { switchStyle, type SwitchVariantProps } from "@seed-design/css/recipes/switch";
-import { switchMark, type SwitchMarkVariantProps } from "@seed-design/css/recipes/switch-mark";
+import { switchmark, type SwitchmarkVariantProps } from "@seed-design/css/recipes/switchmark";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
@@ -13,7 +13,7 @@ const {
   withContext: withControlContext,
   PropsProvider: ControlPropsProvider,
   withProvider: withControlProvider,
-} = createSlotRecipeContext(switchMark);
+} = createSlotRecipeContext(switchmark);
 const withStateProps = createWithStateProps([useSwitchContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ type SwitchVariantDeprecatedSizeProps = "small" | "medium";
 
 export interface SwitchRootProps
   extends Omit<SwitchVariantProps, "size">,
-    Omit<SwitchMarkVariantProps, "size">,
+    Omit<SwitchmarkVariantProps, "size">,
     SwitchPrimitive.RootProps {
   size?: SwitchVariantProps["size"] | SwitchVariantDeprecatedSizeProps;
 }
@@ -41,20 +41,20 @@ export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
       );
     }
 
-    const [{ switch: switchVariantProps, switchMark: switchMarkVariantProps }, otherProps] =
+    const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, otherProps] =
       splitMultipleVariantsProps(
         {
           ...props,
           // TODO: replace this mapping completely
           size: props.size === "small" ? "16" : props.size === "medium" ? "32" : props.size,
         },
-        { switchMark, switch: switchStyle },
+        { switchmark, switch: switchStyle },
       );
 
     const classNames = switchStyle(switchVariantProps);
 
     return (
-      <ControlPropsProvider value={switchMarkVariantProps}>
+      <ControlPropsProvider value={switchmarkVariantProps}>
         <ClassNamesProvider value={classNames}>
           <SwitchPrimitive.Root
             ref={ref}
@@ -70,7 +70,7 @@ SwitchRoot.displayName = "SwitchRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchControlProps extends SwitchMarkVariantProps, SwitchPrimitive.ControlProps {}
+export interface SwitchControlProps extends SwitchmarkVariantProps, SwitchPrimitive.ControlProps {}
 
 export const SwitchControl = withControlProvider<HTMLDivElement, SwitchControlProps>(
   SwitchPrimitive.Control,

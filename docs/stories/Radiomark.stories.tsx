@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { RadioMark } from "seed-design/ui/radio-group";
+import { Radiomark } from "seed-design/ui/radio-group";
 import {
   radiomark,
   radiomarkVariantMap,
@@ -17,13 +17,13 @@ function CustomRadioGroup(
     selected?: boolean;
   },
 ) {
-  const [radioMarkVariantProps, { disabled, selected, ..._otherProps }] =
+  const [radiomarkVariantProps, { disabled, selected, ..._otherProps }] =
     radiomark.splitVariantProps(props);
 
   return (
     <RadioGroup.Root disabled={disabled} value="foo">
       <RadioGroup.Item value={selected ? "foo" : "bar"}>
-        <RadioMark {...radioMarkVariantProps} />
+        <Radiomark {...radiomarkVariantProps} />
         <RadioGroup.ItemHiddenInput />
       </RadioGroup.Item>
     </RadioGroup.Root>
