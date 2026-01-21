@@ -60,13 +60,14 @@ export interface ListButtonItemProps
   suffix?: React.ReactNode;
 
   rootRef?: React.Ref<HTMLLIElement>;
+  rootProps?: React.HTMLAttributes<HTMLLIElement>;
 }
 
 /**
  * @see https://seed-design.io/react/components/list
  */
 export const ListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
-  ({ title, detail, prefix, suffix, alignItems, rootRef, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, alignItems, rootRef, rootProps, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     const stateProps = React.useMemo(
@@ -75,7 +76,7 @@ export const ListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItem
     );
 
     return (
-      <SeedList.Item ref={rootRef} alignItems={alignItems} {...variantProps}>
+      <SeedList.Item ref={rootRef} alignItems={alignItems} {...variantProps} {...rootProps}>
         {prefix && <SeedList.Prefix {...stateProps}>{prefix}</SeedList.Prefix>}
         <SeedList.Content asChild>
           <button type="button" ref={ref} {...otherProps}>
@@ -101,17 +102,18 @@ export interface ListLinkItemProps
   suffix?: React.ReactNode;
 
   rootRef?: React.Ref<HTMLLIElement>;
+  rootProps?: React.HTMLAttributes<HTMLLIElement>;
 }
 
 /**
  * @see https://seed-design.io/react/components/list
  */
 export const ListLinkItem = React.forwardRef<HTMLAnchorElement, ListLinkItemProps>(
-  ({ title, detail, prefix, suffix, alignItems, rootRef, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, alignItems, rootRef, rootProps, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     return (
-      <SeedList.Item ref={rootRef} alignItems={alignItems} {...variantProps}>
+      <SeedList.Item ref={rootRef} alignItems={alignItems} {...variantProps} {...rootProps}>
         {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
         <SeedList.Content asChild>
           <a ref={ref} {...otherProps}>
