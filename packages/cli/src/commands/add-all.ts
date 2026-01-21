@@ -18,6 +18,7 @@ const addAllOptionsSchema = z.object({
   includeDeprecated: z.boolean().optional(),
   cwd: z.string(),
   baseUrl: z.string().optional(),
+  bypassDiff: z.boolean().optional(),
 });
 
 export const addAllCommand = (cli: CAC) => {
@@ -36,6 +37,13 @@ export const addAllCommand = (cli: CAC) => {
       "-u, --baseUrl <baseUrl>",
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
+    )
+    .option(
+      "--bypass-diff",
+      "Bypass diff check and overwrite existing files without confirmation",
+      {
+        default: false,
+      },
     )
     .example("seed-design add-all ui --include-deprecated")
     .example("seed-design add-all ui lib breeze")
@@ -156,7 +164,14 @@ export const addAllCommand = (cli: CAC) => {
         publicRegistries,
       });
 
-      await writeRegistryItemSnippets({ registryItemsToAdd, rootPath, cwd, baseUrl, config });
+      await writeRegistryItemSnippets({
+        registryItemsToAdd,
+        rootPath,
+        cwd,
+        baseUrl,
+        config,
+        bypassDiff: options.bypassDiff,
+      });
 
       try {
         const { installed, filtered } = await installDependencies({

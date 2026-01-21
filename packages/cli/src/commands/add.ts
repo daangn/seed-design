@@ -20,6 +20,7 @@ const addOptionsSchema = z.object({
   all: z.boolean(),
   cwd: z.string(),
   baseUrl: z.string().optional(),
+  bypassDiff: z.boolean().optional(),
 });
 
 export const addCommand = (cli: CAC) => {
@@ -35,6 +36,13 @@ export const addCommand = (cli: CAC) => {
       "-u, --baseUrl <baseUrl>",
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
+    )
+    .option(
+      "--bypass-diff",
+      "Bypass diff check and overwrite existing files without confirmation",
+      {
+        default: false,
+      },
     )
     .example("seed-design add ui:action-button")
     .example("seed-design add ui:alert-dialog")
@@ -180,6 +188,7 @@ export const addCommand = (cli: CAC) => {
         cwd,
         baseUrl,
         config,
+        bypassDiff: options.bypassDiff,
       });
 
       try {
