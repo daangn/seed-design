@@ -1,4 +1,10 @@
-import { aiIntegrationSource, breezeSource, lynxSource, reactSource, source } from "@/app/source";
+import {
+  aiIntegrationSource,
+  breezeSource,
+  lynxSource,
+  reactSource,
+  docsSource,
+} from "@/app/source";
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
@@ -110,7 +116,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
 
 export const docsOptions: DocsLayoutProps = {
   ...baseOptions,
-  tree: await source.getTransformedPageTree(),
+  tree: await docsSource.getTransformedPageTree(),
 };
 
 export const reactOptions: DocsLayoutProps = {

@@ -25,7 +25,7 @@ function getComponentIdFromUrl(url: string): string | null {
 
 async function transformPageTreeWithBadges(
   tree: Root,
-  sourceLoader: typeof baseSource,
+  sourceLoader: typeof baseDocsSource,
 ): Promise<Root> {
   try {
     async function transformNode(node: Node): Promise<Node> {
@@ -85,7 +85,7 @@ const iconHandler = (icon: string | undefined) => {
   return <Icon />;
 };
 
-const baseSource = loader({
+const baseDocsSource = loader({
   baseUrl: "/docs",
   source: docs.toFumadocsSource(),
   icon: iconHandler,
@@ -117,7 +117,7 @@ const baseAiIntegrationSource = loader({
 
 // Transform page trees with badges
 async function getTransformedPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseSource.pageTree, baseSource);
+  return await transformPageTreeWithBadges(baseDocsSource.pageTree, baseDocsSource);
 }
 
 async function getTransformedReactPageTree(): Promise<Root> {
@@ -140,8 +140,8 @@ async function getTransformedAiIntegrationPageTree(): Promise<Root> {
 }
 
 // Export sources with lazy-loaded transformed page trees
-export const source = {
-  ...baseSource,
+export const docsSource = {
+  ...baseDocsSource,
   getTransformedPageTree,
 };
 
