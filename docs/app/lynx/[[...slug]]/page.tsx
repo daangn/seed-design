@@ -1,4 +1,4 @@
-import { getLynxSource } from "@/app/sources/lynx-source";
+import { lynxSource } from "@/app/source";
 import type { Metadata } from "next";
 import { DocsPage, DocsBody, DocsTitle, DocsDescription } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
@@ -6,7 +6,6 @@ import { mdxComponents } from "@/components/mdx-components";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
-  const lynxSource = await getLynxSource();
   const page = lynxSource.getPage(params.slug);
   if (!page) notFound();
 
@@ -24,7 +23,6 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 }
 
 export async function generateStaticParams() {
-  const lynxSource = await getLynxSource();
   return lynxSource.generateParams();
 }
 
@@ -32,7 +30,6 @@ export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const lynxSource = await getLynxSource();
   const page = lynxSource.getPage(params.slug);
   if (!page) notFound();
 
