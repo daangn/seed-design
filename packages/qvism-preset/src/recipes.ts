@@ -56,7 +56,7 @@ import reactionButton from "./recipes/reaction-button";
 import scrollFog from "./recipes/scroll-fog";
 import segmentedControl from "./recipes/segmented-control";
 import skeleton from "./recipes/skeleton";
-import switchMark from "./recipes/switch-mark";
+import switchmark from "./recipes/switchmark";
 import switchRecipe from "./recipes/switch";
 import tabs from "./recipes/tabs";
 import text from "./recipes/text";
@@ -129,7 +129,7 @@ export const recipes = {
   snackbar,
   snackbarRegion,
   switch: switchRecipe,
-  switchMark,
+  switchmark,
   tabs,
   tagGroup,
   tagGroupItem,

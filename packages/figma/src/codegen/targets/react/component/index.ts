@@ -40,7 +40,6 @@ import { createRadiomarkHandler } from "@/codegen/targets/react/component/handle
 import { createReactionButtonHandler } from "./handlers/reaction-button";
 import { createResultSectionHandler } from "./handlers/result-section";
 import { createSegmentedControlHandler } from "./handlers/segmented-control";
-import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/select-box";
 import { createSkeletonHandler } from "./handlers/skeleton";
 import {
   createSliderHandler,
@@ -60,6 +59,10 @@ import {
   createLegacyTextFieldHandler,
   createLegacyMultilineTextFieldHandler,
 } from "./handlers/legacy-text-field";
+import {
+  createLegacySelectBoxHandler,
+  createLegacySelectBoxGroupHandler,
+} from "./handlers/legacy-select-box";
 
 export type { ComponentHandlerDeps };
 export type UnboundComponentHandler<T extends NormalizedInstanceNode["componentProperties"]> = (
@@ -97,8 +100,10 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createAvatarHandler,
   createAvatarStackHandler,
   createSegmentedControlHandler,
-  createSelectBoxGroupHandler,
-  createSelectBoxHandler,
+
+  createLegacySelectBoxHandler,
+  createLegacySelectBoxGroupHandler,
+
   createSliderHandler,
   createSliderFieldHandler,
   createTabsHandler,

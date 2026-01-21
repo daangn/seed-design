@@ -1,5 +1,5 @@
-import { redirect, RedirectType } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function () {
-  redirect("/react/getting-started/styling/theming", RedirectType.replace);
+  return redirect("/react/getting-started/styling/theming");
 }

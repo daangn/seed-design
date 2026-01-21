@@ -6,16 +6,17 @@ import {
   type MenuSheetItemVariantProps,
 } from "@seed-design/css/recipes/menu-sheet-item";
 import * as React from "react";
-import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import clsx from "clsx";
 
-const { withRootProvider, withContext } = createSlotRecipeContext(menuSheet);
+const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(menuSheet);
 const {
-  withContext: withItemContext,
   PropsProvider: ItemPropsProvider,
   useProps: useItemProps,
-} = createRecipeContext(menuSheetItem);
+  withContext: withItemContext,
+  ClassNamesProvider: ItemClassNamesProvider,
+} = createSlotRecipeContext(menuSheetItem);
 const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -68,18 +69,18 @@ export interface MenuSheetContentProps
   extends DialogPrimitive.ContentProps,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
-const MenuSheetContentBase = withContext<HTMLDivElement, DialogPrimitive.ContentProps>(
-  DialogPrimitive.Content,
-  "content",
-);
-
 export const MenuSheetContent = React.forwardRef<HTMLDivElement, MenuSheetContentProps>(
-  ({ labelAlign, children, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
+    const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
+    const classNames = useClassNames();
+
     return (
-      <ItemPropsProvider value={React.useMemo(() => ({ labelAlign }), [labelAlign])}>
-        <MenuSheetContentBase ref={ref} {...props}>
-          {children}
-        </MenuSheetContentBase>
+      <ItemPropsProvider value={variantProps}>
+        <DialogPrimitive.Content
+          className={clsx(classNames.content, className)}
+          ref={ref}
+          {...otherProps}
+        />
       </ItemPropsProvider>
     );
   },
@@ -96,13 +97,24 @@ export const MenuSheetHeader = withContext<HTMLDivElement, MenuSheetHeaderProps>
   "header",
 );
 
-////////////////////////////////////////////////////////////////////////////////////
-
+// NOTE: uses DialogPrimitive.TitleProps,
+// but actual rendered component is a Primitive.h2 rather than a DialogPrimitive.Title
+// find out why later; h2 is same but missing and some a11y features
 export interface MenuSheetTitleProps extends DialogPrimitive.TitleProps {}
 
 export const MenuSheetTitle = withContext<HTMLHeadingElement, MenuSheetTitleProps>(
   withStateProps(Primitive.h2),
   "title",
+);
+
+// NOTE: uses DialogPrimitive.DescriptionProps,
+// but actual rendered component is a Primitive.p rather than a DialogPrimitive.Description
+// find out why later; p is same but missing and some a11y features
+export interface MenuSheetDescriptionProps extends DialogPrimitive.DescriptionProps {}
+
+export const MenuSheetDescription = withContext<HTMLParagraphElement, MenuSheetDescriptionProps>(
+  withStateProps(Primitive.p),
+  "description",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -120,21 +132,22 @@ export interface MenuSheetGroupProps
   extends React.HTMLAttributes<HTMLDivElement>,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
-const MenuSheetGroupBase = withContext<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  withStateProps(Primitive.div),
-  "group",
-);
-
 export const MenuSheetGroup = React.forwardRef<HTMLDivElement, MenuSheetGroupProps>(
-  ({ labelAlign: overriddenLabelAlign, children, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
+    const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
     const parentProps = useItemProps();
-    const labelAlign = overriddenLabelAlign ?? parentProps?.labelAlign;
+
+    const classNames = useClassNames();
+    const { stateProps } = useDialogContext();
 
     return (
-      <ItemPropsProvider value={React.useMemo(() => ({ labelAlign }), [labelAlign])}>
-        <MenuSheetGroupBase ref={ref} {...props}>
-          {children}
-        </MenuSheetGroupBase>
+      <ItemPropsProvider value={{ ...parentProps, ...variantProps }}>
+        <Primitive.div
+          className={clsx(classNames.group, className)}
+          ref={ref}
+          {...stateProps}
+          {...otherProps}
+        />
       </ItemPropsProvider>
     );
   },
@@ -147,18 +160,53 @@ export interface MenuSheetItemProps
     MenuSheetItemVariantProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-const MenuSheetItemBase = withItemContext<HTMLButtonElement, MenuSheetItemProps>(
-  withStateProps(Primitive.button),
-);
-
 export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemProps>(
-  ({ labelAlign: overriddenLabelAlign, ...props }, ref) => {
+  ({ className: propClassName, ...props }, ref) => {
+    const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
     const parentProps = useItemProps();
-    const labelAlign = overriddenLabelAlign ?? parentProps?.labelAlign;
 
-    return <MenuSheetItemBase ref={ref} labelAlign={labelAlign} {...props} />;
+    const classNames = menuSheetItem({ ...parentProps, ...variantProps });
+    const { stateProps } = useDialogContext();
+
+    return (
+      <ItemClassNamesProvider value={classNames}>
+        <Primitive.button
+          ref={ref}
+          className={clsx(classNames.root, propClassName)}
+          {...stateProps}
+          {...otherProps}
+        />
+      </ItemClassNamesProvider>
+    );
   },
 );
+
+export interface MenuSheetItemContentProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const MenuSheetItemContent = withItemContext<HTMLDivElement, MenuSheetItemContentProps>(
+  withStateProps(Primitive.div),
+  "content",
+);
+
+export interface MenuSheetItemLabelProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
+
+export const MenuSheetItemLabel = withItemContext<HTMLSpanElement, MenuSheetItemLabelProps>(
+  withStateProps(Primitive.span),
+  "label",
+);
+
+export interface MenuSheetItemDescriptionProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
+
+export const MenuSheetItemDescription = withItemContext<
+  HTMLSpanElement,
+  MenuSheetItemDescriptionProps
+>(withStateProps(Primitive.span), "description");
 
 ////////////////////////////////////////////////////////////////////////////////////
 

@@ -2,7 +2,9 @@
   "kind": "ComponentSpec",
   "metadata": {
     "id": "switch-mark",
-    "name": "Switch Mark"
+    "name": "Switch Mark",
+    "deprecated": "Use Switchmark instead.",
+    "lastUpdated": "25-12-16"
   },
   "data": {
     "id": "switch-mark",

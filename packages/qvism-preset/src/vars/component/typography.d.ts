@@ -23,6 +23,18 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 주석, 참고 사항 및 상세 리스트 등 부가 정보에 사용하며, 일반 본문 텍스트에는 사용하지 않습니다.
+   */
+  "textStyleArticleNote": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t5)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
   "textStyleT1Regular": {
     "enabled": {
       "root": {

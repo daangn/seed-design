@@ -1,17 +1,38 @@
 import { chipTabs, type ChipTabsVariantProps } from "@seed-design/css/recipes/chip-tabs";
 import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { forwardRef } from "react";
+import clsx from "clsx";
 
-const { withProvider, withContext } = createSlotRecipeContext(chipTabs);
+const { ClassNamesProvider, withContext } = createSlotRecipeContext(chipTabs);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ChipTabsRootProps extends ChipTabsVariantProps, TabsPrimitive.RootProps {}
 
-export const ChipTabsRoot = withProvider<HTMLDivElement, ChipTabsRootProps>(
-  TabsPrimitive.Root,
-  "root",
+export const ChipTabsRoot = forwardRef<HTMLDivElement, ChipTabsRootProps>(
+  ({ className, ...props }, ref) => {
+    if (process.env.NODE_ENV !== "production" && props.variant === "brandSolid") {
+      console.warn(
+        "[SEED Design System] ChipTabs variant='brandSolid' is deprecated and will be removed in @seed-design/react@1.3.0. Use variant='neutralSolid' or variant='neutralOutline' instead.",
+      );
+    }
+
+    const [variantProps, otherProps] = chipTabs.splitVariantProps(props);
+    const classNames = chipTabs(variantProps);
+
+    return (
+      <ClassNamesProvider value={classNames}>
+        <TabsPrimitive.Root
+          ref={ref}
+          className={clsx(classNames.root, className)}
+          {...otherProps}
+        />
+      </ClassNamesProvider>
+    );
+  },
 );
+ChipTabsRoot.displayName = "ChipTabsRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

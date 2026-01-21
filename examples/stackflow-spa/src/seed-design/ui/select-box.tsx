@@ -4,7 +4,7 @@ import {
   RadioGroup as SeedRadioGroup,
   Checkbox as SeedCheckbox,
 } from "@seed-design/react";
-import { RadioMark } from "./radio-group";
+import { Radiomark } from "./radio-group";
 import { Checkmark } from "./checkbox";
 import * as React from "react";
 
@@ -46,7 +46,7 @@ export const RadioSelectBoxItem = React.forwardRef<HTMLInputElement, RadioSelect
             <SeedRadioSelectBox.Description>{description}</SeedRadioSelectBox.Description>
           )}
         </SeedRadioSelectBox.Content>
-        <RadioMark size="large" tone="brand" />
+        <Radiomark size="large" tone="brand" />
       </SeedRadioSelectBox.Item>
     );
   },

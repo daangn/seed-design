@@ -3,6 +3,8 @@ kind: ComponentSpec
 metadata:
   id: switch-mark
   name: Switch Mark
+  deprecated: Use Switchmark instead.
+  lastUpdated: 25-12-16
 data:
   schema:
     slots:
@@ -90,7 +92,7 @@ data:
       selected:
         thumb:
           scale: 1.0
-    
+
     tone=brand:
       enabled:
         thumb:

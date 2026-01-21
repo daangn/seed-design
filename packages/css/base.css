@@ -43,6 +43,7 @@
 }
 
 .seed-icon, .seed-prefix-icon, .seed-suffix-icon {
+  vertical-align: middle;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
@@ -173,6 +174,7 @@
   --seed-box-flex-direction: initial;
   --seed-box-flex-wrap: initial;
   --seed-box-justify-content: initial;
+  --seed-box-justify-self: auto;
   --seed-box-align-items: stretch;
   --seed-box-align-content: stretch;
   --seed-box-align-self: auto;
@@ -180,15 +182,36 @@
   flex-direction: var(--seed-box-flex-direction);
   flex-wrap: var(--seed-box-flex-wrap);
   justify-content: var(--seed-box-justify-content);
+  justify-self: var(--seed-box-justify-self);
   align-items: var(--seed-box-align-items);
   align-content: var(--seed-box-align-content);
   align-self: var(--seed-box-align-self);
   gap: var(--seed-box-gap);
+  --seed-box-grid-column: initial;
+  grid-column: var(--seed-box-grid-column);
+  --seed-box-grid-row: initial;
+  grid-row: var(--seed-box-grid-row);
 }
 
 .seed-box:is(:active, [data-active]) {
   --seed-box-background--active: var(--seed-box-background);
   background: var(--seed-box-background--active);
+}
+
+.seed-grid {
+  --seed-grid-columns: initial;
+  grid-template-columns: var(--seed-grid-columns);
+  --seed-grid-rows: initial;
+  grid-template-rows: var(--seed-grid-rows);
+  --seed-grid-auto-flow: initial;
+  grid-auto-flow: var(--seed-grid-auto-flow);
+  --seed-grid-auto-columns: initial;
+  grid-auto-columns: var(--seed-grid-auto-columns);
+  --seed-grid-auto-rows: initial;
+  grid-auto-rows: var(--seed-grid-auto-rows);
+  --seed-grid-justify-items: stretch;
+  justify-items: var(--seed-grid-justify-items);
+  display: grid;
 }
 
 .seed-consistent-width:before {
@@ -451,6 +474,8 @@
   --seed-color-bg-neutral-solid-muted: var(--seed-color-palette-gray-800);
   --seed-color-bg-neutral-solid-muted-pressed: var(--seed-color-palette-gray-900);
   --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-200);
+  --seed-color-bg-neutral-weak-alpha: var(--seed-color-palette-static-black-alpha-200);
+  --seed-color-bg-neutral-weak-alpha-pressed: var(--seed-color-palette-static-black-alpha-300);
   --seed-color-bg-neutral-weak-pressed: var(--seed-color-palette-gray-300);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-overlay-muted: var(--seed-color-palette-static-black-alpha-500);
@@ -515,8 +540,8 @@
   --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
   --seed-gradient-highlight-magic: #f60 20%, #d25aca 100%;
   --seed-gradient-highlight-magic-pressed: #e14f00 20%, #ae58bf 100%;
-  --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f58a 46%, #fff9f58a 54%, #fff9f500 100%;
-  --seed-gradient-shimmer-neutral: #fff0 0%, #fff6 46%, #fff6 54%, #fff0 100%;
+  --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f5cc 46%, #fff9f5cc 54%, #fff9f500 100%;
+  --seed-gradient-shimmer-neutral: #fff0 0%, #ffffffab 46%, #ffffffab 54%, #fff0 100%;
   --seed-shadow-s1: 0px 1px 4px 0px #00000014;
   --seed-shadow-s2: 0px 2px 10px 0px #0000001a;
   --seed-shadow-s3: 0px 4px 16px 0px #0000001f;
@@ -659,6 +684,8 @@
   --seed-color-bg-neutral-solid-muted: var(--seed-color-palette-gray-400);
   --seed-color-bg-neutral-solid-muted-pressed: var(--seed-color-palette-gray-500);
   --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-300);
+  --seed-color-bg-neutral-weak-alpha: var(--seed-color-palette-static-white-alpha-200);
+  --seed-color-bg-neutral-weak-alpha-pressed: var(--seed-color-palette-static-white-alpha-300);
   --seed-color-bg-neutral-weak-pressed: var(--seed-color-palette-gray-400);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-overlay-muted: var(--seed-color-palette-static-black-alpha-500);

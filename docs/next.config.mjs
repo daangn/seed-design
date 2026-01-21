@@ -7,31 +7,17 @@ const config = {
   output: "export",
   reactStrictMode: true,
   transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
-  serverExternalPackages: ["ts-morph", "typescript", "oxc-transform", "@shikijs/twoslash"],
+  serverExternalPackages: [
+    "ts-morph",
+    "typescript",
+    "oxc-transform",
+    "@shikijs/twoslash",
+    "@seed-design/rootage-core",
+  ],
   staticPageGenerationTimeout: 300,
   images: {
     // FIXME: temporal use for static export; will remove after image optimization setup
     unoptimized: true,
-  },
-  async redirects() {
-    return [
-      // AI Integration 문서 리다이렉트 (기존 경로 → 새 섹션)
-      {
-        source: "/react/ai-integration/:path*",
-        destination: "/ai-integration/:path*",
-        permanent: true,
-      },
-      {
-        source: "/docs/ai-integration/:path*",
-        destination: "/ai-integration/:path*",
-        permanent: true,
-      },
-      {
-        source: "/breeze/ai-integration/:path*",
-        destination: "/ai-integration/:path*",
-        permanent: true,
-      },
-    ];
   },
 };
 

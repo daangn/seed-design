@@ -36,10 +36,10 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
-.seed-tabs__content[data-ssr]:not(:is(:selected, [data-selected])) {
+.seed-tabs__content[data-ssr]:not(:is([aria-selected=true], [data-selected])) {
     display: none;
 }
-.seed-tabs__content:not([data-carousel]):not(:is(:selected, [data-selected])) {
+.seed-tabs__content:not([data-carousel]):not(:is([aria-selected=true], [data-selected])) {
     display: none;
 }
 .seed-tabs__indicator {
@@ -69,14 +69,14 @@
     white-space: nowrap;
     color: var(--seed-color-fg-neutral-subtle);
 }
-.seed-tabs__trigger:is(:selected, [data-selected]) {
+.seed-tabs__trigger:is([aria-selected=true], [data-selected]) {
     color: var(--seed-color-fg-neutral);
 }
 .seed-tabs__trigger:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     color: var(--seed-color-fg-disabled);
 }
-.seed-tabs__trigger:is(:selected, [data-selected])[data-ssr]:after {
+.seed-tabs__trigger:is([aria-selected=true], [data-selected])[data-ssr]:after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -95,7 +95,7 @@
 .seed-tabs__trigger--triggerLayout_fill {
     flex: 1;
 }
-.seed-tabs__trigger--triggerLayout_fill:is(:selected, [data-selected])[data-ssr]:after {
+.seed-tabs__trigger--triggerLayout_fill:is([aria-selected=true], [data-selected])[data-ssr]:after {
     left: var(--seed-dimension-spacing-x-global-gutter);
     right: var(--seed-dimension-spacing-x-global-gutter);
 }
@@ -108,7 +108,7 @@
     left: calc(var(--indicator-left, 0px) + 0px);
     width: calc(var(--indicator-width, 0px) - 2 * 0px);
 }
-.seed-tabs__trigger--triggerLayout_hug:is(:selected, [data-selected])[data-ssr]:after {
+.seed-tabs__trigger--triggerLayout_hug:is([aria-selected=true], [data-selected])[data-ssr]:after {
     left: 0;
     right: 0;
 }

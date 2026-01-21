@@ -1,7 +1,6 @@
-import { aiIntegrationSource, breezeSource, lynxSource, reactSource, source } from "@/app/source";
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
-import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
+import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
 import type { PropsWithChildren } from "react";
 
 function SidebarTabIconContainer({
@@ -52,22 +51,22 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         ),
       },
       {
-        title: "AI Integration",
-        description: "AI 도구 연동 가이드",
-        url: "/ai-integration",
-        icon: (
-          <SidebarTabIconContainer>
-            <IconSparkle2 />
-          </SidebarTabIconContainer>
-        ),
-      },
-      {
         title: "Lynx",
         description: "Lynx 프레임워크",
         url: "/lynx",
         icon: (
           <SidebarTabIconContainer>
             <img src="/lynx.svg" alt="Lynx" className="size-full" />
+          </SidebarTabIconContainer>
+        ),
+      },
+      {
+        title: "AI Integration",
+        description: "AI 도구 연동 가이드",
+        url: "/ai-integration",
+        icon: (
+          <SidebarTabIconContainer>
+            <IconSparkle2 />
           </SidebarTabIconContainer>
         ),
       },
@@ -83,7 +82,9 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       },
     ],
   },
+  tabMode: "navbar",
   nav: {
+    mode: "top",
     title: (
       <div className="flex gap-2 justify-center items-center">
         <svg
@@ -106,43 +107,43 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   },
 };
 
-export const docsOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await source.getTransformedPageTree(),
-};
+// Lazy option getters - only load section data when needed
+export async function getDocsOptions(): Promise<DocsLayoutProps> {
+  const { getDocsPageTree } = await import("./sources/docs-source");
+  return {
+    ...baseOptions,
+    tree: await getDocsPageTree(),
+  };
+}
 
-export const reactOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await reactSource.getTransformedReactPageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
-};
+export async function getReactOptions(): Promise<DocsLayoutProps> {
+  const { getReactPageTree } = await import("./sources/react-source");
+  return {
+    ...baseOptions,
+    tree: await getReactPageTree(),
+  };
+}
 
-export const lynxOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await lynxSource.getTransformedLynxPageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
-};
+export async function getLynxOptions(): Promise<DocsLayoutProps> {
+  const { getLynxPageTree } = await import("./sources/lynx-source");
+  return {
+    ...baseOptions,
+    tree: await getLynxPageTree(),
+  };
+}
 
-export const breezeOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await breezeSource.getTransformedBreezePageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
-};
+export async function getBreezeOptions(): Promise<DocsLayoutProps> {
+  const { getBreezePageTree } = await import("./sources/breeze-source");
+  return {
+    ...baseOptions,
+    tree: await getBreezePageTree(),
+  };
+}
 
-export const aiIntegrationOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await aiIntegrationSource.getTransformedAiIntegrationPageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
-};
+export async function getAiIntegrationOptions(): Promise<DocsLayoutProps> {
+  const { getAiIntegrationPageTree } = await import("./sources/ai-integration-source");
+  return {
+    ...baseOptions,
+    tree: await getAiIntegrationPageTree(),
+  };
+}

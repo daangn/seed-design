@@ -29,6 +29,7 @@ export declare const layerBasement = "var(--seed-color-bg-layer-basement)";
 export declare const layerDefault = "var(--seed-color-bg-layer-default)";
 /** basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다. (pressed) */
 export declare const layerDefaultPressed = "var(--seed-color-bg-layer-default-pressed)";
+/** @deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다. */
 export declare const layerFill = "var(--seed-color-bg-layer-fill)";
 /** 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다. */
 export declare const layerFloating = "var(--seed-color-bg-layer-floating)";
@@ -47,6 +48,10 @@ export declare const neutralSolidMuted = "var(--seed-color-bg-neutral-solid-mute
 export declare const neutralSolidMutedPressed = "var(--seed-color-bg-neutral-solid-muted-pressed)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak) */
 export declare const neutralWeak = "var(--seed-color-bg-neutral-weak)";
+/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다. */
+export declare const neutralWeakAlpha = "var(--seed-color-bg-neutral-weak-alpha)";
+/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha-pressed) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다. */
+export declare const neutralWeakAlphaPressed = "var(--seed-color-bg-neutral-weak-alpha-pressed)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-pressed) */
 export declare const neutralWeakPressed = "var(--seed-color-bg-neutral-weak-pressed)";
 export declare const overlay = "var(--seed-color-bg-overlay)";
