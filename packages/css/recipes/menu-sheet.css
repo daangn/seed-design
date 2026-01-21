@@ -32,7 +32,7 @@
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x4);
-    padding-bottom: var(--seed-dimension-x4);
+    padding-bottom: calc(var(--seed-dimension-x4) + var(--seed-safe-area-bottom));
     border-top-left-radius: var(--seed-radius-r5);
     border-top-right-radius: var(--seed-radius-r5);
 }
