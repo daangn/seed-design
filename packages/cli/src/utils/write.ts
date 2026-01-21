@@ -88,7 +88,8 @@ export async function writeRegistryItemSnippets({
             const filename = path.basename(filePath);
             const ext = path.extname(filePath);
             const base = path.basename(filePath, ext);
-            const legacyFilename = `legacy-${base}${ext}`;
+            const timestamp = Date.now();
+            const legacyFilename = `legacy-${base}-${timestamp}${ext}`;
 
             const action = await p.select({
               message:
