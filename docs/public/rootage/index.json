@@ -105,6 +105,9 @@
       "path": "/components/image-frame-overlay-indicator.json"
     },
     {
+      "path": "/components/image-frame-overlay-positioner.json"
+    },
+    {
       "path": "/components/image-frame-overlay-reaction-button.json"
     },
     {

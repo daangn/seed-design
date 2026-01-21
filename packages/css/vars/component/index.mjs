@@ -30,6 +30,7 @@ export { vars as floatingActionButton } from "./floating-action-button.mjs";
 export { vars as helpBubble } from "./help-bubble.mjs";
 export { vars as identityPlaceholder } from "./identity-placeholder.mjs";
 export { vars as imageFrameOverlayIndicator } from "./image-frame-overlay-indicator.mjs";
+export { vars as imageFrameOverlayPositioner } from "./image-frame-overlay-positioner.mjs";
 export { vars as imageFrameOverlayReactionButton } from "./image-frame-overlay-reaction-button.mjs";
 export { vars as imageFrame } from "./image-frame.mjs";
 export { vars as inlineBanner } from "./inline-banner.mjs";

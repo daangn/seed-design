@@ -15,13 +15,14 @@ import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
 import { Badge, type BadgeProps } from "../Badge/Badge";
+import { Box, type BoxProps } from "../Box/Box";
 import { Icon } from "../Icon/Icon";
 
 export type ImageFrameOverlayPosition = ImageFrameOverlayPositionerVariantProps["position"];
 
 export interface ImageFrameOverlayPositionerProps
   extends ImageFrameOverlayPositionerVariantProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+    Omit<BoxProps, "children" | "position"> {
   inset?: number | string;
   children: React.ReactNode;
 }
@@ -29,21 +30,22 @@ export interface ImageFrameOverlayPositionerProps
 export const ImageFrameOverlayPositioner = React.forwardRef<
   HTMLDivElement,
   ImageFrameOverlayPositionerProps
->(({ position = "top-left", inset = 6, children, style, className, ...rest }, ref) => {
-  const insetValue = typeof inset === "number" ? `${inset}px` : inset;
+>(({ position = "top-left", inset, children, style, className, ...rest }, ref) => {
+  const insetStyle =
+    inset != null ? { margin: typeof inset === "number" ? `${inset}px` : inset } : undefined;
 
   return (
-    <div
+    <Box
       ref={ref}
       className={clsx(imageFrameOverlayPositioner({ position }), className)}
       style={{
-        margin: insetValue,
+        ...insetStyle,
         ...style,
       }}
       {...rest}
     >
       {children}
-    </div>
+    </Box>
   );
 });
 

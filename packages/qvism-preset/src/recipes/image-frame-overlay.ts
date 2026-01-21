@@ -4,6 +4,7 @@ import { pressed, pseudo } from "../utils/pseudo";
 import * as fg from "../vars/color/fg";
 import {
   imageFrameOverlayIndicator as indicatorVars,
+  imageFrameOverlayPositioner as positionerVars,
   imageFrameOverlayReactionButton as reactionButtonVars,
 } from "../vars/component";
 
@@ -12,6 +13,7 @@ export const imageFrameOverlayPositioner = defineRecipe({
   base: {
     position: "absolute",
     zIndex: 1,
+    margin: positionerVars.base.enabled.root.inset,
   },
   variants: {
     position: {

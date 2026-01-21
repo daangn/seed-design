@@ -30,6 +30,7 @@ export { vars as floatingActionButton } from "./floating-action-button";
 export { vars as helpBubble } from "./help-bubble";
 export { vars as identityPlaceholder } from "./identity-placeholder";
 export { vars as imageFrameOverlayIndicator } from "./image-frame-overlay-indicator";
+export { vars as imageFrameOverlayPositioner } from "./image-frame-overlay-positioner";
 export { vars as imageFrameOverlayReactionButton } from "./image-frame-overlay-reaction-button";
 export { vars as imageFrame } from "./image-frame";
 export { vars as inlineBanner } from "./inline-banner";

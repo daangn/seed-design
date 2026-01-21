@@ -1,6 +1,7 @@
 .seed-image-frame-overlay-positioner {
     position: absolute;
-    z-index: 1
+    z-index: 1;
+    margin: 6px
 }
 .seed-image-frame-overlay-positioner--position_top-left {
     top: 0;

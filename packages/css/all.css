@@ -4582,6 +4582,7 @@
 
 .seed-image-frame-overlay-positioner {
   z-index: 1;
+  margin: 6px;
   position: absolute;
 }
 
