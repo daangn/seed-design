@@ -11,7 +11,7 @@ const BottomSheetTriggerExample = () => {
   return (
     <BottomSheetRoot>
       <BottomSheetTrigger asChild>
-        <ActionButton>Open</ActionButton>
+        <ActionButton variant="neutralSolid">Open</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent title="제목">
         <BottomSheetBody minHeight="x16">Content</BottomSheetBody>

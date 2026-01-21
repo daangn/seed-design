@@ -133,9 +133,10 @@
         },
         "layout": {
           "values": {
+            "withText": {},
             "iconOnly": {}
           },
-          "defaultValue": "iconOnly"
+          "defaultValue": "withText"
         }
       }
     },
@@ -793,6 +794,12 @@
             }
           }
         ]
+      },
+      {
+        "variants": {
+          "layout": "withText"
+        },
+        "definitions": []
       },
       {
         "variants": {

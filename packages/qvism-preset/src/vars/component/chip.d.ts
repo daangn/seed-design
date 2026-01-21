@@ -276,6 +276,7 @@ export declare const vars: {
       }
     }
   },
+  "layoutWithText": {},
   "sizeSmallLayoutIconOnly": {
     "enabled": {
       "root": {

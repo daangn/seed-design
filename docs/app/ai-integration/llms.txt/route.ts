@@ -1,10 +1,11 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
-import { aiIntegrationSource } from "@/app/source";
+import { getAiIntegrationSource } from "@/app/sources/ai-integration-source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const aiIntegrationSource = await getAiIntegrationSource();
   const pages = (aiIntegrationSource.getPages() as LLMPage[]).filter(
     (page) => page.slugs.length > 0,
   );

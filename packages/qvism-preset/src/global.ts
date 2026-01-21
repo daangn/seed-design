@@ -52,6 +52,7 @@ export const globalCss = defineGlobalCss({
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
+    verticalAlign: "middle",
   },
   ".seed-icon": {
     width: "var(--seed-icon-size)",

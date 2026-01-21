@@ -4,13 +4,14 @@ import {
   tagGroupItem,
   type TagGroupItemVariantProps,
 } from "@seed-design/css/recipes/tag-group-item";
-import { createRecipeContext } from "../../utils/createRecipeContext";
 import { forwardRef, Children, Fragment } from "react";
 import clsx from "clsx";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
-import { mergeProps } from "@seed-design/dom-utils";
+import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { PropsProvider, useProps } = createRecipeContext(tagGroupItem);
+const { PropsProvider, useProps, withContext, ClassNamesProvider } =
+  createSlotRecipeContext(tagGroupItem);
 
 export interface TagGroupRootProps
   extends TagGroupVariantProps,
@@ -50,14 +51,37 @@ export const TagGroupRoot = forwardRef<HTMLSpanElement, TagGroupRootProps>(
 
 export interface TagGroupItemProps
   extends TagGroupItemVariantProps,
+    Pick<StyleProps, "flexShrink">,
     PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const TagGroupItem = forwardRef<HTMLSpanElement, TagGroupItemProps>((props, ref) => {
-  const parentVariantProps = useProps();
+export const TagGroupItem = forwardRef<HTMLSpanElement, TagGroupItemProps>(
+  ({ className, ...props }, ref) => {
+    const parentVariantProps = useProps();
 
-  const [variantProps, { className, ...otherProps }] = tagGroupItem.splitVariantProps(props);
-  const recipeClassName = tagGroupItem(mergeProps(parentVariantProps, variantProps));
+    const [variantProps, otherProps] = tagGroupItem.splitVariantProps(props);
+    const classNames = tagGroupItem({ ...parentVariantProps, ...variantProps });
 
-  return <Primitive.span ref={ref} className={clsx(recipeClassName, className)} {...otherProps} />;
-});
+    const { style, restProps } = useStyleProps(otherProps);
+
+    return (
+      <ClassNamesProvider value={classNames}>
+        <Primitive.span
+          ref={ref}
+          style={style}
+          className={clsx(classNames.root, className)}
+          {...restProps}
+        />
+      </ClassNamesProvider>
+    );
+  },
+);
+
+export interface TagGroupItemLabelProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
+
+export const TagGroupItemLabel = withContext<HTMLSpanElement, TagGroupItemLabelProps>(
+  Primitive.span,
+  "label",
+);

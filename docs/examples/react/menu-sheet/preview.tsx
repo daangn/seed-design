@@ -1,5 +1,4 @@
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
-import { PrefixIcon } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   MenuSheetContent,
@@ -13,32 +12,25 @@ const MenuSheetPreview = () => {
   return (
     <MenuSheetRoot>
       <MenuSheetTrigger asChild>
-        <ActionButton>Open</ActionButton>
+        <ActionButton variant="neutralSolid">Open</ActionButton>
       </MenuSheetTrigger>
-      <MenuSheetContent aria-label="Menu Sheet">
+      <MenuSheetContent
+        title="proident irure"
+        description="Aliqua fugiat adipisicing magna dolor laborum."
+        aria-label="Menu Sheet"
+      >
         <MenuSheetGroup>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 1
-          </MenuSheetItem>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 2
-          </MenuSheetItem>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 3
-          </MenuSheetItem>
+          <MenuSheetItem
+            label="Action 1"
+            description="Est commodo veniam magna officia ad dolor esse aliquip laboris nisi do."
+            prefixIcon={<IconEyeSlashLine />}
+          />
+          <MenuSheetItem label="Action 2" prefixIcon={<IconEyeSlashLine />} />
+          <MenuSheetItem label="Action 3" prefixIcon={<IconEyeSlashLine />} />
         </MenuSheetGroup>
         <MenuSheetGroup>
-          <MenuSheetItem>
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 4
-          </MenuSheetItem>
-          <MenuSheetItem tone="critical">
-            <PrefixIcon svg={<IconEyeSlashLine />} />
-            Action 5
-          </MenuSheetItem>
+          <MenuSheetItem label="Action 4" prefixIcon={<IconEyeSlashLine />} />
+          <MenuSheetItem label="Action 5" prefixIcon={<IconEyeSlashLine />} tone="critical" />
         </MenuSheetGroup>
       </MenuSheetContent>
     </MenuSheetRoot>

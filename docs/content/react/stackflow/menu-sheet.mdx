@@ -61,18 +61,22 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
         layerIndex={useActivityZIndexBase()}
       >
         <MenuSheetGroup>
-          <MenuSheetItem onClick={() => handleAction("add")}>
-            <PrefixIcon svg={<IconPlusLine />} />
-            추가
-          </MenuSheetItem>
-          <MenuSheetItem onClick={() => handleAction("edit")}>
-            <PrefixIcon svg={<IconPencilLine />} />
-            수정
-          </MenuSheetItem>
-          <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
-            <PrefixIcon svg={<IconTrashcanLine />} />
-            삭제
-          </MenuSheetItem>
+          <MenuSheetItem
+            onClick={() => handleAction("add")}
+            label="추가"
+            prefixIcon={<IconPlusLine />}
+          />
+          <MenuSheetItem
+            onClick={() => handleAction("edit")}
+            label="수정"
+            prefixIcon={<IconPencilLine />}
+          />
+          <MenuSheetItem
+            onClick={() => handleAction("delete")}
+            tone="critical"
+            label="삭제"
+            prefixIcon={<IconTrashcanLine />}
+          />
         </MenuSheetGroup>
       </MenuSheetContent>
     </MenuSheetRoot>
@@ -215,27 +219,21 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
             layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
           >
             <MenuSheetGroup>
-              <MenuSheetItem onClick={() => handleAction("add")}>
-                추가
-              </MenuSheetItem>
-              <MenuSheetItem onClick={() => handleAction("edit")}>
-                수정
-              </MenuSheetItem>
+              <MenuSheetItem onClick={() => handleAction("add")} label="추가" />
+              <MenuSheetItem onClick={() => handleAction("edit")} label="수정" />
               <MenuSheetItem
                 onClick={() => {
                   // [!code highlight]
                   setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
-              >
-                Push
-              </MenuSheetItem>
+                label="Push"
+              />
               <MenuSheetItem
                 onClick={() => handleAction("delete")}
                 tone="critical"
-              >
-                삭제
-              </MenuSheetItem>
+                label="삭제"
+              />
             </MenuSheetGroup>
           </MenuSheetContent>
           {/* [!code highlight] */}
@@ -288,27 +286,21 @@ const MyActivity: ActivityComponentType = () => {
             layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
           >
             <MenuSheetGroup>
-              <MenuSheetItem onClick={() => handleAction("add")}>
-                추가
-              </MenuSheetItem>
-              <MenuSheetItem onClick={() => handleAction("edit")}>
-                수정
-              </MenuSheetItem>
+              <MenuSheetItem onClick={() => handleAction("add")} label="추가" />
+              <MenuSheetItem onClick={() => handleAction("edit")} label="수정" />
               <MenuSheetItem
                 onClick={() => {
                   // [!code highlight]
                   setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
-              >
-                Push
-              </MenuSheetItem>
+                label="Push"
+              />
               <MenuSheetItem
                 onClick={() => handleAction("delete")}
                 tone="critical"
-              >
-                삭제
-              </MenuSheetItem>
+                label="삭제"
+              />
             </MenuSheetGroup>
           </MenuSheetContent>
           {/* [!code highlight] */}

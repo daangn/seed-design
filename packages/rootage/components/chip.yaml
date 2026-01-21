@@ -251,6 +251,8 @@ data:
         icon:
           size: $dimension.x4
 
+    layout=withText: {}
+
     size=small,layout=iconOnly:
       enabled:
         root:

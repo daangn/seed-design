@@ -564,6 +564,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Fill"
   },
+  "48d35e692e4cbeb1bfd0b0be28a800061173cf96": {
+    "name": "icon_cart_items",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "15e92fded5d5306b62b634790f724a72ba8f7033": {
+    "name": "icon_cart_items",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "f6be7d2997e4b139ae4850ee21869bc7e59ccc0b": {
     "name": "icon_cart",
     "type": "monochrome",
@@ -1126,6 +1136,16 @@ export const FIGMA_ICONS = {
   },
   "d81a6f8332a7ebf51542ccbcca682d5fda41c348": {
     "name": "icon_eraser_horizline",
+    "type": "monochrome",
+    "weight": "Line"
+  },
+  "8a20bac7b3ef03003f4395e5a5455a62fa363efc": {
+    "name": "icon_exclamationmark_chatbubble_rectangular_center",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "2fe5521cf8ac4b67db3a1cd0a03847f54493583a": {
+    "name": "icon_exclamationmark_chatbubble_rectangular_center",
     "type": "monochrome",
     "weight": "Line"
   },
@@ -3191,6 +3211,10 @@ export const FIGMA_ICONS = {
   },
   "cd0f97521ce27cc84bf77d89158a08ee9bb37016": {
     "name": "icon_cart",
+    "type": "multicolor"
+  },
+  "81a9d09867dbce6bbeca059a24c54ad23130a518": {
+    "name": "icon_cart_items",
     "type": "multicolor"
   },
   "51692e1d38d71ff24bbf5c7295da347d7700acbe": {

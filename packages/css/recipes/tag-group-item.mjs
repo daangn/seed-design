@@ -1,6 +1,17 @@
 import './tag-group-item.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const tagGroupItemSlotNames = [
+  [
+    "root",
+    "seed-tag-group-item__root"
+  ],
+  [
+    "label",
+    "seed-tag-group-item__label"
+  ]
+];
+
 const defaultVariant = {
   "size": "t2",
   "weight": "regular",
@@ -29,10 +40,13 @@ export const tagGroupItemVariantMap = {
 export const tagGroupItemVariantKeys = Object.keys(tagGroupItemVariantMap);
 
 export function tagGroupItem(props) {
-  return createClassName(
-    "seed-tag-group-item",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    tagGroupItemSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

@@ -21,7 +21,7 @@ const BottomSheetFadeFromIndex = () => {
       setActiveSnapPoint={setSnap}
     >
       <BottomSheetTrigger asChild>
-        <ActionButton>Open</ActionButton>
+        <ActionButton variant="neutralSolid">Open</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent
         title="제목"

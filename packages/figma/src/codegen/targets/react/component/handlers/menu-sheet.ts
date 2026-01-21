@@ -7,7 +7,7 @@ import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import { camelCase } from "change-case";
-import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { match } from "ts-pattern";
 
@@ -27,16 +27,16 @@ const createMenuSheetItemHandler = (ctx: ComponentHandlerDeps) =>
         ...(states.includes("Disabled") && {
           disabled: true,
         }),
+        ...(props["Show Prefix Icon#17043:5"].value && {
+          prefixIcon: ctx.iconHandler.transform(props["Prefix Icon#55948:0"]),
+        }),
+        label: props["Label#55905:8"].value,
+        ...(props["Show Item Description#51411:19"].value && {
+          description: props["Sub Text#51411:0"].value,
+        }),
       };
 
-      return createLocalSnippetElement("MenuSheetItem", commonProps, [
-        props["Show Prefix Icon#17043:5"].value
-          ? createSeedReactElement("PrefixIcon", {
-              svg: ctx.iconHandler.transform(props["Prefix Icon#55948:0"]),
-            })
-          : undefined,
-        props["Label#55905:8"].value,
-      ]);
+      return createLocalSnippetElement("MenuSheetItem", commonProps);
     },
   );
 
@@ -76,8 +76,10 @@ export const createMenuSheetHandler = (ctx: ComponentHandlerDeps) => {
       ? props["Title Text#14599:0"].value
       : undefined;
 
-    // TODO: React 구현체에 description 추가 이후
-    // const description = props["Description Text#21827:0"].value;
+    const description =
+      props["Show Header#17043:12"].value && props["Show Header Description#32984:0"].value
+        ? props["Description Text#21827:0"].value
+        : undefined;
 
     const { labelAlign } = match(props.Layout.value)
       .with("Text with Icon", () => ({ labelAlign: "left" }))
@@ -86,7 +88,7 @@ export const createMenuSheetHandler = (ctx: ComponentHandlerDeps) => {
 
     const content = createLocalSnippetElement(
       "MenuSheetContent",
-      { title, labelAlign },
+      { title, description, labelAlign },
       contentChildren,
       {
         comment: title

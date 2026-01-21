@@ -1,5 +1,11 @@
 # @seed-design/docs-mcp
 
+## 0.5.1
+
+### Patch Changes
+
+- e92892a: 아이콘 정보를 업데이트합니다.
+
 ## 0.5.0
 
 ### Minor Changes
