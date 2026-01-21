@@ -54,7 +54,6 @@ export { vars as sliderThumb } from "./slider-thumb.mjs";
 export { vars as sliderTick } from "./slider-tick.mjs";
 export { vars as slider } from "./slider.mjs";
 export { vars as snackbar } from "./snackbar.mjs";
-export { vars as switchMark } from "./switch-mark.mjs";
 export { vars as switch } from "./switch.mjs";
 export { vars as switchmark } from "./switchmark.mjs";
 export { vars as tab } from "./tab.mjs";
