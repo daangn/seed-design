@@ -54,7 +54,6 @@ export { vars as sliderThumb } from "./slider-thumb";
 export { vars as sliderTick } from "./slider-tick";
 export { vars as slider } from "./slider";
 export { vars as snackbar } from "./snackbar";
-export { vars as switchMark } from "./switch-mark";
 export { vars as switch } from "./switch";
 export { vars as switchmark } from "./switchmark";
 export { vars as tab } from "./tab";

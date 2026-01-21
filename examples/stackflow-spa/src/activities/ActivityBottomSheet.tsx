@@ -105,7 +105,7 @@ const ActivityBottomSheet: StaticActivityComponentType<"ActivityBottomSheet"> = 
             </VStack>
           </BottomSheetBody>
           <BottomSheetFooter>
-            <VStack gap="x4" pb="safeArea">
+            <VStack gap="x4">
               <HStack gap="x2">
                 <ActionButton type="button" variant="neutralWeak" onClick={pop}>
                   닫기

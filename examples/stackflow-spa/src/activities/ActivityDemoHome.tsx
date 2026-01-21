@@ -270,7 +270,7 @@ export function FilterBottomSheet({
         </HStack>
       </BottomSheetBody>
       <BottomSheetFooter>
-        <HStack pb="safeArea" pt="x3">
+        <HStack pt="x3">
           <ActionButton
             flexGrow
             size="large"
