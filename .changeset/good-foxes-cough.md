@@ -7,10 +7,10 @@
 
 `SwitchMark`를 `Switchmark`로, `RadioMark`를 `Radiomark`로 Snippet 컴포넌트 이름을 변경합니다.
 
-- **1.1 → 1.2 업그레이드 시 변경 권장**: snippet을 다시 내려받으면 `SwitchMark`와 `RadioMark`로 `Switchmark`와 `Radiomark` 컴포넌트를 사용할 수 있습니다.
+- **1.1 → 1.2 업그레이드 시 변경 권장**: snippet을 다시 내려받고, `SwitchMark`, `RadioMark`를 사용하는 코드를 아래와 같이 변경하세요.
 
   - `npx @seed-design/cli@latest add ui:switch ui:radio-group`
-  - 1.3 릴리즈 시 snippet에서 해당 맵핑이 제거될 예정이므로 미리 변경해두시길 권장드립니다.
+  - snippet에 `SwitchMark`, `RadioMark` 정의가 존재하지만, 1.3 릴리즈 시 snippet에서 해당 맵핑이 제거될 예정이므로 미리 변경해두시길 권장드립니다.
 
   ```tsx
   // 전
