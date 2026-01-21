@@ -23,6 +23,10 @@ const menuSheetSlotNames = [
     "seed-menu-sheet__title"
   ],
   [
+    "description",
+    "seed-menu-sheet__description"
+  ],
+  [
     "list",
     "seed-menu-sheet__list"
   ],
