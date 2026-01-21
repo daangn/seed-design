@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { createClient } from "@sanity/client";
 import { promises as fs } from "fs";
 import path from "node:path";
-import { apiVersion, dataset, projectId } from "../sanity/env.js";
+import { apiVersion, dataset, projectId } from "../sanity-studio/env.js";
 
 interface ComponentFrontmatter {
   title: string;
@@ -90,10 +90,7 @@ function createWriteClient() {
 }
 
 // Import components to Sanity
-async function importComponents(
-  components: ComponentToImport[],
-  options: { dryRun: boolean },
-) {
+async function importComponents(components: ComponentToImport[], options: { dryRun: boolean }) {
   const client = options.dryRun ? null : createWriteClient();
 
   console.log(
@@ -146,7 +143,9 @@ async function importComponents(
     } catch (error) {
       results.errors++;
       console.error(
-        chalk.red(`  ✗ ${component.id} → Failed: ${error instanceof Error ? error.message : String(error)}`),
+        chalk.red(
+          `  ✗ ${component.id} → Failed: ${error instanceof Error ? error.message : String(error)}`,
+        ),
       );
     }
   }
@@ -198,9 +197,7 @@ async function main() {
     if (dryRun) {
       console.log(chalk.yellow("\n🔍 DRY RUN MODE - No changes will be made\n"));
       await importComponents(components, { dryRun: true });
-      console.log(
-        chalk.cyan("\nDry run complete! Run without --dry-run to actually import."),
-      );
+      console.log(chalk.cyan("\nDry run complete! Run without --dry-run to actually import."));
       process.exit(0);
     }
 

@@ -15,21 +15,21 @@ export function ColorMigrationRow({ item }: { item: TokenMappingItem }) {
           item.newTokens.map((newToken, index) => {
             const canExpand = newToken.values.length > 1;
             return (
-            <Fragment key={newToken.id}>
-              <div
-                onClick={canExpand ? () => setIsExpanded((prev) => !prev) : undefined}
-                className={canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}
-              >
-                <TokenCell
-                  isExpanded={isExpanded}
-                  values={newToken.values}
-                  resolvedValue={newToken.resolvedValue}
-                />
-              </div>
-              {index !== item.newTokens.length - 1 && (
-                <div className="text-xs text-center">또는</div>
-              )}
-            </Fragment>
+              <Fragment key={newToken.id}>
+                <div
+                  onClick={canExpand ? () => setIsExpanded((prev) => !prev) : undefined}
+                  className={canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}
+                >
+                  <TokenCell
+                    isExpanded={isExpanded}
+                    values={newToken.values}
+                    resolvedValue={newToken.resolvedValue}
+                  />
+                </div>
+                {index !== item.newTokens.length - 1 && (
+                  <div className="text-xs text-center">또는</div>
+                )}
+              </Fragment>
             );
           })}
       </td>

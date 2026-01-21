@@ -387,7 +387,7 @@ export const listIconsTool: Tool<IconToolContext> = {
 
         if (result.totalCount > result.returnedCount) {
           response += `\n... and ${result.totalCount - result.returnedCount} more icons.`;
-          response += `\nUse search_icons for specific queries or increase limit.`;
+          response += "\nUse search_icons for specific queries or increase limit.";
         }
 
         if (!type || type === "multicolor") {

@@ -64,15 +64,8 @@ export interface DrawerBackdropProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((props, ref) => {
-  const {
-    overlayRef,
-    onRelease,
-    modal,
-    snapPoints,
-    isOpen,
-    shouldFade,
-    shouldOverlayAnimate,
-  } = useDrawerContext();
+  const { overlayRef, onRelease, modal, snapPoints, isOpen, shouldFade, shouldOverlayAnimate } =
+    useDrawerContext();
   const composedRef = useComposedRefs(ref, overlayRef);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
   const onMouseUp = useCallbackRef((event: React.PointerEvent<HTMLDivElement>) => onRelease(event));

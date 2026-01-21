@@ -33,7 +33,7 @@ const ArticlePreventPull: ActivityComponentType<"react/article/prevent-pull"> = 
           <PullToRefreshContent asChild>
             <VStack gap="x8" style={{ userSelect: "none" }}>
               <PageBanner
-                prefixIcon={<Icon svg={<IconExclamationmarkCircleFill />} />}
+                prefixIcon={<IconExclamationmarkCircleFill />}
                 description="상위 요소에 `user-select: none;` 스타일 적용됨"
                 tone="warning"
                 variant="solid"

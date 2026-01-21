@@ -25,6 +25,11 @@
     --seed-line-height: var(--seed-line-height-t6);
     --seed-font-weight: var(--seed-font-weight-regular)
 }
+.seed-text--textStyle_articleNote {
+    --seed-font-size: var(--seed-font-size-t4);
+    --seed-line-height: var(--seed-line-height-t5);
+    --seed-font-weight: var(--seed-font-weight-regular)
+}
 .seed-text--textStyle_t1Regular {
     --seed-font-size: var(--seed-font-size-t1);
     --seed-line-height: var(--seed-line-height-t1);

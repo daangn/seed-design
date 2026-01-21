@@ -1,5 +1,17 @@
 # @seed-design/docs-mcp
 
+## 0.5.1
+
+### Patch Changes
+
+- e92892a: 아이콘 정보를 업데이트합니다.
+
+## 0.5.0
+
+### Minor Changes
+
+- c300110: Tool의 개수를 유지보수 가능한 형태로 줄였습니다
+
 ## 0.4.0
 
 ### Minor Changes

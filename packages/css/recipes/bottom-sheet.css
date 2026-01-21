@@ -140,6 +140,7 @@
     justify-content: center;
     padding-left: 50px;
     padding-right: 50px;
+    text-align: center;
 }
 .seed-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points='false'] {
     animation-name: fade-in;

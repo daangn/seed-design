@@ -66,7 +66,7 @@ export function getStickyLabelOffset(
   thumbPosition: number,
   thumbWidth: number,
   trackWidth: number,
-  direction: number
+  direction: number,
 ) {
   // If we don't have dimensions, no offset
   if (!labelWidth || !trackWidth) return 0;

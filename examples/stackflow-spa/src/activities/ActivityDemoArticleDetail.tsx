@@ -8,7 +8,8 @@ import {
   AppBarLeft,
 } from "seed-design/ui/app-bar";
 import type { AppBarProps } from "seed-design/ui/app-bar";
-import { VStack, HStack, Box, Article as SeedArticle, TagGroup } from "@seed-design/react";
+import { VStack, HStack, Box, Article as SeedArticle } from "@seed-design/react";
+import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
 import { Text } from "@seed-design/react";
 import { Badge } from "@seed-design/react";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
@@ -130,10 +131,10 @@ const ActivityDemoArticleDetail: ActivityComponentType<"ActivityDemoArticleDetai
                     {article.author}
                   </Text>
                 </HStack>
-                <TagGroup.Root size="t3" tone="neutralSubtle">
-                  <TagGroup.Item>{categoryName}</TagGroup.Item>
-                  <TagGroup.Item>{formatDate(article.createdAt)}</TagGroup.Item>
-                </TagGroup.Root>
+                <TagGroupRoot size="t3" tone="neutralSubtle">
+                  <TagGroupItem label={categoryName} />
+                  <TagGroupItem label={formatDate(article.createdAt)} />
+                </TagGroupRoot>
               </HStack>
             </VStack>
             <VStack px="spacingX.globalGutter" gap="spacingY.componentDefault">

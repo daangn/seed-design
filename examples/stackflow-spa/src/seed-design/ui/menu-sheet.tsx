@@ -1,4 +1,4 @@
-import { MenuSheet as SeedMenuSheet } from "@seed-design/react";
+import { PrefixIcon, MenuSheet as SeedMenuSheet } from "@seed-design/react";
 import { forwardRef } from "react";
 import type * as React from "react";
 
@@ -23,11 +23,13 @@ export const MenuSheetTrigger = SeedMenuSheet.Trigger;
 export interface MenuSheetContentProps extends Omit<SeedMenuSheet.ContentProps, "title"> {
   title?: React.ReactNode;
 
+  description?: React.ReactNode;
+
   layerIndex?: number;
 }
 
 export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps>(
-  ({ children, title, layerIndex, ...otherProps }, ref) => {
+  ({ children, title, description, layerIndex, ...otherProps }, ref) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -43,9 +45,10 @@ export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps
       <SeedMenuSheet.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
         <SeedMenuSheet.Backdrop />
         <SeedMenuSheet.Content ref={ref} {...otherProps}>
-          {title && (
+          {(title || description) && (
             <SeedMenuSheet.Header>
-              <SeedMenuSheet.Title>{title}</SeedMenuSheet.Title>
+              {title && <SeedMenuSheet.Title>{title}</SeedMenuSheet.Title>}
+              {description && <SeedMenuSheet.Description>{description}</SeedMenuSheet.Description>}
             </SeedMenuSheet.Header>
           )}
           <SeedMenuSheet.List>{children}</SeedMenuSheet.List>
@@ -63,6 +66,26 @@ export interface MenuSheetGroupProps extends SeedMenuSheet.GroupProps {}
 
 export const MenuSheetGroup = SeedMenuSheet.Group;
 
-export interface MenuSheetItemProps extends SeedMenuSheet.ItemProps {}
+export interface MenuSheetItemProps extends Omit<SeedMenuSheet.ItemProps, "children"> {
+  prefixIcon?: React.ReactNode;
 
-export const MenuSheetItem = SeedMenuSheet.Item;
+  label: React.ReactNode;
+
+  description?: React.ReactNode;
+}
+
+export const MenuSheetItem = forwardRef<HTMLButtonElement, MenuSheetItemProps>(
+  ({ prefixIcon, label, description, ...props }, ref) => {
+    return (
+      <SeedMenuSheet.Item ref={ref} {...props}>
+        {prefixIcon && <PrefixIcon svg={prefixIcon} />}
+        <SeedMenuSheet.ItemContent>
+          <SeedMenuSheet.ItemLabel>{label}</SeedMenuSheet.ItemLabel>
+          {description && (
+            <SeedMenuSheet.ItemDescription>{description}</SeedMenuSheet.ItemDescription>
+          )}
+        </SeedMenuSheet.ItemContent>
+      </SeedMenuSheet.Item>
+    );
+  },
+);
