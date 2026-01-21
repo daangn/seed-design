@@ -15,7 +15,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("list");
 
 const PREFIX_KEYS = {
   checkmark: "f24c9ef42ef08df79483fbae0fa7d9037e566748",
-  radioMark: "5a77ad37a2291989dfe77c44ddee9aa39e447f90",
+  radiomark: "5a77ad37a2291989dfe77c44ddee9aa39e447f90",
   icon: "0e4c05f097d3fa2dc0cbfdbf8db2662bcf8439ca",
   avatar: "ef0e8bd6c2f92e620acf204bb9a8079ef25a1e5c",
   image: "82239325aa1cb65af7c649fc71a8f2b48fb9b9f3",
@@ -24,7 +24,7 @@ const PREFIX_KEYS = {
 
 const SUFFIX_KEYS = {
   checkmark: "abf9810103ae6e6afe8fa253ec5f05d6a7304b38",
-  radioMark: "0a9464ad270bfd7f56438f62bb0155a25ca146a9",
+  radiomark: "0a9464ad270bfd7f56438f62bb0155a25ca146a9",
   chevron: "8c52207687ffed15cd5931d71ed9d196b3358a68",
   switch: "1e933f75dd6bb4b21c3289b5c3b4402d2c623125",
   custom: "3a70bf5bb9856c13893931b7a0df652bcf0be895",
@@ -110,11 +110,11 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
         return "ListCheckItem";
       }
 
-      if (prefix?.tag === "RadioMark" || suffix?.tag === "RadioMark") {
+      if (prefix?.tag === "Radiomark" || suffix?.tag === "Radiomark") {
         return "ListRadioItem";
       }
 
-      // checkmark/radioMark 없는데 disabled인 경우 Button으로 추측
+      // checkmark/radiomark 없는데 disabled인 경우 Button으로 추측
       if (disabled) {
         return "ListButtonItem";
       }

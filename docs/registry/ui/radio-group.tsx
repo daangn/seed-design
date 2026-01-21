@@ -42,12 +42,12 @@ export const RadioGroupItem = React.forwardRef<HTMLInputElement, RadioGroupItemP
 );
 RadioGroupItem.displayName = "RadioGroupItem";
 
-export interface RadioMarkProps extends SeedRadioGroup.ItemControlProps {}
+export interface RadiomarkProps extends SeedRadioGroup.ItemControlProps {}
 
 /**
  * @see https://seed-design.io/react/components/radio-group
  */
-export const RadioMark = React.forwardRef<HTMLDivElement, RadioMarkProps>((props, ref) => {
+export const Radiomark = React.forwardRef<HTMLDivElement, RadiomarkProps>((props, ref) => {
   return (
     <SeedRadioGroup.ItemControl ref={ref} {...props}>
       <SeedRadioGroup.ItemIndicator
@@ -60,4 +60,14 @@ export const RadioMark = React.forwardRef<HTMLDivElement, RadioMarkProps>((props
     </SeedRadioGroup.ItemControl>
   );
 });
-RadioMark.displayName = "RadioMark";
+Radiomark.displayName = "Radiomark";
+
+/**
+ * @deprecated Use `Radiomark` instead. Will be removed in @seed-design/react@1.3.0.
+ */
+export const RadioMark = Radiomark;
+
+/**
+ * @deprecated Use `RadiomarkProps` instead. Will be removed in @seed-design/react@1.3.0.
+ */
+export type RadioMarkProps = RadiomarkProps;

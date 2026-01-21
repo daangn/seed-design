@@ -3,7 +3,7 @@ import { Fragment } from "react";
 
 import { RadioGroup, Icon } from "@seed-design/react";
 import { List, ListRadioItem, ListDivider } from "seed-design/ui/list";
-import { RadioMark } from "seed-design/ui/radio-group";
+import { Radiomark } from "seed-design/ui/radio-group";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
@@ -97,7 +97,7 @@ const CommonTemplate: Story = {
                               title={radioValue}
                               value={radioValue}
                               detail={content.detail}
-                              prefix={<RadioMark size="large" />}
+                              prefix={<Radiomark size="large" />}
                               disabled={state.disabled}
                               highlighted={state.highlighted}
                               suffix={suffix.element}
@@ -121,7 +121,7 @@ const CommonTemplate: Story = {
                             value={radioValue}
                             title={radioValue}
                             detail={content.detail}
-                            suffix={<RadioMark size="large" />}
+                            suffix={<Radiomark size="large" />}
                             disabled={state.disabled}
                             highlighted={state.highlighted}
                             prefix={prefix.element}
