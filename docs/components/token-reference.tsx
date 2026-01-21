@@ -1,6 +1,6 @@
 import { resolveToken } from "@seed-design/rootage-core";
-import { getRootage } from "./rootage";
-import { stringifyValueLit } from "./rootage";
+import { getRootage, stringifyValueLit } from "./rootage";
+import { TokenValue } from "./token-cell";
 import { TokenTable, TokenTableItem } from "./token-table";
 
 interface TokenReferenceProps {
@@ -18,9 +18,20 @@ export async function TokenReference(props: TokenReferenceProps) {
         global: "default",
         color: "theme-light",
       });
+
+      const valuesWithDescription: TokenValue[] = path.slice(1).map((tokenRef) => ({
+        ref: tokenRef,
+        description: rootage.tokenEntities[tokenRef]?.description,
+      }));
+      valuesWithDescription.push({
+        ref: stringifyValueLit(value),
+        description: undefined,
+      });
+
       return {
         id: tokenId,
-        values: [...path.slice(1), stringifyValueLit(value)],
+        description: rootage.tokenEntities[tokenId]?.description,
+        values: valuesWithDescription,
         resolvedValue: value,
       };
     });

@@ -1,5 +1,4 @@
 # yaml-language-server: $schema=./schema.json
-# parts: root, segment, indicator
 kind: ComponentSpec
 metadata:
   id: segmented-control
@@ -25,8 +24,6 @@ data:
             type: dimension
           strokeColor:
             type: color
-          shadow:
-            type: shadow
           transformDuration:
             type: duration
           transformTimingFunction:
@@ -37,19 +34,11 @@ data:
         root:
           padding: $dimension.x1
           cornerRadius: $radius.full
-          color: $color.bg.neutral-weak
+          color: $color.bg.neutral-weak-alpha
         indicator:
           color: $color.palette.gray-00
           cornerRadius: $radius.full
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-muted
-          shadow:
-            type: shadow
-            value:
-              - offsetX: 0px
-                offsetY: 1px
-                blur: 6px
-                spread: 0px
-                color: "#0000000d"
           transformDuration: $duration.d4
           transformTimingFunction: $timing-function.easing

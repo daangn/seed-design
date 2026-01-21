@@ -3,7 +3,7 @@
   "metadata": {
     "id": "gradient",
     "name": "Gradient",
-    "lastUpdated": "25-08-22"
+    "lastUpdated": "26-01-14"
   },
   "data": {
     "collection": "color",
@@ -37,7 +37,7 @@
             ]
           }
         },
-        "description": "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요."
+        "description": "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.\n@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다.\n"
       },
       "$gradient.fade-layer-default": {
         "values": {
@@ -68,7 +68,7 @@
             ]
           }
         },
-        "description": "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요."
+        "description": "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.\n@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다.\n"
       },
       "$gradient.glow-magic": {
         "values": {
@@ -148,25 +148,17 @@
         },
         "description": "반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러의 pressed컬러입니다."
       },
-      "$gradient.shimmer-neutral": {
+      "$gradient.highlight-magic": {
         "values": {
           "theme-light": {
             "type": "gradient",
             "value": [
               {
-                "color": "#ffffff00",
-                "position": 0
+                "color": "#ff6600",
+                "position": 0.2
               },
               {
-                "color": "#ffffff66",
-                "position": 0.46
-              },
-              {
-                "color": "#ffffff66",
-                "position": 0.54
-              },
-              {
-                "color": "#ffffff00",
+                "color": "#d25aca",
                 "position": 1
               }
             ]
@@ -175,72 +167,17 @@
             "type": "gradient",
             "value": [
               {
-                "color": "#ffffff00",
-                "position": 0
+                "color": "#ff6600",
+                "position": 0.2
               },
               {
-                "color": "#ffffff1a",
-                "position": 0.46
-              },
-              {
-                "color": "#ffffff1a",
-                "position": 0.54
-              },
-              {
-                "color": "#ffffff00",
+                "color": "#d25aca",
                 "position": 1
               }
             ]
           }
         },
-        "description": "Skeleton shimmer"
-      },
-      "$gradient.shimmer-magic": {
-        "values": {
-          "theme-light": {
-            "type": "gradient",
-            "value": [
-              {
-                "color": "#fff9f500",
-                "position": 0
-              },
-              {
-                "color": "#fff9f58a",
-                "position": 0.46
-              },
-              {
-                "color": "#fff9f58a",
-                "position": 0.54
-              },
-              {
-                "color": "#fff9f500",
-                "position": 1
-              }
-            ]
-          },
-          "theme-dark": {
-            "type": "gradient",
-            "value": [
-              {
-                "color": "#fff9f500",
-                "position": 0
-              },
-              {
-                "color": "#fff9f51a",
-                "position": 0.46
-              },
-              {
-                "color": "#fff9f51a",
-                "position": 0.54
-              },
-              {
-                "color": "#fff9f500",
-                "position": 1
-              }
-            ]
-          }
-        },
-        "description": "Skeleton AI shimmer"
+        "description": "아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다."
       },
       "$gradient.highlight-magic-pressed": {
         "values": {
@@ -273,17 +210,25 @@
         },
         "description": ""
       },
-      "$gradient.highlight-magic": {
+      "$gradient.shimmer-magic": {
         "values": {
           "theme-light": {
             "type": "gradient",
             "value": [
               {
-                "color": "#ff6600",
-                "position": 0.2
+                "color": "#fff9f500",
+                "position": 0
               },
               {
-                "color": "#d25aca",
+                "color": "#fff9f5cc",
+                "position": 0.46
+              },
+              {
+                "color": "#fff9f5cc",
+                "position": 0.54
+              },
+              {
+                "color": "#fff9f500",
                 "position": 1
               }
             ]
@@ -292,17 +237,72 @@
             "type": "gradient",
             "value": [
               {
-                "color": "#ff6600",
-                "position": 0.2
+                "color": "#fff9f500",
+                "position": 0
               },
               {
-                "color": "#d25aca",
+                "color": "#fff9f51a",
+                "position": 0.46
+              },
+              {
+                "color": "#fff9f51a",
+                "position": 0.54
+              },
+              {
+                "color": "#fff9f500",
                 "position": 1
               }
             ]
           }
         },
-        "description": "아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다."
+        "description": "Skeleton AI shimmer"
+      },
+      "$gradient.shimmer-neutral": {
+        "values": {
+          "theme-light": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#ffffff00",
+                "position": 0
+              },
+              {
+                "color": "#ffffffab",
+                "position": 0.46
+              },
+              {
+                "color": "#ffffffab",
+                "position": 0.54
+              },
+              {
+                "color": "#ffffff00",
+                "position": 1
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#ffffff00",
+                "position": 0
+              },
+              {
+                "color": "#ffffff1a",
+                "position": 0.46
+              },
+              {
+                "color": "#ffffff1a",
+                "position": 0.54
+              },
+              {
+                "color": "#ffffff00",
+                "position": 1
+              }
+            ]
+          }
+        },
+        "description": "Skeleton shimmer"
       }
     }
   }

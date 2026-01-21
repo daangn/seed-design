@@ -26,6 +26,8 @@ export * from "./FieldButton";
 export * from "./Flex";
 export * from "./Float";
 export * from "./FloatingActionButton";
+export * from "./Grid";
+export * from "./GridItem";
 export * from "./HelpBubble";
 export * from "./Icon";
 export * from "./IdentityPlaceholder";

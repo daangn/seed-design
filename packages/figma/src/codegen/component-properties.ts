@@ -76,10 +76,6 @@ export type DividerProperties = InferComponentDefinition<
   typeof sets.divider.componentPropertyDefinitions
 >;
 
-export type ErrorStateProperties = InferComponentDefinition<
-  typeof sets.templateErrorState.componentPropertyDefinitions
->;
-
 export type FieldHeaderProperties = InferComponentDefinition<{
   "Label#34796:0": {
     type: "TEXT";
@@ -170,6 +166,14 @@ export type MenuSheetItemProperties = InferComponentDefinition<{
     type: "BOOLEAN";
     defaultValue: true;
   };
+  "Sub Text#51411:0": {
+    type: "TEXT";
+    defaultValue: "설명을 입력해주세요.";
+  };
+  "Show Item Description#51411:19": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
   "Label#55905:8": {
     type: "TEXT";
     defaultValue: "라벨";
@@ -192,7 +196,7 @@ export type MenuSheetItemProperties = InferComponentDefinition<{
   Layout: {
     type: "VARIANT";
     defaultValue: "Text Only";
-    variantOptions: ["Text with Icon", "Text Only"];
+    variantOptions: ["Text Only", "Text with Icon"];
   };
 }>;
 
@@ -313,12 +317,16 @@ export type RadioProperties = InferComponentDefinition<
   typeof sets.radio.componentPropertyDefinitions
 >;
 
-export type RadioMarkProperties = InferComponentDefinition<
-  typeof sets.radioMark.componentPropertyDefinitions
+export type RadiomarkProperties = InferComponentDefinition<
+  typeof sets.radiomark.componentPropertyDefinitions
 >;
 
 export type ReactionButtonProperties = InferComponentDefinition<
   typeof sets.reactionButton.componentPropertyDefinitions
+>;
+
+export type ResultSectionProperties = InferComponentDefinition<
+  typeof sets.resultSection.componentPropertyDefinitions
 >;
 
 export type SegmentedControlProperties = InferComponentDefinition<
@@ -370,20 +378,12 @@ export type SwitchProperties = InferComponentDefinition<
   typeof sets._switch.componentPropertyDefinitions
 >;
 
-export type SwitchMarkProperties = InferComponentDefinition<
-  typeof sets.switchMark.componentPropertyDefinitions
+export type SwitchmarkProperties = InferComponentDefinition<
+  typeof sets.switchmark.componentPropertyDefinitions
 >;
 
 export type ToggleButtonProperties = InferComponentDefinition<
   typeof sets.toggleButton.componentPropertyDefinitions
->;
-
-export type SelectBoxGroupProperties = InferComponentDefinition<
-  typeof sets.templateSelectBoxGroup.componentPropertyDefinitions
->;
-
-export type SelectBoxProperties = InferComponentDefinition<
-  typeof sets.selectBox.componentPropertyDefinitions
 >;
 
 export type AppBarProperties = InferComponentDefinition<
@@ -980,5 +980,40 @@ export type LegacyMultilineTextFieldProperties = InferComponentDefinition<{
   Filled: {
     type: "VARIANT";
     variantOptions: ["True", "False"];
+  };
+}>;
+
+export type LegacySelectBoxProperties = InferComponentDefinition<{
+  "Show Description#3033:0": {
+    type: "BOOLEAN";
+  };
+  "Description #3033:5": {
+    type: "TEXT";
+  };
+  "Label#3635:0": {
+    type: "TEXT";
+  };
+  Control: {
+    type: "VARIANT";
+    variantOptions: ["Checkbox", "Radio"];
+  };
+  Selected: {
+    type: "VARIANT";
+    variantOptions: ["True", "False"];
+  };
+  State: {
+    type: "VARIANT";
+    variantOptions: ["Enabled", "Pressed"];
+  };
+}>;
+
+export type LegacySelectBoxGroupProperties = InferComponentDefinition<{
+  Control: {
+    type: "VARIANT";
+    variantOptions: ["Checkbox", "Radio"];
+  };
+  "Item Count": {
+    type: "VARIANT";
+    variantOptions: ["1", "2", "3", "4", "5", "6"];
   };
 }>;

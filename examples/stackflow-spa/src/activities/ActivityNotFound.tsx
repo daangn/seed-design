@@ -1,6 +1,13 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarRight, AppBarIconButton } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
@@ -10,7 +17,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityNotFound: ActivityComponentType<"ActivityNotFound"> = () => {
+const ActivityNotFound: StaticActivityComponentType<"ActivityNotFound"> = () => {
   const { push } = useFlow();
 
   return (

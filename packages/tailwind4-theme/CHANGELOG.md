@@ -1,5 +1,32 @@
 # @seed-design/tailwind4-theme
 
+## 1.1.17
+
+### Patch Changes
+
+- 6fab0e7: Skeleton 가시성 향상을 위해 `$gradient.shimmer-magic` 및 `$gradient.shimmer-neutral` 토큰의 색상을 업데이트합니다.
+- 5faef3a: 주석, 참고 사항 및 상세 리스트 등 부가 정보에 사용할 수 있는 시맨틱 텍스트 스타일 `articleNote`를 추가합니다.
+- 94bebf8: `$color.bg.layer-basement` 위에서 컴포넌트의 가시성을 보장하기 위해 `$color.bg.neutral-weak-alpha` 토큰을 추가합니다.
+
+  - Chip `variant=solid`에 적용
+  - ChipTab `variant=neutralSolid`에 적용
+  - SegmentedControl root에 적용
+
+## 1.1.16
+
+### Patch Changes
+
+- 2f29fe8: 정적 텍스트 스타일 추가 (t1Static* ~ t10Static*)
+- 10c0765: 배너 템플릿에 사용되는 `$color.banner.*` 색상 토큰을 추가합니다.
+
+## 1.1.13
+
+### Patch Changes
+
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
 ## 1.1.6
 
 ### Patch Changes

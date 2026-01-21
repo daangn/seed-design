@@ -4,7 +4,7 @@ import {
   useActivityParams,
   useFlow,
   useStepFlow,
-  type ActivityComponentType,
+  type StaticActivityComponentType,
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -17,7 +17,6 @@ import {
   MenuSheetRoot,
   MenuSheetTrigger,
 } from "seed-design/ui/menu-sheet";
-import { PrefixIcon } from "@seed-design/react";
 import {
   IconHouseLine,
   IconPencilLine,
@@ -34,7 +33,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = () => {
+const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"> = () => {
   const [open, setOpen] = useState(false);
   const { push } = useFlow();
   const { pushStep, popStep } = useStepFlow("ActivityMenuSheetStep");
@@ -42,15 +41,7 @@ const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = ()
   const isOverlayOpen = params["menu-sheet"] === "open";
   const snackbar = useSnackbarAdapter();
 
-  useEffect(() => {
-    if (!isOverlayOpen) {
-      setOpen(false);
-    }
-
-    if (isOverlayOpen) {
-      setOpen(true);
-    }
-  }, [isOverlayOpen]);
+  useEffect(() => setOpen(isOverlayOpen), [isOverlayOpen]);
 
   const onOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -70,7 +61,7 @@ const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = ()
     snackbar.create({
       render: () => <Snackbar variant="positive" message={`선택한 액션: ${action}`} />,
     });
-    popStep();
+    setOpen(false);
   };
 
   return (
@@ -98,33 +89,36 @@ const ActivityMenuSheetStep: ActivityComponentType<"ActivityMenuSheetStep"> = ()
               layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
             >
               <MenuSheetGroup>
-                <MenuSheetItem onClick={() => handleAction("add")}>
-                  <PrefixIcon svg={<IconPlusLine />} />
-                  추가
-                </MenuSheetItem>
-                <MenuSheetItem onClick={() => handleAction("edit")}>
-                  <PrefixIcon svg={<IconPencilLine />} />
-                  수정
-                </MenuSheetItem>
-                <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
-                  <PrefixIcon svg={<IconTrashcanLine />} />
-                  삭제
-                </MenuSheetItem>
+                <MenuSheetItem
+                  onClick={() => handleAction("add")}
+                  label="추가"
+                  prefixIcon={<IconPlusLine />}
+                />
+                <MenuSheetItem
+                  onClick={() => handleAction("edit")}
+                  label="수정"
+                  prefixIcon={<IconPencilLine />}
+                />
+                <MenuSheetItem
+                  onClick={() => handleAction("delete")}
+                  tone="critical"
+                  label="삭제"
+                  prefixIcon={<IconTrashcanLine />}
+                />
               </MenuSheetGroup>
               <MenuSheetGroup labelAlign="center">
                 <MenuSheetItem
                   onClick={() => {
                     // 이 Menu Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
                     // Menu Sheet를 먼저 닫고 다음 Activity를 push해야 합니다.
-                    popStep();
+                    setOpen(false);
                     push("ActivityDetail", {
                       title: "Menu Sheet에서 이동한 화면",
                       body: "Menu Sheet를 닫고 이동했습니다.",
                     });
                   }}
-                >
-                  Push
-                </MenuSheetItem>
+                  label="Push"
+                />
               </MenuSheetGroup>
             </MenuSheetContent>
           </Portal>

@@ -1,8 +1,15 @@
 import { Box } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { useState } from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarRight, AppBarIconButton } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
@@ -69,7 +76,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityPerfCheck: ActivityComponentType<"ActivityPerfCheck"> = () => {
+const ActivityPerfCheck: StaticActivityComponentType<"ActivityPerfCheck"> = () => {
   const { push } = useFlow();
 
   return (

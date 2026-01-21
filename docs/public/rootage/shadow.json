@@ -1,0 +1,170 @@
+{
+  "kind": "Tokens",
+  "metadata": {
+    "id": "shadow",
+    "name": "Shadow",
+    "lastUpdated": "26-01-06"
+  },
+  "data": {
+    "collection": "color",
+    "tokens": {
+      "$shadow.s1": {
+        "values": {
+          "theme-light": {
+            "type": "shadow",
+            "value": [
+              {
+                "color": "#00000014",
+                "offsetX": {
+                  "value": 0,
+                  "unit": "px"
+                },
+                "offsetY": {
+                  "value": 1,
+                  "unit": "px"
+                },
+                "blur": {
+                  "value": 4,
+                  "unit": "px"
+                },
+                "spread": {
+                  "value": 0,
+                  "unit": "px"
+                }
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "shadow",
+            "value": [
+              {
+                "color": "#00000080",
+                "offsetX": {
+                  "value": 0,
+                  "unit": "px"
+                },
+                "offsetY": {
+                  "value": 1,
+                  "unit": "px"
+                },
+                "blur": {
+                  "value": 4,
+                  "unit": "px"
+                },
+                "spread": {
+                  "value": 0,
+                  "unit": "px"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "$shadow.s2": {
+        "values": {
+          "theme-light": {
+            "type": "shadow",
+            "value": [
+              {
+                "color": "#0000001a",
+                "offsetX": {
+                  "value": 0,
+                  "unit": "px"
+                },
+                "offsetY": {
+                  "value": 2,
+                  "unit": "px"
+                },
+                "blur": {
+                  "value": 10,
+                  "unit": "px"
+                },
+                "spread": {
+                  "value": 0,
+                  "unit": "px"
+                }
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "shadow",
+            "value": [
+              {
+                "color": "#000000ad",
+                "offsetX": {
+                  "value": 0,
+                  "unit": "px"
+                },
+                "offsetY": {
+                  "value": 2,
+                  "unit": "px"
+                },
+                "blur": {
+                  "value": 10,
+                  "unit": "px"
+                },
+                "spread": {
+                  "value": 0,
+                  "unit": "px"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "$shadow.s3": {
+        "values": {
+          "theme-light": {
+            "type": "shadow",
+            "value": [
+              {
+                "color": "#0000001f",
+                "offsetX": {
+                  "value": 0,
+                  "unit": "px"
+                },
+                "offsetY": {
+                  "value": 4,
+                  "unit": "px"
+                },
+                "blur": {
+                  "value": 16,
+                  "unit": "px"
+                },
+                "spread": {
+                  "value": 0,
+                  "unit": "px"
+                }
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "shadow",
+            "value": [
+              {
+                "color": "#000000cc",
+                "offsetX": {
+                  "value": 0,
+                  "unit": "px"
+                },
+                "offsetY": {
+                  "value": 4,
+                  "unit": "px"
+                },
+                "blur": {
+                  "value": 16,
+                  "unit": "px"
+                },
+                "spread": {
+                  "value": 0,
+                  "unit": "px"
+                }
+              }
+            ]
+          }
+        },
+        "description": "화면의 다른 요소들보다 가장 높은 계층에 위치할 때 사용됩니다."
+      }
+    }
+  }
+}

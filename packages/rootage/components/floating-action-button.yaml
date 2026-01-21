@@ -52,20 +52,20 @@ data:
             type: dimension
           fontWeight:
             type: number
+    variants:
+      extended:
+        values:
+          "true":
+            description: 라벨이 포함된 확장 형태로, 버튼의 역할을 명확히 전달합니다.
+          "false":
+            description: 아이콘만 표시되는 기본 형태입니다.
   definitions:
     base:
       enabled:
         root:
           color: $color.bg.brand-solid
           cornerRadius: $radius.full
-          shadow:
-            type: shadow
-            value:
-              - offsetX: 0px
-                offsetY: 2px
-                blur: 6px
-                spread: 0px
-                color: "#00000026"
+          shadow: $shadow.s3
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
           layoutDuration: $duration.d4

@@ -23,6 +23,10 @@ const menuSheetSlotNames = [
     "seed-menu-sheet__title"
   ],
   [
+    "description",
+    "seed-menu-sheet__description"
+  ],
+  [
     "list",
     "seed-menu-sheet__list"
   ],
@@ -40,11 +44,17 @@ const menuSheetSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "skipAnimation": false
+};
 
 const compoundVariants = [];
 
-export const menuSheetVariantMap = {};
+export const menuSheetVariantMap = {
+  "skipAnimation": [
+    false
+  ]
+};
 
 export const menuSheetVariantKeys = Object.keys(menuSheetVariantMap);
 

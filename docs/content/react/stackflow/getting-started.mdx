@@ -1,0 +1,76 @@
+---
+title: Getting Started
+description: SEED AppScreen을 사용하기 위한 Stackflow 플러그인 설정 방법을 안내합니다.
+---
+
+## Overview
+
+SEED React의 [`AppScreen`](/react/stackflow/app-screen) 컴포넌트를 사용하려면 [Stackflow](https://stackflow.so/) 플러그인에 `seedPlugin`을 추가합니다.
+
+<Card title="App Screen" href="/react/stackflow/app-screen">
+
+AppScreen 컴포넌트에 대해 자세히 알아봅니다.
+
+</Card>
+
+`seedPlugin`은 다음 기능을 제공합니다.
+
+- **테마 컨텍스트 제공**: 모든 `AppScreen` 컴포넌트에 `theme`을 자동으로 전달합니다.
+- **전역(Global) 인터랙션 관리**: Swipe Back (쓸어서 뒤로 가기) 제스처 및 전역 트랜지션 상태를 관리합니다.
+
+## Installation
+
+`seedPlugin`은 `@seed-design/stackflow` 패키지에 포함되어 있습니다.
+
+```package-install
+npm install @seed-design/stackflow
+```
+
+## Usage
+
+Stackflow 설정 시 `plugins` 배열에 `seedPlugin`을 추가합니다.
+
+```tsx
+import { stackflow } from "@stackflow/react/future";
+import { seedPlugin } from "@seed-design/stackflow";
+
+export const { Stack, actions } = stackflow({
+  plugins: [
+    seedPlugin({ theme: "cupertino" }),
+    // ...
+  ],
+  // ...
+});
+```
+
+### Options
+
+<react-type-table path="../packages/stackflow/src/plugin.tsx" name="SeedPluginOptions" />
+
+## What It Provides
+
+### Theme Context
+
+`seedPlugin`은 `theme` 옵션을 통해 설정된 테마를 모든 `AppScreen` 컴포넌트에 전달합니다. 모든 `AppScreen`은 기본적으로 이 테마를 사용합니다.
+
+`theme`은 [@stackflow/plugin-basic-ui](https://stackflow.so/api-references/plugins/plugin-basic-ui)와 동일하게 `"android" | "cupertino"` 중 선택할 수 있습니다.
+
+```tsx
+// seedPlugin에 옵션으로 제공한 theme이 `AppScreen`에 기본적으로 적용됩니다.
+// `AppScreen`의 `theme` prop을 통해 오버라이드할 수 있습니다.
+<AppScreen>
+  <AppBar>
+    {/* ... */}
+  </AppBar>
+  <AppScreenContent>
+    {/* ... */}
+  </AppScreenContent>
+</AppScreen>
+```
+
+### Swipe Back Gesture
+
+`theme="cupertino"`를 사용하는 경우, iOS 스타일의 Swipe Back (쓸어서 뒤로 가기) 제스처가 활성화됩니다.
+
+- 화면 왼쪽 가장자리에서 오른쪽으로 스와이프하면 이전 Activity로 이동합니다.
+- 스와이프 정도에 따라 `AppScreen`이 위치를 업데이트합니다.

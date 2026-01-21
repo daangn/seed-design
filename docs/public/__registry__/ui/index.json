@@ -184,6 +184,7 @@
         }
       ],
       "id": "error-state",
+      "deprecated": true,
       "dependencies": [
         "@seed-design/css",
         "@seed-design/react"
@@ -427,6 +428,25 @@
     {
       "snippets": [
         {
+          "path": "result-section.tsx"
+        }
+      ],
+      "id": "result-section",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "segmented-control.tsx"
         }
       ],
@@ -498,6 +518,17 @@
         }
       ],
       "id": "tabs",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "tag-group.tsx"
+        }
+      ],
+      "id": "tag-group",
       "dependencies": [
         "@seed-design/react"
       ]

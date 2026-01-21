@@ -1,8 +1,15 @@
 import { RadioGroup, Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { List, ListDivider, ListRadioItem } from "seed-design/ui/list";
 import { RadioMark } from "seed-design/ui/radio-group";
@@ -23,6 +30,8 @@ const positionVariants = [
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "추가 설명이 포함된 라디오입니다" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
 ];
 
 const prefixVariants = [
@@ -57,7 +66,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityListRadioItem: ActivityComponentType<"ActivityListRadioItem"> = () => {
+const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"> = () => {
   const { push } = useFlow();
 
   return (
@@ -115,6 +124,7 @@ const ActivityListRadioItem: ActivityComponentType<"ActivityListRadioItem"> = ()
                               prefix={<RadioMark size="large" />}
                               disabled={state.disabled}
                               suffix={suffix.element}
+                              highlighted={content.highlighted}
                             />
                             {showDivider && <ListDivider as="div" />}
                           </Fragment>
@@ -149,6 +159,7 @@ const ActivityListRadioItem: ActivityComponentType<"ActivityListRadioItem"> = ()
                               suffix={<RadioMark size="large" />}
                               disabled={state.disabled}
                               prefix={prefix.element}
+                              highlighted={content.highlighted}
                             />
                             {showDivider && <ListDivider as="div" />}
                           </Fragment>

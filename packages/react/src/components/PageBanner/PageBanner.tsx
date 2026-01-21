@@ -1,4 +1,5 @@
 import type * as React from "react";
+import { forwardRef } from "react";
 
 import { pageBanner, type PageBannerVariantProps } from "@seed-design/css/recipes/page-banner";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -8,15 +9,51 @@ import {
   DismissibleRoot,
   type DismissibleRootProps,
 } from "../private/useDismissible";
+import clsx from "clsx";
 
-const { withContext, withProvider } = createSlotRecipeContext(pageBanner);
+const { withContext, ClassNamesProvider } = createSlotRecipeContext(pageBanner);
 
 export interface PageBannerRootProps extends PageBannerVariantProps, DismissibleRootProps {}
 
-export const PageBannerRoot = withProvider<HTMLDivElement, PageBannerRootProps>(
-  DismissibleRoot,
-  "root",
+export const PageBannerRoot = forwardRef<HTMLDivElement, PageBannerRootProps>(
+  ({ className, ...props }, ref) => {
+    if (props.variant === "solid" && props.tone === "magic") {
+      console.error(
+        `\`${props.tone}\` tone is not available for \`${props.variant}\` variant in PageBanner components. Please use variant="weak" or a different tone instead.`,
+      );
+    }
+
+    const [variantProps, otherProps] = pageBanner.splitVariantProps(props);
+    const classNames = pageBanner(variantProps);
+
+    return (
+      <ClassNamesProvider value={classNames}>
+        <DismissibleRoot className={clsx(classNames.root, className)} ref={ref} {...otherProps} />
+      </ClassNamesProvider>
+    );
+  },
 );
+
+// Use these instead when ts implements this:
+// Control flow analysis for destructured rest element of discriminated union
+// https://github.com/microsoft/TypeScript/issues/15300
+
+// export type PageBannerRootProps = DismissibleRootProps &
+//   (
+//     | {
+//         variant?: Exclude<PageBannerVariantProps["variant"], "solid">;
+//         tone?: PageBannerVariantProps["tone"];
+//       }
+//     | {
+//         variant: Extract<PageBannerVariantProps["variant"], "solid">;
+//         tone?: Exclude<PageBannerVariantProps["tone"], "magic">;
+//       }
+//   );
+
+// export const PageBannerRoot = withProvider<HTMLDivElement, PageBannerRootProps>(
+//   DismissibleRoot,
+//   "root",
+// );
 
 export interface PageBannerContentProps
   extends PrimitiveProps,

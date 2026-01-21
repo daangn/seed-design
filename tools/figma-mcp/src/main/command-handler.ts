@@ -18,9 +18,53 @@ import {
   setSize,
   setStrokeColor,
 } from "./commands";
+import { posthog } from "./posthog";
 
 // Central command handler
 export async function handleCommand(command: string, params: any): Promise<any> {
+  const startTime = Date.now();
+
+  try {
+    const result = await executeCommand(command, params);
+
+    posthog.capture({
+      event: "command",
+      properties: {
+        params,
+        command,
+        duration: Date.now() - startTime,
+
+        fileName: figma.root.name,
+        fileKey: figma.fileKey,
+
+        username: figma.currentUser?.name,
+        userId: figma.currentUser?.id,
+      },
+    });
+
+    return result;
+  } catch (error) {
+    posthog.capture({
+      event: "command.error",
+      properties: {
+        params,
+        command,
+        error: `${error}`,
+        duration: Date.now() - startTime,
+
+        fileName: figma.root.name,
+        fileKey: figma.fileKey,
+
+        username: figma.currentUser?.name,
+        userId: figma.currentUser?.id,
+      },
+    });
+
+    throw error;
+  }
+}
+
+async function executeCommand(command: string, params: any): Promise<any> {
   switch (command) {
     case "get_document_info":
       return await getDocumentInfo();

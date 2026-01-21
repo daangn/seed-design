@@ -48,7 +48,7 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
 
   const handleAction = (action: string) => {
     console.log("선택한 액션:", action);
-  
+
     pop();
   };
 
@@ -61,18 +61,22 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
         layerIndex={useActivityZIndexBase()}
       >
         <MenuSheetGroup>
-          <MenuSheetItem onClick={() => handleAction("add")}>
-            <PrefixIcon svg={<IconPlusLine />} />
-            추가
-          </MenuSheetItem>
-          <MenuSheetItem onClick={() => handleAction("edit")}>
-            <PrefixIcon svg={<IconPencilLine />} />
-            수정
-          </MenuSheetItem>
-          <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
-            <PrefixIcon svg={<IconTrashcanLine />} />
-            삭제
-          </MenuSheetItem>
+          <MenuSheetItem
+            onClick={() => handleAction("add")}
+            label="추가"
+            prefixIcon={<IconPlusLine />}
+          />
+          <MenuSheetItem
+            onClick={() => handleAction("edit")}
+            label="수정"
+            prefixIcon={<IconPencilLine />}
+          />
+          <MenuSheetItem
+            onClick={() => handleAction("delete")}
+            tone="critical"
+            label="삭제"
+            prefixIcon={<IconTrashcanLine />}
+          />
         </MenuSheetGroup>
       </MenuSheetContent>
     </MenuSheetRoot>
@@ -83,7 +87,34 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
 1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Menu Sheet가 열리도록 합니다.
 1. `onOpenChange`를 통해 Menu Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
 1. `layerIndex={useActivityZIndexBase()}`로 Menu Sheet Activity의 z-index 기준점을 전달합니다.
-    - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+
+- [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+
+#### Keeping Menu Sheet Mounted
+
+Menu Sheet Activity 위에 다른 Activity를 push할 때 Menu Sheet가 unmount되는 것을 방지하려면,
+
+- `open` 상태를 `isActive` 대신 `transitionState`로 관리하고
+- `onOpenChange` 핸들러에서 `!isOpen && isActive`인 경우 `pop()`을 실행하도록 합니다.
+
+이 패턴은 Menu Sheet 액티비티 위에 다른 오버레이 컴포넌트 액티비티를 중첩하여 표시하고 싶은 경우 유용합니다.
+
+```tsx
+const { isActive, transitionState } = useActivity();
+
+return (
+  <MenuSheetRoot
+    open={
+      // [!code highlight]
+      transitionState === "enter-active" || transitionState === "enter-done"
+    }
+    // [!code highlight]
+    onOpenChange={(open) => !open && isActive && pop()}
+  >
+    {/* ... */}
+  </MenuSheetRoot>
+);
+```
 
 ## Syncing Menu Sheet State with a Step
 
@@ -118,7 +149,13 @@ Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요�
 ```tsx
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { Portal } from "@seed-design/react";
-import { useActivity, useActivityParams, useFlow, useStepFlow, type ActivityComponentType } from "@stackflow/react/future";
+import {
+  useActivity,
+  useActivityParams,
+  useFlow,
+  useStepFlow,
+  type ActivityComponentType,
+} from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 // ... more imports
 
@@ -165,7 +202,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 
   const handleAction = (action: string) => {
     console.log("선택한 액션:", action);
-    popStep();
+    setOpen(false);
   };
 
   return (
@@ -182,27 +219,24 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
             layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
           >
             <MenuSheetGroup>
-              <MenuSheetItem onClick={() => handleAction("add")}>
-                추가
-              </MenuSheetItem>
-              <MenuSheetItem onClick={() => handleAction("edit")}>
-                수정
-              </MenuSheetItem>
+              <MenuSheetItem onClick={() => handleAction("add")} label="추가" />
+              <MenuSheetItem onClick={() => handleAction("edit")} label="수정" />
               <MenuSheetItem
                 onClick={() => {
                   // [!code highlight]
-                  popStep(); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
-              >
-                Push
-              </MenuSheetItem>
-              <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
-                삭제
-              </MenuSheetItem>
+                label="Push"
+              />
+              <MenuSheetItem
+                onClick={() => handleAction("delete")}
+                tone="critical"
+                label="삭제"
+              />
             </MenuSheetGroup>
           </MenuSheetContent>
-        {/* [!code highlight] */}
+          {/* [!code highlight] */}
         </Portal>
       </MenuSheetRoot>
     </AppScreen>
@@ -214,7 +248,7 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 1. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
 1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Menu Sheet의 `open` 상태를 동기화합니다.
 1. `layerIndex={useActivityZIndexBase({ activityOffset: 1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
-    - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+   - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
 
 ### `useStepOverlay`
 
@@ -252,27 +286,24 @@ const MyActivity: ActivityComponentType = () => {
             layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
           >
             <MenuSheetGroup>
-              <MenuSheetItem onClick={() => handleAction("add")}>
-                추가
-              </MenuSheetItem>
-              <MenuSheetItem onClick={() => handleAction("edit")}>
-                수정
-              </MenuSheetItem>
+              <MenuSheetItem onClick={() => handleAction("add")} label="추가" />
+              <MenuSheetItem onClick={() => handleAction("edit")} label="수정" />
               <MenuSheetItem
                 onClick={() => {
                   // [!code highlight]
-                  popStep(); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
-              >
-                Push
-              </MenuSheetItem>
-              <MenuSheetItem onClick={() => handleAction("delete")} tone="critical">
-                삭제
-              </MenuSheetItem>
+                label="Push"
+              />
+              <MenuSheetItem
+                onClick={() => handleAction("delete")}
+                tone="critical"
+                label="삭제"
+              />
             </MenuSheetGroup>
           </MenuSheetContent>
-        {/* [!code highlight] */}
+          {/* [!code highlight] */}
         </Portal>
       </MenuSheetRoot>
     </AppScreen>

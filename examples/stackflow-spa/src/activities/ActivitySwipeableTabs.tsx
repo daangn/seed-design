@@ -1,5 +1,5 @@
 import { Box, HStack, Portal, PullToRefresh, Tabs, Text, VStack } from "@seed-design/react";
-import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarBackButton,
@@ -33,7 +33,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = () => {
+const ActivitySwipeableTabs: StaticActivityComponentType<"ActivitySwipeableTabs"> = () => {
   const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const { push } = useFlow();
 
@@ -82,7 +82,9 @@ const ActivitySwipeableTabs: ActivityComponentType<"ActivitySwipeableTabs"> = ()
                         <ListButtonItem title="AlertDialog (step)" />
                       </AlertDialogTrigger>
                       <Portal>
-                        <AlertDialogContent layerIndex={useActivityZIndexBase()}>
+                        <AlertDialogContent
+                          layerIndex={useActivityZIndexBase({ activityOffset: +1 })}
+                        >
                           <AlertDialogHeader>
                             <AlertDialogTitle>제목</AlertDialogTitle>
                             <AlertDialogDescription>

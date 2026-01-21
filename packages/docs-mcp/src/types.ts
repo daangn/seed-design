@@ -18,6 +18,12 @@ export interface ComponentInfo {
   description?: string;
 }
 
+export interface FoundationInfo {
+  name: string;
+  title: string;
+  category?: string;
+}
+
 export interface ChangelogEntry {
   version: string;
   date?: string;
@@ -30,5 +36,49 @@ export interface SearchResult {
   score?: number;
 }
 
-// Package types
 export type PackageType = "react" | "breeze" | "docs";
+
+export interface DocInfo {
+  title: string;
+  path: string;
+  url: string;
+  category?: string;
+}
+
+// Icon types
+export interface IconEntry {
+  name: string;
+  metadatas: string[];
+  variant?: "line" | "fill";
+  service?: string;
+}
+
+export interface IconIndex {
+  version: string;
+  generatedAt: string;
+  monochrome: IconEntry[];
+  multicolor: IconEntry[];
+}
+
+export interface IconSearchResult {
+  name: string;
+  type: "monochrome" | "multicolor";
+  variant?: "line" | "fill";
+  service?: string;
+  matchedKeywords: string[];
+  allKeywords: string[];
+}
+
+export interface IconDetails {
+  name: string;
+  type: "monochrome" | "multicolor";
+  keywords: string[];
+  variant?: "line" | "fill";
+  service?: string;
+  docsUrl: string;
+  usage: {
+    package: string;
+    import: string;
+    component: string;
+  };
+}

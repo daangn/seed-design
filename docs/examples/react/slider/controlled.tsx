@@ -10,7 +10,13 @@ export default function SliderControlled() {
 
   return (
     <VStack gap="spacingY.componentDefault" width="full" align="center">
-      <Slider min={0} max={100} values={value} onValuesChange={setValue} getAriaLabel={() => "값"} />
+      <Slider
+        min={0}
+        max={100}
+        values={value}
+        onValuesChange={setValue}
+        getAriaLabel={() => "값"}
+      />
       <Text>{JSON.stringify(value)}</Text>
       <HStack gap="spacingY.componentDefault">
         <ActionButton type="button" onClick={() => setValue([0])} variant="neutralWeak">

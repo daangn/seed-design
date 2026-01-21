@@ -18,7 +18,6 @@ import { createCheckmarkHandler } from "@/codegen/targets/react/component/handle
 import { createChipHandler } from "./handlers/chip";
 import { createContextualFloatingButtonHandler } from "./handlers/contextual-floating-button";
 import { createDividerHandler } from "./handlers/divider";
-import { createErrorStateHandler } from "./handlers/error-state";
 import {
   createFieldButtonHandler,
   createAddressFieldHandler,
@@ -37,17 +36,17 @@ import { createMenuSheetHandler } from "./handlers/menu-sheet";
 import { createPageBannerHandler } from "./handlers/page-banner";
 import { createProgressCircleHandler } from "./handlers/progress-circle";
 import { createRadioGroupItemHandler } from "@/codegen/targets/react/component/handlers/radio-group";
-import { createRadioMarkHandler } from "@/codegen/targets/react/component/handlers/radio-mark";
+import { createRadiomarkHandler } from "@/codegen/targets/react/component/handlers/radiomark";
 import { createReactionButtonHandler } from "./handlers/reaction-button";
+import { createResultSectionHandler } from "./handlers/result-section";
 import { createSegmentedControlHandler } from "./handlers/segmented-control";
-import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/select-box";
 import { createSkeletonHandler } from "./handlers/skeleton";
 import {
   createSliderHandler,
   createSliderFieldHandler,
 } from "@/codegen/targets/react/component/handlers/slider";
 import { createSnackbarHandler } from "./handlers/snackbar";
-import { createSwitchMarkHandler } from "@/codegen/targets/react/component/handlers/switch-mark";
+import { createSwitchmarkHandler } from "@/codegen/targets/react/component/handlers/switchmark";
 import { createSwitchHandler } from "./handlers/switch";
 import { createTabsHandler } from "@/codegen/targets/react/component/handlers/tabs";
 import { createTextInputFieldHandler, createTextareaFieldHandler } from "./handlers/text-field";
@@ -60,6 +59,10 @@ import {
   createLegacyTextFieldHandler,
   createLegacyMultilineTextFieldHandler,
 } from "./handlers/legacy-text-field";
+import {
+  createLegacySelectBoxHandler,
+  createLegacySelectBoxGroupHandler,
+} from "./handlers/legacy-select-box";
 
 export type { ComponentHandlerDeps };
 export type UnboundComponentHandler<T extends NormalizedInstanceNode["componentProperties"]> = (
@@ -89,16 +92,18 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createCheckboxHandler,
   createCheckmarkHandler,
   createRadioGroupItemHandler,
-  createRadioMarkHandler,
+  createRadiomarkHandler,
   createSwitchHandler,
-  createSwitchMarkHandler,
+  createSwitchmarkHandler,
   createAlertDialogHandler,
   createDividerHandler,
   createAvatarHandler,
   createAvatarStackHandler,
   createSegmentedControlHandler,
-  createSelectBoxGroupHandler,
-  createSelectBoxHandler,
+
+  createLegacySelectBoxHandler,
+  createLegacySelectBoxGroupHandler,
+
   createSliderHandler,
   createSliderFieldHandler,
   createTabsHandler,
@@ -112,7 +117,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createDatePickerFieldHandler,
   createSelectFieldHandler,
   createTimePickerFieldHandler,
-  createErrorStateHandler,
+  createResultSectionHandler,
   createContextualFloatingButtonHandler,
   createFloatingActionButtonHandler,
   createHelpBubbleHandler,

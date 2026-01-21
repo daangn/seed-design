@@ -6,6 +6,7 @@ export declare const vars: {
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x3)",
         "paddingY": "var(--seed-dimension-x2_5)",
+        "gap": "var(--seed-dimension-x1)",
         "enterScale": "0.9",
         "enterOpacity": "0",
         "enterDuration": "var(--seed-duration-d4)",
@@ -20,8 +21,13 @@ export declare const vars: {
         "width": "12px",
         "height": "8px",
         "cornerRadius": "2px",
+        /** arrow와 타겟 요소 사이의 거리를 정의합니다. */
         "gutter": "4px",
+        /** arrow와 root의 경계 사이의 최소 간격을 정의합니다. */
         "padding": "14px"
+      },
+      "body": {
+        "gap": "var(--seed-dimension-x0_5)"
       },
       "title": {
         "color": "var(--seed-color-fg-neutral-inverted)",
@@ -37,10 +43,9 @@ export declare const vars: {
       },
       "closeButton": {
         "color": "var(--seed-color-fg-neutral-inverted)",
-        "fromRight": "12px",
-        "fromTop": "12px",
-        "size": "14px",
-        "targetSize": "32px"
+        "size": "var(--seed-dimension-x3_5)",
+        "targetSize": "38px",
+        "marginTop": "var(--seed-dimension-x0_5)"
       }
     }
   }

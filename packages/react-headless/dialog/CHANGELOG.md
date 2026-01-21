@@ -1,5 +1,11 @@
 # @seed-design/react-dialog
 
+## 1.0.1
+
+### Patch Changes
+
+- 69ccc6e: Overlay 컴포넌트에 skipAnimation 옵션을 추가합니다
+
 ## 1.0.0
 
 ### Major Changes

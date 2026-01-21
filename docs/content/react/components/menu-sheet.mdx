@@ -1,6 +1,6 @@
 ---
 title: Menu Sheet
-description: Menu Sheet는 사용자가 특정 작업에 관한 선택지뿐만 아니라 추가적인 선택지를 제공할 때 사용하는 시트 형태의 컴포넌트입니다.
+description: 사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.
 ---
 
 <ComponentExample name="react/menu-sheet/preview">
@@ -67,6 +67,8 @@ npx @seed-design/cli@latest add ui:menu-sheet
 
 ### With Title
 
+`MenuSheetContent`의 `title` prop을 사용하여 시트 헤더에 제목을 표시합니다.
+
 <ComponentExample name="react/menu-sheet/with-title">
   ```json doc-gen:file
   {
@@ -76,7 +78,26 @@ npx @seed-design/cli@latest add ui:menu-sheet
   ```
 </ComponentExample>
 
-### `labelAlign="left"` (with `PrefixIcon`)
+### With Title and Description
+
+`MenuSheetContent`의 `description` prop을 사용하여 제목 아래에 부가 설명을 추가합니다.
+
+<ComponentExample name="react/menu-sheet/with-title-and-description">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu-sheet/with-title-and-description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Label Align
+
+`MenuSheetContent`의 `labelAlign` prop으로 메뉴 항목의 레이블 정렬을 설정합니다.
+
+#### `labelAlign="left"` (with `PrefixIcon`)
+
+레이블을 왼쪽 정렬합니다.
 
 <ComponentExample name="react/menu-sheet/with-prefix-icon">
   ```json doc-gen:file
@@ -87,7 +108,9 @@ npx @seed-design/cli@latest add ui:menu-sheet
   ```
 </ComponentExample>
 
-### `labelAlign="center"` (without `PrefixIcon`)
+#### `labelAlign="center"` (without `PrefixIcon`)
+
+레이블을 중앙 정렬합니다. (일반적으로, `prefixIcon` 없는 경우)
 
 <ComponentExample name="react/menu-sheet/without-prefix-icon">
   ```json doc-gen:file
@@ -97,15 +120,28 @@ npx @seed-design/cli@latest add ui:menu-sheet
   }
   ```
 </ComponentExample>
-  
-### Overriding `labelAlign`
 
-`MenuSheetContent`에 지정한 `labelAlign`을 `MenuSheetGroup` 또는 `MenuSheetItem`에 지정한 `labelAlign`으로 덮어쓸 수 있습니다.
+#### Overriding `labelAlign`
+
+필요한 경우 `MenuSheetContent`에 지정한 `labelAlign`을 `MenuSheetGroup` 또는 `MenuSheetItem`에 지정한 `labelAlign`으로 덮어쓸 수 있습니다.
 
 <ComponentExample name="react/menu-sheet/overriding-label-align">
   ```json doc-gen:file
   {
     "file": "examples/react/menu-sheet/overriding-label-align.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Skip Animation
+
+`skipAnimation` prop을 사용하여 MenuSheet의 enter/exit 애니메이션을 건너뛸 수 있습니다.
+
+<ComponentExample name="react/menu-sheet/skip-animation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu-sheet/skip-animation.tsx",
     "codeblock": true
   }
   ```

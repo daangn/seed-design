@@ -6,7 +6,7 @@ declare interface PageBannerVariant {
 /**
   * @default "neutral"
   */
-  tone: "neutral" | "informative" | "positive" | "warning" | "critical";
+  tone: "neutral" | "informative" | "positive" | "warning" | "critical" | "magic";
 }
 
 declare type PageBannerVariantMap = {

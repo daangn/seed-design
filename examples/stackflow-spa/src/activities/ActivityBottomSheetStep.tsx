@@ -4,7 +4,7 @@ import {
   useActivityParams,
   useFlow,
   useStepFlow,
-  type ActivityComponentType,
+  type StaticActivityComponentType,
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -26,22 +26,14 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> = () => {
+const ActivityBottomSheetStep: StaticActivityComponentType<"ActivityBottomSheetStep"> = () => {
   const [open, setOpen] = useState(false);
   const { push } = useFlow();
   const { pushStep, popStep } = useStepFlow("ActivityBottomSheetStep");
   const params = useActivityParams<"ActivityBottomSheetStep">();
   const isOverlayOpen = params["bottom-sheet"] === "open";
 
-  useEffect(() => {
-    if (!isOverlayOpen) {
-      setOpen(false);
-    }
-
-    if (isOverlayOpen) {
-      setOpen(true);
-    }
-  }, [isOverlayOpen]);
+  useEffect(() => setOpen(isOverlayOpen), [isOverlayOpen]);
 
   const onOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -84,8 +76,8 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
               layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
             >
               <BottomSheetFooter>
-                <HStack gap="x2">
-                  <ActionButton onClick={() => popStep()} variant="neutralWeak">
+                <HStack gap="x2" pb="safeArea">
+                  <ActionButton onClick={() => setOpen(false)} variant="neutralWeak">
                     닫기
                   </ActionButton>
                   <ActionButton
@@ -94,7 +86,7 @@ const ActivityBottomSheetStep: ActivityComponentType<"ActivityBottomSheetStep"> 
                     onClick={() => {
                       // 이 Bottom Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
                       // BottomSheet를 먼저 닫고 다음 Activity를 push해야 합니다.
-                      popStep();
+                      setOpen(false);
                       push("ActivityDetail", {
                         title: "Bottom Sheet에서 이동한 화면",
                         body: "Bottom Sheet를 닫고 이동했습니다.",

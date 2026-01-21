@@ -22,22 +22,11 @@ export declare const vars: {
         "strokeWidth": "0px",
         "strokeColor": "#00000000"
       }
-    },
-    "disabled": {
-      "root": {
-        "color": "var(--seed-color-palette-gray-300)"
-      }
-    },
-    "disabledSelected": {
-      "root": {
-        "color": "var(--seed-color-bg-transparent)",
-        "strokeColor": "var(--seed-color-palette-gray-300)"
-      },
-      "icon": {
-        "color": "var(--seed-color-palette-gray-300)"
-      }
     }
   },
+  /**
+   * [deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.
+   */
   "toneBrand": {
     "enabledSelected": {
       "root": {
@@ -50,6 +39,21 @@ export declare const vars: {
     "enabledSelectedPressed": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid-pressed)"
+      }
+    },
+    "disabled": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-300)"
+      }
+    },
+    "disabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-palette-gray-300)"
+      },
+      "icon": {
+        "color": "var(--seed-color-palette-gray-300)"
       }
     }
   },
@@ -65,6 +69,21 @@ export declare const vars: {
     "enabledSelectedPressed": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+      }
+    },
+    "disabled": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-300)"
+      }
+    },
+    "disabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-transparent)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-palette-gray-300)"
+      },
+      "icon": {
+        "color": "var(--seed-color-palette-gray-300)"
       }
     }
   },

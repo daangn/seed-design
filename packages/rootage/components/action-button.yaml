@@ -48,12 +48,14 @@ data:
           size:
             type: dimension
       prefixIcon:
+        description: 주로 액션의 의미를 보조합니다.
         properties:
           color:
             type: color
           size:
             type: dimension
       suffixIcon:
+        description: Chevron처럼 동작을 보조하는 역할입니다.
         properties:
           color:
             type: color
@@ -69,6 +71,39 @@ data:
             type: dimension
           thickness:
             type: dimension
+    variants:
+      variant:
+        values:
+          brandSolid:
+            description: 브랜드의 핵심 가치를 전달하며, 사용자 간 연결이 일어나는 서비스의 주요 기능에 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
+          neutralSolid:
+            description: 대부분의 화면에서 CTA로 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
+          neutralWeak:
+            description: CTA를 제외한 대부분의 액션에 사용됩니다.
+          criticalSolid:
+            description: 삭제나 초기화처럼 되돌릴 수 없는 중요한 작업에 사용합니다.
+          neutralOutline:
+            description: Solid 타입과 함께 사용할 수 없으며, Brand Outline과 조합하여 사용하는 것을 권장합니다.
+          brandOutline:
+            description: Solid 타입과 함께 사용할 수 없으며, Neutral Outline과 조합하여 사용하는 것을 권장합니다.
+          ghost:
+            description: 배경 없이 텍스트와 아이콘만 표시됩니다.
+      size:
+        values:
+          xsmall:
+            description: 작은 공간에서 효율적으로 사용할 수 있는 Pill 형태로 제공됩니다.
+          small:
+            description: 화면 중앙에서 범용적으로 사용됩니다.
+          medium:
+            description: 화면 중앙에서 범용적으로 사용됩니다.
+          large:
+            description: 주로 CTA 역할로 사용됩니다.
+      layout:
+        values:
+          withText:
+            description: 텍스트와 함께 아이콘을 표시할 수 있습니다.
+          iconOnly:
+            description: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 사용하는 것을 권장합니다.
   definitions:
     base:
       enabled:
@@ -326,8 +361,8 @@ data:
         suffixIcon:
           size: $dimension.x3_5
         label:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
     size=xsmall, layout=iconOnly:
       enabled:
         root:

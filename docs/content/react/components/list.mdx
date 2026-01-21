@@ -1,9 +1,8 @@
 ---
 title: List
-description: List 컴포넌트는 정보를 구조화된 목록 형태로 표시하는 데 사용됩니다.
+description: 가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.
 ---
 
-import { Component } from "lucide-react";
 
 <ComponentExample name="react/list/preview">
   ```json doc-gen:file
@@ -324,7 +323,7 @@ import { ListHeader, List, Icon } from "@seed-design/react";
 
 ### `asChild` prop으로 적절한 시맨틱 요소와 조합하기
 
-<Card title="Composition" href="/react/components/concepts/composition#aschild-prop" icon={<Component />}>
+<Card title="Composition" href="/react/components/concepts/composition#aschild-prop" icon={<IconComponent />}>
 
 `asChild` prop에 대해 자세히 알아봅니다.
 
@@ -382,7 +381,7 @@ import { ListButtonItem } from "seed-design/ui/list";
 
 #### Using `asChild` prop in `List.Item`
 
-리스트 항목 전체 영역을 `label`로 만들고, `List.Prefix` 또는 `List.Suffix`에 [Swimarkark](/react/components/switch#using-switchMark), [Checkmark](/react/components/checkbox#using-checkmark) 또는 [RadioMark](/react/components/radio-group#using-radiomark)를 넣는 경우 활용할 수 있는 패턴입니다.
+리스트 항목 전체 영역을 `label`로 만들고, `List.Prefix` 또는 `List.Suffix`에 [SwitchMark](/react/components/switch#using-switchmark), [Checkmark](/react/components/checkbox#using-checkmark) 또는 [RadioMark](/react/components/radio-group#using-radiomark)를 넣는 경우 활용할 수 있는 패턴입니다.
 
 ```tsx
 import { List as SeedList } from "@seed-design/react";

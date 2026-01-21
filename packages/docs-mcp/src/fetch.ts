@@ -1,154 +1,118 @@
 import { LRUCache } from "lru-cache";
-import type { ComponentInfo } from "./types.js";
+import { SEED_DOCS_BASE_URL, ROOTAGE_ENDPOINTS } from "./constants.js";
+import { SECTIONS, type SectionId } from "./config.js";
+import type { DocInfo } from "./types.js";
 
-// Base URL for SEED Design documentation
-const SEED_BASE_URL = "https://seed-design.io";
-
-// LRU Cache for documentation content with automatic eviction
+// biome-ignore lint/suspicious/noExplicitAny: cache stores various types
 const cache = new LRUCache<string, any>({
-  max: 100, // Maximum 100 items
-  ttl: 5 * 60 * 1000, // 5 minutes TTL
-  maxSize: 50 * 1024 * 1024, // 50MB maximum memory
-  sizeCalculation: (value) => {
-    // Calculate size based on JSON string length
-    return JSON.stringify(value).length;
-  },
-  updateAgeOnGet: true, // Refresh TTL on access
+  max: 100,
+  ttl: 5 * 60 * 1000,
+  maxSize: 50 * 1024 * 1024,
+  sizeCalculation: (value) => JSON.stringify(value).length,
+  updateAgeOnGet: true,
 });
 
-/**
- * Generic fetch utility with caching and error handling
- */
-async function fetchWithCache<T>(url: string, errorContext?: string): Promise<T> {
-  // Check cache first
+async function fetchWithCache<T>(url: string): Promise<T> {
   const cached = cache.get(url);
   if (cached) {
     return cached as T;
   }
 
-  try {
-    const response = await fetch(url);
+  const response = await fetch(url);
 
-    if (!response.ok) {
-      const context = errorContext || `fetch ${url}`;
-      throw new Error(`Failed to ${context}: ${response.status} ${response.statusText}`);
-    }
-
-    const contentType = response.headers.get("content-type");
-    let data: T;
-
-    if (contentType?.includes("application/json")) {
-      data = (await response.json()) as T;
-    } else {
-      data = (await response.text()) as T;
-    }
-
-    // Update cache
-    cache.set(url, data);
-
-    return data;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error(`Failed to fetch ${url}: Unknown error`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
+
+  const contentType = response.headers.get("content-type");
+  let data: T;
+
+  if (contentType?.includes("application/json")) {
+    data = (await response.json()) as T;
+  } else {
+    data = (await response.text()) as T;
+  }
+
+  cache.set(url, data);
+  return data;
 }
 
-/**
- * Fetches the list of React components
- */
-export async function fetchReactComponentList(): Promise<ComponentInfo[]> {
-  const content = await fetchWithCache<string>(
-    `${SEED_BASE_URL}/react/llms-components.txt`,
-    "fetch React components list",
-  );
+export async function fetchSectionOverview(section: SectionId): Promise<string> {
+  const config = SECTIONS[section];
+  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.overviewPath}`);
+}
 
-  // Parse the component list from the text content
-  const lines = content.split("\n").filter((line) => line.trim());
-  const components: ComponentInfo[] = [];
+export async function fetchSectionFull(section: SectionId): Promise<string> {
+  const config = SECTIONS[section];
+  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.fullPath}`);
+}
+
+function escapeRegExp(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+export async function fetchDocsList(section: SectionId, category?: string): Promise<DocInfo[]> {
+  const overview = await fetchSectionOverview(section);
+  const config = SECTIONS[section];
+
+  const lines = overview.split("\n").filter((line) => line.trim());
+  const docs: DocInfo[] = [];
+
+  const escapedBasePath = escapeRegExp(config.basePath);
+  const urlPattern = new RegExp(`${escapedBasePath}\\/([a-z0-9-/]+)\\.txt`, "i");
 
   for (const line of lines) {
-    // Extract component names from URLs or list items
-    const match = line.match(/llms-components\/([a-z-]+)\.txt/) || line.match(/^-?\s*([a-z-]+)/i);
-    if (match) {
-      const name = match[1];
-      components.push({
-        name,
-        title: name
+    const match = line.match(urlPattern);
+    if (!match) continue;
+
+    const path = match[1];
+    const pathParts = path.split("/");
+    const docCategory = pathParts.length > 1 ? pathParts[0] : undefined;
+
+    if (category && docCategory !== category) continue;
+
+    const titleMatch = line.match(/\[([^\]]+)\]/);
+    const title = titleMatch
+      ? titleMatch[1]
+      : pathParts[pathParts.length - 1]
           .split("-")
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" "),
-      });
-    }
+          .join(" ");
+
+    const urlMatch = line.match(/\((https?:\/\/[^)]+)\)/);
+    const url = urlMatch ? urlMatch[1] : `${SEED_DOCS_BASE_URL}${config.basePath}/${path}.txt`;
+
+    docs.push({
+      title,
+      path,
+      url,
+      category: docCategory,
+    });
   }
 
-  return components;
+  return docs;
 }
 
-/**
- * Fetches the documentation for a specific React component
- */
-export async function fetchReactComponent(componentName: string): Promise<string> {
-  return fetchWithCache<string>(
-    `${SEED_BASE_URL}/react/llms-components/${componentName}.txt`,
-    `fetch React component ${componentName}`,
-  );
+export async function fetchDoc(section: SectionId, path: string): Promise<string> {
+  const config = SECTIONS[section];
+  const cleanPath = path.replace(/\.txt$/, "");
+  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.basePath}/${cleanPath}.txt`);
 }
 
-/**
- * Fetches the React changelog
- */
-export async function fetchReactChangelog(): Promise<string> {
-  return fetchWithCache<string>(
-    `${SEED_BASE_URL}/react/llms-changelog.txt`,
-    "fetch React changelog",
-  );
+export interface RootageIndex {
+  name: string;
+  version: string;
+  resources: Array<{ path: string }>;
 }
 
-/**
- * Fetches the list of Breeze components
- */
-export async function fetchBreezeComponentList(): Promise<ComponentInfo[]> {
-  const content = await fetchWithCache<string>(
-    `${SEED_BASE_URL}/breeze/llms.txt`,
-    "fetch Breeze components list",
-  );
-
-  // Parse the component list from the text content
-  const lines = content.split("\n").filter((line) => line.trim());
-  const components: ComponentInfo[] = [];
-
-  for (const line of lines) {
-    const match = line.match(/llms\/components\/([a-z-]+)\.txt/) || line.match(/^-?\s*([a-z-]+)/i);
-    if (match) {
-      const name = match[1];
-      components.push({
-        name,
-        title: name
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" "),
-      });
-    }
-  }
-
-  return components;
+export async function fetchRootageIndex(): Promise<RootageIndex> {
+  return fetchWithCache<RootageIndex>(`${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.INDEX}`);
 }
 
-/**
- * Fetches the documentation for a specific Breeze component
- */
-export async function fetchBreezeComponent(componentName: string): Promise<string> {
-  return fetchWithCache<string>(
-    `${SEED_BASE_URL}/breeze/llms/components/${componentName}.txt`,
-    `fetch Breeze component ${componentName}`,
-  );
+export async function fetchRootageResource(path: string): Promise<unknown> {
+  return fetchWithCache<unknown>(`${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.BASE}${path}`);
 }
 
-/**
- * Clear the cache
- */
 export function clearCache(): void {
   cache.clear();
 }

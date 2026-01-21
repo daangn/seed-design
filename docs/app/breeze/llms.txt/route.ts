@@ -1,53 +1,44 @@
 import { baseUrl } from "@/app/metadata";
-import { breezeSource } from "@/app/source";
+import type { LLMPage } from "@/app/_llms/types";
+import { getBreezeSource } from "@/app/sources/breeze-source";
 
 export const revalidate = false;
 
-/**
- * Entry point for accessing individual breeze component documentation.
- * Each breeze component can be accessed through its specific endpoint.
- */
 export async function GET() {
-  const breezePages = breezeSource.getPages();
+  const breezeSource = await getBreezeSource();
+  const pages = (breezeSource.getPages() as LLMPage[]).filter((page) => page.slugs.length > 0);
 
-  const components = breezePages
-    .map(({ data, slugs }) => {
-      // Attach .txt extension to the last slug
-      const path = slugs
-        .map((slug, index) => {
-          if (index === slugs.length - 1) return `${slug}.txt`;
-          return slug;
-        })
-        .join("/");
-
-      const txtUrl = new URL(`/breeze/llms/${path}`, baseUrl);
-
-      return `- [${data.title}](${txtUrl})`;
+  const pageList = pages
+    .map((page) => {
+      const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
+      const llmsUrl = new URL(`/llms/breeze/${slugsWithExt.join("/")}`, baseUrl);
+      return `- [${page.data.title}](${llmsUrl}): ${page.data.description ?? ""}`;
     })
-    .sort((a, b) => a.localeCompare(b));
+    .sort()
+    .join("\n");
 
-  const response = `# SEED Design Breeze Components - LLM Reference Entry
+  return new Response(`# SEED Design Breeze - LLM Reference
 
-This is an entry point for accessing individual breeze component documentation.
-Breeze are utility components that enhance your SEED Design applications.
+프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트입니다.
 
-## Available Breeze Components
+## Quick Access
 
-${components.join("\n")}
+- [전체 문서 (llms-full.txt)](${new URL("/breeze/llms-full.txt", baseUrl)}): 모든 Breeze 문서를 하나의 파일로
+
+## Components
+
+${pageList}
 
 ## Usage
 
-To get information about a specific breeze component, access its endpoint:
-Example: /breeze/llms/animate-number.txt
+개별 페이지는 /llms/breeze/{path}.txt 형태로 접근할 수 있습니다.
 
-The response will include the full MDX content for that component, processed and ready for LLM consumption.
+예시:
+- ${new URL("/llms/breeze/components/animate-number.txt", baseUrl)}
 
-## Additional Resources
+## Related Sections
 
-- Full components documentation: /react/llms-full.txt
-- Regular components: /react/llms-components.txt
-- Changelog: /react/llms-changelog.txt
-`;
-
-  return new Response(response);
+- [React Library](${new URL("/react/llms.txt", baseUrl)}): React 컴포넌트 라이브러리
+- [Design Guidelines](${new URL("/docs/llms.txt", baseUrl)}): 디자인 가이드라인
+`);
 }

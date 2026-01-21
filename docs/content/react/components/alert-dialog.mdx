@@ -1,6 +1,6 @@
 ---
 title: Alert Dialog
-description: 사용자의 주의가 필요한 중요한 정보를 전달하거나 확인을 요청하는 모달 컴포넌트입니다. 삭제 확인과 같은 중요한 의사결정이 필요할 때 사용됩니다.
+description: 사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.
 ---
 
 <ComponentExample name="react/alert-dialog/preview">
@@ -114,6 +114,17 @@ npx @seed-design/cli@latest add ui:alert-dialog
   ```
 </ComponentExample>
 
+### Nonpreferred
+
+<ComponentExample name="react/alert-dialog/nonpreferred">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/alert-dialog/nonpreferred.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Critical Action
 
 <ComponentExample name="react/alert-dialog/critical">
@@ -146,6 +157,19 @@ Portal은 기본적으로 `document.body`에 렌더링됩니다.
   ```json doc-gen:file
   {
     "file": "examples/react/alert-dialog/portalled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Skip Animation
+
+`skipAnimation` prop을 사용하여 AlertDialog의 enter/exit 애니메이션을 건너뛸 수 있습니다.
+
+<ComponentExample name="react/alert-dialog/skip-animation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/alert-dialog/skip-animation.tsx",
     "codeblock": true
   }
   ```

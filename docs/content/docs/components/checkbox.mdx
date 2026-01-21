@@ -1,23 +1,118 @@
 ---
 title: Checkbox
 description: 사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.
+coverImageFigmaId: 39:21528
 ---
 
 <PlatformStatusTable componentId="checkbox" />
 
-## 개요
+## Anatomy
 
-### 옵션 테이블
+<FigmaImage
+  id="2:93106"
+  alt="Checkbox의 Anatomy 이미지. Checkmark와 Label로 구성됩니다."
+/>
 
-| 속성        | 값     | 기본값 |
-| ----------- | ------ | ------ |
-| size       | medium, large | medium |
-| shape | square, ghost | square |
-| tone | brand, neutral | brand |
-| weight | regular, bold | regular |
-| state | enabled, pressed, disabled, selected, selected-pressed, selected-disabled, indeterminate, indeterminate-pressed, indeterminate-disabled | enabled |
-| label | string |        |
+Checkbox는 Checkmark와 Label로 구성됩니다. Checkmark는 개별 컴포넌트로 제공되어서 자유롭게 조합해서 사용할 수 있습니다.
 
-## 스펙
+## Properties
 
-<ComponentSpecBlock id="checkbox" />
+### Size, Weight
+
+<FigmaImage
+  id="2:93117"
+  alt="Checkbox의 Size와 Weight Property - Medium, Large 사이즈와 Regular, Bold 굵기"
+/>
+
+Checkbox는 Medium, Large 사이즈로 제공됩니다. 강조해야 하거나 그룹으로 사용해야 하는 경우에 따라서 Weight를 조정해서 활용할 수 있습니다.
+
+### Tone
+
+<FigmaImage id="2:93136" alt="Checkbox의 Tone Property - Neutral" />
+
+Checkbox는 Neutral을 기본으로 사용할 수 있습니다.
+
+**Brand 컬러는 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.**
+
+### Shape
+
+<FigmaImage id="2:93146" alt="Checkbox의 Shape Property - Square, Ghost" />
+
+Checkbox는 Square, Ghost 두 가지 Shape으로 제공됩니다. Checkmark도 동일하게 제공되니 참고하세요.
+
+### State
+
+<FigmaImage
+  id="2:93160"
+  alt="Checkbox의 State - Selected, Unselected, Indeterminate 상태와 Enabled, Pressed, Disabled 조합"
+/>
+
+Checkbox는 선택(Selected), 미선택(Unselected), 불확실(Indeterminate) 상태를 가지며, 이 각각의 상태는 사용자의 상호작용에 따라 활성화(Enabled), 비활성화(Disabled), 눌림(Pressed)의 상태로 조합되어 표현됩니다.
+
+## Guidelines
+
+### Checkbox touch target
+
+<FigmaImage id="2:93212" alt="Checkbox의 Touch Target 영역 - Label 포함 영역" />
+
+<FigmaImage id="2:93217" alt="Checkbox의 Touch Target 영역 - Row 전체 영역" />
+
+Checkbox는 Label을 포함한 영역이 Target으로 동작합니다. List처럼 Checkmark를 조합해서 사용하는 경우 전체 Row가 Target 영역이 되어야 합니다.
+
+### Checkbox group 사용하기
+
+<FigmaImage
+  id="2:93229"
+  alt="Checkbox Group 사용 예시 - 부모 Checkbox와 자식 Checkbox 구성: 모든 항목 선택 안 됨"
+/>
+
+<FigmaImage
+  id="2:93241"
+  alt="Checkbox Group 사용 예시 - 부모 Checkbox와 자식 Checkbox 구성: 모든 항목 선택됨"
+/>
+
+<FigmaImage
+  id="2:93253"
+  alt="Checkbox Group 사용 예시 - 부모 Checkbox와 자식 Checkbox 구성: 일부 항목 선택됨"
+/>
+
+<FigmaImage
+  id="2:93265"
+  alt="Checkbox Group 사용 예시 - 부모 Checkbox가 없는 구성"
+/>
+
+<FigmaImage id="2:93276" alt="Checkbox Group 사용 예시 - 응용" />
+
+Checkbox는 여러 항목을 그룹으로 묶어서 제공할 수 있습니다. 그룹으로 묶이는 경우 필요에 따라서 부모 Checkbox를 최상단에 배치하세요.
+
+부모 Checkbox를 선택하면 모든 자식 Checkbox가 선택됩니다. 자식 Checkbox 일부만 선택하면 부모 Checkbox는 Indeterminate 상태로 표시됩니다.
+
+### Shape 결정하기
+
+<FigmaImage id="2:93295" alt="Checkbox Shape 선택 가이드 - Ghost" />
+
+<FigmaImage id="2:93300" alt="Checkbox Shape 선택 가이드 - Square" />
+
+필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 Ghost를 사용하는 것을 권장합니다. 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 명시적인 Square을 사용하세요.
+
+### Checkbox vs. Switch
+
+<FigmaImage id="2:93352" alt="Checkbox와 Switch 비교표" />
+
+Checkbox와 [Switch](/docs/components/switch)는 사용자의 선택 여부를 표시하는 컴포넌트입니다.
+
+| 속성               | Checkbox                                         | Switch                                  |
+| ------------------ | ------------------------------------------------ | --------------------------------------- |
+| **선택값 적용**    | 저장하기 등의 액션을 수행해야 값이 저장됨 (권장) | 별다른 액션이 없어도 즉시 적용됨 (권장) |
+| **항목 구성 방식** | 하나의 카테고리에 여러 항목으로 나열할 수 있음   | 개별 항목으로 구성하는 것을 권장        |
+| **하위 항목 구성** | 부모가 모든 하위 항목을 선택/해제할 수 있음      | 부모와 하위 항목간 관계가 없음          |
+
+## Specification
+
+### Checkbox
+
+<ComponentSpecBlock id="checkbox" headingComponent="h4" />
+
+### Checkmark
+
+<ComponentSpecBlock id="checkmark" headingComponent="h4" />

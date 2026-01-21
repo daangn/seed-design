@@ -1,5 +1,107 @@
 # @seed-design/react
 
+## 1.1.17
+
+### Patch Changes
+
+- 50ee0a6: `@seed-design/css@1.3` 및 `@seed-design/react@1.3`에서 제거되는 토큰 및 옵션에 관한 경고를 추가합니다.
+
+  - 1.3에서 제거 예정인 색상 토큰
+    - [`$color.bg.layer-fill`](/docs/foundation/design-token/%24color.bg.layer-fill)
+    - [`$gradient.fade-layer-floating`](/docs/foundation/design-token/%24gradient.fade-layer-floating)
+    - [`$gradient.fade-layer-default`](/docs/foundation/design-token/%24gradient.fade-layer-default)
+  - 1.3에서 제거 예정인 컴포넌트 variant
+    - [ChipTabs](/react/components/chip-tabs)
+      - `variant="brandSolid"`
+        - 1.2까지 사용 가능, 1.3부터 디자인 변경 필요
+    - [Checkbox](/react/components/checkbox)
+      - `weight="default"`
+        - 0.2.4부터 `weight="regular"` 사용 가능
+        - `weight="default"`는 1.2까지 사용 가능, 1.3부터 `weight="regular"`만 허용
+      - `weight="stronger"`
+        - 0.2.4부터 `weight="bold"` 사용 가능
+        - `weight="stronger"`는 1.2까지 사용 가능, 1.3부터 `weight="bold"`만 허용
+    - [Switch](/react/components/switch)
+      - `size="small"`
+        - 0.1.9부터 `size="16"` 사용 가능
+        - `size="small"`은 1.2까지 사용 가능, 1.3부터 `size="16"`만 허용
+      - `size="medium"`
+        - 0.1.9부터 `size="32"` 사용 가능
+        - `size="medium"`은 1.2까지 사용 가능, 1.3부터 `size="32"`만 허용
+    - `StyleProps`를 상속하는 컴포넌트
+      - `display`, `justifyContent/justify`, `alignItems/align`, `alignContent`, `alignSelf`, `flexDirection/direction` 프로퍼티에서의 `camelCase` 값 제거 예정
+        - 0.0.15부터 `kebab-case` 값 사용 가능
+        - `camelCase` 값은 1.2까지 사용 가능, 1.3부터 `kebab-case` 값만 허용
+        - 예: `justifyContent="spaceBetween"` → `justifyContent="space-between"`
+      - 영향 범위인 컴포넌트: [Box](/react/components/layout/box), [Flex](/react/components/layout/flex), [HStack](/react/components/layout/h-stack), [VStack](/react/components/layout/v-stack), [Article](/react/components/article), [List (List.Root) 및 ListItem, ListButtonItem, ListLinkItem, ListSwitchItem, ListCheckItem, ListRadioItem (List.Item)](/react/components/list), [BottomSheetBody (BottomSheet.Body)](/react/components/bottom-sheet), ResponsivePair, [Inline (deprecated)](/react/components/inline), [Columns, Column (deprecated)](/react/components/columns), [Stack (deprecated)](/react/components/stack)
+
+- Updated dependencies [db49a84]
+- Updated dependencies [6fab0e7]
+- Updated dependencies [5faef3a]
+- Updated dependencies [50ee0a6]
+- Updated dependencies [94bebf8]
+- Updated dependencies [8495fae]
+  - @seed-design/css@1.1.17
+
+## 1.1.16
+
+### Patch Changes
+
+- 10c0765: 배너 템플릿에 사용되는 `$color.banner.*` 색상 토큰을 추가합니다.
+- Updated dependencies [2f29fe8]
+- Updated dependencies [9119723]
+- Updated dependencies [6d30b72]
+- Updated dependencies [10c0765]
+- Updated dependencies [5e462db]
+  - @seed-design/css@1.1.16
+
+## 1.1.13
+
+### Patch Changes
+
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+- 8f54b80: unicode-segmenter 0.14.4 버전을 설치합니다.
+- fce8668: Divider 자체적으로 16px의 여백을 가지는 `inset` 옵션을 추가합니다.
+- Updated dependencies [9be0581]
+- Updated dependencies [cc4a45a]
+- Updated dependencies [739937f]
+  - @seed-design/css@1.1.13
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies [8d0ad90]
+- Updated dependencies [8f31f93]
+- Updated dependencies [69ccc6e]
+- Updated dependencies [279001a]
+  - @seed-design/css@1.1.12
+  - @seed-design/react-dialog@1.0.1
+  - @seed-design/react-drawer@1.0.5
+
+## 1.1.10
+
+### Patch Changes
+
+- a2b874b: `TagGroupRoot`의 children이 `null` 또는 `undefined`를 포함하는 경우 불필요한 separator가 표시되는 문제를 수정합니다.
+- 12ffece: peerDeps에 `@seed-design/css` 패키지가 추가됩니다.
+- db5de74: PageBanner에 tone="magic" 스타일을 추가합니다.
+- a12e49b: Field(TextField)의 스타일을 수정합니다.
+
+  - `maxGraphemeCount`를 사용하지만 `description`을 사용하지 않는 경우 `maxGraphemeCount`가 우측이 아닌 좌측에 표시되는 문제를 수정합니다.
+  - Tailwind Preflight 사용 시 Character Count 영역이 디자인 의도보다 높이를 더 많이 차지하는 문제를 수정합니다.
+
+- Updated dependencies [db5de74]
+- Updated dependencies [70d11b8]
+- Updated dependencies [938bf0b]
+- Updated dependencies [c03a3dd]
+- Updated dependencies [a12e49b]
+  - @seed-design/css@1.1.10
+  - @seed-design/react-tabs@1.0.2
+
 ## 1.1.8
 
 ### Patch Changes

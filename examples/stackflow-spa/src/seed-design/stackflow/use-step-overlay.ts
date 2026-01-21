@@ -1,6 +1,6 @@
 import type { RegisteredActivityName } from "@stackflow/config";
 import { useActivity, useActivityParams, useStepFlow } from "@stackflow/react/future";
-import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 
 // a purely stackflow related hook except `open` and `onOpenChange` management
@@ -20,12 +20,6 @@ export function useStepOverlay(props: UseStepOverlayProps = {}) {
 
   const params = useActivityParams<RegisteredActivityName>();
   const isOverlayPersist = params[(props.key || id) as keyof typeof params] === "open";
-
-  useEffect(() => {
-    if (!isOverlayPersist) {
-      setOpen(false);
-    }
-  }, [isOverlayPersist]);
 
   const onOpenChange = useCallbackRef(props.onOpenChange);
 

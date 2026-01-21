@@ -1,7 +1,7 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { Icon, VStack } from "@seed-design/react";
 import { AppScreen } from "@stackflow/plugin-basic-ui";
-import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { ActionButton } from "seed-design/ui/action-button";
 
 declare module "@stackflow/config" {
@@ -10,7 +10,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityPluginBasicUI: ActivityComponentType<"ActivityPluginBasicUI"> = () => {
+const ActivityPluginBasicUI: StaticActivityComponentType<"ActivityPluginBasicUI"> = () => {
   const { push } = useFlow();
 
   return (

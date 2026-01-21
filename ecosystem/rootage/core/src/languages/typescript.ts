@@ -3,7 +3,6 @@ import type {
   ComponentSpecDeclaration,
   StateExpression,
   TokenDeclaration,
-  TokenLit,
   VariantExpression,
 } from "../parser/ast";
 import { createStringifier as createCssStringifier } from "./css";
@@ -11,6 +10,7 @@ import { createStringifier as createCssStringifier } from "./css";
 interface TokenDefinition {
   key: string;
   value: string;
+  description?: string;
 }
 
 interface TokenGroup {
@@ -91,7 +91,88 @@ export function createStringifier(options: { prefix?: string } = {}) {
 
   function getComponentSpecDts(decl: ComponentSpecDeclaration) {
     const result = getComponentSpec(decl);
-    return `export declare const vars: ${JSON.stringify(result, null, 2)}`;
+
+    // Build variant value description lookup: variantName -> valueName -> description
+    const variantValueDescLookup = new Map<string, Map<string, string>>();
+    for (const variant of decl.schema.variants) {
+      const valueDescMap = new Map<string, string>();
+
+      for (const value of variant.values) {
+        if (value.description === undefined) continue;
+
+        valueDescMap.set(value.name, value.description);
+      }
+
+      if (valueDescMap.size === 0) continue;
+
+      variantValueDescLookup.set(variant.name, valueDescMap);
+    }
+
+    // Build variant key -> descriptions map from actual variant declarations
+    const variantKeyDescMap = new Map<string, string[]>();
+    for (const variantDecl of decl.body) {
+      const variantKey = stringifyVariantKey(variantDecl.variants);
+      const descriptions: string[] = [];
+
+      const isCompound = variantDecl.variants.length > 1;
+
+      for (const variant of variantDecl.variants) {
+        const valueDescMap = variantValueDescLookup.get(variant.name);
+        const desc = valueDescMap?.get(variant.value);
+
+        if (!desc) continue;
+
+        if (isCompound) {
+          descriptions.push(`- \`${variant.name}=${variant.value}\`: ${desc}`);
+
+          continue;
+        }
+
+        descriptions.push(desc);
+      }
+
+      if (descriptions.length === 0) continue;
+
+      variantKeyDescMap.set(variantKey, descriptions);
+    }
+
+    // Slot descriptions
+    const slotDescMap = new Map<string, string>();
+    for (const slot of decl.schema.slots) {
+      if (!slot.description) continue;
+
+      slotDescMap.set(slot.name, slot.description);
+    }
+
+    // Property descriptions
+    const propertyDescMap = new Map<string, string>();
+    for (const slot of decl.schema.slots) {
+      for (const prop of slot.properties) {
+        if (!prop.description) continue;
+
+        propertyDescMap.set(prop.name, prop.description);
+      }
+    }
+
+    let json = JSON.stringify(result, null, 2);
+
+    // Add JSDoc for variant keys (indent: 2 spaces)
+    for (const [key, descriptions] of variantKeyDescMap) {
+      const jsdoc = `/**\n   * ${descriptions.join("\n   * ")}\n   */`;
+      json = json.replaceAll(`"${key}":`, `${jsdoc}\n  "${key}":`);
+    }
+
+    // Add JSDoc for slots (indent: 6 spaces)
+    for (const [key, desc] of slotDescMap) {
+      json = json.replaceAll(`"${key}":`, `/** ${desc} */\n      "${key}":`);
+    }
+
+    // Add JSDoc for properties (indent: 8 spaces)
+    for (const [key, desc] of propertyDescMap) {
+      json = json.replaceAll(`"${key}":`, `/** ${desc} */\n        "${key}":`);
+    }
+
+    return `export declare const vars: ${json}`;
   }
 
   function getComponentSpecIndexMjs(decls: ComponentSpecDeclaration[]) {
@@ -111,29 +192,35 @@ export function createStringifier(options: { prefix?: string } = {}) {
   }
 
   function getTokenGroups(decls: TokenDeclaration[]): TokenGroup[] {
-    const tokenExpressions = decls.map((decl) => decl.token);
+    const groups: Record<string, TokenDeclaration[]> = {};
 
-    const groups: Record<string, TokenLit[]> = {};
-
-    for (const expression of tokenExpressions) {
-      for (let i = 0; i < expression.group.length; i++) {
-        const group = expression.group.slice(0, i + 1).join("/");
+    // Initialize all groups (including parent groups)
+    for (const decl of decls) {
+      for (let i = 0; i < decl.token.group.length; i++) {
+        const group = decl.token.group.slice(0, i + 1).join("/");
         if (!groups[group]) {
           groups[group] = [];
         }
       }
     }
 
-    for (const expression of tokenExpressions) {
-      const group = expression.group.join("/");
-      groups[group]!.push(expression);
+    // Add declarations to their groups
+    for (const decl of decls) {
+      const group = decl.token.group.join("/");
+      groups[group]!.push(decl);
     }
 
-    return Object.entries(groups).map(([group, expressions]) => {
-      const definitions = expressions.map((expression) => {
-        const key = camelCasePreserveUnderscoreBetweenNumbers(expression.key);
-        const value = cssStringifier.tokenReference(expression);
-        return { key, value };
+    return Object.entries(groups).map(([group, groupDecls]) => {
+      const definitions = groupDecls.map((decl) => {
+        const key = camelCasePreserveUnderscoreBetweenNumbers(decl.token.key);
+
+        if (key.match(/^\d/)) {
+          throw new Error(`Token key cannot start with a number: ${decl.token.key}`);
+        }
+
+        const value = cssStringifier.tokenReference(decl.token);
+
+        return { key, value, description: decl.description };
       });
 
       return {
@@ -149,9 +236,10 @@ export function createStringifier(options: { prefix?: string } = {}) {
   ): { path: string; code: string }[] {
     return groups.map(({ dir, code }) => {
       const definitions = code
-        .map(({ key, value }) => {
+        .map(({ key, value, description }) => {
           const exportKeyword = isDeclaration ? "export declare const" : "export const";
-          return `${exportKeyword} ${key} = "${value}";`;
+          const jsdoc = isDeclaration && description ? `/** ${description} */\n` : "";
+          return `${jsdoc}${exportKeyword} ${key} = "${value}";`;
         })
         .join("\n");
 

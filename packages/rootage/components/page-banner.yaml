@@ -16,7 +16,10 @@ data:
             type: dimension
           color:
             type: color
+          gradient:
+            type: gradient
       prefixIcon:
+        description: 아이콘은 Fill 타입 사용을 권장합니다.
         properties:
           size:
             type: dimension
@@ -72,6 +75,17 @@ data:
             type: dimension
           color:
             type: color
+    variants:
+      variant:
+        values:
+          weak:
+            description: 배경색이 연한 스타일입니다.
+          solid:
+            description: 배경색이 진한 스타일입니다.
+      tone:
+        values:
+          magic:
+            description: AI 기능을 나타냅니다. variant=solid와 조합하여 사용하지 않습니다.
   definitions:
     base:
       enabled:
@@ -271,3 +285,20 @@ data:
       pressed:
         root:
           color: $color.bg.critical-solid-pressed
+    tone=magic, variant=weak:
+      enabled:
+        root:
+          gradient: $gradient.glow-magic
+        prefixIcon:
+          color: $color.fg.neutral
+        title:
+          color: $color.fg.neutral
+        description:
+          color: $color.fg.neutral
+        button:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+      pressed:
+        root:
+          gradient: $gradient.glow-magic-pressed

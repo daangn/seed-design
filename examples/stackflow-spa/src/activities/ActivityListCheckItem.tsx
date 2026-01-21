@@ -1,7 +1,14 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { List, ListDivider, ListCheckItem } from "seed-design/ui/list";
 import { Checkmark } from "seed-design/ui/checkbox";
@@ -23,6 +30,8 @@ const positionVariants = [
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "추가 설명이 포함된 체크박스입니다" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
 ];
 
 const prefixVariants = [
@@ -68,7 +77,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityListCheckItem: ActivityComponentType<"ActivityListCheckItem"> = () => {
+const ActivityListCheckItem: StaticActivityComponentType<"ActivityListCheckItem"> = () => {
   const { push } = useFlow();
 
   return (
@@ -121,6 +130,7 @@ const ActivityListCheckItem: ActivityComponentType<"ActivityListCheckItem"> = ()
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
                             suffix={suffix.element}
+                            highlighted={content.highlighted}
                           />
                           {showDivider && <ListDivider as="div" />}
                         </Fragment>
@@ -154,6 +164,7 @@ const ActivityListCheckItem: ActivityComponentType<"ActivityListCheckItem"> = ()
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
                             prefix={prefix.element}
+                            highlighted={content.highlighted}
                           />
                           {showDivider && <ListDivider as="div" />}
                         </Fragment>

@@ -74,7 +74,8 @@
             "paddingLeft": {
               "type": "dimension"
             }
-          }
+          },
+          "description": "Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다."
         },
         "prefixAvatar": {
           "properties": {
@@ -110,9 +111,15 @@
       "variants": {
         "variant": {
           "values": {
-            "solid": {},
-            "outlineStrong": {},
-            "outlineWeak": {}
+            "solid": {
+              "description": "기본 스타일입니다."
+            },
+            "outlineStrong": {
+              "description": "명확한 구분이 필요한 경우 사용합니다."
+            },
+            "outlineWeak": {
+              "description": "Selection 사용 시 주목도가 낮은 스타일로 권장됩니다."
+            }
           },
           "defaultValue": "solid"
         },
@@ -126,9 +133,10 @@
         },
         "layout": {
           "values": {
+            "withText": {},
             "iconOnly": {}
           },
-          "defaultValue": "iconOnly"
+          "defaultValue": "withText"
         }
       }
     },
@@ -206,7 +214,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-weak"
+                  "value": "$color.bg.neutral-weak-alpha"
                 }
               },
               "label": {
@@ -243,7 +251,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-weak-pressed"
+                  "value": "$color.bg.neutral-weak-alpha-pressed"
                 }
               }
             }
@@ -786,6 +794,12 @@
             }
           }
         ]
+      },
+      {
+        "variants": {
+          "layout": "withText"
+        },
+        "definitions": []
       },
       {
         "variants": {

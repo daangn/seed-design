@@ -24,6 +24,11 @@ export interface DividerProps extends Omit<React.HTMLAttributes<HTMLHRElement>, 
    * @default "horizontal"
    */
   orientation?: "horizontal" | "vertical";
+
+  /**
+   * @default false
+   */
+  inset?: boolean;
 }
 
 export const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
@@ -33,6 +38,7 @@ export const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
       color = "stroke.neutralMuted",
       thickness = 1,
       orientation = "horizontal",
+      inset = false,
       ...props
     },
     ref,
@@ -55,6 +61,19 @@ export const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
         {...(orientation === "vertical" && { borderRightWidth: thickness })}
         {...(orientation === "horizontal" && { borderBottomWidth: thickness })}
         {...props}
+        style={{
+          ...(inset &&
+            orientation === "horizontal" && {
+              marginLeft: "16px",
+              marginRight: "16px",
+            }),
+          ...(inset &&
+            orientation === "vertical" && {
+              marginTop: "16px",
+              marginBottom: "16px",
+            }),
+          ...props.style,
+        }}
       />
     );
   },

@@ -1,6 +1,13 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarRight, AppBarIconButton } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { reactionButtonVariantMap } from "@seed-design/css/recipes/reaction-button";
@@ -20,7 +27,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityReactionButton: ActivityComponentType<"ActivityReactionButton"> = () => {
+const ActivityReactionButton: StaticActivityComponentType<"ActivityReactionButton"> = () => {
   const { push } = useFlow();
 
   return (

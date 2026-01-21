@@ -2,12 +2,13 @@
 
 import { AST } from "@seed-design/rootage-core";
 import { useState } from "react";
-import { TokenCell } from "./token-cell";
+import { TokenCell, TokenValue } from "./token-cell";
 import { TokenLink } from "./token-link";
 
 export interface TokenTableItem {
   id: string;
-  values: string[];
+  description?: string;
+  values: TokenValue[];
   resolvedValue: AST.ValueLit;
 }
 
@@ -37,18 +38,21 @@ export function TokenTable(props: TokenTableProps) {
 
 function TokenRow(props: { item: TokenTableItem }) {
   const { item } = props;
-  const { id, values, resolvedValue } = item;
+  const { id, description, values, resolvedValue } = item;
 
   const [isExpanded, setIsExpanded] = useState(false);
+  const canExpand = values.length > 1;
 
   return (
     <tr
       key={id}
-      className="hover:bg-fd-muted cursor-pointer"
-      onClick={() => setIsExpanded((prev) => !prev)}
+      className={`hover:bg-fd-muted ${canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}`}
+      onClick={canExpand ? () => setIsExpanded((prev) => !prev) : undefined}
     >
       <td>
-        <TokenLink id={id} />
+        <div className="flex flex-col gap-1">
+          <TokenLink id={id} description={description} />
+        </div>
       </td>
       <td className="align-middle">
         <TokenCell isExpanded={isExpanded} values={values} resolvedValue={resolvedValue} />

@@ -113,12 +113,16 @@ export interface FieldCharacterCountProps
 }
 
 export const FieldCharacterCount = forwardRef<HTMLDivElement, FieldCharacterCountProps>(
-  ({ current, max, ...otherProps }, ref) => {
+  ({ current, max, className, ...otherProps }, ref) => {
     const classNames = useClassNames();
     const { stateProps } = useFieldContext();
 
     return (
-      <Primitive.div ref={ref} {...otherProps}>
+      <Primitive.div
+        className={clsx(classNames.characterCountArea, className)}
+        ref={ref}
+        {...otherProps}
+      >
         <span
           {...(current === 0 ? { "data-empty": true } : {})}
           {...(current > max ? { "data-exceeded": true } : {})}

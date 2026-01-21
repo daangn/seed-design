@@ -1,5 +1,124 @@
 # @seed-design/css
 
+## 1.1.19
+
+### Patch Changes
+
+- 6697fbe: BottomSheetRoot `headerAlign="center"` variant에서 텍스트 정렬 문제를 수정합니다 ([예제](/react/components/bottom-sheet#header-align)). MenuSheetTitle의 내용이 길어질 때 MenuSheetHeader가 가운데 정렬되지 않는 문제를 수정합니다.
+
+## 1.1.17
+
+### Patch Changes
+
+- db49a84: Chip 컴포넌트 스펙에 `layout=withText` variant를 명시합니다. (스타일 변경사항 없음)
+- 6fab0e7: Skeleton 가시성 향상을 위해 `$gradient.shimmer-magic` 및 `$gradient.shimmer-neutral` 토큰의 색상을 업데이트합니다.
+- 5faef3a: 주석, 참고 사항 및 상세 리스트 등 부가 정보에 사용할 수 있는 시맨틱 텍스트 스타일 `articleNote`를 추가합니다.
+- 50ee0a6: `@seed-design/css@1.3` 및 `@seed-design/react@1.3`에서 제거되는 토큰 및 옵션에 관한 경고를 추가합니다.
+
+  - 1.3에서 제거 예정인 색상 토큰
+    - [`$color.bg.layer-fill`](/docs/foundation/design-token/%24color.bg.layer-fill)
+    - [`$gradient.fade-layer-floating`](/docs/foundation/design-token/%24gradient.fade-layer-floating)
+    - [`$gradient.fade-layer-default`](/docs/foundation/design-token/%24gradient.fade-layer-default)
+  - 1.3에서 제거 예정인 컴포넌트 variant
+    - [ChipTabs](/react/components/chip-tabs)
+      - `variant="brandSolid"`
+        - 1.2까지 사용 가능, 1.3부터 디자인 변경 필요
+    - [Checkbox](/react/components/checkbox)
+      - `weight="default"`
+        - 0.2.4부터 `weight="regular"` 사용 가능
+        - `weight="default"`는 1.2까지 사용 가능, 1.3부터 `weight="regular"`만 허용
+      - `weight="stronger"`
+        - 0.2.4부터 `weight="bold"` 사용 가능
+        - `weight="stronger"`는 1.2까지 사용 가능, 1.3부터 `weight="bold"`만 허용
+    - [Switch](/react/components/switch)
+      - `size="small"`
+        - 0.1.9부터 `size="16"` 사용 가능
+        - `size="small"`은 1.2까지 사용 가능, 1.3부터 `size="16"`만 허용
+      - `size="medium"`
+        - 0.1.9부터 `size="32"` 사용 가능
+        - `size="medium"`은 1.2까지 사용 가능, 1.3부터 `size="32"`만 허용
+    - `StyleProps`를 상속하는 컴포넌트
+      - `display`, `justifyContent/justify`, `alignItems/align`, `alignContent`, `alignSelf`, `flexDirection/direction` 프로퍼티에서의 `camelCase` 값 제거 예정
+        - 0.0.15부터 `kebab-case` 값 사용 가능
+        - `camelCase` 값은 1.2까지 사용 가능, 1.3부터 `kebab-case` 값만 허용
+        - 예: `justifyContent="spaceBetween"` → `justifyContent="space-between"`
+      - 영향 범위인 컴포넌트: [Box](/react/components/layout/box), [Flex](/react/components/layout/flex), [HStack](/react/components/layout/h-stack), [VStack](/react/components/layout/v-stack), [Article](/react/components/article), [List (List.Root) 및 ListItem, ListButtonItem, ListLinkItem, ListSwitchItem, ListCheckItem, ListRadioItem (List.Item)](/react/components/list), [BottomSheetBody (BottomSheet.Body)](/react/components/bottom-sheet), ResponsivePair, [Inline (deprecated)](/react/components/inline), [Columns, Column (deprecated)](/react/components/columns), [Stack (deprecated)](/react/components/stack)
+
+- 94bebf8: `$color.bg.layer-basement` 위에서 컴포넌트의 가시성을 보장하기 위해 `$color.bg.neutral-weak-alpha` 토큰을 추가합니다.
+
+  - Chip `variant=solid`에 적용
+  - ChipTab `variant=neutralSolid`에 적용
+  - SegmentedControl root에 적용
+
+- 8495fae: 잘못된 pseudo selector를 수정합니다
+
+## 1.1.16
+
+### Patch Changes
+
+- 2f29fe8: 정적 텍스트 스타일 추가 (t1Static* ~ t10Static*)
+- 9119723: Checkmark `variant=ghost` `tone=neutral`에서 icon의 색상을 $color.fg.neutral로 변경하고 색상 트랜지션을 추가합니다.
+- 6d30b72: Stackflow와 함께 AppScreen 사용 시 최상위 AppScreen이 push/pop될 때, 이외의 AppScreen이 고유한 `transitionStyle`을 재생하는 문제를 수정합니다. 같은 스택 내에 여러 `transitionStyle`이 공존할 때 자연스러운 트랜지션을 제공하기 위해 최상위 AppScreen의 `transitionStyle`을 재생합니다. ([데모](https://seed-design.io/react/stackflow/app-screen#transition-styles))
+
+  - 예를 들면, `transitionStyle="fadeFromBottomAndroid"`인 0번 AppScreen 위에 `transitionStyle="slideFromLeftIOS"`인 1번 AppScreen이 push되는 경우, 0번 AppScreen이 `slideFromLeftIOS` 트랜지션을 재생하도록 수정합니다.
+    - 0번 AppScreen이 자연스럽게 좌측으로 조금 밀려나며 어두워지고(`slideFromLeftIOS`) 1번 AppScreen이 우측에서 슬라이드 인(`slideFromLeftIOS`)
+
+- 10c0765: 배너 템플릿에 사용되는 `$color.banner.*` 색상 토큰을 추가합니다.
+- 5e462db: `AppScreen`에 신규 `transitionStyle` `fadeIn`을 추가합니다.
+
+## 1.1.15
+
+### Patch Changes
+
+- 76acd7e: iOS 15 이하 기기에서 MenuSheetItem이 의도하지 않은 margin을 갖는 문제를 수정합니다.
+- 7a428ec: `theme=“android”`인 AppScreen 또는 AppBar에 속한 AppBarMain의 title과 subtitle 말줄임(truncation)이 적용되지 않는 문제를 수정합니다.
+- 498a9e7: iOS 17 이하 기기에서 SegmentedControlItem의 높이가 잘못 설정될 수 있는 문제를 수정합니다.
+
+## 1.1.13
+
+### Patch Changes
+
+- 9be0581: `radiomark` Rootage 정의를 명확화합니다. (스타일 변경사항 없음)
+- cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
+
+  - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
+
+- 739937f: Button들의 xsmall variant의 텍스트 사이즈를 t4에서 t3로 변경해요.
+
+## 1.1.12
+
+### Patch Changes
+
+- 8d0ad90: seedFontMultiplier, seedFontScaling attribute를 추가합니다
+  - seedFontMultiplier: 폰트 크기 스케일링 계수 (e.g. 0.8, 1.35, 1.5, 1)
+  - seedFontScaling: 폰트 크기 스케일링 활성화 여부 (e.g. "enabled")
+- 8f31f93: cssnano 등 CSS 최적화 도구를 사용할 때, `bleedX`와 `bleedY` 중 한 가지 속성만 정의하는 경우 bleed가 적용되지 않던 문제를 수정합니다.
+- 69ccc6e: Overlay 컴포넌트에 skipAnimation 옵션을 추가합니다
+- 279001a: Badge의 크기와 Field의 indicator 크기 및 여백이 폰트 스케일링 제한의 영향을 받도록 업데이트합니다.
+
+## 1.1.10
+
+### Patch Changes
+
+- db5de74: PageBanner에 tone="magic" 스타일을 추가합니다.
+- 70d11b8: Segmented Control의 스타일을 업데이트합니다: Indicator에서 shadow 정의를 제거합니다.
+- c03a3dd: TextFieldInput 및 TextFieldTextarea (text-input 스타일시트)에서 브라우저 기본 자동 완성 스타일이 표시되지 않도록 수정합니다.
+- a12e49b: Field(TextField)의 스타일을 수정합니다.
+
+  - `maxGraphemeCount`를 사용하지만 `description`을 사용하지 않는 경우 `maxGraphemeCount`가 우측이 아닌 좌측에 표시되는 문제를 수정합니다.
+  - Tailwind Preflight 사용 시 Character Count 영역이 디자인 의도보다 높이를 더 많이 차지하는 문제를 수정합니다.
+
+## 1.1.9
+
+### Patch Changes
+
+- 37d332d: `AppBar`에 적용되는 그라디언트를 `AppScreen`으로 이동합니다.
+
+  - `<AppBar tone="transparent">`를 사용하는 경우 `tone="transparent"`를 `AppScreen`으로 옮겨 그라디언트를 표시할 수 있습니다.
+  - `AppScreen`에 `gradient={false}`를 설정하여 그라디언트를 숨길 수 있습니다.
+
+- 77517f1: iOS 웹뷰 환경에서 Avatar가 정상적으로 렌더링되지 않는 문제를 수정합니다.
+
 ## 1.1.8
 
 ### Patch Changes

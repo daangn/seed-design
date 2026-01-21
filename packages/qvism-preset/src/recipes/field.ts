@@ -35,7 +35,6 @@ export const field = defineSlotRecipe({
     },
     footer: {
       display: "flex",
-      justifyContent: "space-between",
       alignItems: "flex-start",
 
       paddingLeft: vars.base.enabled.footer.paddingX,
@@ -71,6 +70,14 @@ export const field = defineSlotRecipe({
         marginRight: vars.base.enabled.errorIcon.paddingRight,
         marginTop: `calc((${vars.base.enabled.errorMessage.lineHeight} - ${vars.base.enabled.errorIcon.size}) / 2)`,
       }),
+    },
+    characterCountArea: {
+      marginLeft: "auto",
+
+      // we define lineHeight here because some reset.css sets default line-height
+      // e.g. tailwind preflight sets * { line-height: 1.5 }
+      fontSize: vars.base.enabled.characterCount.fontSize,
+      lineHeight: vars.base.enabled.characterCount.lineHeight,
     },
     characterCount: {
       color: vars.base.enabled.characterCount.color,
@@ -114,7 +121,9 @@ export const fieldLabel = defineSlotRecipe({
       display: "inline",
       verticalAlign: "bottom",
 
-      paddingLeft: vars.base.enabled.indicatorText.paddingLeft,
+      // TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
+      // NOTE: when updating vars, update px values accordingly
+      paddingLeft: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorText.paddingLeft}, calc(4px * var(--seed-font-size-limit-max)))`,
 
       color: vars.base.enabled.indicatorText.color,
       fontSize: vars.base.enabled.indicatorText.fontSize,
@@ -125,11 +134,12 @@ export const fieldLabel = defineSlotRecipe({
       display: "inline",
       verticalAlign: "top",
 
-      width: vars.base.enabled.indicatorIcon.size,
-      height: vars.base.enabled.indicatorIcon.size,
-
-      marginTop: vars.base.enabled.indicatorIcon.paddingTop,
-      marginLeft: vars.base.enabled.indicatorIcon.paddingLeft,
+      // TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
+      // NOTE: when updating vars, update px values accordingly
+      width: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
+      height: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
+      marginTop: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingTop}, calc(4px * var(--seed-font-size-limit-max)))`,
+      marginLeft: `clamp(calc(2px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingLeft}, calc(2px * var(--seed-font-size-limit-max)))`,
 
       color: vars.base.enabled.indicatorIcon.color,
     },

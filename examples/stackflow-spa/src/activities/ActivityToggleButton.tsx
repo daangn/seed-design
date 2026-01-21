@@ -1,6 +1,13 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain, AppBarRight, AppBarIconButton } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarIconButton,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 import { toggleButtonVariantMap } from "@seed-design/css/recipes/toggle-button";
@@ -21,7 +28,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityToggleButton: ActivityComponentType<"ActivityToggleButton"> = () => {
+const ActivityToggleButton: StaticActivityComponentType<"ActivityToggleButton"> = () => {
   const { push } = useFlow();
 
   return (

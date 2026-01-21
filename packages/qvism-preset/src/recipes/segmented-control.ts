@@ -21,6 +21,7 @@ const segmentedControl = defineSlotRecipe({
 
       gridAutoFlow: "column",
       gridAutoColumns: "1fr",
+      gridAutoRows: "1fr",
 
       alignItems: "center",
 
@@ -40,7 +41,7 @@ const segmentedControl = defineSlotRecipe({
       borderRadius: vars.base.enabled.indicator.cornerRadius,
       backgroundColor: vars.base.enabled.indicator.color,
 
-      boxShadow: `${vars.base.enabled.indicator.shadow}, inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
 
       transition: `transform ${vars.base.enabled.indicator.transformDuration} ${vars.base.enabled.indicator.transformTimingFunction}`,
     },

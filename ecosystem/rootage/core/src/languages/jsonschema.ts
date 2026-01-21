@@ -5,6 +5,36 @@ function stringifyTokenExpression(token: TokenLit): string {
   return `$${token.group.join(".")}.${token.key}`;
 }
 
+function getReadableValue(value: TokenDeclaration["values"][number]["value"]): string {
+  switch (value.kind) {
+    case "TokenLit":
+      return stringifyTokenExpression(value);
+    case "ColorHexLit":
+      return value.value;
+    case "GradientLit":
+      return value.stops
+        .map(({ position, color }) => `${Math.round(position.value * 100)}%: ${color.value}`)
+        .join(", ");
+    case "NumberLit":
+      return `${value.value}`;
+    case "DimensionLit":
+      return `${value.value}${value.unit}`;
+    case "DurationLit":
+      return `${value.value}${value.unit}`;
+    case "CubicBezierLit":
+      return value.value.join(", ");
+    case "ShadowLit":
+      return value.layers
+        .map(
+          ({ offsetX, offsetY, blur, spread, color }) =>
+            `${offsetX.value}${offsetX.unit} ${offsetY.value}${offsetY.unit} ${blur.value}${blur.unit} ${spread.value}${spread.unit} ${getReadableValue(color)}`,
+        )
+        .join(" / ");
+    default:
+      return `${value}`;
+  }
+}
+
 export function getJsonSchema(tokens: TokenDeclaration[]): string {
   const tokenAnnotations = tokens
     .sort((a, b) => {
@@ -14,41 +44,10 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
     })
     .map(({ token, values }) => {
       const title = stringifyTokenExpression(token);
-      const readableValues = values.map(({ mode, value }) => {
-        const readableValue = (() => {
-          switch (value.kind) {
-            case "TokenLit":
-              return stringifyTokenExpression(value);
-            case "ColorHexLit":
-              return value.value;
-            case "GradientLit":
-              return value.stops
-                .map(
-                  ({ position, color }) => `${Math.round(position.value * 100)}%: ${color.value}`,
-                )
-                .join(", ");
-            case "NumberLit":
-              return `${value.value}`;
-            case "DimensionLit":
-              return `${value.value}${value.unit}`;
-            case "DurationLit":
-              return `${value.value}${value.unit}`;
-            case "CubicBezierLit":
-              return value.value.join(", ");
-            case "ShadowLit":
-              return value.layers
-                .map(
-                  ({ offsetX, offsetY, blur, spread, color }) =>
-                    `${offsetX.value}${offsetX.unit} ${offsetY.value}${offsetY.unit} ${blur.value}${blur.unit} ${spread.value}${spread.unit} ${color}`,
-                )
-                .join(" / ");
-            default:
-              return `${value}`;
-          }
-        })();
-
-        return { mode, value: readableValue };
-      });
+      const readableValues = values.map(({ mode, value }) => ({
+        mode,
+        value: getReadableValue(value),
+      }));
 
       return {
         title,
@@ -90,6 +89,9 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
       "data": {
         "type": "object",
         "properties": {
+          "schema": {
+            "$ref": "#/definitions/componentSpecSchema"
+          },
           "definitions": {
             "$ref": "#/definitions/definitions"
           }
@@ -99,6 +101,90 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
     "required": ["kind", "metadata", "data"],
     "additionalProperties": false,
     "definitions": {
+      "componentSpecSchema": {
+        "type": "object",
+        "properties": {
+          "slots": {
+            "$ref": "#/definitions/slotsSchema"
+          },
+          "variants": {
+            "$ref": "#/definitions/variantsSchema"
+          }
+        },
+        "additionalProperties": false
+      },
+      "slotsSchema": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/slotSchema"
+        }
+      },
+      "slotSchema": {
+        "type": "object",
+        "properties": {
+          "properties": {
+            "$ref": "#/definitions/slotPropertiesSchema"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["properties"],
+        "additionalProperties": false
+      },
+      "slotPropertiesSchema": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/slotPropertySchema"
+        }
+      },
+      "slotPropertySchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["color", "dimension", "number", "duration", "cubicBezier", "shadow", "gradient"]${"" /* NOTE: this should be kept in sync with PropertySchemaDeclaration["type"] */}
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["type"],
+        "additionalProperties": false
+      },
+      "variantsSchema": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/variantSchema"
+        }
+      },
+      "variantSchema": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "$ref": "#/definitions/variantValuesSchema"
+          },
+          "defaultValue": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "variantValuesSchema": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
       "definitions": {
         "type": "object",
         "properties": {

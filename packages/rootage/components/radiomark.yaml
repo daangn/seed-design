@@ -1,5 +1,4 @@
 # yaml-language-server: $schema=./schema.json
-# parts: root, icon
 kind: ComponentSpec
 metadata:
   id: radiomark
@@ -31,6 +30,11 @@ data:
             type: color
           cornerRadius:
             type: dimension
+    variants:
+      tone:
+        values:
+          brand:
+            description: "[deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다."
   definitions:
     base:
       enabled:
@@ -49,15 +53,6 @@ data:
         root:
           strokeWidth: 0px
           strokeColor: "#00000000"
-      disabled:
-        root:
-          color: $color.palette.gray-300
-      disabled,selected:
-        root:
-          color: $color.bg.transparent
-          strokeColor: $color.palette.gray-300
-        icon:
-          color: $color.palette.gray-300
 
     tone=brand:
       enabled,selected:
@@ -68,6 +63,16 @@ data:
       enabled,selected,pressed:
         root:
           color: $color.bg.brand-solid-pressed
+      disabled:
+        root:
+          color: $color.palette.gray-300
+      disabled,selected:
+        root:
+          color: $color.bg.transparent
+          strokeWidth: 1px
+          strokeColor: $color.palette.gray-300
+        icon:
+          color: $color.palette.gray-300
     tone=neutral:
       enabled,selected:
         root:
@@ -77,6 +82,16 @@ data:
       enabled,selected,pressed:
         root:
           color: $color.bg.neutral-inverted-pressed
+      disabled:
+        root:
+          color: $color.palette.gray-300
+      disabled,selected:
+        root:
+          color: $color.bg.transparent
+          strokeWidth: 1px
+          strokeColor: $color.palette.gray-300
+        icon:
+          color: $color.palette.gray-300
 
     size=medium:
       enabled:

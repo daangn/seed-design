@@ -2,3 +2,92 @@
 title: Inclusive Design
 description: SEED 디자인은 모든 사용자가 제품을 쉽게 접근하고 사용할 수 있도록 돕습니다.
 ---
+
+## Overview
+
+포용적 디자인(Inclusive Design)은 시각, 청각, 운동 능력, 인지 능력 등 다양한 능력과 상황을 가진 모든 사용자가 제품을 쉽게 접근하고 사용할 수 있도록 보장합니다. 이 가이드는 가능한 한 폭넓은 사용자를 포용할 수 있는 디자인 지침을 제공합니다.
+
+## Visual Clarity (시각적 명확성)
+
+### Color and Contrast (색상과 대비)
+
+- 색상만으로 정보를 전달하지 않고, 텍스트, 아이콘 등 다른 시각적 요소와 함께 제공합니다.
+- 텍스트와 배경 간의 명도 대비는 APCA(Advanced Perceptual Contrast Algorithm)를 사용하여 다음 기준을 준수합니다.
+  - 가독성 텍스트는 최소 Lc 75 이상을 가져야 하며, Lc 90 이상을 권장합니다.
+  - 가독성 텍스트는 아래와 같은 요소를 포함합니다:
+    - 2줄 이상의 본문 텍스트
+    - 화면 제목
+    - 헤드라인
+    - 입력 필드 텍스트
+    - 툴팁 텍스트
+  - 다른 텍스트는 최소 Lc 60 이상을 가져야 합니다.
+    - 이때, 폰트 크기가 16px 미만인 경우 bold weight를 사용합니다.
+  - placeholder, disabled 상태의 텍스트는 최소 Lc 30 이상을 가져야 합니다.
+
+### Hierarchy and Layout (계층 구조와 레이아웃)
+
+- 명확하고 간결한 콘텐츠 계층 구조를 설계하여 중요한 정보가 쉽게 인식되도록 합니다.
+- 논리적이고 직관적인 콘텐츠 순서를 유지하여 스크린 리더가 올바르게 읽을 수 있도록 합니다.
+
+## Interaction and Navigation (상호작용과 탐색)
+
+### Touch Area Size (터치 영역 크기)
+
+- 터치 영역 크기(Target Size)는 44x44px 이상이 이상적이며, 디자인 또는 기능적 제약으로 인해 44x44px 이상을 확보하기 어려운 경우 최소 24x24px 이상을 보장해야 합니다.
+- 아이콘 등의 시각적 요소가 작더라도 터치 가능한 영역은 충분히 넓게 설정합니다.
+
+### Accessible Interaction (접근성 있는 상호작용)
+
+- 복잡한 제스처(예: 핀치 줌, 드래그)는 단순한 터치 동작으로도 수행 가능하도록 대체 방법을 제공합니다.
+- 모든 상호작용은 VoiceOver, TalkBack 등의 보조 기술로 접근 가능해야 합니다.
+
+### Clear Navigation Structure (명확한 탐색 구조)
+
+- 사용자가 현재 위치를 명확히 알 수 있도록 명확한 라벨링과 직관적인 아이콘을 사용합니다.
+- 주요 기능은 쉽게 발견 가능하고 접근 가능한 위치에 배치합니다.
+
+## Content Accessibility (콘텐츠 접근성)
+
+### Alternative Text (대체 텍스트)
+
+- 이미지, 아이콘 등 텍스트가 아닌 모든 요소에는 명확하고 간결한 대체 텍스트(accessibility labels)를 제공합니다.
+- 대체 텍스트는 해당 이미지나 아이콘의 기능과 맥락을 간결하게 설명해야 하며, 불필요한 설명은 생략합니다.
+- 장식용(decorative) 요소는 스크린 리더에서 숨기도록 지정합니다.
+
+### Error Handling (오류 처리)
+
+- 오류가 발생했을 때 즉각적인 메시지를 제공하여 사용자의 이해를 돕고 빠르게 조치를 취할 수 있게 합니다.
+- 즉각적인 메시지란, 시각적 피드백(예: 테두리 색 변경)과 함께, aria-live 속성으로 보조 기술에 컨텐츠 변경을 알리는 것을 의미합니다.
+- 오류 메시지는 입력 필드 근처에 배치하며, 사용자가 문제를 쉽게 인식하고 수정할 수 있도록 구체적인 해결 방법을 제시해야 합니다.
+
+## Personalization and User Control (개인화 및 사용자 제어)
+
+### Font Size (폰트 크기)
+
+- 사용자가 설정한 폰트 크기 설정에 따라 폰트 크기를 조절합니다.
+- 뷰포트 크기에 따라 레이아웃이 깨지지 않도록 반응형 디자인을 적용하며, 요소 간 간격을 조정하여 가독성을 유지합니다.
+
+### Animation (애니메이션)
+
+- 사용자가 애니메이션 효과를 끌 수 있는 옵션을 제공합니다. (예: prefers-reduced-motion)
+- 2초 이상의 애니메이션은 사용자의 주의를 분산시킬 수 있으므로 가급적 사용하지 않습니다.
+- 2초 이상의 애니메이션을 사용할 경우, 건너뛸 수 있는 옵션을 제공합니다.
+- 광과민성 발작을 예방하기 위해 초당 3회 이상 번쩍이지 않아야 합니다.
+
+### Automatic Media Playback (자동 미디어 재생)
+
+- 사용자가 자동 재생을 끌 수 있는 옵션을 제공합니다.
+- 자동 재생은 기본적으로 비활성화하고, 필요한 경우, 음소거 상태로 자동 재생을 시작합니다.
+- 3초 이상 자동 재생되는 오디오는 일시정지, 중지, 혹은 음량 조절 기능을 제공합니다.
+
+### Language Setting (언어 설정)
+
+- 사용자가 선호하는 언어로 콘텐츠를 볼 수 있도록 언어 변경 옵션을 제공합니다.
+- 언어 변경에 따른 고려사항은 국제화 디자인 가이드를 참고할 수 있습니다.
+
+## Related Documents (관련 문서)
+
+- [ARIA Authoring Practices Guide (APG)](https://www.w3.org/TR/wai-aria-practices/)
+- [Apple Human Interface Guidelines (Accessibility)](https://developer.apple.com/design/tips/)
+- [Android Accessibility Best Practices](https://developer.android.com/guide/topics/ui/accessibility/overview)
+- [APCA Readability Criterion](https://readtech.org/ARC/)

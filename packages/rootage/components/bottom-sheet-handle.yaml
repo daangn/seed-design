@@ -21,7 +21,7 @@ data:
           colorDuration:
             type: duration
           colorTimingFunction:
-            type: timing-function
+            type: cubicBezier
       touchArea:
         properties:
           width:

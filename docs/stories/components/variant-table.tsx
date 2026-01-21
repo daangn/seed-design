@@ -85,7 +85,7 @@ export const VariantTable = (props: Props) => {
               },
               {} as Record<string, unknown>,
             );
-            const props = { ...conditionedProps, ...rest };
+            const props = { ...rest, ...conditionedProps };
 
             const combinationKey = Object.values(combination).join("-");
             return (

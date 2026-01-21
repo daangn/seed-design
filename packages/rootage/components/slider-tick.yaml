@@ -10,6 +10,8 @@ data:
         properties:
           width:
             type: dimension
+          color:
+            type: color
   definitions:
     base:
       enabled:

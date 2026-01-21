@@ -52,6 +52,7 @@ export const globalCss = defineGlobalCss({
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
+    verticalAlign: "middle",
   },
   ".seed-icon": {
     width: "var(--seed-icon-size)",
@@ -123,10 +124,10 @@ export const globalCss = defineGlobalCss({
     paddingLeft: "var(--seed-box-padding-left)",
     paddingRight: "var(--seed-box-padding-right)",
 
-    "--seed-box-bleed-bottom": "initial",
-    "--seed-box-bleed-top": "initial",
-    "--seed-box-bleed-left": "initial",
-    "--seed-box-bleed-right": "initial",
+    "--seed-box-bleed-bottom": "0px",
+    "--seed-box-bleed-top": "0px",
+    "--seed-box-bleed-left": "0px",
+    "--seed-box-bleed-right": "0px",
     marginTop: "calc(var(--seed-box-bleed-top) * -1)",
     marginBottom: "calc(var(--seed-box-bleed-bottom) * -1)",
     marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
@@ -164,6 +165,9 @@ export const globalCss = defineGlobalCss({
     borderTopLeftRadius: "var(--seed-box-border-top-left-radius)",
     borderTopRightRadius: "var(--seed-box-border-top-right-radius)",
 
+    "--seed-box-box-shadow": "initial",
+    boxShadow: "var(--seed-box-box-shadow)",
+
     "--seed-box-display": "block",
     "--seed-box-position": "initial",
     display: "var(--seed-box-display)",
@@ -189,6 +193,7 @@ export const globalCss = defineGlobalCss({
     "--seed-box-flex-direction": "initial",
     "--seed-box-flex-wrap": "initial",
     "--seed-box-justify-content": "initial",
+    "--seed-box-justify-self": "auto",
     "--seed-box-align-items": "stretch",
     "--seed-box-align-content": "stretch",
     "--seed-box-align-self": "auto",
@@ -196,15 +201,37 @@ export const globalCss = defineGlobalCss({
     flexDirection: "var(--seed-box-flex-direction)",
     flexWrap: "var(--seed-box-flex-wrap)",
     justifyContent: "var(--seed-box-justify-content)",
+    justifySelf: "var(--seed-box-justify-self)",
     alignItems: "var(--seed-box-align-items)",
     alignContent: "var(--seed-box-align-content)",
     alignSelf: "var(--seed-box-align-self)",
     gap: "var(--seed-box-gap)",
 
+    "--seed-box-grid-column": "initial",
+    gridColumn: "var(--seed-box-grid-column)",
+    "--seed-box-grid-row": "initial",
+    gridRow: "var(--seed-box-grid-row)",
+
     [pseudo(active)]: {
       "--seed-box-background--active": "var(--seed-box-background)",
       background: "var(--seed-box-background--active)",
     },
+  },
+  ".seed-grid": {
+    display: "grid",
+
+    "--seed-grid-columns": "initial",
+    gridTemplateColumns: "var(--seed-grid-columns)",
+    "--seed-grid-rows": "initial",
+    gridTemplateRows: "var(--seed-grid-rows)",
+    "--seed-grid-auto-flow": "initial",
+    gridAutoFlow: "var(--seed-grid-auto-flow)",
+    "--seed-grid-auto-columns": "initial",
+    gridAutoColumns: "var(--seed-grid-auto-columns)",
+    "--seed-grid-auto-rows": "initial",
+    gridAutoRows: "var(--seed-grid-auto-rows)",
+    "--seed-grid-justify-items": "stretch",
+    justifyItems: "var(--seed-grid-justify-items)",
   },
   ".seed-consistent-width": {
     // Consistent text width between font-weight changes

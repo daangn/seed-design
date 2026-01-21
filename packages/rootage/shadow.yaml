@@ -1,0 +1,63 @@
+kind: Tokens
+metadata:
+  id: shadow
+  name: Shadow
+  lastUpdated: 26-01-06
+data:
+  collection: color
+  tokens:
+    $shadow.s1:
+      values:
+        theme-light:
+          type: shadow
+          value:
+            - offsetX: 0px
+              offsetY: 1px
+              blur: 4px
+              spread: 0px
+              color: "#00000014"
+        theme-dark:
+          type: shadow
+          value:
+            - offsetX: 0px
+              offsetY: 1px
+              blur: 4px
+              spread: 0px
+              color: "#00000080"
+    $shadow.s2:
+      values:
+        theme-light:
+          type: shadow
+          value:
+            - offsetX: 0px
+              offsetY: 2px
+              blur: 10px
+              spread: 0px
+              color: "#0000001a"
+        theme-dark:
+          type: shadow
+          value:
+            - offsetX: 0px
+              offsetY: 2px
+              blur: 10px
+              spread: 0px
+              color: "#000000ad"
+    $shadow.s3:
+      description: 화면의 다른 요소들보다 가장 높은 계층에 위치할 때 사용됩니다.
+      values:
+        theme-light:
+          type: shadow
+          value:
+            - offsetX: 0px
+              offsetY: 4px
+              blur: 16px
+              spread: 0px
+              color: "#0000001f"
+        theme-dark:
+          type: shadow
+          value:
+            - offsetX: 0px
+              offsetY: 4px
+              blur: 16px
+              spread: 0px
+              color: "#000000cc"

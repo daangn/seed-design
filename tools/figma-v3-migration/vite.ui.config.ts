@@ -10,9 +10,9 @@ export default defineConfig({
   plugins: [react(), viteSingleFile(), seedDesignPlugin(), tsconfigPaths()],
   resolve: {
     alias: {
-      "seed-design/*": resolve(__dirname, "src/ui/common/design-system/*"),
-      "common/*": resolve(__dirname, "src/ui/common/*"),
-      "shared/*": resolve(__dirname, "src/shared/*"),
+      "seed-design": resolve(__dirname, "src/ui/common/design-system"),
+      common: resolve(__dirname, "src/ui/common"),
+      shared: resolve(__dirname, "src/shared"),
     },
   },
   build: {

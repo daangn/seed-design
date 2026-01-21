@@ -8,6 +8,7 @@ export declare const vars: {
         "cornerRadius": "var(--seed-radius-r2_5)",
         "minHeight": "50px"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "size": "var(--seed-dimension-x4)"
       },
@@ -21,6 +22,7 @@ export declare const vars: {
         "lineHeight": "var(--seed-line-height-t4)",
         "fontWeight": "var(--seed-font-weight-regular)"
       },
+      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
@@ -32,11 +34,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 일반적인 정보를 전달합니다.
+   */
   "toneNeutral": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -46,6 +52,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -59,11 +66,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 유용한 정보를 제공합니다.
+   */
   "toneInformative": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-informative-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
@@ -73,6 +84,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
+      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
@@ -86,11 +98,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 긍정적인 상태를 나타냅니다.
+   */
   "tonePositive": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-positive-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
@@ -100,6 +116,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
+      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
@@ -113,11 +130,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 주의가 필요한 상태를 나타냅니다.
+   */
   "toneWarning": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-warning-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
@@ -127,6 +148,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
+      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
@@ -140,11 +162,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 중요한 문제를 나타냅니다.
+   */
   "toneCritical": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-critical-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
@@ -154,6 +180,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
+      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
@@ -167,11 +194,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * AI 기능을 나타냅니다.
+   */
   "toneMagic": {
     "enabled": {
       "root": {
-        "color": "var(--seed-gradient-glow-magic)"
+        "gradient": "var(--seed-gradient-glow-magic)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -181,6 +212,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -190,7 +222,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-gradient-glow-magic-pressed)"
+        "gradient": "var(--seed-gradient-glow-magic-pressed)"
       }
     }
   }

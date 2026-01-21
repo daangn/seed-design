@@ -30,7 +30,7 @@
               "type": "duration"
             },
             "colorTimingFunction": {
-              "type": "timing-function"
+              "type": "cubicBezier"
             }
           }
         },

@@ -4,7 +4,7 @@ import {
   useActivityParams,
   useFlow,
   useStepFlow,
-  type ActivityComponentType,
+  type StaticActivityComponentType,
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -29,22 +29,14 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityAlertDialogStep: ActivityComponentType<"ActivityAlertDialogStep"> = () => {
+const ActivityAlertDialogStep: StaticActivityComponentType<"ActivityAlertDialogStep"> = () => {
   const [open, setOpen] = useState(false);
   const { push } = useFlow();
   const { pushStep, popStep } = useStepFlow("ActivityAlertDialogStep");
   const params = useActivityParams<"ActivityAlertDialogStep">();
   const isOverlayOpen = params["alert-dialog"] === "open";
 
-  useEffect(() => {
-    if (!isOverlayOpen) {
-      setOpen(false);
-    }
-
-    if (isOverlayOpen) {
-      setOpen(true);
-    }
-  }, [isOverlayOpen]);
+  useEffect(() => setOpen(isOverlayOpen), [isOverlayOpen]);
 
   const onOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -89,7 +81,7 @@ const ActivityAlertDialogStep: ActivityComponentType<"ActivityAlertDialogStep"> 
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <HStack gap="x2">
-                  <ActionButton onClick={() => popStep()} variant="neutralWeak">
+                  <ActionButton onClick={() => setOpen(false)} variant="neutralWeak">
                     닫기
                   </ActionButton>
                   <ActionButton
@@ -98,7 +90,7 @@ const ActivityAlertDialogStep: ActivityComponentType<"ActivityAlertDialogStep"> 
                     onClick={() => {
                       // 이 Alert Dialog는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
                       // Alert Dialog를 먼저 닫고 다음 Activity를 push해야 합니다.
-                      popStep();
+                      setOpen(false);
                       push("ActivityDetail", {
                         title: "Alert Dialog에서 이동한 화면",
                         body: "Alert Dialog를 닫고 이동했습니다.",

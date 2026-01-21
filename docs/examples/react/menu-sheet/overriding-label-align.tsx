@@ -11,19 +11,17 @@ const MenuSheetOverridingLabelAlign = () => {
   return (
     <MenuSheetRoot>
       <MenuSheetTrigger asChild>
-        <ActionButton>Open</ActionButton>
+        <ActionButton variant="neutralSolid">Open</ActionButton>
       </MenuSheetTrigger>
       <MenuSheetContent aria-label="Menu Sheet" labelAlign="center">
         <MenuSheetGroup labelAlign="left">
-          <MenuSheetItem>Action 1</MenuSheetItem>
-          <MenuSheetItem labelAlign="center">Action 2</MenuSheetItem>
-          <MenuSheetItem>Action 3</MenuSheetItem>
+          <MenuSheetItem label="Action 1" />
+          <MenuSheetItem label="Action 2" labelAlign="center" />
+          <MenuSheetItem label="Action 3" />
         </MenuSheetGroup>
         <MenuSheetGroup>
-          <MenuSheetItem>Action 4</MenuSheetItem>
-          <MenuSheetItem tone="critical" labelAlign="left">
-            Action 5
-          </MenuSheetItem>
+          <MenuSheetItem label="Action 4" />
+          <MenuSheetItem label="Action 5" tone="critical" labelAlign="left" />
         </MenuSheetGroup>
       </MenuSheetContent>
     </MenuSheetRoot>

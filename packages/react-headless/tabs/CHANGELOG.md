@@ -1,5 +1,11 @@
 # @seed-design/react-tabs
 
+## 1.0.2
+
+### Patch Changes
+
+- 938bf0b: TabsCarousel에 onSwipeStart, onSwipeEnd 이벤트 콜백을 추가합니다.
+
 ## 1.0.1
 
 ### Patch Changes

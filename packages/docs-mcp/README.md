@@ -1,6 +1,6 @@
 # @seed-design/docs-mcp
 
-MCP (Model Context Protocol) tools for accessing SEED Design documentation. This package provides LLMs with structured access to SEED Design's React and Breeze component documentation, changelogs, and more.
+MCP (Model Context Protocol) tools for accessing SEED Design documentation. This package provides LLMs with structured access to SEED Design's React and Breeze component documentation, design guidelines, Rootage specifications, and more.
 
 ## Installation
 
@@ -57,8 +57,8 @@ Or if installed globally:
 For building custom MCP servers or integrating into your own applications:
 
 ```javascript
-import { server } from '@seed-design/docs-mcp/server';
-import { initializeTools } from '@seed-design/docs-mcp/tools';
+import { server } from "@seed-design/docs-mcp/server";
+import { initializeTools } from "@seed-design/docs-mcp/tools";
 
 // Initialize the tools
 await initializeTools(server);
@@ -69,11 +69,53 @@ await initializeTools(server);
 
 ## Available Tools
 
-- `list_react_components` - List all available SEED React components
-- `get_react_component` - Get detailed documentation for a specific React component
-- `get_react_changelog` - Get changelog for SEED React package
-- `list_breeze_components` - List all available SEED Breeze utility components
-- `get_breeze_component` - Get detailed documentation for a specific Breeze component
+### Discovery
+
+- `discover_seed_docs` - Discover all available documentation sections and categories. Call this first to understand the documentation structure.
+
+### Documentation
+
+- `list_docs` - List available documents in a section (react, docs, breeze, ai-integration, lynx) with optional category filter
+- `get_doc` - Get the content of a specific document by section and path
+- `get_full_docs` - Get all documents from a section combined into a single text
+
+### Rootage (Design Tokens & Component Specs)
+
+- `get_rootage` - Get SEED Design rootage specifications (design tokens and component specs)
+  - Without path: Returns index with all available resources
+  - With path: Returns specific resource (e.g., `/color.json`, `/components/action-button.json`)
+
+### Icons
+
+- `list_icons` - List all available icons with optional type filter
+- `search_icons` - Search icons by keyword
+- `get_icon_details` - Get detailed information about a specific icon
+
+## Documentation Sections
+
+| Section          | Description                                                          |
+| ---------------- | -------------------------------------------------------------------- |
+| `react`          | React component library, API references, usage examples              |
+| `docs`           | Component design guidelines, Foundation (color, typography, spacing) |
+| `breeze`         | Ready-to-use utility UI components                                   |
+| `ai-integration` | MCP, llms.txt integration guides                                     |
+| `lynx`           | Lynx framework                                                       |
+
+## Example Usage
+
+```text
+// 1. Discover available sections
+discover_seed_docs()
+
+// 2. List React components
+list_docs({ section: "react", category: "components" })
+
+// 3. Get specific component documentation
+get_doc({ section: "react", path: "components/button" })
+
+// 4. Get AI integration guide
+get_doc({ section: "ai-integration", path: "figma-mcp" })
+```
 
 ## Development
 
@@ -87,6 +129,21 @@ bun run dev
 # Build the package
 bun run build
 
+# Lint check
+bun run lint
+
+# Lint fix
+bun run lint:fix
+
+# Type check
+bun run typecheck
+
 # Clean build artifacts
 bun run clean
+```
+
+### Test with MCP Inspector
+
+```bash
+npx @modelcontextprotocol/inspector bun ./dist/stdio.js
 ```

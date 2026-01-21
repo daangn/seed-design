@@ -7,12 +7,7 @@ import {
   VStack,
   useSnackbarAdapter,
 } from "@seed-design/react";
-import {
-  useActivity,
-  useFlow,
-  useStepFlow,
-  type ActivityComponentType,
-} from "@stackflow/react/future";
+import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
@@ -24,7 +19,7 @@ import {
   AppBarMain,
   AppBarRight,
 } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
 import { DialogPushTrigger } from "seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -40,6 +35,7 @@ import { Snackbar } from "seed-design/ui/snackbar";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { Callout } from "seed-design/ui/callout";
+import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
@@ -57,25 +53,39 @@ type NavigationSection = {
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityHome: {};
+    ActivityHome: {
+      transitionStyle?: AppScreenProps["transitionStyle"];
+    };
   }
 }
 
-const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
+const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) => {
   const { push } = useFlow();
-  const { overlayProps } = useStepOverlay({ key: "alert-dialog" });
+  const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
 
   const { zIndex: activityIndex } = useActivity();
 
-  const { popStep } = useStepFlow("ActivityHome");
-
   const navigationSections: NavigationSection[] = [
     {
-      title: "AppBars",
+      title: "AppBar",
       items: [
         { title: "LayerBar", onClick: () => push("ActivityLayerBar", {}) },
         { title: "TransparentBar", onClick: () => push("ActivityTransparentBar", {}) },
+      ],
+    },
+    {
+      title: "AppScreen",
+      items: [
+        {
+          title: `Push to here (current activityIndex: ${activityIndex})`,
+          onClick: () => push("ActivityHome", {}),
+        },
+        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
+        ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
+          title: `ActivityTransitionStyle (${transitionStyle})`,
+          onClick: () => push("ActivityTransitionStyle", { transitionStyle }),
+        })),
       ],
     },
     {
@@ -105,11 +115,11 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <VStack gap="x2">
-                      <ActionButton onClick={() => popStep()}>확인</ActionButton>
+                      <ActionButton onClick={() => setOpen(false)}>확인</ActionButton>
                       <ActionButton
                         variant="neutralSolid"
                         onClick={() => {
-                          popStep();
+                          setOpen(false);
                           push("ActivityChipButton", {});
                         }}
                       >
@@ -219,27 +229,26 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
       title: "Other Components",
       items: [
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
+        { title: "Badge", onClick: () => push("ActivityBadge", {}) },
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
+        { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "TextField", onClick: () => push("ActivityTextField", {}) },
       ],
     },
     {
       title: "Misc",
       items: [
-        {
-          title: `Push to here (current activityIndex: ${activityIndex})`,
-          onClick: () => push("ActivityHome", {}),
-        },
+        { title: "Font Scaling", onClick: () => push("ActivityFontScaling", {}) },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
-        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
       ],
     },
   ];
 
   return (
-    <AppScreen>
+    <AppScreen transitionStyle={params.transitionStyle}>
       <AppBar>
         {activityIndex > 0 && (
           <AppBarLeft>
@@ -263,7 +272,8 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
           <Box px="spacingX.globalGutter">
             <Callout
               tone="critical"
-              prefixIcon={<Icon svg={<IconHandPointUpLine />} />}
+              prefixIcon={<IconHandPointUpLine />}
+              title="foobar"
               description="이 영역에서는 Pull to Refresh 동작이 발생하지 않습니다. Exercitation cillum velit
               aliquip deserunt Lorem. Eiusmod proident duis occaecat consequat veniam do commodo
               occaecat duis irure ea sunt officia cupidatat."

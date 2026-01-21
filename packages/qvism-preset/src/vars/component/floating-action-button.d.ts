@@ -4,7 +4,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)",
         "cornerRadius": "var(--seed-radius-full)",
-        "shadow": "0px 2px 6px 0px #00000026",
+        "shadow": "var(--seed-shadow-s3)",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "layoutDuration": "var(--seed-duration-d4)",
@@ -22,6 +22,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 라벨이 포함된 확장 형태로, 버튼의 역할을 명확히 전달합니다.
+   */
   "extendedTrue": {
     "enabled": {
       "root": {
@@ -41,6 +44,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 아이콘만 표시되는 기본 형태입니다.
+   */
   "extendedFalse": {
     "enabled": {
       "root": {

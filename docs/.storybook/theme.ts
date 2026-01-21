@@ -32,7 +32,7 @@ export default create({
 
   brandTitle: "Seed Design Storybook",
 
-  brandImage: "/logo.png",
+  brandImage: "/logo.webp",
   brandTarget: "_self",
 
   //

@@ -1,4 +1,4 @@
-import { useFlow, type ActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarLeft,
@@ -16,6 +16,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useState } from "react";
 import { Switch } from "seed-design/ui/switch";
+import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -23,7 +24,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityTransparentBar: ActivityComponentType<"ActivityTransparentBar"> = () => {
+const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBar"> = () => {
   const [layerOffsetTop, setLayerOffsetTop] =
     useState<NonNullable<AppScreenProps["layerOffsetTop"]>>("none");
   const [gradient, setGradient] = useState<NonNullable<AppScreenProps["gradient"]>>(true);
@@ -83,6 +84,16 @@ const ActivityTransparentBar: ActivityComponentType<"ActivityTransparentBar"> = 
             >
               ActivityPluginBasicUI
             </ActionButton>
+            {appScreenVariantMap.transitionStyle.map((transitionStyle) => (
+              <ActionButton
+                key={transitionStyle}
+                variant="neutralSolid"
+                flexGrow
+                onClick={() => push("ActivityTransitionStyle", { transitionStyle })}
+              >
+                ActivityTransitionStyle ({transitionStyle})
+              </ActionButton>
+            ))}
           </VStack>
           <img src={img} alt="penguin" />
           <img src={img} alt="penguin" />

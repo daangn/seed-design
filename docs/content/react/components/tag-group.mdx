@@ -1,6 +1,6 @@
 ---
 title: Tag Group
-description: Tag Group은 아이콘 및 텍스트로 이루어진 태그를 구분 기호와 함께 수평 레이아웃으로 표시하는 컴포넌트입니다.
+description: 아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.
 ---
 
 <ComponentExample name="react/tag-group/preview">
@@ -12,37 +12,29 @@ description: Tag Group은 아이콘 및 텍스트로 이루어진 태그를 구�
   ```
 </ComponentExample>
 
-## Usage
+## Installation
 
-```tsx
-import { TagGroup, TagGroupRoot, TagGroupItem } from '@seed-design/react';
+```package-install
+npx @seed-design/cli@latest add ui:tag-group
 ```
 
-```tsx
-<TagGroupRoot>
-  <TagGroupItem>Tag 1</TagGroupItem>
-  <TagGroupItem>Tag 2</TagGroupItem>
-  <TagGroupItem>Tag 3</TagGroupItem>
-</TagGroupRoot>
-```
-
-```tsx
-<TagGroup.Root>
-  <TagGroup.Item>Tag 1</TagGroup.Item>
-  <TagGroup.Item>Tag 2</TagGroup.Item>
-  <TagGroup.Item>Tag 3</TagGroup.Item>
-</TagGroup.Root>
-```
+<ManualInstallation name="tag-group" />
 
 ## Props
 
 ### `TagGroupRoot`
 
-<react-type-table path="../packages/react/src/components/TagGroup/TagGroup.tsx" name="TagGroupRootProps" />
+<react-type-table
+  path="../packages/react/src/components/TagGroup/TagGroup.tsx"
+  name="TagGroupRootProps"
+/>
 
 ### `TagGroupItem`
 
-<react-type-table path="../packages/react/src/components/TagGroup/TagGroup.tsx" name="TagGroupItemProps" />
+<react-type-table
+  path="../packages/react/src/components/TagGroup/TagGroup.tsx"
+  name="TagGroupItemProps"
+/>
 
 ## Examples
 
@@ -92,7 +84,9 @@ import { TagGroup, TagGroupRoot, TagGroupItem } from '@seed-design/react';
 
 ### Customizing `TagGroupItem`
 
-`TagGroupRoot`에 지정한 `size`, `tone`, `weight`을 `TagGroupItem`에서 덮어씌울 수 있습니다.
+`TagGroupRoot`에 지정한 `size`, `tone`, `weight`은 `TagGroupItem`에서 덮어씌울 수 있습니다.
+
+필요한 경우 [컴파운드 컴포넌트](/react/components/concepts/snippet#compound-components)를 직접 사용하여 `TagGroupItem` 내부 요소를 커스터마이징할 수 있습니다.
 
 <ComponentExample name="react/tag-group/customizing-item">
   ```json doc-gen:file
@@ -119,6 +113,12 @@ import { TagGroup, TagGroupRoot, TagGroupItem } from '@seed-design/react';
 </ComponentExample>
 
 ### Wrapping Behavior
+
+기본적으로 `TagGroupRoot`는 컨테이너 너비를 초과하면 줄바꿈이 발생합니다.
+
+`TagGroupRoot`에 `truncate` prop을 지정하면 `TagGroupRoot`가 한 줄로 유지되고, 컨테이너 너비를 초과하는 경우 기본적으로 모든 `TagGroupItem`의 레이블에서 말줄임이 발생할 수 있습니다.
+
+`truncate` prop을 사용하면서 특정 아이템이 축소되지 않도록 하려면 해당 `TagGroupItem`에 `flexShrink={0}`을 지정하세요. `TagGroupItem`에 `flexShrink={number}`를 지정하여 컨테이너 너비를 초과할 때 축소되는 우선순위를 조정할 수 있습니다.
 
 <ComponentExample name="react/tag-group/wrapping-behavior">
   ```json doc-gen:file

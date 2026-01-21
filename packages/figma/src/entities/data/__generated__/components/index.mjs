@@ -114,8 +114,3 @@ export const icon = {
   "name": "icon",
   "key": "598895dbeb853cbfff37bd50ddc65874375fc1b1"
 };
-
-export const iOsSelection = {
-  "name": "iOsSelection",
-  "key": "c348849476b058d7d24fe7588c81b1af1b46befe"
-};

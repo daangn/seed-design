@@ -18,8 +18,8 @@ export declare const metadata: {
       "type": "VARIANT",
       "defaultValue": "Neutral",
       "variantOptions": [
-        "🚫[Deprecated]Brand",
-        "Neutral"
+        "Neutral",
+        "🚫[Deprecated]Brand"
       ]
     },
     "Weight": {

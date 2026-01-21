@@ -1,7 +1,14 @@
-import { source } from "@/app/source";
+import { getDocsSource } from "@/app/sources/docs-source";
 import { ComponentCard } from "@/components/component-card";
+import {
+  createFigmaClient,
+  fetchFigmaImageUrls,
+} from "@/components/figma-image/fetch-figma-image-urls";
 
-export function ComponentGrid() {
+const client = createFigmaClient(process.env.FIGMA_PERSONAL_ACCESS_TOKEN!);
+
+export async function ComponentGrid() {
+  const source = await getDocsSource();
   // Get all component pages
   const allPages = source.getPages();
 
@@ -10,37 +17,44 @@ export function ComponentGrid() {
       // Only include pages under /docs/components/
       if (!page.url.startsWith("/docs/components/")) return false;
 
-      // Exclude the index page itself
-      if (page.url === "/docs/components") return false;
-
-      // Exclude deprecated components
-      if (page.url.includes("deprecated")) return false;
+      if (page.data.deprecated) return false;
 
       return true;
     })
     .sort((a, b) => {
       // Sort alphabetically by title
-      const titleA = a.data.title || "";
-      const titleB = b.data.title || "";
+      const titleA = a.data.title;
+      const titleB = b.data.title;
+
       return titleA.localeCompare(titleB);
     });
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pb-10 not-prose">
-      {componentPages.map((page) => {
-        // Extract component slug from URL
-        const componentSlug = page.url.split("/").pop() || "";
-
+    <ul className="grid grid-cols-2 md:grid-cols-3 gap-4 pb-10 not-prose items-stretch">
+      {componentPages.map(async (page) => {
         return (
-          <ComponentCard
-            key={page.url}
-            title={page.data.title || componentSlug}
-            description={page.data.description}
-            href={page.url}
-            imagePath={`/docs/components/${componentSlug}/anatomy.webp`}
-          />
+          <li key={page.url}>
+            <ComponentCard
+              className="h-full"
+              {...(page.data.coverImageFigmaId && {
+                coverImageSrc: (
+                  await fetchFigmaImageUrls({
+                    client,
+                    fileKey: process.env.FIGMA_FILE_KEY!,
+                    nodeIds: [page.data.coverImageFigmaId],
+                    options: {
+                      scale: 3,
+                    },
+                  })
+                ).get(page.data.coverImageFigmaId),
+              })}
+              title={page.data.title}
+              description={page.data.description}
+              href={page.url}
+            />
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

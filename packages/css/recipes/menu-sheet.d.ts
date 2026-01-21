@@ -1,5 +1,8 @@
 declare interface MenuSheetVariant {
-  
+  /**
+  * @default false
+  */
+  skipAnimation: boolean;
 }
 
 declare type MenuSheetVariantMap = {
@@ -8,7 +11,7 @@ declare type MenuSheetVariantMap = {
 
 export declare type MenuSheetVariantProps = Partial<MenuSheetVariant>;
 
-export declare type MenuSheetSlotName = "backdrop" | "positioner" | "content" | "header" | "title" | "list" | "group" | "footer" | "closeButton";
+export declare type MenuSheetSlotName = "backdrop" | "positioner" | "content" | "header" | "title" | "description" | "list" | "group" | "footer" | "closeButton";
 
 export declare const menuSheetVariantMap: MenuSheetVariantMap;
 

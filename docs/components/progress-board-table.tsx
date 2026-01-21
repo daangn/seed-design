@@ -1,6 +1,6 @@
-import { client } from "@/sanity/lib/client";
-import { ALL_COMPONENTS_QUERY } from "@/sanity/lib/queries";
-import { ComponentData, PlatformStatus } from "@/sanity/lib/types";
+import { client } from "@/sanity-studio/lib/client";
+import { ALL_COMPONENTS_QUERY } from "@/sanity-studio/lib/queries";
+import { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
 import { Badge } from "@seed-design/react";
@@ -15,6 +15,7 @@ const statusConfig: Record<
   "in-progress": { label: "In Progress", tone: "warning", variant: "weak" },
   "not-ready": { label: "Not Ready", tone: "neutral", variant: "weak" },
   deprecated: { label: "Deprecated", tone: "neutral", variant: "weak" },
+  "not-planned": { label: "Not Planned", tone: "neutral", variant: "weak" },
 };
 
 function StatusBadge({
@@ -94,8 +95,8 @@ export async function ProgressBoardTable() {
   const platforms: PlatformKey[] = ["figma", "react", "ios", "android"];
   const stats = platforms.reduce(
     (acc, platform) => {
-      const total = components.length;
       const statusKey = `${platform}Status` as keyof ComponentData;
+      const total = components.filter((c) => c[statusKey] !== "not-planned").length;
       const ready = components.filter((c) => c[statusKey] === "ready").length;
       acc[platform] = { ready, total, percentage: Math.round((ready / total) * 100) };
       return acc;

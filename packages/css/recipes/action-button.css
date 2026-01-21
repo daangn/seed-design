@@ -26,10 +26,10 @@
     padding-bottom: var(--seed-box-padding-bottom);
     padding-left: var(--seed-box-padding-left);
     padding-right: var(--seed-box-padding-right);
-    --seed-box-bleed-bottom: initial;
-    --seed-box-bleed-top: initial;
-    --seed-box-bleed-left: initial;
-    --seed-box-bleed-right: initial;
+    --seed-box-bleed-bottom: 0px;
+    --seed-box-bleed-top: 0px;
+    --seed-box-bleed-left: 0px;
+    --seed-box-bleed-right: 0px;
     margin-top: calc(var(--seed-box-bleed-top) * -1);
     margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
     margin-left: calc(var(--seed-box-bleed-left) * -1);
@@ -259,8 +259,8 @@
     --seed-box-padding-right: var(--seed-dimension-x3_5);
     --seed-box-padding-top: var(--seed-dimension-x1_5);
     --seed-box-padding-bottom: var(--seed-dimension-x1_5);
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
+    font-size: var(--seed-font-size-t3);
+    line-height: var(--seed-line-height-t3);
 }
 .seed-action-button--size_xsmall-layout_iconOnly {
     min-width: var(--seed-dimension-x8);

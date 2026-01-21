@@ -22,6 +22,9 @@
             },
             "color": {
               "type": "color"
+            },
+            "gradient": {
+              "type": "gradient"
             }
           }
         },
@@ -36,7 +39,8 @@
             "color": {
               "type": "color"
             }
-          }
+          },
+          "description": "아이콘은 Fill 타입 사용을 권장합니다."
         },
         "content": {
           "properties": {
@@ -123,14 +127,21 @@
             "positive": {},
             "informative": {},
             "warning": {},
-            "critical": {}
+            "critical": {},
+            "magic": {
+              "description": "AI 기능을 나타냅니다. variant=solid와 조합하여 사용하지 않습니다."
+            }
           },
           "defaultValue": "neutral"
         },
         "variant": {
           "values": {
-            "weak": {},
-            "solid": {}
+            "weak": {
+              "description": "배경색이 연한 스타일입니다."
+            },
+            "solid": {
+              "description": "배경색이 진한 스타일입니다."
+            }
           },
           "defaultValue": "weak"
         }
@@ -873,6 +884,70 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.critical-solid-pressed"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "magic",
+          "variant": "weak"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gradient": {
+                  "type": "gradient",
+                  "value": "$gradient.glow-magic"
+                }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "title": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "description": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "button": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "suffixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "gradient": {
+                  "type": "gradient",
+                  "value": "$gradient.glow-magic-pressed"
                 }
               }
             }

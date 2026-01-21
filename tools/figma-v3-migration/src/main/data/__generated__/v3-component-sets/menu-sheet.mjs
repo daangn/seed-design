@@ -18,7 +18,7 @@ export const metadata = {
       "type": "BOOLEAN",
       "defaultValue": true
     },
-    "Show Description#32984:0": {
+    "Show Header Description#32984:0": {
       "type": "BOOLEAN",
       "defaultValue": true
     },
@@ -26,9 +26,9 @@ export const metadata = {
       "type": "VARIANT",
       "defaultValue": "1",
       "variantOptions": [
+        "1",
         "2",
-        "3",
-        "1"
+        "3"
       ]
     },
     "Layout": {

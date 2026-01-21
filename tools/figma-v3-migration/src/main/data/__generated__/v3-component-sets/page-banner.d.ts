@@ -20,10 +20,10 @@ export declare const metadata: {
       "defaultValue": "Display",
       "variantOptions": [
         "Display",
+        "Display (With Action)",
         "Actionable",
         "Dismissible",
-        "With Action",
-        "Custom"
+        "Actionable (Custom)"
       ]
     },
     "Tone": {
@@ -34,7 +34,8 @@ export declare const metadata: {
         "Informative",
         "Positive",
         "Warning",
-        "Critical"
+        "Critical",
+        "Magic"
       ]
     },
     "Variant": {

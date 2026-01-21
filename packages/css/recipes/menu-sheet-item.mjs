@@ -1,6 +1,25 @@
 import './menu-sheet-item.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const menuSheetItemSlotNames = [
+  [
+    "root",
+    "seed-menu-sheet-item__root"
+  ],
+  [
+    "content",
+    "seed-menu-sheet-item__content"
+  ],
+  [
+    "label",
+    "seed-menu-sheet-item__label"
+  ],
+  [
+    "description",
+    "seed-menu-sheet-item__description"
+  ]
+];
+
 const defaultVariant = {
   "tone": "neutral",
   "labelAlign": "left"
@@ -22,10 +41,13 @@ export const menuSheetItemVariantMap = {
 export const menuSheetItemVariantKeys = Object.keys(menuSheetItemVariantMap);
 
 export function menuSheetItem(props) {
-  return createClassName(
-    "seed-menu-sheet-item",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    menuSheetItemSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

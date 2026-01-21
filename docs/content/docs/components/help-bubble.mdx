@@ -1,132 +1,141 @@
 ---
 title: Help Bubble
-description: Help Bubble은 사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 부가적인 도움말 컴포넌트입니다.
+description: 사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.
+coverImageFigmaId: 39:21555
 ---
 
 <PlatformStatusTable componentId="help-bubble" />
 
 ## Anatomy
 
-- root
-- arrow
-- title
-- description
-- close button
+<FigmaImage
+  id="2:134823"
+  alt="Help Bubble의 Anatomy 이미지. Title, Description, Close Button, Arrow로 구성됩니다."
+/>
 
-## Options
+Help Bubble은 Title, Description, Close Button을 제공합니다.
 
-### Placement
+## Properties
 
-Help Bubble은 목표 대상을 기준으로 다양한 위치에 표시될 수 있습니다. `{side}-{alignment}` 혹은 `{side}` 형식으로 표기되며, alignment가 생략된 경우 center를 의미합니다. 기본값은 top입니다.
+### Placement Property
 
-### Max Width
+<FigmaImage
+  id="2:134845"
+  alt="Help Bubble의 Placement Property - Bottom-Center"
+/>
 
-[TODO: Max Width 옵션을 설명하는 이미지]
+<FigmaImage id="2:134855" alt="Help Bubble의 Placement Property - Right-Top" />
 
-Help Bubble의 최대 너비를 지정해야 합니다. 문구의 길이와 화면 맥락을 고려하여 적절한 값을 선택해야 합니다. 기본값은 undefined입니다.
+Help Bubble은 Trigger 되는 요소를 기준으로 적절한 위치 옵션을 제공합니다. Placement Prop은 `{Side}` - `{Alignment}` 조합으로 구성됩니다.
 
-### Gutter
+| Property      | 값                           |
+| ------------- | ---------------------------- |
+| **Side**      | Top/Bottom/Right/Left        |
+| **Alignment** | Top/Bottom/Right/Left/Center |
 
-[TODO: Gutter 옵션을 설명하는 이미지]
+### Show Close Button Property
 
-Help Bubble과 목표 대상 사이의 거리를 조정할 수 있습니다. 기본값은 4px입니다.
+<FigmaImage
+  id="2:134874"
+  alt="Help Bubble의 Show Close Button Property - Close Button 표시 여부"
+/>
 
-### Overflow Padding
+Close Button 사용 여부를 제공합니다. Close Button은 내부에 터치 영역을 보장하기 위한 프레임이 포함되어 있습니다.
 
-[TODO: Overflow Padding 옵션을 설명하는 이미지]
+<FigmaImage
+  id="2:134879"
+  alt="Close Button Target Size - 38*38px의 터치 영역"
+/>
 
-Help Bubble이 특정 경계(예: 브라우저 창) 내에 머물도록 패딩 값을 정의할 수 있습니다. 기본값은 16px ($dimension.spacing-x.global-gutter) 입니다.
+Close Button Target Size: 38\*38
 
-### Arrow Padding
+### Show Description
 
-[TODO: Arrow Padding 옵션을 설명하는 이미지]
+<FigmaImage id="2:134892" alt="Help Bubble의 Show Description Property" />
 
-Help Bubble의 arrow와 root의 경계 사이의 최소 간격을 정의할 수 있습니다. 기본값은 14px입니다.
+디자이너는 필요한 경우 Description을 사용하지 않고 Help Bubble을 표현할 수 있습니다.
 
-### Close on Interact Outside
+**Description만 사용하는 것은 권장하지 않습니다.**
 
-[TODO: Close on Interact Outside 옵션을 설명하는 이미지]
+### Help Bubble Arrow 위치 조정
 
-Help Bubble이 표시된 상태에서 외부 영역을 탭하면 닫히도록 할 수 있습니다. 기본값은 true입니다.
+<FigmaImage
+  id="2:134907"
+  alt="Help Bubble Arrow 위치 조정 - 최소 14px 간격 유지"
+/>
 
-## Behaviors
+Help Bubble의 Arrow는 화면에서 적절한 위치를 찾기 위해서 조정할 수 있습니다. 조정시 최소 14px의 공간을 유지해야 합니다.
 
-### 자동 위치 조정
+## Guidelines
 
-Help Bubble은 화면 공간과 위치에 따라 자동으로 배치를 조정합니다. Placement 옵션은 "선호 배치"로, 실제 배치는 화면 공간에 따라 결정됩니다.
+### Help Bubble 넓이
 
-### 표시 방식
+<FigmaImage id="2:134938" alt="Help Bubble 넓이 예시" />
 
-Help Bubble은 Trigger 방식 혹은 Anchor 방식으로 표시될 수 있습니다. Trigger 방식은 트리거 버튼을 탭하면 표시되며, Anchor 방식은 지정된 Anchor 요소를 기준으로 표시됩니다.
+Help Bubble은 기본으로 설정된 최대 넓이가 없습니다. 사용할 때 Help Bubble이 사용되는 위치와 내용에 따라서 적절한 최대 넓이를 고려해서 사용해주세요.
 
-## Usage Guidelines
+### Help Bubble와 Trigger 요소 간격
 
-### 컨텐츠 형식
+<FigmaImage
+  id="2:134954"
+  alt="Help Bubble과 Trigger 요소 간의 간격 - 최소 4px 유지"
+/>
 
-[TODO: 올바른 형식을 사용한 Help Bubble 예시와 잘못된 예시 비교]
+Help Bubble은 Trigger 요소와 최소 4px의 간격을 유지해야 합니다. 사용처는 상황에 따라서 유연하게 간격을 조정할 수 있습니다.
 
-제목 끝에 마침표를 추가하지 마세요. 맥락에 따라 물음표는 허용됩니다.
+### 화면을 기준으로 Overflow 되는 경우
 
-설명은 단일 문장이라도 끝에 마침표를 추가하세요.
+<FigmaImage
+  id="2:134970"
+  alt="Help Bubble이 화면에서 Overflow 없이 표시되는 예시"
+/>
 
-### 최대 너비 지정하기
+<FigmaImage
+  id="2:134977"
+  alt="Placement: Bottom-Left인 Help Bubble이 화면에서 Overflow가 발생해 Flip된 예시"
+/>
 
-Help Bubble을 사용할 경우 디자이너는 Max Width 옵션에 사용할 최대 너비를 함께 제공해야 합니다.
+Help Bubble은 Trigger 위치나 화면내 의도한 위치에 따라서 화면의 사방면 끝에 위치할 수 있습니다. 이런 경우 Help Bubble 구현 로직에 따라서 Help Bubble의 위치가 조정됩니다.
 
-### 다중 사용 제한
+<FigmaImage
+  id="2:134988"
+  alt="Help Bubble Arrow가 Trigger와 좌우 정렬을 유지하는 예시"
+/>
 
-Help Bubble은 동시에 여러 개 보여주는 것은 권장되지 않습니다. 특히 Anchor 방식으로 표시할 때는 화면에 하나의 Help Bubble만 표시하는 것이 사용자 경험에 좋습니다.
+<FigmaImage
+  id="2:134996"
+  alt="Help Bubble Arrow가 Trigger와 상하 정렬을 유지하는 예시"
+/>
 
-### 화면 크기 고려하기
+Arrow는 기본적으로 Trigger 요소의 중앙에 위치됩니다. 따라서 Arrow 위치를 조정하는 경우는 시각 보정이나 명확한 의도가 있어야 합니다.
 
-모든 화면 크기에서 Help Bubble이 완전히 표시되는지 확인하고, 필요한 경우 위치를 조정하세요.
+### Help Bubble 표시하기, 닫기
 
-## 스펙
+<FigmaImage id="2:135015" alt="Help Bubble을 여는 방법 - Trigger 요소 탭" />
 
-### Arrow 렌더링
+Help Bubble은 Trigger 요소를 탭했을 때 표시되거나, 처음부터 표시된 상태로 존재할 수 있습니다.
 
-Arrow는 width, height, tipRadius를 사용하여 모양을 정의합니다. Arrow를 그리는 절차는 다음과 같습니다. (tip이 아래를 향하는 기준)
+<FigmaImage id="2:135118" alt="Help Bubble을 닫는 방법 - Trigger 요소 탭" />
 
-1. 좌상단에서 시작합니다.
+Close Button을 표시하지 않는 Help Bubble은 Trigger 및 Help Bubble 바깥 영역을 탭했을 때 닫히는 등, 적절한 시점에 닫혀야 합니다.
 
-시작점은 (0, 0)이라고 가정합니다.
+<FigmaImage id="2:135221" alt="Help Bubble을 닫는 방법 - Close Button 탭" />
 
-arrow의 왼쪽 위 모서리입니다.
+Close Button을 표시하는 Help Bubble은 Close Button을 탭했을 때 닫혀야 하며, 바깥 영역을 탭했을 때 닫힐지 여부는 Help Bubble에서 제공하는 내용의 중요도에 따라 직접 결정할 수 있습니다.
 
-2. 가로로 오른쪽 끝까지 직선을 그립니다.
+<FigmaImage
+  id="2:135330"
+  alt="Help Bubble의 모든 위치 예시 - Bottom-Left, Top-Left, Right-Top, Left-Top, Right-Center, Left-Center, Right-Bottom, Left-Bottom, Bottom-Center, Top-Center, Bottom-Right, Top-Right"
+/>
 
-윗변을 그리는 단계입니다.
+## Help Bubble V3 변경점
 
-왼쪽에서 오른쪽으로 수평선 하나를 그립니다.
+<FigmaImage id="2:135389" alt="Help Bubble V2와 V3 비교" />
 
-(0, 0) → (width, 0)
+- 여백과 라운드 값을 전반적으로 조정했습니다.
+- 다크 테마의 컬러를 조정하여 불필요한 시각적 강조를 줄였습니다.
+- Modal Variant는 더 이상 제공하지 않습니다. 필요한 경우 디자인 코어팀에 문의해주세요.
 
-3. 왼쪽 아래로 직선을 그립니다.
-
-tip의 오른쪽 시작점입니다.
-
-(0, 0) -> (width / 2 + tipRadius, height - tipRadius)
-
-4. 중앙 아래쪽에 곡선을 그립니다.
-
-tip의 바닥 부분을 표현합니다.
-
-제어점: (width / 2, height)
-
-도착점 (width / 2 - tipRadius, height - tipRadius)
-
-5. 왼쪽 위로 닫습니다.
-
-(width / 2 - tipRadius, height - tipRadius) -> (0, 0)
-
-SVG Path 형식으로 표현하면 다음과 같습니다.
-
-```
-M0,0
-H${width}
-L${width / 2 + tipRadius},${height - tipRadius}
-Q${width / 2},${height} ${width / 2 - tipRadius},${height - tipRadius}
-Z
-```
+## Specification
 
 <ComponentSpecBlock id="help-bubble" />

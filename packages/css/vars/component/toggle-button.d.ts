@@ -10,6 +10,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 브랜드 컬러로 강조된 스타일입니다.
+   */
   "variantBrandSolid": {
     "enabled": {
       "root": {
@@ -82,6 +85,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 기본적인 토글 스타일입니다.
+   */
   "variantNeutralWeak": {
     "enabled": {
       "root": {
@@ -170,8 +176,8 @@ export declare const vars: {
         "size": "var(--seed-dimension-x3_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--seed-font-size-t3)",
+        "lineHeight": "var(--seed-line-height-t3)"
       },
       "progressCircle": {
         "size": "14px",

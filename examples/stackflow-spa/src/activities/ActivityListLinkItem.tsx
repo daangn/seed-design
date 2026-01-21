@@ -5,10 +5,17 @@ import {
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
-import { AppBar, AppBarBackButton, AppBarIconButton, AppBarLeft, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
@@ -33,6 +40,8 @@ const prefixVariants = [
 const contentVariants = [
   { key: "title", detail: null },
   { key: "title-detail", detail: "lorem ipsum dolor sit amet" },
+  { key: "title-highlighted", detail: null, highlighted: true },
+  { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
 ];
 
 const suffixVariants = [
@@ -60,7 +69,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityListLinkItem: ActivityComponentType<"ActivityListLinkItem"> = () => {
+const ActivityListLinkItem: StaticActivityComponentType<"ActivityListLinkItem"> = () => {
   const { push } = useFlow();
 
   return (
@@ -103,6 +112,7 @@ const ActivityListLinkItem: ActivityComponentType<"ActivityListLinkItem"> = () =
                       detail={content.detail}
                       prefix={prefix.element}
                       suffix={suffix.element}
+                      highlighted={content.highlighted}
                     />
                     {showDivider && <ListDivider />}
                   </Fragment>
