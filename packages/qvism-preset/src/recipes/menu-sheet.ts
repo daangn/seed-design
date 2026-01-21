@@ -54,7 +54,7 @@ const menuSheet = defineSlotRecipe({
       paddingLeft: vars.base.enabled.content.paddingX,
       paddingRight: vars.base.enabled.content.paddingX,
       paddingTop: vars.base.enabled.content.paddingY,
-      paddingBottom: vars.base.enabled.content.paddingY,
+      paddingBottom: `calc(${vars.base.enabled.content.paddingY} + var(--seed-safe-area-bottom))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
     },
