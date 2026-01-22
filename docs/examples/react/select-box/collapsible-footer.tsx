@@ -10,7 +10,7 @@ import {
 
 export default function SelectBoxCollapsibleFooter() {
   return (
-    <HStack gap="x8" p="x4" align="flex-start" height="400px">
+    <HStack gap="x8" p="x4" align="flex-start" height="550px">
       <CheckSelectBoxGroup aria-label="Footer 예제">
         <CheckSelectBox
           label="선택 시에만 표시 (기본값)"
