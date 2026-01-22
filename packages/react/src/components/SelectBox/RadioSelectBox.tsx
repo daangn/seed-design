@@ -86,7 +86,6 @@ function FooterVisibilityProvider({
     open: {
       "when-selected": checked,
       "when-not-selected": !checked,
-      never: false,
     }[footerVisibility],
   });
 
@@ -111,7 +110,7 @@ export interface RadioSelectBoxItemProps
    * Controls when the footer is visible.
    * @default "when-selected"
    */
-  footerVisibility?: "when-selected" | "when-not-selected" | "always" | "never";
+  footerVisibility?: "when-selected" | "when-not-selected" | "always";
 }
 
 export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxItemProps>(
@@ -219,9 +218,6 @@ export const RadioSelectBoxFooter = forwardRef<HTMLDivElement, RadioSelectBoxFoo
     const { stateProps } = useRadioGroupItemContext();
     const collapsibleContext = useCollapsibleContext({ strict: false });
     const footerContext = useContext(FooterContext);
-
-    if (footerContext?.footerVisibility === "never") return null;
-
     const composedRef = composeRefs(ref, footerContext?.footerRef ?? null);
 
     if (collapsibleContext) {

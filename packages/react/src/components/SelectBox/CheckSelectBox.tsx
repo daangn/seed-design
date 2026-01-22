@@ -87,7 +87,6 @@ function FooterVisibilityProvider({
     open: {
       "when-selected": checked,
       "when-not-selected": !checked,
-      never: false,
     }[footerVisibility],
   });
 
@@ -112,7 +111,7 @@ export interface CheckSelectBoxRootProps
    * Controls when the footer is visible.
    * @default "when-selected"
    */
-  footerVisibility?: "when-selected" | "when-not-selected" | "always" | "never";
+  footerVisibility?: "when-selected" | "when-not-selected" | "always";
 }
 
 export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRootProps>(
@@ -236,9 +235,6 @@ export const CheckSelectBoxFooter = forwardRef<HTMLDivElement, CheckSelectBoxFoo
     const { stateProps } = useCheckboxContext();
     const collapsibleContext = useCollapsibleContext({ strict: false });
     const footerContext = useContext(FooterContext);
-
-    if (footerContext?.footerVisibility === "never") return null;
-
     const composedRef = composeRefs(ref, footerContext?.footerRef ?? null);
 
     if (collapsibleContext) {
