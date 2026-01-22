@@ -33,7 +33,8 @@
             "size": {
               "type": "dimension"
             }
-          }
+          },
+          "description": "size=20에서는 지원되지 않습니다."
         },
         "badge": {
           "properties": {
@@ -43,7 +44,8 @@
             "size": {
               "type": "dimension"
             }
-          }
+          },
+          "description": "size=20에서는 지원되지 않습니다."
         }
       },
       "variants": {

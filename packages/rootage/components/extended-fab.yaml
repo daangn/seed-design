@@ -39,6 +39,13 @@ data:
             type: color
           size:
             type: dimension
+    variants:
+      variant:
+        values:
+          neutralSolid:
+            description: 기본 FAB 스타일입니다.
+          layerFloating:
+            description: 플로팅 레이어 위에 사용하는 스타일입니다.
   definitions:
     base:
       enabled:

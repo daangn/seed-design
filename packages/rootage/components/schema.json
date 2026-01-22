@@ -29,6 +29,9 @@
     "data": {
       "type": "object",
       "properties": {
+        "schema": {
+          "$ref": "#/definitions/componentSpecSchema"
+        },
         "definitions": {
           "$ref": "#/definitions/definitions"
         }
@@ -38,6 +41,90 @@
   "required": ["kind", "metadata", "data"],
   "additionalProperties": false,
   "definitions": {
+    "componentSpecSchema": {
+      "type": "object",
+      "properties": {
+        "slots": {
+          "$ref": "#/definitions/slotsSchema"
+        },
+        "variants": {
+          "$ref": "#/definitions/variantsSchema"
+        }
+      },
+      "additionalProperties": false
+    },
+    "slotsSchema": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/slotSchema"
+      }
+    },
+    "slotSchema": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/slotPropertiesSchema"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["properties"],
+      "additionalProperties": false
+    },
+    "slotPropertiesSchema": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/slotPropertySchema"
+      }
+    },
+    "slotPropertySchema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["color", "dimension", "number", "duration", "cubicBezier", "shadow", "gradient"]
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "variantsSchema": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/variantSchema"
+      }
+    },
+    "variantSchema": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "$ref": "#/definitions/variantValuesSchema"
+        },
+        "defaultValue": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "variantValuesSchema": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
     "definitions": {
       "type": "object",
       "properties": {
@@ -198,6 +285,16 @@
     "tokenRef": {
       "type": "string",
       "anyOf": [
+        { "const": "$color.banner.blue", "title": "$color.banner.blue", "description": "theme-light: #e1f7ff\ntheme-dark: #0d2a3a", "markdownDescription": "- theme-light: `#e1f7ff`\n\n- theme-dark: `#0d2a3a`" },
+        { "const": "$color.banner.cool-gray", "title": "$color.banner.cool-gray", "description": "theme-light: #ebf1f5\ntheme-dark: #242c33", "markdownDescription": "- theme-light: `#ebf1f5`\n\n- theme-dark: `#242c33`" },
+        { "const": "$color.banner.green", "title": "$color.banner.green", "description": "theme-light: #f0fbe5\ntheme-dark: #1e361c", "markdownDescription": "- theme-light: `#f0fbe5`\n\n- theme-dark: `#1e361c`" },
+        { "const": "$color.banner.orange", "title": "$color.banner.orange", "description": "theme-light: #fff2e1\ntheme-dark: #42230a", "markdownDescription": "- theme-light: `#fff2e1`\n\n- theme-dark: `#42230a`" },
+        { "const": "$color.banner.pink", "title": "$color.banner.pink", "description": "theme-light: #ffebf1\ntheme-dark: #3b172c", "markdownDescription": "- theme-light: `#ffebf1`\n\n- theme-dark: `#3b172c`" },
+        { "const": "$color.banner.purple", "title": "$color.banner.purple", "description": "theme-light: #f5ecff\ntheme-dark: #2e1e45", "markdownDescription": "- theme-light: `#f5ecff`\n\n- theme-dark: `#2e1e45`" },
+        { "const": "$color.banner.red", "title": "$color.banner.red", "description": "theme-light: #ffecee\ntheme-dark: #3a0f15", "markdownDescription": "- theme-light: `#ffecee`\n\n- theme-dark: `#3a0f15`" },
+        { "const": "$color.banner.teal", "title": "$color.banner.teal", "description": "theme-light: #e6faf6\ntheme-dark: #143633", "markdownDescription": "- theme-light: `#e6faf6`\n\n- theme-dark: `#143633`" },
+        { "const": "$color.banner.warm-gray", "title": "$color.banner.warm-gray", "description": "theme-light: #f2f0ee\ntheme-dark: #2f2b27", "markdownDescription": "- theme-light: `#f2f0ee`\n\n- theme-dark: `#2f2b27`" },
+        { "const": "$color.banner.yellow", "title": "$color.banner.yellow", "description": "theme-light: #fffae1\ntheme-dark: #3e2b00", "markdownDescription": "- theme-light: `#fffae1`\n\n- theme-dark: `#3e2b00`" },
         { "const": "$color.bg.brand-solid", "title": "$color.bg.brand-solid", "description": "theme-light: $color.palette.carrot-600\ntheme-dark: $color.palette.carrot-700", "markdownDescription": "- theme-light: `$color.palette.carrot-600`\n\n- theme-dark: `$color.palette.carrot-700`" },
         { "const": "$color.bg.brand-solid-pressed", "title": "$color.bg.brand-solid-pressed", "description": "theme-light: $color.palette.carrot-700\ntheme-dark: $color.palette.carrot-800", "markdownDescription": "- theme-light: `$color.palette.carrot-700`\n\n- theme-dark: `$color.palette.carrot-800`" },
         { "const": "$color.bg.brand-weak", "title": "$color.bg.brand-weak", "description": "theme-light: $color.palette.carrot-100\ntheme-dark: $color.palette.carrot-100", "markdownDescription": "- theme-light: `$color.palette.carrot-100`\n\n- theme-dark: `$color.palette.carrot-100`" },
@@ -224,6 +321,8 @@
         { "const": "$color.bg.neutral-solid-muted", "title": "$color.bg.neutral-solid-muted", "description": "theme-light: $color.palette.gray-800\ntheme-dark: $color.palette.gray-400", "markdownDescription": "- theme-light: `$color.palette.gray-800`\n\n- theme-dark: `$color.palette.gray-400`" },
         { "const": "$color.bg.neutral-solid-muted-pressed", "title": "$color.bg.neutral-solid-muted-pressed", "description": "theme-light: $color.palette.gray-900\ntheme-dark: $color.palette.gray-500", "markdownDescription": "- theme-light: `$color.palette.gray-900`\n\n- theme-dark: `$color.palette.gray-500`" },
         { "const": "$color.bg.neutral-weak", "title": "$color.bg.neutral-weak", "description": "theme-light: $color.palette.gray-200\ntheme-dark: $color.palette.gray-300", "markdownDescription": "- theme-light: `$color.palette.gray-200`\n\n- theme-dark: `$color.palette.gray-300`" },
+        { "const": "$color.bg.neutral-weak-alpha", "title": "$color.bg.neutral-weak-alpha", "description": "theme-light: $color.palette.static-black-alpha-200\ntheme-dark: $color.palette.static-white-alpha-200", "markdownDescription": "- theme-light: `$color.palette.static-black-alpha-200`\n\n- theme-dark: `$color.palette.static-white-alpha-200`" },
+        { "const": "$color.bg.neutral-weak-alpha-pressed", "title": "$color.bg.neutral-weak-alpha-pressed", "description": "theme-light: $color.palette.static-black-alpha-300\ntheme-dark: $color.palette.static-white-alpha-300", "markdownDescription": "- theme-light: `$color.palette.static-black-alpha-300`\n\n- theme-dark: `$color.palette.static-white-alpha-300`" },
         { "const": "$color.bg.neutral-weak-pressed", "title": "$color.bg.neutral-weak-pressed", "description": "theme-light: $color.palette.gray-300\ntheme-dark: $color.palette.gray-400", "markdownDescription": "- theme-light: `$color.palette.gray-300`\n\n- theme-dark: `$color.palette.gray-400`" },
         { "const": "$color.bg.overlay", "title": "$color.bg.overlay", "description": "theme-light: $color.palette.static-black-alpha-700\ntheme-dark: $color.palette.static-black-alpha-700", "markdownDescription": "- theme-light: `$color.palette.static-black-alpha-700`\n\n- theme-dark: `$color.palette.static-black-alpha-700`" },
         { "const": "$color.bg.overlay-muted", "title": "$color.bg.overlay-muted", "description": "theme-light: $color.palette.static-black-alpha-500\ntheme-dark: $color.palette.static-black-alpha-500", "markdownDescription": "- theme-light: `$color.palette.static-black-alpha-500`\n\n- theme-dark: `$color.palette.static-black-alpha-500`" },
@@ -443,8 +542,8 @@
         { "const": "$gradient.glow-magic-pressed", "title": "$gradient.glow-magic-pressed", "description": "theme-light: 0%: #fbf0f2, 80%: #ffe8db, 100%: #f5f2ef\ntheme-dark: 0%: #3e333e, 80%: #51453e, 100%: #434242", "markdownDescription": "- theme-light: `0%: #fbf0f2, 80%: #ffe8db, 100%: #f5f2ef`\n\n- theme-dark: `0%: #3e333e, 80%: #51453e, 100%: #434242`" },
         { "const": "$gradient.highlight-magic", "title": "$gradient.highlight-magic", "description": "theme-light: 20%: #ff6600, 100%: #d25aca\ntheme-dark: 20%: #ff6600, 100%: #d25aca", "markdownDescription": "- theme-light: `20%: #ff6600, 100%: #d25aca`\n\n- theme-dark: `20%: #ff6600, 100%: #d25aca`" },
         { "const": "$gradient.highlight-magic-pressed", "title": "$gradient.highlight-magic-pressed", "description": "theme-light: 20%: #e14f00, 100%: #ae58bf\ntheme-dark: 20%: #ff9e65, 100%: #e89bee", "markdownDescription": "- theme-light: `20%: #e14f00, 100%: #ae58bf`\n\n- theme-dark: `20%: #ff9e65, 100%: #e89bee`" },
-        { "const": "$gradient.shimmer-magic", "title": "$gradient.shimmer-magic", "description": "theme-light: 0%: #fff9f500, 46%: #fff9f58a, 54%: #fff9f58a, 100%: #fff9f500\ntheme-dark: 0%: #fff9f500, 46%: #fff9f51a, 54%: #fff9f51a, 100%: #fff9f500", "markdownDescription": "- theme-light: `0%: #fff9f500, 46%: #fff9f58a, 54%: #fff9f58a, 100%: #fff9f500`\n\n- theme-dark: `0%: #fff9f500, 46%: #fff9f51a, 54%: #fff9f51a, 100%: #fff9f500`" },
-        { "const": "$gradient.shimmer-neutral", "title": "$gradient.shimmer-neutral", "description": "theme-light: 0%: #ffffff00, 46%: #ffffff66, 54%: #ffffff66, 100%: #ffffff00\ntheme-dark: 0%: #ffffff00, 46%: #ffffff1a, 54%: #ffffff1a, 100%: #ffffff00", "markdownDescription": "- theme-light: `0%: #ffffff00, 46%: #ffffff66, 54%: #ffffff66, 100%: #ffffff00`\n\n- theme-dark: `0%: #ffffff00, 46%: #ffffff1a, 54%: #ffffff1a, 100%: #ffffff00`" },
+        { "const": "$gradient.shimmer-magic", "title": "$gradient.shimmer-magic", "description": "theme-light: 0%: #fff9f500, 46%: #fff9f5cc, 54%: #fff9f5cc, 100%: #fff9f500\ntheme-dark: 0%: #fff9f500, 46%: #fff9f51a, 54%: #fff9f51a, 100%: #fff9f500", "markdownDescription": "- theme-light: `0%: #fff9f500, 46%: #fff9f5cc, 54%: #fff9f5cc, 100%: #fff9f500`\n\n- theme-dark: `0%: #fff9f500, 46%: #fff9f51a, 54%: #fff9f51a, 100%: #fff9f500`" },
+        { "const": "$gradient.shimmer-neutral", "title": "$gradient.shimmer-neutral", "description": "theme-light: 0%: #ffffff00, 46%: #ffffffab, 54%: #ffffffab, 100%: #ffffff00\ntheme-dark: 0%: #ffffff00, 46%: #ffffff1a, 54%: #ffffff1a, 100%: #ffffff00", "markdownDescription": "- theme-light: `0%: #ffffff00, 46%: #ffffffab, 54%: #ffffffab, 100%: #ffffff00`\n\n- theme-dark: `0%: #ffffff00, 46%: #ffffff1a, 54%: #ffffff1a, 100%: #ffffff00`" },
         { "const": "$line-height.t1", "title": "$line-height.t1", "description": "default: 0.9375rem", "markdownDescription": "- default: `0.9375rem`" },
         { "const": "$line-height.t1-static", "title": "$line-height.t1-static", "description": "default: 15px", "markdownDescription": "- default: `15px`" },
         { "const": "$line-height.t10", "title": "$line-height.t10", "description": "default: 2.1875rem", "markdownDescription": "- default: `2.1875rem`" },

@@ -7,6 +7,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 기본 FAB 스타일입니다.
+   */
   "variantNeutralSolid": {
     "enabled": {
       "root": {
@@ -25,6 +28,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 플로팅 레이어 위에 사용하는 스타일입니다.
+   */
   "variantLayerFloating": {
     "enabled": {
       "root": {

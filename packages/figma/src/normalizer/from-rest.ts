@@ -151,7 +151,8 @@ export function createRestNormalizer(
         const { type, color, offset, radius, spread, boundVariables } = effect;
 
         return {
-          type,
+          // remove fallback when resolved: https://github.com/figma/rest-api-spec/issues/84
+          type: type ?? "INNER_SHADOW",
           color,
           offset,
           radius,

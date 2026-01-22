@@ -65,6 +65,7 @@ const bottomSheet = defineSlotRecipe({
       background: vars.base.enabled.content.color,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+      paddingBottom: "var(--seed-safe-area-bottom)",
 
       // Performance and interaction
       touchAction: "none",
@@ -192,6 +193,8 @@ const bottomSheet = defineSlotRecipe({
           justifyContent: "center",
           paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
           paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
+
+          textAlign: "center",
         },
       },
     },

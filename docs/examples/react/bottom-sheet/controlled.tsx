@@ -18,7 +18,9 @@ const BottomSheetControlled = () => {
 
   return (
     <>
-      <ActionButton onClick={scheduleOpen}>1초 후 열기</ActionButton>
+      <ActionButton variant="neutralSolid" onClick={scheduleOpen}>
+        1초 후 열기
+      </ActionButton>
       <BottomSheetRoot open={open} onOpenChange={setOpen}>
         <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
           {/* If you need to omit padding, pass px={0}. */}

@@ -11,14 +11,14 @@ export const inlineAlertMapping: ComponentMapping<"✅ Inline alert v2", "🟢 P
     "Weight:Standard": "Variant:Weak",
     "Weight:Strong": "Variant:Solid",
   },
-  calculateProperties(oldProperties, oldComponentStructure) {
+  calculateProperties(oldProperties) {
     const newProperties: NewComponentProperties<"🟢 Page Banner"> = {
       "Show Title": "False",
     };
 
     const hasLink = oldProperties.Link.value === "True";
     if (hasLink) {
-      newProperties.Interaction = "With Action";
+      newProperties.Interaction = "Display (With Action)";
     } else {
       newProperties.Interaction = "Display";
     }

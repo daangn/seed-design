@@ -6,7 +6,8 @@ import { TabsRoot, TabsTrigger, TabsList, TabsCarousel, TabsContent } from "seed
 import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { ResultSection } from "seed-design/ui/result-section";
 import { IconArticleFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
-import { Flex, HStack, VStack, Icon, Box, Text, Badge, TagGroup, Portal } from "@seed-design/react";
+import { Flex, HStack, VStack, Icon, Box, Text, Badge, Portal } from "@seed-design/react";
+import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
 import { Chip } from "seed-design/ui/chip";
 import {
   BottomSheetBody,
@@ -88,7 +89,7 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
                 <Recommendations />
               </TabsContent>
               <TabsContent value={TABS[1].value}>
-                <VStack py="x12">
+                <VStack py="x12" pb="safeArea">
                   <ResultSection
                     asset={
                       <Box pb="x4">
@@ -160,7 +161,7 @@ export function Recommendations() {
   };
 
   return (
-    <VStack gap="spacingY.componentDefault" py="x4">
+    <VStack gap="spacingY.componentDefault" py="x4" pb="safeArea">
       <Flex
         gap="spacingX.betweenChips"
         px="spacingX.globalGutter"
@@ -269,15 +270,19 @@ export function FilterBottomSheet({
         </HStack>
       </BottomSheetBody>
       <BottomSheetFooter>
-        <ActionButton
-          variant="neutralSolid"
-          onClick={() => {
-            onConfirm(selectedOptions);
-            onClose();
-          }}
-        >
-          완료
-        </ActionButton>
+        <HStack pt="x3">
+          <ActionButton
+            flexGrow
+            size="large"
+            variant="neutralSolid"
+            onClick={() => {
+              onConfirm(selectedOptions);
+              onClose();
+            }}
+          >
+            완료
+          </ActionButton>
+        </HStack>
       </BottomSheetFooter>
     </BottomSheetContent>
   );
@@ -326,11 +331,11 @@ export function ArticleListItem(article: ArticleProps) {
               인기
             </Badge>
           )}
-          <TagGroup.Root size="t4" tone="neutralSubtle">
-            <TagGroup.Item>{categoryName}</TagGroup.Item>
-            <TagGroup.Item>서초2동</TagGroup.Item>
-            <TagGroup.Item>{formatDate(createdAt)}</TagGroup.Item>
-          </TagGroup.Root>
+          <TagGroupRoot size="t4" tone="neutralSubtle">
+            <TagGroupItem label={categoryName} />
+            <TagGroupItem label="서초2동" />
+            <TagGroupItem label={formatDate(createdAt)} />
+          </TagGroupRoot>
         </HStack>
       </VStack>
     </VStack>

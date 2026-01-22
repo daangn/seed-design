@@ -14,7 +14,7 @@ const BottomSheetShowHandle = () => {
   return (
     <BottomSheetRoot open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <BottomSheetTrigger asChild>
-        <ActionButton>Open</ActionButton>
+        <ActionButton variant="neutralSolid">Open</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent title="제목" description="설명을 작성할 수 있어요" showHandle>
         {/* If you need to omit padding, pass px={0}. */}

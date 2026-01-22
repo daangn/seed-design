@@ -12,7 +12,7 @@ export const metadata = {
     },
     "Show Close Button#19787:11": {
       "type": "BOOLEAN",
-      "defaultValue": true
+      "defaultValue": false
     },
     "Show Footer#25162:14": {
       "type": "BOOLEAN",
@@ -24,7 +24,7 @@ export const metadata = {
     },
     "Contents#25320:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "25067:4375",
+      "defaultValue": "49774:15562",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -56,9 +56,17 @@ export const metadata = {
       "type": "BOOLEAN",
       "defaultValue": true
     },
+    "Show Handle#49774:6": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
+    "Show Scroll Fog(Figma Only)#53171:3": {
+      "type": "BOOLEAN",
+      "defaultValue": false
+    },
     "Header Layout": {
       "type": "VARIANT",
-      "defaultValue": "Top Left",
+      "defaultValue": "Top Center",
       "variantOptions": [
         "Bottom Left",
         "None",

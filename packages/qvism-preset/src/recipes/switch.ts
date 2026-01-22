@@ -1,5 +1,5 @@
 import { switch as vars } from "../vars/component";
-import { switchMark as markVars } from "../vars/component";
+import { switchmark as markVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { disabled, pseudo } from "../utils/pseudo";
 
@@ -41,7 +41,7 @@ const switchRecipe = defineSlotRecipe({
           minHeight: vars.size32.enabled.root.height,
           gap: vars.size32.enabled.root.gap,
 
-          "--switch-mark-margin-top": `calc((${vars.size32.enabled.root.height} - ${markVars.size32.enabled.root.height}) / 2)`, // 수직 위치 보정
+          "--switchmark-margin-top": `calc((${vars.size32.enabled.root.height} - ${markVars.size32.enabled.root.height}) / 2)`, // 수직 위치 보정
         },
         label: {
           fontSize: vars.size32.enabled.label.fontSize,
@@ -54,7 +54,7 @@ const switchRecipe = defineSlotRecipe({
           minHeight: vars.size24.enabled.root.height,
           gap: vars.size24.enabled.root.gap,
 
-          "--switch-mark-margin-top": `calc((${vars.size24.enabled.root.height} - ${markVars.size24.enabled.root.height}) / 2)`, // 수직 위치 보정
+          "--switchmark-margin-top": `calc((${vars.size24.enabled.root.height} - ${markVars.size24.enabled.root.height}) / 2)`, // 수직 위치 보정
         },
         label: {
           fontSize: vars.size24.enabled.label.fontSize,
@@ -67,7 +67,7 @@ const switchRecipe = defineSlotRecipe({
           minHeight: vars.size16.enabled.root.height,
           gap: vars.size16.enabled.root.gap,
 
-          "--switch-mark-margin-top": `calc((${vars.size16.enabled.root.height} - ${markVars.size16.enabled.root.height}) / 2)`, // 수직 위치 보정
+          "--switchmark-margin-top": `calc((${vars.size16.enabled.root.height} - ${markVars.size16.enabled.root.height}) / 2)`, // 수직 위치 보정
         },
         label: {
           fontSize: vars.size16.enabled.label.fontSize,

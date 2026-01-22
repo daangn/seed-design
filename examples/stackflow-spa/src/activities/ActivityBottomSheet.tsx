@@ -1,4 +1,4 @@
-import { Divider, HStack, VStack } from "@seed-design/react";
+import { Box, Divider, HStack, VStack } from "@seed-design/react";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useRef, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -13,6 +13,8 @@ import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { Switch } from "seed-design/ui/switch";
+import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
+import { appScreenVariantMap, type AppScreenVariant } from "@seed-design/css/recipes/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -30,6 +32,8 @@ const ActivityBottomSheet: StaticActivityComponentType<"ActivityBottomSheet"> = 
 
   const [nameError, setNameError] = useState<string | null>(null);
   const [keepMounted, setKeepMounted] = useState(false);
+  const [transitionStyle, setTransitionStyle] =
+    useState<AppScreenVariant["transitionStyle"]>("slideFromRightIOS");
 
   const handleSubmit = () => {
     if (!form.current) return;
@@ -112,21 +116,6 @@ const ActivityBottomSheet: StaticActivityComponentType<"ActivityBottomSheet"> = 
               </HStack>
               <Divider as="div" />
               <VStack gap="x2">
-                <ActionButton
-                  flexGrow
-                  type="button"
-                  variant="neutralWeak"
-                  onClick={() =>
-                    push("ActivityDetail", {
-                      title: "Activity",
-                      body: keepMounted
-                        ? "BottomSheet가 언마운트되지 않았으므로, 현재 Activity를 pop하는 경우 uncontrolled 상태의 TextField와 Checkbox 값이 유지되며 BottomSheet가 열린 상태로 표시됩니다."
-                        : "BottomSheet가 언마운트되었으므로, 현재 Activity를 pop하는 경우 uncontrolled 상태의 TextField와 Checkbox 값이 초기화되며 BottomSheet가 다시 enter 트랜지션을 재생하며 마운트됩니다.",
-                    })
-                  }
-                >
-                  Push
-                </ActionButton>
                 <Switch
                   tone="neutral"
                   size="16"
@@ -135,6 +124,44 @@ const ActivityBottomSheet: StaticActivityComponentType<"ActivityBottomSheet"> = 
                   onCheckedChange={setKeepMounted}
                   style={{ alignSelf: "center" }}
                 />
+                <Box alignSelf="center">
+                  <SegmentedControl
+                    value={transitionStyle}
+                    onValueChange={(style) =>
+                      setTransitionStyle(style as AppScreenVariant["transitionStyle"])
+                    }
+                  >
+                    {appScreenVariantMap.transitionStyle.map((style) => (
+                      <SegmentedControlItem key={style} value={style}>
+                        {style}
+                      </SegmentedControlItem>
+                    ))}
+                  </SegmentedControl>
+                </Box>
+                <ActionButton
+                  flexGrow
+                  type="button"
+                  variant="neutralSolid"
+                  onClick={() =>
+                    push("ActivityDetail", {
+                      title: "ActivityDetail",
+                      body: keepMounted
+                        ? "BottomSheet가 언마운트되지 않았으므로, 현재 Activity를 pop하는 경우 uncontrolled 상태의 TextField와 Checkbox 값이 유지되며 BottomSheet가 열린 상태로 표시됩니다."
+                        : "BottomSheet가 언마운트되었으므로, 현재 Activity를 pop하는 경우 uncontrolled 상태의 TextField와 Checkbox 값이 초기화되며 BottomSheet가 다시 enter 트랜지션을 재생하며 마운트됩니다.",
+                      transitionStyle,
+                    })
+                  }
+                >
+                  ActivityDetail
+                </ActionButton>
+                <ActionButton
+                  flexGrow
+                  type="button"
+                  variant="neutralSolid"
+                  onClick={() => push("ActivityHome", { transitionStyle })}
+                >
+                  ActivityHome
+                </ActionButton>
               </VStack>
             </VStack>
           </BottomSheetFooter>

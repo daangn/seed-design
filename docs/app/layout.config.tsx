@@ -1,7 +1,13 @@
-import { reactSource, source, breezeSource, lynxSource } from "@/app/source";
+import {
+  aiIntegrationSource,
+  breezeSource,
+  lynxSource,
+  reactSource,
+  docsSource,
+} from "@/app/source";
+import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
-import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
-import { Atom, File, Package } from "lucide-react";
+import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
 import type { PropsWithChildren } from "react";
 
 function SidebarTabIconContainer({
@@ -36,8 +42,8 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         description: "당근 앱을 위한 디자인 언어",
         url: "/docs",
         icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--design-color)]">
-            <File />
+          <SidebarTabIconContainer>
+            <img src="/logo.webp" alt="Seed Icons" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
@@ -46,8 +52,8 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         description: "React 라이브러리",
         url: "/react",
         icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--react-color)]">
-            <Atom />
+          <SidebarTabIconContainer>
+            <img src="/react.webp" alt="Seed Icons" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
@@ -56,8 +62,18 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         description: "Lynx 프레임워크",
         url: "/lynx",
         icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--lynx-color)]">
-            <Package />
+          <SidebarTabIconContainer>
+            <img src="/lynx.svg" alt="Lynx" className="size-full" />
+          </SidebarTabIconContainer>
+        ),
+      },
+      {
+        title: "AI Integration",
+        description: "AI 도구 연동 가이드",
+        url: "/ai-integration",
+        icon: (
+          <SidebarTabIconContainer>
+            <IconSparkle2 />
           </SidebarTabIconContainer>
         ),
       },
@@ -66,14 +82,16 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         description: "유용한 UI 유틸리티 컴포넌트",
         url: "/breeze",
         icon: (
-          <SidebarTabIconContainer className="[--tab-color:var(--breeze-color)]">
-            <Atom />
+          <SidebarTabIconContainer>
+            <IconTree />
           </SidebarTabIconContainer>
         ),
       },
     ],
   },
+  tabMode: "navbar",
   nav: {
+    mode: "top",
     title: (
       <div className="flex gap-2 justify-center items-center">
         <svg
@@ -98,32 +116,25 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
 
 export const docsOptions: DocsLayoutProps = {
   ...baseOptions,
-  tree: await source.getTransformedPageTree(),
+  tree: await docsSource.getTransformedPageTree(),
 };
 
 export const reactOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: await reactSource.getTransformedReactPageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
 };
 
 export const lynxOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: await lynxSource.getTransformedLynxPageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
 };
 
 export const breezeOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: await breezeSource.getTransformedBreezePageTree(),
-  nav: {
-    ...baseOptions.nav,
-    transparentMode: "none",
-  },
+};
+
+export const aiIntegrationOptions: DocsLayoutProps = {
+  ...baseOptions,
+  tree: await aiIntegrationSource.getTransformedAiIntegrationPageTree(),
 };

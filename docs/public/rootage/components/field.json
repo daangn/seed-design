@@ -40,7 +40,8 @@
             "paddingLeft": {
               "type": "dimension"
             }
-          }
+          },
+          "description": "필수 입력 필드임을 나타내는 아이콘입니다. indicatorText 및 Field Label과의 조화를 위해 폰트 스케일링에 반응합니다."
         },
         "indicatorText": {
           "properties": {
@@ -51,7 +52,8 @@
               "type": "dimension"
             },
             "lineHeight": {
-              "type": "dimension"
+              "type": "dimension",
+              "description": "Field Label과의 조화를 위해 Field Label의 lineHeight와 동일한 값을 갖습니다."
             },
             "fontWeight": {
               "type": "number"

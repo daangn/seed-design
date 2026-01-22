@@ -11,16 +11,16 @@ export declare const metadata: {
       "defaultValue": "None",
       "variantOptions": [
         "None",
-        "Button",
-        "Custom"
+        "Custom",
+        "Button"
       ]
     },
-    "Title Weight": {
+    "Variant": {
       "type": "VARIANT",
-      "defaultValue": "Medium",
+      "defaultValue": "Medium Weak",
       "variantOptions": [
-        "Medium",
-        "Bold"
+        "Medium Weak",
+        "Bold Solid"
       ]
     }
   }

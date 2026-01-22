@@ -31,6 +31,9 @@
             },
             "color": {
               "type": "color"
+            },
+            "stroke": {
+              "type": "color"
             }
           }
         },
@@ -182,7 +185,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-weak"
+                  "value": "$color.bg.neutral-weak-alpha"
                 }
               },
               "label": {
@@ -202,7 +205,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.transparent-pressed"
+                  "value": "$color.bg.neutral-weak-alpha-pressed"
                 }
               }
             }

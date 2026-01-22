@@ -6,6 +6,7 @@ export declare const vars: {
         "paddingY": "var(--seed-dimension-x2_5)",
         "minHeight": "var(--seed-dimension-x10)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "size": "var(--seed-dimension-x4)",
         "marginRight": "var(--seed-dimension-x2)"
@@ -36,11 +37,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=weak`: 배경색이 연한 스타일입니다.
+   */
   "toneNeutralVariantWeak": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -63,11 +68,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=solid`: 배경색이 진한 스타일입니다.
+   */
   "toneNeutralVariantSolid": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
@@ -90,11 +99,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=weak`: 배경색이 연한 스타일입니다.
+   */
   "tonePositiveVariantWeak": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-positive-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
@@ -117,11 +130,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=solid`: 배경색이 진한 스타일입니다.
+   */
   "tonePositiveVariantSolid": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-positive-solid)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-palette-static-white)"
       },
@@ -144,11 +161,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=weak`: 배경색이 연한 스타일입니다.
+   */
   "toneInformativeVariantWeak": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-informative-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
@@ -171,11 +192,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=solid`: 배경색이 진한 스타일입니다.
+   */
   "toneInformativeVariantSolid": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-informative-solid)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-palette-static-white)"
       },
@@ -198,11 +223,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=weak`: 배경색이 연한 스타일입니다.
+   */
   "toneWarningVariantWeak": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-warning-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
@@ -225,11 +254,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=solid`: 배경색이 진한 스타일입니다.
+   */
   "toneWarningVariantSolid": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-warning-solid)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-palette-static-black-alpha-900)"
       },
@@ -252,11 +285,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=weak`: 배경색이 연한 스타일입니다.
+   */
   "toneCriticalVariantWeak": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-critical-weak)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
@@ -279,11 +316,15 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `variant=solid`: 배경색이 진한 스타일입니다.
+   */
   "toneCriticalVariantSolid": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-critical-solid)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-palette-static-white)"
       },
@@ -306,11 +347,16 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `tone=magic`: AI 기능을 나타냅니다. variant=solid와 조합하여 사용하지 않습니다.
+   * - `variant=weak`: 배경색이 연한 스타일입니다.
+   */
   "toneMagicVariantWeak": {
     "enabled": {
       "root": {
         "gradient": "var(--seed-gradient-glow-magic)"
       },
+      /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },

@@ -2,90 +2,10 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 25-11-18
+  lastUpdated: 26-01-15
 data:
   collection: color
   tokens:
-    $color.palette.blue-100:
-      values:
-        theme-light: "#eff6ff"
-        theme-dark: "#202742"
-    $color.palette.blue-200:
-      values:
-        theme-light: "#e2edfc"
-        theme-dark: "#1e3352"
-    $color.palette.blue-300:
-      values:
-        theme-light: "#cbdffa"
-        theme-dark: "#1a4275"
-    $color.palette.blue-400:
-      values:
-        theme-light: "#aacefd"
-        theme-dark: "#0f559e"
-    $color.palette.blue-500:
-      values:
-        theme-light: "#85b8fd"
-        theme-dark: "#1964d8"
-    $color.palette.blue-600:
-      values:
-        theme-light: "#5e98fe"
-        theme-dark: "#1e82eb"
-    $color.palette.blue-700:
-      values:
-        theme-light: "#217cf9"
-        theme-dark: "#41a2f9"
-    $color.palette.blue-800:
-      values:
-        theme-light: "#135fcd"
-        theme-dark: "#83bcf9"
-    $color.palette.blue-900:
-      values:
-        theme-light: "#0b4596"
-        theme-dark: "#b9d7fb"
-    $color.palette.blue-1000:
-      values:
-        theme-light: "#032451"
-        theme-dark: "#e5f0fe"
-    $color.palette.carrot-100:
-      values:
-        theme-light: "#fff2ec"
-        theme-dark: "#31241f"
-    $color.palette.carrot-200:
-      values:
-        theme-light: "#ffe8db"
-        theme-dark: "#4b291c"
-    $color.palette.carrot-300:
-      values:
-        theme-light: "#ffd5c0"
-        theme-dark: "#6b311c"
-    $color.palette.carrot-400:
-      values:
-        theme-light: "#ffb999"
-        theme-dark: "#923600"
-    $color.palette.carrot-500:
-      values:
-        theme-light: "#ff9364"
-        theme-dark: "#bd4201"
-    $color.palette.carrot-600:
-      values:
-        theme-light: "#ff6600"
-        theme-dark: "#e65200"
-    $color.palette.carrot-700:
-      values:
-        theme-light: "#e14d00"
-        theme-dark: "#ff6600"
-    $color.palette.carrot-800:
-      values:
-        theme-light: "#b93901"
-        theme-dark: "#ff9e65"
-    $color.palette.carrot-900:
-      values:
-        theme-light: "#862b00"
-        theme-dark: "#eecebc"
-    $color.palette.carrot-1000:
-      values:
-        theme-light: "#471601"
-        theme-dark: "#f4eeea"
     $color.palette.gray-00:
       values:
         theme-light: "#ffffff"
@@ -130,86 +50,86 @@ data:
       values:
         theme-light: "#1a1c20"
         theme-dark: "#f3f4f5"
-    $color.palette.green-100:
+    $color.palette.carrot-100:
       values:
-        theme-light: "#edfaf6"
-        theme-dark: "#202926"
-    $color.palette.green-200:
+        theme-light: "#fff2ec"
+        theme-dark: "#31241f"
+    $color.palette.carrot-200:
       values:
-        theme-light: "#d9f6e9"
-        theme-dark: "#20362e"
-    $color.palette.green-300:
+        theme-light: "#ffe8db"
+        theme-dark: "#4b291c"
+    $color.palette.carrot-300:
       values:
-        theme-light: "#b9e9d2"
-        theme-dark: "#20493b"
-    $color.palette.green-400:
+        theme-light: "#ffd5c0"
+        theme-dark: "#6b311c"
+    $color.palette.carrot-400:
       values:
-        theme-light: "#7ddcb3"
-        theme-dark: "#19604c"
-    $color.palette.green-500:
+        theme-light: "#ffb999"
+        theme-dark: "#923600"
+    $color.palette.carrot-500:
       values:
-        theme-light: "#42c593"
-        theme-dark: "#117956"
-    $color.palette.green-600:
+        theme-light: "#ff9364"
+        theme-dark: "#bd4201"
+    $color.palette.carrot-600:
       values:
-        theme-light: "#10ab7d"
-        theme-dark: "#1b946d"
-    $color.palette.green-700:
+        theme-light: "#ff6600"
+        theme-dark: "#e65200"
+    $color.palette.carrot-700:
       values:
-        theme-light: "#079171"
-        theme-dark: "#22b27f"
-    $color.palette.green-800:
+        theme-light: "#e14d00"
+        theme-dark: "#ff6600"
+    $color.palette.carrot-800:
       values:
-        theme-light: "#00745f"
-        theme-dark: "#35ce9a"
-    $color.palette.green-900:
+        theme-light: "#b93901"
+        theme-dark: "#ff9e65"
+    $color.palette.carrot-900:
       values:
-        theme-light: "#075445"
-        theme-dark: "#93e5c0"
-    $color.palette.green-1000:
+        theme-light: "#862b00"
+        theme-dark: "#eecebc"
+    $color.palette.carrot-1000:
       values:
-        theme-light: "#0a2b24"
-        theme-dark: "#d4f6ef"
-    $color.palette.purple-100:
+        theme-light: "#471601"
+        theme-dark: "#f4eeea"
+    $color.palette.blue-100:
       values:
-        theme-light: "#f5f3fe"
-        theme-dark: "#28213b"
-    $color.palette.purple-200:
+        theme-light: "#eff6ff"
+        theme-dark: "#202742"
+    $color.palette.blue-200:
       values:
-        theme-light: "#efeafe"
-        theme-dark: "#3b2873"
-    $color.palette.purple-300:
+        theme-light: "#e2edfc"
+        theme-dark: "#1e3352"
+    $color.palette.blue-300:
       values:
-        theme-light: "#e1d8ff"
-        theme-dark: "#443081"
-    $color.palette.purple-400:
+        theme-light: "#cbdffa"
+        theme-dark: "#1a4275"
+    $color.palette.blue-400:
       values:
-        theme-light: "#d0c0ff"
-        theme-dark: "#5a3bb1"
-    $color.palette.purple-500:
+        theme-light: "#aacefd"
+        theme-dark: "#0f559e"
+    $color.palette.blue-500:
       values:
-        theme-light: "#b8a1ff"
-        theme-dark: "#764fd9"
-    $color.palette.purple-600:
+        theme-light: "#85b8fd"
+        theme-dark: "#1964d8"
+    $color.palette.blue-600:
       values:
-        theme-light: "#9f84fb"
-        theme-dark: "#8e6bee"
-    $color.palette.purple-700:
+        theme-light: "#5e98fe"
+        theme-dark: "#1e82eb"
+    $color.palette.blue-700:
       values:
-        theme-light: "#8969ea"
-        theme-dark: "#a78df0"
-    $color.palette.purple-800:
+        theme-light: "#217cf9"
+        theme-dark: "#41a2f9"
+    $color.palette.blue-800:
       values:
-        theme-light: "#6d50cb"
-        theme-dark: "#beadf2"
-    $color.palette.purple-900:
+        theme-light: "#135fcd"
+        theme-dark: "#83bcf9"
+    $color.palette.blue-900:
       values:
-        theme-light: "#50379b"
-        theme-dark: "#d9cefa"
-    $color.palette.purple-1000:
+        theme-light: "#0b4596"
+        theme-dark: "#b9d7fb"
+    $color.palette.blue-1000:
       values:
-        theme-light: "#29175d"
-        theme-dark: "#f0edfc"
+        theme-light: "#032451"
+        theme-dark: "#e5f0fe"
     $color.palette.red-100:
       values:
         theme-light: "#fdf0f0"
@@ -250,14 +170,130 @@ data:
       values:
         theme-light: "#4a1209"
         theme-dark: "#fdf2f2"
+    $color.palette.green-100:
+      values:
+        theme-light: "#edfaf6"
+        theme-dark: "#202926"
+    $color.palette.green-200:
+      values:
+        theme-light: "#d9f6e9"
+        theme-dark: "#20362e"
+    $color.palette.green-300:
+      values:
+        theme-light: "#b9e9d2"
+        theme-dark: "#20493b"
+    $color.palette.green-400:
+      values:
+        theme-light: "#7ddcb3"
+        theme-dark: "#19604c"
+    $color.palette.green-500:
+      values:
+        theme-light: "#42c593"
+        theme-dark: "#117956"
+    $color.palette.green-600:
+      values:
+        theme-light: "#10ab7d"
+        theme-dark: "#1b946d"
+    $color.palette.green-700:
+      values:
+        theme-light: "#079171"
+        theme-dark: "#22b27f"
+    $color.palette.green-800:
+      values:
+        theme-light: "#00745f"
+        theme-dark: "#35ce9a"
+    $color.palette.green-900:
+      values:
+        theme-light: "#075445"
+        theme-dark: "#93e5c0"
+    $color.palette.green-1000:
+      values:
+        theme-light: "#0a2b24"
+        theme-dark: "#d4f6ef"
+    $color.palette.yellow-100:
+      values:
+        theme-light: "#fff7de"
+        theme-dark: "#302819"
+    $color.palette.yellow-200:
+      values:
+        theme-light: "#fdefb9"
+        theme-dark: "#413218"
+    $color.palette.yellow-300:
+      values:
+        theme-light: "#fbdc65"
+        theme-dark: "#543e15"
+    $color.palette.yellow-400:
+      values:
+        theme-light: "#e9c647"
+        theme-dark: "#714e15"
+    $color.palette.yellow-500:
+      values:
+        theme-light: "#d4ab28"
+        theme-dark: "#91601b"
+    $color.palette.yellow-600:
+      values:
+        theme-light: "#c49725"
+        theme-dark: "#b6720d"
+    $color.palette.yellow-700:
+      values:
+        theme-light: "#9b7821"
+        theme-dark: "#ca901c"
+    $color.palette.yellow-800:
+      values:
+        theme-light: "#755b22"
+        theme-dark: "#dab156"
+    $color.palette.yellow-900:
+      values:
+        theme-light: "#4f3e1f"
+        theme-dark: "#e5d49b"
+    $color.palette.yellow-1000:
+      values:
+        theme-light: "#2c2512"
+        theme-dark: "#f7f0cd"
+    $color.palette.purple-100:
+      values:
+        theme-light: "#f5f3fe"
+        theme-dark: "#28213b"
+    $color.palette.purple-200:
+      values:
+        theme-light: "#efeafe"
+        theme-dark: "#3b2873"
+    $color.palette.purple-300:
+      values:
+        theme-light: "#e1d8ff"
+        theme-dark: "#443081"
+    $color.palette.purple-400:
+      values:
+        theme-light: "#d0c0ff"
+        theme-dark: "#5a3bb1"
+    $color.palette.purple-500:
+      values:
+        theme-light: "#b8a1ff"
+        theme-dark: "#764fd9"
+    $color.palette.purple-600:
+      values:
+        theme-light: "#9f84fb"
+        theme-dark: "#8e6bee"
+    $color.palette.purple-700:
+      values:
+        theme-light: "#8969ea"
+        theme-dark: "#a78df0"
+    $color.palette.purple-800:
+      values:
+        theme-light: "#6d50cb"
+        theme-dark: "#beadf2"
+    $color.palette.purple-900:
+      values:
+        theme-light: "#50379b"
+        theme-dark: "#d9cefa"
+    $color.palette.purple-1000:
+      values:
+        theme-light: "#29175d"
+        theme-dark: "#f0edfc"
     $color.palette.static-black:
       values:
         theme-light: "#000000"
         theme-dark: "#000000"
-    $color.palette.static-white:
-      values:
-        theme-light: "#ffffff"
-        theme-dark: "#ffffff"
     $color.palette.static-black-alpha-100:
       values:
         theme-light: "#00000007"
@@ -298,6 +334,10 @@ data:
       values:
         theme-light: "#000000e3"
         theme-dark: "#000000e3"
+    $color.palette.static-white:
+      values:
+        theme-light: "#ffffff"
+        theme-dark: "#ffffff"
     $color.palette.static-white-alpha-50:
       values:
         theme-light: "#ffffff0d"
@@ -342,187 +382,175 @@ data:
       values:
         theme-light: "#fffffff4"
         theme-dark: "#fffffff4"
-    $color.palette.yellow-100:
+    $color.fg.brand:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다.
       values:
-        theme-light: "#fff7de"
-        theme-dark: "#302819"
-    $color.palette.yellow-200:
+        theme-light: $color.palette.carrot-600
+        theme-dark: $color.palette.carrot-700
+    $color.fg.brand-contrast:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. (contrast)
       values:
-        theme-light: "#fdefb9"
-        theme-dark: "#413218"
-    $color.palette.yellow-300:
+        theme-light: $color.palette.carrot-700
+        theme-dark: $color.palette.carrot-700
+    $color.fg.critical:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다.
       values:
-        theme-light: "#fbdc65"
-        theme-dark: "#543e15"
-    $color.palette.yellow-400:
+        theme-light: $color.palette.red-700
+        theme-dark: $color.palette.red-700
+    $color.fg.critical-contrast:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (contrast)
       values:
-        theme-light: "#e9c647"
-        theme-dark: "#714e15"
-    $color.palette.yellow-500:
-      values:
-        theme-light: "#d4ab28"
-        theme-dark: "#91601b"
-    $color.palette.yellow-600:
-      values:
-        theme-light: "#c49725"
-        theme-dark: "#b6720d"
-    $color.palette.yellow-700:
-      values:
-        theme-light: "#9b7821"
-        theme-dark: "#ca901c"
-    $color.palette.yellow-800:
-      values:
-        theme-light: "#755b22"
-        theme-dark: "#dab156"
-    $color.palette.yellow-900:
-      values:
-        theme-light: "#4f3e1f"
-        theme-dark: "#e5d49b"
-    $color.palette.yellow-1000:
-      values:
-        theme-light: "#2c2512"
-        theme-dark: "#f7f0cd"
-    $color.fg.neutral:
-      values:
-        theme-light: $color.palette.gray-1000
-        theme-dark: $color.palette.gray-1000
-    $color.fg.placeholder:
-      values:
-        theme-light: $color.palette.gray-600
-        theme-dark: $color.palette.gray-600
+        theme-light: $color.palette.red-900
+        theme-dark: $color.palette.red-900
     $color.fg.disabled:
       values:
         theme-light: $color.palette.gray-500
         theme-dark: $color.palette.gray-500
-    $color.fg.brand:
-      values:
-        theme-light: $color.palette.carrot-600
-        theme-dark: $color.palette.carrot-700
     $color.fg.informative:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다.
       values:
         theme-light: $color.palette.blue-700
         theme-dark: $color.palette.blue-700
-    $color.fg.critical:
-      values:
-        theme-light: $color.palette.red-700
-        theme-dark: $color.palette.red-700
-    $color.fg.positive:
-      values:
-        theme-light: $color.palette.green-700
-        theme-dark: $color.palette.green-700
-    $color.fg.warning:
-      values:
-        theme-light: $color.palette.yellow-700
-        theme-dark: $color.palette.yellow-700
-    $color.fg.brand-contrast:
-      values:
-        theme-light: $color.palette.carrot-700
-        theme-dark: $color.palette.carrot-700
-    $color.fg.critical-contrast:
-      values:
-        theme-light: $color.palette.red-900
-        theme-dark: $color.palette.red-900
     $color.fg.informative-contrast:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (contrast)
       values:
         theme-light: $color.palette.blue-900
         theme-dark: $color.palette.blue-900
+    $color.fg.neutral:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다.
+      values:
+        theme-light: $color.palette.gray-1000
+        theme-dark: $color.palette.gray-1000
+    $color.fg.neutral-inverted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)
+      values:
+        theme-light: $color.palette.gray-00
+        theme-dark: $color.palette.gray-100
     $color.fg.neutral-muted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (muted)
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-800
     $color.fg.neutral-subtle:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle)
       values:
         theme-light: $color.palette.gray-700
         theme-dark: $color.palette.gray-700
-    $color.fg.neutral-inverted:
+    $color.fg.placeholder:
       values:
-        theme-light: $color.palette.gray-00
-        theme-dark: $color.palette.gray-100
+        theme-light: $color.palette.gray-600
+        theme-dark: $color.palette.gray-600
+    $color.fg.positive:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다.
+      values:
+        theme-light: $color.palette.green-700
+        theme-dark: $color.palette.green-700
     $color.fg.positive-contrast:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (contrast)
       values:
         theme-light: $color.palette.green-900
         theme-dark: $color.palette.green-900
+    $color.fg.warning:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다.
+      values:
+        theme-light: $color.palette.yellow-700
+        theme-dark: $color.palette.yellow-700
     $color.fg.warning-contrast:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (contrast)
       values:
         theme-light: $color.palette.yellow-900
         theme-dark: $color.palette.yellow-900
-    $color.bg.overlay:
-      values:
-        theme-light: $color.palette.static-black-alpha-700
-        theme-dark: $color.palette.static-black-alpha-700
-    $color.bg.disabled:
-      values:
-        theme-light: $color.palette.gray-200
-        theme-dark: $color.palette.gray-300
-    $color.bg.brand-weak:
-      values:
-        theme-light: $color.palette.carrot-100
-        theme-dark: $color.palette.carrot-100
     $color.bg.brand-solid:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (solid)
       values:
         theme-light: $color.palette.carrot-600
         theme-dark: $color.palette.carrot-700
     $color.bg.brand-solid-pressed:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (solid-pressed)
       values:
         theme-light: $color.palette.carrot-700
         theme-dark: $color.palette.carrot-800
+    $color.bg.brand-weak:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (weak)
+      values:
+        theme-light: $color.palette.carrot-100
+        theme-dark: $color.palette.carrot-100
     $color.bg.brand-weak-pressed:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (weak-pressed)
       values:
         theme-light: $color.palette.carrot-200
         theme-dark: $color.palette.carrot-200
-    $color.bg.critical-weak:
-      values:
-        theme-light: $color.palette.red-100
-        theme-dark: $color.palette.red-100
     $color.bg.critical-solid:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.red-700
         theme-dark: $color.palette.red-600
     $color.bg.critical-solid-pressed:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (solid-pressed)
       values:
         theme-light: $color.palette.red-800
         theme-dark: $color.palette.red-700
+    $color.bg.critical-weak:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak)
+      values:
+        theme-light: $color.palette.red-100
+        theme-dark: $color.palette.red-100
     $color.bg.critical-weak-pressed:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak-pressed)
       values:
         theme-light: $color.palette.red-200
         theme-dark: $color.palette.red-200
-    $color.bg.informative-weak:
+    $color.bg.disabled:
       values:
-        theme-light: $color.palette.blue-100
-        theme-dark: $color.palette.blue-100
+        theme-light: $color.palette.gray-200
+        theme-dark: $color.palette.gray-300
     $color.bg.informative-solid:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid)
       values:
         theme-light: $color.palette.blue-700
         theme-dark: $color.palette.blue-600
     $color.bg.informative-solid-pressed:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid-pressed)
       values:
         theme-light: $color.palette.blue-800
         theme-dark: $color.palette.blue-700
+    $color.bg.informative-weak:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak)
+      values:
+        theme-light: $color.palette.blue-100
+        theme-dark: $color.palette.blue-100
     $color.bg.informative-weak-pressed:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak-pressed)
       values:
         theme-light: $color.palette.blue-200
         theme-dark: $color.palette.blue-200
     $color.bg.layer-basement:
+      description: 가장 낮은 0단계의 '대지'입니다. 앱의 가장 깊은 곳에 위치하는 전체 배경색입니다.
       values:
         theme-light: $color.palette.gray-200
         theme-dark: $color.palette.gray-00
     $color.bg.layer-default:
+      description: basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다.
       values:
         theme-light: $color.palette.gray-00
         theme-dark: $color.palette.gray-100
+    $color.bg.layer-default-pressed:
+      description: basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다. (pressed)
+      values:
+        theme-light: $color.palette.gray-100
+        theme-dark: $color.palette.gray-300
     $color.bg.layer-fill:
+      description: "@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다."
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-200
     $color.bg.layer-floating:
+      description: 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다.
       values:
         theme-light: $color.palette.gray-00
         theme-dark: $color.palette.gray-200
-    $color.bg.layer-default-pressed:
-      values:
-        theme-light: $color.palette.gray-100
-        theme-dark: $color.palette.gray-300
     $color.bg.layer-floating-pressed:
+      description: 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다. (pressed)
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
@@ -530,70 +558,79 @@ data:
       values:
         theme-light: "#f9f2ee"
         theme-dark: "#201f1f"
-    $color.bg.neutral-weak:
-      values:
-        theme-light: $color.palette.gray-200
-        theme-dark: $color.palette.gray-300
     $color.bg.neutral-inverted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)
       values:
         theme-light: $color.palette.gray-900
         theme-dark: $color.palette.gray-1000
-    $color.bg.neutral-solid:
-      values:
-        theme-light: $color.palette.gray-1000
-        theme-dark: $color.palette.gray-300
     $color.bg.neutral-inverted-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed)
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-800
+    $color.bg.neutral-solid:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)
+      values:
+        theme-light: $color.palette.gray-1000
+        theme-dark: $color.palette.gray-300
     $color.bg.neutral-solid-muted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted)
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-400
     $color.bg.neutral-solid-muted-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted-pressed)
       values:
         theme-light: $color.palette.gray-900
         theme-dark: $color.palette.gray-500
+    $color.bg.neutral-weak:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak)
+      values:
+        theme-light: $color.palette.gray-200
+        theme-dark: $color.palette.gray-300
+    $color.bg.neutral-weak-alpha:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다.
+      values:
+        theme-light: $color.palette.static-black-alpha-200
+        theme-dark: $color.palette.static-white-alpha-200
+    $color.bg.neutral-weak-alpha-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha-pressed) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다.
+      values:
+        theme-light: $color.palette.static-black-alpha-300
+        theme-dark: $color.palette.static-white-alpha-300
     $color.bg.neutral-weak-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-pressed)
       values:
         theme-light: $color.palette.gray-300
         theme-dark: $color.palette.gray-400
+    $color.bg.overlay:
+      values:
+        theme-light: $color.palette.static-black-alpha-700
+        theme-dark: $color.palette.static-black-alpha-700
     $color.bg.overlay-muted:
       values:
         theme-light: $color.palette.static-black-alpha-500
         theme-dark: $color.palette.static-black-alpha-500
-    $color.bg.positive-weak:
-      values:
-        theme-light: $color.palette.green-100
-        theme-dark: $color.palette.green-100
     $color.bg.positive-solid:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.green-700
         theme-dark: $color.palette.green-500
     $color.bg.positive-solid-pressed:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid-pressed)
       values:
         theme-light: $color.palette.green-800
         theme-dark: $color.palette.green-600
+    $color.bg.positive-weak:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (weak)
+      values:
+        theme-light: $color.palette.green-100
+        theme-dark: $color.palette.green-100
     $color.bg.positive-weak-pressed:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (weak-pressed)
       values:
         theme-light: $color.palette.green-200
         theme-dark: $color.palette.green-200
-    $color.bg.warning-weak:
-      values:
-        theme-light: $color.palette.yellow-100
-        theme-dark: $color.palette.yellow-100
-    $color.bg.warning-solid:
-      values:
-        theme-light: $color.palette.yellow-300
-        theme-dark: $color.palette.yellow-800
-    $color.bg.warning-solid-pressed:
-      values:
-        theme-light: $color.palette.yellow-400
-        theme-dark: $color.palette.yellow-900
-    $color.bg.warning-weak-pressed:
-      values:
-        theme-light: $color.palette.yellow-200
-        theme-dark: $color.palette.yellow-200
     $color.bg.transparent:
       values:
         theme-light: "#00000000"
@@ -602,143 +639,218 @@ data:
       values:
         theme-light: $color.palette.static-black-alpha-100
         theme-dark: $color.palette.static-white-alpha-50
-    $color.stroke.brand-weak:
+    $color.bg.warning-solid:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid)
       values:
-        theme-light: $color.palette.carrot-300
-        theme-dark: $color.palette.carrot-300
+        theme-light: $color.palette.yellow-300
+        theme-dark: $color.palette.yellow-800
+    $color.bg.warning-solid-pressed:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid-pressed)
+      values:
+        theme-light: $color.palette.yellow-400
+        theme-dark: $color.palette.yellow-900
+    $color.bg.warning-weak:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak)
+      values:
+        theme-light: $color.palette.yellow-100
+        theme-dark: $color.palette.yellow-100
+    $color.bg.warning-weak-pressed:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak-pressed)
+      values:
+        theme-light: $color.palette.yellow-200
+        theme-dark: $color.palette.yellow-200
     $color.stroke.brand-solid:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (solid)
       values:
         theme-light: $color.palette.carrot-700
         theme-dark: $color.palette.carrot-700
-    $color.stroke.critical-weak:
+    $color.stroke.brand-weak:
+      description: 브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (weak)
       values:
-        theme-light: $color.palette.red-300
-        theme-dark: $color.palette.red-300
+        theme-light: $color.palette.carrot-300
+        theme-dark: $color.palette.carrot-300
     $color.stroke.critical-solid:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.red-700
         theme-dark: $color.palette.red-700
-    $color.stroke.informative-weak:
+    $color.stroke.critical-weak:
+      description: 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak)
       values:
-        theme-light: $color.palette.blue-300
-        theme-dark: $color.palette.blue-300
+        theme-light: $color.palette.red-300
+        theme-dark: $color.palette.red-300
     $color.stroke.informative-solid:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid)
       values:
         theme-light: $color.palette.blue-700
         theme-dark: $color.palette.blue-700
+    $color.stroke.informative-weak:
+      description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak)
+      values:
+        theme-light: $color.palette.blue-300
+        theme-dark: $color.palette.blue-300
     $color.stroke.neutral-contrast:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (contrast)
       values:
         theme-light: $color.palette.gray-1000
         theme-dark: $color.palette.gray-1000
-    $color.stroke.neutral-solid:
-      values:
-        theme-light: $color.palette.gray-800
-        theme-dark: $color.palette.gray-800
-    $color.stroke.neutral-weak:
-      values:
-        theme-light: $color.palette.gray-400
-        theme-dark: $color.palette.gray-400
     $color.stroke.neutral-muted:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (muted)
       values:
         theme-light: $color.palette.static-black-alpha-300
         theme-dark: $color.palette.static-white-alpha-100
+    $color.stroke.neutral-solid:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)
+      values:
+        theme-light: $color.palette.gray-800
+        theme-dark: $color.palette.gray-800
     $color.stroke.neutral-subtle:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle)
       values:
         theme-light: $color.palette.static-black-alpha-200
         theme-dark: $color.palette.static-white-alpha-50
-    $color.stroke.positive-weak:
+    $color.stroke.neutral-weak:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak)
       values:
-        theme-light: $color.palette.green-300
-        theme-dark: $color.palette.green-300
+        theme-light: $color.palette.gray-400
+        theme-dark: $color.palette.gray-400
     $color.stroke.positive-solid:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.green-700
         theme-dark: $color.palette.green-700
-    $color.stroke.warning-weak:
+    $color.stroke.positive-weak:
+      description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (weak)
       values:
-        theme-light: $color.palette.yellow-300
-        theme-dark: $color.palette.yellow-300
+        theme-light: $color.palette.green-300
+        theme-dark: $color.palette.green-300
     $color.stroke.warning-solid:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid)
       values:
         theme-light: $color.palette.yellow-700
         theme-dark: $color.palette.yellow-700
-    $color.manner-temp.l1.text:
+    $color.stroke.warning-weak:
+      description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak)
       values:
-        theme-light: "#757b85"
-        theme-dark: "#b8b8b9"
-    $color.manner-temp.l2.text:
-      values:
-        theme-light: "#ab863f"
-        theme-dark: "#f5db97"
-    $color.manner-temp.l3.text:
-      values:
-        theme-light: "#e08a00"
-        theme-dark: "#fdda65"
-    $color.manner-temp.l4.text:
-      values:
-        theme-light: "#f57e00"
-        theme-dark: "#fbbe55"
-    $color.manner-temp.l4.bg:
-      values:
-        theme-light: "#fff3e5"
-        theme-dark: "#372301"
-    $color.manner-temp.l5.text:
-      values:
-        theme-light: "#ff7300"
-        theme-dark: "#faac4b"
-    $color.manner-temp.l6.text:
-      values:
-        theme-light: "#ff6600"
-        theme-dark: "#fc9855"
+        theme-light: $color.palette.yellow-300
+        theme-dark: $color.palette.yellow-300
     $color.manner-temp.l1.bg:
       values:
         theme-light: "#f1f2f3"
         theme-dark: "#292929"
-    $color.manner-temp.l2.bg:
+    $color.manner-temp.l1.text:
       values:
-        theme-light: "#f8f4ec"
-        theme-dark: "#332605"
-    $color.manner-temp.l3.bg:
-      values:
-        theme-light: "#fff5e5"
-        theme-dark: "#372b01"
-    $color.manner-temp.l5.bg:
-      values:
-        theme-light: "#fff1e5"
-        theme-dark: "#371f01"
-    $color.manner-temp.l6.bg:
-      values:
-        theme-light: "#fff0e5"
-        theme-dark: "#351b03"
-    $color.manner-temp.l7.text:
-      values:
-        theme-light: "#ff5100"
-        theme-dark: "#f97a25"
-    $color.manner-temp.l7.bg:
-      values:
-        theme-light: "#ffefe5"
-        theme-dark: "#371701"
-    $color.manner-temp.l8.text:
-      values:
-        theme-light: "#ff3300"
-        theme-dark: "#fe6a34"
-    $color.manner-temp.l9.text:
-      values:
-        theme-light: "#e82c45"
-        theme-dark: "#fe6a5d"
-    $color.manner-temp.l8.bg:
-      values:
-        theme-light: "#ffeee5"
-        theme-dark: "#380f00"
-    $color.manner-temp.l9.bg:
-      values:
-        theme-light: "#fdeded"
-        theme-dark: "#380500"
-    $color.manner-temp.l10.text:
-      values:
-        theme-light: "#cb0123"
-        theme-dark: "#fb6f82"
+        theme-light: "#757b85"
+        theme-dark: "#b8b8b9"
     $color.manner-temp.l10.bg:
       values:
         theme-light: "#ffebee"
         theme-dark: "#34040a"
+    $color.manner-temp.l10.text:
+      values:
+        theme-light: "#cb0123"
+        theme-dark: "#fb6f82"
+    $color.manner-temp.l2.bg:
+      values:
+        theme-light: "#f8f4ec"
+        theme-dark: "#332605"
+    $color.manner-temp.l2.text:
+      values:
+        theme-light: "#ab863f"
+        theme-dark: "#f5db97"
+    $color.manner-temp.l3.bg:
+      values:
+        theme-light: "#fff5e5"
+        theme-dark: "#372b01"
+    $color.manner-temp.l3.text:
+      values:
+        theme-light: "#e08a00"
+        theme-dark: "#fdda65"
+    $color.manner-temp.l4.bg:
+      values:
+        theme-light: "#fff3e5"
+        theme-dark: "#372301"
+    $color.manner-temp.l4.text:
+      values:
+        theme-light: "#f57e00"
+        theme-dark: "#fbbe55"
+    $color.manner-temp.l5.bg:
+      values:
+        theme-light: "#fff1e5"
+        theme-dark: "#371f01"
+    $color.manner-temp.l5.text:
+      values:
+        theme-light: "#ff7300"
+        theme-dark: "#faac4b"
+    $color.manner-temp.l6.bg:
+      values:
+        theme-light: "#fff0e5"
+        theme-dark: "#351b03"
+    $color.manner-temp.l6.text:
+      values:
+        theme-light: "#ff6600"
+        theme-dark: "#fc9855"
+    $color.manner-temp.l7.bg:
+      values:
+        theme-light: "#ffefe5"
+        theme-dark: "#371701"
+    $color.manner-temp.l7.text:
+      values:
+        theme-light: "#ff5100"
+        theme-dark: "#f97a25"
+    $color.manner-temp.l8.bg:
+      values:
+        theme-light: "#ffeee5"
+        theme-dark: "#380f00"
+    $color.manner-temp.l8.text:
+      values:
+        theme-light: "#ff3300"
+        theme-dark: "#fe6a34"
+    $color.manner-temp.l9.bg:
+      values:
+        theme-light: "#fdeded"
+        theme-dark: "#380500"
+    $color.manner-temp.l9.text:
+      values:
+        theme-light: "#e82c45"
+        theme-dark: "#fe6a5d"
+    $color.banner.blue:
+      values:
+        theme-light: "#e1f7ff"
+        theme-dark: "#0d2a3a"
+    $color.banner.cool-gray:
+      values:
+        theme-light: "#ebf1f5"
+        theme-dark: "#242c33"
+    $color.banner.green:
+      values:
+        theme-light: "#f0fbe5"
+        theme-dark: "#1e361c"
+    $color.banner.orange:
+      values:
+        theme-light: "#fff2e1"
+        theme-dark: "#42230a"
+    $color.banner.pink:
+      values:
+        theme-light: "#ffebf1"
+        theme-dark: "#3b172c"
+    $color.banner.purple:
+      values:
+        theme-light: "#f5ecff"
+        theme-dark: "#2e1e45"
+    $color.banner.red:
+      values:
+        theme-light: "#ffecee"
+        theme-dark: "#3a0f15"
+    $color.banner.teal:
+      values:
+        theme-light: "#e6faf6"
+        theme-dark: "#143633"
+    $color.banner.warm-gray:
+      values:
+        theme-light: "#f2f0ee"
+        theme-dark: "#2f2b27"
+    $color.banner.yellow:
+      values:
+        theme-light: "#fffae1"
+        theme-dark: "#3e2b00"

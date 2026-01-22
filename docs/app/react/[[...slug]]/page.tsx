@@ -1,5 +1,4 @@
-import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
-import { getSourceUrl } from "@/app/react/_llms/url";
+import { getGitHubSourceUrl } from "@/app/_llms/config";
 import { reactSource } from "@/app/source";
 import { mdxComponents } from "@/components/mdx-components";
 import { LLMCopyButton, ViewOptions } from "@/components/page-actions";
@@ -10,7 +9,6 @@ import { notFound } from "next/navigation";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
-
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
@@ -28,19 +26,8 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     <span>{page.data.description}</span>
   );
 
-  const llmsSlugs = page.slugs.map((slug, index) => {
-    if (index === 0 && slug === "components") {
-      return "llms-components";
-    }
-
-    if (index === page.slugs.length - 1) {
-      return `${slug}.txt`;
-    }
-
-    return slug;
-  });
-
-  const markdownUrl = `/react/${llmsSlugs.join("/")}`;
+  const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
+  const markdownUrl = `/llms/react/${slugsWithExt.join("/")}`;
 
   return (
     <DocsPage
@@ -54,12 +41,10 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     >
       <DocsTitle>{displayTitle}</DocsTitle>
       <DocsDescription>{displayDescription}</DocsDescription>
-      {shouldGenerateLLMFriendlyText(page) && (
-        <div className="flex flex-row gap-2 items-center mb-3 justify-end">
-          <LLMCopyButton markdownUrl={markdownUrl} />
-          <ViewOptions markdownUrl={markdownUrl} githubUrl={getSourceUrl(page.path)} />
-        </div>
-      )}
+      <div className="flex flex-row gap-2 items-center mb-3 justify-end">
+        <LLMCopyButton markdownUrl={markdownUrl} />
+        <ViewOptions markdownUrl={markdownUrl} githubUrl={getGitHubSourceUrl("react", page.path)} />
+      </div>
       <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <MDX components={mdxComponents} />
       </DocsBody>
@@ -71,7 +56,9 @@ export async function generateStaticParams() {
   return reactSource.generateParams();
 }
 
-export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
+export async function generateMetadata(props: {
+  params: Promise<{ slug?: string[] }>;
+}): Promise<Metadata> {
   const params = await props.params;
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();

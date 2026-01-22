@@ -20,6 +20,23 @@ data:
             type: cubicBezier
           gradient:
             type: gradient
+    variants:
+      tone:
+        values:
+          neutral:
+            description: 데이터를 불러오는 일반적인 로딩 경험에 사용합니다.
+          magic:
+            description: AI 기능이 활성화되었을 때 사용합니다.
+      radius:
+        values:
+          "0":
+            description: 기본값입니다.
+          "8":
+            description: 텍스트 콘텐츠에 사용합니다.
+          "16":
+            description: 카드 및 썸네일에 사용합니다.
+          full:
+            description: Avatar(원형) 콘텐츠에 사용합니다.
   definitions:
     base:
       enabled:

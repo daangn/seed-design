@@ -10,6 +10,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 브랜드의 핵심 가치를 전달하며, 사용자 간 연결이 일어나는 서비스의 주요 기능에 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
+   */
   "variantBrandSolid": {
     "enabled": {
       "root": {
@@ -18,12 +21,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-palette-static-white)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-palette-static-white)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-palette-static-white)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-palette-static-white)"
       },
@@ -44,12 +50,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -60,6 +69,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 대부분의 화면에서 CTA로 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
+   */
   "variantNeutralSolid": {
     "enabled": {
       "root": {
@@ -68,12 +80,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       },
@@ -94,12 +109,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -110,6 +128,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * CTA를 제외한 대부분의 액션에 사용됩니다.
+   */
   "variantNeutralWeak": {
     "enabled": {
       "root": {
@@ -118,12 +139,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -144,12 +168,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -160,6 +187,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 삭제나 초기화처럼 되돌릴 수 없는 중요한 작업에 사용합니다.
+   */
   "variantCriticalSolid": {
     "enabled": {
       "root": {
@@ -168,12 +198,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-palette-static-white)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-palette-static-white)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-palette-static-white)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-palette-static-white)"
       },
@@ -194,12 +227,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -210,6 +246,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * Solid 타입과 함께 사용할 수 없으며, Brand Outline과 조합하여 사용하는 것을 권장합니다.
+   */
   "variantNeutralOutline": {
     "enabled": {
       "root": {
@@ -220,12 +259,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -247,12 +289,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -263,6 +308,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * Solid 타입과 함께 사용할 수 없으며, Neutral Outline과 조합하여 사용하는 것을 권장합니다.
+   */
   "variantBrandOutline": {
     "enabled": {
       "root": {
@@ -273,12 +321,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-brand)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-brand)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-brand)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-brand)"
       },
@@ -300,12 +351,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -316,6 +370,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 배경 없이 텍스트와 아이콘만 표시됩니다.
+   */
   "variantGhost": {
     "enabled": {
       "root": {
@@ -324,12 +381,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -350,12 +410,15 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -366,6 +429,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 작은 공간에서 효율적으로 사용할 수 있는 Pill 형태로 제공됩니다.
+   */
   "sizeXsmall": {
     "enabled": {
       "root": {
@@ -378,6 +444,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `size=xsmall`: 작은 공간에서 효율적으로 사용할 수 있는 Pill 형태로 제공됩니다.
+   * - `layout=withText`: 텍스트와 함께 아이콘을 표시할 수 있습니다.
+   */
   "sizeXsmallLayoutWithText": {
     "enabled": {
       "root": {
@@ -385,9 +455,11 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x3_5)",
         "paddingY": "var(--seed-dimension-x1_5)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "size": "var(--seed-dimension-x3_5)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "size": "var(--seed-dimension-x3_5)"
       },
@@ -397,6 +469,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `size=xsmall`: 작은 공간에서 효율적으로 사용할 수 있는 Pill 형태로 제공됩니다.
+   * - `layout=iconOnly`: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 사용하는 것을 권장합니다.
+   */
   "sizeXsmallLayoutIconOnly": {
     "enabled": {
       "root": {
@@ -404,11 +480,15 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x1_5)",
         "paddingY": "var(--seed-dimension-x1_5)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "size": "var(--seed-dimension-x3_5)"
       }
     }
   },
+  /**
+   * 화면 중앙에서 범용적으로 사용됩니다.
+   */
   "sizeSmall": {
     "enabled": {
       "root": {
@@ -421,6 +501,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `size=small`: 화면 중앙에서 범용적으로 사용됩니다.
+   * - `layout=withText`: 텍스트와 함께 아이콘을 표시할 수 있습니다.
+   */
   "sizeSmallLayoutWithText": {
     "enabled": {
       "root": {
@@ -428,9 +512,11 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x3_5)",
         "paddingY": "var(--seed-dimension-x2)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "size": "var(--seed-dimension-x3_5)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "size": "var(--seed-dimension-x3_5)"
       },
@@ -440,6 +526,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `size=small`: 화면 중앙에서 범용적으로 사용됩니다.
+   * - `layout=iconOnly`: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 사용하는 것을 권장합니다.
+   */
   "sizeSmallLayoutIconOnly": {
     "enabled": {
       "root": {
@@ -447,11 +537,15 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x2)",
         "paddingY": "var(--seed-dimension-x2)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "size": "var(--seed-dimension-x4)"
       }
     }
   },
+  /**
+   * 화면 중앙에서 범용적으로 사용됩니다.
+   */
   "sizeMedium": {
     "enabled": {
       "root": {
@@ -464,6 +558,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `size=medium`: 화면 중앙에서 범용적으로 사용됩니다.
+   * - `layout=withText`: 텍스트와 함께 아이콘을 표시할 수 있습니다.
+   */
   "sizeMediumLayoutWithText": {
     "enabled": {
       "root": {
@@ -471,9 +569,11 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "size": "var(--seed-dimension-x4)"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "size": "var(--seed-dimension-x4)"
       },
@@ -483,6 +583,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `size=medium`: 화면 중앙에서 범용적으로 사용됩니다.
+   * - `layout=iconOnly`: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 사용하는 것을 권장합니다.
+   */
   "sizeMediumLayoutIconOnly": {
     "enabled": {
       "root": {
@@ -490,11 +594,15 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x2_5)",
         "paddingY": "var(--seed-dimension-x2_5)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "size": "18px"
       }
     }
   },
+  /**
+   * 주로 CTA 역할로 사용됩니다.
+   */
   "sizeLarge": {
     "enabled": {
       "root": {
@@ -507,6 +615,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `size=large`: 주로 CTA 역할로 사용됩니다.
+   * - `layout=withText`: 텍스트와 함께 아이콘을 표시할 수 있습니다.
+   */
   "sizeLargeLayoutWithText": {
     "enabled": {
       "root": {
@@ -514,9 +626,11 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x5)",
         "paddingY": "var(--seed-dimension-x3_5)"
       },
+      /** 주로 액션의 의미를 보조합니다. */
       "prefixIcon": {
         "size": "22px"
       },
+      /** Chevron처럼 동작을 보조하는 역할입니다. */
       "suffixIcon": {
         "size": "22px"
       },
@@ -526,6 +640,10 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * - `size=large`: 주로 CTA 역할로 사용됩니다.
+   * - `layout=iconOnly`: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 사용하는 것을 권장합니다.
+   */
   "sizeLargeLayoutIconOnly": {
     "enabled": {
       "root": {
@@ -533,6 +651,7 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x3_5)",
         "paddingY": "var(--seed-dimension-x3_5)"
       },
+      /** Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
         "size": "22px"
       }

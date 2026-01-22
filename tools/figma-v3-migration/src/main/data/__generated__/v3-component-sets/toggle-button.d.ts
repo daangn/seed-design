@@ -8,7 +8,7 @@ export declare const metadata: {
     },
     "Prefix Icon#6122:98": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:23693",
+      "defaultValue": "37725:145633",
       "preferredValues": []
     },
     "Show Suffix Icon#6122:147": {

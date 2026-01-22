@@ -69,17 +69,21 @@ export async function getReactTypeTableOutput({
     content += `\nexport type ${typeName} = ${type}`;
   }
 
-  const output = generator.generateDocumentation({ path: path ?? "temp.ts", content }, typeName, {
-    ...options,
-    // get source file from ts symbol, and check if it's from node_modules
-    transform: (entry, _type, symbol) => {
-      const sourceFilePath = symbol.getDeclarations()?.[0].getSourceFile().getFilePath();
-      const isNodeModules = sourceFilePath?.includes("node_modules");
-      if (isNodeModules) {
-        entry.tags.push({ name: "external", text: sourceFilePath });
-      }
+  const output = await generator.generateDocumentation(
+    { path: path ?? "temp.ts", content },
+    typeName,
+    {
+      ...options,
+      // get source file from ts symbol, and check if it's from node_modules
+      transform: (entry, _type, symbol) => {
+        const sourceFilePath = symbol.getDeclarations()?.[0].getSourceFile().getFilePath();
+        const isNodeModules = sourceFilePath?.includes("node_modules");
+        if (isNodeModules) {
+          entry.tags.push({ name: "external", text: sourceFilePath });
+        }
+      },
     },
-  });
+  );
 
   if (name && output.length === 0)
     throw new Error(`${name} in ${path ?? "empty file"} doesn't exist`);

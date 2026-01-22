@@ -9,6 +9,7 @@ import type {
   SpacingY,
   Gradient,
   Shadow,
+  ScopedColorBanner,
 } from "@seed-design/css/vars";
 import { vars } from "@seed-design/css/vars";
 import { forwardRef } from "react";
@@ -104,7 +105,7 @@ function handleDisplay(display: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (display === "inlineFlex" || display === "inlineBlock") {
       console.warn(
-        `[SEED Design System] ${display} is deprecated. Use inline-flex or inline-block instead.`,
+        `[SEED Design System] display='${display}' is deprecated and will be removed in @seed-design/react@1.3.0. Use display='${display === "inlineFlex" ? "inline-flex" : "inline-block"}' instead.`,
       );
     }
   }
@@ -127,7 +128,7 @@ function handleFlexDirection(flexDirection: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (flexDirection === "rowReverse" || flexDirection === "columnReverse") {
       console.warn(
-        `[SEED Design System] ${flexDirection} is deprecated. Use row-reverse or column-reverse instead.`,
+        `[SEED Design System] flexDirection='${flexDirection}' is deprecated and will be removed in @seed-design/react@1.3.0. Use flexDirection='${flexDirection === "rowReverse" ? "row-reverse" : "column-reverse"}' instead.`,
       );
     }
   }
@@ -150,12 +151,12 @@ function handleJustifyContent(justifyContent: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (justifyContent === "flexStart" || justifyContent === "flexEnd") {
       console.warn(
-        `[SEED Design System] ${justifyContent} is deprecated. Use flex-start or flex-end instead.`,
+        `[SEED Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @seed-design/react@1.3.0. Use justifyContent='${justifyContent === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
       );
     }
     if (justifyContent === "spaceBetween" || justifyContent === "spaceAround") {
       console.warn(
-        `[SEED Design System] ${justifyContent} is deprecated. Use space-between or space-around instead.`,
+        `[SEED Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @seed-design/react@1.3.0. Use justifyContent='${justifyContent === "spaceBetween" ? "space-between" : "space-around"}' instead.`,
       );
     }
   }
@@ -179,7 +180,7 @@ function handleAlignItems(alignItems: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (alignItems === "flexStart" || alignItems === "flexEnd") {
       console.warn(
-        `[SEED Design System] ${alignItems} is deprecated. Use flex-start or flex-end instead.`,
+        `[SEED Design System] alignItems='${alignItems}' is deprecated and will be removed in @seed-design/react@1.3.0. Use alignItems='${alignItems === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
       );
     }
   }
@@ -198,9 +199,9 @@ export interface StyleProps {
   /**
    * Shorthand for `background`.
    */
-  bg?: ScopedColorBg | ScopedColorPalette | (string & {});
+  bg?: ScopedColorBg | ScopedColorPalette | ScopedColorBanner | (string & {});
 
-  background?: ScopedColorBg | ScopedColorPalette | (string & {});
+  background?: ScopedColorBg | ScopedColorPalette | ScopedColorBanner | (string & {});
 
   /**
    * Shorthand for `backgroundGradient`.
@@ -470,6 +471,11 @@ export interface StyleProps {
     | "spaceBetween" // @deprecated Use `space-between` instead.
     | "spaceAround"; // @deprecated Use `space-around` instead.
 
+  /**
+   * In flexbox layout, this property is ignored.
+   */
+  justifySelf?: "center" | "start" | "end" | "stretch";
+
   alignItems?:
     | "flex-start"
     | "flex-end"
@@ -495,6 +501,13 @@ export interface StyleProps {
     | "flexEnd"; // @deprecated Use `flex-end` instead.
 
   gap?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  // Grid Item
+  // NOTE: gridArea는 지원하지 않습니다.
+  // grid-area가 grid-column/row의 shorthand이므로 CSS 변수로 동시에 바인딩하면 충돌합니다.
+  gridColumn?: string;
+
+  gridRow?: string;
 
   // NOTE: Not sure how to treat transform/translate right now, mark as unstable until we have a better solution.
   unstable_transform?: string;
@@ -576,10 +589,13 @@ export function useStyleProps<T extends UseStyleProps>(
     flexDirection,
     flexWrap,
     justifyContent,
+    justifySelf,
     alignItems,
     alignContent,
     alignSelf,
     gap,
+    gridColumn,
+    gridRow,
     unstable_transform,
     _active,
     style,
@@ -643,9 +659,12 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-flex-direction": handleFlexDirection(flexDirection),
       "--seed-box-flex-wrap": flexWrap === true ? "wrap" : flexWrap,
       "--seed-box-justify-content": handleJustifyContent(justifyContent),
+      "--seed-box-justify-self": justifySelf,
       "--seed-box-align-items": handleAlignItems(alignItems),
       "--seed-box-align-content": handleAlignItems(alignContent),
       "--seed-box-align-self": handleAlignItems(alignSelf),
+      "--seed-box-grid-column": gridColumn,
+      "--seed-box-grid-row": gridRow,
       "--seed-box-unstable-transform": unstable_transform,
 
       // Active

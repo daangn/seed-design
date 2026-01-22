@@ -3,6 +3,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createRestNormalizer, figma, getFigmaColorVariableNames, react } from "@seed-design/figma";
 import { z } from "zod";
 import type { McpConfig } from "./config";
+import { formatError } from "./logger";
 import {
   formatErrorResponse,
   formatImageResponse,
@@ -200,7 +201,9 @@ export function registerTools(
           },
         });
       } catch (error) {
-        return formatErrorResponse("get_node_info", error);
+        return formatTextResponse(
+          `Error in get_node_info: ${formatError(error)}\n\n⚠️ Figma 라이브러리가 최신 버전인지 확인해주세요.`,
+        );
       }
     },
   );
@@ -252,7 +255,9 @@ export function registerTools(
         );
         return formatObjectResponse(results);
       } catch (error) {
-        return formatErrorResponse("get_nodes_info", error);
+        return formatTextResponse(
+          `Error in get_nodes_info: ${formatError(error)}\n\n⚠️ Figma 라이브러리가 최신 버전인지 확인해주세요.`,
+        );
       }
     },
   );
@@ -276,12 +281,16 @@ export function registerTools(
         });
 
         if (!generated) {
-          return formatTextResponse("Failed to generate code");
+          return formatTextResponse(
+            "Failed to generate code\n\n⚠️ Figma 라이브러리가 최신 버전인지 확인해주세요.",
+          );
         }
 
         return formatTextResponse(`${generated.imports}\n\n${generated.jsx}`);
       } catch (error) {
-        return formatErrorResponse("get_node_react_code", error);
+        return formatTextResponse(
+          `Error in get_node_react_code: ${formatError(error)}\n\n⚠️ Figma 라이브러리가 최신 버전인지 확인해주세요.`,
+        );
       }
     },
   );

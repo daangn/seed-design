@@ -23,7 +23,12 @@ export default function SegmentedControlNotification() {
         </SegmentedControlItem>
         <SegmentedControlItem value="enterprise">Enterprise Custom</SegmentedControlItem>
       </SegmentedControl>
-      <ActionButton size="xsmall" disabled={!hasSeenAnnual} onClick={() => setHasSeenAnnual(false)}>
+      <ActionButton
+        size="xsmall"
+        variant="neutralSolid"
+        disabled={!hasSeenAnnual}
+        onClick={() => setHasSeenAnnual(false)}
+      >
         Reset Notification
       </ActionButton>
     </VStack>

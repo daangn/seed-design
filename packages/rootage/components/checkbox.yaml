@@ -1,5 +1,4 @@
 # yaml-language-server: $schema=./schema.json
-# parts: root, label, control, icon
 kind: ComponentSpec
 metadata:
   id: checkbox

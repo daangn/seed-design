@@ -16,7 +16,7 @@ export const metadata = {
     },
     "Prefix Icon#8711:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:24681",
+      "defaultValue": "37665:153409",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -26,12 +26,12 @@ export const metadata = {
     },
     "Suffix Icon#8711:3": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:23688",
+      "defaultValue": "34846:112152",
       "preferredValues": []
     },
     "Icon#8714:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:24682",
+      "defaultValue": "37665:153410",
       "preferredValues": []
     },
     "Size": {

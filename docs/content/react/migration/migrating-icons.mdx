@@ -3,8 +3,6 @@ title: Migrating Icons
 description: SEED V2 아이콘을 V3 아이콘으로 쉽게 마이그레이션해요.
 ---
 
-import { Terminal } from "lucide-react";
-
 ## 업그레이드 방법
 
 현재 아이콘을 사용하고 있는 방법에 따라 적용할 수 있는 2가지 방법이 있어요.
@@ -80,7 +78,7 @@ npm install @karrotmarket/react-monochrome-icon @karrotmarket/react-multicolor-i
 npx @seed-design/codemod@latest replace-react-icon <target_path>
 ```
 
-<Card title="replace-react-icon" href="/react/developer-tools/codemods/available-transforms#replace-react-icon" icon={<Terminal/>}>
+<Card title="replace-react-icon" href="/react/developer-tools/codemods/available-transforms#replace-react-icon" icon={<IconTerminal/>}>
 
 해당 transform에 대해 자세히 알아봅니다.
 
@@ -263,8 +261,8 @@ npm install @daangn/vue3-monochrome-icon @daangn/vue3-multicolor-icon
 - 이전 아이콘 중 아래 5개 아이콘(총 15개 variant)은 리뉴얼된 아이콘 패키지에 시각적으로 정확히 대응되는 항목이 없어요.
 - codemod 스크립트 실행 시 **추천되는 아이콘으로 변환되지만**, 시각적인 차이가 크기 때문에 변경 후 확인이 필요해요.
 
-| 이전 아이콘 이름                    | 리뉴얼된 아이콘 이름                                                                 |
-| ----------------------------------- | ------------------------------------------------------------------------------------ |
+| 이전 아이콘 이름                        | 리뉴얼된 아이콘 이름                                                                     |
+| --------------------------------------- | ---------------------------------------------------------------------------------------- |
 | <V2Icon name="IconBoldThin" />          | <V3Icon type="monochrome" name="IconTUppercaseSerifLine" />                              |
 | <V2Icon name="IconBoldRegular" />       | <V3Icon type="monochrome" name="IconTUppercaseSerifLine" />                              |
 | <V2Icon name="IconBoldFill" />          | <V3Icon type="monochrome" name="IconTUppercaseSerifFill" />                              |

@@ -99,15 +99,23 @@
       "variants": {
         "variant": {
           "values": {
-            "solid": {},
-            "layer": {}
+            "solid": {
+              "description": "배경과 대비되는 강조된 보조 액션으로 중요도 높은 행동 유도 시 적합합니다."
+            },
+            "layer": {
+              "description": "시각적 부담 없이 부드럽게 액션을 유도합니다."
+            }
           },
           "defaultValue": "solid"
         },
         "layout": {
           "values": {
-            "withText": {},
-            "iconOnly": {}
+            "withText": {
+              "description": "라벨과 아이콘을 함께 표시합니다."
+            },
+            "iconOnly": {
+              "description": "아이콘만 표시합니다. 접근성을 위해 aria-label을 제공해야 합니다."
+            }
           },
           "defaultValue": "withText"
         }

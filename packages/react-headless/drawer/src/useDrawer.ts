@@ -116,7 +116,6 @@ export interface UseDrawerProps {
    * @default true
    */
   closeOnEscape?: boolean;
-
 }
 
 export function useDrawer(props: UseDrawerProps) {
@@ -542,7 +541,6 @@ export function useDrawer(props: UseDrawerProps) {
       reset(document.documentElement, "scrollBehavior");
     };
   }, [isOpen]);
-
 
   useEffect(() => {
     function onVisualViewportChange() {

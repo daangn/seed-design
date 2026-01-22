@@ -1,5 +1,58 @@
 # @seed-design/rootage-artifacts
 
+## 1.1.8
+
+### Patch Changes
+
+- db49a84: Chip 컴포넌트 스펙에 `layout=withText` variant를 명시합니다. (스타일 변경사항 없음)
+- 6fab0e7: Skeleton 가시성 향상을 위해 `$gradient.shimmer-magic` 및 `$gradient.shimmer-neutral` 토큰의 색상을 업데이트합니다.
+- 5faef3a: 주석, 참고 사항 및 상세 리스트 등 부가 정보에 사용할 수 있는 시맨틱 텍스트 스타일 `articleNote`를 추가합니다.
+- 50ee0a6: `@seed-design/css@1.3` 및 `@seed-design/react@1.3`에서 제거되는 토큰 및 옵션에 관한 경고를 추가합니다.
+
+  - 1.3에서 제거 예정인 색상 토큰
+    - [`$color.bg.layer-fill`](/docs/foundation/design-token/%24color.bg.layer-fill)
+    - [`$gradient.fade-layer-floating`](/docs/foundation/design-token/%24gradient.fade-layer-floating)
+    - [`$gradient.fade-layer-default`](/docs/foundation/design-token/%24gradient.fade-layer-default)
+  - 1.3에서 제거 예정인 컴포넌트 variant
+    - [ChipTabs](/react/components/chip-tabs)
+      - `variant="brandSolid"`
+        - 1.2까지 사용 가능, 1.3부터 디자인 변경 필요
+    - [Checkbox](/react/components/checkbox)
+      - `weight="default"`
+        - 0.2.4부터 `weight="regular"` 사용 가능
+        - `weight="default"`는 1.2까지 사용 가능, 1.3부터 `weight="regular"`만 허용
+      - `weight="stronger"`
+        - 0.2.4부터 `weight="bold"` 사용 가능
+        - `weight="stronger"`는 1.2까지 사용 가능, 1.3부터 `weight="bold"`만 허용
+    - [Switch](/react/components/switch)
+      - `size="small"`
+        - 0.1.9부터 `size="16"` 사용 가능
+        - `size="small"`은 1.2까지 사용 가능, 1.3부터 `size="16"`만 허용
+      - `size="medium"`
+        - 0.1.9부터 `size="32"` 사용 가능
+        - `size="medium"`은 1.2까지 사용 가능, 1.3부터 `size="32"`만 허용
+    - `StyleProps`를 상속하는 컴포넌트
+      - `display`, `justifyContent/justify`, `alignItems/align`, `alignContent`, `alignSelf`, `flexDirection/direction` 프로퍼티에서의 `camelCase` 값 제거 예정
+        - 0.0.15부터 `kebab-case` 값 사용 가능
+        - `camelCase` 값은 1.2까지 사용 가능, 1.3부터 `kebab-case` 값만 허용
+        - 예: `justifyContent="spaceBetween"` → `justifyContent="space-between"`
+      - 영향 범위인 컴포넌트: [Box](/react/components/layout/box), [Flex](/react/components/layout/flex), [HStack](/react/components/layout/h-stack), [VStack](/react/components/layout/v-stack), [Article](/react/components/article), [List (List.Root) 및 ListItem, ListButtonItem, ListLinkItem, ListSwitchItem, ListCheckItem, ListRadioItem (List.Item)](/react/components/list), [BottomSheetBody (BottomSheet.Body)](/react/components/bottom-sheet), ResponsivePair, [Inline (deprecated)](/react/components/inline), [Columns, Column (deprecated)](/react/components/columns), [Stack (deprecated)](/react/components/stack)
+
+- 94bebf8: `$color.bg.layer-basement` 위에서 컴포넌트의 가시성을 보장하기 위해 `$color.bg.neutral-weak-alpha` 토큰을 추가합니다.
+
+  - Chip `variant=solid`에 적용
+  - ChipTab `variant=neutralSolid`에 적용
+  - SegmentedControl root에 적용
+
+## 1.1.7
+
+### Patch Changes
+
+- 2f29fe8: 정적 텍스트 스타일 추가 (t1Static* ~ t10Static*)
+- 9119723: Checkmark `variant=ghost` `tone=neutral`에서 icon의 색상을 $color.fg.neutral로 변경하고 색상 트랜지션을 추가합니다.
+- 10c0765: 배너 템플릿에 사용되는 `$color.banner.*` 색상 토큰을 추가합니다.
+- b46264a: Rootage에 누락된 Slot Schema 정의 추가 (스타일 변경사항 없음)
+
 ## 1.1.6
 
 ### Patch Changes
