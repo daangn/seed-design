@@ -4706,9 +4706,19 @@
   border-radius: var(--seed-radius-r3);
   background-color: var(--seed-color-bg-transparent);
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
-  transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
   border: none;
   padding: 0;
+  position: absolute;
+  inset: 0;
+}
+
+.seed-input-button__button:after {
+  content: "";
+  border-radius: inherit;
+  transition: border-color .1s var(--seed-timing-function-easing);
+  pointer-events: none;
+  border: 2px solid #0000;
   position: absolute;
   inset: 0;
 }
@@ -4731,8 +4741,9 @@
   outline: none;
 }
 
-.seed-input-button__button:is(:invalid, [data-invalid]) {
-  box-shadow: inset 0 0 0 2px var(--seed-color-stroke-critical-solid);
+.seed-input-button__button:is(:invalid, [data-invalid]):after {
+  border-width: 2px;
+  border-color: var(--seed-color-stroke-critical-solid);
 }
 
 .seed-input-button__value {
@@ -7600,11 +7611,21 @@
 }
 
 .seed-text-input__root {
-  width: 100%;
-  transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
   align-items: center;
+  width: 100%;
   display: flex;
+  position: relative;
   overflow: hidden;
+}
+
+.seed-text-input__root:after {
+  content: "";
+  border-radius: inherit;
+  transition: border-color .1s var(--seed-timing-function-easing);
+  pointer-events: none;
+  border-color: #0000;
+  position: absolute;
+  inset: 0;
 }
 
 .seed-text-input__value {
@@ -7672,12 +7693,19 @@
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
 }
 
-.seed-text-input__root--variant_outline:not([data-readonly]):is(:focus, [data-focus]) {
-  box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-contrast);
+.seed-text-input__root--variant_outline:after {
+  border-style: solid;
+  border-width: 2px;
 }
 
-.seed-text-input__root--variant_outline:is(:invalid, [data-invalid]), .seed-text-input__root--variant_outline:is(:invalid, [data-invalid]):is(:focus, [data-focus]) {
-  box-shadow: inset 0 0 0 2px var(--seed-color-stroke-critical-solid);
+.seed-text-input__root--variant_outline:not([data-readonly]):is(:focus, [data-focus]):after {
+  border-color: var(--seed-color-stroke-neutral-contrast);
+  border-width: 2px;
+}
+
+.seed-text-input__root--variant_outline:is(:invalid, [data-invalid]):after, .seed-text-input__root--variant_outline:is(:invalid, [data-invalid]):is(:focus, [data-focus]):after {
+  border-color: var(--seed-color-stroke-critical-solid);
+  border-width: 2px;
 }
 
 .seed-text-input__root--variant_outline:is(:disabled, [disabled], [data-disabled]), .seed-text-input__root--variant_outline[data-readonly]:not(:is(:disabled, [disabled], [data-disabled])) {
@@ -7706,12 +7734,19 @@
   box-shadow: inset 0 calc(1px * -1) 0 0 var(--seed-color-stroke-neutral-weak);
 }
 
-.seed-text-input__root--variant_underline:not([data-readonly]):is(:focus, [data-focus]) {
-  box-shadow: inset 0 calc(2px * -1) 0 0 var(--seed-color-stroke-neutral-contrast);
+.seed-text-input__root--variant_underline:after {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
 }
 
-.seed-text-input__root--variant_underline:is(:invalid, [data-invalid]), .seed-text-input__root--variant_underline:is(:invalid, [data-invalid]):is(:focus, [data-focus]) {
-  box-shadow: inset 0 calc(2px * -1) 0 0 var(--seed-color-stroke-critical-solid);
+.seed-text-input__root--variant_underline:not([data-readonly]):is(:focus, [data-focus]):after {
+  border-bottom-color: var(--seed-color-stroke-neutral-contrast);
+  border-bottom-width: 2px;
+}
+
+.seed-text-input__root--variant_underline:is(:invalid, [data-invalid]):after, .seed-text-input__root--variant_underline:is(:invalid, [data-invalid]):is(:focus, [data-focus]):after {
+  border-bottom-color: var(--seed-color-stroke-critical-solid);
+  border-bottom-width: 2px;
 }
 
 .seed-text-input__value--variant_underline, .seed-text-input__value--variant_underline::placeholder {

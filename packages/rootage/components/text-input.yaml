@@ -26,13 +26,9 @@ data:
             type: color
           color:
             type: color
-          strokeColorDuration:
+          strokeDuration:
             type: duration
-          strokeColorTimingFunction:
-            type: cubicBezier
-          strokeWidthDuration:
-            type: duration
-          strokeWidthTimingFunction:
+          strokeTimingFunction:
             type: cubicBezier
       value:
         properties:
@@ -98,10 +94,8 @@ data:
       enabled:
         root:
           strokeColor: $color.stroke.neutral-weak
-          strokeColorDuration: $duration.color-transition
-          strokeColorTimingFunction: $timing-function.easing
-          strokeWidthDuration: $duration.d3
-          strokeWidthTimingFunction: $timing-function.easing
+          strokeDuration: 0.1s
+          strokeTimingFunction: $timing-function.easing
         value:
           color: $color.fg.neutral
           fontWeight: $font-weight.regular
