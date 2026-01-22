@@ -6,7 +6,8 @@ import { TabsRoot, TabsTrigger, TabsList, TabsCarousel, TabsContent } from "seed
 import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { ResultSection } from "seed-design/ui/result-section";
 import { IconArticleFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
-import { Flex, HStack, VStack, Icon, Box, Text, Badge, TagGroup, Portal } from "@seed-design/react";
+import { Flex, HStack, VStack, Icon, Box, Text, Badge, Portal } from "@seed-design/react";
+import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
 import { Chip } from "seed-design/ui/chip";
 import {
   BottomSheetBody,
@@ -269,7 +270,7 @@ export function FilterBottomSheet({
         </HStack>
       </BottomSheetBody>
       <BottomSheetFooter>
-        <HStack pb="safeArea" pt="x3">
+        <HStack pt="x3">
           <ActionButton
             flexGrow
             size="large"
@@ -330,11 +331,11 @@ export function ArticleListItem(article: ArticleProps) {
               인기
             </Badge>
           )}
-          <TagGroup.Root size="t4" tone="neutralSubtle">
-            <TagGroup.Item>{categoryName}</TagGroup.Item>
-            <TagGroup.Item>서초2동</TagGroup.Item>
-            <TagGroup.Item>{formatDate(createdAt)}</TagGroup.Item>
-          </TagGroup.Root>
+          <TagGroupRoot size="t4" tone="neutralSubtle">
+            <TagGroupItem label={categoryName} />
+            <TagGroupItem label="서초2동" />
+            <TagGroupItem label={formatDate(createdAt)} />
+          </TagGroupRoot>
         </HStack>
       </VStack>
     </VStack>

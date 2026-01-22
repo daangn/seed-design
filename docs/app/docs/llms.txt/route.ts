@@ -1,12 +1,11 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
-import { getDocsSource } from "@/app/sources/docs-source";
+import { docsSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
-  const source = await getDocsSource();
-  const pages = source.getPages() as LLMPage[];
+  const pages = docsSource.getPages() as LLMPage[];
 
   const categories = new Map<string, LLMPage[]>();
   for (const page of pages) {

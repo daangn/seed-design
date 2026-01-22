@@ -13,16 +13,34 @@ const tagGroupSlotNames = [
 ];
 
 const defaultVariant = {
-  "size": "t2"
+  "size": "t2",
+  "truncate": false
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "size": "t2",
+    "truncate": false
+  },
+  {
+    "size": "t3",
+    "truncate": false
+  },
+  {
+    "size": "t4",
+    "truncate": false
+  }
+];
 
 export const tagGroupVariantMap = {
   "size": [
     "t2",
     "t3",
     "t4"
+  ],
+  "truncate": [
+    true,
+    false
   ]
 };
 

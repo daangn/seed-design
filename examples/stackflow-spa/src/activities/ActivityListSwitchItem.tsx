@@ -20,7 +20,7 @@ import {
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { SwitchMark } from "seed-design/ui/switch";
+import { Switchmark } from "seed-design/ui/switch";
 
 const positionVariants = [
   { key: "prefix", position: "prefix" },
@@ -119,7 +119,7 @@ const ActivityListSwitchItem: StaticActivityComponentType<"ActivityListSwitchIte
                           <ListSwitchItem
                             title={key}
                             detail={content.detail}
-                            prefix={<SwitchMark tone={state.tone} />}
+                            prefix={<Switchmark tone={state.tone} />}
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
                             suffix={suffix.element}
@@ -152,7 +152,7 @@ const ActivityListSwitchItem: StaticActivityComponentType<"ActivityListSwitchIte
                           <ListSwitchItem
                             title={key}
                             detail={content.detail}
-                            suffix={<SwitchMark tone={state.tone} />}
+                            suffix={<Switchmark tone={state.tone} />}
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
                             prefix={prefix.element}

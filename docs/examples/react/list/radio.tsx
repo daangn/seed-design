@@ -1,6 +1,6 @@
 import { RadioGroup } from "@seed-design/react";
 import { List, ListDivider, ListRadioItem } from "seed-design/ui/list";
-import { RadioMark } from "seed-design/ui/radio-group";
+import { Radiomark } from "seed-design/ui/radio-group";
 
 export default function ListRadio() {
   return (
@@ -10,18 +10,18 @@ export default function ListRadio() {
           value="option1"
           title="옵션 1"
           detail="첫 번째 선택지"
-          suffix={<RadioMark tone="neutral" size="large" />}
+          suffix={<Radiomark tone="neutral" size="large" />}
         />
         <ListDivider as="div" />
         <ListRadioItem
-          prefix={<RadioMark tone="neutral" size="large" />}
+          prefix={<Radiomark tone="neutral" size="large" />}
           value="option2"
           title="옵션 2"
           detail="두 번째 선택지"
         />
         <ListDivider as="div" />
         <ListRadioItem
-          prefix={<RadioMark tone="neutral" size="large" />}
+          prefix={<Radiomark tone="neutral" size="large" />}
           value="option3"
           title="옵션 3"
           detail="세 번째 선택지"

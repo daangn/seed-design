@@ -1,12 +1,13 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "switch-mark",
-    "name": "Switch Mark"
+    "id": "switchmark",
+    "name": "Switchmark",
+    "lastUpdated": "25-12-16"
   },
   "data": {
-    "id": "switch-mark",
-    "name": "Switch Mark",
+    "id": "switchmark",
+    "name": "Switchmark",
     "schema": {
       "slots": {
         "root": {
@@ -93,9 +94,7 @@
       "variants": {
         "tone": {
           "values": {
-            "brand": {
-              "description": "[deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다."
-            },
+            "brand": {},
             "neutral": {}
           },
           "defaultValue": "brand"

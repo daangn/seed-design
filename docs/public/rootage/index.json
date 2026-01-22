@@ -183,10 +183,10 @@
       "path": "/components/snackbar.json"
     },
     {
-      "path": "/components/switch-mark.json"
+      "path": "/components/switch.json"
     },
     {
-      "path": "/components/switch.json"
+      "path": "/components/switchmark.json"
     },
     {
       "path": "/components/tab.json"

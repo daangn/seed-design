@@ -32,7 +32,7 @@
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x4);
-    padding-bottom: var(--seed-dimension-x4);
+    padding-bottom: calc(var(--seed-dimension-x4) + var(--seed-safe-area-bottom));
     border-top-left-radius: var(--seed-radius-r5);
     border-top-right-radius: var(--seed-radius-r5);
 }
@@ -49,6 +49,13 @@
     font-size: var(--seed-font-size-t6);
     line-height: var(--seed-line-height-t6);
     font-weight: var(--seed-font-weight-bold);
+    margin: 0;
+}
+.seed-menu-sheet__description {
+    color: var(--seed-color-fg-neutral-muted);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    font-weight: var(--seed-font-weight-regular);
     margin: 0;
 }
 .seed-menu-sheet__list {

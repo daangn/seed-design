@@ -1,11 +1,10 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
-import { getLynxSource } from "@/app/sources/lynx-source";
+import { lynxSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
-  const lynxSource = await getLynxSource();
   const pages = (lynxSource.getPages() as LLMPage[]).filter((page) => page.slugs.length > 0);
 
   const pageList = pages

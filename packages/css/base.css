@@ -43,6 +43,7 @@
 }
 
 .seed-icon, .seed-prefix-icon, .seed-suffix-icon {
+  vertical-align: middle;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
@@ -173,6 +174,7 @@
   --seed-box-flex-direction: initial;
   --seed-box-flex-wrap: initial;
   --seed-box-justify-content: initial;
+  --seed-box-justify-self: auto;
   --seed-box-align-items: stretch;
   --seed-box-align-content: stretch;
   --seed-box-align-self: auto;
@@ -180,15 +182,36 @@
   flex-direction: var(--seed-box-flex-direction);
   flex-wrap: var(--seed-box-flex-wrap);
   justify-content: var(--seed-box-justify-content);
+  justify-self: var(--seed-box-justify-self);
   align-items: var(--seed-box-align-items);
   align-content: var(--seed-box-align-content);
   align-self: var(--seed-box-align-self);
   gap: var(--seed-box-gap);
+  --seed-box-grid-column: initial;
+  grid-column: var(--seed-box-grid-column);
+  --seed-box-grid-row: initial;
+  grid-row: var(--seed-box-grid-row);
 }
 
 .seed-box:is(:active, [data-active]) {
   --seed-box-background--active: var(--seed-box-background);
   background: var(--seed-box-background--active);
+}
+
+.seed-grid {
+  --seed-grid-columns: initial;
+  grid-template-columns: var(--seed-grid-columns);
+  --seed-grid-rows: initial;
+  grid-template-rows: var(--seed-grid-rows);
+  --seed-grid-auto-flow: initial;
+  grid-auto-flow: var(--seed-grid-auto-flow);
+  --seed-grid-auto-columns: initial;
+  grid-auto-columns: var(--seed-grid-auto-columns);
+  --seed-grid-auto-rows: initial;
+  grid-auto-rows: var(--seed-grid-auto-rows);
+  --seed-grid-justify-items: stretch;
+  justify-items: var(--seed-grid-justify-items);
+  display: grid;
 }
 
 .seed-consistent-width:before {

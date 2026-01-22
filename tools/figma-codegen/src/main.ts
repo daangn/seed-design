@@ -82,7 +82,9 @@ export default function () {
           {
             title: "React",
             language: "TYPESCRIPT",
-            code: `Error: ${error}`,
+            code: `Error: ${error}
+
+⚠️ Figma 라이브러리가 최신 버전인지 확인해주세요.`,
           },
         ];
       }
