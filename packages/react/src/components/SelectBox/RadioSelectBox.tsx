@@ -201,10 +201,9 @@ export const RadioSelectBoxHiddenInput = forwardRef<
   const collapsibleContext = useCollapsibleContext({ strict: false });
   const footerContext = useContext(FooterContext);
 
-  const triggerAriaProps =
-    footerContext?.isFooterRendered && footerContext.footerVisibility !== "never"
-      ? collapsibleContext?.triggerAriaProps
-      : undefined;
+  const triggerAriaProps = footerContext?.isFooterRendered
+    ? collapsibleContext?.triggerAriaProps
+    : undefined;
 
   return <RadioGroupPrimitive.ItemHiddenInput ref={ref} {...triggerAriaProps} {...props} />;
 });
@@ -220,6 +219,8 @@ export const RadioSelectBoxFooter = forwardRef<HTMLDivElement, RadioSelectBoxFoo
     const { stateProps } = useRadioGroupItemContext();
     const collapsibleContext = useCollapsibleContext({ strict: false });
     const footerContext = useContext(FooterContext);
+
+    if (footerContext?.footerVisibility === "never") return null;
 
     const composedRef = composeRefs(ref, footerContext?.footerRef ?? null);
 

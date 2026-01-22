@@ -218,10 +218,9 @@ export const CheckSelectBoxHiddenInput = forwardRef<
   const collapsibleContext = useCollapsibleContext({ strict: false });
   const footerContext = useContext(FooterContext);
 
-  const triggerAriaProps =
-    footerContext?.isFooterRendered && footerContext.footerVisibility !== "never"
-      ? collapsibleContext?.triggerAriaProps
-      : undefined;
+  const triggerAriaProps = footerContext?.isFooterRendered
+    ? collapsibleContext?.triggerAriaProps
+    : undefined;
 
   return <CheckboxPrimitive.HiddenInput ref={ref} {...triggerAriaProps} {...props} />;
 });
@@ -237,6 +236,8 @@ export const CheckSelectBoxFooter = forwardRef<HTMLDivElement, CheckSelectBoxFoo
     const { stateProps } = useCheckboxContext();
     const collapsibleContext = useCollapsibleContext({ strict: false });
     const footerContext = useContext(FooterContext);
+
+    if (footerContext?.footerVisibility === "never") return null;
 
     const composedRef = composeRefs(ref, footerContext?.footerRef ?? null);
 
