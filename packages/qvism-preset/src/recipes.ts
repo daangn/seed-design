@@ -26,11 +26,9 @@ import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import imageFrame from "./recipes/image-frame";
-import {
-  imageFrameIcon,
-  imageFrameIndicator,
-  imageFrameReactionButton,
-} from "./recipes/image-frame-overlay";
+import imageFrameIcon from "./recipes/image-frame-icon";
+import imageFrameIndicator from "./recipes/image-frame-indicator";
+import imageFrameReactionButton from "./recipes/image-frame-reaction-button";
 import inlineBanner from "./recipes/inline-banner";
 import inputButton from "./recipes/input-button";
 import linkContent from "./recipes/link-content";

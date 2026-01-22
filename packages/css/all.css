@@ -4598,7 +4598,7 @@
 }
 
 .seed-image-frame-icon {
-  color: var(--seed-color-fg-neutral-inverted);
+  color: var(--seed-color-palette-static-white);
   justify-content: center;
   align-items: center;
   display: inline-flex;
