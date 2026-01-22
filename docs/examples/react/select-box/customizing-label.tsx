@@ -4,7 +4,7 @@ import {
   CheckSelectBoxCheckmark,
   CheckSelectBoxGroup,
   RadioSelectBoxItem,
-  RadioSelectBoxRadioMark,
+  RadioSelectBoxRadiomark,
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 
@@ -33,7 +33,7 @@ export default function SelectBoxCustomizingLabel() {
       </CheckSelectBoxGroup>
 
       <RadioSelectBoxRoot defaultValue="apple" aria-label="Fruit">
-        <RadioSelectBoxItem value="apple" label="Apple" suffix={<RadioSelectBoxRadioMark />} />
+        <RadioSelectBoxItem value="apple" label="Apple" suffix={<RadioSelectBoxRadiomark />} />
         <RadioSelectBoxItem
           value="melon"
           label={
@@ -45,13 +45,13 @@ export default function SelectBoxCustomizingLabel() {
             </>
           }
           description="Elit cupidatat dolore fugiat enim veniam culpa."
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
         <RadioSelectBoxItem
           value="mango"
           label="Mango"
           description="Aliqua ad aute eiusmod eiusmod nulla adipisicing proident ullamco in."
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
       </RadioSelectBoxRoot>
     </HStack>

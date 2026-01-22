@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import {
   RadioSelectBoxItem,
-  RadioSelectBoxRadioMark,
+  RadioSelectBoxRadiomark,
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
@@ -77,7 +77,7 @@ const conditionMap = {
   },
   suffix: {
     radioMark: {
-      suffix: <RadioSelectBoxRadioMark />,
+      suffix: <RadioSelectBoxRadiomark />,
     },
     none: {
       suffix: undefined,

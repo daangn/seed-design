@@ -7,7 +7,7 @@ import {
   CheckSelectBoxCheckmark,
   CheckSelectBoxGroup,
   RadioSelectBoxItem,
-  RadioSelectBoxRadioMark,
+  RadioSelectBoxRadiomark,
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 
@@ -92,7 +92,7 @@ export default function SelectBoxReactHookForm() {
               key={value}
               value={value}
               label={value}
-              suffix={<RadioSelectBoxRadioMark />}
+              suffix={<RadioSelectBoxRadiomark />}
             />
           ))}
         </RadioSelectBoxRoot>

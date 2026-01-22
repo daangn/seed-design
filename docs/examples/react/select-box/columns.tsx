@@ -5,7 +5,7 @@ import {
   CheckSelectBoxCheckmark,
   CheckSelectBoxGroup,
   RadioSelectBoxItem,
-  RadioSelectBoxRadioMark,
+  RadioSelectBoxRadiomark,
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 
@@ -46,13 +46,13 @@ export default function SelectBoxColumns() {
           value="option1"
           prefixIcon={<IconDiamond />}
           label="옵션 1"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
         <RadioSelectBoxItem
           value="option2"
           prefixIcon={<IconDiamond />}
           label="옵션 2"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
         <RadioSelectBoxItem
           value="option3"
@@ -60,25 +60,25 @@ export default function SelectBoxColumns() {
           label="layout=horizontal"
           description="layout을 horizontal로 오버라이드"
           layout="horizontal"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
         <RadioSelectBoxItem
           value="option4"
           prefixIcon={<IconDiamond />}
           label="옵션 4"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
         <RadioSelectBoxItem
           value="option5"
           prefixIcon={<IconDiamond />}
           label="옵션 5"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
         <RadioSelectBoxItem
           value="option6"
           prefixIcon={<IconDiamond />}
           label="옵션 6"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
       </RadioSelectBoxRoot>
     </VStack>

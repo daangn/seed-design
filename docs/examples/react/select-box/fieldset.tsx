@@ -5,7 +5,7 @@ import {
   CheckSelectBoxCheckmark,
   CheckSelectBoxGroup,
   RadioSelectBoxItem,
-  RadioSelectBoxRadioMark,
+  RadioSelectBoxRadiomark,
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 
@@ -103,7 +103,7 @@ export default function SelectBoxFieldset() {
             <RadioSelectBoxItem
               value="red"
               label="Red"
-              suffix={<RadioSelectBoxRadioMark />}
+              suffix={<RadioSelectBoxRadiomark />}
               footer={
                 <Box px="x5" pb="x4">
                   <Text textStyle="t4Medium">
@@ -115,10 +115,10 @@ export default function SelectBoxFieldset() {
             <RadioSelectBoxItem
               value="blue"
               label="Blue"
-              suffix={<RadioSelectBoxRadioMark />}
+              suffix={<RadioSelectBoxRadiomark />}
               disabled
             />
-            <RadioSelectBoxItem value="green" label="Green" suffix={<RadioSelectBoxRadioMark />} />
+            <RadioSelectBoxItem value="green" label="Green" suffix={<RadioSelectBoxRadiomark />} />
           </RadioSelectBoxRoot>
           <ActionButton type="submit" variant="neutralSolid">
             제출

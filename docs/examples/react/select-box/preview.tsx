@@ -4,7 +4,7 @@ import {
   CheckSelectBoxCheckmark,
   CheckSelectBoxGroup,
   RadioSelectBoxItem,
-  RadioSelectBoxRadioMark,
+  RadioSelectBoxRadiomark,
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 
@@ -22,14 +22,14 @@ export default function SelectBoxPreview() {
       </CheckSelectBoxGroup>
 
       <RadioSelectBoxRoot defaultValue="apple" aria-label="Fruit">
-        <RadioSelectBoxItem value="apple" label="Apple" suffix={<RadioSelectBoxRadioMark />} />
+        <RadioSelectBoxItem value="apple" label="Apple" suffix={<RadioSelectBoxRadiomark />} />
         <RadioSelectBoxItem
           value="melon"
           label="Melon"
           description="Elit cupidatat dolore fugiat enim veniam culpa."
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
-        <RadioSelectBoxItem value="mango" label="Mango" suffix={<RadioSelectBoxRadioMark />} />
+        <RadioSelectBoxItem value="mango" label="Mango" suffix={<RadioSelectBoxRadiomark />} />
       </RadioSelectBoxRoot>
     </HStack>
   );

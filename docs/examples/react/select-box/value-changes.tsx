@@ -4,7 +4,7 @@ import {
   CheckSelectBoxCheckmark,
   CheckSelectBoxGroup,
   RadioSelectBoxItem,
-  RadioSelectBoxRadioMark,
+  RadioSelectBoxRadiomark,
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 import { useState } from "react";
@@ -43,8 +43,8 @@ export default function SelectBoxValueChanges() {
             setRadioLastValue(value);
           }}
         >
-          <RadioSelectBoxItem value="apple" label="Apple" suffix={<RadioSelectBoxRadioMark />} />
-          <RadioSelectBoxItem value="banana" label="Banana" suffix={<RadioSelectBoxRadioMark />} />
+          <RadioSelectBoxItem value="apple" label="Apple" suffix={<RadioSelectBoxRadiomark />} />
+          <RadioSelectBoxItem value="banana" label="Banana" suffix={<RadioSelectBoxRadiomark />} />
         </RadioSelectBoxRoot>
         <Text align="center">
           onValueChange called: {radioCount} times, last value: {radioLastValue ?? "-"}

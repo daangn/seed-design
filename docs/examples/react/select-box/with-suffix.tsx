@@ -5,7 +5,7 @@ import {
   CheckSelectBoxCheckmark,
   CheckSelectBoxGroup,
   RadioSelectBoxItem,
-  RadioSelectBoxRadioMark,
+  RadioSelectBoxRadiomark,
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 
@@ -34,7 +34,7 @@ export default function SelectBoxWithSuffix() {
         <RadioSelectBoxItem
           value="radiomark"
           label="라디오 마크"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
         />
         <RadioSelectBoxItem
           value="text"

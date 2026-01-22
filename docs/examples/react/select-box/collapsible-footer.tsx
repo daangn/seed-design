@@ -4,7 +4,7 @@ import {
   CheckSelectBoxCheckmark,
   CheckSelectBoxGroup,
   RadioSelectBoxItem,
-  RadioSelectBoxRadioMark,
+  RadioSelectBoxRadiomark,
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 
@@ -51,7 +51,7 @@ export default function SelectBoxCollapsibleFooter() {
           value="when-selected"
           label="선택 시에만 표시 (기본값)"
           description="footerVisibility='when-selected'"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
           footer={
             <Box px="x5" pb="x5">
               <Text textStyle="t3Medium">선택되었을 때만 보입니다.</Text>
@@ -62,7 +62,7 @@ export default function SelectBoxCollapsibleFooter() {
           value="always"
           label="항상 표시"
           description="footerVisibility='always'"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
           footerVisibility="always"
           footer={
             <Box px="x5" pb="x5">
@@ -74,7 +74,7 @@ export default function SelectBoxCollapsibleFooter() {
           value="when-not-selected"
           label="미선택 시에만 표시"
           description="footerVisibility='when-not-selected'"
-          suffix={<RadioSelectBoxRadioMark />}
+          suffix={<RadioSelectBoxRadiomark />}
           footerVisibility="when-not-selected"
           footer={
             <Box px="x5" pb="x5">
