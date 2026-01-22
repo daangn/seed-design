@@ -12,7 +12,7 @@ import {
   PrefixIcon,
   VisuallyHidden,
 } from "@seed-design/react";
-import { RadioMark, type RadioMarkProps } from "./radio-group";
+import { Radiomark, type RadiomarkProps } from "./radio-group";
 import * as React from "react";
 import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 
@@ -140,15 +140,15 @@ export const RadioSelectBoxItem = React.forwardRef<HTMLInputElement, RadioSelect
 );
 RadioSelectBoxItem.displayName = "RadioSelectBoxItem";
 
-export interface RadioSelectBoxRadioMarkProps extends RadioMarkProps {}
+export interface RadioSelectBoxRadiomarkProps extends RadiomarkProps {}
 
-export const RadioSelectBoxRadioMark = React.forwardRef<
+export const RadioSelectBoxRadiomark = React.forwardRef<
   HTMLDivElement,
-  RadioSelectBoxRadioMarkProps
+  RadioSelectBoxRadiomarkProps
 >((props, ref) => {
-  return <RadioMark ref={ref} size="medium" tone="neutral" {...props} />;
+  return <Radiomark ref={ref} size="medium" tone="neutral" {...props} />;
 });
-RadioSelectBoxRadioMark.displayName = "RadioSelectBoxRadioMark";
+RadioSelectBoxRadiomark.displayName = "RadioSelectBoxRadiomark";
 
 export interface CheckSelectBoxGroupProps extends SeedFieldset.RootProps {
   label?: React.ReactNode;
