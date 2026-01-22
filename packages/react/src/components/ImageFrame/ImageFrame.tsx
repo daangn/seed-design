@@ -3,15 +3,15 @@ import {
   type ImageFrameVariantProps,
 } from "@seed-design/css/recipes/image-frame";
 import {
-  imageFrameOverlayIcon,
-  type ImageFrameOverlayIconVariantProps,
-} from "@seed-design/css/recipes/image-frame-overlay-icon";
+  imageFrameIcon,
+  type ImageFrameIconVariantProps,
+} from "@seed-design/css/recipes/image-frame-icon";
 import {
-  imageFrameOverlayIndicator,
-  type ImageFrameOverlayIndicatorVariantProps,
-} from "@seed-design/css/recipes/image-frame-overlay-indicator";
-import { imageFrameOverlayReactionButton } from "@seed-design/css/recipes/image-frame-overlay-reaction-button";
-import { imageFrameOverlayPositioner as floaterVars } from "@seed-design/css/vars/component";
+  imageFrameIndicator,
+  type ImageFrameIndicatorVariantProps,
+} from "@seed-design/css/recipes/image-frame-indicator";
+import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
+import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
 import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
 import clsx from "clsx";
@@ -98,13 +98,13 @@ export interface ImageFrameFloaterProps extends FloatProps {}
  * ImageFrame 내에서 오버레이 요소를 배치하기 위한 컴포넌트
  *
  * @remarks
- * offsetX, offsetY 기본값은 rootage 스펙(image-frame-overlay-positioner)에서 가져옵니다.
+ * offsetX, offsetY 기본값은 rootage 스펙(image-frame-floater)에서 가져옵니다.
  */
 export const ImageFrameFloater = React.forwardRef<HTMLDivElement, ImageFrameFloaterProps>(
   (
     {
-      offsetX = floaterVars.base.enabled.root.inset,
-      offsetY = floaterVars.base.enabled.root.inset,
+      offsetX = floaterVars.base.enabled.root.offset,
+      offsetY = floaterVars.base.enabled.root.offset,
       ...rest
     },
     ref,
@@ -130,7 +130,7 @@ ImageFrameBadge.displayName = "ImageFrameBadge";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ImageFrameIconProps
-  extends ImageFrameOverlayIconVariantProps,
+  extends ImageFrameIconVariantProps,
     Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
   svg: React.ReactNode;
 }
@@ -138,7 +138,7 @@ export interface ImageFrameIconProps
 export const ImageFrameIcon = React.forwardRef<HTMLSpanElement, ImageFrameIconProps>(
   ({ svg, className, ...rest }, ref) => {
     return (
-      <span ref={ref} className={clsx(imageFrameOverlayIcon(), className)} {...rest}>
+      <span ref={ref} className={clsx(imageFrameIcon(), className)} {...rest}>
         <Icon svg={svg} />
       </span>
     );
@@ -150,7 +150,7 @@ ImageFrameIcon.displayName = "ImageFrameIcon";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ImageFrameIndicatorProps
-  extends ImageFrameOverlayIndicatorVariantProps,
+  extends ImageFrameIndicatorVariantProps,
     React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
 }
@@ -158,7 +158,7 @@ export interface ImageFrameIndicatorProps
 export const ImageFrameIndicator = React.forwardRef<HTMLSpanElement, ImageFrameIndicatorProps>(
   ({ children, className, ...rest }, ref) => {
     return (
-      <span ref={ref} className={clsx(imageFrameOverlayIndicator(), className)} {...rest}>
+      <span ref={ref} className={clsx(imageFrameIndicator(), className)} {...rest}>
         {children}
       </span>
     );
@@ -215,7 +215,7 @@ export const ImageFrameReactionButton = React.forwardRef<
   return (
     <TogglePrimitive.Root
       ref={ref}
-      className={clsx(imageFrameOverlayReactionButton(), className)}
+      className={clsx(imageFrameReactionButton(), className)}
       pressed={pressed}
       {...rest}
     >

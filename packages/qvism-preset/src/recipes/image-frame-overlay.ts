@@ -3,45 +3,12 @@ import { onlyIcon } from "../utils/icon";
 import { pressed, pseudo } from "../utils/pseudo";
 import * as fg from "../vars/color/fg";
 import {
-  imageFrameOverlayIndicator as indicatorVars,
-  imageFrameOverlayPositioner as positionerVars,
-  imageFrameOverlayReactionButton as reactionButtonVars,
+  imageFrameIndicator as indicatorVars,
+  imageFrameReactionButton as reactionButtonVars,
 } from "../vars/component";
 
-export const imageFrameOverlayPositioner = defineRecipe({
-  name: "image-frame-overlay-positioner",
-  base: {
-    position: "absolute",
-    zIndex: 1,
-    margin: positionerVars.base.enabled.root.inset,
-  },
-  variants: {
-    position: {
-      "top-left": {
-        top: 0,
-        left: 0,
-      },
-      "top-right": {
-        top: 0,
-        right: 0,
-      },
-      "bottom-left": {
-        bottom: 0,
-        left: 0,
-      },
-      "bottom-right": {
-        bottom: 0,
-        right: 0,
-      },
-    },
-  },
-  defaultVariants: {
-    position: "top-left",
-  },
-});
-
-export const imageFrameOverlayIndicator = defineRecipe({
-  name: "image-frame-overlay-indicator",
+export const imageFrameIndicator = defineRecipe({
+  name: "image-frame-indicator",
   base: {
     display: "inline-flex",
     alignItems: "center",
@@ -65,8 +32,8 @@ export const imageFrameOverlayIndicator = defineRecipe({
   defaultVariants: {},
 });
 
-export const imageFrameOverlayIcon = defineRecipe({
-  name: "image-frame-overlay-icon",
+export const imageFrameIcon = defineRecipe({
+  name: "image-frame-icon",
   base: {
     display: "inline-flex",
     alignItems: "center",
@@ -78,8 +45,8 @@ export const imageFrameOverlayIcon = defineRecipe({
   defaultVariants: {},
 });
 
-export const imageFrameOverlayReactionButton = defineRecipe({
-  name: "image-frame-overlay-reaction-button",
+export const imageFrameReactionButton = defineRecipe({
+  name: "image-frame-reaction-button",
   base: {
     display: "inline-flex",
     alignItems: "center",
@@ -90,7 +57,6 @@ export const imageFrameOverlayReactionButton = defineRecipe({
     padding: 0,
     position: "relative",
 
-    // Layout size is the visible icon size (24)
     width: reactionButtonVars.base.enabled.root.size,
     height: reactionButtonVars.base.enabled.root.size,
 
@@ -101,7 +67,6 @@ export const imageFrameOverlayReactionButton = defineRecipe({
       color: reactionButtonVars.base.enabled.icon.color,
     }),
 
-    // Expand touch target to targetSize (40) via pseudo-element (bleed)
     "&::before": {
       content: "''",
       position: "absolute",

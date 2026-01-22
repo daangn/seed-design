@@ -27,10 +27,9 @@ import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import imageFrame from "./recipes/image-frame";
 import {
-  imageFrameOverlayIcon,
-  imageFrameOverlayIndicator,
-  imageFrameOverlayPositioner,
-  imageFrameOverlayReactionButton,
+  imageFrameIcon,
+  imageFrameIndicator,
+  imageFrameReactionButton,
 } from "./recipes/image-frame-overlay";
 import inlineBanner from "./recipes/inline-banner";
 import inputButton from "./recipes/input-button";
@@ -97,10 +96,9 @@ export const recipes = {
   helpBubble,
   identityPlaceholder,
   imageFrame,
-  imageFrameOverlayPositioner,
-  imageFrameOverlayIndicator,
-  imageFrameOverlayIcon,
-  imageFrameOverlayReactionButton,
+  imageFrameIndicator,
+  imageFrameIcon,
+  imageFrameReactionButton,
   inlineBanner,
   inputButton,
   linkContent,

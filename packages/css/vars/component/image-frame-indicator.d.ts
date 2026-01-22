@@ -10,7 +10,7 @@ export declare const vars: {
       },
       "label": {
         /** 인디케이터 배경색입니다. */
-        "color": "var(--seed-color-fg-neutral-inverted)",
+        "color": "var(--seed-color-palette-static-white)",
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",
         "fontWeight": "var(--seed-font-weight-medium)"

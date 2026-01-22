@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=./schema.json
 kind: ComponentSpec
 metadata:
-  id: image-frame-overlay-reaction-button
-  name: Image Frame Overlay Reaction Button
+  id: image-frame-reaction-button
+  name: Image Frame Reaction Button
 data:
   schema:
     slots:

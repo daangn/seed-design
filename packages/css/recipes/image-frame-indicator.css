@@ -1,10 +1,10 @@
-.seed-image-frame-overlay-indicator {
+.seed-image-frame-indicator {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
     background-color: var(--seed-color-palette-static-black-alpha-800);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-palette-static-white);
     border-radius: var(--seed-radius-full);
     padding-left: var(--seed-dimension-x1_5);
     padding-right: var(--seed-dimension-x1_5);

@@ -1,0 +1,102 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "image-frame-reaction-button",
+    "name": "Image Frame Reaction Button"
+  },
+  "data": {
+    "id": "image-frame-reaction-button",
+    "name": "Image Frame Reaction Button",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color",
+              "description": "버튼 배경색입니다."
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "size": {
+              "type": "dimension",
+              "description": "보이는 버튼 크기입니다."
+            },
+            "targetSize": {
+              "type": "dimension",
+              "description": "터치 영역 크기입니다."
+            }
+          },
+          "description": "하트 아이콘 토글 버튼입니다. 이미지 위에서 좋아요 기능에 사용됩니다."
+        },
+        "icon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          },
+          "description": "하트 아이콘입니다. 기본 상태에서는 IconHeartLine, 선택 상태에서는 IconHeartFill을 사용합니다."
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-black-alpha-200"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                },
+                "targetSize": {
+                  "type": "dimension",
+                  "value": "$dimension.x10"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-inverted"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "selected"
+            ],
+            "slots": {
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.brand"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
