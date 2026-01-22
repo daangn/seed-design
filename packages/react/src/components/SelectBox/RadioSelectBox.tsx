@@ -15,7 +15,14 @@ import {
   RadioGroup as RadioGroupPrimitive,
   useRadioGroupItemContext,
 } from "@seed-design/react-radio-group";
-import { createContext, forwardRef, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  forwardRef,
+  useCallback,
+  useContext,
+  useState,
+  type PropsWithChildren,
+} from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
@@ -28,6 +35,7 @@ const withStateProps = createWithStateProps([useRadioGroupItemContext]);
 const FooterContext = createContext<{
   isFooterRendered: boolean;
   footerRef: (node: HTMLDivElement | null) => void;
+  footerVisibility: Exclude<NonNullable<RadioSelectBoxItemProps["footerVisibility"]>, "always">;
 } | null>(null);
 
 export interface RadioSelectBoxGroupProps
@@ -66,15 +74,12 @@ export const RadioSelectBoxGroup = forwardRef<HTMLDivElement, RadioSelectBoxGrou
   },
 );
 
-type FooterVisibility = "always" | "when-selected" | "when-not-selected" | "never";
-
 function FooterVisibilityProvider({
   children,
   footerVisibility,
-}: {
-  children: React.ReactNode;
-  footerVisibility: Exclude<FooterVisibility, "always">;
-}) {
+}: PropsWithChildren<{
+  footerVisibility: Exclude<NonNullable<RadioSelectBoxItemProps["footerVisibility"]>, "always">;
+}>) {
   const { checked } = useRadioGroupItemContext();
 
   const collapsible = useCollapsible({
@@ -92,7 +97,7 @@ function FooterVisibilityProvider({
 
   return (
     <CollapsibleProvider value={collapsible}>
-      <FooterContext.Provider value={{ isFooterRendered, footerRef }}>
+      <FooterContext.Provider value={{ isFooterRendered, footerRef, footerVisibility }}>
         {children}
       </FooterContext.Provider>
     </CollapsibleProvider>
@@ -106,7 +111,7 @@ export interface RadioSelectBoxItemProps
    * Controls when the footer is visible.
    * @default "when-selected"
    */
-  footerVisibility?: FooterVisibility;
+  footerVisibility?: "when-selected" | "when-not-selected" | "always" | "never";
 }
 
 export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxItemProps>(
@@ -196,9 +201,10 @@ export const RadioSelectBoxHiddenInput = forwardRef<
   const collapsibleContext = useCollapsibleContext({ strict: false });
   const footerContext = useContext(FooterContext);
 
-  const triggerAriaProps = footerContext?.isFooterRendered
-    ? collapsibleContext?.triggerAriaProps
-    : undefined;
+  const triggerAriaProps =
+    footerContext?.isFooterRendered && footerContext.footerVisibility !== "never"
+      ? collapsibleContext?.triggerAriaProps
+      : undefined;
 
   return <RadioGroupPrimitive.ItemHiddenInput ref={ref} {...triggerAriaProps} {...props} />;
 });

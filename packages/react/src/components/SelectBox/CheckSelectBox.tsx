@@ -17,7 +17,14 @@ import {
 } from "@seed-design/react-collapsible";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
-import { createContext, forwardRef, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  forwardRef,
+  useCallback,
+  useContext,
+  useState,
+  type PropsWithChildren,
+} from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
@@ -30,6 +37,7 @@ const withStateProps = createWithStateProps([useCheckboxContext]);
 const FooterContext = createContext<{
   isFooterRendered: boolean;
   footerRef: (node: HTMLDivElement | null) => void;
+  footerVisibility: Exclude<NonNullable<CheckSelectBoxRootProps["footerVisibility"]>, "always">;
 } | null>(null);
 export interface CheckSelectBoxGroupProps
   extends SelectBoxGroupVariantProps,
@@ -67,15 +75,12 @@ export const CheckSelectBoxGroup = forwardRef<HTMLDivElement, CheckSelectBoxGrou
   },
 );
 
-type FooterVisibility = "always" | "when-selected" | "when-not-selected" | "never";
-
 function FooterVisibilityProvider({
   children,
   footerVisibility,
-}: {
-  children: React.ReactNode;
-  footerVisibility: Exclude<FooterVisibility, "always">;
-}) {
+}: PropsWithChildren<{
+  footerVisibility: Exclude<NonNullable<CheckSelectBoxRootProps["footerVisibility"]>, "always">;
+}>) {
   const { checked } = useCheckboxContext();
 
   const collapsible = useCollapsible({
@@ -93,7 +98,7 @@ function FooterVisibilityProvider({
 
   return (
     <CollapsibleProvider value={collapsible}>
-      <FooterContext.Provider value={{ isFooterRendered, footerRef }}>
+      <FooterContext.Provider value={{ isFooterRendered, footerRef, footerVisibility }}>
         {children}
       </FooterContext.Provider>
     </CollapsibleProvider>
@@ -107,7 +112,7 @@ export interface CheckSelectBoxRootProps
    * Controls when the footer is visible.
    * @default "when-selected"
    */
-  footerVisibility?: FooterVisibility;
+  footerVisibility?: "when-selected" | "when-not-selected" | "always" | "never";
 }
 
 export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRootProps>(
@@ -213,9 +218,10 @@ export const CheckSelectBoxHiddenInput = forwardRef<
   const collapsibleContext = useCollapsibleContext({ strict: false });
   const footerContext = useContext(FooterContext);
 
-  const triggerAriaProps = footerContext?.isFooterRendered
-    ? collapsibleContext?.triggerAriaProps
-    : undefined;
+  const triggerAriaProps =
+    footerContext?.isFooterRendered && footerContext.footerVisibility !== "never"
+      ? collapsibleContext?.triggerAriaProps
+      : undefined;
 
   return <CheckboxPrimitive.HiddenInput ref={ref} {...triggerAriaProps} {...props} />;
 });
