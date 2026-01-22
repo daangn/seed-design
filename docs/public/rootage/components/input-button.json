@@ -38,16 +38,10 @@
             "colorTimingFunction": {
               "type": "cubicBezier"
             },
-            "strokeColorDuration": {
+            "strokeDuration": {
               "type": "duration"
             },
-            "strokeColorTimingFunction": {
-              "type": "cubicBezier"
-            },
-            "strokeWidthDuration": {
-              "type": "duration"
-            },
-            "strokeWidthTimingFunction": {
+            "strokeTimingFunction": {
               "type": "cubicBezier"
             }
           }
@@ -198,19 +192,14 @@
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 },
-                "strokeColorDuration": {
+                "strokeDuration": {
                   "type": "duration",
-                  "value": "$duration.color-transition"
+                  "value": {
+                    "value": 0.1,
+                    "unit": "s"
+                  }
                 },
-                "strokeColorTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                },
-                "strokeWidthDuration": {
-                  "type": "duration",
-                  "value": "$duration.color-transition"
-                },
-                "strokeWidthTimingFunction": {
+                "strokeTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 }
