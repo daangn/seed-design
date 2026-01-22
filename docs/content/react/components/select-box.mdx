@@ -137,7 +137,12 @@ npx @seed-design/cli@latest add ui:select-box
 
 ### Collapsible Footer
 
-`footer` prop으로 추가 콘텐츠를 표시할 수 있습니다. 기본적으로 항목이 선택되었을 때 footer가 보입니다. `footerVisibility`를 `"always"`로 설정하면 항상 표시됩니다.
+`footer` prop으로 추가 콘텐츠를 표시할 수 있습니다. `footerVisibility` prop으로 footer의 표시 조건을 제어할 수 있습니다.
+
+- `"when-selected"` (기본값): 항목이 선택되었을 때만 표시
+- `"when-not-selected"`: 항목이 선택되지 않았을 때만 표시
+- `"always"`: 항상 표시
+- `"never"`: 표시하지 않음
 
 <ComponentExample name="react/select-box/collapsible-footer">
   ```json doc-gen:file

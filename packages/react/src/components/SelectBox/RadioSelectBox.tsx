@@ -66,9 +66,24 @@ export const RadioSelectBoxGroup = forwardRef<HTMLDivElement, RadioSelectBoxGrou
   },
 );
 
-function FooterVisibilityProvider({ children }: { children: React.ReactNode }) {
+type FooterVisibility = "always" | "when-selected" | "when-not-selected" | "never";
+
+function FooterVisibilityProvider({
+  children,
+  footerVisibility,
+}: {
+  children: React.ReactNode;
+  footerVisibility: Exclude<FooterVisibility, "always">;
+}) {
   const { checked } = useRadioGroupItemContext();
-  const collapsible = useCollapsible({ open: checked });
+
+  const collapsible = useCollapsible({
+    open: {
+      "when-selected": checked,
+      "when-not-selected": !checked,
+      never: false,
+    }[footerVisibility],
+  });
 
   const [isFooterRendered, setIsFooterRendered] = useState(false);
   const footerRef = useCallback((node: HTMLDivElement | null) => {
@@ -91,7 +106,7 @@ export interface RadioSelectBoxItemProps
    * Controls when the footer is visible.
    * @default "when-selected"
    */
-  footerVisibility?: "always" | "when-selected";
+  footerVisibility?: FooterVisibility;
 }
 
 export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxItemProps>(
@@ -109,10 +124,12 @@ export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxIte
           className={clsx(classNames.root, className)}
           {...otherProps}
         >
-          {footerVisibility === "when-selected" ? (
-            <FooterVisibilityProvider>{children}</FooterVisibilityProvider>
-          ) : (
+          {footerVisibility === "always" ? (
             children
+          ) : (
+            <FooterVisibilityProvider footerVisibility={footerVisibility}>
+              {children}
+            </FooterVisibilityProvider>
           )}
         </RadioGroupPrimitive.Item>
       </ClassNamesProvider>
