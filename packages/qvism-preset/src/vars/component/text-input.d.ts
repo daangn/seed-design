@@ -3,10 +3,8 @@ export declare const vars: {
     "enabled": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
-        "strokeColorDuration": "var(--seed-duration-color-transition)",
-        "strokeColorTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeWidthDuration": "var(--seed-duration-d3)",
-        "strokeWidthTimingFunction": "var(--seed-timing-function-easing)"
+        "strokeDuration": "0.1s",
+        "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "value": {
         "color": "var(--seed-color-fg-neutral)",

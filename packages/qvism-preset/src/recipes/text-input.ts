@@ -13,9 +13,22 @@ const textInput = defineSlotRecipe({
       width: "100%",
       alignItems: "center",
       overflow: "hidden",
+      position: "relative",
 
-      // strokeColor transition duration & timing function values are the same as strokeWidth transition values
-      transition: `box-shadow ${vars.base.enabled.root.strokeColorDuration} ${vars.base.enabled.root.strokeColorTimingFunction}`,
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        borderRadius: "inherit",
+        borderColor: "transparent",
+
+        transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
+
+        pointerEvents: "none",
+      },
     },
     value: {
       boxSizing: "border-box",
@@ -173,16 +186,24 @@ const textInput = defineSlotRecipe({
 
           boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
-          [pseudo(not(readOnly), focus)]: {
-            boxShadow: `inset 0 0 0 ${vars.variantOutline.focused.root.strokeWidth} ${vars.base.focused.root.strokeColor}`,
+          "&::after": {
+            borderStyle: "solid",
+            borderWidth: vars.variantOutline.focused.root.strokeWidth,
           },
 
-          [pseudo(invalid)]: {
-            boxShadow: `inset 0 0 0 ${vars.variantOutline.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
+          [pseudo(not(readOnly), focus, "::after")]: {
+            borderColor: vars.base.focused.root.strokeColor,
+            borderWidth: vars.variantOutline.focused.root.strokeWidth,
           },
 
-          [pseudo(invalid, focus)]: {
-            boxShadow: `inset 0 0 0 ${vars.variantOutline.invalid.root.strokeWidth} ${vars.base.invalidFocused.root.strokeColor}`,
+          [pseudo(invalid, "::after")]: {
+            borderColor: vars.base.invalid.root.strokeColor,
+            borderWidth: vars.variantOutline.invalid.root.strokeWidth,
+          },
+
+          [pseudo(invalid, focus, "::after")]: {
+            borderColor: vars.base.invalidFocused.root.strokeColor,
+            borderWidth: vars.variantOutline.invalid.root.strokeWidth,
           },
 
           [pseudo(disabled)]: {
@@ -231,16 +252,24 @@ const textInput = defineSlotRecipe({
 
           boxShadow: `inset 0 calc(${vars.variantUnderline.enabled.root.strokeBottomWidth} * -1) 0 0 ${vars.base.enabled.root.strokeColor}`,
 
-          [pseudo(not(readOnly), focus)]: {
-            boxShadow: `inset 0 calc(${vars.variantUnderline.focused.root.strokeBottomWidth} * -1) 0 0 ${vars.base.focused.root.strokeColor}`,
+          "&::after": {
+            borderBottomStyle: "solid",
+            borderBottomWidth: vars.variantUnderline.focused.root.strokeBottomWidth,
           },
 
-          [pseudo(invalid)]: {
-            boxShadow: `inset 0 calc(${vars.variantUnderline.invalid.root.strokeBottomWidth} * -1) 0 0 ${vars.base.invalid.root.strokeColor}`,
+          [pseudo(not(readOnly), focus, "::after")]: {
+            borderBottomColor: vars.base.focused.root.strokeColor,
+            borderBottomWidth: vars.variantUnderline.focused.root.strokeBottomWidth,
           },
 
-          [pseudo(invalid, focus)]: {
-            boxShadow: `inset 0 calc(${vars.variantUnderline.invalid.root.strokeBottomWidth} * -1) 0 0 ${vars.base.invalidFocused.root.strokeColor}`,
+          [pseudo(invalid, "::after")]: {
+            borderBottomColor: vars.base.invalid.root.strokeColor,
+            borderBottomWidth: vars.variantUnderline.invalid.root.strokeBottomWidth,
+          },
+
+          [pseudo(invalid, focus, "::after")]: {
+            borderBottomColor: vars.base.invalidFocused.root.strokeColor,
+            borderBottomWidth: vars.variantUnderline.invalid.root.strokeBottomWidth,
           },
         },
         value: {

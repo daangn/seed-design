@@ -38,16 +38,10 @@
             "color": {
               "type": "color"
             },
-            "strokeColorDuration": {
+            "strokeDuration": {
               "type": "duration"
             },
-            "strokeColorTimingFunction": {
-              "type": "cubicBezier"
-            },
-            "strokeWidthDuration": {
-              "type": "duration"
-            },
-            "strokeWidthTimingFunction": {
+            "strokeTimingFunction": {
               "type": "cubicBezier"
             }
           }
@@ -178,19 +172,14 @@
                   "type": "color",
                   "value": "$color.stroke.neutral-weak"
                 },
-                "strokeColorDuration": {
+                "strokeDuration": {
                   "type": "duration",
-                  "value": "$duration.color-transition"
+                  "value": {
+                    "value": 0.1,
+                    "unit": "s"
+                  }
                 },
-                "strokeColorTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                },
-                "strokeWidthDuration": {
-                  "type": "duration",
-                  "value": "$duration.d3"
-                },
-                "strokeWidthTimingFunction": {
+                "strokeTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 }
