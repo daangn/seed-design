@@ -47,6 +47,7 @@
     "@seed-design/react-dialog": "1.0.1",
     "@seed-design/react-drawer": "1.0.5",
     "@seed-design/react-field": "1.0.1",
+    "@seed-design/react-image": "0.0.1",
     "@seed-design/react-fieldset": "0.0.0",
     "@seed-design/react-field-button": "1.0.1",
     "@seed-design/react-popover": "1.0.3",

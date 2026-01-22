@@ -102,6 +102,18 @@
       "path": "/components/identity-placeholder.json"
     },
     {
+      "path": "/components/image-frame-floater.json"
+    },
+    {
+      "path": "/components/image-frame-indicator.json"
+    },
+    {
+      "path": "/components/image-frame-reaction-button.json"
+    },
+    {
+      "path": "/components/image-frame.json"
+    },
+    {
       "path": "/components/inline-banner.json"
     },
     {

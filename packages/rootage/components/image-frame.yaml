@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: image-frame
+  name: Image Frame
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          cornerRadius:
+            type: dimension
+            description: rounded 옵션 사용 시 적용되는 모서리 반경입니다.
+          strokeColor:
+            type: color
+            description: stroke 옵션 사용 시 적용되는 테두리 색상입니다.
+          strokeWidth:
+            type: dimension
+            description: stroke 옵션 사용 시 적용되는 테두리 두께입니다.
+    variants:
+      rounded:
+        values:
+          "true":
+            description: 모서리에 라운드 스타일을 적용합니다.
+          "false":
+            description: 모서리를 직각으로 유지합니다.
+      stroke:
+        values:
+          "true":
+            description: 이미지 테두리에 스트로크를 표시합니다.
+          "false":
+            description: 테두리를 표시하지 않습니다.
+  definitions:
+    rounded=true:
+      enabled:
+        root:
+          cornerRadius: $radius.r2
+    rounded=false:
+      enabled:
+        root:
+          cornerRadius: 0px
+    stroke=true:
+      enabled:
+        root:
+          strokeColor: $color.stroke.neutral-subtle
+          strokeWidth: 1px
+    stroke=false:
+      enabled:
+        root:
+          strokeWidth: 0px

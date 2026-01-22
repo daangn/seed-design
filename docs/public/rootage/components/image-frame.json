@@ -1,0 +1,150 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "image-frame",
+    "name": "Image Frame"
+  },
+  "data": {
+    "id": "image-frame",
+    "name": "Image Frame",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "cornerRadius": {
+              "type": "dimension",
+              "description": "rounded 옵션 사용 시 적용되는 모서리 반경입니다."
+            },
+            "strokeColor": {
+              "type": "color",
+              "description": "stroke 옵션 사용 시 적용되는 테두리 색상입니다."
+            },
+            "strokeWidth": {
+              "type": "dimension",
+              "description": "stroke 옵션 사용 시 적용되는 테두리 두께입니다."
+            }
+          }
+        }
+      },
+      "variants": {
+        "rounded": {
+          "values": {
+            "true": {
+              "description": "모서리에 라운드 스타일을 적용합니다."
+            },
+            "false": {
+              "description": "모서리를 직각으로 유지합니다."
+            }
+          },
+          "defaultValue": "true"
+        },
+        "stroke": {
+          "values": {
+            "true": {
+              "description": "이미지 테두리에 스트로크를 표시합니다."
+            },
+            "false": {
+              "description": "테두리를 표시하지 않습니다."
+            }
+          },
+          "defaultValue": "true"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {
+          "rounded": "true"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r2"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "rounded": "false"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "stroke": "true"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-subtle"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "stroke": "false"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

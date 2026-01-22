@@ -446,6 +446,7 @@
         "@seed-design/react-field": "1.0.1",
         "@seed-design/react-field-button": "1.0.1",
         "@seed-design/react-fieldset": "0.0.0",
+        "@seed-design/react-image": "0.0.1",
         "@seed-design/react-popover": "1.0.3",
         "@seed-design/react-portal": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
@@ -628,6 +629,26 @@
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "^1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/image": {
+      "name": "@seed-design/react-image",
+      "version": "0.0.1",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-use-callback-ref": "^1.1.1",
+        "@radix-ui/react-use-layout-effect": "^1.1.1",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-primitive": "1.0.0",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -2364,6 +2385,8 @@
     "@seed-design/react-fieldset": ["@seed-design/react-fieldset@workspace:packages/react-headless/fieldset"],
 
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.4", "", { "peerDependencies": { "react": "17.x || 18.x || 19.x" } }, "sha512-jjfKw3mvIYsTlgdxb4pjWTpT+uW8RZns/gcfhOjWuegZEXuZyAy4kPpiNbeNdnbrNoLWTCt8Rtt6UCGr/Zo/EQ=="],
+
+    "@seed-design/react-image": ["@seed-design/react-image@workspace:packages/react-headless/image"],
 
     "@seed-design/react-popover": ["@seed-design/react-popover@workspace:packages/react-headless/popover"],
 

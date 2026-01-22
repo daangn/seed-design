@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: image-frame-indicator
+  name: Image Frame Indicator
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+            description: 인디케이터 배경색입니다.
+          cornerRadius:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.palette.static-black-alpha-800
+          cornerRadius: $radius.full
+          paddingX: $dimension.x1_5
+          paddingY: $dimension.x0_5
+        label:
+          color: $color.palette.static-white
+          fontSize: $font-size.t1
+          lineHeight: $line-height.t1
+          fontWeight: $font-weight.medium

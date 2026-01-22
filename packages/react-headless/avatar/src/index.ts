@@ -1,3 +1,8 @@
+/**
+ * @deprecated Use `@seed-design/react-image` instead.
+ * @see https://seed-design.io/docs/react/components/image
+ */
+
 export {
   AvatarFallback,
   AvatarImage,
