@@ -5,6 +5,7 @@
     flex-direction: column;
     border-radius: var(--seed-radius-r3);
     background-color: var(--seed-color-bg-transparent);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
     overflow: hidden;
 }
@@ -17,9 +18,9 @@
     left: 0;
     border-radius: inherit;
     border-style: solid;
-    border-width: 1px;
-    border-color: var(--seed-color-stroke-neutral-muted);
-    transition: border-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), border-width var(--seed-duration-d3) var(--seed-timing-function-easing);
+    border-color: transparent;
+    border-width: 2px;
+    transition: border-color 0.1s var(--seed-timing-function-easing);
     pointer-events: none;
 }
 .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {

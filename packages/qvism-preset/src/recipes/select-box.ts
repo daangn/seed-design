@@ -39,6 +39,8 @@ export const selectBox = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.root.color,
 
+      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
 
       overflow: "hidden",
@@ -51,12 +53,12 @@ export const selectBox = defineSlotRecipe({
         bottom: 0,
         left: 0,
         borderRadius: "inherit",
-
         borderStyle: "solid",
-        borderWidth: vars.base.enabled.root.strokeWidth,
-        borderColor: vars.base.enabled.root.strokeColor,
+        borderColor: "transparent",
 
-        transition: `border-color ${vars.base.enabled.root.strokeColorDuration} ${vars.base.enabled.root.strokeColorTimingFunction}, border-width ${vars.base.enabled.root.strokeWidthDuration} ${vars.base.enabled.root.strokeWidthTimingFunction}`,
+        borderWidth: vars.base.selected.root.strokeWidth,
+
+        transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
 
         pointerEvents: "none",
       },

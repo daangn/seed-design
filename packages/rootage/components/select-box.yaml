@@ -20,13 +20,9 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-          strokeColorDuration:
+          strokeDuration:
             type: duration
-          strokeColorTimingFunction:
-            type: cubicBezier
-          strokeWidthDuration:
-            type: duration
-          strokeWidthTimingFunction:
+          strokeTimingFunction:
             type: cubicBezier
       trigger:
         properties:
@@ -110,10 +106,8 @@ data:
           strokeWidth: 1px
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-          strokeColorDuration: $duration.color-transition
-          strokeColorTimingFunction: $timing-function.easing
-          strokeWidthDuration: $duration.d3
-          strokeWidthTimingFunction: $timing-function.easing
+          strokeDuration: 0.1s
+          strokeTimingFunction: $timing-function.easing
         trigger:
           gap: $dimension.x1_5
         prefixIcon:

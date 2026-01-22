@@ -8,10 +8,8 @@ export declare const vars: {
         "strokeWidth": "1px",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeColorDuration": "var(--seed-duration-color-transition)",
-        "strokeColorTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeWidthDuration": "var(--seed-duration-d3)",
-        "strokeWidthTimingFunction": "var(--seed-timing-function-easing)"
+        "strokeDuration": "0.1s",
+        "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "trigger": {
         "gap": "var(--seed-dimension-x1_5)"
