@@ -1,4 +1,9 @@
-import { ImageFrame, ImageFrameOverlayPositioner, ImageFrameOverlay } from "@seed-design/react";
+import {
+  ImageFrame,
+  ImageFrameFloater,
+  ImageFrameBadge,
+  ImageFrameReactionButton,
+} from "@seed-design/react";
 import { useState } from "react";
 
 export default function ImageFrameOverlayMultipleExample() {
@@ -13,18 +18,14 @@ export default function ImageFrameOverlayMultipleExample() {
       alt="Landscape with multiple overlays"
       style={{ width: 200 }}
     >
-      <ImageFrameOverlayPositioner position="top-left">
-        <ImageFrameOverlay.Badge tone="brand" variant="solid">
+      <ImageFrameFloater placement="top-start">
+        <ImageFrameBadge tone="brand" variant="solid">
           NEW
-        </ImageFrameOverlay.Badge>
-      </ImageFrameOverlayPositioner>
-      <ImageFrameOverlayPositioner position="bottom-right">
-        <ImageFrameOverlay.ReactionButton
-          pressed={liked}
-          onPressedChange={setLiked}
-          aria-label="좋아요"
-        />
-      </ImageFrameOverlayPositioner>
+        </ImageFrameBadge>
+      </ImageFrameFloater>
+      <ImageFrameFloater placement="bottom-end">
+        <ImageFrameReactionButton pressed={liked} onPressedChange={setLiked} aria-label="좋아요" />
+      </ImageFrameFloater>
     </ImageFrame>
   );
 }

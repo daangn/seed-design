@@ -1,4 +1,4 @@
-import { ImageFrame, ImageFrameOverlayPositioner } from "@seed-design/react";
+import { ImageFrame, ImageFrameFloater } from "@seed-design/react";
 
 export default function ImageFrameOverlayCustomExample() {
   return (
@@ -10,7 +10,7 @@ export default function ImageFrameOverlayCustomExample() {
       alt="Landscape with custom overlay"
       style={{ width: 200 }}
     >
-      <ImageFrameOverlayPositioner position="bottom-right">
+      <ImageFrameFloater placement="bottom-end">
         <div
           style={{
             padding: "4px 8px",
@@ -22,7 +22,7 @@ export default function ImageFrameOverlayCustomExample() {
         >
           Custom Element
         </div>
-      </ImageFrameOverlayPositioner>
+      </ImageFrameFloater>
     </ImageFrame>
   );
 }

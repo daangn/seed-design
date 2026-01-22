@@ -1,8 +1,11 @@
 import { IconCarrotFill } from "@karrotmarket/react-monochrome-icon";
 import {
   ImageFrame,
-  ImageFrameOverlayPositioner,
-  ImageFrameOverlay,
+  ImageFrameFloater,
+  ImageFrameBadge,
+  ImageFrameIcon,
+  ImageFrameIndicator,
+  ImageFrameReactionButton,
   Flex,
   VStack,
   Text,
@@ -23,14 +26,14 @@ export default function ImageFrameOverlayExample() {
           alt="Landscape with badge overlay"
           style={{ width: 120 }}
         >
-          <ImageFrameOverlayPositioner position="bottom-right">
-            <ImageFrameOverlay.Badge tone="brand" variant="solid">
+          <ImageFrameFloater placement="bottom-end">
+            <ImageFrameBadge tone="brand" variant="solid">
               NEW
-            </ImageFrameOverlay.Badge>
-          </ImageFrameOverlayPositioner>
+            </ImageFrameBadge>
+          </ImageFrameFloater>
         </ImageFrame>
         <Text color="palette.gray700" textStyle="t1Regular">
-          ImageFrameOverlay.Badge
+          ImageFrameBadge
         </Text>
       </VStack>
 
@@ -43,12 +46,12 @@ export default function ImageFrameOverlayExample() {
           alt="Landscape with icon overlay"
           style={{ width: 120 }}
         >
-          <ImageFrameOverlayPositioner position="bottom-right">
-            <ImageFrameOverlay.Icon svg={<IconCarrotFill />} />
-          </ImageFrameOverlayPositioner>
+          <ImageFrameFloater placement="bottom-end">
+            <ImageFrameIcon svg={<IconCarrotFill />} />
+          </ImageFrameFloater>
         </ImageFrame>
         <Text color="palette.gray700" textStyle="t1Regular">
-          ImageFrameOverlay.Icon
+          ImageFrameIcon
         </Text>
       </VStack>
 
@@ -61,12 +64,12 @@ export default function ImageFrameOverlayExample() {
           alt="Landscape with indicator overlay"
           style={{ width: 120 }}
         >
-          <ImageFrameOverlayPositioner position="bottom-right">
-            <ImageFrameOverlay.Indicator>+9</ImageFrameOverlay.Indicator>
-          </ImageFrameOverlayPositioner>
+          <ImageFrameFloater placement="bottom-end">
+            <ImageFrameIndicator>+9</ImageFrameIndicator>
+          </ImageFrameFloater>
         </ImageFrame>
         <Text color="palette.gray700" textStyle="t1Regular">
-          ImageFrameOverlay.Indicator
+          ImageFrameIndicator
         </Text>
       </VStack>
 
@@ -79,16 +82,16 @@ export default function ImageFrameOverlayExample() {
           alt="Landscape with reaction button overlay"
           style={{ width: 120 }}
         >
-          <ImageFrameOverlayPositioner position="bottom-right">
-            <ImageFrameOverlay.ReactionButton
+          <ImageFrameFloater placement="bottom-end">
+            <ImageFrameReactionButton
               pressed={liked}
               onPressedChange={setLiked}
               aria-label="좋아요"
             />
-          </ImageFrameOverlayPositioner>
+          </ImageFrameFloater>
         </ImageFrame>
         <Text color="palette.gray700" textStyle="t1Regular">
-          ImageFrameOverlay.ReactionButton
+          ImageFrameReactionButton
         </Text>
       </VStack>
     </Flex>

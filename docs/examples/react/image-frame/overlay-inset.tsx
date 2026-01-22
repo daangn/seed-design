@@ -1,4 +1,4 @@
-import { ImageFrame, ImageFrameOverlayPositioner, ImageFrameOverlay } from "@seed-design/react";
+import { ImageFrame, ImageFrameFloater, ImageFrameIndicator } from "@seed-design/react";
 
 export default function ImageFrameOverlayInsetExample() {
   return (
@@ -8,12 +8,12 @@ export default function ImageFrameOverlayInsetExample() {
         rounded
         stroke
         src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
-        alt="Landscape with default inset"
+        alt="Landscape with default offset"
         style={{ width: 150 }}
       >
-        <ImageFrameOverlayPositioner position="bottom-right">
-          <ImageFrameOverlay.Indicator>default</ImageFrameOverlay.Indicator>
-        </ImageFrameOverlayPositioner>
+        <ImageFrameFloater placement="bottom-end">
+          <ImageFrameIndicator>default</ImageFrameIndicator>
+        </ImageFrameFloater>
       </ImageFrame>
 
       <ImageFrame
@@ -21,12 +21,12 @@ export default function ImageFrameOverlayInsetExample() {
         rounded
         stroke
         src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
-        alt="Landscape with 0 inset"
+        alt="Landscape with 0 offset"
         style={{ width: 150 }}
       >
-        <ImageFrameOverlayPositioner position="bottom-right" inset={0}>
-          <ImageFrameOverlay.Indicator>inset=0</ImageFrameOverlay.Indicator>
-        </ImageFrameOverlayPositioner>
+        <ImageFrameFloater placement="bottom-end" offsetX={0} offsetY={0}>
+          <ImageFrameIndicator>offset=0</ImageFrameIndicator>
+        </ImageFrameFloater>
       </ImageFrame>
 
       <ImageFrame
@@ -34,12 +34,12 @@ export default function ImageFrameOverlayInsetExample() {
         rounded
         stroke
         src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
-        alt="Landscape with 12 inset"
+        alt="Landscape with 12 offset"
         style={{ width: 150 }}
       >
-        <ImageFrameOverlayPositioner position="bottom-right" inset={12}>
-          <ImageFrameOverlay.Indicator>inset=12</ImageFrameOverlay.Indicator>
-        </ImageFrameOverlayPositioner>
+        <ImageFrameFloater placement="bottom-end" offsetX="12px" offsetY="12px">
+          <ImageFrameIndicator>offset=12</ImageFrameIndicator>
+        </ImageFrameFloater>
       </ImageFrame>
     </div>
   );
