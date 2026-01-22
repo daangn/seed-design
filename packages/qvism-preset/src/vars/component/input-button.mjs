@@ -11,10 +11,8 @@ export const vars = {
         "color": "var(--seed-color-bg-transparent)",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeColorDuration": "var(--seed-duration-color-transition)",
-        "strokeColorTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeWidthDuration": "var(--seed-duration-color-transition)",
-        "strokeWidthTimingFunction": "var(--seed-timing-function-easing)"
+        "strokeDuration": "0.1s",
+        "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "value": {
         "fontSize": "var(--seed-font-size-t5)",

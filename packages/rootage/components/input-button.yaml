@@ -26,13 +26,9 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-          strokeColorDuration:
+          strokeDuration:
             type: duration
-          strokeColorTimingFunction:
-            type: cubicBezier
-          strokeWidthDuration:
-            type: duration
-          strokeWidthTimingFunction:
+          strokeTimingFunction:
             type: cubicBezier
       value:
         properties:
@@ -107,10 +103,8 @@ data:
           color: $color.bg.transparent
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-          strokeColorDuration: $duration.color-transition
-          strokeColorTimingFunction: $timing-function.easing
-          strokeWidthDuration: $duration.color-transition
-          strokeWidthTimingFunction: $timing-function.easing
+          strokeDuration: 0.1s
+          strokeTimingFunction: $timing-function.easing
 
         value:
           fontSize: $font-size.t5

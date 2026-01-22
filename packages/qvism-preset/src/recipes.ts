@@ -47,7 +47,7 @@ import radiomark from "./recipes/radiomark";
 import reactionButton from "./recipes/reaction-button";
 import scrollFog from "./recipes/scroll-fog";
 import segmentedControl from "./recipes/segmented-control";
-import { selectBox, selectBoxGroup } from "./recipes/select-box";
+import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
 import skeleton from "./recipes/skeleton";
 import { slider, sliderMarker, sliderTick } from "./recipes/slider";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
@@ -117,6 +117,7 @@ export const recipes = {
   scrollFog,
   segmentedControl,
   selectBox,
+  selectBoxCheckmark,
   selectBoxGroup,
   skeleton,
   slider,

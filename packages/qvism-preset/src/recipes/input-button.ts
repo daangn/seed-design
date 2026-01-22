@@ -51,8 +51,24 @@ const inputButton = defineSlotRecipe({
 
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
-      // strokeColor transition duration & timing function values are the same as strokeWidth transition values
-      transition: `box-shadow ${vars.base.enabled.root.strokeColorDuration} ${vars.base.enabled.root.strokeColorTimingFunction}, background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        borderRadius: "inherit",
+        borderStyle: "solid",
+        borderColor: "transparent",
+        borderWidth: vars.base.invalid.root.strokeWidth,
+
+        transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
+
+        pointerEvents: "none",
+      },
 
       [pseudo("[data-disabled]")]: {
         cursor: "not-allowed",
@@ -72,8 +88,9 @@ const inputButton = defineSlotRecipe({
         outline: "none",
       },
 
-      [pseudo(invalid)]: {
-        boxShadow: `inset 0 0 0 ${vars.base.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
+      [pseudo(invalid, "::after")]: {
+        borderWidth: vars.base.invalid.root.strokeWidth,
+        borderColor: vars.base.invalid.root.strokeColor,
       },
     },
     value: {

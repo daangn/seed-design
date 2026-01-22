@@ -1,9 +1,13 @@
 export {
+  RadioGroupDescription as Description,
+  RadioGroupErrorMessage as ErrorMessage,
   RadioGroupItem as Item,
   RadioGroupItemControl as ItemControl,
   RadioGroupItemHiddenInput as ItemHiddenInput,
   RadioGroupLabel as Label,
   RadioGroupRoot as Root,
+  type RadioGroupDescriptionProps as DescriptionProps,
+  type RadioGroupErrorMessageProps as ErrorMessageProps,
   type RadioGroupItemControlProps as ItemControlProps,
   type RadioGroupItemHiddenInputProps as ItemHiddenInputProps,
   type RadioGroupItemProps as ItemProps,

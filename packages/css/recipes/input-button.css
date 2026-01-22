@@ -23,7 +23,21 @@
     border-radius: var(--seed-radius-r3);
     background-color: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
-    transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+}
+.seed-input-button__button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: inherit;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 2px;
+    transition: border-color 0.1s var(--seed-timing-function-easing);
+    pointer-events: none;
 }
 .seed-input-button__button[data-disabled] {
     cursor: not-allowed;
@@ -39,8 +53,9 @@
 .seed-input-button__button:is(:focus, [data-focus]) {
     outline: none;
 }
-.seed-input-button__button:is(:invalid, [data-invalid]) {
-    box-shadow: inset 0 0 0 2px var(--seed-color-stroke-critical-solid);
+.seed-input-button__button:is(:invalid, [data-invalid])::after {
+    border-width: 2px;
+    border-color: var(--seed-color-stroke-critical-solid);
 }
 .seed-input-button__value {
     font-size: var(--seed-font-size-t5);

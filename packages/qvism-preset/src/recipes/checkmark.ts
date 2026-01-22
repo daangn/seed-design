@@ -9,7 +9,7 @@ const checkmark = defineSlotRecipe({
     root: {
       position: "relative",
       boxSizing: "border-box",
-      flexShrink: 0,
+      flex: "none",
 
       marginTop: "var(--checkmark-margin-top, 0)", // 수직 위치 보정
 
