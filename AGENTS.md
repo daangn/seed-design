@@ -52,6 +52,27 @@ SEED Design은 당근의 디자인 시스템이다. 기술적 상세는 @TECH.md
 | `TECH.md` | 기술 상세, 아키텍처, 명령어 | AI 에이전트 |
 | `README.md` | 패키지 소개, 사용법, 개발 방법 | 사람 |
 
+## Boundaries
+
+- ✅ **Always:**
+  - `bun generate:all` 실행 후 변경사항 확인
+  - 테스트 실행 후 커밋 (`bun test:all`)
+  - 한국어로 최종 응답
+  - `forwardRef` + `displayName` 사용 (React 컴포넌트)
+
+- ⚠️ **Ask first:**
+  - 새 패키지 추가
+  - tsconfig/biome.json 설정 변경
+  - CI 워크플로우 수정
+  - 외부 의존성 추가
+
+- 🚫 **Never:**
+  - `packages/css/vars/`, `packages/css/recipes/` 직접 수정
+  - `packages/qvism-preset/src/vars/` 직접 수정
+  - `.env`, API 키, 시크릿 커밋
+  - `npm`/`pnpm`/`yarn` 사용 (`bun` 전용)
+  - `dist/`, `node_modules/` 수정
+
 ## 응답 규칙
 
 **반드시 한국어로 최종 응답을 할 것**

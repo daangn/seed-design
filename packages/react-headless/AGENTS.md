@@ -17,3 +17,34 @@
 - `data-*` 속성으로 상태 표현 (data-checked, data-disabled 등)
 - `useControllableState`로 controlled/uncontrolled 지원
 - `forwardRef` 필수
+
+## Headless 컴포넌트 예시
+
+✅ Good:
+```typescript
+// useCheckbox.ts - 상태 로직만, 스타일 없음
+export function useCheckbox(props: UseCheckboxProps) {
+  const [checked, setChecked] = useState(props.defaultChecked ?? false);
+
+  return {
+    rootProps: {
+      "data-checked": checked,       // ✅ data-* 속성으로 상태 표현
+      "data-disabled": props.disabled,
+      onClick: () => setChecked(!checked),
+    },
+  };
+}
+```
+
+❌ Bad:
+```typescript
+// 스타일 로직 포함 (Headless에서 금지)
+export function useCheckbox(props) {
+  return {
+    rootProps: {
+      className: checked ? "checked" : "",  // ❌ className 금지
+      style: { color: checked ? "blue" : "gray" },  // ❌ style 금지
+    },
+  };
+}
+```

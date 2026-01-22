@@ -1,5 +1,18 @@
 # SEED Design - 기술 상세
 
+## Tech Stack
+
+| 도구 | 버전 | 용도 |
+|------|------|------|
+| Bun | 1.x | 런타임, 패키지 매니저 |
+| React | 18.x | UI 라이브러리 |
+| TypeScript | 5.x | 타입 시스템 |
+| tsup | - | 패키지 빌드 |
+| Biome | - | 린터/포매터 |
+| Next.js | 14.x | 문서 사이트 |
+| Fumadocs | - | 문서 프레임워크 |
+| Storybook | 8.x | 컴포넌트 개발 환경 |
+
 ## 공통 규칙
 
 ### TypeScript

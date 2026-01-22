@@ -17,3 +17,30 @@
 - Headless 로직은 `@seed-design/react-*`에서 import
 - `clsx`로 className 병합
 - HTML 요소 대신 `Primitive.*` 사용
+
+## 코드 스타일 예시
+
+✅ Good:
+```tsx
+import { actionButton } from "@seed-design/css/recipes/action-button";
+import { Primitive } from "@seed-design/react-primitive";
+
+export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
+  ({ variant = "brandSolid", size = "medium", className, ...props }, ref) => (
+    <Primitive.button
+      ref={ref}
+      className={clsx(actionButton({ variant, size }), className)}
+      {...props}
+    />
+  )
+);
+ActionButton.displayName = "ActionButton";
+```
+
+❌ Bad:
+```tsx
+// forwardRef 누락, displayName 없음, Primitive 미사용
+export const ActionButton = (props) => (
+  <button className={actionButton(props)} {...props} />
+);
+```

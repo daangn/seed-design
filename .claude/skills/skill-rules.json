@@ -99,50 +99,27 @@
         ]
       }
     },
-    "monorepo-context-guide": {
+    "figma-v3-migration-plugin-dev": {
       "type": "domain",
       "enforcement": "suggest",
       "priority": "medium",
-      "description": "현재 작업 위치에서 연관 패키지와 파일을 파악합니다",
+      "description": "Figma V3 마이그레이션 플러그인을 개발합니다",
       "promptTriggers": {
         "keywords": [
-          "monorepo",
-          "package structure",
-          "related files",
-          "dependencies",
-          "context",
-          "모노레포",
-          "패키지 구조",
-          "연관 파일",
-          "의존성",
-          "컨텍스트"
+          "figma migration",
+          "v3 migration",
+          "figma plugin",
+          "migration plugin",
+          "피그마 마이그레이션",
+          "v3 마이그레이션",
+          "피그마 플러그인",
+          "마이그레이션 플러그인"
         ],
         "intentPatterns": [
-          "(find|show|list|찾기|보여).*(related|연관).*(files|package|파일|패키지)",
-          "(which|어떤).*(packages|패키지).*(depend|의존)",
-          "(understand|파악).*(structure|구조)"
-        ]
-      }
-    },
-    "generated-files-guard": {
-      "type": "guardrail",
-      "enforcement": "warn",
-      "priority": "critical",
-      "description": "자동 생성 파일 수정을 방지합니다",
-      "promptTriggers": {
-        "keywords": [
-          "generated file",
-          "auto-generated",
-          "vars.ts",
-          "packages/css",
-          "생성 파일",
-          "자동 생성",
-          "수정 금지"
-        ],
-        "intentPatterns": [
-          "(edit|modify|change|수정|변경).*(css|vars\\.ts|generated|생성)",
-          "packages/css/",
-          "/dist/"
+          "(figma|피그마).*(migration|마이그레이션)",
+          "(v3|버전3).*(migration|마이그레이션)",
+          "(develop|create|개발|생성).*(figma|피그마).*(plugin|플러그인)",
+          "seed-design.*v3"
         ]
       }
     },
