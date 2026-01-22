@@ -440,10 +440,12 @@
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.1",
+        "@seed-design/react-collapsible": "0.0.0",
         "@seed-design/react-dialog": "1.0.1",
         "@seed-design/react-drawer": "1.0.5",
         "@seed-design/react-field": "1.0.1",
         "@seed-design/react-field-button": "1.0.1",
+        "@seed-design/react-fieldset": "0.0.0",
         "@seed-design/react-popover": "1.0.3",
         "@seed-design/react-portal": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
@@ -619,6 +621,24 @@
         "react-dom": ">=18.0.0",
       },
     },
+    "packages/react-headless/fieldset": {
+      "name": "@seed-design/react-fieldset",
+      "version": "0.0.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-primitive": "^1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
     "packages/react-headless/popover": {
       "name": "@seed-design/react-popover",
       "version": "1.0.3",
@@ -708,8 +728,10 @@
       "name": "@seed-design/react-radio-group",
       "version": "1.0.1",
       "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-fieldset": "0.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-supports": "0.0.1",
       },
@@ -2338,6 +2360,8 @@
     "@seed-design/react-field": ["@seed-design/react-field@workspace:packages/react-headless/field"],
 
     "@seed-design/react-field-button": ["@seed-design/react-field-button@workspace:packages/react-headless/field-button"],
+
+    "@seed-design/react-fieldset": ["@seed-design/react-fieldset@workspace:packages/react-headless/fieldset"],
 
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.4", "", { "peerDependencies": { "react": "17.x || 18.x || 19.x" } }, "sha512-jjfKw3mvIYsTlgdxb4pjWTpT+uW8RZns/gcfhOjWuegZEXuZyAy4kPpiNbeNdnbrNoLWTCt8Rtt6UCGr/Zo/EQ=="],
 

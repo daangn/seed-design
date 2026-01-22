@@ -2,7 +2,7 @@ import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
 import { field, fieldLabel } from "./recipes/field";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
-import { selectBox, selectBoxGroup } from "./recipes/select-box";
+import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
 import { tagGroup, tagGroupItem } from "./recipes/tag-group";
 import actionButton from "./recipes/action-button";
@@ -107,6 +107,7 @@ export const recipes = {
   scrollFog,
   segmentedControl,
   selectBox,
+  selectBoxCheckmark,
   selectBoxGroup,
   skeleton,
   slider,

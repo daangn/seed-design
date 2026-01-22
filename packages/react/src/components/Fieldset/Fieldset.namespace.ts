@@ -1,0 +1,17 @@
+export {
+  FieldsetRoot as Root,
+  FieldsetHeader as Header,
+  FieldsetLabel as Label,
+  FieldsetIndicatorText as IndicatorText,
+  FieldsetRequiredIndicator as RequiredIndicator,
+  FieldsetFooter as Footer,
+  FieldsetDescription as Description,
+  FieldsetErrorMessage as ErrorMessage,
+  type FieldsetRootProps as RootProps,
+  type FieldsetHeaderProps as HeaderProps,
+  type FieldsetLabelProps as LabelProps,
+  type FieldsetIndicatorTextProps as IndicatorTextProps,
+  type FieldsetFooterProps as FooterProps,
+  type FieldsetDescriptionProps as DescriptionProps,
+  type FieldsetErrorMessageProps as ErrorMessageProps,
+} from "./Fieldset";

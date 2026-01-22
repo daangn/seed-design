@@ -48,6 +48,8 @@ export { vars as reactionButton } from "./reaction-button";
 export { vars as scrollFog } from "./scroll-fog";
 export { vars as segmentedControlItem } from "./segmented-control-item";
 export { vars as segmentedControl } from "./segmented-control";
+export { vars as selectBoxCheckmark } from "./select-box-checkmark";
+export { vars as selectBoxGroup } from "./select-box-group";
 export { vars as selectBox } from "./select-box";
 export { vars as skeleton } from "./skeleton";
 export { vars as sliderThumb } from "./slider-thumb";

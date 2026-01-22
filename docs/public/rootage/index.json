@@ -159,6 +159,12 @@
       "path": "/components/segmented-control.json"
     },
     {
+      "path": "/components/select-box-checkmark.json"
+    },
+    {
+      "path": "/components/select-box-group.json"
+    },
+    {
       "path": "/components/select-box.json"
     },
     {
