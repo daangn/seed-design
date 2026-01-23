@@ -11,9 +11,12 @@ import {
 } from "@seed-design/react";
 import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import * as React from "react";
-import { checkboxGroup } from "@seed-design/css/recipes/checkbox-group";
+import {
+  checkboxGroup,
+  type CheckboxGroupVariantProps,
+} from "@seed-design/css/recipes/checkbox-group";
 
-export interface CheckboxGroupProps extends SeedFieldset.RootProps {
+export interface CheckboxGroupProps extends SeedFieldset.RootProps, CheckboxGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
