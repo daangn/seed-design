@@ -9,15 +9,15 @@
 
 - **1.1 → 1.2 업그레이드 시 snippet 업데이트 권장**: `CheckboxGroup` snippet 컴포넌트가 추가되었습니다. 사용하려면 snippet을 다시 내려받아 주세요.
   - `npx @seed-design/cli@latest add ui:checkbox`
-  - `CheckboxGroup`은 자체적으로 레이아웃을 갖습니다. `VStack`을 사용하여 `Checkbox`를 묶지 않아도 됩니다.
+  - `CheckboxGroup`은 자체적으로 gap과 100% width를 갖습니다. `VStack`을 사용하여 `Checkbox`를 묶지 않아도 됩니다.
+    - 기존 `Checkbox`를 `CheckboxGroup`으로 감쌀 필요는 없습니다. `CheckboxGroup`은 선택적으로 사용할 수 있습니다.
   - `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator`, `labelWeight` prop을 사용할 수 있습니다.
-  - 기존 `Checkbox`를 `CheckboxGroup`으로 감쌀 필요는 없습니다.
 
 [Radio Group](/react/components/radio-group) 관련 컴포넌트를 업데이트합니다.
 
 - **1.1 → 1.2 업그레이드 시 snippet 업데이트 필요**: `RadioGroup` snippet의 내부 구조가 변경되었습니다. snippet을 다시 내려받아 주세요.
   - `npx @seed-design/cli@latest add ui:radio-group`
-  - `RadioGroup`이 자체적으로 레이아웃을 갖습니다.
+  - `RadioGroup`이 자체적으로 gap과 100% width를 갖습니다. `VStack`을 사용하여 `RadioGroupItem`을 묶는 코드를 제거합니다.
     - **1.1 → 1.2 업그레이드 시 변경 필요**: `RadioGroupItem`을 묶어서 사용하던 `VStack`을 제거하여 `RadioGroupItem`이 `RadioGroup`의 direct child가 되도록 변경하세요.
   - `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator`, `labelWeight` prop을 사용할 수 있습니다.
 
@@ -48,7 +48,8 @@
   ```
 
 - **1.1 → 1.2 업그레이드 시 확인 필요**
-  - `@seed-design/react`의 `RadioGroup.Root`를 레이아웃 컴포넌트로 변경합니다. `@seed-design/react`에서 직접 import해서 사용하는 코드가 있다면 `RadioGroup.Root`를 `@seed-design/react/primitive`의 `RadioGroup.Root`로 변경해주세요.
+  - `@seed-design/react`의 `RadioGroup.Root`를 레이아웃 컴포넌트로 변경합니다.
+    - `@seed-design/react`에서 직접 import해서 사용하는 코드가 있다면 `RadioGroup.Root`를 `@seed-design/react/primitive`의 `RadioGroup.Root`로 변경해주세요.
 
   ```tsx
   // 전
