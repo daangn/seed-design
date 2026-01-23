@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "reaction-button",
+  "type": "registry:ui",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "registryDependencies": [
+    "loading-indicator"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/reaction-button.tsx",
+      "type": "registry:component",
+      "content": "/**\n * @file ui:reaction-button\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\nimport {\n  ReactionButton as SeedReactionButton,\n  type ReactionButtonProps as SeedReactionButtonProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { LoadingIndicator } from \"./loading-indicator\";\n\nexport interface ReactionButtonProps extends SeedReactionButtonProps {}\n\n/**\n * @see https://seed-design.io/react/components/reaction-button\n * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.\n */\nexport const ReactionButton = React.forwardRef<\n  React.ElementRef<typeof SeedReactionButton>,\n  ReactionButtonProps\n>(({ loading = false, children, ...otherProps }, ref) => {\n  return (\n    <SeedReactionButton ref={ref} loading={loading} {...otherProps}>\n      {loading ? <LoadingIndicator>{children}</LoadingIndicator> : children}\n    </SeedReactionButton>\n  );\n});\nReactionButton.displayName = \"ReactionButton\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "target": "seed-design/reaction-button.tsx"
+    }
+  ]
+}

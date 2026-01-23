@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "identity-placeholder",
+  "type": "registry:ui",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/identity-placeholder.tsx",
+      "type": "registry:component",
+      "content": "/**\n * @file ui:identity-placeholder\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\nimport { IdentityPlaceholder as SeedIdentityPlaceholder } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface IdentityPlaceholderProps extends SeedIdentityPlaceholder.RootProps {}\n\n/**\n * @see https://seed-design.io/react/components/identity-placeholder\n */\nexport const IdentityPlaceholder = React.forwardRef<HTMLDivElement, IdentityPlaceholderProps>(\n  (props, ref) => {\n    return (\n      <SeedIdentityPlaceholder.Root {...props} ref={ref}>\n        <SeedIdentityPlaceholder.Image />\n      </SeedIdentityPlaceholder.Root>\n    );\n  },\n);\nIdentityPlaceholder.displayName = \"IdentityPlaceholder\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "target": "seed-design/identity-placeholder.tsx"
+    }
+  ]
+}

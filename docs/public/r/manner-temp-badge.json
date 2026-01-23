@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "manner-temp-badge",
+  "type": "registry:ui",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "registryDependencies": [
+    "https://seed-design.io/r/lib/manner-temp-level.json"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/manner-temp-badge.tsx",
+      "type": "registry:component",
+      "content": "/**\n * @file ui:manner-temp-badge\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\nimport {\n  Celsius,\n  MannerTempBadge as SeedMannerTempBadge,\n  type MannerTempBadgeProps as SeedMannerTempBadgeProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { mannerTempToLevel } from \"../lib/manner-temp-level\";\n\nexport interface MannerTempBadgeProps\n  extends Omit<SeedMannerTempBadgeProps, \"children\" | \"asChild\"> {\n  /**\n   * The manner temperature of the badge.\n   * Level will be calculated based on this value.\n   * If level is provided, this will be ignored.\n   */\n  temperature: number;\n}\n\nexport const MannerTempBadge = React.forwardRef<HTMLSpanElement, MannerTempBadgeProps>(\n  ({ temperature, level, ...otherProps }, ref) => {\n    return (\n      <SeedMannerTempBadge\n        ref={ref}\n        level={level ?? mannerTempToLevel(temperature)}\n        {...otherProps}\n      >\n        <Celsius value={temperature} />\n      </SeedMannerTempBadge>\n    );\n  },\n);\nMannerTempBadge.displayName = \"MannerTempBadge\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "target": "seed-design/manner-temp-badge.tsx"
+    }
+  ]
+}
