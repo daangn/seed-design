@@ -53,7 +53,7 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
       !restProps["aria-labelledby"]
     ) {
       console.warn(
-        "RadioGroup: Provide a `label` prop for better accessibility. Please ignore this warning if you've provided `aria-label` or `aria-labelledby` props. This warning will not be shown in production builds.",
+        "RadioGroup component requires a `label`, `aria-label` or `aria-labelledby` attribute.",
       );
     }
 
