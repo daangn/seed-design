@@ -10,11 +10,17 @@ import {
   PrefixIcon,
   VisuallyHidden,
 } from "@seed-design/react";
+import {
+  selectBoxGroup,
+  type SelectBoxGroupVariantProps,
+} from "@seed-design/css/recipes/select-box-group";
 import { Radiomark, type RadiomarkProps } from "./radio-group";
 import * as React from "react";
 import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 
-export interface RadioSelectBoxRootProps extends SeedRadioGroupField.RootProps {
+export interface RadioSelectBoxRootProps
+  extends SeedRadioGroupField.RootProps,
+    SelectBoxGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
@@ -30,7 +36,7 @@ export interface RadioSelectBoxRootProps extends SeedRadioGroupField.RootProps {
    * Number of columns in the grid layout.
    * @default 1
    */
-  columns?: number;
+  columns?: SeedRadioSelectBox.GroupProps["columns"];
 }
 
 /**
@@ -54,17 +60,19 @@ export const RadioSelectBoxRoot = React.forwardRef<HTMLDivElement, RadioSelectBo
     },
     ref,
   ) => {
-    if (!label && !props["aria-label"] && !props["aria-labelledby"]) {
+    const [variantProps, restProps] = selectBoxGroup.splitVariantProps(props);
+
+    if (!label && !restProps["aria-label"] && !restProps["aria-labelledby"]) {
       console.warn(
         "RadioSelectBoxRoot component requires a `label`, `aria-label` or `aria-labelledby` attribute.",
       );
     }
 
-    const renderErrorMessage = errorMessage && props.invalid;
+    const renderErrorMessage = errorMessage && restProps.invalid;
     const renderFooter = description || renderErrorMessage;
 
     return (
-      <SeedRadioGroupField.Root ref={ref} {...props}>
+      <SeedRadioGroupField.Root ref={ref} {...restProps}>
         {(label || indicator) && (
           <SeedRadioGroupField.Header>
             <SeedRadioGroupField.Label weight={labelWeight}>
@@ -77,7 +85,9 @@ export const RadioSelectBoxRoot = React.forwardRef<HTMLDivElement, RadioSelectBo
             {/* You might want to put your custom element here */}
           </SeedRadioGroupField.Header>
         )}
-        <SeedRadioSelectBox.Group columns={columns}>{children}</SeedRadioSelectBox.Group>
+        <SeedRadioSelectBox.Group {...variantProps} columns={columns}>
+          {children}
+        </SeedRadioSelectBox.Group>
         {renderFooter && (
           <SeedRadioGroupField.Footer>
             {description &&
@@ -148,7 +158,9 @@ export const RadioSelectBoxRadiomark = React.forwardRef<
 });
 RadioSelectBoxRadiomark.displayName = "RadioSelectBoxRadiomark";
 
-export interface CheckSelectBoxGroupProps extends SeedFieldset.RootProps {
+export interface CheckSelectBoxGroupProps
+  extends SeedFieldset.RootProps,
+    SelectBoxGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
@@ -164,7 +176,7 @@ export interface CheckSelectBoxGroupProps extends SeedFieldset.RootProps {
    * Number of columns in the grid layout.
    * @default 1
    */
-  columns?: number;
+  columns?: SeedCheckSelectBox.GroupProps["columns"];
 }
 
 export const CheckSelectBoxGroup = React.forwardRef<HTMLDivElement, CheckSelectBoxGroupProps>(
@@ -185,14 +197,16 @@ export const CheckSelectBoxGroup = React.forwardRef<HTMLDivElement, CheckSelectB
     },
     ref,
   ) => {
-    if (!label && !props["aria-label"] && !props["aria-labelledby"]) {
+    const [variantProps, restProps] = selectBoxGroup.splitVariantProps(props);
+
+    if (!label && !restProps["aria-label"] && !restProps["aria-labelledby"]) {
       console.warn(
         "CheckSelectBoxGroup component is recommended to have a `label`, `aria-label` or `aria-labelledby` attribute.",
       );
     }
 
     return (
-      <SeedFieldset.Root ref={ref} {...props}>
+      <SeedFieldset.Root ref={ref} {...restProps}>
         {(label || indicator) && (
           <SeedFieldset.Header>
             <SeedFieldset.Label weight={labelWeight}>
@@ -203,7 +217,9 @@ export const CheckSelectBoxGroup = React.forwardRef<HTMLDivElement, CheckSelectB
             {/* You might want to put your custom element here */}
           </SeedFieldset.Header>
         )}
-        <SeedCheckSelectBox.Group columns={columns}>{children}</SeedCheckSelectBox.Group>
+        <SeedCheckSelectBox.Group {...variantProps} columns={columns}>
+          {children}
+        </SeedCheckSelectBox.Group>
         {(description || errorMessage) && (
           <SeedFieldset.Footer>
             {description &&
