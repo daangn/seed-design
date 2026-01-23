@@ -4,7 +4,7 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import { useSnackbarAdapter, Snackbar, SnackbarAvoidOverlap } from "seed-design/ui/snackbar";
 import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
-import { useRef, useState, type FormEventHandler } from "react";
+import { useState, type FormEventHandler } from "react";
 import {
   Divider,
   HStack,
@@ -47,7 +47,6 @@ declare module "@stackflow/config" {
 const formatter = new Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" });
 
 const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
-  const formRef = useRef<HTMLFormElement>(null);
   const snackbar = useSnackbarAdapter();
 
   const { push } = useFlow();
@@ -59,11 +58,9 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
     );
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    if (!formRef.current) return;
-
     event.preventDefault();
 
-    const formData = new FormData(formRef.current);
+    const formData = new FormData(event.currentTarget);
 
     const payload = Object.fromEntries(
       Array.from(new Set(formData.keys())).map((key) => [key, formData.getAll(key)]),
@@ -103,7 +100,7 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
             </VStack>
           </VStack>
           <VStack grow asChild justify="space-between" minHeight="0">
-            <form ref={formRef} onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
               <ScrollFog placement={["bottom"]}>
                 <VStack
                   gap="x4"
