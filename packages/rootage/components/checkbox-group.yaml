@@ -14,4 +14,4 @@ data:
     base:
       enabled:
         root:
-          gapY: $dimension.x3
+          gapY: $dimension.x1

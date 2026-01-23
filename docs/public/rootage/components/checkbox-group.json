@@ -31,7 +31,7 @@
               "root": {
                 "gapY": {
                   "type": "dimension",
-                  "value": "$dimension.x3"
+                  "value": "$dimension.x1"
                 }
               }
             }

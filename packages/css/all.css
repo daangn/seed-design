@@ -3088,7 +3088,7 @@
 }
 
 .seed-checkbox-group {
-  gap: var(--seed-dimension-x3);
+  gap: var(--seed-dimension-x1);
   flex-direction: column;
   display: flex;
 }
