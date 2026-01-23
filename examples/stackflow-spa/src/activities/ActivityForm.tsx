@@ -65,8 +65,12 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
 
     const formData = new FormData(formRef.current);
 
+    const payload = Object.fromEntries(
+      Array.from(new Set(formData.keys())).map((key) => [key, formData.getAll(key)]),
+    );
+
     snackbar.create({
-      render: () => <Snackbar message={JSON.stringify(Object.fromEntries(formData.entries()))} />,
+      render: () => <Snackbar message={JSON.stringify(payload)} />,
     });
   };
 
