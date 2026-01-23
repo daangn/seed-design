@@ -55,7 +55,7 @@ export default function SelectBoxFieldset() {
             label="선호하는 과일을 선택하세요"
             indicator="선택"
             description="Apple을 선택하고 제출해보세요."
-            errorMessage={Object.values(checkErrors).find(Boolean)}
+            errorMessage={Object.values(checkErrors).filter(Boolean).join(", ")}
           >
             <CheckSelectBox
               defaultChecked

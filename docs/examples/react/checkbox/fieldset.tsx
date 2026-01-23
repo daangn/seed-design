@@ -52,7 +52,7 @@ export default function CheckboxFieldset() {
             label="좋아하는 과일"
             indicator="선택"
             description="Apple을 선택하고 제출해보세요."
-            errorMessage={Object.values(firstErrors).find(Boolean)}
+            errorMessage={Object.values(firstErrors).filter(Boolean).join(", ")}
           >
             <Checkbox
               label="Apple"
@@ -90,7 +90,7 @@ export default function CheckboxFieldset() {
             labelWeight="bold"
             showRequiredIndicator
             description="이용약관을 선택하지 않고 제출해보세요."
-            errorMessage={Object.values(secondErrors).find(Boolean)}
+            errorMessage={Object.values(secondErrors).filter(Boolean).join(", ")}
           >
             <Checkbox
               label="이용약관 동의 (필수)"
