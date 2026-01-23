@@ -64,7 +64,12 @@ export const RadioSelectBoxRoot = React.forwardRef<HTMLDivElement, RadioSelectBo
   ) => {
     const [variantProps, restProps] = selectBoxGroup.splitVariantProps(props);
 
-    if (!label && !restProps["aria-label"] && !restProps["aria-labelledby"]) {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !label &&
+      !restProps["aria-label"] &&
+      !restProps["aria-labelledby"]
+    ) {
       console.warn(
         "RadioSelectBoxRoot component requires a `label`, `aria-label` or `aria-labelledby` attribute.",
       );
@@ -201,7 +206,12 @@ export const CheckSelectBoxGroup = React.forwardRef<HTMLDivElement, CheckSelectB
   ) => {
     const [variantProps, restProps] = selectBoxGroup.splitVariantProps(props);
 
-    if (!label && !restProps["aria-label"] && !restProps["aria-labelledby"]) {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !label &&
+      !restProps["aria-label"] &&
+      !restProps["aria-labelledby"]
+    ) {
       console.warn(
         "CheckSelectBoxGroup component is recommended to have a `label`, `aria-label` or `aria-labelledby` attribute.",
       );
