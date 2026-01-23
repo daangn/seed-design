@@ -280,6 +280,7 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
                       { value: 10, label: "최고" },
                     ]}
                     description="좋아하는 정도를 0~10 사이로 선택해주세요."
+                    name="like-level"
                   />
                   <Divider />
                   <Slider
@@ -293,6 +294,7 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
                     getAriaLabel={(i) => (i === 0 ? "최소" : "최대")}
                     getAriaValuetext={(i) => `${i}원`}
                     getValueIndicatorLabel={({ value }) => formatter.format(value)}
+                    name="budget-range"
                   />
                   <Divider />
                   <RadioGroup
