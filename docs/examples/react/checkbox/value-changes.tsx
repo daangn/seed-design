@@ -10,6 +10,8 @@ export default function CheckboxValueChanges() {
     <VStack gap="x4" align="center">
       <Checkbox
         label="Click me"
+        tone="neutral"
+        size="large"
         onCheckedChange={(checked) => {
           setCount((prev) => prev + 1);
           setLastValue(checked);

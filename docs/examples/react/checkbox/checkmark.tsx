@@ -6,7 +6,7 @@ function CustomCheckbox({ children, ...props }: Checkbox.RootProps) {
   return (
     <VStack asChild gap="x2" align="center">
       <Checkbox.Root {...props}>
-        <Checkmark />
+        <Checkmark tone="neutral" />
         <Checkbox.HiddenInput />
         {children}
       </Checkbox.Root>

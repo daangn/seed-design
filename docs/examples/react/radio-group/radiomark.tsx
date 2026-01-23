@@ -6,7 +6,7 @@ function CustomRadioGroupItem({ children, ...props }: RadioGroup.ItemProps) {
   return (
     <VStack asChild gap="x2" align="center">
       <RadioGroup.Item {...props}>
-        <Radiomark />
+        <Radiomark tone="neutral" />
         <RadioGroup.ItemHiddenInput />
         {children}
       </RadioGroup.Item>

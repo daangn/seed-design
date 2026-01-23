@@ -1,11 +1,10 @@
-import { VStack } from "@seed-design/react";
-import { Checkbox } from "seed-design/ui/checkbox";
+import { Checkbox, CheckboxGroup } from "seed-design/ui/checkbox";
 
 export default function CheckboxWeights() {
   return (
-    <VStack gap="x4">
-      <Checkbox label="Regular Label Text" weight="regular" />
-      <Checkbox label="Bold Label Text" weight="bold" />
-    </VStack>
+    <CheckboxGroup aria-label="Weight examples">
+      <Checkbox label="Regular Label Text" weight="regular" tone="neutral" size="large" />
+      <Checkbox label="Bold Label Text" weight="bold" tone="neutral" size="large" />
+    </CheckboxGroup>
   );
 }
