@@ -47,34 +47,44 @@
   ```
 
 - **1.1 → 1.2 업그레이드 시 확인 필요**
-  - `@seed-design/react`의 `RadioGroup.Root`를 레이아웃 컴포넌트로 변경합니다. `@seed-design/react`에서 직접 import해서 사용하는 코드가 있다면 `RadioGroup.Root`를 `RadioGroupField.Root`로 변경하세요.
+  - `@seed-design/react`의 `RadioGroup.Root`를 레이아웃 컴포넌트로 변경합니다. `@seed-design/react`에서 직접 import해서 사용하는 코드가 있다면 `RadioGroup.Root`를 `@seed-design/react/primitive`의 `RadioGroup.Root`로 변경해주세요.
 
   ```tsx
   // 전
   import { RadioGroup } from "@seed-design/react";
+  import { ListRadioItem } from "seed-design/ui/list";
 
   <RadioGroup.Root
     value={value}
     onValueChange={onValueChange}
-    invalid
     aria-label="옵션 선택"
   >
-    <RadioGroup.Item value="option1" label="옵션 1" />
+    <ListRadioItem
+      value="option1"
+      title="옵션 1"
+      detail="첫 번째 선택지"
+      suffix={<Radiomark tone="neutral" size="large" />}
+    />
   </RadioGroup.Root>;
   ```
 
   ```tsx
   // 후
-  import { RadioGroup, RadioGroupField } from "@seed-design/react";
+  import { RadioGroup } from "@seed-design/react/primitive";
+  import { ListRadioItem } from "seed-design/ui/list";
 
-  <RadioGroupField.Root
+  <RadioGroup.Root
     value={value}
     onValueChange={onValueChange}
-    invalid
     aria-label="옵션 선택"
   >
-    <RadioGroup.Item value="option1" label="옵션 1" />
-  </RadioGroupField.Root>;
+    <ListRadioItem
+      value="option1"
+      title="옵션 1"
+      detail="첫 번째 선택지"
+      suffix={<Radiomark tone="neutral" size="large" />}
+    />
+  </RadioGroup.Root>;
   ```
 
 RadioGroupItem, RadioChipItem, RadioSelectBoxItem, ListRadioItem에서 `invalid` prop이 제거되었습니다.
