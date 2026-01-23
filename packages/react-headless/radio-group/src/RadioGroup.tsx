@@ -55,9 +55,9 @@ export interface RadioGroupItemProps
     Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "value"> {}
 
 export const RadioGroupItem = forwardRef<HTMLLabelElement, RadioGroupItemProps>((props, ref) => {
-  const { value, invalid, disabled, ...otherProps } = props;
+  const { value, disabled, ...otherProps } = props;
   const { getItemProps } = useRadioGroupContext();
-  const itemProps = getItemProps({ value, disabled, invalid });
+  const itemProps = getItemProps({ value, disabled });
   const mergedProps = mergeProps(itemProps.rootProps, otherProps);
 
   return (

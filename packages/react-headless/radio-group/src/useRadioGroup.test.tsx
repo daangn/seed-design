@@ -256,21 +256,6 @@ describe("useRadioGroup", () => {
       const root = getByTestId("radio-group-root");
       expect(root).toHaveAttribute("aria-invalid", "true");
     });
-
-    it("should propagate invalid to items", () => {
-      const { getByTestId } = setUp(
-        <TestRadioGroup>
-          <Radio value={FIRST_VALUE} invalid />
-          <Radio value={SECOND_VALUE} />
-        </TestRadioGroup>,
-      );
-
-      const firstControl = getByTestId(FIRST_VALUE);
-      const secondControl = getByTestId(SECOND_VALUE);
-
-      expect(firstControl).toHaveAttribute("data-invalid");
-      expect(secondControl).not.toHaveAttribute("data-invalid");
-    });
   });
 
   describe("label, description, and error message", () => {
