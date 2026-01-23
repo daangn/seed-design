@@ -11,6 +11,7 @@ import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import callout from "./recipes/callout";
 import checkbox from "./recipes/checkbox";
+import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
 import chip from "./recipes/chip";
 import chipTabs from "./recipes/chip-tabs";
@@ -43,6 +44,7 @@ import pageBanner from "./recipes/page-banner";
 import progressCircle from "./recipes/progress-circle";
 import pullToRefresh from "./recipes/pull-to-refresh";
 import radio from "./recipes/radio";
+import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
 import reactionButton from "./recipes/reaction-button";
 import scrollFog from "./recipes/scroll-fog";
@@ -78,6 +80,7 @@ export const recipes = {
   bottomSheetHandle,
   callout,
   checkbox,
+  checkboxGroup,
   checkmark,
   chip,
   chipTabs,
@@ -112,6 +115,7 @@ export const recipes = {
   progressCircle,
   pullToRefresh,
   radio,
+  radioGroup,
   radiomark,
   reactionButton,
   scrollFog,
