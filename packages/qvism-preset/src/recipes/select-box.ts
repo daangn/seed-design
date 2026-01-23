@@ -67,7 +67,7 @@ export const selectBox = defineSlotRecipe({
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
-      [pseudo(checked)]: {
+      [pseudo(not(disabled), checked)]: {
         "&::after": {
           borderWidth: vars.base.selected.root.strokeWidth,
           borderColor: vars.base.enabledSelected.root.strokeColor,
@@ -76,9 +76,12 @@ export const selectBox = defineSlotRecipe({
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
-        "&::after": {
-          borderColor: vars.base.disabled.root.strokeColor,
-        },
+
+        boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
+      },
+
+      [pseudo(disabled, checked)]: {
+        boxShadow: `inset 0 0 0 ${vars.base.selected.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
       },
     },
     trigger: {

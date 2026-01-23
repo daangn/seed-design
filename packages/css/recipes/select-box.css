@@ -26,15 +26,16 @@
 .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-transparent-pressed);
 }
-.seed-select-box__root:is(:checked, [data-checked])::after {
+.seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked])::after {
     border-width: 2px;
     border-color: var(--seed-color-stroke-neutral-contrast);
 }
 .seed-select-box__root:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
 }
-.seed-select-box__root:is(:disabled, [disabled], [data-disabled])::after {
-    border-color: var(--seed-color-stroke-neutral-muted);
+.seed-select-box__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+    box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-muted);
 }
 .seed-select-box__trigger {
     display: flex;
