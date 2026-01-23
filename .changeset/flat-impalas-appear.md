@@ -38,7 +38,7 @@
   import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
 
   {
-    /* 혹은, label을 사용하여 시각적으로 레이블을 표시할 수도 있습니다. */
+    /* aria-label 대신 label을 사용하여 시각적으로 레이블을 표시할 수도 있습니다. */
   }
   <RadioGroup defaultValue="apple" aria-label="Fruit selection">
     <RadioGroupItem value="apple" label="Apple" />
@@ -47,7 +47,7 @@
   ```
 
 - **1.1 → 1.2 업그레이드 시 확인 필요**
-  - `@seed-design/react`의 `RadioGroup.Root`를 직접 import해서 사용하는 코드가 있다면 `RadioGroupField.Root`로 변경하세요.
+  - `@seed-design/react`의 `RadioGroup.Root`를 레이아웃 컴포넌트로 변경합니다. `@seed-design/react`에서 직접 import해서 사용하는 코드가 있다면 `RadioGroup.Root`를 `RadioGroupField.Root`로 변경하세요.
 
   ```tsx
   // 전
