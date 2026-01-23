@@ -10,6 +10,7 @@ export { vars as bottomSheetCloseButton } from "./bottom-sheet-close-button.mjs"
 export { vars as bottomSheetHandle } from "./bottom-sheet-handle.mjs";
 export { vars as bottomSheet } from "./bottom-sheet.mjs";
 export { vars as callout } from "./callout.mjs";
+export { vars as checkboxGroup } from "./checkbox-group.mjs";
 export { vars as checkbox } from "./checkbox.mjs";
 export { vars as checkmark } from "./checkmark.mjs";
 export { vars as chipTab } from "./chip-tab.mjs";
@@ -46,6 +47,7 @@ export { vars as menuSheet } from "./menu-sheet.mjs";
 export { vars as notificationBadge } from "./notification-badge.mjs";
 export { vars as pageBanner } from "./page-banner.mjs";
 export { vars as progressCircle } from "./progress-circle.mjs";
+export { vars as radioGroup } from "./radio-group.mjs";
 export { vars as radio } from "./radio.mjs";
 export { vars as radiomark } from "./radiomark.mjs";
 export { vars as reactionButton } from "./reaction-button.mjs";

@@ -45,6 +45,9 @@
       "path": "/components/callout.json"
     },
     {
+      "path": "/components/checkbox-group.json"
+    },
+    {
       "path": "/components/checkbox.json"
     },
     {
@@ -151,6 +154,9 @@
     },
     {
       "path": "/components/progress-circle.json"
+    },
+    {
+      "path": "/components/radio-group.json"
     },
     {
       "path": "/components/radio.json"

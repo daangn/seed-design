@@ -10,7 +10,7 @@ import {
 } from "seed-design/ui/select-box";
 
 export default function SelectBoxFieldset() {
-  const [checkErrorMessage, setCheckErrorMessage] = useState<string | undefined>();
+  const [checkErrors, setCheckErrors] = useState<Record<string, string | undefined>>({});
   const [radioErrorMessage, setRadioErrorMessage] = useState<string | undefined>();
 
   const handleCheckSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,12 +20,12 @@ export default function SelectBoxFieldset() {
     const fruits = formData.getAll("fruit");
 
     if (fruits.includes("apple")) {
-      setCheckErrorMessage("Apple은 선택할 수 없습니다.");
+      setCheckErrors({ apple: "Apple은 선택할 수 없습니다." });
 
       return;
     }
 
-    setCheckErrorMessage(undefined);
+    setCheckErrors({});
 
     alert(JSON.stringify(fruits, null, 2));
   };
@@ -55,13 +55,14 @@ export default function SelectBoxFieldset() {
             label="선호하는 과일을 선택하세요"
             indicator="선택"
             description="Apple을 선택하고 제출해보세요."
-            errorMessage={checkErrorMessage}
+            errorMessage={Object.values(checkErrors).filter(Boolean).join(", ")}
           >
             <CheckSelectBox
               defaultChecked
               label="Apple"
               // formData를 위해 설정. controlled 사용 시 불필요
               inputProps={{ name: "fruit", value: "apple" }}
+              invalid={!!checkErrors.apple}
               suffix={<CheckSelectBoxCheckmark />}
               footer={
                 <Box px="x5" pb="x4">
@@ -74,11 +75,13 @@ export default function SelectBoxFieldset() {
             <CheckSelectBox
               label="Melon"
               inputProps={{ name: "fruit", value: "melon" }}
+              invalid={!!checkErrors.melon}
               suffix={<CheckSelectBoxCheckmark />}
             />
             <CheckSelectBox
               label="Mango"
               inputProps={{ name: "fruit", value: "mango" }}
+              invalid={!!checkErrors.mango}
               suffix={<CheckSelectBoxCheckmark />}
             />
           </CheckSelectBoxGroup>

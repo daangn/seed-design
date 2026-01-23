@@ -68,8 +68,7 @@ export interface RadioItemProps {
 
   disabled?: boolean;
 
-  // note: this should be removed in the future since individual radio item shouldn't be invalid independently
-  invalid?: boolean;
+  // note: individual radio item shouldn't be invalid independently
 }
 
 export type UseRadioGroupReturn = ReturnType<typeof useRadioGroup>;
@@ -140,10 +139,9 @@ export function useRadioGroup(props: UseRadioGroupProps) {
     }),
 
     getItemProps(itemProps: RadioItemProps) {
-      const { value: itemValue, disabled: itemDisabled, invalid: itemInvalid } = itemProps;
+      const { value: itemValue, disabled: itemDisabled } = itemProps;
 
       const itemState = {
-        invalid: !!itemInvalid,
         disabled: !!itemDisabled || disabled,
         checked: value === itemValue,
         focused: focusedValue === itemValue,
@@ -158,7 +156,6 @@ export function useRadioGroup(props: UseRadioGroupProps) {
         "data-checked": dataAttr(itemState.checked),
         "data-active": dataAttr(itemState.active),
         "data-hover": dataAttr(itemState.hovered),
-        "data-invalid": dataAttr(itemState.invalid),
       });
 
       return {

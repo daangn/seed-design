@@ -3087,6 +3087,12 @@
   margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2);
 }
 
+.seed-checkbox-group {
+  gap: var(--seed-dimension-x1);
+  flex-direction: column;
+  display: flex;
+}
+
 .seed-checkmark__root {
   box-sizing: border-box;
   margin-top: var(--checkmark-margin-top, 0);
@@ -5915,6 +5921,12 @@
   font-size: var(--seed-font-size-t4);
   line-height: var(--seed-line-height-t4);
   margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2);
+}
+
+.seed-radio-group {
+  gap: var(--seed-dimension-x1);
+  flex-direction: column;
+  display: flex;
 }
 
 .seed-radiomark__root {

@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Fragment } from "react";
 
-import { RadioGroup, Icon } from "@seed-design/react";
+import { Icon } from "@seed-design/react";
+import { RadioGroup } from "@seed-design/react/primitive";
+
 import { List, ListRadioItem, ListDivider } from "seed-design/ui/list";
 import { Radiomark } from "seed-design/ui/radio-group";
 

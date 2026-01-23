@@ -234,7 +234,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
-        { title: "TextField", onClick: () => push("ActivityTextField", {}) },
+        { title: "Form", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {

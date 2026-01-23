@@ -21,7 +21,7 @@ function CustomRadioGroup(
     radiomark.splitVariantProps(props);
 
   return (
-    <RadioGroup.Root disabled={disabled} value="foo">
+    <RadioGroup.Root disabled={disabled} value="foo" aria-label="Radiomark">
       <RadioGroup.Item value={selected ? "foo" : "bar"}>
         <Radiomark {...radiomarkVariantProps} />
         <RadioGroup.ItemHiddenInput />

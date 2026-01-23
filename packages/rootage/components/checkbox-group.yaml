@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: checkbox-group
+  name: Checkbox Group
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gapY:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          gapY: $dimension.x1
