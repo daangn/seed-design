@@ -20,25 +20,16 @@ interface FieldsetWrapperProps extends React.ComponentPropsWithoutRef<typeof Fie
 
 const FieldsetWrapper = React.forwardRef<HTMLDivElement, FieldsetWrapperProps>(
   (
-    {
-      label,
-      indicator,
-      description,
-      errorMessage,
-      showRequiredIndicator,
-      children,
-      invalid,
-      ...props
-    },
+    { label, indicator, description, errorMessage, showRequiredIndicator, children, ...props },
     ref,
   ) => {
     const renderHeader = label || indicator;
     const renderDescription = !!description;
-    const renderErrorMessage = errorMessage && invalid;
+    const renderErrorMessage = !!errorMessage;
     const renderFooter = renderDescription || renderErrorMessage;
 
     return (
-      <Fieldset.Root ref={ref} invalid={invalid} {...props}>
+      <Fieldset.Root ref={ref} {...props}>
         {renderHeader && (
           <Fieldset.Header>
             <Fieldset.Label weight="medium">

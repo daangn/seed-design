@@ -21,25 +21,16 @@ interface RadioGroupFieldWrapperProps
 
 const RadioGroupFieldWrapper = React.forwardRef<HTMLDivElement, RadioGroupFieldWrapperProps>(
   (
-    {
-      label,
-      indicator,
-      description,
-      errorMessage,
-      showRequiredIndicator,
-      children,
-      invalid,
-      ...props
-    },
+    { label, indicator, description, errorMessage, showRequiredIndicator, children, ...props },
     ref,
   ) => {
     const renderHeader = label || indicator;
     const renderDescription = !!description;
-    const renderErrorMessage = errorMessage && invalid;
+    const renderErrorMessage = errorMessage && props.invalid;
     const renderFooter = renderDescription || renderErrorMessage;
 
     return (
-      <RadioGroupField.Root ref={ref} invalid={invalid} {...props}>
+      <RadioGroupField.Root ref={ref} {...props}>
         {renderHeader && (
           <RadioGroupField.Header>
             <RadioGroupField.Label weight="medium">
