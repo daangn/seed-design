@@ -67,6 +67,8 @@ export interface RadioItemProps {
   value: string;
 
   disabled?: boolean;
+
+  // note: individual radio item shouldn't be invalid independently
 }
 
 export type UseRadioGroupReturn = ReturnType<typeof useRadioGroup>;
