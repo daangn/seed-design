@@ -6,7 +6,6 @@ import { radioVariantMap } from "@seed-design/css/recipes/radio";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { HStack } from "@seed-design/react";
 
 const meta = {
   component: RadioGroup,
@@ -19,13 +18,11 @@ type Story = StoryObj<typeof meta>;
 
 const RadioGroupWrapper = ({ ...props }) => {
   return (
-    <HStack gap="x3" asChild>
-      <RadioGroup defaultValue="option1">
-        <RadioGroupItem value="option1" label="Option 1" {...props} />
-        <RadioGroupItem value="option2" label="Option 2" {...props} />
-        <RadioGroupItem value="option3" label="Option 3" {...props} />
-      </RadioGroup>
-    </HStack>
+    <RadioGroup defaultValue="option1">
+      <RadioGroupItem value="option1" label="Option 1" {...props} />
+      <RadioGroupItem value="option2" label="Option 2" {...props} />
+      <RadioGroupItem value="option3" label="Option 3" {...props} />
+    </RadioGroup>
   );
 };
 
