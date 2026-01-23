@@ -29,14 +29,18 @@ export default function CheckboxFieldset() {
     const formData = new FormData(e.currentTarget);
     const agreements = formData.getAll("agreement");
 
-    if (!agreements.includes("terms") || !agreements.includes("privacy")) {
-      setSecondErrors({ terms: "필수 항목에 동의해 주세요." });
+    const hasTerms = agreements.includes("terms");
+    const hasPrivacy = agreements.includes("privacy");
 
+    if (!hasTerms || !hasPrivacy) {
+      setSecondErrors({
+        ...(!hasTerms && { terms: "필수 항목에 동의해 주세요." }),
+        ...(!hasPrivacy && { privacy: "필수 항목에 동의해 주세요." }),
+      });
       return;
     }
 
     setSecondErrors({});
-
     alert(JSON.stringify(agreements, null, 2));
   };
 

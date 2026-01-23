@@ -2,7 +2,7 @@ import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
 
 export default function RadioGroupLongLabel() {
   return (
-    <RadioGroup defaultValue="medium">
+    <RadioGroup defaultValue="medium" aria-label="Long label options">
       <RadioGroupItem
         value="medium"
         size="medium"

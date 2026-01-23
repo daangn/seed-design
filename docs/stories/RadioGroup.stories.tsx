@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 
 const RadioGroupWrapper = ({ ...props }) => {
   return (
-    <RadioGroup defaultValue="option1">
+    <RadioGroup defaultValue="option1" aria-label="Options">
       <RadioGroupItem value="option1" label="Option 1" {...props} />
       <RadioGroupItem value="option2" label="Option 2" {...props} />
       <RadioGroupItem value="option3" label="Option 3" {...props} />
