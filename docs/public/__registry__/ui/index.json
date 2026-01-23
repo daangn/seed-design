@@ -120,6 +120,7 @@
       "id": "checkbox",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ]
     },
