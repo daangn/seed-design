@@ -31,7 +31,7 @@ export default function RadioGroupReactHookForm() {
   );
 
   return (
-    <form onSubmit={handleSubmit(onValid)}>
+    <VStack p="x6" as="form" onSubmit={handleSubmit(onValid)}>
       <VStack gap="x3">
         <RadioGroup
           value={field.value}
@@ -58,6 +58,6 @@ export default function RadioGroupReactHookForm() {
           </ActionButton>
         </HStack>
       </VStack>
-    </form>
+    </VStack>
   );
 }

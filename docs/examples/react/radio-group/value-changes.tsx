@@ -7,7 +7,7 @@ export default function RadioGroupValueChanges() {
   const [lastValue, setLastValue] = useState<string | null>(null);
 
   return (
-    <VStack gap="x4" align="center" width="full">
+    <VStack gap="x4" align="center" width="full" p="x6">
       <RadioGroup
         defaultValue="apple"
         aria-label="Fruit selection"

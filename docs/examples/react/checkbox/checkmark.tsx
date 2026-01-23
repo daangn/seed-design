@@ -16,7 +16,7 @@ function CustomCheckbox({ children, ...props }: Checkbox.RootProps) {
 
 export default function CheckboxCheckmark() {
   return (
-    <HStack gap="x6">
+    <HStack gap="x6" p="x6">
       <CustomCheckbox>
         <Text textStyle="t7Regular">regular</Text>
       </CustomCheckbox>

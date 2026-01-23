@@ -11,6 +11,7 @@
   - `npx @seed-design/cli@latest add ui:checkbox`
   - `CheckboxGroup`은 자체적으로 레이아웃을 갖습니다. `VStack`을 사용하여 `Checkbox`를 묶지 않아도 됩니다.
   - `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator`, `labelWeight` prop을 사용할 수 있습니다.
+  - 기존 `Checkbox`를 `CheckboxGroup`으로 감쌀 필요는 없습니다.
 
 [Radio Group](/react/components/radio-group) 관련 컴포넌트를 업데이트합니다.
 

@@ -3,7 +3,7 @@ import { VStack } from "@seed-design/react";
 
 export default function RadioGroupSize() {
   return (
-    <VStack gap="x5">
+    <VStack gap="x5" p="x6">
       <RadioGroup defaultValue="apple" aria-label="과일 선택">
         <RadioGroupItem value="apple" label="사과" size="medium" tone="neutral" />
         <RadioGroupItem value="banana" label="바나나" size="medium" tone="neutral" />

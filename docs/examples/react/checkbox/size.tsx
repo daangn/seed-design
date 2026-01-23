@@ -3,7 +3,7 @@ import { Checkbox, CheckboxGroup } from "seed-design/ui/checkbox";
 
 export default function CheckboxSize() {
   return (
-    <HStack gap="x8">
+    <HStack gap="x8" p="x6">
       <CheckboxGroup aria-label="Square size examples">
         <Checkbox label="Medium (default)" size="medium" defaultChecked tone="neutral" />
         <Checkbox label="Large" size="large" defaultChecked tone="neutral" />

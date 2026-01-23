@@ -30,7 +30,7 @@ export default function CheckboxReactHookForm() {
   );
 
   return (
-    <VStack gap="x3" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
+    <VStack gap="x3" p="x6" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
       <CheckboxGroup aria-label="Fruit selection">
         {POSSIBLE_FRUIT_VALUES.map((name) => (
           <CheckboxItem key={name} name={name} control={control} />

@@ -41,7 +41,7 @@ export default function RadioGroupRadioGroupField() {
   };
 
   return (
-    <HStack width="full" gap="x8" align="flex-start">
+    <HStack width="full" gap="x8" align="flex-start" p="x6">
       <VStack asChild gap="spacingY.componentDefault" style={{ flex: 1 }}>
         <form onSubmit={handleFirstSubmit}>
           <RadioGroup
