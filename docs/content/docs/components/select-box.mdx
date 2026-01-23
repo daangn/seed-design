@@ -1,18 +1,228 @@
 ---
 title: Select Box
+description: 명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.
 coverImageFigmaId: 39:21590
 ---
 
 <PlatformStatusTable componentId="select-box" />
 
-## 옵션 테이블
+## Anatomy
 
-| 속성        | 값          | 기본값 |
-| ----------- | ----------- | ------ |
-| title       | string      |        |
-| description | string      |        |
-| selected    | true, false | false  |
+<FigmaImage
+  id="146:24110"
+  alt="Select Box의 Anatomy 이미지. Container, Prefix, Title, Description, Control, Custom Content로 구성됩니다."
+/>
+
+Select Box는 Container, Prefix, Title, Description, Control, Custom Content로 구성됩니다.
+
+**배경색은 가이드에서 시각적 구분을 위해 추가된 것이며, 컴포넌트 자체에는 배경색이 지정되어 있지 않습니다.**
+
+## Properties
+
+### Control
+
+<FigmaImage
+  id="146:24125"
+  alt="Select Box의 Control Property - Checkmark, Radiomark, None"
+/>
+
+Select Box의 우측 끝에 위치하는 Control 영역은 컴포넌트의 선택 방식을 나타냅니다. Checkmark, Radiomark, None 세 가지 유형으로 구분하여 사용합니다.
+
+| Control   | 사용 상황                                                                                                                        |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Checkmark | 다중 선택(Multiple Selection)이 가능한 경우                                                                                      |
+| Radiomark | 단일 선택(Single Selection)만 가능한 경우                                                                                        |
+| None      | 박스 자체의 테두리 변화만으로 선택 상태를 표현할 때. 시각적 노이즈를 줄이고 싶을 때 유용하며, 단일/다중 선택 상황 모두 사용 가능 |
+
+### State
+
+<FigmaImage
+  id="146:24139"
+  alt="Select Box의 State - Selected/Unselected × Enabled/Disabled/Pressed"
+/>
+
+Select Box는 선택(Selected), 미선택(Unselected) 상태를 가지며, 이 각각의 상태는 사용자의 상호작용에 따라 활성화(Enabled), 비활성화(Disabled), 눌림(Pressed)의 상태로 조합되어 표현됩니다.
+
+### Variants
+
+<FigmaImage id="146:24160" alt="Select Box의 Variants - Single Column" />
+
+<FigmaImage id="146:24167" alt="Select Box의 Variants - Multiple Columns" />
+
+세로로 쌓이고, 1개의 열(Column)을 가지는 경우 Single Column을 사용하며, 2개 이상의 열(Columns)이 가능한 경우 Multiple Columns를 사용합니다.
+
+Single Column의 경우 Prefix, Control이 중앙 정렬, Multiple Columns의 경우 Prefix, Control이 상단 정렬로 고정됩니다.
+
+### Columns
+
+<FigmaImage
+  id="146:24183"
+  alt="Select Box의 Columns - 1열, 2열, 3열 배치 예시"
+/>
+
+방향(Orientation)에 따라 컬럼 수가 결정됩니다. 가로형(Horizontal)은 항상 단일 컬럼으로 배치하고, 세로형(Vertical)은 화면 폭에 맞춰 한 줄에 2~3개(최대 3개)의 컬럼으로 구성합니다.
+
+**3컬럼 배치 시에는 정보 밀도를 낮추는 것이 중요합니다. 좁은 너비 안에서 가독성을 확보하기 위해 시각적 표현을 최소화합니다.**
+
+### Prefix Property
+
+<FigmaImage
+  id="146:24197"
+  alt="Select Box의 Prefix Property - 다양한 Prefix 타입 예시"
+/>
+
+Prefix Slot은 Select Box 좌측에 위치합니다. Select Box 컴포넌트는 Prefix에 여러 가지 타입을 프리셋 형태로 제공합니다. 포함된 타입 이외에 다른 요소를 사용하고 싶은 경우 Custom Child Swap을 통해서 변경해주세요.
+
+### Detail Property
+
+<FigmaImage
+  id="146:24264"
+  alt="Select Box의 Detail Property - Description 영역"
+/>
+
+Description은 Title(제목) 하단에 위치합니다. Description 영역은 보충 설명을 기술하는 용도로 사용합니다.
+
+### Custom Contents (Swap)
+
+<FigmaImage
+  id="146:24285"
+  alt="Select Box의 Custom Contents - 선택 후 추가 정보 표시 예시"
+/>
+
+기본 설명 이상의 상세 내용이 필요하거나, 항목이 선택된(Selected) 후에만 추가 정보를 보여줘야 하는 경우 Custom Contents 영역을 활용합니다.
+
+이 영역은 텍스트 외에도 다양한 시각적 요소를 포함할 수 있습니다.
+
+## Figma에서 Select Box Child 사용하기
+
+<FigmaImage id="146:24306" alt="Figma에서 Select Box Child Swap 사용 방법" />
+
+Select Box Title에는 Detach하지 않고 여러 요소를 조합할 수 있도록 Swap용 Child 컴포넌트가
+숨겨져 있습니다.
+
+## Guidelines
+
+### 터치 영역
+
+<Grid>
+  <DoImage
+    figmaId="146:24356"
+    body="박스 전체를 터치 영역으로 사용"
+    alt="Select Box 전체 영역이 터치 타겟인 올바른 예시"
+  />
+  <DontImage
+    figmaId="146:24361"
+    body="박스 내 특정 영역만 터치 가능하게 구성"
+    alt="Select Box 내 일부만 터치 가능한 잘못된 예시"
+  />
+</Grid>
+
+Select Box는 박스 전체를 하나의 터치 타겟으로 구성하여 오조작을 방지합니다. 추가 정보가 필요한 경우 Description을 활용하거나 항목 선택 후 나타나는 Custom Contents 영역을 활용하는 것이 좋습니다.
+
+### Selected 상태 전환
+
+<FigmaImage
+  id="146:24380"
+  alt="Select Box의 Pressed 상태가 컨테이너 전체에서 표현되는 예시"
+/>
+
+Select Box의 Pressed 상태는 내부의 특정 컨트롤 요소(Checkmark, Radiomark)에서 표현되는 것이 아닌 컨테이너 전체 영역(Bounding Box)에서 표현됩니다.
+
+### 간결하게 작성하기
+
+<Grid>
+  <DoImage
+    figmaId="146:24393"
+    body="간결한 Label과 Description"
+    alt="간결하게 작성된 Select Box의 올바른 예시"
+  />
+  <DontImage
+    figmaId="146:24411"
+    body="쉽고 빠르게 비교할 수 있도록 최대한 간결하게 작성해주세요."
+    alt="너무 길게 작성된 Select Box의 잘못된 예시"
+  />
+</Grid>
+
+사용자가 여러 옵션을 쉽고 빠르게 비교할 수 있도록 Label과 Description은 최대한 간결하게 작성해야 합니다. Description의 경우 텍스트의 가독성을 위해 최대 2줄 이내로 작성을 권장합니다.
+
+### 선택값 반영
+
+<Grid>
+  <DoImage
+    figmaId="146:24439"
+    body="별도의 Submit Button으로 선택값 반영"
+    alt="Submit Button이 있는 올바른 Select Box 사용 예시"
+  />
+  <DontImage
+    figmaId="146:24454"
+    body="Select Box를 즉각적인 액션을 실행하는 버튼 용도로 사용하지 마세요."
+    alt="Select Box를 버튼처럼 사용하는 잘못된 예시"
+  />
+</Grid>
+
+Select Box는 데이터를 입력하고 옵션을 '선택'하는 도구이며, 그 자체로 동작을 '실행'하는 버튼이 아닙니다. 선택된 값은 반드시 저장, 확인, 또는 다음 단계로 이동하는 별도의 실행 버튼(Submit Button)을 통해 최종적으로 정의되고 반영되어야 합니다.
+
+### Multiple Columns 높이 규칙
+
+<Grid>
+  <DoImage
+    figmaId="146:24520"
+    body="가장 긴 콘텐츠를 포함한 타일을 기준으로 높이값을 통일합니다."
+    alt="높이가 통일된 Multiple Columns의 올바른 예시"
+  />
+  <DontImage
+    figmaId="146:24536"
+    body="각 타일의 높이가 불균일하지 않도록 주의해주세요."
+    alt="높이가 불균일한 Multiple Columns의 잘못된 예시"
+  />
+</Grid>
+
+2개 이상 동일 선상(Row)에 배치되는 경우 시각적 균형과 레이아웃의 안정성을 위해 가장 긴 콘텐츠를 포함한 Select Box를 기준으로 높이값을 통일합니다.
+
+### 최대 선택 가능 개수 안내
+
+<Grid>
+  <DoImage
+    figmaId="146:24562"
+    body="최대 선택 가능 개수를 사전 안내"
+    alt="최대 선택 개수가 안내된 올바른 예시"
+  />
+  <DontImage
+    figmaId="146:24578"
+    body="None 타입 적용 시 최대 선택 수 정보를 안내해야 합니다."
+    alt="최대 선택 개수 안내가 없는 잘못된 예시"
+  />
+</Grid>
+
+선택 마크가 없는 None 타입을 사용할 때는 사용자가 시행착오를 겪지 않도록 최대 선택 가능 개수를 사전에 안내하는 것을 권장합니다.
+
+### 최대 선택 개수 도달 시 피드백 원칙
+
+<FigmaImage id="146:24604" alt="최대 선택 개수 도달 시 Snackbar 피드백 예시" />
+
+다중 선택 시 최대치에 도달하면 신규 항목의 선택 상태 반영을 차단하고 [Snackbar](/docs/components/snackbar) 등의 피드백을 우선적으로 제공합니다.
+
+### Select Box와 Chip 비교
+
+<FigmaImage id="146:24668" alt="Select Box와 Chip 비교 예시" />
+
+상세한 정보 비교와 명확한 데이터 확정이 필요한 경우 Select Box를 사용하고, 키워드 중심의 가벼운 필터링이나 유연한 태깅이 필요한 경우 [Chip](/docs/components/chip)을 사용합니다.
+
+|               | Select Box                                             | Chip (Selection)                                  |
+| ------------- | ------------------------------------------------------ | ------------------------------------------------- |
+| **정보 밀도** | 상세 설명이나 추가 정보를 포함한 풍부한 정보 전달 가능 | 핵심 키워드 중심의 간결한 정보 전달에 최적화      |
+| **공간 활용** | 다른 입력 필드들과 수평/수직 정렬을 맞춤               | 콘텐츠 길이에 따라 너비가 변하는 유연한 배치 형태 |
 
 ## Specification
 
-<ComponentSpecBlock id="select-box" />
+### Select Box
+
+<ComponentSpecBlock id="select-box" headingComponent="h4" />
+
+### Select Box Group
+
+<ComponentSpecBlock id="select-box-group" headingComponent="h4" />
+
+### Select Box Checkmark
+
+<ComponentSpecBlock id="select-box-checkmark" headingComponent="h4" />
