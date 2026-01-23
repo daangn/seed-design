@@ -9,7 +9,7 @@
     "@stackflow/react"
   ],
   "registryDependencies": [
-    "pull-to-refresh"
+    "@seed/pull-to-refresh"
   ],
   "files": [
     {

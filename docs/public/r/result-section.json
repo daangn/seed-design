@@ -6,7 +6,7 @@
     "@seed-design/react"
   ],
   "registryDependencies": [
-    "action-button"
+    "@seed/action-button"
   ],
   "files": [
     {

@@ -6,7 +6,7 @@
     "@seed-design/react"
   ],
   "registryDependencies": [
-    "https://seed-design.io/r/lib/manner-temp-level.json"
+    "@seed/manner-temp-level"
   ],
   "files": [
     {

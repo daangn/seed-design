@@ -10,7 +10,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "loading-indicator"
+        "@seed/loading-indicator"
       ],
       "files": [
         {
@@ -42,7 +42,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "action-button"
+        "@seed/action-button"
       ],
       "files": [
         {
@@ -79,7 +79,7 @@
         "@stackflow/react"
       ],
       "registryDependencies": [
-        "pull-to-refresh"
+        "@seed/pull-to-refresh"
       ],
       "files": [
         {
@@ -181,7 +181,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "loading-indicator"
+        "@seed/loading-indicator"
       ],
       "files": [
         {
@@ -214,7 +214,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "action-button"
+        "@seed/action-button"
       ],
       "files": [
         {
@@ -339,7 +339,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "progress-circle"
+        "@seed/progress-circle"
       ],
       "files": [
         {
@@ -355,7 +355,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "https://seed-design.io/r/lib/manner-temp-level.json"
+        "@seed/manner-temp-level"
       ],
       "files": [
         {
@@ -371,7 +371,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "https://seed-design.io/r/lib/manner-temp-level.json"
+        "@seed/manner-temp-level"
       ],
       "files": [
         {
@@ -437,7 +437,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "progress-circle"
+        "@seed/progress-circle"
       ],
       "files": [
         {
@@ -466,7 +466,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "loading-indicator"
+        "@seed/loading-indicator"
       ],
       "files": [
         {
@@ -482,7 +482,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "action-button"
+        "@seed/action-button"
       ],
       "files": [
         {
@@ -513,7 +513,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "radio-group"
+        "@seed/radio-group"
       ],
       "files": [
         {
@@ -612,7 +612,7 @@
         "@seed-design/react"
       ],
       "registryDependencies": [
-        "loading-indicator"
+        "@seed/loading-indicator"
       ],
       "files": [
         {

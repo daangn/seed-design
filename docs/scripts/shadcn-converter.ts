@@ -7,11 +7,9 @@ type ShadcnRegistryItem = Exclude<RegistryItem, RegistryBaseItem | RegistryFontI
 
 type ShadcnFile = NonNullable<ShadcnRegistryItem["files"]>[number];
 
-
 type ShadcnRegistryIndexItem = Omit<ShadcnRegistryItem, "files"> & {
   files?: Array<{ path: string; type?: ShadcnFile["type"]; target?: string }>;
 };
-
 
 import type { GeneratedRegistryItem, GeneratedRegistry } from "../registry/schema.js";
 
@@ -178,13 +176,7 @@ function convertInnerDependencies(
 
   for (const { registryId, itemIds } of innerDeps) {
     for (const itemId of itemIds) {
-      if (registryId === options.registryId || registryId === "ui") {
-        // 동일 registry 또는 ui registry → 이름만
-        result.push(itemId);
-      } else {
-        // 다른 registry → 전체 URL
-        result.push(`${options.baseUrl}/r/${registryId}/${itemId}.json`);
-      }
+      result.push(`@seed/${itemId}`);
     }
   }
 

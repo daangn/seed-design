@@ -6,7 +6,7 @@
     "@seed-design/react"
   ],
   "registryDependencies": [
-    "progress-circle"
+    "@seed/progress-circle"
   ],
   "files": [
     {

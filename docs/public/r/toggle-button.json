@@ -6,7 +6,7 @@
     "@seed-design/react"
   ],
   "registryDependencies": [
-    "loading-indicator"
+    "@seed/loading-indicator"
   ],
   "files": [
     {

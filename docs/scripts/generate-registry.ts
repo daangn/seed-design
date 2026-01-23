@@ -5,10 +5,7 @@ import { RegistryGenerator } from "./registry-generator.js";
 import { registryBreeze } from "../registry/registry-breeze.js";
 import { registryLib } from "../registry/registry-lib.js";
 import { registryUI } from "../registry/registry-ui.js";
-import {
-  convertToShadcnItem,
-  convertToShadcnRegistry,
-} from "./shadcn-converter.js";
+import { convertToShadcnItem, convertToShadcnRegistry } from "./shadcn-converter.js";
 import type { GeneratedRegistryItem } from "../registry/schema.js";
 
 const REGISTRY_PATH = path.join(process.cwd(), "registry");
@@ -115,17 +112,7 @@ ${content}
       baseUrl: SHADCN_BASE_URL,
     });
 
-    // ui 컴포넌트는 루트에, 나머지는 하위 폴더에
-    let itemPath: string;
-    if (registryId === "ui") {
-      itemPath = path.join(SHADCN_REGISTRY_PATH, `${itemId}.json`);
-    } else {
-      const subDir = path.join(SHADCN_REGISTRY_PATH, registryId);
-      if (!existsSync(subDir)) {
-        await fs.mkdir(subDir, { recursive: true });
-      }
-      itemPath = path.join(subDir, `${itemId}.json`);
-    }
+    const itemPath = path.join(SHADCN_REGISTRY_PATH, `${itemId}.json`);
 
     await fs.writeFile(itemPath, JSON.stringify(shadcnItem, null, 2), "utf8");
   }
@@ -137,7 +124,7 @@ ${content}
       name: SHADCN_REGISTRY_NAME,
       homepage: SHADCN_HOMEPAGE,
       baseUrl: SHADCN_BASE_URL,
-    }
+    },
   );
 
   const shadcnRegistryPath = path.join(SHADCN_REGISTRY_PATH, "registry.json");
