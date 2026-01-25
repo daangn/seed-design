@@ -1,5 +1,279 @@
 # @seed-design/react
 
+## 1.2.0
+
+### Minor Changes
+
+- 0ecb893: [Help Bubble](/react/components/help-bubble) 관련 컴포넌트를 업데이트합니다.
+
+  - **1.1 → 1.2 업그레이드 시 snippet 업데이트 필요**: `HelpBubbleTrigger` 및 `HelpBubbleAnchor`의 내부 구조가 변경되었습니다. snippet을 다시 내려받아 주세요.
+    - `npx @seed-design/cli@latest add ui:help-bubble`
+    - **인터페이스 변경사항이 없으므로 `HelpBubbleAnchor`와 `HelpBubbleTrigger`를 사용하는 기존 코드를 변경할 필요가 없습니다.**
+    - `HelpBubble.Body`를 사용하여 `HelpBubble.Title`과 `HelpBubble.Description`을 감싸도록 변경되었습니다.
+    - `zIndexOffset`을 활용하여 `HelpBubble.Positioner`의 z-index를 조정할 수 있습니다. ([예시](/react/components/help-bubble#z-index-offset))
+
+- 98dbac4: [Checkbox](/react/components/checkbox) 관련 컴포넌트를 추가합니다.
+
+  - `CheckboxGroup` snippet 컴포넌트가 추가되었습니다. 사용하려면 snippet을 다시 내려받아 주세요.
+    - `npx @seed-design/cli@latest add ui:checkbox`
+    - `CheckboxGroup`은 자체적으로 gap과 100% width를 갖습니다. `VStack`을 사용하여 `Checkbox`를 묶지 않아도 됩니다.
+      - 기존 `Checkbox`를 `CheckboxGroup`으로 감쌀 필요는 없습니다. `CheckboxGroup`은 선택적으로 사용할 수 있습니다.
+    - `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator`, `labelWeight` prop을 사용할 수 있습니다.
+
+  [Radio Group](/react/components/radio-group) 관련 컴포넌트를 업데이트합니다.
+
+  - **1.1 → 1.2 업그레이드 시 snippet 업데이트 필요**: `RadioGroup` snippet의 내부 구조가 변경되었습니다. snippet을 다시 내려받아 주세요.
+
+    - `npx @seed-design/cli@latest add ui:radio-group`
+    - `RadioGroup`이 자체적으로 gap과 100% width를 갖습니다. `VStack`을 사용하여 `RadioGroupItem`을 묶는 코드를 제거합니다.
+      - **1.1 → 1.2 업그레이드 시 변경 필요**: `RadioGroupItem`을 묶어서 사용하던 `VStack`을 제거하여 `RadioGroupItem`이 `RadioGroup`의 direct child가 되도록 변경하세요.
+    - `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator`, `labelWeight` prop을 사용할 수 있습니다.
+    - `@seed-design/react`의 `RadioGroup.Root`를 레이아웃 컴포넌트로 변경합니다.
+      - `@seed-design/react`에서 직접 import해서 사용하는 코드가 있다면 `RadioGroup.Root`를 `@seed-design/react/primitive`의 `RadioGroup.Root`로 변경해주세요.
+
+    ```tsx
+    // 전
+    import { VStack } from "@seed-design/react";
+    import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
+
+    <RadioGroup defaultValue="apple" aria-label="Fruit selection">
+      <VStack>
+        <RadioGroupItem value="apple" label="Apple" />
+        <RadioGroupItem value="banana" label="Banana" />
+      </VStack>
+    </RadioGroup>;
+    ```
+
+    ```tsx
+    // 후
+    import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
+
+    {
+      /* aria-label 대신 label을 사용하여 시각적으로 레이블을 표시할 수도 있습니다. */
+    }
+    <RadioGroup defaultValue="apple" aria-label="Fruit selection">
+      <RadioGroupItem value="apple" label="Apple" />
+      <RadioGroupItem value="banana" label="Banana" />
+    </RadioGroup>;
+    ```
+
+    ```tsx
+    // 전
+    import { RadioGroup } from "@seed-design/react";
+    import { ListRadioItem } from "seed-design/ui/list";
+
+    <RadioGroup.Root
+      value={value}
+      onValueChange={onValueChange}
+      aria-label="옵션 선택"
+    >
+      <ListRadioItem
+        value="option1"
+        title="옵션 1"
+        detail="첫 번째 선택지"
+        suffix={<Radiomark tone="neutral" size="large" />}
+      />
+    </RadioGroup.Root>;
+    ```
+
+    ```tsx
+    // 후
+    import { RadioGroup } from "@seed-design/react/primitive";
+    import { ListRadioItem } from "seed-design/ui/list";
+
+    <RadioGroup.Root
+      value={value}
+      onValueChange={onValueChange}
+      aria-label="옵션 선택"
+    >
+      <ListRadioItem
+        value="option1"
+        title="옵션 1"
+        detail="첫 번째 선택지"
+        suffix={<Radiomark tone="neutral" size="large" />}
+      />
+    </RadioGroup.Root>;
+    ```
+
+  RadioGroupItem, RadioChipItem, RadioSelectBoxItem, ListRadioItem에서 `invalid` prop이 제거되었습니다.
+
+  - **1.1 → 1.2 업그레이드 시 확인 필요**: `invalid` 상태는 group/field 레벨에서 설정해주세요. 각 항목을 `data-invalid` 속성으로 스타일링하는 경우 확인이 필요합니다.
+
+- a58022d: `SwitchMark`를 `Switchmark`로, `RadioMark`를 `Radiomark`로 Snippet 컴포넌트 이름을 변경합니다.
+
+  - **1.1 → 1.2 업그레이드 시 변경 권장**: snippet을 다시 내려받고, `SwitchMark`, `RadioMark`를 사용하는 코드를 아래와 같이 변경하세요.
+
+    - `npx @seed-design/cli@latest add ui:switch ui:radio-group`
+    - snippet에 `SwitchMark`, `RadioMark` 정의가 존재하지만, 1.3 릴리즈 시 snippet에서 해당 맵핑이 제거될 예정이므로 미리 변경해두시길 권장드립니다.
+
+    ```tsx
+    // 전
+    import { ListSwitchItem, ListRadioItem } from "seed-design/ui/list";
+    import { SwitchMark } from "seed-design/ui/switch";
+    import { RadioMark } from "seed-design/ui/radio-group";
+
+    <ListSwitchItem
+      title="리스트 아이템 스위치"
+      detail="설명 텍스트"
+      suffix={<SwitchMark tone="neutral" />}
+    />;
+
+    <ListRadioItem
+      prefix={<RadioMark tone="neutral" size="large" />}
+      value="option"
+      title="옵션"
+    />;
+    ```
+
+    ```tsx
+    // 후
+    import { ListSwitchItem, ListRadioItem } from "seed-design/ui/list";
+    import { Switchmark } from "seed-design/ui/switch";
+    import { Radiomark } from "seed-design/ui/radio-group";
+
+    <ListSwitchItem
+      title="리스트 아이템 스위치"
+      detail="설명 텍스트"
+      suffix={<Switchmark tone="neutral" />}
+    />;
+
+    <ListRadioItem
+      prefix={<Radiomark tone="neutral" size="large" />}
+      value="option"
+      title="옵션"
+    />;
+    ```
+
+- 2643d17: [Select Box](/react/components/select-box) 관련 컴포넌트를 업데이트합니다.
+
+  - **1.1 → 1.2 업그레이드 시 snippet을 다시 내려받아 주세요.**
+    - `npx @seed-design/cli@latest add ui:select-box`
+  - `CheckSelectBoxGroup`, `RadioSelectBoxRoot`의 children이 기본적으로 gap이 포함된 그리드 레이아웃으로 정렬됩니다.
+    - **1.1 → 1.2 업그레이드 시 변경 필요**: `CheckSelectBox`, `RadioSelectBoxItem`을 묶어서 사용하던 `VStack`을 제거하여 `CheckSelectBox`와 `RadioSelectBoxItem`이 `CheckSelectBoxGroup` 또는 `RadioSelectBoxRoot`의 direct child가 되도록 변경하세요. `VStack`에 `gap` 이외의 스타일이 적용된 경우 `<VStack paddingX="x4"><CheckSelectBoxGroup>...</CheckSelectBoxGroup></VStack>`와 같이 `VStack`을 외부에 남겨두세요.
+    - **기능 추가**: `CheckSelectBoxGroup`와 `RadioSelectBoxRoot`에 `columns`를 지정할 수 있습니다. `columns`가 `2` 이상인 경우 하위 항목에 기본적으로 `layout="vertical"`이 적용됩니다. 기본 `layout`은 하위 항목에서 오버라이드할 수 있습니다.
+    - **기능 추가**: `CheckSelectBoxGroup`과 `RadioSelectBoxRoot`에 `label`, `description`, `errorMessage`, `indicator` 등 Fieldset 관련 prop을 사용할 수 있습니다.
+  - **1.1 → 1.2 업그레이드 시 변경 필요**: `CheckSelectBox`, `RadioSelectBoxItem`에 기본적으로 표시되던 `Checkmark`와 `RadioMark`가 이제 표시되지 않습니다. `suffix` prop을 통해 선택적으로 추가할 수 있습니다.
+    - 단순 마이그레이션 시 `suffix={<CheckSelectBoxCheckmark />}`와 `suffix={<RadioSelectBoxRadiomark />}`를 추가하세요.
+  - **기능 추가**: `prefixIcon`, `footer`, `footerVisibility` prop 추가
+    - `footer`에 넣는 요소는 기본적으로 해당 `CheckSelectBox` 또는 `RadioSelectBoxItem`가 선택된 상태일 때 표시됩니다. `footerVisibility="always"`를 설정하여 footer 요소를 항상 표시할 수 있습니다.
+  - `label`이 기본적으로 가로 나열되며 `$dimension.x2` gap을 갖는 flex container로 변경되었습니다.
+    - **1.1 → 1.2 업그레이드 시 확인 권장**: `label={<HStack gap="x2">{/* ... */}</HStack>}`와 같은 코드는 `HStack`을 `Fragment` 등으로 대체할 수 있습니다.
+  - **문제 수정**: `CheckSelectBox`와 `RadioSelectBoxItem`에서 사용되지 않는 `children`을 타입 정의에서 제거합니다.
+  - `CheckSelectBoxGroup`에 `label`, `aria-label`, `aria-labelledby` 중 아무것도 설정하지 않은 경우 경고를 표시합니다. (`RadioSelectBoxRoot`는 기존에도 표시)
+
+- a0e40ca: [Tag Group](/react/components/tag-group) 관련 컴포넌트를 업데이트합니다.
+
+  - `TagGroupItem` 레이블 내부에서 줄바꿈이 발생할 수 있도록 수정합니다. (기존: `TagGroupItem` 또는 separator 전후에서 줄바꿈 발생)
+  - 한 줄 레이아웃 및 우선순위 옵션을 추가합니다.
+    - `TagGroupRoot`에 `truncate` prop을 사용하여 한 줄로 유지하고 말줄임 처리를 할 수 있습니다. (기본값: `false`)
+    - `TagGroupItem`에 `flexShrink` prop을 사용하여 말줄임 우선순위를 조정할 수 있습니다.
+  - **1.1 → 1.2 업그레이드 시 변경 필요**: `TagGroupItem` 내부 레이블을 `TagGroupItemLabel`로 감싸거나, 신규로 제공되는 Snippet에서 제공하는 API로 교체해주세요.
+
+    - `npx @seed-design/cli@latest add ui:tag-group` 명령어로 Snippet을 추가할 수 있습니다.
+
+    ```tsx
+    // 전
+    import { TagGroupRoot, TagGroupItem } from "@seed-design/react";
+
+    {
+      /* TagGroup.Root, TagGroup.Item처럼 namespace import하는 코드가 있을 수 있습니다. */
+    }
+    <TagGroupRoot>
+      <TagGroupItem>
+        <PrefixIcon svg={<IconLocationpinFill />} />
+        서초4동
+      </TagGroupItem>
+      <TagGroupItem>
+        광고
+        <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+      </TagGroupItem>
+      {/* ... */}
+    </TagGroupRoot>;
+    ```
+
+    ```tsx
+    // 후 (Compound Component 유지)
+
+    import {
+      TagGroupRoot,
+      TagGroupItem,
+      TagGroupItemLabel,
+    } from "@seed-design/react";
+
+    <TagGroupRoot>
+      <TagGroupItem>
+        <PrefixIcon svg={<IconLocationpinFill />} />
+        {/* TagGroupItemLabel 사용 */}
+        <TagGroupItemLabel>서초4동</TagGroupItemLabel>
+      </TagGroupItem>
+      <TagGroupItem>
+        {/* TagGroupItemLabel 사용 */}
+        <TagGroupItemLabel>광고</TagGroupItemLabel>
+        <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+      </TagGroupItem>
+      {/* ... */}
+    </TagGroupRoot>;
+    ```
+
+    ```tsx
+    // 후 (snippet API로 교체)
+    // snippet 없는 경우, `npx @seed-design/cli@latest add ui:tag-group`
+
+    import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
+    import {
+      TagGroupRoot as SeedTagGroupRoot,
+      TagGroupItem as SeedTagGroupItem,
+      TagGroupItemLabel as SeedTagGroupItemLabel,
+    } from "@seed-design/react";
+
+    <TagGroupRoot>
+      <TagGroupItem label="서초4동" prefixIcon={<IconLocationpinFill />} />
+      <SeedTagGroupItem>
+        <SeedTagGroupItemLabel>광고</SeedTagGroupItemLabel>
+        {/* 아이콘 커스터마이징이 필요한 경우 snippet 대신 Compound Component를 사용합니다. */}
+        <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+      </SeedTagGroupItem>
+      {/* ... */}
+    </TagGroupRoot>;
+    ```
+
+- 358a1e4: [Menu Sheet](/react/components/menu-sheet) 관련 컴포넌트를 업데이트합니다.
+
+  - `MenuSheetContent`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
+  - `MenuSheetItem`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
+  - **1.1 → 1.2 업그레이드 시 변경 필요**: snippet을 다시 내려받고, `MenuSheetItem`을 사용하는 코드를 아래와 같이 변경하세요.
+
+    - `npx @seed-design/cli@latest add ui:menu-sheet`
+    - `children` 대신 `label` prop을 사용합니다.
+    - `description`, `prefixIcon` prop이 추가되었습니다.
+
+    ```tsx
+    // 전
+    <MenuSheetItem>
+      <PrefixIcon svg={<IconHouseLine />} />
+      메뉴 항목
+    </MenuSheetItem>
+
+    // 후
+    <MenuSheetItem
+      prefixIcon={<IconHouseLine />}
+      label="메뉴 항목"
+      description="이제 설명도 추가할 수 있어요"
+    />
+    ```
+
+### Patch Changes
+
+- 477ec8a: [`Grid` 및 `GridItem`](/react/components/layout/grid) 레이아웃 유틸리티 컴포넌트를 추가합니다.
+- Updated dependencies [98dbac4]
+- Updated dependencies [2643d17]
+- Updated dependencies [cfd2df4]
+- Updated dependencies [cfd2df4]
+  - @seed-design/react-radio-group@1.1.0
+  - @seed-design/react-collapsible@0.1.0
+  - @seed-design/react-fieldset@0.1.0
+  - @seed-design/react-image@0.1.0
+
 ## 1.1.17
 
 ### Patch Changes
