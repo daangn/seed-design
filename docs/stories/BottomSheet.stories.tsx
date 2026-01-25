@@ -5,17 +5,17 @@ import {
   bottomSheetVariantMap,
   type BottomSheetVariantProps,
 } from "@seed-design/css/recipes/bottom-sheet";
-import {
-  BottomSheetRoot,
-  BottomSheetContent,
-  BottomSheetBody,
-  BottomSheetFooter,
-} from "seed-design/ui/bottom-sheet";
+import { Box, Text } from "@seed-design/react";
+import type { ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
+import {
+  BottomSheetBody,
+  BottomSheetContent,
+  BottomSheetFooter,
+  BottomSheetRoot,
+} from "seed-design/ui/bottom-sheet";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { Box, Flex, Text, VStack } from "@seed-design/react";
-import type { ReactNode } from "react";
 
 const BottomSheetPreview = ({
   headerAlign,
@@ -48,13 +48,8 @@ const BottomSheetPreview = ({
           height: unset !important;
         }
       `}</style>
-      <BottomSheetRoot open headerAlign={headerAlign}>
-        <BottomSheetContent
-          title={title}
-          description={description}
-          showHandle={showHandle}
-          showCloseButton={showCloseButton}
-        >
+      <BottomSheetRoot open headerAlign={headerAlign} showCloseButton={showCloseButton}>
+        <BottomSheetContent title={title} description={description} showHandle={showHandle}>
           <BottomSheetBody minHeight="x16">
             <Text>Body content area</Text>
           </BottomSheetBody>
