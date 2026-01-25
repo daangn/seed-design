@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Root Top Navigation / Global",
-  "key": "a694a1da14a5c1d7d5c66bc78218c0c61fb388ab",
+  "key": "9e0a6dce6285912819bb849802d91297ebb34add",
   "componentPropertyDefinitions": {
     "Title#6406:6": {
       "type": "TEXT",

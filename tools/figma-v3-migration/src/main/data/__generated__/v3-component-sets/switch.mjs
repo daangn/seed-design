@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Switch",
-  "key": "65e0e7ba1a0c13b42e5fd0ceb17d5f756128dd6b",
+  "key": "b9fe3494543cebdf8244091ee77f3fa0badf0670",
   "componentPropertyDefinitions": {
     "Label#36578:0": {
       "type": "TEXT",

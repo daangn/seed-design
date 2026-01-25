@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 List Header",
-  "key": "609f93ed0608ef0a6d9a351e47595ad631bae0fa",
+  "key": "88a425714cf186e362b9c420fabf6e39d7bd5155",
   "componentPropertyDefinitions": {
     "Title#28588:0": {
       "type": "TEXT",

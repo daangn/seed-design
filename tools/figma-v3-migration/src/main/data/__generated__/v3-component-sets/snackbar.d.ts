@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Snackbar",
-  "key": "81b17fb8c7d731a19cf8d36a8605559d41414eca",
+  "key": "3e4c1701d9018f70a5fc79c515ba934327c5ce69",
   "componentPropertyDefinitions": {
     "Show Action#1528:0": {
       "type": "BOOLEAN",

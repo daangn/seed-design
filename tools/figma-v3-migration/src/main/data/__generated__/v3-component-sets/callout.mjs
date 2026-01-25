@@ -1,10 +1,10 @@
 export const metadata = {
   "name": "🟢 Callout",
-  "key": "ec46d38baac3c367c4a5ffa47a2110d51ba0a4fe",
+  "key": "023a7bace9c6cb50437e1a40488020bacb13e19c",
   "componentPropertyDefinitions": {
     "Prefix Icon#35087:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "34936:109966",
+      "defaultValue": "15:37549",
       "preferredValues": []
     },
     "Show Prefix Icon#35087:1": {

@@ -1,6 +1,6 @@
 export const metadata = {
-  "name": "List Item/Suffix/Action Button",
-  "key": "3d788f28c785d1c60b937b253c39ce582dbe1ed3",
+  "name": "List Item / Suffix / Action Button",
+  "key": "80aa65281cbd6bfa613a0fc9fb68203922755ec3",
   "componentPropertyDefinitions": {
     "Number of Button": {
       "type": "VARIANT",

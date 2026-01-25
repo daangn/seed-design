@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Radiomark",
-  "key": "832d696d6e9566610968cd70f128f500ec009d6a",
+  "key": "26d35aab30804772d07d30be8e1dda07319ead83",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",

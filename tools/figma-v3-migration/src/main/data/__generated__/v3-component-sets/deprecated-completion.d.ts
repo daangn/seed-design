@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🚫 [Deprecated] Completion",
-  "key": "d91c789c66c2da665d820318f1a4d8671946eb79",
+  "key": "20cccc2e9b80f66fe6704a3865d8f0a5a705e4d8",
   "componentPropertyDefinitions": {
     "Description#28427:4": {
       "type": "TEXT",

@@ -1,8 +1,8 @@
 export declare const metadata: {
   "name": "🟢 Divider",
-  "key": "848e953725f757ea1a79e1fecc0b608a035032d3",
+  "key": "b559adf0f7e5eb21a7812bba5a15ece6abc73580",
   "componentPropertyDefinitions": {
-    "Inset (Figma-Only)#36435:0": {
+    "Inset#36435:0": {
       "type": "BOOLEAN",
       "defaultValue": false
     },

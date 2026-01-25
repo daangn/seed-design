@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Action Button",
-  "key": "450ede9d0bf42fc6ef14345c77e6e407d6d5ee89",
+  "key": "cd70496145efd7f5ffdb5413fb4db8e918561ffa",
   "componentPropertyDefinitions": {
     "Label#5987:61": {
       "type": "TEXT",
@@ -8,17 +8,17 @@ export declare const metadata: {
     },
     "Suffix Icon#5987:244": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "35764:110857",
+      "defaultValue": "12:37",
       "preferredValues": []
     },
     "Prefix Icon#5987:305": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "37665:153410",
+      "defaultValue": "12:42",
       "preferredValues": []
     },
     "Icon#7574:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "37665:153410",
+      "defaultValue": "12:42",
       "preferredValues": []
     },
     "Size": {

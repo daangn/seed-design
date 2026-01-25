@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "KakaoTalkBubble (Figma-Only)",
-  "key": "351d1795d8a44941235a039889bcd4ccea3a516f",
+  "key": "e125ecfbedce9b1c2835dad373d9e97ed14a76f5",
   "componentPropertyDefinitions": {
     "hasTail#753:0": {
       "type": "BOOLEAN",

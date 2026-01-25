@@ -1,10 +1,10 @@
 export declare const metadata: {
   "name": "🟢 Contextual Floating Button",
-  "key": "032f3fddaad0aa3fa5a7f680768c1f5d02fb463f",
+  "key": "37c74e5bfc39356f6675deacb0f5ae6af44511dc",
   "componentPropertyDefinitions": {
     "Icon#28796:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:24681",
+      "defaultValue": "12:40",
       "preferredValues": []
     },
     "Label#28936:0": {

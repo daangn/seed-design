@@ -1,6 +1,6 @@
 export declare const metadata: {
-  "name": "🟢 ResizableChild",
-  "key": "df43b92004c850e7c6d2869e7a4ba1ef9a2d7db6",
+  "name": "🟢 Resizable Child",
+  "key": "66d02ba3f413493fa356faeee9c78441867a9743",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",

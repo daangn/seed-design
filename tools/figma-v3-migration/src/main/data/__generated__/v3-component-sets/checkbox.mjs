@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Checkbox",
-  "key": "94a2f6957a86f8ae3b8c7ca200dfcd5e29f6075b",
+  "key": "61da0cb392bbad8342cfa1630e08ae9e062cc8a4",
   "componentPropertyDefinitions": {
     "Label#49990:0": {
       "type": "TEXT",

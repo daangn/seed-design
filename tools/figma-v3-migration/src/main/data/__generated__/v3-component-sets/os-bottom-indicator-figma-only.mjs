@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "OS.BottomIndicator (Figma-Only)",
-  "key": "b38b719b61cdf1a24458d7a7888bee74b7649084",
+  "key": "291fcfece0247fd59a6ef14312347267523a5152",
   "componentPropertyDefinitions": {
     "OS": {
       "type": "VARIANT",

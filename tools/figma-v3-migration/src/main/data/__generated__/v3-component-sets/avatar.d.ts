@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Avatar",
-  "key": "4a8853c3068c08b69b13e71dd42ce186e968697e",
+  "key": "f17031afc2c71f35e5a147f6937a2b918029d334",
   "componentPropertyDefinitions": {
     "Has Image Contents#33407:0": {
       "type": "BOOLEAN",

@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Page Banner",
-  "key": "ce587d0f21754af05240cb32a4880227cb0ea1e1",
+  "key": "3a5a87cb13a30404d4b2478391ef3371c1895553",
   "componentPropertyDefinitions": {
     "Show Prefix Icon#11840:27": {
       "type": "BOOLEAN",
@@ -8,7 +8,7 @@ export const metadata = {
     },
     "Prefix Icon#35433:45": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "34936:109966",
+      "defaultValue": "15:37549",
       "preferredValues": []
     },
     "Pressed#36736:0": {

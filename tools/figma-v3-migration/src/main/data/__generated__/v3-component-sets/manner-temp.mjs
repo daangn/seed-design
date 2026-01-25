@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Manner Temp",
-  "key": "37c0a35f73a730fdfba7929cea91a7590fc93733",
+  "key": "b1cce2a31335bdb62afdad5efd974650b60f71ac",
   "componentPropertyDefinitions": {
     "Level": {
       "type": "VARIANT",

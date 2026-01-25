@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🚫 [Deprecated] Action Chip",
-  "key": "3d21594ef116e94a9465d507447b858aea062575",
+  "key": "63e532d9a4cf7304cf1101a05db8e0a063b7b0df",
   "componentPropertyDefinitions": {
     "Label#7185:0": {
       "type": "TEXT",
@@ -16,7 +16,7 @@ export const metadata = {
     },
     "Prefix Icon#8711:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "37665:153409",
+      "defaultValue": "12:40",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -26,12 +26,12 @@ export const metadata = {
     },
     "Suffix Icon#8711:3": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "34846:112152",
+      "defaultValue": "12:5476",
       "preferredValues": []
     },
     "Icon#8714:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "37665:153410",
+      "defaultValue": "12:42",
       "preferredValues": []
     },
     "Size": {

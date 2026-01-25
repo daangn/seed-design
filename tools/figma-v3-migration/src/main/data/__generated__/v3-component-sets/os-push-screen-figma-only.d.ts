@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "OS.PushScreen (Figma-Only)",
-  "key": "e1a50c36bfd7d8212e9924f33dd63625fa389c00",
+  "key": "67fd400f423a2bb1eff6e1c9affc07af579e1485",
   "componentPropertyDefinitions": {
     "OS": {
       "type": "VARIANT",

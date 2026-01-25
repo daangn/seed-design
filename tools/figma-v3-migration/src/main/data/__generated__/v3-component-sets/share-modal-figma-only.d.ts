@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "ShareModal (Figma-Only)",
-  "key": "3e741e2f47427f21743a8396028c63b7d6adb452",
+  "key": "9a004b31527378d7f0e711812466640f35c187de",
   "componentPropertyDefinitions": {
     "OS": {
       "type": "VARIANT",
