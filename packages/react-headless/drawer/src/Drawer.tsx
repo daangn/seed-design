@@ -64,13 +64,20 @@ export interface DrawerBackdropProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((props, ref) => {
-  const { overlayRef, onRelease, modal, snapPoints, isOpen, shouldFade, shouldOverlayAnimate } =
-    useDrawerContext();
+  const {
+    overlayRef,
+    onRelease,
+    modal,
+    snapPoints,
+    isOpen,
+    shouldFade,
+    shouldOverlayAnimate,
+    hasEntered,
+  } = useDrawerContext();
   const composedRef = useComposedRefs(ref, overlayRef);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
   const onMouseUp = useCallbackRef((event: React.PointerEvent<HTMLDivElement>) => onRelease(event));
 
-  // Overlay is the component that is locking scroll, removing it will unlock the scroll without having to dig into Radix's Dialog library
   if (!modal) {
     return null;
   }
@@ -83,6 +90,7 @@ export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((p
       data-snap-points-overlay={isOpen && shouldFade ? "true" : "false"}
       data-should-overlay-animate={shouldOverlayAnimate ? "true" : "false"}
       data-open={dataAttr(isOpen)}
+      data-has-entered={hasEntered ? "true" : "false"}
       {...props}
     />
   );
@@ -114,6 +122,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     closeOnInteractOutside,
     closeOnEscape,
     dismissible,
+    hasEntered,
   } = useDrawerContext();
   // Needed to use transition instead of animations
   const [delayedSnapPoints, setDelayedSnapPoints] = useState(false);
@@ -170,6 +179,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
       data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
       data-drawer-direction={direction}
       data-open={dataAttr(isOpen)}
+      data-has-entered={hasEntered ? "true" : "false"}
       data-drawer=""
       data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
       data-custom-container={container ? "true" : "false"}

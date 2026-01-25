@@ -7,6 +7,10 @@ declare interface BottomSheetVariant {
   * @default false
   */
   skipAnimation: boolean;
+/**
+  * @default true
+  */
+  showCloseButton: boolean;
 }
 
 declare type BottomSheetVariantMap = {

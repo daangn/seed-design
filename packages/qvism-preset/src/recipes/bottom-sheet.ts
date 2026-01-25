@@ -201,7 +201,7 @@ const bottomSheet = defineSlotRecipe({
     skipAnimation: {
       false: {
         backdrop: {
-          [pseudo(open, "[data-snap-points='false']")]: {
+          [pseudo(open, "[data-snap-points='false']", not("[data-has-entered='true']"))]: {
             animationName: "fade-in",
             animationDuration: vars.base.enabled.backdrop.enterDuration,
             animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
@@ -211,7 +211,12 @@ const bottomSheet = defineSlotRecipe({
             animationDuration: vars.base.enabled.backdrop.exitDuration,
             animationTimingFunction: vars.base.enabled.backdrop.exitTimingFunction,
           },
-          [pseudo(open, "[data-snap-points='true']", "[data-should-overlay-animate='true']")]: {
+          [pseudo(
+            open,
+            "[data-snap-points='true']",
+            "[data-should-overlay-animate='true']",
+            not("[data-has-entered='true']"),
+          )]: {
             animationName: "fade-in",
             animationDuration: vars.base.enabled.backdrop.enterDuration,
             animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
@@ -220,7 +225,7 @@ const bottomSheet = defineSlotRecipe({
         content: {
           animationDuration: vars.base.enabled.content.enterDuration,
           animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
-          [pseudo(open, "[data-snap-points='false']")]: {
+          [pseudo(open, "[data-snap-points='false']", not("[data-has-entered='true']"))]: {
             animationName: "drawer-slide-from-bottom",
             animationDuration: vars.base.enabled.content.enterDuration,
             animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
@@ -230,7 +235,7 @@ const bottomSheet = defineSlotRecipe({
             animationDuration: vars.base.enabled.content.exitDuration,
             animationTimingFunction: vars.base.enabled.content.exitTimingFunction,
           },
-          [pseudo(open, "[data-delayed-snap-points='true']")]: {
+          [pseudo(open, "[data-delayed-snap-points='true']", not("[data-has-entered='true']"))]: {
             animationName: "drawer-slide-from-bottom",
             animationDuration: vars.base.enabled.content.enterDuration,
             animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
@@ -238,10 +243,36 @@ const bottomSheet = defineSlotRecipe({
         },
       },
     },
+    showCloseButton: {
+      true: {},
+      false: {},
+    },
   },
+  compoundVariants: [
+    {
+      headerAlign: "left",
+      showCloseButton: false,
+      css: {
+        header: {
+          paddingRight: vars.base.enabled.body.paddingX,
+        },
+      },
+    },
+    {
+      headerAlign: "center",
+      showCloseButton: false,
+      css: {
+        header: {
+          paddingLeft: vars.base.enabled.body.paddingX,
+          paddingRight: vars.base.enabled.body.paddingX,
+        },
+      },
+    },
+  ],
   defaultVariants: {
     headerAlign: "left",
     skipAnimation: false,
+    showCloseButton: true,
   },
 });
 
