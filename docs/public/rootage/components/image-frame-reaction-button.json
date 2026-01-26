@@ -60,9 +60,11 @@
                   "type": "gradient",
                   "value": [
                     {
+                      "color": "$color.palette.static-black-alpha-300",
                       "position": 0
                     },
                     {
+                      "color": "$color.palette.static-black-alpha-300",
                       "position": 1
                     }
                   ]
