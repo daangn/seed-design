@@ -2,6 +2,20 @@ import type * as AST from "../ast";
 import * as factory from "../factory";
 import type * as Document from "./types";
 
+function isTokenRef(expr: unknown): expr is AST.TokenRef {
+  if (typeof expr !== "string") {
+    return false;
+  }
+  return expr.startsWith("$");
+}
+
+function parseToken(expr: unknown): AST.TokenLit | null {
+  if (isTokenRef(expr)) {
+    return factory.createTokenLit(expr);
+  }
+  return null;
+}
+
 function isHexColor(expr: unknown): expr is Document.Color {
   if (typeof expr !== "string") {
     return false;
@@ -11,7 +25,13 @@ function isHexColor(expr: unknown): expr is Document.Color {
   return regex.test(expr);
 }
 
-function parseColor(expr: unknown): AST.ColorHexLit | null {
+function parseColor(expr: unknown): AST.ColorHexLit | AST.TokenLit | null {
+  // Try token first
+  const token = parseToken(expr);
+  if (token) {
+    return token;
+  }
+  // Then try hex color
   if (isHexColor(expr)) {
     return factory.createColorHexLit(expr);
   }

@@ -1,6 +1,6 @@
 export const SETTINGS_KEY = "v3-migration-settings" as const;
 
-export const SEED_V3_LIBRARY_NAME = "SEED V3" as const;
+export const SEED_V3_LIBRARY_NAME = "SEED Foundations" as const;
 export const SEED_V3_LIBRARY_VARIABLE_COLLECTION_NAMES = {
   COLOR: "Color",
   UNIT: "Global",

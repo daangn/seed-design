@@ -30,7 +30,7 @@ export interface CubicBezierLit {
 
 export interface ShadowLayerLit {
   kind: "ShadowLayerLit";
-  color: ColorHexLit;
+  color: ColorHexLit | TokenLit;
   offsetX: DimensionLit;
   offsetY: DimensionLit;
   blur: DimensionLit;
@@ -44,7 +44,7 @@ export interface ShadowLit {
 
 export interface GradientStopLit {
   kind: "GradientStopLit";
-  color: ColorHexLit;
+  color: ColorHexLit | TokenLit;
   position: NumberLit;
 }
 

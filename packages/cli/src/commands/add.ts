@@ -20,7 +20,7 @@ const addOptionsSchema = z.object({
   all: z.boolean(),
   cwd: z.string(),
   baseUrl: z.string().optional(),
-  overwrite: z.boolean().optional(),
+  onDiff: z.enum(["overwrite", "backup"]).optional(),
 });
 
 export const addCommand = (cli: CAC) => {
@@ -37,9 +37,7 @@ export const addCommand = (cli: CAC) => {
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
     )
-    .option("--overwrite", "Overwrite existing files without confirmation", {
-      default: false,
-    })
+    .option("--on-diff <mode>", "Action when file differs: overwrite or backup")
     .example("seed-design add ui:action-button")
     .example("seed-design add ui:alert-dialog")
     .action(async (itemIds, opts) => {
@@ -184,7 +182,7 @@ export const addCommand = (cli: CAC) => {
         cwd,
         baseUrl,
         config,
-        overwrite: options.overwrite,
+        onDiff: options.onDiff,
       });
 
       try {

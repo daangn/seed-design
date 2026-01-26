@@ -112,7 +112,7 @@ export function createCubicBezierLit(
  * ShadowLayerLit factory
  */
 export function createShadowLayerLit(
-  color: ColorHexLit,
+  color: ColorHexLit | TokenLit,
   offsetX: DimensionLit,
   offsetY: DimensionLit,
   blur: DimensionLit,
@@ -141,7 +141,10 @@ export function createShadowLit(layers: ShadowLayerLit[]): ShadowLit {
 /**
  * GradientStopLit factory
  */
-export function createGradientStopLit(color: ColorHexLit, position: NumberLit): GradientStopLit {
+export function createGradientStopLit(
+  color: ColorHexLit | TokenLit,
+  position: NumberLit,
+): GradientStopLit {
   return {
     kind: "GradientStopLit",
     color,

@@ -90,7 +90,10 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
             value:
               value.kind === "ShadowLit"
                 ? value.layers.map((layer) => ({
-                    color: layer.color.value,
+                    color:
+                      layer.color.kind === "ColorHexLit"
+                        ? layer.color.value
+                        : layer.color.identifier,
                     offsetX: { value: layer.offsetX.value, unit: layer.offsetX.unit },
                     offsetY: { value: layer.offsetY.value, unit: layer.offsetY.unit },
                     blur: { value: layer.blur.value, unit: layer.blur.unit },
@@ -107,7 +110,8 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
             value:
               value.kind === "GradientLit"
                 ? value.stops.map((stop) => ({
-                    color: stop.color.value,
+                    color:
+                      stop.color.kind === "ColorHexLit" ? stop.color.value : stop.color.identifier,
                     position: stop.position.value,
                   }))
                 : value.identifier,
@@ -177,7 +181,8 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
           value:
             prop.value.kind === "ShadowLit"
               ? prop.value.layers.map((layer) => ({
-                  color: layer.color.value,
+                  color:
+                    layer.color.kind === "ColorHexLit" ? layer.color.value : layer.color.identifier,
                   offsetX: { value: layer.offsetX.value, unit: layer.offsetX.unit },
                   offsetY: { value: layer.offsetY.value, unit: layer.offsetY.unit },
                   blur: { value: layer.blur.value, unit: layer.blur.unit },
@@ -191,7 +196,8 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
           value:
             prop.value.kind === "GradientLit"
               ? prop.value.stops.map((stop) => ({
-                  color: stop.color.value,
+                  color:
+                    stop.color.kind === "ColorHexLit" ? stop.color.value : stop.color.identifier,
                   position: stop.position.value,
                 }))
               : prop.value.identifier,
