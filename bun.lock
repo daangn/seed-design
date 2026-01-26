@@ -281,7 +281,7 @@
     },
     "packages/cli": {
       "name": "@seed-design/cli",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "bin": {
         "seed-design": "./bin/index.mjs",
       },
