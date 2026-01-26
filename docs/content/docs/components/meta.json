@@ -1,4 +1,12 @@
 {
   "title": "Components",
-  "pages": ["...", "(deprecated)"]
+  "pages": [
+    "(buttons)",
+    "(controls)",
+    "(display)",
+    "(feedback)",
+    "(layout)",
+    "(navigation)",
+    "(deprecated)"
+  ]
 }
