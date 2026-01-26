@@ -12,11 +12,18 @@ function stringifyCubicBezierLit(expr: CubicBezierLit): string {
   return `cubic-bezier(${expr.value.join(", ")})`;
 }
 
-function stringifyShadowLit(expr: ShadowLit, tokenReference: (token: TokenLit) => string): string {
+function stringifyShadowLit(expr: ShadowLit, tokenReference?: (token: TokenLit) => string): string {
   return expr.layers
     .map((item) => {
-      const colorValue =
-        item.color.kind === "TokenLit" ? tokenReference(item.color) : item.color.value;
+      let colorValue: string;
+      if (item.color.kind === "TokenLit") {
+        if (!tokenReference) {
+          throw new Error("tokenReference is required for ShadowLit with TokenLit references");
+        }
+        colorValue = tokenReference(item.color);
+      } else {
+        colorValue = item.color.value;
+      }
       return `${item.offsetX.value}${item.offsetX.unit} ${item.offsetY.value}${item.offsetY.unit} ${item.blur.value}${item.blur.unit} ${item.spread.value}${item.spread.unit} ${colorValue}`;
     })
     .join(", ");
@@ -24,12 +31,19 @@ function stringifyShadowLit(expr: ShadowLit, tokenReference: (token: TokenLit) =
 
 function stringifyGradientLit(
   expr: GradientLit,
-  tokenReference: (token: TokenLit) => string,
+  tokenReference?: (token: TokenLit) => string,
 ): string {
   return expr.stops
     .map((item) => {
-      const colorValue =
-        item.color.kind === "TokenLit" ? tokenReference(item.color) : item.color.value;
+      let colorValue: string;
+      if (item.color.kind === "TokenLit") {
+        if (!tokenReference) {
+          throw new Error("tokenReference is required for GradientLit with TokenLit references");
+        }
+        colorValue = tokenReference(item.color);
+      } else {
+        colorValue = item.color.value;
+      }
       return `${colorValue} ${item.position.value * 100}%`;
     })
     .join(", ");
@@ -44,12 +58,12 @@ function stringifyValueLit(expr: ValueLit, tokenReference?: (token: TokenLit) =>
     return `${expr.value}${expr.unit}`;
   }
 
-  if (expr.kind === "NumberLit") {
-    return expr.value.toString();
-  }
-
   if (expr.kind === "DurationLit") {
     return `${expr.value}${expr.unit}`;
+  }
+
+  if (expr.kind === "NumberLit") {
+    return `${expr.value}`;
   }
 
   if (expr.kind === "CubicBezierLit") {
@@ -57,16 +71,10 @@ function stringifyValueLit(expr: ValueLit, tokenReference?: (token: TokenLit) =>
   }
 
   if (expr.kind === "ShadowLit") {
-    if (!tokenReference) {
-      throw new Error("tokenReference is required for ShadowLit with token references");
-    }
     return stringifyShadowLit(expr, tokenReference);
   }
 
   if (expr.kind === "GradientLit") {
-    if (!tokenReference) {
-      throw new Error("tokenReference is required for GradientLit with token references");
-    }
     return stringifyGradientLit(expr, tokenReference);
   }
 
