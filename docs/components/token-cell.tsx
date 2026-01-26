@@ -19,8 +19,29 @@ export interface TokenCellProps {
   resolvedValue: AST.ValueLit;
 }
 
+function renderGradientWithTokens(gradient: AST.GradientLit) {
+  return (
+    <span>
+      {gradient.stops.map((stop, index) => (
+        <Fragment key={index}>
+          {stop.color.kind === "TokenLit" ? (
+            <TokenLink id={stop.color.identifier} />
+          ) : (
+            stop.color.value
+          )}{" "}
+          {(stop.position.value * 100).toFixed(1)}%{index < gradient.stops.length - 1 ? ", " : ""}
+        </Fragment>
+      ))}
+    </span>
+  );
+}
+
 export function TokenCell(props: TokenCellProps) {
   const { isExpanded, values, resolvedValue } = props;
+
+  const isGradientWithTokens =
+    resolvedValue.kind === "GradientLit" &&
+    resolvedValue.stops.some((stop) => stop.color.kind === "TokenLit");
 
   return (
     <div className="flex justify-between" aria-expanded={isExpanded}>
@@ -30,7 +51,9 @@ export function TokenCell(props: TokenCellProps) {
             <Fragment key={item.ref}>
               <div className="flex items-center gap-2">
                 <TypeIndicator value={resolvedValue} />{" "}
-                {item.ref.startsWith("$") ? (
+                {index === values.length - 1 && isGradientWithTokens ? (
+                  renderGradientWithTokens(resolvedValue as AST.GradientLit)
+                ) : item.ref.startsWith("$") ? (
                   <TokenLink id={item.ref} description={item.description} />
                 ) : (
                   item.ref
@@ -46,7 +69,9 @@ export function TokenCell(props: TokenCellProps) {
         ) : (
           <div className="flex items-center gap-2">
             <TypeIndicator value={resolvedValue} />{" "}
-            {values[0].ref.startsWith("$") ? (
+            {isGradientWithTokens ? (
+              renderGradientWithTokens(resolvedValue as AST.GradientLit)
+            ) : values[0].ref.startsWith("$") ? (
               <TokenLink id={values[0].ref} description={values[0].description} />
             ) : (
               values[0].ref

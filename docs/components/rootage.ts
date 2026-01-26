@@ -17,13 +17,15 @@ export function stringifyTokenLit(token: AST.TokenLit): AST.TokenRef {
 }
 
 export function stringifyValueLit(lit: AST.ValueLit): string {
+  const tokenReference = (token: AST.TokenLit) => stringifyTokenLit(token);
+
   switch (lit.kind) {
     case "DimensionLit":
       return lit.unit === "rem"
-        ? `${css.staticStringifier.value(lit)} (${lit.value * 16}px)`
-        : css.staticStringifier.value(lit);
+        ? `${css.staticStringifier.value(lit, tokenReference)} (${lit.value * 16}px)`
+        : css.staticStringifier.value(lit, tokenReference);
     default:
-      return css.staticStringifier.value(lit);
+      return css.staticStringifier.value(lit, tokenReference);
   }
 }
 

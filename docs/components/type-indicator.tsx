@@ -5,7 +5,13 @@ import { IconLayers, IconRuler, IconSpline } from "./icons";
 // Gradient를 CSS linear-gradient로 변환하는 유틸리티 함수
 function gradientToCss(gradient: AST.GradientLit): string {
   const stops = gradient.stops
-    .map((stop) => `${stop.color.value} ${(stop.position.value * 100).toFixed(1)}%`)
+    .map((stop) => {
+      const color =
+        stop.color.kind === "ColorHexLit"
+          ? stop.color.value
+          : `var(--seed-${stop.color.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
+      return `${color} ${(stop.position.value * 100).toFixed(1)}%`;
+    })
     .join(", ");
   return `linear-gradient(to right, ${stops})`;
 }
@@ -13,7 +19,10 @@ function gradientToCss(gradient: AST.GradientLit): string {
 // Gradient 정보를 텍스트로 변환하는 함수
 function gradientToText(gradient: AST.GradientLit): string {
   const stops = gradient.stops
-    .map((stop) => `${stop.color.value} at ${(stop.position.value * 100).toFixed(1)}%`)
+    .map((stop) => {
+      const color = stop.color.kind === "ColorHexLit" ? stop.color.value : stop.color.identifier;
+      return `${color} at ${(stop.position.value * 100).toFixed(1)}%`;
+    })
     .join(", ");
   return `Gradient: ${stops}`;
 }
