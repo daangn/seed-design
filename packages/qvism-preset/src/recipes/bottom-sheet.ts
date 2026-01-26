@@ -185,24 +185,24 @@ const bottomSheet = defineSlotRecipe({
         header: {
           justifyContent: "flex-start",
           paddingLeft: vars.headerAlignmentLeft.enabled.header.paddingLeft,
-          paddingRight: vars.headerAlignmentLeft.enabled.header.paddingRight,
+          paddingRight: vars.base.enabled.body.paddingX,
 
-          [pseudo("[data-show-close-button='false']")]: {
-            paddingRight: vars.base.enabled.body.paddingX,
+          [pseudo("[data-show-close-button]")]: {
+            paddingRight: vars.headerAlignmentLeft.enabled.header.paddingRight,
           },
         },
       },
       center: {
         header: {
           justifyContent: "center",
-          paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
-          paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
+          paddingLeft: vars.base.enabled.body.paddingX,
+          paddingRight: vars.base.enabled.body.paddingX,
 
           textAlign: "center",
 
-          [pseudo("[data-show-close-button='false']")]: {
-            paddingLeft: vars.base.enabled.body.paddingX,
-            paddingRight: vars.base.enabled.body.paddingX,
+          [pseudo("[data-show-close-button]")]: {
+            paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
+            paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
           },
         },
       },

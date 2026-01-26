@@ -135,20 +135,20 @@
 .seed-bottom-sheet__header--headerAlign_left {
     justify-content: flex-start;
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
-    padding-right: 50px;
-}
-.seed-bottom-sheet__header--headerAlign_left[data-show-close-button='false'] {
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
+}
+.seed-bottom-sheet__header--headerAlign_left[data-show-close-button] {
+    padding-right: 50px;
 }
 .seed-bottom-sheet__header--headerAlign_center {
     justify-content: center;
-    padding-left: 50px;
-    padding-right: 50px;
-    text-align: center;
-}
-.seed-bottom-sheet__header--headerAlign_center[data-show-close-button='false'] {
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
+    text-align: center;
+}
+.seed-bottom-sheet__header--headerAlign_center[data-show-close-button] {
+    padding-left: 50px;
+    padding-right: 50px;
 }
 .seed-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points='false']:not([data-has-entered='true']) {
     animation-name: fade-in;
