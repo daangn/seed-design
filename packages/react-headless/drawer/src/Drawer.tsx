@@ -285,19 +285,30 @@ export interface DrawerDescriptionProps extends DialogPrimitive.DialogDescriptio
 
 export const DrawerDescription = DialogPrimitive.Description;
 
+export interface DrawerHeaderProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>((props, ref) => {
+  const { isCloseButtonRendered } = useDrawerContext();
+  return (
+    <Primitive.div ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
+  );
+});
+DrawerHeader.displayName = "DrawerHeader";
+
 export interface DrawerCloseButtonProps extends DialogPrimitive.DialogCloseProps {}
 
 export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButtonProps>(
   (props, ref) => {
-    const api = useDrawerContext();
+    const { closeButtonRef, setIsOpen } = useDrawerContext();
+    const composedRef = useComposedRefs(ref, closeButtonRef);
     return (
       <Primitive.button
-        ref={ref}
+        ref={composedRef}
         {...props}
         onClick={(e) => {
           props.onClick?.(e);
           if (e.defaultPrevented) return;
-          api.setIsOpen(false);
+          setIsOpen(false);
         }}
       />
     );

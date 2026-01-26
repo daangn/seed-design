@@ -48,8 +48,13 @@ const BottomSheetPreview = ({
           height: unset !important;
         }
       `}</style>
-      <BottomSheetRoot open headerAlign={headerAlign} showCloseButton={showCloseButton}>
-        <BottomSheetContent title={title} description={description} showHandle={showHandle}>
+      <BottomSheetRoot open headerAlign={headerAlign}>
+        <BottomSheetContent
+          title={title}
+          description={description}
+          showHandle={showHandle}
+          showCloseButton={showCloseButton}
+        >
           <BottomSheetBody minHeight="x16">
             <Text>Body content area</Text>
           </BottomSheetBody>

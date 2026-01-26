@@ -3,29 +3,16 @@
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import { Icon, BottomSheet as SeedBottomSheet, VisuallyHidden } from "@seed-design/react";
 import type * as React from "react";
-import { createContext, forwardRef, useContext } from "react";
+import { forwardRef } from "react";
 
-const ShowCloseButtonContext = createContext<boolean>(true);
-
-export interface BottomSheetRootProps extends SeedBottomSheet.RootProps {
-  /**
-   * @default true
-   */
-  showCloseButton?: boolean;
-}
+export interface BottomSheetRootProps extends SeedBottomSheet.RootProps {}
 
 /**
  * @see https://seed-design.io/react/components/action-sheet
  */
 export const BottomSheetRoot = (props: BottomSheetRootProps) => {
-  const { children, showCloseButton = true, ...otherProps } = props;
-  return (
-    <ShowCloseButtonContext.Provider value={showCloseButton}>
-      <SeedBottomSheet.Root showCloseButton={showCloseButton} {...otherProps}>
-        {children}
-      </SeedBottomSheet.Root>
-    </ShowCloseButtonContext.Provider>
-  );
+  const { children, ...otherProps } = props;
+  return <SeedBottomSheet.Root {...otherProps}>{children}</SeedBottomSheet.Root>;
 };
 
 export interface BottomSheetTriggerProps extends SeedBottomSheet.TriggerProps {}
@@ -40,14 +27,29 @@ export interface BottomSheetContentProps extends Omit<SeedBottomSheet.ContentPro
   layerIndex?: number;
 
   /**
+   * @default true
+   */
+  showCloseButton?: boolean;
+
+  /**
    * @default false
    */
   showHandle?: boolean;
 }
 
 export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentProps>(
-  ({ children, title, description, layerIndex, showHandle = false, ...otherProps }, ref) => {
-    const showCloseButton = useContext(ShowCloseButtonContext);
+  (
+    {
+      children,
+      title,
+      description,
+      layerIndex,
+      showCloseButton = true,
+      showHandle = false,
+      ...otherProps
+    },
+    ref,
+  ) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&

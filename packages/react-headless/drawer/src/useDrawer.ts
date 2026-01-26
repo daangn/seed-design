@@ -182,6 +182,11 @@ export function useDrawer(props: UseDrawerProps) {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [shouldOverlayAnimate, setShouldOverlayAnimate] = useState<boolean>(false);
 
+  const [isCloseButtonRendered, setIsCloseButtonRendered] = useState<boolean>(false);
+  const closeButtonRef = useCallback((node: HTMLButtonElement | null) => {
+    setIsCloseButtonRendered(!!node);
+  }, []);
+
   const overlayRef = useRef<HTMLDivElement>(null);
   const openTime = useRef<Date | null>(null);
   const dragStartTime = useRef<Date | null>(null);
@@ -664,6 +669,8 @@ export function useDrawer(props: UseDrawerProps) {
       closeOnInteractOutside,
       closeOnEscape,
       hasEntered,
+      closeButtonRef,
+      isCloseButtonRendered,
     }),
     [
       activeSnapPoint,
@@ -691,6 +698,8 @@ export function useDrawer(props: UseDrawerProps) {
       onDrag,
       onPress,
       hasEntered,
+      closeButtonRef,
+      isCloseButtonRendered,
     ],
   );
 }

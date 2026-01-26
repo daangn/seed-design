@@ -186,6 +186,10 @@ const bottomSheet = defineSlotRecipe({
           justifyContent: "flex-start",
           paddingLeft: vars.headerAlignmentLeft.enabled.header.paddingLeft,
           paddingRight: vars.headerAlignmentLeft.enabled.header.paddingRight,
+
+          [pseudo("[data-show-close-button='false']")]: {
+            paddingRight: vars.base.enabled.body.paddingX,
+          },
         },
       },
       center: {
@@ -195,6 +199,11 @@ const bottomSheet = defineSlotRecipe({
           paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
 
           textAlign: "center",
+
+          [pseudo("[data-show-close-button='false']")]: {
+            paddingLeft: vars.base.enabled.body.paddingX,
+            paddingRight: vars.base.enabled.body.paddingX,
+          },
         },
       },
     },
@@ -243,36 +252,10 @@ const bottomSheet = defineSlotRecipe({
         },
       },
     },
-    showCloseButton: {
-      true: {},
-      false: {},
-    },
   },
-  compoundVariants: [
-    {
-      headerAlign: "left",
-      showCloseButton: false,
-      css: {
-        header: {
-          paddingRight: vars.base.enabled.body.paddingX,
-        },
-      },
-    },
-    {
-      headerAlign: "center",
-      showCloseButton: false,
-      css: {
-        header: {
-          paddingLeft: vars.base.enabled.body.paddingX,
-          paddingRight: vars.base.enabled.body.paddingX,
-        },
-      },
-    },
-  ],
   defaultVariants: {
     headerAlign: "left",
     skipAnimation: false,
-    showCloseButton: true,
   },
 });
 
