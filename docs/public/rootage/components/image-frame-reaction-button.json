@@ -11,13 +11,6 @@
       "slots": {
         "root": {
           "properties": {
-            "color": {
-              "type": "color",
-              "description": "버튼 배경색입니다."
-            },
-            "cornerRadius": {
-              "type": "dimension"
-            },
             "size": {
               "type": "dimension",
               "description": "보이는 버튼 크기입니다."
@@ -31,8 +24,8 @@
         },
         "icon": {
           "properties": {
-            "color": {
-              "type": "color"
+            "gradient": {
+              "type": "gradient"
             },
             "size": {
               "type": "dimension"
@@ -53,14 +46,6 @@
             ],
             "slots": {
               "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-black-alpha-200"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                },
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x6"
@@ -71,9 +56,16 @@
                 }
               },
               "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
+                "gradient": {
+                  "type": "gradient",
+                  "value": [
+                    {
+                      "position": 0
+                    },
+                    {
+                      "position": 1
+                    }
+                  ]
                 },
                 "size": {
                   "type": "dimension",
@@ -88,9 +80,18 @@
             ],
             "slots": {
               "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.brand"
+                "gradient": {
+                  "type": "gradient",
+                  "value": [
+                    {
+                      "color": "#FF9A56",
+                      "position": 0
+                    },
+                    {
+                      "color": "#FF6600",
+                      "position": 1
+                    }
+                  ]
                 }
               }
             }

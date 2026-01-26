@@ -143,7 +143,7 @@ export function parseShadowLayer(layer: Document.ShadowLayer): ShadowLayerLit {
   });
 
   return factory.createShadowLayerLit(
-    colorLit as ColorHexLit, // we assume color isn't a token here, but you could check
+    colorLit,
     offsetXLit as DimensionLit,
     offsetYLit as DimensionLit,
     blurLit as DimensionLit,
@@ -166,5 +166,5 @@ export function parseGradientValue(grVal: Document.Gradient): GradientLit | Toke
 export function parseGradientStop(stop: Document.GradientStop): GradientStopLit {
   const colorLit = parseColorValue({ type: "color", value: stop.color });
   const positionLit = parseNumberValue({ type: "number", value: stop.position });
-  return factory.createGradientStopLit(colorLit as ColorHexLit, positionLit as NumberLit);
+  return factory.createGradientStopLit(colorLit, positionLit as NumberLit);
 }
