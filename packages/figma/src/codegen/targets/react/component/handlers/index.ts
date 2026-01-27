@@ -11,7 +11,7 @@ export * from "./checkmark";
 export * from "./chip";
 export * from "./contextual-floating-button";
 export * from "./divider";
-export { createFieldHeaderHandler, createFieldFooterHandler } from "./field";
+export * from "./field";
 export * from "./field-button";
 export * from "./floating-action-button";
 export * from "./help-bubble";
