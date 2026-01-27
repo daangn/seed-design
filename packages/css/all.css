@@ -4625,6 +4625,7 @@
   width: var(--seed-dimension-x6);
   height: var(--seed-dimension-x6);
   --seed-icon-size: var(--seed-dimension-x6);
+  --seed-icon-color: var(--seed-color-palette-static-white);
   background: none;
   border: none;
   justify-content: center;
@@ -4645,6 +4646,10 @@
 
 .seed-image-frame-reaction-button:focus {
   outline: none;
+}
+
+.seed-image-frame-reaction-button:is([aria-pressed="true"], [data-pressed]) {
+  --seed-icon-color: var(--seed-color-bg-transparent);
 }
 
 .seed-inline-banner__root {

@@ -31,7 +31,7 @@
     "rootage:build": "ultra -r --build rootage:build",
     "rootage:generate": "ultra -r --rebuild rootage:generate",
     "rootage:generate:watch": "watchlist packages/rootage/artifacts -- bun rootage:generate",
-    "rootage:test": "bun vitest run --project rootage --reporter=verbose",
+    "rootage:test": "bun --filter @seed-design/rootage-core test",
     "rootage:test:watch": "vitest dev --project rootage",
     "qvism:build": "ultra -r --build qvism:build",
     "qvism:generate": "bun --filter @seed-design/qvism-preset build && bun --filter @seed-design/css qvism:generate",

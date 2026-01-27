@@ -20,9 +20,19 @@ interface ThemeGenerationOptions {
 }
 
 // Gradient를 색상 stops만으로 변환하는 함수 (방향 없이)
-function gradientToColorStops(gradient: GradientLit): string {
+function gradientToColorStops(gradient: GradientLit, prefix?: string): string {
   return gradient.stops
-    .map((stop) => `${stop.color.value} ${(stop.position.value * 100).toFixed(2)}%`)
+    .map((stop) => {
+      let color: string;
+      if (stop.color.kind === "ColorHexLit") {
+        color = stop.color.value;
+      } else {
+        const tokenId = stop.color.identifier.replace(/\$/g, "").replace(/\./g, "-");
+        const prefixPart = prefix ? `${prefix}-` : "";
+        color = `var(--${prefixPart}${tokenId})`;
+      }
+      return `${color} ${(stop.position.value * 100).toFixed(2)}%`;
+    })
     .join(", ");
 }
 
@@ -104,7 +114,7 @@ class TokenProcessor {
     if (token.kind === "GradientTokenDeclaration") {
       const themeLight = token.values.find((v) => v.mode === "theme-light");
       if (themeLight?.value && themeLight.value.kind === "GradientLit") {
-        const gradientCss = gradientToColorStops(themeLight.value);
+        const gradientCss = gradientToColorStops(themeLight.value, this.options.sourcePrefix);
 
         // gradient stops를 colors에 사용하기 위해 저장
         this.gradientStops[`gradient-stops-${gradientKey}`] = gradientCss;

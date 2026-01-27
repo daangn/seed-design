@@ -292,7 +292,10 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
                 "type": "object",
                 "properties": {
                   "color": {
-                    "$ref": "#/definitions/colorShorthand"
+                    "anyOf": [
+                      { "$ref": "#/definitions/colorShorthand" },
+                      { "$ref": "#/definitions/tokenRef" }
+                    ]
                   },
                   "offsetX": {
                     "$ref": "#/definitions/dimensionShorthand"
@@ -328,7 +331,10 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
                 "type": "object",
                 "properties": {
                   "color": {
-                    "$ref": "#/definitions/colorShorthand"
+                    "anyOf": [
+                      { "$ref": "#/definitions/colorShorthand" },
+                      { "$ref": "#/definitions/tokenRef" }
+                    ]
                   },
                   "position": {
                     "type": "number"
