@@ -59,7 +59,13 @@ export default function ResultSectionSuccessWithLottie() {
       <ResultSection
         asset={
           <Box pb="x4">
-            <Player src={lottieUrl} autoplay loop style={{ width: 70, height: 70 }} />
+            <Player
+              src={lottieUrl}
+              autoplay
+              loop={false}
+              keepLastFrame
+              style={{ width: 70, height: 70 }}
+            />
           </Box>
         }
         title="성공했어요"
