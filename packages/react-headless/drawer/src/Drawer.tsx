@@ -72,7 +72,7 @@ export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((p
     isOpen,
     shouldFade,
     shouldOverlayAnimate,
-    hasEntered,
+    hasAnimationDone,
   } = useDrawerContext();
   const composedRef = useComposedRefs(ref, overlayRef);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
@@ -90,7 +90,7 @@ export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((p
       data-snap-points-overlay={isOpen && shouldFade ? "true" : "false"}
       data-should-overlay-animate={shouldOverlayAnimate ? "true" : "false"}
       data-open={dataAttr(isOpen)}
-      data-has-entered={hasEntered ? "true" : "false"}
+      data-animation-done={hasAnimationDone ? "true" : "false"}
       {...props}
     />
   );
@@ -122,7 +122,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     closeOnInteractOutside,
     closeOnEscape,
     dismissible,
-    hasEntered,
+    hasAnimationDone,
   } = useDrawerContext();
   // Needed to use transition instead of animations
   const [delayedSnapPoints, setDelayedSnapPoints] = useState(false);
@@ -179,7 +179,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
       data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
       data-drawer-direction={direction}
       data-open={dataAttr(isOpen)}
-      data-has-entered={hasEntered ? "true" : "false"}
+      data-animation-done={hasAnimationDone ? "true" : "false"}
       data-drawer=""
       data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
       data-custom-container={container ? "true" : "false"}

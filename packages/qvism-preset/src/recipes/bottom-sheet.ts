@@ -210,7 +210,7 @@ const bottomSheet = defineSlotRecipe({
     skipAnimation: {
       false: {
         backdrop: {
-          [pseudo(open, "[data-snap-points='false']", not("[data-has-entered='true']"))]: {
+          [pseudo(open, "[data-snap-points='false']", not("[data-animation-done='true']"))]: {
             animationName: "fade-in",
             animationDuration: vars.base.enabled.backdrop.enterDuration,
             animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
@@ -224,7 +224,7 @@ const bottomSheet = defineSlotRecipe({
             open,
             "[data-snap-points='true']",
             "[data-should-overlay-animate='true']",
-            not("[data-has-entered='true']"),
+            not("[data-animation-done='true']"),
           )]: {
             animationName: "fade-in",
             animationDuration: vars.base.enabled.backdrop.enterDuration,
@@ -234,7 +234,7 @@ const bottomSheet = defineSlotRecipe({
         content: {
           animationDuration: vars.base.enabled.content.enterDuration,
           animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
-          [pseudo(open, "[data-snap-points='false']", not("[data-has-entered='true']"))]: {
+          [pseudo(open, "[data-snap-points='false']", not("[data-animation-done='true']"))]: {
             animationName: "drawer-slide-from-bottom",
             animationDuration: vars.base.enabled.content.enterDuration,
             animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
@@ -244,11 +244,12 @@ const bottomSheet = defineSlotRecipe({
             animationDuration: vars.base.enabled.content.exitDuration,
             animationTimingFunction: vars.base.enabled.content.exitTimingFunction,
           },
-          [pseudo(open, "[data-delayed-snap-points='true']", not("[data-has-entered='true']"))]: {
-            animationName: "drawer-slide-from-bottom",
-            animationDuration: vars.base.enabled.content.enterDuration,
-            animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
-          },
+          [pseudo(open, "[data-delayed-snap-points='true']", not("[data-animation-done='true']"))]:
+            {
+              animationName: "drawer-slide-from-bottom",
+              animationDuration: vars.base.enabled.content.enterDuration,
+              animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+            },
         },
       },
     },

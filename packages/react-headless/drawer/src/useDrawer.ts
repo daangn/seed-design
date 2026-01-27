@@ -178,7 +178,7 @@ export function useDrawer(props: UseDrawerProps) {
   });
 
   const [hasBeenOpened, setHasBeenOpened] = useState<boolean>(false);
-  const [hasEntered, setHasEntered] = useState<boolean>(false);
+  const [hasAnimationDone, setHasAnimationDone] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [shouldOverlayAnimate, setShouldOverlayAnimate] = useState<boolean>(false);
 
@@ -616,13 +616,17 @@ export function useDrawer(props: UseDrawerProps) {
   useEffect(() => {
     if (isOpen) {
       setHasBeenOpened(true);
-      setHasEntered(false);
-      const timeoutId = setTimeout(() => {
-        setHasEntered(true);
-      }, TRANSITIONS.ENTER_DURATION * 1000);
-      return () => clearTimeout(timeoutId);
+      if (!hasBeenOpened) {
+        setHasAnimationDone(false);
+        const timeoutId = setTimeout(() => {
+          setHasAnimationDone(true);
+        }, TRANSITIONS.ENTER_DURATION * 1000);
+        return () => clearTimeout(timeoutId);
+      }
+    } else {
+      setHasAnimationDone(false);
     }
-  }, [isOpen]);
+  }, [isOpen, hasBeenOpened]);
 
   useEffect(() => {
     if (isOpen && snapPoints && fadeFromIndex === 0) {
@@ -668,7 +672,7 @@ export function useDrawer(props: UseDrawerProps) {
       setIsOpen,
       closeOnInteractOutside,
       closeOnEscape,
-      hasEntered,
+      hasAnimationDone,
       closeButtonRef,
       isCloseButtonRendered,
     }),
@@ -697,7 +701,7 @@ export function useDrawer(props: UseDrawerProps) {
       onRelease,
       onDrag,
       onPress,
-      hasEntered,
+      hasAnimationDone,
       closeButtonRef,
       isCloseButtonRendered,
     ],
