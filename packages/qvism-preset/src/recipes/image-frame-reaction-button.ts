@@ -21,8 +21,8 @@ export default defineRecipe({
     background: "transparent",
 
     ...onlyIcon({
-      size: reactionButtonVars.base.enabled.icon.size,
-      color: reactionButtonVars.base.enabled.icon.color,
+      size: reactionButtonVars.base.enabled.fillIcon.size,
+      color: reactionButtonVars.base.enabled.lineIcon.color,
     }),
 
     "&::before": {
@@ -40,7 +40,7 @@ export default defineRecipe({
 
     [pseudo(pressed)]: {
       ...onlyIcon({
-        color: reactionButtonVars.base.selected.icon.color,
+        color: reactionButtonVars.base.selected.lineIcon.color,
       }),
     },
   },
