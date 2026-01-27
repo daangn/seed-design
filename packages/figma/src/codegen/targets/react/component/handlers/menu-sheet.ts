@@ -15,10 +15,9 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("menu-sheet");
 const { createLocalSnippetElement: createLocalSnippetElementTrigger } =
   createLocalSnippetHelper("action-button");
 
-const MENU_SHEET_ITEM_KEY = "057083e95466da59051119eec0b41d4ad5a07f8f";
 const createMenuSheetItemHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<MenuSheetItemProperties>(
-    MENU_SHEET_ITEM_KEY,
+    metadata.privateComponentMenuSheetMenuItem.key,
     ({ componentProperties: props }) => {
       const states = props.State.value.split("-");
 
@@ -40,12 +39,11 @@ const createMenuSheetItemHandler = (ctx: ComponentHandlerDeps) =>
     },
   );
 
-const MENU_SHEET_GROUP_KEY = "2a504a1c6b7810d5e652862dcba2cb7048f9eb16";
 const createMenuSheetGroupHandler = (ctx: ComponentHandlerDeps) => {
   const menuSheetItemHandler = createMenuSheetItemHandler(ctx);
 
   return defineComponentHandler<MenuSheetGroupProperties>(
-    MENU_SHEET_GROUP_KEY,
+    metadata.privateComponentMenuSheetMenuGroup.key,
     (node, traverse) => {
       const items = findAllInstances<MenuSheetItemProperties>({
         node,
@@ -62,47 +60,52 @@ const createMenuSheetGroupHandler = (ctx: ComponentHandlerDeps) => {
 export const createMenuSheetHandler = (ctx: ComponentHandlerDeps) => {
   const menuSheetGroupHandler = createMenuSheetGroupHandler(ctx);
 
-  return defineComponentHandler<MenuSheetProperties>(metadata.componentMenuSheet.key, (node, traverse) => {
-    const { componentProperties: props } = node;
+  return defineComponentHandler<MenuSheetProperties>(
+    metadata.componentMenuSheet.key,
+    (node, traverse) => {
+      const { componentProperties: props } = node;
 
-    const groups = findAllInstances<MenuSheetGroupProperties>({
-      node,
-      key: menuSheetGroupHandler.key,
-    });
+      const groups = findAllInstances<MenuSheetGroupProperties>({
+        node,
+        key: menuSheetGroupHandler.key,
+      });
 
-    const contentChildren = groups.map((group) => menuSheetGroupHandler.transform(group, traverse));
+      const contentChildren = groups.map((group) =>
+        menuSheetGroupHandler.transform(group, traverse),
+      );
 
-    const title = props["Show Header#17043:12"].value
-      ? props["Title Text#14599:0"].value
-      : undefined;
-
-    const description =
-      props["Show Header#17043:12"].value && props["Show Header Description#32984:0"].value
-        ? props["Description Text#21827:0"].value
+      const title = props["Show Header#17043:12"].value
+        ? props["Title Text#14599:0"].value
         : undefined;
 
-    const { labelAlign } = match(props.Layout.value)
-      .with("Text with Icon", () => ({ labelAlign: "left" }))
-      .with("Text Only", () => ({ labelAlign: "center" }))
-      .exhaustive();
+      const description =
+        props["Show Header#17043:12"].value && props["Show Header Description#32984:0"].value
+          ? props["Description Text#21827:0"].value
+          : undefined;
 
-    const content = createLocalSnippetElement(
-      "MenuSheetContent",
-      { title, description, labelAlign },
-      contentChildren,
-      {
-        comment: title
-          ? undefined
-          : "title을 제공하지 않는 경우 aria-label이나 aria-labelledby 중 하나를 제공해야 합니다.",
-      },
-    );
+      const { labelAlign } = match(props.Layout.value)
+        .with("Text with Icon", () => ({ labelAlign: "left" }))
+        .with("Text Only", () => ({ labelAlign: "center" }))
+        .exhaustive();
 
-    const trigger = createLocalSnippetElement(
-      "MenuSheetTrigger",
-      { asChild: true },
-      createLocalSnippetElementTrigger("ActionButton", {}, "MenuSheet 열기"),
-    );
+      const content = createLocalSnippetElement(
+        "MenuSheetContent",
+        { title, description, labelAlign },
+        contentChildren,
+        {
+          comment: title
+            ? undefined
+            : "title을 제공하지 않는 경우 aria-label이나 aria-labelledby 중 하나를 제공해야 합니다.",
+        },
+      );
 
-    return createLocalSnippetElement("MenuSheet", undefined, [trigger, content]);
-  });
+      const trigger = createLocalSnippetElement(
+        "MenuSheetTrigger",
+        { asChild: true },
+        createLocalSnippetElementTrigger("ActionButton", {}, "MenuSheet 열기"),
+      );
+
+      return createLocalSnippetElement("MenuSheet", undefined, [trigger, content]);
+    },
+  );
 };

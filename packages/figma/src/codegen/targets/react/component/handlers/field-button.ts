@@ -1,12 +1,10 @@
 import { defineComponentHandler } from "@/codegen/core";
 import * as sets from "@/entities/data/__generated__/component-sets";
-import * as components from "@/entities/data/__generated__/components";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import {
   createFieldFooterHandler,
   createFieldHeaderHandler,
-  FIELD_KEYS,
   type FieldFooterProps,
   type FieldHeaderProps,
 } from "@/codegen/targets/react/component/handlers/field";
@@ -25,22 +23,26 @@ import type { NormalizedTextNode } from "@/normalizer";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("field-button");
 
-const INPUT_BUTTON_KEY = "965bdecb58755af9a08d60cc3c8d2d33b42e15f0";
-const INPUT_BUTTON_PREFIX_KEY = "12b40c736a098298c64ba16de85702b4b460d1f1";
-const INPUT_BUTTON_SUFFIX_KEY = "5dda27af9f4afafa471925c17acf97d81912877a";
+// published but taken down now
+const FIELD_BUTTON_KEYS = {
+  selectField: "a2138764f60a9b5a35e22ff40bc6cd701c660260",
+  datePickerField: "c161d1326a1087258e4f762aa3c378c098308d98",
+  timePickerField: "e38df17cf1e0f96e09774b015739dfde30d46115",
+  addressPickerField: "4af06df28eca43fe2be5fe5ba5e6019587de9fac",
+} as const;
 
 export const createFieldButtonHandler = (ctx: ComponentHandlerDeps) => {
   const fieldHeaderHandler = createFieldHeaderHandler(ctx);
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<FieldButtonProperties>(
-    sets.templateCustomPickerField.key,
+    sets.templateFieldButton.key,
     (node, traverse) => {
       const props = node.componentProperties;
 
       const [inputButton] = findAllInstances<InputButtonProperties>({
         node,
-        key: INPUT_BUTTON_KEY,
+        key: sets.privateComponentInputButton.key,
       });
 
       const [clearButton] = findAllInstances<ActionButtonGhostProperties>({
@@ -50,11 +52,11 @@ export const createFieldButtonHandler = (ctx: ComponentHandlerDeps) => {
 
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: FIELD_KEYS.HEADER,
+        key: sets.privateComponentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: FIELD_KEYS.FOOTER,
+        key: sets.privateComponentFieldFooter.key,
       });
 
       // maxGraphemeCount and required can't be props of FieldButton
@@ -69,12 +71,12 @@ export const createFieldButtonHandler = (ctx: ComponentHandlerDeps) => {
 
       const [prefix] = findAllInstances<InputButtonPrefixProperties>({
         node: inputButton,
-        key: INPUT_BUTTON_PREFIX_KEY,
+        key: sets.privateComponentInputButtonPrefix.key,
       });
 
       const [suffix] = findAllInstances<InputButtonSuffixProperties>({
         node: inputButton,
-        key: INPUT_BUTTON_SUFFIX_KEY,
+        key: sets.privateComponentInputButtonSuffix.key,
       });
 
       const commonProps = {
@@ -136,7 +138,7 @@ export const createSelectFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.templateSelectField.key,
+    FIELD_BUTTON_KEYS.selectField,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
@@ -152,7 +154,7 @@ export const createDatePickerFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.templateDatePickerField.key,
+    FIELD_BUTTON_KEYS.datePickerField,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
@@ -168,7 +170,7 @@ export const createTimePickerFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.templateTimePickerField.key,
+    FIELD_BUTTON_KEYS.timePickerField,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
@@ -184,7 +186,7 @@ export const createAddressFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.templateAddressPickerField.key,
+    FIELD_BUTTON_KEYS.addressPickerField,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
