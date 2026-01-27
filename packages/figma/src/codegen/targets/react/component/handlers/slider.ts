@@ -14,14 +14,11 @@ import { findAllInstances } from "@/utils/figma-node";
 import {
   createFieldFooterHandler,
   createFieldHeaderHandler,
-  FIELD_KEYS,
   type FieldFooterProps,
   type FieldHeaderProps,
 } from "@/codegen/targets/react/component/handlers/field";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("slider");
-
-const SLIDER_TICK_KEY = "ace432ffb7a2af13bce549b19c932ac5f96a9a78";
 
 function getSliderComment(props: { markers?: unknown; ticks?: unknown } & Record<string, unknown>) {
   return [
@@ -43,14 +40,17 @@ export const createSliderFieldHandler = (ctx: ComponentHandlerDeps) => {
     (node, traverse) => {
       const props = node.componentProperties;
 
-      const [slider] = findAllInstances<SliderProperties>({ node, key: metadata.slider.key });
+      const [slider] = findAllInstances<SliderProperties>({
+        node,
+        key: metadata.componentSlider.key,
+      });
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: FIELD_KEYS.HEADER,
+        key: metadata.privateComponentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: FIELD_KEYS.FOOTER,
+        key: metadata.privateComponentFieldFooter.key,
       });
 
       const sliderProps = sliderHandler.transform(slider, traverse).props;
@@ -79,7 +79,7 @@ export const createSliderFieldHandler = (ctx: ComponentHandlerDeps) => {
 };
 
 export const createSliderHandler = (_ctx: ComponentHandlerDeps) => {
-  return defineComponentHandler<SliderProperties>(metadata.slider.key, (node) => {
+  return defineComponentHandler<SliderProperties>(metadata.componentSlider.key, (node) => {
     const { componentProperties: props } = node;
 
     const { min, max, defaultValues } = match(props.Value.value)
@@ -87,7 +87,10 @@ export const createSliderHandler = (_ctx: ComponentHandlerDeps) => {
       .with("Range", () => ({ min: 0, max: 100, defaultValues: [0, 50] }))
       .exhaustive();
 
-    const [ticks] = findAllInstances<SliderTicksProperties>({ node, key: SLIDER_TICK_KEY });
+    const [ticks] = findAllInstances<SliderTicksProperties>({
+      node,
+      key: metadata.privateComponentSliderItemTickMark.key,
+    });
 
     const commonProps = {
       min,

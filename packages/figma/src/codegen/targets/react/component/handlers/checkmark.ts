@@ -11,7 +11,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("checkbox");
 
 export const createCheckmarkHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<CheckmarkProperties>(
-    metadata.checkmark.key,
+    metadata.componentCheckmark.key,
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")

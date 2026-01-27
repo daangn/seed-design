@@ -5,7 +5,6 @@ import type { ComponentHandlerDeps } from "../deps.interface";
 import {
   createFieldFooterHandler,
   createFieldHeaderHandler,
-  FIELD_KEYS,
   type FieldFooterProps,
   type FieldHeaderProps,
 } from "@/codegen/targets/react/component/handlers/field";
@@ -27,16 +26,6 @@ import type { NormalizedTextNode } from "@/normalizer";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("text-field");
 
-const TEXT_INPUT_OUTLINE_KEY = "22eebd645d310c086d9f5f69d8f179ff5c7cf7ca";
-const TEXT_INPUT_OUTLINE_PREFIX_KEY = "1ab174dd51bc42a5efe530f52f1dd02255c50b18";
-const TEXT_INPUT_OUTLINE_SUFFIX_KEY = "555fee288d9053760e301791665bbac31d19c43f";
-
-const TEXT_INPUT_UNDERLINE_KEY = "16e9e343fc319190149369bd61076d6415e09a8a";
-const TEXT_INPUT_UNDERLINE_PREFIX_KEY = "a7ceae43b6daf4490e8ab408d2c29fb63b2eb891";
-const TEXT_INPUT_UNDERLINE_SUFFIX_KEY = "1b88368820be61f358e24a8aaa601e7f2a2ea101";
-
-const TEXTAREA_KEY = "22bb206483f00cd635188eea6ae8a6aac058b5d5";
-
 export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldHeaderHandler = createFieldHeaderHandler(ctx);
   const fieldFooterHandler = createFieldFooterHandler(ctx);
@@ -48,20 +37,20 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
 
       const [textInputOutline] = findAllInstances<TextInputOutlineProperties>({
         node,
-        key: TEXT_INPUT_OUTLINE_KEY,
+        key: metadata.privateComponentTextInput.key,
       });
       const [textInputUnderline] = findAllInstances<TextInputUnderlineProperties>({
         node,
-        key: TEXT_INPUT_UNDERLINE_KEY,
+        key: metadata.privateComponentUnderlineTextInput.key,
       });
 
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: FIELD_KEYS.HEADER,
+        key: metadata.privateComponentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: FIELD_KEYS.FOOTER,
+        key: metadata.privateComponentFieldFooter.key,
       });
 
       const fieldProps = {
@@ -77,12 +66,12 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
         if (textInputOutline) {
           const [prefix] = findAllInstances<TextInputOutlinePrefixProperties>({
             node: textInputOutline,
-            key: TEXT_INPUT_OUTLINE_PREFIX_KEY,
+            key: metadata.privateComponentTextInputPrefix.key,
           });
 
           const [suffix] = findAllInstances<TextInputOutlineSuffixProperties>({
             node: textInputOutline,
-            key: TEXT_INPUT_OUTLINE_SUFFIX_KEY,
+            key: metadata.privateComponentTextInputSuffix.key,
           });
 
           return {
@@ -120,12 +109,12 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
         if (textInputUnderline) {
           const [prefix] = findAllInstances<TextInputUnderlinePrefixProperties>({
             node: textInputUnderline,
-            key: TEXT_INPUT_UNDERLINE_PREFIX_KEY,
+            key: metadata.privateComponentUnderlineTextInputPrefix.key,
           });
 
           const [suffix] = findAllInstances<TextInputUnderlineSuffixProperties>({
             node: textInputUnderline,
-            key: TEXT_INPUT_UNDERLINE_SUFFIX_KEY,
+            key: metadata.privateComponentUnderlineTextInputSuffix.key,
           });
 
           return {
@@ -204,15 +193,15 @@ export const createTextareaFieldHandler = (ctx: ComponentHandlerDeps) => {
     (node, traverse) => {
       const [textarea] = findAllInstances<TextareaProperties>({
         node,
-        key: TEXTAREA_KEY,
+        key: metadata.privateComponentTextarea.key,
       });
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: FIELD_KEYS.HEADER,
+        key: metadata.privateComponentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: FIELD_KEYS.FOOTER,
+        key: metadata.privateComponentFieldFooter.key,
       });
 
       const fieldProps = {

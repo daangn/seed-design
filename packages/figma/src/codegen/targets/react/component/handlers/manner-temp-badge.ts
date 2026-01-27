@@ -8,7 +8,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("manner-temp-badg
 
 export const createMannerTempBadgeHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<MannerTempBadgeProperties>(
-    metadata.mannerTempBadge.key,
+    metadata.componentMannerTempBadge.key,
     ({ children }) => {
       const textNode = children.find((child) => child.type === "TEXT");
 

@@ -9,7 +9,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("reaction-button"
 
 export const createReactionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ReactionButtonProperties>(
-    metadata.reactionButton.key,
+    metadata.componentReactionButton.key,
     ({ componentProperties: props }) => {
       const commonProps = {
         size: handleSizeProp(props.Size.value),

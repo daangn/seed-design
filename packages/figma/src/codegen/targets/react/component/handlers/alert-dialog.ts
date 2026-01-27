@@ -19,14 +19,12 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("alert-dialog");
 const { createLocalSnippetElement: createLocalSnippetElementTrigger } =
   createLocalSnippetHelper("action-button");
 
-const ALERT_DIALOG_FOOTER_KEY = "00b1b131d67edf2875a7a1df8dfa88098d7c04be";
-
 export const createAlertDialogHandler = (ctx: ComponentHandlerDeps) => {
   const actionButtonHandler = createActionButtonHandler(ctx);
   const actionButtonGhostHandler = createActionButtonGhostHandler(ctx);
 
   return defineComponentHandler<AlertDialogProperties>(
-    metadata.alertDialog.key,
+    metadata.componentAlertDialog.key,
     (node, traverse) => {
       const props = node.componentProperties;
       const alertDialogHeader = createLocalSnippetElement("AlertDialogHeader", undefined, [
@@ -48,7 +46,7 @@ export const createAlertDialogHandler = (ctx: ComponentHandlerDeps) => {
 
       const footerNodes = findAllInstances<AlertDialogFooterProperties>({
         node,
-        key: ALERT_DIALOG_FOOTER_KEY,
+        key: metadata.privateComponentAlertDialogActions.key,
       });
 
       if (footerNodes.length === 0 || footerNodes.length > 1) {

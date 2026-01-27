@@ -5,6 +5,7 @@ import type {
 } from "@/codegen/component-properties";
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
+import * as components from "@/entities/data/__generated__/components";
 import type { NormalizedTextNode } from "@/normalizer";
 import { findAllInstances, findOne } from "@/utils/figma-node";
 import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
@@ -14,28 +15,28 @@ import { match } from "ts-pattern";
 const { createLocalSnippetElement } = createLocalSnippetHelper("list");
 
 const PREFIX_KEYS = {
-  checkmark: "f24c9ef42ef08df79483fbae0fa7d9037e566748",
-  radiomark: "5a77ad37a2291989dfe77c44ddee9aa39e447f90",
-  icon: "0e4c05f097d3fa2dc0cbfdbf8db2662bcf8439ca",
-  avatar: "ef0e8bd6c2f92e620acf204bb9a8079ef25a1e5c",
-  image: "82239325aa1cb65af7c649fc71a8f2b48fb9b9f3",
-  custom: "81f201fc876e38f016ab7427a6b3da000ee919a2",
-} as const;
+  checkmark: "563275de82ea1282cece0c35c0cd8d1625bc3a9d",
+  radiomark: "51f7c0917ebc559d81e63d0639cb632a792f40de",
+  icon: components.componentListItemPrefixIcon.key,
+  avatar: "27e33754113178be97e07195528c4ea020b3d3b7",
+  image: "d06216ff143a960844799c0b8f9212628f78c69d",
+  custom: "b8059f5e0f85e0745fc61ff70f04571177c2cdfc",
+};
 
 const SUFFIX_KEYS = {
-  checkmark: "abf9810103ae6e6afe8fa253ec5f05d6a7304b38",
-  radiomark: "0a9464ad270bfd7f56438f62bb0155a25ca146a9",
-  chevron: "8c52207687ffed15cd5931d71ed9d196b3358a68",
-  switch: "1e933f75dd6bb4b21c3289b5c3b4402d2c623125",
-  custom: "3a70bf5bb9856c13893931b7a0df652bcf0be895",
-  icon: "4cc7e9b84a8388a36cb3898c6c02e6110a3281b9",
-  chevronWithText: "fe0e25f4fecda59d0a3730ead7c5bc0a66a41e7e",
-  iconButton: "5636566f6de6f58200dce388f7b1ac9f517b30e1",
-  actionButton: "3d788f28c785d1c60b937b253c39ce582dbe1ed3",
-} as const;
+  checkmark: "385ba8d607029e15e0d38ab415f783016488b185",
+  radiomark: "09871d64c5c30407da586fb34425c2e83e147c81",
+  chevron: components.componentListItemSuffixChevron.key,
+  switch: "0c26bd64e117e168b06eea69be903e4be762a728",
+  custom: "26b86c9f8965d38aa5a1181a5cdc89fa487988d1",
+  icon: components.componentListItemSuffixIcon.key,
+  chevronWithText: components.componentListItemSuffixChevronWithText.key,
+  iconButton: metadata.componentListItemSuffixIconButton.key,
+  actionButton: metadata.componentListItemSuffixActionButton.key,
+};
 
 export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<ListItemProperties>(metadata.listItem.key, (node, traverse) => {
+  defineComponentHandler<ListItemProperties>(metadata.componentListItem.key, (node, traverse) => {
     const { componentProperties: props } = node;
 
     const { alignItems, title } = match(props.Variants.value)

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { ENV } from "../env";
 import { loadConfig } from "./config";
 import { createApiClient } from "../api/client";
+import { getNodesInFile } from "../api/nodes";
 import pkg from "../../package.json" with { type: "json" };
 import { createWriterContext } from "./write";
 
@@ -58,7 +59,12 @@ cli
 
         const writerContext = createWriterContext({ baseDir: dir, pipelineName: name });
 
-        await pipeline.execute({ ...writerContext, api, fileKey });
+        await pipeline.execute({
+          ...writerContext,
+          api,
+          fileKey,
+          fetchNodes: ({ fileKey, nodeIds }) => getNodesInFile({ api, fileKey, nodeIds }),
+        });
       }
     } catch (error) {
       console.error(error);

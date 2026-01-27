@@ -10,7 +10,7 @@ import { match } from "ts-pattern";
 const { createLocalSnippetElement } = createLocalSnippetHelper("radio-group");
 
 export const createRadioGroupItemHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<RadioProperties>(metadata.radio.key, ({ componentProperties: props }) => {
+  defineComponentHandler<RadioProperties>(metadata.componentRadio.key, ({ componentProperties: props }) => {
     const tone = match(props.Tone.value)
       .with("Neutral", () => "neutral")
       .with("🚫[Deprecated]Brand", () => "brand")
