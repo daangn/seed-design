@@ -26,7 +26,7 @@ export const createAlertDialogHandler = (ctx: ComponentHandlerDeps) => {
   const actionButtonGhostHandler = createActionButtonGhostHandler(ctx);
 
   return defineComponentHandler<AlertDialogProperties>(
-    metadata.alertDialog.key,
+    metadata.componentAlertDialog.key,
     (node, traverse) => {
       const props = node.componentProperties;
       const alertDialogHeader = createLocalSnippetElement("AlertDialogHeader", undefined, [

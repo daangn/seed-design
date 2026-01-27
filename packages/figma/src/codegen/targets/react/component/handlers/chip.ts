@@ -35,7 +35,7 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
   const avatarHandler = createAvatarHandler(ctx);
   const iconSuffixHandler = createChipIconSuffixHandler(ctx);
 
-  return defineComponentHandler<ChipProperties>(metadata.chip.key, (node, traverse) => {
+  return defineComponentHandler<ChipProperties>(metadata.componentChip.key, (node, traverse) => {
     const props = node.componentProperties;
 
     const prefix = match(props["Prefix Type"].value)
@@ -50,7 +50,7 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
         ),
       )
       .with("Avatar", () => {
-        const [avatar] = findAllInstances<AvatarProperties>({ node, key: metadata.avatar.key });
+        const [avatar] = findAllInstances<AvatarProperties>({ node, key: metadata.componentAvatar.key });
         if (!avatar) return undefined;
 
         return createLocalSnippetElement(

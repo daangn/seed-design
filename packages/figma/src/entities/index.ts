@@ -1,9 +1,9 @@
 import { createStaticIconRepository } from "./icon.repository";
 import { FIGMA_ICONS } from "./data/__generated__/icons";
-import { FIGMA_STYLES } from "./data/__generated__/styles";
-import { FIGMA_VARIABLE_COLLECTIONS } from "./data/__generated__/variable-collections";
-import { FIGMA_VARIABLES } from "./data/__generated__/variables";
-import * as FIGMA_COMPONENTS from "./data/__generated__/component-sets";
+import { FIGMA_STYLES } from "./data/__generated__/archive/styles";
+import { FIGMA_VARIABLE_COLLECTIONS } from "./data/__generated__/archive/variable-collections";
+import { FIGMA_VARIABLES } from "./data/__generated__/archive/variables";
+import * as FIGMA_COMPONENTS from "./data/__generated__/archive/component-sets";
 import { createStaticStyleRepository } from "./style.repository";
 import { createStaticVariableRepository } from "./variable.repository";
 import { createStaticComponentRepository } from "./component.repository";

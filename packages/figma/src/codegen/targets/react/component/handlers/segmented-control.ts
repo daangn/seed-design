@@ -35,7 +35,7 @@ export const createSegmentedControlHandler = (ctx: ComponentHandlerDeps) => {
   const segmentedControlItemHandler = createSegmentedControlItemHandler(ctx);
 
   return defineComponentHandler<SegmentedControlProperties>(
-    metadata.segmentedControl.key,
+    metadata.componentSegmentedControl.key,
     (node, traverse) => {
       const segments = findAllInstances<SegmentedControlItemProperties>({
         node,

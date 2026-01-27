@@ -29,7 +29,7 @@ export const createTabsHandler = (_ctx: ComponentHandlerDeps) => {
   const lineHandler = createLineTabsHandler(_ctx);
   const chipHandler = createChipTabsHandler(_ctx);
 
-  return defineComponentHandler<TabsProperties>(metadata.tabs.key, (node, traverse) => {
+  return defineComponentHandler<TabsProperties>(metadata.componentTabs.key, (node, traverse) => {
     const props = node.componentProperties;
 
     const elementNode = match(props.Variant.value)
@@ -224,7 +224,7 @@ const createChipTabsHandler = (_ctx: ComponentHandlerDeps) => {
 
       const triggers = nodes.map((node) => {
         // this is redundant; can this be better?
-        const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.chip.key });
+        const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.componentChip.key });
         if (!chip) throw new Error("Chip not found in ChipTabsTrigger");
 
         return {
@@ -237,7 +237,7 @@ const createChipTabsHandler = (_ctx: ComponentHandlerDeps) => {
         (node) => node.componentProperties.State.value === "Selected",
       );
       const [selectedChip] = selectedTrigger
-        ? findAllInstances<ChipProperties>({ node: selectedTrigger, key: metadata.chip.key })
+        ? findAllInstances<ChipProperties>({ node: selectedTrigger, key: metadata.componentChip.key })
         : [undefined];
       if (!selectedChip) throw new Error("Chip not found in ChipTabsTrigger");
 
@@ -277,7 +277,7 @@ const CHIP_TRIGGER_KEY = "95bf31a329f9e8bba0d9aa2299d1552f1d388148";
 
 const createChipTabsTriggerHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ChipTabsTriggerProperties>(CHIP_TRIGGER_KEY, (node) => {
-    const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.chip.key });
+    const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.componentChip.key });
     if (!chip) throw new Error("Chip not found in ChipTabsTrigger");
 
     const props = node.componentProperties;

@@ -15,7 +15,7 @@ const BOTTOM_SHEET_FOOTER_KEY = "de6c65d34cc4a01c18c9a7c0ded34635170ca11f";
 const BOTTOM_SHEET_BODY_KEY = "aa9ffdd60fbfdea42f0d11162cd64f4b4389ddcc";
 
 export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<BottomSheetProperties>(metadata.bottomSheet.key, (node, traverse) => {
+  defineComponentHandler<BottomSheetProperties>(metadata.componentBottomSheet.key, (node, traverse) => {
     const props = node.componentProperties;
     const headerAlign = match(props["Header Layout"].value)
       .with("Bottom Left", "Top Left", () => "left")

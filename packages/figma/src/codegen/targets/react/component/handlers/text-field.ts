@@ -5,7 +5,6 @@ import type { ComponentHandlerDeps } from "../deps.interface";
 import {
   createFieldFooterHandler,
   createFieldHeaderHandler,
-  FIELD_KEYS,
   type FieldFooterProps,
   type FieldHeaderProps,
 } from "@/codegen/targets/react/component/handlers/field";
@@ -57,11 +56,11 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
 
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: FIELD_KEYS.HEADER,
+        key: metadata.privateComponentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: FIELD_KEYS.FOOTER,
+        key: metadata.privateComponentFieldFooter.key,
       });
 
       const fieldProps = {
@@ -208,11 +207,11 @@ export const createTextareaFieldHandler = (ctx: ComponentHandlerDeps) => {
       });
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: FIELD_KEYS.HEADER,
+        key: metadata.privateComponentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: FIELD_KEYS.FOOTER,
+        key: metadata.privateComponentFieldFooter.key,
       });
 
       const fieldProps = {

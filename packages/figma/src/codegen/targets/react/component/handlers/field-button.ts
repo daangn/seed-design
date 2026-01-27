@@ -45,7 +45,7 @@ export const createFieldButtonHandler = (ctx: ComponentHandlerDeps) => {
 
       const [clearButton] = findAllInstances<ActionButtonGhostProperties>({
         node,
-        key: sets.actionButtonGhostButton.key,
+        key: sets.componentActionButtonGhostButton.key,
       });
 
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({

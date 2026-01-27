@@ -62,7 +62,7 @@ const createMenuSheetGroupHandler = (ctx: ComponentHandlerDeps) => {
 export const createMenuSheetHandler = (ctx: ComponentHandlerDeps) => {
   const menuSheetGroupHandler = createMenuSheetGroupHandler(ctx);
 
-  return defineComponentHandler<MenuSheetProperties>(metadata.menuSheet.key, (node, traverse) => {
+  return defineComponentHandler<MenuSheetProperties>(metadata.componentMenuSheet.key, (node, traverse) => {
     const { componentProperties: props } = node;
 
     const groups = findAllInstances<MenuSheetGroupProperties>({

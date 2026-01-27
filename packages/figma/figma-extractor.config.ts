@@ -2,6 +2,7 @@ import { createConfig, createPipeline, sources } from "@seed-design/figma-extrac
 import monochrome from "@karrotmarket/icon-data/monochrome.json" with { type: "json" };
 import multicolor from "@karrotmarket/icon-data/multicolor.json" with { type: "json" };
 import { camelCase, pascalCase } from "change-case";
+import type { ComponentNode, ComponentSetNode } from "@figma/rest-api-spec";
 import type { IconData, Style } from "./src/entities";
 
 function getSafeIdentifierName(name: string) {
@@ -12,27 +13,127 @@ function getSafeIdentifierName(name: string) {
   return reservedWords.includes(transformed) ? `_${transformed}` : transformed;
 }
 
+const PRIVATE_COMPONENT_SET_PATTERNS: RegExp[] = [
+  /Field/,
+  /Text Input/,
+  /Textarea/,
+  /Input Button/,
+  /Alert Dialog/,
+  /Bottom Sheet/,
+  /Menu Sheet/,
+  /Tabs/,
+  /Tab Item/,
+  /Top Navigation/,
+  /Ghost Button/,
+  /Chip/,
+  /Segmented Control/,
+  /Slider/,
+  /Tag/,
+  /Page Banner/,
+
+  // FAB
+  /Button Type/,
+  /Menu Type/,
+];
+
+if (!process.env.FIGMA_FOUNDATIONS_FILE_KEY)
+  throw new Error("FIGMA_FOUNDATIONS_FILE_KEY is not defined in environment variables.");
+
+if (!process.env.FIGMA_COMPONENTS_FILE_KEY)
+  throw new Error("FIGMA_COMPONENTS_FILE_KEY is not defined in environment variables.");
+
+if (!process.env.FIGMA_TEMPLATES_FILE_KEY)
+  throw new Error("FIGMA_TEMPLATES_FILE_KEY is not defined in environment variables.");
+
+const ENV = {
+  FIGMA_FOUNDATIONS_FILE_KEY: process.env.FIGMA_FOUNDATIONS_FILE_KEY,
+  FIGMA_COMPONENTS_FILE_KEY: process.env.FIGMA_COMPONENTS_FILE_KEY,
+  FIGMA_TEMPLATES_FILE_KEY: process.env.FIGMA_TEMPLATES_FILE_KEY,
+};
+
 const config = createConfig({
+  fileKey: ".", // unused
   pipelines: {
     "component-sets": createPipeline()
-      .source(sources.componentSets)
-      .filter(({ name }) => name.includes("🔵 ") || name.includes("🟢 "))
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .transform(({ name, key, componentPropertyDefinitions }) => ({
-        name: getSafeIdentifierName(name),
-        key,
-        ...(componentPropertyDefinitions && {
-          componentPropertyDefinitions: Object.fromEntries(
-            Object.entries(componentPropertyDefinitions).map(([key, { defaultValue, ...rest }]) => [
-              key,
-              rest,
-            ]),
-          ),
-        }),
-      }))
+      .source(async (ctx) => {
+        const [componentsFile, templatesFile, publishedComponents, publishedTemplates] =
+          await Promise.all([
+            ctx.api.getFile({ ...ctx, file_key: ENV.FIGMA_COMPONENTS_FILE_KEY }),
+            ctx.api.getFile({ ...ctx, file_key: ENV.FIGMA_TEMPLATES_FILE_KEY }),
+            sources.componentSets({ ...ctx, fileKey: ENV.FIGMA_COMPONENTS_FILE_KEY }),
+            sources.componentSets({ ...ctx, fileKey: ENV.FIGMA_TEMPLATES_FILE_KEY }),
+          ]);
+
+        // published IDs from sources.componentSets()
+        const publishedComponentIdSet = new Set(publishedComponents.map((c) => c.id));
+        const publishedTemplateIdSet = new Set(publishedTemplates.map((c) => c.id));
+
+        // allowlisted private IDs from getFile() (exclude already published)
+        const privateComponentIds = Object.entries(componentsFile.componentSets)
+          .filter(
+            ([id, set]) =>
+              !publishedComponentIdSet.has(id) &&
+              !set.remote &&
+              PRIVATE_COMPONENT_SET_PATTERNS.some((pattern) => pattern.test(set.name)),
+          )
+          .map(([id]) => id);
+        const privateTemplateIds = Object.entries(templatesFile.componentSets)
+          .filter(
+            ([id, set]) =>
+              !publishedTemplateIdSet.has(id) &&
+              !set.remote &&
+              PRIVATE_COMPONENT_SET_PATTERNS.some((pattern) => pattern.test(set.name)),
+          )
+          .map(([id]) => id);
+
+        const [componentNodes, templateNodes] = await Promise.all([
+          ctx.fetchNodes({
+            fileKey: ENV.FIGMA_COMPONENTS_FILE_KEY,
+            nodeIds: [...publishedComponentIdSet, ...privateComponentIds],
+          }),
+          ctx.fetchNodes({
+            fileKey: ENV.FIGMA_TEMPLATES_FILE_KEY,
+            nodeIds: [...publishedTemplateIdSet, ...privateTemplateIds],
+          }),
+        ]);
+
+        const privateComponentIdSet = new Set(privateComponentIds);
+        const privateTemplateIdSet = new Set(privateTemplateIds);
+
+        return [
+          ...componentNodes.map((node) => ({
+            ...node,
+            prefix: privateComponentIdSet.has(node.document.id) ? "PrivateComponent" : "Component",
+          })),
+          ...templateNodes.map((node) => ({
+            ...node,
+            prefix: privateTemplateIdSet.has(node.document.id) ? "PrivateTemplate" : "Template",
+          })),
+        ];
+      })
+      .sort((a, b) => a.document.name.localeCompare(b.document.name))
+      .filter(({ document }) => !!(document as ComponentSetNode).componentPropertyDefinitions)
+      .transform(({ document: _document, componentSets, prefix }) => {
+        const document = _document as ComponentSetNode;
+        const { name, key, componentPropertyDefinitions } = {
+          ...document,
+          ...(componentSets?.[document.id] ?? {}),
+        };
+
+        return {
+          name: getSafeIdentifierName(`${prefix}${name}`),
+          key,
+          ...(componentPropertyDefinitions && {
+            componentPropertyDefinitions: Object.fromEntries(
+              Object.entries(componentPropertyDefinitions).map(
+                ([propKey, { defaultValue, preferredValues, ...rest }]) => [propKey, rest],
+              ),
+            ),
+          }),
+        };
+      })
       .write(async (items, { utils, write, pipelineName }) => {
         const mjs = items.map((item) => utils.toMjs(item.name, item).trim()).join("\n\n");
-
         const dts = items.map((item) => utils.toDts(item.name, item).trim()).join("\n\n");
 
         await Promise.all([
@@ -42,24 +143,85 @@ const config = createConfig({
       }),
 
     components: createPipeline()
-      .source(sources.components)
-      .filter(({ name }) => name.includes("🔵 ") || name.includes("🟢 "))
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .transform(({ name, key, componentPropertyDefinitions }) => ({
-        name: getSafeIdentifierName(name),
-        key,
-        ...(componentPropertyDefinitions && {
-          componentPropertyDefinitions: Object.fromEntries(
-            Object.entries(componentPropertyDefinitions).map(([key, { defaultValue, ...rest }]) => [
-              key,
-              rest,
-            ]),
-          ),
-        }),
-      }))
+      .source(async (ctx) => {
+        const [componentsFile, templatesFile, publishedComponents, publishedTemplates] =
+          await Promise.all([
+            ctx.api.getFile({ ...ctx, file_key: ENV.FIGMA_COMPONENTS_FILE_KEY }),
+            ctx.api.getFile({ ...ctx, file_key: ENV.FIGMA_TEMPLATES_FILE_KEY }),
+            sources.components({ ...ctx, fileKey: ENV.FIGMA_COMPONENTS_FILE_KEY }),
+            sources.components({ ...ctx, fileKey: ENV.FIGMA_TEMPLATES_FILE_KEY }),
+          ]);
+
+        // published IDs from sources.components()
+        const publishedComponentIdSet = new Set(publishedComponents.map((c) => c.id));
+        const publishedTemplateIdSet = new Set(publishedTemplates.map((c) => c.id));
+
+        // allowlisted private IDs from getFile() (exclude already published)
+        const privateComponentIds = Object.entries(componentsFile.components)
+          .filter(
+            ([id, comp]) =>
+              !publishedComponentIdSet.has(id) &&
+              !comp.remote &&
+              PRIVATE_COMPONENT_SET_PATTERNS.some((pattern) => pattern.test(comp.name)),
+          )
+          .map(([id]) => id);
+        const privateTemplateIds = Object.entries(templatesFile.components)
+          .filter(
+            ([id, comp]) =>
+              !publishedTemplateIdSet.has(id) &&
+              !comp.remote &&
+              PRIVATE_COMPONENT_SET_PATTERNS.some((pattern) => pattern.test(comp.name)),
+          )
+          .map(([id]) => id);
+
+        const [componentNodes, templateNodes] = await Promise.all([
+          ctx.fetchNodes({
+            fileKey: ENV.FIGMA_COMPONENTS_FILE_KEY,
+            nodeIds: [...publishedComponentIdSet, ...privateComponentIds],
+          }),
+          ctx.fetchNodes({
+            fileKey: ENV.FIGMA_TEMPLATES_FILE_KEY,
+            nodeIds: [...publishedTemplateIdSet, ...privateTemplateIds],
+          }),
+        ]);
+
+        const privateComponentIdSet = new Set(privateComponentIds);
+        const privateTemplateIdSet = new Set(privateTemplateIds);
+
+        return [
+          ...componentNodes.map((node) => ({
+            ...node,
+            prefix: privateComponentIdSet.has(node.document.id) ? "PrivateComponent" : "Component",
+          })),
+          ...templateNodes.map((node) => ({
+            ...node,
+            prefix: privateTemplateIdSet.has(node.document.id) ? "PrivateTemplate" : "Template",
+          })),
+        ];
+      })
+      .sort((a, b) => a.document.name.localeCompare(b.document.name))
+      .filter(({ document }) => !!(document as ComponentNode).componentPropertyDefinitions)
+      .transform(({ document: _document, components, prefix }) => {
+        const document = _document as ComponentNode;
+        const { name, key, componentPropertyDefinitions } = {
+          ...document,
+          ...(components?.[document.id] ?? {}),
+        };
+
+        return {
+          name: getSafeIdentifierName(`${prefix}${name}`),
+          key,
+          ...(componentPropertyDefinitions && {
+            componentPropertyDefinitions: Object.fromEntries(
+              Object.entries(componentPropertyDefinitions).map(
+                ([propKey, { defaultValue, preferredValues, ...rest }]) => [propKey, rest],
+              ),
+            ),
+          }),
+        };
+      })
       .write(async (items, { utils, write, pipelineName }) => {
         const mjs = items.map((item) => utils.toMjs(item.name, item).trim()).join("\n\n");
-
         const dts = items.map((item) => utils.toDts(item.name, item).trim()).join("\n\n");
 
         await Promise.all([
@@ -69,7 +231,9 @@ const config = createConfig({
       }),
 
     variables: createPipeline()
-      .source(sources.variables)
+      .source(
+        async (ctx) => await sources.variables({ ...ctx, fileKey: ENV.FIGMA_FOUNDATIONS_FILE_KEY }),
+      )
       .filter(({ hiddenFromPublishing }) => !hiddenFromPublishing)
       .sort((a, b) => a.name.localeCompare(b.name))
       .write(async (items, { utils, write, pipelineName }) => {
@@ -90,15 +254,19 @@ export declare const FIGMA_VARIABLES: Record<string, Variable>;
       }),
 
     "variable-collections": createPipeline()
-      .source(async ({ api, fileKey }) => {
+      .source(async ({ api }) => {
         const {
           meta: { variableCollections },
-        } = await api.getLocalVariables({ file_key: fileKey });
+        } = await api.getLocalVariables({ file_key: ENV.FIGMA_FOUNDATIONS_FILE_KEY });
 
         return Object.values(variableCollections);
       })
       .filter(({ hiddenFromPublishing }) => !hiddenFromPublishing)
       .sort((a, b) => a.name.localeCompare(b.name))
+      .transform(({ variableIds, ...rest }) => ({
+        ...rest,
+        variableIds: variableIds.sort((a, b) => a.localeCompare(b)),
+      }))
       .write(async (items, { utils, write, pipelineName }) => {
         const record = Object.fromEntries(items.map((item) => [item.id, item]));
 
@@ -117,7 +285,9 @@ export declare const FIGMA_VARIABLE_COLLECTIONS: Record<string, VariableCollecti
       }),
 
     styles: createPipeline()
-      .source(sources.styles)
+      .source(
+        async (ctx) => await sources.styles({ ...ctx, fileKey: ENV.FIGMA_FOUNDATIONS_FILE_KEY }),
+      )
       .filter(
         ({ style_type }) =>
           style_type === "TEXT" || style_type === "FILL" || style_type === "EFFECT",

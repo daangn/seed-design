@@ -16,7 +16,7 @@ const MENU_TYPE_KEY = "400124347392c15473f9cd2d8a6aedb64f3baf36";
 
 export const createFloatingActionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<FloatingActionButtonProperties>(
-    metadata.floatingActionButton.key,
+    metadata.componentFloatingActionButton.key,
     (node) => {
       const [button] = findAllInstances<FloatingActionButtonButtonItemProperties>({
         node,

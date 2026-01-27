@@ -50,7 +50,7 @@ const createAppBarMainHandler = (_ctx: ComponentHandlerDeps) => {
 export const createAppBarHandler = (ctx: ComponentHandlerDeps) => {
   const appBarMainHandler = createAppBarMainHandler(ctx);
 
-  return defineComponentHandler<AppBarProperties>(metadata.topNavigation.key, (node, traverse) => {
+  return defineComponentHandler<AppBarProperties>(metadata.componentTopNavigation.key, (node, traverse) => {
     const props = node.componentProperties;
 
     const { theme, tone } = {

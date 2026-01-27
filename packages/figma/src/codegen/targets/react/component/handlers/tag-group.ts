@@ -1,4 +1,7 @@
-import type { TagGroupItemProperties, TagGroupProperties } from "@/codegen/component-properties";
+import type {
+  TagGroupItemProperties,
+  TagGroupProperties,
+} from "@/codegen/component-properties";
 import { defineComponentHandler, type ElementNode } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createLocalSnippetHelper } from "../../element-factories";
@@ -12,7 +15,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("tag-group");
 export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
   const itemHandler = createTagGroupItemHandler(ctx);
 
-  return defineComponentHandler<TagGroupProperties>(metadata.tagGroup.key, (node, traverse) => {
+  return defineComponentHandler<TagGroupProperties>(metadata.componentTagGroup.key, (node, traverse) => {
     const itemNodes = findAllInstances<TagGroupItemProperties>({ node, key: TAG_GROUP_ITEM_KEY });
 
     const items = itemNodes.map((itemNode) =>

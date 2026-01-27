@@ -9,7 +9,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("list-header");
 
 export const createListHeaderHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ListHeaderProperties>(
-    metadata.listHeader.key,
+    metadata.componentListHeader.key,
     ({ componentProperties: props }) => {
       const commonProps = {
         variant: camelCase(props["Variant"].value),

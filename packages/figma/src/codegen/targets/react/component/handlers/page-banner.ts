@@ -27,7 +27,7 @@ const createPageBannerButtonHandler = (_ctx: ComponentHandlerDeps) =>
 export const createPageBannerHandler = (ctx: ComponentHandlerDeps) => {
   const buttonHandler = createPageBannerButtonHandler(ctx);
 
-  return defineComponentHandler<PageBannerProperties>(metadata.pageBanner.key, (node, traverse) => {
+  return defineComponentHandler<PageBannerProperties>(metadata.componentPageBanner.key, (node, traverse) => {
     const { componentProperties: props } = node;
 
     const { tag, suffix } = match(props.Interaction.value)

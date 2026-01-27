@@ -15,7 +15,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("avatar");
 export const createAvatarHandler = (ctx: ComponentHandlerDeps) => {
   const identityPlaceholderHandler = createIdentityPlaceholderHandler(ctx);
 
-  return defineComponentHandler<AvatarProperties>(metadata.avatar.key, (node, traverse) => {
+  return defineComponentHandler<AvatarProperties>(metadata.componentAvatar.key, (node, traverse) => {
     const [placeholder] = findAllInstances<IdentityPlaceholderProperties>({
       node,
       key: identityPlaceholderHandler.key,

@@ -20,6 +20,7 @@ describe("pipeline builder", () => {
     fileKey,
     pipelineName: "test-pipeline",
     write: () => Promise.resolve(),
+    fetchNodes: () => Promise.resolve([]),
     utils: {
       toJson: () => "",
       toTypeScript: () => "",

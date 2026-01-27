@@ -16,7 +16,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("action-button");
 
 export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ActionButtonProperties>(
-    metadata.actionButton.key,
+    metadata.componentActionButton.key,
     ({ componentProperties: props }) => {
       const states = props.State.value.split("-");
 

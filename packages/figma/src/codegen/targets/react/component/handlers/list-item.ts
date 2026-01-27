@@ -35,7 +35,7 @@ const SUFFIX_KEYS = {
 } as const;
 
 export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<ListItemProperties>(metadata.listItem.key, (node, traverse) => {
+  defineComponentHandler<ListItemProperties>(metadata.componentListItem.key, (node, traverse) => {
     const { componentProperties: props } = node;
 
     const { alignItems, title } = match(props.Variants.value)

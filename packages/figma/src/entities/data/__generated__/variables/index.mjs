@@ -906,35 +906,6 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
-  "VariableID:33327:83273": {
-    "name": "bg/magic-weak",
-    "id": "VariableID:33327:83273",
-    "remote": false,
-    "key": "9c88d02839ad4edcd4d8d932e4efef7c738cf1e6",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "r": 0.9764705896377563,
-        "g": 0.9490196108818054,
-        "b": 0.9333333373069763,
-        "a": 1
-      },
-      "1928:8": {
-        "r": 0.125490203499794,
-        "g": 0.12156862765550613,
-        "b": 0.12156862765550613,
-        "a": 1
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
-  },
   "VariableID:1:159": {
     "name": "bg/neutral-inverted",
     "id": "VariableID:1:159",
@@ -2412,33 +2383,6 @@ export const FIGMA_VARIABLES = {
       "TEXT_FILL"
     ],
     "codeSyntax": {}
-  },
-  "VariableID:1:128": {
-    "name": "fg/static-white",
-    "id": "VariableID:1:128",
-    "remote": false,
-    "key": "c20a323b5ab26c16ab68520eac46126f0de8017e",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:93018"
-      },
-      "1928:8": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:93018"
-      }
-    },
-    "scopes": [
-      "FRAME_FILL",
-      "SHAPE_FILL",
-      "TEXT_FILL"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
   },
   "VariableID:37284:140642": {
     "name": "fg/warning",
@@ -6598,24 +6542,6 @@ export const FIGMA_VARIABLES = {
       "CORNER_RADIUS"
     ],
     "codeSyntax": {}
-  },
-  "VariableID:491:21540": {
-    "name": "stroke-width/s1",
-    "id": "VariableID:491:21540",
-    "remote": false,
-    "key": "c65b9a4b6ec700af34e98d60ab4856f9dbd1886b",
-    "variableCollectionId": "VariableCollectionId:1:174",
-    "resolvedType": "FLOAT",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1:4": 1
-    },
-    "scopes": [
-      "STROKE_FLOAT"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
   },
   "VariableID:41338:804": {
     "name": "stroke/brand-solid",
