@@ -4,8 +4,11 @@ import {
   createFigmaClient,
   fetchFigmaImageUrls,
 } from "@/components/figma-image/fetch-figma-image-urls";
+import { env } from "@/app/env";
 
-const client = createFigmaClient(process.env.FIGMA_PERSONAL_ACCESS_TOKEN!);
+const client = env.figmaPersonalAccessToken
+  ? createFigmaClient(env.figmaPersonalAccessToken)
+  : undefined;
 
 function getCategoryFromPath(path: string): string | null {
   const match = path.match(/components\/\(([^)]+)\)\//);
@@ -52,18 +55,20 @@ export async function ComponentGrid() {
               <li key={page.url}>
                 <ComponentCard
                   className="h-full"
-                  {...(page.data.coverImageFigmaId && {
-                    coverImageSrc: (
-                      await fetchFigmaImageUrls({
-                        client,
-                        fileKey: process.env.FIGMA_FILE_KEY!,
-                        nodeIds: [page.data.coverImageFigmaId],
-                        options: {
-                          scale: 3,
-                        },
-                      })
-                    ).get(page.data.coverImageFigmaId),
-                  })}
+                  {...(page.data.coverImageFigmaId &&
+                    env.figmaFileKey &&
+                    client && {
+                      coverImageSrc: (
+                        await fetchFigmaImageUrls({
+                          client,
+                          fileKey: env.figmaFileKey,
+                          nodeIds: [page.data.coverImageFigmaId],
+                          options: {
+                            scale: 3,
+                          },
+                        })
+                      ).get(page.data.coverImageFigmaId),
+                    })}
                   title={page.data.title}
                   description={page.data.description}
                   href={page.url}

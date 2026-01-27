@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       skip-figma-cache:
-        description: 'Skip Figma image cache (fetch fresh images)'
+        description: "Skip Figma image cache (fetch fresh images)"
         required: false
         type: boolean
         default: false

@@ -21,8 +21,8 @@ const DEFAULT_IMAGE_SIZE = {
 export type Root = typeof remark extends Processor<infer R, any, any, any, any> ? R : never;
 
 export interface RemarkFigmaImageOptions {
-  fileKey: string;
-  accessToken: string;
+  fileKey?: string;
+  accessToken?: string;
   fetchUrlsOptions?: FetchFigmaImageUrlsOptions;
 }
 
@@ -31,6 +31,10 @@ interface NodeEntry {
   index: number;
   parent: { children: unknown[] };
 }
+
+// Gray placeholder with "Figma" text
+const PLACEHOLDER_DATA_URI =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23e5e5e5' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,sans-serif' font-size='24' fill='%23737373'%3EFigma%3C/text%3E%3C/svg%3E";
 
 /**
  * Remark plugin that transforms Figma node IDs into image URLs at build time.
@@ -62,13 +66,16 @@ export function remarkFigmaImage({
 
     if (figmaNodes.size === 0) return;
 
-    const client = createFigmaClient(accessToken);
-    const imageUrls = await fetchFigmaImageUrls({
-      client,
-      fileKey,
-      nodeIds: Array.from(figmaNodes.keys()),
-      options: fetchUrlsOptions,
-    });
+    const usePlaceholder = !accessToken || !fileKey;
+
+    const imageUrls: Map<string, string> = usePlaceholder
+      ? new Map(Array.from(figmaNodes.keys()).map((id) => [id, PLACEHOLDER_DATA_URI]))
+      : await fetchFigmaImageUrls({
+          client: createFigmaClient(accessToken),
+          fileKey,
+          nodeIds: Array.from(figmaNodes.keys()),
+          options: fetchUrlsOptions,
+        });
 
     for (const [figmaId, entries] of figmaNodes) {
       const url = imageUrls.get(figmaId);
