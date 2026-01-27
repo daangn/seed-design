@@ -27,6 +27,7 @@ const PRIVATE_COMPONENT_SET_PATTERNS: RegExp[] = [
   /Ghost Button/,
   /Chip/,
   /Segmented Control/,
+  /List Item/,
   /Slider/,
   /Tag/,
   /Page Banner/,

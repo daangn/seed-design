@@ -106,15 +106,6 @@ export type HelpBubbleProperties = InferComponentDefinition<
   typeof sets.componentHelpBubble.componentPropertyDefinitions
 >;
 
-// lives in a different file
-export type IdentityPlaceholderProperties = InferComponentDefinition<{
-  Identity: {
-    type: "VARIANT";
-    defaultValue: "Person";
-    variantOptions: ["Person", "Business"];
-  };
-}>;
-
 export type PageBannerProperties = InferComponentDefinition<
   typeof sets.componentPageBanner.componentPropertyDefinitions
 >;

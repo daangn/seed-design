@@ -11,20 +11,17 @@ import { findAllInstances } from "@/utils/figma-node";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("floating-action-button");
 
-const BUTTON_TYPE_KEY = "8cecc85275115d653579d4c3156567ebf19f7b27";
-const MENU_TYPE_KEY = "400124347392c15473f9cd2d8a6aedb64f3baf36";
-
 export const createFloatingActionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<FloatingActionButtonProperties>(
     metadata.componentFloatingActionButton.key,
     (node) => {
       const [button] = findAllInstances<FloatingActionButtonButtonItemProperties>({
         node,
-        key: BUTTON_TYPE_KEY,
+        key: metadata.privateComponentItemButtonType.key,
       });
       const [menu] = findAllInstances<FloatingActionButtonMenuItemProperties>({
         node,
-        key: MENU_TYPE_KEY,
+        key: metadata.privateComponentItemMenuType.key,
       });
 
       const commonProps = (() => {

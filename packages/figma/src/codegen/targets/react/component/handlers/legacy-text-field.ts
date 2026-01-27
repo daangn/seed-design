@@ -3,18 +3,16 @@ import type {
   LegacyTextFieldProperties,
 } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("text-field");
 
-const LEGACY_TEXT_FIELD_KEY = "c49873c37a639f0dffdea4efd0eb43760d66c141";
-const LEGACY_MULTILINE_TEXT_FIELD_KEY = "88b2399c930c85f9ce2972163a078bc684b84bbe";
-
 export const createLegacyTextFieldHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<LegacyTextFieldProperties>(
-    LEGACY_TEXT_FIELD_KEY,
+    metadata.componentDeprecatedTextField.key,
     ({ componentProperties: props }) => {
       const {
         Size: { value: size },
@@ -120,7 +118,7 @@ export const createLegacyTextFieldHandler = (ctx: ComponentHandlerDeps) =>
 
 export const createLegacyMultilineTextFieldHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<LegacyMultilineTextFieldProperties>(
-    LEGACY_MULTILINE_TEXT_FIELD_KEY,
+    metadata.componentDeprecatedMultilineTextField.key,
     ({ componentProperties: props }) => {
       const {
         Size: { value: size },

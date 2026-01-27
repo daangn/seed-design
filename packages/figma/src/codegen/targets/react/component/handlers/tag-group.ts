@@ -1,7 +1,4 @@
-import type {
-  TagGroupItemProperties,
-  TagGroupProperties,
-} from "@/codegen/component-properties";
+import type { TagGroupItemProperties, TagGroupProperties } from "@/codegen/component-properties";
 import { defineComponentHandler, type ElementNode } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createLocalSnippetHelper } from "../../element-factories";
@@ -15,57 +12,61 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("tag-group");
 export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
   const itemHandler = createTagGroupItemHandler(ctx);
 
-  return defineComponentHandler<TagGroupProperties>(metadata.componentTagGroup.key, (node, traverse) => {
-    const itemNodes = findAllInstances<TagGroupItemProperties>({ node, key: TAG_GROUP_ITEM_KEY });
+  return defineComponentHandler<TagGroupProperties>(
+    metadata.componentTagGroup.key,
+    (node, traverse) => {
+      const itemNodes = findAllInstances<TagGroupItemProperties>({
+        node,
+        key: metadata.privateComponentItemTag.key,
+      });
 
-    const items = itemNodes.map((itemNode) =>
-      itemHandler.transform(itemNode, traverse),
-    ) as (ElementNode & {
-      props: { size?: string; weight?: string; tone?: string };
-    })[];
+      const items = itemNodes.map((itemNode) =>
+        itemHandler.transform(itemNode, traverse),
+      ) as (ElementNode & {
+        props: { size?: string; weight?: string; tone?: string };
+      })[];
 
-    if (items.length === 0) {
-      return createLocalSnippetElement("TagGroupRoot");
-    }
+      if (items.length === 0) {
+        return createLocalSnippetElement("TagGroupRoot");
+      }
 
-    // if size/weight/tone are all the same among item[n].props, lift them up to TagGroupRoot
+      // if size/weight/tone are all the same among item[n].props, lift them up to TagGroupRoot
 
-    const consistent = {
-      size: items.map((item) => item.props.size).every((size) => size === items[0].props.size),
-      weight: items
-        .map((item) => item.props.weight)
-        .every((weight) => weight === items[0].props.weight),
-      tone: items.map((item) => item.props.tone).every((tone) => tone === items[0].props.tone),
-    };
+      const consistent = {
+        size: items.map((item) => item.props.size).every((size) => size === items[0].props.size),
+        weight: items
+          .map((item) => item.props.weight)
+          .every((weight) => weight === items[0].props.weight),
+        tone: items.map((item) => item.props.tone).every((tone) => tone === items[0].props.tone),
+      };
 
-    return createLocalSnippetElement(
-      "TagGroupRoot",
-      {
-        // lift up consistent props
-        ...(consistent.size && { size: items[0].props.size }),
-        ...(consistent.weight && { weight: items[0].props.weight }),
-        ...(consistent.tone && { tone: items[0].props.tone }),
-      },
-      items.map((item) => ({
-        ...item,
-        props: {
-          // remove lifted props
-          ...item.props,
-          size: consistent.size ? undefined : item.props.size,
-          weight: consistent.weight ? undefined : item.props.weight,
-          tone: consistent.tone ? undefined : item.props.tone,
+      return createLocalSnippetElement(
+        "TagGroupRoot",
+        {
+          // lift up consistent props
+          ...(consistent.size && { size: items[0].props.size }),
+          ...(consistent.weight && { weight: items[0].props.weight }),
+          ...(consistent.tone && { tone: items[0].props.tone }),
         },
-      })),
-      { comment: "`truncate` prop을 통해 한 줄로 표시되도록 할 수 있습니다." },
-    );
-  });
+        items.map((item) => ({
+          ...item,
+          props: {
+            // remove lifted props
+            ...item.props,
+            size: consistent.size ? undefined : item.props.size,
+            weight: consistent.weight ? undefined : item.props.weight,
+            tone: consistent.tone ? undefined : item.props.tone,
+          },
+        })),
+        { comment: "`truncate` prop을 통해 한 줄로 표시되도록 할 수 있습니다." },
+      );
+    },
+  );
 };
-
-const TAG_GROUP_ITEM_KEY = "a7bbc318919053f96be00e509469f6294d6bb6bb";
 
 export const createTagGroupItemHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<TagGroupItemProperties>(
-    TAG_GROUP_ITEM_KEY,
+    metadata.privateComponentItemTag.key,
     ({ componentProperties: props }) => {
       const size = match(props.Size.value)
         .with("t2(12pt)", () => "t2")

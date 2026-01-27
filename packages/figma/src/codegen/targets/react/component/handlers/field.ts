@@ -12,8 +12,6 @@ import { match } from "ts-pattern";
 import { findAllInstances } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 
-const FIELD_CHARACTER_COUNT_KEY = "25dd9a96f4bf3b866b8713f6d8deec370eebfa72";
-
 export type FieldHeaderProps = FieldIndicatorProps & {
   label?: string;
   labelWeight?: string;
@@ -112,7 +110,7 @@ export const createFieldFooterHandler = (ctx: ComponentHandlerDeps) => {
         .with("Character Count", () => {
           const [characterCount] = findAllInstances<FieldCharacterCountProperties>({
             node,
-            key: FIELD_CHARACTER_COUNT_KEY,
+            key: metadata.privateComponentFieldFooterCharacterCount.key,
           });
 
           return {
@@ -155,7 +153,7 @@ type FieldCharacterCountProps = {
  */
 const createFieldCharacterCountHandler = (_ctx: ComponentHandlerDeps) => {
   return defineComponentHandler<FieldCharacterCountProperties>(
-    FIELD_CHARACTER_COUNT_KEY,
+    metadata.privateComponentFieldFooterCharacterCount.key,
     ({ componentProperties: props }) => {
       // only returns some nice common props for Slider, TextField and more
       return createSeedReactElement("__FieldCharacterCount__", {

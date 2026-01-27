@@ -10,10 +10,9 @@ import type { ComponentHandlerDeps } from "../deps.interface";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("segmented-control");
 
-const SEGMENTED_CONTROL_ITEM_KEY = "9a7ba0d4c041ddbce84ee48881788434fd6bccc8";
 const createSegmentedControlItemHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SegmentedControlItemProperties>(
-    SEGMENTED_CONTROL_ITEM_KEY,
+    metadata.privateComponentSegmentedControlItem.key,
     ({ componentProperties: props }) => {
       const states = props.State.value.split("-");
       const commonProps = {
