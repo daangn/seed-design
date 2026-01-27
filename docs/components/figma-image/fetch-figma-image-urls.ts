@@ -2,13 +2,12 @@ import { Api as Figma } from "figma-api";
 import * as FigmaRestAPI from "@figma/rest-api-spec";
 import { FlatCache } from "flat-cache";
 import path from "node:path";
+import { env } from "@/app/env";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
 const MAX_RETRIES = 7;
 const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 const CACHE_ID = "urls";
-
-const isCacheDisabled = process.env.FIGMA_CACHE_DISABLED === "1";
 
 // Store cache in docs/.cache/figma-image (gitignored. persisted via Actions cache)
 const cacheDir = path.resolve(process.cwd(), ".cache/figma-image");
@@ -25,6 +24,7 @@ export type FetchFigmaImageUrlsOptions = Omit<FigmaRestAPI.GetImagesQueryParams,
 
 export function createFigmaClient(accessToken: string): Figma {
   if (!accessToken) throw new Error("FIGMA_PERSONAL_ACCESS_TOKEN is required");
+
   return new Figma({ personalAccessToken: accessToken });
 }
 
@@ -49,7 +49,7 @@ export async function fetchFigmaImageUrls({
   imageUrlCache.load(CACHE_ID, cacheDir);
 
   for (const nodeId of nodeIds) {
-    const cached = isCacheDisabled
+    const cached = env.figmaCacheDisabled
       ? undefined
       : imageUrlCache.get<string>(getCacheKey(nodeId, options));
 
