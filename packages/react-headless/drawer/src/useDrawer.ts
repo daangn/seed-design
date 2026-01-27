@@ -618,14 +618,13 @@ export function useDrawer(props: UseDrawerProps) {
       setHasBeenOpened(true);
       if (!hasBeenOpened) {
         setHasAnimationDone(false);
-        const timeoutId = setTimeout(() => {
-          setHasAnimationDone(true);
-        }, TRANSITIONS.ENTER_DURATION * 1000);
-        return () => clearTimeout(timeoutId);
       }
-    } else {
-      setHasAnimationDone(false);
+      const timeoutId = setTimeout(() => {
+        setHasAnimationDone(true);
+      }, TRANSITIONS.ENTER_DURATION * 1000);
+      return () => clearTimeout(timeoutId);
     }
+    setHasAnimationDone(false);
   }, [isOpen, hasBeenOpened]);
 
   useEffect(() => {
