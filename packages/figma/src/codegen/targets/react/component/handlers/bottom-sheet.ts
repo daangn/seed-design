@@ -52,7 +52,7 @@ export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
     });
 
     const bottomSheetFooter =
-      props["Show Footer#25162:14"] && footerNodes.length === 1
+      props["Show Footer#25162:14"].value && footerNodes.length === 1
         ? createLocalSnippetElement("BottomSheetFooter", {}, footerNodes[0].children.map(traverse))
         : undefined;
 
