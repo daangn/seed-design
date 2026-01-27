@@ -613,17 +613,29 @@ export function useDrawer(props: UseDrawerProps) {
     }
   }, [modal]);
 
+  // Effect 1: Track drawer open state
   useEffect(() => {
     if (isOpen) {
       setHasBeenOpened(true);
+    }
+  }, [isOpen]);
+
+  // Effect 2: Handle animation state and timer
+  useEffect(() => {
+    if (isOpen) {
+      // Only reset animation state if this is the first open
       if (!hasBeenOpened) {
         setHasAnimationDone(false);
       }
+
       const timeoutId = setTimeout(() => {
         setHasAnimationDone(true);
       }, TRANSITIONS.ENTER_DURATION * 1000);
+
       return () => clearTimeout(timeoutId);
     }
+
+    // Reset animation state when drawer closes
     setHasAnimationDone(false);
   }, [isOpen, hasBeenOpened]);
 
