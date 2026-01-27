@@ -8,8 +8,6 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
-  FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
 permissions:
   contents: read
