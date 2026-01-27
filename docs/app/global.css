@@ -94,3 +94,9 @@ strong {
 article .prose {
   padding-bottom: 3rem;
 }
+
+/* Enable text selection in code blocks */
+pre, code, pre code {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
