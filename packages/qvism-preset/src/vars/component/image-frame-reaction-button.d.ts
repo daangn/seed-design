@@ -8,17 +8,27 @@ export declare const vars: {
         /** 터치 영역 크기입니다. */
         "targetSize": "var(--seed-dimension-x10)"
       },
-      /** 하트 아이콘입니다. 기본 상태에서는 IconHeartLine, 선택 상태에서는 IconHeartFill을 사용합니다. */
-      "icon": {
+      /** lineIcon 아래에 내려가는 하트 아이콘입니다. */
+      "fillIcon": {
         "gradient": "var(--seed-color-palette-static-black-alpha-300) 0%, var(--seed-color-palette-static-black-alpha-300) 100%",
+        /** 보이는 버튼 크기입니다. */
+        "size": "var(--seed-dimension-x6)"
+      },
+      /** fillIcon 위로 올라가는 하트 아이콘입니다. */
+      "lineIcon": {
+        "color": "var(--seed-color-palette-static-white)",
         /** 보이는 버튼 크기입니다. */
         "size": "var(--seed-dimension-x6)"
       }
     },
     "selected": {
-      /** 하트 아이콘입니다. 기본 상태에서는 IconHeartLine, 선택 상태에서는 IconHeartFill을 사용합니다. */
-      "icon": {
+      /** lineIcon 아래에 내려가는 하트 아이콘입니다. */
+      "fillIcon": {
         "gradient": "#FF9A56 0%, #FF6600 100%"
+      },
+      /** fillIcon 위로 올라가는 하트 아이콘입니다. */
+      "lineIcon": {
+        "color": "var(--seed-color-bg-transparent)"
       }
     }
   }
