@@ -15,11 +15,18 @@ data:
           targetSize:
             type: dimension
             description: 터치 영역 크기입니다.
-      icon:
-        description: 하트 아이콘입니다. 기본 상태에서는 IconHeartLine, 선택 상태에서는 IconHeartFill을 사용합니다.
+      fillIcon:
+        description: lineIcon 아래에 내려가는 하트 아이콘입니다.
         properties:
           gradient:
             type: gradient
+          size:
+            type: dimension
+      lineIcon:
+        description: fillIcon 위로 올라가는 하트 아이콘입니다.
+        properties:
+          color:
+            type: color
           size:
             type: dimension
   definitions:
@@ -28,7 +35,7 @@ data:
         root:
           size: $dimension.x6
           targetSize: $dimension.x10
-        icon:
+        fillIcon:
           gradient:
             type: gradient
             value:
@@ -37,8 +44,11 @@ data:
               - color: $color.palette.static-black-alpha-300
                 position: 1
           size: $dimension.x6
+        lineIcon:
+          color: $color.palette.static-white
+          size: $dimension.x6
       selected:
-        icon:
+        fillIcon:
           gradient:
             type: gradient
             value:
@@ -46,3 +56,5 @@ data:
                 position: 0
               - color: "#FF6600"
                 position: 1
+        lineIcon:
+          color: $color.bg.transparent

@@ -22,7 +22,7 @@
           },
           "description": "하트 아이콘 토글 버튼입니다. 이미지 위에서 좋아요 기능에 사용됩니다."
         },
-        "icon": {
+        "fillIcon": {
           "properties": {
             "gradient": {
               "type": "gradient"
@@ -31,7 +31,18 @@
               "type": "dimension"
             }
           },
-          "description": "하트 아이콘입니다. 기본 상태에서는 IconHeartLine, 선택 상태에서는 IconHeartFill을 사용합니다."
+          "description": "lineIcon 아래에 내려가는 하트 아이콘입니다."
+        },
+        "lineIcon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          },
+          "description": "fillIcon 위로 올라가는 하트 아이콘입니다."
         }
       },
       "variants": {}
@@ -55,7 +66,7 @@
                   "value": "$dimension.x10"
                 }
               },
-              "icon": {
+              "fillIcon": {
                 "gradient": {
                   "type": "gradient",
                   "value": [
@@ -73,6 +84,16 @@
                   "type": "dimension",
                   "value": "$dimension.x6"
                 }
+              },
+              "lineIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
               }
             }
           },
@@ -81,7 +102,7 @@
               "selected"
             ],
             "slots": {
-              "icon": {
+              "fillIcon": {
                 "gradient": {
                   "type": "gradient",
                   "value": [
@@ -94,6 +115,12 @@
                       "position": 1
                     }
                   ]
+                }
+              },
+              "lineIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
                 }
               }
             }
