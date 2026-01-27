@@ -1,48 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { VStack, Box } from "@seed-design/react";
 import { ResultSection } from "seed-design/ui/result-section";
-
-type UserColorScheme = "light" | "dark";
-
-function useTheme() {
-  const [userColorScheme, setUserColorScheme] = useState<UserColorScheme>(() => {
-    if (typeof window === "undefined") return "light";
-
-    const colorMode = document.documentElement.getAttribute("data-seed-color-mode");
-    const scheme = document.documentElement.getAttribute("data-seed-user-color-scheme");
-
-    if (colorMode === "dark-only") return "dark";
-    if (colorMode === "light-only") return "light";
-    return scheme === "dark" ? "dark" : "light";
-  });
-
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const colorMode = document.documentElement.getAttribute("data-seed-color-mode");
-      const scheme = document.documentElement.getAttribute("data-seed-user-color-scheme");
-
-      if (colorMode === "dark-only") {
-        setUserColorScheme("dark");
-      } else if (colorMode === "light-only") {
-        setUserColorScheme("light");
-      } else {
-        setUserColorScheme(scheme === "dark" ? "dark" : "light");
-      }
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-seed-color-mode", "data-seed-user-color-scheme"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  return userColorScheme;
-}
+import { useTheme } from "@/hooks/useTheme";
 
 const LOTTIE_URLS = {
   light:
@@ -51,8 +12,8 @@ const LOTTIE_URLS = {
 };
 
 export default function ResultSectionSuccessWithLottie() {
-  const colorScheme = useTheme();
-  const lottieUrl = LOTTIE_URLS[colorScheme];
+  const { userColorScheme } = useTheme();
+  const lottieUrl = LOTTIE_URLS[userColorScheme];
 
   return (
     <VStack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutralMuted">
