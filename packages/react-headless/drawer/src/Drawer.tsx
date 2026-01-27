@@ -209,10 +209,10 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         }
       }}
       onFocusOutside={(e) => {
-        if (!modal) {
-          e.preventDefault();
-          return;
-        }
+        props.onFocusOutside?.(e);
+        // Always prevent focusOutside to avoid conflicts when focus moves between modals
+        // (e.g., when Dialog closes and restores focus while BottomSheet is opening)
+        e.preventDefault();
       }}
       onPointerMove={(event) => {
         lastKnownPointerEventRef.current = event;
@@ -251,7 +251,8 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         }
       }}
       onInteractOutside={(e) => {
-        if (dismissible && closeOnInteractOutside) {
+        // Only close if event is not prevented (e.g., by onFocusOutside or onPointerDownOutside)
+        if (dismissible && closeOnInteractOutside && !e.defaultPrevented) {
           closeDrawer();
         }
         props.onInteractOutside?.(e);
