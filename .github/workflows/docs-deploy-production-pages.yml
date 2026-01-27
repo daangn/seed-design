@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       skip-figma-cache:
-        description: 'Skip Figma image cache (fetch fresh images)'
+        description: "Skip Figma image cache (fetch fresh images)"
         required: false
         type: boolean
         default: false
@@ -23,8 +23,6 @@ concurrency:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
-  FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
 name: Deploy seed-design-v3 docs (Production)
 
