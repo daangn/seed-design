@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 export type ColorMode = "system" | "light-only" | "dark-only";
@@ -8,26 +10,37 @@ export interface ThemeInfo {
   userColorScheme: UserColorScheme;
 }
 
-export function useTheme(): ThemeInfo {
-  const [themeInfo, setThemeInfo] = useState<ThemeInfo>(() => {
-    const colorMode = document.documentElement.getAttribute("data-seed-color-mode") as ColorMode;
-    const userColorScheme = document.documentElement.getAttribute("data-seed-user-color-scheme");
-
+function readThemeInfo(): ThemeInfo {
+  if (typeof document === "undefined") {
     return {
-      colorMode: colorMode || "system",
-      userColorScheme: userColorScheme === "dark" ? "dark" : "light",
+      colorMode: "system",
+      userColorScheme: "light",
     };
-  });
+  }
+
+  const colorMode = document.documentElement.getAttribute(
+    "data-seed-color-mode"
+  ) as ColorMode;
+  const userColorScheme = document.documentElement.getAttribute(
+    "data-seed-user-color-scheme"
+  );
+
+  return {
+    colorMode: colorMode || "system",
+    userColorScheme: userColorScheme === "dark" ? "dark" : "light",
+  };
+}
+
+export function useTheme(): ThemeInfo {
+  const [themeInfo, setThemeInfo] = useState<ThemeInfo>(readThemeInfo);
 
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const colorMode = document.documentElement.getAttribute("data-seed-color-mode") as ColorMode;
-      const userColorScheme = document.documentElement.getAttribute("data-seed-user-color-scheme");
+    if (typeof document === "undefined") {
+      return;
+    }
 
-      setThemeInfo({
-        colorMode: colorMode || "system",
-        userColorScheme: userColorScheme === "dark" ? "dark" : "light",
-      });
+    const observer = new MutationObserver(() => {
+      setThemeInfo(readThemeInfo());
     });
 
     observer.observe(document.documentElement, {

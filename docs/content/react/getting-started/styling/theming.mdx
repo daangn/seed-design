@@ -25,12 +25,12 @@ SEED Design의 테마 시스템은 두 가지 `data-*` 속성을 사용합니다
 ```html
 <!-- 시스템 설정 따르기 -->
 <html data-seed-color-mode="system">
-
-<!-- 라이트 모드로 고정 -->
-<html data-seed-color-mode="light-only">
-
-<!-- 다크 모드로 고정 -->
-<html data-seed-color-mode="dark-only">
+  <!-- 라이트 모드로 고정 -->
+  <html data-seed-color-mode="light-only">
+    <!-- 다크 모드로 고정 -->
+    <html data-seed-color-mode="dark-only"></html>
+  </html>
+</html>
 ```
 
 ### `data-seed-user-color-scheme`
@@ -44,10 +44,7 @@ SEED Design의 테마 시스템은 두 가지 `data-*` 속성을 사용합니다
 
 ```html
 <!-- 시스템 설정을 따르도록 설정했으며, 현재 사용자는 라이트 모드를 사용 중 -->
-<html
-  data-seed-color-mode="system"
-  data-seed-user-color-scheme="light"
->
+<html data-seed-color-mode="system" data-seed-user-color-scheme="light"></html>
 ```
 
 ### 작동 원리
@@ -103,6 +100,8 @@ SEED CSS는 두 속성의 조합을 통해 적절한 색상 토큰을 적용합�
 다음은 커스텀 훅을 만들어 현재 테마 정보를 감지하는 예제입니다:
 
 ```tsx
+"use client";
+
 import { useEffect, useState } from "react";
 
 export type ColorMode = "system" | "light-only" | "dark-only";
@@ -113,26 +112,37 @@ export interface ThemeInfo {
   userColorScheme: UserColorScheme;
 }
 
-export function useTheme(): ThemeInfo {
-  const [themeInfo, setThemeInfo] = useState<ThemeInfo>(() => {
-    const colorMode = document.documentElement.getAttribute("data-seed-color-mode") as ColorMode;
-    const userColorScheme = document.documentElement.getAttribute("data-seed-user-color-scheme");
-
+function readThemeInfo(): ThemeInfo {
+  if (typeof document === "undefined") {
     return {
-      colorMode: colorMode || "system",
-      userColorScheme: userColorScheme === "dark" ? "dark" : "light",
+      colorMode: "system",
+      userColorScheme: "light",
     };
-  });
+  }
+
+  const colorMode = document.documentElement.getAttribute(
+    "data-seed-color-mode"
+  ) as ColorMode;
+  const userColorScheme = document.documentElement.getAttribute(
+    "data-seed-user-color-scheme"
+  );
+
+  return {
+    colorMode: colorMode || "system",
+    userColorScheme: userColorScheme === "dark" ? "dark" : "light",
+  };
+}
+
+export function useTheme(): ThemeInfo {
+  const [themeInfo, setThemeInfo] = useState<ThemeInfo>(readThemeInfo);
 
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const colorMode = document.documentElement.getAttribute("data-seed-color-mode") as ColorMode;
-      const userColorScheme = document.documentElement.getAttribute("data-seed-user-color-scheme");
+    if (typeof document === "undefined") {
+      return;
+    }
 
-      setThemeInfo({
-        colorMode: colorMode || "system",
-        userColorScheme: userColorScheme === "dark" ? "dark" : "light",
-      });
+    const observer = new MutationObserver(() => {
+      setThemeInfo(readThemeInfo());
     });
 
     observer.observe(document.documentElement, {
@@ -150,6 +160,8 @@ export function useTheme(): ThemeInfo {
 이 훅은 다음과 같이 사용할 수 있습니다:
 
 ```tsx
+"use client";
+
 function MyComponent() {
   const { colorMode, userColorScheme } = useTheme();
 
@@ -173,4 +185,3 @@ function MyComponent() {
 - `colorMode`는 애플리케이션의 테마 정책(`system`, `light-only`, `dark-only`)을 나타냅니다.
 - `userColorScheme`는 현재 적용된 실제 컬러 스킴(`light` 또는 `dark`)을 나타냅니다.
 - 시스템 설정이 변경되거나 테마가 전환될 때 자동으로 상태가 업데이트됩니다.
-
