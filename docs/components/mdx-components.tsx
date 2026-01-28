@@ -41,13 +41,7 @@ export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
 
   img: ({ className, ...rest }) => (
-    <ImageZoom
-      className={clsx(
-        className,
-        "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
-      )}
-      {...rest}
-    />
+    <ImageZoom className={clsx(className, "rounded-r2 overflow-hidden")} {...rest} />
   ),
 
   // Layout
