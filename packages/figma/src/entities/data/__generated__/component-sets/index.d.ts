@@ -680,6 +680,22 @@ export declare const privateComponentSegmentedControlItem: {
   }
 };
 
+export declare const privateComponentSelectBoxItemCheckmark: {
+  "name": "privateComponentSelectBoxItemCheckmark",
+  "key": "2d91bde3c21bc38b2b07d8e1b87a03116e96555d",
+  "componentPropertyDefinitions": {
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Selected",
+        "Disabled"
+      ]
+    }
+  }
+};
+
 export declare const privateComponentSliderItemHandles: {
   "name": "privateComponentSliderItemHandles",
   "key": "950b33735d6dda594436c876386b921908dedf64",

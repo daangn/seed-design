@@ -10,22 +10,25 @@ import { match } from "ts-pattern";
 const { createLocalSnippetElement } = createLocalSnippetHelper("radio-group");
 
 export const createRadioGroupItemHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<RadioProperties>(metadata.componentRadio.key, ({ componentProperties: props }) => {
-    const tone = match(props.Tone.value)
-      .with("Neutral", () => "neutral")
-      .with("🚫[Deprecated]Brand", () => "brand")
-      .exhaustive();
+  defineComponentHandler<RadioProperties>(
+    metadata.componentRadio.key,
+    ({ componentProperties: props }) => {
+      const tone = match(props.Tone.value)
+        .with("Neutral", () => "neutral")
+        .with("🚫[Deprecated]Brand", () => "brand")
+        .exhaustive();
 
-    const commonProps = {
-      ...(props.State.value === "Disabled" && {
-        disabled: true,
-      }),
-      label: props["Label#49990:171"].value,
-      value: props["Label#49990:171"].value,
-      size: handleSizeProp(props.Size.value),
-      tone,
-      weight: camelCase(props.Weight.value),
-    };
+      const commonProps = {
+        ...(props.State.value === "Disabled" && {
+          disabled: true,
+        }),
+        label: props["Label#49990:171"].value,
+        value: props["Label#49990:171"].value,
+        size: handleSizeProp(props.Size.value),
+        tone,
+        weight: camelCase(props.Weight.value),
+      };
 
-    return createLocalSnippetElement("RadioGroupItem", commonProps);
-  });
+      return createLocalSnippetElement("RadioGroupItem", commonProps);
+    },
+  );
