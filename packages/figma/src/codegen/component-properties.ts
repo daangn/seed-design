@@ -174,6 +174,18 @@ export type SegmentedControlItemProperties = InferComponentDefinition<
   typeof sets.privateComponentSegmentedControlItem.componentPropertyDefinitions
 >;
 
+export type SelectBoxGroupProperties = InferComponentDefinition<
+  typeof sets.componentSelectBoxGroup.componentPropertyDefinitions
+>;
+
+export type SelectBoxHorizontalProperties = InferComponentDefinition<
+  typeof sets.componentSelectBoxItemHorizontal.componentPropertyDefinitions
+>;
+
+export type SelectBoxVerticalProperties = InferComponentDefinition<
+  typeof sets.componentSelectBoxItemVertical.componentPropertyDefinitions
+>;
+
 export type SkeletonProperties = InferComponentDefinition<
   typeof sets.componentSkeleton.componentPropertyDefinitions
 >;

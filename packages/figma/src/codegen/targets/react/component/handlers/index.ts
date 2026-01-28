@@ -29,6 +29,7 @@ export * from "./radiomark";
 export * from "./reaction-button";
 export * from "./result-section";
 export * from "./segmented-control";
+export * from "./select-box";
 export * from "./skeleton";
 export * from "./slider";
 export * from "./snackbar";
