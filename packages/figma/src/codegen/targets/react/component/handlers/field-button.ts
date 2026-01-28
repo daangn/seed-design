@@ -53,11 +53,11 @@ export const createFieldButtonHandler = (ctx: ComponentHandlerDeps) => {
       });
 
       // maxGraphemeCount and required can't be props of FieldButton
-      const { required: __required, ...headerProps } =
+      const { required: _required, ...headerProps } =
         props["Show Header#40606:8"].value && fieldHeader
           ? (fieldHeaderHandler.transform(fieldHeader, traverse).props as FieldHeaderProps)
           : {};
-      const { maxGraphemeCount: __maxGraphemeCount, ...footerProps } =
+      const { maxGraphemeCount: _maxGraphemeCount, ...footerProps } =
         props["Show Footer#40606:9"].value && fieldFooter
           ? (fieldFooterHandler.transform(fieldFooter, traverse).props as FieldFooterProps)
           : {};
