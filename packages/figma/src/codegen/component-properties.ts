@@ -42,6 +42,10 @@ export type CheckboxProperties = InferComponentDefinition<
   typeof sets.componentCheckbox.componentPropertyDefinitions
 >;
 
+export type CheckboxGroupFieldProperties = InferComponentDefinition<
+  typeof sets.templateCheckboxGroupField.componentPropertyDefinitions
+>;
+
 export type CheckmarkProperties = InferComponentDefinition<
   typeof sets.componentCheckmark.componentPropertyDefinitions
 >;
@@ -144,6 +148,10 @@ export type ProgressCircleProperties = InferComponentDefinition<
 
 export type RadioProperties = InferComponentDefinition<
   typeof sets.componentRadio.componentPropertyDefinitions
+>;
+
+export type RadioGroupFieldProperties = InferComponentDefinition<
+  typeof sets.templateRadioGroupField.componentPropertyDefinitions
 >;
 
 export type RadiomarkProperties = InferComponentDefinition<
