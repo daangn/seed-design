@@ -17,6 +17,7 @@ export const config = defineConfig({
     { route: "/bottom-sheet-activity", name: "ActivityBottomSheetActivity" },
     { route: "/bottom-sheet-step", name: "ActivityBottomSheetStep" },
     { route: "/bottom-sheet", name: "ActivityBottomSheet" },
+    { route: "/bottom-sheet-modal-test", name: "ActivityBottomSheetModalTest" },
     { route: "/chip-button", name: "ActivityChipButton" },
     { route: "/chip-toggle", name: "ActivityChipToggle" },
     { route: "/codegen-test", name: "ActivityCodegenTest" },

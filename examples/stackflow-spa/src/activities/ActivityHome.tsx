@@ -154,6 +154,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "BottomSheet", onClick: () => push("ActivityBottomSheet", {}) },
         {
+          title: "BottomSheet Modal Test",
+          onClick: () => push("ActivityBottomSheetModalTest", {}),
+        },
+        {
           title: "MenuSheet",
           component: (
             <DialogPushTrigger

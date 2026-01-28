@@ -64,13 +64,20 @@ export interface DrawerBackdropProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((props, ref) => {
-  const { overlayRef, onRelease, modal, snapPoints, isOpen, shouldFade, shouldOverlayAnimate } =
-    useDrawerContext();
+  const {
+    overlayRef,
+    onRelease,
+    modal,
+    snapPoints,
+    isOpen,
+    shouldFade,
+    shouldOverlayAnimate,
+    hasAnimationDone,
+  } = useDrawerContext();
   const composedRef = useComposedRefs(ref, overlayRef);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
   const onMouseUp = useCallbackRef((event: React.PointerEvent<HTMLDivElement>) => onRelease(event));
 
-  // Overlay is the component that is locking scroll, removing it will unlock the scroll without having to dig into Radix's Dialog library
   if (!modal) {
     return null;
   }
@@ -83,6 +90,7 @@ export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((p
       data-snap-points-overlay={isOpen && shouldFade ? "true" : "false"}
       data-should-overlay-animate={shouldOverlayAnimate ? "true" : "false"}
       data-open={dataAttr(isOpen)}
+      data-animation-done={hasAnimationDone ? "true" : "false"}
       {...props}
     />
   );
@@ -114,6 +122,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     closeOnInteractOutside,
     closeOnEscape,
     dismissible,
+    hasAnimationDone,
   } = useDrawerContext();
   // Needed to use transition instead of animations
   const [delayedSnapPoints, setDelayedSnapPoints] = useState(false);
@@ -170,6 +179,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
       data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
       data-drawer-direction={direction}
       data-open={dataAttr(isOpen)}
+      data-animation-done={hasAnimationDone ? "true" : "false"}
       data-drawer=""
       data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
       data-custom-container={container ? "true" : "false"}
@@ -275,19 +285,30 @@ export interface DrawerDescriptionProps extends DialogPrimitive.DialogDescriptio
 
 export const DrawerDescription = DialogPrimitive.Description;
 
+export interface DrawerHeaderProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>((props, ref) => {
+  const { isCloseButtonRendered } = useDrawerContext();
+  return (
+    <Primitive.div ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
+  );
+});
+DrawerHeader.displayName = "DrawerHeader";
+
 export interface DrawerCloseButtonProps extends DialogPrimitive.DialogCloseProps {}
 
 export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButtonProps>(
   (props, ref) => {
-    const api = useDrawerContext();
+    const { closeButtonRef, setIsOpen } = useDrawerContext();
+    const composedRef = useComposedRefs(ref, closeButtonRef);
     return (
       <Primitive.button
-        ref={ref}
+        ref={composedRef}
         {...props}
         onClick={(e) => {
           props.onClick?.(e);
           if (e.defaultPrevented) return;
-          api.setIsOpen(false);
+          setIsOpen(false);
         }}
       />
     );

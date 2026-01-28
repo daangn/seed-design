@@ -178,8 +178,14 @@ export function useDrawer(props: UseDrawerProps) {
   });
 
   const [hasBeenOpened, setHasBeenOpened] = useState<boolean>(false);
+  const [hasAnimationDone, setHasAnimationDone] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [shouldOverlayAnimate, setShouldOverlayAnimate] = useState<boolean>(false);
+
+  const [isCloseButtonRendered, setIsCloseButtonRendered] = useState<boolean>(false);
+  const closeButtonRef = useCallback((node: HTMLButtonElement | null) => {
+    setIsCloseButtonRendered(!!node);
+  }, []);
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const openTime = useRef<Date | null>(null);
@@ -607,11 +613,31 @@ export function useDrawer(props: UseDrawerProps) {
     }
   }, [modal]);
 
+  // Effect 1: Track drawer open state
   useEffect(() => {
     if (isOpen) {
       setHasBeenOpened(true);
     }
   }, [isOpen]);
+
+  // Effect 2: Handle animation state and timer
+  useEffect(() => {
+    if (isOpen) {
+      // Only reset animation state if this is the first open
+      if (!hasBeenOpened) {
+        setHasAnimationDone(false);
+      }
+
+      const timeoutId = setTimeout(() => {
+        setHasAnimationDone(true);
+      }, TRANSITIONS.ENTER_DURATION * 1000);
+
+      return () => clearTimeout(timeoutId);
+    }
+
+    // Reset animation state when drawer closes
+    setHasAnimationDone(false);
+  }, [isOpen, hasBeenOpened]);
 
   useEffect(() => {
     if (isOpen && snapPoints && fadeFromIndex === 0) {
@@ -657,6 +683,9 @@ export function useDrawer(props: UseDrawerProps) {
       setIsOpen,
       closeOnInteractOutside,
       closeOnEscape,
+      hasAnimationDone,
+      closeButtonRef,
+      isCloseButtonRendered,
     }),
     [
       activeSnapPoint,
@@ -683,6 +712,9 @@ export function useDrawer(props: UseDrawerProps) {
       onRelease,
       onDrag,
       onPress,
+      hasAnimationDone,
+      closeButtonRef,
+      isCloseButtonRendered,
     ],
   );
 }

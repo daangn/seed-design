@@ -185,23 +185,32 @@ const bottomSheet = defineSlotRecipe({
         header: {
           justifyContent: "flex-start",
           paddingLeft: vars.headerAlignmentLeft.enabled.header.paddingLeft,
-          paddingRight: vars.headerAlignmentLeft.enabled.header.paddingRight,
+          paddingRight: vars.base.enabled.body.paddingX,
+
+          [pseudo("[data-show-close-button]")]: {
+            paddingRight: vars.headerAlignmentLeft.enabled.header.paddingRight,
+          },
         },
       },
       center: {
         header: {
           justifyContent: "center",
-          paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
-          paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
+          paddingLeft: vars.base.enabled.body.paddingX,
+          paddingRight: vars.base.enabled.body.paddingX,
 
           textAlign: "center",
+
+          [pseudo("[data-show-close-button]")]: {
+            paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
+            paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
+          },
         },
       },
     },
     skipAnimation: {
       false: {
         backdrop: {
-          [pseudo(open, "[data-snap-points='false']")]: {
+          [pseudo(open, "[data-snap-points='false']", not("[data-animation-done='true']"))]: {
             animationName: "fade-in",
             animationDuration: vars.base.enabled.backdrop.enterDuration,
             animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
@@ -211,7 +220,12 @@ const bottomSheet = defineSlotRecipe({
             animationDuration: vars.base.enabled.backdrop.exitDuration,
             animationTimingFunction: vars.base.enabled.backdrop.exitTimingFunction,
           },
-          [pseudo(open, "[data-snap-points='true']", "[data-should-overlay-animate='true']")]: {
+          [pseudo(
+            open,
+            "[data-snap-points='true']",
+            "[data-should-overlay-animate='true']",
+            not("[data-animation-done='true']"),
+          )]: {
             animationName: "fade-in",
             animationDuration: vars.base.enabled.backdrop.enterDuration,
             animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
@@ -220,7 +234,7 @@ const bottomSheet = defineSlotRecipe({
         content: {
           animationDuration: vars.base.enabled.content.enterDuration,
           animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
-          [pseudo(open, "[data-snap-points='false']")]: {
+          [pseudo(open, "[data-snap-points='false']", not("[data-animation-done='true']"))]: {
             animationName: "drawer-slide-from-bottom",
             animationDuration: vars.base.enabled.content.enterDuration,
             animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
@@ -230,11 +244,12 @@ const bottomSheet = defineSlotRecipe({
             animationDuration: vars.base.enabled.content.exitDuration,
             animationTimingFunction: vars.base.enabled.content.exitTimingFunction,
           },
-          [pseudo(open, "[data-delayed-snap-points='true']")]: {
-            animationName: "drawer-slide-from-bottom",
-            animationDuration: vars.base.enabled.content.enterDuration,
-            animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
-          },
+          [pseudo(open, "[data-delayed-snap-points='true']", not("[data-animation-done='true']"))]:
+            {
+              animationName: "drawer-slide-from-bottom",
+              animationDuration: vars.base.enabled.content.enterDuration,
+              animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+            },
         },
       },
     },

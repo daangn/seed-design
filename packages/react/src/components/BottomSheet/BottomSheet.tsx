@@ -51,12 +51,10 @@ export const BottomSheetContent = withContext<HTMLDivElement, BottomSheetContent
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface BottomSheetHeaderProps extends Drawer.HeaderProps {}
 
 export const BottomSheetHeader = withContext<HTMLDivElement, BottomSheetHeaderProps>(
-  Primitive.div,
+  Drawer.Header,
   "header",
 );
 
