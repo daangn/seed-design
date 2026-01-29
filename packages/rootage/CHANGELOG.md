@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 1.1.9
+
+### Patch Changes
+
+- build 후 재배포
+
 ## 1.1.8
 
 ### Patch Changes

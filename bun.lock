@@ -56,7 +56,7 @@
         "@sanity/vision": "^4.20.3",
         "@seed-design/css": "1.1.19",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.1.17",
+        "@seed-design/react": "1.1.19",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.16",
@@ -428,7 +428,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.1.17",
+      "version": "1.1.19",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -439,7 +439,7 @@
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.1",
         "@seed-design/react-dialog": "1.0.1",
-        "@seed-design/react-drawer": "1.0.5",
+        "@seed-design/react-drawer": "1.0.7",
         "@seed-design/react-field": "1.0.1",
         "@seed-design/react-field-button": "1.0.1",
         "@seed-design/react-popover": "1.0.3",
@@ -559,7 +559,7 @@
     },
     "packages/react-headless/drawer": {
       "name": "@seed-design/react-drawer",
-      "version": "1.0.5",
+      "version": "1.0.7",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -893,7 +893,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "1.1.8",
+      "version": "1.1.9",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",

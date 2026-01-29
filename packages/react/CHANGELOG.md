@@ -1,5 +1,13 @@
 # @seed-design/react
 
+## 1.1.19
+
+### Patch Changes
+
+- build 후 재배포
+- Updated dependencies
+  - @seed-design/react-drawer@1.0.7
+
 ## 1.1.18
 
 ### Patch Changes

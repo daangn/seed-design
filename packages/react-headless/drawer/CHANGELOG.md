@@ -1,5 +1,11 @@
 # @seed-design/react-drawer
 
+## 1.0.7
+
+### Patch Changes
+
+- build 후 재배포
+
 ## 1.0.6
 
 ### Patch Changes
