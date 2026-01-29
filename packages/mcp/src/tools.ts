@@ -21,11 +21,13 @@ export function registerTools(
   const { extend } = config ?? {};
 
   // join_channel tool
-  server.tool(
+  server.registerTool(
     "join_channel",
-    "Join a specific channel to communicate with Figma",
     {
-      channel: z.string().describe("The name of the channel to join").default(""),
+      description: "Join a specific channel to communicate with Figma",
+      inputSchema: z.object({
+        channel: z.string().describe("The name of the channel to join").default(""),
+      }),
     },
     async ({ channel }) => {
       try {
@@ -49,10 +51,11 @@ export function registerTools(
   );
 
   // Document Info Tool
-  server.tool(
+  server.registerTool(
     "get_document_info",
-    "Get detailed information about the current Figma document",
-    {},
+    {
+      description: "Get detailed information about the current Figma document",
+    },
     async () => {
       try {
         const result = await sendCommandToFigma("get_document_info");
@@ -64,10 +67,11 @@ export function registerTools(
   );
 
   // Selection Tool
-  server.tool(
+  server.registerTool(
     "get_selection",
-    "Get information about the current selection in Figma",
-    {},
+    {
+      description: "Get information about the current selection in Figma",
+    },
     async () => {
       try {
         const result = await sendCommandToFigma("get_selection");
@@ -79,18 +83,20 @@ export function registerTools(
   );
 
   // Annotation Tool
-  server.tool(
+  server.registerTool(
     "add_annotations",
-    "Add annotations to multiple nodes in Figma",
     {
-      annotations: z.array(
-        z.object({
-          nodeId: z.string().describe("The ID of the node to add an annotation to"),
-          labelMarkdown: z
-            .string()
-            .describe("The markdown label for the annotation, do not escape newlines"),
-        }),
-      ),
+      description: "Add annotations to multiple nodes in Figma",
+      inputSchema: z.object({
+        annotations: z.array(
+          z.object({
+            nodeId: z.string().describe("The ID of the node to add an annotation to"),
+            labelMarkdown: z
+              .string()
+              .describe("The markdown label for the annotation, do not escape newlines"),
+          }),
+        ),
+      }),
     },
     async ({ annotations }) => {
       try {
@@ -106,10 +112,14 @@ export function registerTools(
   );
 
   // Get Annotations Tool
-  server.tool(
+  server.registerTool(
     "get_annotations",
-    "Get annotations for a specific node in Figma",
-    { nodeId: z.string().describe("The ID of the node to get annotations for") },
+    {
+      description: "Get annotations for a specific node in Figma",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to get annotations for"),
+      }),
+    },
     async ({ nodeId }) => {
       try {
         const result = await sendCommandToFigma("get_annotations", { nodeId });
@@ -121,11 +131,13 @@ export function registerTools(
   );
 
   // Component Info Tool
-  server.tool(
+  server.registerTool(
     "get_component_info",
-    "Get detailed information about a specific component node in Figma",
     {
-      nodeId: z.string().describe("The ID of the component node to get information about"),
+      description: "Get detailed information about a specific component node in Figma",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the component node to get information about"),
+      }),
     },
     async ({ nodeId }) => {
       try {
@@ -161,11 +173,13 @@ export function registerTools(
   );
 
   // Node Info Tool
-  server.tool(
+  server.registerTool(
     "get_node_info",
-    "Get detailed information about a specific node in Figma",
     {
-      nodeId: z.string().describe("The ID of the node to get information about"),
+      description: "Get detailed information about a specific node in Figma",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to get information about"),
+      }),
     },
     async ({ nodeId }) => {
       try {
@@ -209,11 +223,13 @@ export function registerTools(
   );
 
   // Nodes Info Tool
-  server.tool(
+  server.registerTool(
     "get_nodes_info",
-    "Get detailed information about multiple nodes in Figma",
     {
-      nodeIds: z.array(z.string()).describe("Array of node IDs to get information about"),
+      description: "Get detailed information about multiple nodes in Figma",
+      inputSchema: z.object({
+        nodeIds: z.array(z.string()).describe("Array of node IDs to get information about"),
+      }),
     },
     async ({ nodeIds }) => {
       try {
@@ -262,10 +278,14 @@ export function registerTools(
     },
   );
 
-  server.tool(
+  server.registerTool(
     "get_node_react_code",
-    "Get the React code for a specific node in Figma",
-    { nodeId: z.string().describe("The ID of the node to get code for") },
+    {
+      description: "Get the React code for a specific node in Figma",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to get code for"),
+      }),
+    },
     async ({ nodeId }) => {
       try {
         const result: any = await sendCommandToFigma("get_node_info", { nodeId });
@@ -296,13 +316,15 @@ export function registerTools(
   );
 
   // Export Node as Image Tool
-  server.tool(
+  server.registerTool(
     "export_node_as_image",
-    "Export a node as an image from Figma",
     {
-      nodeId: z.string().describe("The ID of the node to export"),
-      format: z.enum(["PNG", "JPG", "SVG", "PDF"]).optional().describe("Export format"),
-      scale: z.number().positive().optional().describe("Export scale"),
+      description: "Export a node as an image from Figma",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to export"),
+        format: z.enum(["PNG", "JPG", "SVG", "PDF"]).optional().describe("Export format"),
+        scale: z.number().positive().optional().describe("Export scale"),
+      }),
     },
     async ({ nodeId, format, scale }) => {
       try {
@@ -320,14 +342,16 @@ export function registerTools(
   );
 
   // Retrieve Color Variable Names Tool
-  server.tool(
+  server.registerTool(
     "retrieve_color_variable_names",
-    "Retrieve available color variable names in scope",
     {
-      scope: z
-        .enum(["fg", "bg", "stroke", "palette"])
-        .array()
-        .describe("The scope of the color variable names to retrieve"),
+      description: "Retrieve available color variable names in scope",
+      inputSchema: z.object({
+        scope: z
+          .enum(["fg", "bg", "stroke", "palette"])
+          .array()
+          .describe("The scope of the color variable names to retrieve"),
+      }),
     },
     async ({ scope }) => {
       try {
@@ -344,13 +368,15 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
   const { sendCommandToFigma } = figmaClient;
 
   // Clone Node Tool
-  server.tool(
+  server.registerTool(
     "clone_node",
-    "Clone an existing node in Figma",
     {
-      nodeId: z.string().describe("The ID of the node to clone"),
-      x: z.number().optional().describe("New X position for the clone"),
-      y: z.number().optional().describe("New Y position for the clone"),
+      description: "Clone an existing node in Figma",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to clone"),
+        x: z.number().optional().describe("New X position for the clone"),
+        y: z.number().optional().describe("New Y position for the clone"),
+      }),
     },
     async ({ nodeId, x, y }) => {
       try {
@@ -371,16 +397,18 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     },
   );
 
-  server.tool(
+  server.registerTool(
     "set_fill_color",
-    "Set the fill color of a node",
     {
-      nodeId: z.string().describe("The ID of the node to set the fill color of"),
-      colorToken: z
-        .string()
-        .describe(
-          "The color token to set the fill color to. Format: `{category}/{name}`. Example: `bg/brand`",
-        ),
+      description: "Set the fill color of a node",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to set the fill color of"),
+        colorToken: z
+          .string()
+          .describe(
+            "The color token to set the fill color to. Format: `{category}/{name}`. Example: `bg/brand`",
+          ),
+      }),
     },
     async ({ nodeId, colorToken }) => {
       try {
@@ -392,16 +420,18 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     },
   );
 
-  server.tool(
+  server.registerTool(
     "set_stroke_color",
-    "Set the stroke color of a node",
     {
-      nodeId: z.string().describe("The ID of the node to set the stroke color of"),
-      colorToken: z
-        .string()
-        .describe(
-          "The color token to set the stroke color to. Format: `{category}/{name}`. Example: `stroke/neutral`",
-        ),
+      description: "Set the stroke color of a node",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to set the stroke color of"),
+        colorToken: z
+          .string()
+          .describe(
+            "The color token to set the stroke color to. Format: `{category}/{name}`. Example: `stroke/neutral`",
+          ),
+      }),
     },
     async ({ nodeId, colorToken }) => {
       try {
@@ -413,31 +443,39 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     },
   );
 
-  server.tool(
+  server.registerTool(
     "set_auto_layout",
-    "Set the auto layout of a node",
     {
-      nodeId: z.string().describe("The ID of the node to set the auto layout of"),
-      layoutMode: z.enum(["HORIZONTAL", "VERTICAL"]).optional().describe("The layout mode to set"),
-      layoutWrap: z.enum(["NO_WRAP", "WRAP"]).optional().describe("The layout wrap to set"),
-      primaryAxisAlignItems: z
-        .enum(["MIN", "MAX", "CENTER", "SPACE_BETWEEN"])
-        .optional()
-        .describe("The primary axis align items to set"),
-      counterAxisAlignItems: z
-        .enum(["MIN", "MAX", "CENTER", "BASELINE"])
-        .optional()
-        .describe("The counter axis align items to set"),
-      itemSpacing: z.number().optional().describe("The item spacing to set"),
-      horizontalPadding: z.number().optional().describe("The horizontal padding to set"),
-      verticalPadding: z.number().optional().describe("The vertical padding to set"),
-      paddingLeft: z.number().optional().describe("The padding left to set (when left != right)"),
-      paddingRight: z.number().optional().describe("The padding right to set (when left != right)"),
-      paddingTop: z.number().optional().describe("The padding top to set (when top != bottom)"),
-      paddingBottom: z
-        .number()
-        .optional()
-        .describe("The padding bottom to set (when top != bottom)"),
+      description: "Set the auto layout of a node",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to set the auto layout of"),
+        layoutMode: z
+          .enum(["HORIZONTAL", "VERTICAL"])
+          .optional()
+          .describe("The layout mode to set"),
+        layoutWrap: z.enum(["NO_WRAP", "WRAP"]).optional().describe("The layout wrap to set"),
+        primaryAxisAlignItems: z
+          .enum(["MIN", "MAX", "CENTER", "SPACE_BETWEEN"])
+          .optional()
+          .describe("The primary axis align items to set"),
+        counterAxisAlignItems: z
+          .enum(["MIN", "MAX", "CENTER", "BASELINE"])
+          .optional()
+          .describe("The counter axis align items to set"),
+        itemSpacing: z.number().optional().describe("The item spacing to set"),
+        horizontalPadding: z.number().optional().describe("The horizontal padding to set"),
+        verticalPadding: z.number().optional().describe("The vertical padding to set"),
+        paddingLeft: z.number().optional().describe("The padding left to set (when left != right)"),
+        paddingRight: z
+          .number()
+          .optional()
+          .describe("The padding right to set (when left != right)"),
+        paddingTop: z.number().optional().describe("The padding top to set (when top != bottom)"),
+        paddingBottom: z
+          .number()
+          .optional()
+          .describe("The padding bottom to set (when top != bottom)"),
+      }),
     },
     async ({
       nodeId,
@@ -475,21 +513,23 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     },
   );
 
-  server.tool(
+  server.registerTool(
     "set_size",
-    "Set the size of a node",
     {
-      nodeId: z.string().describe("The ID of the node to set the size of"),
-      layoutSizingHorizontal: z
-        .enum(["HUG", "FILL"])
-        .optional()
-        .describe("The horizontal layout sizing to set (exclusive with width)"),
-      layoutSizingVertical: z
-        .enum(["HUG", "FILL"])
-        .optional()
-        .describe("The vertical layout sizing to set (exclusive with height)"),
-      width: z.number().optional().describe("The width to set (raw value)"),
-      height: z.number().optional().describe("The height to set (raw value)"),
+      description: "Set the size of a node",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to set the size of"),
+        layoutSizingHorizontal: z
+          .enum(["HUG", "FILL"])
+          .optional()
+          .describe("The horizontal layout sizing to set (exclusive with width)"),
+        layoutSizingVertical: z
+          .enum(["HUG", "FILL"])
+          .optional()
+          .describe("The vertical layout sizing to set (exclusive with height)"),
+        width: z.number().optional().describe("The width to set (raw value)"),
+        height: z.number().optional().describe("The height to set (raw value)"),
+      }),
     },
     async ({ nodeId, layoutSizingHorizontal, layoutSizingVertical, width, height }) => {
       try {
