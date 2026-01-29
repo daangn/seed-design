@@ -205,7 +205,8 @@ export default {
 
 아래 프롬프트를 복사해 파일로 저장합니다.
 
-````markdown
+<Card>
+
 # ComponentHandler Implementation Guide
 
 ## Initial Context Gathering
@@ -247,22 +248,22 @@ import {
 
 // Define component properties based on Figma definition
 export type ComponentNameProperties = InferComponentDefinition<{
-  // Map all component properties from Figma
-  // Example:
-  PropertyName: {
-    type: "VARIANT" | "TEXT" | "BOOLEAN" | "INSTANCE_SWAP";
-    variantOptions?: string[]; // For VARIANT type
-    defaultValue?: string | boolean;
-  };
+// Map all component properties from Figma
+// Example:
+PropertyName: {
+type: "VARIANT" | "TEXT" | "BOOLEAN" | "INSTANCE_SWAP";
+variantOptions?: string[]; // For VARIANT type
+defaultValue?: string | boolean;
+};
 }>;
 
 // Create and export the handler
-export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) =>
-  defineComponentHandler<ComponentNameProperties>(
-    "component-key-from-figma", // Replace with actual component key
-    ({ componentProperties: props }) => {
-      // Transform Figma properties to React props
-      // Use conditionals for variants and property handling
+export const createComponentNameHandler = (\_deps: react.ComponentHandlerDeps) =>
+defineComponentHandler<ComponentNameProperties>(
+"component-key-from-figma", // Replace with actual component key
+({ componentProperties: props }) => {
+// Transform Figma properties to React props
+// Use conditionals for variants and property handling
 
       return createElement(
         "ComponentName", // The React component name
@@ -278,7 +279,8 @@ export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) =>
         },
       );
     },
-  );
+
+);
 ```
 
 ## Validation and Testing
@@ -295,7 +297,8 @@ export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) =>
 - Add descriptive comments for complex transformations
 - Consider performance implications for deeply nested components
 - Ensure type safety throughout the transformation process
-````
+
+</Card>
 
 </Step>
 <Step>
