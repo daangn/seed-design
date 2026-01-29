@@ -255,8 +255,7 @@ export function registerTools(
     "get_component_info",
     {
       description:
-        "Get detailed information about a specific component node in Figma. " +
-        "Provide either: (1) Figma node (layer) URL, (2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.",
+        "Get detailed information about a specific component node in Figma. Supports both REST API (with figmaUrl or fileKey + nodeId) and WebSocket mode (nodeId only).",
       inputSchema: singleNodeParamsSchema,
     },
     async (params) => {
@@ -296,8 +295,7 @@ export function registerTools(
     "get_node_info",
     {
       description:
-        "Get detailed information about a specific node in Figma. " +
-        "Provide either: (1) Figma node (layer) URL, (2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.",
+        "Get detailed information about a specific node in Figma. Supports both REST API (with figmaUrl or fileKey + nodeId) and WebSocket mode (nodeId only).",
       inputSchema: singleNodeParamsSchema,
     },
     async (params) => {
@@ -340,8 +338,7 @@ export function registerTools(
     "get_nodes_info",
     {
       description:
-        "Get detailed information about multiple nodes in Figma. " +
-        "Provide either: (1) Figma node (layer) URL, (2) fileKey + nodeIds, or (3) nodeIds only for WebSocket mode.",
+        "Get detailed information about multiple nodes in Figma. Supports both REST API (with figmaUrl or fileKey + nodeIds) and WebSocket mode (nodeIds only).",
       inputSchema: multiNodeParamsSchema,
     },
     async (params) => {
@@ -399,8 +396,7 @@ export function registerTools(
     "get_node_react_code",
     {
       description:
-        "Get the React code for a specific node in Figma. " +
-        "Provide either: (1) Figma node (layer) URL, (2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.",
+        "Get the React code for a specific node in Figma. Supports both REST API (with figmaUrl or fileKey + nodeId) and WebSocket mode (nodeId only).",
       inputSchema: singleNodeParamsSchema,
     },
     async (params) => {
@@ -439,7 +435,8 @@ export function registerTools(
   server.registerTool(
     "retrieve_color_variable_names",
     {
-      description: "Retrieve available color variable names in scope",
+      description:
+        "Retrieve available SEED Design color variable names by scope. No Figma connection required.",
       inputSchema: z.object({
         scope: z
           .enum(["fg", "bg", "stroke", "palette"])
@@ -468,7 +465,7 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
   server.registerTool(
     "clone_node",
     {
-      description: "Clone an existing node in Figma",
+      description: "Clone an existing node in Figma (WebSocket mode only)",
       inputSchema: z.object({
         nodeId: z.string().describe("The ID of the node to clone"),
         x: z.number().optional().describe("New X position for the clone"),
@@ -498,7 +495,7 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
   server.registerTool(
     "set_fill_color",
     {
-      description: "Set the fill color of a node",
+      description: "Set the fill color of a node (WebSocket mode only)",
       inputSchema: z.object({
         nodeId: z.string().describe("The ID of the node to set the fill color of"),
         colorToken: z
@@ -522,7 +519,7 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
   server.registerTool(
     "set_stroke_color",
     {
-      description: "Set the stroke color of a node",
+      description: "Set the stroke color of a node (WebSocket mode only)",
       inputSchema: z.object({
         nodeId: z.string().describe("The ID of the node to set the stroke color of"),
         colorToken: z
@@ -546,7 +543,7 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
   server.registerTool(
     "set_auto_layout",
     {
-      description: "Set the auto layout of a node",
+      description: "Set the auto layout of a node (WebSocket mode only)",
       inputSchema: z.object({
         nodeId: z.string().describe("The ID of the node to set the auto layout of"),
         layoutMode: z
@@ -617,7 +614,7 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
   server.registerTool(
     "set_size",
     {
-      description: "Set the size of a node",
+      description: "Set the size of a node (WebSocket mode only)",
       inputSchema: z.object({
         nodeId: z.string().describe("The ID of the node to set the size of"),
         layoutSizingHorizontal: z
