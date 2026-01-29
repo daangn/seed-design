@@ -354,7 +354,12 @@ export declare const componentSelectBoxItemPrefixCustom: {
 
 export declare const componentSelectBoxItemPrefixIcon: {
   "name": "componentSelectBoxItemPrefixIcon",
-  "key": "7184053a74eef18503170d08a1bdb74d37cbb65f"
+  "key": "7184053a74eef18503170d08a1bdb74d37cbb65f",
+  "componentPropertyDefinitions": {
+    "Icon#2475:0": {
+      "type": "INSTANCE_SWAP"
+    }
+  }
 };
 
 export declare const componentSelectBoxItemPrefixImage: {

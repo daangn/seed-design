@@ -186,6 +186,10 @@ export type SelectBoxVerticalProperties = InferComponentDefinition<
   typeof sets.componentSelectBoxItemVertical.componentPropertyDefinitions
 >;
 
+export type SelectBoxPrefixIconProperties = InferComponentDefinition<
+  typeof components.componentSelectBoxItemPrefixIcon.componentPropertyDefinitions
+>;
+
 export type SkeletonProperties = InferComponentDefinition<
   typeof sets.componentSkeleton.componentPropertyDefinitions
 >;

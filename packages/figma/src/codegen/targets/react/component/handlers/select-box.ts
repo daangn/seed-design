@@ -1,6 +1,7 @@
 import type {
   SelectBoxGroupProperties,
   SelectBoxHorizontalProperties,
+  SelectBoxPrefixIconProperties,
   SelectBoxVerticalProperties,
 } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
@@ -46,8 +47,7 @@ const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
         if (props["Has Prefix#28452:85"].value === false) return null;
 
         for (const key of PREFIX_KEYS) {
-          // TODO: list item처럼 instance swap이 열려야 함
-          const [found] = findAllInstances<{} | {}>({ node, key });
+          const [found] = findAllInstances<SelectBoxPrefixIconProperties | {}>({ node, key });
 
           if (found) return found;
         }
@@ -58,10 +58,8 @@ const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
       const prefixIcon = (() => {
         if (!prefixNode) return undefined;
 
-        // TODO: handle
-        if ("somekey" in prefixNode.componentProperties) {
-          // @ts-expect-error
-          return ctx.iconHandler.transform(prefixNode.componentProperties["somekey"]);
+        if ("Icon#2475:0" in prefixNode.componentProperties) {
+          return ctx.iconHandler.transform(prefixNode.componentProperties["Icon#2475:0"]);
         }
 
         // React Select Box only supports icon for now
@@ -130,8 +128,7 @@ const createSelectBoxVerticalHandler = (ctx: ComponentHandlerDeps) =>
         if (props["Has Prefix#58766:115"].value === false) return null;
 
         for (const key of PREFIX_KEYS) {
-          // TODO: list item처럼 instance swap이 열려야 함
-          const [found] = findAllInstances<{} | {}>({ node, key });
+          const [found] = findAllInstances<SelectBoxPrefixIconProperties | {}>({ node, key });
 
           if (found) return found;
         }
@@ -142,10 +139,8 @@ const createSelectBoxVerticalHandler = (ctx: ComponentHandlerDeps) =>
       const prefixIcon = (() => {
         if (!prefixNode) return undefined;
 
-        // TODO: handle
-        if ("somekey" in prefixNode.componentProperties) {
-          // @ts-expect-error
-          return ctx.iconHandler.transform(prefixNode.componentProperties["somekey"]);
+        if ("Icon#2475:0" in prefixNode.componentProperties) {
+          return ctx.iconHandler.transform(prefixNode.componentProperties["Icon#2475:0"]);
         }
 
         // React Select Box only supports icon for now
