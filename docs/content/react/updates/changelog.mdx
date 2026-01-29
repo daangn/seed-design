@@ -3,6 +3,60 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2026.01.29
+
+AlertDialog 닫힐 때 focus 복원으로 인해 BottomSheet가 즉시 닫히는 문제 수정 [`8188130`](https://github.com/daangn/seed-design/commit/8188130e3c62651acea63ae699f11fe16d2e9a06)
+
+- onFocusOutside에서 항상 preventDefault 호출
+- onInteractOutside에서 defaultPrevented 체크 추가
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.6](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.6)
+
+---
+
+ImageFrameReactionButton에 fillIcon, lineIcon spec을 추가합니다 [`9446f2c`](https://github.com/daangn/seed-design/commit/9446f2cc68ae9db41cc5da6124a2a0897a2f250b)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.1](https://npmjs.com/package/@seed-design/css/v/1.2.1)
+- 📦 [@seed-design/rootage-artifacts@1.2.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.1)
+
+---
+
+ImageFrameReactionButton의 SVG 사이즈와 Rootage 정의를 수정합니다. [`8ad9484`](https://github.com/daangn/seed-design/commit/8ad948427977be6b18b6e385a6ffc95478fdef16)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.1](https://npmjs.com/package/@seed-design/css/v/1.2.1)
+- 📦 [@seed-design/react@1.2.1](https://npmjs.com/package/@seed-design/react/v/1.2.1)
+- 📦 [@seed-design/rootage-artifacts@1.2.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.1)
+
+---
+
+Figma 엔티티를 최신 버전으로 업데이트합니다. [`15d9587`](https://github.com/daangn/seed-design/commit/15d95874c61bfed3b88bcdc578b5147764bec8aa)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.2.1](https://npmjs.com/package/@seed-design/figma/v/1.2.1)
+
+---
+
+`@seed-design/figma-extractor` config 파이프라인에서 `fetchNodes`를 context의 일부로 제공합니다. [`15d9587`](https://github.com/daangn/seed-design/commit/15d95874c61bfed3b88bcdc578b5147764bec8aa)
+
+영향받는 패키지
+- 📦 [@seed-design/figma-extractor@1.1.0](https://npmjs.com/package/@seed-design/figma-extractor/v/1.1.0)
+
+---
+
+BottomSheet `showCloseButton` variant 변경 및 animation 버그 수정 [`9cbeba0`](https://github.com/daangn/seed-design/commit/9cbeba019778a5fc10b1308b3a492a91083a6795)
+
+- `showCloseButton` variant 변경: CloseButton 미사용 시 header padding 조정 가능
+- `hasEntered` 상태 추가: modal prop 변경 시 enter animation 재실행 방지
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.1](https://npmjs.com/package/@seed-design/css/v/1.2.1)
+- 📦 [@seed-design/react-drawer@1.0.6](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.6)
+
+---
+
 ## 2026.01.26
 
 `--on-diff` flag를 추가하고 `--overwrite` flag를 `--on-diff=overwrite`로 대체합니다. `--on-diff=backup`을 사용하여 변경사항이 있는 모든 snippet에 대해 이전 파일을 유지할 수 있습니다. [`f7a6217`](https://github.com/daangn/seed-design/commit/f7a621701082bc1bf09da849d036c279c56eefa5)
