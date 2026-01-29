@@ -1,5 +1,11 @@
 # @seed-design/figma-extractor
 
+## 1.1.0
+
+### Minor Changes
+
+- 15d9587: `@seed-design/figma-extractor` config 파이프라인에서 `fetchNodes`를 context의 일부로 제공합니다.
+
 ## 1.0.0
 
 ### Major Changes

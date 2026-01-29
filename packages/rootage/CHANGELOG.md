@@ -1,5 +1,12 @@
 # @seed-design/rootage-artifacts
 
+## 1.2.1
+
+### Patch Changes
+
+- 9446f2c: ImageFrameReactionButton에 fillIcon, lineIcon spec을 추가합니다
+- 8ad9484: ImageFrameReactionButton의 SVG 사이즈와 Rootage 정의를 수정합니다.
+
 ## 1.2.0
 
 ### Minor Changes

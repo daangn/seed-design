@@ -1,5 +1,16 @@
 # @seed-design/css
 
+## 1.2.1
+
+### Patch Changes
+
+- 9446f2c: ImageFrameReactionButton에 fillIcon, lineIcon spec을 추가합니다
+- 8ad9484: ImageFrameReactionButton의 SVG 사이즈와 Rootage 정의를 수정합니다.
+- 9cbeba0: BottomSheet `showCloseButton` variant 변경 및 animation 버그 수정
+
+  - `showCloseButton` variant 변경: CloseButton 미사용 시 header padding 조정 가능
+  - `hasEntered` 상태 추가: modal prop 변경 시 enter animation 재실행 방지
+
 ## 1.2.0
 
 ### Minor Changes

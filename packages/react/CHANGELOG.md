@@ -1,5 +1,14 @@
 # @seed-design/react
 
+## 1.2.1
+
+### Patch Changes
+
+- 8ad9484: ImageFrameReactionButton의 SVG 사이즈와 Rootage 정의를 수정합니다.
+- Updated dependencies [8188130]
+- Updated dependencies [9cbeba0]
+  - @seed-design/react-drawer@1.0.6
+
 ## 1.2.0
 
 ### Minor Changes

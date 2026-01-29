@@ -1,5 +1,15 @@
 # @seed-design/figma
 
+## 1.2.1
+
+### Patch Changes
+
+- 15d9587: Figma 엔티티를 최신 버전으로 업데이트합니다.
+- Updated dependencies [9446f2c]
+- Updated dependencies [8ad9484]
+- Updated dependencies [9cbeba0]
+  - @seed-design/css@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,5 +1,19 @@
 # @seed-design/react-drawer
 
+## 1.0.6
+
+### Patch Changes
+
+- 8188130: AlertDialog 닫힐 때 focus 복원으로 인해 BottomSheet가 즉시 닫히는 문제 수정
+
+  - onFocusOutside에서 항상 preventDefault 호출
+  - onInteractOutside에서 defaultPrevented 체크 추가
+
+- 9cbeba0: BottomSheet `showCloseButton` variant 변경 및 animation 버그 수정
+
+  - `showCloseButton` variant 변경: CloseButton 미사용 시 header padding 조정 가능
+  - `hasEntered` 상태 추가: modal prop 변경 시 enter animation 재실행 방지
+
 ## 1.0.5
 
 ### Patch Changes
