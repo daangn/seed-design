@@ -1,5 +1,3 @@
-"use client";
-
 import { Player } from "@lottiefiles/react-lottie-player";
 import { VStack, Box } from "@seed-design/react";
 import { ResultSection } from "seed-design/ui/result-section";
