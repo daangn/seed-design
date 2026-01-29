@@ -3,244 +3,132 @@
 import { cac } from "cac";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { version } from "../../package.json" with { type: "json" };
 import { logger } from "../logger";
-import { createFigmaWebSocketClient } from "../websocket";
+import { loadConfig, type McpConfig } from "../config";
+import { createFigmaWebSocketClient, type FigmaWebSocketClient } from "../websocket";
 import { registerEditingTools, registerTools } from "../tools";
 import { registerPrompts } from "../prompts";
-import { version } from "../../package.json" with { type: "json" };
-import type { ServerWebSocket } from "bun";
-import { loadConfig, type McpConfig } from "../config";
+import { startWebSocketServer } from "./websocket-server";
 
-// Initialize CLI
-const cli = cac("@seed-design/mcp");
+// Helper Functions
 
-// Store WebSocket clients by channel
-const channels = new Map<string, Set<ServerWebSocket<any>>>();
-
-function handleWebSocketConnection(ws: ServerWebSocket<any>) {
-  console.log("New client connected");
-
-  ws.send(
-    JSON.stringify({
-      type: "system",
-      message: "Please join a channel to start chatting",
-    }),
-  );
-
-  ws.close = () => {
-    console.log("Client disconnected");
-    channels.forEach((clients, channelName) => {
-      if (clients.has(ws)) {
-        clients.delete(ws);
-        clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(
-              JSON.stringify({
-                type: "system",
-                message: "A user has left the channel",
-                channel: channelName,
-              }),
-            );
-          }
-        });
-      }
-    });
-  };
+function getFigmaAccessToken(): string | undefined {
+  return process.env["FIGMA_PERSONAL_ACCESS_TOKEN"];
 }
 
-async function startWebSocketServer(port: number) {
-  const server = Bun.serve({
-    port,
-    // uncomment this to allow connections in windows wsl
-    // hostname: "0.0.0.0",
-    fetch(req, server) {
-      // Handle CORS preflight
-      if (req.method === "OPTIONS") {
-        return new Response(null, {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-          },
-        });
-      }
+function createFigmaClient(serverUrl?: string): FigmaWebSocketClient | null {
+  const pat = getFigmaAccessToken();
 
-      // Handle WebSocket upgrade
-      const success = server.upgrade(req, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
+  if (!pat) {
+    const resolvedUrl = serverUrl ?? "localhost";
+    logger.info(
+      `No FIGMA_PERSONAL_ACCESS_TOKEN found. Using WebSocket mode. Client connecting to: ${resolvedUrl}`,
+    );
 
-      if (success) return;
-
-      // Return response for non-WebSocket requests
-      return new Response("WebSocket server running", {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
-    },
-    websocket: {
-      open: handleWebSocketConnection,
-      message(ws, message) {
-        try {
-          console.log("Received message from client:", message);
-          const data = JSON.parse(message as string);
-
-          if (data.type === "join") {
-            const channelName = data.channel;
-            if (!channelName || typeof channelName !== "string") {
-              ws.send(JSON.stringify({ type: "error", message: "Channel name is required" }));
-              return;
-            }
-
-            // Create channel if it doesn't exist
-            if (!channels.has(channelName)) {
-              channels.set(channelName, new Set());
-            }
-
-            // Add client to channel
-            const channelClients = channels.get(channelName)!;
-            channelClients.add(ws);
-
-            // Notify client they joined successfully
-            ws.send(
-              JSON.stringify({
-                type: "system",
-                message: `Joined channel: ${channelName}`,
-                channel: channelName,
-              }),
-            );
-
-            console.log("Sending message to client:", data.id);
-
-            ws.send(
-              JSON.stringify({
-                type: "system",
-                message: {
-                  id: data.id,
-                  result: "Connected to channel: " + channelName,
-                },
-                channel: channelName,
-              }),
-            );
-
-            // Notify other clients in channel
-            channelClients.forEach((client) => {
-              if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(
-                  JSON.stringify({
-                    type: "system",
-                    message: "A new user has joined the channel",
-                    channel: channelName,
-                  }),
-                );
-              }
-            });
-            return;
-          }
-
-          // Handle regular messages
-          if (data.type === "message") {
-            const channelName = data.channel;
-            if (!channelName || typeof channelName !== "string") {
-              ws.send(JSON.stringify({ type: "error", message: "Channel name is required" }));
-              return;
-            }
-
-            const channelClients = channels.get(channelName);
-            if (!channelClients || !channelClients.has(ws)) {
-              ws.send(
-                JSON.stringify({ type: "error", message: "You must join the channel first" }),
-              );
-              return;
-            }
-
-            // Broadcast to all clients in the channel
-            channelClients.forEach((client) => {
-              if (client.readyState === WebSocket.OPEN) {
-                console.log("Broadcasting message to client:", data.message);
-                client.send(
-                  JSON.stringify({
-                    type: "broadcast",
-                    message: data.message,
-                    sender: client === ws ? "You" : "User",
-                    channel: channelName,
-                  }),
-                );
-              }
-            });
-          }
-        } catch (err) {
-          console.error("Error handling message:", err);
-        }
-      },
-      close(ws) {
-        // Remove client from their channel
-        channels.forEach((clients) => {
-          clients.delete(ws);
-        });
-      },
-    },
-  });
-
-  console.log(`WebSocket server running on port ${server.port}`);
-  return server;
-}
-
-async function startMcpServer(serverUrl: string, experimental: boolean, configPath?: string) {
-  // Load config if provided
-  let configData: McpConfig | null = null;
-  if (configPath) {
-    configData = await loadConfig(configPath);
-    if (configData) {
-      logger.info(`Loaded configuration from: ${configPath}`);
-
-      // Log component transformers if present
-      if (configData.extend?.componentHandlers) {
-        const handlers = configData.extend.componentHandlers;
-        if (handlers.length > 0) {
-          logger.info(`Found ${handlers.length} custom component handlers`);
-        }
-      }
-    }
+    return createFigmaWebSocketClient(resolvedUrl);
   }
 
-  const figmaClient = createFigmaWebSocketClient(serverUrl);
+  logger.info("FIGMA_PERSONAL_ACCESS_TOKEN found. REST API mode enabled.");
+
+  if (serverUrl) {
+    logger.info(`WebSocket server URL provided: ${serverUrl}. Attempting hybrid mode.`);
+    return createFigmaWebSocketClient(serverUrl);
+  }
+
+  logger.info("No WebSocket server URL. Running in REST API only mode.");
+
+  return null;
+}
+
+async function loadMcpConfig(configPath?: string): Promise<McpConfig | null> {
+  if (!configPath) return null;
+
+  const config = await loadConfig(configPath);
+  if (!config) return null;
+
+  logger.info(`Loaded configuration from: ${configPath}`);
+
+  if (config.extend?.componentHandlers?.length) {
+    logger.info(`Found ${config.extend.componentHandlers.length} custom component handlers`);
+  }
+
+  return config;
+}
+
+function connectFigmaClient(figmaClient: FigmaWebSocketClient | null): void {
+  if (!figmaClient) return;
+
+  try {
+    figmaClient.connectToFigma();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    logger.warn(`Could not connect to Figma initially: ${message}`);
+
+    if (getFigmaAccessToken()) {
+      logger.info("REST API fallback available via FIGMA_PERSONAL_ACCESS_TOKEN");
+    } else {
+      logger.warn("Will try to connect when the first command is sent");
+    }
+  }
+}
+
+// MCP Server
+
+interface McpServerOptions {
+  serverUrl?: string;
+  experimental?: boolean;
+  configPath?: string;
+}
+
+async function startMcpServer(options: McpServerOptions = {}): Promise<void> {
+  const { serverUrl, experimental, configPath } = options;
+
+  const config = await loadMcpConfig(configPath);
+  const figmaClient = createFigmaClient(serverUrl);
+
   const server = new McpServer({
     name: "SEED Design MCP",
     version,
   });
 
-  registerTools(server, figmaClient, configData);
-  if (experimental) {
-    registerEditingTools(server, figmaClient);
-  }
+  registerTools(server, figmaClient, config);
   registerPrompts(server);
 
-  try {
-    figmaClient.connectToFigma();
-  } catch (error) {
-    logger.warn(
-      `Could not connect to Figma initially: ${error instanceof Error ? error.message : String(error)}`,
-    );
-    logger.warn("Will try to connect when the first command is sent");
+  if (experimental) {
+    if (figmaClient) {
+      registerEditingTools(server, figmaClient);
+    } else {
+      logger.warn("Experimental editing tools require WebSocket connection. Skipping.");
+    }
   }
+
+  connectFigmaClient(figmaClient);
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
+
   logger.info("FigmaMCP server running on stdio");
 }
 
-// Define CLI commands
+// CLI
+
+const cli = cac("@seed-design/mcp");
+
 cli
   .command("", "Start the MCP server")
-  .option("--server <server>", "Server URL", { default: "localhost" })
+  .option(
+    "--server <server>",
+    "WebSocket server URL. If not provided and FIGMA_PERSONAL_ACCESS_TOKEN is set, REST API mode will be used.",
+  )
   .option("--experimental", "Enable experimental features", { default: false })
   .option("--config <config>", "Path to configuration file (.js, .mjs, .ts, .mts)")
   .action(async (options) => {
-    await startMcpServer(options.server, options.experimental, options.config);
+    await startMcpServer({
+      serverUrl: options.server,
+      experimental: options.experimental,
+      configPath: options.config,
+    });
   });
 
 cli
@@ -252,6 +140,4 @@ cli
 
 cli.help();
 cli.version(version);
-
-// Parse CLI args
 cli.parse();

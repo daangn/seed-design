@@ -1,0 +1,97 @@
+import type { GetFileNodesResponse } from "@figma/rest-api-spec";
+import type { FigmaRestClient } from "./figma-rest-client";
+import { createFigmaRestClient } from "./figma-rest-client";
+import type { FigmaWebSocketClient } from "./websocket";
+import type { McpConfig } from "./config";
+import { logger } from "./logger";
+
+export interface ToolContext {
+  sendCommandToFigma: FigmaWebSocketClient["sendCommandToFigma"] | null;
+  restClient: FigmaRestClient | null;
+  extend?: McpConfig["extend"];
+}
+
+export function createToolContext(
+  figmaClient: FigmaWebSocketClient | null,
+  config: McpConfig | null,
+): ToolContext {
+  const pat = process.env["FIGMA_PERSONAL_ACCESS_TOKEN"];
+
+  if (pat) {
+    logger.info("initializing REST API client with PAT from environment");
+  }
+
+  return {
+    sendCommandToFigma: figmaClient?.sendCommandToFigma ?? null,
+    restClient: pat ? createFigmaRestClient(pat) : null,
+    extend: config?.extend,
+  };
+}
+
+export async function fetchNodeData(
+  params: { fileKey?: string; nodeId: string },
+  context: ToolContext,
+): Promise<GetFileNodesResponse["nodes"][string]> {
+  const { fileKey, nodeId } = params;
+  const { restClient, sendCommandToFigma } = context;
+
+  if (restClient && fileKey) {
+    const response = await restClient.getFileNodes(fileKey, [nodeId]);
+    const nodeData = response.nodes[nodeId];
+
+    if (!nodeData) throw new Error(`Node ${nodeId} not found in file ${fileKey}`);
+
+    return nodeData;
+  }
+
+  if (sendCommandToFigma) {
+    return (await sendCommandToFigma("get_node_info", {
+      nodeId,
+    })) as GetFileNodesResponse["nodes"][string];
+  }
+
+  throw new Error(
+    "No connection available. Provide figmaUrl/fileKey with FIGMA_PERSONAL_ACCESS_TOKEN, or use WebSocket mode with Figma Plugin.",
+  );
+}
+
+export async function fetchMultipleNodesData(
+  params: { fileKey?: string; nodeIds: string[] },
+  context: ToolContext,
+): Promise<GetFileNodesResponse["nodes"]> {
+  const { fileKey, nodeIds } = params;
+  const { restClient, sendCommandToFigma } = context;
+
+  if (restClient && fileKey) {
+    const response = await restClient.getFileNodes(fileKey, nodeIds);
+
+    return response.nodes;
+  }
+
+  if (sendCommandToFigma) {
+    const results: GetFileNodesResponse["nodes"] = {};
+
+    await Promise.all(
+      nodeIds.map(async (nodeId) => {
+        const data = (await sendCommandToFigma("get_node_info", {
+          nodeId,
+        })) as GetFileNodesResponse["nodes"][string];
+
+        results[nodeId] = data;
+      }),
+    );
+
+    return results;
+  }
+
+  throw new Error(
+    "No connection available. Provide figmaUrl/fileKey with FIGMA_PERSONAL_ACCESS_TOKEN, or use WebSocket mode with Figma Plugin.",
+  );
+}
+
+export function requireWebSocket(context: ToolContext): asserts context is ToolContext & {
+  sendCommandToFigma: NonNullable<ToolContext["sendCommandToFigma"]>;
+} {
+  if (!context.sendCommandToFigma)
+    throw new Error("WebSocket not available. This tool requires Figma Plugin connection.");
+}
