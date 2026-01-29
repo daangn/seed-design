@@ -1,5 +1,12 @@
 # @seed-design/react
 
+## 1.1.18
+
+### Patch Changes
+
+- Updated dependencies [6a9239d]
+  - @seed-design/react-drawer@1.0.6
+
 ## 1.1.17
 
 ### Patch Changes
