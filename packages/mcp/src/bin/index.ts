@@ -7,7 +7,7 @@ import { version } from "../../package.json" with { type: "json" };
 import { logger } from "../logger";
 import { loadConfig, type McpConfig } from "../config";
 import { createFigmaWebSocketClient, type FigmaWebSocketClient } from "../websocket";
-import { registerEditingTools, registerTools } from "../tools";
+import { registerEditingTools, registerTools, type ToolMode } from "../tools";
 import { registerPrompts } from "../prompts";
 import { startWebSocketServer } from "./websocket-server";
 
@@ -79,10 +79,11 @@ interface McpServerOptions {
   serverUrl?: string;
   experimental?: boolean;
   configPath?: string;
+  mode?: ToolMode;
 }
 
 async function startMcpServer(options: McpServerOptions = {}): Promise<void> {
-  const { serverUrl, experimental, configPath } = options;
+  const { serverUrl, experimental, configPath, mode = "all" } = options;
 
   const config = await loadMcpConfig(configPath);
   const figmaClient = createFigmaClient(serverUrl);
@@ -92,11 +93,13 @@ async function startMcpServer(options: McpServerOptions = {}): Promise<void> {
     version,
   });
 
-  registerTools(server, figmaClient, config);
+  registerTools(server, figmaClient, config, mode);
   registerPrompts(server);
 
   if (experimental) {
-    if (figmaClient) {
+    if (mode === "rest") {
+      logger.warn("Experimental editing tools not available in REST mode. Skipping.");
+    } else if (figmaClient) {
       registerEditingTools(server, figmaClient);
     } else {
       logger.warn("Experimental editing tools require WebSocket connection. Skipping.");
@@ -108,7 +111,7 @@ async function startMcpServer(options: McpServerOptions = {}): Promise<void> {
   const transport = new StdioServerTransport();
   await server.connect(transport);
 
-  logger.info("FigmaMCP server running on stdio");
+  logger.info(`FigmaMCP server running on stdio (mode: ${mode})`);
 }
 
 // CLI
@@ -123,11 +126,22 @@ cli
   )
   .option("--experimental", "Enable experimental features", { default: false })
   .option("--config <config>", "Path to configuration file (.js, .mjs, .ts, .mts)")
+  .option(
+    "--mode <mode>",
+    "Tool registration mode: 'rest' (REST API tools only), 'websocket' (WebSocket tools only), or 'all' (default)",
+  )
   .action(async (options) => {
+    const mode = options.mode as ToolMode | undefined;
+    if (mode && !["rest", "websocket", "all"].includes(mode)) {
+      console.error(`Invalid mode: ${mode}. Use 'rest', 'websocket', or 'all'.`);
+      process.exit(1);
+    }
+
     await startMcpServer({
       serverUrl: options.server,
       experimental: options.experimental,
       configPath: options.config,
+      mode,
     });
   });
 

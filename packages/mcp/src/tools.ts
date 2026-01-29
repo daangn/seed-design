@@ -116,176 +116,66 @@ function resolveMultiNodeParams(params: z.infer<typeof multiNodeParamsSchema>): 
   return { fileKey: undefined, nodeIds: params.nodeIds, personalAccessToken: undefined };
 }
 
+export type ToolMode = "rest" | "websocket" | "all";
+
+// Mode-specific descriptions
+function getSingleNodeDescription(baseDescription: string, mode: ToolMode): string {
+  switch (mode) {
+    case "rest":
+      return (
+        `${baseDescription} ` +
+        "Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), " +
+        "or (2) fileKey + nodeId."
+      );
+    case "websocket":
+      return `${baseDescription} Provide nodeId. Requires WebSocket connection with Figma Plugin.`;
+    case "all":
+    default:
+      return (
+        `${baseDescription} ` +
+        "Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), " +
+        "(2) fileKey + nodeId, or (3) nodeId only for WebSocket mode."
+      );
+  }
+}
+
+function getMultiNodeDescription(baseDescription: string, mode: ToolMode): string {
+  switch (mode) {
+    case "rest":
+      return `${baseDescription} Provide fileKey + nodeIds.`;
+    case "websocket":
+      return `${baseDescription} Provide nodeIds. Requires WebSocket connection with Figma Plugin.`;
+    case "all":
+    default:
+      return (
+        `${baseDescription} ` +
+        "Provide either: (1) fileKey + nodeIds for REST API, or (2) nodeIds only for WebSocket mode. " +
+        "If you have multiple URLs, call get_node_info for each URL instead."
+      );
+  }
+}
+
 export function registerTools(
   server: McpServer,
   figmaClient: FigmaWebSocketClient | null,
   config: McpConfig | null = {},
+  mode: ToolMode = "all",
 ): void {
   const context = createToolContext(figmaClient, config);
 
-  // WebSocket Only Tools
-
-  server.registerTool(
-    "join_channel",
-    {
-      description: "Join a specific channel to communicate with Figma (WebSocket mode only)",
-      inputSchema: z.object({
-        channel: z.string().describe("The name of the channel to join").default(""),
-      }),
-    },
-    async ({ channel }) => {
-      try {
-        if (!figmaClient)
-          return formatErrorResponse(
-            "join_channel",
-            new Error("WebSocket not available. This tool requires Figma Plugin connection."),
-          );
-
-        if (!channel)
-          // If no channel provided, ask the user for input
-          return {
-            ...formatTextResponse("Please provide a channel name to join:"),
-            followUp: {
-              tool: "join_channel",
-              description: "Join the specified channel",
-            },
-          };
-
-        await figmaClient.joinChannel(channel);
-
-        return formatTextResponse(`Successfully joined channel: ${channel}`);
-      } catch (error) {
-        return formatErrorResponse("join_channel", error);
-      }
-    },
-  );
-
-  // Document Info Tool
-  server.registerTool(
-    "get_document_info",
-    {
-      description:
-        "Get detailed information about the current Figma document (WebSocket mode only)",
-    },
-    async () => {
-      try {
-        requireWebSocket(context);
-        const result = await context.sendCommandToFigma("get_document_info");
-
-        return formatObjectResponse(result);
-      } catch (error) {
-        return formatErrorResponse("get_document_info", error);
-      }
-    },
-  );
-
-  // Selection Tool
-  server.registerTool(
-    "get_selection",
-    {
-      description: "Get information about the current selection in Figma (WebSocket mode only)",
-    },
-    async () => {
-      try {
-        requireWebSocket(context);
-        const result = await context.sendCommandToFigma("get_selection");
-
-        return formatObjectResponse(result);
-      } catch (error) {
-        return formatErrorResponse("get_selection", error);
-      }
-    },
-  );
-
-  // Annotation Tool
-  server.registerTool(
-    "add_annotations",
-    {
-      description: "Add annotations to multiple nodes in Figma (WebSocket mode only)",
-      inputSchema: z.object({
-        annotations: z.array(
-          z.object({
-            nodeId: z.string().describe("The ID of the node to add an annotation to"),
-            labelMarkdown: z
-              .string()
-              .describe("The markdown label for the annotation, do not escape newlines"),
-          }),
-        ),
-      }),
-    },
-    async ({ annotations }) => {
-      try {
-        requireWebSocket(context);
-        await context.sendCommandToFigma("add_annotations", { annotations });
-
-        return formatTextResponse(
-          `Annotations added to nodes ${annotations.map((annotation) => annotation.nodeId).join(", ")}`,
-        );
-      } catch (error) {
-        return formatErrorResponse("add_annotations", error);
-      }
-    },
-  );
-
-  // Get Annotations Tool
-  server.registerTool(
-    "get_annotations",
-    {
-      description: "Get annotations for a specific node in Figma (WebSocket mode only)",
-      inputSchema: z.object({
-        nodeId: z.string().describe("The ID of the node to get annotations for"),
-      }),
-    },
-    async ({ nodeId }) => {
-      try {
-        requireWebSocket(context);
-        const result = await context.sendCommandToFigma("get_annotations", { nodeId });
-
-        return formatObjectResponse(result);
-      } catch (error) {
-        return formatErrorResponse("get_annotations", error);
-      }
-    },
-  );
-
-  // Export Node as Image Tool
-  server.registerTool(
-    "export_node_as_image",
-    {
-      description: "Export a node as an image from Figma (WebSocket mode only)",
-      inputSchema: z.object({
-        nodeId: z.string().describe("The ID of the node to export"),
-        format: z.enum(["PNG", "JPG", "SVG", "PDF"]).optional().describe("Export format"),
-        scale: z.number().positive().optional().describe("Export scale"),
-      }),
-    },
-    async ({ nodeId, format, scale }) => {
-      try {
-        requireWebSocket(context);
-        const result = await context.sendCommandToFigma("export_node_as_image", {
-          nodeId,
-          format: format || "PNG",
-          scale: scale || 1,
-        });
-
-        const typedResult = result as { base64: string; mimeType: string };
-        return formatImageResponse(typedResult.base64, typedResult.mimeType || "image/png");
-      } catch (error) {
-        return formatErrorResponse("export_node_as_image", error);
-      }
-    },
-  );
+  const shouldRegisterWebSocketOnlyTools = mode === "websocket" || mode === "all";
 
   // REST API + WebSocket Tools (hybrid)
+  // These tools support both REST API and WebSocket modes
 
   // Component Info Tool (REST API + WebSocket)
   server.registerTool(
     "get_component_info",
     {
-      description:
-        "Get detailed information about a specific component node in Figma. " +
-        "Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), " +
-        "(2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.",
+      description: getSingleNodeDescription(
+        "Get detailed information about a specific component node in Figma.",
+        mode,
+      ),
       inputSchema: singleNodeParamsSchema,
     },
     async (params) => {
@@ -324,10 +214,10 @@ export function registerTools(
   server.registerTool(
     "get_node_info",
     {
-      description:
-        "Get detailed information about a specific node in Figma. " +
-        "Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), " +
-        "(2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.",
+      description: getSingleNodeDescription(
+        "Get detailed information about a specific node in Figma.",
+        mode,
+      ),
       inputSchema: singleNodeParamsSchema,
     },
     async (params) => {
@@ -359,7 +249,7 @@ export function registerTools(
         });
       } catch (error) {
         return formatTextResponse(
-          `Error in get_node_info: ${formatError(error)}\n\n⚠️ Figma 라이브러리가 최신 버전인지 확인해주세요.`,
+          `Error in get_node_info: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
         );
       }
     },
@@ -369,10 +259,10 @@ export function registerTools(
   server.registerTool(
     "get_nodes_info",
     {
-      description:
-        "Get detailed information about multiple nodes in Figma. " +
-        "Provide either: (1) fileKey + nodeIds for REST API, or (2) nodeIds only for WebSocket mode. " +
-        "If you have multiple URLs, call get_node_info for each URL instead.",
+      description: getMultiNodeDescription(
+        "Get detailed information about multiple nodes in Figma.",
+        mode,
+      ),
       inputSchema: multiNodeParamsSchema,
     },
     async (params) => {
@@ -422,7 +312,7 @@ export function registerTools(
         return formatObjectResponse(results);
       } catch (error) {
         return formatTextResponse(
-          `Error in get_nodes_info: ${formatError(error)}\n\n⚠️ Figma 라이브러리가 최신 버전인지 확인해주세요.`,
+          `Error in get_nodes_info: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
         );
       }
     },
@@ -432,10 +322,10 @@ export function registerTools(
   server.registerTool(
     "get_node_react_code",
     {
-      description:
-        "Get the React code for a specific node in Figma. " +
-        "Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), " +
-        "(2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.",
+      description: getSingleNodeDescription(
+        "Get the React code for a specific node in Figma.",
+        mode,
+      ),
       inputSchema: singleNodeParamsSchema,
     },
     async (params) => {
@@ -493,6 +383,161 @@ export function registerTools(
       }
     },
   );
+
+  if (shouldRegisterWebSocketOnlyTools) {
+    // WebSocket Only Tools
+
+    server.registerTool(
+      "join_channel",
+      {
+        description: "Join a specific channel to communicate with Figma (WebSocket mode only)",
+        inputSchema: z.object({
+          channel: z.string().describe("The name of the channel to join").default(""),
+        }),
+      },
+      async ({ channel }) => {
+        try {
+          if (!figmaClient)
+            return formatErrorResponse(
+              "join_channel",
+              new Error("WebSocket not available. This tool requires Figma Plugin connection."),
+            );
+
+          if (!channel)
+            // If no channel provided, ask the user for input
+            return {
+              ...formatTextResponse("Please provide a channel name to join:"),
+              followUp: {
+                tool: "join_channel",
+                description: "Join the specified channel",
+              },
+            };
+
+          await figmaClient.joinChannel(channel);
+
+          return formatTextResponse(`Successfully joined channel: ${channel}`);
+        } catch (error) {
+          return formatErrorResponse("join_channel", error);
+        }
+      },
+    );
+
+    // Document Info Tool
+    server.registerTool(
+      "get_document_info",
+      {
+        description:
+          "Get detailed information about the current Figma document (WebSocket mode only)",
+      },
+      async () => {
+        try {
+          requireWebSocket(context);
+          const result = await context.sendCommandToFigma("get_document_info");
+
+          return formatObjectResponse(result);
+        } catch (error) {
+          return formatErrorResponse("get_document_info", error);
+        }
+      },
+    );
+
+    // Selection Tool
+    server.registerTool(
+      "get_selection",
+      {
+        description: "Get information about the current selection in Figma (WebSocket mode only)",
+      },
+      async () => {
+        try {
+          requireWebSocket(context);
+          const result = await context.sendCommandToFigma("get_selection");
+
+          return formatObjectResponse(result);
+        } catch (error) {
+          return formatErrorResponse("get_selection", error);
+        }
+      },
+    );
+
+    // Annotation Tool
+    server.registerTool(
+      "add_annotations",
+      {
+        description: "Add annotations to multiple nodes in Figma (WebSocket mode only)",
+        inputSchema: z.object({
+          annotations: z.array(
+            z.object({
+              nodeId: z.string().describe("The ID of the node to add an annotation to"),
+              labelMarkdown: z
+                .string()
+                .describe("The markdown label for the annotation, do not escape newlines"),
+            }),
+          ),
+        }),
+      },
+      async ({ annotations }) => {
+        try {
+          requireWebSocket(context);
+          await context.sendCommandToFigma("add_annotations", { annotations });
+
+          return formatTextResponse(
+            `Annotations added to nodes ${annotations.map((annotation) => annotation.nodeId).join(", ")}`,
+          );
+        } catch (error) {
+          return formatErrorResponse("add_annotations", error);
+        }
+      },
+    );
+
+    // Get Annotations Tool
+    server.registerTool(
+      "get_annotations",
+      {
+        description: "Get annotations for a specific node in Figma (WebSocket mode only)",
+        inputSchema: z.object({
+          nodeId: z.string().describe("The ID of the node to get annotations for"),
+        }),
+      },
+      async ({ nodeId }) => {
+        try {
+          requireWebSocket(context);
+          const result = await context.sendCommandToFigma("get_annotations", { nodeId });
+
+          return formatObjectResponse(result);
+        } catch (error) {
+          return formatErrorResponse("get_annotations", error);
+        }
+      },
+    );
+
+    // Export Node as Image Tool
+    server.registerTool(
+      "export_node_as_image",
+      {
+        description: "Export a node as an image from Figma (WebSocket mode only)",
+        inputSchema: z.object({
+          nodeId: z.string().describe("The ID of the node to export"),
+          format: z.enum(["PNG", "JPG", "SVG", "PDF"]).optional().describe("Export format"),
+          scale: z.number().positive().optional().describe("Export scale"),
+        }),
+      },
+      async ({ nodeId, format, scale }) => {
+        try {
+          requireWebSocket(context);
+          const result = await context.sendCommandToFigma("export_node_as_image", {
+            nodeId,
+            format: format || "PNG",
+            scale: scale || 1,
+          });
+
+          const typedResult = result as { base64: string; mimeType: string };
+          return formatImageResponse(typedResult.base64, typedResult.mimeType || "image/png");
+        } catch (error) {
+          return formatErrorResponse("export_node_as_image", error);
+        }
+      },
+    );
+  }
 }
 
 // editing tools require WebSocket client
