@@ -14,31 +14,55 @@ import { startWebSocketServer } from "./websocket-server";
 // Helper Functions
 
 function getFigmaAccessToken(): string | undefined {
-  return process.env["FIGMA_PERSONAL_ACCESS_TOKEN"];
+  return process.env["FIGMA_PERSONAL_ACCESS_TOKEN"]?.trim();
 }
 
-function createFigmaClient(serverUrl?: string): FigmaWebSocketClient | null {
+function createFigmaClient(
+  serverUrl: string | undefined,
+  mode: ToolMode,
+): FigmaWebSocketClient | null {
   const pat = getFigmaAccessToken();
+  const resolvedUrl = serverUrl ?? "localhost";
 
-  if (!pat) {
-    const resolvedUrl = serverUrl ?? "localhost";
-    logger.info(
-      `No FIGMA_PERSONAL_ACCESS_TOKEN found. Using WebSocket mode. Client connecting to: ${resolvedUrl}`,
-    );
+  switch (mode) {
+    case "rest": {
+      if (!pat) {
+        logger.warn(
+          "REST mode requires FIGMA_PERSONAL_ACCESS_TOKEN. Running without Figma client.",
+        );
+      } else {
+        logger.info("REST mode enabled. Using REST API only.");
+      }
 
-    return createFigmaWebSocketClient(resolvedUrl);
+      return null;
+    }
+
+    case "websocket": {
+      logger.info(`WebSocket mode enabled. Client connecting to: ${resolvedUrl}`);
+
+      return createFigmaWebSocketClient(resolvedUrl);
+    }
+
+    case "all":
+      if (!pat) {
+        logger.info(
+          `No FIGMA_PERSONAL_ACCESS_TOKEN found. Using WebSocket mode. Client connecting to: ${resolvedUrl}`,
+        );
+
+        return createFigmaWebSocketClient(resolvedUrl);
+      }
+
+      logger.info("FIGMA_PERSONAL_ACCESS_TOKEN found. REST API mode enabled.");
+
+      if (serverUrl) {
+        logger.info(`WebSocket server URL provided: ${serverUrl}. Attempting hybrid mode.`);
+
+        return createFigmaWebSocketClient(serverUrl);
+      }
+
+      logger.info("No WebSocket server URL. Running in REST API only mode.");
+      return null;
   }
-
-  logger.info("FIGMA_PERSONAL_ACCESS_TOKEN found. REST API mode enabled.");
-
-  if (serverUrl) {
-    logger.info(`WebSocket server URL provided: ${serverUrl}. Attempting hybrid mode.`);
-    return createFigmaWebSocketClient(serverUrl);
-  }
-
-  logger.info("No WebSocket server URL. Running in REST API only mode.");
-
-  return null;
 }
 
 async function loadMcpConfig(configPath?: string): Promise<McpConfig | null> {
@@ -86,7 +110,7 @@ async function startMcpServer(options: McpServerOptions = {}): Promise<void> {
   const { serverUrl, experimental, configPath, mode = "all" } = options;
 
   const config = await loadMcpConfig(configPath);
-  const figmaClient = createFigmaClient(serverUrl);
+  const figmaClient = createFigmaClient(serverUrl, mode);
 
   const server = new McpServer({
     name: "SEED Design MCP",
