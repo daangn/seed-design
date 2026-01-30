@@ -20,63 +20,78 @@ import {
 } from "./tools-helpers";
 import type { FigmaWebSocketClient } from "./websocket";
 
-/**
- * singleNode 파라미터 스키마
- * - Option A: figmaUrl - URL에서 fileKey, nodeId 추출 (REST API)
- * - Option B: fileKey + nodeId - 직접 지정 (REST API)
- * - Option C: nodeId만 - WebSocket 모드
- */
-const singleNodeParamsSchema = z.union([
-  z.object({
-    figmaUrl: z
-      .url()
-      .describe("Figma node URL. Example: https://www.figma.com/design/ABC123/Name?node-id=0-1"),
-    personalAccessToken: z
-      .string()
-      .optional()
-      .describe(
-        "Figma Personal Access Token. If not provided, uses FIGMA_PERSONAL_ACCESS_TOKEN env var.",
-      ),
-  }),
-  z.object({
-    fileKey: z.string().describe("Figma file key"),
-    nodeId: z.string().describe("Node ID (e.g., '0:1')"),
-    personalAccessToken: z
-      .string()
-      .optional()
-      .describe(
-        "Figma Personal Access Token. If not provided, uses FIGMA_PERSONAL_ACCESS_TOKEN env var.",
-      ),
-  }),
-  z.object({
-    nodeId: z.string().describe("Node ID for WebSocket mode (e.g., '0:1')"),
-  }),
-]);
+// Schema building blocks
+const figmaUrlSchema = z.object({
+  figmaUrl: z
+    .url()
+    .describe("Figma node URL. Example: https://www.figma.com/design/ABC123/Name?node-id=0-1"),
+  personalAccessToken: z
+    .string()
+    .optional()
+    .describe(
+      "Figma Personal Access Token. If not provided, uses FIGMA_PERSONAL_ACCESS_TOKEN env var.",
+    ),
+});
 
-/**
- * multiNode는 URL 방식을 지원하지 않습니다.
- * (Figma URL은 단일 node-id만 포함 가능)
- *
- * - Option A: fileKey + nodeIds - REST API 모드
- * - Option B: nodeIds만 - WebSocket 모드
- */
-const multiNodeParamsSchema = z.union([
-  z.object({
-    fileKey: z.string().describe("Figma file key"),
-    nodeIds: z.array(z.string()).describe("Array of node IDs (colon format)"),
-    personalAccessToken: z
-      .string()
-      .optional()
-      .describe(
-        "Figma Personal Access Token. If not provided, uses FIGMA_PERSONAL_ACCESS_TOKEN env var.",
-      ),
-  }),
-  z.object({
-    nodeIds: z.array(z.string()).describe("Array of node IDs for WebSocket mode"),
-  }),
-]);
+const fileKeyNodeIdSchema = z.object({
+  fileKey: z.string().describe("Figma file key"),
+  nodeId: z.string().describe("Node ID (e.g., '0:1')"),
+  personalAccessToken: z
+    .string()
+    .optional()
+    .describe(
+      "Figma Personal Access Token. If not provided, uses FIGMA_PERSONAL_ACCESS_TOKEN env var.",
+    ),
+});
 
-function resolveSingleNodeParams(params: z.infer<typeof singleNodeParamsSchema>): {
+const nodeIdOnlySchema = z.object({
+  nodeId: z.string().describe("Node ID (e.g., '0:1')"),
+});
+
+const fileKeyNodeIdsSchema = z.object({
+  fileKey: z.string().describe("Figma file key"),
+  nodeIds: z.array(z.string()).describe("Array of node IDs (colon format)"),
+  personalAccessToken: z
+    .string()
+    .optional()
+    .describe(
+      "Figma Personal Access Token. If not provided, uses FIGMA_PERSONAL_ACCESS_TOKEN env var.",
+    ),
+});
+
+const nodeIdsOnlySchema = z.object({
+  nodeIds: z.array(z.string()).describe("Array of node IDs"),
+});
+
+// Mode-specific schema factories
+function getSingleNodeParamsSchema(mode: ToolMode) {
+  switch (mode) {
+    case "rest":
+      return z.union([figmaUrlSchema, fileKeyNodeIdSchema]);
+    case "websocket":
+      return nodeIdOnlySchema;
+    case "all":
+      return z.union([figmaUrlSchema, fileKeyNodeIdSchema, nodeIdOnlySchema]);
+  }
+}
+
+function getMultiNodeParamsSchema(mode: ToolMode) {
+  switch (mode) {
+    case "rest":
+      return fileKeyNodeIdsSchema;
+    case "websocket":
+      return nodeIdsOnlySchema;
+    case "all":
+      return z.union([fileKeyNodeIdsSchema, nodeIdsOnlySchema]);
+  }
+}
+
+function resolveSingleNodeParams(
+  params:
+    | z.infer<typeof figmaUrlSchema>
+    | z.infer<typeof fileKeyNodeIdSchema>
+    | z.infer<typeof nodeIdOnlySchema>,
+): {
   fileKey: string | undefined;
   nodeId: string;
   personalAccessToken: string | undefined;
@@ -102,7 +117,9 @@ function resolveSingleNodeParams(params: z.infer<typeof singleNodeParamsSchema>)
   return { fileKey: undefined, nodeId: params.nodeId, personalAccessToken: undefined };
 }
 
-function resolveMultiNodeParams(params: z.infer<typeof multiNodeParamsSchema>): {
+function resolveMultiNodeParams(
+  params: z.infer<typeof fileKeyNodeIdsSchema> | z.infer<typeof nodeIdsOnlySchema>,
+): {
   fileKey: string | undefined;
   nodeIds: string[];
   personalAccessToken: string | undefined;
@@ -163,6 +180,8 @@ export function registerTools(
   mode: ToolMode,
 ): void {
   const context = createToolContext(figmaClient, restClient, config, mode);
+  const singleNodeParamsSchema = getSingleNodeParamsSchema(mode);
+  const multiNodeParamsSchema = getMultiNodeParamsSchema(mode);
 
   const shouldRegisterWebSocketOnlyTools = mode === "websocket" || mode === "all";
 
@@ -179,7 +198,12 @@ export function registerTools(
       ),
       inputSchema: singleNodeParamsSchema,
     },
-    async (params) => {
+    async (
+      params:
+        | z.infer<typeof figmaUrlSchema>
+        | z.infer<typeof fileKeyNodeIdSchema>
+        | z.infer<typeof nodeIdOnlySchema>,
+    ) => {
       try {
         const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
         const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
@@ -221,7 +245,12 @@ export function registerTools(
       ),
       inputSchema: singleNodeParamsSchema,
     },
-    async (params) => {
+    async (
+      params:
+        | z.infer<typeof figmaUrlSchema>
+        | z.infer<typeof fileKeyNodeIdSchema>
+        | z.infer<typeof nodeIdOnlySchema>,
+    ) => {
       try {
         const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
         const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
@@ -266,7 +295,7 @@ export function registerTools(
       ),
       inputSchema: multiNodeParamsSchema,
     },
-    async (params) => {
+    async (params: z.infer<typeof fileKeyNodeIdsSchema> | z.infer<typeof nodeIdsOnlySchema>) => {
       try {
         const { fileKey, nodeIds, personalAccessToken } = resolveMultiNodeParams(params);
 
@@ -329,7 +358,12 @@ export function registerTools(
       ),
       inputSchema: singleNodeParamsSchema,
     },
-    async (params) => {
+    async (
+      params:
+        | z.infer<typeof figmaUrlSchema>
+        | z.infer<typeof fileKeyNodeIdSchema>
+        | z.infer<typeof nodeIdOnlySchema>,
+    ) => {
       try {
         const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
         const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
