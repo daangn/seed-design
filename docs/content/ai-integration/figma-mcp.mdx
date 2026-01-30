@@ -56,20 +56,34 @@ bunx --bun @seed-design/mcp@latest socket
 
 </Tabs>
 
+#### `--mode` 옵션으로 도구 범위 제한하기
+
+MCP 서버 실행 시 `--mode` 옵션을 명시하여 해당 모드에서 사용 가능한 도구만 등록할 수 있습니다.
+
+| 모드 | 설명 | 비고 |
+| ----------- | ----------------------- | |
+| `all` | 모든 도구 등록 (기본값) | Personal Access Token이 제공된 경우 REST API를 사용하면서, WebSocket 전용 도구를 호출하는 경우 WebSocket 서버에 연결을 시도합니다. |
+| `rest` | REST API 도구만 등록 | |
+| `websocket` | WebSocket으로 접근 가능한 도구만 등록 | WebSocket 모드에서는 모든 도구를 사용 가능합니다. |
+
 </Step>
 
 <Step>
 
 ### MCP 서버 등록
 
-WebSocket을 사용하는 경우 `FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수는 설정하지 않아도 됩니다.
+`--mode` 옵션을 제공하지 않는 경우 기본값으로 `all` 모드가 사용됩니다.
+
+<Tabs groupId="figma-access-method" persist items={['REST API', 'WebSocket']}>
+
+<Tab value="REST API">
 
 ```json title=".mcp.json"
 {
   "mcpServers": {
     "seed-design-figma": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest"],
+      "args": ["-y", "@seed-design/mcp@latest", "--mode", "rest"],
       "env": {
         "FIGMA_PERSONAL_ACCESS_TOKEN": "${FIGMA_PERSONAL_ACCESS_TOKEN}"
       }
@@ -77,6 +91,27 @@ WebSocket을 사용하는 경우 `FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수는 
   }
 }
 ```
+
+</Tab>
+
+<Tab value="WebSocket">
+
+`FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수는 설정하지 않아도 됩니다.
+
+```json title=".mcp.json"
+{
+  "mcpServers": {
+    "seed-design-figma": {
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest", "--mode", "websocket"]
+    }
+  }
+}
+```
+
+</Tab>
+
+</Tabs>
 
 </Step>
 
@@ -116,18 +151,19 @@ Figma에서 레이어를 선택한 후 LLM 도구에게 요청합니다.
 
 ### REST API + WebSocket 공통
 
-Figma URL 또는 `fileKey` + `nodeId`를 전달하면 REST API로, `nodeId`만 전달하면 WebSocket으로 동작합니다.
+Figma URL 또는 `fileKey` + `nodeId`를 전달하면 REST API로, `nodeId`만 전달하면 WebSocket으로 동작합니다. 모든 모드에서 등록됩니다.
 
-| 툴                    | 설명                                          |
-| --------------------- | --------------------------------------------- |
-| `get_node_info`       | 레이어의 구조 정보를 반환합니다.              |
-| `get_nodes_info`      | 여러 레이어의 구조 정보를 한 번에 반환합니다. |
-| `get_node_react_code` | 레이어의 React 코드를 생성합니다.             |
-| `get_component_info`  | 컴포넌트의 key와 속성 정의를 반환합니다.      |
+| 툴                              | 설명                                          |
+| ------------------------------- | --------------------------------------------- |
+| `get_node_info`                 | 레이어의 구조 정보를 반환합니다.              |
+| `get_nodes_info`                | 여러 레이어의 구조 정보를 한 번에 반환합니다. |
+| `get_node_react_code`           | 레이어의 React 코드를 생성합니다.             |
+| `get_component_info`            | 컴포넌트의 key와 속성 정의를 반환합니다.      |
+| `retrieve_color_variable_names` | SEED Design 색상 변수 이름 목록을 반환합니다. |
 
 ### WebSocket 전용
 
-Figma 플러그인과 통신이 필요합니다.
+Figma 플러그인과 통신이 필요합니다. `websocket` 또는 `all` 모드에서 등록됩니다.
 
 | 툴                     | 설명                                                                                                                               |
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
@@ -140,12 +176,6 @@ Figma 플러그인과 통신이 필요합니다.
 
 ### 유틸리티
 
-Figma 연결 없이 사용할 수 있습니다.
-
-| 툴                              | 설명                                          |
-| ------------------------------- | --------------------------------------------- |
-| `retrieve_color_variable_names` | SEED Design 색상 변수 이름 목록을 반환합니다. |
-
 <Accordions type="single">
 <Accordion title="커스텀 설정 사용하기">
 
@@ -153,9 +183,9 @@ Figma 연결 없이 사용할 수 있습니다.
 
 `get_node_react_code`는 기본적으로 SEED Figma 컴포넌트만 인식합니다. 팀 내부 디자인 시스템이나 커스텀 컴포넌트를 사용하는 경우, **ComponentHandler**를 작성해 Figma 컴포넌트를 원하는 React 컴포넌트로 매핑할 수 있습니다.
 
-MCP 서버 설정에 `--config` 플래그를 추가해 커스텀 설정 파일이 로드될 수 있도록 합니다.
+MCP 서버 설정에 `--config` flag를 추가해 커스텀 설정 파일이 로드될 수 있도록 합니다.
 
-`--config` 플래그는 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
+`--config` flag는 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
 
 ```bash
 bunx --bun @seed-design/mcp@latest --config /path/to/config.ts
@@ -256,32 +286,33 @@ import {
 export type ComponentNameProperties = InferComponentDefinition<{
   // Map all component properties from Figma
   // Example:
-  "PropertyName": {
-    type: "VARIANT" | "TEXT" | "BOOLEAN" | "INSTANCE_SWAP",
-    variantOptions?: string[], // For VARIANT type
-    defaultValue?: string | boolean
-  }
+  PropertyName: {
+    type: "VARIANT" | "TEXT" | "BOOLEAN" | "INSTANCE_SWAP";
+    variantOptions?: string[]; // For VARIANT type
+    defaultValue?: string | boolean;
+  };
 }>;
 
 // Create and export the handler
-export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) => defineComponentHandler<ComponentNameProperties>(
-  "component-key-from-figma", // Replace with actual component key
-  ({ componentProperties: props }) => {
-    // Transform Figma properties to React props
-    // Use conditionals for variants and property handling
+export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) =>
+  defineComponentHandler<ComponentNameProperties>(
+    "component-key-from-figma", // Replace with actual component key
+    ({ componentProperties: props }) => {
+      // Transform Figma properties to React props
+      // Use conditionals for variants and property handling
 
-    return createElement(
-      "ComponentName", // The React component name
-      {
-        // Map properties appropriately
-        propName: props.PropertyName.value,
-        // Add additional props as needed
-      },
-      [], // Nested elements if any (undefined or omitted if not needed)
-      "Optional comment for accessibility or development notes, use sparingly"
-    );
-  }
-);
+      return createElement(
+        "ComponentName", // The React component name
+        {
+          // Map properties appropriately
+          propName: props.PropertyName.value,
+          // Add additional props as needed
+        },
+        [], // Nested elements if any (undefined or omitted if not needed)
+        "Optional comment for accessibility or development notes, use sparingly",
+      );
+    },
+  );
 ```
 
 ## Validation and Testing
