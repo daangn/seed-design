@@ -8,26 +8,6 @@ description: AI Agent를 활용해 Figma 디자인을 React 코드로 변환하�
 <Steps>
 <Step>
 
-### MCP 서버 등록
-
-```json title=".mcp.json"
-{
-  "mcpServers": {
-    "seed-design-figma": {
-      "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest"],
-      "env": {
-        "FIGMA_PERSONAL_ACCESS_TOKEN": "${FIGMA_PERSONAL_ACCESS_TOKEN}"
-      }
-    }
-  }
-}
-```
-
-</Step>
-
-<Step>
-
 ### Figma 접근 방식 선택
 
 <Tabs groupId="figma-access-method" persist items={['REST API', 'WebSocket']}>
@@ -36,7 +16,8 @@ description: AI Agent를 활용해 Figma 디자인을 React 코드로 변환하�
 
 **Figma URL만으로 레이어 정보를 가져옵니다.**
 
-[Figma 설정](https://www.figma.com/settings)에서 Personal Access Token을 발급받고 `FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수로 설정합니다.
+1. [Figma 설정](https://www.figma.com/settings)에서 Personal Access Token을 발급받습니다.
+2. MCP가 환경 변수를 통해 해당 토큰을 사용할 수 있도록 합니다.
 
 <Callout>
 
@@ -56,14 +37,14 @@ description: AI Agent를 활용해 Figma 디자인을 React 코드로 변환하�
 
 <Tab value="WebSocket">
 
-**웹소켓 서버와 Figma 플러그인을 통해 Figma 앱에서 실시간으로 선택한 레이어 정보를 가져옵니다.**
+**WebSocket 서버와 Figma 플러그인을 통해 Figma 앱에서 실시간으로 선택한 레이어 정보를 가져옵니다.**
 
 `get_selection` 등 실시간 선택 기반 도구를 사용하려면 이 모드가 필요합니다.
 
 1. [Figma MCP 플러그인](https://www.figma.com/community/plugin/1496384010980477154)을 설치합니다.
-2. WebSocket 서버를 실행합니다.
+2. 백그라운드에서 WebSocket 서버를 실행합니다.
 
-- bun 런타임이 필요합니다. bun과 --bun flag를 사용해주세요.
+- WebSocket 서버 실행을 위해 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
 
 ```bash
 bunx --bun @seed-design/mcp@latest socket
@@ -74,6 +55,28 @@ bunx --bun @seed-design/mcp@latest socket
 </Tab>
 
 </Tabs>
+
+</Step>
+
+<Step>
+
+### MCP 서버 등록
+
+WebSocket을 사용하는 경우 `FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수는 설정하지 않아도 됩니다.
+
+```json title=".mcp.json"
+{
+  "mcpServers": {
+    "seed-design-figma": {
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest"],
+      "env": {
+        "FIGMA_PERSONAL_ACCESS_TOKEN": "${FIGMA_PERSONAL_ACCESS_TOKEN}"
+      }
+    }
+  }
+}
+```
 
 </Step>
 
@@ -146,6 +149,8 @@ Figma 연결 없이 사용할 수 있습니다.
 <Accordions type="single">
 <Accordion title="커스텀 설정 사용하기">
 
+## 커스텀 설정 사용하기
+
 `get_node_react_code`는 기본적으로 SEED Figma 컴포넌트만 인식합니다. 팀 내부 디자인 시스템이나 커스텀 컴포넌트를 사용하는 경우, **ComponentHandler**를 작성해 Figma 컴포넌트를 원하는 React 컴포넌트로 매핑할 수 있습니다.
 
 <Callout title="예시">
@@ -154,7 +159,9 @@ SEED Figma Slider 컴포넌트를 SEED React `<Slider />`로 매핑하는 핸들
 
 </Callout>
 
-`--config` 플래그를 통해 커스텀 설정 파일을 로드합니다.
+MCP 서버 설정에 `--config` 플래그를 추가해 커스텀 설정 파일이 로드될 수 있도록 합니다.
+
+현재 `--config` 플래그는 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
 
 ```bash
 bunx --bun @seed-design/mcp@latest --config /path/to/config.ts
