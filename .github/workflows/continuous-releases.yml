@@ -9,13 +9,11 @@ jobs:
     name: Release Seed Design Packages
     if: |
       github.event.issue.pull_request &&
-      startsWith(github.event.comment.body, '/snapshot')
+      startsWith(github.event.comment.body, '/snapshot') &&
+      contains(fromJson('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
     runs-on: ubuntu-latest
     permissions:
-      contents: write
       pull-requests: write
-      packages: read
-      id-token: write
 
     steps:
       - name: Add reaction

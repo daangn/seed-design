@@ -8,7 +8,8 @@ jobs:
   claude-code-action:
     if: |
       github.event.issue.pull_request &&
-      startsWith(github.event.comment.body, '/claude-review')
+      startsWith(github.event.comment.body, '/claude-review') &&
+      contains(fromJson('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
 
     runs-on: ubuntu-latest
     timeout-minutes: 60
