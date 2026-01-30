@@ -205,18 +205,18 @@ export default {
 
 아래 프롬프트를 복사해 파일로 저장합니다.
 
-```markdown
+````markdown
 # ComponentHandler Implementation Guide
 
 ## Initial Context Gathering
 
 1. **Analyze Figma Selection**:
-   - Use \`get_selection()\` to examine the currently selected node(s)
+   - Use `get_selection()` to examine the currently selected node(s)
    - If no selection exists, prompt the user to select a specific component node
    - Verify the selected node is a component that can be transformed
 
 2. **Retrieve Component Information**:
-   - Use \`get_component_info(nodeId)\` to extract detailed information about the component
+   - Use `get_component_info(nodeId)` to extract detailed information about the component
    - Collect the component key, all component properties, and variant definitions
    - Identify any nested components or instances that might need special handling
 
@@ -237,31 +237,31 @@ export default {
 5. **Create Component Handler**:
    - Implement the handler using the following pattern:
 
-\`\`\`typescript
+```typescript
 import {
-createElement,
-defineComponentHandler,
-type InferComponentDefinition,
-type react,
+  createElement,
+  defineComponentHandler,
+  type InferComponentDefinition,
+  type react,
 } from "@seed-design/figma";
 
 // Define component properties based on Figma definition
 export type ComponentNameProperties = InferComponentDefinition<{
-// Map all component properties from Figma
-// Example:
-"PropertyName": {
-type: "VARIANT" | "TEXT" | "BOOLEAN" | "INSTANCE_SWAP",
-variantOptions?: string[], // For VARIANT type
-defaultValue?: string | boolean
-}
+  // Map all component properties from Figma
+  // Example:
+  "PropertyName": {
+    type: "VARIANT" | "TEXT" | "BOOLEAN" | "INSTANCE_SWAP",
+    variantOptions?: string[], // For VARIANT type
+    defaultValue?: string | boolean
+  }
 }>;
 
 // Create and export the handler
 export const createComponentNameHandler = (\_deps: react.ComponentHandlerDeps) => defineComponentHandler<ComponentNameProperties>(
-"component-key-from-figma", // Replace with actual component key
-({ componentProperties: props }) => {
-// Transform Figma properties to React props
-// Use conditionals for variants and property handling
+  "component-key-from-figma", // Replace with actual component key
+  ({ componentProperties: props }) => {
+    // Transform Figma properties to React props
+    // Use conditionals for variants and property handling
 
     return createElement(
       "ComponentName", // The React component name
@@ -273,10 +273,9 @@ export const createComponentNameHandler = (\_deps: react.ComponentHandlerDeps) =
       [], // Nested elements if any (undefined or omitted if not needed)
       "Optional comment for accessibility or development notes, use sparingly"
     );
-
-}
+  }
 );
-\`\`\`
+```
 
 ## Validation and Testing
 
@@ -292,7 +291,7 @@ export const createComponentNameHandler = (\_deps: react.ComponentHandlerDeps) =
 - Add descriptive comments for complex transformations
 - Consider performance implications for deeply nested components
 - Ensure type safety throughout the transformation process
-```
+````
 
 </Step>
 <Step>
