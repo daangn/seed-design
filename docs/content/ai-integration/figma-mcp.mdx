@@ -14,7 +14,7 @@ description: AI Agent를 활용해 Figma 디자인을 React 코드로 변환하�
 
 <Tab value="REST API">
 
-**Figma URL만으로 레이어 정보를 가져옵니다.**
+**Figma URL과 Personal Access Token으로 레이어 정보를 가져옵니다.**
 
 1. [Figma 설정](https://www.figma.com/settings)에서 Personal Access Token을 발급받습니다.
 
@@ -40,17 +40,21 @@ description: AI Agent를 활용해 Figma 디자인을 React 코드로 변환하�
 
 **WebSocket 서버와 Figma 플러그인을 통해 Figma 앱에서 실시간으로 선택한 레이어 정보를 가져옵니다.**
 
-`get_selection` 등 실시간 선택 기반 도구를 사용하려면 WebSocket 연결이 필요합니다.
+`get_selection` 등 실시간 선택 기반 도구는 이 방식에서만 동작합니다.
 
 1. 백그라운드에서 WebSocket 서버를 실행합니다.
 
-- WebSocket 서버 실행을 위해 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
+<Callout>
+
+WebSocket 서버 실행을 위해 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
+
+</Callout>
 
 ```bash
 bunx --bun @seed-design/mcp@latest socket
 ```
 
-2. [Figma MCP 플러그인](https://www.figma.com/community/plugin/1496384010980477154)을 설치하고 실행합니다.
+2. Figma에서 [MCP 플러그인](https://www.figma.com/community/plugin/1496384010980477154)을 설치하고 실행합니다.
 
 </Tab>
 
@@ -58,13 +62,15 @@ bunx --bun @seed-design/mcp@latest socket
 
 #### `--mode` 옵션으로 도구 범위 제한하기
 
-MCP 서버 실행 시 `--mode` 옵션을 명시하여 해당 모드에서 사용 가능한 도구만 등록할 수 있습니다.
+MCP 서버 실행 시 `--mode` 옵션을 명시하면 해당 모드에서 사용 가능한 도구만 등록하여 context 크기를 줄일 수 있습니다.
 
-| 모드        | 설명                    | 비고                                    |
-| ----------- | ----------------------- | --------------------------------------- |
-| `all`       | 모든 도구 등록 (기본값) | PAT 있으면 REST 우선, WS 전용은 WS 사용 |
-| `rest`      | REST API 도구만 등록    | `get_selection` 등 WS 전용 도구 미등록  |
-| `websocket` | WebSocket 도구만 등록   | 모든 도구가 WebSocket으로 동작          |
+`--mode` 옵션을 제공하지 않는 경우 기본값으로 `all` 모드가 사용됩니다.
+
+| 모드           | 도구                  | 비고                                           |
+| -------------- | --------------------- | ---------------------------------------------- |
+| `all` (기본값) | 모든 도구 등록        | PAT 있으면 REST 우선, WS 전용 도구는 WS 사용   |
+| `rest`         | REST API 도구만 등록  | `get_selection` 등 WS 전용 도구 미등록         |
+| `websocket`    | WebSocket 도구만 등록 | 현재 모든 도구가 WebSocket 동작 가능, PAT 무시 |
 
 </Step>
 
@@ -72,18 +78,20 @@ MCP 서버 실행 시 `--mode` 옵션을 명시하여 해당 모드에서 사용
 
 ### MCP 서버 등록
 
-`--mode` 옵션을 제공하지 않는 경우 기본값으로 `all` 모드가 사용됩니다.
-
 <Tabs groupId="figma-access-method" persist items={['REST API', 'WebSocket']}>
 
 <Tab value="REST API">
+
+`FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수를 설정해야 합니다.
+
+항상 REST API만 사용한다면 `--mode rest` 플래그를 추가해도 됩니다.
 
 ```json title=".mcp.json"
 {
   "mcpServers": {
     "seed-design-figma": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest", "--mode", "rest"],
+      "args": ["-y", "@seed-design/mcp@latest"],
       "env": {
         "FIGMA_PERSONAL_ACCESS_TOKEN": "${FIGMA_PERSONAL_ACCESS_TOKEN}"
       }
@@ -98,12 +106,14 @@ MCP 서버 실행 시 `--mode` 옵션을 명시하여 해당 모드에서 사용
 
 `FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수는 설정하지 않아도 됩니다.
 
+항상 WebSocket만 사용한다면 `--mode websocket` 플래그를 추가해도 됩니다.
+
 ```json title=".mcp.json"
 {
   "mcpServers": {
     "seed-design-figma": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest", "--mode", "websocket"]
+      "args": ["-y", "@seed-design/mcp@latest"]
     }
   }
 }
@@ -123,7 +133,8 @@ MCP 서버 실행 시 `--mode` 옵션을 명시하여 해당 모드에서 사용
 
 <Tab value="REST API">
 
-Figma에서 레이어의 URL을 복사해 LLM 도구에게 요청합니다.
+1. Figma에서 레이어의 URL을 복사(<kbd>⌘</kbd> + <kbd>L</kbd>)합니다.
+2. LLM 도구에게 요청합니다.
 
 ```
 https://www.figma.com/design/abc123/MyDesign?node-id=123-456 이 레이어의 React 코드를 가져와주세요.
@@ -133,7 +144,8 @@ https://www.figma.com/design/abc123/MyDesign?node-id=123-456 이 레이어의 Re
 
 <Tab value="WebSocket">
 
-Figma에서 레이어를 선택한 후 LLM 도구에게 요청합니다.
+1. Figma에서 레이어를 선택합니다.
+2. LLM 도구에게 요청합니다.
 
 ```
 지금 선택한 레이어의 React 코드를 가져와주세요.
