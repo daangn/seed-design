@@ -6,8 +6,10 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { version } from "../../package.json" with { type: "json" };
 import { logger } from "../logger";
 import { loadConfig, type McpConfig } from "../config";
+import { createFigmaRestClient, type FigmaRestClient } from "../figma-rest-client";
 import { createFigmaWebSocketClient, type FigmaWebSocketClient } from "../websocket";
-import { registerEditingTools, registerTools, type ToolMode } from "../tools";
+import { registerEditingTools, registerTools } from "../tools";
+import { type ToolMode } from "../tools-helpers";
 import { registerPrompts } from "../prompts";
 import { startWebSocketServer } from "./websocket-server";
 
@@ -61,8 +63,30 @@ function createFigmaClient(
       }
 
       logger.info("No WebSocket server URL. Running in REST API only mode.");
+
       return null;
   }
+}
+
+function createRestClient(mode: ToolMode): FigmaRestClient | null {
+  if (mode === "websocket") {
+    return null;
+  }
+
+  const pat = getFigmaAccessToken();
+  if (!pat) {
+    if (mode === "rest") {
+      logger.warn(
+        "REST mode requires FIGMA_PERSONAL_ACCESS_TOKEN. REST API will not be available.",
+      );
+    }
+
+    return null;
+  }
+
+  logger.info("Initializing REST API client with PAT from environment");
+
+  return createFigmaRestClient(pat);
 }
 
 async function loadMcpConfig(configPath?: string): Promise<McpConfig | null> {
@@ -111,13 +135,14 @@ async function startMcpServer(options: McpServerOptions = {}): Promise<void> {
 
   const config = await loadMcpConfig(configPath);
   const figmaClient = createFigmaClient(serverUrl, mode);
+  const restClient = createRestClient(mode);
 
   const server = new McpServer({
     name: "SEED Design MCP",
     version,
   });
 
-  registerTools(server, figmaClient, config, mode);
+  registerTools(server, figmaClient, restClient, config, mode);
   registerPrompts(server);
 
   if (experimental) {

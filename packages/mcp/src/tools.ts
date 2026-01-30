@@ -10,11 +10,13 @@ import {
   formatObjectResponse,
   formatTextResponse,
 } from "./responses";
+import type { FigmaRestClient } from "./figma-rest-client";
 import {
   createToolContext,
   fetchMultipleNodesData,
   fetchNodeData,
   requireWebSocket,
+  type ToolMode,
 } from "./tools-helpers";
 import type { FigmaWebSocketClient } from "./websocket";
 
@@ -116,8 +118,6 @@ function resolveMultiNodeParams(params: z.infer<typeof multiNodeParamsSchema>): 
   return { fileKey: undefined, nodeIds: params.nodeIds, personalAccessToken: undefined };
 }
 
-export type ToolMode = "rest" | "websocket" | "all";
-
 // Mode-specific descriptions
 function getSingleNodeDescription(baseDescription: string, mode: ToolMode): string {
   switch (mode) {
@@ -158,10 +158,11 @@ function getMultiNodeDescription(baseDescription: string, mode: ToolMode): strin
 export function registerTools(
   server: McpServer,
   figmaClient: FigmaWebSocketClient | null,
-  config: McpConfig | null = {},
-  mode: ToolMode = "all",
+  restClient: FigmaRestClient | null,
+  config: McpConfig | null,
+  mode: ToolMode,
 ): void {
-  const context = createToolContext(figmaClient, config);
+  const context = createToolContext(figmaClient, restClient, config, mode);
 
   const shouldRegisterWebSocketOnlyTools = mode === "websocket" || mode === "all";
 

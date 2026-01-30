@@ -3,27 +3,26 @@ import type { FigmaRestClient } from "./figma-rest-client";
 import { createFigmaRestClient } from "./figma-rest-client";
 import type { FigmaWebSocketClient } from "./websocket";
 import type { McpConfig } from "./config";
-import { logger } from "./logger";
+
+export type ToolMode = "rest" | "websocket" | "all";
 
 export interface ToolContext {
   sendCommandToFigma: FigmaWebSocketClient["sendCommandToFigma"] | null;
   restClient: FigmaRestClient | null;
+  mode: ToolMode;
   extend?: McpConfig["extend"];
 }
 
 export function createToolContext(
   figmaClient: FigmaWebSocketClient | null,
+  restClient: FigmaRestClient | null,
   config: McpConfig | null,
+  mode: ToolMode,
 ): ToolContext {
-  const pat = process.env["FIGMA_PERSONAL_ACCESS_TOKEN"];
-
-  if (pat) {
-    logger.info("initializing REST API client with PAT from environment");
-  }
-
   return {
     sendCommandToFigma: figmaClient?.sendCommandToFigma ?? null,
-    restClient: pat ? createFigmaRestClient(pat) : null,
+    restClient,
+    mode,
     extend: config?.extend,
   };
 }
@@ -32,6 +31,10 @@ function resolveRestClient(
   personalAccessToken: string | undefined,
   context: ToolContext,
 ): FigmaRestClient | null {
+  if (context.mode === "websocket") {
+    return null;
+  }
+
   if (personalAccessToken) {
     return createFigmaRestClient(personalAccessToken);
   }
