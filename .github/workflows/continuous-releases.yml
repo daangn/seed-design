@@ -43,7 +43,7 @@ jobs:
         run: bun packages:build
 
       - name: Release
-        run: bunx pkg-pr-new publish --compact
+        run: bunx pkg-pr-new publish './packages/*' --compact
 
       - name: Add success reaction
         if: success()
