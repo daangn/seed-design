@@ -42,8 +42,33 @@ jobs:
       - name: Build
         run: bun packages:build
 
-      - name: Release
-        run: bunx pkg-pr-new publish './packages/*' --compact
+      - name: Publish
+        run: bunx pkg-pr-new publish './packages/*' --compact --comment=off --json output.json
+
+      - name: Comment on PR
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const output = JSON.parse(fs.readFileSync('output.json', 'utf8'));
+
+            const packages = output.packages
+              .map(p => `\`${p.name}\`: \`${p.url}\``)
+              .join('\n');
+
+            const body = `## 📦 Snapshot Release
+
+            ${packages}
+
+            > Triggered by @${{ github.event.comment.user.login }} via \`/snapshot\`
+            `.replace(/^ +/gm, '');
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.issue.number }},
+              body
+            });
 
       - name: Add success reaction
         if: success()
