@@ -6,31 +6,33 @@ import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 
 // Prevent bundlers from trying to optimize the import
 const useInsertionEffect: typeof useLayoutEffect =
+  // biome-ignore lint/suspicious/noExplicitAny: React internal API access
   (React as any)[" useInsertionEffect ".trim().toString()] || useLayoutEffect;
 
-type ChangeHandler<T> = (state: T) => void;
-type SetStateFn<T> = React.Dispatch<React.SetStateAction<T>>;
+export type ChangeHandler<T, M = undefined> = (state: T, meta?: M) => void;
+export type SetStateFn<T, M = undefined> = (value: T | ((prev: T) => T), meta?: M) => void;
 
-interface UseControllableStateParams<T> {
+export interface UseControllableStateParams<T, M = undefined> {
   prop?: T | undefined;
   defaultProp: T;
-  onChange?: ChangeHandler<T>;
+  onChange?: ChangeHandler<T, M>;
   caller?: string;
 }
 
-export function useControllableState<T>({
+export function useControllableState<T, M = undefined>({
   prop,
   defaultProp,
   onChange = () => {},
   caller,
-}: UseControllableStateParams<T>): [T, SetStateFn<T>] {
-  const [uncontrolledProp, setUncontrolledProp, onChangeRef] = useUncontrolledState({
+}: UseControllableStateParams<T, M>): [T, SetStateFn<T, M>] {
+  const [uncontrolledProp, setUncontrolledProp, onChangeRef, metaRef] = useUncontrolledState<T, M>({
     defaultProp,
     onChange,
   });
   const isControlled = prop !== undefined;
   const value = isControlled ? prop : uncontrolledProp;
 
+  // @ts-expect-error
   if (process.env.NODE_ENV !== "production") {
     // biome-ignore lint/correctness/useHookAtTopLevel: OK to disable conditionally calling hooks here because they will always run consistently in the same environment. Bundlers should be able to remove the code block entirely in production.
     const isControlledRef = React.useRef(prop !== undefined);
@@ -49,33 +51,36 @@ export function useControllableState<T>({
     }, [isControlled, caller]);
   }
 
-  const setValue = React.useCallback<SetStateFn<T>>(
-    (nextValue) => {
+  const setValue = React.useCallback<SetStateFn<T, M>>(
+    (nextValue, meta) => {
       if (isControlled) {
         const value = isFunction(nextValue) ? nextValue(prop) : nextValue;
         if (value !== prop) {
-          onChangeRef.current?.(value);
+          onChangeRef.current?.(value, meta);
         }
       } else {
+        metaRef.current = meta;
         setUncontrolledProp(nextValue);
       }
     },
-    [isControlled, prop, setUncontrolledProp, onChangeRef],
+    [isControlled, prop, setUncontrolledProp, onChangeRef, metaRef],
   );
 
   return [value, setValue];
 }
 
-function useUncontrolledState<T>({
+function useUncontrolledState<T, M = undefined>({
   defaultProp,
   onChange,
-}: Omit<UseControllableStateParams<T>, "prop">): [
-  Value: T,
+}: Omit<UseControllableStateParams<T, M>, "prop" | "caller">): [
+  value: T,
   setValue: React.Dispatch<React.SetStateAction<T>>,
-  OnChangeRef: React.RefObject<ChangeHandler<T> | undefined>,
+  onChangeRef: React.RefObject<ChangeHandler<T, M> | undefined>,
+  metaRef: React.RefObject<M | undefined>,
 ] {
   const [value, setValue] = React.useState(defaultProp);
   const prevValueRef = React.useRef(value);
+  const metaRef = React.useRef<M | undefined>(undefined);
 
   const onChangeRef = React.useRef(onChange);
   useInsertionEffect(() => {
@@ -84,14 +89,16 @@ function useUncontrolledState<T>({
 
   React.useEffect(() => {
     if (prevValueRef.current !== value) {
-      onChangeRef.current?.(value);
+      onChangeRef.current?.(value, metaRef.current);
       prevValueRef.current = value;
+      metaRef.current = undefined;
     }
-  }, [value, prevValueRef]);
+  }, [value]);
 
-  return [value, setValue, onChangeRef];
+  return [value, setValue, onChangeRef, metaRef];
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: type guard utility
 function isFunction(value: unknown): value is (...args: any[]) => any {
   return typeof value === "function";
 }
