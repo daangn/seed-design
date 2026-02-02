@@ -4570,20 +4570,14 @@
 }
 
 .seed-image-frame {
+  border-radius: inherit;
   position: relative;
+  overflow: hidden;
 }
 
 .seed-image-frame > img, .seed-image-frame > video {
   object-fit: cover;
-}
-
-.seed-image-frame--rounded_true {
-  border-radius: var(--seed-radius-r2);
-  overflow: hidden;
-}
-
-.seed-image-frame--rounded_true > img, .seed-image-frame--rounded_true > video {
-  border-radius: var(--seed-radius-r2);
+  border-radius: inherit;
 }
 
 .seed-image-frame--stroke_true:after {

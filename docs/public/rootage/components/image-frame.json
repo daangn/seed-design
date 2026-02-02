@@ -11,10 +11,6 @@
       "slots": {
         "root": {
           "properties": {
-            "cornerRadius": {
-              "type": "dimension",
-              "description": "rounded 옵션 사용 시 적용되는 모서리 반경입니다."
-            },
             "strokeColor": {
               "type": "color",
               "description": "stroke 옵션 사용 시 적용되는 테두리 색상입니다."
@@ -27,17 +23,6 @@
         }
       },
       "variants": {
-        "rounded": {
-          "values": {
-            "true": {
-              "description": "모서리에 라운드 스타일을 적용합니다."
-            },
-            "false": {
-              "description": "모서리를 직각으로 유지합니다."
-            }
-          },
-          "defaultValue": "true"
-        },
         "stroke": {
           "values": {
             "true": {
@@ -52,49 +37,6 @@
       }
     },
     "definitions": [
-      {
-        "variants": {
-          "rounded": "true"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r2"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "rounded": "false"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 0,
-                    "unit": "px"
-                  }
-                }
-              }
-            }
-          }
-        ]
-      },
       {
         "variants": {
           "stroke": "true"

@@ -1,17 +1,12 @@
 .seed-image-frame {
     position: relative;
+    overflow: hidden;
+    border-radius: inherit;
 }
 .seed-image-frame > img, .seed-image-frame > video {
     object-fit: cover;
+    border-radius: inherit;
 }
-.seed-image-frame--rounded_true {
-    overflow: hidden;
-    border-radius: var(--seed-radius-r2);
-}
-.seed-image-frame--rounded_true > img, .seed-image-frame--rounded_true > video {
-    border-radius: var(--seed-radius-r2);
-}
-.seed-image-frame--rounded_false {}
 .seed-image-frame--stroke_true::after {
     content: '';
     position: absolute;

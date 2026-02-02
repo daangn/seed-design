@@ -2,10 +2,6 @@ declare interface ImageFrameVariant {
   /**
   * @default false
   */
-  rounded: boolean;
-/**
-  * @default false
-  */
   stroke: boolean;
 }
 

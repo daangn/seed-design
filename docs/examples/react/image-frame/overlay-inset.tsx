@@ -5,7 +5,7 @@ export default function ImageFrameOverlayInsetExample() {
     <div style={{ display: "flex", gap: 12 }}>
       <ImageFrame
         ratio={1}
-        rounded
+        borderRadius="r2"
         stroke
         src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
         alt="Landscape with default offset"
@@ -18,7 +18,7 @@ export default function ImageFrameOverlayInsetExample() {
 
       <ImageFrame
         ratio={1}
-        rounded
+        borderRadius="r2"
         stroke
         src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
         alt="Landscape with 0 offset"
@@ -31,7 +31,7 @@ export default function ImageFrameOverlayInsetExample() {
 
       <ImageFrame
         ratio={1}
-        rounded
+        borderRadius="r2"
         stroke
         src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
         alt="Landscape with 12 offset"

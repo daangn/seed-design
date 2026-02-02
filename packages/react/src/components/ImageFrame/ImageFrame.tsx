@@ -46,7 +46,6 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
   (
     {
       ratio = 4 / 3,
-      rounded,
       stroke,
       src,
       alt,
@@ -67,7 +66,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
   ) => {
     return (
       <AspectRatio ref={ref} ratio={ratio} className={className} {...rest}>
-        <Image.Root className={imageFrameRecipe({ rounded, stroke })}>
+        <Image.Root className={imageFrameRecipe({ stroke })}>
           <Image.Content
             src={src}
             alt={alt}

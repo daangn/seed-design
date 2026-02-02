@@ -1,18 +1,4 @@
 export const vars = {
-  "roundedTrue": {
-    "enabled": {
-      "root": {
-        "cornerRadius": "var(--seed-radius-r2)"
-      }
-    }
-  },
-  "roundedFalse": {
-    "enabled": {
-      "root": {
-        "cornerRadius": "0px"
-      }
-    }
-  },
   "strokeTrue": {
     "enabled": {
       "root": {

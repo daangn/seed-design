@@ -2,17 +2,12 @@ import './image-frame.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const defaultVariant = {
-  "rounded": false,
   "stroke": false
 };
 
 const compoundVariants = [];
 
 export const imageFrameVariantMap = {
-  "rounded": [
-    true,
-    false
-  ],
   "stroke": [
     true,
     false
