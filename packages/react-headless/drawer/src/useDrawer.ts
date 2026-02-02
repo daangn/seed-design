@@ -1,4 +1,5 @@
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { useControllableState } from "@seed-design/react-use-controllable-state";
+import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { isIOS, isMobileFirefox } from "./browser";
 import {
@@ -12,6 +13,22 @@ import {
 import { dampenValue, getTranslate, isInput, isVertical, reset, set } from "./helpers";
 import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
+
+interface DrawerReasonToEventMap {
+  trigger: React.MouseEvent<HTMLButtonElement>;
+  closeButton: React.MouseEvent<HTMLButtonElement>;
+  escapeKeyDown: KeyboardEvent;
+  interactOutside: PointerEvent | FocusEvent;
+  drag: React.PointerEvent<HTMLElement>;
+  handleClickOnLastSnapPoint: React.MouseEvent<HTMLDivElement>;
+}
+
+type DrawerChangeDetails = {
+  [R in keyof DrawerReasonToEventMap]: {
+    reason: R;
+    event?: DrawerReasonToEventMap[R];
+  };
+}[keyof DrawerReasonToEventMap];
 
 export interface UseDrawerProps {
   activeSnapPoint?: number | string | null;
@@ -29,7 +46,7 @@ export interface UseDrawerProps {
    * @default true
    */
   noBodyStyles?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, details?: DrawerChangeDetails) => void;
   /**
    * Duration for which the drawer is not draggable after scrolling content inside of the drawer.
    * @default 500ms
@@ -149,11 +166,11 @@ export function useDrawer(props: UseDrawerProps) {
     closeOnEscape = true,
   } = props;
 
-  const [isOpen = false, setIsOpen] = useControllableState({
+  const [isOpen = false, setIsOpen] = useControllableState<boolean, DrawerChangeDetails>({
     defaultProp: defaultOpen,
     prop: openProp,
-    onChange: (o: boolean) => {
-      onOpenChange?.(o);
+    onChange: (o: boolean, details?: DrawerChangeDetails) => {
+      onOpenChange?.(o, details);
 
       if (!o && !nested) {
         restorePositionSetting();
@@ -425,12 +442,12 @@ export function useDrawer(props: UseDrawerProps) {
   }, [isDragging]);
 
   const closeDrawer = useCallback(
-    (fromWithin?: boolean) => {
+    (fromWithin?: boolean, details?: DrawerChangeDetails) => {
       cancelDrag();
       onClose?.();
 
       if (!fromWithin) {
-        setIsOpen(false);
+        setIsOpen(false, details);
       }
 
       if (fadeFromIndex !== undefined && fadeFromIndex > 0 && activeSnapPointIndex === 0) {
@@ -495,6 +512,7 @@ export function useDrawer(props: UseDrawerProps) {
         closeDrawer,
         velocity,
         dismissible,
+        event,
       });
       onReleaseProp?.(event, true);
       return;
@@ -507,7 +525,7 @@ export function useDrawer(props: UseDrawerProps) {
     }
 
     if (velocity > VELOCITY_THRESHOLD) {
-      closeDrawer();
+      closeDrawer(false, { reason: "drag", event });
       onReleaseProp?.(event, false);
       return;
     }
@@ -526,7 +544,7 @@ export function useDrawer(props: UseDrawerProps) {
       Math.abs(swipeAmount) >=
       (isHorizontalSwipe ? visibleDrawerWidth : visibleDrawerHeight) * closeThreshold
     ) {
-      closeDrawer();
+      closeDrawer(false, { reason: "drag", event });
       onReleaseProp?.(event, false);
       return;
     }

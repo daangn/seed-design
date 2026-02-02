@@ -196,11 +196,16 @@ export function useSnapPoints({
     closeDrawer,
     velocity,
     dismissible,
+    event,
   }: {
     draggedDistance: number;
-    closeDrawer: () => void;
+    closeDrawer: (
+      fromWithin: boolean,
+      details: { reason: "drag"; event: React.PointerEvent<HTMLElement> },
+    ) => void;
     velocity: number;
     dismissible: boolean;
+    event: React.PointerEvent<HTMLElement>;
   }) {
     if (fadeFromIndex === undefined) return;
 
@@ -219,7 +224,7 @@ export function useSnapPoints({
     }
 
     if (!snapToSequentialPoint && velocity > 2 && !hasDraggedUp) {
-      if (dismissible) closeDrawer();
+      if (dismissible) closeDrawer(false, { reason: "drag", event });
       else snapToPoint(snapPointsOffset[0]); // snap to initial point
       return;
     }
@@ -247,7 +252,7 @@ export function useSnapPoints({
       }
 
       if (isFirst && dragDirection < 0 && dismissible) {
-        closeDrawer();
+        closeDrawer(false, { reason: "drag", event });
       }
 
       if (activeSnapPointIndex === null) return;
