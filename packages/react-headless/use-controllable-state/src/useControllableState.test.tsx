@@ -89,43 +89,43 @@ describe("useControllableState", () => {
     });
   });
 
-  describe("meta parameter", () => {
+  describe("details parameter", () => {
     describe("controlled mode", () => {
-      it("should pass meta to onChange", async () => {
+      it("should pass details to onChange", async () => {
         const onChange = vi.fn();
-        render(<ControlledToggleWithMeta onChange={onChange} />);
-        const button = screen.getByRole("button", { name: "toggle with meta" });
+        render(<ControlledToggleWithDetails onChange={onChange} />);
+        const button = screen.getByRole("button", { name: "toggle with details" });
         await userEvent.click(button);
         await waitFor(() => {
           expect(onChange).toHaveBeenCalledWith(true, "trigger");
         });
       });
 
-      it("should pass undefined meta when not provided", async () => {
+      it("should pass undefined details when not provided", async () => {
         const onChange = vi.fn();
-        render(<ControlledToggleWithMeta onChange={onChange} />);
-        const button = screen.getByRole("button", { name: "toggle without meta" });
+        render(<ControlledToggleWithDetails onChange={onChange} />);
+        const button = screen.getByRole("button", { name: "toggle without details" });
         await userEvent.click(button);
         await waitFor(() => {
           expect(onChange).toHaveBeenCalledWith(true, undefined);
         });
       });
 
-      it("should pass different meta on consecutive calls", async () => {
+      it("should pass different details on consecutive calls", async () => {
         const onChange = vi.fn();
-        render(<ControlledToggleWithMeta onChange={onChange} />);
-        const withMeta = screen.getByRole("button", { name: "toggle with meta" });
-        const withoutMeta = screen.getByRole("button", { name: "toggle without meta" });
+        render(<ControlledToggleWithDetails onChange={onChange} />);
+        const withDetails = screen.getByRole("button", { name: "toggle with details" });
+        const withoutDetails = screen.getByRole("button", { name: "toggle without details" });
         const close = screen.getByRole("button", { name: "close" });
         const withUpdater = screen.getByRole("button", { name: "toggle with updater" });
 
-        await userEvent.click(withMeta);
+        await userEvent.click(withDetails);
         await userEvent.click(close);
-        await userEvent.click(withoutMeta);
+        await userEvent.click(withoutDetails);
         await userEvent.click(withUpdater);
         await userEvent.click(withUpdater);
         await userEvent.click(close);
-        await userEvent.click(withMeta);
+        await userEvent.click(withDetails);
 
         await waitFor(() => {
           expect(onChange).toHaveBeenNthCalledWith(1, true, "trigger");
@@ -140,50 +140,50 @@ describe("useControllableState", () => {
 
       it("should not call onChange when value is the same", async () => {
         const onChange = vi.fn();
-        render(<ControlledToggleWithMeta onChange={onChange} defaultValue={true} />);
-        const withMeta = screen.getByRole("button", { name: "toggle with meta" });
-        await userEvent.click(withMeta);
-        await userEvent.click(withMeta);
+        render(<ControlledToggleWithDetails onChange={onChange} defaultValue={true} />);
+        const withDetails = screen.getByRole("button", { name: "toggle with details" });
+        await userEvent.click(withDetails);
+        await userEvent.click(withDetails);
         expect(onChange).toHaveBeenCalledTimes(0);
       });
     });
 
     describe("uncontrolled mode", () => {
-      it("should pass meta to onChange", async () => {
+      it("should pass details to onChange", async () => {
         const onChange = vi.fn();
-        render(<UncontrolledToggleWithMeta onChange={onChange} />);
-        const button = screen.getByRole("button", { name: "toggle with meta" });
+        render(<UncontrolledToggleWithDetails onChange={onChange} />);
+        const button = screen.getByRole("button", { name: "toggle with details" });
         await userEvent.click(button);
         await waitFor(() => {
           expect(onChange).toHaveBeenCalledWith(true, "trigger");
         });
       });
 
-      it("should pass undefined meta when not provided", async () => {
+      it("should pass undefined details when not provided", async () => {
         const onChange = vi.fn();
-        render(<UncontrolledToggleWithMeta onChange={onChange} />);
-        const button = screen.getByRole("button", { name: "toggle without meta" });
+        render(<UncontrolledToggleWithDetails onChange={onChange} />);
+        const button = screen.getByRole("button", { name: "toggle without details" });
         await userEvent.click(button);
         await waitFor(() => {
           expect(onChange).toHaveBeenCalledWith(true, undefined);
         });
       });
 
-      it("should pass different meta on consecutive calls", async () => {
+      it("should pass different details on consecutive calls", async () => {
         const onChange = vi.fn();
-        render(<UncontrolledToggleWithMeta onChange={onChange} />);
-        const withMeta = screen.getByRole("button", { name: "toggle with meta" });
-        const withoutMeta = screen.getByRole("button", { name: "toggle without meta" });
+        render(<UncontrolledToggleWithDetails onChange={onChange} />);
+        const withDetails = screen.getByRole("button", { name: "toggle with details" });
+        const withoutDetails = screen.getByRole("button", { name: "toggle without details" });
         const close = screen.getByRole("button", { name: "close" });
         const withUpdater = screen.getByRole("button", { name: "toggle with updater" });
 
-        await userEvent.click(withMeta);
+        await userEvent.click(withDetails);
         await userEvent.click(close);
-        await userEvent.click(withoutMeta);
+        await userEvent.click(withoutDetails);
         await userEvent.click(withUpdater);
         await userEvent.click(withUpdater);
         await userEvent.click(close);
-        await userEvent.click(withMeta);
+        await userEvent.click(withDetails);
 
         await waitFor(() => {
           expect(onChange).toHaveBeenNthCalledWith(1, true, "trigger");
@@ -199,46 +199,46 @@ describe("useControllableState", () => {
   });
 });
 
-// Test components for meta parameter tests
-function ControlledToggleWithMeta({
+// Test components for details parameter tests
+function ControlledToggleWithDetails({
   onChange,
   defaultValue = false,
 }: {
-  onChange: (value: boolean, meta?: string) => void;
+  onChange: (value: boolean, details?: string) => void;
   defaultValue?: boolean;
 }) {
   const [value, setValue] = React.useState(defaultValue);
-  const [, setValueWithMeta] = useControllableState<boolean, string>({
+  const [, setValueWithDetails] = useControllableState<boolean, string>({
     prop: value,
     defaultProp: false,
-    onChange: (newValue, meta) => {
+    onChange: (newValue, details) => {
       setValue(newValue);
-      onChange(newValue, meta);
+      onChange(newValue, details);
     },
   });
 
   return (
     <div>
-      <button type="button" onClick={() => setValueWithMeta(true, "trigger")}>
-        toggle with meta
+      <button type="button" onClick={() => setValueWithDetails(true, "trigger")}>
+        toggle with details
       </button>
-      <button type="button" onClick={() => setValueWithMeta(true)}>
-        toggle without meta
+      <button type="button" onClick={() => setValueWithDetails(true)}>
+        toggle without details
       </button>
-      <button type="button" onClick={() => setValueWithMeta(false, "closeButton")}>
+      <button type="button" onClick={() => setValueWithDetails(false, "closeButton")}>
         close
       </button>
-      <button type="button" onClick={() => setValueWithMeta((prev) => !prev, "updater")}>
+      <button type="button" onClick={() => setValueWithDetails((prev) => !prev, "updater")}>
         toggle with updater
       </button>
     </div>
   );
 }
 
-function UncontrolledToggleWithMeta({
+function UncontrolledToggleWithDetails({
   onChange,
 }: {
-  onChange: (value: boolean, meta?: string) => void;
+  onChange: (value: boolean, details?: string) => void;
 }) {
   const [, setValue] = useControllableState<boolean, string>({
     defaultProp: false,
@@ -248,10 +248,10 @@ function UncontrolledToggleWithMeta({
   return (
     <div>
       <button type="button" onClick={() => setValue(true, "trigger")}>
-        toggle with meta
+        toggle with details
       </button>
       <button type="button" onClick={() => setValue(true)}>
-        toggle without meta
+        toggle without details
       </button>
       <button type="button" onClick={() => setValue(false, "closeButton")}>
         close

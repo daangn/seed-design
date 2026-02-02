@@ -9,8 +9,8 @@ const useInsertionEffect: typeof useLayoutEffect =
   // biome-ignore lint/suspicious/noExplicitAny: React internal API access
   (React as any)[" useInsertionEffect ".trim().toString()] || useLayoutEffect;
 
-export type ChangeHandler<T, M = undefined> = (state: T, meta?: M) => void;
-export type SetStateFn<T, M = undefined> = (value: T | ((prev: T) => T), meta?: M) => void;
+export type ChangeHandler<T, M = undefined> = (state: T, details?: M) => void;
+export type SetStateFn<T, M = undefined> = (value: T | ((prev: T) => T), details?: M) => void;
 
 export interface UseControllableStateParams<T, M = undefined> {
   prop?: T | undefined;
@@ -25,7 +25,10 @@ export function useControllableState<T, M = undefined>({
   onChange = () => {},
   caller,
 }: UseControllableStateParams<T, M>): [T, SetStateFn<T, M>] {
-  const [uncontrolledProp, setUncontrolledProp, onChangeRef, metaRef] = useUncontrolledState<T, M>({
+  const [uncontrolledProp, setUncontrolledProp, onChangeRef, detailsRef] = useUncontrolledState<
+    T,
+    M
+  >({
     defaultProp,
     onChange,
   });
@@ -52,18 +55,18 @@ export function useControllableState<T, M = undefined>({
   }
 
   const setValue = React.useCallback<SetStateFn<T, M>>(
-    (nextValue, meta) => {
+    (nextValue, details) => {
       if (isControlled) {
         const value = isFunction(nextValue) ? nextValue(prop) : nextValue;
         if (value !== prop) {
-          onChangeRef.current?.(value, meta);
+          onChangeRef.current?.(value, details);
         }
       } else {
-        metaRef.current = meta;
+        detailsRef.current = details;
         setUncontrolledProp(nextValue);
       }
     },
-    [isControlled, prop, setUncontrolledProp, onChangeRef, metaRef],
+    [isControlled, prop, setUncontrolledProp, onChangeRef, detailsRef],
   );
 
   return [value, setValue];
@@ -76,11 +79,11 @@ function useUncontrolledState<T, M = undefined>({
   value: T,
   setValue: React.Dispatch<React.SetStateAction<T>>,
   onChangeRef: React.RefObject<ChangeHandler<T, M> | undefined>,
-  metaRef: React.RefObject<M | undefined>,
+  detailsRef: React.RefObject<M | undefined>,
 ] {
   const [value, setValue] = React.useState(defaultProp);
   const prevValueRef = React.useRef(value);
-  const metaRef = React.useRef<M | undefined>(undefined);
+  const detailsRef = React.useRef<M | undefined>(undefined);
 
   const onChangeRef = React.useRef(onChange);
   useInsertionEffect(() => {
@@ -89,13 +92,13 @@ function useUncontrolledState<T, M = undefined>({
 
   React.useEffect(() => {
     if (prevValueRef.current !== value) {
-      onChangeRef.current?.(value, metaRef.current);
+      onChangeRef.current?.(value, detailsRef.current);
       prevValueRef.current = value;
-      metaRef.current = undefined;
+      detailsRef.current = undefined;
     }
   }, [value]);
 
-  return [value, setValue, onChangeRef, metaRef];
+  return [value, setValue, onChangeRef, detailsRef];
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: type guard utility
