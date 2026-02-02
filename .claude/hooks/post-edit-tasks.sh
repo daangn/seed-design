@@ -32,20 +32,20 @@ elif [[ "$FILE_PATH" == *"packages/qvism-preset/"* ]]; then
 
 elif [[ "$FILE_PATH" == *"packages/react-headless/"* ]]; then
   run_with_feedback bun headless:build
-  run_with_feedback bun headless:test
+  run_with_feedback bun headless:test --reporter=dot
   run_with_feedback bun --filter @seed-design/react build
-  run_with_feedback bun react:test
+  run_with_feedback bun react:test --reporter=dot
 
 elif [[ "$FILE_PATH" == *"packages/react/"* ]]; then
   run_with_feedback bun --filter @seed-design/react build
-  run_with_feedback bun react:test
+  run_with_feedback bun react:test --reporter=dot
 
 elif [[ "$FILE_PATH" == *"packages/figma/"* ]]; then
   run_with_feedback bun --filter @seed-design/figma build
 
 elif [[ "$FILE_PATH" == *"packages/cli/"* ]]; then
   run_with_feedback bun --filter @seed-design/cli build
-  run_with_feedback bun --filter @seed-design/cli test
+  run_with_feedback bun --filter @seed-design/cli test --reporter=dot
   
 elif [[ "$FILE_PATH" == *"packages/stackflow/"* ]]; then
   run_with_feedback bun --filter @seed-design/stackflow build
@@ -57,9 +57,9 @@ fi
 if [[ "$FILE_PATH" == *"ecosystem/rootage/"* ]]; then
   run_with_feedback bun --filter @seed-design/rootage-core build
   run_with_feedback bun --filter @seed-design/rootage-cli build
-  run_with_feedback bun rootage:test
+  run_with_feedback bun rootage:test --reporter=dot
 elif [[ "$FILE_PATH" == *"ecosystem/qvism/"* ]]; then
   run_with_feedback bun --filter @seed-design/qvism-core build
   run_with_feedback bun --filter @seed-design/qvism-cli build
-  run_with_feedback bun --filter @seed-design/qvism-core test
+  run_with_feedback bun --filter @seed-design/qvism-core test --reporter=dot
 fi
