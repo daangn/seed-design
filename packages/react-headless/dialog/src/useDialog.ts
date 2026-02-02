@@ -3,21 +3,19 @@ import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import type React from "react";
 import { useId, useMemo } from "react";
 
-interface DialogReasonToEventMap {
-  trigger: React.MouseEvent<HTMLButtonElement>;
-  closeButton: React.MouseEvent<HTMLButtonElement>;
-  escapeKeyDown: KeyboardEvent;
-  interactOutside: PointerEvent | FocusEvent;
+interface DialogReasonToDetailMap {
+  trigger: { event: React.MouseEvent<HTMLButtonElement> };
+  closeButton: { event: React.MouseEvent<HTMLButtonElement> };
+  escapeKeyDown: { event: KeyboardEvent };
+  interactOutside: { event: PointerEvent | FocusEvent };
 }
 
 type DialogChangeDetails = {
-  [R in keyof DialogReasonToEventMap]: {
+  [R in keyof DialogReasonToDetailMap]: {
     /** The reason for the dialog open state change. */
     reason: R;
-    /** The native event that triggered the change. */
-    event?: DialogReasonToEventMap[R];
-  };
-}[keyof DialogReasonToEventMap];
+  } & DialogReasonToDetailMap[R];
+}[keyof DialogReasonToDetailMap];
 
 export interface UseDialogStateProps {
   open?: boolean;

@@ -14,20 +14,19 @@ import { dampenValue, getTranslate, isInput, isVertical, reset, set } from "./he
 import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
 
-interface DrawerReasonToEventMap {
-  closeButton: React.MouseEvent<HTMLButtonElement>;
-  escapeKeyDown: KeyboardEvent;
-  interactOutside: PointerEvent | FocusEvent;
-  drag: React.PointerEvent<HTMLElement>;
-  handleClickOnLastSnapPoint: React.MouseEvent<HTMLDivElement>;
+interface DrawerReasonToDetailMap {
+  closeButton: { event: React.MouseEvent<HTMLButtonElement> };
+  escapeKeyDown: { event: KeyboardEvent };
+  interactOutside: { event: PointerEvent | FocusEvent };
+  drag: { event: React.PointerEvent<HTMLElement> };
+  handleClickOnLastSnapPoint: { event: React.MouseEvent<HTMLDivElement> };
 }
 
 type DrawerChangeDetails = {
-  [R in keyof DrawerReasonToEventMap]: {
+  [R in keyof DrawerReasonToDetailMap]: {
     reason: R;
-    event?: DrawerReasonToEventMap[R];
-  };
-}[keyof DrawerReasonToEventMap];
+  } & DrawerReasonToDetailMap[R];
+}[keyof DrawerReasonToDetailMap];
 
 export interface UseDrawerProps {
   activeSnapPoint?: number | string | null;
