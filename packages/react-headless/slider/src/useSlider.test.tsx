@@ -3,7 +3,7 @@ import userEvent, {
   type UserEvent,
   type Options as UserEventOptions,
 } from "@testing-library/user-event";
-import { afterEach, beforeEach, describe, expect, it, mock, spyOn, jest } from "bun:test";
+import { afterAll, afterEach, beforeEach, describe, expect, it, mock, spyOn, jest } from "bun:test";
 import * as React from "react";
 import type { UseSliderProps } from "./useSlider";
 import {
@@ -69,6 +69,11 @@ const ControlledSlider = (props: ControlledSliderProps) => {
 };
 
 describe("useSlider", () => {
+  const originalResizeObserver = window.ResizeObserver;
+  const originalSetPointerCapture = window.HTMLElement.prototype.setPointerCapture;
+  const originalHasPointerCapture = window.HTMLElement.prototype.hasPointerCapture;
+  const originalReleasePointerCapture = window.HTMLElement.prototype.releasePointerCapture;
+
   window.ResizeObserver = class ResizeObserver {
     observe() {}
     unobserve() {}
@@ -76,8 +81,17 @@ describe("useSlider", () => {
   };
 
   window.HTMLElement.prototype.setPointerCapture = mock(() => {});
-  window.HTMLElement.prototype.hasPointerCapture = mock(() => {}) as unknown as typeof window.HTMLElement.prototype.hasPointerCapture;
+  window.HTMLElement.prototype.hasPointerCapture = mock(
+    () => {},
+  ) as unknown as typeof window.HTMLElement.prototype.hasPointerCapture;
   window.HTMLElement.prototype.releasePointerCapture = mock(() => {});
+
+  afterAll(() => {
+    window.ResizeObserver = originalResizeObserver;
+    window.HTMLElement.prototype.setPointerCapture = originalSetPointerCapture;
+    window.HTMLElement.prototype.hasPointerCapture = originalHasPointerCapture;
+    window.HTMLElement.prototype.releasePointerCapture = originalReleasePointerCapture;
+  });
 
   describe("Basic Rendering & Initialization", () => {
     it("renders single thumb with default values", () => {
@@ -218,17 +232,21 @@ describe("useSlider", () => {
   });
 
   describe("Pointer Interactions - Click on Track", () => {
-    it("sets active state on pointerdown on track", async () => {
-      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
+    it(
+      "sets active state on pointerdown on track",
+      async () => {
+        const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
-      const root = getByTestId("slider-root");
+        const root = getByTestId("slider-root");
 
-      await user.pointer([
-        { target: root, coords: { clientX: 50, clientY: 0 }, keys: "[MouseLeft>]" },
-      ]);
+        await user.pointer([
+          { target: root, coords: { clientX: 50, clientY: 0 }, keys: "[MouseLeft>]" },
+        ]);
 
-      expect(root).toHaveAttribute("data-active");
-    }, { timeout: 10000 });
+        expect(root).toHaveAttribute("data-active");
+      },
+      { timeout: 10000 },
+    );
 
     it("changes value on click (pointerup before delay)", async () => {
       const onValuesChange = mock(() => {});

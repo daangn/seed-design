@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "bun:test";
+import { afterAll, describe, expect, it } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
@@ -107,9 +107,14 @@ function UncontrolledTabs({
 // ------------------------------------------------------------------- //
 
 describe("useTabs", () => {
+  const originalResizeObserver = window.ResizeObserver;
   window.ResizeObserver = ResizeObserver;
 
-  const tabItems: Record<string, TabItem> = {
+  afterAll(() => {
+    window.ResizeObserver = originalResizeObserver;
+  });
+
+  const tabItems = {
     tab1: {
       value: "Tab 1",
       label: "Label 1",
@@ -125,7 +130,7 @@ describe("useTabs", () => {
       label: "Label 3",
       content: "Content 3",
     },
-  };
+  } as const satisfies Record<string, TabItem>;
 
   it("should render the tabs", () => {
     const { queryByText } = setUp(
@@ -144,9 +149,7 @@ describe("useTabs", () => {
   });
 
   describe("disabled tab test", () => {
-    window.ResizeObserver = ResizeObserver;
-
-    const tabItemsWithDisabled: Record<string, TabItem> = {
+    const tabItemsWithDisabled = {
       tab1: {
         value: "Tab 1",
         label: "Label 1",
@@ -163,7 +166,7 @@ describe("useTabs", () => {
         label: "Label 3",
         content: "Content 3",
       },
-    };
+    } as const satisfies Record<string, TabItem>;
 
     it("should not trigger the disabled tab", async () => {
       const { queryByText, user } = setUp(

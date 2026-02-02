@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, mock } from "bun:test";
+import { afterAll, describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
@@ -39,7 +39,12 @@ function Collapsible(props: CollapsibleRootProps) {
 }
 
 describe("useCollapsible", () => {
+  const originalResizeObserver = window.ResizeObserver;
   window.ResizeObserver = ResizeObserver;
+
+  afterAll(() => {
+    window.ResizeObserver = originalResizeObserver;
+  });
 
   it("should render the collapsible correctly", () => {
     const { getByRole, getByText } = setUp(<Collapsible />);
