@@ -166,7 +166,7 @@ export const multiProperty = style({
   color: vars.color.fg.informative,
   borderLeft: `4px solid ${vars.color.fg.informative}`,
   borderRight: `4px solid ${vars.color.fg.informative}`,
-  boxShadow: `inset 0 0 0 1px ${vars.color.stroke.neutral}, 0 2px 4px ${vars.color.bg.overlayMuted}`,
+  boxShadow: `inset 0 0 0 1px ${vars.color.stroke.neutralMuted}, 0 2px 4px ${vars.color.bg.overlayMuted}`,
   padding: "16px",
   backgroundColor: vars.color.bg.layerDefault,
 });
@@ -182,7 +182,7 @@ export const mixinStyle = {
   },
   accent: {
     background: vars.color.bg.informativeSolid,
-    color: vars.color.stroke.onImage,
+    color: vars.color.stroke.neutralSubtle,
   },
 };
 
@@ -256,7 +256,7 @@ export const nestedStyleObject = {
 // 테두리 속성 매핑 테스트
 export const borderMapping = style({
   // stroke 토큰으로 매핑될 속성
-  borderColor: vars.color.stroke.neutral,
+  borderColor: vars.color.stroke.neutralMuted,
   // stroke 토큰이 없어서 fg 토큰으로 대체되는 케이스
   borderTopColor: vars.color.fg.brand,
   borderBottomColor: vars.color.fg.informative,
