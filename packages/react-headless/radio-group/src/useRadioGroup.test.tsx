@@ -213,7 +213,7 @@ describe("useRadioGroup", () => {
 
     it("should change value on click with controlled value", async () => {
       const { user, getByTestId } = setUp(
-        <ControlledRadioGroup>
+        <ControlledRadioGroup defaultValue={FIRST_VALUE}>
           {values.map((value) => (
             <Radio key={value} value={value} />
           ))}

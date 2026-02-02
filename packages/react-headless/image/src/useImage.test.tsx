@@ -5,13 +5,13 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import type { ReactElement } from "react";
 
-import { useAvatar, type UseAvatarProps } from "./useAvatar";
+import { useImage, type UseImageProps } from "./useImage";
 
 afterEach(cleanup);
 
-const ROOT_TEST_ID = "avatar-root";
+const ROOT_TEST_ID = "image-root";
 const FALLBACK_TEXT = "AB";
-const IMAGE_ALT_TEXT = "Fake Avatar";
+const IMAGE_ALT_TEXT = "Fake Image";
 
 function setUp(jsx: ReactElement) {
   return {
@@ -20,31 +20,31 @@ function setUp(jsx: ReactElement) {
   };
 }
 
-function Avatar(props: UseAvatarProps) {
-  const { rootProps, getImageProps, fallbackProps } = useAvatar(props);
+function Image(props: UseImageProps) {
+  const { rootProps, getContentProps, fallbackProps } = useImage(props);
   return (
     <div data-testid={ROOT_TEST_ID} {...rootProps}>
-      <img {...getImageProps({})} alt={IMAGE_ALT_TEXT} />
+      <img {...getContentProps({})} alt={IMAGE_ALT_TEXT} />
       <span {...fallbackProps}>{FALLBACK_TEXT}</span>
     </div>
   );
 }
 
-describe("useAvatar", () => {
+describe("useImage", () => {
   it("initial state is loading", () => {
-    const { getByAltText } = setUp(<Avatar />);
+    const { getByAltText } = setUp(<Image />);
     const image = getByAltText(IMAGE_ALT_TEXT);
     expect(image).toHaveAttribute("data-loading-state", "loading");
   });
 
   it("should not render the image initially", () => {
-    const { getByAltText } = setUp(<Avatar />);
+    const { getByAltText } = setUp(<Image />);
     const image = getByAltText(IMAGE_ALT_TEXT);
     expect(image).not.toBeVisible();
   });
 
   it("should render the fallback initially", () => {
-    const { queryByText } = setUp(<Avatar />);
+    const { queryByText } = setUp(<Image />);
     const fallback = queryByText(FALLBACK_TEXT);
     expect(fallback).toBeVisible();
   });
