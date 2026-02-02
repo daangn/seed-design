@@ -64,22 +64,22 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
         {/* onDismiss = onEscapeKeyDown + onInteractOutside (= onFocusOutside + onPointerDownOutside) */}
         <DismissableLayer
           ref={ref}
-          onEscapeKeyDown={(event) => {
+          onEscapeKeyDown={(e) => {
             if (!api.closeOnEscape) {
-              event.preventDefault();
+              e.preventDefault();
               return;
             }
 
-            api.setOpen(false, { reason: "escapeKeyDown", event });
+            api.setOpen(false, { reason: "escapeKeyDown", event: e });
           }}
           // onInteractOutside = onFocusOutside + onPointerDownOutside
-          onInteractOutside={(event) => {
+          onInteractOutside={(e) => {
             if (!api.closeOnInteractOutside) {
-              event.preventDefault();
+              e.preventDefault();
               return;
             }
 
-            api.setOpen(false, { reason: "interactOutside", event: event.detail.originalEvent });
+            api.setOpen(false, { reason: "interactOutside", event: e.detail.originalEvent });
           }}
           // onFocusOutside isn't needed because FocusScope traps the focus
           {...mergeProps(api.contentProps, props)}

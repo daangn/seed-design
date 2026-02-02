@@ -260,18 +260,18 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
           handleOnPointerUp(lastKnownPointerEventRef.current);
         }
       }}
-      onInteractOutside={(event) => {
+      onInteractOutside={(e) => {
         // Only close if event is not prevented (e.g., by onFocusOutside or onPointerDownOutside)
-        if (dismissible && closeOnInteractOutside && !event.defaultPrevented) {
-          closeDrawer(false, { reason: "interactOutside", event: event.detail.originalEvent });
+        if (dismissible && closeOnInteractOutside && !e.defaultPrevented) {
+          closeDrawer(false, { reason: "interactOutside", event: e.detail.originalEvent });
         }
-        props.onInteractOutside?.(event);
+        props.onInteractOutside?.(e);
       }}
-      onEscapeKeyDown={(event) => {
+      onEscapeKeyDown={(e) => {
         if (dismissible && closeOnEscape) {
-          closeDrawer(false, { reason: "escapeKeyDown", event });
+          closeDrawer(false, { reason: "escapeKeyDown", event: e });
         }
-        props.onEscapeKeyDown?.(event);
+        props.onEscapeKeyDown?.(e);
       }}
     />
   );
@@ -306,10 +306,10 @@ export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButton
       <Primitive.button
         ref={composedRef}
         {...props}
-        onClick={(event) => {
-          props.onClick?.(event);
-          if (event.defaultPrevented) return;
-          setIsOpen(false, { reason: "closeButton", event });
+        onClick={(e) => {
+          props.onClick?.(e);
+          if (e.defaultPrevented) return;
+          setIsOpen(false, { reason: "closeButton", event: e });
         }}
       />
     );

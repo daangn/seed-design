@@ -102,9 +102,9 @@ export function useDialog(props: UseDialogProps = {}) {
         "aria-haspopup": "dialog",
         "aria-expanded": open,
         ...stateProps,
-        onClick: (event) => {
-          if (event.defaultPrevented) return;
-          onOpenChange(true, { reason: "trigger", event });
+        onClick: (e) => {
+          if (e.defaultPrevented) return;
+          onOpenChange(true, { reason: "trigger", event: e });
         },
       }),
       positionerProps: elementProps({
@@ -133,9 +133,9 @@ export function useDialog(props: UseDialogProps = {}) {
       }),
       closeButtonProps: buttonProps({
         ...stateProps,
-        onClick: (event) => {
-          if (event.defaultPrevented) return;
-          onOpenChange(false, { reason: "closeButton", event });
+        onClick: (e) => {
+          if (e.defaultPrevented) return;
+          onOpenChange(false, { reason: "closeButton", event: e });
         },
       }),
     }),
