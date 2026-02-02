@@ -199,13 +199,10 @@ export function useSnapPoints({
     event,
   }: {
     draggedDistance: number;
-    closeDrawer: (
-      fromWithin: boolean,
-      details: { reason: "drag"; event: React.PointerEvent<HTMLElement> },
-    ) => void;
+    closeDrawer: (fromWithin: boolean, details: { reason: "drag"; event: PointerEvent }) => void;
     velocity: number;
     dismissible: boolean;
-    event: React.PointerEvent<HTMLElement>;
+    event: PointerEvent;
   }) {
     if (fadeFromIndex === undefined) return;
 

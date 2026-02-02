@@ -1,11 +1,11 @@
 import { useControllableState } from "@seed-design/react-use-controllable-state";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
-import type React from "react";
 import { useId, useMemo } from "react";
 
 interface DialogReasonToDetailMap {
-  trigger: { event: React.MouseEvent<HTMLButtonElement> };
-  closeButton: { event: React.MouseEvent<HTMLButtonElement> };
+  // we might add synthetic events later if needed; currently we aim consistency; DismissableLayer gives us native events
+  trigger: { event: MouseEvent };
+  closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
   interactOutside: { event: PointerEvent | FocusEvent };
 }
@@ -102,7 +102,7 @@ export function useDialog(props: UseDialogProps = {}) {
         ...stateProps,
         onClick: (e) => {
           if (e.defaultPrevented) return;
-          onOpenChange(true, { reason: "trigger", event: e });
+          onOpenChange(true, { reason: "trigger", event: e.nativeEvent });
         },
       }),
       positionerProps: elementProps({
@@ -133,7 +133,7 @@ export function useDialog(props: UseDialogProps = {}) {
         ...stateProps,
         onClick: (e) => {
           if (e.defaultPrevented) return;
-          onOpenChange(false, { reason: "closeButton", event: e });
+          onOpenChange(false, { reason: "closeButton", event: e.nativeEvent });
         },
       }),
     }),

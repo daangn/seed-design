@@ -15,11 +15,12 @@ import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
 
 interface DrawerReasonToDetailMap {
-  closeButton: { event: React.MouseEvent<HTMLButtonElement> };
+  // we might add synthetic events later if needed; currently we aim consistency; DismissableLayer gives us native events
+  closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
   interactOutside: { event: PointerEvent | FocusEvent };
-  drag: { event: React.PointerEvent<HTMLElement> };
-  handleClickOnLastSnapPoint: { event: React.MouseEvent<HTMLDivElement> };
+  drag: { event: PointerEvent };
+  handleClickOnLastSnapPoint: { event: MouseEvent };
 }
 
 type DrawerChangeDetails = {
@@ -510,7 +511,7 @@ export function useDrawer(props: UseDrawerProps) {
         closeDrawer,
         velocity,
         dismissible,
-        event,
+        event: event.nativeEvent,
       });
       onReleaseProp?.(event, true);
       return;
@@ -523,7 +524,7 @@ export function useDrawer(props: UseDrawerProps) {
     }
 
     if (velocity > VELOCITY_THRESHOLD) {
-      closeDrawer(false, { reason: "drag", event });
+      closeDrawer(false, { reason: "drag", event: event.nativeEvent });
       onReleaseProp?.(event, false);
       return;
     }
@@ -542,7 +543,7 @@ export function useDrawer(props: UseDrawerProps) {
       Math.abs(swipeAmount) >=
       (isHorizontalSwipe ? visibleDrawerWidth : visibleDrawerHeight) * closeThreshold
     ) {
-      closeDrawer(false, { reason: "drag", event });
+      closeDrawer(false, { reason: "drag", event: event.nativeEvent });
       onReleaseProp?.(event, false);
       return;
     }

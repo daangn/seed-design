@@ -309,7 +309,7 @@ export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButton
         onClick={(e) => {
           props.onClick?.(e);
           if (e.defaultPrevented) return;
-          setIsOpen(false, { reason: "closeButton", event: e });
+          setIsOpen(false, { reason: "closeButton", event: e.nativeEvent });
         }}
       />
     );
@@ -364,7 +364,7 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
 
     if (!snapPoints || snapPoints.length === 0) {
       if (!dismissible) {
-        closeDrawer(false, { reason: "handleClickOnLastSnapPoint", event });
+        closeDrawer(false, { reason: "handleClickOnLastSnapPoint", event: event.nativeEvent });
       }
       return;
     }
@@ -372,7 +372,7 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
     const isLastSnapPoint = activeSnapPoint === snapPoints[snapPoints.length - 1];
 
     if (isLastSnapPoint && dismissible) {
-      closeDrawer(false, { reason: "handleClickOnLastSnapPoint", event });
+      closeDrawer(false, { reason: "handleClickOnLastSnapPoint", event: event.nativeEvent });
       return;
     }
 
