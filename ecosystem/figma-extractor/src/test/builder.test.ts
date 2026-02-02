@@ -1,4 +1,5 @@
 import { describe, it, expect, mock, beforeEach } from "bun:test";
+import type { PipelineContext } from "../pipeline/builder";
 
 mock.module("../api/client", () => import("../api/__mocks__/client"));
 
@@ -30,7 +31,9 @@ describe("pipeline builder", () => {
     },
   };
 
-  const mockSource = mock(() => {});
+  const mockSource = mock<(context: PipelineContext) => Promise<typeof testItems>>(() =>
+    Promise.resolve([]),
+  );
 
   beforeEach(() => {
     mockSource.mockClear();

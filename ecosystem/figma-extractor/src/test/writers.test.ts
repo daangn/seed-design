@@ -52,7 +52,7 @@ describe("writers", () => {
       const writes: Record<string, string> = {};
       const mockContext = {
         ...context,
-        write: mock((path: string, content: string) => {
+        write: mock(async (path: string, content: string) => {
           writes[path] = content;
         }),
       };
