@@ -69,7 +69,7 @@ export interface PopoverPositionerPortalProps
     Pick<FloatingPortalProps, "id" | "root" | "preserveTabOrder"> {}
 
 export const PopoverPositionerPortal = forwardRef<HTMLDivElement, PopoverPositionerPortalProps>(
-  ({ id, root, preserveTabOrder, ...otherProps }, ref) => {
+  ({ id, root, preserveTabOrder = false, ...otherProps }, ref) => {
     const api = usePopoverContext();
 
     return (
