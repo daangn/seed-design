@@ -1,5 +1,7 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
+import type React from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { isIOS, isMobileFirefox } from "./browser";
 import {
   CLOSE_THRESHOLD,
@@ -186,6 +188,11 @@ export function useDrawer(props: UseDrawerProps) {
   const closeButtonRef = useCallback((node: HTMLButtonElement | null) => {
     setIsCloseButtonRendered(!!node);
   }, []);
+
+  // ID generation for aria attributes
+  const id = useId();
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-description`;
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const openTime = useRef<Date | null>(null);
@@ -653,6 +660,14 @@ export function useDrawer(props: UseDrawerProps) {
     setShouldOverlayAnimate(false);
   }, [isOpen, snapPoints, fadeFromIndex]);
 
+  const stateProps = useMemo(
+    () =>
+      elementProps({
+        "data-open": dataAttr(isOpen),
+      }),
+    [isOpen],
+  );
+
   return useMemo(
     () => ({
       activeSnapPoint,
@@ -686,6 +701,41 @@ export function useDrawer(props: UseDrawerProps) {
       hasAnimationDone,
       closeButtonRef,
       isCloseButtonRendered,
+
+      triggerProps: buttonProps({
+        type: "button",
+        "aria-haspopup": "dialog",
+        "aria-expanded": isOpen,
+        "data-state": isOpen ? "open" : "closed",
+        ...stateProps,
+        onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+          if (event.defaultPrevented) return;
+          setIsOpen(true);
+        },
+      }),
+
+      titleProps: elementProps({
+        id: titleId,
+        ...stateProps,
+      }),
+
+      descriptionProps: elementProps({
+        id: descriptionId,
+        ...stateProps,
+      }),
+
+      contentProps: elementProps({
+        role: "dialog",
+        "aria-modal": modal,
+        "aria-labelledby": titleId,
+        "aria-describedby": descriptionId,
+        ...stateProps,
+      }),
+
+      backdropProps: elementProps({
+        "data-state": isOpen ? "open" : "closed",
+        ...stateProps,
+      }),
     }),
     [
       activeSnapPoint,
@@ -715,6 +765,9 @@ export function useDrawer(props: UseDrawerProps) {
       hasAnimationDone,
       closeButtonRef,
       isCloseButtonRendered,
+      stateProps,
+      titleId,
+      descriptionId,
     ],
   );
 }
