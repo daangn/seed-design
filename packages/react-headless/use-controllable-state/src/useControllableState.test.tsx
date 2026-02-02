@@ -21,7 +21,7 @@ describe("useControllableState", () => {
       it("should update the value when set internally", async () => {
         render(<ControlledComponent />);
         const checkbox = screen.getByRole("checkbox");
-        userEvent.click(checkbox);
+        await userEvent.click(checkbox);
         await waitFor(() => {
           expect(checkbox).toHaveAttribute("aria-checked", "true");
         });
@@ -31,7 +31,7 @@ describe("useControllableState", () => {
         render(<ControlledComponent defaultChecked />);
         const checkbox = screen.getByRole("checkbox");
         const clearButton = screen.getByText("Clear value");
-        userEvent.click(clearButton);
+        await userEvent.click(clearButton);
         await waitFor(() => {
           expect(checkbox).toHaveAttribute("aria-checked", "false");
         });
@@ -48,7 +48,7 @@ describe("useControllableState", () => {
       it("should update the value", async () => {
         render(<UncontrolledComponent defaultChecked />);
         const checkbox = screen.getByRole("checkbox");
-        userEvent.click(checkbox);
+        await userEvent.click(checkbox);
         await waitFor(() => {
           expect(checkbox).toHaveAttribute("aria-checked", "false");
         });
@@ -65,7 +65,7 @@ describe("useControllableState", () => {
         it("should warn", async () => {
           render(<UnstableComponent defaultChecked />);
           const clearButton = screen.getByText("Clear value");
-          userEvent.click(clearButton);
+          await userEvent.click(clearButton);
           await waitFor(() => {
             expect(consoleMock).toHaveBeenLastCalledWith(
               "Checkbox is changing from controlled to uncontrolled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.",
@@ -78,7 +78,7 @@ describe("useControllableState", () => {
         it("should warn", async () => {
           render(<UnstableComponent />);
           const checkbox = screen.getByRole("checkbox");
-          userEvent.click(checkbox);
+          await userEvent.click(checkbox);
           await waitFor(() => {
             expect(consoleMock).toHaveBeenLastCalledWith(
               "Checkbox is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.",
