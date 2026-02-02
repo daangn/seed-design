@@ -15,7 +15,6 @@ import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
 
 interface DrawerReasonToEventMap {
-  trigger: React.MouseEvent<HTMLButtonElement>;
   closeButton: React.MouseEvent<HTMLButtonElement>;
   escapeKeyDown: KeyboardEvent;
   interactOutside: PointerEvent | FocusEvent;
