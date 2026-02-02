@@ -1,13 +1,10 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 
 import type { ReactElement } from "react";
 
 import { useAvatar, type UseAvatarProps } from "./useAvatar";
-
-afterEach(cleanup);
 
 const ROOT_TEST_ID = "avatar-root";
 const FALLBACK_TEXT = "AB";

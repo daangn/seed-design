@@ -21,7 +21,6 @@
   "scripts": {
     "build": "ENV=prod bun ./build.mjs",
     "dev": "ENV=dev bun ./dev.mjs",
-    "test": "bun vitest",
     "lint:publish": "bun publint"
   },
   "dependencies": {

@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
@@ -107,14 +106,8 @@ function UncontrolledTabs({
 // ------------------------------ Tests ------------------------------ //
 // ------------------------------------------------------------------- //
 
-afterEach(cleanup);
-
 describe("useTabs", () => {
   window.ResizeObserver = ResizeObserver;
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
 
   const tabItems: Record<string, TabItem> = {
     tab1: {

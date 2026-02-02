@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "bun:test";
 import { resolveDependencies } from "../utils/resolve-dependencies";
 import type { PublicRegistry } from "@/src/schema";
 

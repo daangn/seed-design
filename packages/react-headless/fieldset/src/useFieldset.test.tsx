@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 
 import { forwardRef, type ReactElement, type ReactNode } from "react";
 
@@ -13,8 +12,6 @@ import {
   type FieldsetRootProps,
 } from "./Fieldset";
 import { getDescriptionId, getErrorMessageId, getLabelId } from "./dom";
-
-afterEach(cleanup);
 
 function setUp(jsx: ReactElement) {
   return {

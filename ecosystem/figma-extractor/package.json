@@ -8,8 +8,7 @@
   },
   "scripts": {
     "build": "bun build.mjs && tsc",
-    "lint:publish": "bun publint",
-    "test": "vitest"
+    "lint:publish": "bun publint"
   },
   "bin": {
     "figma-extractor": "./bin/index.mjs"

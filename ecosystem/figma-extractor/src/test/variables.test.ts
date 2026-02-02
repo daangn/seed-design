@@ -1,8 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
-import { getVariableMetadataItemsInFile } from "../api/variables";
-import { createApiClient } from "../api/client";
+import { describe, it, expect, mock } from "bun:test";
 
-vi.mock("../api/client");
+mock.module("../api/client", () => import("../api/__mocks__/client"));
+
+const { getVariableMetadataItemsInFile } = await import("../api/variables");
+const { createApiClient } = await import("../api/client");
 
 describe("variables", () => {
   const fileKey = "test-file-key";
