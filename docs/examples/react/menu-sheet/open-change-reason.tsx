@@ -16,7 +16,7 @@ export default function MenuSheetOnOpenChangeReason() {
   const [closeReason, setCloseReason] = useState<string | null>(null);
 
   return (
-    <VStack gap="x4" width="full" p="x4">
+    <VStack gap="x4" align="center">
       <MenuSheetRoot
         open={open}
         onOpenChange={(open, meta) => {
