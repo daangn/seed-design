@@ -76,7 +76,7 @@ describe("useSlider", () => {
   };
 
   window.HTMLElement.prototype.setPointerCapture = mock(() => {});
-  window.HTMLElement.prototype.hasPointerCapture = mock(() => {});
+  window.HTMLElement.prototype.hasPointerCapture = mock(() => {}) as unknown as typeof window.HTMLElement.prototype.hasPointerCapture;
   window.HTMLElement.prototype.releasePointerCapture = mock(() => {});
 
   describe("Basic Rendering & Initialization", () => {
@@ -218,7 +218,7 @@ describe("useSlider", () => {
   });
 
   describe("Pointer Interactions - Click on Track", () => {
-    it("sets active state on pointerdown on track", { timeout: 10000 }, async () => {
+    it("sets active state on pointerdown on track", async () => {
       const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const root = getByTestId("slider-root");
@@ -228,7 +228,7 @@ describe("useSlider", () => {
       ]);
 
       expect(root).toHaveAttribute("data-active");
-    });
+    }, { timeout: 10000 });
 
     it("changes value on click (pointerup before delay)", async () => {
       const onValuesChange = mock(() => {});
