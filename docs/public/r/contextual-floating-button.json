@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "contextual-floating-button",
+  "type": "registry:ui",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "registryDependencies": [
+    "@seed/loading-indicator"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/contextual-floating-button.tsx",
+      "type": "registry:component",
+      "content": "/**\n * @file ui:contextual-floating-button\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\nimport {\n  ContextualFloatingButton as SeedContextualFloatingButton,\n  type ContextualFloatingButtonProps as SeedContextualFloatingButtonProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { LoadingIndicator } from \"./loading-indicator\";\n\nexport interface ContextualFloatingButtonProps extends SeedContextualFloatingButtonProps {}\n\n/**\n * @see https://seed-design.io/react/components/contextual-floating-button\n * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.\n */\nexport const ContextualFloatingButton = React.forwardRef<\n  React.ElementRef<typeof SeedContextualFloatingButton>,\n  ContextualFloatingButtonProps\n>(({ loading = false, children, ...otherProps }, ref) => {\n  return (\n    <SeedContextualFloatingButton ref={ref} loading={loading} {...otherProps}>\n      {loading && !otherProps.asChild ? <LoadingIndicator>{children}</LoadingIndicator> : children}\n    </SeedContextualFloatingButton>\n  );\n});\nContextualFloatingButton.displayName = \"ContextualFloatingButton\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "target": "seed-design/contextual-floating-button.tsx"
+    }
+  ]
+}

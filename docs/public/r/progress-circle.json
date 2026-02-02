@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progress-circle",
+  "type": "registry:ui",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/progress-circle.tsx",
+      "type": "registry:component",
+      "content": "/**\n * @file ui:progress-circle\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\nimport { ProgressCircle as SeedProgressCircle } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface ProgressCircleProps extends SeedProgressCircle.RootProps {}\n\n/**\n * @see https://seed-design.io/react/components/progress-circle\n */\nexport const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>((props, ref) => {\n  return (\n    <SeedProgressCircle.Root ref={ref} {...props}>\n      <SeedProgressCircle.Track />\n      <SeedProgressCircle.Range />\n    </SeedProgressCircle.Root>\n  );\n});\n\nProgressCircle.displayName = \"ProgressCircle\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "target": "seed-design/progress-circle.tsx"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pull-to-refresh",
+  "type": "registry:ui",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "registryDependencies": [
+    "@seed/progress-circle"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/pull-to-refresh.tsx",
+      "type": "registry:component",
+      "content": "/**\n * @file ui:pull-to-refresh\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\nimport { PullToRefresh } from \"@seed-design/react\";\nimport { forwardRef } from \"react\";\nimport { ProgressCircle } from \"./progress-circle\";\n\nexport interface PullToRefreshRootProps extends PullToRefresh.RootProps {}\n\nexport const PullToRefreshRoot = PullToRefresh.Root;\n\nexport interface PullToRefreshIndicatorProps\n  extends Omit<PullToRefresh.IndicatorProps, \"children\"> {}\n\nexport const PullToRefreshIndicator = forwardRef<HTMLDivElement, PullToRefreshIndicatorProps>(\n  ({ ...otherProps }, ref) => {\n    return (\n      <PullToRefresh.Indicator ref={ref} {...otherProps}>\n        {(props) => <ProgressCircle size=\"24\" tone=\"brand\" {...props} />}\n      </PullToRefresh.Indicator>\n    );\n  },\n);\n\nexport interface PullToRefreshContentProps extends PullToRefresh.ContentProps {}\n\nexport const PullToRefreshContent = PullToRefresh.Content;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "target": "seed-design/pull-to-refresh.tsx"
+    }
+  ]
+}

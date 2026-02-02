@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle-button",
+  "type": "registry:ui",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "registryDependencies": [
+    "@seed/loading-indicator"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/toggle-button.tsx",
+      "type": "registry:component",
+      "content": "/**\n * @file ui:toggle-button\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\nimport {\n  ToggleButton as SeedToggleButton,\n  type ToggleButtonProps as SeedToggleButtonProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { LoadingIndicator } from \"./loading-indicator\";\n\nexport interface ToggleButtonProps extends SeedToggleButtonProps {}\n\n/**\n * @see https://seed-design.io/react/components/toggle-button\n * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.\n */\nexport const ToggleButton = React.forwardRef<\n  React.ElementRef<typeof SeedToggleButton>,\n  ToggleButtonProps\n>(({ loading = false, children, ...otherProps }, ref) => {\n  return (\n    <SeedToggleButton ref={ref} loading={loading} {...otherProps}>\n      {loading && !otherProps.asChild ? <LoadingIndicator>{children}</LoadingIndicator> : children}\n    </SeedToggleButton>\n  );\n});\nToggleButton.displayName = \"ToggleButton\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "target": "seed-design/toggle-button.tsx"
+    }
+  ]
+}

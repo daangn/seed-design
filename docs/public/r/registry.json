@@ -1,0 +1,625 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "name": "seed-design",
+  "homepage": "https://seed-design.io",
+  "items": [
+    {
+      "name": "action-button",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/loading-indicator"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/action-button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "action-sheet",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/action-sheet.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "deprecated": true
+      }
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/action-button"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/alert-dialog.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "animate-number",
+      "type": "registry:component",
+      "description": "숫자를 부드럽게 애니메이션하는 컴포넌트",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "registry/breeze/animate-number/animate-number.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/breeze/animate-number/animate-number.module.css",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "app-screen",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react",
+        "@seed-design/stackflow",
+        "@stackflow/react"
+      ],
+      "registryDependencies": [
+        "@seed/pull-to-refresh"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/app-screen.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/ui/app-bar.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/avatar.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "bottom-sheet",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/bottom-sheet.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "callout",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/callout.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/checkbox.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chip",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/chip.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chip-tabs",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/chip-tabs.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "contextual-floating-button",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/loading-indicator"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/contextual-floating-button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "control-chip",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/control-chip.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "deprecated": true
+      }
+    },
+    {
+      "name": "error-state",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/action-button"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/error-state.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "deprecated": true
+      }
+    },
+    {
+      "name": "extended-action-sheet",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/extended-action-sheet.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "deprecated": true
+      }
+    },
+    {
+      "name": "field-button",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/field-button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "floating-action-button",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/floating-action-button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "help-bubble",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/help-bubble.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "identity-placeholder",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/identity-placeholder.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "inline-banner",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/inline-banner.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "deprecated": true
+      }
+    },
+    {
+      "name": "list",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/list.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/ui/list-header.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "loading-indicator",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/progress-circle"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/loading-indicator.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "manner-temp",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/manner-temp-level"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/manner-temp.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "manner-temp-badge",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/manner-temp-level"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/manner-temp-badge.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "manner-temp-level",
+      "type": "registry:lib",
+      "files": [
+        {
+          "path": "registry/lib/manner-temp-level.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "menu-sheet",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/menu-sheet.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "page-banner",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/page-banner.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "progress-circle",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/progress-circle.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "pull-to-refresh",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/progress-circle"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/pull-to-refresh.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/radio-group.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "reaction-button",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/loading-indicator"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/reaction-button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "result-section",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/action-button"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/result-section.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "segmented-control",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/segmented-control.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "select-box",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/radio-group"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/select-box.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/slider.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "snackbar",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/snackbar.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/switch.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/tabs.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tag-group",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/tag-group.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "text-field",
+      "type": "registry:ui",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
+        "@seed-design/react"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/text-field.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "toggle-button",
+      "type": "registry:ui",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "registryDependencies": [
+        "@seed/loading-indicator"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/toggle-button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}
