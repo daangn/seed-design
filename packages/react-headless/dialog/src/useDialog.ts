@@ -13,7 +13,7 @@ interface DialogReasonToDetailMap {
 type DialogChangeDetails = {
   [R in keyof DialogReasonToDetailMap]: {
     /** The reason for the dialog open state change. */
-    reason: R;
+    reason?: R;
   } & DialogReasonToDetailMap[R];
 }[keyof DialogReasonToDetailMap];
 

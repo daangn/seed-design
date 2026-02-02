@@ -25,7 +25,7 @@ interface DrawerReasonToDetailMap {
 
 type DrawerChangeDetails = {
   [R in keyof DrawerReasonToDetailMap]: {
-    reason: R;
+    reason?: R;
   } & DrawerReasonToDetailMap[R];
 }[keyof DrawerReasonToDetailMap];
 
