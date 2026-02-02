@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, mock } from "bun:test";
 import type { ReactElement } from "react";
 import React from "react";
 
@@ -16,8 +15,6 @@ import {
   TextFieldSuffixText,
 } from "./TextField";
 
-afterEach(cleanup);
-
 function setUp(jsx: ReactElement) {
   return {
     user: userEvent.setup(),
@@ -26,11 +23,6 @@ function setUp(jsx: ReactElement) {
 }
 
 describe("TextField", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   describe("props merging", () => {
     describe("TextFieldInput", () => {
       it("should merge props from TextFieldRoot", () => {
@@ -91,7 +83,7 @@ describe("TextField", () => {
       });
 
       it("should handle uncontrolled modes", async () => {
-        const handleChange = vi.fn();
+        const handleChange = mock(() => {});
         const { getByRole, user } = setUp(
           <TextFieldRoot onValueChange={handleChange}>
             <TextFieldInput aria-label="Test input" />
@@ -184,7 +176,7 @@ describe("TextField", () => {
       });
 
       it("should handle uncontrolled modes", async () => {
-        const handleChange = vi.fn();
+        const handleChange = mock(() => {});
         const { getByRole, user } = setUp(
           <TextFieldRoot onValueChange={handleChange}>
             <TextFieldTextarea aria-label="Test textarea" />

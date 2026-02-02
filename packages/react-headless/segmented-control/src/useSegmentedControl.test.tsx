@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
@@ -13,8 +12,6 @@ import {
   type SegmentedControlRootProps,
   type SegmentedControlItemProps,
 } from "./SegmentedControl";
-
-afterEach(cleanup);
 
 function setUp(jsx: ReactElement) {
   return {
@@ -42,11 +39,6 @@ function SegmentedControlItem({ children, ...otherProps }: SegmentedControlItemP
 }
 
 describe("useSegmentedControl", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   const values = ["first", "second", "third"];
 
   describe("uncontrolled", () => {
@@ -144,7 +136,7 @@ describe("useSegmentedControl", () => {
     });
 
     it("should onValueChange be called", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock(() => {});
 
       const { user, getByTestId } = setUp(
         <SegmentedControl value={values[0]} onValueChange={handleValueChange}>
@@ -189,7 +181,7 @@ describe("useSegmentedControl", () => {
     });
 
     it("should not call onValueChange when disabled", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock(() => {});
 
       const { user, getByTestId } = setUp(
         <SegmentedControl disabled value={values[0]} onValueChange={handleValueChange}>

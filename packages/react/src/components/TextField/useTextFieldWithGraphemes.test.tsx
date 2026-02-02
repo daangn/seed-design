@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, mock } from "bun:test";
 import type { ReactElement } from "react";
 import React from "react";
 
@@ -14,8 +13,6 @@ import {
   FieldHeader,
 } from "../Field/Field";
 import { useTextFieldWithGraphemes } from "./useTextFieldWithGraphemes";
-
-afterEach(cleanup);
 
 function setUp(jsx: ReactElement) {
   return {
@@ -55,11 +52,6 @@ const TextFieldWithGraphemes = (props: TextFieldWithGraphemesProps) => {
 };
 
 describe("useTextFieldWithGraphemes", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   describe("basic functionality", () => {
     it("should render with empty default value", () => {
       const { getByTestId } = setUp(<TextFieldWithGraphemes />);
@@ -153,8 +145,15 @@ describe("useTextFieldWithGraphemes", () => {
   });
 
   describe("onValueChange callback", () => {
+    type ValueChangeParams = {
+      value: string;
+      graphemes: string[];
+      slicedValue: string;
+      slicedGraphemes: string[];
+    };
+
     it("should call onValueChange with correct parameters", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock<(params: ValueChangeParams) => void>(() => {});
       const { getByTestId, user } = setUp(
         <TextFieldWithGraphemes onValueChange={handleValueChange} />,
       );
@@ -178,7 +177,7 @@ describe("useTextFieldWithGraphemes", () => {
     });
 
     it("should provide sliced values when maxGraphemes is set", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock<(params: ValueChangeParams) => void>(() => {});
       const { getByTestId, user } = setUp(
         <TextFieldWithGraphemes maxGraphemeCount={3} onValueChange={handleValueChange} />,
       );
@@ -186,7 +185,8 @@ describe("useTextFieldWithGraphemes", () => {
 
       await user.type(input, "Hello");
 
-      const lastCall = handleValueChange.mock.calls[handleValueChange.mock.calls.length - 1][0];
+      const lastCall = handleValueChange.mock.calls[handleValueChange.mock.calls.length - 1]?.[0];
+      if (!lastCall) throw new Error("Expected lastCall to be defined");
 
       expect(lastCall.value).toBe("Hello");
       expect(lastCall.graphemes).toEqual(["H", "e", "l", "l", "o"]);
@@ -195,7 +195,7 @@ describe("useTextFieldWithGraphemes", () => {
     });
 
     it("should handle empty string", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock(() => {});
       const { getByTestId, user } = setUp(
         <TextFieldWithGraphemes defaultValue="Test" onValueChange={handleValueChange} />,
       );
@@ -212,8 +212,8 @@ describe("useTextFieldWithGraphemes", () => {
     });
 
     it("should be called in both controlled and uncontrolled modes", async () => {
-      const handleUncontrolled = vi.fn();
-      const handleControlled = vi.fn();
+      const handleUncontrolled = mock<(params: ValueChangeParams) => void>(() => {});
+      const handleControlled = mock<(params: ValueChangeParams) => void>(() => {});
 
       function TestBothModes() {
         const [controlledValue, setControlledValue] = React.useState("controlled");
@@ -291,7 +291,7 @@ describe("useTextFieldWithGraphemes", () => {
     });
 
     it("should call onValueChange even when value doesn't change in controlled mode", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock(() => {});
       const { getByTestId, user } = setUp(
         <TextFieldWithGraphemes value="fixed" onValueChange={handleValueChange} />,
       );

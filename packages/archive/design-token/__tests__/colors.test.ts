@@ -1,48 +1,55 @@
-import * as t from 'tap';
+import { describe, it, expect } from "bun:test";
 
-import type { ColorToken, ColorScheme, KnownColorGroup } from '../src';
-import { colors, parseColorToken, populateSemanticColors } from '../src';
+import type { ColorToken, ColorScheme, KnownColorGroup } from "../src";
+import { colors, parseColorToken, populateSemanticColors } from "../src";
 
-t.test('color scheme', async t => {
-  type ColorStyle = [Token: ColorToken, Value: string];
-  type ColorStyleMap = Record<KnownColorGroup, ColorStyle>;
-  function toStyleMap(scheme: ColorScheme) {
-    return Object.entries(scheme).reduce((acc, [k, v]) => {
-      const [token, group] = parseColorToken(k);
-      return {
-        ...acc,
-        [group]: [...acc[group] || [], [token, v]],
-      };
-    }, {} as ColorStyleMap);
-  }
+type ColorStyle = [Token: ColorToken, Value: string];
+type ColorStyleMap = Record<KnownColorGroup, ColorStyle>;
 
-  t.test('light', async () => {
-    t.matchSnapshot(toStyleMap(colors.light.scheme));
+function toStyleMap(scheme: ColorScheme) {
+  return Object.entries(scheme).reduce((acc, [k, v]) => {
+    const [token, group] = parseColorToken(k);
+    return {
+      ...acc,
+      [group]: [...(acc[group] || []), [token, v]],
+    };
+  }, {} as ColorStyleMap);
+}
+
+describe("color scheme", () => {
+  it("light", () => {
+    expect(toStyleMap(colors.light.scheme)).toMatchSnapshot();
   });
 
-  t.test('dark', async () => {
-    t.matchSnapshot(toStyleMap(colors.dark.scheme));
-  });
-});
-
-t.test('semantic colors', async t => {
-  t.test('light', async _t => {
-    t.matchSnapshot(populateSemanticColors(colors.light.scheme, colors.light.semanticScheme));
-  });
-
-  t.test('dark', async _t => {
-    t.matchSnapshot(populateSemanticColors(colors.dark.scheme, colors.dark.semanticScheme));
+  it("dark", () => {
+    expect(toStyleMap(colors.dark.scheme)).toMatchSnapshot();
   });
 });
 
-t.test('validate', async () => {
-  for (const token of Object.keys(colors.light.scheme)) {
-    t.notThrow(() => parseColorToken(token));
-  }
+describe("semantic colors", () => {
+  it("light", () => {
+    expect(
+      populateSemanticColors(colors.light.scheme, colors.light.semanticScheme),
+    ).toMatchSnapshot();
+  });
+
+  it("dark", () => {
+    expect(
+      populateSemanticColors(colors.dark.scheme, colors.dark.semanticScheme),
+    ).toMatchSnapshot();
+  });
 });
 
-t.test('invalid values', async () => {
-  t.throws(() => parseColorToken('a'));
-  t.throws(() => parseColorToken('1213'));
-  t.throws(() => parseColorToken('$asdf123'));
+describe("parseColorToken", () => {
+  it("validate - should not throw for valid tokens", () => {
+    for (const token of Object.keys(colors.light.scheme)) {
+      expect(() => parseColorToken(token)).not.toThrow();
+    }
+  });
+
+  it("invalid values - should throw", () => {
+    expect(() => parseColorToken("a")).toThrow();
+    expect(() => parseColorToken("1213")).toThrow();
+    expect(() => parseColorToken("$asdf123")).toThrow();
+  });
 });

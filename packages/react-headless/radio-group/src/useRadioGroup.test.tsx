@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement, ReactNode } from "react";
 import * as React from "react";
@@ -17,8 +16,6 @@ import {
   type RadioGroupItemProps,
   type RadioGroupRootProps,
 } from "./RadioGroup";
-
-afterEach(cleanup);
 
 function setUp(jsx: ReactElement) {
   return {
@@ -77,17 +74,12 @@ function ControlledRadioGroup(
 ) {
   const { defaultValue } = props;
   const [value, setValue] = React.useState(defaultValue);
-  const mockSetValue = vi.fn((value) => setValue(value));
+  const mockSetValue = mock((value: string) => setValue(value));
 
   return <RadioGroup value={value} onValueChange={mockSetValue} {...props} />;
 }
 
 describe("useRadioGroup", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   const FIRST_VALUE = "first";
   const SECOND_VALUE = "second";
   const THIRD_VALUE = "third";
@@ -127,7 +119,7 @@ describe("useRadioGroup", () => {
   });
 
   it("should onValueChange be called", async () => {
-    const handleValueChange = vi.fn();
+    const handleValueChange = mock(() => {});
 
     const { user, getByTestId } = setUp(
       <RadioGroup onValueChange={handleValueChange}>
@@ -179,7 +171,7 @@ describe("useRadioGroup", () => {
     });
 
     it("should not call onValueChange when disabled", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock(() => {});
 
       const { user, getByTestId } = setUp(
         <RadioGroup disabled onValueChange={handleValueChange}>
