@@ -1,19 +1,39 @@
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { useControllableState } from "@seed-design/react-use-controllable-state";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
+import type React from "react";
 import { useId, useMemo } from "react";
+
+interface DialogReasonToEventMap {
+  trigger: React.MouseEvent<HTMLButtonElement>;
+  closeButton: React.MouseEvent<HTMLButtonElement>;
+  escapeKeyDown: KeyboardEvent;
+  interactOutside: PointerEvent | FocusEvent;
+}
+
+type DialogChangeDetails = {
+  [R in keyof DialogReasonToEventMap]: {
+    /** The reason for the dialog open state change. */
+    reason: R;
+    /** The native event that triggered the change. */
+    event?: DialogReasonToEventMap[R];
+  };
+}[keyof DialogReasonToEventMap];
 
 export interface UseDialogStateProps {
   open?: boolean;
 
   defaultOpen?: boolean;
 
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, details?: DialogChangeDetails) => void;
 }
 
 function useDialogState(props: UseDialogStateProps) {
-  const [open = false, onOpenChange] = useControllableState({
+  const [open = false, onOpenChange] = useControllableState<
+    boolean,
+    Parameters<NonNullable<UseDialogStateProps["onOpenChange"]>>[1]
+  >({
     prop: props.open,
-    defaultProp: props.defaultOpen,
+    defaultProp: props.defaultOpen ?? false,
     onChange: props.onOpenChange,
   });
 
@@ -82,9 +102,9 @@ export function useDialog(props: UseDialogProps = {}) {
         "aria-haspopup": "dialog",
         "aria-expanded": open,
         ...stateProps,
-        onClick: (e) => {
-          if (e.defaultPrevented) return;
-          onOpenChange(true);
+        onClick: (event) => {
+          if (event.defaultPrevented) return;
+          onOpenChange(true, { reason: "trigger", event });
         },
       }),
       positionerProps: elementProps({
@@ -113,9 +133,9 @@ export function useDialog(props: UseDialogProps = {}) {
       }),
       closeButtonProps: buttonProps({
         ...stateProps,
-        onClick: (e) => {
-          if (e.defaultPrevented) return;
-          onOpenChange(false);
+        onClick: (event) => {
+          if (event.defaultPrevented) return;
+          onOpenChange(false, { reason: "closeButton", event });
         },
       }),
     }),

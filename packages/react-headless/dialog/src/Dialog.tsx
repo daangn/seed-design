@@ -61,19 +61,27 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
   return (
     <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
       <FocusScope asChild loop trapped={api.open}>
+        {/* onDismiss = onEscapeKeyDown + onInteractOutside (= onFocusOutside + onPointerDownOutside) */}
         <DismissableLayer
           ref={ref}
-          onEscapeKeyDown={(e) => {
+          onEscapeKeyDown={(event) => {
             if (!api.closeOnEscape) {
-              e.preventDefault();
+              event.preventDefault();
+              return;
             }
+
+            api.setOpen(false, { reason: "escapeKeyDown", event });
           }}
-          onInteractOutside={(e) => {
+          // onInteractOutside = onFocusOutside + onPointerDownOutside
+          onInteractOutside={(event) => {
             if (!api.closeOnInteractOutside) {
-              e.preventDefault();
+              event.preventDefault();
+              return;
             }
+
+            api.setOpen(false, { reason: "interactOutside", event: event.detail.originalEvent });
           }}
-          onDismiss={() => api.setOpen(false)}
+          // onFocusOutside isn't needed because FocusScope traps the focus
           {...mergeProps(api.contentProps, props)}
         />
       </FocusScope>
