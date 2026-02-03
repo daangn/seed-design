@@ -1,5 +1,5 @@
-import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useStack } from "@stackflow/react";
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useTopActivity } from "../private/useTopActivity";
 
 export type SwipeBackState = "idle" | "swiping" | "canceling" | "completing";
@@ -46,6 +46,7 @@ export interface MoveSwipeBackProps {
 export interface EndSwipeBackProps {}
 
 export function useGlobalInteraction() {
+  const stack = useStack();
   const [swipeBackState, setSwipeBackState] = useState<SwipeBackState>("idle");
 
   const swipeBackContextRef = useRef<SwipeBackContext>({
@@ -56,81 +57,140 @@ export function useGlobalInteraction() {
     velocity: 0,
   });
   const stackRef = useRef<HTMLDivElement>(null);
+  const swipeBackTargetsRef = useRef<HTMLElement[]>([]);
 
-  const setSwipeBackContext = useCallback((ctx: SwipeBackContext) => {
-    swipeBackContextRef.current = ctx;
-    stackRef.current?.style.setProperty(
-      "--swipe-back-displacement",
-      `${ctx.displacement.toString()}px`,
-    );
-    stackRef.current?.style.setProperty(
-      "--swipe-back-displacement-ratio",
-      ctx.displacementRatio.toString(),
-    );
+  const resetSwipeBackVars = useCallback((element: HTMLElement) => {
+    element.style.removeProperty("--swipe-back-displacement");
+    element.style.removeProperty("--swipe-back-displacement-ratio");
+    element.style.removeProperty("--swipe-back-target");
   }, []);
+
+  const setSwipeBackVar = useCallback((name: string, value: string) => {
+    swipeBackTargetsRef.current.forEach((element) => {
+      element.style.setProperty(name, value);
+    });
+  }, []);
+
+  const applySwipeBackContext = useCallback(
+    (ctx: SwipeBackContext) => {
+      setSwipeBackVar("--swipe-back-displacement", `${ctx.displacement.toString()}px`);
+      setSwipeBackVar("--swipe-back-displacement-ratio", ctx.displacementRatio.toString());
+    },
+    [setSwipeBackVar],
+  );
+
+  const activities = stack.activities;
+
+  const updateSwipeBackTargets = useCallback(
+    (nextActivities: typeof activities) => {
+      const stackElement = stackRef.current;
+      if (!stackElement) {
+        swipeBackTargetsRef.current.forEach(resetSwipeBackVars);
+        swipeBackTargetsRef.current = [];
+        return;
+      }
+
+      const topIndex = nextActivities.findIndex((activity) => activity.isTop);
+      const targets: HTMLElement[] = [];
+
+      if (topIndex >= 0) {
+        const topId = nextActivities[topIndex].id;
+        const topElement = stackElement.querySelector<HTMLElement>(`[data-activity-id="${topId}"]`);
+
+        if (topElement?.dataset["activityType"] === "full-screen") {
+          targets.push(topElement);
+        }
+
+        for (let index = topIndex - 1; index >= 0; index -= 1) {
+          const behindElement = stackElement.querySelector<HTMLElement>(
+            `[data-activity-id="${nextActivities[index].id}"]`,
+          );
+
+          if (behindElement?.dataset["activityType"] === "full-screen") {
+            targets.push(behindElement);
+            break;
+          }
+        }
+      }
+
+      const previousTargets = swipeBackTargetsRef.current;
+      previousTargets.forEach((previousTarget) => {
+        if (!targets.includes(previousTarget)) {
+          resetSwipeBackVars(previousTarget);
+        }
+      });
+
+      swipeBackTargetsRef.current = targets;
+      applySwipeBackContext(swipeBackContextRef.current);
+    },
+    [applySwipeBackContext, resetSwipeBackVars],
+  );
+
+  useLayoutEffect(() => {
+    updateSwipeBackTargets(activities);
+  }, [activities, updateSwipeBackTargets]);
+
+  const setSwipeBackContext = useCallback(
+    (ctx: SwipeBackContext) => {
+      swipeBackContextRef.current = ctx;
+      applySwipeBackContext(ctx);
+    },
+    [applySwipeBackContext],
+  );
 
   const getSwipeBackEvents = useCallback(
     (props: SwipeBackProps) => {
       const {
         swipeBackDisplacementRatioThreshold: displacementRatioThreshold = 0.4,
         swipeBackVelocityThreshold: velocityThreshold = 1,
+        onSwipeBackStart,
+        onSwipeBackMove,
+        onSwipeBackEnd,
       } = props;
-      const onSwipeStart = useCallbackRef(props.onSwipeBackStart);
-      const onSwipeMove = useCallbackRef(props.onSwipeBackMove);
-      const onSwipeEnd = useCallbackRef(props.onSwipeBackEnd);
 
-      const startSwipeBack = useCallback(
-        ({ x0, t0 }: StartSwipeBackProps) => {
-          setSwipeBackContext({
-            x0,
-            t0,
-            displacement: 0,
-            displacementRatio: 0,
-            velocity: 0,
-          });
-          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
-          onSwipeStart?.();
-        },
-        [onSwipeStart],
-      );
+      const startSwipeBack = ({ x0, t0 }: StartSwipeBackProps) => {
+        setSwipeBackContext({
+          x0,
+          t0,
+          displacement: 0,
+          displacementRatio: 0,
+          velocity: 0,
+        });
+        setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
+        onSwipeBackStart?.();
+      };
 
-      const moveSwipeBack = useCallback(
-        ({ x, t }: MoveSwipeBackProps) => {
-          const displacement = x - swipeBackContextRef.current.x0;
-          const displacementRatio = displacement / window.innerWidth;
-          const velocity = displacement / (t - swipeBackContextRef.current.t0);
-          setSwipeBackContext({
-            ...swipeBackContextRef.current,
-            displacement,
-            displacementRatio,
-            velocity,
-          });
-          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
-          onSwipeMove?.({ displacement, displacementRatio });
-        },
-        [onSwipeMove],
-      );
+      const moveSwipeBack = ({ x, t }: MoveSwipeBackProps) => {
+        const displacement = x - swipeBackContextRef.current.x0;
+        const displacementRatio = displacement / window.innerWidth;
+        const velocity = displacement / (t - swipeBackContextRef.current.t0);
+        setSwipeBackContext({
+          ...swipeBackContextRef.current,
+          displacement,
+          displacementRatio,
+          velocity,
+        });
+        setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
+        onSwipeBackMove?.({ displacement, displacementRatio });
+      };
 
-      const endSwipeBack = useCallback(
-        (_: EndSwipeBackProps) => {
-          const swiped =
-            swipeBackContextRef.current.displacementRatio > displacementRatioThreshold ||
-            swipeBackContextRef.current.velocity > velocityThreshold;
+      const endSwipeBack = (_: EndSwipeBackProps) => {
+        const swiped =
+          swipeBackContextRef.current.displacementRatio > displacementRatioThreshold ||
+          swipeBackContextRef.current.velocity > velocityThreshold;
 
-          if (swiped) {
-            stackRef.current?.style.setProperty("--swipe-back-target", "100%");
-            setSwipeBackState("completing");
-          } else {
-            stackRef.current?.style.setProperty("--swipe-back-target", "0");
-            setSwipeBackState("canceling");
-          }
+        if (swiped) {
+          setSwipeBackVar("--swipe-back-target", "100%");
+          setSwipeBackState("completing");
+        } else {
+          setSwipeBackVar("--swipe-back-target", "0");
+          setSwipeBackState("canceling");
+        }
 
-          onSwipeEnd?.({ swiped });
-        },
-        [onSwipeEnd, displacementRatioThreshold, velocityThreshold],
-      );
+        onSwipeBackEnd?.({ swiped });
+      };
 
-      const reset = useCallback(() => {
+      const reset = () => {
         setSwipeBackContext({
           x0: 0,
           t0: 0,
@@ -138,21 +198,18 @@ export function useGlobalInteraction() {
           displacementRatio: 0,
           velocity: 0,
         });
-        stackRef.current?.style.setProperty("--swipe-back-target", "0");
+        setSwipeBackVar("--swipe-back-target", "0");
         setSwipeBackState("idle");
-      }, []);
+      };
 
-      return useMemo(
-        () => ({
-          startSwipeBack,
-          moveSwipeBack,
-          endSwipeBack,
-          reset,
-        }),
-        [startSwipeBack, moveSwipeBack, endSwipeBack, reset],
-      );
+      return {
+        startSwipeBack,
+        moveSwipeBack,
+        endSwipeBack,
+        reset,
+      };
     },
-    [setSwipeBackContext],
+    [setSwipeBackContext, setSwipeBackVar],
   );
 
   const topActivity = useTopActivity();

@@ -6,7 +6,31 @@ export interface UseSwipeBackProps extends SwipeBackProps {}
 
 export function useSwipeBack(props: UseSwipeBackProps) {
   const globalInteraction = useGlobalInteractionContext();
-  const events = globalInteraction.getSwipeBackEvents(props);
+  const {
+    swipeBackDisplacementRatioThreshold,
+    swipeBackVelocityThreshold,
+    onSwipeBackStart,
+    onSwipeBackMove,
+    onSwipeBackEnd,
+  } = props;
+  const events = useMemo(
+    () =>
+      globalInteraction.getSwipeBackEvents({
+        swipeBackDisplacementRatioThreshold,
+        swipeBackVelocityThreshold,
+        onSwipeBackStart,
+        onSwipeBackMove,
+        onSwipeBackEnd,
+      }),
+    [
+      globalInteraction,
+      swipeBackDisplacementRatioThreshold,
+      swipeBackVelocityThreshold,
+      onSwipeBackStart,
+      onSwipeBackMove,
+      onSwipeBackEnd,
+    ],
+  );
 
   useEffect(() => {
     return () => {
