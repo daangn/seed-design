@@ -64,7 +64,7 @@ export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
   );
 };
 
-export const createTagGroupItemHandler = (ctx: ComponentHandlerDeps) =>
+const createTagGroupItemHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<TagGroupItemProperties>(
     metadata.privateComponentItemTag.key,
     ({ componentProperties: props }) => {
