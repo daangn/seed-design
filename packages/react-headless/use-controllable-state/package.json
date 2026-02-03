@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/react-dialog",
-  "version": "1.0.1",
+  "name": "@seed-design/react-use-controllable-state",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/react-headless/dialog"
+    "directory": "packages/react-headless/use-controllable-state"
   },
   "sideEffects": false,
   "type": "module",
@@ -26,14 +26,6 @@
     "build": "bunchee",
     "lint:publish": "bun publint"
   },
-  "dependencies": {
-    "@radix-ui/react-dismissable-layer": "^1.1.7",
-    "@radix-ui/react-focus-scope": "^1.1.4",
-    "@seed-design/react-use-controllable-state": "0.0.0",
-    "@radix-ui/react-use-layout-effect": "^1.1.1",
-    "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-primitive": "1.0.0"
-  },
   "devDependencies": {
     "@types/react": "^19.1.6",
     "react": "^19.1.0",
@@ -45,5 +37,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@radix-ui/react-use-effect-event": "^0.0.2",
+    "@radix-ui/react-use-layout-effect": "^1.1.1"
   }
 }

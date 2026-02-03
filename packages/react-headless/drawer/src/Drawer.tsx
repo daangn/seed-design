@@ -253,13 +253,13 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
       onInteractOutside={(e) => {
         // Only close if event is not prevented (e.g., by onFocusOutside or onPointerDownOutside)
         if (dismissible && closeOnInteractOutside && !e.defaultPrevented) {
-          closeDrawer();
+          closeDrawer(false, { reason: "interactOutside", event: e.detail.originalEvent });
         }
         props.onInteractOutside?.(e);
       }}
       onEscapeKeyDown={(e) => {
         if (dismissible && closeOnEscape) {
-          closeDrawer();
+          closeDrawer(false, { reason: "escapeKeyDown", event: e });
         }
         props.onEscapeKeyDown?.(e);
       }}
@@ -288,7 +288,7 @@ export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButton
         onClick={(e) => {
           props.onClick?.(e);
           if (e.defaultPrevented) return;
-          api.setIsOpen(false);
+          api.setIsOpen(false, { reason: "closeButton", event: e.nativeEvent });
         }}
       />
     );
@@ -321,18 +321,18 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
   const closeTimeoutIdRef = useRef<number | null>(null);
   const shouldCancelInteractionRef = useRef(false);
 
-  function handleStartCycle() {
+  function handleStartCycle(event: React.MouseEvent<HTMLDivElement>) {
     // Stop if this is the second click of a double click
     if (shouldCancelInteractionRef.current) {
       handleCancelInteraction();
       return;
     }
     window.setTimeout(() => {
-      handleCycleSnapPoints();
+      handleCycleSnapPoints(event);
     }, DOUBLE_TAP_TIMEOUT);
   }
 
-  function handleCycleSnapPoints() {
+  function handleCycleSnapPoints(event: React.MouseEvent<HTMLDivElement>) {
     // Prevent accidental taps while resizing drawer
     if (isDragging || preventCycle || shouldCancelInteractionRef.current) {
       handleCancelInteraction();
@@ -343,7 +343,7 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
 
     if (!snapPoints || snapPoints.length === 0) {
       if (!dismissible) {
-        closeDrawer();
+        closeDrawer(false, { reason: "handleClickOnLastSnapPoint", event: event.nativeEvent });
       }
       return;
     }
@@ -351,7 +351,7 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
     const isLastSnapPoint = activeSnapPoint === snapPoints[snapPoints.length - 1];
 
     if (isLastSnapPoint && dismissible) {
-      closeDrawer();
+      closeDrawer(false, { reason: "handleClickOnLastSnapPoint", event: event.nativeEvent });
       return;
     }
 
