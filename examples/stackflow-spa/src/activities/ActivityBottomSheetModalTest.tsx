@@ -27,7 +27,7 @@ const ActivityBottomSheetModalTest: StaticActivityComponentType<
     <BottomSheetRoot open={open} onOpenChange={onOpenChange} modal={modal}>
       <BottomSheetContent
         showHandle
-        showCloseButton={true}
+        showCloseButton={false}
         title="BottomSheet Modal Prop 테스트"
         layerIndex={useActivityZIndexBase()}
       >
