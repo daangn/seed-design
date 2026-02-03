@@ -32,6 +32,7 @@
     "zod": "^4.3.5"
   },
   "devDependencies": {
+    "@figma/rest-api-spec": "^0.36.0",
     "@types/ws": "^8.18.1",
     "@types/yargs": "^17.0.33",
     "typescript": "^5.9.2"
