@@ -34,7 +34,7 @@ export default function BottomSheetOnOpenChangeReason() {
           <ActionButton variant="neutralSolid">열기</ActionButton>
         </BottomSheetTrigger>
         <BottomSheetContent title="알림" showHandle style={{ height: "100%", maxHeight: "97%" }}>
-          <BottomSheetBody minHeight="x16" paddingX="">
+          <BottomSheetBody minHeight="x16">
             <Text textStyle="t4Medium" color="fg.neutralMuted">
               ESC 키를 누르거나, 외부 영역을 클릭하거나, 아래로 스와이프하거나, 핸들을 탭하여 snap
               point를 순환해보세요.
