@@ -37,20 +37,20 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
 
       const [textInputOutline] = findAllInstances<TextInputOutlineProperties>({
         node,
-        key: metadata.privateComponentTextInput.key,
+        key: metadata.componentTextInput.key,
       });
       const [textInputUnderline] = findAllInstances<TextInputUnderlineProperties>({
         node,
-        key: metadata.privateComponentUnderlineTextInput.key,
+        key: metadata.componentUnderlineTextInput.key,
       });
 
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: metadata.privateComponentFieldHeader.key,
+        key: metadata.componentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: metadata.privateComponentFieldFooter.key,
+        key: metadata.componentFieldFooter.key,
       });
 
       const fieldProps = {
@@ -193,15 +193,15 @@ export const createTextareaFieldHandler = (ctx: ComponentHandlerDeps) => {
     (node, traverse) => {
       const [textarea] = findAllInstances<TextareaProperties>({
         node,
-        key: metadata.privateComponentTextarea.key,
+        key: metadata.componentTextarea.key,
       });
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: metadata.privateComponentFieldHeader.key,
+        key: metadata.componentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: metadata.privateComponentFieldFooter.key,
+        key: metadata.componentFieldFooter.key,
       });
 
       const fieldProps = {

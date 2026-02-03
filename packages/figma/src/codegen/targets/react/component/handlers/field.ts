@@ -24,7 +24,7 @@ export const createFieldHeaderHandler = (ctx: ComponentHandlerDeps) => {
   const indicatorHandler = createFieldIndicatorHandler(ctx);
 
   return defineComponentHandler<FieldHeaderProperties>(
-    metadata.privateComponentFieldHeader.key,
+    metadata.componentFieldHeader.key,
     (node, traverse) => {
       const { componentProperties: props } = node;
 
@@ -94,7 +94,7 @@ export const createFieldFooterHandler = (ctx: ComponentHandlerDeps) => {
   const characterCountHandler = createFieldCharacterCountHandler(ctx);
 
   return defineComponentHandler<FieldFooterProperties>(
-    metadata.privateComponentFieldFooter.key,
+    metadata.componentFieldFooter.key,
     (node, traverse) => {
       const { componentProperties: props } = node;
 

@@ -43,7 +43,7 @@ export type CheckboxProperties = InferComponentDefinition<
 >;
 
 export type CheckboxGroupFieldProperties = InferComponentDefinition<
-  typeof sets.templateCheckboxGroupField.componentPropertyDefinitions
+  typeof sets.templateCheckboxField.componentPropertyDefinitions
 >;
 
 export type CheckmarkProperties = InferComponentDefinition<
@@ -67,7 +67,7 @@ export type DividerProperties = InferComponentDefinition<
 >;
 
 export type FieldHeaderProperties = InferComponentDefinition<
-  typeof sets.privateComponentFieldHeader.componentPropertyDefinitions
+  typeof sets.componentFieldHeader.componentPropertyDefinitions
 >;
 
 export type FieldIndicatorProperties = InferComponentDefinition<
@@ -75,7 +75,7 @@ export type FieldIndicatorProperties = InferComponentDefinition<
 >;
 
 export type FieldFooterProperties = InferComponentDefinition<
-  typeof sets.privateComponentFieldFooter.componentPropertyDefinitions
+  typeof sets.componentFieldFooter.componentPropertyDefinitions
 >;
 
 export type FieldCharacterCountProperties = InferComponentDefinition<
@@ -151,7 +151,7 @@ export type RadioProperties = InferComponentDefinition<
 >;
 
 export type RadioGroupFieldProperties = InferComponentDefinition<
-  typeof sets.templateRadioGroupField.componentPropertyDefinitions
+  typeof sets.templateRadioField.componentPropertyDefinitions
 >;
 
 export type RadiomarkProperties = InferComponentDefinition<
@@ -275,7 +275,7 @@ export type TextInputFieldProperties = InferComponentDefinition<
 >;
 
 export type TextInputOutlineProperties = InferComponentDefinition<
-  typeof sets.privateComponentTextInput.componentPropertyDefinitions
+  typeof sets.componentTextInput.componentPropertyDefinitions
 >;
 
 export type TextInputOutlinePrefixProperties = InferComponentDefinition<
@@ -295,7 +295,7 @@ export type TextInputUnderlineSuffixProperties = InferComponentDefinition<
 >;
 
 export type TextInputUnderlineProperties = InferComponentDefinition<
-  typeof sets.privateComponentUnderlineTextInput.componentPropertyDefinitions
+  typeof sets.componentUnderlineTextInput.componentPropertyDefinitions
 >;
 
 export type TextareaFieldProperties = InferComponentDefinition<
@@ -303,7 +303,7 @@ export type TextareaFieldProperties = InferComponentDefinition<
 >;
 
 export type TextareaProperties = InferComponentDefinition<
-  typeof sets.privateComponentTextarea.componentPropertyDefinitions
+  typeof sets.componentTextarea.componentPropertyDefinitions
 >;
 
 export type FieldButtonProperties = InferComponentDefinition<
@@ -311,7 +311,7 @@ export type FieldButtonProperties = InferComponentDefinition<
 >;
 
 export type InputButtonProperties = InferComponentDefinition<
-  typeof sets.privateComponentInputButton.componentPropertyDefinitions
+  typeof sets.componentInputButton.componentPropertyDefinitions
 >;
 
 export type InputButtonPrefixProperties = InferComponentDefinition<

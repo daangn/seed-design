@@ -60,7 +60,7 @@ export const createCheckboxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<CheckboxGroupFieldProperties>(
-    metadata.templateCheckboxGroupField.key,
+    metadata.templateCheckboxField.key,
     (node, traverse) => {
       const { componentProperties: props } = node;
 
@@ -70,11 +70,11 @@ export const createCheckboxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
       });
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: metadata.privateComponentFieldHeader.key,
+        key: metadata.componentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: metadata.privateComponentFieldFooter.key,
+        key: metadata.componentFieldFooter.key,
       });
 
       // maxGraphemeCount / required / invalid can't be props of CheckboxGroup

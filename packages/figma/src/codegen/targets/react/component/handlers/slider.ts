@@ -46,11 +46,11 @@ export const createSliderFieldHandler = (ctx: ComponentHandlerDeps) => {
       });
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: metadata.privateComponentFieldHeader.key,
+        key: metadata.componentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: metadata.privateComponentFieldFooter.key,
+        key: metadata.componentFieldFooter.key,
       });
 
       const sliderProps = sliderHandler.transform(slider, traverse).props;

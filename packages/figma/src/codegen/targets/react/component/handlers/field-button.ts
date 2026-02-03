@@ -35,7 +35,7 @@ export const createFieldButtonHandler = (ctx: ComponentHandlerDeps) => {
 
       const [inputButton] = findAllInstances<InputButtonProperties>({
         node,
-        key: sets.privateComponentInputButton.key,
+        key: sets.componentInputButton.key,
       });
 
       const [clearButton] = findAllInstances<ActionButtonGhostProperties>({
@@ -45,11 +45,11 @@ export const createFieldButtonHandler = (ctx: ComponentHandlerDeps) => {
 
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: sets.privateComponentFieldHeader.key,
+        key: sets.componentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: sets.privateComponentFieldFooter.key,
+        key: sets.componentFieldFooter.key,
       });
 
       // maxGraphemeCount and required can't be props of FieldButton
