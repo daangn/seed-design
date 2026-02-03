@@ -33,7 +33,7 @@
     "@sanity/vision": "^4.20.3",
     "@seed-design/css": "1.2.1",
     "@seed-design/migration-index": "1.0.0",
-    "@seed-design/react": "1.2.1",
+    "@seed-design/react": "1.3.0",
     "@seed-design/react-icon": "^0.7.4",
     "@seed-design/rootage-core": "0.0.0",
     "@seed-design/stackflow": "1.1.16",
