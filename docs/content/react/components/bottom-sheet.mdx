@@ -93,6 +93,29 @@ Trigger 외의 방식으로 BottomSheet를 열고 닫을 수 있습니다. 이 �
   ```
 </ComponentExample>
 
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**닫힐 때** (`open: false`)
+
+- `"closeButton"`: `BottomSheet.CloseButton`으로 닫힘
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+- `"drag"`: 드래그로 닫힘
+- `"handleClickOnLastSnapPoint"`: 마지막 스냅 포인트에서 핸들 클릭으로 닫힘
+
+<ComponentExample name="react/bottom-sheet/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/bottom-sheet/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Header Align
 
 `<BottomSheetRoot>`에 `headerAlign` prop을 설정하여 title과 description의 정렬을 설정할 수 있습니다.
