@@ -20,83 +20,65 @@ import {
 } from "./tools-helpers";
 import type { FigmaWebSocketClient } from "./websocket";
 
-// Schema building blocks
-const figmaUrlSchema = z.object({
+const singleNodeBaseSchema = z.object({
   figmaUrl: z
     .url()
-    .describe("Figma node URL. Example: https://www.figma.com/design/ABC123/Name?node-id=0-1"),
+    .optional()
+    .describe("Figma node URL. Extracts fileKey and nodeId automatically when provided."),
+  fileKey: z
+    .string()
+    .optional()
+    .describe("Figma file key. Use with nodeId when not using figmaUrl."),
+  nodeId: z
+    .string()
+    .optional()
+    .describe("Node ID (e.g., '0:1'). Use with fileKey when not using figmaUrl."),
+  personalAccessToken: z
+    .string()
+    .optional()
+    .describe("Figma PAT. Falls back to FIGMA_PERSONAL_ACCESS_TOKEN env when not provided."),
+});
+
+const multiNodeBaseSchema = z.object({
+  fileKey: z
+    .string()
+    .optional()
+    .describe("Figma file key. Required when WebSocket connection is not available."),
+  nodeIds: z.array(z.string()).describe("Array of node IDs (e.g., ['0:1', '0:2'])"),
   personalAccessToken: z
     .string()
     .optional()
     .describe(
-      "Figma Personal Access Token. If not provided, uses FIGMA_PERSONAL_ACCESS_TOKEN env var.",
+      "Figma PAT. Falls back to FIGMA_PERSONAL_ACCESS_TOKEN env when not provided to be used when WebSocket connection is not available.",
     ),
 });
 
-const fileKeyNodeIdSchema = z.object({
-  fileKey: z.string().describe("Figma file key"),
-  nodeId: z.string().describe("Node ID (e.g., '0:1')"),
-  personalAccessToken: z
-    .string()
-    .optional()
-    .describe(
-      "Figma Personal Access Token. If not provided, uses FIGMA_PERSONAL_ACCESS_TOKEN env var.",
-    ),
-});
-
-const nodeIdOnlySchema = z.object({
-  nodeId: z.string().describe("Node ID (e.g., '0:1')"),
-});
-
-const fileKeyNodeIdsSchema = z.object({
-  fileKey: z.string().describe("Figma file key"),
-  nodeIds: z.array(z.string()).describe("Array of node IDs (colon format)"),
-  personalAccessToken: z
-    .string()
-    .optional()
-    .describe(
-      "Figma Personal Access Token. If not provided, uses FIGMA_PERSONAL_ACCESS_TOKEN env var.",
-    ),
-});
-
-const nodeIdsOnlySchema = z.object({
-  nodeIds: z.array(z.string()).describe("Array of node IDs"),
-});
-
-// Mode-specific schema factories
 function getSingleNodeParamsSchema(mode: ToolMode) {
   switch (mode) {
-    case "rest":
-      return z.union([figmaUrlSchema, fileKeyNodeIdSchema]);
     case "websocket":
-      return nodeIdOnlySchema;
-    case "all":
-      return z.union([figmaUrlSchema, fileKeyNodeIdSchema, nodeIdOnlySchema]);
+      return singleNodeBaseSchema.pick({ nodeId: true }).required();
+    default:
+      return singleNodeBaseSchema;
   }
 }
 
 function getMultiNodeParamsSchema(mode: ToolMode) {
   switch (mode) {
-    case "rest":
-      return fileKeyNodeIdsSchema;
     case "websocket":
-      return nodeIdsOnlySchema;
-    case "all":
-      return z.union([fileKeyNodeIdsSchema, nodeIdsOnlySchema]);
+      return multiNodeBaseSchema.pick({ nodeIds: true });
+    case "rest":
+      return multiNodeBaseSchema.required({ fileKey: true });
+    default:
+      return multiNodeBaseSchema;
   }
 }
 
-function resolveSingleNodeParams(
-  params:
-    | z.infer<typeof figmaUrlSchema>
-    | z.infer<typeof fileKeyNodeIdSchema>
-    | z.infer<typeof nodeIdOnlySchema>,
-): {
+function resolveSingleNodeParams(params: z.infer<typeof singleNodeBaseSchema>): {
   fileKey: string | undefined;
   nodeId: string;
   personalAccessToken: string | undefined;
 } {
-  if ("figmaUrl" in params) {
+  if (params.figmaUrl) {
     const parsed = parseFigmaUrl(params.figmaUrl);
 
     return {
@@ -106,53 +88,27 @@ function resolveSingleNodeParams(
     };
   }
 
-  if ("fileKey" in params) {
-    return {
-      fileKey: params.fileKey,
-      nodeId: params.nodeId,
-      personalAccessToken: params.personalAccessToken,
-    };
+  if (!params.nodeId) {
+    throw new Error(
+      "Either figmaUrl or nodeId must be provided. Use figmaUrl for automatic parsing, or provide fileKey + nodeId directly.",
+    );
   }
 
-  return { fileKey: undefined, nodeId: params.nodeId, personalAccessToken: undefined };
+  return {
+    fileKey: params.fileKey,
+    nodeId: params.nodeId,
+    personalAccessToken: params.personalAccessToken,
+  };
 }
 
-function resolveMultiNodeParams(
-  params: z.infer<typeof fileKeyNodeIdsSchema> | z.infer<typeof nodeIdsOnlySchema>,
-): {
-  fileKey: string | undefined;
-  nodeIds: string[];
-  personalAccessToken: string | undefined;
-} {
-  if ("fileKey" in params) {
-    return {
-      fileKey: params.fileKey,
-      nodeIds: params.nodeIds,
-      personalAccessToken: params.personalAccessToken,
-    };
-  }
-
-  return { fileKey: undefined, nodeIds: params.nodeIds, personalAccessToken: undefined };
-}
-
-// Mode-specific descriptions
 function getSingleNodeDescription(baseDescription: string, mode: ToolMode): string {
   switch (mode) {
     case "rest":
-      return (
-        `${baseDescription} ` +
-        "Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), " +
-        "or (2) fileKey + nodeId."
-      );
+      return `${baseDescription} Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), or (2) fileKey + nodeId.`;
     case "websocket":
       return `${baseDescription} Provide nodeId. Requires WebSocket connection with Figma Plugin.`;
     case "all":
-    default:
-      return (
-        `${baseDescription} ` +
-        "Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), " +
-        "(2) fileKey + nodeId, or (3) nodeId only for WebSocket mode."
-      );
+      return `${baseDescription} Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), (2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.`;
   }
 }
 
@@ -163,12 +119,7 @@ function getMultiNodeDescription(baseDescription: string, mode: ToolMode): strin
     case "websocket":
       return `${baseDescription} Provide nodeIds. Requires WebSocket connection with Figma Plugin.`;
     case "all":
-    default:
-      return (
-        `${baseDescription} ` +
-        "Provide either: (1) fileKey + nodeIds for REST API, or (2) nodeIds only for WebSocket mode. " +
-        "If you have multiple URLs, call get_node_info for each URL instead."
-      );
+      return `${baseDescription} Provide either: (1) fileKey + nodeIds for REST API, or (2) nodeIds only for WebSocket mode. If you have multiple URLs, call get_node_info for each URL instead.`;
   }
 }
 
@@ -198,12 +149,7 @@ export function registerTools(
       ),
       inputSchema: singleNodeParamsSchema,
     },
-    async (
-      params:
-        | z.infer<typeof figmaUrlSchema>
-        | z.infer<typeof fileKeyNodeIdSchema>
-        | z.infer<typeof nodeIdOnlySchema>,
-    ) => {
+    async (params: z.infer<typeof singleNodeBaseSchema>) => {
       try {
         const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
         const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
@@ -245,12 +191,7 @@ export function registerTools(
       ),
       inputSchema: singleNodeParamsSchema,
     },
-    async (
-      params:
-        | z.infer<typeof figmaUrlSchema>
-        | z.infer<typeof fileKeyNodeIdSchema>
-        | z.infer<typeof nodeIdOnlySchema>,
-    ) => {
+    async (params: z.infer<typeof singleNodeBaseSchema>) => {
       try {
         const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
         const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
@@ -295,10 +236,8 @@ export function registerTools(
       ),
       inputSchema: multiNodeParamsSchema,
     },
-    async (params: z.infer<typeof fileKeyNodeIdsSchema> | z.infer<typeof nodeIdsOnlySchema>) => {
+    async ({ fileKey, nodeIds, personalAccessToken }: z.infer<typeof multiNodeBaseSchema>) => {
       try {
-        const { fileKey, nodeIds, personalAccessToken } = resolveMultiNodeParams(params);
-
         if (nodeIds.length === 0) {
           return formatErrorResponse("get_nodes_info", new Error("No node IDs provided"));
         }
@@ -358,12 +297,7 @@ export function registerTools(
       ),
       inputSchema: singleNodeParamsSchema,
     },
-    async (
-      params:
-        | z.infer<typeof figmaUrlSchema>
-        | z.infer<typeof fileKeyNodeIdSchema>
-        | z.infer<typeof nodeIdOnlySchema>,
-    ) => {
+    async (params: z.infer<typeof singleNodeBaseSchema>) => {
       try {
         const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
         const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
