@@ -196,10 +196,7 @@ export function useSnackbar(props: UseSnackbarProps) {
           if (!isFocusVisibleSupported) return;
 
           // only pause if focus is visible (focused using keyboard) || action label has focus
-          if (
-            event.target.matches(":focus-visible") ||
-            event.currentTarget.matches(":focus-within")
-          ) {
+          if (event.target.matches(":focus-visible")) {
             events.pause();
           }
         },
