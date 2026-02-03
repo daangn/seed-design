@@ -17,7 +17,7 @@ export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
     (node, traverse) => {
       const itemNodes = findAllInstances<TagGroupItemProperties>({
         node,
-        key: metadata.privateComponentItemTag.key,
+        key: itemHandler.key,
       });
 
       const items = itemNodes.map((itemNode) =>

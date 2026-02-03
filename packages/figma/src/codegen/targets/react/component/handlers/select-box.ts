@@ -271,11 +271,11 @@ export const createSelectBoxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
 
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: metadata.componentFieldHeader.key,
+        key: fieldHeaderHandler.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: metadata.componentFieldFooter.key,
+        key: fieldFooterHandler.key,
       });
 
       const __headerProps =

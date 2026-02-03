@@ -30,7 +30,7 @@ export const createFieldHeaderHandler = (ctx: ComponentHandlerDeps) => {
 
       const [indicator] = findAllInstances<FieldIndicatorProperties>({
         node,
-        key: metadata.privateComponentFieldHeaderIndicator.key,
+        key: indicatorHandler.key,
       });
 
       // only returns some nice common props for Slider, TextField and more
@@ -110,7 +110,7 @@ export const createFieldFooterHandler = (ctx: ComponentHandlerDeps) => {
         .with("Character Count", () => {
           const [characterCount] = findAllInstances<FieldCharacterCountProperties>({
             node,
-            key: metadata.privateComponentFieldFooterCharacterCount.key,
+            key: characterCountHandler.key,
           });
 
           return {

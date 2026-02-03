@@ -59,11 +59,11 @@ export const createRadioGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
       });
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: metadata.componentFieldHeader.key,
+        key: fieldHeaderHandler.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: metadata.componentFieldFooter.key,
+        key: fieldFooterHandler.key,
       });
 
       // maxGraphemeCount and required can't be props of RadioGroup
