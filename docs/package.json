@@ -103,6 +103,6 @@
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
     "webpack-virtual-modules": "^0.6.0",
-    "zod": "^4.3.5"
+    "zod": "4.3.5"
   }
 }
