@@ -72,6 +72,10 @@ data:
             type: dimension
           fontWeight:
             type: number
+          paddingLeft:
+            type: dimension
+          paddingRight:
+            type: dimension
       description:
         properties:
           color:
@@ -135,9 +139,10 @@ data:
       enabled:
         header:
           paddingLeft: $dimension.spacing-x.global-gutter
+        title:
           paddingRight: 50px
     headerAlignment=center:
       enabled:
-        header:
+        title:
           paddingLeft: 50px
           paddingRight: 50px

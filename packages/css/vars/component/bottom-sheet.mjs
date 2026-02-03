@@ -53,14 +53,16 @@ export const vars = {
   "headerAlignmentLeft": {
     "enabled": {
       "header": {
-        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)"
+      },
+      "title": {
         "paddingRight": "50px"
       }
     }
   },
   "headerAlignmentCenter": {
     "enabled": {
-      "header": {
+      "title": {
         "paddingLeft": "50px",
         "paddingRight": "50px"
       }

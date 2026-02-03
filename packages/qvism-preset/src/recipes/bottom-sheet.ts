@@ -109,6 +109,7 @@ const bottomSheet = defineSlotRecipe({
       fontSize: vars.base.enabled.title.fontSize,
       lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
+      wordBreak: "keep-all",
 
       margin: 0,
     },
@@ -119,6 +120,7 @@ const bottomSheet = defineSlotRecipe({
       fontWeight: vars.base.enabled.description.fontWeight,
 
       margin: 0,
+      width: "100%",
       whiteSpace: "pre-wrap",
     },
     body: {
@@ -186,9 +188,10 @@ const bottomSheet = defineSlotRecipe({
           justifyContent: "flex-start",
           paddingLeft: vars.headerAlignmentLeft.enabled.header.paddingLeft,
           paddingRight: vars.base.enabled.body.paddingX,
-
+        },
+        title: {
           [pseudo("[data-show-close-button]")]: {
-            paddingRight: vars.headerAlignmentLeft.enabled.header.paddingRight,
+            paddingRight: vars.headerAlignmentLeft.enabled.title.paddingRight,
           },
         },
       },
@@ -199,10 +202,11 @@ const bottomSheet = defineSlotRecipe({
           paddingRight: vars.base.enabled.body.paddingX,
 
           textAlign: "center",
-
+        },
+        title: {
           [pseudo("[data-show-close-button]")]: {
-            paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
-            paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
+            paddingLeft: vars.headerAlignmentCenter.enabled.title.paddingLeft,
+            paddingRight: vars.headerAlignmentCenter.enabled.title.paddingRight,
           },
         },
       },

@@ -111,6 +111,12 @@
             },
             "fontWeight": {
               "type": "number"
+            },
+            "paddingLeft": {
+              "type": "dimension"
+            },
+            "paddingRight": {
+              "type": "dimension"
             }
           }
         },
@@ -321,7 +327,9 @@
                 "paddingLeft": {
                   "type": "dimension",
                   "value": "$dimension.spacing-x.global-gutter"
-                },
+                }
+              },
+              "title": {
                 "paddingRight": {
                   "type": "dimension",
                   "value": {
@@ -344,7 +352,7 @@
               "enabled"
             ],
             "slots": {
-              "header": {
+              "title": {
                 "paddingLeft": {
                   "type": "dimension",
                   "value": {
