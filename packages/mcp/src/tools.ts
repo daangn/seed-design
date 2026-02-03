@@ -29,10 +29,7 @@ const singleNodeBaseSchema = z.object({
     .string()
     .optional()
     .describe("Figma file key. Use with nodeId when not using figmaUrl."),
-  nodeId: z
-    .string()
-    .optional()
-    .describe("Node ID (e.g., '0:1'). Use with fileKey when not using figmaUrl."),
+  nodeId: z.string().optional().describe("Node ID (e.g., '0:1')."),
   personalAccessToken: z
     .string()
     .optional()
