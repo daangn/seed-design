@@ -24,7 +24,7 @@
     "@karrotmarket/react-monochrome-icon": "^1.8.0",
     "@seed-design/css": "^1.2.1",
     "@seed-design/migration-index": "^1.0.0",
-    "@seed-design/react": "^1.3.0",
+    "@seed-design/react": "^1.2.2",
     "@seed-design/vite-plugin": "^1.1.0",
     "color-delta-e": "^1.3.0",
     "normalize.css": "^8.0.1",
