@@ -1,4 +1,5 @@
 import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
+import { useSupports } from "@seed-design/react-supports";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSafeOffset } from "./useSafeOffset";
 
@@ -145,6 +146,7 @@ export function useSnackbar(props: UseSnackbarProps) {
   const { state, currentSnackbar, visible, queue, visibleDuration, events } =
     useSnackbarState(props);
   const { overlapTracker, regionRef, regionStyle, safeOffset } = useSafeOffset();
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   return useMemo(
     () => ({
@@ -189,8 +191,17 @@ export function useSnackbar(props: UseSnackbarProps) {
           "--snackbar-remove-delay": `${currentSnackbar?.removeDelay ?? 0}ms`,
           "--snackbar-duration": `${visibleDuration}ms`,
         } as React.CSSProperties,
-        onFocus() {
-          events.pause();
+        onFocus(event) {
+          // if :focus-visible not supported, do not pause on focus
+          if (!isFocusVisibleSupported) return;
+
+          // only pause if focus is visible (focused using keyboard) || action label has focus
+          if (
+            event.target.matches(":focus-visible") ||
+            event.currentTarget.matches(":focus-within")
+          ) {
+            events.pause();
+          }
         },
         onBlur() {
           events.resume();
@@ -221,6 +232,7 @@ export function useSnackbar(props: UseSnackbarProps) {
       regionStyle,
       overlapTracker,
       regionRef,
+      isFocusVisibleSupported,
     ],
   );
 }
