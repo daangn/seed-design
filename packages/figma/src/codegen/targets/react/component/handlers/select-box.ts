@@ -240,7 +240,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
             defaultValue:
               "Title#28452:21" in selectedSelectBoxProperties
                 ? selectedSelectBoxProperties["Title#28452:21"].value
-                : selectedSelectBoxProperties["Title#58766:114"],
+                : selectedSelectBoxProperties["Title#58766:114"].value,
           }),
       };
 
@@ -279,11 +279,11 @@ export const createSelectBoxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
       });
 
       const __headerProps =
-        props["Show Header#40606:8"] && fieldHeader
+        props["Show Header#40606:8"].value && fieldHeader
           ? (fieldHeaderHandler.transform(fieldHeader, traverse).props as FieldHeaderProps)
           : {};
       const __footerProps =
-        props["Show Footer#40606:9"] && fieldFooter
+        props["Show Footer#40606:9"].value && fieldFooter
           ? (fieldFooterHandler.transform(fieldFooter, traverse).props as FieldFooterProps)
           : {};
 

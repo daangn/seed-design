@@ -79,14 +79,14 @@ export const createCheckboxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
 
       // maxGraphemeCount / required / invalid can't be props of CheckboxGroup
       const { required: _required, ...headerProps } =
-        props["Show Header#40606:8"] && fieldHeader
+        props["Show Header#40606:8"].value && fieldHeader
           ? (fieldHeaderHandler.transform(fieldHeader, traverse).props as FieldHeaderProps)
           : {};
       const {
         maxGraphemeCount: _maxGraphemeCount,
         invalid: _invalid,
         ...footerProps
-      } = props["Show Footer#40606:9"] && fieldFooter
+      } = props["Show Footer#40606:9"].value && fieldFooter
         ? (fieldFooterHandler.transform(fieldFooter, traverse).props as FieldFooterProps)
         : {};
 
