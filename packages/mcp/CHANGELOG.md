@@ -1,5 +1,11 @@
 # @seed-design/mcp
 
+## 1.3.1
+
+### Patch Changes
+
+- 2f9690a: MCP를 Node.js 프로젝트에서 직접 구성할 수 있도록 `registerTools`를 비롯한 export를 추가합니다.
+
 ## 1.3.0
 
 ### Minor Changes
