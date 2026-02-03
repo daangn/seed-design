@@ -9,7 +9,7 @@ import { loadConfig, type McpConfig } from "../config";
 import { createFigmaRestClient, type FigmaRestClient } from "../figma-rest-client";
 import { createFigmaWebSocketClient, type FigmaWebSocketClient } from "../websocket";
 import { registerEditingTools, registerTools } from "../tools";
-import { type ToolMode } from "../tools-helpers";
+import type { ToolMode } from "../tools-helpers";
 import { registerPrompts } from "../prompts";
 import { startWebSocketServer } from "./websocket-server";
 
@@ -45,26 +45,17 @@ function createFigmaClient(
       return createFigmaWebSocketClient(resolvedUrl);
     }
 
-    case "all":
-      if (!pat) {
+    case "all": {
+      if (pat) {
         logger.info(
-          `No FIGMA_PERSONAL_ACCESS_TOKEN found. Using WebSocket mode. Client connecting to: ${resolvedUrl}`,
+          "FIGMA_PERSONAL_ACCESS_TOKEN found. REST API enabled for figmaUrl/fileKey requests.",
         );
-
-        return createFigmaWebSocketClient(resolvedUrl);
       }
 
-      logger.info("FIGMA_PERSONAL_ACCESS_TOKEN found. REST API mode enabled.");
+      logger.info(`WebSocket client connecting to: ${resolvedUrl}`);
 
-      if (serverUrl) {
-        logger.info(`WebSocket server URL provided: ${serverUrl}. Attempting hybrid mode.`);
-
-        return createFigmaWebSocketClient(serverUrl);
-      }
-
-      logger.info("No WebSocket server URL. Running in REST API only mode.");
-
-      return null;
+      return createFigmaWebSocketClient(resolvedUrl);
+    }
   }
 }
 
