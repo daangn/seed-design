@@ -1,4 +1,7 @@
 import type {
+  FieldFooterProperties,
+  FieldHeaderProperties,
+  SelectBoxGroupFieldProperties,
   SelectBoxGroupProperties,
   SelectBoxHorizontalProperties,
   SelectBoxPrefixIconProperties,
@@ -11,6 +14,12 @@ import { findAllInstances } from "@/utils/figma-node";
 import { match } from "ts-pattern";
 import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
+import {
+  createFieldFooterHandler,
+  createFieldHeaderHandler,
+  type FieldFooterProps,
+  type FieldHeaderProps,
+} from "@/codegen/targets/react/component/handlers/field";
 
 const PREFIX_KEYS = [
   components.componentSelectBoxItemPrefixIcon.key,
@@ -24,7 +33,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("select-box");
 
 const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SelectBoxHorizontalProperties>(
-    metadata.componentDeprecatedSelectBox.key,
+    metadata.componentSelectBoxItemHorizontal.key,
     (node) => {
       const { componentProperties: props } = node;
 
@@ -105,7 +114,7 @@ const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
 
 const createSelectBoxVerticalHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SelectBoxVerticalProperties>(
-    metadata.componentDeprecatedSelectBox.key,
+    metadata.componentSelectBoxItemVertical.key,
     (node) => {
       const { componentProperties: props } = node;
 
@@ -189,7 +198,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
   const verticalHandler = createSelectBoxVerticalHandler(ctx);
 
   return defineComponentHandler<SelectBoxGroupProperties>(
-    metadata.componentDeprecatedSelectBoxGroup.key,
+    metadata.componentSelectBoxGroup.key,
     (node, traverse) => {
       const props = node.componentProperties;
 
@@ -241,6 +250,84 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
       ];
 
       return createLocalSnippetElement(tag, commonProps, children, { comment });
+    },
+  );
+};
+
+export const createSelectBoxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
+  const fieldHeaderHandler = createFieldHeaderHandler(ctx);
+  const fieldFooterHandler = createFieldFooterHandler(ctx);
+  const selectBoxGroupHandler = createSelectBoxGroupHandler(ctx);
+
+  return defineComponentHandler<SelectBoxGroupFieldProperties>(
+    metadata.templateSelectBoxField.key,
+    (node, traverse) => {
+      const { componentProperties: props } = node;
+
+      const [group] = findAllInstances<SelectBoxGroupProperties>({
+        node,
+        key: selectBoxGroupHandler.key,
+      });
+
+      const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
+        node,
+        key: metadata.componentFieldHeader.key,
+      });
+      const [fieldFooter] = findAllInstances<FieldFooterProperties>({
+        node,
+        key: metadata.componentFieldFooter.key,
+      });
+
+      const __headerProps =
+        props["Show Header#40606:8"] && fieldHeader
+          ? (fieldHeaderHandler.transform(fieldHeader, traverse).props as FieldHeaderProps)
+          : {};
+      const __footerProps =
+        props["Show Footer#40606:9"] && fieldFooter
+          ? (fieldFooterHandler.transform(fieldFooter, traverse).props as FieldFooterProps)
+          : {};
+
+      const groupResult = selectBoxGroupHandler.transform(group, traverse);
+
+      const { headerProps, footerProps } = match(
+        groupResult.tag as "RadioSelectBoxRoot" | "CheckSelectBoxGroup" | "UnknownSelectBoxGroup",
+      )
+        .with("RadioSelectBoxRoot", () => {
+          const { required: _required, ...headerProps } = __headerProps;
+          const { maxGraphemeCount: _maxGraphemeCount, ...footerProps } = __footerProps;
+
+          return { headerProps, footerProps };
+        })
+        .with("CheckSelectBoxGroup", () => {
+          const { required: _required, ...headerProps } = __headerProps;
+          const {
+            maxGraphemeCount: _maxGraphemeCount,
+            invalid: _invalid,
+            ...footerProps
+          } = __footerProps;
+
+          return { headerProps, footerProps };
+        })
+        .with("UnknownSelectBoxGroup", () => {
+          const { required: _required, ...headerProps } = __headerProps;
+          const {
+            maxGraphemeCount: _maxGraphemeCount,
+            invalid: _invalid,
+            ...footerProps
+          } = __footerProps;
+
+          return { headerProps, footerProps };
+        })
+        .exhaustive();
+
+      return {
+        ...groupResult,
+        props: {
+          ...groupResult.props,
+          ...headerProps,
+          ...footerProps,
+        },
+      };
     },
   );
 };
