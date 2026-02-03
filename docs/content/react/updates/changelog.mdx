@@ -3,6 +3,27 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2026.02.03
+
+`AlertDialogRoot`, `MenuSheetRoot` 및 `BottomSheetRoot`의 `onOpenChange` 두 번째 인자로 `details`를 제공합니다. `details.reason`과 `details.event`를 사용할 수 있습니다. [`576c2e6`](https://github.com/daangn/seed-design/commit/576c2e602de44bacdad8991cf6be2d369ace73f5)
+
+`DialogAction`을 `DialogPrimitive.CloseButton`으로 교체합니다. `AlertDialogAction` `onClick` 핸들러에서 `event.preventDefault()`를 호출하여 닫기 동작을 방지할 수 있습니다. [(예제)](https://seed-design.io/react/components/alert-dialog#prevent-close)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.2.2](https://npmjs.com/package/@seed-design/react/v/1.2.2)
+- 📦 [@seed-design/react-dialog@1.0.2](https://npmjs.com/package/@seed-design/react-dialog/v/1.0.2)
+- 📦 [@seed-design/react-drawer@1.0.8](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.8)
+- 📦 [@seed-design/react-use-controllable-state@1.0.0](https://npmjs.com/package/@seed-design/react-use-controllable-state/v/1.0.0)
+
+---
+
+Figma Personal Access Token을 활용하여 WebSocket 서버와 Figma 플러그인 없이 MCP 일부 기능을 활용할 수 있도록 합니다. `--mode` 옵션을 통해 필요한 도구만 등록할 수 있습니다. [`423d604`](https://github.com/daangn/seed-design/commit/423d604b9ecc178f935d7c105e49d3711eab6f82)
+
+영향받는 패키지
+- 📦 [@seed-design/mcp@1.3.0](https://npmjs.com/package/@seed-design/mcp/v/1.3.0)
+
+---
+
 ## 2026.01.29
 
 AlertDialog 닫힐 때 focus 복원으로 인해 BottomSheet가 즉시 닫히는 문제 수정 [`8188130`](https://github.com/daangn/seed-design/commit/8188130e3c62651acea63ae699f11fe16d2e9a06)
