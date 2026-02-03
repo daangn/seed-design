@@ -12,12 +12,19 @@
   "sideEffects": false,
   "files": [
     "bin",
+    "dist",
     "src",
     "package.json"
   ],
   "bin": "./bin/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "scripts": {
-    "clean": "rm -rf lib",
+    "clean": "rm -rf dist bin",
     "build": "bunchee",
     "lint:publish": "bun publint"
   },
