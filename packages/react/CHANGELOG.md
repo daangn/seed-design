@@ -1,6 +1,6 @@
 # @seed-design/react
 
-## 1.3.3
+## 1.2.3
 
 ### Patch Changes
 
