@@ -1,5 +1,12 @@
 # @seed-design/react
 
+## 1.1.21
+
+### Patch Changes
+
+- Updated dependencies [78fabd8]
+  - @seed-design/react-snackbar@1.0.1
+
 ## 1.1.20
 
 ### Patch Changes

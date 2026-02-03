@@ -56,7 +56,7 @@
         "@sanity/vision": "^4.20.3",
         "@seed-design/css": "1.1.19",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.1.20",
+        "@seed-design/react": "1.1.21",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.16",
@@ -428,7 +428,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.1.20",
+      "version": "1.1.21",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -450,7 +450,7 @@
         "@seed-design/react-radio-group": "1.0.1",
         "@seed-design/react-segmented-control": "1.0.1",
         "@seed-design/react-slider": "1.0.1",
-        "@seed-design/react-snackbar": "1.0.0",
+        "@seed-design/react-snackbar": "1.0.1",
         "@seed-design/react-switch": "1.0.1",
         "@seed-design/react-tabs": "1.0.2",
         "@seed-design/react-text-field": "1.1.1",
@@ -782,7 +782,7 @@
     },
     "packages/react-headless/snackbar": {
       "name": "@seed-design/react-snackbar",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@seed-design/dom-utils": "1.0.0",
