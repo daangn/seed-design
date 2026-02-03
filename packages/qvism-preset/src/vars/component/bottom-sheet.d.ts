@@ -45,8 +45,8 @@ export declare const vars: {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x5)",
-        "fromRight": "var(--seed-dimension-x5)"
+        "fromTop": "var(--seed-dimension-x6)",
+        "fromRight": "var(--seed-dimension-spacing-x-global-gutter)"
       }
     }
   },

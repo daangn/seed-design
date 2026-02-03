@@ -302,11 +302,11 @@
               "closeButton": {
                 "fromTop": {
                   "type": "dimension",
-                  "value": "$dimension.x5"
+                  "value": "$dimension.x6"
                 },
                 "fromRight": {
                   "type": "dimension",
-                  "value": "$dimension.x5"
+                  "value": "$dimension.spacing-x.global-gutter"
                 }
               }
             }

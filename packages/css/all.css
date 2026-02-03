@@ -2766,8 +2766,8 @@
 }
 
 .seed-bottom-sheet__closeButton {
-  top: var(--seed-dimension-x5);
-  right: var(--seed-dimension-x5);
+  top: var(--seed-dimension-x6);
+  right: var(--seed-dimension-spacing-x-global-gutter);
   border-radius: var(--seed-radius-full);
   background: var(--seed-color-bg-neutral-weak);
   cursor: pointer;

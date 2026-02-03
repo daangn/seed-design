@@ -133,8 +133,8 @@ data:
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
         closeButton:
-          fromTop: $dimension.x5
-          fromRight: $dimension.x5
+          fromTop: $dimension.x6
+          fromRight: $dimension.spacing-x.global-gutter
     headerAlignment=left:
       enabled:
         header:
