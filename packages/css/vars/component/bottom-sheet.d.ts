@@ -42,27 +42,43 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-muted)",
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x5)",
-        "fromRight": "var(--seed-dimension-x5)"
+        "fromTop": "var(--seed-dimension-x6)",
+        "fromRight": "var(--seed-dimension-x4)"
       }
     }
   },
   "headerAlignmentLeft": {
     "enabled": {
-      "header": {
+      "title": {
         "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
+        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
+      }
+    }
+  },
+  "headerAlignmentLeftCloseButtonTrue": {
+    "enabled": {
+      "title": {
         "paddingRight": "50px"
       }
     }
   },
   "headerAlignmentCenter": {
     "enabled": {
-      "header": {
-        "paddingLeft": "50px",
-        "paddingRight": "50px"
+      "title": {
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
+        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
+      }
+    }
+  },
+  "headerAlignmentCenterCloseButtonTrue": {
+    "enabled": {
+      "title": {
+        "paddingLeft": "60px",
+        "paddingRight": "60px"
       }
     }
   }
