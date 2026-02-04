@@ -72,6 +72,10 @@ data:
             type: dimension
           fontWeight:
             type: number
+          paddingLeft:
+            type: dimension
+          paddingRight:
+            type: dimension
       description:
         properties:
           color:
@@ -82,6 +86,8 @@ data:
             type: dimension
           fontWeight:
             type: number
+          paddingX:
+            type: dimension
       closeButton:
         properties:
           fromTop:
@@ -129,15 +135,25 @@ data:
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
         closeButton:
-          fromTop: $dimension.x5
-          fromRight: $dimension.x5
+          fromTop: $dimension.x6
+          fromRight: $dimension.x4
     headerAlignment=left:
       enabled:
         header:
           paddingLeft: $dimension.spacing-x.global-gutter
+    headerAlignment=left,closeButton=true:
+      enabled:
+        title:
           paddingRight: 50px
     headerAlignment=center:
       enabled:
-        header:
-          paddingLeft: 50px
-          paddingRight: 50px
+        title:
+          paddingLeft: $dimension.x4
+          paddingRight: $dimension.x4
+        description:
+          paddingX: $dimension.spacing-x.global-gutter
+    headerAlignment=center,closeButton=true:
+      enabled:
+        title:
+          paddingLeft: 60px
+          paddingRight: 60px

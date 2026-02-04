@@ -45,24 +45,41 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x5)",
-        "fromRight": "var(--seed-dimension-x5)"
+        "fromTop": "var(--seed-dimension-x6)",
+        "fromRight": "var(--seed-dimension-x4)"
       }
     }
   },
   "headerAlignmentLeft": {
     "enabled": {
       "header": {
-        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)"
+      }
+    }
+  },
+  "headerAlignmentLeftCloseButtonTrue": {
+    "enabled": {
+      "title": {
         "paddingRight": "50px"
       }
     }
   },
   "headerAlignmentCenter": {
     "enabled": {
-      "header": {
-        "paddingLeft": "50px",
-        "paddingRight": "50px"
+      "title": {
+        "paddingLeft": "var(--seed-dimension-x4)",
+        "paddingRight": "var(--seed-dimension-x4)"
+      },
+      "description": {
+        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
+      }
+    }
+  },
+  "headerAlignmentCenterCloseButtonTrue": {
+    "enabled": {
+      "title": {
+        "paddingLeft": "60px",
+        "paddingRight": "60px"
       }
     }
   }
