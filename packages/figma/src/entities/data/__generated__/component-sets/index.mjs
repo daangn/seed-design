@@ -170,37 +170,6 @@ export const privateTemplateChipGroup = {
   }
 };
 
-export const privateComponentFieldFooter = {
-  "name": "privateComponentFieldFooter",
-  "key": "a2e73c375b787756a11e84c5915f8251c621ee3a",
-  "componentPropertyDefinitions": {
-    "Text#2770:0": {
-      "type": "TEXT"
-    },
-    "Has Prefix#2778:13": {
-      "type": "BOOLEAN"
-    },
-    "Error Text#32821:0": {
-      "type": "TEXT"
-    },
-    "Type": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Description",
-        "Description With Character Count",
-        "Character Count"
-      ]
-    },
-    "Error": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "true",
-        "false"
-      ]
-    }
-  }
-};
-
 export const privateComponentFieldFooterCharacterCount = {
   "name": "privateComponentFieldFooterCharacterCount",
   "key": "73f1a9275275c87b563e879e6948318523faf8e4",
@@ -217,29 +186,6 @@ export const privateComponentFieldFooterCharacterCount = {
         "Null",
         "Has Value",
         "Error"
-      ]
-    }
-  }
-};
-
-export const privateComponentFieldHeader = {
-  "name": "privateComponentFieldHeader",
-  "key": "8371fe9083cb9bebfb4ee51b0791bfb00a799dd6",
-  "componentPropertyDefinitions": {
-    "Label#34796:0": {
-      "type": "TEXT"
-    },
-    "Has Indicator#34796:1": {
-      "type": "BOOLEAN"
-    },
-    "Has Suffix#34796:2": {
-      "type": "BOOLEAN"
-    },
-    "Weight": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Medium",
-        "Bold"
       ]
     }
   }
@@ -272,30 +218,6 @@ export const privateComponentFieldHeaderSuffix = {
         "Ghost Button",
         "Icon",
         "Custom"
-      ]
-    }
-  }
-};
-
-export const privateComponentInputButton = {
-  "name": "privateComponentInputButton",
-  "key": "1220e63a59a31b50eefe5c4ec1a4e516ba70b07b",
-  "componentPropertyDefinitions": {
-    "Has Prefix#32514:10": {
-      "type": "BOOLEAN"
-    },
-    "Has Suffix#32865:68": {
-      "type": "BOOLEAN"
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Error",
-        "Disabled",
-        "Read Only",
-        "Pressed",
-        "Error Pressed"
       ]
     }
   }
@@ -680,6 +602,22 @@ export const privateComponentSegmentedControlItem = {
   }
 };
 
+export const privateComponentSelectBoxItemCheckmark = {
+  "name": "privateComponentSelectBoxItemCheckmark",
+  "key": "2d91bde3c21bc38b2b07d8e1b87a03116e96555d",
+  "componentPropertyDefinitions": {
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Selected",
+        "Disabled"
+      ]
+    }
+  }
+};
+
 export const privateComponentSliderItemHandles = {
   "name": "privateComponentSliderItemHandles",
   "key": "950b33735d6dda594436c876386b921908dedf64",
@@ -913,34 +851,6 @@ export const privateComponentTabsLine = {
   }
 };
 
-export const privateComponentTextInput = {
-  "name": "privateComponentTextInput",
-  "key": "1f3e7bd2f1d39a76e304188b5a8b800d7c87aff2",
-  "componentPropertyDefinitions": {
-    "Has Prefix#32514:10": {
-      "type": "BOOLEAN"
-    },
-    "Loading Text#32734:0": {
-      "type": "TEXT"
-    },
-    "Has Suffix#32865:68": {
-      "type": "BOOLEAN"
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Focused",
-        "Error",
-        "Error Focused",
-        "Disabled",
-        "Read Only",
-        "AI Loading (Figma Only)"
-      ]
-    }
-  }
-};
-
 export const privateComponentTextInputCardNumberInput = {
   "name": "privateComponentTextInputCardNumberInput",
   "key": "60888e1eba691721f0ec6a41df43c1c075e5beac",
@@ -1096,32 +1006,6 @@ export const privateComponentTextInputSuffix = {
         "Icon",
         "Icon Button (Ghost Button)",
         "Custom"
-      ]
-    }
-  }
-};
-
-export const privateComponentTextarea = {
-  "name": "privateComponentTextarea",
-  "key": "e20ec5b725e0fdbaca728cecdc72b0c485728b4d",
-  "componentPropertyDefinitions": {
-    "Auto Size (Figma Only)": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "true",
-        "false"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Focused",
-        "Error",
-        "Error Focused",
-        "Disabled",
-        "Read Only",
-        "AI Loading (Figma Only)"
       ]
     }
   }
@@ -1287,31 +1171,6 @@ export const privateComponentTopNavigationTitleRight = {
         "Count",
         "Manner Temp Badge",
         "Custom"
-      ]
-    }
-  }
-};
-
-export const privateComponentUnderlineTextInput = {
-  "name": "privateComponentUnderlineTextInput",
-  "key": "004c8591153865af3fe3efb9c552cd280b9fd31d",
-  "componentPropertyDefinitions": {
-    "Has Prefix#34125:0": {
-      "type": "BOOLEAN"
-    },
-    "Has Suffix#34125:8": {
-      "type": "BOOLEAN"
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Focused",
-        "Error",
-        "Error Focused",
-        "Disabled",
-        "Read Only",
-        "AI Loading (Figma Only)"
       ]
     }
   }
@@ -2383,8 +2242,8 @@ export const componentCheckbox = {
   }
 };
 
-export const templateCheckboxGroupField = {
-  "name": "templateCheckboxGroupField",
+export const templateCheckboxField = {
+  "name": "templateCheckboxField",
   "key": "214dd0fc8a3c5bc1e0c90cce29936f1ec6a26c3c",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
@@ -3210,8 +3069,8 @@ export const componentRadio = {
   }
 };
 
-export const templateRadioGroupField = {
-  "name": "templateRadioGroupField",
+export const templateRadioField = {
+  "name": "templateRadioField",
   "key": "a3f159c223e3a0888fc48098c1580793297f82e9",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
@@ -3448,6 +3307,28 @@ export const componentSegmentedControl = {
         "2",
         "3",
         "4"
+      ]
+    }
+  }
+};
+
+export const templateSelectBoxField = {
+  "name": "templateSelectBoxField",
+  "key": "cddac54129eed15830319d1e30480f42ea80d4d3",
+  "componentPropertyDefinitions": {
+    "Show Header#40606:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:9": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Error",
+        "Disabled",
+        "Read Only"
       ]
     }
   }
@@ -3925,6 +3806,163 @@ export const componentUserSelectionFigmaOnly = {
       "variantOptions": [
         "iOS",
         "Android"
+      ]
+    }
+  }
+};
+
+export const componentFieldFooter = {
+  "name": "componentFieldFooter",
+  "key": "a2e73c375b787756a11e84c5915f8251c621ee3a",
+  "componentPropertyDefinitions": {
+    "Text#2770:0": {
+      "type": "TEXT"
+    },
+    "Has Prefix#2778:13": {
+      "type": "BOOLEAN"
+    },
+    "Error Text#32821:0": {
+      "type": "TEXT"
+    },
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Description",
+        "Description With Character Count",
+        "Character Count"
+      ]
+    },
+    "Error": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "true",
+        "false"
+      ]
+    }
+  }
+};
+
+export const componentFieldHeader = {
+  "name": "componentFieldHeader",
+  "key": "8371fe9083cb9bebfb4ee51b0791bfb00a799dd6",
+  "componentPropertyDefinitions": {
+    "Label#34796:0": {
+      "type": "TEXT"
+    },
+    "Has Indicator#34796:1": {
+      "type": "BOOLEAN"
+    },
+    "Has Suffix#34796:2": {
+      "type": "BOOLEAN"
+    },
+    "Weight": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Bold"
+      ]
+    }
+  }
+};
+
+export const componentInputButton = {
+  "name": "componentInputButton",
+  "key": "1220e63a59a31b50eefe5c4ec1a4e516ba70b07b",
+  "componentPropertyDefinitions": {
+    "Has Prefix#32514:10": {
+      "type": "BOOLEAN"
+    },
+    "Has Suffix#32865:68": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Error",
+        "Disabled",
+        "Read Only",
+        "Pressed",
+        "Error Pressed"
+      ]
+    }
+  }
+};
+
+export const componentTextInput = {
+  "name": "componentTextInput",
+  "key": "1f3e7bd2f1d39a76e304188b5a8b800d7c87aff2",
+  "componentPropertyDefinitions": {
+    "Has Prefix#32514:10": {
+      "type": "BOOLEAN"
+    },
+    "Loading Text#32734:0": {
+      "type": "TEXT"
+    },
+    "Has Suffix#32865:68": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Focused",
+        "Error",
+        "Error Focused",
+        "Disabled",
+        "Read Only",
+        "AI Loading (Figma Only)"
+      ]
+    }
+  }
+};
+
+export const componentTextarea = {
+  "name": "componentTextarea",
+  "key": "e20ec5b725e0fdbaca728cecdc72b0c485728b4d",
+  "componentPropertyDefinitions": {
+    "Auto Size (Figma Only)": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "true",
+        "false"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Focused",
+        "Error",
+        "Error Focused",
+        "Disabled",
+        "Read Only",
+        "AI Loading (Figma Only)"
+      ]
+    }
+  }
+};
+
+export const componentUnderlineTextInput = {
+  "name": "componentUnderlineTextInput",
+  "key": "004c8591153865af3fe3efb9c552cd280b9fd31d",
+  "componentPropertyDefinitions": {
+    "Has Prefix#34125:0": {
+      "type": "BOOLEAN"
+    },
+    "Has Suffix#34125:8": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Focused",
+        "Error",
+        "Error Focused",
+        "Disabled",
+        "Read Only",
+        "AI Loading (Figma Only)"
       ]
     }
   }
