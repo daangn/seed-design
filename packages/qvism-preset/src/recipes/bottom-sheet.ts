@@ -118,8 +118,6 @@ const bottomSheet = defineSlotRecipe({
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
-      paddingLeft: vars.base.enabled.description.paddingX,
-      paddingRight: vars.base.enabled.description.paddingX,
 
       margin: 0,
       whiteSpace: "pre-wrap",
@@ -208,6 +206,10 @@ const bottomSheet = defineSlotRecipe({
             paddingLeft: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingLeft,
             paddingRight: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingRight,
           },
+        },
+        description: {
+          paddingLeft: vars.headerAlignmentCenter.enabled.description.paddingX,
+          paddingRight: vars.headerAlignmentCenter.enabled.description.paddingX,
         },
       },
     },

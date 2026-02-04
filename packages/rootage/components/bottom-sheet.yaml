@@ -134,7 +134,6 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
-          paddingX: $dimension.spacing-x.global-gutter
         closeButton:
           fromTop: $dimension.x6
           fromRight: $dimension.x4
@@ -151,6 +150,8 @@ data:
         title:
           paddingLeft: $dimension.x4
           paddingRight: $dimension.x4
+        description:
+          paddingX: $dimension.spacing-x.global-gutter
     headerAlignment=center,closeButton=true:
       enabled:
         title:

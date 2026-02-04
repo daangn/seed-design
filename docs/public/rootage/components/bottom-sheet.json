@@ -306,10 +306,6 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.spacing-x.global-gutter"
                 }
               },
               "closeButton": {
@@ -388,6 +384,12 @@
                 "paddingRight": {
                   "type": "dimension",
                   "value": "$dimension.x4"
+                }
+              },
+              "description": {
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
                 }
               }
             }

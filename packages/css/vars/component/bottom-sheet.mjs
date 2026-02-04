@@ -42,8 +42,7 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral-muted)",
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-regular)",
-        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
+        "fontWeight": "var(--seed-font-weight-regular)"
       },
       "closeButton": {
         "fromTop": "var(--seed-dimension-x6)",
@@ -70,6 +69,9 @@ export const vars = {
       "title": {
         "paddingLeft": "var(--seed-dimension-x4)",
         "paddingRight": "var(--seed-dimension-x4)"
+      },
+      "description": {
+        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
       }
     }
   },
