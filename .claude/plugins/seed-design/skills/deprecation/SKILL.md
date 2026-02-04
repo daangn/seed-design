@@ -102,10 +102,6 @@ bun run rootage:generate
 - `docs/content/docs/migration/deprecations.mdx`
 - 생성물: `docs/public/rootage/**`, `packages/css/vars/**`, `packages/qvism-preset/src/vars/**`
 
-## Migration Prompt Template
-
-`docs/content/docs/migration/deprecations.mdx`의 Migration Prompt 섹션을 사용합니다.
-
 ## Output Expectations
 
 1. 모든 JSDoc에 이유, 제거 버전, 대체안이 명확히 포함됨
