@@ -54,7 +54,11 @@ export const vars = {
     "enabled": {
       "header": {
         "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)"
-      },
+      }
+    }
+  },
+  "headerAlignmentLeftCloseButtonTrue": {
+    "enabled": {
       "title": {
         "paddingRight": "50px"
       }
@@ -65,6 +69,14 @@ export const vars = {
       "title": {
         "paddingLeft": "var(--seed-dimension-x4)",
         "paddingRight": "var(--seed-dimension-x4)"
+      }
+    }
+  },
+  "headerAlignmentCenterCloseButtonTrue": {
+    "enabled": {
+      "title": {
+        "paddingLeft": "60px",
+        "paddingRight": "60px"
       }
     }
   }

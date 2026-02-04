@@ -151,8 +151,8 @@
     padding-right: var(--seed-dimension-x4);
 }
 .seed-bottom-sheet__title--headerAlign_center[data-show-close-button] {
-    padding-left: calc(var(--seed-dimension-x4) + var(--seed-dimension-x4) + 28px);
-    padding-right: calc(var(--seed-dimension-x4) + var(--seed-dimension-x4) + 28px);
+    padding-left: 60px;
+    padding-right: 60px;
 }
 .seed-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points='false']:not([data-animation-done='true']) {
     animation-name: fade-in;

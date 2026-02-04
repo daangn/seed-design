@@ -191,7 +191,7 @@ const bottomSheet = defineSlotRecipe({
         },
         title: {
           [pseudo("[data-show-close-button]")]: {
-            paddingRight: vars.headerAlignmentLeft.enabled.title.paddingRight,
+            paddingRight: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingRight,
           },
         },
       },
@@ -204,8 +204,8 @@ const bottomSheet = defineSlotRecipe({
           paddingLeft: vars.headerAlignmentCenter.enabled.title.paddingLeft,
           paddingRight: vars.headerAlignmentCenter.enabled.title.paddingRight,
           [pseudo("[data-show-close-button]")]: {
-            paddingLeft: `calc(${vars.headerAlignmentCenter.enabled.title.paddingLeft} + ${vars.base.enabled.closeButton.fromRight} + ${closeButtonVars.base.enabled.root.size})`,
-            paddingRight: `calc(${vars.headerAlignmentCenter.enabled.title.paddingRight} + ${vars.base.enabled.closeButton.fromRight} + ${closeButtonVars.base.enabled.root.size})`,
+            paddingLeft: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingLeft,
+            paddingRight: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingRight,
           },
         },
       },
