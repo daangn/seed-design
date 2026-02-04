@@ -25,9 +25,9 @@ export const vars = {
       },
       "valueIndicatorRoot": {
         "color": "var(--seed-color-bg-neutral-inverted)",
-        "cornerRadius": "var(--seed-radius-r1)",
-        "paddingX": "var(--seed-dimension-x1_5)",
-        "paddingY": "var(--seed-dimension-x0_5)",
+        "cornerRadius": "var(--seed-radius-r1_5)",
+        "paddingX": "var(--seed-dimension-x2)",
+        "paddingY": "var(--seed-dimension-x1)",
         "offsetY": "var(--seed-dimension-x3)",
         "enterScale": "0.9",
         "enterOpacity": "0",
@@ -40,16 +40,15 @@ export const vars = {
       },
       "valueIndicatorArrow": {
         "color": "var(--seed-color-bg-neutral-inverted)",
-        "width": "var(--seed-dimension-x2_5)",
-        "height": "7px",
+        "width": "var(--seed-dimension-x2)",
+        "height": "var(--seed-dimension-x1_5)",
         "cornerRadius": "var(--seed-radius-r0_5)",
-        "gutter": "var(--seed-dimension-x0_5)",
-        "padding": "var(--seed-dimension-x0_5)"
+        "gutter": "var(--seed-dimension-x0_5)"
       },
       "valueIndicatorLabel": {
         "color": "var(--seed-color-fg-neutral-inverted)",
-        "fontSize": "var(--seed-font-size-t1)",
-        "lineHeight": "var(--seed-line-height-t1)",
+        "fontSize": "var(--seed-font-size-t3)",
+        "lineHeight": "var(--seed-line-height-t3)",
         "fontWeight": "var(--seed-font-weight-medium)"
       },
       "marker": {

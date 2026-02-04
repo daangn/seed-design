@@ -165,6 +165,7 @@ const slider = defineSlotRecipe({
 
       boxSizing: "border-box",
       background: vars.base.enabled.valueIndicatorRoot.color,
+
       paddingLeft: vars.base.enabled.valueIndicatorRoot.paddingX,
       paddingRight: vars.base.enabled.valueIndicatorRoot.paddingX,
       paddingTop: vars.base.enabled.valueIndicatorRoot.paddingY,
@@ -181,6 +182,7 @@ const slider = defineSlotRecipe({
       textAlign: "center",
 
       width: "max-content",
+      minWidth: `calc(${vars.base.enabled.valueIndicatorRoot.paddingX} * 2 + ${vars.base.enabled.valueIndicatorArrow.width})`,
 
       [pseudo("[data-dir='ltr']")]: {
         left: "calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset))",
@@ -200,7 +202,8 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "-50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
+          // TODO: make 0.3125rem a rootage constant
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
@@ -212,7 +215,7 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
@@ -224,7 +227,7 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "-50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
@@ -236,7 +239,7 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
