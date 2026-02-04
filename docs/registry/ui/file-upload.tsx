@@ -11,7 +11,16 @@ import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-labe
 import { IconExclamationmarkCircleFill, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 import { formatBytes } from "../lib/format-bytes";
 
-export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild"> {
+// Re-export ItemIndicator and status types from React package
+export {
+  FileUploadItemIndicator,
+  type FileUploadItemIndicatorProps,
+  type FileUploadItemStatus,
+  type FileStatusDetails,
+  type FileWithStatus,
+} from "@seed-design/react";
+
+export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild" | "children"> {
   label?: React.ReactNode;
   /**
    * @default "medium"
@@ -28,6 +37,11 @@ export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   fieldRef?: React.Ref<HTMLDivElement>;
+
+  /**
+   * Children can be ReactNode or a render function that receives file upload context.
+   */
+  children?: React.ReactNode | SeedFileUpload.ContextProps["children"];
 }
 
 /**
@@ -97,7 +111,11 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
           name={name}
           {...otherProps}
         >
-          {children}
+          {typeof children === "function" ? (
+            <SeedFileUpload.Context>{children}</SeedFileUpload.Context>
+          ) : (
+            children
+          )}
           <SeedFileUpload.HiddenInput ref={ref} {...inputProps} />
         </SeedFileUpload.Root>
         {renderFooter && (

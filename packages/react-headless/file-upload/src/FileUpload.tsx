@@ -135,10 +135,15 @@ export interface FileUploadItemProps extends PrimitiveProps, React.LiHTMLAttribu
 
 export const FileUploadItem = forwardRef<HTMLLIElement, FileUploadItemProps>(
   ({ file, ...props }, ref) => {
-    const { getItemProps } = useFileUploadContext();
+    const { getItemProps, acceptedFiles } = useFileUploadContext();
     const mergedProps = mergeProps(getItemProps(file), props);
+
+    // Find the details for this file from acceptedFiles
+    const fileWithStatus = acceptedFiles.find((f) => f.file === file);
+    const details = fileWithStatus?.details ?? { status: "pending" as const };
+
     return (
-      <FileUploadItemProvider value={{ file }}>
+      <FileUploadItemProvider value={{ file, details }}>
         <Primitive.li ref={ref} {...mergedProps} />
       </FileUploadItemProvider>
     );
@@ -152,21 +157,12 @@ FileUploadItem.displayName = "FileUploadItem";
 
 export interface FileUploadItemNameProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {
-  file?: File;
-}
+    React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FileUploadItemName = forwardRef<HTMLSpanElement, FileUploadItemNameProps>(
-  ({ file: fileProp, children, ...props }, ref) => {
+  ({ children, ...props }, ref) => {
     const { stateProps } = useFileUploadContext();
-    const itemContext = useFileUploadItemContext({ strict: false });
-    const file = fileProp ?? itemContext?.file;
-
-    if (!file) {
-      throw new Error(
-        "FileUploadItemName requires a file prop or must be used within FileUploadItem",
-      );
-    }
+    const { file } = useFileUploadItemContext();
 
     const mergedProps = mergeProps(stateProps, props);
     return (
@@ -185,7 +181,6 @@ FileUploadItemName.displayName = "FileUploadItemName";
 export interface FileUploadItemSizeTextProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {
-  file?: File;
   /**
    * Formatter function for file size.
    */
@@ -193,16 +188,9 @@ export interface FileUploadItemSizeTextProps
 }
 
 export const FileUploadItemSizeText = forwardRef<HTMLSpanElement, FileUploadItemSizeTextProps>(
-  ({ file: fileProp, children, formatBytes, ...props }, ref) => {
+  ({ children, formatBytes, ...props }, ref) => {
     const { stateProps } = useFileUploadContext();
-    const itemContext = useFileUploadItemContext({ strict: false });
-    const file = fileProp ?? itemContext?.file;
-
-    if (!file) {
-      throw new Error(
-        "FileUploadItemSizeText requires a file prop or must be used within FileUploadItem",
-      );
-    }
+    const { file } = useFileUploadItemContext();
 
     const mergedProps = mergeProps(stateProps, props);
 
@@ -221,23 +209,14 @@ FileUploadItemSizeText.displayName = "FileUploadItemSizeText";
 
 export interface FileUploadItemDeleteTriggerProps
   extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {
-  file?: File;
-}
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const FileUploadItemDeleteTrigger = forwardRef<
   HTMLButtonElement,
   FileUploadItemDeleteTriggerProps
->(({ file: fileProp, ...props }, ref) => {
+>((props, ref) => {
   const { getItemDeleteTriggerProps } = useFileUploadContext();
-  const itemContext = useFileUploadItemContext({ strict: false });
-  const file = fileProp ?? itemContext?.file;
-
-  if (!file) {
-    throw new Error(
-      "FileUploadItemDeleteTrigger requires a file prop or must be used within FileUploadItem",
-    );
-  }
+  const { file } = useFileUploadItemContext();
 
   const mergedProps = mergeProps(getItemDeleteTriggerProps(file), props);
   return <Primitive.button ref={ref} {...mergedProps} />;

@@ -42,7 +42,7 @@ const BasicFileUpload = React.forwardRef<HTMLInputElement, FileUploadRootProps>(
       <ul data-testid="item-group">
         <FileUploadContext>
           {({ acceptedFiles }) =>
-            acceptedFiles.map((file) => (
+            acceptedFiles.map(({ file }) => (
               <FileUploadItem key={file.name} file={file} data-testid={`item-${file.name}`}>
                 <FileUploadItemName />
                 <FileUploadItemSizeText formatBytes={(bytes) => `${bytes} bytes`} />
@@ -258,15 +258,17 @@ describe("useFileUpload", () => {
 
   describe("controlled mode", () => {
     it("should work with controlled acceptedFiles", () => {
-      const files = [createMockFile("controlled.txt", 512, "text/plain")];
-      const { getByText } = setUp(<BasicFileUpload acceptedFiles={files} />);
+      const file = createMockFile("controlled.txt", 512, "text/plain");
+      const filesWithStatus = [{ file, details: { status: "pending" as const } }];
+      const { getByText } = setUp(<BasicFileUpload acceptedFiles={filesWithStatus} />);
 
       expect(getByText("controlled.txt")).toBeDefined();
     });
 
     it("should work with defaultAcceptedFiles", () => {
-      const files = [createMockFile("default.txt", 512, "text/plain")];
-      const { getByText } = setUp(<BasicFileUpload defaultAcceptedFiles={files} />);
+      const file = createMockFile("default.txt", 512, "text/plain");
+      const filesWithStatus = [{ file, details: { status: "pending" as const } }];
+      const { getByText } = setUp(<BasicFileUpload defaultAcceptedFiles={filesWithStatus} />);
 
       expect(getByText("default.txt")).toBeDefined();
     });
@@ -466,7 +468,7 @@ describe("useFileUpload", () => {
             {({ acceptedFiles, reorderFiles }) => (
               <>
                 <ul data-testid="file-list">
-                  {acceptedFiles.map((file, index: number) => (
+                  {acceptedFiles.map(({ file }, index: number) => (
                     <li key={file.name} data-testid={`file-${index}`}>
                       {file.name}
                     </li>
@@ -573,15 +575,19 @@ describe("useFileUpload", () => {
     it("should not reorder when disabled", async () => {
       const file1 = createMockFile("file1.txt", 100, "text/plain");
       const file2 = createMockFile("file2.txt", 200, "text/plain");
+      const filesWithStatus = [
+        { file: file1, details: { status: "pending" as const } },
+        { file: file2, details: { status: "pending" as const } },
+      ];
 
       const DisabledReorderComponent = () => {
         return (
-          <FileUploadRoot maxFiles={5} disabled defaultAcceptedFiles={[file1, file2]}>
+          <FileUploadRoot maxFiles={5} disabled defaultAcceptedFiles={filesWithStatus}>
             <FileUploadContext>
               {({ acceptedFiles, reorderFiles }) => (
                 <>
                   <ul data-testid="file-list">
-                    {acceptedFiles.map((file, index) => (
+                    {acceptedFiles.map(({ file }, index) => (
                       <li key={file.name} data-testid={`file-${index}`}>
                         {file.name}
                       </li>

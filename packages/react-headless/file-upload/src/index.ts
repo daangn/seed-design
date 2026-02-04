@@ -42,6 +42,9 @@ export type {
   FileRejectDetails,
   FileChangeDetails,
   FileValidateDetails,
+  FileUploadItemStatus,
+  FileStatusDetails,
+  FileWithStatus,
 } from "./types";
 
 export * as FileUpload from "./FileUpload.namespace";

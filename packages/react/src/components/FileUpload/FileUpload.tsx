@@ -104,9 +104,7 @@ export const FileUploadItem = withContext<HTMLLIElement, FileUploadItemProps>(
 
 export interface FileUploadItemNameProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {
-  file?: File;
-}
+    React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FileUploadItemName = withContext<HTMLSpanElement, FileUploadItemNameProps>(
   withItemStateProps(FileUploadPrimitive.ItemName),
@@ -126,9 +124,7 @@ export const FileUploadItemSizeText = withContext<HTMLSpanElement, FileUploadIte
 
 export interface FileUploadItemDeleteTriggerProps
   extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {
-  file?: File;
-}
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const FileUploadItemDeleteTrigger = withContext<
   HTMLButtonElement,
@@ -190,3 +186,82 @@ export const FileUploadItemImage = withContext<HTMLImageElement, FileUploadItemI
   withItemStateProps(FileUploadItemImageImpl),
   "itemImage",
 );
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export type {
+  FileUploadItemStatus,
+  FileStatusDetails,
+  FileWithStatus,
+} from "@seed-design/react-file-upload";
+
+export interface FileUploadItemIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Content to display when status is "pending".
+   * Also used as fallback when other status-specific props are not provided.
+   */
+  pending: React.ReactNode | (() => React.ReactNode);
+
+  /**
+   * Content to display when status is "uploading".
+   * Can be a render function that receives { progress: number }.
+   * Falls back to `pending` if not provided.
+   */
+  uploading?: React.ReactNode | ((props: { progress: number }) => React.ReactNode);
+
+  /**
+   * Content to display when status is "success".
+   * Falls back to `pending` if not provided.
+   */
+  success?: React.ReactNode | (() => React.ReactNode);
+
+  /**
+   * Content to display when status is "error".
+   * Falls back to `pending` if not provided.
+   */
+  error?: React.ReactNode | (() => React.ReactNode);
+}
+
+export const FileUploadItemIndicator = React.forwardRef<
+  HTMLDivElement,
+  FileUploadItemIndicatorProps
+>(({ pending, uploading, success, error, ...props }, ref) => {
+  const { details } = useFileUploadItemContext();
+  const { status } = details;
+
+  const renderContent = (): React.ReactNode => {
+    switch (status) {
+      case "pending":
+        return typeof pending === "function" ? pending() : pending;
+      case "uploading": {
+        const progress = details.progress;
+        if (uploading) {
+          return typeof uploading === "function" ? uploading({ progress }) : uploading;
+        }
+        return typeof pending === "function" ? pending() : pending;
+      }
+      case "success":
+        if (success) {
+          return typeof success === "function" ? success() : success;
+        }
+        return typeof pending === "function" ? pending() : pending;
+      case "error":
+        if (error) {
+          return typeof error === "function" ? error() : error;
+        }
+        return typeof pending === "function" ? pending() : pending;
+      default:
+        return null;
+    }
+  };
+
+  const content = renderContent();
+  if (!content) return null;
+
+  return (
+    <div ref={ref} data-status={status} {...props}>
+      {content}
+    </div>
+  );
+});
+FileUploadItemIndicator.displayName = "FileUploadItemIndicator";

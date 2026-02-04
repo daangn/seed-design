@@ -7,6 +7,8 @@ import type {
   FileRejectDetails,
   FileChangeDetails,
   FileError,
+  FileWithStatus,
+  FileStatusDetails,
 } from "./types";
 
 // =============================================================================
@@ -14,19 +16,19 @@ import type {
 // =============================================================================
 
 interface UseFileUploadStateProps {
-  acceptedFiles?: File[];
-  defaultAcceptedFiles?: File[];
+  acceptedFiles?: FileWithStatus[];
+  defaultAcceptedFiles?: FileWithStatus[];
   onFileAccept?: (details: FileAcceptDetails) => void;
   onFileReject?: (details: FileRejectDetails) => void;
   onFileChange?: (details: FileChangeDetails) => void;
 }
 
 function useFileUploadState(props: UseFileUploadStateProps) {
-  const [acceptedFiles, setAcceptedFiles] = useControllableState<File[]>({
+  const [acceptedFiles, setAcceptedFiles] = useControllableState<FileWithStatus[]>({
     prop: props.acceptedFiles,
     defaultProp: props.defaultAcceptedFiles ?? [],
-    onChange: (files) => {
-      props.onFileAccept?.({ files });
+    onChange: (filesWithStatus) => {
+      props.onFileAccept?.({ files: filesWithStatus.map((f) => f.file) });
     },
   });
 
@@ -265,10 +267,16 @@ export function useFileUpload(props: UseFileUploadProps = {}) {
       if (disabled || readOnly) return;
       const { accepted, rejected } = validateFiles(files);
 
+      // Convert accepted files to FileWithStatus with pending status
+      const acceptedWithStatus: FileWithStatus[] = accepted.map((file) => ({
+        file,
+        details: { status: "pending" as const },
+      }));
+
       if (multiple) {
-        setAcceptedFiles((prev) => [...(prev ?? []), ...accepted]);
+        setAcceptedFiles((prev) => [...(prev ?? []), ...acceptedWithStatus]);
       } else {
-        setAcceptedFiles(accepted.length > 0 ? [accepted[0]] : []);
+        setAcceptedFiles(acceptedWithStatus.length > 0 ? [acceptedWithStatus[0]] : []);
       }
 
       setRejectedFiles(rejected);
@@ -278,7 +286,9 @@ export function useFileUpload(props: UseFileUploadProps = {}) {
       }
 
       onFileChange?.({
-        acceptedFiles: multiple ? [...acceptedFiles, ...accepted] : accepted.slice(0, 1),
+        acceptedFiles: multiple
+          ? [...acceptedFiles.map((f) => f.file), ...accepted]
+          : accepted.slice(0, 1),
         rejectedFiles: rejected,
       });
     },
@@ -298,7 +308,7 @@ export function useFileUpload(props: UseFileUploadProps = {}) {
   const deleteFile = useCallback(
     (file: File) => {
       if (disabled || readOnly) return;
-      setAcceptedFiles((prev) => (prev ?? []).filter((f) => f !== file));
+      setAcceptedFiles((prev) => (prev ?? []).filter((f) => f.file !== file));
     },
     [disabled, readOnly, setAcceptedFiles],
   );
@@ -329,6 +339,26 @@ export function useFileUpload(props: UseFileUploadProps = {}) {
     callback(url);
     return () => URL.revokeObjectURL(url);
   }, []);
+
+  const setFileStatus = useCallback(
+    (file: File, status: "pending" | "success" | "error") => {
+      setAcceptedFiles((prev) =>
+        (prev ?? []).map((f) => (f.file === file ? { file, details: { status } } : f)),
+      );
+    },
+    [setAcceptedFiles],
+  );
+
+  const setFileProgress = useCallback(
+    (file: File, progress: number) => {
+      setAcceptedFiles((prev) =>
+        (prev ?? []).map((f) =>
+          f.file === file ? { file, details: { status: "uploading" as const, progress } } : f,
+        ),
+      );
+    },
+    [setAcceptedFiles],
+  );
 
   // ---------------------------------------------------------------------------
   // State Props
@@ -369,6 +399,8 @@ export function useFileUpload(props: UseFileUploadProps = {}) {
     clearFiles,
     reorderFiles,
     createFileUrl,
+    setFileStatus,
+    setFileProgress,
 
     // Props getters
     stateProps: stateDataAttrs,

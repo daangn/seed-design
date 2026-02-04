@@ -50,3 +50,29 @@ export interface FileValidateDetails {
   acceptedFiles: File[];
   rejectedFiles: FileRejection[];
 }
+
+// =============================================================================
+// File Status Types
+// =============================================================================
+
+/**
+ * Possible upload status values for a file.
+ */
+export type FileUploadItemStatus = "pending" | "uploading" | "success" | "error";
+
+/**
+ * Status details with discriminated union for type-safe progress access.
+ */
+export type FileStatusDetails =
+  | { status: "pending" }
+  | { status: "uploading"; progress: number }
+  | { status: "success" }
+  | { status: "error" };
+
+/**
+ * A file with its upload status details.
+ */
+export interface FileWithStatus {
+  file: File;
+  details: FileStatusDetails;
+}
