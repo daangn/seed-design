@@ -64,12 +64,6 @@
             "gap": {
               "type": "dimension"
             },
-            "paddingLeft": {
-              "type": "dimension"
-            },
-            "paddingRight": {
-              "type": "dimension"
-            },
             "paddingTop": {
               "type": "dimension"
             },
@@ -332,8 +326,12 @@
               "enabled"
             ],
             "slots": {
-              "header": {
+              "title": {
                 "paddingLeft": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                },
+                "paddingRight": {
                   "type": "dimension",
                   "value": "$dimension.spacing-x.global-gutter"
                 }
@@ -379,11 +377,11 @@
               "title": {
                 "paddingLeft": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.spacing-x.global-gutter"
                 },
                 "paddingRight": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.spacing-x.global-gutter"
                 }
               },
               "description": {

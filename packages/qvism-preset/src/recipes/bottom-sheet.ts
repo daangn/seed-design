@@ -185,10 +185,10 @@ const bottomSheet = defineSlotRecipe({
       left: {
         header: {
           justifyContent: "flex-start",
-          paddingLeft: vars.headerAlignmentLeft.enabled.header.paddingLeft,
-          paddingRight: vars.base.enabled.body.paddingX,
         },
         title: {
+          paddingLeft: vars.headerAlignmentLeft.enabled.title.paddingLeft,
+          paddingRight: vars.headerAlignmentLeft.enabled.title.paddingRight,
           [pseudo("[data-show-close-button]")]: {
             paddingRight: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingRight,
           },

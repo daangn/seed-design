@@ -52,8 +52,9 @@ export declare const vars: {
   },
   "headerAlignmentLeft": {
     "enabled": {
-      "header": {
-        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)"
+      "title": {
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
+        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
       }
     }
   },
@@ -67,8 +68,8 @@ export declare const vars: {
   "headerAlignmentCenter": {
     "enabled": {
       "title": {
-        "paddingLeft": "var(--seed-dimension-x4)",
-        "paddingRight": "var(--seed-dimension-x4)"
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
+        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
       },
       "description": {
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
