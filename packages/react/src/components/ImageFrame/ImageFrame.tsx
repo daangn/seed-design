@@ -24,6 +24,12 @@ import { Icon } from "../Icon/Icon";
 export interface ImageFrameProps
   extends Omit<AspectRatioProps, "children">,
     ImageFrameVariantProps {
+  /**
+   * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
+   * Use borderRadius="r2" instead.
+   * Reason: 모서리 스타일은 borderRadius prop으로 통일합니다.
+   */
+  rounded?: ImageFrameVariantProps["rounded"];
   src: string;
   alt: string;
   fallback?: React.ReactNode;
@@ -47,6 +53,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     {
       ratio = 4 / 3,
       stroke,
+      rounded,
       src,
       alt,
       fallback,
@@ -66,7 +73,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
   ) => {
     return (
       <AspectRatio ref={ref} ratio={ratio} className={className} {...rest}>
-        <Image.Root className={imageFrameRecipe({ stroke })}>
+        <Image.Root className={imageFrameRecipe({ stroke, rounded })}>
           <Image.Content
             src={src}
             alt={alt}

@@ -30,9 +30,16 @@ const imageFrame = defineRecipe({
       },
       false: {},
     },
+    rounded: {
+      true: {
+        borderRadius: vars.roundedTrue.enabled.root.cornerRadius,
+      },
+      false: {},
+    },
   },
   defaultVariants: {
     stroke: false,
+    rounded: false,
   },
 });
 
