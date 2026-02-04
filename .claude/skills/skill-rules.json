@@ -98,6 +98,30 @@
           "(find|detect|찾기|감지).*(missing|inconsistent|누락|불일치).*(docs|documentation|문서)"
         ]
       }
+    },
+    "deprecation": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "Deprecated 처리와 제거 계획을 표준화합니다",
+      "promptTriggers": {
+        "keywords": [
+          "deprecated",
+          "deprecate",
+          "removal",
+          "migration",
+          "사용 중단",
+          "제거 예정",
+          "deprecated flow",
+          "deprecation"
+        ],
+        "intentPatterns": [
+          "(deprecated|deprecate|사용 중단|제거 예정)",
+          "(remove|remove in|제거).*버전",
+          "(migration|마이그레이션).*(deprecated|사용 중단)",
+          "@deprecated"
+        ]
+      }
     }
   }
 }
