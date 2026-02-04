@@ -42,7 +42,8 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-muted)",
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
       },
       "closeButton": {
         "fromTop": "var(--seed-dimension-x6)",

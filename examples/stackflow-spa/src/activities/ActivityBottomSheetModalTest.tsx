@@ -30,6 +30,7 @@ const ActivityBottomSheetModalTest: StaticActivityComponentType<
         showCloseButton={true}
         title="BottomSheet Modal Prop 테스트"
         layerIndex={useActivityZIndexBase()}
+        description="이 화면은 BottomSheet의 modal prop을 동적으로 변경할 때 애니메이션이 재실행되지 않는지 테스트하기 위한 화면입니다."
       >
         <BottomSheetBody>
           <VStack gap="spacingY.componentDefault">

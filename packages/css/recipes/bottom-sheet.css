@@ -81,8 +81,9 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
+    padding-left: var(--seed-dimension-spacing-x-global-gutter);
+    padding-right: var(--seed-dimension-spacing-x-global-gutter);
     margin: 0;
-    width: 100%;
     white-space: pre-wrap;
 }
 .seed-bottom-sheet__body {
