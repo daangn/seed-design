@@ -2767,7 +2767,7 @@
 
 .seed-bottom-sheet__closeButton {
   top: var(--seed-dimension-x6);
-  right: var(--seed-dimension-spacing-x-global-gutter);
+  right: var(--seed-dimension-x4);
   border-radius: var(--seed-radius-full);
   background: var(--seed-color-bg-neutral-weak);
   cursor: pointer;
@@ -2799,15 +2799,18 @@
 }
 
 .seed-bottom-sheet__header--headerAlign_center {
-  padding-left: var(--seed-dimension-spacing-x-global-gutter);
-  padding-right: var(--seed-dimension-spacing-x-global-gutter);
   text-align: center;
   justify-content: center;
 }
 
+.seed-bottom-sheet__title--headerAlign_center {
+  padding-left: var(--seed-dimension-x4);
+  padding-right: var(--seed-dimension-x4);
+}
+
 .seed-bottom-sheet__title--headerAlign_center[data-show-close-button] {
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: calc(var(--seed-dimension-x4)  + var(--seed-dimension-x4)  + 28px);
+  padding-right: calc(var(--seed-dimension-x4)  + var(--seed-dimension-x4)  + 28px);
 }
 
 .seed-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points="false"]:not([data-animation-done="true"]) {

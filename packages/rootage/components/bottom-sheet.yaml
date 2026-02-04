@@ -134,7 +134,7 @@ data:
           fontWeight: $font-weight.regular
         closeButton:
           fromTop: $dimension.x6
-          fromRight: $dimension.spacing-x.global-gutter
+          fromRight: $dimension.x4
     headerAlignment=left:
       enabled:
         header:
@@ -144,5 +144,5 @@ data:
     headerAlignment=center:
       enabled:
         title:
-          paddingLeft: 50px
-          paddingRight: 50px
+          paddingLeft: $dimension.x4
+          paddingRight: $dimension.x4

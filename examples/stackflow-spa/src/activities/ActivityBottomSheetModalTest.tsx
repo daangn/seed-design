@@ -24,7 +24,7 @@ const ActivityBottomSheetModalTest: StaticActivityComponentType<
   const onOpenChange = (open: boolean) => !open && pop();
 
   return (
-    <BottomSheetRoot open={open} onOpenChange={onOpenChange} modal={modal}>
+    <BottomSheetRoot open={open} onOpenChange={onOpenChange} modal={modal} headerAlign="center">
       <BottomSheetContent
         showHandle
         showCloseButton={true}

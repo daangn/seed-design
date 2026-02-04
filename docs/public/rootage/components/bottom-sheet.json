@@ -306,7 +306,7 @@
                 },
                 "fromRight": {
                   "type": "dimension",
-                  "value": "$dimension.spacing-x.global-gutter"
+                  "value": "$dimension.x4"
                 }
               }
             }
@@ -355,17 +355,11 @@
               "title": {
                 "paddingLeft": {
                   "type": "dimension",
-                  "value": {
-                    "value": 50,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x4"
                 },
                 "paddingRight": {
                   "type": "dimension",
-                  "value": {
-                    "value": 50,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x4"
                 }
               }
             }

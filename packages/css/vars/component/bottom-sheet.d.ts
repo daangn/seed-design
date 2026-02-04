@@ -46,7 +46,7 @@ export declare const vars: {
       },
       "closeButton": {
         "fromTop": "var(--seed-dimension-x6)",
-        "fromRight": "var(--seed-dimension-spacing-x-global-gutter)"
+        "fromRight": "var(--seed-dimension-x4)"
       }
     }
   },
@@ -63,8 +63,8 @@ export declare const vars: {
   "headerAlignmentCenter": {
     "enabled": {
       "title": {
-        "paddingLeft": "50px",
-        "paddingRight": "50px"
+        "paddingLeft": "var(--seed-dimension-x4)",
+        "paddingRight": "var(--seed-dimension-x4)"
       }
     }
   }
