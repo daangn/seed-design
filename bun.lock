@@ -473,6 +473,7 @@
         "@seed-design/react-field": "1.0.1",
         "@seed-design/react-field-button": "1.0.2",
         "@seed-design/react-fieldset": "0.1.0",
+        "@seed-design/react-file-upload": "0,0,0",
         "@seed-design/react-image": "0.1.1",
         "@seed-design/react-popover": "1.0.3",
         "@seed-design/react-portal": "1.0.0",
@@ -656,6 +657,26 @@
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "^1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/file-upload": {
+      "name": "@seed-design/react-file-upload",
+      "version": "0.0.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "1.1.2",
+        "@radix-ui/react-use-controllable-state": "1.2.2",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-primitive": "1.0.0",
+        "@seed-design/react-supports": "0.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -2443,6 +2464,8 @@
     "@seed-design/react-field-button": ["@seed-design/react-field-button@workspace:packages/react-headless/field-button"],
 
     "@seed-design/react-fieldset": ["@seed-design/react-fieldset@workspace:packages/react-headless/fieldset"],
+
+    "@seed-design/react-file-upload": ["@seed-design/react-file-upload@workspace:packages/react-headless/file-upload"],
 
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.4", "", { "peerDependencies": { "react": "17.x || 18.x || 19.x" } }, "sha512-jjfKw3mvIYsTlgdxb4pjWTpT+uW8RZns/gcfhOjWuegZEXuZyAy4kPpiNbeNdnbrNoLWTCt8Rtt6UCGr/Zo/EQ=="],
 

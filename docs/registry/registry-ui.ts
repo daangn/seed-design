@@ -337,6 +337,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "file-upload",
+      snippets: [
+        {
+          path: "file-upload.tsx",
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
+        },
+      ],
+    },
+    {
       id: "contextual-floating-button",
       snippets: [
         {

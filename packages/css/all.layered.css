@@ -5160,6 +5160,174 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+  .seed-file-upload__root {
+    gap: var(--seed-dimension-x3);
+    flex-direction: column;
+    width: 100%;
+    display: flex;
+  }
+
+  .seed-file-upload__dropzone {
+    justify-content: center;
+    align-items: center;
+    gap: var(--seed-dimension-x2);
+    padding: var(--seed-dimension-x4);
+    border: 1px dashed var(--seed-color-stroke-neutral-muted);
+    border-radius: var(--seed-radius-r2);
+    background-color: var(--seed-color-bg-layer-default);
+    cursor: pointer;
+    flex-direction: column;
+    transition: border-color .2s, background-color .2s;
+    display: flex;
+  }
+
+  .seed-file-upload__dropzone:hover, .seed-file-upload__dropzone[data-dragging] {
+    border-color: var(--seed-color-stroke-brand-solid);
+    background-color: var(--seed-color-bg-layer-default-pressed);
+  }
+
+  .seed-file-upload__dropzone:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+
+  .seed-file-upload__container {
+    gap: var(--seed-dimension-x2);
+    flex-wrap: wrap;
+    align-items: flex-start;
+    display: flex;
+  }
+
+  .seed-file-upload__trigger {
+    width: 64px;
+    height: 64px;
+    padding: var(--seed-dimension-x2);
+    cursor: pointer;
+    background-color: var(--seed-color-bg-layer-default);
+    border: 1px solid var(--seed-color-stroke-neutral-solid);
+    border-radius: var(--seed-radius-r2);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all .2s;
+    display: inline-flex;
+  }
+
+  .seed-file-upload__trigger:hover {
+    border-color: var(--seed-color-palette-gray-600);
+  }
+
+  .seed-file-upload__trigger:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+
+  .seed-file-upload__itemGroup {
+    gap: var(--seed-dimension-x2);
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+  }
+
+  .seed-file-upload__item {
+    width: 64px;
+    height: 64px;
+    position: relative;
+  }
+
+  .seed-file-upload__itemPreview {
+    background-color: var(--seed-color-bg-layer-default);
+    border: 1px solid var(--seed-color-stroke-neutral-solid);
+    border-radius: var(--seed-radius-r2);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seed-file-upload__itemImage {
+    border-radius: var(--seed-radius-r2);
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .seed-file-upload__itemName {
+    width: 100%;
+    color: var(--seed-color-fg-neutral-subtle);
+    text-align: center;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-line-clamp: 2px;
+    -webkit-box-orient: vertical;
+    font-size: 10px;
+    line-height: 10px;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+
+  .seed-file-upload__itemSize {
+    color: var(--seed-color-fg-neutral-subtle);
+    text-align: center;
+    font-size: 9px;
+    line-height: 11px;
+  }
+
+  .seed-file-upload__itemDeleteTrigger {
+    z-index: 1;
+    cursor: pointer;
+    background-color: var(--seed-color-palette-gray-1000);
+    width: 16px;
+    height: 16px;
+    color: var(--seed-color-palette-static-white);
+    border: none;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    transition: all .2s;
+    display: flex;
+    position: absolute;
+    top: -6px;
+    right: -6px;
+  }
+
+  .seed-file-upload__itemDeleteTrigger:hover {
+    opacity: .8;
+  }
+
+  .seed-file-upload__itemDeleteTrigger:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+
+  .seed-file-upload__clearTrigger {
+    padding: var(--seed-dimension-x1) var(--seed-dimension-x2);
+    border-radius: var(--seed-radius-r1);
+    color: var(--seed-color-fg-neutral-subtle);
+    font-size: var(--seed-font-size-t3);
+    cursor: pointer;
+    background-color: #0000;
+    border: none;
+    align-self: flex-start;
+    transition: background-color .2s;
+  }
+
+  .seed-file-upload__clearTrigger:hover {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+  }
+
+  .seed-file-upload__clearTrigger:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+
   .seed-floating-action-button__root {
     box-sizing: border-box;
     cursor: pointer;

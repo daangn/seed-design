@@ -1,0 +1,9 @@
+{
+  "id": "format-bytes",
+  "snippets": [
+    {
+      "path": "format-bytes.ts",
+      "content": "/**\n * @file lib:format-bytes\n **/\n\nexport function formatBytes(bytes: number): string {\n  if (bytes === 0) return \"0 B\";\n  const k = 1024;\n  const sizes = [\"B\", \"KB\", \"MB\", \"GB\"];\n  const i = Math.floor(Math.log(bytes) / Math.log(k));\n  return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n"
+    }
+  ]
+}

@@ -306,6 +306,31 @@
     {
       "snippets": [
         {
+          "path": "file-upload.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.2.0",
+            "@seed-design/css": "~1.2.0"
+          }
+        }
+      ],
+      "id": "file-upload",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "format-bytes"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "floating-action-button.tsx",
           "dependencies": {
             "@seed-design/react": "~1.0.0",
