@@ -1,6 +1,8 @@
 #!/bin/bash
 FILE_PATH=$(jq -r '.tool_response.filePath')
 
+EXECUTED_COMMANDS=()
+
 # Function to run command and exit with code 2 on failure (so Claude sees the error)
 run_with_feedback() {
   local output
@@ -11,6 +13,8 @@ run_with_feedback() {
     echo "$output" >&2
     exit 2
   fi
+
+  EXECUTED_COMMANDS+=("$*")
 }
 
 # ============================================================
@@ -62,4 +66,15 @@ elif [[ "$FILE_PATH" == *"ecosystem/qvism/"* ]]; then
   run_with_feedback bun --filter @seed-design/qvism-core build
   run_with_feedback bun --filter @seed-design/qvism-cli build
   run_with_feedback bun --filter @seed-design/qvism-core test --dots
+fi
+
+# ============================================================
+# Success feedback (only if any commands were executed)
+# ============================================================
+if [[ ${#EXECUTED_COMMANDS[@]} -gt 0 ]]; then
+  echo "✓ All tasks completed successfully:" >&2
+  for cmd in "${EXECUTED_COMMANDS[@]}"; do
+    echo "  - $cmd" >&2
+  done
+  exit 2
 fi
