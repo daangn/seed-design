@@ -1,7 +1,6 @@
 import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { dialog, type DialogVariantProps } from "@seed-design/css/recipes/dialog";
-import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
@@ -103,7 +102,4 @@ export interface DialogActionProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-export const DialogAction = forwardRef<HTMLButtonElement, DialogActionProps>((props, ref) => {
-  const api = useDialogContext();
-  return <Primitive.button {...props} ref={ref} onClick={() => api.setOpen(false)} />;
-});
+export const DialogAction = DialogPrimitive.CloseButton;

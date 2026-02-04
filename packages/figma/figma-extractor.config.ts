@@ -13,7 +13,7 @@ function getSafeIdentifierName(name: string) {
   return reservedWords.includes(transformed) ? `_${transformed}` : transformed;
 }
 
-const PRIVATE_COMPONENT_SET_PATTERNS: RegExp[] = [
+const PRIVATE_PATTERNS: RegExp[] = [
   /Field/,
   /Text Input/,
   /Textarea/,
@@ -27,10 +27,12 @@ const PRIVATE_COMPONENT_SET_PATTERNS: RegExp[] = [
   /Ghost Button/,
   /Chip/,
   /Segmented Control/,
+  /Select Box/,
   /List Item/,
   /Slider/,
   /Tag/,
   /Page Banner/,
+  /Bottom Action Bar/,
 
   // FAB
   /Button Type/,
@@ -75,7 +77,7 @@ const config = createConfig({
             ([id, set]) =>
               !publishedComponentIdSet.has(id) &&
               !set.remote &&
-              PRIVATE_COMPONENT_SET_PATTERNS.some((pattern) => pattern.test(set.name)),
+              PRIVATE_PATTERNS.some((pattern) => pattern.test(set.name)),
           )
           .map(([id]) => id);
         const privateTemplateIds = Object.entries(templatesFile.componentSets)
@@ -83,7 +85,7 @@ const config = createConfig({
             ([id, set]) =>
               !publishedTemplateIdSet.has(id) &&
               !set.remote &&
-              PRIVATE_COMPONENT_SET_PATTERNS.some((pattern) => pattern.test(set.name)),
+              PRIVATE_PATTERNS.some((pattern) => pattern.test(set.name)),
           )
           .map(([id]) => id);
 
@@ -113,7 +115,6 @@ const config = createConfig({
         ];
       })
       .sort((a, b) => a.document.name.localeCompare(b.document.name))
-      .filter(({ document }) => !!(document as ComponentSetNode).componentPropertyDefinitions)
       .transform(({ document: _document, componentSets, prefix }) => {
         const document = _document as ComponentSetNode;
         const { name, key, componentPropertyDefinitions } = {
@@ -134,8 +135,20 @@ const config = createConfig({
         };
       })
       .write(async (items, { utils, write, pipelineName }) => {
-        const mjs = items.map((item) => utils.toMjs(item.name, item).trim()).join("\n\n");
-        const dts = items.map((item) => utils.toDts(item.name, item).trim()).join("\n\n");
+        const nameCount = new Map<string, number>();
+        for (const item of items) {
+          nameCount.set(item.name, (nameCount.get(item.name) ?? 0) + 1);
+        }
+
+        const getIdentifier = (item: (typeof items)[number]) => {
+          const count = nameCount.get(item.name);
+          return count !== undefined && count > 1
+            ? `${item.name}_${item.key.slice(0, 3)}`
+            : item.name;
+        };
+
+        const mjs = items.map((item) => utils.toMjs(getIdentifier(item), item).trim()).join("\n\n");
+        const dts = items.map((item) => utils.toDts(getIdentifier(item), item).trim()).join("\n\n");
 
         await Promise.all([
           write(`${pipelineName}/index.mjs`, mjs),
@@ -153,17 +166,22 @@ const config = createConfig({
             sources.components({ ...ctx, fileKey: ENV.FIGMA_TEMPLATES_FILE_KEY }),
           ]);
 
-        // published IDs from sources.components()
-        const publishedComponentIdSet = new Set(publishedComponents.map((c) => c.id));
-        const publishedTemplateIdSet = new Set(publishedTemplates.map((c) => c.id));
+        // published IDs from sources.components() - exclude components that belong to a component set
+        const publishedComponentIdSet = new Set(
+          publishedComponents.filter((c) => !c.componentSetId).map((c) => c.id),
+        );
+        const publishedTemplateIdSet = new Set(
+          publishedTemplates.filter((c) => !c.componentSetId).map((c) => c.id),
+        );
 
-        // allowlisted private IDs from getFile() (exclude already published)
+        // allowlisted private IDs from getFile() (exclude already published and components in component sets)
         const privateComponentIds = Object.entries(componentsFile.components)
           .filter(
             ([id, comp]) =>
               !publishedComponentIdSet.has(id) &&
               !comp.remote &&
-              PRIVATE_COMPONENT_SET_PATTERNS.some((pattern) => pattern.test(comp.name)),
+              !comp.componentSetId &&
+              PRIVATE_PATTERNS.some((pattern) => pattern.test(comp.name)),
           )
           .map(([id]) => id);
         const privateTemplateIds = Object.entries(templatesFile.components)
@@ -171,7 +189,8 @@ const config = createConfig({
             ([id, comp]) =>
               !publishedTemplateIdSet.has(id) &&
               !comp.remote &&
-              PRIVATE_COMPONENT_SET_PATTERNS.some((pattern) => pattern.test(comp.name)),
+              !comp.componentSetId &&
+              PRIVATE_PATTERNS.some((pattern) => pattern.test(comp.name)),
           )
           .map(([id]) => id);
 
@@ -201,7 +220,6 @@ const config = createConfig({
         ];
       })
       .sort((a, b) => a.document.name.localeCompare(b.document.name))
-      .filter(({ document }) => !!(document as ComponentNode).componentPropertyDefinitions)
       .transform(({ document: _document, components, prefix }) => {
         const document = _document as ComponentNode;
         const { name, key, componentPropertyDefinitions } = {
@@ -222,8 +240,20 @@ const config = createConfig({
         };
       })
       .write(async (items, { utils, write, pipelineName }) => {
-        const mjs = items.map((item) => utils.toMjs(item.name, item).trim()).join("\n\n");
-        const dts = items.map((item) => utils.toDts(item.name, item).trim()).join("\n\n");
+        const nameCount = new Map<string, number>();
+        for (const item of items) {
+          nameCount.set(item.name, (nameCount.get(item.name) ?? 0) + 1);
+        }
+
+        const getIdentifier = (item: (typeof items)[number]) => {
+          const count = nameCount.get(item.name);
+          return count !== undefined && count > 1
+            ? `${item.name}_${item.key.slice(0, 3)}`
+            : item.name;
+        };
+
+        const mjs = items.map((item) => utils.toMjs(getIdentifier(item), item).trim()).join("\n\n");
+        const dts = items.map((item) => utils.toDts(getIdentifier(item), item).trim()).join("\n\n");
 
         await Promise.all([
           write(`${pipelineName}/index.mjs`, mjs),

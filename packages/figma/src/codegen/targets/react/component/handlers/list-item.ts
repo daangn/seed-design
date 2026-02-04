@@ -14,26 +14,26 @@ import { match } from "ts-pattern";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("list");
 
-const PREFIX_KEYS = {
-  checkmark: "563275de82ea1282cece0c35c0cd8d1625bc3a9d",
-  radiomark: "51f7c0917ebc559d81e63d0639cb632a792f40de",
-  icon: components.componentListItemPrefixIcon.key,
-  avatar: "27e33754113178be97e07195528c4ea020b3d3b7",
-  image: "d06216ff143a960844799c0b8f9212628f78c69d",
-  custom: "b8059f5e0f85e0745fc61ff70f04571177c2cdfc",
-};
+const PREFIX_KEYS = [
+  components.componentListItemPrefixCheckbox.key,
+  components.componentListItemPrefixRadiomark.key,
+  components.componentListItemPrefixIcon.key,
+  components.componentListItemPrefixAvatar.key,
+  components.componentListItemPrefixImage.key,
+  components.componentListItemPrefixCustom.key,
+];
 
-const SUFFIX_KEYS = {
-  checkmark: "385ba8d607029e15e0d38ab415f783016488b185",
-  radiomark: "09871d64c5c30407da586fb34425c2e83e147c81",
-  chevron: components.componentListItemSuffixChevron.key,
-  switch: "0c26bd64e117e168b06eea69be903e4be762a728",
-  custom: "26b86c9f8965d38aa5a1181a5cdc89fa487988d1",
-  icon: components.componentListItemSuffixIcon.key,
-  chevronWithText: components.componentListItemSuffixChevronWithText.key,
-  iconButton: metadata.componentListItemSuffixIconButton.key,
-  actionButton: metadata.componentListItemSuffixActionButton.key,
-};
+const SUFFIX_KEYS = [
+  components.componentListItemSuffixCheckbox.key,
+  components.componentListItemSuffixRadiomark.key,
+  components.componentListItemSuffixChevron.key,
+  components.componentListItemSuffixSwitch.key,
+  components.componentListItemSuffixCustom.key,
+  components.componentListItemSuffixIcon.key,
+  components.componentListItemSuffixChevronWithText.key,
+  metadata.componentListItemSuffixIconButton.key,
+  metadata.componentListItemSuffixActionButton.key,
+];
 
 export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ListItemProperties>(metadata.componentListItem.key, (node, traverse) => {
@@ -55,7 +55,7 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
     const prefixNode = (() => {
       if (props["Has Prefix#28452:85"].value === false) return null;
 
-      for (const key of Object.values(PREFIX_KEYS)) {
+      for (const key of PREFIX_KEYS) {
         const [found] = findAllInstances<ListItemPrefixIconProperties | {}>({ node, key });
 
         if (found) return found;
@@ -79,7 +79,7 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
     const suffixNode = (() => {
       if (props["Has Suffix#28452:64"].value === false) return null;
 
-      for (const key of Object.values(SUFFIX_KEYS)) {
+      for (const key of SUFFIX_KEYS) {
         const [found] = findAllInstances<ListItemSuffixIconProperties | {}>({ node, key });
 
         if (found) return found;
