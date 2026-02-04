@@ -6,18 +6,7 @@
     "onlyUpdatePeerDependentsWhenOutOfRange": true
   },
   "linked": [
-    [
-      "@seed-design/react",
-      "@seed-design/stackflow",
-      "@seed-design/css",
-      "@seed-design/vite-plugin",
-      "@seed-design/webpack-plugin",
-      "@seed-design/rsbuild-plugin",
-      "@seed-design/tailwind3-plugin",
-      "@seed-design/tailwind4-theme",
-      "@seed-design/figma",
-      "@seed-design/mcp"
-    ],
+    ["@seed-design/figma", "@seed-design/mcp"],
     ["@seed-design/codemod", "@seed-design/migration-index"]
   ],
   "access": "public",
