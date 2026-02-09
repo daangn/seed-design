@@ -154,7 +154,8 @@
         },
         "closeButton": {
           "values": {
-            "true": {}
+            "true": {},
+            "false": {}
           },
           "defaultValue": "true"
         }
@@ -322,30 +323,6 @@
       },
       {
         "variants": {
-          "headerAlignment": "left"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "title": {
-                "paddingLeft": {
-                  "type": "dimension",
-                  "value": "$dimension.spacing-x.global-gutter"
-                },
-                "paddingRight": {
-                  "type": "dimension",
-                  "value": "$dimension.spacing-x.global-gutter"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
           "headerAlignment": "left",
           "closeButton": "true"
         },
@@ -370,7 +347,8 @@
       },
       {
         "variants": {
-          "headerAlignment": "center"
+          "headerAlignment": "left",
+          "closeButton": "false"
         },
         "definitions": [
           {
@@ -417,6 +395,31 @@
                     "value": 60,
                     "unit": "px"
                   }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "headerAlignment": "center",
+          "closeButton": "false"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "title": {
+                "paddingLeft": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                },
+                "paddingRight": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
                 }
               }
             }

@@ -134,16 +134,11 @@ data:
         closeButton:
           fromTop: $dimension.x6
           fromRight: $dimension.x4
-    headerAlignment=left:
-      enabled:
-        title:
-          paddingLeft: $dimension.spacing-x.global-gutter
-          paddingRight: $dimension.spacing-x.global-gutter
     headerAlignment=left,closeButton=true:
       enabled:
         title:
           paddingRight: 50px
-    headerAlignment=center:
+    headerAlignment=left,closeButton=false:
       enabled:
         title:
           paddingLeft: $dimension.spacing-x.global-gutter
@@ -153,3 +148,8 @@ data:
         title:
           paddingLeft: 60px
           paddingRight: 60px
+    headerAlignment=center,closeButton=false:
+      enabled:
+        title:
+          paddingLeft: $dimension.spacing-x.global-gutter
+          paddingRight: $dimension.spacing-x.global-gutter

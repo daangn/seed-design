@@ -51,14 +51,6 @@ export declare const vars: {
       }
     }
   },
-  "headerAlignmentLeft": {
-    "enabled": {
-      "title": {
-        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
-        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
-      }
-    }
-  },
   "headerAlignmentLeftCloseButtonTrue": {
     "enabled": {
       "title": {
@@ -66,7 +58,7 @@ export declare const vars: {
       }
     }
   },
-  "headerAlignmentCenter": {
+  "headerAlignmentLeftCloseButtonFalse": {
     "enabled": {
       "title": {
         "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
@@ -79,6 +71,14 @@ export declare const vars: {
       "title": {
         "paddingLeft": "60px",
         "paddingRight": "60px"
+      }
+    }
+  },
+  "headerAlignmentCenterCloseButtonFalse": {
+    "enabled": {
+      "title": {
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
+        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
       }
     }
   }
