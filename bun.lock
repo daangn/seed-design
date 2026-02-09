@@ -1176,21 +1176,24 @@
       "name": "figma-v3-migration",
       "version": "1.0.0",
       "dependencies": {
+        "@create-figma-plugin/utilities": "^4.0.0",
         "@figmazing/event": "0.0.1",
         "@karrotmarket/react-monochrome-icon": "^1.8.0",
-        "@seed-design/css": "^1.1.17",
+        "@seed-design/css": "^1.2.1",
         "@seed-design/migration-index": "^1.0.0",
-        "@seed-design/react": "^1.1.17",
+        "@seed-design/react": "^1.2.3",
         "@seed-design/vite-plugin": "^1.1.0",
+        "change-case": "^5.4.4",
         "color-delta-e": "^1.3.0",
         "normalize.css": "^8.0.1",
         "posthog-js": "^1.245.1",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
+        "rgb-hex": "^4.1.0",
       },
       "devDependencies": {
         "@figma/plugin-typings": "^1.110.0",
-        "@seed-design/figma-extractor": "^1.0.0",
+        "@seed-design/figma-extractor": "^1.1.0",
         "@types/node": "^25.0.0",
         "@types/react": "^19.1.6",
         "@types/react-dom": "^19.1.5",
@@ -5941,6 +5944,8 @@
     "fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
     "figma-api/@figma/rest-api-spec": ["@figma/rest-api-spec@0.27.0", "", {}, "sha512-jRGYwBLdybit9X7puOmztx8XUt1dq9a7jtBO2KEK4OrxP8GKGX5yY2+efV/XNRHnqTbzFue0qdZklSBs/EaGNw=="],
+
+    "figma-v3-migration/@types/node": ["@types/node@25.1.0", "", { "dependencies": { "undici-types": "~7.16.0" } }, "sha512-t7frlewr6+cbx+9Ohpl0NOTKXZNV9xHRmNOvql47BFJKcEG1CxtxlPEEe+gR9uhVWM4DwhnvTF110mIL4yP9RA=="],
 
     "file-entry-cache/flat-cache": ["flat-cache@4.0.1", "", { "dependencies": { "flatted": "^3.2.9", "keyv": "^4.5.4" } }, "sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw=="],
 
