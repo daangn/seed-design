@@ -1,0 +1,1 @@
+../../plugins/seed-design/skills/write-component-guideline/SKILL.md

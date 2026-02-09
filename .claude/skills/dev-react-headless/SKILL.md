@@ -1,0 +1,1 @@
+../../plugins/seed-design/skills/dev-react-headless/SKILL.md

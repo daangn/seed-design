@@ -1,5 +1,5 @@
 ---
-name: figma-v3-migration-plugin-dev
+name: devfigma-v3-migration-plugin
 description: Figma V3 Migration Plugin development specialist. Use when developing Figma V3 Migration Plugin. Focuses on Figma V3 Migration Plugin development.
 allowed-tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep
 ---

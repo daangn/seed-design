@@ -1,10 +1,10 @@
 ---
-name: react-headless-dev
+name: dev-react-headless
 description: SEED React Headless 컴포넌트 개발 스킬. 스타일 없이 순수한 데이터 로직과 상태 관리만 제공하는 컴포넌트를 개발합니다.
 allowed-tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep
 ---
 
-# React Headless Component Developer
+# Dev React Headless
 
 스타일 없이 순수한 로직만 제공하는 Headless 컴포넌트를 개발합니다.
 

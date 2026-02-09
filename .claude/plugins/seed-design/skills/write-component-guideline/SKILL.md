@@ -1,10 +1,10 @@
 ---
-name: component-guidelines-docs
+name: write-component-guideline
 description: Generate comprehensive component guideline documentation for SEED Design System. Use when creating or updating design guideline documentation in ./docs/content/docs/components directory. This skill helps create high-quality documentation similar to action-button.mdx.
 allowed-tools: Read, Write, Glob, Grep, Bash
 ---
 
-# Component Guidelines Documentation Generator
+# Write Component Guideline
 
 이 스킬은 SEED Design System의 컴포넌트 가이드라인 문서를 생성합니다. Action Button과 같은 고품질 디자인 가이드라인 문서를 작성할 수 있도록 돕습니다.
 

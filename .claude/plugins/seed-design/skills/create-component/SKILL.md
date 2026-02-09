@@ -1,10 +1,10 @@
 ---
-name: component-flow-guide
+name: create-component
 description: 컴포넌트 개발 흐름 가이드. rootage 정의부터 문서, 테스트까지 전체 파이프라인을 안내합니다.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
-# Component Flow Guide
+# Create Component
 
 컴포넌트 개발의 전체 흐름을 단계별로 안내합니다.
 

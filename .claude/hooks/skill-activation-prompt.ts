@@ -117,7 +117,7 @@ const contextHints: ContextHint[] = [
         prompt.includes("new component")
       );
     },
-    hint: "새 컴포넌트: @component-flow-guide 스킬로 전체 흐름 확인 권장",
+    hint: "새 컴포넌트: @create-component 스킬로 전체 흐름 확인 권장",
     priority: "info",
   },
 ];

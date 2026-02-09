@@ -1,10 +1,10 @@
 ---
-name: docs-consistency-checker
+name: check-docs-consistency
 description: 문서 레이어 간 일관성 검증. Design guidelines, Rootage specs, React docs가 서로 일치하는지 확인합니다.
 allowed-tools: Read, Grep, Glob
 ---
 
-# Documentation Consistency Checker
+# Check Docs Consistency
 
 SEED Design System의 문서 레이어 간 일관성을 검증합니다.
 

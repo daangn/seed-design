@@ -1,10 +1,10 @@
 ---
-name: react-docs-generator
+name: write-react-component-docs
 description: Generate React component documentation for SEED Design System. Use when creating new React component docs in ./docs/content/react/components or updating existing implementation documentation. Helps document component APIs, props, installation, and usage examples.
 allowed-tools: Read, Write, Glob, Grep, Bash
 ---
 
-# React Component Documentation Generator
+# Write React Component Docs
 
 Generate comprehensive React component documentation following SEED Design patterns.
 
