@@ -3,6 +3,8 @@ import { useSupports } from "@seed-design/react-supports";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSafeOffset } from "./useSafeOffset";
 
+console.log("useSnackbar module loaded");
+
 type SnackbarState = "inactive" | "active" | "persist" | "dismissing";
 
 interface UseSnackbarStateProps {
@@ -100,12 +102,14 @@ function useSnackbarState({ pauseOnInteraction = true }: UseSnackbarStateProps) 
         push(option);
         if (state === "inactive") {
           pop();
+          console.log("push");
           setState("active");
         }
       },
       pause: () => {
         if (state === "active") {
           if (pauseOnInteraction) {
+            console.log("pause");
             setState("persist");
           }
         }
@@ -160,9 +164,11 @@ export function useSnackbar(props: UseSnackbarProps) {
       safeOffset,
 
       create(options: CreateSnackbarOptions) {
+        console.log("create happened, pushing...");
         events.push(options);
       },
       dismiss() {
+        console.log("dismiss happened, dismissing...");
         events.dismiss();
       },
 
@@ -197,16 +203,20 @@ export function useSnackbar(props: UseSnackbarProps) {
 
           // only pause if focus is visible (focused using keyboard) || action label has focus
           if (event.target.matches(":focus-visible")) {
+            console.log("focus - pausing");
             events.pause();
           }
         },
         onBlur() {
+          console.log("blur - resuming");
           events.resume();
         },
         onPointerEnter() {
+          console.log("pointer enter - pausing");
           events.pause();
         },
         onPointerLeave() {
+          console.log("pointer leave - resuming");
           events.resume();
         },
       }),
@@ -214,6 +224,7 @@ export function useSnackbar(props: UseSnackbarProps) {
       closeButtonProps: buttonProps({
         type: "button",
         onClick() {
+          console.log("close button clicked - dismissing");
           events.dismiss();
         },
       }),
