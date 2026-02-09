@@ -143,6 +143,7 @@
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
 }
 .seed-bottom-sheet__title--headerAlign_left[data-show-close-button] {
+    padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: 50px;
 }
 .seed-bottom-sheet__header--headerAlign_center {

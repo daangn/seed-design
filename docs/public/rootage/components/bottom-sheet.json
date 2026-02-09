@@ -339,6 +339,10 @@
                     "value": 50,
                     "unit": "px"
                   }
+                },
+                "paddingLeft": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
                 }
               }
             }

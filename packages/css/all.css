@@ -2799,6 +2799,7 @@
 }
 
 .seed-bottom-sheet__title--headerAlign_left[data-show-close-button] {
+  padding-left: var(--seed-dimension-spacing-x-global-gutter);
   padding-right: 50px;
 }
 

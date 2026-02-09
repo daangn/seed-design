@@ -54,7 +54,8 @@ export declare const vars: {
   "headerAlignmentLeftCloseButtonTrue": {
     "enabled": {
       "title": {
-        "paddingRight": "50px"
+        "paddingRight": "50px",
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)"
       }
     }
   },
