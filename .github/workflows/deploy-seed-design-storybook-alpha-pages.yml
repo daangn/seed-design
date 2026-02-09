@@ -10,16 +10,16 @@ on:
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
-      - ".github/workflows/docs-deploy-storybook-alpha-pages.yml"
+      - ".github/workflows/deploy-seed-design-storybook-alpha-pages.yml"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-name: Deploy seed-design-v3 Storybook Alpha
+name: deploy-seed-design-storybook-alpha-pages
 
 jobs:
   deploy:
-    name: Deploy seed-design-v3 Storybook Alpha
+    name: deploy-seed-design-storybook-alpha-pages
     runs-on: ubuntu-latest
 
     steps:
@@ -39,8 +39,8 @@ jobs:
         working-directory: ./docs
         run: bun build-storybook
 
-      - name: Deploy docs at Cloudflare Pages in `seed-design-v3-storybook` project (Alpha)
+      - name: Deploy docs at Cloudflare Pages in `seed-design-storybook` project (Alpha)
         run: |
           CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
           CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
-          bun wrangler pages deploy ./docs/storybook-static --project-name=seed-design-v3-storybook --branch=${{ github.ref_name }}
+          bun wrangler pages deploy ./docs/storybook-static --project-name=seed-design-storybook --branch=${{ github.ref_name }}
