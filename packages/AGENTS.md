@@ -16,15 +16,9 @@ react-headless (로직) + css → react (스타일드 컴포넌트)
 
 ## 패키지 역할
 
-| 패키지 | 역할 | 소스/생성 |
-|--------|------|-----------|
-| `rootage` | 디자인 토큰/컴포넌트 스키마 YAML 정의 | **소스** |
-| `qvism-preset` | CSS Recipe 정의 | **소스** (vars는 생성) |
-| `css` | CSS 변수/Recipe 제공 | **생성** |
-| `react-headless` | Headless UI 로직 (스타일 없음) | **소스** |
-| `react` | 스타일 적용된 React 컴포넌트 | **소스** |
-| `figma` | Figma 연동 라이브러리 | **소스** |
-| `docs-mcp` | 문서 MCP 서버 | **소스** |
+## 패키지 역할
+
+디자인 토큰 정의(rootage), 스타일 레시피(qvism-preset), 생성된 CSS(css), Headless 로직(react-headless), 스타일드 컴포넌트(react), Figma 연동(figma), 문서 서버(docs-mcp) 등의 패키지로 구성된다.
 
 ## 생성 파일 주의
 
