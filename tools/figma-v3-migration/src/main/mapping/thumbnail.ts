@@ -1,8 +1,8 @@
 import type { ComponentMapping, NewComponentProperties } from "./types";
 
-export const thumbnailMapping: ComponentMapping<"Thumbnail", "Image Frame"> = {
+export const thumbnailMapping: ComponentMapping<"Thumbnail", "🟢 Image Frame"> = {
   oldComponent: "Thumbnail",
-  newComponent: "Image Frame",
+  newComponent: "🟢 Image Frame",
   variantMap: {
     "Size:40": "Size:42",
     "Size:48": "Size:48",
@@ -12,17 +12,19 @@ export const thumbnailMapping: ComponentMapping<"Thumbnail", "Image Frame"> = {
     "Size:108": "Size:120",
     "Size:120": "Size:120",
     "Size:140": "Size:120",
-    "Size:Full Width": "Size:120",
+    "Size:Full Width": "Size:\bFree",
   },
   calculateProperties() {
-    const newProperties: NewComponentProperties<"Image Frame"> = {};
+    const newProperties: NewComponentProperties<"🟢 Image Frame"> = {
+      "Has Image Contents#29729:0": false,
+    };
     return newProperties;
   },
 };
 
-export const thumbnailRatioMapping: ComponentMapping<"Thumbnail Ratio", "Image Frame"> = {
+export const thumbnailRatioMapping: ComponentMapping<"Thumbnail Ratio", "🟢 Image Frame"> = {
   oldComponent: "Thumbnail Ratio",
-  newComponent: "Image Frame",
+  newComponent: "🟢 Image Frame",
   variantMap: {
     "Aspect Ratio:1:1": "Ratio:1:1",
     "Aspect Ratio:4:3": "Ratio:4:3",
@@ -31,7 +33,7 @@ export const thumbnailRatioMapping: ComponentMapping<"Thumbnail Ratio", "Image F
     "Aspect Ratio:2:3": "Ratio:2:3",
   },
   calculateProperties() {
-    const newProperties: NewComponentProperties<"Image Frame"> = {};
+    const newProperties: NewComponentProperties<"🟢 Image Frame"> = {};
     return newProperties;
   },
 };
