@@ -12,6 +12,9 @@ on:
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-storybook-alpha-pages.yml"
 
+permissions:
+  contents: read
+
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -11,6 +11,9 @@ on:
       - ".github/workflows/deploy-seed-design-storybook-prod-pages.yml"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
