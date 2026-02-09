@@ -64,7 +64,7 @@ definitions:
 
 **검증**: Rootage YAML 존재 시 관련 문서도 존재해야 함
 
-```
+```text
 Component ID | Rootage YAML | Design Docs | React Docs | Status
 -------------|--------------|-------------|-----------|-------
 action-button|      ✓       |      ✓      |     ✓     | Complete

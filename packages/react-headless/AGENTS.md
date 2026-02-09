@@ -6,10 +6,8 @@
 
 ## 파일 작성 컨벤션
 
-- `{component-name}/src/`: 컴포넌트별 디렉토리 (kebab-case)
-- `use{Component}.ts`: 커스텀 훅
-- `{Component}.tsx`: Primitive 컴포넌트
-- `{Component}.namespace.ts`: Multi-part 컴포넌트용 barrel
+- 컴포넌트 단위 디렉토리에서 훅, 프리미티브 구현, 멀티파트 바렐을 역할별 아티팩트로 분리한다.
+- 파일은 역할이 겹치지 않도록 단일 책임으로 구성하고 공개 경로는 배럴을 통해 정리한다.
 
 ## 코드 작성 컨벤션
 

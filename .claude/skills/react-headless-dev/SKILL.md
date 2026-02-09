@@ -42,14 +42,14 @@ const Button = () => {
 
 ### 3. Custom Hook + Component 분리
 
-```
+```text
 use{Component}.ts  → 로직 (상태, 이벤트 핸들링)
 {Component}.tsx    → DOM 조합 (훅 결과 spread)
 ```
 
 ## 파일 구조
 
-```
+```text
 packages/react-headless/
 ├── {component-name}/
 │   ├── src/

@@ -10,7 +10,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 ## 핵심 흐름
 
-```
+```text
 Headless (선택) → Rootage YAML → bun generate:all → Recipe → React → Storybook → Docs → Visual Test
 ```
 
@@ -32,7 +32,7 @@ Headless (선택) → Rootage YAML → bun generate:all → Recipe → React →
 
 ## 전체 파이프라인
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │  1. HEADLESS (Optional) - packages/react-headless/          │
 └─────────────────────────────────────────────────────────────┘

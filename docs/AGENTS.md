@@ -6,14 +6,10 @@ SEED Design **문서 사이트**. Next.js + Fumadocs 기반. 컴포넌트 문서
 
 ## 파일 작성 컨벤션
 
-- `content/react/`: React 컴포넌트 문서
-- `content/docs/`: 디자인 가이드라인
-- `content/breeze/`: Breeze 컴포넌트
-- `content/ai-integration/`: AI 도구 연동 가이드
-- MDX 파일명: `kebab-case.mdx`
+- 문서는 역할 중심 도메인으로 분리하고, 새로운 문서 영역 추가 시 관련 매핑/동기화 규칙을 함께 갱신한다.
+- MDX 파일명은 `kebab-case`를 사용한다.
 
 ## 코드 작성 컨벤션
 
-- Frontmatter 필수: `title`, `description`
-- 문서 UI 컴포넌트: `components/`
-- Storybook 스토리: `stories/`
+- Frontmatter에 `title`, `description`을 필수로 포함한다.
+- 문서 UI와 스토리는 문서 본문과 분리된 참조 계층으로 관리한다.

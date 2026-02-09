@@ -14,7 +14,7 @@ SEED Design의 **CLI 도구와 코어 라이브러리**. `packages/`의 preset�
 
 ## 관계 흐름
 
-```
+```text
 ecosystem/rootage CLI ← packages/rootage YAML
     ↓ 생성
 packages/css/vars, packages/qvism-preset/src/vars

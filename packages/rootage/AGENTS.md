@@ -6,9 +6,8 @@ SEED Design의 **디자인 토큰과 컴포넌트 스키마를 YAML로 정의**�
 
 ## 파일 작성 컨벤션
 
-- `*.yaml` (루트): 토큰 정의 (color, radius, duration 등)
-- `components/*.yaml`: 컴포넌트 스키마 정의 (kebab-case)
-- `components/schema.json`: 자동 생성 (직접 수정 금지)
+- 토큰 정의와 컴포넌트 스키마 정의를 역할별 YAML 계층으로 관리한다.
+- 자동 생성 산출물은 직접 수정하지 않고 원천 YAML 변경 후 재생성한다.
 
 ## 코드 작성 컨벤션
 

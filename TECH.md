@@ -38,7 +38,7 @@
 
 SEED Design은 **디자인 토큰 → 스타일 → 컴포넌트** 파이프라인을 따른다.
 
-```
+```text
 [Figma] → [rootage YAML] → [qvism-preset] → [css] → [react]
            ↓                ↓               ↓
          토큰 정의        Recipe 정의      CSS 생성    React 컴포넌트
@@ -57,7 +57,7 @@ SEED Design은 **디자인 토큰 → 스타일 → 컴포넌트** 파이프라�
 
 ## 핵심 패키지 관계
 
-```
+```text
 rootage (YAML 정의)
     ↓ generate
 qvism-preset (Recipe 정의) + css/vars (토큰)

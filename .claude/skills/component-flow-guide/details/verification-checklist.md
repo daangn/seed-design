@@ -17,7 +17,7 @@
 
 ### 잘못된 순서
 
-```
+```text
 ❌ React 먼저 → Rootage 나중에
    → CSS 변수가 없어서 스타일 깨짐
 
@@ -26,7 +26,7 @@
 
 ### Recipe export 누락
 
-```
+```text
 ❌ Recipe 작성 후 index.ts에 추가 안 함
    → 컴포넌트에서 import 실패
 
@@ -35,7 +35,7 @@
 
 ### 테스트 생략
 
-```
+```text
 ❌ 구현만 하고 Visual Test 안 함
    → 다크모드/폰트 스케일링 버그 발견 못함
 

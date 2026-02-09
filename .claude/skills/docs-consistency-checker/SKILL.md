@@ -19,28 +19,28 @@ SEED Design System의 문서 레이어 간 일관성을 검증합니다.
 ## 검증 항목
 
 ### 1. Naming Consistency
-```
+```text
 rootage.metadata.name === designDocs.title === reactDocs.title
 ```
 
 ### 2. Description Consistency
-```
+```text
 designDocs.description === reactDocs.description
 ```
 
 ### 3. Props Coverage
-```
+```text
 extractedPropsFromYAML ⊆ documentedPropsInDesignDocs
 ```
 
 ### 4. Component ID Match
-```
+```text
 <PlatformStatusTable componentId="X" /> where X === rootage.metadata.id
 <ComponentSpecBlock id="X" /> where X === rootage.metadata.id
 ```
 
 ### 5. File Existence
-```
+```text
 if (rootageYAML.exists()) {
   designDocs.shouldExist()
   reactDocs.shouldExist()
@@ -69,7 +69,7 @@ ls packages/rootage/components/*.yaml
 ## Output Format
 
 ### Compact
-```
+```text
 ✅ action-button - Fully consistent
 ⚠️  checkbox - Warning: Description differs
 ❌ badge - Critical: Missing Props table
@@ -77,7 +77,7 @@ ls packages/rootage/components/*.yaml
 ```
 
 ### Detailed
-```
+```text
 ## action-button
 Status: ✅ Fully consistent
 

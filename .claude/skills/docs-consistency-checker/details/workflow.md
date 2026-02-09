@@ -87,19 +87,19 @@ const sizes = Object.keys(definitions)
 ## 사용 시나리오
 
 ### Full Audit
-```
+```text
 "Run docs consistency checker on all components"
 → 모든 컴포넌트에 대해 검증 실행
 ```
 
 ### Single Component
-```
+```text
 "Check docs consistency for action-button"
 → action-button에 대해서만 상세 검증
 ```
 
 ### Missing Docs Only
-```
+```text
 "Find components with missing documentation"
 → 파일 존재 확인만 실행
 ```

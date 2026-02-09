@@ -25,7 +25,7 @@ tools: Read, Glob, Grep
 
 같은 내용이 여러 문서에 있으면 경고:
 
-```
+```text
 ❌ 중복 발견:
 - packages/react/AGENTS.md: "컴포넌트 개발 방법" 섹션
 - packages/react/README.md: "Development" 섹션
@@ -40,7 +40,7 @@ AGENTS.md 필수 3섹션 확인:
 - [ ] `## 파일 작성 컨벤션`
 - [ ] `## 코드 작성 컨벤션`
 
-```
+```text
 ❌ 누락 발견:
 - packages/figma/AGENTS.md: "파일 작성 컨벤션" 섹션 없음
 ```
@@ -51,7 +51,7 @@ AGENTS.md 필수 3섹션 확인:
 - 하위 AGENTS는 깊고 좁게
 - 중복 없이 계층적으로 작성
 
-```
+```text
 ❌ 계층 위반:
 - /packages/AGENTS.md: 개별 패키지 상세 설명 포함
 → 권장: 개별 패키지의 AGENTS.md로 이동
@@ -61,7 +61,7 @@ AGENTS.md 필수 3섹션 확인:
 
 기술 상세가 AGENTS.md에 있으면 TECH.md로 이동 권장:
 
-```
+```text
 ❌ 위치 오류:
 - packages/rootage/AGENTS.md: 빌드 명령어 상세 설명
 → 권장: TECH.md로 이동
@@ -69,7 +69,7 @@ AGENTS.md 필수 3섹션 확인:
 
 ## 출력 형식
 
-```
+```text
 ## 문서 일관성 감사 결과
 
 ### 검사 대상

@@ -6,7 +6,7 @@ SEED Design의 **핵심 패키지**들이 위치한다. 디자인 토큰 정의�
 
 ## 패키지 흐름
 
-```
+```text
 rootage (YAML 정의) → css/vars, qvism-preset/vars (토큰 생성)
                           ↓
 qvism-preset (Recipe 정의) → css/recipes (CSS 생성)

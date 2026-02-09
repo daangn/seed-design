@@ -36,7 +36,7 @@ tools: Read, Glob, Grep, Bash
 
 ### 1. 컴포넌트 추가/수정 시
 
-```
+```text
 [필수 순서]
 1. packages/rootage/components/[name]/*.yaml 수정
 2. bun generate (CSS 생성)
@@ -48,7 +48,7 @@ tools: Read, Glob, Grep, Bash
 
 ### 2. 토큰 추가/수정 시
 
-```
+```text
 [필수 순서]
 1. packages/rootage/tokens/*.yaml 수정
 2. bun generate (vars.ts 생성)
@@ -57,7 +57,7 @@ tools: Read, Glob, Grep, Bash
 
 ### 3. Figma 플러그인 수정 시
 
-```
+```text
 [필수 순서]
 1. packages/figma/ 수정
 2. bun build (tools/figma-plugin-*)
@@ -85,7 +85,7 @@ git diff --name-only HEAD | grep "packages/rootage/" && \
 
 ### 위반 감지 시
 
-```
+```text
 ╔════════════════════════════════════════════╗
 ║  ⛔ 생성 파일 수정 감지                    ║
 ╚════════════════════════════════════════════╝
@@ -103,7 +103,7 @@ git diff --name-only HEAD | grep "packages/rootage/" && \
 
 ### 동기화 필요 시
 
-```
+```text
 ╔════════════════════════════════════════════╗
 ║  ⚠️ 빌드 동기화 필요                       ║
 ╚════════════════════════════════════════════╝

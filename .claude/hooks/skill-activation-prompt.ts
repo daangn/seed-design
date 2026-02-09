@@ -39,6 +39,8 @@ interface ContextHint {
   priority: "warning" | "info";
 }
 
+const normalizeCwd = (cwd: string) => cwd.replace(/\\+/g, "/");
+
 const contextHints: ContextHint[] = [
   // 생성 파일 접근 감지
   {
@@ -55,26 +57,38 @@ const contextHints: ContextHint[] = [
   },
   // packages/react-headless 작업 감지
   {
-    condition: (input) =>
-      input.cwd.includes("packages/react-headless") ||
-      input.user_prompt.toLowerCase().includes("react-headless"),
+    condition: (input) => {
+      const normalizedCwd = normalizeCwd(input.cwd);
+      return (
+        normalizedCwd.includes("packages/react-headless") ||
+        input.user_prompt.toLowerCase().includes("react-headless")
+      );
+    },
     hint: "Headless 컴포넌트: 스타일 로직 제외, data-* 속성으로 상태 표현",
     priority: "info",
   },
   // packages/qvism-preset 작업 감지
   {
-    condition: (input) =>
-      input.cwd.includes("packages/qvism-preset") ||
-      input.user_prompt.toLowerCase().includes("recipe"),
+    condition: (input) => {
+      const normalizedCwd = normalizeCwd(input.cwd);
+      return (
+        normalizedCwd.includes("packages/qvism-preset") ||
+        input.user_prompt.toLowerCase().includes("recipe")
+      );
+    },
     hint: "Recipe 작성: hover 대신 active 사용 (모바일 우선), vars에서 토큰 참조",
     priority: "info",
   },
   // packages/react 작업 감지
   {
-    condition: (input) =>
-      input.cwd.includes("packages/react/") ||
-      (input.user_prompt.toLowerCase().includes("react") &&
-        input.user_prompt.toLowerCase().includes("컴포넌트")),
+    condition: (input) => {
+      const normalizedCwd = normalizeCwd(input.cwd);
+      return (
+        normalizedCwd.includes("packages/react/") ||
+        (input.user_prompt.toLowerCase().includes("react") &&
+          input.user_prompt.toLowerCase().includes("컴포넌트"))
+      );
+    },
     hint: "React 컴포넌트: forwardRef + displayName 필수, Primitive.* 사용",
     priority: "info",
   },
@@ -191,7 +205,8 @@ try {
   const applicableHints = contextHints.filter((h) => h.condition(input));
 
   if (applicableHints.length > 0) {
-    message += "\n📌 컨텍스트 힌트:\n";
+    message += message ? "\n" : "";
+    message += "📌 컨텍스트 힌트:\n";
     applicableHints.forEach((h) => {
       const icon = h.priority === "warning" ? "⚠️" : "💡";
       message += `  ${icon} ${h.hint}\n`;
@@ -205,8 +220,9 @@ try {
       }),
     );
   }
-} catch {
+} catch (error) {
   // 에러가 나도 hook이 실행을 방해하지 않도록 조용히 처리
-  // 디버깅이 필요하면 stderr로 출력
-  // console.error('Skill activation error:', error)
+  if (process.env.DEBUG_SKILL_ACTIVATION === "1") {
+    console.error("Skill activation error:", error);
+  }
 }
