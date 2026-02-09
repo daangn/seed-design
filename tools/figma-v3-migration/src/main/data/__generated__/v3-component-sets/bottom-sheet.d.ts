@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Bottom Sheet",
-  "key": "16bafa5d1155896fe18fb6f52f904f5cd2048686",
+  "key": "ffe99a21452831c28bd9375aac0aaf37d7ee6a0d",
   "componentPropertyDefinitions": {
     "Title#19787:3": {
       "type": "TEXT",
@@ -24,7 +24,7 @@ export declare const metadata: {
     },
     "Contents#25320:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "49774:15562",
+      "defaultValue": "204:1177",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -32,23 +32,23 @@ export declare const metadata: {
         },
         {
           "type": "COMPONENT",
-          "key": "5c5369d9c22115fd240d7b75ac2a334e9163ea57"
+          "key": "b0b3e0f267ee67e93d6af524ce9d45764027507c"
         },
         {
           "type": "COMPONENT",
-          "key": "8670afb7520ac44dfed003e3e9c7cce359897d0c"
+          "key": "9d530235407646750ce8298b2815093dffcbbd83"
         },
         {
           "type": "COMPONENT",
-          "key": "e3d337e6eddbe9ec025fe69520c1cff0bd697b60"
+          "key": "9b50b222edac142fcce609da87250d7778e45ec4"
         },
         {
           "type": "COMPONENT",
-          "key": "0c6c58d5b7a159e7db1a0c1ccf32916ca8a51164"
+          "key": "61f7b8ff0a1a374a10bb1a6a7a31f379863f2ac8"
         },
         {
           "type": "COMPONENT",
-          "key": "088624580ee501efed377bb4f42561a387db5699"
+          "key": "0e8d8770bacfb2567a054e9c2159fe5dad6a21ba"
         }
       ]
     },

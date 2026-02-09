@@ -178,7 +178,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "checkbox.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
     },
@@ -206,7 +206,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "menu-sheet.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
     },
@@ -233,7 +233,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "help-bubble.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
     },
@@ -252,6 +252,15 @@ export const registryUI: Registry = {
         {
           path: "chip-tabs.tsx",
           dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
+    {
+      id: "tag-group",
+      snippets: [
+        {
+          path: "tag-group.tsx",
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
     },
@@ -278,7 +287,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "radio-group.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
     },
@@ -287,7 +296,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "select-box.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
     },
@@ -305,7 +314,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "switch.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
     },

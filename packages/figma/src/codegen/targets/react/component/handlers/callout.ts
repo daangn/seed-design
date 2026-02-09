@@ -11,7 +11,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("callout");
 
 export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<CalloutProperties>(
-    metadata.callout.key,
+    metadata.componentCallout.key,
     ({ componentProperties: props, children }) => {
       const tag = match(props.Interaction.value)
         .with("Display", () => "Callout")

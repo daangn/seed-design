@@ -10,7 +10,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("toggle-button");
 
 export const createToggleButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ToggleButtonProperties>(
-    metadata.toggleButton.key,
+    metadata.componentToggleButton.key,
     ({ componentProperties: props }) => {
       const commonProps = {
         variant: camelCase(props.Variant.value),

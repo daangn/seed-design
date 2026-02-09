@@ -9,7 +9,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("switch");
 
 export const createSwitchmarkHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SwitchmarkProperties>(
-    metadata.switchmark.key,
+    metadata.componentSwitchmark.key,
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")
@@ -21,6 +21,6 @@ export const createSwitchmarkHandler = (_ctx: ComponentHandlerDeps) =>
         size: props.Size.value,
       };
 
-      return createLocalSnippetElement("SwitchMark", commonProps);
+      return createLocalSnippetElement("Switchmark", commonProps);
     },
   );

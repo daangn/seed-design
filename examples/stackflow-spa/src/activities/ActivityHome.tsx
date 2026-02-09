@@ -154,6 +154,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "BottomSheet", onClick: () => push("ActivityBottomSheet", {}) },
         {
+          title: "BottomSheet Modal Test",
+          onClick: () => push("ActivityBottomSheetModalTest", {}),
+        },
+        {
           title: "MenuSheet",
           component: (
             <DialogPushTrigger
@@ -180,6 +184,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "List",
       items: [
         { title: "ListItem", onClick: () => push("ActivityListItem", {}) },
+        { title: "ListImageFrame", onClick: () => push("ActivityListImageFrame", {}) },
         { title: "ListButtonItem", onClick: () => push("ActivityListButtonItem", {}) },
         { title: "ListLinkItem", onClick: () => push("ActivityListLinkItem", {}) },
         { title: "ListSwitchItem", onClick: () => push("ActivityListSwitchItem", {}) },
@@ -234,7 +239,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
-        { title: "TextField", onClick: () => push("ActivityTextField", {}) },
+        { title: "Form", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {

@@ -10,7 +10,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("progress-circle"
 
 export const createProgressCircleHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ProgressCircleProperties>(
-    metadata.progressCircle.key,
+    metadata.componentProgressCircle.key,
     ({ componentProperties: props }) => {
       const { value, minValue, maxValue } = match(props.Value.value)
         .with("Indeterminate", () => ({

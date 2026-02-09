@@ -1,0 +1,28 @@
+.seed-image-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: inherit;
+}
+.seed-image-frame > img, .seed-image-frame > video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+.seed-image-frame--stroke_true::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle);
+}
+.seed-image-frame--stroke_false {}
+.seed-image-frame--rounded_true {
+    border-radius: var(--seed-radius-r2);
+}
+.seed-image-frame--rounded_false {}

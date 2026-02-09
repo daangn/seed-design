@@ -24,7 +24,7 @@ export default function ListBottomSheet() {
         <ActionButton variant="neutralSolid">BottomSheet 열기</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent title="교통수단" description="이동할 교통수단을 선택해주세요.">
-        <VStack asChild pb="safeArea">
+        <VStack asChild>
           <form
             onReset={(e) => {
               e.preventDefault();

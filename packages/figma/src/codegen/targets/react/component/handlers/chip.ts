@@ -5,6 +5,7 @@ import type {
 } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
+import * as components from "@/entities/data/__generated__/components";
 import { match } from "ts-pattern";
 import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
@@ -15,10 +16,9 @@ import { createAvatarHandler } from "@/codegen/targets/react/component/handlers/
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("chip");
 
-const CHIP_ICON_SUFFIX_KEY = "27343e0e5ab2c66948e9b10fde03d58b5e037212";
 const createChipIconSuffixHandler = (ctx: ComponentHandlerDeps) => {
   return defineComponentHandler<ChipIconSuffixProperties>(
-    CHIP_ICON_SUFFIX_KEY,
+    components.componentChipSuffixIcon.key,
     ({ componentProperties }) => {
       return createLocalSnippetElement(
         "Chip.SuffixIcon",
@@ -35,7 +35,7 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
   const avatarHandler = createAvatarHandler(ctx);
   const iconSuffixHandler = createChipIconSuffixHandler(ctx);
 
-  return defineComponentHandler<ChipProperties>(metadata.chip.key, (node, traverse) => {
+  return defineComponentHandler<ChipProperties>(metadata.componentChip.key, (node, traverse) => {
     const props = node.componentProperties;
 
     const prefix = match(props["Prefix Type"].value)
@@ -50,7 +50,10 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
         ),
       )
       .with("Avatar", () => {
-        const [avatar] = findAllInstances<AvatarProperties>({ node, key: metadata.avatar.key });
+        const [avatar] = findAllInstances<AvatarProperties>({
+          node,
+          key: avatarHandler.key,
+        });
         if (!avatar) return undefined;
 
         return createLocalSnippetElement(
@@ -65,7 +68,7 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
 
     const [suffixIcon] = findAllInstances<ChipIconSuffixProperties>({
       node,
-      key: CHIP_ICON_SUFFIX_KEY,
+      key: components.componentChipSuffixIcon.key,
     });
 
     const commonProps = {

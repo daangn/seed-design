@@ -1,0 +1,147 @@
+# yaml-language-server: $schema=./schema.json
+# parts: root, thumb
+kind: ComponentSpec
+metadata:
+  id: switchmark
+  name: Switchmark
+  lastUpdated: 25-12-16
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          colorDelay:
+            type: duration
+          opacity:
+            type: number
+          opacityDuration:
+            type: duration
+          opacityTimingFunction:
+            type: cubicBezier
+          height:
+            type: dimension
+          width:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      thumb:
+        properties:
+          color:
+            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          colorDelay:
+            type: duration
+          cornerRadius:
+            type: dimension
+          height:
+            type: dimension
+          width:
+            type: dimension
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
+          translateDuration:
+            type: duration
+          translateTimingFunction:
+            type: cubicBezier
+    variants:
+      tone:
+        values:
+          brand:
+            description: "[deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다."
+
+  definitions:
+    base:
+      enabled:
+        root:
+          cornerRadius: $radius.full
+          color: $color.palette.gray-600
+          colorDuration: $duration.d1
+          colorTimingFunction: $timing-function.easing
+          colorDelay: 20ms
+        thumb:
+          cornerRadius: $radius.full
+          scale: 0.8
+          scaleDuration: $duration.d3
+          scaleTimingFunction: $timing-function.easing
+          translateDuration: $duration.d3
+          translateTimingFunction: $timing-function.easing
+          colorDuration: $duration.d1
+          colorTimingFunction: $timing-function.easing
+          colorDelay: 20ms
+      disabled:
+        root:
+          opacity: 0.38
+          opacityDuration: $duration.d1
+          opacityTimingFunction: $timing-function.easing
+      selected:
+        thumb:
+          scale: 1.0
+
+    tone=brand:
+      enabled:
+        thumb:
+          color: $color.palette.static-white
+      enabled,selected:
+        root:
+          color: $color.bg.brand-solid
+    tone=neutral:
+      enabled:
+        thumb:
+          color: $color.fg.neutral-inverted
+      enabled,selected:
+        root:
+          color: $color.bg.neutral-inverted
+      disabled:
+        thumb:
+          color: $color.palette.static-black-alpha-700
+      disabled,selected:
+        root:
+          color: $color.palette.gray-600
+
+    size=32:
+      enabled:
+        root:
+          height: 32px
+          width: 52px
+          paddingX: 3px
+          paddingY: 3px
+        thumb:
+          height: 26px
+          width: 26px
+    size=24:
+      enabled:
+        root:
+          height: 24px
+          width: 38px
+          paddingX: 2px
+          paddingY: 2px
+        thumb:
+          height: 20px
+          width: 20px
+    size=16:
+      enabled:
+        root:
+          height: 16px
+          width: 26px
+          paddingX: 2px
+          paddingY: 2px
+        thumb:
+          height: 12px
+          width: 12px

@@ -1,4 +1,5 @@
-import { RadioGroup, Icon } from "@seed-design/react";
+import { Icon } from "@seed-design/react";
+import { RadioGroup } from "@seed-design/react/primitive";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
@@ -12,7 +13,7 @@ import {
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { List, ListDivider, ListRadioItem } from "seed-design/ui/list";
-import { RadioMark } from "seed-design/ui/radio-group";
+import { Radiomark } from "seed-design/ui/radio-group";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { Avatar } from "seed-design/ui/avatar";
 import {
@@ -121,7 +122,7 @@ const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"
                               title={radioValue}
                               value={radioValue}
                               detail={content.detail}
-                              prefix={<RadioMark size="large" />}
+                              prefix={<Radiomark size="large" />}
                               disabled={state.disabled}
                               suffix={suffix.element}
                               highlighted={content.highlighted}
@@ -156,7 +157,7 @@ const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"
                               value={radioValue}
                               title={radioValue}
                               detail={content.detail}
-                              suffix={<RadioMark size="large" />}
+                              suffix={<Radiomark size="large" />}
                               disabled={state.disabled}
                               prefix={prefix.element}
                               highlighted={content.highlighted}

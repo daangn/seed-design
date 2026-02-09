@@ -1,0 +1,16 @@
+.seed-image-frame-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: var(--seed-color-palette-static-black-alpha-800);
+    color: var(--seed-color-palette-static-white);
+    border-radius: var(--seed-radius-full);
+    padding-left: var(--seed-dimension-x1_5);
+    padding-right: var(--seed-dimension-x1_5);
+    padding-top: var(--seed-dimension-x0_5);
+    padding-bottom: var(--seed-dimension-x0_5);
+    font-size: var(--seed-font-size-t1);
+    line-height: var(--seed-line-height-t1);
+    font-weight: var(--seed-font-weight-medium)
+}

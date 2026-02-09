@@ -1,0 +1,71 @@
+.seed-switchmark__root {
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    border-radius: var(--seed-radius-full);
+    background: var(--seed-color-palette-gray-600);
+    margin: var(--switchmark-margin-top, 0) 0;
+    transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing);
+}
+.seed-switchmark__root:is(:disabled, [disabled], [data-disabled]) {
+    opacity: 0.38;
+}
+.seed-switchmark__thumb {
+    border-radius: var(--seed-radius-full);
+    transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms;
+    transform: scale(0.8);
+}
+.seed-switchmark__root--tone_neutral:is(:checked, [data-checked]) {
+    background: var(--seed-color-bg-neutral-inverted);
+}
+.seed-switchmark__root--tone_neutral:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+    background: var(--seed-color-palette-gray-600);
+}
+.seed-switchmark__thumb--tone_neutral {
+    background: var(--seed-color-fg-neutral-inverted);
+}
+.seed-switchmark__thumb--tone_neutral:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-palette-static-black-alpha-700);
+}
+.seed-switchmark__root--tone_brand:is(:checked, [data-checked]) {
+    background: var(--seed-color-bg-brand-solid);
+}
+.seed-switchmark__thumb--tone_brand {
+    background: var(--seed-color-palette-static-white);
+}
+.seed-switchmark__root--size_16 {
+    min-width: 26px;
+    min-height: 16px;
+    padding: 2px 2px;
+}
+.seed-switchmark__thumb--size_16 {
+    width: 12px;
+    height: 12px;
+}
+.seed-switchmark__thumb--size_16:is(:checked, [data-checked]) {
+    transform: scale(1) translateX(calc(26px - 16px));
+}
+.seed-switchmark__root--size_24 {
+    min-width: 38px;
+    min-height: 24px;
+    padding: 2px 2px;
+}
+.seed-switchmark__thumb--size_24 {
+    width: 20px;
+    height: 20px;
+}
+.seed-switchmark__thumb--size_24:is(:checked, [data-checked]) {
+    transform: scale(1) translateX(calc(38px - 24px));
+}
+.seed-switchmark__root--size_32 {
+    min-width: 52px;
+    min-height: 32px;
+    padding: 3px 3px;
+}
+.seed-switchmark__thumb--size_32 {
+    width: 26px;
+    height: 26px;
+}
+.seed-switchmark__thumb--size_32:is(:checked, [data-checked]) {
+    transform: scale(1) translateX(calc(52px - 32px));
+}

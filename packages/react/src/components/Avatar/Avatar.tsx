@@ -1,4 +1,4 @@
-import { Avatar as AvatarPrimitive } from "@seed-design/react-avatar";
+import { Image } from "@seed-design/react-image";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { avatar, type AvatarVariantProps } from "@seed-design/css/recipes/avatar";
 import { avatarStack, type AvatarStackVariantProps } from "@seed-design/css/recipes/avatar-stack";
@@ -11,28 +11,22 @@ const { PropsProvider, withProvider, withContext } = createSlotRecipeContext(ava
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AvatarRootProps extends AvatarVariantProps, AvatarPrimitive.RootProps {}
+export interface AvatarRootProps extends AvatarVariantProps, Image.RootProps {}
 
-export const AvatarRoot = withProvider<HTMLDivElement, AvatarRootProps>(
-  AvatarPrimitive.Root,
-  "root",
-);
+export const AvatarRoot = withProvider<HTMLDivElement, AvatarRootProps>(Image.Root, "root");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AvatarImageProps extends AvatarPrimitive.ImageProps {}
+export interface AvatarImageProps extends Image.ContentProps {}
 
-export const AvatarImage = withContext<HTMLImageElement, AvatarImageProps>(
-  AvatarPrimitive.Image,
-  "image",
-);
+export const AvatarImage = withContext<HTMLImageElement, AvatarImageProps>(Image.Content, "image");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AvatarFallbackProps extends AvatarPrimitive.FallbackProps {}
+export interface AvatarFallbackProps extends Image.FallbackProps {}
 
 export const AvatarFallback = withContext<HTMLDivElement, AvatarFallbackProps>(
-  AvatarPrimitive.Fallback,
+  Image.Fallback,
   "fallback",
 );
 
@@ -48,7 +42,6 @@ export interface AvatarStackProps
   extends AvatarStackVariantProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-// TODO: implement stacking order
 export const AvatarStack = React.forwardRef<HTMLDivElement, AvatarStackProps>(
   ({ className, children, size, ...otherProps }, ref) => {
     const classNames = avatarStack({ size });

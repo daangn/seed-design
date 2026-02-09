@@ -2,7 +2,7 @@ import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 import { useController, useForm, type Control } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
-import { Checkbox } from "seed-design/ui/checkbox";
+import { Checkbox, CheckboxGroup } from "seed-design/ui/checkbox";
 
 const POSSIBLE_FRUIT_VALUES = ["apple", "melon", "mango"] as const;
 
@@ -30,12 +30,12 @@ export default function CheckboxReactHookForm() {
   );
 
   return (
-    <VStack gap="x3" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
-      <VStack>
+    <VStack gap="x3" p="x6" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
+      <CheckboxGroup aria-label="Fruit selection">
         {POSSIBLE_FRUIT_VALUES.map((name) => (
           <CheckboxItem key={name} name={name} control={control} />
         ))}
-      </VStack>
+      </CheckboxGroup>
       <HStack gap="x2">
         <ActionButton type="reset" variant="neutralWeak">
           초기화
@@ -68,6 +68,14 @@ function CheckboxItem({ name, control }: CheckboxItemProps) {
   } = useController({ name, control });
 
   return (
-    <Checkbox key={name} label={name} checked={value} inputProps={restProps} invalid={invalid} />
+    <Checkbox
+      key={name}
+      label={name}
+      checked={value}
+      inputProps={restProps}
+      invalid={invalid}
+      tone="neutral"
+      size="large"
+    />
   );
 }

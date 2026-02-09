@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Checkmark",
-  "key": "fae60fb392f55bde60de1dbccb2f453320068805",
+  "key": "f38acf130c42de3fd533d70d5319c3798c42f8c1",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",

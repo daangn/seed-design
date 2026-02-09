@@ -26,13 +26,10 @@ data:
             type: color
           color:
             type: color
-          strokeColorDuration:
+          strokeDuration:
             type: duration
-          strokeColorTimingFunction:
-            type: cubicBezier
-          strokeWidthDuration:
-            type: duration
-          strokeWidthTimingFunction:
+            description: 1px stroke 위에 2px stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
+          strokeTimingFunction:
             type: cubicBezier
       value:
         properties:
@@ -98,10 +95,8 @@ data:
       enabled:
         root:
           strokeColor: $color.stroke.neutral-weak
-          strokeColorDuration: $duration.color-transition
-          strokeColorTimingFunction: $timing-function.easing
-          strokeWidthDuration: $duration.d3
-          strokeWidthTimingFunction: $timing-function.easing
+          strokeDuration: 0.1s
+          strokeTimingFunction: $timing-function.easing
         value:
           color: $color.fg.neutral
           fontWeight: $font-weight.regular

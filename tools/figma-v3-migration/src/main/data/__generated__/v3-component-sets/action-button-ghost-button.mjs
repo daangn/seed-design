@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "Action Button/🟢 Ghost Button",
-  "key": "ea69291fb4d76217419f3d9613ae16aadafb56a5",
+  "key": "0dd8c776368619b13886924cd65974f821887753",
   "componentPropertyDefinitions": {
     "Label#30511:2": {
       "type": "TEXT",
@@ -8,12 +8,12 @@ export const metadata = {
     },
     "Prefix Icon#30511:3": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "37665:153410",
+      "defaultValue": "12:42",
       "preferredValues": []
     },
     "Suffix Icon#30525:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "35764:110857",
+      "defaultValue": "12:37",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -35,7 +35,7 @@ export const metadata = {
     },
     "Icon#30525:15": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "34885:102336",
+      "defaultValue": "12:2031",
       "preferredValues": []
     },
     "Bleed": {

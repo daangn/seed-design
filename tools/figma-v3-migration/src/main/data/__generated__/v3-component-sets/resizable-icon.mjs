@@ -1,6 +1,6 @@
 export const metadata = {
-  "name": "🟢 Resizable.Icon",
-  "key": "1f74eedb6fb186fd201d6ad5b2dbcd46a2bddf3e",
+  "name": "🟢 Resizable Icon",
+  "key": "16ed6fd2308e3dddcc4ecb60562b5b79d4091491",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",

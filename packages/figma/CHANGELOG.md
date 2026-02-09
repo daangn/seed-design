@@ -1,5 +1,184 @@
 # @seed-design/figma
 
+## 1.3.2
+
+### Patch Changes
+
+- 934bea0: Figma 엔티티를 업데이트합니다. 모든 구성 요소에 대해 generated 데이터를 사용하여 안정성을 개선합니다.
+
+## 1.2.1
+
+### Patch Changes
+
+- 15d9587: Figma 엔티티를 최신 버전으로 업데이트합니다.
+- Updated dependencies [9446f2c]
+- Updated dependencies [8ad9484]
+- Updated dependencies [9cbeba0]
+  - @seed-design/css@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- a58022d: `SwitchMark`를 `Switchmark`로, `RadioMark`를 `Radiomark`로 Snippet 컴포넌트 이름을 변경합니다.
+
+  - **1.1 → 1.2 업그레이드 시 변경 권장**: snippet을 다시 내려받고, `SwitchMark`, `RadioMark`를 사용하는 코드를 아래와 같이 변경하세요.
+
+    - `npx @seed-design/cli@latest add ui:switch ui:radio-group`
+    - snippet에 `SwitchMark`, `RadioMark` 정의가 존재하지만, 1.3 릴리즈 시 snippet에서 해당 맵핑이 제거될 예정이므로 미리 변경해두시길 권장드립니다.
+
+    ```tsx
+    // 전
+    import { ListSwitchItem, ListRadioItem } from "seed-design/ui/list";
+    import { SwitchMark } from "seed-design/ui/switch";
+    import { RadioMark } from "seed-design/ui/radio-group";
+
+    <ListSwitchItem
+      title="리스트 아이템 스위치"
+      detail="설명 텍스트"
+      suffix={<SwitchMark tone="neutral" />}
+    />;
+
+    <ListRadioItem
+      prefix={<RadioMark tone="neutral" size="large" />}
+      value="option"
+      title="옵션"
+    />;
+    ```
+
+    ```tsx
+    // 후
+    import { ListSwitchItem, ListRadioItem } from "seed-design/ui/list";
+    import { Switchmark } from "seed-design/ui/switch";
+    import { Radiomark } from "seed-design/ui/radio-group";
+
+    <ListSwitchItem
+      title="리스트 아이템 스위치"
+      detail="설명 텍스트"
+      suffix={<Switchmark tone="neutral" />}
+    />;
+
+    <ListRadioItem
+      prefix={<Radiomark tone="neutral" size="large" />}
+      value="option"
+      title="옵션"
+    />;
+    ```
+
+- a0e40ca: [Tag Group](/react/components/tag-group) 관련 컴포넌트를 업데이트합니다.
+
+  - `TagGroupItem` 레이블 내부에서 줄바꿈이 발생할 수 있도록 수정합니다. (기존: `TagGroupItem` 또는 separator 전후에서 줄바꿈 발생)
+  - 한 줄 레이아웃 및 우선순위 옵션을 추가합니다.
+    - `TagGroupRoot`에 `truncate` prop을 사용하여 한 줄로 유지하고 말줄임 처리를 할 수 있습니다. (기본값: `false`)
+    - `TagGroupItem`에 `flexShrink` prop을 사용하여 말줄임 우선순위를 조정할 수 있습니다.
+  - **1.1 → 1.2 업그레이드 시 변경 필요**: `TagGroupItem` 내부 레이블을 `TagGroupItemLabel`로 감싸거나, 신규로 제공되는 Snippet에서 제공하는 API로 교체해주세요.
+
+    - `npx @seed-design/cli@latest add ui:tag-group` 명령어로 Snippet을 추가할 수 있습니다.
+
+    ```tsx
+    // 전
+    import { TagGroupRoot, TagGroupItem } from "@seed-design/react";
+
+    {
+      /* TagGroup.Root, TagGroup.Item처럼 namespace import하는 코드가 있을 수 있습니다. */
+    }
+    <TagGroupRoot>
+      <TagGroupItem>
+        <PrefixIcon svg={<IconLocationpinFill />} />
+        서초4동
+      </TagGroupItem>
+      <TagGroupItem>
+        광고
+        <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+      </TagGroupItem>
+      {/* ... */}
+    </TagGroupRoot>;
+    ```
+
+    ```tsx
+    // 후 (Compound Component 유지)
+
+    import {
+      TagGroupRoot,
+      TagGroupItem,
+      TagGroupItemLabel,
+    } from "@seed-design/react";
+
+    <TagGroupRoot>
+      <TagGroupItem>
+        <PrefixIcon svg={<IconLocationpinFill />} />
+        {/* TagGroupItemLabel 사용 */}
+        <TagGroupItemLabel>서초4동</TagGroupItemLabel>
+      </TagGroupItem>
+      <TagGroupItem>
+        {/* TagGroupItemLabel 사용 */}
+        <TagGroupItemLabel>광고</TagGroupItemLabel>
+        <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+      </TagGroupItem>
+      {/* ... */}
+    </TagGroupRoot>;
+    ```
+
+    ```tsx
+    // 후 (snippet API로 교체)
+    // snippet 없는 경우, `npx @seed-design/cli@latest add ui:tag-group`
+
+    import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
+    import {
+      TagGroupRoot as SeedTagGroupRoot,
+      TagGroupItem as SeedTagGroupItem,
+      TagGroupItemLabel as SeedTagGroupItemLabel,
+    } from "@seed-design/react";
+
+    <TagGroupRoot>
+      <TagGroupItem label="서초4동" prefixIcon={<IconLocationpinFill />} />
+      <SeedTagGroupItem>
+        <SeedTagGroupItemLabel>광고</SeedTagGroupItemLabel>
+        {/* 아이콘 커스터마이징이 필요한 경우 snippet 대신 Compound Component를 사용합니다. */}
+        <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+      </SeedTagGroupItem>
+      {/* ... */}
+    </TagGroupRoot>;
+    ```
+
+- 358a1e4: [Menu Sheet](/react/components/menu-sheet) 관련 컴포넌트를 업데이트합니다.
+
+  - `MenuSheetContent`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
+  - `MenuSheetItem`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
+  - **1.1 → 1.2 업그레이드 시 변경 필요**: snippet을 다시 내려받고, `MenuSheetItem`을 사용하는 코드를 아래와 같이 변경하세요.
+
+    - `npx @seed-design/cli@latest add ui:menu-sheet`
+    - `children` 대신 `label` prop을 사용합니다.
+    - `description`, `prefixIcon` prop이 추가되었습니다.
+
+    ```tsx
+    // 전
+    <MenuSheetItem>
+      <PrefixIcon svg={<IconHouseLine />} />
+      메뉴 항목
+    </MenuSheetItem>
+
+    // 후
+    <MenuSheetItem
+      prefixIcon={<IconHouseLine />}
+      label="메뉴 항목"
+      description="이제 설명도 추가할 수 있어요"
+    />
+    ```
+
+### Patch Changes
+
+- Updated dependencies [0ecb893]
+- Updated dependencies [98dbac4]
+- Updated dependencies [a58022d]
+- Updated dependencies [477ec8a]
+- Updated dependencies [2643d17]
+- Updated dependencies [8fb7038]
+- Updated dependencies [a0e40ca]
+- Updated dependencies [17c0ebd]
+- Updated dependencies [358a1e4]
+  - @seed-design/css@1.2.0
+
 ## 1.1.19
 
 ### Patch Changes

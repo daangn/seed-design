@@ -9,7 +9,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("contextual-float
 
 export const createContextualFloatingButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ContextualFloatingButtonProperties>(
-    metadata.contextualFloatingButton.key,
+    metadata.componentContextualFloatingButton.key,
     ({ componentProperties: props }) => {
       const states = props.State.value.split("-");
 

@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "1.1.8",
+  "version": "1.2.1",
   "resources": [
     {
       "path": "/collections.json"
@@ -43,6 +43,9 @@
     },
     {
       "path": "/components/callout.json"
+    },
+    {
+      "path": "/components/checkbox-group.json"
     },
     {
       "path": "/components/checkbox.json"
@@ -102,6 +105,18 @@
       "path": "/components/identity-placeholder.json"
     },
     {
+      "path": "/components/image-frame-floater.json"
+    },
+    {
+      "path": "/components/image-frame-indicator.json"
+    },
+    {
+      "path": "/components/image-frame-reaction-button.json"
+    },
+    {
+      "path": "/components/image-frame.json"
+    },
+    {
       "path": "/components/inline-banner.json"
     },
     {
@@ -141,6 +156,9 @@
       "path": "/components/progress-circle.json"
     },
     {
+      "path": "/components/radio-group.json"
+    },
+    {
       "path": "/components/radio.json"
     },
     {
@@ -157,6 +175,12 @@
     },
     {
       "path": "/components/segmented-control.json"
+    },
+    {
+      "path": "/components/select-box-checkmark.json"
+    },
+    {
+      "path": "/components/select-box-group.json"
     },
     {
       "path": "/components/select-box.json"
@@ -177,10 +201,10 @@
       "path": "/components/snackbar.json"
     },
     {
-      "path": "/components/switch-mark.json"
+      "path": "/components/switch.json"
     },
     {
-      "path": "/components/switch.json"
+      "path": "/components/switchmark.json"
     },
     {
       "path": "/components/tab.json"

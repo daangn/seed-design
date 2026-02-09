@@ -1,4 +1,5 @@
 import { radio, type RadioVariantProps } from "@seed-design/css/recipes/radio";
+import { radioGroup, type RadioGroupVariantProps } from "@seed-design/css/recipes/radio-group";
 import { radiomark, type RadiomarkVariantProps } from "@seed-design/css/recipes/radiomark";
 import { mergeProps } from "@seed-design/dom-utils";
 import {
@@ -12,7 +13,9 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon } from "../private/Icon";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
+import { createRecipeContext } from "../../utils/createRecipeContext";
 
+const { withContext: withGroupContext } = createRecipeContext(radioGroup);
 const { ClassNamesProvider, withContext } = createSlotRecipeContext(radio);
 const {
   withProvider: withRadiomarkProvider,
@@ -23,9 +26,12 @@ const withStateProps = createWithStateProps([useRadioGroupItemContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface RadioGroupRootProps extends RadioGroupPrimitive.RootProps {}
+export interface RadioGroupRootProps
+  extends RadioGroupVariantProps,
+    PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const RadioGroupRoot = RadioGroupPrimitive.Root;
+export const RadioGroupRoot = withGroupContext<HTMLDivElement, RadioGroupRootProps>(Primitive.div);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

@@ -3,10 +3,9 @@ export declare const vars: {
     "enabled": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
-        "strokeColorDuration": "var(--seed-duration-color-transition)",
-        "strokeColorTimingFunction": "var(--seed-timing-function-easing)",
-        "strokeWidthDuration": "var(--seed-duration-d3)",
-        "strokeWidthTimingFunction": "var(--seed-timing-function-easing)"
+        /** 1px stroke 위에 2px stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다. */
+        "strokeDuration": "0.1s",
+        "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "value": {
         "color": "var(--seed-color-fg-neutral)",

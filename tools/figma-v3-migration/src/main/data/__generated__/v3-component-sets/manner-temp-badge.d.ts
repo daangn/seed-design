@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Manner Temp Badge",
-  "key": "3ef9a84d4d80046ff9a581136bd56269554a6e00",
+  "key": "35bf7adf8b0a67b2222f54116d474f0e02cf21a5",
   "componentPropertyDefinitions": {
     "Level": {
       "type": "VARIANT",

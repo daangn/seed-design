@@ -22,21 +22,18 @@ const { createLocalSnippetElement: createTabsLocalSnippetElement } =
 const { createLocalSnippetElement: createChipTabsLocalSnippetElement } =
   createLocalSnippetHelper("chip-tabs");
 
-const LINE_TABS_WRAPPER_KEY = "e114161387f800d3668d0585bed1d109e4edcbe4";
-const CHIP_TABS_WRAPPER_KEY = "d7cf2983c79c8394aaab0185af83a9d1b9d10ece";
-
 export const createTabsHandler = (_ctx: ComponentHandlerDeps) => {
   const lineHandler = createLineTabsHandler(_ctx);
   const chipHandler = createChipTabsHandler(_ctx);
 
-  return defineComponentHandler<TabsProperties>(metadata.tabs.key, (node, traverse) => {
+  return defineComponentHandler<TabsProperties>(metadata.componentTabs.key, (node, traverse) => {
     const props = node.componentProperties;
 
     const elementNode = match(props.Variant.value)
       .with("Line", () => {
         const [wrapper] = findAllInstances<TabsLineWrapperProperties>({
           node,
-          key: LINE_TABS_WRAPPER_KEY,
+          key: lineHandler.key,
         });
 
         if (!wrapper) throw new Error("Line Tab wrapper not found");
@@ -46,7 +43,7 @@ export const createTabsHandler = (_ctx: ComponentHandlerDeps) => {
       .with("Chip", () => {
         const [wrapper] = findAllInstances<TabsChipWrapperProperties>({
           node,
-          key: CHIP_TABS_WRAPPER_KEY,
+          key: chipHandler.key,
         });
 
         if (!wrapper) throw new Error("Chip Tab wrapper not found");
@@ -80,15 +77,12 @@ export const createTabsHandler = (_ctx: ComponentHandlerDeps) => {
 </TabsRoot>
 */
 
-const LINE_TABS_HUG_ITEM_KEY = "946cc52671ac3f46e20a8ff12fcc1c7f618da675";
-const LINE_TABS_FILL_ITEM_KEY = "78039b6b86852b685a6e93e9b6743b9e577cd7db";
-
 const createLineTabsHandler = (_ctx: ComponentHandlerDeps) => {
   const hugHandler = createLineTriggerHugHandler(_ctx);
   const fillHandler = createLineTriggerFillHandler(_ctx);
 
   return defineComponentHandler<TabsLineWrapperProperties>(
-    LINE_TABS_WRAPPER_KEY,
+    metadata.privateComponentTabsLine.key,
     (node, traverse) => {
       const props = node.componentProperties;
 
@@ -96,7 +90,7 @@ const createLineTabsHandler = (_ctx: ComponentHandlerDeps) => {
         .with("Hug", () => {
           const nodes = findAllInstances<TabsLineTriggerHugProperties>({
             node,
-            key: LINE_TABS_HUG_ITEM_KEY,
+            key: hugHandler.key,
           });
 
           return {
@@ -111,7 +105,7 @@ const createLineTabsHandler = (_ctx: ComponentHandlerDeps) => {
         .with("Fill", () => {
           const nodes = findAllInstances<TabsLineTriggerFillProperties>({
             node,
-            key: LINE_TABS_FILL_ITEM_KEY,
+            key: fillHandler.key,
           });
 
           return {
@@ -148,11 +142,9 @@ const createLineTabsHandler = (_ctx: ComponentHandlerDeps) => {
   );
 };
 
-const LINE_TRIGGER_HUG_KEY = "946cc52671ac3f46e20a8ff12fcc1c7f618da675";
-
 const createLineTriggerHugHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<TabsLineTriggerHugProperties>(
-    LINE_TRIGGER_HUG_KEY,
+    metadata.privateComponentTabItemLineHug.key,
     ({ componentProperties: props }) => {
       const commonProps = {
         value: props["Label#4478:2"].value,
@@ -168,11 +160,9 @@ const createLineTriggerHugHandler = (_ctx: ComponentHandlerDeps) =>
     },
   );
 
-const LINE_TRIGGER_FILL_KEY = "78039b6b86852b685a6e93e9b6743b9e577cd7db";
-
 const createLineTriggerFillHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<TabsLineTriggerFillProperties>(
-    LINE_TRIGGER_FILL_KEY,
+    metadata.privateComponentTabItemLineFill.key,
     ({ componentProperties: props }) => {
       const commonProps = {
         value: props["Label#4478:2"].value,
@@ -216,15 +206,18 @@ const createChipTabsHandler = (_ctx: ComponentHandlerDeps) => {
   const triggerHandler = createChipTabsTriggerHandler(_ctx);
 
   return defineComponentHandler<TabsChipWrapperProperties>(
-    CHIP_TABS_WRAPPER_KEY,
+    metadata.privateComponentTabsChip.key,
     (node, traverse) => {
       const props = node.componentProperties;
 
-      const nodes = findAllInstances<ChipTabsTriggerProperties>({ node, key: CHIP_TRIGGER_KEY });
+      const nodes = findAllInstances<ChipTabsTriggerProperties>({
+        node,
+        key: triggerHandler.key,
+      });
 
       const triggers = nodes.map((node) => {
         // this is redundant; can this be better?
-        const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.chip.key });
+        const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.componentChip.key });
         if (!chip) throw new Error("Chip not found in ChipTabsTrigger");
 
         return {
@@ -237,7 +230,10 @@ const createChipTabsHandler = (_ctx: ComponentHandlerDeps) => {
         (node) => node.componentProperties.State.value === "Selected",
       );
       const [selectedChip] = selectedTrigger
-        ? findAllInstances<ChipProperties>({ node: selectedTrigger, key: metadata.chip.key })
+        ? findAllInstances<ChipProperties>({
+            node: selectedTrigger,
+            key: metadata.componentChip.key,
+          })
         : [undefined];
       if (!selectedChip) throw new Error("Chip not found in ChipTabsTrigger");
 
@@ -273,25 +269,26 @@ const createChipTabsHandler = (_ctx: ComponentHandlerDeps) => {
   );
 };
 
-const CHIP_TRIGGER_KEY = "95bf31a329f9e8bba0d9aa2299d1552f1d388148";
-
 const createChipTabsTriggerHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<ChipTabsTriggerProperties>(CHIP_TRIGGER_KEY, (node) => {
-    const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.chip.key });
-    if (!chip) throw new Error("Chip not found in ChipTabsTrigger");
+  defineComponentHandler<ChipTabsTriggerProperties>(
+    metadata.privateComponentTabItemChip.key,
+    (node) => {
+      const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.componentChip.key });
+      if (!chip) throw new Error("Chip not found in ChipTabsTrigger");
 
-    const props = node.componentProperties;
-    const chipProps = chip.componentProperties;
+      const props = node.componentProperties;
+      const chipProps = chip.componentProperties;
 
-    const commonProps = {
-      value: chipProps["Label#7185:0"].value,
-      ...(chipProps.State.value === "Disabled" && {
-        disabled: true,
-      }),
-      ...(props["Has Notification"].value === "True" && {
-        notification: true,
-      }),
-    };
+      const commonProps = {
+        value: chipProps["Label#7185:0"].value,
+        ...(chipProps.State.value === "Disabled" && {
+          disabled: true,
+        }),
+        ...(props["Has Notification"].value === "True" && {
+          notification: true,
+        }),
+      };
 
-    return createChipTabsLocalSnippetElement("ChipTabsTrigger", commonProps);
-  });
+      return createChipTabsLocalSnippetElement("ChipTabsTrigger", commonProps);
+    },
+  );

@@ -1,9 +1,7 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, mock } from "bun:test";
 
-import type * as React from "react";
 import type { ReactElement } from "react";
 
 import {
@@ -12,8 +10,6 @@ import {
   CheckboxRoot,
   type CheckboxRootProps,
 } from "./Checkbox";
-
-afterEach(cleanup);
 
 function setUp(jsx: ReactElement) {
   return {
@@ -32,11 +28,6 @@ function Checkbox(props: CheckboxRootProps) {
 }
 
 describe("useCheckbox", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   it("should render the checkbox correctly", () => {
     const { getByRole } = setUp(<Checkbox />);
     const checkbox = getByRole("checkbox");
@@ -67,7 +58,7 @@ describe("useCheckbox", () => {
   });
 
   it("should onCheckedChange is called when clicked", async () => {
-    const handleCheckedChange = vi.fn();
+    const handleCheckedChange = mock(() => {});
 
     const { getByRole, user } = setUp(<Checkbox onCheckedChange={handleCheckedChange} />);
     const checkbox = getByRole("checkbox");
@@ -115,7 +106,7 @@ describe("useCheckbox", () => {
     });
 
     it("should not onCheckedChange be called when clicked", async () => {
-      const handleCheckedChange = vi.fn();
+      const handleCheckedChange = mock(() => {});
 
       const { getByRole, user } = setUp(
         <Checkbox disabled={true} onCheckedChange={handleCheckedChange} />,

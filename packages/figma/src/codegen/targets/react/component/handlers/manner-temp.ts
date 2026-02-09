@@ -7,7 +7,7 @@ import type { ComponentHandlerDeps } from "../deps.interface";
 const { createLocalSnippetElement } = createLocalSnippetHelper("manner-temp");
 
 export const createMannerTempHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<MannerTempProperties>(metadata.mannerTemp.key, ({ children }) => {
+  defineComponentHandler<MannerTempProperties>(metadata.componentMannerTemp.key, ({ children }) => {
     const textNode = children.find((child) => child.type === "TEXT");
 
     const commonProps = {

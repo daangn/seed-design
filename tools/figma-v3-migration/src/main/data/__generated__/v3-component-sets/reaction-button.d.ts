@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Reaction Button",
-  "key": "ec43e4e881f7048e95601f8b58c01a0905a174e0",
+  "key": "d65d1e3c4e5ffb902a6c6a76f9455c4ebd8e7233",
   "componentPropertyDefinitions": {
     "Label#6397:0": {
       "type": "TEXT",
@@ -12,7 +12,7 @@ export declare const metadata: {
     },
     "Icon#12379:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "39554:139513",
+      "defaultValue": "31:30648",
       "preferredValues": []
     },
     "Count#15816:0": {

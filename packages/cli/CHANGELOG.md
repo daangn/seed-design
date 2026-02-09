@@ -1,5 +1,17 @@
 # @seed-design/cli
 
+## 1.2.1
+
+### Patch Changes
+
+- f7a6217: `--on-diff` flag를 추가하고 `--overwrite` flag를 `--on-diff=overwrite`로 대체합니다. `--on-diff=backup`을 사용하여 변경사항이 있는 모든 snippet에 대해 이전 파일을 유지할 수 있습니다.
+
+## 1.2.0
+
+### Minor Changes
+
+- 21c6ca8: CLI add/add-all 명령 실행 시, 파일 변경사항을 보여주고 덮어쓰기/백업/그대로 두기 선택지를 제공합니다. `--overwrite` flag를 통해 이 과정을 건너뛰고 덮어쓰기를 선택할 수 있습니다.
+
 ## 1.1.0
 
 ### Minor Changes

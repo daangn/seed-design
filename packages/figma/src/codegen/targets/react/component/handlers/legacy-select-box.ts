@@ -3,6 +3,7 @@ import type {
   LegacySelectBoxProperties,
 } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import { match } from "ts-pattern";
 import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
@@ -10,12 +11,9 @@ import type { ComponentHandlerDeps } from "../deps.interface";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("select-box");
 
-const LEGACY_SELECT_BOX_KEY = "38722ffeb4c966256a709155e8ddac50c93d7c60";
-const LEGACY_SELECT_BOX_GROUP_KEY = "a3d58bb8540600878742cdcf2608a4b3851667ec";
-
-export const createLegacySelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
+const createLegacySelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<LegacySelectBoxProperties>(
-    LEGACY_SELECT_BOX_KEY,
+    metadata.componentDeprecatedSelectBox.key,
     ({ componentProperties: props }) => {
       const tag = match(props.Control.value)
         .with("Checkbox", () => "CheckSelectBox")
@@ -47,7 +45,7 @@ export const createLegacySelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => 
   const selectBoxHandler = createLegacySelectBoxHandler(ctx);
 
   return defineComponentHandler<LegacySelectBoxGroupProperties>(
-    LEGACY_SELECT_BOX_GROUP_KEY,
+    metadata.componentDeprecatedSelectBoxGroup.key,
     (node, traverse) => {
       const props = node.componentProperties;
 

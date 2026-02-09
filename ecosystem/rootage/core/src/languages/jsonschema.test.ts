@@ -1,4 +1,4 @@
-import { expect, test } from "vitest";
+import { expect, test } from "bun:test";
 import { Authoring } from "../parser";
 import { getJsonSchema } from "./jsonschema";
 
@@ -292,7 +292,10 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
                 "type": "object",
                 "properties": {
                   "color": {
-                    "$ref": "#/definitions/colorShorthand"
+                    "anyOf": [
+                      { "$ref": "#/definitions/colorShorthand" },
+                      { "$ref": "#/definitions/tokenRef" }
+                    ]
                   },
                   "offsetX": {
                     "$ref": "#/definitions/dimensionShorthand"
@@ -328,7 +331,10 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
                 "type": "object",
                 "properties": {
                   "color": {
-                    "$ref": "#/definitions/colorShorthand"
+                    "anyOf": [
+                      { "$ref": "#/definitions/colorShorthand" },
+                      { "$ref": "#/definitions/tokenRef" }
+                    ]
                   },
                   "position": {
                     "type": "number"

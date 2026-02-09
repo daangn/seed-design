@@ -1,14 +1,102 @@
 "use client";
 
-import { RadioGroup as SeedRadioGroup } from "@seed-design/react";
+import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
+import {
+  RadioGroup as SeedRadioGroup,
+  RadioGroupField as SeedRadioGroupField,
+  PrefixIcon,
+  VisuallyHidden,
+} from "@seed-design/react";
+import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
+import { radioGroup, type RadioGroupVariantProps } from "@seed-design/css/recipes/radio-group";
 import * as React from "react";
 
-export interface RadioGroupProps extends SeedRadioGroup.RootProps {}
+export interface RadioGroupProps extends SeedRadioGroupField.RootProps, RadioGroupVariantProps {
+  label?: React.ReactNode;
+  /**
+   * @default "medium"
+   */
+  labelWeight?: FieldLabelVariantProps["weight"];
+  indicator?: React.ReactNode;
+  showRequiredIndicator?: boolean;
+
+  description?: React.ReactNode;
+  errorMessage?: React.ReactNode;
+}
 
 /**
  * @see https://seed-design.io/react/components/radio-group
  */
-export const RadioGroup = SeedRadioGroup.Root;
+export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
+  (
+    {
+      label,
+      labelWeight,
+      indicator,
+      showRequiredIndicator,
+
+      description,
+      errorMessage,
+
+      children,
+
+      ...props
+    },
+    ref,
+  ) => {
+    const [variantProps, restProps] = radioGroup.splitVariantProps(props);
+
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !label &&
+      !restProps["aria-label"] &&
+      !restProps["aria-labelledby"]
+    ) {
+      console.warn(
+        "RadioGroup component requires a `label`, `aria-label` or `aria-labelledby` attribute.",
+      );
+    }
+
+    const renderErrorMessage = errorMessage && restProps.invalid;
+    const renderFooter = description || renderErrorMessage;
+
+    return (
+      <SeedRadioGroupField.Root ref={ref} {...restProps}>
+        {(label || indicator) && (
+          <SeedRadioGroupField.Header>
+            <SeedRadioGroupField.Label weight={labelWeight}>
+              {label}
+              {showRequiredIndicator && <SeedRadioGroupField.RequiredIndicator />}
+              {indicator && (
+                <SeedRadioGroupField.IndicatorText>{indicator}</SeedRadioGroupField.IndicatorText>
+              )}
+            </SeedRadioGroupField.Label>
+          </SeedRadioGroupField.Header>
+        )}
+        <SeedRadioGroup.Root {...variantProps}>{children}</SeedRadioGroup.Root>
+        {renderFooter && (
+          <SeedRadioGroupField.Footer>
+            {description &&
+              (renderErrorMessage ? (
+                <VisuallyHidden asChild>
+                  <SeedRadioGroupField.Description>{description}</SeedRadioGroupField.Description>
+                </VisuallyHidden>
+              ) : (
+                <SeedRadioGroupField.Description>{description}</SeedRadioGroupField.Description>
+              ))}
+            {renderErrorMessage && (
+              <SeedRadioGroupField.ErrorMessage>
+                <PrefixIcon svg={<IconExclamationmarkCircleFill />} />
+                {errorMessage}
+              </SeedRadioGroupField.ErrorMessage>
+            )}
+          </SeedRadioGroupField.Footer>
+        )}
+      </SeedRadioGroupField.Root>
+    );
+  },
+);
+RadioGroup.displayName = "RadioGroup";
 
 export interface RadioGroupItemProps extends SeedRadioGroup.ItemProps {
   label?: React.ReactNode;
@@ -42,12 +130,12 @@ export const RadioGroupItem = React.forwardRef<HTMLInputElement, RadioGroupItemP
 );
 RadioGroupItem.displayName = "RadioGroupItem";
 
-export interface RadioMarkProps extends SeedRadioGroup.ItemControlProps {}
+export interface RadiomarkProps extends SeedRadioGroup.ItemControlProps {}
 
 /**
  * @see https://seed-design.io/react/components/radio-group
  */
-export const RadioMark = React.forwardRef<HTMLDivElement, RadioMarkProps>((props, ref) => {
+export const Radiomark = React.forwardRef<HTMLDivElement, RadiomarkProps>((props, ref) => {
   return (
     <SeedRadioGroup.ItemControl ref={ref} {...props}>
       <SeedRadioGroup.ItemIndicator
@@ -60,4 +148,14 @@ export const RadioMark = React.forwardRef<HTMLDivElement, RadioMarkProps>((props
     </SeedRadioGroup.ItemControl>
   );
 });
-RadioMark.displayName = "RadioMark";
+Radiomark.displayName = "Radiomark";
+
+/**
+ * @deprecated Use `Radiomark` instead. Will be removed in @seed-design/react@1.3.0.
+ */
+export const RadioMark = Radiomark;
+
+/**
+ * @deprecated Use `RadiomarkProps` instead. Will be removed in @seed-design/react@1.3.0.
+ */
+export type RadioMarkProps = RadiomarkProps;

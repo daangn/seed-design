@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement } from "react";
 import React, { useMemo } from "react";
@@ -12,8 +11,6 @@ import {
   type TextFieldRootProps,
   type TextFieldInputProps,
 } from "./TextField";
-
-afterEach(cleanup);
 
 function setUp(jsx: ReactElement) {
   const renderResult = render(jsx);
@@ -35,11 +32,6 @@ const TextField = ({
 };
 
 describe("useTextField", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   describe("basic functionality", () => {
     it("should render and type correctly", async () => {
       const { getByRole, user } = setUp(<TextField />);
@@ -70,7 +62,7 @@ describe("useTextField", () => {
 
   describe("value management", () => {
     it("should onValueChange be called", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock(() => {});
 
       const { getByRole, user } = setUp(<TextField onValueChange={handleValueChange} />);
       const input = getByRole("textbox");
@@ -289,7 +281,7 @@ describe("useTextField", () => {
     });
 
     it("should not allow typing when disabled", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock(() => {});
       const { getByRole, user } = setUp(<TextField disabled onValueChange={handleValueChange} />);
       const input = getByRole("textbox");
 
@@ -324,7 +316,7 @@ describe("useTextField", () => {
     });
 
     it("should not allow value changes when readOnly", async () => {
-      const handleValueChange = vi.fn();
+      const handleValueChange = mock(() => {});
       const { getByRole, user } = setUp(
         <TextField readOnly defaultValue="initial" onValueChange={handleValueChange} />,
       );

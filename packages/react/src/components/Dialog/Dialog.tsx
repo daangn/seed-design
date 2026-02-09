@@ -1,7 +1,6 @@
 import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { dialog, type DialogVariantProps } from "@seed-design/css/recipes/dialog";
-import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
@@ -69,6 +68,9 @@ export const DialogHeader = withContext<HTMLDivElement, DialogHeaderProps>(Primi
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+// NOTE: uses DialogPrimitive.TitleProps,
+// but actual rendered component is a Primitive.span rather than a DialogPrimitive.Title
+// find out why later; misses h2 and some a11y features
 export interface DialogTitleProps extends DialogPrimitive.TitleProps {}
 
 export const DialogTitle = withContext<HTMLHeadingElement, DialogTitleProps>(
@@ -78,6 +80,9 @@ export const DialogTitle = withContext<HTMLHeadingElement, DialogTitleProps>(
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+// NOTE: uses DialogPrimitive.DescriptionProps,
+// but actual rendered component is a Primitive.div rather than a DialogPrimitive.Description
+// find out why later; misses p and some a11y features
 export interface DialogDescriptionProps extends DialogPrimitive.DescriptionProps {}
 
 export const DialogDescription = withContext<HTMLParagraphElement, DialogDescriptionProps>(
@@ -97,7 +102,4 @@ export interface DialogActionProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-export const DialogAction = forwardRef<HTMLButtonElement, DialogActionProps>((props, ref) => {
-  const api = useDialogContext();
-  return <Primitive.button {...props} ref={ref} onClick={() => api.setOpen(false)} />;
-});
+export const DialogAction = DialogPrimitive.CloseButton;

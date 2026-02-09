@@ -1,0 +1,171 @@
+---
+title: Radio
+description: 여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.
+coverImageFigmaId: 39:21581
+---
+
+<PlatformStatusTable componentId="radio" />
+
+<Card href="/docs/components/field" title="Field">
+  Radio Group을 Field 내부에서 사용하여 Radio Group Field로 활용할 수 있습니다.
+</Card>
+
+## Anatomy
+
+<FigmaImage
+  id="2:161631"
+  alt="Radio의 Anatomy 이미지. Radiomark와 Label로 구성됩니다."
+/>
+
+Radio는 Radiomark와 Label로 구성됩니다. Radiomark는 개별 컴포넌트로 제공되어서 자유롭게 조합해서 사용할 수 있습니다.
+
+## Properties
+
+### Size, Weight Property
+
+<FigmaImage
+  id="2:161642"
+  alt="Radio의 Size와 Weight Property - Medium, Large 사이즈와 Regular, Bold Weight"
+/>
+
+Radio는 Medium, Large 사이즈로 제공됩니다. 강조해야 하거나 경우에 따라서 Weight를 조정해서 활용할 수 있습니다.
+
+### Tone
+
+<FigmaImage id="2:161661" alt="Radio의 Tone Property - Neutral" />
+
+Radio는 Neutral을 기본으로 제공합니다.
+
+**Brand 컬러는 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.**
+
+### State
+
+<FigmaImage
+  id="2:161671"
+  alt="Radio의 State - Enabled, Pressed, Disabled, Selected-Enabled, Selected-Pressed, Selected-Disabled"
+/>
+
+Radio는 선택(Selected), 미선택(Unselected)상태를 가지며, 이 각각의 상태는 사용자의 상호작용에 따라 활성화(Enabled), 비활성화(Disabled), 눌림(Pressed)의 상태로 조합되어 표현됩니다.
+
+## Guidelines
+
+### Radio touch target
+
+<FigmaImage id="2:161702" alt="Radio touch target 영역 예시" />
+
+Radio는 Label을 포함한 영역이 Target으로 동작합니다.
+
+<FigmaImage id="2:161707" alt="List touch target 영역 예시" />
+
+[List](/docs/components/list)처럼 Radiomark를 조합해서 사용하는 경우 전체 Row가 Target 영역이 되어야 합니다.
+
+### 하나만 선택 가능할 때 사용하기
+
+목록에서 하나의 옵션만 선택할 수 있는 경우 Radio를 사용합니다.
+
+<Grid>
+  <FigmaImage id="2:161720" alt="Radio를 단일 선택으로 사용하는 예시" />
+  <DontImage
+    figmaId="2:161743"
+    body="목록에서 여러 옵션을 선택할 수 있는 경우 Checkbox를 사용하세요."
+    alt="여러 옵션 선택이 가능한 상황에서 Radio를 사용하는 예시"
+  />
+</Grid>
+
+### 기본 선택 제공하기
+
+<Grid>
+  <FigmaImage id="2:161776" alt="Radio 기본 선택 제공 예시" />
+  <DontImage
+    figmaId="2:161798"
+    body="권장되거나 빈번하게 사용되는 옵션을 기본으로 제공하세요."
+    alt="Radio 기본 선택이 제공되지 않은 예시"
+  />
+</Grid>
+
+Radio를 제공할 때는 사용자의 고민을 덜어주고 빠른 선택을 돕기 위해 가장 일반적인 선택지를 기본으로 제공하는 것을 권장합니다.
+
+권장되거나 빈번하게 사용되는 옵션을 기본으로 제공하세요.
+
+### 가로로 나열하지 않기
+
+<Grid>
+  <FigmaImage id="2:161830" alt="Radio를 세로로 나열한 예시" />
+  <DontImage
+    figmaId="2:161835"
+    body="수평으로 배열해야 할 경우, 각 요소가 명확히 구분되도록 충분한 간격(Gap)을 확보해주세요."
+    alt="Radio를 가로로 나열한 예시"
+  />
+</Grid>
+
+여러 Radio를 사용할 시 수직으로 쌓아 올리는 것이 기본적인 정렬 방식입니다. 가로로 나열 시 레이블의 길이가 길어지거나 화면 너비가 좁아질 때 어떤 버튼에 해당하는지 혼동을 일으킬 수 있으므로 지양합니다.
+
+수평으로 배열해야 할 경우, 각 요소가 명확히 구분되도록 충분한 간격(Gap)을 확보해주세요.
+
+### 옵션 개수에 따라 적절한 컴포넌트 사용하기
+
+<Grid>
+  <FigmaImage id="2:161854" alt="Radio를 사용한 예시" />
+  <FigmaImage id="2:162228" alt="Select Box (Radio)를 사용한 예시" />
+</Grid>
+
+<FigmaImage
+  id="2:162267"
+  alt="Input Button을 통해 Radio로 구성된 List가 포함된 Bottom Sheet를 연 예시"
+/>
+
+사용자에게 명확하고 효율적인 선택 경험을 제공하기 위해, 선택해야 할 옵션의 개수는 컴포넌트를 결정하는 중요한 기준이 됩니다.
+
+#### Radio Group
+
+선택지가 2개에서 6개 사이일 때 사용합니다.
+
+- 사용자가 각 옵션의 차이를 명확히 비교하고 신중하게 선택해야 할 때 (예: 배송 방법 - 일반 배송 vs. 특급 배송)
+- 설정, 주문서, 설문조사 등 '서류' 형태의 폼일 때
+
+#### Input Button
+
+선택지가 6개 이상으로 많거나, 앞으로 더 늘어날 가능성이 있을 때 사용합니다.
+
+- 평소에는 선택된 값만 보여주어 화면의 공간 효율성을 극대화하고 UI를 간결하게 유지합니다. 버튼을 클릭하면 [Bottom Sheet](/docs/components/bottom-sheet)가 올라와 전체 옵션 목록을 보여주므로, 많은 수의 옵션도 효과적으로 처리할 수 있습니다.
+- 사용자가 이미 어떤 것을 선택할지 예측하고 있을 때
+- 화면이 복잡하거나 다른 중요한 정보가 많을 때
+- 출생연도, 국가 등 많은 옵션이 나타나고, 옵션이 추가될 수 있을 때
+
+## Radio vs. Checkbox vs. Chip Group
+
+<FigmaImage id="2:162407" alt="Radio, Checkbox, Chip Group 비교표" />
+
+Radio와 [Checkbox](/docs/components/checkbox), [Chip Group](/docs/components/chip)의 선택 기준은 다음과 같습니다.
+
+|                    | Radio                                               | Checkbox                                            | Chip Group                                                      |
+| ------------------ | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------- |
+| **핵심 규칙**      | 단일 선택 (N개 중 1개) / 문장 등 긴 내용 표시 가능  | 다중 선택 (N개 중 N개) / 문장 등 긴 내용 표시 가능  | 둘 다 가능 (단일 또는 다중 선택) / 단어 같이 짧은 내용 표시가능 |
+| **주요 목적**      | 폼(Form)데이터의 선택 및 제출                       | 여러 항목의 포함/제외 및 동의                       | 콘텐츠의 필터링 또는 속성 부여                                  |
+| **레이아웃**       | 수직으로 쌓이며 조금 더 명료하게 행동을 유도가 가능 | 수직으로 쌓이며 조금 더 명료하게 행동을 유도가 가능 | 수평으로 쌓이며 컴팩트하게 화면을 구성할 수 있음                |
+| **사용자의 인식**  | 하나의 정답/답변을 고른다                           | 해당되는 것에 모두 체크를 한다                      | 특징을 고르거나 분류하고 있다                                   |
+| **최적 옵션 개수** | 2~6개 이하                                          | 제한없음 (권장: 2~10개 이내)                        | 제한없음 (권장: 2~10개 이내)                                    |
+| **대표 사용 예시** | 성별 선택, 배송 방법 선택, 만족도 조사 등           | 이용 약관 동의, 수신 항목 선택 등                   | 사이즈/색상 선택, 관심사 태그, 검색 필터 등                     |
+
+## Radio V3 변경점
+
+<FigmaImage id="2:162309" alt="Radio V2와 V3 비교" />
+
+- **색상 시스템 개편**: 주요 버튼 등의 핵심 액션과의 시각적 혼동을 방지하기 위해 기존 Brand 컬러를 제거했습니다. 대신, UI 전반의 시각적 위계를 고려하여 새롭게 Neutral 톤을 추가했습니다.
+- **컴포넌트 분리**: 사용 맥락에 따라 명확하게 구분하여 사용할 수 있도록 컴포넌트를 분리했습니다.
+  - **Radio Mark**: 레이블 없이 단독으로 표현되며, 다양하게 조합될 수 있습니다.
+  - **Radio**: 텍스트 레이블과 함께 사용하는 표준 컴포넌트입니다.
+
+## Specification
+
+### Radio Group
+
+<ComponentSpecBlock id="radio-group" headingComponent="h4" />
+
+### Radio
+
+<ComponentSpecBlock id="radio" headingComponent="h4" />
+
+### Radio Mark
+
+<ComponentSpecBlock id="radiomark" headingComponent="h4" />

@@ -1,8 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
-import { sources } from "../pipeline/sources";
-import { createApiClient } from "../api/client";
+import { describe, it, expect, mock } from "bun:test";
 
-vi.mock("../api/client");
+mock.module("../api/client", () => import("../api/__mocks__/client"));
+
+const { sources } = await import("../pipeline/sources");
+const { createApiClient } = await import("../api/client");
 
 describe("sources", () => {
   const fileKey = "test-file-key";
@@ -13,6 +14,7 @@ describe("sources", () => {
     fileKey,
     pipelineName: "test-pipeline",
     write: () => Promise.resolve(),
+    fetchNodes: () => Promise.resolve([]),
     utils: {
       toJson: () => "",
       toTypeScript: () => "",

@@ -1,0 +1,1 @@
+../../plugins/seed-design/skills/deprecation/SKILL.md

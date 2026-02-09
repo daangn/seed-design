@@ -38,16 +38,11 @@
             "color": {
               "type": "color"
             },
-            "strokeColorDuration": {
-              "type": "duration"
+            "strokeDuration": {
+              "type": "duration",
+              "description": "1px stroke 위에 2px stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다."
             },
-            "strokeColorTimingFunction": {
-              "type": "cubicBezier"
-            },
-            "strokeWidthDuration": {
-              "type": "duration"
-            },
-            "strokeWidthTimingFunction": {
+            "strokeTimingFunction": {
               "type": "cubicBezier"
             }
           }
@@ -178,19 +173,14 @@
                   "type": "color",
                   "value": "$color.stroke.neutral-weak"
                 },
-                "strokeColorDuration": {
+                "strokeDuration": {
                   "type": "duration",
-                  "value": "$duration.color-transition"
+                  "value": {
+                    "value": 0.1,
+                    "unit": "s"
+                  }
                 },
-                "strokeColorTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                },
-                "strokeWidthDuration": {
-                  "type": "duration",
-                  "value": "$duration.d3"
-                },
-                "strokeWidthTimingFunction": {
+                "strokeTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 }

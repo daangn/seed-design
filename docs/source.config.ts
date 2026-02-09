@@ -5,6 +5,7 @@ import { typeTableGenerator } from "./components/type-table/generator";
 import { remarkReactTypeTable } from "./components/type-table/remark-react-type-table";
 import lastModified from "fumadocs-mdx/plugins/last-modified";
 import z from "zod";
+import { env } from "@/app/env";
 
 export const docs = defineDocs({
   dir: "content/docs",
@@ -72,10 +73,6 @@ export const aiIntegrationDocs = defineDocs({
   },
 });
 
-if (!process.env.FIGMA_FILE_KEY || !process.env.FIGMA_PERSONAL_ACCESS_TOKEN) {
-  throw new Error("FIGMA_FILE_KEY and FIGMA_PERSONAL_ACCESS_TOKEN are required");
-}
-
 export default defineConfig({
   plugins: [lastModified()],
   mdxOptions: {
@@ -98,8 +95,8 @@ export default defineConfig({
       [
         remarkFigmaImage,
         {
-          fileKey: process.env.FIGMA_FILE_KEY,
-          accessToken: process.env.FIGMA_PERSONAL_ACCESS_TOKEN,
+          fileKey: env.figmaFileKey,
+          accessToken: env.figmaPersonalAccessToken,
           fetchUrlsOptions: {
             format: "png",
             scale: 2,

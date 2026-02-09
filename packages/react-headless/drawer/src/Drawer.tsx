@@ -64,13 +64,20 @@ export interface DrawerBackdropProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((props, ref) => {
-  const { overlayRef, onRelease, modal, snapPoints, isOpen, shouldFade, shouldOverlayAnimate } =
-    useDrawerContext();
+  const {
+    overlayRef,
+    onRelease,
+    modal,
+    snapPoints,
+    isOpen,
+    shouldFade,
+    shouldOverlayAnimate,
+    hasAnimationDone,
+  } = useDrawerContext();
   const composedRef = useComposedRefs(ref, overlayRef);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
   const onMouseUp = useCallbackRef((event: React.PointerEvent<HTMLDivElement>) => onRelease(event));
 
-  // Overlay is the component that is locking scroll, removing it will unlock the scroll without having to dig into Radix's Dialog library
   if (!modal) {
     return null;
   }
@@ -83,6 +90,7 @@ export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((p
       data-snap-points-overlay={isOpen && shouldFade ? "true" : "false"}
       data-should-overlay-animate={shouldOverlayAnimate ? "true" : "false"}
       data-open={dataAttr(isOpen)}
+      data-animation-done={hasAnimationDone ? "true" : "false"}
       {...props}
     />
   );
@@ -114,6 +122,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     closeOnInteractOutside,
     closeOnEscape,
     dismissible,
+    hasAnimationDone,
   } = useDrawerContext();
   // Needed to use transition instead of animations
   const [delayedSnapPoints, setDelayedSnapPoints] = useState(false);
@@ -170,6 +179,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
       data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
       data-drawer-direction={direction}
       data-open={dataAttr(isOpen)}
+      data-animation-done={hasAnimationDone ? "true" : "false"}
       data-drawer=""
       data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
       data-custom-container={container ? "true" : "false"}
@@ -209,10 +219,10 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         }
       }}
       onFocusOutside={(e) => {
-        if (!modal) {
-          e.preventDefault();
-          return;
-        }
+        props.onFocusOutside?.(e);
+        // Always prevent focusOutside to avoid conflicts when focus moves between modals
+        // (e.g., when Dialog closes and restores focus while BottomSheet is opening)
+        e.preventDefault();
       }}
       onPointerMove={(event) => {
         lastKnownPointerEventRef.current = event;
@@ -251,14 +261,15 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         }
       }}
       onInteractOutside={(e) => {
-        if (dismissible && closeOnInteractOutside) {
-          closeDrawer();
+        // Only close if event is not prevented (e.g., by onFocusOutside or onPointerDownOutside)
+        if (dismissible && closeOnInteractOutside && !e.defaultPrevented) {
+          closeDrawer(false, { reason: "interactOutside", event: e.detail.originalEvent });
         }
         props.onInteractOutside?.(e);
       }}
       onEscapeKeyDown={(e) => {
         if (dismissible && closeOnEscape) {
-          closeDrawer();
+          closeDrawer(false, { reason: "escapeKeyDown", event: e });
         }
         props.onEscapeKeyDown?.(e);
       }}
@@ -275,19 +286,30 @@ export interface DrawerDescriptionProps extends DialogPrimitive.DialogDescriptio
 
 export const DrawerDescription = DialogPrimitive.Description;
 
+export interface DrawerHeaderProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>((props, ref) => {
+  const { isCloseButtonRendered } = useDrawerContext();
+  return (
+    <Primitive.div ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
+  );
+});
+DrawerHeader.displayName = "DrawerHeader";
+
 export interface DrawerCloseButtonProps extends DialogPrimitive.DialogCloseProps {}
 
 export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButtonProps>(
   (props, ref) => {
-    const api = useDrawerContext();
+    const { closeButtonRef, setIsOpen } = useDrawerContext();
+    const composedRef = useComposedRefs(ref, closeButtonRef);
     return (
       <Primitive.button
-        ref={ref}
+        ref={composedRef}
         {...props}
         onClick={(e) => {
           props.onClick?.(e);
           if (e.defaultPrevented) return;
-          api.setIsOpen(false);
+          setIsOpen(false, { reason: "closeButton", event: e.nativeEvent });
         }}
       />
     );
@@ -320,18 +342,18 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
   const closeTimeoutIdRef = useRef<number | null>(null);
   const shouldCancelInteractionRef = useRef(false);
 
-  function handleStartCycle() {
+  function handleStartCycle(event: React.MouseEvent<HTMLDivElement>) {
     // Stop if this is the second click of a double click
     if (shouldCancelInteractionRef.current) {
       handleCancelInteraction();
       return;
     }
     window.setTimeout(() => {
-      handleCycleSnapPoints();
+      handleCycleSnapPoints(event);
     }, DOUBLE_TAP_TIMEOUT);
   }
 
-  function handleCycleSnapPoints() {
+  function handleCycleSnapPoints(event: React.MouseEvent<HTMLDivElement>) {
     // Prevent accidental taps while resizing drawer
     if (isDragging || preventCycle || shouldCancelInteractionRef.current) {
       handleCancelInteraction();
@@ -342,7 +364,7 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
 
     if (!snapPoints || snapPoints.length === 0) {
       if (!dismissible) {
-        closeDrawer();
+        closeDrawer(false, { reason: "handleClickOnLastSnapPoint", event: event.nativeEvent });
       }
       return;
     }
@@ -350,7 +372,7 @@ export const DrawerHandle = forwardRef<HTMLDivElement, DrawerHandleProps>((props
     const isLastSnapPoint = activeSnapPoint === snapPoints[snapPoints.length - 1];
 
     if (isLastSnapPoint && dismissible) {
-      closeDrawer();
+      closeDrawer(false, { reason: "handleClickOnLastSnapPoint", event: event.nativeEvent });
       return;
     }
 

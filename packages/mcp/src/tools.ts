@@ -1,136 +1,155 @@
-import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createRestNormalizer, figma, getFigmaColorVariableNames, react } from "@seed-design/figma";
 import { z } from "zod";
 import type { McpConfig } from "./config";
+import { parseFigmaUrl } from "./figma-rest-client";
+import { formatError } from "./logger";
 import {
   formatErrorResponse,
   formatImageResponse,
   formatObjectResponse,
   formatTextResponse,
 } from "./responses";
+import type { FigmaRestClient } from "./figma-rest-client";
+import {
+  createToolContext,
+  fetchMultipleNodesData,
+  fetchNodeData,
+  requireWebSocket,
+  type ToolMode,
+} from "./tools-helpers";
 import type { FigmaWebSocketClient } from "./websocket";
+
+const singleNodeBaseSchema = z.object({
+  figmaUrl: z
+    .url()
+    .optional()
+    .describe("Figma node URL. Extracts fileKey and nodeId automatically when provided."),
+  fileKey: z
+    .string()
+    .optional()
+    .describe("Figma file key. Use with nodeId when not using figmaUrl."),
+  nodeId: z.string().optional().describe("Node ID (e.g., '0:1')."),
+  personalAccessToken: z
+    .string()
+    .optional()
+    .describe("Figma PAT. Falls back to FIGMA_PERSONAL_ACCESS_TOKEN env when not provided."),
+});
+
+const multiNodeBaseSchema = z.object({
+  fileKey: z
+    .string()
+    .optional()
+    .describe("Figma file key. Required when WebSocket connection is not available."),
+  nodeIds: z.array(z.string()).describe("Array of node IDs (e.g., ['0:1', '0:2'])"),
+  personalAccessToken: z
+    .string()
+    .optional()
+    .describe(
+      "Figma PAT. Falls back to FIGMA_PERSONAL_ACCESS_TOKEN env when not provided to be used when WebSocket connection is not available.",
+    ),
+});
+
+function getSingleNodeParamsSchema(mode: ToolMode) {
+  switch (mode) {
+    case "websocket":
+      return singleNodeBaseSchema.pick({ nodeId: true }).required();
+    default:
+      return singleNodeBaseSchema;
+  }
+}
+
+function getMultiNodeParamsSchema(mode: ToolMode) {
+  switch (mode) {
+    case "websocket":
+      return multiNodeBaseSchema.pick({ nodeIds: true });
+    case "rest":
+      return multiNodeBaseSchema.required({ fileKey: true });
+    default:
+      return multiNodeBaseSchema;
+  }
+}
+
+function resolveSingleNodeParams(params: z.infer<typeof singleNodeBaseSchema>): {
+  fileKey: string | undefined;
+  nodeId: string;
+  personalAccessToken: string | undefined;
+} {
+  if (params.figmaUrl) {
+    const parsed = parseFigmaUrl(params.figmaUrl);
+
+    return {
+      fileKey: parsed.fileKey,
+      nodeId: parsed.nodeId,
+      personalAccessToken: params.personalAccessToken,
+    };
+  }
+
+  if (!params.nodeId) {
+    throw new Error(
+      "Either figmaUrl or nodeId must be provided. Use figmaUrl for automatic parsing, or provide fileKey + nodeId directly.",
+    );
+  }
+
+  return {
+    fileKey: params.fileKey,
+    nodeId: params.nodeId,
+    personalAccessToken: params.personalAccessToken,
+  };
+}
+
+function getSingleNodeDescription(baseDescription: string, mode: ToolMode): string {
+  switch (mode) {
+    case "rest":
+      return `${baseDescription} Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), or (2) fileKey + nodeId.`;
+    case "websocket":
+      return `${baseDescription} Provide nodeId. Requires WebSocket connection with Figma Plugin.`;
+    case "all":
+      return `${baseDescription} Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), (2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.`;
+  }
+}
+
+function getMultiNodeDescription(baseDescription: string, mode: ToolMode): string {
+  switch (mode) {
+    case "rest":
+      return `${baseDescription} Provide fileKey + nodeIds.`;
+    case "websocket":
+      return `${baseDescription} Provide nodeIds. Requires WebSocket connection with Figma Plugin.`;
+    case "all":
+      return `${baseDescription} Provide either: (1) fileKey + nodeIds for REST API, or (2) nodeIds only for WebSocket mode. If you have multiple URLs, call get_node_info for each URL instead.`;
+  }
+}
 
 export function registerTools(
   server: McpServer,
-  figmaClient: FigmaWebSocketClient,
-  config: McpConfig | null = {},
+  figmaClient: FigmaWebSocketClient | null,
+  restClient: FigmaRestClient | null,
+  config: McpConfig | null,
+  mode: ToolMode,
 ): void {
-  const { joinChannel, sendCommandToFigma } = figmaClient;
-  const { extend } = config ?? {};
+  const context = createToolContext(figmaClient, restClient, config, mode);
+  const singleNodeParamsSchema = getSingleNodeParamsSchema(mode);
+  const multiNodeParamsSchema = getMultiNodeParamsSchema(mode);
 
-  // join_channel tool
-  server.tool(
-    "join_channel",
-    "Join a specific channel to communicate with Figma",
-    {
-      channel: z.string().describe("The name of the channel to join").default(""),
-    },
-    async ({ channel }) => {
-      try {
-        if (!channel) {
-          // If no channel provided, ask the user for input
-          return {
-            ...formatTextResponse("Please provide a channel name to join:"),
-            followUp: {
-              tool: "join_channel",
-              description: "Join the specified channel",
-            },
-          };
-        }
+  const shouldRegisterWebSocketOnlyTools = mode === "websocket" || mode === "all";
 
-        await joinChannel(channel);
-        return formatTextResponse(`Successfully joined channel: ${channel}`);
-      } catch (error) {
-        return formatErrorResponse("join_channel", error);
-      }
-    },
-  );
+  // REST API + WebSocket Tools (hybrid)
+  // These tools support both REST API and WebSocket modes
 
-  // Document Info Tool
-  server.tool(
-    "get_document_info",
-    "Get detailed information about the current Figma document",
-    {},
-    async () => {
-      try {
-        const result = await sendCommandToFigma("get_document_info");
-        return formatObjectResponse(result);
-      } catch (error) {
-        return formatErrorResponse("get_document_info", error);
-      }
-    },
-  );
-
-  // Selection Tool
-  server.tool(
-    "get_selection",
-    "Get information about the current selection in Figma",
-    {},
-    async () => {
-      try {
-        const result = await sendCommandToFigma("get_selection");
-        return formatObjectResponse(result);
-      } catch (error) {
-        return formatErrorResponse("get_selection", error);
-      }
-    },
-  );
-
-  // Annotation Tool
-  server.tool(
-    "add_annotations",
-    "Add annotations to multiple nodes in Figma",
-    {
-      annotations: z.array(
-        z.object({
-          nodeId: z.string().describe("The ID of the node to add an annotation to"),
-          labelMarkdown: z
-            .string()
-            .describe("The markdown label for the annotation, do not escape newlines"),
-        }),
-      ),
-    },
-    async ({ annotations }) => {
-      try {
-        await sendCommandToFigma("add_annotations", { annotations });
-
-        return formatTextResponse(
-          `Annotations added to nodes ${annotations.map((annotation) => annotation.nodeId).join(", ")}`,
-        );
-      } catch (error) {
-        return formatErrorResponse("add_annotations", error);
-      }
-    },
-  );
-
-  // Get Annotations Tool
-  server.tool(
-    "get_annotations",
-    "Get annotations for a specific node in Figma",
-    { nodeId: z.string().describe("The ID of the node to get annotations for") },
-    async ({ nodeId }) => {
-      try {
-        const result = await sendCommandToFigma("get_annotations", { nodeId });
-        return formatObjectResponse(result);
-      } catch (error) {
-        return formatErrorResponse("get_annotations", error);
-      }
-    },
-  );
-
-  // Component Info Tool
-  server.tool(
+  // Component Info Tool (REST API + WebSocket)
+  server.registerTool(
     "get_component_info",
-    "Get detailed information about a specific component node in Figma",
     {
-      nodeId: z.string().describe("The ID of the component node to get information about"),
+      description: getSingleNodeDescription(
+        "Get detailed information about a specific component node in Figma.",
+        mode,
+      ),
+      inputSchema: singleNodeParamsSchema,
     },
-    async ({ nodeId }) => {
+    async (params: z.infer<typeof singleNodeBaseSchema>) => {
       try {
-        const result = (await sendCommandToFigma("get_node_info", {
-          nodeId,
-        })) as GetFileNodesResponse["nodes"][string];
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
 
         const node = result.document;
         if (node.type !== "COMPONENT" && node.type !== "COMPONENT_SET") {
@@ -154,21 +173,26 @@ export function registerTools(
           componentPropertyDefinitions: node.componentPropertyDefinitions,
         });
       } catch (error) {
-        return formatErrorResponse("get_node_info", error);
+        return formatErrorResponse("get_component_info", error);
       }
     },
   );
 
-  // Node Info Tool
-  server.tool(
+  // Node Info Tool (REST API + WebSocket)
+  server.registerTool(
     "get_node_info",
-    "Get detailed information about a specific node in Figma",
     {
-      nodeId: z.string().describe("The ID of the node to get information about"),
+      description: getSingleNodeDescription(
+        "Get detailed information about a specific node in Figma.",
+        mode,
+      ),
+      inputSchema: singleNodeParamsSchema,
     },
-    async ({ nodeId }) => {
+    async (params: z.infer<typeof singleNodeBaseSchema>) => {
       try {
-        const result: any = await sendCommandToFigma("get_node_info", { nodeId });
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
+
         const normalizer = createRestNormalizer(result);
         const node = normalizer(result.document);
 
@@ -181,167 +205,322 @@ export function registerTools(
           shouldInferVariableName: true,
         });
         const original =
-          noInferPipeline.generateCode(node, {
-            shouldPrintSource: true,
-          })?.jsx ?? "Failed to generate summarized node info";
+          noInferPipeline.generateCode(node, { shouldPrintSource: true })?.jsx ??
+          "Failed to generate summarized node info";
         const inferred =
-          inferPipeline.generateCode(node, {
-            shouldPrintSource: true,
-          })?.jsx ?? "Failed to generate summarized node info";
+          inferPipeline.generateCode(node, { shouldPrintSource: true })?.jsx ??
+          "Failed to generate summarized node info";
 
         return formatObjectResponse({
-          original: {
-            data: original,
-            description: "Original Figma node info",
-          },
-          inferred: {
-            data: inferred,
-            description: "AutoLayout Inferred Figma node info (fix suggestions)",
-          },
+          original: { data: original, description: "Original Figma node info" },
+          inferred: { data: inferred, description: "AutoLayout Inferred Figma node info" },
         });
       } catch (error) {
-        return formatErrorResponse("get_node_info", error);
+        return formatTextResponse(
+          `Error in get_node_info: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
+        );
       }
     },
   );
 
-  // Nodes Info Tool
-  server.tool(
+  // Nodes Info Tool (REST API + WebSocket)
+  server.registerTool(
     "get_nodes_info",
-    "Get detailed information about multiple nodes in Figma",
     {
-      nodeIds: z.array(z.string()).describe("Array of node IDs to get information about"),
+      description: getMultiNodeDescription(
+        "Get detailed information about multiple nodes in Figma.",
+        mode,
+      ),
+      inputSchema: multiNodeParamsSchema,
     },
-    async ({ nodeIds }) => {
+    async ({ fileKey, nodeIds, personalAccessToken }: z.infer<typeof multiNodeBaseSchema>) => {
       try {
-        const results = await Promise.all(
-          nodeIds.map(async (nodeId) => {
-            const result: any = await sendCommandToFigma("get_node_info", { nodeId });
-            const normalizer = createRestNormalizer(result);
-            const node = normalizer(result.document);
+        if (nodeIds.length === 0) {
+          return formatErrorResponse("get_nodes_info", new Error("No node IDs provided"));
+        }
 
-            const noInferPipeline = figma.createPipeline({
-              shouldInferAutoLayout: false,
-              shouldInferVariableName: false,
-            });
-            const inferPipeline = figma.createPipeline({
-              shouldInferAutoLayout: true,
-              shouldInferVariableName: true,
-            });
-            const original =
-              noInferPipeline.generateCode(node, {
-                shouldPrintSource: true,
-              })?.jsx ?? "Failed to generate summarized node info";
-            const inferred =
-              inferPipeline.generateCode(node, {
-                shouldPrintSource: true,
-              })?.jsx ?? "Failed to generate summarized node info";
-
-            return {
-              nodeId,
-              original: {
-                data: original,
-                description: "Original Figma node info",
-              },
-              inferred: {
-                data: inferred,
-                description: "AutoLayout Inferred Figma node info (fix suggestions)",
-              },
-            };
-          }),
+        const nodesData = await fetchMultipleNodesData(
+          { fileKey, nodeIds, personalAccessToken },
+          context,
         );
+
+        const results = nodeIds.map((nodeId) => {
+          const nodeData = nodesData[nodeId];
+          if (!nodeData) {
+            return { nodeId, error: `Node ${nodeId} not found` };
+          }
+
+          const normalizer = createRestNormalizer(nodeData);
+          const node = normalizer(nodeData.document);
+
+          const noInferPipeline = figma.createPipeline({
+            shouldInferAutoLayout: false,
+            shouldInferVariableName: false,
+          });
+          const inferPipeline = figma.createPipeline({
+            shouldInferAutoLayout: true,
+            shouldInferVariableName: true,
+          });
+          const original =
+            noInferPipeline.generateCode(node, { shouldPrintSource: true })?.jsx ??
+            "Failed to generate summarized node info";
+          const inferred =
+            inferPipeline.generateCode(node, { shouldPrintSource: true })?.jsx ??
+            "Failed to generate summarized node info";
+
+          return {
+            nodeId,
+            original: { data: original, description: "Original Figma node info" },
+            inferred: { data: inferred, description: "AutoLayout Inferred Figma node info" },
+          };
+        });
+
         return formatObjectResponse(results);
       } catch (error) {
-        return formatErrorResponse("get_nodes_info", error);
+        return formatTextResponse(
+          `Error in get_nodes_info: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
+        );
       }
     },
   );
 
-  server.tool(
+  // Get Node React Code Tool (REST API + WebSocket)
+  server.registerTool(
     "get_node_react_code",
-    "Get the React code for a specific node in Figma",
-    { nodeId: z.string().describe("The ID of the node to get code for") },
-    async ({ nodeId }) => {
+    {
+      description: getSingleNodeDescription(
+        "Get the React code for a specific node in Figma.",
+        mode,
+      ),
+      inputSchema: singleNodeParamsSchema,
+    },
+    async (params: z.infer<typeof singleNodeBaseSchema>) => {
       try {
-        const result: any = await sendCommandToFigma("get_node_info", { nodeId });
-        const normalizer = createRestNormalizer(result);
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
 
+        const normalizer = createRestNormalizer(result);
         const pipeline = react.createPipeline({
           shouldInferAutoLayout: true,
           shouldInferVariableName: true,
-          extend,
+          extend: context.extend,
         });
         const generated = pipeline.generateCode(normalizer(result.document), {
           shouldPrintSource: false,
         });
 
         if (!generated) {
-          return formatTextResponse("Failed to generate code");
+          return formatTextResponse(
+            "Failed to generate code\n\n⚠️ Please make sure you have the latest version of the Figma library.",
+          );
         }
 
         return formatTextResponse(`${generated.imports}\n\n${generated.jsx}`);
       } catch (error) {
-        return formatErrorResponse("get_node_react_code", error);
+        return formatTextResponse(
+          `Error in get_node_react_code: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
+        );
       }
     },
   );
 
-  // Export Node as Image Tool
-  server.tool(
-    "export_node_as_image",
-    "Export a node as an image from Figma",
-    {
-      nodeId: z.string().describe("The ID of the node to export"),
-      format: z.enum(["PNG", "JPG", "SVG", "PDF"]).optional().describe("Export format"),
-      scale: z.number().positive().optional().describe("Export scale"),
-    },
-    async ({ nodeId, format, scale }) => {
-      try {
-        const result = await sendCommandToFigma("export_node_as_image", {
-          nodeId,
-          format: format || "PNG",
-          scale: scale || 1,
-        });
-        const typedResult = result as { base64: string; mimeType: string };
-        return formatImageResponse(typedResult.base64, typedResult.mimeType || "image/png");
-      } catch (error) {
-        return formatErrorResponse("export_node_as_image", error);
-      }
-    },
-  );
+  // Utility Tools (No Figma connection required)
 
   // Retrieve Color Variable Names Tool
-  server.tool(
+  server.registerTool(
     "retrieve_color_variable_names",
-    "Retrieve available color variable names in scope",
     {
-      scope: z
-        .enum(["fg", "bg", "stroke", "palette"])
-        .array()
-        .describe("The scope of the color variable names to retrieve"),
+      description:
+        "Retrieve available SEED Design color variable names by scope. No Figma connection required.",
+      inputSchema: z.object({
+        scope: z
+          .enum(["fg", "bg", "stroke", "palette"])
+          .array()
+          .describe("The scope of the color variable names to retrieve"),
+      }),
     },
     async ({ scope }) => {
       try {
         const result = getFigmaColorVariableNames(scope);
+
         return formatObjectResponse(result);
       } catch (error) {
         return formatErrorResponse("retrieve_color_variable_names", error);
       }
     },
   );
+
+  if (shouldRegisterWebSocketOnlyTools) {
+    // WebSocket Only Tools
+
+    server.registerTool(
+      "join_channel",
+      {
+        description: "Join a specific channel to communicate with Figma (WebSocket mode only)",
+        inputSchema: z.object({
+          channel: z.string().describe("The name of the channel to join").default(""),
+        }),
+      },
+      async ({ channel }) => {
+        try {
+          if (!figmaClient)
+            return formatErrorResponse(
+              "join_channel",
+              new Error("WebSocket not available. This tool requires Figma Plugin connection."),
+            );
+
+          if (!channel)
+            // If no channel provided, ask the user for input
+            return {
+              ...formatTextResponse("Please provide a channel name to join:"),
+              followUp: {
+                tool: "join_channel",
+                description: "Join the specified channel",
+              },
+            };
+
+          await figmaClient.joinChannel(channel);
+
+          return formatTextResponse(`Successfully joined channel: ${channel}`);
+        } catch (error) {
+          return formatErrorResponse("join_channel", error);
+        }
+      },
+    );
+
+    // Document Info Tool
+    server.registerTool(
+      "get_document_info",
+      {
+        description:
+          "Get detailed information about the current Figma document (WebSocket mode only)",
+      },
+      async () => {
+        try {
+          requireWebSocket(context);
+          const result = await context.sendCommandToFigma("get_document_info");
+
+          return formatObjectResponse(result);
+        } catch (error) {
+          return formatErrorResponse("get_document_info", error);
+        }
+      },
+    );
+
+    // Selection Tool
+    server.registerTool(
+      "get_selection",
+      {
+        description: "Get information about the current selection in Figma (WebSocket mode only)",
+      },
+      async () => {
+        try {
+          requireWebSocket(context);
+          const result = await context.sendCommandToFigma("get_selection");
+
+          return formatObjectResponse(result);
+        } catch (error) {
+          return formatErrorResponse("get_selection", error);
+        }
+      },
+    );
+
+    // Annotation Tool
+    server.registerTool(
+      "add_annotations",
+      {
+        description: "Add annotations to multiple nodes in Figma (WebSocket mode only)",
+        inputSchema: z.object({
+          annotations: z.array(
+            z.object({
+              nodeId: z.string().describe("The ID of the node to add an annotation to"),
+              labelMarkdown: z
+                .string()
+                .describe("The markdown label for the annotation, do not escape newlines"),
+            }),
+          ),
+        }),
+      },
+      async ({ annotations }) => {
+        try {
+          requireWebSocket(context);
+          await context.sendCommandToFigma("add_annotations", { annotations });
+
+          return formatTextResponse(
+            `Annotations added to nodes ${annotations.map((annotation) => annotation.nodeId).join(", ")}`,
+          );
+        } catch (error) {
+          return formatErrorResponse("add_annotations", error);
+        }
+      },
+    );
+
+    // Get Annotations Tool
+    server.registerTool(
+      "get_annotations",
+      {
+        description: "Get annotations for a specific node in Figma (WebSocket mode only)",
+        inputSchema: z.object({
+          nodeId: z.string().describe("The ID of the node to get annotations for"),
+        }),
+      },
+      async ({ nodeId }) => {
+        try {
+          requireWebSocket(context);
+          const result = await context.sendCommandToFigma("get_annotations", { nodeId });
+
+          return formatObjectResponse(result);
+        } catch (error) {
+          return formatErrorResponse("get_annotations", error);
+        }
+      },
+    );
+
+    // Export Node as Image Tool
+    server.registerTool(
+      "export_node_as_image",
+      {
+        description: "Export a node as an image from Figma (WebSocket mode only)",
+        inputSchema: z.object({
+          nodeId: z.string().describe("The ID of the node to export"),
+          format: z.enum(["PNG", "JPG", "SVG", "PDF"]).optional().describe("Export format"),
+          scale: z.number().positive().optional().describe("Export scale"),
+        }),
+      },
+      async ({ nodeId, format, scale }) => {
+        try {
+          requireWebSocket(context);
+          const result = await context.sendCommandToFigma("export_node_as_image", {
+            nodeId,
+            format: format || "PNG",
+            scale: scale || 1,
+          });
+
+          const typedResult = result as { base64: string; mimeType: string };
+          return formatImageResponse(typedResult.base64, typedResult.mimeType || "image/png");
+        } catch (error) {
+          return formatErrorResponse("export_node_as_image", error);
+        }
+      },
+    );
+  }
 }
+
+// editing tools require WebSocket client
 
 export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSocketClient): void {
   const { sendCommandToFigma } = figmaClient;
 
   // Clone Node Tool
-  server.tool(
+  server.registerTool(
     "clone_node",
-    "Clone an existing node in Figma",
     {
-      nodeId: z.string().describe("The ID of the node to clone"),
-      x: z.number().optional().describe("New X position for the clone"),
-      y: z.number().optional().describe("New Y position for the clone"),
+      description: "Clone an existing node in Figma (WebSocket mode only)",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to clone"),
+        x: z.number().optional().describe("New X position for the clone"),
+        y: z.number().optional().describe("New Y position for the clone"),
+      }),
     },
     async ({ nodeId, x, y }) => {
       try {
@@ -353,6 +532,7 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
           y?: number;
           success: boolean;
         };
+
         return formatTextResponse(
           `Cloned node with new ID: ${typedResult.id}${x !== undefined && y !== undefined ? ` at position (${x}, ${y})` : ""}`,
         );
@@ -362,20 +542,23 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     },
   );
 
-  server.tool(
+  server.registerTool(
     "set_fill_color",
-    "Set the fill color of a node",
     {
-      nodeId: z.string().describe("The ID of the node to set the fill color of"),
-      colorToken: z
-        .string()
-        .describe(
-          "The color token to set the fill color to. Format: `{category}/{name}`. Example: `bg/brand`",
-        ),
+      description: "Set the fill color of a node (WebSocket mode only)",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to set the fill color of"),
+        colorToken: z
+          .string()
+          .describe(
+            "The color token to set the fill color to. Format: `{category}/{name}`. Example: `bg/brand`",
+          ),
+      }),
     },
     async ({ nodeId, colorToken }) => {
       try {
         await sendCommandToFigma("set_fill_color", { nodeId, colorToken });
+
         return formatTextResponse(`Fill color set to ${colorToken}`);
       } catch (error) {
         return formatErrorResponse("set_fill_color", error);
@@ -383,20 +566,23 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     },
   );
 
-  server.tool(
+  server.registerTool(
     "set_stroke_color",
-    "Set the stroke color of a node",
     {
-      nodeId: z.string().describe("The ID of the node to set the stroke color of"),
-      colorToken: z
-        .string()
-        .describe(
-          "The color token to set the stroke color to. Format: `{category}/{name}`. Example: `stroke/neutral`",
-        ),
+      description: "Set the stroke color of a node (WebSocket mode only)",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to set the stroke color of"),
+        colorToken: z
+          .string()
+          .describe(
+            "The color token to set the stroke color to. Format: `{category}/{name}`. Example: `stroke/neutral`",
+          ),
+      }),
     },
     async ({ nodeId, colorToken }) => {
       try {
         await sendCommandToFigma("set_stroke_color", { nodeId, colorToken });
+
         return formatTextResponse(`Stroke color set to ${colorToken}`);
       } catch (error) {
         return formatErrorResponse("set_stroke_color", error);
@@ -404,31 +590,39 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     },
   );
 
-  server.tool(
+  server.registerTool(
     "set_auto_layout",
-    "Set the auto layout of a node",
     {
-      nodeId: z.string().describe("The ID of the node to set the auto layout of"),
-      layoutMode: z.enum(["HORIZONTAL", "VERTICAL"]).optional().describe("The layout mode to set"),
-      layoutWrap: z.enum(["NO_WRAP", "WRAP"]).optional().describe("The layout wrap to set"),
-      primaryAxisAlignItems: z
-        .enum(["MIN", "MAX", "CENTER", "SPACE_BETWEEN"])
-        .optional()
-        .describe("The primary axis align items to set"),
-      counterAxisAlignItems: z
-        .enum(["MIN", "MAX", "CENTER", "BASELINE"])
-        .optional()
-        .describe("The counter axis align items to set"),
-      itemSpacing: z.number().optional().describe("The item spacing to set"),
-      horizontalPadding: z.number().optional().describe("The horizontal padding to set"),
-      verticalPadding: z.number().optional().describe("The vertical padding to set"),
-      paddingLeft: z.number().optional().describe("The padding left to set (when left != right)"),
-      paddingRight: z.number().optional().describe("The padding right to set (when left != right)"),
-      paddingTop: z.number().optional().describe("The padding top to set (when top != bottom)"),
-      paddingBottom: z
-        .number()
-        .optional()
-        .describe("The padding bottom to set (when top != bottom)"),
+      description: "Set the auto layout of a node (WebSocket mode only)",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to set the auto layout of"),
+        layoutMode: z
+          .enum(["HORIZONTAL", "VERTICAL"])
+          .optional()
+          .describe("The layout mode to set"),
+        layoutWrap: z.enum(["NO_WRAP", "WRAP"]).optional().describe("The layout wrap to set"),
+        primaryAxisAlignItems: z
+          .enum(["MIN", "MAX", "CENTER", "SPACE_BETWEEN"])
+          .optional()
+          .describe("The primary axis align items to set"),
+        counterAxisAlignItems: z
+          .enum(["MIN", "MAX", "CENTER", "BASELINE"])
+          .optional()
+          .describe("The counter axis align items to set"),
+        itemSpacing: z.number().optional().describe("The item spacing to set"),
+        horizontalPadding: z.number().optional().describe("The horizontal padding to set"),
+        verticalPadding: z.number().optional().describe("The vertical padding to set"),
+        paddingLeft: z.number().optional().describe("The padding left to set (when left != right)"),
+        paddingRight: z
+          .number()
+          .optional()
+          .describe("The padding right to set (when left != right)"),
+        paddingTop: z.number().optional().describe("The padding top to set (when top != bottom)"),
+        paddingBottom: z
+          .number()
+          .optional()
+          .describe("The padding bottom to set (when top != bottom)"),
+      }),
     },
     async ({
       nodeId,
@@ -459,6 +653,7 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
           paddingTop,
           paddingBottom,
         });
+
         return formatTextResponse(`Layout set to ${layoutMode}`);
       } catch (error) {
         return formatErrorResponse("set_auto_layout", error);
@@ -466,21 +661,23 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
     },
   );
 
-  server.tool(
+  server.registerTool(
     "set_size",
-    "Set the size of a node",
     {
-      nodeId: z.string().describe("The ID of the node to set the size of"),
-      layoutSizingHorizontal: z
-        .enum(["HUG", "FILL"])
-        .optional()
-        .describe("The horizontal layout sizing to set (exclusive with width)"),
-      layoutSizingVertical: z
-        .enum(["HUG", "FILL"])
-        .optional()
-        .describe("The vertical layout sizing to set (exclusive with height)"),
-      width: z.number().optional().describe("The width to set (raw value)"),
-      height: z.number().optional().describe("The height to set (raw value)"),
+      description: "Set the size of a node (WebSocket mode only)",
+      inputSchema: z.object({
+        nodeId: z.string().describe("The ID of the node to set the size of"),
+        layoutSizingHorizontal: z
+          .enum(["HUG", "FILL"])
+          .optional()
+          .describe("The horizontal layout sizing to set (exclusive with width)"),
+        layoutSizingVertical: z
+          .enum(["HUG", "FILL"])
+          .optional()
+          .describe("The vertical layout sizing to set (exclusive with height)"),
+        width: z.number().optional().describe("The width to set (raw value)"),
+        height: z.number().optional().describe("The height to set (raw value)"),
+      }),
     },
     async ({ nodeId, layoutSizingHorizontal, layoutSizingVertical, width, height }) => {
       try {
@@ -491,6 +688,7 @@ export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSoc
           width,
           height,
         });
+
         return formatTextResponse(
           `Size set to ${width ?? layoutSizingHorizontal}x${height ?? layoutSizingVertical}`,
         );

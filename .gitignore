@@ -19,3 +19,4 @@ docs/out
 scripts/data
 
 .env
+.sisyphus/*

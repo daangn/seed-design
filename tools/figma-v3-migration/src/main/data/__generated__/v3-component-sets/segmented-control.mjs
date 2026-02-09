@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Segmented Control",
-  "key": "3ad7133ba52755867f42f9232375f75639e00d58",
+  "key": "de7a2de48c7b18363eb8c025c7a9d02d0bfef3d8",
   "componentPropertyDefinitions": {
     "Item Count": {
       "type": "VARIANT",

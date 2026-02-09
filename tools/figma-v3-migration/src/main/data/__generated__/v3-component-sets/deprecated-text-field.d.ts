@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🚫 [Deprecated] Text Field",
-  "key": "c49873c37a639f0dffdea4efd0eb43760d66c141",
+  "key": "5e497fe23421ab30b245b7d7b6624be803cb4d67",
   "componentPropertyDefinitions": {
     "Show Header#870:0": {
       "type": "BOOLEAN",
@@ -40,7 +40,7 @@ export declare const metadata: {
     },
     "Prefix Icon#1267:25": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "37665:153409",
+      "defaultValue": "12:40",
       "preferredValues": []
     },
     "Show Prefix Icon#1267:50": {
@@ -53,7 +53,7 @@ export declare const metadata: {
     },
     "Suffix Icon #1267:100": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "37665:153409",
+      "defaultValue": "12:40",
       "preferredValues": []
     },
     "Show Suffix Text#1267:125": {

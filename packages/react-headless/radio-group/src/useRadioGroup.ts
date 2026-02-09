@@ -1,7 +1,14 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useId, useState } from "react";
+import { useState } from "react";
 
-import { dataAttr, elementProps, inputProps, visuallyHidden } from "@seed-design/dom-utils";
+import {
+  ariaAttr,
+  dataAttr,
+  elementProps,
+  inputProps,
+  visuallyHidden,
+} from "@seed-design/dom-utils";
+import { useFieldset } from "@seed-design/react-fieldset";
 import { useSupports } from "@seed-design/react-supports";
 
 interface UseRadioGroupStateProps {
@@ -38,7 +45,18 @@ function useRadioGroupState(props: UseRadioGroupStateProps) {
 }
 
 export interface UseRadioGroupProps extends UseRadioGroupStateProps {
+  /**
+   * @default false
+   */
   disabled?: boolean;
+
+  /**
+   * @default false
+   */
+  invalid?: boolean;
+
+  // not implementing `required` behavior yet; currently we require users to have value or defaultValue
+  // as well as `readOnly`
 
   name?: string;
 
@@ -50,17 +68,23 @@ export interface RadioItemProps {
 
   disabled?: boolean;
 
-  invalid?: boolean;
+  // note: individual radio item shouldn't be invalid independently
 }
 
 export type UseRadioGroupReturn = ReturnType<typeof useRadioGroup>;
 
 export type GetItemPropsReturn = ReturnType<UseRadioGroupReturn["getItemProps"]>;
 
-const getLabelId = (id: string) => `radio-group:${id}:label`;
-
 export function useRadioGroup(props: UseRadioGroupProps) {
-  const id = useId();
+  const { disabled = false, invalid = false, form, name } = props;
+
+  const fieldset = useFieldset();
+
+  const stateProps = elementProps({
+    "data-disabled": dataAttr(disabled),
+    "data-invalid": dataAttr(invalid),
+  });
+
   const {
     value,
     setValue,
@@ -74,38 +98,50 @@ export function useRadioGroup(props: UseRadioGroupProps) {
     setIsFocusVisible,
   } = useRadioGroupState(props);
 
-  const { disabled, form, name } = props;
-
-  const isControlled = value != null;
+  const isControlled = props.value !== undefined;
   const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
-
-  const stateProps = elementProps({
-    "data-disabled": dataAttr(disabled),
-  });
 
   return {
     value,
     setValue,
 
+    refs: fieldset.refs,
+
+    invalid,
+
     stateProps,
 
     rootProps: elementProps({
-      role: "radiogroup",
-      "aria-labelledby": getLabelId(id),
+      ...fieldset.rootProps,
       ...stateProps,
+
+      // fieldset.rootProps gives role="group"
+      // see: https://w3c.github.io/aria/#radiogroup
+      role: "radiogroup",
+
+      "aria-invalid": ariaAttr(invalid),
+      "aria-disabled": ariaAttr(disabled),
     }),
 
     labelProps: elementProps({
+      ...fieldset.labelProps,
       ...stateProps,
-      id: getLabelId(id),
-      // TODO: label 클릭 시 체크가 되어있는 radio에 포커스를 잡아야 한다. 체크된 게 없다면, 첫 번째 radio에 포커스를 잡아야 한다.
+    }),
+
+    descriptionProps: elementProps({
+      ...fieldset.descriptionProps,
+      ...stateProps,
+    }),
+
+    errorMessageProps: elementProps({
+      ...fieldset.errorMessageProps,
+      ...stateProps,
     }),
 
     getItemProps(itemProps: RadioItemProps) {
-      const { value: itemValue, disabled: itemDisabled, invalid: itemInvalid } = itemProps;
+      const { value: itemValue, disabled: itemDisabled } = itemProps;
 
       const itemState = {
-        invalid: !!itemInvalid,
         disabled: !!itemDisabled || disabled,
         checked: value === itemValue,
         focused: focusedValue === itemValue,
@@ -120,7 +156,6 @@ export function useRadioGroup(props: UseRadioGroupProps) {
         "data-checked": dataAttr(itemState.checked),
         "data-active": dataAttr(itemState.active),
         "data-hover": dataAttr(itemState.hovered),
-        "data-invalid": dataAttr(itemState.invalid),
       });
 
       return {
@@ -164,7 +199,7 @@ export function useRadioGroup(props: UseRadioGroupProps) {
 
         hiddenInputProps: inputProps({
           type: "radio",
-          name: name || id,
+          name: name || fieldset.id,
           form: form,
           value: itemProps.value,
           onChange(event) {

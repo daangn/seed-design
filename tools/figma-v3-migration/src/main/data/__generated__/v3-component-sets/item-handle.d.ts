@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🚫.Item / handle",
-  "key": "350f52f4f1535d73439f5008fd40506879cebd6d",
+  "key": "b6611409a132f9c75f25b0ffd834cad85156dfff",
   "componentPropertyDefinitions": {
     "Label": {
       "type": "VARIANT",

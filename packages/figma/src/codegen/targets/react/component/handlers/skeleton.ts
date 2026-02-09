@@ -7,7 +7,7 @@ import { createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 
 export const createSkeletonHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<SkeletonProperties>(metadata.skeleton.key, (node) => {
+  defineComponentHandler<SkeletonProperties>(metadata.componentSkeleton.key, (node) => {
     const { componentProperties: props, layoutSizingHorizontal, layoutSizingVertical } = node;
 
     const commonProps = {

@@ -1,8 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { createPipeline } from "../pipeline/builder";
-import { createApiClient } from "../api/client";
+import { describe, it, expect, mock, beforeEach } from "bun:test";
+import type { PipelineContext } from "../pipeline/builder";
 
-vi.mock("../api/client");
+mock.module("../api/client", () => import("../api/__mocks__/client"));
+
+const { createPipeline } = await import("../pipeline/builder");
+const { createApiClient } = await import("../api/client");
 
 const testItems = [
   { name: "Button", type: "COMPONENT", order: 2, priority: 3 },
@@ -20,6 +22,7 @@ describe("pipeline builder", () => {
     fileKey,
     pipelineName: "test-pipeline",
     write: () => Promise.resolve(),
+    fetchNodes: () => Promise.resolve([]),
     utils: {
       toJson: () => "",
       toTypeScript: () => "",
@@ -28,10 +31,12 @@ describe("pipeline builder", () => {
     },
   };
 
-  const mockSource = vi.fn();
+  const mockSource = mock<(context: PipelineContext) => Promise<typeof testItems>>(() =>
+    Promise.resolve([]),
+  );
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockSource.mockClear();
     mockSource.mockResolvedValue(testItems);
   });
 

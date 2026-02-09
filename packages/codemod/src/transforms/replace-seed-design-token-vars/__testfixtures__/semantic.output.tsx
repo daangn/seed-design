@@ -50,7 +50,7 @@ const styles = {
 
   // 테두리 색상 (stroke 토큰)
   borderColor: vars.$color.stroke.neutralSubtle,
-  borderTopColor: vars.$color.stroke.neutral,
+  borderTopColor: vars.$color.stroke.neutralMuted,
   borderBottomColor: vars.$color.palette.gray400,
 
   // 기타 색상

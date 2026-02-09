@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🚫 [Deprecated] Range Slider",
-  "key": "64fc49184979e0be40aa367ca98868601eb7dad5",
+  "key": "acd9b25dba649748699d0a67f900857629d62e64",
   "componentPropertyDefinitions": {
     "Steps": {
       "type": "VARIANT",

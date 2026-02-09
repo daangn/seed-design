@@ -27,7 +27,7 @@ async function getComponentsInFile({ api, fileKey }: { api: figma; fileKey: stri
   return components;
 }
 
-async function getNodesInFile({
+export async function getNodesInFile({
   api,
   fileKey,
   nodeIds,

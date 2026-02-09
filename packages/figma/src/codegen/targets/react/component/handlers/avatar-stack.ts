@@ -1,4 +1,7 @@
-import type { AvatarProperties, AvatarStackProperties } from "@/codegen/component-properties";
+import type {
+  AvatarProperties,
+  AvatarStackProperties,
+} from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
@@ -12,7 +15,7 @@ export const createAvatarStackHandler = (ctx: ComponentHandlerDeps) => {
   const avatarHandler = createAvatarHandler(ctx);
 
   return defineComponentHandler<AvatarStackProperties>(
-    metadata.avatarStack.key,
+    metadata.componentAvatarStack.key,
     (node, traverse) => {
       const avatarNodes = findAllInstances<AvatarProperties>({
         node,

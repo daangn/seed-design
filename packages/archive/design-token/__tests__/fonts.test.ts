@@ -1,11 +1,13 @@
-import * as t from 'tap';
+import { describe, it, expect } from "bun:test";
 
-import { fonts } from '../src';
+import { fonts } from "../src";
 
-t.test('fonts scheme - default', async t => {
-  t.matchSnapshot(fonts.default.scheme);
-});
+describe("fonts", () => {
+  it("fonts scheme - default", () => {
+    expect(fonts.default.scheme).toMatchSnapshot();
+  });
 
-t.test('semantic fonts scheme - default', async t => {
-  t.matchSnapshot(fonts.default.semanticScheme);
+  it("semantic fonts scheme - default", () => {
+    expect(fonts.default.semanticScheme).toMatchSnapshot();
+  });
 });

@@ -1,11 +1,19 @@
 import { VStack } from "@seed-design/react";
-import { Checkbox } from "seed-design/ui/checkbox";
+import { Checkbox, CheckboxGroup } from "seed-design/ui/checkbox";
 
 export default function CheckboxNeutral() {
   return (
-    <VStack gap="x2">
-      <Checkbox label="Square (default)" variant="square" tone="neutral" defaultChecked />
-      <Checkbox label="Ghost" variant="ghost" tone="neutral" defaultChecked />
+    <VStack p="x6">
+      <CheckboxGroup aria-label="Neutral tone examples">
+        <Checkbox
+          label="Square (default)"
+          variant="square"
+          tone="neutral"
+          size="large"
+          defaultChecked
+        />
+        <Checkbox label="Ghost" variant="ghost" tone="neutral" size="large" defaultChecked />
+      </CheckboxGroup>
     </VStack>
   );
 }

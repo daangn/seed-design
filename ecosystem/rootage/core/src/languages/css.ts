@@ -12,19 +12,44 @@ function stringifyCubicBezierLit(expr: CubicBezierLit): string {
   return `cubic-bezier(${expr.value.join(", ")})`;
 }
 
-function stringifyShadowLit(expr: ShadowLit): string {
+function stringifyShadowLit(expr: ShadowLit, tokenReference?: (token: TokenLit) => string): string {
   return expr.layers
     .map((item) => {
-      return `${item.offsetX.value}${item.offsetX.unit} ${item.offsetY.value}${item.offsetY.unit} ${item.blur.value}${item.blur.unit} ${item.spread.value}${item.spread.unit} ${item.color.value}`;
+      let colorValue: string;
+      if (item.color.kind === "TokenLit") {
+        if (!tokenReference) {
+          throw new Error("tokenReference is required for ShadowLit with TokenLit references");
+        }
+        colorValue = tokenReference(item.color);
+      } else {
+        colorValue = item.color.value;
+      }
+      return `${item.offsetX.value}${item.offsetX.unit} ${item.offsetY.value}${item.offsetY.unit} ${item.blur.value}${item.blur.unit} ${item.spread.value}${item.spread.unit} ${colorValue}`;
     })
     .join(", ");
 }
 
-function stringifyGradientLit(expr: GradientLit): string {
-  return expr.stops.map((item) => `${item.color.value} ${item.position.value * 100}%`).join(", ");
+function stringifyGradientLit(
+  expr: GradientLit,
+  tokenReference?: (token: TokenLit) => string,
+): string {
+  return expr.stops
+    .map((item) => {
+      let colorValue: string;
+      if (item.color.kind === "TokenLit") {
+        if (!tokenReference) {
+          throw new Error("tokenReference is required for GradientLit with TokenLit references");
+        }
+        colorValue = tokenReference(item.color);
+      } else {
+        colorValue = item.color.value;
+      }
+      return `${colorValue} ${item.position.value * 100}%`;
+    })
+    .join(", ");
 }
 
-function stringifyValueLit(expr: ValueLit): string {
+function stringifyValueLit(expr: ValueLit, tokenReference?: (token: TokenLit) => string): string {
   if (expr.kind === "ColorHexLit") {
     return expr.value;
   }
@@ -33,12 +58,12 @@ function stringifyValueLit(expr: ValueLit): string {
     return `${expr.value}${expr.unit}`;
   }
 
-  if (expr.kind === "NumberLit") {
-    return expr.value.toString();
-  }
-
   if (expr.kind === "DurationLit") {
     return `${expr.value}${expr.unit}`;
+  }
+
+  if (expr.kind === "NumberLit") {
+    return `${expr.value}`;
   }
 
   if (expr.kind === "CubicBezierLit") {
@@ -46,11 +71,11 @@ function stringifyValueLit(expr: ValueLit): string {
   }
 
   if (expr.kind === "ShadowLit") {
-    return stringifyShadowLit(expr);
+    return stringifyShadowLit(expr, tokenReference);
   }
 
   if (expr.kind === "GradientLit") {
-    return stringifyGradientLit(expr);
+    return stringifyGradientLit(expr, tokenReference);
   }
 
   throw new Error("Invalid value expression");
@@ -88,7 +113,9 @@ export function createStringifier(
   }
 
   function valueOrToken(value: ValueLit | TokenLit): string {
-    return value.kind === "TokenLit" ? tokenReference(value) : staticStringifier.value(value);
+    return value.kind === "TokenLit"
+      ? tokenReference(value)
+      : stringifyValueLit(value, tokenReference);
   }
 
   function declaration({ decl, mode }: { decl: TokenDeclaration; mode: string }) {

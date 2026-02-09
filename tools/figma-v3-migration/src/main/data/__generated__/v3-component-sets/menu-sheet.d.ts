@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Menu Sheet",
-  "key": "cd4cf8a850bf3de87b79080b36b421a649bf3fcb",
+  "key": "0e0597f2ea3f9dde6c17bf0e4d8eebe3a95e3942",
   "componentPropertyDefinitions": {
     "Title Text#14599:0": {
       "type": "TEXT",

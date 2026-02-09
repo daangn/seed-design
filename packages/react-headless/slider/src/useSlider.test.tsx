@@ -1,7 +1,9 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render, type RenderResult } from "@testing-library/react";
-import userEvent, { type UserEvent } from "@testing-library/user-event";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { render, type RenderResult } from "@testing-library/react";
+import userEvent, {
+  type UserEvent,
+  type Options as UserEventOptions,
+} from "@testing-library/user-event";
+import { afterAll, afterEach, beforeEach, describe, expect, it, mock, spyOn, jest } from "bun:test";
 import * as React from "react";
 import type { UseSliderProps } from "./useSlider";
 import {
@@ -14,11 +16,12 @@ import {
   type SliderRootProps,
 } from "./Slider";
 
-afterEach(cleanup);
-
-function setUp(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
+function setUp(
+  jsx: React.ReactElement,
+  options?: UserEventOptions,
+): { user: UserEvent } & RenderResult {
   return {
-    user: userEvent.setup(),
+    user: userEvent.setup(options),
     ...render(jsx),
   };
 }
@@ -66,15 +69,29 @@ const ControlledSlider = (props: ControlledSliderProps) => {
 };
 
 describe("useSlider", () => {
+  const originalResizeObserver = window.ResizeObserver;
+  const originalSetPointerCapture = window.HTMLElement.prototype.setPointerCapture;
+  const originalHasPointerCapture = window.HTMLElement.prototype.hasPointerCapture;
+  const originalReleasePointerCapture = window.HTMLElement.prototype.releasePointerCapture;
+
   window.ResizeObserver = class ResizeObserver {
     observe() {}
     unobserve() {}
     disconnect() {}
   };
 
-  window.HTMLElement.prototype.setPointerCapture = vi.fn();
-  window.HTMLElement.prototype.hasPointerCapture = vi.fn();
-  window.HTMLElement.prototype.releasePointerCapture = vi.fn();
+  window.HTMLElement.prototype.setPointerCapture = mock(() => {});
+  window.HTMLElement.prototype.hasPointerCapture = mock(
+    () => {},
+  ) as unknown as typeof window.HTMLElement.prototype.hasPointerCapture;
+  window.HTMLElement.prototype.releasePointerCapture = mock(() => {});
+
+  afterAll(() => {
+    window.ResizeObserver = originalResizeObserver;
+    window.HTMLElement.prototype.setPointerCapture = originalSetPointerCapture;
+    window.HTMLElement.prototype.hasPointerCapture = originalHasPointerCapture;
+    window.HTMLElement.prototype.releasePointerCapture = originalReleasePointerCapture;
+  });
 
   describe("Basic Rendering & Initialization", () => {
     it("renders single thumb with default values", () => {
@@ -215,20 +232,24 @@ describe("useSlider", () => {
   });
 
   describe("Pointer Interactions - Click on Track", () => {
-    it("sets active state on pointerdown on track", { timeout: 10000 }, async () => {
-      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
+    it(
+      "sets active state on pointerdown on track",
+      async () => {
+        const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
-      const root = getByTestId("slider-root");
+        const root = getByTestId("slider-root");
 
-      await user.pointer([
-        { target: root, coords: { clientX: 50, clientY: 0 }, keys: "[MouseLeft>]" },
-      ]);
+        await user.pointer([
+          { target: root, coords: { clientX: 50, clientY: 0 }, keys: "[MouseLeft>]" },
+        ]);
 
-      expect(root).toHaveAttribute("data-active");
-    });
+        expect(root).toHaveAttribute("data-active");
+      },
+      { timeout: 10000 },
+    );
 
     it("changes value on click (pointerup before delay)", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[0]} onValuesChange={onValuesChange} />,
       );
@@ -237,7 +258,7 @@ describe("useSlider", () => {
       const thumb = getByTestId("slider-thumb-0");
 
       // Mock getBoundingClientRect to return predictable values
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -263,14 +284,14 @@ describe("useSlider", () => {
     });
 
     it("calls onValuesCommit on click", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[0]} onValuesCommit={onValuesCommit} />,
       );
 
       const root = getByTestId("slider-root");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -300,7 +321,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -330,7 +351,7 @@ describe("useSlider", () => {
       const thumb0 = getByTestId("slider-thumb-0");
       const thumb1 = getByTestId("slider-thumb-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -362,7 +383,7 @@ describe("useSlider", () => {
 
       const root = getByTestId("slider-root");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -392,7 +413,7 @@ describe("useSlider", () => {
       const thumb0 = getByTestId("slider-thumb-0");
       const thumb1 = getByTestId("slider-thumb-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -464,7 +485,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -491,7 +512,7 @@ describe("useSlider", () => {
     });
 
     it("updates value continuously during pointermove", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -499,7 +520,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -524,7 +545,7 @@ describe("useSlider", () => {
     });
 
     it("calls onValuesCommit only once on drag end", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesCommit={onValuesCommit} />,
       );
@@ -532,7 +553,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -579,7 +600,7 @@ describe("useSlider", () => {
       const thumb0 = getByTestId("slider-thumb-0");
       const thumb1 = getByTestId("slider-thumb-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -621,21 +642,22 @@ describe("useSlider", () => {
 
   describe("Pointer Interactions - Drag Delay Behavior", () => {
     beforeEach(() => {
-      vi.useFakeTimers({ shouldAdvanceTime: true });
+      jest.useFakeTimers();
     });
 
     afterEach(() => {
-      vi.useRealTimers();
+      jest.useRealTimers();
     });
 
     it("starts drag immediately if pointermove before delay", async () => {
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} dragStartDelayInMilliseconds={150} />,
+        { advanceTimers: jest.advanceTimersByTime },
       );
 
       const root = getByTestId("slider-root");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -658,7 +680,7 @@ describe("useSlider", () => {
     });
 
     it("treats as click if pointerup before delay expires", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider
           min={0}
@@ -667,12 +689,13 @@ describe("useSlider", () => {
           dragStartDelayInMilliseconds={150}
           onValuesChange={onValuesChange}
         />,
+        { advanceTimers: jest.advanceTimersByTime },
       );
 
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -689,7 +712,7 @@ describe("useSlider", () => {
       ]);
 
       // Release before 150ms
-      vi.advanceTimersByTime(100);
+      jest.advanceTimersByTime(100);
       await user.pointer([
         { target: root, coords: { clientX: 50, clientY: 5 }, keys: "[/MouseLeft]" },
       ]);
@@ -742,7 +765,7 @@ describe("useSlider", () => {
       expect(root).toHaveAttribute("data-active");
       expect(root).toHaveAttribute("data-dragging");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -787,7 +810,7 @@ describe("useSlider", () => {
       // immediately, it's not counted as dragging
       expect(root).not.toHaveAttribute("data-dragging");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1327,7 +1350,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1358,7 +1381,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1397,7 +1420,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb0 = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1454,7 +1477,7 @@ describe("useSlider", () => {
       const thumb0 = getByTestId("slider-thumb-0");
       const thumb1 = getByTestId("slider-thumb-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1496,7 +1519,7 @@ describe("useSlider", () => {
       expect(thumb0).toHaveAttribute("aria-valuenow", "30");
       expect(thumb1).toHaveAttribute("aria-valuenow", "70");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1530,7 +1553,7 @@ describe("useSlider", () => {
 
   describe("Callbacks", () => {
     it("fires onValuesChange during drag", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1538,7 +1561,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1561,7 +1584,7 @@ describe("useSlider", () => {
     });
 
     it("fires onValuesChange during keyboard input", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1575,7 +1598,7 @@ describe("useSlider", () => {
     });
 
     it("fires onValuesCommit on drag end when value changed", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesCommit={onValuesCommit} />,
       );
@@ -1583,7 +1606,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1607,7 +1630,7 @@ describe("useSlider", () => {
     });
 
     it("fires onValuesCommit on keyboard input", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesCommit={onValuesCommit} />,
       );
@@ -1621,7 +1644,7 @@ describe("useSlider", () => {
     });
 
     it("does NOT fire onValuesCommit if value unchanged", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesCommit={onValuesCommit} />,
       );
@@ -1629,7 +1652,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1696,7 +1719,7 @@ describe("useSlider", () => {
 
   describe("Disabled State", () => {
     it("does not respond to pointer interactions when disabled", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider disabled min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1704,7 +1727,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1729,7 +1752,7 @@ describe("useSlider", () => {
     });
 
     it("does not respond to keyboard interactions when disabled", () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { getByTestId } = setUp(
         <Slider disabled min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1759,7 +1782,7 @@ describe("useSlider", () => {
     });
 
     it("does not change values on pointer interactions in readOnly mode", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider readOnly min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1767,7 +1790,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1792,7 +1815,7 @@ describe("useSlider", () => {
     });
 
     it("focuses nearest thumb on track click but does not change value", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider readOnly min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1800,7 +1823,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1822,7 +1845,7 @@ describe("useSlider", () => {
     });
 
     it("does not respond to keyboard value changes in readOnly mode", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider readOnly min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1921,7 +1944,7 @@ describe("useSlider", () => {
       const thumb = getByTestId("slider-thumb-0");
       const indicator = getByTestId("slider-value-indicator-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1972,7 +1995,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const indicator = getByTestId("slider-value-indicator-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2052,7 +2075,7 @@ describe("useSlider", () => {
       const thumb = getByTestId("slider-thumb-0");
       const indicator = getByTestId("slider-value-indicator-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2094,7 +2117,7 @@ describe("useSlider", () => {
       const indicator = getByTestId("slider-value-indicator-0");
 
       // Mock getBoundingClientRect for both root and thumb
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2106,7 +2129,7 @@ describe("useSlider", () => {
         toJSON: () => {},
       });
 
-      vi.spyOn(thumb, "getBoundingClientRect").mockReturnValue({
+      spyOn(thumb, "getBoundingClientRect").mockReturnValue({
         left: 48,
         right: 52,
         width: 4,
@@ -2148,7 +2171,7 @@ describe("useSlider", () => {
       const thumb = getByTestId("slider-thumb-0");
       const indicator = getByTestId("slider-value-indicator-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2227,7 +2250,7 @@ describe("useSlider", () => {
       const indicator0 = getByTestId("slider-value-indicator-0");
       const indicator1 = getByTestId("slider-value-indicator-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2271,7 +2294,7 @@ describe("useSlider", () => {
       const indicator0 = getByTestId("slider-value-indicator-0");
       const indicator1 = getByTestId("slider-value-indicator-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2314,7 +2337,7 @@ describe("useSlider", () => {
       const indicator0 = getByTestId("slider-value-indicator-0");
       const indicator1 = getByTestId("slider-value-indicator-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,

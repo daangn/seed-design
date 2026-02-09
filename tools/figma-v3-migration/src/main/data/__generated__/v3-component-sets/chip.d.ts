@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Chip",
-  "key": "8156ef08d9aaa2b0de1cc4a113ec0c9d0586f831",
+  "key": "c947a926605cfd181998ddbb46554da84eebaab2",
   "componentPropertyDefinitions": {
     "Label#7185:0": {
       "type": "TEXT",
@@ -8,7 +8,7 @@ export declare const metadata: {
     },
     "Prefix Icon#8722:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "34885:102307",
+      "defaultValue": "15:31519",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -18,11 +18,11 @@ export declare const metadata: {
     },
     "Suffix Type#32538:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "34214:128078",
+      "defaultValue": "38:3427",
       "preferredValues": [
         {
           "type": "COMPONENT",
-          "key": "27343e0e5ab2c66948e9b10fde03d58b5e037212"
+          "key": "2f79e3c5a78315c854d7bd4499d142cfcc94548f"
         },
         {
           "type": "COMPONENT",

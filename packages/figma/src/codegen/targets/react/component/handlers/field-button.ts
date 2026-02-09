@@ -6,7 +6,6 @@ import type { ComponentHandlerDeps } from "../deps.interface";
 import {
   createFieldFooterHandler,
   createFieldHeaderHandler,
-  FIELD_KEYS,
   type FieldFooterProps,
   type FieldHeaderProps,
 } from "@/codegen/targets/react/component/handlers/field";
@@ -25,56 +24,52 @@ import type { NormalizedTextNode } from "@/normalizer";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("field-button");
 
-const INPUT_BUTTON_KEY = "965bdecb58755af9a08d60cc3c8d2d33b42e15f0";
-const INPUT_BUTTON_PREFIX_KEY = "12b40c736a098298c64ba16de85702b4b460d1f1";
-const INPUT_BUTTON_SUFFIX_KEY = "5dda27af9f4afafa471925c17acf97d81912877a";
-
 export const createFieldButtonHandler = (ctx: ComponentHandlerDeps) => {
   const fieldHeaderHandler = createFieldHeaderHandler(ctx);
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<FieldButtonProperties>(
-    sets.templateCustomPickerField.key,
+    sets.templateFieldButton.key,
     (node, traverse) => {
       const props = node.componentProperties;
 
       const [inputButton] = findAllInstances<InputButtonProperties>({
         node,
-        key: INPUT_BUTTON_KEY,
+        key: sets.componentInputButton.key,
       });
 
       const [clearButton] = findAllInstances<ActionButtonGhostProperties>({
         node,
-        key: sets.actionButtonGhostButton.key,
+        key: sets.componentActionButtonGhostButton.key,
       });
 
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: FIELD_KEYS.HEADER,
+        key: sets.componentFieldHeader.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: FIELD_KEYS.FOOTER,
+        key: sets.componentFieldFooter.key,
       });
 
       // maxGraphemeCount and required can't be props of FieldButton
-      const { required: __required, ...headerProps } =
+      const { required: _required, ...headerProps } =
         props["Show Header#40606:8"].value && fieldHeader
           ? (fieldHeaderHandler.transform(fieldHeader, traverse).props as FieldHeaderProps)
           : {};
-      const { maxGraphemeCount: __maxGraphemeCount, ...footerProps } =
+      const { maxGraphemeCount: _maxGraphemeCount, ...footerProps } =
         props["Show Footer#40606:9"].value && fieldFooter
           ? (fieldFooterHandler.transform(fieldFooter, traverse).props as FieldFooterProps)
           : {};
 
       const [prefix] = findAllInstances<InputButtonPrefixProperties>({
         node: inputButton,
-        key: INPUT_BUTTON_PREFIX_KEY,
+        key: sets.privateComponentInputButtonPrefix.key,
       });
 
       const [suffix] = findAllInstances<InputButtonSuffixProperties>({
         node: inputButton,
-        key: INPUT_BUTTON_SUFFIX_KEY,
+        key: sets.privateComponentInputButtonSuffix.key,
       });
 
       const commonProps = {
@@ -136,7 +131,7 @@ export const createSelectFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.templateSelectField.key,
+    components.privateTemplateSelectField.key,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
@@ -152,7 +147,7 @@ export const createDatePickerFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.templateDatePickerField.key,
+    components.privateTemplateDatePickerField.key,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
@@ -168,7 +163,7 @@ export const createTimePickerFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.templateTimePickerField.key,
+    components.privateTemplateTimePickerField.key,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
@@ -184,7 +179,7 @@ export const createAddressFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.templateAddressPickerField.key,
+    components.privateTemplateAddressPickerField.key,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,

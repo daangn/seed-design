@@ -395,14 +395,21 @@ export const FIGMA_STYLES = [
     "styleType": "TEXT",
     "key": "85422ef9f0230f821f1a9e6d2f8f86b3ba87f20d",
     "name": "semantic/article-body",
-    "description": "16",
+    "description": "16\n게시물이나 콘텐츠 중심 섹션의 본문 텍스트에 사용합니다.",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "39219dc61cbc77e1c057e34e985edd55295751af",
+    "name": "semantic/article-note",
+    "description": "14\n주석, 참고 사항 및 상세 리스트 등 부가 정보에 사용하며, 일반 본문 텍스트에는 사용하지 않습니다.",
     "remote": false
   },
   {
     "styleType": "TEXT",
     "key": "d918eb7069e10c8dd745abf40bc375004c1badb8",
     "name": "semantic/screen-title",
-    "description": "26",
+    "description": "26\n화면에 크게 표시되는 주요 제목이나 타이틀에 사용합니다.",
     "remote": false
   },
   {

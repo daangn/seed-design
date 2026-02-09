@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "bun ./dev.mjs",
     "build": "bun ./build.mjs",
-    "test": "LOG=true bun vitest",
+    "test": "LOG=true bun test",
     "lint:publish": "bun publint"
   },
   "dependencies": {

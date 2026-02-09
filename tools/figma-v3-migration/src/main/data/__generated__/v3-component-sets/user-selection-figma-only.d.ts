@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "User Selection (Figma-Only)",
-  "key": "2660124a18028fa562755ba381224a931d42c673",
+  "key": "e9d64ed94edf61c01af3ec7b3aea82f6f7c6f0a2",
   "componentPropertyDefinitions": {
     "OS": {
       "type": "VARIANT",

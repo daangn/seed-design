@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement } from "react";
 
@@ -14,8 +13,6 @@ import {
   FieldButtonRoot,
   type FieldButtonRootProps,
 } from "./FieldButton";
-
-afterEach(cleanup);
 
 function setUp(jsx: ReactElement) {
   return {
@@ -39,11 +36,6 @@ function FieldButton(props: FieldButtonRootProps) {
 }
 
 describe("useFieldButton", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   it("should render the field button correctly", () => {
     const { getByRole } = setUp(<FieldButton />);
     const button = getByRole("button", { name: "Click me" });
@@ -233,7 +225,7 @@ describe("useFieldButton", () => {
 
   describe("clear button", () => {
     it("should call onValuesChange when clear button is clicked", async () => {
-      const handleValuesChange = vi.fn();
+      const handleValuesChange = mock(() => {});
       const { getByRole, user } = setUp(
         <FieldButton values={["value1"]} onValuesChange={handleValuesChange} />,
       );
@@ -244,7 +236,7 @@ describe("useFieldButton", () => {
     });
 
     it("should hide clear button when disabled", async () => {
-      const handleValuesChange = vi.fn();
+      const handleValuesChange = mock(() => {});
       const { getByText, user } = setUp(
         <FieldButton disabled values={["value1"]} onValuesChange={handleValuesChange} />,
       );
@@ -257,7 +249,7 @@ describe("useFieldButton", () => {
     });
 
     it("should hide clear button when readOnly", async () => {
-      const handleValuesChange = vi.fn();
+      const handleValuesChange = mock(() => {});
       const { getByText, user } = setUp(
         <FieldButton readOnly values={["value1"]} onValuesChange={handleValuesChange} />,
       );

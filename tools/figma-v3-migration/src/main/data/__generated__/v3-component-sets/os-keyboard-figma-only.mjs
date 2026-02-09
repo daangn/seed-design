@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "OS.Keyboard (Figma-Only)",
-  "key": "f081edb6ef9c87f6e90b8c66d7b141e09bfc8e94",
+  "key": "12d041e14b447f7d02ef9a52fd52a586177fda1a",
   "componentPropertyDefinitions": {
     "Keyword#31538:0": {
       "type": "BOOLEAN",

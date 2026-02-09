@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🚫 [Deprecated] Control Chip",
-  "key": "5780d56fc2f9bc4bbd6bc3db93949d8a8b7b7563",
+  "key": "8f512f6e12fb0c3cd72e4bd03c6878443e1d5524",
   "componentPropertyDefinitions": {
     "Label#7185:0": {
       "type": "TEXT",
@@ -16,7 +16,7 @@ export const metadata = {
     },
     "Prefix Icon#8722:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "34885:102307",
+      "defaultValue": "15:31519",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -26,12 +26,12 @@ export const metadata = {
     },
     "Icon#8722:41": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "37665:153410",
+      "defaultValue": "12:42",
       "preferredValues": []
     },
     "Suffix Icon#8722:82": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "34846:112152",
+      "defaultValue": "12:5476",
       "preferredValues": []
     },
     "Size": {

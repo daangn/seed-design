@@ -3,10 +3,11 @@ import {
   IconPersonCircleLine,
   IconSlashCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Divider, Icon, RadioGroup, VStack } from "@seed-design/react";
+import { Divider, Icon, VStack } from "@seed-design/react";
+import { RadioGroup } from "@seed-design/react/primitive";
 import { List, ListButtonItem, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
 import { Checkmark } from "seed-design/ui/checkbox";
-import { RadioMark } from "seed-design/ui/radio-group";
+import { Radiomark } from "seed-design/ui/radio-group";
 
 export default function ListDisabled() {
   return (
@@ -31,7 +32,7 @@ export default function ListDisabled() {
           <ListRadioItem
             prefix={<Icon svg={<IconPersonCircleLine />} />}
             title="활성화된 ListRadioItem"
-            suffix={<RadioMark tone="neutral" size="large" />}
+            suffix={<Radiomark tone="neutral" size="large" />}
             value="foo"
           />
         </RadioGroup.Root>
@@ -60,7 +61,7 @@ export default function ListDisabled() {
             disabled
             prefix={<Icon svg={<IconSlashCircleLine />} />}
             title="비활성화된 ListRadioItem"
-            suffix={<RadioMark tone="neutral" size="large" />}
+            suffix={<Radiomark tone="neutral" size="large" />}
             value="foo"
           />
         </RadioGroup.Root>
