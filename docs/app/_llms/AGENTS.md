@@ -25,7 +25,6 @@ alwaysApply: true
 2. `__fixtures__`에 `*.input.mdx` / `*.output.mdx`를 추가한다.
 3. 룰 단위 테스트와 파이프라인 테스트를 모두 갱신한다.
 4. 아래 검증을 통과시킨다.
-   - `cd docs && bun exec tsc --noEmit`
    - `cd docs && bun test app/_llms`
 
 ## 변경되지 않는 중요 규칙

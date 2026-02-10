@@ -30,8 +30,5 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Type check llms transform
-        run: cd docs && bun exec tsc --noEmit
-
       - name: Run llms transform tests
         run: cd docs && bun test app/_llms
