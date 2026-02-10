@@ -16,6 +16,7 @@ description: 사용자가 업로드한 이미지를 표시하기 위한 컴포�
 
 ```tsx
 import { ImageFrame } from "@seed-design/react";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 ```
 
 ```tsx
@@ -25,7 +26,7 @@ import { ImageFrame } from "@seed-design/react";
   stroke
   src="..."
   alt="..."
-  fallback={<Skeleton />}
+  fallback={<IdentityPlaceholder />}
 />
 ```
 
@@ -72,6 +73,19 @@ import { ImageFrame } from "@seed-design/react";
   ```json doc-gen:file
   {
     "file": "examples/react/image-frame/stroke.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Fallback
+
+이미지 로딩이 실패하거나 `src`가 없을 때 `fallback` prop으로 대체 UI를 표시할 수 있습니다. `IdentityPlaceholder`를 함께 사용하면 사용자 이미지 영역을 일관된 형태로 보여줄 수 있습니다.
+
+<ComponentExample name="react/image-frame/fallback">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/fallback.tsx",
     "codeblock": true
   }
   ```
