@@ -33,6 +33,7 @@ runs:
 
     - name: Cache build outputs
       if: ${{ inputs.build-packages == 'true' }}
+      id: cache-build
       uses: actions/cache@v4
       with:
         path: |
@@ -45,7 +46,7 @@ runs:
           ${{ runner.os }}-build-
 
     - name: Build Packages
-      if: ${{ inputs.build-packages == 'true' }}
+      if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit != 'true' }}
       shell: bash
       run: |
         if [ "${{ inputs.build-rootage }}" == "true" ]; then
