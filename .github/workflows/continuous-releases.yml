@@ -32,15 +32,9 @@ jobs:
         with:
           ref: refs/pull/${{ github.event.issue.number }}/head
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: ./.github/actions/setup
         with:
-          bun-version: "1.3.8"
-
-      - name: Install Dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Build
-        run: bun packages:build
+          build-packages: true
 
       - name: Publish
         run: bunx pkg-pr-new publish './packages/*' --compact --comment=off --json output.json
