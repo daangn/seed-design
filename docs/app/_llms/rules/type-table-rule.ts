@@ -255,7 +255,8 @@ function expressionToText(node: EstreeNode | undefined): string | undefined {
   if (isLiteralNode(node)) {
     if (typeof node.value === "string") return node.value;
     if (node.value === null) return "null";
-    if (typeof node.value === "boolean" || typeof node.value === "number") return String(node.value);
+    if (typeof node.value === "boolean" || typeof node.value === "number")
+      return String(node.value);
     return undefined;
   }
 
@@ -400,7 +401,7 @@ function createListItem(row: TypeTableRow): ListItem {
   };
 
   const detailList = createRowDetailList(row);
-  const children: RootContent[] = [nameParagraph];
+  const children: ListItem["children"] = [nameParagraph];
 
   if (detailList.children.length > 0) {
     children.push(detailList);
