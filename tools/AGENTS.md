@@ -2,27 +2,16 @@
 
 ## 디렉토리 개요
 
-**Figma 플러그인과 위젯** 모음. `packages/figma` 라이브러리와 달리 실행 가능한 도구들이다.
-
-## 하위 프로젝트
-
-| 디렉토리 | 역할 |
-|----------|------|
-| `figma-mcp/` | Figma MCP 서버 (AI 연동) |
-| `figma-codegen/` | Figma → 코드 생성 |
-| `figma-v3-migration/` | V2→V3 마이그레이션 |
-| `figma-checklist-widget/` | 디자인 체크리스트 |
-| `figma-contrast-checker/` | 색상 대비 검사 |
-| `figma-expose-variables/` | 변수 노출 도구 |
-| `figma-spec-widget/` | 스펙 위젯 |
+Figma 플러그인과 위젯 등 실행형 도구를 모아둔 워크스페이스다. 라이브러리 성격의 `packages/figma`와 달리, 실제 실행 엔트리와 배포 산출물을 가진 도구 프로젝트를 관리한다.
 
 ## 파일 작성 컨벤션
 
-- 각 플러그인은 독립 패키지
-- `manifest.json` + `src/` 구조
-- TypeScript 권장
+- 도구는 독립 워크스페이스로 유지하고, 실행 엔트리와 구현 코드를 분리한다.
+- Figma 플러그인 계열은 `manifest.json`과 `src/`를 기본 구조로 유지한다.
+- 공통 변환 로직이 필요하면 도구 내부 중복보다 재사용 가능한 라이브러리 분리를 우선 검토한다.
 
-## packages/figma와의 차이
+## 코드 작성 컨벤션
 
-- `packages/figma`: 라이브러리 (import해서 사용)
-- `tools/figma-*`: 실행 가능한 플러그인 (Figma에서 직접 실행)
+- 실행형 도구의 입출력/부수효과 코드는 엔트리 레이어에 두고, 변환 로직은 테스트 가능한 순수 함수로 분리한다.
+- Figma 데이터 해석/정규화가 필요하면 가능하면 `packages/figma`의 공통 로직을 재사용한다.
+- 토큰/스키마 포맷 변경이 발생하면 관련 생성 파이프라인(`rootage`, `qvism`, docs 동기화)에 미치는 영향을 함께 점검한다.

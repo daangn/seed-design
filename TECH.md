@@ -1,17 +1,15 @@
 # SEED Design - 기술 상세
 
-## Tech Stack
+## 기술 스택
 
-| 도구 | 버전 | 용도 |
-|------|------|------|
-| Bun | 1.x | 런타임, 패키지 매니저 |
-| React | 18.x | UI 라이브러리 |
-| TypeScript | 5.x | 타입 시스템 |
-| tsup | - | 패키지 빌드 |
-| Biome | - | 린터/포매터 |
-| Next.js | 14.x | 문서 사이트 |
-| Fumadocs | - | 문서 프레임워크 |
-| Storybook | 8.x | 컴포넌트 개발 환경 |
+- 런타임/패키지 관리: Bun
+- UI 라이브러리: React
+- 타입 시스템: TypeScript
+- 패키지 빌드: bunchee, vite
+- 문서 플랫폼: Next.js, Fumadocs, Storybook
+- 린트/포맷: Biome
+
+버전 정보는 문서에 중복 기재하지 않는다. 버전 확인은 루트 `package.json`과 각 워크스페이스의 `package.json`을 단일 소스로 사용한다.
 
 ## 공통 규칙
 
@@ -49,9 +47,9 @@ SEED Design은 **디자인 토큰 → 스타일 → 컴포넌트** 파이프라�
 | 단계 | 입력 | 출력 | 명령어 |
 |------|------|------|--------|
 | 1. Figma 동기화 | Figma 변수 | rootage YAML | `bun figma:sync` |
-| 2. Rootage 생성 | rootage YAML | css/vars, qvism-preset/vars | `bun rootage:generate` |
+| 2. Rootage 생성 | rootage YAML | css/vars, qvism-preset/src/vars | `bun rootage:generate` |
 | 3. Qvism 생성 | qvism-preset recipes | css/recipes | `bun qvism:generate` |
-| 4. 전체 생성 | - | 위 모든 것 | `bun generate:all` |
+| 4. 전체 생성 | - | rootage, qvism, docs 산출물 | `bun generate:all` |
 
 ---
 
@@ -83,7 +81,7 @@ react (스타일드 컴포넌트) ← react-headless (로직)
 
 | 명령어 | 설명 |
 |--------|------|
-| `bun generate:all` | 전체 코드 생성 (rootage + qvism) |
+| `bun generate:all` | 전체 코드 생성 (rootage + qvism + docs) |
 | `bun rootage:generate` | Rootage에서 타입/변수 생성 |
 | `bun qvism:generate` | qvism-preset에서 CSS 생성 |
 | `bun packages:build` | 모든 패키지 빌드 |
