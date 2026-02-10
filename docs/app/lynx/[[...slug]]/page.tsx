@@ -6,7 +6,7 @@ import { mdxComponents } from "@/components/mdx-components";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
-  const page = lynxSource.getPage(params.slug);
+  const page = lynxSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
   const { body: MDX, toc, lastModified } = await page.data.load();
@@ -30,7 +30,7 @@ export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const page = lynxSource.getPage(params.slug);
+  const page = lynxSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
   return {
