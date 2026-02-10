@@ -88,15 +88,13 @@ jobs:
             const marker = '<!-- seed-design-preview:storybook-alpha -->';
             const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
             const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
-            const previewUrl = aliasUrl || deploymentUrl;
 
             const body = [
               marker,
               '## Alpha Preview (Storybook)',
               '',
-              `- Preview: ${previewUrl || '(not available)'}`,
-              `- Alias: ${aliasUrl || '(not available)'}`,
-              `- Deployment: ${deploymentUrl || '(not available)'}`,
+              `- Branch Preview URL: ${aliasUrl || '(not available)'}`,
+              `- Preview URL: ${deploymentUrl || '(not available)'}`,
               `- Commit: \`${context.sha.slice(0, 7)}\``,
             ].join('\n');
 
