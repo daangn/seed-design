@@ -13,16 +13,13 @@ interface PackageInstallTab {
 
 type FlowElementTransformer = (node: MdxJsxFlowElement) => RootContent[];
 
-const preferredPackageManagerOrder = ["npm", "pnpm", "yarn", "bun"];
+const preferredPackageManagerOrder = ["npm", "pnpm", "yarn", "bun"] as const;
 
-const processor = unified()
-  .use(remarkParse)
-  .use(remarkMdx)
-  .use(remarkStringify, {
-    bullet: "-",
-    fences: true,
-    listItemIndent: "one",
-  });
+const processor = unified().use(remarkParse).use(remarkMdx).use(remarkStringify, {
+  bullet: "-",
+  fences: true,
+  listItemIndent: "one",
+});
 
 function normalizeCodeIndent(code: string): string {
   const lines = code.replace(/\r\n/g, "\n").split("\n");
@@ -36,7 +33,10 @@ function normalizeCodeIndent(code: string): string {
     return lines.join("\n").trimEnd();
   }
 
-  return lines.map((line) => line.slice(minIndent)).join("\n").trimEnd();
+  return lines
+    .map((line) => line.slice(minIndent))
+    .join("\n")
+    .trimEnd();
 }
 
 function isMdxJsxFlowElement(node: RootContent): node is MdxJsxFlowElement {
