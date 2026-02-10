@@ -9,7 +9,7 @@ on:
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
-      - ".github/workflows/docs-deploy-alpha-pages.yml"
+      - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -18,16 +18,19 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: read
+
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
   FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
-name: Deploy seed-design-v3 docs (Alpha)
+name: deploy-seed-design-docs-alpha-pages
 
 jobs:
   deploy:
-    name: Deploy Seed Design V3 Docs
+    name: deploy-seed-design-docs-alpha-pages
     runs-on: ubuntu-latest
 
     steps:

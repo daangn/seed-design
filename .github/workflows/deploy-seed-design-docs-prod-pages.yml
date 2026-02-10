@@ -8,7 +8,7 @@ on:
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
-      - ".github/workflows/docs-deploy-production-pages.yml"
+      - ".github/workflows/deploy-seed-design-docs-prod-pages.yml"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -16,6 +16,9 @@ on:
         required: false
         type: boolean
         default: false
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -26,11 +29,11 @@ env:
   FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
   FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
-name: Deploy seed-design-v3 docs (Production)
+name: deploy-seed-design-docs-prod-pages
 
 jobs:
   deploy:
-    name: Deploy Seed Design V3 Docs
+    name: deploy-seed-design-docs-prod-pages
     runs-on: ubuntu-latest
 
     steps:

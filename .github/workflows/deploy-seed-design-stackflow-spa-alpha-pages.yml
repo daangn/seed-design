@@ -1,0 +1,51 @@
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+      - "!dev" # V3 deployment; remove this when V3 is stable
+    paths:
+      - "docs/**"
+      - "examples/stackflow-spa/**"
+      - "packages/css/**"
+      - "packages/react/**"
+      - "packages/stackflow/**"
+      - ".github/workflows/deploy-seed-design-stackflow-spa-alpha-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+name: deploy-seed-design-stackflow-spa-alpha-pages
+
+jobs:
+  deploy:
+    name: deploy-seed-design-stackflow-spa-alpha-pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.8"
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Packages
+        run: bun packages:build
+
+      - name: Build Stackflow SPA
+        working-directory: ./examples/stackflow-spa
+        run: |
+          bun run build
+
+      - name: Deploy stackflow-spa at Cloudflare Pages in `seed-design-stackflow-spa` project (Alpha)
+        run: |
+          CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
+          CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
+          bun wrangler pages deploy ./examples/stackflow-spa/dist --project-name=seed-design-stackflow-spa --branch=${{ github.ref_name }}

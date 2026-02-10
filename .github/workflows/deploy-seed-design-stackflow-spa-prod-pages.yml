@@ -1,24 +1,28 @@
 on:
   push:
     branches:
-      - "**"
+      - main
+      - dev # V3 deployment; remove this when V3 is stable
     paths:
       - "docs/**"
       - "examples/stackflow-spa/**"
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
-      - ".github/workflows/docs-deploy-qa-pages.yml"
+      - ".github/workflows/deploy-seed-design-stackflow-spa-prod-pages.yml"
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-name: Deploy seed-design-v3 QA app
+name: deploy-seed-design-stackflow-spa-prod-pages
 
 jobs:
   deploy:
-    name: Deploy Seed Design V3 QA app
+    name: deploy-seed-design-stackflow-spa-prod-pages
     runs-on: ubuntu-latest
 
     steps:
@@ -34,13 +38,13 @@ jobs:
       - name: Build Packages
         run: bun packages:build
 
-      - name: Build QA app
+      - name: Build Stackflow SPA
         working-directory: ./examples/stackflow-spa
         run: |
           bun run build
 
-      - name: Deploy qa app at Cloudflare Pages in `seed-design-qa` project
+      - name: Deploy stackflow-spa at Cloudflare Pages in `seed-design-stackflow-spa` project (Production)
         run: |
           CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
           CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
-          bun wrangler pages deploy ./examples/stackflow-spa/dist --project-name=seed-design-qa --branch=${{ github.ref_name }}
+          bun wrangler pages deploy ./examples/stackflow-spa/dist --project-name=seed-design-stackflow-spa --branch=${{ github.ref_name }}
