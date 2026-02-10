@@ -99,7 +99,7 @@
         ]
       }
     },
-    "devfigma-v3-migration-plugin": {
+    "dev-figma-v3-migration-plugin": {
       "type": "domain",
       "enforcement": "suggest",
       "priority": "medium",

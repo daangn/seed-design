@@ -1,8 +1,25 @@
 ---
-name: devfigma-v3-migration-plugin
-description: Figma V3 Migration Plugin development specialist. Use when developing Figma V3 Migration Plugin. Focuses on Figma V3 Migration Plugin development.
-allowed-tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep
+name: dev-figma-v3-migration-plugin
+description: Develop and maintain the Figma V3 migration plugin, including metadata extraction, mapping updates, and type-safe property conversion. Use when updating V2 to V3 migration mappings in tools/figma-v3-migration.
 ---
+
+# Dev Figma V3 Migration Plugin
+
+V2 컴포넌트를 V3로 안전하게 치환하기 위한 매핑과 생성 메타데이터를 관리합니다.
+
+## Quick Start
+
+1. `tools/figma-v3-migration`에서 `bun extract`로 최신 메타데이터를 동기화합니다.
+2. 변경된 `__generated__`를 기준으로 `src/main/mapping/*`를 수정합니다.
+3. `bun run typecheck:main`으로 매핑 타입 안정성을 검증합니다.
+4. 신규 패턴은 기존 매핑(`buttons.ts`, `action-sheet.ts`) 스타일과 동일하게 맞춥니다.
+
+## 목차
+
+- 개요/구조: `## 개요`, `### 디렉토리 구조`
+- 운영 절차: `## 환경 설정`, `## 매핑 최신화 프로세스`
+- 구현 패턴: `## 매핑 파일 작성 가이드`, `## 타입 시스템`
+- 장애 대응: `## 트러블슈팅`
 
 ## 개요
 

@@ -1,12 +1,17 @@
 ---
 name: deprecation
-description: Manage the full deprecation lifecycle for SEED Design components, interfaces, and foundation tokens. Use when marking deprecations, planning removals, or migrating usage.
-allowed-tools: Read, Edit, Write, Glob, Grep, Bash
+description: Manage deprecation lifecycle for components, interfaces, and tokens with versioned notices, replacement guidance, migration docs, and removal tracking. Use when deprecating, migrating, or removing API/spec options.
 ---
 
 # Deprecation Flow
 
 SEED Design의 deprecated 라이프사이클을 표준화합니다. 대상 추가, 문서화, 추적, 제거까지의 흐름을 한 번에 관리합니다.
+
+## Quick Start
+
+1. 입력 5개(Target, Deprecated In, Remove In, Replacement, Reason)를 먼저 확정합니다.
+2. 코드/JSDoc/문서/마이그레이션 문서(`deprecations.mdx`)를 같은 버전 정보로 맞춥니다.
+3. Rootage가 바뀌면 생성 명령을 실행하고 제거 버전 도달 시 실제 삭제까지 마무리합니다.
 
 ## Purpose
 

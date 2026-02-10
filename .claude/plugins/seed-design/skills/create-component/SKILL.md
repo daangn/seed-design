@@ -1,12 +1,18 @@
 ---
 name: create-component
-description: 컴포넌트 개발 흐름 가이드. rootage 정의부터 문서, 테스트까지 전체 파이프라인을 안내합니다.
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+description: End-to-end SEED component implementation guide from rootage spec to recipe, react, docs, and verification. Use when adding a new component or changing component behavior across layers.
 ---
 
 # Create Component
 
 컴포넌트 개발의 전체 흐름을 단계별로 안내합니다.
+
+## Quick Start
+
+1. Rootage 스펙을 정의/수정하고 `bun generate:all`을 실행합니다.
+2. Recipe, React UI, Storybook, 문서를 순서대로 반영합니다.
+3. `bun packages:build`, `bun typecheck`, Visual Test 체크리스트를 완료합니다.
+4. 상세 구현은 `details/implementation-steps.md`와 `details/verification-checklist.md`를 사용합니다.
 
 ## 핵심 흐름
 

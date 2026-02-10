@@ -1,12 +1,25 @@
 ---
 name: write-react-component-docs
-description: Generate React component documentation for SEED Design System. Use when creating new React component docs in ./docs/content/react/components or updating existing implementation documentation. Helps document component APIs, props, installation, and usage examples.
-allowed-tools: Read, Write, Glob, Grep, Bash
+description: Write or update React component implementation docs in docs/content/react/components, including installation, usage, props, and examples aligned with snippet-layer and MDX conventions. Use when documenting or revising SEED React component APIs.
 ---
 
 # Write React Component Docs
 
 Generate comprehensive React component documentation following SEED Design patterns.
+
+## Quick Start
+
+1. `component-id`, `component-name`, snippet 레이어 유무를 먼저 확인합니다.
+2. 문서 기본 구조(Example/Installation/Usage/Examples)를 채우고 필요한 선택 섹션을 추가합니다.
+3. `doc-gen:file` 경로와 import 경로(`@/components/ui/*` vs `@seed-design/react`)를 검증합니다.
+4. 체크리스트로 경로/타입/서술 일관성을 마무리 점검합니다.
+
+## Table of Contents
+
+- Scope and triggers: `## Purpose`, `## When to Use`, `## Key Features`
+- Core format: `## Documentation Structure`, `## Workflow`
+- Section recipes: `## Example Section`, `## Installation Section`, `## Usage Section`, `## Examples Section`, `## Props Section`
+- Validation and references: `## File Paths`, `## Special MDX Components`, `## Checklist`, `## Reference Files`, `## Tips`
 
 ## Purpose
 

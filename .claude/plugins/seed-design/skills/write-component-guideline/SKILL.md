@@ -1,12 +1,25 @@
 ---
 name: write-component-guideline
-description: Generate comprehensive component guideline documentation for SEED Design System. Use when creating or updating design guideline documentation in ./docs/content/docs/components directory. This skill helps create high-quality documentation similar to action-button.mdx.
-allowed-tools: Read, Write, Glob, Grep, Bash
+description: Write or update component guideline docs in docs/content/docs/components using rootage-derived props, standardized image naming, and SEED MDX patterns. Use when creating new guideline pages or revising existing design guidance.
 ---
 
 # Write Component Guideline
 
 이 스킬은 SEED Design System의 컴포넌트 가이드라인 문서를 생성합니다. Action Button과 같은 고품질 디자인 가이드라인 문서를 작성할 수 있도록 돕습니다.
+
+## Quick Start
+
+1. `component-id`와 문서 타입(`simple|comprehensive`)을 확정합니다.
+2. Rootage YAML에서 props/slots/definitions를 추출해 문서 구조를 구성합니다.
+3. 이미지 경로 규칙과 MDX 컴포넌트(`<PlatformStatusTable>`, `<ComponentSpecBlock>`)를 적용합니다.
+4. 체크리스트로 일관성을 검증하고 필요 시 예시 문서를 참고합니다.
+
+## 목차
+
+- 입력/추출: `### 1. 사용자 입력 받기`, `### 2. Rootage YAML 파일 읽기`
+- 문서 구성: `### 3. Props 테이블 생성`, `### 4. 문서 구조 생성`
+- 자산/작성 규칙: `### 5. 이미지 경로 규칙`, `### 6. 한국어 작성 가이드라인`, `### 7. 컴포넌트 참조`
+- 검증/예시: `### 8. 참조 자료`, `### 9. 체크리스트`, `## 사용 예시`
 
 ## 목적
 

@@ -5,7 +5,7 @@ allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 
 # Dev Figma V3 Migration Plugin
 
-Use the `devfigma-v3-migration-plugin` skill for mapping and migration plugin updates.
+Use the `dev-figma-v3-migration-plugin` skill for mapping and migration plugin updates.
 
 ## Arguments
 

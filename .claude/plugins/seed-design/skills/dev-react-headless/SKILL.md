@@ -1,12 +1,18 @@
 ---
 name: dev-react-headless
-description: SEED React Headless 컴포넌트 개발 스킬. 스타일 없이 순수한 데이터 로직과 상태 관리만 제공하는 컴포넌트를 개발합니다.
-allowed-tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep
+description: Develop style-free SEED React headless components with hook-first architecture, data-* state attributes, and forwardRef/displayName conventions. Use when creating or refactoring packages/react-headless components.
 ---
 
 # Dev React Headless
 
 스타일 없이 순수한 로직만 제공하는 Headless 컴포넌트를 개발합니다.
+
+## Quick Start
+
+1. `use{Component}.ts`에 상태/이벤트 로직을 작성합니다.
+2. `{Component}.tsx`는 DOM 조합과 `data-*` 상태 표현만 담당하게 유지합니다.
+3. Controlled/Uncontrolled, `forwardRef`, `displayName`을 체크합니다.
+4. Multi-part 컴포넌트는 namespace 패턴을 사용하고 상세 패턴은 `details/patterns.md`를 참고합니다.
 
 ## 핵심 원칙
 

@@ -1,12 +1,18 @@
 ---
 name: check-docs-consistency
-description: 문서 레이어 간 일관성 검증. Design guidelines, Rootage specs, React docs가 서로 일치하는지 확인합니다.
-allowed-tools: Read, Grep, Glob
+description: Audit consistency across rootage specs, design docs, and React docs. Use before release or when investigating missing, outdated, or mismatched component documentation.
 ---
 
 # Check Docs Consistency
 
 SEED Design System의 문서 레이어 간 일관성을 검증합니다.
+
+## Quick Start
+
+1. 단일 컴포넌트 점검인지 전체 감사인지 범위를 먼저 결정합니다.
+2. Rootage/Design Docs/React Docs 3개 레이어를 동일한 컴포넌트 ID로 비교합니다.
+3. 불일치 유형(이름/설명/props/파일 누락)을 분류해서 보고합니다.
+4. 세부 규칙은 `details/validation-rules.md`, 실행 절차는 `details/workflow.md`를 참고합니다.
 
 ## 문서 레이어
 
