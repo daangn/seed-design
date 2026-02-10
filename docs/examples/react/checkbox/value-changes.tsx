@@ -7,9 +7,11 @@ export default function CheckboxValueChanges() {
   const [lastValue, setLastValue] = useState<boolean | null>(null);
 
   return (
-    <VStack gap="x4" align="center">
+    <VStack gap="x4" align="center" p="x6">
       <Checkbox
         label="Click me"
+        tone="neutral"
+        size="large"
         onCheckedChange={(checked) => {
           setCount((prev) => prev + 1);
           setLastValue(checked);

@@ -1,6 +1,6 @@
 export const metadata = {
-  "name": "OS.StatusBar (Figma Only)",
-  "key": "1acdc7247c83a73a0504d6fad86d08783938cb1a",
+  "name": "OS.StatusBar (Figma-Only)",
+  "key": "86aa16b7ffc310d54f55aef02428455fe4b712a2",
   "componentPropertyDefinitions": {
     "OS": {
       "type": "VARIANT",

@@ -292,7 +292,10 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
               "type": "object",
               "properties": {
                 "color": {
-                  "$ref": "#/definitions/colorShorthand"
+                  "anyOf": [
+                    { "$ref": "#/definitions/colorShorthand" },
+                    { "$ref": "#/definitions/tokenRef" }
+                  ]
                 },
                 "offsetX": {
                   "$ref": "#/definitions/dimensionShorthand"
@@ -328,7 +331,10 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
               "type": "object",
               "properties": {
                 "color": {
-                  "$ref": "#/definitions/colorShorthand"
+                  "anyOf": [
+                    { "$ref": "#/definitions/colorShorthand" },
+                    { "$ref": "#/definitions/tokenRef" }
+                  ]
                 },
                 "position": {
                   "type": "number"

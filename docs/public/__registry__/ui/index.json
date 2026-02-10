@@ -120,6 +120,7 @@
       "id": "checkbox",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -403,6 +404,8 @@
       ],
       "id": "radio-group",
       "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -463,13 +466,14 @@
       ],
       "id": "select-box",
       "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
           "registryId": "ui",
           "itemIds": [
-            "checkbox",
             "radio-group"
           ]
         }

@@ -30,7 +30,6 @@ const FieldWrapper = React.forwardRef<HTMLDivElement, FieldWrapperProps>(
       errorMessage,
       showRequiredIndicator,
       children,
-      invalid,
       maxGraphemeCount,
       ...props
     },
@@ -38,11 +37,11 @@ const FieldWrapper = React.forwardRef<HTMLDivElement, FieldWrapperProps>(
   ) => {
     const renderHeader = label || indicator;
     const renderDescription = !!description;
-    const renderErrorMessage = errorMessage && invalid;
+    const renderErrorMessage = errorMessage && props.invalid;
     const renderFooter = renderDescription || renderErrorMessage || maxGraphemeCount;
 
     return (
-      <Field.Root ref={ref} invalid={invalid} {...props}>
+      <Field.Root ref={ref} {...props}>
         {renderHeader && (
           <Field.Header>
             <Field.Label weight="medium">

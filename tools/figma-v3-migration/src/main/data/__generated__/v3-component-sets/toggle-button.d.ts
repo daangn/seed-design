@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Toggle Button",
-  "key": "1d240ee5fd7a56879713e69cbea1b6f006f0ea22",
+  "key": "eb1eac49eb281c1029e659821f4091619d0b74e4",
   "componentPropertyDefinitions": {
     "Label#6122:49": {
       "type": "TEXT",
@@ -8,7 +8,7 @@ export declare const metadata: {
     },
     "Prefix Icon#6122:98": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "37725:145633",
+      "defaultValue": "31:31616",
       "preferredValues": []
     },
     "Show Suffix Icon#6122:147": {
@@ -17,7 +17,7 @@ export declare const metadata: {
     },
     "Suffix Icon#6122:343": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "102:6307",
+      "defaultValue": "15:9788",
       "preferredValues": []
     },
     "Show Prefix Icon#6122:392": {

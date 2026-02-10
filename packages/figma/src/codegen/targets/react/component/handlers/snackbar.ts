@@ -9,7 +9,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("snackbar");
 
 export const createSnackbarHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SnackbarProperties>(
-    metadata.snackbar.key,
+    metadata.componentSnackbar.key,
     ({ componentProperties: props }) => {
       const commonProps = {
         message: props["Message#1528:4"].value,

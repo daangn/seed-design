@@ -1,0 +1,130 @@
+---
+title: Image Frame
+description: 사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.
+---
+
+<ComponentExample name="react/image-frame/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Usage
+
+```tsx
+import { ImageFrame } from "@seed-design/react";
+```
+
+```tsx
+<ImageFrame
+  ratio={4 / 3}
+  borderRadius="r2"
+  stroke
+  src="..."
+  alt="..."
+  fallback={<Skeleton />}
+/>
+```
+
+## Props
+
+<react-type-table
+  path="../packages/react/src/components/ImageFrame/ImageFrame.tsx"
+  name="ImageFrameProps"
+/>
+
+## Examples
+
+### Ratio
+
+다양한 비율을 지정할 수 있습니다. `1`은 정사각형, `4/3`은 일반적인 사진 비율, `16/9`는 와이드스크린 비율입니다.
+
+<ComponentExample name="react/image-frame/ratio">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/ratio.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Border Radius
+
+`borderRadius` prop으로 모서리 라운드 스타일을 적용할 수 있습니다.
+
+<ComponentExample name="react/image-frame/border-radius">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/border-radius.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Stroke
+
+`stroke` prop으로 테두리 스타일을 적용할 수 있습니다.
+
+<ComponentExample name="react/image-frame/stroke">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/stroke.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Overlay
+
+`ImageFrameFloater`를 사용하여 이미지 위에 오버레이 요소를 배치할 수 있습니다. `ImageFrameBadge`, `ImageFrameIcon`, `ImageFrameIndicator`, `ImageFrameReactionButton` 등 다양한 오버레이 컴포넌트를 제공합니다.
+
+<ComponentExample name="react/image-frame/overlay">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/overlay.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Multiple Overlays
+
+여러 위치에 오버레이를 동시에 배치할 수 있습니다.
+
+<ComponentExample name="react/image-frame/overlay-multiple">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/overlay-multiple.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Overlay
+
+`ImageFrameFloater`는 모든 React 요소를 children으로 받을 수 있습니다. 미리 정의된 오버레이 컴포넌트 외에도 커스텀 UI를 배치할 수 있습니다.
+
+<ComponentExample name="react/image-frame/overlay-custom">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/overlay-custom.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Offset
+
+`offsetX`, `offsetY` prop으로 오버레이의 여백을 조절할 수 있습니다. 기본값은 `6px`입니다.
+
+<ComponentExample name="react/image-frame/overlay-inset">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/overlay-inset.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

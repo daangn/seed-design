@@ -17,9 +17,19 @@ interface TokenCollections {
 }
 
 // Gradient를 색상 stops만으로 변환하는 함수 (방향 없이)
-function gradientToColorStops(gradient: GradientLit): string {
+function gradientToColorStops(gradient: GradientLit, prefix?: string): string {
   return gradient.stops
-    .map((stop) => `${stop.color.value} ${(stop.position.value * 100).toFixed(2)}%`)
+    .map((stop) => {
+      let color: string;
+      if (stop.color.kind === "ColorHexLit") {
+        color = stop.color.value;
+      } else {
+        const tokenId = stop.color.identifier.replace(/\$/g, "").replace(/\./g, "-");
+        const prefixPart = prefix ? `${prefix}-` : "";
+        color = `var(--${prefixPart}${tokenId})`;
+      }
+      return `${color} ${(stop.position.value * 100).toFixed(2)}%`;
+    })
     .join(", ");
 }
 
@@ -37,7 +47,7 @@ function createCssVarName(tokenGroup: string[], tokenKey: string, prefix?: strin
 // 토큰 처리 함수
 function processFoundationTokens(
   foundationTokens: TokenDeclaration[],
-  options?: { prefix?: string },
+  options?: { prefix?: string; sourcePrefix?: string },
 ): TokenCollections {
   const collections: TokenCollections = {
     colors: {},
@@ -78,7 +88,10 @@ function processFoundationTokens(
       if (token.kind === "GradientTokenDeclaration") {
         const themeLight = token.values.find((v) => v.mode === "theme-light");
         if (themeLight?.value && themeLight.value.kind === "GradientLit") {
-          const colorStops = gradientToColorStops(themeLight.value);
+          const colorStops = gradientToColorStops(
+            themeLight.value,
+            options?.sourcePrefix || options?.prefix,
+          );
           collections.gradients[gradientKey] = colorStops;
 
           // 방향성 유틸리티들 추가
@@ -126,7 +139,7 @@ function processFoundationTokens(
 // 타이포그래피 토큰 처리 함수
 function processTypographyTokens(
   typographyTokens: ComponentSpecDeclaration[],
-  options?: { prefix?: string },
+  options?: { prefix?: string; sourcePrefix?: string },
 ): Record<string, Record<string, string>> {
   const flatTypography: Record<string, Record<string, string>> = {};
 
@@ -155,7 +168,8 @@ function processTypographyTokens(
             if (prop.property === "fontSize" && "value" in prop) {
               if (prop.kind === "DimensionPropertyDeclaration") {
                 if (prop.value.kind === "TokenLit") {
-                  const prefixPart = options?.prefix ? `${options.prefix}-` : "";
+                  const tokenPrefix = options?.sourcePrefix || options?.prefix;
+                  const prefixPart = tokenPrefix ? `${tokenPrefix}-` : "";
                   typographyStyle.fontSize = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
                 } else if (prop.value.kind === "DimensionLit") {
                   typographyStyle.fontSize = `${prop.value.value}${prop.value.unit}`;
@@ -169,7 +183,8 @@ function processTypographyTokens(
                 prop.kind === "DimensionPropertyDeclaration"
               ) {
                 if (prop.value.kind === "TokenLit") {
-                  const prefixPart = options?.prefix ? `${options.prefix}-` : "";
+                  const tokenPrefix = options?.sourcePrefix || options?.prefix;
+                  const prefixPart = tokenPrefix ? `${tokenPrefix}-` : "";
                   typographyStyle.lineHeight = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
                 } else if ("value" in prop.value) {
                   typographyStyle.lineHeight =
@@ -183,7 +198,8 @@ function processTypographyTokens(
             if (prop.property === "fontWeight" && "value" in prop) {
               if (prop.kind === "NumberPropertyDeclaration") {
                 if (prop.value.kind === "TokenLit") {
-                  const prefixPart = options?.prefix ? `${options.prefix}-` : "";
+                  const tokenPrefix = options?.sourcePrefix || options?.prefix;
+                  const prefixPart = tokenPrefix ? `${tokenPrefix}-` : "";
                   typographyStyle.fontWeight = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
                 } else if (prop.value.kind === "NumberLit") {
                   typographyStyle.fontWeight = `${prop.value.value}`;
@@ -207,7 +223,7 @@ function processTypographyTokens(
 export function getTailwind3PluginCode(
   foundationTokens: TokenDeclaration[],
   typographyTokens: ComponentSpecDeclaration[],
-  options?: { prefix?: string },
+  options?: { prefix?: string; sourcePrefix?: string },
 ): string {
   // 토큰 처리
   const collections = processFoundationTokens(foundationTokens, options);

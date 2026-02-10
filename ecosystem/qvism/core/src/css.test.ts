@@ -1,5 +1,4 @@
-import { outdent } from "outdent";
-import { expect, test } from "vitest";
+import { expect, test } from "bun:test";
 
 import { generateKeyframeRules, transpileRulesToCss } from "./css";
 
@@ -21,7 +20,7 @@ test("generateKeyframeRules: only one keyframe", async () => {
   const css = await transpileRulesToCss([...keyframeRules]);
 
   // then
-  expect(css).toMatchInlineSnapshot(outdent`
+  expect(css).toMatchInlineSnapshot(`
   "@keyframes fadeIn {
       0% {
           opacity: 0
@@ -70,7 +69,7 @@ test("generateKeyframeRules: multiple keyframes", async () => {
   const css = await transpileRulesToCss([...keyframeRules]);
 
   // then
-  expect(css).toMatchInlineSnapshot(outdent`
+  expect(css).toMatchInlineSnapshot(`
   "@keyframes fadeIn {
       0% {
           opacity: 0
@@ -127,7 +126,7 @@ test("generateKeyframeRules: from to", async () => {
   const css = await transpileRulesToCss([...keyframeRules]);
 
   // then
-  expect(css).toMatchInlineSnapshot(outdent`
+  expect(css).toMatchInlineSnapshot(`
   "@keyframes fadeIn {
       from {
           opacity: 0

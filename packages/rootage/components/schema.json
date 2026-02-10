@@ -232,7 +232,10 @@
             "type": "object",
             "properties": {
               "color": {
-                "$ref": "#/definitions/colorShorthand"
+                "anyOf": [
+                  { "$ref": "#/definitions/colorShorthand" },
+                  { "$ref": "#/definitions/tokenRef" }
+                ]
               },
               "offsetX": {
                 "$ref": "#/definitions/dimensionShorthand"
@@ -268,7 +271,10 @@
             "type": "object",
             "properties": {
               "color": {
-                "$ref": "#/definitions/colorShorthand"
+                "anyOf": [
+                  { "$ref": "#/definitions/colorShorthand" },
+                  { "$ref": "#/definitions/tokenRef" }
+                ]
               },
               "position": {
                 "type": "number"

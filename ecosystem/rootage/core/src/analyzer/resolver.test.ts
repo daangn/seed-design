@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 import { Authoring, visitEachChild, visitNode, type AST } from "../parser";
 import { buildContext } from "./context";
 import { transformResolvedType, resolveReferences, resolveToken } from "./resolver";

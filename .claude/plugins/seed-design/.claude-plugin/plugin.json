@@ -1,0 +1,8 @@
+{
+  "name": "seed",
+  "description": "SEED Design deprecation workflow tools.",
+  "version": "0.1.0",
+  "author": {
+    "name": "SEED Design"
+  }
+}

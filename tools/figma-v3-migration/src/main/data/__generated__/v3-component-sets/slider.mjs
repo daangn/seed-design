@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Slider",
-  "key": "14b3278452f03fa01ecc8012a07f124766714566",
+  "key": "1a647951b15393671c23ad3259d4af1cb51a186c",
   "componentPropertyDefinitions": {
     "Has Tick Mark#47921:0": {
       "type": "BOOLEAN",

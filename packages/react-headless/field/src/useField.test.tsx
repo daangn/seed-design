@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 
 import {
   forwardRef,
@@ -19,8 +18,6 @@ import {
   type FieldRootProps,
 } from "./Field";
 import { useFieldContext } from "./useFieldContext";
-
-afterEach(cleanup);
 
 function setUp(jsx: ReactElement) {
   return {
@@ -92,11 +89,6 @@ const Field = forwardRef<HTMLDivElement, TestFieldProps>(
 Field.displayName = "Field";
 
 describe("Field components", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   describe("basic functionality", () => {
     it("should render as a label element", () => {
       const { getByTestId } = setUp(

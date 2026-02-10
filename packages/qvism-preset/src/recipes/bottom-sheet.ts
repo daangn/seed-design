@@ -109,6 +109,7 @@ const bottomSheet = defineSlotRecipe({
       fontSize: vars.base.enabled.title.fontSize,
       lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
+      wordBreak: "keep-all",
 
       margin: 0,
     },
@@ -117,6 +118,9 @@ const bottomSheet = defineSlotRecipe({
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
+
+      paddingLeft: vars.base.enabled.description.paddingX,
+      paddingRight: vars.base.enabled.description.paddingX,
 
       margin: 0,
       whiteSpace: "pre-wrap",
@@ -184,24 +188,35 @@ const bottomSheet = defineSlotRecipe({
       left: {
         header: {
           justifyContent: "flex-start",
-          paddingLeft: vars.headerAlignmentLeft.enabled.header.paddingLeft,
-          paddingRight: vars.headerAlignmentLeft.enabled.header.paddingRight,
+        },
+        title: {
+          paddingLeft: vars.headerAlignmentLeftCloseButtonFalse.enabled.title.paddingLeft,
+          paddingRight: vars.headerAlignmentLeftCloseButtonFalse.enabled.title.paddingRight,
+          [pseudo("[data-show-close-button]")]: {
+            paddingLeft: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingLeft,
+            paddingRight: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingRight,
+          },
         },
       },
       center: {
         header: {
           justifyContent: "center",
-          paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
-          paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
-
           textAlign: "center",
+        },
+        title: {
+          paddingLeft: vars.headerAlignmentCenterCloseButtonFalse.enabled.title.paddingLeft,
+          paddingRight: vars.headerAlignmentCenterCloseButtonFalse.enabled.title.paddingRight,
+          [pseudo("[data-show-close-button]")]: {
+            paddingLeft: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingLeft,
+            paddingRight: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingRight,
+          },
         },
       },
     },
     skipAnimation: {
       false: {
         backdrop: {
-          [pseudo(open, "[data-snap-points='false']")]: {
+          [pseudo(open, "[data-snap-points='false']", not("[data-animation-done='true']"))]: {
             animationName: "fade-in",
             animationDuration: vars.base.enabled.backdrop.enterDuration,
             animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
@@ -211,7 +226,12 @@ const bottomSheet = defineSlotRecipe({
             animationDuration: vars.base.enabled.backdrop.exitDuration,
             animationTimingFunction: vars.base.enabled.backdrop.exitTimingFunction,
           },
-          [pseudo(open, "[data-snap-points='true']", "[data-should-overlay-animate='true']")]: {
+          [pseudo(
+            open,
+            "[data-snap-points='true']",
+            "[data-should-overlay-animate='true']",
+            not("[data-animation-done='true']"),
+          )]: {
             animationName: "fade-in",
             animationDuration: vars.base.enabled.backdrop.enterDuration,
             animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
@@ -220,7 +240,7 @@ const bottomSheet = defineSlotRecipe({
         content: {
           animationDuration: vars.base.enabled.content.enterDuration,
           animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
-          [pseudo(open, "[data-snap-points='false']")]: {
+          [pseudo(open, "[data-snap-points='false']", not("[data-animation-done='true']"))]: {
             animationName: "drawer-slide-from-bottom",
             animationDuration: vars.base.enabled.content.enterDuration,
             animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
@@ -230,11 +250,12 @@ const bottomSheet = defineSlotRecipe({
             animationDuration: vars.base.enabled.content.exitDuration,
             animationTimingFunction: vars.base.enabled.content.exitTimingFunction,
           },
-          [pseudo(open, "[data-delayed-snap-points='true']")]: {
-            animationName: "drawer-slide-from-bottom",
-            animationDuration: vars.base.enabled.content.enterDuration,
-            animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
-          },
+          [pseudo(open, "[data-delayed-snap-points='true']", not("[data-animation-done='true']"))]:
+            {
+              animationName: "drawer-slide-from-bottom",
+              animationDuration: vars.base.enabled.content.enterDuration,
+              animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+            },
         },
       },
     },

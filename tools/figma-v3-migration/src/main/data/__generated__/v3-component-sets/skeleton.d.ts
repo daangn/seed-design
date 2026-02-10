@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Skeleton",
-  "key": "ef22c3288722fbfa64a5ab73df397ade88f8e05a",
+  "key": "fdf69f0324c6c1145e5c715655f73bbb45575ba2",
   "componentPropertyDefinitions": {
     "Radius": {
       "type": "VARIANT",

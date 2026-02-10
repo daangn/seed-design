@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: image-frame-reaction-button
+  name: Image Frame Reaction Button
+data:
+  schema:
+    slots:
+      root:
+        description: 하트 아이콘 토글 버튼입니다. 이미지 위에서 좋아요 기능에 사용됩니다.
+        properties:
+          size:
+            type: dimension
+            description: 보이는 버튼 크기입니다.
+          targetSize:
+            type: dimension
+            description: 터치 영역 크기입니다.
+      fillIcon:
+        description: lineIcon 아래에 내려가는 하트 아이콘입니다.
+        properties:
+          gradient:
+            type: gradient
+          size:
+            type: dimension
+      lineIcon:
+        description: fillIcon 위로 올라가는 하트 아이콘입니다.
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          size: $dimension.x6
+          targetSize: $dimension.x10
+        fillIcon:
+          gradient:
+            type: gradient
+            value:
+              - color: $color.palette.static-black-alpha-300
+                position: 0
+              - color: $color.palette.static-black-alpha-300
+                position: 1
+          size: $dimension.x6
+        lineIcon:
+          color: $color.palette.static-white
+          size: $dimension.x6
+      selected:
+        fillIcon:
+          gradient:
+            type: gradient
+            value:
+              - color: "#FF9A56"
+                position: 0
+              - color: "#FF6600"
+                position: 1
+        lineIcon:
+          color: $color.bg.transparent

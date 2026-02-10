@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { color, bg, typography, mode } from "@/src/styles/tokens";
+import { color, bg, typography, mode } from '@/src/styles/tokens';
 
 export const container = style({
   backgroundColor: color["bg.layerDefault"],

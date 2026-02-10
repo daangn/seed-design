@@ -1,14 +1,10 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "bun:test";
 
 import type { ReactElement } from "react";
-import * as React from "react";
 
 import { useAvatar, type UseAvatarProps } from "./useAvatar";
-
-afterEach(cleanup);
 
 const ROOT_TEST_ID = "avatar-root";
 const FALLBACK_TEXT = "AB";
@@ -25,7 +21,7 @@ function Avatar(props: UseAvatarProps) {
   const { rootProps, getImageProps, fallbackProps } = useAvatar(props);
   return (
     <div data-testid={ROOT_TEST_ID} {...rootProps}>
-      <img {...getImageProps({ src: "" })} alt={IMAGE_ALT_TEXT} />
+      <img {...getImageProps({})} alt={IMAGE_ALT_TEXT} />
       <span {...fallbackProps}>{FALLBACK_TEXT}</span>
     </div>
   );

@@ -5,6 +5,7 @@ import type {
 } from "@/codegen/component-properties";
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
+import * as components from "@/entities/data/__generated__/components";
 import type { NormalizedTextNode } from "@/normalizer";
 import { findAllInstances, findOne } from "@/utils/figma-node";
 import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
@@ -13,29 +14,29 @@ import { match } from "ts-pattern";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("list");
 
-const PREFIX_KEYS = {
-  checkmark: "f24c9ef42ef08df79483fbae0fa7d9037e566748",
-  radiomark: "5a77ad37a2291989dfe77c44ddee9aa39e447f90",
-  icon: "0e4c05f097d3fa2dc0cbfdbf8db2662bcf8439ca",
-  avatar: "ef0e8bd6c2f92e620acf204bb9a8079ef25a1e5c",
-  image: "82239325aa1cb65af7c649fc71a8f2b48fb9b9f3",
-  custom: "81f201fc876e38f016ab7427a6b3da000ee919a2",
-} as const;
+const PREFIX_KEYS = [
+  components.componentListItemPrefixCheckbox.key,
+  components.componentListItemPrefixRadiomark.key,
+  components.componentListItemPrefixIcon.key,
+  components.componentListItemPrefixAvatar.key,
+  components.componentListItemPrefixImage.key,
+  components.componentListItemPrefixCustom.key,
+];
 
-const SUFFIX_KEYS = {
-  checkmark: "abf9810103ae6e6afe8fa253ec5f05d6a7304b38",
-  radiomark: "0a9464ad270bfd7f56438f62bb0155a25ca146a9",
-  chevron: "8c52207687ffed15cd5931d71ed9d196b3358a68",
-  switch: "1e933f75dd6bb4b21c3289b5c3b4402d2c623125",
-  custom: "3a70bf5bb9856c13893931b7a0df652bcf0be895",
-  icon: "4cc7e9b84a8388a36cb3898c6c02e6110a3281b9",
-  chevronWithText: "fe0e25f4fecda59d0a3730ead7c5bc0a66a41e7e",
-  iconButton: "5636566f6de6f58200dce388f7b1ac9f517b30e1",
-  actionButton: "3d788f28c785d1c60b937b253c39ce582dbe1ed3",
-} as const;
+const SUFFIX_KEYS = [
+  components.componentListItemSuffixCheckbox.key,
+  components.componentListItemSuffixRadiomark.key,
+  components.componentListItemSuffixChevron.key,
+  components.componentListItemSuffixSwitch.key,
+  components.componentListItemSuffixCustom.key,
+  components.componentListItemSuffixIcon.key,
+  components.componentListItemSuffixChevronWithText.key,
+  metadata.componentListItemSuffixIconButton.key,
+  metadata.componentListItemSuffixActionButton.key,
+];
 
 export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<ListItemProperties>(metadata.listItem.key, (node, traverse) => {
+  defineComponentHandler<ListItemProperties>(metadata.componentListItem.key, (node, traverse) => {
     const { componentProperties: props } = node;
 
     const { alignItems, title } = match(props.Variants.value)
@@ -54,7 +55,7 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
     const prefixNode = (() => {
       if (props["Has Prefix#28452:85"].value === false) return null;
 
-      for (const key of Object.values(PREFIX_KEYS)) {
+      for (const key of PREFIX_KEYS) {
         const [found] = findAllInstances<ListItemPrefixIconProperties | {}>({ node, key });
 
         if (found) return found;
@@ -78,7 +79,7 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
     const suffixNode = (() => {
       if (props["Has Suffix#28452:64"].value === false) return null;
 
-      for (const key of Object.values(SUFFIX_KEYS)) {
+      for (const key of SUFFIX_KEYS) {
         const [found] = findAllInstances<ListItemSuffixIconProperties | {}>({ node, key });
 
         if (found) return found;

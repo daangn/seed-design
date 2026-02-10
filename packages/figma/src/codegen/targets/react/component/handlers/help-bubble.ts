@@ -10,7 +10,7 @@ const { createLocalSnippetElement: createLocalSnippetElementTrigger } =
 
 export const createHelpBubbleHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<HelpBubbleProperties>(
-    metadata.helpBubble.key,
+    metadata.componentHelpBubble.key,
     ({ componentProperties: props }) => {
       const placement:
         | "top"

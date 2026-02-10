@@ -1,0 +1,47 @@
+---
+title: Aspect Ratio
+description: 가로(width)가 정해지면 비율에 따라 세로(height)가 자동으로 결정되는 레이아웃 컨테이너입니다.
+---
+
+<ComponentExample name="react/aspect-ratio/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/aspect-ratio/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Usage
+
+```tsx
+import { AspectRatio } from "@seed-design/react";
+```
+
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <img src="..." alt="..." />
+</AspectRatio>
+```
+
+## Props
+
+<react-type-table
+  path="../packages/react/src/components/AspectRatio/AspectRatio.tsx"
+  name="AspectRatioProps"
+/>
+
+## Examples
+
+### Ratio
+
+다양한 비율을 지정할 수 있습니다. `1`은 정사각형, `4/3`은 일반적인 사진 비율, `16/9`는 와이드스크린 비율입니다.
+
+<ComponentExample name="react/aspect-ratio/ratio">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/aspect-ratio/ratio.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

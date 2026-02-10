@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Root Top Navigation / KR",
-  "key": "41d3601e6b4c632a56cdc8fad485a76c026fdd8e",
+  "key": "050cdca216df9c949912de2be038d197afebed50",
   "componentPropertyDefinitions": {
     "Title#6406:6": {
       "type": "TEXT",

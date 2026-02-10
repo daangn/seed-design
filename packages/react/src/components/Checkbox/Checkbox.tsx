@@ -9,7 +9,13 @@ import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon } from "../private/Icon";
+import { createRecipeContext } from "../../utils/createRecipeContext";
+import {
+  checkboxGroup,
+  type CheckboxGroupVariantProps,
+} from "@seed-design/css/recipes/checkbox-group";
 
+const { withContext: withGroupContext } = createRecipeContext(checkboxGroup);
 const { ClassNamesProvider, withContext } = createSlotRecipeContext(checkbox);
 const {
   withProvider: withCheckmarkProvider,
@@ -17,6 +23,15 @@ const {
   PropsProvider: CheckmarkPropsProvider,
 } = createSlotRecipeContext(checkmark);
 const withStateProps = createWithStateProps([useCheckboxContext]);
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface CheckboxGroupProps
+  extends CheckboxGroupVariantProps,
+    PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const CheckboxGroup = withGroupContext<HTMLDivElement, CheckboxGroupProps>(Primitive.div);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

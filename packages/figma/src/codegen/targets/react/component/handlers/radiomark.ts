@@ -10,7 +10,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("radio-group");
 
 export const createRadiomarkHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<RadiomarkProperties>(
-    metadata.radiomark.key,
+    metadata.componentRadiomark.key,
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")

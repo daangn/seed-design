@@ -1,0 +1,129 @@
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+      - "!dev" # V3 deployment; remove this when V3 is stable
+    paths:
+      - "docs/**"
+      - "examples/stackflow-spa/**"
+      - "packages/css/**"
+      - "packages/react/**"
+      - "packages/stackflow/**"
+      - ".github/workflows/deploy-seed-design-stackflow-spa-alpha-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+name: deploy-seed-design-stackflow-spa-alpha-pages
+
+jobs:
+  deploy:
+    name: deploy-seed-design-stackflow-spa-alpha-pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.8"
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Packages
+        run: bun packages:build
+
+      - name: Build Stackflow SPA
+        working-directory: ./examples/stackflow-spa
+        run: |
+          bun run build
+
+      - name: Deploy stackflow-spa at Cloudflare Pages in `seed-design-stackflow-spa` project (Alpha)
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: "4.45.3"
+          command: pages deploy ./examples/stackflow-spa/dist --project-name=seed-design-stackflow-spa --branch=${{ github.ref_name }}
+
+      - name: Find related PR
+        id: pr
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            if (!context.ref.startsWith('refs/heads/')) {
+              core.setOutput('number', '');
+              return;
+            }
+
+            const branch = context.ref.replace('refs/heads/', '');
+            const pulls = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              head: `${owner}:${branch}`,
+              per_page: 1,
+            });
+
+            core.setOutput('number', pulls.data[0] ? String(pulls.data[0].number) : '');
+
+      - name: Upsert PR preview comment
+        if: ${{ steps.pr.outputs.number != '' }}
+        uses: actions/github-script@v8
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+          PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = Number(process.env.PR_NUMBER);
+            const marker = '<!-- seed-design-preview:stackflow-spa-alpha -->';
+            const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
+            const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
+
+            const body = [
+              marker,
+              '## Alpha Preview (Stackflow SPA)',
+              '',
+              `- Branch Preview URL: ${aliasUrl || '(not available)'}`,
+              `- Preview URL: ${deploymentUrl || '(not available)'}`,
+              `- Commit: \`${context.sha.slice(0, 7)}\``,
+            ].join('\n');
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((comment) =>
+              comment.user?.type === 'Bot' &&
+              comment.body?.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+            }

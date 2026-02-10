@@ -3,6 +3,503 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2026.02.09
+
+ImageFrame 내부 요소에 width, height 100%를 추가합니다 [`15010c3`](https://github.com/daangn/seed-design/commit/15010c35ad1d694bd5def5ce4281ec63ad61a29d)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.2](https://npmjs.com/package/@seed-design/css/v/1.2.2)
+
+---
+
+ImageFrame `rounded` 옵션을 제거하고, borderRadius를 받을 수 있게 변경합니다 [`a3e6859`](https://github.com/daangn/seed-design/commit/a3e6859c7caf964d0f51ef1b1efe67e3f0cbc9a3)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.2](https://npmjs.com/package/@seed-design/css/v/1.2.2)
+- 📦 [@seed-design/react@1.2.4](https://npmjs.com/package/@seed-design/react/v/1.2.4)
+- 📦 [@seed-design/rootage-artifacts@1.2.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.2)
+
+---
+
+BottomSheet title 영역에서 닫기 버튼 간격에 따라 조정된 padding 기준으로 정리하고, word-break 추가 및 description 영역 너비를 정리했습니다. [`4287600`](https://github.com/daangn/seed-design/commit/4287600e9eaf27a15815aa1ce76665d160d7981c)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.2](https://npmjs.com/package/@seed-design/css/v/1.2.2)
+- 📦 [@seed-design/react@1.2.4](https://npmjs.com/package/@seed-design/react/v/1.2.4)
+- 📦 [@seed-design/rootage-artifacts@1.2.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.2)
+
+---
+
+## 2026.02.03 #4
+
+Snackbar 타이머가 멈추는 기준을 `focus`에서 `focus-visible`로 수정하여 `pauseOnInteraction={true}`인 경우 Snackbar가 닫히지 않는 문제를 수정합니다. [`acae645`](https://github.com/daangn/seed-design/commit/acae645ac92ae63e5ccd1256ca1903624dde0f8c)
+
+영향받는 패키지
+- 📦 [@seed-design/react-snackbar@1.0.1](https://npmjs.com/package/@seed-design/react-snackbar/v/1.0.1)
+
+---
+
+## 2026.02.03 #3
+
+Figma 엔티티를 업데이트합니다. 모든 구성 요소에 대해 generated 데이터를 사용하여 안정성을 개선합니다. [`934bea0`](https://github.com/daangn/seed-design/commit/934bea0127a6bf43494356c5738e8f9a810fb83f)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.3.2](https://npmjs.com/package/@seed-design/figma/v/1.3.2)
+
+---
+
+## 2026.02.03 #2
+
+MCP를 Node.js 프로젝트에서 직접 구성할 수 있도록 `registerTools`를 비롯한 export를 추가합니다. [`2f9690a`](https://github.com/daangn/seed-design/commit/2f9690a0f2e2c8cfe316df81bbb7c92a27660d58)
+
+영향받는 패키지
+- 📦 [@seed-design/mcp@1.3.1](https://npmjs.com/package/@seed-design/mcp/v/1.3.1)
+
+---
+
+## 2026.02.03
+
+`AlertDialogRoot`, `MenuSheetRoot` 및 `BottomSheetRoot`의 `onOpenChange` 두 번째 인자로 `details`를 제공합니다. `details.reason`과 `details.event`를 사용할 수 있습니다. [`576c2e6`](https://github.com/daangn/seed-design/commit/576c2e602de44bacdad8991cf6be2d369ace73f5)
+
+`DialogAction`을 `DialogPrimitive.CloseButton`으로 교체합니다. `AlertDialogAction` `onClick` 핸들러에서 `event.preventDefault()`를 호출하여 닫기 동작을 방지할 수 있습니다. [(예제)](https://seed-design.io/react/components/alert-dialog#prevent-close)
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.2.2](https://npmjs.com/package/@seed-design/react/v/1.2.2)
+- 📦 [@seed-design/react-dialog@1.0.2](https://npmjs.com/package/@seed-design/react-dialog/v/1.0.2)
+- 📦 [@seed-design/react-drawer@1.0.8](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.8)
+- 📦 [@seed-design/react-use-controllable-state@1.0.0](https://npmjs.com/package/@seed-design/react-use-controllable-state/v/1.0.0)
+
+---
+
+Figma Personal Access Token을 활용하여 WebSocket 서버와 Figma 플러그인 없이 MCP 일부 기능을 활용할 수 있도록 합니다. `--mode` 옵션을 통해 필요한 도구만 등록할 수 있습니다. [`423d604`](https://github.com/daangn/seed-design/commit/423d604b9ecc178f935d7c105e49d3711eab6f82)
+
+영향받는 패키지
+- 📦 [@seed-design/mcp@1.3.0](https://npmjs.com/package/@seed-design/mcp/v/1.3.0)
+
+---
+
+## 2026.01.29
+
+AlertDialog 닫힐 때 focus 복원으로 인해 BottomSheet가 즉시 닫히는 문제 수정 [`8188130`](https://github.com/daangn/seed-design/commit/8188130e3c62651acea63ae699f11fe16d2e9a06)
+
+- onFocusOutside에서 항상 preventDefault 호출
+- onInteractOutside에서 defaultPrevented 체크 추가
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.6](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.6)
+
+---
+
+ImageFrameReactionButton에 fillIcon, lineIcon spec을 추가합니다 [`9446f2c`](https://github.com/daangn/seed-design/commit/9446f2cc68ae9db41cc5da6124a2a0897a2f250b)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.1](https://npmjs.com/package/@seed-design/css/v/1.2.1)
+- 📦 [@seed-design/rootage-artifacts@1.2.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.1)
+
+---
+
+ImageFrameReactionButton의 SVG 사이즈와 Rootage 정의를 수정합니다. [`8ad9484`](https://github.com/daangn/seed-design/commit/8ad948427977be6b18b6e385a6ffc95478fdef16)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.1](https://npmjs.com/package/@seed-design/css/v/1.2.1)
+- 📦 [@seed-design/react@1.2.1](https://npmjs.com/package/@seed-design/react/v/1.2.1)
+- 📦 [@seed-design/rootage-artifacts@1.2.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.1)
+
+---
+
+Figma 엔티티를 최신 버전으로 업데이트합니다. [`15d9587`](https://github.com/daangn/seed-design/commit/15d95874c61bfed3b88bcdc578b5147764bec8aa)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.2.1](https://npmjs.com/package/@seed-design/figma/v/1.2.1)
+
+---
+
+`@seed-design/figma-extractor` config 파이프라인에서 `fetchNodes`를 context의 일부로 제공합니다. [`15d9587`](https://github.com/daangn/seed-design/commit/15d95874c61bfed3b88bcdc578b5147764bec8aa)
+
+영향받는 패키지
+- 📦 [@seed-design/figma-extractor@1.1.0](https://npmjs.com/package/@seed-design/figma-extractor/v/1.1.0)
+
+---
+
+BottomSheet `showCloseButton` variant 변경 및 animation 버그 수정 [`9cbeba0`](https://github.com/daangn/seed-design/commit/9cbeba019778a5fc10b1308b3a492a91083a6795)
+
+- `showCloseButton` variant 변경: CloseButton 미사용 시 header padding 조정 가능
+- `hasEntered` 상태 추가: modal prop 변경 시 enter animation 재실행 방지
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.1](https://npmjs.com/package/@seed-design/css/v/1.2.1)
+- 📦 [@seed-design/react-drawer@1.0.6](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.6)
+
+---
+
+## 2026.01.26
+
+`--on-diff` flag를 추가하고 `--overwrite` flag를 `--on-diff=overwrite`로 대체합니다. `--on-diff=backup`을 사용하여 변경사항이 있는 모든 snippet에 대해 이전 파일을 유지할 수 있습니다. [`f7a6217`](https://github.com/daangn/seed-design/commit/f7a621701082bc1bf09da849d036c279c56eefa5)
+
+영향받는 패키지
+- 📦 [@seed-design/cli@1.2.1](https://npmjs.com/package/@seed-design/cli/v/1.2.1)
+
+---
+
+## 2026.01.25
+
+[Help Bubble](/react/components/help-bubble) 관련 컴포넌트를 업데이트합니다. [`0ecb893`](https://github.com/daangn/seed-design/commit/0ecb893a5de3075ad975cf41cb0cff4cea0901a5)
+
+- **1.1 → 1.2 업그레이드 시 snippet 업데이트 필요**: `HelpBubbleTrigger` 및 `HelpBubbleAnchor`의 내부 구조가 변경되었습니다. snippet을 다시 내려받아 주세요.
+  - `npx @seed-design/cli@latest add ui:help-bubble`
+  - **인터페이스 변경사항이 없으므로 `HelpBubbleAnchor`와 `HelpBubbleTrigger`를 사용하는 기존 코드를 변경할 필요가 없습니다.**
+  - `HelpBubble.Body`를 사용하여 `HelpBubble.Title`과 `HelpBubble.Description`을 감싸도록 변경되었습니다.
+  - `zIndexOffset`을 활용하여 `HelpBubble.Positioner`의 z-index를 조정할 수 있습니다. ([예시](/react/components/help-bubble#z-index-offset))
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.0](https://npmjs.com/package/@seed-design/css/v/1.2.0)
+- 📦 [@seed-design/react@1.2.0](https://npmjs.com/package/@seed-design/react/v/1.2.0)
+- 📦 [@seed-design/rootage-artifacts@1.2.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.0)
+
+---
+
+[Checkbox](/react/components/checkbox) 관련 컴포넌트를 추가합니다. [`98dbac4`](https://github.com/daangn/seed-design/commit/98dbac46406999d30734edc9e8f3c2180e406414)
+
+- `CheckboxGroup` snippet 컴포넌트가 추가되었습니다. 사용하려면 snippet을 다시 내려받아 주세요.
+  - `npx @seed-design/cli@latest add ui:checkbox`
+  - `CheckboxGroup`은 자체적으로 gap과 100% width를 갖습니다. `VStack`을 사용하여 `Checkbox`를 묶지 않아도 됩니다.
+    - 기존 `Checkbox`를 `CheckboxGroup`으로 감쌀 필요는 없습니다. `CheckboxGroup`은 선택적으로 사용할 수 있습니다.
+  - `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator`, `labelWeight` prop을 사용할 수 있습니다.
+
+[Radio Group](/react/components/radio-group) 관련 컴포넌트를 업데이트합니다.
+
+- **1.1 → 1.2 업그레이드 시 snippet 업데이트 필요**: `RadioGroup` snippet의 내부 구조가 변경되었습니다. snippet을 다시 내려받아 주세요.
+
+  - `npx @seed-design/cli@latest add ui:radio-group`
+  - `RadioGroup`이 자체적으로 gap과 100% width를 갖습니다. `VStack`을 사용하여 `RadioGroupItem`을 묶는 코드를 제거합니다.
+    - **1.1 → 1.2 업그레이드 시 변경 필요**: `RadioGroupItem`을 묶어서 사용하던 `VStack`을 제거하여 `RadioGroupItem`이 `RadioGroup`의 direct child가 되도록 변경하세요.
+  - `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator`, `labelWeight` prop을 사용할 수 있습니다.
+  - `@seed-design/react`의 `RadioGroup.Root`를 레이아웃 컴포넌트로 변경합니다.
+    - `@seed-design/react`에서 직접 import해서 사용하는 코드가 있다면 `RadioGroup.Root`를 `@seed-design/react/primitive`의 `RadioGroup.Root`로 변경해주세요.
+
+  ```tsx
+  // 전
+  import { VStack } from "@seed-design/react";
+  import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
+
+  <RadioGroup defaultValue="apple" aria-label="Fruit selection">
+    <VStack>
+      <RadioGroupItem value="apple" label="Apple" />
+      <RadioGroupItem value="banana" label="Banana" />
+    </VStack>
+  </RadioGroup>;
+  ```
+
+  ```tsx
+  // 후
+  import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
+
+  {
+    /* aria-label 대신 label을 사용하여 시각적으로 레이블을 표시할 수도 있습니다. */
+  }
+  <RadioGroup defaultValue="apple" aria-label="Fruit selection">
+    <RadioGroupItem value="apple" label="Apple" />
+    <RadioGroupItem value="banana" label="Banana" />
+  </RadioGroup>;
+  ```
+
+  ```tsx
+  // 전
+  import { RadioGroup } from "@seed-design/react";
+  import { ListRadioItem } from "seed-design/ui/list";
+
+  <RadioGroup.Root
+    value={value}
+    onValueChange={onValueChange}
+    aria-label="옵션 선택"
+  >
+    <ListRadioItem
+      value="option1"
+      title="옵션 1"
+      detail="첫 번째 선택지"
+      suffix={<Radiomark tone="neutral" size="large" />}
+    />
+  </RadioGroup.Root>;
+  ```
+
+  ```tsx
+  // 후
+  import { RadioGroup } from "@seed-design/react/primitive";
+  import { ListRadioItem } from "seed-design/ui/list";
+
+  <RadioGroup.Root
+    value={value}
+    onValueChange={onValueChange}
+    aria-label="옵션 선택"
+  >
+    <ListRadioItem
+      value="option1"
+      title="옵션 1"
+      detail="첫 번째 선택지"
+      suffix={<Radiomark tone="neutral" size="large" />}
+    />
+  </RadioGroup.Root>;
+  ```
+
+RadioGroupItem, RadioChipItem, RadioSelectBoxItem, ListRadioItem에서 `invalid` prop이 제거되었습니다.
+
+- **1.1 → 1.2 업그레이드 시 확인 필요**: `invalid` 상태는 group/field 레벨에서 설정해주세요. 각 항목을 `data-invalid` 속성으로 스타일링하는 경우 확인이 필요합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.0](https://npmjs.com/package/@seed-design/css/v/1.2.0)
+- 📦 [@seed-design/react@1.2.0](https://npmjs.com/package/@seed-design/react/v/1.2.0)
+- 📦 [@seed-design/react-radio-group@1.1.0](https://npmjs.com/package/@seed-design/react-radio-group/v/1.1.0)
+- 📦 [@seed-design/rootage-artifacts@1.2.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.0)
+
+---
+
+`SwitchMark`를 `Switchmark`로, `RadioMark`를 `Radiomark`로 Snippet 컴포넌트 이름을 변경합니다.
+
+- **1.1 → 1.2 업그레이드 시 변경 권장**: snippet을 다시 내려받고, `SwitchMark`, `RadioMark`를 사용하는 코드를 아래와 같이 변경하세요.
+
+  - `npx @seed-design/cli@latest add ui:switch ui:radio-group`
+  - snippet에 `SwitchMark`, `RadioMark` 정의가 존재하지만, 1.3 릴리즈 시 snippet에서 해당 맵핑이 제거될 예정이므로 미리 변경해두시길 권장드립니다.
+
+  ```tsx
+  // 전
+  import { ListSwitchItem, ListRadioItem } from "seed-design/ui/list";
+  import { SwitchMark } from "seed-design/ui/switch";
+  import { RadioMark } from "seed-design/ui/radio-group";
+
+  <ListSwitchItem
+    title="리스트 아이템 스위치"
+    detail="설명 텍스트"
+    suffix={<SwitchMark tone="neutral" />}
+  />;
+
+  <ListRadioItem
+    prefix={<RadioMark tone="neutral" size="large" />}
+    value="option"
+    title="옵션"
+  />;
+  ```
+
+  ```tsx
+  // 후
+  import { ListSwitchItem, ListRadioItem } from "seed-design/ui/list";
+  import { Switchmark } from "seed-design/ui/switch";
+  import { Radiomark } from "seed-design/ui/radio-group";
+
+  <ListSwitchItem
+    title="리스트 아이템 스위치"
+    detail="설명 텍스트"
+    suffix={<Switchmark tone="neutral" />}
+  />;
+
+  <ListRadioItem
+    prefix={<Radiomark tone="neutral" size="large" />}
+    value="option"
+    title="옵션"
+  />;
+  ```
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.0](https://npmjs.com/package/@seed-design/css/v/1.2.0)
+- 📦 [@seed-design/figma@1.2.0](https://npmjs.com/package/@seed-design/figma/v/1.2.0)
+- 📦 [@seed-design/react@1.2.0](https://npmjs.com/package/@seed-design/react/v/1.2.0)
+- 📦 [@seed-design/rootage-artifacts@1.2.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.0)
+
+---
+
+[`Grid` 및 `GridItem`](/react/components/layout/grid) 레이아웃 유틸리티 컴포넌트를 추가합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.0](https://npmjs.com/package/@seed-design/css/v/1.2.0)
+- 📦 [@seed-design/react@1.2.0](https://npmjs.com/package/@seed-design/react/v/1.2.0)
+
+---
+
+[Select Box](/react/components/select-box) 관련 컴포넌트를 업데이트합니다. [`cfd2df4`](https://github.com/daangn/seed-design/commit/cfd2df43c3bed9cda6413fc7938068d38da777ff)
+
+- **1.1 → 1.2 업그레이드 시 snippet을 다시 내려받아 주세요.**
+  - `npx @seed-design/cli@latest add ui:select-box`
+- `CheckSelectBoxGroup`, `RadioSelectBoxRoot`의 children이 기본적으로 gap이 포함된 그리드 레이아웃으로 정렬됩니다.
+  - **1.1 → 1.2 업그레이드 시 변경 필요**: `CheckSelectBox`, `RadioSelectBoxItem`을 묶어서 사용하던 `VStack`을 제거하여 `CheckSelectBox`와 `RadioSelectBoxItem`이 `CheckSelectBoxGroup` 또는 `RadioSelectBoxRoot`의 direct child가 되도록 변경하세요. `VStack`에 `gap` 이외의 스타일이 적용된 경우 `<VStack paddingX="x4"><CheckSelectBoxGroup>...</CheckSelectBoxGroup></VStack>`와 같이 `VStack`을 외부에 남겨두세요.
+  - **기능 추가**: `CheckSelectBoxGroup`와 `RadioSelectBoxRoot`에 `columns`를 지정할 수 있습니다. `columns`가 `2` 이상인 경우 하위 항목에 기본적으로 `layout="vertical"`이 적용됩니다. 기본 `layout`은 하위 항목에서 오버라이드할 수 있습니다.
+  - **기능 추가**: `CheckSelectBoxGroup`과 `RadioSelectBoxRoot`에 `label`, `description`, `errorMessage`, `indicator` 등 Fieldset 관련 prop을 사용할 수 있습니다.
+- **1.1 → 1.2 업그레이드 시 변경 필요**: `CheckSelectBox`, `RadioSelectBoxItem`에 기본적으로 표시되던 `Checkmark`와 `RadioMark`가 이제 표시되지 않습니다. `suffix` prop을 통해 선택적으로 추가할 수 있습니다.
+  - 단순 마이그레이션 시 `suffix={<CheckSelectBoxCheckmark />}`와 `suffix={<RadioSelectBoxRadiomark />}`를 추가하세요.
+- **기능 추가**: `prefixIcon`, `footer`, `footerVisibility` prop 추가
+  - `footer`에 넣는 요소는 기본적으로 해당 `CheckSelectBox` 또는 `RadioSelectBoxItem`가 선택된 상태일 때 표시됩니다. `footerVisibility="always"`를 설정하여 footer 요소를 항상 표시할 수 있습니다.
+- `label`이 기본적으로 가로 나열되며 `$dimension.x2` gap을 갖는 flex container로 변경되었습니다.
+  - **1.1 → 1.2 업그레이드 시 확인 권장**: `label={<HStack gap="x2">{/* ... */}</HStack>}`와 같은 코드는 `HStack`을 `Fragment` 등으로 대체할 수 있습니다.
+- **문제 수정**: `CheckSelectBox`와 `RadioSelectBoxItem`에서 사용되지 않는 `children`을 타입 정의에서 제거합니다.
+- `CheckSelectBoxGroup`에 `label`, `aria-label`, `aria-labelledby` 중 아무것도 설정하지 않은 경우 경고를 표시합니다. (`RadioSelectBoxRoot`는 기존에도 표시)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.0](https://npmjs.com/package/@seed-design/css/v/1.2.0)
+- 📦 [@seed-design/react@1.2.0](https://npmjs.com/package/@seed-design/react/v/1.2.0)
+- 📦 [@seed-design/react-radio-group@1.1.0](https://npmjs.com/package/@seed-design/react-radio-group/v/1.1.0)
+- 📦 [@seed-design/rootage-artifacts@1.2.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.0)
+
+---
+
+fieldset, collapsible headless 릴리즈
+
+영향받는 패키지
+- 📦 [@seed-design/react-collapsible@0.1.0](https://npmjs.com/package/@seed-design/react-collapsible/v/0.1.0)
+- 📦 [@seed-design/react-fieldset@0.1.0](https://npmjs.com/package/@seed-design/react-fieldset/v/0.1.0)
+
+---
+
+[BottomSheetContent](/react/components/bottom-sheet)와 [MenuSheetContent](/react/components/menu-sheet)가 기본적으로 bottom safe area만큼 하단 padding을 갖도록 수정합니다. [`b673455`](https://github.com/daangn/seed-design/commit/b6734550839d17df2fda63df144fd861e21877dd)
+
+- 별도로 safe area padding을 지정하는 경우 제거할 수 있습니다. BottomSheetContent 내부에서의 `<VStack paddingBottom="safeArea">` 등
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.0](https://npmjs.com/package/@seed-design/css/v/1.2.0)
+
+---
+
+[Tag Group](/react/components/tag-group) 관련 컴포넌트를 업데이트합니다. [`a0e40ca`](https://github.com/daangn/seed-design/commit/a0e40ca2d568a249fa77e46f5780c735082e911c)
+
+- `TagGroupItem` 레이블 내부에서 줄바꿈이 발생할 수 있도록 수정합니다. (기존: `TagGroupItem` 또는 separator 전후에서 줄바꿈 발생)
+- 한 줄 레이아웃 및 우선순위 옵션을 추가합니다.
+  - `TagGroupRoot`에 `truncate` prop을 사용하여 한 줄로 유지하고 말줄임 처리를 할 수 있습니다. (기본값: `false`)
+  - `TagGroupItem`에 `flexShrink` prop을 사용하여 말줄임 우선순위를 조정할 수 있습니다.
+- **1.1 → 1.2 업그레이드 시 변경 필요**: `TagGroupItem` 내부 레이블을 `TagGroupItemLabel`로 감싸거나, 신규로 제공되는 Snippet에서 제공하는 API로 교체해주세요.
+
+  - `npx @seed-design/cli@latest add ui:tag-group` 명령어로 Snippet을 추가할 수 있습니다.
+
+  ```tsx
+  // 전
+  import { TagGroupRoot, TagGroupItem } from "@seed-design/react";
+
+  {
+    /* TagGroup.Root, TagGroup.Item처럼 namespace import하는 코드가 있을 수 있습니다. */
+  }
+  <TagGroupRoot>
+    <TagGroupItem>
+      <PrefixIcon svg={<IconLocationpinFill />} />
+      서초4동
+    </TagGroupItem>
+    <TagGroupItem>
+      광고
+      <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+    </TagGroupItem>
+    {/* ... */}
+  </TagGroupRoot>;
+  ```
+
+  ```tsx
+  // 후 (Compound Component 유지)
+
+  import {
+    TagGroupRoot,
+    TagGroupItem,
+    TagGroupItemLabel,
+  } from "@seed-design/react";
+
+  <TagGroupRoot>
+    <TagGroupItem>
+      <PrefixIcon svg={<IconLocationpinFill />} />
+      {/* TagGroupItemLabel 사용 */}
+      <TagGroupItemLabel>서초4동</TagGroupItemLabel>
+    </TagGroupItem>
+    <TagGroupItem>
+      {/* TagGroupItemLabel 사용 */}
+      <TagGroupItemLabel>광고</TagGroupItemLabel>
+      <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+    </TagGroupItem>
+    {/* ... */}
+  </TagGroupRoot>;
+  ```
+
+  ```tsx
+  // 후 (snippet API로 교체)
+  // snippet 없는 경우, `npx @seed-design/cli@latest add ui:tag-group`
+
+  import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
+  import {
+    TagGroupRoot as SeedTagGroupRoot,
+    TagGroupItem as SeedTagGroupItem,
+    TagGroupItemLabel as SeedTagGroupItemLabel,
+  } from "@seed-design/react";
+
+  <TagGroupRoot>
+    <TagGroupItem label="서초4동" prefixIcon={<IconLocationpinFill />} />
+    <SeedTagGroupItem>
+      <SeedTagGroupItemLabel>광고</SeedTagGroupItemLabel>
+      {/* 아이콘 커스터마이징이 필요한 경우 snippet 대신 Compound Component를 사용합니다. */}
+      <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+    </SeedTagGroupItem>
+    {/* ... */}
+  </TagGroupRoot>;
+  ```
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.0](https://npmjs.com/package/@seed-design/css/v/1.2.0)
+- 📦 [@seed-design/figma@1.2.0](https://npmjs.com/package/@seed-design/figma/v/1.2.0)
+- 📦 [@seed-design/react@1.2.0](https://npmjs.com/package/@seed-design/react/v/1.2.0)
+
+---
+
+Text Field (text-input)과 Field Button (input-button)의 포커스 및 에러 상태 border 트랜지션을 수정합니다. [`17c0ebd`](https://github.com/daangn/seed-design/commit/17c0ebde386711eed1188045238272224179f2d7)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.0](https://npmjs.com/package/@seed-design/css/v/1.2.0)
+- 📦 [@seed-design/rootage-artifacts@1.2.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.0)
+
+---
+
+[Menu Sheet](/react/components/menu-sheet) 관련 컴포넌트를 업데이트합니다. [`358a1e4`](https://github.com/daangn/seed-design/commit/358a1e47dd855ab22dfaa4e0a2fd657a93595f13)
+
+- `MenuSheetContent`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
+- `MenuSheetItem`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
+- **1.1 → 1.2 업그레이드 시 변경 필요**: snippet을 다시 내려받고, `MenuSheetItem`을 사용하는 코드를 아래와 같이 변경하세요.
+
+  - `npx @seed-design/cli@latest add ui:menu-sheet`
+  - `children` 대신 `label` prop을 사용합니다.
+  - `description`, `prefixIcon` prop이 추가되었습니다.
+
+  ```tsx
+  // 전
+  <MenuSheetItem>
+    <PrefixIcon svg={<IconHouseLine />} />
+    메뉴 항목
+  </MenuSheetItem>
+
+  // 후
+  <MenuSheetItem
+    prefixIcon={<IconHouseLine />}
+    label="메뉴 항목"
+    description="이제 설명도 추가할 수 있어요"
+  />
+  ```
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.0](https://npmjs.com/package/@seed-design/css/v/1.2.0)
+- 📦 [@seed-design/figma@1.2.0](https://npmjs.com/package/@seed-design/figma/v/1.2.0)
+- 📦 [@seed-design/react@1.2.0](https://npmjs.com/package/@seed-design/react/v/1.2.0)
+
+---
+
+react-image headless 릴리즈 [`cfd2df4`](https://github.com/daangn/seed-design/commit/cfd2df43c3bed9cda6413fc7938068d38da777ff)
+
+영향받는 패키지
+- 📦 [@seed-design/react-image@0.1.0](https://npmjs.com/package/@seed-design/react-image/v/0.1.0)
+
+---
+
+CLI add/add-all 명령 실행 시, 파일 변경사항을 보여주고 덮어쓰기/백업/그대로 두기 선택지를 제공합니다. `--overwrite` flag를 통해 이 과정을 건너뛰고 덮어쓰기를 선택할 수 있습니다. [`21c6ca8`](https://github.com/daangn/seed-design/commit/21c6ca8aa792d7bfc5a6f73f9434532185eb6050)
+
+영향받는 패키지
+- 📦 [@seed-design/cli@1.2.0](https://npmjs.com/package/@seed-design/cli/v/1.2.0)
+
+---
+
+MCP `get_node(s)_info` 및 `get_node_react_code` 툴 호출이 실패하는 경우 Figma 라이브러리 업데이트 안내를 추가합니다. [`41c4e31`](https://github.com/daangn/seed-design/commit/41c4e3185d938467bb7d2071e1548dde15bf16d0)
+
+영향받는 패키지
+- 📦 [@seed-design/mcp@1.2.0](https://npmjs.com/package/@seed-design/mcp/v/1.2.0)
+
+---
+
 ## 2026.01.20
 
 BottomSheetRoot `headerAlign="center"` variant에서 텍스트 정렬 문제를 수정합니다 ([예제](/react/components/bottom-sheet#header-align)). MenuSheetTitle의 내용이 길어질 때 MenuSheetHeader가 가운데 정렬되지 않는 문제를 수정합니다. [`6697fbe`](https://github.com/daangn/seed-design/commit/6697fbeb1b194e4edd48d2dcfd017bac93d5a3d3)

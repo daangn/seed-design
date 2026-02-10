@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Switchmark",
-  "key": "bc53f269089e02a1d241e2a21ac7631bfa49834e",
+  "key": "af4f8501f3393367750d2b642c6e8bba5906c5a9",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",

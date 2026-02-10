@@ -49,7 +49,7 @@ export default function ListBorderRadius() {
       >
         <ListHeader as="h2">카드 borderRadius: 22px</ListHeader>
         <List asChild itemBorderRadius="r3">
-          <RadioGroup.Root defaultValue="0">
+          <RadioGroup.Root defaultValue="0" aria-label="Border radius options">
             <ListRadioItem
               value="0"
               title="borderRadius: r3"

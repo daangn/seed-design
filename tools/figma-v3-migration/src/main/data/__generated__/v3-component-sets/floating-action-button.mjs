@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Floating Action Button",
-  "key": "65f9e7eede627b893fb8ff94ed9a7d0db900c464",
+  "key": "83c57914bf0fde4192e6bb11dc5231204df12ba2",
   "componentPropertyDefinitions": {
     "Type": {
       "type": "VARIANT",

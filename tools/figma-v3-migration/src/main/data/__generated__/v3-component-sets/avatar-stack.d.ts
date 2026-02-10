@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Avatar Stack",
-  "key": "e8e91e01000d878742c55cd6e44b6786460440f7",
+  "key": "99d74f36d2989b450cc0c7f15eb6495888bb1cec",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",

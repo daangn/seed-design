@@ -7,7 +7,7 @@ export default function RadioGroupValueChanges() {
   const [lastValue, setLastValue] = useState<string | null>(null);
 
   return (
-    <VStack gap="x4" align="center" width="full">
+    <VStack gap="x4" align="center" width="full" p="x6">
       <RadioGroup
         defaultValue="apple"
         aria-label="Fruit selection"
@@ -16,11 +16,9 @@ export default function RadioGroupValueChanges() {
           setLastValue(value);
         }}
       >
-        <VStack>
-          <RadioGroupItem value="apple" label="Apple" />
-          <RadioGroupItem value="banana" label="Banana" />
-          <RadioGroupItem value="orange" label="Orange" />
-        </VStack>
+        <RadioGroupItem value="apple" label="Apple" tone="neutral" size="large" />
+        <RadioGroupItem value="banana" label="Banana" tone="neutral" size="large" />
+        <RadioGroupItem value="orange" label="Orange" tone="neutral" size="large" />
       </RadioGroup>
       <Text>
         onValueChange called: {count} times, last value: {lastValue ?? "-"}

@@ -1,10 +1,10 @@
 export const metadata = {
   "name": "🟢 Progress Circle",
-  "key": "6e6779a372cab2485a0e25529bc4dbc9932a7346",
+  "key": "28441ca27a79547f29d72ea9e7f18beeb41b83b5",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",
-      "defaultValue": "40",
+      "defaultValue": "24",
       "variantOptions": [
         "24",
         "40"
@@ -22,7 +22,7 @@ export const metadata = {
     },
     "Value": {
       "type": "VARIANT",
-      "defaultValue": "0%",
+      "defaultValue": "100%",
       "variantOptions": [
         "Indeterminate",
         "0%",

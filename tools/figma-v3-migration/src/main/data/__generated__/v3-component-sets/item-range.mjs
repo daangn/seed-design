@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🚫.Item / Range",
-  "key": "cc8d917d2a86952e7c317c1e3a2fa39d2a34a486",
+  "key": "45ee922227a1a181f5362185a7fe496d68c45134",
   "componentPropertyDefinitions": {
     "State": {
       "type": "VARIANT",

@@ -141,52 +141,27 @@ npx @seed-design/cli@latest add ui:radio-group
   ```
 </ComponentExample>
 
-#### Layout of `RadioGroupItem`
-
-`RadioGroup`은 여러 옵션 중 하나만 선택할 수 있는 컴포넌트입니다. 각 옵션은 `RadioGroupItem`으로 구성됩니다.
-
-`RadioGroup`은 기본적으로 레이아웃을 제공하지 않습니다. `HStack` 또는 `VStack`과 같은 레이아웃 컴포넌트와 함께 사용해야 합니다.
-
-```tsx
-import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
-
-function HorizontalRadioGroup() {
-  const [value, setValue] = useState("option1");
-
-  return (
-    <RadioGroup value={value} onValueChange={setValue} aria-label="Options">
-      <HStack gap="x3">
-        <RadioGroupItem value="option1" label="첫 번째 옵션" />
-        <RadioGroupItem value="option2" label="두 번째 옵션" />
-        <RadioGroupItem value="option3" label="세 번째 옵션" />
-      </HStack>
-    </RadioGroup>
-  );
-}
-
-function VerticalRadioGroup() {
-  const [value, setValue] = useState("option1");
-
-  return (
-    <RadioGroup value={value} onValueChange={setValue} aria-label="Options">
-      <VStack>
-        <RadioGroupItem value="option1" label="첫 번째 옵션" />
-        <RadioGroupItem value="option2" label="두 번째 옵션" />
-        <RadioGroupItem value="option3" label="세 번째 옵션" />
-      </VStack>
-    </RadioGroup>
-  );
-}
-```
-
 #### Using `Radiomark`
 
-`Radiomark`는 독립적인 라디오 마크 컴포넌트로, 커스텀 레이아웃을 위해 사용할 수 있습니다.
+`Radiomark`는 독립적인 라디오 마크 컴포넌트로, Radio Group Primitive 컴포넌트와 조합하여 커스텀 레이아웃을 위해 사용할 수 있습니다.
 
 <ComponentExample name="react/radio-group/radiomark">
   ```json doc-gen:file
   {
     "file": "examples/react/radio-group/radiomark.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### RadioGroupField Integration
+
+`label`, `description`, `errorMessage` 등의 RadioGroupField 관련 prop을 사용할 수 있습니다.
+
+<ComponentExample name="react/radio-group/radio-group-field">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/radio-group/radio-group-field.tsx",
     "codeblock": true
   }
   ```

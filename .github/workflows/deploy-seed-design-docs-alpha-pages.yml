@@ -1,0 +1,157 @@
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+      - "!dev" # V3 deployment; remove this when V3 is stable
+    paths:
+      - "docs/**"
+      - "packages/css/**"
+      - "packages/react/**"
+      - "packages/stackflow/**"
+      - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
+  workflow_dispatch:
+    inputs:
+      skip-figma-cache:
+        description: "Skip Figma image cache (fetch fresh images)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
+  FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
+
+name: deploy-seed-design-docs-alpha-pages
+
+jobs:
+  deploy:
+    name: deploy-seed-design-docs-alpha-pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.8"
+
+      - name: Restore Figma image cache
+        if: ${{ !inputs.skip-figma-cache }}
+        uses: actions/cache@v5
+        with:
+          path: docs/.cache/figma-image
+          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/**/*.mdx') }}
+          restore-keys: |
+            ${{ runner.os }}-figma-images-
+
+      - name: Restore Next.js cache
+        uses: actions/cache@v5
+        with:
+          path: docs/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Packages
+        run: bun packages:build && bun rootage:build
+
+      - name: Build Docs
+        working-directory: ./docs
+        env:
+          FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
+        run: |
+          bun run build
+
+      - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Alpha)
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: "4.45.3"
+          command: pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+
+      - name: Find related PR
+        id: pr
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            if (!context.ref.startsWith('refs/heads/')) {
+              core.setOutput('number', '');
+              return;
+            }
+
+            const branch = context.ref.replace('refs/heads/', '');
+            const pulls = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              head: `${owner}:${branch}`,
+              per_page: 1,
+            });
+
+            core.setOutput('number', pulls.data[0] ? String(pulls.data[0].number) : '');
+
+      - name: Upsert PR preview comment
+        if: ${{ steps.pr.outputs.number != '' }}
+        uses: actions/github-script@v8
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+          PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = Number(process.env.PR_NUMBER);
+            const marker = '<!-- seed-design-preview:docs-alpha -->';
+            const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
+            const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
+
+            const body = [
+              marker,
+              '## Alpha Preview (Docs)',
+              '',
+              `- Branch Preview URL: ${aliasUrl || '(not available)'}`,
+              `- Preview URL: ${deploymentUrl || '(not available)'}`,
+              `- Commit: \`${context.sha.slice(0, 7)}\``,
+            ].join('\n');
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((comment) =>
+              comment.user?.type === 'Bot' &&
+              comment.body?.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+            }

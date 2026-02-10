@@ -1,8 +1,8 @@
 export declare const metadata: {
-  "name": "🟢Scroll Fog",
-  "key": "72c92c1dcd91ee8540044e7b4a09e604dab02a91",
+  "name": "🟢 Scroll Fog",
+  "key": "9813f4bd584a00efd7a3a48ecdd03341f127c692",
   "componentPropertyDefinitions": {
-    "placement": {
+    "Placement": {
       "type": "VARIANT",
       "defaultValue": "Left",
       "variantOptions": [

@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "iOS.LiveAcitivityScreen (Figma-Only)",
-  "key": "10fc092f2de21e8daba97bbc3cc28eec837e3f50",
+  "key": "3d7ff6cf68e769096237bcc0122be08caf8b6ce4",
   "componentPropertyDefinitions": {
     "Type": {
       "type": "VARIANT",

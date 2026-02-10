@@ -5,21 +5,12 @@ import type {
   FieldIndicatorProperties,
 } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { match } from "ts-pattern";
 import { findAllInstances } from "@/utils/figma-node";
 import { camelCase } from "change-case";
-
-const FIELD_HEADER_KEY = "84fe2e479c3291177662e41c71af29716e48789b";
-const FIELD_INDICATOR_KEY = "a0a170973212ea0cd952b45a8acb11a92561f402";
-const FIELD_FOOTER_KEY = "ab528f3b51a6dc529bb144de1495b07deef77ffa";
-const FIELD_CHARACTER_COUNT_KEY = "25dd9a96f4bf3b866b8713f6d8deec370eebfa72";
-
-export const FIELD_KEYS = {
-  HEADER: FIELD_HEADER_KEY,
-  FOOTER: FIELD_FOOTER_KEY,
-};
 
 export type FieldHeaderProps = FieldIndicatorProps & {
   label?: string;
@@ -32,22 +23,25 @@ export type FieldHeaderProps = FieldIndicatorProps & {
 export const createFieldHeaderHandler = (ctx: ComponentHandlerDeps) => {
   const indicatorHandler = createFieldIndicatorHandler(ctx);
 
-  return defineComponentHandler<FieldHeaderProperties>(FIELD_HEADER_KEY, (node, traverse) => {
-    const { componentProperties: props } = node;
+  return defineComponentHandler<FieldHeaderProperties>(
+    metadata.componentFieldHeader.key,
+    (node, traverse) => {
+      const { componentProperties: props } = node;
 
-    const [indicator] = findAllInstances<FieldIndicatorProperties>({
-      node,
-      key: FIELD_INDICATOR_KEY,
-    });
+      const [indicator] = findAllInstances<FieldIndicatorProperties>({
+        node,
+        key: indicatorHandler.key,
+      });
 
-    // only returns some nice common props for Slider, TextField and more
-    return createSeedReactElement("__FieldHeader__", {
-      label: props["Label#34796:0"].value,
-      labelWeight: camelCase(props.Weight.value),
-      ...(indicator &&
-        (indicatorHandler.transform(indicator, traverse).props as FieldIndicatorProps)),
-    } satisfies FieldHeaderProps);
-  });
+      // only returns some nice common props for Slider, TextField and more
+      return createSeedReactElement("__FieldHeader__", {
+        label: props["Label#34796:0"].value,
+        labelWeight: camelCase(props.Weight.value),
+        ...(indicator &&
+          (indicatorHandler.transform(indicator, traverse).props as FieldIndicatorProps)),
+      } satisfies FieldHeaderProps);
+    },
+  );
 };
 
 type FieldIndicatorProps = {
@@ -61,7 +55,7 @@ type FieldIndicatorProps = {
  */
 const createFieldIndicatorHandler = (_ctx: ComponentHandlerDeps) => {
   return defineComponentHandler<FieldIndicatorProperties>(
-    FIELD_INDICATOR_KEY,
+    metadata.privateComponentFieldHeaderIndicator.key,
     ({ componentProperties: props }) => {
       const { required, showRequiredIndicator, indicator } = match(props.Type.value)
         .with("Required Mark", () => ({
@@ -99,52 +93,55 @@ export type FieldFooterProps = FieldCharacterCountProps & {
 export const createFieldFooterHandler = (ctx: ComponentHandlerDeps) => {
   const characterCountHandler = createFieldCharacterCountHandler(ctx);
 
-  return defineComponentHandler<FieldFooterProperties>(FIELD_FOOTER_KEY, (node, traverse) => {
-    const { componentProperties: props } = node;
+  return defineComponentHandler<FieldFooterProperties>(
+    metadata.componentFieldFooter.key,
+    (node, traverse) => {
+      const { componentProperties: props } = node;
 
-    const { description, maxGraphemeCount } = match(props.Type.value)
-      .with("Description", () => ({
-        description: props["Text#2770:0"].value,
-        maxGraphemeCount: undefined,
-      }))
-      .with("Description With Character Count", () => ({
-        description: props["Text#2770:0"].value,
-        maxGraphemeCount: undefined,
-      }))
-      .with("Character Count", () => {
-        const [characterCount] = findAllInstances<FieldCharacterCountProperties>({
-          node,
-          key: FIELD_CHARACTER_COUNT_KEY,
-        });
+      const { description, maxGraphemeCount } = match(props.Type.value)
+        .with("Description", () => ({
+          description: props["Text#2770:0"].value,
+          maxGraphemeCount: undefined,
+        }))
+        .with("Description With Character Count", () => ({
+          description: props["Text#2770:0"].value,
+          maxGraphemeCount: undefined,
+        }))
+        .with("Character Count", () => {
+          const [characterCount] = findAllInstances<FieldCharacterCountProperties>({
+            node,
+            key: characterCountHandler.key,
+          });
 
-        return {
-          description: undefined,
-          ...(characterCount &&
-            (characterCountHandler.transform(characterCount, traverse)
-              .props as FieldCharacterCountProps)),
-        };
-      })
-      .exhaustive();
+          return {
+            description: undefined,
+            ...(characterCount &&
+              (characterCountHandler.transform(characterCount, traverse)
+                .props as FieldCharacterCountProps)),
+          };
+        })
+        .exhaustive();
 
-    const { errorMessage, invalid } = match(props.Error.value === "true")
-      .with(true, () => ({
-        invalid: true,
-        errorMessage: props["Error Text#32821:0"].value,
-      }))
-      .with(false, () => ({
-        invalid: undefined,
-        errorMessage: undefined,
-      }))
-      .exhaustive();
+      const { errorMessage, invalid } = match(props.Error.value === "true")
+        .with(true, () => ({
+          invalid: true,
+          errorMessage: props["Error Text#32821:0"].value,
+        }))
+        .with(false, () => ({
+          invalid: undefined,
+          errorMessage: undefined,
+        }))
+        .exhaustive();
 
-    // only returns some nice common props for Slider, TextField and more
-    return createSeedReactElement("__FieldFooter__", {
-      description,
-      maxGraphemeCount,
-      invalid,
-      errorMessage,
-    } satisfies FieldFooterProps);
-  });
+      // only returns some nice common props for Slider, TextField and more
+      return createSeedReactElement("__FieldFooter__", {
+        description,
+        maxGraphemeCount,
+        invalid,
+        errorMessage,
+      } satisfies FieldFooterProps);
+    },
+  );
 };
 
 type FieldCharacterCountProps = {
@@ -156,7 +153,7 @@ type FieldCharacterCountProps = {
  */
 const createFieldCharacterCountHandler = (_ctx: ComponentHandlerDeps) => {
   return defineComponentHandler<FieldCharacterCountProperties>(
-    FIELD_CHARACTER_COUNT_KEY,
+    metadata.privateComponentFieldFooterCharacterCount.key,
     ({ componentProperties: props }) => {
       // only returns some nice common props for Slider, TextField and more
       return createSeedReactElement("__FieldCharacterCount__", {

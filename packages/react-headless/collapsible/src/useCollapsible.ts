@@ -45,7 +45,7 @@ export function useCollapsible(props: UseCollapsibleProps) {
     const updateHeight = () => {
       if (!contentRef.current) return;
 
-      setHeight(contentRef.current.offsetHeight);
+      setHeight(contentRef.current.scrollHeight);
     };
 
     updateHeight();
@@ -54,7 +54,7 @@ export function useCollapsible(props: UseCollapsibleProps) {
     observer.observe(contentRef.current);
 
     return () => observer.disconnect();
-  }, []);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;

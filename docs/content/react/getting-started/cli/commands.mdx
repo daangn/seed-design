@@ -3,7 +3,6 @@ title: Commands
 description: "@seed-design/cli 패키지를 사용하여 seed-design을 더 쉽게 사용할 수 있습니다."
 ---
 
-
 ## init
 
 `seed-design.json` 파일을 생성하기 위한 명령어입니다.
@@ -28,6 +27,7 @@ npx @seed-design/cli@latest init
 <Step>
 
 ### seed-design 설정
+
 ```sh
 ◇  TypeScript를 사용중이신가요?
 │  Yes
@@ -38,6 +38,7 @@ npx @seed-design/cli@latest init
 ◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
 │  ./seed-design
 ```
+
 </Step>
 </Steps>
 
@@ -49,8 +50,8 @@ Usage:
 
 Options:
   -c, --cwd <cwd>  작업 디렉토리. 기본값은 현재 디렉토리.
-  -y, --yes        모든 질문에 대해 기본값으로 답변합니다. 
-  -h, --help       Display this message 
+  -y, --yes        모든 질문에 대해 기본값으로 답변합니다.
+  -h, --help       Display this message
 ```
 
 ## add
@@ -106,6 +107,22 @@ Options:
   -h, --help               Display this message
 ```
 
+### baseUrl 사용하기
+
+`--baseUrl` 옵션을 사용하면 스니펫을 다운로드할 레지스트리를 직접 지정할 수 있습니다.
+
+기본값은 [`https://seed-design.io`](https://seed-design.io)입니다.
+
+이 옵션은 특정 SEED React 패키지와 호환되는 스니펫이 필요한 경우 활용할 수 있습니다.
+
+```package-install
+npx @seed-design/cli@latest add --baseUrl https://1-0.seed-design.pages.dev
+```
+
+```package-install
+npx @seed-design/cli@latest add --baseUrl https://1-1.seed-design.pages.dev
+```
+
 ## add-all
 
 레지스트리의 모든 항목을 한 번에 다운로드받기 위한 명령어입니다.
@@ -146,4 +163,3 @@ Options:
   --overwrite              기존 파일을 확인 없이 덮어쓰기
   -h, --help               Display this message
 ```
-

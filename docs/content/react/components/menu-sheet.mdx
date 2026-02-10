@@ -134,6 +134,31 @@ npx @seed-design/cli@latest add ui:menu-sheet
   ```
 </ComponentExample>
 
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**열릴 때** (`open: true`)
+
+- `"trigger"`: `MenuSheetTrigger` (`MenuSheet.Trigger`)로 열림
+
+**닫힐 때** (`open: false`)
+
+- `"closeButton"`: `MenuSheet.CloseButton`으로 닫힘
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+
+<ComponentExample name="react/menu-sheet/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu-sheet/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Skip Animation
 
 `skipAnimation` prop을 사용하여 MenuSheet의 enter/exit 애니메이션을 건너뛸 수 있습니다.

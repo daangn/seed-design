@@ -8,7 +8,7 @@ import { camelCase } from "change-case";
 
 export const createDividerHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<DividerProperties>(
-    metadata.divider.key,
+    metadata.componentDivider.key,
     ({ componentProperties: props }) => {
       const { color } = match(props.Tone.value)
         .with("Neutral Muted", () => ({ color: "stroke.neutralMuted" }))

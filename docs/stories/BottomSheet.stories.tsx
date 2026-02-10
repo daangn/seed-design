@@ -5,17 +5,17 @@ import {
   bottomSheetVariantMap,
   type BottomSheetVariantProps,
 } from "@seed-design/css/recipes/bottom-sheet";
-import {
-  BottomSheetRoot,
-  BottomSheetContent,
-  BottomSheetBody,
-  BottomSheetFooter,
-} from "seed-design/ui/bottom-sheet";
+import { Box, Text } from "@seed-design/react";
+import type { ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
+import {
+  BottomSheetBody,
+  BottomSheetContent,
+  BottomSheetFooter,
+  BottomSheetRoot,
+} from "seed-design/ui/bottom-sheet";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { Box, Flex, Text, VStack } from "@seed-design/react";
-import type { ReactNode } from "react";
 
 const BottomSheetPreview = ({
   headerAlign,

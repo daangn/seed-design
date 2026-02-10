@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🟢 Tag Group",
-  "key": "30d4c37f3bc5f292633cf0aba9a0b640d31ec301",
+  "key": "6d31f7b7781868a3fa38c68050bd975cb71b53c0",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",

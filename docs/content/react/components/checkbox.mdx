@@ -22,6 +22,10 @@ npx @seed-design/cli@latest add ui:checkbox
 
 ## Props
 
+### `CheckboxGroup`
+
+<react-type-table path="./registry/ui/checkbox.tsx" name="CheckboxGroupProps" />
+
 ### `Checkbox`
 
 <react-type-table path="./registry/ui/checkbox.tsx" name="CheckboxProps" />
@@ -81,7 +85,8 @@ npx @seed-design/cli@latest add ui:checkbox
 ### Weights
 
 <Callout title="Deprecated Props" type="warning">
-  `weight="default"`와 `weight="stronger"`는 더 이상 사용되지 않습니다. 대신 `weight="regular"`와 `weight="bold"`를 사용하세요.
+  `weight="default"`와 `weight="stronger"`는 더 이상 사용되지 않습니다. 대신
+  `weight="regular"`와 `weight="bold"`를 사용하세요.
 </Callout>
 
 <ComponentExample name="react/checkbox/weights">
@@ -145,12 +150,25 @@ npx @seed-design/cli@latest add ui:checkbox
 
 #### Using `Checkmark`
 
-`Checkmark`는 독립적인 체크 마크 컴포넌트로, 커스텀 레이아웃을 위해 사용할 수 있습니다.
+`Checkmark`는 독립적인 체크 마크 컴포넌트로, Checkbox Primitive 컴포넌트와 조합하여 커스텀 레이아웃을 위해 사용할 수 있습니다.
 
 <ComponentExample name="react/checkbox/checkmark">
   ```json doc-gen:file
   {
     "file": "examples/react/checkbox/checkmark.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Fieldset Integration
+
+`CheckboxGroup`을 사용하여 여러 체크박스를 그룹화하고 `label`, `description`, `errorMessage` 등의 Fieldset 관련 prop을 사용할 수 있습니다.
+
+<ComponentExample name="react/checkbox/fieldset">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/checkbox/fieldset.tsx",
     "codeblock": true
   }
   ```

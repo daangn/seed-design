@@ -1,3 +1,7 @@
+/**
+ * @deprecated Use `@seed-design/react-image` instead.
+ * @see https://seed-design.io/docs/react/components/image
+ */
 "use client";
 
 import { composeRefs } from "@radix-ui/react-compose-refs";

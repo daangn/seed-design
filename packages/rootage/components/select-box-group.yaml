@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: select-box-group
+  name: Select Box Group
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gapX:
+            type: dimension
+          gapY:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          gapX: $dimension.x3
+          gapY: $dimension.spacing-y.component-default

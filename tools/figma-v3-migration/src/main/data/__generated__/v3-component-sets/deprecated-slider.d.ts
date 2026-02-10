@@ -1,6 +1,6 @@
 export declare const metadata: {
   "name": "🚫 [Deprecated] Slider",
-  "key": "aee027230a478315e380704c4523141e67e464ee",
+  "key": "c103c0a6ec25de57bb41eb820648a467afc5788e",
   "componentPropertyDefinitions": {
     "Steps": {
       "type": "VARIANT",

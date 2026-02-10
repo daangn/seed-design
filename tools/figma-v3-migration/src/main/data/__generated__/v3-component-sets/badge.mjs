@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Badge",
-  "key": "04609a35d47a1a0ef4904b3c25f79451892a85a1",
+  "key": "56e8fb298b4b79ba4f1a702d4b834e6ed1051481",
   "componentPropertyDefinitions": {
     "Label#1584:0": {
       "type": "TEXT",

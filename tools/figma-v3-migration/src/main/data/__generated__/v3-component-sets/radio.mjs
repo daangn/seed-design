@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Radio",
-  "key": "ac72d9e5ab04a1d59eaf77dffd380fd6e491ecf8",
+  "key": "51d7c6ecc2884252cdd982269e7cfafd1f4b746b",
   "componentPropertyDefinitions": {
     "Label#49990:171": {
       "type": "TEXT",

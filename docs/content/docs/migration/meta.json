@@ -2,5 +2,5 @@
   "title": "Migration",
   "description": "마이그레이션",
   "defaultOpen": true,
-  "pages": ["migration-reference"]
+  "pages": ["deprecations", "migration-reference"]
 }

@@ -15,14 +15,14 @@ export async function writeRegistryItemSnippets({
   cwd,
   baseUrl,
   config,
-  overwrite = false,
+  onDiff,
 }: {
   registryItemsToAdd: { registryId: string; items: PublicRegistry["items"] }[];
   rootPath: string;
   cwd: string;
   baseUrl: string;
   config: Config;
-  overwrite?: boolean;
+  onDiff?: "overwrite" | "backup";
 }) {
   const registryResult: { name: string; path: string }[] = [];
 
@@ -74,9 +74,17 @@ export async function writeRegistryItemSnippets({
             continue;
           }
 
+          const filename = path.basename(filePath);
+          const ext = path.extname(filePath);
+          const base = path.basename(filePath, ext);
+          const timestamp = Date.now();
+          const legacyFilename = `legacy-${base}-${timestamp}${ext}`;
+
           // diff가 있는 경우
-          if (!overwrite) {
-            // diff 생성 및 색상 적용
+          const action = await (async () => {
+            if (onDiff) return onDiff;
+
+            // interactive mode
             const patch = createPatch(relativePath, existingContent, content);
             const coloredDiff = colorize(patch);
 
@@ -85,13 +93,7 @@ export async function writeRegistryItemSnippets({
             );
             p.log.message(coloredDiff);
 
-            const filename = path.basename(filePath);
-            const ext = path.extname(filePath);
-            const base = path.basename(filePath, ext);
-            const timestamp = Date.now();
-            const legacyFilename = `legacy-${base}-${timestamp}${ext}`;
-
-            const action = await p.select({
+            return p.select({
               message:
                 "현재 파일에 스타일 변경, 로깅 등 커스터마이징이 적용되어 있는 경우 신규 파일에 동일한 커스터마이징을 적용하는 것을 검토해보세요.",
               options: [
@@ -103,20 +105,20 @@ export async function writeRegistryItemSnippets({
                 { value: "skip", label: "새 파일 받지 않고 그대로 두기" },
               ],
             });
+          })();
 
-            if (p.isCancel(action) || action === "skip") {
-              p.log.info(`${highlight(relativePath)}: 파일을 받지 않고 건너뛰었어요.`);
-              continue;
-            }
+          if (p.isCancel(action) || action === "skip") {
+            p.log.info(`${highlight(relativePath)}: 파일을 받지 않고 건너뛰었어요.`);
+            continue;
+          }
 
-            if (action === "backup") {
-              const dir = path.dirname(filePath);
-              const legacyPath = path.join(dir, legacyFilename);
-              await fs.rename(filePath, legacyPath);
-              p.log.info(
-                `${highlight(relativePath)}: 기존 파일을 ${highlight(path.relative(cwd, legacyPath))}로 옮겼어요.`,
-              );
-            }
+          if (action === "backup") {
+            const dir = path.dirname(filePath);
+            const legacyPath = path.join(dir, legacyFilename);
+            await fs.rename(filePath, legacyPath);
+            p.log.info(
+              `${highlight(relativePath)}: 기존 파일을 ${highlight(path.relative(cwd, legacyPath))}로 옮겼어요.`,
+            );
           }
         }
 

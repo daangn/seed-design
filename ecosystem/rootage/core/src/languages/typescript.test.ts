@@ -1,4 +1,4 @@
-import { describe, expect, it, test } from "vitest";
+import { describe, expect, it, test } from "bun:test";
 import YAML from "yaml";
 import { Authoring } from "../parser";
 import { createStringifier } from "./typescript";
@@ -64,13 +64,17 @@ describe("getTokenMjs", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export * as palette from "./palette.mjs";
-      export * as bg from "./bg.mjs";",
+          "code": 
+      "export * as palette from "./palette.mjs";
+      export * as bg from "./bg.mjs";"
+      ,
           "path": "color/index.mjs",
         },
         {
-          "code": "export const gray00 = "var(--test-color-palette-gray-00)";
-      export const gray100 = "var(--test-color-palette-gray-100)";",
+          "code": 
+      "export const gray00 = "var(--test-color-palette-gray-00)";
+      export const gray100 = "var(--test-color-palette-gray-100)";"
+      ,
           "path": "color/palette.mjs",
         },
         {
@@ -121,15 +125,19 @@ describe("getTokenMjs", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export const s1_5 = "var(--test-dimension-s1_5)";
+          "code": 
+      "export const s1_5 = "var(--test-dimension-s1_5)";
 
-      export * as spacingX from "./spacing-x/index.mjs";",
+      export * as spacingX from "./spacing-x/index.mjs";"
+      ,
           "path": "dimension/index.mjs",
         },
         {
-          "code": "export const default = "var(--test-dimension-spacing-x-default)";
+          "code": 
+      "export const default = "var(--test-dimension-spacing-x-default)";
 
-      export * as test from "./test.mjs";",
+      export * as test from "./test.mjs";"
+      ,
           "path": "dimension/spacing-x/index.mjs",
         },
         {
@@ -198,13 +206,17 @@ describe("getTokenDts", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export * as palette from "./palette";
-      export * as bg from "./bg";",
+          "code": 
+      "export * as palette from "./palette";
+      export * as bg from "./bg";"
+      ,
           "path": "color/index.d.ts",
         },
         {
-          "code": "export declare const gray00 = "var(--test-color-palette-gray-00)";
-      export declare const gray100 = "var(--test-color-palette-gray-100)";",
+          "code": 
+      "export declare const gray00 = "var(--test-color-palette-gray-00)";
+      export declare const gray100 = "var(--test-color-palette-gray-100)";"
+      ,
           "path": "color/palette.d.ts",
         },
         {
@@ -250,9 +262,11 @@ describe("getTokenDts", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export declare const s1_5 = "var(--test-dimension-s1_5)";
+          "code": 
+      "export declare const s1_5 = "var(--test-dimension-s1_5)";
 
-      export * as spacingX from "./spacing-x";",
+      export * as spacingX from "./spacing-x";"
+      ,
           "path": "dimension/index.d.ts",
         },
         {
@@ -505,9 +519,11 @@ test("getTokenDts should generate JSDoc for token descriptions", () => {
         "path": "color/index.d.ts",
       },
       {
-        "code": "/** Brand background color */
+        "code": 
+    "/** Brand background color */
     export declare const brand = "var(--test-color-bg-brand)";
-    export declare const neutral = "var(--test-color-bg-neutral)";",
+    export declare const neutral = "var(--test-color-bg-neutral)";"
+    ,
         "path": "color/bg.d.ts",
       },
     ]

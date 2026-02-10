@@ -24,6 +24,35 @@ export type ComponentInstances = {
   [newComponentName: string]: CapturedInstance[];
 };
 
+function findFirstImagePaintNode(node: SceneNode): SceneNode | null {
+  if ("fills" in node && node.fills !== figma.mixed) {
+    const fills = node.fills;
+    if (fills.some((paint) => paint.type === "IMAGE")) {
+      return node;
+    }
+  }
+
+  if ("children" in node) {
+    for (const child of node.children) {
+      const found = findFirstImagePaintNode(child);
+      if (found) return found;
+    }
+  }
+
+  return null;
+}
+
+function getImagePaints(node: SceneNode): Paint[] | null {
+  const imageNode = findFirstImagePaintNode(node);
+  if (!imageNode || !("fills" in imageNode)) return null;
+
+  const fills = imageNode.fills;
+  if (fills === figma.mixed) return null;
+  if (!fills.some((paint) => paint.type === "IMAGE")) return null;
+
+  return fills.map((paint) => ({ ...paint }));
+}
+
 // 컴포넌트의 구조를 캡처
 function captureInstances(
   node: SceneNode,
@@ -220,6 +249,8 @@ export async function swapComponent(
     }
 
     const capturedInstances = captureInstances(oldInstance, mapping.childrenMappings ?? []);
+    const oldImagePaints =
+      mapping.newComponent === "Image Frame" ? getImagePaints(oldInstance) : null;
 
     // 새 컴포넌트 정보 찾기
     const newComponentInfo = Object.values(newComponents).find(
@@ -336,6 +367,13 @@ export async function swapComponent(
     // 컴포넌트 교체 및 프로퍼티 적용
     oldInstance.swapComponent(newComponent);
     oldInstance.setProperties(newProperties);
+
+    if (oldImagePaints) {
+      const newImageNode = findFirstImagePaintNode(oldInstance);
+      if (newImageNode && "fills" in newImageNode && newImageNode.fills !== figma.mixed) {
+        newImageNode.fills = oldImagePaints;
+      }
+    }
 
     const childrenMappings = mapping.childrenMappings;
     if (childrenMappings) {

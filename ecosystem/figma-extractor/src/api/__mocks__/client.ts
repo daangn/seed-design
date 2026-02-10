@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { mock } from "bun:test";
 import path from "path";
 import fs from "fs-extra";
 import { fileURLToPath } from "url";
@@ -6,15 +6,15 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const fixturesDir = path.join(__dirname, "../../test/fixtures");
 
-export const createApiClient = vi.fn(() => {
+export const createApiClient = mock(() => {
   return {
-    getFileComponents: vi.fn(async () => {
+    getFileComponents: mock(async () => {
       return await fs.readJson(path.join(fixturesDir, "file-components.json"));
     }),
-    getFileComponentSets: vi.fn(async () => {
+    getFileComponentSets: mock(async () => {
       return await fs.readJson(path.join(fixturesDir, "file-component-sets.json"));
     }),
-    getFileNodes: vi.fn(async (_, { ids }: { ids: string }) => {
+    getFileNodes: mock(async (_, { ids }: { ids: string }) => {
       const componentNodesData = await fs.readJson(path.join(fixturesDir, "component-nodes.json"));
       const componentSetNodesData = await fs.readJson(
         path.join(fixturesDir, "component-set-nodes.json"),
@@ -36,10 +36,10 @@ export const createApiClient = vi.fn(() => {
 
       return { nodes: filteredNodes };
     }),
-    getFileStyles: vi.fn(async () => {
+    getFileStyles: mock(async () => {
       return await fs.readJson(path.join(fixturesDir, "file-styles.json"));
     }),
-    getLocalVariables: vi.fn(async () => {
+    getLocalVariables: mock(async () => {
       return await fs.readJson(path.join(fixturesDir, "file-variables.json"));
     }),
   };

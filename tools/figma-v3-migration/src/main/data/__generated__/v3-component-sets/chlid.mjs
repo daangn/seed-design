@@ -1,10 +1,10 @@
 export const metadata = {
   "name": "🟢 Chlid",
-  "key": "aa9ffdd60fbfdea42f0d11162cd64f4b4389ddcc",
+  "key": "ef79a21a39ceb4ce24b2fb93c9b430c1980a3e71",
   "componentPropertyDefinitions": {
     "Type": {
       "type": "VARIANT",
-      "defaultValue": "Slot",
+      "defaultValue": "Child",
       "variantOptions": [
         "Child",
         "Text",

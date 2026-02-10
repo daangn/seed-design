@@ -31,22 +31,22 @@ export default function RadioGroupReactHookForm() {
   );
 
   return (
-    <form onSubmit={handleSubmit(onValid)}>
+    <VStack p="x6" as="form" onSubmit={handleSubmit(onValid)}>
       <VStack gap="x3">
         <RadioGroup
           value={field.value}
           onValueChange={(value) => setValue("color", value as FormValues["color"])}
           aria-label="Color selection"
         >
-          <VStack>
-            {POSSIBLE_COLORS.map((color) => (
-              <RadioGroupItem
-                key={color}
-                value={color}
-                label={color.charAt(0).toUpperCase() + color.slice(1)}
-              />
-            ))}
-          </VStack>
+          {POSSIBLE_COLORS.map((color) => (
+            <RadioGroupItem
+              key={color}
+              value={color}
+              label={color.charAt(0).toUpperCase() + color.slice(1)}
+              tone="neutral"
+              size="large"
+            />
+          ))}
         </RadioGroup>
 
         <HStack gap="x3">
@@ -58,6 +58,6 @@ export default function RadioGroupReactHookForm() {
           </ActionButton>
         </HStack>
       </VStack>
-    </form>
+    </VStack>
   );
 }

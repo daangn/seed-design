@@ -1,9 +1,18 @@
 import type { Api as figma } from "figma-api";
 import type { WriterContext } from "../cli/write";
+import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 
 export interface PipelineContext extends WriterContext {
   api: figma;
   fileKey: string;
+  /**
+   * Fetch multiple nodes by ID with automatic chunking (500 per request)
+   * Useful for custom sources that need to fetch node details
+   */
+  fetchNodes: (params: {
+    fileKey: string;
+    nodeIds: string[];
+  }) => Promise<NonNullable<GetFileNodesResponse["nodes"][string]>[]>;
 }
 
 export interface Pipeline {

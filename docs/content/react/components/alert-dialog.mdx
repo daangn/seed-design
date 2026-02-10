@@ -149,6 +149,45 @@ Trigger 외의 방식으로 AlertDialog를 열고 닫을 수 있습니다. 이 �
   ```
 </ComponentExample>
 
+### Prevent Close
+
+`AlertDialogAction`의 `onClick`에서 `e.preventDefault()`를 호출하면 다이얼로그가 닫히지 않습니다.
+
+<ComponentExample name="react/alert-dialog/prevent-close">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/alert-dialog/prevent-close.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**열릴 때** (`open: true`)
+
+- `"trigger"`: `AlertDialogTrigger` (`Dialog.Trigger`)로 열림
+
+**닫힐 때** (`open: false`)
+
+- `"closeButton"`: `AlertDialogAction`으로 닫힘
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+  - `AlertDialogRoot`는 기본적으로 `closeOnInteractOutside={false}`입니다. `interactOutside`는 이 옵션을 `true`로 설정한 경우에만 발생할 수 있습니다.
+
+<ComponentExample name="react/alert-dialog/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/alert-dialog/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Portalled
 
 Portal은 기본적으로 `document.body`에 렌더링됩니다.

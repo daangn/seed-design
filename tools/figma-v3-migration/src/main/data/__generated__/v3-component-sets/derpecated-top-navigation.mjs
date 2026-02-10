@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🛑 Derpecated - Top Navigation 🛑",
-  "key": "c07bfe331cf214375fce9ad47cb6fdb459d1fb1b",
+  "key": "bcecabe1f2ddcac7e8b06049d2f7d13925fa8463",
   "componentPropertyDefinitions": {
     "Show Right#18464:0": {
       "type": "BOOLEAN",

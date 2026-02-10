@@ -42,11 +42,11 @@ export const Switchmark = React.forwardRef<HTMLDivElement, SwitchmarkProps>((pro
 Switchmark.displayName = "Switchmark";
 
 /**
- * @deprecated Use `Switchmark` instead. Will be removed in next major version.
+ * @deprecated Use `Switchmark` instead. Will be removed in @seed-design/react@1.3.0.
  */
 export const SwitchMark = Switchmark;
 
 /**
- * @deprecated Use `SwitchmarkProps` instead.
+ * @deprecated Use `SwitchmarkProps` instead. Will be removed in @seed-design/react@1.3.0.
  */
 export type SwitchMarkProps = SwitchmarkProps;
