@@ -48,7 +48,7 @@
     "estree-util-value-to-estree": "^3.4.0",
     "fumadocs-core": "^16.4.3",
     "fumadocs-docgen": "^3.0.0",
-    "fumadocs-mdx": "14.2.6",
+    "fumadocs-mdx": "14.2.5",
     "fumadocs-typescript": "^5.0.0",
     "fumadocs-ui": "15.8.5",
     "hast-util-to-estree": "^3.1.3",
