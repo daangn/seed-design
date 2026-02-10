@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -43,7 +44,86 @@ jobs:
         run: bun build-storybook
 
       - name: Deploy docs at Cloudflare Pages in `seed-design-storybook` project (Alpha)
-        run: |
-          CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
-          CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
-          bun wrangler pages deploy ./docs/storybook-static --project-name=seed-design-storybook --branch=${{ github.ref_name }}
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: "4.45.3"
+          command: pages deploy ./docs/storybook-static --project-name=seed-design-storybook --branch=${{ github.ref_name }}
+
+      - name: Find related PR
+        id: pr
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            if (!context.ref.startsWith('refs/heads/')) {
+              core.setOutput('number', '');
+              return;
+            }
+
+            const branch = context.ref.replace('refs/heads/', '');
+            const pulls = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              head: `${owner}:${branch}`,
+              per_page: 1,
+            });
+
+            core.setOutput('number', pulls.data[0] ? String(pulls.data[0].number) : '');
+
+      - name: Upsert PR preview comment
+        if: ${{ steps.pr.outputs.number != '' }}
+        uses: actions/github-script@v8
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+          PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = Number(process.env.PR_NUMBER);
+            const marker = '<!-- seed-design-preview:storybook-alpha -->';
+            const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
+            const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
+            const previewUrl = aliasUrl || deploymentUrl;
+
+            const body = [
+              marker,
+              '## Alpha Preview (Storybook)',
+              '',
+              `- Preview: ${previewUrl || '(not available)'}`,
+              `- Alias: ${aliasUrl || '(not available)'}`,
+              `- Deployment: ${deploymentUrl || '(not available)'}`,
+              `- Commit: \`${context.sha.slice(0, 7)}\``,
+            ].join('\n');
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((comment) =>
+              comment.user?.type === 'Bot' &&
+              comment.body?.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+            }
