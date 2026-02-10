@@ -5,10 +5,6 @@ on:
     paths:
       - "docs/app/_llms/**/*"
       - ".github/workflows/llms-transform-test.yml"
-  pull_request:
-    paths:
-      - "docs/app/_llms/**/*"
-      - ".github/workflows/llms-transform-test.yml"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
