@@ -1,0 +1,80 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "content-placeholder",
+    "name": "Content Placeholder"
+  },
+  "data": {
+    "id": "content-placeholder",
+    "name": "Content Placeholder",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "padding": {
+              "type": "dimension"
+            }
+          }
+        },
+        "icon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "minWidth": {
+              "type": "dimension"
+            },
+            "maxWidth": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-200"
+                },
+                "padding": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-400"
+                },
+                "minWidth": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 120,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

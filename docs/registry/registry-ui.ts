@@ -183,6 +183,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "content-placeholder",
+      snippets: [
+        {
+          path: "content-placeholder.tsx",
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
+        },
+      ],
+    },
+    {
       id: "identity-placeholder",
       snippets: [
         {

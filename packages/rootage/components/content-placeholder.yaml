@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: content-placeholder
+  name: Content Placeholder
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          padding:
+            type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          minWidth:
+            type: dimension
+          maxWidth:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.palette.gray-200
+          padding: $dimension.x1
+        icon:
+          color: $color.palette.gray-400
+          minWidth: $dimension.x4
+          maxWidth: 120px

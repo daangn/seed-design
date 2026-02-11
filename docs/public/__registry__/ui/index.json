@@ -150,6 +150,17 @@
     {
       "snippets": [
         {
+          "path": "content-placeholder.tsx"
+        }
+      ],
+      "id": "content-placeholder",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "contextual-floating-button.tsx"
         }
       ],

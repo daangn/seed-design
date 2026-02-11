@@ -15,7 +15,8 @@ description: 사용자가 업로드한 이미지를 표시하기 위한 컴포�
 ## Usage
 
 ```tsx
-import { ImageFrame } from "@seed-design/react";
+import { ContentPlaceholder, ImageFrame } from "@seed-design/react";
+import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
 ```
 
 ```tsx
@@ -25,7 +26,11 @@ import { ImageFrame } from "@seed-design/react";
   stroke
   src="..."
   alt="..."
-  fallback={<Skeleton />}
+  fallback={
+    <ContentPlaceholder.Root>
+      <ContentPlaceholder.Icon svg={<IconPictureFill />} />
+    </ContentPlaceholder.Root>
+  }
 />
 ```
 
