@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: file-upload-item-remove-button
+  name: File Upload Item Remove Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          size:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          foobarWidth:
+            type: dimension
+          foobarColor:
+            type: color
+          offset:
+            type: dimension
+      icon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          size: $dimension.x5
+          # targetSize: $dimension.x5
+          cornerRadius: $radius.full
+          color: $color.bg.layer-default
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-weak
+          foobarWidth: 2px
+          foobarColor: $color.bg.layer-default
+          offset: $dimension.x1
+        icon:
+          size: $dimension.x2_5
+          color: $color.fg.neutral
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+      disabled:
+        icon:
+          color: $color.fg.disabled

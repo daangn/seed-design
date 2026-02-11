@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: file-upload
+  name: File Upload
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+      trigger:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          gap: $dimension.x2
+        trigger:
+          size: 80px
+          color: $color.bg.transparent # Figma에서 elevated 사용 중인데, 확인 필요 (없는 토큰임)
+          cornerRadius: $radius.r3
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-weak

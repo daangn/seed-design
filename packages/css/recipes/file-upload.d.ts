@@ -8,7 +8,7 @@ declare type FileUploadVariantMap = {
 
 export declare type FileUploadVariantProps = Partial<FileUploadVariant>;
 
-export declare type FileUploadSlotName = "root" | "dropzone" | "container" | "trigger" | "itemGroup" | "item" | "itemPreview" | "itemImage" | "itemName" | "itemSize" | "itemDeleteTrigger" | "clearTrigger";
+export declare type FileUploadSlotName = "root" | "dropzone" | "container" | "itemGroup";
 
 export declare const fileUploadVariantMap: FileUploadVariantMap;
 

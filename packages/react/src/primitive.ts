@@ -1,6 +1,7 @@
 export * from "@seed-design/react-avatar";
 export * from "@seed-design/react-checkbox";
 export * from "@seed-design/react-dialog";
+export * from "@seed-design/react-file-upload";
 export * from "@seed-design/react-popover";
 export * from "@seed-design/react-progress";
 export * from "@seed-design/react-pull-to-refresh";

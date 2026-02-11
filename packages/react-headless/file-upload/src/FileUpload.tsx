@@ -8,7 +8,6 @@ import { forwardRef } from "react";
 import { useFileUpload, type UseFileUploadProps } from "./useFileUpload";
 import {
   FileUploadProvider,
-  FileUploadItemProvider,
   useFileUploadContext,
   useFileUploadItemContext,
   type UseFileUploadContext,
@@ -23,55 +22,53 @@ export interface FileUploadRootProps
     PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>((props, ref) => {
-  const {
-    // UseFileUploadProps
-    accept,
-    acceptedFiles,
-    defaultAcceptedFiles,
-    disabled,
-    invalid,
-    maxFileSize,
-    maxFiles,
-    minFileSize,
-    name,
-    onFileAccept,
-    onFileChange,
-    onFileReject,
-    readOnly,
-    required,
-    allowDrop,
-    validate,
-    // Rest
-    ...otherProps
-  } = props;
+export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
+  (
+    {
+      // UseFileUploadProps
+      accept,
+      acceptedFiles,
+      defaultAcceptedFiles,
+      disabled,
+      invalid,
+      maxFileSize,
+      maxFiles,
+      minFileSize,
+      name,
+      onAcceptedFilesChange,
+      onFileReject,
+      required,
+      validate,
 
-  const api = useFileUpload({
-    accept,
-    acceptedFiles,
-    defaultAcceptedFiles,
-    disabled,
-    invalid,
-    maxFileSize,
-    maxFiles,
-    minFileSize,
-    name,
-    onFileAccept,
-    onFileChange,
-    onFileReject,
-    readOnly,
-    required,
-    allowDrop,
-    validate,
-  });
-  const mergedProps = mergeProps(api.rootProps, otherProps);
+      // Rest
+      ...otherProps
+    },
+    ref,
+  ) => {
+    const api = useFileUpload({
+      accept,
+      acceptedFiles,
+      defaultAcceptedFiles,
+      disabled,
+      invalid,
+      maxFileSize,
+      maxFiles,
+      minFileSize,
+      name,
+      onAcceptedFilesChange,
+      onFileReject,
+      required,
+      validate,
+    });
+    const mergedProps = mergeProps(api.rootProps, otherProps);
 
-  return (
-    <FileUploadProvider value={api}>
-      <Primitive.div ref={ref} {...mergedProps} />
-    </FileUploadProvider>
-  );
-});
+    return (
+      <FileUploadProvider value={api}>
+        <Primitive.div ref={ref} {...mergedProps} />
+      </FileUploadProvider>
+    );
+  },
+);
 FileUploadRoot.displayName = "FileUploadRoot";
 
 // =============================================================================
@@ -86,6 +83,7 @@ export const FileUploadDropzone = forwardRef<HTMLDivElement, FileUploadDropzoneP
   (props, ref) => {
     const { dropzoneProps } = useFileUploadContext();
     const mergedProps = mergeProps(dropzoneProps, props);
+
     return <Primitive.div ref={ref} {...mergedProps} />;
   },
 );
@@ -103,6 +101,7 @@ export const FileUploadTrigger = forwardRef<HTMLButtonElement, FileUploadTrigger
   (props, ref) => {
     const { triggerProps } = useFileUploadContext();
     const mergedProps = mergeProps(triggerProps, props);
+
     return <Primitive.button ref={ref} {...mergedProps} />;
   },
 );
@@ -120,36 +119,11 @@ export const FileUploadHiddenInput = forwardRef<HTMLInputElement, FileUploadHidd
   (props, ref) => {
     const { inputRef, hiddenInputProps } = useFileUploadContext();
     const mergedProps = mergeProps(hiddenInputProps, props);
+
     return <Primitive.input ref={composeRefs(inputRef, ref)} {...mergedProps} />;
   },
 );
 FileUploadHiddenInput.displayName = "FileUploadHiddenInput";
-
-// =============================================================================
-// FileUploadItem
-// =============================================================================
-
-export interface FileUploadItemProps extends PrimitiveProps, React.LiHTMLAttributes<HTMLLIElement> {
-  file: File;
-}
-
-export const FileUploadItem = forwardRef<HTMLLIElement, FileUploadItemProps>(
-  ({ file, ...props }, ref) => {
-    const { getItemProps, acceptedFiles } = useFileUploadContext();
-    const mergedProps = mergeProps(getItemProps(file), props);
-
-    // Find the details for this file from acceptedFiles
-    const fileWithStatus = acceptedFiles.find((f) => f.file === file);
-    const details = fileWithStatus?.details ?? { status: "pending" as const };
-
-    return (
-      <FileUploadItemProvider value={{ file, details }}>
-        <Primitive.li ref={ref} {...mergedProps} />
-      </FileUploadItemProvider>
-    );
-  },
-);
-FileUploadItem.displayName = "FileUploadItem";
 
 // =============================================================================
 // FileUploadItemName
@@ -165,6 +139,7 @@ export const FileUploadItemName = forwardRef<HTMLSpanElement, FileUploadItemName
     const { file } = useFileUploadItemContext();
 
     const mergedProps = mergeProps(stateProps, props);
+
     return (
       <Primitive.span ref={ref} {...mergedProps}>
         {children ?? file.name}
@@ -175,10 +150,10 @@ export const FileUploadItemName = forwardRef<HTMLSpanElement, FileUploadItemName
 FileUploadItemName.displayName = "FileUploadItemName";
 
 // =============================================================================
-// FileUploadItemSizeText
+// FileUploadItemSize
 // =============================================================================
 
-export interface FileUploadItemSizeTextProps
+export interface FileUploadItemSizeProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {
   /**
@@ -187,7 +162,7 @@ export interface FileUploadItemSizeTextProps
   formatBytes: (bytes: number) => string;
 }
 
-export const FileUploadItemSizeText = forwardRef<HTMLSpanElement, FileUploadItemSizeTextProps>(
+export const FileUploadItemSize = forwardRef<HTMLSpanElement, FileUploadItemSizeProps>(
   ({ children, formatBytes, ...props }, ref) => {
     const { stateProps } = useFileUploadContext();
     const { file } = useFileUploadItemContext();
@@ -201,52 +176,28 @@ export const FileUploadItemSizeText = forwardRef<HTMLSpanElement, FileUploadItem
     );
   },
 );
-FileUploadItemSizeText.displayName = "FileUploadItemSizeText";
+FileUploadItemSize.displayName = "FileUploadItemSize";
 
 // =============================================================================
-// FileUploadItemDeleteTrigger
+// FileUploadItemRemoveButton
 // =============================================================================
 
-export interface FileUploadItemDeleteTriggerProps
+export interface FileUploadItemRemoveButtonProps
   extends PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const FileUploadItemDeleteTrigger = forwardRef<
+export const FileUploadItemRemoveButton = forwardRef<
   HTMLButtonElement,
-  FileUploadItemDeleteTriggerProps
+  FileUploadItemRemoveButtonProps
 >((props, ref) => {
-  const { getItemDeleteTriggerProps } = useFileUploadContext();
+  const { getItemRemoveButtonProps } = useFileUploadContext();
   const { file } = useFileUploadItemContext();
 
-  const mergedProps = mergeProps(getItemDeleteTriggerProps(file), props);
+  const mergedProps = mergeProps(getItemRemoveButtonProps(file), props);
+
   return <Primitive.button ref={ref} {...mergedProps} />;
 });
-FileUploadItemDeleteTrigger.displayName = "FileUploadItemDeleteTrigger";
-
-// =============================================================================
-// FileUploadClearTrigger
-// =============================================================================
-
-export interface FileUploadClearTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
-
-export const FileUploadClearTrigger = forwardRef<HTMLButtonElement, FileUploadClearTriggerProps>(
-  (props, ref) => {
-    const { clearFiles, stateProps, disabled, readOnly } = useFileUploadContext();
-    const mergedProps = mergeProps(stateProps, props);
-    return (
-      <Primitive.button
-        ref={ref}
-        type="button"
-        disabled={disabled || readOnly}
-        onClick={clearFiles}
-        {...mergedProps}
-      />
-    );
-  },
-);
-FileUploadClearTrigger.displayName = "FileUploadClearTrigger";
+FileUploadItemRemoveButton.displayName = "FileUploadItemRemoveButton";
 
 // =============================================================================
 // FileUploadContext (render prop)

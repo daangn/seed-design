@@ -1,0 +1,90 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "file-upload",
+    "name": "File Upload"
+  },
+  "data": {
+    "id": "file-upload",
+    "name": "File Upload",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "trigger": {
+          "properties": {
+            "size": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                }
+              },
+              "trigger": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 80,
+                    "unit": "px"
+                  }
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-weak"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

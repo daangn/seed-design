@@ -3,25 +3,22 @@ export {
   FileUploadDropzone,
   FileUploadTrigger,
   FileUploadHiddenInput,
-  FileUploadItem,
   FileUploadItemName,
-  FileUploadItemSizeText,
-  FileUploadItemDeleteTrigger,
-  FileUploadClearTrigger,
+  FileUploadItemSize,
+  FileUploadItemRemoveButton,
   FileUploadContext,
   type FileUploadRootProps,
   type FileUploadDropzoneProps,
   type FileUploadTriggerProps,
   type FileUploadHiddenInputProps,
-  type FileUploadItemProps,
   type FileUploadItemNameProps,
-  type FileUploadItemSizeTextProps,
-  type FileUploadItemDeleteTriggerProps,
-  type FileUploadClearTriggerProps,
+  type FileUploadItemSizeProps,
+  type FileUploadItemRemoveButtonProps,
   type FileUploadContextProps,
 } from "./FileUpload";
 
 export {
+  FileUploadItemProvider,
   useFileUploadContext,
   useFileUploadItemContext,
   type UseFileUploadContext,
@@ -37,14 +34,11 @@ export {
 export type {
   FileRejection,
   FileError,
-  FileErrorCode,
-  FileAcceptDetails,
   FileRejectDetails,
-  FileChangeDetails,
-  FileValidateDetails,
   FileUploadItemStatus,
   FileStatusDetails,
   FileWithStatus,
+  FileAcceptType,
 } from "./types";
 
 export * as FileUpload from "./FileUpload.namespace";

@@ -1,4 +1,15 @@
 /**
+ * Error types for file validation.
+ * Built-in errors provide autocomplete, but custom error codes are also supported.
+ */
+export type FileError =
+  | "FILE_TOO_LARGE"
+  | "FILE_TOO_SMALL"
+  | "TOO_MANY_FILES"
+  | "INVALID_TYPE"
+  | (string & {});
+
+/**
  * Represents a file that failed validation.
  */
 export interface FileRejection {
@@ -7,48 +18,10 @@ export interface FileRejection {
 }
 
 /**
- * Error types for file validation.
- */
-export type FileErrorCode =
-  | "FILE_TOO_LARGE"
-  | "FILE_TOO_SMALL"
-  | "TOO_MANY_FILES"
-  | "INVALID_TYPE"
-  | "CUSTOM";
-
-export interface FileError {
-  code: FileErrorCode;
-  message: string;
-}
-
-/**
- * Details passed to onFileAccept callback.
- */
-export interface FileAcceptDetails {
-  files: File[];
-}
-
-/**
  * Details passed to onFileReject callback.
  */
 export interface FileRejectDetails {
   files: FileRejection[];
-}
-
-/**
- * Details passed to onFileChange callback.
- */
-export interface FileChangeDetails {
-  acceptedFiles: File[];
-  rejectedFiles: FileRejection[];
-}
-
-/**
- * Details passed to validate callback.
- */
-export interface FileValidateDetails {
-  acceptedFiles: File[];
-  rejectedFiles: FileRejection[];
 }
 
 // =============================================================================
@@ -65,7 +38,7 @@ export type FileUploadItemStatus = "pending" | "uploading" | "success" | "error"
  */
 export type FileStatusDetails =
   | { status: "pending" }
-  | { status: "uploading"; progress: number }
+  | { status: "uploading"; progress?: number }
   | { status: "success" }
   | { status: "error" };
 
@@ -76,3 +49,14 @@ export interface FileWithStatus {
   file: File;
   details: FileStatusDetails;
 }
+
+// =============================================================================
+// Accept Type
+// =============================================================================
+
+/**
+ * Categorization of accepted file types.
+ * - "image": Only image files are accepted
+ * - undefined: General files are accepted (or mixed types)
+ */
+export type FileAcceptType = "image" | undefined;

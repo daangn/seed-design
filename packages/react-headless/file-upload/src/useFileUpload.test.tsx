@@ -10,14 +10,13 @@ import {
   FileUploadDropzone,
   FileUploadTrigger,
   FileUploadHiddenInput,
-  FileUploadItem,
   FileUploadItemName,
-  FileUploadItemSizeText,
-  FileUploadItemDeleteTrigger,
-  FileUploadClearTrigger,
+  FileUploadItemSize,
+  FileUploadItemRemoveButton,
   FileUploadContext,
   type FileUploadRootProps,
 } from "./FileUpload";
+import { FileUploadItemProvider } from "./useFileUploadContext";
 
 function setUp(jsx: ReactElement) {
   return {
@@ -42,19 +41,20 @@ const BasicFileUpload = React.forwardRef<HTMLInputElement, FileUploadRootProps>(
       <ul data-testid="item-group">
         <FileUploadContext>
           {({ acceptedFiles }) =>
-            acceptedFiles.map(({ file }) => (
-              <FileUploadItem key={file.name} file={file} data-testid={`item-${file.name}`}>
-                <FileUploadItemName />
-                <FileUploadItemSizeText formatBytes={(bytes) => `${bytes} bytes`} />
-                <FileUploadItemDeleteTrigger data-testid={`delete-${file.name}`}>
-                  Delete
-                </FileUploadItemDeleteTrigger>
-              </FileUploadItem>
+            acceptedFiles.map((fileWithStatus, index) => (
+              <FileUploadItemProvider key={index} value={fileWithStatus}>
+                <li data-testid={`item-${index}`}>
+                  <FileUploadItemName />
+                  <FileUploadItemSize formatBytes={(bytes) => `${bytes} bytes`} />
+                  <FileUploadItemRemoveButton data-testid={`delete-${index}`}>
+                    Delete
+                  </FileUploadItemRemoveButton>
+                </li>
+              </FileUploadItemProvider>
             ))
           }
         </FileUploadContext>
       </ul>
-      <FileUploadClearTrigger data-testid="clear-trigger">Clear all</FileUploadClearTrigger>
       <FileUploadHiddenInput ref={ref} data-testid="hidden-input" />
     </FileUploadRoot>
   );
@@ -131,8 +131,10 @@ describe("useFileUpload", () => {
 
   describe("file change handling", () => {
     it("should accept files via input change", async () => {
-      const onFileAccept = mock(() => {});
-      const { getByTestId } = setUp(<BasicFileUpload onFileAccept={onFileAccept} />);
+      const onAcceptedFilesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload onAcceptedFilesChange={onAcceptedFilesChange} />,
+      );
 
       const input = getByTestId("hidden-input") as HTMLInputElement;
       const file = createMockFile("test.txt", 1024, "text/plain");
@@ -140,7 +142,41 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(onFileAccept).toHaveBeenCalledWith({ files: [file] });
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file, details: { status: "pending" } },
+        ]);
+      });
+    });
+
+    it("should call onAcceptedFilesChange with cumulative files", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload maxFiles={5} onAcceptedFilesChange={onAcceptedFilesChange} />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("file1.txt", 100, "text/plain");
+      const file2 = createMockFile("file2.txt", 200, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file1, file2] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file: file1, details: { status: "pending" } },
+          { file: file2, details: { status: "pending" } },
+        ]);
+      });
+
+      const file3 = createMockFile("file3.txt", 300, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file3] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file: file1, details: { status: "pending" } },
+          { file: file2, details: { status: "pending" } },
+          { file: file3, details: { status: "pending" } },
+        ]);
       });
     });
 
@@ -169,23 +205,6 @@ describe("useFileUpload", () => {
         expect(getByText("1024 bytes")).toBeDefined();
       });
     });
-
-    it("should call onFileChange callback", async () => {
-      const onFileChange = mock(() => {});
-      const { getByTestId } = setUp(<BasicFileUpload onFileChange={onFileChange} />);
-
-      const input = getByTestId("hidden-input") as HTMLInputElement;
-      const file = createMockFile("test.txt", 1024, "text/plain");
-
-      fireEvent.change(input, { target: { files: [file] } });
-
-      await waitFor(() => {
-        expect(onFileChange).toHaveBeenCalledWith({
-          acceptedFiles: [file],
-          rejectedFiles: [],
-        });
-      });
-    });
   });
 
   describe("file deletion", () => {
@@ -198,37 +217,14 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(getByTestId("item-test.txt")).toBeDefined();
+        expect(getByTestId("item-0")).toBeDefined();
       });
 
-      const deleteButton = getByTestId("delete-test.txt");
+      const deleteButton = getByTestId("delete-0");
       await user.click(deleteButton);
 
       await waitFor(() => {
-        expect(queryByTestId("item-test.txt")).toBeNull();
-      });
-    });
-
-    it("should clear all files when clear trigger is clicked", async () => {
-      const { getByTestId, queryByTestId, user } = setUp(<BasicFileUpload maxFiles={5} />);
-
-      const input = getByTestId("hidden-input") as HTMLInputElement;
-      const file1 = createMockFile("test1.txt", 1024, "text/plain");
-      const file2 = createMockFile("test2.txt", 2048, "text/plain");
-
-      fireEvent.change(input, { target: { files: [file1, file2] } });
-
-      await waitFor(() => {
-        expect(getByTestId("item-test1.txt")).toBeDefined();
-        expect(getByTestId("item-test2.txt")).toBeDefined();
-      });
-
-      const clearButton = getByTestId("clear-trigger");
-      await user.click(clearButton);
-
-      await waitFor(() => {
-        expect(queryByTestId("item-test1.txt")).toBeNull();
-        expect(queryByTestId("item-test2.txt")).toBeNull();
+        expect(queryByTestId("item-0")).toBeNull();
       });
     });
   });
@@ -253,6 +249,73 @@ describe("useFileUpload", () => {
       const input = getByTestId("hidden-input") as HTMLInputElement;
 
       expect(input.disabled).toBe(true);
+    });
+  });
+
+  describe("status change", () => {
+    it("should call onAcceptedFilesChange when file status changes", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+
+      const StatusChangeUpload = () => {
+        return (
+          <FileUploadRoot onAcceptedFilesChange={onAcceptedFilesChange}>
+            <FileUploadHiddenInput data-testid="hidden-input" />
+            <FileUploadContext>
+              {({ acceptedFiles, setAcceptedFiles }) => (
+                <>
+                  <ul>
+                    {acceptedFiles.map((fileWithStatus, index) => (
+                      <FileUploadItemProvider
+                        key={`${fileWithStatus.file.name}-${index}`}
+                        value={fileWithStatus}
+                      >
+                        <li data-testid={`file-${index}`}>
+                          <FileUploadItemName />
+                        </li>
+                      </FileUploadItemProvider>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    data-testid="start-upload"
+                    onClick={() => {
+                      setAcceptedFiles((prev) =>
+                        prev.map((f) => ({
+                          ...f,
+                          details: { status: "uploading" as const, progress: 50 },
+                        })),
+                      );
+                    }}
+                  >
+                    Start Upload
+                  </button>
+                </>
+              )}
+            </FileUploadContext>
+          </FileUploadRoot>
+        );
+      };
+
+      const { getByTestId, user } = setUp(<StatusChangeUpload />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file, details: { status: "pending" } },
+        ]);
+      });
+
+      await user.click(getByTestId("start-upload"));
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file, details: { status: "uploading", progress: 50 } },
+        ]);
+      });
     });
   });
 
@@ -339,9 +402,9 @@ describe("useFileUpload", () => {
     });
 
     it("should call custom validate function", async () => {
-      const customValidate = mock((file) => {
+      const customValidate = mock((file: File): string[] | null => {
         if (file.name.includes("invalid")) {
-          return [{ code: "CUSTOM" as const, message: "Invalid filename" }];
+          return ["CUSTOM"];
         }
         return null;
       });
@@ -384,27 +447,9 @@ describe("useFileUpload", () => {
     });
 
     it("should accept dropped files", async () => {
-      const onFileAccept = mock(() => {});
-      const { getByTestId } = setUp(<BasicFileUpload onFileAccept={onFileAccept} />);
-      const dropzone = getByTestId("dropzone");
-
-      const file = createMockFile("dropped.txt", 1024, "text/plain");
-
-      fireEvent.drop(dropzone, {
-        dataTransfer: {
-          files: [file],
-        },
-      });
-
-      await waitFor(() => {
-        expect(onFileAccept).toHaveBeenCalledWith({ files: [file] });
-      });
-    });
-
-    it("should not accept drop when allowDrop is false", async () => {
-      const onFileAccept = mock(() => {});
+      const onAcceptedFilesChange = mock(() => {});
       const { getByTestId } = setUp(
-        <BasicFileUpload allowDrop={false} onFileAccept={onFileAccept} />,
+        <BasicFileUpload onAcceptedFilesChange={onAcceptedFilesChange} />,
       );
       const dropzone = getByTestId("dropzone");
 
@@ -417,34 +462,9 @@ describe("useFileUpload", () => {
       });
 
       await waitFor(() => {
-        expect(onFileAccept).not.toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe("focus state", () => {
-    it("should set focus state on input focus", async () => {
-      const { getByTestId } = setUp(<BasicFileUpload />);
-      const input = getByTestId("hidden-input");
-      const dropzone = getByTestId("dropzone");
-
-      fireEvent.focus(input);
-
-      await waitFor(() => {
-        expect(dropzone.getAttribute("data-focus")).toBe("");
-      });
-    });
-
-    it("should clear focus state on input blur", async () => {
-      const { getByTestId } = setUp(<BasicFileUpload />);
-      const input = getByTestId("hidden-input");
-      const dropzone = getByTestId("dropzone");
-
-      fireEvent.focus(input);
-      fireEvent.blur(input);
-
-      await waitFor(() => {
-        expect(dropzone.getAttribute("data-focus")).toBeNull();
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file, details: { status: "pending" } },
+        ]);
       });
     });
   });
@@ -455,6 +475,169 @@ describe("useFileUpload", () => {
       const input = getByTestId("hidden-input") as HTMLInputElement;
 
       expect(input.required).toBe(true);
+    });
+  });
+
+  describe("duplicate file names", () => {
+    // Uses index-based keys to avoid React key collision with same file names
+    const DuplicateFileUpload = React.forwardRef<HTMLInputElement, FileUploadRootProps>(
+      (props, ref) => {
+        return (
+          <FileUploadRoot {...props}>
+            <FileUploadTrigger>Choose files</FileUploadTrigger>
+            <ul data-testid="item-group">
+              <FileUploadContext>
+                {({ acceptedFiles }) =>
+                  acceptedFiles.map((fileWithStatus, index) => (
+                    <FileUploadItemProvider key={index} value={fileWithStatus}>
+                      <li data-testid={`item-${index}`}>
+                        <FileUploadItemName />
+                        <FileUploadItemRemoveButton data-testid={`delete-${index}`}>
+                          Delete
+                        </FileUploadItemRemoveButton>
+                      </li>
+                    </FileUploadItemProvider>
+                  ))
+                }
+              </FileUploadContext>
+            </ul>
+            <FileUploadHiddenInput ref={ref} data-testid="hidden-input" />
+          </FileUploadRoot>
+        );
+      },
+    );
+
+    it("should accept multiple files with the same name", async () => {
+      const { getByTestId, getAllByText } = setUp(<DuplicateFileUpload maxFiles={3} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("photo.png", 1024, "image/png");
+      const file2 = createMockFile("photo.png", 2048, "image/png");
+      const file3 = createMockFile("photo.png", 4096, "image/png");
+
+      fireEvent.change(input, { target: { files: [file1, file2, file3] } });
+
+      await waitFor(() => {
+        expect(getAllByText("photo.png")).toHaveLength(3);
+        expect(getByTestId("item-0")).toBeDefined();
+        expect(getByTestId("item-1")).toBeDefined();
+        expect(getByTestId("item-2")).toBeDefined();
+      });
+    });
+
+    it("should delete only the targeted file among duplicates", async () => {
+      const { getByTestId, getAllByText, user } = setUp(<DuplicateFileUpload maxFiles={3} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("photo.png", 1024, "image/png");
+      const file2 = createMockFile("photo.png", 2048, "image/png");
+      const file3 = createMockFile("photo.png", 4096, "image/png");
+
+      fireEvent.change(input, { target: { files: [file1, file2, file3] } });
+
+      await waitFor(() => {
+        expect(getAllByText("photo.png")).toHaveLength(3);
+      });
+
+      // Delete the middle file (index 1)
+      await user.click(getByTestId("delete-1"));
+
+      await waitFor(() => {
+        expect(getAllByText("photo.png")).toHaveLength(2);
+      });
+    });
+
+    it("should delete all duplicate files one by one", async () => {
+      const { getByTestId, queryAllByText, user } = setUp(<DuplicateFileUpload maxFiles={3} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("photo.png", 1024, "image/png");
+      const file2 = createMockFile("photo.png", 2048, "image/png");
+
+      fireEvent.change(input, { target: { files: [file1, file2] } });
+
+      await waitFor(() => {
+        expect(queryAllByText("photo.png")).toHaveLength(2);
+      });
+
+      // Delete first item
+      await user.click(getByTestId("delete-0"));
+
+      await waitFor(() => {
+        expect(queryAllByText("photo.png")).toHaveLength(1);
+      });
+
+      // Delete remaining item
+      await user.click(getByTestId("delete-0"));
+
+      await waitFor(() => {
+        expect(queryAllByText("photo.png")).toHaveLength(0);
+      });
+    });
+  });
+
+  describe("duplicate file names", () => {
+    it("should accept multiple files with the same name", async () => {
+      const { getByTestId, getAllByText } = setUp(<BasicFileUpload maxFiles={3} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("photo.png", 1024, "image/png");
+      const file2 = createMockFile("photo.png", 2048, "image/png");
+      const file3 = createMockFile("photo.png", 4096, "image/png");
+
+      fireEvent.change(input, { target: { files: [file1, file2, file3] } });
+
+      await waitFor(() => {
+        expect(getAllByText("photo.png")).toHaveLength(3);
+      });
+    });
+
+    it("should delete only the targeted file among duplicates", async () => {
+      const { getByTestId, getAllByText, user } = setUp(<BasicFileUpload maxFiles={3} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("photo.png", 1024, "image/png");
+      const file2 = createMockFile("photo.png", 2048, "image/png");
+      const file3 = createMockFile("photo.png", 4096, "image/png");
+
+      fireEvent.change(input, { target: { files: [file1, file2, file3] } });
+
+      await waitFor(() => {
+        expect(getAllByText("photo.png")).toHaveLength(3);
+      });
+
+      // Delete the middle file (index 1)
+      await user.click(getByTestId("delete-1"));
+
+      await waitFor(() => {
+        expect(getAllByText("photo.png")).toHaveLength(2);
+      });
+    });
+
+    it("should delete all duplicate files one by one", async () => {
+      const { getByTestId, queryAllByText, user } = setUp(<BasicFileUpload maxFiles={3} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("photo.png", 1024, "image/png");
+      const file2 = createMockFile("photo.png", 2048, "image/png");
+
+      fireEvent.change(input, { target: { files: [file1, file2] } });
+
+      await waitFor(() => {
+        expect(queryAllByText("photo.png")).toHaveLength(2);
+      });
+
+      await user.click(getByTestId("delete-0"));
+
+      await waitFor(() => {
+        expect(queryAllByText("photo.png")).toHaveLength(1);
+      });
+
+      await user.click(getByTestId("delete-0"));
+
+      await waitFor(() => {
+        expect(queryAllByText("photo.png")).toHaveLength(0);
+      });
     });
   });
 
@@ -621,6 +804,310 @@ describe("useFileUpload", () => {
         expect(getByTestId("file-0").textContent).toBe("file1.txt");
         expect(getByTestId("file-1").textContent).toBe("file2.txt");
       });
+    });
+  });
+
+  describe("onFileReject details", () => {
+    it("should include FILE_TOO_LARGE error code", async () => {
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload maxFileSize={1024} onFileReject={onFileReject} />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("big.txt", 2048, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [{ file, errors: ["FILE_TOO_LARGE"] }],
+        });
+      });
+    });
+
+    it("should include FILE_TOO_SMALL error code", async () => {
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload minFileSize={1024} onFileReject={onFileReject} />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("tiny.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [{ file, errors: ["FILE_TOO_SMALL"] }],
+        });
+      });
+    });
+
+    it("should include INVALID_TYPE error code", async () => {
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload accept="image/*" onFileReject={onFileReject} />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("doc.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [{ file, errors: ["INVALID_TYPE"] }],
+        });
+      });
+    });
+
+    it("should include TOO_MANY_FILES error code for excess files", async () => {
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(<BasicFileUpload maxFiles={1} onFileReject={onFileReject} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("a.txt", 100, "text/plain");
+      const file2 = createMockFile("b.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file1, file2] } });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [{ file: file2, errors: ["TOO_MANY_FILES"] }],
+        });
+      });
+    });
+
+    it("should include multiple error codes for same file", async () => {
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload accept="image/*" maxFileSize={500} onFileReject={onFileReject} />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("big.txt", 1024, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [{ file, errors: ["INVALID_TYPE", "FILE_TOO_LARGE"] }],
+        });
+      });
+    });
+
+    it("should include custom error code from validate", async () => {
+      const onFileReject = mock(() => {});
+      const validate = (file: File) => (file.name.startsWith("bad") ? ["CUSTOM_ERROR"] : null);
+
+      const { getByTestId } = setUp(
+        <BasicFileUpload validate={validate} onFileReject={onFileReject} />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("bad-file.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [{ file, errors: ["CUSTOM_ERROR"] }],
+        });
+      });
+    });
+
+    it("should reject invalid files on drop", async () => {
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload accept="image/*" onFileReject={onFileReject} />,
+      );
+
+      const dropzone = getByTestId("dropzone");
+      const file = createMockFile("doc.txt", 100, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file] },
+      });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [{ file, errors: ["INVALID_TYPE"] }],
+        });
+      });
+    });
+  });
+
+  describe("onAcceptedFilesChange on removal", () => {
+    it("should call onAcceptedFilesChange with empty array when last file is removed", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+      const { getByTestId, user } = setUp(
+        <BasicFileUpload onAcceptedFilesChange={onAcceptedFilesChange} />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("test.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file, details: { status: "pending" } },
+        ]);
+      });
+
+      onAcceptedFilesChange.mockClear();
+      await user.click(getByTestId("delete-0"));
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([]);
+      });
+    });
+
+    it("should call onAcceptedFilesChange with remaining files after removal", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+      const { getByTestId, user } = setUp(
+        <BasicFileUpload maxFiles={3} onAcceptedFilesChange={onAcceptedFilesChange} />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("a.txt", 100, "text/plain");
+      const file2 = createMockFile("b.txt", 200, "text/plain");
+      const file3 = createMockFile("c.txt", 300, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file1, file2, file3] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file: file1, details: { status: "pending" } },
+          { file: file2, details: { status: "pending" } },
+          { file: file3, details: { status: "pending" } },
+        ]);
+      });
+
+      onAcceptedFilesChange.mockClear();
+      await user.click(getByTestId("delete-1"));
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file: file1, details: { status: "pending" } },
+          { file: file3, details: { status: "pending" } },
+        ]);
+      });
+    });
+  });
+
+  describe("both callbacks", () => {
+    it("should call both callbacks when batch has valid and invalid files", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload
+          maxFiles={5}
+          accept="image/*"
+          onAcceptedFilesChange={onAcceptedFilesChange}
+          onFileReject={onFileReject}
+        />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const validFile = createMockFile("photo.png", 100, "image/png");
+      const invalidFile = createMockFile("doc.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [validFile, invalidFile] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file: validFile, details: { status: "pending" } },
+        ]);
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [{ file: invalidFile, errors: ["INVALID_TYPE"] }],
+        });
+      });
+    });
+
+    it("should partially accept and reject when maxFiles is reached mid-batch", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload
+          maxFiles={3}
+          onAcceptedFilesChange={onAcceptedFilesChange}
+          onFileReject={onFileReject}
+        />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("a.txt", 100, "text/plain");
+      const file2 = createMockFile("b.txt", 100, "text/plain");
+
+      // first batch: add 2 files
+      fireEvent.change(input, { target: { files: [file1, file2] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file: file1, details: { status: "pending" } },
+          { file: file2, details: { status: "pending" } },
+        ]);
+      });
+
+      onAcceptedFilesChange.mockClear();
+      onFileReject.mockClear();
+
+      const file3 = createMockFile("c.txt", 100, "text/plain");
+      const file4 = createMockFile("d.txt", 100, "text/plain");
+      const file5 = createMockFile("e.txt", 100, "text/plain");
+
+      // second batch: add 3 more, but only 1 slot remaining
+      fireEvent.change(input, { target: { files: [file3, file4, file5] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file: file1, details: { status: "pending" } },
+          { file: file2, details: { status: "pending" } },
+          { file: file3, details: { status: "pending" } },
+        ]);
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [
+            { file: file4, errors: ["TOO_MANY_FILES"] },
+            { file: file5, errors: ["TOO_MANY_FILES"] },
+          ],
+        });
+      });
+    });
+
+    it("should only call onFileReject when all files in batch are invalid", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload
+          maxFiles={5}
+          accept="image/*"
+          onAcceptedFilesChange={onAcceptedFilesChange}
+          onFileReject={onFileReject}
+        />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("a.txt", 100, "text/plain");
+      const file2 = createMockFile("b.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file1, file2] } });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [
+            { file: file1, errors: ["INVALID_TYPE"] },
+            { file: file2, errors: ["INVALID_TYPE"] },
+          ],
+        });
+      });
+
+      // onAcceptedFilesChange is still called (via setAcceptedFiles) but with
+      // the same files as before (empty array spread), not with new accepted files
+      expect(onAcceptedFilesChange).not.toHaveBeenCalledWith(
+        expect.arrayContaining([expect.objectContaining({ file: file1 })]),
+      );
     });
   });
 });

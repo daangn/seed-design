@@ -1,12 +1,194 @@
 ---
 title: File Upload
-description: 사용자가 파일을 선택하거나 드래그 앤 드롭으로 업로드할 수 있게 해주는 컴포넌트입니다.
+description: 파일을 선택하거나 드래그 앤 드롭으로 업로드할 수 있는 컴포넌트입니다.
 ---
 
 <ComponentExample name="react/file-upload/preview">
   ```json doc-gen:file
   {
     "file": "examples/react/file-upload/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:file-upload
+```
+
+<ManualInstallation name="file-upload" />
+
+## Props
+
+### `FileUpload`
+
+<react-type-table path="./registry/ui/file-upload.tsx" name="FileUploadProps" />
+
+### `FileUploadItem`
+
+<react-type-table path="./registry/ui/file-upload.tsx" name="FileUploadImageItemProps" />
+
+## Examples
+
+### Accept Image Only
+
+`accept="image/*"`를 설정하여 이미지 파일만 허용할 수 있습니다.
+
+<ComponentExample name="react/file-upload/accept-image">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/accept-image.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Max Files
+
+`maxFiles`로 업로드 가능한 최대 파일 수를 제한할 수 있습니다. 최대 수에 도달하면 trigger가 자동으로 비활성화됩니다.
+
+<ComponentExample name="react/file-upload/max-files">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/max-files.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled
+
+`disabled` prop으로 파일 업로드를 비활성화할 수 있습니다.
+
+<ComponentExample name="react/file-upload/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Error Alert
+
+render prop 내에서 `acceptedFiles`의 status 변화를 감지하여 에러 발생 시 알림을 표시하는 예시입니다.
+
+<ComponentExample name="react/file-upload/error-alert">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/error-alert.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### States
+
+외부 업로드 API와 연동하여 pending → uploading → success/error 상태를 관리하는 예시입니다. `setAcceptedFiles`로 각 파일의 status를 업데이트합니다.
+
+<ComponentExample name="react/file-upload/states">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/states.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Field Integration
+
+`label`, `description`, `errorMessage` 등의 Field 관련 prop을 사용할 수 있습니다.
+
+<ComponentExample name="react/file-upload/field">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/field.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+`acceptedFiles`와 `onAcceptedFilesChange`를 사용하여 외부에서 파일 목록을 제어할 수 있습니다.
+
+<ComponentExample name="react/file-upload/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Listening to Value Changes
+
+`onAcceptedFilesChange`, `onFileReject` 콜백으로 파일 변경 이벤트를 감지할 수 있습니다.
+
+<ComponentExample name="react/file-upload/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Validation
+
+`onFileReject` 콜백에서 reject된 파일의 에러 코드를 확인하여 에러 메시지를 표시할 수 있습니다.
+
+#### Built-in
+
+`minFileSize`, `maxFileSize` 등 내장 prop으로 유효성 검사를 수행합니다. 에러 코드별로 메시지를 분기하는 예시입니다.
+
+<ComponentExample name="react/file-upload/validation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/validation.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Custom
+
+`validate` prop으로 커스텀 유효성 검사를 추가할 수 있습니다. 커스텀 에러 코드를 반환하면 `onFileReject`에서 에러 종류별로 메시지를 분기할 수 있습니다.
+
+<ComponentExample name="react/file-upload/custom-validation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/custom-validation.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Use Cases
+
+#### Form (Uncontrolled)
+
+`<form>`과 `name` prop을 사용하여 네이티브 form과 통합할 수 있습니다.
+
+<ComponentExample name="react/file-upload/form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### React Hook Form
+
+`useController`로 FileUpload의 `acceptedFiles`를 form 값으로 관리할 수 있습니다.
+
+<ComponentExample name="react/file-upload/react-hook-form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/react-hook-form.tsx",
     "codeblock": true
   }
   ```

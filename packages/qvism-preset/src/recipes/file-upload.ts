@@ -1,32 +1,307 @@
-import { defineSlotRecipe } from "../utils/define";
-import { disabled, pseudo } from "../utils/pseudo";
-import { vars } from "../vars";
+import { defineRecipe, defineSlotRecipe } from "../utils/define";
+import { onlyIcon } from "../utils/icon";
+import { active, disabled, not, pseudo } from "../utils/pseudo";
+import { vars as tokens } from "../vars";
+import {
+  fileUpload as vars,
+  fileUploadItem as itemVars,
+  fileUploadItemRemoveButton as removeButtonVars,
+  fileUploadTrigger as triggerVars,
+} from "../vars/component";
 
-/**
- * FileUpload - 64×64 Thumbnail Grid Style
- * Based on karrot-form MediaInput design
- */
-const fileUpload = defineSlotRecipe({
-  name: "file-upload",
-  slots: [
-    "root",
-    "dropzone",
-    "container",
-    "trigger",
-    "itemGroup",
-    "item",
-    "itemPreview",
-    "itemImage",
-    "itemName",
-    "itemSize",
-    "itemDeleteTrigger",
-    "clearTrigger",
-  ],
+const fileUploadTrigger = defineSlotRecipe({
+  name: "file-upload-trigger",
+  slots: ["root", "icon", "itemCountArea", "itemCount", "maxItemCount"],
   base: {
     root: {
       display: "flex",
       flexDirection: "column",
-      gap: vars.$dimension.x3,
+      alignItems: "center",
+      justifyContent: "center",
+
+      width: triggerVars.base.enabled.root.size,
+      height: triggerVars.base.enabled.root.size,
+
+      gap: triggerVars.base.enabled.root.gap,
+
+      border: "none",
+      padding: 0,
+      font: "inherit",
+      boxShadow: `inset 0 0 0 ${triggerVars.base.enabled.root.strokeWidth} ${triggerVars.base.enabled.root.strokeColor}`,
+      cursor: "pointer",
+      backgroundColor: "transparent",
+      borderRadius: triggerVars.base.enabled.root.cornerRadius,
+
+      [pseudo(not(disabled), active)]: {
+        backgroundColor: triggerVars.base.pressed.root.color,
+      },
+
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+      },
+    },
+    icon: {
+      width: triggerVars.base.enabled.icon.size,
+      height: triggerVars.base.enabled.icon.size,
+      color: triggerVars.base.enabled.icon.color,
+
+      [pseudo(disabled)]: {
+        color: triggerVars.base.disabled.icon.color,
+      },
+    },
+    itemCountArea: {
+      // we define lineHeight here because some reset.css sets default line-height
+      // e.g. tailwind preflight sets * { line-height: 1.5 }
+      fontSize: triggerVars.base.enabled.itemCount.fontSize,
+      lineHeight: triggerVars.base.enabled.itemCount.lineHeight,
+    },
+    itemCount: {
+      color: triggerVars.base.enabled.itemCount.color,
+
+      fontSize: triggerVars.base.enabled.itemCount.fontSize,
+      lineHeight: triggerVars.base.enabled.itemCount.lineHeight,
+      fontWeight: triggerVars.base.enabled.itemCount.fontWeight,
+
+      [pseudo("[data-empty]")]: {
+        color: triggerVars.base.enabled.maxItemCount.color,
+      },
+
+      [pseudo(disabled)]: {
+        color: triggerVars.base.disabled.itemCount.color,
+      },
+    },
+    maxItemCount: {
+      color: triggerVars.base.enabled.maxItemCount.color,
+
+      fontSize: triggerVars.base.enabled.maxItemCount.fontSize,
+      lineHeight: triggerVars.base.enabled.maxItemCount.lineHeight,
+      fontWeight: triggerVars.base.enabled.maxItemCount.fontWeight,
+
+      [pseudo(disabled)]: {
+        color: triggerVars.base.disabled.maxItemCount.color,
+      },
+    },
+  },
+  defaultVariants: {},
+  variants: {},
+});
+
+const fileUploadItemRemoveButton = defineRecipe({
+  name: "file-upload-item-remove-button",
+  base: {
+    position: "absolute",
+    top: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
+    right: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
+
+    width: removeButtonVars.base.enabled.root.size,
+    height: removeButtonVars.base.enabled.root.size,
+
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
+    border: "none",
+    padding: 0,
+    backgroundColor: removeButtonVars.base.enabled.root.color,
+    borderRadius: removeButtonVars.base.enabled.root.cornerRadius,
+    cursor: "pointer",
+
+    boxShadow: `inset 0 0 0 ${removeButtonVars.base.enabled.root.strokeWidth} ${removeButtonVars.base.enabled.root.strokeColor}, 0 0 0 ${removeButtonVars.base.enabled.root.foobarWidth} ${removeButtonVars.base.enabled.root.foobarColor}`,
+
+    ...onlyIcon({
+      size: removeButtonVars.base.enabled.icon.size,
+      color: removeButtonVars.base.enabled.icon.color,
+    }),
+
+    [pseudo(disabled)]: {
+      cursor: "not-allowed",
+
+      ...onlyIcon({
+        color: removeButtonVars.base.disabled.icon.color,
+      }),
+    },
+  },
+  defaultVariants: {},
+  variants: {},
+});
+
+const fileUploadItem = defineSlotRecipe({
+  name: "file-upload-item",
+  slots: ["root", "image", "thumbnail", "metadata", "name", "size", "backdrop", "actionButton"],
+  base: {
+    root: {
+      position: "relative",
+
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: itemVars.base.enabled.root.gap,
+
+      height: itemVars.base.enabled.root.height,
+      borderRadius: itemVars.base.enabled.root.cornerRadius,
+
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        borderRadius: "inherit",
+
+        pointerEvents: "none",
+      },
+    },
+    image: {
+      width: "100%",
+      height: "100%",
+
+      objectFit: "cover",
+
+      borderRadius: "inherit",
+    },
+    thumbnail: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+
+      width: itemVars.base.enabled.thumbnail.size,
+      height: itemVars.base.enabled.thumbnail.size,
+      backgroundColor: itemVars.base.enabled.thumbnail.color,
+      borderRadius: itemVars.base.enabled.thumbnail.cornerRadius,
+
+      flexShrink: 0,
+
+      ...onlyIcon({
+        color: itemVars.base.enabled.thumbnailIcon.color,
+        size: itemVars.base.enabled.thumbnailIcon.size,
+      }),
+    },
+    metadata: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "2px",
+      width: "100%",
+
+      flexGrow: 1,
+    },
+    name: {
+      display: "-webkit-box",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      wordBreak: "break-all",
+      WebkitBoxOrient: "vertical",
+      WebkitLineClamp: 2,
+
+      fontSize: itemVars.base.enabled.name.fontSize,
+      lineHeight: itemVars.base.enabled.name.lineHeight,
+      fontWeight: itemVars.base.enabled.name.fontWeight,
+      color: itemVars.base.enabled.name.color,
+    },
+    size: {
+      fontSize: itemVars.base.enabled.size.fontSize,
+      lineHeight: itemVars.base.enabled.size.lineHeight,
+      fontWeight: itemVars.base.enabled.size.fontWeight,
+      color: itemVars.base.enabled.size.color,
+    },
+    backdrop: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+
+      display: "flex",
+      flexDirection: "column", // just in case
+      alignItems: "center",
+      justifyContent: "center",
+
+      borderRadius: "inherit",
+    },
+    actionButton: {
+      width: "100%",
+      height: "100%",
+
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+
+      textAlign: "center",
+
+      border: "none",
+      padding: 0,
+      font: "inherit",
+      background: "transparent",
+      cursor: "pointer",
+      borderRadius: "inherit",
+
+      fontSize: itemVars.base.enabled.actionButtonLabel.fontSize,
+      lineHeight: itemVars.base.enabled.actionButtonLabel.lineHeight,
+      fontWeight: itemVars.base.enabled.actionButtonLabel.fontWeight,
+
+      gap: itemVars.base.enabled.actionButton.gap,
+
+      ...onlyIcon({
+        size: itemVars.base.enabled.actionButtonIcon.size,
+      }),
+    },
+  },
+  variants: {
+    type: {
+      // TODO: rename
+      general: {
+        root: {
+          width: itemVars.typeFile.enabled.root.width,
+          paddingLeft: itemVars.typeFile.enabled.root.paddingX,
+          paddingRight: itemVars.typeFile.enabled.root.paddingX,
+
+          "&::before": {
+            boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeFile.enabled.root.strokeColor}`,
+          },
+        },
+        actionButton: {
+          color: itemVars.typeFile.enabled.actionButtonLabel.color,
+
+          ...onlyIcon({
+            color: itemVars.typeFile.enabled.actionButtonLabel.color,
+          }),
+        },
+      },
+      image: {
+        root: {
+          width: itemVars.typeImage.enabled.root.width,
+
+          "&::before": {
+            boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeImage.enabled.root.strokeColor}`,
+          },
+        },
+        backdrop: {
+          background: itemVars.typeImage.enabled.backdrop.color,
+        },
+        actionButton: {
+          color: itemVars.typeImage.enabled.actionButtonLabel.color,
+
+          ...onlyIcon({
+            color: itemVars.typeImage.enabled.actionButtonLabel.color,
+          }),
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    type: "general",
+  },
+});
+
+const fileUpload = defineSlotRecipe({
+  name: "file-upload",
+  slots: ["root", "dropzone", "container", "itemGroup"],
+  base: {
+    root: {
+      display: "flex",
+      flexDirection: "column",
+      gap: tokens.$dimension.x3,
       width: "100%",
     },
     dropzone: {
@@ -34,17 +309,17 @@ const fileUpload = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      gap: vars.$dimension.x2,
-      padding: vars.$dimension.x4,
-      border: `1px dashed ${vars.$color.stroke.neutralMuted}`,
-      borderRadius: vars.$radius.r2,
-      backgroundColor: vars.$color.bg.layerDefault,
+      gap: tokens.$dimension.x2,
+      padding: tokens.$dimension.x4,
+      border: `1px dashed ${tokens.$color.stroke.neutralMuted}`,
+      borderRadius: tokens.$radius.r2,
+      backgroundColor: tokens.$color.bg.layerDefault,
       cursor: "pointer",
       transition: "border-color 0.2s, background-color 0.2s",
 
       "&:hover, &[data-dragging]": {
-        borderColor: vars.$color.stroke.brandSolid,
-        backgroundColor: vars.$color.bg.layerDefaultPressed,
+        borderColor: tokens.$color.stroke.brandSolid,
+        backgroundColor: tokens.$color.bg.layerDefaultPressed,
       },
 
       [pseudo(disabled)]: {
@@ -54,142 +329,21 @@ const fileUpload = defineSlotRecipe({
     },
     container: {
       display: "flex",
-      flexWrap: "wrap",
-      gap: vars.$dimension.x2,
-      alignItems: "flex-start",
-    },
-    trigger: {
-      // 64×64 upload button style (MediaInput button)
-      display: "inline-flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      width: "64px",
-      height: "64px",
-      padding: vars.$dimension.x2,
-      cursor: "pointer",
-      backgroundColor: vars.$color.bg.layerDefault,
-      border: `1px solid ${vars.$color.stroke.neutralSolid}`,
-      borderRadius: vars.$radius.r2,
-      transition: "all 0.2s ease",
 
-      "&:hover": {
-        borderColor: vars.$color.palette.gray600,
-      },
-
-      [pseudo(disabled)]: {
-        cursor: "not-allowed",
-        opacity: 0.5,
-      },
+      gap: vars.base.enabled.root.gap,
     },
     itemGroup: {
-      // flex-wrap grid layout
       display: "flex",
-      flexWrap: "wrap",
-      gap: vars.$dimension.x2,
+      gap: vars.base.enabled.root.gap,
+
+      // ul styles
+      listStyle: "none",
       padding: 0,
       margin: 0,
-      listStyle: "none",
-    },
-    item: {
-      // 64×64 relative container
-      position: "relative",
-      width: "64px",
-      height: "64px",
-    },
-    itemPreview: {
-      // Preview wrapper with border and background
-      position: "relative",
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: vars.$color.bg.layerDefault,
-      border: `1px solid ${vars.$color.stroke.neutralSolid}`,
-      borderRadius: vars.$radius.r2,
-      overflow: "hidden",
-    },
-    itemImage: {
-      // Image thumbnail with object-fit: cover
-      width: "100%",
-      height: "100%",
-      borderRadius: vars.$radius.r2,
-      objectFit: "cover",
-    },
-    itemName: {
-      // 10px, 2-line ellipsis
-      display: "-webkit-box",
-      width: "100%",
-      overflow: "hidden",
-      fontSize: "10px",
-      lineHeight: "10px",
-      color: vars.$color.fg.neutralSubtle,
-      textAlign: "center",
-      textOverflow: "ellipsis",
-      wordBreak: "break-all",
-      WebkitBoxOrient: "vertical",
-      WebkitLineClamp: 2,
-    },
-    itemSize: {
-      // 9px file size
-      fontSize: "9px",
-      lineHeight: "11px",
-      color: vars.$color.fg.neutralSubtle,
-      textAlign: "center",
-    },
-    itemDeleteTrigger: {
-      // 16×16 circular delete button (top-right, protruding)
-      position: "absolute",
-      top: "-6px",
-      right: "-6px",
-      zIndex: 1,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: "16px",
-      height: "16px",
-      padding: 0,
-      cursor: "pointer",
-      backgroundColor: vars.$color.palette.gray1000,
-      border: "none",
-      borderRadius: "50%",
-      color: vars.$color.palette.staticWhite,
-      transition: "all 0.2s ease",
-
-      "&:hover": {
-        opacity: 0.8,
-      },
-
-      [pseudo(disabled)]: {
-        cursor: "not-allowed",
-        opacity: 0.5,
-      },
-    },
-    clearTrigger: {
-      alignSelf: "flex-start",
-      padding: `${vars.$dimension.x1} ${vars.$dimension.x2}`,
-      border: "none",
-      borderRadius: vars.$radius.r1,
-      backgroundColor: "transparent",
-      color: vars.$color.fg.neutralSubtle,
-      fontSize: vars.$fontSize.t3,
-      cursor: "pointer",
-      transition: "background-color 0.2s",
-
-      "&:hover": {
-        backgroundColor: vars.$color.bg.neutralWeakPressed,
-      },
-
-      [pseudo(disabled)]: {
-        cursor: "not-allowed",
-        opacity: 0.5,
-      },
     },
   },
   variants: {},
   defaultVariants: {},
 });
 
-export default fileUpload;
+export { fileUpload, fileUploadTrigger, fileUploadItem, fileUploadItemRemoveButton };

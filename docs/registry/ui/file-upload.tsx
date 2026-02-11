@@ -4,21 +4,19 @@ import * as React from "react";
 import {
   FileUpload as SeedFileUpload,
   Field as SeedField,
+  Icon,
   VisuallyHidden,
   PrefixIcon,
 } from "@seed-design/react";
 import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
-import { IconExclamationmarkCircleFill, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconCameraFill,
+  IconArrowClockwiseCircularFill,
+  IconPaperclipFill,
+  IconXmarkFill,
+  IconExclamationmarkCircleFill,
+} from "@karrotmarket/react-monochrome-icon";
 import { formatBytes } from "../lib/format-bytes";
-
-// Re-export ItemIndicator and status types from React package
-export {
-  FileUploadItemIndicator,
-  type FileUploadItemIndicatorProps,
-  type FileUploadItemStatus,
-  type FileStatusDetails,
-  type FileWithStatus,
-} from "@seed-design/react";
 
 export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild" | "children"> {
   label?: React.ReactNode;
@@ -61,7 +59,6 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
       required,
       disabled,
       invalid,
-      readOnly,
       name,
 
       showRequiredIndicator,
@@ -89,7 +86,6 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
         required={required}
         disabled={disabled}
         invalid={invalid}
-        readOnly={readOnly}
         name={name}
         ref={fieldRef}
       >
@@ -107,7 +103,6 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
           required={required}
           disabled={disabled}
           invalid={invalid}
-          readOnly={readOnly}
           name={name}
           {...otherProps}
         >
@@ -157,12 +152,27 @@ export interface FileUploadContainerProps extends SeedFileUpload.ContainerProps 
  */
 export const FileUploadContainer = SeedFileUpload.Container;
 
-export interface FileUploadTriggerProps extends SeedFileUpload.TriggerProps {}
+export interface FileUploadTriggerProps extends Omit<SeedFileUpload.TriggerProps, "children"> {}
 
 /**
  * @see https://seed-design.io/react/components/file-upload
  */
-export const FileUploadTrigger = SeedFileUpload.Trigger;
+export const FileUploadTrigger = React.forwardRef<HTMLButtonElement, FileUploadTriggerProps>(
+  (props, ref) => {
+    return (
+      <SeedFileUpload.Trigger
+        // You may implement your own i18n for upload label
+        aria-label="파일 선택"
+        ref={ref}
+        {...props}
+      >
+        <SeedFileUpload.TriggerIcon image={<IconCameraFill />} general={<IconPaperclipFill />} />
+        <SeedFileUpload.TriggerItemCount />
+      </SeedFileUpload.Trigger>
+    );
+  },
+);
+FileUploadTrigger.displayName = "FileUploadTrigger";
 
 export interface FileUploadItemGroupProps extends Omit<SeedFileUpload.ItemGroupProps, "children"> {
   children: SeedFileUpload.ContextProps["children"];
@@ -183,40 +193,65 @@ export const FileUploadItemGroup = React.forwardRef<HTMLUListElement, FileUpload
 );
 FileUploadItemGroup.displayName = "FileUploadItemGroup";
 
-export interface FileUploadImageItemProps extends Omit<SeedFileUpload.ItemProps, "children"> {}
+export interface FileUploadImageItemProps extends Omit<SeedFileUpload.ItemProps, "children"> {
+  onRetry?: () => void;
+}
 
 /**
- * A convenience component that combines Item, ItemPreview, ItemImage, and ItemDeleteTrigger.
- * Suitable for image file uploads with preview thumbnails.
+ * A convenience component that combines Item, ItemPreview, ItemImage, ItemIndicator, and ItemRemoveTrigger.
+ * Includes built-in upload status indicator with FileUploadItemProgressCircle, success icon, and retry button.
  *
  * @see https://seed-design.io/react/components/file-upload
  */
-export const FileUploadImageItem = React.forwardRef<HTMLLIElement, FileUploadImageItemProps>(
-  (props, ref) => {
+export const FileUploadItem = React.forwardRef<HTMLLIElement, FileUploadImageItemProps>(
+  ({ onRetry, ...props }, ref) => {
     return (
       <SeedFileUpload.Item ref={ref} {...props}>
-        <SeedFileUpload.ItemPreview>
-          <SeedFileUpload.ItemImage />
-        </SeedFileUpload.ItemPreview>
-        <SeedFileUpload.ItemDeleteTrigger>
-          <IconXmarkLine width={10} height={10} />
-        </SeedFileUpload.ItemDeleteTrigger>
+        <SeedFileUpload.ItemPreview
+          image={<SeedFileUpload.ItemImage />}
+          general={
+            <>
+              <SeedFileUpload.ItemThumbnail fallback={<Icon svg={<IconPaperclipFill />} />} />
+              <SeedFileUpload.ItemMetadata>
+                <SeedFileUpload.ItemName />
+                <SeedFileUpload.ItemSizeText formatBytes={formatBytes} />
+              </SeedFileUpload.ItemMetadata>
+            </>
+          }
+          overlay={{
+            uploading: ({ progress }) => (
+              <FileUploadItemProgressCircle size="24" value={progress} />
+            ),
+            error: (
+              <SeedFileUpload.ItemActionButton onClick={onRetry}>
+                <Icon svg={<IconArrowClockwiseCircularFill />} />
+                {/* You may implement your own i18n for retry label */}
+                재시도
+              </SeedFileUpload.ItemActionButton>
+            ),
+          }}
+        />
+        {/* You may implement your own i18n for remove label */}
+        <SeedFileUpload.ItemRemoveButton aria-label="파일 제거">
+          <Icon svg={<IconXmarkFill />} />
+        </SeedFileUpload.ItemRemoveButton>
       </SeedFileUpload.Item>
     );
   },
 );
-FileUploadImageItem.displayName = "FileUploadImageItem";
+FileUploadItem.displayName = "FileUploadItem";
 
-export interface FileUploadItemSizeTextProps
-  extends Omit<SeedFileUpload.ItemSizeTextProps, "formatBytes"> {}
+interface FileUploadItemProgressCircleProps extends SeedFileUpload.ItemProgressCircleRootProps {}
 
-/**
- * @see https://seed-design.io/react/components/file-upload
- */
-export const FileUploadItemSizeText = React.forwardRef<
-  HTMLSpanElement,
-  FileUploadItemSizeTextProps
->((props, ref) => {
-  return <SeedFileUpload.ItemSizeText ref={ref} formatBytes={formatBytes} {...props} />;
-});
-FileUploadItemSizeText.displayName = "FileUploadItemSizeText";
+const FileUploadItemProgressCircle = React.forwardRef<
+  SVGSVGElement,
+  FileUploadItemProgressCircleProps
+>((props, ref) => (
+  <SeedFileUpload.ItemProgressCircleRoot ref={ref} {...props}>
+    <SeedFileUpload.ItemProgressCircleTrack />
+    <SeedFileUpload.ItemProgressCircleRange />
+  </SeedFileUpload.ItemProgressCircleRoot>
+));
+FileUploadItemProgressCircle.displayName = "FileUploadItemProgressCircle";
+
+export type { FileStatusDetails, FileWithStatus } from "@seed-design/react";

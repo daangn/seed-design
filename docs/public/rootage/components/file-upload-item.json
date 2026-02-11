@@ -1,0 +1,379 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "file-upload-item",
+    "name": "File Upload Item"
+  },
+  "data": {
+    "id": "file-upload-item",
+    "name": "File Upload Item",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "width": {
+              "type": "dimension"
+            },
+            "height": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "opacity": {
+              "type": "number"
+            }
+          }
+        },
+        "thumbnail": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            }
+          }
+        },
+        "thumbnailIcon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        },
+        "name": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "size": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "backdrop": {
+          "properties": {
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "actionButton": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "actionButtonIcon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        },
+        "actionButtonLabel": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "variants": {
+        "type": {
+          "values": {
+            "file": {},
+            "image": {}
+          },
+          "defaultValue": "file"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 80,
+                    "unit": "px"
+                  }
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                }
+              },
+              "thumbnail": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-floating"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x12"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r2"
+                }
+              },
+              "thumbnailIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
+              },
+              "name": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t2"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t2"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              },
+              "size": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t1"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t1"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              },
+              "actionButton": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                }
+              },
+              "actionButtonIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
+              },
+              "actionButtonLabel": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t2"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t2"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "dragging"
+            ],
+            "slots": {
+              "root": {
+                "opacity": {
+                  "type": "number",
+                  "value": 1
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "type": "file"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "width": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 160,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-weak"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              },
+              "actionButtonIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                }
+              },
+              "actionButtonLabel": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "type": "image"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "width": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 80,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-subtle"
+                }
+              },
+              "backdrop": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.overlay"
+                }
+              },
+              "actionButtonIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                }
+              },
+              "actionButtonLabel": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
