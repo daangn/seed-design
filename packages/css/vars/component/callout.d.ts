@@ -22,7 +22,7 @@ export declare const vars: {
         "lineHeight": "var(--seed-line-height-t4)",
         "fontWeight": "var(--seed-font-weight-regular)"
       },
-      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
+      /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
@@ -52,7 +52,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-neutral)"
       },
-      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
+      /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -84,7 +84,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
-      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
+      /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
@@ -116,7 +116,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
-      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
+      /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
@@ -148,7 +148,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
-      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
+      /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
@@ -180,7 +180,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
-      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
+      /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
@@ -212,7 +212,7 @@ export declare const vars: {
       "description": {
         "color": "var(--seed-color-fg-neutral)"
       },
-      /** Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
+      /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
         "color": "var(--seed-color-fg-neutral)"
       },
