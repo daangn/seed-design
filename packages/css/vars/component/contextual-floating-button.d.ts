@@ -108,7 +108,7 @@ export declare const vars: {
     }
   },
   /**
-   * 라벨과 아이콘을 함께 표시합니다.
+   * label과 prefixIcon을 함께 표시합니다.
    */
   "layoutWithText": {
     "enabled": {
@@ -129,7 +129,7 @@ export declare const vars: {
     }
   },
   /**
-   * 아이콘만 표시합니다. 접근성을 위해 aria-label을 제공해야 합니다.
+   * icon만 표시합니다. 아이콘만으로 의미를 전달하기 때문에 접근성 레이블과 함께 사용해야 합니다.
    */
   "layoutIconOnly": {
     "enabled": {

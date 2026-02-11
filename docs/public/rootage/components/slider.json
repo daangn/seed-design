@@ -108,7 +108,7 @@
               "type": "cubicBezier"
             }
           },
-          "description": "arrow width + paddingX * 2만큼의 최소 너비를 가집니다."
+          "description": "arrow width + (valueIndicatorRoot paddingX * 2)만큼의 최소 너비를 가집니다."
         },
         "valueIndicatorArrow": {
           "properties": {
