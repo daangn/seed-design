@@ -15,11 +15,11 @@ const AppScreenAppBarCustomizationActivity: ActivityComponentType<
 > = () => {
   return (
     <AppScreen theme="android">
-      <AppBar>
+      <AppBar bg="palette.blue200">
         <AppBarMain title="Preview" subtitle="This is a nice preview." />
         <AppBarRight>
           <AppBarIconButton aria-label="Notification">
-            <Icon svg={<IconBellFill />} color="fg.informative" size="x5" />
+            <Icon svg={<IconBellFill />} color="palette.blue500" size="x5" />
           </AppBarIconButton>
         </AppBarRight>
       </AppBar>

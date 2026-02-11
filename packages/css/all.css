@@ -1620,7 +1620,7 @@
 }
 
 .seed-app-bar__root--tone_layer:before {
-  background-color: var(--seed-color-bg-layer-default);
+  background: var(--seed-box-background, var(--seed-color-bg-layer-default));
 }
 
 .seed-app-bar__icon--tone_layer {
