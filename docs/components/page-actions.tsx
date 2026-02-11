@@ -2,9 +2,9 @@
 
 import {
   IconArrowUpRightLine,
-  IconCheckmarkLine,
   IconChevronDownLine,
-  IconDocumentLine,
+  IconSparkle2Line,
+  IconSquare2StackedLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { useMemo, useState } from "react";
 import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
@@ -14,16 +14,20 @@ import { cva } from "class-variance-authority";
 
 const cache = new Map<string, string>();
 
-export function LLMCopyButton({
+const optionVariants = cva(
+  "text-sm p-2 rounded-lg inline-flex items-center gap-2 hover:text-fd-accent-foreground hover:bg-fd-accent [&_svg]:size-4",
+);
+
+export function LLMOptions({
   /**
-   * A URL to fetch the raw Markdown/MDX content of page
+   * A URL to the raw Markdown/MDX content of page
    */
   markdownUrl,
 }: {
   markdownUrl: string;
 }) {
   const [isLoading, setLoading] = useState(false);
-  const [checked, onClick] = useCopyButton(async () => {
+  const [, onCopyClick] = useCopyButton(async () => {
     const cached = cache.get(markdownUrl);
     if (cached) return navigator.clipboard.writeText(cached);
 
@@ -46,50 +50,41 @@ export function LLMCopyButton({
   });
 
   return (
-    <button
-      type="button"
-      disabled={isLoading}
-      className={buttonVariants({
-        color: "secondary",
-        size: "sm",
-        className: "gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
-      })}
-      onClick={onClick}
-    >
-      {checked ? <IconCheckmarkLine /> : <IconDocumentLine />}
-      마크다운 복사
-    </button>
+    <Popover>
+      <PopoverTrigger
+        className={buttonVariants({
+          color: "secondary",
+          size: "sm",
+          className: "gap-2 items-end",
+        })}
+      >
+        <IconSparkle2Line className="size-3.5 text-fd-muted-foreground" />
+        LLMs.txt
+        <IconChevronDownLine className="size-3.5 text-fd-muted-foreground" />
+      </PopoverTrigger>
+      <PopoverContent className="flex flex-col overflow-auto">
+        <button
+          type="button"
+          disabled={isLoading}
+          className={optionVariants()}
+          onClick={onCopyClick}
+        >
+          <IconSquare2StackedLine />
+          복사하기
+        </button>
+        <a
+          href={markdownUrl}
+          rel="noreferrer noopener"
+          target="_blank"
+          className={optionVariants()}
+        >
+          <IconArrowUpRightLine />
+          열기
+        </a>
+      </PopoverContent>
+    </Popover>
   );
 }
-
-export function LLMPageLinkButton({
-  /**
-   * A URL to the raw Markdown/MDX content of page
-   */
-  markdownUrl,
-}: {
-  markdownUrl: string;
-}) {
-  return (
-    <a
-      href={markdownUrl}
-      rel="noreferrer noopener"
-      target="_blank"
-      className={buttonVariants({
-        color: "secondary",
-        size: "sm",
-        className: "gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
-      })}
-    >
-      <IconArrowUpRightLine />
-      llms.txt 열기
-    </a>
-  );
-}
-
-const optionVariants = cva(
-  "text-sm p-2 rounded-lg inline-flex items-center gap-2 hover:text-fd-accent-foreground hover:bg-fd-accent [&_svg]:size-4",
-);
 
 export function ViewOptions({
   markdownUrl,

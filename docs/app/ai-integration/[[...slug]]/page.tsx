@@ -1,6 +1,6 @@
 import { getGitHubSourceUrl } from "@/app/_llms/config";
 import { aiIntegrationSource } from "@/app/source";
-import { LLMCopyButton, LLMPageLinkButton, ViewOptions } from "@/components/page-actions";
+import { LLMOptions, ViewOptions } from "@/components/page-actions";
 import { mdxComponents } from "@/components/mdx-components";
 import { DocsPage, DocsBody, DocsTitle, DocsDescription } from "fumadocs-ui/page";
 import type { Metadata } from "next";
@@ -20,8 +20,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <div className="flex flex-row gap-2 items-center mb-3 justify-end">
-        <LLMCopyButton markdownUrl={markdownUrl} />
-        <LLMPageLinkButton markdownUrl={markdownUrl} />
+        <LLMOptions markdownUrl={markdownUrl} />
         <ViewOptions
           markdownUrl={markdownUrl}
           githubUrl={getGitHubSourceUrl("ai-integration", page.path)}
