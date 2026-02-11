@@ -39,16 +39,14 @@ describe("postcss-engaged", () => {
     expect(output).toBe(input);
   });
 
-  test("skips rules already inside @media (hover: hover)", async () => {
+  test("throws when inside @media (hover: hover)", async () => {
     const input = "@media (hover: hover) { .btn:--engaged { background: red; } }";
-    const output = await run(input);
-    expect(output).toBe(input);
+    expect(run(input)).rejects.toThrow(/already inside/);
   });
 
-  test("skips rules already inside @media (hover: none)", async () => {
+  test("throws when inside @media (hover: none)", async () => {
     const input = "@media (hover: none) { .btn:--engaged { background: red; } }";
-    const output = await run(input);
-    expect(output).toBe(input);
+    expect(run(input)).rejects.toThrow(/already inside/);
   });
 
   test("comma selectors", async () => {
@@ -69,6 +67,8 @@ describe("postcss-engaged", () => {
     const output = await run(".btn:--interact { background: red; }", [
       postcssEngaged({ selector: ":--interact" }),
     ]);
-    expect(output).toMatchInlineSnapshot(`"@media (hover: hover) {.btn:hover { background: red; } }@media (hover: none) {.btn:is(:active, [data-active]) { background: red; } }"`);
+    expect(output).toMatchInlineSnapshot(
+      `"@media (hover: hover) {.btn:hover { background: red; } }@media (hover: none) {.btn:is(:active, [data-active]) { background: red; } }"`,
+    );
   });
 });

@@ -26,8 +26,15 @@ const postcssEngaged: PluginCreator<PluginOptions> = (opts = {}) => {
     postcssPlugin: "postcss-engaged",
 
     Rule(rule, { AtRule }) {
-      if (!rule.selector.includes(selector) || isAlreadyWrapped(rule)) {
+      if (!rule.selector.includes(selector)) {
         return;
+      }
+
+      if (isAlreadyWrapped(rule)) {
+        throw rule.error(
+          `"${selector}" is already inside a @media (hover: ...) block. Remove the outer @media or the ${selector} pseudo-class.`,
+          { plugin: "postcss-engaged" },
+        );
       }
 
       const hoverSelector = rule.selector.replace(selectorRe, ":hover");
