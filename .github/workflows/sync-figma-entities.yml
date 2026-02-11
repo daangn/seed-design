@@ -27,7 +27,9 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: figma-extractor를 빌드해요
-        run: bun --filter @seed-design/figma-extractor build
+        run: |
+          bun --filter @seed-design/figma-extractor build
+          bun install --frozen-lockfile
 
       - name: Figma entity 데이터를 동기화해요
         run: bun --filter @seed-design/figma sync-entities
@@ -37,7 +39,7 @@ jobs:
           FIGMA_COMPONENTS_FILE_KEY: ${{ secrets.FIGMA_COMPONENTS_FILE_KEY }}
           FIGMA_TEMPLATES_FILE_KEY: ${{ secrets.FIGMA_TEMPLATES_FILE_KEY }}
 
-      - name: packages/figma를 빌드해요
+      - name: "@seed-design/figma를 빌드해요"
         id: build
         continue-on-error: true
         run: bun --filter @seed-design/figma build
@@ -55,35 +57,47 @@ jobs:
             echo "file_count=$FILE_COUNT" >> $GITHUB_OUTPUT
           fi
 
-      - name: 변경사항이 있으면 브랜치를 만들고 커밋해요
+      - name: 변경사항이 있으면 브랜치에 커밋해요
         if: steps.check-diff.outputs.has_changes == 'true'
-        id: create-branch
         run: |
-          BRANCH_NAME="sync-entities/$(date +%Y-%m-%d-%H%M%S)"
+          BRANCH_NAME="chore/sync-figma-entities"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH_NAME"
           git add packages/figma/src/entities/data/__generated__
           git commit -m "chore(figma): sync entities from Figma"
-          git push origin "$BRANCH_NAME"
-          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          git push --force origin "$BRANCH_NAME"
 
-      - name: PR을 만들어요
+      - name: PR이 없으면 만들어요
         if: steps.check-diff.outputs.has_changes == 'true'
         id: create-pr
         run: |
-          PR_URL=$(gh pr create \
-            --base dev \
-            --head "${{ steps.create-branch.outputs.branch_name }}" \
-            --title "chore(figma): sync entities from Figma" \
-            --body "$(cat <<EOF
+          DRAFT_FLAG=${{ steps.build.outcome != 'success' && '--draft' || '' }}
+          PR_BODY="$(cat <<EOF
           Figma entity 데이터가 변경되었어요.
 
           - 변경된 파일 수: ${{ steps.check-diff.outputs.file_count }}개
           - 빌드 결과: ${{ steps.build.outcome == 'success' && '✅ 성공' || '❌ 실패' }}
           EOF
-          )")
-          echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+          )"
+          EXISTING_PR=$(gh pr list --head chore/sync-figma-entities --base dev --state open --json url --jq '.[0].url')
+          if [ -n "$EXISTING_PR" ]; then
+            gh pr edit "$EXISTING_PR" --body "$PR_BODY"
+            if [ "${{ steps.build.outcome }}" != "success" ]; then
+              gh pr ready --undo "$EXISTING_PR" 2>/dev/null || true
+            else
+              gh pr ready "$EXISTING_PR" 2>/dev/null || true
+            fi
+            echo "pr_url=$EXISTING_PR" >> $GITHUB_OUTPUT
+          else
+            PR_URL=$(gh pr create \
+              --base dev \
+              --head chore/sync-figma-entities \
+              --title "chore(figma): sync entities from Figma" \
+              $DRAFT_FLAG \
+              --body "$PR_BODY")
+            echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
