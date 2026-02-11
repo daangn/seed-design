@@ -5,10 +5,19 @@ import { keyframes } from "./keyframes";
 import { recipes } from "./recipes";
 import { tokens } from "./tokens";
 import { definePreset } from "./utils/define";
+import { engaged, hover, active } from "./utils/pseudo";
 
 export default definePreset({
   prefix: "seed",
-  postcssPlugins: [postcssEngaged()],
+  postcssPlugins: [
+    postcssEngaged({
+      selector: engaged,
+      replace: {
+        hover,
+        active,
+      },
+    }),
+  ],
   theme: {
     tokens,
     recipes,

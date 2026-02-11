@@ -3,7 +3,7 @@ import {
   extendedActionSheet as rootVars,
 } from "../vars/component";
 import { defineRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { engaged, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 
 /**
@@ -27,7 +27,7 @@ const extendedActionSheetItem = defineRecipe({
     lineHeight: vars.base.enabled.label.lineHeight,
     fontWeight: vars.base.enabled.label.fontWeight,
 
-    [pseudo(active)]: {
+    [pseudo(engaged)]: {
       backgroundColor: vars.base.pressed.root.color,
     },
     "&:last-child": {

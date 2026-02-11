@@ -1,6 +1,6 @@
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { prefixIcon } from "../utils/icon";
-import { active, checked, disabled, not, open, pseudo } from "../utils/pseudo";
+import { engaged, checked, disabled, not, open, pseudo } from "../utils/pseudo";
 import { selectBox as vars } from "../vars/component";
 import { selectBoxGroup as groupVars } from "../vars/component";
 import { selectBoxCheckmark as checkmarkVars } from "../vars/component";
@@ -63,7 +63,7 @@ export const selectBox = defineSlotRecipe({
         pointerEvents: "none",
       },
 
-      [pseudo(not(disabled), active)]: {
+      [pseudo(not(disabled), engaged)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
@@ -226,7 +226,7 @@ export const selectBoxCheckmark = defineSlotRecipe({
 
       transition: `color ${checkmarkVars.base.enabled.icon.colorDuration} ${checkmarkVars.base.enabled.icon.colorTimingFunction}`,
 
-      [pseudo(not(disabled), active)]: {
+      [pseudo(not(disabled), engaged)]: {
         color: checkmarkVars.base.pressed.icon.color,
       },
 

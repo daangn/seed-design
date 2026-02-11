@@ -1,7 +1,7 @@
 import { floatingActionButton as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
-import { active, disabled, focus, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focus, pseudo } from "../utils/pseudo";
 
 const floatingActionButton = defineSlotRecipe({
   name: "floating-action-button",
@@ -44,7 +44,7 @@ const floatingActionButton = defineSlotRecipe({
         `padding ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
       ].join(", "),
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         background: vars.base.pressed.root.color,
       },
     },

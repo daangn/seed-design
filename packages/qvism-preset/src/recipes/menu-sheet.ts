@@ -1,7 +1,7 @@
 import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { active, not, open, pseudo } from "../utils/pseudo";
+import { engaged, not, open, pseudo } from "../utils/pseudo";
 
 const menuSheet = defineSlotRecipe({
   name: "menu-sheet",
@@ -129,7 +129,7 @@ const menuSheet = defineSlotRecipe({
       lineHeight: closeVars.base.enabled.label.lineHeight,
       fontWeight: closeVars.base.enabled.label.fontWeight,
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         backgroundColor: closeVars.base.pressed.root.color,
       },
     },

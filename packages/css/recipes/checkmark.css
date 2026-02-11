@@ -25,8 +25,15 @@
 .seed-checkmark__root--variant_square:is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     border-width: 0;
 }
-.seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-checkmark__root--variant_square:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
@@ -38,8 +45,15 @@
 .seed-checkmark__icon--variant_square:is(:disabled, [disabled], [data-disabled]):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--seed-color-fg-disabled);
 }
-.seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-checkmark__icon--variant_ghost {
     display: block;
@@ -65,8 +79,15 @@
 .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     background: var(--seed-color-bg-neutral-inverted);
 }
-.seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+@media (hover: hover) {
+    .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+        background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
 }
 .seed-checkmark__icon--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--seed-color-fg-neutral-inverted);
@@ -74,20 +95,41 @@
 .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     background: var(--seed-color-bg-brand-solid);
 }
-.seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
+@media (hover: hover) {
+    .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-brand-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+        background: var(--seed-color-bg-brand-solid-pressed);
+    }
 }
 .seed-checkmark__icon--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--seed-color-palette-static-white);
 }
-.seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-    background: var(--seed-color-palette-gray-200);
+@media (hover: hover) {
+    .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+        background: var(--seed-color-palette-gray-200);
+    }
+}
+@media (hover: none) {
+    .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+        background: var(--seed-color-palette-gray-200);
+    }
 }
 .seed-checkmark__icon--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--seed-color-fg-neutral);
 }
-.seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-    background: var(--seed-color-palette-carrot-200);
+@media (hover: hover) {
+    .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+        background: var(--seed-color-palette-carrot-200);
+    }
+}
+@media (hover: none) {
+    .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+        background: var(--seed-color-palette-carrot-200);
+    }
 }
 .seed-checkmark__icon--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--seed-color-fg-brand);

@@ -23,8 +23,15 @@
     --seed-count-font-weight: var(--seed-font-weight-medium);
     --seed-count-color: var(--seed-color-fg-neutral-muted);
 }
-.seed-action-chip:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+@media (hover: hover) {
+    .seed-action-chip:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-action-chip:is(:active, [data-active]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
 }
 .seed-action-chip:is(:focus, [data-focus]) {
     outline: none;

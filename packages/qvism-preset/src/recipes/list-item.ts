@@ -1,6 +1,6 @@
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { active, disabled, not, pseudo } from "../utils/pseudo";
+import { engaged, disabled, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
 
 const listItem = defineSlotRecipe({
@@ -117,7 +117,7 @@ const listItem = defineSlotRecipe({
       },
 
       // :active pseudoselector is only allowed when the item is a button or an anchor
-      [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
+      [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 
         left: vars.base.pressed.root.marginX,
@@ -171,10 +171,11 @@ const listItem = defineSlotRecipe({
             backgroundColor: vars.base.highlighted.root.color,
           },
 
-          [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
+          [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
 
+          // TODO: not sure if we should replace [data-active] with engaged here
           [pseudo(not(disabled), "[data-active]", "::before")]: {
             backgroundColor: vars.base.highlightedPressed.root.color,
           },

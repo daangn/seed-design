@@ -1,5 +1,5 @@
 import { defineRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { engaged, pseudo } from "../utils/pseudo";
 import { actionSheet as rootVars, actionSheetItem as vars } from "../vars/component";
 
 /**
@@ -22,7 +22,7 @@ const actionSheetItem = defineRecipe({
     lineHeight: vars.base.enabled.label.lineHeight,
     fontWeight: vars.base.enabled.label.fontWeight,
 
-    [pseudo(active)]: {
+    [pseudo(engaged)]: {
       backgroundColor: vars.base.pressed.root.color,
     },
 

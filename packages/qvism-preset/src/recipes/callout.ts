@@ -1,6 +1,6 @@
 import { callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { engaged, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 
 const callout = defineSlotRecipe({
@@ -120,7 +120,7 @@ const callout = defineSlotRecipe({
             color: vars.toneNeutral.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.toneNeutral.pressed.root.color,
           },
         },
@@ -145,7 +145,7 @@ const callout = defineSlotRecipe({
             color: vars.toneInformative.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.toneInformative.pressed.root.color,
           },
         },
@@ -170,7 +170,7 @@ const callout = defineSlotRecipe({
             color: vars.tonePositive.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.tonePositive.pressed.root.color,
           },
         },
@@ -195,7 +195,7 @@ const callout = defineSlotRecipe({
             color: vars.toneWarning.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.toneWarning.pressed.root.color,
           },
         },
@@ -220,7 +220,7 @@ const callout = defineSlotRecipe({
             color: vars.toneCritical.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.toneCritical.pressed.root.color,
           },
         },
@@ -245,7 +245,7 @@ const callout = defineSlotRecipe({
             color: vars.toneMagic.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.gradient})`,
           },
         },

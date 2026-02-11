@@ -3,7 +3,7 @@ import { controlChip as vars } from "../vars/component";
 import { count } from "../utils/count";
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
-import { active, checked, disabled, focus, pseudo } from "../utils/pseudo";
+import { engaged, checked, disabled, focus, pseudo } from "../utils/pseudo";
 
 /**
  * @deprecated Use `chip` instead.
@@ -45,7 +45,7 @@ const controlChip = defineRecipe({
     [pseudo(focus)]: {
       outline: "none",
     },
-    [pseudo(active)]: {
+    [pseudo(engaged)]: {
       background: vars.base.pressed.root.color,
     },
     [pseudo(checked)]: {
@@ -58,7 +58,7 @@ const controlChip = defineRecipe({
       ...onlyIcon({ color: vars.base.selected.icon.color }),
       ...count({ color: vars.base.selected.count.color }),
     },
-    [pseudo(checked, active)]: {
+    [pseudo(checked, engaged)]: {
       background: vars.base.selectedPressed.root.color,
     },
     [pseudo(disabled)]: {

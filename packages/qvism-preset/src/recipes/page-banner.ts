@@ -1,6 +1,6 @@
 import { pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { engaged, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 
 const closeButtonNegativeMargin = `(${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5`;
@@ -151,7 +151,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneNeutralVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color,
           },
         },
@@ -180,7 +180,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneNeutralVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color,
           },
         },
@@ -209,7 +209,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneInformativeVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color,
           },
         },
@@ -238,7 +238,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneInformativeVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color,
           },
         },
@@ -267,7 +267,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.tonePositiveVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color,
           },
         },
@@ -296,7 +296,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.tonePositiveVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color,
           },
         },
@@ -325,7 +325,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneWarningVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneWarningVariantWeak.pressed.root.color,
           },
         },
@@ -354,7 +354,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneWarningVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneWarningVariantSolid.pressed.root.color,
           },
         },
@@ -383,7 +383,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneCriticalVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color,
           },
         },
@@ -412,7 +412,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneCriticalVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color,
           },
         },
@@ -441,7 +441,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneMagicVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient})`,
           },
         },

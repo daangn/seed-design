@@ -86,8 +86,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
 }
 .seed-page-banner__title--tone_neutral-variant_weak {
     color: var(--seed-color-fg-neutral);
@@ -103,8 +110,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
 }
-.seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
 }
 .seed-page-banner__title--tone_neutral-variant_solid {
     color: var(--seed-color-fg-neutral-inverted);
@@ -120,8 +134,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-informative-contrast);
     --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
 }
-.seed-page-banner__root--tone_informative-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-informative-weak-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-informative-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-informative-weak-pressed);
+    }
 }
 .seed-page-banner__title--tone_informative-variant_weak {
     color: var(--seed-color-fg-informative-contrast);
@@ -137,8 +158,15 @@
     --seed-prefix-icon-color: var(--seed-color-palette-static-white);
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
 }
-.seed-page-banner__root--tone_informative-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-informative-solid-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-informative-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-informative-solid-pressed);
+    }
 }
 .seed-page-banner__title--tone_informative-variant_solid {
     color: var(--seed-color-palette-static-white);
@@ -154,8 +182,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-positive-contrast);
     --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
 }
-.seed-page-banner__root--tone_positive-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-positive-weak-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-positive-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-positive-weak-pressed);
+    }
 }
 .seed-page-banner__title--tone_positive-variant_weak {
     color: var(--seed-color-fg-positive-contrast);
@@ -171,8 +206,15 @@
     --seed-prefix-icon-color: var(--seed-color-palette-static-white);
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
 }
-.seed-page-banner__root--tone_positive-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-positive-solid-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-positive-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-positive-solid-pressed);
+    }
 }
 .seed-page-banner__title--tone_positive-variant_solid {
     color: var(--seed-color-palette-static-white);
@@ -188,8 +230,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-warning-contrast);
     --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
 }
-.seed-page-banner__root--tone_warning-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-warning-weak-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-warning-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-warning-weak-pressed);
+    }
 }
 .seed-page-banner__title--tone_warning-variant_weak {
     color: var(--seed-color-fg-warning-contrast);
@@ -205,8 +254,15 @@
     --seed-prefix-icon-color: var(--seed-color-palette-static-black-alpha-900);
     --seed-suffix-icon-color: var(--seed-color-palette-static-black-alpha-900);
 }
-.seed-page-banner__root--tone_warning-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-warning-solid-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-warning-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-warning-solid-pressed);
+    }
 }
 .seed-page-banner__title--tone_warning-variant_solid {
     color: var(--seed-color-palette-static-black-alpha-900);
@@ -222,8 +278,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-critical-contrast);
     --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
 }
-.seed-page-banner__root--tone_critical-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-critical-weak-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-critical-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-critical-weak-pressed);
+    }
 }
 .seed-page-banner__title--tone_critical-variant_weak {
     color: var(--seed-color-fg-critical-contrast);
@@ -239,8 +302,15 @@
     --seed-prefix-icon-color: var(--seed-color-palette-static-white);
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
 }
-.seed-page-banner__root--tone_critical-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-critical-solid-pressed);
+@media (hover: hover) {
+    .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-critical-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-critical-solid-pressed);
+    }
 }
 .seed-page-banner__title--tone_critical-variant_solid {
     color: var(--seed-color-palette-static-white);
@@ -256,8 +326,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
-    background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+@media (hover: hover) {
+    .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:hover, [data-hover]) {
+        background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    }
+}
+@media (hover: none) {
+    .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
+        background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    }
 }
 .seed-page-banner__title--tone_magic-variant_weak {
     color: var(--seed-color-fg-neutral);

@@ -31,8 +31,15 @@
     --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white);
 }
-.seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
+@media (hover: hover) {
+    .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-brand-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
+        background: var(--seed-color-bg-brand-solid-pressed);
+    }
 }
 .seed-toggle-button--variant_brandSolid:is([aria-pressed=true], [data-pressed]) {
     background: var(--seed-color-bg-neutral-weak);
@@ -42,8 +49,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-toggle-button--variant_brandSolid:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+@media (hover: hover) {
+    .seed-toggle-button--variant_brandSolid:is([aria-pressed=true], [data-pressed]):is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-toggle-button--variant_brandSolid:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
 }
 .seed-toggle-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
@@ -67,8 +81,15 @@
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
 }
-.seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+@media (hover: hover) {
+    .seed-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
 }
 .seed-toggle-button--variant_neutralWeak:is([aria-pressed=true], [data-pressed]) {
     background: var(--seed-color-bg-neutral-weak);
@@ -78,8 +99,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-toggle-button--variant_neutralWeak:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+@media (hover: hover) {
+    .seed-toggle-button--variant_neutralWeak:is([aria-pressed=true], [data-pressed]):is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-toggle-button--variant_neutralWeak:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
 }
 .seed-toggle-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);

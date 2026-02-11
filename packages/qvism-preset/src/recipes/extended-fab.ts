@@ -1,7 +1,7 @@
 import { extendedFab as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
-import { active, disabled, focus, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focus, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 
 /**
@@ -41,7 +41,7 @@ const extendedFab = defineRecipe({
         background: vars.variantNeutralSolid.enabled.root.color,
         color: vars.variantNeutralSolid.enabled.label.color,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantNeutralSolid.pressed.root.color,
         },
 
@@ -53,7 +53,7 @@ const extendedFab = defineRecipe({
         background: vars.variantLayerFloating.enabled.root.color,
         color: vars.variantLayerFloating.enabled.label.color,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantLayerFloating.pressed.root.color,
         },
 

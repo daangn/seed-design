@@ -26,6 +26,13 @@
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-fab:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
+@media (hover: hover) {
+    .seed-fab:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-layer-floating-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-fab:is(:active, [data-active]) {
+        background: var(--seed-color-bg-layer-floating-pressed);
+    }
 }

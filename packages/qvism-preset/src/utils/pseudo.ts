@@ -2,6 +2,8 @@ export const focus = ":is(:focus, [data-focus])";
 
 export const focusVisible = ":is(:focus-visible, [data-focus-visible])";
 
+export const hover = ":is(:hover, [data-hover])";
+
 export const active = ":is(:active, [data-active])";
 
 export const disabled = ":is(:disabled, [disabled], [data-disabled])";

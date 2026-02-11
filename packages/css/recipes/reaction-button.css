@@ -29,8 +29,15 @@
     --seed-count-font-weight: var(--seed-font-weight-bold);
     --seed-count-color: var(--seed-color-fg-neutral);
 }
-.seed-reaction-button:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-reaction-button:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-reaction-button:is(:active, [data-active]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-reaction-button:is([aria-pressed=true], [data-pressed]) {
     background: var(--seed-color-bg-transparent);
@@ -39,8 +46,15 @@
     --seed-prefix-icon-color: var(--seed-color-fg-brand);
     --seed-count-color: var(--seed-color-fg-brand);
 }
-.seed-reaction-button:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-reaction-button:is([aria-pressed=true], [data-pressed]):is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-reaction-button:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-reaction-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
