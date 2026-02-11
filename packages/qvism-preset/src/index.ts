@@ -1,4 +1,4 @@
-import postcssEngaged from "@seed-design/postcss-engaged";
+import { postcssEngaged } from "@seed-design/postcss-engaged";
 
 import { globalCss } from "./global";
 import { keyframes } from "./keyframes";

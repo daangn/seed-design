@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import postcss from "postcss";
 import postcssNested from "postcss-nested";
-import postcssEngaged from "./index";
+import { postcssEngaged } from "./index";
 
 async function run(input: string, plugins: postcss.AcceptedPlugin[] = [postcssEngaged()]) {
   const result = await postcss(plugins).process(input, { from: undefined });

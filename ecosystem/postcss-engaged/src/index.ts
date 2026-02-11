@@ -1,39 +1,47 @@
-import type { PluginCreator } from "postcss";
+import type { AtRule, Container, Document, PluginCreator } from "postcss";
 
 export interface PluginOptions {
   selector?: string;
 }
 
-function isAlreadyWrapped(rule: { parent: { type: string; params?: string; parent: any } | null }) {
-  let container = rule.parent;
-  while (container !== null && container.type !== "root") {
+function isAtRule(node: Container | Document): node is AtRule {
+  return node.type === "atrule";
+}
+
+const PLUGIN_NAME = "postcss-engaged";
+
+function isAlreadyWrapped(ancestor: Container | Document | undefined) {
+  let container = ancestor;
+
+  while (container != null && container.type !== "root") {
     if (
-      container.type === "atrule" &&
-      (container.params?.includes("hover: hover") || container.params?.includes("hover: none"))
+      isAtRule(container) &&
+      (container.params.includes("hover: hover") || container.params.includes("hover: none"))
     ) {
       return true;
     }
     container = container.parent;
   }
+
   return false;
 }
 
-const postcssEngaged: PluginCreator<PluginOptions> = (opts = {}) => {
+export const postcssEngaged: PluginCreator<PluginOptions> = (opts = {}) => {
   const selector = opts.selector ?? ":--engaged";
   const selectorRe = new RegExp(selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
 
   return {
-    postcssPlugin: "postcss-engaged",
+    postcssPlugin: PLUGIN_NAME,
 
     Rule(rule, { AtRule }) {
       if (!rule.selector.includes(selector)) {
         return;
       }
 
-      if (isAlreadyWrapped(rule)) {
+      if (isAlreadyWrapped(rule.parent)) {
         throw rule.error(
           `"${selector}" is already inside a @media (hover: ...) block. Remove the outer @media or the ${selector} pseudo-class.`,
-          { plugin: "postcss-engaged" },
+          { plugin: PLUGIN_NAME },
         );
       }
 
@@ -58,5 +66,3 @@ const postcssEngaged: PluginCreator<PluginOptions> = (opts = {}) => {
 };
 
 postcssEngaged.postcss = true;
-
-export default postcssEngaged;
