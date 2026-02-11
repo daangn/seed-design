@@ -32,6 +32,96 @@ interface MatchedSkill {
   matchType: "keyword" | "intent";
 }
 
+// ===== 컨텍스트 힌트 정의 =====
+interface ContextHint {
+  condition: (input: HookInput) => boolean;
+  hint: string;
+  priority: "warning" | "info";
+}
+
+const normalizeCwd = (cwd: string) => cwd.replace(/\\+/g, "/");
+
+const contextHints: ContextHint[] = [
+  // 생성 파일 접근 감지
+  {
+    condition: (input) => {
+      const prompt = input.user_prompt.toLowerCase();
+      return (
+        (prompt.includes("css") && prompt.includes("수정")) ||
+        (prompt.includes("vars") && prompt.includes("변경")) ||
+        prompt.includes("packages/css")
+      );
+    },
+    hint: "packages/css/ 파일은 직접 수정 금지. rootage 수정 후 `bun generate:all` 실행하세요.",
+    priority: "warning",
+  },
+  // packages/react-headless 작업 감지
+  {
+    condition: (input) => {
+      const normalizedCwd = normalizeCwd(input.cwd);
+      return (
+        normalizedCwd.includes("packages/react-headless") ||
+        input.user_prompt.toLowerCase().includes("react-headless")
+      );
+    },
+    hint: "Headless 컴포넌트: 스타일 로직 제외, data-* 속성으로 상태 표현",
+    priority: "info",
+  },
+  // packages/qvism-preset 작업 감지
+  {
+    condition: (input) => {
+      const normalizedCwd = normalizeCwd(input.cwd);
+      return (
+        normalizedCwd.includes("packages/qvism-preset") ||
+        input.user_prompt.toLowerCase().includes("recipe")
+      );
+    },
+    hint: "Recipe 작성: hover 대신 active 사용 (모바일 우선), vars에서 토큰 참조",
+    priority: "info",
+  },
+  // packages/react 작업 감지
+  {
+    condition: (input) => {
+      const normalizedCwd = normalizeCwd(input.cwd);
+      return (
+        normalizedCwd.includes("packages/react/") ||
+        (input.user_prompt.toLowerCase().includes("react") &&
+          input.user_prompt.toLowerCase().includes("컴포넌트"))
+      );
+    },
+    hint: "React 컴포넌트: forwardRef + displayName 필수, Primitive.* 사용",
+    priority: "info",
+  },
+  // 토큰/스타일 변경 감지
+  {
+    condition: (input) => {
+      const prompt = input.user_prompt.toLowerCase();
+      return (
+        prompt.includes("토큰") ||
+        prompt.includes("색상 변경") ||
+        prompt.includes("color 변경") ||
+        prompt.includes("theme 수정")
+      );
+    },
+    hint: "토큰 변경: packages/rootage/*.yaml 수정 → bun generate:all",
+    priority: "info",
+  },
+  // 컴포넌트 추가 감지
+  {
+    condition: (input) => {
+      const prompt = input.user_prompt.toLowerCase();
+      return (
+        (prompt.includes("컴포넌트") && prompt.includes("추가")) ||
+        (prompt.includes("component") && prompt.includes("add")) ||
+        prompt.includes("새 컴포넌트") ||
+        prompt.includes("new component")
+      );
+    },
+    hint: "새 컴포넌트: @create-component 스킬로 전체 흐름 확인 권장",
+    priority: "info",
+  },
+];
+
 // ===== 메인 로직 =====
 try {
   // 1. stdin에서 입력 읽기
@@ -71,15 +161,14 @@ try {
     }
   }
 
-  // 5. 매칭된 스킬이 있으면 출력
+  let message = "";
+
   if (matchedSkills.length > 0) {
-    // 우선순위별로 그룹화
     const critical = matchedSkills.filter((s) => s.config.priority === "critical");
     const high = matchedSkills.filter((s) => s.config.priority === "high");
     const medium = matchedSkills.filter((s) => s.config.priority === "medium");
 
-    // 한국어 메시지 생성
-    let message = "╔════════════════════════════════════════════╗\n";
+    message = "╔════════════════════════════════════════════╗\n";
     message += "║  🎯 관련 스킬이 감지되었습니다             ║\n";
     message += "╚════════════════════════════════════════════╝\n\n";
 
@@ -111,16 +200,29 @@ try {
     }
 
     message += "💬 응답하기 전에 Skill 도구를 사용하여 베스트 프랙티스를 확인하세요.\n";
+  }
 
-    // systemMessage로 출력 (non-blocking)
+  const applicableHints = contextHints.filter((h) => h.condition(input));
+
+  if (applicableHints.length > 0) {
+    message += message ? "\n" : "";
+    message += "📌 컨텍스트 힌트:\n";
+    applicableHints.forEach((h) => {
+      const icon = h.priority === "warning" ? "⚠️" : "💡";
+      message += `  ${icon} ${h.hint}\n`;
+    });
+  }
+
+  if (message) {
     console.log(
       JSON.stringify({
         systemMessage: message,
       }),
     );
   }
-} catch {
+} catch (error) {
   // 에러가 나도 hook이 실행을 방해하지 않도록 조용히 처리
-  // 디버깅이 필요하면 stderr로 출력
-  // console.error('Skill activation error:', error)
+  if (process.env.DEBUG_SKILL_ACTIVATION === "1") {
+    console.error("Skill activation error:", error);
+  }
 }

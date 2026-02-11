@@ -336,7 +336,7 @@
                 "paddingRight": {
                   "type": "dimension",
                   "value": {
-                    "value": 50,
+                    "value": 56,
                     "unit": "px"
                   }
                 },
@@ -389,14 +389,14 @@
                 "paddingLeft": {
                   "type": "dimension",
                   "value": {
-                    "value": 60,
+                    "value": 56,
                     "unit": "px"
                   }
                 },
                 "paddingRight": {
                   "type": "dimension",
                   "value": {
-                    "value": 60,
+                    "value": 56,
                     "unit": "px"
                   }
                 }

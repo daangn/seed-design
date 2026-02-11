@@ -211,13 +211,14 @@ function getStackflowSpaUrl(path: string): string {
       return "http://localhost:5173";
     }
 
-    // Branch previews
+    // Branch previews only — deployment-hash based preview URLs (e.g. 340c0934.seed-design.pages.dev)
+    // cannot be mapped because Cloudflare generates independent deployment hashes per project.
     // Docs URL: https://<branch>.seed-design.pages.dev
-    // QA URL:   https://<branch>.seed-design-qa.pages.dev
+    // QA URL:   https://<branch>.seed-design-stackflow-spa.pages.dev
     if (window.location.hostname.endsWith(".seed-design.pages.dev")) {
       const branch = window.location.hostname.split(".")[0];
 
-      return `https://${branch}.seed-design-qa.pages.dev`;
+      return `https://${branch}.seed-design-stackflow-spa.pages.dev`;
     }
 
     // Production
