@@ -2800,7 +2800,7 @@
 
 .seed-bottom-sheet__title--headerAlign_left[data-show-close-button] {
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
-  padding-right: 50px;
+  padding-right: 56px;
 }
 
 .seed-bottom-sheet__header--headerAlign_center {
@@ -2814,8 +2814,8 @@
 }
 
 .seed-bottom-sheet__title--headerAlign_center[data-show-close-button] {
-  padding-left: 60px;
-  padding-right: 60px;
+  padding-left: 56px;
+  padding-right: 56px;
 }
 
 .seed-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points="false"]:not([data-animation-done="true"]) {
