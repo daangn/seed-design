@@ -4,7 +4,8 @@ import postcssNested from "postcss-nested";
 import { postcssEngaged } from "./index";
 
 async function run(input: string, plugins: postcss.AcceptedPlugin[] = [postcssEngaged()]) {
-  const result = await postcss(plugins).process(input, { from: undefined });
+  const result = await postcss(plugins).process(input);
+
   return result.css;
 }
 
@@ -12,14 +13,14 @@ describe("postcss-engaged", () => {
   test("simple selector", async () => {
     const output = await run(".btn:--engaged { background: red; }");
     expect(output).toMatchInlineSnapshot(
-      `"@media (hover: hover) {.btn:hover { background: red; } }@media (hover: none) {.btn:is(:active, [data-active]) { background: red; } }"`,
+      `"@media (hover: hover) {.btn:hover { background: red; } }@media (hover: none) {.btn:active { background: red; } }"`,
     );
   });
 
   test("compound selector with :not(:disabled)", async () => {
     const output = await run(".btn:--engaged:not(:disabled) { background: red; }");
     expect(output).toMatchInlineSnapshot(
-      `"@media (hover: hover) {.btn:hover:not(:disabled) { background: red; } }@media (hover: none) {.btn:is(:active, [data-active]):not(:disabled) { background: red; } }"`,
+      `"@media (hover: hover) {.btn:hover:not(:disabled) { background: red; } }@media (hover: none) {.btn:active:not(:disabled) { background: red; } }"`,
     );
   });
 
@@ -29,7 +30,7 @@ describe("postcss-engaged", () => {
       postcssNested(),
     ]);
     expect(output).toMatchInlineSnapshot(
-      `"@media (hover: hover) {.parent:hover { color: blue; } }@media (hover: none) {.parent:is(:active, [data-active]) { color: blue; } }"`,
+      `"@media (hover: hover) {.parent:hover { color: blue; } }@media (hover: none) {.parent:active { color: blue; } }"`,
     );
   });
 
@@ -52,14 +53,14 @@ describe("postcss-engaged", () => {
   test("comma selectors", async () => {
     const output = await run(".a:--engaged, .b:--engaged { background: red; }");
     expect(output).toMatchInlineSnapshot(
-      `"@media (hover: hover) {.a:hover, .b:hover { background: red; } }@media (hover: none) {.a:is(:active, [data-active]), .b:is(:active, [data-active]) { background: red; } }"`,
+      `"@media (hover: hover) {.a:hover, .b:hover { background: red; } }@media (hover: none) {.a:active, .b:active { background: red; } }"`,
     );
   });
 
   test("multiple declarations", async () => {
     const output = await run(".btn:--engaged { background: red; color: white; opacity: 0.8; }");
     expect(output).toMatchInlineSnapshot(
-      `"@media (hover: hover) {.btn:hover { background: red; color: white; opacity: 0.8; } }@media (hover: none) {.btn:is(:active, [data-active]) { background: red; color: white; opacity: 0.8; } }"`,
+      `"@media (hover: hover) {.btn:hover { background: red; color: white; opacity: 0.8; } }@media (hover: none) {.btn:active { background: red; color: white; opacity: 0.8; } }"`,
     );
   });
 
@@ -68,7 +69,56 @@ describe("postcss-engaged", () => {
       postcssEngaged({ selector: ":--interact" }),
     ]);
     expect(output).toMatchInlineSnapshot(
+      `"@media (hover: hover) {.btn:hover { background: red; } }@media (hover: none) {.btn:active { background: red; } }"`,
+    );
+  });
+
+  test("partial comma selector – only some selectors have :--engaged", async () => {
+    const output = await run(".a:--engaged, .b { color: red; }");
+    expect(output).toMatchInlineSnapshot(
+      `"@media (hover: hover) {.a:hover, .b { color: red; } }@media (hover: none) {.a:active, .b { color: red; } }"`,
+    );
+  });
+
+  test("throws when nested deep inside @media (hover: hover)", async () => {
+    const input =
+      "@media (hover: hover) { @supports (display: grid) { .btn:--engaged { background: red; } } }";
+    expect(run(input)).rejects.toThrow(/already inside/);
+  });
+
+  test("descendant combinator after :--engaged", async () => {
+    const output = await run(".btn:--engaged .child { color: red; }");
+    expect(output).toMatchInlineSnapshot(
+      `"@media (hover: hover) {.btn:hover .child { color: red; } }@media (hover: none) {.btn:active .child { color: red; } }"`,
+    );
+  });
+
+  test("custom replace.hover", async () => {
+    const output = await run(".btn:--engaged { background: red; }", [
+      postcssEngaged({ replace: { hover: ":is(:hover, :focus-visible)" } }),
+    ]);
+    expect(output).toMatchInlineSnapshot(
+      `"@media (hover: hover) {.btn:is(:hover, :focus-visible) { background: red; } }@media (hover: none) {.btn:active { background: red; } }"`,
+    );
+  });
+
+  test("custom replace.active", async () => {
+    const output = await run(".btn:--engaged { background: red; }", [
+      postcssEngaged({ replace: { active: ":is(:active, [data-active])" } }),
+    ]);
+    expect(output).toMatchInlineSnapshot(
       `"@media (hover: hover) {.btn:hover { background: red; } }@media (hover: none) {.btn:is(:active, [data-active]) { background: red; } }"`,
+    );
+  });
+
+  test("custom replace.hover and replace.active together", async () => {
+    const output = await run(".btn:--engaged { background: red; }", [
+      postcssEngaged({
+        replace: { hover: ":is(:hover, :focus-visible)", active: ":is(:active, [data-active])" },
+      }),
+    ]);
+    expect(output).toMatchInlineSnapshot(
+      `"@media (hover: hover) {.btn:is(:hover, :focus-visible) { background: red; } }@media (hover: none) {.btn:is(:active, [data-active]) { background: red; } }"`,
     );
   });
 });

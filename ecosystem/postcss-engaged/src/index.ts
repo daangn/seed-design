@@ -2,6 +2,10 @@ import type { AtRule, Container, Document, PluginCreator } from "postcss";
 
 export interface PluginOptions {
   selector?: string;
+  replace?: {
+    hover?: string;
+    active?: string;
+  };
 }
 
 function isAtRule(node: Container | Document): node is AtRule {
@@ -29,6 +33,8 @@ function isAlreadyWrapped(ancestor: Container | Document | undefined) {
 export const postcssEngaged: PluginCreator<PluginOptions> = (opts = {}) => {
   const selector = opts.selector ?? ":--engaged";
   const selectorRe = new RegExp(selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+  const hoverReplacement = opts.replace?.hover ?? ":hover";
+  const activeReplacement = opts.replace?.active ?? ":active";
 
   return {
     postcssPlugin: PLUGIN_NAME,
@@ -45,8 +51,8 @@ export const postcssEngaged: PluginCreator<PluginOptions> = (opts = {}) => {
         );
       }
 
-      const hoverSelector = rule.selector.replace(selectorRe, ":hover");
-      const activeSelector = rule.selector.replace(selectorRe, ":is(:active, [data-active])");
+      const hoverSelector = rule.selector.replace(selectorRe, hoverReplacement);
+      const activeSelector = rule.selector.replace(selectorRe, activeReplacement);
 
       const hoverRule = rule.clone({ selector: hoverSelector });
       const hoverMedia = new AtRule({ name: "media", params: "(hover: hover)" });
