@@ -1,0 +1,1 @@
+../../plugins/seed-design/skills/write-react-component-docs/SKILL.md
