@@ -1,13 +1,21 @@
 ---
 title: Commands
-description: "@seed-design/cli 패키지를 사용하여 seed-design을 더 쉽게 사용할 수 있습니다."
+description: "@seed-design/cli 명령어를 안내해요."
 ---
+
+## 공통 동작
+
+- `add`, `add-all`은 `seed-design.json` 설정 파일을 사용해요.
+- 설정 파일이 없거나 읽을 수 없으면 생성할지 먼저 물어봐요.
+- 항목 추가 시 필요한 npm 패키지 의존성은 자동으로 설치돼요.
+- 기존 파일과 내용이 다르면 기본적으로 `덮어쓰기 / 백업 후 교체 / 건너뛰기`를 선택할 수 있어요.
+- `--on-diff` 옵션을 주면 충돌 처리 방식을 미리 고정할 수 있어요.
 
 ## init
 
-`seed-design.json` 파일을 생성하기 위한 명령어입니다.
+`seed-design.json` 파일을 생성하는 명령어예요.
 
-<Card icon={<IconFile />} title="Configuration" href="/react/getting-started/cli/configuration#옵션">
+<Card icon={<IconFile />} title="Configuration" href="/react/getting-started/cli/configuration">
 
 `seed-design.json` 파일에 대해 알아봅니다.
 
@@ -37,6 +45,9 @@ npx @seed-design/cli@latest init
 │
 ◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
 │  ./seed-design
+│
+◇  개선을 위해 익명 사용 데이터를 수집할까요?
+│  Yes
 ```
 
 </Step>
@@ -44,19 +55,19 @@ npx @seed-design/cli@latest init
 
 ### 옵션
 
-```sh copy
-Usage:
-  $ seed-design init
+| 옵션 | 설명 |
+|------|------|
+| `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
+| `-y, --yes` | 질문 없이 기본값으로 `seed-design.json` 생성 |
+| `-h, --help` | 도움말 출력 |
 
-Options:
-  -c, --cwd <cwd>  작업 디렉토리. 기본값은 현재 디렉토리.
-  -y, --yes        모든 질문에 대해 기본값으로 답변합니다.
-  -h, --help       Display this message
+```package-install
+npx @seed-design/cli@latest init --yes
 ```
 
 ## add
 
-스니펫을 다운로드받기 위한 명령어입니다.
+스니펫을 다운로드하고 프로젝트에 추가하는 명령어예요.
 
 <Card icon={<IconFile />} title="Snippet" href="/react/components/concepts/snippet">
 
@@ -68,7 +79,7 @@ Options:
 npx @seed-design/cli@latest add [...item-ids]
 ```
 
-`item-ids`를 입력하지 않고 명령어를 입력하면 다운로드받을 수 있는 모든 항목을 인터랙티브하게 선택할 수 있습니다.
+`item-ids`를 생략하면, 다운로드 가능한 항목을 인터랙티브하게 선택할 수 있어요.
 
 ```package-install
 npx @seed-design/cli@latest add
@@ -88,7 +99,7 @@ npx @seed-design/cli@latest add
 └
 ```
 
-여러 항목을 직접 지정해서 추가할 수도 있습니다.
+여러 항목을 직접 지정할 수도 있어요.
 
 ```package-install
 npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
@@ -96,22 +107,19 @@ npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
 
 ### 옵션
 
-```sh copy
-Usage:
-  $ seed-design add [...item-ids]
-
-Options:
-  -c, --cwd <cwd>          작업 디렉토리. 기본값은 현재 디렉토리.
-  -u, --baseUrl <baseUrl>  레지스트리의 base URL. 기본값은 현재 디렉토리.
-  --overwrite              기존 파일을 확인 없이 덮어쓰기
-  -h, --help               Display this message
-```
+| 옵션 | 설명 |
+|------|------|
+| `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
+| `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
+| `-a, --all` | **Deprecated**. 현재는 에러를 출력하고 `add-all` 사용을 안내 |
+| `-h, --help` | 도움말 출력 |
 
 ### baseUrl 사용하기
 
 `--baseUrl` 옵션을 사용하면 스니펫을 다운로드할 레지스트리를 직접 지정할 수 있습니다.
 
-기본값은 [`https://seed-design.io`](https://seed-design.io)입니다.
+기본값은 배포 환경 기준 [`https://seed-design.io`](https://seed-design.io)입니다.
 
 이 옵션은 특정 SEED React 패키지와 호환되는 스니펫이 필요한 경우 활용할 수 있습니다.
 
@@ -123,9 +131,16 @@ npx @seed-design/cli@latest add --baseUrl https://1-0.seed-design.pages.dev
 npx @seed-design/cli@latest add --baseUrl https://1-1.seed-design.pages.dev
 ```
 
+### 파일 충돌 처리
+
+`--on-diff`를 지정하지 않으면, 기존 파일과 새 스니펫이 다를 때 아래 중 하나를 직접 고를 수 있어요.
+- 덮어쓰기
+- 기존 파일을 `legacy-<파일명>-<timestamp>`로 백업 후 교체
+- 건너뛰기
+
 ## add-all
 
-레지스트리의 모든 항목을 한 번에 다운로드받기 위한 명령어입니다.
+레지스트리 단위로 항목을 한 번에 추가하는 명령어예요.
 
 ```package-install
 npx @seed-design/cli@latest add-all [...registry-ids]
@@ -149,17 +164,15 @@ deprecated 항목을 포함하려면 `--include-deprecated` 옵션을 사용하�
 npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리의 모든 항목 추가 (deprecated 포함)
 ```
 
+레지스트리 ID와 `--all`을 모두 생략하면, 추가할 레지스트리를 인터랙티브하게 선택할 수 있어요.
+
 ### 옵션
 
-```sh copy
-Usage:
-  $ seed-design add-all [...registry-ids]
-
-Options:
-  -a, --all                모든 레지스트리의 모든 항목 추가
-  --include-deprecated     deprecated 항목 포함 (--all과 함께 사용 시)
-  -c, --cwd <cwd>          작업 디렉토리. 기본값은 현재 디렉토리.
-  -u, --baseUrl <baseUrl>  레지스트리의 base URL. 기본값은 현재 디렉토리.
-  --overwrite              기존 파일을 확인 없이 덮어쓰기
-  -h, --help               Display this message
-```
+| 옵션 | 설명 |
+|------|------|
+| `-a, --all` | 모든 레지스트리의 모든 항목 추가 |
+| `--include-deprecated` | deprecated 항목 포함 |
+| `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
+| `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
+| `-h, --help` | 도움말 출력 |
