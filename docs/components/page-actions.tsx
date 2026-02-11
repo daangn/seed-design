@@ -62,6 +62,31 @@ export function LLMCopyButton({
   );
 }
 
+export function LLMPageLinkButton({
+  /**
+   * A URL to the raw Markdown/MDX content of page
+   */
+  markdownUrl,
+}: {
+  markdownUrl: string;
+}) {
+  return (
+    <a
+      href={markdownUrl}
+      rel="noreferrer noopener"
+      target="_blank"
+      className={buttonVariants({
+        color: "secondary",
+        size: "sm",
+        className: "gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
+      })}
+    >
+      <IconArrowUpRightLine />
+      llms.txt 열기
+    </a>
+  );
+}
+
 const optionVariants = cva(
   "text-sm p-2 rounded-lg inline-flex items-center gap-2 hover:text-fd-accent-foreground hover:bg-fd-accent [&_svg]:size-4",
 );

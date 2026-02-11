@@ -1,8 +1,10 @@
+import { getGitHubSourceUrl } from "@/app/_llms/config";
 import { lynxSource } from "@/app/source";
-import type { Metadata } from "next";
-import { DocsPage, DocsBody, DocsTitle, DocsDescription } from "fumadocs-ui/page";
-import { notFound } from "next/navigation";
+import { LLMCopyButton, LLMPageLinkButton, ViewOptions } from "@/components/page-actions";
 import { mdxComponents } from "@/components/mdx-components";
+import { DocsPage, DocsBody, DocsTitle, DocsDescription } from "fumadocs-ui/page";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
@@ -10,11 +12,18 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   if (!page) notFound();
 
   const { body: MDX, toc, lastModified } = await page.data.load();
+  const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
+  const markdownUrl = `/llms/lynx/${slugsWithExt.join("/")}`;
 
   return (
     <DocsPage toc={toc} full={page.data.full} lastUpdate={lastModified}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
+      <div className="flex flex-row gap-2 items-center mb-3 justify-end">
+        <LLMCopyButton markdownUrl={markdownUrl} />
+        <LLMPageLinkButton markdownUrl={markdownUrl} />
+        <ViewOptions markdownUrl={markdownUrl} githubUrl={getGitHubSourceUrl("lynx", page.path)} />
+      </div>
       <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <MDX components={mdxComponents} />
       </DocsBody>

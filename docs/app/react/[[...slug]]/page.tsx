@@ -1,7 +1,7 @@
 import { getGitHubSourceUrl } from "@/app/_llms/config";
 import { reactSource } from "@/app/source";
 import { mdxComponents } from "@/components/mdx-components";
-import { LLMCopyButton, ViewOptions } from "@/components/page-actions";
+import { LLMCopyButton, LLMPageLinkButton, ViewOptions } from "@/components/page-actions";
 import { getComponentStatus } from "@/components/rootage";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
@@ -43,6 +43,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       <DocsDescription>{displayDescription}</DocsDescription>
       <div className="flex flex-row gap-2 items-center mb-3 justify-end">
         <LLMCopyButton markdownUrl={markdownUrl} />
+        <LLMPageLinkButton markdownUrl={markdownUrl} />
         <ViewOptions markdownUrl={markdownUrl} githubUrl={getGitHubSourceUrl("react", page.path)} />
       </div>
       <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
