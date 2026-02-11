@@ -42,3 +42,19 @@ Custom pseudo-class selector to match. Defaults to `":--engaged"`.
 ```js
 postcssEngaged({ selector: ":--interact" });
 ```
+
+### `replace`
+
+Custom replacement selectors for hover and active states.
+
+- `hover` — selector used inside `@media (hover: hover)`. Defaults to `":hover"`.
+- `active` — selector used inside `@media (hover: none)`. Defaults to `":active"`.
+
+```js
+postcssEngaged({
+  replace: {
+    hover: ":is(:hover, :focus-visible)",
+    active: ":is(:active, [data-active])",
+  },
+});
+```
