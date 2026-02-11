@@ -120,13 +120,6 @@
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
 }
-@media (hover: hover) {
-    .seed-action-sheet__closeButton:is(:hover, [data-hover]) {
-        background-color: var(--seed-color-bg-layer-floating-pressed);
-    }
-}
-@media (hover: none) {
-    .seed-action-sheet__closeButton:is(:active, [data-active]) {
-        background-color: var(--seed-color-bg-layer-floating-pressed);
-    }
+.seed-action-sheet__closeButton:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-layer-floating-pressed);
 }

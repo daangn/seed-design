@@ -1202,16 +1202,8 @@
   display: inline-flex;
 }
 
-@media (hover: hover) {
-  .seed-action-chip:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-action-chip:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+.seed-action-chip:is(:active, [data-active]) {
+  background: var(--seed-color-bg-neutral-weak-pressed);
 }
 
 .seed-action-chip:is(:focus, [data-focus]) {
@@ -1396,16 +1388,8 @@
   display: flex;
 }
 
-@media (hover: hover) {
-  .seed-action-sheet__closeButton:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-layer-floating-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-action-sheet__closeButton:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-floating-pressed);
-  }
+.seed-action-sheet__closeButton:is(:active, [data-active]) {
+  background-color: var(--seed-color-bg-layer-floating-pressed);
 }
 
 .seed-action-sheet-item {
@@ -1422,16 +1406,8 @@
   position: relative;
 }
 
-@media (hover: hover) {
-  .seed-action-sheet-item:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-layer-floating-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-action-sheet-item:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-floating-pressed);
-  }
+.seed-action-sheet-item:is(:active, [data-active]) {
+  background-color: var(--seed-color-bg-layer-floating-pressed);
 }
 
 .seed-action-sheet-item:after {
@@ -4097,16 +4073,8 @@
   outline: none;
 }
 
-@media (hover: hover) {
-  .seed-control-chip:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-layer-default-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-control-chip:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-default-pressed);
-  }
+.seed-control-chip:is(:active, [data-active]) {
+  background: var(--seed-color-bg-layer-default-pressed);
 }
 
 .seed-control-chip:is(:checked, [data-checked]) {
@@ -4120,16 +4088,8 @@
   --seed-count-color: var(--seed-color-palette-static-white-alpha-800);
 }
 
-@media (hover: hover) {
-  .seed-control-chip:is(:checked, [data-checked]):is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-solid-muted-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-control-chip:is(:checked, [data-checked]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-solid-muted-pressed);
-  }
+.seed-control-chip:is(:checked, [data-checked]):is(:active, [data-active]) {
+  background: var(--seed-color-bg-neutral-solid-muted-pressed);
 }
 
 .seed-control-chip:is(:disabled, [disabled], [data-disabled]) {
@@ -4418,16 +4378,8 @@
   display: flex;
 }
 
-@media (hover: hover) {
-  .seed-extended-action-sheet__closeButton:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-extended-action-sheet__closeButton:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+.seed-extended-action-sheet__closeButton:is(:active, [data-active]) {
+  background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 
 .seed-extended-action-sheet-item {
@@ -4445,16 +4397,8 @@
   display: flex;
 }
 
-@media (hover: hover) {
-  .seed-extended-action-sheet-item:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-extended-action-sheet-item:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+.seed-extended-action-sheet-item:is(:active, [data-active]) {
+  background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 
 .seed-extended-action-sheet-item:last-child {
@@ -4510,16 +4454,8 @@
   color: var(--seed-color-fg-neutral-inverted);
 }
 
-@media (hover: hover) {
-  .seed-extended-fab--variant_neutralSolid:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+.seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
+  background: var(--seed-color-bg-neutral-inverted-pressed);
 }
 
 .seed-extended-fab--variant_neutralSolid {
@@ -4531,16 +4467,8 @@
   color: var(--seed-color-fg-neutral);
 }
 
-@media (hover: hover) {
-  .seed-extended-fab--variant_layerFloating:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-extended-fab--variant_layerFloating:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
-  }
+.seed-extended-fab--variant_layerFloating:is(:active, [data-active]) {
+  background: var(--seed-color-bg-layer-floating-pressed);
 }
 
 .seed-extended-fab--variant_layerFloating {
@@ -4601,16 +4529,8 @@
   box-shadow: 0 2px 6px #00000026;
 }
 
-@media (hover: hover) {
-  .seed-fab:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
-  }
-}
-
-@media (hover: none) {
-  .seed-fab:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
-  }
+.seed-fab:is(:active, [data-active]) {
+  background: var(--seed-color-bg-layer-floating-pressed);
 }
 
 .seed-field__root {

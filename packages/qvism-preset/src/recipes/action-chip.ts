@@ -1,7 +1,7 @@
 import { actionChip as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
-import { engaged, disabled, focus, pseudo } from "../utils/pseudo";
+import { active, disabled, focus, pseudo } from "../utils/pseudo";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 import { count } from "../utils/count";
 
@@ -40,7 +40,7 @@ const actionChip = defineRecipe({
       color: vars.base.enabled.count.color,
     }),
 
-    [pseudo(engaged)]: {
+    [pseudo(active)]: {
       background: vars.base.pressed.root.color,
     },
     [pseudo(focus)]: {

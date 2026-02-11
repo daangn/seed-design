@@ -2,7 +2,7 @@ import { fab as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { engaged, disabled, focus, pseudo } from "../utils/pseudo";
+import { active, disabled, focus, pseudo } from "../utils/pseudo";
 
 /**
  * @deprecated Use `contextual-floating-button` instead.
@@ -39,7 +39,7 @@ const fab = defineRecipe({
       size: vars.base.enabled.icon.size,
     }),
 
-    [pseudo(engaged)]: {
+    [pseudo(active)]: {
       background: vars.base.pressed.root.color,
     },
   },

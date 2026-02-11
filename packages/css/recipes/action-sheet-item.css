@@ -11,15 +11,8 @@
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
 }
-@media (hover: hover) {
-    .seed-action-sheet-item:is(:hover, [data-hover]) {
-        background-color: var(--seed-color-bg-layer-floating-pressed);
-    }
-}
-@media (hover: none) {
-    .seed-action-sheet-item:is(:active, [data-active]) {
-        background-color: var(--seed-color-bg-layer-floating-pressed);
-    }
+.seed-action-sheet-item:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-layer-floating-pressed);
 }
 .seed-action-sheet-item:after {
     content: '';

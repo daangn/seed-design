@@ -1,7 +1,7 @@
 import { actionSheetCloseButton as closeVars, actionSheet as vars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, not, open, pseudo } from "../utils/pseudo";
+import { active, not, open, pseudo } from "../utils/pseudo";
 
 /**
  * @deprecated Use `menu-sheet` instead.
@@ -131,7 +131,7 @@ const actionSheet = defineSlotRecipe({
       lineHeight: closeVars.base.enabled.label.lineHeight,
       fontWeight: closeVars.base.enabled.label.fontWeight,
 
-      [pseudo(engaged)]: {
+      [pseudo(active)]: {
         backgroundColor: closeVars.base.pressed.root.color,
       },
     },

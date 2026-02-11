@@ -26,15 +26,8 @@
 .seed-control-chip:is(:focus, [data-focus]) {
     outline: none;
 }
-@media (hover: hover) {
-    .seed-control-chip:is(:hover, [data-hover]) {
-        background: var(--seed-color-bg-layer-default-pressed);
-    }
-}
-@media (hover: none) {
-    .seed-control-chip:is(:active, [data-active]) {
-        background: var(--seed-color-bg-layer-default-pressed);
-    }
+.seed-control-chip:is(:active, [data-active]) {
+    background: var(--seed-color-bg-layer-default-pressed);
 }
 .seed-control-chip:is(:checked, [data-checked]) {
     box-shadow: none;
@@ -46,15 +39,8 @@
     --seed-icon-color: var(--seed-color-palette-static-white);
     --seed-count-color: var(--seed-color-palette-static-white-alpha-800);
 }
-@media (hover: hover) {
-    .seed-control-chip:is(:checked, [data-checked]):is(:hover, [data-hover]) {
-        background: var(--seed-color-bg-neutral-solid-muted-pressed);
-    }
-}
-@media (hover: none) {
-    .seed-control-chip:is(:checked, [data-checked]):is(:active, [data-active]) {
-        background: var(--seed-color-bg-neutral-solid-muted-pressed);
-    }
+.seed-control-chip:is(:checked, [data-checked]):is(:active, [data-active]) {
+    background: var(--seed-color-bg-neutral-solid-muted-pressed);
 }
 .seed-control-chip:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
