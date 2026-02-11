@@ -7,6 +7,7 @@ import {
   IconSquare2StackedLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { useMemo, useState } from "react";
+import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "seed-design/ui/snackbar";
 import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "fumadocs-ui/components/ui/popover";
@@ -26,10 +27,32 @@ export function LLMOptions({
 }: {
   markdownUrl: string;
 }) {
+  return (
+    <SnackbarProvider>
+      <LLMOptionsContent markdownUrl={markdownUrl} />
+    </SnackbarProvider>
+  );
+}
+
+function LLMOptionsContent({
+  markdownUrl,
+}: {
+  markdownUrl: string;
+}) {
+  const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const adapter = useSnackbarAdapter();
   const [, onCopyClick] = useCopyButton(async () => {
     const cached = cache.get(markdownUrl);
-    if (cached) return navigator.clipboard.writeText(cached);
+    if (cached) {
+      await navigator.clipboard.writeText(cached);
+      adapter.create({
+        timeout: 2000,
+        onClose: () => {},
+        render: () => <Snackbar message="복사되었습니다" />,
+      });
+      return;
+    }
 
     setLoading(true);
 
@@ -44,13 +67,24 @@ export function LLMOptions({
           }),
         }),
       ]);
+      adapter.create({
+        timeout: 2000,
+        onClose: () => {},
+        render: () => <Snackbar message="복사되었습니다" />,
+      });
     } finally {
       setLoading(false);
+      setOpen(false);
     }
   });
 
+  const handleCopyClick = () => {
+    setOpen(false);
+    void onCopyClick();
+  };
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         className={buttonVariants({
           color: "secondary",
@@ -67,7 +101,7 @@ export function LLMOptions({
           type="button"
           disabled={isLoading}
           className={optionVariants()}
-          onClick={onCopyClick}
+          onClick={handleCopyClick}
         >
           <IconSquare2StackedLine />
           복사하기
@@ -77,6 +111,7 @@ export function LLMOptions({
           rel="noreferrer noopener"
           target="_blank"
           className={optionVariants()}
+          onClick={() => setOpen(false)}
         >
           <IconArrowUpRightLine />
           열기
