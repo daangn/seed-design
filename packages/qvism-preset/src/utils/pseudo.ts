@@ -23,6 +23,8 @@ export const hidden = ":is([hidden], [data-hidden])";
 
 export const invalid = ":is(:invalid, [data-invalid])";
 
+export const engaged = ":--engaged";
+
 export const loading = "[data-loading]";
 
 export const before = "::before";
