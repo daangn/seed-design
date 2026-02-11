@@ -78,9 +78,9 @@ function LLMOptionsContent({
     }
   });
 
-  const handleCopyClick = () => {
+  const handleCopyClick = (event: Parameters<typeof onCopyClick>[0]) => {
     setOpen(false);
-    void onCopyClick();
+    void onCopyClick(event);
   };
 
   return (
