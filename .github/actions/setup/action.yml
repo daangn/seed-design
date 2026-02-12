@@ -45,6 +45,13 @@ runs:
         restore-keys: |
           ${{ runner.os }}-build-
 
+    - name: Relink workspace after cache restore
+      if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit == 'true' }}
+      shell: bash
+      run: |
+        echo "✓ Cache hit - relinking workspace packages..."
+        bun install --frozen-lockfile
+
     - name: Build Packages
       if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit != 'true' }}
       shell: bash
