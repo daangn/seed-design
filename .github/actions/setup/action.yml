@@ -42,8 +42,9 @@ runs:
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
-        key: ${{ runner.os }}-build-${{ hashFiles('packages/**/*.{ts,tsx,js,jsx}', 'ecosystem/**/*.{ts,tsx,js,jsx}') }}
+        key: ${{ runner.os }}-build-v2-${{ hashFiles('packages/**/*.{ts,tsx,js,jsx}', 'ecosystem/**/*.{ts,tsx,js,jsx}') }}
         restore-keys: |
+          ${{ runner.os }}-build-v2-
           ${{ runner.os }}-build-
 
     - name: Relink workspace after cache restore
