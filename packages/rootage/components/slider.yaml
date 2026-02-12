@@ -41,6 +41,7 @@ data:
           color:
             type: color
       valueIndicatorRoot:
+        description: arrow width + (valueIndicatorRoot paddingX * 2)만큼의 최소 너비를 가집니다.
         properties:
           color:
             type: color
@@ -48,6 +49,7 @@ data:
             type: dimension
           paddingX:
             type: dimension
+            description: value indicator 내부 좌우 여백입니다. arrow와 valueIndicatorRoot 경계 사이의 최소 간격에도 동일한 값이 적용됩니다.
           paddingY:
             type: dimension
           offsetY:
@@ -80,8 +82,7 @@ data:
             type: dimension
           gutter:
             type: dimension
-          padding:
-            type: dimension
+            description: arrow와 thumb 사이의 거리를 정의합니다.
       valueIndicatorLabel:
         properties:
           color:
@@ -125,9 +126,9 @@ data:
           color: $color.bg.neutral-inverted
         valueIndicatorRoot:
           color: $color.bg.neutral-inverted
-          cornerRadius: $radius.r1
-          paddingX: $dimension.x1_5
-          paddingY: $dimension.x0_5
+          cornerRadius: $radius.r1_5
+          paddingX: $dimension.x2
+          paddingY: $dimension.x1
           offsetY: $dimension.x3
           enterScale: 0.9
           enterOpacity: 0
@@ -139,15 +140,14 @@ data:
           exitTimingFunction: $timing-function.easing
         valueIndicatorArrow:
           color: $color.bg.neutral-inverted
-          width: $dimension.x2_5
-          height: 7px
+          width: $dimension.x2
+          height: $dimension.x1_5
           cornerRadius: $radius.r0_5
           gutter: $dimension.x0_5
-          padding: $dimension.x0_5
         valueIndicatorLabel:
           color: $color.fg.neutral-inverted
-          fontSize: $font-size.t1
-          lineHeight: $line-height.t1
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
           fontWeight: $font-weight.medium
         marker:
           color: $color.fg.neutral-muted

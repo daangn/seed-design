@@ -267,7 +267,7 @@
     --seed-exit-scale: 1;
 }
 .seed-app-bar__root--tone_layer:before {
-    background-color: var(--seed-color-bg-layer-default);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-default));
 }
 .seed-app-bar__icon--tone_layer {
     color: var(--seed-icon-color, var(--seed-color-fg-neutral));

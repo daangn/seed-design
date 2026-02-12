@@ -1,0 +1,1 @@
+../../plugins/seed-design/skills/create-component/SKILL.md

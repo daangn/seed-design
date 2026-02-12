@@ -41,10 +41,10 @@ jobs:
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         with:
           path: docs/.cache/figma-image
-          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/**/*.mdx') }}
+          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
           restore-keys: |
             ${{ runner.os }}-figma-images-
 
@@ -69,6 +69,12 @@ jobs:
           FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
         run: |
           bun run build
+
+      - name: Save Figma image cache
+        uses: actions/cache/save@v5
+        with:
+          path: docs/.cache/figma-image
+          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
 
       - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Production)
         run: |
