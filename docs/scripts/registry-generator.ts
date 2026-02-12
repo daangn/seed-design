@@ -106,7 +106,11 @@ export class RegistryGenerator {
 
       sourceFiles.push(sourceFile);
 
-      return { path: snippet.path, content: transformedContent };
+      return {
+        path: snippet.path,
+        content: transformedContent,
+        dependencies: snippet.dependencies,
+      };
     });
 
     const deps = this.resolveDependencies({
