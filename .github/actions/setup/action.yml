@@ -39,11 +39,13 @@ runs:
         path: |
           packages/**/dist
           packages/**/build
+          packages/**/lib
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
-        key: ${{ runner.os }}-build-v2-${{ hashFiles('packages/**/*.{ts,tsx,js,jsx}', 'ecosystem/**/*.{ts,tsx,js,jsx}') }}
+        key: ${{ runner.os }}-build-v3-${{ hashFiles('packages/**/*.{ts,tsx,js,jsx}', 'ecosystem/**/*.{ts,tsx,js,jsx}') }}
         restore-keys: |
+          ${{ runner.os }}-build-v3-
           ${{ runner.os }}-build-v2-
           ${{ runner.os }}-build-
 
@@ -53,7 +55,7 @@ runs:
       run: |
         echo "✓ Cache hit - relinking workspace packages..."
         echo "Checking restored build artifacts..."
-        ls -la packages/react/dist || echo "❌ packages/react/dist not found"
+        ls -la packages/react/lib || echo "❌ packages/react/lib not found"
         ls -la ecosystem/rootage/core/lib || echo "❌ ecosystem/rootage/core/lib not found"
         bun install --frozen-lockfile
         echo "Verifying symlinks after relink..."
@@ -65,8 +67,13 @@ runs:
       shell: bash
       run: |
         if [ "${{ inputs.build-rootage }}" == "true" ]; then
+          echo "Building packages and rootage..."
           bun packages:build && bun rootage:build
+          echo "Build completed. Checking outputs..."
+          ls -la packages/react/lib || echo "❌ packages/react/lib not found after build"
+          ls -la ecosystem/rootage/core/lib || echo "❌ ecosystem/rootage/core/lib not found after build"
         else
+          echo "Building packages only..."
           bun packages:build
         fi
 
