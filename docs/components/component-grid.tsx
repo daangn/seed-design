@@ -10,6 +10,12 @@ const client = env.figmaPersonalAccessToken
   ? createFigmaClient(env.figmaPersonalAccessToken)
   : undefined;
 
+function requireImageUrl(urls: Map<string, string>, nodeId: string): string {
+  const url = urls.get(nodeId);
+  if (!url) throw new Error(`[component-grid] Failed to get image URL for Figma node: ${nodeId}`);
+  return url;
+}
+
 function getCategoryFromPath(path: string): string | null {
   const match = path.match(/components\/\(([^)]+)\)\//);
   if (!match) return null;
@@ -58,7 +64,7 @@ export async function ComponentGrid() {
                   {...(page.data.coverImageFigmaId &&
                     env.figmaFileKey &&
                     client && {
-                      coverImageSrc: (
+                      coverImageSrc: requireImageUrl(
                         await fetchFigmaImageUrls({
                           client,
                           fileKey: env.figmaFileKey,
@@ -66,8 +72,9 @@ export async function ComponentGrid() {
                           options: {
                             scale: 3,
                           },
-                        })
-                      ).get(page.data.coverImageFigmaId),
+                        }),
+                        page.data.coverImageFigmaId,
+                      ),
                     })}
                   title={page.data.title}
                   description={page.data.description}
