@@ -75,3 +75,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
           CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
           bun wrangler pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+
+          
