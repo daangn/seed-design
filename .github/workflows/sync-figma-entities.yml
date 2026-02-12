@@ -39,10 +39,11 @@ jobs:
           FIGMA_COMPONENTS_FILE_KEY: ${{ secrets.FIGMA_COMPONENTS_FILE_KEY }}
           FIGMA_TEMPLATES_FILE_KEY: ${{ secrets.FIGMA_TEMPLATES_FILE_KEY }}
 
-      - name: "@seed-design/figma를 빌드해요"
+      - name: "@seed-design/figma를 타입체크하고 빌드해요"
         id: build
         continue-on-error: true
-        run: bun --filter @seed-design/figma build
+        working-directory: packages/figma
+        run: bunx tsc --noEmit && bun run build
 
       - name: 변경사항이 있는지 확인해요
         id: check-diff
@@ -77,7 +78,7 @@ jobs:
           Figma entity 데이터가 변경되었어요.
 
           - 변경된 파일 수: ${{ steps.check-diff.outputs.file_count }}개
-          - 빌드 결과: ${{ steps.build.outcome == 'success' && '✅ 성공' || '❌ 실패' }}
+          - 타입체크 & 빌드: ${{ steps.build.outcome == 'success' && '✅ 성공' || '❌ 실패' }}
           EOF
           )"
           EXISTING_PR=$(gh pr list --head chore/sync-figma-entities --base dev --state open --json url --jq '.[0].url')
@@ -118,7 +119,7 @@ jobs:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "변경된 파일 수: *${{ steps.check-diff.outputs.file_count }}개*\n빌드 결과: *${{ steps.build.outcome == 'success' && '✅ 성공' || '❌ 실패' }}*"
+                  text: "변경된 파일 수: *${{ steps.check-diff.outputs.file_count }}개*\n타입체크 & 빌드: *${{ steps.build.outcome == 'success' && '✅ 성공' || '❌ 실패' }}*"
               - type: "actions"
                 elements:
                   - type: "button"
