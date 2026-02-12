@@ -30,15 +30,13 @@ export class CliError extends Error {
   code: string;
   hint?: string;
   details: string[];
-  cause?: unknown;
 
   constructor({ code, message, hint, details = [], cause }: CliErrorOptions) {
-    super(message);
+    super(message, { cause });
     this.name = "CliError";
     this.code = code;
     this.hint = hint;
     this.details = details;
-    this.cause = cause;
   }
 }
 
@@ -161,6 +159,6 @@ export function handleCliError(
     p.log.message(normalized.stack);
   }
 
-  p.outro(highlight("작업이 취소됐어요."));
+  p.outro(highlight("작업에 실패했어요."));
   process.exit(1);
 }

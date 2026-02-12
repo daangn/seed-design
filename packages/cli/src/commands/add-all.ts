@@ -110,11 +110,18 @@ export const addAllCommand = (cli: CAC) => {
             options: publicRegistries
               .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
               .sort((a, b) => b.items.length - a.items.length)
-              .map((registry) => ({
-                label: registry.id,
-                value: registry.id,
-                hint: `${registry.items.length}개 항목 (${registry.items[0].id} 등)`,
-              })),
+              .map((registry) => {
+                const firstItemId = registry.items[0]?.id;
+                const hint = firstItemId
+                  ? `${registry.items.length}개 항목 (${firstItemId} 등)`
+                  : `${registry.items.length}개 항목 (항목 없음)`;
+
+                return {
+                  label: registry.id,
+                  value: registry.id,
+                  hint,
+                };
+              }),
           });
 
           if (p.isCancel(selected)) {
@@ -140,9 +147,10 @@ export const addAllCommand = (cli: CAC) => {
             .map((item) => `${registry.id}:${item.id}`),
         );
 
-        const deprecatedCount = selectedRegistries.flatMap((r) =>
-          r.items.filter((item) => item.deprecated).map(() => 1),
-        ).length;
+        const deprecatedCount = selectedRegistries.reduce(
+          (count, r) => count + r.items.filter((item) => item.deprecated).length,
+          0,
+        );
 
         if (!options.includeDeprecated && deprecatedCount > 0) {
           p.log.info(
@@ -193,16 +201,22 @@ export const addAllCommand = (cli: CAC) => {
 
         // add-all 성공 이벤트 추적
         const duration = Date.now() - startTime;
-        await analytics.track(options.cwd, {
-          event: "add-all",
-          properties: {
-            registries: selectedRegistryIds,
-            items_count: itemKeys.length,
-            include_deprecated: options.includeDeprecated || false,
-            dependencies_count: npmDependenciesToAdd.size,
-            duration_ms: duration,
-          },
-        });
+        try {
+          await analytics.track(options.cwd, {
+            event: "add-all",
+            properties: {
+              registries: selectedRegistryIds,
+              items_count: itemKeys.length,
+              include_deprecated: options.includeDeprecated || false,
+              dependencies_count: npmDependenciesToAdd.size,
+              duration_ms: duration,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] add-all tracking failed:", telemetryError);
+          }
+        }
       } catch (error) {
         if (isCliCancelError(error)) {
           p.outro(highlight(error.message));

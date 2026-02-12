@@ -46,9 +46,7 @@ export async function promptInitConfig(): Promise<Config> {
     },
   );
 
-  return {
-    ...group,
-  };
+  return group;
 }
 
 export async function writeInitConfigFile({

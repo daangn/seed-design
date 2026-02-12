@@ -87,7 +87,7 @@ export const addCommand = (cli: CAC) => {
         stop("Registry를 가져왔어요.");
 
         const selectedItemKeys: string[] = await (async () => {
-          if ((options.itemIds?.length ?? 0) > 0) {
+          if (options.itemIds?.length) {
             return options.itemIds ?? [];
           }
 
@@ -220,16 +220,22 @@ export const addCommand = (cli: CAC) => {
             ?.items.find((i) => i.id === itemId)?.deprecated;
         });
 
-        await analytics.track(options.cwd, {
-          event: "add",
-          properties: {
-            items_count: filteredItemKeys.length,
-            registries: Array.from(uniqueRegistries),
-            has_deprecated: hasDeprecated,
-            dependencies_count: npmDependenciesToAdd.size,
-            duration_ms: duration,
-          },
-        });
+        try {
+          await analytics.track(options.cwd, {
+            event: "add",
+            properties: {
+              items_count: filteredItemKeys.length,
+              registries: Array.from(uniqueRegistries),
+              has_deprecated: hasDeprecated,
+              dependencies_count: npmDependenciesToAdd.size,
+              duration_ms: duration,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] add tracking failed:", telemetryError);
+          }
+        }
       } catch (error) {
         if (isCliCancelError(error)) {
           p.outro(highlight(error.message));

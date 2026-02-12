@@ -35,14 +35,22 @@ export const initCommand = (cli: CAC) => {
         const config: Config = isDefaultMode ? DEFAULT_INIT_CONFIG : await promptInitConfig();
 
         const { start, stop } = p.spinner();
+        let spinnerStopped = false;
         start("seed-design.json 파일 생성중...");
+        let relativePath = "";
+        try {
+          ({ relativePath } = await writeInitConfigFile({
+            cwd: options.cwd,
+            config,
+          }));
 
-        const { relativePath } = await writeInitConfigFile({
-          cwd: options.cwd,
-          config,
-        });
-
-        stop(`seed-design.json 파일이 ${highlight(relativePath)}에 생성됐어요.`);
+          stop(`seed-design.json 파일이 ${highlight(relativePath)}에 생성됐어요.`);
+          spinnerStopped = true;
+        } finally {
+          if (!spinnerStopped) {
+            stop("seed-design.json 파일 생성이 중단됐어요.");
+          }
+        }
 
         p.log.info(highlight("seed-design add {component} 명령어로 컴포넌트를 추가해보세요!"));
         p.log.info(
@@ -64,16 +72,22 @@ export const initCommand = (cli: CAC) => {
 
         // init 성공 이벤트 추적
         const duration = Date.now() - startTime;
-        await analytics.track(options.cwd, {
-          event: "init",
-          properties: {
-            tsx: config.tsx,
-            rsc: config.rsc,
-            telemetry: config.telemetry,
-            yes_option: isDefaultMode,
-            duration_ms: duration,
-          },
-        });
+        try {
+          await analytics.track(options.cwd, {
+            event: "init",
+            properties: {
+              tsx: config.tsx,
+              rsc: config.rsc,
+              telemetry: config.telemetry,
+              yes_option: isDefaultMode,
+              duration_ms: duration,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] init tracking failed:", telemetryError);
+          }
+        }
       } catch (error) {
         if (isCliCancelError(error)) {
           p.outro(highlight(error.message));

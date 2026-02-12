@@ -19,7 +19,7 @@ src/index.ts
   ├─ commands/add.ts
   └─ commands/add-all.ts
 
-commands/*
+src/utils/*
   ├─ get-config.ts (seed-design.json 로드/자동 생성)
   ├─ fetch.ts (registry 조회)
   ├─ write.ts (snippet 파일 반영)

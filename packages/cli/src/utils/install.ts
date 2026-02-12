@@ -37,6 +37,7 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
   try {
     await execa(packageManager, command, { cwd });
   } catch (error) {
+    stop("의존성 설치에 실패했어요.");
     throw new CliError({
       code: "INSTALL_FAILED",
       message: "의존성 설치에 실패했어요.",
