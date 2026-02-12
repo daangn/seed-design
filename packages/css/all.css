@@ -3664,29 +3664,41 @@
 .seed-content-placeholder__root {
   box-sizing: border-box;
   vertical-align: top;
-  width: 100%;
-  height: 100%;
-  padding: var(--seed-dimension-x1);
   background-color: var(--seed-color-palette-gray-200);
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
   display: inline-flex;
   position: relative;
   overflow: hidden;
 }
 
-.seed-content-placeholder__icon {
+.seed-content-placeholder__container {
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   min-width: var(--seed-dimension-x4);
   max-width: 120px;
+  padding: var(--seed-dimension-x7);
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-flex;
+}
+
+.seed-content-placeholder__asset {
+  aspect-ratio: 1;
+  width: auto;
+  max-width: 100%;
+  height: 100%;
   color: var(--seed-color-palette-gray-400);
   fill: currentColor;
   stroke: currentColor;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 .seed-contextual-floating-button {

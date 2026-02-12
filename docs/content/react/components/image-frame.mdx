@@ -28,7 +28,9 @@ import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
   alt="..."
   fallback={
     <ContentPlaceholder.Root>
-      <ContentPlaceholder.Icon svg={<IconPictureFill />} />
+      <ContentPlaceholder.Container>
+        <ContentPlaceholder.Asset svg={<IconPictureFill />} />
+      </ContentPlaceholder.Container>
     </ContentPlaceholder.Root>
   }
 />

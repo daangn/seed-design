@@ -14,7 +14,9 @@ export const ContentPlaceholder = React.forwardRef<HTMLDivElement, ContentPlaceh
   ({ icon, ...props }, ref) => {
     return (
       <SeedContentPlaceholder.Root {...props} ref={ref}>
-        <SeedContentPlaceholder.Icon svg={icon} />
+        <SeedContentPlaceholder.Container>
+          <SeedContentPlaceholder.Asset svg={icon} />
+        </SeedContentPlaceholder.Container>
       </SeedContentPlaceholder.Root>
     );
   },

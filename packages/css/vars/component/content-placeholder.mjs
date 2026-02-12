@@ -2,13 +2,15 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-palette-gray-200)",
-        "padding": "var(--seed-dimension-x1)"
+        "color": "var(--seed-color-palette-gray-200)"
       },
-      "icon": {
-        "color": "var(--seed-color-palette-gray-400)",
+      "container": {
         "minWidth": "var(--seed-dimension-x4)",
-        "maxWidth": "120px"
+        "maxWidth": "120px",
+        "padding": "var(--seed-dimension-x7)"
+      },
+      "asset": {
+        "color": "var(--seed-color-palette-gray-400)"
       }
     }
   }

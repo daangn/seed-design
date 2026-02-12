@@ -19,9 +19,18 @@ export const ContentPlaceholderRoot = withProvider<HTMLDivElement, ContentPlaceh
   "root",
 );
 
-export interface ContentPlaceholderIconProps extends InternalIconProps {}
+export interface ContentPlaceholderContainerProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const ContentPlaceholderIcon = withContext<SVGSVGElement, ContentPlaceholderIconProps>(
+export const ContentPlaceholderContainer = withContext<
+  HTMLDivElement,
+  ContentPlaceholderContainerProps
+>(Primitive.div, "container");
+
+export interface ContentPlaceholderAssetProps extends InternalIconProps {}
+
+export const ContentPlaceholderAsset = withContext<SVGSVGElement, ContentPlaceholderAssetProps>(
   InternalIcon,
-  "icon",
+  "asset",
 );

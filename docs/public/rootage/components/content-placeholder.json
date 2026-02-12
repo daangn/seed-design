@@ -13,22 +13,26 @@
           "properties": {
             "color": {
               "type": "color"
+            }
+          }
+        },
+        "container": {
+          "properties": {
+            "minWidth": {
+              "type": "dimension"
+            },
+            "maxWidth": {
+              "type": "dimension"
             },
             "padding": {
               "type": "dimension"
             }
           }
         },
-        "icon": {
+        "asset": {
           "properties": {
             "color": {
               "type": "color"
-            },
-            "minWidth": {
-              "type": "dimension"
-            },
-            "maxWidth": {
-              "type": "dimension"
             }
           }
         }
@@ -48,17 +52,9 @@
                 "color": {
                   "type": "color",
                   "value": "$color.palette.gray-200"
-                },
-                "padding": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
                 }
               },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-400"
-                },
+              "container": {
                 "minWidth": {
                   "type": "dimension",
                   "value": "$dimension.x4"
@@ -69,6 +65,16 @@
                     "value": 120,
                     "unit": "px"
                   }
+                },
+                "padding": {
+                  "type": "dimension",
+                  "value": "$dimension.x7"
+                }
+              },
+              "asset": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-400"
                 }
               }
             }
