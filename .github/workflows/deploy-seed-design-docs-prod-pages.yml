@@ -48,7 +48,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: docs/.cache/figma-image
-          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/**/*.mdx') }}
+          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/**/*.mdx') }}-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-figma-images-
 
@@ -79,7 +79,7 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: docs/.cache/figma-image
-          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/**/*.mdx') }}
+          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/**/*.mdx') }}-${{ github.run_id }}
 
       - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Production)
         run: |
