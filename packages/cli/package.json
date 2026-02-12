@@ -28,7 +28,7 @@
     "@babel/core": "^7.26.10",
     "@babel/parser": "^7.27.0",
     "@babel/plugin-transform-typescript": "^7.27.0",
-    "@clack/prompts": "^0.11.0",
+    "@clack/prompts": "^1.0.0",
     "@npmcli/disparity-colors": "^3.0.1",
     "cac": "^6.7.14",
     "cosmiconfig": "^9.0.0",

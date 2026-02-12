@@ -1,5 +1,6 @@
 import * as p from "@clack/prompts";
 import { execa } from "execa";
+import { CliError } from "./error";
 import { getPackageManager } from "./get-package-manager";
 import { getPackageInfo } from "./get-package-info";
 
@@ -31,12 +32,18 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
   const isDev = dev ? "-D" : null;
   const addCommand = packageManager === "npm" ? "install" : "add";
   const command = [addCommand, isDev, ...depsToInstall].filter(Boolean);
+  const commandLabel = `${packageManager} ${command.join(" ")}`;
 
   try {
     await execa(packageManager, command, { cwd });
   } catch (error) {
-    console.error(`의존성 설치 실패: ${error}`);
-    process.exit(1);
+    throw new CliError({
+      code: "INSTALL_FAILED",
+      message: "의존성 설치에 실패했어요.",
+      hint: "네트워크 상태를 확인하고, 설치 명령어를 직접 실행해 상세 오류를 확인해보세요.",
+      details: [`실행 명령어: ${commandLabel}`],
+      cause: error,
+    });
   }
 
   stop("의존성 설치가 완료됐어요.");

@@ -10,6 +10,7 @@ description: "@seed-design/cli 명령어를 안내해요."
 - 항목 추가 시 필요한 npm 패키지 의존성은 자동으로 설치돼요.
 - 기존 파일과 내용이 다르면 기본적으로 `덮어쓰기 / 백업 후 교체 / 건너뛰기`를 선택할 수 있어요.
 - `--on-diff` 옵션을 주면 충돌 처리 방식을 미리 고정할 수 있어요.
+- 실패 원인을 자세히 확인하려면 `--verbose` 옵션을 사용할 수 있어요.
 
 ## init
 
@@ -59,6 +60,8 @@ npx @seed-design/cli@latest init
 |------|------|
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-y, --yes` | 질문 없이 기본값으로 `seed-design.json` 생성 |
+| `--default` | Deprecated. `--yes`와 동일하게 기본값으로 생성 |
+| `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
 
 ```package-install
@@ -113,6 +116,7 @@ npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
 | `-a, --all` | **Deprecated**. 현재는 에러를 출력하고 `add-all` 사용을 안내 |
+| `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
 
 ### baseUrl 사용하기
@@ -175,4 +179,5 @@ npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
+| `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |

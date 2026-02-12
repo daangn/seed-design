@@ -1,9 +1,9 @@
 import * as p from "@clack/prompts";
-import fs from "fs-extra";
-import path from "path";
 import { z } from "zod";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
+import { handleCliError, isCliCancelError, isVerboseMode } from "../utils/error";
+import { DEFAULT_INIT_CONFIG, promptInitConfig, writeInitConfigFile } from "../utils/init-config";
 
 import type { Config } from "@/src/utils/get-config";
 
@@ -13,6 +13,7 @@ import dedent from "dedent";
 const initOptionsSchema = z.object({
   cwd: z.string(),
   yes: z.boolean().optional(),
+  default: z.boolean().optional(),
 });
 
 export const initCommand = (cli: CAC) => {
@@ -22,64 +23,25 @@ export const initCommand = (cli: CAC) => {
       default: process.cwd(),
     })
     .option("-y, --yes", "모든 질문에 대해 기본값으로 답변합니다.")
+    .option("--default", "Deprecated. --yes와 동일하게 기본값으로 생성합니다.")
     .action(async (opts) => {
       const startTime = Date.now();
+      const verbose = isVerboseMode(opts);
       p.intro("seed-design.json 파일 생성");
 
-      const options = initOptionsSchema.parse(opts);
-      const isYesOption = options.yes;
-      let config: Config = {
-        rsc: false,
-        tsx: true,
-        path: "./seed-design",
-        telemetry: true,
-      };
-
-      if (!isYesOption) {
-        const group = await p.group(
-          {
-            tsx: () =>
-              p.confirm({
-                message: `${highlight("TypeScript")}를 사용중이신가요?`,
-                initialValue: true,
-              }),
-            rsc: () =>
-              p.confirm({
-                message: `${highlight("React Server Components")}를 사용중이신가요?`,
-                initialValue: false,
-              }),
-            path: () =>
-              p.text({
-                message: `${highlight("seed-design 폴더")} 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)`,
-                initialValue: "./seed-design",
-                defaultValue: "./seed-design",
-                placeholder: "./seed-design",
-              }),
-            telemetry: () =>
-              p.confirm({
-                message: `개선을 위해 ${highlight("익명 사용 데이터")}를 수집할까요?`,
-                initialValue: true,
-              }),
-          },
-          {
-            onCancel: () => {
-              p.cancel("작업이 취소됐어요.");
-              process.exit(0);
-            },
-          },
-        );
-
-        config = {
-          ...group,
-        };
-      }
-
       try {
+        const options = initOptionsSchema.parse(opts);
+        const isDefaultMode = options.yes || options.default;
+        const config: Config = isDefaultMode ? DEFAULT_INIT_CONFIG : await promptInitConfig();
+
         const { start, stop } = p.spinner();
         start("seed-design.json 파일 생성중...");
-        const targetPath = path.resolve(options.cwd, "seed-design.json");
-        await fs.writeFile(targetPath, `${JSON.stringify(config, null, 2)}\n`, "utf-8");
-        const relativePath = path.relative(process.cwd(), targetPath);
+
+        const { relativePath } = await writeInitConfigFile({
+          cwd: options.cwd,
+          config,
+        });
+
         stop(`seed-design.json 파일이 ${highlight(relativePath)}에 생성됐어요.`);
 
         p.log.info(highlight("seed-design add {component} 명령어로 컴포넌트를 추가해보세요!"));
@@ -99,23 +61,30 @@ export const initCommand = (cli: CAC) => {
         );
 
         p.outro("작업이 완료됐어요.");
-      } catch (error) {
-        p.log.error(`seed-design.json 파일 생성에 실패했어요. ${error}`);
-        p.outro(highlight("작업이 취소됐어요."));
-        process.exit(1);
-      }
 
-      // init 성공 이벤트 추적
-      const duration = Date.now() - startTime;
-      await analytics.track(options.cwd, {
-        event: "init",
-        properties: {
-          tsx: config.tsx,
-          rsc: config.rsc,
-          telemetry: config.telemetry,
-          yes_option: isYesOption,
-          duration_ms: duration,
-        },
-      });
+        // init 성공 이벤트 추적
+        const duration = Date.now() - startTime;
+        await analytics.track(options.cwd, {
+          event: "init",
+          properties: {
+            tsx: config.tsx,
+            rsc: config.rsc,
+            telemetry: config.telemetry,
+            yes_option: isDefaultMode,
+            duration_ms: duration,
+          },
+        });
+      } catch (error) {
+        if (isCliCancelError(error)) {
+          p.outro(highlight(error.message));
+          process.exit(0);
+        }
+
+        handleCliError(error, {
+          defaultMessage: "seed-design.json 파일 생성에 실패했어요.",
+          defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
+          verbose,
+        });
+      }
     });
 };
