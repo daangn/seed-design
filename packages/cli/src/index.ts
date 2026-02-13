@@ -2,6 +2,7 @@
 
 import { addCommand } from "@/src/commands/add";
 import { addAllCommand } from "@/src/commands/add-all";
+import { compatCommand } from "@/src/commands/compat";
 import { initCommand } from "@/src/commands/init";
 import { getPackageInfo } from "@/src/utils/get-package-info";
 import { cac } from "cac";
@@ -17,6 +18,7 @@ async function main() {
   /* Commands */
   addCommand(CLI);
   addAllCommand(CLI);
+  compatCommand(CLI);
   initCommand(CLI);
 
   CLI.version(packageInfo.version || "1.0.0", "-v, --version");
