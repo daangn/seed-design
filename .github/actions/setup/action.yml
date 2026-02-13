@@ -23,7 +23,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: ~/.bun/install/cache
-        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock', '**/bun.lockb') }}
         restore-keys: |
           ${{ runner.os }}-bun-
 
@@ -43,19 +43,44 @@ runs:
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
-        key: ${{ runner.os }}-build-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lockb') }}
+        key: ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lock', 'bun.lockb') }}
         restore-keys: |
-          ${{ runner.os }}-build-
+          ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-
 
     - name: Relink workspace after cache restore
       if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit == 'true' }}
       shell: bash
       run: |
         echo "✓ Cache hit - relinking workspace packages..."
+        PACKAGE_ARTIFACT_DIR="packages/react/lib"
+        ROOTAGE_ARTIFACT_FILE="ecosystem/rootage/core/lib/index.js"
+
         echo "Checking restored build artifacts..."
-        ls -la packages/react/lib || echo "❌ packages/react/lib not found"
-        ls -la ecosystem/rootage/core/lib || echo "❌ ecosystem/rootage/core/lib not found"
+        ls -la "$PACKAGE_ARTIFACT_DIR" || echo "packages/react/lib not found"
+        ls -la "$ROOTAGE_ARTIFACT_FILE" || echo "$ROOTAGE_ARTIFACT_FILE not found"
+
+        if [ ! -d "$PACKAGE_ARTIFACT_DIR" ]; then
+          echo "Package build artifacts are missing. Rebuilding packages..."
+          bun packages:build
+
+          if [ ! -d "$PACKAGE_ARTIFACT_DIR" ]; then
+            echo "Package artifacts are still missing after recovery build."
+            exit 1
+          fi
+        fi
+
+        if [ "${{ inputs.build-rootage }}" == "true" ] && [ ! -f "$ROOTAGE_ARTIFACT_FILE" ]; then
+          echo "Rootage build artifacts are missing. Rebuilding rootage..."
+          bun rootage:build
+        fi
+
         bun install --frozen-lockfile
+
+        if [ "${{ inputs.build-rootage }}" == "true" ] && [ ! -f "$ROOTAGE_ARTIFACT_FILE" ]; then
+          echo "Rootage artifact is still missing after recovery build."
+          exit 1
+        fi
+
         echo "Verifying symlinks after relink..."
 
     - name: Build Packages
@@ -72,4 +97,3 @@ runs:
           echo "Building packages only..."
           bun packages:build
         fi
-

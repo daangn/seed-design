@@ -13,7 +13,7 @@ interface InstallDependenciesProps {
 export async function installDependencies({ cwd, deps, dev = false }: InstallDependenciesProps) {
   const { start, stop } = p.spinner();
   const packageManager = await getPackageManager(cwd);
-  const packageInfo = getPackageInfo();
+  const packageInfo = getPackageInfo(cwd);
 
   // 이미 설치된 의존성 필터링
   const existingDeps = {

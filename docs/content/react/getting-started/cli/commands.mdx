@@ -8,6 +8,7 @@ description: "@seed-design/cli 명령어를 안내해요."
 - `add`, `add-all`은 `seed-design.json` 설정 파일을 사용해요.
 - 설정 파일이 없거나 읽을 수 없으면 생성할지 먼저 물어봐요.
 - 항목 추가 시 필요한 npm 패키지 의존성은 자동으로 설치돼요.
+- `add`, `add-all` 실행 시 스니펫이 요구하는 `@seed-design/react`, `@seed-design/css` 버전과 현재 프로젝트 버전이 다르면 경고를 보여줘요.
 - 기존 파일과 내용이 다르면 기본적으로 `덮어쓰기 / 백업 후 교체 / 건너뛰기`를 선택할 수 있어요.
 - `--on-diff` 옵션을 주면 충돌 처리 방식을 미리 고정할 수 있어요.
 - 실패 원인을 자세히 확인하려면 `--verbose` 옵션을 사용할 수 있어요.
@@ -179,5 +180,47 @@ npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
+| `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
+| `-h, --help` | 도움말 출력 |
+
+## compat
+
+현재 프로젝트의 `@seed-design/react`, `@seed-design/css` 버전과 스니펫 요구 버전이 호환되는지 검사해요.
+
+```package-install
+npx @seed-design/cli@latest compat
+```
+
+기본값은 `seed-design.json`의 `path` 아래에 이미 추가된 스니펫만 검사해요.
+
+호환성 이슈가 있으면 종료 코드 `1`, 문제가 없으면 `0`으로 종료돼서 CI/에이전트 환경에서도 바로 사용할 수 있어요.
+
+특정 항목만 검사할 수도 있어요.
+
+```package-install
+npx @seed-design/cli@latest compat ui:action-button ui:alert-dialog
+```
+
+컴포넌트 shorthand를 쓸 때는 `-c` 옵션을 사용해요.
+
+```package-install
+npx @seed-design/cli@latest compat -c action-button -c alert-dialog
+```
+
+모든 registry 항목을 검사하려면 `--all`을 사용하세요.
+
+```package-install
+npx @seed-design/cli@latest compat --all
+```
+
+### 옵션
+
+| 옵션 | 설명 |
+|------|------|
+| `-c, --component <component>` | 검사할 컴포넌트 ID. 여러 번 또는 쉼표로 지정 가능 |
+| `-r, --registry <registryId>` | `--component`에 shorthand를 사용할 때 기본 registry 지정 |
+| `-a, --all` | 모든 registry 항목 검사 |
+| `--cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
+| `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
