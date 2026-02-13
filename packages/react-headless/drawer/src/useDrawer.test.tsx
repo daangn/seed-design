@@ -34,7 +34,7 @@ function DrawerHarness({
   return (
     <div>
       <button data-testid="set-open" onClick={() => api.setIsOpen(true)}>
-        set open
+        열기 설정
       </button>
       <button
         data-testid="set-close"
@@ -42,7 +42,7 @@ function DrawerHarness({
           api.setIsOpen(false, { reason: "closeButton", event: new MouseEvent("click") })
         }
       >
-        set close
+        닫기 설정
       </button>
       <button
         data-testid="close-drawer"
@@ -50,19 +50,19 @@ function DrawerHarness({
           api.closeDrawer(false, { reason: "escapeKeyDown", event: new KeyboardEvent("keydown") })
         }
       >
-        close drawer
+        드로어 닫기
       </button>
       <button
         data-testid="set-second-snap"
         onClick={() => api.setActiveSnapPoint(api.snapPoints?.[1] ?? null)}
       >
-        set second snap
+        두 번째 스냅으로 이동
       </button>
       <button
         data-testid="toggle-close-button"
         onClick={() => setShowCloseButton((visible) => !visible)}
       >
-        toggle close button
+        닫기 버튼 토글
       </button>
 
       {showCloseButton ? <button data-testid="close-button" ref={api.closeButtonRef} /> : null}
@@ -117,7 +117,7 @@ describe("useDrawer", () => {
     document.body.style.pointerEvents = "";
   });
 
-  it("tracks close button mount state via closeButtonRef", () => {
+  it("closeButtonRef를 통해 닫기 버튼 마운트 상태를 추적한다", () => {
     const { getByTestId } = render(<DrawerHarness />);
 
     expect(getByTestId("is-close-button-rendered")).toHaveTextContent("false");
@@ -129,7 +129,7 @@ describe("useDrawer", () => {
     expect(getByTestId("is-close-button-rendered")).toHaveTextContent("false");
   });
 
-  it("calls close lifecycle callbacks with details when closeDrawer is invoked", () => {
+  it("closeDrawer 호출 시 상세 정보와 함께 닫힘 라이프사이클 콜백을 호출한다", () => {
     jest.useFakeTimers();
 
     const onOpenChange = mock(() => {});
@@ -160,7 +160,7 @@ describe("useDrawer", () => {
     expect(onAnimationEnd).toHaveBeenCalledWith(false);
   });
 
-  it("does not start drag when dismissible is false and snapPoints are not provided", () => {
+  it("dismissible이 false이고 snapPoints가 없으면 드래그를 시작하지 않는다", () => {
     const { getByTestId } = render(<DrawerHarness defaultOpen dismissible={false} direction="left" />);
     const drawer = getByTestId("drawer");
 
@@ -185,7 +185,7 @@ describe("useDrawer", () => {
     expect(drawer.classList.contains(DRAG_CLASS)).toBe(false);
   });
 
-  it("starts drag when snapPoints exist even if dismissible is false", () => {
+  it("dismissible이 false여도 snapPoints가 있으면 드래그를 시작한다", () => {
     const { getByTestId } = render(
       <DrawerHarness
         defaultOpen
@@ -211,7 +211,7 @@ describe("useDrawer", () => {
     rectSpy.mockRestore();
   });
 
-  it("updates transform and calls onDrag with percentage while dragging", () => {
+  it("드래그 중 transform을 갱신하고 onDrag를 비율과 함께 호출한다", () => {
     const onDrag = mock(() => {});
     let api: ReturnType<typeof useDrawer> | null = null;
     const { getByTestId } = render(
@@ -228,7 +228,7 @@ describe("useDrawer", () => {
     const rectSpy = mockRect(drawer, 100);
 
     if (!api) {
-      throw new Error("Drawer api is not available");
+      throw new Error("Drawer API를 사용할 수 없습니다.");
     }
 
     const createPointerEvent = (target: HTMLElement, pageX: number, pageY: number) =>
@@ -257,7 +257,7 @@ describe("useDrawer", () => {
     rectSpy.mockRestore();
   });
 
-  it("resets drawer and reports open=true on release when swiping toward the open direction", () => {
+  it("열리는 방향으로 스와이프 후 릴리즈하면 드로어를 리셋하고 open=true를 전달한다", () => {
     const onRelease = mock(() => {});
     const { getByTestId } = render(
       <DrawerHarness defaultOpen direction="right" onRelease={onRelease} />,
@@ -290,7 +290,7 @@ describe("useDrawer", () => {
     rectSpy.mockRestore();
   });
 
-  it("resets active snap point to the first snap point after close animation", () => {
+  it("닫힘 애니메이션 후 active snap point를 첫 번째 스냅 포인트로 되돌린다", () => {
     jest.useFakeTimers();
 
     const { getByTestId } = render(
@@ -308,7 +308,7 @@ describe("useDrawer", () => {
     expect(getByTestId("active-snap-point")).toHaveTextContent("100px");
   });
 
-  it("updates hasAnimationDone by open state and transition duration", () => {
+  it("open 상태와 transition 시간에 따라 hasAnimationDone을 갱신한다", () => {
     jest.useFakeTimers();
 
     const { getByTestId } = render(<DrawerHarness defaultOpen />);
@@ -324,7 +324,7 @@ describe("useDrawer", () => {
     expect(getByTestId("has-animation-done")).toHaveTextContent("false");
   });
 
-  it("enables overlay animation only during initial open when fadeFromIndex is 0", () => {
+  it("fadeFromIndex가 0이면 초기 열림 구간에서만 오버레이 애니메이션을 활성화한다", () => {
     jest.useFakeTimers();
 
     const { getByTestId } = render(
