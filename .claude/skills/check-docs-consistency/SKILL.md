@@ -1,1 +1,0 @@
-../../plugins/seed-design/skills/check-docs-consistency/SKILL.md

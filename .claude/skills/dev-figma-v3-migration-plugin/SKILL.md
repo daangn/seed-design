@@ -1,1 +1,0 @@
-../../plugins/seed-design/skills/dev-figma-v3-migration-plugin/SKILL.md
