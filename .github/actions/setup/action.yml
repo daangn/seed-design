@@ -57,11 +57,16 @@ runs:
 
         echo "Checking restored build artifacts..."
         ls -la "$PACKAGE_ARTIFACT_DIR" || echo "packages/react/lib not found"
-        ls -la ecosystem/rootage/core/lib || echo "ecosystem/rootage/core/lib not found"
+        ls -la "$ROOTAGE_ARTIFACT_FILE" || echo "$ROOTAGE_ARTIFACT_FILE not found"
 
         if [ ! -d "$PACKAGE_ARTIFACT_DIR" ]; then
           echo "Package build artifacts are missing. Rebuilding packages..."
           bun packages:build
+
+          if [ ! -d "$PACKAGE_ARTIFACT_DIR" ]; then
+            echo "Package artifacts are still missing after recovery build."
+            exit 1
+          fi
         fi
 
         if [ "${{ inputs.build-rootage }}" == "true" ] && [ ! -f "$ROOTAGE_ARTIFACT_FILE" ]; then
