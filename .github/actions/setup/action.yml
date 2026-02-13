@@ -43,7 +43,7 @@ runs:
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
-        key: ${{ runner.os }}-build-v3-${{ hashFiles('packages/**/*.{ts,tsx,js,jsx}', 'ecosystem/**/*.{ts,tsx,js,jsx}') }}
+        key: ${{ runner.os }}-build-v3-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lockb') }}
         restore-keys: |
           ${{ runner.os }}-build-v3-
           ${{ runner.os }}-build-v2-
