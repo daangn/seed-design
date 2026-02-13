@@ -12,6 +12,8 @@ const CLI = cac(NAME);
 async function main() {
   const packageInfo = getPackageInfo();
 
+  CLI.option("--verbose", "오류 상세 정보를 출력합니다.");
+
   /* Commands */
   addCommand(CLI);
   addAllCommand(CLI);
