@@ -64,7 +64,6 @@ export const addCommand = (cli: CAC) => {
 
         if (all) {
           throw new CliError({
-            code: "DEPRECATED_OPTION",
             message:
               "`--all` 옵션은 더 이상 지원되지 않아요. 대신 `seed-design add-all` 명령어를 사용해주세요.",
           });
@@ -78,17 +77,25 @@ export const addCommand = (cli: CAC) => {
         const { start, stop } = p.spinner();
         start("Registry를 가져오고 있어요...");
 
-        const publicRegistries = await Promise.all(
-          (await fetchAvailableRegistries({ baseUrl })).map(async ({ id }) =>
-            fetchRegistry({ baseUrl, registryId: id }),
-          ),
-        );
+        const publicRegistries = await (async () => {
+          try {
+            const registries = await Promise.all(
+              (await fetchAvailableRegistries({ baseUrl })).map(async ({ id }) =>
+                fetchRegistry({ baseUrl, registryId: id }),
+              ),
+            );
+            stop("Registry를 가져왔어요.");
 
-        stop("Registry를 가져왔어요.");
+            return registries;
+          } catch (error) {
+            stop("Registry를 가져오지 못했어요.");
+            throw error;
+          }
+        })();
 
         const selectedItemKeys: string[] = await (async () => {
           if (options.itemIds?.length) {
-            return options.itemIds ?? [];
+            return options.itemIds;
           }
 
           const selected = await p.multiselect({
@@ -137,7 +144,6 @@ export const addCommand = (cli: CAC) => {
 
           if (!registryId || !itemId) {
             throw new CliError({
-              code: "INVALID_ITEM_ID",
               message: `${highlight(itemKey)}: 항목 이름이 잘못되었어요.`,
               hint: `${highlight("ui:action-button")}과 같은 형식으로 입력해보세요.`,
             });
@@ -149,7 +155,6 @@ export const addCommand = (cli: CAC) => {
 
           if (!foundItem) {
             throw new CliError({
-              code: "ITEM_NOT_FOUND",
               message: `${highlight(itemKey)}: 항목을 찾을 수 없어요.`,
             });
           }
@@ -160,7 +165,11 @@ export const addCommand = (cli: CAC) => {
               initialValue: false,
             });
 
-            if (confirm === false || p.isCancel(confirm)) {
+            if (p.isCancel(confirm)) {
+              throw new CliCancelError();
+            }
+
+            if (confirm === false) {
               p.log.info(`${highlight(foundItem.id)}: 추가하지 않을게요.`);
               continue;
             }
@@ -247,6 +256,7 @@ export const addCommand = (cli: CAC) => {
           defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
           verbose,
         });
+        process.exit(1);
       }
     });
 };

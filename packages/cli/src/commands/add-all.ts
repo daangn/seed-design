@@ -69,13 +69,21 @@ export const addAllCommand = (cli: CAC) => {
         const { start, stop } = p.spinner();
         start("Registry를 가져오고 있어요...");
 
-        const publicRegistries = await Promise.all(
-          (await fetchAvailableRegistries({ baseUrl })).map(async ({ id }) =>
-            fetchRegistry({ baseUrl, registryId: id }),
-          ),
-        );
+        const publicRegistries = await (async () => {
+          try {
+            const registries = await Promise.all(
+              (await fetchAvailableRegistries({ baseUrl })).map(async ({ id }) =>
+                fetchRegistry({ baseUrl, registryId: id }),
+              ),
+            );
+            stop("Registry를 가져왔어요.");
 
-        stop("Registry를 가져왔어요.");
+            return registries;
+          } catch (error) {
+            stop("Registry를 가져오지 못했어요.");
+            throw error;
+          }
+        })();
 
         const selectedRegistryIds: string[] = await (async () => {
           if (options.all) {
@@ -91,7 +99,6 @@ export const addAllCommand = (cli: CAC) => {
             for (const registryId of options.registryIds) {
               if (!availableIds.includes(registryId)) {
                 throw new CliError({
-                  code: "REGISTRY_NOT_FOUND",
                   message: `레지스트리 '${registryId}'를 찾을 수 없어요.`,
                   details: [`사용 가능한 레지스트리: ${availableIds.join(", ")}`],
                 });
@@ -228,6 +235,7 @@ export const addAllCommand = (cli: CAC) => {
           defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
           verbose,
         });
+        process.exit(1);
       }
     });
 };

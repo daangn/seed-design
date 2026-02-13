@@ -39,7 +39,6 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
   } catch (error) {
     stop("의존성 설치에 실패했어요.");
     throw new CliError({
-      code: "INSTALL_FAILED",
       message: "의존성 설치에 실패했어요.",
       hint: "네트워크 상태를 확인하고, 설치 명령어를 직접 실행해 상세 오류를 확인해보세요.",
       details: [`실행 명령어: ${commandLabel}`],

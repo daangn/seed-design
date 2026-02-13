@@ -3,7 +3,6 @@ import { ZodError } from "zod";
 import { highlight } from "./color";
 
 interface CliErrorOptions {
-  code: string;
   message: string;
   hint?: string;
   details?: string[];
@@ -27,14 +26,12 @@ interface ExecaLikeError {
 }
 
 export class CliError extends Error {
-  code: string;
   hint?: string;
   details: string[];
 
-  constructor({ code, message, hint, details = [], cause }: CliErrorOptions) {
+  constructor({ message, hint, details = [], cause }: CliErrorOptions) {
     super(message, { cause });
     this.name = "CliError";
-    this.code = code;
     this.hint = hint;
     this.details = details;
   }
@@ -140,7 +137,7 @@ function toStack(error: unknown): string | undefined {
 export function handleCliError(
   error: unknown,
   { defaultMessage, defaultHint, verbose = false }: HandleCliErrorOptions,
-): never {
+): void {
   const normalized = normalizeError(error, defaultHint);
 
   p.log.error(defaultMessage);
@@ -160,5 +157,4 @@ export function handleCliError(
   }
 
   p.outro(highlight("작업에 실패했어요."));
-  process.exit(1);
 }

@@ -30,27 +30,32 @@ export const initCommand = (cli: CAC) => {
       p.intro("seed-design.json 파일 생성");
 
       try {
-        const options = initOptionsSchema.parse(opts);
+        const parsed = initOptionsSchema.safeParse(opts);
+        if (!parsed.success) {
+          throw parsed.error;
+        }
+
+        const options = parsed.data;
         const isDefaultMode = options.yes || options.default;
         const config: Config = isDefaultMode ? DEFAULT_INIT_CONFIG : await promptInitConfig();
 
         const { start, stop } = p.spinner();
-        let spinnerStopped = false;
         start("seed-design.json 파일 생성중...");
-        let relativePath = "";
-        try {
-          ({ relativePath } = await writeInitConfigFile({
-            cwd: options.cwd,
-            config,
-          }));
+        const relativePath = await (async () => {
+          try {
+            const result = await writeInitConfigFile({
+              cwd: options.cwd,
+              config,
+            });
 
-          stop(`seed-design.json 파일이 ${highlight(relativePath)}에 생성됐어요.`);
-          spinnerStopped = true;
-        } finally {
-          if (!spinnerStopped) {
+            return result.relativePath;
+          } catch (error) {
             stop("seed-design.json 파일 생성이 중단됐어요.");
+            throw error;
           }
-        }
+        })();
+
+        stop(`seed-design.json 파일이 ${highlight(relativePath)}에 생성됐어요.`);
 
         p.log.info(highlight("seed-design add {component} 명령어로 컴포넌트를 추가해보세요!"));
         p.log.info(
@@ -99,6 +104,7 @@ export const initCommand = (cli: CAC) => {
           defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
           verbose,
         });
+        process.exit(1);
       }
     });
 };

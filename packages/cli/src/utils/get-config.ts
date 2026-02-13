@@ -43,7 +43,6 @@ export async function getConfig(cwd: string): Promise<Config> {
     return configSchema.parse(DEFAULT_INIT_CONFIG);
   } catch (error) {
     throw new CliError({
-      code: "CONFIG_WRITE_FAILED",
       message: "seed-design.json 파일 생성에 실패했어요.",
       hint: "디렉토리 쓰기 권한과 경로를 확인한 뒤 다시 시도해보세요.",
       cause: error,
@@ -59,7 +58,6 @@ export async function getRawConfig(cwd: string): Promise<Config | null> {
     return configSchema.parse(configResult.config);
   } catch (error) {
     throw new CliError({
-      code: "CONFIG_INVALID",
       message: "seed-design.json 형식이 올바르지 않아요.",
       hint: "https://seed-design.com/react/getting-started/cli/configuration 문서를 참고해 주세요.",
       cause: error,
