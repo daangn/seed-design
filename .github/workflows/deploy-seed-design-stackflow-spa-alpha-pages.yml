@@ -11,6 +11,7 @@ on:
       - "packages/react/**"
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-stackflow-spa-alpha-pages.yml"
+      - ".github/actions/setup/action.yml"
   workflow_dispatch:
 
 permissions:

@@ -57,8 +57,6 @@ runs:
         ls -la ecosystem/rootage/core/lib || echo "❌ ecosystem/rootage/core/lib not found"
         bun install --frozen-lockfile
         echo "Verifying symlinks after relink..."
-        ls -la node_modules/@seed-design/react || echo "❌ react symlink not found"
-        ls -la node_modules/@seed-design/rootage-core || echo "❌ rootage-core symlink not found"
 
     - name: Build Packages
       if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit != 'true' }}

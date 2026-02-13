@@ -5,6 +5,7 @@ on:
     paths:
       - "packages/react-headless/**/*"
       - ".github/workflows/react-headless-test.yml"
+      - ".github/actions/setup/action.yml"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

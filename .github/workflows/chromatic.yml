@@ -16,6 +16,7 @@ on:
       - "packages/react/**"
       - "packages/css/**"
       - ".github/workflows/chromatic.yml"
+      - ".github/actions/setup/action.yml"
 
 # List of jobs
 jobs:
