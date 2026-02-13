@@ -51,6 +51,7 @@ jobs:
         with:
           publish: bun release
           version: bun version
+          title: "release: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
