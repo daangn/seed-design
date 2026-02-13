@@ -5,11 +5,11 @@ import * as React from "react";
 
 type ContentPlaceholderPresetProps = {
   type?: SeedContentPlaceholder.AssetType;
-  icon?: never;
+  svg?: never;
 };
 
 type ContentPlaceholderCustomProps = {
-  icon: React.ReactNode;
+  svg: React.ReactNode;
   type?: never;
 };
 
@@ -20,12 +20,12 @@ export type ContentPlaceholderProps = Omit<SeedContentPlaceholder.RootProps, "ch
  * @see https://seed-design.io/react/components/content-placeholder
  */
 export const ContentPlaceholder = React.forwardRef<HTMLDivElement, ContentPlaceholderProps>(
-  ({ type = "default", icon, ...props }, ref) => {
+  ({ type = "default", svg, ...props }, ref) => {
     return (
       <SeedContentPlaceholder.Root {...props} ref={ref}>
         <SeedContentPlaceholder.Container>
-          {icon ? (
-            <SeedContentPlaceholder.Asset svg={icon} />
+          {svg !== undefined ? (
+            <SeedContentPlaceholder.Asset svg={svg} />
           ) : (
             <SeedContentPlaceholder.Asset type={type} />
           )}
