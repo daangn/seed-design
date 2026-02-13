@@ -27,7 +27,13 @@ export const publicRegistryItemSchema = z.object({
 
   ///////////////////////////////////////////////////////////////
 
-  snippets: z.array(z.object({ path: z.string(), content: z.string() })),
+  snippets: z.array(
+    z.object({
+      path: z.string(),
+      dependencies: z.record(z.string(), z.string()).optional(),
+      content: z.string(),
+    }),
+  ),
 });
 
 /**
@@ -41,7 +47,14 @@ export const publicRegistrySchema = z.object({
   items: z.array(
     publicRegistryItemSchema
       .omit({ snippets: true })
-      .extend({ snippets: z.array(z.object({ path: z.string() })) }),
+      .extend({
+        snippets: z.array(
+          z.object({
+            path: z.string(),
+            dependencies: z.record(z.string(), z.string()).optional(),
+          }),
+        ),
+      }),
   ),
 });
 

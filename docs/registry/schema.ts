@@ -80,6 +80,13 @@ export interface GeneratedRegistryItem
      * @description 스니펫 파일 경로
      */
     path: string;
+
+    /**
+     * @description 스니펫 파일에서 의존하는 \@seed-design/* 패키지와 버전
+     * @example { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" }
+     */
+    dependencies?: Record<string, string>;
+
     /**
      * @description 스니펫 파일 내용
      */
@@ -108,6 +115,10 @@ export interface GeneratedRegistry extends Pick<Registry, "id" | "hideFromCLICat
          * @description 스니펫 파일 경로
          */
         path: string;
+        /**
+         * @description 스니펫 파일에서 의존하는 \@seed-design/* 패키지와 버전
+         */
+        dependencies?: Record<string, string>;
       }[];
     }
   >;

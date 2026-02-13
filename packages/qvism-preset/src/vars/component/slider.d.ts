@@ -23,7 +23,7 @@ export declare const vars: {
         "cornerRadius": "var(--seed-radius-full)",
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
-      /** arrow width + paddingX * 2만큼의 최소 너비를 가집니다. */
+      /** arrow width + (valueIndicatorRoot paddingX * 2)만큼의 최소 너비를 가집니다. */
       "valueIndicatorRoot": {
         "color": "var(--seed-color-bg-neutral-inverted)",
         "cornerRadius": "var(--seed-radius-r1_5)",

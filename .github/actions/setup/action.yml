@@ -1,0 +1,99 @@
+name: 'Setup Seed Design'
+description: 'Setup Bun, install dependencies, and optionally build packages'
+
+inputs:
+  build-packages:
+    description: 'Build packages'
+    required: false
+    default: 'false'
+  build-rootage:
+    description: 'Build rootage in addition to packages'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: "1.3.8"
+
+    - name: Cache Bun dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.bun/install/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock', '**/bun.lockb') }}
+        restore-keys: |
+          ${{ runner.os }}-bun-
+
+    - name: Install Dependencies
+      shell: bash
+      run: bun install --frozen-lockfile
+
+    - name: Cache build outputs
+      if: ${{ inputs.build-packages == 'true' }}
+      id: cache-build
+      uses: actions/cache@v4
+      with:
+        path: |
+          packages/**/dist
+          packages/**/build
+          packages/**/lib
+          ecosystem/**/dist
+          ecosystem/**/build
+          ecosystem/**/lib
+        key: ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lock', 'bun.lockb') }}
+        restore-keys: |
+          ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-
+
+    - name: Relink workspace after cache restore
+      if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit == 'true' }}
+      shell: bash
+      run: |
+        echo "✓ Cache hit - relinking workspace packages..."
+        PACKAGE_ARTIFACT_DIR="packages/react/lib"
+        ROOTAGE_ARTIFACT_FILE="ecosystem/rootage/core/lib/index.js"
+
+        echo "Checking restored build artifacts..."
+        ls -la "$PACKAGE_ARTIFACT_DIR" || echo "packages/react/lib not found"
+        ls -la "$ROOTAGE_ARTIFACT_FILE" || echo "$ROOTAGE_ARTIFACT_FILE not found"
+
+        if [ ! -d "$PACKAGE_ARTIFACT_DIR" ]; then
+          echo "Package build artifacts are missing. Rebuilding packages..."
+          bun packages:build
+
+          if [ ! -d "$PACKAGE_ARTIFACT_DIR" ]; then
+            echo "Package artifacts are still missing after recovery build."
+            exit 1
+          fi
+        fi
+
+        if [ "${{ inputs.build-rootage }}" == "true" ] && [ ! -f "$ROOTAGE_ARTIFACT_FILE" ]; then
+          echo "Rootage build artifacts are missing. Rebuilding rootage..."
+          bun rootage:build
+        fi
+
+        bun install --frozen-lockfile
+
+        if [ "${{ inputs.build-rootage }}" == "true" ] && [ ! -f "$ROOTAGE_ARTIFACT_FILE" ]; then
+          echo "Rootage artifact is still missing after recovery build."
+          exit 1
+        fi
+
+        echo "Verifying symlinks after relink..."
+
+    - name: Build Packages
+      if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: |
+        if [ "${{ inputs.build-rootage }}" == "true" ]; then
+          echo "Building packages and rootage..."
+          bun packages:build && bun rootage:build
+          echo "Build completed. Checking outputs..."
+          ls -la packages/react/lib || echo "❌ packages/react/lib not found after build"
+          ls -la ecosystem/rootage/core/lib || echo "❌ ecosystem/rootage/core/lib not found after build"
+        else
+          echo "Building packages only..."
+          bun packages:build
+        fi
