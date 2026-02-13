@@ -3,9 +3,13 @@ import {
   type ContentPlaceholderVariantProps,
 } from "@seed-design/css/recipes/content-placeholder";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import type * as React from "react";
+import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { InternalIcon, type InternalIconProps } from "../private/Icon";
+import { InternalIcon } from "../private/Icon";
+import {
+  contentPlaceholderAssetPresetMap,
+  type ContentPlaceholderAssetType,
+} from "./presets";
 
 const { withProvider, withContext } = createSlotRecipeContext(contentPlaceholder);
 
@@ -28,9 +32,43 @@ export const ContentPlaceholderContainer = withContext<
   ContentPlaceholderContainerProps
 >(Primitive.div, "container");
 
-export interface ContentPlaceholderAssetProps extends InternalIconProps {}
+type ContentPlaceholderAssetCommonProps = Omit<
+  React.HTMLAttributes<SVGSVGElement>,
+  "children"
+>;
+
+export type ContentPlaceholderAssetProps =
+  | (ContentPlaceholderAssetCommonProps & {
+      type?: ContentPlaceholderAssetType;
+      svg?: never;
+    })
+  | (ContentPlaceholderAssetCommonProps & {
+      svg: React.ReactNode;
+      type?: never;
+    });
+
+export type { ContentPlaceholderAssetType };
+
+const ContentPlaceholderAssetBase = React.forwardRef<SVGSVGElement, ContentPlaceholderAssetProps>(
+  ({ type, svg, ...props }, ref) => {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      type !== undefined &&
+      svg !== undefined
+    ) {
+      throw new Error("ContentPlaceholder.Asset: `type` and `svg` cannot be used together.");
+    }
+
+    const resolvedType: ContentPlaceholderAssetType = type ?? "default";
+    const resolvedSvg = svg ?? contentPlaceholderAssetPresetMap[resolvedType];
+
+    return <InternalIcon ref={ref} svg={resolvedSvg} {...props} />;
+  },
+);
+
+ContentPlaceholderAssetBase.displayName = "ContentPlaceholderAssetBase";
 
 export const ContentPlaceholderAsset = withContext<SVGSVGElement, ContentPlaceholderAssetProps>(
-  InternalIcon,
+  ContentPlaceholderAssetBase,
   "asset",
 );

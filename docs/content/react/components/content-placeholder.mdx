@@ -12,6 +12,44 @@ description: 콘텐츠가 비어 있거나 이미지를 불러오지 못했을 �
   ```
 </ComponentExample>
 
+## Usage
+
+### Type Preset
+
+```tsx
+import { ContentPlaceholder } from "@seed-design/react";
+```
+
+```tsx
+<ContentPlaceholder.Root>
+  <ContentPlaceholder.Container>
+    <ContentPlaceholder.Asset type="image" />
+  </ContentPlaceholder.Container>
+</ContentPlaceholder.Root>
+```
+
+### Custom SVG
+
+```tsx
+import { ContentPlaceholder } from "@seed-design/react";
+import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
+```
+
+```tsx
+<ContentPlaceholder.Root>
+  <ContentPlaceholder.Container>
+    <ContentPlaceholder.Asset svg={<IconPictureFill />} />
+  </ContentPlaceholder.Container>
+</ContentPlaceholder.Root>
+```
+
+### Type과 Custom의 차이
+
+- `type`은 디자인시스템 팀이 아이콘 매핑을 관리합니다. 이후 아이콘이 교체되어도 소비자는 버전 업만으로 변경을 반영할 수 있습니다.
+- `svg`는 제품별로 완전히 커스텀한 에셋이 필요한 경우에 사용합니다.
+- `type`과 `svg`는 동시에 전달할 수 없습니다.
+- 둘 다 전달하지 않으면 `default` 타입(당근 로고)이 렌더링됩니다.
+
 ## Installation
 
 ```package-install

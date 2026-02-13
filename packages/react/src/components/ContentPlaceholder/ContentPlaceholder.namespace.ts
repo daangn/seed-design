@@ -5,4 +5,5 @@ export {
   type ContentPlaceholderRootProps as RootProps,
   type ContentPlaceholderContainerProps as ContainerProps,
   type ContentPlaceholderAssetProps as AssetProps,
+  type ContentPlaceholderAssetType as AssetType,
 } from "./ContentPlaceholder";
