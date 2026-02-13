@@ -11,6 +11,7 @@ on:
       - "packages/react/**"
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-storybook-alpha-pages.yml"
+      - ".github/actions/setup/action.yml"
 
 permissions:
   contents: read
@@ -29,15 +30,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: ./.github/actions/setup
         with:
-          bun-version: "1.3.8"
-
-      - name: Install Dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Build Packages
-        run: bun packages:build
+          build-packages: true
 
       - name: Build Storybook
         working-directory: ./docs
@@ -125,3 +120,5 @@ jobs:
                 body,
               });
             }
+
+            
