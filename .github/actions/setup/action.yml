@@ -43,10 +43,8 @@ runs:
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
-        key: ${{ runner.os }}-build-v3-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lockb') }}
+        key: ${{ runner.os }}-build-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lockb') }}
         restore-keys: |
-          ${{ runner.os }}-build-v3-
-          ${{ runner.os }}-build-v2-
           ${{ runner.os }}-build-
 
     - name: Relink workspace after cache restore
