@@ -38,6 +38,32 @@ npx @seed-design/cli@latest add-all ui
 npx @seed-design/cli@latest add-all --all
 ```
 
+### 4) 버전 호환성 검사
+
+현재 프로젝트의 `@seed-design/react`, `@seed-design/css`와 스니펫 요구 버전이 맞는지 검사합니다.
+
+```bash
+npx @seed-design/cli@latest compat
+```
+
+특정 항목만 검사:
+
+```bash
+npx @seed-design/cli@latest compat ui:action-button ui:alert-dialog
+```
+
+컴포넌트 shorthand 검사:
+
+```bash
+npx @seed-design/cli@latest compat -c action-button -c alert-dialog
+```
+
+모든 레지스트리 항목 검사:
+
+```bash
+npx @seed-design/cli@latest compat --all
+```
+
 ## seed-design.json 운영
 
 주요 필드:
