@@ -4,7 +4,7 @@
 
 ## 파일 작성 컨벤션
 
-- `commands/`: 사용자가 직접 호출하는 커맨드 액션(`init`, `add`, `add-all`)
+- `commands/`: 사용자가 직접 호출하는 커맨드 액션(`init`, `add`, `add-all`, `compat`)
 - `utils/`: 명령 간 공유 로직(설정, fetch, write, install, analytics, error)
 - `tests/`: 독립 단위 테스트
 - 파일명은 역할 중심 소문자 kebab-case를 유지하고, barrel file은 만들지 않는다.

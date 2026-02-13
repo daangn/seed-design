@@ -12,6 +12,11 @@ import { highlight } from "../utils/color";
 import { installDependencies } from "../utils/install";
 import { analytics } from "../utils/analytics";
 import {
+  analyzeRegistryItemCompatibility,
+  getProjectSeedPackageVersionSpecs,
+  logCompatibilityReport,
+} from "../utils/compatibility";
+import {
   CliCancelError,
   CliError,
   handleCliError,
@@ -181,6 +186,19 @@ export const addCommand = (cli: CAC) => {
         const { registryItemsToAdd, npmDependenciesToAdd } = resolveDependencies({
           selectedItemKeys: filteredItemKeys,
           publicRegistries,
+        });
+
+        const compatibilityReport = analyzeRegistryItemCompatibility({
+          publicRegistries,
+          itemKeys: registryItemsToAdd.flatMap(({ registryId, items }) =>
+            items.map((item) => `${registryId}:${item.id}`),
+          ),
+          projectPackageVersions: getProjectSeedPackageVersionSpecs(options.cwd),
+        });
+
+        logCompatibilityReport({
+          report: compatibilityReport,
+          title: "현재 프로젝트 버전과 호환되지 않을 수 있는 스니펫이 있어요.",
         });
 
         p.log.info(
