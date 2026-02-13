@@ -1,4 +1,6 @@
 {
   "title": "Skills",
+  "root": true,
+  "defaultOpen": true,
   "pages": ["index", "cli"]
 }
