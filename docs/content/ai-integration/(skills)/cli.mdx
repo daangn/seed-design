@@ -1,9 +1,9 @@
 ---
-title: CLI
-description: seed-design-cli 스킬의 설치 방법과 원문 문서를 확인합니다.
+title: seed-design-cli
+description: SEED Design CLI workflows for init/add/add-all/compat, seed-design.json setup, snippet version compatibility checks, baseUrl-based registry selection, and custom snippet migration strategies. Use when onboarding SEED snippets, adding components, resolving version mismatches, or updating customized snippet files.
 ---
 
-## 설치
+## Installation
 
 `seed-design-cli` 스킬만 설치하려면 다음 명령어를 사용하세요.
 
@@ -11,16 +11,14 @@ description: seed-design-cli 스킬의 설치 방법과 원문 문서를 확인�
 npx skills add https://github.com/daangn/seed-design --skill seed-design-cli
 ```
 
-## 파일 구조
+## File Structure
 
 <Files>
-  <Folder name="skills" defaultOpen>
-    <Folder name="seed-design-cli" defaultOpen>
-      <File name="SKILL.md" />
-      <Folder name="details" defaultOpen>
-        <File name="usage.md" />
-        <File name="migration.md" />
-      </Folder>
+  <Folder name="seed-design-cli" defaultOpen>
+    <File name="SKILL.md" />
+    <Folder name="references" defaultOpen>
+      <File name="usage.md" />
+      <File name="migration.md" />
     </Folder>
   </Folder>
 </Files>
@@ -34,20 +32,20 @@ npx skills add https://github.com/daangn/seed-design --skill seed-design-cli
 }
 ```
 
-## details/usage.md
+## references/usage.md
 
 ```json doc-gen:file
 {
-  "file": "../skills/seed-design-cli/details/usage.md",
+  "file": "../skills/seed-design-cli/references/usage.md",
   "codeblock": true
 }
 ```
 
-## details/migration.md
+## references/migration.md
 
 ```json doc-gen:file
 {
-  "file": "../skills/seed-design-cli/details/migration.md",
+  "file": "../skills/seed-design-cli/references/migration.md",
   "codeblock": true
 }
 ```

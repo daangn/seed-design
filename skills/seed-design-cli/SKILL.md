@@ -1,6 +1,6 @@
 ---
 name: seed-design-cli
-description: SEED Design CLI의 init/add/add-all/compat 사용법, seed-design.json 설정, 스니펫 버전 호환 검사, --baseUrl 운영, 파일 충돌 처리 전략을 안내합니다.
+description: SEED Design CLI workflows for init/add/add-all/compat, seed-design.json setup, snippet version compatibility checks, baseUrl-based registry selection, and custom snippet migration strategies. Use when onboarding SEED snippets, adding components, resolving version mismatches, or updating customized snippet files.
 ---
 
 # Seed Design CLI
@@ -15,7 +15,7 @@ SEED Design CLI를 프로젝트에 안정적으로 적용할 때 사용하는 �
 4. 버전 호환이 필요하면 `--baseUrl`로 맞는 레지스트리를 지정합니다.
 5. 파일 충돌 시 덮어쓰기/백업/건너뛰기 전략을 선택합니다.
 
-## 사용 범위
+## Scope
 
 - `npx @seed-design/cli@latest init`
 - `npx @seed-design/cli@latest add ...`
@@ -24,12 +24,12 @@ SEED Design CLI를 프로젝트에 안정적으로 적용할 때 사용하는 �
 - `seed-design.json` 운영 (`path`, `tsx`, `rsc`, `telemetry`)
 - 스니펫 버전 호환성과 마이그레이션 운영
 
-## 레퍼런스
+## References
 
 - CLI Commands: https://seed-design.io/llms/react/getting-started/cli/commands.txt
 - CLI Configuration: https://seed-design.io/llms/react/getting-started/cli/configuration.txt
 
-## 상세 문서
+## Reference Files
 
-- 일반 사용 흐름: `details/usage.md`
-- 호환/마이그레이션: `details/migration.md`
+- 일반 사용 흐름: `references/usage.md`
+- 호환/마이그레이션: `references/migration.md`

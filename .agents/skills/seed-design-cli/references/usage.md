@@ -1,8 +1,8 @@
 # Usage
 
-## 핵심 명령어
+## Core Commands
 
-### 1) 초기화
+### 1) Initialization
 
 ```bash
 npx @seed-design/cli@latest init
@@ -14,7 +14,7 @@ npx @seed-design/cli@latest init
 npx @seed-design/cli@latest init --yes
 ```
 
-### 2) 스니펫 추가
+### 2) Add Snippets
 
 ```bash
 npx @seed-design/cli@latest add ui:action-button
@@ -26,7 +26,7 @@ npx @seed-design/cli@latest add ui:action-button
 npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
 ```
 
-### 3) 레지스트리 단위 추가
+### 3) Add by Registry
 
 ```bash
 npx @seed-design/cli@latest add-all ui
@@ -38,7 +38,7 @@ npx @seed-design/cli@latest add-all ui
 npx @seed-design/cli@latest add-all --all
 ```
 
-### 4) 버전 호환성 검사
+### 4) Compatibility Check
 
 현재 프로젝트의 `@seed-design/react`, `@seed-design/css`와 스니펫 요구 버전이 맞는지 검사합니다.
 
@@ -64,7 +64,7 @@ npx @seed-design/cli@latest compat -c action-button -c alert-dialog
 npx @seed-design/cli@latest compat --all
 ```
 
-## seed-design.json 운영
+## seed-design.json Settings
 
 주요 필드:
 
@@ -73,7 +73,7 @@ npx @seed-design/cli@latest compat --all
 - `rsc`: `"use client"` 유지 여부
 - `telemetry`: 익명 사용 데이터 수집 여부
 
-## 참고 링크
+## Reference Links
 
 - Commands: https://seed-design.io/llms/react/getting-started/cli/commands.txt
 - Configuration: https://seed-design.io/llms/react/getting-started/cli/configuration.txt
