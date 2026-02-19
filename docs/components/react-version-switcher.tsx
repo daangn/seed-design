@@ -1,7 +1,7 @@
 "use client";
 
 import { IconCheckmarkLine, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "fumadocs-ui/components/ui/popover";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { cva } from "class-variance-authority";
@@ -12,19 +12,17 @@ const VERSIONS = [
   { label: "v1.0", url: "https://1-0.seed-design.pages.dev/react" },
 ] as const satisfies ReadonlyArray<{ label: string; url: string }>;
 
+// NOTE: update CURRENT_VERSION when releasing a new version & keep in release branch
+const CURRENT_VERSION: (typeof VERSIONS)[number]["label"] = "v1.2 (latest)";
+
 const itemVariants = cva(
   "text-sm p-2 rounded-lg inline-flex items-center gap-2 hover:text-fd-accent-foreground hover:bg-fd-accent [&_svg]:size-4",
 );
 
 export function ReactVersionSwitcher() {
   const [open, setOpen] = useState(false);
-  const [hostname, setHostname] = useState("");
 
-  useEffect(() => {
-    setHostname(window.location.hostname);
-  }, []);
-
-  const current = VERSIONS.find((v) => new URL(v.url).hostname === hostname) ?? VERSIONS[0];
+  const current = VERSIONS.find((v) => v.label === CURRENT_VERSION) ?? VERSIONS[0];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
