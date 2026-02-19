@@ -123,12 +123,10 @@ export const docsOptions: DocsLayoutProps = {
 
 export const reactOptions: DocsLayoutProps = {
   ...baseOptions,
-  links: [
-    {
-      type: "custom",
-      children: <VersionSwitcher />,
-    },
-  ],
+  sidebar: {
+    ...baseOptions.sidebar,
+    banner: <VersionSwitcher />,
+  },
   tree: await reactSource.getTransformedReactPageTree(),
 };
 
