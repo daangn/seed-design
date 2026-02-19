@@ -1,6 +1,7 @@
 import { createCodeGenerator, createValueResolver } from "@/codegen/core";
 import type { CodeGenerator } from "@/codegen/core/codegen";
 import { styleService, variableService } from "@/codegen/default-services";
+import { SKIP_COMPONENT_KEYS } from "@/codegen/skip-components";
 import { componentRepository } from "@/entities";
 import { createFrameTransformer } from "./frame";
 import { createInstanceTransformer } from "./instance";
@@ -98,6 +99,7 @@ export function createPipeline(options: CreatePipelineConfig = {}): CodeGenerato
     vectorTransformer,
     booleanOperationTransformer,
     shouldInferAutoLayout,
+    skipComponentKeys: SKIP_COMPONENT_KEYS,
   });
 
   return codegenTransformer;
