@@ -6,7 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "fumadocs-ui/components/
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { cva } from "class-variance-authority";
 
-const versions = [
+const VERSIONS = [
   { label: "v1.1", url: "https://seed-design.io", current: true },
   { label: "v1.0", url: "https://1-0.seed-design.pages.dev", current: false },
 ] as const;
@@ -17,7 +17,7 @@ const itemVariants = cva(
 
 export function VersionSwitcher() {
   const [open, setOpen] = useState(false);
-  const current = versions.find((v) => v.current);
+  const current = VERSIONS.find((v) => v.current);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -32,7 +32,7 @@ export function VersionSwitcher() {
         <IconChevronDownLine className="size-3.5 text-fd-muted-foreground" />
       </PopoverTrigger>
       <PopoverContent className="flex flex-col overflow-auto">
-        {versions.map((version) =>
+        {VERSIONS.map((version) =>
           version.current ? (
             <div
               key={version.label}
