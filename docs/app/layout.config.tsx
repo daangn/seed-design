@@ -17,6 +17,7 @@ function SidebarTabIconContainer({
 }: PropsWithChildren<{ className?: string }>) {
   return (
     <div
+      aria-hidden
       className={clsx(
         className,
         "[&_svg]:size-full rounded-lg size-full text-(--tab-color) max-md:bg-(--tab-color)/10 max-md:border max-md:p-1.5",
@@ -44,7 +45,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         url: "/docs",
         icon: (
           <SidebarTabIconContainer>
-            <img src="/logo.webp" alt="Seed Icons" className="size-full" />
+            <img src="/logo.webp" alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
@@ -54,7 +55,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         url: "/react",
         icon: (
           <SidebarTabIconContainer>
-            <img src="/react.webp" alt="Seed Icons" className="size-full" />
+            <img src="/react.webp" alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
@@ -64,7 +65,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         url: "/lynx",
         icon: (
           <SidebarTabIconContainer>
-            <img src="/lynx.svg" alt="Lynx" className="size-full" />
+            <img src="/lynx.svg" alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
