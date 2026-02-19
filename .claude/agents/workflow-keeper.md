@@ -21,7 +21,7 @@ tools: Read, Glob, Grep, Bash
 | `packages/css/**/*.ts` | rootage | `bun generate` |
 | `packages/css/**/*.css` | rootage | `bun generate` |
 | `**/vars.ts` | qvism-preset | `bun generate` |
-| `docs/registry/*.json` | registry-*.ts | `bun generate:registry` |
+| `docs/registry/*.json` | registry-*.ts | `bun --filter @seed-design/docs generate:registry` |
 | `**/dist/**` | 소스 코드 | `bun build` |
 | `**/__generated__/**` | 다양한 소스 | 해당 generate 스크립트 |
 
@@ -43,7 +43,7 @@ tools: Read, Glob, Grep, Bash
 3. packages/react-headless/[name]/ 수정 (필요시)
 4. packages/react/[name]/ 수정 (필요시)
 5. docs/ 문서 업데이트
-6. bun generate:registry (예제 등록)
+6. bun --filter @seed-design/docs generate:registry (예제 등록)
 ```
 
 ### 2. 토큰 추가/수정 시
