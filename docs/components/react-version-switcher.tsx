@@ -22,15 +22,17 @@ export function VersionSwitcher() {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger
-        className={buttonVariants({
-          color: "secondary",
-          size: "sm",
-          className: "gap-1.5 text-xs tabular-nums",
-        })}
-      >
-        {current?.label}
-        <IconChevronDownLine className="size-3.5 text-fd-muted-foreground" />
+      <PopoverTrigger>
+        <div
+          className={buttonVariants({
+            color: "secondary",
+            size: "sm",
+            className: "gap-1.5 text-xs justify-between",
+          })}
+        >
+          {current?.label}
+          <IconChevronDownLine className="size-3.5 text-fd-muted-foreground" />
+        </div>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col overflow-auto">
         {VERSIONS.map((version) =>
