@@ -7,16 +7,19 @@ export function LatestVersionBanner() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    setShow(window.location.hostname.includes("pages.dev"));
+    setShow(
+      window.location.hostname !== "seed-design.pages.dev" &&
+        window.location.hostname.endsWith("pages.dev"),
+    );
   }, []);
 
   if (!show) return null;
 
   return (
     <Banner id="latest-version">
-      더 최신 버전의 문서가 있습니다.{" "}
+      프리뷰 또는 이전 버전의 문서를 보고 있습니다.{" "}
       <a href="https://seed-design.io" className="font-medium underline">
-        최신 버전 보기 →
+        seed-design.io 방문 →
       </a>
     </Banner>
   );

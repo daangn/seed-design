@@ -5,7 +5,7 @@ import {
   reactSource,
   docsSource,
 } from "@/app/source";
-import { VersionSwitcher } from "@/components/version-switcher";
+import { VersionSwitcher } from "@/components/react-version-switcher";
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";

@@ -7,8 +7,9 @@ import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { cva } from "class-variance-authority";
 
 const VERSIONS = [
-  { label: "v1.1", url: "https://seed-design.io", current: true },
-  { label: "v1.0", url: "https://1-0.seed-design.pages.dev", current: false },
+  { label: "v1.2 (latest)", url: "https://seed-design.io/react", current: true },
+  { label: "v1.1", url: "https://1-1.seed-design.pages.dev/react", current: false },
+  { label: "v1.0", url: "https://1-0.seed-design.pages.dev/react", current: false },
 ] as const;
 
 const itemVariants = cva(
