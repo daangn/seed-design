@@ -16,7 +16,7 @@ const itemVariants = cva(
   "text-sm p-2 rounded-lg inline-flex items-center gap-2 hover:text-fd-accent-foreground hover:bg-fd-accent [&_svg]:size-4",
 );
 
-export function VersionSwitcher() {
+export function ReactVersionSwitcher() {
   const [open, setOpen] = useState(false);
   const [hostname, setHostname] = useState("");
 
