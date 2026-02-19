@@ -5,6 +5,7 @@ import {
   reactSource,
   docsSource,
 } from "@/app/source";
+import { VersionSwitcher } from "@/components/version-switcher";
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
@@ -35,6 +36,12 @@ function SidebarTabIconContainer({
  */
 export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   githubUrl: "https://github.com/daangn/seed-design",
+  links: [
+    {
+      type: "custom",
+      children: <VersionSwitcher />,
+    },
+  ],
   sidebar: {
     tabs: [
       {
