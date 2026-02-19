@@ -1,15 +1,15 @@
 "use client";
 
 import { IconCheckmarkLine, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "fumadocs-ui/components/ui/popover";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { cva } from "class-variance-authority";
 
 const VERSIONS = [
-  { label: "v1.2 (latest)", url: "https://seed-design.io/react", current: true },
-  { label: "v1.1", url: "https://1-1.seed-design.pages.dev/react", current: false },
-  { label: "v1.0", url: "https://1-0.seed-design.pages.dev/react", current: false },
+  { label: "v1.2 (latest)", url: "https://seed-design.io/react" },
+  { label: "v1.1", url: "https://1-1.seed-design.pages.dev/react" },
+  { label: "v1.0", url: "https://1-0.seed-design.pages.dev/react" },
 ] as const;
 
 const itemVariants = cva(
@@ -18,25 +18,31 @@ const itemVariants = cva(
 
 export function VersionSwitcher() {
   const [open, setOpen] = useState(false);
-  const current = VERSIONS.find((v) => v.current);
+  const [hostname, setHostname] = useState("");
+
+  useEffect(() => {
+    setHostname(window.location.hostname);
+  }, []);
+
+  const current = VERSIONS.find((v) => new URL(v.url).hostname === hostname) ?? VERSIONS[0];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger>
-        <div
-          className={buttonVariants({
-            color: "secondary",
-            size: "sm",
-            className: "gap-1.5 text-xs justify-between",
-          })}
-        >
+      <PopoverTrigger
+        className={buttonVariants({
+          color: "secondary",
+          size: "sm",
+          className: "gap-1.5 text-xs",
+        })}
+      >
+        <div className="flex grow justify-between items-center">
           {current?.label}
           <IconChevronDownLine className="size-3.5 text-fd-muted-foreground" />
         </div>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col overflow-auto">
         {VERSIONS.map((version) =>
-          version.current ? (
+          version === current ? (
             <div
               aria-current
               key={version.label}
