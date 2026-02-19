@@ -1,5 +1,5 @@
-export declare const privateTemplateAttechmentField: {
-  "name": "privateTemplateAttechmentField",
+export declare const privateTemplateAttachmentField: {
+  "name": "privateTemplateAttachmentField",
   "key": "5ba20e248e9cd0292fc285488b2ed3b3145d37b0",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
@@ -2079,11 +2079,11 @@ export declare const componentBottomSheet: {
     "Header Layout": {
       "type": "VARIANT",
       "variantOptions": [
-        "Bottom Left",
-        "None",
-        "Bottom Center",
+        "Top Left",
         "Top Center",
-        "Top Left"
+        "Bottom Left",
+        "Bottom Center",
+        "None"
       ]
     }
   }
@@ -3541,8 +3541,7 @@ export declare const componentSwitch: {
       "type": "VARIANT",
       "variantOptions": [
         "Label Last",
-        "Label First",
-        "🚫[Switch Mark 사용] Switch Only"
+        "Label First"
       ]
     }
   }
