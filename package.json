@@ -30,6 +30,8 @@
     "docs:generate": "bun --filter @seed-design/docs generate:all",
     "docs:dev": "bun --filter @seed-design/docs dev",
     "docs:build": "bun --filter @seed-design/docs build",
+    "docs:test": "bun test docs",
+    "docs:test:watch": "bun test --watch docs",
     "storybook": "bun --filter @seed-design/docs storybook",
     "storybook:build": "bun --filter @seed-design/docs build-storybook",
     "rootage:build": "ultra -r --build rootage:build",
