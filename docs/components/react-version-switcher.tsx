@@ -36,6 +36,7 @@ export function VersionSwitcher() {
         {VERSIONS.map((version) =>
           version.current ? (
             <div
+              aria-current
               key={version.label}
               className={itemVariants({
                 className: "text-fd-primary pointer-events-none justify-between",
@@ -46,6 +47,7 @@ export function VersionSwitcher() {
             </div>
           ) : (
             <a
+              target="_blank"
               key={version.label}
               href={version.url}
               className={itemVariants({ className: "justify-between" })}
