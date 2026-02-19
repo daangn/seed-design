@@ -36,12 +36,6 @@ function SidebarTabIconContainer({
  */
 export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   githubUrl: "https://github.com/daangn/seed-design",
-  links: [
-    {
-      type: "custom",
-      children: <VersionSwitcher />,
-    },
-  ],
   sidebar: {
     tabs: [
       {
@@ -128,6 +122,12 @@ export const docsOptions: DocsLayoutProps = {
 
 export const reactOptions: DocsLayoutProps = {
   ...baseOptions,
+  links: [
+    {
+      type: "custom",
+      children: <VersionSwitcher />,
+    },
+  ],
   tree: await reactSource.getTransformedReactPageTree(),
 };
 
