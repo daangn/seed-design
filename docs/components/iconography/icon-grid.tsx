@@ -51,6 +51,8 @@ const IconItem = ({
         selected: isSelected,
       })}
       data-metadatas={metadataString}
+      aria-label={iconName}
+      aria-pressed={isSelected}
     >
       <IconComponent />
     </button>
