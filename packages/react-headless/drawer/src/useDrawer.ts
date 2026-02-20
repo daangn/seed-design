@@ -606,7 +606,7 @@ export function useDrawer(props: UseDrawerProps) {
           } else {
             drawerRef.current.style.height = `${Math.max(newDrawerHeight, visualViewportHeight - offsetFromTop)}px`;
           }
-        } else if (!isMobileFirefox()) {
+        } else if (!isMobileFirefox() && !isAndroid()) {
           drawerRef.current.style.height = `${initialDrawerHeight.current}px`;
         }
 
