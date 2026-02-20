@@ -43,7 +43,7 @@ jobs:
         run: bun packages:build
 
       - name: Publish
-        run: bunx pkg-pr-new publish './packages/**' --compact --comment=off --json output.json
+        run: bunx pkg-pr-new publish './packages/!(archive)/**' --compact --comment=off --json output.json
 
       - name: Comment on PR
         uses: actions/github-script@v8
