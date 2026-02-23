@@ -54,7 +54,54 @@ function hasChildren(node: RootContent): node is RootContent & { children: RootC
   return "children" in node && Array.isArray(node.children);
 }
 
-function transformNodes(nodes: RootContent[], rules: Rule[], context: RuleContext): RootContent[] {
+/*
+  비동기 rule의 결과를 트리 전체에서 미리 수집합니다.
+  재귀 async 호출을 하나의 await로 줄여 Next.js AsyncLocalStorage Map 폭발을 방지합니다. (Map maximum size exceeded 에러)
+*/
+async function collectAsyncResults(
+  nodes: RootContent[],
+  rules: Rule[],
+  context: RuleContext,
+  cache: Map<MdxJsxFlowElement, RootContent[]>,
+): Promise<void> {
+  const promises: Promise<void>[] = [];
+
+  function walk(nodes: RootContent[]): void {
+    for (const node of nodes) {
+      if (isMdxJsxFlowElement(node)) {
+        const matchedRule = rules.find((rule) => rule.match(node));
+        if (matchedRule) {
+          const result = matchedRule.transform(node, context);
+          if (result instanceof Promise) {
+            promises.push(
+              result
+                .then((r) => cache.set(node, r))
+                .catch(() => cache.set(node, [node]))
+                .then(() => {}),
+            );
+          } else {
+            cache.set(node, result);
+          }
+          continue;
+        }
+      }
+      if (hasChildren(node)) walk(node.children);
+    }
+  }
+
+  walk(nodes);
+  await Promise.all(promises);
+}
+
+/*
+  async 결과가 캐시된 상태에서 동기적으로 트리를 변환합니다.
+*/
+function transformNodesSync(
+  nodes: RootContent[],
+  rules: Rule[],
+  context: RuleContext,
+  cache: Map<MdxJsxFlowElement, RootContent[]>,
+): RootContent[] {
   const transformed: RootContent[] = [];
 
   for (const node of nodes) {
@@ -62,8 +109,9 @@ function transformNodes(nodes: RootContent[], rules: Rule[], context: RuleContex
       const matchedRule = rules.find((rule) => rule.match(node));
       if (matchedRule) {
         try {
-          const nextNodes = matchedRule.transform(node, context);
-          transformed.push(...transformNodes(nextNodes, rules, context));
+          const cachedOrResult = cache.get(node) ?? matchedRule.transform(node, context);
+          const nextNodes = cachedOrResult instanceof Promise ? [node] : cachedOrResult;
+          transformed.push(...transformNodesSync(nextNodes, rules, context, cache));
         } catch {
           transformed.push(node);
         }
@@ -74,7 +122,7 @@ function transformNodes(nodes: RootContent[], rules: Rule[], context: RuleContex
     if (hasChildren(node)) {
       transformed.push({
         ...node,
-        children: transformNodes(node.children, rules, context),
+        children: transformNodesSync(node.children, rules, context, cache),
       } as RootContent);
       continue;
     }
@@ -85,7 +133,10 @@ function transformNodes(nodes: RootContent[], rules: Rule[], context: RuleContex
   return transformed;
 }
 
-export function normalizeLLMBodyWithRules(content: string | undefined, rules: Rule[]): string {
+export async function normalizeLLMBodyWithRules(
+  content: string | undefined,
+  rules: Rule[],
+): Promise<string> {
   if (!content) return "";
 
   const context: RuleContext = {
@@ -94,7 +145,13 @@ export function normalizeLLMBodyWithRules(content: string | undefined, rules: Ru
   };
 
   const tree = processor.parse(content) as Root;
-  tree.children = transformNodes(tree.children as RootContent[], rules, context);
+
+  // 1단계: async rule 결과를 한 번의 await로 모두 수집
+  const cache = new Map<MdxJsxFlowElement, RootContent[]>();
+  await collectAsyncResults(tree.children as RootContent[], rules, context, cache);
+
+  // 2단계: 캐시된 결과로 동기 변환
+  tree.children = transformNodesSync(tree.children as RootContent[], rules, context, cache);
 
   return processor
     .stringify(tree)
@@ -102,6 +159,6 @@ export function normalizeLLMBodyWithRules(content: string | undefined, rules: Ru
     .trim();
 }
 
-export function normalizeLLMBody(content?: string): string {
+export async function normalizeLLMBody(content?: string): Promise<string> {
   return normalizeLLMBodyWithRules(content, activeRules);
 }

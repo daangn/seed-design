@@ -1,26 +1,185 @@
-import type { RootContent } from "mdast";
-import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+import type {
+  MdxJsxAttribute,
+  MdxJsxAttributeValueExpression,
+  MdxJsxFlowElement,
+} from "mdast-util-mdx-jsx";
 import type { Rule } from "./types";
+import {
+  type ArrayExpressionNode,
+  type ExpressionStatementNode,
+  type LiteralNode,
+  isProgramNode,
+  isStringLiteral,
+} from "./estree-utils";
+
+/*
+  <TokenReference groups={["color", "palette"]} /> 에서 groups 배열을 파싱합니다.
+*/
+function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
+  const attr = node.attributes.find(
+    (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "groups",
+  );
+  if (!attr || typeof attr.value !== "object" || !attr.value) return [];
+
+  const attrValue = attr.value as MdxJsxAttributeValueExpression;
+  const estree = attrValue.data?.estree;
+  if (!isProgramNode(estree)) return [];
+
+  const stmt = estree.body[0];
+  if (!stmt || stmt.type !== "ExpressionStatement") return [];
+
+  const expr = (stmt as ExpressionStatementNode).expression;
+  if (expr.type !== "ArrayExpression") return [];
+
+  return (expr as ArrayExpressionNode).elements
+    .filter((el): el is LiteralNode & { value: string } => isStringLiteral(el))
+    .map((el) => el.value);
+}
+
+// rootage 토큰 값의 JSON 구조
+interface DimensionValue {
+  value: number;
+  unit: string;
+}
+
+interface TokenValueEntry {
+  type: string;
+  value: unknown;
+}
+
+interface TokenEntry {
+  values: Record<string, TokenValueEntry>;
+}
+
+interface RootageTokensData {
+  metadata: {
+    id: string;
+    name: string;
+  };
+  data: {
+    tokens: Record<string, TokenEntry>;
+  };
+}
+
+interface RootageIndex {
+  resources: { path: string }[];
+}
+
+/*
+  토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
+*/
+function formatTokenValue(entry: TokenValueEntry): string {
+  const { type, value } = entry;
+
+  if (typeof value === "string") return value; // 토큰 참조 (예: "$duration.d3")
+
+  switch (type) {
+    case "color":
+      return typeof value === "string" ? value : JSON.stringify(value);
+    case "dimension": {
+      const dim = value as DimensionValue;
+      if (dim.unit === "rem") return `${dim.value}rem (${Math.round(dim.value * 16)}px)`;
+      return `${dim.value}${dim.unit}`;
+    }
+    case "duration": {
+      const dur = value as DimensionValue;
+      return `${dur.value}${dur.unit}`;
+    }
+    case "number":
+      return String(value);
+    case "cubicBezier": {
+      const pts = value as number[];
+      return `cubic-bezier(${pts.join(", ")})`;
+    }
+    case "shadow":
+    case "gradient":
+      return JSON.stringify(value);
+    default:
+      return JSON.stringify(value);
+  }
+}
+
+/*
+  rootage 토큰 데이터에서 마크다운 테이블을 생성합니다.
+  groups가 ["radius"]이면 "$radius." 로 시작하는 토큰만 포함합니다.
+*/
+function generateMarkdownTable(tokens: Record<string, TokenEntry>, groups: string[]): string {
+  const prefix = `$${groups.join(".")}.`;
+  const filtered = Object.entries(tokens).filter(([id]) => id.startsWith(prefix));
+
+  if (filtered.length === 0) return "";
+
+  // 첫 번째 토큰에서 theme(column) 이름 결정
+  const themeNames = Object.keys(filtered[0][1].values);
+
+  const headers = ["Token", ...themeNames];
+  const separator = headers.map(() => "---");
+
+  const rows = filtered.map(([id, entry]) => {
+    const values = themeNames.map((theme) => {
+      const val = entry.values[theme];
+      return val ? formatTokenValue(val) : "";
+    });
+    return [id, ...values];
+  });
+
+  const formatRow = (cells: string[]) => `| ${cells.join(" | ")} |`;
+
+  return [formatRow(headers), formatRow(separator), ...rows.map(formatRow)].join("\n");
+}
+
+async function generateAllTokenTables(rootageDir: string): Promise<string> {
+  const indexPath = join(rootageDir, "index.json");
+  const indexContent = await readFile(indexPath, "utf-8");
+  const index = JSON.parse(indexContent) as RootageIndex;
+
+  const tokenPaths = index.resources
+    .map((r) => r.path)
+    .filter((p) => !p.startsWith("/components/") && p !== "/collections.json");
+
+  const sections: string[] = [];
+
+  for (const tokenPath of tokenPaths) {
+    const filePath = join(rootageDir, tokenPath.slice(1));
+    try {
+      const content = await readFile(filePath, "utf-8");
+      const data = JSON.parse(content) as RootageTokensData;
+      const table = generateMarkdownTable(data.data.tokens, [data.metadata.id]);
+      if (table) {
+        sections.push(`## ${data.metadata.name}\n\n${table}`);
+      }
+    } catch {
+      // 읽지 못한 파일은 건너뜀
+    }
+  }
+
+  return sections.join("\n\n");
+}
 
 export const tokenReferenceRule: Rule = {
   name: "TokenReference",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "TokenReference",
-  transform: () => {
-    // TokenReference 컴포넌트를 설명 텍스트로 대체
-    const nodes: RootContent[] = [
-      {
-        type: "paragraph",
-        children: [
-          {
-            type: "text",
-            value:
-              "💡 아래 Rootage Token Specifications 섹션에서 이 페이지에 해당하는 디자인 토큰 데이터를 확인할 수 있습니다.",
-          },
-        ],
-      },
-    ];
+  transform: async (node) => {
+    const rootageDir = join(process.cwd(), "public/rootage");
+    const groups = getGroupsFromNode(node);
 
-    return nodes;
+    if (groups.length === 0) {
+      const allTables = await generateAllTokenTables(rootageDir);
+      if (!allTables) throw new Error("No token tables generated");
+      return [{ type: "html", value: allTables }];
+    }
+
+    const fileName = `${groups[0]}.json`;
+    const fullPath = join(rootageDir, fileName);
+    const fileContent = await readFile(fullPath, "utf-8");
+    const data = JSON.parse(fileContent) as RootageTokensData;
+
+    const tableMarkdown = generateMarkdownTable(data.data.tokens, groups);
+    if (!tableMarkdown) throw new Error(`No table generated for groups: ${groups.join(".")}`);
+
+    return [{ type: "html", value: tableMarkdown }];
   },
 };
