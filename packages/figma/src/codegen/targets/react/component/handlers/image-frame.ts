@@ -147,7 +147,9 @@ export const createImageFrameHandler = (ctx: ComponentHandlerDeps) => {
 
         ...(node.layoutGrow === 1
           ? { flexGrow: true }
-          : { width: ctx.valueResolver.getFormattedValue.width(node) }),
+          : node.layoutAlign === "STRETCH"
+            ? { alignSelf: "stretch" }
+            : { width: ctx.valueResolver.getFormattedValue.width(node) }),
       };
 
       return createSeedReactElement(
