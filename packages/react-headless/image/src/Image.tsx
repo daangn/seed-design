@@ -4,7 +4,7 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import * as React from "react";
+import type * as React from "react";
 import { forwardRef } from "react";
 import { useImage, type UseImageProps } from "./useImage";
 import { ImageProvider, useImageContext } from "./useImageContext";
@@ -43,7 +43,12 @@ export const ImageContent = forwardRef<HTMLImageElement, ImageContentProps>((pro
   return (
     <Primitive.img
       ref={composeRefs(refs.image, ref)}
-      {...mergeProps(contentProps, otherProps)}
+      {...mergeProps(contentProps, otherProps, {
+        // if loading is lazy, we should not hide the image even if it's not loaded yet,
+        // because the browser should be able to check if it's in the viewport.
+        // TODO: it should be better than this; why doesn't useImage properly handle this case?
+        hidden: otherProps.loading === "lazy" ? false : contentProps.hidden,
+      })}
       onLoad={(e) => {
         handleLoad();
         onLoad?.(e);
