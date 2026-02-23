@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type {
   MdxJsxAttribute,
@@ -130,52 +130,63 @@ function generateMarkdownTable(tokens: Record<string, TokenEntry>, groups: strin
   return [formatRow(headers), formatRow(separator), ...rows.map(formatRow)].join("\n");
 }
 
-async function generateAllTokenTables(rootageDir: string): Promise<string> {
-  const indexPath = join(rootageDir, "index.json");
-  const indexContent = await readFile(indexPath, "utf-8");
-  const index = JSON.parse(indexContent) as RootageIndex;
+/*
+  rootage 토큰 파일을 경로를 키로 캐싱합니다.
+  첫 번째 호출 시 readFileSync로 로드하고 이후에는 캐시를 재사용합니다.
+*/
+let tokenDataCache: Map<string, RootageTokensData> | null = null;
 
-  const tokenPaths = index.resources
-    .map((r) => r.path)
-    .filter((p) => !p.startsWith("/components/") && p !== "/collections.json");
+function loadTokenData(): Map<string, RootageTokensData> {
+  if (tokenDataCache) return tokenDataCache;
 
-  const sections: string[] = [];
+  tokenDataCache = new Map();
+  const rootageDir = join(process.cwd(), "public/rootage");
 
-  for (const tokenPath of tokenPaths) {
-    const filePath = join(rootageDir, tokenPath.slice(1));
-    try {
-      const content = await readFile(filePath, "utf-8");
-      const data = JSON.parse(content) as RootageTokensData;
-      const table = generateMarkdownTable(data.data.tokens, [data.metadata.id]);
-      if (table) {
-        sections.push(`## ${data.metadata.name}\n\n${table}`);
+  try {
+    const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
+    const index = JSON.parse(indexContent) as RootageIndex;
+
+    for (const resource of index.resources) {
+      const { path } = resource;
+      if (path.startsWith("/components/") || path === "/collections.json") continue;
+
+      try {
+        const filePath = join(rootageDir, path.slice(1));
+        const content = readFileSync(filePath, "utf-8");
+        tokenDataCache.set(path, JSON.parse(content) as RootageTokensData);
+      } catch {
+        // 읽지 못한 파일은 건너뜀
       }
-    } catch {
-      // 읽지 못한 파일은 건너뜀
     }
+  } catch {
+    // index.json 읽기 실패 시 빈 캐시 반환
   }
 
-  return sections.join("\n\n");
+  return tokenDataCache;
 }
 
 export const tokenReferenceRule: Rule = {
   name: "TokenReference",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "TokenReference",
-  transform: async (node) => {
-    const rootageDir = join(process.cwd(), "public/rootage");
+  transform: (node) => {
     const groups = getGroupsFromNode(node);
+    const tokenData = loadTokenData();
 
     if (groups.length === 0) {
-      const allTables = await generateAllTokenTables(rootageDir);
+      const sections: string[] = [];
+      for (const data of tokenData.values()) {
+        const table = generateMarkdownTable(data.data.tokens, [data.metadata.id]);
+        if (table) sections.push(`## ${data.metadata.name}\n\n${table}`);
+      }
+      const allTables = sections.join("\n\n");
       if (!allTables) throw new Error("No token tables generated");
       return [{ type: "html", value: allTables }];
     }
 
-    const fileName = `${groups[0]}.json`;
-    const fullPath = join(rootageDir, fileName);
-    const fileContent = await readFile(fullPath, "utf-8");
-    const data = JSON.parse(fileContent) as RootageTokensData;
+    const tokenPath = `/${groups[0]}.json`;
+    const data = tokenData.get(tokenPath);
+    if (!data) throw new Error(`Token file not found: ${tokenPath}`);
 
     const tableMarkdown = generateMarkdownTable(data.data.tokens, groups);
     if (!tableMarkdown) throw new Error(`No table generated for groups: ${groups.join(".")}`);

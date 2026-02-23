@@ -9,8 +9,5 @@ export interface RuleContext {
 export interface Rule {
   name: string;
   match: (node: RootContent) => node is MdxJsxFlowElement;
-  transform: (
-    node: MdxJsxFlowElement,
-    context: RuleContext,
-  ) => RootContent[] | Promise<RootContent[]>;
+  transform: (node: MdxJsxFlowElement, context: RuleContext) => RootContent[];
 }
