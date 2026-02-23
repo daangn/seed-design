@@ -5,6 +5,7 @@ import type {
   MdxJsxAttributeValueExpression,
   MdxJsxFlowElement,
 } from "mdast-util-mdx-jsx";
+import type { Exchange } from "@seed-design/rootage-core";
 import type { Rule } from "./types";
 import {
   type ArrayExpressionNode,
@@ -38,31 +39,6 @@ function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
     .map((el) => el.value);
 }
 
-// rootage 토큰 값의 JSON 구조
-interface DimensionValue {
-  value: number;
-  unit: string;
-}
-
-interface TokenValueEntry {
-  type: string;
-  value: unknown;
-}
-
-interface TokenEntry {
-  values: Record<string, TokenValueEntry>;
-}
-
-interface RootageTokensData {
-  metadata: {
-    id: string;
-    name: string;
-  };
-  data: {
-    tokens: Record<string, TokenEntry>;
-  };
-}
-
 interface RootageIndex {
   resources: { path: string }[];
 }
@@ -70,34 +46,30 @@ interface RootageIndex {
 /*
   토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
 */
-function formatTokenValue(entry: TokenValueEntry): string {
-  const { type, value } = entry;
-
-  if (typeof value === "string") return value; // 토큰 참조 (예: "$duration.d3")
-
-  switch (type) {
+function formatTokenValue(entry: Exchange.Value): string {
+  switch (entry.type) {
     case "color":
-      return typeof value === "string" ? value : JSON.stringify(value);
+      return entry.value; // ColorLit | TokenRef - 모두 string
     case "dimension": {
-      const dim = value as DimensionValue;
-      if (dim.unit === "rem") return `${dim.value}rem (${Math.round(dim.value * 16)}px)`;
-      return `${dim.value}${dim.unit}`;
+      if (typeof entry.value === "string") return entry.value;
+      const { value, unit } = entry.value;
+      if (unit === "rem") return `${value}rem (${Math.round(value * 16)}px)`;
+      return `${value}${unit}`;
     }
     case "duration": {
-      const dur = value as DimensionValue;
-      return `${dur.value}${dur.unit}`;
+      if (typeof entry.value === "string") return entry.value;
+      return `${entry.value.value}${entry.value.unit}`;
     }
     case "number":
-      return String(value);
+      return String(entry.value);
     case "cubicBezier": {
-      const pts = value as number[];
-      return `cubic-bezier(${pts.join(", ")})`;
+      if (typeof entry.value === "string") return entry.value;
+      return `cubic-bezier(${entry.value.join(", ")})`;
     }
     case "shadow":
     case "gradient":
-      return JSON.stringify(value);
-    default:
-      return JSON.stringify(value);
+      if (typeof entry.value === "string") return entry.value;
+      return JSON.stringify(entry.value);
   }
 }
 
@@ -105,7 +77,10 @@ function formatTokenValue(entry: TokenValueEntry): string {
   rootage 토큰 데이터에서 마크다운 테이블을 생성합니다.
   groups가 ["radius"]이면 "$radius." 로 시작하는 토큰만 포함합니다.
 */
-function generateMarkdownTable(tokens: Record<string, TokenEntry>, groups: string[]): string {
+function generateMarkdownTable(
+  tokens: Exchange.TokensModel["data"]["tokens"],
+  groups: string[],
+): string {
   const prefix = `$${groups.join(".")}.`;
   const filtered = Object.entries(tokens).filter(([id]) => id.startsWith(prefix));
 
@@ -134,9 +109,9 @@ function generateMarkdownTable(tokens: Record<string, TokenEntry>, groups: strin
   rootage 토큰 파일을 경로를 키로 캐싱합니다.
   첫 번째 호출 시 readFileSync로 로드하고 이후에는 캐시를 재사용합니다.
 */
-let tokenDataCache: Map<string, RootageTokensData> | null = null;
+let tokenDataCache: Map<string, Exchange.TokensModel> | null = null;
 
-function loadTokenData(): Map<string, RootageTokensData> {
+function loadTokenData(): Map<string, Exchange.TokensModel> {
   if (tokenDataCache) return tokenDataCache;
 
   tokenDataCache = new Map();
@@ -153,7 +128,7 @@ function loadTokenData(): Map<string, RootageTokensData> {
       try {
         const filePath = join(rootageDir, path.slice(1));
         const content = readFileSync(filePath, "utf-8");
-        tokenDataCache.set(path, JSON.parse(content) as RootageTokensData);
+        tokenDataCache.set(path, JSON.parse(content) as Exchange.TokensModel);
       } catch {
         // 읽지 못한 파일은 건너뜀
       }
