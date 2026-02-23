@@ -228,49 +228,6 @@ get_docs_component({ componentName: "action-button" })
 
 ---
 
-### Foundation
-
-색상, 타이포그래피, 간격 등 디자인 기초 토큰에 대한 문서를 제공합니다.
-
-#### `list_foundation`
-
-사용 가능한 Foundation 주제 목록을 반환합니다.
-
-**파라미터:** 없음
-
-**예시 응답:**
-```
-Found 12 foundation topics:
-
-**Color**:
-  - Palette (color/palette)
-  - Semantic (color/semantic)
-
-**Typography**:
-  - Overview (typography/overview)
-
-**General**:
-  - Spacing (spacing)
-  - Elevation (elevation)
-...
-```
-
-#### `get_foundation`
-
-특정 Foundation 주제의 상세 문서를 반환합니다.
-
-**파라미터:**
-| 이름 | 타입 | 설명 |
-|------|------|------|
-| `topic` | string | 주제 경로 (예: `spacing`, `color/palette`, `typography/overview`) |
-
-**예시:**
-```
-get_foundation({ topic: "color/palette" })
-```
-
----
-
 ### Rootage
 
 SEED Design의 Rootage 스펙(디자인 토큰 및 컴포넌트 스펙의 원본 JSON 데이터)에 접근합니다.

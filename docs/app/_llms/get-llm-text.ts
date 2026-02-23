@@ -7,7 +7,6 @@ export async function getLLMText(page: LLMPage, section: Section): Promise<strin
   const sourceUrl = getGitHubSourceUrl(section, page.path);
 
   return `# ${page.data.title}
-
 URL: ${page.url}
 Source: ${sourceUrl}
 
