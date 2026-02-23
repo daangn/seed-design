@@ -20,6 +20,9 @@ export const AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(
       <Box
         ref={ref}
         className={clsx(aspectRatio, className)}
+        position="relative" // TODO: should these be set in the recipe?
+        overflowX="hidden"
+        overflowY="hidden"
         style={
           {
             // NOTE: aspectRatio는 iOS 15+부터 지원하기 때문에 padding으로 ratio hack을 사용합니다.
