@@ -1373,8 +1373,6 @@
 
 .seed-aspect-ratio {
   --seed-aspect-ratio-padding: 75%;
-  position: relative;
-  overflow: hidden;
 }
 
 .seed-aspect-ratio:before {
