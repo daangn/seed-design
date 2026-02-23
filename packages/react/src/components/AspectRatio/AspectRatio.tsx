@@ -20,7 +20,7 @@ export const AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(
       <Box
         ref={ref}
         className={clsx(aspectRatio, className)}
-        position="relative" // TODO: should these be set in the recipe?
+        position="relative" // TODO: these are currently here but we might want to make AspectRatio just a Primitive.div which takes BoxProps
         overflowX="hidden"
         overflowY="hidden"
         style={
