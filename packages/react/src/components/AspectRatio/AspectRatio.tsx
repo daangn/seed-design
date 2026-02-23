@@ -9,6 +9,21 @@ export interface AspectRatioProps extends BoxProps {
    * @default 4 / 3
    */
   ratio?: number;
+
+  // following 3 are just here for JSDoc purposes
+
+  /**
+   * @default "relative"
+   */
+  position?: BoxProps["position"];
+  /**
+   * @default "hidden"
+   */
+  overflowX?: BoxProps["overflowX"];
+  /**
+   * @default "hidden"
+   */
+  overflowY?: BoxProps["overflowY"];
 }
 
 export const AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(
