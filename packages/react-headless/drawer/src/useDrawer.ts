@@ -1,7 +1,7 @@
 import { useControllableState } from "@seed-design/react-use-controllable-state";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { isIOS, isMobileFirefox } from "./browser";
+import { isAndroid, isIOS, isMobileFirefox } from "./browser";
 import {
   CLOSE_THRESHOLD,
   DRAG_CLASS,
@@ -600,7 +600,7 @@ export function useDrawer(props: UseDrawerProps) {
           } else {
             drawerRef.current.style.height = `${Math.max(newDrawerHeight, visualViewportHeight - offsetFromTop)}px`;
           }
-        } else if (!isMobileFirefox()) {
+        } else if (!isMobileFirefox() && !isAndroid()) {
           drawerRef.current.style.height = `${initialDrawerHeight.current}px`;
         }
 
