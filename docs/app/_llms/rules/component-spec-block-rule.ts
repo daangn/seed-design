@@ -159,17 +159,22 @@ export const componentSpecBlockRule: Rule = {
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "ComponentSpecBlock",
   transform: (node, context) => {
-    const id = context.getStringAttribute(node, "id");
-    if (!id) throw new Error("ComponentSpecBlock: id prop is required");
+    try {
+      const id = context.getStringAttribute(node, "id");
+      if (!id) throw new Error("ComponentSpecBlock: id prop is required");
 
-    const filterVariants = getVariantsFromNode(node);
-    const specData = loadComponentSpecData();
-    const spec = specData.get(id);
-    if (!spec) throw new Error(`ComponentSpecBlock: spec not found for id="${id}"`);
+      const filterVariants = getVariantsFromNode(node);
+      const specData = loadComponentSpecData();
+      const spec = specData.get(id);
+      if (!spec) throw new Error(`ComponentSpecBlock: spec not found for id="${id}"`);
 
-    const markdown = generateMarkdown(spec, filterVariants);
-    if (!markdown) throw new Error(`ComponentSpecBlock: no definitions for id="${id}"`);
+      const markdown = generateMarkdown(spec, filterVariants);
+      if (!markdown) throw new Error(`ComponentSpecBlock: no definitions for id="${id}"`);
 
-    return [{ type: "html", value: markdown }];
+      return [{ type: "html", value: markdown }];
+    } catch (e) {
+      console.warn(`[ComponentSpecBlock] 변환 실패, 노드 스킵: ${e}`);
+      return [];
+    }
   },
 };
