@@ -22,7 +22,9 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--seed-color-bg-neutral-weak-pressed)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       }
     },
     "selected": {
@@ -32,7 +34,9 @@ export declare const vars: {
     },
     "selectedPressed": {
       "root": {
-        "color": "var(--seed-color-palette-gray-100)"
+        "color": "var(--seed-color-palette-gray-100)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       }
     },
     "disabled": {

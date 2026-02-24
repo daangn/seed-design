@@ -26,6 +26,10 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
       label:
         properties:
           fontSize:
@@ -62,12 +66,16 @@ data:
       pressed:
         root:
           color: $color.bg.neutral-weak-pressed
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-muted
       selected:
         label:
           color: $color.fg.neutral
       selected,pressed:
         root:
           color: $color.palette.gray-100
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-muted
       disabled:
         label:
           color: $color.fg.disabled
