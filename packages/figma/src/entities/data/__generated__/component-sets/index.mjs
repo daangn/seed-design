@@ -2648,7 +2648,7 @@ export const componentImageFrame = {
         "80",
         "96",
         "120",
-        "\bFree"
+        "Free"
       ]
     },
     "Rounded": {
