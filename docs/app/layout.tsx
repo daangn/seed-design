@@ -3,6 +3,7 @@ import "simple-reveal/index.css";
 import "./global.css";
 
 import GoogleAnalytics from "@/components/google-analytics";
+import { LatestVersionBanner } from "@/components/latest-version-banner";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import ThemeSync from "@/components/theme-sync";
@@ -27,6 +28,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <GoogleAnalytics GA_MEASUREMENT_ID="G-02SS22W02G" />
       </head>
       <body>
+        <LatestVersionBanner />
         <ThemeSync />
         {children}
       </body>
