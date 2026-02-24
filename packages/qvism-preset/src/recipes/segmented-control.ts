@@ -95,12 +95,12 @@ const segmentedControl = defineSlotRecipe({
 
       [pseudo(not(disabled), checked, active)]: {
         backgroundColor: itemVars.base.selectedPressed.root.color,
-        boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+        boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },
 
       [pseudo(not(disabled), not(checked), active)]: {
         backgroundColor: itemVars.base.pressed.root.color,
-        boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+        boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },
     },
   },

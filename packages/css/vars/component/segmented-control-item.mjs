@@ -22,7 +22,9 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--seed-color-bg-neutral-weak-pressed)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       }
     },
     "selected": {
