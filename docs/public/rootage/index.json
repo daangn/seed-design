@@ -171,6 +171,9 @@
       "path": "/components/scroll-fog.json"
     },
     {
+      "path": "/components/segmented-control-indicator.json"
+    },
+    {
       "path": "/components/segmented-control-item.json"
     },
     {
