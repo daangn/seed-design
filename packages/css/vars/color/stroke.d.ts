@@ -28,3 +28,4 @@ export declare const positiveWeak = "var(--seed-color-stroke-positive-weak)";
 export declare const warningSolid = "var(--seed-color-stroke-warning-solid)";
 /** 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak) */
 export declare const warningWeak = "var(--seed-color-stroke-warning-weak)";
+export declare const focusRing = "var(--seed-color-stroke-focus-ring)";

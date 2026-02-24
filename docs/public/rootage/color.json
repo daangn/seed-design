@@ -2064,6 +2064,18 @@
         },
         "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak)"
       },
+      "$color.stroke.focus-ring": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.blue-600"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.blue-600"
+          }
+        }
+      },
       "$color.manner-temp.l1.bg": {
         "values": {
           "theme-light": {
