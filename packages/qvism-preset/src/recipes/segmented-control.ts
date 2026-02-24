@@ -1,4 +1,8 @@
-import { segmentedControlItem as itemVars, segmentedControl as vars } from "../vars/component";
+import {
+  segmentedControlItem as itemVars,
+  segmentedControl as vars,
+  segmentedControlIndicator as indicatorVars,
+} from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, checked, disabled, not, pseudo } from "../utils/pseudo";
 
@@ -38,12 +42,12 @@ const segmentedControl = defineSlotRecipe({
       left: vars.base.enabled.root.padding,
       width: `calc((100% - ${vars.base.enabled.root.padding} * 2) / var(--segment-count))`,
 
-      borderRadius: vars.base.enabled.indicator.cornerRadius,
-      backgroundColor: vars.base.enabled.indicator.color,
+      borderRadius: indicatorVars.base.enabled.root.cornerRadius,
+      backgroundColor: indicatorVars.base.enabled.root.color,
 
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
 
-      transition: `transform ${vars.base.enabled.indicator.transformDuration} ${vars.base.enabled.indicator.transformTimingFunction}`,
+      transition: `transform ${indicatorVars.base.enabled.root.transformDuration} ${indicatorVars.base.enabled.root.transformTimingFunction}`,
     },
     item: {
       display: "flex",
@@ -87,20 +91,20 @@ const segmentedControl = defineSlotRecipe({
 
       [pseudo(disabled, checked)]: {
         // this covers the indicator
-        backgroundColor: itemVars.base.disabledSelected.root.color,
+        backgroundColor: indicatorVars.base.disabled.root.color,
 
         // this is the same as the indicator stroke
-        boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+        boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
       [pseudo(not(disabled), checked, active)]: {
-        backgroundColor: itemVars.base.selectedPressed.root.color,
-        boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+        backgroundColor: indicatorVars.base.pressed.root.color,
+        boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
       [pseudo(not(disabled), not(checked), active)]: {
         backgroundColor: itemVars.base.pressed.root.color,
-        boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+        boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },
     },
   },
