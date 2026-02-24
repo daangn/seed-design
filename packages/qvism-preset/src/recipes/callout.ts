@@ -1,7 +1,8 @@
 import { callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { active, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
+import { focusRingStyles } from "../utils/focus-ring";
 
 const callout = defineSlotRecipe({
   name: "callout",
@@ -43,6 +44,8 @@ const callout = defineSlotRecipe({
 
       [pseudo(":is(button, a)")]: {
         cursor: "pointer",
+
+        [pseudo(focusVisible)]: focusRingStyles,
       },
     },
     content: {
@@ -85,6 +88,8 @@ const callout = defineSlotRecipe({
       fontWeight: vars.base.enabled.link.fontWeight,
       textDecoration: "underline",
       textUnderlineOffset: "2px",
+
+      [pseudo(focusVisible)]: focusRingStyles,
     },
     closeButton: {
       border: "none",
@@ -102,6 +107,10 @@ const callout = defineSlotRecipe({
       height: vars.base.enabled.suffixIcon.targetSize,
 
       margin: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
+
+      // this property is for the focus ring
+      borderRadius: vars.base.enabled.root.cornerRadius,
+      [pseudo(focusVisible)]: focusRingStyles,
     },
   },
   defaultVariants: {

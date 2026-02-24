@@ -2,7 +2,8 @@ import { chip as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { active, checked, disabled, focus, not, pseudo } from "../utils/pseudo";
+import { active, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { focusRingStyles } from "../utils/focus-ring";
 
 const chip = defineSlotRecipe({
   name: "chip",
@@ -30,9 +31,7 @@ const chip = defineSlotRecipe({
       transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
       transitionProperty: "background-color, color, border-color, box-shadow",
 
-      [pseudo(focus)]: {
-        outline: "none",
-      },
+      [pseudo(focusVisible)]: focusRingStyles,
       [pseudo(disabled)]: {
         cursor: "not-allowed",
       },

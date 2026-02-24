@@ -12,7 +12,12 @@
     margin: 0;
     border: none;
     font-family: inherit;
-    outline: none;
+}
+.seed-menu-sheet-item__root:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-menu-sheet-item__root:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-weak-pressed);

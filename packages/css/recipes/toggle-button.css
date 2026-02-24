@@ -15,8 +15,11 @@
     flex-shrink: 0;
     font-family: inherit;
 }
-.seed-toggle-button:is(:focus, [data-focus]) {
-    outline: none;
+.seed-toggle-button:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-toggle-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;

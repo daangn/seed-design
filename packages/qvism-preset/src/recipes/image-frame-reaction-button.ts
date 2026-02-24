@@ -1,7 +1,9 @@
 import { defineRecipe } from "../utils/define";
+import { focusRingStyles } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { pressed, pseudo } from "../utils/pseudo";
+import { focusVisible, pressed, pseudo } from "../utils/pseudo";
 import { imageFrameReactionButton as reactionButtonVars } from "../vars/component";
+import { vars as tokens } from "../vars";
 
 export default defineRecipe({
   name: "image-frame-reaction-button",
@@ -34,9 +36,9 @@ export default defineRecipe({
       left: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
     },
 
-    "&:focus": {
-      outline: "none",
-    },
+    // this property is for the focus ring
+    borderRadius: tokens.$radius.r2,
+    [pseudo(focusVisible)]: focusRingStyles,
 
     [pseudo(pressed)]: {
       ...onlyIcon({

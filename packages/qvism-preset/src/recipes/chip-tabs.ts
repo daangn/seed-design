@@ -1,6 +1,7 @@
 import { chipTablist as vars, chipTab as triggerVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, disabled, not, pseudo, selected } from "../utils/pseudo";
+import { active, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { focusRingStyles } from "../utils/focus-ring";
 
 const chipTabs = defineSlotRecipe({
   name: "chip-tabs",
@@ -66,6 +67,8 @@ const chipTabs = defineSlotRecipe({
       fontWeight: triggerVars.base.enabled.label.fontWeight,
 
       transition: `background-color ${triggerVars.base.enabled.root.colorDuration} ${triggerVars.base.enabled.root.colorTimingFunction}`,
+
+      [pseudo(focusVisible)]: focusRingStyles,
     },
   },
   variants: {

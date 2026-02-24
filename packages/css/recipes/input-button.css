@@ -50,8 +50,11 @@
     cursor: default;
     background-color: var(--seed-color-bg-disabled);
 }
-.seed-input-button__button:is(:focus, [data-focus]) {
-    outline: none;
+.seed-input-button__button:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-input-button__button:is(:invalid, [data-invalid])::after {
     border-width: 2px;
@@ -124,6 +127,15 @@
     border: none;
     background-color: transparent;
     padding: 0;
+    border-radius: var(--seed-radius-full);
+}
+.seed-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-input-button__clearButton {
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
 }

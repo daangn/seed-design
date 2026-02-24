@@ -4,7 +4,8 @@ import {
   segmentedControlIndicator as indicatorVars,
 } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, checked, disabled, not, pseudo } from "../utils/pseudo";
+import { active, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { focusRingStyles } from "../utils/focus-ring";
 
 const segmentedControl = defineSlotRecipe({
   name: "segmented-control",
@@ -83,6 +84,8 @@ const segmentedControl = defineSlotRecipe({
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
       },
+
+      [pseudo(focusVisible)]: focusRingStyles,
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",

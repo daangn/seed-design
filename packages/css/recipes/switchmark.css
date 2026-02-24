@@ -10,6 +10,12 @@
 .seed-switchmark__root:is(:disabled, [disabled], [data-disabled]) {
     opacity: 0.38;
 }
+.seed-switchmark__root:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-switchmark__thumb {
     border-radius: var(--seed-radius-full);
     transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms;

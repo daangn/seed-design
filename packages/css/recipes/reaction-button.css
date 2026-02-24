@@ -15,8 +15,11 @@
     flex-shrink: 0;
     font-family: inherit;
 }
-.seed-reaction-button:is(:focus, [data-focus]) {
-    outline: none;
+.seed-reaction-button:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-reaction-button {
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);

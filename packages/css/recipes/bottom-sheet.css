@@ -135,6 +135,12 @@
     bottom: calc((28px - 44px) / 2);
     left: calc((28px - 44px) / 2);
 }
+.seed-bottom-sheet__closeButton:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-bottom-sheet__header--headerAlign_left {
     justify-content: flex-start;
 }

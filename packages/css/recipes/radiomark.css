@@ -26,6 +26,12 @@
     border-width: 1px;
     border-color: var(--seed-color-palette-gray-300);
 }
+.seed-radiomark__root:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-radiomark__icon {
     display: none;
     border-radius: var(--seed-radius-full);

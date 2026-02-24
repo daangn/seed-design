@@ -1,6 +1,7 @@
 import { defineSlotRecipe } from "../utils/define";
+import { focusRingStyles } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { active, disabled, not, pseudo } from "../utils/pseudo";
+import { active, disabled, focus, focusVisible, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
 
 const listItem = defineSlotRecipe({
@@ -99,6 +100,15 @@ const listItem = defineSlotRecipe({
         right: 0,
         bottom: 0,
         left: 0,
+      },
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      [pseudo(focusVisible)]: {
+        // TODO: make this inset
+        "&::after": focusRingStyles,
       },
 
       // this is for showing the active state

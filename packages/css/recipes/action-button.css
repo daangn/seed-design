@@ -35,8 +35,11 @@
     margin-left: calc(var(--seed-box-bleed-left) * -1);
     margin-right: calc(var(--seed-box-bleed-right) * -1);
 }
-.seed-action-button:is(:focus, [data-focus]) {
-    outline: none;
+.seed-action-button:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-action-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;

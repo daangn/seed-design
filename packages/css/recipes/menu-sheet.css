@@ -90,7 +90,6 @@
     border-radius: var(--seed-radius-r3);
     border: none;
     font-family: inherit;
-    outline: none;
     color: var(--seed-color-fg-neutral);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
@@ -98,6 +97,12 @@
 }
 .seed-menu-sheet__closeButton:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
+}
+.seed-menu-sheet__closeButton:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-menu-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open]) {
     animation: seed-enter;

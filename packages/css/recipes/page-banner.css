@@ -24,6 +24,12 @@
 .seed-page-banner__root:is(button) {
     cursor: pointer;
 }
+.seed-page-banner__root:is(button):is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-page-banner__content {
     display: flex;
     flex-wrap: wrap;
@@ -64,6 +70,12 @@
     line-height: var(--seed-line-height-t3);
     font-weight: var(--seed-font-weight-bold);
 }
+.seed-page-banner__button:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-page-banner__closeButton {
     flex-shrink: 0;
     flex-grow: 0;
@@ -80,6 +92,12 @@
     background-color: transparent;
     padding: 0;
     cursor: pointer;
+}
+.seed-page-banner__closeButton:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-page-banner__root--tone_neutral-variant_weak {
     background-color: var(--seed-color-bg-neutral-weak);

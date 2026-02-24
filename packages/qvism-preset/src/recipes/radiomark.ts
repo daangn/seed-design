@@ -1,6 +1,7 @@
 import { radiomark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, active, pseudo, not } from "../utils/pseudo";
+import { checked, disabled, active, pseudo, not, focusVisible } from "../utils/pseudo";
+import { focusRingStyles } from "../utils/focus-ring";
 
 const radiomark = defineSlotRecipe({
   name: "radiomark",
@@ -44,6 +45,8 @@ const radiomark = defineSlotRecipe({
         borderWidth: vars.toneBrand.disabledSelected.root.strokeWidth,
         borderColor: vars.toneBrand.disabledSelected.root.strokeColor,
       },
+
+      [pseudo(focusVisible)]: focusRingStyles,
     },
     icon: {
       display: "none",

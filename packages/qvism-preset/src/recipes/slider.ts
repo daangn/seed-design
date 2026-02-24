@@ -4,7 +4,8 @@ import {
   sliderTick as tickVars,
 } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
-import { disabled, pseudo, focus, not } from "../utils/pseudo";
+import { disabled, pseudo, focusVisible, focus, not } from "../utils/pseudo";
+import { focusRingStyles } from "../utils/focus-ring";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import * as duration from "../vars/duration";
 import * as timingFunction from "../vars/timing-function";
@@ -146,7 +147,11 @@ const slider = defineSlotRecipe({
       },
 
       [pseudo(focus)]: {
-        outline: "none", // XXX
+        outline: "none",
+      },
+
+      [pseudo(focusVisible)]: {
+        "&::after": focusRingStyles,
       },
     },
     markers: {

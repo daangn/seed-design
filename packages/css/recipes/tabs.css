@@ -83,6 +83,12 @@
     height: 2px;
     background-color: var(--seed-color-fg-neutral);
 }
+.seed-tabs__trigger:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-tabs__list--triggerLayout_fill {
     padding-left: 0px;
     padding-right: 0px;

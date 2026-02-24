@@ -53,6 +53,12 @@
 .seed-segmented-control__item:is(:checked, [data-checked]) {
     color: var(--seed-color-fg-neutral);
 }
+.seed-segmented-control__item:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-segmented-control__item:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     color: var(--seed-color-fg-disabled);

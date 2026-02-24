@@ -23,6 +23,12 @@
 .seed-callout__root:is(button, a) {
     cursor: pointer;
 }
+.seed-callout__root:is(button, a):is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-callout__content {
     margin-right: auto;
     line-height: var(--seed-line-height-t4);
@@ -58,6 +64,12 @@
     text-decoration: underline;
     text-underline-offset: 2px;
 }
+.seed-callout__link:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-callout__closeButton {
     border: none;
     background-color: transparent;
@@ -71,6 +83,13 @@
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
     margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -0.5);
+    border-radius: var(--seed-radius-r2_5);
+}
+.seed-callout__closeButton:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-callout__root--tone_neutral {
     background-color: var(--seed-color-bg-neutral-weak);

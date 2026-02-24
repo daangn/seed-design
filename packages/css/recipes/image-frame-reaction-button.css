@@ -21,8 +21,14 @@
     bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
 }
-.seed-image-frame-reaction-button:focus {
-    outline: none;
+.seed-image-frame-reaction-button {
+    border-radius: var(--seed-radius-r2);
+}
+.seed-image-frame-reaction-button:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-image-frame-reaction-button:is([aria-pressed=true], [data-pressed]) {
     --seed-icon-color: var(--seed-color-bg-transparent);

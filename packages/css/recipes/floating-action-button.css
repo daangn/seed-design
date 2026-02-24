@@ -11,8 +11,11 @@
     text-decoration: none;
     font-family: inherit;
 }
-.seed-floating-action-button__root:is(:focus, [data-focus]) {
-    outline: none;
+.seed-floating-action-button__root:is(:focus-visible, [data-focus-visible]) {
+    outline-width: var(--seed-dimension-x0_5);
+    outline-style: solid;
+    outline-color: var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-floating-action-button__root:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
