@@ -32,8 +32,6 @@ data:
             type: cubicBezier
       content:
         properties:
-          color:
-            type: color
           gap:
             type: dimension
           paddingRight:

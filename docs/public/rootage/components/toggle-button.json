@@ -23,9 +23,6 @@
             "minHeight": {
               "type": "dimension"
             },
-            "minWidth": {
-              "type": "dimension"
-            },
             "cornerRadius": {
               "type": "dimension"
             },
