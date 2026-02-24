@@ -15,6 +15,7 @@ export * from "./field-button";
 export * from "./floating-action-button";
 export * from "./help-bubble";
 export * from "./identity-placeholder";
+export * from "./image-frame";
 export * from "./legacy-select-box";
 export * from "./legacy-text-field";
 export * from "./list-header";
