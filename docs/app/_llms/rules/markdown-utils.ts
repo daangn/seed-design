@@ -2,7 +2,7 @@
  * @description `|` 기호를 `\|`로 변환합니다.
  */
 export function escapeCell(s: string): string {
-  return s.replace(/\|/g, "\\|").replace(/\n/g, " ");
+  return s.replace(/\\/g, "\\\\").replace(/\|/g, "\\|").replace(/\n/g, " ");
 }
 
 /**
