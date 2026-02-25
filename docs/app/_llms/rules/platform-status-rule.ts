@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import type { ComponentData, PlatformStatus } from "../../../sanity-studio/lib/types";
 import type { Rule } from "./types";
+import { escapeCell, markdownRow } from "./markdown-utils";
 
 const platformConfig = [
   { key: "figma" as const, label: "Figma" },
@@ -34,19 +35,18 @@ function generateMarkdownTable(component: ComponentData): string {
     const note = component[`${key}Note`] as string | undefined;
 
     return {
-      platform: url ? `[${label}](${url})` : label,
+      platform: url ? `[${label}](${escapeCell(url)})` : label,
       status: statusLabel[status] ?? "Not Ready",
-      note: note ?? "",
+      note: note ? escapeCell(note) : "",
     };
   });
 
   const activeColumns = columnDefs.filter(({ key }) => rows.some((row) => row[key]));
-  const formatRow = (cells: string[]) => `| ${cells.join(" | ")} |`;
 
   return [
-    formatRow(activeColumns.map((col) => col.header)),
-    formatRow(activeColumns.map(() => "---")),
-    ...rows.map((row) => formatRow(activeColumns.map((col) => row[col.key]))),
+    markdownRow(activeColumns.map((col) => col.header)),
+    markdownRow(activeColumns.map(() => "---")),
+    ...rows.map((row) => markdownRow(activeColumns.map((col) => row[col.key]))),
   ].join("\n");
 }
 

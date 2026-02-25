@@ -7,6 +7,7 @@ import type {
 } from "mdast-util-mdx-jsx";
 import type { Exchange } from "@seed-design/rootage-core";
 import type { Rule } from "./types";
+import { markdownRow } from "./markdown-utils";
 import {
   type ArrayExpressionNode,
   type ExpressionStatementNode,
@@ -100,9 +101,7 @@ function generateMarkdownTable(
     return [id, ...values];
   });
 
-  const formatRow = (cells: string[]) => `| ${cells.join(" | ")} |`;
-
-  return [formatRow(headers), formatRow(separator), ...rows.map(formatRow)].join("\n");
+  return [markdownRow(headers), markdownRow(separator), ...rows.map(markdownRow)].join("\n");
 }
 
 /*
