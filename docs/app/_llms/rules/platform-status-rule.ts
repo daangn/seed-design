@@ -77,11 +77,11 @@ export const platformStatusRule: Rule = {
     node.type === "mdxJsxFlowElement" && node.name === "PlatformStatusTable",
   transform: (node, { getStringAttribute }) => {
     const componentId = getStringAttribute(node, "componentId");
-    if (!componentId) throw new Error("PlatformStatusTable: missing componentId");
+    if (!componentId) return [node];
 
     const componentData = loadComponentData();
     const component = componentData.get(componentId);
-    if (!component) throw new Error(`PlatformStatusTable: component not found: ${componentId}`);
+    if (!component) return [node];
 
     return [{ type: "html", value: generateMarkdownTable(component) }];
   },
