@@ -13,6 +13,7 @@
     "gen": "bun generate:all",
     "generate:all": "bun generate:registry && bun rootage:generate",
     "generate:registry": "bun scripts/generate-registry.ts",
+    "sanity:sync": "bun scripts/sync-sanity-components.ts",
     "rootage:generate": "rootage json public/rootage",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
