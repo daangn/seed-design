@@ -28,7 +28,7 @@
     outline-width: var(--seed-dimension-x0_5);
     outline-style: solid;
     outline-color: var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-page-banner__content {
     display: flex;
@@ -69,6 +69,7 @@
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
     font-weight: var(--seed-font-weight-bold);
+    border-radius: var(--seed-radius-r1);
 }
 .seed-page-banner__button:is(:focus-visible, [data-focus-visible]) {
     outline-width: var(--seed-dimension-x0_5);
@@ -92,12 +93,13 @@
     background-color: transparent;
     padding: 0;
     cursor: pointer;
+    border-radius: var(--seed-radius-r1);
 }
 .seed-page-banner__closeButton:is(:focus-visible, [data-focus-visible]) {
     outline-width: var(--seed-dimension-x0_5);
     outline-style: solid;
     outline-color: var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-page-banner__root--tone_neutral-variant_weak {
     background-color: var(--seed-color-bg-neutral-weak);

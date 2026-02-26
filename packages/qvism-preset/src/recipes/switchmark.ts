@@ -1,7 +1,7 @@
 import { switchmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { checked, disabled, focusVisible, pseudo } from "../utils/pseudo";
-import { focusRingStyles } from "../utils/focus-ring";
+import { createFocusRingStyles } from "../utils/focus-ring";
 
 const switchmarkRecipe = defineSlotRecipe({
   name: "switchmark",
@@ -23,7 +23,7 @@ const switchmarkRecipe = defineSlotRecipe({
         opacity: vars.base.disabled.root.opacity,
       },
 
-      [pseudo(focusVisible)]: focusRingStyles,
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     thumb: {
       borderRadius: vars.base.enabled.thumb.cornerRadius,

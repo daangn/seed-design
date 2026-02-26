@@ -76,7 +76,7 @@
     outline-width: var(--seed-dimension-x0_5);
     outline-style: solid;
     outline-color: var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-list-item__content::before {
     content: '';

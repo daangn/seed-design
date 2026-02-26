@@ -1,7 +1,7 @@
 import { tablist as vars, tab as triggerVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
-import { focusRingStyles } from "../utils/focus-ring";
+import { createFocusRingStyles } from "../utils/focus-ring";
 
 const tabs = defineSlotRecipe({
   name: "tabs",
@@ -101,8 +101,7 @@ const tabs = defineSlotRecipe({
         backgroundColor: vars.base.enabled.indicator.color,
       },
 
-      // TODO: make this inset
-      [pseudo(focusVisible)]: focusRingStyles,
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
   },
   variants: {

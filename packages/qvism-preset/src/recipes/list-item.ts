@@ -1,5 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
-import { focusRingStyles } from "../utils/focus-ring";
+import { createFocusRingStyles } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { active, disabled, focus, focusVisible, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
@@ -107,8 +107,7 @@ const listItem = defineSlotRecipe({
       },
 
       [pseudo(focusVisible)]: {
-        // TODO: make this inset
-        "&::after": focusRingStyles,
+        "&::after": createFocusRingStyles({ position: "inside" }),
       },
 
       // this is for showing the active state
@@ -126,7 +125,7 @@ const listItem = defineSlotRecipe({
         transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
       },
 
-      // :active pseudoselector is only allowed when the item is a button or an anchor
+      // :active pseudoselector is only attached when the item is a button or an anchor
       [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 

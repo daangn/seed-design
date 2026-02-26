@@ -2,7 +2,7 @@ import { floatingActionButton as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
 import { active, disabled, focusVisible, pseudo } from "../utils/pseudo";
-import { focusRingStyles } from "../utils/focus-ring";
+import { createFocusRingStyles } from "../utils/focus-ring";
 
 const floatingActionButton = defineSlotRecipe({
   name: "floating-action-button",
@@ -20,7 +20,7 @@ const floatingActionButton = defineSlotRecipe({
       MozOsxFontSmoothing: "grayscale",
       textDecoration: "none",
       fontFamily: "inherit",
-      [pseudo(focusVisible)]: focusRingStyles,
+      [pseudo(focusVisible)]: createFocusRingStyles(),
       [pseudo(disabled)]: {
         cursor: "not-allowed",
       },

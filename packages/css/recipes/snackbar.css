@@ -86,14 +86,15 @@
     min-height: 44px;
     background: transparent;
 }
-.seed-snackbar__actionButton {
-    border-radius: var(--seed-radius-r2);
+.seed-snackbar__actionButton:is(:focus, [data-focus]) {
+    outline: none;
 }
-.seed-snackbar__actionButton:is(:focus-visible, [data-focus-visible]) {
+.seed-snackbar__actionButton:is(:focus-visible, [data-focus-visible]):after {
+    border-radius: var(--seed-radius-r1);
     outline-width: var(--seed-dimension-x0_5);
     outline-style: solid;
     outline-color: var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-snackbar__prefixIcon--variant_default {
     display: none;

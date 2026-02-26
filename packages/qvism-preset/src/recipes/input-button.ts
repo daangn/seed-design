@@ -1,7 +1,7 @@
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, active, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
-import { focusRingStyles } from "../utils/focus-ring";
+import { createFocusRingStyles } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { vars as tokens } from "../vars";
 
@@ -86,7 +86,7 @@ const inputButton = defineSlotRecipe({
         backgroundColor: vars.base.readonly.root.color,
       },
 
-      [pseudo(focusVisible)]: focusRingStyles,
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       [pseudo(invalid, "::after")]: {
         borderWidth: vars.base.invalid.root.strokeWidth,
@@ -183,9 +183,8 @@ const inputButton = defineSlotRecipe({
 
       padding: 0,
 
-      // this property is for the focus ring
       borderRadius: tokens.$radius.full,
-      [pseudo(focusVisible)]: focusRingStyles,
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       ...onlyIcon({
         size: vars.base.enabled.clearButton.size,

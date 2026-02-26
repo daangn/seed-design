@@ -135,11 +135,15 @@
     bottom: calc((28px - 44px) / 2);
     left: calc((28px - 44px) / 2);
 }
-.seed-bottom-sheet__closeButton:is(:focus-visible, [data-focus-visible]) {
+.seed-bottom-sheet__closeButton:is(:focus, [data-focus]) {
+    outline: none;
+}
+.seed-bottom-sheet__closeButton:is(:focus-visible, [data-focus-visible]):after {
+    border-radius: var(--seed-radius-r1);
     outline-width: var(--seed-dimension-x0_5);
     outline-style: solid;
     outline-color: var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-bottom-sheet__header--headerAlign_left {
     justify-content: flex-start;

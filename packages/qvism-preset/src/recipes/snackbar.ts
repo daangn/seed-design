@@ -1,8 +1,8 @@
 import { snackbar as vars } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { focusVisible, pseudo } from "../utils/pseudo";
-import { focusRingStyles } from "../utils/focus-ring";
+import { focus, focusVisible, pseudo } from "../utils/pseudo";
+import { createFocusRingStyles } from "../utils/focus-ring";
 import { vars as tokens } from "../vars";
 
 const MAX_Z_INDEX = 2147483647;
@@ -66,7 +66,7 @@ export const snackbar = defineSlotRecipe({
         }),
       },
 
-      [pseudo(focusVisible)]: focusRingStyles,
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     content: {
       display: "flex",
@@ -123,9 +123,16 @@ export const snackbar = defineSlotRecipe({
         background: "transparent",
       },
 
-      // this property is for the focus ring
-      borderRadius: tokens.$radius.r2,
-      [pseudo(focusVisible)]: focusRingStyles,
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      [pseudo(focusVisible)]: {
+        "&:after": {
+          borderRadius: tokens.$radius.r1,
+          ...createFocusRingStyles({ position: "inside" }),
+        },
+      },
     },
   },
   variants: {

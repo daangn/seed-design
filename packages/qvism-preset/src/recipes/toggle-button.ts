@@ -3,7 +3,7 @@ import { toggleButton as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import { active, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
-import { focusRingStyles } from "../utils/focus-ring";
+import { createFocusRingStyles } from "../utils/focus-ring";
 
 const toggleButton = defineRecipe({
   name: "toggle-button",
@@ -24,7 +24,7 @@ const toggleButton = defineRecipe({
     flexShrink: 0,
     fontFamily: "inherit",
 
-    [pseudo(focusVisible)]: focusRingStyles,
+    [pseudo(focusVisible)]: createFocusRingStyles(),
     [pseudo(disabled)]: {
       cursor: "not-allowed",
     },

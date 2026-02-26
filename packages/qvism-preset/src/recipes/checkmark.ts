@@ -8,7 +8,7 @@ import {
   not,
   pseudo,
 } from "../utils/pseudo";
-import { focusRingStyles } from "../utils/focus-ring";
+import { createFocusRingStyles } from "../utils/focus-ring";
 
 const checkmark = defineSlotRecipe({
   name: "checkmark",
@@ -23,7 +23,7 @@ const checkmark = defineSlotRecipe({
 
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
 
-      [pseudo(focusVisible)]: focusRingStyles,
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     icon: {
       display: "none",

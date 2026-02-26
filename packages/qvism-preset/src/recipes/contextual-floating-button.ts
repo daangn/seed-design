@@ -3,7 +3,7 @@ import { contextualFloatingButton as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon } from "../utils/icon";
 import { active, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
-import { focusRingStyles } from "../utils/focus-ring";
+import { createFocusRingStyles } from "../utils/focus-ring";
 
 const contextualFloatingButton = defineRecipe({
   name: "contextual-floating-button",
@@ -19,7 +19,7 @@ const contextualFloatingButton = defineRecipe({
     MozOsxFontSmoothing: "grayscale",
     textDecoration: "none",
     fontFamily: "inherit",
-    [pseudo(focusVisible)]: focusRingStyles,
+    [pseudo(focusVisible)]: createFocusRingStyles(),
     [pseudo(disabled)]: {
       cursor: "not-allowed",
     },

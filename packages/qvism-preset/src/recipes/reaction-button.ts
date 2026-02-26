@@ -3,7 +3,7 @@ import { reactionButton as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { prefixIcon } from "../utils/icon";
 import { active, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
-import { focusRingStyles } from "../utils/focus-ring";
+import { createFocusRingStyles } from "../utils/focus-ring";
 import { count } from "../utils/count";
 
 const reactionButton = defineRecipe({
@@ -25,7 +25,7 @@ const reactionButton = defineRecipe({
     flexShrink: 0,
     fontFamily: "inherit",
 
-    [pseudo(focusVisible)]: focusRingStyles,
+    [pseudo(focusVisible)]: createFocusRingStyles(),
 
     transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     background: vars.base.enabled.root.color,
