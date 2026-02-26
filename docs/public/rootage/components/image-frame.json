@@ -21,7 +21,11 @@
             },
             "cornerRadius": {
               "type": "dimension",
-              "description": "rounded 옵션 사용 시 적용되는 모서리 반경입니다."
+              "description": "이 값은 기본값이며 변경할 수 있습니다."
+            },
+            "padding": {
+              "type": "dimension",
+              "description": "내부에 오버레이 요소가 존재하는 경우 이미지 모서리와 오버레이 요소 사이의 간격입니다. 이 값은 기본값이며 변경할 수 있습니다."
             }
           }
         }
@@ -53,6 +57,24 @@
     },
     "definitions": [
       {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "padding": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
         "variants": {
           "stroke": "true"
         },
@@ -83,24 +105,7 @@
         "variants": {
           "stroke": "false"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 0,
-                    "unit": "px"
-                  }
-                }
-              }
-            }
-          }
-        ]
+        "definitions": []
       },
       {
         "variants": {
@@ -126,24 +131,7 @@
         "variants": {
           "rounded": "false"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 0,
-                    "unit": "px"
-                  }
-                }
-              }
-            }
-          }
-        ]
+        "definitions": []
       }
     ]
   }
