@@ -1,9 +1,12 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import { createClient } from "@sanity/client";
+import { apiVersion, dataset, projectId } from "../../../sanity-studio/env";
+import { ALL_COMPONENTS_QUERY } from "../../../sanity-studio/lib/queries";
 import type { ComponentData, PlatformStatus } from "../../../sanity-studio/lib/types";
 import type { Rule } from "./types";
 import { escapeCell, markdownRow } from "./markdown-utils";
+
+const sanityClient = createClient({ projectId, dataset, apiVersion, useCdn: false });
 
 const platformConfig = [
   { key: "figma" as const, label: "Figma" },
@@ -51,36 +54,40 @@ function generateMarkdownTable(component: ComponentData): string {
 }
 
 let componentDataCache: Map<string, ComponentData> | null = null;
+let initPromise: Promise<void> | null = null;
 
-function loadComponentData(): Map<string, ComponentData> {
-  if (componentDataCache) return componentDataCache;
-
-  componentDataCache = new Map();
-
+async function fetchAndCacheComponentData(): Promise<void> {
+  const cache = new Map<string, ComponentData>();
   try {
-    const filePath = join(process.cwd(), "public/sanity/components.json");
-    const content = readFileSync(filePath, "utf-8");
-    const components = JSON.parse(content) as ComponentData[];
+    const components = await sanityClient.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY);
     for (const component of components) {
-      componentDataCache.set(component.id, component);
+      cache.set(component.id, component);
     }
   } catch {
-    // 파일을 읽지 못하면 빈 캐시 반환
+    // Sanity fetch 실패 시 빈 캐시 사용
   }
+  componentDataCache = cache;
+}
 
-  return componentDataCache;
+async function init(): Promise<void> {
+  if (!initPromise) {
+    initPromise = fetchAndCacheComponentData();
+  }
+  await initPromise;
 }
 
 export const platformStatusRule: Rule = {
   name: "PlatformStatusTable",
+  init,
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "PlatformStatusTable",
   transform: (node, { getStringAttribute }) => {
     const componentId = getStringAttribute(node, "componentId");
     if (!componentId) return [node];
 
-    const componentData = loadComponentData();
-    const component = componentData.get(componentId);
+    if (!componentDataCache) return [node];
+
+    const component = componentDataCache.get(componentId);
     if (!component) return [node];
 
     return [{ type: "html", value: generateMarkdownTable(component) }];

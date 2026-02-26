@@ -105,3 +105,9 @@ export function normalizeLLMBodyWithRules(content: string | undefined, rules: Ru
 export function normalizeLLMBody(content?: string): string {
   return normalizeLLMBodyWithRules(content, activeRules);
 }
+
+const _rulesInit = Promise.all(activeRules.filter((r) => r.init).map((r) => r.init!()));
+
+export async function ensureRulesReady(): Promise<void> {
+  await _rulesInit;
+}
