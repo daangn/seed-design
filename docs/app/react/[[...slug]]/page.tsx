@@ -37,6 +37,9 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       }}
       full={page.data.full}
       lastUpdate={lastModified}
+      article={{
+        className: "isolate",
+      }}
     >
       <DocsTitle>{displayTitle}</DocsTitle>
       <DocsDescription>{displayDescription}</DocsDescription>
