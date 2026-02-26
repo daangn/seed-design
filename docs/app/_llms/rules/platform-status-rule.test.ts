@@ -1,14 +1,13 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
-import { describe, expect, it } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import { normalizeLLMBodyWithRules } from "../normalize-llm-body";
 import { platformStatusRule } from "./platform-status-rule";
 
-const SANITY_FILE = join(process.cwd(), "public/sanity/components.json");
-const hasSanityFile = existsSync(SANITY_FILE);
-
 describe("platformStatusRule", () => {
-  describe.if(hasSanityFile)("with generated sanity data", () => {
+  describe("with Sanity data", () => {
+    beforeAll(async () => {
+      await platformStatusRule.init?.();
+    });
+
     it("converts PlatformStatusTable to a markdown table", () => {
       const input = `<PlatformStatusTable componentId="action-button" />`;
 
@@ -33,7 +32,7 @@ describe("platformStatusRule", () => {
   });
 
   it("keeps the original node when componentId is missing", () => {
-    const input = `<PlatformStatusTable />`;
+    const input = "<PlatformStatusTable />";
 
     const actual = normalizeLLMBodyWithRules(input, [platformStatusRule]);
 
