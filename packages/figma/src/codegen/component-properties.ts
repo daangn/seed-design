@@ -110,6 +110,10 @@ export type HelpBubbleProperties = InferComponentDefinition<
   typeof sets.componentHelpBubble.componentPropertyDefinitions
 >;
 
+export type IdentityPlaceholderProperties = InferComponentDefinition<
+  typeof sets.privateComponentIdentityPlaceholder.componentPropertyDefinitions
+>;
+
 export type ImageFrameProperties = InferComponentDefinition<
   typeof sets.componentImageFrame.componentPropertyDefinitions
 >;
