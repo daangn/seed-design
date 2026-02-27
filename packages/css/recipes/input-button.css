@@ -23,7 +23,7 @@
     border-radius: var(--seed-radius-r3);
     background-color: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-input-button__button::after {
     content: "";
@@ -130,7 +130,7 @@
     background-color: transparent;
     padding: 0;
     border-radius: var(--seed-radius-full);
-    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
 }

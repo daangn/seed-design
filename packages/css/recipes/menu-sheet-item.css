@@ -26,7 +26,7 @@
     box-shadow: none;
 }
 .seed-menu-sheet-item__root {
-    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }

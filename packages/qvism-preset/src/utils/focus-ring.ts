@@ -3,7 +3,7 @@ import { vars } from "../vars";
 import * as duration from "../vars/duration";
 import * as timingFunction from "../vars/timing-function";
 
-export const FOCUS_RING_TRANSITION = `outline-color ${duration.d2} ${timingFunction.easing}`;
+export const FOCUS_RING_TRANSITION = `outline-color ${duration.d3} ${timingFunction.easing}`;
 
 export function createFocusRingRestStyles({
   position = "outside",

@@ -22,7 +22,7 @@
 }
 .seed-callout__root:is(button, a) {
     cursor: pointer;
-    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
 }
@@ -64,7 +64,7 @@
     font-weight: var(--seed-font-weight-regular);
     text-decoration: underline;
     text-underline-offset: 2px;
-    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     border-radius: var(--seed-radius-r1);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
@@ -87,7 +87,7 @@
     height: var(--seed-dimension-x10);
     margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -0.5);
     border-radius: var(--seed-radius-r2_5);
-    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
 }

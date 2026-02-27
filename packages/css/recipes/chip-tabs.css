@@ -49,7 +49,7 @@
     padding-top: var(--seed-dimension-x2);
     padding-bottom: var(--seed-dimension-x2);
     font-weight: var(--seed-font-weight-medium);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
 }

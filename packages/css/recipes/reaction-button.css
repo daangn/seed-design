@@ -22,7 +22,7 @@
     outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-reaction-button {
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     background: var(--seed-color-bg-transparent);
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);
