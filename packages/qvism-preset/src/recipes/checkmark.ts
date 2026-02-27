@@ -23,7 +23,7 @@ const checkmark = defineSlotRecipe({
 
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
 
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     icon: {
       display: "none",

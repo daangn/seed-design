@@ -24,9 +24,7 @@
     cursor: pointer;
 }
 .seed-callout__root:is(button, a):is(:focus-visible, [data-focus-visible]) {
-    outline-width: var(--seed-dimension-x0_5);
-    outline-style: solid;
-    outline-color: var(--seed-color-stroke-focus-ring);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-callout__content {
@@ -65,9 +63,7 @@
     text-underline-offset: 2px;
 }
 .seed-callout__link:is(:focus-visible, [data-focus-visible]) {
-    outline-width: var(--seed-dimension-x0_5);
-    outline-style: solid;
-    outline-color: var(--seed-color-stroke-focus-ring);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-callout__closeButton {
@@ -86,9 +82,7 @@
     border-radius: var(--seed-radius-r2_5);
 }
 .seed-callout__closeButton:is(:focus-visible, [data-focus-visible]) {
-    outline-width: var(--seed-dimension-x0_5);
-    outline-style: solid;
-    outline-color: var(--seed-color-stroke-focus-ring);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-callout__root--tone_neutral {

@@ -94,6 +94,8 @@ export const selectBox = defineSlotRecipe({
       gap: vars.base.enabled.trigger.gap,
 
       flexGrow: 1,
+
+      "--seed-focus-ring": "none",
     },
     content: {
       display: "flex",

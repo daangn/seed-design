@@ -46,7 +46,7 @@ const radiomark = defineSlotRecipe({
         borderColor: vars.toneBrand.disabledSelected.root.strokeColor,
       },
 
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     icon: {
       display: "none",

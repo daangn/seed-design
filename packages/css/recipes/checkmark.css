@@ -6,9 +6,7 @@
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-checkmark__root:is(:focus-visible, [data-focus-visible]) {
-    outline-width: var(--seed-dimension-x0_5);
-    outline-style: solid;
-    outline-color: var(--seed-color-stroke-focus-ring);
+    outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring));
     outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-checkmark__icon {

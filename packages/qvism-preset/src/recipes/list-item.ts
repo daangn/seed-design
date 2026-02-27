@@ -36,6 +36,8 @@ const listItem = defineSlotRecipe({
       "--seed-box-padding-right": vars.base.enabled.prefix.paddingRight,
       paddingRight: "var(--seed-box-padding-right)",
 
+      "--seed-focus-ring": "none",
+
       ...onlyIcon({
         color: vars.base.enabled.prefixIcon.color,
         size: vars.base.enabled.prefixIcon.size,
@@ -56,6 +58,8 @@ const listItem = defineSlotRecipe({
       position: "var(--seed-box-position)",
       "--seed-box-gap": vars.base.enabled.suffix.gap,
       gap: "var(--seed-box-gap)",
+
+      "--seed-focus-ring": "none",
 
       fontSize: vars.base.enabled.suffixText.fontSize,
       lineHeight: vars.base.enabled.suffixText.lineHeight,

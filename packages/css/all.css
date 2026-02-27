@@ -798,9 +798,7 @@
 }
 
 .seed-action-button:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -2798,9 +2796,7 @@
 
 .seed-bottom-sheet__closeButton:is(:focus-visible, [data-focus-visible]):after {
   border-radius: var(--seed-radius-r1);
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
@@ -2929,9 +2925,7 @@
 }
 
 .seed-callout__root:is(button, a):is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -2977,9 +2971,7 @@
 }
 
 .seed-callout__link:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -3000,9 +2992,7 @@
 }
 
 .seed-callout__closeButton:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -3158,9 +3148,7 @@
 }
 
 .seed-checkmark__root:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring));
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -3310,9 +3298,7 @@
 }
 
 .seed-chip__root:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -3572,9 +3558,7 @@
 }
 
 .seed-chip-tabs__trigger:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -3730,9 +3714,7 @@
 }
 
 .seed-contextual-floating-button:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -4447,9 +4429,7 @@
 }
 
 .seed-floating-action-button__root:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -4620,9 +4600,7 @@
 }
 
 .seed-help-bubble__closeButton:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
@@ -4729,9 +4707,7 @@
 
 .seed-image-frame-reaction-button:is(:focus-visible, [data-focus-visible]):before {
   border-radius: var(--seed-radius-r1);
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
@@ -4950,9 +4926,7 @@
 }
 
 .seed-input-button__button:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -5042,9 +5016,7 @@
 }
 
 .seed-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -5146,6 +5118,7 @@
 .seed-list-item__prefix {
   --seed-box-padding-right: var(--seed-dimension-x3);
   padding-right: var(--seed-box-padding-right);
+  --seed-focus-ring: none;
   --seed-icon-size: 22px;
   --seed-icon-color: var(--seed-color-fg-neutral);
   flex-shrink: 0;
@@ -5163,6 +5136,7 @@
   --seed-box-gap: var(--seed-dimension-x1);
   align-items: center;
   gap: var(--seed-box-gap);
+  --seed-focus-ring: none;
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-regular);
@@ -5205,9 +5179,7 @@
 }
 
 .seed-list-item__content:is(:focus-visible, [data-focus-visible]):after {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
@@ -5492,9 +5464,7 @@
 }
 
 .seed-menu-sheet__closeButton:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -5572,9 +5542,7 @@
 }
 
 .seed-menu-sheet-item__root:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
@@ -5724,9 +5692,7 @@
 }
 
 .seed-page-banner__root:is(button):is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
@@ -5778,9 +5744,7 @@
 }
 
 .seed-page-banner__button:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -5804,9 +5768,7 @@
 }
 
 .seed-page-banner__closeButton:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
@@ -6126,9 +6088,7 @@
 }
 
 .seed-radiomark__root:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring));
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -6218,9 +6178,7 @@
 }
 
 .seed-reaction-button:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -6392,9 +6350,7 @@
 }
 
 .seed-segmented-control__item:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -6459,15 +6415,14 @@
 }
 
 .seed-select-box__root:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
 .seed-select-box__trigger {
   justify-content: space-between;
   gap: var(--seed-dimension-x1_5);
+  --seed-focus-ring: none;
   flex-grow: 1;
   display: flex;
 }
@@ -6754,9 +6709,7 @@
 }
 
 .seed-slider__thumb:is(:focus-visible, [data-focus-visible]):after {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -6979,9 +6932,7 @@
 }
 
 .seed-snackbar__root:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -7047,9 +6998,7 @@
 
 .seed-snackbar__actionButton:is(:focus-visible, [data-focus-visible]):after {
   border-radius: var(--seed-radius-r1);
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
@@ -7158,9 +7107,7 @@
 }
 
 .seed-switchmark__root:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring));
   outline-offset: var(--seed-dimension-x0_5);
 }
 
@@ -7336,9 +7283,7 @@
 }
 
 .seed-tabs__trigger:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
@@ -8211,9 +8156,7 @@
 }
 
 .seed-toggle-button:is(:focus-visible, [data-focus-visible]) {
-  outline-width: var(--seed-dimension-x0_5);
-  outline-style: solid;
-  outline-color: var(--seed-color-stroke-focus-ring);
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
 }
 

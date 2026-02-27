@@ -51,9 +51,7 @@
     background-color: var(--seed-color-bg-disabled);
 }
 .seed-input-button__button:is(:focus-visible, [data-focus-visible]) {
-    outline-width: var(--seed-dimension-x0_5);
-    outline-style: solid;
-    outline-color: var(--seed-color-stroke-focus-ring);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-input-button__button:is(:invalid, [data-invalid])::after {
@@ -130,9 +128,7 @@
     border-radius: var(--seed-radius-full);
 }
 .seed-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
-    outline-width: var(--seed-dimension-x0_5);
-    outline-style: solid;
-    outline-color: var(--seed-color-stroke-focus-ring);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-input-button__clearButton {

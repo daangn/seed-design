@@ -38,9 +38,7 @@
     box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-muted);
 }
 .seed-select-box__root:is(:focus-visible, [data-focus-visible]) {
-    outline-width: var(--seed-dimension-x0_5);
-    outline-style: solid;
-    outline-color: var(--seed-color-stroke-focus-ring);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-select-box__trigger {
@@ -48,6 +46,7 @@
     justify-content: space-between;
     gap: var(--seed-dimension-x1_5);
     flex-grow: 1;
+    --seed-focus-ring: none;
 }
 .seed-select-box__content {
     display: flex;

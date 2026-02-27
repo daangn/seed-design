@@ -85,9 +85,7 @@
     outline: none;
 }
 .seed-slider__thumb:is(:focus-visible, [data-focus-visible])::after {
-    outline-width: var(--seed-dimension-x0_5);
-    outline-style: solid;
-    outline-color: var(--seed-color-stroke-focus-ring);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-slider__markers {

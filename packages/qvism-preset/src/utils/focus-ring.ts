@@ -3,22 +3,20 @@ import { vars } from "../vars";
 
 export function createFocusRingStyles({
   position = "outside",
-}: { position?: "outside" | "inside" } | undefined = {}): StyleObject {
-  switch (position) {
-    case "outside":
-      return {
-        outlineWidth: vars.$dimension.x0_5,
-        outlineStyle: "solid",
-        outlineColor: vars.$color.stroke.focusRing,
-        outlineOffset: vars.$dimension.x0_5,
-      };
+  overridableBy,
+}: { position?: "outside" | "inside"; overridableBy?: string } | undefined = {}): StyleObject {
+  const outlineOffset =
+    position === "outside" ? vars.$dimension.x0_5 : `calc(${vars.$dimension.x0_5} * -1)`;
 
-    case "inside":
-      return {
-        outlineWidth: vars.$dimension.x0_5,
-        outlineStyle: "solid",
-        outlineColor: vars.$color.stroke.focusRing,
-        outlineOffset: `calc(${vars.$dimension.x0_5} * -1)`,
-      };
+  if (overridableBy) {
+    return {
+      outline: `var(${overridableBy}, ${vars.$dimension.x0_5} solid ${vars.$color.stroke.focusRing})`,
+      outlineOffset,
+    };
   }
+
+  return {
+    outline: `${vars.$dimension.x0_5} solid ${vars.$color.stroke.focusRing}`,
+    outlineOffset,
+  };
 }
