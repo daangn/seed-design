@@ -1,9 +1,8 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-import { createRequire } from "node:module";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import type { Rule } from "./types";
 import { escapeCell, markdownRow } from "./markdown-utils";
+import monochromeRaw from "@karrotmarket/icon-data/monochrome.json";
+import multicolorRaw from "@karrotmarket/icon-data/multicolor.json";
 
 interface RawIconData {
   name: string;
@@ -23,16 +22,8 @@ interface IconRow {
   tags: string[];
 }
 
-interface IconLibraryData {
-  monochrome: IconRow[];
-  multicolor: IconRow[];
-}
-
-const DATA_DIR_ENV = "ICON_LIBRARY_DATA_DIR";
 const SERVICE_PREFIX = "service:";
 const TAG_PREFIX = "tag:";
-
-let iconDataCache: IconLibraryData | null = null;
 
 function unique(values: string[]): string[] {
   const result: string[] = [];
@@ -76,26 +67,6 @@ function splitMetadatas(metadatas: string[]): {
   };
 }
 
-function readIconData(filename: string): Record<string, RawIconData> | null {
-  try {
-    const customDir = process.env[DATA_DIR_ENV];
-    if (customDir) {
-      const filePath = join(customDir, filename);
-      const content = readFileSync(filePath, "utf-8");
-      return JSON.parse(content) as Record<string, RawIconData>;
-    }
-
-    // Use process.cwd() as base for module resolution.
-    // import.meta.url is unreliable in Next.js bundled environments
-    // because webpack transforms it to the output file path.
-    const require = createRequire(join(process.cwd(), "__resolve__.js"));
-    return require(`@karrotmarket/icon-data/${filename}`) as Record<string, RawIconData>;
-  } catch (e) {
-    console.warn(`[IconLibrary] Failed to load icon data (${filename}):`, e);
-    return null;
-  }
-}
-
 function toRow(icon: RawIconData): IconRow {
   const { keywords, services, tags } = splitMetadatas(icon.metadatas ?? []);
 
@@ -108,24 +79,13 @@ function toRow(icon: RawIconData): IconRow {
   };
 }
 
-function loadIconLibraryData(): IconLibraryData | null {
-  if (iconDataCache) return iconDataCache;
+const monochrome = Object.values(monochromeRaw as Record<string, RawIconData>)
+  .map(toRow)
+  .sort((a, b) => a.name.localeCompare(b.name));
 
-  const monochromeData = readIconData("monochrome.json");
-  const multicolorData = readIconData("multicolor.json");
-
-  if (!monochromeData || !multicolorData) return null;
-
-  const monochrome = Object.values(monochromeData)
-    .map(toRow)
-    .sort((a, b) => a.name.localeCompare(b.name));
-  const multicolor = Object.values(multicolorData)
-    .map(toRow)
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  iconDataCache = { monochrome, multicolor };
-  return iconDataCache;
-}
+const multicolor = Object.values(multicolorRaw as Record<string, RawIconData>)
+  .map(toRow)
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 function formatList(values: string[]): string {
   return values.join(", ");
@@ -156,21 +116,18 @@ export const iconLibraryRule: Rule = {
   name: "IconLibrary",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "IconLibrary",
-  transform: (node) => {
+  transform: () => {
     try {
-      const data = loadIconLibraryData();
-      if (!data) return [node];
-
       const sections = [
-        buildSection("Monochrome Icons", data.monochrome),
-        buildSection("Multicolor Icons", data.multicolor),
+        buildSection("Monochrome Icons", monochrome),
+        buildSection("Multicolor Icons", multicolor),
       ].filter((section): section is string => Boolean(section));
 
-      if (sections.length === 0) return [node];
+      if (sections.length === 0) return [];
 
       return [{ type: "html", value: sections.join("\n\n") }];
     } catch {
-      return [node];
+      return [];
     }
   },
 };
