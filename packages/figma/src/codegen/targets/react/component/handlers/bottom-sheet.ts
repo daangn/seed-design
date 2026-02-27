@@ -1,7 +1,6 @@
 import type { BottomSheetProperties } from "@/codegen/component-properties";
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
-import * as components from "@/entities/data/__generated__/components";
 import { match } from "ts-pattern";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
@@ -33,7 +32,7 @@ export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
 
       const bodyNodes = findAllInstances({
         node,
-        key: components.privateComponentBottomSheetContentsPlaceholder.key,
+        key: props["Contents#25320:0"].componentKey,
       });
 
       const bottomSheetBody =
