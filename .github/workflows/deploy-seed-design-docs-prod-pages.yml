@@ -1,0 +1,85 @@
+on:
+  push:
+    branches:
+      - main
+      - dev # V3 deployment; remove this when V3 is stable
+    paths:
+      - "docs/**"
+      - "packages/css/**"
+      - "packages/react/**"
+      - "packages/stackflow/**"
+      - ".github/workflows/deploy-seed-design-docs-prod-pages.yml"
+      - ".github/actions/setup/action.yml"
+  workflow_dispatch:
+    inputs:
+      skip-figma-cache:
+        description: "Skip Figma image cache (fetch fresh images)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
+  FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
+
+name: deploy-seed-design-docs-prod-pages
+
+jobs:
+  deploy:
+    name: deploy-seed-design-docs-prod-pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Restore Figma image cache
+        if: ${{ !inputs.skip-figma-cache }}
+        uses: actions/cache/restore@v5
+        with:
+          path: docs/.cache/figma-image
+          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
+          restore-keys: |
+            ${{ runner.os }}-figma-images-
+
+      - name: Restore Next.js cache
+        uses: actions/cache@v5
+        with:
+          path: docs/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
+
+      - uses: ./.github/actions/setup
+        with:
+          build-packages: true
+          build-rootage: true
+
+      - name: Build Docs
+        working-directory: ./docs
+        env:
+          FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
+        run: |
+          bun run build
+
+      - name: Save Figma image cache
+        uses: actions/cache/save@v5
+        with:
+          path: docs/.cache/figma-image
+          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
+
+      - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Production)
+        run: |
+          CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
+          CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
+          bun wrangler pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+

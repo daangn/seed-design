@@ -1,5 +1,38 @@
 # @seed-design/css
 
+## 1.2.3
+
+### Patch Changes
+
+- eb390cf: BottomSheet의 title padding을 수정합니다.
+
+  - left 헤더 정렬 시 오른쪽 padding을 `50px` -> `56px`로 수정합니다.
+  - center 헤더 정렬 시 양쪽 padding을 `60px` -> `56px`로 수정합니다.
+
+- 7c3bbe7: Slider의 Value Indicator 가시성 및 트랜지션을 개선합니다.
+- 6db2515: AppBar의 `bg` 또는 `background` 프로퍼티로 배경 색상을 조절할 수 있는 옵션을 추가합니다. (`tone="layer"`인 경우 적용)
+- 12789e6: Segmented Control pressed, selected-pressed 상태에서 stroke border 가 나타나도록 합니다.
+- 6fb6dc2: AspectRatio 스타일시트의 `position: relative`와 `overflow: hidden` 선언을 React 레이어로 이동하여 CSS specificity 문제를 수정합니다.
+
+## 1.2.2
+
+### Patch Changes
+
+- 15010c3: ImageFrame 내부 요소에 width, height 100%를 추가합니다
+- a3e6859: ImageFrame `rounded` 옵션을 제거하고, borderRadius를 받을 수 있게 변경합니다
+- 4287600: BottomSheet title 영역에서 닫기 버튼 간격에 따라 조정된 padding 기준으로 정리하고, word-break 추가 및 description 영역 너비를 정리했습니다.
+
+## 1.2.1
+
+### Patch Changes
+
+- 9446f2c: ImageFrameReactionButton에 fillIcon, lineIcon spec을 추가합니다
+- 8ad9484: ImageFrameReactionButton의 SVG 사이즈와 Rootage 정의를 수정합니다.
+- 9cbeba0: BottomSheet `showCloseButton` variant 변경 및 animation 버그 수정
+
+  - `showCloseButton` variant 변경: CloseButton 미사용 시 header padding 조정 가능
+  - `hasEntered` 상태 추가: modal prop 변경 시 enter animation 재실행 방지
+
 ## 1.2.0
 
 ### Minor Changes

@@ -21,10 +21,6 @@ export const createSwitchHandler = (_ctx: ComponentHandlerDeps) =>
         size: props.Size.value,
       };
 
-      if (props["Layout(Figma Only)"].value === "🚫[Switch Mark 사용] Switch Only") {
-        return createLocalSnippetElement("Switchmark", commonProps);
-      }
-
       return createLocalSnippetElement("Switch", {
         ...commonProps,
         label: props["Label#36578:0"].value,

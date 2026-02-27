@@ -184,6 +184,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "List",
       items: [
         { title: "ListItem", onClick: () => push("ActivityListItem", {}) },
+        { title: "ListImageFrame", onClick: () => push("ActivityListImageFrame", {}) },
         { title: "ListButtonItem", onClick: () => push("ActivityListButtonItem", {}) },
         { title: "ListLinkItem", onClick: () => push("ActivityListLinkItem", {}) },
         { title: "ListSwitchItem", onClick: () => push("ActivityListSwitchItem", {}) },

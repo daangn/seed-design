@@ -1,4 +1,4 @@
-import { expect, test, describe } from "vitest";
+import { expect, test, describe } from "bun:test";
 import { factory } from "../parser";
 import { getTailwind4CompleteThemeCode } from "./tailwind4";
 

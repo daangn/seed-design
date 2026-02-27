@@ -23,6 +23,7 @@ export interface CodeGeneratorDeps {
   vectorTransformer: ElementTransformer<NormalizedVectorNode>;
   booleanOperationTransformer: ElementTransformer<NormalizedBooleanOperationNode>;
   shouldInferAutoLayout: boolean;
+  skipComponentKeys?: Set<string>;
 }
 
 export interface CodeGenerator {
@@ -41,9 +42,26 @@ export function createCodeGenerator({
   vectorTransformer,
   booleanOperationTransformer,
   shouldInferAutoLayout,
+  skipComponentKeys,
 }: CodeGeneratorDeps): CodeGenerator {
+  function isSkippedInstance(node: NormalizedSceneNode): boolean {
+    if (!skipComponentKeys || skipComponentKeys.size === 0) return false;
+    if (node.type !== "INSTANCE") return false;
+
+    const { componentKey, componentSetKey } = node;
+
+    return (
+      skipComponentKeys.has(componentKey) ||
+      (!!componentSetKey && skipComponentKeys.has(componentSetKey))
+    );
+  }
+
   function traverse(node: NormalizedSceneNode): ElementNode | undefined {
     if ("visible" in node && !node.visible) {
+      return;
+    }
+
+    if (isSkippedInstance(node)) {
       return;
     }
 
@@ -74,6 +92,10 @@ export function createCodeGenerator({
   }
 
   function generateCode(node: NormalizedSceneNode, options: { shouldPrintSource: boolean }) {
+    if (isSkippedInstance(node)) {
+      return { imports: "", jsx: "// This component is intentionally excluded from codegen" };
+     }
+
     const jsxTree = generateJsxTree(node);
 
     if (!jsxTree) {

@@ -1,5 +1,44 @@
 # @seed-design/mcp
 
+## 1.3.4
+
+### Patch Changes
+
+- Updated dependencies [934a877]
+  - @seed-design/figma@1.3.4
+
+## 1.3.3
+
+### Patch Changes
+
+- @seed-design/figma@1.3.3
+
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [934bea0]
+  - @seed-design/figma@1.3.2
+
+## 1.3.1
+
+### Patch Changes
+
+- 2f9690a: MCP를 Node.js 프로젝트에서 직접 구성할 수 있도록 `registerTools`를 비롯한 export를 추가합니다.
+
+## 1.3.0
+
+### Minor Changes
+
+- 423d604: Figma Personal Access Token을 활용하여 WebSocket 서버와 Figma 플러그인 없이 MCP 일부 기능을 활용할 수 있도록 합니다. `--mode` 옵션을 통해 필요한 도구만 등록할 수 있습니다.
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [15d9587]
+  - @seed-design/figma@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

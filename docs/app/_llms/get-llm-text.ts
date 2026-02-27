@@ -1,22 +1,22 @@
 import type { LLMPage, Section } from "./types";
 import { getGitHubSourceUrl } from "./config";
+import { normalizeLLMBody } from "./normalize-llm-body";
 
 export async function getLLMText(page: LLMPage, section: Section): Promise<string> {
-  const processed = await page.data.getText("processed");
+  const processed = normalizeLLMBody(await page.data.getText("processed"));
   const sourceUrl = getGitHubSourceUrl(section, page.path);
 
   return `# ${page.data.title}
-
 URL: ${page.url}
 Source: ${sourceUrl}
 
 ${page.data.description ?? ""}
 
-${processed ?? ""}`;
+${processed}`;
 }
 
 export async function getLLMTextForFullCompilation(page: LLMPage): Promise<string> {
-  const processed = await page.data.getText("processed");
+  const processed = normalizeLLMBody(await page.data.getText("processed"));
 
   return `file: ${page.path}
 
@@ -24,5 +24,5 @@ export async function getLLMTextForFullCompilation(page: LLMPage): Promise<strin
 
 ${page.data.description ?? ""}
 
-${processed ?? ""}`;
+${processed}`;
 }

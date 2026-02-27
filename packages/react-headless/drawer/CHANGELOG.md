@@ -1,5 +1,36 @@
 # @seed-design/react-drawer
 
+## 1.0.9
+
+### Patch Changes
+
+- 0420c89: Android 환경에서 온스크린 키보드가 닫힐 때 Drawer(Bottom Sheet) 높이가 정상적으로 복원되지 않는 문제를 수정합니다.
+
+## 1.0.8
+
+### Patch Changes
+
+- 576c2e6: `AlertDialogRoot`, `MenuSheetRoot` 및 `BottomSheetRoot`의 `onOpenChange` 두 번째 인자로 `details`를 제공합니다. `details.reason`과 `details.event`를 사용할 수 있습니다.
+
+  `DialogAction`을 `DialogPrimitive.CloseButton`으로 교체합니다. `AlertDialogAction` `onClick` 핸들러에서 `event.preventDefault()`를 호출하여 닫기 동작을 방지할 수 있습니다. [(예제)](https://seed-design.io/react/components/alert-dialog#prevent-close)
+
+- Updated dependencies [576c2e6]
+  - @seed-design/react-use-controllable-state@1.0.0
+
+## 1.0.6
+
+### Patch Changes
+
+- 8188130: AlertDialog 닫힐 때 focus 복원으로 인해 BottomSheet가 즉시 닫히는 문제 수정
+
+  - onFocusOutside에서 항상 preventDefault 호출
+  - onInteractOutside에서 defaultPrevented 체크 추가
+
+- 9cbeba0: BottomSheet `showCloseButton` variant 변경 및 animation 버그 수정
+
+  - `showCloseButton` variant 변경: CloseButton 미사용 시 header padding 조정 가능
+  - `hasEntered` 상태 추가: modal prop 변경 시 enter animation 재실행 방지
+
 ## 1.0.5
 
 ### Patch Changes

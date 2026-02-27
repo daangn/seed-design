@@ -64,12 +64,6 @@
             "gap": {
               "type": "dimension"
             },
-            "paddingLeft": {
-              "type": "dimension"
-            },
-            "paddingRight": {
-              "type": "dimension"
-            },
             "paddingTop": {
               "type": "dimension"
             },
@@ -111,6 +105,12 @@
             },
             "fontWeight": {
               "type": "number"
+            },
+            "paddingLeft": {
+              "type": "dimension"
+            },
+            "paddingRight": {
+              "type": "dimension"
             }
           }
         },
@@ -127,6 +127,9 @@
             },
             "fontWeight": {
               "type": "number"
+            },
+            "paddingX": {
+              "type": "dimension"
             }
           }
         },
@@ -148,6 +151,13 @@
             "center": {}
           },
           "defaultValue": "left"
+        },
+        "closeButton": {
+          "values": {
+            "true": {},
+            "false": {}
+          },
+          "defaultValue": "true"
         }
       }
     },
@@ -291,16 +301,20 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
                 }
               },
               "closeButton": {
                 "fromTop": {
                   "type": "dimension",
-                  "value": "$dimension.x5"
+                  "value": "$dimension.x6"
                 },
                 "fromRight": {
                   "type": "dimension",
-                  "value": "$dimension.x5"
+                  "value": "$dimension.x4"
                 }
               }
             }
@@ -309,7 +323,8 @@
       },
       {
         "variants": {
-          "headerAlignment": "left"
+          "headerAlignment": "left",
+          "closeButton": "true"
         },
         "definitions": [
           {
@@ -317,15 +332,71 @@
               "enabled"
             ],
             "slots": {
-              "header": {
+              "title": {
+                "paddingRight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 56,
+                    "unit": "px"
+                  }
+                },
+                "paddingLeft": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "headerAlignment": "left",
+          "closeButton": "false"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "title": {
                 "paddingLeft": {
                   "type": "dimension",
                   "value": "$dimension.spacing-x.global-gutter"
                 },
                 "paddingRight": {
                   "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "headerAlignment": "center",
+          "closeButton": "true"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "title": {
+                "paddingLeft": {
+                  "type": "dimension",
                   "value": {
-                    "value": 50,
+                    "value": 56,
+                    "unit": "px"
+                  }
+                },
+                "paddingRight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 56,
                     "unit": "px"
                   }
                 }
@@ -336,7 +407,8 @@
       },
       {
         "variants": {
-          "headerAlignment": "center"
+          "headerAlignment": "center",
+          "closeButton": "false"
         },
         "definitions": [
           {
@@ -344,20 +416,14 @@
               "enabled"
             ],
             "slots": {
-              "header": {
+              "title": {
                 "paddingLeft": {
                   "type": "dimension",
-                  "value": {
-                    "value": 50,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.spacing-x.global-gutter"
                 },
                 "paddingRight": {
                   "type": "dimension",
-                  "value": {
-                    "value": 50,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.spacing-x.global-gutter"
                 }
               }
             }

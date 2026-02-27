@@ -1,4 +1,6 @@
+import { getGitHubSourceUrl } from "@/app/_llms/config";
 import { docsSource } from "@/app/source";
+import { LLMOptions, ViewOptions } from "@/components/page-actions";
 import { mdxComponents } from "@/components/mdx-components";
 import { getComponentStatus } from "@/components/rootage";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
@@ -25,10 +27,17 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   ) : (
     <span>{page.data.description}</span>
   );
+  const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
+  const markdownUrl = `/llms/docs/${slugsWithExt.join("/")}`;
+
   return (
     <DocsPage toc={toc} full={page.data.full} lastUpdate={lastModified}>
       <DocsTitle>{displayTitle}</DocsTitle>
       <DocsDescription>{displayDescription}</DocsDescription>
+      <div className="flex flex-row gap-2 items-center mb-3 justify-end">
+        <LLMOptions markdownUrl={markdownUrl} />
+        <ViewOptions markdownUrl={markdownUrl} githubUrl={getGitHubSourceUrl("docs", page.path)} />
+      </div>
       <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
         <MDX components={mdxComponents} />
       </DocsBody>
@@ -44,7 +53,7 @@ export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const page = docsSource.getPage(params.slug);
+  const page = docsSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
   const loadedData = await page.data.load();

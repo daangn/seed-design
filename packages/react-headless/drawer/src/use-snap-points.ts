@@ -1,4 +1,4 @@
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { useControllableState } from "@seed-design/react-use-controllable-state";
 import React from "react";
 import { TRANSITIONS, VELOCITY_THRESHOLD } from "./constants";
 import { isVertical, set } from "./helpers";
@@ -196,11 +196,13 @@ export function useSnapPoints({
     closeDrawer,
     velocity,
     dismissible,
+    event,
   }: {
     draggedDistance: number;
-    closeDrawer: () => void;
+    closeDrawer: (fromWithin: boolean, details: { reason: "drag"; event: PointerEvent }) => void;
     velocity: number;
     dismissible: boolean;
+    event: PointerEvent;
   }) {
     if (fadeFromIndex === undefined) return;
 
@@ -219,7 +221,7 @@ export function useSnapPoints({
     }
 
     if (!snapToSequentialPoint && velocity > 2 && !hasDraggedUp) {
-      if (dismissible) closeDrawer();
+      if (dismissible) closeDrawer(false, { reason: "drag", event });
       else snapToPoint(snapPointsOffset[0]); // snap to initial point
       return;
     }
@@ -247,7 +249,7 @@ export function useSnapPoints({
       }
 
       if (isFirst && dragDirection < 0 && dismissible) {
-        closeDrawer();
+        closeDrawer(false, { reason: "drag", event });
       }
 
       if (activeSnapPointIndex === null) return;

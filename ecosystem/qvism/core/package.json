@@ -25,7 +25,6 @@
     "clean": "rm -rf lib",
     "build": "bunchee",
     "qvism:build": "bun run build",
-    "test": "vitest",
     "lint:publish": "bun publint"
   },
   "dependencies": {

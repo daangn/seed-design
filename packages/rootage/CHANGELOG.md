@@ -1,5 +1,30 @@
 # @seed-design/rootage-artifacts
 
+## 1.2.3
+
+### Patch Changes
+
+- eb390cf: BottomSheet의 title padding을 수정합니다.
+
+  - left 헤더 정렬 시 오른쪽 padding을 `50px` -> `56px`로 수정합니다.
+  - center 헤더 정렬 시 양쪽 padding을 `60px` -> `56px`로 수정합니다.
+
+- 7c3bbe7: Slider의 Value Indicator 가시성 및 트랜지션을 개선합니다.
+
+## 1.2.2
+
+### Patch Changes
+
+- a3e6859: ImageFrame `rounded` 옵션을 제거하고, borderRadius를 받을 수 있게 변경합니다
+- 4287600: BottomSheet title 영역에서 닫기 버튼 간격에 따라 조정된 padding 기준으로 정리하고, word-break 추가 및 description 영역 너비를 정리했습니다.
+
+## 1.2.1
+
+### Patch Changes
+
+- 9446f2c: ImageFrameReactionButton에 fillIcon, lineIcon spec을 추가합니다
+- 8ad9484: ImageFrameReactionButton의 SVG 사이즈와 Rootage 정의를 수정합니다.
+
 ## 1.2.0
 
 ### Minor Changes

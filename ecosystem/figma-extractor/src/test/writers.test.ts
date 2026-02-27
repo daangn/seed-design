@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, mock } from "bun:test";
 import { createWriterContext, type WriterContext } from "../cli/write";
 import { writers, getFileName, getIdentifierName } from "../pipeline/writers";
 
@@ -52,7 +52,7 @@ describe("writers", () => {
       const writes: Record<string, string> = {};
       const mockContext = {
         ...context,
-        write: vi.fn().mockImplementation((path: string, content: string) => {
+        write: mock(async (path: string, content: string) => {
           writes[path] = content;
         }),
       };
@@ -67,44 +67,60 @@ describe("writers", () => {
 
       expect(writes).toMatchInlineSnapshot(`
         {
-          "test/button-component.d.ts": "export declare const metadata: {
+          "test/button-component.d.ts": 
+        "export declare const metadata: {
           "name": "Button Component",
           "type": "component"
         };
-        ",
-          "test/button-component.mjs": "export const metadata = {
+        "
+        ,
+          "test/button-component.mjs": 
+        "export const metadata = {
           "name": "Button Component",
           "type": "component"
         };
-        ",
-          "test/card-header.d.ts": "export declare const metadata: {
+        "
+        ,
+          "test/card-header.d.ts": 
+        "export declare const metadata: {
           "name": "Card/Header",
           "description": "Card header component"
         };
-        ",
-          "test/card-header.mjs": "export const metadata = {
+        "
+        ,
+          "test/card-header.mjs": 
+        "export const metadata = {
           "name": "Card/Header",
           "description": "Card header component"
         };
-        ",
-          "test/index.d.ts": "export { metadata as buttonComponent } from "./button-component";
+        "
+        ,
+          "test/index.d.ts": 
+        "export { metadata as buttonComponent } from "./button-component";
         export { metadata as cardHeader } from "./card-header";
         export { metadata as navMenu } from "./nav-menu";
-        ",
-          "test/index.mjs": "export { metadata as buttonComponent } from "./button-component.mjs";
+        "
+        ,
+          "test/index.mjs": 
+        "export { metadata as buttonComponent } from "./button-component.mjs";
         export { metadata as cardHeader } from "./card-header.mjs";
         export { metadata as navMenu } from "./nav-menu.mjs";
-        ",
-          "test/nav-menu.d.ts": "export declare const metadata: {
+        "
+        ,
+          "test/nav-menu.d.ts": 
+        "export declare const metadata: {
           "name": "nav-menu",
           "variant": "primary"
         };
-        ",
-          "test/nav-menu.mjs": "export const metadata = {
+        "
+        ,
+          "test/nav-menu.mjs": 
+        "export const metadata = {
           "name": "nav-menu",
           "variant": "primary"
         };
-        ",
+        "
+        ,
         }
       `);
     });
@@ -113,7 +129,7 @@ describe("writers", () => {
       const writes: Record<string, string> = {};
       const mockContext = {
         ...context,
-        write: vi.fn().mockImplementation(async (path: string, content: string) => {
+        write: mock(async (path: string, content: string) => {
           writes[path] = content;
         }),
       };
@@ -122,10 +138,14 @@ describe("writers", () => {
 
       expect(writes).toMatchInlineSnapshot(`
         {
-          "test/index.d.ts": "
-        ",
-          "test/index.mjs": "
-        ",
+          "test/index.d.ts": 
+        "
+        "
+        ,
+          "test/index.mjs": 
+        "
+        "
+        ,
         }
       `);
     });
@@ -136,7 +156,7 @@ describe("writers", () => {
       const writes: Record<string, string> = {};
       const mockContext = {
         ...context,
-        write: vi.fn().mockImplementation(async (path: string, content: string) => {
+        write: mock(async (path: string, content: string) => {
           writes[path] = content;
         }),
       };
@@ -170,7 +190,8 @@ describe("writers", () => {
 
       expect(writes).toMatchInlineSnapshot(`
         {
-          "test/data.json": "{
+          "test/data.json": 
+        "{
           "button": {
             "name": "Button",
             "type": "component"
@@ -179,8 +200,10 @@ describe("writers", () => {
             "name": "Card Header",
             "description": "Header component"
           }
-        }",
-          "test/index.d.ts": "export declare const data: {
+        }"
+        ,
+          "test/index.d.ts": 
+        "export declare const data: {
           "button": {
             "name": "Button",
             "type": "component"
@@ -190,8 +213,10 @@ describe("writers", () => {
             "description": "Header component"
           }
         };
-        ",
-          "test/index.mjs": "export const data = {
+        "
+        ,
+          "test/index.mjs": 
+        "export const data = {
           "button": {
             "name": "Button",
             "type": "component"
@@ -201,8 +226,10 @@ describe("writers", () => {
             "description": "Header component"
           }
         };
-        ",
-          "test/index.ts": "export const data = {
+        "
+        ,
+          "test/index.ts": 
+        "export const data = {
           "button": {
             "name": "Button",
             "type": "component"
@@ -212,7 +239,8 @@ describe("writers", () => {
             "description": "Header component"
           }
         } as const;
-        ",
+        "
+        ,
         }
       `);
     });

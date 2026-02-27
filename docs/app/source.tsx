@@ -3,6 +3,7 @@ import { docs, reactDocs, breezeDocs, lynxDocs, aiIntegrationDocs } from "@/.sou
 import { getRootageMetadata } from "@/components/rootage";
 import type { Node, Root } from "fumadocs-core/page-tree";
 import { loader } from "fumadocs-core/source";
+import type { Source, SourceConfig } from "fumadocs-core/source";
 import type { ComponentType, SVGProps } from "react";
 
 const iconMap: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
@@ -85,35 +86,36 @@ const iconHandler = (icon: string | undefined) => {
   return <Icon />;
 };
 
-const baseDocsSource = loader({
-  baseUrl: "/docs",
-  source: docs.toFumadocsSource(),
-  icon: iconHandler,
-});
+type SourceConfigFromSource<TSource extends { files: Array<{ type: string; data: unknown }> }> = {
+  pageData: Extract<TSource["files"][number], { type: "page" }>["data"];
+  metaData: Extract<TSource["files"][number], { type: "meta" }>["data"];
+} & SourceConfig;
 
-const baseReactSource = loader({
-  baseUrl: "/react",
-  source: reactDocs.toFumadocsSource(),
-  icon: iconHandler,
-});
+function createTypedLoader<TSource extends { files: Array<{ type: string; data: unknown }> }>(
+  baseUrl: string,
+  source: TSource,
+) {
+  type Config = SourceConfigFromSource<TSource>;
 
-const baseBreezeSource = loader({
-  baseUrl: "/breeze",
-  source: breezeDocs.toFumadocsSource(),
-  icon: iconHandler,
-});
+  return loader<Config>({
+    baseUrl,
+    source: source as unknown as Source<Config>,
+    icon: iconHandler,
+  });
+}
 
-const baseLynxSource = loader({
-  baseUrl: "/lynx",
-  source: lynxDocs.toFumadocsSource(),
-  icon: iconHandler,
-});
+const baseDocsSource = createTypedLoader("/docs", docs.toFumadocsSource());
 
-const baseAiIntegrationSource = loader({
-  baseUrl: "/ai-integration",
-  source: aiIntegrationDocs.toFumadocsSource(),
-  icon: iconHandler,
-});
+const baseReactSource = createTypedLoader("/react", reactDocs.toFumadocsSource());
+
+const baseBreezeSource = createTypedLoader("/breeze", breezeDocs.toFumadocsSource());
+
+const baseLynxSource = createTypedLoader("/lynx", lynxDocs.toFumadocsSource());
+
+const baseAiIntegrationSource = createTypedLoader(
+  "/ai-integration",
+  aiIntegrationDocs.toFumadocsSource(),
+);
 
 // Transform page trees with badges
 async function getTransformedPageTree(): Promise<Root> {

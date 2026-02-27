@@ -2,11 +2,12 @@
 
 import {
   IconArrowUpRightLine,
-  IconCheckmarkLine,
   IconChevronDownLine,
-  IconDocumentLine,
+  IconSparkle2Line,
+  IconSquare2StackedLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { useMemo, useState } from "react";
+import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "seed-design/ui/snackbar";
 import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "fumadocs-ui/components/ui/popover";
@@ -14,18 +15,44 @@ import { cva } from "class-variance-authority";
 
 const cache = new Map<string, string>();
 
-export function LLMCopyButton({
+const optionVariants = cva(
+  "text-sm p-2 rounded-lg inline-flex items-center gap-2 hover:text-fd-accent-foreground hover:bg-fd-accent [&_svg]:size-4",
+);
+
+export function LLMOptions({
   /**
-   * A URL to fetch the raw Markdown/MDX content of page
+   * A URL to the raw Markdown/MDX content of page
    */
   markdownUrl,
 }: {
   markdownUrl: string;
 }) {
+  return (
+    <SnackbarProvider>
+      <LLMOptionsContent markdownUrl={markdownUrl} />
+    </SnackbarProvider>
+  );
+}
+
+function LLMOptionsContent({
+  markdownUrl,
+}: {
+  markdownUrl: string;
+}) {
+  const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [checked, onClick] = useCopyButton(async () => {
+  const adapter = useSnackbarAdapter();
+  const [, onCopyClick] = useCopyButton(async () => {
     const cached = cache.get(markdownUrl);
-    if (cached) return navigator.clipboard.writeText(cached);
+    if (cached) {
+      await navigator.clipboard.writeText(cached);
+      adapter.create({
+        timeout: 2000,
+        onClose: () => {},
+        render: () => <Snackbar message="복사되었습니다" />,
+      });
+      return;
+    }
 
     setLoading(true);
 
@@ -40,31 +67,59 @@ export function LLMCopyButton({
           }),
         }),
       ]);
+      adapter.create({
+        timeout: 2000,
+        onClose: () => {},
+        render: () => <Snackbar message="복사되었습니다" />,
+      });
     } finally {
       setLoading(false);
+      setOpen(false);
     }
   });
 
+  const handleCopyClick = (event: Parameters<typeof onCopyClick>[0]) => {
+    setOpen(false);
+    void onCopyClick(event);
+  };
+
   return (
-    <button
-      type="button"
-      disabled={isLoading}
-      className={buttonVariants({
-        color: "secondary",
-        size: "sm",
-        className: "gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
-      })}
-      onClick={onClick}
-    >
-      {checked ? <IconCheckmarkLine /> : <IconDocumentLine />}
-      마크다운 복사
-    </button>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger
+        className={buttonVariants({
+          color: "secondary",
+          size: "sm",
+          className: "gap-2 items-end",
+        })}
+      >
+        <IconSparkle2Line className="size-3.5 text-fd-muted-foreground" />
+        LLMs.txt
+        <IconChevronDownLine className="size-3.5 text-fd-muted-foreground" />
+      </PopoverTrigger>
+      <PopoverContent className="flex flex-col overflow-auto">
+        <button
+          type="button"
+          disabled={isLoading}
+          className={optionVariants()}
+          onClick={handleCopyClick}
+        >
+          <IconSquare2StackedLine />
+          복사하기
+        </button>
+        <a
+          href={markdownUrl}
+          rel="noreferrer noopener"
+          target="_blank"
+          className={optionVariants()}
+          onClick={() => setOpen(false)}
+        >
+          <IconArrowUpRightLine />
+          열기
+        </a>
+      </PopoverContent>
+    </Popover>
   );
 }
-
-const optionVariants = cva(
-  "text-sm p-2 rounded-lg inline-flex items-center gap-2 hover:text-fd-accent-foreground hover:bg-fd-accent [&_svg]:size-4",
-);
 
 export function ViewOptions({
   markdownUrl,

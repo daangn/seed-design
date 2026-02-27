@@ -30,7 +30,7 @@ export default function SelectBoxWithSuffix() {
           prefixIcon={<IconPersonCircleLine />}
         />
       </CheckSelectBoxGroup>
-      <RadioSelectBoxRoot defaultValue="radiomark" aria-label="RadioMark 예제">
+      <RadioSelectBoxRoot defaultValue="radiomark" aria-label="Radiomark 예제">
         <RadioSelectBoxItem
           value="radiomark"
           label="라디오 마크"

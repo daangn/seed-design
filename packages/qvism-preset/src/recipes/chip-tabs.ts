@@ -128,7 +128,7 @@ const chipTabs = defineSlotRecipe({
       neutralOutline: {
         trigger: {
           backgroundColor: triggerVars.variantNeutralOutline.enabled.root.color,
-          border: `1px solid ${triggerVars.variantNeutralOutline.enabled.root.stroke}`,
+          border: `${triggerVars.variantNeutralOutline.enabled.root.strokeWidth} solid ${triggerVars.variantNeutralOutline.enabled.root.strokeColor}`,
 
           color: triggerVars.variantNeutralOutline.enabled.label.color,
 

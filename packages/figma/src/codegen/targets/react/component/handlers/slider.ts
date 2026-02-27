@@ -42,25 +42,25 @@ export const createSliderFieldHandler = (ctx: ComponentHandlerDeps) => {
 
       const [slider] = findAllInstances<SliderProperties>({
         node,
-        key: metadata.componentSlider.key,
+        key: sliderHandler.key,
       });
       const [fieldHeader] = findAllInstances<FieldHeaderProperties>({
         node,
-        key: metadata.privateComponentFieldHeader.key,
+        key: fieldHeaderHandler.key,
       });
       const [fieldFooter] = findAllInstances<FieldFooterProperties>({
         node,
-        key: metadata.privateComponentFieldFooter.key,
+        key: fieldFooterHandler.key,
       });
 
       const sliderProps = sliderHandler.transform(slider, traverse).props;
 
       // maxGraphemeCount and required can't be props of Slider
-      const { required: __required, ...headerProps } =
+      const { required: _required, ...headerProps } =
         props["Show Header#40606:8"].value && fieldHeader
           ? (fieldHeaderHandler.transform(fieldHeader, traverse).props as FieldHeaderProps)
           : {};
-      const { maxGraphemeCount: __maxGraphemeCount, ...footerProps } =
+      const { maxGraphemeCount: _maxGraphemeCount, ...footerProps } =
         props["Show Footer#40606:9"].value && fieldFooter
           ? (fieldFooterHandler.transform(fieldFooter, traverse).props as FieldFooterProps)
           : {};

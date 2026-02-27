@@ -1,9 +1,8 @@
 import * as p from "@clack/prompts";
 import { cosmiconfig } from "cosmiconfig";
-import { execa } from "execa";
 import { z } from "zod";
-import { highlight } from "./color";
-import { getPackageManager } from "./get-package-manager";
+import { CliCancelError, CliError } from "./error";
+import { DEFAULT_INIT_CONFIG, writeInitConfigFile } from "./init-config";
 
 const MODULE_NAME = "seed-design";
 
@@ -23,31 +22,45 @@ export const configSchema = z
 
 export type Config = z.infer<typeof configSchema>;
 
-export async function getConfig(cwd: string) {
+export async function getConfig(cwd: string): Promise<Config> {
   const config = await getRawConfig(cwd);
-  if (!config) return null;
+  if (config) return config;
 
-  return configSchema.parse(config);
+  p.log.error("프로젝트 루트 경로에 `seed-design.json` 파일이 없어요.");
+
+  const isConfirm = await p.confirm({ message: "seed-design.json 파일을 생성하시겠어요?" });
+
+  if (p.isCancel(isConfirm) || !isConfirm) {
+    throw new CliCancelError();
+  }
+
+  try {
+    await writeInitConfigFile({
+      cwd,
+      config: DEFAULT_INIT_CONFIG,
+    });
+    p.log.message("seed-design.json 파일이 생성됐어요.");
+    return configSchema.parse(DEFAULT_INIT_CONFIG);
+  } catch (error) {
+    throw new CliError({
+      message: "seed-design.json 파일 생성에 실패했어요.",
+      hint: "디렉토리 쓰기 권한과 경로를 확인한 뒤 다시 시도해보세요.",
+      cause: error,
+    });
+  }
 }
 
 export async function getRawConfig(cwd: string): Promise<Config | null> {
+  const configResult = await explorer.search(cwd);
+  if (!configResult || configResult.isEmpty) return null;
+
   try {
-    const configResult = await explorer.search(cwd);
     return configSchema.parse(configResult.config);
-  } catch {
-    p.log.error("프로젝트 루트 경로에 `seed-design.json` 파일이 없어요.");
-
-    const isConfirm = await p.confirm({ message: "seed-design.json 파일을 생성하시겠어요?" });
-
-    if (!isConfirm) {
-      p.outro(highlight("작업이 취소됐어요."));
-      process.exit(1);
-    }
-
-    const packageManager = await getPackageManager(cwd);
-
-    await execa(packageManager, ["seed-design", "init", "--default"], { cwd });
-
-    p.log.message("seed-design.json 파일이 생성됐어요.");
+  } catch (error) {
+    throw new CliError({
+      message: "seed-design.json 형식이 올바르지 않아요.",
+      hint: "https://seed-design.com/react/getting-started/cli/configuration 문서를 참고해 주세요.",
+      cause: error,
+    });
   }
 }

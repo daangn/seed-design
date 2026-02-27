@@ -42,7 +42,7 @@ docs/app/breeze/
 
 ```bash
 # 레지스트리 생성
-bun generate:registry
+bun --filter @seed-design/docs generate:registry
 
 # 개발 서버 실행
 bun dev

@@ -1,9 +1,11 @@
-"use client";
-
-import { Player } from "@lottiefiles/react-lottie-player";
+import dynamic from "next/dynamic";
 import { VStack, Box } from "@seed-design/react";
 import { ResultSection } from "seed-design/ui/result-section";
 import { useTheme } from "@/hooks/useTheme";
+
+const Player = dynamic(() => import("@lottiefiles/react-lottie-player").then((mod) => mod.Player), {
+  ssr: false,
+});
 
 const LOTTIE_URLS = {
   light:

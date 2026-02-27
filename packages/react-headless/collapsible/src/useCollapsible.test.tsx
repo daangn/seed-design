@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterAll, describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
@@ -23,8 +22,6 @@ class ResizeObserver {
   disconnect() {}
 }
 
-afterEach(cleanup);
-
 function setUp(jsx: ReactElement) {
   return {
     user: userEvent.setup(),
@@ -42,7 +39,12 @@ function Collapsible(props: CollapsibleRootProps) {
 }
 
 describe("useCollapsible", () => {
+  const originalResizeObserver = window.ResizeObserver;
   window.ResizeObserver = ResizeObserver;
+
+  afterAll(() => {
+    window.ResizeObserver = originalResizeObserver;
+  });
 
   it("should render the collapsible correctly", () => {
     const { getByRole, getByText } = setUp(<Collapsible />);
@@ -95,7 +97,7 @@ describe("useCollapsible", () => {
   });
 
   it("should call onOpenChange when toggle is clicked", async () => {
-    const handleOpenChange = vi.fn();
+    const handleOpenChange = mock(() => {});
 
     const { getByRole, user } = setUp(<Collapsible onOpenChange={handleOpenChange} />);
     const trigger = getByRole("button");
@@ -149,7 +151,7 @@ describe("useCollapsible", () => {
     });
 
     it("should not call onOpenChange when clicked while disabled", async () => {
-      const handleOpenChange = vi.fn();
+      const handleOpenChange = mock(() => {});
 
       const { getByRole, user } = setUp(
         <Collapsible disabled={true} onOpenChange={handleOpenChange} />,

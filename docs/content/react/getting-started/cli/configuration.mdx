@@ -1,10 +1,10 @@
 ---
 title: Configuration
-description: seed-design.json 파일을 통해 CLI를 사용할 때 필요한 설정을 명시해요.
+description: seed-design.json 설정을 안내해요.
 ---
 
 
-## 설정
+## seed-design.json 만들기
 
 `seed-design.json` 파일은 CLI로 생성하거나 직접 추가할 수 있어요.
 
@@ -33,38 +33,55 @@ CLI로 seed-design을 추가하는 방법을 알아봐요.
 </Tab>
 </Tabs>
 
-## 옵션
+## 기본 형태
+
+```json title="seed-design.json"
+{
+  "rsc": false,
+  "tsx": true,
+  "path": "./seed-design",
+  "telemetry": true
+}
+```
+
+<Callout>
+`seed-design.json`은 엄격하게 파싱돼요. 문서에 없는 키를 임의로 추가하면 CLI 실행 시 오류가 날 수 있어요.
+</Callout>
+
+## 옵션 한눈에 보기
+
+| 옵션 | 타입 | 기본값 | 설명 |
+|------|------|--------|------|
+| `path` | `string` | 없음 (init에서는 `./seed-design`) | 스니펫이 생성될 루트 경로 |
+| `rsc` | `boolean` | `false` | React Server Components 사용 여부에 맞춰 `"use client"` 유지/제거 |
+| `tsx` | `boolean` | `true` | 생성 파일을 TypeScript(`.ts/.tsx`) 또는 JavaScript(`.js/.jsx`)로 변환 |
+| `telemetry` | `boolean` | `true` | 익명 사용 데이터 수집 여부 |
+| `$schema` | `string` | 선택값 | JSON 스키마 힌트용 필드 (CLI 동작에는 영향 없음) |
 
 ### path
 
-`path`는 생성되는 컴포넌트의 기본 경로를 설정해요.
+`path`는 스니펫이 생성되는 루트 디렉토리예요.
 
-seed-design이 필요로 하는 폴더나 파일들은 `path`로 지정된 경로의 하위에 생겨요.
-`seed-design`의 root 폴더는 유저가 입력할 수 있게 하되, 그 내부에 생성되는 폴더나 파일들은 고정되는 형식이에요.
-  
+`add`/`add-all` 실행 시 파일은 `path` 아래에 레지스트리 ID와 스니펫 내부 경로 기준으로 생성돼요.
+고정된 폴더 구조가 아니라, 선택한 항목에 따라 구조가 달라져요.
+
 ```json title="seed-design.json"
 {
   "path": "./seed-design"
 }
 ```
 
-만약 위와 같이 설정했다면, `./seed-design` 폴더가 생성이 되고,
-그 안에 `ui`, `utils`, `hooks`와 같은 폴더들이 생기게 될거에요.
-
 <Files>
-  <Folder name="seed-design (유저 설정, path)" defaultOpen>
-    <Folder name="ui (고정)" defaultOpen>
+  <Folder name="seed-design (path)" defaultOpen>
+    <Folder name="ui (레지스트리 ID 예시)" defaultOpen>
       <File name="action-button.tsx" />
-      <File name="alert-dialog.tsx" />
       <File name="tabs.tsx" />
     </Folder>
-    <Folder name="hooks (고정)" defaultOpen>
-      <File name="use-portal.ts" />
-      <File name="use-focus-trap.ts" />
+    <Folder name="breeze (레지스트리 ID 예시)" defaultOpen>
+      <File name="animate-number.tsx" />
     </Folder>
-    <Folder name="utils (고정)" defaultOpen>
+    <Folder name="utils (스니펫 내부 경로 예시)" defaultOpen>
       <File name="classnames.ts" />
-      <File name="use-merge-refs.ts" />
     </Folder>
   </Folder>
 </Files>
@@ -73,7 +90,9 @@ seed-design이 필요로 하는 폴더나 파일들은 `path`로 지정된 경�
 
 [React Server Components](https://react.dev/reference/rsc/server-components)를 사용할지 설정해요.
 
-`true`로 설정하면 컴포넌트에 `use client` directive가 추가돼요.
+스니펫에 이미 있는 `"use client"` directive를 유지할지 결정해요.
+- `true`: `"use client"`를 유지해요.
+- `false`: 파일 최상단의 `"use client"`를 제거해요.
 
 ```json title="seed-design.json"
 {
@@ -85,7 +104,7 @@ seed-design이 필요로 하는 폴더나 파일들은 `path`로 지정된 경�
 
 TypeScript를 사용할지 설정해요.
 
-`true`로 설정하면 `.tsx` 컴포넌트가, `false`로 설정하면 `.jsx` 컴포넌트가 생성돼요.
+`false`로 설정하면 `.ts/.tsx` 파일이 `.js/.jsx`로 변환돼요.
 
 ```json title="seed-design.json"
 {
@@ -98,7 +117,7 @@ TypeScript를 사용할지 설정해요.
 텔레메트리 데이터 수집 여부를 설정해요.
 
 SEED Design CLI는 개선을 위해 익명 사용 데이터를 수집해요.
-개인 정보는 수집하지 않으며, 커맨드 사용 패턴과 성능 지표만 수집해요.
+프로젝트 경로, 파일 내용, 소스 코드는 수집하지 않아요.
 
 ```json title="seed-design.json"
 {
@@ -106,15 +125,22 @@ SEED Design CLI는 개선을 위해 익명 사용 데이터를 수집해요.
 }
 ```
 
-#### 수집되는 데이터
-- 사용된 커맨드 (init, add, add-all)
-- 설정 옵션 (tsx, rsc 사용 여부)
-- 성능 지표 (실행 시간)
-- 기술 환경 (Node.js 버전, OS 플랫폼)
+#### 우선순위
+
+아래 순서로 텔레메트리 활성화 여부를 판단해요.
+1. `DISABLE_TELEMETRY=true` 환경 변수
+2. `SEED_DISABLE_TELEMETRY=true` 환경 변수
+3. `seed-design.json`의 `telemetry`
+4. 기본값 `true`
+
+#### 수집되는 데이터 예시
+- 실행 이벤트: `init`, `add`, `add-all`, `compat`
+- 실행 통계: 실행 시간(`duration_ms`), 추가된 항목 수
+- 설정 정보: `tsx`, `rsc`, `include_deprecated`, `yes_option` 등
 
 #### 수집되지 않는 데이터
-- 프로젝트 경로, 파일 이름
-- 컴포넌트 이름
+- 프로젝트 경로, 생성된 파일 경로
+- 스니펫 파일 내용
 - 소스 코드
 - 개인 식별 정보
 
@@ -136,4 +162,5 @@ export SEED_DISABLE_TELEMETRY=true
 
 ### $schema
 
-준비중이에요.
+`$schema`는 선택적으로 추가할 수 있는 문자열 필드예요.
+현재 CLI 동작에는 영향을 주지 않고, 에디터의 JSON 자동완성/검증 용도로만 사용할 수 있어요.

@@ -5,23 +5,18 @@ const imageFrame = defineRecipe({
   name: "image-frame",
   base: {
     position: "relative",
+    overflow: "hidden",
+    borderRadius: "inherit",
 
     "& > img, & > video": {
+      display: "block",
+      width: "100%",
+      height: "100%",
       objectFit: "cover",
+      borderRadius: "inherit",
     },
   },
   variants: {
-    rounded: {
-      true: {
-        overflow: "hidden",
-        borderRadius: vars.roundedTrue.enabled.root.cornerRadius,
-
-        "& > img, & > video": {
-          borderRadius: vars.roundedTrue.enabled.root.cornerRadius,
-        },
-      },
-      false: {},
-    },
     stroke: {
       true: {
         "&::after": {
@@ -38,10 +33,16 @@ const imageFrame = defineRecipe({
       },
       false: {},
     },
+    rounded: {
+      true: {
+        borderRadius: vars.roundedTrue.enabled.root.cornerRadius,
+      },
+      false: {},
+    },
   },
   defaultVariants: {
-    rounded: false,
     stroke: false,
+    rounded: false,
   },
 });
 

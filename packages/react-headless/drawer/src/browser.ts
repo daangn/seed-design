@@ -30,6 +30,13 @@ export function isIOS(): boolean | undefined {
   return isIPhone() || isIPad();
 }
 
+export function isAndroid(): boolean | undefined {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
+
+  return /Android/.test(navigator.userAgent);
+}
+
+// TODO: use userAgent instead?
 export function testPlatform(re: RegExp): boolean | undefined {
   return typeof window !== "undefined" && window.navigator != null
     ? re.test(window.navigator.platform)
