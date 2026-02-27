@@ -7,6 +7,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { vars as tokens } from "../vars";
 
 const callout = defineSlotRecipe({
   name: "callout",
@@ -96,6 +97,7 @@ const callout = defineSlotRecipe({
       textUnderlineOffset: "2px",
 
       transition: FOCUS_RING_TRANSITION,
+      borderRadius: tokens.$radius.r1,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },

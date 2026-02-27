@@ -105,8 +105,8 @@ const pageBanner = defineSlotRecipe({
 
       borderRadius: tokens.$radius.r1,
       transition: FOCUS_RING_TRANSITION,
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
     closeButton: {
       flexShrink: 0,

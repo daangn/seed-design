@@ -65,6 +65,7 @@
     text-decoration: underline;
     text-underline-offset: 2px;
     transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    border-radius: var(--seed-radius-r1);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
 }
