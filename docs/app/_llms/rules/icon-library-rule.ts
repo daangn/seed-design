@@ -85,9 +85,13 @@ function readIconData(filename: string): Record<string, RawIconData> | null {
       return JSON.parse(content) as Record<string, RawIconData>;
     }
 
-    const require = createRequire(import.meta.url);
+    // Use process.cwd() as base for module resolution.
+    // import.meta.url is unreliable in Next.js bundled environments
+    // because webpack transforms it to the output file path.
+    const require = createRequire(join(process.cwd(), "__resolve__.js"));
     return require(`@karrotmarket/icon-data/${filename}`) as Record<string, RawIconData>;
-  } catch {
+  } catch (e) {
+    console.warn(`[IconLibrary] Failed to load icon data (${filename}):`, e);
     return null;
   }
 }
