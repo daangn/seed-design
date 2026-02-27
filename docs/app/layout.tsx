@@ -4,6 +4,9 @@ import "./global.css";
 
 import GoogleAnalytics from "@/components/google-analytics";
 import { LatestVersionBanner } from "@/components/latest-version-banner";
+import { AIPanelProvider } from "@/components/ai-panel/ai-panel-provider";
+import { AIPanelLayout } from "@/components/ai-panel/ai-panel-layout";
+import { MotionProvider } from "@/components/MotionProvider";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import ThemeSync from "@/components/theme-sync";
@@ -28,9 +31,15 @@ export default function Layout({ children }: { children: ReactNode }) {
         <GoogleAnalytics GA_MEASUREMENT_ID="G-02SS22W02G" />
       </head>
       <body>
-        <LatestVersionBanner />
-        <ThemeSync />
-        {children}
+        <MotionProvider>
+          <AIPanelProvider>
+            <AIPanelLayout>
+              <LatestVersionBanner />
+              <ThemeSync />
+              {children}
+            </AIPanelLayout>
+          </AIPanelProvider>
+        </MotionProvider>
       </body>
     </html>
   );

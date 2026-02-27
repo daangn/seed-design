@@ -4,7 +4,6 @@ const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
-  output: "export",
   reactStrictMode: true,
   transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
   serverExternalPackages: ["ts-morph", "typescript", "oxc-transform", "@shikijs/twoslash"],

@@ -6,6 +6,7 @@ import {
   docsSource,
 } from "@/app/source";
 import { ReactVersionSwitcher } from "@/components/react-version-switcher";
+import { AIPanelToggle } from "@/components/ai-panel/ai-panel-toggle";
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
@@ -94,6 +95,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   tabMode: "navbar",
   nav: {
     mode: "top",
+    children: <AIPanelToggle />,
     title: (
       <div className="flex gap-2 justify-center items-center">
         <svg
