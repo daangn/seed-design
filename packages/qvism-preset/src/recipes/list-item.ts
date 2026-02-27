@@ -101,6 +101,14 @@ const listItem = defineSlotRecipe({
         left: 0,
       },
 
+      [pseudo(":is(button, a)", not(disabled), "&::after")]: {
+        cursor: "pointer",
+      },
+
+      [pseudo(":is(button, a)", disabled, "&::after")]: {
+        cursor: "not-allowed",
+      },
+
       // this is for showing the active state
       [pseudo("::before")]: {
         content: "''",
@@ -135,6 +143,12 @@ const listItem = defineSlotRecipe({
         right: vars.base.pressed.root.marginX,
 
         borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
+      },
+      [pseudo(not(disabled), "[data-hover]", "::after")]: {
+        cursor: "pointer",
+      },
+      [pseudo(disabled, "[data-hover]", "::after")]: {
+        cursor: "not-allowed",
       },
     },
     title: {

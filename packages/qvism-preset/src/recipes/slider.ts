@@ -39,6 +39,14 @@ const slider = defineSlotRecipe({
 
       userSelect: "none",
       touchAction: "none",
+
+      [pseudo(dragging)]: {
+        cursor: "grabbing",
+      },
+
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+      },
     },
     control: {
       position: "relative",
@@ -127,11 +135,14 @@ const slider = defineSlotRecipe({
 
         transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
         willChange: "transform",
+
+        cursor: "grab",
       },
 
       [pseudo(disabled)]: {
         "&::after": {
           backgroundColor: thumbVars.base.disabled.root.color,
+          cursor: "not-allowed",
         },
       },
 

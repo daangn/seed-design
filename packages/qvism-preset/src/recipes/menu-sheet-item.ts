@@ -26,6 +26,7 @@ const menuSheetItem = defineSlotRecipe({
       border: "none",
       fontFamily: "inherit",
       outline: "none",
+      cursor: "pointer",
 
       [pseudo(engaged)]: {
         backgroundColor: vars.base.pressed.root.color,

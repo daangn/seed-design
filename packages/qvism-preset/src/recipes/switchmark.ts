@@ -16,10 +16,13 @@ const switchmarkRecipe = defineSlotRecipe({
 
       margin: "var(--switchmark-margin-top, 0) 0", // 수직 위치 보정
 
+      cursor: "pointer", // switch has this, but switchmark can be used separately
+
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}`,
 
       [pseudo(disabled)]: {
         opacity: vars.base.disabled.root.opacity,
+        cursor: "not-allowed",
       },
     },
     thumb: {

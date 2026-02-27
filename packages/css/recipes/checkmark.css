@@ -3,7 +3,11 @@
     box-sizing: border-box;
     flex: none;
     margin-top: var(--checkmark-margin-top, 0);
+    cursor: pointer;
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+}
+.seed-checkmark__root:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
 }
 .seed-checkmark__icon {
     display: none;

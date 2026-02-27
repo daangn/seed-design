@@ -206,6 +206,8 @@ export const appBar = defineSlotRecipe({
           width: vars.themeCupertino.enabled.icon.targetSize,
           height: vars.themeCupertino.enabled.icon.targetSize,
 
+          // cursor: "pointer"; // we might need this later
+
           "&:first-child": {
             marginLeft: `calc(-1 * (${vars.themeCupertino.enabled.icon.targetSize} - ${vars.themeCupertino.enabled.icon.size}) / 2)`,
           },

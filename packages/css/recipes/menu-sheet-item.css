@@ -13,6 +13,7 @@
     border: none;
     font-family: inherit;
     outline: none;
+    cursor: pointer;
 }
 @media (hover: hover) {
     .seed-menu-sheet-item__root:is(:hover, [data-hover]) {

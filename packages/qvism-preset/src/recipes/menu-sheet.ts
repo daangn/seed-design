@@ -123,6 +123,7 @@ const menuSheet = defineSlotRecipe({
       border: "none",
       fontFamily: "inherit",
       outline: "none",
+      cursor: "pointer",
 
       color: closeVars.base.enabled.label.color,
       fontSize: closeVars.base.enabled.label.fontSize,

@@ -13,7 +13,13 @@ const checkmark = defineSlotRecipe({
 
       marginTop: "var(--checkmark-margin-top, 0)", // 수직 위치 보정
 
+      cursor: "pointer", // checkbox has this, but checkmark can be used separately
+
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+      },
     },
     icon: {
       display: "none",

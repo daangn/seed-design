@@ -10,6 +10,7 @@
     border-color: var(--seed-color-stroke-neutral-weak);
     border-radius: var(--seed-radius-full);
     margin-top: var(--radiomark-margin-top, 0);
+    cursor: pointer;
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 @media (hover: hover) {
@@ -27,6 +28,7 @@
 }
 .seed-radiomark__root:is(:disabled, [disabled], [data-disabled]) {
     background-color: var(--seed-color-palette-gray-300);
+    cursor: not-allowed;
 }
 .seed-radiomark__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
     background-color: var(--seed-color-bg-transparent);
