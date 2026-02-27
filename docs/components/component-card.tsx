@@ -36,7 +36,7 @@ export function ComponentCard({
         ) : (
           <Image
             src={coverImageSrc}
-            alt={`${title} anatomy`}
+            alt=""
             onError={setError}
             fill
             className="object-cover transition-transform group-hover:scale-105"

@@ -97,7 +97,7 @@
     flex-shrink: 0;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
-    font-weight: var(--seed-font-weight-medium);
+    font-weight: var(--seed-font-weight-regular);
     color: var(--seed-color-fg-neutral);
 }
 .seed-list-item__title:is(:disabled, [disabled], [data-disabled]) {

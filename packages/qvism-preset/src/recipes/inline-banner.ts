@@ -6,6 +6,9 @@ import { prefixIcon, suffixIcon } from "../utils/icon";
 const closeButtonNegativeMargin = `(${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5`;
 const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
 
+/**
+ * @deprecated Use `page-banner` instead.
+ */
 const inlineBanner = defineSlotRecipe({
   name: "inline-banner",
   slots: ["root", "content", "title", "description", "link", "closeButton"],

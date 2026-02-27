@@ -3,6 +3,9 @@ import { linkContent as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { suffixIcon } from "../utils/icon";
 
+/**
+ * @deprecated Use `action-button` with variant="ghost" instead.
+ */
 const linkContent = defineRecipe({
   name: "link-content",
   base: {
