@@ -1,0 +1,28 @@
+{
+  "icon_arrow_left_line": {
+    "name": "icon_arrow_left_line",
+    "svg": "<svg></svg>",
+    "metadatas": ["arrow", "back", "left"],
+    "figma": {
+      "name": "Weight=Line",
+      "key": "icon-arrow-left",
+      "description": ""
+    },
+    "png": {
+      "1x": "icon_arrow_left_line.png"
+    }
+  },
+  "icon_add_fill": {
+    "name": "icon_add_fill",
+    "svg": "<svg></svg>",
+    "metadatas": ["add", "plus"],
+    "figma": {
+      "name": "Weight=Fill",
+      "key": "icon-add",
+      "description": ""
+    },
+    "png": {
+      "1x": "icon_add_fill.png"
+    }
+  }
+}

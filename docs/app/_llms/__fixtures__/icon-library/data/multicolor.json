@@ -1,0 +1,15 @@
+{
+  "icon_shoppingbag_items": {
+    "name": "icon_shoppingbag_items",
+    "svg": "<svg></svg>",
+    "metadatas": ["shopping", "products", "service:중고거래", "tag:service"],
+    "figma": {
+      "name": "🌱 [서비스아이콘] icon_shoppingbag_items",
+      "key": "icon-shoppingbag-items",
+      "description": "서비스를 대표하는 용도로만 사용해주세요."
+    },
+    "png": {
+      "1x": "icon_shoppingbag_items.png"
+    }
+  }
+}
