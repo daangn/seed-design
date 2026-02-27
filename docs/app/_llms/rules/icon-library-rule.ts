@@ -116,18 +116,18 @@ export const iconLibraryRule: Rule = {
   name: "IconLibrary",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "IconLibrary",
-  transform: () => {
+  transform: (node) => {
     try {
       const sections = [
         buildSection("Monochrome Icons", monochrome),
         buildSection("Multicolor Icons", multicolor),
       ].filter((section): section is string => Boolean(section));
 
-      if (sections.length === 0) return [];
+      if (sections.length === 0) return [node];
 
       return [{ type: "html", value: sections.join("\n\n") }];
     } catch {
-      return [];
+      return [node];
     }
   },
 };
