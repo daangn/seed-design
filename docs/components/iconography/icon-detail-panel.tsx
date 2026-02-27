@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useIcon } from "./icon-context";
-import { IconDetailControls } from "./icon-detail-controls";
 import { IconDetailHeader } from "./icon-detail-header";
 import { IconDetailPlatformTabs } from "./icon-detail-platform-tabs";
 import { IconDetailSvgPreview } from "./icon-detail-svg-preview";
@@ -24,7 +23,6 @@ export const IconDetailPanel = () => {
     <div className="flex flex-col gap-6 max-h-[70vh] overflow-y-auto overflow-x-hidden min-w-0">
       <IconDetailHeader />
       <IconDetailPlatformTabs />
-      <IconDetailControls />
       <IconDetailSvgPreview />
     </div>
   );

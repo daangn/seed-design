@@ -22,11 +22,6 @@ interface IconData {
 
 type Platform = "react" | "figma";
 
-interface PreviewColor {
-  tokenName: string;
-  cssVar: string;
-}
-
 interface State {
   iconData: {
     monochrome: Record<string, IconData>;
@@ -65,12 +60,6 @@ interface State {
     value: Platform | ((old: Platform) => Platform | null) | null,
     options?: Options,
   ) => Promise<URLSearchParams>;
-
-  previewColor: PreviewColor | null;
-  setPreviewColor: React.Dispatch<React.SetStateAction<PreviewColor | null>>;
-
-  previewSize: number;
-  setPreviewSize: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const context = React.createContext<State | null>(null);
@@ -100,20 +89,11 @@ export const IconProvider = ({
     parse: (value) => value as Platform,
   });
 
-  const [previewColor, setPreviewColor] = React.useState<PreviewColor | null>(null);
-  const [previewSize, setPreviewSize] = React.useState(24);
-
   // 선택된 아이콘 상태 관리
   const selectedIcon = React.useMemo(() => {
     if (!selectedIconName) return undefined;
     return iconData[iconStyle][selectedIconName];
   }, [selectedIconName, iconStyle, iconData]);
-
-  // 아이콘 변경 시 프리뷰 상태 초기화
-  React.useEffect(() => {
-    setPreviewColor(null);
-    setPreviewSize(24);
-  }, [selectedIconName]);
 
   // 컨텍스트 값 메모이제이션
   const contextValue = React.useMemo(
@@ -129,10 +109,6 @@ export const IconProvider = ({
       setSelectedIconName,
       platform,
       setPlatform,
-      previewColor,
-      setPreviewColor,
-      previewSize,
-      setPreviewSize,
     }),
     [
       search,
@@ -146,8 +122,6 @@ export const IconProvider = ({
       setSelectedIconName,
       platform,
       setPlatform,
-      previewColor,
-      previewSize,
     ],
   );
 

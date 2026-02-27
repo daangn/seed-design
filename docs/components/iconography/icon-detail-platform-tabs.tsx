@@ -26,7 +26,7 @@ const CopyButton = ({ text, label }: { text: string; label?: string }) => {
 };
 
 const ReactTab = () => {
-  const { selectedIcon, iconStyle, previewColor, previewSize } = useIcon();
+  const { selectedIcon, iconStyle } = useIcon();
 
   if (!selectedIcon) return null;
 
@@ -36,28 +36,9 @@ const ReactTab = () => {
       ? "@karrotmarket/react-monochrome-icon"
       : "@karrotmarket/react-multicolor-icon";
 
-  const hasColorChange = previewColor !== null;
-  const hasSizeChange = previewSize !== 24;
+  const usageCode = `import { ${pascalCaseName} } from "${packageName}";
 
-  const propsArray: string[] = [];
-  if (hasColorChange) {
-    propsArray.push(`color={vars.$color.palette.${previewColor.tokenName}}`);
-  }
-  if (hasSizeChange) {
-    propsArray.push(`size={${previewSize}}`);
-  }
-
-  const propsStr = propsArray.length > 0 ? ` ${propsArray.join(" ")}` : "";
-
-  const importLines: string[] = [];
-  if (hasColorChange) {
-    importLines.push(`import { vars } from "@seed-design/css/vars";`);
-  }
-  importLines.push(`import { ${pascalCaseName} } from "${packageName}";`);
-
-  const usageCode = `${importLines.join("\n")}
-
-<${pascalCaseName}${propsStr} />`;
+<${pascalCaseName} />`;
 
   return (
     <div className="flex flex-col gap-3">
@@ -71,7 +52,7 @@ const ReactTab = () => {
 };
 
 const FigmaTab = () => {
-  const { selectedIcon, iconStyle } = useIcon();
+  const { selectedIcon } = useIcon();
 
   if (!selectedIcon) return null;
 

@@ -13,7 +13,7 @@ type IconComponentType = React.ForwardRefExoticComponent<
 >;
 
 export const IconDetailHeader = () => {
-  const { selectedIcon, iconComponents, iconStyle, previewColor, previewSize } = useIcon();
+  const { selectedIcon, iconComponents, iconStyle } = useIcon();
 
   if (!selectedIcon) return null;
 
@@ -27,8 +27,6 @@ export const IconDetailHeader = () => {
   const isFat = selectedIcon.metadatas.includes(Tag.fat);
   const isService = selectedIcon.metadatas.includes(Tag.service);
 
-  const resolvedColor = previewColor?.cssVar ?? undefined;
-
   return (
     <div className="flex flex-col gap-4">
       <h3 className="text-lg font-bold break-all">{selectedIcon.name}</h3>
@@ -36,7 +34,7 @@ export const IconDetailHeader = () => {
       <IconDetailMetadata />
 
       <div className="flex items-center justify-center py-8 bg-fd-muted rounded-lg">
-        <IconComponent size={previewSize} color={resolvedColor} />
+        <IconComponent size={24} />
       </div>
 
       {(serviceName || isFigmaNotPublished || isFat || isService) && (
