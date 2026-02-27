@@ -3,7 +3,11 @@ import { toggleButton as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import { active, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const toggleButton = defineRecipe({
   name: "toggle-button",
@@ -24,12 +28,13 @@ const toggleButton = defineRecipe({
     flexShrink: 0,
     fontFamily: "inherit",
 
+    ...createFocusRingRestStyles(),
     [pseudo(focusVisible)]: createFocusRingStyles(),
     [pseudo(disabled)]: {
       cursor: "not-allowed",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
     fontWeight: vars.base.enabled.label.fontWeight,
   },
   variants: {

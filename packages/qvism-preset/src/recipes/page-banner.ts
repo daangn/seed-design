@@ -2,7 +2,11 @@ import { pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { vars as tokens } from "../vars";
 
 const closeButtonNegativeMargin = `(${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5`;
@@ -46,7 +50,9 @@ const pageBanner = defineSlotRecipe({
 
       [pseudo(":is(button)")]: {
         cursor: "pointer",
+        transition: FOCUS_RING_TRANSITION,
 
+        ...createFocusRingRestStyles({ position: "inside" }),
         [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
       },
     },
@@ -98,6 +104,8 @@ const pageBanner = defineSlotRecipe({
       fontWeight: vars.base.enabled.button.fontWeight,
 
       borderRadius: tokens.$radius.r1,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     closeButton: {
@@ -125,6 +133,8 @@ const pageBanner = defineSlotRecipe({
       cursor: "pointer",
 
       borderRadius: tokens.$radius.r1,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
   },

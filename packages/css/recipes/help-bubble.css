@@ -81,6 +81,9 @@
     --seed-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
     border-radius: var(--seed-radius-r3);
+    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-help-bubble__closeButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);

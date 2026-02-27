@@ -134,6 +134,9 @@
     right: calc((28px - 44px) / 2);
     bottom: calc((28px - 44px) / 2);
     left: calc((28px - 44px) / 2);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
 }
 .seed-bottom-sheet__closeButton:is(:focus, [data-focus]) {
     outline: none;

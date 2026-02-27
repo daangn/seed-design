@@ -3,7 +3,11 @@ import { defineSlotRecipe } from "../utils/define";
 import { hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const helpBubble = defineSlotRecipe({
   name: "help-bubble",
@@ -117,6 +121,8 @@ const helpBubble = defineSlotRecipe({
       }),
 
       borderRadius: vars.base.enabled.root.cornerRadius,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
   },

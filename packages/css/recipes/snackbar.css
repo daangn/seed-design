@@ -29,6 +29,11 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 0.8;
 }
+.seed-snackbar__root {
+    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-snackbar__root:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
@@ -83,6 +88,9 @@
     right: calc(-1 * var(--seed-dimension-x2));
     min-height: 44px;
     background: transparent;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
 }
 .seed-snackbar__actionButton:is(:focus, [data-focus]) {
     outline: none;

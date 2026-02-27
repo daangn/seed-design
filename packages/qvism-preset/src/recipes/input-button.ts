@@ -1,7 +1,11 @@
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, active, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { vars as tokens } from "../vars";
 
@@ -53,7 +57,7 @@ const inputButton = defineSlotRecipe({
 
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       "&::after": {
         content: '""',
@@ -86,6 +90,7 @@ const inputButton = defineSlotRecipe({
         backgroundColor: vars.base.readonly.root.color,
       },
 
+      ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
       [pseudo(invalid, "::after")]: {
@@ -184,6 +189,8 @@ const inputButton = defineSlotRecipe({
       padding: 0,
 
       borderRadius: tokens.$radius.full,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
       ...onlyIcon({

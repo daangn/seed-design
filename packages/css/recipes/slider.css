@@ -69,7 +69,9 @@
     bottom: 0;
     background-color: var(--seed-color-bg-neutral-inverted);
     border-radius: var(--seed-radius-full);
-    transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+    transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
     will-change: transform;
 }
 .seed-slider__thumb:is(:disabled, [disabled], [data-disabled])::after {

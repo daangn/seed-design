@@ -17,7 +17,9 @@
     border-radius: var(--seed-radius-full);
     transition-duration: var(--seed-duration-color-transition);
     transition-timing-function: var(--seed-timing-function-easing);
-    transition-property: background-color, color, border-color, box-shadow;
+    transition-property: background-color, color, border-color, box-shadow, outline-color;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-chip__root:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);

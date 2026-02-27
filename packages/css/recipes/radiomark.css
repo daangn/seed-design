@@ -10,7 +10,9 @@
     border-color: var(--seed-color-stroke-neutral-weak);
     border-radius: var(--seed-radius-full);
     margin-top: var(--radiomark-margin-top, 0);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
+    outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid transparent);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-transparent-pressed);

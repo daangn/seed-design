@@ -3,7 +3,11 @@ import { actionButton as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 import { active, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const actionButton = defineRecipe({
   name: "action-button",
@@ -48,13 +52,14 @@ const actionButton = defineRecipe({
     marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
     marginRight: "calc(var(--seed-box-bleed-right) * -1)",
 
+    ...createFocusRingRestStyles(),
     [pseudo(focusVisible)]: createFocusRingStyles(),
 
     [pseudo(disabled)]: {
       cursor: "not-allowed",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {

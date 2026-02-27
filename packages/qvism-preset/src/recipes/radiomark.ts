@@ -1,7 +1,11 @@
 import { radiomark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { checked, disabled, active, pseudo, not, focusVisible } from "../utils/pseudo";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const radiomark = defineSlotRecipe({
   name: "radiomark",
@@ -24,7 +28,9 @@ const radiomark = defineSlotRecipe({
 
       marginTop: "var(--radiomark-margin-top, 0)", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+
+      ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
 
       [pseudo(not(disabled), active)]: {
         backgroundColor: vars.base.enabledPressed.root.color,

@@ -1,5 +1,9 @@
 import { defineSlotRecipe } from "../utils/define";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { active, disabled, focus, focusVisible, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
@@ -104,6 +108,8 @@ const listItem = defineSlotRecipe({
         right: 0,
         bottom: 0,
         left: 0,
+        ...createFocusRingRestStyles({ position: "inside" }),
+        transition: FOCUS_RING_TRANSITION,
       },
 
       [pseudo(focus)]: {

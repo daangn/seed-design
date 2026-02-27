@@ -2,7 +2,11 @@ import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/co
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { active, focusVisible, not, open, pseudo } from "../utils/pseudo";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const menuSheet = defineSlotRecipe({
   name: "menu-sheet",
@@ -129,10 +133,13 @@ const menuSheet = defineSlotRecipe({
       lineHeight: closeVars.base.enabled.label.lineHeight,
       fontWeight: closeVars.base.enabled.label.fontWeight,
 
+      transition: FOCUS_RING_TRANSITION,
+
       [pseudo(active)]: {
         backgroundColor: closeVars.base.pressed.root.color,
       },
 
+      ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },
   },

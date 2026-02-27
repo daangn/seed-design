@@ -5,7 +5,11 @@ import {
 } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { disabled, pseudo, focusVisible, focus, not } from "../utils/pseudo";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import * as duration from "../vars/duration";
 import * as timingFunction from "../vars/timing-function";
@@ -126,7 +130,8 @@ const slider = defineSlotRecipe({
         backgroundColor: thumbVars.base.enabled.root.color,
         borderRadius: thumbVars.base.enabled.root.cornerRadius,
 
-        transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
+        ...createFocusRingRestStyles(),
+        transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
         willChange: "transform",
       },
 

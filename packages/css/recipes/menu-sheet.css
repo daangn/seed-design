@@ -94,9 +94,14 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-medium);
+    transition: outline-color var(--seed-duration-d2) var(--seed-timing-function-easing);
 }
 .seed-menu-sheet__closeButton:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
+}
+.seed-menu-sheet__closeButton {
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-menu-sheet__closeButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);

@@ -2,7 +2,11 @@ import { menuSheetItem as vars, menuSheet as rootVars } from "../vars/component"
 import { defineSlotRecipe } from "../utils/define";
 import { active, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const menuSheetItem = defineSlotRecipe({
   name: "menu-sheet-item",
@@ -44,6 +48,8 @@ const menuSheetItem = defineSlotRecipe({
         boxShadow: "none",
       },
 
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
       ...prefixIcon({

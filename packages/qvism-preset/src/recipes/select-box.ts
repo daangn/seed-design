@@ -1,5 +1,9 @@
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { prefixIcon } from "../utils/icon";
 import { active, checked, disabled, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { selectBox as vars } from "../vars/component";
@@ -42,7 +46,7 @@ export const selectBox = defineSlotRecipe({
 
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       overflow: "hidden",
 
@@ -85,6 +89,7 @@ export const selectBox = defineSlotRecipe({
         boxShadow: `inset 0 0 0 ${vars.base.selected.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
       },
 
+      ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     trigger: {

@@ -8,7 +8,11 @@ import {
   not,
   pseudo,
 } from "../utils/pseudo";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const checkmark = defineSlotRecipe({
   name: "checkmark",
@@ -21,8 +25,9 @@ const checkmark = defineSlotRecipe({
 
       marginTop: "var(--checkmark-margin-top, 0)", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
+      ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     icon: {

@@ -2,7 +2,11 @@ import { callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
-import { createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const callout = defineSlotRecipe({
   name: "callout",
@@ -44,7 +48,9 @@ const callout = defineSlotRecipe({
 
       [pseudo(":is(button, a)")]: {
         cursor: "pointer",
+        transition: FOCUS_RING_TRANSITION,
 
+        ...createFocusRingRestStyles(),
         [pseudo(focusVisible)]: createFocusRingStyles(),
       },
     },
@@ -89,6 +95,8 @@ const callout = defineSlotRecipe({
       textDecoration: "underline",
       textUnderlineOffset: "2px",
 
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     closeButton: {
@@ -109,6 +117,8 @@ const callout = defineSlotRecipe({
       margin: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
 
       borderRadius: vars.base.enabled.root.cornerRadius,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },
   },
