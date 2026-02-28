@@ -29,6 +29,16 @@ export interface ToolDescriptor {
   approvalPolicy: ApprovalPolicy;
 }
 
+const UNSAFE_OBJECT_KEYS = new Set(["__proto__", "prototype", "constructor"]);
+
+function isSafeObjectKey(key: string): boolean {
+  return key.length > 0 && !UNSAFE_OBJECT_KEYS.has(key);
+}
+
+function createSafeRecord<T>(): Record<string, T> {
+  return Object.create(null) as Record<string, T>;
+}
+
 export function inferToolCapability(name: string, description: string): ToolCapability {
   const normalized = `${name} ${description}`.toLowerCase();
 
@@ -138,9 +148,13 @@ export function applyApprovalPolicies(
   descriptors: ToolDescriptor[],
 ): Record<string, Tool> {
   const descriptorMap = new Map(descriptors.map((descriptor) => [descriptor.name, descriptor]));
-  const next: Record<string, Tool> = {};
+  const next = createSafeRecord<Tool>();
 
   for (const [name, toolDef] of Object.entries(tools)) {
+    if (!isSafeObjectKey(name)) {
+      continue;
+    }
+
     const descriptor =
       descriptorMap.get(name) ??
       createToolDescriptor({
@@ -196,7 +210,19 @@ export function filterToolsForQuery<T>(
     return { tools, descriptors };
   }
 
-  const filteredTools = Object.fromEntries(filteredEntries) as Record<string, T>;
+  const filteredTools = createSafeRecord<T>();
+  for (const [toolName, toolDefinition] of filteredEntries) {
+    if (!isSafeObjectKey(toolName)) {
+      continue;
+    }
+    filteredTools[toolName] = toolDefinition;
+  }
+
+  const filteredToolNames = Object.keys(filteredTools);
+  if (filteredToolNames.length === 0) {
+    return { tools, descriptors };
+  }
+
   const allowedToolNames = new Set(Object.keys(filteredTools));
   const filteredDescriptors = descriptors.filter((descriptor) => allowedToolNames.has(descriptor.name));
 

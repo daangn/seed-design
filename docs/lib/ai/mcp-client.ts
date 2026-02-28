@@ -40,6 +40,7 @@ interface JSONRPCRequest {
 const MCP_PROTOCOL_VERSION = "2025-03-26";
 const MCP_REQUEST_TIMEOUT_MS = 30_000;
 const TEMPORARILY_DISABLED_MCP_TOOLS = new Set(["get_full_docs"]);
+const UNSAFE_OBJECT_KEYS = new Set(["__proto__", "prototype", "constructor"]);
 
 export interface MCPToolBundle {
   tools: Record<string, Tool>;
@@ -54,17 +55,27 @@ function buildDescriptorsFromToolDefinitions(
     description?: string;
   }>,
 ): ToolDescriptor[] {
-  return tools.map((toolInfo) =>
-    createToolDescriptor({
-      name: toolInfo.name,
-      description: toolInfo.description ?? toolInfo.name,
-      source: "mcp",
-    }),
-  );
+  return tools
+    .filter((toolInfo) => isSafeObjectKey(toolInfo.name))
+    .map((toolInfo) =>
+      createToolDescriptor({
+        name: toolInfo.name,
+        description: toolInfo.description ?? toolInfo.name,
+        source: "mcp",
+      }),
+    );
 }
 
 function isMCPToolEnabled(toolName: string): boolean {
   return !TEMPORARILY_DISABLED_MCP_TOOLS.has(toolName);
+}
+
+function isSafeObjectKey(key: string): boolean {
+  return key.length > 0 && !UNSAFE_OBJECT_KEYS.has(key);
+}
+
+function createSafeRecord<T>(): Record<string, T> {
+  return Object.create(null) as Record<string, T>;
 }
 
 async function getMCPToolBundleWithSDK(mcpUrl: string): Promise<MCPToolBundle> {
@@ -80,9 +91,18 @@ async function getMCPToolBundleWithSDK(mcpUrl: string): Promise<MCPToolBundle> {
   const definitions = (await client.listTools()) as ListToolsResult;
   const enabledDefinitions: ListToolsResult = {
     ...definitions,
-    tools: definitions.tools.filter((toolInfo) => isMCPToolEnabled(toolInfo.name)),
+    tools: definitions.tools.filter(
+      (toolInfo) => isMCPToolEnabled(toolInfo.name) && isSafeObjectKey(toolInfo.name),
+    ),
   };
-  const rawTools = client.toolsFromDefinitions(enabledDefinitions) as Record<string, Tool>;
+  const rawToolsFromClient = client.toolsFromDefinitions(enabledDefinitions) as Record<string, Tool>;
+  const rawTools = createSafeRecord<Tool>();
+  for (const [toolName, toolDefinition] of Object.entries(rawToolsFromClient)) {
+    if (!isSafeObjectKey(toolName)) {
+      continue;
+    }
+    rawTools[toolName] = toolDefinition;
+  }
   const descriptors = buildDescriptorsFromToolDefinitions(enabledDefinitions.tools);
 
   return {
@@ -365,10 +385,10 @@ async function getMCPToolBundleLegacy(): Promise<MCPToolBundle> {
 
   const response = await mcpRequest("tools/list");
   const mcpTools = (response.result?.tools ?? []).filter((toolInfo) =>
-    isMCPToolEnabled(toolInfo.name),
+    isMCPToolEnabled(toolInfo.name) && isSafeObjectKey(toolInfo.name),
   );
 
-  const tools: Record<string, Tool> = {};
+  const tools = createSafeRecord<Tool>();
 
   for (const mcpTool of mcpTools) {
     const zodSchema = jsonSchemaToZod(mcpTool.inputSchema);

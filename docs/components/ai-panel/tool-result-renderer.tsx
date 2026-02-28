@@ -30,6 +30,12 @@ interface GenericToolSummary {
   isError: boolean;
 }
 
+const UNSAFE_OBJECT_KEYS = new Set(["__proto__", "prototype", "constructor"]);
+
+function isSafeObjectKey(key: string): boolean {
+  return key.length > 0 && !UNSAFE_OBJECT_KEYS.has(key);
+}
+
 function getSafeInput(input: unknown): Record<string, unknown> {
   if (!input || typeof input !== "object") return {};
   return input as Record<string, unknown>;
@@ -383,17 +389,28 @@ export const ToolResultRenderer = forwardRef<HTMLDivElement, ToolResultRendererP
         );
       }
 
-      const type = Object.fromEntries(
-        rows.map((row) => [
-          row.name,
-          {
-            type: row.type,
-            required: row.required,
-            ...(row.description ? { description: row.description } : {}),
-            ...(row.defaultValue ? { default: row.defaultValue } : {}),
-          },
-        ]),
-      );
+      const type = Object.create(null) as Record<
+        string,
+        {
+          type: string;
+          required: boolean;
+          description?: string;
+          default?: string;
+        }
+      >;
+
+      for (const row of rows) {
+        if (!isSafeObjectKey(row.name)) {
+          continue;
+        }
+
+        type[row.name] = {
+          type: row.type,
+          required: row.required,
+          ...(row.description ? { description: row.description } : {}),
+          ...(row.defaultValue ? { default: row.defaultValue } : {}),
+        };
+      }
 
       return (
         <ToolFadeIn>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { resolveTrustedBaseUrl } from "./trusted-base-url";
+import { resolveTrustedBaseUrl, resolveTrustedBaseUrlFromEnv } from "./trusted-base-url";
 
 describe("resolveTrustedBaseUrl", () => {
   it("allows trusted production hosts with https", () => {
@@ -21,5 +21,32 @@ describe("resolveTrustedBaseUrl", () => {
 
   it("falls back to default base URL for invalid URL", () => {
     expect(resolveTrustedBaseUrl("not-a-url")).toBe("https://seed-design.io");
+  });
+});
+
+describe("resolveTrustedBaseUrlFromEnv", () => {
+  it("uses explicit docs base URL when trusted", () => {
+    expect(
+      resolveTrustedBaseUrlFromEnv({
+        SEED_DOCS_BASE_URL: "https://www.seed-design.io/docs",
+      }),
+    ).toBe("https://www.seed-design.io");
+  });
+
+  it("supports local base URL from env", () => {
+    expect(
+      resolveTrustedBaseUrlFromEnv({
+        NEXT_PUBLIC_SITE_URL: "http://localhost:3000",
+      }),
+    ).toBe("http://localhost:3000");
+  });
+
+  it("falls back to default base URL for untrusted env values", () => {
+    expect(
+      resolveTrustedBaseUrlFromEnv({
+        SEED_DOCS_BASE_URL: "https://evil.example.com",
+        NEXT_PUBLIC_SITE_URL: "http://seed-design.io",
+      }),
+    ).toBe("https://seed-design.io");
   });
 });
