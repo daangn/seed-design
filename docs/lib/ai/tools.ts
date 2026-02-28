@@ -11,6 +11,12 @@ export const clientTools = {
     inputSchema: z.object({
       name: z
         .string()
+        .min(3, "Component example path is too short")
+        .max(120, "Component example path is too long")
+        .regex(
+          /^(react|lynx|breeze)\/[a-z0-9]+(?:-[a-z0-9]+)*\/preview$/,
+          "Expected '<platform>/<component>/preview' format",
+        )
         .describe(
           'Component example path, e.g., "react/action-button/preview", "react/checkbox/preview"',
         ),
@@ -22,6 +28,12 @@ export const clientTools = {
     inputSchema: z.object({
       name: z
         .string()
+        .min(1, "Component name is required")
+        .max(64, "Component name is too long")
+        .regex(
+          /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+          "Expected kebab-case component name (lowercase letters, numbers, hyphen)",
+        )
         .describe('Component name in kebab-case, e.g., "action-button", "checkbox", "tabs"'),
     }),
   }),

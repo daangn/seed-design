@@ -18,19 +18,27 @@ export function AIPanelProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored !== null) {
-      setIsOpen(stored === "true");
-    } else {
-      // 모바일에서는 기본 닫힘
+    try {
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      if (stored !== null) {
+        setIsOpen(stored === "true");
+      } else {
+        // 모바일에서는 기본 닫힘
+        setIsOpen(window.innerWidth >= 768);
+      }
+    } catch {
       setIsOpen(window.innerWidth >= 768);
+    } finally {
+      setHydrated(true);
     }
-    setHydrated(true);
   }, []);
 
   useEffect(() => {
-    if (hydrated) {
-      localStorage.setItem(STORAGE_KEY, String(isOpen));
+    if (!hydrated) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, String(isOpen));
+    } catch {
+      // ignore storage write errors
     }
   }, [isOpen, hydrated]);
 

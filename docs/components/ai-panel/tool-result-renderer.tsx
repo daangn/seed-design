@@ -23,6 +23,9 @@ export function ToolResultRenderer({ toolName, input, state }: ToolResultRendere
 
   switch (toolName) {
     case "showComponentExample":
+      if (typeof input.name !== "string") {
+        return <div className="my-1 text-xs text-fd-muted-foreground">잘못된 미리보기 입력입니다.</div>;
+      }
       return (
         <div className="my-2 rounded-lg border border-fd-border overflow-hidden">
           <div className="px-3 py-1.5 bg-fd-muted text-xs font-medium text-fd-muted-foreground border-b border-fd-border">
@@ -36,14 +39,17 @@ export function ToolResultRenderer({ toolName, input, state }: ToolResultRendere
             }
           >
             <div className="min-h-32 p-4">
-              <ComponentPreview name={input.name as string} />
+              <ComponentPreview name={input.name} />
             </div>
           </Suspense>
         </div>
       );
 
     case "showInstallation": {
-      const componentName = input.name as string;
+      if (typeof input.name !== "string") {
+        return <div className="my-1 text-xs text-fd-muted-foreground">잘못된 설치 입력입니다.</div>;
+      }
+      const componentName = input.name;
       return (
         <div className="my-2 rounded-lg border border-fd-border overflow-hidden">
           <div className="px-3 py-1.5 bg-fd-muted text-xs font-medium text-fd-muted-foreground border-b border-fd-border">
@@ -60,15 +66,15 @@ export function ToolResultRenderer({ toolName, input, state }: ToolResultRendere
     }
 
     case "showCodeBlock":
+      if (typeof input.code !== "string") {
+        return <div className="my-1 text-xs text-fd-muted-foreground">코드 블록 입력이 올바르지 않습니다.</div>;
+      }
       return (
         <div className="my-2">
           {typeof input.title === "string" && (
             <div className="text-xs font-medium text-fd-muted-foreground mb-1">{input.title}</div>
           )}
-          <DynamicCodeBlock
-            lang={(input.language as string) || "tsx"}
-            code={input.code as string}
-          />
+          <DynamicCodeBlock lang={typeof input.language === "string" ? input.language : "tsx"} code={input.code} />
         </div>
       );
 
