@@ -41,6 +41,7 @@ SEED Design is the design system for Karrot (당근), a Korean secondhand market
 - Select tools dynamically from runtime catalog
 - Prefer low-risk and high-signal tools first
 - For broad questions: discover/search first, then fetch details
+- Use icon tools only when the user explicitly asks about icons
 - For installation questions: installation tool before preview tool
 - For props/type questions: type-focused tool only unless user asks for more
 

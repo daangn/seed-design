@@ -6,7 +6,7 @@ import { createClientToolBundle } from "@/lib/ai/tools";
 import { getMCPToolBundle } from "@/lib/ai/mcp-client";
 import { detectComponentGuideIntent, extractLatestUserText } from "@/lib/ai/component-guide-intent";
 import { generateOrchestrationPlan, shouldUsePlanningStage } from "@/lib/ai/orchestrator";
-import { mergeToolDescriptors } from "@/lib/ai/tool-registry";
+import { filterToolsForQuery, mergeToolDescriptors } from "@/lib/ai/tool-registry";
 import { resolveComponentGuideLinks, resolveVerifiedLinksForQuery } from "@/lib/ai/component-guide-links";
 import { z } from "zod";
 
@@ -79,7 +79,10 @@ export async function POST(req: Request) {
     ...mcpToolBundle.tools,
   };
 
-  const toolCatalog = mergeToolDescriptors(clientToolBundle.descriptors, mcpToolBundle.descriptors);
+  const mergedToolCatalog = mergeToolDescriptors(clientToolBundle.descriptors, mcpToolBundle.descriptors);
+  const scopedToolSet = filterToolsForQuery(tools, mergedToolCatalog, latestUserText);
+  const scopedTools = scopedToolSet.tools;
+  const toolCatalog = scopedToolSet.descriptors;
   const model = llmRouter(llmRouterModel);
 
   const usePlanningStage =
@@ -114,7 +117,7 @@ export async function POST(req: Request) {
 
   const agent = createSeedAssistantAgent({
     model,
-    tools,
+    tools: scopedTools,
     instructions: systemPrompt,
     orchestrationPlan,
     maxSteps: 12,

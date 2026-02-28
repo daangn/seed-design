@@ -4,8 +4,11 @@ import { z } from "zod";
 import {
   applyApprovalPolicies,
   createToolDescriptor,
+  filterToolsForQuery,
   inferToolCapability,
   inferToolRisk,
+  isIconIntentQuery,
+  isIconToolName,
   mergeToolDescriptors,
   serializeToolCatalog,
 } from "./tool-registry";
@@ -68,5 +71,36 @@ describe("tool-registry", () => {
 
     expect(catalog).toContain("get_doc");
     expect(catalog).toContain("capability=fetch");
+  });
+
+  it("detects icon tools and icon intent query", () => {
+    expect(isIconToolName("search_icons")).toBe(true);
+    expect(isIconToolName("get_docs_component")).toBe(false);
+    expect(isIconIntentQuery("아이콘 추천해줘")).toBe(true);
+    expect(isIconIntentQuery("ai integration 문서 찾아줘")).toBe(false);
+  });
+
+  it("filters icon tools out for non-icon queries", () => {
+    const tools = {
+      search_icons: { execute: async () => ({}) },
+      get_docs_component: { execute: async () => ({}) },
+    };
+    const descriptors = [
+      createToolDescriptor({
+        name: "search_icons",
+        source: "mcp",
+        description: "search icons",
+      }),
+      createToolDescriptor({
+        name: "get_docs_component",
+        source: "mcp",
+        description: "get docs component",
+      }),
+    ];
+
+    const filtered = filterToolsForQuery(tools, descriptors, "ai integration 관련 문서 찾아줘");
+
+    expect(Object.keys(filtered.tools)).toEqual(["get_docs_component"]);
+    expect(filtered.descriptors.map((descriptor) => descriptor.name)).toEqual(["get_docs_component"]);
   });
 });

@@ -166,3 +166,42 @@ export function serializeToolCatalog(descriptors: ToolDescriptor[]): string {
     })
     .join("\n");
 }
+
+const ICON_TOOL_NAME_PATTERN = /(^|[_-])(icon|icons)([_-]|$)/i;
+const ICON_QUERY_PATTERN = /(아이콘|icon|icons|glyph|pictogram|symbol|svg)/i;
+
+export function isIconToolName(toolName: string): boolean {
+  return ICON_TOOL_NAME_PATTERN.test(toolName);
+}
+
+export function isIconIntentQuery(query: string): boolean {
+  return ICON_QUERY_PATTERN.test(query);
+}
+
+export function filterToolsForQuery<T>(
+  tools: Record<string, T>,
+  descriptors: ToolDescriptor[],
+  query?: string | null,
+): {
+  tools: Record<string, T>;
+  descriptors: ToolDescriptor[];
+} {
+  if (!query || isIconIntentQuery(query)) {
+    return { tools, descriptors };
+  }
+
+  const filteredEntries = Object.entries(tools).filter(([toolName]) => !isIconToolName(toolName));
+
+  if (filteredEntries.length === 0) {
+    return { tools, descriptors };
+  }
+
+  const filteredTools = Object.fromEntries(filteredEntries) as Record<string, T>;
+  const allowedToolNames = new Set(Object.keys(filteredTools));
+  const filteredDescriptors = descriptors.filter((descriptor) => allowedToolNames.has(descriptor.name));
+
+  return {
+    tools: filteredTools,
+    descriptors: filteredDescriptors,
+  };
+}
