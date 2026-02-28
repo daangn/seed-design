@@ -1,9 +1,13 @@
 "use client";
 
 import type { UIMessage } from "ai";
-import { IconSquare2StackedLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconCheckmarkCircleLine,
+  IconSquare2StackedLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
+import { AnimatePresence, m } from "motion/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { useEffect, useState } from "react";
 import { parseMarkdownCodeBlocks } from "./parse-markdown-code-blocks";
@@ -250,7 +254,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
 
     const timeout = window.setTimeout(() => {
       setIsCopied(false);
-    }, 1000);
+    }, 2000);
 
     return () => window.clearTimeout(timeout);
   }, [isCopied]);
@@ -377,7 +381,31 @@ export function ChatMessage({ message }: { message: UIMessage }) {
               aria-label={isCopied ? "응답 복사됨" : "응답 복사"}
               disabled={!canCopy}
             >
-              <Icon svg={<IconSquare2StackedLine />} />
+              <AnimatePresence mode="wait" initial={false}>
+                {isCopied ? (
+                  <m.span
+                    key="copied"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="inline-flex"
+                  >
+                    <Icon svg={<IconCheckmarkCircleLine />} />
+                  </m.span>
+                ) : (
+                  <m.span
+                    key="copy"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="inline-flex"
+                  >
+                    <Icon svg={<IconSquare2StackedLine />} />
+                  </m.span>
+                )}
+              </AnimatePresence>
             </ActionButton>
           </div>
         )}
