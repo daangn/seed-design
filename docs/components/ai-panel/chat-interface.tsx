@@ -1,13 +1,13 @@
 "use client";
 
-import { DefaultChatTransport } from "ai";
 import { useChat } from "@ai-sdk/react";
 import { useAIPanel } from "./ai-panel-provider";
 import { ChatMessage } from "./chat-message";
 import { IconSparkle2 } from "@karrotmarket/react-multicolor-icon";
-import { IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
+import { IconTrashcanLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
+import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 
@@ -17,16 +17,12 @@ const SUGGESTIONS = [
   "SEED Design 색상 토큰은 어떻게 사용해?",
 ];
 
-const chatTransport = new DefaultChatTransport({
-  api: "/api/chat",
-});
-
 export function ChatInterface() {
-  const { close } = useAIPanel();
+  const { close, chat } = useAIPanel();
   const [input, setInput] = useState("");
 
-  const { messages, sendMessage, status } = useChat({
-    transport: chatTransport,
+  const { messages, sendMessage, setMessages, status, stop } = useChat({
+    chat,
   });
 
   const isLoading = status === "submitted" || status === "streaming";
@@ -56,6 +52,19 @@ export function ChatInterface() {
     setInput("");
   };
 
+  const handleClearConversation = () => {
+    if (!window.confirm("현재 대화를 모두 삭제할까요?")) {
+      return;
+    }
+
+    if (isLoading) {
+      stop();
+    }
+
+    setMessages([]);
+    setInput("");
+  };
+
   return (
     <div className="flex flex-col h-full bg-fd-background">
       {/* Header */}
@@ -64,18 +73,33 @@ export function ChatInterface() {
           <IconSparkle2 width={18} height={18} />
           <span className="font-semibold text-sm">SEED Assistant</span>
         </div>
-        <ActionButton
-          type="button"
-          onClick={close}
-          variant="ghost"
-          layout="iconOnly"
-          size="xsmall"
-          bleedX="asPadding"
-          bleedY="asPadding"
-          aria-label="패널 닫기"
-        >
-          <Icon svg={<IconXmarkLine />} />
-        </ActionButton>
+        <div className="flex items-center gap-1">
+          <ActionButton
+            type="button"
+            onClick={handleClearConversation}
+            variant="ghost"
+            layout="iconOnly"
+            size="xsmall"
+            bleedX="asPadding"
+            bleedY="asPadding"
+            aria-label="대화 삭제"
+            disabled={messages.length === 0}
+          >
+            <Icon svg={<IconTrashcanLine />} />
+          </ActionButton>
+          <ActionButton
+            type="button"
+            onClick={close}
+            variant="ghost"
+            layout="iconOnly"
+            size="xsmall"
+            bleedX="asPadding"
+            bleedY="asPadding"
+            aria-label="패널 닫기"
+          >
+            <Icon svg={<IconXmarkLine />} />
+          </ActionButton>
+        </div>
       </div>
 
       {/* Messages */}
@@ -109,16 +133,9 @@ export function ChatInterface() {
 
         {isLoading && messages.length > 0 && messages[messages.length - 1]?.role === "user" && (
           <div className="flex justify-start">
-            <div className="flex items-center gap-1.5 text-sm text-fd-muted-foreground">
-              <span className="inline-block size-1.5 rounded-full bg-fd-muted-foreground animate-pulse" />
-              <span
-                className="inline-block size-1.5 rounded-full bg-fd-muted-foreground animate-pulse"
-                style={{ animationDelay: "0.2s" }}
-              />
-              <span
-                className="inline-block size-1.5 rounded-full bg-fd-muted-foreground animate-pulse"
-                style={{ animationDelay: "0.4s" }}
-              />
+            <div className="flex items-center gap-2 text-sm text-fd-muted-foreground">
+              <ProgressCircle size="24" value={undefined} />
+              응답 생성 중...
             </div>
           </div>
         )}

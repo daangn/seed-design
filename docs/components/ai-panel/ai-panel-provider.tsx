@@ -1,5 +1,7 @@
 "use client";
 
+import { Chat } from "@ai-sdk/react";
+import { DefaultChatTransport, type UIMessage } from "ai";
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 
 interface AIPanelContextType {
@@ -7,15 +9,27 @@ interface AIPanelContextType {
   toggle: () => void;
   open: () => void;
   close: () => void;
+  chat: Chat<UIMessage>;
 }
 
 const AIPanelContext = createContext<AIPanelContextType | null>(null);
 
 const STORAGE_KEY = "seed-ai-panel-open";
+const CHAT_ID = "seed-ai-panel-chat";
+const chatTransport = new DefaultChatTransport({
+  api: "/api/chat",
+});
 
 export function AIPanelProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(true);
   const [hydrated, setHydrated] = useState(false);
+  const [chat] = useState(
+    () =>
+      new Chat<UIMessage>({
+        id: CHAT_ID,
+        transport: chatTransport,
+      }),
+  );
 
   useEffect(() => {
     try {
@@ -47,7 +61,7 @@ export function AIPanelProvider({ children }: { children: ReactNode }) {
   const close = useCallback(() => setIsOpen(false), []);
 
   return (
-    <AIPanelContext.Provider value={{ isOpen, toggle, open, close }}>
+    <AIPanelContext.Provider value={{ isOpen, toggle, open, close, chat }}>
       {children}
     </AIPanelContext.Provider>
   );
