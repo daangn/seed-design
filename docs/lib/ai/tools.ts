@@ -1,5 +1,44 @@
 import { tool } from "ai";
+import fs from "node:fs/promises";
+import path from "node:path";
 import { z } from "zod";
+import { findRelatedLinks as searchRelatedLinks } from "./sitemap-links";
+
+const SITEMAP_URL = "https://seed-design.io/sitemap.xml";
+
+async function findExamplesDir(): Promise<string | null> {
+  const cwd = process.cwd();
+  const candidates = [path.join(cwd, "examples"), path.join(cwd, "docs", "examples")];
+
+  for (const candidate of candidates) {
+    try {
+      const stat = await fs.stat(candidate);
+      if (stat.isDirectory()) return candidate;
+    } catch {
+      // ignore and try next candidate
+    }
+  }
+
+  return null;
+}
+
+async function loadExampleCode(name: string): Promise<string | null> {
+  const examplesDir = await findExamplesDir();
+  if (!examplesDir) return null;
+
+  const relativePath = path.normalize(`${name}.tsx`);
+  if (relativePath.startsWith("..")) return null;
+
+  const rootPath = path.resolve(examplesDir);
+  const targetPath = path.resolve(examplesDir, relativePath);
+  if (!targetPath.startsWith(`${rootPath}${path.sep}`)) return null;
+
+  try {
+    return await fs.readFile(targetPath, "utf8");
+  } catch {
+    return null;
+  }
+}
 
 /**
  * 채팅 UI 렌더링용 도구.
@@ -22,7 +61,14 @@ export const clientTools = {
           'Component example path, e.g., "react/action-button/preview", "react/checkbox/preview"',
         ),
     }),
-    execute: async () => ({ shown: true }),
+    execute: async ({ name }) => {
+      const code = await loadExampleCode(name);
+      return {
+        shown: true,
+        language: "tsx",
+        code,
+      };
+    },
   }),
 
   showInstallation: tool({
@@ -53,5 +99,28 @@ export const clientTools = {
       language,
       hasTitle: Boolean(title),
     }),
+  }),
+
+  findRelatedLinks: tool({
+    description:
+      "Find related documentation URLs from the SEED Design sitemap. Use this before final response and attach related links when available. Prefer a mix of docs and react links when relevant.",
+    inputSchema: z.object({
+      query: z.string().min(2).describe("User question or topic keyword"),
+      limit: z
+        .number()
+        .int()
+        .min(1)
+        .max(5)
+        .default(3)
+        .describe("Maximum number of links to return"),
+    }),
+    execute: async ({ query, limit }) => {
+      const links = await searchRelatedLinks(query, limit);
+      return {
+        links,
+        count: links.length,
+        sitemapUrl: SITEMAP_URL,
+      };
+    },
   }),
 };
