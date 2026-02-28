@@ -3,6 +3,7 @@
 import { ComponentPreview } from "@/components/component-preview";
 import Link from "next/link";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
+import { TypeTable } from "fumadocs-ui/components/type-table";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { m } from "motion/react";
 import type { ReactNode } from "react";
@@ -19,6 +20,14 @@ interface RelatedLink {
   title: string;
   url: string;
   href: string;
+}
+
+interface ReactTypeTableRow {
+  name: string;
+  type: string;
+  required: boolean;
+  description: string;
+  defaultValue: string | null;
 }
 
 const INSTALL_COMMANDS = [
@@ -93,6 +102,43 @@ function getToolOutputCode(output: unknown): { code: string; language: string } 
     code,
     language: typeof language === "string" ? language : "tsx",
   };
+}
+
+function getReactTypeTableRows(output: unknown): ReactTypeTableRow[] {
+  if (!output || typeof output !== "object") return [];
+
+  const rows = (output as { rows?: unknown }).rows;
+  if (!Array.isArray(rows)) return [];
+
+  return rows
+    .map((row) => {
+      if (!row || typeof row !== "object") return null;
+
+      const safeRow = row as {
+        name?: unknown;
+        type?: unknown;
+        required?: unknown;
+        description?: unknown;
+        defaultValue?: unknown;
+      };
+
+      if (
+        typeof safeRow.name !== "string" ||
+        typeof safeRow.type !== "string" ||
+        typeof safeRow.required !== "boolean"
+      ) {
+        return null;
+      }
+
+      return {
+        name: safeRow.name,
+        type: safeRow.type,
+        required: safeRow.required,
+        description: typeof safeRow.description === "string" ? safeRow.description : "",
+        defaultValue: typeof safeRow.defaultValue === "string" ? safeRow.defaultValue : null,
+      };
+    })
+    .filter((row): row is ReactTypeTableRow => row !== null);
 }
 
 export function ToolResultRenderer({ toolName, input, state, output }: ToolResultRendererProps) {
@@ -194,6 +240,54 @@ export function ToolResultRenderer({ toolName, input, state, output }: ToolResul
           </div>
         </ToolFadeIn>
       );
+
+    case "showReactTypeTable": {
+      if (state === "input-available") {
+        return (
+          <ToolFadeIn>
+            <ToolLoading label="Props 타입 테이블 생성 중..." />
+          </ToolFadeIn>
+        );
+      }
+
+      const rows = getReactTypeTableRows(output);
+      if (rows.length === 0) {
+        const error =
+          output &&
+          typeof output === "object" &&
+          typeof (output as { error?: unknown }).error === "string"
+            ? ((output as { error: string }).error ?? "")
+            : "";
+
+        return (
+          <ToolFadeIn>
+            <div className="my-1 text-xs text-fd-muted-foreground">
+              {error || "Props 타입 테이블을 찾지 못했어요."}
+            </div>
+          </ToolFadeIn>
+        );
+      }
+
+      const type = Object.fromEntries(
+        rows.map((row) => [
+          row.name,
+          {
+            type: row.type,
+            required: row.required,
+            ...(row.description ? { description: row.description } : {}),
+            ...(row.defaultValue ? { default: row.defaultValue } : {}),
+          },
+        ]),
+      );
+
+      return (
+        <ToolFadeIn>
+          <div className="my-2">
+            <TypeTable type={type} />
+          </div>
+        </ToolFadeIn>
+      );
+    }
 
     case "findRelatedLinks": {
       if (state === "input-available") {
