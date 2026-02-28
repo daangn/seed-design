@@ -108,7 +108,7 @@ function hasGuideKeyword(query: string): boolean {
 }
 
 function extractPascalCandidates(question: string): string[] {
-  const matches = question.match(/\b[A-Z][A-Za-z0-9]+(?:[A-Z][A-Za-z0-9]+)+\b/g) ?? [];
+  const matches = question.match(/\b[A-Z][a-z0-9]*(?:[A-Z][a-z0-9]+)+\b/g) ?? [];
   return matches.map(toKebabCase).filter(Boolean);
 }
 
