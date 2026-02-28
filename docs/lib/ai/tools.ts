@@ -2,7 +2,8 @@ import { tool } from "ai";
 import { z } from "zod";
 
 /**
- * 클라이언트사이드 도구: execute 함수 없음 → useChat에서 UI로 렌더링
+ * 채팅 UI 렌더링용 도구.
+ * 서버에서도 execute를 제공해 tool result가 누락되지 않도록 한다.
  */
 export const clientTools = {
   showComponentExample: tool({
@@ -21,6 +22,7 @@ export const clientTools = {
           'Component example path, e.g., "react/action-button/preview", "react/checkbox/preview"',
         ),
     }),
+    execute: async () => ({ shown: true }),
   }),
 
   showInstallation: tool({
@@ -36,6 +38,7 @@ export const clientTools = {
         )
         .describe('Component name in kebab-case, e.g., "action-button", "checkbox", "tabs"'),
     }),
+    execute: async ({ name }) => ({ shown: true, component: name }),
   }),
 
   showCodeBlock: tool({
@@ -44,6 +47,11 @@ export const clientTools = {
       code: z.string().describe("The code to display"),
       language: z.string().default("tsx").describe("Programming language"),
       title: z.string().optional().describe("Optional title for the code block"),
+    }),
+    execute: async ({ language, title }) => ({
+      shown: true,
+      language,
+      hasTitle: Boolean(title),
     }),
   }),
 };

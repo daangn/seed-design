@@ -20,7 +20,7 @@ interface MCPToolDefinition {
 
 interface JSONRPCResponse {
   jsonrpc: string;
-  id: number;
+  id: number | string | null;
   result?: {
     tools?: MCPToolDefinition[];
     content?: Array<{ type: string; text?: string }>;
@@ -28,33 +28,100 @@ interface JSONRPCResponse {
   error?: { code: number; message: string };
 }
 
+interface JSONRPCRequest {
+  jsonrpc: "2.0";
+  method: string;
+  params?: Record<string, unknown>;
+  id?: number;
+}
+
+const MCP_PROTOCOL_VERSION = "2025-03-26";
+
 let cachedSessionId: string | null = null;
+let isInitialized = false;
+let initializingPromise: Promise<void> | null = null;
+
+function parseSSEJSONResponse(rawBody: string, method: string): JSONRPCResponse {
+  const events = rawBody.split(/\r?\n\r?\n/);
+
+  for (const eventBlock of events) {
+    const dataLines = eventBlock
+      .split(/\r?\n/)
+      .filter((line) => line.startsWith("data:"))
+      .map((line) => line.slice(5).trimStart())
+      .filter(Boolean);
+
+    if (dataLines.length === 0) {
+      continue;
+    }
+
+    const payload = dataLines.join("\n").trim();
+    if (!payload || payload === "[DONE]") {
+      continue;
+    }
+
+    try {
+      return JSON.parse(payload) as JSONRPCResponse;
+    } catch {
+      // ignore non-JSON SSE frames and continue
+    }
+  }
+
+  throw new Error(`Invalid MCP SSE response for "${method}"`);
+}
+
+function parseMCPResponseBody(
+  rawBody: string,
+  method: string,
+  contentType: string | null,
+): JSONRPCResponse {
+  if (!rawBody.trim()) {
+    return { jsonrpc: "2.0", id: null };
+  }
+
+  if (contentType?.includes("text/event-stream") || rawBody.trimStart().startsWith("event:")) {
+    return parseSSEJSONResponse(rawBody, method);
+  }
+
+  try {
+    return JSON.parse(rawBody) as JSONRPCResponse;
+  } catch (error) {
+    throw new Error(`Invalid MCP JSON response for "${method}": ${(error as Error).message}`);
+  }
+}
 
 async function mcpRequest(
   method: string,
   params: Record<string, unknown> = {},
+  options: { notification?: boolean } = {},
 ): Promise<JSONRPCResponse> {
   const url = process.env.SEED_DOCS_MCP_SERVER_URL;
   if (!url) throw new Error("SEED_DOCS_MCP_SERVER_URL is not set");
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    Accept: "application/json",
+    Accept: "application/json, text/event-stream",
+    "MCP-Protocol-Version": MCP_PROTOCOL_VERSION,
   };
 
   if (cachedSessionId) {
     headers["Mcp-Session-Id"] = cachedSessionId;
   }
 
+  const body: JSONRPCRequest = {
+    jsonrpc: "2.0",
+    method,
+    params,
+  };
+
+  if (!options.notification) {
+    body.id = Date.now();
+  }
+
   const response = await fetch(url, {
     method: "POST",
     headers,
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: Date.now(),
-      method,
-      params,
-    }),
+    body: JSON.stringify(body),
   });
 
   // 세션 ID 저장
@@ -63,24 +130,55 @@ async function mcpRequest(
     cachedSessionId = sessionId;
   }
 
+  const rawBody = await response.text();
+  const contentType = response.headers.get("content-type");
+
   if (!response.ok) {
-    throw new Error(`MCP request failed: ${response.status} ${response.statusText}`);
+    const details = rawBody.trim();
+    const suffix = details ? ` - ${details.slice(0, 300)}` : "";
+    throw new Error(`MCP request failed: ${response.status} ${response.statusText}${suffix}`);
   }
 
-  return response.json();
+  // notification 응답 혹은 빈 본문(202/204) 처리
+  if (options.notification || !rawBody.trim()) {
+    return { jsonrpc: "2.0", id: null };
+  }
+
+  return parseMCPResponseBody(rawBody, method, contentType);
+}
+
+async function mcpNotification(
+  method: string,
+  params: Record<string, unknown> = {},
+): Promise<void> {
+  await mcpRequest(method, params, { notification: true });
 }
 
 /**
  * MCP 서버 초기화 (initialize + initialized 핸드셰이크)
  */
 async function initializeMCP(): Promise<void> {
-  await mcpRequest("initialize", {
-    protocolVersion: "2025-03-26",
-    capabilities: {},
-    clientInfo: { name: "seed-docs-ai", version: "1.0.0" },
+  if (isInitialized) return;
+  if (initializingPromise) return initializingPromise;
+
+  initializingPromise = (async () => {
+    const initResponse = await mcpRequest("initialize", {
+      protocolVersion: MCP_PROTOCOL_VERSION,
+      capabilities: {},
+      clientInfo: { name: "seed-docs-ai", version: "1.0.0" },
+    });
+
+    if (initResponse.error) {
+      throw new Error(`MCP initialize failed: ${initResponse.error.message}`);
+    }
+
+    await mcpNotification("notifications/initialized");
+    isInitialized = true;
+  })().finally(() => {
+    initializingPromise = null;
   });
 
-  await mcpRequest("notifications/initialized");
+  return initializingPromise;
 }
 
 /**
