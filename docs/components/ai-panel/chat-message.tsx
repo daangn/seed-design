@@ -10,6 +10,7 @@ import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { AnimatePresence, m } from "motion/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { useEffect, useState } from "react";
+import { ChatMarkdown } from "./chat-markdown";
 import { parseMarkdownCodeBlocks } from "./parse-markdown-code-blocks";
 import { ToolResultRenderer } from "./tool-result-renderer";
 
@@ -729,11 +730,8 @@ export function ChatMessage({ message }: { message: UIMessage }) {
                       }
 
                       return (
-                        <div
-                          key={`segment-text-${segmentIndex}`}
-                          className="text-sm whitespace-pre-wrap break-words prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
-                        >
-                          {derivedText}
+                        <div key={`segment-text-${segmentIndex}`} className="text-sm break-words">
+                          <ChatMarkdown markdown={derivedText} />
                         </div>
                       );
                     }
