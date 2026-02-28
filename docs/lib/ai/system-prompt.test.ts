@@ -1,57 +1,50 @@
 import { describe, expect, it } from "bun:test";
 import { buildSystemPrompt } from "./system-prompt";
+import { createToolDescriptor } from "./tool-registry";
 
 describe("buildSystemPrompt", () => {
-  it("embeds verified links in component guide mode", () => {
+  it("embeds runtime tool catalog and verified links", () => {
     const prompt = buildSystemPrompt({
+      toolCatalog: [
+        createToolDescriptor({
+          name: "showInstallation",
+          source: "client",
+          description: "installation tool",
+          capability: "install",
+        }),
+      ],
       verifiedLinks: [
-        {
-          title: "Action Button (Docs)",
-          url: "https://seed-design.io/docs/components/action-button",
-        },
         {
           title: "Action Button (React)",
           url: "https://seed-design.io/react/components/action-button",
         },
       ],
-      componentGuide: {
-        componentId: "action-button",
-        userQuery: "ActionButton 사용법 알려줘",
-      },
     });
 
+    expect(prompt).toContain("## Runtime Tool Catalog");
+    expect(prompt).toContain("showInstallation");
     expect(prompt).toContain("## Runtime Verified Links");
-    expect(prompt).toContain("Verified links for this component:");
-    expect(prompt).toContain("[Action Button (Docs)](https://seed-design.io/docs/components/action-button)");
     expect(prompt).toContain("[Action Button (React)](https://seed-design.io/react/components/action-button)");
   });
 
-  it("marks empty verified links when none are provided", () => {
+  it("includes orchestration and component guide context when available", () => {
     const prompt = buildSystemPrompt({
-      verifiedLinks: [],
+      toolCatalog: [],
+      orchestrationPlan: {
+        reasoningMode: "tool-planned",
+        toolSequence: ["showInstallation", "showComponentExample"],
+        summary: "install then preview",
+      },
       componentGuide: {
         componentId: "action-button",
-        userQuery: "ActionButton 사용법 알려줘",
+        userQuery: "ActionButton 설치 방법 알려줘",
+        focus: "installation",
       },
     });
 
-    expect(prompt).toContain("Verified links for this component:");
-    expect(prompt).toContain("- (none)");
-    expect(prompt).toContain("If no verified links are listed, skip the final link bullets.");
-  });
-
-  it("includes runtime verified links section in non-component mode", () => {
-    const prompt = buildSystemPrompt({
-      verifiedLinks: [
-        {
-          title: "Action Button",
-          url: "https://seed-design.io/react/components/action-button",
-        },
-      ],
-      componentGuide: null,
-    });
-
-    expect(prompt).toContain("## Runtime Verified Links");
-    expect(prompt).toContain("[Action Button](https://seed-design.io/react/components/action-button)");
+    expect(prompt).toContain("## Runtime Orchestration Plan");
+    expect(prompt).toContain("showInstallation");
+    expect(prompt).toContain("## Runtime Mode: Component Guide");
+    expect(prompt).toContain("Focus: installation");
   });
 });

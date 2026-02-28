@@ -9,6 +9,7 @@ export interface ComponentGuideIntent {
   type: "component-guide";
   question: string;
   component: ResolvedComponent;
+  focus: "installation" | "example" | "props" | "mixed";
 }
 
 const CACHE_TTL_MS = 1000 * 60 * 10;
@@ -30,6 +31,28 @@ const GUIDE_KEYWORDS = [
   "installation",
   "how to",
   "how",
+] as const;
+const INSTALLATION_FOCUS_KEYWORDS = [
+  "설치",
+  "installation",
+  "install",
+  "setup",
+] as const;
+const EXAMPLE_FOCUS_KEYWORDS = [
+  "사용",
+  "사용법",
+  "예시",
+  "example",
+  "examples",
+  "preview",
+  "usage",
+] as const;
+const PROPS_FOCUS_KEYWORDS = [
+  "props",
+  "prop",
+  "타입",
+  "type",
+  "interface",
 ] as const;
 
 const componentCacheByBaseUrl = new Map<string, { expiresAt: number; ids: string[] }>();
@@ -151,6 +174,34 @@ function shouldTreatAsGuideQuestion(question: string, component: ResolvedCompone
   );
 }
 
+function countFocusKeywords(question: string, keywords: readonly string[]): number {
+  return keywords.reduce((count, keyword) => (question.includes(keyword) ? count + 1 : count), 0);
+}
+
+function resolveGuideFocus(question: string): ComponentGuideIntent["focus"] {
+  const normalizedQuestion = normalizeQuery(question);
+  const installationScore = countFocusKeywords(normalizedQuestion, INSTALLATION_FOCUS_KEYWORDS);
+  const exampleScore = countFocusKeywords(normalizedQuestion, EXAMPLE_FOCUS_KEYWORDS);
+  const propsScore = countFocusKeywords(normalizedQuestion, PROPS_FOCUS_KEYWORDS);
+
+  const maxScore = Math.max(installationScore, exampleScore, propsScore);
+  if (maxScore === 0) {
+    return "mixed";
+  }
+
+  const winners = [
+    installationScore === maxScore ? "installation" : null,
+    exampleScore === maxScore ? "example" : null,
+    propsScore === maxScore ? "props" : null,
+  ].filter(Boolean) as Array<ComponentGuideIntent["focus"]>;
+
+  if (winners.length !== 1) {
+    return "mixed";
+  }
+
+  return winners[0];
+}
+
 export async function detectComponentGuideIntent(
   question: string,
   options?: { componentIds?: string[]; baseUrl?: string },
@@ -171,6 +222,7 @@ export async function detectComponentGuideIntent(
     type: "component-guide",
     question: trimmedQuestion,
     component: resolvedComponent,
+    focus: resolveGuideFocus(trimmedQuestion),
   };
 }
 

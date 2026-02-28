@@ -1,9 +1,12 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { convertToModelMessages, safeValidateUIMessages, stepCountIs, streamText } from "ai";
+import { createAgentUIStreamResponse, safeValidateUIMessages } from "ai";
+import { createSeedAssistantAgent } from "@/lib/ai/agent";
 import { buildSystemPrompt } from "@/lib/ai/system-prompt";
-import { createClientTools } from "@/lib/ai/tools";
-import { getMCPTools } from "@/lib/ai/mcp-client";
+import { createClientToolBundle } from "@/lib/ai/tools";
+import { getMCPToolBundle } from "@/lib/ai/mcp-client";
 import { detectComponentGuideIntent, extractLatestUserText } from "@/lib/ai/component-guide-intent";
+import { generateOrchestrationPlan, shouldUsePlanningStage } from "@/lib/ai/orchestrator";
+import { mergeToolDescriptors } from "@/lib/ai/tool-registry";
 import { resolveComponentGuideLinks, resolveVerifiedLinksForQuery } from "@/lib/ai/component-guide-links";
 import { z } from "zod";
 
@@ -38,13 +41,6 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  const mcpTools = await getMCPTools();
-  const clientTools = createClientTools({ baseUrl });
-  const tools = {
-    ...clientTools,
-    ...mcpTools,
-  };
-
   const validatedMessages = await safeValidateUIMessages({
     messages: parsed.data.messages,
   });
@@ -73,36 +69,89 @@ export async function POST(req: Request) {
         })
       : [];
 
-  const messages = await convertToModelMessages(validatedMessages.data, {
-    tools,
-    ignoreIncompleteToolCalls: true,
+  const clientToolBundle = createClientToolBundle({ baseUrl });
+  const mcpToolBundle = await getMCPToolBundle({
+    enableLegacyFallback: true,
   });
 
-  const result = streamText({
-    model: llmRouter(llmRouterModel),
-    system: buildSystemPrompt({
-      verifiedLinks,
-      componentGuide: componentGuideIntent
-        ? {
-            componentId: componentGuideIntent.component.id,
-            userQuery: componentGuideIntent.question,
-          }
-        : null,
-    }),
-    messages,
-    tools,
-    stopWhen: stepCountIs(8),
+  const tools = {
+    ...clientToolBundle.tools,
+    ...mcpToolBundle.tools,
+  };
+
+  const toolCatalog = mergeToolDescriptors(clientToolBundle.descriptors, mcpToolBundle.descriptors);
+  const model = llmRouter(llmRouterModel);
+
+  const usePlanningStage =
+    Boolean(latestUserText) &&
+    shouldUsePlanningStage({
+      question: latestUserText,
+      toolCatalog,
+      isComponentGuide: Boolean(componentGuideIntent),
+    });
+
+  const orchestrationPlan =
+    latestUserText && usePlanningStage
+      ? await generateOrchestrationPlan({
+          question: latestUserText,
+          toolCatalog,
+          model,
+        })
+      : null;
+
+  const systemPrompt = buildSystemPrompt({
+    verifiedLinks,
+    toolCatalog,
+    orchestrationPlan,
+    componentGuide: componentGuideIntent
+      ? {
+          componentId: componentGuideIntent.component.id,
+          userQuery: componentGuideIntent.question,
+          focus: componentGuideIntent.focus,
+        }
+      : null,
   });
 
-  return result.toUIMessageStreamResponse({
-    messageMetadata: ({ part }) => {
-      if ((part.type === "start" || part.type === "finish") && verifiedLinks.length > 0) {
+  const agent = createSeedAssistantAgent({
+    model,
+    tools,
+    instructions: systemPrompt,
+    orchestrationPlan,
+    maxSteps: 12,
+  });
+
+  try {
+    return await createAgentUIStreamResponse({
+      agent,
+      uiMessages: validatedMessages.data,
+      onFinish: async () => {
+        await mcpToolBundle.close();
+      },
+      onError: (error) => {
+        void mcpToolBundle.close();
+        console.error("Chat stream error:", error);
+        return "응답을 생성하는 중 오류가 발생했어요.";
+      },
+      messageMetadata: ({ part }) => {
+        if (part.type !== "start" && part.type !== "finish") {
+          return undefined;
+        }
+
         return {
-          verifiedLinks,
+          ...(verifiedLinks.length > 0 ? { verifiedLinks } : {}),
+          ...(orchestrationPlan
+            ? {
+                orchestrationPlan: {
+                  reasoningMode: orchestrationPlan.reasoningMode,
+                  toolSequence: orchestrationPlan.toolSequence,
+                },
+              }
+            : {}),
         };
-      }
-
-      return undefined;
-    },
-  });
+      },
+    });
+  } catch (error) {
+    await mcpToolBundle.close();
+    throw error;
+  }
 }

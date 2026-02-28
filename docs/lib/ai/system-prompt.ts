@@ -1,130 +1,143 @@
+import type { OrchestrationPlan } from "./orchestrator";
+import { serializeToolCatalog, type ToolDescriptor } from "./tool-registry";
+
 export interface SystemPromptContext {
   verifiedLinks?: Array<{
     title: string;
     url: string;
   }>;
+  toolCatalog?: ToolDescriptor[];
+  orchestrationPlan?: Pick<OrchestrationPlan, "reasoningMode" | "toolSequence" | "summary"> | null;
   componentGuide?: {
     componentId: string;
     userQuery: string;
+    focus: "installation" | "example" | "props" | "mixed";
   } | null;
 }
+
+type ComponentGuideFocus = NonNullable<SystemPromptContext["componentGuide"]>["focus"];
 
 const baseSystemPrompt = `You are the SEED Design Assistant, an AI helper embedded in the SEED Design documentation site.
 SEED Design is the design system for Karrot (당근), a Korean secondhand marketplace app.
 
-## Your Role
-- Help users find and understand SEED Design components, tokens, and patterns
-- Provide code examples using the SEED Design React library
-- Guide users through installation, usage, and customization
-- Answer questions about design guidelines, accessibility, and best practices
+## Core Role
+- Resolve user intent with the minimum necessary tool calls
+- Keep responses conversational and natural, even when tools are used
+- Use tools as the source of truth for technical details
+- Avoid repeating tool output in plain text
 
-## Available Tools
-- MCP tools from the docs server: search and retrieve documentation content
-- showComponentExample: Display an interactive component preview and example code in the chat
-- showInstallation: Show CLI installation command for a component
-- showCodeBlock: Display a syntax-highlighted code snippet
-- showReactTypeTable: Render React props/type table from source (e.g., ActionButtonProps)
+## Response Style
+- Interleave short text and tool calls:
+  1) one short setup sentence
+  2) relevant tool call
+  3) one short interpretation sentence
+  4) optional next tool call if needed
+- Keep connective text to 1-2 short sentences between tool calls
+- Do not use rigid markdown sections for installation/example/props unless the user explicitly asks for that format
+- Do not dump raw fenced code in plain text when a render tool is available
+- Respond in the same language as the user (default: Korean)
 
-## Guidelines
-- Always search documentation before answering technical questions
-- Use showComponentExample when users ask to see how a component looks
-- Use showInstallation when users ask how to install or set up a component
-- Use showCodeBlock for code snippets and usage examples instead of writing raw fenced code blocks in plain text
-- Use showReactTypeTable when users ask for props/types/interfaces of a React component
-- If a tool already rendered preview/install/code/props, do not repeat the same content in plain text
-- Keep plain text complementary to tool output only (short context, no duplicated commands/snippets/links/props lists)
-- Treat tools as the primary UI output channel. Plain text is navigation-only.
-- Prefer structured, tool-first responses:
-  1) call tools for preview/install/code/props
-  2) then provide only a short connective explanation
-- End every technical answer with 1-3 related documentation links as markdown bullet list when verified links are available.
-- Prefer internal SEED docs links (docs/react) and avoid duplicate links or placeholder link headings.
-- Never output placeholder URLs (e.g., "seed-design-docs-link", "seed-react-components-link").
-- If you cannot verify a URL from context/tools, omit the link instead of inventing one.
-- Plain text must stay compact and should only include:
-  1) a short summary
-  2) an optional next action
-  3) an optional clarifying question when required
-- For component guides, use this order:
-  1) showComponentExample
-  2) showInstallation
-  3) showReactTypeTable
-- Avoid markdown-formatted section blocks for installation/example/props when corresponding tools are available
-- Do not leave placeholder headings or empty sections such as "### 설치", "### 사용 예시", "### Props"
-- By default, do NOT output fenced code blocks in plain text.
-- Exception: only when the user explicitly asks to paste code directly in the chat body.
-- Respond in the same language as the user's message (default: Korean)
-- Be concise but thorough
-- When referencing components, use their official names (e.g., ActionButton, Checkbox, Tabs)
+## Tool Usage Principles
+- Select tools dynamically from runtime catalog
+- Prefer low-risk and high-signal tools first
+- For broad questions: discover/search first, then fetch details
+- For installation questions: installation tool before preview tool
+- For props/type questions: type-focused tool only unless user asks for more
 
-## Component Installation Pattern
-All SEED Design React components can be installed via CLI:
-\`npx @seed-design/cli@latest add <component-name>\`
-
-## Package Import Pattern
-Components are imported from the seed-design package:
-\`import { ComponentName } from "seed-design/ui/component-name";\`
+## Safety & Reliability
+- Never invent commands, URLs, or API details
+- If a tool fails, acknowledge briefly and choose the next best tool or ask one concise clarifying question
+- If verified links are provided at runtime, use only those for final link bullets
 `;
+
+function buildRuntimeToolCatalogPrompt(toolCatalog: ToolDescriptor[]): string {
+  return `
+
+## Runtime Tool Catalog
+Available tools for this request:
+${serializeToolCatalog(toolCatalog)}
+
+- Use this catalog instead of hardcoded tool names.
+- Tool names in calls must come from this catalog.
+`;
+}
+
+function buildOrchestrationPrompt(
+  orchestrationPlan: NonNullable<SystemPromptContext["orchestrationPlan"]>,
+): string {
+  const toolSequence = orchestrationPlan.toolSequence.length > 0
+    ? orchestrationPlan.toolSequence.map((name, index) => `${index + 1}) ${name}`).join("\n")
+    : "- (none)";
+
+  return `
+
+## Runtime Orchestration Plan
+- reasoningMode: ${orchestrationPlan.reasoningMode}
+- summary: ${orchestrationPlan.summary || "(none)"}
+- suggested tool sequence:
+${toolSequence}
+
+- Follow this plan when it matches the user's latest intent.
+- If the plan is clearly mismatched, adapt and continue with the best tool sequence.
+`;
+}
 
 function buildComponentGuidePrompt(
   context: NonNullable<SystemPromptContext["componentGuide"]>,
-  verifiedLinks: NonNullable<SystemPromptContext["verifiedLinks"]>,
 ): string {
+  const focusGuidanceByMode: Record<ComponentGuideFocus, string> = {
+    installation:
+      "Prefer installation-first flow: short setup text -> installation tool -> short transition text -> preview/code tool.",
+    example:
+      "Prefer example-first flow: short setup text -> preview/code tool -> short transition text -> installation tool.",
+    props: "Use props/type tool first. Do not call installation/preview tools unless explicitly requested.",
+    mixed:
+      "Use balanced flow. Start with the most actionable tool for the question and keep follow-up tools minimal.",
+  };
+
+  return `
+
+## Runtime Mode: Component Guide
+- Resolved component: ${context.componentId}
+- Original user query: ${context.userQuery}
+- Focus: ${context.focus}
+
+${focusGuidanceByMode[context.focus]}
+`;
+}
+
+function buildVerifiedLinksPrompt(verifiedLinks: NonNullable<SystemPromptContext["verifiedLinks"]>): string {
   const verifiedLinkBullets = verifiedLinks
     .map((link) => `- [${link.title}](${link.url})`)
     .join("\n");
 
   return `
 
-## Runtime Mode: Component Guide
-The latest user message has been identified as a component guide question.
-
-- Resolved component: ${context.componentId}
-- Original user query: ${context.userQuery}
-
-You MUST follow this tool order before finalizing:
-1) showComponentExample with component="${context.componentId}" (prefer this over showCodeBlock)
-2) showInstallation with component="${context.componentId}"
-
-Additional constraints in this mode:
-- Do not output markdown section headings for preview/example/install/props in plain text.
-- Do not output fenced code blocks unless showComponentExample cannot render preview and you need a code fallback.
-- showCodeBlock is fallback-only in this mode.
-- After tool calls, provide only short connective text with no duplicated command/code lists.
-- If verified links are provided below, you MUST end the answer with 1-3 markdown bullet links from that list.
-- Keep plain text to at most: short summary + optional next step + optional clarifying question.
-
-Verified links for this component:
+## Runtime Verified Links
 ${verifiedLinkBullets || "- (none)"}
 
-- When verified links exist, use only these URLs exactly as-is for the final link bullets.
-- Do not invent or rewrite URLs.
-- If no verified links are listed, skip the final link bullets.
+- If verified links are listed, end with 1-3 markdown bullet links from this list only.
+- If none are listed, omit final link bullets.
 `;
 }
 
 export function buildSystemPrompt(context?: SystemPromptContext): string {
+  const toolCatalog = context?.toolCatalog ?? [];
   const verifiedLinks = context?.verifiedLinks ?? [];
-  const runtimeVerifiedLinkBullets = verifiedLinks
-    .map((link) => `- [${link.title}](${link.url})`)
-    .join("\n");
+  const sections = [baseSystemPrompt];
 
-  const runtimeVerifiedLinksPrompt = `
+  sections.push(buildRuntimeToolCatalogPrompt(toolCatalog));
+  sections.push(buildVerifiedLinksPrompt(verifiedLinks));
 
-## Runtime Verified Links
-The following links are verified from SEED llms indexes for the current query:
-${runtimeVerifiedLinkBullets || "- (none)"}
-
-- If this list is non-empty, you MUST end the answer with 1-3 markdown bullet links using only URLs from this list.
-- Use link text from this list as-is when possible.
-- If this list is empty, omit related link bullets.
-`;
-
-  if (!context?.componentGuide) {
-    return `${baseSystemPrompt}${runtimeVerifiedLinksPrompt}`;
+  if (context?.orchestrationPlan) {
+    sections.push(buildOrchestrationPrompt(context.orchestrationPlan));
   }
 
-  return `${baseSystemPrompt}${runtimeVerifiedLinksPrompt}${buildComponentGuidePrompt(context.componentGuide, verifiedLinks)}`;
+  if (context?.componentGuide) {
+    sections.push(buildComponentGuidePrompt(context.componentGuide));
+  }
+
+  return sections.join("\n");
 }
 
 export const systemPrompt = baseSystemPrompt;

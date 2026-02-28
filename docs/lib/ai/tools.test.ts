@@ -1,12 +1,16 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { clearLlmsPropsCache } from "./llms-props";
 import {
+  createClientToolBundle,
   createClientTools,
   getComponentExamplePayload,
   normalizeComponentName,
   resolveComponentPreviewName,
   resolveInstallationComponentName,
 } from "./tools";
+
+const getRequestUrl = (input: RequestInfo | URL) =>
+  typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
 
 describe("ai tools helpers", () => {
   const originalFetch = globalThis.fetch;
@@ -39,7 +43,7 @@ describe("ai tools helpers", () => {
 
   it("returns fallback code when preview is missing but registry component exists", async () => {
     globalThis.fetch = (async (input) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
 
       if (url === "https://seed-design.io/react/llms.txt") {
         return new Response(
@@ -70,7 +74,7 @@ describe("ai tools helpers", () => {
 
   it("shows react type table rows from llms docs for box", async () => {
     globalThis.fetch = (async (input) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
 
       if (url === "https://seed-design.io/react/llms.txt") {
         return new Response(
@@ -103,5 +107,12 @@ describe("ai tools helpers", () => {
     expect(result.error).toBeUndefined();
     expect(result.rows.length).toBeGreaterThan(0);
     expect(result.rows.some((row) => row.name === "as")).toBe(true);
+  });
+
+  it("returns descriptors with client tool bundle", () => {
+    const bundle = createClientToolBundle({ baseUrl: "https://seed-design.io" });
+
+    expect(Object.keys(bundle.tools)).toContain("showInstallation");
+    expect(bundle.descriptors.map((descriptor) => descriptor.name)).toContain("showInstallation");
   });
 });

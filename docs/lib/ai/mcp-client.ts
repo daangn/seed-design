@@ -1,12 +1,11 @@
+import { createMCPClient, type ListToolsResult } from "@ai-sdk/mcp";
 import { type Tool, tool } from "ai";
 import { z } from "zod";
-
-/**
- * MCP Streamable HTTP 클라이언트
- *
- * SEED_DOCS_MCP_SERVER_URL에 JSON-RPC 요청을 보내
- * MCP 도구를 AI SDK tool로 변환한다.
- */
+import {
+  applyApprovalPolicies,
+  createToolDescriptor,
+  type ToolDescriptor,
+} from "./tool-registry";
 
 interface MCPToolDefinition {
   name: string;
@@ -36,6 +35,61 @@ interface JSONRPCRequest {
 }
 
 const MCP_PROTOCOL_VERSION = "2025-03-26";
+const TEMPORARILY_DISABLED_MCP_TOOLS = new Set(["get_full_docs"]);
+
+export interface MCPToolBundle {
+  tools: Record<string, Tool>;
+  descriptors: ToolDescriptor[];
+  close: () => Promise<void>;
+  provider: "sdk-http" | "legacy-http" | "none";
+}
+
+function buildDescriptorsFromToolDefinitions(
+  tools: Array<{
+    name: string;
+    description?: string;
+  }>,
+): ToolDescriptor[] {
+  return tools.map((toolInfo) =>
+    createToolDescriptor({
+      name: toolInfo.name,
+      description: toolInfo.description ?? toolInfo.name,
+      source: "mcp",
+    }),
+  );
+}
+
+function isMCPToolEnabled(toolName: string): boolean {
+  return !TEMPORARILY_DISABLED_MCP_TOOLS.has(toolName);
+}
+
+async function getMCPToolBundleWithSDK(mcpUrl: string): Promise<MCPToolBundle> {
+  const client = await createMCPClient({
+    transport: {
+      type: "http",
+      url: mcpUrl,
+    },
+    name: "seed-docs-ai",
+    version: "1.0.0",
+  });
+
+  const definitions = (await client.listTools()) as ListToolsResult;
+  const enabledDefinitions: ListToolsResult = {
+    ...definitions,
+    tools: definitions.tools.filter((toolInfo) => isMCPToolEnabled(toolInfo.name)),
+  };
+  const rawTools = client.toolsFromDefinitions(enabledDefinitions) as Record<string, Tool>;
+  const descriptors = buildDescriptorsFromToolDefinitions(enabledDefinitions.tools);
+
+  return {
+    tools: applyApprovalPolicies(rawTools, descriptors),
+    descriptors,
+    close: async () => {
+      await client.close();
+    },
+    provider: "sdk-http",
+  };
+}
 
 let cachedSessionId: string | null = null;
 let isInitialized = false;
@@ -124,7 +178,6 @@ async function mcpRequest(
     body: JSON.stringify(body),
   });
 
-  // 세션 ID 저장
   const sessionId = response.headers.get("Mcp-Session-Id");
   if (sessionId) {
     cachedSessionId = sessionId;
@@ -139,7 +192,6 @@ async function mcpRequest(
     throw new Error(`MCP request failed: ${response.status} ${response.statusText}${suffix}`);
   }
 
-  // notification 응답 혹은 빈 본문(202/204) 처리
   if (options.notification || !rawBody.trim()) {
     return { jsonrpc: "2.0", id: null };
   }
@@ -154,9 +206,6 @@ async function mcpNotification(
   await mcpRequest(method, params, { notification: true });
 }
 
-/**
- * MCP 서버 초기화 (initialize + initialized 핸드셰이크)
- */
 async function initializeMCP(): Promise<void> {
   if (isInitialized) return;
   if (initializingPromise) return initializingPromise;
@@ -181,9 +230,6 @@ async function initializeMCP(): Promise<void> {
   return initializingPromise;
 }
 
-/**
- * MCP JSON Schema를 Zod 스키마로 변환
- */
 function jsonSchemaToZod(schema: MCPToolDefinition["inputSchema"]): z.ZodType {
   if (!schema?.properties) {
     return z.object({});
@@ -225,48 +271,109 @@ function jsonSchemaToZod(schema: MCPToolDefinition["inputSchema"]): z.ZodType {
   return z.object(shape);
 }
 
-/**
- * MCP 서버에서 도구 목록을 가져와 AI SDK tool로 변환
- */
-export async function getMCPTools(): Promise<Record<string, Tool>> {
+async function getMCPToolBundleLegacy(): Promise<MCPToolBundle> {
+  await initializeMCP();
+
+  const response = await mcpRequest("tools/list");
+  const mcpTools = (response.result?.tools ?? []).filter((toolInfo) =>
+    isMCPToolEnabled(toolInfo.name),
+  );
+
+  const tools: Record<string, Tool> = {};
+
+  for (const mcpTool of mcpTools) {
+    const zodSchema = jsonSchemaToZod(mcpTool.inputSchema);
+
+    tools[mcpTool.name] = tool({
+      description: mcpTool.description ?? mcpTool.name,
+      inputSchema: zodSchema as z.ZodObject<Record<string, z.ZodType>>,
+      execute: async (args: Record<string, unknown>) => {
+        const result = await mcpRequest("tools/call", {
+          name: mcpTool.name,
+          arguments: args,
+        });
+
+        if (result.error) {
+          return { error: result.error.message };
+        }
+
+        const content = result.result?.content ?? [];
+        const textParts = content.filter((c) => c.type === "text" && c.text).map((c) => c.text);
+
+        return { content: textParts.join("\n") };
+      },
+    });
+  }
+
+  const descriptors = buildDescriptorsFromToolDefinitions(
+    mcpTools.map((toolInfo) => ({
+      name: toolInfo.name,
+      description: toolInfo.description,
+    })),
+  );
+
+  return {
+    tools: applyApprovalPolicies(tools, descriptors),
+    descriptors,
+    close: async () => {},
+    provider: "legacy-http",
+  };
+}
+
+export async function getMCPToolBundle(options?: {
+  preferLegacy?: boolean;
+  enableLegacyFallback?: boolean;
+}): Promise<MCPToolBundle> {
   const mcpUrl = process.env.SEED_DOCS_MCP_SERVER_URL;
-  if (!mcpUrl) return {};
+  if (!mcpUrl) {
+    return {
+      tools: {},
+      descriptors: [],
+      close: async () => {},
+      provider: "none",
+    };
+  }
+
+  const preferLegacy = options?.preferLegacy === true;
+  const enableLegacyFallback = options?.enableLegacyFallback !== false;
+
+  if (preferLegacy) {
+    try {
+      return await getMCPToolBundleLegacy();
+    } catch (error) {
+      console.error("Failed to load legacy MCP tools:", error);
+      return {
+        tools: {},
+        descriptors: [],
+        close: async () => {},
+        provider: "none",
+      };
+    }
+  }
 
   try {
-    await initializeMCP();
-
-    const response = await mcpRequest("tools/list");
-    const mcpTools = response.result?.tools ?? [];
-
-    const tools: Record<string, Tool> = {};
-
-    for (const mcpTool of mcpTools) {
-      const zodSchema = jsonSchemaToZod(mcpTool.inputSchema);
-
-      tools[mcpTool.name] = tool({
-        description: mcpTool.description ?? mcpTool.name,
-        inputSchema: zodSchema as z.ZodObject<Record<string, z.ZodType>>,
-        execute: async (args: Record<string, unknown>) => {
-          const result = await mcpRequest("tools/call", {
-            name: mcpTool.name,
-            arguments: args,
-          });
-
-          if (result.error) {
-            return { error: result.error.message };
-          }
-
-          const content = result.result?.content ?? [];
-          const textParts = content.filter((c) => c.type === "text" && c.text).map((c) => c.text);
-
-          return { content: textParts.join("\n") };
-        },
-      });
-    }
-
-    return tools;
+    return await getMCPToolBundleWithSDK(mcpUrl);
   } catch (error) {
-    console.error("Failed to load MCP tools:", error);
-    return {};
+    console.error("Failed to load MCP tools with SDK client:", error);
   }
+
+  if (enableLegacyFallback) {
+    try {
+      return await getMCPToolBundleLegacy();
+    } catch (error) {
+      console.error("Failed to load MCP tools with legacy fallback:", error);
+    }
+  }
+
+  return {
+    tools: {},
+    descriptors: [],
+    close: async () => {},
+    provider: "none",
+  };
+}
+
+export async function getMCPTools(): Promise<Record<string, Tool>> {
+  const bundle = await getMCPToolBundle();
+  return bundle.tools;
 }

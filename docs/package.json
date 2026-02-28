@@ -18,6 +18,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@ai-sdk/mcp": "^1.0.21",
     "@ai-sdk/openai": "^3.0.33",
     "@ai-sdk/provider-utils": "^4.0.15",
     "@ai-sdk/react": "^3.0.99",

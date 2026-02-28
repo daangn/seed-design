@@ -11,6 +11,10 @@
 
 버전 정보는 문서에 중복 기재하지 않는다. 버전 확인은 루트 `package.json`과 각 워크스페이스의 `package.json`을 단일 소스로 사용한다.
 
+## 서브 시스템 기술 상세
+
+- 문서 사이트 AI Agent 런타임(오케스트레이션/툴 승인/MCP 폴백): `docs/TECH.md`
+
 ## 공통 규칙
 
 ### TypeScript

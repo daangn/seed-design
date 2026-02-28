@@ -31,6 +31,9 @@ Props [#props]
 Usage [#usage]
 `;
 
+const getRequestUrl = (input: RequestInfo | URL) =>
+  typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+
 describe("llms-props", () => {
   const originalFetch = globalThis.fetch;
 
@@ -72,7 +75,7 @@ describe("llms-props", () => {
 
   it("loads component props through react/llms.txt index without filesystem", async () => {
     globalThis.fetch = (async (input, init) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
       const method = init?.method ?? "GET";
 
       if (method === "GET" && url === "https://seed-design.io/react/llms.txt") {

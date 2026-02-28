@@ -1,10 +1,15 @@
-import { tool } from "ai";
+import { type Tool, tool } from "ai";
 import { z } from "zod";
 import {
   loadReactComponentCodeFromLlms,
   loadReactComponentPropsFromLlms,
   resolveReactComponentLlmsPath,
 } from "./llms-props";
+import {
+  applyApprovalPolicies,
+  createToolDescriptor,
+  type ToolDescriptor,
+} from "./tool-registry";
 
 const COMPONENT_PREVIEW_PATH_REGEX = /^(react|lynx|breeze)\/([a-z0-9]+(?:-[a-z0-9]+)*)\/preview$/;
 
@@ -216,14 +221,58 @@ export async function getComponentExamplePayload(
   };
 }
 
+export const CLIENT_TOOL_DESCRIPTORS: ToolDescriptor[] = [
+  createToolDescriptor({
+    name: "showComponentExample",
+    source: "client",
+    description: "Render component preview and usage code.",
+    capability: "preview",
+    risk: "low",
+    uiHint: "preview",
+    approvalPolicy: "auto",
+  }),
+  createToolDescriptor({
+    name: "showInstallation",
+    source: "client",
+    description: "Render installation commands for component setup.",
+    capability: "install",
+    risk: "low",
+    uiHint: "install",
+    approvalPolicy: "auto",
+  }),
+  createToolDescriptor({
+    name: "showCodeBlock",
+    source: "client",
+    description: "Render syntax-highlighted code snippets.",
+    capability: "code",
+    risk: "low",
+    uiHint: "code",
+    approvalPolicy: "auto",
+  }),
+  createToolDescriptor({
+    name: "showReactTypeTable",
+    source: "client",
+    description: "Render React props type table.",
+    capability: "types",
+    risk: "low",
+    uiHint: "table",
+    approvalPolicy: "auto",
+  }),
+];
+
 /**
  * 채팅 UI 렌더링용 도구.
  * 서버에서도 execute를 제공해 tool result가 누락되지 않도록 한다.
  */
-export function createClientTools(options: { baseUrl: string }) {
+export function createClientToolBundle(options: {
+  baseUrl: string;
+}): {
+  tools: Record<string, Tool>;
+  descriptors: ToolDescriptor[];
+} {
   const baseUrl = normalizeBaseUrl(options.baseUrl);
 
-  return {
+  const tools = {
     showComponentExample: tool({
       description:
         "Show an interactive component example preview in the chat. Use when the user asks to see how a component looks or works.",
@@ -357,6 +406,15 @@ export function createClientTools(options: { baseUrl: string }) {
       },
     }),
   };
+
+  return {
+    tools: applyApprovalPolicies(tools, CLIENT_TOOL_DESCRIPTORS),
+    descriptors: CLIENT_TOOL_DESCRIPTORS,
+  };
+}
+
+export function createClientTools(options: { baseUrl: string }) {
+  return createClientToolBundle(options).tools;
 }
 
 export const clientTools = createClientTools({ baseUrl: "https://seed-design.io" });

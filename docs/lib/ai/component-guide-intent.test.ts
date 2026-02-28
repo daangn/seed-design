@@ -14,6 +14,9 @@ const SAMPLE_REACT_LLMS_INDEX = `# SEED Design React - LLM Reference
 - [Alert Dialog](https://seed-design.io/llms/react/components/alert-dialog.txt)
 `;
 
+const getRequestUrl = (input: RequestInfo | URL) =>
+  typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+
 describe("detectComponentGuideIntent", () => {
   const originalFetch = globalThis.fetch;
   const componentIds = ["alert-dialog", "action-button", "checkbox"];
@@ -34,18 +37,28 @@ describe("detectComponentGuideIntent", () => {
 
     expect(result?.type).toBe("component-guide");
     expect(result?.component.id).toBe("alert-dialog");
+    expect(result?.focus).toBe("example");
   });
 
   it("detects PascalCase component query", async () => {
     const result = await detectComponentGuideIntent("AlertDialog 설치 방법 알려줘", { componentIds });
 
     expect(result?.component.id).toBe("alert-dialog");
+    expect(result?.focus).toBe("installation");
   });
 
   it("detects kebab-case component props query", async () => {
     const result = await detectComponentGuideIntent("alert-dialog props 알려줘", { componentIds });
 
     expect(result?.component.id).toBe("alert-dialog");
+    expect(result?.focus).toBe("props");
+  });
+
+  it("falls back to mixed focus for broad guide question", async () => {
+    const result = await detectComponentGuideIntent("alert-dialog 설명해줘", { componentIds });
+
+    expect(result?.component.id).toBe("alert-dialog");
+    expect(result?.focus).toBe("mixed");
   });
 
   it("returns null when query is not a guide question", async () => {
@@ -56,7 +69,7 @@ describe("detectComponentGuideIntent", () => {
 
   it("loads component ids from react/llms.txt using baseUrl", async () => {
     globalThis.fetch = (async (input) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
       if (url === "https://seed-design.io/react/llms.txt") {
         return new Response(SAMPLE_REACT_LLMS_INDEX, { status: 200 });
       }

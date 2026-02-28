@@ -20,6 +20,9 @@ const DOCS_LLMS_INDEX = `# SEED Design Guidelines - LLM Reference
 - [Bottom Sheet](https://seed-design.io/llms/docs/components/bottom-sheet.txt)
 `;
 
+const getRequestUrl = (input: RequestInfo | URL) =>
+  typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+
 describe("resolveComponentGuideLinks", () => {
   const originalFetch = globalThis.fetch;
 
@@ -30,7 +33,7 @@ describe("resolveComponentGuideLinks", () => {
 
   it("returns verified docs/react links parsed from llms documents", async () => {
     globalThis.fetch = (async (input) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
 
       if (url === "https://seed-design.io/react/llms.txt") {
         return new Response(REACT_LLMS_INDEX, { status: 200 });
@@ -76,7 +79,7 @@ describe("resolveComponentGuideLinks", () => {
 
   it("filters out non-seed domains from llms URL field", async () => {
     globalThis.fetch = (async (input) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
 
       if (url === "https://seed-design.io/react/llms.txt") {
         return new Response(REACT_LLMS_INDEX, { status: 200 });
@@ -114,7 +117,7 @@ describe("resolveComponentGuideLinks", () => {
 
   it("returns only available links when one side is missing", async () => {
     globalThis.fetch = (async (input) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
 
       if (url === "https://seed-design.io/react/llms.txt") {
         return new Response(REACT_LLMS_INDEX, { status: 200 });
@@ -150,7 +153,7 @@ describe("resolveComponentGuideLinks", () => {
 
   it("accepts localhost baseUrl and relative llms URL fields", async () => {
     globalThis.fetch = (async (input) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
 
       if (url === "http://localhost:3000/react/llms.txt") {
         return new Response(
@@ -196,7 +199,7 @@ describe("resolveComponentGuideLinks", () => {
 
   it("resolves query links from docs/react llms indexes only", async () => {
     globalThis.fetch = (async (input) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
 
       if (url === "https://seed-design.io/react/llms.txt") {
         return new Response(
@@ -232,7 +235,7 @@ describe("resolveComponentGuideLinks", () => {
 
   it("resolves query links when llms index uses localhost URLs", async () => {
     globalThis.fetch = (async (input) => {
-      const url = typeof input === "string" ? input : input.url;
+      const url = getRequestUrl(input);
 
       if (url === "http://localhost:3000/react/llms.txt") {
         return new Response(
