@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { sharedMdxComponents } from "@/components/mdx-shared-components";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import type {
   Blockquote,
@@ -8,7 +8,6 @@ import type {
   Content,
   Emphasis,
   Heading,
-  HTML,
   InlineCode,
   Link as MdLink,
   List,
@@ -20,69 +19,70 @@ import type {
   TableCell,
   TableRow,
   Text,
-  ThematicBreak,
 } from "mdast";
-import { useMemo, type ReactNode } from "react";
+import { createElement, Fragment, useMemo, type ElementType, type ReactNode } from "react";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 
 const markdownProcessor = unified().use(remarkParse).use(remarkGfm);
 
-function toInternalSeedHref(url: string): string | null {
-  try {
-    const parsed = new URL(url);
-    const isSeedDomain =
-      parsed.hostname === "seed-design.io" || parsed.hostname === "www.seed-design.io";
-    if (!isSeedDomain) return null;
+type HtmlTag =
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "p"
+  | "strong"
+  | "em"
+  | "code"
+  | "a"
+  | "ol"
+  | "ul"
+  | "li"
+  | "blockquote"
+  | "hr"
+  | "td";
 
-    return `${parsed.pathname}${parsed.search}${parsed.hash}`;
-  } catch {
-    return null;
-  }
+function renderTag(
+  tag: HtmlTag,
+  props: Record<string, unknown>,
+  key: string,
+  children?: ReactNode,
+) {
+  const component = (sharedMdxComponents as Record<string, ElementType | undefined>)[tag] ?? tag;
+  return createElement(component, { ...props, key }, children);
 }
 
 function renderInlineNode(node: Content, key: string): ReactNode {
   switch (node.type) {
     case "text":
-      return <span key={key}>{(node as Text).value}</span>;
+      return (node as Text).value;
     case "strong":
-      return (
-        <strong key={key}>
-          {(node as Strong).children.map((child, i) => renderInlineNode(child, `${key}-${i}`))}
-        </strong>
+      return renderTag(
+        "strong",
+        {},
+        key,
+        (node as Strong).children.map((child, i) => renderInlineNode(child, `${key}-${i}`)),
       );
     case "emphasis":
-      return (
-        <em key={key}>
-          {(node as Emphasis).children.map((child, i) => renderInlineNode(child, `${key}-${i}`))}
-        </em>
+      return renderTag(
+        "em",
+        {},
+        key,
+        (node as Emphasis).children.map((child, i) => renderInlineNode(child, `${key}-${i}`)),
       );
     case "inlineCode":
-      return <code key={key}>{(node as InlineCode).value}</code>;
+      return renderTag("code", {}, key, (node as InlineCode).value);
     case "link": {
       const linkNode = node as MdLink;
-      const internalHref = toInternalSeedHref(linkNode.url);
-      const children = linkNode.children.map((child, i) => renderInlineNode(child, `${key}-${i}`));
-
-      if (internalHref) {
-        return (
-          <Link key={key} href={internalHref} className="text-fd-primary hover:underline break-all">
-            {children}
-          </Link>
-        );
-      }
-
-      return (
-        <a
-          key={key}
-          href={linkNode.url}
-          target="_blank"
-          rel="noreferrer"
-          className="text-fd-primary hover:underline break-all"
-        >
-          {children}
-        </a>
+      return renderTag(
+        "a",
+        { href: linkNode.url },
+        key,
+        linkNode.children.map((child, i) => renderInlineNode(child, `${key}-${i}`)),
       );
     }
     case "break":
@@ -96,10 +96,11 @@ function renderTableCell(cell: TableCell, key: string, align?: "left" | "right" 
   const className =
     align === "right" ? "text-right" : align === "center" ? "text-center" : "text-left";
 
-  return (
-    <td key={key} className={`px-2 py-1 align-top ${className}`}>
-      {cell.children.map((child, i) => renderInlineNode(child, `${key}-${i}`))}
-    </td>
+  return renderTag(
+    "td",
+    { className: `px-2 py-1 align-top ${className}` },
+    key,
+    cell.children.map((child, i) => renderInlineNode(child, `${key}-${i}`)),
   );
 }
 
@@ -107,56 +108,53 @@ function renderBlockNode(node: Content, key: string): ReactNode {
   switch (node.type) {
     case "heading": {
       const headingNode = node as Heading;
-      const content = headingNode.children.map((child, i) =>
-        renderInlineNode(child, `${key}-${i}`),
+      const tagName = `h${Math.min(headingNode.depth, 6)}` as HtmlTag;
+      return renderTag(
+        tagName,
+        {},
+        key,
+        headingNode.children.map((child, i) => renderInlineNode(child, `${key}-${i}`)),
       );
-
-      if (headingNode.depth <= 2) return <h2 key={key}>{content}</h2>;
-      if (headingNode.depth === 3) return <h3 key={key}>{content}</h3>;
-      if (headingNode.depth === 4) return <h4 key={key}>{content}</h4>;
-      return <h5 key={key}>{content}</h5>;
     }
-
     case "paragraph": {
       const paragraphNode = node as Paragraph;
-      return (
-        <p key={key}>
-          {paragraphNode.children.map((child, i) => renderInlineNode(child, `${key}-${i}`))}
-        </p>
+      return renderTag(
+        "p",
+        {},
+        key,
+        paragraphNode.children.map((child, i) => renderInlineNode(child, `${key}-${i}`)),
       );
     }
-
     case "list": {
       const listNode = node as List;
-      const Element = listNode.ordered ? "ol" : "ul";
-      return (
-        <Element key={key}>
-          {listNode.children.map((child, i) => renderBlockNode(child, `${key}-${i}`))}
-        </Element>
+      const tagName = listNode.ordered ? "ol" : "ul";
+      return renderTag(
+        tagName,
+        {},
+        key,
+        listNode.children.map((child, i) => renderBlockNode(child, `${key}-${i}`)),
       );
     }
-
     case "listItem": {
       const listItem = node as ListItem;
-      return (
-        <li key={key}>
-          {listItem.children.map((child, i) => renderBlockNode(child, `${key}-${i}`))}
-        </li>
+      return renderTag(
+        "li",
+        {},
+        key,
+        listItem.children.map((child, i) => renderBlockNode(child, `${key}-${i}`)),
       );
     }
-
     case "blockquote": {
       const blockquote = node as Blockquote;
-      return (
-        <blockquote key={key}>
-          {blockquote.children.map((child, i) => renderBlockNode(child, `${key}-${i}`))}
-        </blockquote>
+      return renderTag(
+        "blockquote",
+        {},
+        key,
+        blockquote.children.map((child, i) => renderBlockNode(child, `${key}-${i}`)),
       );
     }
-
     case "thematicBreak":
-      return <hr key={key} />;
-
+      return renderTag("hr", {}, key);
     case "code": {
       const codeNode = node as Code;
       return (
@@ -165,10 +163,10 @@ function renderBlockNode(node: Content, key: string): ReactNode {
         </div>
       );
     }
-
     case "table": {
       const tableNode = node as Table;
       const [head, ...body] = tableNode.children as TableRow[];
+
       return (
         <div key={key} className="my-2 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
@@ -211,10 +209,6 @@ function renderBlockNode(node: Content, key: string): ReactNode {
         </div>
       );
     }
-
-    case "html":
-      return <p key={key}>{(node as HTML).value}</p>;
-
     default:
       return null;
   }
@@ -237,7 +231,9 @@ export function ChatMarkdown({ markdown }: { markdown: string }) {
 
   return (
     <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-      {root.children.map((node, i) => renderBlockNode(node, `chat-md-${i}`))}
+      {root.children.map((node, i) => (
+        <Fragment key={`chat-md-${i}`}>{renderBlockNode(node, `chat-md-${i}`)}</Fragment>
+      ))}
     </div>
   );
 }

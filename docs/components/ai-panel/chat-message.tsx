@@ -505,7 +505,6 @@ function sanitizeTextForTools(text: string, toolContext: ToolRenderContext): str
   }
 
   sanitized = sanitized
-    .replace(/^#{1,6}\s*/gm, "")
     .split("\n")
     .map((line) => line.replace(/\s+$/g, ""))
     .join("\n")
