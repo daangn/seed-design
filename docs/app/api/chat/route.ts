@@ -71,9 +71,7 @@ export async function POST(req: Request) {
       : [];
 
   const clientToolBundle = createClientToolBundle({ baseUrl });
-  const mcpToolBundle = await getMCPToolBundle({
-    enableLegacyFallback: true,
-  });
+  const mcpToolBundle = await getMCPToolBundle();
 
   const tools = {
     ...clientToolBundle.tools,

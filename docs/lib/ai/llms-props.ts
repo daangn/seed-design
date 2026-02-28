@@ -14,7 +14,6 @@ export interface ReactLlmsComponentEntry {
 
 export interface ReactLlmsComponentIndex {
   byId: Map<string, ReactLlmsComponentEntry[]>;
-  all: ReactLlmsComponentEntry[];
 }
 
 const CACHE_TTL_MS = 1000 * 60 * 10;
@@ -85,7 +84,6 @@ export function parseReactLlmsComponentIndex(markdown: string): ReactLlmsCompone
   const sectionMatch = markdown.match(COMPONENTS_SECTION_REGEX);
   const section = sectionMatch?.[2] ?? "";
 
-  const all: ReactLlmsComponentEntry[] = [];
   const byId = new Map<string, ReactLlmsComponentEntry[]>();
 
   for (const match of section.matchAll(LINK_REGEX)) {
@@ -114,7 +112,6 @@ export function parseReactLlmsComponentIndex(markdown: string): ReactLlmsCompone
       title,
     };
 
-    all.push(entry);
     const prev = byId.get(componentId) ?? [];
     prev.push(entry);
     byId.set(componentId, prev);
@@ -122,7 +119,6 @@ export function parseReactLlmsComponentIndex(markdown: string): ReactLlmsCompone
 
   return {
     byId,
-    all,
   };
 }
 

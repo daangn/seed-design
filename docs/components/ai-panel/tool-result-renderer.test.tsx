@@ -5,7 +5,6 @@ describe("summarizeGenericToolOutput", () => {
   it("extracts string content from generic output", () => {
     const summary = summarizeGenericToolOutput("get_doc", { content: "문서 본문" });
 
-    expect(summary.title).toBe("get_doc");
     expect(summary.isError).toBe(false);
     expect(summary.body).toBe("문서 본문");
   });

@@ -140,5 +140,3 @@ export function buildSystemPrompt(context?: SystemPromptContext): string {
 
   return sections.join("\n");
 }
-
-export const systemPrompt = baseSystemPrompt;

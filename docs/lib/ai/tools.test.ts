@@ -2,7 +2,6 @@ import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { clearLlmsPropsCache } from "./llms-props";
 import {
   createClientToolBundle,
-  createClientTools,
   getComponentExamplePayload,
   normalizeComponentName,
   resolveComponentPreviewName,
@@ -93,7 +92,7 @@ describe("ai tools helpers", () => {
       return new Response("not found", { status: 404 });
     }) as typeof fetch;
 
-    const tools = createClientTools({ baseUrl: "https://seed-design.io" });
+    const tools = createClientToolBundle({ baseUrl: "https://seed-design.io" }).tools;
     const execute = (
       tools.showReactTypeTable as unknown as {
         execute: (input: { component: string }) => Promise<{

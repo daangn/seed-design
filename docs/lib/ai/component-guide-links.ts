@@ -23,7 +23,6 @@ interface DocsLlmsComponentEntry {
 
 interface DocsLlmsComponentIndex {
   byId: Map<string, DocsLlmsComponentEntry[]>;
-  all: VerifiedLinkEntry[];
 }
 
 const CACHE_TTL_MS = 1000 * 60 * 10;
@@ -224,10 +223,8 @@ async function fetchText(url: string): Promise<string> {
 function parseDocsLlmsComponentIndex(markdown: string): DocsLlmsComponentIndex {
   const section = markdown.match(COMPONENTS_SECTION_REGEX)?.[2] ?? "";
   const byId = new Map<string, DocsLlmsComponentEntry[]>();
-  const all: VerifiedLinkEntry[] = [];
 
   for (const match of section.matchAll(LINK_REGEX)) {
-    const title = match[1]?.trim() ?? "";
     const href = match[2]?.trim() ?? "";
     if (!href) continue;
 
@@ -244,18 +241,9 @@ function parseDocsLlmsComponentIndex(markdown: string): DocsLlmsComponentIndex {
       path: pathname,
     });
     byId.set(componentId, nextEntries);
-
-    const canonicalUrl = toCanonicalPageUrlFromLlmsPath(pathname);
-    if (!canonicalUrl) continue;
-
-    all.push({
-      title: title || componentId,
-      url: canonicalUrl,
-      searchable: normalizeSearchableText(`${title} ${canonicalUrl}`),
-    });
   }
 
-  return { byId, all };
+  return { byId };
 }
 
 function parseSectionLlmsIndex(markdown: string): VerifiedLinkEntry[] {

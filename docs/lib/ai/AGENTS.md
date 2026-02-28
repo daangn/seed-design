@@ -10,7 +10,7 @@ Agent 런타임의 기술 상세(오케스트레이션/승인/폴백)는 `docs/T
 - 계약(`tool-contract.ts`), 도구(`tools.ts`), 프롬프트(`system-prompt.ts`), 의도 감지(`component-guide-intent.ts`) 파일 단위 분리
 - 오케스트레이션(`orchestrator.ts`), 에이전트 구성(`agent.ts`), 툴 메타데이터(`tool-registry.ts`)를 분리 유지
 - 테스트: 대상 파일과 같은 경로 `*.test.ts`
-- 네트워크/외부 연동 로직(`mcp-client.ts`, `sitemap-links.ts`)은 UI 코드와 분리
+- 네트워크/외부 연동 로직(`mcp-client.ts`, `component-guide-links.ts`, `llms-props.ts`)은 UI 코드와 분리
 
 ## 코드 작성 컨벤션
 

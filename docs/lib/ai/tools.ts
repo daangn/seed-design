@@ -437,9 +437,3 @@ export function createClientToolBundle(options: {
     descriptors: CLIENT_TOOL_DESCRIPTORS,
   };
 }
-
-export function createClientTools(options: { baseUrl: string }) {
-  return createClientToolBundle(options).tools;
-}
-
-export const clientTools = createClientTools({ baseUrl: "https://seed-design.io" });

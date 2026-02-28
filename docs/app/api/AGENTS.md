@@ -16,7 +16,7 @@
 - 요청 본문: 스키마(zod, message validation) 선검증 후 처리
 - 채팅 라우트:
   - `ToolLoopAgent` + `createAgentUIStreamResponse` 사용
-  - `clientTools + MCP tools` 합성 후 descriptor 기반 승인 정책 적용
+  - `createClientToolBundle().tools + MCP tools` 합성 후 descriptor 기반 승인 정책 적용
   - 복잡 질문만 계획 단계(오케스트레이션) 실행
   - 응답 완료 시 MCP client `close()` 보장
 - 실패 케이스: 명시적 JSON 에러 본문 + 상태코드(4xx/5xx) 반환

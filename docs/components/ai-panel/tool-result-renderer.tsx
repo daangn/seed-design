@@ -25,7 +25,6 @@ interface ReactTypeTableRow {
 }
 
 interface GenericToolSummary {
-  title: string;
   body: string;
   isError: boolean;
 }
@@ -175,7 +174,6 @@ function getReactTypeTableRows(output: unknown): ReactTypeTableRow[] {
 export function summarizeGenericToolOutput(toolName: string, output: unknown): GenericToolSummary {
   if (!output) {
     return {
-      title: toolName,
       body: "툴 출력이 비어 있어요.",
       isError: false,
     };
@@ -183,7 +181,6 @@ export function summarizeGenericToolOutput(toolName: string, output: unknown): G
 
   if (typeof output === "string") {
     return {
-      title: toolName,
       body: output,
       isError: false,
     };
@@ -200,7 +197,6 @@ export function summarizeGenericToolOutput(toolName: string, output: unknown): G
 
     if (error) {
       return {
-        title: toolName,
         body: error,
         isError: true,
       };
@@ -208,21 +204,18 @@ export function summarizeGenericToolOutput(toolName: string, output: unknown): G
 
     if (typeof safeOutput.content === "string" && safeOutput.content.trim()) {
       return {
-        title: toolName,
         body: safeOutput.content,
         isError: false,
       };
     }
 
     return {
-      title: toolName,
       body: JSON.stringify(output, null, 2),
       isError: false,
     };
   }
 
   return {
-    title: toolName,
     body: String(output),
     isError: false,
   };
