@@ -75,7 +75,7 @@ export const chatMdxComponents: MDXComponents = {
       return (
         <Link
           href={internalHref}
-          className={clsx("text-fd-primary hover:underline break-all", className)}
+          className={clsx("text-fd-primary underline underline-offset-2 break-all", className)}
           {...rest}
         />
       );
@@ -90,7 +90,7 @@ export const chatMdxComponents: MDXComponents = {
         href={href}
         target="_blank"
         rel="noreferrer"
-        className={clsx("text-fd-primary hover:underline break-all", className)}
+        className={clsx("text-fd-primary underline underline-offset-2 break-all", className)}
         {...rest}
       />
     );

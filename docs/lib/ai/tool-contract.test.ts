@@ -1,5 +1,10 @@
 import { describe, expect, it } from "bun:test";
-import { getToolDedupeKey, getToolPolicy, shouldDropFencedCodeFromText } from "./tool-contract";
+import {
+  getToolDedupeKey,
+  getToolPolicy,
+  shouldCollapseToolResult,
+  shouldDropFencedCodeFromText,
+} from "./tool-contract";
 
 describe("tool-contract", () => {
   it("returns section metadata for known tools", () => {
@@ -29,5 +34,16 @@ describe("tool-contract", () => {
     expect(shouldDropFencedCodeFromText(["showComponentExample"])).toBe(true);
     expect(shouldDropFencedCodeFromText(["showInstallation"])).toBe(true);
     expect(shouldDropFencedCodeFromText(["unknown-tool"])).toBe(false);
+  });
+
+  it("keeps conversational text by default for installation/example policies", () => {
+    expect(getToolPolicy("showInstallation").shortTextDiscardPattern).toBeUndefined();
+    expect(getToolPolicy("showComponentExample").shortTextDiscardPattern).toBeUndefined();
+  });
+
+  it("collapses only non-generative tools by default", () => {
+    expect(shouldCollapseToolResult("showComponentExample")).toBe(false);
+    expect(shouldCollapseToolResult("showInstallation")).toBe(false);
+    expect(shouldCollapseToolResult("search_icons")).toBe(true);
   });
 });

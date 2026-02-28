@@ -23,6 +23,12 @@ interface ReactTypeTableRow {
   defaultValue: string | null;
 }
 
+interface GenericToolSummary {
+  title: string;
+  body: string;
+  isError: boolean;
+}
+
 function getSafeInput(input: unknown): Record<string, unknown> {
   if (!input || typeof input !== "object") return {};
   return input as Record<string, unknown>;
@@ -153,6 +159,62 @@ function getReactTypeTableRows(output: unknown): ReactTypeTableRow[] {
       };
     })
     .filter((row): row is ReactTypeTableRow => row !== null);
+}
+
+export function summarizeGenericToolOutput(toolName: string, output: unknown): GenericToolSummary {
+  if (!output) {
+    return {
+      title: toolName,
+      body: "툴 출력이 비어 있어요.",
+      isError: false,
+    };
+  }
+
+  if (typeof output === "string") {
+    return {
+      title: toolName,
+      body: output,
+      isError: false,
+    };
+  }
+
+  if (typeof output === "object") {
+    const safeOutput = output as { error?: unknown; content?: unknown };
+    const error =
+      typeof safeOutput.error === "string"
+        ? safeOutput.error
+        : typeof (safeOutput.error as { message?: unknown } | undefined)?.message === "string"
+          ? ((safeOutput.error as { message: string }).message ?? "")
+          : "";
+
+    if (error) {
+      return {
+        title: toolName,
+        body: error,
+        isError: true,
+      };
+    }
+
+    if (typeof safeOutput.content === "string" && safeOutput.content.trim()) {
+      return {
+        title: toolName,
+        body: safeOutput.content,
+        isError: false,
+      };
+    }
+
+    return {
+      title: toolName,
+      body: JSON.stringify(output, null, 2),
+      isError: false,
+    };
+  }
+
+  return {
+    title: toolName,
+    body: String(output),
+    isError: false,
+  };
 }
 
 export function ToolResultRenderer({ toolName, input, state, output }: ToolResultRendererProps) {
@@ -330,14 +392,25 @@ export function ToolResultRenderer({ toolName, input, state, output }: ToolResul
     }
 
     default:
-      // MCP 서버사이드 도구: 실행 중이면 로딩 표시
       if (state === "input-available") {
         return (
           <ToolFadeIn>
-            <ToolLoading label="문서 검색 중..." />
+            <ToolLoading label={`${toolName} 실행 중...`} />
           </ToolFadeIn>
         );
       }
-      return null;
+
+      const summary = summarizeGenericToolOutput(toolName, output);
+      return (
+        <ToolFadeIn>
+          <div
+            className={`whitespace-pre-wrap text-xs ${
+              summary.isError ? "text-fd-destructive" : "text-fd-muted-foreground"
+            }`}
+          >
+            {summary.body}
+          </div>
+        </ToolFadeIn>
+      );
   }
 }

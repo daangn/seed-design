@@ -36,10 +36,8 @@ const TOOL_POLICIES: Record<string, ToolPolicy> = {
     dropFencedCodeFromText: true,
     textSuppressionRules: [
       /^#{1,6}\s*(preview|미리보기|example|사용 예시)\s*$/gim,
-      /^.*(here is a preview|preview of the|component preview|컴포넌트 미리보기|사용 예제|아래는 .*예제).*$/gim,
+      /^\s*(?:[-*]\s*)?(?:preview|미리보기|example|사용 예시)\s*:?\s*$/gim,
     ],
-    shortTextDiscardPattern:
-      /(here is a preview|preview of the|component preview|컴포넌트 미리보기|사용 예제|아래는 .*예제)/i,
   },
   showInstallation: {
     section: "installations",
@@ -48,9 +46,8 @@ const TOOL_POLICIES: Record<string, ToolPolicy> = {
     textSuppressionRules: [
       /^#{1,6}\s*(installation|install|설치)\s*$/gim,
       /^.*@seed-design\/cli@latest add.*$/gim,
-      /^.*(run this command|to install|설치.*명령어|설치 방법).*$/gim,
+      /^\s*(?:[-*]\s*)?(?:installation|install|설치)\s*:?\s*$/gim,
     ],
-    shortTextDiscardPattern: /(run this command|to install|설치.*명령어|설치 방법)/i,
   },
   showCodeBlock: {
     section: "examples",
@@ -72,8 +69,18 @@ const TOOL_POLICIES: Record<string, ToolPolicy> = {
   },
 };
 
+const GENERATIVE_UI_TOOL_NAMES = new Set<string>(Object.keys(TOOL_POLICIES));
+
 function normalizeForDedupe(raw: string): string {
   return raw.trim().toLowerCase();
+}
+
+export function isGenerativeUITool(toolName: string): boolean {
+  return GENERATIVE_UI_TOOL_NAMES.has(toolName) || /^show[A-Z]/.test(toolName);
+}
+
+export function shouldCollapseToolResult(toolName: string): boolean {
+  return !isGenerativeUITool(toolName);
 }
 
 export function getToolPolicy(toolName: string): ToolPolicy {

@@ -15,6 +15,7 @@ import {
   getToolDedupeKey,
   getToolPolicies,
   getToolPolicy,
+  shouldCollapseToolResult,
   shouldDropFencedCodeFromText,
   type ToolPolicy,
   type ToolSection,
@@ -340,7 +341,12 @@ function sanitizeTextForTools(text: string, toolContext: ToolRenderContext): str
   }
 
   if (toolContext.dropFencedCodeFromText && /```/.test(sanitized)) {
-    return "";
+    // Keep conversational context while removing duplicated fenced code blocks.
+    sanitized = sanitized.replace(/```[\s\S]*?```/g, "").trim();
+
+    if (!sanitized) {
+      return "";
+    }
   }
 
   for (const policy of toolContext.activePolicies) {
@@ -379,6 +385,40 @@ function sanitizeTextForTools(text: string, toolContext: ToolRenderContext): str
 function ToolSectionLabel({ title }: { title: string }) {
   return (
     <div className="mt-3 mb-1 text-[12px] font-semibold text-fd-muted-foreground">{title}</div>
+  );
+}
+
+function ToolResultDisclosure({
+  toolName,
+  state,
+  children,
+}: {
+  toolName: string;
+  state: string;
+  children: ReactNode;
+}) {
+  const collapsed = shouldCollapseToolResult(toolName);
+
+  if (!collapsed) {
+    return <>{children}</>;
+  }
+
+  if (state === "input-streaming" || state === "input-available") {
+    return (
+      <div className="my-2 rounded-md border border-fd-border bg-fd-card px-3 py-2">
+        <div className="text-xs font-semibold text-fd-foreground">{toolName}</div>
+        <div className="mt-1">{children}</div>
+      </div>
+    );
+  }
+
+  return (
+    <details open={!collapsed} className="my-2 rounded-md border border-fd-border bg-fd-card">
+      <summary className="cursor-pointer px-3 py-2 text-xs font-semibold text-fd-foreground">
+        {toolName}
+      </summary>
+      <div className="px-3 pb-2">{children}</div>
+    </details>
   );
 }
 
@@ -454,13 +494,9 @@ export function ChatMessage({ message }: { message: UIMessage }) {
     }
 
     assistantNodes.push(
-      <ToolResultRenderer
-        key={`tool-${dedupeKey}`}
-        toolName={toolName}
-        input={input}
-        state={state}
-        output={output}
-      />,
+      <ToolResultDisclosure key={`tool-${dedupeKey}`} toolName={toolName} state={state}>
+        <ToolResultRenderer toolName={toolName} input={input} state={state} output={output} />
+      </ToolResultDisclosure>,
     );
   };
 
