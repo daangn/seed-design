@@ -1,8 +1,10 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { convertToModelMessages, safeValidateUIMessages, stepCountIs, streamText } from "ai";
-import { systemPrompt } from "@/lib/ai/system-prompt";
-import { clientTools } from "@/lib/ai/tools";
+import { buildSystemPrompt } from "@/lib/ai/system-prompt";
+import { createClientTools } from "@/lib/ai/tools";
 import { getMCPTools } from "@/lib/ai/mcp-client";
+import { detectComponentGuideIntent, extractLatestUserText } from "@/lib/ai/component-guide-intent";
+import { resolveComponentGuideLinks } from "@/lib/ai/component-guide-links";
 import { z } from "zod";
 
 const llmRouter = createOpenAI({
@@ -22,6 +24,8 @@ const chatRequestSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  const baseUrl = new URL(req.url).origin;
+
   let body: unknown;
   try {
     body = await req.json();
@@ -35,6 +39,7 @@ export async function POST(req: Request) {
   }
 
   const mcpTools = await getMCPTools();
+  const clientTools = createClientTools({ baseUrl });
   const tools = {
     ...clientTools,
     ...mcpTools,
@@ -48,6 +53,17 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid messages format" }, { status: 400 });
   }
 
+  const latestUserText = extractLatestUserText(validatedMessages.data);
+  const componentGuideIntent = latestUserText
+    ? await detectComponentGuideIntent(latestUserText, { baseUrl })
+    : null;
+  const componentGuideLinks = componentGuideIntent
+    ? await resolveComponentGuideLinks({
+        componentId: componentGuideIntent.component.id,
+        baseUrl,
+      })
+    : [];
+
   const messages = await convertToModelMessages(validatedMessages.data, {
     tools,
     ignoreIncompleteToolCalls: true,
@@ -55,7 +71,15 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: llmRouter(llmRouterModel),
-    system: systemPrompt,
+    system: buildSystemPrompt({
+      componentGuide: componentGuideIntent
+        ? {
+            componentId: componentGuideIntent.component.id,
+            userQuery: componentGuideIntent.question,
+            links: componentGuideLinks,
+          }
+        : null,
+    }),
     messages,
     tools,
     stopWhen: stepCountIs(8),

@@ -1,0 +1,267 @@
+import { resolveReactComponentLlmsPath } from "./llms-props";
+
+export interface ComponentGuideLink {
+  title: string;
+  url: string;
+}
+
+interface LlmsDocument {
+  title: string;
+  url: string;
+}
+
+interface DocsLlmsComponentEntry {
+  componentId: string;
+  path: string;
+}
+
+interface DocsLlmsComponentIndex {
+  byId: Map<string, DocsLlmsComponentEntry[]>;
+}
+
+const CACHE_TTL_MS = 1000 * 60 * 10;
+const COMPONENTS_SECTION_REGEX = /(^|\n)###\s+components\s*\n([\s\S]*?)(?=\n###\s+|$)/i;
+const LINK_REGEX = /^\s*[-*]\s*\[([^\]]+)\]\(([^)]+)\)\s*$/gm;
+
+const docsIndexCache = new Map<string, { expiresAt: number; index: DocsLlmsComponentIndex }>();
+const textCache = new Map<string, { expiresAt: number; text: string }>();
+
+function normalizeBaseUrl(baseUrl: string): string {
+  return baseUrl.replace(/\/+$/, "");
+}
+
+function toKebabCase(raw: string): string {
+  return raw
+    .trim()
+    .toLowerCase()
+    .replace(/^ui:/, "")
+    .replace(/[^\w\s-]/g, " ")
+    .replace(/_/g, "-")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function isSeedDomain(hostname: string): boolean {
+  return hostname === "seed-design.io" || hostname === "www.seed-design.io";
+}
+
+function normalizeSeedAbsoluteUrl(raw: string, baseUrl: string): string | null {
+  try {
+    const parsed = new URL(raw, baseUrl);
+    if (!isSeedDomain(parsed.hostname)) {
+      return null;
+    }
+
+    return `${parsed.origin}${parsed.pathname}${parsed.search}${parsed.hash}`;
+  } catch {
+    return null;
+  }
+}
+
+function getBasenameComponentId(pathname: string): string {
+  const fileName = pathname.split("/").pop() ?? "";
+  return toKebabCase(fileName.replace(/\.txt$/i, ""));
+}
+
+function isDocsComponentLlmsPath(pathname: string): boolean {
+  return /^\/llms\/docs\/.+\.txt$/i.test(pathname);
+}
+
+async function fetchText(url: string): Promise<string> {
+  const cacheKey = url;
+  const now = Date.now();
+  const cached = textCache.get(cacheKey);
+  if (cached && cached.expiresAt > now) {
+    return cached.text;
+  }
+
+  const response = await fetch(url, {
+    cache: "no-store",
+    headers: {
+      Accept: "text/plain, text/markdown;q=0.9, */*;q=0.8",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url} (HTTP ${response.status})`);
+  }
+
+  const text = await response.text();
+  textCache.set(cacheKey, {
+    text,
+    expiresAt: now + CACHE_TTL_MS,
+  });
+
+  return text;
+}
+
+function parseDocsLlmsComponentIndex(markdown: string): DocsLlmsComponentIndex {
+  const section = markdown.match(COMPONENTS_SECTION_REGEX)?.[2] ?? "";
+  const byId = new Map<string, DocsLlmsComponentEntry[]>();
+
+  for (const match of section.matchAll(LINK_REGEX)) {
+    const href = match[2]?.trim() ?? "";
+    if (!href) continue;
+
+    let pathname = "";
+    try {
+      const parsed = href.startsWith("http://") || href.startsWith("https://")
+        ? new URL(href)
+        : new URL(href, "https://seed-design.io");
+
+      if (!isDocsComponentLlmsPath(parsed.pathname)) continue;
+      pathname = parsed.pathname;
+    } catch {
+      continue;
+    }
+
+    const componentId = getBasenameComponentId(pathname);
+    if (!componentId) continue;
+
+    const nextEntries = byId.get(componentId) ?? [];
+    nextEntries.push({
+      componentId,
+      path: pathname,
+    });
+    byId.set(componentId, nextEntries);
+  }
+
+  return { byId };
+}
+
+function chooseBestEntry(entries: DocsLlmsComponentEntry[]): DocsLlmsComponentEntry | null {
+  if (entries.length === 0) return null;
+
+  return (
+    entries.find((entry) => new RegExp(`/components/${entry.componentId}\\.txt$`, "i").test(entry.path)) ??
+    entries[0]
+  );
+}
+
+async function loadDocsLlmsComponentIndex(baseUrl: string): Promise<DocsLlmsComponentIndex> {
+  const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
+  const now = Date.now();
+  const cached = docsIndexCache.get(normalizedBaseUrl);
+  if (cached && cached.expiresAt > now) {
+    return cached.index;
+  }
+
+  const markdown = await fetchText(`${normalizedBaseUrl}/docs/llms.txt`);
+  const index = parseDocsLlmsComponentIndex(markdown);
+
+  docsIndexCache.set(normalizedBaseUrl, {
+    index,
+    expiresAt: now + CACHE_TTL_MS,
+  });
+
+  return index;
+}
+
+async function resolveDocsComponentLlmsPath(
+  componentId: string,
+  baseUrl: string,
+): Promise<string | null> {
+  const normalizedComponent = toKebabCase(componentId);
+  if (!normalizedComponent) return null;
+
+  try {
+    const index = await loadDocsLlmsComponentIndex(baseUrl);
+    const indexed = chooseBestEntry(index.byId.get(normalizedComponent) ?? []);
+    if (indexed) {
+      return indexed.path;
+    }
+  } catch (error) {
+    console.error("[ai-links] Failed to resolve docs component path from docs/llms.txt:", error);
+  }
+
+  return `/llms/docs/components/${normalizedComponent}.txt`;
+}
+
+function parseLlmsDocument(text: string, baseUrl: string): LlmsDocument | null {
+  const title = text.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? "";
+  const rawUrl = text.match(/^URL:\s*(\S+)$/m)?.[1]?.trim() ?? "";
+
+  if (!title || !rawUrl) {
+    return null;
+  }
+
+  const url = normalizeSeedAbsoluteUrl(rawUrl, baseUrl);
+  if (!url) {
+    return null;
+  }
+
+  return {
+    title,
+    url,
+  };
+}
+
+async function fetchLlmsDocument(baseUrl: string, llmsPath: string): Promise<LlmsDocument | null> {
+  try {
+    const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
+    const absoluteUrl = llmsPath.startsWith("http://") || llmsPath.startsWith("https://")
+      ? llmsPath
+      : `${normalizedBaseUrl}${llmsPath.startsWith("/") ? llmsPath : `/${llmsPath}`}`;
+    const text = await fetchText(absoluteUrl);
+    return parseLlmsDocument(text, normalizedBaseUrl);
+  } catch {
+    return null;
+  }
+}
+
+function dedupeLinks(links: ComponentGuideLink[]): ComponentGuideLink[] {
+  const byUrl = new Map<string, ComponentGuideLink>();
+  for (const link of links) {
+    if (!byUrl.has(link.url)) {
+      byUrl.set(link.url, link);
+    }
+  }
+
+  return Array.from(byUrl.values());
+}
+
+export async function resolveComponentGuideLinks(input: {
+  componentId: string;
+  baseUrl: string;
+}): Promise<ComponentGuideLink[]> {
+  const normalizedComponentId = toKebabCase(input.componentId);
+  if (!normalizedComponentId) {
+    return [];
+  }
+
+  const baseUrl = normalizeBaseUrl(input.baseUrl);
+
+  const [docsLlmsPath, reactLlmsPath] = await Promise.all([
+    resolveDocsComponentLlmsPath(normalizedComponentId, baseUrl),
+    resolveReactComponentLlmsPath(normalizedComponentId, baseUrl),
+  ]);
+
+  const [docsDocument, reactDocument] = await Promise.all([
+    docsLlmsPath ? fetchLlmsDocument(baseUrl, docsLlmsPath) : Promise.resolve(null),
+    reactLlmsPath ? fetchLlmsDocument(baseUrl, reactLlmsPath) : Promise.resolve(null),
+  ]);
+
+  const links: ComponentGuideLink[] = [];
+
+  if (docsDocument) {
+    links.push({
+      title: `${docsDocument.title} (Docs)`,
+      url: docsDocument.url,
+    });
+  }
+
+  if (reactDocument) {
+    links.push({
+      title: `${reactDocument.title} (React)`,
+      url: reactDocument.url,
+    });
+  }
+
+  return dedupeLinks(links).slice(0, 3);
+}
+
+export function clearComponentGuideLinksCache() {
+  docsIndexCache.clear();
+  textCache.clear();
+}

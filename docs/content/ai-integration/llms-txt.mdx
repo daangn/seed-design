@@ -34,15 +34,16 @@ SEED Design은 계층적인 llms.txt 구조를 제공합니다. 루트 진입점
   <Folder name="react" defaultOpen>
     <File name="llms.txt" />
     <File name="llms-full.txt" />
-    <File name="llms-components.txt" />
-    <File name="llms-getting-started.txt" />
-    <File name="llms-stackflow.txt" />
-    <File name="llms-developer-tools.txt" />
-    <File name="llms-migration.txt" />
-    <File name="llms-updates.txt" />
-    <Folder name="llms-components">
-      <File name="action-button.txt" />
-      <File name="..." />
+  </Folder>
+  <Folder name="llms" defaultOpen>
+    <Folder name="react" defaultOpen>
+      <Folder name="components" defaultOpen>
+        <File name="action-button.txt" />
+        <Folder name="layout">
+          <File name="box.txt" />
+        </Folder>
+        <File name="..." />
+      </Folder>
     </Folder>
   </Folder>
   <Folder name="breeze">
@@ -75,6 +76,7 @@ SEED Design은 계층적인 llms.txt 구조를 제공합니다. 루트 진입점
 자주 사용되는 문서에 빠르게 접근할 수 있습니다.
 
 - **전체 React 문서**: [/react/llms.txt](https://seed-design.io/react/llms.txt) - React 라이브러리의 모든 문서를 하나의 파일로 제공
+- **개별 React 컴포넌트 문서**: `/llms/react/components/{component}.txt` (예: [/llms/react/components/layout/box.txt](https://seed-design.io/llms/react/components/layout/box.txt))
 - **컴포넌트 가이드라인**: [/docs/llms.txt](https://seed-design.io/docs/llms.txt) - 디자인 가이드라인 문서 진입점
 
 ## 사용 예시
@@ -90,7 +92,7 @@ SEED Design React 라이브러리를 사용해서 버튼 컴포넌트를 구현�
 ### 특정 컴포넌트 문서 참조
 
 ```
-@https://seed-design.io/react/llms-components/action-button.txt
+@https://seed-design.io/llms/react/components/action-button.txt
 
 ActionButton 컴포넌트의 variant 옵션에 대해 설명해주세요.
 ```
