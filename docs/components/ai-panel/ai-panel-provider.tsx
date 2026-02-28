@@ -2,7 +2,15 @@
 
 import { Chat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  forwardRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 interface AIPanelContextType {
   isOpen: boolean;
@@ -20,7 +28,10 @@ const chatTransport = new DefaultChatTransport({
   api: "/api/chat",
 });
 
-export function AIPanelProvider({ children }: { children: ReactNode }) {
+export const AIPanelProvider = forwardRef<unknown, { children: ReactNode }>(function AIPanelProvider(
+  { children }: { children: ReactNode },
+  _ref,
+) {
   const [isOpen, setIsOpen] = useState(true);
   const [hydrated, setHydrated] = useState(false);
   const [chat] = useState(
@@ -65,7 +76,9 @@ export function AIPanelProvider({ children }: { children: ReactNode }) {
       {children}
     </AIPanelContext.Provider>
   );
-}
+});
+
+AIPanelProvider.displayName = "AIPanelProvider";
 
 export function useAIPanel() {
   const ctx = useContext(AIPanelContext);

@@ -8,6 +8,7 @@ import { detectComponentGuideIntent, extractLatestUserText } from "@/lib/ai/comp
 import { generateOrchestrationPlan, shouldUsePlanningStage } from "@/lib/ai/orchestrator";
 import { filterToolsForQuery, mergeToolDescriptors } from "@/lib/ai/tool-registry";
 import { resolveComponentGuideLinks, resolveVerifiedLinksForQuery } from "@/lib/ai/component-guide-links";
+import { resolveTrustedBaseUrl } from "@/lib/ai/trusted-base-url";
 import { z } from "zod";
 
 const llmRouter = createOpenAI({
@@ -27,7 +28,7 @@ const chatRequestSchema = z.object({
 });
 
 export async function POST(req: Request) {
-  const baseUrl = new URL(req.url).origin;
+  const baseUrl = resolveTrustedBaseUrl(req.url);
 
   let body: unknown;
   try {

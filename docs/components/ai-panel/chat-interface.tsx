@@ -9,7 +9,7 @@ import { Icon } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { forwardRef, useEffect, useRef, useState, type FormEvent } from "react";
 
 const SUGGESTIONS = [
   "ActionButton 컴포넌트 사용법을 알려줘",
@@ -17,7 +17,10 @@ const SUGGESTIONS = [
   "SEED Design 색상 토큰은 어떻게 사용해?",
 ];
 
-export function ChatInterface() {
+export const ChatInterface = forwardRef<HTMLDivElement, Record<string, never>>(function ChatInterface(
+  _props,
+  ref,
+) {
   const { close, chat } = useAIPanel();
   const [input, setInput] = useState("");
 
@@ -66,7 +69,7 @@ export function ChatInterface() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-fd-background">
+    <div ref={ref} className="flex flex-col h-full bg-fd-background">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-fd-border shrink-0">
         <div className="flex items-center gap-2">
@@ -172,4 +175,6 @@ export function ChatInterface() {
       </form>
     </div>
   );
-}
+});
+
+ChatInterface.displayName = "ChatInterface";

@@ -12,6 +12,25 @@ import {
 } from "./tool-registry";
 
 const COMPONENT_PREVIEW_PATH_REGEX = /^(react|lynx|breeze)\/([a-z0-9]+(?:-[a-z0-9]+)*)\/preview$/;
+const SHOW_CODE_BLOCK_MAX_LENGTH = 20_000;
+const SUPPORTED_CODE_LANGUAGES = [
+  "tsx",
+  "jsx",
+  "ts",
+  "js",
+  "html",
+  "css",
+  "json",
+  "bash",
+  "sh",
+  "shell",
+  "console",
+  "md",
+  "markdown",
+  "yaml",
+  "yml",
+  "text",
+] as const;
 
 function normalizeBaseUrl(baseUrl: string): string {
   return baseUrl.replace(/\/+$/, "");
@@ -352,8 +371,14 @@ export function createClientToolBundle(options: {
     showCodeBlock: tool({
       description: "Show a syntax-highlighted code block in the chat.",
       inputSchema: z.object({
-        code: z.string().describe("The code to display"),
-        language: z.string().default("tsx").describe("Programming language"),
+        code: z
+          .string()
+          .max(SHOW_CODE_BLOCK_MAX_LENGTH, `Code is too long (max ${SHOW_CODE_BLOCK_MAX_LENGTH} chars)`)
+          .describe("The code to display"),
+        language: z
+          .enum(SUPPORTED_CODE_LANGUAGES)
+          .default("tsx")
+          .describe("Programming language"),
         title: z.string().optional().describe("Optional title for the code block"),
       }),
       execute: async ({ language, title }) => ({

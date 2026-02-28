@@ -9,8 +9,7 @@ import { Icon } from "@seed-design/react";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { AnimatePresence, m } from "motion/react";
 import { ActionButton } from "seed-design/ui/action-button";
-import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState, type ReactNode } from "react";
 import {
   getToolDedupeKey,
   getToolPolicies,
@@ -276,14 +275,10 @@ function getMessageCopyText(message: UIMessage): string {
       continue;
     }
 
-    if (typeof part.type === "string" && part.type.startsWith("tool-")) {
-      const toolPart = part as unknown as {
-        type: string;
-        input: unknown;
-        output?: unknown;
-      };
+    if (isStaticToolPart(part)) {
+      const parsedToolPart = parseStaticToolPart(part);
       lines.push(
-        ...getToolCopyText(toolPart.type.replace("tool-", ""), toolPart.input, toolPart.output),
+        ...getToolCopyText(parsedToolPart.toolName, parsedToolPart.input, parsedToolPart.output),
       );
     }
   }
@@ -296,11 +291,39 @@ function getToolNameFromPart(part: UIMessage["parts"][number]): string | null {
     return part.toolName;
   }
 
-  if (typeof part.type === "string" && part.type.startsWith("tool-")) {
-    return part.type.replace("tool-", "");
+  if (isStaticToolPart(part)) {
+    return parseStaticToolPart(part).toolName;
   }
 
   return null;
+}
+
+interface StaticToolPartData {
+  type: string;
+  input?: unknown;
+  output?: unknown;
+  state?: unknown;
+  toolCallId?: unknown;
+}
+
+function isStaticToolPart(part: UIMessage["parts"][number]): part is UIMessage["parts"][number] & StaticToolPartData {
+  return typeof part.type === "string" && part.type.startsWith("tool-");
+}
+
+function parseStaticToolPart(part: StaticToolPartData): {
+  toolName: string;
+  input: Record<string, unknown>;
+  output: unknown;
+  state: string;
+  toolCallId?: string;
+} {
+  return {
+    toolName: part.type.replace("tool-", ""),
+    input: getRecord(part.input),
+    output: part.output,
+    state: typeof part.state === "string" ? part.state : "output-available",
+    toolCallId: typeof part.toolCallId === "string" ? part.toolCallId : undefined,
+  };
 }
 
 function getToolRenderContext(message: UIMessage): ToolRenderContext {
@@ -422,7 +445,8 @@ function ToolResultDisclosure({
   );
 }
 
-export function ChatMessage({ message }: { message: UIMessage }) {
+export const ChatMessage = forwardRef<HTMLDivElement, { message: UIMessage }>(
+  function ChatMessage({ message }: { message: UIMessage }, ref) {
   const isUser = message.role === "user";
   const [isCopied, setIsCopied] = useState(false);
   const metadataVerifiedLinks = isUser ? [] : getVerifiedLinksFromMessageMetadata(message);
@@ -619,16 +643,11 @@ export function ChatMessage({ message }: { message: UIMessage }) {
         continue;
       }
 
-      const toolPart = part as unknown as {
-        toolCallId?: string;
-        state?: string;
-        input?: Record<string, unknown>;
-        output?: unknown;
-      };
+      const toolPart = parseStaticToolPart(part);
       pushToolNode({
-        toolName,
-        input: toolPart.input && typeof toolPart.input === "object" ? toolPart.input : {},
-        state: typeof toolPart.state === "string" ? toolPart.state : "output-available",
+        toolName: toolPart.toolName,
+        input: toolPart.input,
+        state: toolPart.state,
         output: toolPart.output,
         keyHint: toolPart.toolCallId ?? `tool-${partIndex}`,
       });
@@ -655,7 +674,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
   }
 
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+    <div ref={ref} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div className={isUser ? "max-w-[90%]" : "min-w-[85%] max-w-[90%]"}>
         <div
           className={`${
@@ -727,4 +746,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
       </div>
     </div>
   );
-}
+  },
+);
+
+ChatMessage.displayName = "ChatMessage";

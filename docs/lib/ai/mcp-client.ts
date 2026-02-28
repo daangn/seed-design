@@ -11,7 +11,10 @@ interface MCPToolDefinition {
   name: string;
   description?: string;
   inputSchema?: {
-    type: string;
+    type?: string;
+    description?: string;
+    enum?: string[];
+    items?: unknown;
     properties?: Record<string, unknown>;
     required?: string[];
   };
@@ -35,6 +38,7 @@ interface JSONRPCRequest {
 }
 
 const MCP_PROTOCOL_VERSION = "2025-03-26";
+const MCP_REQUEST_TIMEOUT_MS = 30_000;
 const TEMPORARILY_DISABLED_MCP_TOOLS = new Set(["get_full_docs"]);
 
 export interface MCPToolBundle {
@@ -172,11 +176,26 @@ async function mcpRequest(
     body.id = Date.now();
   }
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(body),
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), MCP_REQUEST_TIMEOUT_MS);
+
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new Error(`MCP request timed out after ${MCP_REQUEST_TIMEOUT_MS}ms`);
+    }
+
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   const sessionId = response.headers.get("Mcp-Session-Id");
   if (sessionId) {
@@ -231,44 +250,114 @@ async function initializeMCP(): Promise<void> {
 }
 
 function jsonSchemaToZod(schema: MCPToolDefinition["inputSchema"]): z.ZodType {
-  if (!schema?.properties) {
+  if (!schema) {
     return z.object({});
   }
 
+  if (schema.type === "object" && schema.properties) {
+    return jsonObjectSchemaToZod(schema.properties, schema.required ?? []);
+  }
+
+  return jsonValueSchemaToZod(schema);
+}
+
+function jsonObjectSchemaToZod(
+  properties: Record<string, unknown>,
+  requiredFields: string[],
+): z.ZodObject<Record<string, z.ZodType>> {
   const shape: Record<string, z.ZodType> = {};
-  const required = new Set(schema.required ?? []);
+  const required = new Set(requiredFields);
 
-  for (const [key, prop] of Object.entries(schema.properties)) {
-    const p = prop as { type?: string; description?: string; enum?: string[] };
-    let field: z.ZodType;
-
-    if (p.enum) {
-      field = z.enum(p.enum as [string, ...string[]]);
-    } else {
-      switch (p.type) {
-        case "number":
-        case "integer":
-          field = z.number();
-          break;
-        case "boolean":
-          field = z.boolean();
-          break;
-        case "array":
-          field = z.array(z.string());
-          break;
-        default:
-          field = z.string();
-      }
-    }
-
-    if (p.description) {
-      field = field.describe(p.description);
+  for (const [key, prop] of Object.entries(properties)) {
+    const schema = asSchema(prop);
+    let field = jsonValueSchemaToZod(schema);
+    if (schema.description) {
+      field = field.describe(schema.description);
     }
 
     shape[key] = required.has(key) ? field : field.optional();
   }
 
   return z.object(shape);
+}
+
+function asSchema(schema: unknown): {
+  type?: string;
+  description?: string;
+  enum?: string[];
+  items?: unknown;
+  properties?: Record<string, unknown>;
+  required?: string[];
+} {
+  if (!schema || typeof schema !== "object") {
+    return {};
+  }
+
+  const safeSchema = schema as {
+    type?: unknown;
+    description?: unknown;
+    enum?: unknown;
+    items?: unknown;
+    properties?: unknown;
+    required?: unknown;
+  };
+
+  return {
+    type: typeof safeSchema.type === "string" ? safeSchema.type : undefined,
+    description: typeof safeSchema.description === "string" ? safeSchema.description : undefined,
+    enum:
+      Array.isArray(safeSchema.enum) && safeSchema.enum.every((value) => typeof value === "string")
+        ? (safeSchema.enum as string[])
+        : undefined,
+    items: safeSchema.items,
+    properties:
+      safeSchema.properties && typeof safeSchema.properties === "object"
+        ? (safeSchema.properties as Record<string, unknown>)
+        : undefined,
+    required:
+      Array.isArray(safeSchema.required) &&
+      safeSchema.required.every((value) => typeof value === "string")
+        ? (safeSchema.required as string[])
+        : undefined,
+  };
+}
+
+function toEnum(values: string[] | undefined): z.ZodEnum<[string, ...string[]]> | null {
+  if (!values || values.length === 0) {
+    return null;
+  }
+
+  return z.enum(values as [string, ...string[]]);
+}
+
+function jsonValueSchemaToZod(schema: unknown): z.ZodType {
+  const safeSchema = asSchema(schema);
+  const enumSchema = toEnum(safeSchema.enum);
+  if (enumSchema) {
+    return enumSchema;
+  }
+
+  switch (safeSchema.type) {
+    case "number":
+    case "integer":
+      return z.number();
+    case "boolean":
+      return z.boolean();
+    case "array": {
+      const itemSchema = safeSchema.items ? jsonValueSchemaToZod(safeSchema.items) : z.unknown();
+      return z.array(itemSchema);
+    }
+    case "object":
+      if (!safeSchema.properties) {
+        return z.object({});
+      }
+      return jsonObjectSchemaToZod(safeSchema.properties, safeSchema.required ?? []);
+    case "null":
+      return z.null();
+    case "string":
+    default:
+      return z.string();
+  }
 }
 
 async function getMCPToolBundleLegacy(): Promise<MCPToolBundle> {

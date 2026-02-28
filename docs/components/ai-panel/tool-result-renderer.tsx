@@ -5,7 +5,8 @@ import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { m } from "motion/react";
-import type { ReactNode } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { forwardRef, Suspense, type ReactNode } from "react";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 
 interface ToolResultRendererProps {
@@ -101,6 +102,10 @@ function ToolLoading({ label }: { label: string }) {
       {label}
     </div>
   );
+}
+
+function ToolPreviewErrorFallback() {
+  return <div className="text-xs text-fd-muted-foreground">미리보기를 렌더링하지 못했어요.</div>;
 }
 
 function ToolFadeIn({ children }: { children: ReactNode }) {
@@ -217,7 +222,11 @@ export function summarizeGenericToolOutput(toolName: string, output: unknown): G
   };
 }
 
-export function ToolResultRenderer({ toolName, input, state, output }: ToolResultRendererProps) {
+export const ToolResultRenderer = forwardRef<HTMLDivElement, ToolResultRendererProps>(
+  function ToolResultRenderer(
+    { toolName, input, state, output }: ToolResultRendererProps,
+    _ref,
+  ) {
   // 아직 입력이 완전하지 않으면 로딩 표시
   if (state === "input-streaming") {
     return (
@@ -275,7 +284,11 @@ export function ToolResultRenderer({ toolName, input, state, output }: ToolResul
             <Tabs items={["미리보기", "코드"]}>
               <Tab value="미리보기">
                 <div className="flex min-h-80">
-                  <ComponentPreview name={previewName} />
+                  <ErrorBoundary fallback={<ToolPreviewErrorFallback />}>
+                    <Suspense fallback={<ToolLoading label="미리보기를 불러오는 중..." />}>
+                      <ComponentPreview name={previewName} />
+                    </Suspense>
+                  </ErrorBoundary>
                 </div>
               </Tab>
               <Tab value="코드">
@@ -413,4 +426,7 @@ export function ToolResultRenderer({ toolName, input, state, output }: ToolResul
         </ToolFadeIn>
       );
   }
-}
+  },
+);
+
+ToolResultRenderer.displayName = "ToolResultRenderer";

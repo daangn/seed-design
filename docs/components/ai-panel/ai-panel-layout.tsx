@@ -4,16 +4,19 @@ import { Group, Panel, Separator, usePanelRef } from "react-resizable-panels";
 import { useAIPanel } from "./ai-panel-provider";
 import { ChatInterface } from "./chat-interface";
 import { AnimatePresence, m } from "motion/react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { forwardRef, useEffect, useRef, useState, type ReactNode } from "react";
 
 const PANEL_TRANSITION = {
   duration: 0.22,
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
-export function AIPanelLayout({ children }: { children: ReactNode }) {
+export const AIPanelLayout = forwardRef<unknown, { children: ReactNode }>(function AIPanelLayout(
+  { children }: { children: ReactNode },
+  _ref,
+) {
   const { isOpen } = useAIPanel();
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [renderDesktopContent, setRenderDesktopContent] = useState(isOpen);
   const [isVisibilityTransitioning, setIsVisibilityTransitioning] = useState(false);
   const aiPanelRef = usePanelRef();
@@ -27,7 +30,7 @@ export function AIPanelLayout({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile === null || isMobile) return;
 
     setIsVisibilityTransitioning(true);
     const timer = window.setTimeout(() => {
@@ -38,7 +41,7 @@ export function AIPanelLayout({ children }: { children: ReactNode }) {
   }, [isMobile, isOpen]);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile === null || isMobile) return;
 
     if (closeTimerRef.current !== null) {
       window.clearTimeout(closeTimerRef.current);
@@ -64,6 +67,10 @@ export function AIPanelLayout({ children }: { children: ReactNode }) {
       }
     };
   }, [aiPanelRef, isMobile, isOpen]);
+
+  if (isMobile === null) {
+    return <>{children}</>;
+  }
 
   // 모바일: 풀스크린 오버레이
   if (isMobile) {
@@ -130,4 +137,6 @@ export function AIPanelLayout({ children }: { children: ReactNode }) {
       </Panel>
     </Group>
   );
-}
+});
+
+AIPanelLayout.displayName = "AIPanelLayout";
