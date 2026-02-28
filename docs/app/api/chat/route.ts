@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     system: systemPrompt,
     messages,
     tools,
-    stopWhen: stepCountIs(5),
+    stopWhen: stepCountIs(8),
   });
 
   return result.toUIMessageStreamResponse();

@@ -24,6 +24,7 @@ interface ToolRenderContext {
   hasCodeTool: boolean;
   hasComponentExample: boolean;
   hasInstallation: boolean;
+  hasReactTypeTable: boolean;
   hasRelatedLinks: boolean;
   relatedLinkUrls: string[];
 }
@@ -50,6 +51,50 @@ function getRelatedLinksFromOutput(output: unknown): Array<{ title: string; url:
       };
     })
     .filter((link): link is { title: string; url: string } => link !== null);
+}
+
+function getReactTypeTableRowsFromOutput(output: unknown): Array<{
+  name: string;
+  type: string;
+  required: boolean;
+  description: string;
+  defaultValue: string | null;
+}> {
+  const safeOutput = getRecord(output);
+  const rows = safeOutput.rows;
+  if (!Array.isArray(rows)) return [];
+
+  return rows
+    .map((row) => {
+      const safeRow = getRecord(row);
+
+      if (
+        typeof safeRow.name !== "string" ||
+        typeof safeRow.type !== "string" ||
+        typeof safeRow.required !== "boolean"
+      ) {
+        return null;
+      }
+
+      return {
+        name: safeRow.name,
+        type: safeRow.type,
+        required: safeRow.required,
+        description: typeof safeRow.description === "string" ? safeRow.description : "",
+        defaultValue: typeof safeRow.defaultValue === "string" ? safeRow.defaultValue : null,
+      };
+    })
+    .filter(
+      (
+        row,
+      ): row is {
+        name: string;
+        type: string;
+        required: boolean;
+        description: string;
+        defaultValue: string | null;
+      } => row !== null,
+    );
 }
 
 function getToolCopyText(toolName: string, input: unknown, output: unknown): string[] {
@@ -85,6 +130,21 @@ function getToolCopyText(toolName: string, input: unknown, output: unknown): str
       for (const commandPrefix of INSTALL_COMMANDS) {
         lines.push(`\`\`\`bash\n${commandPrefix} ${componentName}\n\`\`\``);
       }
+    }
+  }
+
+  if (toolName === "showReactTypeTable") {
+    const rows = getReactTypeTableRowsFromOutput(output);
+    if (rows.length > 0) {
+      lines.push("## Props");
+      lines.push(
+        ...rows.map((row) => {
+          const requiredText = row.required ? " (required)" : "";
+          const defaultText = row.defaultValue ? ` (default: ${row.defaultValue})` : "";
+          const descriptionText = row.description ? ` - ${row.description}` : "";
+          return `- ${row.name}${requiredText}: ${row.type}${defaultText}${descriptionText}`;
+        }),
+      );
     }
   }
 
@@ -134,6 +194,7 @@ function getToolRenderContext(message: UIMessage): ToolRenderContext {
     hasCodeTool: false,
     hasComponentExample: false,
     hasInstallation: false,
+    hasReactTypeTable: false,
     hasRelatedLinks: false,
     relatedLinkUrls: [],
   };
@@ -143,6 +204,7 @@ function getToolRenderContext(message: UIMessage): ToolRenderContext {
       if (part.toolName === "showCodeBlock") context.hasCodeTool = true;
       if (part.toolName === "showComponentExample") context.hasComponentExample = true;
       if (part.toolName === "showInstallation") context.hasInstallation = true;
+      if (part.toolName === "showReactTypeTable") context.hasReactTypeTable = true;
       if (part.toolName === "findRelatedLinks") {
         context.hasRelatedLinks = true;
         context.relatedLinkUrls.push(
@@ -161,6 +223,7 @@ function getToolRenderContext(message: UIMessage): ToolRenderContext {
       if (toolName === "showCodeBlock") context.hasCodeTool = true;
       if (toolName === "showComponentExample") context.hasComponentExample = true;
       if (toolName === "showInstallation") context.hasInstallation = true;
+      if (toolName === "showReactTypeTable") context.hasReactTypeTable = true;
       if (toolName === "findRelatedLinks") {
         context.hasRelatedLinks = true;
         context.relatedLinkUrls.push(
@@ -174,63 +237,149 @@ function getToolRenderContext(message: UIMessage): ToolRenderContext {
   return context;
 }
 
-function isRedundantTextForTools(text: string, toolContext: ToolRenderContext): boolean {
-  const trimmed = text.trim();
-  if (!trimmed) return true;
+function isCoveredRelatedUrl(urlInText: string, relatedLinkUrls: string[]): boolean {
+  return relatedLinkUrls.some(
+    (toolUrl) => toolUrl.includes(urlInText) || urlInText.includes(toolUrl),
+  );
+}
+
+function sanitizeTextForTools(text: string, toolContext: ToolRenderContext): string {
+  let sanitized = text;
+
+  if (!sanitized.trim()) {
+    return "";
+  }
 
   if (
-    (toolContext.hasCodeTool || toolContext.hasComponentExample || toolContext.hasInstallation) &&
-    /```/.test(trimmed)
+    (toolContext.hasCodeTool ||
+      toolContext.hasComponentExample ||
+      toolContext.hasInstallation ||
+      toolContext.hasReactTypeTable) &&
+    /```/.test(sanitized)
   ) {
-    return true;
+    return "";
   }
 
   if (toolContext.hasInstallation) {
-    if (/@seed-design\/cli@latest add/.test(trimmed)) {
-      return true;
-    }
-    if (
-      trimmed.length < 220 &&
-      /(run this command|to install|설치.*명령어|설치 방법)/i.test(trimmed)
-    ) {
-      return true;
-    }
+    sanitized = sanitized
+      .replace(/^#{1,6}\s*(installation|install|설치)\s*$/gim, "")
+      .replace(/^.*@seed-design\/cli@latest add.*$/gim, "")
+      .replace(/^.*(run this command|to install|설치.*명령어|설치 방법).*$/gim, "");
   }
 
   if (toolContext.hasComponentExample) {
-    if (
-      trimmed.length < 220 &&
-      /(here is a preview|preview of the|component preview|컴포넌트 미리보기|사용 예제|아래는 .*예제)/i.test(
-        trimmed,
-      )
-    ) {
-      return true;
+    sanitized = sanitized
+      .replace(/^#{1,6}\s*(preview|미리보기|example|사용 예시)\s*$/gim, "")
+      .replace(
+        /^.*(here is a preview|preview of the|component preview|컴포넌트 미리보기|사용 예제|아래는 .*예제).*$/gim,
+        "",
+      );
+  }
+
+  if (toolContext.hasReactTypeTable) {
+    const propsListPatterns = [
+      /^#{1,6}\s*props\s*$/gim,
+      /^.*(주요\s*props|props는 다음과 같습니다|prop table|props table|타입 테이블|프로퍼티 목록).*$/gim,
+      /^\s*[-*]\s*\*\*[^*]+\*\*.*$/gim,
+    ];
+
+    for (const pattern of propsListPatterns) {
+      sanitized = sanitized.replace(pattern, "");
+    }
+
+    if (/\b(props?|프로퍼티|속성)\b/i.test(sanitized) && /\|\s*undefined/.test(sanitized)) {
+      return "";
     }
   }
 
   if (toolContext.hasRelatedLinks) {
-    if (
-      /(related links?|관련 문서 링크|관련된 링크|for more detailed information|자세한 정보)/i.test(
-        trimmed,
-      )
-    ) {
-      return true;
+    sanitized = sanitized
+      .replace(/^#{1,6}\s*(related links?|관련 문서 링크|관련된 링크)\s*$/gim, "")
+      .replace(/^.*(for more detailed information|자세한 정보).*$/gim, "");
+
+    const sanitizedLines = sanitized
+      .split("\n")
+      .filter((line) => {
+        const trimmedLine = line.trim();
+        if (!trimmedLine) return true;
+
+        const markdownLinkMatch = trimmedLine.match(/\[.*?\]\((https?:\/\/[^)]+)\)/);
+        if (markdownLinkMatch) {
+          return !isCoveredRelatedUrl(markdownLinkMatch[1], toolContext.relatedLinkUrls);
+        }
+
+        const urlMatches = trimmedLine.match(/https?:\/\/[^\s)\]]+/g) ?? [];
+        if (urlMatches.length === 0) return true;
+
+        return !urlMatches.every((urlInText) =>
+          isCoveredRelatedUrl(urlInText, toolContext.relatedLinkUrls),
+        );
+      })
+      .join("\n");
+
+    if (sanitizedLines.trim().length === 0) {
+      return "";
     }
 
-    const urlMatches = trimmed.match(/https?:\/\/[^\s)\]]+/g) ?? [];
-    if (urlMatches.length > 0) {
-      const allCoveredByTool = urlMatches.every((urlInText) =>
-        toolContext.relatedLinkUrls.some(
-          (toolUrl) => toolUrl.includes(urlInText) || urlInText.includes(toolUrl),
-        ),
-      );
-      if (allCoveredByTool) {
-        return true;
-      }
+    sanitized = sanitizedLines;
+  }
+
+  sanitized = sanitized
+    .split("\n")
+    .map((line) => line.replace(/\s+$/g, ""))
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  if (!sanitized) {
+    return "";
+  }
+
+  if (
+    toolContext.hasInstallation &&
+    sanitized.length < 220 &&
+    /(run this command|to install|설치.*명령어|설치 방법)/i.test(sanitized)
+  ) {
+    return "";
+  }
+
+  if (
+    toolContext.hasComponentExample &&
+    sanitized.length < 220 &&
+    /(here is a preview|preview of the|component preview|컴포넌트 미리보기|사용 예제|아래는 .*예제)/i.test(
+      sanitized,
+    )
+  ) {
+    return "";
+  }
+
+  if (
+    toolContext.hasRelatedLinks &&
+    /(related links?|관련 문서 링크|관련된 링크|for more detailed information|자세한 정보)/i.test(
+      sanitized,
+    )
+  ) {
+    return "";
+  }
+
+  if (
+    toolContext.hasReactTypeTable &&
+    /(주요\s*props|props는 다음과 같습니다|prop table|props table|타입 테이블)/i.test(sanitized)
+  ) {
+    return "";
+  }
+
+  if (toolContext.hasRelatedLinks) {
+    const urlMatches = sanitized.match(/https?:\/\/[^\s)\]]+/g) ?? [];
+    if (
+      urlMatches.length > 0 &&
+      urlMatches.every((urlInText) => isCoveredRelatedUrl(urlInText, toolContext.relatedLinkUrls))
+    ) {
+      return "";
     }
   }
 
-  return false;
+  return sanitized;
 }
 
 export function ChatMessage({ message }: { message: UIMessage }) {
@@ -241,6 +390,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
         hasCodeTool: false,
         hasComponentExample: false,
         hasInstallation: false,
+        hasReactTypeTable: false,
         hasRelatedLinks: false,
         relatedLinkUrls: [],
       }
@@ -272,7 +422,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-      <div className="max-w-[90%]">
+      <div className={isUser ? "max-w-[90%]" : "min-w-[85%] max-w-[90%]"}>
         <div
           className={`${
             isUser
@@ -293,7 +443,8 @@ export function ChatMessage({ message }: { message: UIMessage }) {
                         !isUser &&
                         (toolContext.hasCodeTool ||
                           toolContext.hasComponentExample ||
-                          toolContext.hasInstallation)
+                          toolContext.hasInstallation ||
+                          toolContext.hasReactTypeTable)
                       ) {
                         return null;
                       }
@@ -309,7 +460,11 @@ export function ChatMessage({ message }: { message: UIMessage }) {
                       return null;
                     }
 
-                    if (!isUser && isRedundantTextForTools(segment.text, toolContext)) {
+                    const visibleText = !isUser
+                      ? sanitizeTextForTools(segment.text, toolContext)
+                      : segment.text;
+
+                    if (!visibleText) {
                       return null;
                     }
 
@@ -322,7 +477,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
                             : "prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                         }`}
                       >
-                        {segment.text}
+                        {visibleText}
                       </div>
                     );
                   })}
@@ -388,7 +543,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15 }}
+                    transition={{ duration: 0.1 }}
                     className="inline-flex"
                   >
                     <Icon svg={<IconCheckmarkCircleLine />} />
@@ -399,7 +554,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15 }}
+                    transition={{ duration: 0.1 }}
                     className="inline-flex"
                   >
                     <Icon svg={<IconSquare2StackedLine />} />
