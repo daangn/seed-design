@@ -90,13 +90,28 @@ function isSeedDomain(hostname: string): boolean {
 }
 
 function normalizeSeedAbsoluteUrl(raw: string, baseUrl: string): string | null {
+  if (raw.startsWith("/")) {
+    return `https://seed-design.io${raw}`;
+  }
+
   try {
     const parsed = new URL(raw, baseUrl);
-    if (!isSeedDomain(parsed.hostname)) {
+    const isAllowedHost =
+      isSeedDomain(parsed.hostname) ||
+      parsed.hostname === "localhost" ||
+      parsed.hostname === "127.0.0.1";
+    const isDocsPath =
+      parsed.pathname.startsWith("/docs/") ||
+      parsed.pathname.startsWith("/react/") ||
+      parsed.pathname.startsWith("/breeze/") ||
+      parsed.pathname.startsWith("/lynx/") ||
+      parsed.pathname.startsWith("/ai-integration/");
+
+    if (!isAllowedHost || !isDocsPath) {
       return null;
     }
 
-    return `${parsed.origin}${parsed.pathname}${parsed.search}${parsed.hash}`;
+    return `https://seed-design.io${parsed.pathname}${parsed.search}${parsed.hash}`;
   } catch {
     return null;
   }
@@ -116,10 +131,7 @@ function parseLlmsEntryUrl(rawHref: string): URL | null {
     const parsed = rawHref.startsWith("http://") || rawHref.startsWith("https://")
       ? new URL(rawHref)
       : new URL(rawHref, "https://seed-design.io");
-
-    if (!isSeedDomain(parsed.hostname)) {
-      return null;
-    }
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return null;
 
     return parsed;
   } catch {

@@ -148,6 +148,52 @@ describe("resolveComponentGuideLinks", () => {
     ]);
   });
 
+  it("accepts localhost baseUrl and relative llms URL fields", async () => {
+    globalThis.fetch = (async (input) => {
+      const url = typeof input === "string" ? input : input.url;
+
+      if (url === "http://localhost:3000/react/llms.txt") {
+        return new Response(
+          `# index\n\n### components\n\n- [Action Button](http://localhost:3000/llms/react/components/action-button.txt)\n`,
+          { status: 200 },
+        );
+      }
+
+      if (url === "http://localhost:3000/docs/llms.txt") {
+        return new Response(
+          `# index\n\n### components\n\n- [Action Button](http://localhost:3000/llms/docs/components/action-button.txt)\n`,
+          { status: 200 },
+        );
+      }
+
+      if (url === "http://localhost:3000/llms/react/components/action-button.txt") {
+        return new Response(`# Action Button\nURL: /react/components/action-button`, { status: 200 });
+      }
+
+      if (url === "http://localhost:3000/llms/docs/components/action-button.txt") {
+        return new Response(`# Action Button\nURL: /docs/components/action-button`, { status: 200 });
+      }
+
+      return new Response("not found", { status: 404 });
+    }) as typeof fetch;
+
+    const links = await resolveComponentGuideLinks({
+      componentId: "action-button",
+      baseUrl: "http://localhost:3000",
+    });
+
+    expect(links).toEqual([
+      {
+        title: "Action Button (Docs)",
+        url: "https://seed-design.io/docs/components/action-button",
+      },
+      {
+        title: "Action Button (React)",
+        url: "https://seed-design.io/react/components/action-button",
+      },
+    ]);
+  });
+
   it("resolves query links from docs/react llms indexes only", async () => {
     globalThis.fetch = (async (input) => {
       const url = typeof input === "string" ? input : input.url;
@@ -180,6 +226,45 @@ describe("resolveComponentGuideLinks", () => {
       {
         title: "Bottom Sheet",
         url: "https://seed-design.io/react/components/bottom-sheet",
+      },
+    ]);
+  });
+
+  it("resolves query links when llms index uses localhost URLs", async () => {
+    globalThis.fetch = (async (input) => {
+      const url = typeof input === "string" ? input : input.url;
+
+      if (url === "http://localhost:3000/react/llms.txt") {
+        return new Response(
+          `# index\n\n### components\n\n- [Action Button](http://localhost:3000/llms/react/components/action-button.txt)\n`,
+          { status: 200 },
+        );
+      }
+
+      if (url === "http://localhost:3000/docs/llms.txt") {
+        return new Response(
+          `# index\n\n### components\n\n- [Action Button](http://localhost:3000/llms/docs/components/action-button.txt)\n`,
+          { status: 200 },
+        );
+      }
+
+      return new Response("not found", { status: 404 });
+    }) as typeof fetch;
+
+    const links = await resolveVerifiedLinksForQuery({
+      query: "action button",
+      baseUrl: "http://localhost:3000",
+      limit: 2,
+    });
+
+    expect(links).toEqual([
+      {
+        title: "Action Button",
+        url: "https://seed-design.io/docs/components/action-button",
+      },
+      {
+        title: "Action Button",
+        url: "https://seed-design.io/react/components/action-button",
       },
     ]);
   });

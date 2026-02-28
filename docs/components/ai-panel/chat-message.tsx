@@ -40,6 +40,11 @@ interface ToolRenderContext {
   dropFencedCodeFromText: boolean;
 }
 
+interface VerifiedLink {
+  title: string;
+  url: string;
+}
+
 interface DerivedPropsRow {
   name: string;
   type: string;
@@ -51,6 +56,29 @@ interface DerivedPropsRow {
 function getRecord(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== "object") return {};
   return value as Record<string, unknown>;
+}
+
+function getVerifiedLinksFromMessageMetadata(message: UIMessage): VerifiedLink[] {
+  const metadata = getRecord(message.metadata);
+  const rawLinks = metadata.verifiedLinks;
+  if (!Array.isArray(rawLinks)) {
+    return [];
+  }
+
+  const links: VerifiedLink[] = [];
+  for (const rawLink of rawLinks) {
+    const safeLink = getRecord(rawLink);
+    if (typeof safeLink.title !== "string" || typeof safeLink.url !== "string") {
+      continue;
+    }
+
+    links.push({
+      title: safeLink.title,
+      url: safeLink.url,
+    });
+  }
+
+  return links;
 }
 
 function getReactTypeTableRowsFromOutput(output: unknown): Array<{
@@ -357,6 +385,7 @@ function ToolSectionLabel({ title }: { title: string }) {
 export function ChatMessage({ message }: { message: UIMessage }) {
   const isUser = message.role === "user";
   const [isCopied, setIsCopied] = useState(false);
+  const metadataVerifiedLinks = isUser ? [] : getVerifiedLinksFromMessageMetadata(message);
   const toolContext = isUser
     ? {
         hasCodeTool: false,
@@ -567,6 +596,25 @@ export function ChatMessage({ message }: { message: UIMessage }) {
         output: toolPart.output,
         keyHint: toolPart.toolCallId ?? `tool-${partIndex}`,
       });
+    }
+  }
+
+  if (!isUser && metadataVerifiedLinks.length > 0) {
+    const textParts = message.parts
+      .filter((part): part is Extract<UIMessage["parts"][number], { type: "text"; text: string }> => {
+        return part.type === "text" && typeof part.text === "string";
+      })
+      .map((part) => part.text)
+      .join("\n");
+
+    const missingLinks = metadataVerifiedLinks.filter((link) => !textParts.includes(link.url));
+    if (missingLinks.length > 0) {
+      const markdown = missingLinks.map((link) => `- [${link.title}](${link.url})`).join("\n");
+      assistantNodes.push(
+        <div key="assistant-verified-links-fallback" className="text-[13px] break-words">
+          <ChatMarkdown markdown={markdown} />
+        </div>,
+      );
     }
   }
 

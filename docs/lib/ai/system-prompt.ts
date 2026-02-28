@@ -37,7 +37,7 @@ SEED Design is the design system for Karrot (당근), a Korean secondhand market
 - Prefer structured, tool-first responses:
   1) call tools for preview/install/code/props
   2) then provide only a short connective explanation
-- End every technical answer with 1-3 related documentation links as markdown bullet list only when links are verified from documentation/tool results.
+- End every technical answer with 1-3 related documentation links as markdown bullet list when verified links are available.
 - Prefer internal SEED docs links (docs/react) and avoid duplicate links or placeholder link headings.
 - Never output placeholder URLs (e.g., "seed-design-docs-link", "seed-react-components-link").
 - If you cannot verify a URL from context/tools, omit the link instead of inventing one.
@@ -91,7 +91,7 @@ Additional constraints in this mode:
 - Do not output fenced code blocks unless showComponentExample cannot render preview and you need a code fallback.
 - showCodeBlock is fallback-only in this mode.
 - After tool calls, provide only short connective text with no duplicated command/code lists.
-- End the answer with 1-3 relevant markdown links only when verified links are provided below.
+- If verified links are provided below, you MUST end the answer with 1-3 markdown bullet links from that list.
 - Keep plain text to at most: short summary + optional next step + optional clarifying question.
 
 Verified links for this component:
@@ -115,7 +115,8 @@ export function buildSystemPrompt(context?: SystemPromptContext): string {
 The following links are verified from SEED llms indexes for the current query:
 ${runtimeVerifiedLinkBullets || "- (none)"}
 
-- If you include related links in the final answer, use only URLs from this list.
+- If this list is non-empty, you MUST end the answer with 1-3 markdown bullet links using only URLs from this list.
+- Use link text from this list as-is when possible.
 - If this list is empty, omit related link bullets.
 `;
 

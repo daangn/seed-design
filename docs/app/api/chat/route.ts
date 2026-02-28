@@ -94,5 +94,15 @@ export async function POST(req: Request) {
     stopWhen: stepCountIs(8),
   });
 
-  return result.toUIMessageStreamResponse();
+  return result.toUIMessageStreamResponse({
+    messageMetadata: ({ part }) => {
+      if ((part.type === "start" || part.type === "finish") && verifiedLinks.length > 0) {
+        return {
+          verifiedLinks,
+        };
+      }
+
+      return undefined;
+    },
+  });
 }
