@@ -1,7 +1,6 @@
 "use client";
 
 import { ComponentPreview } from "@/components/component-preview";
-import Link from "next/link";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
@@ -16,18 +15,66 @@ interface ToolResultRendererProps {
   output?: unknown;
 }
 
-interface RelatedLink {
-  title: string;
-  url: string;
-  href: string;
-}
-
 interface ReactTypeTableRow {
   name: string;
   type: string;
   required: boolean;
   description: string;
   defaultValue: string | null;
+}
+
+function getSafeInput(input: unknown): Record<string, unknown> {
+  if (!input || typeof input !== "object") return {};
+  return input as Record<string, unknown>;
+}
+
+function getComponentName(input: Record<string, unknown>, output: unknown): string | null {
+  const safeInput = getSafeInput(input);
+  const outputComponent =
+    output && typeof output === "object" ? (output as { component?: unknown }).component : undefined;
+  const inputComponent = safeInput.component;
+  const inputName = safeInput.name;
+  const candidate =
+    (typeof outputComponent === "string" && outputComponent) ||
+    (typeof inputComponent === "string" && inputComponent) ||
+    (typeof inputName === "string" && inputName) ||
+    "";
+
+  const previewPathMatch = candidate.match(/^(?:react|lynx|breeze)\/([a-z0-9-]+)\/preview$/i);
+  if (previewPathMatch?.[1]) {
+    return previewPathMatch[1];
+  }
+
+  const normalized = candidate
+    .replace(/^ui:/i, "")
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, " ")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  return normalized || null;
+}
+
+function resolvePreviewName(input: Record<string, unknown>, output: unknown): string | null {
+  const safeInput = getSafeInput(input);
+  const outputPreviewName =
+    output && typeof output === "object"
+      ? ((output as { previewName?: unknown }).previewName ?? (output as { name?: unknown }).name)
+      : undefined;
+
+  if (typeof outputPreviewName === "string" && outputPreviewName) {
+    return outputPreviewName;
+  }
+
+  if (typeof safeInput.name === "string" && safeInput.name) {
+    return safeInput.name;
+  }
+
+  const componentName = getComponentName(safeInput, output);
+  if (!componentName) return null;
+  return `react/${componentName}/preview`;
 }
 
 const INSTALL_COMMANDS = [
@@ -56,39 +103,6 @@ function ToolFadeIn({ children }: { children: ReactNode }) {
       {children}
     </m.div>
   );
-}
-
-function getRelatedLinks(output: unknown): RelatedLink[] {
-  if (!output || typeof output !== "object") return [];
-
-  const links = (output as { links?: unknown }).links;
-  if (!Array.isArray(links)) return [];
-
-  return links
-    .map((link) => {
-      if (!link || typeof link !== "object") return null;
-      const title = (link as { title?: unknown }).title;
-      const url = (link as { url?: unknown }).url;
-      if (typeof title !== "string" || typeof url !== "string") return null;
-      try {
-        const parsed = new URL(url);
-        const isSeedDomain =
-          parsed.hostname === "seed-design.io" || parsed.hostname === "www.seed-design.io";
-
-        if (!isSeedDomain) {
-          return null;
-        }
-
-        return {
-          title,
-          url,
-          href: `${parsed.pathname}${parsed.search}${parsed.hash}`,
-        };
-      } catch {
-        return null;
-      }
-    })
-    .filter((link): link is RelatedLink => link !== null);
 }
 
 function getToolOutputCode(output: unknown): { code: string; language: string } | null {
@@ -153,7 +167,8 @@ export function ToolResultRenderer({ toolName, input, state, output }: ToolResul
 
   switch (toolName) {
     case "showComponentExample": {
-      if (typeof input.name !== "string") {
+      const previewName = resolvePreviewName(input, output);
+      if (!previewName) {
         return (
           <ToolFadeIn>
             <div className="my-1 text-xs text-fd-muted-foreground">잘못된 미리보기 입력입니다.</div>
@@ -162,10 +177,35 @@ export function ToolResultRenderer({ toolName, input, state, output }: ToolResul
       }
 
       const outputCode = getToolOutputCode(output);
-      const inlineCode = typeof input.code === "string" ? input.code : null;
+      const inlineCode =
+        typeof input.code === "string"
+          ? input.code
+          : output && typeof output === "object" && typeof (output as { fallbackCode?: unknown }).fallbackCode === "string"
+            ? ((output as { fallbackCode: string }).fallbackCode ?? "")
+            : null;
       const code = outputCode?.code ?? inlineCode;
       const language = outputCode?.language ?? "tsx";
       const isCodeLoading = state === "input-available" && !code;
+      const previewFound =
+        output && typeof output === "object" && typeof (output as { previewFound?: unknown }).previewFound === "boolean"
+          ? Boolean((output as { previewFound: boolean }).previewFound)
+          : true;
+
+      if (!previewFound) {
+        return (
+          <ToolFadeIn>
+            <div className="my-2">
+              {code ? (
+                <DynamicCodeBlock lang={language} code={code} />
+              ) : (
+                <div className="text-xs text-fd-muted-foreground">
+                  미리보기를 찾지 못해 코드 폴백도 제공되지 않았어요.
+                </div>
+              )}
+            </div>
+          </ToolFadeIn>
+        );
+      }
 
       return (
         <ToolFadeIn>
@@ -173,7 +213,7 @@ export function ToolResultRenderer({ toolName, input, state, output }: ToolResul
             <Tabs items={["미리보기", "코드"]}>
               <Tab value="미리보기">
                 <div className="flex min-h-80">
-                  <ComponentPreview name={input.name} />
+                  <ComponentPreview name={previewName} />
                 </div>
               </Tab>
               <Tab value="코드">
@@ -190,14 +230,14 @@ export function ToolResultRenderer({ toolName, input, state, output }: ToolResul
     }
 
     case "showInstallation": {
-      if (typeof input.name !== "string") {
+      const componentName = getComponentName(input, output);
+      if (!componentName) {
         return (
           <ToolFadeIn>
             <div className="my-1 text-xs text-fd-muted-foreground">잘못된 설치 입력입니다.</div>
           </ToolFadeIn>
         );
       }
-      const componentName = input.name;
 
       return (
         <ToolFadeIn>
@@ -285,38 +325,6 @@ export function ToolResultRenderer({ toolName, input, state, output }: ToolResul
           <div className="my-2">
             <TypeTable type={type} />
           </div>
-        </ToolFadeIn>
-      );
-    }
-
-    case "findRelatedLinks": {
-      if (state === "input-available") {
-        return (
-          <ToolFadeIn>
-            <ToolLoading label="관련 링크 찾는 중..." />
-          </ToolFadeIn>
-        );
-      }
-
-      const links = getRelatedLinks(output);
-      if (links.length === 0) {
-        return null;
-      }
-
-      return (
-        <ToolFadeIn>
-          <ul className="my-2 list-disc pl-5 text-sm space-y-2">
-            {links.map((link) => (
-              <li key={link.url}>
-                <div className="space-y-0.5">
-                  <Link href={link.href} className="text-fd-primary hover:underline break-all">
-                    {link.title}
-                  </Link>
-                  <div className="text-xs text-fd-muted-foreground break-all">{link.url}</div>
-                </div>
-              </li>
-            ))}
-          </ul>
         </ToolFadeIn>
       );
     }

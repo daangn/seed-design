@@ -1,6 +1,6 @@
 "use client";
 
-import { sharedMdxComponents } from "@/components/mdx-shared-components";
+import { chatMdxComponents } from "@/components/ai-panel/chat-mdx-components";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import type {
   Blockquote,
@@ -52,7 +52,7 @@ function renderTag(
   key: string,
   children?: ReactNode,
 ) {
-  const component = (sharedMdxComponents as Record<string, ElementType | undefined>)[tag] ?? tag;
+  const component = (chatMdxComponents as Record<string, ElementType | undefined>)[tag] ?? tag;
   return createElement(component, { ...props, key }, children);
 }
 
@@ -98,7 +98,7 @@ function renderTableCell(cell: TableCell, key: string, align?: "left" | "right" 
 
   return renderTag(
     "td",
-    { className: `px-2 py-1 align-top ${className}` },
+    { className: `px-1.5 py-1 align-top ${className}` },
     key,
     cell.children.map((child, i) => renderInlineNode(child, `${key}-${i}`)),
   );
@@ -158,7 +158,7 @@ function renderBlockNode(node: Content, key: string): ReactNode {
     case "code": {
       const codeNode = node as Code;
       return (
-        <div key={key} className="my-2">
+        <div key={key} className="my-1.5">
           <DynamicCodeBlock lang={codeNode.lang ?? "tsx"} code={codeNode.value} />
         </div>
       );
@@ -168,15 +168,15 @@ function renderBlockNode(node: Content, key: string): ReactNode {
       const [head, ...body] = tableNode.children as TableRow[];
 
       return (
-        <div key={key} className="my-2 overflow-x-auto">
-          <table className="w-full border-collapse text-sm">
+        <div key={key} className="my-1.5 overflow-x-auto">
+          <table className="w-full border-collapse text-[12px] leading-[1.45]">
             {head ? (
               <thead>
                 <tr>
                   {head.children.map((cell, i) => (
                     <th
                       key={`${key}-head-${i}`}
-                      className={`px-2 py-1 border-b border-fd-border text-left ${
+                      className={`px-1.5 py-1 border-b border-fd-border font-medium text-left ${
                         tableNode.align?.[i] === "right"
                           ? "text-right"
                           : tableNode.align?.[i] === "center"
@@ -226,11 +226,13 @@ export function ChatMarkdown({ markdown }: { markdown: string }) {
   const root = useMemo(() => parseMarkdown(markdown), [markdown]);
 
   if (!root) {
-    return <div className="whitespace-pre-wrap break-words">{markdown}</div>;
+    return (
+      <div className="whitespace-pre-wrap break-words text-[13px] leading-[1.45]">{markdown}</div>
+    );
   }
 
   return (
-    <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <div className="max-w-none text-[13px] leading-[1.45] [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       {root.children.map((node, i) => (
         <Fragment key={`chat-md-${i}`}>{renderBlockNode(node, `chat-md-${i}`)}</Fragment>
       ))}

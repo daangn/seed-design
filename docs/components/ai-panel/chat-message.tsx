@@ -9,9 +9,19 @@ import { Icon } from "@seed-design/react";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { AnimatePresence, m } from "motion/react";
 import { ActionButton } from "seed-design/ui/action-button";
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import {
+  getToolDedupeKey,
+  getToolPolicies,
+  getToolPolicy,
+  shouldDropFencedCodeFromText,
+  type ToolPolicy,
+  type ToolSection,
+} from "@/lib/ai/tool-contract";
 import { ChatMarkdown } from "./chat-markdown";
 import { parseMarkdownCodeBlocks } from "./parse-markdown-code-blocks";
+import { stripToolSectionLabels } from "./tool-section-labels";
 import { ToolResultRenderer } from "./tool-result-renderer";
 
 const INSTALL_COMMANDS = [
@@ -26,13 +36,8 @@ interface ToolRenderContext {
   hasComponentExample: boolean;
   hasInstallation: boolean;
   hasReactTypeTable: boolean;
-  hasRelatedLinks: boolean;
-  relatedLinkUrls: string[];
-}
-
-interface DerivedRelatedLink {
-  title: string;
-  url: string;
+  activePolicies: ToolPolicy[];
+  dropFencedCodeFromText: boolean;
 }
 
 interface DerivedPropsRow {
@@ -46,25 +51,6 @@ interface DerivedPropsRow {
 function getRecord(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== "object") return {};
   return value as Record<string, unknown>;
-}
-
-function getRelatedLinksFromOutput(output: unknown): Array<{ title: string; url: string }> {
-  const safeOutput = getRecord(output);
-  const links = safeOutput.links;
-  if (!Array.isArray(links)) return [];
-
-  return links
-    .map((link) => {
-      const safeLink = getRecord(link);
-      if (typeof safeLink.title !== "string" || typeof safeLink.url !== "string") {
-        return null;
-      }
-      return {
-        title: safeLink.title,
-        url: safeLink.url,
-      };
-    })
-    .filter((link): link is { title: string; url: string } => link !== null);
 }
 
 function getReactTypeTableRowsFromOutput(output: unknown): Array<{
@@ -111,87 +97,6 @@ function getReactTypeTableRowsFromOutput(output: unknown): Array<{
     );
 }
 
-function normalizeSeedDocsUrl(rawUrl: string): string | null {
-  try {
-    const parsed = new URL(rawUrl);
-    const isSeedDomain =
-      parsed.hostname === "seed-design.io" || parsed.hostname === "www.seed-design.io";
-
-    if (!isSeedDomain) return null;
-    return `https://seed-design.io${parsed.pathname}${parsed.search}${parsed.hash}`;
-  } catch {
-    return null;
-  }
-}
-
-function extractRelatedLinksFromText(text: string): { text: string; links: DerivedRelatedLink[] } {
-  if (!text.includes("http")) {
-    return { text, links: [] };
-  }
-
-  const links: DerivedRelatedLink[] = [];
-  const lines = text.split("\n");
-  const keptLines: string[] = [];
-  const markdownLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
-
-  for (const line of lines) {
-    const markdownMatches = [...line.matchAll(markdownLinkRegex)];
-    if (markdownMatches.length > 0) {
-      let lineWithoutLinks = line;
-      let allSeedLinks = true;
-
-      for (const match of markdownMatches) {
-        const title = match[1]?.trim();
-        const normalizedUrl = normalizeSeedDocsUrl(match[2] ?? "");
-
-        if (!title || !normalizedUrl) {
-          allSeedLinks = false;
-          continue;
-        }
-
-        links.push({ title, url: normalizedUrl });
-        lineWithoutLinks = lineWithoutLinks.replace(match[0], "");
-      }
-
-      if (allSeedLinks && lineWithoutLinks.replace(/^[\s*\-0-9.]+/, "").trim().length === 0) {
-        continue;
-      }
-
-      keptLines.push(lineWithoutLinks);
-      continue;
-    }
-
-    const rawUrlMatch = line.match(/https?:\/\/seed-design\.io[^\s)\]]*/i);
-    if (rawUrlMatch) {
-      const normalizedUrl = normalizeSeedDocsUrl(rawUrlMatch[0]);
-      if (normalizedUrl) {
-        const prefix = line.slice(0, rawUrlMatch.index ?? 0).trim();
-        const title = prefix.replace(/^[-*]\s*/, "").trim() || normalizedUrl;
-        links.push({ title, url: normalizedUrl });
-
-        if (line.replace(rawUrlMatch[0], "").trim().length === 0) {
-          continue;
-        }
-      }
-    }
-
-    keptLines.push(line);
-  }
-
-  const deduped = Array.from(
-    links.reduce((map, link) => {
-      if (!map.has(link.url)) {
-        map.set(link.url, link);
-      }
-      return map;
-    }, new Map<string, DerivedRelatedLink>()),
-  ).map(([, link]) => link);
-
-  return {
-    text: keptLines.join("\n"),
-    links: deduped,
-  };
-}
 
 function parsePropNames(raw: string): string[] {
   const normalized = raw
@@ -269,14 +174,6 @@ function extractComponentPreviewNameFromCode(code: string, language: string): st
   return `react/${match[1]}/preview`;
 }
 
-function isRelatedLinksToolPart(part: UIMessage["parts"][number]): boolean {
-  if (part.type === "dynamic-tool") {
-    return part.toolName === "findRelatedLinks";
-  }
-
-  return typeof part.type === "string" && part.type === "tool-findRelatedLinks";
-}
-
 function getToolCopyText(toolName: string, input: unknown, output: unknown): string[] {
   const lines: string[] = [];
   const safeInput = getRecord(input);
@@ -305,7 +202,10 @@ function getToolCopyText(toolName: string, input: unknown, output: unknown): str
   }
 
   if (toolName === "showInstallation") {
-    const componentName = safeInput.name;
+    const componentName =
+      (typeof safeOutput.component === "string" && safeOutput.component) ||
+      (typeof safeInput.component === "string" && safeInput.component) ||
+      safeInput.name;
     if (typeof componentName === "string") {
       for (const commandPrefix of INSTALL_COMMANDS) {
         lines.push(`\`\`\`bash\n${commandPrefix} ${componentName}\n\`\`\``);
@@ -325,13 +225,6 @@ function getToolCopyText(toolName: string, input: unknown, output: unknown): str
           return `- ${row.name}${requiredText}: ${row.type}${defaultText}${descriptionText}`;
         }),
       );
-    }
-  }
-
-  if (toolName === "findRelatedLinks") {
-    const links = getRelatedLinksFromOutput(output);
-    if (links.length > 0) {
-      lines.push(...links.map((link) => `- ${link.title}: ${link.url}`));
     }
   }
 
@@ -369,139 +262,64 @@ function getMessageCopyText(message: UIMessage): string {
   return lines.join("\n\n").trim();
 }
 
+function getToolNameFromPart(part: UIMessage["parts"][number]): string | null {
+  if (part.type === "dynamic-tool") {
+    return part.toolName;
+  }
+
+  if (typeof part.type === "string" && part.type.startsWith("tool-")) {
+    return part.type.replace("tool-", "");
+  }
+
+  return null;
+}
+
 function getToolRenderContext(message: UIMessage): ToolRenderContext {
+  const activeToolNames = new Set<string>();
   const context: ToolRenderContext = {
     hasCodeTool: false,
     hasComponentExample: false,
     hasInstallation: false,
     hasReactTypeTable: false,
-    hasRelatedLinks: false,
-    relatedLinkUrls: [],
+    activePolicies: [],
+    dropFencedCodeFromText: false,
   };
 
   for (const part of message.parts) {
-    if (part.type === "dynamic-tool") {
-      if (part.toolName === "showCodeBlock") context.hasCodeTool = true;
-      if (part.toolName === "showComponentExample") context.hasComponentExample = true;
-      if (part.toolName === "showInstallation") context.hasInstallation = true;
-      if (part.toolName === "showReactTypeTable") context.hasReactTypeTable = true;
-      if (part.toolName === "findRelatedLinks") {
-        context.hasRelatedLinks = true;
-        context.relatedLinkUrls.push(
-          ...getRelatedLinksFromOutput("output" in part ? part.output : undefined).map(
-            (link) => link.url,
-          ),
-        );
-      }
+    const toolName = getToolNameFromPart(part);
+    if (!toolName) {
       continue;
     }
 
-    if (typeof part.type === "string" && part.type.startsWith("tool-")) {
-      const toolName = part.type.replace("tool-", "");
-      const toolPart = part as unknown as { output?: unknown };
+    activeToolNames.add(toolName);
 
-      if (toolName === "showCodeBlock") context.hasCodeTool = true;
-      if (toolName === "showComponentExample") context.hasComponentExample = true;
-      if (toolName === "showInstallation") context.hasInstallation = true;
-      if (toolName === "showReactTypeTable") context.hasReactTypeTable = true;
-      if (toolName === "findRelatedLinks") {
-        context.hasRelatedLinks = true;
-        context.relatedLinkUrls.push(
-          ...getRelatedLinksFromOutput(toolPart.output).map((link) => link.url),
-        );
-      }
-    }
+    if (toolName === "showCodeBlock") context.hasCodeTool = true;
+    if (toolName === "showComponentExample") context.hasComponentExample = true;
+    if (toolName === "showInstallation") context.hasInstallation = true;
+    if (toolName === "showReactTypeTable") context.hasReactTypeTable = true;
   }
 
-  context.relatedLinkUrls = Array.from(new Set(context.relatedLinkUrls));
+  context.activePolicies = getToolPolicies(activeToolNames);
+  context.dropFencedCodeFromText = shouldDropFencedCodeFromText(activeToolNames);
   return context;
 }
 
-function isCoveredRelatedUrl(urlInText: string, relatedLinkUrls: string[]): boolean {
-  return relatedLinkUrls.some(
-    (toolUrl) => toolUrl.includes(urlInText) || urlInText.includes(toolUrl),
-  );
-}
-
 function sanitizeTextForTools(text: string, toolContext: ToolRenderContext): string {
-  let sanitized = text;
+  let sanitized = stripToolSectionLabels(text);
 
   if (!sanitized.trim()) {
     return "";
   }
 
-  if (
-    (toolContext.hasCodeTool ||
-      toolContext.hasComponentExample ||
-      toolContext.hasInstallation ||
-      toolContext.hasReactTypeTable) &&
-    /```/.test(sanitized)
-  ) {
+  if (toolContext.dropFencedCodeFromText && /```/.test(sanitized)) {
     return "";
   }
 
-  if (toolContext.hasInstallation) {
-    sanitized = sanitized
-      .replace(/^#{1,6}\s*(installation|install|설치)\s*$/gim, "")
-      .replace(/^.*@seed-design\/cli@latest add.*$/gim, "")
-      .replace(/^.*(run this command|to install|설치.*명령어|설치 방법).*$/gim, "");
-  }
-
-  if (toolContext.hasComponentExample) {
-    sanitized = sanitized
-      .replace(/^#{1,6}\s*(preview|미리보기|example|사용 예시)\s*$/gim, "")
-      .replace(
-        /^.*(here is a preview|preview of the|component preview|컴포넌트 미리보기|사용 예제|아래는 .*예제).*$/gim,
-        "",
-      );
-  }
-
-  if (toolContext.hasReactTypeTable) {
-    const propsListPatterns = [
-      /^#{1,6}\s*props\s*$/gim,
-      /^.*(주요\s*props|props는 다음과 같습니다|prop table|props table|타입 테이블|프로퍼티 목록).*$/gim,
-      /^\s*[-*]\s*\*\*[^*]+\*\*.*$/gim,
-    ];
-
-    for (const pattern of propsListPatterns) {
-      sanitized = sanitized.replace(pattern, "");
+  for (const policy of toolContext.activePolicies) {
+    for (const pattern of policy.textSuppressionRules) {
+      const replacer = new RegExp(pattern.source, pattern.flags);
+      sanitized = sanitized.replace(replacer, "");
     }
-
-    if (/\b(props?|프로퍼티|속성)\b/i.test(sanitized) && /\|\s*undefined/.test(sanitized)) {
-      return "";
-    }
-  }
-
-  if (toolContext.hasRelatedLinks) {
-    sanitized = sanitized
-      .replace(/^#{1,6}\s*(related links?|관련 문서 링크|관련된 링크)\s*$/gim, "")
-      .replace(/^.*(for more detailed information|자세한 정보).*$/gim, "");
-
-    const sanitizedLines = sanitized
-      .split("\n")
-      .filter((line) => {
-        const trimmedLine = line.trim();
-        if (!trimmedLine) return true;
-
-        const markdownLinkMatch = trimmedLine.match(/\[.*?\]\((https?:\/\/[^)]+)\)/);
-        if (markdownLinkMatch) {
-          return !isCoveredRelatedUrl(markdownLinkMatch[1], toolContext.relatedLinkUrls);
-        }
-
-        const urlMatches = trimmedLine.match(/https?:\/\/[^\s)\]]+/g) ?? [];
-        if (urlMatches.length === 0) return true;
-
-        return !urlMatches.every((urlInText) =>
-          isCoveredRelatedUrl(urlInText, toolContext.relatedLinkUrls),
-        );
-      })
-      .join("\n");
-
-    if (sanitizedLines.trim().length === 0) {
-      return "";
-    }
-
-    sanitized = sanitizedLines;
   }
 
   sanitized = sanitized
@@ -515,51 +333,25 @@ function sanitizeTextForTools(text: string, toolContext: ToolRenderContext): str
     return "";
   }
 
-  if (
-    toolContext.hasInstallation &&
-    sanitized.length < 220 &&
-    /(run this command|to install|설치.*명령어|설치 방법)/i.test(sanitized)
-  ) {
-    return "";
-  }
-
-  if (
-    toolContext.hasComponentExample &&
-    sanitized.length < 220 &&
-    /(here is a preview|preview of the|component preview|컴포넌트 미리보기|사용 예제|아래는 .*예제)/i.test(
-      sanitized,
-    )
-  ) {
-    return "";
-  }
-
-  if (
-    toolContext.hasRelatedLinks &&
-    /(related links?|관련 문서 링크|관련된 링크|for more detailed information|자세한 정보)/i.test(
-      sanitized,
-    )
-  ) {
-    return "";
-  }
-
-  if (
-    toolContext.hasReactTypeTable &&
-    /(주요\s*props|props는 다음과 같습니다|prop table|props table|타입 테이블)/i.test(sanitized)
-  ) {
-    return "";
-  }
-
-  if (toolContext.hasRelatedLinks) {
-    const urlMatches = sanitized.match(/https?:\/\/[^\s)\]]+/g) ?? [];
-    if (
-      urlMatches.length > 0 &&
-      urlMatches.every((urlInText) => isCoveredRelatedUrl(urlInText, toolContext.relatedLinkUrls))
-    ) {
-      return "";
+  for (const policy of toolContext.activePolicies) {
+    if (policy.shortTextDiscardPattern && sanitized.length < 220) {
+      const testPattern = new RegExp(
+        policy.shortTextDiscardPattern.source,
+        policy.shortTextDiscardPattern.flags,
+      );
+      if (testPattern.test(sanitized)) {
+        return "";
+      }
     }
   }
 
   return sanitized;
+}
+
+function ToolSectionLabel({ title }: { title: string }) {
+  return (
+    <div className="mt-3 mb-1 text-[12px] font-semibold text-fd-muted-foreground">{title}</div>
+  );
 }
 
 export function ChatMessage({ message }: { message: UIMessage }) {
@@ -571,8 +363,8 @@ export function ChatMessage({ message }: { message: UIMessage }) {
         hasComponentExample: false,
         hasInstallation: false,
         hasReactTypeTable: false,
-        hasRelatedLinks: false,
-        relatedLinkUrls: [],
+        activePolicies: [],
+        dropFencedCodeFromText: false,
       }
     : getToolRenderContext(message);
 
@@ -600,15 +392,183 @@ export function ChatMessage({ message }: { message: UIMessage }) {
     }
   };
 
-  const orderedParts = isUser
-    ? message.parts
-    : [
-        ...message.parts.filter((part) => !isRelatedLinksToolPart(part)),
-        ...message.parts.filter((part) => isRelatedLinksToolPart(part)),
-      ];
+  const assistantNodes: ReactNode[] = [];
+  const renderedToolKeys = new Set<string>();
+  let previousToolSection: ToolSection | null = null;
 
-  const derivedRelatedLinks: DerivedRelatedLink[] = [];
-  const derivedPropsRows: DerivedPropsRow[] = [];
+  const pushToolNode = ({
+    toolName,
+    input,
+    state,
+    output,
+    keyHint,
+  }: {
+    toolName: string;
+    input: Record<string, unknown>;
+    state: string;
+    output?: unknown;
+    keyHint: string;
+  }) => {
+    const dedupeKey = getToolDedupeKey(toolName, input, output, keyHint);
+    if (renderedToolKeys.has(dedupeKey)) {
+      return;
+    }
+
+    renderedToolKeys.add(dedupeKey);
+    const policy = getToolPolicy(toolName);
+
+    if (policy.sectionTitle && previousToolSection !== policy.section) {
+      assistantNodes.push(
+        <ToolSectionLabel key={`tool-label-${dedupeKey}`} title={policy.sectionTitle} />,
+      );
+      previousToolSection = policy.section;
+    }
+
+    assistantNodes.push(
+      <ToolResultRenderer
+        key={`tool-${dedupeKey}`}
+        toolName={toolName}
+        input={input}
+        state={state}
+        output={output}
+      />,
+    );
+  };
+
+  if (!isUser) {
+    for (let partIndex = 0; partIndex < message.parts.length; partIndex += 1) {
+      const part = message.parts[partIndex];
+
+      if (part.type === "text" && part.text) {
+        const segments = parseMarkdownCodeBlocks(part.text);
+        for (let segmentIndex = 0; segmentIndex < segments.length; segmentIndex += 1) {
+          const segment = segments[segmentIndex];
+          const segmentKey = `assistant-segment-${partIndex}-${segmentIndex}`;
+
+          if (segment.type === "code") {
+            if (
+              toolContext.hasCodeTool ||
+              toolContext.hasComponentExample ||
+              toolContext.hasInstallation ||
+              toolContext.hasReactTypeTable
+            ) {
+              continue;
+            }
+
+            const installTarget = !toolContext.hasInstallation
+              ? extractInstallTargetFromCode(segment.code, segment.language)
+              : null;
+
+            if (installTarget) {
+              pushToolNode({
+                toolName: "showInstallation",
+                input: { name: installTarget },
+                state: "output-available",
+                keyHint: `derived-install-${partIndex}-${segmentIndex}`,
+              });
+              continue;
+            }
+
+            const previewName =
+              !toolContext.hasComponentExample && !toolContext.hasCodeTool
+                ? extractComponentPreviewNameFromCode(segment.code, segment.language)
+                : null;
+
+            if (previewName) {
+              pushToolNode({
+                toolName: "showComponentExample",
+                input: {
+                  name: previewName,
+                  code: segment.code,
+                  language: segment.language,
+                },
+                state: "output-available",
+                keyHint: `derived-preview-${partIndex}-${segmentIndex}`,
+              });
+              continue;
+            }
+
+            assistantNodes.push(
+              <div key={segmentKey} className="my-1.5">
+                <DynamicCodeBlock lang={segment.language} code={segment.code} />
+              </div>,
+            );
+            continue;
+          }
+
+          if (!segment.text) {
+            continue;
+          }
+
+          const visibleText = sanitizeTextForTools(segment.text, toolContext);
+          if (!visibleText) {
+            continue;
+          }
+
+          let derivedText = visibleText;
+          let derivedProps: DerivedPropsRow[] = [];
+
+          if (!toolContext.hasReactTypeTable) {
+            const propsExtracted = extractPropsTableRowsFromText(derivedText);
+            derivedProps = propsExtracted.rows;
+            derivedText = propsExtracted.text;
+          }
+
+          if (derivedText.trim()) {
+            assistantNodes.push(
+              <div key={segmentKey} className="text-[13px] break-words">
+                <ChatMarkdown markdown={derivedText} />
+              </div>,
+            );
+          }
+
+          if (derivedProps.length > 0) {
+            pushToolNode({
+              toolName: "showReactTypeTable",
+              input: {},
+              state: "output-available",
+              output: { rows: derivedProps },
+              keyHint: `derived-props-${partIndex}-${segmentIndex}`,
+            });
+          }
+        }
+        continue;
+      }
+
+      const toolName = getToolNameFromPart(part);
+      if (!toolName) {
+        continue;
+      }
+
+      if (part.type === "dynamic-tool") {
+        pushToolNode({
+          toolName,
+          input:
+            part.input && typeof part.input === "object"
+              ? (part.input as Record<string, unknown>)
+              : {},
+          state: part.state,
+          output: "output" in part ? part.output : undefined,
+          keyHint: part.toolCallId,
+        });
+        continue;
+      }
+
+      const toolPart = part as unknown as {
+        toolCallId?: string;
+        state?: string;
+        input?: Record<string, unknown>;
+        output?: unknown;
+      };
+      pushToolNode({
+        toolName,
+        input: toolPart.input && typeof toolPart.input === "object" ? toolPart.input : {},
+        state: typeof toolPart.state === "string" ? toolPart.state : "output-available",
+        output: toolPart.output,
+        keyHint: toolPart.toolCallId ?? `tool-${partIndex}`,
+      });
+    }
+  }
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
@@ -620,192 +580,23 @@ export function ChatMessage({ message }: { message: UIMessage }) {
               : ""
           }`}
         >
-          {orderedParts.map((part, i) => {
-            if (part.type === "text" && part.text) {
-              const segments = !isUser
-                ? parseMarkdownCodeBlocks(part.text)
-                : [{ type: "text" as const, text: part.text }];
+          {isUser &&
+            message.parts.map((part, partIndex) => {
+              if (part.type !== "text" || !part.text) {
+                return null;
+              }
+
               return (
-                <div key={`text-${i}`}>
-                  {segments.map((segment, segmentIndex) => {
-                    if (segment.type === "code") {
-                      if (
-                        !isUser &&
-                        (toolContext.hasCodeTool ||
-                          toolContext.hasComponentExample ||
-                          toolContext.hasInstallation ||
-                          toolContext.hasReactTypeTable)
-                      ) {
-                        return null;
-                      }
-
-                      if (!isUser) {
-                        const installTarget = !toolContext.hasInstallation
-                          ? extractInstallTargetFromCode(segment.code, segment.language)
-                          : null;
-
-                        if (installTarget) {
-                          return (
-                            <ToolResultRenderer
-                              key={`derived-install-${i}-${segmentIndex}`}
-                              toolName="showInstallation"
-                              input={{ name: installTarget }}
-                              state="output-available"
-                            />
-                          );
-                        }
-
-                        const previewName =
-                          !toolContext.hasComponentExample && !toolContext.hasCodeTool
-                            ? extractComponentPreviewNameFromCode(segment.code, segment.language)
-                            : null;
-
-                        if (previewName) {
-                          return (
-                            <ToolResultRenderer
-                              key={`derived-preview-${i}-${segmentIndex}`}
-                              toolName="showComponentExample"
-                              input={{
-                                name: previewName,
-                                code: segment.code,
-                                language: segment.language,
-                              }}
-                              state="output-available"
-                            />
-                          );
-                        }
-                      }
-
-                      return (
-                        <div key={`segment-code-${segmentIndex}`} className="my-2">
-                          <DynamicCodeBlock lang={segment.language} code={segment.code} />
-                        </div>
-                      );
-                    }
-
-                    if (!segment.text) {
-                      return null;
-                    }
-
-                    const visibleText = !isUser
-                      ? sanitizeTextForTools(segment.text, toolContext)
-                      : segment.text;
-
-                    if (!visibleText) {
-                      return null;
-                    }
-
-                    if (!isUser) {
-                      let derivedText = visibleText;
-
-                      if (!toolContext.hasRelatedLinks) {
-                        const relatedExtracted = extractRelatedLinksFromText(derivedText);
-                        if (relatedExtracted.links.length > 0) {
-                          for (const link of relatedExtracted.links) {
-                            if (
-                              !derivedRelatedLinks.some((existing) => existing.url === link.url)
-                            ) {
-                              derivedRelatedLinks.push(link);
-                            }
-                          }
-                        }
-                        derivedText = relatedExtracted.text;
-                      }
-
-                      if (!toolContext.hasReactTypeTable) {
-                        const propsExtracted = extractPropsTableRowsFromText(derivedText);
-                        if (propsExtracted.rows.length > 0) {
-                          for (const row of propsExtracted.rows) {
-                            if (!derivedPropsRows.some((existing) => existing.name === row.name)) {
-                              derivedPropsRows.push(row);
-                            }
-                          }
-                        }
-                        derivedText = propsExtracted.text;
-                      }
-
-                      if (!derivedText.trim()) {
-                        return null;
-                      }
-
-                      return (
-                        <div key={`segment-text-${segmentIndex}`} className="text-sm break-words">
-                          <ChatMarkdown markdown={derivedText} />
-                        </div>
-                      );
-                    }
-
-                    return (
-                      <div
-                        key={`segment-text-${segmentIndex}`}
-                        className={`text-sm whitespace-pre-wrap break-words ${
-                          isUser
-                            ? ""
-                            : "prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
-                        }`}
-                      >
-                        {visibleText}
-                      </div>
-                    );
-                  })}
+                <div
+                  key={`user-text-${partIndex}`}
+                  className="text-[13px] leading-[1.45] whitespace-pre-wrap break-words"
+                >
+                  {part.text}
                 </div>
               );
-            }
+            })}
 
-            // 도구 호출 파트 (dynamic-tool 포함)
-            if (part.type === "dynamic-tool") {
-              return (
-                <ToolResultRenderer
-                  key={part.toolCallId}
-                  toolName={part.toolName}
-                  input={part.input as Record<string, unknown>}
-                  state={part.state}
-                  output={"output" in part ? part.output : undefined}
-                />
-              );
-            }
-
-            // 정적 도구 파트 (type: "tool-{name}")
-            if (typeof part.type === "string" && part.type.startsWith("tool-")) {
-              const toolPart = part as unknown as {
-                type: string;
-                toolCallId: string;
-                state: string;
-                input: Record<string, unknown>;
-                output?: unknown;
-              };
-              const toolName = toolPart.type.replace("tool-", "");
-              return (
-                <ToolResultRenderer
-                  key={toolPart.toolCallId}
-                  toolName={toolName}
-                  input={toolPart.input}
-                  state={toolPart.state}
-                  output={toolPart.output}
-                />
-              );
-            }
-
-            return null;
-          })}
-
-          {!isUser && !toolContext.hasReactTypeTable && derivedPropsRows.length > 0 && (
-            <ToolResultRenderer
-              toolName="showReactTypeTable"
-              input={{}}
-              state="output-available"
-              output={{ rows: derivedPropsRows }}
-            />
-          )}
-
-          {!isUser && !toolContext.hasRelatedLinks && derivedRelatedLinks.length > 0 && (
-            <ToolResultRenderer
-              toolName="findRelatedLinks"
-              input={{}}
-              state="output-available"
-              output={{ links: derivedRelatedLinks }}
-            />
-          )}
+          {!isUser && <>{assistantNodes}</>}
         </div>
 
         {!isUser && (

@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "bun:test";
 import {
   clearComponentGuideLinksCache,
   resolveComponentGuideLinks,
+  resolveVerifiedLinksForQuery,
 } from "./component-guide-links";
 
 const REACT_LLMS_INDEX = `# SEED Design React - LLM Reference
@@ -16,6 +17,7 @@ const DOCS_LLMS_INDEX = `# SEED Design Guidelines - LLM Reference
 ### components
 
 - [Action Button](https://seed-design.io/llms/docs/components/action-button.txt)
+- [Bottom Sheet](https://seed-design.io/llms/docs/components/bottom-sheet.txt)
 `;
 
 describe("resolveComponentGuideLinks", () => {
@@ -142,6 +144,42 @@ describe("resolveComponentGuideLinks", () => {
       {
         title: "Action Button (React)",
         url: "https://seed-design.io/react/components/action-button",
+      },
+    ]);
+  });
+
+  it("resolves query links from docs/react llms indexes only", async () => {
+    globalThis.fetch = (async (input) => {
+      const url = typeof input === "string" ? input : input.url;
+
+      if (url === "https://seed-design.io/react/llms.txt") {
+        return new Response(
+          `${REACT_LLMS_INDEX}\n- [Bottom Sheet](https://seed-design.io/llms/react/components/bottom-sheet.txt)\n`,
+          { status: 200 },
+        );
+      }
+
+      if (url === "https://seed-design.io/docs/llms.txt") {
+        return new Response(DOCS_LLMS_INDEX, { status: 200 });
+      }
+
+      return new Response("not found", { status: 404 });
+    }) as typeof fetch;
+
+    const links = await resolveVerifiedLinksForQuery({
+      query: "bottom sheet 사용법",
+      baseUrl: "https://seed-design.io",
+      limit: 2,
+    });
+
+    expect(links).toEqual([
+      {
+        title: "Bottom Sheet",
+        url: "https://seed-design.io/docs/components/bottom-sheet",
+      },
+      {
+        title: "Bottom Sheet",
+        url: "https://seed-design.io/react/components/bottom-sheet",
       },
     ]);
   });

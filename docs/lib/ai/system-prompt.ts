@@ -1,11 +1,11 @@
 export interface SystemPromptContext {
+  verifiedLinks?: Array<{
+    title: string;
+    url: string;
+  }>;
   componentGuide?: {
     componentId: string;
     userQuery: string;
-    links: Array<{
-      title: string;
-      url: string;
-    }>;
   } | null;
 }
 
@@ -68,8 +68,9 @@ Components are imported from the seed-design package:
 
 function buildComponentGuidePrompt(
   context: NonNullable<SystemPromptContext["componentGuide"]>,
+  verifiedLinks: NonNullable<SystemPromptContext["verifiedLinks"]>,
 ): string {
-  const verifiedLinks = context.links
+  const verifiedLinkBullets = verifiedLinks
     .map((link) => `- [${link.title}](${link.url})`)
     .join("\n");
 
@@ -94,7 +95,7 @@ Additional constraints in this mode:
 - Keep plain text to at most: short summary + optional next step + optional clarifying question.
 
 Verified links for this component:
-${verifiedLinks || "- (none)"}
+${verifiedLinkBullets || "- (none)"}
 
 - When verified links exist, use only these URLs exactly as-is for the final link bullets.
 - Do not invent or rewrite URLs.
@@ -103,11 +104,26 @@ ${verifiedLinks || "- (none)"}
 }
 
 export function buildSystemPrompt(context?: SystemPromptContext): string {
+  const verifiedLinks = context?.verifiedLinks ?? [];
+  const runtimeVerifiedLinkBullets = verifiedLinks
+    .map((link) => `- [${link.title}](${link.url})`)
+    .join("\n");
+
+  const runtimeVerifiedLinksPrompt = `
+
+## Runtime Verified Links
+The following links are verified from SEED llms indexes for the current query:
+${runtimeVerifiedLinkBullets || "- (none)"}
+
+- If you include related links in the final answer, use only URLs from this list.
+- If this list is empty, omit related link bullets.
+`;
+
   if (!context?.componentGuide) {
-    return baseSystemPrompt;
+    return `${baseSystemPrompt}${runtimeVerifiedLinksPrompt}`;
   }
 
-  return `${baseSystemPrompt}${buildComponentGuidePrompt(context.componentGuide)}`;
+  return `${baseSystemPrompt}${runtimeVerifiedLinksPrompt}${buildComponentGuidePrompt(context.componentGuide, verifiedLinks)}`;
 }
 
 export const systemPrompt = baseSystemPrompt;

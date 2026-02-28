@@ -3,7 +3,6 @@ import { ComponentExample } from "@/components/component-example";
 import { ComponentGrid } from "@/components/component-grid";
 import { ComponentSpecBlock } from "@/components/component-spec-block";
 import { ManualInstallation } from "@/components/manual-installation";
-import { sharedMdxComponents } from "@/components/mdx-shared-components";
 import { StackflowExample } from "@/components/stackflow-example";
 import { TokenReference } from "@/components/token-reference";
 import { createReactTypeTable } from "@/components/type-table/react-type-table";
@@ -20,6 +19,8 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { ThemeToggle } from "fumadocs-ui/components/layout/theme-toggle";
 import { TypeTable } from "fumadocs-ui/components/type-table";
+import defaultMdxComponents from "fumadocs-ui/mdx";
+import clsx from "clsx";
 import type { MDXComponents } from "mdx/types";
 import { BreezeManualInstallation } from "./breeze-manual-installation";
 import { DoImage } from "./guideline/do-image";
@@ -38,7 +39,17 @@ import { typeTableGenerator } from "./type-table/generator";
 const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
 export const mdxComponents: MDXComponents = {
-  ...sharedMdxComponents,
+  ...defaultMdxComponents,
+
+  img: ({ className, ...rest }) => (
+    <ImageZoom
+      className={clsx(
+        className,
+        "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
+      )}
+      {...rest}
+    />
+  ),
 
   // Layout
   Grid: ({ children }) => (

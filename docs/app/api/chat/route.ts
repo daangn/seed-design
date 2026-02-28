@@ -4,7 +4,7 @@ import { buildSystemPrompt } from "@/lib/ai/system-prompt";
 import { createClientTools } from "@/lib/ai/tools";
 import { getMCPTools } from "@/lib/ai/mcp-client";
 import { detectComponentGuideIntent, extractLatestUserText } from "@/lib/ai/component-guide-intent";
-import { resolveComponentGuideLinks } from "@/lib/ai/component-guide-links";
+import { resolveComponentGuideLinks, resolveVerifiedLinksForQuery } from "@/lib/ai/component-guide-links";
 import { z } from "zod";
 
 const llmRouter = createOpenAI({
@@ -63,6 +63,15 @@ export async function POST(req: Request) {
         baseUrl,
       })
     : [];
+  const verifiedLinks = componentGuideIntent
+    ? componentGuideLinks
+    : latestUserText
+      ? await resolveVerifiedLinksForQuery({
+          query: latestUserText,
+          baseUrl,
+          limit: 3,
+        })
+      : [];
 
   const messages = await convertToModelMessages(validatedMessages.data, {
     tools,
@@ -72,11 +81,11 @@ export async function POST(req: Request) {
   const result = streamText({
     model: llmRouter(llmRouterModel),
     system: buildSystemPrompt({
+      verifiedLinks,
       componentGuide: componentGuideIntent
         ? {
             componentId: componentGuideIntent.component.id,
             userQuery: componentGuideIntent.question,
-            links: componentGuideLinks,
           }
         : null,
     }),
