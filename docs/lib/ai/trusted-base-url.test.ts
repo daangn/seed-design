@@ -25,6 +25,10 @@ describe("resolveTrustedBaseUrl", () => {
 });
 
 describe("resolveTrustedBaseUrlFromEnv", () => {
+  it("returns default base URL for empty env object", () => {
+    expect(resolveTrustedBaseUrlFromEnv({})).toBe("https://seed-design.io");
+  });
+
   it("uses explicit docs base URL when trusted", () => {
     expect(
       resolveTrustedBaseUrlFromEnv({
@@ -46,6 +50,14 @@ describe("resolveTrustedBaseUrlFromEnv", () => {
       resolveTrustedBaseUrlFromEnv({
         SEED_DOCS_BASE_URL: "https://evil.example.com",
         NEXT_PUBLIC_SITE_URL: "http://seed-design.io",
+      }),
+    ).toBe("https://seed-design.io");
+  });
+
+  it("uses vercel production URL when trusted", () => {
+    expect(
+      resolveTrustedBaseUrlFromEnv({
+        VERCEL_PROJECT_PRODUCTION_URL: "seed-design.io",
       }),
     ).toBe("https://seed-design.io");
   });

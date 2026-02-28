@@ -4,6 +4,7 @@ const TRUSTED_PUBLIC_HOSTS = new Set(["seed-design.io", "www.seed-design.io"]);
 const TRUSTED_LOCAL_HOSTS = new Set(["localhost", "127.0.0.1"]);
 
 interface BaseUrlEnv {
+  [key: string]: string | undefined;
   SEED_DOCS_BASE_URL?: string;
   NEXT_PUBLIC_SITE_URL?: string;
   VERCEL_PROJECT_PRODUCTION_URL?: string;
