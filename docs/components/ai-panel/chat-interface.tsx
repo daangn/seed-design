@@ -18,7 +18,7 @@ const SUGGESTIONS = [
 ];
 
 const chatTransport = new DefaultChatTransport({
-  api: process.env.NEXT_PUBLIC_CHAT_API_URL || "/api/chat",
+  api: "/api/chat",
 });
 
 export function ChatInterface() {
