@@ -29,6 +29,19 @@ interface ToolRenderContext {
   relatedLinkUrls: string[];
 }
 
+interface DerivedRelatedLink {
+  title: string;
+  url: string;
+}
+
+interface DerivedPropsRow {
+  name: string;
+  type: string;
+  required: boolean;
+  description: string;
+  defaultValue: string | null;
+}
+
 function getRecord(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== "object") return {};
   return value as Record<string, unknown>;
@@ -95,6 +108,172 @@ function getReactTypeTableRowsFromOutput(output: unknown): Array<{
         defaultValue: string | null;
       } => row !== null,
     );
+}
+
+function normalizeSeedDocsUrl(rawUrl: string): string | null {
+  try {
+    const parsed = new URL(rawUrl);
+    const isSeedDomain =
+      parsed.hostname === "seed-design.io" || parsed.hostname === "www.seed-design.io";
+
+    if (!isSeedDomain) return null;
+    return `https://seed-design.io${parsed.pathname}${parsed.search}${parsed.hash}`;
+  } catch {
+    return null;
+  }
+}
+
+function extractRelatedLinksFromText(text: string): { text: string; links: DerivedRelatedLink[] } {
+  if (!text.includes("http")) {
+    return { text, links: [] };
+  }
+
+  const links: DerivedRelatedLink[] = [];
+  const lines = text.split("\n");
+  const keptLines: string[] = [];
+  const markdownLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+
+  for (const line of lines) {
+    const markdownMatches = [...line.matchAll(markdownLinkRegex)];
+    if (markdownMatches.length > 0) {
+      let lineWithoutLinks = line;
+      let allSeedLinks = true;
+
+      for (const match of markdownMatches) {
+        const title = match[1]?.trim();
+        const normalizedUrl = normalizeSeedDocsUrl(match[2] ?? "");
+
+        if (!title || !normalizedUrl) {
+          allSeedLinks = false;
+          continue;
+        }
+
+        links.push({ title, url: normalizedUrl });
+        lineWithoutLinks = lineWithoutLinks.replace(match[0], "");
+      }
+
+      if (allSeedLinks && lineWithoutLinks.replace(/^[\s*\-0-9.]+/, "").trim().length === 0) {
+        continue;
+      }
+
+      keptLines.push(lineWithoutLinks);
+      continue;
+    }
+
+    const rawUrlMatch = line.match(/https?:\/\/seed-design\.io[^\s)\]]*/i);
+    if (rawUrlMatch) {
+      const normalizedUrl = normalizeSeedDocsUrl(rawUrlMatch[0]);
+      if (normalizedUrl) {
+        const prefix = line.slice(0, rawUrlMatch.index ?? 0).trim();
+        const title = prefix.replace(/^[-*]\s*/, "").trim() || normalizedUrl;
+        links.push({ title, url: normalizedUrl });
+
+        if (line.replace(rawUrlMatch[0], "").trim().length === 0) {
+          continue;
+        }
+      }
+    }
+
+    keptLines.push(line);
+  }
+
+  const deduped = Array.from(
+    links.reduce((map, link) => {
+      if (!map.has(link.url)) {
+        map.set(link.url, link);
+      }
+      return map;
+    }, new Map<string, DerivedRelatedLink>()),
+  ).map(([, link]) => link);
+
+  return {
+    text: keptLines.join("\n"),
+    links: deduped,
+  };
+}
+
+function parsePropNames(raw: string): string[] {
+  const normalized = raw
+    .replaceAll("`", "")
+    .replaceAll("**", "")
+    .replaceAll("'", "")
+    .replaceAll('"', "")
+    .trim();
+
+  return normalized
+    .split("/")
+    .flatMap((token) => token.split(","))
+    .map((token) => token.trim())
+    .filter(Boolean);
+}
+
+function extractPropsTableRowsFromText(text: string): { text: string; rows: DerivedPropsRow[] } {
+  const propsSectionRegex =
+    /(?:^|\n)#{1,6}\s*(?:주요\s*)?props[^\n]*\n([\s\S]*?)(?=\n#{1,6}\s|\n---|\n$|$)/i;
+  const match = text.match(propsSectionRegex);
+  if (!match || !match[1]) {
+    return { text, rows: [] };
+  }
+
+  const sectionBody = match[1];
+  const rows: DerivedPropsRow[] = [];
+
+  for (const line of sectionBody.split("\n")) {
+    const bulletMatch = line.match(/^\s*[-*]\s*(.+?)\s*:\s*(.+)\s*$/);
+    if (!bulletMatch) continue;
+
+    const names = parsePropNames(bulletMatch[1]);
+    const description = bulletMatch[2].trim();
+    if (!description || names.length === 0) continue;
+
+    for (const name of names) {
+      rows.push({
+        name,
+        type: "-",
+        required: false,
+        description,
+        defaultValue: null,
+      });
+    }
+  }
+
+  if (rows.length === 0) {
+    return { text, rows: [] };
+  }
+
+  return {
+    text: text.replace(propsSectionRegex, "\n"),
+    rows,
+  };
+}
+
+function extractInstallTargetFromCode(code: string, language: string): string | null {
+  if (!/(bash|sh|zsh|shell|console)/i.test(language) && !code.includes("@seed-design/cli@latest")) {
+    return null;
+  }
+
+  const match = code.match(/@seed-design\/cli@latest\s+add\s+([^\s]+)/i);
+  if (!match?.[1]) return null;
+  return match[1].trim();
+}
+
+function extractComponentPreviewNameFromCode(code: string, language: string): string | null {
+  if (!/(tsx|jsx|typescript|javascript|ts|js)/i.test(language)) {
+    return null;
+  }
+
+  const match = code.match(/from\s+["']seed-design\/ui\/([a-z0-9-]+)["']/i);
+  if (!match?.[1]) return null;
+
+  return `react/${match[1]}/preview`;
+}
+
+function isRelatedLinksToolPart(part: UIMessage["parts"][number]): boolean {
+  if (part.type === "dynamic-tool") {
+    return part.toolName === "findRelatedLinks";
+  }
+
+  return typeof part.type === "string" && part.type === "tool-findRelatedLinks";
 }
 
 function getToolCopyText(toolName: string, input: unknown, output: unknown): string[] {
@@ -325,6 +504,7 @@ function sanitizeTextForTools(text: string, toolContext: ToolRenderContext): str
   }
 
   sanitized = sanitized
+    .replace(/^#{1,6}\s*/gm, "")
     .split("\n")
     .map((line) => line.replace(/\s+$/g, ""))
     .join("\n")
@@ -420,6 +600,16 @@ export function ChatMessage({ message }: { message: UIMessage }) {
     }
   };
 
+  const orderedParts = isUser
+    ? message.parts
+    : [
+        ...message.parts.filter((part) => !isRelatedLinksToolPart(part)),
+        ...message.parts.filter((part) => isRelatedLinksToolPart(part)),
+      ];
+
+  const derivedRelatedLinks: DerivedRelatedLink[] = [];
+  const derivedPropsRows: DerivedPropsRow[] = [];
+
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div className={isUser ? "max-w-[90%]" : "min-w-[85%] max-w-[90%]"}>
@@ -430,7 +620,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
               : ""
           }`}
         >
-          {message.parts.map((part, i) => {
+          {orderedParts.map((part, i) => {
             if (part.type === "text" && part.text) {
               const segments = !isUser
                 ? parseMarkdownCodeBlocks(part.text)
@@ -447,6 +637,43 @@ export function ChatMessage({ message }: { message: UIMessage }) {
                           toolContext.hasReactTypeTable)
                       ) {
                         return null;
+                      }
+
+                      if (!isUser) {
+                        const installTarget = !toolContext.hasInstallation
+                          ? extractInstallTargetFromCode(segment.code, segment.language)
+                          : null;
+
+                        if (installTarget) {
+                          return (
+                            <ToolResultRenderer
+                              key={`derived-install-${i}-${segmentIndex}`}
+                              toolName="showInstallation"
+                              input={{ name: installTarget }}
+                              state="output-available"
+                            />
+                          );
+                        }
+
+                        const previewName =
+                          !toolContext.hasComponentExample && !toolContext.hasCodeTool
+                            ? extractComponentPreviewNameFromCode(segment.code, segment.language)
+                            : null;
+
+                        if (previewName) {
+                          return (
+                            <ToolResultRenderer
+                              key={`derived-preview-${i}-${segmentIndex}`}
+                              toolName="showComponentExample"
+                              input={{
+                                name: previewName,
+                                code: segment.code,
+                                language: segment.language,
+                              }}
+                              state="output-available"
+                            />
+                          );
+                        }
                       }
 
                       return (
@@ -466,6 +693,49 @@ export function ChatMessage({ message }: { message: UIMessage }) {
 
                     if (!visibleText) {
                       return null;
+                    }
+
+                    if (!isUser) {
+                      let derivedText = visibleText;
+
+                      if (!toolContext.hasRelatedLinks) {
+                        const relatedExtracted = extractRelatedLinksFromText(derivedText);
+                        if (relatedExtracted.links.length > 0) {
+                          for (const link of relatedExtracted.links) {
+                            if (
+                              !derivedRelatedLinks.some((existing) => existing.url === link.url)
+                            ) {
+                              derivedRelatedLinks.push(link);
+                            }
+                          }
+                        }
+                        derivedText = relatedExtracted.text;
+                      }
+
+                      if (!toolContext.hasReactTypeTable) {
+                        const propsExtracted = extractPropsTableRowsFromText(derivedText);
+                        if (propsExtracted.rows.length > 0) {
+                          for (const row of propsExtracted.rows) {
+                            if (!derivedPropsRows.some((existing) => existing.name === row.name)) {
+                              derivedPropsRows.push(row);
+                            }
+                          }
+                        }
+                        derivedText = propsExtracted.text;
+                      }
+
+                      if (!derivedText.trim()) {
+                        return null;
+                      }
+
+                      return (
+                        <div
+                          key={`segment-text-${segmentIndex}`}
+                          className="text-sm whitespace-pre-wrap break-words prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                        >
+                          {derivedText}
+                        </div>
+                      );
                     }
 
                     return (
@@ -521,6 +791,24 @@ export function ChatMessage({ message }: { message: UIMessage }) {
 
             return null;
           })}
+
+          {!isUser && !toolContext.hasReactTypeTable && derivedPropsRows.length > 0 && (
+            <ToolResultRenderer
+              toolName="showReactTypeTable"
+              input={{}}
+              state="output-available"
+              output={{ rows: derivedPropsRows }}
+            />
+          )}
+
+          {!isUser && !toolContext.hasRelatedLinks && derivedRelatedLinks.length > 0 && (
+            <ToolResultRenderer
+              toolName="findRelatedLinks"
+              input={{}}
+              state="output-available"
+              output={{ links: derivedRelatedLinks }}
+            />
+          )}
         </div>
 
         {!isUser && (
