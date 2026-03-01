@@ -1,187 +1,430 @@
 import { z } from "zod";
-import type { Tool } from "../types.js";
-import { SECTIONS, SECTION_IDS, isValidSection, type SectionId } from "../config.js";
-import { fetchDocsList, fetchDoc, fetchSectionFull } from "../fetch.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import {
+  getSectionDocTxtUrl,
+  getSectionFullTxtUrl,
+  getSectionOverviewTxtUrl,
+  SECTION_IDS,
+  SECTIONS,
+  type SectionId,
+} from "../config.js";
+import { DEFAULT_DOC_MAX_CHARS, DEFAULT_LIST_LIMIT, DEFAULT_SEARCH_LIMIT } from "../constants.js";
+import { fetchDoc, fetchDocsList, searchDocs } from "../fetch.js";
 
 const sectionEnum = z.enum(SECTION_IDS as [SectionId, ...SectionId[]]);
 
-export const listDocsTool: Tool = {
-  name: "list_docs",
-  description:
-    "List available documents in a SEED Design documentation section. " +
-    "Use discover_seed_docs first to see all available sections and categories.",
-  exec(server, { name, description }) {
-    server.tool(
-      name,
-      description,
-      {
-        section: sectionEnum.describe(
-          "Documentation section: react, docs, breeze, ai-integration, or lynx",
-        ),
-        category: z
-          .string()
-          .optional()
-          .describe(
-            "Optional category filter (e.g., 'components', 'foundation', 'getting-started')",
-          ),
-      },
-      async ({ section, category }) => {
-        if (!isValidSection(section)) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `Invalid section: ${section}. Valid sections: ${SECTION_IDS.join(", ")}`,
-              },
-            ],
-            isError: true,
-          };
-        }
+const readOnlyAnnotations = {
+  readOnlyHint: true,
+  idempotentHint: true,
+} as const;
 
-        try {
-          const docs = await fetchDocsList(section, category);
+const docItemSchema = z.object({
+  title: z.string(),
+  path: z.string(),
+  category: z.string().optional(),
+  txtUrl: z.string().url(),
+});
+
+const sectionInfoSchema = z.object({
+  id: sectionEnum,
+  name: z.string(),
+  description: z.string(),
+  overviewTxtUrl: z.string().url(),
+  fullTxtUrl: z.string().url(),
+  categories: z.array(
+    z.object({
+      id: z.string(),
+      description: z.string(),
+    }),
+  ),
+});
+
+function toErrorResult<T extends Record<string, unknown>>(message: string, fallback: T) {
+  return {
+    content: [{ type: "text" as const, text: message }],
+    structuredContent: {
+      ...fallback,
+      error: message,
+    },
+    isError: true,
+  };
+}
+
+function getFallbackDocUrl(section: SectionId, path: string): string {
+  try {
+    return getSectionDocTxtUrl(section, path);
+  } catch {
+    return getSectionOverviewTxtUrl(section);
+  }
+}
+
+export function registerDocsTools(server: McpServer): void {
+  server.registerTool(
+    "list_sections",
+    {
+      title: "List Documentation Sections",
+      description: "List available SEED documentation sections and categories.",
+      outputSchema: {
+        sections: z.array(sectionInfoSchema),
+        error: z.string().optional(),
+      },
+      annotations: readOnlyAnnotations,
+    },
+    async () => {
+      try {
+        const sections = SECTION_IDS.map((section) => {
           const config = SECTIONS[section];
+          return {
+            id: section,
+            name: config.name,
+            description: config.description,
+            overviewTxtUrl: getSectionOverviewTxtUrl(section),
+            fullTxtUrl: getSectionFullTxtUrl(section),
+            categories: Object.entries(config.categories).map(([id, description]) => ({
+              id,
+              description,
+            })),
+          };
+        });
 
-          const groupedByCategory: Record<string, typeof docs> = {};
-          for (const doc of docs) {
-            const cat = doc.category || "root";
-            if (!groupedByCategory[cat]) {
-              groupedByCategory[cat] = [];
+        return {
+          content: [{ type: "text", text: JSON.stringify({ sections }, null, 2) }],
+          structuredContent: { sections },
+        };
+      } catch (error) {
+        return toErrorResult(
+          `Failed to list sections: ${error instanceof Error ? error.message : "Unknown error"}`,
+          { sections: [] as Array<z.infer<typeof sectionInfoSchema>> },
+        );
+      }
+    },
+  );
+
+  server.registerTool(
+    "list_docs",
+    {
+      title: "List Documentation Files",
+      description: "List documentation files available in a section from llms.txt indexes.",
+      inputSchema: {
+        section: sectionEnum.describe("Section id."),
+        category: z.string().optional().describe("Optional category in the section."),
+        limit: z
+          .number()
+          .int()
+          .positive()
+          .max(500)
+          .optional()
+          .describe(`Maximum number of docs to return. Default: ${DEFAULT_LIST_LIMIT}`),
+      },
+      outputSchema: {
+        section: sectionEnum,
+        category: z.string().optional(),
+        items: z.array(docItemSchema),
+        total: z.number().int().nonnegative(),
+        truncated: z.boolean(),
+        error: z.string().optional(),
+      },
+      annotations: readOnlyAnnotations,
+    },
+    async ({ section, category, limit }) => {
+      try {
+        const result = await fetchDocsList(section, {
+          category,
+          limit: limit ?? DEFAULT_LIST_LIMIT,
+        });
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  section,
+                  category,
+                  total: result.total,
+                  truncated: result.truncated,
+                  items: result.items,
+                },
+                null,
+                2,
+              ),
+            },
+          ],
+          structuredContent: {
+            section,
+            category,
+            items: result.items,
+            total: result.total,
+            truncated: result.truncated,
+          },
+        };
+      } catch (error) {
+        return toErrorResult(
+          `Failed to list docs for section '${section}': ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`,
+          {
+            section,
+            category,
+            items: [],
+            total: 0,
+            truncated: false,
+          },
+        );
+      }
+    },
+  );
+
+  server.registerTool(
+    "search_docs",
+    {
+      title: "Search Documentation",
+      description: "Search docs by title/path from llms.txt document index.",
+      inputSchema: {
+        query: z.string().min(1).describe("Search query."),
+        section: sectionEnum.optional().describe("Optional section filter."),
+        category: z.string().optional().describe("Optional category filter."),
+        limit: z
+          .number()
+          .int()
+          .positive()
+          .max(200)
+          .optional()
+          .describe(`Maximum results. Default: ${DEFAULT_SEARCH_LIMIT}`),
+      },
+      outputSchema: {
+        query: z.string(),
+        results: z.array(
+          z.object({
+            section: sectionEnum,
+            title: z.string(),
+            path: z.string(),
+            category: z.string().optional(),
+            txtUrl: z.string().url(),
+            score: z.number().int().nonnegative(),
+          }),
+        ),
+        total: z.number().int().nonnegative(),
+        truncated: z.boolean(),
+        error: z.string().optional(),
+      },
+      annotations: readOnlyAnnotations,
+    },
+    async ({ query, section, category, limit }) => {
+      try {
+        const result = await searchDocs(query, {
+          section,
+          category,
+          limit: limit ?? DEFAULT_SEARCH_LIMIT,
+        });
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  query,
+                  total: result.total,
+                  truncated: result.truncated,
+                  results: result.results,
+                },
+                null,
+                2,
+              ),
+            },
+          ],
+          structuredContent: {
+            query,
+            results: result.results,
+            total: result.total,
+            truncated: result.truncated,
+          },
+        };
+      } catch (error) {
+        return toErrorResult(
+          `Failed to search docs for query '${query}': ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`,
+          {
+            query,
+            results: [],
+            total: 0,
+            truncated: false,
+          },
+        );
+      }
+    },
+  );
+
+  server.registerTool(
+    "read_doc",
+    {
+      title: "Read Documentation File",
+      description: "Read one llms.txt-backed documentation file as plain text. HTML is rejected.",
+      inputSchema: {
+        section: sectionEnum.describe("Section id."),
+        path: z.string().describe("Document path in the section, without .txt extension."),
+        maxChars: z
+          .number()
+          .int()
+          .positive()
+          .max(200_000)
+          .optional()
+          .describe(`Maximum number of characters to return. Default: ${DEFAULT_DOC_MAX_CHARS}`),
+      },
+      outputSchema: {
+        section: sectionEnum,
+        path: z.string(),
+        txtUrl: z.string().url(),
+        content: z.string(),
+        truncated: z.boolean(),
+        contentType: z.string(),
+        error: z.string().optional(),
+      },
+      annotations: readOnlyAnnotations,
+    },
+    async ({ section, path, maxChars }) => {
+      const txtUrl = getFallbackDocUrl(section, path);
+
+      try {
+        const doc = await fetchDoc(section, path, maxChars ?? DEFAULT_DOC_MAX_CHARS);
+        return {
+          content: [{ type: "text", text: doc.content }],
+          structuredContent: {
+            section,
+            path,
+            txtUrl: doc.txtUrl,
+            content: doc.content,
+            truncated: doc.truncated,
+            contentType: doc.contentType,
+          },
+        };
+      } catch (error) {
+        return toErrorResult(
+          `Failed to read doc '${path}' from '${section}': ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`,
+          {
+            section,
+            path,
+            txtUrl,
+            content: "",
+            truncated: false,
+            contentType: "text/plain",
+          },
+        );
+      }
+    },
+  );
+
+  server.registerTool(
+    "read_docs_batch",
+    {
+      title: "Read Multiple Documentation Files",
+      description:
+        "Read multiple llms.txt-backed documentation files in one call. HTML responses are rejected.",
+      inputSchema: {
+        items: z
+          .array(
+            z.object({
+              section: sectionEnum,
+              path: z.string(),
+            }),
+          )
+          .min(1)
+          .max(50),
+        maxCharsPerDoc: z
+          .number()
+          .int()
+          .positive()
+          .max(200_000)
+          .optional()
+          .describe(`Maximum number of characters per document. Default: ${DEFAULT_DOC_MAX_CHARS}`),
+      },
+      outputSchema: {
+        docs: z.array(
+          z.object({
+            section: sectionEnum,
+            path: z.string(),
+            txtUrl: z.string().url(),
+            content: z.string(),
+            truncated: z.boolean(),
+            error: z.string().optional(),
+          }),
+        ),
+        successCount: z.number().int().nonnegative(),
+        errorCount: z.number().int().nonnegative(),
+        error: z.string().optional(),
+      },
+      annotations: readOnlyAnnotations,
+    },
+    async ({ items, maxCharsPerDoc }) => {
+      try {
+        const docs = await Promise.all(
+          items.map(async (item) => {
+            const txtUrl = getFallbackDocUrl(item.section, item.path);
+            try {
+              const doc = await fetchDoc(
+                item.section,
+                item.path,
+                maxCharsPerDoc ?? DEFAULT_DOC_MAX_CHARS,
+              );
+              return {
+                section: item.section,
+                path: item.path,
+                txtUrl: doc.txtUrl,
+                content: doc.content,
+                truncated: doc.truncated,
+              };
+            } catch (error) {
+              return {
+                section: item.section,
+                path: item.path,
+                txtUrl,
+                content: "",
+                truncated: false,
+                error: error instanceof Error ? error.message : "Unknown error",
+              };
             }
-            groupedByCategory[cat].push(doc);
-          }
+          }),
+        );
 
-          const formatted = Object.entries(groupedByCategory)
-            .map(([cat, catDocs]) => {
-              const categoryName = cat === "root" ? "Documents" : cat;
-              const docList = catDocs.map((d) => `  - ${d.title} (path: ${d.path})`).join("\n");
-              return `### ${categoryName}\n\n${docList}`;
-            })
-            .join("\n\n");
+        const successCount = docs.filter((doc) => !doc.error).length;
+        const errorCount = docs.length - successCount;
 
-          return {
-            content: [
-              {
-                type: "text",
-                text: `# ${config.name} Documentation\n\n${config.description}\n\nTotal: ${docs.length} documents${category ? ` (filtered by: ${category})` : ""}\n\n${formatted}\n\n## Usage\n\nUse get_doc with section="${section}" and the path to get document content.`,
-              },
-            ],
-          };
-        } catch (error) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `Error fetching docs list: ${error instanceof Error ? error.message : "Unknown error"}`,
-              },
-            ],
-            isError: true,
-          };
-        }
-      },
-    );
-  },
-};
-
-export const getDocTool: Tool = {
-  name: "get_doc",
-  description:
-    "Get the content of a specific SEED Design document. " +
-    "Use list_docs first to see available documents and their paths.",
-  exec(server, { name, description }) {
-    server.tool(
-      name,
-      description,
-      {
-        section: sectionEnum.describe(
-          "Documentation section: react, docs, breeze, ai-integration, or lynx",
-        ),
-        path: z
-          .string()
-          .describe(
-            "Document path (e.g., 'components/button', 'getting-started/installation', 'figma-mcp')",
-          ),
-      },
-      async ({ section, path }) => {
-        if (!isValidSection(section)) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `Invalid section: ${section}. Valid sections: ${SECTION_IDS.join(", ")}`,
-              },
-            ],
-            isError: true,
-          };
-        }
-
-        try {
-          const content = await fetchDoc(section, path);
-
-          return {
-            content: [{ type: "text", text: content }],
-          };
-        } catch (error) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `Error fetching document '${path}' from section '${section}': ${error instanceof Error ? error.message : "Unknown error"}\n\nUse list_docs to see available documents.`,
-              },
-            ],
-            isError: true,
-          };
-        }
-      },
-    );
-  },
-};
-
-export const getFullDocsTool: Tool = {
-  name: "get_full_docs",
-  description:
-    "Get all documents from a section combined into a single text. " +
-    "Useful for comprehensive analysis or when you need complete context.",
-  exec(server, { name, description }) {
-    server.tool(
-      name,
-      description,
-      {
-        section: sectionEnum.describe(
-          "Documentation section: react, docs, breeze, ai-integration, or lynx",
-        ),
-      },
-      async ({ section }) => {
-        if (!isValidSection(section)) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `Invalid section: ${section}. Valid sections: ${SECTION_IDS.join(", ")}`,
-              },
-            ],
-            isError: true,
-          };
-        }
-
-        try {
-          const content = await fetchSectionFull(section);
-
-          return {
-            content: [{ type: "text", text: content }],
-          };
-        } catch (error) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `Error fetching full docs for section '${section}': ${error instanceof Error ? error.message : "Unknown error"}`,
-              },
-            ],
-            isError: true,
-          };
-        }
-      },
-    );
-  },
-};
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  successCount,
+                  errorCount,
+                  docs: docs.map((doc) => ({
+                    ...doc,
+                    content: doc.content ? `${doc.content.slice(0, 500)}...` : "",
+                  })),
+                },
+                null,
+                2,
+              ),
+            },
+          ],
+          structuredContent: {
+            docs,
+            successCount,
+            errorCount,
+          },
+        };
+      } catch (error) {
+        return toErrorResult(
+          `Failed to read docs batch: ${error instanceof Error ? error.message : "Unknown error"}`,
+          {
+            docs: [],
+            successCount: 0,
+            errorCount: items.length,
+          },
+        );
+      }
+    },
+  );
+}

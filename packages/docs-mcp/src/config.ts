@@ -1,3 +1,5 @@
+import { SEED_DOCS_BASE_URL } from "./constants.js";
+
 /**
  * SEED Design Documentation Configuration
  *
@@ -101,4 +103,17 @@ export function isValidCategory(section: SectionId, category: string): boolean {
     return true;
   }
   return category in config.categories;
+}
+
+export function getSectionOverviewTxtUrl(section: SectionId): string {
+  return `${SEED_DOCS_BASE_URL}${SECTIONS[section].overviewPath}`;
+}
+
+export function getSectionFullTxtUrl(section: SectionId): string {
+  return `${SEED_DOCS_BASE_URL}${SECTIONS[section].fullPath}`;
+}
+
+export function getSectionDocTxtUrl(section: SectionId, path: string): string {
+  const cleanPath = path.replace(/\.txt$/, "").replace(/^\/+/, "");
+  return `${SEED_DOCS_BASE_URL}${SECTIONS[section].basePath}/${cleanPath}.txt`;
 }

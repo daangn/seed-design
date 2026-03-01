@@ -1,33 +1,49 @@
 # @seed-design/docs-mcp
 
-MCP (Model Context Protocol) tools for accessing SEED Design documentation. This package provides LLMs with structured access to SEED Design's React and Breeze component documentation, design guidelines, Rootage specifications, and more.
+Official MCP server for SEED Design documentation.
+
+This package is built for LLM-friendly docs access:
+
+- `llms.txt` / `/llms/.../*.txt` first
+- structured tool results (`outputSchema` + `structuredContent`)
+- stdio and Streamable HTTP transports
 
 ## Installation
 
 ```bash
-npm install @seed-design/docs-mcp
-# or
 bun add @seed-design/docs-mcp
+# or
+npm install @seed-design/docs-mcp
 ```
 
-## Usage
+## Running The Server
 
-### As a stdio MCP server (CLI)
-
-For use with Claude Desktop or other MCP clients:
+### stdio (local MCP clients)
 
 ```bash
-# Global installation
-npm install -g @seed-design/docs-mcp
-seed-docs-mcp
-
-# Or via npx
+# via npx
 npx @seed-design/docs-mcp
+
+# if globally installed
+seed-docs-mcp
 ```
 
-### Integration with Claude Desktop
+### Streamable HTTP
 
-Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+```bash
+# starts HTTP server (default: http://127.0.0.1:3100/mcp)
+npx -y --package @seed-design/docs-mcp seed-docs-mcp-http
+```
+
+Environment variables:
+
+- `PORT` (default: `3100`)
+- `SEED_DOCS_MCP_HOST` (default: `127.0.0.1`)
+- `SEED_DOCS_MCP_PATH` (default: `/mcp`)
+
+## Client Configuration
+
+### Claude Desktop (stdio)
 
 ```json
 {
@@ -40,110 +56,101 @@ Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/
 }
 ```
 
-Or if installed globally:
+### Claude Code (HTTP)
 
-```json
-{
-  "mcpServers": {
-    "seed-docs": {
-      "command": "seed-docs-mcp"
-    }
-  }
-}
+```bash
+claude mcp add --transport http seed-docs http://127.0.0.1:3100/mcp
 ```
 
-### Programmatic Usage
-
-For building custom MCP servers or integrating into your own applications:
-
-```javascript
-import { server } from "@seed-design/docs-mcp/server";
-import { initializeTools } from "@seed-design/docs-mcp/tools";
-
-// Initialize the tools
-await initializeTools(server);
-
-// Use with your preferred transport
-// Example: stdio, HTTP, SSE, etc.
-```
-
-## Available Tools
-
-### Discovery
-
-- `discover_seed_docs` - Discover all available documentation sections and categories. Call this first to understand the documentation structure.
+## Tool Set (V2)
 
 ### Documentation
 
-- `list_docs` - List available documents in a section (react, docs, breeze, ai-integration, lynx) with optional category filter
-- `get_doc` - Get the content of a specific document by section and path
-- `get_full_docs` - Get all documents from a section combined into a single text
+- `list_sections`: list section metadata and categories
+- `list_docs`: list docs in a section
+- `search_docs`: search docs by title/path
+- `read_doc`: read one doc (`llms.txt` text only)
+- `read_docs_batch`: read multiple docs in one call (`llms.txt` text only)
 
-### Rootage (Design Tokens & Component Specs)
+### Rootage
 
-- `get_rootage` - Get SEED Design rootage specifications (design tokens and component specs)
-  - Without path: Returns index with all available resources
-  - With path: Returns specific resource (e.g., `/color.json`, `/components/action-button.json`)
+- `read_rootage`: read rootage JSON index/resource
 
 ### Icons
 
-- `list_icons` - List all available icons with optional type filter
-- `search_icons` - Search icons by keyword
-- `get_icon_details` - Get detailed information about a specific icon
+- `list_icons`: list icons with filters
+- `search_icons`: search icons by keyword
+- `read_icon`: read icon details and usage imports
 
-## Documentation Sections
+## Resources
 
-| Section          | Description                                                          |
-| ---------------- | -------------------------------------------------------------------- |
-| `react`          | React component library, API references, usage examples              |
-| `docs`           | Component design guidelines, Foundation (color, typography, spacing) |
-| `breeze`         | Ready-to-use utility UI components                                   |
-| `ai-integration` | MCP, llms.txt integration guides                                     |
-| `lynx`           | Lynx framework                                                       |
+- `seed-docs://sections`
+- `seed-docs://{section}/index`
+- `seed-rootage://index`
+- `seed-icons://services`
 
-## Example Usage
+## Prompts
 
-```text
-// 1. Discover available sections
-discover_seed_docs()
+- `seed_docs_lookup`
 
-// 2. List React components
-list_docs({ section: "react", category: "components" })
+## Docs Format Policy
 
-// 3. Get specific component documentation
-get_doc({ section: "react", path: "components/button" })
+`read_doc` and `read_docs_batch` only fetch `llms.txt`-style text documents:
 
-// 4. Get AI integration guide
-get_doc({ section: "ai-integration", path: "figma-mcp" })
+- allowed: `.../llms.txt`, `/llms/.../*.txt`
+- rejected: `text/html` responses (no HTML fallback)
+
+This is intentional to optimize model consumption and avoid noisy HTML parsing.
+
+## Breaking Changes (V2)
+
+Removed tools:
+
+- `discover_seed_docs`
+- `get_doc`
+- `get_full_docs`
+- `get_rootage`
+- `get_icon_details`
+
+Migration map:
+
+- `discover_seed_docs` -> `list_sections`
+- `get_doc` -> `read_doc`
+- `get_full_docs` -> `read_docs_batch`
+- `get_rootage` -> `read_rootage`
+- `get_icon_details` -> `read_icon`
+
+## Programmatic Usage
+
+```ts
+import { server, initializeTools, startHttpServer } from "@seed-design/docs-mcp";
+
+await initializeTools(server);
+
+// stdio transport: use your own StdioServerTransport
+// streamable HTTP transport:
+await startHttpServer({
+  host: "127.0.0.1",
+  port: 3100,
+  path: "/mcp",
+});
 ```
 
 ## Development
 
 ```bash
-# Install dependencies
 bun install
-
-# Run in development mode (stdio)
-bun run dev
-
-# Build the package
-bun run build
-
-# Lint check
-bun run lint
-
-# Lint fix
-bun run lint:fix
-
-# Type check
-bun run typecheck
-
-# Clean build artifacts
-bun run clean
+bun --filter @seed-design/docs-mcp typecheck
+bun --filter @seed-design/docs-mcp build
 ```
 
 ### Test with MCP Inspector
 
 ```bash
+# stdio
 npx @modelcontextprotocol/inspector bun ./dist/stdio.js
+
+# streamable HTTP
+npx @modelcontextprotocol/inspector
+# connect to http://127.0.0.1:3100/mcp
 ```
