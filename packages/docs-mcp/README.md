@@ -26,6 +26,9 @@ npx @seed-design/docs-mcp
 
 # if globally installed
 seed-docs-mcp
+
+# custom docs base URL
+seed-docs-mcp --base-url http://127.0.0.1:3000
 ```
 
 ### Streamable HTTP
@@ -33,6 +36,9 @@ seed-docs-mcp
 ```bash
 # starts HTTP server (default: http://127.0.0.1:3100/mcp)
 npx -y --package @seed-design/docs-mcp seed-docs-mcp-http
+
+# custom docs base URL
+npx -y --package @seed-design/docs-mcp seed-docs-mcp-http --base-url http://127.0.0.1:3000
 ```
 
 Environment variables:
@@ -133,7 +139,20 @@ await startHttpServer({
   host: "127.0.0.1",
   port: 3100,
   path: "/mcp",
+  baseUrl: "http://127.0.0.1:3000",
 });
+```
+
+## Monorepo Local Development
+
+Run docs and MCP in separate terminals:
+
+```bash
+# terminal 1: local docs-mcp (reads local docs site)
+bun docs:mcp:dev-local
+
+# terminal 2: docs app using local MCP
+bun docs:dev:local-mcp
 ```
 
 ## Development

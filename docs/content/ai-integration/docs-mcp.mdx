@@ -60,6 +60,9 @@ npm install @seed-design/docs-mcp
 
 ```bash
 npx -y --package @seed-design/docs-mcp seed-docs-mcp-http
+
+# 로컬 docs 사이트 기준으로 읽기
+npx -y --package @seed-design/docs-mcp seed-docs-mcp-http --base-url http://127.0.0.1:3000
 ```
 
 2. Claude Code에 등록:
@@ -181,10 +184,15 @@ Rootage JSON 인덱스/리소스를 조회합니다.
 ```ts
 import { initializeTools, server, startHttpServer } from "@seed-design/docs-mcp";
 
-await initializeTools(server);
+await initializeTools(server, { baseUrl: "http://127.0.0.1:3000" });
 
 // Streamable HTTP
-await startHttpServer({ host: "127.0.0.1", port: 3100, path: "/mcp" });
+await startHttpServer({
+  host: "127.0.0.1",
+  port: 3100,
+  path: "/mcp",
+  baseUrl: "http://127.0.0.1:3000",
+});
 ```
 
 ## 개발

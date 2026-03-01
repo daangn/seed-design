@@ -1,4 +1,4 @@
-import { SEED_DOCS_BASE_URL } from "./constants.js";
+import { getDocsBaseUrl } from "./runtime-config.js";
 
 /**
  * SEED Design Documentation Configuration
@@ -106,14 +106,14 @@ export function isValidCategory(section: SectionId, category: string): boolean {
 }
 
 export function getSectionOverviewTxtUrl(section: SectionId): string {
-  return `${SEED_DOCS_BASE_URL}${SECTIONS[section].overviewPath}`;
+  return `${getDocsBaseUrl()}${SECTIONS[section].overviewPath}`;
 }
 
 export function getSectionFullTxtUrl(section: SectionId): string {
-  return `${SEED_DOCS_BASE_URL}${SECTIONS[section].fullPath}`;
+  return `${getDocsBaseUrl()}${SECTIONS[section].fullPath}`;
 }
 
 export function getSectionDocTxtUrl(section: SectionId, path: string): string {
   const cleanPath = path.replace(/\.txt$/, "").replace(/^\/+/, "");
-  return `${SEED_DOCS_BASE_URL}${SECTIONS[section].basePath}/${cleanPath}.txt`;
+  return `${getDocsBaseUrl()}${SECTIONS[section].basePath}/${cleanPath}.txt`;
 }

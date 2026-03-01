@@ -7,7 +7,6 @@ import {
   DEFAULT_SEARCH_LIMIT,
   DEFAULT_TIMEOUT,
   ROOTAGE_ENDPOINTS,
-  SEED_DOCS_BASE_URL,
 } from "./constants.js";
 import {
   getSectionDocTxtUrl,
@@ -18,6 +17,7 @@ import {
   SECTIONS,
   type SectionId,
 } from "./config.js";
+import { getDocsBaseOrigin, getDocsBaseUrl } from "./runtime-config.js";
 import type { DocInfo, RootageIndex, SearchDocResult } from "./types.js";
 
 const DOC_LINK_PATTERN = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
@@ -58,7 +58,7 @@ function withTimeout(timeoutMs = DEFAULT_TIMEOUT): AbortSignal {
 function isSeedDocsUrl(url: string): boolean {
   try {
     const parsed = new URL(url);
-    return parsed.origin === SEED_DOCS_BASE_URL;
+    return parsed.origin === getDocsBaseOrigin();
   } catch {
     return false;
   }
@@ -192,7 +192,7 @@ function parseDocsFromOverview(section: SectionId, overviewText: string): DocInf
 
     for (const match of matches) {
       const [, titleFromLink, txtUrl] = match;
-      if (!txtUrl || !txtUrl.startsWith(SEED_DOCS_BASE_URL)) {
+      if (!txtUrl || !txtUrl.startsWith(getDocsBaseUrl())) {
         continue;
       }
 
@@ -380,13 +380,13 @@ function normalizeRootagePath(path: string): string {
 }
 
 export async function fetchRootageIndex(): Promise<RootageIndex> {
-  const indexUrl = `${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.INDEX}`;
+  const indexUrl = `${getDocsBaseUrl()}${ROOTAGE_ENDPOINTS.INDEX}`;
   return fetchWithCache<RootageIndex>(indexUrl, async () => fetchJson<RootageIndex>(indexUrl));
 }
 
 export async function fetchRootageResource(path: string): Promise<unknown> {
   const rootagePath = normalizeRootagePath(path);
-  const resourceUrl = `${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.BASE}${rootagePath}`;
+  const resourceUrl = `${getDocsBaseUrl()}${ROOTAGE_ENDPOINTS.BASE}${rootagePath}`;
   return fetchWithCache<unknown>(resourceUrl, async () => fetchJson<unknown>(resourceUrl));
 }
 

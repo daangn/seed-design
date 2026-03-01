@@ -1,9 +1,14 @@
 import { createRequire } from "node:module";
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { getDocsBaseUrl } from "../runtime-config.js";
 import type { IconDetails, IconEntry, IconIndex, IconSearchResult, IconUsage } from "../types.js";
 
-const DOCS_BASE_URL = "https://seed-design.io/docs/foundation/iconography/library";
+const ICON_DOCS_PATH = "/docs/foundation/iconography/library";
+
+function getIconDocsBaseUrl(): string {
+  return `${getDocsBaseUrl()}${ICON_DOCS_PATH}`;
+}
 
 interface RawIconData {
   name: string;
@@ -173,7 +178,7 @@ function findIcon(iconData: IconIndex, iconName: string): IconDetails | null {
       type: "monochrome",
       keywords: monochrome.metadatas,
       variant: monochrome.variant,
-      docsUrl: `${DOCS_BASE_URL}?icon=${iconName}`,
+      docsUrl: `${getIconDocsBaseUrl()}?icon=${iconName}`,
       usage: getIconUsage(iconName, "monochrome"),
     };
   }
@@ -185,7 +190,7 @@ function findIcon(iconData: IconIndex, iconName: string): IconDetails | null {
       type: "multicolor",
       keywords: multicolor.metadatas,
       service: multicolor.service,
-      docsUrl: `${DOCS_BASE_URL}?icon=${iconName}`,
+      docsUrl: `${getIconDocsBaseUrl()}?icon=${iconName}`,
       usage: getIconUsage(iconName, "multicolor"),
     };
   }
@@ -339,7 +344,7 @@ export function registerIconTools(server: McpServer): void {
         const iconData = await loadIconData();
         const cappedLimit = Math.max(1, Math.min(limit ?? 20, 100));
         const results = searchIcons(iconData, query, type, cappedLimit);
-        const searchUrl = `${DOCS_BASE_URL}?search=${encodeURIComponent(query)}`;
+        const searchUrl = `${getIconDocsBaseUrl()}?search=${encodeURIComponent(query)}`;
 
         return {
           content: [{ type: "text", text: JSON.stringify({ query, searchUrl, results }, null, 2) }],
@@ -356,7 +361,7 @@ export function registerIconTools(server: McpServer): void {
           structuredContent: {
             query,
             results: [],
-            searchUrl: `${DOCS_BASE_URL}?search=${encodeURIComponent(query)}`,
+            searchUrl: `${getIconDocsBaseUrl()}?search=${encodeURIComponent(query)}`,
             error: message,
           },
           isError: true,

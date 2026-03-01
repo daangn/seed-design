@@ -7,6 +7,7 @@ export interface HttpServerOptions {
   host?: string;
   port?: number;
   path?: string;
+  baseUrl?: string;
   enableJsonResponse?: boolean;
   enableDnsRebindingProtection?: boolean;
   allowedHosts?: string[];
@@ -40,6 +41,7 @@ async function handleRequest(
   res: ServerResponse,
   options: Required<Pick<HttpServerOptions, "path" | "enableJsonResponse">> &
     Pick<HttpServerOptions, "enableDnsRebindingProtection" | "allowedHosts" | "allowedOrigins">,
+  initializeOptions: Pick<HttpServerOptions, "baseUrl">,
 ): Promise<void> {
   const reqUrl = new URL(req.url ?? "/", "http://localhost");
   if (reqUrl.pathname !== options.path) {
@@ -50,7 +52,7 @@ async function handleRequest(
   }
 
   const server = createMcpServer();
-  await initializeTools(server);
+  await initializeTools(server, initializeOptions);
 
   const parsedBody = req.method === "POST" ? await readJsonBody(req) : undefined;
   const transport = new StreamableHTTPServerTransport({
@@ -80,10 +82,13 @@ export async function startHttpServer(options: HttpServerOptions = {}) {
     allowedHosts: options.allowedHosts,
     allowedOrigins: options.allowedOrigins,
   };
+  const initializeOptions = {
+    baseUrl: options.baseUrl,
+  };
 
   const httpServer = createServer(async (req, res) => {
     try {
-      await handleRequest(req, res, resolvedOptions);
+      await handleRequest(req, res, resolvedOptions, initializeOptions);
     } catch (error) {
       if (!res.headersSent) {
         res.statusCode = 500;
