@@ -6,7 +6,7 @@ import {
   type ToolDescriptor,
 } from "./tool-registry";
 
-const TEMPORARILY_DISABLED_MCP_TOOLS = new Set(["get_full_docs"]);
+const TEMPORARILY_DISABLED_MCP_TOOLS = new Set<string>();
 
 export interface MCPToolBundle {
   tools: Record<string, Tool>;

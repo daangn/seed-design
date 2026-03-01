@@ -16,18 +16,18 @@ import {
 describe("tool-registry", () => {
   it("infers capability and risk from tool metadata", () => {
     expect(inferToolCapability("showComponentExample", "preview component example")).toBe("preview");
-    expect(inferToolCapability("get_doc", "fetch doc by path")).toBe("fetch");
+    expect(inferToolCapability("read_doc", "fetch doc by path")).toBe("fetch");
     expect(inferToolRisk("update_records", "update docs")).toBe("high");
   });
 
   it("dedupes descriptors by name", () => {
     const first = createToolDescriptor({
-      name: "get_doc",
+      name: "read_doc",
       source: "mcp",
       description: "old",
     });
     const second = createToolDescriptor({
-      name: "get_doc",
+      name: "read_doc",
       source: "mcp",
       description: "new",
     });
@@ -62,20 +62,20 @@ describe("tool-registry", () => {
   it("serializes catalog for prompt context", () => {
     const catalog = serializeToolCatalog([
       createToolDescriptor({
-        name: "get_doc",
+        name: "read_doc",
         source: "mcp",
         description: "fetch docs",
         capability: "fetch",
       }),
     ]);
 
-    expect(catalog).toContain("get_doc");
+    expect(catalog).toContain("read_doc");
     expect(catalog).toContain("capability=fetch");
   });
 
   it("detects icon tools and icon intent query", () => {
     expect(isIconToolName("search_icons")).toBe(true);
-    expect(isIconToolName("get_docs_component")).toBe(false);
+    expect(isIconToolName("read_doc")).toBe(false);
     expect(isIconIntentQuery("아이콘 추천해줘")).toBe(true);
     expect(isIconIntentQuery("ai integration 문서 찾아줘")).toBe(false);
   });
@@ -83,7 +83,7 @@ describe("tool-registry", () => {
   it("filters icon tools out for non-icon queries", () => {
     const tools = {
       search_icons: { execute: async () => ({}) },
-      get_docs_component: { execute: async () => ({}) },
+      read_doc: { execute: async () => ({}) },
     };
     const descriptors = [
       createToolDescriptor({
@@ -92,15 +92,15 @@ describe("tool-registry", () => {
         description: "search icons",
       }),
       createToolDescriptor({
-        name: "get_docs_component",
+        name: "read_doc",
         source: "mcp",
-        description: "get docs component",
+        description: "read docs",
       }),
     ];
 
     const filtered = filterToolsForQuery(tools, descriptors, "ai integration 관련 문서 찾아줘");
 
-    expect(Object.keys(filtered.tools)).toEqual(["get_docs_component"]);
-    expect(filtered.descriptors.map((descriptor) => descriptor.name)).toEqual(["get_docs_component"]);
+    expect(Object.keys(filtered.tools)).toEqual(["read_doc"]);
+    expect(filtered.descriptors.map((descriptor) => descriptor.name)).toEqual(["read_doc"]);
   });
 });

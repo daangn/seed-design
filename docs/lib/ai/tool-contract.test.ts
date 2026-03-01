@@ -11,6 +11,7 @@ describe("tool-contract", () => {
     expect(getToolPolicy("showComponentExample").section).toBe("examples");
     expect(getToolPolicy("showInstallation").section).toBe("installations");
     expect(getToolPolicy("showReactTypeTable").section).toBe("props");
+    expect(getToolPolicy("search_icons").section).toBe("icons");
   });
 
   it("builds stable dedupe keys from canonical inputs", () => {
@@ -44,6 +45,8 @@ describe("tool-contract", () => {
   it("collapses only non-generative tools by default", () => {
     expect(shouldCollapseToolResult("showComponentExample")).toBe(false);
     expect(shouldCollapseToolResult("showInstallation")).toBe(false);
-    expect(shouldCollapseToolResult("search_icons")).toBe(true);
+    expect(shouldCollapseToolResult("search_icons")).toBe(false);
+    expect(shouldCollapseToolResult("read_icon")).toBe(false);
+    expect(shouldCollapseToolResult("read_doc")).toBe(true);
   });
 });

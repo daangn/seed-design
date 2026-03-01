@@ -1,4 +1,4 @@
-export type ToolSection = "examples" | "installations" | "props" | "other";
+export type ToolSection = "examples" | "installations" | "props" | "icons" | "other";
 
 export interface ToolPolicy {
   section: ToolSection;
@@ -66,6 +66,22 @@ const TOOL_POLICIES: Record<string, ToolPolicy> = {
     ],
     shortTextDiscardPattern:
       /(주요\s*props|props는 다음과 같습니다|prop table|props table|타입 테이블)/i,
+  },
+  list_icons: {
+    section: "icons",
+    sectionTitle: "아이콘",
+    textSuppressionRules: [],
+  },
+  search_icons: {
+    section: "icons",
+    sectionTitle: "아이콘",
+    textSuppressionRules: [],
+  },
+  read_icon: {
+    section: "icons",
+    sectionTitle: "아이콘",
+    dropFencedCodeFromText: true,
+    textSuppressionRules: [],
   },
 };
 
