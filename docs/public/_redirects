@@ -1,0 +1,2 @@
+/docs/design/* /docs/:splat 301
+/docs/react/* /react/:splat 301

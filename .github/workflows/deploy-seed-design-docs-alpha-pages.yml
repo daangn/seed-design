@@ -75,20 +75,14 @@ jobs:
           path: docs/.cache/figma-image
           key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
 
-      - name: Build for Cloudflare Workers (OpenNext)
-        working-directory: ./docs
-        run: bun run cf:build
-
-      - name: Upload Worker Version (Alpha Preview)
+      - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Alpha)
         id: deploy
-        working-directory: ./docs
-        env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-        run: |
-          BRANCH_ALIAS=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9-]/-/g' | head -c 63)
-          bun wrangler versions upload --preview-alias "$BRANCH_ALIAS"
-          echo "preview_url=https://${BRANCH_ALIAS}-seed-design-io.${{ secrets.CF_WORKERS_SUBDOMAIN }}.workers.dev" >> "$GITHUB_OUTPUT"
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: "4.45.3"
+          command: pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
 
       - name: Find related PR
         id: pr
@@ -117,19 +111,22 @@ jobs:
         uses: actions/github-script@v8
         env:
           PR_NUMBER: ${{ steps.pr.outputs.number }}
-          PREVIEW_URL: ${{ steps.deploy.outputs.preview_url }}
+          PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+          PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
         with:
           script: |
             const { owner, repo } = context.repo;
             const issue_number = Number(process.env.PR_NUMBER);
             const marker = '<!-- seed-design-preview:docs-alpha -->';
-            const previewUrl = (process.env.PREVIEW_URL || '').trim();
+            const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
+            const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
 
             const body = [
               marker,
               '## Alpha Preview (Docs)',
               '',
-              `- Preview URL: ${previewUrl || '(not available)'}`,
+              `- Branch Preview URL: ${aliasUrl || '(not available)'}`,
+              `- Preview URL: ${deploymentUrl || '(not available)'}`,
               `- Commit: \`${context.sha.slice(0, 7)}\``,
             ].join('\n');
 
