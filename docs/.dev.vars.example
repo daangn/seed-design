@@ -1,0 +1,8 @@
+# Copy this to .dev.vars and fill in values for local Workers preview.
+# These are only needed when running `bun preview`, not `bun dev`.
+LLM_ROUTER_URL=
+LLM_ROUTER_MODEL=
+LLM_ROUTER_KATALOG_ID=
+LLM_ROUTER_KATALOG_NAME=
+SEED_DOCS_BASE_URL=http://localhost:8787
+SEED_DOCS_MCP_SERVER_URL=

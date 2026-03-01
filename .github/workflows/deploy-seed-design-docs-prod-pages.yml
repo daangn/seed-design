@@ -77,9 +77,14 @@ jobs:
           path: docs/.cache/figma-image
           key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
 
-      - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Production)
-        run: |
-          CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
-          CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
-          bun wrangler pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+      - name: Build for Cloudflare Workers (OpenNext)
+        working-directory: ./docs
+        run: bun run cf:build
+
+      - name: Deploy to Cloudflare Workers (Production)
+        working-directory: ./docs
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: bun wrangler deploy
 
