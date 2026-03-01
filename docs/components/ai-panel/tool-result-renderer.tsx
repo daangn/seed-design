@@ -6,7 +6,7 @@ import { TypeTable } from "fumadocs-ui/components/type-table";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { m } from "motion/react";
 import { ErrorBoundary } from "react-error-boundary";
-import { forwardRef, Suspense, type ReactNode } from "react";
+import { forwardRef, lazy, Suspense, type ReactNode } from "react";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 
 interface ToolResultRendererProps {
@@ -99,6 +99,12 @@ const TOOL_FADE_IN_TRANSITION = {
   duration: 0.2,
   ease: [0.22, 1, 0.36, 1] as const,
 };
+
+const ToolIconResult = lazy(() =>
+  import("./tool-icon-result").then((module) => ({
+    default: module.ToolIconResult,
+  })),
+);
 
 function ToolLoading({ label }: { label: string }) {
   return (
@@ -413,6 +419,27 @@ export const ToolResultRenderer = forwardRef<HTMLDivElement, ToolResultRendererP
         </ToolFadeIn>
       );
     }
+
+    case "list_icons":
+    case "search_icons":
+    case "read_icon":
+      if (state === "input-available") {
+        return (
+          <ToolFadeIn>
+            <ToolLoading label="아이콘 결과를 불러오는 중..." />
+          </ToolFadeIn>
+        );
+      }
+
+      return (
+        <ToolFadeIn>
+          <div className="my-2">
+            <Suspense fallback={<ToolLoading label="아이콘을 렌더링하는 중..." />}>
+              <ToolIconResult toolName={toolName} output={output} maxItems={8} />
+            </Suspense>
+          </div>
+        </ToolFadeIn>
+      );
 
     default:
       if (state === "input-available") {

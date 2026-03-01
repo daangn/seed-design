@@ -3,7 +3,7 @@ import { summarizeGenericToolOutput } from "./tool-result-renderer";
 
 describe("summarizeGenericToolOutput", () => {
   it("extracts string content from generic output", () => {
-    const summary = summarizeGenericToolOutput("get_doc", { content: "문서 본문" });
+    const summary = summarizeGenericToolOutput("read_doc", { content: "문서 본문" });
 
     expect(summary.isError).toBe(false);
     expect(summary.body).toBe("문서 본문");
