@@ -17,7 +17,7 @@ export const CopyableName = ({ name, label, className }: CopyableNameProps) => {
       type="button"
       onClick={() => copy(name, label)}
       className={[
-        "group/copy inline-flex w-fit items-center gap-1.5 rounded-lg px-2 py-1 -mx-2 -my-1",
+        "group/copy inline-flex w-fit items-center gap-1.5 rounded-lg px-2 py-1 -my-1",
         "transition-colors duration-150",
         "hover:bg-fd-muted/60",
         "cursor-pointer",
