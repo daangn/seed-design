@@ -2,28 +2,12 @@
 
 import * as React from "react";
 import * as changeCase from "change-case";
-import { IconSquare2StackedLine } from "@karrotmarket/react-monochrome-icon";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 
 import { TabsRoot, TabsList, TabsTrigger, TabsContent } from "seed-design/ui/tabs";
 
+import { CopyableName } from "./copyable-name";
 import { useIcon } from "./icon-context";
-import { useCopyToClipboard } from "./use-copy-to-clipboard";
-
-const CopyButton = ({ text, label }: { text: string; label?: string }) => {
-  const copy = useCopyToClipboard();
-
-  return (
-    <button
-      type="button"
-      onClick={() => copy(text, label)}
-      className="shrink-0 p-1 rounded-md hover:bg-fd-muted transition-colors text-fd-muted-foreground hover:text-fd-foreground"
-      aria-label="복사"
-    >
-      <IconSquare2StackedLine size={16} />
-    </button>
-  );
-};
 
 const ReactTab = () => {
   const { selectedIcon, iconStyle } = useIcon();
@@ -42,10 +26,11 @@ const ReactTab = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-sm font-mono font-medium truncate">{pascalCaseName}</span>
-        <CopyButton text={pascalCaseName} label="컴포넌트 이름이 복사되었습니다" />
-      </div>
+      <CopyableName
+        name={pascalCaseName}
+        label="컴포넌트 이름이 복사되었습니다"
+        className="text-sm font-mono font-medium"
+      />
       <DynamicCodeBlock lang="tsx" code={usageCode} />
     </div>
   );
@@ -73,10 +58,11 @@ const FigmaTab = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-sm font-mono font-medium truncate">{displayName}</span>
-        <CopyButton text={displayName} label="Figma 이름이 복사되었습니다" />
-      </div>
+      <CopyableName
+        name={displayName}
+        label="Figma 이름이 복사되었습니다"
+        className="text-sm font-mono font-medium"
+      />
       {figma.description && <p className="text-xs text-fd-muted-foreground">{figma.description}</p>}
       <p className="text-xs text-fd-muted-foreground">
         Figma 에셋 패널에서 위 이름으로 검색하세요.

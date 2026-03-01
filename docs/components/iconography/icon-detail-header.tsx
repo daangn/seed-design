@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import * as changeCase from "change-case";
+import { CopyableName } from "./copyable-name";
 import { useIcon } from "./icon-context";
 import { IconDetailMetadata } from "./icon-detail-metadata";
 import { Tag } from "./tags";
@@ -29,7 +30,11 @@ export const IconDetailHeader = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h3 className="text-lg font-bold break-all">{selectedIcon.name}</h3>
+      <CopyableName
+        name={selectedIcon.name}
+        label="아이콘 이름이 복사되었습니다"
+        className="text-[20px] font-bold break-all"
+      />
 
       <IconDetailMetadata />
 
