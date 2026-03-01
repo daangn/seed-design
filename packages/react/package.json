@@ -64,7 +64,7 @@
     "@seed-design/react-text-field": "1.1.1",
     "@seed-design/react-toggle": "1.0.0",
     "clsx": "^2.1.1",
-    "unicode-segmenter": "^0.14.4"
+    "unicode-segmenter": "^0.15.0"
   },
   "peerDependencies": {
     "@seed-design/css": ">=1.1.17",
