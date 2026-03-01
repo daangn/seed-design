@@ -38,17 +38,40 @@ const chatRequestSchema = z.object({
   messages: z.array(z.unknown()).min(1),
 });
 
+const REQUIRED_LLM_CONFIG_KEYS = [
+  "LLM_ROUTER_URL",
+  "LLM_ROUTER_KATALOG_ID",
+  "LLM_ROUTER_KATALOG_NAME",
+] as const;
+
 export async function handleChatRequest(
   req: Request,
   options: HandleChatRequestOptions = {},
 ) {
   const runtimeEnv = options.env;
+  const llmRouterConfig = {
+    LLM_ROUTER_URL: getEnvString(runtimeEnv, "LLM_ROUTER_URL"),
+    LLM_ROUTER_KATALOG_ID: getEnvString(runtimeEnv, "LLM_ROUTER_KATALOG_ID"),
+    LLM_ROUTER_KATALOG_NAME: getEnvString(runtimeEnv, "LLM_ROUTER_KATALOG_NAME"),
+  };
+  const missingLLMConfig = REQUIRED_LLM_CONFIG_KEYS.filter((key) => !llmRouterConfig[key]);
+  if (missingLLMConfig.length > 0) {
+    console.error("Missing required LLM router configuration:", missingLLMConfig);
+    return Response.json(
+      {
+        error: "Missing LLM router configuration",
+        missing: missingLLMConfig,
+      },
+      { status: 500 },
+    );
+  }
+
   const llmRouter = createOpenAI({
-    baseURL: getEnvString(runtimeEnv, "LLM_ROUTER_URL"),
+    baseURL: llmRouterConfig.LLM_ROUTER_URL!,
     apiKey: "-",
     headers: {
-      "x-request-katalog-id": getEnvString(runtimeEnv, "LLM_ROUTER_KATALOG_ID") ?? "",
-      "x-request-katalog-name": getEnvString(runtimeEnv, "LLM_ROUTER_KATALOG_NAME") ?? "",
+      "x-request-katalog-id": llmRouterConfig.LLM_ROUTER_KATALOG_ID!,
+      "x-request-katalog-name": llmRouterConfig.LLM_ROUTER_KATALOG_NAME!,
     },
     name: "llm-router",
   });
