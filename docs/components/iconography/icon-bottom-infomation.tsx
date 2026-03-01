@@ -2,9 +2,9 @@ import * as React from "react";
 
 import { Badge } from "@seed-design/react";
 
-import { useIcon } from "./icon-context";
-
 import * as changeCase from "change-case";
+import { CopyableName } from "./copyable-name";
+import { useIcon } from "./icon-context";
 import { Tag } from "./tags";
 import { getServiceName } from "./utils";
 
@@ -43,9 +43,10 @@ export const IconBottomInfomation = () => {
     <div className="flex justify-between fixed bottom-0 min-h-28 left-0 right-0 border-t border-fd-border p-4 z-30 bg-fd-background">
       <div className="flex flex-col justify-center gap-2">
         <div className="flex gap-4 items-end">
-          <div
-            className="text-xl font-bold"
-            dangerouslySetInnerHTML={{ __html: highLightedName }}
+          <CopyableName
+            name={selectedIcon.name}
+            highlightedHtml={highLightedName}
+            className="text-[22px] font-bold"
           />
           <div className="flex flex-col gap-1">
             {serviceName && (
