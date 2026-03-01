@@ -7,7 +7,10 @@ import { getMCPToolBundle } from "@/lib/ai/mcp-client";
 import { detectComponentGuideIntent, extractLatestUserText } from "@/lib/ai/component-guide-intent";
 import { generateOrchestrationPlan, shouldUsePlanningStage } from "@/lib/ai/orchestrator";
 import { filterToolsForQuery, mergeToolDescriptors } from "@/lib/ai/tool-registry";
-import { resolveComponentGuideLinks, resolveVerifiedLinksForQuery } from "@/lib/ai/component-guide-links";
+import {
+  resolveComponentGuideLinks,
+  resolveVerifiedLinksForQuery,
+} from "@/lib/ai/component-guide-links";
 import { resolveTrustedBaseUrlFromEnv } from "@/lib/ai/trusted-base-url";
 import { z } from "zod";
 
@@ -21,7 +24,7 @@ const llmRouter = createOpenAI({
   name: "llm-router",
 });
 
-const llmRouterModel = process.env.LLM_ROUTER_MODEL?.trim() || "openai/gpt-4o";
+const llmRouterModel = process.env.LLM_ROUTER_MODEL?.trim() || "openai/gpt-5.2";
 
 const chatRequestSchema = z.object({
   messages: z.array(z.unknown()).min(1),
@@ -78,7 +81,10 @@ export async function POST(req: Request) {
     ...mcpToolBundle.tools,
   };
 
-  const mergedToolCatalog = mergeToolDescriptors(clientToolBundle.descriptors, mcpToolBundle.descriptors);
+  const mergedToolCatalog = mergeToolDescriptors(
+    clientToolBundle.descriptors,
+    mcpToolBundle.descriptors,
+  );
   const scopedToolSet = filterToolsForQuery(tools, mergedToolCatalog, latestUserText);
   const scopedTools = scopedToolSet.tools;
   const toolCatalog = scopedToolSet.descriptors;
