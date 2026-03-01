@@ -1,37 +1,63 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { createAgentUIStreamResponse, safeValidateUIMessages } from "ai";
+import { z } from "zod";
 import { createSeedAssistantAgent } from "@/lib/ai/agent";
+import { resolveComponentGuideLinks, resolveVerifiedLinksForQuery } from "@/lib/ai/component-guide-links";
+import { detectComponentGuideIntent, extractLatestUserText } from "@/lib/ai/component-guide-intent";
+import { getMCPToolBundle } from "@/lib/ai/mcp-client";
+import { generateOrchestrationPlan, shouldUsePlanningStage } from "@/lib/ai/orchestrator";
 import { buildSystemPrompt } from "@/lib/ai/system-prompt";
 import { createClientToolBundle } from "@/lib/ai/tools";
-import { getMCPToolBundle } from "@/lib/ai/mcp-client";
-import { detectComponentGuideIntent, extractLatestUserText } from "@/lib/ai/component-guide-intent";
-import { generateOrchestrationPlan, shouldUsePlanningStage } from "@/lib/ai/orchestrator";
-import { filterToolsForQuery, mergeToolDescriptors } from "@/lib/ai/tool-registry";
-import {
-  resolveComponentGuideLinks,
-  resolveVerifiedLinksForQuery,
-} from "@/lib/ai/component-guide-links";
+import { mergeToolDescriptors, filterToolsForQuery } from "@/lib/ai/tool-registry";
 import { resolveTrustedBaseUrlFromEnv } from "@/lib/ai/trusted-base-url";
-import { z } from "zod";
 
-const llmRouter = createOpenAI({
-  baseURL: process.env.LLM_ROUTER_URL,
-  apiKey: "-",
-  headers: {
-    "x-request-katalog-id": process.env.LLM_ROUTER_KATALOG_ID ?? "",
-    "x-request-katalog-name": process.env.LLM_ROUTER_KATALOG_NAME ?? "",
-  },
-  name: "llm-router",
-});
+type RuntimeEnv = Record<string, unknown>;
 
-const llmRouterModel = process.env.LLM_ROUTER_MODEL?.trim() || "openai/gpt-5.2";
+interface HandleChatRequestOptions {
+  env?: RuntimeEnv;
+}
+
+function getEnvString(env: RuntimeEnv | undefined, key: string): string | undefined {
+  const envValue = env?.[key];
+  if (typeof envValue === "string" && envValue.trim().length > 0) {
+    return envValue;
+  }
+
+  if (typeof process !== "undefined" && process.env) {
+    const processValue = process.env[key];
+    if (typeof processValue === "string" && processValue.trim().length > 0) {
+      return processValue;
+    }
+  }
+
+  return undefined;
+}
 
 const chatRequestSchema = z.object({
   messages: z.array(z.unknown()).min(1),
 });
 
-export async function POST(req: Request) {
-  const baseUrl = resolveTrustedBaseUrlFromEnv();
+export async function handleChatRequest(
+  req: Request,
+  options: HandleChatRequestOptions = {},
+) {
+  const runtimeEnv = options.env;
+  const llmRouter = createOpenAI({
+    baseURL: getEnvString(runtimeEnv, "LLM_ROUTER_URL"),
+    apiKey: "-",
+    headers: {
+      "x-request-katalog-id": getEnvString(runtimeEnv, "LLM_ROUTER_KATALOG_ID") ?? "",
+      "x-request-katalog-name": getEnvString(runtimeEnv, "LLM_ROUTER_KATALOG_NAME") ?? "",
+    },
+    name: "llm-router",
+  });
+
+  const llmRouterModel = getEnvString(runtimeEnv, "LLM_ROUTER_MODEL") ?? "openai/gpt-5.2";
+  const baseUrl = resolveTrustedBaseUrlFromEnv({
+    SEED_DOCS_BASE_URL: getEnvString(runtimeEnv, "SEED_DOCS_BASE_URL"),
+    NEXT_PUBLIC_SITE_URL: getEnvString(runtimeEnv, "NEXT_PUBLIC_SITE_URL"),
+    VERCEL_PROJECT_PRODUCTION_URL: getEnvString(runtimeEnv, "VERCEL_PROJECT_PRODUCTION_URL"),
+  });
 
   let body: unknown;
   try {
@@ -74,7 +100,7 @@ export async function POST(req: Request) {
       : [];
 
   const clientToolBundle = createClientToolBundle({ baseUrl });
-  const mcpToolBundle = await getMCPToolBundle();
+  const mcpToolBundle = await getMCPToolBundle(runtimeEnv);
 
   const tools = {
     ...clientToolBundle.tools,

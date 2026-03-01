@@ -2,7 +2,8 @@
 
 ## AI Agent Runtime 아키텍처
 
-`docs/app/api/chat/route.ts`는 요청마다 다음 런타임 파이프라인으로 동작한다.
+`docs/app/api/chat/handle-chat-request.ts`는 요청마다 다음 런타임 파이프라인으로 동작한다.
+실행 진입점은 `docs/functions/api/chat.ts`(Cloudflare Pages Functions)이며, API 경로는 `/api/chat`를 유지한다.
 
 1. `safeValidateUIMessages`로 입력 메시지 검증
 2. `tool-registry` 기반으로 client tool + MCP tool 카탈로그 구성

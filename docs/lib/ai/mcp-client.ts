@@ -7,12 +7,29 @@ import {
 } from "./tool-registry";
 
 const TEMPORARILY_DISABLED_MCP_TOOLS = new Set<string>();
+type RuntimeEnv = Record<string, unknown>;
 
 export interface MCPToolBundle {
   tools: Record<string, Tool>;
   descriptors: ToolDescriptor[];
   close: () => Promise<void>;
   provider: "sdk-http" | "none";
+}
+
+function getEnvString(env: RuntimeEnv | undefined, key: string): string | undefined {
+  const envValue = env?.[key];
+  if (typeof envValue === "string" && envValue.trim().length > 0) {
+    return envValue;
+  }
+
+  if (typeof process !== "undefined" && process.env) {
+    const processValue = process.env[key];
+    if (typeof processValue === "string" && processValue.trim().length > 0) {
+      return processValue;
+    }
+  }
+
+  return undefined;
 }
 
 function buildDescriptorsFromToolDefinitions(
@@ -43,8 +60,8 @@ function createEmptyMCPToolBundle(): MCPToolBundle {
   };
 }
 
-export async function getMCPToolBundle(): Promise<MCPToolBundle> {
-  const mcpUrl = process.env.SEED_DOCS_MCP_SERVER_URL;
+export async function getMCPToolBundle(env?: RuntimeEnv): Promise<MCPToolBundle> {
+  const mcpUrl = getEnvString(env, "SEED_DOCS_MCP_SERVER_URL");
   if (!mcpUrl) {
     return createEmptyMCPToolBundle();
   }
