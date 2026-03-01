@@ -1,10 +1,11 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { createAgentUIStreamResponse, safeValidateUIMessages } from "ai";
+import { createAgentUIStreamResponse, safeValidateUIMessages, type UIMessage } from "ai";
 import { z } from "zod";
 import { createSeedAssistantAgent } from "@/lib/ai/agent";
 import { resolveComponentGuideLinks, resolveVerifiedLinksForQuery } from "@/lib/ai/component-guide-links";
 import { detectComponentGuideIntent, extractLatestUserText } from "@/lib/ai/component-guide-intent";
 import { getMCPToolBundle } from "@/lib/ai/mcp-client";
+import { normalizeUIMessagesForValidation } from "./normalize-ui-messages";
 import { generateOrchestrationPlan, shouldUsePlanningStage } from "@/lib/ai/orchestrator";
 import { buildSystemPrompt } from "@/lib/ai/system-prompt";
 import { createClientToolBundle } from "@/lib/ai/tools";
@@ -75,11 +76,24 @@ export async function handleChatRequest(
     messages: parsed.data.messages,
   });
 
-  if (!validatedMessages.success) {
-    return Response.json({ error: "Invalid messages format" }, { status: 400 });
+  let uiMessages: UIMessage[];
+
+  if (validatedMessages.success) {
+    uiMessages = validatedMessages.data;
+  } else {
+    const normalizedMessages = normalizeUIMessagesForValidation(parsed.data.messages);
+    const normalizedValidation = await safeValidateUIMessages({
+      messages: normalizedMessages,
+    });
+
+    if (!normalizedValidation.success) {
+      return Response.json({ error: "Invalid messages format" }, { status: 400 });
+    }
+
+    uiMessages = normalizedValidation.data;
   }
 
-  const latestUserText = extractLatestUserText(validatedMessages.data);
+  const latestUserText = extractLatestUserText(uiMessages);
   const componentGuideIntent = latestUserText
     ? await detectComponentGuideIntent(latestUserText, { baseUrl })
     : null;
@@ -157,7 +171,7 @@ export async function handleChatRequest(
   try {
     return await createAgentUIStreamResponse({
       agent,
-      uiMessages: validatedMessages.data,
+      uiMessages,
       onFinish: async () => {
         await mcpToolBundle.close();
       },
