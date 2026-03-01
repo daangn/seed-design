@@ -82,11 +82,11 @@ export const IconProvider = ({
   const [selectedIconName, setSelectedIconName] = useQueryState("icon", { defaultValue: "" });
   const [iconStyle, setIconStyle] = useQueryState<"monochrome" | "multicolor">("style", {
     defaultValue: "monochrome",
-    parse: (value) => value as "monochrome" | "multicolor",
+    parse: (value) => (value === "monochrome" || value === "multicolor" ? value : "monochrome"),
   });
   const [platform, setPlatform] = useQueryState<Platform>("platform", {
     defaultValue: "react",
-    parse: (value) => value as Platform,
+    parse: (value) => (value === "react" || value === "figma" ? value : "react"),
   });
 
   // 선택된 아이콘 상태 관리

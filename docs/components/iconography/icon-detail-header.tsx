@@ -13,7 +13,7 @@ type IconComponentType = React.ForwardRefExoticComponent<
     React.RefAttributes<SVGSVGElement>
 >;
 
-export const IconDetailHeader = () => {
+export const IconDetailHeader = React.forwardRef<HTMLDivElement>(function IconDetailHeader(_, ref) {
   const { selectedIcon, iconComponents, iconStyle } = useIcon();
 
   if (!selectedIcon) return null;
@@ -29,7 +29,7 @@ export const IconDetailHeader = () => {
   const isService = selectedIcon.metadatas.includes(Tag.service);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div ref={ref} className="flex flex-col gap-4">
       <CopyableName
         name={selectedIcon.name}
         label="아이콘 이름이 복사되었습니다"
@@ -83,4 +83,6 @@ export const IconDetailHeader = () => {
       )}
     </div>
   );
-};
+});
+
+IconDetailHeader.displayName = "IconDetailHeader";

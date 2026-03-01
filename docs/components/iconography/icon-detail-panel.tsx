@@ -6,7 +6,7 @@ import { IconDetailHeader } from "./icon-detail-header";
 import { IconDetailPlatformTabs } from "./icon-detail-platform-tabs";
 import { IconDetailSvgPreview } from "./icon-detail-svg-preview";
 
-export const IconDetailPanel = () => {
+export const IconDetailPanel = React.forwardRef<HTMLDivElement>(function IconDetailPanel(_, ref) {
   const { setSelectedIconName } = useIcon();
 
   React.useEffect(() => {
@@ -20,10 +20,15 @@ export const IconDetailPanel = () => {
   }, [setSelectedIconName]);
 
   return (
-    <div className="flex flex-col gap-6 max-h-[70vh] overflow-y-auto overflow-x-hidden min-w-0">
+    <div
+      ref={ref}
+      className="flex flex-col gap-6 max-h-[70vh] overflow-y-auto overflow-x-hidden min-w-0"
+    >
       <IconDetailHeader />
       <IconDetailPlatformTabs />
       <IconDetailSvgPreview />
     </div>
   );
-};
+});
+
+IconDetailPanel.displayName = "IconDetailPanel";

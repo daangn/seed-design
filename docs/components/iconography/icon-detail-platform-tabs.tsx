@@ -71,26 +71,33 @@ const FigmaTab = () => {
   );
 };
 
-export const IconDetailPlatformTabs = () => {
-  const { platform, setPlatform } = useIcon();
+export const IconDetailPlatformTabs = React.forwardRef<HTMLDivElement>(
+  function IconDetailPlatformTabs(_, ref) {
+    const { platform, setPlatform } = useIcon();
 
-  return (
-    <TabsRoot
-      value={platform}
-      onValueChange={(value) => {
-        setPlatform(value as "react" | "figma");
-      }}
-    >
-      <TabsList>
-        <TabsTrigger value="react">React</TabsTrigger>
-        <TabsTrigger value="figma">Figma</TabsTrigger>
-      </TabsList>
-      <TabsContent value="react" className="pt-4">
-        <ReactTab />
-      </TabsContent>
-      <TabsContent value="figma" className="pt-4">
-        <FigmaTab />
-      </TabsContent>
-    </TabsRoot>
-  );
-};
+    return (
+      <TabsRoot
+        ref={ref}
+        value={platform}
+        onValueChange={(value) => {
+          if (value === "react" || value === "figma") {
+            setPlatform(value);
+          }
+        }}
+      >
+        <TabsList>
+          <TabsTrigger value="react">React</TabsTrigger>
+          <TabsTrigger value="figma">Figma</TabsTrigger>
+        </TabsList>
+        <TabsContent value="react" className="pt-4">
+          <ReactTab />
+        </TabsContent>
+        <TabsContent value="figma" className="pt-4">
+          <FigmaTab />
+        </TabsContent>
+      </TabsRoot>
+    );
+  },
+);
+
+IconDetailPlatformTabs.displayName = "IconDetailPlatformTabs";
