@@ -1,20 +1,15 @@
 "use client";
 
 import { IconCheckmarkFill, IconCheckmarkClipboardLine } from "@karrotmarket/react-monochrome-icon";
-import { useState } from "react";
+import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 
 export function CopyValue({ value }: { value: string }) {
-  const [copied, setCopied] = useState(false);
-
-  function handleCopy() {
-    navigator.clipboard.writeText(value).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
-  }
+  const [copied, onClick] = useCopyButton(() => {
+    navigator.clipboard.writeText(value);
+  });
 
   return (
-    <button type="button" onClick={handleCopy} className="flex items-center gap-1 group/copy">
+    <button type="button" onClick={onClick} className="flex items-center gap-1 group/copy">
       <span>{value}</span>
       {copied ? (
         <IconCheckmarkFill size={12} className="flex-none" />

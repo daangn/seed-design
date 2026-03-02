@@ -1,7 +1,8 @@
 "use client";
 
 import { IconCheckmarkClipboardLine, IconCheckmarkFill } from "@karrotmarket/react-monochrome-icon";
-import { useEffect, useRef, useState } from "react";
+import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface ColorSwatchProps {
@@ -14,6 +15,7 @@ export function ColorSwatch({ identifier, lightValue, darkValue }: ColorSwatchPr
   const [isOpen, setIsOpen] = useState(false);
   const [rect, setRect] = useState<DOMRect | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
 
   function handleClick() {
     if (buttonRef.current) {
@@ -21,6 +23,16 @@ export function ColorSwatch({ identifier, lightValue, darkValue }: ColorSwatchPr
     }
     setIsOpen(true);
   }
+
+  useLayoutEffect(() => {
+    if (!isOpen || !popupRef.current || !rect) return;
+    const el = popupRef.current;
+    const popupRect = el.getBoundingClientRect();
+    if (popupRect.right > window.innerWidth) {
+      el.style.left = "";
+      el.style.right = `${window.innerWidth - rect.right}px`;
+    }
+  }, [isOpen, rect]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -54,6 +66,7 @@ export function ColorSwatch({ identifier, lightValue, darkValue }: ColorSwatchPr
               onClick={() => setIsOpen(false)}
             />
             <div
+              ref={popupRef}
               className="fixed z-50 bg-fd-background border border-fd-border rounded-xl shadow-xl p-4 min-w-52"
               style={{
                 top: (rect?.bottom ?? 0) + 8,
@@ -72,19 +85,14 @@ export function ColorSwatch({ identifier, lightValue, darkValue }: ColorSwatchPr
 }
 
 function CopyRow({ label, value }: { label: string; value: string }) {
-  const [copied, setCopied] = useState(false);
-
-  function handleCopy() {
-    navigator.clipboard.writeText(value).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
-  }
+  const [copied, onClick] = useCopyButton(() => {
+    navigator.clipboard.writeText(value);
+  });
 
   return (
     <button
       type="button"
-      onClick={handleCopy}
+      onClick={onClick}
       className="flex items-center gap-2 w-full py-1.5 text-left hover:bg-fd-muted rounded-md px-1 transition-colors group"
     >
       <div

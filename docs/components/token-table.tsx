@@ -2,6 +2,7 @@
 
 import { IconCheckmarkClipboardLine, IconCheckmarkFill } from "@karrotmarket/react-monochrome-icon";
 import { AST } from "@seed-design/rootage-core";
+import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import { useState } from "react";
 import { TokenCell, TokenValue } from "./token-cell";
 import { TokenLink } from "./token-link";
@@ -46,15 +47,15 @@ function TokenRow(props: { item: TokenTableItem }) {
   const { id, description, values, resolvedValue } = item;
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [copied, setCopied] = useState(false);
   const canExpand = values.length > 1;
+
+  const [copied, onCopyClick] = useCopyButton(() => {
+    navigator.clipboard.writeText(toCssVar(id));
+  });
 
   function handleCopy(e: React.MouseEvent) {
     e.stopPropagation();
-    navigator.clipboard.writeText(toCssVar(id)).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
+    onCopyClick(e);
   }
 
   return (
