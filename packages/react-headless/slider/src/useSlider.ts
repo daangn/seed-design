@@ -747,6 +747,7 @@ export function useSlider({
       api.isDragging,
       api.max,
       api.min,
+      api.focusVisibleThumbIndex,
       api.setOpenThumbIndex,
       api.values,
       disabled,
