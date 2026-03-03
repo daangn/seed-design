@@ -8,8 +8,8 @@ import { IconTrashcanLine, IconXmarkLine } from "@karrotmarket/react-monochrome-
 import { Icon } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
-import { TextField, TextFieldInput } from "seed-design/ui/text-field";
-import { forwardRef, useEffect, useRef, useState, type FormEvent } from "react";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
+import { forwardRef, useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 
 function parseErrorMessage(error: Error): string {
   try {
@@ -37,7 +37,7 @@ export const ChatInterface = forwardRef<HTMLDivElement, Record<string, never>>(
     const isLoading = status === "submitted" || status === "streaming";
 
     const scrollRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
       if (scrollRef.current) {
@@ -53,12 +53,20 @@ export const ChatInterface = forwardRef<HTMLDivElement, Record<string, never>>(
       inputRef.current?.focus();
     };
 
-    const handleSubmit = (e: FormEvent) => {
-      e.preventDefault();
+    const handleSubmit = (e?: FormEvent) => {
+      e?.preventDefault();
       const trimmed = input.trim();
       if (!trimmed || isLoading) return;
       sendMessage({ text: trimmed });
       setInput("");
+    };
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+      // Enter 단독 = 전송, Cmd+Enter / Shift+Enter = 줄바꿈 (fall-through)
+      if (e.key === "Enter" && !e.metaKey && !e.shiftKey) {
+        e.preventDefault();
+        handleSubmit();
+      }
     };
 
     const handleClearConversation = () => {
@@ -166,11 +174,13 @@ export const ChatInterface = forwardRef<HTMLDivElement, Record<string, never>>(
                 onValueChange={(values) => setInput(values.value)}
                 hideCharacterCount
               >
-                <TextFieldInput
+                <TextFieldTextarea
                   ref={inputRef}
                   aria-label="질문을 입력하세요"
                   placeholder="질문을 입력하세요..."
                   disabled={isLoading}
+                  maxLength={500}
+                  onKeyDown={handleKeyDown}
                 />
               </TextField>
             </div>
