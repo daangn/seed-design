@@ -136,7 +136,7 @@ const listItem = defineSlotRecipe({
 
       // otherwise, see if it has [data-active]. e.g. ListCheckItem
       // this restriction prevents noninteractive(static/presentation/decorative) list items from having an active style
-      [pseudo(not(disabled), "[data-active]", "::before")]: {
+      [pseudo(not(disabled), ":is([data-active], [data-hover])", "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 
         left: vars.base.pressed.root.marginX,

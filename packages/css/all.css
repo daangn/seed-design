@@ -5439,7 +5439,7 @@
   }
 }
 
-.seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
+.seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled])):is([data-active], [data-hover]):before {
   background-color: var(--seed-color-bg-transparent-pressed);
   left: var(--seed-dimension-x1_5);
   right: var(--seed-dimension-x1_5);
