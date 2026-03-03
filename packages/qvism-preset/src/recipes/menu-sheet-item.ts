@@ -1,6 +1,6 @@
 import { menuSheetItem as vars, menuSheet as rootVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { engaged, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 
 const menuSheetItem = defineSlotRecipe({
@@ -26,8 +26,9 @@ const menuSheetItem = defineSlotRecipe({
       border: "none",
       fontFamily: "inherit",
       outline: "none",
+      cursor: "pointer",
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         backgroundColor: vars.base.pressed.root.color,
       },
 

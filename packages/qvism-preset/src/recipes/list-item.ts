@@ -1,6 +1,6 @@
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { active, disabled, not, pseudo } from "../utils/pseudo";
+import { engaged, disabled, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
 
 const listItem = defineSlotRecipe({
@@ -101,6 +101,14 @@ const listItem = defineSlotRecipe({
         left: 0,
       },
 
+      [pseudo(":is(button, a)", not(disabled), "::after")]: {
+        cursor: "pointer",
+      },
+
+      [pseudo(":is(button, a)", disabled, "::after")]: {
+        cursor: "not-allowed",
+      },
+
       // this is for showing the active state
       [pseudo("::before")]: {
         content: "''",
@@ -117,7 +125,7 @@ const listItem = defineSlotRecipe({
       },
 
       // :active pseudoselector is only allowed when the item is a button or an anchor
-      [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
+      [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 
         left: vars.base.pressed.root.marginX,
@@ -128,13 +136,19 @@ const listItem = defineSlotRecipe({
 
       // otherwise, see if it has [data-active]. e.g. ListCheckItem
       // this restriction prevents noninteractive(static/presentation/decorative) list items from having an active style
-      [pseudo(not(disabled), "[data-active]", "::before")]: {
+      [pseudo(not(disabled), ":is([data-active], [data-hover])", "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 
         left: vars.base.pressed.root.marginX,
         right: vars.base.pressed.root.marginX,
 
         borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
+      },
+      [pseudo(not(disabled), "[data-hover]", "::after")]: {
+        cursor: "pointer",
+      },
+      [pseudo(disabled, "[data-hover]", "::after")]: {
+        cursor: "not-allowed",
       },
     },
     title: {
@@ -171,11 +185,11 @@ const listItem = defineSlotRecipe({
             backgroundColor: vars.base.highlighted.root.color,
           },
 
-          [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
+          [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
 
-          [pseudo(not(disabled), "[data-active]", "::before")]: {
+          [pseudo(not(disabled), ":is([data-active], [data-hover])", "::before")]: {
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
         },

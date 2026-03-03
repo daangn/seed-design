@@ -1,6 +1,6 @@
 import { chipTablist as vars, chipTab as triggerVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, disabled, not, pseudo, selected } from "../utils/pseudo";
+import { engaged, disabled, not, pseudo, selected } from "../utils/pseudo";
 
 const chipTabs = defineSlotRecipe({
   name: "chip-tabs",
@@ -105,11 +105,11 @@ const chipTabs = defineSlotRecipe({
             color: triggerVars.variantNeutralSolid.selected.label.color,
           },
 
-          [pseudo(active)]: {
+          [pseudo(engaged)]: {
             backgroundColor: triggerVars.variantNeutralSolid.enabledPressed.root.color,
           },
 
-          [pseudo(selected, active)]: {
+          [pseudo(selected, engaged)]: {
             backgroundColor: triggerVars.variantNeutralSolid.selectedPressed.root.color,
           },
 
@@ -138,11 +138,11 @@ const chipTabs = defineSlotRecipe({
             color: triggerVars.variantNeutralOutline.selected.label.color,
           },
 
-          [pseudo(active)]: {
+          [pseudo(engaged)]: {
             backgroundColor: triggerVars.variantNeutralOutline.enabledPressed.root.color,
           },
 
-          [pseudo(selected, active)]: {
+          [pseudo(selected, engaged)]: {
             backgroundColor: triggerVars.variantNeutralOutline.selectedPressed.root.color,
           },
 
@@ -169,11 +169,11 @@ const chipTabs = defineSlotRecipe({
             color: triggerVars.variantBrandSolid.selected.label.color,
           },
 
-          [pseudo(active)]: {
+          [pseudo(engaged)]: {
             backgroundColor: triggerVars.variantBrandSolid.enabledPressed.root.color,
           },
 
-          [pseudo(selected, active)]: {
+          [pseudo(selected, engaged)]: {
             backgroundColor: triggerVars.variantBrandSolid.selectedPressed.root.color,
           },
 

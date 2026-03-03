@@ -29,8 +29,15 @@
     font-weight: var(--seed-font-weight-bold);
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing);
 }
-.seed-floating-action-button__root:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
+@media (hover: hover) {
+    .seed-floating-action-button__root:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-brand-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-floating-action-button__root:is(:active, [data-active]) {
+        background: var(--seed-color-bg-brand-solid-pressed);
+    }
 }
 .seed-floating-action-button__icon {
     display: inline-flex;

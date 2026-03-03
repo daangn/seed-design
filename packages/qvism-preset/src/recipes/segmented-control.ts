@@ -4,7 +4,7 @@ import {
   segmentedControlIndicator as indicatorVars,
 } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, checked, disabled, not, pseudo } from "../utils/pseudo";
+import { engaged, checked, disabled, not, pseudo } from "../utils/pseudo";
 
 const segmentedControl = defineSlotRecipe({
   name: "segmented-control",
@@ -97,12 +97,12 @@ const segmentedControl = defineSlotRecipe({
         boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
-      [pseudo(not(disabled), checked, active)]: {
+      [pseudo(not(disabled), checked, engaged)]: {
         backgroundColor: indicatorVars.base.pressed.root.color,
         boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
-      [pseudo(not(disabled), not(checked), active)]: {
+      [pseudo(not(disabled), not(checked), engaged)]: {
         backgroundColor: itemVars.base.pressed.root.color,
         boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },

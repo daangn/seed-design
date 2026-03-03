@@ -91,13 +91,21 @@
     border: none;
     font-family: inherit;
     outline: none;
+    cursor: pointer;
     color: var(--seed-color-fg-neutral);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-medium);
 }
-.seed-menu-sheet__closeButton:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
+@media (hover: hover) {
+    .seed-menu-sheet__closeButton:is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-menu-sheet__closeButton:is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
 }
 .seed-menu-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open]) {
     animation: seed-enter;
