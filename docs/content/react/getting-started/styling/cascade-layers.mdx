@@ -160,7 +160,8 @@ export default defineConfig({
       transformIndexHtml() {
         return [
           {
-            tag: "style",
+            tag: "style", // [!code highlight]
+            // [!code highlight]
             children:
               "@layer theme, base, seed-base, components, seed-components, utilities;", // [!code highlight]
             injectTo: "head-prepend", // [!code highlight]
@@ -186,7 +187,8 @@ export default defineConfig({
   html: {
     tags: [
       {
-        tag: "style",
+        tag: "style", // [!code highlight]
+        // [!code highlight]
         children:
           "@layer theme, base, seed-base, components, seed-components, utilities;", // [!code highlight]
         append: false, // [!code highlight]
@@ -208,7 +210,6 @@ HTML 템플릿의 `<head>` 최상단에 `<style>` 태그를 추가합니다.
   <style>
     @layer theme, base, seed-base, components, seed-components, utilities;
   </style>
-  <!-- [!code highlight] -->
 </head>
 ```
 
