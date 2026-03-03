@@ -5,6 +5,10 @@ import { camelCase, pascalCase } from "change-case";
 import type { ComponentNode, ComponentSetNode } from "@figma/rest-api-spec";
 import type { IconData, Style } from "./src/entities";
 
+function ensureTrailingNewline(content: string): string {
+  return content.endsWith("\n") ? content : `${content}\n`;
+}
+
 function getSafeIdentifierName(name: string) {
   const reservedWords = ["switch"];
 
@@ -151,8 +155,8 @@ const config = createConfig({
         const dts = items.map((item) => utils.toDts(getIdentifier(item), item).trim()).join("\n\n");
 
         await Promise.all([
-          write(`${pipelineName}/index.mjs`, mjs),
-          write(`${pipelineName}/index.d.ts`, dts),
+          write(`${pipelineName}/index.mjs`, ensureTrailingNewline(mjs)),
+          write(`${pipelineName}/index.d.ts`, ensureTrailingNewline(dts)),
         ]);
       }),
 
@@ -256,8 +260,8 @@ const config = createConfig({
         const dts = items.map((item) => utils.toDts(getIdentifier(item), item).trim()).join("\n\n");
 
         await Promise.all([
-          write(`${pipelineName}/index.mjs`, mjs),
-          write(`${pipelineName}/index.d.ts`, dts),
+          write(`${pipelineName}/index.mjs`, ensureTrailingNewline(mjs)),
+          write(`${pipelineName}/index.d.ts`, ensureTrailingNewline(dts)),
         ]);
       }),
 
@@ -279,8 +283,8 @@ export declare const FIGMA_VARIABLES: Record<string, Variable>;
 `;
 
         await Promise.all([
-          write(`${pipelineName}/index.mjs`, mjs),
-          write(`${pipelineName}/index.d.ts`, dts),
+          write(`${pipelineName}/index.mjs`, ensureTrailingNewline(mjs)),
+          write(`${pipelineName}/index.d.ts`, ensureTrailingNewline(dts)),
         ]);
       }),
 
@@ -310,8 +314,8 @@ export declare const FIGMA_VARIABLE_COLLECTIONS: Record<string, VariableCollecti
 `;
 
         await Promise.all([
-          write(`${pipelineName}/index.mjs`, mjs),
-          write(`${pipelineName}/index.d.ts`, dts),
+          write(`${pipelineName}/index.mjs`, ensureTrailingNewline(mjs)),
+          write(`${pipelineName}/index.d.ts`, ensureTrailingNewline(dts)),
         ]);
       }),
 
@@ -337,8 +341,8 @@ export declare const FIGMA_STYLES: Style[];
 `;
 
         await Promise.all([
-          write(`${pipelineName}/index.mjs`, mjs),
-          write(`${pipelineName}/index.d.ts`, dts),
+          write(`${pipelineName}/index.mjs`, ensureTrailingNewline(mjs)),
+          write(`${pipelineName}/index.d.ts`, ensureTrailingNewline(dts)),
         ]);
       }),
 
@@ -378,8 +382,8 @@ export declare const FIGMA_ICONS: Record<string, IconData>;
 `;
 
         await Promise.all([
-          write(`${pipelineName}/index.mjs`, mjs),
-          write(`${pipelineName}/index.d.ts`, dts),
+          write(`${pipelineName}/index.mjs`, ensureTrailingNewline(mjs)),
+          write(`${pipelineName}/index.d.ts`, ensureTrailingNewline(dts)),
         ]);
       }),
   },

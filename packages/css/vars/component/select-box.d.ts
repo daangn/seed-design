@@ -8,7 +8,7 @@ export declare const vars: {
         "strokeWidth": "1px",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
-        /** 1px stroke 위에 2px stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다. */
+        /** enabled 상태의 stroke 위에 selected 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다. */
         "strokeDuration": "0.1s",
         "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },

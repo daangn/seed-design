@@ -1,0 +1,185 @@
+{
+  "version": "1.0",
+  "description": "SEED Design System 스킬 자동 활성화 규칙",
+  "skills": {
+    "write-react-component-docs": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "React 컴포넌트 구현 문서를 생성합니다",
+      "promptTriggers": {
+        "keywords": [
+          "react documentation",
+          "component docs",
+          "implementation docs",
+          "api documentation",
+          "react 문서",
+          "컴포넌트 문서",
+          "구현 문서",
+          "리액트 문서"
+        ],
+        "intentPatterns": [
+          "(generate|create|write|update|작성|생성|업데이트).*(react|리액트).*(doc|documentation|문서)",
+          "(document|문서화).*(react|리액트).*(component|컴포넌트)",
+          "ComponentExample",
+          "ManualInstallation"
+        ]
+      }
+    },
+    "dev-react-headless": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "React Headless 컴포넌트를 개발합니다",
+      "promptTriggers": {
+        "keywords": [
+          "headless component",
+          "unstyled component",
+          "custom hook",
+          "primitive composition",
+          "react-headless",
+          "헤드리스 컴포넌트",
+          "커스텀 훅",
+          "프리미티브"
+        ],
+        "intentPatterns": [
+          "(create|implement|develop|개발|구현).*(headless|unstyled|헤드리스).*(component|hook|컴포넌트|훅)",
+          "use[A-Z][a-zA-Z]+",
+          "(data-attributes|data attributes|데이터 속성)",
+          "(namespace pattern|네임스페이스)"
+        ]
+      }
+    },
+    "write-component-guideline": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "컴포넌트 디자인 가이드라인 문서를 작성합니다",
+      "promptTriggers": {
+        "keywords": [
+          "component guidelines",
+          "design documentation",
+          "anatomy",
+          "props table",
+          "가이드라인",
+          "디자인 문서",
+          "컴포넌트 가이드라인",
+          "props 테이블"
+        ],
+        "intentPatterns": [
+          "(generate|create|write|update|작성|생성|업데이트).*(guideline|design|가이드라인|디자인).*(doc|documentation|문서)",
+          "(document|문서화).*(component|컴포넌트).*(guideline|가이드라인)",
+          "rootage yaml",
+          "ComponentSpecBlock",
+          "PlatformStatusTable"
+        ]
+      }
+    },
+    "check-docs-consistency": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "문서 레이어 간 일관성을 검증합니다",
+      "promptTriggers": {
+        "keywords": [
+          "docs consistency",
+          "documentation audit",
+          "validate docs",
+          "check documentation",
+          "pre-release validation",
+          "문서 검증",
+          "일관성 체크",
+          "문서 일관성",
+          "릴리스 전 검증"
+        ],
+        "intentPatterns": [
+          "(validate|check|audit|verify|검증|확인|검사).*(doc|documentation|문서).*(consistency|completeness|일관성|완전성)",
+          "(pre-?release|릴리스 전).*(validation|check|검증|확인)",
+          "(find|detect|찾기|감지).*(missing|inconsistent|누락|불일치).*(docs|documentation|문서)"
+        ]
+      }
+    },
+    "dev-figma-v3-migration-plugin": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "description": "Figma V3 마이그레이션 플러그인을 개발합니다",
+      "promptTriggers": {
+        "keywords": [
+          "figma migration",
+          "v3 migration",
+          "figma plugin",
+          "migration plugin",
+          "피그마 마이그레이션",
+          "v3 마이그레이션",
+          "피그마 플러그인",
+          "마이그레이션 플러그인"
+        ],
+        "intentPatterns": [
+          "(figma|피그마).*(migration|마이그레이션)",
+          "(v3|버전3).*(migration|마이그레이션)",
+          "(develop|create|개발|생성).*(figma|피그마).*(plugin|플러그인)",
+          "seed-design.*v3"
+        ]
+      }
+    },
+    "create-component": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "컴포넌트 개발 전체 흐름을 안내합니다 (rootage → recipe → react → storybook → docs → visual test)",
+      "promptTriggers": {
+        "keywords": [
+          "component flow",
+          "development pipeline",
+          "add component",
+          "new component",
+          "컴포넌트 추가",
+          "컴포넌트 흐름",
+          "개발 파이프라인",
+          "새 컴포넌트",
+          "storybook",
+          "스토리북",
+          "visual test",
+          "비주얼 테스트",
+          "agent browser",
+          "qvism recipe",
+          "레시피"
+        ],
+        "intentPatterns": [
+          "(add|create|implement|추가|생성|구현).*(new|새).*(component|컴포넌트)",
+          "(how|where|어떻게|어디).*(start|시작).*(component|컴포넌트)",
+          "rootage.*react",
+          "(full|전체).*(flow|흐름)",
+          "(test|테스트).*(dark|light|font|다크|라이트|폰트)",
+          "storybook.*(theme|테마)",
+          "(component|컴포넌트).*(test|테스트)"
+        ]
+      }
+    },
+    "deprecation": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "Deprecated 처리와 제거 계획을 표준화합니다",
+      "promptTriggers": {
+        "keywords": [
+          "deprecated",
+          "deprecate",
+          "removal",
+          "migration",
+          "사용 중단",
+          "제거 예정",
+          "deprecated flow",
+          "deprecation"
+        ],
+        "intentPatterns": [
+          "(deprecated|deprecate|사용 중단|제거 예정)",
+          "(remove|remove in|제거).*버전",
+          "(migration|마이그레이션).*(deprecated|사용 중단)",
+          "@deprecated"
+        ]
+      }
+    }
+  }
+}

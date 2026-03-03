@@ -1,7 +1,7 @@
-import { getGitHubSourceUrl } from "@/app/_llms/config";
+import { getGitHubSourceUrl, getLLMMarkdownUrl } from "@/app/_llms/config";
 import { reactSource } from "@/app/source";
 import { mdxComponents } from "@/components/mdx-components";
-import { LLMCopyButton, ViewOptions } from "@/components/page-actions";
+import { LLMOptions, ViewOptions } from "@/components/page-actions";
 import { getComponentStatus } from "@/components/rootage";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
@@ -26,8 +26,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     <span>{page.data.description}</span>
   );
 
-  const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
-  const markdownUrl = `/llms/react/${slugsWithExt.join("/")}`;
+  const markdownUrl = getLLMMarkdownUrl("react", page.slugs);
 
   return (
     <DocsPage
@@ -42,7 +41,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       <DocsTitle>{displayTitle}</DocsTitle>
       <DocsDescription>{displayDescription}</DocsDescription>
       <div className="flex flex-row gap-2 items-center mb-3 justify-end">
-        <LLMCopyButton markdownUrl={markdownUrl} />
+        <LLMOptions markdownUrl={markdownUrl} />
         <ViewOptions markdownUrl={markdownUrl} githubUrl={getGitHubSourceUrl("react", page.path)} />
       </div>
       <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">

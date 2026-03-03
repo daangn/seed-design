@@ -236,10 +236,12 @@
 
 [data-seed-color-mode="light-only"] {
   color-scheme: light;
+  color-scheme: light only;
 }
 
 [data-seed-color-mode="dark-only"] {
   color-scheme: dark;
+  color-scheme: dark only;
 }
 
 :root {

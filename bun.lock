@@ -55,12 +55,12 @@
         "@sanity/image-url": "^2.0.0",
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
-        "@seed-design/css": "1.2.2",
+        "@seed-design/css": "1.2.3",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.2.4",
+        "@seed-design/react": "1.2.5",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
-        "@seed-design/stackflow": "1.1.16",
+        "@seed-design/stackflow": "1.1.17",
         "@seed-design/tailwind4-theme": "1.1.17",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
@@ -70,7 +70,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "estree-util-value-to-estree": "^3.4.0",
-        "fumadocs-core": "^16.4.3",
+        "fumadocs-core": "16.4.3",
         "fumadocs-docgen": "^3.0.0",
         "fumadocs-mdx": "14.2.6",
         "fumadocs-typescript": "^5.0.0",
@@ -90,6 +90,7 @@
         "remark": "^15.0.1",
         "remark-gfm": "^4.0.1",
         "remark-mdx": "^3.1.0",
+        "remark-parse": "^11.0.0",
         "remark-stringify": "^11.0.0",
         "sanity": "^4.20.3",
         "shiki": "^3.4.2",
@@ -282,7 +283,7 @@
     },
     "packages/cli": {
       "name": "@seed-design/cli",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "bin": {
         "seed-design": "./bin/index.mjs",
       },
@@ -291,7 +292,7 @@
         "@babel/core": "^7.26.10",
         "@babel/parser": "^7.27.0",
         "@babel/plugin-transform-typescript": "^7.27.0",
-        "@clack/prompts": "^0.11.0",
+        "@clack/prompts": "^1.0.0",
         "@npmcli/disparity-colors": "^3.0.1",
         "cac": "^6.7.14",
         "cosmiconfig": "^9.0.0",
@@ -302,6 +303,7 @@
         "fs-extra": "^11.3.0",
         "picocolors": "^1.1.1",
         "recast": "^0.23.11",
+        "semver": "^7.7.2",
         "ts-morph": "^27.0.0",
         "zod": "^3.24.3",
       },
@@ -347,7 +349,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.2.2",
+      "version": "1.2.3",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -380,7 +382,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.3.3",
+      "version": "1.3.4",
       "dependencies": {
         "@seed-design/css": "1.2.2",
         "change-case": "^5.4.4",
@@ -396,7 +398,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.3.3",
+      "version": "1.3.4",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.25.3",
@@ -432,7 +434,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.2.4",
+      "version": "1.2.5",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -444,11 +446,11 @@
         "@seed-design/react-checkbox": "1.0.1",
         "@seed-design/react-collapsible": "0.1.0",
         "@seed-design/react-dialog": "1.0.2",
-        "@seed-design/react-drawer": "1.0.8",
+        "@seed-design/react-drawer": "1.0.9",
         "@seed-design/react-field": "1.0.1",
         "@seed-design/react-field-button": "1.0.1",
         "@seed-design/react-fieldset": "0.1.0",
-        "@seed-design/react-image": "0.1.0",
+        "@seed-design/react-image": "0.1.1",
         "@seed-design/react-popover": "1.0.3",
         "@seed-design/react-portal": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
@@ -566,7 +568,7 @@
     },
     "packages/react-headless/drawer": {
       "name": "@seed-design/react-drawer",
-      "version": "1.0.8",
+      "version": "1.0.9",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -644,7 +646,7 @@
     },
     "packages/react-headless/image": {
       "name": "@seed-design/react-image",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
@@ -958,7 +960,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "1.2.2",
+      "version": "1.2.3",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
@@ -974,7 +976,7 @@
     },
     "packages/stackflow": {
       "name": "@seed-design/stackflow",
-      "version": "1.1.16",
+      "version": "1.1.17",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -985,7 +987,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.2.2",
+        "@seed-design/css": "1.2.3",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -1521,9 +1523,9 @@
 
     "@chromatic-com/storybook": ["@chromatic-com/storybook@4.1.3", "", { "dependencies": { "@neoconfetti/react": "^1.0.0", "chromatic": "^13.3.3", "filesize": "^10.0.12", "jsonfile": "^6.1.0", "strip-ansi": "^7.1.0" }, "peerDependencies": { "storybook": "^0.0.0-0 || ^9.0.0 || ^9.1.0-0 || ^9.2.0-0 || ^10.0.0-0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0" } }, "sha512-hc0HO9GAV9pxqDE6fTVOV5KeLpTiCfV8Jrpk5ogKLiIgeq2C+NPjpt74YnrZTjiK8E19fYcMP+2WY9ZtX7zHmw=="],
 
-    "@clack/core": ["@clack/core@0.5.0", "", { "dependencies": { "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-p3y0FIOwaYRUPRcMO7+dlmLh8PSRcrjuTndsiA0WAFbWES0mLZlrjVoBRZ9DzkPFJZG6KGkJmoEAY0ZcVWTkow=="],
+    "@clack/core": ["@clack/core@1.0.0", "", { "dependencies": { "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-Orf9Ltr5NeiEuVJS8Rk2XTw3IxNC2Bic3ash7GgYeA8LJ/zmSNpSQ/m5UAhe03lA6KFgklzZ5KTHs4OAMA/SAQ=="],
 
-    "@clack/prompts": ["@clack/prompts@0.11.0", "", { "dependencies": { "@clack/core": "0.5.0", "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-pMN5FcrEw9hUkZA4f+zLlzivQSeQf5dRGJjSUbvVYDLvpKCdQx5OaknvKzgbtXOizhP+SJJJjqEbOe55uKKfAw=="],
+    "@clack/prompts": ["@clack/prompts@1.0.0", "", { "dependencies": { "@clack/core": "1.0.0", "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-rWPXg9UaCFqErJVQ+MecOaWsozjaxol4yjnmYcGNipAWzdaWa2x+VJmKfGq7L0APwBohQOYdHC+9RO4qRXej+A=="],
 
     "@cloudflare/kv-asset-handler": ["@cloudflare/kv-asset-handler@0.4.0", "", { "dependencies": { "mime": "^3.0.0" } }, "sha512-+tv3z+SPp+gqTIcImN9o0hqE9xyfQjI1XD9pL6NuKjua9B1y7mNYv0S9cP+QEbA4ppVgGZEmKOvHX5G5Ei1CVA=="],
 
@@ -5692,6 +5694,8 @@
     "@sanity/uuid/uuid": ["uuid@8.3.2", "", { "bin": { "uuid": "dist/bin/uuid" } }, "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg=="],
 
     "@seed-design/design-token/esbuild": ["esbuild@0.27.0", "", { "optionalDependencies": { "@esbuild/aix-ppc64": "0.27.0", "@esbuild/android-arm": "0.27.0", "@esbuild/android-arm64": "0.27.0", "@esbuild/android-x64": "0.27.0", "@esbuild/darwin-arm64": "0.27.0", "@esbuild/darwin-x64": "0.27.0", "@esbuild/freebsd-arm64": "0.27.0", "@esbuild/freebsd-x64": "0.27.0", "@esbuild/linux-arm": "0.27.0", "@esbuild/linux-arm64": "0.27.0", "@esbuild/linux-ia32": "0.27.0", "@esbuild/linux-loong64": "0.27.0", "@esbuild/linux-mips64el": "0.27.0", "@esbuild/linux-ppc64": "0.27.0", "@esbuild/linux-riscv64": "0.27.0", "@esbuild/linux-s390x": "0.27.0", "@esbuild/linux-x64": "0.27.0", "@esbuild/netbsd-arm64": "0.27.0", "@esbuild/netbsd-x64": "0.27.0", "@esbuild/openbsd-arm64": "0.27.0", "@esbuild/openbsd-x64": "0.27.0", "@esbuild/openharmony-arm64": "0.27.0", "@esbuild/sunos-x64": "0.27.0", "@esbuild/win32-arm64": "0.27.0", "@esbuild/win32-ia32": "0.27.0", "@esbuild/win32-x64": "0.27.0" }, "bin": { "esbuild": "bin/esbuild" } }, "sha512-jd0f4NHbD6cALCyGElNpGAOtWxSq46l9X/sWB0Nzd5er4Kz2YTm+Vl0qKFT9KUJvD8+fiO8AvoHhFvEatfVixA=="],
+
+    "@seed-design/docs/@figma/rest-api-spec": ["@figma/rest-api-spec@0.35.0", "", {}, "sha512-0v/KJmCWzKBp/wmsqjOas7tLauD1s0nrJJ70vzOCqEEgNrZvugi6/Myssfy+BsfpU5bcC66KrgApqoRRnsbJ4Q=="],
 
     "@seed-design/docs/@types/node": ["@types/node@25.1.0", "", { "dependencies": { "undici-types": "~7.16.0" } }, "sha512-t7frlewr6+cbx+9Ohpl0NOTKXZNV9xHRmNOvql47BFJKcEG1CxtxlPEEe+gR9uhVWM4DwhnvTF110mIL4yP9RA=="],
 

@@ -20,3 +20,5 @@ scripts/data
 
 .env
 .sisyphus/*
+
+.codex

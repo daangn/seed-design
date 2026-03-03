@@ -21,7 +21,8 @@ run_with_feedback() {
 # docs
 # ============================================================
 if [[ "$FILE_PATH" == *"docs/registry/"* ]]; then
-  run_with_feedback bun generate:registry
+  run_with_feedback bun --filter @seed-design/docs generate:registry
+  run_with_feedback bun docs:test --dots
 fi
 
 # ============================================================

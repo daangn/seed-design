@@ -9,6 +9,7 @@ on:
       - "packages/react/**"
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-docs-prod-pages.yml"
+      - ".github/actions/setup/action.yml"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -39,16 +40,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.8"
-
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         with:
           path: docs/.cache/figma-image
-          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/**/*.mdx') }}
+          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
           restore-keys: |
             ${{ runner.os }}-figma-images-
 
@@ -62,11 +59,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
 
-      - name: Install Dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Build Packages
-        run: bun packages:build && bun rootage:build
+      - uses: ./.github/actions/setup
+        with:
+          build-packages: true
+          build-rootage: true
 
       - name: Build Docs
         working-directory: ./docs
@@ -75,8 +71,15 @@ jobs:
         run: |
           bun run build
 
+      - name: Save Figma image cache
+        uses: actions/cache/save@v5
+        with:
+          path: docs/.cache/figma-image
+          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
+
       - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Production)
         run: |
           CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
           CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
           bun wrangler pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+

@@ -5,10 +5,12 @@ export const tokens = {
 
 [data-seed-color-mode="light-only"] {
   color-scheme: light;
+  color-scheme: only light;
 }
 
 [data-seed-color-mode="dark-only"] {
   color-scheme: dark;
+  color-scheme: only dark;
 }
 
 :root {
