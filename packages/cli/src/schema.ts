@@ -45,16 +45,14 @@ export const publicRegistrySchema = z.object({
   hideFromCLICatalog: z.boolean().optional(),
 
   items: z.array(
-    publicRegistryItemSchema
-      .omit({ snippets: true })
-      .extend({
-        snippets: z.array(
-          z.object({
-            path: z.string(),
-            dependencies: z.record(z.string(), z.string()).optional(),
-          }),
-        ),
-      }),
+    publicRegistryItemSchema.omit({ snippets: true }).extend({
+      snippets: z.array(
+        z.object({
+          path: z.string(),
+          dependencies: z.record(z.string(), z.string()).optional(),
+        }),
+      ),
+    }),
   ),
 });
 
