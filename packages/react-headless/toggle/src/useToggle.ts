@@ -1,7 +1,7 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useCallback, useMemo } from "react";
 
-import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
+import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 
 export interface UseToggleStateProps {
   pressed?: boolean;
@@ -53,6 +53,7 @@ export function useToggle(props: UseToggleProps) {
     rootProps: buttonProps({
       ...stateProps,
       "aria-pressed": isPressed,
+      "aria-disabled": ariaAttr(props.disabled),
       onClick() {
         if (props.disabled) return;
         toggle();
