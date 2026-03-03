@@ -13,6 +13,7 @@ import {
   type RefCallback,
 } from "react";
 import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
+import { useSupports } from "@seed-design/react-supports";
 import { useSize } from "@radix-ui/react-use-size";
 import { useIsSSR } from "./useIsSSR";
 import { useElementSizesMap } from "./useElementSizesMap";
@@ -391,6 +392,7 @@ export function useSlider({
   const api = useSliderState(props);
   const isSSR = useIsSSR();
   const id = useId();
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
 
   const resolvedTrigger = useMemo((): "active" | "hover" => {
     if (valueIndicatorTrigger !== "auto") return valueIndicatorTrigger;
@@ -717,12 +719,8 @@ export function useSlider({
           // pointer interactions — state updates are batched and may not
           // be flushed when focus fires synchronously from .focus() calls
           if (api.pointerInteractingRef.current) return;
-          try {
-            if (e.target.matches(":focus-visible")) {
-              api.setFocusVisibleThumbIndex(index);
-            }
-          } catch {
-            // :focus-visible may not be supported in all environments
+          if (isFocusVisibleSupported && e.target.matches(":focus-visible")) {
+            api.setFocusVisibleThumbIndex(index);
           }
         },
         onBlur: () => {
@@ -755,6 +753,7 @@ export function useSlider({
       getAriaLabel,
       getAriaLabelledby,
       getAriaValuetext,
+      isFocusVisibleSupported,
       invalid,
       isLtr,
       readOnly,
