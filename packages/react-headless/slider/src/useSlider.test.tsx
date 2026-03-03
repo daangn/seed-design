@@ -1,4 +1,4 @@
-import { render, fireEvent, type RenderResult } from "@testing-library/react";
+import { render, fireEvent, act, type RenderResult } from "@testing-library/react";
 import userEvent, {
   type UserEvent,
   type Options as UserEventOptions,
@@ -844,7 +844,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -857,7 +857,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowDown}");
 
@@ -870,7 +870,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowRight}");
 
@@ -883,7 +883,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowLeft}");
 
@@ -896,7 +896,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       // ArrowRight should decrement in RTL
       await user.keyboard("{ArrowRight}");
@@ -913,7 +913,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{Shift>}{ArrowUp}{/Shift}");
 
@@ -926,7 +926,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -939,7 +939,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -952,7 +952,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowDown}");
 
@@ -971,7 +971,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowRight}");
 
@@ -990,7 +990,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowLeft}");
 
@@ -1009,7 +1009,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowRight}");
       expect(thumb).toHaveAttribute("aria-valuenow", "3");
@@ -1052,7 +1052,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       // ArrowRight should decrement in RTL
       await user.keyboard("{ArrowRight}");
@@ -1076,7 +1076,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       // Should move by 10 positions in allowedValues with Shift
       await user.keyboard("{Shift>}{ArrowUp}{/Shift}");
@@ -1099,7 +1099,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       // Should move by 5 positions in allowedValues with Shift (jumpMultiplier=5)
       await user.keyboard("{Shift>}{ArrowUp}{/Shift}");
@@ -1114,7 +1114,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -1133,7 +1133,7 @@ describe("useSlider", () => {
       const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{Home}");
 
@@ -1144,7 +1144,7 @@ describe("useSlider", () => {
       const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{End}");
 
@@ -1157,7 +1157,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1170,7 +1170,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageDown}");
 
@@ -1183,7 +1183,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1196,7 +1196,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{Home}");
 
@@ -1210,7 +1210,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{End}");
 
@@ -1231,7 +1231,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1252,7 +1252,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageDown}");
 
@@ -1272,7 +1272,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1292,7 +1292,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageDown}");
 
@@ -1312,7 +1312,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1332,7 +1332,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageDown}");
 
@@ -1451,7 +1451,7 @@ describe("useSlider", () => {
       );
 
       const thumb0 = getByTestId("slider-thumb-0");
-      thumb0.focus();
+      act(() => thumb0.focus());
 
       // Try to move thumb0 too close to thumb1
       // thumb0 is at 30, thumb1 is at 70
@@ -1590,7 +1590,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -1636,7 +1636,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -1681,7 +1681,7 @@ describe("useSlider", () => {
       const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       expect(thumb).toHaveAttribute("aria-valuenow", "50");
 
@@ -1696,7 +1696,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       expect(thumb).toHaveAttribute("aria-valuenow", "50");
 
@@ -1851,7 +1851,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -1893,7 +1893,7 @@ describe("useSlider", () => {
 
       expect(hiddenInput.value).toBe("50");
 
-      thumb.focus();
+      act(() => thumb.focus());
       await user.keyboard("{ArrowUp}");
 
       expect(hiddenInput.value).toBe("51");
