@@ -3,7 +3,10 @@ title: Cascade Layers (Experimental)
 description: CSS Cascade Layers를 사용하여 SEED 스타일의 우선순위를 제어하는 방법을 알아봅니다.
 ---
 
-Tailwind CSS 4 등 CSS Cascade Layer를 사용하는 CSS 프레임워크와 SEED 컴포넌트를 함께 사용할 때, 프레임워크의 유틸리티 클래스로 SEED 컴포넌트 스타일을 오버라이드하려면 **`@layer` directive로 래핑된 버전의 SEED CSS를 사용**하고 **레이어 간 적절한 우선순위를 설정**해야 합니다.
+Tailwind CSS 4 등 CSS Cascade Layer를 사용하는 CSS 프레임워크와 SEED 컴포넌트를 함께 사용할 때, 프레임워크의 유틸리티 클래스로 SEED 컴포넌트 스타일을 오버라이드하려면 다음과 같은 설정이 필요합니다.
+
+- `@layer` directive로 래핑된 버전의 SEED CSS 사용
+- 레이어 간 적절한 우선순위 설정
 
 <Callout type="warn">
   CSS Cascade Layers는 Chrome 99+, Safari 15.4+, Firefox 97+ 이상에서
@@ -12,7 +15,7 @@ Tailwind CSS 4 등 CSS Cascade Layer를 사용하는 CSS 프레임워크와 SEED
 
 ## 개요
 
-기본적으로 SEED CSS는 `@layer` 없이 제공됩니다. 이때 **`@layer` directive 없이 정의된 unlayered 스타일은 layered 스타일보다 항상 높은 우선순위**를 갖습니다. ([MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Cascade_layers#cascade_layer_precedence_order))
+기본적으로 SEED CSS는 `@layer` 없이 제공됩니다. 이때 `@layer` directive 없이 정의된 unlayered 스타일은 layered 스타일보다 항상 높은 우선순위를 갖습니다. ([MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Cascade_layers#cascade_layer_precedence_order))
 
 ```css
 /* SEED 컴포넌트 (unlayered) */
@@ -51,7 +54,7 @@ Tailwind CSS 4 등 CSS Cascade Layer를 사용하는 CSS 프레임워크와 SEED
 
 `seed-base` 및 `seed-components` 레이어와 다른 레이어의 선언 순서를 적절히 조절합니다.
 
-### Tailwind CSS
+#### Tailwind CSS
 
 Tailwind CSS 4 사용 시 유틸리티 클래스를 사용하여 SEED 컴포넌트 스타일을 오버라이드하려면, `@layer` 선언에서 Tailwind `utilities` 레이어가 `seed-components` 레이어보다 높은 우선순위를 가지도록 설정해야 합니다.
 
