@@ -1,0 +1,24 @@
+{
+  "id": "phone-number-field",
+  "dependencies": [
+    "libphonenumber-js"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "text-field"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "phone-number-field.ts",
+      "content": "/**\n * @file lib:phone-number-field\n * @requires @seed-design/react@~1.1.0\n * @requires libphonenumber-js@^1.12.36\n **/\n\nimport { useMemo, useState } from \"react\";\nimport {\n  formatIncompletePhoneNumber,\n  getCountryCallingCode,\n  parseIncompletePhoneNumber,\n  parsePhoneNumberFromString,\n  type CountryCode,\n} from \"libphonenumber-js\";\nimport type { TextFieldProps, TextFieldInputProps } from \"../ui/text-field\";\n\nconst COUNTRY_DEFAULTS: Partial<\n  Record<CountryCode, { textFieldProps?: TextFieldProps; inputProps?: TextFieldInputProps }>\n> = {\n  KR: { inputProps: { placeholder: \"010-1234-5678\" } },\n  JP: { inputProps: { placeholder: \"090-0123-4567\" } },\n  CA: { inputProps: { placeholder: \"(416) 123-4567\" } },\n  US: { inputProps: { placeholder: \"(201) 123-4567\" } },\n  GB: { inputProps: { placeholder: \"07123 456789\" } },\n};\n\nfunction toNationalDigits(input: string, country: CountryCode): string {\n  const cleaned = parseIncompletePhoneNumber(input);\n  if (cleaned === \"\" || !cleaned.startsWith(\"+\")) return cleaned;\n\n  const parsed = parsePhoneNumberFromString(cleaned, country);\n  if (parsed && parsed.countryCallingCode === getCountryCallingCode(country)) {\n    return parseIncompletePhoneNumber(parsed.formatNational());\n  }\n\n  return cleaned.replace(/^\\+/, \"\");\n}\n\nexport interface UsePhoneNumberFieldOptions {\n  countryCode: CountryCode;\n  placeholder?: string;\n\n  value?: string;\n  onValueChange?: (value: string) => void;\n}\n\nexport function usePhoneNumberField({\n  countryCode,\n  placeholder,\n  value: propValue,\n  onValueChange,\n}: UsePhoneNumberFieldOptions) {\n  const [internalValue, setInternalValue] = useState(\"\");\n  const value = propValue ?? internalValue;\n\n  const setValueRaw = (value: string) => {\n    if (propValue === undefined) setInternalValue(value);\n\n    onValueChange?.(value);\n  };\n\n  const setValue = (value: string) => {\n    setValueRaw(toNationalDigits(value, countryCode));\n  };\n\n  const formattedValue = useMemo(() => {\n    if (value === \"\") return value;\n\n    return formatIncompletePhoneNumber(value, countryCode);\n  }, [value, countryCode]);\n\n  const handleValueChange = ({ value: newValue }: { value: string }) => {\n    const raw = parseIncompletePhoneNumber(newValue);\n\n    if (raw.startsWith(\"+\")) {\n      setValueRaw(toNationalDigits(raw, countryCode));\n\n      return;\n    }\n\n    if (raw === value && raw.length > 0 && newValue.length < formattedValue.length) {\n      setValueRaw(raw.slice(0, -1));\n\n      return;\n    }\n\n    setValueRaw(raw);\n  };\n\n  return {\n    value,\n    setValue,\n    textFieldProps: {\n      value: formattedValue,\n      onValueChange: handleValueChange,\n      ...COUNTRY_DEFAULTS[countryCode]?.textFieldProps,\n    } satisfies TextFieldProps,\n    inputProps: {\n      inputMode: \"tel\",\n      autoComplete: \"tel\",\n      ...COUNTRY_DEFAULTS[countryCode]?.inputProps,\n      ...(placeholder != null && { placeholder }),\n    } satisfies TextFieldInputProps,\n  };\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.1.0",
+        "libphonenumber-js": "^1.12.36"
+      }
+    }
+  ]
+}

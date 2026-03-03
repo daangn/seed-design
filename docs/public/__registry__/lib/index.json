@@ -9,6 +9,29 @@
         }
       ],
       "id": "manner-temp-level"
+    },
+    {
+      "snippets": [
+        {
+          "path": "phone-number-field.ts",
+          "dependencies": {
+            "@seed-design/react": "~1.1.0",
+            "libphonenumber-js": "^1.12.36"
+          }
+        }
+      ],
+      "id": "phone-number-field",
+      "dependencies": [
+        "libphonenumber-js"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "text-field"
+          ]
+        }
+      ]
     }
   ]
 }

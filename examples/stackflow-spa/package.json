@@ -25,6 +25,7 @@
     "@stackflow/react": "^1.9.0",
     "@vanilla-extract/css": "^1.17.1",
     "clsx": "^2.1.1",
+    "libphonenumber-js": "^1.12.37",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
