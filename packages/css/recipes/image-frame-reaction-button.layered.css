@@ -1,0 +1,34 @@
+@layer seed-components {
+  .seed-image-frame-reaction-button {
+    box-sizing: border-box;
+    cursor: pointer;
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    --seed-icon-size: var(--seed-dimension-x6);
+    --seed-icon-color: var(--seed-color-palette-static-white);
+    background: none;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    display: inline-flex;
+    position: relative;
+  }
+
+  .seed-image-frame-reaction-button:before {
+    content: "";
+    top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    right: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    bottom: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    position: absolute;
+  }
+
+  .seed-image-frame-reaction-button:focus {
+    outline: none;
+  }
+
+  .seed-image-frame-reaction-button:is([aria-pressed="true"], [data-pressed]) {
+    --seed-icon-color: var(--seed-color-bg-transparent);
+  }
+}

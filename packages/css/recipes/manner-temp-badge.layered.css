@@ -1,0 +1,72 @@
+@layer seed-components {
+  .seed-manner-temp-badge {
+    box-sizing: border-box;
+    text-transform: none;
+    text-align: start;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    border-radius: var(--seed-radius-full);
+    min-height: var(--seed-dimension-x5);
+    padding-left: var(--seed-dimension-x1_5);
+    padding-right: var(--seed-dimension-x1_5);
+    padding-top: var(--seed-dimension-x0_5);
+    padding-bottom: var(--seed-dimension-x0_5);
+    font-size: var(--seed-font-size-t1);
+    line-height: var(--seed-line-height-t1);
+    font-weight: var(--seed-font-weight-bold);
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    display: inline-flex;
+  }
+
+  .seed-manner-temp-badge--level_l1 {
+    background-color: var(--seed-color-manner-temp-l1-bg);
+    color: var(--seed-color-manner-temp-l1-text);
+  }
+
+  .seed-manner-temp-badge--level_l2 {
+    background-color: var(--seed-color-manner-temp-l2-bg);
+    color: var(--seed-color-manner-temp-l2-text);
+  }
+
+  .seed-manner-temp-badge--level_l3 {
+    background-color: var(--seed-color-manner-temp-l3-bg);
+    color: var(--seed-color-manner-temp-l3-text);
+  }
+
+  .seed-manner-temp-badge--level_l4 {
+    background-color: var(--seed-color-manner-temp-l4-bg);
+    color: var(--seed-color-manner-temp-l4-text);
+  }
+
+  .seed-manner-temp-badge--level_l5 {
+    background-color: var(--seed-color-manner-temp-l5-bg);
+    color: var(--seed-color-manner-temp-l5-text);
+  }
+
+  .seed-manner-temp-badge--level_l6 {
+    background-color: var(--seed-color-manner-temp-l6-bg);
+    color: var(--seed-color-manner-temp-l6-text);
+  }
+
+  .seed-manner-temp-badge--level_l7 {
+    background-color: var(--seed-color-manner-temp-l7-bg);
+    color: var(--seed-color-manner-temp-l7-text);
+  }
+
+  .seed-manner-temp-badge--level_l8 {
+    background-color: var(--seed-color-manner-temp-l8-bg);
+    color: var(--seed-color-manner-temp-l8-text);
+  }
+
+  .seed-manner-temp-badge--level_l9 {
+    background-color: var(--seed-color-manner-temp-l9-bg);
+    color: var(--seed-color-manner-temp-l9-text);
+  }
+
+  .seed-manner-temp-badge--level_l10 {
+    background-color: var(--seed-color-manner-temp-l10-bg);
+    color: var(--seed-color-manner-temp-l10-text);
+  }
+}
