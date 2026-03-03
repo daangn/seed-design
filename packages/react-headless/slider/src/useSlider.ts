@@ -110,6 +110,8 @@ function useSliderState({
   const [openThumbIndex, setOpenThumbIndex] = useState<number | null>(null);
   const [activeThumbIndex, setActiveThumbIndex] = useState<number | null>(null);
   const [shownIndicators, setShownIndicators] = useState<Set<number>>(new Set());
+  const [focusVisibleThumbIndex, setFocusVisibleThumbIndex] = useState<number | null>(null);
+  const pointerInteractingRef = useRef(false);
 
   const updateValues = useCallback(
     (value: number, atIndex: number, options?: { commit?: boolean }) => {
@@ -311,6 +313,9 @@ function useSliderState({
     setActiveThumbIndex,
     shownIndicators,
     setShownIndicators,
+    focusVisibleThumbIndex,
+    setFocusVisibleThumbIndex,
+    pointerInteractingRef,
 
     getValueFromPointer,
 
@@ -355,9 +360,9 @@ export interface UseSliderProps extends UseSliderStateProps {
   getValueIndicatorLabel?: (params: { value: number; thumbIndex: number }) => React.ReactNode;
 
   /**
-   * @default "active"
+   * @default "auto"
    */
-  valueIndicatorTrigger?: "active" | "hover";
+  valueIndicatorTrigger?: "active" | "hover" | "auto";
 
   /**
    * @default 150
@@ -378,7 +383,7 @@ export function useSlider({
   getAriaLabel,
   getAriaLabelledby,
   getValueIndicatorLabel = ({ value }) => value,
-  valueIndicatorTrigger = "active",
+  valueIndicatorTrigger = "auto",
   dragStartDelayInMilliseconds = 150,
 
   ...props
@@ -386,6 +391,12 @@ export function useSlider({
   const api = useSliderState(props);
   const isSSR = useIsSSR();
   const id = useId();
+
+  const resolvedTrigger = useMemo((): "active" | "hover" => {
+    if (valueIndicatorTrigger !== "auto") return valueIndicatorTrigger;
+    if (typeof window === "undefined") return "active";
+    return window.matchMedia("(hover: hover)").matches ? "hover" : "active";
+  }, [valueIndicatorTrigger]);
 
   const isLtr = api.dir === "ltr";
 
@@ -423,6 +434,8 @@ export function useSlider({
         },
         onPointerDown: (event) => {
           api.setIsActive(true);
+          api.setFocusVisibleThumbIndex(null);
+          api.pointerInteractingRef.current = true;
 
           if (disabled) return;
           if (event.target instanceof HTMLElement === false) return;
@@ -511,6 +524,7 @@ export function useSlider({
         onPointerUp: (event) => {
           api.setIsActive(false);
           api.setIsPointerDown(false);
+          api.pointerInteractingRef.current = false;
 
           if (event.target instanceof HTMLElement === false) return;
           if (event.target.hasPointerCapture(event.pointerId) === false) return;
@@ -697,8 +711,24 @@ export function useSlider({
           "--thumb-position": percent,
           "--thumb-offset": `${thumbInBoundsOffset}px`,
         } as CSSProperties,
-        onFocus: () => {
+        onFocus: (e: React.FocusEvent) => {
           api.valueIndexToChangeRef.current = index;
+          // Use ref (synchronous) instead of state to reliably detect
+          // pointer interactions — state updates are batched and may not
+          // be flushed when focus fires synchronously from .focus() calls
+          if (api.pointerInteractingRef.current) return;
+          try {
+            if (e.target.matches(":focus-visible")) {
+              api.setFocusVisibleThumbIndex(index);
+            }
+          } catch {
+            // :focus-visible may not be supported in all environments
+          }
+        },
+        onBlur: () => {
+          if (api.focusVisibleThumbIndex === index) {
+            api.setFocusVisibleThumbIndex(null);
+          }
         },
         onMouseEnter: () => {
           if (disabled) return;
@@ -838,11 +868,15 @@ export function useSlider({
         1,
       );
 
-      // Visibility logic by trigger mode:
-      // - 'active' (default): ONLY show when dragging
-      // - 'hover': Show when hovering OR dragging
+      // Visibility logic:
+      // 1. focus-visible always shows indicator (keyboard accessibility)
+      // 2. 'active': ONLY show when dragging
+      // 3. 'hover': Show when hovering OR dragging
+      // 4. 'auto': resolved to 'hover' or 'active' via matchMedia
       const isShown = (() => {
-        switch (valueIndicatorTrigger) {
+        if (api.focusVisibleThumbIndex === index) return true;
+
+        switch (resolvedTrigger) {
           case "hover":
             return (
               api.openThumbIndex === index ||
@@ -889,6 +923,7 @@ export function useSlider({
       api.max,
       api.min,
       api.openThumbIndex,
+      api.focusVisibleThumbIndex,
       api.setShownIndicators,
       api.values,
       api.valueIndicatorRootSizes,
@@ -897,7 +932,7 @@ export function useSlider({
       api.firstThumbSize?.width,
       getValueIndicatorLabel,
       stateProps,
-      valueIndicatorTrigger,
+      resolvedTrigger,
       getHasEverBeenShown,
     ],
   );

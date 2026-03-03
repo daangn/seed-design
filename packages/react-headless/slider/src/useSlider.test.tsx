@@ -1,4 +1,4 @@
-import { render, type RenderResult } from "@testing-library/react";
+import { render, fireEvent, type RenderResult } from "@testing-library/react";
 import userEvent, {
   type UserEvent,
   type Options as UserEventOptions,
@@ -2460,6 +2460,259 @@ describe("useSlider", () => {
       expect(style).toContain("--indicator-label-position");
       expect(style).toContain("--indicator-label-offset");
       expect(style).toContain("--thumb-offset");
+    });
+  });
+
+  describe("Value Indicator - Auto Mode", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("auto mode behaves like hover on hover-capable devices", () => {
+      const originalMatchMedia = window.matchMedia;
+      window.matchMedia = mock((query: string) => ({
+        matches: query === "(hover: hover)",
+        media: query,
+        onchange: null,
+        addListener: mock(() => {}),
+        removeListener: mock(() => {}),
+        addEventListener: mock(() => {}),
+        removeEventListener: mock(() => {}),
+        dispatchEvent: mock(() => true),
+      })) as typeof window.matchMedia;
+
+      try {
+        // Use fireEvent instead of user.hover — happy-dom incorrectly
+        // triggers focus on hover, which would confound the trigger mode test.
+        const { getByTestId } = setUp(
+          <SliderWithValueIndicator
+            min={0}
+            max={100}
+            defaultValues={[50]}
+            valueIndicatorTrigger="auto"
+          />,
+        );
+
+        const thumb = getByTestId("slider-thumb-0");
+        const indicator = getByTestId("slider-value-indicator-0");
+
+        // Initially not shown
+        expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+        // Hover over thumb should show indicator (like hover mode)
+        fireEvent.mouseEnter(thumb);
+        expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+        // Unhover should hide
+        fireEvent.mouseLeave(thumb);
+        expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+      } finally {
+        window.matchMedia = originalMatchMedia;
+      }
+    });
+
+    it("auto mode behaves like active on touch-only devices", () => {
+      const originalMatchMedia = window.matchMedia;
+      window.matchMedia = mock((query: string) => ({
+        matches: false, // hover: hover → false (touch-only)
+        media: query,
+        onchange: null,
+        addListener: mock(() => {}),
+        removeListener: mock(() => {}),
+        addEventListener: mock(() => {}),
+        removeEventListener: mock(() => {}),
+        dispatchEvent: mock(() => true),
+      })) as typeof window.matchMedia;
+
+      try {
+        const { getByTestId } = setUp(
+          <SliderWithValueIndicator
+            min={0}
+            max={100}
+            defaultValues={[50]}
+            valueIndicatorTrigger="auto"
+          />,
+        );
+
+        const root = getByTestId("slider-root");
+        const thumb = getByTestId("slider-thumb-0");
+        const indicator = getByTestId("slider-value-indicator-0");
+
+        spyOn(root, "getBoundingClientRect").mockReturnValue({
+          left: 0,
+          right: 100,
+          width: 100,
+          top: 0,
+          bottom: 10,
+          height: 10,
+          x: 0,
+          y: 0,
+          toJSON: () => {},
+        });
+
+        // Hover over thumb should NOT show indicator (active mode)
+        fireEvent.mouseEnter(thumb);
+        expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+        // Start dragging on thumb should show indicator
+        // Pointer down on thumb (role="slider") immediately starts dragging
+        fireEvent.pointerDown(thumb, { clientX: 50, clientY: 5, button: 0, pointerId: 1 });
+        expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+        // Release should hide
+        fireEvent.pointerUp(thumb, { clientX: 60, clientY: 5, pointerId: 1 });
+        expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+      } finally {
+        window.matchMedia = originalMatchMedia;
+      }
+    });
+
+    it("default trigger is auto", async () => {
+      const originalMatchMedia = window.matchMedia;
+      window.matchMedia = mock((query: string) => ({
+        matches: query === "(hover: hover)",
+        media: query,
+        onchange: null,
+        addListener: mock(() => {}),
+        removeListener: mock(() => {}),
+        addEventListener: mock(() => {}),
+        removeEventListener: mock(() => {}),
+        dispatchEvent: mock(() => true),
+      })) as typeof window.matchMedia;
+
+      try {
+        const { user, getByTestId } = setUp(
+          <SliderWithValueIndicator
+            min={0}
+            max={100}
+            defaultValues={[50]}
+            // no valueIndicatorTrigger prop — should default to "auto"
+          />,
+        );
+
+        const thumb = getByTestId("slider-thumb-0");
+        const indicator = getByTestId("slider-value-indicator-0");
+
+        // On hover-capable device, default (auto) should show on hover
+        await user.hover(thumb);
+        expect(indicator).toHaveAttribute("data-value-indicator-shown");
+      } finally {
+        window.matchMedia = originalMatchMedia;
+      }
+    });
+  });
+
+  describe("Value Indicator - Focus Visible", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("shows indicator when thumb receives keyboard focus (focus-visible)", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Initially not shown
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Tab to thumb (keyboard focus → focus-visible)
+      await user.tab();
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("hides indicator when thumb loses focus", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Tab to thumb
+      await user.tab();
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Tab away from thumb
+      await user.tab();
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("shows indicator on focus-visible regardless of trigger mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Tab to thumb
+      await user.tab();
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
     });
   });
 });
