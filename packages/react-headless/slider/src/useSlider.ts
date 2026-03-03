@@ -158,7 +158,9 @@ function useSliderState({
           uncommittedValuesRef.current = nextValues;
         }
 
-        thumbRefsMap.current.get(valueIndexToChangeRef.current)?.focus();
+        thumbRefsMap.current.get(valueIndexToChangeRef.current)?.focus({
+          focusVisible: !pointerInteractingRef.current,
+        } as FocusOptions);
 
         return nextValues;
       });
@@ -477,6 +479,7 @@ export function useSlider({
         onPointerLeave: () => {
           api.setIsHovered(false);
           api.setIsActive(false);
+          api.setOpenThumbIndex(null);
         },
         onPointerDown: (event) => {
           api.setIsActive(true);
@@ -499,7 +502,7 @@ export function useSlider({
           // away from target (sliding). We want thumb to focus regardless.
           if (event.target.getAttribute("role") === "slider") {
             // target is thumb
-            event.target.focus();
+            event.target.focus({ focusVisible: false } as FocusOptions);
 
             const thumbIndex = getClosestValueIndex(
               api.values,
@@ -522,7 +525,9 @@ export function useSlider({
               api.values,
               api.getValueFromPointer(event.clientX),
             );
-            api.thumbRefsMap.current.get(closestIndex)?.focus();
+            api.thumbRefsMap.current
+              .get(closestIndex)
+              ?.focus({ focusVisible: false } as FocusOptions);
 
             return;
           }
@@ -570,7 +575,6 @@ export function useSlider({
         onPointerUp: (event) => {
           api.setIsActive(false);
           api.setIsPointerDown(false);
-          api.pointerInteractingRef.current = false;
 
           if (event.target instanceof HTMLElement === false) return;
           if (event.target.hasPointerCapture(event.pointerId) === false) return;
@@ -592,6 +596,8 @@ export function useSlider({
               if (isOverThumb) {
                 // Keep open state when transitioning from drag to hover
                 api.setOpenThumbIndex(api.activeThumbIndex);
+              } else {
+                api.setOpenThumbIndex(null);
               }
             }
           }
@@ -616,6 +622,28 @@ export function useSlider({
           if (disabled || readOnly) return;
 
           const atIndex = api.valueIndexToChangeRef.current;
+
+          const isSliderKey =
+            event.key === "Home" ||
+            event.key === "End" ||
+            event.key === "PageUp" ||
+            event.key === "PageDown" ||
+            event.key === "ArrowUp" ||
+            event.key === "ArrowDown" ||
+            event.key === "ArrowLeft" ||
+            event.key === "ArrowRight";
+
+          if (isSliderKey) {
+            // Re-focus to show focus ring when switching from pointer to keyboard.
+            // .focus() on already-focused element is a no-op, so blur first (hacky).
+            const thumb = api.thumbRefsMap.current.get(atIndex);
+            thumb?.blur();
+            thumb?.focus();
+
+            // Set after blur/focus so this is the last queued update,
+            // overriding onBlur's conditional setFocusVisibleThumbIndex(null).
+            api.setFocusVisibleThumbIndex(atIndex);
+          }
 
           switch (event.key) {
             case "Home": {
@@ -758,13 +786,13 @@ export function useSlider({
           "--thumb-position": percent,
           "--thumb-offset": `${thumbInBoundsOffset}px`,
         } as CSSProperties,
-        onFocus: (e: React.FocusEvent) => {
+        onFocus: (event) => {
           api.valueIndexToChangeRef.current = index;
           // Use ref (synchronous) instead of state to reliably detect
           // pointer interactions — state updates are batched and may not
           // be flushed when focus fires synchronously from .focus() calls
           if (api.pointerInteractingRef.current) return;
-          if (isFocusVisibleSupported && e.target.matches(":focus-visible")) {
+          if (isFocusVisibleSupported && event.target.matches(":focus-visible")) {
             api.setFocusVisibleThumbIndex(index);
           }
         },

@@ -2203,6 +2203,66 @@ describe("useSlider", () => {
       // Should still be shown
       expect(indicator).toHaveAttribute("data-value-indicator-shown");
     });
+
+    it("closes indicator when drag ends with pointer NOT over thumb in hover mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      spyOn(thumb, "getBoundingClientRect").mockReturnValue({
+        left: 48,
+        right: 52,
+        width: 4,
+        top: 3,
+        bottom: 7,
+        height: 4,
+        x: 48,
+        y: 3,
+        toJSON: () => {},
+      });
+
+      // Start dragging from thumb
+      await user.pointer([
+        { target: thumb, coords: { clientX: 50, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Drag away from thumb
+      await user.pointer([{ target: root, coords: { clientX: 80, clientY: 5 } }]);
+
+      // Still shown during drag
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Release pointer far from thumb (NOT over thumb)
+      await user.pointer([
+        { target: root, coords: { clientX: 80, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+
+      // Should NOT be shown after releasing away from thumb
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
   });
 
   describe("Value Indicator - Multiple Thumbs", () => {
