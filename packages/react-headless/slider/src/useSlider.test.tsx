@@ -2715,4 +2715,80 @@ describe("useSlider", () => {
       expect(indicator).toHaveAttribute("data-value-indicator-shown");
     });
   });
+
+  describe("Value Indicator - Ever Shown Persistence", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("sets data-indicator-ever-shown after indicator becomes visible", async () => {
+      const { getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Initially never shown
+      expect(indicator).not.toHaveAttribute("data-indicator-ever-shown");
+
+      // Hover to show indicator
+      fireEvent.mouseEnter(thumb);
+
+      // After showing, ever-shown should be set
+      expect(indicator).toHaveAttribute("data-indicator-ever-shown");
+    });
+
+    it("persists data-indicator-ever-shown after indicator is hidden", async () => {
+      const { getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Show then hide
+      fireEvent.mouseEnter(thumb);
+      fireEvent.mouseLeave(thumb);
+
+      // Indicator is hidden but ever-shown persists
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+      expect(indicator).toHaveAttribute("data-indicator-ever-shown");
+    });
+  });
 });

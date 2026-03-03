@@ -402,6 +402,50 @@ export function useSlider({
 
   const isLtr = api.dir === "ltr";
 
+  const visibleIndicatorIndices = useMemo(() => {
+    const indices = new Set<number>();
+    for (let i = 0; i < api.values.length; i++) {
+      if (api.focusVisibleThumbIndex === i) {
+        indices.add(i);
+        continue;
+      }
+      switch (resolvedTrigger) {
+        case "hover":
+          if (
+            api.openThumbIndex === i ||
+            (api.isDragging && api.valueIndexToChangeRef.current === i)
+          ) {
+            indices.add(i);
+          }
+          break;
+        case "active":
+          if (api.isDragging && api.valueIndexToChangeRef.current === i) {
+            indices.add(i);
+          }
+          break;
+      }
+    }
+    return indices;
+  }, [
+    api.values.length,
+    api.focusVisibleThumbIndex,
+    api.openThumbIndex,
+    api.isDragging,
+    resolvedTrigger,
+  ]);
+
+  useEffect(() => {
+    if (visibleIndicatorIndices.size === 0) return;
+
+    api.setShownIndicators((prev) => {
+      const next = new Set(prev);
+      for (const index of visibleIndicatorIndices) {
+        next.add(index);
+      }
+      return next.size === prev.size ? prev : next;
+    });
+  }, [visibleIndicatorIndices, api.setShownIndicators]);
+
   const stateProps = useMemo(
     () =>
       elementProps({
@@ -634,6 +678,7 @@ export function useSlider({
       api.handleSlideStart,
       api.isDragging,
       api.setActiveThumbIndex,
+      api.setFocusVisibleThumbIndex,
       api.setIsActive,
       api.setIsDragging,
       api.setIsHovered,
@@ -748,6 +793,7 @@ export function useSlider({
       api.max,
       api.min,
       api.focusVisibleThumbIndex,
+      api.setFocusVisibleThumbIndex,
       api.setOpenThumbIndex,
       api.values,
       disabled,
@@ -868,30 +914,8 @@ export function useSlider({
         1,
       );
 
-      // Visibility logic:
-      // 1. focus-visible always shows indicator (keyboard accessibility)
-      // 2. 'active': ONLY show when dragging
-      // 3. 'hover': Show when hovering OR dragging
-      // 4. 'auto': resolved to 'hover' or 'active' via matchMedia
-      const isShown = (() => {
-        if (api.focusVisibleThumbIndex === index) return true;
-
-        switch (resolvedTrigger) {
-          case "hover":
-            return (
-              api.openThumbIndex === index ||
-              (api.isDragging && api.valueIndexToChangeRef.current === index)
-            );
-          case "active":
-            return api.isDragging && api.valueIndexToChangeRef.current === index;
-        }
-      })();
-
+      const isShown = visibleIndicatorIndices.has(index);
       const hasEverBeenShown = getHasEverBeenShown(index);
-
-      if (isShown && !hasEverBeenShown) {
-        setTimeout(() => api.setShownIndicators((prev) => new Set(prev).add(index)), 0);
-      }
 
       return {
         rootProps: elementProps({
@@ -922,17 +946,14 @@ export function useSlider({
       api.isDragging,
       api.max,
       api.min,
-      api.openThumbIndex,
-      api.focusVisibleThumbIndex,
-      api.setShownIndicators,
       api.values,
       api.valueIndicatorRootSizes,
       api.valueIndexToChangeRef,
       api.rootSize?.width,
       api.firstThumbSize?.width,
+      visibleIndicatorIndices,
       getValueIndicatorLabel,
       stateProps,
-      resolvedTrigger,
       getHasEverBeenShown,
     ],
   );
