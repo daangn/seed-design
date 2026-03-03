@@ -9,7 +9,14 @@ export function CopyValue({ value }: { value: string }) {
   });
 
   return (
-    <button type="button" onClick={onClick} className="flex items-center gap-1 group/copy">
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick(e);
+      }}
+      className="flex items-center gap-1 group/copy"
+    >
       <span>{value}</span>
       {copied ? (
         <IconCheckmarkFill size={12} className="flex-none" />
