@@ -1,6 +1,11 @@
 import { radiomark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, engaged, pseudo, not } from "../utils/pseudo";
+import { checked, disabled, engaged, pseudo, not, focusVisible } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const radiomark = defineSlotRecipe({
   name: "radiomark",
@@ -23,9 +28,9 @@ const radiomark = defineSlotRecipe({
 
       marginTop: "var(--radiomark-margin-top, 0)", // 수직 위치 보정
 
-      cursor: "pointer", // radio has this, but radiomark can be used separately
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
 
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
@@ -38,7 +43,6 @@ const radiomark = defineSlotRecipe({
       [pseudo(disabled)]: {
         // we use toneBrand here; rootage needs some more clarification on this
         backgroundColor: vars.toneBrand.disabled.root.color,
-        cursor: "not-allowed",
       },
 
       [pseudo(disabled, checked)]: {
@@ -47,6 +51,8 @@ const radiomark = defineSlotRecipe({
         borderWidth: vars.toneBrand.disabledSelected.root.strokeWidth,
         borderColor: vars.toneBrand.disabledSelected.root.strokeColor,
       },
+
+      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     icon: {
       display: "none",

@@ -14,15 +14,18 @@
     text-decoration: none;
     flex-shrink: 0;
     font-family: inherit;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
 }
-.seed-toggle-button:is(:focus, [data-focus]) {
-    outline: none;
+.seed-toggle-button:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-toggle-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
 .seed-toggle-button {
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     font-weight: var(--seed-font-weight-bold);
 }
 .seed-toggle-button--variant_brandSolid {

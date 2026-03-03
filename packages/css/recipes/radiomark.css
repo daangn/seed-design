@@ -10,8 +10,9 @@
     border-color: var(--seed-color-stroke-neutral-weak);
     border-radius: var(--seed-radius-full);
     margin-top: var(--radiomark-margin-top, 0);
-    cursor: pointer;
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid transparent);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 @media (hover: hover) {
     .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
@@ -28,12 +29,15 @@
 }
 .seed-radiomark__root:is(:disabled, [disabled], [data-disabled]) {
     background-color: var(--seed-color-palette-gray-300);
-    cursor: not-allowed;
 }
 .seed-radiomark__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
     background-color: var(--seed-color-bg-transparent);
     border-width: 1px;
     border-color: var(--seed-color-palette-gray-300);
+}
+.seed-radiomark__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring));
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-radiomark__icon {
     display: none;

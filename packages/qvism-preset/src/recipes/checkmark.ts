@@ -1,6 +1,18 @@
 import { checkmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, checkedOrIndeterminate, disabled, not, pseudo } from "../utils/pseudo";
+import {
+  engaged,
+  checkedOrIndeterminate,
+  disabled,
+  focusVisible,
+  not,
+  pseudo,
+} from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const checkmark = defineSlotRecipe({
   name: "checkmark",
@@ -13,13 +25,10 @@ const checkmark = defineSlotRecipe({
 
       marginTop: "var(--checkmark-margin-top, 0)", // 수직 위치 보정
 
-      cursor: "pointer", // checkbox has this, but checkmark can be used separately
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
-
-      [pseudo(disabled)]: {
-        cursor: "not-allowed",
-      },
+      ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     icon: {
       display: "none",

@@ -1,6 +1,11 @@
 import { switchmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, pseudo } from "../utils/pseudo";
+import { checked, disabled, focusVisible, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const switchmarkRecipe = defineSlotRecipe({
   name: "switchmark",
@@ -16,14 +21,14 @@ const switchmarkRecipe = defineSlotRecipe({
 
       margin: "var(--switchmark-margin-top, 0) 0", // 수직 위치 보정
 
-      cursor: "pointer", // switch has this, but switchmark can be used separately
-
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       [pseudo(disabled)]: {
         opacity: vars.base.disabled.root.opacity,
-        cursor: "not-allowed",
       },
+
+      ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     thumb: {
       borderRadius: vars.base.enabled.thumb.cornerRadius,

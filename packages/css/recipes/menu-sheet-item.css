@@ -12,8 +12,6 @@
     margin: 0;
     border: none;
     font-family: inherit;
-    outline: none;
-    cursor: pointer;
 }
 @media (hover: hover) {
     .seed-menu-sheet-item__root:is(:hover, [data-hover]) {
@@ -25,8 +23,23 @@
         background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
 }
+.seed-menu-sheet-item__root:first-child {
+    border-top-left-radius: var(--seed-radius-r4);
+    border-top-right-radius: var(--seed-radius-r4);
+}
 .seed-menu-sheet-item__root:last-child {
+    border-bottom-left-radius: var(--seed-radius-r4);
+    border-bottom-right-radius: var(--seed-radius-r4);
     box-shadow: none;
+}
+.seed-menu-sheet-item__root {
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+.seed-menu-sheet-item__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-menu-sheet-item__root {
     --seed-prefix-icon-size: 22px;

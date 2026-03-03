@@ -48,10 +48,18 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     color: var(--seed-color-fg-neutral-subtle);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-segmented-control__item:is(:checked, [data-checked]) {
     color: var(--seed-color-fg-neutral);
+}
+.seed-segmented-control__item {
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-segmented-control__item:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-segmented-control__item:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
