@@ -83,7 +83,7 @@ jobs:
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           wranglerVersion: "4.45.3"
           workingDirectory: docs
-          command: pages deploy ./out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+          command: pages deploy ./out --project-name=seed-design-v3 --branch=${{ github.ref_name }} --functions-dir ./functions
 
       - name: Find related PR
         id: pr
