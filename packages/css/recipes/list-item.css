@@ -147,6 +147,6 @@
         background-color: var(--seed-color-bg-brand-weak-pressed);
     }
 }
-.seed-list-item__content--highlighted_true:not(:is(:disabled, [disabled], [data-disabled]))[data-active]::before {
+.seed-list-item__content--highlighted_true:not(:is(:disabled, [disabled], [data-disabled])):is([data-active], [data-hover])::before {
     background-color: var(--seed-color-bg-brand-weak-pressed);
 }

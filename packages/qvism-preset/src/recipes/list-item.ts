@@ -189,8 +189,7 @@ const listItem = defineSlotRecipe({
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
 
-          // TODO: not sure if we should replace [data-active] with engaged here
-          [pseudo(not(disabled), "[data-active]", "::before")]: {
+          [pseudo(not(disabled), ":is([data-active], [data-hover])", "::before")]: {
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
         },
