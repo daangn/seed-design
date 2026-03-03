@@ -177,12 +177,15 @@ export function generateKeyframeRules(definitions: CssKeyframes) {
   });
 }
 
-export async function transpileRulesToCss(rules: postcss.ChildNode[]): Promise<string> {
+export async function transpileRulesToCss(
+  rules: postcss.ChildNode[],
+  plugins: postcss.AcceptedPlugin[] = [],
+): Promise<string> {
   const root = postcss.root({
     nodes: compact(rules),
   });
 
-  const css = await postcss([postcssNested()])
+  const css = await postcss([...plugins, postcssNested()])
     // @ts-expect-error
     .process(root, { from: undefined, parser: parseCssJs })
     .then((result) => {
@@ -211,7 +214,7 @@ export async function generateEachRecipe(
     Object.values(theme.recipes).map(async (recipe) => {
       const name = recipe.name;
       const rules = generateRecipeKindRules(recipe, { prefix });
-      const css = await transpileRulesToCss(rules);
+      const css = await transpileRulesToCss(rules, config.postcssPlugins);
 
       const layeredCss = transform({
         filename: `${name}.css`,
@@ -236,7 +239,7 @@ export async function generateBaseBundle(
   const tokenRules = generateTokenRules(theme.tokens);
   const keyframeRules = generateKeyframeRules(theme.keyframes);
   const rules = [...globalRules, ...tokenRules, ...keyframeRules];
-  const css = await transpileRulesToCss(rules);
+  const css = await transpileRulesToCss(rules, config.postcssPlugins);
 
   if (layer) {
     const wrapped = wrapInLayer(css, "seed-base");
@@ -274,7 +277,7 @@ export async function generateAllBundle(
   }
 
   const rules = [...globalRules, ...tokenRules, ...recipeRules, ...keyframeRules];
-  const css = await transpileRulesToCss(rules);
+  const css = await transpileRulesToCss(rules, config.postcssPlugins);
 
   return transform({
     filename: "qvism.css",

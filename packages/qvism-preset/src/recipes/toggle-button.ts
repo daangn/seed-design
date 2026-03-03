@@ -2,7 +2,12 @@ import { toggleButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { prefixIcon, suffixIcon } from "../utils/icon";
-import { active, disabled, focus, loading, pressed, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const toggleButton = defineRecipe({
   name: "toggle-button",
@@ -23,14 +28,13 @@ const toggleButton = defineRecipe({
     flexShrink: 0,
     fontFamily: "inherit",
 
-    [pseudo(focus)]: {
-      outline: "none",
-    },
+    ...createFocusRingRestStyles(),
+    [pseudo(focusVisible)]: createFocusRingStyles(),
     [pseudo(disabled)]: {
       cursor: "not-allowed",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
     fontWeight: vars.base.enabled.label.fontWeight,
   },
   variants: {
@@ -42,7 +46,7 @@ const toggleButton = defineRecipe({
         "--track-color": vars.variantBrandSolid.enabled.progressCircle.trackColor,
         "--range-color": vars.variantBrandSolid.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantBrandSolid.pressed.root.color,
         },
         [pseudo(pressed)]: {
@@ -59,7 +63,7 @@ const toggleButton = defineRecipe({
             color: vars.variantBrandSolid.selected.suffixIcon.color,
           }),
         },
-        [pseudo(pressed, active)]: {
+        [pseudo(pressed, engaged)]: {
           background: vars.variantBrandSolid.selectedPressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -94,7 +98,7 @@ const toggleButton = defineRecipe({
         "--track-color": vars.variantNeutralWeak.enabled.progressCircle.trackColor,
         "--range-color": vars.variantNeutralWeak.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantNeutralWeak.pressed.root.color,
         },
         [pseudo(pressed)]: {
@@ -111,7 +115,7 @@ const toggleButton = defineRecipe({
             color: vars.variantNeutralWeak.selected.suffixIcon.color,
           }),
         },
-        [pseudo(pressed, active)]: {
+        [pseudo(pressed, engaged)]: {
           background: vars.variantNeutralWeak.selectedPressed.root.color,
         },
         [pseudo(disabled)]: {

@@ -1,7 +1,13 @@
 import { defineSlotRecipe } from "../utils/define";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { not, open, pseudo } from "../utils/pseudo";
+import { focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { bottomSheetCloseButton as closeButtonVars, bottomSheet as vars } from "../vars/component";
+import { vars as tokens } from "../vars";
 
 const bottomSheet = defineSlotRecipe({
   name: "bottom-sheet",
@@ -180,6 +186,19 @@ const bottomSheet = defineSlotRecipe({
         right: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
         bottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
         left: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+        ...createFocusRingRestStyles({ position: "inside" }),
+        transition: FOCUS_RING_TRANSITION,
+      },
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      [pseudo(focusVisible)]: {
+        "&:after": {
+          borderRadius: tokens.$radius.r1,
+          ...createFocusRingStyles({ position: "inside" }),
+        },
       },
     },
   },

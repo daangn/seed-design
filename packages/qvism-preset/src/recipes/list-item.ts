@@ -1,6 +1,11 @@
 import { defineSlotRecipe } from "../utils/define";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { active, disabled, not, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focus, focusVisible, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
 
 const listItem = defineSlotRecipe({
@@ -35,6 +40,8 @@ const listItem = defineSlotRecipe({
       "--seed-box-padding-right": vars.base.enabled.prefix.paddingRight,
       paddingRight: "var(--seed-box-padding-right)",
 
+      "--seed-focus-ring": "none",
+
       ...onlyIcon({
         color: vars.base.enabled.prefixIcon.color,
         size: vars.base.enabled.prefixIcon.size,
@@ -55,6 +62,8 @@ const listItem = defineSlotRecipe({
       position: "var(--seed-box-position)",
       "--seed-box-gap": vars.base.enabled.suffix.gap,
       gap: "var(--seed-box-gap)",
+
+      "--seed-focus-ring": "none",
 
       fontSize: vars.base.enabled.suffixText.fontSize,
       lineHeight: vars.base.enabled.suffixText.lineHeight,
@@ -99,9 +108,19 @@ const listItem = defineSlotRecipe({
         right: 0,
         bottom: 0,
         left: 0,
+        ...createFocusRingRestStyles({ position: "inside" }),
+        transition: FOCUS_RING_TRANSITION,
       },
 
-      // this is for showing the active state
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      [pseudo(focusVisible)]: {
+        "&::after": createFocusRingStyles({ position: "inside" }),
+      },
+
+      // this is for showing the engaged state
       [pseudo("::before")]: {
         content: "''",
         position: "absolute",
@@ -116,8 +135,8 @@ const listItem = defineSlotRecipe({
         transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
       },
 
-      // :active pseudoselector is only allowed when the item is a button or an anchor
-      [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
+      // engaged(:active/:hover) custom selector is only attached when the item is a button or an anchor
+      [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 
         left: vars.base.pressed.root.marginX,
@@ -126,15 +145,28 @@ const listItem = defineSlotRecipe({
         borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
       },
 
-      // otherwise, see if it has [data-active]. e.g. ListCheckItem
+      // otherwise, see if it has [data-active] or [data-hover]. e.g. ListCheckItem
       // this restriction prevents noninteractive(static/presentation/decorative) list items from having an active style
-      [pseudo(not(disabled), "[data-active]", "::before")]: {
-        backgroundColor: vars.base.pressed.root.color,
+      // split by device capability just like engaged does
+      "@media (hover: hover)": {
+        [pseudo(not(disabled), "[data-hover]", "::before")]: {
+          backgroundColor: vars.base.pressed.root.color,
 
-        left: vars.base.pressed.root.marginX,
-        right: vars.base.pressed.root.marginX,
+          left: vars.base.pressed.root.marginX,
+          right: vars.base.pressed.root.marginX,
 
-        borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
+          borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
+        },
+      },
+      "@media (hover: none)": {
+        [pseudo(not(disabled), "[data-active]", "::before")]: {
+          backgroundColor: vars.base.pressed.root.color,
+
+          left: vars.base.pressed.root.marginX,
+          right: vars.base.pressed.root.marginX,
+
+          borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
+        },
       },
     },
     title: {
@@ -165,18 +197,25 @@ const listItem = defineSlotRecipe({
       false: {},
       true: {
         content: {
-          // we define highlighted style (not active) in content::before rather than root
-          // because it should transition into active style smoothly
+          // we define highlighted style (not engaged) in content::before rather than root
+          // because it should transition into engaged style smoothly
           [pseudo("::before")]: {
             backgroundColor: vars.base.highlighted.root.color,
           },
 
-          [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
+          [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
 
-          [pseudo(not(disabled), "[data-active]", "::before")]: {
-            backgroundColor: vars.base.highlightedPressed.root.color,
+          "@media (hover: hover)": {
+            [pseudo(not(disabled), "[data-hover]", "::before")]: {
+              backgroundColor: vars.base.highlightedPressed.root.color,
+            },
+          },
+          "@media (hover: none)": {
+            [pseudo(not(disabled), "[data-active]", "::before")]: {
+              backgroundColor: vars.base.highlightedPressed.root.color,
+            },
           },
         },
       },
