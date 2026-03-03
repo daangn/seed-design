@@ -21,6 +21,10 @@ type LooseSlotRecipeDefinition = SlotRecipeDefinition<string, SlotRecipeVariantR
 const prefixName = (name: string, options: { prefix?: string } = {}) =>
   options.prefix ? `${options.prefix}-${name}` : name;
 
+export function wrapInLayer(css: string, layerName: string): string {
+  return `@layer ${layerName} {\n${css}}\n`;
+}
+
 export function generateRecipeRules(
   recipe: RecipeDefinition<RecipeVariantRecord>,
   options: { prefix?: string } = {},
@@ -195,7 +199,7 @@ export function generateTokenRules(tokens: Theme["tokens"]): postcss.ChildNode[]
 export async function generateEachRecipe(
   config: Config,
   cssConfig: CssgenConfig = {},
-): Promise<{ name: string; css: string }[]> {
+): Promise<{ name: string; css: string; layeredCss: string }[]> {
   const { prefix, theme } = config;
   const { minify = false } = cssConfig;
 
@@ -209,7 +213,13 @@ export async function generateEachRecipe(
       const rules = generateRecipeKindRules(recipe, { prefix });
       const css = await transpileRulesToCss(rules);
 
-      return { name, css };
+      const layeredCss = transform({
+        filename: `${name}.css`,
+        code: Buffer.from(wrapInLayer(css, "seed-components")),
+        minify: false,
+      }).code.toString();
+
+      return { name, css, layeredCss };
     }),
   );
 
@@ -221,12 +231,17 @@ export async function generateBaseBundle(
   cssConfig: CssgenConfig = {},
 ): Promise<string> {
   const { theme } = config;
-  const { minify = false } = cssConfig;
+  const { minify = false, layer = false } = cssConfig;
   const globalRules = parseCssJs(theme.globalCss ?? {}).nodes;
   const tokenRules = generateTokenRules(theme.tokens);
   const keyframeRules = generateKeyframeRules(theme.keyframes);
   const rules = [...globalRules, ...tokenRules, ...keyframeRules];
   const css = await transpileRulesToCss(rules);
+
+  if (layer) {
+    const wrapped = wrapInLayer(css, "seed-base");
+    return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
+  }
 
   return transform({
     filename: "qvism.css",
@@ -240,7 +255,7 @@ export async function generateAllBundle(
   cssConfig: CssgenConfig = {},
 ): Promise<string> {
   const { prefix, theme } = config;
-  const { minify = false } = cssConfig;
+  const { minify = false, layer = false } = cssConfig;
   const options = { prefix };
   const globalRules = parseCssJs(theme.globalCss ?? {}).nodes;
   const tokenRules = generateTokenRules(theme.tokens);
@@ -248,6 +263,16 @@ export async function generateAllBundle(
     generateRecipeKindRules(recipe, options),
   );
   const keyframeRules = generateKeyframeRules(theme.keyframes);
+
+  if (layer) {
+    const baseRules = [...globalRules, ...tokenRules, ...keyframeRules];
+    const baseCss = await transpileRulesToCss(baseRules);
+    const recipesCss = await transpileRulesToCss(recipeRules);
+    const wrapped = `${wrapInLayer(baseCss, "seed-base")}\n${wrapInLayer(recipesCss, "seed-components")}`;
+
+    return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
+  }
+
   const rules = [...globalRules, ...tokenRules, ...recipeRules, ...keyframeRules];
   const css = await transpileRulesToCss(rules);
 

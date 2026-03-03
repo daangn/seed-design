@@ -144,4 +144,5 @@ export interface Config {
 
 export interface CssgenConfig {
   minify?: boolean;
+  layer?: boolean;
 }
