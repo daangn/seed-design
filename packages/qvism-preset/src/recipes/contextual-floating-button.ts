@@ -2,7 +2,7 @@ import { contextualFloatingButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon } from "../utils/icon";
-import { active, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -74,7 +74,7 @@ const contextualFloatingButton = defineRecipe({
         "--track-color": vars.variantSolid.enabled.progressCircle.trackColor,
         "--range-color": vars.variantSolid.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantSolid.pressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -104,7 +104,7 @@ const contextualFloatingButton = defineRecipe({
         "--track-color": vars.variantLayer.enabled.progressCircle.trackColor,
         "--range-color": vars.variantLayer.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantLayer.pressed.root.color,
         },
         [pseudo(disabled)]: {

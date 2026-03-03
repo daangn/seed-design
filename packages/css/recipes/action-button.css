@@ -57,8 +57,15 @@
     --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white);
 }
-.seed-action-button--variant_brandSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
+@media (hover: hover) {
+    .seed-action-button--variant_brandSolid:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-brand-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
+        background: var(--seed-color-bg-brand-solid-pressed);
+    }
 }
 .seed-action-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
@@ -80,8 +87,15 @@
     --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white);
 }
-.seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+@media (hover: hover) {
+    .seed-action-button--variant_neutralSolid:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
+        background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
 }
 .seed-action-button--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
@@ -103,8 +117,15 @@
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
 }
-.seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+@media (hover: hover) {
+    .seed-action-button--variant_neutralWeak:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
+        background: var(--seed-color-bg-neutral-weak-pressed);
+    }
 }
 .seed-action-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
@@ -126,8 +147,15 @@
     --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white);
 }
-.seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-critical-solid-pressed);
+@media (hover: hover) {
+    .seed-action-button--variant_criticalSolid:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-critical-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
+        background: var(--seed-color-bg-critical-solid-pressed);
+    }
 }
 .seed-action-button--variant_criticalSolid:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
@@ -152,8 +180,15 @@
     --track-color: var(--seed-color-palette-carrot-200);
     --range-color: var(--seed-color-bg-brand-solid);
 }
-.seed-action-button--variant_brandOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-action-button--variant_brandOutline:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-action-button--variant_brandOutline:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-transparent);
@@ -179,8 +214,15 @@
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
 }
-.seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-action-button--variant_neutralOutline:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-action-button--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-transparent);
@@ -205,8 +247,15 @@
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
 }
-.seed-action-button--variant_ghost:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-action-button--variant_ghost:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-action-button--variant_ghost:is(:active, [data-active]) {
+        background: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-action-button--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
     background: #ffffff00;

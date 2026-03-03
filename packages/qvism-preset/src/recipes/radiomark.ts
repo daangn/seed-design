@@ -1,6 +1,6 @@
 import { radiomark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, active, pseudo, not, focusVisible } from "../utils/pseudo";
+import { checked, disabled, engaged, pseudo, not, focusVisible } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -32,7 +32,7 @@ const radiomark = defineSlotRecipe({
 
       ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
 
-      [pseudo(not(disabled), active)]: {
+      [pseudo(not(disabled), engaged)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
@@ -76,7 +76,7 @@ const radiomark = defineSlotRecipe({
             backgroundColor: vars.toneNeutral.enabledSelected.root.color,
           },
 
-          [pseudo(not(disabled), checked, active)]: {
+          [pseudo(not(disabled), checked, engaged)]: {
             backgroundColor: vars.toneNeutral.enabledSelectedPressed.root.color,
           },
         },
@@ -92,7 +92,7 @@ const radiomark = defineSlotRecipe({
             backgroundColor: vars.toneBrand.enabledSelected.root.color,
           },
 
-          [pseudo(not(disabled), checked, active)]: {
+          [pseudo(not(disabled), checked, engaged)]: {
             backgroundColor: vars.toneBrand.enabledSelectedPressed.root.color,
           },
         },

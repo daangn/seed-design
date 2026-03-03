@@ -12,6 +12,7 @@ import { match } from "ts-pattern";
 import { appendSource, createElement, stringifyElement, type ElementNode } from "../core/jsx";
 import type { ElementTransformer } from "./element-transformer";
 import { applyInferredLayout, inferLayout } from "./infer-layout";
+import { pascalCase } from "change-case";
 
 export interface CodeGeneratorDeps {
   frameTransformer: ElementTransformer<
@@ -77,7 +78,9 @@ export function createCodeGenerator({
       .with({ type: "INSTANCE" }, (node) => instanceTransformer(node, traverse))
       .with({ type: "VECTOR" }, (node) => vectorTransformer(node, traverse))
       .with({ type: "BOOLEAN_OPERATION" }, (node) => booleanOperationTransformer(node, traverse))
-      .with({ type: "UNHANDLED" }, () => createElement("UnhandledFigmaNode"))
+      .with({ type: "UNHANDLED" }, (node) =>
+        createElement(`Unhandled${pascalCase(node.original.type)}Node`),
+      )
       .exhaustive();
 
     if (result) {
@@ -94,7 +97,7 @@ export function createCodeGenerator({
   function generateCode(node: NormalizedSceneNode, options: { shouldPrintSource: boolean }) {
     if (isSkippedInstance(node)) {
       return { imports: "", jsx: "// This component is intentionally excluded from codegen" };
-     }
+    }
 
     const jsxTree = generateJsxTree(node);
 

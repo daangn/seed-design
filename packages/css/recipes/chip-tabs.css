@@ -83,11 +83,25 @@
     background-color: var(--seed-color-bg-neutral-inverted);
     color: var(--seed-color-fg-neutral-inverted);
 }
-.seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
+@media (hover: hover) {
+    .seed-chip-tabs__trigger--variant_neutralSolid:is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
+    }
 }
-.seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected=true], [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+@media (hover: none) {
+    .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
+    }
+}
+@media (hover: hover) {
+    .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected=true], [data-selected]):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected=true], [data-selected]):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
@@ -107,11 +121,25 @@
     border-color: transparent;
     color: var(--seed-color-fg-neutral-inverted);
 }
-.seed-chip-tabs__trigger--variant_neutralOutline:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-chip-tabs__trigger--variant_neutralOutline:is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
 }
-.seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected=true], [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+@media (hover: none) {
+    .seed-chip-tabs__trigger--variant_neutralOutline:is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: hover) {
+    .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected=true], [data-selected]):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected=true], [data-selected]):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
 }
 .seed-chip-tabs__trigger--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
@@ -129,11 +157,25 @@
     background-color: var(--seed-color-bg-brand-solid);
     color: var(--seed-color-palette-static-white);
 }
-.seed-chip-tabs__trigger--variant_brandSolid:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
+@media (hover: hover) {
+    .seed-chip-tabs__trigger--variant_brandSolid:is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
 }
-.seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected=true], [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-brand-solid-pressed);
+@media (hover: none) {
+    .seed-chip-tabs__trigger--variant_brandSolid:is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
+}
+@media (hover: hover) {
+    .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected=true], [data-selected]):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-brand-solid-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected=true], [data-selected]):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-brand-solid-pressed);
+    }
 }
 .seed-chip-tabs__trigger--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;

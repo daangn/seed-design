@@ -1,6 +1,6 @@
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo, active, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
+import { pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -81,7 +81,7 @@ const inputButton = defineSlotRecipe({
         backgroundColor: vars.base.disabled.root.color,
       },
 
-      [pseudo(not("[data-disabled]"), not(readOnly), active)]: {
+      [pseudo(not("[data-disabled]"), not(readOnly), engaged)]: {
         backgroundColor: vars.base.pressed.root.color,
       },
 

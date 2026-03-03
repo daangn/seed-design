@@ -1,7 +1,7 @@
 import { checkmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
-  active,
+  engaged,
   checkedOrIndeterminate,
   disabled,
   focusVisible,
@@ -54,7 +54,7 @@ const checkmark = defineSlotRecipe({
           [pseudo(checkedOrIndeterminate)]: {
             borderWidth: 0,
           },
-          [pseudo(not(disabled), active)]: {
+          [pseudo(not(disabled), engaged)]: {
             background: vars.variantSquare.pressed.root.color,
           },
           [pseudo(disabled)]: {
@@ -73,7 +73,7 @@ const checkmark = defineSlotRecipe({
       },
       ghost: {
         root: {
-          [pseudo(not(disabled), active)]: {
+          [pseudo(not(disabled), engaged)]: {
             background: vars.variantGhost.pressed.root.color,
           },
         },
@@ -122,7 +122,7 @@ const checkmark = defineSlotRecipe({
           [pseudo(not(disabled), checkedOrIndeterminate)]: {
             background: vars.variantSquareToneNeutral.enabledSelected.root.color,
           },
-          [pseudo(not(disabled), checkedOrIndeterminate, active)]: {
+          [pseudo(not(disabled), checkedOrIndeterminate, engaged)]: {
             background: vars.variantSquareToneNeutral.pressedSelected.root.color,
           },
         },
@@ -141,7 +141,7 @@ const checkmark = defineSlotRecipe({
           [pseudo(not(disabled), checkedOrIndeterminate)]: {
             background: vars.variantSquareToneBrand.enabledSelected.root.color,
           },
-          [pseudo(not(disabled), checkedOrIndeterminate, active)]: {
+          [pseudo(not(disabled), checkedOrIndeterminate, engaged)]: {
             background: vars.variantSquareToneBrand.pressedSelected.root.color,
           },
         },
@@ -157,7 +157,7 @@ const checkmark = defineSlotRecipe({
       tone: "neutral",
       css: {
         root: {
-          [pseudo(not(disabled), checkedOrIndeterminate, active)]: {
+          [pseudo(not(disabled), checkedOrIndeterminate, engaged)]: {
             background: vars.variantGhostToneNeutral.pressedSelected.root.color,
           },
         },
@@ -173,7 +173,7 @@ const checkmark = defineSlotRecipe({
       tone: "brand",
       css: {
         root: {
-          [pseudo(not(disabled), checkedOrIndeterminate, active)]: {
+          [pseudo(not(disabled), checkedOrIndeterminate, engaged)]: {
             background: vars.variantGhostToneBrand.pressedSelected.root.color,
           },
         },

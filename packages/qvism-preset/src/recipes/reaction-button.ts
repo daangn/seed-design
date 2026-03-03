@@ -2,7 +2,7 @@ import { reactionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { prefixIcon } from "../utils/icon";
-import { active, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -46,7 +46,7 @@ const reactionButton = defineRecipe({
       color: vars.base.enabled.count.color,
     }),
 
-    [pseudo(active)]: {
+    [pseudo(engaged)]: {
       background: vars.base.pressed.root.color,
     },
     [pseudo(pressed)]: {
@@ -61,7 +61,7 @@ const reactionButton = defineRecipe({
         color: vars.base.selected.count.color,
       }),
     },
-    [pseudo(pressed, active)]: {
+    [pseudo(pressed, engaged)]: {
       background: vars.base.selectedPressed.root.color,
     },
     [pseudo(disabled)]: {

@@ -1,4 +1,4 @@
-import { getGitHubSourceUrl } from "@/app/_llms/config";
+import { getGitHubSourceUrl, getLLMMarkdownUrl } from "@/app/_llms/config";
 import { aiIntegrationSource } from "@/app/source";
 import { LLMOptions, ViewOptions } from "@/components/page-actions";
 import { mdxComponents } from "@/components/mdx-components";
@@ -12,8 +12,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   if (!page) notFound();
 
   const { body: MDX, toc, lastModified } = await page.data.load();
-  const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
-  const markdownUrl = `/llms/ai-integration/${slugsWithExt.join("/")}`;
+  const markdownUrl = getLLMMarkdownUrl("ai-integration", page.slugs);
 
   return (
     <DocsPage toc={toc} full={page.data.full} lastUpdate={lastModified}>

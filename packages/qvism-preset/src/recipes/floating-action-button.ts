@@ -1,7 +1,7 @@
 import { floatingActionButton as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
-import { active, disabled, focusVisible, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -49,7 +49,7 @@ const floatingActionButton = defineSlotRecipe({
         FOCUS_RING_TRANSITION,
       ].join(", "),
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         background: vars.base.pressed.root.color,
       },
     },

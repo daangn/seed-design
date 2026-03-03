@@ -156,7 +156,7 @@ const createLineTriggerHugHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createTabsLocalSnippetElement("TabsTrigger", commonProps);
+      return createTabsLocalSnippetElement("TabsTrigger", commonProps, props["Label#4478:2"].value);
     },
   );
 
@@ -174,7 +174,7 @@ const createLineTriggerFillHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createTabsLocalSnippetElement("TabsTrigger", commonProps);
+      return createTabsLocalSnippetElement("TabsTrigger", commonProps, props["Label#4478:2"].value);
     },
   );
 
@@ -289,6 +289,10 @@ const createChipTabsTriggerHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createChipTabsLocalSnippetElement("ChipTabsTrigger", commonProps);
+      return createChipTabsLocalSnippetElement(
+        "ChipTabsTrigger",
+        commonProps,
+        chipProps["Label#7185:0"].value,
+      );
     },
   );

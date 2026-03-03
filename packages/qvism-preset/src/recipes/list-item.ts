@@ -5,7 +5,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { active, disabled, focus, focusVisible, not, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focus, focusVisible, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
 
 const listItem = defineSlotRecipe({
@@ -120,7 +120,7 @@ const listItem = defineSlotRecipe({
         "&::after": createFocusRingStyles({ position: "inside" }),
       },
 
-      // this is for showing the active state
+      // this is for showing the engaged state
       [pseudo("::before")]: {
         content: "''",
         position: "absolute",
@@ -135,8 +135,8 @@ const listItem = defineSlotRecipe({
         transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
       },
 
-      // :active pseudoselector is only attached when the item is a button or an anchor
-      [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
+      // engaged(:active/:hover) custom selector is only attached when the item is a button or an anchor
+      [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 
         left: vars.base.pressed.root.marginX,
@@ -145,9 +145,9 @@ const listItem = defineSlotRecipe({
         borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
       },
 
-      // otherwise, see if it has [data-active]. e.g. ListCheckItem
-      // this restriction prevents noninteractive(static/presentation/decorative) list items from having an active style
-      [pseudo(not(disabled), "[data-active]", "::before")]: {
+      // otherwise, see if it has [data-active] or [data-hover] . e.g. ListCheckItem
+      // this restriction prevents noninteractive(static/presentation/decorative) list items from having an engaged style
+      [pseudo(not(disabled), ":is([data-active], [data-hover])", "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 
         left: vars.base.pressed.root.marginX,
@@ -184,17 +184,17 @@ const listItem = defineSlotRecipe({
       false: {},
       true: {
         content: {
-          // we define highlighted style (not active) in content::before rather than root
-          // because it should transition into active style smoothly
+          // we define highlighted style (not engaged) in content::before rather than root
+          // because it should transition into engaged style smoothly
           [pseudo("::before")]: {
             backgroundColor: vars.base.highlighted.root.color,
           },
 
-          [pseudo(":is(button, a)", not(disabled), active, "::before")]: {
+          [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
 
-          [pseudo(not(disabled), "[data-active]", "::before")]: {
+          [pseudo(not(disabled), ":is([data-active], [data-hover])", "::before")]: {
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
         },

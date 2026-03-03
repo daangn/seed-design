@@ -51,8 +51,15 @@
     --track-color: var(--seed-color-palette-gray-700);
     --range-color: var(--seed-color-fg-neutral-inverted);
 }
-.seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+@media (hover: hover) {
+    .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
+        background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
 }
 .seed-contextual-floating-button--variant_solid:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
@@ -71,8 +78,15 @@
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
 }
-.seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
+@media (hover: hover) {
+    .seed-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
+        background: var(--seed-color-bg-layer-floating-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
+        background: var(--seed-color-bg-layer-floating-pressed);
+    }
 }
 .seed-contextual-floating-button--variant_layer:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);

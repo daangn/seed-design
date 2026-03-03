@@ -2,7 +2,7 @@ import { actionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
-import { active, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -82,7 +82,7 @@ const actionButton = defineRecipe({
         "--track-color": vars.variantBrandSolid.enabled.progressCircle.trackColor,
         "--range-color": vars.variantBrandSolid.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantBrandSolid.pressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -121,7 +121,7 @@ const actionButton = defineRecipe({
         "--track-color": vars.variantNeutralSolid.enabled.progressCircle.trackColor,
         "--range-color": vars.variantNeutralSolid.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantNeutralSolid.pressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -161,7 +161,7 @@ const actionButton = defineRecipe({
         "--track-color": vars.variantNeutralWeak.enabled.progressCircle.trackColor,
         "--range-color": vars.variantNeutralWeak.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantNeutralWeak.pressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -201,7 +201,7 @@ const actionButton = defineRecipe({
         "--track-color": vars.variantCriticalSolid.enabled.progressCircle.trackColor,
         "--range-color": vars.variantCriticalSolid.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantCriticalSolid.pressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -244,7 +244,7 @@ const actionButton = defineRecipe({
         "--track-color": vars.variantBrandOutline.enabled.progressCircle.trackColor,
         "--range-color": vars.variantBrandOutline.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantBrandOutline.pressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -288,7 +288,7 @@ const actionButton = defineRecipe({
         "--track-color": vars.variantNeutralOutline.enabled.progressCircle.trackColor,
         "--range-color": vars.variantNeutralOutline.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantNeutralOutline.pressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -331,7 +331,7 @@ const actionButton = defineRecipe({
 
         "--track-color": vars.variantGhost.enabled.progressCircle.trackColor,
         "--range-color": vars.variantGhost.enabled.progressCircle.rangeColor,
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantGhost.pressed.root.color,
         },
         [pseudo(disabled)]: {

@@ -1,7 +1,7 @@
 import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { active, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -135,7 +135,7 @@ const menuSheet = defineSlotRecipe({
 
       transition: FOCUS_RING_TRANSITION,
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         backgroundColor: closeVars.base.pressed.root.color,
       },
 

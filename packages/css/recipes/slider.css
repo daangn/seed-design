@@ -7,6 +7,12 @@
     user-select: none;
     touch-action: none;
 }
+.seed-slider__root[data-dragging] {
+    cursor: grabbing;
+}
+.seed-slider__root:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+}
 .seed-slider__control {
     position: relative;
     height: 26px;
@@ -73,9 +79,11 @@
     outline-offset: var(--seed-dimension-x0_5);
     transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     will-change: transform;
+    cursor: grab;
 }
 .seed-slider__thumb:is(:disabled, [disabled], [data-disabled])::after {
     background-color: var(--seed-color-fg-disabled);
+    cursor: not-allowed;
 }
 .seed-slider__thumb[data-dragging] {
     transition: none;

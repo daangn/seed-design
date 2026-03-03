@@ -1,6 +1,6 @@
 import { menuSheetItem as vars, menuSheet as rootVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, focusVisible, pseudo } from "../utils/pseudo";
+import { engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -31,7 +31,7 @@ const menuSheetItem = defineSlotRecipe({
       border: "none",
       fontFamily: "inherit",
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         backgroundColor: vars.base.pressed.root.color,
       },
 

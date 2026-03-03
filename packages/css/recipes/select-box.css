@@ -23,8 +23,15 @@
     transition: border-color 0.1s var(--seed-timing-function-easing);
     pointer-events: none;
 }
-.seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked])::after {
     border-width: 2px;
