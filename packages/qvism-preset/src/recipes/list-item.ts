@@ -145,15 +145,28 @@ const listItem = defineSlotRecipe({
         borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
       },
 
-      // otherwise, see if it has [data-active] or [data-hover] . e.g. ListCheckItem
-      // this restriction prevents noninteractive(static/presentation/decorative) list items from having an engaged style
-      [pseudo(not(disabled), ":is([data-active], [data-hover])", "::before")]: {
-        backgroundColor: vars.base.pressed.root.color,
+      // otherwise, see if it has [data-active] or [data-hover]. e.g. ListCheckItem
+      // this restriction prevents noninteractive(static/presentation/decorative) list items from having an active style
+      // split by device capability just like engaged does
+      "@media (hover: hover)": {
+        [pseudo(not(disabled), "[data-hover]", "::before")]: {
+          backgroundColor: vars.base.pressed.root.color,
 
-        left: vars.base.pressed.root.marginX,
-        right: vars.base.pressed.root.marginX,
+          left: vars.base.pressed.root.marginX,
+          right: vars.base.pressed.root.marginX,
 
-        borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
+          borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
+        },
+      },
+      "@media (hover: none)": {
+        [pseudo(not(disabled), "[data-active]", "::before")]: {
+          backgroundColor: vars.base.pressed.root.color,
+
+          left: vars.base.pressed.root.marginX,
+          right: vars.base.pressed.root.marginX,
+
+          borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
+        },
       },
     },
     title: {
@@ -194,8 +207,15 @@ const listItem = defineSlotRecipe({
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
 
-          [pseudo(not(disabled), ":is([data-active], [data-hover])", "::before")]: {
-            backgroundColor: vars.base.highlightedPressed.root.color,
+          "@media (hover: hover)": {
+            [pseudo(not(disabled), "[data-hover]", "::before")]: {
+              backgroundColor: vars.base.highlightedPressed.root.color,
+            },
+          },
+          "@media (hover: none)": {
+            [pseudo(not(disabled), "[data-active]", "::before")]: {
+              backgroundColor: vars.base.highlightedPressed.root.color,
+            },
           },
         },
       },
