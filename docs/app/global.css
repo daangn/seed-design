@@ -1,3 +1,4 @@
+@layer theme, base, seed-base, components, seed-components, utilities;
 @import "tailwindcss" source(none);
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
