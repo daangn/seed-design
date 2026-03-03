@@ -22,23 +22,30 @@ SEED에서 제공하는 토큰을 Tailwind CSS 3과 4 유틸리티 클래스를 
 
 <Step>
 
-### base.css import하기
+### CSS 파일 설정하기
 
-```ts title="index.tsx"
-import "@seed-design/css/base.css";
-import "./style.css"; // 다음 단계 참고
+```css title="style.css"
+@layer theme, base, seed-base, components, seed-components, utilities;
+@import "@seed-design/css/base.layered.css";
+@import "tailwindcss";
+@import "@seed-design/tailwind4-theme";
 ```
+
+<Callout>
+  `@layer` declarative를 통해 SEED CSS와 Tailwind 간의 스타일 우선순위를
+  결정합니다. 자세한 내용은 [Cascade
+  Layers](/react/getting-started/styling/cascade-layers) 문서를 참고하세요.
+</Callout>
 
 </Step>
 
 <Step>
 
-### CSS 파일 설정하기
+### 번들러 설정하기
 
-```css title="style.css"
-@import "tailwindcss";
-@import "@seed-design/tailwind4-theme";
-```
+SEED React 컴포넌트가 layered CSS 파일을 사용하도록 번들러의 module resolution 설정에 `seed-layered` condition을 추가하세요.
+
+번들러별 설정 방법은 [Cascade Layers](/react/getting-started/styling/cascade-layers#번들러-설정) 문서를 참고하세요.
 
 </Step>
 

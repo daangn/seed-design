@@ -1,0 +1,156 @@
+---
+title: Cascade Layers (Experimental)
+description: CSS Cascade Layers를 사용하여 SEED 스타일의 우선순위를 제어하는 방법을 알아봅니다.
+---
+
+Tailwind CSS 4 등 CSS Cascade Layer를 사용하는 CSS 프레임워크와 SEED 컴포넌트를 함께 사용할 때, 프레임워크의 유틸리티 클래스로 SEED 컴포넌트 스타일을 오버라이드하려면 **`@layer` directive로 래핑된 버전의 SEED CSS를 사용**하고 **레이어 간 적절한 우선순위를 설정**해야 합니다.
+
+<Callout type="warn">
+  CSS Cascade Layers는 Chrome 99+, Safari 15.4+, Firefox 97+ 이상에서
+  지원됩니다. ([Can I Use](https://caniuse.com/css-cascade-layers))
+</Callout>
+
+## 개요
+
+기본적으로 SEED CSS는 `@layer` 없이 제공됩니다. 이때 **`@layer` directive 없이 정의된 unlayered 스타일은 layered 스타일보다 항상 높은 우선순위**를 갖습니다. ([MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Cascade_layers#cascade_layer_precedence_order))
+
+```css
+/* SEED 컴포넌트 (unlayered) */
+/* layered 스타일보다 우선순위를 가짐 */
+.seed-floating-action-button__root {
+  background: var(--seed-color-bg-brand-solid);
+}
+
+/* Tailwind 유틸리티 (layered) */
+/* class="seed-floating-action-button__root bg-red-100" 사용 시 SEED 스타일이 우선순위를 가짐 */
+@layer utilities {
+  .bg-red-100 {
+    background-color: var(--color-red-100);
+  }
+}
+```
+
+이 문제를 해결하기 위해 SEED는 `@layer`로 래핑된 CSS 파일을 별도로 제공합니다.
+
+## 설정 방법
+
+<Steps>
+<Step>
+
+### base.css 대신 base.layered.css 사용
+
+```css title="style.css"
+@import "@seed-design/css/base.layered.css";
+```
+
+</Step>
+
+<Step>
+
+### 레이어 순서 커스터마이징
+
+`seed-base` 및 `seed-components` 레이어와 다른 레이어의 선언 순서를 적절히 조절합니다.
+
+### Tailwind CSS
+
+Tailwind CSS 4 사용 시 유틸리티 클래스를 사용하여 SEED 컴포넌트 스타일을 오버라이드하려면, `@layer` 선언에서 Tailwind `utilities` 레이어가 `seed-components` 레이어보다 높은 우선순위를 가지도록 설정해야 합니다.
+
+```css
+@layer theme, base, seed-base, components, seed-components, utilities;
+```
+
+</Step>
+
+<Step>
+
+### 번들러 설정
+
+번들러의 module resolution 설정에 `seed-layered` condition을 추가하세요. 이 설정을 통해 SEED React 컴포넌트가 내부적으로 CSS를 import할 때, 자동으로 layered 버전을 사용합니다.
+
+<Tabs items={['Vite', 'Rsbuild', 'Webpack']}>
+
+<Tab value="Vite">
+
+```ts title="vite.config.ts"
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  resolve: {
+    conditions: ["seed-layered"], // [!code highlight]
+  },
+  // ...
+});
+```
+
+<Card
+  href="https://vitejs.dev/config/#resolve-conditions"
+  title="vite.config.ts"
+>
+  Vite `conditions` 옵션에 대해 알아봅니다.
+</Card>
+
+</Tab>
+
+<Tab value="Rsbuild">
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from "@rsbuild/core";
+
+export default defineConfig({
+  source: {
+    resolve: {
+      conditionNames: ["seed-layered", "..."], // [!code highlight]
+    },
+  },
+  // ...
+});
+```
+
+<Card
+  href="https://rsbuild.rs/config/resolve/condition-names#resolveconditionnames"
+  title="rsbuild.config.ts"
+>
+  Rsbuild `conditionNames` 옵션에 대해 알아봅니다.
+</Card>
+
+</Tab>
+
+<Tab value="Webpack">
+
+```js title="webpack.config.js"
+module.exports = {
+  resolve: {
+    conditionNames: ["seed-layered", "..."], // [!code highlight]
+  },
+  // ...
+};
+```
+
+<Card
+  href="https://webpack.js.org/configuration/resolve/#resolveconditionnames"
+  title="webpack.config.js"
+>
+  Webpack `conditionNames` 옵션에 대해 알아봅니다.
+</Card>
+
+</Tab>
+
+</Tabs>
+
+</Step>
+</Steps>
+
+## SEED의 레이어 구조
+
+SEED는 두 개의 레이어를 사용합니다.
+
+| 이름              | 내용                                  | 파일                    | 비고                                    |
+| ----------------- | ------------------------------------- | ----------------------- | --------------------------------------- |
+| `seed-base`       | 디자인 토큰, 글로벌 스타일, keyframes | `base.layered.css`      | 별도 import 필요                        |
+| `seed-components` | 컴포넌트 스타일                       | `recipes/*.layered.css` | SEED React 컴포넌트 사용 시 자동 import |
+
+## 관련 문서
+
+<Card href="/react/getting-started/styling/tailwind-css" title="Tailwind CSS">
+  Tailwind CSS에서 SEED 토큰을 유틸리티 클래스로 사용하는 방법을 알아봅니다.
+</Card>
