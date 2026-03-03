@@ -18,17 +18,19 @@ function Toggle(props: ToggleRootProps) {
 }
 
 describe("useToggle", () => {
-  it("should render the toggle correctly", () => {
+  it("should render with aria-pressed even without defaultPressed", () => {
     const { getByRole } = setUp(<Toggle />);
     const button = getByRole("button", { name: "Toggle" });
 
     expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute("aria-pressed", "false");
   });
 
   it("should toggle pressed state on click", async () => {
-    const { getByRole, user } = setUp(<Toggle defaultPressed={false} />);
+    const { getByRole, user } = setUp(<Toggle />);
     const button = getByRole("button", { name: "Toggle" });
 
+    expect(button).toHaveAttribute("aria-pressed", "false");
     expect(button).not.toHaveAttribute("data-pressed");
 
     await user.click(button);
@@ -36,6 +38,7 @@ describe("useToggle", () => {
     expect(button).toHaveAttribute("data-pressed");
 
     await user.click(button);
+    expect(button).toHaveAttribute("aria-pressed", "false");
     expect(button).not.toHaveAttribute("data-pressed");
   });
 
@@ -58,13 +61,11 @@ describe("useToggle", () => {
 
   it("should not toggle when disabled", async () => {
     const onPressedChange = mock();
-    const { getByRole, user } = setUp(
-      <Toggle disabled defaultPressed={false} onPressedChange={onPressedChange} />,
-    );
+    const { getByRole, user } = setUp(<Toggle disabled onPressedChange={onPressedChange} />);
     const button = getByRole("button", { name: "Toggle" });
 
     await user.click(button);
-    expect(button).not.toHaveAttribute("data-pressed");
+    expect(button).toHaveAttribute("aria-pressed", "false");
     expect(onPressedChange).not.toHaveBeenCalled();
   });
 
