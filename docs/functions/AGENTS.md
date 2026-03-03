@@ -3,7 +3,6 @@
 ## 디렉토리 개요
 
 Cloudflare Pages Functions 진입점 계층이며, 정적 `docs/out`와 별도로 런타임 API를 제공한다.
-실제 비즈니스 로직은 `docs/app/api/**`의 공유 핸들러를 재사용한다.
 
 ## 파일 작성 컨벤션
 
@@ -13,6 +12,5 @@ Cloudflare Pages Functions 진입점 계층이며, 정적 `docs/out`와 별도�
 
 ## 코드 작성 컨벤션
 
-- 엔트리는 thin wrapper만 유지하고 비즈니스 로직을 직접 구현하지 않는다.
-- 핸들러 호출 시 `context.request`, `context.env`를 그대로 전달한다.
+- 엔트리는 thin proxy만 유지하고 비즈니스 로직을 직접 구현하지 않는다.
 - 가능한 한 Web 표준 API(`Request`/`Response`)로 작성해 런타임 의존을 최소화한다.
