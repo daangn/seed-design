@@ -5,6 +5,8 @@
     text-transform: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
     border: none;
     justify-content: center;
     align-items: center;
@@ -13,8 +15,9 @@
     display: inline-flex;
   }
 
-  .seed-floating-action-button__root:is(:focus, [data-focus]) {
-    outline: none;
+  .seed-floating-action-button__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
   }
 
   .seed-floating-action-button__root:is(:disabled, [disabled], [data-disabled]) {
@@ -29,13 +32,21 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     position: relative;
     overflow: hidden;
   }
 
-  .seed-floating-action-button__root:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
+  @media (hover: hover) {
+    .seed-floating-action-button__root:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-floating-action-button__root:is(:active, [data-active]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   .seed-floating-action-button__icon {

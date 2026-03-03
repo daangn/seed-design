@@ -7,6 +7,8 @@
     vertical-align: middle;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
     border: none;
     flex-shrink: 0;
     justify-content: center;
@@ -17,8 +19,9 @@
     position: relative;
   }
 
-  .seed-toggle-button:is(:focus, [data-focus]) {
-    outline: none;
+  .seed-toggle-button:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
   }
 
   .seed-toggle-button:is(:disabled, [disabled], [data-disabled]) {
@@ -26,7 +29,7 @@
   }
 
   .seed-toggle-button {
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     font-weight: var(--seed-font-weight-bold);
   }
 
@@ -37,8 +40,16 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
+  @media (hover: hover) {
+    .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]) {
@@ -50,8 +61,16 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+  @media (hover: hover) {
+    .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-toggle-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -81,8 +100,16 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+  @media (hover: hover) {
+    .seed-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]) {
@@ -94,8 +121,16 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+  @media (hover: hover) {
+    .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-toggle-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {

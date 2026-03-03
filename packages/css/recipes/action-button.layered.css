@@ -28,6 +28,8 @@
     margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
     margin-left: calc(var(--seed-box-bleed-left) * -1);
     margin-right: calc(var(--seed-box-bleed-right) * -1);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
     border: none;
     justify-content: center;
     align-items: center;
@@ -37,8 +39,9 @@
     position: relative;
   }
 
-  .seed-action-button:is(:focus, [data-focus]) {
-    outline: none;
+  .seed-action-button:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
   }
 
   .seed-action-button:is(:disabled, [disabled], [data-disabled]) {
@@ -46,7 +49,7 @@
   }
 
   .seed-action-button {
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   }
 
   .seed-action-button--variant_brandSolid {
@@ -60,8 +63,16 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
+  @media (hover: hover) {
+    .seed-action-button--variant_brandSolid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   .seed-action-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -87,8 +98,16 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+  @media (hover: hover) {
+    .seed-action-button--variant_neutralSolid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-action-button--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -114,8 +133,16 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  .seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+  @media (hover: hover) {
+    .seed-action-button--variant_neutralWeak:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-action-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {
@@ -141,8 +168,16 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-critical-solid-pressed);
+  @media (hover: hover) {
+    .seed-action-button--variant_criticalSolid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-critical-solid-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-critical-solid-pressed);
+    }
   }
 
   .seed-action-button--variant_criticalSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -171,8 +206,16 @@
     --range-color: var(--seed-color-bg-brand-solid);
   }
 
-  .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+  @media (hover: hover) {
+    .seed-action-button--variant_brandOutline:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-action-button--variant_brandOutline:is(:disabled, [disabled], [data-disabled]) {
@@ -202,8 +245,16 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+  @media (hover: hover) {
+    .seed-action-button--variant_neutralOutline:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-action-button--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
@@ -232,8 +283,16 @@
     background: #fff0;
   }
 
-  .seed-action-button--variant_ghost:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
+  @media (hover: hover) {
+    .seed-action-button--variant_ghost:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-action-button--variant_ghost:is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-action-button--variant_ghost:is(:disabled, [disabled], [data-disabled]) {

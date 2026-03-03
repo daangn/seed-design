@@ -24,6 +24,14 @@
 
   .seed-callout__root:is(button, a) {
     cursor: pointer;
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
+  .seed-callout__root:is(button, a):is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
   }
 
   .seed-callout__content {
@@ -60,6 +68,10 @@
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);
     text-underline-offset: 2px;
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    border-radius: var(--seed-radius-r1);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
     background-color: #0000;
     border: none;
     padding: 0;
@@ -67,11 +79,20 @@
     display: inline-block;
   }
 
+  .seed-callout__link:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
   .seed-callout__closeButton {
     cursor: pointer;
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
     margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
+    border-radius: var(--seed-radius-r2_5);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
     background-color: #0000;
     border: none;
     flex-grow: 0;
@@ -82,14 +103,27 @@
     display: flex;
   }
 
+  .seed-callout__closeButton:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
   .seed-callout__root--tone_neutral {
     background-color: var(--seed-color-bg-neutral-weak);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  .seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
+  @media (hover: hover) {
+    .seed-callout__root--tone_neutral:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_neutral, .seed-callout__description--tone_neutral, .seed-callout__link--tone_neutral {
@@ -102,8 +136,16 @@
     --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
   }
 
-  .seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-informative-weak-pressed);
+  @media (hover: hover) {
+    .seed-callout__root--tone_informative:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-informative-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-informative-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_informative, .seed-callout__description--tone_informative, .seed-callout__link--tone_informative {
@@ -116,8 +158,16 @@
     --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
   }
 
-  .seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-positive-weak-pressed);
+  @media (hover: hover) {
+    .seed-callout__root--tone_positive:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-positive-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-positive-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_positive, .seed-callout__description--tone_positive, .seed-callout__link--tone_positive {
@@ -130,8 +180,16 @@
     --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
   }
 
-  .seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-warning-weak-pressed);
+  @media (hover: hover) {
+    .seed-callout__root--tone_warning:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-warning-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-warning-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_warning, .seed-callout__description--tone_warning, .seed-callout__link--tone_warning {
@@ -144,8 +202,16 @@
     --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
   }
 
-  .seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-critical-weak-pressed);
+  @media (hover: hover) {
+    .seed-callout__root--tone_critical:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-critical-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-critical-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_critical, .seed-callout__description--tone_critical, .seed-callout__link--tone_critical {
@@ -158,8 +224,16 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  .seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
-    background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+  @media (hover: hover) {
+    .seed-callout__root--tone_magic:is(button, a):is(:hover, [data-hover]) {
+      background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    }
+  }
+
+  @media (hover: none) {
+    .seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
+      background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    }
   }
 
   .seed-callout__title--tone_magic, .seed-callout__description--tone_magic, .seed-callout__link--tone_magic {

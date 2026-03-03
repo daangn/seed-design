@@ -31,6 +31,10 @@
   }
 
   .seed-app-bar__iconButton {
+    border-radius: var(--seed-radius-r1);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     background: none;
     border: none;
     justify-content: center;
@@ -38,6 +42,11 @@
     padding: 0;
     font-family: inherit;
     display: flex;
+  }
+
+  .seed-app-bar__iconButton:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-app-bar__icon {

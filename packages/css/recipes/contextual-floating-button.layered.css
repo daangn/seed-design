@@ -5,6 +5,8 @@
     text-transform: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
     border: none;
     justify-content: center;
     align-items: center;
@@ -13,8 +15,9 @@
     display: inline-flex;
   }
 
-  .seed-contextual-floating-button:is(:focus, [data-focus]) {
-    outline: none;
+  .seed-contextual-floating-button:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
   }
 
   .seed-contextual-floating-button:is(:disabled, [disabled], [data-disabled]) {
@@ -42,7 +45,7 @@
     --seed-icon-size: 22px;
     --size: 16px;
     --thickness: 2px;
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   }
 
   .seed-contextual-floating-button--variant_solid {
@@ -54,8 +57,16 @@
     --range-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+  @media (hover: hover) {
+    .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-contextual-floating-button--variant_solid:is(:disabled, [disabled], [data-disabled]) {
@@ -78,8 +89,16 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
+  @media (hover: hover) {
+    .seed-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-layer-floating-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
+      background: var(--seed-color-bg-layer-floating-pressed);
+    }
   }
 
   .seed-contextual-floating-button--variant_layer:is(:disabled, [disabled], [data-disabled]) {

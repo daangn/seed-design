@@ -111,6 +111,22 @@ describe("postcss-engaged", () => {
     );
   });
 
+  test("works inside @layer", async () => {
+    const output = await run("@layer components { .btn:--engaged { background: red; } }");
+    expect(output).toMatchInlineSnapshot(
+      `"@layer components { @media (hover: hover) { .btn:hover { background: red; } } @media (hover: none) { .btn:active { background: red; } } }"`,
+    );
+  });
+
+  test("works inside nested @layer with multiple rules", async () => {
+    const output = await run(
+      "@layer components { .a { color: blue; } .btn:--engaged { background: red; } .b { color: green; } }",
+    );
+    expect(output).toMatchInlineSnapshot(
+      `"@layer components { .a { color: blue; } @media (hover: hover) { .btn:hover { background: red; } } @media (hover: none) { .btn:active { background: red; } } .b { color: green; } }"`,
+    );
+  });
+
   test("custom replace.hover and replace.active together", async () => {
     const output = await run(".btn:--engaged { background: red; }", [
       postcssEngaged({

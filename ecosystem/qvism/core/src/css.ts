@@ -269,8 +269,8 @@ export async function generateAllBundle(
 
   if (layer) {
     const baseRules = [...globalRules, ...tokenRules, ...keyframeRules];
-    const baseCss = await transpileRulesToCss(baseRules);
-    const recipesCss = await transpileRulesToCss(recipeRules);
+    const baseCss = await transpileRulesToCss(baseRules, config.postcssPlugins);
+    const recipesCss = await transpileRulesToCss(recipeRules, config.postcssPlugins);
     const wrapped = `${wrapInLayer(baseCss, "seed-base")}\n${wrapInLayer(recipesCss, "seed-components")}`;
 
     return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();

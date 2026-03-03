@@ -32,6 +32,17 @@
     animation-fill-mode: forwards;
   }
 
+  .seed-snackbar__root {
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
+  .seed-snackbar__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
   .seed-snackbar__content {
     padding-left: var(--seed-dimension-x1_5);
     padding-right: var(--seed-dimension-x1_5);
@@ -69,7 +80,6 @@
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
     border: none;
-    outline: none;
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
@@ -83,10 +93,23 @@
     top: 50%;
     left: calc(-1 * var(--seed-dimension-x2));
     right: calc(-1 * var(--seed-dimension-x2));
-    background: none;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     min-height: 44px;
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    background: none;
     position: absolute;
     transform: translateY(-50%);
+  }
+
+  .seed-snackbar__actionButton:is(:focus, [data-focus]) {
+    outline: none;
+  }
+
+  .seed-snackbar__actionButton:is(:focus-visible, [data-focus-visible]):after {
+    border-radius: var(--seed-radius-r1);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-snackbar__prefixIcon--variant_default {
