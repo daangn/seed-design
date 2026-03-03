@@ -9,13 +9,9 @@ import {
 } from "../config.js";
 import { DEFAULT_DOC_MAX_CHARS, DEFAULT_LIST_LIMIT, DEFAULT_SEARCH_LIMIT } from "../constants.js";
 import { fetchDoc, fetchDocsList, searchDocs } from "../fetch.js";
+import { READ_ONLY_ANNOTATIONS, toErrorMessage, toErrorResult } from "./utils.js";
 
 const sectionEnum = z.enum(SECTION_IDS as [SectionId, ...SectionId[]]);
-
-const readOnlyAnnotations = {
-  readOnlyHint: true,
-  idempotentHint: true,
-} as const;
 
 const docItemSchema = z.object({
   title: z.string(),
@@ -37,17 +33,6 @@ const sectionInfoSchema = z.object({
   ),
 });
 
-function toErrorResult<T extends Record<string, unknown>>(message: string, fallback: T) {
-  return {
-    content: [{ type: "text" as const, text: message }],
-    structuredContent: {
-      ...fallback,
-      error: message,
-    },
-    isError: true,
-  };
-}
-
 function getFallbackDocUrl(section: SectionId, path: string): string {
   try {
     return getSectionDocTxtUrl(section, path);
@@ -66,7 +51,7 @@ export function registerDocsTools(server: McpServer): void {
         sections: z.array(sectionInfoSchema),
         error: z.string().optional(),
       },
-      annotations: readOnlyAnnotations,
+      annotations: READ_ONLY_ANNOTATIONS,
     },
     async () => {
       try {
@@ -89,10 +74,9 @@ export function registerDocsTools(server: McpServer): void {
           structuredContent: { sections },
         };
       } catch (error) {
-        return toErrorResult(
-          `Failed to list sections: ${error instanceof Error ? error.message : "Unknown error"}`,
-          { sections: [] as Array<z.infer<typeof sectionInfoSchema>> },
-        );
+        return toErrorResult(`Failed to list sections: ${toErrorMessage(error)}`, {
+          sections: [] as Array<z.infer<typeof sectionInfoSchema>>,
+        });
       }
     },
   );
@@ -121,7 +105,7 @@ export function registerDocsTools(server: McpServer): void {
         truncated: z.boolean(),
         error: z.string().optional(),
       },
-      annotations: readOnlyAnnotations,
+      annotations: READ_ONLY_ANNOTATIONS,
     },
     async ({ section, category, limit }) => {
       try {
@@ -156,9 +140,7 @@ export function registerDocsTools(server: McpServer): void {
         };
       } catch (error) {
         return toErrorResult(
-          `Failed to list docs for section '${section}': ${
-            error instanceof Error ? error.message : "Unknown error"
-          }`,
+          `Failed to list docs for section '${section}': ${toErrorMessage(error)}`,
           {
             section,
             category,
@@ -204,7 +186,7 @@ export function registerDocsTools(server: McpServer): void {
         truncated: z.boolean(),
         error: z.string().optional(),
       },
-      annotations: readOnlyAnnotations,
+      annotations: READ_ONLY_ANNOTATIONS,
     },
     async ({ query, section, category, limit }) => {
       try {
@@ -238,9 +220,7 @@ export function registerDocsTools(server: McpServer): void {
         };
       } catch (error) {
         return toErrorResult(
-          `Failed to search docs for query '${query}': ${
-            error instanceof Error ? error.message : "Unknown error"
-          }`,
+          `Failed to search docs for query '${query}': ${toErrorMessage(error)}`,
           {
             query,
             results: [],
@@ -277,7 +257,7 @@ export function registerDocsTools(server: McpServer): void {
         contentType: z.string(),
         error: z.string().optional(),
       },
-      annotations: readOnlyAnnotations,
+      annotations: READ_ONLY_ANNOTATIONS,
     },
     async ({ section, path, maxChars }) => {
       const txtUrl = getFallbackDocUrl(section, path);
@@ -297,9 +277,7 @@ export function registerDocsTools(server: McpServer): void {
         };
       } catch (error) {
         return toErrorResult(
-          `Failed to read doc '${path}' from '${section}': ${
-            error instanceof Error ? error.message : "Unknown error"
-          }`,
+          `Failed to read doc '${path}' from '${section}': ${toErrorMessage(error)}`,
           {
             section,
             path,
@@ -352,7 +330,7 @@ export function registerDocsTools(server: McpServer): void {
         errorCount: z.number().int().nonnegative(),
         error: z.string().optional(),
       },
-      annotations: readOnlyAnnotations,
+      annotations: READ_ONLY_ANNOTATIONS,
     },
     async ({ items, maxCharsPerDoc }) => {
       try {
@@ -379,7 +357,7 @@ export function registerDocsTools(server: McpServer): void {
                 txtUrl,
                 content: "",
                 truncated: false,
-                error: error instanceof Error ? error.message : "Unknown error",
+                error: toErrorMessage(error),
               };
             }
           }),
@@ -413,14 +391,11 @@ export function registerDocsTools(server: McpServer): void {
           },
         };
       } catch (error) {
-        return toErrorResult(
-          `Failed to read docs batch: ${error instanceof Error ? error.message : "Unknown error"}`,
-          {
-            docs: [],
-            successCount: 0,
-            errorCount: items.length,
-          },
-        );
+        return toErrorResult(`Failed to read docs batch: ${toErrorMessage(error)}`, {
+          docs: [],
+          successCount: 0,
+          errorCount: items.length,
+        });
       }
     },
   );

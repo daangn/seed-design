@@ -181,7 +181,7 @@ function createFallbackTitle(path: string): string {
 }
 
 function parseDocsFromOverview(section: SectionId, overviewText: string): DocInfo[] {
-  const docs: DocInfo[] = [];
+  const deduped = new Map<string, DocInfo>();
   const basePath = `${SECTIONS[section].basePath}/`;
 
   for (const line of overviewText.split("\n")) {
@@ -211,7 +211,7 @@ function parseDocsFromOverview(section: SectionId, overviewText: string): DocInf
       }
 
       const category = relativePath.includes("/") ? relativePath.split("/")[0] : undefined;
-      docs.push({
+      deduped.set(relativePath, {
         title: titleFromLink || createFallbackTitle(relativePath),
         path: relativePath,
         txtUrl,
@@ -220,10 +220,6 @@ function parseDocsFromOverview(section: SectionId, overviewText: string): DocInf
     }
   }
 
-  const deduped = new Map<string, DocInfo>();
-  for (const doc of docs) {
-    deduped.set(doc.path, doc);
-  }
   return Array.from(deduped.values());
 }
 
@@ -337,30 +333,28 @@ export async function searchDocs(
     return { results: [], total: 0, truncated: false };
   }
 
-  const targetSections: SectionId[] = opts?.section ? [opts.section] : SECTION_IDS;
-  const results: SearchDocResult[] = [];
-
-  for (const section of targetSections) {
-    if (!isValidSection(section)) {
-      continue;
-    }
-    const list = await fetchDocsList(section, { category: opts?.category });
-    for (const doc of list.items) {
-      const score = scoreDoc(normalizedQuery, doc);
-      if (score <= 0) {
-        continue;
-      }
-      results.push({
-        section,
-        title: doc.title,
-        path: doc.path,
-        txtUrl: doc.txtUrl,
-        category: doc.category,
-        score,
+  const targetSections = (opts?.section ? [opts.section] : SECTION_IDS).filter(isValidSection);
+  const sectionResults = await Promise.all(
+    targetSections.map(async (section) => {
+      const list = await fetchDocsList(section, { category: opts?.category });
+      return list.items.flatMap((doc) => {
+        const score = scoreDoc(normalizedQuery, doc);
+        if (score <= 0) return [];
+        return [
+          {
+            section,
+            title: doc.title,
+            path: doc.path,
+            txtUrl: doc.txtUrl,
+            category: doc.category,
+            score,
+          },
+        ];
       });
-    }
-  }
+    }),
+  );
 
+  const results: SearchDocResult[] = sectionResults.flat();
   results.sort((a, b) => b.score - a.score || a.path.localeCompare(b.path));
 
   const limit = Math.max(1, opts?.limit ?? DEFAULT_SEARCH_LIMIT);

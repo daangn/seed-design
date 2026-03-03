@@ -1,11 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { fetchRootageIndex, fetchRootageResource } from "../fetch.js";
-
-const readOnlyAnnotations = {
-  readOnlyHint: true,
-  idempotentHint: true,
-} as const;
+import { READ_ONLY_ANNOTATIONS, toErrorMessage, toErrorResult } from "./utils.js";
 
 export function registerRootageTools(server: McpServer): void {
   server.registerTool(
@@ -26,7 +22,7 @@ export function registerRootageTools(server: McpServer): void {
         isIndex: z.boolean(),
         error: z.string().optional(),
       },
-      annotations: readOnlyAnnotations,
+      annotations: READ_ONLY_ANNOTATIONS,
     },
     async ({ path }) => {
       try {
@@ -52,19 +48,10 @@ export function registerRootageTools(server: McpServer): void {
           },
         };
       } catch (error) {
-        const message = `Failed to read rootage${path ? ` path '${path}'` : " index"}: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`;
-        return {
-          content: [{ type: "text", text: message }],
-          structuredContent: {
-            path: path ?? null,
-            data: null,
-            isIndex: !path,
-            error: message,
-          },
-          isError: true,
-        };
+        return toErrorResult(
+          `Failed to read rootage${path ? ` path '${path}'` : " index"}: ${toErrorMessage(error)}`,
+          { path: path ?? null, data: null, isIndex: !path },
+        );
       }
     },
   );

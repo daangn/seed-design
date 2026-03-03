@@ -92,7 +92,7 @@ function normalizeForDedupe(raw: string): string {
 }
 
 export function isGenerativeUITool(toolName: string): boolean {
-  return GENERATIVE_UI_TOOL_NAMES.has(toolName) || /^show[A-Z]/.test(toolName);
+  return GENERATIVE_UI_TOOL_NAMES.has(toolName);
 }
 
 export function shouldCollapseToolResult(toolName: string): boolean {

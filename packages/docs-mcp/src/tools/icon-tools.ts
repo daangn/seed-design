@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { getDocsBaseUrl } from "../runtime-config.js";
 import type { IconDetails, IconEntry, IconIndex, IconSearchResult, IconUsage } from "../types.js";
+import { READ_ONLY_ANNOTATIONS, toErrorMessage, toErrorResult } from "./utils.js";
 
 const ICON_DOCS_PATH = "/docs/foundation/iconography/library";
 
@@ -26,11 +27,6 @@ interface RawIconData {
     "4x": string;
   };
 }
-
-const readOnlyAnnotations = {
-  readOnlyHint: true,
-  idempotentHint: true,
-} as const;
 
 function extractVariant(iconName: string): "line" | "fill" | undefined {
   if (iconName.endsWith("_line")) return "line";
@@ -240,7 +236,7 @@ export function registerIconTools(server: McpServer): void {
         availableServices: z.array(z.string()),
         error: z.string().optional(),
       },
-      annotations: readOnlyAnnotations,
+      annotations: READ_ONLY_ANNOTATIONS,
     },
     async ({ type, variant, service, limit }) => {
       try {
@@ -296,18 +292,12 @@ export function registerIconTools(server: McpServer): void {
           },
         };
       } catch (error) {
-        const message = `Failed to list icons: ${error instanceof Error ? error.message : "Unknown error"}`;
-        return {
-          content: [{ type: "text", text: message }],
-          structuredContent: {
-            totalCount: 0,
-            returnedCount: 0,
-            icons: [],
-            availableServices: [],
-            error: message,
-          },
-          isError: true,
-        };
+        return toErrorResult(`Failed to list icons: ${toErrorMessage(error)}`, {
+          totalCount: 0,
+          returnedCount: 0,
+          icons: [],
+          availableServices: [],
+        });
       }
     },
   );
@@ -337,7 +327,7 @@ export function registerIconTools(server: McpServer): void {
         searchUrl: z.string().url(),
         error: z.string().optional(),
       },
-      annotations: readOnlyAnnotations,
+      annotations: READ_ONLY_ANNOTATIONS,
     },
     async ({ query, type, limit }) => {
       try {
@@ -355,17 +345,11 @@ export function registerIconTools(server: McpServer): void {
           },
         };
       } catch (error) {
-        const message = `Failed to search icons: ${error instanceof Error ? error.message : "Unknown error"}`;
-        return {
-          content: [{ type: "text", text: message }],
-          structuredContent: {
-            query,
-            results: [],
-            searchUrl: `${getIconDocsBaseUrl()}?search=${encodeURIComponent(query)}`,
-            error: message,
-          },
-          isError: true,
-        };
+        return toErrorResult(`Failed to search icons: ${toErrorMessage(error)}`, {
+          query,
+          results: [],
+          searchUrl: `${getIconDocsBaseUrl()}?search=${encodeURIComponent(query)}`,
+        });
       }
     },
   );
@@ -400,7 +384,7 @@ export function registerIconTools(server: McpServer): void {
         suggestions: z.array(z.string()),
         error: z.string().optional(),
       },
-      annotations: readOnlyAnnotations,
+      annotations: READ_ONLY_ANNOTATIONS,
     },
     async ({ iconName }) => {
       try {
@@ -430,16 +414,10 @@ export function registerIconTools(server: McpServer): void {
           },
         };
       } catch (error) {
-        const message = `Failed to read icon details: ${error instanceof Error ? error.message : "Unknown error"}`;
-        return {
-          content: [{ type: "text", text: message }],
-          structuredContent: {
-            icon: null,
-            suggestions: [],
-            error: message,
-          },
-          isError: true,
-        };
+        return toErrorResult(`Failed to read icon details: ${toErrorMessage(error)}`, {
+          icon: null,
+          suggestions: [],
+        });
       }
     },
   );
