@@ -1,0 +1,40 @@
+name: Format
+
+on:
+  pull_request:
+    branches: [dev]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: ./.github/actions/setup
+
+      - name: Run Biome format
+        run: bun biome format --fix
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No formatting changes needed"
+          else
+            git commit -m "style: auto-format with biome [skip ci]"
+            git push
+          fi
