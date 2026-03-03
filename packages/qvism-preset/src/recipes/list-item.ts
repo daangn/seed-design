@@ -101,11 +101,11 @@ const listItem = defineSlotRecipe({
         left: 0,
       },
 
-      [pseudo(":is(button, a)", not(disabled), "&::after")]: {
+      [pseudo(":is(button, a)", not(disabled), "::after")]: {
         cursor: "pointer",
       },
 
-      [pseudo(":is(button, a)", disabled, "&::after")]: {
+      [pseudo(":is(button, a)", disabled, "::after")]: {
         cursor: "not-allowed",
       },
 

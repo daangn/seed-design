@@ -69,10 +69,10 @@
     bottom: 0;
     left: 0;
 }
-.seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])).seed-list-item__content::after {
+.seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled]))::after {
     cursor: pointer;
 }
-.seed-list-item__content:is(button, a):is(:disabled, [disabled], [data-disabled]).seed-list-item__content::after {
+.seed-list-item__content:is(button, a):is(:disabled, [disabled], [data-disabled])::after {
     cursor: not-allowed;
 }
 .seed-list-item__content::before {
