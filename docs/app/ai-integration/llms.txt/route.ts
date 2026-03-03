@@ -22,10 +22,6 @@ export async function GET() {
 
 AI 도구와 SEED Design을 함께 활용하는 방법을 안내합니다.
 
-## Quick Access
-
-- [전체 문서 (llms-full.txt)](${new URL("/ai-integration/llms-full.txt", baseUrl)}): 모든 AI Integration 문서를 하나의 파일로
-
 ## Documents
 
 ${pageList}

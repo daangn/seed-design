@@ -116,7 +116,7 @@ export const AIPanelLayout = forwardRef<unknown, { children: ReactNode }>(functi
         id="ai-panel"
         panelRef={aiPanelRef}
         data-ai-open={isOpen ? "true" : "false"}
-        defaultSize={isOpen ? "32%" : 0}
+        defaultSize={isOpen ? "24%" : 0}
         minSize={isOpen ? "24%" : 0}
         maxSize="55%"
       >

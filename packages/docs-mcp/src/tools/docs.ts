@@ -2,7 +2,6 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import {
   getSectionDocTxtUrl,
-  getSectionFullTxtUrl,
   getSectionOverviewTxtUrl,
   SECTION_IDS,
   SECTIONS,
@@ -30,7 +29,6 @@ const sectionInfoSchema = z.object({
   name: z.string(),
   description: z.string(),
   overviewTxtUrl: z.string().url(),
-  fullTxtUrl: z.string().url(),
   categories: z.array(
     z.object({
       id: z.string(),
@@ -79,7 +77,6 @@ export function registerDocsTools(server: McpServer): void {
             name: config.name,
             description: config.description,
             overviewTxtUrl: getSectionOverviewTxtUrl(section),
-            fullTxtUrl: getSectionFullTxtUrl(section),
             categories: Object.entries(config.categories).map(([id, description]) => ({
               id,
               description,

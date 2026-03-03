@@ -50,10 +50,6 @@ ${pageList}`;
 
 디자인 가이드라인 문서입니다.
 
-## Quick Access
-
-- [전체 문서 (llms-full.txt)](${new URL("/docs/llms-full.txt", baseUrl)}): 모든 디자인 문서를 하나의 파일로
-
 ## Categories
 
 ${categoryList}

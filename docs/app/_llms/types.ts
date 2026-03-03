@@ -15,5 +15,4 @@ export interface SectionConfig {
   contentDir: string;
   baseUrl: string;
   description: string;
-  excludePaths?: string[];
 }
