@@ -7,6 +7,11 @@ interface IconData {
   name: string;
   metadatas: string[];
   svg: string;
+  figma?: {
+    name: string;
+    key: string;
+    description: string;
+  };
   png: {
     "1x"?: string;
     "2x"?: string;
@@ -14,6 +19,8 @@ interface IconData {
     "4x"?: string;
   };
 }
+
+type Platform = "react" | "figma";
 
 interface State {
   iconData: {
@@ -32,6 +39,7 @@ interface State {
   ) => Promise<URLSearchParams>;
 
   selectedIcon?: IconData;
+  selectedIconName: string;
   setSelectedIconName: (
     value: string | ((old: string) => string | null) | null,
     options?: Options,
@@ -44,6 +52,12 @@ interface State {
       | "multicolor"
       | ((old: "monochrome" | "multicolor") => "monochrome" | "multicolor" | null)
       | null,
+    options?: Options,
+  ) => Promise<URLSearchParams>;
+
+  platform: Platform;
+  setPlatform: (
+    value: Platform | ((old: Platform) => Platform | null) | null,
     options?: Options,
   ) => Promise<URLSearchParams>;
 }
@@ -68,7 +82,11 @@ export const IconProvider = ({
   const [selectedIconName, setSelectedIconName] = useQueryState("icon", { defaultValue: "" });
   const [iconStyle, setIconStyle] = useQueryState<"monochrome" | "multicolor">("style", {
     defaultValue: "monochrome",
-    parse: (value) => value as "monochrome" | "multicolor",
+    parse: (value) => (value === "monochrome" || value === "multicolor" ? value : "monochrome"),
+  });
+  const [platform, setPlatform] = useQueryState<Platform>("platform", {
+    defaultValue: "react",
+    parse: (value) => (value === "react" || value === "figma" ? value : "react"),
   });
 
   // 선택된 아이콘 상태 관리
@@ -85,9 +103,12 @@ export const IconProvider = ({
       iconData,
       iconComponents,
       selectedIcon,
+      selectedIconName,
       setSearch,
       setIconStyle,
       setSelectedIconName,
+      platform,
+      setPlatform,
     }),
     [
       search,
@@ -95,9 +116,12 @@ export const IconProvider = ({
       iconData,
       iconComponents,
       selectedIcon,
+      selectedIconName,
       setSearch,
       setIconStyle,
       setSelectedIconName,
+      platform,
+      setPlatform,
     ],
   );
 
