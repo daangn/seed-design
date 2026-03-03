@@ -24,7 +24,10 @@
       "!packages/qvism-preset/src/token.css",
       "!packages/qvism-preset/src/tokens.ts",
       "!packages/tailwind3-plugin/src/index.ts",
-      "!packages/tailwind4-theme/src/index.css"
+      "!packages/tailwind4-theme/src/index.css",
+      "!packages/tailwind4-theme/index.css",
+      "!docs/app/global.css",
+      "!**/.vscode/**/*"
     ],
     "enabled": true,
     "indentStyle": "space",
