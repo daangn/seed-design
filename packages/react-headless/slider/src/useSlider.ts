@@ -801,6 +801,7 @@ export function useSlider({
           }
         },
         onBlur: () => {
+          api.pointerInteractingRef.current = false;
           if (api.focusVisibleThumbIndex === index) {
             api.setFocusVisibleThumbIndex(null);
           }
