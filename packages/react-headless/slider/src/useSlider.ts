@@ -147,7 +147,11 @@ function useSliderState({
         // This ensures only one value indicator is shown
         if (isDragging || isPointerDown) {
           setActiveThumbIndex(newIndex);
-          // Also update openThumbIndex for hover mode to prevent both indicators from showing
+        }
+        // Only update openThumbIndex during actual drag — setting it on a
+        // track click (isPointerDown && !isDragging) causes hover-mode
+        // indicator to flash because openThumbIndex triggers visibility.
+        if (isDragging) {
           setOpenThumbIndex(newIndex);
         }
 

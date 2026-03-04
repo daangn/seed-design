@@ -2029,6 +2029,90 @@ describe("useSlider", () => {
       // Should not be shown after release
       expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
     });
+
+    it("does not flash value indicator on quick track click in active mode", () => {
+      const { getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Initially not shown
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Quick click on track: pointerDown then immediately pointerUp (no movement)
+      act(() => {
+        fireEvent.pointerDown(root, { clientX: 75, clientY: 5, pointerId: 1 });
+      });
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      act(() => {
+        fireEvent.pointerUp(root, { clientX: 75, clientY: 5, pointerId: 1 });
+      });
+
+      // Should NOT be shown after a quick click
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("does not flash value indicator on quick track click in hover mode", () => {
+      const { getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Initially not shown
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Quick click on track: pointerDown then immediately pointerUp (no movement)
+      act(() => {
+        fireEvent.pointerDown(root, { clientX: 75, clientY: 5, pointerId: 1 });
+      });
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      act(() => {
+        fireEvent.pointerUp(root, { clientX: 75, clientY: 5, pointerId: 1 });
+      });
+
+      // Should NOT be shown after a quick click — no drag, no hover on thumb
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
   });
 
   describe("Value Indicator - Hover Mode", () => {
