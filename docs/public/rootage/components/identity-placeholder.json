@@ -38,13 +38,13 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.gray-400"
+                  "value": "$color.palette.gray-500"
                 }
               },
               "image": {
                 "color": {
                   "type": "color",
-                  "value": "#f7f8fa"
+                  "value": "$color.palette.static-white-alpha-800"
                 }
               }
             }
