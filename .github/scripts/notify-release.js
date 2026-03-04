@@ -103,11 +103,14 @@ function main() {
   ];
 
   for (const release of releases) {
-    let text = `*${release.packageName}* v${release.version}\n`;
+    let text = `*${release.packageName}* \`v${release.version}\`\n`;
 
     for (const [sectionName, items] of Object.entries(release.sections)) {
       text += `${formatSectionName(sectionName)}\n`;
-      text += `${items.slice(0, 5).join("\n")}\n`;
+      text += `${items
+        .slice(0, 5)
+        .map((item) => item.replace(/^- /, "• "))
+        .join("\n")}\n`;
     }
 
     blocks.push({
