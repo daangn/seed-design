@@ -18,6 +18,6 @@ data:
     base:
       enabled:
         root:
-          color: $color.palette.gray-400
+          color: $color.palette.gray-500
         image:
-          color: "#f7f8fa"
+          color: $color.palette.static-white-alpha-800

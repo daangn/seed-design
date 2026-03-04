@@ -223,6 +223,20 @@ export declare const privateComponentFieldHeaderSuffix: {
   }
 };
 
+export declare const privateComponentIdentityPlaceholder: {
+  "name": "privateComponentIdentityPlaceholder",
+  "key": "7d7ae18cabac6ebad19934516de8e7e256854eba",
+  "componentPropertyDefinitions": {
+    "Identity": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Person",
+        "Business"
+      ]
+    }
+  }
+};
+
 export declare const privateComponentInputButtonPrefix: {
   "name": "privateComponentInputButtonPrefix",
   "key": "c7d12be4056a8171f6857ec4ef15d81bd18d8cae",
