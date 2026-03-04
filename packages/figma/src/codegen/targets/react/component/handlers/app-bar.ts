@@ -150,3 +150,20 @@ export const createAppBarHandler = (ctx: ComponentHandlerDeps) => {
     },
   );
 };
+
+export const createAppBarPresetHandler = (ctx: ComponentHandlerDeps) => {
+  const appBarHandler = createAppBarHandler(ctx);
+
+  return defineComponentHandler(metadata.templateTopNavigationPreset.key, (node, traverse) => {
+    const [appBarNode] = findAllInstances<AppBarProperties>({
+      node,
+      key: metadata.componentTopNavigation.key,
+    });
+
+    if (!appBarNode) {
+      return createLocalSnippetElement("AppBar");
+    }
+
+    return appBarHandler.transform(appBarNode, traverse);
+  });
+};

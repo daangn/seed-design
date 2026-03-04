@@ -10,8 +10,15 @@
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
     touch-action: pan-y;
 }
-.seed-bottom-sheet-handle__root:is(:active, [data-active]) {
-    background-color: var(--seed-color-palette-gray-500);
+@media (hover: hover) {
+    .seed-bottom-sheet-handle__root:is(:hover, [data-hover]) {
+        background-color: var(--seed-color-palette-gray-500);
+    }
+}
+@media (hover: none) {
+    .seed-bottom-sheet-handle__root:is(:active, [data-active]) {
+        background-color: var(--seed-color-palette-gray-500);
+    }
 }
 .seed-bottom-sheet-handle__touchArea {
     position: absolute;

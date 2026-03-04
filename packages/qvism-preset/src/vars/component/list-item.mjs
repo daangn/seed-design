@@ -20,7 +20,7 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral)",
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-medium)"
+        "fontWeight": "var(--seed-font-weight-regular)"
       },
       "detail": {
         "color": "var(--seed-color-fg-neutral-subtle)",

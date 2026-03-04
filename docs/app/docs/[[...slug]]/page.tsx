@@ -1,4 +1,4 @@
-import { getGitHubSourceUrl } from "@/app/_llms/config";
+import { getGitHubSourceUrl, getLLMMarkdownUrl } from "@/app/_llms/config";
 import { docsSource } from "@/app/source";
 import { LLMOptions, ViewOptions } from "@/components/page-actions";
 import { mdxComponents } from "@/components/mdx-components";
@@ -27,8 +27,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   ) : (
     <span>{page.data.description}</span>
   );
-  const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
-  const markdownUrl = `/llms/docs/${slugsWithExt.join("/")}`;
+  const markdownUrl = getLLMMarkdownUrl("docs", page.slugs);
 
   return (
     <DocsPage toc={toc} full={page.data.full} lastUpdate={lastModified}>

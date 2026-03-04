@@ -1,7 +1,13 @@
 import { pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import { vars as tokens } from "../vars";
 
 const closeButtonNegativeMargin = `(${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5`;
 const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
@@ -44,6 +50,10 @@ const pageBanner = defineSlotRecipe({
 
       [pseudo(":is(button)")]: {
         cursor: "pointer",
+        transition: FOCUS_RING_TRANSITION,
+
+        ...createFocusRingRestStyles({ position: "inside" }),
+        [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
       },
     },
     content: {
@@ -92,6 +102,11 @@ const pageBanner = defineSlotRecipe({
       fontSize: vars.base.enabled.button.fontSize,
       lineHeight: vars.base.enabled.button.lineHeight,
       fontWeight: vars.base.enabled.button.fontWeight,
+
+      borderRadius: tokens.$radius.r1,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
     closeButton: {
       flexShrink: 0,
@@ -116,6 +131,11 @@ const pageBanner = defineSlotRecipe({
       backgroundColor: "transparent",
       padding: 0,
       cursor: "pointer",
+
+      borderRadius: tokens.$radius.r1,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
   },
   defaultVariants: {
@@ -151,7 +171,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneNeutralVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color,
           },
         },
@@ -180,7 +200,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneNeutralVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color,
           },
         },
@@ -209,7 +229,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneInformativeVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color,
           },
         },
@@ -238,7 +258,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneInformativeVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color,
           },
         },
@@ -267,7 +287,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.tonePositiveVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color,
           },
         },
@@ -296,7 +316,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.tonePositiveVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color,
           },
         },
@@ -325,7 +345,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneWarningVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneWarningVariantWeak.pressed.root.color,
           },
         },
@@ -354,7 +374,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneWarningVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneWarningVariantSolid.pressed.root.color,
           },
         },
@@ -383,7 +403,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneCriticalVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color,
           },
         },
@@ -412,7 +432,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneCriticalVariantSolid.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color,
           },
         },
@@ -441,7 +461,7 @@ const pageBanner = defineSlotRecipe({
             color: vars.toneMagicVariantWeak.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button)", engaged)]: {
             backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient})`,
           },
         },

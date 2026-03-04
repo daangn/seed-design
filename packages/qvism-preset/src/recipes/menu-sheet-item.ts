@@ -1,7 +1,12 @@
 import { menuSheetItem as vars, menuSheet as rootVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const menuSheetItem = defineSlotRecipe({
   name: "menu-sheet-item",
@@ -25,15 +30,27 @@ const menuSheetItem = defineSlotRecipe({
 
       border: "none",
       fontFamily: "inherit",
-      outline: "none",
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         backgroundColor: vars.base.pressed.root.color,
       },
 
+      "&:first-child": {
+        // TODO: since we have this, overflow: hidden; from the group slot can be removed
+        borderTopLeftRadius: rootVars.base.enabled.group.cornerRadius,
+        borderTopRightRadius: rootVars.base.enabled.group.cornerRadius,
+      },
+
       "&:last-child": {
+        // TODO: since we have this, overflow: hidden; from the group slot can be removed
+        borderBottomLeftRadius: rootVars.base.enabled.group.cornerRadius,
+        borderBottomRightRadius: rootVars.base.enabled.group.cornerRadius,
         boxShadow: "none",
       },
+
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,

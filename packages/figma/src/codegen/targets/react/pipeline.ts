@@ -1,5 +1,6 @@
 import { createCodeGenerator, createValueResolver } from "@/codegen/core";
 import { iconService, styleService, variableService } from "@/codegen/default-services";
+import { SKIP_COMPONENT_KEYS } from "@/codegen/skip-components";
 import {
   type UnboundComponentHandler,
   bindComponentHandler,
@@ -125,6 +126,7 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
     vectorTransformer,
     booleanOperationTransformer,
     shouldInferAutoLayout,
+    skipComponentKeys: SKIP_COMPONENT_KEYS,
   });
 
   return codeGenerator;

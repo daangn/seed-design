@@ -1,5 +1,30 @@
 # @seed-design/css
 
+## 1.2.4
+
+### Patch Changes
+
+- cd9a46c: Android 환경에서 테마 고정이 적용되지 않을 수 있는 문제를 수정합니다. (`[data-seed-color-mode="*-only"]`로 테마를 고정하는 경우, `color-scheme: only *;` 사용 가능한 환경에서는 `only` 키워드를 사용하도록 수정합니다.)
+- 23e369d: rootage에 pressed 상태로 정의된 스타일을 디바이스 환경에 따라 다르게 적용합니다. 마우스 환경에서는 hover 시, 터치 환경에서는 active 시 표시됩니다.
+- 103830e: List Item의 title fontWeight를 `$font-weight.medium`에서 `$font-weight.regular`로 변경합니다.
+- 77cdc0e: IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+- 7d6c910: Cascade Layer를 선택적으로 사용할 수 있도록 지원합니다. `seed-base` 및 `seed-components` 레이어로 감싼 상태의 SEED CSS를 사용할 수 있습니다. ([문서](https://seed-design.io/react/getting-started/styling/cascade-layers))
+- 751e952: 컴포넌트에 키보드 상호작용이 가능한 요소가 있는 경우 적절한 포커스 스타일을 갖도록 수정합니다.
+
+## 1.2.3
+
+### Patch Changes
+
+- eb390cf: BottomSheet의 title padding을 수정합니다.
+
+  - left 헤더 정렬 시 오른쪽 padding을 `50px` -> `56px`로 수정합니다.
+  - center 헤더 정렬 시 양쪽 padding을 `60px` -> `56px`로 수정합니다.
+
+- 7c3bbe7: Slider의 Value Indicator 가시성 및 트랜지션을 개선합니다.
+- 6db2515: AppBar의 `bg` 또는 `background` 프로퍼티로 배경 색상을 조절할 수 있는 옵션을 추가합니다. (`tone="layer"`인 경우 적용)
+- 12789e6: Segmented Control pressed, selected-pressed 상태에서 stroke border 가 나타나도록 합니다.
+- 6fb6dc2: AspectRatio 스타일시트의 `position: relative`와 `overflow: hidden` 선언을 React 레이어로 이동하여 CSS specificity 문제를 수정합니다.
+
 ## 1.2.2
 
 ### Patch Changes

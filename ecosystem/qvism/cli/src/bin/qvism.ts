@@ -31,6 +31,29 @@ async function writeBundles(outputDir: string, config: Config) {
   const minifiedBaseCss = await generateBaseBundle(config, { minify: true });
   console.log("Writing minified base css bundle to", path.join(outputDir, "base.min.css"));
   fs.writeFileSync(path.join(outputDir, "base.min.css"), minifiedBaseCss);
+
+  // Layered variants (@layer seed-base / seed-components)
+  const allLayeredCss = await generateAllBundle(config, { layer: true });
+  console.log("Writing layered css bundle to", path.join(outputDir, "all.layered.css"));
+  fs.writeFileSync(path.join(outputDir, "all.layered.css"), allLayeredCss);
+
+  const allLayeredMinCss = await generateAllBundle(config, { minify: true, layer: true });
+  console.log(
+    "Writing minified layered css bundle to",
+    path.join(outputDir, "all.layered.min.css"),
+  );
+  fs.writeFileSync(path.join(outputDir, "all.layered.min.css"), allLayeredMinCss);
+
+  const baseLayeredCss = await generateBaseBundle(config, { layer: true });
+  console.log("Writing layered base css bundle to", path.join(outputDir, "base.layered.css"));
+  fs.writeFileSync(path.join(outputDir, "base.layered.css"), baseLayeredCss);
+
+  const baseLayeredMinCss = await generateBaseBundle(config, { minify: true, layer: true });
+  console.log(
+    "Writing minified layered base css bundle to",
+    path.join(outputDir, "base.layered.min.css"),
+  );
+  fs.writeFileSync(path.join(outputDir, "base.layered.min.css"), baseLayeredMinCss);
 }
 
 async function writeRecipes(recipesDir: string, config: Config) {
@@ -39,7 +62,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
   console.log("Writing shared to", path.join(recipesDir, "shared.mjs"));
   fs.writeFileSync(path.join(recipesDir, "shared.mjs"), sharedJs);
 
-  // Write each recipe .mjs + .d.ts
+  // Write each recipe .mjs + .d.ts + layered .mjs
   const options = { prefix: config.prefix };
   await Promise.all(
     Object.values(config.theme.recipes).map(async (definition) => {
@@ -52,14 +75,25 @@ async function writeRecipes(recipesDir: string, config: Config) {
 
       console.log("Writing", name, "to", path.join(recipesDir, `${name}.d.ts`));
       fs.writeFileSync(path.join(recipesDir, `${name}.d.ts`), dtsCode);
+
+      // Layered .mjs (imports layered CSS instead)
+      const layeredJsCode = generateJs(definition, {
+        ...options,
+        cssImportPath: `./${name}.layered.css`,
+      });
+      console.log("Writing", name, "to", path.join(recipesDir, `${name}.layered.mjs`));
+      fs.writeFileSync(path.join(recipesDir, `${name}.layered.mjs`), layeredJsCode);
     }),
   );
 
-  // Write each recipe .css
+  // Write each recipe .css + layered .css
   const recipes = await generateEachRecipe(config);
-  for (const { name, css } of recipes) {
+  for (const { name, css, layeredCss } of recipes) {
     console.log("Writing", name, "to", path.join(recipesDir, `${name}.css`));
     fs.writeFileSync(path.join(recipesDir, `${name}.css`), css);
+
+    console.log("Writing", name, "to", path.join(recipesDir, `${name}.layered.css`));
+    fs.writeFileSync(path.join(recipesDir, `${name}.layered.css`), layeredCss);
   }
 }
 

@@ -118,7 +118,7 @@ ActionButton.displayName = "ActionButton"
 
 **추가 작업**:
 1. `docs/registry/registry-ui.ts`에 entry 추가
-2. `bun generate:registry` 실행 (docs 폴더에서)
+2. `bun --filter @seed-design/docs generate:registry` 실행
 
 ## Step 6: Examples
 

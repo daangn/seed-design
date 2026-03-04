@@ -1,6 +1,11 @@
 import { radiomark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, active, pseudo, not } from "../utils/pseudo";
+import { checked, disabled, engaged, pseudo, not, focusVisible } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const radiomark = defineSlotRecipe({
   name: "radiomark",
@@ -23,9 +28,11 @@ const radiomark = defineSlotRecipe({
 
       marginTop: "var(--radiomark-margin-top, 0)", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
-      [pseudo(not(disabled), active)]: {
+      ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
+
+      [pseudo(not(disabled), engaged)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
@@ -44,6 +51,8 @@ const radiomark = defineSlotRecipe({
         borderWidth: vars.toneBrand.disabledSelected.root.strokeWidth,
         borderColor: vars.toneBrand.disabledSelected.root.strokeColor,
       },
+
+      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     icon: {
       display: "none",
@@ -67,7 +76,7 @@ const radiomark = defineSlotRecipe({
             backgroundColor: vars.toneNeutral.enabledSelected.root.color,
           },
 
-          [pseudo(not(disabled), checked, active)]: {
+          [pseudo(not(disabled), checked, engaged)]: {
             backgroundColor: vars.toneNeutral.enabledSelectedPressed.root.color,
           },
         },
@@ -83,7 +92,7 @@ const radiomark = defineSlotRecipe({
             backgroundColor: vars.toneBrand.enabledSelected.root.color,
           },
 
-          [pseudo(not(disabled), checked, active)]: {
+          [pseudo(not(disabled), checked, engaged)]: {
             backgroundColor: vars.toneBrand.enabledSelectedPressed.root.color,
           },
         },

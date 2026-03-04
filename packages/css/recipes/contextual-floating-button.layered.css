@@ -1,0 +1,130 @@
+@layer seed-components {
+  .seed-contextual-floating-button {
+    box-sizing: border-box;
+    cursor: pointer;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+    border: none;
+    justify-content: center;
+    align-items: center;
+    font-family: inherit;
+    text-decoration: none;
+    display: inline-flex;
+  }
+
+  .seed-contextual-floating-button:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
+  .seed-contextual-floating-button:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+  }
+
+  .seed-contextual-floating-button {
+    border-radius: var(--seed-radius-full);
+    box-shadow: var(--seed-shadow-s3);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    font-weight: var(--seed-font-weight-medium);
+    --seed-box-z-index: initial;
+    z-index: var(--seed-box-z-index);
+    --seed-box-position: initial;
+    position: var(--seed-box-position);
+    --seed-box-top: initial;
+    --seed-box-right: initial;
+    --seed-box-bottom: initial;
+    --seed-box-left: initial;
+    top: var(--seed-box-top);
+    right: var(--seed-box-right);
+    bottom: var(--seed-box-bottom);
+    left: var(--seed-box-left);
+    --seed-icon-size: 22px;
+    --size: 16px;
+    --thickness: 2px;
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  }
+
+  .seed-contextual-floating-button--variant_solid {
+    background: var(--seed-color-bg-neutral-inverted);
+    color: var(--seed-color-fg-neutral-inverted);
+    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
+    --track-color: var(--seed-color-palette-gray-700);
+    --range-color: var(--seed-color-fg-neutral-inverted);
+  }
+
+  @media (hover: hover) {
+    .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
+  }
+
+  .seed-contextual-floating-button--variant_solid:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-bg-disabled);
+    color: var(--seed-color-fg-disabled);
+    --seed-prefix-icon-color: var(--seed-color-fg-disabled);
+    --seed-icon-color: var(--seed-color-fg-disabled);
+  }
+
+  .seed-contextual-floating-button--variant_solid[data-loading] {
+    background: var(--seed-color-bg-neutral-inverted-pressed);
+  }
+
+  .seed-contextual-floating-button--variant_layer {
+    background: var(--seed-color-bg-layer-floating);
+    color: var(--seed-color-fg-neutral);
+    --seed-icon-color: var(--seed-color-fg-neutral);
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --track-color: var(--seed-color-palette-gray-500);
+    --range-color: var(--seed-color-fg-neutral);
+  }
+
+  @media (hover: hover) {
+    .seed-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-layer-floating-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
+      background: var(--seed-color-bg-layer-floating-pressed);
+    }
+  }
+
+  .seed-contextual-floating-button--variant_layer:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-bg-disabled);
+    color: var(--seed-color-fg-disabled);
+    --seed-prefix-icon-color: var(--seed-color-fg-disabled);
+    --seed-icon-color: var(--seed-color-fg-disabled);
+  }
+
+  .seed-contextual-floating-button--variant_layer[data-loading] {
+    background: var(--seed-color-bg-layer-floating-pressed);
+  }
+
+  .seed-contextual-floating-button--layout_withText {
+    min-height: 36px;
+    padding-left: var(--seed-dimension-x3_5);
+    padding-right: var(--seed-dimension-x3_5);
+    padding-top: var(--seed-dimension-x2);
+    padding-bottom: var(--seed-dimension-x2);
+    gap: var(--seed-dimension-x1);
+    --seed-prefix-icon-size: 16px;
+  }
+
+  .seed-contextual-floating-button--layout_iconOnly {
+    --seed-icon-size: 22px;
+    width: 44px;
+    height: 44px;
+  }
+}

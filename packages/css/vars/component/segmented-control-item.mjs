@@ -22,7 +22,9 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--seed-color-bg-neutral-weak-pressed)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       }
     },
     "selected": {
@@ -30,19 +32,9 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral)"
       }
     },
-    "selectedPressed": {
-      "root": {
-        "color": "var(--seed-color-palette-gray-100)"
-      }
-    },
     "disabled": {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
-      }
-    },
-    "disabledSelected": {
-      "root": {
-        "color": "var(--seed-color-bg-disabled)"
       }
     }
   }

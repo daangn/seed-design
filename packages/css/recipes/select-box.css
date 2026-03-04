@@ -6,7 +6,7 @@
     border-radius: var(--seed-radius-r3);
     background-color: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     overflow: hidden;
 }
 .seed-select-box__root::after {
@@ -23,8 +23,15 @@
     transition: border-color 0.1s var(--seed-timing-function-easing);
     pointer-events: none;
 }
-.seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked])::after {
     border-width: 2px;
@@ -37,11 +44,20 @@
 .seed-select-box__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
     box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-muted);
 }
+.seed-select-box__root {
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-select-box__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-select-box__trigger {
     display: flex;
     justify-content: space-between;
     gap: var(--seed-dimension-x1_5);
     flex-grow: 1;
+    --seed-focus-ring: none;
 }
 .seed-select-box__content {
     display: flex;

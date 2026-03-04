@@ -6643,6 +6643,30 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
+  "VariableID:61337:3": {
+    "name": "stroke/focus-ring",
+    "id": "VariableID:61337:3",
+    "remote": false,
+    "key": "ca937a0bb83fda59d06959cfb5d960f00b5e9add",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92938"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92938"
+      }
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
   "VariableID:41338:806": {
     "name": "stroke/informative-solid",
     "id": "VariableID:41338:806",

@@ -4,8 +4,8 @@ import { pseudo, before, directChild } from "../utils/pseudo";
 const aspectRatio = defineRecipe({
   name: "aspect-ratio",
   base: {
-    position: "relative",
-    overflow: "hidden",
+    // NOTE: AspectRatio is supposed to be a subset of `Box`
+    // currently position & overflow properties are set through the Box props
 
     "--seed-aspect-ratio-padding": "75%",
 

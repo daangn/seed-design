@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "resources": [
     {
       "path": "/collections.json"
@@ -169,6 +169,9 @@
     },
     {
       "path": "/components/scroll-fog.json"
+    },
+    {
+      "path": "/components/segmented-control-indicator.json"
     },
     {
       "path": "/components/segmented-control-item.json"

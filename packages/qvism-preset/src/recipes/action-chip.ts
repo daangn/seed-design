@@ -5,6 +5,9 @@ import { active, disabled, focus, pseudo } from "../utils/pseudo";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 import { count } from "../utils/count";
 
+/**
+ * @deprecated Use `chip` instead.
+ */
 const actionChip = defineRecipe({
   name: "action-chip",
   base: {

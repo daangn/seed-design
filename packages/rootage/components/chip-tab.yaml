@@ -22,8 +22,10 @@ data:
             type: dimension
           color:
             type: color
-          stroke:
+          strokeColor:
             type: color
+          strokeWidth:
+            type: dimension
       label:
         properties:
           fontSize:
@@ -85,7 +87,8 @@ data:
       enabled:
         root:
           color: $color.bg.transparent
-          stroke: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-muted
+          strokeWidth: 1px
         label:
           color: $color.fg.neutral
       enabled,pressed:

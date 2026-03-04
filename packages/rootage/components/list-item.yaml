@@ -108,7 +108,7 @@ data:
           color: $color.fg.neutral
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
-          fontWeight: $font-weight.medium
+          fontWeight: $font-weight.regular
         detail:
           color: $color.fg.neutral-subtle
           fontSize: $font-size.t3

@@ -5,20 +5,12 @@ import type {
   MdxJsxFlowElement,
 } from "mdast-util-mdx-jsx";
 import type { Rule } from "./types";
-
-interface EstreeNode {
-  type: string;
-}
-
-interface ProgramNode extends EstreeNode {
-  type: "Program";
-  body: EstreeNode[];
-}
-
-interface ExpressionStatementNode extends EstreeNode {
-  type: "ExpressionStatement";
-  expression: EstreeNode;
-}
+import {
+  type EstreeNode,
+  isExpressionStatementNode,
+  isLiteralNode,
+  isProgramNode,
+} from "./estree-utils";
 
 interface ObjectExpressionNode extends EstreeNode {
   type: "ObjectExpression";
@@ -35,11 +27,6 @@ interface PropertyNode extends EstreeNode {
 interface IdentifierNode extends EstreeNode {
   type: "Identifier";
   name: string;
-}
-
-interface LiteralNode extends EstreeNode {
-  type: "Literal";
-  value: unknown;
 }
 
 interface UnaryExpressionNode extends EstreeNode {
@@ -104,19 +91,6 @@ interface TypeTableRow {
   description?: string;
 }
 
-function isProgramNode(node: unknown): node is ProgramNode {
-  return Boolean(node) && typeof node === "object" && (node as EstreeNode).type === "Program";
-}
-
-function isExpressionStatementNode(node: unknown): node is ExpressionStatementNode {
-  return (
-    Boolean(node) &&
-    typeof node === "object" &&
-    (node as EstreeNode).type === "ExpressionStatement" &&
-    "expression" in (node as ExpressionStatementNode)
-  );
-}
-
 function isObjectExpressionNode(node: unknown): node is ObjectExpressionNode {
   return (
     Boolean(node) &&
@@ -143,10 +117,6 @@ function isIdentifierNode(node: unknown): node is IdentifierNode {
     (node as EstreeNode).type === "Identifier" &&
     typeof (node as IdentifierNode).name === "string"
   );
-}
-
-function isLiteralNode(node: unknown): node is LiteralNode {
-  return Boolean(node) && typeof node === "object" && (node as EstreeNode).type === "Literal";
 }
 
 function isUnaryExpressionNode(node: unknown): node is UnaryExpressionNode {
