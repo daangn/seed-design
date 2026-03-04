@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -49,7 +49,7 @@
     "@seed-design/react-field": "1.0.1",
     "@seed-design/react-image": "0.1.1",
     "@seed-design/react-fieldset": "0.1.0",
-    "@seed-design/react-field-button": "1.0.1",
+    "@seed-design/react-field-button": "1.0.2",
     "@seed-design/react-popover": "1.0.3",
     "@seed-design/react-portal": "1.0.0",
     "@seed-design/react-primitive": "1.0.0",
@@ -57,12 +57,12 @@
     "@seed-design/react-pull-to-refresh": "1.0.1",
     "@seed-design/react-radio-group": "1.1.0",
     "@seed-design/react-segmented-control": "1.0.1",
-    "@seed-design/react-slider": "1.0.1",
+    "@seed-design/react-slider": "1.0.2",
     "@seed-design/react-snackbar": "1.0.1",
     "@seed-design/react-switch": "1.0.1",
     "@seed-design/react-tabs": "1.0.2",
     "@seed-design/react-text-field": "1.1.1",
-    "@seed-design/react-toggle": "1.0.0",
+    "@seed-design/react-toggle": "1.0.1",
     "clsx": "^2.1.1",
     "unicode-segmenter": "^0.14.4"
   },

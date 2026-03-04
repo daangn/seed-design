@@ -1,5 +1,17 @@
 # @seed-design/react
 
+## 1.2.6
+
+### Patch Changes
+
+- 77cdc0e: IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+- Updated dependencies [fe1cdb3]
+- Updated dependencies [751e952]
+- Updated dependencies [7e0728a]
+  - @seed-design/react-slider@1.0.2
+  - @seed-design/react-field-button@1.0.2
+  - @seed-design/react-toggle@1.0.1
+
 ## 1.2.5
 
 ### Patch Changes

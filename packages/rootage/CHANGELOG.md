@@ -1,5 +1,13 @@
 # @seed-design/rootage-artifacts
 
+## 1.2.4
+
+### Patch Changes
+
+- 103830e: List Item의 title fontWeight를 `$font-weight.medium`에서 `$font-weight.regular`로 변경합니다.
+- 751e952: `$color.stroke.focus-ring` 색상 토큰을 추가합니다.
+- 77cdc0e: IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+
 ## 1.2.3
 
 ### Patch Changes
