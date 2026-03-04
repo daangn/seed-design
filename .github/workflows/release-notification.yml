@@ -22,10 +22,22 @@ jobs:
       pull-requests: read
 
     steps:
-      # TODO: 테스트 후 ref 제거
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.event_name == 'push' && '4b9b78912e6b244df689d40f3a4a4caaa8c01a09' || github.sha }}
+
+      # TODO: 테스트 후 제거 — 현재 브랜치엔 CHANGELOG 변경이 없으므로 4b9b789 시점 파일을 덮어씀
+      - name: "[TEST] Restore CHANGELOG files from test commit"
+        if: github.event_name == 'push'
+        run: |
+          git fetch origin 4b9b78912e6b244df689d40f3a4a4caaa8c01a09
+          git checkout 4b9b78912e6b244df689d40f3a4a4caaa8c01a09 -- \
+            packages/css/CHANGELOG.md \
+            packages/figma/CHANGELOG.md \
+            packages/react/CHANGELOG.md \
+            packages/react-headless/field-button/CHANGELOG.md \
+            packages/react-headless/slider/CHANGELOG.md \
+            packages/react-headless/toggle/CHANGELOG.md \
+            packages/tailwind3-plugin/CHANGELOG.md \
+            packages/tailwind4-theme/CHANGELOG.md
 
       - name: Get changed CHANGELOG files
         id: changelogs
