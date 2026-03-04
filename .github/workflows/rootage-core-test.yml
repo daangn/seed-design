@@ -6,9 +6,6 @@ on:
       - "ecosystem/rootage/core/**/*"
       - ".github/workflows/rootage-core-test.yml"
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 permissions:
   contents: read
 

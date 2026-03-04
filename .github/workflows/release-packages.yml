@@ -15,9 +15,6 @@ on:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   release:
     name: Release Seed Design Packages

@@ -7,9 +7,6 @@ on:
       - ".github/workflows/react-test.yml"
       - ".github/actions/setup/action.yml"
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 permissions:
   contents: read
 
