@@ -36,11 +36,13 @@
 사용자에게 다음 정보를 요청합니다:
 
 **필수 정보**:
+
 - **Component ID**: 예) `action-button`, `checkbox`, `badge`
   - 이 ID는 Rootage YAML 파일명과 동일해야 합니다
   - `/packages/rootage/components/{component-id}.yaml` 파일이 존재해야 합니다
 
 **선택 정보**:
+
 - **Documentation Type**: `simple` 또는 `comprehensive`
   - `simple`: 기본적인 Props와 Spec만 포함 (예: checkbox, badge)
   - `comprehensive`: Anatomy, Guidelines, Comparison 등 전체 섹션 포함 (예: action-button)
@@ -57,6 +59,7 @@
 `/packages/rootage/components/{component-id}.yaml` 파일을 읽어서 다음 정보를 추출합니다:
 
 **YAML 구조 이해**:
+
 ```yaml
 kind: ComponentSpec
 metadata:
@@ -64,7 +67,7 @@ metadata:
   name: Action Button
 data:
   schema:
-    slots:                    # 컴포넌트의 구성 요소
+    slots: # 컴포넌트의 구성 요소
       root:
         properties:
           backgroundColor: { type: color }
@@ -74,19 +77,20 @@ data:
           color: { type: color }
           fontSize: { type: dimension }
   definitions:
-    base:                     # 기본 상태별 스타일
+    base: # 기본 상태별 스타일
       enabled: { ... }
       pressed: { ... }
       disabled: { ... }
-    variant=brandSolid:       # variant별 스타일
+    variant=brandSolid: # variant별 스타일
       enabled: { ... }
-    size=medium:              # size별 스타일
+    size=medium: # size별 스타일
       enabled: { ... }
-    variant=brandSolid, size=medium:  # 복합 조건
+    variant=brandSolid, size=medium: # 복합 조건
       enabled: { ... }
 ```
 
 **추출할 정보**:
+
 1. **Component Name**: `metadata.name` (예: "Action Button")
 2. **Component ID**: `metadata.id` (예: "action-button")
 3. **Available Props**:
@@ -103,28 +107,29 @@ YAML에서 추출한 정보로 Props 테이블을 생성합니다:
 ```markdown
 ## Props
 
-| 속성        | 값                                                                                     | 기본값    |
-| ----------- | -------------------------------------------------------------------------------------- | --------- |
-| size        | {extracted sizes}                                                           | {default} |
-| variant     | {extracted variants} |           |
-| layout      | {inferred or provided}                                                                   | {default} |
-| disabled    | true, false                                                                            | false     |
-| loading     | true, false                                                                            | false     |
-| prefix icon | icon                                                                                   |           |
-| suffix icon | icon                                                                                   |           |
+| 속성        | 값                     | 기본값    |
+| ----------- | ---------------------- | --------- |
+| size        | {extracted sizes}      | {default} |
+| variant     | {extracted variants}   |           |
+| layout      | {inferred or provided} | {default} |
+| disabled    | true, false            | false     |
+| loading     | true, false            | false     |
+| prefix icon | icon                   |           |
+| suffix icon | icon                   |           |
 ```
 
 **참고 예시 (Action Button)**:
+
 ```markdown
-| 속성        | 값                                                                                     | 기본값    |
-| ----------- | -------------------------------------------------------------------------------------- | --------- |
-| size        | xsmall, small, medium, large                                                           | medium    |
+| 속성        | 값                                                                                       | 기본값    |
+| ----------- | ---------------------------------------------------------------------------------------- | --------- |
+| size        | xsmall, small, medium, large                                                             | medium    |
 | variant     | brand solid, neutral solid, neutral weak, critical solid, brand outline, neutral outline |           |
-| layout      | with text, icon only                                                                   | with text |
-| disabled    | true, false                                                                            | false     |
-| loading     | true, false                                                                            | false     |
-| prefix icon | icon                                                                                   |           |
-| suffix icon | icon                                                                                   |           |
+| layout      | with text, icon only                                                                     | with text |
+| disabled    | true, false                                                                              | false     |
+| loading     | true, false                                                                              | false     |
+| prefix icon | icon                                                                                     |           |
+| suffix icon | icon                                                                                     |           |
 ```
 
 ### 4. 문서 구조 생성
@@ -133,8 +138,8 @@ YAML에서 추출한 정보로 Props 테이블을 생성합니다:
 
 ```markdown
 ---
-title: {Component Name}
-description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장으로}
+title: { Component Name }
+description: { 한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장으로 }
 ---
 
 <PlatformStatusTable componentId="{component-id}" />
@@ -156,8 +161,8 @@ description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장�
 
 ```markdown
 ---
-title: {Component Name}
-description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장으로}
+title: { Component Name }
+description: { 한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장으로 }
 ---
 
 <PlatformStatusTable componentId="{component-id}" />
@@ -236,11 +241,11 @@ description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장�
 
 {두 컴포넌트의 차이점과 사용 시나리오}
 
-|    | {Component A}                        | {Component B}             |
-| ---------- | -----------------------------  | ----------------------------- |
-| 목적       |   {purpose A}   |  {purpose B}       |
-| 예시       |  {examples A}    |    {examples B}     |
-| 표현       | {expression A}     |    {expression B}     |
+|      | {Component A}  | {Component B}  |
+| ---- | -------------- | -------------- |
+| 목적 | {purpose A}    | {purpose B}    |
+| 예시 | {examples A}   | {examples B}   |
+| 표현 | {expression A} | {expression B} |
 
 ## Differences from V2 (선택)
 
@@ -263,6 +268,7 @@ description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장�
 ```
 
 **이미지 명명 규칙**:
+
 - `anatomy.webp`: 컴포넌트 구조도
 - `props-{property}.webp`: Props 설명 이미지
   - 예) `props-size.webp`, `props-variant.webp`, `props-layout.webp`, `props-state.webp`
@@ -275,6 +281,7 @@ description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장�
 - `differences-with-v2-{number}.webp`: V2 차이점 이미지
 
 **이미지 준비 및 변환**:
+
 1. 사용자가 PNG 이미지를 `/docs/public/docs/components/{component-id}/` 폴더에 준비
 2. 다음 스크립트를 실행하여 WebP로 변환:
    ```bash
@@ -285,27 +292,32 @@ description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장�
 ### 6. 한국어 작성 가이드라인
 
 **Tone & Voice**:
+
 - 전문적이고 명확한 어조
 - 사용자 중심의 설명 (기술적 세부사항보다는 사용 맥락 중심)
 - 존댓말 사용 ("~합니다", "~해주세요")
 
 **Description (Frontmatter)**:
+
 - 컴포넌트의 역할을 명확히 설명
 - 1-2문장으로 간결하게
 - 예) "사용자가 특정 액션을 실행할 수 있도록 도와주는 컴포넌트입니다."
 
 **Props 설명**:
+
 - 각 prop의 용도와 사용 시나리오 설명
 - 사이즈별/variant별 특징과 권장 사용처 명시
 - 예) "Small과 Medium은 화면 중앙에서 범용적으로 사용되며, Large는 주로 CTA 역할로 사용됩니다."
 
 **Guidelines 작성**:
+
 - 실무 적용 가능한 구체적인 가이드 제공
 - 올바른 사용법과 잘못된 사용법을 명확히 구분
 - 디자인 원칙과 근거를 함께 제시
 - 예시와 시각 자료를 적극 활용
 
 **테이블 작성**:
+
 - 명확한 헤더와 일관된 형식
 - 한국어와 영어를 적절히 혼용 (기술 용어는 영어 유지)
 
@@ -342,12 +354,14 @@ description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장�
 ### 8. 참조 자료
 
 **Action Button 문서** (`/docs/content/docs/components/action-button.mdx`):
+
 - Comprehensive 타입 문서의 모범 사례
 - Guidelines 섹션 구조 참조
 - 한국어 작성 스타일 참조
 - 이미지 활용 패턴 참조
 
 **다른 컴포넌트 문서들**:
+
 - Simple 타입: `/docs/content/docs/components/checkbox.mdx`, `/docs/content/docs/components/badge.mdx`
 - Comprehensive 타입: `/docs/content/docs/components/action-button.mdx`
 
@@ -369,12 +383,14 @@ description: {한국어 설명 - 컴포넌트의 역할과 목적을 1-2문장�
 ### 예시 1: Simple 타입 문서 생성
 
 **사용자 입력**:
+
 ```text
 Component ID: checkbox
 Documentation Type: simple
 ```
 
 **생성 결과**:
+
 ```markdown
 ---
 title: Checkbox
@@ -389,11 +405,11 @@ Checkbox는 사용자가 여러 옵션 중 하나 이상을 선택할 수 있게
 
 ### 옵션 테이블
 
-| 속성        | 값                           | 기본값    |
-| ----------- | ---------------------------- | --------- |
-| size        | small, medium, large         | medium    |
-| disabled    | true, false                  | false     |
-| checked     | true, false                  | false     |
+| 속성     | 값                   | 기본값 |
+| -------- | -------------------- | ------ |
+| size     | small, medium, large | medium |
+| disabled | true, false          | false  |
+| checked  | true, false          | false  |
 
 ## 스펙
 
@@ -403,6 +419,7 @@ Checkbox는 사용자가 여러 옵션 중 하나 이상을 선택할 수 있게
 ### 예시 2: Comprehensive 타입 문서 생성
 
 **사용자 입력**:
+
 ```text
 Component ID: action-button
 Documentation Type: comprehensive
