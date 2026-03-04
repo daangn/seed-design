@@ -61,14 +61,16 @@ const ContentPlaceholderAssetBase = React.forwardRef<SVGSVGElement, ContentPlace
 
     const resolvedType: ContentPlaceholderAssetType = type ?? "default";
     const resolvedSvg = svg ?? contentPlaceholderAssetPresetMap[resolvedType];
-
-    return <InternalIcon ref={ref} svg={resolvedSvg} {...props} />;
-  },
+export const ContentPlaceholderRoot = withProvider<HTMLDivElement, ContentPlaceholderRootProps>(
+  Primitive.div,
+  "root",
 );
+ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
 
-ContentPlaceholderAssetBase.displayName = "ContentPlaceholderAssetBase";
+export interface ContentPlaceholderIconProps extends InternalIconProps {}
 
-export const ContentPlaceholderAsset = withContext<SVGSVGElement, ContentPlaceholderAssetProps>(
-  ContentPlaceholderAssetBase,
-  "asset",
+export const ContentPlaceholderIcon = withContext<SVGSVGElement, ContentPlaceholderIconProps>(
+  InternalIcon,
+  "icon",
 );
+ContentPlaceholderIcon.displayName = "ContentPlaceholderIcon";
