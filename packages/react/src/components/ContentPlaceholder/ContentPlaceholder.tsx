@@ -6,10 +6,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { InternalIcon } from "../private/Icon";
-import {
-  contentPlaceholderAssetPresetMap,
-  type ContentPlaceholderAssetType,
-} from "./presets";
+import { contentPlaceholderAssetPresetMap, type ContentPlaceholderAssetType } from "./presets";
 
 const { withProvider, withContext } = createSlotRecipeContext(contentPlaceholder);
 
@@ -23,6 +20,8 @@ export const ContentPlaceholderRoot = withProvider<HTMLDivElement, ContentPlaceh
   "root",
 );
 
+ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
+
 export interface ContentPlaceholderContainerProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
@@ -32,10 +31,7 @@ export const ContentPlaceholderContainer = withContext<
   ContentPlaceholderContainerProps
 >(Primitive.div, "container");
 
-type ContentPlaceholderAssetCommonProps = Omit<
-  React.HTMLAttributes<SVGSVGElement>,
-  "children"
->;
+type ContentPlaceholderAssetCommonProps = Omit<React.HTMLAttributes<SVGSVGElement>, "children">;
 
 export type ContentPlaceholderAssetProps =
   | (ContentPlaceholderAssetCommonProps & {
@@ -51,11 +47,7 @@ export type { ContentPlaceholderAssetType };
 
 const ContentPlaceholderAssetBase = React.forwardRef<SVGSVGElement, ContentPlaceholderAssetProps>(
   ({ type, svg, ...props }, ref) => {
-    if (
-      process.env.NODE_ENV !== "production" &&
-      type !== undefined &&
-      svg !== undefined
-    ) {
+    if (process.env.NODE_ENV !== "production" && type !== undefined && svg !== undefined) {
       throw new Error("ContentPlaceholder.Asset: `type` and `svg` cannot be used together.");
     }
 
@@ -72,3 +64,5 @@ export const ContentPlaceholderAsset = withContext<SVGSVGElement, ContentPlaceho
   ContentPlaceholderAssetBase,
   "asset",
 );
+
+ContentPlaceholderAsset.displayName = "ContentPlaceholderAsset";
