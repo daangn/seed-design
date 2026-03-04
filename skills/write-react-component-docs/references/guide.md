@@ -1,8 +1,3 @@
----
-name: write-react-component-docs
-description: Write or update React component implementation docs in docs/content/react/components, including installation, usage, props, and examples aligned with snippet-layer and MDX conventions. Use when documenting or revising SEED React component APIs.
----
-
 # Write React Component Docs
 
 Generate comprehensive React component documentation following SEED Design patterns.

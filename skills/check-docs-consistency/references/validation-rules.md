@@ -10,14 +10,14 @@ metadata:
   id: action-button
   name: Action Button
 
+
 # Design Guidelines MDX
 ---
-title: Action Button  # Must match
+title: Action Button # Must match
 ---
-
 # React Docs MDX
 ---
-title: Action Button  # Must match
+title: Action Button # Must match
 ---
 ```
 
@@ -56,8 +56,8 @@ definitions:
 **검증**: MDX 컴포넌트의 ID가 Rootage metadata.id와 일치
 
 ```markdown
-<PlatformStatusTable componentId="action-button" />  # Must match metadata.id
-<ComponentSpecBlock id="action-button" />             # Must match metadata.id
+<PlatformStatusTable componentId="action-button" /> # Must match metadata.id
+<ComponentSpecBlock id="action-button" /> # Must match metadata.id
 ```
 
 ## 5. File Existence Check
@@ -74,8 +74,8 @@ new-comp     |      ✓       |      ✗      |     ✗     | Missing docs
 
 ## 경로 패턴
 
-| Layer | Path Pattern |
-|-------|--------------|
-| Rootage | `packages/rootage/components/{id}.yaml` |
-| Design Docs | `docs/content/docs/components/{id}.mdx` |
-| React Docs | `docs/content/react/components/{id}.mdx` |
+| Layer       | Path Pattern                             |
+| ----------- | ---------------------------------------- |
+| Rootage     | `packages/rootage/components/{id}.yaml`  |
+| Design Docs | `docs/content/docs/components/{id}.mdx`  |
+| React Docs  | `docs/content/react/components/{id}.mdx` |

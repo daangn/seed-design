@@ -1,8 +1,3 @@
----
-name: write-component-guideline
-description: Write or update component guideline docs in docs/content/docs/components using rootage-derived props, standardized image naming, and SEED MDX patterns. Use when creating new guideline pages or revising existing design guidance.
----
-
 # Write Component Guideline
 
 이 스킬은 SEED Design System의 컴포넌트 가이드라인 문서를 생성합니다. Action Button과 같은 고품질 디자인 가이드라인 문서를 작성할 수 있도록 돕습니다.
