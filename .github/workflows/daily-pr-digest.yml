@@ -1,6 +1,9 @@
 name: Daily PR Digest
 
 on:
+  push:
+    branches:
+      - feat/noti-pr-test
   schedule:
     - cron: "0 1 * * *" # KST 10:00 every day
   workflow_dispatch:
@@ -31,6 +34,6 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
-            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            channel: ${{ secrets.SLACK_NOTI_CHANNEL_ID }}
             text: "📋 SEED Design 일간 PR 현황"
             blocks: ${{ steps.payload.outputs.blocks }}
