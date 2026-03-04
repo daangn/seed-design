@@ -70,6 +70,10 @@ data:
             type: duration
           exitTimingFunction:
             type: cubicBezier
+          translateDuration:
+            type: duration
+          translateTimingFunction:
+            type: cubicBezier
       valueIndicatorArrow:
         properties:
           color:
@@ -138,6 +142,8 @@ data:
           exitOpacity: 0
           exitDuration: $duration.d4
           exitTimingFunction: $timing-function.easing
+          translateDuration: $duration.d3
+          translateTimingFunction: $timing-function.easing
         valueIndicatorArrow:
           color: $color.bg.neutral-inverted
           width: $dimension.x2

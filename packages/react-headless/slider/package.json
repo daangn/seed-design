@@ -44,6 +44,7 @@
     "@radix-ui/react-use-layout-effect": "^1.1.1",
     "@radix-ui/react-use-size": "^1.1.1",
     "@seed-design/dom-utils": "^1.0.0",
-    "@seed-design/react-primitive": "^1.0.0"
+    "@seed-design/react-primitive": "^1.0.0",
+    "@seed-design/react-supports": "^0.0.1"
   }
 }
