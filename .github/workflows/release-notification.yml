@@ -1,6 +1,9 @@
 name: Release Notification
 
 on:
+  push:
+    branches:
+      - feat/release-noti
   pull_request:
     types: [closed]
     branches: [dev]
@@ -8,9 +11,10 @@ on:
 jobs:
   notify:
     name: Send Release Notification
-    if: |
-      github.event.pull_request.merged == true &&
-      contains(github.event.pull_request.labels.*.name, 'changeset-release/dev')
+    # TODO: 테스트 후 아래 if 조건 복구
+    # if: |
+    #   github.event.pull_request.merged == true &&
+    #   github.event.pull_request.title == 'release: version packages'
     runs-on: ubuntu-latest
 
     permissions:
