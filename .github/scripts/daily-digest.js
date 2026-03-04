@@ -8,7 +8,7 @@ const repo = process.env.GITHUB_REPOSITORY;
 const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
 /**
- * @typedef {{ title: string, html_url: string, login: string, number: number }} PR
+ * @typedef {{ title: string, html_url: string, login: string, number: number, body: string }} PR
  */
 
 /**
@@ -22,7 +22,7 @@ function fetchPRs(query) {
     { encoding: "utf8" },
   );
 
-  /** @type {{ title: string, html_url: string, user: { login: string }, number: number }[]} */
+  /** @type {{ title: string, html_url: string, user: { login: string }, number: number, body: string }[]} */
   const items = JSON.parse(result);
 
   return items.map((item) => ({
@@ -30,21 +30,45 @@ function fetchPRs(query) {
     html_url: item.html_url,
     login: item.user.login,
     number: item.number,
+    body: item.body || "",
   }));
 }
 
 /**
- * KST 기준 날짜 포맷 (예: 12/13 10:00)
- * @param {string} isoString
+ * Prompt Studio API로 머지된 PR 요약 생성
+ * PR 배열을 전달하면 각 PR에 대한 한 줄 요약 배열을 반환
+ * @param {PR[]} prs
+ * @returns {string[]}
  */
-function formatKST(isoString) {
-  return new Date(isoString).toLocaleString("ko-KR", {
-    timeZone: "Asia/Seoul",
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+function fetchSummary(prs) {
+  if (prs.length === 0) return [];
+
+  const inputData = prs.slice(0, 20).map((pr) => ({
+    body: pr.body,
+    title: pr.title,
+    user: pr.login,
+    link: pr.html_url,
+  }));
+
+  const payload = JSON.stringify({ INPUT_JSON_DATA: JSON.stringify(inputData) });
+  const tmpFile = `/tmp/digest-summary-${Date.now()}.json`;
+  fs.writeFileSync(tmpFile, payload);
+
+  try {
+    const result = execSync(
+      `curl -s http://prompt-studio-api.kr.krmt.io/projects/seed-release/versions/4/predict -H 'Content-Type: application/json' --data @${tmpFile}`,
+      { encoding: "utf8", timeout: 30000 },
+    );
+    const response = JSON.parse(result);
+    return JSON.parse(response.result);
+  } catch (e) {
+    console.error("요약 생성 실패:", e.message);
+    return [];
+  } finally {
+    try {
+      fs.unlinkSync(tmpFile);
+    } catch {}
+  }
 }
 
 /**
@@ -71,9 +95,6 @@ function main() {
     return;
   }
 
-  const sinceKST = formatKST(since);
-  const nowKST = formatKST(new Date().toISOString());
-
   const blocks = [
     {
       type: "header",
@@ -82,19 +103,23 @@ function main() {
         text: "📋 SEED Design 일간 PR 현황",
       },
     },
-    {
-      type: "context",
-      elements: [
-        {
-          type: "mrkdwn",
-          text: `${sinceKST} ~ ${nowKST}`,
-        },
-      ],
-    },
     { type: "divider" },
   ];
 
   if (mergedPRs.length > 0) {
+    const summaries = fetchSummary(mergedPRs);
+
+    if (summaries.length > 0) {
+      blocks.push({
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `📝 *주요 변경사항 요약*\n${summaries.map((s) => `• ${s.replace(/^[-•]\s*/, "")}`).join("\n")}`,
+        },
+      });
+      blocks.push({ type: "divider" });
+    }
+
     blocks.push({
       type: "section",
       text: {
@@ -102,13 +127,6 @@ function main() {
         text: `✅ *머지된 PR* (${mergedPRs.length}개)\n${formatPRList(mergedPRs)}`,
       },
     });
-
-    if (mergedPRs.length > 20) {
-      blocks.push({
-        type: "context",
-        elements: [{ type: "mrkdwn", text: `외 ${mergedPRs.length - 20}개` }],
-      });
-    }
   }
 
   if (openedPRs.length > 0) {
@@ -121,13 +139,6 @@ function main() {
         text: `🔄 *새로 열린 PR* (${openedPRs.length}개)\n${formatPRList(openedPRs)}`,
       },
     });
-
-    if (openedPRs.length > 20) {
-      blocks.push({
-        type: "context",
-        elements: [{ type: "mrkdwn", text: `외 ${openedPRs.length - 20}개` }],
-      });
-    }
   }
 
   const output = JSON.stringify(blocks);
