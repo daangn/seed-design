@@ -14,15 +14,24 @@ description: 콘텐츠가 비어 있거나 이미지를 불러오지 못했을 �
 
 ## Usage
 
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:content-placeholder
+```
+
+<ManualInstallation name="content-placeholder" />
+
+## Props
+
+<react-type-table
+  path="./registry/ui/content-placeholder.tsx"
+  name="ContentPlaceholderProps"
+/>
+
+## Examples
+
 ### Type Preset
-
-```tsx
-import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
-```
-
-```tsx
-<ContentPlaceholder type="image" />
-```
 
 <ComponentExample name="react/content-placeholder/type">
   ```json doc-gen:file
@@ -34,15 +43,6 @@ import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 </ComponentExample>
 
 ### Custom SVG
-
-```tsx
-import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
-import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
-```
-
-```tsx
-<ContentPlaceholder svg={<IconPictureFill />} />
-```
 
 <ComponentExample name="react/content-placeholder/svg">
   ```json doc-gen:file
@@ -59,15 +59,3 @@ import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
 - `svg`는 제품별로 완전히 커스텀한 에셋이 필요한 경우에 사용합니다.
 - `type`과 `svg`는 동시에 전달할 수 없습니다.
 - 둘 다 전달하지 않으면 `default` 타입(당근 로고)이 렌더링됩니다.
-
-## Installation
-
-```package-install
-npx @seed-design/cli@latest add ui:content-placeholder
-```
-
-<ManualInstallation name="content-placeholder" />
-
-## Props
-
-<react-type-table path="./registry/ui/content-placeholder.tsx" name="ContentPlaceholderProps" />
