@@ -14,6 +14,8 @@ export {
   MenuSheetItemContent as ItemContent,
   MenuSheetItemLabel as ItemLabel,
   MenuSheetItemDescription as ItemDescription,
+  /** @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0. */
+  MenuSheetCloseButton as CloseButton,
   type MenuSheetBackdropProps as BackdropProps,
   type MenuSheetPositionerProps as PositionerProps,
   type MenuSheetContentProps as ContentProps,
@@ -29,4 +31,6 @@ export {
   type MenuSheetItemContentProps as ItemContentProps,
   type MenuSheetItemLabelProps as ItemLabelProps,
   type MenuSheetItemDescriptionProps as ItemDescriptionProps,
+  /** @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0. */
+  type MenuSheetCloseButtonProps as CloseButtonProps,
 } from "./MenuSheet";

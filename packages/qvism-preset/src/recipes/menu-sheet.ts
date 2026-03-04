@@ -1,7 +1,12 @@
-import { menuSheet as vars } from "../vars/component";
+import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { not, open, pseudo } from "../utils/pseudo";
+import { engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const menuSheet = defineSlotRecipe({
   name: "menu-sheet",
@@ -15,6 +20,8 @@ const menuSheet = defineSlotRecipe({
     "list",
     "group",
     "footer",
+    // @deprecated: will be removed in 1.3.0
+    "closeButton",
   ],
   base: {
     positioner: {
@@ -108,6 +115,37 @@ const menuSheet = defineSlotRecipe({
       alignItems: "stretch",
 
       paddingTop: vars.base.enabled.footer.paddingTop,
+    },
+    // @deprecated: will be removed in 1.3.0
+    closeButton: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+
+      backgroundColor: closeVars.base.enabled.root.color,
+      minHeight: closeVars.base.enabled.root.minHeight,
+      paddingLeft: closeVars.base.enabled.root.paddingX,
+      paddingRight: closeVars.base.enabled.root.paddingX,
+      paddingTop: closeVars.base.enabled.root.paddingY,
+      paddingBottom: closeVars.base.enabled.root.paddingY,
+      borderRadius: closeVars.base.enabled.root.cornerRadius,
+
+      border: "none",
+      fontFamily: "inherit",
+
+      color: closeVars.base.enabled.label.color,
+      fontSize: closeVars.base.enabled.label.fontSize,
+      lineHeight: closeVars.base.enabled.label.lineHeight,
+      fontWeight: closeVars.base.enabled.label.fontWeight,
+
+      transition: FOCUS_RING_TRANSITION,
+
+      [pseudo(engaged)]: {
+        backgroundColor: closeVars.base.pressed.root.color,
+      },
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
   },
   variants: {

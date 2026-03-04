@@ -177,6 +177,25 @@ export const MenuSheetItemDescription = withItemContext<
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
+ * The close button pattern is no longer part of MenuSheet.
+ * Implement your own dismiss button using `Drawer.CloseButton` if needed.
+ */
+export interface MenuSheetCloseButtonProps extends Drawer.CloseButtonProps {}
+
+/**
+ * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
+ * The close button pattern is no longer part of MenuSheet.
+ * Implement your own dismiss button using `Drawer.CloseButton` if needed.
+ */
+export const MenuSheetCloseButton = withContext<HTMLButtonElement, MenuSheetCloseButtonProps>(
+  Drawer.CloseButton,
+  "closeButton",
+);
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface MenuSheetFooterProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}

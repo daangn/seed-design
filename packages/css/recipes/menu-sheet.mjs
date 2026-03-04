@@ -37,6 +37,10 @@ const menuSheetSlotNames = [
   [
     "footer",
     "seed-menu-sheet__footer"
+  ],
+  [
+    "closeButton",
+    "seed-menu-sheet__closeButton"
   ]
 ];
 

@@ -11,7 +11,7 @@ declare type MenuSheetVariantMap = {
 
 export declare type MenuSheetVariantProps = Partial<MenuSheetVariant>;
 
-export declare type MenuSheetSlotName = "backdrop" | "positioner" | "content" | "header" | "title" | "description" | "list" | "group" | "footer";
+export declare type MenuSheetSlotName = "backdrop" | "positioner" | "content" | "header" | "title" | "description" | "list" | "group" | "footer" | "closeButton";
 
 export declare const menuSheetVariantMap: MenuSheetVariantMap;
 
