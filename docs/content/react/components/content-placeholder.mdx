@@ -17,31 +17,41 @@ description: 콘텐츠가 비어 있거나 이미지를 불러오지 못했을 �
 ### Type Preset
 
 ```tsx
-import { ContentPlaceholder } from "@seed-design/react";
+import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 ```
 
 ```tsx
-<ContentPlaceholder.Root>
-  <ContentPlaceholder.Container>
-    <ContentPlaceholder.Asset type="image" />
-  </ContentPlaceholder.Container>
-</ContentPlaceholder.Root>
+<ContentPlaceholder type="image" />
 ```
+
+<ComponentExample name="react/content-placeholder/type">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/content-placeholder/type.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 ### Custom SVG
 
 ```tsx
-import { ContentPlaceholder } from "@seed-design/react";
+import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
 ```
 
 ```tsx
-<ContentPlaceholder.Root>
-  <ContentPlaceholder.Container>
-    <ContentPlaceholder.Asset svg={<IconPictureFill />} />
-  </ContentPlaceholder.Container>
-</ContentPlaceholder.Root>
+<ContentPlaceholder svg={<IconPictureFill />} />
 ```
+
+<ComponentExample name="react/content-placeholder/svg">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/content-placeholder/svg.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 ### Type과 Custom의 차이
 
