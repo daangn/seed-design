@@ -21,6 +21,7 @@ export const AIPanelLayout = forwardRef<unknown, { children: ReactNode }>(functi
   const [isVisibilityTransitioning, setIsVisibilityTransitioning] = useState(false);
   const aiPanelRef = usePanelRef();
   const closeTimerRef = useRef<number | null>(null);
+  const mobilePanelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -68,6 +69,31 @@ export const AIPanelLayout = forwardRef<unknown, { children: ReactNode }>(functi
     };
   }, [aiPanelRef, isMobile, isOpen]);
 
+  // iOS Safari: Visual Viewport API로 가상 키보드가 올라올 때 패널 높이/위치 조정
+  // Android Chrome는 interactive-widget=resizes-content meta 태그로 처리되므로 보조적으로 동작
+  useEffect(() => {
+    if (!isMobile || !isOpen || typeof window === "undefined" || !window.visualViewport) return;
+
+    const update = () => {
+      const vv = window.visualViewport;
+      const el = mobilePanelRef.current;
+      if (!vv || !el) return;
+      // visualViewport.height: 키보드를 제외한 실제 보이는 높이
+      // visualViewport.offsetTop: 페이지 최상단으로부터의 뷰포트 오프셋 (iOS 스크롤 시 변경됨)
+      el.style.height = `${vv.height}px`;
+      el.style.top = `${vv.offsetTop}px`;
+    };
+
+    update();
+    window.visualViewport.addEventListener("resize", update);
+    window.visualViewport.addEventListener("scroll", update);
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", update);
+      window.visualViewport?.removeEventListener("scroll", update);
+    };
+  }, [isMobile, isOpen]);
+
   if (isMobile === null) {
     return <>{children}</>;
   }
@@ -80,6 +106,7 @@ export const AIPanelLayout = forwardRef<unknown, { children: ReactNode }>(functi
         <AnimatePresence initial={false}>
           {isOpen ? (
             <m.div
+              ref={mobilePanelRef}
               key="seed-ai-mobile-panel"
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
