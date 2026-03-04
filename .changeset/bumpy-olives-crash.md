@@ -1,5 +1,4 @@
 ---
-"@seed-design/stylesheet": patch
 "@seed-design/css": patch
 ---
 
