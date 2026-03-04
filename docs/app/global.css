@@ -101,3 +101,67 @@ pre, code, pre code {
   user-select: text !important;
   -webkit-user-select: text !important;
 }
+
+/* AI Panel resize handle */
+#seed-ai-panel {
+  height: 100dvh !important;
+}
+
+#seed-ai-panel > [data-separator] {
+  cursor: col-resize;
+  width: 1px;
+  background-color: var(--color-fd-border);
+  opacity: 0.6;
+  transition:
+    width 220ms cubic-bezier(0.2, 0, 0, 1),
+    opacity 220ms cubic-bezier(0.2, 0, 0, 1),
+    background-color 150ms;
+  flex-shrink: 0;
+}
+
+#seed-ai-panel > [data-separator]:hover,
+#seed-ai-panel > [data-separator][data-active] {
+  background-color: var(--color-fd-primary);
+  opacity: 0.35;
+}
+
+#seed-ai-panel[data-ai-open="false"] > [data-separator] {
+  width: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#seed-ai-panel[data-ai-transitioning="true"] #ai-panel[data-panel] {
+  transition:
+    flex-grow 220ms cubic-bezier(0.2, 0, 0, 1),
+    width 220ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.seed-docs-pane {
+  container-type: inline-size;
+  container-name: seed-docs-pane;
+}
+
+@container seed-docs-pane (max-width: 1220px) {
+  .seed-docs-pane {
+    --fd-toc-width: 0px;
+  }
+
+  .seed-docs-pane #nd-toc {
+    display: none !important;
+  }
+}
+
+#seed-ai-panel[data-ai-open="true"] #nd-docs-layout {
+  --fd-toc-width: 0px !important;
+}
+
+#seed-ai-panel[data-ai-open="true"] #nd-toc {
+  display: none !important;
+}
+
+/* Keep AI toggle only in top header, not in section sidebars */
+#nd-sidebar .seed-ai-panel-toggle,
+#nd-sidebar-mobile .seed-ai-panel-toggle {
+  display: none;
+}

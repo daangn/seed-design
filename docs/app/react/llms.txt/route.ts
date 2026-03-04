@@ -52,10 +52,6 @@ ${pageList}`;
 
 React 컴포넌트 라이브러리 문서입니다.
 
-## Quick Access
-
-- [전체 문서 (llms-full.txt)](${new URL("/react/llms-full.txt", baseUrl)}): 모든 React 문서를 하나의 파일로
-
 ## Categories
 
 ${categoryList}
