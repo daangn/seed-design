@@ -5,6 +5,9 @@ const path = require("node:path");
 const changelogFiles = process.env.CHANGELOG_FILES?.split("\n").filter(Boolean) ?? [];
 const prUrl = process.env.PR_URL;
 
+/** changeset이 자동 생성하는 노이즈 라인 접두사 목록 */
+const IGNORED_LINE_PREFIXES = ["- Updated dependencies"];
+
 /**
  * CHANGELOG.md에서 가장 최신 버전 섹션을 추출
  * @param {string} content
@@ -26,7 +29,11 @@ function extractLatestVersion(content) {
     const sectionName = match[1].trim();
     const items = match[2]
       .split("\n")
-      .filter((line) => line.startsWith("- "))
+      .filter(
+        (line) =>
+          line.startsWith("- ") &&
+          IGNORED_LINE_PREFIXES.every((prefix) => !line.startsWith(prefix)),
+      )
       // changeset 해시 제거: `- \`a1b2c3\`: 메시지` → `- 메시지`
       .map((line) => line.replace(/^- [`']?[a-f0-9]{7,}[`']?:\s*/, "- "));
 

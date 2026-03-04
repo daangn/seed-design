@@ -22,10 +22,14 @@ jobs:
       pull-requests: read
 
     steps:
+      # TODO: 테스트 후 ref 제거
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'push' && '4b9b78912e6b244df689d40f3a4a4caaa8c01a09' || github.sha }}
 
       - name: Get changed CHANGELOG files
         id: changelogs
+        if: github.event_name == 'pull_request'
         run: |
           FILES=$(gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files \
             --jq '[.[] | select(.filename | endswith("CHANGELOG.md")) | .filename] | join("\n")')
@@ -35,12 +39,28 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
+      # TODO: 테스트 후 제거 — PR #1273 (4b9b789) 기준 파일 목록 하드코딩
+      - name: "[TEST] Set test CHANGELOG files for push trigger"
+        id: test_changelogs
+        if: github.event_name == 'push'
+        run: |
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "packages/css/CHANGELOG.md" >> $GITHUB_OUTPUT
+          echo "packages/figma/CHANGELOG.md" >> $GITHUB_OUTPUT
+          echo "packages/react/CHANGELOG.md" >> $GITHUB_OUTPUT
+          echo "packages/react-headless/field-button/CHANGELOG.md" >> $GITHUB_OUTPUT
+          echo "packages/react-headless/slider/CHANGELOG.md" >> $GITHUB_OUTPUT
+          echo "packages/react-headless/toggle/CHANGELOG.md" >> $GITHUB_OUTPUT
+          echo "packages/tailwind3-plugin/CHANGELOG.md" >> $GITHUB_OUTPUT
+          echo "packages/tailwind4-theme/CHANGELOG.md" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Build Slack payload
         id: payload
         run: node .github/scripts/notify-release.js
         env:
-          CHANGELOG_FILES: ${{ steps.changelogs.outputs.files }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
+          CHANGELOG_FILES: ${{ steps.changelogs.outputs.files || steps.test_changelogs.outputs.files }}
+          PR_URL: ${{ github.event_name == 'push' && 'https://github.com/daangn/seed-design/pull/1273' || github.event.pull_request.html_url }}
 
       - name: Send Slack notification
         uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
@@ -48,6 +68,6 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
-            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            channel: ${{ secrets.SLACK_NOTI_CHANNEL_ID }}
             text: "🌱 SEED Design 새 버전이 릴리즈됐어요!"
             blocks: ${{ steps.payload.outputs.blocks }}
