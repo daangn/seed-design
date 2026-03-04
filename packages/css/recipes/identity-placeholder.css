@@ -7,7 +7,7 @@
     vertical-align: top;
     width: 100%;
     height: 100%;
-    background-color: var(--seed-color-palette-gray-400)
+    background-color: var(--seed-color-palette-gray-500)
 }
 .seed-identity-placeholder__image {
     display: block;
@@ -15,5 +15,5 @@
     height: 100%;
     object-fit: cover;
     overflow: hidden;
-    fill: #f7f8fa
+    fill: var(--seed-color-palette-static-white-alpha-800)
 }

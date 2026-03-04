@@ -1,0 +1,12 @@
+@layer seed-components {
+  .seed-article {
+    user-select: text;
+    word-break: normal;
+    overflow-wrap: break-word;
+    line-break: strict;
+  }
+
+  .seed-article:lang(ko) {
+    word-break: keep-all;
+  }
+}

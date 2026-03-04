@@ -52,6 +52,7 @@ export { vars as radio } from "./radio.mjs";
 export { vars as radiomark } from "./radiomark.mjs";
 export { vars as reactionButton } from "./reaction-button.mjs";
 export { vars as scrollFog } from "./scroll-fog.mjs";
+export { vars as segmentedControlIndicator } from "./segmented-control-indicator.mjs";
 export { vars as segmentedControlItem } from "./segmented-control-item.mjs";
 export { vars as segmentedControl } from "./segmented-control.mjs";
 export { vars as selectBoxCheckmark } from "./select-box-checkmark.mjs";

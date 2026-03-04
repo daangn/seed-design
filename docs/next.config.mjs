@@ -13,6 +13,10 @@ const config = {
     // FIXME: temporal use for static export; will remove after image optimization setup
     unoptimized: true,
   },
+  webpack: (config) => {
+    config.resolve.conditionNames = ["seed-layered", "..."];
+    return config;
+  },
 };
 
 export default withMDX(config);

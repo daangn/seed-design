@@ -3,6 +3,191 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2026.03.04
+
+Android 환경에서 테마 고정이 적용되지 않을 수 있는 문제를 수정합니다. (`[data-seed-color-mode="*-only"]`로 테마를 고정하는 경우, `color-scheme: only *;` 사용 가능한 환경에서는 `only` 키워드를 사용하도록 수정합니다.) [`0614d9c`](https://github.com/daangn/seed-design/commit/0614d9c6294a543d1b62394bc203a5fa3e874b7c)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.4](https://npmjs.com/package/@seed-design/css/v/1.2.4)
+
+---
+
+rootage에 pressed 상태로 정의된 스타일을 디바이스 환경에 따라 다르게 적용합니다. 마우스 환경에서는 hover 시, 터치 환경에서는 active 시 표시됩니다. [`23e369d`](https://github.com/daangn/seed-design/commit/23e369d3713f60b33fde0a95621442d83e7b783d)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.4](https://npmjs.com/package/@seed-design/css/v/1.2.4)
+
+---
+
+마우스/키보드 사용 환경에서 Slider의 사용성을 개선합니다. [`fe1cdb3`](https://github.com/daangn/seed-design/commit/fe1cdb37ff399d14723e3b631a30cb67aa18b8e2)
+
+- Slider `valueIndicatorTrigger`에 `"auto"` 옵션을 추가하여 마우스를 사용하는 환경에서 thumb에 hover할 때, 터치 환경에서 thumb을 누를 때 value indicator가 표시되도록 하고 `valueIndicatorTrigger` 기본값을 `"active"`에서 `"auto"`로 변경합니다.
+- Slider thumb에 focus할 때 value indicator가 표시되도록 수정합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/react-slider@1.0.2](https://npmjs.com/package/@seed-design/react-slider/v/1.0.2)
+
+---
+
+Figma Codegen 관련 개선사항을 적용합니다. [`b3b0cbd`](https://github.com/daangn/seed-design/commit/b3b0cbde4e2948584bf1320698e071de4a1690b8)
+
+- TabsTrigger, ChipTabsTrigger Codegen 시 label 값이 누락되던 문제를 수정합니다.
+- MenuSheet Codegen 시 컴포넌트 이름이 `MenuSheet`로 잘못 생성되던 문제를 `MenuSheetRoot`로 수정합니다.
+- BottomSheet Codegen 시 정적 컴포넌트 키 대신 props에서 동적으로 키를 참조하도록 수정하여 인스턴스 매칭 오류를 해결합니다.
+- 지원되지 않는 종류의 레이어를 발견하는 경우 어떤 종류인지 결과에 명시합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.3.5](https://npmjs.com/package/@seed-design/figma/v/1.3.5)
+
+---
+
+FieldButton 내부 clear button이 FieldButton 상호작용에 따른 data prop을 받지 않도록 수정합니다. [`751e952`](https://github.com/daangn/seed-design/commit/751e952cb11b9057bf24b44f2595fc8ed7c74b8c)
+
+영향받는 패키지
+- 📦 [@seed-design/react-field-button@1.0.2](https://npmjs.com/package/@seed-design/react-field-button/v/1.0.2)
+
+---
+
+List Item의 title fontWeight를 `$font-weight.medium`에서 `$font-weight.regular`로 변경합니다. [`103830e`](https://github.com/daangn/seed-design/commit/103830e4a97ec5a970fba38b35a3026c86914274)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.4](https://npmjs.com/package/@seed-design/css/v/1.2.4)
+- 📦 [@seed-design/rootage-artifacts@1.2.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.4)
+
+---
+
+`$color.stroke.focus-ring` 색상 토큰을 추가합니다. [`751e952`](https://github.com/daangn/seed-design/commit/751e952cb11b9057bf24b44f2595fc8ed7c74b8c)
+
+영향받는 패키지
+- 📦 [@seed-design/rootage-artifacts@1.2.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.4)
+- 📦 [@seed-design/tailwind3-plugin@1.1.18](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.1.18)
+- 📦 [@seed-design/tailwind4-theme@1.1.18](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.1.18)
+
+---
+
+IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다. [`77cdc0e`](https://github.com/daangn/seed-design/commit/77cdc0e9522216bfde1c5e3d8ddd05404568c7ae)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.4](https://npmjs.com/package/@seed-design/css/v/1.2.4)
+- 📦 [@seed-design/react@1.2.6](https://npmjs.com/package/@seed-design/react/v/1.2.6)
+- 📦 [@seed-design/rootage-artifacts@1.2.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.4)
+
+---
+
+Cascade Layer를 선택적으로 사용할 수 있도록 지원합니다. `seed-base` 및 `seed-components` 레이어로 감싼 상태의 SEED CSS를 사용할 수 있습니다. ([문서](https://seed-design.io/react/getting-started/styling/cascade-layers))
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.4](https://npmjs.com/package/@seed-design/css/v/1.2.4)
+
+---
+
+컴포넌트에 키보드 상호작용이 가능한 요소가 있는 경우 적절한 포커스 스타일을 갖도록 수정합니다. [`751e952`](https://github.com/daangn/seed-design/commit/751e952cb11b9057bf24b44f2595fc8ed7c74b8c)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.4](https://npmjs.com/package/@seed-design/css/v/1.2.4)
+
+---
+
+ToggleButton이 비활성화 상태에서 `aria-disabled="true"`를 갖도록 수정합니다. [`7e0728a`](https://github.com/daangn/seed-design/commit/7e0728a44eea1139261695950b9e2a0981b401e6)
+
+영향받는 패키지
+- 📦 [@seed-design/react-toggle@1.0.1](https://npmjs.com/package/@seed-design/react-toggle/v/1.0.1)
+
+---
+
+## 2026.02.24
+
+BottomSheet의 title padding을 수정합니다. [`eb390cf`](https://github.com/daangn/seed-design/commit/eb390cffbff455af5914150139f9f9cfb4f1b36b)
+
+- left 헤더 정렬 시 오른쪽 padding을 `50px` -> `56px`로 수정합니다.
+- center 헤더 정렬 시 양쪽 padding을 `60px` -> `56px`로 수정합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.3](https://npmjs.com/package/@seed-design/css/v/1.2.3)
+- 📦 [@seed-design/rootage-artifacts@1.2.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.3)
+
+---
+
+`Image.Content` (`ImageFrame` 및 `AvatarImage`)에 `loading="lazy"` 사용 시 이미지 로드가 시작되지 않는 문제를 수정합니다. [`c46d593`](https://github.com/daangn/seed-design/commit/c46d593a0e9b33ae6e0ae6e2552db74134f48175)
+
+영향받는 패키지
+- 📦 [@seed-design/react-image@0.1.1](https://npmjs.com/package/@seed-design/react-image/v/0.1.1)
+
+---
+
+Android 환경에서 온스크린 키보드가 닫힐 때 Drawer(Bottom Sheet) 높이가 정상적으로 복원되지 않는 문제를 수정합니다. [`0420c89`](https://github.com/daangn/seed-design/commit/0420c8979aee12d3717b475f20969bd8e2e2c069)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.9](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.9)
+
+---
+
+Figma Codegen 관련 개선 사항을 적용합니다. [`92f08de`](https://github.com/daangn/seed-design/commit/92f08de2ded0b8f44c835cb9105cf3712c5e7d1c)
+
+- Image Frame 컴포넌트의 React Codegen을 지원합니다.
+- OS 상단바 등 불필요한 UI 요소를 codegen 대상에서 제외합니다.
+- 너비가 Fill로 설정된 Action Button이 `flexGrow`를 갖도록 개선합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.3.4](https://npmjs.com/package/@seed-design/figma/v/1.3.4)
+
+---
+
+Slider의 Value Indicator 가시성 및 트랜지션을 개선합니다. [`7c3bbe7`](https://github.com/daangn/seed-design/commit/7c3bbe7e84dbcd0e11d3e9156b562a80a57aac7b)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.3](https://npmjs.com/package/@seed-design/css/v/1.2.3)
+- 📦 [@seed-design/rootage-artifacts@1.2.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.2.3)
+
+---
+
+- `seed-design compat` 명령어를 추가해 현재 프로젝트의 스니펫과 `@seed-design/react`, `@seed-design/css` 버전 호환성을 비대화형으로 점검할 수 있도록 개선합니다. [`50cd41e`](https://github.com/daangn/seed-design/commit/50cd41e1957f1a8315c78bf47dc9f3c228ab2b42)
+- `add`, `add-all` 실행 시 스니펫의 요구 버전과 프로젝트 버전을 semver로 비교해, 호환되지 않는 항목을 경고하도록 개선합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/cli@1.2.2](https://npmjs.com/package/@seed-design/cli/v/1.2.2)
+
+---
+
+- CLI 실패 원인 표시를 개선하고 `--verbose` 상세 진단 출력을 추가합니다. [`1af88d1`](https://github.com/daangn/seed-design/commit/1af88d1ec46c3f994525b3a99450876e9556a9ba)
+- `seed-design.json`이 없을 때 외부 명령 실행 대신 내부 초기화 로직으로 설정 파일을 생성합니다.
+- 또한 `@clack/prompts`를 v1으로 업데이트하고 `init --default`를 `--yes` 호환 alias로 유지합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/cli@1.2.2](https://npmjs.com/package/@seed-design/cli/v/1.2.2)
+
+---
+
+PullToRefresh.Root의 ref 타입을 실제 렌더링 요소인 HTMLDivElement로 수정해 잘못된 SVG ref 타입 요구를 해결했습니다.
+
+영향받는 패키지
+- 📦 [@seed-design/react@1.2.5](https://npmjs.com/package/@seed-design/react/v/1.2.5)
+
+---
+
+AppBar의 `bg` 또는 `background` 프로퍼티로 배경 색상을 조절할 수 있는 옵션을 추가합니다. (`tone="layer"`인 경우 적용) [`6db2515`](https://github.com/daangn/seed-design/commit/6db2515732523cb635eebc2c94cfa9adbfb7c14b)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.3](https://npmjs.com/package/@seed-design/css/v/1.2.3)
+- 📦 [@seed-design/stackflow@1.1.17](https://npmjs.com/package/@seed-design/stackflow/v/1.1.17)
+
+---
+
+Segmented Control pressed, selected-pressed 상태에서 stroke border 가 나타나도록 합니다. [`12789e6`](https://github.com/daangn/seed-design/commit/12789e6d95941b47270f7965d9aaab468f71ab77)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.3](https://npmjs.com/package/@seed-design/css/v/1.2.3)
+
+---
+
+AspectRatio 스타일시트의 `position: relative`와 `overflow: hidden` 선언을 React 레이어로 이동하여 CSS specificity 문제를 수정합니다. [`6fb6dc2`](https://github.com/daangn/seed-design/commit/6fb6dc21d75b89a1fb25e5f633148ecf8f4810ba)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.2.3](https://npmjs.com/package/@seed-design/css/v/1.2.3)
+- 📦 [@seed-design/react@1.2.5](https://npmjs.com/package/@seed-design/react/v/1.2.5)
+
+---
+
 ## 2026.02.09
 
 ImageFrame 내부 요소에 width, height 100%를 추가합니다 [`15010c3`](https://github.com/daangn/seed-design/commit/15010c35ad1d694bd5def5ce4281ec63ad61a29d)

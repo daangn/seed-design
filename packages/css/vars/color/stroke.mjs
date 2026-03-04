@@ -13,3 +13,4 @@ export const positiveSolid = "var(--seed-color-stroke-positive-solid)";
 export const positiveWeak = "var(--seed-color-stroke-positive-weak)";
 export const warningSolid = "var(--seed-color-stroke-warning-solid)";
 export const warningWeak = "var(--seed-color-stroke-warning-weak)";
+export const focusRing = "var(--seed-color-stroke-focus-ring)";

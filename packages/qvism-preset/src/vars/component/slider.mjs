@@ -36,7 +36,9 @@ export const vars = {
         "exitScale": "1",
         "exitOpacity": "0",
         "exitDuration": "var(--seed-duration-d4)",
-        "exitTimingFunction": "var(--seed-timing-function-easing)"
+        "exitTimingFunction": "var(--seed-timing-function-easing)",
+        "translateDuration": "var(--seed-duration-d3)",
+        "translateTimingFunction": "var(--seed-timing-function-easing)"
       },
       "valueIndicatorArrow": {
         "color": "var(--seed-color-bg-neutral-inverted)",

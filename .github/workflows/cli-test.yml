@@ -1,0 +1,23 @@
+name: Test CLI
+
+on:
+  push:
+    paths:
+      - "packages/cli/**/*"
+      - ".github/workflows/cli-test.yml"
+      - ".github/actions/setup/action.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+
+      - name: Run tests
+        run: bun test packages/cli

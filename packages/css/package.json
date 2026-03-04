@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/css",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -20,12 +20,21 @@
     "./*.css": "./*.css",
     "./base.css": "./base.css",
     "./base.min.css": "./base.min.css",
+    "./base.layered.css": "./base.layered.css",
+    "./base.layered.min.css": "./base.layered.min.css",
     "./all.css": "./all.css",
     "./all.min.css": "./all.min.css",
+    "./all.layered.css": "./all.layered.css",
+    "./all.layered.min.css": "./all.layered.min.css",
     "./recipes/*.css": "./recipes/*.css",
     "./recipes/*": {
       "types": "./recipes/*.d.ts",
-      "import": "./recipes/*.mjs"
+      "seed-layered": {
+        "import": "./recipes/*.layered.mjs"
+      },
+      "default": {
+        "import": "./recipes/*.mjs"
+      }
     },
     "./vars": {
       "types": "./vars/index.d.ts",

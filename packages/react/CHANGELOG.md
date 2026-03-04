@@ -1,5 +1,28 @@
 # @seed-design/react
 
+## 1.2.6
+
+### Patch Changes
+
+- 77cdc0e: IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+- Updated dependencies [fe1cdb3]
+- Updated dependencies [751e952]
+- Updated dependencies [7e0728a]
+  - @seed-design/react-slider@1.0.2
+  - @seed-design/react-field-button@1.0.2
+  - @seed-design/react-toggle@1.0.1
+
+## 1.2.5
+
+### Patch Changes
+
+- 434de88: PullToRefresh.Root의 ref 타입을 실제 렌더링 요소인 HTMLDivElement로 수정해 잘못된 SVG ref 타입 요구를 해결했습니다.
+- 6fb6dc2: AspectRatio 스타일시트의 `position: relative`와 `overflow: hidden` 선언을 React 레이어로 이동하여 CSS specificity 문제를 수정합니다.
+- Updated dependencies [c46d593]
+- Updated dependencies [0420c89]
+  - @seed-design/react-image@0.1.1
+  - @seed-design/react-drawer@1.0.9
+
 ## 1.2.4
 
 ### Patch Changes

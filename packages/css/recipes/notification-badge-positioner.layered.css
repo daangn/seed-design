@@ -1,0 +1,35 @@
+@layer seed-components {
+  .seed-notification-badge-positioner {
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+    position: absolute;
+  }
+
+  .seed-notification-badge-positioner--attach_icon {
+    bottom: auto;
+    left: auto;
+    translate: 100% -100%;
+  }
+
+  .seed-notification-badge-positioner--attach_text {
+    bottom: auto;
+    left: auto;
+    translate: 100%;
+  }
+
+  .seed-notification-badge-positioner--size_large-attach_icon {
+    top: 14px;
+    right: 8px;
+  }
+
+  .seed-notification-badge-positioner--size_small-attach_icon {
+    top: 7px;
+    right: 7px;
+  }
+
+  .seed-notification-badge-positioner--size_large-attach_text, .seed-notification-badge-positioner--size_small-attach_text {
+    right: -2px;
+  }
+}

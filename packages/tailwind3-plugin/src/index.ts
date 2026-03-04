@@ -222,6 +222,7 @@ export default plugin(
   "stroke-positive-weak": "var(--seed-color-stroke-positive-weak)",
   "stroke-warning-solid": "var(--seed-color-stroke-warning-solid)",
   "stroke-warning-weak": "var(--seed-color-stroke-warning-weak)",
+  "stroke-focus-ring": "var(--seed-color-stroke-focus-ring)",
   "manner-temp-l1-bg": "var(--seed-color-manner-temp-l1-bg)",
   "manner-temp-l1-text": "var(--seed-color-manner-temp-l1-text)",
   "manner-temp-l10-bg": "var(--seed-color-manner-temp-l10-bg)",

@@ -16,7 +16,7 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
 
   return new Response(await getLLMText(page, "lynx"), {
     headers: {
-      "Content-Type": "text/markdown",
+      "Content-Type": "text/markdown; charset=utf-8",
     },
   });
 }

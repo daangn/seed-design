@@ -43,6 +43,18 @@ export function getGitHubSourceUrl(section: Section, pagePath: string): string {
   return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/docs/content/${config.contentDir}/${encodedPagePath}`;
 }
 
+/**
+ * @description section 과 slugs 를 받아서 llms.txt 파일의 경로를 반환합니다.
+ * @example /docs -> /docs/llms.txt
+ * @example /docs/components/button -> /llms/docs/components/button.txt
+ */
+export function getLLMMarkdownUrl(section: Section, slugs: string[]): string {
+  const config = sectionConfigs[section];
+  if (slugs.length === 0) return `${config.baseUrl}/llms.txt`;
+  const slugsWithExt = slugs.map((s, i) => (i === slugs.length - 1 ? `${s}.txt` : s));
+  return `/llms/${section}/${slugsWithExt.join("/")}`;
+}
+
 export function shouldIncludeInFullText(section: Section, pagePath: string): boolean {
   const config = sectionConfigs[section];
   const excludePaths = config.excludePaths ?? [];

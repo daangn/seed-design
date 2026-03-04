@@ -1,6 +1,11 @@
 import { chipTablist as vars, chipTab as triggerVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, disabled, not, pseudo, selected } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const chipTabs = defineSlotRecipe({
   name: "chip-tabs",
@@ -65,7 +70,10 @@ const chipTabs = defineSlotRecipe({
       paddingBottom: triggerVars.base.enabled.root.paddingY,
       fontWeight: triggerVars.base.enabled.label.fontWeight,
 
-      transition: `background-color ${triggerVars.base.enabled.root.colorDuration} ${triggerVars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${triggerVars.base.enabled.root.colorDuration} ${triggerVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
   },
   variants: {
@@ -105,11 +113,11 @@ const chipTabs = defineSlotRecipe({
             color: triggerVars.variantNeutralSolid.selected.label.color,
           },
 
-          [pseudo(active)]: {
+          [pseudo(engaged)]: {
             backgroundColor: triggerVars.variantNeutralSolid.enabledPressed.root.color,
           },
 
-          [pseudo(selected, active)]: {
+          [pseudo(selected, engaged)]: {
             backgroundColor: triggerVars.variantNeutralSolid.selectedPressed.root.color,
           },
 
@@ -128,7 +136,7 @@ const chipTabs = defineSlotRecipe({
       neutralOutline: {
         trigger: {
           backgroundColor: triggerVars.variantNeutralOutline.enabled.root.color,
-          border: `1px solid ${triggerVars.variantNeutralOutline.enabled.root.stroke}`,
+          border: `${triggerVars.variantNeutralOutline.enabled.root.strokeWidth} solid ${triggerVars.variantNeutralOutline.enabled.root.strokeColor}`,
 
           color: triggerVars.variantNeutralOutline.enabled.label.color,
 
@@ -138,11 +146,11 @@ const chipTabs = defineSlotRecipe({
             color: triggerVars.variantNeutralOutline.selected.label.color,
           },
 
-          [pseudo(active)]: {
+          [pseudo(engaged)]: {
             backgroundColor: triggerVars.variantNeutralOutline.enabledPressed.root.color,
           },
 
-          [pseudo(selected, active)]: {
+          [pseudo(selected, engaged)]: {
             backgroundColor: triggerVars.variantNeutralOutline.selectedPressed.root.color,
           },
 
@@ -169,11 +177,11 @@ const chipTabs = defineSlotRecipe({
             color: triggerVars.variantBrandSolid.selected.label.color,
           },
 
-          [pseudo(active)]: {
+          [pseudo(engaged)]: {
             backgroundColor: triggerVars.variantBrandSolid.enabledPressed.root.color,
           },
 
-          [pseudo(selected, active)]: {
+          [pseudo(selected, engaged)]: {
             backgroundColor: triggerVars.variantBrandSolid.selectedPressed.root.color,
           },
 

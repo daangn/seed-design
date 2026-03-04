@@ -32,8 +32,11 @@
             "color": {
               "type": "color"
             },
-            "stroke": {
+            "strokeColor": {
               "type": "color"
+            },
+            "strokeWidth": {
+              "type": "dimension"
             }
           }
         },
@@ -293,9 +296,16 @@
                   "type": "color",
                   "value": "$color.bg.transparent"
                 },
-                "stroke": {
+                "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
                 }
               },
               "label": {

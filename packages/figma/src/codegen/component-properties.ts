@@ -110,6 +110,26 @@ export type HelpBubbleProperties = InferComponentDefinition<
   typeof sets.componentHelpBubble.componentPropertyDefinitions
 >;
 
+export type IdentityPlaceholderProperties = InferComponentDefinition<
+  typeof sets.privateComponentIdentityPlaceholder.componentPropertyDefinitions
+>;
+
+export type ImageFrameProperties = InferComponentDefinition<
+  typeof sets.componentImageFrame.componentPropertyDefinitions
+>;
+
+export type ImageFrameIconProperties = InferComponentDefinition<
+  typeof components.componentImageFrameIcon.componentPropertyDefinitions
+>;
+
+export type ImageFrameOverlayIndicatorProperties = InferComponentDefinition<
+  typeof components.componentImageFrameOverlayIndicator.componentPropertyDefinitions
+>;
+
+export type ImageFrameReactionButtonProperties = InferComponentDefinition<
+  typeof sets.componentImageFrameReactionButton.componentPropertyDefinitions
+>;
+
 export type PageBannerProperties = InferComponentDefinition<
   typeof sets.componentPageBanner.componentPropertyDefinitions
 >;
