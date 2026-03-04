@@ -14,7 +14,6 @@ export {
   MenuSheetItemContent as ItemContent,
   MenuSheetItemLabel as ItemLabel,
   MenuSheetItemDescription as ItemDescription,
-  MenuSheetCloseButton as CloseButton,
   type MenuSheetBackdropProps as BackdropProps,
   type MenuSheetPositionerProps as PositionerProps,
   type MenuSheetContentProps as ContentProps,
@@ -30,5 +29,4 @@ export {
   type MenuSheetItemContentProps as ItemContentProps,
   type MenuSheetItemLabelProps as ItemLabelProps,
   type MenuSheetItemDescriptionProps as ItemDescriptionProps,
-  type MenuSheetCloseButtonProps as CloseButtonProps,
 } from "./MenuSheet";
