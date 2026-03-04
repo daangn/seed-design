@@ -30,6 +30,7 @@ export const IdentityPlaceholderRoot = React.forwardRef<
     </PropsProvider>
   );
 });
+IdentityPlaceholderRoot.displayName = "IdentityPlaceholderRoot";
 
 export interface IdentityPlaceholderImageProps extends React.SVGProps<SVGSVGElement> {}
 
