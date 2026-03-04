@@ -38,9 +38,9 @@ export async function ColorGrid(props: ColorGridProps) {
     <div className="flex flex-col gap-1 w-full">
       <div className="flex gap-1 justify-center">
         <div className="flex-1" />
-        {rows[0].tokens.map((_, i) => (
+        {rows[0].tokens.map((token, i) => (
           <div key={i} className="flex-1 text-xs text-center text-fd-muted-foreground">
-            {i * 100}
+            {token.identifier.split("-").at(-1)}
           </div>
         ))}
       </div>
