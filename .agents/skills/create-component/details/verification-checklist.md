@@ -9,7 +9,7 @@
 - [ ] 문서가 실제 API와 일치하는가?
 - [ ] 예제가 동작하는가?
 - [ ] Storybook 스토리가 테마별로 정상인가?
-- [ ] `bun generate:registry` 실행했는가?
+- [ ] `bun --filter @seed-design/docs generate:registry` 실행했는가?
 - [ ] 타입 에러가 없는가? (`bun typecheck`)
 - [ ] Visual Test 통과했는가? (Agent Browser)
 

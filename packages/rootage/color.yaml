@@ -734,6 +734,10 @@ data:
       values:
         theme-light: $color.palette.yellow-300
         theme-dark: $color.palette.yellow-300
+    $color.stroke.focus-ring:
+      values:
+        theme-light: $color.palette.blue-600
+        theme-dark: $color.palette.blue-600
     $color.manner-temp.l1.bg:
       values:
         theme-light: "#f1f2f3"

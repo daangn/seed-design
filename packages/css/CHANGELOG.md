@@ -1,5 +1,19 @@
 # @seed-design/css
 
+## 1.2.3
+
+### Patch Changes
+
+- eb390cf: BottomSheet의 title padding을 수정합니다.
+
+  - left 헤더 정렬 시 오른쪽 padding을 `50px` -> `56px`로 수정합니다.
+  - center 헤더 정렬 시 양쪽 padding을 `60px` -> `56px`로 수정합니다.
+
+- 7c3bbe7: Slider의 Value Indicator 가시성 및 트랜지션을 개선합니다.
+- 6db2515: AppBar의 `bg` 또는 `background` 프로퍼티로 배경 색상을 조절할 수 있는 옵션을 추가합니다. (`tone="layer"`인 경우 적용)
+- 12789e6: Segmented Control pressed, selected-pressed 상태에서 stroke border 가 나타나도록 합니다.
+- 6fb6dc2: AspectRatio 스타일시트의 `position: relative`와 `overflow: hidden` 선언을 React 레이어로 이동하여 CSS specificity 문제를 수정합니다.
+
 ## 1.2.2
 
 ### Patch Changes

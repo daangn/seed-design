@@ -16,7 +16,7 @@
     "declaration": true,
     "declarationMap": true,
 
-    "types": ["@figma/plugin-typings"],
+    "types": ["@figma/plugin-typings", "bun"],
 
     "outDir": "lib",
 

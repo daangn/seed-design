@@ -2,7 +2,7 @@ declare interface IdentityPlaceholderVariant {
   /**
   * @default "person"
   */
-  identity: "person";
+  identity: "person" | "business";
 }
 
 declare type IdentityPlaceholderVariantMap = {

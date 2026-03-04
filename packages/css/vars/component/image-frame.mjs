@@ -1,4 +1,11 @@
 export const vars = {
+  "base": {
+    "enabled": {
+      "root": {
+        "padding": "var(--seed-dimension-x1_5)"
+      }
+    }
+  },
   "strokeTrue": {
     "enabled": {
       "root": {
@@ -7,13 +14,7 @@ export const vars = {
       }
     }
   },
-  "strokeFalse": {
-    "enabled": {
-      "root": {
-        "strokeWidth": "0px"
-      }
-    }
-  },
+  "strokeFalse": {},
   "roundedTrue": {
     "enabled": {
       "root": {
@@ -21,11 +22,5 @@ export const vars = {
       }
     }
   },
-  "roundedFalse": {
-    "enabled": {
-      "root": {
-        "cornerRadius": "0px"
-      }
-    }
-  }
+  "roundedFalse": {}
 }

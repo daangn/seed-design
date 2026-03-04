@@ -37,7 +37,7 @@ const GENERATED_FILE_PATTERNS: Array<{
   {
     pattern: /docs\/registry\/.*\.json$/,
     source: "docs/registry/*.ts",
-    regenerateCommand: "bun generate:registry",
+    regenerateCommand: "bun --filter @seed-design/docs generate:registry",
   },
   {
     pattern: /.*\/dist\/.*/,

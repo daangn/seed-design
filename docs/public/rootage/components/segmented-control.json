@@ -21,28 +21,6 @@
               "type": "color"
             }
           }
-        },
-        "indicator": {
-          "properties": {
-            "color": {
-              "type": "color"
-            },
-            "cornerRadius": {
-              "type": "dimension"
-            },
-            "strokeWidth": {
-              "type": "dimension"
-            },
-            "strokeColor": {
-              "type": "color"
-            },
-            "transformDuration": {
-              "type": "duration"
-            },
-            "transformTimingFunction": {
-              "type": "cubicBezier"
-            }
-          }
         }
       },
       "variants": {}
@@ -68,35 +46,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-weak-alpha"
-                }
-              },
-              "indicator": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-00"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-muted"
-                },
-                "transformDuration": {
-                  "type": "duration",
-                  "value": "$duration.d4"
-                },
-                "transformTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
                 }
               }
             }

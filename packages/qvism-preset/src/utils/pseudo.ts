@@ -2,6 +2,8 @@ export const focus = ":is(:focus, [data-focus])";
 
 export const focusVisible = ":is(:focus-visible, [data-focus-visible])";
 
+export const hover = ":is(:hover, [data-hover])";
+
 export const active = ":is(:active, [data-active])";
 
 export const disabled = ":is(:disabled, [disabled], [data-disabled])";
@@ -22,6 +24,8 @@ export const open = ':is([data-state="open"], [data-open])';
 export const hidden = ":is([hidden], [data-hidden])";
 
 export const invalid = ":is(:invalid, [data-invalid])";
+
+export const engaged = ":--engaged";
 
 export const loading = "[data-loading]";
 

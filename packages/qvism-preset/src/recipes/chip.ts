@@ -2,7 +2,8 @@ import { chip as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { active, checked, disabled, focus, not, pseudo } from "../utils/pseudo";
+import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
 
 const chip = defineSlotRecipe({
   name: "chip",
@@ -28,11 +29,10 @@ const chip = defineSlotRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
       transitionDuration: vars.base.enabled.root.colorDuration,
       transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
-      transitionProperty: "background-color, color, border-color, box-shadow",
+      transitionProperty: "background-color, color, border-color, box-shadow, outline-color",
 
-      [pseudo(focus)]: {
-        outline: "none",
-      },
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
       [pseudo(disabled)]: {
         cursor: "not-allowed",
       },
@@ -81,10 +81,10 @@ const chip = defineSlotRecipe({
               color: vars.variantSolid.selected.icon.color,
             }),
           },
-          [pseudo(active, not(disabled))]: {
+          [pseudo(engaged, not(disabled))]: {
             background: vars.variantSolid.pressed.root.color,
           },
-          [pseudo(checked, active, not(disabled))]: {
+          [pseudo(checked, engaged, not(disabled))]: {
             background: vars.variantSolid.selectedPressed.root.color,
           },
           [pseudo(disabled)]: {
@@ -114,7 +114,7 @@ const chip = defineSlotRecipe({
             color: vars.variantOutlineStrong.enabled.icon.color,
           }),
 
-          [pseudo(active, not(disabled))]: {
+          [pseudo(engaged, not(disabled))]: {
             background: vars.variantOutlineStrong.pressed.root.color,
           },
           [pseudo(checked)]: {
@@ -123,7 +123,7 @@ const chip = defineSlotRecipe({
               color: vars.variantOutlineStrong.selected.icon.color,
             }),
           },
-          [pseudo(checked, active, not(disabled))]: {
+          [pseudo(checked, engaged, not(disabled))]: {
             background: vars.variantOutlineStrong.selectedPressed.root.color,
           },
           [pseudo(disabled)]: {
@@ -153,14 +153,14 @@ const chip = defineSlotRecipe({
             color: vars.variantOutlineWeak.enabled.icon.color,
           }),
 
-          [pseudo(active, not(disabled))]: {
+          [pseudo(engaged, not(disabled))]: {
             background: vars.variantOutlineWeak.pressed.root.color,
           },
           [pseudo(checked)]: {
             background: vars.variantOutlineWeak.selected.root.color,
             boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.selected.root.strokeColor}`,
           },
-          [pseudo(checked, active, not(disabled))]: {
+          [pseudo(checked, engaged, not(disabled))]: {
             background: vars.variantOutlineWeak.selectedPressed.root.color,
           },
           [pseudo(disabled)]: {

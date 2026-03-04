@@ -134,6 +134,17 @@
     right: calc((28px - 44px) / 2);
     bottom: calc((28px - 44px) / 2);
     left: calc((28px - 44px) / 2);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+}
+.seed-bottom-sheet__closeButton:is(:focus, [data-focus]) {
+    outline: none;
+}
+.seed-bottom-sheet__closeButton:is(:focus-visible, [data-focus-visible]):after {
+    border-radius: var(--seed-radius-r1);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-bottom-sheet__header--headerAlign_left {
     justify-content: flex-start;
