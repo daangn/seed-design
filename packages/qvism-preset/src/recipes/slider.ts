@@ -185,6 +185,10 @@ const slider = defineSlotRecipe({
       top: "50%",
 
       boxSizing: "border-box",
+
+      transition: `left ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}, right ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}`,
+      willChange: "left, right",
+
       background: vars.base.enabled.valueIndicatorRoot.color,
 
       paddingLeft: vars.base.enabled.valueIndicatorRoot.paddingX,
@@ -264,6 +268,10 @@ const slider = defineSlotRecipe({
         }),
       },
 
+      [pseudo(dragging)]: {
+        transition: "none",
+      },
+
       // Prevent animation when indicator has never been shown
       [pseudo(not(valueIndicatorShown), not("[data-indicator-ever-shown]"))]: {
         animationDuration: "0s",
@@ -277,6 +285,9 @@ const slider = defineSlotRecipe({
       position: "absolute",
       top: "100%",
 
+      transition: `left ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}, right ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}`,
+      willChange: "left, right",
+
       // Center horizontally with offset to align with thumb
       [pseudo("[data-dir='ltr']")]: {
         left: "calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)))",
@@ -286,6 +297,10 @@ const slider = defineSlotRecipe({
       [pseudo("[data-dir='rtl']")]: {
         right: "calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)))",
         transform: "translateX(50%)",
+      },
+
+      [pseudo(dragging)]: {
+        transition: "none",
       },
     },
     valueIndicatorArrowTip: {

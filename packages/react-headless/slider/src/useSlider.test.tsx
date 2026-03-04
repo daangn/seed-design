@@ -2935,4 +2935,108 @@ describe("useSlider", () => {
       expect(indicator).toHaveAttribute("data-indicator-ever-shown");
     });
   });
+
+  describe("Value Indicator - Keyboard Transition Contract", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("value indicator does not have data-dragging during keyboard adjustment", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      act(() => thumb.focus());
+
+      await user.keyboard("{ArrowRight}");
+
+      // Value should have changed
+      expect(thumb).toHaveAttribute("aria-valuenow", "51");
+
+      // Indicator should be shown (via focus-visible from keyboard)
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // data-dragging should NOT be present → CSS transition applies for smooth movement
+      expect(indicator).not.toHaveAttribute("data-dragging");
+    });
+
+    it("value indicator has data-dragging during pointer drag", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Start dragging on thumb
+      await user.pointer([
+        { target: thumb, coords: { clientX: 50, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      // Move during drag
+      await user.pointer([{ target: root, coords: { clientX: 60, clientY: 5 } }]);
+
+      // Indicator should be shown
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // data-dragging should be present → CSS disables transition for instant positioning
+      expect(indicator).toHaveAttribute("data-dragging");
+
+      // Release
+      await user.pointer([
+        { target: root, coords: { clientX: 60, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+    });
+  });
 });
