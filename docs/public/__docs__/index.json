@@ -14,21 +14,29 @@
               "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
               "docUrl": "/docs/components/action-button",
               "snippetKey": "ui:action-button",
-              "snippetPath": "action-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "action-button.tsx"
+                }
+              ]
             },
             {
               "id": "action-chip",
               "title": "Action Chip",
-              "docUrl": "/docs/components/action-chip",
-              "deprecated": true
+              "docUrl": "/docs/components/action-chip"
             },
             {
               "id": "action-sheet",
               "title": "Action Sheet",
               "docUrl": "/docs/components/action-sheet",
-              "deprecated": true,
               "snippetKey": "ui:action-sheet",
-              "snippetPath": "action-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "action-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "alert-dialog",
@@ -36,7 +44,12 @@
               "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
               "docUrl": "/docs/components/alert-dialog",
               "snippetKey": "ui:alert-dialog",
-              "snippetPath": "alert-dialog.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "alert-dialog.tsx"
+                }
+              ]
             },
             {
               "id": "avatar",
@@ -44,7 +57,12 @@
               "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
               "docUrl": "/docs/components/avatar",
               "snippetKey": "ui:avatar",
-              "snippetPath": "avatar.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "avatar.tsx"
+                }
+              ]
             },
             {
               "id": "badge",
@@ -64,7 +82,12 @@
               "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
               "docUrl": "/docs/components/bottom-sheet",
               "snippetKey": "ui:bottom-sheet",
-              "snippetPath": "bottom-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "bottom-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "callout",
@@ -72,7 +95,12 @@
               "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
               "docUrl": "/docs/components/callout",
               "snippetKey": "ui:callout",
-              "snippetPath": "callout.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "callout.tsx"
+                }
+              ]
             },
             {
               "id": "checkbox",
@@ -80,7 +108,12 @@
               "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
               "docUrl": "/docs/components/checkbox",
               "snippetKey": "ui:checkbox",
-              "snippetPath": "checkbox.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "checkbox.tsx"
+                }
+              ]
             },
             {
               "id": "chip",
@@ -88,7 +121,12 @@
               "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
               "docUrl": "/docs/components/chip",
               "snippetKey": "ui:chip",
-              "snippetPath": "chip.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "chip.tsx"
+                }
+              ]
             },
             {
               "id": "components",
@@ -102,15 +140,24 @@
               "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
               "docUrl": "/docs/components/contextual-floating-button",
               "snippetKey": "ui:contextual-floating-button",
-              "snippetPath": "contextual-floating-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "contextual-floating-button.tsx"
+                }
+              ]
             },
             {
               "id": "control-chip",
               "title": "Control Chip",
               "docUrl": "/docs/components/control-chip",
-              "deprecated": true,
               "snippetKey": "ui:control-chip",
-              "snippetPath": "control-chip.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "control-chip.tsx"
+                }
+              ]
             },
             {
               "id": "divider",
@@ -123,29 +170,35 @@
               "title": "Error State",
               "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
               "docUrl": "/docs/components/error-state",
-              "deprecated": true,
               "snippetKey": "ui:error-state",
-              "snippetPath": "error-state.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "error-state.tsx"
+                }
+              ]
             },
             {
               "id": "extended-action-sheet",
               "title": "Extended Action Sheet",
               "docUrl": "/docs/components/extended-action-sheet",
-              "deprecated": true,
               "snippetKey": "ui:extended-action-sheet",
-              "snippetPath": "extended-action-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "extended-action-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "extended-fab",
               "title": "Extended FAB",
-              "docUrl": "/docs/components/extended-fab",
-              "deprecated": true
+              "docUrl": "/docs/components/extended-fab"
             },
             {
               "id": "fab",
               "title": "FAB",
-              "docUrl": "/docs/components/fab",
-              "deprecated": true
+              "docUrl": "/docs/components/fab"
             },
             {
               "id": "field",
@@ -159,7 +212,12 @@
               "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
               "docUrl": "/docs/components/floating-action-button",
               "snippetKey": "ui:floating-action-button",
-              "snippetPath": "floating-action-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "floating-action-button.tsx"
+                }
+              ]
             },
             {
               "id": "help-bubble",
@@ -167,7 +225,12 @@
               "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
               "docUrl": "/docs/components/help-bubble",
               "snippetKey": "ui:help-bubble",
-              "snippetPath": "help-bubble.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "help-bubble.tsx"
+                }
+              ]
             },
             {
               "id": "image-frame",
@@ -179,9 +242,13 @@
               "id": "inline-banner",
               "title": "Inline Banner",
               "docUrl": "/docs/components/inline-banner",
-              "deprecated": true,
               "snippetKey": "ui:inline-banner",
-              "snippetPath": "inline-banner.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "inline-banner.tsx"
+                }
+              ]
             },
             {
               "id": "input-button",
@@ -192,8 +259,7 @@
             {
               "id": "link-content",
               "title": "Link Content",
-              "docUrl": "/docs/components/link-content",
-              "deprecated": true
+              "docUrl": "/docs/components/link-content"
             },
             {
               "id": "list",
@@ -201,7 +267,16 @@
               "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
               "docUrl": "/docs/components/list",
               "snippetKey": "ui:list",
-              "snippetPath": "list.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "list.tsx"
+                },
+                {
+                  "label": "react",
+                  "path": "list-header.tsx"
+                }
+              ]
             },
             {
               "id": "manner-temp",
@@ -209,7 +284,12 @@
               "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
               "docUrl": "/docs/components/manner-temp",
               "snippetKey": "ui:manner-temp",
-              "snippetPath": "manner-temp.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "manner-temp.tsx"
+                }
+              ]
             },
             {
               "id": "menu-sheet",
@@ -217,7 +297,12 @@
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
               "docUrl": "/docs/components/menu-sheet",
               "snippetKey": "ui:menu-sheet",
-              "snippetPath": "menu-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "notification-badge",
@@ -231,7 +316,12 @@
               "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
               "docUrl": "/docs/components/page-banner",
               "snippetKey": "ui:page-banner",
-              "snippetPath": "page-banner.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "page-banner.tsx"
+                }
+              ]
             },
             {
               "id": "progress-circle",
@@ -239,7 +329,12 @@
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
               "docUrl": "/docs/components/progress-circle",
               "snippetKey": "ui:progress-circle",
-              "snippetPath": "progress-circle.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "progress-circle.tsx"
+                }
+              ]
             },
             {
               "id": "radio",
@@ -253,7 +348,12 @@
               "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
               "docUrl": "/docs/components/reaction-button",
               "snippetKey": "ui:reaction-button",
-              "snippetPath": "reaction-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "reaction-button.tsx"
+                }
+              ]
             },
             {
               "id": "result-section",
@@ -261,7 +361,12 @@
               "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
               "docUrl": "/docs/components/result-section",
               "snippetKey": "ui:result-section",
-              "snippetPath": "result-section.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "result-section.tsx"
+                }
+              ]
             },
             {
               "id": "scroll-fog",
@@ -275,7 +380,12 @@
               "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
               "docUrl": "/docs/components/segmented-control",
               "snippetKey": "ui:segmented-control",
-              "snippetPath": "segmented-control.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "segmented-control.tsx"
+                }
+              ]
             },
             {
               "id": "select-box",
@@ -283,7 +393,12 @@
               "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
               "docUrl": "/docs/components/select-box",
               "snippetKey": "ui:select-box",
-              "snippetPath": "select-box.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "select-box.tsx"
+                }
+              ]
             },
             {
               "id": "skeleton",
@@ -297,7 +412,12 @@
               "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
               "docUrl": "/docs/components/slider",
               "snippetKey": "ui:slider",
-              "snippetPath": "slider.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "slider.tsx"
+                }
+              ]
             },
             {
               "id": "snackbar",
@@ -305,7 +425,12 @@
               "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
               "docUrl": "/docs/components/snackbar",
               "snippetKey": "ui:snackbar",
-              "snippetPath": "snackbar.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "snackbar.tsx"
+                }
+              ]
             },
             {
               "id": "switch",
@@ -313,7 +438,12 @@
               "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
               "docUrl": "/docs/components/switch",
               "snippetKey": "ui:switch",
-              "snippetPath": "switch.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "switch.tsx"
+                }
+              ]
             },
             {
               "id": "tabs",
@@ -321,7 +451,12 @@
               "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
               "docUrl": "/docs/components/tabs",
               "snippetKey": "ui:tabs",
-              "snippetPath": "tabs.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "tabs.tsx"
+                }
+              ]
             },
             {
               "id": "tag-group",
@@ -329,7 +464,12 @@
               "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
               "docUrl": "/docs/components/tag-group",
               "snippetKey": "ui:tag-group",
-              "snippetPath": "tag-group.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "tag-group.tsx"
+                }
+              ]
             },
             {
               "id": "text-input",
@@ -557,7 +697,12 @@
               "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
               "docUrl": "/react/components/action-button",
               "snippetKey": "ui:action-button",
-              "snippetPath": "action-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "action-button.tsx"
+                }
+              ]
             },
             {
               "id": "action-chip",
@@ -569,7 +714,12 @@
               "title": "Action Sheet",
               "docUrl": "/react/components/action-sheet",
               "snippetKey": "ui:action-sheet",
-              "snippetPath": "action-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "action-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "alert-dialog",
@@ -577,7 +727,12 @@
               "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
               "docUrl": "/react/components/alert-dialog",
               "snippetKey": "ui:alert-dialog",
-              "snippetPath": "alert-dialog.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "alert-dialog.tsx"
+                }
+              ]
             },
             {
               "id": "article",
@@ -597,7 +752,12 @@
               "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
               "docUrl": "/react/components/avatar",
               "snippetKey": "ui:avatar",
-              "snippetPath": "avatar.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "avatar.tsx"
+                }
+              ]
             },
             {
               "id": "badge",
@@ -611,7 +771,12 @@
               "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
               "docUrl": "/react/components/bottom-sheet",
               "snippetKey": "ui:bottom-sheet",
-              "snippetPath": "bottom-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "bottom-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "box",
@@ -625,7 +790,12 @@
               "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
               "docUrl": "/react/components/callout",
               "snippetKey": "ui:callout",
-              "snippetPath": "callout.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "callout.tsx"
+                }
+              ]
             },
             {
               "id": "checkbox",
@@ -633,7 +803,12 @@
               "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
               "docUrl": "/react/components/checkbox",
               "snippetKey": "ui:checkbox",
-              "snippetPath": "checkbox.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "checkbox.tsx"
+                }
+              ]
             },
             {
               "id": "chip",
@@ -641,7 +816,12 @@
               "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
               "docUrl": "/react/components/chip",
               "snippetKey": "ui:chip",
-              "snippetPath": "chip.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "chip.tsx"
+                }
+              ]
             },
             {
               "id": "chip-tabs",
@@ -649,14 +829,18 @@
               "description": "Chip 형태로 표현된 탭 컴포넌트입니다. 카테고리나 필터를 선택하여 콘텐츠를 전환할 때 사용됩니다.",
               "docUrl": "/react/components/chip-tabs",
               "snippetKey": "ui:chip-tabs",
-              "snippetPath": "chip-tabs.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "chip-tabs.tsx"
+                }
+              ]
             },
             {
               "id": "columns",
               "title": "Columns",
               "description": "여러 열로 구성된 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/columns",
-              "deprecated": true
+              "docUrl": "/react/components/columns"
             },
             {
               "id": "composition",
@@ -676,14 +860,24 @@
               "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
               "docUrl": "/react/components/contextual-floating-button",
               "snippetKey": "ui:contextual-floating-button",
-              "snippetPath": "contextual-floating-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "contextual-floating-button.tsx"
+                }
+              ]
             },
             {
               "id": "control-chip",
               "title": "Control Chip",
               "docUrl": "/react/components/control-chip",
               "snippetKey": "ui:control-chip",
-              "snippetPath": "control-chip.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "control-chip.tsx"
+                }
+              ]
             },
             {
               "id": "divider",
@@ -696,16 +890,25 @@
               "title": "Error State",
               "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
               "docUrl": "/react/components/error-state",
-              "deprecated": true,
               "snippetKey": "ui:error-state",
-              "snippetPath": "error-state.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "error-state.tsx"
+                }
+              ]
             },
             {
               "id": "extended-action-sheet",
               "title": "Extended Action Sheet",
               "docUrl": "/react/components/extended-action-sheet",
               "snippetKey": "ui:extended-action-sheet",
-              "snippetPath": "extended-action-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "extended-action-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "extended-fab",
@@ -723,7 +926,12 @@
               "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
               "docUrl": "/react/components/field-button",
               "snippetKey": "ui:field-button",
-              "snippetPath": "field-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "field-button.tsx"
+                }
+              ]
             },
             {
               "id": "flex",
@@ -743,7 +951,12 @@
               "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
               "docUrl": "/react/components/floating-action-button",
               "snippetKey": "ui:floating-action-button",
-              "snippetPath": "floating-action-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "floating-action-button.tsx"
+                }
+              ]
             },
             {
               "id": "grid",
@@ -763,7 +976,12 @@
               "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
               "docUrl": "/react/components/help-bubble",
               "snippetKey": "ui:help-bubble",
-              "snippetPath": "help-bubble.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "help-bubble.tsx"
+                }
+              ]
             },
             {
               "id": "identity-placeholder",
@@ -771,7 +989,12 @@
               "description": "사용자 정보가 없거나 로딩 중일 때 표시되는 플레이스홀더 컴포넌트입니다. 프로필 이미지와 이름 영역을 일관되게 표현할 때 사용됩니다.",
               "docUrl": "/react/components/identity-placeholder",
               "snippetKey": "ui:identity-placeholder",
-              "snippetPath": "identity-placeholder.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "identity-placeholder.tsx"
+                }
+              ]
             },
             {
               "id": "image-frame",
@@ -783,15 +1006,19 @@
               "id": "inline",
               "title": "Inline",
               "description": "인라인 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/inline",
-              "deprecated": true
+              "docUrl": "/react/components/inline"
             },
             {
               "id": "inline-banner",
               "title": "Inline Banner",
               "docUrl": "/react/components/inline-banner",
               "snippetKey": "ui:inline-banner",
-              "snippetPath": "inline-banner.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "inline-banner.tsx"
+                }
+              ]
             },
             {
               "id": "library",
@@ -810,7 +1037,16 @@
               "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
               "docUrl": "/react/components/list",
               "snippetKey": "ui:list",
-              "snippetPath": "list.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "list.tsx"
+                },
+                {
+                  "label": "react",
+                  "path": "list-header.tsx"
+                }
+              ]
             },
             {
               "id": "manner-temp",
@@ -818,7 +1054,12 @@
               "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
               "docUrl": "/react/components/manner-temp",
               "snippetKey": "ui:manner-temp",
-              "snippetPath": "manner-temp.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "manner-temp.tsx"
+                }
+              ]
             },
             {
               "id": "manner-temp-badge",
@@ -826,7 +1067,12 @@
               "description": "매너 온도를 배지 형태로 표현하는 컴포넌트입니다. 콤팩트한 공간에서 사용자의 매너 온도 레벨을 간단히 표시할 때 사용됩니다.",
               "docUrl": "/react/components/manner-temp-badge",
               "snippetKey": "ui:manner-temp-badge",
-              "snippetPath": "manner-temp-badge.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "manner-temp-badge.tsx"
+                }
+              ]
             },
             {
               "id": "menu-sheet",
@@ -834,7 +1080,12 @@
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
               "docUrl": "/react/components/menu-sheet",
               "snippetKey": "ui:menu-sheet",
-              "snippetPath": "menu-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "page-banner",
@@ -842,7 +1093,12 @@
               "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
               "docUrl": "/react/components/page-banner",
               "snippetKey": "ui:page-banner",
-              "snippetPath": "page-banner.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "page-banner.tsx"
+                }
+              ]
             },
             {
               "id": "progress-circle",
@@ -850,7 +1106,12 @@
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
               "docUrl": "/react/components/progress-circle",
               "snippetKey": "ui:progress-circle",
-              "snippetPath": "progress-circle.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "progress-circle.tsx"
+                }
+              ]
             },
             {
               "id": "pull-to-refresh",
@@ -858,7 +1119,12 @@
               "description": "사용자가 화면을 아래로 당겨 콘텐츠를 새로고침할 수 있게 해주는 컴포넌트입니다. 모바일 환경에서 최신 콘텐츠를 불러올 때 사용됩니다.",
               "docUrl": "/react/components/pull-to-refresh",
               "snippetKey": "ui:pull-to-refresh",
-              "snippetPath": "pull-to-refresh.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "pull-to-refresh.tsx"
+                }
+              ]
             },
             {
               "id": "radio-group",
@@ -866,7 +1132,12 @@
               "description": "여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.",
               "docUrl": "/react/components/radio-group",
               "snippetKey": "ui:radio-group",
-              "snippetPath": "radio-group.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "radio-group.tsx"
+                }
+              ]
             },
             {
               "id": "reaction-button",
@@ -874,7 +1145,12 @@
               "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
               "docUrl": "/react/components/reaction-button",
               "snippetKey": "ui:reaction-button",
-              "snippetPath": "reaction-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "reaction-button.tsx"
+                }
+              ]
             },
             {
               "id": "result-section",
@@ -882,7 +1158,12 @@
               "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
               "docUrl": "/react/components/result-section",
               "snippetKey": "ui:result-section",
-              "snippetPath": "result-section.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "result-section.tsx"
+                }
+              ]
             },
             {
               "id": "scroll-fog",
@@ -896,7 +1177,12 @@
               "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
               "docUrl": "/react/components/segmented-control",
               "snippetKey": "ui:segmented-control",
-              "snippetPath": "segmented-control.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "segmented-control.tsx"
+                }
+              ]
             },
             {
               "id": "select-box",
@@ -904,7 +1190,12 @@
               "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
               "docUrl": "/react/components/select-box",
               "snippetKey": "ui:select-box",
-              "snippetPath": "select-box.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "select-box.tsx"
+                }
+              ]
             },
             {
               "id": "skeleton",
@@ -918,7 +1209,12 @@
               "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
               "docUrl": "/react/components/slider",
               "snippetKey": "ui:slider",
-              "snippetPath": "slider.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "slider.tsx"
+                }
+              ]
             },
             {
               "id": "snackbar",
@@ -926,7 +1222,12 @@
               "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
               "docUrl": "/react/components/snackbar",
               "snippetKey": "ui:snackbar",
-              "snippetPath": "snackbar.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "snackbar.tsx"
+                }
+              ]
             },
             {
               "id": "snippet",
@@ -938,8 +1239,7 @@
               "id": "stack",
               "title": "Stack",
               "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/stack",
-              "deprecated": true
+              "docUrl": "/react/components/stack"
             },
             {
               "id": "switch",
@@ -947,7 +1247,12 @@
               "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
               "docUrl": "/react/components/switch",
               "snippetKey": "ui:switch",
-              "snippetPath": "switch.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "switch.tsx"
+                }
+              ]
             },
             {
               "id": "tabs",
@@ -955,7 +1260,12 @@
               "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
               "docUrl": "/react/components/tabs",
               "snippetKey": "ui:tabs",
-              "snippetPath": "tabs.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "tabs.tsx"
+                }
+              ]
             },
             {
               "id": "tag-group",
@@ -963,7 +1273,12 @@
               "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
               "docUrl": "/react/components/tag-group",
               "snippetKey": "ui:tag-group",
-              "snippetPath": "tag-group.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "tag-group.tsx"
+                }
+              ]
             },
             {
               "id": "text",
@@ -989,7 +1304,12 @@
               "description": "사용자가 특정 상태를 켜거나 끌 수 있게 해주는 버튼 형태의 컴포넌트입니다. 필터링이나 뷰 전환과 같은 즉각적인 상태 변경에 사용됩니다.",
               "docUrl": "/react/components/toggle-button",
               "snippetKey": "ui:toggle-button",
-              "snippetPath": "toggle-button.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "toggle-button.tsx"
+                }
+              ]
             },
             {
               "id": "v-stack",
@@ -1087,7 +1407,12 @@
               "description": "Alert Dialog를 Stackflow와 함께 사용하는 방법을 안내합니다.",
               "docUrl": "/react/stackflow/alert-dialog",
               "snippetKey": "ui:alert-dialog",
-              "snippetPath": "alert-dialog.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "alert-dialog.tsx"
+                }
+              ]
             },
             {
               "id": "app-screen",
@@ -1095,7 +1420,16 @@
               "description": "Stackflow 네비게이션에서 개별 화면을 구성하는 컴포넌트입니다. 모바일 앱과 같은 화면 전환 경험을 제공할 때 사용됩니다.",
               "docUrl": "/react/stackflow/app-screen",
               "snippetKey": "ui:app-screen",
-              "snippetPath": "app-screen.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "app-screen.tsx"
+                },
+                {
+                  "label": "react",
+                  "path": "app-bar.tsx"
+                }
+              ]
             },
             {
               "id": "bottom-sheet",
@@ -1103,7 +1437,12 @@
               "description": "Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
               "docUrl": "/react/stackflow/bottom-sheet",
               "snippetKey": "ui:bottom-sheet",
-              "snippetPath": "bottom-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "bottom-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "getting-started",
@@ -1117,7 +1456,12 @@
               "description": "Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
               "docUrl": "/react/stackflow/menu-sheet",
               "snippetKey": "ui:menu-sheet",
-              "snippetPath": "menu-sheet.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu-sheet.tsx"
+                }
+              ]
             }
           ]
         },
@@ -1179,7 +1523,16 @@
               "description": "숫자를 부드럽게 애니메이션하는 유틸리티 컴포넌트",
               "docUrl": "/breeze/components/animate-number",
               "snippetKey": "breeze:animate-number",
-              "snippetPath": "animate-number/animate-number.tsx"
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "animate-number/animate-number.tsx"
+                },
+                {
+                  "label": "css",
+                  "path": "animate-number/animate-number.module.css"
+                }
+              ]
             }
           ]
         }
