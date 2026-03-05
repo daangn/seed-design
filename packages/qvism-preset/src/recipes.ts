@@ -25,12 +25,7 @@ import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
 import footer from "./recipes/footer";
 import { field, fieldLabel } from "./recipes/field";
-import {
-  fileUpload,
-  fileUploadItem,
-  fileUploadItemRemoveButton,
-  fileUploadTrigger,
-} from "./recipes/file-upload";
+import { fileUpload, fileUploadItem, fileUploadTrigger } from "./recipes/file-upload";
 import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
@@ -105,7 +100,6 @@ export const recipes = {
   fieldLabel,
   fileUpload,
   fileUploadItem,
-  fileUploadItemRemoveButton,
   fileUploadTrigger,
   floatingActionButton,
   footer,

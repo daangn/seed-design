@@ -7,10 +7,6 @@ import {
   type FileUploadItemVariantProps,
 } from "@seed-design/css/recipes/file-upload-item";
 import {
-  fileUploadItemRemoveButton,
-  type FileUploadItemRemoveButtonVariantProps,
-} from "@seed-design/css/recipes/file-upload-item-remove-button";
-import {
   fileUploadTrigger,
   type FileUploadTriggerVariantProps,
 } from "@seed-design/css/recipes/file-upload-trigger";
@@ -28,7 +24,6 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { mergeProps } from "@seed-design/dom-utils";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { createRecipeContext } from "../../utils/createRecipeContext";
 import clsx from "clsx";
 import { InternalIcon } from "../private/Icon";
 import { Slot } from "@radix-ui/react-slot";
@@ -42,13 +37,13 @@ import {
 } from "../ProgressCircle/ProgressCircle";
 
 const { withProvider, withContext } = createSlotRecipeContext(fileUpload);
-const { useClassNames: useItemClassNames, ClassNamesProvider: ItemClassNamesProvider } =
-  createSlotRecipeContext(fileUploadItem);
+const {
+  useClassNames: useItemClassNames,
+  ClassNamesProvider: ItemClassNamesProvider,
+  withContext: withItemContext,
+} = createSlotRecipeContext(fileUploadItem);
 const { withProvider: withTriggerProvider, useClassNames: useTriggerClassNames } =
   createSlotRecipeContext(fileUploadTrigger);
-const { withContext: withItemRemoveButtonContext } = createRecipeContext(
-  fileUploadItemRemoveButton,
-);
 
 const withStateProps = createWithStateProps([useFileUploadContext]);
 
@@ -252,13 +247,12 @@ export const FileUploadItemSize = React.forwardRef<HTMLSpanElement, FileUploadIt
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FileUploadItemRemoveButtonProps
-  extends FileUploadItemRemoveButtonVariantProps,
-    FileUploadPrimitive.ItemRemoveButtonProps {}
+  extends FileUploadPrimitive.ItemRemoveButtonProps {}
 
-export const FileUploadItemRemoveButton = withItemRemoveButtonContext<
+export const FileUploadItemRemoveButton = withItemContext<
   HTMLButtonElement,
   FileUploadItemRemoveButtonProps
->(FileUploadPrimitive.ItemRemoveButton);
+>(FileUploadPrimitive.ItemRemoveButton, "removeButton");
 
 ////////////////////////////////////////////////////////////////////////////////////
 

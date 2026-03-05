@@ -1,6 +1,6 @@
-import { defineRecipe, defineSlotRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { active, disabled, not, pseudo } from "../utils/pseudo";
+import { engaged, disabled, not, pseudo } from "../utils/pseudo";
 import { vars as tokens } from "../vars";
 import {
   fileUpload as vars,
@@ -32,7 +32,7 @@ const fileUploadTrigger = defineSlotRecipe({
       backgroundColor: "transparent",
       borderRadius: triggerVars.base.enabled.root.cornerRadius,
 
-      [pseudo(not(disabled), active)]: {
+      [pseudo(not(disabled), engaged)]: {
         backgroundColor: triggerVars.base.pressed.root.color,
       },
 
@@ -86,48 +86,19 @@ const fileUploadTrigger = defineSlotRecipe({
   variants: {},
 });
 
-const fileUploadItemRemoveButton = defineRecipe({
-  name: "file-upload-item-remove-button",
-  base: {
-    position: "absolute",
-    top: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
-    right: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
-
-    width: removeButtonVars.base.enabled.root.size,
-    height: removeButtonVars.base.enabled.root.size,
-
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-
-    border: "none",
-    padding: 0,
-    backgroundColor: removeButtonVars.base.enabled.root.color,
-    borderRadius: removeButtonVars.base.enabled.root.cornerRadius,
-    cursor: "pointer",
-
-    boxShadow: `inset 0 0 0 ${removeButtonVars.base.enabled.root.strokeWidth} ${removeButtonVars.base.enabled.root.strokeColor}, 0 0 0 ${removeButtonVars.base.enabled.root.foobarWidth} ${removeButtonVars.base.enabled.root.foobarColor}`,
-
-    ...onlyIcon({
-      size: removeButtonVars.base.enabled.icon.size,
-      color: removeButtonVars.base.enabled.icon.color,
-    }),
-
-    [pseudo(disabled)]: {
-      cursor: "not-allowed",
-
-      ...onlyIcon({
-        color: removeButtonVars.base.disabled.icon.color,
-      }),
-    },
-  },
-  defaultVariants: {},
-  variants: {},
-});
-
 const fileUploadItem = defineSlotRecipe({
   name: "file-upload-item",
-  slots: ["root", "image", "thumbnail", "metadata", "name", "size", "backdrop", "actionButton"],
+  slots: [
+    "root",
+    "image",
+    "thumbnail",
+    "metadata",
+    "name",
+    "size",
+    "backdrop",
+    "actionButton",
+    "removeButton",
+  ],
   base: {
     root: {
       position: "relative",
@@ -246,6 +217,43 @@ const fileUploadItem = defineSlotRecipe({
         size: itemVars.base.enabled.actionButtonIcon.size,
       }),
     },
+    removeButton: {
+      position: "absolute",
+      top: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
+      right: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
+
+      width: removeButtonVars.base.enabled.root.size,
+      height: removeButtonVars.base.enabled.root.size,
+
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+
+      border: "none",
+      padding: 0,
+      backgroundColor: removeButtonVars.base.enabled.root.color,
+      borderRadius: removeButtonVars.base.enabled.root.cornerRadius,
+      cursor: "pointer",
+
+      boxShadow: `inset 0 0 0 ${removeButtonVars.base.enabled.root.strokeWidth} ${removeButtonVars.base.enabled.root.strokeColor}, 0 0 0 ${removeButtonVars.base.enabled.root.foobarWidth} ${removeButtonVars.base.enabled.root.foobarColor}`,
+
+      ...onlyIcon({
+        size: removeButtonVars.base.enabled.icon.size,
+        color: removeButtonVars.base.enabled.icon.color,
+      }),
+
+      [pseudo(engaged)]: {
+        backgroundColor: removeButtonVars.base.pressed.root.color,
+      },
+
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+
+        ...onlyIcon({
+          color: removeButtonVars.base.disabled.icon.color,
+        }),
+      },
+    },
   },
   variants: {
     type: {
@@ -317,7 +325,7 @@ const fileUpload = defineSlotRecipe({
       cursor: "pointer",
       transition: "border-color 0.2s, background-color 0.2s",
 
-      "&:hover, &[data-dragging]": {
+      [pseudo(engaged, "[data-dragging]")]: {
         borderColor: tokens.$color.stroke.brandSolid,
         backgroundColor: tokens.$color.bg.layerDefaultPressed,
       },
@@ -346,4 +354,4 @@ const fileUpload = defineSlotRecipe({
   defaultVariants: {},
 });
 
-export { fileUpload, fileUploadTrigger, fileUploadItem, fileUploadItemRemoveButton };
+export { fileUpload, fileUploadTrigger, fileUploadItem };

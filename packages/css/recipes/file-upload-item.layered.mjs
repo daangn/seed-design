@@ -33,6 +33,10 @@ const fileUploadItemSlotNames = [
   [
     "actionButton",
     "seed-file-upload-item__actionButton"
+  ],
+  [
+    "removeButton",
+    "seed-file-upload-item__removeButton"
   ]
 ];
 

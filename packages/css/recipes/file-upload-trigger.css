@@ -14,8 +14,15 @@
     background-color: transparent;
     border-radius: var(--seed-radius-r3);
 }
-.seed-file-upload-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-file-upload-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-file-upload-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-file-upload-trigger__root:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;

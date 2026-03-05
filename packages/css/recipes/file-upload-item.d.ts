@@ -11,7 +11,7 @@ declare type FileUploadItemVariantMap = {
 
 export declare type FileUploadItemVariantProps = Partial<FileUploadItemVariant>;
 
-export declare type FileUploadItemSlotName = "root" | "image" | "thumbnail" | "metadata" | "name" | "size" | "backdrop" | "actionButton";
+export declare type FileUploadItemSlotName = "root" | "image" | "thumbnail" | "metadata" | "name" | "size" | "backdrop" | "actionButton" | "removeButton";
 
 export declare const fileUploadItemVariantMap: FileUploadItemVariantMap;
 
