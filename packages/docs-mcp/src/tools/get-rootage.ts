@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { fetchRootageIndex, fetchRootageResource } from "../fetch.js";
-import { READ_ONLY_ANNOTATIONS, toErrorMessage, toErrorResult } from "./utils.js";
+import { readOnlyAnnotations, toErrorMessage, toErrorResult } from "./utils.js";
 
 export function registerRootageTools(server: McpServer): void {
   server.registerTool(
@@ -22,7 +22,7 @@ export function registerRootageTools(server: McpServer): void {
         isIndex: z.boolean(),
         error: z.string().optional(),
       },
-      annotations: READ_ONLY_ANNOTATIONS,
+      annotations: readOnlyAnnotations,
     },
     async ({ path }) => {
       try {

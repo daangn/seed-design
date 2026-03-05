@@ -102,7 +102,19 @@ export function getSectionOverviewTxtUrl(section: SectionId): string {
   return `${getDocsBaseUrl()}${SECTIONS[section].overviewPath}`;
 }
 
-export function getSectionDocTxtUrl(section: SectionId, path: string): string {
+function normalizeDocPath(path: string): string {
   const cleanPath = path.replace(/\.txt$/, "").replace(/^\/+/, "");
+  if (
+    !cleanPath ||
+    /[?#]/.test(cleanPath) ||
+    cleanPath.split("/").some((segment) => segment === "" || segment === "." || segment === "..")
+  ) {
+    throw new Error(`Invalid doc path: ${path}`);
+  }
+  return cleanPath;
+}
+
+export function getSectionDocTxtUrl(section: SectionId, path: string): string {
+  const cleanPath = normalizeDocPath(path);
   return `${getDocsBaseUrl()}${SECTIONS[section].basePath}/${cleanPath}.txt`;
 }

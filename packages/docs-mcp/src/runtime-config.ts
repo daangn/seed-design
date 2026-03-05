@@ -1,8 +1,5 @@
 import { SEED_DOCS_BASE_URL } from "./constants.js";
 
-let docsBaseUrl = normalizeDocsBaseUrl(SEED_DOCS_BASE_URL);
-let docsBaseUrlObject = new URL(docsBaseUrl);
-
 export function normalizeDocsBaseUrl(rawBaseUrl: string): string {
   const normalized = rawBaseUrl.trim();
   if (!normalized) {
@@ -28,17 +25,36 @@ export function normalizeDocsBaseUrl(rawBaseUrl: string): string {
   return `${parsed.origin}${pathname}` || parsed.origin;
 }
 
-export function setDocsBaseUrl(baseUrl?: string): string {
-  docsBaseUrl = baseUrl ? normalizeDocsBaseUrl(baseUrl) : normalizeDocsBaseUrl(SEED_DOCS_BASE_URL);
-  docsBaseUrlObject = new URL(docsBaseUrl);
-  return docsBaseUrl;
+interface DocsRuntimeConfig {
+  getDocsBaseUrl: () => string;
+  getDocsBaseOrigin: () => string;
+  setDocsBaseUrl: (baseUrl?: string) => string;
 }
 
-export function getDocsBaseUrl(): string {
-  return docsBaseUrl;
+function createDocsRuntimeConfig(initialBaseUrl: string): DocsRuntimeConfig {
+  let docsBaseUrl = normalizeDocsBaseUrl(initialBaseUrl);
+  let docsBaseUrlObject = new URL(docsBaseUrl);
+
+  return {
+    getDocsBaseUrl() {
+      return docsBaseUrl;
+    },
+    getDocsBaseOrigin() {
+      return docsBaseUrlObject.origin;
+    },
+    setDocsBaseUrl(baseUrl?: string) {
+      docsBaseUrl = baseUrl
+        ? normalizeDocsBaseUrl(baseUrl)
+        : normalizeDocsBaseUrl(SEED_DOCS_BASE_URL);
+      docsBaseUrlObject = new URL(docsBaseUrl);
+      return docsBaseUrl;
+    },
+  };
 }
 
-export function getDocsBaseOrigin(): string {
-  return docsBaseUrlObject.origin;
-}
+const defaultConfig = createDocsRuntimeConfig(SEED_DOCS_BASE_URL);
 
+export const getDocsBaseUrl = defaultConfig.getDocsBaseUrl;
+export const getDocsBaseOrigin = defaultConfig.getDocsBaseOrigin;
+export const setDocsBaseUrl = defaultConfig.setDocsBaseUrl;
+export { createDocsRuntimeConfig };

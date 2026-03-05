@@ -3,7 +3,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { getDocsBaseUrl } from "../runtime-config.js";
 import type { IconDetails, IconEntry, IconIndex, IconSearchResult, IconUsage } from "../types.js";
-import { READ_ONLY_ANNOTATIONS, toErrorMessage, toErrorResult } from "./utils.js";
+import { readOnlyAnnotations, toErrorMessage, toErrorResult } from "./utils.js";
 
 const ICON_DOCS_PATH = "/docs/foundation/iconography/library";
 
@@ -236,7 +236,7 @@ export function registerIconTools(server: McpServer): void {
         availableServices: z.array(z.string()),
         error: z.string().optional(),
       },
-      annotations: READ_ONLY_ANNOTATIONS,
+      annotations: readOnlyAnnotations,
     },
     async ({ type, variant, service, limit }) => {
       try {
@@ -327,7 +327,7 @@ export function registerIconTools(server: McpServer): void {
         searchUrl: z.string().url(),
         error: z.string().optional(),
       },
-      annotations: READ_ONLY_ANNOTATIONS,
+      annotations: readOnlyAnnotations,
     },
     async ({ query, type, limit }) => {
       try {
@@ -384,7 +384,7 @@ export function registerIconTools(server: McpServer): void {
         suggestions: z.array(z.string()),
         error: z.string().optional(),
       },
-      annotations: READ_ONLY_ANNOTATIONS,
+      annotations: readOnlyAnnotations,
     },
     async ({ iconName }) => {
       try {
@@ -394,16 +394,10 @@ export function registerIconTools(server: McpServer): void {
           const suggestions = searchIcons(iconData, iconName, undefined, 5).map(
             (result) => result.name,
           );
-          const message = `Icon '${iconName}' not found.`;
-          return {
-            content: [{ type: "text", text: JSON.stringify({ icon: null, suggestions }, null, 2) }],
-            structuredContent: {
-              icon: null,
-              suggestions,
-              error: message,
-            },
-            isError: true,
-          };
+          return toErrorResult(`Icon '${iconName}' not found.`, {
+            icon: null,
+            suggestions,
+          });
         }
 
         return {

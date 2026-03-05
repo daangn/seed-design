@@ -14,14 +14,21 @@ export interface HttpServerOptions {
   allowedOrigins?: string[];
 }
 
-const DEFAULT_HOST = "127.0.0.1";
-const DEFAULT_PORT = 3100;
-const DEFAULT_PATH = "/mcp";
+const defaultHost = "127.0.0.1";
+const defaultPort = 3100;
+const defaultPath = "/mcp";
+const maxBodyBytes = 1_048_576; // 1MB
 
 async function readJsonBody(req: IncomingMessage): Promise<unknown> {
   const chunks: Buffer[] = [];
+  let totalBytes = 0;
   for await (const chunk of req) {
-    chunks.push(Buffer.from(chunk));
+    const buf = Buffer.from(chunk);
+    totalBytes += buf.length;
+    if (totalBytes > maxBodyBytes) {
+      throw Object.assign(new Error("Request body too large"), { statusCode: 413 });
+    }
+    chunks.push(buf);
   }
 
   const raw = Buffer.concat(chunks).toString("utf8").trim();
@@ -32,7 +39,7 @@ async function readJsonBody(req: IncomingMessage): Promise<unknown> {
   try {
     return JSON.parse(raw) as unknown;
   } catch {
-    throw new Error("Invalid JSON body");
+    throw Object.assign(new Error("Invalid JSON body"), { statusCode: 400 });
   }
 }
 
@@ -74,9 +81,9 @@ async function handleRequest(
 
 export async function startHttpServer(options: HttpServerOptions = {}) {
   const resolvedOptions = {
-    host: options.host ?? process.env.SEED_DOCS_MCP_HOST ?? DEFAULT_HOST,
-    port: options.port ?? Number(process.env.PORT ?? DEFAULT_PORT),
-    path: options.path ?? process.env.SEED_DOCS_MCP_PATH ?? DEFAULT_PATH,
+    host: options.host ?? process.env.SEED_DOCS_MCP_HOST ?? defaultHost,
+    port: options.port ?? Number(process.env.PORT ?? defaultPort),
+    path: options.path ?? process.env.SEED_DOCS_MCP_PATH ?? defaultPath,
     enableJsonResponse: options.enableJsonResponse ?? true,
     enableDnsRebindingProtection: options.enableDnsRebindingProtection ?? false,
     allowedHosts: options.allowedHosts,
@@ -91,7 +98,8 @@ export async function startHttpServer(options: HttpServerOptions = {}) {
       await handleRequest(req, res, resolvedOptions, initializeOptions);
     } catch (error) {
       if (!res.headersSent) {
-        res.statusCode = 500;
+        const statusCode = (error as { statusCode?: number }).statusCode ?? 500;
+        res.statusCode = statusCode;
         res.setHeader("content-type", "application/json");
         res.end(
           JSON.stringify({

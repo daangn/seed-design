@@ -1,4 +1,4 @@
-export const READ_ONLY_ANNOTATIONS = {
+export const readOnlyAnnotations = {
   readOnlyHint: true,
   idempotentHint: true,
 } as const;

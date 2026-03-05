@@ -42,17 +42,12 @@ const cache = new LRUCache<string, CacheValue>({
 
 const inflightRequests = new Map<string, Promise<unknown>>();
 
-function withTimeout(timeoutMs = DEFAULT_TIMEOUT): AbortSignal {
+function withTimeout(timeoutMs = DEFAULT_TIMEOUT): { signal: AbortSignal; clear: () => void } {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-  controller.signal.addEventListener(
-    "abort",
-    () => {
-      clearTimeout(timeoutId);
-    },
-    { once: true },
-  );
-  return controller.signal;
+  const clear = () => clearTimeout(timeoutId);
+  controller.signal.addEventListener("abort", clear, { once: true });
+  return { signal: controller.signal, clear };
 }
 
 function isSeedDocsUrl(url: string): boolean {
@@ -94,8 +89,8 @@ function assertTextResponse(contentType: string | null, url: string): void {
 }
 
 function assertJsonResponse(contentType: string | null, url: string): void {
-  const normalized = contentType?.toLowerCase() ?? "";
-  if (normalized.includes("application/json") || normalized.endsWith("+json")) {
+  const mediaType = (contentType?.toLowerCase() ?? "").split(";")[0]?.trim() ?? "";
+  if (mediaType === "application/json" || mediaType.endsWith("+json")) {
     return;
   }
   throw new Error(`Expected JSON response but received '${contentType ?? "unknown"}' from ${url}`);
@@ -134,33 +129,43 @@ async function fetchWithCache<T>(
 }
 
 async function fetchText(url: string): Promise<{ content: string; contentType: string }> {
-  const response = await fetch(url, { signal: withTimeout(DEFAULT_TIMEOUT) });
+  const { signal, clear } = withTimeout(DEFAULT_TIMEOUT);
+  try {
+    const response = await fetch(url, { signal });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get("content-type");
+    assertTextResponse(contentType, url);
+
+    const content = await response.text();
+    return {
+      content,
+      contentType: contentType ?? "text/plain",
+    };
+  } finally {
+    clear();
   }
-
-  const contentType = response.headers.get("content-type");
-  assertTextResponse(contentType, url);
-
-  const content = await response.text();
-  return {
-    content,
-    contentType: contentType ?? "text/plain",
-  };
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
-  const response = await fetch(url, { signal: withTimeout(DEFAULT_TIMEOUT) });
+  const { signal, clear } = withTimeout(DEFAULT_TIMEOUT);
+  try {
+    const response = await fetch(url, { signal });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get("content-type");
+    assertJsonResponse(contentType, url);
+
+    return (await response.json()) as T;
+  } finally {
+    clear();
   }
-
-  const contentType = response.headers.get("content-type");
-  assertJsonResponse(contentType, url);
-
-  return (await response.json()) as T;
 }
 
 function normalizeDocPath(path: string): string {

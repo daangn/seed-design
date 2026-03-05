@@ -9,7 +9,7 @@ import {
 } from "../config.js";
 import { DEFAULT_DOC_MAX_CHARS, DEFAULT_LIST_LIMIT, DEFAULT_SEARCH_LIMIT } from "../constants.js";
 import { fetchDoc, fetchDocsList, searchDocs } from "../fetch.js";
-import { READ_ONLY_ANNOTATIONS, toErrorMessage, toErrorResult } from "./utils.js";
+import { readOnlyAnnotations, toErrorMessage, toErrorResult } from "./utils.js";
 
 const sectionEnum = z.enum(SECTION_IDS as [SectionId, ...SectionId[]]);
 
@@ -51,7 +51,7 @@ export function registerDocsTools(server: McpServer): void {
         sections: z.array(sectionInfoSchema),
         error: z.string().optional(),
       },
-      annotations: READ_ONLY_ANNOTATIONS,
+      annotations: readOnlyAnnotations,
     },
     async () => {
       try {
@@ -105,7 +105,7 @@ export function registerDocsTools(server: McpServer): void {
         truncated: z.boolean(),
         error: z.string().optional(),
       },
-      annotations: READ_ONLY_ANNOTATIONS,
+      annotations: readOnlyAnnotations,
     },
     async ({ section, category, limit }) => {
       try {
@@ -186,7 +186,7 @@ export function registerDocsTools(server: McpServer): void {
         truncated: z.boolean(),
         error: z.string().optional(),
       },
-      annotations: READ_ONLY_ANNOTATIONS,
+      annotations: readOnlyAnnotations,
     },
     async ({ query, section, category, limit }) => {
       try {
@@ -257,7 +257,7 @@ export function registerDocsTools(server: McpServer): void {
         contentType: z.string(),
         error: z.string().optional(),
       },
-      annotations: READ_ONLY_ANNOTATIONS,
+      annotations: readOnlyAnnotations,
     },
     async ({ section, path, maxChars }) => {
       const txtUrl = getFallbackDocUrl(section, path);
@@ -330,7 +330,7 @@ export function registerDocsTools(server: McpServer): void {
         errorCount: z.number().int().nonnegative(),
         error: z.string().optional(),
       },
-      annotations: READ_ONLY_ANNOTATIONS,
+      annotations: readOnlyAnnotations,
     },
     async ({ items, maxCharsPerDoc }) => {
       try {
