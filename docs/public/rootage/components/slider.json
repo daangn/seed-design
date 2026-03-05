@@ -106,6 +106,12 @@
             },
             "exitTimingFunction": {
               "type": "cubicBezier"
+            },
+            "translateDuration": {
+              "type": "duration"
+            },
+            "translateTimingFunction": {
+              "type": "cubicBezier"
             }
           },
           "description": "arrow width + (valueIndicatorRoot paddingX * 2)만큼의 최소 너비를 가집니다."
@@ -285,6 +291,14 @@
                   "value": "$duration.d4"
                 },
                 "exitTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "translateDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "translateTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 }

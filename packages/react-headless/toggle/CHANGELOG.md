@@ -1,5 +1,11 @@
 # @seed-design/react-toggle
 
+## 1.0.1
+
+### Patch Changes
+
+- 7e0728a: ToggleButton이 비활성화 상태에서 `aria-disabled="true"`를 갖도록 수정합니다.
+
 ## 1.0.0
 
 ### Major Changes

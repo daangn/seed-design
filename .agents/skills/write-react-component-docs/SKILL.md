@@ -50,17 +50,23 @@ React 컴포넌트 문서는 다음 구조를 따릅니다:
 
 ```markdown
 ---
-title: {Component Name}
-description: {한국어 설명}
+title: { Component Name }
+description: { 한국어 설명 }
 ---
 
-## Example           # 컴포넌트 사용 예시
-## Installation      # CLI 또는 수동 설치 방법 (Snippet 레이어가 있는 경우)
-## Usage             # Import 및 기본 사용법
-## Props             # Props API 문서 (선택)
-## Examples          # 다양한 사용 사례
-## Accessibility     # 접근성 가이드 (선택)
-## API Reference     # 상세 API 레퍼런스 (선택)
+## Example # 컴포넌트 사용 예시
+
+## Installation # CLI 또는 수동 설치 방법 (Snippet 레이어가 있는 경우)
+
+## Usage # Import 및 기본 사용법
+
+## Props # Props API 문서 (선택)
+
+## Examples # 다양한 사용 사례
+
+## Accessibility # 접근성 가이드 (선택)
+
+## API Reference # 상세 API 레퍼런스 (선택)
 ```
 
 ## Workflow
@@ -70,11 +76,13 @@ description: {한국어 설명}
 사용자에게 다음 정보를 요청합니다:
 
 **필수 정보**:
+
 - **Component ID**: 예) `alert-dialog`, `badge`, `button`
 - **Component Name**: 예) "Alert Dialog", "Badge", "Button"
 - **Description**: 한국어로 컴포넌트 설명 (1-2문장)
 
 **선택 정보**:
+
 - **Has Snippet Layer**: Snippet 레이어 존재 여부 (있으면 Installation 섹션 포함)
 - **Component Type**:
   - **Composite**: 여러 sub-component로 구성 (예: Alert Dialog)
@@ -96,10 +104,12 @@ ls docs/registry/ui/{component-id}.tsx
 ### Step 3: 컴포넌트 구조 파악
 
 **Composite 컴포넌트인 경우**:
+
 - Snippet 파일 또는 `@seed-design/react` export를 확인하여 sub-component 목록 추출
 - 예) Alert Dialog: AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, etc.
 
 **Simple 컴포넌트인 경우**:
+
 - 단일 컴포넌트만 문서화
 - 예) Badge: Badge만
 
@@ -109,7 +119,7 @@ ls docs/registry/ui/{component-id}.tsx
 
 `<ComponentExample>` 컴포넌트를 사용하여 대표 예시를 작성합니다.
 
-```markdown
+````markdown
 ## Example
 
 <ComponentExample name="react/{component-id}/default">
@@ -118,11 +128,13 @@ ls docs/registry/ui/{component-id}.tsx
     "file": "examples/react/{component-id}/default.tsx",
     "codeblock": true
   }
-  ```
+````
+
 </ComponentExample>
 ```
 
 **참고**:
+
 - `<ComponentExample>` 컴포넌트는 mdx-components에서 자동 import됨
 - `name` 속성: `react/{component-id}/{example-name}` 패턴
 - `doc-gen:file`을 사용하면 실제 파일 내용이 코드블록으로 렌더링됨
@@ -131,7 +143,7 @@ ls docs/registry/ui/{component-id}.tsx
 
 Snippet 레이어가 존재하는 경우 CLI 설치 방법을 안내합니다:
 
-```markdown
+````markdown
 ## Installation
 
 다음 명령어로 컴포넌트를 설치할 수 있습니다:
@@ -139,6 +151,7 @@ Snippet 레이어가 존재하는 경우 CLI 설치 방법을 안내합니다:
 ```package-install
 npx @seed-design/cli@latest add ui:{component-id}
 ```
+````
 
 ### 수동 설치
 
@@ -155,6 +168,7 @@ CLI를 사용하지 않고 직접 설치하려면 다음 방법을 사용하세�
 ```
 
 **Snippet 레이어가 없는 경우**:
+
 - Installation 섹션 생략
 - Usage 섹션에서 바로 `@seed-design/react`에서 import 안내
 
@@ -164,7 +178,7 @@ CLI를 사용하지 않고 직접 설치하려면 다음 방법을 사용하세�
 
 ### Composite 컴포넌트 예시 (Alert Dialog):
 
-```markdown
+````markdown
 ## Usage
 
 Alert Dialog는 다음 sub-component들로 구성됩니다:
@@ -180,10 +194,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"  // Snippet이 있는 경우
+} from "@/components/ui/alert-dialog"; // Snippet이 있는 경우
 // 또는
 // } from "@seed-design/react"  // Snippet이 없는 경우
 ```
+````
 
 기본 사용 예시:
 
@@ -205,7 +220,8 @@ import {
   </AlertDialogContent>
 </AlertDialog>
 ```
-```
+
+````
 
 ### Simple 컴포넌트 예시 (Badge):
 
@@ -216,14 +232,15 @@ Badge 컴포넌트를 사용하려면 다음과 같이 import합니다:
 
 ```tsx
 import { Badge } from "@seed-design/react";
-```
+````
 
 기본 사용 예시:
 
 ```tsx
 <Badge>Badge</Badge>
 ```
-```
+
+````
 
 **Usage 작성 가이드**:
 1. **Import 경로 명확히**:
@@ -248,7 +265,8 @@ import { Badge } from "@seed-design/react";
     "file": "examples/react/{component-id}/{example-name}.tsx",
     "codeblock": true
   }
-  ```
+````
+
 </ComponentExample>
 
 ### {Use Case 2}
@@ -264,12 +282,14 @@ import { Badge } from "@seed-design/react";
 ```
 
 **Examples 작성 가이드**:
+
 - 각 예시는 명확한 use case를 보여줘야 함
 - 예시 이름은 의미 있는 케밥케이스 사용 (예: `with-icon`, `loading-state`, `custom-variant`)
 - 실제 `examples/react/{component-id}/` 폴더에 예시 파일이 있어야 함
 - 복잡한 패턴일수록 상세한 설명 추가
 
 **일반적인 Examples**:
+
 - Default: 기본 사용
 - With Icon: 아이콘 포함
 - Variants: 다양한 variant 조합
@@ -287,15 +307,16 @@ import { Badge } from "@seed-design/react";
 
 ### {ComponentName}
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| variant | `'default' \| 'primary' \| 'secondary'` | `'default'` | 컴포넌트의 시각적 스타일을 지정합니다. |
-| size | `'small' \| 'medium' \| 'large'` | `'medium'` | 컴포넌트의 크기를 지정합니다. |
-| disabled | `boolean` | `false` | 컴포넌트를 비활성화합니다. |
-| children | `React.ReactNode` | - | 컴포넌트의 자식 요소입니다. |
+| Prop     | Type                                    | Default     | Description                            |
+| -------- | --------------------------------------- | ----------- | -------------------------------------- |
+| variant  | `'default' \| 'primary' \| 'secondary'` | `'default'` | 컴포넌트의 시각적 스타일을 지정합니다. |
+| size     | `'small' \| 'medium' \| 'large'`        | `'medium'`  | 컴포넌트의 크기를 지정합니다.          |
+| disabled | `boolean`                               | `false`     | 컴포넌트를 비활성화합니다.             |
+| children | `React.ReactNode`                       | -           | 컴포넌트의 자식 요소입니다.            |
 ```
 
 **Props 작성 가이드**:
+
 - TypeScript 타입을 정확히 표기 (Union 타입은 백틱 내에서 `\|` 사용)
 - Default 값이 있으면 명시, 없으면 `-`
 - Description은 한국어로 명확하게
@@ -304,11 +325,13 @@ import { Badge } from "@seed-design/react";
 ## File Paths
 
 **문서 파일**:
+
 ```
 docs/content/react/components/{component-id}.mdx
 ```
 
 **예시 파일**:
+
 ```
 examples/react/{component-id}/default.tsx
 examples/react/{component-id}/with-icon.tsx
@@ -316,11 +339,13 @@ examples/react/{component-id}/variants.tsx
 ```
 
 **Snippet 파일** (있는 경우):
+
 ```
 docs/registry/ui/{component-id}.tsx
 ```
 
 **수동 설치 예시** (Snippet이 있는 경우):
+
 ```
 examples/react/{component-id}/manual-installation.tsx
 ```
@@ -333,14 +358,15 @@ React 문서에서 사용 가능한 특수 컴포넌트들:
 
 컴포넌트 예시를 표시하는 컨테이너입니다.
 
-```tsx
+````tsx
 <ComponentExample name="react/component-id/example-name">
   ```json doc-gen:file
   {
     "file": "examples/react/component-id/example-name.tsx",
     "codeblock": true
   }
-  ```
+````
+
 </ComponentExample>
 ```
 
@@ -352,14 +378,15 @@ React 문서에서 사용 가능한 특수 컴포넌트들:
 
 수동 설치 방법을 안내하는 컴포넌트입니다.
 
-```tsx
+````tsx
 <ManualInstallation name="component-id">
   ```json doc-gen:file
   {
     "file": "examples/react/component-id/manual-installation.tsx",
     "codeblock": true
   }
-  ```
+````
+
 </ManualInstallation>
 ```
 
@@ -370,10 +397,12 @@ React 문서에서 사용 가능한 특수 컴포넌트들:
 
 패키지 설치 명령어를 표시하는 코드블록입니다.
 
-```markdown
+````markdown
 ```package-install
 npx @seed-design/cli@latest add ui:component-id
 ```
+````
+
 ```
 
 - Snippet 레이어 설치 명령어에 사용
@@ -424,3 +453,4 @@ npx @seed-design/cli@latest add ui:component-id
    - 기존 문서를 먼저 읽어서 내용 보존
    - 변경이 필요한 부분만 수정
    - 예시 추가 시 Examples 섹션만 업데이트
+```

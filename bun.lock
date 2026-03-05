@@ -55,13 +55,13 @@
         "@sanity/image-url": "^2.0.0",
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
-        "@seed-design/css": "1.2.3",
+        "@seed-design/css": "1.2.4",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.2.5",
+        "@seed-design/react": "1.2.6",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.17",
-        "@seed-design/tailwind4-theme": "1.1.17",
+        "@seed-design/tailwind4-theme": "1.1.18",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
@@ -363,7 +363,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.2.3",
+      "version": "1.2.4",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -396,7 +396,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.3.4",
+      "version": "1.3.5",
       "dependencies": {
         "@seed-design/css": "1.2.2",
         "change-case": "^5.4.4",
@@ -412,7 +412,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.3.4",
+      "version": "1.3.5",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.25.3",
@@ -449,7 +449,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.2.5",
+      "version": "1.2.6",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -463,7 +463,7 @@
         "@seed-design/react-dialog": "1.0.2",
         "@seed-design/react-drawer": "1.0.9",
         "@seed-design/react-field": "1.0.1",
-        "@seed-design/react-field-button": "1.0.1",
+        "@seed-design/react-field-button": "1.0.2",
         "@seed-design/react-fieldset": "0.1.0",
         "@seed-design/react-image": "0.1.1",
         "@seed-design/react-popover": "1.0.3",
@@ -473,12 +473,12 @@
         "@seed-design/react-pull-to-refresh": "1.0.1",
         "@seed-design/react-radio-group": "1.1.0",
         "@seed-design/react-segmented-control": "1.0.1",
-        "@seed-design/react-slider": "1.0.1",
+        "@seed-design/react-slider": "1.0.2",
         "@seed-design/react-snackbar": "1.0.1",
         "@seed-design/react-switch": "1.0.1",
         "@seed-design/react-tabs": "1.0.2",
         "@seed-design/react-text-field": "1.1.1",
-        "@seed-design/react-toggle": "1.0.0",
+        "@seed-design/react-toggle": "1.0.1",
         "clsx": "^2.1.1",
         "unicode-segmenter": "^0.14.4",
       },
@@ -623,7 +623,7 @@
     },
     "packages/react-headless/field-button": {
       "name": "@seed-design/react-field-button",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-controllable-state": "^1.2.2",
@@ -825,7 +825,7 @@
     },
     "packages/react-headless/slider": {
       "name": "@seed-design/react-slider",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-controllable-state": "^1.2.2",
@@ -833,6 +833,7 @@
         "@radix-ui/react-use-size": "^1.1.1",
         "@seed-design/dom-utils": "^1.0.0",
         "@seed-design/react-primitive": "^1.0.0",
+        "@seed-design/react-supports": "^0.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -940,7 +941,7 @@
     },
     "packages/react-headless/toggle": {
       "name": "@seed-design/react-toggle",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
@@ -975,7 +976,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "1.2.3",
+      "version": "1.2.4",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
@@ -1002,7 +1003,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.2.3",
+        "@seed-design/css": "1.2.4",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -1028,7 +1029,7 @@
     },
     "packages/tailwind3-plugin": {
       "name": "@seed-design/tailwind3-plugin",
-      "version": "1.1.17",
+      "version": "1.1.18",
       "devDependencies": {
         "tailwindcss": "3",
       },
@@ -1038,7 +1039,7 @@
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
-      "version": "1.1.17",
+      "version": "1.1.18",
       "devDependencies": {
         "tailwindcss": "^4.1.4",
       },

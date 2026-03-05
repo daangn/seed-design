@@ -31,4 +31,22 @@ describe("tokenReferenceRule", () => {
 
     expect(actual).toContain("TokenReference");
   });
+
+  it("converts TokenReference with regex to a filtered markdown table", () => {
+    const input = String.raw`<TokenReference regex={/\$color\..*-pressed$/} />`;
+
+    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
+
+    expect(actual).toContain("| Token |");
+    expect(actual).toContain("$color.bg.brand-solid-pressed");
+    expect(actual).not.toContain("| $color.bg.brand-solid |");
+  });
+
+  it("keeps the original node when regex matches nothing", () => {
+    const input = String.raw`<TokenReference regex={/\$nonexistent\..*/} />`;
+
+    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
+
+    expect(actual).toContain("TokenReference");
+  });
 });

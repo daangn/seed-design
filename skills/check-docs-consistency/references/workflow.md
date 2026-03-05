@@ -46,14 +46,14 @@ Props 상세 검증:
 
 ```typescript
 // Extract props from YAML
-const definitions = yaml.data.definitions
+const definitions = yaml.data.definitions;
 const variants = Object.keys(definitions)
-  .filter(key => key.startsWith('variant='))
-  .map(key => key.replace('variant=', ''))
+  .filter((key) => key.startsWith("variant="))
+  .map((key) => key.replace("variant=", ""));
 
 const sizes = Object.keys(definitions)
-  .filter(key => key.startsWith('size='))
-  .map(key => key.replace('size=', ''))
+  .filter((key) => key.startsWith("size="))
+  .map((key) => key.replace("size=", ""));
 
 // Compare with design docs Props table
 // Flag missing or extra props
@@ -65,6 +65,7 @@ const sizes = Object.keys(definitions)
 # Consistency Report
 
 ## Summary
+
 - Total components: 28
 - Fully consistent: 22
 - Issues found: 6
@@ -72,14 +73,17 @@ const sizes = Object.keys(definitions)
 ## Issues
 
 ### Critical (Must Fix)
+
 1. **badge**: Design docs missing Props table
 2. **chip**: Description mismatch
 
 ### Warnings (Review)
+
 1. **avatar**: Missing size=xlarge documentation
 2. **callout**: ComponentSpecBlock id typo
 
 ### Missing Documentation
+
 1. **divider**: Has YAML, missing design guidelines
 2. **dialog**: Has YAML, missing React docs
 ```
@@ -87,18 +91,21 @@ const sizes = Object.keys(definitions)
 ## 사용 시나리오
 
 ### Full Audit
+
 ```text
 "Run docs consistency checker on all components"
 → 모든 컴포넌트에 대해 검증 실행
 ```
 
 ### Single Component
+
 ```text
 "Check docs consistency for action-button"
 → action-button에 대해서만 상세 검증
 ```
 
 ### Missing Docs Only
+
 ```text
 "Find components with missing documentation"
 → 파일 존재 확인만 실행

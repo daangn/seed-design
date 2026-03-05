@@ -4,7 +4,7 @@
 ## 파일 작성 컨벤션
 - 스킬 디렉토리명은 kebab-case를 사용한다.
 - 각 스킬 디렉토리는 반드시 `SKILL.md`를 포함한다.
-- 부가 자료는 `details/`, `references/`, `scripts/`, `assets/` 하위에 둔다.
+- 부가 자료는 `references/`, `scripts/`, `assets/` 하위에 둔다.
 - Claude 훅 규칙 파일은 루트의 `skill-rules.json`으로 관리한다.
 - 신규/수정은 이 디렉토리에서만 수행하고, 반영 시 `.agents/skills`로 복사한다.
 
