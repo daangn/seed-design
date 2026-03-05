@@ -54,17 +54,45 @@ export function ChangelogViewer({
 
   const packageLabel = selectedPackage === ALL ? "모든 패키지" : selectedPackage;
   const versionLabel = selectedVersion === ALL ? "모든 버전" : selectedVersion;
+  const packageOrder = new Map(packages.map((pkg, i) => [pkg, i] as const));
 
-  const isGrouped = selectedPackage === ALL;
+  const groupedByPackageVersion = filteredEntries.reduce<
+    Record<string, { packageName: string; version: string; url: string; entries: ChangelogEntry[] }>
+  >((acc, entry) => {
+    const matchedPackages = entry.packages.filter((pkg) => {
+      if (selectedPackage !== ALL && pkg.name !== selectedPackage) return false;
+      if (selectedVersion !== ALL && pkg.version !== selectedVersion) return false;
+      return true;
+    });
 
-  const groupedByDate = isGrouped
-    ? filteredEntries.reduce<Record<string, ChangelogEntry[]>>((acc, entry) => {
-        const key = entry.label ? `${entry.date} ${entry.label}` : entry.date;
-        if (!acc[key]) acc[key] = [];
-        acc[key].push(entry);
-        return acc;
-      }, {})
-    : null;
+    for (const pkg of matchedPackages) {
+      const key = `${pkg.name}@${pkg.version}`;
+      if (!acc[key]) {
+        acc[key] = {
+          packageName: pkg.name,
+          version: pkg.version,
+          url: pkg.url,
+          entries: [],
+        };
+      }
+      acc[key].entries.push(entry);
+    }
+
+    return acc;
+  }, {});
+
+  const groupedEntries = Object.values(groupedByPackageVersion)
+    .map((group) => ({
+      ...group,
+      entries: group.entries.sort((a, b) => b.date.localeCompare(a.date)),
+    }))
+    .sort((a, b) => {
+      const packageDiff =
+        (packageOrder.get(a.packageName) ?? Number.MAX_SAFE_INTEGER) -
+        (packageOrder.get(b.packageName) ?? Number.MAX_SAFE_INTEGER);
+      if (packageDiff !== 0) return packageDiff;
+      return b.version.localeCompare(a.version, undefined, { numeric: true });
+    });
 
   return (
     <div className="flex flex-col gap-6">
@@ -166,32 +194,45 @@ export function ChangelogViewer({
         )}
       </div>
 
-      {isGrouped && groupedByDate ? (
-        <div className="flex flex-col gap-10">
-          {Object.entries(groupedByDate).map(([dateKey, dateEntries]) => (
-            <div key={dateKey} className="flex flex-col gap-4">
-              <time className="text-lg font-semibold text-fd-foreground border-b border-fd-border pb-2">
-                {dateKey}
-              </time>
-              <div className="flex flex-col divide-y divide-fd-border">
-                {dateEntries.map((entry, i) => (
-                  <ChangelogEntryItem
-                    key={`${entry.date}-${entry.label ?? ""}-${i}`}
-                    entry={entry}
-                    hideDate
-                  />
-                ))}
+      <div className="flex flex-col gap-6">
+        {groupedEntries.map((group) => (
+          <section
+            key={`${group.packageName}@${group.version}`}
+            className="rounded-xl border border-fd-border"
+          >
+            <div className="flex items-center justify-between gap-2 flex-wrap border-b border-fd-border px-4 py-2.5 bg-fd-card/50">
+              <div className="inline-flex items-center gap-1.5 min-w-0">
+                <span className="text-fd-muted-foreground">📦</span>
+                <a
+                  href={`/react/updates/changelog?package=${encodeURIComponent(group.packageName)}&version=${encodeURIComponent(group.version)}`}
+                  className="truncate text-sm md:text-base font-semibold font-mono hover:text-fd-primary transition-colors"
+                >
+                  {group.packageName}@{group.version}
+                </a>
               </div>
+              <span className="text-xs text-fd-muted-foreground shrink-0">
+                {group.entries.length}개 변경사항
+              </span>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col divide-y divide-fd-border">
-          {filteredEntries.map((entry, i) => (
-            <ChangelogEntryItem key={`${entry.date}-${entry.label ?? ""}-${i}`} entry={entry} />
-          ))}
-        </div>
-      )}
+            <div className="px-3 py-1">
+              <ul className="list-disc pl-5 pr-1 marker:text-fd-muted-foreground">
+                {group.entries.map((entry, i) => (
+                  <li
+                    key={`${group.packageName}@${group.version}-${entry.date}-${entry.label ?? ""}-${i}`}
+                  >
+                    <ChangelogEntryItem entry={entry} hideDate hidePackages compact />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ))}
+        {groupedEntries.length === 0 && (
+          <div className="text-sm text-fd-muted-foreground px-1">
+            조건에 맞는 변경사항이 없습니다.
+          </div>
+        )}
+      </div>
     </div>
   );
 }

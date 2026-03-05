@@ -19,15 +19,17 @@ export default async function ChangelogPage() {
   const packages = [...new Set(entries.flatMap((e) => e.packages.map((p) => p.name)))];
 
   return (
-    <DocsPage>
-      <DocsTitle>Changelog</DocsTitle>
-      <DocsDescription>최신 업데이트와 변경사항을 기록합니다.</DocsDescription>
-      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
-        <Suspense>
-          <ChangelogViewer entries={entries} packages={packages} />
-        </Suspense>
-      </DocsBody>
-    </DocsPage>
+    <div className="changelog-page">
+      <DocsPage>
+        <DocsTitle>Changelog</DocsTitle>
+        <DocsDescription>최신 업데이트와 변경사항을 기록합니다.</DocsDescription>
+        <DocsBody className="pb-0 prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
+          <Suspense>
+            <ChangelogViewer entries={entries} packages={packages} />
+          </Suspense>
+        </DocsBody>
+      </DocsPage>
+    </div>
   );
 }
 
