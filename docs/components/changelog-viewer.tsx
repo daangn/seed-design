@@ -25,9 +25,11 @@ export function ChangelogViewer({
   ];
   const [selectedPackage, setSelectedPackage] = useQueryState("package", {
     defaultValue: ALL,
+    history: "push",
   });
   const [selectedVersion, setSelectedVersion] = useQueryState("version", {
     defaultValue: ALL,
+    history: "push",
   });
   const [packageOpen, setPackageOpen] = useState(false);
   const [versionOpen, setVersionOpen] = useState(false);
