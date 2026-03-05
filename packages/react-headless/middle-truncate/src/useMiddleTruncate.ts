@@ -2,9 +2,12 @@
 
 "use client";
 
+import { elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface UseMiddleTruncateProps {
+  text: string;
+
   /**
    * Number of characters to preserve from the end of the text.
    * @default 0
@@ -24,24 +27,14 @@ export interface UseMiddleTruncateProps {
   onTruncate?: (isTruncated: boolean) => void;
 }
 
-export interface UseMiddleTruncateReturn {
-  displayText: string | null;
-  rootRef: React.RefObject<HTMLElement | null>;
-  rootProps: { style: React.CSSProperties };
-  registerText: (text: string) => void;
-  text: string;
-}
+export type UseMiddleTruncateReturn = ReturnType<typeof useMiddleTruncate>;
 
-export function useMiddleTruncate(props: UseMiddleTruncateProps = {}): UseMiddleTruncateReturn {
-  const { end = 0, ellipsis = "…", maxLines = 1, onTruncate } = props;
+// NOTE: visual behavior is verified in Storybook: docs/stories/MiddleTruncate.stories.tsx
+export function useMiddleTruncate(props: UseMiddleTruncateProps) {
+  const { text, end = 0, ellipsis = "…", maxLines = 1, onTruncate } = props;
 
   const rootRef = useRef<HTMLElement | null>(null);
-  const [text, setText] = useState("");
   const [displayText, setDisplayText] = useState<string | null>(null);
-
-  const registerText = useCallback((incoming: string) => {
-    setText(incoming);
-  }, []);
 
   const compute = useCallback(() => {
     const root = rootRef.current;
@@ -75,7 +68,7 @@ export function useMiddleTruncate(props: UseMiddleTruncateProps = {}): UseMiddle
       `width:${contentWidth}px`,
       `font:${computed.font}`,
       `letter-spacing:${computed.letterSpacing}`,
-      `word-break:${computed.wordBreak}`,
+      "word-break:break-all",
       `line-height:${computed.lineHeight}`,
       "white-space:nowrap",
     ].join(";");
@@ -105,19 +98,25 @@ export function useMiddleTruncate(props: UseMiddleTruncateProps = {}): UseMiddle
     if (measurer.scrollHeight > maxHeight + 1) {
       let eLow = 0;
       let eHigh = endFragment.length;
+
       while (eLow <= eHigh) {
         const eMid = Math.floor((eLow + eHigh) / 2);
         measurer.textContent = ellipsis + endFragment.slice(-eMid || undefined);
+
         if (measurer.scrollHeight <= maxHeight + 1) {
           eLow = eMid + 1;
-        } else {
-          eHigh = eMid - 1;
+          continue;
         }
+
+        eHigh = eMid - 1;
       }
+
       const trimmedEnd = eHigh > 0 ? endFragment.slice(-eHigh) : "";
+
       setDisplayText(ellipsis + trimmedEnd);
       onTruncate?.(true);
       measurer.remove();
+
       return;
     }
 
@@ -130,9 +129,10 @@ export function useMiddleTruncate(props: UseMiddleTruncateProps = {}): UseMiddle
 
       if (measurer.scrollHeight <= maxHeight + 1) {
         low = mid + 1;
-      } else {
-        high = mid - 1;
+        continue;
       }
+
+      high = mid - 1;
     }
 
     const startFragment = startSource.slice(0, Math.max(high, 0));
@@ -151,24 +151,24 @@ export function useMiddleTruncate(props: UseMiddleTruncateProps = {}): UseMiddle
     const root = rootRef.current;
     if (!root) return;
 
-    const ro = new ResizeObserver(() => compute());
-    ro.observe(root);
+    const observer = new ResizeObserver(() => compute());
+    observer.observe(root);
 
-    return () => ro.disconnect();
+    return () => observer.disconnect();
   }, [compute]);
 
-  const rootProps = {
-    style: {
-      overflow: "hidden" as const,
-      wordBreak: "break-all" as const,
-    },
-  };
-
   return {
-    displayText,
     rootRef,
-    rootProps,
-    registerText,
-    text,
+    rootProps: elementProps({
+      style: {
+        overflow: "hidden",
+      },
+    }),
+    contentProps: elementProps({
+      style: {
+        wordBreak: "break-all",
+      },
+      children: displayText ?? text,
+    }),
   };
 }

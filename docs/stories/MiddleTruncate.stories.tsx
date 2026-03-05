@@ -22,13 +22,14 @@ const MiddleTruncateForStory = ({
   ...rest
 }: MiddleTruncateStoryProps) => (
   <MiddleTruncate.Root
+    text={text}
     end={end}
     maxLines={maxLines}
     ellipsis={ellipsis}
     style={{ width }}
     {...rest}
   >
-    <MiddleTruncate.Content>{text}</MiddleTruncate.Content>
+    <MiddleTruncate.Content />
   </MiddleTruncate.Root>
 );
 
