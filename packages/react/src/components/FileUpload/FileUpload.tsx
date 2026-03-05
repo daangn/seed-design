@@ -21,6 +21,7 @@ import {
   splitFileName,
 } from "@seed-design/react-file-upload";
 import { MiddleTruncate } from "@seed-design/react-middle-truncate";
+
 import { useFieldContext } from "@seed-design/react-field";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { mergeProps } from "@seed-design/dom-utils";
@@ -227,9 +228,9 @@ export const FileUploadItemName = React.forwardRef<HTMLSpanElement, FileUploadIt
         {...props}
       >
         {children ?? (
-          <MiddleTruncate end={extension.length} maxLines={2}>
-            {file.name}
-          </MiddleTruncate>
+          <MiddleTruncate.Root end={extension.length} maxLines={2}>
+            <MiddleTruncate.Content>{file.name}</MiddleTruncate.Content>
+          </MiddleTruncate.Root>
         )}
       </FileUploadPrimitive.ItemName>
     );

@@ -38,6 +38,7 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
+    "@radix-ui/react-compose-refs": "^1.1.2",
     "@seed-design/react-primitive": "1.0.0"
   },
   "publishConfig": {
