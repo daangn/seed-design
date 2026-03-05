@@ -4,6 +4,7 @@ import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page
 import type { Metadata } from "next";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { Suspense } from "react";
 
 const CHANGELOG_PATH = "content/react/updates/changelog.mdx";
 
@@ -22,7 +23,9 @@ export default async function ChangelogPage() {
       <DocsTitle>Changelog</DocsTitle>
       <DocsDescription>최신 업데이트와 변경사항을 기록합니다.</DocsDescription>
       <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
-        <ChangelogViewer entries={entries} packages={packages} />
+        <Suspense>
+          <ChangelogViewer entries={entries} packages={packages} />
+        </Suspense>
       </DocsBody>
     </DocsPage>
   );
