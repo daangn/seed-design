@@ -58,6 +58,8 @@ export function useGlobalInteraction() {
   });
   const stackRef = useRef<HTMLDivElement>(null);
   const swipeBackTargetsRef = useRef<HTMLElement[]>([]);
+  const rafIdRef = useRef<number | null>(null);
+  const pendingMoveRef = useRef<MoveSwipeBackProps | null>(null);
 
   const resetSwipeBackVars = useCallback((element: HTMLElement) => {
     element.style.removeProperty("--swipe-back-displacement");
@@ -161,20 +163,51 @@ export function useGlobalInteraction() {
       };
 
       const moveSwipeBack = ({ x, t }: MoveSwipeBackProps) => {
-        const displacement = x - swipeBackContextRef.current.x0;
-        const displacementRatio = displacement / window.innerWidth;
-        const velocity = displacement / (t - swipeBackContextRef.current.t0);
-        setSwipeBackContext({
-          ...swipeBackContextRef.current,
-          displacement,
-          displacementRatio,
-          velocity,
-        });
+        // Store latest touch position; only apply CSS vars once per animation frame
+        pendingMoveRef.current = { x, t };
+
+        if (rafIdRef.current === null) {
+          rafIdRef.current = requestAnimationFrame(() => {
+            const pending = pendingMoveRef.current;
+            if (pending) {
+              const displacement = pending.x - swipeBackContextRef.current.x0;
+              const displacementRatio = displacement / window.innerWidth;
+              const velocity = displacement / (pending.t - swipeBackContextRef.current.t0);
+              setSwipeBackContext({
+                ...swipeBackContextRef.current,
+                displacement,
+                displacementRatio,
+                velocity,
+              });
+              onSwipeBackMove?.({ displacement, displacementRatio });
+            }
+            rafIdRef.current = null;
+          });
+        }
+
         setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
-        onSwipeBackMove?.({ displacement, displacementRatio });
       };
 
       const endSwipeBack = (_: EndSwipeBackProps) => {
+        // Cancel any pending rAF and flush the latest position immediately
+        if (rafIdRef.current !== null) {
+          cancelAnimationFrame(rafIdRef.current);
+          rafIdRef.current = null;
+        }
+        const pending = pendingMoveRef.current;
+        if (pending) {
+          const displacement = pending.x - swipeBackContextRef.current.x0;
+          const displacementRatio = displacement / window.innerWidth;
+          const velocity = displacement / (pending.t - swipeBackContextRef.current.t0);
+          setSwipeBackContext({
+            ...swipeBackContextRef.current,
+            displacement,
+            displacementRatio,
+            velocity,
+          });
+          pendingMoveRef.current = null;
+        }
+
         const swiped =
           swipeBackContextRef.current.displacementRatio > displacementRatioThreshold ||
           swipeBackContextRef.current.velocity > velocityThreshold;
@@ -191,6 +224,11 @@ export function useGlobalInteraction() {
       };
 
       const reset = () => {
+        if (rafIdRef.current !== null) {
+          cancelAnimationFrame(rafIdRef.current);
+          rafIdRef.current = null;
+        }
+        pendingMoveRef.current = null;
         setSwipeBackContext({
           x0: 0,
           t0: 0,

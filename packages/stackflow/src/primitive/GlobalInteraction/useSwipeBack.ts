@@ -13,9 +13,10 @@ export function useSwipeBack(props: UseSwipeBackProps) {
     onSwipeBackMove,
     onSwipeBackEnd,
   } = props;
+  const { getSwipeBackEvents } = globalInteraction;
   const events = useMemo(
     () =>
-      globalInteraction.getSwipeBackEvents({
+      getSwipeBackEvents({
         swipeBackDisplacementRatioThreshold,
         swipeBackVelocityThreshold,
         onSwipeBackStart,
@@ -23,7 +24,7 @@ export function useSwipeBack(props: UseSwipeBackProps) {
         onSwipeBackEnd,
       }),
     [
-      globalInteraction,
+      getSwipeBackEvents,
       swipeBackDisplacementRatioThreshold,
       swipeBackVelocityThreshold,
       onSwipeBackStart,
