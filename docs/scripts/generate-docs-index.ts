@@ -214,7 +214,7 @@ async function main() {
         title: frontmatter.title,
         ...(frontmatter.description && { description: frontmatter.description }),
         docUrl,
-        ...(frontmatter.deprecated && { deprecated: true }),
+        ...(frontmatter.deprecated === "true" && { deprecated: true }),
         ...(registryEntry && {
           snippetKey: `${registryEntry.registryId}:${itemId}`,
           snippets: registryEntry.snippets,
