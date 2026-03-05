@@ -137,7 +137,7 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
   if (tokenDataCache) return tokenDataCache;
 
   tokenDataCache = new Map();
-  const rootageDir = join(process.cwd(), "public/rootage");
+  const rootageDir = join(import.meta.dir, "../../../public/rootage");
 
   try {
     const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
