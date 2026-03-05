@@ -5260,15 +5260,11 @@
   }
 
   .seed-file-upload-item__name {
-    text-overflow: ellipsis;
     word-break: break-all;
-    -webkit-line-clamp: 2px;
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2);
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
     overflow: hidden;
   }
 

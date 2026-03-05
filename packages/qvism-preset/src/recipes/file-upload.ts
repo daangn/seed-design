@@ -157,12 +157,8 @@ const fileUploadItem = defineSlotRecipe({
       flexGrow: 1,
     },
     name: {
-      display: "-webkit-box",
       overflow: "hidden",
-      textOverflow: "ellipsis",
       wordBreak: "break-all",
-      WebkitBoxOrient: "vertical",
-      WebkitLineClamp: 2,
 
       fontSize: itemVars.base.enabled.name.fontSize,
       lineHeight: itemVars.base.enabled.name.lineHeight,

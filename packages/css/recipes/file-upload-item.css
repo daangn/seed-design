@@ -43,12 +43,8 @@
     flex-grow: 1;
 }
 .seed-file-upload-item__name {
-    display: -webkit-box;
     overflow: hidden;
-    text-overflow: ellipsis;
     word-break: break-all;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2px;
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2);
     font-weight: var(--seed-font-weight-medium);
