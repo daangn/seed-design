@@ -1,7 +1,5 @@
 #!/usr/bin/env node
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { server } from "./server.js";
-import { initializeTools } from "./tools/index.js";
+import { startHttpServer } from "./http.js";
 
 interface CliOptions {
   baseUrl?: string;
@@ -43,12 +41,25 @@ function parseCliOptions(argv: string[]): CliOptions {
 
 async function main() {
   const options = parseCliOptions(process.argv.slice(2));
-  const transport = new StdioServerTransport();
-  await initializeTools(server, options);
-  await server.connect(transport);
+  const server = await startHttpServer(options);
+  const endpoint = `http://${server.host}:${server.port}${server.path}`;
+  console.error(`[seed-docs-mcp] Streamable HTTP server running at ${endpoint}`);
+
+  const shutdown = async () => {
+    await server.close();
+    process.exit(0);
+  };
+
+  process.on("SIGINT", () => {
+    void shutdown();
+  });
+
+  process.on("SIGTERM", () => {
+    void shutdown();
+  });
 }
 
 main().catch((error) => {
-  console.error("Failed to start MCP server:", error);
+  console.error("[seed-docs-mcp] Failed to start HTTP server:", error);
   process.exit(1);
 });

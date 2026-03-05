@@ -10,4 +10,9 @@ export const ICON_ENDPOINTS = {
   SVG_BASE: "/icons",
 } as const;
 
-export const DEFAULT_TIMEOUT = 30000;
+export const DEFAULT_TIMEOUT = 30_000;
+export const DEFAULT_CACHE_TTL = 5 * 60 * 1_000;
+export const DEFAULT_CACHE_MAX_SIZE = 50 * 1024 * 1024;
+export const DEFAULT_LIST_LIMIT = 100;
+export const DEFAULT_SEARCH_LIMIT = 20;
+export const DEFAULT_DOC_MAX_CHARS = 32_000;

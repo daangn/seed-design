@@ -1,51 +1,37 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { SectionId } from "./config.js";
 
-// Tool interface for MCP tools
-export interface Tool<T = unknown> {
+export interface SectionCategoryInfo {
+  id: string;
+  description: string;
+}
+
+export interface SectionInfo {
+  id: SectionId;
   name: string;
   description: string;
-  ctx?(): Promise<T> | void;
-  exec(
-    server: McpServer,
-    opts: { ctx: T; name: string; description: string },
-  ): Promise<void> | void;
+  overviewTxtUrl: string;
+  fullTxtUrl: string;
+  categories: SectionCategoryInfo[];
 }
-
-// Component and documentation types
-export interface ComponentInfo {
-  name: string;
-  title: string;
-  description?: string;
-}
-
-export interface FoundationInfo {
-  name: string;
-  title: string;
-  category?: string;
-}
-
-export interface ChangelogEntry {
-  version: string;
-  date?: string;
-  changes: string[];
-}
-
-export interface SearchResult {
-  content: string;
-  context: string;
-  score?: number;
-}
-
-export type PackageType = "react" | "breeze" | "docs";
 
 export interface DocInfo {
   title: string;
   path: string;
-  url: string;
+  txtUrl: string;
   category?: string;
 }
 
-// Icon types
+export interface SearchDocResult extends DocInfo {
+  section: SectionId;
+  score: number;
+}
+
+export interface RootageIndex {
+  name: string;
+  version: string;
+  resources: Array<{ path: string }>;
+}
+
 export interface IconEntry {
   name: string;
   metadatas: string[];
@@ -69,6 +55,13 @@ export interface IconSearchResult {
   allKeywords: string[];
 }
 
+export interface IconUsage {
+  framework: string;
+  package: string;
+  import: string;
+  component: string;
+}
+
 export interface IconDetails {
   name: string;
   type: "monochrome" | "multicolor";
@@ -76,9 +69,5 @@ export interface IconDetails {
   variant?: "line" | "fill";
   service?: string;
   docsUrl: string;
-  usage: {
-    package: string;
-    import: string;
-    component: string;
-  };
+  usage: IconUsage[];
 }
