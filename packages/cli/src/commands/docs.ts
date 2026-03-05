@@ -47,11 +47,9 @@ function printDocsResult(item: DocsItem, baseUrl: string) {
 export const docsCommand = (cli: CAC) => {
   cli
     .command("docs [query]", "문서 링크, llms.txt 링크, 스니펫 링크를 조회합니다")
-    .option(
-      "-u, --baseUrl <baseUrl>",
-      "the base url of the registry. defaults to the current directory.",
-      { default: BASE_URL },
-    )
+    .option("-u, --baseUrl <baseUrl>", `레지스트리의 기본 URL (기본값: ${BASE_URL})`, {
+      default: BASE_URL,
+    })
     .example("seed-design docs")
     .example("seed-design docs action-button")
     .action(async (query, opts) => {

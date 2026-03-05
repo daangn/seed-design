@@ -82,7 +82,7 @@ npx @seed-design/cli@latest docs action-button
 
 출력 예시:
 
-```
+```text
 action-button
 - document: https://seed-design.io/react/components/action-button
 - llms.txt: https://seed-design.io/llms/react/components/action-button.txt

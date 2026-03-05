@@ -85,14 +85,16 @@ function buildRegistryMap(): Map<string, { registryId: string; snippetPath: stri
       const registry = JSON.parse(raw) as RegistryIndex;
       for (const item of registry.items) {
         if (item.snippets.length > 0) {
-          map.set(item.id, {
+          // composite key to avoid collision across registries
+          map.set(`${registryId}:${item.id}`, {
             registryId,
             snippetPath: item.snippets[0].path,
           });
         }
       }
-    } catch {
-      // registry not found, skip
+    } catch (err) {
+      // only ignore missing registry files; surface other errors (parse failures, permission issues, etc.)
+      if ((err as NodeJS.ErrnoException).code !== "ENOENT") throw err;
     }
   }
 
@@ -126,7 +128,8 @@ export async function GET() {
             : prefix;
 
       const itemId = page.slugs[page.slugs.length - 1];
-      const registryEntry = registryMap.get(itemId);
+      // look up by composite key matching the format used in buildRegistryMap
+      const registryEntry = registryMap.get(`ui:${itemId}`) ?? registryMap.get(`breeze:${itemId}`);
 
       const item: DocsItem = {
         id: itemId,
