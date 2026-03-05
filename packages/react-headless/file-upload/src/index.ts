@@ -42,3 +42,5 @@ export type {
 } from "./types";
 
 export * as FileUpload from "./FileUpload.namespace";
+
+export { splitFileName, type SplitFileNameResult } from "./utils";

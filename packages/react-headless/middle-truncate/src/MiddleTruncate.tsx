@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import type * as React from "react";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 export interface MiddleTruncateProps
