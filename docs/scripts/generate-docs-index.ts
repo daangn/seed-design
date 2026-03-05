@@ -183,8 +183,11 @@ async function main() {
       const itemId = slugs[slugs.length - 1];
       const docUrl = `${baseUrl}/${slugs.join("/")}`;
 
-      const registryEntry = registryMap.get(`ui:${itemId}`) ?? registryMap.get(`breeze:${itemId}`);
-
+      const primaryRegistryId = categoryId === "breeze" ? "breeze" : "ui";
+      const secondaryRegistryId = primaryRegistryId === "ui" ? "breeze" : "ui";
+      const registryEntry =
+        registryMap.get(`${primaryRegistryId}:${itemId}`) ??
+        registryMap.get(`${secondaryRegistryId}:${itemId}`);
       const item: DocsItem = {
         id: itemId,
         title: frontmatter.title,
