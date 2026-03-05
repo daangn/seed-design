@@ -8,6 +8,9 @@ const prUrl = process.env.PR_URL;
 /** changeset이 자동 생성하는 노이즈 라인 접두사 목록 */
 const IGNORED_LINE_PREFIXES = ["- Updated dependencies"];
 
+/** 순서 번호 이모지 */
+const NUMBER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
+
 /**
  * CHANGELOG.md에서 가장 최신 버전 섹션을 추출
  * @param {string} content
@@ -34,8 +37,8 @@ function extractLatestVersion(content) {
           line.startsWith("- ") &&
           IGNORED_LINE_PREFIXES.every((prefix) => !line.startsWith(prefix)),
       )
-      // changeset 해시 제거: `- \`a1b2c3\`: 메시지` → `- 메시지`
-      .map((line) => line.replace(/^- [`']?[a-f0-9]{7,}[`']?:\s*/, "- "));
+      // changeset 해시를 `hash: 메시지` 형태로 변환
+      .map((line) => line.replace(/^- [`']?([a-f0-9]{7})[a-f0-9]*[`']?:\s*/, "- `$1`: "));
 
     if (items.length > 0) sections[sectionName] = items;
   }
@@ -54,16 +57,6 @@ function getPackageName(changelogPath) {
   } catch {
     return dir;
   }
-}
-
-/**
- * @param {string} name
- */
-function formatSectionName(name) {
-  if (name.includes("Major")) return "💥 Major Changes";
-  if (name.includes("Minor")) return "✨ Minor Changes";
-  if (name.includes("Patch")) return "🐛 Patch Changes";
-  return name;
 }
 
 function main() {
@@ -102,16 +95,15 @@ function main() {
     { type: "divider" },
   ];
 
-  for (const release of releases) {
-    let text = `*${release.packageName}* \`v${release.version}\`\n`;
+  for (const [i, release] of releases.entries()) {
+    const emoji = NUMBER_EMOJIS[i] ?? `${i + 1}.`;
+    const allItems = Object.values(release.sections).flat();
 
-    for (const [sectionName, items] of Object.entries(release.sections)) {
-      text += `${formatSectionName(sectionName)}\n`;
-      text += `${items
-        .slice(0, 5)
-        .map((item) => item.replace(/^- /, "• "))
-        .join("\n")}\n`;
-    }
+    const text = [
+      `${emoji} *${release.packageName}@${release.version}*`,
+      "",
+      ...allItems.slice(0, 10).map((item) => item.replace(/^- /, "")),
+    ].join("\n");
 
     blocks.push({
       type: "section",
