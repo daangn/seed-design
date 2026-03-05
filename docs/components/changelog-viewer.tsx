@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const ALL = "all";
 
-const PINNED_PACKAGES = ["@seed-design/react", "@seed-design/css"];
+const PINNED_PACKAGES = ["@seed-design/react", "@seed-design/css", "@seed-design/stackflow"];
 
 export function ChangelogViewer({
   entries,
