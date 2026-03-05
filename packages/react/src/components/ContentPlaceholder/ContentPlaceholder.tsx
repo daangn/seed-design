@@ -45,6 +45,26 @@ export type ContentPlaceholderAssetProps =
 
 export type { ContentPlaceholderAssetType };
 
+export type ContentPlaceholderProps = Omit<ContentPlaceholderRootProps, "children"> &
+  (
+    | {
+        type?:
+          | "default"
+          | "coupon"
+          | "car"
+          | "realty"
+          | "food"
+          | "image"
+          | "group"
+          | "post"
+          | "localProfile"
+          | "buySell"
+          | "jobs";
+        svg?: never;
+      }
+    | { svg: React.ReactNode; type?: never }
+  );
+
 const ContentPlaceholderAssetBase = React.forwardRef<SVGSVGElement, ContentPlaceholderAssetProps>(
   ({ type, svg, ...props }, ref) => {
     if (process.env.NODE_ENV !== "production" && type !== undefined && svg !== undefined) {

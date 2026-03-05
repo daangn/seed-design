@@ -6,4 +6,5 @@ export {
   type ContentPlaceholderContainerProps as ContainerProps,
   type ContentPlaceholderAssetProps as AssetProps,
   type ContentPlaceholderAssetType as AssetType,
+  type ContentPlaceholderProps as Props,
 } from "./ContentPlaceholder";

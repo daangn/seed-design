@@ -3,18 +3,7 @@
 import { ContentPlaceholder as SeedContentPlaceholder } from "@seed-design/react";
 import * as React from "react";
 
-type ContentPlaceholderPresetProps = {
-  type?: SeedContentPlaceholder.AssetType;
-  svg?: never;
-};
-
-type ContentPlaceholderCustomProps = {
-  svg: React.ReactNode;
-  type?: never;
-};
-
-export type ContentPlaceholderProps = Omit<SeedContentPlaceholder.RootProps, "children"> &
-  (ContentPlaceholderPresetProps | ContentPlaceholderCustomProps);
+export interface ContentPlaceholderProps extends SeedContentPlaceholder.Props {}
 
 /**
  * @see https://seed-design.io/react/components/content-placeholder
