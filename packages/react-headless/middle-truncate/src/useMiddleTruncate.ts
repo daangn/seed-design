@@ -6,7 +6,7 @@ import { elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface UseMiddleTruncateProps {
-  text: string;
+  children: string;
 
   /**
    * Number of characters to preserve from the end of the text.
@@ -27,27 +27,27 @@ export interface UseMiddleTruncateProps {
   onTruncate?: (isTruncated: boolean) => void;
 }
 
-export type UseMiddleTruncateReturn = ReturnType<typeof useMiddleTruncate>;
-
-// NOTE: visual behavior is verified in Storybook: docs/stories/MiddleTruncate.stories.tsx
 export function useMiddleTruncate(props: UseMiddleTruncateProps) {
-  const { text, end = 0, ellipsis = "…", maxLines = 1, onTruncate } = props;
+  const { children, end = 0, ellipsis = "…", maxLines = 1, onTruncate } = props;
 
-  const rootRef = useRef<HTMLElement | null>(null);
+  const contentRef = useRef<HTMLElement | null>(null);
   const [displayText, setDisplayText] = useState<string | null>(null);
 
   const compute = useCallback(() => {
-    const root = rootRef.current;
-    if (!root || !text) {
+    const el = contentRef.current;
+    if (!el || !children) {
       setDisplayText(null);
       onTruncate?.(false);
       return;
     }
 
-    const computed = getComputedStyle(root);
+    const parent = el.parentElement;
+    if (!parent) return;
+
+    const computed = getComputedStyle(parent);
 
     const contentWidth = Math.floor(
-      root.clientWidth -
+      parent.clientWidth -
         (Number.parseFloat(computed.paddingLeft) || 0) -
         (Number.parseFloat(computed.paddingRight) || 0),
     );
@@ -72,7 +72,7 @@ export function useMiddleTruncate(props: UseMiddleTruncateProps) {
       `line-height:${computed.lineHeight}`,
       "white-space:nowrap",
     ].join(";");
-    measurer.textContent = text;
+    measurer.textContent = children;
     document.body.appendChild(measurer);
 
     const lineHeight = measurer.scrollHeight;
@@ -82,16 +82,16 @@ export function useMiddleTruncate(props: UseMiddleTruncateProps) {
 
     // text fits without truncation
     if (measurer.scrollHeight <= maxHeight + 1) {
-      setDisplayText(text);
+      setDisplayText(children);
       onTruncate?.(false);
       measurer.remove();
       return;
     }
 
     // binary search
-    const safeEnd = Math.min(Math.abs(end), text.length);
-    const endFragment = safeEnd > 0 ? text.slice(-safeEnd) : "";
-    const startSource = safeEnd > 0 ? text.slice(0, -safeEnd) : text;
+    const safeEnd = Math.min(Math.abs(end), children.length);
+    const endFragment = safeEnd > 0 ? children.slice(-safeEnd) : "";
+    const startSource = safeEnd > 0 ? children.slice(0, -safeEnd) : children;
 
     // If ellipsis + endFragment alone overflows, reduce endFragment first
     measurer.textContent = ellipsis + endFragment;
@@ -140,7 +140,7 @@ export function useMiddleTruncate(props: UseMiddleTruncateProps) {
     setDisplayText(startFragment + ellipsis + endFragment);
     onTruncate?.(true);
     measurer.remove();
-  }, [text, end, ellipsis, maxLines, onTruncate]);
+  }, [children, end, ellipsis, maxLines, onTruncate]);
 
   useEffect(() => {
     compute();
@@ -148,27 +148,22 @@ export function useMiddleTruncate(props: UseMiddleTruncateProps) {
 
   // recompute on resize
   useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
+    const parent = contentRef.current?.parentElement;
+    if (!parent) return;
 
     const observer = new ResizeObserver(() => compute());
-    observer.observe(root);
+    observer.observe(parent);
 
     return () => observer.disconnect();
   }, [compute]);
 
   return {
-    rootRef,
-    rootProps: elementProps({
-      style: {
-        overflow: "hidden",
-      },
-    }),
+    contentRef,
     contentProps: elementProps({
       style: {
         wordBreak: "break-all",
       },
-      children: displayText ?? text,
+      children: displayText ?? children,
     }),
   };
 }

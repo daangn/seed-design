@@ -221,17 +221,17 @@ export const FileUploadItemName = React.forwardRef<HTMLSpanElement, FileUploadIt
     const { file } = useFileUploadItemContext();
     const { extension } = splitFileName(file.name);
 
+    const renderChildren = typeof children === "string";
+
     return (
       <FileUploadPrimitive.ItemName
         ref={ref}
         className={clsx(classNames.name, className)}
         {...props}
       >
-        {children ?? (
-          <MiddleTruncate.Root end={extension.length} maxLines={2}>
-            <MiddleTruncate.Content>{file.name}</MiddleTruncate.Content>
-          </MiddleTruncate.Root>
-        )}
+        <MiddleTruncate maxLines={2} {...(!renderChildren && { end: extension.length })}>
+          {renderChildren ? children : file.name}
+        </MiddleTruncate>
       </FileUploadPrimitive.ItemName>
     );
   },
