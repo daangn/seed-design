@@ -1021,6 +1021,12 @@
               ]
             },
             {
+              "id": "interaction-states",
+              "title": "Interaction States",
+              "description": "SEED React 컴포넌트가 디바이스 환경에 따라 상호작용 스타일을 적용하는 방식을 설명합니다.",
+              "docUrl": "/react/components/concepts/interaction-states"
+            },
+            {
               "id": "library",
               "title": "Library",
               "description": "리액트 아이콘 패키지는 아이콘을 사용할 때 필요한 컴포넌트를 제공합니다.",
@@ -1581,12 +1587,6 @@
               "title": "Figma MCP",
               "description": "AI Agent를 활용해 Figma 디자인을 React 코드로 변환하는 Model Context Protocol(MCP)를 제공합니다.",
               "docUrl": "/ai-integration/figma-mcp"
-            },
-            {
-              "id": "llms-txt",
-              "title": "LLMs.txt",
-              "description": "SEED Design 문서를 LLM이 쉽게 이해할 수 있도록 llms.txt를 제공합니다.",
-              "docUrl": "/ai-integration/llms-txt"
             }
           ]
         }
