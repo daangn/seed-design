@@ -161,7 +161,7 @@ export function ChangelogViewer({
           </Popover>
         )}
 
-        {(selectedPackage !== ALL || selectedVersion !== ALL) && (
+        {selectedPackage !== ALL && (
           <span className="text-sm text-fd-muted-foreground">{filteredEntries.length}개 항목</span>
         )}
       </div>
