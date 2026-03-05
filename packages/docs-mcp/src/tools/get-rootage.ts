@@ -13,6 +13,8 @@ export function registerRootageTools(server: McpServer): void {
       inputSchema: {
         path: z
           .string()
+          .trim()
+          .min(1)
           .optional()
           .describe("Rootage resource path (e.g. /color.json, /components/action-button.json)."),
       },
@@ -26,7 +28,7 @@ export function registerRootageTools(server: McpServer): void {
     },
     async ({ path }) => {
       try {
-        if (!path) {
+        if (path === undefined) {
           const index = await fetchRootageIndex();
           return {
             content: [{ type: "text", text: JSON.stringify(index, null, 2) }],

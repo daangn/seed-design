@@ -341,21 +341,25 @@ export async function searchDocs(
   const targetSections = (opts?.section ? [opts.section] : SECTION_IDS).filter(isValidSection);
   const sectionResults = await Promise.all(
     targetSections.map(async (section) => {
-      const list = await fetchDocsList(section, { category: opts?.category });
-      return list.items.flatMap((doc) => {
-        const score = scoreDoc(normalizedQuery, doc);
-        if (score <= 0) return [];
-        return [
-          {
-            section,
-            title: doc.title,
-            path: doc.path,
-            txtUrl: doc.txtUrl,
-            category: doc.category,
-            score,
-          },
-        ];
-      });
+      try {
+        const list = await fetchDocsList(section, { category: opts?.category });
+        return list.items.flatMap((doc) => {
+          const score = scoreDoc(normalizedQuery, doc);
+          if (score <= 0) return [];
+          return [
+            {
+              section,
+              title: doc.title,
+              path: doc.path,
+              txtUrl: doc.txtUrl,
+              category: doc.category,
+              score,
+            },
+          ];
+        });
+      } catch {
+        return [];
+      }
     }),
   );
 
@@ -371,11 +375,23 @@ export async function searchDocs(
 }
 
 function normalizeRootagePath(path: string): string {
-  const cleanPath = path.startsWith("/") ? path : `/${path}`;
-  if (cleanPath.includes("..")) {
-    throw new Error(`Invalid rootage path: ${path}`);
+  const rawPath = path.split(/[?#]/)[0] ?? path;
+  const withSlash = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
+  const segments = withSlash.split("/").filter(Boolean);
+
+  for (const rawSegment of segments) {
+    let segment: string;
+    try {
+      segment = decodeURIComponent(rawSegment);
+    } catch {
+      throw new Error(`Invalid rootage path: ${path}`);
+    }
+    if (!segment || segment === ".." || segment === "." || /[\\/]/.test(segment)) {
+      throw new Error(`Invalid rootage path: ${path}`);
+    }
   }
-  return cleanPath;
+
+  return `/${segments.join("/")}`;
 }
 
 export async function fetchRootageIndex(): Promise<RootageIndex> {

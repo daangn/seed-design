@@ -334,34 +334,48 @@ export function registerDocsTools(server: McpServer): void {
     },
     async ({ items, maxCharsPerDoc }) => {
       try {
-        const docs = await Promise.all(
-          items.map(async (item) => {
-            const txtUrl = getFallbackDocUrl(item.section, item.path);
-            try {
-              const doc = await fetchDoc(
-                item.section,
-                item.path,
-                maxCharsPerDoc ?? DEFAULT_DOC_MAX_CHARS,
-              );
-              return {
-                section: item.section,
-                path: item.path,
-                txtUrl: doc.txtUrl,
-                content: doc.content,
-                truncated: doc.truncated,
-              };
-            } catch (error) {
-              return {
-                section: item.section,
-                path: item.path,
-                txtUrl,
-                content: "",
-                truncated: false,
-                error: toErrorMessage(error),
-              };
-            }
-          }),
-        );
+        const concurrency = 8;
+        const docs: Array<{
+          section: SectionId;
+          path: string;
+          txtUrl: string;
+          content: string;
+          truncated: boolean;
+          error?: string;
+        }> = [];
+
+        for (let i = 0; i < items.length; i += concurrency) {
+          const chunk = items.slice(i, i + concurrency);
+          const chunkDocs = await Promise.all(
+            chunk.map(async (item) => {
+              const txtUrl = getFallbackDocUrl(item.section, item.path);
+              try {
+                const doc = await fetchDoc(
+                  item.section,
+                  item.path,
+                  maxCharsPerDoc ?? DEFAULT_DOC_MAX_CHARS,
+                );
+                return {
+                  section: item.section,
+                  path: item.path,
+                  txtUrl: doc.txtUrl,
+                  content: doc.content,
+                  truncated: doc.truncated,
+                };
+              } catch (error) {
+                return {
+                  section: item.section,
+                  path: item.path,
+                  txtUrl,
+                  content: "",
+                  truncated: false,
+                  error: toErrorMessage(error),
+                };
+              }
+            }),
+          );
+          docs.push(...chunkDocs);
+        }
 
         const successCount = docs.filter((doc) => !doc.error).length;
         const errorCount = docs.length - successCount;
