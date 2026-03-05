@@ -22,24 +22,29 @@ const docsOptionsSchema = z.object({
   baseUrl: z.string().optional(),
 });
 
-function buildSnippetUrl(item: DocsItem): string | null {
-  if (!item.snippetKey || !item.snippetPath) return null;
-  const [registryId] = item.snippetKey.split(":");
-  if (registryId !== "ui" && registryId !== "breeze") return null;
-  return `${GITHUB_SNIPPET_BASE}/${registryId}/${item.snippetPath}`;
+function buildSnippetUrl(registryId: string, snippetPath: string): string {
+  return `${GITHUB_SNIPPET_BASE}/${registryId}/${snippetPath}`;
 }
 
 function printDocsResult(item: DocsItem, baseUrl: string) {
   const docLink = `${baseUrl}${item.docUrl}`;
   const llmsLink = `${baseUrl}/llms${item.docUrl}.txt`;
-  const snippetLink = buildSnippetUrl(item);
 
-  const lines = [
-    item.id,
-    `- docs: ${docLink}`,
-    `- llms.txt: ${llmsLink}`,
-    ...(snippetLink ? [`- snippet: ${snippetLink}`] : []),
-  ];
+  const lines = [item.id, `- docs: ${docLink}`, `- llms.txt: ${llmsLink}`];
+
+  if (item.snippetKey && item.snippets && item.snippets.length > 0) {
+    const [registryId] = item.snippetKey.split(":");
+    if (registryId === "ui" || registryId === "breeze") {
+      if (item.snippets.length === 1) {
+        lines.push(`- snippet: ${buildSnippetUrl(registryId, item.snippets[0].path)}`);
+      } else {
+        lines.push("- snippet:");
+        for (const snippet of item.snippets) {
+          lines.push(`   - ${snippet.label}: ${buildSnippetUrl(registryId, snippet.path)}`);
+        }
+      }
+    }
+  }
 
   p.log.message(lines.join("\n"));
 }
@@ -281,7 +286,7 @@ export const docsCommand = (cli: CAC) => {
             properties: {
               query: options.query ?? null,
               item_id: selectedItem.id,
-              has_snippet: buildSnippetUrl(selectedItem) !== null,
+              has_snippet: !!(selectedItem.snippets && selectedItem.snippets.length > 0),
               duration_ms: duration,
             },
           });

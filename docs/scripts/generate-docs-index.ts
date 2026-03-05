@@ -3,6 +3,11 @@ import { existsSync, readFileSync, readdirSync, statSync } from "fs";
 import { promises as fs } from "fs";
 import path from "node:path";
 
+type DocsSnippet = {
+  label: string;
+  path: string;
+};
+
 type DocsItem = {
   id: string;
   title: string;
@@ -10,7 +15,7 @@ type DocsItem = {
   docUrl: string;
   deprecated?: boolean;
   snippetKey?: string;
-  snippetPath?: string;
+  snippets?: DocsSnippet[];
 };
 
 type DocsSection = {
@@ -117,11 +122,27 @@ function collectMdxFiles(dir: string, base = ""): string[] {
   return results;
 }
 
+const SNIPPET_EXT_LABELS: Record<string, string> = {
+  ".tsx": "react",
+  ".ts": "ts",
+  ".jsx": "react",
+  ".js": "js",
+  ".css": "css",
+  ".module.css": "css",
+};
+
+function getSnippetLabel(filePath: string): string {
+  // Check longer extensions first (e.g. .module.css before .css)
+  if (filePath.endsWith(".module.css")) return "css";
+  const ext = path.extname(filePath);
+  return SNIPPET_EXT_LABELS[ext] ?? ext.replace(".", "");
+}
+
 /**
  * Build a map of registry entries from public/__registry__/ index files.
  */
-function buildRegistryMap(): Map<string, { registryId: string; snippetPath: string }> {
-  const map = new Map<string, { registryId: string; snippetPath: string }>();
+function buildRegistryMap(): Map<string, { registryId: string; snippets: DocsSnippet[] }> {
+  const map = new Map<string, { registryId: string; snippets: DocsSnippet[] }>();
 
   for (const registryId of ["ui", "breeze"] as const) {
     try {
@@ -134,7 +155,10 @@ function buildRegistryMap(): Map<string, { registryId: string; snippetPath: stri
         if (item.snippets.length > 0) {
           map.set(`${registryId}:${item.id}`, {
             registryId,
-            snippetPath: item.snippets[0].path,
+            snippets: item.snippets.map((s) => ({
+              label: getSnippetLabel(s.path),
+              path: s.path,
+            })),
           });
         }
       }
@@ -183,11 +207,8 @@ async function main() {
       const itemId = slugs[slugs.length - 1];
       const docUrl = `${baseUrl}/${slugs.join("/")}`;
 
-      const primaryRegistryId = categoryId === "breeze" ? "breeze" : "ui";
-      const secondaryRegistryId = primaryRegistryId === "ui" ? "breeze" : "ui";
-      const registryEntry =
-        registryMap.get(`${primaryRegistryId}:${itemId}`) ??
-        registryMap.get(`${secondaryRegistryId}:${itemId}`);
+      const registryEntry = registryMap.get(`ui:${itemId}`) ?? registryMap.get(`breeze:${itemId}`);
+
       const item: DocsItem = {
         id: itemId,
         title: frontmatter.title,
@@ -196,7 +217,7 @@ async function main() {
         ...(frontmatter.deprecated && { deprecated: true }),
         ...(registryEntry && {
           snippetKey: `${registryEntry.registryId}:${itemId}`,
-          snippetPath: registryEntry.snippetPath,
+          snippets: registryEntry.snippets,
         }),
       };
 

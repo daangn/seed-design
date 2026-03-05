@@ -67,6 +67,11 @@ export type PublicAvailableRegistries = z.infer<typeof publicAvailableRegistries
 
 ///////////////////////////////////////////////////////////////
 
+export const docsSnippetSchema = z.object({
+  label: z.string(),
+  path: z.string(),
+});
+
 export const docsItemSchema = z.object({
   id: z.string(),
   title: z.string(),
@@ -74,7 +79,7 @@ export const docsItemSchema = z.object({
   docUrl: z.string(),
   deprecated: z.boolean().optional(),
   snippetKey: z.string().optional(),
-  snippetPath: z.string().optional(),
+  snippets: z.array(docsSnippetSchema).optional(),
 });
 
 export const docsSectionSchema = z.object({
