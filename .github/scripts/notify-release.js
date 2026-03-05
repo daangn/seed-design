@@ -10,6 +10,26 @@ const IGNORED_LINE_PREFIXES = ["- Updated dependencies"];
 
 /** 순서 번호 이모지 */
 const NUMBER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
+const REPO = "daangn/seed-design";
+const INCLUDED_PACKAGES = new Set(["@seed-design/css", "@seed-design/react"]);
+
+/**
+ * CHANGELOG 항목의 커밋 표기를 Slack 링크 표기로 변환
+ * - [`abcdef1`](https://github.com/.../commit/abcdef1) -> <https://...|`abcdef1`>
+ * - `abcdef1`: ... -> <https://github.com/daangn/seed-design/commit/abcdef1|`abcdef1`>: ...
+ * @param {string} item
+ */
+function toSlackCommitLink(item) {
+  const withMarkdownLink = item.replace(
+    /\[`?([a-f0-9]{7,40})`?\]\((https:\/\/github\.com\/[^)]+\/commit\/[a-f0-9]{7,40})\)/gi,
+    (_, shortHash, url) => `<${url}|\`${shortHash}\`>`,
+  );
+
+  return withMarkdownLink.replace(
+    /^- [`']?([a-f0-9]{7,40})[`']?:\s*/i,
+    (_, hash) => `- <https://github.com/${REPO}/commit/${hash}|\`${hash.slice(0, 7)}\`>: `,
+  );
+}
 
 /**
  * CHANGELOG.md에서 가장 최신 버전 섹션을 추출
@@ -37,8 +57,7 @@ function extractLatestVersion(content) {
           line.startsWith("- ") &&
           IGNORED_LINE_PREFIXES.every((prefix) => !line.startsWith(prefix)),
       )
-      // changeset 해시를 `hash: 메시지` 형태로 변환
-      .map((line) => line.replace(/^- [`']?([a-f0-9]{7})[a-f0-9]*[`']?:\s*/, "- `$1`: "));
+      .map(toSlackCommitLink);
 
     if (items.length > 0) sections[sectionName] = items;
   }
@@ -75,7 +94,9 @@ function main() {
     if (!latest) continue;
 
     const packageName = getPackageName(file);
-    releases.push({ packageName, ...latest });
+    if (INCLUDED_PACKAGES.has(packageName)) {
+      releases.push({ packageName, ...latest });
+    }
   }
 
   if (releases.length === 0) {
@@ -92,6 +113,13 @@ function main() {
         text: "🌱 SEED Design 새 버전이 릴리즈됐어요!",
       },
     },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "안녕하세요 프론트엔드 챕터 여러분~ 2주간 SEED 릴리즈 요약 전달드려요 :알잘딱:",
+      },
+    },
     { type: "divider" },
   ];
 
@@ -102,7 +130,7 @@ function main() {
     const text = [
       `${emoji} *${release.packageName}@${release.version}*`,
       "",
-      ...allItems.slice(0, 10).map((item) => item.replace(/^- /, "")),
+      ...allItems.slice(0, 10).map((item) => `• ${item.replace(/^- /, "")}`),
     ].join("\n");
 
     blocks.push({
@@ -121,6 +149,14 @@ function main() {
         url: prUrl ?? "",
       },
     ],
+  });
+
+  blocks.push({
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: "질문이 있으시다면 #_design-system 에서 @design-system-fe-engineers 멘션 주세요 :wave:",
+    },
   });
 
   // GITHUB_OUTPUT에 blocks 출력
