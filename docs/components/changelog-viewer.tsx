@@ -5,6 +5,7 @@ import { ChangelogGroups } from "@/components/changelog-viewer/changelog-groups"
 import { useChangelogViewerData } from "@/components/changelog-viewer/use-changelog-viewer-data";
 import { useChangelogViewerState } from "@/components/changelog-viewer/use-changelog-viewer-state";
 import type { ChangelogEntry } from "@/lib/parse-changelog";
+import { SnackbarProvider } from "seed-design/ui/snackbar";
 
 export function ChangelogViewer({
   entries,
@@ -26,48 +27,42 @@ export function ChangelogViewer({
   });
 
   return (
-    <div className="flex flex-col gap-6">
-      <ChangelogControls
-        addCompareTab={state.addCompareTab}
-        addCompareTabOpen={state.addCompareTabOpen}
-        availableCompareTabsToAdd={state.availableCompareTabsToAdd}
-        compareTabs={state.compareTabs}
-        effectiveCompareTab={state.effectiveCompareTab}
-        exactLabel={data.exactLabel}
-        exactVersion={state.exactVersion}
-        exactVersionOpen={state.exactVersionOpen}
-        filteredEntryCount={data.filteredEntries.length}
-        fromLabel={data.fromLabel}
-        isCompareMode={state.isCompareMode}
-        isExactMode={data.isExactMode}
-        packageLabel={data.packageLabel}
-        packageLatestVersionMap={data.packageLatestVersionMap}
-        packageOpen={state.packageOpen}
-        packages={state.packages}
-        removeCompareTab={state.removeCompareTab}
-        selectedPackageForView={state.selectedPackageForView}
-        setActiveCompareTab={state.setActiveCompareTab}
-        setAddCompareTabOpen={state.setAddCompareTabOpen}
-        setExactVersion={state.setExactVersion}
-        setExactVersionOpen={state.setExactVersionOpen}
-        setFilterMode={state.setFilterMode}
-        setLegacyVersion={state.setLegacyVersion}
-        setPackageOpen={state.setPackageOpen}
-        setSelectedPackage={state.setSelectedPackage}
-        setVersionFrom={state.setVersionFrom}
-        setVersionFromOpen={state.setVersionFromOpen}
-        setVersionTo={state.setVersionTo}
-        setVersionToOpen={state.setVersionToOpen}
-        setViewMode={state.setViewMode}
-        switchCompareTab={state.switchCompareTab}
-        toLabel={data.toLabel}
-        versionFrom={state.versionFrom}
-        versionFromOpen={state.versionFromOpen}
-        versionTo={state.versionTo}
-        versionToOpen={state.versionToOpen}
-        versionsForPackage={data.versionsForPackage}
-      />
-      <ChangelogGroups groupedEntries={data.groupedEntries} />
-    </div>
+    <SnackbarProvider>
+      <div className="flex flex-col gap-6">
+        <ChangelogControls
+          addCompareTab={state.addCompareTab}
+          addCompareTabOpen={state.addCompareTabOpen}
+          availableCompareTabsToAdd={state.availableCompareTabsToAdd}
+          compareTabs={state.compareTabs}
+          effectiveCompareTab={state.effectiveCompareTab}
+          exactLabel={data.exactLabel}
+          exactVersion={state.exactVersion}
+          exactVersionOpen={state.exactVersionOpen}
+          filteredEntryCount={data.filteredEntries.length}
+          fromLabel={data.fromLabel}
+          isExactMode={data.isExactMode}
+          removeCompareTab={state.removeCompareTab}
+          selectedPackageForView={state.selectedPackageForView}
+          setAddCompareTabOpen={state.setAddCompareTabOpen}
+          setExactVersion={state.setExactVersion}
+          setExactVersionOpen={state.setExactVersionOpen}
+          setFilterMode={state.setFilterMode}
+          setLegacyVersion={state.setLegacyVersion}
+          setVersionFrom={state.setVersionFrom}
+          setVersionFromOpen={state.setVersionFromOpen}
+          setVersionTo={state.setVersionTo}
+          setVersionToOpen={state.setVersionToOpen}
+          switchCompareTab={state.switchCompareTab}
+          tabVersionSummary={data.tabVersionSummary}
+          toLabel={data.toLabel}
+          versionFrom={state.versionFrom}
+          versionFromOpen={state.versionFromOpen}
+          versionTo={state.versionTo}
+          versionToOpen={state.versionToOpen}
+          versionsForPackage={data.versionsForPackage}
+        />
+        <ChangelogGroups groupedEntries={data.groupedEntries} />
+      </div>
+    </SnackbarProvider>
   );
 }

@@ -22,28 +22,20 @@ type ChangelogControlsProps = {
   exactVersionOpen: boolean;
   filteredEntryCount: number;
   fromLabel: string;
-  isCompareMode: boolean;
   isExactMode: boolean;
-  packageLabel: string;
-  packageLatestVersionMap: Map<string, string | null>;
-  packageOpen: boolean;
-  packages: string[];
   removeCompareTab: (pkg: string) => void;
   selectedPackageForView: string;
-  setActiveCompareTab: QueryStateSetter;
   setAddCompareTabOpen: (open: boolean) => void;
   setExactVersion: QueryStateSetter;
   setExactVersionOpen: (open: boolean) => void;
   setFilterMode: QueryStateSetter;
   setLegacyVersion: QueryStateSetter;
-  setPackageOpen: (open: boolean) => void;
-  setSelectedPackage: QueryStateSetter;
   setVersionFrom: QueryStateSetter;
   setVersionFromOpen: (open: boolean) => void;
   setVersionTo: QueryStateSetter;
   setVersionToOpen: (open: boolean) => void;
-  setViewMode: QueryStateSetter;
   switchCompareTab: (pkg: string) => void;
+  tabVersionSummary: string;
   toLabel: string;
   versionFrom: string;
   versionFromOpen: boolean;
@@ -63,28 +55,20 @@ export function ChangelogControls({
   exactVersionOpen,
   filteredEntryCount,
   fromLabel,
-  isCompareMode,
   isExactMode,
-  packageLabel,
-  packageLatestVersionMap,
-  packageOpen,
-  packages,
   removeCompareTab,
   selectedPackageForView,
-  setActiveCompareTab,
   setAddCompareTabOpen,
   setExactVersion,
   setExactVersionOpen,
   setFilterMode,
   setLegacyVersion,
-  setPackageOpen,
-  setSelectedPackage,
   setVersionFrom,
   setVersionFromOpen,
   setVersionTo,
   setVersionToOpen,
-  setViewMode,
   switchCompareTab,
+  tabVersionSummary,
   toLabel,
   versionFrom,
   versionFromOpen,
@@ -94,40 +78,9 @@ export function ChangelogControls({
 }: ChangelogControlsProps) {
   return (
     <>
-      <div className="inline-flex items-center rounded-md border border-fd-border p-0.5 w-fit">
-        <button
-          type="button"
-          className={`px-2.5 py-1 text-xs rounded ${!isCompareMode ? "bg-fd-accent text-fd-accent-foreground" : "text-fd-muted-foreground hover:text-fd-foreground"}`}
-          onClick={() => {
-            void setViewMode("single");
-          }}
-        >
-          단일 패키지
-        </button>
-        <button
-          type="button"
-          className={`px-2.5 py-1 text-xs rounded ${isCompareMode ? "bg-fd-accent text-fd-accent-foreground" : "text-fd-muted-foreground hover:text-fd-foreground"}`}
-          onClick={() => {
-            if (compareTabs.length > 0) {
-              void setActiveCompareTab(effectiveCompareTab);
-            }
-            void setViewMode("compare");
-          }}
-        >
-          여러 패키지 비교
-        </button>
-      </div>
-
-      <p className="text-xs text-fd-muted-foreground">
-        {isCompareMode
-          ? "react, css, stackflow처럼 여러 패키지를 탭으로 빠르게 비교합니다."
-          : "한 패키지를 선택해 특정 버전 또는 버전 범위로 자세히 확인합니다."}
-      </p>
-
-      {isCompareMode && compareTabs.length > 0 && (
+      {compareTabs.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap">
           {compareTabs.map((pkg) => {
-            const latest = packageLatestVersionMap.get(pkg);
             const isActive = effectiveCompareTab === pkg;
             const label = pkg.replace("@seed-design/", "");
             return (
@@ -145,7 +98,7 @@ export function ChangelogControls({
                   onClick={() => switchCompareTab(pkg)}
                 >
                   {label}
-                  {latest ? ` · ${latest}` : ""}
+                  {isActive ? ` · ${tabVersionSummary}` : ""}
                 </button>
                 <button
                   type="button"
@@ -181,60 +134,6 @@ export function ChangelogControls({
       )}
 
       <div className="flex items-center gap-2 flex-wrap">
-        {!isCompareMode && (
-          <Popover open={packageOpen} onOpenChange={setPackageOpen}>
-            <PopoverTrigger
-              className={buttonVariants({
-                color: "secondary",
-                size: "sm",
-                className: "gap-2 items-center max-w-72 truncate",
-              })}
-            >
-              <span className="truncate">{packageLabel}</span>
-              <IconChevronDownLine className="size-3.5 text-fd-muted-foreground shrink-0" />
-            </PopoverTrigger>
-            <PopoverContent className="flex flex-col overflow-auto max-h-72 w-64 p-1">
-              <button
-                type="button"
-                className="text-sm p-2 rounded-md text-left flex items-center gap-2 hover:bg-fd-accent hover:text-fd-accent-foreground"
-                onClick={() => {
-                  void setSelectedPackage(null);
-                  void setExactVersion(null);
-                  void setVersionFrom(null);
-                  void setVersionTo(null);
-                  void setLegacyVersion(null);
-                  setPackageOpen(false);
-                }}
-              >
-                <IconCheckmarkFill
-                  className={`size-3.5 shrink-0 ${selectedPackageForView === ALL ? "opacity-100" : "opacity-0"}`}
-                />
-                모든 패키지
-              </button>
-              {packages.map((pkg) => (
-                <button
-                  key={pkg}
-                  type="button"
-                  className="text-sm p-2 rounded-md text-left flex items-center gap-2 hover:bg-fd-accent hover:text-fd-accent-foreground"
-                  onClick={() => {
-                    void setSelectedPackage(pkg);
-                    void setExactVersion(null);
-                    void setVersionFrom(null);
-                    void setVersionTo(null);
-                    void setLegacyVersion(null);
-                    setPackageOpen(false);
-                  }}
-                >
-                  <IconCheckmarkFill
-                    className={`size-3.5 shrink-0 ${selectedPackageForView === pkg ? "opacity-100" : "opacity-0"}`}
-                  />
-                  <span className="truncate text-xs font-mono">{pkg}</span>
-                </button>
-              ))}
-            </PopoverContent>
-          </Popover>
-        )}
-
         {selectedPackageForView !== ALL && (
           <div className="inline-flex items-center rounded-md border border-fd-border p-0.5">
             <button

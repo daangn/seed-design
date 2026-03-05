@@ -83,18 +83,6 @@ export function useChangelogViewerData({
     versionTo,
   });
 
-  const packageLatestVersionMap = new Map(
-    packages.map((pkg) => {
-      const latest =
-        entries
-          .flatMap((entry) => entry.packages)
-          .filter((pkgVersion) => pkgVersion.name === pkg)
-          .map((pkgVersion) => pkgVersion.version)
-          .sort((a, b) => compareSemver(b, a))[0] ?? null;
-      return [pkg, latest] as const;
-    }),
-  );
-
   const versionsForPackage =
     selectedPackageForView === ALL
       ? []
@@ -172,6 +160,17 @@ export function useChangelogViewerData({
   const exactLabel = exactVersion === ALL ? "특정 버전" : `${exactVersion}`;
   const fromLabel = versionFrom === ALL ? "시작 버전" : `${versionFrom} 이상`;
   const toLabel = versionTo === ALL ? "끝 버전" : `${versionTo} 이하`;
+  const tabVersionSummary = isExactMode
+    ? exactVersion === ALL
+      ? "exact"
+      : exactVersion
+    : versionFrom !== ALL && versionTo !== ALL
+      ? `${versionFrom}~${versionTo}`
+      : versionFrom !== ALL
+        ? `${versionFrom}+`
+        : versionTo !== ALL
+          ? `<=${versionTo}`
+          : "all";
 
   return {
     exactLabel,
@@ -180,7 +179,7 @@ export function useChangelogViewerData({
     groupedEntries,
     isExactMode,
     packageLabel,
-    packageLatestVersionMap,
+    tabVersionSummary,
     toLabel,
     versionsForPackage,
   };
