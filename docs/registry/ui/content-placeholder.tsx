@@ -3,13 +3,13 @@
 import { ContentPlaceholder as SeedContentPlaceholder } from "@seed-design/react";
 import * as React from "react";
 
-export interface ContentPlaceholderProps extends SeedContentPlaceholder.Props {}
+export type ContentPlaceholderProps = SeedContentPlaceholder.Props;
 
 /**
  * @see https://seed-design.io/react/components/content-placeholder
  */
 export const ContentPlaceholder = React.forwardRef<HTMLDivElement, ContentPlaceholderProps>(
-  ({ type = "default", svg, ...props }, ref) => {
+  ({ type, svg, ...props }, ref) => {
     return (
       <SeedContentPlaceholder.Root {...props} ref={ref}>
         <SeedContentPlaceholder.Container>
