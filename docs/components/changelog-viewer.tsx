@@ -424,13 +424,42 @@ export function ChangelogViewer({
             </div>
             <div className="px-3 py-1">
               <ul className="list-disc pl-5 pr-1 marker:text-fd-muted-foreground">
-                {group.entries.map((entry, i) => (
-                  <li
-                    key={`${group.packageName}@${group.version}-${entry.date}-${entry.label ?? ""}-${i}`}
-                  >
-                    <ChangelogEntryItem entry={entry} hideDate hidePackages compact />
-                  </li>
-                ))}
+                {group.entries.map((entry, i) => {
+                  const additionalPackages = entry.packages.filter(
+                    (pkg) => !(pkg.name === group.packageName && pkg.version === group.version),
+                  );
+                  const uniqueAdditionalPackages = Array.from(
+                    new Map(
+                      additionalPackages.map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const),
+                    ).values(),
+                  );
+
+                  return (
+                    <li
+                      key={`${group.packageName}@${group.version}-${entry.date}-${entry.label ?? ""}-${i}`}
+                    >
+                      <ChangelogEntryItem entry={entry} hideDate hidePackages compact />
+                      {uniqueAdditionalPackages.length > 0 && (
+                        <details className="mt-1.5">
+                          <summary className="cursor-pointer text-xs text-fd-muted-foreground hover:text-fd-foreground select-none">
+                            추가 영향 패키지 {uniqueAdditionalPackages.length}개
+                          </summary>
+                          <div className="mt-1.5 flex flex-wrap gap-1.5">
+                            {uniqueAdditionalPackages.map((pkg) => (
+                              <a
+                                key={`${pkg.name}@${pkg.version}`}
+                                href={`/react/updates/changelog?package=${encodeURIComponent(pkg.name)}&exact=${encodeURIComponent(pkg.version)}`}
+                                className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
+                              >
+                                <span>{pkg.name}@{pkg.version}</span>
+                              </a>
+                            ))}
+                          </div>
+                        </details>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </section>
