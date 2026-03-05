@@ -2,9 +2,11 @@
 
 import type * as React from "react";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 
 export interface MiddleTruncateProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
+  extends PrimitiveProps,
+    Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
   /**
    * The text content to truncate.
    */
@@ -153,9 +155,9 @@ export const MiddleTruncate = forwardRef<HTMLSpanElement, MiddleTruncateProps>(
     }, [compute]);
 
     return (
-      <span ref={setRefs} {...spanProps}>
+      <Primitive.span ref={setRefs} {...spanProps}>
         {displayText}
-      </span>
+      </Primitive.span>
     );
   },
 );
