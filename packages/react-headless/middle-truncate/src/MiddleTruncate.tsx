@@ -1,3 +1,6 @@
+// Truncation accuracy depends on real browser rendering.
+// Visual behavior is verified in Storybook: docs/stories/MiddleTruncate.stories.tsx
+
 "use client";
 
 import type * as React from "react";
@@ -48,7 +51,6 @@ export const MiddleTruncate = forwardRef<HTMLSpanElement, MiddleTruncateProps>(
     forwardedRef,
   ) => {
     const innerRef = useRef<HTMLSpanElement>(null);
-    const canvasRef = useRef<CanvasRenderingContext2D | null>(null);
     const [displayText, setDisplayText] = useState(children);
 
     const setRefs = useCallback(
@@ -68,66 +70,59 @@ export const MiddleTruncate = forwardRef<HTMLSpanElement, MiddleTruncateProps>(
         return;
       }
 
-      // Get or create canvas context
-      if (!canvasRef.current) {
-        const canvas = document.createElement("canvas");
-        canvasRef.current = canvas.getContext("2d");
-      }
-      const ctx = canvasRef.current;
-      if (!ctx) return;
+      const parent = el.parentElement;
+      if (!parent) return;
 
-      // Copy font from computed style (like react-truncate Truncate.tsx:58-69)
-      const style = getComputedStyle(el);
-      ctx.font = [style.fontWeight, style.fontStyle, style.fontSize, style.fontFamily].join(" ");
-      if ("letterSpacing" in ctx) {
-        ctx.letterSpacing = style.letterSpacing;
-      }
-
-      // Get container width from parent (like react-truncate Truncate.tsx:47-50)
-      const lineWidth = el.parentElement
-        ? Math.floor(el.parentElement.getBoundingClientRect().width)
-        : 0;
-
-      if (lineWidth <= 0) {
+      const parentWidth = Math.floor(parent.getBoundingClientRect().width);
+      if (parentWidth <= 0) {
         setDisplayText(children);
         onTruncate?.(false);
         return;
       }
 
-      const totalBudget = lineWidth * maxLines;
-      const measure = (text: string) => ctx.measureText(text).width;
-      const fullWidth = measure(children);
+      // Use DOM measurement instead of Canvas for accurate multi-line wrapping.
+      // Canvas measureText doesn't account for per-line pixel waste at wrap boundaries.
+      const cs = getComputedStyle(parent);
+      const lineHeight = Number.parseFloat(cs.lineHeight) || Number.parseFloat(cs.fontSize) * 1.2;
+      const maxHeight = lineHeight * maxLines;
 
-      // Text fits — no truncation needed
-      if (fullWidth <= totalBudget) {
+      const measurer = document.createElement("span");
+      measurer.style.cssText = [
+        "position:absolute",
+        "visibility:hidden",
+        "pointer-events:none",
+        "white-space:normal",
+        "display:block",
+        `width:${parentWidth}px`,
+        `font:${cs.font}`,
+        `letter-spacing:${cs.letterSpacing}`,
+        `word-break:${cs.wordBreak}`,
+        `line-height:${cs.lineHeight}`,
+      ].join(";");
+      document.body.appendChild(measurer);
+
+      // Check if full text fits
+      measurer.textContent = children;
+      if (measurer.scrollHeight <= maxHeight + 1) {
         setDisplayText(children);
         onTruncate?.(false);
+        measurer.remove();
         return;
       }
 
-      // Need truncation — binary search for optimal start length
+      // Need truncation — binary search with DOM measurement
       const safeEnd = Math.min(Math.abs(end), children.length);
       const endFragment = safeEnd > 0 ? children.slice(-safeEnd) : "";
       const startSource = safeEnd > 0 ? children.slice(0, -safeEnd) : children;
-      const ellipsisWidth = measure(ellipsis);
-      const endWidth = measure(endFragment);
-      const startBudget = totalBudget - endWidth - ellipsisWidth;
 
-      if (startBudget <= 0) {
-        setDisplayText(ellipsis + endFragment);
-        onTruncate?.(true);
-        return;
-      }
-
-      // Binary search (like react-truncate Truncate.tsx:158-173)
       let low = 0;
       let high = startSource.length;
 
       while (low <= high) {
         const mid = Math.floor((low + high) / 2);
-        const testWidth = measure(startSource.slice(0, mid));
+        measurer.textContent = startSource.slice(0, mid) + ellipsis + endFragment;
 
-        if (testWidth <= startBudget) {
+        if (measurer.scrollHeight <= maxHeight + 1) {
           low = mid + 1;
         } else {
           high = mid - 1;
@@ -137,6 +132,7 @@ export const MiddleTruncate = forwardRef<HTMLSpanElement, MiddleTruncateProps>(
       const startFragment = startSource.slice(0, Math.max(high, 0));
       setDisplayText(startFragment + ellipsis + endFragment);
       onTruncate?.(true);
+      measurer.remove();
     }, [children, end, ellipsis, maxLines, onTruncate]);
 
     // Compute on mount and when deps change
