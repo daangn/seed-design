@@ -475,6 +475,7 @@
         "@seed-design/react-fieldset": "0.1.0",
         "@seed-design/react-file-upload": "0,0,0",
         "@seed-design/react-image": "0.1.1",
+        "@seed-design/react-middle-truncate": "0.0.0",
         "@seed-design/react-popover": "1.0.3",
         "@seed-design/react-portal": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
@@ -699,6 +700,24 @@
         "@seed-design/react-primitive": "1.0.0",
       },
       "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/middle-truncate": {
+      "name": "@seed-design/react-middle-truncate",
+      "version": "0.0.0",
+      "dependencies": {
+        "@seed-design/react-primitive": "1.0.0",
+      },
+      "devDependencies": {
+        "@testing-library/jest-dom": "^6.6.3",
+        "@testing-library/react": "^16.3.0",
         "@types/react": "^19.1.6",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
@@ -2470,6 +2489,8 @@
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.4", "", { "peerDependencies": { "react": "17.x || 18.x || 19.x" } }, "sha512-jjfKw3mvIYsTlgdxb4pjWTpT+uW8RZns/gcfhOjWuegZEXuZyAy4kPpiNbeNdnbrNoLWTCt8Rtt6UCGr/Zo/EQ=="],
 
     "@seed-design/react-image": ["@seed-design/react-image@workspace:packages/react-headless/image"],
+
+    "@seed-design/react-middle-truncate": ["@seed-design/react-middle-truncate@workspace:packages/react-headless/middle-truncate"],
 
     "@seed-design/react-popover": ["@seed-design/react-popover@workspace:packages/react-headless/popover"],
 
