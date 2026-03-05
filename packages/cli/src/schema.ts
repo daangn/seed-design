@@ -45,16 +45,14 @@ export const publicRegistrySchema = z.object({
   hideFromCLICatalog: z.boolean().optional(),
 
   items: z.array(
-    publicRegistryItemSchema
-      .omit({ snippets: true })
-      .extend({
-        snippets: z.array(
-          z.object({
-            path: z.string(),
-            dependencies: z.record(z.string(), z.string()).optional(),
-          }),
-        ),
-      }),
+    publicRegistryItemSchema.omit({ snippets: true }).extend({
+      snippets: z.array(
+        z.object({
+          path: z.string(),
+          dependencies: z.record(z.string(), z.string()).optional(),
+        }),
+      ),
+    }),
   ),
 });
 
@@ -66,3 +64,29 @@ export const publicAvailableRegistriesSchema = z.array(z.object({ id: z.string()
 export type PublicRegistryItem = z.infer<typeof publicRegistryItemSchema>;
 export type PublicRegistry = z.infer<typeof publicRegistrySchema>;
 export type PublicAvailableRegistries = z.infer<typeof publicAvailableRegistriesSchema>;
+
+///////////////////////////////////////////////////////////////
+
+export const docsItemSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string().optional(),
+  docUrl: z.string(),
+  deprecated: z.boolean().optional(),
+  snippetKey: z.string().optional(),
+  snippetPath: z.string().optional(),
+});
+
+export const docsSectionSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  items: z.array(docsItemSchema),
+});
+
+export const docsIndexSchema = z.object({
+  sections: z.array(docsSectionSchema),
+});
+
+export type DocsItem = z.infer<typeof docsItemSchema>;
+export type DocsSection = z.infer<typeof docsSectionSchema>;
+export type DocsIndex = z.infer<typeof docsIndexSchema>;

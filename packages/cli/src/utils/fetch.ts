@@ -7,7 +7,23 @@ import {
   publicRegistryItemSchema,
   type PublicAvailableRegistries,
   publicAvailableRegistriesSchema,
+  type DocsIndex,
+  docsIndexSchema,
 } from "@/src/schema";
+
+export async function fetchDocsIndex({ baseUrl }: { baseUrl: string }): Promise<DocsIndex> {
+  const response = await fetch(`${baseUrl}/__docs__/index.json`);
+
+  if (!response.ok)
+    throw new Error(`Failed to fetch docs index: ${response.status} ${response.statusText}`);
+
+  const data = await response.json();
+  const { success, data: parsed, error } = docsIndexSchema.safeParse(data);
+
+  if (!success) throw new Error(`Failed to parse docs index: ${error?.message}`);
+
+  return parsed;
+}
 
 export async function fetchAvailableRegistries({
   baseUrl,
