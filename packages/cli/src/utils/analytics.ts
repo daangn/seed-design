@@ -60,9 +60,8 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
 
   const fullEvent = `${EVENT_PREFIX}.${event}`;
 
-  // Dev 모드: 콘솔에만 출력
+  // Dev 모드: 텔레메트리 전송 생략
   if (process.env.NODE_ENV === "dev") {
-    console.log(`📊 [Telemetry] ${fullEvent}`, properties);
     return;
   }
 

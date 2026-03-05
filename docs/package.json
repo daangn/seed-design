@@ -11,8 +11,9 @@
     "sanity:build": "sanity build",
     "postinstall": "fumadocs-mdx",
     "gen": "bun generate:all",
-    "generate:all": "bun generate:registry && bun rootage:generate",
+    "generate:all": "bun generate:registry && bun generate:docs-index && bun rootage:generate",
     "generate:registry": "bun scripts/generate-registry.ts",
+    "generate:docs-index": "bun scripts/generate-docs-index.ts",
     "rootage:generate": "rootage json public/rootage",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
