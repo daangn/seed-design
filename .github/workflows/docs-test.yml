@@ -1,0 +1,28 @@
+name: Test Docs
+
+on:
+  push:
+    paths:
+      - "docs/**/*"
+      - ".github/workflows/docs-test.yml"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+
+      - name: Build dependencies
+        run: bun ecosystem:build && bun install && bun packages:build
+
+      - name: Run tests
+        run: bun docs:test

@@ -22,6 +22,10 @@ export interface LiteralNode extends EstreeNode {
   value: unknown;
 }
 
+export interface RegexLiteralNode extends LiteralNode {
+  regex: { pattern: string; flags: string };
+}
+
 export function isProgramNode(node: unknown): node is ProgramNode {
   return Boolean(node) && typeof node === "object" && (node as EstreeNode).type === "Program";
 }
@@ -41,4 +45,8 @@ export function isLiteralNode(node: unknown): node is LiteralNode {
 
 export function isStringLiteral(node: unknown): node is LiteralNode & { value: string } {
   return isLiteralNode(node) && typeof (node as LiteralNode).value === "string";
+}
+
+export function isRegexLiteral(node: unknown): node is RegexLiteralNode {
+  return isLiteralNode(node) && "regex" in (node as RegexLiteralNode);
 }

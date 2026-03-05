@@ -1,13 +1,13 @@
-import type { AvatarProperties } from "@/codegen/component-properties";
+import type {
+  AvatarProperties,
+  IdentityPlaceholderProperties,
+} from "@/codegen/component-properties";
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import {
-  createIdentityPlaceholderHandler,
-  type IdentityPlaceholderProperties,
-} from "./identity-placeholder";
+import { createIdentityPlaceholderHandler } from "./identity-placeholder";
 import { camelCase } from "change-case";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("avatar");
