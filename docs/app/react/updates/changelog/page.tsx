@@ -5,20 +5,17 @@ import type { Metadata } from "next";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
+const CHANGELOG_PATH = "content/react/updates/changelog.mdx";
+
 function getChangelogRaw() {
-  return readFileSync(join(process.cwd(), "content/react/updates/changelog.mdx"), "utf-8");
+  return readFileSync(join(process.cwd(), CHANGELOG_PATH), "utf-8");
 }
 
 export default async function ChangelogPage() {
   const raw = getChangelogRaw();
   const entries = await parseChangelog(raw);
 
-  const PINNED_PACKAGES = ["@seed-design/react", "@seed-design/css"];
-  const allPackages = [...new Set(entries.flatMap((e) => e.packages.map((p) => p.name)))];
-  const packages = [
-    ...PINNED_PACKAGES.filter((p) => allPackages.includes(p)),
-    ...allPackages.filter((p) => !PINNED_PACKAGES.includes(p)).sort(),
-  ];
+  const packages = [...new Set(entries.flatMap((e) => e.packages.map((p) => p.name)))];
 
   return (
     <DocsPage>

@@ -1,6 +1,7 @@
 "use client";
 
 import type { ChangelogEntry } from "@/lib/parse-changelog";
+import { ChangelogEntryItem } from "@/components/changelog-entry-item";
 import { IconCheckmarkFill, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "fumadocs-ui/components/ui/popover";
@@ -9,13 +10,19 @@ import { useState } from "react";
 
 const ALL = "all";
 
+const PINNED_PACKAGES = ["@seed-design/react", "@seed-design/css"];
+
 export function ChangelogViewer({
   entries,
-  packages,
+  packages: rawPackages,
 }: {
   entries: ChangelogEntry[];
   packages: string[];
 }) {
+  const packages = [
+    ...PINNED_PACKAGES.filter((p) => rawPackages.includes(p)),
+    ...rawPackages.filter((p) => !PINNED_PACKAGES.includes(p)).sort(),
+  ];
   const [selectedPackage, setSelectedPackage] = useQueryState("package", {
     defaultValue: ALL,
   });
@@ -182,52 +189,6 @@ export function ChangelogViewer({
         <div className="flex flex-col divide-y divide-fd-border">
           {filteredEntries.map((entry, i) => (
             <ChangelogEntryItem key={`${entry.date}-${entry.label ?? ""}-${i}`} entry={entry} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function ChangelogEntryItem({
-  entry,
-  hideDate = false,
-}: {
-  entry: ChangelogEntry;
-  hideDate?: boolean;
-}) {
-  return (
-    <div className="py-6 first:pt-0 flex flex-col gap-3">
-      {!hideDate && (
-        <time className="text-sm font-medium text-fd-muted-foreground">
-          {entry.date}
-          {entry.label && <span className="ml-1">{entry.label}</span>}
-        </time>
-      )}
-
-      {entry.contentHtml && (
-        <div
-          className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-li:my-0.5 prose-a:text-fd-primary prose-code:text-fd-primary prose-code:bg-fd-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-xs"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: server-side parsed markdown
-          dangerouslySetInnerHTML={{ __html: entry.contentHtml }}
-        />
-      )}
-
-      {entry.packages.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {entry.packages.map((pkg) => (
-            <a
-              key={`${pkg.name}@${pkg.version}`}
-              href={pkg.url}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="inline-flex items-center gap-1.5 text-sm px-2.5 py-1 rounded-md border border-fd-border bg-fd-card text-fd-foreground hover:bg-fd-accent transition-colors font-mono"
-            >
-              <span className="text-fd-muted-foreground">📦</span>
-              <span>{pkg.name}</span>
-              <span className="text-fd-muted-foreground">@</span>
-              <span className="font-semibold">{pkg.version}</span>
-            </a>
           ))}
         </div>
       )}

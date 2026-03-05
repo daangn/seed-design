@@ -1,8 +1,7 @@
+import { remark } from "remark";
 import remarkGfm from "remark-gfm";
-import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
-import { unified } from "unified";
 
 export interface ChangelogPackage {
   name: string;
@@ -17,9 +16,13 @@ export interface ChangelogEntry {
   packages: ChangelogPackage[];
 }
 
-const processor = unified().use(remarkParse).use(remarkGfm).use(remarkRehype).use(rehypeStringify);
+const processor = remark().use(remarkGfm).use(remarkRehype).use(rehypeStringify);
 
 async function mdToHtml(md: string): Promise<string> {
+  // 1. remark (= unified + remark-parse) → MD 문자열 → MDAST
+  // 2. remarkGfm → MDAST에 GFM 문법(표, 체크박스 등) 추가 파싱
+  // 3. remarkRehype → MDAST → HAST
+  // 4. rehypeStringify → HAST → HTML 문자열
   const result = await processor.process(md);
   return String(result);
 }
@@ -32,6 +35,7 @@ function extractPackages(block: string): ChangelogPackage[] {
   const packages: ChangelogPackage[] = [];
   let match: RegExpExecArray | null;
   PACKAGE_REGEX.lastIndex = 0;
+  // biome-ignore lint/suspicious/noAssignInExpressions: 패키지 추출 로직에서 사용
   while ((match = PACKAGE_REGEX.exec(block)) !== null) {
     packages.push({ name: match[1], version: match[2], url: match[3] });
   }
@@ -43,6 +47,20 @@ function extractContent(block: string): string {
   return (idx > -1 ? block.slice(0, idx) : block).trim();
 }
 
+/**
+ * @description changelog.mdx 파일을 파싱하여 changelog entry 목록을 반환합니다.
+ * @example
+ * ```
+ * [
+ *   {
+ *     date: "2026.03.05",
+ *     label: "1.0.0",
+ *     contentHtml: "<p>...</p>",
+ *     packages: [{ name: "@seed-design/react", version: "1.0.0", url: "https://github.com/seed-design/seed-design/releases/tag/v1.0.0" }]
+ *   }
+ * ]
+ * ```
+ */
 export async function parseChangelog(raw: string): Promise<ChangelogEntry[]> {
   // Strip frontmatter
   const withoutFrontmatter = raw.replace(/^---[\s\S]*?---\n/, "");
