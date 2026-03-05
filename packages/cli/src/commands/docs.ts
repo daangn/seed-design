@@ -36,7 +36,7 @@ function printDocsResult(item: DocsItem, baseUrl: string) {
 
   const lines = [
     item.id,
-    `- document: ${docLink}`,
+    `- docs: ${docLink}`,
     `- llms.txt: ${llmsLink}`,
     ...(snippetLink ? [`- snippet: ${snippetLink}`] : []),
   ];

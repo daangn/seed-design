@@ -84,7 +84,7 @@ npx @seed-design/cli@latest docs action-button
 
 ```text
 action-button
-- document: https://seed-design.io/react/components/action-button
+- docs: https://seed-design.io/react/components/action-button
 - llms.txt: https://seed-design.io/llms/react/components/action-button.txt
 - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/ui/action-button.tsx
 ```
