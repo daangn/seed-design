@@ -83,10 +83,17 @@ export const docsSectionSchema = z.object({
   items: z.array(docsItemSchema),
 });
 
-export const docsIndexSchema = z.object({
+export const docsCategorySchema = z.object({
+  id: z.string(),
+  label: z.string(),
   sections: z.array(docsSectionSchema),
+});
+
+export const docsIndexSchema = z.object({
+  categories: z.array(docsCategorySchema),
 });
 
 export type DocsItem = z.infer<typeof docsItemSchema>;
 export type DocsSection = z.infer<typeof docsSectionSchema>;
+export type DocsCategory = z.infer<typeof docsCategorySchema>;
 export type DocsIndex = z.infer<typeof docsIndexSchema>;

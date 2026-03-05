@@ -19,6 +19,12 @@ type DocsSection = {
   items: DocsItem[];
 };
 
+type DocsCategory = {
+  id: string;
+  label: string;
+  sections: DocsSection[];
+};
+
 type RegistryItem = {
   id: string;
   snippets: Array<{ path: string }>;
@@ -29,41 +35,28 @@ type RegistryIndex = {
   items: RegistryItem[];
 };
 
-const SECTION_LABELS: Record<string, string> = {
-  "docs/components": "UI 컴포넌트 가이드라인",
-  "docs/foundation": "파운데이션",
-  "docs/guidelines": "가이드라인",
-  "docs/migration": "마이그레이션",
-  "docs/resources": "리소스",
-  "react/components": "React 컴포넌트",
-  "react/getting-started": "React 시작하기",
-  "react/stackflow": "Stackflow",
-  "react/developer-tools": "개발자 도구",
-  "react/migration": "React 마이그레이션",
-  "react/updates": "React 업데이트",
-  "react/patterns": "React 패턴",
-  "breeze/components": "Breeze 컴포넌트",
+const CATEGORY_LABELS: Record<string, string> = {
+  docs: "Design",
+  react: "React",
+  breeze: "Breeze",
   lynx: "Lynx",
   "ai-integration": "AI Integration",
 };
 
-const SECTION_ORDER = [
-  "docs/components",
-  "docs/foundation",
-  "docs/guidelines",
-  "docs/migration",
-  "docs/resources",
-  "react/components",
-  "react/getting-started",
-  "react/stackflow",
-  "react/developer-tools",
-  "react/migration",
-  "react/updates",
-  "react/patterns",
-  "breeze/components",
-  "lynx",
-  "ai-integration",
-];
+const CATEGORY_ORDER = ["docs", "react", "breeze", "lynx", "ai-integration"];
+
+const SECTION_LABELS: Record<string, string> = {
+  components: "컴포넌트",
+  foundation: "파운데이션",
+  guidelines: "가이드라인",
+  migration: "마이그레이션",
+  resources: "리소스",
+  "getting-started": "시작하기",
+  stackflow: "Stackflow",
+  "developer-tools": "개발자 도구",
+  updates: "업데이트",
+  patterns: "패턴",
+};
 
 /**
  * Parse YAML frontmatter from an MDX file.
@@ -160,16 +153,17 @@ async function main() {
   const registryMap = buildRegistryMap();
 
   const sources = [
-    { dir: "docs", prefix: "docs", baseUrl: "/docs" },
-    { dir: "react", prefix: "react", baseUrl: "/react" },
-    { dir: "breeze", prefix: "breeze", baseUrl: "/breeze" },
-    { dir: "lynx", prefix: "lynx", baseUrl: "/lynx" },
-    { dir: "ai-integration", prefix: "ai-integration", baseUrl: "/ai-integration" },
+    { dir: "docs", categoryId: "docs", baseUrl: "/docs" },
+    { dir: "react", categoryId: "react", baseUrl: "/react" },
+    { dir: "breeze", categoryId: "breeze", baseUrl: "/breeze" },
+    { dir: "lynx", categoryId: "lynx", baseUrl: "/lynx" },
+    { dir: "ai-integration", categoryId: "ai-integration", baseUrl: "/ai-integration" },
   ];
 
-  const sectionsMap = new Map<string, DocsItem[]>();
+  // categoryId -> sectionId -> DocsItem[]
+  const categorySectionsMap = new Map<string, Map<string, DocsItem[]>>();
 
-  for (const { dir, prefix, baseUrl } of sources) {
+  for (const { dir, categoryId, baseUrl } of sources) {
     const sourceDir = path.join(contentDir, dir);
     const mdxFiles = collectMdxFiles(sourceDir);
 
@@ -182,12 +176,9 @@ async function main() {
       const frontmatter = parseFrontmatter(content);
       if (!frontmatter?.title) continue;
 
-      const sectionId =
-        prefix === "docs" || prefix === "react"
-          ? `${prefix}/${slugs[0]}`
-          : prefix === "breeze"
-            ? "breeze/components"
-            : prefix;
+      // Section ID is the first slug for multi-level categories,
+      // or "components" as default for flat categories (breeze, lynx, ai-integration)
+      const sectionId = categoryId === "docs" || categoryId === "react" ? slugs[0] : "components";
 
       const itemId = slugs[slugs.length - 1];
       const docUrl = `${baseUrl}/${slugs.join("/")}`;
@@ -206,6 +197,10 @@ async function main() {
         }),
       };
 
+      if (!categorySectionsMap.has(categoryId)) {
+        categorySectionsMap.set(categoryId, new Map());
+      }
+      const sectionsMap = categorySectionsMap.get(categoryId)!;
       if (!sectionsMap.has(sectionId)) {
         sectionsMap.set(sectionId, []);
       }
@@ -213,30 +208,40 @@ async function main() {
     }
   }
 
-  // Build ordered sections
-  const sections: DocsSection[] = [];
+  // Build ordered categories
+  const categories: DocsCategory[] = [];
 
-  for (const sectionId of SECTION_ORDER) {
-    const items = sectionsMap.get(sectionId);
-    if (items && items.length > 0) {
-      sections.push({
-        id: sectionId,
-        label: SECTION_LABELS[sectionId] ?? sectionId,
-        items: items.sort((a, b) => a.id.localeCompare(b.id)),
-      });
-      sectionsMap.delete(sectionId);
-    }
-  }
+  for (const categoryId of CATEGORY_ORDER) {
+    const sectionsMap = categorySectionsMap.get(categoryId);
+    if (!sectionsMap || sectionsMap.size === 0) continue;
 
-  // Append any sections not in SECTION_ORDER
-  for (const [sectionId, items] of sectionsMap) {
-    if (items.length > 0) {
-      sections.push({
-        id: sectionId,
-        label: SECTION_LABELS[sectionId] ?? sectionId,
-        items: items.sort((a, b) => a.id.localeCompare(b.id)),
-      });
+    const sections: DocsSection[] = [];
+    for (const [sectionId, items] of sectionsMap) {
+      if (items.length > 0) {
+        sections.push({
+          id: sectionId,
+          label: SECTION_LABELS[sectionId] ?? sectionId,
+          items: items.sort((a, b) => a.id.localeCompare(b.id)),
+        });
+      }
     }
+
+    // Sort sections: known ones first (by SECTION_LABELS order), unknown ones at the end
+    const knownOrder = Object.keys(SECTION_LABELS);
+    sections.sort((a, b) => {
+      const ai = knownOrder.indexOf(a.id);
+      const bi = knownOrder.indexOf(b.id);
+      if (ai === -1 && bi === -1) return a.id.localeCompare(b.id);
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
+
+    categories.push({
+      id: categoryId,
+      label: CATEGORY_LABELS[categoryId] ?? categoryId,
+      sections,
+    });
   }
 
   // Write output
@@ -246,11 +251,17 @@ async function main() {
   }
 
   const outPath = path.join(outDir, "index.json");
-  await fs.writeFile(outPath, JSON.stringify({ sections }, null, 2), "utf8");
+  await fs.writeFile(outPath, JSON.stringify({ categories }, null, 2), "utf8");
 
-  const totalItems = sections.reduce((sum, s) => sum + s.items.length, 0);
+  const totalItems = categories.reduce(
+    (sum, c) => sum + c.sections.reduce((s, sec) => s + sec.items.length, 0),
+    0,
+  );
+  const totalSections = categories.reduce((sum, c) => sum + c.sections.length, 0);
   console.log(
-    chalk.green(`Docs Index Generated! (${sections.length} sections, ${totalItems} items)`),
+    chalk.green(
+      `Docs Index Generated! (${categories.length} categories, ${totalSections} sections, ${totalItems} items)`,
+    ),
   );
 }
 

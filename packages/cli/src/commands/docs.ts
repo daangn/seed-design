@@ -12,7 +12,7 @@ import {
   isCliCancelError,
   isVerboseMode,
 } from "../utils/error";
-import type { DocsItem } from "../schema";
+import type { DocsCategory, DocsItem, DocsSection } from "../schema";
 
 const GITHUB_SNIPPET_BASE =
   "https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry";
@@ -44,6 +44,77 @@ function printDocsResult(item: DocsItem, baseUrl: string) {
   p.log.message(lines.join("\n"));
 }
 
+/**
+ * Parse a path-style query into segments.
+ * e.g. "react/components/action-button" → ["react", "components", "action-button"]
+ */
+function parseQueryPath(query: string): string[] {
+  return query
+    .split("/")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/**
+ * Search all items across all categories/sections.
+ */
+function searchAllItems(
+  categories: DocsCategory[],
+  query: string,
+): { item: DocsItem; categoryLabel: string; sectionLabel: string }[] {
+  const q = query.toLowerCase();
+  return categories.flatMap((cat) =>
+    cat.sections.flatMap((sec) =>
+      sec.items
+        .filter((item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q))
+        .map((item) => ({
+          item,
+          categoryLabel: cat.label,
+          sectionLabel: sec.label,
+        })),
+    ),
+  );
+}
+
+async function selectItem(items: DocsItem[]): Promise<DocsItem> {
+  const selected = await p.select({
+    message: "항목을 선택해주세요",
+    options: items.map((item) => ({
+      label: `${item.deprecated ? "(deprecated) " : ""}${item.title}`,
+      value: item,
+      hint: item.description,
+    })),
+  });
+  if (p.isCancel(selected)) throw new CliCancelError();
+  return selected;
+}
+
+async function selectSection(sections: DocsSection[]): Promise<DocsSection> {
+  const selected = await p.select({
+    message: "섹션을 선택해주세요",
+    options: sections.map((sec) => ({
+      label: sec.label,
+      value: sec,
+      hint: `${sec.items.length}개 항목`,
+    })),
+  });
+  if (p.isCancel(selected)) throw new CliCancelError();
+  return selected;
+}
+
+async function selectCategory(categories: DocsCategory[]): Promise<DocsCategory> {
+  const selected = await p.select({
+    message: "카테고리를 선택해주세요",
+    options: categories.map((cat) => ({
+      label: cat.label,
+      value: cat,
+      hint: `${cat.sections.reduce((sum, s) => sum + s.items.length, 0)}개 항목`,
+    })),
+  });
+  if (p.isCancel(selected)) throw new CliCancelError();
+  return selected;
+}
+
 export const docsCommand = (cli: CAC) => {
   cli
     .command("docs [query]", "문서 링크, llms.txt 링크, 스니펫 링크를 조회합니다")
@@ -52,6 +123,9 @@ export const docsCommand = (cli: CAC) => {
     })
     .example("seed-design docs")
     .example("seed-design docs action-button")
+    .example("seed-design docs react")
+    .example("seed-design docs react/components")
+    .example("seed-design docs react/components/action-button")
     .action(async (query, opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
@@ -80,73 +154,121 @@ export const docsCommand = (cli: CAC) => {
           }
         })();
 
+        const { categories } = docsIndex;
         let selectedItem: DocsItem;
 
         if (options.query) {
-          // Direct search flow
-          const q = options.query.toLowerCase();
-          const matched = docsIndex.sections.flatMap((section) =>
-            section.items
-              .filter(
-                (item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q),
-              )
-              .map((item) => ({ item, sectionLabel: section.label })),
-          );
+          const segments = parseQueryPath(options.query);
 
-          if (matched.length === 0) {
-            throw new CliError({
-              message: `${highlight(options.query)}: 문서를 찾을 수 없어요.`,
-              hint: "`seed-design docs`로 전체 목록을 확인해보세요.",
-            });
-          }
+          // Try to resolve as path: category / section / item
+          const matchedCategory = categories.find((c) => c.id === segments[0]);
 
-          if (matched.length === 1) {
-            selectedItem = matched[0].item;
-          } else {
-            const selected = await p.select({
-              message: `${highlight(options.query)}에 해당하는 항목을 선택해주세요`,
-              options: matched.map(({ item, sectionLabel }) => ({
-                label: `[${sectionLabel}] ${item.title}`,
-                value: item,
-                hint: item.description,
-              })),
-            });
+          if (matchedCategory && segments.length >= 2) {
+            const matchedSection = matchedCategory.sections.find((s) => s.id === segments[1]);
 
-            if (p.isCancel(selected)) {
-              throw new CliCancelError();
+            if (matchedSection && segments.length >= 3) {
+              // Full path: category/section/item
+              const matchedItem = matchedSection.items.find((i) => i.id === segments[2]);
+              if (matchedItem) {
+                selectedItem = matchedItem;
+              } else {
+                // Item not found in section — search within the section
+                const q = segments[2].toLowerCase();
+                const matched = matchedSection.items.filter(
+                  (i) => i.id.toLowerCase().includes(q) || i.title.toLowerCase().includes(q),
+                );
+                if (matched.length === 0) {
+                  throw new CliError({
+                    message: `${highlight(options.query)}: 문서를 찾을 수 없어요.`,
+                    hint: `\`seed-design docs ${matchedCategory.id}/${matchedSection.id}\`로 목록을 확인해보세요.`,
+                  });
+                }
+                if (matched.length === 1) {
+                  selectedItem = matched[0];
+                } else {
+                  selectedItem = await selectItem(matched);
+                }
+              }
+            } else if (matchedSection) {
+              // category/section — select item within section
+              selectedItem = await selectItem(matchedSection.items);
+            } else {
+              // category/??? — search within category
+              const q = segments[1].toLowerCase();
+              const matched = matchedCategory.sections.flatMap((s) =>
+                s.items
+                  .filter(
+                    (i) => i.id.toLowerCase().includes(q) || i.title.toLowerCase().includes(q),
+                  )
+                  .map((item) => ({ item, sectionLabel: s.label })),
+              );
+
+              if (matched.length === 0) {
+                throw new CliError({
+                  message: `${highlight(options.query)}: 문서를 찾을 수 없어요.`,
+                  hint: `\`seed-design docs ${matchedCategory.id}\`로 목록을 확인해보세요.`,
+                });
+              }
+              if (matched.length === 1) {
+                selectedItem = matched[0].item;
+              } else {
+                const selected = await p.select({
+                  message: `${highlight(segments[1])}에 해당하는 항목을 선택해주세요`,
+                  options: matched.map(({ item, sectionLabel }) => ({
+                    label: `[${sectionLabel}] ${item.title}`,
+                    value: item,
+                    hint: item.description,
+                  })),
+                });
+                if (p.isCancel(selected)) throw new CliCancelError();
+                selectedItem = selected;
+              }
             }
+          } else if (matchedCategory) {
+            // Single segment matching a category — drill into it
+            if (matchedCategory.sections.length === 1) {
+              selectedItem = await selectItem(matchedCategory.sections[0].items);
+            } else {
+              const section = await selectSection(matchedCategory.sections);
+              selectedItem = await selectItem(section.items);
+            }
+          } else {
+            // No category match — global search
+            const matched = searchAllItems(categories, options.query);
 
-            selectedItem = selected;
+            if (matched.length === 0) {
+              throw new CliError({
+                message: `${highlight(options.query)}: 문서를 찾을 수 없어요.`,
+                hint: "`seed-design docs`로 전체 목록을 확인해보세요.",
+              });
+            }
+            if (matched.length === 1) {
+              selectedItem = matched[0].item;
+            } else {
+              const selected = await p.select({
+                message: `${highlight(options.query)}에 해당하는 항목을 선택해주세요`,
+                options: matched.map(({ item, categoryLabel, sectionLabel }) => ({
+                  label: `[${categoryLabel} > ${sectionLabel}] ${item.title}`,
+                  value: item,
+                  hint: item.description,
+                })),
+              });
+              if (p.isCancel(selected)) throw new CliCancelError();
+              selectedItem = selected;
+            }
           }
         } else {
-          // Interactive flow — section selection first
-          const sectionSelected = await p.select({
-            message: "섹션을 선택해주세요",
-            options: docsIndex.sections.map((section) => ({
-              label: section.label,
-              value: section,
-              hint: `${section.items.length}개 항목`,
-            })),
-          });
+          // Full interactive flow: category → section → item
+          const category = await selectCategory(categories);
 
-          if (p.isCancel(sectionSelected)) {
-            throw new CliCancelError();
+          let section: DocsSection;
+          if (category.sections.length === 1) {
+            section = category.sections[0];
+          } else {
+            section = await selectSection(category.sections);
           }
 
-          const itemSelected = await p.select({
-            message: "항목을 선택해주세요",
-            options: sectionSelected.items.map((item) => ({
-              label: `${item.deprecated ? "(deprecated) " : ""}${item.title}`,
-              value: item,
-              hint: item.description,
-            })),
-          });
-
-          if (p.isCancel(itemSelected)) {
-            throw new CliCancelError();
-          }
-
-          selectedItem = itemSelected;
+          selectedItem = await selectItem(section.items);
         }
 
         printDocsResult(selectedItem, baseUrl);
