@@ -25,8 +25,9 @@ jobs:
       - uses: actions/checkout@v6
 
       - uses: ./.github/actions/setup
-        with:
-          build-packages: 'true'
+
+      - name: Build @seed-design/lynx
+        run: bun run --filter @seed-design/lynx build
 
       - name: Build Lynx SPA (web)
         working-directory: ./examples/lynx-spa
