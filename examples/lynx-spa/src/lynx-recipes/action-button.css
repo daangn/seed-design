@@ -30,8 +30,7 @@
 }
 /* [removed] .seed-action-button:is(:focus-visible, [data-focus-visible]) { outline: ... } -- :focus-visible unsupported in Lynx */
 .seed-action-button:is(:disabled, [disabled], [data-disabled]) {
-  /* [changed] cursor: not-allowed; -> opacity: 0.4 -- no cursor in Lynx, use opacity instead */
-  opacity: 0.4;
+  /* [Lynx] original: cursor: not-allowed; -- no cursor in Lynx, removed */
 }
 .seed-action-button {
   /* [changed] removed outline-color transition, kept background-color only */
@@ -219,6 +218,12 @@
 .seed-action-button__text--variant_ghost {
   color: var(--seed-color-fg-neutral);
   font-weight: var(--seed-font-weight-bold);
+}
+
+/* === __text disabled class (flat) === */
+/* [Lynx] <text> doesn't inherit parent color, so disabled color needs a flat class */
+.seed-action-button__text--disabled {
+  color: var(--seed-color-fg-disabled);
 }
 
 /* === __text size+layout compound classes (flat) === */

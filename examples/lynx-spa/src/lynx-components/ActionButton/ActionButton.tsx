@@ -26,10 +26,17 @@ export default function ActionButton(props: ActionButtonProps) {
   } = props;
 
   const classes = actionButton({ variant, size, layout });
+  const stateClasses = [
+    classes.root,
+    disabled ? 'data-disabled__' : '',
+    loading ? 'data-loading__' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <view
-      className={classes.root}
+      className={stateClasses}
       style={{ flexGrow }}
       {...(!disabled &&
         !loading &&
@@ -40,7 +47,15 @@ export default function ActionButton(props: ActionButtonProps) {
           'main-thread:bindtap': props['main-thread:bindtap'],
         })}
     >
-      <text className={classes.text}>{children}</text>
+      <text
+        className={
+          disabled
+            ? `${classes.text} seed-action-button__text--disabled`
+            : classes.text
+        }
+      >
+        {children}
+      </text>
     </view>
   );
 }
