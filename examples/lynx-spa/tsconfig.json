@@ -7,11 +7,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
 
-    "noEmit": true,
+    "noEmit": true
   },
-  "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "./src" },
-  ],
-  "files": [],
+  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./src" }],
+  "files": []
 }
