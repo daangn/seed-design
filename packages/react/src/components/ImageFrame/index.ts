@@ -1,11 +1,13 @@
 export {
   ImageFrame,
+  ImageFrameFallback,
   ImageFrameFloater,
   ImageFrameBadge,
   ImageFrameIcon,
   ImageFrameIndicator,
   ImageFrameReactionButton,
   type ImageFrameProps,
+  type ImageFrameFallbackProps,
   type ImageFrameFloaterProps,
   type ImageFrameBadgeProps,
   type ImageFrameIconProps,

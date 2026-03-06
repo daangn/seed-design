@@ -4984,13 +4984,13 @@
   overflow: hidden;
 }
 
-.seed-image-frame {
+.seed-image-frame__root {
   border-radius: inherit;
   position: relative;
   overflow: hidden;
 }
 
-.seed-image-frame > img, .seed-image-frame > video {
+.seed-image-frame__root > img, .seed-image-frame__root > video {
   object-fit: cover;
   border-radius: inherit;
   width: 100%;
@@ -4998,7 +4998,12 @@
   display: block;
 }
 
-.seed-image-frame--stroke_true:after {
+.seed-image-frame__fallback {
+  width: 100%;
+  height: 100%;
+}
+
+.seed-image-frame__root--stroke_true:after {
   content: "";
   pointer-events: none;
   border-radius: inherit;
@@ -5007,7 +5012,7 @@
   inset: 0;
 }
 
-.seed-image-frame--rounded_true {
+.seed-image-frame__root--rounded_true {
   border-radius: var(--seed-radius-r2);
 }
 

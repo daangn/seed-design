@@ -13,6 +13,7 @@ import {
 import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
 import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
 import { Image } from "@seed-design/react-image";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
@@ -71,9 +72,11 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     },
     ref,
   ) => {
+    const classNames = imageFrameRecipe({ stroke, rounded });
+
     return (
       <AspectRatio ref={ref} ratio={ratio} className={className} {...rest}>
-        <Image.Root className={imageFrameRecipe({ stroke, rounded })}>
+        <Image.Root className={classNames.root}>
           <Image.Content
             src={src}
             alt={alt}
@@ -86,7 +89,11 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
             onLoad={onLoad}
             onError={onError}
           />
-          {fallback && <Image.Fallback>{fallback}</Image.Fallback>}
+          {fallback && (
+            <Image.Fallback>
+              <ImageFrameFallback>{fallback}</ImageFrameFallback>
+            </Image.Fallback>
+          )}
           {children}
         </Image.Root>
       </AspectRatio>
@@ -95,6 +102,22 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
 );
 
 ImageFrame.displayName = "ImageFrame";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface ImageFrameFallbackProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const ImageFrameFallback = React.forwardRef<HTMLDivElement, ImageFrameFallbackProps>(
+  ({ className, ...rest }, ref) => {
+    return (
+      <Primitive.div ref={ref} className={clsx(imageFrameRecipe().fallback, className)} {...rest} />
+    );
+  },
+);
+
+ImageFrameFallback.displayName = "ImageFrame.Fallback";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
