@@ -1,4 +1,4 @@
-import LynxActionButton from './lynx-components/ActionButton';
+import ActionButton from "./components/action-button";
 
 export function App(props: { onRender?: () => void }) {
   props.onRender?.();
@@ -31,21 +31,21 @@ export function App(props: { onRender?: () => void }) {
           gap: '8px',
         }}
       >
-        <LynxActionButton variant="brandSolid">Brand Solid</LynxActionButton>
-        <LynxActionButton variant="neutralSolid">
+        <ActionButton variant="brandSolid">Brand Solid</ActionButton>
+        <ActionButton variant="neutralSolid">
           Neutral Solid
-        </LynxActionButton>
-        <LynxActionButton variant="neutralWeak">Neutral Weak</LynxActionButton>
-        <LynxActionButton variant="criticalSolid">
+        </ActionButton>
+        <ActionButton variant="neutralWeak">Neutral Weak</ActionButton>
+        <ActionButton variant="criticalSolid">
           Critical Solid
-        </LynxActionButton>
-        <LynxActionButton variant="brandOutline">
+        </ActionButton>
+        <ActionButton variant="brandOutline">
           Brand Outline
-        </LynxActionButton>
-        <LynxActionButton variant="neutralOutline">
+        </ActionButton>
+        <ActionButton variant="neutralOutline">
           Neutral Outline
-        </LynxActionButton>
-        <LynxActionButton variant="ghost">Ghost</LynxActionButton>
+        </ActionButton>
+        <ActionButton variant="ghost">Ghost</ActionButton>
       </view>
 
       <text
@@ -67,10 +67,10 @@ export function App(props: { onRender?: () => void }) {
           alignItems: 'center',
         }}
       >
-        <LynxActionButton size="xsmall">XSmall</LynxActionButton>
-        <LynxActionButton size="small">Small</LynxActionButton>
-        <LynxActionButton size="medium">Medium</LynxActionButton>
-        <LynxActionButton size="large">Large</LynxActionButton>
+        <ActionButton size="xsmall">XSmall</ActionButton>
+        <ActionButton size="small">Small</ActionButton>
+        <ActionButton size="medium">Medium</ActionButton>
+        <ActionButton size="large">Large</ActionButton>
       </view>
 
       <text
@@ -91,12 +91,12 @@ export function App(props: { onRender?: () => void }) {
           gap: '8px',
         }}
       >
-        <LynxActionButton variant="brandSolid" disabled>
+        <ActionButton variant="brandSolid" disabled>
           Disabled
-        </LynxActionButton>
-        <LynxActionButton variant="neutralOutline" disabled>
+        </ActionButton>
+        <ActionButton variant="neutralOutline" disabled>
           Disabled Outline
-        </LynxActionButton>
+        </ActionButton>
       </view>
     </view>
   );

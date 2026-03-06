@@ -1,0 +1,16 @@
+.seed-snackbar-region {
+    z-index: 2147483647;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: calc(env(safe-area-inset-left, 0px));
+    right: calc(env(safe-area-inset-right, 0px));
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px));
+    padding-left: var(--seed-dimension-x2);
+    padding-right: var(--seed-dimension-x2);
+    padding-top: var(--seed-dimension-x2);
+    padding-bottom: var(--seed-dimension-x2);
+    transition-property: bottom;
+    transition-duration: var(--seed-duration-d4);
+    transition-timing-function: var(--seed-timing-function-easing)
+}

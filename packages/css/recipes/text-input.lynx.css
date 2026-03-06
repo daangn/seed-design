@@ -1,0 +1,197 @@
+.seed-text-input__root {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+.seed-text-input__root::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: inherit;
+    border-color: transparent;
+    transition: border-color 0.1s var(--seed-timing-function-easing);
+    pointer-events: none;
+}
+.seed-text-input__value {
+    background: none;
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    align-self: stretch;
+    color: var(--seed-color-fg-neutral);
+    font-weight: var(--seed-font-weight-regular);
+    padding-left: 0;
+    padding-right: 0;
+}
+.seed-text-input__value:is(input) {
+    width: 0;
+}
+.seed-text-input__value[data-disabled] {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-text-input__prefixText {
+    color: var(--seed-color-fg-neutral-muted);
+    font-weight: var(--seed-font-weight-regular);
+}
+.seed-text-input__prefixIcon {
+    color: var(--seed-color-fg-neutral-muted);
+    flex-shrink: 0;
+}
+.seed-text-input__suffixText {
+    color: var(--seed-color-fg-neutral-muted);
+    font-weight: var(--seed-font-weight-regular);
+}
+.seed-text-input__suffixIcon {
+    color: var(--seed-color-fg-neutral-muted);
+    flex-shrink: 0;
+}
+.seed-text-input__root--variant_outline {
+    border-radius: var(--seed-radius-r3);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
+}
+.seed-text-input__root--variant_outline::after {
+    border-style: solid;
+    border-width: 2px;
+}
+.seed-text-input__root--variant_outline:not(:is([data-readonly])):is(:focus, [data-focus])::after {
+    border-color: var(--seed-color-stroke-neutral-contrast);
+    border-width: 2px;
+}
+.seed-text-input__root--variant_outline:is(:invalid, [data-invalid])::after {
+    border-color: var(--seed-color-stroke-critical-solid);
+    border-width: 2px;
+}
+.seed-text-input__root--variant_outline:is(:invalid, [data-invalid]):is(:focus, [data-focus])::after {
+    border-color: var(--seed-color-stroke-critical-solid);
+    border-width: 2px;
+}
+.seed-text-input__root--variant_outline[data-disabled] {
+    background-color: var(--seed-color-bg-disabled);
+}
+.seed-text-input__root--variant_outline:is([data-readonly]):not([data-disabled]) {
+    background-color: var(--seed-color-bg-disabled);
+}
+.seed-text-input__value--variant_outline:first-child {
+    padding-left: var(--seed-dimension-x4);
+}
+.seed-text-input__value--variant_outline:last-child {
+    padding-right: var(--seed-dimension-x4);
+}
+.seed-text-input__prefixText--variant_outline:first-child {
+    margin-left: var(--seed-dimension-x4);
+}
+.seed-text-input__prefixIcon--variant_outline:first-child {
+    margin-left: var(--seed-dimension-x4);
+}
+.seed-text-input__suffixText--variant_outline:last-child {
+    margin-right: var(--seed-dimension-x4);
+}
+.seed-text-input__suffixIcon--variant_outline:last-child {
+    margin-right: var(--seed-dimension-x4);
+}
+.seed-text-input__root--variant_underline {
+    gap: var(--seed-dimension-x2_5);
+    min-height: var(--seed-dimension-x10);
+    box-shadow: inset 0 calc(1px * -1) 0 0 var(--seed-color-stroke-neutral-weak);
+}
+.seed-text-input__root--variant_underline::after {
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+}
+.seed-text-input__root--variant_underline:not(:is([data-readonly])):is(:focus, [data-focus])::after {
+    border-bottom-color: var(--seed-color-stroke-neutral-contrast);
+    border-bottom-width: 2px;
+}
+.seed-text-input__root--variant_underline:is(:invalid, [data-invalid])::after {
+    border-bottom-color: var(--seed-color-stroke-critical-solid);
+    border-bottom-width: 2px;
+}
+.seed-text-input__root--variant_underline:is(:invalid, [data-invalid]):is(:focus, [data-focus])::after {
+    border-bottom-color: var(--seed-color-stroke-critical-solid);
+    border-bottom-width: 2px;
+}
+.seed-text-input__value--variant_underline {
+    font-size: var(--seed-font-size-t6);
+    line-height: var(--seed-line-height-t6);
+}
+.seed-text-input__value--variant_underline:is([data-readonly]):not([data-disabled]) {
+    color: var(--seed-color-fg-neutral-muted);
+}
+.seed-text-input__prefixText--variant_underline {
+    font-size: var(--seed-font-size-t6);
+    line-height: var(--seed-line-height-t6);
+}
+.seed-text-input__prefixIcon--variant_underline {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+}
+.seed-text-input__suffixText--variant_underline {
+    font-size: var(--seed-font-size-t6);
+    line-height: var(--seed-line-height-t6);
+}
+.seed-text-input__suffixIcon--variant_underline {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+}
+.seed-text-input__value--size_large:is(textarea) {
+    min-height: 95px;
+    padding-top: var(--seed-dimension-x3_5);
+    padding-bottom: var(--seed-dimension-x3_5);
+}
+.seed-text-input__value--size_medium:is(textarea) {
+    min-height: 90px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+.seed-text-input__root--variant_outline-size_large {
+    gap: var(--seed-dimension-x2_5);
+    min-height: var(--seed-dimension-x13);
+}
+.seed-text-input__value--variant_outline-size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+}
+.seed-text-input__prefixText--variant_outline-size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+}
+.seed-text-input__prefixIcon--variant_outline-size_large {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5);
+}
+.seed-text-input__suffixText--variant_outline-size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+}
+.seed-text-input__suffixIcon--variant_outline-size_large {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5);
+}
+.seed-text-input__root--variant_outline-size_medium {
+    gap: var(--seed-dimension-x1_5);
+    min-height: var(--seed-dimension-x10);
+}
+.seed-text-input__value--variant_outline-size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+}
+.seed-text-input__prefixText--variant_outline-size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+}
+.seed-text-input__prefixIcon--variant_outline-size_medium {
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4);
+}
+.seed-text-input__suffixText--variant_outline-size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+}
+.seed-text-input__suffixIcon--variant_outline-size_medium {
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4);
+}

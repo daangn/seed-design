@@ -1,0 +1,9 @@
+.seed-scroll-fog {
+    position: relative;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    --scroll-fog-from-color: #00000000;
+    --scroll-fog-to-color: #000000ff
+}
+.seed-scroll-fog--hideScrollBar_true {}

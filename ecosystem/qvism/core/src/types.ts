@@ -137,12 +137,22 @@ export interface Theme {
   globalCss?: Record<string, StyleObject>;
 }
 
+export interface TargetConfig {
+  /** 출력 파일 접미사 (예: "lynx" → action-button.lynx.css) */
+  suffix: string;
+  /** 이 타겟에 적용할 PostCSS 플러그인 */
+  postcssPlugins: AcceptedPlugin[];
+}
+
 export interface Config {
   prefix?: string;
 
   postcssPlugins?: AcceptedPlugin[];
 
   theme: Theme;
+
+  /** 추가 CSS 출력 타겟 (예: lynx) */
+  targets?: TargetConfig[];
 }
 
 export interface CssgenConfig {

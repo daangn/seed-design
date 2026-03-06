@@ -12,11 +12,10 @@
   },
   "dependencies": {
     "@lynx-js/react": "^0.116.3",
-    "@seed-design/css": "^1.2.4"
+    "@seed-design/css": "workspace:*"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.14",
-    "@csstools/postcss-is-pseudo-class": "^6.0.0",
     "@lynx-js/preact-devtools": "^5.0.1",
     "@lynx-js/qrcode-rsbuild-plugin": "^0.4.5",
     "@lynx-js/react-rsbuild-plugin": "^0.12.8",
@@ -27,8 +26,6 @@
     "@types/react": "^18.3.28",
     "jsdom": "^27.4.0",
     "postcss": "^8.5.8",
-    "postcss-logical": "^9.0.0",
-    "postcss-lynx": "^0.1.4",
     "typescript": "~5.9.3",
     "vitest": "^3.2.4"
   },

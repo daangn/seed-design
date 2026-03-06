@@ -1,0 +1,69 @@
+.seed-field__root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--seed-dimension-x2);
+}
+.seed-field__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: var(--seed-dimension-x0_5);
+    padding-right: var(--seed-dimension-x0_5);
+    gap: var(--seed-dimension-x2_5);
+}
+.seed-field__footer {
+    display: flex;
+    align-items: flex-start;
+    padding-left: var(--seed-dimension-x0_5);
+    padding-right: var(--seed-dimension-x0_5);
+    gap: var(--seed-dimension-x2);
+}
+.seed-field__description {
+    display: flex;
+    color: var(--seed-color-fg-neutral-subtle);
+    font-weight: var(--seed-font-weight-regular);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    --seed-prefix-icon-size: var(--seed-dimension-x4);
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral-subtle);
+    --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
+    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) / 2);
+}
+.seed-field__errorMessage {
+    display: flex;
+    color: var(--seed-color-fg-critical);
+    font-weight: var(--seed-font-weight-regular);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    --seed-prefix-icon-size: var(--seed-dimension-x4);
+    --seed-prefix-icon-color: var(--seed-color-fg-critical);
+    --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
+    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) / 2);
+}
+.seed-field__characterCountArea {
+    margin-left: auto;
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+}
+.seed-field__characterCount {
+    color: var(--seed-color-fg-neutral);
+    font-weight: var(--seed-font-weight-regular);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+}
+.seed-field__characterCount[data-empty]:not(:is(:invalid, [data-invalid])) {
+    color: var(--seed-color-fg-neutral-subtle);
+}
+.seed-field__characterCount:is(:invalid, [data-invalid]) {
+    color: var(--seed-color-fg-critical);
+}
+.seed-field__maxCharacterCount {
+    color: var(--seed-color-fg-neutral-subtle);
+    font-weight: var(--seed-font-weight-regular);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+}
+.seed-field__maxCharacterCount:is(:invalid, [data-invalid]) {
+    color: var(--seed-color-fg-critical);
+}

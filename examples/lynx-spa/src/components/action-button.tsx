@@ -1,7 +1,7 @@
 import {
   type ActionButtonVariantProps,
   actionButton,
-} from "@seed-design/css/recipes/action-button";
+} from "@seed-design/css/recipes/action-button.lynx";
 import type { ReactNode } from "react";
 import type { WithMainThread } from "../types/events.ts";
 
@@ -28,12 +28,14 @@ export default function ActionButton(props: ActionButtonProps) {
     flexGrow,
   } = props;
 
-  const classes = actionButton({ variant, size, layout });
+  const className = actionButton({ variant, size, layout });
 
   return (
     <view
-      className={`${classes}`}
+      className={className}
       style={{ flexGrow: flexGrow }}
+      data-disabled={disabled || undefined}
+      data-loading={loading || undefined}
       {...(!disabled && !loading && props.bindtap && { bindtap: props.bindtap })}
       {...(!disabled &&
         !loading &&
@@ -41,11 +43,7 @@ export default function ActionButton(props: ActionButtonProps) {
           "main-thread:bindtap": props["main-thread:bindtap"],
         })}
     >
-      <text
-        className={`seed-action-button--variant_${variant} seed-action-button--size_${size}-layout_withText`}
-      >
-        {children}
-      </text>
+      <text className={className}>{children}</text>
     </view>
   );
 }

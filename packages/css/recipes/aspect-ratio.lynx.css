@@ -1,0 +1,23 @@
+.seed-aspect-ratio {
+    --seed-aspect-ratio-padding: 75%;
+}
+.seed-aspect-ratio::before {
+    display: block;
+    height: 0;
+    padding-bottom: var(--seed-aspect-ratio-padding);
+}
+.seed-aspect-ratio > *:not(style) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.seed-aspect-ratio > img, .seed-aspect-ratio > video {
+    object-fit: cover;
+}
