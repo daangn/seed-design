@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from '@lynx-js/react';
 import {
   type ActionButtonVariantProps,
   actionButton,
