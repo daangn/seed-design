@@ -126,17 +126,26 @@ async function writeRecipes(recipesDir: string, config: Config) {
         fs.writeFileSync(cssPath, css);
       }
 
-      // Generate target MJS for each recipe (imports target CSS)
+      // Generate target MJS + DTS for each recipe (imports target CSS)
       await Promise.all(
         Object.values(config.theme.recipes).map(async (definition) => {
           const name = definition.name;
           const targetJsCode = generateJs(definition, {
             ...options,
             cssImportPath: `./${name}.${target.suffix}.css`,
+            targetSlots: target.deriveSlots,
           });
           const mjsPath = path.join(recipesDir, `${name}.${target.suffix}.mjs`);
           console.log(`Writing ${target.suffix}`, name, "to", mjsPath);
           fs.writeFileSync(mjsPath, targetJsCode);
+
+          // deriveSlots가 있으면 별도 .d.ts 생성 (반환 타입이 다름)
+          if (target.deriveSlots?.length) {
+            const targetDtsCode = generateDts(definition, { targetSlots: target.deriveSlots });
+            const dtsPath = path.join(recipesDir, `${name}.${target.suffix}.d.ts`);
+            console.log(`Writing ${target.suffix}`, name, "to", dtsPath);
+            fs.writeFileSync(dtsPath, targetDtsCode);
+          }
         }),
       );
     }

@@ -1,4 +1,4 @@
-import ActionButton from "./components/action-button";
+import { ActionButton } from "@seed-design/lynx";
 
 export function App(props: { onRender?: () => void }) {
   props.onRender?.();

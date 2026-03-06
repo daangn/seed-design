@@ -1,6 +1,17 @@
 import './slider-tick.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const sliderTickSlotNames = [
+  [
+    "root",
+    "seed-slider-tick"
+  ],
+  [
+    "text",
+    "seed-slider-tick__text"
+  ]
+];
+
 const defaultVariant = {
   "weight": "thin"
 };
@@ -17,10 +28,13 @@ export const sliderTickVariantMap = {
 export const sliderTickVariantKeys = Object.keys(sliderTickVariantMap);
 
 export function sliderTick(props) {
-  return createClassName(
-    "seed-slider-tick",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    sliderTickSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

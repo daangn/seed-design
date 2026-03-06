@@ -1,6 +1,17 @@
 import './notification-badge.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const notificationBadgeSlotNames = [
+  [
+    "root",
+    "seed-notification-badge"
+  ],
+  [
+    "text",
+    "seed-notification-badge__text"
+  ]
+];
+
 const defaultVariant = {
   "size": "large"
 };
@@ -17,10 +28,13 @@ export const notificationBadgeVariantMap = {
 export const notificationBadgeVariantKeys = Object.keys(notificationBadgeVariantMap);
 
 export function notificationBadge(props) {
-  return createClassName(
-    "seed-notification-badge",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    notificationBadgeSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

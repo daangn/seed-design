@@ -1,6 +1,17 @@
 import './control-chip.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const controlChipSlotNames = [
+  [
+    "root",
+    "seed-control-chip"
+  ],
+  [
+    "text",
+    "seed-control-chip__text"
+  ]
+];
+
 const defaultVariant = {
   "size": "medium",
   "layout": "withText"
@@ -39,10 +50,13 @@ export const controlChipVariantMap = {
 export const controlChipVariantKeys = Object.keys(controlChipVariantMap);
 
 export function controlChip(props) {
-  return createClassName(
-    "seed-control-chip",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    controlChipSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

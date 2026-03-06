@@ -1,6 +1,17 @@
 import './action-button.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const actionButtonSlotNames = [
+  [
+    "root",
+    "seed-action-button"
+  ],
+  [
+    "text",
+    "seed-action-button__text"
+  ]
+];
+
 const defaultVariant = {
   "variant": "brandSolid",
   "size": "medium",
@@ -67,10 +78,13 @@ export const actionButtonVariantMap = {
 export const actionButtonVariantKeys = Object.keys(actionButtonVariantMap);
 
 export function actionButton(props) {
-  return createClassName(
-    "seed-action-button",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    actionButtonSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

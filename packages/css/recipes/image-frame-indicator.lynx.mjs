@@ -1,6 +1,17 @@
 import './image-frame-indicator.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const imageFrameIndicatorSlotNames = [
+  [
+    "root",
+    "seed-image-frame-indicator"
+  ],
+  [
+    "text",
+    "seed-image-frame-indicator__text"
+  ]
+];
+
 const defaultVariant = {};
 
 const compoundVariants = [];
@@ -10,10 +21,13 @@ export const imageFrameIndicatorVariantMap = {};
 export const imageFrameIndicatorVariantKeys = Object.keys(imageFrameIndicatorVariantMap);
 
 export function imageFrameIndicator(props) {
-  return createClassName(
-    "seed-image-frame-indicator",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    imageFrameIndicatorSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

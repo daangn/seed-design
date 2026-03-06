@@ -1,6 +1,17 @@
 import './select-box-group.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const selectBoxGroupSlotNames = [
+  [
+    "root",
+    "seed-select-box-group"
+  ],
+  [
+    "text",
+    "seed-select-box-group__text"
+  ]
+];
+
 const defaultVariant = {};
 
 const compoundVariants = [];
@@ -10,10 +21,13 @@ export const selectBoxGroupVariantMap = {};
 export const selectBoxGroupVariantKeys = Object.keys(selectBoxGroupVariantMap);
 
 export function selectBoxGroup(props) {
-  return createClassName(
-    "seed-select-box-group",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    selectBoxGroupSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

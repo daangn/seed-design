@@ -1,6 +1,17 @@
 import './aspect-ratio.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const aspectRatioSlotNames = [
+  [
+    "root",
+    "seed-aspect-ratio"
+  ],
+  [
+    "text",
+    "seed-aspect-ratio__text"
+  ]
+];
+
 const defaultVariant = {};
 
 const compoundVariants = [];
@@ -10,10 +21,13 @@ export const aspectRatioVariantMap = {};
 export const aspectRatioVariantKeys = Object.keys(aspectRatioVariantMap);
 
 export function aspectRatio(props) {
-  return createClassName(
-    "seed-aspect-ratio",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    aspectRatioSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

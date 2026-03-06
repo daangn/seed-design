@@ -1,6 +1,17 @@
 import './extended-action-sheet-item.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const extendedActionSheetItemSlotNames = [
+  [
+    "root",
+    "seed-extended-action-sheet-item"
+  ],
+  [
+    "text",
+    "seed-extended-action-sheet-item__text"
+  ]
+];
+
 const defaultVariant = {
   "tone": "neutral"
 };
@@ -17,10 +28,13 @@ export const extendedActionSheetItemVariantMap = {
 export const extendedActionSheetItemVariantKeys = Object.keys(extendedActionSheetItemVariantMap);
 
 export function extendedActionSheetItem(props) {
-  return createClassName(
-    "seed-extended-action-sheet-item",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    extendedActionSheetItemSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

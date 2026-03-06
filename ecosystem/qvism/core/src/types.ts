@@ -142,6 +142,8 @@ export interface TargetConfig {
   suffix: string;
   /** 이 타겟에 적용할 PostCSS 플러그인 */
   postcssPlugins: AcceptedPlugin[];
+  /** 단일 recipe를 이 슬롯 이름으로 분리된 JS/DTS 생성. 첫 번째가 base class */
+  deriveSlots?: string[];
 }
 
 export interface Config {

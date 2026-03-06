@@ -1,6 +1,17 @@
 import './image-frame-reaction-button.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const imageFrameReactionButtonSlotNames = [
+  [
+    "root",
+    "seed-image-frame-reaction-button"
+  ],
+  [
+    "text",
+    "seed-image-frame-reaction-button__text"
+  ]
+];
+
 const defaultVariant = {};
 
 const compoundVariants = [];
@@ -10,10 +21,13 @@ export const imageFrameReactionButtonVariantMap = {};
 export const imageFrameReactionButtonVariantKeys = Object.keys(imageFrameReactionButtonVariantMap);
 
 export function imageFrameReactionButton(props) {
-  return createClassName(
-    "seed-image-frame-reaction-button",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    imageFrameReactionButtonSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

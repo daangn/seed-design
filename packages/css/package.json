@@ -30,7 +30,7 @@
     "./all.lynx.css": "./all.lynx.css",
     "./recipes/*.css": "./recipes/*.css",
     "./recipes/*.lynx": {
-      "types": "./recipes/*.d.ts",
+      "types": "./recipes/*.lynx.d.ts",
       "default": {
         "import": "./recipes/*.lynx.mjs"
       }

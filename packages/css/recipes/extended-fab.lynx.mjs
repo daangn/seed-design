@@ -1,6 +1,17 @@
 import './extended-fab.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const extendedFabSlotNames = [
+  [
+    "root",
+    "seed-extended-fab"
+  ],
+  [
+    "text",
+    "seed-extended-fab__text"
+  ]
+];
+
 const defaultVariant = {
   "variant": "neutralSolid",
   "size": "medium"
@@ -22,10 +33,13 @@ export const extendedFabVariantMap = {
 export const extendedFabVariantKeys = Object.keys(extendedFabVariantMap);
 
 export function extendedFab(props) {
-  return createClassName(
-    "seed-extended-fab",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    extendedFabSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

@@ -1,0 +1,48 @@
+{
+  "name": "@seed-design/lynx",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/lynx"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "vite build",
+    "lint:publish": "bun publint"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1"
+  },
+  "peerDependencies": {
+    "@seed-design/css": ">=1.1.17",
+    "@lynx-js/react": ">=0.100.0",
+    "react": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@lynx-js/react": "^0.116.3",
+    "@types/react": "^19.2.2",
+    "globby": "^16.0.0",
+    "react": "^19.1.0",
+    "vite": "^7.0.0",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

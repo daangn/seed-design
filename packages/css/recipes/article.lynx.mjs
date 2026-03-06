@@ -1,6 +1,17 @@
 import './article.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const articleSlotNames = [
+  [
+    "root",
+    "seed-article"
+  ],
+  [
+    "text",
+    "seed-article__text"
+  ]
+];
+
 const defaultVariant = {};
 
 const compoundVariants = [];
@@ -10,10 +21,13 @@ export const articleVariantMap = {};
 export const articleVariantKeys = Object.keys(articleVariantMap);
 
 export function article(props) {
-  return createClassName(
-    "seed-article",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    articleSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

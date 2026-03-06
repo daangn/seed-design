@@ -5,7 +5,6 @@
     border: none;
     font-family: inherit;
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-floating-action-button__root[data-disabled] {}
 .seed-floating-action-button__root {

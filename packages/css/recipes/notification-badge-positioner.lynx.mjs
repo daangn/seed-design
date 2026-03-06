@@ -1,6 +1,17 @@
 import './notification-badge-positioner.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const notificationBadgePositionerSlotNames = [
+  [
+    "root",
+    "seed-notification-badge-positioner"
+  ],
+  [
+    "text",
+    "seed-notification-badge-positioner__text"
+  ]
+];
+
 const defaultVariant = {
   "size": "large",
   "attach": "icon"
@@ -39,10 +50,13 @@ export const notificationBadgePositionerVariantMap = {
 export const notificationBadgePositionerVariantKeys = Object.keys(notificationBadgePositionerVariantMap);
 
 export function notificationBadgePositioner(props) {
-  return createClassName(
-    "seed-notification-badge-positioner",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    notificationBadgePositionerSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

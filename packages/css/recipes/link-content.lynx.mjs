@@ -1,6 +1,17 @@
 import './link-content.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const linkContentSlotNames = [
+  [
+    "root",
+    "seed-link-content"
+  ],
+  [
+    "text",
+    "seed-link-content__text"
+  ]
+];
+
 const defaultVariant = {
   "size": "t4",
   "weight": "regular"
@@ -23,10 +34,13 @@ export const linkContentVariantMap = {
 export const linkContentVariantKeys = Object.keys(linkContentVariantMap);
 
 export function linkContent(props) {
-  return createClassName(
-    "seed-link-content",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    linkContentSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

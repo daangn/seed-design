@@ -1,6 +1,17 @@
 import './contextual-floating-button.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const contextualFloatingButtonSlotNames = [
+  [
+    "root",
+    "seed-contextual-floating-button"
+  ],
+  [
+    "text",
+    "seed-contextual-floating-button__text"
+  ]
+];
+
 const defaultVariant = {
   "variant": "solid",
   "layout": "withText"
@@ -22,10 +33,13 @@ export const contextualFloatingButtonVariantMap = {
 export const contextualFloatingButtonVariantKeys = Object.keys(contextualFloatingButtonVariantMap);
 
 export function contextualFloatingButton(props) {
-  return createClassName(
-    "seed-contextual-floating-button",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    contextualFloatingButtonSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

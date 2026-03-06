@@ -1,6 +1,17 @@
 import './list-header.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const listHeaderSlotNames = [
+  [
+    "root",
+    "seed-list-header"
+  ],
+  [
+    "text",
+    "seed-list-header__text"
+  ]
+];
+
 const defaultVariant = {
   "variant": "mediumWeak"
 };
@@ -17,10 +28,13 @@ export const listHeaderVariantMap = {
 export const listHeaderVariantKeys = Object.keys(listHeaderVariantMap);
 
 export function listHeader(props) {
-  return createClassName(
-    "seed-list-header",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    listHeaderSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

@@ -14,3 +14,8 @@
     transition-duration: var(--seed-duration-d4);
     transition-timing-function: var(--seed-timing-function-easing)
 }
+.seed-snackbar-region__text {
+    transition-property: bottom;
+    transition-duration: var(--seed-duration-d4);
+    transition-timing-function: var(--seed-timing-function-easing)
+}

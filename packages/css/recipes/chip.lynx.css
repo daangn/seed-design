@@ -13,7 +13,6 @@
     transition-timing-function: var(--seed-timing-function-easing);
     transition-property: background-color, color, border-color, box-shadow, outline-color;
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-chip__root[data-disabled] {}
 .seed-chip__label {

@@ -1,6 +1,17 @@
 import './reaction-button.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const reactionButtonSlotNames = [
+  [
+    "root",
+    "seed-reaction-button"
+  ],
+  [
+    "text",
+    "seed-reaction-button__text"
+  ]
+];
+
 const defaultVariant = {
   "size": "small"
 };
@@ -17,10 +28,13 @@ export const reactionButtonVariantMap = {
 export const reactionButtonVariantKeys = Object.keys(reactionButtonVariantMap);
 
 export function reactionButton(props) {
-  return createClassName(
-    "seed-reaction-button",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    reactionButtonSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

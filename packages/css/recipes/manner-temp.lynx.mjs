@@ -1,6 +1,17 @@
 import './manner-temp.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const mannerTempSlotNames = [
+  [
+    "root",
+    "seed-manner-temp"
+  ],
+  [
+    "text",
+    "seed-manner-temp__text"
+  ]
+];
+
 const defaultVariant = {
   "level": "l1"
 };
@@ -25,10 +36,13 @@ export const mannerTempVariantMap = {
 export const mannerTempVariantKeys = Object.keys(mannerTempVariantMap);
 
 export function mannerTemp(props) {
-  return createClassName(
-    "seed-manner-temp",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    mannerTempSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

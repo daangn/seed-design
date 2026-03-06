@@ -1,6 +1,17 @@
 import './image-frame-icon.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const imageFrameIconSlotNames = [
+  [
+    "root",
+    "seed-image-frame-icon"
+  ],
+  [
+    "text",
+    "seed-image-frame-icon__text"
+  ]
+];
+
 const defaultVariant = {};
 
 const compoundVariants = [];
@@ -10,10 +21,13 @@ export const imageFrameIconVariantMap = {};
 export const imageFrameIconVariantKeys = Object.keys(imageFrameIconVariantMap);
 
 export function imageFrameIcon(props) {
-  return createClassName(
-    "seed-image-frame-icon",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    imageFrameIconSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

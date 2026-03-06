@@ -63,6 +63,33 @@ function resolveClamp(value: string, strategy: "min" | "preferred" | "max"): str
   return result;
 }
 
+/**
+ * 셀렉터의 base class 부분에 text slot 접미사를 삽입한다.
+ * .seed-action-button → .seed-action-button__text
+ * .seed-action-button--variant_brandSolid → .seed-action-button__text--variant_brandSolid
+ * .seed-X--a_1.seed-X--b_2 → .seed-X__text--a_1.seed-X__text--b_2
+ */
+function insertTextSlotSuffix(selector: string, suffix: string): string {
+  // 각 셀렉터 부분을 개별 처리 (콤마 분리)
+  return selector
+    .split(",")
+    .map((s) => s.trim())
+    .map((singleSelector) => {
+      // 복합 셀렉터: .seed-X--a_1.seed-X--b_2 → 각 클래스 개별 처리
+      // name: 단일 하이픈으로 연결된 컴포넌트명 (action-button), -- 이전까지
+      return singleSelector.replace(
+        /\.seed-([a-z0-9]+(?:-[a-z0-9]+)*)(--[^\s.,[]*)?/gi,
+        (_, name, modifier) => {
+          if (modifier) {
+            return `.seed-${name}${suffix}${modifier}`;
+          }
+          return `.seed-${name}${suffix}`;
+        },
+      );
+    })
+    .join(", ");
+}
+
 export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) => {
   const config = {
     remove: { ...defaultConfig.remove, ...opts.remove },
@@ -73,6 +100,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     supportedProperties: opts.supportedProperties ?? defaultConfig.supportedProperties,
     clampStrategy: opts.clampStrategy ?? defaultConfig.clampStrategy,
     warnOnly: opts.warnOnly ?? defaultConfig.warnOnly,
+    textSlot: opts.textSlot ?? defaultConfig.textSlot,
   };
 
   const supportedSet = new Set(config.supportedProperties);
@@ -172,6 +200,75 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       }
 
       throw decl.error(message, { plugin: PLUGIN_NAME });
+    },
+
+    // Phase 5: Text Slot Splitting — view/text CSS 프로퍼티 분리
+    OnceExit(root) {
+      if (!config.textSlot) return;
+
+      const { suffix, textProperties, sharedProperties } = config.textSlot;
+      const textPropsSet = new Set(textProperties);
+      const sharedPropsSet = new Set(sharedProperties);
+
+      const rulesToProcess: import("postcss").Rule[] = [];
+      root.walkRules((rule) => {
+        rulesToProcess.push(rule);
+      });
+
+      for (const rule of rulesToProcess) {
+        // SlotRecipe CSS는 이미 슬롯 분리됨 (셀렉터에 __ 포함) → 스킵
+        if (rule.selector.includes("__")) continue;
+
+        // seed- 클래스가 아닌 rule은 스킵
+        if (!rule.selector.includes(".seed-")) continue;
+
+        const textDecls: import("postcss").Declaration[] = [];
+        const sharedDecls: import("postcss").Declaration[] = [];
+        const viewOnlyDecls: import("postcss").Declaration[] = [];
+        const cssVarDecls: import("postcss").Declaration[] = [];
+
+        rule.walkDecls((decl) => {
+          if (decl.prop.startsWith("--")) {
+            cssVarDecls.push(decl);
+          } else if (textPropsSet.has(decl.prop)) {
+            textDecls.push(decl);
+          } else if (sharedPropsSet.has(decl.prop)) {
+            sharedDecls.push(decl);
+          } else {
+            viewOnlyDecls.push(decl);
+          }
+        });
+
+        // text 전용 + shared declarations가 없으면 분리 불필요
+        if (textDecls.length === 0 && sharedDecls.length === 0 && cssVarDecls.length === 0)
+          continue;
+
+        // text rule 생성
+        const textSelector = insertTextSlotSuffix(rule.selector, suffix);
+        const textRule = rule.cloneAfter({ selector: textSelector });
+        textRule.removeAll();
+
+        // text rule에 CSS vars + shared + text 전용 프로퍼티 추가
+        for (const decl of cssVarDecls) {
+          textRule.append(decl.clone());
+        }
+        for (const decl of sharedDecls) {
+          textRule.append(decl.clone());
+        }
+        for (const decl of textDecls) {
+          textRule.append(decl.clone());
+        }
+
+        // 원래 rule에서 text 전용 프로퍼티 제거 (CSS vars + shared + view-only 유지)
+        for (const decl of textDecls) {
+          decl.remove();
+        }
+
+        // view-only 프로퍼티만 남은 것이 없으면 원래 rule 제거
+        if (viewOnlyDecls.length === 0 && sharedDecls.length === 0 && cssVarDecls.length === 0) {
+          rule.remove();
+        }
+      }
     },
   };
 };

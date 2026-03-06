@@ -1,6 +1,17 @@
 import './radio-group.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const radioGroupSlotNames = [
+  [
+    "root",
+    "seed-radio-group"
+  ],
+  [
+    "text",
+    "seed-radio-group__text"
+  ]
+];
+
 const defaultVariant = {};
 
 const compoundVariants = [];
@@ -10,10 +21,13 @@ export const radioGroupVariantMap = {};
 export const radioGroupVariantKeys = Object.keys(radioGroupVariantMap);
 
 export function radioGroup(props) {
-  return createClassName(
-    "seed-radio-group",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    radioGroupSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

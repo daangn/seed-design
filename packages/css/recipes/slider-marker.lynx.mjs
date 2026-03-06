@@ -1,6 +1,17 @@
 import './slider-marker.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const sliderMarkerSlotNames = [
+  [
+    "root",
+    "seed-slider-marker"
+  ],
+  [
+    "text",
+    "seed-slider-marker__text"
+  ]
+];
+
 const defaultVariant = {
   "align": "center"
 };
@@ -18,10 +29,13 @@ export const sliderMarkerVariantMap = {
 export const sliderMarkerVariantKeys = Object.keys(sliderMarkerVariantMap);
 
 export function sliderMarker(props) {
-  return createClassName(
-    "seed-slider-marker",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    sliderMarkerSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

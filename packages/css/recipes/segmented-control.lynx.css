@@ -48,7 +48,6 @@
 }
 .seed-segmented-control__item {
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-segmented-control__item[data-disabled] {
     color: var(--seed-color-fg-disabled);

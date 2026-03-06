@@ -22,4 +22,14 @@ export interface LynxCompatConfig {
 
   /** true이면 미등록 프로퍼티를 경고로 처리 (기본: false → 에러) */
   warnOnly?: boolean;
+
+  /** 텍스트 슬롯 분리 설정 — 단일 recipe CSS를 view/text로 분리 */
+  textSlot?: {
+    /** text 슬롯 클래스 접미사 (예: "__text") */
+    suffix: string;
+    /** text 전용 프로퍼티 */
+    textProperties: string[];
+    /** view/text 양쪽에 포함할 프로퍼티 */
+    sharedProperties: string[];
+  };
 }

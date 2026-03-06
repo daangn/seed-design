@@ -1,6 +1,17 @@
 import './scroll-fog.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const scrollFogSlotNames = [
+  [
+    "root",
+    "seed-scroll-fog"
+  ],
+  [
+    "text",
+    "seed-scroll-fog__text"
+  ]
+];
+
 const defaultVariant = {
   "hideScrollBar": false
 };
@@ -16,10 +27,13 @@ export const scrollFogVariantMap = {
 export const scrollFogVariantKeys = Object.keys(scrollFogVariantMap);
 
 export function scrollFog(props) {
-  return createClassName(
-    "seed-scroll-fog",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    scrollFogSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

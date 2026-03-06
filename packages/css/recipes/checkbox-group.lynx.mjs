@@ -1,6 +1,17 @@
 import './checkbox-group.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const checkboxGroupSlotNames = [
+  [
+    "root",
+    "seed-checkbox-group"
+  ],
+  [
+    "text",
+    "seed-checkbox-group__text"
+  ]
+];
+
 const defaultVariant = {};
 
 const compoundVariants = [];
@@ -10,10 +21,13 @@ export const checkboxGroupVariantMap = {};
 export const checkboxGroupVariantKeys = Object.keys(checkboxGroupVariantMap);
 
 export function checkboxGroup(props) {
-  return createClassName(
-    "seed-checkbox-group",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    checkboxGroupSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

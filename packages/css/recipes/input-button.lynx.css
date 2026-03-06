@@ -46,7 +46,6 @@
 }
 .seed-input-button__button {
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-input-button__button:is(:invalid, [data-invalid])::after {
     border-width: 2px;
@@ -119,7 +118,6 @@
     border-radius: var(--seed-radius-full);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-input-button__clearButton {
     --seed-icon-size: 22px;

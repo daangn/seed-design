@@ -1,6 +1,17 @@
 import './manner-temp-badge.lynx.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const mannerTempBadgeSlotNames = [
+  [
+    "root",
+    "seed-manner-temp-badge"
+  ],
+  [
+    "text",
+    "seed-manner-temp-badge__text"
+  ]
+];
+
 const defaultVariant = {
   "level": "l1"
 };
@@ -25,10 +36,13 @@ export const mannerTempBadgeVariantMap = {
 export const mannerTempBadgeVariantKeys = Object.keys(mannerTempBadgeVariantMap);
 
 export function mannerTempBadge(props) {
-  return createClassName(
-    "seed-manner-temp-badge",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    mannerTempBadgeSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

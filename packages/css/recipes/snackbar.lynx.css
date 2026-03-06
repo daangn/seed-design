@@ -31,7 +31,6 @@
 .seed-snackbar__root {
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-snackbar__content {
     display: flex;
@@ -77,7 +76,6 @@
     min-height: 44px;
     background: transparent;
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-snackbar__actionButton:is(:focus, [data-focus]) {

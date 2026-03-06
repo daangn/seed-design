@@ -48,6 +48,7 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     "text-decoration-line": "Lynx에서 미지원",
     "text-underline-offset": "Lynx에서 미지원",
     resize: "Lynx에서 미지원",
+    "outline-offset": "Lynx에서 미지원",
     translate: "Lynx에서 미지원, transform: translate() 사용",
     // Mask (표준 + webkit)
     "mask-image": "Lynx에서 미지원",
@@ -205,7 +206,6 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     "outline-color",
     "outline-style",
     "outline-width",
-    "outline-offset",
 
     // Transform & Animation
     "transform",
@@ -236,4 +236,32 @@ export const defaultConfig: Required<LynxCompatConfig> = {
   clampStrategy: "preferred",
 
   warnOnly: false,
+
+  textSlot: {
+    suffix: "__text",
+    textProperties: [
+      "color",
+      "font-family",
+      "font-size",
+      "font-weight",
+      "font-style",
+      "line-height",
+      "letter-spacing",
+      "text-align",
+      "text-overflow",
+      "text-shadow",
+      "direction",
+    ],
+    sharedProperties: [
+      "opacity",
+      "transform",
+      "transform-origin",
+      "transition",
+      "transition-property",
+      "transition-duration",
+      "transition-delay",
+      "transition-timing-function",
+      "pointer-events",
+    ],
+  },
 };
