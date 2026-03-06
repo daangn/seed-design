@@ -85,6 +85,11 @@ export function useChangelogViewerData({
         (packageOrder.get(a.packageName) ?? Number.MAX_SAFE_INTEGER) -
         (packageOrder.get(b.packageName) ?? Number.MAX_SAFE_INTEGER);
       if (packageDiff !== 0) return packageDiff;
+
+      if (versionFrom !== ALL) {
+        return compareSemver(a.version, b.version);
+      }
+
       return compareSemver(b.version, a.version);
     });
 
