@@ -331,10 +331,10 @@ export function useDrawer(props: UseDrawerProps) {
           lastTimeDragPrevented.current = new Date();
           return false;
         }
+      }
 
-        if (element.getAttribute("role") === "dialog") {
-          return true;
-        }
+      if (element.getAttribute("role") === "dialog") {
+        return true;
       }
 
       element = element.parentNode as HTMLElement;
