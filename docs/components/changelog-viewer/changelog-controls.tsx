@@ -86,7 +86,7 @@ export function ChangelogControls({
                 key={pkg}
                 className={`inline-flex items-center rounded-md border px-2 py-1 text-xs font-mono ${
                   isActive
-                    ? "border-fd-primary text-fd-primary bg-fd-primary/5"
+                    ? "border-fd-border bg-fd-accent text-fd-accent-foreground"
                     : "border-fd-border text-fd-muted-foreground"
                 }`}
               >
@@ -173,7 +173,11 @@ export function ChangelogControls({
             <PopoverContent className="flex flex-col overflow-auto max-h-72 w-44 p-1">
               <button
                 type="button"
-                className="text-sm p-2 rounded-md text-left flex items-center gap-2 hover:bg-fd-accent hover:text-fd-accent-foreground"
+                className={`text-sm p-2 rounded-md text-left flex items-center gap-2 ${
+                  exactVersion === ALL
+                    ? "bg-fd-accent text-fd-accent-foreground"
+                    : "text-fd-muted-foreground hover:text-fd-foreground"
+                }`}
                 onClick={() => {
                   void setExactVersion(null);
                   setExactVersionOpen(false);
@@ -188,7 +192,11 @@ export function ChangelogControls({
                 <button
                   key={`exact-${version}`}
                   type="button"
-                  className="text-sm p-2 rounded-md text-left flex items-center gap-2 hover:bg-fd-accent hover:text-fd-accent-foreground"
+                  className={`text-sm p-2 rounded-md text-left flex items-center gap-2 ${
+                    exactVersion === version
+                      ? "bg-fd-accent text-fd-accent-foreground"
+                      : "text-fd-muted-foreground hover:text-fd-foreground"
+                  }`}
                   onClick={() => {
                     void setFilterMode("exact");
                     void setExactVersion(version);
@@ -222,7 +230,11 @@ export function ChangelogControls({
             <PopoverContent className="flex flex-col overflow-auto max-h-72 w-44 p-1">
               <button
                 type="button"
-                className="text-sm p-2 rounded-md text-left flex items-center gap-2 hover:bg-fd-accent hover:text-fd-accent-foreground"
+                className={`text-sm p-2 rounded-md text-left flex items-center gap-2 ${
+                  versionFrom === ALL
+                    ? "bg-fd-accent text-fd-accent-foreground"
+                    : "text-fd-muted-foreground hover:text-fd-foreground"
+                }`}
                 onClick={() => {
                   void setExactVersion(null);
                   void setVersionFrom(null);
@@ -238,7 +250,11 @@ export function ChangelogControls({
                 <button
                   key={version}
                   type="button"
-                  className="text-sm p-2 rounded-md text-left flex items-center gap-2 hover:bg-fd-accent hover:text-fd-accent-foreground"
+                  className={`text-sm p-2 rounded-md text-left flex items-center gap-2 ${
+                    versionFrom === version
+                      ? "bg-fd-accent text-fd-accent-foreground"
+                      : "text-fd-muted-foreground hover:text-fd-foreground"
+                  }`}
                   onClick={() => {
                     void setFilterMode("range");
                     void setExactVersion(null);
@@ -271,7 +287,11 @@ export function ChangelogControls({
             <PopoverContent className="flex flex-col overflow-auto max-h-72 w-44 p-1">
               <button
                 type="button"
-                className="text-sm p-2 rounded-md text-left flex items-center gap-2 hover:bg-fd-accent hover:text-fd-accent-foreground"
+                className={`text-sm p-2 rounded-md text-left flex items-center gap-2 ${
+                  versionTo === ALL
+                    ? "bg-fd-accent text-fd-accent-foreground"
+                    : "text-fd-muted-foreground hover:text-fd-foreground"
+                }`}
                 onClick={() => {
                   void setExactVersion(null);
                   void setVersionTo(null);
@@ -287,7 +307,11 @@ export function ChangelogControls({
                 <button
                   key={`to-${version}`}
                   type="button"
-                  className="text-sm p-2 rounded-md text-left flex items-center gap-2 hover:bg-fd-accent hover:text-fd-accent-foreground"
+                  className={`text-sm p-2 rounded-md text-left flex items-center gap-2 ${
+                    versionTo === version
+                      ? "bg-fd-accent text-fd-accent-foreground"
+                      : "text-fd-muted-foreground hover:text-fd-foreground"
+                  }`}
                   onClick={() => {
                     void setFilterMode("range");
                     void setExactVersion(null);
