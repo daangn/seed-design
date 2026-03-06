@@ -1,8 +1,10 @@
-import '@lynx-js/preact-devtools';
-import '@lynx-js/react/debug';
-import { root } from '@lynx-js/react';
+import "@lynx-js/preact-devtools";
+import { root } from "@lynx-js/react";
+import "@lynx-js/react/debug";
 
-import { App } from './App.jsx';
+import "./styles/global.css";
+
+import { App } from "./App.jsx";
 
 root.render(<App />);
 
