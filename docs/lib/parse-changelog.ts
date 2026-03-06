@@ -75,7 +75,7 @@ async function collectPackageChangelogPaths(dir: string): Promise<string[]> {
   return paths.flat();
 }
 
-async function loadChangelogSources(rootDir: string): Promise<ChangelogSource[]> {
+export async function loadChangelogSources(rootDir: string): Promise<ChangelogSource[]> {
   const workspaceRoot = resolveWorkspaceRoot(rootDir);
   const changelogPaths = (await collectPackageChangelogPaths(join(workspaceRoot, "packages"))).sort();
 
