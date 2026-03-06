@@ -1,3 +1,6 @@
+import { existsSync } from "node:fs";
+import { readFile, readdir } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
@@ -10,93 +13,273 @@ export interface ChangelogPackage {
 }
 
 export interface ChangelogEntry {
-  date: string;
-  label?: string;
+  order: number;
+  section?: string;
+  commitRefs: string[];
   contentHtml: string;
-  packages: ChangelogPackage[];
+  isDependencyOnly: boolean;
+  package: ChangelogPackage;
+  relatedPackages: ChangelogPackage[];
+}
+
+export interface ChangelogSource {
+  packageName: string;
+  raw: string;
 }
 
 const processor = remark().use(remarkGfm).use(remarkRehype).use(rehypeStringify);
 
+const RELATED_PACKAGE_REGEX = /^\s*-\s+(@seed-design\/[^\s@]+)@([^\s]+)\s*$/gm;
+const ENTRY_COMMIT_REGEX = /^-\s+([a-f0-9]{7}):/m;
+const DEPENDENCY_COMMIT_REGEX = /Updated dependencies \[([a-f0-9]{7})\]/g;
+const GITHUB_COMMIT_BASE_URL = "https://github.com/daangn/seed-design/commit";
+
+function getPackageVersionUrl(name: string, version: string) {
+  return `https://npmjs.com/package/${name}/v/${version}`;
+}
+
+function getCommitUrl(commitRef: string) {
+  return `${GITHUB_COMMIT_BASE_URL}/${commitRef}`;
+}
+
+function resolveWorkspaceRoot(startDir: string) {
+  const candidates = [startDir, resolve(startDir, "..")];
+
+  for (const candidate of candidates) {
+    if (existsSync(join(candidate, "packages"))) {
+      return candidate;
+    }
+  }
+
+  throw new Error(`packages 디렉토리를 찾을 수 없습니다: ${startDir}`);
+}
+
+async function collectPackageChangelogPaths(dir: string): Promise<string[]> {
+  const entries = await readdir(dir, { withFileTypes: true });
+  const paths = await Promise.all(
+    entries.map(async (entry) => {
+      const entryPath = join(dir, entry.name);
+
+      if (entry.isDirectory()) {
+        return collectPackageChangelogPaths(entryPath);
+      }
+
+      if (entry.isFile() && entry.name === "CHANGELOG.md") {
+        return [entryPath];
+      }
+
+      return [];
+    }),
+  );
+
+  return paths.flat();
+}
+
+async function loadChangelogSources(rootDir: string): Promise<ChangelogSource[]> {
+  const workspaceRoot = resolveWorkspaceRoot(rootDir);
+  const changelogPaths = (await collectPackageChangelogPaths(join(workspaceRoot, "packages"))).sort();
+
+  const sources = await Promise.all(
+    changelogPaths.map(async (changelogPath) => {
+      const packageJsonPath = join(dirname(changelogPath), "package.json");
+
+      if (!existsSync(packageJsonPath)) {
+        return null;
+      }
+
+      const [raw, packageJsonRaw] = await Promise.all([
+        readFile(changelogPath, "utf-8"),
+        readFile(packageJsonPath, "utf-8"),
+      ]);
+
+      const packageJson = JSON.parse(packageJsonRaw) as { name?: string };
+      if (!packageJson.name?.startsWith("@seed-design/")) {
+        return null;
+      }
+
+      return {
+        packageName: packageJson.name,
+        raw,
+      };
+    }),
+  );
+
+  return sources.filter((source): source is ChangelogSource => source !== null);
+}
+
 async function mdToHtml(md: string): Promise<string> {
-  // 1. remark (= unified + remark-parse) → MD 문자열 → MDAST
-  // 2. remarkGfm → MDAST에 GFM 문법(표, 체크박스 등) 추가 파싱
-  // 3. remarkRehype → MDAST → HAST
-  // 4. rehypeStringify → HAST → HTML 문자열
   const result = await processor.process(md);
   return String(result);
 }
 
-const PACKAGE_REGEX = /- 📦 \[(@seed-design\/[^@\]]+)@([^\]]+)\]\(([^)]+)\)/g;
+function unwrapSingleListItem(html: string): string {
+  if (!html.startsWith("<ul>")) return html.trim();
 
-const AFFECTED_SECTION = "\n영향받는 패키지";
+  return html.replace(/^<ul>\s*<li>/, "").replace(/<\/li>\s*<\/ul>\s*$/, "").trim();
+}
 
-function extractPackages(block: string): ChangelogPackage[] {
+function splitVersionSections(raw: string): Array<{ version: string; body: string }> {
+  const sections = raw
+    .replace(/^# .+\n+/, "")
+    .split(/(?=^## )/m)
+    .map((section) => section.trim())
+    .filter(Boolean);
+
+  return sections.flatMap((section) => {
+    const match = section.match(/^## ([^\n]+)\n*/);
+    if (!match) return [];
+
+    return [
+      {
+        version: match[1].trim(),
+        body: section.slice(match[0].length).trim(),
+      },
+    ];
+  });
+}
+
+function splitChangeSections(body: string): Array<{ section?: string; body: string }> {
+  const parts = body
+    .split(/(?=^### )/m)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (parts.length === 0) return [];
+
+  return parts.flatMap((part) => {
+    const match = part.match(/^### ([^\n]+)\n*/);
+    if (!match) {
+      return [{ body: part }];
+    }
+
+    return [
+      {
+        section: match[1].trim(),
+        body: part.slice(match[0].length).trim(),
+      },
+    ];
+  });
+}
+
+function splitEntryBlocks(body: string): string[] {
+  const trimmed = body.trim();
+  if (!trimmed) return [];
+
+  if (!trimmed.startsWith("- ")) {
+    return [trimmed];
+  }
+
+  return trimmed
+    .split(/\n(?=- )/)
+    .map((block) => block.trim())
+    .filter(Boolean);
+}
+
+function extractRelatedPackages(block: string): ChangelogPackage[] {
   const packages: ChangelogPackage[] = [];
   let match: RegExpExecArray | null;
-  PACKAGE_REGEX.lastIndex = 0;
-  // biome-ignore lint/suspicious/noAssignInExpressions: 패키지 추출 로직에서 사용
-  while ((match = PACKAGE_REGEX.exec(block)) !== null) {
-    packages.push({ name: match[1], version: match[2], url: match[3] });
+
+  RELATED_PACKAGE_REGEX.lastIndex = 0;
+
+  // biome-ignore lint/suspicious/noAssignInExpressions: 패키지 의존성 추출에 사용
+  while ((match = RELATED_PACKAGE_REGEX.exec(block)) !== null) {
+    packages.push({
+      name: match[1],
+      version: match[2],
+      url: getPackageVersionUrl(match[1], match[2]),
+    });
   }
-  return packages;
+
+  return Array.from(new Map(packages.map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const)).values());
 }
 
-function extractContent(block: string): string {
-  const idx = block.indexOf(AFFECTED_SECTION);
-  return (idx > -1 ? block.slice(0, idx) : block).trim();
+function extractCommitRefs(block: string): string[] {
+  const refs = new Set<string>();
+
+  const entryMatch = block.match(ENTRY_COMMIT_REGEX);
+  if (entryMatch) {
+    refs.add(entryMatch[1]);
+  }
+
+  let dependencyMatch: RegExpExecArray | null;
+  DEPENDENCY_COMMIT_REGEX.lastIndex = 0;
+
+  // biome-ignore lint/suspicious/noAssignInExpressions: 커밋 ref 추출에 사용
+  while ((dependencyMatch = DEPENDENCY_COMMIT_REGEX.exec(block)) !== null) {
+    refs.add(dependencyMatch[1]);
+  }
+
+  return [...refs];
 }
 
-/**
- * @description changelog.md 파일을 파싱하여 changelog entry 목록을 반환합니다.
- * @example
- * ```
- * [
- *   {
- *     date: "2026.03.05",
- *     label: "1.0.0",
- *     contentHtml: "<p>...</p>",
- *     packages: [{ name: "@seed-design/react", version: "1.0.0", url: "https://github.com/seed-design/seed-design/releases/tag/v1.0.0" }]
- *   }
- * ]
- * ```
- */
-export async function parseChangelog(raw: string): Promise<ChangelogEntry[]> {
-  // Strip frontmatter
-  const withoutFrontmatter = raw.replace(/^---[\s\S]*?---\n/, "");
+function isDependencyOnlyBlock(block: string): boolean {
+  return /^-\s+Updated dependencies(?:\s+\[[a-f0-9]{7}\])?/m.test(block.trim());
+}
 
-  // Split by date headings (## YYYY.MM.DD)
-  const dateSections = withoutFrontmatter.split(/(?=^## \d{4}\.\d{2}\.\d{2})/m);
+function formatDisplayBlock(block: string, commitRefs: string[], isDependencyOnly: boolean): string {
+  if (isDependencyOnly || commitRefs.length === 0) {
+    return block;
+  }
 
-  const entries: ChangelogEntry[] = [];
+  const [primaryCommitRef] = commitRefs;
+  const commitLink = `[\`${primaryCommitRef}\`](${getCommitUrl(primaryCommitRef)})`;
 
-  for (const section of dateSections) {
-    if (!section.trim()) continue;
+  if (ENTRY_COMMIT_REGEX.test(block)) {
+    const normalizedBlock = block.replace(/^(-\s+)([a-f0-9]{7}):\s*/, `$1`);
+    return normalizedBlock.includes("\n")
+      ? normalizedBlock.replace(/\n/, ` ${commitLink}\n`)
+      : `${normalizedBlock} ${commitLink}`;
+  }
 
-    const headingMatch = section.match(/^## (\d{4}\.\d{2}\.\d{2})(?:\s+(#\d+))?/);
-    if (!headingMatch) continue;
+  return block.includes("\n") ? block.replace(/\n/, ` ${commitLink}\n`) : `${block} ${commitLink}`;
+}
 
-    const date = headingMatch[1];
-    const label = headingMatch[2];
+export async function parseChangelogSources(sources: ChangelogSource[]): Promise<ChangelogEntry[]> {
+  const parsedEntries: ChangelogEntry[] = [];
+  let order = 0;
 
-    // Remove the heading line and get the body
-    const body = section.slice(section.indexOf("\n") + 1);
+  for (const source of sources) {
+    const versionSections = splitVersionSections(source.raw);
 
-    // Split into individual entries by ---
-    const blocks = body.split(/\n---\n/);
+    for (const versionSection of versionSections) {
+      const changeSections = splitChangeSections(versionSection.body);
+      const basePackage: ChangelogPackage = {
+        name: source.packageName,
+        version: versionSection.version,
+        url: getPackageVersionUrl(source.packageName, versionSection.version),
+      };
 
-    for (const block of blocks) {
-      if (!block.trim()) continue;
+      for (const changeSection of changeSections) {
+        const entryBlocks = splitEntryBlocks(changeSection.body);
 
-      const packages = extractPackages(block);
-      const contentMd = extractContent(block);
-      if (!contentMd && packages.length === 0) continue;
+        for (const block of entryBlocks) {
+          const commitRefs = extractCommitRefs(block);
+          const isDependencyOnly = isDependencyOnlyBlock(block);
+          const displayBlock = formatDisplayBlock(block, commitRefs, isDependencyOnly);
+          const contentHtml = unwrapSingleListItem(await mdToHtml(displayBlock));
+          if (!contentHtml) continue;
 
-      const contentHtml = contentMd ? await mdToHtml(contentMd) : "";
-
-      entries.push({ date, label, contentHtml, packages });
+          parsedEntries.push({
+            order: order++,
+            section: changeSection.section,
+            commitRefs,
+            contentHtml,
+            isDependencyOnly,
+            package: basePackage,
+            relatedPackages: extractRelatedPackages(block),
+          });
+        }
+      }
     }
   }
 
-  return entries;
+  return parsedEntries;
+}
+
+/**
+ * @description 모든 packages 디렉토리의 CHANGELOG.md 파일을 읽어 changelog entry 목록을 반환합니다.
+ */
+export async function parseChangelog(rootDir: string): Promise<ChangelogEntry[]> {
+  const sources = await loadChangelogSources(rootDir);
+  return parseChangelogSources(sources);
 }

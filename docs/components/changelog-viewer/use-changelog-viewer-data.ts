@@ -24,61 +24,68 @@ export function useChangelogViewerData({
   selectedPackage,
   versionFrom,
 }: Params) {
+  const packageOrder = new Map(packages.map((pkg, index) => [pkg, index] as const));
+
   const versionsForPackage =
     selectedPackage === ALL
       ? []
       : [
           ...new Set(
-            entries
-              .flatMap((entry) => entry.packages)
-              .filter((pkg) => pkg.name === selectedPackage)
-              .map((pkg) => pkg.version),
+            entries.filter((entry) => entry.package.name === selectedPackage).map((entry) => entry.package.version),
           ),
         ].sort((a, b) => compareSemver(b, a));
 
   const filteredEntries = entries.filter((entry) => {
     if (selectedPackage === ALL) return true;
-    const packageInEntry = entry.packages.find((pkg) => pkg.name === selectedPackage);
-    if (!packageInEntry) return false;
-    if (versionFrom !== ALL && compareSemver(packageInEntry.version, versionFrom) < 0) {
+    if (entry.package.name !== selectedPackage) return false;
+    if (versionFrom !== ALL && compareSemver(entry.package.version, versionFrom) < 0) {
       return false;
     }
     return true;
   });
 
-  const packageOrder = new Map(packages.map((pkg, index) => [pkg, index] as const));
   const groupedByPackageVersion = filteredEntries.reduce<Record<string, GroupedChangelogEntry>>(
     (acc, entry) => {
-      const matchedPackages = entry.packages.filter((pkg) => {
-        if (selectedPackage !== ALL && pkg.name !== selectedPackage) return false;
-        if (versionFrom !== ALL && compareSemver(pkg.version, versionFrom) < 0) {
-          return false;
-        }
-        return true;
-      });
-
-      for (const pkg of matchedPackages) {
-        const key = `${pkg.name}@${pkg.version}`;
-        if (!acc[key]) {
-          acc[key] = {
-            packageName: pkg.name,
-            version: pkg.version,
-            url: pkg.url,
-            entries: [],
-          };
-        }
-        acc[key].entries.push(entry);
+      const key = `${entry.package.name}@${entry.package.version}`;
+      if (!acc[key]) {
+        acc[key] = {
+          packageName: entry.package.name,
+          version: entry.package.version,
+          url: entry.package.url,
+          entries: [],
+        };
       }
+      acc[key].entries.push(entry);
 
       return acc;
     },
     {},
   );
 
+  const mergeRelatedPackages = (base: ChangelogEntry["relatedPackages"], next: ChangelogEntry["relatedPackages"]) =>
+    Array.from(new Map([...base, ...next].map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const)).values());
+
   const groupedEntries = Object.values(groupedByPackageVersion)
     .map((group) => ({
       ...group,
-      entries: group.entries.sort((a, b) => b.date.localeCompare(a.date)),
+      entries: group.entries.sort((a, b) => a.order - b.order).reduce<ChangelogEntry[]>((acc, entry) => {
+        if (!entry.isDependencyOnly) {
+          acc.push(entry);
+          return acc;
+        }
+
+        const targets = acc.filter((candidate) =>
+          candidate.commitRefs.some((ref) => entry.commitRefs.includes(ref)),
+        );
+
+        const targetEntries = targets.length > 0 ? targets : acc.length > 0 ? [acc[acc.length - 1]] : [];
+
+        for (const targetEntry of targetEntries) {
+          targetEntry.relatedPackages = mergeRelatedPackages(targetEntry.relatedPackages, entry.relatedPackages);
+        }
+
+        return acc;
+      }, []),
     }))
     .sort((a, b) => {
       const packageDiff =

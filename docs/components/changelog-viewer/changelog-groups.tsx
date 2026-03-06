@@ -68,20 +68,20 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
             <div className="px-3 py-1">
               <ul className="list-disc pl-5 pr-1 marker:text-fd-muted-foreground">
                 {group.entries.map((entry, index) => {
-                  const additionalPackages = entry.packages.filter(
-                    (pkg) => !(pkg.name === group.packageName && pkg.version === group.version),
-                  );
                   const uniqueAdditionalPackages = Array.from(
                     new Map(
-                      additionalPackages.map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const),
+                      entry.relatedPackages.map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const),
                     ).values(),
                   );
 
                   return (
-                    <li
-                      key={`${group.packageName}@${group.version}-${entry.date}-${entry.label ?? ""}-${index}`}
-                    >
-                      <ChangelogEntryItem entry={entry} hideDate hidePackages compact />
+                    <li key={`${group.packageName}@${group.version}-${entry.order}-${index}`}>
+                      <ChangelogEntryItem
+                        entry={entry}
+                        hidePackages
+                        compact
+                        showPackage={entry.package.name !== group.packageName}
+                      />
                       {uniqueAdditionalPackages.length > 0 && (
                         <details className="mt-1.5">
                           <summary className="cursor-pointer text-xs text-fd-muted-foreground hover:text-fd-foreground select-none">
