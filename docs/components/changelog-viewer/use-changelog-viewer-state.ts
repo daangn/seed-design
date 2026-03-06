@@ -11,7 +11,6 @@ type TabFilter = {
   from: string;
   mode: FilterMode;
   to: string;
-  version: string;
 };
 
 type TabFilterMap = Record<string, TabFilter>;
@@ -21,7 +20,6 @@ const DEFAULT_TAB_FILTER: TabFilter = {
   exact: ALL,
   from: ALL,
   to: ALL,
-  version: ALL,
 };
 
 function normalizeTabFilter(input?: Partial<TabFilter>): TabFilter {
@@ -30,7 +28,6 @@ function normalizeTabFilter(input?: Partial<TabFilter>): TabFilter {
     exact: input?.exact ?? ALL,
     from: input?.from ?? ALL,
     to: input?.to ?? ALL,
-    version: input?.version ?? ALL,
   };
 }
 
@@ -39,13 +36,7 @@ function toQueryValue(value: string): string | null {
 }
 
 function isSameFilter(a: TabFilter, b: TabFilter) {
-  return (
-    a.mode === b.mode &&
-    a.exact === b.exact &&
-    a.from === b.from &&
-    a.to === b.to &&
-    a.version === b.version
-  );
+  return a.mode === b.mode && a.exact === b.exact && a.from === b.from && a.to === b.to;
 }
 
 export function useChangelogViewerState(rawPackages: string[]) {
@@ -74,10 +65,6 @@ export function useChangelogViewerState(rawPackages: string[]) {
     history: "push",
   });
   const [exactVersion, setExactVersionRaw] = useQueryState("exact", {
-    defaultValue: ALL,
-    history: "push",
-  });
-  const [legacyVersion, setLegacyVersionRaw] = useQueryState("version", {
     defaultValue: ALL,
     history: "push",
   });
@@ -114,7 +101,6 @@ export function useChangelogViewerState(rawPackages: string[]) {
     exact: exactVersion,
     from: versionFrom,
     to: versionTo,
-    version: legacyVersion,
   });
 
   const applyTabFilter = (filter: TabFilter) => {
@@ -122,7 +108,6 @@ export function useChangelogViewerState(rawPackages: string[]) {
     void setExactVersionRaw(toQueryValue(filter.exact));
     void setVersionFromRaw(toQueryValue(filter.from));
     void setVersionToRaw(toQueryValue(filter.to));
-    void setLegacyVersionRaw(toQueryValue(filter.version));
   };
 
   // 현재 활성 탭의 필터를 메모리 상태에 계속 저장
@@ -153,10 +138,6 @@ export function useChangelogViewerState(rawPackages: string[]) {
 
   const setVersionTo = (value: string | null) => {
     void setVersionToRaw(value);
-  };
-
-  const setLegacyVersion = (value: string | null) => {
-    void setLegacyVersionRaw(value);
   };
 
   const switchCompareTab = (pkg: string) => {
@@ -192,7 +173,6 @@ export function useChangelogViewerState(rawPackages: string[]) {
     exactVersion,
     exactVersionOpen,
     filterMode,
-    legacyVersion,
     packages,
     removeCompareTab,
     selectedPackageForView,
@@ -201,7 +181,6 @@ export function useChangelogViewerState(rawPackages: string[]) {
     setExactVersion,
     setExactVersionOpen,
     setFilterMode,
-    setLegacyVersion,
     setVersionFrom,
     setVersionFromOpen,
     setVersionTo,

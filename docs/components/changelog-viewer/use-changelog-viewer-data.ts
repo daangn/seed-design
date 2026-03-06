@@ -20,7 +20,6 @@ type Params = {
   entries: ChangelogEntry[];
   exactVersion: string;
   filterMode: string;
-  legacyVersion: string;
   packages: string[];
   selectedPackageForView: string;
   versionFrom: string;
@@ -30,32 +29,16 @@ type Params = {
 function getEffectiveRange({
   exactVersion,
   filterMode,
-  legacyVersion,
   versionFrom,
   versionTo,
-}: Pick<Params, "exactVersion" | "filterMode" | "legacyVersion" | "versionFrom" | "versionTo">): {
+}: Pick<Params, "exactVersion" | "filterMode" | "versionFrom" | "versionTo">): {
   isExactMode: boolean;
   effectiveRange: VersionRange;
 } {
-  const isExactMode =
-    filterMode === "exact" ||
-    exactVersion !== ALL ||
-    (legacyVersion !== ALL && versionFrom === ALL && versionTo === ALL);
+  const isExactMode = filterMode === "exact" || exactVersion !== ALL;
 
-  const rawFrom = isExactMode
-    ? exactVersion !== ALL
-      ? exactVersion
-      : legacyVersion !== ALL
-        ? legacyVersion
-        : ALL
-    : versionFrom;
-  const rawTo = isExactMode
-    ? exactVersion !== ALL
-      ? exactVersion
-      : legacyVersion !== ALL
-        ? legacyVersion
-        : ALL
-    : versionTo;
+  const rawFrom = isExactMode ? (exactVersion !== ALL ? exactVersion : ALL) : versionFrom;
+  const rawTo = isExactMode ? (exactVersion !== ALL ? exactVersion : ALL) : versionTo;
 
   const effectiveRange =
     rawFrom !== ALL && rawTo !== ALL && compareSemver(rawFrom, rawTo) > 0
@@ -69,7 +52,6 @@ export function useChangelogViewerData({
   entries,
   exactVersion,
   filterMode,
-  legacyVersion,
   packages,
   selectedPackageForView,
   versionFrom,
@@ -78,7 +60,6 @@ export function useChangelogViewerData({
   const { isExactMode, effectiveRange } = getEffectiveRange({
     exactVersion,
     filterMode,
-    legacyVersion,
     versionFrom,
     versionTo,
   });

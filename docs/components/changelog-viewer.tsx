@@ -19,7 +19,6 @@ export function ChangelogViewer({
     entries,
     exactVersion: state.exactVersion,
     filterMode: state.filterMode,
-    legacyVersion: state.legacyVersion,
     packages: state.packages,
     selectedPackageForView: state.selectedPackageForView,
     versionFrom: state.versionFrom,
@@ -47,7 +46,6 @@ export function ChangelogViewer({
           setExactVersion={state.setExactVersion}
           setExactVersionOpen={state.setExactVersionOpen}
           setFilterMode={state.setFilterMode}
-          setLegacyVersion={state.setLegacyVersion}
           setVersionFrom={state.setVersionFrom}
           setVersionFromOpen={state.setVersionFromOpen}
           setVersionTo={state.setVersionTo}

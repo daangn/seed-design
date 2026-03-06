@@ -29,7 +29,6 @@ type ChangelogControlsProps = {
   setExactVersion: QueryStateSetter;
   setExactVersionOpen: (open: boolean) => void;
   setFilterMode: QueryStateSetter;
-  setLegacyVersion: QueryStateSetter;
   setVersionFrom: QueryStateSetter;
   setVersionFromOpen: (open: boolean) => void;
   setVersionTo: QueryStateSetter;
@@ -62,7 +61,6 @@ export function ChangelogControls({
   setExactVersion,
   setExactVersionOpen,
   setFilterMode,
-  setLegacyVersion,
   setVersionFrom,
   setVersionFromOpen,
   setVersionTo,
@@ -94,7 +92,7 @@ export function ChangelogControls({
               >
                 <button
                   type="button"
-                  className="hover:text-fd-foreground transition-colors"
+                  className="cursor-pointer hover:text-fd-foreground transition-colors"
                   onClick={() => switchCompareTab(pkg)}
                 >
                   {label}
@@ -102,7 +100,7 @@ export function ChangelogControls({
                 </button>
                 <button
                   type="button"
-                  className="ml-1 hover:text-fd-foreground transition-colors"
+                  className="ml-1 cursor-pointer hover:text-fd-foreground transition-colors"
                   onClick={() => removeCompareTab(pkg)}
                   aria-label={`${pkg} 탭 닫기`}
                 >
@@ -153,7 +151,6 @@ export function ChangelogControls({
               onClick={() => {
                 void setFilterMode("range");
                 void setExactVersion(null);
-                void setLegacyVersion(null);
               }}
             >
               범위
@@ -179,7 +176,6 @@ export function ChangelogControls({
                 className="text-sm p-2 rounded-md text-left flex items-center gap-2 hover:bg-fd-accent hover:text-fd-accent-foreground"
                 onClick={() => {
                   void setExactVersion(null);
-                  void setLegacyVersion(null);
                   setExactVersionOpen(false);
                 }}
               >
@@ -198,7 +194,6 @@ export function ChangelogControls({
                     void setExactVersion(version);
                     void setVersionFrom(null);
                     void setVersionTo(null);
-                    void setLegacyVersion(null);
                     setExactVersionOpen(false);
                   }}
                 >
@@ -231,7 +226,6 @@ export function ChangelogControls({
                 onClick={() => {
                   void setExactVersion(null);
                   void setVersionFrom(null);
-                  void setLegacyVersion(null);
                   setVersionFromOpen(false);
                 }}
               >
@@ -249,7 +243,6 @@ export function ChangelogControls({
                     void setFilterMode("range");
                     void setExactVersion(null);
                     void setVersionFrom(version);
-                    void setLegacyVersion(null);
                     setVersionFromOpen(false);
                   }}
                 >
@@ -282,7 +275,6 @@ export function ChangelogControls({
                 onClick={() => {
                   void setExactVersion(null);
                   void setVersionTo(null);
-                  void setLegacyVersion(null);
                   setVersionToOpen(false);
                 }}
               >
@@ -300,7 +292,6 @@ export function ChangelogControls({
                     void setFilterMode("range");
                     void setExactVersion(null);
                     void setVersionTo(version);
-                    void setLegacyVersion(null);
                     setVersionToOpen(false);
                   }}
                 >
