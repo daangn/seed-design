@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import type * as React from "react";
 
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
@@ -16,28 +15,34 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-type ContentPlaceholderProps = React.ComponentProps<typeof ContentPlaceholder>;
 
-const contentPlaceholderTypes = [
-  "default",
-  "coupon",
-  "car",
-  "realty",
-  "food",
-  "image",
-  "group",
-  "post",
-  "localProfile",
-  "buySell",
-  "jobs",
-] as const;
+const conditionMap = {
+  type: {
+    default: { type: "default" as const },
+    coupon: { type: "coupon" as const },
+    car: { type: "car" as const },
+    realty: { type: "realty" as const },
+    food: { type: "food" as const },
+    image: { type: "image" as const },
+    group: { type: "group" as const },
+    post: { type: "post" as const },
+    localProfile: { type: "localProfile" as const },
+    buySell: { type: "buySell" as const },
+    jobs: { type: "jobs" as const },
+  },
+};
 
 const CommonStoryTemplate: Story = {
   args: {
     style: { width: 120, height: 90 },
   },
   render: (args) => (
-    <VariantTable Component={meta.component} variantMap={contentPlaceholderVariantMap} {...args} />
+    <VariantTable
+      Component={meta.component}
+      variantMap={contentPlaceholderVariantMap}
+      conditionMap={conditionMap}
+      {...args}
+    />
   ),
 };
 
@@ -57,37 +62,3 @@ export const FontScalingExtraExtraExtraLarge = createStoryWithParameters<typeof 
   ...CommonStoryTemplate,
   parameters: { fontScale: "Extra Extra Extra Large" },
 });
-
-export const PresetTypes: Story = {
-  args: {
-    style: { width: 120, height: 90 },
-  },
-  render: (args) => {
-    const { type: _type, svg: _svg, ...rootProps } = args as Partial<ContentPlaceholderProps>;
-
-    return (
-      <div
-        style={{
-          display: "grid",
-          gap: 16,
-          gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-        }}
-      >
-        {contentPlaceholderTypes.map((type) => (
-          <div key={type} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <code
-              style={{
-                fontSize: 13,
-                fontFamily: "Courier",
-                color: "var(--seed-color-fg-neutral)",
-              }}
-            >
-              {type}
-            </code>
-            <ContentPlaceholder {...rootProps} type={type} />
-          </div>
-        ))}
-      </div>
-    );
-  },
-};
