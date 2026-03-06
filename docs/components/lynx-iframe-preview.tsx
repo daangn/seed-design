@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Box, Flex } from '@seed-design/react';
-import { useEffect, useRef, useState } from 'react';
-import { ProgressCircle } from 'seed-design/ui/progress-circle';
+import { Box, Flex } from "@seed-design/react";
+import { useEffect, useRef, useState } from "react";
+import { ProgressCircle } from "seed-design/ui/progress-circle";
 
 export function LynxIframePreview() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -29,7 +29,7 @@ export function LynxIframePreview() {
         src={getLynxSpaUrl()}
         title="Lynx Preview"
         onLoad={() => setIsLoaded(true)}
-        style={{ width: '100%', height: '100%', border: 'none' }}
+        style={{ width: "100%", height: "100%", border: "none" }}
         sandbox="allow-scripts allow-same-origin"
         loading="lazy"
       />
@@ -51,10 +51,20 @@ export function LynxIframePreview() {
 }
 
 function getLynxSpaUrl(): string {
-  if (process.env.NODE_ENV === 'development') {
-    return 'http://localhost:4173';
+  if (process.env.NODE_ENV === "development") {
+    return "http://localhost:4173";
   }
 
-  // TODO: 배포 URL 추가
-  return 'http://localhost:4173';
+  // Branch previews only — deployment-hash based preview URLs (e.g. 340c0934.seed-design.pages.dev)
+  // cannot be mapped because Cloudflare generates independent deployment hashes per project.
+  // Docs URL: https://<branch>.seed-design.pages.dev
+  // Lynx URL: https://<branch>.seed-design-lynx-spa.pages.dev
+  if (window.location.hostname.endsWith(".seed-design.pages.dev")) {
+    const branch = window.location.hostname.split(".")[0];
+
+    return `https://${branch}.seed-design-lynx-spa.pages.dev`;
+  }
+
+  // Production
+  return "https://seed-design-lynx-spa.pages.dev";
 }
