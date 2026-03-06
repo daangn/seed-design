@@ -18,7 +18,7 @@ data:
             type: dimension
           padding:
             type: dimension
-      asset:
+      image:
         properties:
           color:
             type: color
@@ -31,5 +31,16 @@ data:
           minWidth: $dimension.x4
           maxWidth: 120px
           padding: $dimension.x7
-        asset:
+        image:
           color: $color.palette.gray-400
+    type=default: {}
+    type=buySell: {}
+    type=car: {}
+    type=coupon: {}
+    type=food: {}
+    type=group: {}
+    type=image: {}
+    type=jobs: {}
+    type=localProfile: {}
+    type=post: {}
+    type=realty: {}

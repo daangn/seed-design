@@ -1,5 +1,8 @@
 declare interface ContentPlaceholderVariant {
-  
+  /**
+  * @default "default"
+  */
+  type: "default" | "buySell" | "car" | "coupon" | "food" | "group" | "image" | "jobs" | "localProfile" | "post" | "realty";
 }
 
 declare type ContentPlaceholderVariantMap = {
@@ -8,7 +11,7 @@ declare type ContentPlaceholderVariantMap = {
 
 export declare type ContentPlaceholderVariantProps = Partial<ContentPlaceholderVariant>;
 
-export declare type ContentPlaceholderSlotName = "root" | "container" | "asset";
+export declare type ContentPlaceholderSlotName = "root" | "container" | "image";
 
 export declare const contentPlaceholderVariantMap: ContentPlaceholderVariantMap;
 

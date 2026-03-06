@@ -19,18 +19,18 @@ type Story = StoryObj<typeof meta>;
 
 const conditionMap = {
   type: {
-    default: { type: "default" as const },
-    coupon: { type: "coupon" as const },
-    car: { type: "car" as const },
-    realty: { type: "realty" as const },
-    food: { type: "food" as const },
-    image: { type: "image" as const },
-    group: { type: "group" as const },
-    post: { type: "post" as const },
-    localProfile: { type: "localProfile" as const },
-    buySell: { type: "buySell" as const },
-    jobs: { type: "jobs" as const },
-    svg: { svg: <IconSparkle2Fill /> },
+    default: { type: "default" },
+    coupon: { type: "coupon" },
+    car: { type: "car" },
+    realty: { type: "realty" },
+    food: { type: "food" },
+    image: { type: "image" },
+    group: { type: "group" },
+    post: { type: "post" },
+    localProfile: { type: "localProfile" },
+    buySell: { type: "buySell" },
+    jobs: { type: "jobs" },
+    custom: { children: <IconSparkle2Fill /> },
   },
 };
 

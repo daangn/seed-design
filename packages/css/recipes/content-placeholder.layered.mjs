@@ -11,16 +11,32 @@ const contentPlaceholderSlotNames = [
     "seed-content-placeholder__container"
   ],
   [
-    "asset",
-    "seed-content-placeholder__asset"
+    "image",
+    "seed-content-placeholder__image"
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "type": "default"
+};
 
 const compoundVariants = [];
 
-export const contentPlaceholderVariantMap = {};
+export const contentPlaceholderVariantMap = {
+  "type": [
+    "default",
+    "buySell",
+    "car",
+    "coupon",
+    "food",
+    "group",
+    "image",
+    "jobs",
+    "localProfile",
+    "post",
+    "realty"
+  ]
+};
 
 export const contentPlaceholderVariantKeys = Object.keys(contentPlaceholderVariantMap);
 
