@@ -8,7 +8,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { Suspense } from "react";
 
-const CHANGELOG_PATH = "content/react/updates/changelog.mdx";
+const CHANGELOG_PATH = "content/react/updates/changelog.md";
 
 function getChangelogRaw() {
   return readFileSync(join(process.cwd(), CHANGELOG_PATH), "utf-8");
@@ -29,7 +29,7 @@ export default async function ChangelogPage() {
           <LLMOptions markdownUrl={getLLMMarkdownUrl("react", ["updates", "changelog"])} />
           <ViewOptions
             markdownUrl={getLLMMarkdownUrl("react", ["updates", "changelog"])}
-            githubUrl={getGitHubSourceUrl("react", "updates/changelog.mdx")}
+            githubUrl={getGitHubSourceUrl("react", "updates/changelog.md")}
           />
         </div>
         <DocsBody className="pb-0 prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">

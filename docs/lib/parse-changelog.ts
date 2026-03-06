@@ -48,7 +48,7 @@ function extractContent(block: string): string {
 }
 
 /**
- * @description changelog.mdx 파일을 파싱하여 changelog entry 목록을 반환합니다.
+ * @description changelog.md 파일을 파싱하여 changelog entry 목록을 반환합니다.
  * @example
  * ```
  * [

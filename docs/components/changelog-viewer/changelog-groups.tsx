@@ -24,7 +24,7 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
     <div className="flex flex-col gap-6">
       {groupedEntries.map((group) => {
         const groupAnchorId = getGroupAnchorId(group.packageName, group.version);
-        const groupQueryHref = `/react/updates/changelog?tab=${encodeURIComponent(group.packageName)}&exact=${encodeURIComponent(group.version)}`;
+        const groupQueryHref = `/react/updates/changelog?tab=${encodeURIComponent(group.packageName)}&from=${encodeURIComponent(group.version)}`;
         const groupAnchorHref = `${groupQueryHref}#${groupAnchorId}`;
         const groupKey = `${group.packageName}@${group.version}`;
         const absoluteGroupHref =
@@ -91,11 +91,11 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                             {uniqueAdditionalPackages.map((pkg) => {
                               const targetAnchorId = getGroupAnchorId(pkg.name, pkg.version);
                               return (
-                                  <a
-                                    key={`${pkg.name}@${pkg.version}`}
-                                    href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&exact=${encodeURIComponent(pkg.version)}#${targetAnchorId}`}
-                                    className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
-                                  >
+                                <a
+                                  key={`${pkg.name}@${pkg.version}`}
+                                  href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}#${targetAnchorId}`}
+                                  className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
+                                >
                                   <span>{pkg.name}@{pkg.version}</span>
                                 </a>
                               );

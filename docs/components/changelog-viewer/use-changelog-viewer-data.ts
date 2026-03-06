@@ -4,11 +4,6 @@ import { ALL } from "@/components/changelog-viewer/constants";
 import { compareSemver } from "@/components/changelog-viewer/utils";
 import type { ChangelogEntry } from "@/lib/parse-changelog";
 
-type VersionRange = {
-  from: string;
-  to: string;
-};
-
 export type GroupedChangelogEntry = {
   packageName: string;
   version: string;
@@ -18,75 +13,34 @@ export type GroupedChangelogEntry = {
 
 type Params = {
   entries: ChangelogEntry[];
-  exactVersion: string;
-  filterMode: string;
   packages: string[];
-  selectedPackageForView: string;
+  selectedPackage: string;
   versionFrom: string;
-  versionTo: string;
 };
-
-function getEffectiveRange({
-  exactVersion,
-  filterMode,
-  versionFrom,
-  versionTo,
-}: Pick<Params, "exactVersion" | "filterMode" | "versionFrom" | "versionTo">): {
-  isExactMode: boolean;
-  effectiveRange: VersionRange;
-} {
-  const isExactMode = filterMode === "exact" || exactVersion !== ALL;
-
-  const rawFrom = isExactMode ? (exactVersion !== ALL ? exactVersion : ALL) : versionFrom;
-  const rawTo = isExactMode ? (exactVersion !== ALL ? exactVersion : ALL) : versionTo;
-
-  const effectiveRange =
-    rawFrom !== ALL && rawTo !== ALL && compareSemver(rawFrom, rawTo) > 0
-      ? { from: rawTo, to: rawFrom }
-      : { from: rawFrom, to: rawTo };
-
-  return { isExactMode, effectiveRange };
-}
 
 export function useChangelogViewerData({
   entries,
-  exactVersion,
-  filterMode,
   packages,
-  selectedPackageForView,
+  selectedPackage,
   versionFrom,
-  versionTo,
 }: Params) {
-  const { isExactMode, effectiveRange } = getEffectiveRange({
-    exactVersion,
-    filterMode,
-    versionFrom,
-    versionTo,
-  });
-
   const versionsForPackage =
-    selectedPackageForView === ALL
+    selectedPackage === ALL
       ? []
       : [
           ...new Set(
             entries
               .flatMap((entry) => entry.packages)
-              .filter((pkg) => pkg.name === selectedPackageForView)
+              .filter((pkg) => pkg.name === selectedPackage)
               .map((pkg) => pkg.version),
           ),
         ].sort((a, b) => compareSemver(b, a));
 
   const filteredEntries = entries.filter((entry) => {
-    if (selectedPackageForView === ALL) return true;
-    const packageInEntry = entry.packages.find((pkg) => pkg.name === selectedPackageForView);
+    if (selectedPackage === ALL) return true;
+    const packageInEntry = entry.packages.find((pkg) => pkg.name === selectedPackage);
     if (!packageInEntry) return false;
-    if (
-      effectiveRange.from !== ALL &&
-      compareSemver(packageInEntry.version, effectiveRange.from) < 0
-    ) {
-      return false;
-    }
-    if (effectiveRange.to !== ALL && compareSemver(packageInEntry.version, effectiveRange.to) > 0) {
+    if (versionFrom !== ALL && compareSemver(packageInEntry.version, versionFrom) < 0) {
       return false;
     }
     return true;
@@ -96,11 +50,8 @@ export function useChangelogViewerData({
   const groupedByPackageVersion = filteredEntries.reduce<Record<string, GroupedChangelogEntry>>(
     (acc, entry) => {
       const matchedPackages = entry.packages.filter((pkg) => {
-        if (selectedPackageForView !== ALL && pkg.name !== selectedPackageForView) return false;
-        if (effectiveRange.from !== ALL && compareSemver(pkg.version, effectiveRange.from) < 0) {
-          return false;
-        }
-        if (effectiveRange.to !== ALL && compareSemver(pkg.version, effectiveRange.to) > 0) {
+        if (selectedPackage !== ALL && pkg.name !== selectedPackage) return false;
+        if (versionFrom !== ALL && compareSemver(pkg.version, versionFrom) < 0) {
           return false;
         }
         return true;
@@ -137,31 +88,13 @@ export function useChangelogViewerData({
       return compareSemver(b.version, a.version);
     });
 
-  const packageLabel = selectedPackageForView === ALL ? "모든 패키지" : selectedPackageForView;
-  const exactLabel = exactVersion === ALL ? "특정 버전" : `${exactVersion}`;
-  const fromLabel = versionFrom === ALL ? "시작 버전" : `${versionFrom} 이상`;
-  const toLabel = versionTo === ALL ? "끝 버전" : `${versionTo} 이하`;
-  const tabVersionSummary = isExactMode
-    ? exactVersion === ALL
-      ? "exact"
-      : exactVersion
-    : versionFrom !== ALL && versionTo !== ALL
-      ? `${versionFrom}~${versionTo}`
-      : versionFrom !== ALL
-        ? `${versionFrom}+`
-        : versionTo !== ALL
-          ? `<=${versionTo}`
-          : "all";
+  const filteredEntryCount = filteredEntries.length;
+  const versionLabel = versionFrom === ALL ? "전체 변경사항" : `${versionFrom}+`;
 
   return {
-    exactLabel,
-    filteredEntries,
-    fromLabel,
+    filteredEntryCount,
     groupedEntries,
-    isExactMode,
-    packageLabel,
-    tabVersionSummary,
-    toLabel,
+    versionLabel,
     versionsForPackage,
   };
 }
