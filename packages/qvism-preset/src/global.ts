@@ -212,8 +212,10 @@ export const globalCss = defineGlobalCss({
     "--seed-box-grid-row": "initial",
     gridRow: "var(--seed-box-grid-row)",
 
-    [pseudo(active)]: {
-      "--seed-box-background--active": "var(--seed-box-background)",
+    // Only apply active background when explicitly opted in via _active prop.
+    // Without [data-has-active-bg], the :active rule's higher specificity (0,2,0)
+    // would override external class backgrounds (e.g. .bg-red-500) with initial (transparent) even when _active is not set.
+    [pseudo("[data-has-active-bg]", active)]: {
       background: "var(--seed-box-background--active)",
     },
   },
