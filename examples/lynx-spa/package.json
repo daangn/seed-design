@@ -1,0 +1,34 @@
+{
+  "name": "lynx-spa",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "rspeedy build",
+    "check": "biome check --write",
+    "dev": "rspeedy dev",
+    "format": "biome format --write",
+    "preview": "rspeedy preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@lynx-js/react": "^0.116.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.14",
+    "@lynx-js/preact-devtools": "^5.0.1",
+    "@lynx-js/qrcode-rsbuild-plugin": "^0.4.5",
+    "@lynx-js/react-rsbuild-plugin": "^0.12.8",
+    "@lynx-js/rspeedy": "^0.13.4",
+    "@lynx-js/types": "3.7.0",
+    "@rsbuild/plugin-type-check": "1.3.3",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@types/react": "^18.3.28",
+    "jsdom": "^27.4.0",
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}
