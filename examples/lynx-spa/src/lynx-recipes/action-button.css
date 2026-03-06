@@ -1,0 +1,333 @@
+/* Source: @seed-design/css/recipes/action-button.css */
+/* [Lynx] <text> does not inherit parent styles, and descendant selectors are unsupported.
+   Text properties (color, font-weight, font-size, line-height) use flat classes on <text>:
+   .seed-action-button__text--variant_* for color/font-weight
+   .seed-action-button__text--size_*-layout_withText for font-size/line-height */
+
+.seed-action-button {
+  display: inline-flex;
+  position: relative;
+  /* [removed] box-sizing: border-box; -- Lynx default is border-box */
+  align-items: center;
+  justify-content: center;
+  /* [removed] cursor: pointer; -- no mouse cursor in Lynx */
+  border: none;
+  /* [removed] text-transform: none; -- Lynx unsupported */
+  /* [removed] white-space: nowrap; -- Lynx limited support */
+  /* [removed] vertical-align: middle; -- Lynx unsupported */
+  /* [removed] -webkit-font-smoothing: antialiased; -- browser only */
+  /* [removed] -moz-osx-font-smoothing: grayscale; -- browser only */
+  /* [removed] text-decoration: none; -- Lynx unsupported for reset */
+  flex-shrink: 0;
+  /* [removed] font-family: inherit; -- moved to __text */
+  /* [Lynx] cross-rule var() indirection doesn't work, using direct properties instead */
+  /* original: --seed-box-flex-grow: initial; flex-grow: var(--seed-box-flex-grow); */
+  /* original: --seed-box-min-width: initial; min-width: var(--seed-box-min-width); */
+  /* original: --seed-box-padding-*: initial; padding-*: var(--seed-box-padding-*); */
+  /* original: --seed-box-bleed-*: 0px; margin-*: calc(var(--seed-box-bleed-*) * -1); */
+  /* [removed] outline: var(--seed-dimension-x0_5) solid transparent; -- focus ring, Lynx unsupported */
+  /* [removed] outline-offset: var(--seed-dimension-x0_5); -- focus ring, Lynx unsupported */
+}
+/* [removed] .seed-action-button:is(:focus-visible, [data-focus-visible]) { outline: ... } -- :focus-visible unsupported in Lynx */
+.seed-action-button:is(:disabled, [disabled], [data-disabled]) {
+  /* [changed] cursor: not-allowed; -> opacity: 0.4 -- no cursor in Lynx, use opacity instead */
+  opacity: 0.4;
+}
+.seed-action-button {
+  /* [changed] removed outline-color transition, kept background-color only */
+  /* original: transition: background-color ... , outline-color ... ; */
+  transition: background-color var(--seed-duration-color-transition)
+    var(--seed-timing-function-easing);
+}
+
+/* === Variants (root: background only) === */
+
+.seed-action-button--variant_brandSolid {
+  background: var(--seed-color-bg-brand-solid);
+  /* [moved to __text] color, font-weight */
+  /* [removed] --seed-prefix-icon-color, --seed-suffix-icon-color, --seed-icon-color -- icon */
+  /* [removed] --track-color, --range-color -- loading spinner */
+}
+/* [changed] @media (hover: hover) { :hover } -> removed (no hover in Lynx) */
+/* [changed] @media (hover: none) { :is(:active, [data-active]) } -> :active */
+.seed-action-button--variant_brandSolid:active {
+  background: var(--seed-color-bg-brand-solid-pressed);
+}
+.seed-action-button--variant_brandSolid:is(
+    :disabled,
+    [disabled],
+    [data-disabled]
+  ) {
+  background: var(--seed-color-bg-disabled);
+}
+.seed-action-button--variant_brandSolid[data-loading] {
+  background: var(--seed-color-bg-brand-solid-pressed);
+}
+
+.seed-action-button--variant_neutralSolid {
+  background: var(--seed-color-bg-neutral-inverted);
+  /* [moved to __text] color, font-weight */
+  /* [removed] --seed-*-icon-color, --track-color, --range-color */
+}
+/* [changed] @media -> :active */
+.seed-action-button--variant_neutralSolid:active {
+  background: var(--seed-color-bg-neutral-inverted-pressed);
+}
+.seed-action-button--variant_neutralSolid:is(
+    :disabled,
+    [disabled],
+    [data-disabled]
+  ) {
+  background: var(--seed-color-bg-disabled);
+}
+.seed-action-button--variant_neutralSolid[data-loading] {
+  background: var(--seed-color-bg-neutral-inverted-pressed);
+}
+
+.seed-action-button--variant_neutralWeak {
+  background: var(--seed-color-bg-neutral-weak);
+  /* [moved to __text] color, font-weight */
+  /* [removed] --seed-*-icon-color, --track-color, --range-color */
+}
+/* [changed] @media -> :active */
+.seed-action-button--variant_neutralWeak:active {
+  background: var(--seed-color-bg-neutral-weak-pressed);
+}
+.seed-action-button--variant_neutralWeak:is(
+    :disabled,
+    [disabled],
+    [data-disabled]
+  ) {
+  background: var(--seed-color-bg-disabled);
+}
+.seed-action-button--variant_neutralWeak[data-loading] {
+  background: var(--seed-color-bg-neutral-weak-pressed);
+}
+
+.seed-action-button--variant_criticalSolid {
+  background: var(--seed-color-bg-critical-solid);
+  /* [moved to __text] color, font-weight */
+  /* [removed] --seed-*-icon-color, --track-color, --range-color */
+}
+/* [changed] @media -> :active */
+.seed-action-button--variant_criticalSolid:active {
+  background: var(--seed-color-bg-critical-solid-pressed);
+}
+.seed-action-button--variant_criticalSolid:is(
+    :disabled,
+    [disabled],
+    [data-disabled]
+  ) {
+  background: var(--seed-color-bg-disabled);
+}
+.seed-action-button--variant_criticalSolid[data-loading] {
+  background: var(--seed-color-bg-critical-solid-pressed);
+}
+
+.seed-action-button--variant_brandOutline {
+  border-style: solid;
+  background: var(--seed-color-bg-transparent);
+  border-width: 1px;
+  border-color: var(--seed-color-stroke-neutral-muted);
+  /* [moved to __text] color, font-weight */
+  /* [removed] --seed-*-icon-color, --track-color, --range-color */
+}
+/* [changed] @media -> :active */
+.seed-action-button--variant_brandOutline:active {
+  background: var(--seed-color-bg-transparent-pressed);
+}
+.seed-action-button--variant_brandOutline:is(
+    :disabled,
+    [disabled],
+    [data-disabled]
+  ) {
+  background: var(--seed-color-bg-transparent);
+  border-color: var(--seed-color-stroke-neutral-muted);
+}
+.seed-action-button--variant_brandOutline[data-loading] {
+  background: var(--seed-color-bg-transparent);
+}
+
+.seed-action-button--variant_neutralOutline {
+  border-style: solid;
+  background: var(--seed-color-bg-transparent);
+  border-width: 1px;
+  border-color: var(--seed-color-stroke-neutral-muted);
+  /* [moved to __text] color, font-weight */
+  /* [removed] --seed-*-icon-color, --track-color, --range-color */
+}
+/* [changed] @media -> :active */
+.seed-action-button--variant_neutralOutline:active {
+  background: var(--seed-color-bg-transparent-pressed);
+}
+.seed-action-button--variant_neutralOutline:is(
+    :disabled,
+    [disabled],
+    [data-disabled]
+  ) {
+  background: var(--seed-color-bg-transparent);
+  border-color: var(--seed-color-stroke-neutral-muted);
+}
+.seed-action-button--variant_neutralOutline[data-loading] {
+  background: var(--seed-color-bg-transparent);
+}
+
+.seed-action-button--variant_ghost {
+  background: #ffffff00;
+  /* [moved to __text] color, font-weight */
+  /* [removed] --seed-*-icon-color, --track-color, --range-color */
+  /* original used indirection: --seed-box-color / --seed-font-weight, simplified for Lynx */
+}
+/* [changed] @media -> :active */
+.seed-action-button--variant_ghost:active {
+  background: var(--seed-color-bg-transparent-pressed);
+}
+.seed-action-button--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
+  background: #ffffff00;
+}
+.seed-action-button--variant_ghost[data-loading] {
+  background: var(--seed-color-bg-transparent-pressed);
+}
+
+/* === __text variant classes (flat, no descendant selectors) === */
+/* [Lynx] color, font-weight applied directly on <text> via variant class */
+
+.seed-action-button__text--variant_brandSolid {
+  color: var(--seed-color-palette-static-white);
+  font-weight: var(--seed-font-weight-bold);
+}
+.seed-action-button__text--variant_neutralSolid {
+  color: var(--seed-color-fg-neutral-inverted);
+  font-weight: var(--seed-font-weight-bold);
+}
+.seed-action-button__text--variant_neutralWeak {
+  color: var(--seed-color-fg-neutral);
+  font-weight: var(--seed-font-weight-bold);
+}
+.seed-action-button__text--variant_criticalSolid {
+  color: var(--seed-color-palette-static-white);
+  font-weight: var(--seed-font-weight-bold);
+}
+.seed-action-button__text--variant_brandOutline {
+  color: var(--seed-color-fg-brand);
+  font-weight: var(--seed-font-weight-bold);
+}
+.seed-action-button__text--variant_neutralOutline {
+  color: var(--seed-color-fg-neutral);
+  font-weight: var(--seed-font-weight-bold);
+}
+.seed-action-button__text--variant_ghost {
+  color: var(--seed-color-fg-neutral);
+  font-weight: var(--seed-font-weight-bold);
+}
+
+/* === __text size+layout compound classes (flat) === */
+/* [Lynx] font-size, line-height applied directly on <text> via compound class */
+
+.seed-action-button__text--size_xsmall-layout_withText {
+  font-size: var(--seed-font-size-t3);
+  line-height: var(--seed-line-height-t3);
+}
+.seed-action-button__text--size_small-layout_withText {
+  font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
+}
+.seed-action-button__text--size_medium-layout_withText {
+  font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
+}
+.seed-action-button__text--size_large-layout_withText {
+  font-size: var(--seed-font-size-t6);
+  line-height: var(--seed-line-height-t6);
+}
+
+/* === Sizes === */
+.seed-action-button--size_xsmall {
+  height: var(--seed-dimension-x8);
+  border-radius: var(--seed-radius-full);
+  /* [removed] --size: 14px; -- loading spinner size */
+  /* [removed] --thickness: 2px; -- loading spinner thickness */
+  /* [removed] --seed-prefix-icon-size, --seed-suffix-icon-size, --seed-icon-size */
+}
+.seed-action-button--size_small {
+  height: var(--seed-dimension-x9);
+  border-radius: var(--seed-radius-r2);
+  /* [removed] --size, --thickness, --seed-*-icon-size */
+}
+.seed-action-button--size_medium {
+  height: var(--seed-dimension-x10);
+  border-radius: var(--seed-radius-r2);
+  /* [removed] --size, --thickness, --seed-*-icon-size */
+}
+.seed-action-button--size_large {
+  height: var(--seed-dimension-x13);
+  border-radius: var(--seed-radius-r3);
+  /* [removed] --size, --thickness, --seed-*-icon-size */
+}
+
+/* === Layout variants (empty in original) === */
+/* .seed-action-button--layout_withText {} */
+/* .seed-action-button--layout_iconOnly {} */
+
+/* === Size + Layout compound variants === */
+.seed-action-button--size_xsmall-layout_withText {
+  gap: var(--seed-dimension-x1);
+  /* [changed] --seed-box-padding-* -> padding-* (Lynx cross-rule var() unsupported) */
+  padding-left: var(--seed-dimension-x3_5);
+  padding-right: var(--seed-dimension-x3_5);
+  padding-top: var(--seed-dimension-x1_5);
+  padding-bottom: var(--seed-dimension-x1_5);
+  /* [moved to __text] font-size, line-height */
+}
+.seed-action-button--size_xsmall-layout_iconOnly {
+  min-width: var(--seed-dimension-x8);
+  padding-left: var(--seed-dimension-x1_5);
+  padding-right: var(--seed-dimension-x1_5);
+  padding-top: var(--seed-dimension-x1_5);
+  padding-bottom: var(--seed-dimension-x1_5);
+}
+.seed-action-button--size_small-layout_withText {
+  gap: var(--seed-dimension-x1);
+  padding-left: var(--seed-dimension-x3_5);
+  padding-right: var(--seed-dimension-x3_5);
+  padding-top: var(--seed-dimension-x2);
+  padding-bottom: var(--seed-dimension-x2);
+  /* [moved to __text] font-size, line-height */
+}
+.seed-action-button--size_small-layout_iconOnly {
+  min-width: var(--seed-dimension-x9);
+  padding-left: var(--seed-dimension-x2);
+  padding-right: var(--seed-dimension-x2);
+  padding-top: var(--seed-dimension-x2);
+  padding-bottom: var(--seed-dimension-x2);
+}
+.seed-action-button--size_medium-layout_withText {
+  gap: var(--seed-dimension-x1_5);
+  padding-left: var(--seed-dimension-x4);
+  padding-right: var(--seed-dimension-x4);
+  padding-top: var(--seed-dimension-x2_5);
+  padding-bottom: var(--seed-dimension-x2_5);
+  /* [moved to __text] font-size, line-height */
+}
+.seed-action-button--size_medium-layout_iconOnly {
+  min-width: var(--seed-dimension-x10);
+  padding-left: var(--seed-dimension-x2_5);
+  padding-right: var(--seed-dimension-x2_5);
+  padding-top: var(--seed-dimension-x2_5);
+  padding-bottom: var(--seed-dimension-x2_5);
+}
+.seed-action-button--size_large-layout_withText {
+  gap: var(--seed-dimension-x2);
+  padding-left: var(--seed-dimension-x5);
+  padding-right: var(--seed-dimension-x5);
+  padding-top: var(--seed-dimension-x3_5);
+  padding-bottom: var(--seed-dimension-x3_5);
+  /* [moved to __text] font-size, line-height */
+}
+.seed-action-button--size_large-layout_iconOnly {
+  min-width: var(--seed-dimension-x13);
+  padding-left: var(--seed-dimension-x3_5);
+  padding-right: var(--seed-dimension-x3_5);
+  padding-top: var(--seed-dimension-x3_5);
+  padding-bottom: var(--seed-dimension-x3_5);
+}
