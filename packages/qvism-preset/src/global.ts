@@ -215,6 +215,7 @@ export const globalCss = defineGlobalCss({
     // Only apply active background when explicitly opted in via _active prop.
     // Without [data-has-active-bg], the :active rule's higher specificity (0,2,0)
     // would override external class backgrounds (e.g. .bg-red-500) with initial (transparent) even when _active is not set.
+    // this workaround can be removed when decide to support cascade layers by default
     [pseudo("[data-has-active-bg]", active)]: {
       background: "var(--seed-box-background--active)",
     },
