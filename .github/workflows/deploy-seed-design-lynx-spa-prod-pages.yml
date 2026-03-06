@@ -5,6 +5,8 @@ on:
       - dev # V3 deployment; remove this when V3 is stable
     paths:
       - "examples/lynx-spa/**"
+      - "packages/lynx/**"
+      - "packages/css/**"
       - ".github/workflows/deploy-seed-design-lynx-spa-prod-pages.yml"
       - ".github/actions/setup/action.yml"
   workflow_dispatch:
@@ -23,6 +25,8 @@ jobs:
       - uses: actions/checkout@v6
 
       - uses: ./.github/actions/setup
+        with:
+          build-packages: 'true'
 
       - name: Build Lynx SPA (web)
         working-directory: ./examples/lynx-spa
