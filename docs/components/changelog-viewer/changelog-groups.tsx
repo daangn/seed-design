@@ -85,7 +85,7 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                       {uniqueAdditionalPackages.length > 0 && (
                         <details className="mt-1.5">
                           <summary className="cursor-pointer text-xs text-fd-muted-foreground hover:text-fd-foreground select-none">
-                            추가 영향 패키지 {uniqueAdditionalPackages.length}개
+                            이 변경으로 함께 업데이트된 패키지 {uniqueAdditionalPackages.length}개
                           </summary>
                           <div className="mt-1.5 flex flex-wrap gap-1.5">
                             {uniqueAdditionalPackages.map((pkg) => {
