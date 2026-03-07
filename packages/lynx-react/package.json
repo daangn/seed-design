@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/lynx",
+  "name": "@seed-design/lynx-react",
   "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/lynx"
+    "directory": "packages/lynx-react"
   },
   "sideEffects": [
     "*.css"
@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "vite build",
+    "build": "tsc",
     "lint:publish": "bun publint"
   },
   "dependencies": {
@@ -31,16 +31,12 @@
   },
   "peerDependencies": {
     "@seed-design/css": ">=1.1.17",
-    "@lynx-js/react": ">=0.100.0",
-    "react": ">=18.0.0"
+    "@lynx-js/react": ">=0.100.0"
   },
   "devDependencies": {
     "@lynx-js/react": "^0.116.3",
     "@types/react": "^19.2.2",
-    "globby": "^16.0.0",
-    "react": "^19.1.0",
-    "vite": "^7.0.0",
-    "vite-plugin-dts": "^4.5.4"
+    "react": "^19.1.0"
   },
   "publishConfig": {
     "access": "public"

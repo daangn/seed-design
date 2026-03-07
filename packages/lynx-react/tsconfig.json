@@ -18,7 +18,8 @@
     "declaration": true,
     "declarationMap": true,
 
-    "jsx": "react-jsx",
+    "jsx": "preserve",
+    "rootDir": "src",
     "outDir": "lib"
   },
   "include": ["src"]

@@ -5,7 +5,7 @@ on:
       - dev # V3 deployment; remove this when V3 is stable
     paths:
       - "examples/lynx-spa/**"
-      - "packages/lynx/**"
+      - "packages/lynx-react/**"
       - "packages/css/**"
       - ".github/workflows/deploy-seed-design-lynx-spa-prod-pages.yml"
       - ".github/actions/setup/action.yml"
@@ -26,8 +26,8 @@ jobs:
 
       - uses: ./.github/actions/setup
 
-      - name: Build @seed-design/lynx
-        run: bun run --filter @seed-design/lynx build
+      - name: Build @seed-design/lynx-react
+        run: bun run --filter @seed-design/lynx-react build
 
       - name: Build Lynx SPA (web)
         working-directory: ./examples/lynx-spa
