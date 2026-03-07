@@ -17,19 +17,13 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const { type: _type, ...variantMap } = contentPlaceholderVariantMap;
+
 const conditionMap = {
   type: {
-    default: { type: "default" },
-    coupon: { type: "coupon" },
-    car: { type: "car" },
-    realty: { type: "realty" },
-    food: { type: "food" },
-    image: { type: "image" },
-    group: { type: "group" },
-    post: { type: "post" },
-    localProfile: { type: "localProfile" },
-    buySell: { type: "buySell" },
-    jobs: { type: "jobs" },
+    ...Object.fromEntries(
+      contentPlaceholderVariantMap.type.map((value) => [value, { type: value }]),
+    ),
     custom: { children: <IconSparkle2Fill /> },
   },
 };
@@ -41,7 +35,7 @@ const CommonStoryTemplate: Story = {
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={contentPlaceholderVariantMap}
+      variantMap={variantMap}
       conditionMap={conditionMap}
       {...args}
     />
