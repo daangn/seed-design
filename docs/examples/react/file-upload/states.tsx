@@ -2,9 +2,6 @@ import { useCallback } from "react";
 import { VStack } from "@seed-design/react";
 import {
   FileUpload,
-  FileUploadContainer,
-  FileUploadTrigger,
-  FileUploadItemGroup,
   FileUploadItem,
   type FileStatusDetails,
   type FileWithStatus,
@@ -69,34 +66,29 @@ export default function FileUploadStates() {
         label="파일 업로드"
         description="업로드 상태 시뮬레이션"
       >
-        <FileUploadContainer>
-          <FileUploadTrigger />
-          <FileUploadItemGroup>
-            {({ acceptedFiles, setAcceptedFiles }) => {
-              for (const { file, details } of acceptedFiles) {
-                if (details.status !== "pending") continue;
+        {({ acceptedFiles, setAcceptedFiles }) => {
+          for (const { file, details } of acceptedFiles) {
+            if (details.status !== "pending") continue;
 
-                startUpload(file, setAcceptedFiles);
-              }
+            startUpload(file, setAcceptedFiles);
+          }
 
-              return acceptedFiles.map((fileWithStatus, index) => (
-                <FileUploadItem
-                  key={`${fileWithStatus.file.name}-${index}`}
-                  fileWithStatus={fileWithStatus}
-                  onRetry={() => {
-                    setAcceptedFiles((prev) =>
-                      prev.map((f) =>
-                        f.file === fileWithStatus.file
-                          ? { file: fileWithStatus.file, details: { status: "pending" } }
-                          : f,
-                      ),
-                    );
-                  }}
-                />
-              ));
-            }}
-          </FileUploadItemGroup>
-        </FileUploadContainer>
+          return acceptedFiles.map((fileWithStatus, index) => (
+            <FileUploadItem
+              key={`${fileWithStatus.file.name}-${index}`}
+              fileWithStatus={fileWithStatus}
+              onRetry={() => {
+                setAcceptedFiles((prev) =>
+                  prev.map((f) =>
+                    f.file === fileWithStatus.file
+                      ? { file: fileWithStatus.file, details: { status: "pending" } }
+                      : f,
+                  ),
+                );
+              }}
+            />
+          ));
+        }}
       </FileUpload>
     </VStack>
   );

@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { VStack } from "@seed-design/react";
-import {
-  FileUpload,
-  FileUploadContainer,
-  FileUploadTrigger,
-  FileUploadItemGroup,
-  FileUploadItem,
-} from "seed-design/ui/file-upload";
+import { FileUpload } from "seed-design/ui/file-upload";
 import { formatBytes } from "seed-design/lib/format-bytes";
 
 const MIN_FILE_SIZE = 1 * 1024; // 1KB
@@ -46,21 +40,7 @@ export default function FileUploadValidation() {
 
           setErrorMessage(messages.join("\n"));
         }}
-      >
-        <FileUploadContainer>
-          <FileUploadTrigger />
-          <FileUploadItemGroup>
-            {({ acceptedFiles }) =>
-              acceptedFiles.map((fileWithStatus, index) => (
-                <FileUploadItem
-                  key={`${fileWithStatus.file.name}-${index}`}
-                  fileWithStatus={fileWithStatus}
-                />
-              ))
-            }
-          </FileUploadItemGroup>
-        </FileUploadContainer>
-      </FileUpload>
+      />
     </VStack>
   );
 }

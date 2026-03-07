@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { VStack } from "@seed-design/react";
-import {
-  FileUpload,
-  FileUploadContainer,
-  FileUploadTrigger,
-  FileUploadItemGroup,
-  FileUploadItem,
-} from "seed-design/ui/file-upload";
+import { FileUpload } from "seed-design/ui/file-upload";
 
 function validateFileName(file: File) {
   const nameWithoutExt = file.name.replace(/\.[^.]+$/, "");
@@ -38,21 +32,7 @@ export default function FileUploadCustomValidation() {
 
           setErrorMessage(`"${names}"은(는) 파일 이름이 8자를 초과합니다.`);
         }}
-      >
-        <FileUploadContainer>
-          <FileUploadTrigger />
-          <FileUploadItemGroup>
-            {({ acceptedFiles }) =>
-              acceptedFiles.map((fileWithStatus, index) => (
-                <FileUploadItem
-                  key={`${fileWithStatus.file.name}-${index}`}
-                  fileWithStatus={fileWithStatus}
-                />
-              ))
-            }
-          </FileUploadItemGroup>
-        </FileUploadContainer>
-      </FileUpload>
+      />
     </VStack>
   );
 }

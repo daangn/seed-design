@@ -1,11 +1,5 @@
 import { Divider, VStack } from "@seed-design/react";
-import {
-  FileUpload,
-  FileUploadContainer,
-  FileUploadTrigger,
-  FileUploadItemGroup,
-  FileUploadItem,
-} from "seed-design/ui/file-upload";
+import { FileUpload } from "seed-design/ui/file-upload";
 
 export default function FileUploadField() {
   return (
@@ -18,21 +12,7 @@ export default function FileUploadField() {
         indicator="선택"
         required
         showRequiredIndicator
-      >
-        <FileUploadContainer>
-          <FileUploadTrigger />
-          <FileUploadItemGroup>
-            {({ acceptedFiles }) =>
-              acceptedFiles.map((fileWithStatus, index) => (
-                <FileUploadItem
-                  key={`${fileWithStatus.file.name}-${index}`}
-                  fileWithStatus={fileWithStatus}
-                />
-              ))
-            }
-          </FileUploadItemGroup>
-        </FileUploadContainer>
-      </FileUpload>
+      />
       <Divider />
       <FileUpload
         maxFiles={3}
@@ -40,21 +20,7 @@ export default function FileUploadField() {
         description="파일을 선택하거나 드래그 앤 드롭하세요."
         invalid
         errorMessage="필수 항목입니다."
-      >
-        <FileUploadContainer>
-          <FileUploadTrigger />
-          <FileUploadItemGroup>
-            {({ acceptedFiles }) =>
-              acceptedFiles.map((fileWithStatus, index) => (
-                <FileUploadItem
-                  key={`${fileWithStatus.file.name}-${index}`}
-                  fileWithStatus={fileWithStatus}
-                />
-              ))
-            }
-          </FileUploadItemGroup>
-        </FileUploadContainer>
-      </FileUpload>
+      />
     </VStack>
   );
 }

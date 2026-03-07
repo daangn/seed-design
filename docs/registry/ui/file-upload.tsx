@@ -37,9 +37,10 @@ export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild
   fieldRef?: React.Ref<HTMLDivElement>;
 
   /**
-   * Children can be ReactNode or a render function that receives file upload context.
+   * Optional render function that receives file upload context ({ acceptedFiles, setAcceptedFiles }).
+   * When omitted, a default item list is rendered.
    */
-  children?: React.ReactNode | SeedFileUpload.ContextProps["children"];
+  children?: SeedFileUpload.ContextProps["children"];
 }
 
 /**
@@ -106,11 +107,29 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
           name={name}
           {...otherProps}
         >
-          {typeof children === "function" ? (
-            <SeedFileUpload.Context>{children}</SeedFileUpload.Context>
-          ) : (
-            children
-          )}
+          <SeedFileUpload.Container>
+            {/* You may implement your own i18n for upload label */}
+            <SeedFileUpload.Trigger aria-label="파일 선택">
+              <SeedFileUpload.TriggerIcon
+                image={<IconCameraFill />}
+                general={<IconPaperclipFill />}
+              />
+              <SeedFileUpload.TriggerItemCount />
+            </SeedFileUpload.Trigger>
+            <SeedFileUpload.ItemGroup>
+              <SeedFileUpload.Context>
+                {typeof children === "function"
+                  ? children
+                  : ({ acceptedFiles }) =>
+                      acceptedFiles.map((fileWithStatus, index) => (
+                        <FileUploadItem
+                          key={`${fileWithStatus.file.name}-${index}`}
+                          fileWithStatus={fileWithStatus}
+                        />
+                      ))}
+              </SeedFileUpload.Context>
+            </SeedFileUpload.ItemGroup>
+          </SeedFileUpload.Container>
           <SeedFileUpload.HiddenInput ref={ref} {...inputProps} />
         </SeedFileUpload.Root>
         {renderFooter && (
@@ -144,54 +163,9 @@ export interface FileUploadDropzoneProps extends SeedFileUpload.DropzoneProps {}
  */
 export const FileUploadDropzone = SeedFileUpload.Dropzone;
 
-export interface FileUploadContainerProps extends SeedFileUpload.ContainerProps {}
-
-/**
- * Flex container that wraps Trigger and ItemGroup together.
- * @see https://seed-design.io/react/components/file-upload
- */
-export const FileUploadContainer = SeedFileUpload.Container;
-
-export interface FileUploadTriggerProps extends Omit<SeedFileUpload.TriggerProps, "children"> {}
-
-/**
- * @see https://seed-design.io/react/components/file-upload
- */
-export const FileUploadTrigger = React.forwardRef<HTMLButtonElement, FileUploadTriggerProps>(
-  (props, ref) => {
-    return (
-      <SeedFileUpload.Trigger
-        // You may implement your own i18n for upload label
-        aria-label="파일 선택"
-        ref={ref}
-        {...props}
-      >
-        <SeedFileUpload.TriggerIcon image={<IconCameraFill />} general={<IconPaperclipFill />} />
-        <SeedFileUpload.TriggerItemCount />
-      </SeedFileUpload.Trigger>
-    );
-  },
-);
-FileUploadTrigger.displayName = "FileUploadTrigger";
-
 export interface FileUploadItemGroupProps extends Omit<SeedFileUpload.ItemGroupProps, "children"> {
   children: SeedFileUpload.ContextProps["children"];
 }
-
-/**
- * ItemGroup with built-in Context. Children receives file upload context as render prop.
- * @see https://seed-design.io/react/components/file-upload
- */
-export const FileUploadItemGroup = React.forwardRef<HTMLUListElement, FileUploadItemGroupProps>(
-  ({ children, ...props }, ref) => {
-    return (
-      <SeedFileUpload.ItemGroup ref={ref} {...props}>
-        <SeedFileUpload.Context>{children}</SeedFileUpload.Context>
-      </SeedFileUpload.ItemGroup>
-    );
-  },
-);
-FileUploadItemGroup.displayName = "FileUploadItemGroup";
 
 export interface FileUploadImageItemProps extends Omit<SeedFileUpload.ItemProps, "children"> {
   onRetry?: () => void;

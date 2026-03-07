@@ -1,13 +1,7 @@
 import { VStack } from "@seed-design/react";
 import { useCallback, useRef, useState, type FormEvent } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import {
-  FileUpload,
-  FileUploadContainer,
-  FileUploadTrigger,
-  FileUploadItemGroup,
-  FileUploadItem,
-} from "seed-design/ui/file-upload";
+import { FileUpload } from "seed-design/ui/file-upload";
 
 type FieldErrors = {
   files?: string;
@@ -50,21 +44,7 @@ export default function FileUploadForm() {
             }
           }}
           {...(fieldErrors.files && { invalid: true, errorMessage: fieldErrors.files })}
-        >
-          <FileUploadContainer>
-            <FileUploadTrigger />
-            <FileUploadItemGroup>
-              {({ acceptedFiles }) =>
-                acceptedFiles.map((fileWithStatus, index) => (
-                  <FileUploadItem
-                    key={`${fileWithStatus.file.name}-${index}`}
-                    fileWithStatus={fileWithStatus}
-                  />
-                ))
-              }
-            </FileUploadItemGroup>
-          </FileUploadContainer>
-        </FileUpload>
+        />
         <ActionButton type="submit" variant="neutralSolid">
           제출
         </ActionButton>

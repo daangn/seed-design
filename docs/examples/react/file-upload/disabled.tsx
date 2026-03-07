@@ -1,12 +1,5 @@
 import { VStack } from "@seed-design/react";
-import {
-  FileUpload,
-  FileUploadContainer,
-  FileUploadTrigger,
-  FileUploadItemGroup,
-  FileUploadItem,
-  type FileWithStatus,
-} from "seed-design/ui/file-upload";
+import { FileUpload, type FileWithStatus } from "seed-design/ui/file-upload";
 
 const defaultFiles: FileWithStatus[] = [
   {
@@ -28,21 +21,7 @@ export default function FileUploadDisabled() {
         defaultAcceptedFiles={defaultFiles}
         label="파일 업로드"
         description="현재 파일을 업로드할 수 없습니다"
-      >
-        <FileUploadContainer>
-          <FileUploadTrigger />
-          <FileUploadItemGroup>
-            {({ acceptedFiles }) =>
-              acceptedFiles.map((fileWithStatus, index) => (
-                <FileUploadItem
-                  key={`${fileWithStatus.file.name}-${index}`}
-                  fileWithStatus={fileWithStatus}
-                />
-              ))
-            }
-          </FileUploadItemGroup>
-        </FileUploadContainer>
-      </FileUpload>
+      />
     </VStack>
   );
 }

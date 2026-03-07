@@ -2,14 +2,7 @@ import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 import { useController, useForm } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
-import {
-  FileUpload,
-  FileUploadContainer,
-  FileUploadTrigger,
-  FileUploadItemGroup,
-  FileUploadItem,
-  type FileWithStatus,
-} from "seed-design/ui/file-upload";
+import { FileUpload, type FileWithStatus } from "seed-design/ui/file-upload";
 
 interface FormValues {
   files: FileWithStatus[];
@@ -60,21 +53,7 @@ export default function FileUploadReactHookForm() {
         acceptedFiles={value}
         onAcceptedFilesChange={onChange}
         {...field}
-      >
-        <FileUploadContainer>
-          <FileUploadTrigger />
-          <FileUploadItemGroup>
-            {({ acceptedFiles }) =>
-              acceptedFiles.map((fileWithStatus, index) => (
-                <FileUploadItem
-                  key={`${fileWithStatus.file.name}-${index}`}
-                  fileWithStatus={fileWithStatus}
-                />
-              ))
-            }
-          </FileUploadItemGroup>
-        </FileUploadContainer>
-      </FileUpload>
+      />
       <HStack gap="x2">
         <ActionButton type="reset" variant="neutralWeak">
           초기화

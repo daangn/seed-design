@@ -2,9 +2,6 @@ import { VStack, Text } from "@seed-design/react";
 import { useCallback, useState } from "react";
 import {
   FileUpload,
-  FileUploadContainer,
-  FileUploadTrigger,
-  FileUploadItemGroup,
   FileUploadItem,
   type FileWithStatus,
   type FileStatusDetails,
@@ -60,25 +57,20 @@ export default function FileUploadValueChanges() {
           );
         }}
       >
-        <FileUploadContainer>
-          <FileUploadTrigger />
-          <FileUploadItemGroup>
-            {({ acceptedFiles, setAcceptedFiles }) => {
-              for (const { file, details } of acceptedFiles) {
-                if (details.status !== "pending") continue;
+        {({ acceptedFiles, setAcceptedFiles }) => {
+          for (const { file, details } of acceptedFiles) {
+            if (details.status !== "pending") continue;
 
-                simulateUpload(file, (f, d) => updateFile(f, d, setAcceptedFiles));
-              }
+            simulateUpload(file, (f, d) => updateFile(f, d, setAcceptedFiles));
+          }
 
-              return acceptedFiles.map((fileWithStatus, index) => (
-                <FileUploadItem
-                  key={`${fileWithStatus.file.name}-${index}`}
-                  fileWithStatus={fileWithStatus}
-                />
-              ));
-            }}
-          </FileUploadItemGroup>
-        </FileUploadContainer>
+          return acceptedFiles.map((fileWithStatus, index) => (
+            <FileUploadItem
+              key={`${fileWithStatus.file.name}-${index}`}
+              fileWithStatus={fileWithStatus}
+            />
+          ));
+        }}
       </FileUpload>
       <VStack gap="x1">
         {logs.length === 0 ? (
