@@ -34,7 +34,7 @@ export function ActionButton({
   return (
     <view
       className={clsx(classes.root, className)}
-      style={{ flexGrow }}
+      style={flexGrow != null ? { flexGrow } : undefined}
       data-disabled={disabled || undefined}
       data-loading={loading || undefined}
       {...(isInteractive && bindtap && { bindtap })}
