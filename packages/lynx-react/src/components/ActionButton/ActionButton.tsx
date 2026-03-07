@@ -1,23 +1,8 @@
-/**
- * Lynx CSS를 직접 import합니다.
- * action-button.lynx.mjs의 shared.mjs 유틸리티가 Lynx web-core 메인 스레드에서
- * 실행 시 에러를 발생시키므로, CSS만 side-effect로 가져오고
- * className 생성 로직은 인라인으로 구현합니다.
- */
-import "@seed-design/css/recipes/action-button.lynx.css";
+import { actionButton } from "@seed-design/css/recipes/action-button.lynx";
 import type { ActionButtonVariantProps } from "@seed-design/css/recipes/action-button.lynx";
 import type { ReactNode } from "react";
-
-const ROOT = "seed-action-button";
-const TEXT = "seed-action-button__text";
-
-function actionButtonClasses(variant: string, size: string, layout: string) {
-  const compound = `${ROOT}--size_${size}-layout_${layout}`;
-  return {
-    root: `${ROOT} ${ROOT}--variant_${variant} ${ROOT}--size_${size} ${ROOT}--layout_${layout} ${compound}`,
-    text: `${TEXT}`,
-  };
-}
+import { useState, useCallback } from "react";
+import clsx from "clsx";
 
 export interface ActionButtonProps extends ActionButtonVariantProps {
   children?: ReactNode;
@@ -41,15 +26,30 @@ export function ActionButton({
   bindtap,
   "main-thread:bindtap": mainThreadBindtap,
 }: ActionButtonProps) {
-  const classes = actionButtonClasses(variant, size, layout);
+  const [active, setActive] = useState(false);
+  const classes = actionButton({ variant, size, layout });
   const isInteractive = !disabled && !loading;
+
+  const handleTouchStart = useCallback(() => {
+    if (isInteractive) setActive(true);
+  }, [isInteractive]);
+
+  const handleTouchEnd = useCallback(() => {
+    setActive(false);
+  }, []);
 
   return (
     <view
-      className={className ? `${classes.root} ${className}` : classes.root}
+      className={clsx(classes.root, className)}
       style={flexGrow != null ? { flexGrow } : undefined}
+      data-active={active || undefined}
       data-disabled={disabled || undefined}
       data-loading={loading || undefined}
+      {...(isInteractive && {
+        bindtouchstart: handleTouchStart,
+        bindtouchend: handleTouchEnd,
+        bindtouchcancel: handleTouchEnd,
+      })}
       {...(isInteractive && bindtap && { bindtap })}
       {...(isInteractive &&
         mainThreadBindtap && {
