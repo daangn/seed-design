@@ -653,7 +653,12 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-background--active": handleColor(_active?.bg ?? _active?.background),
       ...style,
     } as React.CSSProperties,
-    restProps,
+    restProps: {
+      ...restProps,
+
+      // see global.ts to understand why we need this
+      ...((_active?.bg != null || _active?.background != null) && { "data-has-active-bg": "" }),
+    },
   };
 }
 
