@@ -9,7 +9,7 @@ export declare const vars: {
         "gap": "var(--seed-dimension-x2_5)"
       },
       "thumbnail": {
-        "color": "var(--seed-color-bg-layer-floating)",
+        "color": "var(--seed-color-bg-neutral-weak)",
         "size": "var(--seed-dimension-x12)",
         "cornerRadius": "var(--seed-radius-r2)"
       },

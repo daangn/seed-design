@@ -311,6 +311,13 @@
             "@seed-design/react": "~1.2.0",
             "@seed-design/css": "~1.2.0"
           }
+        },
+        {
+          "path": "file-upload-item.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.2.0",
+            "@seed-design/css": "~1.2.0"
+          }
         }
       ],
       "id": "file-upload",
@@ -320,6 +327,45 @@
         "@seed-design/react"
       ],
       "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "format-bytes"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "file-upload-dropzone.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.2.0",
+            "@seed-design/css": "~1.2.0"
+          }
+        },
+        {
+          "path": "file-upload-item.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.2.0",
+            "@seed-design/css": "~1.2.0"
+          }
+        }
+      ],
+      "id": "file-upload-dropzone",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "file-upload",
+            "loading-indicator"
+          ]
+        },
         {
           "registryId": "lib",
           "itemIds": [

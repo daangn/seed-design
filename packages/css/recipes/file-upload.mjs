@@ -11,6 +11,10 @@ const fileUploadSlotNames = [
     "seed-file-upload__dropzone"
   ],
   [
+    "dropzoneLabel",
+    "seed-file-upload__dropzoneLabel"
+  ],
+  [
     "container",
     "seed-file-upload__container"
   ],

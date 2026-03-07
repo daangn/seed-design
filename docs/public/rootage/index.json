@@ -96,6 +96,9 @@
       "path": "/components/field.json"
     },
     {
+      "path": "/components/file-upload-dropzone.json"
+    },
+    {
       "path": "/components/file-upload-item-remove-button.json"
     },
     {

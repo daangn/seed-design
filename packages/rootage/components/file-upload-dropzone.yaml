@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: file-upload-dropzone
+  name: File Upload Dropzone
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+          gap:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+  definitions:
+    base:
+      enabled:
+        root:
+          height: 120px
+          gap: $dimension.x2
+          cornerRadius: $radius.r3
+          strokeWidth: 1px
+          strokeColor: $color.palette.gray-500
+          # strokeStyle: dashed # maybe implement later
+        label:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t4
+          lineHeight: $font-size.t4
+          fontWeight: $font-weight.medium
+      disabled:
+        label:
+          color: $color.fg.disabled

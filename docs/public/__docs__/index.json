@@ -982,6 +982,10 @@
                 {
                   "label": "react",
                   "path": "file-upload.tsx"
+                },
+                {
+                  "label": "react",
+                  "path": "file-upload-item.tsx"
                 }
               ]
             },

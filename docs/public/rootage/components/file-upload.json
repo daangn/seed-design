@@ -14,26 +14,16 @@
             "gap": {
               "type": "dimension"
             }
-          }
+          },
+          "description": "File Upload Dropzone과 Items를 감싸는 컨테이너입니다."
         },
-        "trigger": {
+        "items": {
           "properties": {
-            "size": {
+            "gap": {
               "type": "dimension"
-            },
-            "color": {
-              "type": "color"
-            },
-            "cornerRadius": {
-              "type": "dimension"
-            },
-            "strokeWidth": {
-              "type": "dimension"
-            },
-            "strokeColor": {
-              "type": "color"
             }
-          }
+          },
+          "description": "File Upload Trigger 및 File Upload Item을 감싸는 컨테이너입니다."
         }
       },
       "variants": {}
@@ -53,32 +43,10 @@
                   "value": "$dimension.x2"
                 }
               },
-              "trigger": {
-                "size": {
+              "items": {
+                "gap": {
                   "type": "dimension",
-                  "value": {
-                    "value": 80,
-                    "unit": "px"
-                  }
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.transparent"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r3"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-weak"
+                  "value": "$dimension.x2"
                 }
               }
             }

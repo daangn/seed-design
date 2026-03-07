@@ -1,11 +1,31 @@
 export {
   FileUploadContainer,
-  FileUploadContext,
-  FileUploadDropzone,
   FileUploadHiddenInput,
+  FileUploadItemGroup,
+  FileUploadRoot,
+  type FileUploadContainerProps,
+  type FileUploadHiddenInputProps,
+  type FileUploadItemGroupProps,
+  type FileUploadRootProps,
+} from "./FileUpload";
+
+export {
+  FileUploadContext,
+  type FileUploadContextProps,
+} from "./FileUpload";
+
+export {
+  FileUploadActionButton,
+  FileUploadDropzone,
+  FileUploadDropzoneLabel,
+  type FileUploadActionButtonProps,
+  type FileUploadDropzoneLabelProps,
+  type FileUploadDropzoneProps,
+} from "./FileUploadDropzone";
+
+export {
   FileUploadItem,
   FileUploadItemActionButton,
-  FileUploadItemGroup,
   FileUploadItemImage,
   FileUploadItemMetadata,
   FileUploadItemName,
@@ -16,18 +36,7 @@ export {
   FileUploadItemRemoveButton,
   FileUploadItemSize,
   FileUploadItemThumbnail,
-  FileUploadRoot,
-  FileUploadTrigger,
-  FileUploadTriggerIcon,
-  FileUploadTriggerItemCount,
-  type FileAcceptType,
-  type FileStatusDetails,
-  type FileUploadContainerProps,
-  type FileUploadContextProps,
-  type FileUploadDropzoneProps,
-  type FileUploadHiddenInputProps,
   type FileUploadItemActionButtonProps,
-  type FileUploadItemGroupProps,
   type FileUploadItemImageProps,
   type FileUploadItemMetadataProps,
   type FileUploadItemNameProps,
@@ -39,11 +48,15 @@ export {
   type FileUploadItemRemoveButtonProps,
   type FileUploadItemSizeProps,
   type FileUploadItemThumbnailProps,
-  type FileUploadRootProps,
+} from "./FileUploadItem";
+
+export {
+  FileUploadTrigger,
+  FileUploadTriggerIcon,
+  FileUploadTriggerItemCount,
   type FileUploadTriggerIconProps,
   type FileUploadTriggerItemCountProps,
   type FileUploadTriggerProps,
-  type FileWithStatus,
-} from "./FileUpload";
+} from "./FileUploadTrigger";
 
 export * as FileUpload from "./FileUpload.namespace";

@@ -6,12 +6,12 @@ import {
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { engaged, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
-import { vars as tokens } from "../vars";
 import {
   fileUpload as vars,
   fileUploadItem as itemVars,
   fileUploadItemRemoveButton as removeButtonVars,
   fileUploadTrigger as triggerVars,
+  fileUploadDropzone as dropzoneVars,
 } from "../vars/component";
 
 const fileUploadTrigger = defineSlotRecipe({
@@ -317,47 +317,61 @@ const fileUploadItem = defineSlotRecipe({
 
 const fileUpload = defineSlotRecipe({
   name: "file-upload",
-  slots: ["root", "dropzone", "container", "itemGroup"],
+  slots: ["root", "dropzone", "dropzoneLabel", "container", "itemGroup"],
   base: {
+    // wraps the dropzone and the container (the trigger (hidden when dropzone is used) and the file items)
     root: {
       display: "flex",
       flexDirection: "column",
-      gap: tokens.$dimension.x3,
       width: "100%",
+
+      gap: vars.base.enabled.root.gap,
     },
     dropzone: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      gap: tokens.$dimension.x2,
-      padding: tokens.$dimension.x4,
-      border: `1px dashed ${tokens.$color.stroke.neutralMuted}`,
-      borderRadius: tokens.$radius.r2,
-      backgroundColor: tokens.$color.bg.layerDefault,
-      cursor: "pointer",
-      transition: "border-color 0.2s, background-color 0.2s",
 
-      [pseudo(engaged, "[data-dragging]")]: {
-        borderColor: tokens.$color.stroke.brandSolid,
-        backgroundColor: tokens.$color.bg.layerDefaultPressed,
-      },
+      height: dropzoneVars.base.enabled.root.height,
+      gap: dropzoneVars.base.enabled.root.gap,
+
+      border: `${dropzoneVars.base.enabled.root.strokeWidth} dashed ${dropzoneVars.base.enabled.root.strokeColor}`,
+      borderRadius: dropzoneVars.base.enabled.root.cornerRadius,
+
+      // transition: "border-color 0.2s, background-color 0.2s",
+
+      // [pseudo(engaged, "[data-dragging]")]: {
+      //   borderColor: tokens.$color.stroke.brandSolid,
+      //   backgroundColor: tokens.$color.bg.layerDefaultPressed,
+      // },
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
-        opacity: 0.5,
       },
     },
+    dropzoneLabel: {
+      color: dropzoneVars.base.enabled.label.color,
+
+      fontSize: dropzoneVars.base.enabled.label.fontSize,
+      lineHeight: dropzoneVars.base.enabled.label.lineHeight,
+      fontWeight: dropzoneVars.base.enabled.label.fontWeight,
+
+      [pseudo(disabled)]: {
+        color: dropzoneVars.base.disabled.label.color,
+      },
+    },
+    // wraps the trigger and the file items
     container: {
       display: "flex",
-
-      gap: vars.base.enabled.root.gap,
+      gap: vars.base.enabled.items.gap,
     },
+    // wraps the file items
     itemGroup: {
       display: "flex",
-      gap: vars.base.enabled.root.gap,
+      gap: vars.base.enabled.items.gap,
 
-      // ul styles
+      // ul styles << needed? // TODO
       listStyle: "none",
       padding: 0,
       margin: 0,

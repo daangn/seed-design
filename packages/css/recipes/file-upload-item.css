@@ -29,7 +29,7 @@
     justify-content: center;
     width: var(--seed-dimension-x12);
     height: var(--seed-dimension-x12);
-    background-color: var(--seed-color-bg-layer-floating);
+    background-color: var(--seed-color-bg-neutral-weak);
     border-radius: var(--seed-radius-r2);
     flex-shrink: 0;
     --seed-icon-size: var(--seed-dimension-x6);

@@ -95,7 +95,7 @@ data:
           strokeWidth: 1px
           gap: $dimension.x2_5
         thumbnail:
-          color: $color.bg.layer-floating # layer-elevated로 되어 있어서 확인 필요
+          color: $color.bg.neutral-weak
           size: $dimension.x12
           cornerRadius: $radius.r2
         thumbnailIcon:

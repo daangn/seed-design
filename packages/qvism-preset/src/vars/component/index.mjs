@@ -27,6 +27,7 @@ export { vars as extendedFab } from "./extended-fab.mjs";
 export { vars as fab } from "./fab.mjs";
 export { vars as fieldLabel } from "./field-label.mjs";
 export { vars as field } from "./field.mjs";
+export { vars as fileUploadDropzone } from "./file-upload-dropzone.mjs";
 export { vars as fileUploadItemRemoveButton } from "./file-upload-item-remove-button.mjs";
 export { vars as fileUploadItem } from "./file-upload-item.mjs";
 export { vars as fileUploadTrigger } from "./file-upload-trigger.mjs";

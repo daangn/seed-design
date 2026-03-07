@@ -52,7 +52,7 @@ data:
         root:
           size: 80px
           gap: $dimension.x1
-          color: $color.bg.transparent # Figma에서 elevated 사용 중인데, 확인 필요 (없는 토큰임)
+          color: $color.bg.transparent
           cornerRadius: $radius.r3
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak

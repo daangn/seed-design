@@ -186,7 +186,7 @@
               "thumbnail": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-floating"
+                  "value": "$color.bg.neutral-weak"
                 },
                 "size": {
                   "type": "dimension",

@@ -9,19 +9,14 @@ import {
 } from "@seed-design/react";
 import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
-  IconCameraFill,
-  IconPaperclipFill,
   IconExclamationmarkCircleFill,
+  IconArrowUpBracketDownFill,
 } from "@karrotmarket/react-monochrome-icon";
 import { FileUploadItem } from "./file-upload-item";
+import { LoadingIndicator } from "./loading-indicator";
 
-export type {
-  FileWithStatus,
-  FileStatusDetails,
-  FileAcceptType,
-} from "@seed-design/react-file-upload";
-
-export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild" | "children"> {
+export interface FileUploadDropzoneProps
+  extends Omit<SeedFileUpload.RootProps, "asChild" | "children"> {
   label?: React.ReactNode;
   /**
    * @default "medium"
@@ -49,7 +44,7 @@ export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild
 /**
  * @see https://seed-design.io/react/components/file-upload
  */
-export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
+export const FileUploadDropzone = React.forwardRef<HTMLInputElement, FileUploadDropzoneProps>(
   (
     {
       label,
@@ -81,7 +76,7 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
 
     if (process.env.NODE_ENV !== "production" && !label) {
       console.warn(
-        "FileUpload: Provide a `label` prop for better accessibility. This warning will not be shown in production builds.",
+        "FileUploadDropzone: Provide a `label` prop for better accessibility. This warning will not be shown in production builds.",
       );
     }
 
@@ -110,15 +105,22 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
           name={name}
           {...otherProps}
         >
+          <SeedFileUpload.Dropzone>
+            <SeedFileUpload.DropzoneActionButton
+              variant="neutralWeak"
+              size="small"
+              layout="withText"
+            >
+              <PrefixIcon svg={<IconArrowUpBracketDownFill />} />
+              {/* You may implement your own i18n for upload label */}
+              파일 선택
+            </SeedFileUpload.DropzoneActionButton>
+            <SeedFileUpload.DropzoneLabel>
+              {/* You may implement your own i18n for upload label */}
+              또는 여기로 드래그해서 업로드
+            </SeedFileUpload.DropzoneLabel>
+          </SeedFileUpload.Dropzone>
           <SeedFileUpload.Container>
-            {/* You may implement your own i18n for upload label */}
-            <SeedFileUpload.Trigger aria-label="파일 선택">
-              <SeedFileUpload.TriggerIcon
-                image={<IconCameraFill />}
-                general={<IconPaperclipFill />}
-              />
-              <SeedFileUpload.TriggerItemCount />
-            </SeedFileUpload.Trigger>
             <SeedFileUpload.ItemGroup>
               <SeedFileUpload.Context>
                 {typeof children === "function"
@@ -157,4 +159,18 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
     );
   },
 );
-FileUpload.displayName = "FileUpload";
+FileUploadDropzone.displayName = "FileUploadDropzone";
+
+interface FileUploadDropzoneActionButtonProps extends SeedFileUpload.DropzoneActionButtonProps {}
+
+export const FileUploadDropzoneActionButton = React.forwardRef<
+  React.ElementRef<typeof SeedFileUpload.DropzoneActionButton>,
+  FileUploadDropzoneActionButtonProps
+>(({ loading = false, children, ...otherProps }, ref) => {
+  return (
+    <SeedFileUpload.DropzoneActionButton ref={ref} loading={loading} {...otherProps}>
+      {loading && !otherProps.asChild ? <LoadingIndicator>{children}</LoadingIndicator> : children}
+    </SeedFileUpload.DropzoneActionButton>
+  );
+});
+FileUploadDropzoneActionButton.displayName = "FileUploadDropzoneActionButton";
