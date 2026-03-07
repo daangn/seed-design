@@ -2,7 +2,7 @@ declare interface ContentPlaceholderVariant {
   /**
   * @default "default"
   */
-  type: "default" | "buySell" | "car" | "coupon" | "food" | "group" | "image" | "jobs" | "localProfile" | "post" | "realty";
+  type: "default" | "buySell" | "car" | "commerce" | "coupon" | "food" | "group" | "image" | "jobs" | "business" | "post" | "realty";
 }
 
 declare type ContentPlaceholderVariantMap = {

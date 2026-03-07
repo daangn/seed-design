@@ -17,12 +17,13 @@ export const vars = {
   "typeDefault": {},
   "typeBuySell": {},
   "typeCar": {},
+  "typeCommerce": {},
   "typeCoupon": {},
   "typeFood": {},
   "typeGroup": {},
   "typeImage": {},
   "typeJobs": {},
-  "typeLocalProfile": {},
+  "typeBusiness": {},
   "typePost": {},
   "typeRealty": {}
 }

@@ -43,12 +43,13 @@
             "default": {},
             "buySell": {},
             "car": {},
+            "commerce": {},
             "coupon": {},
             "food": {},
             "group": {},
             "image": {},
             "jobs": {},
-            "localProfile": {},
+            "business": {},
             "post": {},
             "realty": {}
           },
@@ -118,6 +119,12 @@
       },
       {
         "variants": {
+          "type": "commerce"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
           "type": "coupon"
         },
         "definitions": []
@@ -148,7 +155,7 @@
       },
       {
         "variants": {
-          "type": "localProfile"
+          "type": "business"
         },
         "definitions": []
       },

@@ -27,12 +27,13 @@ export const contentPlaceholderVariantMap = {
     "default",
     "buySell",
     "car",
+    "commerce",
     "coupon",
     "food",
     "group",
     "image",
     "jobs",
-    "localProfile",
+    "business",
     "post",
     "realty"
   ]

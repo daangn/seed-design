@@ -36,11 +36,12 @@ data:
     type=default: {}
     type=buySell: {}
     type=car: {}
+    type=commerce: {}
     type=coupon: {}
     type=food: {}
     type=group: {}
     type=image: {}
     type=jobs: {}
-    type=localProfile: {}
+    type=business: {}
     type=post: {}
     type=realty: {}
