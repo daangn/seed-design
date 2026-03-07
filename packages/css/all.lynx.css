@@ -1,23 +1,23 @@
-:root {
+page {
   --seed-safe-area-top: 0px;
   --seed-safe-area-bottom: 0px;
 }
 
 @supports (left: constant(safe-area-inset-left)) {
-  :root {
+  page {
     --seed-safe-area-top: constant(safe-area-inset-top);
     --seed-safe-area-bottom: constant(safe-area-inset-bottom);
   }
 }
 
 @supports (left: env(safe-area-inset-left)) {
-  :root {
+  page {
     --seed-safe-area-top: env(safe-area-inset-top);
     --seed-safe-area-bottom: env(safe-area-inset-bottom);
   }
 }
 
-:root {
+page {
   --seed-font-size-multiplier: 1;
   --seed-font-size-limit-min: .8;
   --seed-font-size-limit-max: 1.5;
@@ -31,7 +31,7 @@
 }
 
 @supports (font: -apple-system-body) {
-  html[data-seed-platform="ios"][data-seed-font-scaling="enabled"] {
+  page[data-seed-platform="ios"][data-seed-font-scaling="enabled"] {
     --seed-font-size-multiplier: .9412;
   }
 }
@@ -310,7 +310,7 @@
   font-weight: var(--seed-font-weight-bold);
 }
 
-:root, [data-seed-color-mode="system"] {
+page, [data-seed-color-mode="system"] {
 }
 
 [data-seed-color-mode="light-only"] {
@@ -319,7 +319,7 @@
 [data-seed-color-mode="dark-only"] {
 }
 
-:root {
+page {
   --seed-dimension-x0_5: 2px;
   --seed-dimension-x1: 4px;
   --seed-dimension-x1_5: 6px;
@@ -414,7 +414,7 @@
   --seed-timing-function-exit-expressive: cubic-bezier(.35, 0, .95, .55);
 }
 
-:root, :root[data-seed-color-mode="system"][data-seed-user-color-scheme="light"], :root[data-seed-color-mode="light-only"], :root [data-seed-color-mode="light-only"] {
+page, page[data-seed-color-mode="system"][data-seed-user-color-scheme="light"], page[data-seed-color-mode="light-only"], page [data-seed-color-mode="light-only"] {
   --seed-color-palette-gray-00: #fff;
   --seed-color-palette-gray-100: #f7f8f9;
   --seed-color-palette-gray-200: #f3f4f5;
@@ -625,7 +625,7 @@
   --seed-shadow-s3: 0px 4px 16px 0px #0000001f;
 }
 
-:root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"], :root[data-seed-color-mode="dark-only"], :root [data-seed-color-mode="dark-only"] {
+page[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"], page[data-seed-color-mode="dark-only"], page [data-seed-color-mode="dark-only"] {
   --seed-color-palette-gray-00: #000;
   --seed-color-palette-gray-100: #16171b;
   --seed-color-palette-gray-200: #1d2025;

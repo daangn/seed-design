@@ -155,6 +155,9 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     ":is(:disabled, [disabled], [data-disabled])": "[data-disabled]",
     ":is(:active, [data-active])": "[data-active]",
     ":is(:hover, [data-hover])": "[data-hover]",
+    // Lynx에는 <html> 요소가 없음 → :root / html을 page로 변환
+    ":root": "page",
+    html: "page",
   },
 
   removeAtRules: ["(hover: hover)", "(hover: none)"],
