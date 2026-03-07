@@ -1,0 +1,31 @@
+name: Cross-Package Sync Check
+
+on:
+  pull_request:
+    paths:
+      - "packages/react-headless/**"
+      - "packages/react/src/components/**"
+      - "packages/rootage/components/**"
+      - "packages/qvism-preset/src/recipes/**"
+
+jobs:
+  sync-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+        with:
+          build: true
+
+      - name: Run cross-package sync check
+        run: bun run scripts/sync-checks/index.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
