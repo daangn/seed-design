@@ -9,11 +9,19 @@
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     cursor: pointer;
     border-radius: var(--seed-radius-r3);
+    transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
     background-color: #0000;
     border: none;
     flex-direction: column;
     padding: 0;
     display: flex;
+  }
+
+  .seed-file-upload-trigger__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
   }
 
   @media (hover: hover) {

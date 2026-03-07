@@ -5075,18 +5075,29 @@
   font: inherit;
   cursor: pointer;
   border-radius: inherit;
-  font-size: var(--seed-font-size-t2);
-  line-height: var(--seed-line-height-t2);
-  font-weight: var(--seed-font-weight-medium);
-  justify-content: center;
-  align-items: center;
-  gap: var(--seed-dimension-x1);
-  --seed-icon-size: var(--seed-dimension-x6);
+  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: var(--seed-dimension-x0_5);
   background: none;
   border: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 0;
   display: flex;
+}
+
+.seed-file-upload-item__actionButton:is(:focus-visible, [data-focus-visible]) {
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+  outline-offset: var(--seed-dimension-x0_5);
+}
+
+.seed-file-upload-item__actionButton {
+  font-size: var(--seed-font-size-t2);
+  line-height: var(--seed-line-height-t2);
+  font-weight: var(--seed-font-weight-medium);
+  gap: var(--seed-dimension-x1);
+  --seed-icon-size: var(--seed-dimension-x6);
 }
 
 .seed-file-upload-item__removeButton {
@@ -5097,15 +5108,26 @@
   background-color: var(--seed-color-bg-layer-default);
   border-radius: var(--seed-radius-full);
   cursor: pointer;
-  box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak), 0 0 0 2px var(--seed-color-bg-layer-default);
-  --seed-icon-size: var(--seed-dimension-x2_5);
-  --seed-icon-color: var(--seed-color-fg-neutral);
+  transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: var(--seed-dimension-x0_5);
   border: none;
   justify-content: center;
   align-items: center;
   padding: 0;
   display: flex;
   position: absolute;
+}
+
+.seed-file-upload-item__removeButton:is(:focus-visible, [data-focus-visible]) {
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+  outline-offset: var(--seed-dimension-x0_5);
+}
+
+.seed-file-upload-item__removeButton {
+  box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak), 0 0 0 2px var(--seed-color-bg-layer-default);
+  --seed-icon-size: var(--seed-dimension-x2_5);
+  --seed-icon-color: var(--seed-color-fg-neutral);
 }
 
 @media (hover: hover) {
@@ -5167,11 +5189,19 @@
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
   cursor: pointer;
   border-radius: var(--seed-radius-r3);
+  transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: var(--seed-dimension-x0_5);
   background-color: #0000;
   border: none;
   flex-direction: column;
   padding: 0;
   display: flex;
+}
+
+.seed-file-upload-trigger__root:is(:focus-visible, [data-focus-visible]) {
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+  outline-offset: var(--seed-dimension-x0_5);
 }
 
 @media (hover: hover) {

@@ -1,6 +1,11 @@
 import { defineSlotRecipe } from "../utils/define";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { engaged, disabled, not, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import { vars as tokens } from "../vars";
 import {
   fileUpload as vars,
@@ -31,6 +36,10 @@ const fileUploadTrigger = defineSlotRecipe({
       cursor: "pointer",
       backgroundColor: "transparent",
       borderRadius: triggerVars.base.enabled.root.cornerRadius,
+      transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: triggerVars.base.pressed.root.color,
@@ -202,6 +211,10 @@ const fileUploadItem = defineSlotRecipe({
       background: "transparent",
       cursor: "pointer",
       borderRadius: "inherit",
+      transition: FOCUS_RING_TRANSITION,
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       fontSize: itemVars.base.enabled.actionButtonLabel.fontSize,
       lineHeight: itemVars.base.enabled.actionButtonLabel.lineHeight,
@@ -230,6 +243,10 @@ const fileUploadItem = defineSlotRecipe({
       backgroundColor: removeButtonVars.base.enabled.root.color,
       borderRadius: removeButtonVars.base.enabled.root.cornerRadius,
       cursor: "pointer",
+      transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       boxShadow: `inset 0 0 0 ${removeButtonVars.base.enabled.root.strokeWidth} ${removeButtonVars.base.enabled.root.strokeColor}, 0 0 0 ${removeButtonVars.base.enabled.root.foobarWidth} ${removeButtonVars.base.enabled.root.foobarColor}`,
 
