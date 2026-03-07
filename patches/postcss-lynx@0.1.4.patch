@@ -1,0 +1,60 @@
+diff --git a/dist/index.js b/dist/index.js
+index ce615c3744907464f30c94a433845fe5b7d754f0..2fbe3324c681550637f55f31f78d087f22cd3684 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -4,7 +4,25 @@ const LOG_WARNINGS = true;
+ const PROPERTIES_TO_REMOVE = [
+     "color-scheme",
+     "stroke-dasharray",
+-    "stroke-dashoffset"
++    "stroke-dashoffset",
++    "text-transform",
++    "text-decoration",
++    "-webkit-font-smoothing",
++    "-moz-osx-font-smoothing",
++    "box-sizing",
++    "overscroll-behavior",
++    "overscroll-behavior-x",
++    "overscroll-behavior-y",
++    "touch-action",
++    "will-change",
++    "isolation",
++    "grid-column",
++    "grid-row",
++    "grid-template-columns",
++    "grid-template-rows",
++    "grid-auto-flow",
++    "grid-auto-columns",
++    "grid-auto-rows"
+ ];
+ /**
+  * PostCSS Lynx Plugin
+diff --git a/src/index.ts b/src/index.ts
+index 0fa1edb238c2ae4e72806ed034052ec6de05f343..2a1552a2d2c6e8dc1f940b4f128d2661edde0861 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -8,6 +8,24 @@ const PROPERTIES_TO_REMOVE = [
+   "color-scheme",
+   "stroke-dasharray",
+   "stroke-dashoffset",
++  "text-transform",
++  "text-decoration",
++  "-webkit-font-smoothing",
++  "-moz-osx-font-smoothing",
++  "box-sizing",
++  "overscroll-behavior",
++  "overscroll-behavior-x",
++  "overscroll-behavior-y",
++  "touch-action",
++  "will-change",
++  "isolation",
++  "grid-column",
++  "grid-row",
++  "grid-template-columns",
++  "grid-template-rows",
++  "grid-auto-flow",
++  "grid-auto-columns",
++  "grid-auto-rows",
+ ];
+ 
+ export type Options = {
