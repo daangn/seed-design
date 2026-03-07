@@ -38,15 +38,15 @@
 .seed-input-button__button[data-disabled] {
     background-color: var(--seed-color-bg-disabled);
 }
-.seed-input-button__button:not([data-disabled]):not(:is([data-readonly]))[data-active] {
+.seed-input-button__button:not([data-disabled]):not([data-readonly])[data-active] {
     background-color: var(--seed-color-bg-transparent-pressed);
 }
-.seed-input-button__button:is([data-readonly]):not([data-disabled]) {
+.seed-input-button__button[data-readonly]:not([data-disabled]) {
     background-color: var(--seed-color-bg-disabled);
 }
 .seed-input-button__button {
 }
-.seed-input-button__button:is(:invalid, [data-invalid])::after {
+.seed-input-button__button:invalid::after, .seed-input-button__button[data-invalid]::after {
     border-width: 2px;
     border-color: var(--seed-color-stroke-critical-solid);
 }
@@ -63,7 +63,7 @@
 .seed-input-button__value[data-disabled] {
     color: var(--seed-color-fg-disabled);
 }
-.seed-input-button__value:is([data-readonly]):not([data-disabled]) {
+.seed-input-button__value[data-readonly]:not([data-disabled]) {
     color: var(--seed-color-fg-neutral);
 }
 .seed-input-button__placeholder {
@@ -79,7 +79,7 @@
 .seed-input-button__placeholder[data-disabled] {
     color: var(--seed-color-fg-disabled);
 }
-.seed-input-button__placeholder:is([data-readonly]):not([data-disabled]) {
+.seed-input-button__placeholder[data-readonly]:not([data-disabled]) {
     color: var(--seed-color-fg-placeholder);
 }
 .seed-input-button__prefixText {

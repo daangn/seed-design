@@ -63,6 +63,108 @@ function resolveClamp(value: string, strategy: "min" | "preferred" | "max"): str
   return result;
 }
 
+// ── :is() 셀렉터 확장 ──
+
+/** 괄호/대괄호 depth를 존중하면서 콤마로 분리 */
+function splitByComma(str: string): string[] {
+  const items: string[] = [];
+  let depth = 0;
+  let start = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    const ch = str[i];
+    if (ch === "(" || ch === "[") depth++;
+    else if (ch === ")" || ch === "]") depth--;
+    else if (ch === "," && depth === 0) {
+      items.push(str.slice(start, i).trim());
+      start = i + 1;
+    }
+  }
+  items.push(str.slice(start).trim());
+  return items;
+}
+
+/** openIndex 위치의 '(' 에 대응하는 ')' 인덱스를 반환 */
+function findMatchingParen(str: string, openIndex: number): number {
+  let depth = 1;
+  for (let i = openIndex + 1; i < str.length; i++) {
+    if (str[i] === "(") depth++;
+    if (str[i] === ")") {
+      depth--;
+      if (depth === 0) return i;
+    }
+  }
+  return -1;
+}
+
+/**
+ * 단일 셀렉터에서 :is() / :not(:is()) 를 확장한다.
+ *
+ * .foo:is(a, b)suffix → [.fooa+suffix, .foob+suffix]
+ * .foo:not(:is(a, b))suffix → [.foo:not(a):not(b)+suffix]
+ */
+function expandSingleSelector(selector: string): string[] {
+  // 1) :not(:is(...)) → :not(a):not(b)
+  const notIsIdx = selector.indexOf(":not(:is(");
+  if (notIsIdx !== -1) {
+    const isOpenParen = notIsIdx + 8; // ':not(:is(' → '(' 위치
+    const isCloseParen = findMatchingParen(selector, isOpenParen);
+    if (isCloseParen === -1) return [selector];
+
+    const inner = selector.slice(isOpenParen + 1, isCloseParen);
+    const args = splitByComma(inner);
+
+    const prefix = selector.slice(0, notIsIdx);
+    // :not(:is(...))  →  isCloseParen 은 :is 의 ), 다음 ) 는 :not 의 )
+    const notCloseParen = isCloseParen + 1;
+    const suffix = selector.slice(notCloseParen + 1);
+
+    const notChain = args.map((a) => `:not(${a})`).join("");
+    const expanded = prefix + notChain + suffix;
+
+    // 재귀: 추가 :is() 가 남아있을 수 있음
+    return expandSingleSelector(expanded);
+  }
+
+  // 2) :is(...) → 개별 셀렉터로 확장
+  const isIdx = selector.indexOf(":is(");
+  if (isIdx === -1) return [selector];
+
+  const openParen = isIdx + 3; // '(' 위치
+  const closeParen = findMatchingParen(selector, openParen);
+  if (closeParen === -1) return [selector];
+
+  const prefix = selector.slice(0, isIdx);
+  const inner = selector.slice(openParen + 1, closeParen);
+  const suffix = selector.slice(closeParen + 1);
+
+  const args = splitByComma(inner);
+
+  const results: string[] = [];
+  for (const arg of args) {
+    const expanded = prefix + arg + suffix;
+    // 재귀: 추가 :is() 가 남아있을 수 있음
+    results.push(...expandSingleSelector(expanded));
+  }
+
+  return results;
+}
+
+/**
+ * 전체 셀렉터 (콤마 구분 포함) 에서 :is() 를 확장한다.
+ * 콤마 구분된 각 개별 셀렉터에 대해 확장 후 합친다.
+ */
+function expandIsSelectors(fullSelector: string): string {
+  const selectors = splitByComma(fullSelector);
+  const expanded: string[] = [];
+
+  for (const sel of selectors) {
+    expanded.push(...expandSingleSelector(sel));
+  }
+
+  return expanded.join(", ");
+}
+
 /**
  * 셀렉터의 base class 부분에 text slot 접미사를 삽입한다.
  * .seed-action-button → .seed-action-button__text
@@ -144,6 +246,12 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       for (const { pattern, replacement } of selectorEntries) {
         transformed = transformed.replace(pattern, replacement);
       }
+
+      // :is() 확장 — Lynx CSS 파서가 :is() 미지원
+      if (transformed.includes(":is(")) {
+        transformed = expandIsSelectors(transformed);
+      }
+
       if (transformed !== rule.selector) {
         rule.selector = transformed;
       }

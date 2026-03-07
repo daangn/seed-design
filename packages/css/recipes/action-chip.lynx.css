@@ -26,7 +26,7 @@
 .seed-action-chip[data-active] {
     background: var(--seed-color-bg-neutral-weak-pressed);
 }
-.seed-action-chip:is(:focus, [data-focus]) {
+.seed-action-chip:focus, .seed-action-chip[data-focus] {
 }
 .seed-action-chip[data-disabled] {
     background: var(--seed-color-bg-disabled);

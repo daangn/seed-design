@@ -14,13 +14,13 @@
 .seed-radiomark__root:not([data-disabled])[data-active] {
     background-color: var(--seed-color-bg-transparent-pressed);
 }
-.seed-radiomark__root:is(:checked, [data-checked]) {
+.seed-radiomark__root:checked, .seed-radiomark__root[data-checked] {
     border-width: 0px;
 }
 .seed-radiomark__root[data-disabled] {
     background-color: var(--seed-color-palette-gray-300);
 }
-.seed-radiomark__root[data-disabled]:is(:checked, [data-checked]) {
+.seed-radiomark__root[data-disabled]:checked, .seed-radiomark__root[data-disabled][data-checked] {
     background-color: var(--seed-color-bg-transparent);
     border-width: 1px;
     border-color: var(--seed-color-palette-gray-300);
@@ -29,28 +29,28 @@
     display: none;
     border-radius: var(--seed-radius-full);
 }
-.seed-radiomark__icon:is(:checked, [data-checked]) {
+.seed-radiomark__icon:checked, .seed-radiomark__icon[data-checked] {
     display: block;
 }
-.seed-radiomark__icon[data-disabled]:is(:checked, [data-checked]) {
+.seed-radiomark__icon[data-disabled]:checked, .seed-radiomark__icon[data-disabled][data-checked] {
     color: var(--seed-color-palette-gray-300);
 }
-.seed-radiomark__root--tone_neutral:is(:checked, [data-checked]) {
+.seed-radiomark__root--tone_neutral:checked, .seed-radiomark__root--tone_neutral[data-checked] {
     background-color: var(--seed-color-bg-neutral-inverted);
 }
-.seed-radiomark__root--tone_neutral:not([data-disabled]):is(:checked, [data-checked])[data-active] {
+.seed-radiomark__root--tone_neutral:not([data-disabled]):checked[data-active], .seed-radiomark__root--tone_neutral:not([data-disabled])[data-checked][data-active] {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);
 }
-.seed-radiomark__icon--tone_neutral:is(:checked, [data-checked]) {
+.seed-radiomark__icon--tone_neutral:checked, .seed-radiomark__icon--tone_neutral[data-checked] {
     color: var(--seed-color-fg-neutral-inverted);
 }
-.seed-radiomark__root--tone_brand:is(:checked, [data-checked]) {
+.seed-radiomark__root--tone_brand:checked, .seed-radiomark__root--tone_brand[data-checked] {
     background-color: var(--seed-color-bg-brand-solid);
 }
-.seed-radiomark__root--tone_brand:not([data-disabled]):is(:checked, [data-checked])[data-active] {
+.seed-radiomark__root--tone_brand:not([data-disabled]):checked[data-active], .seed-radiomark__root--tone_brand:not([data-disabled])[data-checked][data-active] {
     background-color: var(--seed-color-bg-brand-solid-pressed);
 }
-.seed-radiomark__icon--tone_brand:is(:checked, [data-checked]) {
+.seed-radiomark__icon--tone_brand:checked, .seed-radiomark__icon--tone_brand[data-checked] {
     color: var(--seed-color-palette-static-white);
 }
 .seed-radiomark__root--size_large {

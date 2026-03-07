@@ -7,7 +7,7 @@
 }.seed-extended-fab__text {
     font-family: inherit;
 }
-.seed-extended-fab:is(:focus, [data-focus]) {
+.seed-extended-fab:focus, .seed-extended-fab[data-focus] {
 }
 .seed-extended-fab[data-disabled] {
 }

@@ -22,10 +22,10 @@
 .seed-bottom-sheet__backdrop[data-snap-points='true'] {
     opacity: 0;
 }
-.seed-bottom-sheet__backdrop:not(:is([data-state="open"], [data-open]))[data-snap-points='true']:not([data-snap-points-overlay='true']) {
+.seed-bottom-sheet__backdrop:not([data-state="open"]):not([data-open])[data-snap-points='true']:not([data-snap-points-overlay='true']) {
     opacity: 0;
 }
-.seed-bottom-sheet__backdrop:is([data-state="open"], [data-open])[data-snap-points-overlay='true'] {
+.seed-bottom-sheet__backdrop[data-state="open"][data-snap-points-overlay='true'], .seed-bottom-sheet__backdrop[data-open][data-snap-points-overlay='true'] {
     opacity: 1;
 }
 .seed-bottom-sheet__content {
@@ -126,7 +126,7 @@
     left: calc((28px - 44px) / 2);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
-.seed-bottom-sheet__closeButton:is(:focus, [data-focus]) {
+.seed-bottom-sheet__closeButton:focus, .seed-bottom-sheet__closeButton[data-focus] {
 }
 .seed-bottom-sheet__header--headerAlign_left {
     justify-content: flex-start;
@@ -151,17 +151,17 @@
     padding-left: 56px;
     padding-right: 56px;
 }
-.seed-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points='false']:not([data-animation-done='true']) {
+.seed-bottom-sheet__backdrop--skipAnimation_false[data-state="open"][data-snap-points='false']:not([data-animation-done='true']), .seed-bottom-sheet__backdrop--skipAnimation_false[data-open][data-snap-points='false']:not([data-animation-done='true']) {
     animation-name: fade-in;
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter);
 }
-.seed-bottom-sheet__backdrop--skipAnimation_false:not(:is([data-state="open"], [data-open]))[data-snap-points='false'] {
+.seed-bottom-sheet__backdrop--skipAnimation_false:not([data-state="open"]):not([data-open])[data-snap-points='false'] {
     animation-name: fade-out;
     animation-duration: var(--seed-duration-d4);
     animation-timing-function: var(--seed-timing-function-exit);
 }
-.seed-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points='true'][data-should-overlay-animate='true']:not([data-animation-done='true']) {
+.seed-bottom-sheet__backdrop--skipAnimation_false[data-state="open"][data-snap-points='true'][data-should-overlay-animate='true']:not([data-animation-done='true']), .seed-bottom-sheet__backdrop--skipAnimation_false[data-open][data-snap-points='true'][data-should-overlay-animate='true']:not([data-animation-done='true']) {
     animation-name: fade-in;
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter);
@@ -170,17 +170,17 @@
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter-expressive);
 }
-.seed-bottom-sheet__content--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points='false']:not([data-animation-done='true']) {
+.seed-bottom-sheet__content--skipAnimation_false[data-state="open"][data-snap-points='false']:not([data-animation-done='true']), .seed-bottom-sheet__content--skipAnimation_false[data-open][data-snap-points='false']:not([data-animation-done='true']) {
     animation-name: drawer-slide-from-bottom;
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter-expressive);
 }
-.seed-bottom-sheet__content--skipAnimation_false:not(:is([data-state="open"], [data-open]))[data-snap-points='false'] {
+.seed-bottom-sheet__content--skipAnimation_false:not([data-state="open"]):not([data-open])[data-snap-points='false'] {
     animation-name: drawer-slide-to-bottom;
     animation-duration: var(--seed-duration-d4);
     animation-timing-function: var(--seed-timing-function-exit);
 }
-.seed-bottom-sheet__content--skipAnimation_false:is([data-state="open"], [data-open])[data-delayed-snap-points='true']:not([data-animation-done='true']) {
+.seed-bottom-sheet__content--skipAnimation_false[data-state="open"][data-delayed-snap-points='true']:not([data-animation-done='true']), .seed-bottom-sheet__content--skipAnimation_false[data-open][data-delayed-snap-points='true']:not([data-animation-done='true']) {
     animation-name: drawer-slide-from-bottom;
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter-expressive);

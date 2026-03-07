@@ -79,7 +79,7 @@
 .seed-slider__thumb[data-thumb-dragging]::after {
     transform: scale(1.2);
 }
-.seed-slider__thumb:is(:focus, [data-focus]) {
+.seed-slider__thumb:focus, .seed-slider__thumb[data-focus] {
 }
 .seed-slider__markers {
     position: relative;
