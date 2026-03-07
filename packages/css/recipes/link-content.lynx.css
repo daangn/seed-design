@@ -3,7 +3,6 @@
     align-items: center;
     background-color: transparent;
     border: none;
-    outline: none;
     --seed-suffix-icon-color: var(--seed-box-color)
 }.seed-link-content__text {
     --seed-suffix-icon-color: var(--seed-box-color)

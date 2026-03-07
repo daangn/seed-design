@@ -19,7 +19,6 @@
 .seed-text-input__value {
     background: none;
     border: none;
-    outline: none;
     flex-grow: 1;
     align-self: stretch;
     color: var(--seed-color-fg-neutral);

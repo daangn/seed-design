@@ -20,14 +20,12 @@
     right: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
-    outline: var(--seed-dimension-x0_5) solid transparent;
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-image-frame-reaction-button__text::before {
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-image-frame-reaction-button:is(:focus, [data-focus]) {
-    outline: none;
 }
 .seed-image-frame-reaction-button:is([aria-pressed=true], [data-pressed]) {
     --seed-icon-color: var(--seed-color-bg-transparent);

@@ -5,7 +5,6 @@
     justify-content: center;
     border: none;
     flex-shrink: 0;
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }.seed-toggle-button__text {
     font-family: inherit;
 }

@@ -36,7 +36,6 @@
     padding: 0;
     border-radius: var(--seed-radius-r1);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }
 .seed-app-bar__icon {
     display: inline-block;

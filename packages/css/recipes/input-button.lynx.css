@@ -45,7 +45,6 @@
     background-color: var(--seed-color-bg-disabled);
 }
 .seed-input-button__button {
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }
 .seed-input-button__button:is(:invalid, [data-invalid])::after {
     border-width: 2px;
@@ -117,7 +116,6 @@
     padding: 0;
     border-radius: var(--seed-radius-full);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }
 .seed-input-button__clearButton {
     --seed-icon-size: 22px;

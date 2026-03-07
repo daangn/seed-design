@@ -8,7 +8,6 @@
     font-family: inherit;
 }
 .seed-extended-fab:is(:focus, [data-focus]) {
-    outline: none;
 }
 .seed-extended-fab[data-disabled] {
 }

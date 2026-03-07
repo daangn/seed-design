@@ -24,7 +24,6 @@
     font-weight: var(--seed-font-weight-medium);
 }
 .seed-control-chip:is(:focus, [data-focus]) {
-    outline: none;
 }
 .seed-control-chip[data-active] {
     background: var(--seed-color-bg-layer-default-pressed);

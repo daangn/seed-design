@@ -25,7 +25,6 @@
     margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
     margin-left: calc(var(--seed-box-bleed-left) * -1);
     margin-right: calc(var(--seed-box-bleed-right) * -1);
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }.seed-action-button__text {
     --seed-box-flex-grow: initial;
     --seed-box-min-width: initial;

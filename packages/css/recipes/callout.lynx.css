@@ -18,7 +18,6 @@
 }
 .seed-callout__root:is(button, a) {
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }
 .seed-callout__content {
     margin-right: auto;
@@ -49,7 +48,6 @@
     font-weight: var(--seed-font-weight-regular);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     border-radius: var(--seed-radius-r1);
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }
 .seed-callout__closeButton {
     border: none;
@@ -65,7 +63,6 @@
     margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -0.5);
     border-radius: var(--seed-radius-r2_5);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }
 .seed-callout__root--tone_neutral {
     background-color: var(--seed-color-bg-neutral-weak);

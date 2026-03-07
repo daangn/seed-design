@@ -22,7 +22,6 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     overflow: hidden;
     transform: translateZ(0);
 }
@@ -35,7 +34,6 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     overflow: hidden;
     border-radius: var(--seed-radius-full);
     transform: translateZ(0);

@@ -35,7 +35,6 @@
     box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-muted);
 }
 .seed-select-box__root {
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }
 .seed-select-box__trigger {
     display: flex;

@@ -49,6 +49,12 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     "text-underline-offset": "Lynx에서 미지원",
     resize: "Lynx에서 미지원",
     "outline-offset": "Lynx에서 미지원",
+    outline: "Lynx에서 미지원",
+    "outline-color": "Lynx에서 미지원",
+    "outline-style": "Lynx에서 미지원",
+    "outline-width": "Lynx에서 미지원",
+    "object-fit": "Lynx에서 미지원",
+    "object-position": "Lynx에서 미지원",
     translate: "Lynx에서 미지원, transform: translate() 사용",
     // Mask (표준 + webkit)
     "mask-image": "Lynx에서 미지원",
@@ -202,10 +208,6 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     "box-shadow",
     "opacity",
     "filter",
-    "outline",
-    "outline-color",
-    "outline-style",
-    "outline-width",
 
     // Transform & Animation
     "transform",
@@ -229,8 +231,6 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     "clip-path",
     "pointer-events",
     "image-rendering",
-    "object-fit",
-    "object-position",
   ],
 
   expandShorthands: {

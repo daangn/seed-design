@@ -4,7 +4,6 @@
     justify-content: center;
     border: none;
     font-family: inherit;
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }
 .seed-floating-action-button__root[data-disabled] {
 }

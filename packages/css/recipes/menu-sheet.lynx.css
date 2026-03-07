@@ -97,7 +97,6 @@
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-menu-sheet__closeButton {
-    outline: var(--seed-dimension-x0_5) solid transparent;
 }
 .seed-menu-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open]) {
     animation: seed-enter;

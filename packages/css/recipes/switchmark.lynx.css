@@ -10,7 +10,6 @@
     opacity: 0.38;
 }
 .seed-switchmark__root {
-    outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid transparent);
 }
 .seed-switchmark__thumb {
     border-radius: var(--seed-radius-full);

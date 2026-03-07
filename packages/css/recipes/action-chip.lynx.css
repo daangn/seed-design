@@ -27,7 +27,6 @@
     background: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-action-chip:is(:focus, [data-focus]) {
-    outline: none;
 }
 .seed-action-chip[data-disabled] {
     background: var(--seed-color-bg-disabled);

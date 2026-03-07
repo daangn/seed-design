@@ -858,7 +858,6 @@
   margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
   margin-left: calc(var(--seed-box-bleed-left) * -1);
   margin-right: calc(var(--seed-box-bleed-right) * -1);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   border: none;
   justify-content: center;
   align-items: center;
@@ -1423,7 +1422,6 @@
 }
 
 .seed-action-chip:is(:focus, [data-focus]) {
-  outline: none;
 }
 
 .seed-action-chip[data-disabled] {
@@ -1686,7 +1684,6 @@
 }
 
 .seed-aspect-ratio > img, .seed-aspect-ratio > video {
-  object-fit: cover;
 }
 
 .seed-app-bar__root {
@@ -1724,7 +1721,6 @@
 .seed-app-bar__iconButton {
   border-radius: var(--seed-radius-r1);
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   background: none;
   border: none;
   justify-content: center;
@@ -2501,7 +2497,6 @@
 }
 
 .seed-avatar__image {
-  object-fit: cover;
   width: 100%;
   height: 100%;
   display: block;
@@ -2514,7 +2509,6 @@
 }
 
 .seed-avatar__fallback {
-  object-fit: cover;
   border-radius: var(--seed-radius-full);
   width: 100%;
   height: 100%;
@@ -3025,7 +3019,6 @@
 }
 
 .seed-bottom-sheet__closeButton:after {
-  outline: var(--seed-dimension-x0_5) solid transparent;
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   position: absolute;
   top: -8px;
@@ -3035,7 +3028,6 @@
 }
 
 .seed-bottom-sheet__closeButton:is(:focus, [data-focus]) {
-  outline: none;
 }
 
 .seed-bottom-sheet__header--headerAlign_left {
@@ -3154,7 +3146,6 @@
 
 .seed-callout__root:is(button, a) {
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
 }
 
 .seed-callout__content {
@@ -3187,7 +3178,6 @@
   font-weight: var(--seed-font-weight-regular);
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   border-radius: var(--seed-radius-r1);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   background-color: #0000;
   border: none;
   padding: 0;
@@ -3200,7 +3190,6 @@
   margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
   border-radius: var(--seed-radius-r2_5);
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   background-color: #0000;
   border: none;
   flex-grow: 0;
@@ -3353,7 +3342,6 @@
 .seed-checkmark__root {
   margin-top: var(--checkmark-margin-top, 0);
   transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid transparent);
   flex: none;
   position: relative;
 }
@@ -3488,7 +3476,6 @@
   border-radius: var(--seed-radius-full);
   transition-duration: var(--seed-duration-color-transition);
   transition-timing-function: var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   border: none;
   flex-shrink: 0;
   justify-content: center;
@@ -3738,7 +3725,6 @@
   font-family: inherit;
   font-weight: var(--seed-font-weight-medium);
   transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   border: none;
   justify-content: center;
   align-items: center;
@@ -3915,7 +3901,6 @@
 }
 
 .seed-contextual-floating-button {
-  outline: var(--seed-dimension-x0_5) solid transparent;
   border: none;
   justify-content: center;
   align-items: center;
@@ -4091,7 +4076,6 @@
 }
 
 .seed-control-chip:is(:focus, [data-focus]) {
-  outline: none;
 }
 
 .seed-control-chip[data-active] {
@@ -4489,7 +4473,6 @@
 }
 
 .seed-extended-fab:is(:focus, [data-focus]) {
-  outline: none;
 }
 
 .seed-extended-fab[data-disabled] {
@@ -4578,7 +4561,6 @@
 }
 
 .seed-fab:is(:focus, [data-focus]) {
-  outline: none;
 }
 
 .seed-fab[data-disabled] {
@@ -4716,7 +4698,6 @@
 }
 
 .seed-floating-action-button__root {
-  outline: var(--seed-dimension-x0_5) solid transparent;
   border: none;
   justify-content: center;
   align-items: center;
@@ -4876,7 +4857,6 @@
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
   border-radius: var(--seed-radius-r3);
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   background: none;
   border: none;
   justify-content: center;
@@ -4895,7 +4875,6 @@
 }
 
 .seed-identity-placeholder__image {
-  object-fit: cover;
   width: 100%;
   height: 100%;
   display: block;
@@ -4909,7 +4888,6 @@
 }
 
 .seed-image-frame > img, .seed-image-frame > video {
-  object-fit: cover;
   border-radius: inherit;
   width: 100%;
   height: 100%;
@@ -4988,7 +4966,6 @@
   right: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
   bottom: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
   left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   position: absolute;
 }
@@ -4998,7 +4975,6 @@
 }
 
 .seed-image-frame-reaction-button:is(:focus, [data-focus]) {
-  outline: none;
 }
 
 .seed-image-frame-reaction-button:is([aria-pressed="true"], [data-pressed]) {
@@ -5207,7 +5183,6 @@
 }
 
 .seed-input-button__button {
-  outline: var(--seed-dimension-x0_5) solid transparent;
 }
 
 .seed-input-button__button:is(:invalid, [data-invalid]):after {
@@ -5288,7 +5263,6 @@
 .seed-input-button__clearButton {
   border-radius: var(--seed-radius-full);
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   background-color: #0000;
   border: none;
   padding: 0;
@@ -5303,7 +5277,6 @@
   --seed-suffix-icon-color: var(--seed-box-color);
   background-color: #0000;
   border: none;
-  outline: none;
   align-items: center;
   display: inline-flex;
 }
@@ -5449,7 +5422,6 @@
 }
 
 .seed-list-item__content:after {
-  outline: var(--seed-dimension-x0_5) solid transparent;
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   position: absolute;
   top: 0;
@@ -5459,7 +5431,6 @@
 }
 
 .seed-list-item__content:is(:focus, [data-focus]) {
-  outline: none;
 }
 
 .seed-list-item__content:before {
@@ -5784,7 +5755,6 @@
 }
 
 .seed-menu-sheet__closeButton {
-  outline: var(--seed-dimension-x0_5) solid transparent;
 }
 
 .seed-menu-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open]) {
@@ -5862,7 +5832,6 @@
 
 .seed-menu-sheet-item__root {
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
 }
 
 .seed-menu-sheet-item__root {
@@ -6003,7 +5972,6 @@
 
 .seed-page-banner__root:is(button) {
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
 }
 
 .seed-page-banner__content {
@@ -6045,7 +6013,6 @@
   font-weight: var(--seed-font-weight-bold);
   border-radius: var(--seed-radius-r1);
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   background-color: #0000;
   border: none;
   align-items: center;
@@ -6060,7 +6027,6 @@
   --seed-suffix-icon-margin-left: initial;
   border-radius: var(--seed-radius-r1);
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   background-color: #0000;
   border: none;
   flex-grow: 0;
@@ -6353,7 +6319,6 @@
   border-radius: var(--seed-radius-full);
   margin-top: var(--radiomark-margin-top, 0);
   transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid transparent);
   flex: none;
   justify-content: center;
   align-items: center;
@@ -6447,7 +6412,6 @@
 }
 
 .seed-reaction-button {
-  outline: var(--seed-dimension-x0_5) solid transparent;
   border: none;
   flex-shrink: 0;
   justify-content: center;
@@ -6650,7 +6614,6 @@
 }
 
 .seed-segmented-control__item {
-  outline: var(--seed-dimension-x0_5) solid transparent;
 }
 
 .seed-segmented-control__item[data-disabled] {
@@ -6713,7 +6676,6 @@
 }
 
 .seed-select-box__root {
-  outline: var(--seed-dimension-x0_5) solid transparent;
 }
 
 .seed-select-box__trigger {
@@ -6989,7 +6951,6 @@
 .seed-slider__thumb:after {
   background-color: var(--seed-color-bg-neutral-inverted);
   border-radius: var(--seed-radius-full);
-  outline: var(--seed-dimension-x0_5) solid transparent;
   transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   position: absolute;
   top: 0;
@@ -7011,7 +6972,6 @@
 }
 
 .seed-slider__thumb:is(:focus, [data-focus]) {
-  outline: none;
 }
 
 .seed-slider__markers {
@@ -7263,7 +7223,6 @@
 
 .seed-snackbar__root {
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
 }
 
 .seed-snackbar__content {
@@ -7309,7 +7268,6 @@
   top: 50%;
   left: calc(-1 * var(--seed-dimension-x2));
   right: calc(-1 * var(--seed-dimension-x2));
-  outline: var(--seed-dimension-x0_5) solid transparent;
   min-height: 44px;
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   background: none;
@@ -7318,7 +7276,6 @@
 }
 
 .seed-snackbar__actionButton:is(:focus, [data-focus]) {
-  outline: none;
 }
 
 .seed-snackbar__prefixIcon--variant_default {
@@ -7426,7 +7383,6 @@
 }
 
 .seed-switchmark__root {
-  outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid transparent);
 }
 
 .seed-switchmark__thumb {
@@ -7589,7 +7545,6 @@
 
 .seed-tabs__trigger {
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
 }
 
 .seed-tabs__list--triggerLayout_fill {
@@ -8545,7 +8500,6 @@
   font-weight: var(--seed-font-weight-regular);
   background: none;
   border: none;
-  outline: none;
   flex-grow: 1;
   align-self: stretch;
   padding-left: 0;
@@ -8725,7 +8679,6 @@
 }
 
 .seed-toggle-button {
-  outline: var(--seed-dimension-x0_5) solid transparent;
   border: none;
   flex-shrink: 0;
   justify-content: center;

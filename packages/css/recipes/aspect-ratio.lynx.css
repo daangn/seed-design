@@ -21,5 +21,4 @@
     align-items: center;
 }
 .seed-aspect-ratio > img, .seed-aspect-ratio > video {
-    object-fit: cover;
 }
