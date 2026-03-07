@@ -6,7 +6,8 @@
     font-family: inherit;
     outline: var(--seed-dimension-x0_5) solid transparent;
 }
-.seed-floating-action-button__root[data-disabled] {}
+.seed-floating-action-button__root[data-disabled] {
+}
 .seed-floating-action-button__root {
     position: relative;
     overflow: hidden;

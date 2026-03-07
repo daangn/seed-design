@@ -4,8 +4,7 @@
     height: 100%;
     background-color: var(--seed-color-fg-neutral-inverted);
     transform: translate(-50%, -50%);
-}
-.seed-slider-tick__text {
+}.seed-slider-tick__text {
     transform: translate(-50%, -50%);
 }
 .seed-slider-tick[data-dir='ltr'] {

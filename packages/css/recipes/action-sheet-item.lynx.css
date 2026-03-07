@@ -5,8 +5,7 @@
     position: relative;
     background-color: var(--seed-color-bg-layer-floating);
     min-height: 50px;
-}
-.seed-action-sheet-item__text {
+}.seed-action-sheet-item__text {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);

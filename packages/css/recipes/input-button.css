@@ -44,14 +44,14 @@
     background-color: var(--seed-color-bg-disabled);
 }
 @media (hover: hover) {
-    .seed-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:hover, [data-hover]) {
-        background-color: var(--seed-color-bg-transparent-pressed);
-    }
+.seed-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:hover, [data-hover]) {
+    background-color: var(--seed-color-bg-transparent-pressed);
+}
 }
 @media (hover: none) {
-    .seed-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:active, [data-active]) {
-        background-color: var(--seed-color-bg-transparent-pressed);
-    }
+.seed-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-transparent-pressed);
+}
 }
 .seed-input-button__button:is([data-readonly]):not([data-disabled]) {
     cursor: default;

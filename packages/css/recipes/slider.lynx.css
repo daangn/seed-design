@@ -5,8 +5,10 @@
     width: 100%;
     gap: var(--seed-dimension-x0_5);
 }
-.seed-slider__root[data-dragging] {}
-.seed-slider__root[data-disabled] {}
+.seed-slider__root[data-dragging] {
+}
+.seed-slider__root[data-disabled] {
+}
 .seed-slider__control {
     position: relative;
     height: 26px;

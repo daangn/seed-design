@@ -4,11 +4,11 @@
     justify-content: center;
     border: none;
     outline: var(--seed-dimension-x0_5) solid transparent;
-}
-.seed-contextual-floating-button__text {
+}.seed-contextual-floating-button__text {
     font-family: inherit;
 }
-.seed-contextual-floating-button[data-disabled] {}
+.seed-contextual-floating-button[data-disabled] {
+}
 .seed-contextual-floating-button {
     border-radius: var(--seed-radius-full);
     box-shadow: var(--seed-shadow-s3);

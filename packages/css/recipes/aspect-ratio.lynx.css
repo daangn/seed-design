@@ -1,7 +1,6 @@
 .seed-aspect-ratio {
     --seed-aspect-ratio-padding: 75%;
-}
-.seed-aspect-ratio__text {
+}.seed-aspect-ratio__text {
     --seed-aspect-ratio-padding: 75%;
 }
 .seed-aspect-ratio::before {

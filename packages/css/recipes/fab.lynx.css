@@ -3,14 +3,14 @@
     align-items: center;
     justify-content: center;
     border: none;
-}
-.seed-fab__text {
+}.seed-fab__text {
     font-family: inherit;
 }
 .seed-fab:is(:focus, [data-focus]) {
     outline: none;
 }
-.seed-fab[data-disabled] {}
+.seed-fab[data-disabled] {
+}
 .seed-fab {
     background: var(--seed-color-bg-layer-floating);
     border-radius: var(--seed-radius-full);

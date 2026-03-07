@@ -3,8 +3,7 @@
     align-items: center;
     justify-content: center;
     background-color: var(--seed-color-bg-brand-solid)
-}
-.seed-notification-badge__text {
+}.seed-notification-badge__text {
     text-align: start;
     color: var(--seed-color-palette-static-white)
 }

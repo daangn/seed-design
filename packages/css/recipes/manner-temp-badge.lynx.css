@@ -8,8 +8,7 @@
     padding-right: var(--seed-dimension-x1_5);
     padding-top: var(--seed-dimension-x0_5);
     padding-bottom: var(--seed-dimension-x0_5)
-}
-.seed-manner-temp-badge__text {
+}.seed-manner-temp-badge__text {
     text-align: start;
     font-size: var(--seed-font-size-t1);
     line-height: var(--seed-line-height-t1);

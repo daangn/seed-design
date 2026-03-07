@@ -3,8 +3,7 @@
     top: 0;
     bottom: 0;
     width: max-content;
-}
-.seed-slider-marker__text {
+}.seed-slider-marker__text {
     color: var(--seed-color-fg-neutral-muted);
     font-weight: var(--seed-font-weight-regular);
     font-size: var(--seed-font-size-t3);

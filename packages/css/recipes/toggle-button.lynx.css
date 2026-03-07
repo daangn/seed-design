@@ -6,11 +6,11 @@
     border: none;
     flex-shrink: 0;
     outline: var(--seed-dimension-x0_5) solid transparent;
-}
-.seed-toggle-button__text {
+}.seed-toggle-button__text {
     font-family: inherit;
 }
-.seed-toggle-button[data-disabled] {}
+.seed-toggle-button[data-disabled] {
+}
 .seed-toggle-button {
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }

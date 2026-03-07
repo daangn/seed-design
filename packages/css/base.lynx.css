@@ -310,6 +310,15 @@
   font-weight: var(--seed-font-weight-bold);
 }
 
+:root, [data-seed-color-mode="system"] {
+}
+
+[data-seed-color-mode="light-only"] {
+}
+
+[data-seed-color-mode="dark-only"] {
+}
+
 :root {
   --seed-dimension-x0_5: 2px;
   --seed-dimension-x1: 4px;
@@ -863,29 +872,23 @@
 
 @keyframes progress-circle-head {
   0% {
-    
   }
 
   75% {
-    
   }
 
   100% {
-    
   }
 }
 
 @keyframes progress-circle-tail {
   0% {
-    
   }
 
   33.33% {
-    
   }
 
   100% {
-    
   }
 }
 

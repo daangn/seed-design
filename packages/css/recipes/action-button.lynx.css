@@ -26,8 +26,7 @@
     margin-left: calc(var(--seed-box-bleed-left) * -1);
     margin-right: calc(var(--seed-box-bleed-right) * -1);
     outline: var(--seed-dimension-x0_5) solid transparent;
-}
-.seed-action-button__text {
+}.seed-action-button__text {
     --seed-box-flex-grow: initial;
     --seed-box-min-width: initial;
     --seed-box-padding-bottom: initial;
@@ -40,7 +39,8 @@
     --seed-box-bleed-right: 0px;
     font-family: inherit;
 }
-.seed-action-button[data-disabled] {}
+.seed-action-button[data-disabled] {
+}
 .seed-action-button {
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }

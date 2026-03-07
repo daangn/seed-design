@@ -8,17 +8,16 @@
     --seed-suffix-icon-margin-right: calc(var(--seed-dimension-x1) * -1);
     --seed-suffix-icon-margin-top: calc(var(--seed-dimension-x1) * -1);
     --seed-suffix-icon-margin-bottom: calc(var(--seed-dimension-x1) * -1)
-}
-.seed-manner-temp__text {
+}.seed-manner-temp__text {
     --seed-suffix-icon-size: var(--seed-dimension-x8);
     --seed-suffix-icon-margin-left: calc(var(--seed-dimension-x1) * -1);
     --seed-suffix-icon-margin-right: calc(var(--seed-dimension-x1) * -1);
     --seed-suffix-icon-margin-top: calc(var(--seed-dimension-x1) * -1);
-    --seed-suffix-icon-margin-bottom: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-bottom: calc(var(--seed-dimension-x1) * -1)
+;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
-    font-weight: var(--seed-font-weight-bold)
-}
+    font-weight: var(--seed-font-weight-bold)}
 .seed-manner-temp__text--level_l1 {
     color: var(--seed-color-manner-temp-l1-text)
 }

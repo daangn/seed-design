@@ -4,10 +4,10 @@
     height: 100%;
     width: 100%;
     --scroll-fog-from-color: #00000000;
-    --scroll-fog-to-color: #000000ff
-}
-.seed-scroll-fog__text {
+    --scroll-fog-to-color: #000000ff;
+}.seed-scroll-fog__text {
     --scroll-fog-from-color: #00000000;
-    --scroll-fog-to-color: #000000ff
+    --scroll-fog-to-color: #000000ff;
 }
-.seed-scroll-fog--hideScrollBar_true {}
+.seed-scroll-fog--hideScrollBar_true {
+}

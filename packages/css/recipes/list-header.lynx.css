@@ -8,8 +8,7 @@
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x2);
     padding-bottom: var(--seed-dimension-x2)
-}
-.seed-list-header__text {
+}.seed-list-header__text {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4)
 }

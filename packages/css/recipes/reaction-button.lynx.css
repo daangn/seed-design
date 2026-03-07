@@ -6,8 +6,7 @@
     border: none;
     flex-shrink: 0;
     outline: var(--seed-dimension-x0_5) solid transparent;
-}
-.seed-reaction-button__text {
+}.seed-reaction-button__text {
     font-family: inherit;
 }
 .seed-reaction-button {

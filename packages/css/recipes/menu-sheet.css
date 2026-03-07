@@ -97,14 +97,14 @@
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 @media (hover: hover) {
-    .seed-menu-sheet__closeButton:is(:hover, [data-hover]) {
-        background-color: var(--seed-color-bg-neutral-weak-pressed);
-    }
+.seed-menu-sheet__closeButton:is(:hover, [data-hover]) {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+}
 }
 @media (hover: none) {
-    .seed-menu-sheet__closeButton:is(:active, [data-active]) {
-        background-color: var(--seed-color-bg-neutral-weak-pressed);
-    }
+.seed-menu-sheet__closeButton:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+}
 }
 .seed-menu-sheet__closeButton {
     outline: var(--seed-dimension-x0_5) solid transparent;

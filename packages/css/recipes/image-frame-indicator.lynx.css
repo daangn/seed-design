@@ -8,8 +8,7 @@
     padding-right: var(--seed-dimension-x1_5);
     padding-top: var(--seed-dimension-x0_5);
     padding-bottom: var(--seed-dimension-x0_5)
-}
-.seed-image-frame-indicator__text {
+}.seed-image-frame-indicator__text {
     color: var(--seed-color-palette-static-white);
     font-size: var(--seed-font-size-t1);
     line-height: var(--seed-line-height-t1);

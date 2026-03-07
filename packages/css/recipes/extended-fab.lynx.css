@@ -4,14 +4,14 @@
     justify-content: center;
     border: none;
     flex-shrink: 0;
-}
-.seed-extended-fab__text {
+}.seed-extended-fab__text {
     font-family: inherit;
 }
 .seed-extended-fab:is(:focus, [data-focus]) {
     outline: none;
 }
-.seed-extended-fab[data-disabled] {}
+.seed-extended-fab[data-disabled] {
+}
 .seed-extended-fab {
     border-radius: var(--seed-radius-full);
     box-shadow: 0px 2px 6px 0px #00000026;

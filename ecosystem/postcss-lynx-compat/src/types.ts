@@ -23,6 +23,9 @@ export interface LynxCompatConfig {
   /** true이면 미등록 프로퍼티를 경고로 처리 (기본: false → 에러) */
   warnOnly?: boolean;
 
+  /** shorthand → longhand 확장 규칙 → { shorthand: (value) => Declaration[] } */
+  expandShorthands?: Record<string, (value: string) => Array<{ prop: string; value: string }>>;
+
   /** 텍스트 슬롯 분리 설정 — 단일 recipe CSS를 view/text로 분리 */
   textSlot?: {
     /** text 슬롯 클래스 접미사 (예: "__text") */

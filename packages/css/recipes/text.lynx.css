@@ -8,8 +8,7 @@
     --seed-user-select: inherit;
     --seed-white-space: inherit;
     --seed-max-lines: initial
-}
-.seed-text__text {
+}.seed-text__text {
     --seed-text-color: inherit;
     --seed-font-size: inherit;
     --seed-font-weight: inherit;
@@ -17,13 +16,13 @@
     --seed-text-align: inherit;
     --seed-user-select: inherit;
     --seed-white-space: inherit;
-    --seed-max-lines: initial;
+    --seed-max-lines: initial
+;
     color: var(--seed-text-color);
     font-size: var(--seed-font-size);
     font-weight: var(--seed-font-weight);
     line-height: var(--seed-line-height);
-    text-align: var(--seed-text-align)
-}
+    text-align: var(--seed-text-align)}
 .seed-text--textStyle_screenTitle {
     --seed-font-size: var(--seed-font-size-t10);
     --seed-line-height: var(--seed-line-height-t10);
@@ -557,6 +556,9 @@
 .seed-text__text--maxLines_multi {
     text-overflow: ellipsis
 }
-.seed-text--textDecorationLine_none {}
-.seed-text--textDecorationLine_line-through {}
-.seed-text--textDecorationLine_underline {}
+.seed-text--textDecorationLine_none {
+}
+.seed-text--textDecorationLine_line-through {
+}
+.seed-text--textDecorationLine_underline {
+}

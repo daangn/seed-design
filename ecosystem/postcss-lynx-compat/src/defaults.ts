@@ -233,6 +233,40 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     "object-position",
   ],
 
+  expandShorthands: {
+    // inset: <value> → top/right/bottom/left 개별 프로퍼티로 확장
+    inset: (value: string) => {
+      const parts = value.split(/\s+/);
+      let top: string;
+      let right: string;
+      let bottom: string;
+      let left: string;
+
+      if (parts.length === 1) {
+        top = right = bottom = left = parts[0];
+      } else if (parts.length === 2) {
+        top = bottom = parts[0];
+        right = left = parts[1];
+      } else if (parts.length === 3) {
+        top = parts[0];
+        right = left = parts[1];
+        bottom = parts[2];
+      } else {
+        top = parts[0];
+        right = parts[1];
+        bottom = parts[2];
+        left = parts[3];
+      }
+
+      return [
+        { prop: "top", value: top },
+        { prop: "right", value: right },
+        { prop: "bottom", value: bottom },
+        { prop: "left", value: left },
+      ];
+    },
+  },
+
   clampStrategy: "preferred",
 
   warnOnly: false,

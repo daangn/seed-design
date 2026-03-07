@@ -31,7 +31,8 @@
     --tag-group-item-text-overflow: clip;
     --tag-group-item-white-space: normal
 }
-.seed-tag-group__separator--truncate_false {}
+.seed-tag-group__separator--truncate_false {
+}
 .seed-tag-group__root--size_t2-truncate_false {
     line-height: var(--seed-line-height-t2)
 }

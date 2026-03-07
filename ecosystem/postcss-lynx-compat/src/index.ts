@@ -100,6 +100,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     supportedProperties: opts.supportedProperties ?? defaultConfig.supportedProperties,
     clampStrategy: opts.clampStrategy ?? defaultConfig.clampStrategy,
     warnOnly: opts.warnOnly ?? defaultConfig.warnOnly,
+    expandShorthands: { ...defaultConfig.expandShorthands, ...opts.expandShorthands },
     textSlot: opts.textSlot ?? defaultConfig.textSlot,
   };
 
@@ -148,62 +149,84 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       }
     },
 
-    // Phase 3: 프로퍼티 & 값 처리
-    Declaration(decl) {
-      const prop = decl.prop;
+    // Phase 3–5 모두 OnceExit에서 처리 (postcss-nested 실행 후)
+    OnceExit(root) {
+      // Phase 3: 프로퍼티 & 값 처리
+      root.walkDecls((decl) => {
+        const prop = decl.prop;
 
-      // CSS custom property (--*) → 항상 통과, 값만 clamp 처리
-      if (prop.startsWith("--")) {
+        // CSS custom property (--*) → 항상 통과, 값만 clamp 처리
+        if (prop.startsWith("--")) {
+          if (decl.value.includes("clamp(")) {
+            decl.value = resolveClamp(decl.value, config.clampStrategy);
+          }
+          return;
+        }
+
+        // vendor prefix (-webkit-*, -moz-*, -ms-*, -o-*) → Lynx 미지원이므로 제거
+        if (
+          prop.startsWith("-webkit-") ||
+          prop.startsWith("-moz-") ||
+          prop.startsWith("-ms-") ||
+          prop.startsWith("-o-")
+        ) {
+          decl.remove();
+          return;
+        }
+
+        // shorthand 확장 (inset 등)
+        if (prop in config.expandShorthands) {
+          const expanded = config.expandShorthands[prop](decl.value);
+          for (const { prop: newProp, value: newValue } of expanded) {
+            decl.before({ prop: newProp, value: newValue });
+          }
+          decl.remove();
+          return;
+        }
+
+        // clamp() 값 변환 (일반 프로퍼티)
         if (decl.value.includes("clamp(")) {
           decl.value = resolveClamp(decl.value, config.clampStrategy);
         }
-        return;
-      }
 
-      // clamp() 값 변환 (일반 프로퍼티)
-      if (decl.value.includes("clamp(")) {
-        decl.value = resolveClamp(decl.value, config.clampStrategy);
-      }
+        // remove 목록에 등록 → 제거
+        if (prop in removeMap) {
+          decl.remove();
+          return;
+        }
 
-      // remove 목록에 등록 → 제거
-      if (prop in removeMap) {
-        decl.remove();
-        return;
-      }
+        // suggestions 목록에 등록 → 빌드 에러 + 대안 메시지
+        if (prop in suggestionsMap) {
+          const suggestion = suggestionsMap[prop];
+          const message = `Lynx에서 "${prop}"은 지원되지 않습니다. ${suggestion}`;
+          if (config.warnOnly) {
+            console.warn(`[postcss-lynx-compat] ${message}`);
+            return;
+          }
+          throw decl.error(message, {
+            plugin: PLUGIN_NAME,
+          });
+        }
 
-      // suggestions 목록에 등록 → 빌드 에러 + 대안 메시지
-      if (prop in suggestionsMap) {
-        const suggestion = suggestionsMap[prop];
-        const message = `Lynx에서 "${prop}"은 지원되지 않습니다. ${suggestion}`;
+        // supportedProperties에 등록 → 통과
+        if (supportedSet.has(prop)) {
+          return;
+        }
+
+        // 미등록 프로퍼티 → 에러 또는 경고
+        const message =
+          `"${prop}"은(는) Lynx 호환 설정에 등록되지 않았습니다. ` +
+          "remove, suggestions, 또는 supportedProperties에 추가해주세요.";
+
         if (config.warnOnly) {
           console.warn(`[postcss-lynx-compat] ${message}`);
           return;
         }
-        throw decl.error(message, {
-          plugin: PLUGIN_NAME,
-        });
-      }
 
-      // supportedProperties에 등록 → 통과
-      if (supportedSet.has(prop)) {
-        return;
-      }
+        throw decl.error(message, { plugin: PLUGIN_NAME });
+      });
 
-      // 미등록 프로퍼티 → 에러 또는 경고
-      const message =
-        `"${prop}"은(는) Lynx 호환 설정에 등록되지 않았습니다. ` +
-        "remove, suggestions, 또는 supportedProperties에 추가해주세요.";
-
-      if (config.warnOnly) {
-        console.warn(`[postcss-lynx-compat] ${message}`);
-        return;
-      }
-
-      throw decl.error(message, { plugin: PLUGIN_NAME });
-    },
-
-    // Phase 5: Text Slot Splitting — view/text CSS 프로퍼티 분리
-    OnceExit(root) {
+      // Phase 5: Text Slot Splitting — view/text CSS 프로퍼티 분리
       if (!config.textSlot) return;
 
       const { suffix, textProperties, sharedProperties } = config.textSlot;

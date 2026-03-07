@@ -14,7 +14,8 @@
     transition-property: background-color, color, border-color, box-shadow, outline-color;
     outline: var(--seed-dimension-x0_5) solid transparent;
 }
-.seed-chip__root[data-disabled] {}
+.seed-chip__root[data-disabled] {
+}
 .seed-chip__label {
     display: inline-flex;
     align-items: center;
