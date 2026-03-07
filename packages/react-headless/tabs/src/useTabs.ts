@@ -407,25 +407,31 @@ export function useTabs(props: UseTabsProps) {
         switch (event.key) {
           case "ArrowLeft":
             if (orientation !== "horizontal") return;
+            event.preventDefault();
             events.arrowPrev();
             break;
           case "ArrowRight":
             if (orientation !== "horizontal") return;
+            event.preventDefault();
             events.arrowNext();
             break;
           case "ArrowUp":
             if (orientation !== "vertical") return;
+            event.preventDefault();
             events.arrowPrev();
             break;
           case "ArrowDown":
             if (orientation !== "vertical") return;
+            event.preventDefault();
             events.arrowNext();
             break;
           case "Home": {
+            event.preventDefault();
             events.home();
             break;
           }
           case "End": {
+            event.preventDefault();
             events.end();
             break;
           }
