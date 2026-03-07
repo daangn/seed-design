@@ -26,9 +26,6 @@
     "build": "tsc",
     "lint:publish": "bun publint"
   },
-  "dependencies": {
-    "clsx": "^2.1.1"
-  },
   "peerDependencies": {
     "@seed-design/css": ">=1.1.17",
     "@lynx-js/react": ">=0.100.0"

@@ -1,8 +1,7 @@
 import {
   actionButton,
   type ActionButtonVariantProps,
-} from "@seed-design/css/recipes/action-button.lynx";
-import clsx from "clsx";
+} from "@seed-design/css/recipes/action-button";
 import type { ReactNode } from "react";
 
 export interface ActionButtonProps extends ActionButtonVariantProps {
@@ -16,8 +15,8 @@ export interface ActionButtonProps extends ActionButtonVariantProps {
 }
 
 export function ActionButton({
-  variant,
-  size,
+  variant = "brandSolid",
+  size = "medium",
   layout = "withText",
   disabled = false,
   loading = false,
@@ -26,23 +25,24 @@ export function ActionButton({
   flexGrow,
   bindtap,
   "main-thread:bindtap": mainThreadBindtap,
-  ...rest
 }: ActionButtonProps) {
   const classes = actionButton({ variant, size, layout });
   const isInteractive = !disabled && !loading;
 
   return (
     <view
-      className={clsx(classes.root, className)}
+      className={className ? `${classes} ${className}` : `${classes}`}
       style={flexGrow != null ? { flexGrow } : undefined}
       data-disabled={disabled || undefined}
       data-loading={loading || undefined}
       {...(isInteractive && bindtap && { bindtap })}
-      {...(isInteractive && mainThreadBindtap && { "main-thread:bindtap": mainThreadBindtap })}
-      {...rest}
+      {...(isInteractive &&
+        mainThreadBindtap && {
+          "main-thread:bindtap": mainThreadBindtap,
+        })}
     >
       <text
-        className={classes.text}
+        className={`seed-action-button--variant_${variant} seed-action-button--size_${size}-layout_${layout}`}
         data-disabled={disabled || undefined}
         data-loading={loading || undefined}
       >

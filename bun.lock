@@ -451,9 +451,6 @@
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
       "version": "0.1.0",
-      "dependencies": {
-        "clsx": "^2.1.1",
-      },
       "devDependencies": {
         "@lynx-js/react": "^0.116.3",
         "@types/react": "^19.2.2",
