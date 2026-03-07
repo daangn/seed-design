@@ -198,6 +198,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     transformSelectors: { ...defaultConfig.transformSelectors, ...opts.transformSelectors },
     removeAtRules: opts.removeAtRules ?? defaultConfig.removeAtRules,
     removeSelectors: opts.removeSelectors ?? defaultConfig.removeSelectors,
+    filterPseudoClasses: opts.filterPseudoClasses ?? defaultConfig.filterPseudoClasses,
     suggestions: { ...defaultConfig.suggestions, ...opts.suggestions },
     supportedProperties: opts.supportedProperties ?? defaultConfig.supportedProperties,
     clampStrategy: opts.clampStrategy ?? defaultConfig.clampStrategy,
@@ -250,6 +251,20 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       // :is() 확장 — Lynx CSS 파서가 :is() 미지원
       if (transformed.includes(":is(")) {
         transformed = expandIsSelectors(transformed);
+      }
+
+      // 미지원 pseudo-class 필터링 — 콤마 그룹에서 해당 셀렉터만 제거, data-* 대안 유지
+      if (config.filterPseudoClasses.length > 0) {
+        const selectors = splitByComma(transformed);
+        const filtered = selectors.filter(
+          (sel) => !config.filterPseudoClasses.some((pc) => sel.includes(pc)),
+        );
+
+        if (filtered.length === 0) {
+          rule.remove();
+          return;
+        }
+        transformed = filtered.join(", ");
       }
 
       if (transformed !== rule.selector) {

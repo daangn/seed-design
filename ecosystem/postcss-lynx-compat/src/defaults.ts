@@ -161,6 +161,9 @@ export const defaultConfig: Required<LynxCompatConfig> = {
 
   removeSelectors: [":focus-visible", "::-webkit-scrollbar", "::placeholder", ":-webkit-autofill"],
 
+  // Lynx 미지원 pseudo-class — 콤마 그룹에서 해당 셀렉터만 제거, data-* 대안 유지
+  filterPseudoClasses: [":checked", ":indeterminate", ":invalid", ":autofill"],
+
   suggestions: {},
 
   supportedProperties: [

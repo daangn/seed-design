@@ -11,6 +11,9 @@ export interface LynxCompatConfig {
   /** 포함된 룰을 전체 제거할 셀렉터 패턴 */
   removeSelectors?: string[];
 
+  /** 콤마 그룹에서 해당 pseudo-class 포함 셀렉터만 제거 (data-* 대안 유지) */
+  filterPseudoClasses?: string[];
+
   /** 빌드 에러 + 대안 제시할 프로퍼티 → { 프로퍼티명: 대안 메시지 } */
   suggestions?: Record<string, string>;
 

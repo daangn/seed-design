@@ -46,7 +46,7 @@
 }
 .seed-input-button__button {
 }
-.seed-input-button__button:invalid::after, .seed-input-button__button[data-invalid]::after {
+.seed-input-button__button[data-invalid]::after {
     border-width: 2px;
     border-color: var(--seed-color-stroke-critical-solid);
 }
