@@ -9,13 +9,15 @@ import { createStoryWithParameters } from "@/stories/utils/parameters";
 
 const Component = (props: TabsRootProps) => {
   return (
-    <TabsRoot {...props}>
-      <TabsList>
-        <TabsTrigger value="1">Tab 1</TabsTrigger>
-        <TabsTrigger value="2">Tab 2</TabsTrigger>
-        <TabsTrigger value="3">Tab 3</TabsTrigger>
-      </TabsList>
-    </TabsRoot>
+    <div style={{ width: "100%" }}>
+      <TabsRoot {...props}>
+        <TabsList>
+          <TabsTrigger value="1">Tab 1</TabsTrigger>
+          <TabsTrigger value="2">Tab 2</TabsTrigger>
+          <TabsTrigger value="3">Tab 3</TabsTrigger>
+        </TabsList>
+      </TabsRoot>
+    </div>
   );
 };
 
