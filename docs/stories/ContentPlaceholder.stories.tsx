@@ -20,6 +20,26 @@ type Story = StoryObj<typeof meta>;
 const { type: _type, ...variantMap } = contentPlaceholderVariantMap;
 
 const conditionMap = {
+  size: {
+    square: {
+      style: {
+        width: "120px",
+        height: "120px",
+      },
+    },
+    horizontal: {
+      style: {
+        width: "200px",
+        height: "150px",
+      },
+    },
+    vertical: {
+      style: {
+        width: "100px",
+        height: "133px",
+      },
+    },
+  },
   type: {
     ...Object.fromEntries(
       contentPlaceholderVariantMap.type.map((value) => [value, { type: value }]),
@@ -29,9 +49,7 @@ const conditionMap = {
 };
 
 const CommonStoryTemplate: Story = {
-  args: {
-    style: { width: 120, height: 90 },
-  },
+  args: {},
   render: (args) => (
     <VariantTable
       Component={meta.component}
