@@ -1,4 +1,5 @@
 import { ActionButton } from "@seed-design/lynx-react";
+import WorkingActionButton from "./WorkingActionButton.jsx";
 
 export function App(props: { onRender?: () => void }) {
   props.onRender?.();
@@ -15,13 +16,39 @@ export function App(props: { onRender?: () => void }) {
     >
       <text
         style={{
-          fontSize: '18px',
+          fontSize: '20px',
           fontWeight: 'bold',
-          marginTop: '16px',
-          marginBottom: '8px',
+          marginBottom: '12px',
+          color: '#ff0000',
         }}
       >
-        Variants
+        === Working (non-lynx recipe) ===
+      </text>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
+        }}
+      >
+        <WorkingActionButton variant="brandSolid">Brand Solid</WorkingActionButton>
+        <WorkingActionButton variant="neutralSolid">Neutral Solid</WorkingActionButton>
+        <WorkingActionButton variant="neutralWeak">Neutral Weak</WorkingActionButton>
+        <WorkingActionButton variant="brandOutline">Brand Outline</WorkingActionButton>
+        <WorkingActionButton variant="ghost">Ghost</WorkingActionButton>
+      </view>
+
+      <text
+        style={{
+          fontSize: '20px',
+          fontWeight: 'bold',
+          marginTop: '24px',
+          marginBottom: '12px',
+          color: '#0000ff',
+        }}
+      >
+        === Lynx-React (slot recipe) ===
       </text>
       <view
         style={{
@@ -32,31 +59,21 @@ export function App(props: { onRender?: () => void }) {
         }}
       >
         <ActionButton variant="brandSolid">Brand Solid</ActionButton>
-        <ActionButton variant="neutralSolid">
-          Neutral Solid
-        </ActionButton>
+        <ActionButton variant="neutralSolid">Neutral Solid</ActionButton>
         <ActionButton variant="neutralWeak">Neutral Weak</ActionButton>
-        <ActionButton variant="criticalSolid">
-          Critical Solid
-        </ActionButton>
-        <ActionButton variant="brandOutline">
-          Brand Outline
-        </ActionButton>
-        <ActionButton variant="neutralOutline">
-          Neutral Outline
-        </ActionButton>
+        <ActionButton variant="brandOutline">Brand Outline</ActionButton>
         <ActionButton variant="ghost">Ghost</ActionButton>
       </view>
 
       <text
         style={{
-          fontSize: '18px',
+          fontSize: '20px',
           fontWeight: 'bold',
-          marginTop: '16px',
-          marginBottom: '8px',
+          marginTop: '24px',
+          marginBottom: '12px',
         }}
       >
-        Sizes
+        Sizes (lynx-react)
       </text>
       <view
         style={{
@@ -71,32 +88,6 @@ export function App(props: { onRender?: () => void }) {
         <ActionButton size="small">Small</ActionButton>
         <ActionButton size="medium">Medium</ActionButton>
         <ActionButton size="large">Large</ActionButton>
-      </view>
-
-      <text
-        style={{
-          fontSize: '18px',
-          fontWeight: 'bold',
-          marginTop: '16px',
-          marginBottom: '8px',
-        }}
-      >
-        Disabled
-      </text>
-      <view
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
-        }}
-      >
-        <ActionButton variant="brandSolid" disabled>
-          Disabled
-        </ActionButton>
-        <ActionButton variant="neutralOutline" disabled>
-          Disabled Outline
-        </ActionButton>
       </view>
     </view>
   );
