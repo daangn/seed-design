@@ -88,7 +88,6 @@
     "yaml": "^2.8.2"
   },
   "patchedDependencies": {
-    "@radix-ui/react-dialog@1.1.15": "patches/@radix-ui%2Freact-dialog@1.1.15.patch",
-    "postcss-lynx@0.1.4": "patches/postcss-lynx@0.1.4.patch"
+    "@radix-ui/react-dialog@1.1.15": "patches/@radix-ui%2Freact-dialog@1.1.15.patch"
   }
 }

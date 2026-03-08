@@ -7,29 +7,45 @@ export function App(props: { onRender?: () => void }) {
   return (
     <view
       style={{
-        padding: '16px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        minHeight: '100vh',
+        padding: "16px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        minHeight: "100vh",
       }}
     >
       <text
         style={{
-          fontSize: '20px',
-          fontWeight: 'bold',
-          marginBottom: '12px',
-          color: '#e74c3c',
+          fontSize: "20px",
+          fontWeight: "bold",
+          marginBottom: "12px",
+          color: "#e74c3c",
         }}
       >
         === Web Recipe (WorkingActionButton) ===
       </text>
-      <view style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
+      <view
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
+          marginBottom: "8px",
+        }}
+      >
         <WorkingActionButton variant="brandSolid">Brand Solid</WorkingActionButton>
         <WorkingActionButton variant="neutralSolid">Neutral Solid</WorkingActionButton>
         <WorkingActionButton variant="neutralWeak">Neutral Weak</WorkingActionButton>
       </view>
-      <view style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
+      <view
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
+          marginBottom: "16px",
+        }}
+      >
         <WorkingActionButton size="xsmall">XSmall</WorkingActionButton>
         <WorkingActionButton size="small">Small</WorkingActionButton>
         <WorkingActionButton size="medium">Medium</WorkingActionButton>
@@ -38,66 +54,58 @@ export function App(props: { onRender?: () => void }) {
 
       <text
         style={{
-          fontSize: '20px',
-          fontWeight: 'bold',
-          marginBottom: '12px',
-          color: '#3498db',
+          fontSize: "20px",
+          fontWeight: "bold",
+          marginBottom: "12px",
+          color: "#3498db",
         }}
       >
         === Lynx Slot Recipe (ActionButton) ===
       </text>
       <text
         style={{
-          fontSize: '18px',
-          fontWeight: 'bold',
-          marginTop: '16px',
-          marginBottom: '8px',
+          fontSize: "18px",
+          fontWeight: "bold",
+          marginTop: "16px",
+          marginBottom: "8px",
         }}
       >
         Variants
       </text>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
         <ActionButton variant="brandSolid">Brand Solid</ActionButton>
-        <ActionButton variant="neutralSolid">
-          Neutral Solid
-        </ActionButton>
+        <ActionButton variant="neutralSolid">Neutral Solid</ActionButton>
         <ActionButton variant="neutralWeak">Neutral Weak</ActionButton>
-        <ActionButton variant="criticalSolid">
-          Critical Solid
-        </ActionButton>
-        <ActionButton variant="brandOutline">
-          Brand Outline
-        </ActionButton>
-        <ActionButton variant="neutralOutline">
-          Neutral Outline
-        </ActionButton>
+        <ActionButton variant="criticalSolid">Critical Solid</ActionButton>
+        <ActionButton variant="brandOutline">Brand Outline</ActionButton>
+        <ActionButton variant="neutralOutline">Neutral Outline</ActionButton>
         <ActionButton variant="ghost">Ghost</ActionButton>
       </view>
 
       <text
         style={{
-          fontSize: '18px',
-          fontWeight: 'bold',
-          marginTop: '16px',
-          marginBottom: '8px',
+          fontSize: "18px",
+          fontWeight: "bold",
+          marginTop: "16px",
+          marginBottom: "8px",
         }}
       >
         Sizes
       </text>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
+          alignItems: "center",
         }}
       >
         <ActionButton size="xsmall">XSmall</ActionButton>
@@ -108,20 +116,20 @@ export function App(props: { onRender?: () => void }) {
 
       <text
         style={{
-          fontSize: '18px',
-          fontWeight: 'bold',
-          marginTop: '16px',
-          marginBottom: '8px',
+          fontSize: "18px",
+          fontWeight: "bold",
+          marginTop: "16px",
+          marginBottom: "8px",
         }}
       >
         Disabled
       </text>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
         <ActionButton variant="brandSolid" disabled>
