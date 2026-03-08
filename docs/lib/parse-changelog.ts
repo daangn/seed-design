@@ -211,12 +211,16 @@ function formatDisplayBlock(block: string, commitRefs: string[], isDependencyOnl
 
   if (ENTRY_COMMIT_REGEX.test(block)) {
     const normalizedBlock = block.replace(/^(-\s+)([a-f0-9]{7}):\s*/, `$1`);
-    return normalizedBlock.includes("\n")
-      ? normalizedBlock.replace(/\n/, ` ${commitLink}\n`)
-      : `${normalizedBlock} ${commitLink}`;
+    const idx = normalizedBlock.indexOf("\n");
+    return idx === -1
+      ? `${normalizedBlock} ${commitLink}`
+      : `${normalizedBlock.slice(0, idx)} ${commitLink}\n${normalizedBlock.slice(idx + 1)}`;
   }
 
-  return block.includes("\n") ? block.replace(/\n/, ` ${commitLink}\n`) : `${block} ${commitLink}`;
+  const idx = block.indexOf("\n");
+  return idx === -1
+    ? `${block} ${commitLink}`
+    : `${block.slice(0, idx)} ${commitLink}\n${block.slice(idx + 1)}`;
 }
 
 /** @description 마크다운 문자열을 HTML로 변환합니다. */
