@@ -21,7 +21,7 @@
 }
 .seed-checkbox__root--size_large {
     min-height: var(--seed-dimension-x9);
-    --checkmark-margin-top: calc((var(--seed-dimension-x9) - var(--seed-dimension-x6)) / 2);
+    --checkmark-margin-top: calc((36px - 24px) / 2);
 }
 .seed-checkbox__label--size_large {
     font-size: var(--seed-font-size-t5);
@@ -30,7 +30,7 @@
 }
 .seed-checkbox__root--size_medium {
     min-height: var(--seed-dimension-x8);
-    --checkmark-margin-top: calc((var(--seed-dimension-x8) - var(--seed-dimension-x5)) / 2);
+    --checkmark-margin-top: calc((32px - 20px) / 2);
 }
 .seed-checkbox__label--size_medium {
     font-size: var(--seed-font-size-t4);

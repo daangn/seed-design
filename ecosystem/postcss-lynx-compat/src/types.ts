@@ -29,6 +29,9 @@ export interface LynxCompatConfig {
   /** shorthand → longhand 확장 규칙 → { shorthand: (value) => Declaration[] } */
   expandShorthands?: Record<string, (value: string) => Array<{ prop: string; value: string }>>;
 
+  /** 빌드 타임 토큰 CSS 문자열 — page 셀렉터 내 커스텀 프로퍼티를 파싱하여 var() 참조 해소에 사용 */
+  tokenCss?: string;
+
   /** 텍스트 슬롯 분리 설정 — 단일 recipe CSS를 view/text로 분리 */
   textSlot?: {
     /** text 슬롯 클래스 접미사 (예: "__text") */

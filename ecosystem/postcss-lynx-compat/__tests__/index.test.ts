@@ -449,7 +449,7 @@ describe("postcss-lynx-compat", () => {
       expect(output).toContain("--half-size: calc(10px / 2)");
     });
 
-    it("page 토큰이 아닌 변수는 건드리지 않는다 (맵에 없는 참조)", async () => {
+    it("page에 없는 변수 참조는 그대로 유지한다", async () => {
       const input = `
         page {
           --known: 10px;
@@ -463,18 +463,20 @@ describe("postcss-lynx-compat", () => {
       expect(output).toContain("--local: var(--unknown)");
     });
 
-    it("컴포넌트 셀렉터의 중첩 var()는 건드리지 않는다", async () => {
+    it("컴포넌트 셀렉터의 커스텀 프로퍼티에서도 page 토큰 참조를 해소한다", async () => {
       const input = `
         page {
           --color-raw: #fa6616;
+          --spacing: 16px;
         }
         .seed-btn {
           --btn-bg: var(--color-raw);
+          --btn-pad: var(--spacing);
         }
       `;
       const output = await run(input, { warnOnly: true });
-      // page가 아닌 .seed-btn의 var()는 해소하지 않음
-      expect(output).toContain("--btn-bg: var(--color-raw)");
+      expect(output).toContain("--btn-bg: #fa6616");
+      expect(output).toContain("--btn-pad: 16px");
     });
 
     it("page[data-*] 셀렉터도 해소 대상이다", async () => {

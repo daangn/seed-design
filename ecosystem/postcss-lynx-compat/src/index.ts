@@ -91,10 +91,67 @@ function filterTransitionPropertyValue(
 }
 
 /**
- * page 셀렉터 내 중첩 CSS variable을 빌드 타임에 해소.
- * --a: var(--b) 패턴에서 --b의 최종 값으로 치환.
+ * 토큰 CSS 문자열에서 :root / page 셀렉터 내 커스텀 프로퍼티를 파싱하여 맵으로 반환.
+ * 중첩 var() 참조도 해소하여 최종 leaf 값만 포함.
  */
-function resolveNestedVars(root: import("postcss").Root): void {
+function buildTokenMap(tokenCss: string): Map<string, string> {
+  const postcss = require("postcss");
+  const tokenRoot = postcss.parse(tokenCss);
+  const varMap = new Map<string, string>();
+
+  tokenRoot.walkRules((rule: import("postcss").Rule) => {
+    const isTokenSelector = rule.selectors.some(
+      (s: string) =>
+        s === ":root" || s === "page" || s.startsWith("page[") || s.startsWith(":root["),
+    );
+    if (!isTokenSelector) return;
+
+    rule.walkDecls(/^--/, (decl: import("postcss").Declaration) => {
+      varMap.set(decl.prop, decl.value);
+    });
+  });
+
+  // 중첩 var() 해소 (최대 10회 반복)
+  let changed = true;
+  let iterations = 0;
+  while (changed && iterations < 10) {
+    changed = false;
+    iterations++;
+    for (const [prop, value] of varMap) {
+      const resolved = value.replace(
+        /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
+        (match, varName: string) => {
+          const target = varMap.get(varName);
+          if (!target || target.includes("var(")) return match;
+          return target;
+        },
+      );
+      if (resolved !== value) {
+        changed = true;
+        varMap.set(prop, resolved);
+      }
+    }
+  }
+
+  // leaf 값만 남기기
+  const result = new Map<string, string>();
+  for (const [prop, value] of varMap) {
+    if (!value.includes("var(")) {
+      result.set(prop, value);
+    }
+  }
+  return result;
+}
+
+/**
+ * 중첩 CSS variable을 빌드 타임에 해소.
+ * 1) page 셀렉터 내 중첩 var() 해소
+ * 2) 외부 토큰 맵이 있으면 모든 커스텀 프로퍼티에서 토큰 참조 치환
+ */
+function resolveNestedVars(
+  root: import("postcss").Root,
+  externalTokens?: Map<string, string>,
+): void {
   // 1단계: page 셀렉터에서 커스텀 프로퍼티 맵 수집
   const varMap = new Map<string, { value: string; decl: import("postcss").Declaration }[]>();
 
@@ -108,7 +165,7 @@ function resolveNestedVars(root: import("postcss").Root): void {
     });
   });
 
-  // 2단계: 중첩 var() 해소 (최대 10회 반복)
+  // 2단계: page 내 중첩 var() 해소 (최대 10회 반복)
   let changed = true;
   let iterations = 0;
   while (changed && iterations < 10) {
@@ -122,7 +179,6 @@ function resolveNestedVars(root: import("postcss").Root): void {
             const target = varMap.get(varName);
             if (!target) return match;
             const targetValue = target[0].value;
-            // 대상 값이 아직 var()를 포함하면 다음 반복에서 처리
             if (targetValue.includes("var(")) return match;
             return targetValue;
           },
@@ -135,6 +191,42 @@ function resolveNestedVars(root: import("postcss").Root): void {
       }
     }
   }
+
+  // 3단계: 토큰 맵 구축 (page 내 해소된 값 + 외부 토큰)
+  const resolvedTokens = new Map<string, string>();
+
+  // 외부 토큰 먼저 (낮은 우선순위)
+  if (externalTokens) {
+    for (const [prop, val] of externalTokens) {
+      resolvedTokens.set(prop, val);
+    }
+  }
+
+  // page 내 해소된 값으로 덮어쓰기 (높은 우선순위)
+  for (const [prop, entries] of varMap) {
+    const val = entries[0].value;
+    if (!val.includes("var(")) {
+      resolvedTokens.set(prop, val);
+    }
+  }
+
+  // 4단계: 모든 셀렉터의 커스텀 프로퍼티 정의에서 토큰 참조 치환
+  if (resolvedTokens.size === 0) return;
+
+  root.walkDecls(/^--/, (decl) => {
+    if (!decl.value.includes("var(")) return;
+
+    const resolved = decl.value.replace(
+      /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
+      (match, varName: string) => {
+        const val = resolvedTokens.get(varName);
+        return val !== undefined ? val : match;
+      },
+    );
+    if (resolved !== decl.value) {
+      decl.value = resolved;
+    }
+  });
 }
 
 /** 괄호/대괄호 depth를 존중하면서 콤마로 분리 */
@@ -279,6 +371,9 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     textSlot: opts.textSlot ?? defaultConfig.textSlot,
   };
 
+  // 외부 토큰 CSS가 제공되면 빌드 타임에 파싱하여 맵 구축
+  const externalTokenMap = opts.tokenCss ? buildTokenMap(opts.tokenCss) : undefined;
+
   const supportedSet = new Set(config.supportedProperties);
   const removeMap = config.remove;
   const suggestionsMap = config.suggestions;
@@ -346,8 +441,8 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
 
     // Phase 3–5 모두 OnceExit에서 처리 (postcss-nested 실행 후)
     OnceExit(root) {
-      // Phase 0: page 셀렉터 내 중첩 CSS variable 해소
-      resolveNestedVars(root);
+      // Phase 0: 중첩 CSS variable 해소 (page 토큰 + 외부 토큰 맵)
+      resolveNestedVars(root, externalTokenMap);
 
       // Phase 3: 프로퍼티 & 값 처리
       root.walkDecls((decl) => {

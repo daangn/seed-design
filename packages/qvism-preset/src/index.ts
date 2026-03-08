@@ -28,7 +28,7 @@ export default definePreset({
   targets: [
     {
       suffix: "lynx",
-      postcssPlugins: [postcssLynxCompat()],
+      postcssPlugins: [postcssLynxCompat({ tokenCss: tokens._raw })],
       deriveSlots: ["root", "text"],
     },
   ],
