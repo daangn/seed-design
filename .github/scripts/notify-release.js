@@ -11,7 +11,6 @@ const IGNORED_LINE_PREFIXES = ["- Updated dependencies"];
 /** 순서 번호 이모지 */
 const NUMBER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 const REPO = "daangn/seed-design";
-const INCLUDED_PACKAGES = new Set(["@seed-design/css", "@seed-design/react"]);
 
 /**
  * CHANGELOG 항목의 커밋 표기를 Slack 링크 표기로 변환
@@ -94,9 +93,7 @@ function main() {
     if (!latest) continue;
 
     const packageName = getPackageName(file);
-    if (INCLUDED_PACKAGES.has(packageName)) {
-      releases.push({ packageName, ...latest });
-    }
+    releases.push({ packageName, ...latest });
   }
 
   if (releases.length === 0) {
@@ -117,7 +114,7 @@ function main() {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "안녕하세요 프론트엔드 챕터 여러분~ 2주간 SEED 릴리즈 요약 전달드려요 :알잘딱:",
+        text: "안녕하세요 프론트엔드 챕터 여러분~ SEED 새로운 버전이 릴리즈되었어요 :알잘딱:",
       },
     },
     { type: "divider" },
@@ -155,7 +152,7 @@ function main() {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: "질문이 있으시다면 #_design-system 에서 @design-system-fe-engineers 멘션 주세요 :wave:",
+      text: "질문이 있으시다면 #_design-system 채널에 남겨주세요 :wave: (테스트 중이라 멘션은 잠시 제외했어요.)",
     },
   });
 
