@@ -262,8 +262,6 @@
         "@testing-library/jest-dom": "^6.9.1",
         "@types/react": "^18.3.28",
         "jsdom": "^27.4.0",
-        "postcss": "^8.5.8",
-        "postcss-lynx": "^0.1.4",
         "typescript": "~5.9.3",
         "vitest": "^3.2.4",
       },
@@ -1280,7 +1278,6 @@
   },
   "patchedDependencies": {
     "@radix-ui/react-dialog@1.1.15": "patches/@radix-ui%2Freact-dialog@1.1.15.patch",
-    "postcss-lynx@0.1.4": "patches/postcss-lynx@0.1.4.patch",
   },
   "packages": {
     "@acemir/cssom": ["@acemir/cssom@0.9.31", "", {}, "sha512-ZnR3GSaH+/vJ0YlHau21FjfLYjMpYVIzTD8M8vIEQvIGxeOXyXdzCI140rrCY862p/C/BbzWsjc1dgnM9mkoTA=="],
@@ -4854,8 +4851,6 @@
     "postcss-load-config": ["postcss-load-config@6.0.1", "", { "dependencies": { "lilconfig": "^3.1.1" }, "peerDependencies": { "jiti": ">=1.21.0", "postcss": ">=8.0.9", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["jiti", "postcss", "tsx", "yaml"] }, "sha512-oPtTM4oerL+UXmx+93ytZVN82RrlY/wPUV8IeDxFrzIjXOLF1pN+EmKPLbubvKHT2HC20xXsCAH2Z+CKV6Oz/g=="],
 
     "postcss-loader": ["postcss-loader@8.2.0", "", { "dependencies": { "cosmiconfig": "^9.0.0", "jiti": "^2.5.1", "semver": "^7.6.2" }, "peerDependencies": { "@rspack/core": "0.x || 1.x", "postcss": "^7.0.0 || ^8.0.1", "webpack": "^5.0.0" }, "optionalPeers": ["@rspack/core", "webpack"] }, "sha512-tHX+RkpsXVcc7st4dSdDGliI+r4aAQDuv+v3vFYHixb6YgjreG5AG4SEB0kDK8u2s6htqEEpKlkhSBUTvWKYnA=="],
-
-    "postcss-lynx": ["postcss-lynx@0.1.4", "", {}, "sha512-VoQy9QYGjTC+gqJyBpIzrG/TJzxuMjiNj8pSQMOZxVhAfBYQRgFxrjTVCJ/JsFGsVr36RAxEhD7MX5RO/VSZ+w=="],
 
     "postcss-merge-longhand": ["postcss-merge-longhand@7.0.5", "", { "dependencies": { "postcss-value-parser": "^4.2.0", "stylehacks": "^7.0.5" }, "peerDependencies": { "postcss": "^8.4.32" } }, "sha512-Kpu5v4Ys6QI59FxmxtNB/iHUVDn9Y9sYw66D6+SZoIk4QTz1prC4aYkhIESu+ieG1iylod1f8MILMs1Em3mmIw=="],
 
