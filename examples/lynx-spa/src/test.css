@@ -1,0 +1,78 @@
+/* 테스트 1: 직접 값 */
+.test-direct {
+  background: #fa6616;
+  padding: 12px;
+  border-radius: 8px;
+}
+.test-direct__label {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* 테스트 2: 단일 var() */
+.test-single-var {
+  --my-color: #2ecc71;
+  background: var(--my-color);
+  padding: 12px;
+  border-radius: 8px;
+}
+.test-single-var__label {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* 테스트 3: 중첩 var() — 같은 셀렉터 내 */
+.test-nested-var {
+  --base-color: #9b59b6;
+  --bg-color: var(--base-color);
+  background: var(--bg-color);
+  padding: 12px;
+  border-radius: 8px;
+}
+.test-nested-var__label {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* 테스트 4: page에 정의된 토큰 직접 참조 (all.lynx.css에서 로드) */
+.test-page-token {
+  background: var(--seed-color-palette-carrot-600);
+  padding: 12px;
+  border-radius: 8px;
+}
+.test-page-token__label {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* 테스트 5: page에 정의된 중첩 토큰 참조 */
+.test-page-nested {
+  background: var(--seed-color-bg-brand-solid);
+  padding: 12px;
+  border-radius: 8px;
+}
+.test-page-nested__label {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* 테스트 6: CSS custom property cascade */
+.test-cascade {
+  --my-pad: initial;
+  padding: var(--my-pad);
+  background: #3498db;
+  border-radius: 8px;
+}
+.test-cascade-override {
+  --my-pad: 16px;
+}
+.test-cascade__label {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
