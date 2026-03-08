@@ -30,9 +30,6 @@
     "typescript": "~5.9.3",
     "vitest": "^3.2.4"
   },
-  "patchedDependencies": {
-    "postcss-lynx@0.1.4": "patches/postcss-lynx@0.1.4.patch"
-  },
   "engines": {
     "node": ">=18"
   },
