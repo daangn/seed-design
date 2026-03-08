@@ -410,6 +410,85 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
+  describe("중첩 CSS variable 해소 (resolveNestedVars)", () => {
+    it("page 셀렉터 내 1단계 중첩 var()를 해소한다", async () => {
+      const input = `
+        page {
+          --color-raw: #fa6616;
+          --color-bg: var(--color-raw);
+        }
+      `;
+      const output = await run(input, { warnOnly: true });
+      expect(output).toContain("--color-raw: #fa6616");
+      expect(output).toContain("--color-bg: #fa6616");
+      expect(output).not.toMatch(/--color-bg:\s*var\(/);
+    });
+
+    it("page 셀렉터 내 2단계 중첩 var()를 해소한다", async () => {
+      const input = `
+        page {
+          --base: 16px;
+          --spacing: var(--base);
+          --pad: var(--spacing);
+        }
+      `;
+      const output = await run(input, { warnOnly: true });
+      expect(output).toContain("--base: 16px");
+      expect(output).toContain("--spacing: 16px");
+      expect(output).toContain("--pad: 16px");
+    });
+
+    it("calc() 내 var()도 해소한다", async () => {
+      const input = `
+        page {
+          --size: 10px;
+          --half-size: calc(var(--size) / 2);
+        }
+      `;
+      const output = await run(input, { warnOnly: true });
+      expect(output).toContain("--half-size: calc(10px / 2)");
+    });
+
+    it("page 토큰이 아닌 변수는 건드리지 않는다 (맵에 없는 참조)", async () => {
+      const input = `
+        page {
+          --known: 10px;
+        }
+        .seed-btn {
+          --local: var(--unknown);
+          padding: var(--known);
+        }
+      `;
+      const output = await run(input, { warnOnly: true });
+      expect(output).toContain("--local: var(--unknown)");
+    });
+
+    it("컴포넌트 셀렉터의 중첩 var()는 건드리지 않는다", async () => {
+      const input = `
+        page {
+          --color-raw: #fa6616;
+        }
+        .seed-btn {
+          --btn-bg: var(--color-raw);
+        }
+      `;
+      const output = await run(input, { warnOnly: true });
+      // page가 아닌 .seed-btn의 var()는 해소하지 않음
+      expect(output).toContain("--btn-bg: var(--color-raw)");
+    });
+
+    it("page[data-*] 셀렉터도 해소 대상이다", async () => {
+      const input = `
+        page, page[data-seed-color-mode="light"] {
+          --palette: #333;
+          --fg-color: var(--palette);
+        }
+      `;
+      const output = await run(input, { warnOnly: true });
+      expect(output).toContain("--fg-color: #333");
+    });
+  });
+
   describe("통합 시나리오: 웹 action-button base 변환", () => {
     it("웹 action-button base 스타일을 Lynx 호환으로 변환한다", async () => {
       const input = `

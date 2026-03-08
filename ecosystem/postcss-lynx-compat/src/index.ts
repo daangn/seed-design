@@ -90,6 +90,53 @@ function filterTransitionPropertyValue(
   return filtered.length === 0 ? null : filtered.join(", ");
 }
 
+/**
+ * page 셀렉터 내 중첩 CSS variable을 빌드 타임에 해소.
+ * --a: var(--b) 패턴에서 --b의 최종 값으로 치환.
+ */
+function resolveNestedVars(root: import("postcss").Root): void {
+  // 1단계: page 셀렉터에서 커스텀 프로퍼티 맵 수집
+  const varMap = new Map<string, { value: string; decl: import("postcss").Declaration }[]>();
+
+  root.walkRules((rule) => {
+    if (!rule.selectors.some((s) => s === "page" || s.startsWith("page["))) return;
+
+    rule.walkDecls(/^--/, (decl) => {
+      const entries = varMap.get(decl.prop) || [];
+      entries.push({ value: decl.value, decl });
+      varMap.set(decl.prop, entries);
+    });
+  });
+
+  // 2단계: 중첩 var() 해소 (최대 10회 반복)
+  let changed = true;
+  let iterations = 0;
+  while (changed && iterations < 10) {
+    changed = false;
+    iterations++;
+    for (const [, entries] of varMap) {
+      for (const entry of entries) {
+        const resolved = entry.value.replace(
+          /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
+          (match, varName: string) => {
+            const target = varMap.get(varName);
+            if (!target) return match;
+            const targetValue = target[0].value;
+            // 대상 값이 아직 var()를 포함하면 다음 반복에서 처리
+            if (targetValue.includes("var(")) return match;
+            return targetValue;
+          },
+        );
+        if (resolved !== entry.value) {
+          changed = true;
+          entry.value = resolved;
+          entry.decl.value = resolved;
+        }
+      }
+    }
+  }
+}
+
 /** 괄호/대괄호 depth를 존중하면서 콤마로 분리 */
 function splitByComma(str: string): string[] {
   const items: string[] = [];
@@ -299,6 +346,9 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
 
     // Phase 3–5 모두 OnceExit에서 처리 (postcss-nested 실행 후)
     OnceExit(root) {
+      // Phase 0: page 셀렉터 내 중첩 CSS variable 해소
+      resolveNestedVars(root);
+
       // Phase 3: 프로퍼티 & 값 처리
       root.walkDecls((decl) => {
         const prop = decl.prop;
