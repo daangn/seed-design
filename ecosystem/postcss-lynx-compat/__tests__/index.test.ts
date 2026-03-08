@@ -362,6 +362,54 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
+  describe("transition 값 필터링", () => {
+    it("transition에서 미지원 프로퍼티(outline-color) 항목을 제거한다", async () => {
+      const input = `.btn {
+        transition: background-color 0.1s ease, outline-color 0.15s ease;
+      }`;
+      const output = await run(input);
+      expect(output).toContain("background-color 0.1s ease");
+      expect(output).not.toContain("outline-color");
+    });
+
+    it("transition의 모든 항목이 미지원이면 선언 자체를 제거한다", async () => {
+      const input = `.btn {
+        display: flex;
+        transition: outline-color 0.1s, cursor 0.2s;
+      }`;
+      const output = await run(input);
+      expect(output).not.toContain("transition");
+      expect(output).toContain("display: flex");
+    });
+
+    it("transition-property에서 미지원 프로퍼티를 제거한다", async () => {
+      const input = `.btn {
+        transition-property: background-color, outline-color, opacity;
+      }`;
+      const output = await run(input);
+      expect(output).toContain("background-color");
+      expect(output).toContain("opacity");
+      expect(output).not.toContain("outline-color");
+    });
+
+    it("var() 포함 transition 값을 올바르게 처리한다", async () => {
+      const input = `.btn {
+        transition: background-color var(--dur) var(--ease), outline-color var(--dur) var(--ease);
+      }`;
+      const output = await run(input);
+      expect(output).toContain("background-color var(--dur) var(--ease)");
+      expect(output).not.toContain("outline-color");
+    });
+
+    it("지원 프로퍼티만 있으면 transition을 그대로 유지한다", async () => {
+      const input = `.btn {
+        transition: background-color 0.1s ease, color 0.1s ease;
+      }`;
+      const output = await run(input);
+      expect(output).toContain("background-color 0.1s ease, color 0.1s ease");
+    });
+  });
+
   describe("통합 시나리오: 웹 action-button base 변환", () => {
     it("웹 action-button base 스타일을 Lynx 호환으로 변환한다", async () => {
       const input = `

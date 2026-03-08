@@ -72,7 +72,6 @@
     background-color: var(--seed-color-fg-neutral);
 }
 .seed-tabs__trigger {
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-tabs__list--triggerLayout_fill {
     padding-left: 0px;

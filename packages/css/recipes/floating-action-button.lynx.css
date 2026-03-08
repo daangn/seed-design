@@ -17,7 +17,7 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing);
 }
 .seed-floating-action-button__root[data-active] {
     background: var(--seed-color-bg-brand-solid-pressed);

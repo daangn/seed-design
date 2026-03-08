@@ -10,7 +10,6 @@
 .seed-progress-circle__range {
     transition-duration: 300ms;
     transition-timing-function: cubic-bezier(0, 0, 0.15, 1);
-    transition-property: stroke-dasharray;
 }
 .seed-progress-circle__range[data-progress-state=indeterminate] {
     animation: 

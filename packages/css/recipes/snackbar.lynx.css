@@ -29,7 +29,6 @@
     --seed-exit-scale: 0.8;
 }
 .seed-snackbar__root {
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-snackbar__content {
     display: flex;
@@ -74,7 +73,6 @@
     right: calc(-1 * var(--seed-dimension-x2));
     min-height: 44px;
     background: transparent;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-snackbar__actionButton:focus, .seed-snackbar__actionButton[data-focus] {
 }

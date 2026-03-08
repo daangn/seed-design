@@ -124,7 +124,6 @@
     right: calc((28px - 44px) / 2);
     bottom: calc((28px - 44px) / 2);
     left: calc((28px - 44px) / 2);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-bottom-sheet__closeButton:focus, .seed-bottom-sheet__closeButton[data-focus] {
 }

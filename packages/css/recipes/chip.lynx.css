@@ -11,7 +11,7 @@
     border-radius: var(--seed-radius-full);
     transition-duration: var(--seed-duration-color-transition);
     transition-timing-function: var(--seed-timing-function-easing);
-    transition-property: background-color, color, border-color, box-shadow, outline-color;
+    transition-property: background-color, color, border-color, box-shadow;
 }
 .seed-chip__root[data-disabled] {
 }

@@ -26,7 +26,7 @@
     --seed-icon-size: 22px;
     --size: 16px;
     --thickness: 2px;
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-contextual-floating-button__text {
     --seed-box-z-index: initial;
@@ -38,7 +38,7 @@
     --seed-icon-size: 22px;
     --size: 16px;
     --thickness: 2px;
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-medium);

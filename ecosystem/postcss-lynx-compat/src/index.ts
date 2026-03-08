@@ -65,6 +65,31 @@ function resolveClamp(value: string, strategy: "min" | "preferred" | "max"): str
 
 // ── :is() 셀렉터 확장 ──
 
+/**
+ * transition shorthand 값에서 미지원 프로퍼티 항목 제거.
+ * 각 entry의 첫 토큰(property name)이 removeMap에 있으면 필터링.
+ */
+function filterTransitionValue(value: string, removeMap: Record<string, string>): string | null {
+  const entries = splitByComma(value);
+  const filtered = entries.filter((entry) => {
+    const propName = entry.trim().split(/\s+/)[0];
+    return !(propName in removeMap);
+  });
+  return filtered.length === 0 ? null : filtered.join(", ");
+}
+
+/**
+ * transition-property 값에서 미지원 프로퍼티 이름 제거.
+ */
+function filterTransitionPropertyValue(
+  value: string,
+  removeMap: Record<string, string>,
+): string | null {
+  const props = splitByComma(value);
+  const filtered = props.filter((p) => !(p.trim() in removeMap));
+  return filtered.length === 0 ? null : filtered.join(", ");
+}
+
 /** 괄호/대괄호 depth를 존중하면서 콤마로 분리 */
 function splitByComma(str: string): string[] {
   const items: string[] = [];
@@ -310,6 +335,24 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         // clamp() 값 변환 (일반 프로퍼티)
         if (decl.value.includes("clamp(")) {
           decl.value = resolveClamp(decl.value, config.clampStrategy);
+        }
+
+        // transition 값에서 미지원 프로퍼티 필터링
+        if (prop === "transition") {
+          const filtered = filterTransitionValue(decl.value, removeMap);
+          if (filtered === null) {
+            decl.remove();
+            return;
+          }
+          decl.value = filtered;
+        }
+        if (prop === "transition-property") {
+          const filtered = filterTransitionPropertyValue(decl.value, removeMap);
+          if (filtered === null) {
+            decl.remove();
+            return;
+          }
+          decl.value = filtered;
         }
 
         // remove 목록에 등록 → 제거

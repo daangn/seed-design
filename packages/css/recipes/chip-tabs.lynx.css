@@ -40,7 +40,7 @@
     padding-top: var(--seed-dimension-x2);
     padding-bottom: var(--seed-dimension-x2);
     font-weight: var(--seed-font-weight-medium);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-chip-tabs__list--size_medium {
     gap: 8px;

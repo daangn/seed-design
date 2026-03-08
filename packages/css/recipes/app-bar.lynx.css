@@ -35,7 +35,6 @@
     font-family: inherit;
     padding: 0;
     border-radius: var(--seed-radius-r1);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-app-bar__icon {
     display: inline-block;

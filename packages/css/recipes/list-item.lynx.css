@@ -63,7 +63,6 @@
     right: 0;
     bottom: 0;
     left: 0;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-list-item__content:focus, .seed-list-item__content[data-focus] {
 }
