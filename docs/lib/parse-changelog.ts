@@ -6,6 +6,8 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 
+const CHANGELOG_FILENAME = "CHANGELOG.md";
+
 export interface ChangelogPackage {
   name: string;
   version: string;
@@ -34,14 +36,9 @@ const ENTRY_COMMIT_REGEX = /^-\s+([a-f0-9]{7}):/m;
 const DEPENDENCY_COMMIT_REGEX = /Updated dependencies \[([a-f0-9]{7})\]/g;
 const GITHUB_COMMIT_BASE_URL = "https://github.com/daangn/seed-design/commit";
 
-function getPackageVersionUrl(name: string, version: string) {
-  return `https://npmjs.com/package/${name}/v/${version}`;
-}
+// ── I/O ──────────────────────────────────────────────────────────────────────
 
-function getCommitUrl(commitRef: string) {
-  return `${GITHUB_COMMIT_BASE_URL}/${commitRef}`;
-}
-
+/** @description `packages/` 디렉토리가 있는 워크스페이스 루트를 찾아 반환합니다. */
 function resolveWorkspaceRoot(startDir: string) {
   const candidates = [startDir, resolve(startDir, "..")];
 
@@ -54,6 +51,7 @@ function resolveWorkspaceRoot(startDir: string) {
   throw new Error(`packages 디렉토리를 찾을 수 없습니다: ${startDir}`);
 }
 
+/** @description `packages/` 디렉토리를 재귀 탐색해 CHANGELOG.md 경로 목록을 반환합니다. */
 async function collectPackageChangelogPaths(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   const paths = await Promise.all(
@@ -64,7 +62,7 @@ async function collectPackageChangelogPaths(dir: string): Promise<string[]> {
         return collectPackageChangelogPaths(entryPath);
       }
 
-      if (entry.isFile() && entry.name === "CHANGELOG.md") {
+      if (entry.isFile() && entry.name === CHANGELOG_FILENAME) {
         return [entryPath];
       }
 
@@ -75,6 +73,7 @@ async function collectPackageChangelogPaths(dir: string): Promise<string[]> {
   return paths.flat();
 }
 
+/** @description 각 패키지의 CHANGELOG.md와 package.json을 읽어 `{ packageName, raw }[]` 형태로 반환합니다. */
 export async function loadChangelogSources(rootDir: string): Promise<ChangelogSource[]> {
   const workspaceRoot = resolveWorkspaceRoot(rootDir);
   const changelogPaths = (await collectPackageChangelogPaths(join(workspaceRoot, "packages"))).sort();
@@ -107,17 +106,9 @@ export async function loadChangelogSources(rootDir: string): Promise<ChangelogSo
   return sources.filter((source): source is ChangelogSource => source !== null);
 }
 
-async function mdToHtml(md: string): Promise<string> {
-  const result = await processor.process(md);
-  return String(result);
-}
+// ── Parsing ───────────────────────────────────────────────────────────────────
 
-function unwrapSingleListItem(html: string): string {
-  if (!html.startsWith("<ul>")) return html.trim();
-
-  return html.replace(/^<ul>\s*<li>/, "").replace(/<\/li>\s*<\/ul>\s*$/, "").trim();
-}
-
+/** @description CHANGELOG.md raw 텍스트를 `## 1.2.3` 단위의 버전 섹션 배열로 분리합니다. */
 function splitVersionSections(raw: string): Array<{ version: string; body: string }> {
   const sections = raw
     .replace(/^# .+\n+/, "")
@@ -138,6 +129,7 @@ function splitVersionSections(raw: string): Array<{ version: string; body: strin
   });
 }
 
+/** @description 버전 섹션 본문을 `### Minor Changes` 등의 변경 유형 섹션 배열로 분리합니다. `###`이 없으면 섹션 없이 본문만 반환합니다. */
 function splitChangeSections(body: string): Array<{ section?: string; body: string }> {
   const parts = body
     .split(/(?=^### )/m)
@@ -161,6 +153,7 @@ function splitChangeSections(body: string): Array<{ section?: string; body: stri
   });
 }
 
+/** @description 변경 섹션 본문을 `- abc123: ...` 단위의 개별 항목 블록으로 분리합니다. */
 function splitEntryBlocks(body: string): string[] {
   const trimmed = body.trim();
   if (!trimmed) return [];
@@ -175,24 +168,9 @@ function splitEntryBlocks(body: string): string[] {
     .filter(Boolean);
 }
 
-function extractRelatedPackages(block: string): ChangelogPackage[] {
-  const packages: ChangelogPackage[] = [];
-  let match: RegExpExecArray | null;
+// ── Per-entry processing ──────────────────────────────────────────────────────
 
-  RELATED_PACKAGE_REGEX.lastIndex = 0;
-
-  // biome-ignore lint/suspicious/noAssignInExpressions: 패키지 의존성 추출에 사용
-  while ((match = RELATED_PACKAGE_REGEX.exec(block)) !== null) {
-    packages.push({
-      name: match[1],
-      version: match[2],
-      url: getPackageVersionUrl(match[1], match[2]),
-    });
-  }
-
-  return Array.from(new Map(packages.map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const)).values());
-}
-
+/** @description 항목 블록에서 커밋 해시 ref 목록을 추출합니다. 항목 자체의 커밋과 의존성 업데이트 커밋을 모두 포함합니다. */
 function extractCommitRefs(block: string): string[] {
   const refs = new Set<string>();
 
@@ -212,10 +190,17 @@ function extractCommitRefs(block: string): string[] {
   return [...refs];
 }
 
+/** @description 항목 블록이 의존성 업데이트만 포함하는지 판별합니다. */
 function isDependencyOnlyBlock(block: string): boolean {
   return /^-\s+Updated dependencies(?:\s+\[[a-f0-9]{7}\])?/m.test(block.trim());
 }
 
+/** @description GitHub 커밋 URL을 반환합니다. */
+function getCommitUrl(commitRef: string) {
+  return `${GITHUB_COMMIT_BASE_URL}/${commitRef}`;
+}
+
+/** @description 항목 블록의 커밋 해시를 GitHub 링크로 변환하고, `abc123:` 접두사를 제거해 표시용 텍스트로 가공합니다. */
 function formatDisplayBlock(block: string, commitRefs: string[], isDependencyOnly: boolean): string {
   if (isDependencyOnly || commitRefs.length === 0) {
     return block;
@@ -234,6 +219,46 @@ function formatDisplayBlock(block: string, commitRefs: string[], isDependencyOnl
   return block.includes("\n") ? block.replace(/\n/, ` ${commitLink}\n`) : `${block} ${commitLink}`;
 }
 
+/** @description 마크다운 문자열을 HTML로 변환합니다. */
+async function mdToHtml(md: string): Promise<string> {
+  const result = await processor.process(md);
+  return String(result);
+}
+
+/** @description 단일 `<li>` 항목만 있는 `<ul>` 태그를 벗겨냅니다. 단일 항목 변경사항의 불필요한 리스트 래핑을 제거합니다. */
+function unwrapSingleListItem(html: string): string {
+  if (!html.startsWith("<ul>")) return html.trim();
+
+  return html.replace(/^<ul>\s*<li>/, "").replace(/<\/li>\s*<\/ul>\s*$/, "").trim();
+}
+
+/** @description npm 패키지 버전 URL을 반환합니다. */
+function getPackageVersionUrl(name: string, version: string) {
+  return `https://npmjs.com/package/${name}/v/${version}`;
+}
+
+/** @description 항목 블록에서 `Updated dependencies` 하위의 관련 패키지 목록을 추출합니다. */
+function extractRelatedPackages(block: string): ChangelogPackage[] {
+  const packages: ChangelogPackage[] = [];
+  let match: RegExpExecArray | null;
+
+  RELATED_PACKAGE_REGEX.lastIndex = 0;
+
+  // biome-ignore lint/suspicious/noAssignInExpressions: 패키지 의존성 추출에 사용
+  while ((match = RELATED_PACKAGE_REGEX.exec(block)) !== null) {
+    packages.push({
+      name: match[1],
+      version: match[2],
+      url: getPackageVersionUrl(match[1], match[2]),
+    });
+  }
+
+  return Array.from(new Map(packages.map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const)).values());
+}
+
+// ── Entry points ──────────────────────────────────────────────────────────────
+
+/** @description `ChangelogSource[]`를 파싱해 `ChangelogEntry[]`로 변환합니다. */
 export async function parseChangelogSources(sources: ChangelogSource[]): Promise<ChangelogEntry[]> {
   const parsedEntries: ChangelogEntry[] = [];
   let order = 0;
@@ -276,9 +301,7 @@ export async function parseChangelogSources(sources: ChangelogSource[]): Promise
   return parsedEntries;
 }
 
-/**
- * @description 모든 packages 디렉토리의 CHANGELOG.md 파일을 읽어 changelog entry 목록을 반환합니다.
- */
+/** @description 모든 packages 디렉토리의 CHANGELOG.md 파일을 읽어 changelog entry 목록을 반환합니다. */
 export async function parseChangelog(rootDir: string): Promise<ChangelogEntry[]> {
   const sources = await loadChangelogSources(rootDir);
   return parseChangelogSources(sources);

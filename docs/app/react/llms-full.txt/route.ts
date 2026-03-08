@@ -13,6 +13,7 @@ export async function GET() {
 
   const [pageResults, changelogResponse] = await Promise.all([
     Promise.all(pages.map(getLLMTextForFullCompilation)),
+    //NOTE: changlog.mdx 파일이 없어서 react/updates/changelog.txt 파일을 사용
     getChangelogLLMText(),
   ]);
 
