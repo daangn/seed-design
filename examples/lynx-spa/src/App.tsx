@@ -1,5 +1,4 @@
 import { ActionButton } from "@seed-design/lynx-react";
-import { WorkingActionButton } from "./WorkingActionButton";
 
 export function App(props: { onRender?: () => void }) {
   props.onRender?.();
@@ -14,44 +13,6 @@ export function App(props: { onRender?: () => void }) {
         minHeight: "100vh",
       }}
     >
-      <text
-        style={{
-          fontSize: "20px",
-          fontWeight: "bold",
-          marginBottom: "12px",
-          color: "#e74c3c",
-        }}
-      >
-        === Web Recipe (WorkingActionButton) ===
-      </text>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
-          marginBottom: "8px",
-        }}
-      >
-        <WorkingActionButton variant="brandSolid">Brand Solid</WorkingActionButton>
-        <WorkingActionButton variant="neutralSolid">Neutral Solid</WorkingActionButton>
-        <WorkingActionButton variant="neutralWeak">Neutral Weak</WorkingActionButton>
-      </view>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
-          marginBottom: "16px",
-        }}
-      >
-        <WorkingActionButton size="xsmall">XSmall</WorkingActionButton>
-        <WorkingActionButton size="small">Small</WorkingActionButton>
-        <WorkingActionButton size="medium">Medium</WorkingActionButton>
-        <WorkingActionButton size="large">Large</WorkingActionButton>
-      </view>
-
       <text
         style={{
           fontSize: "20px",

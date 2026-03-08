@@ -262,6 +262,7 @@
         "@testing-library/jest-dom": "^6.9.1",
         "@types/react": "^18.3.28",
         "jsdom": "^27.4.0",
+        "postcss": "^8.5.8",
         "typescript": "~5.9.3",
         "vitest": "^3.2.4",
       },
