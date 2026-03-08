@@ -1,5 +1,12 @@
 import { ActionButton } from "@seed-design/lynx-react";
 
+const engineInfo = [
+  `__LYNX_VERSION__: ${(globalThis as any).__LYNX_VERSION__ ?? "N/A"}`,
+  `__LYNX_ENGINE_VERSION__: ${(globalThis as any).__LYNX_ENGINE_VERSION__ ?? "N/A"}`,
+  `lynx: ${typeof lynx !== "undefined" ? JSON.stringify(lynx) : "N/A"}`,
+  `SystemInfo: ${JSON.stringify((globalThis as any).SystemInfo) ?? "N/A"}`,
+].join("\n");
+
 export function App(props: { onRender?: () => void }) {
   props.onRender?.();
 
@@ -13,6 +20,17 @@ export function App(props: { onRender?: () => void }) {
         minHeight: "100vh",
       }}
     >
+      <text
+        style={{
+          fontSize: "12px",
+          marginBottom: "16px",
+          color: "#e74c3c",
+          fontFamily: "monospace",
+        }}
+      >
+        {engineInfo}
+      </text>
+
       <text
         style={{
           fontSize: "20px",
