@@ -27,6 +27,12 @@ export const imageFrameVariantMap = {
   "rounded": [
     true,
     false
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

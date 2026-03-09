@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const checkboxGroupVariantMap = {};
+export const checkboxGroupVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const checkboxGroupVariantKeys = Object.keys(checkboxGroupVariantMap);
 

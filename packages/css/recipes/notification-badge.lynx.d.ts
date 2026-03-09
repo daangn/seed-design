@@ -3,7 +3,8 @@ declare interface NotificationBadgeVariant {
   * @default "large"
   */
   size: "small" | "large";
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type NotificationBadgeVariantMap = {
   [key in keyof NotificationBadgeVariant]: Array<NotificationBadgeVariant[key]>;

@@ -7,7 +7,8 @@ declare interface ActionChipVariant {
   * @default "withText"
   */
   layout: "withText" | "iconOnly";
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type ActionChipVariantMap = {
   [key in keyof ActionChipVariant]: Array<ActionChipVariant[key]>;

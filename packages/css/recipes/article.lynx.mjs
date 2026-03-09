@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const articleVariantMap = {};
+export const articleVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const articleVariantKeys = Object.keys(articleVariantMap);
 

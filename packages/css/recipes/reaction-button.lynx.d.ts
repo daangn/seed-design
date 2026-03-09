@@ -3,7 +3,8 @@ declare interface ReactionButtonVariant {
   * @default "small"
   */
   size: "xsmall" | "small";
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type ReactionButtonVariantMap = {
   [key in keyof ReactionButtonVariant]: Array<ReactionButtonVariant[key]>;

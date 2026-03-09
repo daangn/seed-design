@@ -7,7 +7,8 @@ declare interface ExtendedFabVariant {
   * @default "medium"
   */
   size: "small" | "medium";
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type ExtendedFabVariantMap = {
   [key in keyof ExtendedFabVariant]: Array<ExtendedFabVariant[key]>;

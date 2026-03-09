@@ -7,7 +7,8 @@ declare interface ImageFrameVariant {
   * @default false
   */
   rounded: boolean;
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type ImageFrameVariantMap = {
   [key in keyof ImageFrameVariant]: Array<ImageFrameVariant[key]>;

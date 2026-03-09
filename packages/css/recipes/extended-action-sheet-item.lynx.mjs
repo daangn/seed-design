@@ -22,6 +22,12 @@ export const extendedActionSheetItemVariantMap = {
   "tone": [
     "neutral",
     "critical"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

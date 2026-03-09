@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const selectBoxGroupVariantMap = {};
+export const selectBoxGroupVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const selectBoxGroupVariantKeys = Object.keys(selectBoxGroupVariantMap);
 

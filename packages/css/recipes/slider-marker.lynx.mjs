@@ -23,6 +23,12 @@ export const sliderMarkerVariantMap = {
     "start",
     "center",
     "end"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

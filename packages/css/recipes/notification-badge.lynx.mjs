@@ -22,6 +22,12 @@ export const notificationBadgeVariantMap = {
   "size": [
     "small",
     "large"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

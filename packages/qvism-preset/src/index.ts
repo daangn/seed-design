@@ -30,6 +30,10 @@ export default definePreset({
       suffix: "lynx",
       postcssPlugins: [postcssLynxCompat({ tokenCss: tokens._raw })],
       deriveSlots: ["root", "text"],
+      extraVariants: {
+        disabled: [true],
+        loading: [true],
+      },
     },
   ],
 });

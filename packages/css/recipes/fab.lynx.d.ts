@@ -1,6 +1,7 @@
 declare interface FabVariant {
   
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type FabVariantMap = {
   [key in keyof FabVariant]: Array<FabVariant[key]>;

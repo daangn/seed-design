@@ -1,6 +1,7 @@
 declare interface AspectRatioVariant {
   
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type AspectRatioVariantMap = {
   [key in keyof AspectRatioVariant]: Array<AspectRatioVariant[key]>;

@@ -3,7 +3,8 @@ declare interface ExtendedActionSheetItemVariant {
   * @default "neutral"
   */
   tone: "neutral" | "critical";
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type ExtendedActionSheetItemVariantMap = {
   [key in keyof ExtendedActionSheetItemVariant]: Array<ExtendedActionSheetItemVariant[key]>;

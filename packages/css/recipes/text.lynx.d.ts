@@ -11,7 +11,8 @@ declare interface TextVariant {
   * @default "none"
   */
   textDecorationLine: "none" | "line-through" | "underline";
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type TextVariantMap = {
   [key in keyof TextVariant]: Array<TextVariant[key]>;

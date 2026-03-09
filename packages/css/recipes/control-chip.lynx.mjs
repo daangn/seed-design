@@ -44,6 +44,12 @@ export const controlChipVariantMap = {
   "layout": [
     "withText",
     "iconOnly"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

@@ -1,6 +1,7 @@
 declare interface ArticleVariant {
   
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type ArticleVariantMap = {
   [key in keyof ArticleVariant]: Array<ArticleVariant[key]>;

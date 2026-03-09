@@ -44,6 +44,12 @@ export const actionChipVariantMap = {
   "layout": [
     "withText",
     "iconOnly"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

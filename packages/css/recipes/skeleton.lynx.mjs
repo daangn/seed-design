@@ -29,6 +29,12 @@ export const skeletonVariantMap = {
   "tone": [
     "neutral",
     "magic"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

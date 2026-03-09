@@ -1,6 +1,7 @@
 declare interface ImageFrameReactionButtonVariant {
   
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type ImageFrameReactionButtonVariantMap = {
   [key in keyof ImageFrameReactionButtonVariant]: Array<ImageFrameReactionButtonVariant[key]>;

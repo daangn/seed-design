@@ -7,7 +7,8 @@ declare interface NotificationBadgePositionerVariant {
   * @default "large"
   */
   size: "small" | "large";
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type NotificationBadgePositionerVariantMap = {
   [key in keyof NotificationBadgePositionerVariant]: Array<NotificationBadgePositionerVariant[key]>;

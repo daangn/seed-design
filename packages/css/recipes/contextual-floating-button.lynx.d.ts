@@ -7,7 +7,8 @@ declare interface ContextualFloatingButtonVariant {
   * @default "withText"
   */
   layout: "withText" | "iconOnly";
-}
+  disabled?: true;
+  loading?: true;}
 
 declare type ContextualFloatingButtonVariantMap = {
   [key in keyof ContextualFloatingButtonVariant]: Array<ContextualFloatingButtonVariant[key]>;

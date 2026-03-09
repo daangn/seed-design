@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const radioGroupVariantMap = {};
+export const radioGroupVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const radioGroupVariantKeys = Object.keys(radioGroupVariantMap);
 
