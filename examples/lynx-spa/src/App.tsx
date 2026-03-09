@@ -1,4 +1,47 @@
 import { ActionButton } from "@seed-design/lynx-react";
+import { actionButton } from "@seed-design/css/recipes/action-button.lynx";
+import { useState, useCallback } from "react";
+
+function ActiveTestButton() {
+  const [forceActive, setForceActive] = useState(false);
+  const [tapCount, setTapCount] = useState(0);
+  const classes = actionButton({ variant: "brandSolid", size: "medium", layout: "withText" });
+
+  return (
+    <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <text style={{ fontSize: "14px", color: "#666" }}>
+        Test 1: 항상 data-active (CSS 셀렉터 테스트)
+      </text>
+      <view
+        className={classes.root}
+        data-active="true"
+      >
+        <text className={classes.text}>Always Active</text>
+      </view>
+
+      <text style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
+        Test 2: 탭하면 active 토글 (tap count: {tapCount})
+      </text>
+      <view
+        className={classes.root}
+        data-active={forceActive || undefined}
+        bindtap={() => {
+          setForceActive((v) => !v);
+          setTapCount((c) => c + 1);
+        }}
+      >
+        <text className={classes.text}>
+          {forceActive ? "ACTIVE ON" : "ACTIVE OFF"}
+        </text>
+      </view>
+
+      <text style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
+        Test 3: bindtouchstart/end (터치 이벤트)
+      </text>
+      <ActionButton variant="brandSolid">Touch Me</ActionButton>
+    </view>
+  );
+}
 
 export function App(props: { onRender?: () => void }) {
   props.onRender?.();
@@ -74,6 +117,18 @@ export function App(props: { onRender?: () => void }) {
         <ActionButton size="medium">Medium</ActionButton>
         <ActionButton size="large">Large</ActionButton>
       </view>
+
+      <text
+        style={{
+          fontSize: "18px",
+          fontWeight: "bold",
+          marginTop: "16px",
+          marginBottom: "8px",
+        }}
+      >
+        Active Tests
+      </text>
+      <ActiveTestButton />
 
       <text
         style={{
