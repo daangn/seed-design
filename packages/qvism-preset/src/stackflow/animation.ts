@@ -44,10 +44,10 @@ export const iOSAnimations = {
       translateX: "var(--swipe-back-displacement, 0)",
     },
     cancel: {
-      translateX: "0",
+      translateX: "var(--swipe-back-target, 0)",
     },
     complete: {
-      translateX: "100%",
+      translateX: "var(--swipe-back-target, 100%)",
     },
     out: {
       translateX: "100%",
@@ -141,10 +141,10 @@ export const iOSAnimations = {
       translateX: "var(--swipe-back-displacement, 0)",
     },
     cancel: {
-      translateX: "0",
+      translateX: "var(--swipe-back-target, 0)",
     },
     complete: {
-      translateX: "100%",
+      translateX: "var(--swipe-back-target, 100%)",
     },
     out: {
       translateX: "100%",

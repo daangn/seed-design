@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import type { SwipeBackProps } from "./useGlobalInteraction";
 import { useGlobalInteractionContext } from "./useGlobalInteractionContext";
 
@@ -13,24 +13,32 @@ export function useSwipeBack(props: UseSwipeBackProps) {
     onSwipeBackMove,
     onSwipeBackEnd,
   } = props;
+
+  // Store callbacks in refs to stabilize `events` identity across re-renders.
+  // Without this, inline callbacks cause `events` to be recreated every render,
+  // triggering useEffect cleanup which calls reset() during completing/canceling.
+  const onSwipeBackStartRef = useRef(onSwipeBackStart);
+  const onSwipeBackMoveRef = useRef(onSwipeBackMove);
+  const onSwipeBackEndRef = useRef(onSwipeBackEnd);
+
+  useLayoutEffect(() => {
+    onSwipeBackStartRef.current = onSwipeBackStart;
+    onSwipeBackMoveRef.current = onSwipeBackMove;
+    onSwipeBackEndRef.current = onSwipeBackEnd;
+  });
+
   const { getSwipeBackEvents } = globalInteraction;
   const events = useMemo(
     () =>
       getSwipeBackEvents({
         swipeBackDisplacementRatioThreshold,
         swipeBackVelocityThreshold,
-        onSwipeBackStart,
-        onSwipeBackMove,
-        onSwipeBackEnd,
+        onSwipeBackStart: (...args: []) => onSwipeBackStartRef.current?.(...args),
+        onSwipeBackMove: (...args: [{ displacement: number; displacementRatio: number }]) =>
+          onSwipeBackMoveRef.current?.(...args),
+        onSwipeBackEnd: (...args: [{ swiped: boolean }]) => onSwipeBackEndRef.current?.(...args),
       }),
-    [
-      getSwipeBackEvents,
-      swipeBackDisplacementRatioThreshold,
-      swipeBackVelocityThreshold,
-      onSwipeBackStart,
-      onSwipeBackMove,
-      onSwipeBackEnd,
-    ],
+    [getSwipeBackEvents, swipeBackDisplacementRatioThreshold, swipeBackVelocityThreshold],
   );
 
   useEffect(() => {

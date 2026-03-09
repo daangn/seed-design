@@ -97,13 +97,13 @@
 [data-swipe-back-state=canceling] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
     will-change: transform, opacity;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(var(--swipe-back-target, 0), 0, 0);
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
 [data-swipe-back-state=completing] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
     will-change: transform, opacity;
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(var(--swipe-back-target, 100%), 0, 0);
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
 [data-global-transition-state=enter-active][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {

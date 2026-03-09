@@ -1602,15 +1602,15 @@
 
 [data-swipe-back-state="canceling"] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
   will-change: transform, opacity;
+  transform: translate3d(var(--swipe-back-target, 0), 0, 0);
   transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
-  transform: translate3d(0, 0, 0);
   animation: none !important;
 }
 
 [data-swipe-back-state="completing"] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
   will-change: transform, opacity;
+  transform: translate3d(var(--swipe-back-target, 100%), 0, 0);
   transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
-  transform: translate3d(100%, 0, 0);
   animation: none !important;
 }
 
@@ -2044,15 +2044,15 @@
 
 [data-swipe-back-state="canceling"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
   will-change: transform, opacity;
+  transform: translate3d(var(--swipe-back-target, 0), 0, 0);
   transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
-  transform: translate3d(0, 0, 0);
   animation: none !important;
 }
 
 [data-swipe-back-state="completing"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
   will-change: transform, opacity;
+  transform: translate3d(var(--swipe-back-target, 100%), 0, 0);
   transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
-  transform: translate3d(100%, 0, 0);
   animation: none !important;
 }
 

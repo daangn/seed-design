@@ -226,12 +226,22 @@ export function useGlobalInteraction() {
           swipeBackContextRef.current.displacementRatio > displacementRatioThreshold ||
           swipeBackContextRef.current.velocity > velocityThreshold;
 
+        // Two-frame technique: set --swipe-back-target to current displacement first,
+        // then update to final value in next frame so CSS transition animates smoothly.
+        const currentDisplacement = `${swipeBackContextRef.current.displacement}px`;
+
         if (swiped) {
-          setSwipeBackVar("--swipe-back-target", "100%");
+          setSwipeBackVar("--swipe-back-target", currentDisplacement);
           setSwipeBackState("completing");
+          requestAnimationFrame(() => {
+            setSwipeBackVar("--swipe-back-target", "100%");
+          });
         } else {
-          setSwipeBackVar("--swipe-back-target", "0");
+          setSwipeBackVar("--swipe-back-target", currentDisplacement);
           setSwipeBackState("canceling");
+          requestAnimationFrame(() => {
+            setSwipeBackVar("--swipe-back-target", "0");
+          });
         }
 
         onSwipeBackEnd?.({ swiped });
@@ -243,14 +253,23 @@ export function useGlobalInteraction() {
           rafIdRef.current = null;
         }
         pendingMoveRef.current = null;
-        setSwipeBackContext({
-          x0: 0,
-          t0: 0,
-          displacement: 0,
-          displacementRatio: 0,
-          velocity: 0,
-        });
-        setSwipeBackVar("--swipe-back-target", "0");
+
+        // After completing, keep displacement at 100% so exit animation
+        // starts from the correct position (not 0).
+        if (swipeBackStateRef.current === "completing") {
+          setSwipeBackVar("--swipe-back-displacement", "100vw");
+          setSwipeBackVar("--swipe-back-displacement-ratio", "1");
+          setSwipeBackVar("--swipe-back-target", "100%");
+        } else {
+          setSwipeBackContext({
+            x0: 0,
+            t0: 0,
+            displacement: 0,
+            displacementRatio: 0,
+            velocity: 0,
+          });
+          setSwipeBackVar("--swipe-back-target", "0");
+        }
         setSwipeBackState("idle");
       };
 
