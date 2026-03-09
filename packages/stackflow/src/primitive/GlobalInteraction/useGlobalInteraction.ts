@@ -139,12 +139,23 @@ export function useGlobalInteraction() {
   );
 
   useLayoutEffect(() => {
-    updateSwipeBackTargets(activities);
-
-    // After a completing swipe-back, the pop action removes the top activity,
-    // changing the activities array. Reset swipe-back state here (before paint)
-    // so the new top activity doesn't receive completing CSS.
     if (swipeBackStateRef.current === "completing") {
+      // Save old targets before updateSwipeBackTargets cleans their vars.
+      const oldTargets = [...swipeBackTargetsRef.current];
+      updateSwipeBackTargets(activities);
+
+      // Re-set vars on elements leaving the screen (old targets no longer tracked).
+      // Without this, the exit-active CSS uses var(--swipe-back-displacement, 0) = 0,
+      // causing the exit animation to play from X=0 instead of staying off-screen.
+      for (const target of oldTargets) {
+        if (!swipeBackTargetsRef.current.includes(target)) {
+          target.style.setProperty("--swipe-back-displacement", `${window.innerWidth}px`);
+          target.style.setProperty("--swipe-back-displacement-ratio", "1");
+          target.style.setProperty("--swipe-back-target", "100%");
+        }
+      }
+
+      // Clean new targets (the new top shouldn't inherit swipe vars)
       swipeBackTargetsRef.current.forEach(resetSwipeBackVars);
       swipeBackContextRef.current = {
         x0: 0,
@@ -154,7 +165,10 @@ export function useGlobalInteraction() {
         velocity: 0,
       };
       setSwipeBackState("idle");
+      return;
     }
+
+    updateSwipeBackTargets(activities);
   }, [activities, updateSwipeBackTargets, setSwipeBackState, resetSwipeBackVars]);
 
   const setSwipeBackContext = useCallback(
