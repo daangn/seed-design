@@ -221,25 +221,19 @@ function resolveNestedVars(
   if (resolvedTokens.size === 0) return;
 
   if (scope === "page-only") {
-    // page 토큰 정의 내에서만 flatten — 컴포넌트 CSS의 var() 참조는 유지
-    root.walkRules((rule) => {
-      const isPageSelector = rule.selectors.some(
-        (s) =>
-          s === "page" || s.startsWith("page.") || s.startsWith("page[") || s.startsWith("page "),
+    // 모든 커스텀 프로퍼티 정의에서 nested var() 해소
+    // (Lynx는 --a: var(--b) 체인을 지원하지 않음)
+    // 일반 프로퍼티의 var() 참조는 보존 — 테마 클래스가 토큰을 오버라이드 가능
+    root.walkDecls(/^--/, (decl) => {
+      if (!decl.value.includes("var(")) return;
+      const resolved = decl.value.replace(
+        /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
+        (match, varName: string) => {
+          const val = resolvedTokens.get(varName);
+          return val !== undefined ? val : match;
+        },
       );
-      if (!isPageSelector) return;
-
-      rule.walkDecls(/^--/, (decl) => {
-        if (!decl.value.includes("var(")) return;
-        const resolved = decl.value.replace(
-          /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
-          (match, varName: string) => {
-            const val = resolvedTokens.get(varName);
-            return val !== undefined ? val : match;
-          },
-        );
-        if (resolved !== decl.value) decl.value = resolved;
-      });
+      if (resolved !== decl.value) decl.value = resolved;
     });
   } else {
     // 기존 동작: 모든 선언에서 치환

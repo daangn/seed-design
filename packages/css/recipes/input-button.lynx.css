@@ -118,5 +118,5 @@
 }
 .seed-input-button__clearButton {
     --seed-icon-size: 22px;
-    --seed-icon-color: var(--seed-color-fg-neutral-subtle);
+    --seed-icon-color: #b0b3ba;
 }

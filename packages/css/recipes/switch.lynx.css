@@ -17,7 +17,7 @@
 .seed-switch__root--size_16 {
     min-height: var(--seed-dimension-x6);
     gap: var(--seed-dimension-x1_5);
-    --switchmark-margin-top: calc((var(--seed-dimension-x6) - 16px) / 2);
+    --switchmark-margin-top: calc((24px - 16px) / 2);
 }
 .seed-switch__label--size_16 {
     font-size: var(--seed-font-size-t3);
@@ -27,7 +27,7 @@
 .seed-switch__root--size_24 {
     min-height: var(--seed-dimension-x6);
     gap: var(--seed-dimension-x2);
-    --switchmark-margin-top: calc((var(--seed-dimension-x6) - 24px) / 2);
+    --switchmark-margin-top: calc((24px - 24px) / 2);
 }
 .seed-switch__label--size_24 {
     font-size: var(--seed-font-size-t4);
@@ -37,7 +37,7 @@
 .seed-switch__root--size_32 {
     min-height: var(--seed-dimension-x8);
     gap: var(--seed-dimension-x2_5);
-    --switchmark-margin-top: calc((var(--seed-dimension-x8) - 32px) / 2);
+    --switchmark-margin-top: calc((32px - 32px) / 2);
 }
 .seed-switch__label--size_32 {
     font-size: var(--seed-font-size-t5);

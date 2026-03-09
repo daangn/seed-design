@@ -24,16 +24,16 @@
     --seed-prefix-icon-size: 22px;
 }
 .seed-extended-action-sheet-item--tone_neutral {
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --seed-prefix-icon-color: #f3f4f5;
 }
 .seed-extended-action-sheet-item__text--tone_neutral {
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --seed-prefix-icon-color: #f3f4f5;
     color: var(--seed-color-fg-neutral);
 }
 .seed-extended-action-sheet-item--tone_critical {
-    --seed-prefix-icon-color: var(--seed-color-fg-critical);
+    --seed-prefix-icon-color: #ff6e60;
 }
 .seed-extended-action-sheet-item__text--tone_critical {
-    --seed-prefix-icon-color: var(--seed-color-fg-critical);
+    --seed-prefix-icon-color: #ff6e60;
     color: var(--seed-color-fg-critical);
 }

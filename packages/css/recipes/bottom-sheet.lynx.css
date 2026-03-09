@@ -81,7 +81,7 @@
 .seed-bottom-sheet__body {
     display: flex;
     flex-direction: column;
-    --seed-box-padding-x: var(--seed-dimension-spacing-x-global-gutter);
+    --seed-box-padding-x: 16px;
     --seed-box-height: initial;
     --seed-box-min-height: initial;
     --seed-box-max-height: initial;
@@ -116,7 +116,7 @@
     width: 28px;
     height: 28px;
     --seed-icon-size: 14px;
-    --seed-icon-color: var(--seed-color-fg-neutral);
+    --seed-icon-color: #f3f4f5;
 }
 .seed-bottom-sheet__closeButton:after {
     position: absolute;
