@@ -132,11 +132,17 @@ export function generateRecipeDtsWithSlots(
   );
 
   // CSS 후처리로 생성된 추가 variant의 타입 생성
+  // generateVariantInterface와 동일한 패턴: boolean 값은 리터럴(true) 대신 boolean 타입으로 생성
   const extraVariantInterface = options.extraVariants
     ? Object.entries(options.extraVariants)
         .map(([key, values]) => {
-          const typeString = values
-            .map((v) => (typeof v === "boolean" ? String(v) : `"${v}"`))
+          const booleanValues = values.filter((v) => typeof v === "boolean");
+          const stringValues = values.filter((v): v is string => typeof v === "string");
+          const typeString = [
+            booleanValues.length > 0 ? "boolean" : undefined,
+            ...stringValues.map(stringLiteralType),
+          ]
+            .filter(Boolean)
             .join(" | ");
           return `${key}?: ${typeString};`;
         })

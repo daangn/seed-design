@@ -1,7 +1,7 @@
 declare interface SelectBoxGroupVariant {
   
-  disabled?: true;
-  loading?: true;}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type SelectBoxGroupVariantMap = {
   [key in keyof SelectBoxGroupVariant]: Array<SelectBoxGroupVariant[key]>;

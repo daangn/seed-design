@@ -1,7 +1,7 @@
 declare interface ImageFrameIconVariant {
   
-  disabled?: true;
-  loading?: true;}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type ImageFrameIconVariantMap = {
   [key in keyof ImageFrameIconVariant]: Array<ImageFrameIconVariant[key]>;

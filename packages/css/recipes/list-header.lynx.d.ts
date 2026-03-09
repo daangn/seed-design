@@ -3,8 +3,8 @@ declare interface ListHeaderVariant {
   * @default "mediumWeak"
   */
   variant: "mediumWeak" | "boldSolid";
-  disabled?: true;
-  loading?: true;}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type ListHeaderVariantMap = {
   [key in keyof ListHeaderVariant]: Array<ListHeaderVariant[key]>;

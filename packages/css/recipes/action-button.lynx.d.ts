@@ -11,8 +11,8 @@ declare interface ActionButtonVariant {
   * @default "withText"
   */
   layout: "withText" | "iconOnly";
-  disabled?: true;
-  loading?: true;}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type ActionButtonVariantMap = {
   [key in keyof ActionButtonVariant]: Array<ActionButtonVariant[key]>;

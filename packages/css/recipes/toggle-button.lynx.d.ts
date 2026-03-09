@@ -7,8 +7,8 @@ declare interface ToggleButtonVariant {
   * @default "small"
   */
   size: "xsmall" | "small";
-  disabled?: true;
-  loading?: true;}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type ToggleButtonVariantMap = {
   [key in keyof ToggleButtonVariant]: Array<ToggleButtonVariant[key]>;

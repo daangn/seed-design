@@ -1,7 +1,7 @@
 declare interface SnackbarRegionVariant {
   
-  disabled?: true;
-  loading?: true;}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type SnackbarRegionVariantMap = {
   [key in keyof SnackbarRegionVariant]: Array<SnackbarRegionVariant[key]>;

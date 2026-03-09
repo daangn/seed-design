@@ -7,8 +7,8 @@ declare interface LinkContentVariant {
   * @default "t4"
   */
   size: "t6" | "t5" | "t4";
-  disabled?: true;
-  loading?: true;}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type LinkContentVariantMap = {
   [key in keyof LinkContentVariant]: Array<LinkContentVariant[key]>;

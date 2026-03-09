@@ -3,8 +3,8 @@ declare interface ActionSheetItemVariant {
   * @default "neutral"
   */
   tone: "neutral" | "critical";
-  disabled?: true;
-  loading?: true;}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type ActionSheetItemVariantMap = {
   [key in keyof ActionSheetItemVariant]: Array<ActionSheetItemVariant[key]>;

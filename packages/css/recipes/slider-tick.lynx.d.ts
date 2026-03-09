@@ -3,8 +3,8 @@ declare interface SliderTickVariant {
   * @default "thin"
   */
   weight: "thin" | "thick";
-  disabled?: true;
-  loading?: true;}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type SliderTickVariantMap = {
   [key in keyof SliderTickVariant]: Array<SliderTickVariant[key]>;
