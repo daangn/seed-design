@@ -256,13 +256,8 @@ page {
   color: var(--seed-box-color);
 }
 
-.seed-box:active {
-  --seed-box-background--active: var(--seed-box-background);
+.seed-box.seed-box--has-active-bg_true:active {
   background: var(--seed-box-background--active);
-}
-
-.seed-box__text:active {
-  --seed-box-background--active: var(--seed-box-background);
 }
 
 .seed-grid {
