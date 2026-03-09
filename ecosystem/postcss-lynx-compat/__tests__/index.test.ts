@@ -664,6 +664,34 @@ describe("postcss-lynx-compat", () => {
       // selectorMappings는 매칭 안 됨 → Phase 1의 [data-X] 변환이 처리
       expect(output).toContain("--disabled_true");
     });
+
+    it("매핑 후 빈 셀렉터를 필터링한다", async () => {
+      const input = `
+        page, [data-seed-color-mode="system"] {
+          color-scheme: light dark;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        selectorMappings: [{ match: 'color-mode="system"', replace: "" }],
+      });
+      expect(output).not.toContain("page,  {");
+      expect(output).not.toContain("page, {");
+      expect(output).toContain("page {");
+    });
+
+    it("모든 셀렉터가 빈 경우 룰 자체를 제거한다", async () => {
+      const input = `
+        [data-seed-color-mode="system"] {
+          color-scheme: light dark;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        selectorMappings: [{ match: 'color-mode="system"', replace: "" }],
+      });
+      expect(output.trim()).toBe("");
+    });
   });
 
   describe("통합: 테마 지원 (page-only + selectorMappings)", () => {

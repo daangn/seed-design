@@ -512,7 +512,13 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
           });
 
           const unique = [...new Set(transformed)];
-          rule.selector = unique.join(", ");
+          const nonEmpty = unique.filter((s) => s.length > 0);
+
+          if (nonEmpty.length === 0) {
+            rule.remove();
+            return;
+          }
+          rule.selector = nonEmpty.join(", ");
         });
       }
 
