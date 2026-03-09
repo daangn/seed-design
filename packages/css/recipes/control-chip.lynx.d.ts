@@ -7,7 +7,8 @@ declare interface ControlChipVariant {
   * @default "withText"
   */
   layout: "withText" | "iconOnly";
-}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type ControlChipVariantMap = {
   [key in keyof ControlChipVariant]: Array<ControlChipVariant[key]>;

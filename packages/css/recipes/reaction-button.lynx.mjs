@@ -22,6 +22,12 @@ export const reactionButtonVariantMap = {
   "size": [
     "xsmall",
     "small"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

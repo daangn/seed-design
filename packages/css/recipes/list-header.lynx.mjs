@@ -22,6 +22,12 @@ export const listHeaderVariantMap = {
   "variant": [
     "mediumWeak",
     "boldSolid"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

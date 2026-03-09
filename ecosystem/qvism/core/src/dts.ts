@@ -122,7 +122,7 @@ export function generateSlotRecipeDts(
 
 export function generateRecipeDtsWithSlots(
   definition: RecipeDefinition<RecipeVariantRecord>,
-  options: { targetSlots?: string[] } = {},
+  options: { targetSlots?: string[]; extraVariants?: Record<string, (string | boolean)[]> } = {},
 ): string {
   const capitalizedName = pascalCase(definition.name);
   const jsName = camelCase(definition.name);
@@ -130,12 +130,31 @@ export function generateRecipeDtsWithSlots(
     definition.variants,
     definition.defaultVariants,
   );
+
+  // CSS 후처리로 생성된 추가 variant의 타입 생성
+  // generateVariantInterface와 동일한 패턴: boolean 값은 리터럴(true) 대신 boolean 타입으로 생성
+  const extraVariantInterface = options.extraVariants
+    ? Object.entries(options.extraVariants)
+        .map(([key, values]) => {
+          const booleanValues = values.filter((v) => typeof v === "boolean");
+          const stringValues = values.filter((v): v is string => typeof v === "string");
+          const typeString = [
+            booleanValues.length > 0 ? "boolean" : undefined,
+            ...stringValues.map(stringLiteralType),
+          ]
+            .filter(Boolean)
+            .join(" | ");
+          return `${key}?: ${typeString};`;
+        })
+        .join("\n  ")
+    : "";
+
   const slotNameType = (options.targetSlots ?? []).map((slot) => `"${slot}"`).join(" | ");
 
   return outdent`
   declare interface ${capitalizedName}Variant {
     ${variantInterface}
-  }
+  ${extraVariantInterface ? `  ${extraVariantInterface}` : ""}}
 
   declare type ${capitalizedName}VariantMap = {
     [key in keyof ${capitalizedName}Variant]: Array<${capitalizedName}Variant[key]>;
@@ -159,7 +178,7 @@ export function generateRecipeDtsWithSlots(
 
 export function generateDts(
   definition: RecipeKindDefinition,
-  options: { targetSlots?: string[] } = {},
+  options: { targetSlots?: string[]; extraVariants?: Record<string, (string | boolean)[]> } = {},
 ): string {
   if ("slots" in definition) {
     return generateSlotRecipeDts(definition);

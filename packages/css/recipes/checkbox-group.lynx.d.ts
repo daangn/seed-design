@@ -1,6 +1,7 @@
 declare interface CheckboxGroupVariant {
   
-}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type CheckboxGroupVariantMap = {
   [key in keyof CheckboxGroupVariant]: Array<CheckboxGroupVariant[key]>;

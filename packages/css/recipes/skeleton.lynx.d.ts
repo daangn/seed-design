@@ -7,7 +7,8 @@ declare interface SkeletonVariant {
   * @default "neutral"
   */
   tone: "neutral" | "magic";
-}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type SkeletonVariantMap = {
   [key in keyof SkeletonVariant]: Array<SkeletonVariant[key]>;

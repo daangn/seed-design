@@ -136,9 +136,10 @@ export function generateRecipeJsWithSlots(
     importCss?: boolean;
     cssImportPath?: string;
     targetSlots?: string[];
+    extraVariants?: Record<string, (string | boolean)[]>;
   } = {},
 ): string {
-  const { importCss = true, targetSlots = [] } = options;
+  const { importCss = true, targetSlots = [], extraVariants } = options;
   const jsName = camelCase(definition.name);
 
   // deriveSlots[0] ("root") → 원래 class name, deriveSlots[1+] → __slotName 접미사
@@ -157,6 +158,13 @@ export function generateRecipeJsWithSlots(
       ),
     ]),
   );
+
+  // CSS 후처리로 생성된 추가 variant를 variantMap에 merge
+  if (extraVariants) {
+    for (const [key, values] of Object.entries(extraVariants)) {
+      variantMap[key] = values;
+    }
+  }
 
   const compoundVariants =
     definition.compoundVariants?.map(({ css, ...rest }: { css: StyleObject }) => rest) ?? [];
@@ -200,7 +208,12 @@ export function generateRecipeJsWithSlots(
 
 export function generateJs(
   definition: RecipeKindDefinition,
-  options: { prefix?: string; cssImportPath?: string; targetSlots?: string[] } = {},
+  options: {
+    prefix?: string;
+    cssImportPath?: string;
+    targetSlots?: string[];
+    extraVariants?: Record<string, (string | boolean)[]>;
+  } = {},
 ): string {
   if ("slots" in definition) {
     return generateSlotRecipeJs(definition, options);

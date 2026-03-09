@@ -3,7 +3,8 @@ declare interface ScrollFogVariant {
   * @default false
   */
   hideScrollBar: boolean;
-}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type ScrollFogVariantMap = {
   [key in keyof ScrollFogVariant]: Array<ScrollFogVariant[key]>;

@@ -72,6 +72,12 @@ export const actionButtonVariantMap = {
   "layout": [
     "withText",
     "iconOnly"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const imageFrameReactionButtonVariantMap = {};
+export const imageFrameReactionButtonVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const imageFrameReactionButtonVariantKeys = Object.keys(imageFrameReactionButtonVariantMap);
 

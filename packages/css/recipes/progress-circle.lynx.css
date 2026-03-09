@@ -18,11 +18,11 @@
         ;
 }
 .seed-progress-circle__root--tone_neutral {
-    --track-color: #1d2025;
-    --range-color: #5b606a;
+    --track-color: #f3f4f5;
+    --range-color: #d1d3d8;
 }
 .seed-progress-circle__root--tone_brand {
-    --track-color: #4b291c;
+    --track-color: #ffe8db;
     --range-color: #ff6600;
 }
 .seed-progress-circle__root--tone_staticWhite {

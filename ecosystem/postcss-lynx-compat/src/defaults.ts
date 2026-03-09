@@ -151,9 +151,9 @@ export const defaultConfig: Required<LynxCompatConfig> = {
   },
 
   transformSelectors: {
-    ":--engaged": "[data-active]",
+    ":--engaged": ":active",
     ":is(:disabled, [disabled], [data-disabled])": "[data-disabled]",
-    ":is(:active, [data-active])": "[data-active]",
+    ":is(:active, [data-active])": ":active",
     ":is(:hover, [data-hover])": "[data-hover]",
     // Lynx에는 <html> 요소가 없음 → :root / html을 page로 변환
     ":root": "page",
@@ -162,7 +162,13 @@ export const defaultConfig: Required<LynxCompatConfig> = {
 
   removeAtRules: ["(hover: hover)", "(hover: none)"],
 
-  removeSelectors: [":focus-visible", "::-webkit-scrollbar", "::placeholder", ":-webkit-autofill"],
+  removeSelectors: [
+    ":focus-visible",
+    "::-webkit-scrollbar",
+    "::placeholder",
+    ":-webkit-autofill",
+    "[data-hover]",
+  ],
 
   // Lynx 미지원 pseudo-class — 콤마 그룹에서 해당 셀렉터만 제거, data-* 대안 유지
   filterPseudoClasses: [":checked", ":indeterminate", ":invalid", ":autofill"],
@@ -348,6 +354,10 @@ export const defaultConfig: Required<LynxCompatConfig> = {
   clampStrategy: "preferred",
 
   warnOnly: false,
+
+  resolveVarScope: "all",
+
+  selectorMappings: [],
 
   textSlot: {
     suffix: "__text",

@@ -74,7 +74,7 @@
     min-height: 44px;
     background: transparent;
 }
-.seed-snackbar__actionButton:focus, .seed-snackbar__actionButton[data-focus] {
+.seed-snackbar__actionButton:focus, .seed-snackbar__actionButton.seed-snackbar__actionButton--focus_true {
 }
 .seed-snackbar__prefixIcon--variant_default {
     display: none;

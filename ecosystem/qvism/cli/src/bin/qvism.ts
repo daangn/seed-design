@@ -134,6 +134,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
             ...options,
             cssImportPath: `./${name}.${target.suffix}.css`,
             targetSlots: target.deriveSlots,
+            extraVariants: target.extraVariants,
           });
           const mjsPath = path.join(recipesDir, `${name}.${target.suffix}.mjs`);
           console.log(`Writing ${target.suffix}`, name, "to", mjsPath);
@@ -141,7 +142,10 @@ async function writeRecipes(recipesDir: string, config: Config) {
 
           // deriveSlots가 있으면 별도 .d.ts 생성 (반환 타입이 다름)
           if (target.deriveSlots?.length) {
-            const targetDtsCode = generateDts(definition, { targetSlots: target.deriveSlots });
+            const targetDtsCode = generateDts(definition, {
+              targetSlots: target.deriveSlots,
+              extraVariants: target.extraVariants,
+            });
             const dtsPath = path.join(recipesDir, `${name}.${target.suffix}.d.ts`);
             console.log(`Writing ${target.suffix}`, name, "to", dtsPath);
             fs.writeFileSync(dtsPath, targetDtsCode);

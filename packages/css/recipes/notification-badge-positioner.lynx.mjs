@@ -44,6 +44,12 @@ export const notificationBadgePositionerVariantMap = {
   "size": [
     "small",
     "large"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

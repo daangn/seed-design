@@ -83,6 +83,12 @@ export const textVariantMap = {
     "none",
     "line-through",
     "underline"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

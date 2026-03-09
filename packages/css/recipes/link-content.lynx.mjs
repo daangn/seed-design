@@ -28,6 +28,12 @@ export const linkContentVariantMap = {
     "t6",
     "t5",
     "t4"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

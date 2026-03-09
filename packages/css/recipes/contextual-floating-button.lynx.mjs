@@ -27,6 +27,12 @@ export const contextualFloatingButtonVariantMap = {
   "layout": [
     "withText",
     "iconOnly"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

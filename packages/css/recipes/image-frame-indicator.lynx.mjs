@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const imageFrameIndicatorVariantMap = {};
+export const imageFrameIndicatorVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const imageFrameIndicatorVariantKeys = Object.keys(imageFrameIndicatorVariantMap);
 

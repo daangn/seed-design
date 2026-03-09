@@ -15,7 +15,7 @@
 .seed-slider-marker[data-dir='rtl'] {
     right: calc(var(--marker-position) * 1% + var(--marker-offset));
 }
-.seed-slider-marker__text[data-disabled] {
+.seed-slider-marker__text.seed-slider-marker__text--disabled_true {
     color: var(--seed-color-fg-disabled);
 }
 .seed-slider-marker__text--align_start[data-dir='ltr'] {

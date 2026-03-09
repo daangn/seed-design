@@ -22,6 +22,12 @@ export const actionSheetItemVariantMap = {
   "tone": [
     "neutral",
     "critical"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

@@ -27,6 +27,12 @@ export const toggleButtonVariantMap = {
   "size": [
     "xsmall",
     "small"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

@@ -1,6 +1,7 @@
 declare interface RadioGroupVariant {
   
-}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type RadioGroupVariantMap = {
   [key in keyof RadioGroupVariant]: Array<RadioGroupVariant[key]>;

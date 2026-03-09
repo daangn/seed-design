@@ -69,24 +69,26 @@ describe("postcss-lynx-compat", () => {
   });
 
   describe("셀렉터 변환 (transformSelectors)", () => {
-    it(":--engaged를 [data-active]로 변환한다", async () => {
+    it(":--engaged를 :active로 변환한다", async () => {
       const input = ".btn:--engaged { background: red; }";
       const output = await run(input);
-      expect(output).toContain(".btn[data-active]");
+      expect(output).toContain(".btn:active");
       expect(output).not.toContain(":--engaged");
     });
 
-    it(":is(:disabled, [disabled], [data-disabled])를 [data-disabled]로 변환한다", async () => {
+    it(":is(:disabled, [disabled], [data-disabled])를 --disabled_true 클래스로 변환한다", async () => {
       const input = ".btn:is(:disabled, [disabled], [data-disabled]) { opacity: 0.4; }";
       const output = await run(input);
-      expect(output).toContain(".btn[data-disabled]");
+      // transformSelectors에서 [data-disabled]로 통합 → Phase 1에서 --disabled_true 클래스로 변환
+      expect(output).toContain(".btn--disabled_true");
+      expect(output).not.toContain("[data-disabled]");
       expect(output).not.toContain(":is(");
     });
 
-    it(":is(:active, [data-active])를 [data-active]로 변환한다", async () => {
+    it(":is(:active, [data-active])를 :active로 변환한다", async () => {
       const input = ".btn:is(:active, [data-active]) { background: blue; }";
       const output = await run(input);
-      expect(output).toContain(".btn[data-active]");
+      expect(output).toContain(".btn:active");
     });
   });
 
@@ -352,13 +354,66 @@ describe("postcss-lynx-compat", () => {
       expect(output).toContain("color: red");
     });
 
-    it("data attribute가 있는 셀렉터도 올바르게 분리한다", async () => {
+    it("data attribute가 클래스로 변환된 셀렉터도 올바르게 분리한다", async () => {
       const input = `.seed-action-button--variant_brandSolid[data-disabled] {
         color: gray;
         background-color: lightgray;
       }`;
       const output = await run(input);
-      expect(output).toContain(".seed-action-button__text--variant_brandSolid[data-disabled]");
+      // [data-disabled] → --disabled_true 클래스로 변환 후 text slot 분리
+      expect(output).toContain("seed-action-button--disabled_true");
+      expect(output).toContain("seed-action-button__text--disabled_true");
+    });
+  });
+
+  describe("[data-*] 속성 셀렉터 → 클래스 변환", () => {
+    it("[data-disabled]를 --disabled_true 클래스로 변환한다", async () => {
+      const input = `.seed-action-button[data-disabled] { opacity: 0.4; }`;
+      const output = await run(input);
+      expect(output).toContain(".seed-action-button--disabled_true");
+      expect(output).not.toContain("[data-disabled]");
+    });
+
+    it("[data-loading]를 --loading_true 클래스로 변환한다", async () => {
+      const input = `.seed-action-button[data-loading] { opacity: 0.6; }`;
+      const output = await run(input);
+      expect(output).toContain(".seed-action-button--loading_true");
+      expect(output).not.toContain("[data-loading]");
+    });
+
+    it("variant + [data-disabled] compound 셀렉터를 변환한다", async () => {
+      const input = `.seed-action-button--variant_brandSolid[data-disabled] { background-color: gray; }`;
+      const output = await run(input);
+      expect(output).toContain(
+        ".seed-action-button--variant_brandSolid.seed-action-button--disabled_true",
+      );
+      expect(output).not.toContain("[data-disabled]");
+    });
+
+    it("__text 슬롯 + [data-disabled]를 변환한다", async () => {
+      const input = `.seed-action-button__text--variant_brandSolid[data-disabled] { color: gray; }`;
+      const output = await run(input);
+      expect(output).toContain(
+        ".seed-action-button__text--variant_brandSolid.seed-action-button__text--disabled_true",
+      );
+      expect(output).not.toContain("[data-disabled]");
+    });
+
+    it("[data-hover] 포함 룰을 제거한다", async () => {
+      const input = `
+        .seed-action-button { display: flex; }
+        .seed-action-button[data-hover] { background: blue; }
+      `;
+      const output = await run(input);
+      expect(output).not.toContain("[data-hover]");
+      expect(output).toContain("display: flex");
+    });
+
+    it('[data-X="value"] 패턴을 --X_value로 변환한다', async () => {
+      const input = `.seed-component[data-state="checked"] { background: green; }`;
+      const output = await run(input, { warnOnly: true });
+      expect(output).toContain(".seed-component--state_checked");
+      expect(output).not.toContain("[data-state=");
     });
   });
 
@@ -488,6 +543,221 @@ describe("postcss-lynx-compat", () => {
       `;
       const output = await run(input, { warnOnly: true });
       expect(output).toContain("--fg-color: #333");
+    });
+  });
+
+  describe("resolveVarScope: page-only", () => {
+    it("page 토큰 정의의 중첩 var()는 해소한다", async () => {
+      const input = `
+        page {
+          --palette-gray: #1a1c20;
+          --fg-neutral: var(--palette-gray);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "page-only" });
+      expect(output).toContain("--palette-gray: #1a1c20");
+      expect(output).toContain("--fg-neutral: #1a1c20");
+    });
+
+    it("컴포넌트 CSS의 커스텀 프로퍼티 정의 내 var()도 해소한다", async () => {
+      const input = `
+        page {
+          --palette-gray: #1a1c20;
+          --fg-neutral: var(--palette-gray);
+          --dimension-x4: 16px;
+        }
+        .seed-btn {
+          --btn-color: var(--fg-neutral);
+          --btn-padding: var(--dimension-x4);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "page-only" });
+      // page 내부는 flatten
+      expect(output).toContain("--fg-neutral: #1a1c20");
+      // 컴포넌트 커스텀 프로퍼티도 flatten (Lynx nested var 미지원)
+      expect(output).toContain("--btn-color: #1a1c20");
+      expect(output).toContain("--btn-padding: 16px");
+    });
+
+    it("일반 프로퍼티의 var() 참조는 보존한다", async () => {
+      const input = `
+        page {
+          --fg-neutral: #1a1c20;
+          --dimension-x4: 16px;
+        }
+        .seed-btn {
+          color: var(--fg-neutral);
+          padding-left: var(--dimension-x4);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "page-only" });
+      // 일반 프로퍼티의 var()는 보존 (테마 오버라이드 가능)
+      expect(output).toContain("color: var(--fg-neutral)");
+      expect(output).toContain("padding-left: var(--dimension-x4)");
+    });
+
+    it("page.class 셀렉터도 page-only 해소 대상이다", async () => {
+      const input = `
+        page.seed-theme-dark {
+          --palette-gray: #f3f4f5;
+          --fg-neutral: var(--palette-gray);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "page-only" });
+      expect(output).toContain("--fg-neutral: #f3f4f5");
+    });
+
+    it("resolveVarScope: all (기본값)이면 컴포넌트 var()도 해소한다", async () => {
+      const input = `
+        page {
+          --palette-gray: #1a1c20;
+          --fg-neutral: var(--palette-gray);
+        }
+        .seed-btn {
+          --btn-color: var(--fg-neutral);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "all" });
+      expect(output).toContain("--btn-color: #1a1c20");
+    });
+  });
+
+  describe("selectorMappings", () => {
+    it("data-attribute selector를 class selector로 변환한다", async () => {
+      const input = `
+        page[data-seed-color-mode="dark-only"] {
+          --fg-neutral: #f3f4f5;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        selectorMappings: [{ match: 'color-mode="dark-only"', replace: ".seed-theme-dark" }],
+      });
+      expect(output).toContain("page.seed-theme-dark");
+      expect(output).not.toContain("[data-seed-color-mode");
+    });
+
+    it("여러 매핑 규칙을 적용한다", async () => {
+      const input = `
+        page[data-seed-color-mode="dark-only"] {
+          --fg: #fff;
+        }
+        page[data-seed-color-mode="light-only"] {
+          --fg: #000;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        selectorMappings: [
+          { match: 'color-mode="dark-only"', replace: ".seed-theme-dark" },
+          { match: 'color-mode="light-only"', replace: ".seed-theme-light" },
+        ],
+      });
+      expect(output).toContain("page.seed-theme-dark");
+      expect(output).toContain("page.seed-theme-light");
+    });
+
+    it("콤마 구분 셀렉터에서 각각 변환한다", async () => {
+      const input = `
+        page, page[data-seed-color-mode="light-only"] {
+          --fg: #000;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        selectorMappings: [{ match: 'color-mode="light-only"', replace: ".seed-theme-light" }],
+      });
+      expect(output).toContain("page.seed-theme-light");
+      expect(output).toContain("page,");
+    });
+
+    it("매칭되지 않는 selector는 변경하지 않는다", async () => {
+      const input = `
+        .seed-btn[data-disabled] {
+          opacity: 0.4;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        selectorMappings: [{ match: 'color-mode="dark-only"', replace: ".seed-theme-dark" }],
+      });
+      // selectorMappings는 매칭 안 됨 → Phase 1의 [data-X] 변환이 처리
+      expect(output).toContain("--disabled_true");
+    });
+
+    it("매핑 후 빈 셀렉터를 필터링한다", async () => {
+      const input = `
+        page, [data-seed-color-mode="system"] {
+          color-scheme: light dark;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        selectorMappings: [{ match: 'color-mode="system"', replace: "" }],
+      });
+      expect(output).not.toContain("page,  {");
+      expect(output).not.toContain("page, {");
+      expect(output).toContain("page {");
+    });
+
+    it("모든 셀렉터가 빈 경우 룰 자체를 제거한다", async () => {
+      const input = `
+        [data-seed-color-mode="system"] {
+          color-scheme: light dark;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        selectorMappings: [{ match: 'color-mode="system"', replace: "" }],
+      });
+      expect(output.trim()).toBe("");
+    });
+  });
+
+  describe("통합: 테마 지원 (page-only + selectorMappings)", () => {
+    it("토큰 flatten + 커스텀 프로퍼티 resolve + 일반 프로퍼티 var() 보존 + 테마 selector 변환", async () => {
+      const input = `
+        page, page[data-seed-color-mode="light-only"] {
+          --palette-gray-1000: #1a1c20;
+          --fg-neutral: var(--palette-gray-1000);
+          --dimension-x4: 16px;
+        }
+        page[data-seed-color-mode="dark-only"] {
+          --palette-gray-100: #f3f4f5;
+          --fg-neutral: var(--palette-gray-100);
+        }
+        .seed-action-button {
+          --seed-box-color: var(--fg-neutral);
+          --seed-box-padding: var(--dimension-x4);
+          color: var(--fg-neutral);
+          padding-left: var(--seed-box-padding);
+          display: inline-flex;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        resolveVarScope: "page-only",
+        selectorMappings: [
+          { match: 'color-mode="dark-only"', replace: ".seed-theme-dark" },
+          { match: 'color-mode="light-only"', replace: ".seed-theme-light" },
+        ],
+      });
+
+      // 토큰 정의: nested var() flatten
+      expect(output).toContain("--fg-neutral: #1a1c20");
+      expect(output).toContain("--fg-neutral: #f3f4f5");
+
+      // 테마 selector: class로 변환
+      expect(output).toContain("page.seed-theme-dark");
+      expect(output).toContain("page.seed-theme-light");
+      expect(output).not.toContain("[data-seed-color-mode");
+
+      // 컴포넌트 커스텀 프로퍼티: nested var() resolve (Lynx 미지원)
+      expect(output).toContain("--seed-box-color: #1a1c20");
+      expect(output).toContain("--seed-box-padding: 16px");
+
+      // 일반 프로퍼티: var() 참조 보존 (테마 전환 가능)
+      expect(output).toContain("color: var(--fg-neutral)");
     });
   });
 

@@ -1,42 +1,25 @@
 import { ActionButton } from "@seed-design/lynx-react";
 import { actionButton } from "@seed-design/css/recipes/action-button.lynx";
-import { useState, useCallback } from "react";
 
-function ActiveTestButton() {
-  const [forceActive, setForceActive] = useState(false);
-  const [tapCount, setTapCount] = useState(0);
-  const classes = actionButton({ variant: "brandSolid", size: "medium", layout: "withText" });
+function StateTestButtons() {
+  const classes = actionButton({
+    variant: "brandSolid",
+    size: "medium",
+    layout: "withText",
+    disabled: true,
+  });
 
   return (
     <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
       <text style={{ fontSize: "14px", color: "#666" }}>
-        Test 1: 항상 data-active (CSS 셀렉터 테스트)
+        Test 1: recipe에 disabled 전달 (클래스 기반)
       </text>
-      <view
-        className={classes.root}
-        data-active="true"
-      >
-        <text className={classes.text}>Always Active</text>
+      <view className={classes.root}>
+        <text className={classes.text}>Disabled via Recipe</text>
       </view>
 
       <text style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
-        Test 2: 탭하면 active 토글 (tap count: {tapCount})
-      </text>
-      <view
-        className={classes.root}
-        data-active={forceActive || undefined}
-        bindtap={() => {
-          setForceActive((v) => !v);
-          setTapCount((c) => c + 1);
-        }}
-      >
-        <text className={classes.text}>
-          {forceActive ? "ACTIVE ON" : "ACTIVE OFF"}
-        </text>
-      </view>
-
-      <text style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
-        Test 3: bindtouchstart/end (터치 이벤트)
+        Test 2: :active pseudo-class (터치 시 자동)
       </text>
       <ActionButton variant="brandSolid">Touch Me</ActionButton>
     </view>
@@ -126,9 +109,9 @@ export function App(props: { onRender?: () => void }) {
           marginBottom: "8px",
         }}
       >
-        Active Tests
+        State Tests
       </text>
-      <ActiveTestButton />
+      <StateTestButtons />
 
       <text
         style={{

@@ -10,7 +10,7 @@
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
 }
-.seed-action-sheet-item[data-active] {
+.seed-action-sheet-item:active {
     background-color: var(--seed-color-bg-layer-floating-pressed);
 }
 .seed-action-sheet-item:after {

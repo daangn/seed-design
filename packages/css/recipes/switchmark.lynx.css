@@ -6,7 +6,7 @@
     margin: var(--switchmark-margin-top, 0) 0;
     transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing);
 }
-.seed-switchmark__root[data-disabled] {
+.seed-switchmark__root.seed-switchmark__root--disabled_true {
     opacity: 0.38;
 }
 .seed-switchmark__root {
@@ -16,19 +16,19 @@
     transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms;
     transform: scale(0.8);
 }
-.seed-switchmark__root--tone_neutral[data-checked] {
+.seed-switchmark__root--tone_neutral.seed-switchmark__root--checked_true {
     background: var(--seed-color-bg-neutral-inverted);
 }
-.seed-switchmark__root--tone_neutral[data-disabled][data-checked] {
+.seed-switchmark__root--tone_neutral.seed-switchmark__root--disabled_true[data-checked] {
     background: var(--seed-color-palette-gray-600);
 }
 .seed-switchmark__thumb--tone_neutral {
     background: var(--seed-color-fg-neutral-inverted);
 }
-.seed-switchmark__thumb--tone_neutral[data-disabled] {
+.seed-switchmark__thumb--tone_neutral.seed-switchmark__thumb--disabled_true {
     background: var(--seed-color-palette-static-black-alpha-700);
 }
-.seed-switchmark__root--tone_brand[data-checked] {
+.seed-switchmark__root--tone_brand.seed-switchmark__root--checked_true {
     background: var(--seed-color-bg-brand-solid);
 }
 .seed-switchmark__thumb--tone_brand {
@@ -43,7 +43,7 @@
     width: 12px;
     height: 12px;
 }
-.seed-switchmark__thumb--size_16[data-checked] {
+.seed-switchmark__thumb--size_16.seed-switchmark__thumb--checked_true {
     transform: scale(1) translateX(calc(26px - 16px));
 }
 .seed-switchmark__root--size_24 {
@@ -55,7 +55,7 @@
     width: 20px;
     height: 20px;
 }
-.seed-switchmark__thumb--size_24[data-checked] {
+.seed-switchmark__thumb--size_24.seed-switchmark__thumb--checked_true {
     transform: scale(1) translateX(calc(38px - 24px));
 }
 .seed-switchmark__root--size_32 {
@@ -67,6 +67,6 @@
     width: 26px;
     height: 26px;
 }
-.seed-switchmark__thumb--size_32[data-checked] {
+.seed-switchmark__thumb--size_32.seed-switchmark__thumb--checked_true {
     transform: scale(1) translateX(calc(52px - 32px));
 }

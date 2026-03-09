@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const fabVariantMap = {};
+export const fabVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const fabVariantKeys = Object.keys(fabVariantMap);
 

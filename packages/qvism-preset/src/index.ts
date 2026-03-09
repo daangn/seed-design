@@ -28,8 +28,24 @@ export default definePreset({
   targets: [
     {
       suffix: "lynx",
-      postcssPlugins: [postcssLynxCompat({ tokenCss: tokens._raw })],
+      postcssPlugins: [
+        postcssLynxCompat({
+          tokenCss: tokens._raw,
+          resolveVarScope: "page-only",
+          selectorMappings: [
+            { match: 'color-mode="dark-only"', replace: ".seed-theme-dark" },
+            { match: 'user-color-scheme="dark"', replace: ".seed-theme-dark" },
+            { match: 'color-mode="light-only"', replace: ".seed-theme-light" },
+            { match: 'user-color-scheme="light"', replace: ".seed-theme-light" },
+            { match: 'color-mode="system"', replace: "" },
+          ],
+        }),
+      ],
       deriveSlots: ["root", "text"],
+      extraVariants: {
+        disabled: [true],
+        loading: [true],
+      },
     },
   ],
 });

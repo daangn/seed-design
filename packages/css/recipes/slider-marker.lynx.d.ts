@@ -3,7 +3,8 @@ declare interface SliderMarkerVariant {
   * @default "center"
   */
   align: "start" | "center" | "end";
-}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type SliderMarkerVariantMap = {
   [key in keyof SliderMarkerVariant]: Array<SliderMarkerVariant[key]>;

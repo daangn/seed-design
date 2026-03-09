@@ -144,6 +144,8 @@ export interface TargetConfig {
   postcssPlugins: AcceptedPlugin[];
   /** 단일 recipe를 이 슬롯 이름으로 분리된 JS/DTS 생성. 첫 번째가 base class */
   deriveSlots?: string[];
+  /** CSS 후처리로 생성된 추가 variant (예: { disabled: [true], loading: [true] }) */
+  extraVariants?: Record<string, (string | boolean)[]>;
 }
 
 export interface Config {

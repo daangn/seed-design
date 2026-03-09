@@ -21,6 +21,12 @@ const compoundVariants = [];
 export const scrollFogVariantMap = {
   "hideScrollBar": [
     true
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

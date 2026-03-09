@@ -27,6 +27,12 @@ export const extendedFabVariantMap = {
   "size": [
     "small",
     "medium"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const aspectRatioVariantMap = {};
+export const aspectRatioVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const aspectRatioVariantKeys = Object.keys(aspectRatioVariantMap);
 

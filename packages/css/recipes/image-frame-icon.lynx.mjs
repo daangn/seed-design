@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const imageFrameIconVariantMap = {};
+export const imageFrameIconVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const imageFrameIconVariantKeys = Object.keys(imageFrameIconVariantMap);
 

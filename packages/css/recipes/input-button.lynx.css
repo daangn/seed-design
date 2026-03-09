@@ -35,18 +35,18 @@
     transition: border-color 0.1s var(--seed-timing-function-easing);
     pointer-events: none;
 }
-.seed-input-button__button[data-disabled] {
+.seed-input-button__button.seed-input-button__button--disabled_true {
     background-color: var(--seed-color-bg-disabled);
 }
-.seed-input-button__button:not([data-disabled]):not([data-readonly])[data-active] {
+.seed-input-button__button:not([data-disabled]):not([data-readonly]):active {
     background-color: var(--seed-color-bg-transparent-pressed);
 }
-.seed-input-button__button[data-readonly]:not([data-disabled]) {
+.seed-input-button__button.seed-input-button__button--readonly_true:not([data-disabled]) {
     background-color: var(--seed-color-bg-disabled);
 }
 .seed-input-button__button {
 }
-.seed-input-button__button[data-invalid]::after {
+.seed-input-button__button.seed-input-button__button--invalid_true::after {
     border-width: 2px;
     border-color: var(--seed-color-stroke-critical-solid);
 }
@@ -60,10 +60,10 @@
     flex-grow: 1;
     pointer-events: none;
 }
-.seed-input-button__value[data-disabled] {
+.seed-input-button__value.seed-input-button__value--disabled_true {
     color: var(--seed-color-fg-disabled);
 }
-.seed-input-button__value[data-readonly]:not([data-disabled]) {
+.seed-input-button__value.seed-input-button__value--readonly_true:not([data-disabled]) {
     color: var(--seed-color-fg-neutral);
 }
 .seed-input-button__placeholder {
@@ -76,10 +76,10 @@
     flex-grow: 1;
     pointer-events: none;
 }
-.seed-input-button__placeholder[data-disabled] {
+.seed-input-button__placeholder.seed-input-button__placeholder--disabled_true {
     color: var(--seed-color-fg-disabled);
 }
-.seed-input-button__placeholder[data-readonly]:not([data-disabled]) {
+.seed-input-button__placeholder.seed-input-button__placeholder--readonly_true:not([data-disabled]) {
     color: var(--seed-color-fg-placeholder);
 }
 .seed-input-button__prefixText {
@@ -118,5 +118,5 @@
 }
 .seed-input-button__clearButton {
     --seed-icon-size: 22px;
-    --seed-icon-color: #b0b3ba;
+    --seed-icon-color: #868b94;
 }

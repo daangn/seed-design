@@ -30,6 +30,12 @@ export const mannerTempBadgeVariantMap = {
     "l8",
     "l9",
     "l10"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

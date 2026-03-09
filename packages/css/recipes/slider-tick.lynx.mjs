@@ -22,6 +22,12 @@ export const sliderTickVariantMap = {
   "weight": [
     "thin",
     "thick"
+  ],
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
   ]
 };
 

@@ -16,7 +16,14 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const snackbarRegionVariantMap = {};
+export const snackbarRegionVariantMap = {
+  "disabled": [
+    true
+  ],
+  "loading": [
+    true
+  ]
+};
 
 export const snackbarRegionVariantKeys = Object.keys(snackbarRegionVariantMap);
 
