@@ -48,6 +48,7 @@ export interface EndSwipeBackProps {}
 export function useGlobalInteraction() {
   const stack = useStack();
   const swipeBackStateRef = useRef<SwipeBackState>("idle");
+  const completingActivityIdRef = useRef<string | null>(null);
 
   // Bypass React for swipe-back state transitions.
   // Direct DOM writes eliminate the async re-render gap that causes jank
@@ -67,117 +68,48 @@ export function useGlobalInteraction() {
     velocity: 0,
   });
   const stackRef = useRef<HTMLDivElement>(null);
-  const swipeBackTargetsRef = useRef<HTMLElement[]>([]);
   const rafIdRef = useRef<number | null>(null);
   const pendingMoveRef = useRef<MoveSwipeBackProps | null>(null);
 
-  const resetSwipeBackVars = useCallback((element: HTMLElement) => {
-    element.style.removeProperty("--swipe-back-displacement");
-    element.style.removeProperty("--swipe-back-displacement-ratio");
-    element.style.removeProperty("--swipe-back-target");
-  }, []);
+  // Keep a ref to latest activities so event closures always see fresh data.
+  const activitiesRef = useRef(stack.activities);
+  activitiesRef.current = stack.activities;
 
-  const setSwipeBackVar = useCallback((name: string, value: string) => {
-    swipeBackTargetsRef.current.forEach((element) => {
-      element.style.setProperty(name, value);
-    });
+  // CSS vars are set on the stack element (inherited by all children).
+  const setSwipeBackContext = useCallback((ctx: SwipeBackContext) => {
+    swipeBackContextRef.current = ctx;
+    stackRef.current?.style.setProperty(
+      "--swipe-back-displacement",
+      `${ctx.displacement.toString()}px`,
+    );
+    stackRef.current?.style.setProperty(
+      "--swipe-back-displacement-ratio",
+      ctx.displacementRatio.toString(),
+    );
   }, []);
-
-  const applySwipeBackContext = useCallback(
-    (ctx: SwipeBackContext) => {
-      setSwipeBackVar("--swipe-back-displacement", `${ctx.displacement.toString()}px`);
-      setSwipeBackVar("--swipe-back-displacement-ratio", ctx.displacementRatio.toString());
-    },
-    [setSwipeBackVar],
-  );
 
   const activities = stack.activities;
 
-  const updateSwipeBackTargets = useCallback(
-    (nextActivities: typeof activities) => {
-      const stackElement = stackRef.current;
-      if (!stackElement) {
-        swipeBackTargetsRef.current.forEach(resetSwipeBackVars);
-        swipeBackTargetsRef.current = [];
-        return;
-      }
-
-      const topIndex = nextActivities.findIndex((activity) => activity.isTop);
-      const targets: HTMLElement[] = [];
-
-      if (topIndex >= 0) {
-        const topId = nextActivities[topIndex].id;
-        const topElement = stackElement.querySelector<HTMLElement>(`[data-activity-id="${topId}"]`);
-
-        if (topElement?.dataset["activityType"] === "full-screen") {
-          targets.push(topElement);
-        }
-
-        for (let index = topIndex - 1; index >= 0; index -= 1) {
-          const behindElement = stackElement.querySelector<HTMLElement>(
-            `[data-activity-id="${nextActivities[index].id}"]`,
-          );
-
-          if (behindElement?.dataset["activityType"] === "full-screen") {
-            targets.push(behindElement);
-            break;
-          }
-        }
-      }
-
-      const previousTargets = swipeBackTargetsRef.current;
-      previousTargets.forEach((previousTarget) => {
-        if (!targets.includes(previousTarget)) {
-          resetSwipeBackVars(previousTarget);
-        }
-      });
-
-      swipeBackTargetsRef.current = targets;
-      applySwipeBackContext(swipeBackContextRef.current);
-    },
-    [applySwipeBackContext, resetSwipeBackVars],
-  );
-
+  // When completing, keep the completing CSS active (animation: none !important
+  // suppresses the exit animation). Only transition to idle after the exiting
+  // activity is fully removed from the activities array.
   useLayoutEffect(() => {
-    if (swipeBackStateRef.current === "completing") {
-      // Save old targets before updateSwipeBackTargets cleans their vars.
-      const oldTargets = [...swipeBackTargetsRef.current];
-      updateSwipeBackTargets(activities);
-
-      // Re-set vars on elements leaving the screen (old targets no longer tracked).
-      // Without this, the exit-active CSS uses var(--swipe-back-displacement, 0) = 0,
-      // causing the exit animation to play from X=0 instead of staying off-screen.
-      for (const target of oldTargets) {
-        if (!swipeBackTargetsRef.current.includes(target)) {
-          target.style.setProperty("--swipe-back-displacement", `${window.innerWidth}px`);
-          target.style.setProperty("--swipe-back-displacement-ratio", "1");
-          target.style.setProperty("--swipe-back-target", "100%");
-        }
+    if (swipeBackStateRef.current === "completing" && completingActivityIdRef.current) {
+      const stillPresent = activities.some((a) => a.id === completingActivityIdRef.current);
+      if (!stillPresent) {
+        setSwipeBackContext({
+          x0: 0,
+          t0: 0,
+          displacement: 0,
+          displacementRatio: 0,
+          velocity: 0,
+        });
+        stackRef.current?.style.removeProperty("--swipe-back-target");
+        setSwipeBackState("idle");
+        completingActivityIdRef.current = null;
       }
-
-      // Clean new targets (the new top shouldn't inherit swipe vars)
-      swipeBackTargetsRef.current.forEach(resetSwipeBackVars);
-      swipeBackContextRef.current = {
-        x0: 0,
-        t0: 0,
-        displacement: 0,
-        displacementRatio: 0,
-        velocity: 0,
-      };
-      setSwipeBackState("idle");
-      return;
     }
-
-    updateSwipeBackTargets(activities);
-  }, [activities, updateSwipeBackTargets, setSwipeBackState, resetSwipeBackVars]);
-
-  const setSwipeBackContext = useCallback(
-    (ctx: SwipeBackContext) => {
-      swipeBackContextRef.current = ctx;
-      applySwipeBackContext(ctx);
-    },
-    [applySwipeBackContext],
-  );
+  }, [activities, setSwipeBackState, setSwipeBackContext]);
 
   const getSwipeBackEvents = useCallback(
     (props: SwipeBackProps) => {
@@ -260,17 +192,21 @@ export function useGlobalInteraction() {
         const currentDisplacement = `${swipeBackContextRef.current.displacement}px`;
 
         if (swiped) {
-          setSwipeBackVar("--swipe-back-target", currentDisplacement);
+          // Track which activity is being swiped away (use ref for fresh data).
+          const currentTop = activitiesRef.current.find((a) => a.isTop);
+          completingActivityIdRef.current = currentTop?.id ?? null;
+
+          stackRef.current?.style.setProperty("--swipe-back-target", currentDisplacement);
           setSwipeBackState("completing");
           rafIdRef.current = requestAnimationFrame(() => {
-            setSwipeBackVar("--swipe-back-target", "100%");
+            stackRef.current?.style.setProperty("--swipe-back-target", "100%");
             rafIdRef.current = null;
           });
         } else {
-          setSwipeBackVar("--swipe-back-target", currentDisplacement);
+          stackRef.current?.style.setProperty("--swipe-back-target", currentDisplacement);
           setSwipeBackState("canceling");
           rafIdRef.current = requestAnimationFrame(() => {
-            setSwipeBackVar("--swipe-back-target", "0");
+            stackRef.current?.style.setProperty("--swipe-back-target", "0");
             rafIdRef.current = null;
           });
         }
@@ -285,11 +221,10 @@ export function useGlobalInteraction() {
         }
         pendingMoveRef.current = null;
 
-        // During completing, don't reset to idle. Removing completing CSS would
-        // let the exit-active CSS apply with opacity:1 on the dim overlay,
-        // causing a 1-frame flash. Instead, keep completing CSS active and let
-        // the activities change effect (useLayoutEffect) handle cleanup when
-        // the popped activity is removed — before the browser paints.
+        // During completing, don't reset to idle. The completing CSS's
+        // animation: none !important suppresses the exit animation.
+        // The activities useLayoutEffect handles cleanup when the
+        // popped activity is removed from the array.
         if (swipeBackStateRef.current === "completing") {
           return;
         }
@@ -301,7 +236,7 @@ export function useGlobalInteraction() {
           displacementRatio: 0,
           velocity: 0,
         });
-        setSwipeBackVar("--swipe-back-target", "0");
+        stackRef.current?.style.setProperty("--swipe-back-target", "0");
         setSwipeBackState("idle");
       };
 
@@ -312,7 +247,7 @@ export function useGlobalInteraction() {
         reset,
       };
     },
-    [setSwipeBackContext, setSwipeBackVar],
+    [setSwipeBackContext, setSwipeBackState],
   );
 
   const topActivity = useTopActivity();
