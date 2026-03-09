@@ -151,12 +151,19 @@ function buildTokenMap(tokenCss: string): Map<string, string> {
 function resolveNestedVars(
   root: import("postcss").Root,
   externalTokens?: Map<string, string>,
+  scope: "all" | "page-only" = "all",
 ): void {
   // 1단계: page 셀렉터에서 커스텀 프로퍼티 맵 수집
   const varMap = new Map<string, { value: string; decl: import("postcss").Declaration }[]>();
 
   root.walkRules((rule) => {
-    if (!rule.selectors.some((s) => s === "page" || s.startsWith("page["))) return;
+    if (
+      !rule.selectors.some(
+        (s) =>
+          s === "page" || s.startsWith("page[") || s.startsWith("page.") || s.startsWith("page "),
+      )
+    )
+      return;
 
     rule.walkDecls(/^--/, (decl) => {
       const entries = varMap.get(decl.prop) || [];
@@ -210,23 +217,47 @@ function resolveNestedVars(
     }
   }
 
-  // 4단계: 모든 셀렉터의 커스텀 프로퍼티 정의에서 토큰 참조 치환
+  // 4단계: 커스텀 프로퍼티 정의에서 토큰 참조 치환
   if (resolvedTokens.size === 0) return;
 
-  root.walkDecls(/^--/, (decl) => {
-    if (!decl.value.includes("var(")) return;
+  if (scope === "page-only") {
+    // page 토큰 정의 내에서만 flatten — 컴포넌트 CSS의 var() 참조는 유지
+    root.walkRules((rule) => {
+      const isPageSelector = rule.selectors.some(
+        (s) =>
+          s === "page" || s.startsWith("page.") || s.startsWith("page[") || s.startsWith("page "),
+      );
+      if (!isPageSelector) return;
 
-    const resolved = decl.value.replace(
-      /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
-      (match, varName: string) => {
-        const val = resolvedTokens.get(varName);
-        return val !== undefined ? val : match;
-      },
-    );
-    if (resolved !== decl.value) {
-      decl.value = resolved;
-    }
-  });
+      rule.walkDecls(/^--/, (decl) => {
+        if (!decl.value.includes("var(")) return;
+        const resolved = decl.value.replace(
+          /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
+          (match, varName: string) => {
+            const val = resolvedTokens.get(varName);
+            return val !== undefined ? val : match;
+          },
+        );
+        if (resolved !== decl.value) decl.value = resolved;
+      });
+    });
+  } else {
+    // 기존 동작: 모든 선언에서 치환
+    root.walkDecls(/^--/, (decl) => {
+      if (!decl.value.includes("var(")) return;
+
+      const resolved = decl.value.replace(
+        /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
+        (match, varName: string) => {
+          const val = resolvedTokens.get(varName);
+          return val !== undefined ? val : match;
+        },
+      );
+      if (resolved !== decl.value) {
+        decl.value = resolved;
+      }
+    });
+  }
 }
 
 /** 괄호/대괄호 depth를 존중하면서 콤마로 분리 */
@@ -369,6 +400,8 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     warnOnly: opts.warnOnly ?? defaultConfig.warnOnly,
     expandShorthands: { ...defaultConfig.expandShorthands, ...opts.expandShorthands },
     textSlot: opts.textSlot ?? defaultConfig.textSlot,
+    resolveVarScope: opts.resolveVarScope ?? defaultConfig.resolveVarScope,
+    selectorMappings: opts.selectorMappings ?? defaultConfig.selectorMappings,
   };
 
   // 외부 토큰 CSS가 제공되면 빌드 타임에 파싱하여 맵 구축
@@ -442,7 +475,46 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     // Phase 3–5 모두 OnceExit에서 처리 (postcss-nested 실행 후)
     OnceExit(root) {
       // Phase 0: 중첩 CSS variable 해소 (page 토큰 + 외부 토큰 맵)
-      resolveNestedVars(root, externalTokenMap);
+      resolveNestedVars(root, externalTokenMap, config.resolveVarScope);
+
+      // Phase 0.5: selectorMappings에 따른 selector 변환 (data-attr → class)
+      if (config.selectorMappings.length > 0) {
+        root.walkRules((rule) => {
+          if (!rule.selector.includes("[data-")) return;
+
+          const selectors = splitByComma(rule.selector);
+          const transformed = selectors.map((sel) => {
+            let result = sel;
+            for (const { match, replace } of config.selectorMappings) {
+              if (!result.includes(match)) continue;
+
+              // [data-*] attribute selector 중 match를 포함하는 것을 제거
+              result = result.replace(/\[[^\]]*\]/g, (bracket) =>
+                bracket.includes(match) ? "" : bracket,
+              );
+
+              // descendant selector 패턴 처리: "page " 뒤의 빈 selector 정리
+              // 예: "page [data-seed-color-mode="dark-only"]" → "page" → "page.class"
+              result = result.replace(/\s+/g, " ").trim();
+
+              // class selector 추가
+              if (!result.includes(replace)) {
+                // descendant 구분자가 있으면 마지막 요소에 추가
+                const parts = result.split(/\s+/);
+                if (parts.length > 1 && parts[parts.length - 1] === "") {
+                  // trailing space 제거 후 첫 번째 요소에 추가
+                  result = parts.filter(Boolean).join(" ");
+                }
+                result = result + replace;
+              }
+            }
+            return result;
+          });
+
+          const unique = [...new Set(transformed)];
+          rule.selector = unique.join(", ");
+        });
+      }
 
       // Phase 1: [data-X] 속성 셀렉터 → --X_true 클래스 셀렉터 변환
       // Lynx CSS 엔진이 속성 셀렉터를 지원하지 않으므로, variant 클래스 패턴으로 변환

@@ -355,6 +355,10 @@ export const defaultConfig: Required<LynxCompatConfig> = {
 
   warnOnly: false,
 
+  resolveVarScope: "all",
+
+  selectorMappings: [],
+
   textSlot: {
     suffix: "__text",
     textProperties: [

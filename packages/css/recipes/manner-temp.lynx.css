@@ -3,17 +3,17 @@
     justify-content: flex-start;
     align-items: center;
     gap: var(--seed-dimension-x1);
-    --seed-suffix-icon-size: 32px;
-    --seed-suffix-icon-margin-left: calc(4px * -1);
-    --seed-suffix-icon-margin-right: calc(4px * -1);
-    --seed-suffix-icon-margin-top: calc(4px * -1);
-    --seed-suffix-icon-margin-bottom: calc(4px * -1)
+    --seed-suffix-icon-size: var(--seed-dimension-x8);
+    --seed-suffix-icon-margin-left: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-right: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-top: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-bottom: calc(var(--seed-dimension-x1) * -1)
 }.seed-manner-temp__text {
-    --seed-suffix-icon-size: 32px;
-    --seed-suffix-icon-margin-left: calc(4px * -1);
-    --seed-suffix-icon-margin-right: calc(4px * -1);
-    --seed-suffix-icon-margin-top: calc(4px * -1);
-    --seed-suffix-icon-margin-bottom: calc(4px * -1)
+    --seed-suffix-icon-size: var(--seed-dimension-x8);
+    --seed-suffix-icon-margin-left: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-right: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-top: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-bottom: calc(var(--seed-dimension-x1) * -1)
 ;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);

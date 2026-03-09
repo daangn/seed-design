@@ -47,13 +47,13 @@
     color: var(--seed-color-fg-neutral-subtle);
 }
 .seed-menu-sheet-item__root--tone_neutral {
-    --seed-prefix-icon-color: #f3f4f5;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-menu-sheet-item__label--tone_neutral {
     color: var(--seed-color-fg-neutral);
 }
 .seed-menu-sheet-item__root--tone_critical {
-    --seed-prefix-icon-color: #ff6e60;
+    --seed-prefix-icon-color: var(--seed-color-fg-critical);
 }
 .seed-menu-sheet-item__label--tone_critical {
     color: var(--seed-color-fg-critical);

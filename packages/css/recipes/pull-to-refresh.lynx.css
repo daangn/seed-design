@@ -1,6 +1,6 @@
 .seed-pull-to-refresh__root {
     --ptr-size: 44px;
-    --ptr-transition-duration: 300ms;
+    --ptr-transition-duration: var(--seed-duration-d6);
     height: 100%;
 }
 .seed-pull-to-refresh__indicator {

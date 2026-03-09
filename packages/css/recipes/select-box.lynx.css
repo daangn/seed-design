@@ -46,10 +46,10 @@
 .seed-select-box__content {
     display: flex;
     --seed-prefix-icon-size: 22px;
-    --seed-prefix-icon-color: #f3f4f5;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-select-box__content.seed-select-box__content--disabled_true {
-    --seed-prefix-icon-color: #5b606a;
+    --seed-prefix-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-select-box__body {
     display: flex;

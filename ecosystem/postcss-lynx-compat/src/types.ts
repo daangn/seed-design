@@ -32,6 +32,17 @@ export interface LynxCompatConfig {
   /** 빌드 타임 토큰 CSS 문자열 — page 셀렉터 내 커스텀 프로퍼티를 파싱하여 var() 참조 해소에 사용 */
   tokenCss?: string;
 
+  /** var() 해소 범위: "all"(기존 동작, 모든 선언 치환) | "page-only"(토큰 정의만 flatten, 컴포넌트 var() 유지) */
+  resolveVarScope?: "all" | "page-only";
+
+  /** selector 매핑 규칙 — data-attribute selector를 class selector로 변환 */
+  selectorMappings?: Array<{
+    /** 매칭할 패턴 (selector 내 문자열 매칭) */
+    match: string;
+    /** 변환할 class selector */
+    replace: string;
+  }>;
+
   /** 텍스트 슬롯 분리 설정 — 단일 recipe CSS를 view/text로 분리 */
   textSlot?: {
     /** text 슬롯 클래스 접미사 (예: "__text") */
