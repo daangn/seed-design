@@ -91,12 +91,13 @@ export function useGlobalInteraction() {
   const activities = stack.activities;
 
   // When completing, keep the completing CSS active (animation: none !important
-  // suppresses the exit animation). Only transition to idle after the exiting
-  // activity is fully removed from the activities array.
+  // suppresses the exit animation). Transition to idle once the exiting activity
+  // reaches exit-done. Note: stackflow never removes exit-done activities from
+  // the array, so we must check transitionState instead of array membership.
   useLayoutEffect(() => {
     if (swipeBackStateRef.current === "completing" && completingActivityIdRef.current) {
-      const stillPresent = activities.some((a) => a.id === completingActivityIdRef.current);
-      if (!stillPresent) {
+      const completingActivity = activities.find((a) => a.id === completingActivityIdRef.current);
+      if (!completingActivity || completingActivity.transitionState === "exit-done") {
         setSwipeBackContext({
           x0: 0,
           t0: 0,
