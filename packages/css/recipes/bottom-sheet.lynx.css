@@ -116,7 +116,7 @@
     width: 28px;
     height: 28px;
     --seed-icon-size: 14px;
-    --seed-icon-color: #f3f4f5;
+    --seed-icon-color: #1a1c20;
 }
 .seed-bottom-sheet__closeButton:after {
     position: absolute;

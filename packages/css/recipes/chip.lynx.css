@@ -42,12 +42,12 @@
 }
 .seed-chip__root--variant_solid {
     background: var(--seed-color-bg-neutral-weak-alpha);
-    --seed-icon-color: #f3f4f5;
+    --seed-icon-color: #1a1c20;
 }
 .seed-chip__root--variant_solid.seed-chip__root--checked_true {
     box-shadow: none;
     background: var(--seed-color-bg-neutral-inverted);
-    --seed-icon-color: #16171b;
+    --seed-icon-color: #ffffff;
 }
 .seed-chip__root--variant_solid:active:not(.seed-chip__root--disabled_true) {
     background: var(--seed-color-bg-neutral-weak-alpha-pressed);
@@ -73,14 +73,14 @@
 .seed-chip__root--variant_outlineStrong {
     background: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-    --seed-icon-color: #f3f4f5;
+    --seed-icon-color: #1a1c20;
 }
 .seed-chip__root--variant_outlineStrong:active:not(.seed-chip__root--disabled_true) {
     background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-chip__root--variant_outlineStrong.seed-chip__root--checked_true {
     background: var(--seed-color-bg-neutral-inverted);
-    --seed-icon-color: #16171b;
+    --seed-icon-color: #ffffff;
 }
 .seed-chip__root--variant_outlineStrong.seed-chip__root--checked_true:active:not([data-disabled]) {
     background: var(--seed-color-bg-neutral-inverted-pressed);
@@ -103,7 +103,7 @@
 .seed-chip__root--variant_outlineWeak {
     background: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-    --seed-icon-color: #f3f4f5;
+    --seed-icon-color: #1a1c20;
 }
 .seed-chip__root--variant_outlineWeak:active:not(.seed-chip__root--disabled_true) {
     background: var(--seed-color-bg-transparent-pressed);

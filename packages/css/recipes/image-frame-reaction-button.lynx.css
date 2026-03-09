@@ -24,8 +24,8 @@
 .seed-image-frame-reaction-button:focus, .seed-image-frame-reaction-button.seed-image-frame-reaction-button--focus_true {
 }
 .seed-image-frame-reaction-button[aria-pressed=true], .seed-image-frame-reaction-button.seed-image-frame-reaction-button--pressed_true {
-    --seed-icon-color: #ffffff00;
+    --seed-icon-color: #00000000;
 }
 .seed-image-frame-reaction-button__text[aria-pressed=true], .seed-image-frame-reaction-button__text.seed-image-frame-reaction-button__text--pressed_true {
-    --seed-icon-color: #ffffff00;
+    --seed-icon-color: #00000000;
 }

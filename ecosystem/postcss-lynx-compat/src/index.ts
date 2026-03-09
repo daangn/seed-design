@@ -90,8 +90,90 @@ function filterTransitionPropertyValue(
   return filtered.length === 0 ? null : filtered.join(", ");
 }
 
+// ── var() 해소 공통 상수 & 유틸 ──
+
+const VAR_REGEX = /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g;
+const MAX_RESOLVE_ITERATIONS = 10;
+
+/** var() 참조를 토큰맵의 leaf 값으로 치환 */
+function replaceVarRefs(value: string, tokens: Map<string, string>): string {
+  return value.replace(VAR_REGEX, (match, varName: string) => {
+    const val = tokens.get(varName);
+    return val !== undefined ? val : match;
+  });
+}
+
 /**
- * 토큰 CSS 문자열에서 :root / page 셀렉터 내 커스텀 프로퍼티를 파싱하여 맵으로 반환.
+ * base(light) 셀렉터인지 판별.
+ * :root, page — ✅
+ * :root[..light-only..], page[..light-only..] — ✅
+ * :root[..dark-only..], page.seed-theme-dark — ❌
+ */
+function isBaseSelector(s: string): boolean {
+  if (s === ":root" || s === "page") return true;
+  if (s.startsWith(":root[") || s.startsWith("page[")) {
+    return !s.includes("dark");
+  }
+  return false;
+}
+
+/** page 관련 셀렉터인지 판별 (page, page[*, page.*, page 공백) */
+function isPageSelector(s: string): boolean {
+  return s === "page" || s.startsWith("page[") || s.startsWith("page.") || s.startsWith("page ");
+}
+
+/** flat Map<string, string>의 중첩 var() 참조를 반복 해소 */
+function resolveMapIteratively(varMap: Map<string, string>): void {
+  let changed = true;
+  let iterations = 0;
+  while (changed && iterations < MAX_RESOLVE_ITERATIONS) {
+    changed = false;
+    iterations++;
+    for (const [prop, value] of varMap) {
+      const resolved = value.replace(VAR_REGEX, (match, varName: string) => {
+        const target = varMap.get(varName);
+        if (!target || target.includes("var(")) return match;
+        return target;
+      });
+      if (resolved !== value) {
+        changed = true;
+        varMap.set(prop, resolved);
+      }
+    }
+  }
+}
+
+/** AST-연결 entries 배열의 중첩 var() 참조를 반복 해소 (decl.value 동시 업데이트) */
+function resolveEntriesIteratively(
+  varEntries: Map<string, { value: string; decl: import("postcss").Declaration }[]>,
+): void {
+  let changed = true;
+  let iterations = 0;
+  while (changed && iterations < MAX_RESOLVE_ITERATIONS) {
+    changed = false;
+    iterations++;
+    for (const [, entries] of varEntries) {
+      for (const entry of entries) {
+        const resolved = entry.value.replace(VAR_REGEX, (match, varName: string) => {
+          const target = varEntries.get(varName);
+          if (!target) return match;
+          const targetValue = target[0].value;
+          if (targetValue.includes("var(")) return match;
+          return targetValue;
+        });
+        if (resolved !== entry.value) {
+          changed = true;
+          entry.value = resolved;
+          entry.decl.value = resolved;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * 토큰 CSS 문자열에서 base(light) 셀렉터 내 커스텀 프로퍼티를 파싱하여 맵으로 반환.
+ * dark 셀렉터의 값은 무시하여 light 토큰만 수집.
  * 중첩 var() 참조도 해소하여 최종 leaf 값만 포함.
  */
 function buildTokenMap(tokenCss: string): Map<string, string> {
@@ -99,41 +181,17 @@ function buildTokenMap(tokenCss: string): Map<string, string> {
   const tokenRoot = postcss.parse(tokenCss);
   const varMap = new Map<string, string>();
 
+  // base 셀렉터에서만 수집 (dark 제외)
   tokenRoot.walkRules((rule: import("postcss").Rule) => {
-    const isTokenSelector = rule.selectors.some(
-      (s: string) =>
-        s === ":root" || s === "page" || s.startsWith("page[") || s.startsWith(":root["),
-    );
-    if (!isTokenSelector) return;
-
+    if (!rule.selectors.some(isBaseSelector)) return;
     rule.walkDecls(/^--/, (decl: import("postcss").Declaration) => {
       varMap.set(decl.prop, decl.value);
     });
   });
 
-  // 중첩 var() 해소 (최대 10회 반복)
-  let changed = true;
-  let iterations = 0;
-  while (changed && iterations < 10) {
-    changed = false;
-    iterations++;
-    for (const [prop, value] of varMap) {
-      const resolved = value.replace(
-        /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
-        (match, varName: string) => {
-          const target = varMap.get(varName);
-          if (!target || target.includes("var(")) return match;
-          return target;
-        },
-      );
-      if (resolved !== value) {
-        changed = true;
-        varMap.set(prop, resolved);
-      }
-    }
-  }
+  resolveMapIteratively(varMap);
 
-  // leaf 값만 남기기
+  // leaf 값만 반환
   const result = new Map<string, string>();
   for (const [prop, value] of varMap) {
     if (!value.includes("var(")) {
@@ -145,113 +203,54 @@ function buildTokenMap(tokenCss: string): Map<string, string> {
 
 /**
  * 중첩 CSS variable을 빌드 타임에 해소.
- * 1) page 셀렉터 내 중첩 var() 해소
- * 2) 외부 토큰 맵이 있으면 모든 커스텀 프로퍼티에서 토큰 참조 치환
+ * Step 1: page 셀렉터 내 중첩 var() 해소
+ * Step 2: 외부 토큰 맵이 있으면 커스텀 프로퍼티에서 토큰 참조 치환
  */
 function resolveNestedVars(
   root: import("postcss").Root,
   externalTokens?: Map<string, string>,
   scope: "all" | "page-only" = "all",
 ): void {
-  // 1단계: page 셀렉터에서 커스텀 프로퍼티 맵 수집
-  const varMap = new Map<string, { value: string; decl: import("postcss").Declaration }[]>();
+  // Step 1: page 셀렉터에서 커스텀 프로퍼티 맵 수집
+  const varEntries = new Map<string, { value: string; decl: import("postcss").Declaration }[]>();
 
   root.walkRules((rule) => {
-    if (
-      !rule.selectors.some(
-        (s) =>
-          s === "page" || s.startsWith("page[") || s.startsWith("page.") || s.startsWith("page "),
-      )
-    )
-      return;
-
+    if (!rule.selectors.some(isPageSelector)) return;
     rule.walkDecls(/^--/, (decl) => {
-      const entries = varMap.get(decl.prop) || [];
+      const entries = varEntries.get(decl.prop) || [];
       entries.push({ value: decl.value, decl });
-      varMap.set(decl.prop, entries);
+      varEntries.set(decl.prop, entries);
     });
   });
 
-  // 2단계: page 내 중첩 var() 해소 (최대 10회 반복)
-  let changed = true;
-  let iterations = 0;
-  while (changed && iterations < 10) {
-    changed = false;
-    iterations++;
-    for (const [, entries] of varMap) {
-      for (const entry of entries) {
-        const resolved = entry.value.replace(
-          /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
-          (match, varName: string) => {
-            const target = varMap.get(varName);
-            if (!target) return match;
-            const targetValue = target[0].value;
-            if (targetValue.includes("var(")) return match;
-            return targetValue;
-          },
-        );
-        if (resolved !== entry.value) {
-          changed = true;
-          entry.value = resolved;
-          entry.decl.value = resolved;
-        }
-      }
-    }
-  }
+  resolveEntriesIteratively(varEntries);
 
-  // 3단계: 토큰 맵 구축 (page 내 해소된 값 + 외부 토큰)
+  // Step 2: 토큰 맵 구축 (외부 토큰 + page 내 해소된 값)
   const resolvedTokens = new Map<string, string>();
 
-  // 외부 토큰 먼저 (낮은 우선순위)
   if (externalTokens) {
     for (const [prop, val] of externalTokens) {
       resolvedTokens.set(prop, val);
     }
   }
 
-  // page 내 해소된 값으로 덮어쓰기 (높은 우선순위)
-  for (const [prop, entries] of varMap) {
+  for (const [prop, entries] of varEntries) {
     const val = entries[0].value;
     if (!val.includes("var(")) {
       resolvedTokens.set(prop, val);
     }
   }
 
-  // 4단계: 커스텀 프로퍼티 정의에서 토큰 참조 치환
   if (resolvedTokens.size === 0) return;
 
-  if (scope === "page-only") {
-    // 모든 커스텀 프로퍼티 정의에서 nested var() 해소
-    // (Lynx는 --a: var(--b) 체인을 지원하지 않음)
-    // 일반 프로퍼티의 var() 참조는 보존 — 테마 클래스가 토큰을 오버라이드 가능
-    root.walkDecls(/^--/, (decl) => {
-      if (!decl.value.includes("var(")) return;
-      const resolved = decl.value.replace(
-        /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
-        (match, varName: string) => {
-          const val = resolvedTokens.get(varName);
-          return val !== undefined ? val : match;
-        },
-      );
-      if (resolved !== decl.value) decl.value = resolved;
-    });
-  } else {
-    // 기존 동작: 모든 선언에서 치환
-    root.walkDecls(/^--/, (decl) => {
-      if (!decl.value.includes("var(")) return;
-
-      const resolved = decl.value.replace(
-        /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g,
-        (match, varName: string) => {
-          const val = resolvedTokens.get(varName);
-          return val !== undefined ? val : match;
-        },
-      );
-      if (resolved !== decl.value) {
-        decl.value = resolved;
-      }
-    });
-  }
+  // Step 3: 커스텀 프로퍼티 정의에서 토큰 참조 치환
+  // page-only: 커스텀 프로퍼티(--*)만 치환 — 일반 프로퍼티의 var()는 테마 오버라이드용으로 보존
+  // all: 모든 커스텀 프로퍼티 치환 (기존 동작)
+  root.walkDecls(/^--/, (decl) => {
+    if (!decl.value.includes("var(")) return;
+    const resolved = replaceVarRefs(decl.value, resolvedTokens);
+    if (resolved !== decl.value) decl.value = resolved;
+  });
 }
 
 /** 괄호/대괄호 depth를 존중하면서 콤마로 분리 */
@@ -414,7 +413,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
   return {
     postcssPlugin: PLUGIN_NAME,
 
-    // Phase 1: @media 규칙 제거
+    // Rule/AtRule 훅: 셀렉터 변환, pseudo-class 필터링, @media 제거
     AtRule(atRule) {
       if (atRule.name !== "media") return;
 
@@ -426,7 +425,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       }
     },
 
-    // Phase 2: 룰 셀렉터 변환 & 제거
+    // 룰 셀렉터 변환 & 제거
     Rule(rule) {
       // removeSelectors 패턴 매칭 → 룰 전체 제거
       for (const pattern of config.removeSelectors) {
@@ -466,12 +465,12 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       }
     },
 
-    // Phase 3–5 모두 OnceExit에서 처리 (postcss-nested 실행 후)
+    // OnceExit: postcss-nested 실행 후 일괄 처리
     OnceExit(root) {
-      // Phase 0: 중첩 CSS variable 해소 (page 토큰 + 외부 토큰 맵)
+      // Step 1: 중첩 CSS variable 해소 (page 토큰 + 외부 토큰 맵)
       resolveNestedVars(root, externalTokenMap, config.resolveVarScope);
 
-      // Phase 0.5: selectorMappings에 따른 selector 변환 (data-attr → class)
+      // Step 2: selectorMappings — data-attr → class 변환
       if (config.selectorMappings.length > 0) {
         root.walkRules((rule) => {
           if (!rule.selector.includes("[data-")) return;
@@ -516,8 +515,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         });
       }
 
-      // Phase 1: [data-X] 속성 셀렉터 → --X_true 클래스 셀렉터 변환
-      // Lynx CSS 엔진이 속성 셀렉터를 지원하지 않으므로, variant 클래스 패턴으로 변환
+      // Step 3: [data-X] 속성 셀렉터 → variant 클래스 변환
       root.walkRules((rule) => {
         if (!rule.selector.includes("[data-")) return;
 
@@ -539,7 +537,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         rule.selector = transformed.join(", ");
       });
 
-      // Phase 3: 프로퍼티 & 값 처리
+      // Step 4: 프로퍼티 필터링 + transition 정리
       root.walkDecls((decl) => {
         const prop = decl.prop;
 
@@ -632,7 +630,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         throw decl.error(message, { plugin: PLUGIN_NAME });
       });
 
-      // Phase 5: Text Slot Splitting — view/text CSS 프로퍼티 분리
+      // Step 5: Text Slot 분리 — view/text CSS 프로퍼티 분리
       if (!config.textSlot) return;
 
       const { suffix, textProperties, sharedProperties } = config.textSlot;

@@ -74,6 +74,6 @@
     margin-top: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
     color: var(--seed-color-fg-neutral-inverted);
     --seed-icon-size: 14px;
-    --seed-icon-color: #16171b;
+    --seed-icon-color: #ffffff;
     border-radius: var(--seed-radius-r3);
 }

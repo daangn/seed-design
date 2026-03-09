@@ -26,7 +26,7 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     --seed-prefix-icon-size: 16px;
-    --seed-prefix-icon-color: #b0b3ba;
+    --seed-prefix-icon-color: #868b94;
     --seed-prefix-icon-margin-right: 6px;
     --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - 16px) / 2);
 }
@@ -37,7 +37,7 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     --seed-prefix-icon-size: 16px;
-    --seed-prefix-icon-color: #ff6e60;
+    --seed-prefix-icon-color: #fa342c;
     --seed-prefix-icon-margin-right: 6px;
     --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - 16px) / 2);
 }

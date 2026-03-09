@@ -19,10 +19,10 @@
     padding-right: var(--seed-box-padding-right);
     --seed-focus-ring: none;
     --seed-icon-size: 22px;
-    --seed-icon-color: #f3f4f5;
+    --seed-icon-color: #1a1c20;
 }
 .seed-list-item__prefix.seed-list-item__prefix--disabled_true {
-    --seed-icon-color: #5b606a;
+    --seed-icon-color: #d1d3d8;
 }
 .seed-list-item__suffix {
     display: inline-flex;
@@ -38,10 +38,10 @@
     font-weight: var(--seed-font-weight-regular);
     color: var(--seed-color-fg-neutral-subtle);
     --seed-icon-size: 18px;
-    --seed-icon-color: #b0b3ba;
+    --seed-icon-color: #868b94;
 }
 .seed-list-item__suffix.seed-list-item__suffix--disabled_true {
-    --seed-icon-color: #5b606a;
+    --seed-icon-color: #d1d3d8;
 }
 .seed-list-item__content {
     display: inline-flex;
