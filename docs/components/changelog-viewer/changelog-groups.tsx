@@ -36,14 +36,14 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
           <section
             key={groupKey}
             id={groupAnchorId}
-            className="rounded-xl border border-fd-border scroll-mt-24"
+            className="rounded-xl border border-fd-border scroll-mt-24 overflow-hidden"
           >
-            <div className="sticky top-16 z-10 flex items-center justify-between gap-2 flex-wrap border-b border-fd-border px-4 py-2.5 bg-fd-card/95 backdrop-blur supports-[backdrop-filter]:bg-fd-card/80">
+            <div className="sticky top-16 z-10 flex items-center justify-between gap-2 flex-wrap border-b border-fd-border px-4 h-10 bg-fd-card/95 backdrop-blur supports-[backdrop-filter]:bg-fd-card/80 rounded-t-xl">
               <div className="group/copy inline-flex items-center gap-1.5 min-w-0">
                 <span className="text-fd-muted-foreground">📦</span>
                 <a
                   href={groupQueryHref}
-                  className="truncate text-sm md:text-base font-semibold font-mono hover:text-fd-primary transition-colors"
+                  className="truncate text-xs md:text-sm font-semibold font-mono hover:text-fd-primary transition-colors"
                 >
                   {group.packageName}@{group.version}
                 </a>
