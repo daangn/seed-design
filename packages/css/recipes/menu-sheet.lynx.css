@@ -92,12 +92,12 @@
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-medium);
 }
-.seed-menu-sheet__closeButton[data-active] {
+.seed-menu-sheet__closeButton:active {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-menu-sheet__closeButton {
 }
-.seed-menu-sheet__backdrop--skipAnimation_false[data-state="open"], .seed-menu-sheet__backdrop--skipAnimation_false[data-open] {
+.seed-menu-sheet__backdrop--skipAnimation_false.seed-menu-sheet__backdrop--state_open, .seed-menu-sheet__backdrop--skipAnimation_false.seed-menu-sheet__backdrop--open_true {
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter);
     animation-duration: var(--seed-duration-d2);
@@ -106,7 +106,7 @@
     --seed-enter-opacity: 0;
     --seed-enter-scale: 1;
 }
-.seed-menu-sheet__backdrop--skipAnimation_false:not([data-state="open"]):not([data-open]) {
+.seed-menu-sheet__backdrop--skipAnimation_false:not(.seed-menu-sheet__backdrop--state_open):not([data-open]) {
     animation: seed-exit;
     animation-timing-function: var(--seed-timing-function-exit);
     animation-duration: var(--seed-duration-d2);
@@ -116,7 +116,7 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 1;
 }
-.seed-menu-sheet__content--skipAnimation_false[data-state="open"], .seed-menu-sheet__content--skipAnimation_false[data-open] {
+.seed-menu-sheet__content--skipAnimation_false.seed-menu-sheet__content--state_open, .seed-menu-sheet__content--skipAnimation_false.seed-menu-sheet__content--open_true {
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter-expressive);
     animation-duration: var(--seed-duration-d6);
@@ -125,7 +125,7 @@
     --seed-enter-opacity: 1;
     --seed-enter-scale: 1;
 }
-.seed-menu-sheet__content--skipAnimation_false:not([data-state="open"]):not([data-open]) {
+.seed-menu-sheet__content--skipAnimation_false:not(.seed-menu-sheet__content--state_open):not([data-open]) {
     animation: seed-exit;
     animation-timing-function: var(--seed-timing-function-exit);
     animation-duration: var(--seed-duration-d4);

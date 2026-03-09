@@ -6,7 +6,7 @@
 }.seed-contextual-floating-button__text {
     font-family: inherit;
 }
-.seed-contextual-floating-button[data-disabled] {
+.seed-contextual-floating-button.seed-contextual-floating-button--disabled_true {
 }
 .seed-contextual-floating-button {
     border-radius: var(--seed-radius-full);
@@ -57,20 +57,20 @@
     --range-color: #16171b;
     color: var(--seed-color-fg-neutral-inverted);
 }
-.seed-contextual-floating-button--variant_solid[data-active] {
+.seed-contextual-floating-button--variant_solid:active {
     background: var(--seed-color-bg-neutral-inverted-pressed);
 }
-.seed-contextual-floating-button--variant_solid[data-disabled] {
+.seed-contextual-floating-button--variant_solid.seed-contextual-floating-button--disabled_true {
     background: var(--seed-color-bg-disabled);
     --seed-prefix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
 }
-.seed-contextual-floating-button__text--variant_solid[data-disabled] {
+.seed-contextual-floating-button__text--variant_solid.seed-contextual-floating-button__text--disabled_true {
     --seed-prefix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
     color: var(--seed-color-fg-disabled);
 }
-.seed-contextual-floating-button--variant_solid[data-loading] {
+.seed-contextual-floating-button--variant_solid.seed-contextual-floating-button--loading_true {
     background: var(--seed-color-bg-neutral-inverted-pressed);
 }
 .seed-contextual-floating-button--variant_layer {
@@ -87,20 +87,20 @@
     --range-color: #f3f4f5;
     color: var(--seed-color-fg-neutral);
 }
-.seed-contextual-floating-button--variant_layer[data-active] {
+.seed-contextual-floating-button--variant_layer:active {
     background: var(--seed-color-bg-layer-floating-pressed);
 }
-.seed-contextual-floating-button--variant_layer[data-disabled] {
+.seed-contextual-floating-button--variant_layer.seed-contextual-floating-button--disabled_true {
     background: var(--seed-color-bg-disabled);
     --seed-prefix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
 }
-.seed-contextual-floating-button__text--variant_layer[data-disabled] {
+.seed-contextual-floating-button__text--variant_layer.seed-contextual-floating-button__text--disabled_true {
     --seed-prefix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
     color: var(--seed-color-fg-disabled);
 }
-.seed-contextual-floating-button--variant_layer[data-loading] {
+.seed-contextual-floating-button--variant_layer.seed-contextual-floating-button--loading_true {
     background: var(--seed-color-bg-layer-floating-pressed);
 }
 .seed-contextual-floating-button--layout_withText {

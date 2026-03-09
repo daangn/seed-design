@@ -52,7 +52,7 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
 }
-.seed-field__characterCount[data-invalid] {
+.seed-field__characterCount.seed-field__characterCount--invalid_true {
     color: var(--seed-color-fg-critical);
 }
 .seed-field__maxCharacterCount {
@@ -61,6 +61,6 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
 }
-.seed-field__maxCharacterCount[data-invalid] {
+.seed-field__maxCharacterCount.seed-field__maxCharacterCount--invalid_true {
     color: var(--seed-color-fg-critical);
 }

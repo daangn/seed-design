@@ -38,7 +38,7 @@
     --seed-box-bleed-right: 0px;
     font-family: inherit;
 }
-.seed-action-button[data-disabled] {
+.seed-action-button.seed-action-button--disabled_true {
 }
 .seed-action-button {
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
@@ -63,22 +63,22 @@
     color: var(--seed-color-palette-static-white);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-action-button--variant_brandSolid[data-active] {
+.seed-action-button--variant_brandSolid:active {
     background: var(--seed-color-bg-brand-solid-pressed);
 }
-.seed-action-button--variant_brandSolid[data-disabled] {
+.seed-action-button--variant_brandSolid.seed-action-button--disabled_true {
     background: var(--seed-color-bg-disabled);
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
 }
-.seed-action-button__text--variant_brandSolid[data-disabled] {
+.seed-action-button__text--variant_brandSolid.seed-action-button__text--disabled_true {
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
     color: var(--seed-color-fg-disabled);
 }
-.seed-action-button--variant_brandSolid[data-loading] {
+.seed-action-button--variant_brandSolid.seed-action-button--loading_true {
     background: var(--seed-color-bg-brand-solid-pressed);
 }
 .seed-action-button--variant_neutralSolid {
@@ -98,22 +98,22 @@
     color: var(--seed-color-fg-neutral-inverted);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-action-button--variant_neutralSolid[data-active] {
+.seed-action-button--variant_neutralSolid:active {
     background: var(--seed-color-bg-neutral-inverted-pressed);
 }
-.seed-action-button--variant_neutralSolid[data-disabled] {
+.seed-action-button--variant_neutralSolid.seed-action-button--disabled_true {
     background: var(--seed-color-bg-disabled);
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
 }
-.seed-action-button__text--variant_neutralSolid[data-disabled] {
+.seed-action-button__text--variant_neutralSolid.seed-action-button__text--disabled_true {
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
     color: var(--seed-color-fg-disabled);
 }
-.seed-action-button--variant_neutralSolid[data-loading] {
+.seed-action-button--variant_neutralSolid.seed-action-button--loading_true {
     background: var(--seed-color-bg-neutral-inverted-pressed);
 }
 .seed-action-button--variant_neutralWeak {
@@ -133,22 +133,22 @@
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-action-button--variant_neutralWeak[data-active] {
+.seed-action-button--variant_neutralWeak:active {
     background: var(--seed-color-bg-neutral-weak-pressed);
 }
-.seed-action-button--variant_neutralWeak[data-disabled] {
+.seed-action-button--variant_neutralWeak.seed-action-button--disabled_true {
     background: var(--seed-color-bg-disabled);
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
 }
-.seed-action-button__text--variant_neutralWeak[data-disabled] {
+.seed-action-button__text--variant_neutralWeak.seed-action-button__text--disabled_true {
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
     color: var(--seed-color-fg-disabled);
 }
-.seed-action-button--variant_neutralWeak[data-loading] {
+.seed-action-button--variant_neutralWeak.seed-action-button--loading_true {
     background: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-action-button--variant_criticalSolid {
@@ -168,22 +168,22 @@
     color: var(--seed-color-palette-static-white);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-action-button--variant_criticalSolid[data-active] {
+.seed-action-button--variant_criticalSolid:active {
     background: var(--seed-color-bg-critical-solid-pressed);
 }
-.seed-action-button--variant_criticalSolid[data-disabled] {
+.seed-action-button--variant_criticalSolid.seed-action-button--disabled_true {
     background: var(--seed-color-bg-disabled);
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
 }
-.seed-action-button__text--variant_criticalSolid[data-disabled] {
+.seed-action-button__text--variant_criticalSolid.seed-action-button__text--disabled_true {
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
     color: var(--seed-color-fg-disabled);
 }
-.seed-action-button--variant_criticalSolid[data-loading] {
+.seed-action-button--variant_criticalSolid.seed-action-button--loading_true {
     background: var(--seed-color-bg-critical-solid-pressed);
 }
 .seed-action-button--variant_brandOutline {
@@ -206,23 +206,23 @@
     color: var(--seed-color-fg-brand);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-action-button--variant_brandOutline[data-active] {
+.seed-action-button--variant_brandOutline:active {
     background: var(--seed-color-bg-transparent-pressed);
 }
-.seed-action-button--variant_brandOutline[data-disabled] {
+.seed-action-button--variant_brandOutline.seed-action-button--disabled_true {
     background: var(--seed-color-bg-transparent);
     border-color: var(--seed-color-stroke-neutral-muted);
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
 }
-.seed-action-button__text--variant_brandOutline[data-disabled] {
+.seed-action-button__text--variant_brandOutline.seed-action-button__text--disabled_true {
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
     color: var(--seed-color-fg-disabled);
 }
-.seed-action-button--variant_brandOutline[data-loading] {
+.seed-action-button--variant_brandOutline.seed-action-button--loading_true {
     background: var(--seed-color-bg-transparent);
 }
 .seed-action-button--variant_neutralOutline {
@@ -245,23 +245,23 @@
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-action-button--variant_neutralOutline[data-active] {
+.seed-action-button--variant_neutralOutline:active {
     background: var(--seed-color-bg-transparent-pressed);
 }
-.seed-action-button--variant_neutralOutline[data-disabled] {
+.seed-action-button--variant_neutralOutline.seed-action-button--disabled_true {
     background: var(--seed-color-bg-transparent);
     border-color: var(--seed-color-stroke-neutral-muted);
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
 }
-.seed-action-button__text--variant_neutralOutline[data-disabled] {
+.seed-action-button__text--variant_neutralOutline.seed-action-button__text--disabled_true {
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
     color: var(--seed-color-fg-disabled);
 }
-.seed-action-button--variant_neutralOutline[data-loading] {
+.seed-action-button--variant_neutralOutline.seed-action-button--loading_true {
     background: var(--seed-color-bg-transparent);
 }
 .seed-action-button--variant_ghost {
@@ -285,22 +285,22 @@
     color: var(--seed-box-color);
     font-weight: var(--seed-font-weight);
 }
-.seed-action-button--variant_ghost[data-active] {
+.seed-action-button--variant_ghost:active {
     background: var(--seed-color-bg-transparent-pressed);
 }
-.seed-action-button--variant_ghost[data-disabled] {
+.seed-action-button--variant_ghost.seed-action-button--disabled_true {
     background: #ffffff00;
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
 }
-.seed-action-button__text--variant_ghost[data-disabled] {
+.seed-action-button__text--variant_ghost.seed-action-button__text--disabled_true {
     --seed-prefix-icon-color: #5b606a;
     --seed-suffix-icon-color: #5b606a;
     --seed-icon-color: #5b606a;
     color: var(--seed-color-fg-disabled);
 }
-.seed-action-button--variant_ghost[data-loading] {
+.seed-action-button--variant_ghost.seed-action-button--loading_true {
     background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-action-button--size_xsmall {

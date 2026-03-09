@@ -11,7 +11,7 @@
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
 }
-.seed-extended-action-sheet-item[data-active] {
+.seed-extended-action-sheet-item:active {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-extended-action-sheet-item:last-child {

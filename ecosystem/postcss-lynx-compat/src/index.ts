@@ -444,6 +444,29 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       // Phase 0: 중첩 CSS variable 해소 (page 토큰 + 외부 토큰 맵)
       resolveNestedVars(root, externalTokenMap);
 
+      // Phase 1: [data-X] 속성 셀렉터 → --X_true 클래스 셀렉터 변환
+      // Lynx CSS 엔진이 속성 셀렉터를 지원하지 않으므로, variant 클래스 패턴으로 변환
+      root.walkRules((rule) => {
+        if (!rule.selector.includes("[data-")) return;
+
+        const selectors = splitByComma(rule.selector);
+        const transformed = selectors.map((sel) => {
+          return sel.replace(
+            /(\.[a-zA-Z0-9_-]+)((?:--[^\s.,[\]]*)?)\[data-([a-zA-Z0-9_-]+)(?:="([^"]*)")?\]/g,
+            (_, baseClass, modifier, attrName, attrValue) => {
+              const value = attrValue ?? "true";
+              // base class에서 컴포넌트명 추출 (예: .seed-action-button__text → seed-action-button__text)
+              const className = baseClass.slice(1); // '.' 제거
+              // 컴포넌트 base name 추출 (-- 이전 부분)
+              const baseName = className.replace(/--.*$/, "");
+              return `${baseClass}${modifier}.${baseName}--${attrName}_${value}`;
+            },
+          );
+        });
+
+        rule.selector = transformed.join(", ");
+      });
+
       // Phase 3: 프로퍼티 & 값 처리
       root.walkDecls((decl) => {
         const prop = decl.prop;

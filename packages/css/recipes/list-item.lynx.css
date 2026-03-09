@@ -21,7 +21,7 @@
     --seed-icon-size: 22px;
     --seed-icon-color: #f3f4f5;
 }
-.seed-list-item__prefix[data-disabled] {
+.seed-list-item__prefix.seed-list-item__prefix--disabled_true {
     --seed-icon-color: #5b606a;
 }
 .seed-list-item__suffix {
@@ -40,7 +40,7 @@
     --seed-icon-size: 18px;
     --seed-icon-color: #b0b3ba;
 }
-.seed-list-item__suffix[data-disabled] {
+.seed-list-item__suffix.seed-list-item__suffix--disabled_true {
     --seed-icon-color: #5b606a;
 }
 .seed-list-item__content {
@@ -64,7 +64,7 @@
     bottom: 0;
     left: 0;
 }
-.seed-list-item__content:focus, .seed-list-item__content[data-focus] {
+.seed-list-item__content:focus, .seed-list-item__content.seed-list-item__content--focus_true {
 }
 .seed-list-item__content::before {
     position: absolute;
@@ -77,7 +77,7 @@
     transition-duration: var(--seed-duration-color-transition);
     transition-timing-function: var(--seed-timing-function-easing);
 }
-.seed-list-item__contentbutton:not([data-disabled])[data-active]::before, .seed-list-item__contenta:not([data-disabled])[data-active]::before {
+.seed-list-item__contentbutton:not([data-disabled]):active::before, .seed-list-item__contenta:not([data-disabled]):active::before {
     background-color: var(--seed-color-bg-transparent-pressed);
     left: var(--seed-dimension-x1_5);
     right: var(--seed-dimension-x1_5);
@@ -90,7 +90,7 @@
     font-weight: var(--seed-font-weight-regular);
     color: var(--seed-color-fg-neutral);
 }
-.seed-list-item__title[data-disabled] {
+.seed-list-item__title.seed-list-item__title--disabled_true {
     color: var(--seed-color-fg-disabled);
 }
 .seed-list-item__detail {
@@ -99,12 +99,12 @@
     font-weight: var(--seed-font-weight-regular);
     color: var(--seed-color-fg-neutral-subtle);
 }
-.seed-list-item__detail[data-disabled] {
+.seed-list-item__detail.seed-list-item__detail--disabled_true {
     color: var(--seed-color-fg-disabled);
 }
 .seed-list-item__content--highlighted_true::before {
     background-color: var(--seed-color-bg-brand-weak);
 }
-.seed-list-item__content--highlighted_truebutton:not([data-disabled])[data-active]::before, .seed-list-item__content--highlighted_truea:not([data-disabled])[data-active]::before {
+.seed-list-item__content--highlighted_truebutton:not(.seed-list-item__content--disabled_true):active::before, .seed-list-item__content--highlighted_truea:not(.seed-list-item__content--disabled_true):active::before {
     background-color: var(--seed-color-bg-brand-weak-pressed);
 }

@@ -66,7 +66,7 @@
     --seed-prefix-icon-color: #f3f4f5;
     --seed-suffix-icon-color: #f3f4f5;
 }
-.seed-callout__root--tone_neutralbutton[data-active], .seed-callout__root--tone_neutrala[data-active] {
+.seed-callout__root--tone_neutralbutton:active, .seed-callout__root--tone_neutrala:active {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-callout__title--tone_neutral {
@@ -83,7 +83,7 @@
     --seed-prefix-icon-color: #b9d7fb;
     --seed-suffix-icon-color: #b9d7fb;
 }
-.seed-callout__root--tone_informativebutton[data-active], .seed-callout__root--tone_informativea[data-active] {
+.seed-callout__root--tone_informativebutton:active, .seed-callout__root--tone_informativea:active {
     background-color: var(--seed-color-bg-informative-weak-pressed);
 }
 .seed-callout__title--tone_informative {
@@ -100,7 +100,7 @@
     --seed-prefix-icon-color: #93e5c0;
     --seed-suffix-icon-color: #93e5c0;
 }
-.seed-callout__root--tone_positivebutton[data-active], .seed-callout__root--tone_positivea[data-active] {
+.seed-callout__root--tone_positivebutton:active, .seed-callout__root--tone_positivea:active {
     background-color: var(--seed-color-bg-positive-weak-pressed);
 }
 .seed-callout__title--tone_positive {
@@ -117,7 +117,7 @@
     --seed-prefix-icon-color: #e5d49b;
     --seed-suffix-icon-color: #e5d49b;
 }
-.seed-callout__root--tone_warningbutton[data-active], .seed-callout__root--tone_warninga[data-active] {
+.seed-callout__root--tone_warningbutton:active, .seed-callout__root--tone_warninga:active {
     background-color: var(--seed-color-bg-warning-weak-pressed);
 }
 .seed-callout__title--tone_warning {
@@ -134,7 +134,7 @@
     --seed-prefix-icon-color: #f8c5c3;
     --seed-suffix-icon-color: #f8c5c3;
 }
-.seed-callout__root--tone_criticalbutton[data-active], .seed-callout__root--tone_criticala[data-active] {
+.seed-callout__root--tone_criticalbutton:active, .seed-callout__root--tone_criticala:active {
     background-color: var(--seed-color-bg-critical-weak-pressed);
 }
 .seed-callout__title--tone_critical {
@@ -151,7 +151,7 @@
     --seed-prefix-icon-color: #f3f4f5;
     --seed-suffix-icon-color: #f3f4f5;
 }
-.seed-callout__root--tone_magicbutton[data-active], .seed-callout__root--tone_magica[data-active] {
+.seed-callout__root--tone_magicbutton:active, .seed-callout__root--tone_magica:active {
     background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
 }
 .seed-callout__title--tone_magic {

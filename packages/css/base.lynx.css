@@ -256,12 +256,12 @@ page {
   color: var(--seed-box-color);
 }
 
-.seed-box[data-active] {
+.seed-box:active {
   --seed-box-background--active: var(--seed-box-background);
   background: var(--seed-box-background--active);
 }
 
-.seed-box__text[data-active] {
+.seed-box__text:active {
   --seed-box-background--active: var(--seed-box-background);
 }
 

@@ -69,24 +69,26 @@ describe("postcss-lynx-compat", () => {
   });
 
   describe("셀렉터 변환 (transformSelectors)", () => {
-    it(":--engaged를 [data-active]로 변환한다", async () => {
+    it(":--engaged를 :active로 변환한다", async () => {
       const input = ".btn:--engaged { background: red; }";
       const output = await run(input);
-      expect(output).toContain(".btn[data-active]");
+      expect(output).toContain(".btn:active");
       expect(output).not.toContain(":--engaged");
     });
 
-    it(":is(:disabled, [disabled], [data-disabled])를 [data-disabled]로 변환한다", async () => {
+    it(":is(:disabled, [disabled], [data-disabled])를 --disabled_true 클래스로 변환한다", async () => {
       const input = ".btn:is(:disabled, [disabled], [data-disabled]) { opacity: 0.4; }";
       const output = await run(input);
-      expect(output).toContain(".btn[data-disabled]");
+      // transformSelectors에서 [data-disabled]로 통합 → Phase 1에서 --disabled_true 클래스로 변환
+      expect(output).toContain(".btn--disabled_true");
+      expect(output).not.toContain("[data-disabled]");
       expect(output).not.toContain(":is(");
     });
 
-    it(":is(:active, [data-active])를 [data-active]로 변환한다", async () => {
+    it(":is(:active, [data-active])를 :active로 변환한다", async () => {
       const input = ".btn:is(:active, [data-active]) { background: blue; }";
       const output = await run(input);
-      expect(output).toContain(".btn[data-active]");
+      expect(output).toContain(".btn:active");
     });
   });
 
@@ -352,13 +354,66 @@ describe("postcss-lynx-compat", () => {
       expect(output).toContain("color: red");
     });
 
-    it("data attribute가 있는 셀렉터도 올바르게 분리한다", async () => {
+    it("data attribute가 클래스로 변환된 셀렉터도 올바르게 분리한다", async () => {
       const input = `.seed-action-button--variant_brandSolid[data-disabled] {
         color: gray;
         background-color: lightgray;
       }`;
       const output = await run(input);
-      expect(output).toContain(".seed-action-button__text--variant_brandSolid[data-disabled]");
+      // [data-disabled] → --disabled_true 클래스로 변환 후 text slot 분리
+      expect(output).toContain("seed-action-button--disabled_true");
+      expect(output).toContain("seed-action-button__text--disabled_true");
+    });
+  });
+
+  describe("[data-*] 속성 셀렉터 → 클래스 변환", () => {
+    it("[data-disabled]를 --disabled_true 클래스로 변환한다", async () => {
+      const input = `.seed-action-button[data-disabled] { opacity: 0.4; }`;
+      const output = await run(input);
+      expect(output).toContain(".seed-action-button--disabled_true");
+      expect(output).not.toContain("[data-disabled]");
+    });
+
+    it("[data-loading]를 --loading_true 클래스로 변환한다", async () => {
+      const input = `.seed-action-button[data-loading] { opacity: 0.6; }`;
+      const output = await run(input);
+      expect(output).toContain(".seed-action-button--loading_true");
+      expect(output).not.toContain("[data-loading]");
+    });
+
+    it("variant + [data-disabled] compound 셀렉터를 변환한다", async () => {
+      const input = `.seed-action-button--variant_brandSolid[data-disabled] { background-color: gray; }`;
+      const output = await run(input);
+      expect(output).toContain(
+        ".seed-action-button--variant_brandSolid.seed-action-button--disabled_true",
+      );
+      expect(output).not.toContain("[data-disabled]");
+    });
+
+    it("__text 슬롯 + [data-disabled]를 변환한다", async () => {
+      const input = `.seed-action-button__text--variant_brandSolid[data-disabled] { color: gray; }`;
+      const output = await run(input);
+      expect(output).toContain(
+        ".seed-action-button__text--variant_brandSolid.seed-action-button__text--disabled_true",
+      );
+      expect(output).not.toContain("[data-disabled]");
+    });
+
+    it("[data-hover] 포함 룰을 제거한다", async () => {
+      const input = `
+        .seed-action-button { display: flex; }
+        .seed-action-button[data-hover] { background: blue; }
+      `;
+      const output = await run(input);
+      expect(output).not.toContain("[data-hover]");
+      expect(output).toContain("display: flex");
+    });
+
+    it('[data-X="value"] 패턴을 --X_value로 변환한다', async () => {
+      const input = `.seed-component[data-state="checked"] { background: green; }`;
+      const output = await run(input, { warnOnly: true });
+      expect(output).toContain(".seed-component--state_checked");
+      expect(output).not.toContain("[data-state=");
     });
   });
 
