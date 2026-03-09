@@ -70,9 +70,40 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                 {group.entries.map((entry, index) => {
                   const uniqueAdditionalPackages = Array.from(
                     new Map(
-                      entry.relatedPackages.map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const),
+                      entry.relatedPackages.map(
+                        (pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const,
+                      ),
                     ).values(),
                   );
+
+                  //NOTE: 하위 패키지 업데이트에 의한 버전 변경 항목 표시
+                  if (entry.isDependencyOnly) {
+                    return (
+                      <li key={`${group.packageName}@${group.version}-${entry.order}-${index}`}>
+                        <span className="text-xs text-fd-muted-foreground">
+                          하위 패키지 업데이트에 의한 버전 변경
+                        </span>
+                        {uniqueAdditionalPackages.length > 0 && (
+                          <div className="mt-1.5 flex flex-wrap gap-1.5">
+                            {uniqueAdditionalPackages.map((pkg) => {
+                              const targetAnchorId = getGroupAnchorId(pkg.name, pkg.version);
+                              return (
+                                <a
+                                  key={`${pkg.name}@${pkg.version}`}
+                                  href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}#${targetAnchorId}`}
+                                  className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
+                                >
+                                  <span>
+                                    {pkg.name}@{pkg.version}
+                                  </span>
+                                </a>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </li>
+                    );
+                  }
 
                   return (
                     <li key={`${group.packageName}@${group.version}-${entry.order}-${index}`}>
@@ -96,7 +127,9 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                                   href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}#${targetAnchorId}`}
                                   className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
                                 >
-                                  <span>{pkg.name}@{pkg.version}</span>
+                                  <span>
+                                    {pkg.name}@{pkg.version}
+                                  </span>
                                 </a>
                               );
                             })}
@@ -112,7 +145,9 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
         );
       })}
       {groupedEntries.length === 0 && (
-        <div className="text-sm text-fd-muted-foreground px-1">조건에 맞는 변경사항이 없습니다.</div>
+        <div className="text-sm text-fd-muted-foreground px-1">
+          조건에 맞는 변경사항이 없습니다.
+        </div>
       )}
     </div>
   );

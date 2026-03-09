@@ -68,24 +68,36 @@ export function useChangelogViewerData({
   const groupedEntries = Object.values(groupedByPackageVersion)
     .map((group) => ({
       ...group,
-      entries: group.entries.sort((a, b) => a.order - b.order).reduce<ChangelogEntry[]>((acc, entry) => {
-        if (!entry.isDependencyOnly) {
-          acc.push(entry);
+      entries: (() => {
+        const sorted = group.entries.sort((a, b) => a.order - b.order);
+        const result = sorted.reduce<ChangelogEntry[]>((acc, entry) => {
+          if (!entry.isDependencyOnly) {
+            acc.push(entry);
+            return acc;
+          }
+
+          const targets = acc.filter((candidate) =>
+            candidate.commitRefs.some((ref) => entry.commitRefs.includes(ref)),
+          );
+
+          const targetEntries = targets.length > 0 ? targets : acc.length > 0 ? [acc[acc.length - 1]] : [];
+
+          for (const targetEntry of targetEntries) {
+            targetEntry.relatedPackages = mergeRelatedPackages(targetEntry.relatedPackages, entry.relatedPackages);
+          }
+
           return acc;
+        }, []);
+
+        if (result.length === 0 && sorted.length > 0) {
+          const depEntries = sorted.filter((e) => e.isDependencyOnly);
+          for (const entry of depEntries) {
+            result.push(entry);
+          }
         }
 
-        const targets = acc.filter((candidate) =>
-          candidate.commitRefs.some((ref) => entry.commitRefs.includes(ref)),
-        );
-
-        const targetEntries = targets.length > 0 ? targets : acc.length > 0 ? [acc[acc.length - 1]] : [];
-
-        for (const targetEntry of targetEntries) {
-          targetEntry.relatedPackages = mergeRelatedPackages(targetEntry.relatedPackages, entry.relatedPackages);
-        }
-
-        return acc;
-      }, []),
+        return result;
+      })(),
     }))
     .sort((a, b) => {
       const packageDiff =
