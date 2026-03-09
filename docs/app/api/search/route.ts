@@ -19,31 +19,24 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
     versions.get(key)!.push(entry.contentHtml.replace(/<[^>]*>/g, ""));
   }
 
-  return [...byPackage.entries()].map(([packageName, versions]) => {
+  return [...byPackage.entries()].flatMap(([packageName, versions]) => {
     const label = packageName.replace("@seed-design/", "");
 
-    const headings = [...versions.keys()].map((version) => ({
-      id: `${packageName}@${version}`,
-      content: `${version}`,
-    }));
+    return [...versions.entries()].map(([version, items]) => {
+      const versionUrl = `/react/updates/changelog?tab=${encodeURIComponent(packageName)}&from=${encodeURIComponent(version)}`;
 
-    const contents = [...versions.entries()].flatMap(([version, items]) =>
-      items.map((item) => ({
-        heading: `${packageName}@${version}`,
-        content: item,
-      })),
-    );
-
-    const tabUrl = `/react/updates/changelog?tab=${encodeURIComponent(packageName)}`;
-
-    return {
-      id: tabUrl,
-      title: `Changelog - ${label}`,
-      description: `${packageName} 변경사항`,
-      structuredData: { headings, contents },
-      tag: TAGS.react.value,
-      url: tabUrl,
-    };
+      return {
+        id: versionUrl,
+        title: `Changelog - ${label}@${version}`,
+        description: `${packageName}@${version} 변경사항`,
+        structuredData: {
+          headings: [],
+          contents: items.map((item) => ({ content: item })),
+        },
+        tag: TAGS.react.value,
+        url: versionUrl,
+      };
+    });
   });
 }
 
