@@ -140,7 +140,22 @@ export function useGlobalInteraction() {
 
   useLayoutEffect(() => {
     updateSwipeBackTargets(activities);
-  }, [activities, updateSwipeBackTargets]);
+
+    // After a completing swipe-back, the pop action removes the top activity,
+    // changing the activities array. Reset swipe-back state here (before paint)
+    // so the new top activity doesn't receive completing CSS.
+    if (swipeBackStateRef.current === "completing") {
+      swipeBackTargetsRef.current.forEach(resetSwipeBackVars);
+      swipeBackContextRef.current = {
+        x0: 0,
+        t0: 0,
+        displacement: 0,
+        displacementRatio: 0,
+        velocity: 0,
+      };
+      setSwipeBackState("idle");
+    }
+  }, [activities, updateSwipeBackTargets, setSwipeBackState, resetSwipeBackVars]);
 
   const setSwipeBackContext = useCallback(
     (ctx: SwipeBackContext) => {
@@ -233,14 +248,16 @@ export function useGlobalInteraction() {
         if (swiped) {
           setSwipeBackVar("--swipe-back-target", currentDisplacement);
           setSwipeBackState("completing");
-          requestAnimationFrame(() => {
+          rafIdRef.current = requestAnimationFrame(() => {
             setSwipeBackVar("--swipe-back-target", "100%");
+            rafIdRef.current = null;
           });
         } else {
           setSwipeBackVar("--swipe-back-target", currentDisplacement);
           setSwipeBackState("canceling");
-          requestAnimationFrame(() => {
+          rafIdRef.current = requestAnimationFrame(() => {
             setSwipeBackVar("--swipe-back-target", "0");
+            rafIdRef.current = null;
           });
         }
 
@@ -254,22 +271,23 @@ export function useGlobalInteraction() {
         }
         pendingMoveRef.current = null;
 
-        // After completing, keep displacement at 100% so exit animation
-        // starts from the correct position (not 0).
+        // During completing, don't reset to idle. Removing completing CSS would
+        // let the exit-active CSS apply with opacity:1 on the dim overlay,
+        // causing a 1-frame flash. Instead, keep completing CSS active and let
+        // the activities change effect (useLayoutEffect) handle cleanup when
+        // the popped activity is removed — before the browser paints.
         if (swipeBackStateRef.current === "completing") {
-          setSwipeBackVar("--swipe-back-displacement", "100vw");
-          setSwipeBackVar("--swipe-back-displacement-ratio", "1");
-          setSwipeBackVar("--swipe-back-target", "100%");
-        } else {
-          setSwipeBackContext({
-            x0: 0,
-            t0: 0,
-            displacement: 0,
-            displacementRatio: 0,
-            velocity: 0,
-          });
-          setSwipeBackVar("--swipe-back-target", "0");
+          return;
         }
+
+        setSwipeBackContext({
+          x0: 0,
+          t0: 0,
+          displacement: 0,
+          displacementRatio: 0,
+          velocity: 0,
+        });
+        setSwipeBackVar("--swipe-back-target", "0");
         setSwipeBackState("idle");
       };
 
