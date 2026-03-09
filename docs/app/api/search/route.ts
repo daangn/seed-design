@@ -31,7 +31,7 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
         description: `${packageName}@${version} 변경사항`,
         structuredData: {
           headings: [],
-          contents: items.map((item) => ({ content: item })),
+          contents: items.map((item) => ({ heading: "", content: item })),
         },
         tag: TAGS.react.value,
         url: versionUrl,
