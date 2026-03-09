@@ -5,10 +5,12 @@ export const tokens = {
 
 [data-seed-color-mode="light-only"] {
   color-scheme: light;
+  color-scheme: only light;
 }
 
 [data-seed-color-mode="dark-only"] {
   color-scheme: dark;
+  color-scheme: only dark;
 }
 
 :root {
@@ -276,6 +278,7 @@ export const tokens = {
   --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
   --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
   --seed-color-stroke-warning-weak: var(--seed-color-palette-yellow-300);
+  --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
   --seed-color-manner-temp-l1-bg: #f1f2f3;
   --seed-color-manner-temp-l1-text: #757b85;
   --seed-color-manner-temp-l10-bg: #ffebee;
@@ -488,6 +491,7 @@ export const tokens = {
   --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
   --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
   --seed-color-stroke-warning-weak: var(--seed-color-palette-yellow-300);
+  --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
   --seed-color-manner-temp-l1-bg: #292929;
   --seed-color-manner-temp-l1-text: #b8b8b9;
   --seed-color-manner-temp-l10-bg: #34040a;

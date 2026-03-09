@@ -42,27 +42,44 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-muted)",
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x5)",
-        "fromRight": "var(--seed-dimension-x5)"
+        "fromTop": "var(--seed-dimension-x6)",
+        "fromRight": "var(--seed-dimension-x4)"
       }
     }
   },
-  "headerAlignmentLeft": {
+  "headerAlignmentLeftCloseButtonTrue": {
     "enabled": {
-      "header": {
+      "title": {
+        "paddingRight": "56px",
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)"
+      }
+    }
+  },
+  "headerAlignmentLeftCloseButtonFalse": {
+    "enabled": {
+      "title": {
         "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
-        "paddingRight": "50px"
+        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
       }
     }
   },
-  "headerAlignmentCenter": {
+  "headerAlignmentCenterCloseButtonTrue": {
     "enabled": {
-      "header": {
-        "paddingLeft": "50px",
-        "paddingRight": "50px"
+      "title": {
+        "paddingLeft": "56px",
+        "paddingRight": "56px"
+      }
+    }
+  },
+  "headerAlignmentCenterCloseButtonFalse": {
+    "enabled": {
+      "title": {
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
+        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
       }
     }
   }

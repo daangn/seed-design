@@ -172,8 +172,6 @@ export function useFieldButton({
     }),
 
     clearButtonProps: buttonProps({
-      ...stateProps,
-
       type: "button",
       disabled: disabled || readOnly,
 

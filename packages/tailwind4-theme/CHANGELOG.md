@@ -1,5 +1,11 @@
 # @seed-design/tailwind4-theme
 
+## 1.1.18
+
+### Patch Changes
+
+- 751e952: `$color.stroke.focus-ring` 색상 토큰을 추가합니다.
+
 ## 1.1.17
 
 ### Patch Changes

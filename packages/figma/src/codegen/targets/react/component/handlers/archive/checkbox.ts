@@ -36,6 +36,8 @@ export const createCheckboxHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createLocalSnippetElement("Checkbox", commonProps);
+      return createLocalSnippetElement("Checkbox", commonProps, undefined, {
+        comment: "CheckboxGroup으로 묶어서 사용하는 것을 권장합니다.",
+      });
     },
   );

@@ -1,0 +1,130 @@
+name: Sync Figma Entities
+
+on:
+  schedule:
+    - cron: "0 2 * * *" # KST 11:00 every day
+  workflow_dispatch:
+
+jobs:
+  sync:
+    name: Sync Figma Entities
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.10"
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: figma-extractor를 빌드해요
+        run: |
+          bun --filter @seed-design/figma-extractor build
+          bun install --frozen-lockfile
+
+      - name: Figma entity 데이터를 동기화해요
+        run: bun --filter @seed-design/figma sync-entities
+        env:
+          FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
+          FIGMA_FOUNDATIONS_FILE_KEY: ${{ secrets.FIGMA_FOUNDATIONS_FILE_KEY }}
+          FIGMA_COMPONENTS_FILE_KEY: ${{ secrets.FIGMA_COMPONENTS_FILE_KEY }}
+          FIGMA_TEMPLATES_FILE_KEY: ${{ secrets.FIGMA_TEMPLATES_FILE_KEY }}
+
+      - name: "@seed-design/figma를 타입체크하고 빌드해요"
+        id: build
+        continue-on-error: true
+        working-directory: packages/figma
+        run: bunx tsc --noEmit && bun run build
+
+      - name: 변경사항이 있는지 확인해요
+        id: check-diff
+        run: |
+          DIFF_COUNT=$(git diff --name-only packages/figma/src/entities/data/__generated__ | wc -l | tr -d ' ')
+          UNTRACKED_COUNT=$(git ls-files --others --exclude-standard packages/figma/src/entities/data/__generated__ | wc -l | tr -d ' ')
+          FILE_COUNT=$((DIFF_COUNT + UNTRACKED_COUNT))
+          if [ "$FILE_COUNT" -eq 0 ]; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "file_count=$FILE_COUNT" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 변경사항이 있으면 브랜치에 커밋해요
+        if: steps.check-diff.outputs.has_changes == 'true'
+        run: |
+          BRANCH_NAME="chore/sync-figma-entities"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH_NAME"
+          git add packages/figma/src/entities/data/__generated__
+          git commit -m "chore(figma): sync entities from Figma"
+          git push --force origin "$BRANCH_NAME"
+
+      - name: PR이 없으면 만들어요
+        if: steps.check-diff.outputs.has_changes == 'true'
+        id: create-pr
+        run: |
+          DRAFT_FLAG=${{ steps.build.outcome != 'success' && '--draft' || '' }}
+          PR_BODY="$(cat <<EOF
+          Figma entity 데이터가 변경되었어요.
+
+          - 변경된 파일 수: ${{ steps.check-diff.outputs.file_count }}개
+          - 타입체크 & 빌드: ${{ steps.build.outcome == 'success' && '✅ 성공' || '❌ 실패' }}
+          EOF
+          )"
+          EXISTING_PR=$(gh pr list --head chore/sync-figma-entities --base dev --state open --json url --jq '.[0].url')
+          if [ -n "$EXISTING_PR" ]; then
+            gh pr edit "$EXISTING_PR" --body "$PR_BODY"
+            if [ "${{ steps.build.outcome }}" != "success" ]; then
+              gh pr ready --undo "$EXISTING_PR" 2>/dev/null || true
+            else
+              gh pr ready "$EXISTING_PR" 2>/dev/null || true
+            fi
+            echo "pr_url=$EXISTING_PR" >> $GITHUB_OUTPUT
+          else
+            PR_URL=$(gh pr create \
+              --base dev \
+              --head chore/sync-figma-entities \
+              --title "chore(figma): sync entities from Figma" \
+              $DRAFT_FLAG \
+              --body "$PR_BODY")
+            echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Slack에 알려요
+        if: steps.check-diff.outputs.has_changes == 'true'
+        uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: "Figma Entity 변경이 감지되었어요."
+            blocks:
+              - type: "header"
+                text:
+                  type: "plain_text"
+                  text: "Figma Entity 변경이 감지되었어요"
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "변경된 파일 수: *${{ steps.check-diff.outputs.file_count }}개*\n타입체크 & 빌드: *${{ steps.build.outcome == 'success' && '✅ 성공' || '❌ 실패' }}*"
+              - type: "actions"
+                elements:
+                  - type: "button"
+                    style: "primary"
+                    text:
+                      type: "plain_text"
+                      text: "PR 보기"
+                    url: "${{ steps.create-pr.outputs.pr_url }}"

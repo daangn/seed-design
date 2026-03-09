@@ -50,6 +50,7 @@
 }
 .seed-text-input__value:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
+    cursor: not-allowed;
 }
 .seed-text-input__value:is(:disabled, [disabled], [data-disabled])::placeholder {
     color: var(--seed-color-fg-disabled);

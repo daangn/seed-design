@@ -1,5 +1,54 @@
 # @seed-design/react
 
+## 1.2.6
+
+### Patch Changes
+
+- 77cdc0e: IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+- Updated dependencies [fe1cdb3]
+- Updated dependencies [751e952]
+- Updated dependencies [7e0728a]
+  - @seed-design/react-slider@1.0.2
+  - @seed-design/react-field-button@1.0.2
+  - @seed-design/react-toggle@1.0.1
+
+## 1.2.5
+
+### Patch Changes
+
+- 434de88: PullToRefresh.Root의 ref 타입을 실제 렌더링 요소인 HTMLDivElement로 수정해 잘못된 SVG ref 타입 요구를 해결했습니다.
+- 6fb6dc2: AspectRatio 스타일시트의 `position: relative`와 `overflow: hidden` 선언을 React 레이어로 이동하여 CSS specificity 문제를 수정합니다.
+- Updated dependencies [c46d593]
+- Updated dependencies [0420c89]
+  - @seed-design/react-image@0.1.1
+  - @seed-design/react-drawer@1.0.9
+
+## 1.2.4
+
+### Patch Changes
+
+- a3e6859: ImageFrame `rounded` 옵션을 제거하고, borderRadius를 받을 수 있게 변경합니다
+- 4287600: BottomSheet title 영역에서 닫기 버튼 간격에 따라 조정된 padding 기준으로 정리하고, word-break 추가 및 description 영역 너비를 정리했습니다.
+
+## 1.2.3
+
+### Patch Changes
+
+- Updated dependencies [acae645]
+  - @seed-design/react-snackbar@1.0.1
+
+## 1.3.0
+
+### Patch Changes
+
+- 576c2e6: `AlertDialogRoot`, `MenuSheetRoot` 및 `BottomSheetRoot`의 `onOpenChange` 두 번째 인자로 `details`를 제공합니다. `details.reason`과 `details.event`를 사용할 수 있습니다.
+
+  `DialogAction`을 `DialogPrimitive.CloseButton`으로 교체합니다. `AlertDialogAction` `onClick` 핸들러에서 `event.preventDefault()`를 호출하여 닫기 동작을 방지할 수 있습니다. [(예제)](https://seed-design.io/react/components/alert-dialog#prevent-close)
+
+- Updated dependencies [576c2e6]
+  - @seed-design/react-dialog@1.0.2
+  - @seed-design/react-drawer@1.0.8
+
 ## 1.2.1
 
 ### Patch Changes

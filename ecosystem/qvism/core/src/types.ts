@@ -1,4 +1,5 @@
 import type * as CSS from "csstype";
+import type { AcceptedPlugin } from "postcss";
 
 // utils
 type StringToBoolean<T> = T extends "true" | "false" ? boolean : T;
@@ -139,9 +140,12 @@ export interface Theme {
 export interface Config {
   prefix?: string;
 
+  postcssPlugins?: AcceptedPlugin[];
+
   theme: Theme;
 }
 
 export interface CssgenConfig {
   minify?: boolean;
+  layer?: boolean;
 }

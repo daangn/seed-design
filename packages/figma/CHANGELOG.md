@@ -1,5 +1,56 @@
 # @seed-design/figma
 
+## 1.3.5
+
+### Patch Changes
+
+- d6df976: Figma Codegen 관련 개선사항을 적용합니다.
+
+  - TabsTrigger, ChipTabsTrigger Codegen 시 label 값이 누락되던 문제를 수정합니다.
+  - MenuSheet Codegen 시 컴포넌트 이름이 `MenuSheet`로 잘못 생성되던 문제를 `MenuSheetRoot`로 수정합니다.
+  - BottomSheet Codegen 시 정적 컴포넌트 키 대신 props에서 동적으로 키를 참조하도록 수정하여 인스턴스 매칭 오류를 해결합니다.
+  - 지원되지 않는 종류의 레이어를 발견하는 경우 어떤 종류인지 결과에 명시합니다.
+
+- Updated dependencies [cd9a46c]
+- Updated dependencies [23e369d]
+- Updated dependencies [103830e]
+- Updated dependencies [77cdc0e]
+- Updated dependencies [7d6c910]
+- Updated dependencies [751e952]
+  - @seed-design/css@1.2.4
+
+## 1.3.4
+
+### Patch Changes
+
+- 934a877: Figma Codegen 관련 개선 사항을 적용합니다.
+
+  - Image Frame 컴포넌트의 React Codegen을 지원합니다.
+  - OS 상단바 등 불필요한 UI 요소를 codegen 대상에서 제외합니다.
+  - 너비가 Fill로 설정된 Action Button이 `flexGrow`를 갖도록 개선합니다.
+
+- Updated dependencies [eb390cf]
+- Updated dependencies [7c3bbe7]
+- Updated dependencies [6db2515]
+- Updated dependencies [12789e6]
+- Updated dependencies [6fb6dc2]
+  - @seed-design/css@1.2.3
+
+## 1.3.3
+
+### Patch Changes
+
+- Updated dependencies [15010c3]
+- Updated dependencies [a3e6859]
+- Updated dependencies [4287600]
+  - @seed-design/css@1.2.2
+
+## 1.3.2
+
+### Patch Changes
+
+- 934bea0: Figma 엔티티를 업데이트합니다. 모든 구성 요소에 대해 generated 데이터를 사용하여 안정성을 개선합니다.
+
 ## 1.2.1
 
 ### Patch Changes

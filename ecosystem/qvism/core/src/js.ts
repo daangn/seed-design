@@ -22,7 +22,7 @@ export function generateSharedJs(): string {
 
 export function generateSlotRecipeJs(
   definition: SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>,
-  options: { prefix?: string; importCss?: boolean } = {},
+  options: { prefix?: string; importCss?: boolean; cssImportPath?: string } = {},
 ): string {
   const { importCss = true } = options;
   const jsName = camelCase(definition.name);
@@ -42,7 +42,11 @@ export function generateSlotRecipeJs(
   const compoundVariants = definition.compoundVariants?.map(({ css, ...rest }) => rest) ?? [];
 
   return (
-    (importCss ? `import './${definition.name}.css';\n` : "") +
+    (options.cssImportPath
+      ? `import '${options.cssImportPath}';\n`
+      : importCss
+        ? `import './${definition.name}.css';\n`
+        : "") +
     outdent`
   import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
@@ -76,7 +80,7 @@ export function generateSlotRecipeJs(
 
 export function generateRecipeJs(
   definition: RecipeDefinition<RecipeVariantRecord>,
-  options: { prefix?: string; importCss?: boolean } = {},
+  options: { prefix?: string; importCss?: boolean; cssImportPath?: string } = {},
 ): string {
   const { importCss = true } = options;
   const jsName = camelCase(definition.name);
@@ -94,10 +98,14 @@ export function generateRecipeJs(
     definition.compoundVariants?.map(({ css, ...rest }: { css: StyleObject }) => rest) ?? [];
 
   return (
-    (importCss ? `import './${definition.name}.css';\n` : "") +
+    (options.cssImportPath
+      ? `import '${options.cssImportPath}';\n`
+      : importCss
+        ? `import './${definition.name}.css';\n`
+        : "") +
     outdent`
   import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
-  
+
   const defaultVariant = ${JSON.stringify(definition.defaultVariants ?? {}, null, 2)};
 
   const compoundVariants = ${JSON.stringify(compoundVariants, null, 2)};
@@ -123,7 +131,7 @@ export function generateRecipeJs(
 
 export function generateJs(
   definition: RecipeKindDefinition,
-  options: { prefix?: string } = {},
+  options: { prefix?: string; cssImportPath?: string } = {},
 ): string {
   if ("slots" in definition) {
     return generateSlotRecipeJs(definition, options);

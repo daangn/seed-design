@@ -1,6 +1,13 @@
 import { snackbar as vars } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { enterAnimation, exitAnimation } from "../utils/animation";
+import { focus, focusVisible, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import { vars as tokens } from "../vars";
 
 const MAX_Z_INDEX = 2147483647;
 
@@ -62,6 +69,10 @@ export const snackbar = defineSlotRecipe({
           scale: vars.base.enabled.root.exitScale,
         }),
       },
+
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     content: {
       display: "flex",
@@ -99,7 +110,6 @@ export const snackbar = defineSlotRecipe({
       MozOsxFontSmoothing: "grayscale",
       backgroundColor: "unset",
       textDecoration: "none",
-      outline: "none",
       flexShrink: 0,
 
       color: vars.base.enabled.actionButton.color,
@@ -117,6 +127,19 @@ export const snackbar = defineSlotRecipe({
         right: `calc(-1 * ${vars.base.enabled.actionButton.targetPaddingX})`,
         minHeight: vars.base.enabled.actionButton.targetMinHeight,
         background: "transparent",
+        ...createFocusRingRestStyles({ position: "inside" }),
+        transition: FOCUS_RING_TRANSITION,
+      },
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      [pseudo(focusVisible)]: {
+        "&:after": {
+          borderRadius: tokens.$radius.r1,
+          ...createFocusRingStyles({ position: "inside" }),
+        },
       },
     },
   },

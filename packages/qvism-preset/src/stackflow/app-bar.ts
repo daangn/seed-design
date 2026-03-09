@@ -1,4 +1,10 @@
 import { defineSlotRecipe } from "../utils/define";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import { pseudo, focusVisible } from "../utils/pseudo";
 import { topNavigation as vars } from "../vars/component";
 import { fadeInAnimations, fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
@@ -15,6 +21,7 @@ import {
   swipeBackSwiping,
   swipeBackSwipingBehind,
 } from "./pseudo";
+import { vars as tokens } from "../vars/";
 
 export const appBarMain = defineSlotRecipe({
   name: "app-bar-main",
@@ -187,6 +194,11 @@ export const appBar = defineSlotRecipe({
       background: "none",
       fontFamily: "inherit",
       padding: 0,
+
+      borderRadius: tokens.$radius.r1,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
     icon: {
       display: "inline-block",
@@ -205,6 +217,8 @@ export const appBar = defineSlotRecipe({
         iconButton: {
           width: vars.themeCupertino.enabled.icon.targetSize,
           height: vars.themeCupertino.enabled.icon.targetSize,
+
+          // cursor: "pointer"; // we might need this later
 
           "&:first-child": {
             marginLeft: `calc(-1 * (${vars.themeCupertino.enabled.icon.targetSize} - ${vars.themeCupertino.enabled.icon.size}) / 2)`,
@@ -292,7 +306,7 @@ export const appBar = defineSlotRecipe({
       layer: {
         root: {
           "&:before": {
-            backgroundColor: vars.toneLayer.enabled.root.color,
+            background: `var(--seed-box-background, ${vars.toneLayer.enabled.root.color})`,
           },
         },
         icon: {

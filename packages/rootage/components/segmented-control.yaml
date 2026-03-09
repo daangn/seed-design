@@ -14,20 +14,6 @@ data:
             type: dimension
           color:
             type: color
-      indicator:
-        properties:
-          color:
-            type: color
-          cornerRadius:
-            type: dimension
-          strokeWidth:
-            type: dimension
-          strokeColor:
-            type: color
-          transformDuration:
-            type: duration
-          transformTimingFunction:
-            type: cubicBezier
   definitions:
     base:
       enabled:
@@ -35,10 +21,3 @@ data:
           padding: $dimension.x1
           cornerRadius: $radius.full
           color: $color.bg.neutral-weak-alpha
-        indicator:
-          color: $color.palette.gray-00
-          cornerRadius: $radius.full
-          strokeWidth: 1px
-          strokeColor: $color.stroke.neutral-muted
-          transformDuration: $duration.d4
-          transformTimingFunction: $timing-function.easing

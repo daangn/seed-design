@@ -20,3 +20,6 @@ scripts/data
 
 .env
 .sisyphus/*
+.claude/worktrees/*
+
+.codex

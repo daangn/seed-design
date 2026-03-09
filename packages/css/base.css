@@ -193,8 +193,7 @@
   grid-row: var(--seed-box-grid-row);
 }
 
-.seed-box:is(:active, [data-active]) {
-  --seed-box-background--active: var(--seed-box-background);
+.seed-box[data-has-active-bg]:is(:active, [data-active]) {
   background: var(--seed-box-background--active);
 }
 
@@ -236,10 +235,12 @@
 
 [data-seed-color-mode="light-only"] {
   color-scheme: light;
+  color-scheme: light only;
 }
 
 [data-seed-color-mode="dark-only"] {
   color-scheme: dark;
+  color-scheme: dark only;
 }
 
 :root {
@@ -504,6 +505,7 @@
   --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
   --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
   --seed-color-stroke-warning-weak: var(--seed-color-palette-yellow-300);
+  --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
   --seed-color-manner-temp-l1-bg: #f1f2f3;
   --seed-color-manner-temp-l1-text: #757b85;
   --seed-color-manner-temp-l10-bg: #ffebee;
@@ -714,6 +716,7 @@
   --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
   --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
   --seed-color-stroke-warning-weak: var(--seed-color-palette-yellow-300);
+  --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
   --seed-color-manner-temp-l1-bg: #292929;
   --seed-color-manner-temp-l1-text: #b8b8b9;
   --seed-color-manner-temp-l10-bg: #34040a;

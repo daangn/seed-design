@@ -11,7 +11,7 @@ export interface PullToRefreshRootProps
   extends PullToRefreshVariantProps,
     PullToRefreshPrimitive.RootProps {}
 
-export const PullToRefreshRoot = withProvider<SVGSVGElement, PullToRefreshRootProps>(
+export const PullToRefreshRoot = withProvider<HTMLDivElement, PullToRefreshRootProps>(
   PullToRefreshPrimitive.Root,
   "root",
 );

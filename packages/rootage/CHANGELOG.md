@@ -1,5 +1,31 @@
 # @seed-design/rootage-artifacts
 
+## 1.2.4
+
+### Patch Changes
+
+- 103830e: List Item의 title fontWeight를 `$font-weight.medium`에서 `$font-weight.regular`로 변경합니다.
+- 751e952: `$color.stroke.focus-ring` 색상 토큰을 추가합니다.
+- 77cdc0e: IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+
+## 1.2.3
+
+### Patch Changes
+
+- eb390cf: BottomSheet의 title padding을 수정합니다.
+
+  - left 헤더 정렬 시 오른쪽 padding을 `50px` -> `56px`로 수정합니다.
+  - center 헤더 정렬 시 양쪽 padding을 `60px` -> `56px`로 수정합니다.
+
+- 7c3bbe7: Slider의 Value Indicator 가시성 및 트랜지션을 개선합니다.
+
+## 1.2.2
+
+### Patch Changes
+
+- a3e6859: ImageFrame `rounded` 옵션을 제거하고, borderRadius를 받을 수 있게 변경합니다
+- 4287600: BottomSheet title 영역에서 닫기 버튼 간격에 따라 조정된 padding 기준으로 정리하고, word-break 추가 및 description 영역 너비를 정리했습니다.
+
 ## 1.2.1
 
 ### Patch Changes

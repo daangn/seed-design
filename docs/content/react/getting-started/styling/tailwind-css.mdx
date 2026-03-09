@@ -1,9 +1,11 @@
 ---
 title: Tailwind CSS
-description: Tailwind CSS 프로젝트에서 Seed Design 토큰을 사용하는 방법을 알아봅니다.
+description: Tailwind CSS 프로젝트에서 SEED 디자인 시스템을 사용하는 방법을 알아봅니다.
 ---
 
-SEED에서 제공하는 토큰을 Tailwind CSS 3과 4 유틸리티 클래스를 통해 쉽게 사용할 수 있습니다. 사용하는 Tailwind 버전에 맞는 패키지를 선택하세요.
+SEED에서 제공하는 토큰을 Tailwind CSS 3과 4 유틸리티 클래스를 통해 쉽게 사용하고, SEED React 컴포넌트의 스타일을 오버라이드할 수 있습니다.
+
+## 설정
 
 <Tabs items={['Tailwind CSS 4', 'Tailwind CSS 3']}>
 
@@ -22,29 +24,36 @@ SEED에서 제공하는 토큰을 Tailwind CSS 3과 4 유틸리티 클래스를 
 
 <Step>
 
-### base.css import하기
-
-```ts title="index.tsx"
-import "@seed-design/css/base.css";
-import "./style.css"; // 다음 단계 참고
-```
-
-</Step>
-
-<Step>
-
-### CSS 파일 설정하기
+### CSS 파일 설정
 
 ```css title="style.css"
+@layer theme, base, seed-base, components, seed-components, utilities;
+@import "@seed-design/css/base.layered.css";
 @import "tailwindcss";
 @import "@seed-design/tailwind4-theme";
 ```
 
+<Callout>
+  `@layer` directive를 통해 SEED CSS와 Tailwind 간의 스타일 우선순위를
+  결정합니다. 자세한 내용은 [Cascade
+  Layers](/react/getting-started/styling/cascade-layers) 문서를 참고하세요.
+</Callout>
+
 </Step>
 
 <Step>
 
-### Theming 설정하기
+### 번들러 설정
+
+SEED React 컴포넌트가 layered CSS 파일을 사용하도록 번들러의 module resolution 설정에 `seed-layered` condition을 추가하세요.
+
+번들러별 설정 방법은 [Cascade Layers](/react/getting-started/styling/cascade-layers#번들러-설정) 문서를 참고하세요.
+
+</Step>
+
+<Step>
+
+### Theming 설정
 
 Tailwind CSS 스타일시트는 theming 스크립트와 별개로 작동합니다. 아래 가이드를 참고하여 테마 설정을 진행하세요.
 
@@ -74,7 +83,7 @@ Tailwind CSS 스타일시트는 theming 스크립트와 별개로 작동합니�
 
 <Step>
 
-### base.css import하기
+### base.css import
 
 ```ts title="index.tsx"
 import "@seed-design/css/base.css";
@@ -84,7 +93,7 @@ import "@seed-design/css/base.css";
 
 <Step>
 
-### Tailwind 설정 파일 수정하기
+### Tailwind 설정 파일 수정
 
 ```js title="tailwind.config.js"
 import seedPlugin from "@seed-design/tailwind3-plugin"; // [!code highlight]
@@ -103,7 +112,7 @@ export default {
 
 <Step>
 
-### Theming 설정하기
+### Theming 설정
 
 Tailwind CSS 스타일시트는 theming 스크립트와 별개로 작동합니다. 아래 가이드를 참고하여 테마 설정을 진행하세요.
 

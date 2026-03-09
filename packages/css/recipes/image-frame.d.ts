@@ -2,11 +2,11 @@ declare interface ImageFrameVariant {
   /**
   * @default false
   */
-  rounded: boolean;
+  stroke: boolean;
 /**
   * @default false
   */
-  stroke: boolean;
+  rounded: boolean;
 }
 
 declare type ImageFrameVariantMap = {

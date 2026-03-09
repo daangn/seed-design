@@ -1,7 +1,13 @@
 import { defineSlotRecipe } from "../utils/define";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { not, open, pseudo } from "../utils/pseudo";
+import { focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { bottomSheetCloseButton as closeButtonVars, bottomSheet as vars } from "../vars/component";
+import { vars as tokens } from "../vars";
 
 const bottomSheet = defineSlotRecipe({
   name: "bottom-sheet",
@@ -109,6 +115,7 @@ const bottomSheet = defineSlotRecipe({
       fontSize: vars.base.enabled.title.fontSize,
       lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
+      wordBreak: "keep-all",
 
       margin: 0,
     },
@@ -117,6 +124,9 @@ const bottomSheet = defineSlotRecipe({
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
+
+      paddingLeft: vars.base.enabled.description.paddingX,
+      paddingRight: vars.base.enabled.description.paddingX,
 
       margin: 0,
       whiteSpace: "pre-wrap",
@@ -176,6 +186,19 @@ const bottomSheet = defineSlotRecipe({
         right: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
         bottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
         left: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+        ...createFocusRingRestStyles({ position: "inside" }),
+        transition: FOCUS_RING_TRANSITION,
+      },
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      [pseudo(focusVisible)]: {
+        "&:after": {
+          borderRadius: tokens.$radius.r1,
+          ...createFocusRingStyles({ position: "inside" }),
+        },
       },
     },
   },
@@ -184,25 +207,27 @@ const bottomSheet = defineSlotRecipe({
       left: {
         header: {
           justifyContent: "flex-start",
-          paddingLeft: vars.headerAlignmentLeft.enabled.header.paddingLeft,
-          paddingRight: vars.base.enabled.body.paddingX,
-
+        },
+        title: {
+          paddingLeft: vars.headerAlignmentLeftCloseButtonFalse.enabled.title.paddingLeft,
+          paddingRight: vars.headerAlignmentLeftCloseButtonFalse.enabled.title.paddingRight,
           [pseudo("[data-show-close-button]")]: {
-            paddingRight: vars.headerAlignmentLeft.enabled.header.paddingRight,
+            paddingLeft: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingLeft,
+            paddingRight: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingRight,
           },
         },
       },
       center: {
         header: {
           justifyContent: "center",
-          paddingLeft: vars.base.enabled.body.paddingX,
-          paddingRight: vars.base.enabled.body.paddingX,
-
           textAlign: "center",
-
+        },
+        title: {
+          paddingLeft: vars.headerAlignmentCenterCloseButtonFalse.enabled.title.paddingLeft,
+          paddingRight: vars.headerAlignmentCenterCloseButtonFalse.enabled.title.paddingRight,
           [pseudo("[data-show-close-button]")]: {
-            paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
-            paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
+            paddingLeft: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingLeft,
+            paddingRight: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingRight,
           },
         },
       },

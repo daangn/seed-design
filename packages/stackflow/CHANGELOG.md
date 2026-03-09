@@ -1,5 +1,11 @@
 # @seed-design/stackflow
 
+## 1.1.17
+
+### Patch Changes
+
+- 6db2515: AppBar의 `bg` 또는 `background` 프로퍼티로 배경 색상을 조절할 수 있는 옵션을 추가합니다. (`tone="layer"`인 경우 적용)
+
 ## 1.1.16
 
 ### Patch Changes

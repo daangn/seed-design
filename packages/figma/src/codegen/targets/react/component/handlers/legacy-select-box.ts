@@ -11,7 +11,7 @@ import type { ComponentHandlerDeps } from "../deps.interface";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("select-box");
 
-export const createLegacySelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
+const createLegacySelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<LegacySelectBoxProperties>(
     metadata.componentDeprecatedSelectBox.key,
     ({ componentProperties: props }) => {

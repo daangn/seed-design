@@ -1,15 +1,8 @@
 export const vars = {
-  "roundedTrue": {
+  "base": {
     "enabled": {
       "root": {
-        "cornerRadius": "var(--seed-radius-r2)"
-      }
-    }
-  },
-  "roundedFalse": {
-    "enabled": {
-      "root": {
-        "cornerRadius": "0px"
+        "padding": "var(--seed-dimension-x1_5)"
       }
     }
   },
@@ -21,11 +14,13 @@ export const vars = {
       }
     }
   },
-  "strokeFalse": {
+  "strokeFalse": {},
+  "roundedTrue": {
     "enabled": {
       "root": {
-        "strokeWidth": "0px"
+        "cornerRadius": "var(--seed-radius-r2)"
       }
     }
-  }
+  },
+  "roundedFalse": {}
 }

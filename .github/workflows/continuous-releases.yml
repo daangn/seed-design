@@ -34,7 +34,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "1.3.7"
+          bun-version: "1.3.10"
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
@@ -43,7 +43,7 @@ jobs:
         run: bun packages:build
 
       - name: Publish
-        run: bunx pkg-pr-new publish './packages/*' --compact --comment=off --json output.json
+        run: bunx pkg-pr-new publish './packages/*' './packages/react-headless/*' './packages/utils/*' --compact --comment=off --json output.json
 
       - name: Comment on PR
         uses: actions/github-script@v8

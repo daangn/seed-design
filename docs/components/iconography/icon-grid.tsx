@@ -31,8 +31,8 @@ const IconItem = ({
     {
       variants: {
         selected: {
-          true: "bg-seed-bg-brand-weak hover:bg-seed-bg-brand-weak-pressed border-seed-stroke-brand",
-          false: "bg-seed-bg-layer-default hover:bg-seed-bg-layer-default-pressed",
+          true: "bg-bg-brand-weak hover:bg-bg-brand-weak-pressed border-stroke-brand",
+          false: "bg-bg-layer-default hover:bg-bg-layer-default-pressed",
         },
         critical: {
           true: "border-seed-stroke-critical border-[1px] bg-seed-bg-critical-weak",
@@ -43,16 +43,19 @@ const IconItem = ({
   );
 
   return (
-    <div
+    <button
+      type="button"
       onClick={() => onSelect(iconName)}
       className={iconComponentVariants({
         critical: isCritical,
         selected: isSelected,
       })}
       data-metadatas={metadataString}
+      aria-label={iconName}
+      aria-pressed={isSelected}
     >
       <IconComponent />
-    </div>
+    </button>
   );
 };
 

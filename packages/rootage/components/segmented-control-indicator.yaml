@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: segmented-control-indicator
+  name: Segmented Control Indicator
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          transformDuration:
+            type: duration
+          transformTimingFunction:
+            type: cubicBezier
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.palette.gray-00
+          strokeColor: $color.stroke.neutral-muted
+          strokeWidth: 1px
+          cornerRadius: $radius.full
+          transformDuration: $duration.d4
+          transformTimingFunction: $timing-function.easing
+      pressed:
+        root:
+          color: $color.palette.gray-100
+      disabled:
+        root:
+          color: $color.bg.disabled

@@ -37,6 +37,12 @@
             },
             "colorTimingFunction": {
               "type": "cubicBezier"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
             }
           }
         },
@@ -151,6 +157,17 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-weak-pressed"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
                 }
               }
             }
@@ -170,20 +187,6 @@
           },
           {
             "states": [
-              "selected",
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-100"
-                }
-              }
-            }
-          },
-          {
-            "states": [
               "disabled"
             ],
             "slots": {
@@ -191,20 +194,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "disabled",
-              "selected"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.disabled"
                 }
               }
             }

@@ -16,6 +16,7 @@ on:
       - "packages/react/**"
       - "packages/css/**"
       - ".github/workflows/chromatic.yml"
+      - ".github/actions/setup/action.yml"
 
 # List of jobs
 jobs:
@@ -29,15 +30,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: ./.github/actions/setup
         with:
-          bun-version: "1.3.7"
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Build
-        run: bun packages:build
+          build-packages: true
 
       - name: Publish to Chromatic
         uses: chromaui/action@v13
