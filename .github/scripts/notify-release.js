@@ -11,6 +11,8 @@ const IGNORED_LINE_PREFIXES = ["- Updated dependencies"];
 /** 순서 번호 이모지 */
 const NUMBER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 const REPO = "daangn/seed-design";
+const VERSION_PATTERN =
+  String.raw`\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?`;
 
 /**
  * CHANGELOG 항목의 커밋 표기를 Slack 링크 표기로 변환
@@ -36,7 +38,9 @@ function toSlackCommitLink(item) {
  * @returns {{ version: string, sections: Record<string, string[]> } | null}
  */
 function extractLatestVersion(content) {
-  const versionMatch = content.match(/## (\d+\.\d+\.\d+)([\s\S]*?)(?=\n## \d|\n# |$)/);
+  const versionMatch = content.match(
+    new RegExp(`## (${VERSION_PATTERN})([\\s\\S]*?)(?=\\n## ${VERSION_PATTERN}|\\n# |$)`),
+  );
   if (!versionMatch) return null;
 
   const version = versionMatch[1];
