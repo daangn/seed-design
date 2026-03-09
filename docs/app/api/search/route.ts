@@ -7,91 +7,106 @@ import { parseChangelog } from "@/lib/parse-changelog";
 // it should be cached forever
 export const revalidate = false;
 
-async function getChangelogIndex(): Promise<AdvancedIndex> {
+async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
   const entries = await parseChangelog(process.cwd());
 
-  const grouped = new Map<string, string[]>();
+  const byPackage = new Map<string, Map<string, string[]>>();
   for (const entry of entries) {
-    const key = `${entry.package.name}@${entry.package.version}`;
-    if (!grouped.has(key)) grouped.set(key, []);
-    grouped.get(key)!.push(entry.contentHtml.replace(/<[^>]*>/g, ""));
+    if (!byPackage.has(entry.package.name)) byPackage.set(entry.package.name, new Map());
+    const versions = byPackage.get(entry.package.name)!;
+    const key = entry.package.version;
+    if (!versions.has(key)) versions.set(key, []);
+    versions.get(key)!.push(entry.contentHtml.replace(/<[^>]*>/g, ""));
   }
 
-  const headings = [...grouped.keys()].map((key) => ({
-    id: key,
-    content: key,
-  }));
+  return [...byPackage.entries()].map(([packageName, versions]) => {
+    const label = packageName.replace("@seed-design/", "");
 
-  const contents = [...grouped.entries()].flatMap(([key, items]) =>
-    items.map((item) => ({
-      heading: key,
-      content: item,
-    })),
-  );
+    const headings = [...versions.keys()].map((version) => ({
+      id: `${packageName}@${version}`,
+      content: `${version}`,
+    }));
 
-  return {
-    id: "/react/updates/changelog",
-    title: "Changelog",
-    description: "최신 업데이트와 변경사항을 기록합니다.",
-    structuredData: { headings, contents },
-    tag: TAGS.react.value,
-    url: "/react/updates/changelog",
-  };
+    const contents = [...versions.entries()].flatMap(([version, items]) =>
+      items.map((item) => ({
+        heading: `${packageName}@${version}`,
+        content: item,
+      })),
+    );
+
+    const tabUrl = `/react/updates/changelog?tab=${encodeURIComponent(packageName)}`;
+
+    return {
+      id: tabUrl,
+      title: `Changelog - ${label}`,
+      description: `${packageName} 변경사항`,
+      structuredData: { headings, contents },
+      tag: TAGS.react.value,
+      url: tabUrl,
+    };
+  });
 }
 
 export const { staticGET: GET } = createSearchAPI("advanced", {
-  indexes: () =>
-    Promise.all([
-      ...docsSource.getPages().map(async (page) => {
-        const { structuredData } = await page.data.load();
+  indexes: async () => {
+    const [docsPages, reactPages, breezePages, lynxPages, changelogIndexes] = await Promise.all([
+      Promise.all(
+        docsSource.getPages().map(async (page) => {
+          const { structuredData } = await page.data.load();
+          return {
+            id: page.url,
+            title: page.data.title,
+            description: page.data.description,
+            structuredData,
+            tag: TAGS.design.value,
+            url: page.url,
+          } satisfies AdvancedIndex;
+        }),
+      ),
+      Promise.all(
+        reactSource.getPages().map(async (page) => {
+          const { structuredData } = await page.data.load();
+          return {
+            id: page.url,
+            title: page.data.title,
+            description: page.data.description,
+            structuredData,
+            tag: TAGS.react.value,
+            url: page.url,
+          } satisfies AdvancedIndex;
+        }),
+      ),
+      Promise.all(
+        breezeSource.getPages().map(async (page) => {
+          const { structuredData } = await page.data.load();
+          return {
+            id: page.url,
+            title: page.data.title,
+            description: page.data.description,
+            structuredData,
+            tag: TAGS.breeze.value,
+            url: page.url,
+          } satisfies AdvancedIndex;
+        }),
+      ),
+      Promise.all(
+        lynxSource.getPages().map(async (page) => {
+          const { structuredData } = await page.data.load();
+          return {
+            id: page.url,
+            title: page.data.title,
+            description: page.data.description,
+            structuredData,
+            tag: TAGS.lynx.value,
+            url: page.url,
+          } satisfies AdvancedIndex;
+        }),
+      ),
+      getChangelogIndexes(),
+    ]);
 
-        return {
-          id: page.url,
-          title: page.data.title,
-          description: page.data.description,
-          structuredData,
-          tag: TAGS.design.value,
-          url: page.url,
-        } satisfies AdvancedIndex;
-      }),
-      ...reactSource.getPages().map(async (page) => {
-        const { structuredData } = await page.data.load();
-
-        return {
-          id: page.url,
-          title: page.data.title,
-          description: page.data.description,
-          structuredData,
-          tag: TAGS.react.value,
-          url: page.url,
-        } satisfies AdvancedIndex;
-      }),
-      ...breezeSource.getPages().map(async (page) => {
-        const { structuredData } = await page.data.load();
-
-        return {
-          id: page.url,
-          title: page.data.title,
-          description: page.data.description,
-          structuredData,
-          tag: TAGS.breeze.value,
-          url: page.url,
-        } satisfies AdvancedIndex;
-      }),
-      ...lynxSource.getPages().map(async (page) => {
-        const { structuredData } = await page.data.load();
-
-        return {
-          id: page.url,
-          title: page.data.title,
-          description: page.data.description,
-          structuredData,
-          tag: TAGS.lynx.value,
-          url: page.url,
-        } satisfies AdvancedIndex;
-      }),
-      getChangelogIndex(),
-    ]),
+    return [...docsPages, ...reactPages, ...breezePages, ...lynxPages, ...changelogIndexes];
+  },
   tokenizer: {
     language: "english",
     tokenize,
