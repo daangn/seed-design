@@ -1,5 +1,5 @@
 import { useStack } from "@stackflow/react";
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { useTopActivity } from "../private/useTopActivity";
 
 export type SwipeBackState = "idle" | "swiping" | "canceling" | "completing";
@@ -47,7 +47,17 @@ export interface EndSwipeBackProps {}
 
 export function useGlobalInteraction() {
   const stack = useStack();
-  const [swipeBackState, setSwipeBackState] = useState<SwipeBackState>("idle");
+  const swipeBackStateRef = useRef<SwipeBackState>("idle");
+
+  // Bypass React for swipe-back state transitions.
+  // Direct DOM writes eliminate the async re-render gap that causes jank
+  // at swiping→completing/canceling transitions.
+  const setSwipeBackState = useCallback((state: SwipeBackState) => {
+    swipeBackStateRef.current = state;
+    if (stackRef.current) {
+      stackRef.current.dataset["swipeBackState"] = state;
+    }
+  }, []);
 
   const swipeBackContextRef = useRef<SwipeBackContext>({
     x0: 0,
@@ -158,7 +168,9 @@ export function useGlobalInteraction() {
           displacementRatio: 0,
           velocity: 0,
         });
-        setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
+        if (swipeBackStateRef.current !== "swiping") {
+          setSwipeBackState("swiping");
+        }
         onSwipeBackStart?.();
       };
 
@@ -185,7 +197,9 @@ export function useGlobalInteraction() {
           });
         }
 
-        setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
+        if (swipeBackStateRef.current !== "swiping") {
+          setSwipeBackState("swiping");
+        }
       };
 
       const endSwipeBack = (_: EndSwipeBackProps) => {
@@ -252,32 +266,34 @@ export function useGlobalInteraction() {
 
   const topActivity = useTopActivity();
 
+  // Set initial swipe-back state on mount
+  useLayoutEffect(() => {
+    if (stackRef.current) {
+      stackRef.current.dataset["swipeBackState"] = "idle";
+    }
+  }, []);
+
   const stackProps = useMemo(
     () => ({
-      "data-swipe-back-state": swipeBackState,
+      // data-swipe-back-state is set directly via DOM for zero-latency transitions
       "data-global-transition-state": topActivity.transitionState,
       "data-top-activity-type": topActivity.activityType,
       "data-top-transition-style": topActivity.transitionStyle,
     }),
-    [
-      swipeBackState,
-      topActivity.transitionState,
-      topActivity.activityType,
-      topActivity.transitionStyle,
-    ],
+    [topActivity.transitionState, topActivity.activityType, topActivity.transitionStyle],
   ) as React.HTMLAttributes<HTMLElement>;
 
   return useMemo(
     () => ({
       stackRef,
       swipeBackContextRef,
-      swipeBackState,
+      swipeBackState: swipeBackStateRef.current,
       setSwipeBackState,
       setSwipeBackContext,
       getSwipeBackEvents,
 
       stackProps,
     }),
-    [swipeBackState, setSwipeBackContext, getSwipeBackEvents, stackProps],
+    [setSwipeBackState, setSwipeBackContext, getSwipeBackEvents, stackProps],
   );
 }
