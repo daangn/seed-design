@@ -1,4 +1,5 @@
 import type {
+  BreakpointEntry,
   ComponentSpecDeclaration,
   TokenCollectionDeclaration,
   TokenDeclaration,
@@ -98,6 +99,10 @@ export function buildContext(files: SourceFile[]): RootageCtx {
     .map((x) => x.ast)
     .filter((x) => x.kind === "ComponentSpecDocument")
     .map((x) => x.data);
+  const breakpointEntries = files
+    .map((x) => x.ast)
+    .filter((x) => x.kind === "BreakpointsDocument")
+    .flatMap((x) => x.data);
 
   const tokenIds = tokens.map((x) => x.token.identifier);
   const tokenEntities = Object.fromEntries(tokens.map((x) => [x.token.identifier, x]));
@@ -118,7 +123,12 @@ export function buildContext(files: SourceFile[]): RootageCtx {
     componentSpecEntities,
     dependencyGraph,
     referenceGraph,
+    breakpointEntries,
   };
+}
+
+export function getBreakpointEntries(ctx: RootageCtx): BreakpointEntry[] {
+  return ctx.breakpointEntries;
 }
 
 export function getSourceFiles(ctx: RootageCtx): SourceFile[] {

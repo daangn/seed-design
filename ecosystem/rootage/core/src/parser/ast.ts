@@ -361,6 +361,19 @@ export interface ComponentSpecDocument {
   data: ComponentSpecDeclaration;
 }
 
+// Breakpoints
+export interface BreakpointEntry {
+  kind: "BreakpointEntry";
+  name: string;
+  minWidth: number;
+}
+
+export interface BreakpointsDocument {
+  kind: "BreakpointsDocument";
+  metadata: MetadataDeclaration;
+  data: BreakpointEntry[];
+}
+
 export type Node =
   | ColorHexLit
   | DimensionLit
@@ -407,4 +420,6 @@ export type Node =
   | VariantExpression
   | VariantDeclaration
   | ComponentSpecDeclaration
-  | ComponentSpecDocument;
+  | ComponentSpecDocument
+  | BreakpointEntry
+  | BreakpointsDocument;

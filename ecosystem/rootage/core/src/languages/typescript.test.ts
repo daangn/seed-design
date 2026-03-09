@@ -1,9 +1,17 @@
 import { describe, expect, it, test } from "bun:test";
 import YAML from "yaml";
 import { Authoring } from "../parser";
+import * as factory from "../parser/factory";
 import { createStringifier } from "./typescript";
 
-const { getComponentSpecDts, getComponentSpecMjs, getTokenDts, getTokenMjs } = createStringifier({
+const {
+  getComponentSpecDts,
+  getComponentSpecMjs,
+  getTokenDts,
+  getTokenMjs,
+  getBreakpointsMjs,
+  getBreakpointsDts,
+} = createStringifier({
   prefix: "test",
 });
 
@@ -528,4 +536,68 @@ test("getTokenDts should generate JSDoc for token descriptions", () => {
       },
     ]
   `);
+});
+
+describe("getBreakpointsMjs", () => {
+  it("should generate raw numbers and up queries", () => {
+    const entries = [
+      factory.createBreakpointEntry("base", 0),
+      factory.createBreakpointEntry("sm", 480),
+      factory.createBreakpointEntry("md", 768),
+      factory.createBreakpointEntry("lg", 1280),
+      factory.createBreakpointEntry("xl", 1440),
+    ];
+
+    const result = getBreakpointsMjs(entries);
+
+    expect(result).toMatchInlineSnapshot(`
+      "export const base = 0;
+      export const sm = 480;
+      export const md = 768;
+      export const lg = 1280;
+      export const xl = 1440;
+      export const smUp = "(min-width: 480px)";
+      export const mdUp = "(min-width: 768px)";
+      export const lgUp = "(min-width: 1280px)";
+      export const xlUp = "(min-width: 1440px)";"
+    `);
+  });
+
+  it("should sort entries by minWidth", () => {
+    const entries = [
+      factory.createBreakpointEntry("lg", 1280),
+      factory.createBreakpointEntry("base", 0),
+      factory.createBreakpointEntry("sm", 480),
+    ];
+
+    const result = getBreakpointsMjs(entries);
+
+    expect(result).toMatchInlineSnapshot(`
+      "export const base = 0;
+      export const sm = 480;
+      export const lg = 1280;
+      export const smUp = "(min-width: 480px)";
+      export const lgUp = "(min-width: 1280px)";"
+    `);
+  });
+});
+
+describe("getBreakpointsDts", () => {
+  it("should generate literal types", () => {
+    const entries = [
+      factory.createBreakpointEntry("base", 0),
+      factory.createBreakpointEntry("sm", 480),
+      factory.createBreakpointEntry("md", 768),
+    ];
+
+    const result = getBreakpointsDts(entries);
+
+    expect(result).toMatchInlineSnapshot(`
+      "export declare const base: 0;
+      export declare const sm: 480;
+      export declare const md: 768;
+      export declare const smUp: "(min-width: 480px)";
+      export declare const mdUp: "(min-width: 768px)";"
+    `);
+  });
 });

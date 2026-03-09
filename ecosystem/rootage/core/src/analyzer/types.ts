@@ -35,7 +35,11 @@ export interface ReferenceGraph {
 
 export interface SourceFile {
   fileName: string;
-  ast: AST.TokensDocument | AST.TokenCollectionsDocument | AST.ComponentSpecDocument;
+  ast:
+    | AST.TokensDocument
+    | AST.TokenCollectionsDocument
+    | AST.ComponentSpecDocument
+    | AST.BreakpointsDocument;
 }
 
 export interface RootageCtx {
@@ -48,4 +52,5 @@ export interface RootageCtx {
   componentSpecEntities: Record<string, AST.ComponentSpecDeclaration>;
   dependencyGraph: DependencyGraph;
   referenceGraph: ReferenceGraph;
+  breakpointEntries: AST.BreakpointEntry[];
 }

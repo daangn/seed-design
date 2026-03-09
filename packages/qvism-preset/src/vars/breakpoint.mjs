@@ -1,0 +1,9 @@
+export const base = 0;
+export const sm = 480;
+export const md = 768;
+export const lg = 1280;
+export const xl = 1440;
+export const smUp = "(min-width: 480px)";
+export const mdUp = "(min-width: 768px)";
+export const lgUp = "(min-width: 1280px)";
+export const xlUp = "(min-width: 1440px)";

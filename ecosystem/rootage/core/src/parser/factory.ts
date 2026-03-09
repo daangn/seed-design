@@ -52,6 +52,8 @@ import type {
   SlotSchemaDeclaration,
   VariantSchemaDeclaration,
   VariantValueSchemaDeclaration,
+  BreakpointEntry,
+  BreakpointsDocument,
 } from "./ast";
 
 /**
@@ -913,4 +915,15 @@ export function createComponentSpecDocument(
     metadata,
     data,
   };
+}
+
+export function createBreakpointEntry(name: string, minWidth: number): BreakpointEntry {
+  return { kind: "BreakpointEntry", name, minWidth };
+}
+
+export function createBreakpointsDocument(
+  metadata: MetadataDeclaration,
+  data: BreakpointEntry[],
+): BreakpointsDocument {
+  return { kind: "BreakpointsDocument", metadata, data };
 }

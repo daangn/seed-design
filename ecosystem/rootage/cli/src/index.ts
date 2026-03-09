@@ -6,6 +6,7 @@ import {
   css,
   runGenerator,
   exchange,
+  getBreakpointEntries,
   getComponentSpecDeclarations,
   getSourceFiles,
   getTokenCollectionDeclarations,
@@ -257,6 +258,22 @@ async function writeFile(filePath: string, content: string) {
   }
 }
 
+async function writeBreakpointsTs() {
+  const { ctx } = await prepare();
+  const tsStringifier = typescript.createStringifier();
+  const entries = getBreakpointEntries(ctx);
+
+  if (entries.length === 0) return;
+
+  const mjsCode = tsStringifier.getBreakpointsMjs(entries);
+  const mjsWritePath = path.join(process.cwd(), dir, "breakpoint.mjs");
+  writeFileSync({ filename: "breakpoint.mjs", code: mjsCode, writePath: mjsWritePath });
+
+  const dtsCode = tsStringifier.getBreakpointsDts(entries);
+  const dtsWritePath = path.join(process.cwd(), dir, "breakpoint.d.ts");
+  writeFileSync({ filename: "breakpoint.d.ts", code: dtsCode, writePath: dtsWritePath });
+}
+
 async function writeTailwind3Plugin(prefix?: string): Promise<string> {
   const { ctx } = await prepare();
   const tokens = getTokenDeclarations(ctx);
@@ -399,6 +416,22 @@ yargs(process.argv.slice(2))
     async () => {
       console.log("Start");
       await writeJson();
+      console.log("Done");
+    },
+  )
+  .command(
+    "breakpoints-ts <dir>",
+    "Generate TypeScript breakpoints",
+    (yargs) => {
+      return yargs.positional("dir", {
+        describe: "Output directory",
+        type: "string",
+        default: "./",
+      });
+    },
+    async () => {
+      console.log("Start");
+      await writeBreakpointsTs();
       console.log("Done");
     },
   )

@@ -121,5 +121,15 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
         ...node,
         value: fn(node.value),
       };
+
+    // Breakpoints
+    case "BreakpointsDocument":
+      return {
+        ...node,
+        metadata: fn(node.metadata),
+        data: node.data.map((entry) => fn(entry)),
+      };
+    case "BreakpointEntry":
+      return node;
   }
 }

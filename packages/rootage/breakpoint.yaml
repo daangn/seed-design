@@ -1,0 +1,11 @@
+kind: Breakpoints
+metadata:
+  id: breakpoint
+  name: Breakpoint
+data:
+  breakpoints:
+    base: 0
+    sm: 480
+    md: 768
+    lg: 1280
+    xl: 1440

@@ -1,5 +1,6 @@
 import { camelCase } from "change-case";
 import type {
+  BreakpointEntry,
   ComponentSpecDeclaration,
   StateExpression,
   TokenDeclaration,
@@ -281,6 +282,38 @@ export function createStringifier(options: { prefix?: string } = {}) {
     return generateTokenCode(groups, true);
   }
 
+  function getBreakpointsMjs(entries: BreakpointEntry[]): string {
+    const sorted = [...entries].sort((a, b) => a.minWidth - b.minWidth);
+    const lines: string[] = [];
+
+    for (const entry of sorted) {
+      lines.push(`export const ${entry.name} = ${entry.minWidth};`);
+    }
+
+    for (const entry of sorted) {
+      if (entry.minWidth === 0) continue;
+      lines.push(`export const ${entry.name}Up = "(min-width: ${entry.minWidth}px)";`);
+    }
+
+    return lines.join("\n");
+  }
+
+  function getBreakpointsDts(entries: BreakpointEntry[]): string {
+    const sorted = [...entries].sort((a, b) => a.minWidth - b.minWidth);
+    const lines: string[] = [];
+
+    for (const entry of sorted) {
+      lines.push(`export declare const ${entry.name}: ${entry.minWidth};`);
+    }
+
+    for (const entry of sorted) {
+      if (entry.minWidth === 0) continue;
+      lines.push(`export declare const ${entry.name}Up: "(min-width: ${entry.minWidth}px)";`);
+    }
+
+    return lines.join("\n");
+  }
+
   return {
     getComponentSpecMjs,
     getComponentSpecDts,
@@ -288,5 +321,7 @@ export function createStringifier(options: { prefix?: string } = {}) {
     getComponentSpecIndexDts,
     getTokenMjs,
     getTokenDts,
+    getBreakpointsMjs,
+    getBreakpointsDts,
   };
 }

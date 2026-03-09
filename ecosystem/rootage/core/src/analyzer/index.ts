@@ -1,5 +1,6 @@
 export {
   buildContext,
+  getBreakpointEntries,
   getComponentSpecDeclarations,
   getTokenCollectionDeclarations,
   getTokenDeclarations,

@@ -133,4 +133,16 @@ export interface ComponentSpecSchema {
   variants: ComponentSpecVariantSchema;
 }
 
-export type Model = TokenCollectionsModel | TokensModel | ComponentSpecModel;
+export interface BreakpointsModel {
+  kind: "Breakpoints";
+  metadata: {
+    id: string;
+    name: string;
+    [key: string]: string | number | boolean;
+  };
+  data: {
+    breakpoints: Record<string, number>;
+  };
+}
+
+export type Model = TokenCollectionsModel | TokensModel | ComponentSpecModel | BreakpointsModel;

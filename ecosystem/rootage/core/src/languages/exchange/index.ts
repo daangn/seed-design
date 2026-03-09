@@ -2,7 +2,11 @@ import type { AST, Authoring, Exchange } from "../../parser";
 import { compactObject } from "../../utils/compact";
 
 export function getModel(
-  ast: AST.TokensDocument | AST.TokenCollectionsDocument | AST.ComponentSpecDocument,
+  ast:
+    | AST.TokensDocument
+    | AST.TokenCollectionsDocument
+    | AST.ComponentSpecDocument
+    | AST.BreakpointsDocument,
 ): Exchange.Model {
   switch (ast.kind) {
     case "TokenCollectionsDocument":
@@ -11,7 +15,20 @@ export function getModel(
       return getTokensModel(ast);
     case "ComponentSpecDocument":
       return getComponentSpecModel(ast);
+    case "BreakpointsDocument":
+      return getBreakpointsModel(ast);
   }
+}
+
+export function getBreakpointsModel(ast: AST.BreakpointsDocument): Exchange.BreakpointsModel {
+  const metadata = getMetadata(ast.metadata);
+  return {
+    kind: "Breakpoints",
+    metadata,
+    data: {
+      breakpoints: Object.fromEntries(ast.data.map((e) => [e.name, e.minWidth])),
+    },
+  };
 }
 
 export function getTokenCollectionsModel(
