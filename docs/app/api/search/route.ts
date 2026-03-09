@@ -14,7 +14,7 @@ async function getChangelogIndex(): Promise<AdvancedIndex> {
   for (const entry of entries) {
     const key = `${entry.package.name}@${entry.package.version}`;
     if (!grouped.has(key)) grouped.set(key, []);
-    grouped.get(key)!.push(entry.content);
+    grouped.get(key)!.push(entry.contentHtml.replace(/<[^>]*>/g, ""));
   }
 
   const headings = [...grouped.keys()].map((key) => ({
