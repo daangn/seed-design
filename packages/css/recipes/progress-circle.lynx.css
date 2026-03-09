@@ -1,0 +1,41 @@
+.seed-progress-circle__root {
+    display: inline-flex;
+    position: relative;
+}
+.seed-progress-circle__root[data-progress-state=indeterminate] {
+    animation: rotate 1.2s cubic-bezier(0.35, 0.25, 0.65, 0.75) infinite;
+}
+.seed-progress-circle__track {
+}
+.seed-progress-circle__range {
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0, 0, 0.15, 1);
+}
+.seed-progress-circle__range[data-progress-state=indeterminate] {
+    animation: 
+          progress-circle-head 1.2s cubic-bezier(0.35, 0, 0.65, 1) infinite normal none running,
+          progress-circle-tail 1.2s cubic-bezier(0.35, 0, 0.65, 0.6) infinite normal none running
+        ;
+}
+.seed-progress-circle__root--tone_neutral {
+    --track-color: #1d2025;
+    --range-color: #5b606a;
+}
+.seed-progress-circle__root--tone_brand {
+    --track-color: #4b291c;
+    --range-color: #ff6600;
+}
+.seed-progress-circle__root--tone_staticWhite {
+    --track-color: #ffffff2e;
+    --range-color: #ffffff;
+}
+.seed-progress-circle__root--tone_inherit {}
+.seed-progress-circle__root--size_24 {
+    --size: 24px;
+    --thickness: 3px;
+}
+.seed-progress-circle__root--size_40 {
+    --size: 40px;
+    --thickness: 5px;
+}
+.seed-progress-circle__root--size_inherit {}

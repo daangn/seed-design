@@ -1,4 +1,5 @@
 import { postcssEngaged } from "@seed-design/postcss-engaged";
+import { postcssLynxCompat } from "@seed-design/postcss-lynx-compat";
 
 import { globalCss } from "./global";
 import { keyframes } from "./keyframes";
@@ -24,4 +25,11 @@ export default definePreset({
     keyframes,
     globalCss,
   },
+  targets: [
+    {
+      suffix: "lynx",
+      postcssPlugins: [postcssLynxCompat({ tokenCss: tokens._raw })],
+      deriveSlots: ["root", "text"],
+    },
+  ],
 });

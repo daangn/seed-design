@@ -1,0 +1,31 @@
+.seed-image-frame-reaction-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 0;
+    position: relative;
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    background: transparent;
+    --seed-icon-size: 24px;
+    --seed-icon-color: #ffffff;
+}.seed-image-frame-reaction-button__text {
+    --seed-icon-size: 24px;
+    --seed-icon-color: #ffffff;
+}
+.seed-image-frame-reaction-button::before {
+    position: absolute;
+    top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    right: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+}
+.seed-image-frame-reaction-button:focus, .seed-image-frame-reaction-button[data-focus] {
+}
+.seed-image-frame-reaction-button[aria-pressed=true], .seed-image-frame-reaction-button[data-pressed] {
+    --seed-icon-color: #ffffff00;
+}
+.seed-image-frame-reaction-button__text[aria-pressed=true], .seed-image-frame-reaction-button__text[data-pressed] {
+    --seed-icon-color: #ffffff00;
+}

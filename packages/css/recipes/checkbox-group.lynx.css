@@ -1,0 +1,5 @@
+.seed-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--seed-dimension-x1)
+}

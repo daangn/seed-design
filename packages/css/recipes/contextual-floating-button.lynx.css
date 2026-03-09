@@ -1,0 +1,125 @@
+.seed-contextual-floating-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}.seed-contextual-floating-button__text {
+    font-family: inherit;
+}
+.seed-contextual-floating-button[data-disabled] {
+}
+.seed-contextual-floating-button {
+    border-radius: var(--seed-radius-full);
+    box-shadow: var(--seed-shadow-s3);
+    --seed-box-z-index: initial;
+    z-index: var(--seed-box-z-index);
+    --seed-box-position: initial;
+    position: var(--seed-box-position);
+    --seed-box-top: initial;
+    --seed-box-right: initial;
+    --seed-box-bottom: initial;
+    --seed-box-left: initial;
+    top: var(--seed-box-top);
+    right: var(--seed-box-right);
+    bottom: var(--seed-box-bottom);
+    left: var(--seed-box-left);
+    --seed-icon-size: 22px;
+    --size: 16px;
+    --thickness: 2px;
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+}
+.seed-contextual-floating-button__text {
+    --seed-box-z-index: initial;
+    --seed-box-position: initial;
+    --seed-box-top: initial;
+    --seed-box-right: initial;
+    --seed-box-bottom: initial;
+    --seed-box-left: initial;
+    --seed-icon-size: 22px;
+    --size: 16px;
+    --thickness: 2px;
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    font-weight: var(--seed-font-weight-medium);
+}
+.seed-contextual-floating-button--variant_solid {
+    background: var(--seed-color-bg-neutral-inverted);
+    --seed-icon-color: #16171b;
+    --seed-prefix-icon-color: #16171b;
+    --track-color: #b0b3ba;
+    --range-color: #16171b;
+}
+.seed-contextual-floating-button__text--variant_solid {
+    --seed-icon-color: #16171b;
+    --seed-prefix-icon-color: #16171b;
+    --track-color: #b0b3ba;
+    --range-color: #16171b;
+    color: var(--seed-color-fg-neutral-inverted);
+}
+.seed-contextual-floating-button--variant_solid[data-active] {
+    background: var(--seed-color-bg-neutral-inverted-pressed);
+}
+.seed-contextual-floating-button--variant_solid[data-disabled] {
+    background: var(--seed-color-bg-disabled);
+    --seed-prefix-icon-color: #5b606a;
+    --seed-icon-color: #5b606a;
+}
+.seed-contextual-floating-button__text--variant_solid[data-disabled] {
+    --seed-prefix-icon-color: #5b606a;
+    --seed-icon-color: #5b606a;
+    color: var(--seed-color-fg-disabled);
+}
+.seed-contextual-floating-button--variant_solid[data-loading] {
+    background: var(--seed-color-bg-neutral-inverted-pressed);
+}
+.seed-contextual-floating-button--variant_layer {
+    background: var(--seed-color-bg-layer-floating);
+    --seed-icon-color: #f3f4f5;
+    --seed-prefix-icon-color: #f3f4f5;
+    --track-color: #5b606a;
+    --range-color: #f3f4f5;
+}
+.seed-contextual-floating-button__text--variant_layer {
+    --seed-icon-color: #f3f4f5;
+    --seed-prefix-icon-color: #f3f4f5;
+    --track-color: #5b606a;
+    --range-color: #f3f4f5;
+    color: var(--seed-color-fg-neutral);
+}
+.seed-contextual-floating-button--variant_layer[data-active] {
+    background: var(--seed-color-bg-layer-floating-pressed);
+}
+.seed-contextual-floating-button--variant_layer[data-disabled] {
+    background: var(--seed-color-bg-disabled);
+    --seed-prefix-icon-color: #5b606a;
+    --seed-icon-color: #5b606a;
+}
+.seed-contextual-floating-button__text--variant_layer[data-disabled] {
+    --seed-prefix-icon-color: #5b606a;
+    --seed-icon-color: #5b606a;
+    color: var(--seed-color-fg-disabled);
+}
+.seed-contextual-floating-button--variant_layer[data-loading] {
+    background: var(--seed-color-bg-layer-floating-pressed);
+}
+.seed-contextual-floating-button--layout_withText {
+    min-height: 36px;
+    padding-left: var(--seed-dimension-x3_5);
+    padding-right: var(--seed-dimension-x3_5);
+    padding-top: var(--seed-dimension-x2);
+    padding-bottom: var(--seed-dimension-x2);
+    gap: var(--seed-dimension-x1);
+    --seed-prefix-icon-size: 16px;
+}
+.seed-contextual-floating-button__text--layout_withText {
+    --seed-prefix-icon-size: 16px;
+}
+.seed-contextual-floating-button--layout_iconOnly {
+    width: 44px;
+    height: 44px;
+    --seed-icon-size: 22px;
+}
+.seed-contextual-floating-button__text--layout_iconOnly {
+    --seed-icon-size: 22px;
+}
