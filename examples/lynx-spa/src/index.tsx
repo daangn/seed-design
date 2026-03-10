@@ -10,6 +10,7 @@ import {
 
 import "./styles/global.css";
 
+import { getThemeClassName } from "@seed-design/rsbuild-plugin/lynx";
 import { App } from "./App.jsx";
 
 // Initialize lynx-console monitors before rendering.
@@ -20,6 +21,20 @@ initNetworkMonitor();
 initPerformanceMonitor();
 
 root.render(<App />);
+declare const __SEED_COLOR_MODE__: string;
+
+const colorMode = typeof __SEED_COLOR_MODE__ !== "undefined" ? __SEED_COLOR_MODE__ : "system";
+const systemTheme = (lynx?.__globalProps as Record<string, unknown>)?.theme as string | undefined;
+const themeClass = getThemeClassName(
+  colorMode as "system" | "light-only" | "dark-only",
+  systemTheme,
+);
+
+root.render(
+  <page className={themeClass}>
+    <App />
+  </page>,
+);
 
 if (import.meta.webpackHot) {
   import.meta.webpackHot.accept();
