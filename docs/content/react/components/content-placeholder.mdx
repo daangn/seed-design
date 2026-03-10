@@ -33,9 +33,7 @@ npx @seed-design/cli@latest add ui:content-placeholder
 
 ### Type Preset
 
-- 디자인시스템 팀이 아이콘 매핑을 관리합니다. 이후 아이콘이 교체되어도 버전 업만으로 변경을 반영할 수 있습니다.
-- `type`을 생략하면 `"default"` 타입(당근 로고)이 렌더링됩니다.
-- `type`과 `svg`는 동시에 전달할 수 없습니다.
+`type`을 지정하여 미리 정의된 프리셋 아이콘과 배경을 사용할 수 있습니다. `type`을 지정하지 않는 경우 `"default"` 타입이 렌더링됩니다.
 
 <ComponentExample name="react/content-placeholder/type">
   ```json doc-gen:file
@@ -46,10 +44,9 @@ npx @seed-design/cli@latest add ui:content-placeholder
   ```
 </ComponentExample>
 
-### Custom SVG
+### Customizing Image
 
-- 제품별로 완전히 커스텀한 에셋이 필요한 경우에 사용합니다.
-- `type`과 `svg`는 동시에 전달할 수 없습니다.
+- `children`을 전달하여 `type` 프리셋에 없는 아이콘을 사용할 수 있습니다.
 
 <ComponentExample name="react/content-placeholder/svg">
   ```json doc-gen:file
