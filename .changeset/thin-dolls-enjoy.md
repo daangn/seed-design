@@ -4,4 +4,4 @@
 "@seed-design/css": patch
 ---
 
-Content Placeholder에 fallback slot을 추가합니다.
+Image Frame 컴포넌트에 fallback slot을 추가합니다.
