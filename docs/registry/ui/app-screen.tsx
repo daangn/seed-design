@@ -3,7 +3,7 @@
 import { PullToRefreshRoot, PullToRefreshContent, PullToRefreshIndicator } from "./pull-to-refresh";
 import { AppScreen as SeedAppScreen } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
-import { forwardRef, type CSSProperties } from "react";
+import { forwardRef } from "react";
 
 export interface AppScreenProps extends SeedAppScreen.RootProps {
   preventSwipeBack?: boolean;
@@ -43,18 +43,12 @@ export interface AppScreenContentProps extends SeedAppScreen.LayerProps {
   onPtrRefresh?: () => Promise<void>;
 }
 
-const swipeBackBoundaryStyle = {
-  "--swipe-back-displacement": "initial",
-  "--swipe-back-displacement-ratio": "initial",
-  "--swipe-back-target": "initial",
-} as CSSProperties;
-
 export const AppScreenContent = forwardRef<HTMLDivElement, AppScreenContentProps>(
   ({ children, ptr, onPtrReady, onPtrRefresh, ...otherProps }, ref) => {
     if (!ptr) {
       return (
         <SeedAppScreen.Layer ref={ref} {...otherProps}>
-          <div style={swipeBackBoundaryStyle}>{children}</div>
+          {children}
         </SeedAppScreen.Layer>
       );
     }
@@ -63,9 +57,7 @@ export const AppScreenContent = forwardRef<HTMLDivElement, AppScreenContentProps
       <PullToRefreshRoot asChild onPtrReady={onPtrReady} onPtrRefresh={onPtrRefresh}>
         <SeedAppScreen.Layer ref={ref} {...otherProps}>
           <PullToRefreshIndicator />
-          <PullToRefreshContent asChild>
-            <div style={swipeBackBoundaryStyle}>{children}</div>
-          </PullToRefreshContent>
+          <PullToRefreshContent asChild>{children}</PullToRefreshContent>
         </SeedAppScreen.Layer>
       </PullToRefreshRoot>
     );
