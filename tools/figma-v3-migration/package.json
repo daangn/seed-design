@@ -20,17 +20,20 @@
     "typecheck:ui": "tsc --noEmit -p tsconfig.ui.json"
   },
   "dependencies": {
+    "@create-figma-plugin/utilities": "^4.0.0",
     "@figmazing/event": "0.0.1",
     "@karrotmarket/react-monochrome-icon": "^1.8.0",
-    "@seed-design/css": "^1.2.1",
+    "@seed-design/css": "^1.2.4",
     "@seed-design/migration-index": "^1.0.0",
-    "@seed-design/react": "^1.2.1",
+    "@seed-design/react": "^1.2.6",
     "@seed-design/vite-plugin": "^1.1.0",
+    "change-case": "^5.4.4",
     "color-delta-e": "^1.3.0",
     "normalize.css": "^8.0.1",
     "posthog-js": "^1.245.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "rgb-hex": "^4.1.0"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",

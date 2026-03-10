@@ -33,7 +33,7 @@ export const createTabsHandler = (_ctx: ComponentHandlerDeps) => {
       .with("Line", () => {
         const [wrapper] = findAllInstances<TabsLineWrapperProperties>({
           node,
-          key: metadata.privateComponentTabsLine.key,
+          key: lineHandler.key,
         });
 
         if (!wrapper) throw new Error("Line Tab wrapper not found");
@@ -43,7 +43,7 @@ export const createTabsHandler = (_ctx: ComponentHandlerDeps) => {
       .with("Chip", () => {
         const [wrapper] = findAllInstances<TabsChipWrapperProperties>({
           node,
-          key: metadata.privateComponentTabsChip.key,
+          key: chipHandler.key,
         });
 
         if (!wrapper) throw new Error("Chip Tab wrapper not found");
@@ -90,7 +90,7 @@ const createLineTabsHandler = (_ctx: ComponentHandlerDeps) => {
         .with("Hug", () => {
           const nodes = findAllInstances<TabsLineTriggerHugProperties>({
             node,
-            key: metadata.privateComponentTabItemLineHug.key,
+            key: hugHandler.key,
           });
 
           return {
@@ -105,7 +105,7 @@ const createLineTabsHandler = (_ctx: ComponentHandlerDeps) => {
         .with("Fill", () => {
           const nodes = findAllInstances<TabsLineTriggerFillProperties>({
             node,
-            key: metadata.privateComponentTabItemLineFill.key,
+            key: fillHandler.key,
           });
 
           return {
@@ -156,7 +156,7 @@ const createLineTriggerHugHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createTabsLocalSnippetElement("TabsTrigger", commonProps);
+      return createTabsLocalSnippetElement("TabsTrigger", commonProps, props["Label#4478:2"].value);
     },
   );
 
@@ -174,7 +174,7 @@ const createLineTriggerFillHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createTabsLocalSnippetElement("TabsTrigger", commonProps);
+      return createTabsLocalSnippetElement("TabsTrigger", commonProps, props["Label#4478:2"].value);
     },
   );
 
@@ -212,7 +212,7 @@ const createChipTabsHandler = (_ctx: ComponentHandlerDeps) => {
 
       const nodes = findAllInstances<ChipTabsTriggerProperties>({
         node,
-        key: metadata.privateComponentTabItemChip.key,
+        key: triggerHandler.key,
       });
 
       const triggers = nodes.map((node) => {
@@ -289,6 +289,10 @@ const createChipTabsTriggerHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createChipTabsLocalSnippetElement("ChipTabsTrigger", commonProps);
+      return createChipTabsLocalSnippetElement(
+        "ChipTabsTrigger",
+        commonProps,
+        chipProps["Label#7185:0"].value,
+      );
     },
   );

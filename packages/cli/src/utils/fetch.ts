@@ -7,7 +7,29 @@ import {
   publicRegistryItemSchema,
   type PublicAvailableRegistries,
   publicAvailableRegistriesSchema,
+  type DocsIndex,
+  docsIndexSchema,
 } from "@/src/schema";
+import { CliError } from "@/src/utils/error";
+
+export async function fetchDocsIndex({ baseUrl }: { baseUrl: string }): Promise<DocsIndex> {
+  const response = await fetch(`${baseUrl}/__docs__/index.json`);
+
+  if (!response.ok)
+    throw new CliError({
+      message: `문서 목록을 가져오지 못했어요: ${response.status} ${response.statusText}`,
+    });
+
+  const data = await response.json();
+  const { success, data: parsed, error } = docsIndexSchema.safeParse(data);
+
+  if (!success)
+    throw new CliError({
+      message: `문서 목록 파싱에 실패했어요: ${error?.message}`,
+    });
+
+  return parsed;
+}
 
 export async function fetchAvailableRegistries({
   baseUrl,

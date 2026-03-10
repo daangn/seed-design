@@ -17,7 +17,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("action-button");
 export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ActionButtonProperties>(
     metadata.componentActionButton.key,
-    ({ componentProperties: props }) => {
+    ({ componentProperties: props, layoutGrow }) => {
       const states = props.State.value.split("-");
 
       const { layout, children } = match(props.Layout.value)
@@ -63,6 +63,7 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
         size: handleSizeProp(props.Size.value),
         variant: camelCase(props.Variant.value),
         layout,
+        ...(layoutGrow === 1 && { flexGrow: true }),
       };
 
       return createLocalSnippetElement("ActionButton", commonProps, children);
@@ -140,6 +141,7 @@ export const createActionButtonGhostHandler = (ctx: ComponentHandlerDeps) =>
           bleedX: "asPadding",
           bleedY: "asPadding",
         }),
+        ...(node.layoutGrow === 1 && { flexGrow: true }),
       };
 
       return createLocalSnippetElement("ActionButton", commonProps, children);

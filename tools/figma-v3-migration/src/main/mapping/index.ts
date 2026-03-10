@@ -38,6 +38,7 @@ import {
 import { dividerMapping, dividerNavMapping } from "./divider";
 import { actionSheetMapping, actionSheetV2BetaMapping } from "./action-sheet";
 import { squareBadgeMapping, pillBadgeMapping } from "./badges";
+import { thumbnailMapping, thumbnailRatioMapping } from "./thumbnail";
 
 export default [
   squareBadgeMapping,
@@ -83,4 +84,6 @@ export default [
   underlinedTextFieldMapping,
   multilineTextFieldMapping,
   outlineTextFieldMapping,
+  thumbnailMapping,
+  thumbnailRatioMapping,
 ] as const;

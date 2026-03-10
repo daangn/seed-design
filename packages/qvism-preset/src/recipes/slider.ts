@@ -4,7 +4,12 @@ import {
   sliderTick as tickVars,
 } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
-import { disabled, pseudo, focus, not } from "../utils/pseudo";
+import { disabled, pseudo, focusVisible, focus, not } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import * as duration from "../vars/duration";
 import * as timingFunction from "../vars/timing-function";
@@ -39,6 +44,14 @@ const slider = defineSlotRecipe({
 
       userSelect: "none",
       touchAction: "none",
+
+      [pseudo(dragging)]: {
+        cursor: "grabbing",
+      },
+
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+      },
     },
     control: {
       position: "relative",
@@ -125,13 +138,17 @@ const slider = defineSlotRecipe({
         backgroundColor: thumbVars.base.enabled.root.color,
         borderRadius: thumbVars.base.enabled.root.cornerRadius,
 
-        transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
+        ...createFocusRingRestStyles(),
+        transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
         willChange: "transform",
+
+        cursor: "grab",
       },
 
       [pseudo(disabled)]: {
         "&::after": {
           backgroundColor: thumbVars.base.disabled.root.color,
+          cursor: "not-allowed",
         },
       },
 
@@ -146,7 +163,11 @@ const slider = defineSlotRecipe({
       },
 
       [pseudo(focus)]: {
-        outline: "none", // XXX
+        outline: "none",
+      },
+
+      [pseudo(focusVisible)]: {
+        "&::after": createFocusRingStyles(),
       },
     },
     markers: {
@@ -164,7 +185,12 @@ const slider = defineSlotRecipe({
       top: "50%",
 
       boxSizing: "border-box",
+
+      transition: `left ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}, right ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}`,
+      willChange: "left, right",
+
       background: vars.base.enabled.valueIndicatorRoot.color,
+
       paddingLeft: vars.base.enabled.valueIndicatorRoot.paddingX,
       paddingRight: vars.base.enabled.valueIndicatorRoot.paddingX,
       paddingTop: vars.base.enabled.valueIndicatorRoot.paddingY,
@@ -181,6 +207,7 @@ const slider = defineSlotRecipe({
       textAlign: "center",
 
       width: "max-content",
+      minWidth: `calc(${vars.base.enabled.valueIndicatorRoot.paddingX} * 2 + ${vars.base.enabled.valueIndicatorArrow.width})`,
 
       [pseudo("[data-dir='ltr']")]: {
         left: "calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset))",
@@ -200,7 +227,8 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "-50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
+          // TODO: make 0.3125rem a rootage constant
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
@@ -212,7 +240,7 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
@@ -224,7 +252,7 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "-50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
@@ -236,8 +264,12 @@ const slider = defineSlotRecipe({
           timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2)`,
+          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
         }),
+      },
+
+      [pseudo(dragging)]: {
+        transition: "none",
       },
 
       // Prevent animation when indicator has never been shown
@@ -253,6 +285,9 @@ const slider = defineSlotRecipe({
       position: "absolute",
       top: "100%",
 
+      transition: `left ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}, right ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}`,
+      willChange: "left, right",
+
       // Center horizontally with offset to align with thumb
       [pseudo("[data-dir='ltr']")]: {
         left: "calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)))",
@@ -262,6 +297,10 @@ const slider = defineSlotRecipe({
       [pseudo("[data-dir='rtl']")]: {
         right: "calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)))",
         transform: "translateX(50%)",
+      },
+
+      [pseudo(dragging)]: {
+        transition: "none",
       },
     },
     valueIndicatorArrowTip: {

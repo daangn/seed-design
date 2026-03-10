@@ -1,0 +1,37 @@
+@layer seed-components {
+  .seed-fab {
+    box-sizing: border-box;
+    cursor: pointer;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    font-family: inherit;
+    text-decoration: none;
+    display: inline-flex;
+  }
+
+  .seed-fab:is(:focus, [data-focus]) {
+    outline: none;
+  }
+
+  .seed-fab:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+  }
+
+  .seed-fab {
+    background: var(--seed-color-bg-layer-floating);
+    border-radius: var(--seed-radius-full);
+    --seed-icon-size: 22px;
+    --seed-icon-color: var(--seed-color-fg-neutral);
+    width: 44px;
+    height: 44px;
+    box-shadow: 0 2px 6px #00000026;
+  }
+
+  .seed-fab:is(:active, [data-active]) {
+    background: var(--seed-color-bg-layer-floating-pressed);
+  }
+}

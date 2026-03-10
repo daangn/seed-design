@@ -10,6 +10,7 @@ import { useAppBarContext } from "../../primitive/AppBar/useAppBarContext";
 import { createStyleContext } from "../../utils/createStyleContext";
 import { useTopActivity } from "../../primitive/private/useTopActivity";
 import { useActivity } from "@stackflow/react";
+import { useBoxBackgroundProps, type BoxBackgroundProps } from "../../utils/styled";
 
 const { PropsProvider, ClassNamesProvider, useProps, withContext, useClassNames } =
   createStyleContext(appBar);
@@ -21,11 +22,19 @@ const {
 
 export const AppBarPropsProvider = PropsProvider;
 
-export interface AppBarProps extends AppBarVariantProps, AppBarPrimitive.RootProps {}
+export interface AppBarProps
+  extends AppBarVariantProps,
+    AppBarPrimitive.RootProps,
+    BoxBackgroundProps {}
 
 export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) => {
+  const { style: boxStyle, restProps: propsWithoutBoxProps } = useBoxBackgroundProps(props);
+
   const contextProps = useProps();
-  const [variantProps, otherProps] = appBar.splitVariantProps({ ...contextProps, ...props });
+  const [variantProps, otherProps] = appBar.splitVariantProps({
+    ...contextProps,
+    ...propsWithoutBoxProps,
+  });
 
   const topActivityTransitionStyle = useTopActivity().transitionStyle;
 
@@ -46,7 +55,7 @@ export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) =
       <MainPropsProvider value={resolvedVariantProps}>
         <AppBarPrimitive.Root
           ref={ref}
-          {...mergeProps({ className: classNames.root }, otherProps)}
+          {...mergeProps({ className: classNames.root, style: boxStyle }, otherProps)}
         />
       </MainPropsProvider>
     </ClassNamesProvider>

@@ -4,10 +4,12 @@
 
 :root[data-seed="light-only"] {
   color-scheme: light;
+  color-scheme: only light;
 }
 
 :root[data-seed="dark-only"] {
   color-scheme: dark;
+  color-scheme: only dark;
 }
 
 :root[data-seed] {

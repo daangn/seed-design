@@ -1,6 +1,6 @@
 import { bottomSheetHandle as handleVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { engaged, pseudo } from "../utils/pseudo";
 
 const bottomSheetHandle = defineSlotRecipe({
   name: "bottom-sheet-handle",
@@ -21,7 +21,7 @@ const bottomSheetHandle = defineSlotRecipe({
       transition: `background-color ${handleVars.base.enabled.root.colorDuration} ${handleVars.base.enabled.root.colorTimingFunction}`,
       touchAction: "pan-y",
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         backgroundColor: handleVars.base.pressed.root.color,
       },
     },

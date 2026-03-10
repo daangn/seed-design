@@ -74,7 +74,8 @@
               "type": "dimension"
             },
             "paddingX": {
-              "type": "dimension"
+              "type": "dimension",
+              "description": "value indicator 내부 좌우 여백입니다. arrow와 valueIndicatorRoot 경계 사이의 최소 간격에도 동일한 값이 적용됩니다."
             },
             "paddingY": {
               "type": "dimension"
@@ -105,8 +106,15 @@
             },
             "exitTimingFunction": {
               "type": "cubicBezier"
+            },
+            "translateDuration": {
+              "type": "duration"
+            },
+            "translateTimingFunction": {
+              "type": "cubicBezier"
             }
-          }
+          },
+          "description": "arrow width + (valueIndicatorRoot paddingX * 2)만큼의 최소 너비를 가집니다."
         },
         "valueIndicatorArrow": {
           "properties": {
@@ -123,10 +131,8 @@
               "type": "dimension"
             },
             "gutter": {
-              "type": "dimension"
-            },
-            "padding": {
-              "type": "dimension"
+              "type": "dimension",
+              "description": "arrow와 thumb 사이의 거리를 정의합니다."
             }
           }
         },
@@ -242,15 +248,15 @@
                 },
                 "cornerRadius": {
                   "type": "dimension",
-                  "value": "$radius.r1"
+                  "value": "$radius.r1_5"
                 },
                 "paddingX": {
                   "type": "dimension",
-                  "value": "$dimension.x1_5"
+                  "value": "$dimension.x2"
                 },
                 "paddingY": {
                   "type": "dimension",
-                  "value": "$dimension.x0_5"
+                  "value": "$dimension.x1"
                 },
                 "offsetY": {
                   "type": "dimension",
@@ -287,6 +293,14 @@
                 "exitTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
+                },
+                "translateDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "translateTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "valueIndicatorArrow": {
@@ -296,24 +310,17 @@
                 },
                 "width": {
                   "type": "dimension",
-                  "value": "$dimension.x2_5"
+                  "value": "$dimension.x2"
                 },
                 "height": {
                   "type": "dimension",
-                  "value": {
-                    "value": 7,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x1_5"
                 },
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r0_5"
                 },
                 "gutter": {
-                  "type": "dimension",
-                  "value": "$dimension.x0_5"
-                },
-                "padding": {
                   "type": "dimension",
                   "value": "$dimension.x0_5"
                 }
@@ -325,11 +332,11 @@
                 },
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t1"
+                  "value": "$font-size.t3"
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t1"
+                  "value": "$line-height.t3"
                 },
                 "fontWeight": {
                   "type": "number",

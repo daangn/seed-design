@@ -1,6 +1,15 @@
-import { segmentedControlItem as itemVars, segmentedControl as vars } from "../vars/component";
+import {
+  segmentedControlItem as itemVars,
+  segmentedControl as vars,
+  segmentedControlIndicator as indicatorVars,
+} from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, checked, disabled, not, pseudo } from "../utils/pseudo";
+import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const segmentedControl = defineSlotRecipe({
   name: "segmented-control",
@@ -38,12 +47,12 @@ const segmentedControl = defineSlotRecipe({
       left: vars.base.enabled.root.padding,
       width: `calc((100% - ${vars.base.enabled.root.padding} * 2) / var(--segment-count))`,
 
-      borderRadius: vars.base.enabled.indicator.cornerRadius,
-      backgroundColor: vars.base.enabled.indicator.color,
+      borderRadius: indicatorVars.base.enabled.root.cornerRadius,
+      backgroundColor: indicatorVars.base.enabled.root.color,
 
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
 
-      transition: `transform ${vars.base.enabled.indicator.transformDuration} ${vars.base.enabled.indicator.transformTimingFunction}`,
+      transition: `transform ${indicatorVars.base.enabled.root.transformDuration} ${indicatorVars.base.enabled.root.transformTimingFunction}`,
     },
     item: {
       display: "flex",
@@ -74,11 +83,14 @@ const segmentedControl = defineSlotRecipe({
       lineHeight: itemVars.base.enabled.label.lineHeight,
       color: itemVars.base.enabled.label.color,
 
-      transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}`,
+      transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}, box-shadow ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
       },
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
@@ -87,18 +99,20 @@ const segmentedControl = defineSlotRecipe({
 
       [pseudo(disabled, checked)]: {
         // this covers the indicator
-        backgroundColor: itemVars.base.disabledSelected.root.color,
+        backgroundColor: indicatorVars.base.disabled.root.color,
 
         // this is the same as the indicator stroke
-        boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
+        boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
-      [pseudo(not(disabled), checked, active)]: {
-        backgroundColor: itemVars.base.selectedPressed.root.color,
+      [pseudo(not(disabled), checked, engaged)]: {
+        backgroundColor: indicatorVars.base.pressed.root.color,
+        boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
-      [pseudo(not(disabled), not(checked), active)]: {
+      [pseudo(not(disabled), not(checked), engaged)]: {
         backgroundColor: itemVars.base.pressed.root.color,
+        boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },
     },
   },

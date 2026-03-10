@@ -79,6 +79,8 @@ const textInput = defineSlotRecipe({
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.value.color,
+
+        cursor: "not-allowed",
       },
 
       [pseudo(disabled, "::placeholder")]: {

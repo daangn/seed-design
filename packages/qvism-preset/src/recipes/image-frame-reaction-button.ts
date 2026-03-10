@@ -1,7 +1,13 @@
 import { defineRecipe } from "../utils/define";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { pressed, pseudo } from "../utils/pseudo";
+import { focus, focusVisible, pressed, pseudo } from "../utils/pseudo";
 import { imageFrameReactionButton as reactionButtonVars } from "../vars/component";
+import { vars as tokens } from "../vars";
 
 export default defineRecipe({
   name: "image-frame-reaction-button",
@@ -32,10 +38,19 @@ export default defineRecipe({
       right: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
       bottom: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
       left: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
+      ...createFocusRingRestStyles({ position: "inside" }),
+      transition: FOCUS_RING_TRANSITION,
     },
 
-    "&:focus": {
+    [pseudo(focus)]: {
       outline: "none",
+    },
+
+    [pseudo(focusVisible)]: {
+      "&:before": {
+        borderRadius: tokens.$radius.r1,
+        ...createFocusRingStyles({ position: "inside" }),
+      },
     },
 
     [pseudo(pressed)]: {

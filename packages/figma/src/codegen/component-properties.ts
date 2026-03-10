@@ -42,6 +42,10 @@ export type CheckboxProperties = InferComponentDefinition<
   typeof sets.componentCheckbox.componentPropertyDefinitions
 >;
 
+export type CheckboxGroupFieldProperties = InferComponentDefinition<
+  typeof sets.templateCheckboxField.componentPropertyDefinitions
+>;
+
 export type CheckmarkProperties = InferComponentDefinition<
   typeof sets.componentCheckmark.componentPropertyDefinitions
 >;
@@ -63,7 +67,7 @@ export type DividerProperties = InferComponentDefinition<
 >;
 
 export type FieldHeaderProperties = InferComponentDefinition<
-  typeof sets.privateComponentFieldHeader.componentPropertyDefinitions
+  typeof sets.componentFieldHeader.componentPropertyDefinitions
 >;
 
 export type FieldIndicatorProperties = InferComponentDefinition<
@@ -71,7 +75,7 @@ export type FieldIndicatorProperties = InferComponentDefinition<
 >;
 
 export type FieldFooterProperties = InferComponentDefinition<
-  typeof sets.privateComponentFieldFooter.componentPropertyDefinitions
+  typeof sets.componentFieldFooter.componentPropertyDefinitions
 >;
 
 export type FieldCharacterCountProperties = InferComponentDefinition<
@@ -104,6 +108,26 @@ export type FloatingActionButtonMenuItemProperties = InferComponentDefinition<
 
 export type HelpBubbleProperties = InferComponentDefinition<
   typeof sets.componentHelpBubble.componentPropertyDefinitions
+>;
+
+export type IdentityPlaceholderProperties = InferComponentDefinition<
+  typeof sets.privateComponentIdentityPlaceholder.componentPropertyDefinitions
+>;
+
+export type ImageFrameProperties = InferComponentDefinition<
+  typeof sets.componentImageFrame.componentPropertyDefinitions
+>;
+
+export type ImageFrameIconProperties = InferComponentDefinition<
+  typeof components.componentImageFrameIcon.componentPropertyDefinitions
+>;
+
+export type ImageFrameOverlayIndicatorProperties = InferComponentDefinition<
+  typeof components.componentImageFrameOverlayIndicator.componentPropertyDefinitions
+>;
+
+export type ImageFrameReactionButtonProperties = InferComponentDefinition<
+  typeof sets.componentImageFrameReactionButton.componentPropertyDefinitions
 >;
 
 export type PageBannerProperties = InferComponentDefinition<
@@ -146,6 +170,10 @@ export type RadioProperties = InferComponentDefinition<
   typeof sets.componentRadio.componentPropertyDefinitions
 >;
 
+export type RadioGroupFieldProperties = InferComponentDefinition<
+  typeof sets.templateRadioField.componentPropertyDefinitions
+>;
+
 export type RadiomarkProperties = InferComponentDefinition<
   typeof sets.componentRadiomark.componentPropertyDefinitions
 >;
@@ -164,6 +192,26 @@ export type SegmentedControlProperties = InferComponentDefinition<
 
 export type SegmentedControlItemProperties = InferComponentDefinition<
   typeof sets.privateComponentSegmentedControlItem.componentPropertyDefinitions
+>;
+
+export type SelectBoxGroupFieldProperties = InferComponentDefinition<
+  typeof sets.templateSelectBoxField.componentPropertyDefinitions
+>;
+
+export type SelectBoxGroupProperties = InferComponentDefinition<
+  typeof sets.componentSelectBoxGroup.componentPropertyDefinitions
+>;
+
+export type SelectBoxHorizontalProperties = InferComponentDefinition<
+  typeof sets.componentSelectBoxItemHorizontal.componentPropertyDefinitions
+>;
+
+export type SelectBoxVerticalProperties = InferComponentDefinition<
+  typeof sets.componentSelectBoxItemVertical.componentPropertyDefinitions
+>;
+
+export type SelectBoxPrefixIconProperties = InferComponentDefinition<
+  typeof components.componentSelectBoxItemPrefixIcon.componentPropertyDefinitions
 >;
 
 export type SkeletonProperties = InferComponentDefinition<
@@ -251,7 +299,7 @@ export type TextInputFieldProperties = InferComponentDefinition<
 >;
 
 export type TextInputOutlineProperties = InferComponentDefinition<
-  typeof sets.privateComponentTextInput.componentPropertyDefinitions
+  typeof sets.componentTextInput.componentPropertyDefinitions
 >;
 
 export type TextInputOutlinePrefixProperties = InferComponentDefinition<
@@ -271,7 +319,7 @@ export type TextInputUnderlineSuffixProperties = InferComponentDefinition<
 >;
 
 export type TextInputUnderlineProperties = InferComponentDefinition<
-  typeof sets.privateComponentUnderlineTextInput.componentPropertyDefinitions
+  typeof sets.componentUnderlineTextInput.componentPropertyDefinitions
 >;
 
 export type TextareaFieldProperties = InferComponentDefinition<
@@ -279,7 +327,7 @@ export type TextareaFieldProperties = InferComponentDefinition<
 >;
 
 export type TextareaProperties = InferComponentDefinition<
-  typeof sets.privateComponentTextarea.componentPropertyDefinitions
+  typeof sets.componentTextarea.componentPropertyDefinitions
 >;
 
 export type FieldButtonProperties = InferComponentDefinition<
@@ -287,7 +335,7 @@ export type FieldButtonProperties = InferComponentDefinition<
 >;
 
 export type InputButtonProperties = InferComponentDefinition<
-  typeof sets.privateComponentInputButton.componentPropertyDefinitions
+  typeof sets.componentInputButton.componentPropertyDefinitions
 >;
 
 export type InputButtonPrefixProperties = InferComponentDefinition<

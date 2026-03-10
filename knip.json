@@ -16,7 +16,7 @@
   "ignoreWorkspaces": ["packages/react-theming", "packages/design-token"],
   "workspaces": {
     ".": {
-      "entry": ["scripts/**/*.{ts,tsx,js,jsx}", "vitest.workspace.ts"]
+      "entry": ["scripts/**/*.{ts,tsx,js,jsx}"]
     },
     "packages/*": {
       "entry": ["index.{ts,tsx,js,jsx}", "src/index.{ts,tsx,js,jsx}", "src/scripts/**/*.mjs"]

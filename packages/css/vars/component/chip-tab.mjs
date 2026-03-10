@@ -79,7 +79,8 @@ export const vars = {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
-        "stroke": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "strokeWidth": "1px"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)"

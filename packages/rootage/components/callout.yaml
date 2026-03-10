@@ -50,7 +50,7 @@ data:
           color:
             type: color
       link:
-        description: Container가 모두 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다.
+        description: root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다.
         properties:
           fontSize:
             type: dimension

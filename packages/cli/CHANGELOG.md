@@ -1,5 +1,15 @@
 # @seed-design/cli
 
+## 1.2.2
+
+### Patch Changes
+
+- 50cd41e: - `seed-design compat` 명령어를 추가해 현재 프로젝트의 스니펫과 `@seed-design/react`, `@seed-design/css` 버전 호환성을 비대화형으로 점검할 수 있도록 개선합니다.
+  - `add`, `add-all` 실행 시 스니펫의 요구 버전과 프로젝트 버전을 semver로 비교해, 호환되지 않는 항목을 경고하도록 개선합니다.
+- 1af88d1: - CLI 실패 원인 표시를 개선하고 `--verbose` 상세 진단 출력을 추가합니다.
+  - `seed-design.json`이 없을 때 외부 명령 실행 대신 내부 초기화 로직으로 설정 파일을 생성합니다.
+  - 또한 `@clack/prompts`를 v1으로 업데이트하고 `init --default`를 `--yes` 호환 alias로 유지합니다.
+
 ## 1.2.1
 
 ### Patch Changes

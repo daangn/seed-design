@@ -48,6 +48,15 @@ function useTabsState(props: UseTabsStateProps) {
     }
   }, [selectedTriggerEl, listEl]);
 
+  const focusTriggerByValue = useCallback(
+    (value: string) => {
+      if (listEl) {
+        dom.getTriggerByValue(listEl, value)?.focus();
+      }
+    },
+    [listEl],
+  );
+
   const selectPrevAction = useCallback(() => {
     const prevValue = enabledValues[prevIndex];
     if (!prevValue) return;
@@ -100,56 +109,102 @@ function useTabsState(props: UseTabsStateProps) {
   const arrowPrevEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectPrev();
+      focusTriggerByValue(enabledValues[prevIndex] ?? "");
       if (isFocusVisibleSupported) {
         setIsFocusVisible(true);
       }
     }
-  }, [interactionState, actions.selectPrev, isFocusVisibleSupported]);
+  }, [
+    interactionState,
+    actions.selectPrev,
+    focusTriggerByValue,
+    enabledValues,
+    prevIndex,
+    isFocusVisibleSupported,
+  ]);
 
   const arrowNextEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectNext();
+      focusTriggerByValue(enabledValues[nextIndex] ?? "");
       if (isFocusVisibleSupported) {
         setIsFocusVisible(true);
       }
     }
-  }, [interactionState, actions.selectNext, isFocusVisibleSupported]);
+  }, [
+    interactionState,
+    actions.selectNext,
+    focusTriggerByValue,
+    enabledValues,
+    nextIndex,
+    isFocusVisibleSupported,
+  ]);
 
   const arrowUpEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectPrev();
+      focusTriggerByValue(enabledValues[prevIndex] ?? "");
       if (isFocusVisibleSupported) {
         setIsFocusVisible(true);
       }
     }
-  }, [interactionState, actions.selectPrev, isFocusVisibleSupported]);
+  }, [
+    interactionState,
+    actions.selectPrev,
+    focusTriggerByValue,
+    enabledValues,
+    prevIndex,
+    isFocusVisibleSupported,
+  ]);
 
   const arrowDownEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectNext();
+      focusTriggerByValue(enabledValues[nextIndex] ?? "");
       if (isFocusVisibleSupported) {
         setIsFocusVisible(true);
       }
     }
-  }, [interactionState, actions.selectNext, isFocusVisibleSupported]);
+  }, [
+    interactionState,
+    actions.selectNext,
+    focusTriggerByValue,
+    enabledValues,
+    nextIndex,
+    isFocusVisibleSupported,
+  ]);
 
   const homeEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectFirst();
+      focusTriggerByValue(enabledValues[0] ?? "");
       if (isFocusVisibleSupported) {
         setIsFocusVisible(true);
       }
     }
-  }, [interactionState, actions.selectFirst, isFocusVisibleSupported]);
+  }, [
+    interactionState,
+    actions.selectFirst,
+    focusTriggerByValue,
+    enabledValues,
+    isFocusVisibleSupported,
+  ]);
 
   const endEvent = useCallback(() => {
     if (interactionState === "focused") {
       actions.selectLast();
+      focusTriggerByValue(enabledValues[enabledValues.length - 1] ?? "");
       if (isFocusVisibleSupported) {
         setIsFocusVisible(true);
       }
     }
-  }, [interactionState, actions.selectLast, isFocusVisibleSupported]);
+  }, [
+    interactionState,
+    actions.selectLast,
+    focusTriggerByValue,
+    enabledValues,
+    isFocusVisibleSupported,
+  ]);
 
   const tabFocusEvent = useCallback(
     (value: string) => {
@@ -352,25 +407,31 @@ export function useTabs(props: UseTabsProps) {
         switch (event.key) {
           case "ArrowLeft":
             if (orientation !== "horizontal") return;
+            event.preventDefault();
             events.arrowPrev();
             break;
           case "ArrowRight":
             if (orientation !== "horizontal") return;
+            event.preventDefault();
             events.arrowNext();
             break;
           case "ArrowUp":
             if (orientation !== "vertical") return;
+            event.preventDefault();
             events.arrowPrev();
             break;
           case "ArrowDown":
             if (orientation !== "vertical") return;
+            event.preventDefault();
             events.arrowNext();
             break;
           case "Home": {
+            event.preventDefault();
             events.home();
             break;
           }
           case "End": {
+            event.preventDefault();
             events.end();
             break;
           }

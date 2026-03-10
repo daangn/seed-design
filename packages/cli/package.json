@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/cli",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "type": "module",
   "repository": {
     "type": "git",
@@ -21,7 +21,6 @@
   "scripts": {
     "build": "ENV=prod bun ./build.mjs",
     "dev": "ENV=dev bun ./dev.mjs",
-    "test": "bun vitest",
     "lint:publish": "bun publint"
   },
   "dependencies": {
@@ -29,7 +28,7 @@
     "@babel/core": "^7.26.10",
     "@babel/parser": "^7.27.0",
     "@babel/plugin-transform-typescript": "^7.27.0",
-    "@clack/prompts": "^0.11.0",
+    "@clack/prompts": "^1.0.0",
     "@npmcli/disparity-colors": "^3.0.1",
     "cac": "^6.7.14",
     "cosmiconfig": "^9.0.0",
@@ -40,6 +39,7 @@
     "fs-extra": "^11.3.0",
     "picocolors": "^1.1.1",
     "recast": "^0.23.11",
+    "semver": "^7.7.2",
     "ts-morph": "^27.0.0",
     "zod": "^3.24.3"
   },

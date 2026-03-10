@@ -20,7 +20,7 @@ export default function ImageFrameOverlayExample() {
       <VStack gap="x2" alignItems="center">
         <ImageFrame
           ratio={1}
-          rounded
+          borderRadius="r2"
           stroke
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="Landscape with badge overlay"
@@ -40,7 +40,7 @@ export default function ImageFrameOverlayExample() {
       <VStack gap="x2" alignItems="center">
         <ImageFrame
           ratio={1}
-          rounded
+          borderRadius="r2"
           stroke
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="Landscape with icon overlay"
@@ -58,7 +58,7 @@ export default function ImageFrameOverlayExample() {
       <VStack gap="x2" alignItems="center">
         <ImageFrame
           ratio={1}
-          rounded
+          borderRadius="r2"
           stroke
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="Landscape with indicator overlay"
@@ -76,7 +76,7 @@ export default function ImageFrameOverlayExample() {
       <VStack gap="x2" alignItems="center">
         <ImageFrame
           ratio={1}
-          rounded
+          borderRadius="r2"
           stroke
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="Landscape with reaction button overlay"

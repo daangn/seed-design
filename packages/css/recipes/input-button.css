@@ -23,7 +23,7 @@
     border-radius: var(--seed-radius-r3);
     background-color: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-input-button__button::after {
     content: "";
@@ -43,15 +43,27 @@
     cursor: not-allowed;
     background-color: var(--seed-color-bg-disabled);
 }
-.seed-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
+@media (hover: hover) {
+    .seed-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media (hover: none) {
+    .seed-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-input-button__button:is([data-readonly]):not([data-disabled]) {
     cursor: default;
     background-color: var(--seed-color-bg-disabled);
 }
-.seed-input-button__button:is(:focus, [data-focus]) {
-    outline: none;
+.seed-input-button__button {
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-input-button__button:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-input-button__button:is(:invalid, [data-invalid])::after {
     border-width: 2px;
@@ -124,6 +136,16 @@
     border: none;
     background-color: transparent;
     padding: 0;
+    border-radius: var(--seed-radius-full);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-input-button__clearButton {
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
 }

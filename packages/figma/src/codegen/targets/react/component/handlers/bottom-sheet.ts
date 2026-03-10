@@ -10,10 +10,6 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("bottom-sheet");
 const { createLocalSnippetElement: createLocalSnippetElementTrigger } =
   createLocalSnippetHelper("action-button");
 
-// TODO: Bottom Action Bar (WIP) handler의 키. 해당 컴포넌트(템플릿) 핸들러 작성 시 handler.transform()으로 대체
-const BOTTOM_SHEET_FOOTER_KEY = "6475aac366b2b18edf8cbabff4f84a9f1619253a";
-const BOTTOM_SHEET_BODY_KEY = "e68b006d572300d3c987776192c8ab387fa45e05";
-
 export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<BottomSheetProperties>(
     metadata.componentBottomSheet.key,
@@ -36,7 +32,7 @@ export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
 
       const bodyNodes = findAllInstances({
         node,
-        key: BOTTOM_SHEET_BODY_KEY,
+        key: props["Contents#25320:0"].componentKey,
       });
 
       const bottomSheetBody =
@@ -50,7 +46,8 @@ export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
 
       const footerNodes = findAllInstances({
         node,
-        key: BOTTOM_SHEET_FOOTER_KEY,
+        // TODO: Bottom Action Bar (WIP) handler의 키. 해당 컴포넌트(템플릿) 핸들러 작성 시 handler.transform()으로 대체
+        key: metadata.componentBottomActionBarFigmaOnly.key,
       });
 
       const bottomSheetFooter =

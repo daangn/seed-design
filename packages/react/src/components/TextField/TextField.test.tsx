@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, mock } from "bun:test";
 import type { ReactElement } from "react";
 import React from "react";
 
@@ -16,8 +15,6 @@ import {
   TextFieldSuffixText,
 } from "./TextField";
 
-afterEach(cleanup);
-
 function setUp(jsx: ReactElement) {
   return {
     user: userEvent.setup(),
@@ -26,17 +23,12 @@ function setUp(jsx: ReactElement) {
 }
 
 describe("TextField", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   describe("props merging", () => {
     describe("TextFieldInput", () => {
       it("should merge props from TextFieldRoot", () => {
         const { getByRole } = setUp(
           <TextFieldRoot defaultValue="initial">
-            <TextFieldInput placeholder="Placeholder" />
+            <TextFieldInput placeholder="Placeholder" aria-label="Test input" />
           </TextFieldRoot>,
         );
 
@@ -49,7 +41,7 @@ describe("TextField", () => {
         const { getByRole } = setUp(
           <Field.Root required invalid disabled name="test-field">
             <TextFieldRoot>
-              <TextFieldInput />
+              <TextFieldInput aria-label="Test input" />
             </TextFieldRoot>
           </Field.Root>,
         );
@@ -65,7 +57,7 @@ describe("TextField", () => {
         const { getByRole } = setUp(
           <Field.Root name="field-name">
             <TextFieldRoot>
-              <TextFieldInput name="direct-name" />
+              <TextFieldInput name="direct-name" aria-label="Test input" />
             </TextFieldRoot>
           </Field.Root>,
         );
@@ -78,7 +70,7 @@ describe("TextField", () => {
         const { getByRole } = setUp(
           <Field.Root disabled readOnly invalid>
             <TextFieldRoot>
-              <TextFieldInput data-custom="value" />
+              <TextFieldInput data-custom="value" aria-label="Test input" />
             </TextFieldRoot>
           </Field.Root>,
         );
@@ -91,10 +83,10 @@ describe("TextField", () => {
       });
 
       it("should handle uncontrolled modes", async () => {
-        const handleChange = vi.fn();
+        const handleChange = mock(() => {});
         const { getByRole, user } = setUp(
           <TextFieldRoot onValueChange={handleChange}>
-            <TextFieldInput />
+            <TextFieldInput aria-label="Test input" />
           </TextFieldRoot>,
         );
 
@@ -110,7 +102,7 @@ describe("TextField", () => {
 
           return (
             <TextFieldRoot value={value} onValueChange={setValue}>
-              <TextFieldInput />
+              <TextFieldInput aria-label="Test input" />
             </TextFieldRoot>
           );
         }
@@ -128,7 +120,7 @@ describe("TextField", () => {
       it("should merge props from TextFieldRoot", () => {
         const { getByRole } = setUp(
           <TextFieldRoot defaultValue="initial">
-            <TextFieldTextarea placeholder="Placeholder" />
+            <TextFieldTextarea placeholder="Placeholder" aria-label="Test textarea" />
           </TextFieldRoot>,
         );
 
@@ -141,7 +133,7 @@ describe("TextField", () => {
         const { getByRole } = setUp(
           <Field.Root required invalid disabled name="test-field">
             <TextFieldRoot>
-              <TextFieldTextarea />
+              <TextFieldTextarea aria-label="Test textarea" />
             </TextFieldRoot>
           </Field.Root>,
         );
@@ -157,7 +149,7 @@ describe("TextField", () => {
         const { getByRole } = setUp(
           <Field.Root disabled name="field-name">
             <TextFieldRoot>
-              <TextFieldTextarea disabled={false} name="direct-name" />
+              <TextFieldTextarea disabled={false} name="direct-name" aria-label="Test textarea" />
             </TextFieldRoot>
           </Field.Root>,
         );
@@ -171,7 +163,7 @@ describe("TextField", () => {
         const { getByRole } = setUp(
           <Field.Root disabled readOnly invalid>
             <TextFieldRoot>
-              <TextFieldTextarea data-custom="value" />
+              <TextFieldTextarea data-custom="value" aria-label="Test textarea" />
             </TextFieldRoot>
           </Field.Root>,
         );
@@ -184,10 +176,10 @@ describe("TextField", () => {
       });
 
       it("should handle uncontrolled modes", async () => {
-        const handleChange = vi.fn();
+        const handleChange = mock(() => {});
         const { getByRole, user } = setUp(
           <TextFieldRoot onValueChange={handleChange}>
-            <TextFieldTextarea />
+            <TextFieldTextarea aria-label="Test textarea" />
           </TextFieldRoot>,
         );
 
@@ -203,7 +195,7 @@ describe("TextField", () => {
 
           return (
             <TextFieldRoot value={value} onValueChange={setValue}>
-              <TextFieldTextarea />
+              <TextFieldTextarea aria-label="Test textarea" />
             </TextFieldRoot>
           );
         }
@@ -223,7 +215,7 @@ describe("TextField", () => {
           <TextFieldRoot disabled invalid readOnly>
             <TextFieldPrefixText>Prefix</TextFieldPrefixText>
             <TextFieldPrefixIcon svg={<svg data-testid="prefix-icon" />} />
-            <TextFieldInput />
+            <TextFieldInput aria-label="Test input" />
             <TextFieldSuffixIcon svg={<svg data-testid="suffix-icon" />} />
             <TextFieldSuffixText>Suffix</TextFieldSuffixText>
           </TextFieldRoot>,

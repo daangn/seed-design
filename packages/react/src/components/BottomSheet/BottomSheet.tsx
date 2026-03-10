@@ -1,6 +1,8 @@
 import { bottomSheet, type BottomSheetVariantProps } from "@seed-design/css/recipes/bottom-sheet";
-import { Drawer } from "@seed-design/react-drawer";
+import { dataAttr } from "@seed-design/dom-utils";
+import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
@@ -63,9 +65,17 @@ export const BottomSheetHeader = withContext<HTMLDivElement, BottomSheetHeaderPr
 export interface BottomSheetTitleProps extends Drawer.TitleProps {}
 
 export const BottomSheetTitle = withContext<HTMLHeadingElement, BottomSheetTitleProps>(
-  Drawer.Title,
+  forwardRef<HTMLHeadingElement, BottomSheetTitleProps>((props, ref) => {
+    const { isCloseButtonRendered } = useDrawerContext();
+
+    return (
+      <Drawer.Title ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
+    );
+  }),
   "title",
 );
+
+BottomSheetTitle.displayName = "BottomSheetTitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

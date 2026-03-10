@@ -1,7 +1,13 @@
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo, active, focus, invalid, not, readOnly } from "../utils/pseudo";
+import { pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
+import { vars as tokens } from "../vars";
 
 const inputButton = defineSlotRecipe({
   name: "input-button",
@@ -51,7 +57,7 @@ const inputButton = defineSlotRecipe({
 
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       "&::after": {
         content: '""',
@@ -75,7 +81,7 @@ const inputButton = defineSlotRecipe({
         backgroundColor: vars.base.disabled.root.color,
       },
 
-      [pseudo(not("[data-disabled]"), not(readOnly), active)]: {
+      [pseudo(not("[data-disabled]"), not(readOnly), engaged)]: {
         backgroundColor: vars.base.pressed.root.color,
       },
 
@@ -84,9 +90,8 @@ const inputButton = defineSlotRecipe({
         backgroundColor: vars.base.readonly.root.color,
       },
 
-      [pseudo(focus)]: {
-        outline: "none",
-      },
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       [pseudo(invalid, "::after")]: {
         borderWidth: vars.base.invalid.root.strokeWidth,
@@ -182,6 +187,11 @@ const inputButton = defineSlotRecipe({
       backgroundColor: "transparent",
 
       padding: 0,
+
+      borderRadius: tokens.$radius.full,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       ...onlyIcon({
         size: vars.base.enabled.clearButton.size,

@@ -52,7 +52,7 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
       .with("Avatar", () => {
         const [avatar] = findAllInstances<AvatarProperties>({
           node,
-          key: metadata.componentAvatar.key,
+          key: avatarHandler.key,
         });
         if (!avatar) return undefined;
 

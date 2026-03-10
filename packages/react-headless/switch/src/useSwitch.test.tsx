@@ -1,7 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
@@ -13,8 +12,6 @@ import {
   SwitchThumb,
   type SwitchRootProps,
 } from "./Switch";
-
-afterEach(cleanup);
 
 function setUp(jsx: ReactElement) {
   return {
@@ -34,11 +31,6 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchRootProps>((props, ref) 
 });
 
 describe("useSwitch", () => {
-  global.CSS = {
-    // @ts-expect-error
-    supports: (_k, _v) => true,
-  };
-
   it("should render the switch correctly", () => {
     const { getByRole } = setUp(<Switch />);
     const swc = getByRole("switch");
@@ -69,7 +61,7 @@ describe("useSwitch", () => {
   });
 
   it("should onCheckedChange is called when clicked", async () => {
-    const handleCheckedChange = vi.fn();
+    const handleCheckedChange = mock(() => {});
 
     const { getByRole, user } = setUp(<Switch onCheckedChange={handleCheckedChange} />);
     const swc = getByRole("switch");
@@ -124,7 +116,7 @@ describe("useSwitch", () => {
     });
 
     it("should not onCheckedChange be called when clicked", async () => {
-      const handleCheckedChange = vi.fn();
+      const handleCheckedChange = mock(() => {});
 
       const { getByRole, user } = setUp(
         <Switch disabled={true} onCheckedChange={handleCheckedChange} />,

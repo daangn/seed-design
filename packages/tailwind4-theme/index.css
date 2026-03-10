@@ -165,6 +165,7 @@
   --color-stroke-positive-weak: var(--seed-color-stroke-positive-weak);
   --color-stroke-warning-solid: var(--seed-color-stroke-warning-solid);
   --color-stroke-warning-weak: var(--seed-color-stroke-warning-weak);
+  --color-stroke-focus-ring: var(--seed-color-stroke-focus-ring);
   --color-manner-temp-l1-bg: var(--seed-color-manner-temp-l1-bg);
   --color-manner-temp-l1-text: var(--seed-color-manner-temp-l1-text);
   --color-manner-temp-l10-bg: var(--seed-color-manner-temp-l10-bg);

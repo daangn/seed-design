@@ -1,9 +1,9 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "bun:test";
 import { resolveDependencies } from "../utils/resolve-dependencies";
 import type { PublicRegistry } from "@/src/schema";
 
 describe("resolveDependencies", () => {
-  it("should resolve a simple item without dependencies", () => {
+  it("의존성이 없는 단일 아이템을 해석해야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",
@@ -36,7 +36,7 @@ describe("resolveDependencies", () => {
     expect(result.npmDependenciesToAdd.size).toBe(0);
   });
 
-  it("should resolve npm dependencies", () => {
+  it("npm 의존성을 수집해야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",
@@ -61,7 +61,7 @@ describe("resolveDependencies", () => {
     expect(result.npmDependenciesToAdd.has("clsx")).toBe(true);
   });
 
-  it("should resolve inner dependencies recursively", () => {
+  it("innerDependencies를 재귀적으로 해석해야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",
@@ -131,7 +131,7 @@ describe("resolveDependencies", () => {
     expect(result.npmDependenciesToAdd.has("framer-motion")).toBe(true);
   });
 
-  it("should handle multiple selected items", () => {
+  it("여러 선택 아이템을 함께 처리해야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",
@@ -161,7 +161,7 @@ describe("resolveDependencies", () => {
     expect(result.registryItemsToAdd[0].items.map((i) => i.id)).toEqual(["button", "chip"]);
   });
 
-  it("should prevent duplicate items", () => {
+  it("중복 아이템을 제거해야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",
@@ -186,7 +186,7 @@ describe("resolveDependencies", () => {
       },
     ];
 
-    // Select both dialog and button, but button is already a dependency of dialog
+    // dialog와 button을 동시에 선택해도 button은 dialog 의존성으로 이미 포함된다.
     const result = resolveDependencies({
       selectedItemKeys: ["ui:dialog", "ui:button"],
       publicRegistries,
@@ -194,12 +194,12 @@ describe("resolveDependencies", () => {
 
     expect(result.registryItemsToAdd).toHaveLength(1);
     expect(result.registryItemsToAdd[0].items).toHaveLength(2);
-    // Button should appear only once
+    // button은 한 번만 포함되어야 한다.
     const buttonCount = result.registryItemsToAdd[0].items.filter((i) => i.id === "button").length;
     expect(buttonCount).toBe(1);
   });
 
-  it("should handle nested inner dependencies", () => {
+  it("중첩된 innerDependencies를 처리해야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",
@@ -268,7 +268,7 @@ describe("resolveDependencies", () => {
     expect(result.npmDependenciesToAdd.has("lodash")).toBe(true);
   });
 
-  it("should throw error for invalid snippet format", () => {
+  it("잘못된 스니펫 포맷이면 에러를 던져야 한다", () => {
     const publicRegistries: PublicRegistry[] = [];
 
     expect(() =>
@@ -279,7 +279,7 @@ describe("resolveDependencies", () => {
     ).toThrowError('Invalid snippet format: "invalid-format"');
   });
 
-  it("should throw error for non-existent snippet", () => {
+  it("존재하지 않는 스니펫이면 에러를 던져야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",
@@ -295,7 +295,7 @@ describe("resolveDependencies", () => {
     ).toThrowError('Cannot find snippet: "ui:non-existent"');
   });
 
-  it("should throw error for missing inner dependency", () => {
+  it("inner dependency가 누락되면 에러를 던져야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",
@@ -327,7 +327,7 @@ describe("resolveDependencies", () => {
     ).toThrowError("Cannot find dependency item: breeze:missing");
   });
 
-  it("should handle multiple registries with multiple items", () => {
+  it("여러 레지스트리와 아이템을 함께 처리해야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",
@@ -378,7 +378,7 @@ describe("resolveDependencies", () => {
     expect(result.npmDependenciesToAdd.has("framer-motion")).toBe(true);
   });
 
-  it("should collect all npm dependencies from nested dependencies", () => {
+  it("중첩 의존성의 npm 패키지를 모두 수집해야 한다", () => {
     const publicRegistries: PublicRegistry[] = [
       {
         id: "ui",

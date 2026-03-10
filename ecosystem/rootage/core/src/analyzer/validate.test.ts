@@ -1,5 +1,5 @@
 import dedent from "dedent";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 import { Authoring } from "../parser";
 import { buildContext } from "./context";
 import type { SourceFile } from "./types";

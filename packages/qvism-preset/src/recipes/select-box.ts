@@ -1,6 +1,11 @@
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { prefixIcon } from "../utils/icon";
-import { active, checked, disabled, not, open, pseudo } from "../utils/pseudo";
+import { engaged, checked, disabled, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { selectBox as vars } from "../vars/component";
 import { selectBoxGroup as groupVars } from "../vars/component";
 import { selectBoxCheckmark as checkmarkVars } from "../vars/component";
@@ -41,7 +46,7 @@ export const selectBox = defineSlotRecipe({
 
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       overflow: "hidden",
 
@@ -63,7 +68,7 @@ export const selectBox = defineSlotRecipe({
         pointerEvents: "none",
       },
 
-      [pseudo(not(disabled), active)]: {
+      [pseudo(not(disabled), engaged)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
@@ -83,6 +88,9 @@ export const selectBox = defineSlotRecipe({
       [pseudo(disabled, checked)]: {
         boxShadow: `inset 0 0 0 ${vars.base.selected.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
       },
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     trigger: {
       display: "flex",
@@ -91,6 +99,8 @@ export const selectBox = defineSlotRecipe({
       gap: vars.base.enabled.trigger.gap,
 
       flexGrow: 1,
+
+      "--seed-focus-ring": "none",
     },
     content: {
       display: "flex",
@@ -198,6 +208,7 @@ export const selectBox = defineSlotRecipe({
 });
 
 export const selectBoxCheckmark = defineSlotRecipe({
+  // TODO: this name should be fixed at some point
   name: "selectBoxCheckmark",
   slots: ["root", "icon"],
   base: {
@@ -226,7 +237,7 @@ export const selectBoxCheckmark = defineSlotRecipe({
 
       transition: `color ${checkmarkVars.base.enabled.icon.colorDuration} ${checkmarkVars.base.enabled.icon.colorTimingFunction}`,
 
-      [pseudo(not(disabled), active)]: {
+      [pseudo(not(disabled), engaged)]: {
         color: checkmarkVars.base.pressed.icon.color,
       },
 

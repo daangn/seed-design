@@ -2,7 +2,7 @@ import type { Transform } from "jscodeshift";
 import { applyTransform } from "jscodeshift/src/testUtils.js";
 import { readdirSync, readFileSync } from "node:fs";
 import { basename, join, dirname } from "node:path";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test } from "bun:test";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../schema.js";
 

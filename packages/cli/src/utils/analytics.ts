@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import * as p from "@clack/prompts";
-import { getConfig } from "./get-config";
+import { getRawConfig } from "./get-config";
 
 const EVENT_PREFIX = "seed_cli";
 
@@ -24,7 +24,7 @@ async function isTelemetryEnabled(cwd: string): Promise<boolean> {
 
   // 2. seed-design.json 체크
   try {
-    const config = await getConfig(cwd);
+    const config = await getRawConfig(cwd);
     if (config?.telemetry === false) return false;
   } catch {
     // 설정 파일이 없거나 읽기 실패 시 기본값 사용
@@ -60,9 +60,8 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
 
   const fullEvent = `${EVENT_PREFIX}.${event}`;
 
-  // Dev 모드: 콘솔에만 출력
+  // Dev 모드: 텔레메트리 전송 생략
   if (process.env.NODE_ENV === "dev") {
-    console.log(`📊 [Telemetry] ${fullEvent}`, properties);
     return;
   }
 

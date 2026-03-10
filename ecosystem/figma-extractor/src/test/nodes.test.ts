@@ -1,8 +1,11 @@
-import { describe, it, expect, vi } from "vitest";
-import { getComponentMetadataItemsInFile, getComponentSetMetadataItemsInFile } from "../api/nodes";
-import { createApiClient } from "../api/client";
+import { describe, it, expect, mock } from "bun:test";
 
-vi.mock("../api/client");
+mock.module("../api/client", () => import("../api/__mocks__/client"));
+
+const { getComponentMetadataItemsInFile, getComponentSetMetadataItemsInFile } = await import(
+  "../api/nodes"
+);
+const { createApiClient } = await import("../api/client");
 
 describe("nodes", () => {
   const fileKey = "test-file-key";

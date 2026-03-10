@@ -216,7 +216,7 @@
                 },
                 "fontWeight": {
                   "type": "number",
-                  "value": "$font-weight.medium"
+                  "value": "$font-weight.regular"
                 }
               },
               "detail": {

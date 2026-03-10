@@ -1,4 +1,4 @@
-import { describe, expect, it, test } from "vitest";
+import { describe, expect, it, test } from "bun:test";
 import YAML from "yaml";
 import { Authoring } from "../parser";
 import { createStringifier } from "./typescript";

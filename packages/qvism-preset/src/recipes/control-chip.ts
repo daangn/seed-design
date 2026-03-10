@@ -5,6 +5,9 @@ import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 import { active, checked, disabled, focus, pseudo } from "../utils/pseudo";
 
+/**
+ * @deprecated Use `chip` instead.
+ */
 const controlChip = defineRecipe({
   name: "control-chip",
   base: {

@@ -1,19 +1,37 @@
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { useControllableState } from "@seed-design/react-use-controllable-state";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useId, useMemo } from "react";
+
+interface DialogReasonToDetailMap {
+  // we might add synthetic events later if needed; currently we aim consistency; DismissableLayer gives us native events
+  trigger: { event: MouseEvent };
+  closeButton: { event: MouseEvent };
+  escapeKeyDown: { event: KeyboardEvent };
+  interactOutside: { event: PointerEvent | FocusEvent };
+}
+
+type DialogChangeDetails = {
+  [R in keyof DialogReasonToDetailMap]: {
+    /** The reason for the dialog open state change. */
+    reason?: R;
+  } & DialogReasonToDetailMap[R];
+}[keyof DialogReasonToDetailMap];
 
 export interface UseDialogStateProps {
   open?: boolean;
 
   defaultOpen?: boolean;
 
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, details?: DialogChangeDetails) => void;
 }
 
 function useDialogState(props: UseDialogStateProps) {
-  const [open = false, onOpenChange] = useControllableState({
+  const [open = false, onOpenChange] = useControllableState<
+    boolean,
+    Parameters<NonNullable<UseDialogStateProps["onOpenChange"]>>[1]
+  >({
     prop: props.open,
-    defaultProp: props.defaultOpen,
+    defaultProp: props.defaultOpen ?? false,
     onChange: props.onOpenChange,
   });
 
@@ -84,7 +102,7 @@ export function useDialog(props: UseDialogProps = {}) {
         ...stateProps,
         onClick: (e) => {
           if (e.defaultPrevented) return;
-          onOpenChange(true);
+          onOpenChange(true, { reason: "trigger", event: e.nativeEvent });
         },
       }),
       positionerProps: elementProps({
@@ -115,7 +133,7 @@ export function useDialog(props: UseDialogProps = {}) {
         ...stateProps,
         onClick: (e) => {
           if (e.defaultPrevented) return;
-          onOpenChange(false);
+          onOpenChange(false, { reason: "closeButton", event: e.nativeEvent });
         },
       }),
     }),

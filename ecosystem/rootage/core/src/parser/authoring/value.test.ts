@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 import * as factory from "../factory";
 import type * as Document from "./types";
 import { parseValue } from "./value";

@@ -1,0 +1,49 @@
+name: Release Notification
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [dev]
+
+jobs:
+  notify:
+    name: Send Release Notification
+    if: |
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.title == 'release: version packages'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: read
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Get changed CHANGELOG files
+        id: changelogs
+        run: |
+          FILES=$(gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files \
+            --jq '[.[] | select(.filename | endswith("CHANGELOG.md")) | .filename] | join("\n")')
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Build Slack payload
+        id: payload
+        run: node .github/scripts/notify-release.js
+        env:
+          CHANGELOG_FILES: ${{ steps.changelogs.outputs.files }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_FRONTEND_CHANNEL_ID }}
+            text: "🌱 SEED Design 새 버전이 릴리즈됐어요!"
+            blocks: ${{ steps.payload.outputs.blocks }}

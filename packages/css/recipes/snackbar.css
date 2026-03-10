@@ -29,6 +29,15 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 0.8;
 }
+.seed-snackbar__root {
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-snackbar__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
 .seed-snackbar__content {
     display: flex;
     flex-grow: 1;
@@ -64,7 +73,6 @@
     -moz-osx-font-smoothing: grayscale;
     background-color: unset;
     text-decoration: none;
-    outline: none;
     flex-shrink: 0;
     color: var(--seed-color-fg-brand);
     font-size: var(--seed-font-size-t4);
@@ -80,6 +88,17 @@
     right: calc(-1 * var(--seed-dimension-x2));
     min-height: 44px;
     background: transparent;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+}
+.seed-snackbar__actionButton:is(:focus, [data-focus]) {
+    outline: none;
+}
+.seed-snackbar__actionButton:is(:focus-visible, [data-focus-visible]):after {
+    border-radius: var(--seed-radius-r1);
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-snackbar__prefixIcon--variant_default {
     display: none;

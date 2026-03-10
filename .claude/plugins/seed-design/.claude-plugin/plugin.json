@@ -1,0 +1,8 @@
+{
+  "name": "seed",
+  "description": "SEED Design skill and command workflows for components, docs, migrations, and deprecations.",
+  "version": "0.1.0",
+  "author": {
+    "name": "SEED Design"
+  }
+}

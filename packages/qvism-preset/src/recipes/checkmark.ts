@@ -1,6 +1,18 @@
 import { checkmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, checkedOrIndeterminate, disabled, not, pseudo } from "../utils/pseudo";
+import {
+  engaged,
+  checkedOrIndeterminate,
+  disabled,
+  focusVisible,
+  not,
+  pseudo,
+} from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const checkmark = defineSlotRecipe({
   name: "checkmark",
@@ -13,7 +25,10 @@ const checkmark = defineSlotRecipe({
 
       marginTop: "var(--checkmark-margin-top, 0)", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+
+      ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     icon: {
       display: "none",
@@ -39,7 +54,7 @@ const checkmark = defineSlotRecipe({
           [pseudo(checkedOrIndeterminate)]: {
             borderWidth: 0,
           },
-          [pseudo(not(disabled), active)]: {
+          [pseudo(not(disabled), engaged)]: {
             background: vars.variantSquare.pressed.root.color,
           },
           [pseudo(disabled)]: {
@@ -58,7 +73,7 @@ const checkmark = defineSlotRecipe({
       },
       ghost: {
         root: {
-          [pseudo(not(disabled), active)]: {
+          [pseudo(not(disabled), engaged)]: {
             background: vars.variantGhost.pressed.root.color,
           },
         },
@@ -107,7 +122,7 @@ const checkmark = defineSlotRecipe({
           [pseudo(not(disabled), checkedOrIndeterminate)]: {
             background: vars.variantSquareToneNeutral.enabledSelected.root.color,
           },
-          [pseudo(not(disabled), checkedOrIndeterminate, active)]: {
+          [pseudo(not(disabled), checkedOrIndeterminate, engaged)]: {
             background: vars.variantSquareToneNeutral.pressedSelected.root.color,
           },
         },
@@ -126,7 +141,7 @@ const checkmark = defineSlotRecipe({
           [pseudo(not(disabled), checkedOrIndeterminate)]: {
             background: vars.variantSquareToneBrand.enabledSelected.root.color,
           },
-          [pseudo(not(disabled), checkedOrIndeterminate, active)]: {
+          [pseudo(not(disabled), checkedOrIndeterminate, engaged)]: {
             background: vars.variantSquareToneBrand.pressedSelected.root.color,
           },
         },
@@ -142,7 +157,7 @@ const checkmark = defineSlotRecipe({
       tone: "neutral",
       css: {
         root: {
-          [pseudo(not(disabled), checkedOrIndeterminate, active)]: {
+          [pseudo(not(disabled), checkedOrIndeterminate, engaged)]: {
             background: vars.variantGhostToneNeutral.pressedSelected.root.color,
           },
         },
@@ -158,7 +173,7 @@ const checkmark = defineSlotRecipe({
       tone: "brand",
       css: {
         root: {
-          [pseudo(not(disabled), checkedOrIndeterminate, active)]: {
+          [pseudo(not(disabled), checkedOrIndeterminate, engaged)]: {
             background: vars.variantGhostToneBrand.pressedSelected.root.color,
           },
         },

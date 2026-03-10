@@ -1,7 +1,9 @@
-import "@testing-library/jest-dom/vitest";
-import { cleanup, render, type RenderResult } from "@testing-library/react";
-import userEvent, { type UserEvent } from "@testing-library/user-event";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { render, fireEvent, act, type RenderResult } from "@testing-library/react";
+import userEvent, {
+  type UserEvent,
+  type Options as UserEventOptions,
+} from "@testing-library/user-event";
+import { afterAll, afterEach, beforeEach, describe, expect, it, mock, spyOn, jest } from "bun:test";
 import * as React from "react";
 import type { UseSliderProps } from "./useSlider";
 import {
@@ -14,11 +16,12 @@ import {
   type SliderRootProps,
 } from "./Slider";
 
-afterEach(cleanup);
-
-function setUp(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
+function setUp(
+  jsx: React.ReactElement,
+  options?: UserEventOptions,
+): { user: UserEvent } & RenderResult {
   return {
-    user: userEvent.setup(),
+    user: userEvent.setup(options),
     ...render(jsx),
   };
 }
@@ -66,15 +69,29 @@ const ControlledSlider = (props: ControlledSliderProps) => {
 };
 
 describe("useSlider", () => {
+  const originalResizeObserver = window.ResizeObserver;
+  const originalSetPointerCapture = window.HTMLElement.prototype.setPointerCapture;
+  const originalHasPointerCapture = window.HTMLElement.prototype.hasPointerCapture;
+  const originalReleasePointerCapture = window.HTMLElement.prototype.releasePointerCapture;
+
   window.ResizeObserver = class ResizeObserver {
     observe() {}
     unobserve() {}
     disconnect() {}
   };
 
-  window.HTMLElement.prototype.setPointerCapture = vi.fn();
-  window.HTMLElement.prototype.hasPointerCapture = vi.fn();
-  window.HTMLElement.prototype.releasePointerCapture = vi.fn();
+  window.HTMLElement.prototype.setPointerCapture = mock(() => {});
+  window.HTMLElement.prototype.hasPointerCapture = mock(
+    () => {},
+  ) as unknown as typeof window.HTMLElement.prototype.hasPointerCapture;
+  window.HTMLElement.prototype.releasePointerCapture = mock(() => {});
+
+  afterAll(() => {
+    window.ResizeObserver = originalResizeObserver;
+    window.HTMLElement.prototype.setPointerCapture = originalSetPointerCapture;
+    window.HTMLElement.prototype.hasPointerCapture = originalHasPointerCapture;
+    window.HTMLElement.prototype.releasePointerCapture = originalReleasePointerCapture;
+  });
 
   describe("Basic Rendering & Initialization", () => {
     it("renders single thumb with default values", () => {
@@ -215,20 +232,24 @@ describe("useSlider", () => {
   });
 
   describe("Pointer Interactions - Click on Track", () => {
-    it("sets active state on pointerdown on track", { timeout: 10000 }, async () => {
-      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
+    it(
+      "sets active state on pointerdown on track",
+      async () => {
+        const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
-      const root = getByTestId("slider-root");
+        const root = getByTestId("slider-root");
 
-      await user.pointer([
-        { target: root, coords: { clientX: 50, clientY: 0 }, keys: "[MouseLeft>]" },
-      ]);
+        await user.pointer([
+          { target: root, coords: { clientX: 50, clientY: 0 }, keys: "[MouseLeft>]" },
+        ]);
 
-      expect(root).toHaveAttribute("data-active");
-    });
+        expect(root).toHaveAttribute("data-active");
+      },
+      { timeout: 10000 },
+    );
 
     it("changes value on click (pointerup before delay)", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[0]} onValuesChange={onValuesChange} />,
       );
@@ -237,7 +258,7 @@ describe("useSlider", () => {
       const thumb = getByTestId("slider-thumb-0");
 
       // Mock getBoundingClientRect to return predictable values
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -263,14 +284,14 @@ describe("useSlider", () => {
     });
 
     it("calls onValuesCommit on click", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[0]} onValuesCommit={onValuesCommit} />,
       );
 
       const root = getByTestId("slider-root");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -300,7 +321,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -330,7 +351,7 @@ describe("useSlider", () => {
       const thumb0 = getByTestId("slider-thumb-0");
       const thumb1 = getByTestId("slider-thumb-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -362,7 +383,7 @@ describe("useSlider", () => {
 
       const root = getByTestId("slider-root");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -392,7 +413,7 @@ describe("useSlider", () => {
       const thumb0 = getByTestId("slider-thumb-0");
       const thumb1 = getByTestId("slider-thumb-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -464,7 +485,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -491,7 +512,7 @@ describe("useSlider", () => {
     });
 
     it("updates value continuously during pointermove", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -499,7 +520,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -524,7 +545,7 @@ describe("useSlider", () => {
     });
 
     it("calls onValuesCommit only once on drag end", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesCommit={onValuesCommit} />,
       );
@@ -532,7 +553,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -579,7 +600,7 @@ describe("useSlider", () => {
       const thumb0 = getByTestId("slider-thumb-0");
       const thumb1 = getByTestId("slider-thumb-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -621,21 +642,22 @@ describe("useSlider", () => {
 
   describe("Pointer Interactions - Drag Delay Behavior", () => {
     beforeEach(() => {
-      vi.useFakeTimers({ shouldAdvanceTime: true });
+      jest.useFakeTimers();
     });
 
     afterEach(() => {
-      vi.useRealTimers();
+      jest.useRealTimers();
     });
 
     it("starts drag immediately if pointermove before delay", async () => {
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} dragStartDelayInMilliseconds={150} />,
+        { advanceTimers: jest.advanceTimersByTime },
       );
 
       const root = getByTestId("slider-root");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -658,7 +680,7 @@ describe("useSlider", () => {
     });
 
     it("treats as click if pointerup before delay expires", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider
           min={0}
@@ -667,12 +689,13 @@ describe("useSlider", () => {
           dragStartDelayInMilliseconds={150}
           onValuesChange={onValuesChange}
         />,
+        { advanceTimers: jest.advanceTimersByTime },
       );
 
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -689,7 +712,7 @@ describe("useSlider", () => {
       ]);
 
       // Release before 150ms
-      vi.advanceTimersByTime(100);
+      jest.advanceTimersByTime(100);
       await user.pointer([
         { target: root, coords: { clientX: 50, clientY: 5 }, keys: "[/MouseLeft]" },
       ]);
@@ -742,7 +765,7 @@ describe("useSlider", () => {
       expect(root).toHaveAttribute("data-active");
       expect(root).toHaveAttribute("data-dragging");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -787,7 +810,7 @@ describe("useSlider", () => {
       // immediately, it's not counted as dragging
       expect(root).not.toHaveAttribute("data-dragging");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -821,7 +844,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -834,7 +857,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowDown}");
 
@@ -847,7 +870,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowRight}");
 
@@ -860,7 +883,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowLeft}");
 
@@ -873,7 +896,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       // ArrowRight should decrement in RTL
       await user.keyboard("{ArrowRight}");
@@ -890,7 +913,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{Shift>}{ArrowUp}{/Shift}");
 
@@ -903,7 +926,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -916,7 +939,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -929,7 +952,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowDown}");
 
@@ -948,7 +971,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowRight}");
 
@@ -967,7 +990,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowLeft}");
 
@@ -986,7 +1009,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowRight}");
       expect(thumb).toHaveAttribute("aria-valuenow", "3");
@@ -1029,7 +1052,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       // ArrowRight should decrement in RTL
       await user.keyboard("{ArrowRight}");
@@ -1053,7 +1076,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       // Should move by 10 positions in allowedValues with Shift
       await user.keyboard("{Shift>}{ArrowUp}{/Shift}");
@@ -1076,7 +1099,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       // Should move by 5 positions in allowedValues with Shift (jumpMultiplier=5)
       await user.keyboard("{Shift>}{ArrowUp}{/Shift}");
@@ -1091,7 +1114,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -1110,7 +1133,7 @@ describe("useSlider", () => {
       const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{Home}");
 
@@ -1121,7 +1144,7 @@ describe("useSlider", () => {
       const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{End}");
 
@@ -1134,7 +1157,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1147,7 +1170,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageDown}");
 
@@ -1160,7 +1183,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1173,7 +1196,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{Home}");
 
@@ -1187,7 +1210,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{End}");
 
@@ -1208,7 +1231,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1229,7 +1252,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageDown}");
 
@@ -1249,7 +1272,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1269,7 +1292,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageDown}");
 
@@ -1289,7 +1312,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageUp}");
 
@@ -1309,7 +1332,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{PageDown}");
 
@@ -1327,7 +1350,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1358,7 +1381,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1397,7 +1420,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb0 = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1428,7 +1451,7 @@ describe("useSlider", () => {
       );
 
       const thumb0 = getByTestId("slider-thumb-0");
-      thumb0.focus();
+      act(() => thumb0.focus());
 
       // Try to move thumb0 too close to thumb1
       // thumb0 is at 30, thumb1 is at 70
@@ -1454,7 +1477,7 @@ describe("useSlider", () => {
       const thumb0 = getByTestId("slider-thumb-0");
       const thumb1 = getByTestId("slider-thumb-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1496,7 +1519,7 @@ describe("useSlider", () => {
       expect(thumb0).toHaveAttribute("aria-valuenow", "30");
       expect(thumb1).toHaveAttribute("aria-valuenow", "70");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1530,7 +1553,7 @@ describe("useSlider", () => {
 
   describe("Callbacks", () => {
     it("fires onValuesChange during drag", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1538,7 +1561,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1561,13 +1584,13 @@ describe("useSlider", () => {
     });
 
     it("fires onValuesChange during keyboard input", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -1575,7 +1598,7 @@ describe("useSlider", () => {
     });
 
     it("fires onValuesCommit on drag end when value changed", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesCommit={onValuesCommit} />,
       );
@@ -1583,7 +1606,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1607,13 +1630,13 @@ describe("useSlider", () => {
     });
 
     it("fires onValuesCommit on keyboard input", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesCommit={onValuesCommit} />,
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -1621,7 +1644,7 @@ describe("useSlider", () => {
     });
 
     it("does NOT fire onValuesCommit if value unchanged", async () => {
-      const onValuesCommit = vi.fn();
+      const onValuesCommit = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} defaultValues={[50]} onValuesCommit={onValuesCommit} />,
       );
@@ -1629,7 +1652,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1658,7 +1681,7 @@ describe("useSlider", () => {
       const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       expect(thumb).toHaveAttribute("aria-valuenow", "50");
 
@@ -1673,7 +1696,7 @@ describe("useSlider", () => {
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       expect(thumb).toHaveAttribute("aria-valuenow", "50");
 
@@ -1696,7 +1719,7 @@ describe("useSlider", () => {
 
   describe("Disabled State", () => {
     it("does not respond to pointer interactions when disabled", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider disabled min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1704,7 +1727,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1729,7 +1752,7 @@ describe("useSlider", () => {
     });
 
     it("does not respond to keyboard interactions when disabled", () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { getByTestId } = setUp(
         <Slider disabled min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1759,7 +1782,7 @@ describe("useSlider", () => {
     });
 
     it("does not change values on pointer interactions in readOnly mode", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider readOnly min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1767,7 +1790,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1792,7 +1815,7 @@ describe("useSlider", () => {
     });
 
     it("focuses nearest thumb on track click but does not change value", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider readOnly min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
@@ -1800,7 +1823,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1822,13 +1845,13 @@ describe("useSlider", () => {
     });
 
     it("does not respond to keyboard value changes in readOnly mode", async () => {
-      const onValuesChange = vi.fn();
+      const onValuesChange = mock(() => {});
       const { user, getByTestId } = setUp(
         <Slider readOnly min={0} max={100} defaultValues={[50]} onValuesChange={onValuesChange} />,
       );
 
       const thumb = getByTestId("slider-thumb-0");
-      thumb.focus();
+      act(() => thumb.focus());
 
       await user.keyboard("{ArrowUp}");
 
@@ -1870,7 +1893,7 @@ describe("useSlider", () => {
 
       expect(hiddenInput.value).toBe("50");
 
-      thumb.focus();
+      act(() => thumb.focus());
       await user.keyboard("{ArrowUp}");
 
       expect(hiddenInput.value).toBe("51");
@@ -1921,7 +1944,7 @@ describe("useSlider", () => {
       const thumb = getByTestId("slider-thumb-0");
       const indicator = getByTestId("slider-value-indicator-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -1972,7 +1995,7 @@ describe("useSlider", () => {
       const root = getByTestId("slider-root");
       const indicator = getByTestId("slider-value-indicator-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2004,6 +2027,90 @@ describe("useSlider", () => {
       ]);
 
       // Should not be shown after release
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("does not flash value indicator on quick track click in active mode", () => {
+      const { getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Initially not shown
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Quick click on track: pointerDown then immediately pointerUp (no movement)
+      act(() => {
+        fireEvent.pointerDown(root, { clientX: 75, clientY: 5, pointerId: 1 });
+      });
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      act(() => {
+        fireEvent.pointerUp(root, { clientX: 75, clientY: 5, pointerId: 1 });
+      });
+
+      // Should NOT be shown after a quick click
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("does not flash value indicator on quick track click in hover mode", () => {
+      const { getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Initially not shown
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Quick click on track: pointerDown then immediately pointerUp (no movement)
+      act(() => {
+        fireEvent.pointerDown(root, { clientX: 75, clientY: 5, pointerId: 1 });
+      });
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      act(() => {
+        fireEvent.pointerUp(root, { clientX: 75, clientY: 5, pointerId: 1 });
+      });
+
+      // Should NOT be shown after a quick click — no drag, no hover on thumb
       expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
     });
   });
@@ -2052,7 +2159,7 @@ describe("useSlider", () => {
       const thumb = getByTestId("slider-thumb-0");
       const indicator = getByTestId("slider-value-indicator-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2094,7 +2201,7 @@ describe("useSlider", () => {
       const indicator = getByTestId("slider-value-indicator-0");
 
       // Mock getBoundingClientRect for both root and thumb
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2106,7 +2213,7 @@ describe("useSlider", () => {
         toJSON: () => {},
       });
 
-      vi.spyOn(thumb, "getBoundingClientRect").mockReturnValue({
+      spyOn(thumb, "getBoundingClientRect").mockReturnValue({
         left: 48,
         right: 52,
         width: 4,
@@ -2148,7 +2255,7 @@ describe("useSlider", () => {
       const thumb = getByTestId("slider-thumb-0");
       const indicator = getByTestId("slider-value-indicator-0");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2179,6 +2286,66 @@ describe("useSlider", () => {
 
       // Should still be shown
       expect(indicator).toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("closes indicator when drag ends with pointer NOT over thumb in hover mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      spyOn(thumb, "getBoundingClientRect").mockReturnValue({
+        left: 48,
+        right: 52,
+        width: 4,
+        top: 3,
+        bottom: 7,
+        height: 4,
+        x: 48,
+        y: 3,
+        toJSON: () => {},
+      });
+
+      // Start dragging from thumb
+      await user.pointer([
+        { target: thumb, coords: { clientX: 50, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Drag away from thumb
+      await user.pointer([{ target: root, coords: { clientX: 80, clientY: 5 } }]);
+
+      // Still shown during drag
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Release pointer far from thumb (NOT over thumb)
+      await user.pointer([
+        { target: root, coords: { clientX: 80, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+
+      // Should NOT be shown after releasing away from thumb
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
     });
   });
 
@@ -2227,7 +2394,7 @@ describe("useSlider", () => {
       const indicator0 = getByTestId("slider-value-indicator-0");
       const indicator1 = getByTestId("slider-value-indicator-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2271,7 +2438,7 @@ describe("useSlider", () => {
       const indicator0 = getByTestId("slider-value-indicator-0");
       const indicator1 = getByTestId("slider-value-indicator-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2314,7 +2481,7 @@ describe("useSlider", () => {
       const indicator0 = getByTestId("slider-value-indicator-0");
       const indicator1 = getByTestId("slider-value-indicator-1");
 
-      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
         left: 0,
         right: 100,
         width: 100,
@@ -2437,6 +2604,439 @@ describe("useSlider", () => {
       expect(style).toContain("--indicator-label-position");
       expect(style).toContain("--indicator-label-offset");
       expect(style).toContain("--thumb-offset");
+    });
+  });
+
+  describe("Value Indicator - Auto Mode", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("auto mode behaves like hover on hover-capable devices", () => {
+      const originalMatchMedia = window.matchMedia;
+      window.matchMedia = mock((query: string) => ({
+        matches: query === "(hover: hover)",
+        media: query,
+        onchange: null,
+        addListener: mock(() => {}),
+        removeListener: mock(() => {}),
+        addEventListener: mock(() => {}),
+        removeEventListener: mock(() => {}),
+        dispatchEvent: mock(() => true),
+      })) as typeof window.matchMedia;
+
+      try {
+        // Use fireEvent instead of user.hover — happy-dom incorrectly
+        // triggers focus on hover, which would confound the trigger mode test.
+        const { getByTestId } = setUp(
+          <SliderWithValueIndicator
+            min={0}
+            max={100}
+            defaultValues={[50]}
+            valueIndicatorTrigger="auto"
+          />,
+        );
+
+        const thumb = getByTestId("slider-thumb-0");
+        const indicator = getByTestId("slider-value-indicator-0");
+
+        // Initially not shown
+        expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+        // Hover over thumb should show indicator (like hover mode)
+        fireEvent.mouseEnter(thumb);
+        expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+        // Unhover should hide
+        fireEvent.mouseLeave(thumb);
+        expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+      } finally {
+        window.matchMedia = originalMatchMedia;
+      }
+    });
+
+    it("auto mode behaves like active on touch-only devices", () => {
+      const originalMatchMedia = window.matchMedia;
+      window.matchMedia = mock((query: string) => ({
+        matches: false, // hover: hover → false (touch-only)
+        media: query,
+        onchange: null,
+        addListener: mock(() => {}),
+        removeListener: mock(() => {}),
+        addEventListener: mock(() => {}),
+        removeEventListener: mock(() => {}),
+        dispatchEvent: mock(() => true),
+      })) as typeof window.matchMedia;
+
+      try {
+        const { getByTestId } = setUp(
+          <SliderWithValueIndicator
+            min={0}
+            max={100}
+            defaultValues={[50]}
+            valueIndicatorTrigger="auto"
+          />,
+        );
+
+        const root = getByTestId("slider-root");
+        const thumb = getByTestId("slider-thumb-0");
+        const indicator = getByTestId("slider-value-indicator-0");
+
+        spyOn(root, "getBoundingClientRect").mockReturnValue({
+          left: 0,
+          right: 100,
+          width: 100,
+          top: 0,
+          bottom: 10,
+          height: 10,
+          x: 0,
+          y: 0,
+          toJSON: () => {},
+        });
+
+        // Hover over thumb should NOT show indicator (active mode)
+        fireEvent.mouseEnter(thumb);
+        expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+        // Start dragging on thumb should show indicator
+        // Pointer down on thumb (role="slider") immediately starts dragging
+        fireEvent.pointerDown(thumb, { clientX: 50, clientY: 5, button: 0, pointerId: 1 });
+        expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+        // Release should hide
+        fireEvent.pointerUp(thumb, { clientX: 60, clientY: 5, pointerId: 1 });
+        expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+      } finally {
+        window.matchMedia = originalMatchMedia;
+      }
+    });
+
+    it("default trigger is auto", async () => {
+      const originalMatchMedia = window.matchMedia;
+      window.matchMedia = mock((query: string) => ({
+        matches: query === "(hover: hover)",
+        media: query,
+        onchange: null,
+        addListener: mock(() => {}),
+        removeListener: mock(() => {}),
+        addEventListener: mock(() => {}),
+        removeEventListener: mock(() => {}),
+        dispatchEvent: mock(() => true),
+      })) as typeof window.matchMedia;
+
+      try {
+        const { user, getByTestId } = setUp(
+          <SliderWithValueIndicator
+            min={0}
+            max={100}
+            defaultValues={[50]}
+            // no valueIndicatorTrigger prop — should default to "auto"
+          />,
+        );
+
+        const thumb = getByTestId("slider-thumb-0");
+        const indicator = getByTestId("slider-value-indicator-0");
+
+        // On hover-capable device, default (auto) should show on hover
+        await user.hover(thumb);
+        expect(indicator).toHaveAttribute("data-value-indicator-shown");
+      } finally {
+        window.matchMedia = originalMatchMedia;
+      }
+    });
+  });
+
+  describe("Value Indicator - Focus Visible", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("shows indicator when thumb receives keyboard focus (focus-visible)", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Initially not shown
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+
+      // Tab to thumb (keyboard focus → focus-visible)
+      await user.tab();
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("hides indicator when thumb loses focus", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Tab to thumb
+      await user.tab();
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // Tab away from thumb
+      await user.tab();
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+    });
+
+    it("shows indicator on focus-visible regardless of trigger mode", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Tab to thumb
+      await user.tab();
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+    });
+  });
+
+  describe("Value Indicator - Ever Shown Persistence", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("sets data-indicator-ever-shown after indicator becomes visible", async () => {
+      const { getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Initially never shown
+      expect(indicator).not.toHaveAttribute("data-indicator-ever-shown");
+
+      // Hover to show indicator
+      fireEvent.mouseEnter(thumb);
+
+      // After showing, ever-shown should be set
+      expect(indicator).toHaveAttribute("data-indicator-ever-shown");
+    });
+
+    it("persists data-indicator-ever-shown after indicator is hidden", async () => {
+      const { getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      // Show then hide
+      fireEvent.mouseEnter(thumb);
+      fireEvent.mouseLeave(thumb);
+
+      // Indicator is hidden but ever-shown persists
+      expect(indicator).not.toHaveAttribute("data-value-indicator-shown");
+      expect(indicator).toHaveAttribute("data-indicator-ever-shown");
+    });
+  });
+
+  describe("Value Indicator - Keyboard Transition Contract", () => {
+    const SliderWithValueIndicator = (props: SliderProps) => {
+      const { "data-testid": testId = "slider", ...restProps } = props;
+      return (
+        <SliderRoot {...restProps} data-testid={`${testId}-root`}>
+          <div data-testid={`${testId}-track`}>
+            <SliderRange data-testid={`${testId}-range`} />
+          </div>
+          {(restProps.values || restProps.defaultValues || [0]).map((_, index) => (
+            <React.Fragment key={index}>
+              <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+              <SliderHiddenInput
+                thumbIndex={index}
+                data-testid={`${testId}-hidden-input-${index}`}
+              />
+              <SliderValueIndicatorRoot
+                thumbIndex={index}
+                data-testid={`${testId}-value-indicator-${index}`}
+              >
+                <SliderValueIndicatorLabel
+                  thumbIndex={index}
+                  data-testid={`${testId}-value-indicator-label-${index}`}
+                />
+              </SliderValueIndicatorRoot>
+            </React.Fragment>
+          ))}
+        </SliderRoot>
+      );
+    };
+
+    it("value indicator does not have data-dragging during keyboard adjustment", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="hover"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      act(() => thumb.focus());
+
+      await user.keyboard("{ArrowRight}");
+
+      // Value should have changed
+      expect(thumb).toHaveAttribute("aria-valuenow", "51");
+
+      // Indicator should be shown (via focus-visible from keyboard)
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // data-dragging should NOT be present → CSS transition applies for smooth movement
+      expect(indicator).not.toHaveAttribute("data-dragging");
+    });
+
+    it("value indicator has data-dragging during pointer drag", async () => {
+      const { user, getByTestId } = setUp(
+        <SliderWithValueIndicator
+          min={0}
+          max={100}
+          defaultValues={[50]}
+          valueIndicatorTrigger="active"
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb = getByTestId("slider-thumb-0");
+      const indicator = getByTestId("slider-value-indicator-0");
+
+      spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Start dragging on thumb
+      await user.pointer([
+        { target: thumb, coords: { clientX: 50, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      // Move during drag
+      await user.pointer([{ target: root, coords: { clientX: 60, clientY: 5 } }]);
+
+      // Indicator should be shown
+      expect(indicator).toHaveAttribute("data-value-indicator-shown");
+
+      // data-dragging should be present → CSS disables transition for instant positioning
+      expect(indicator).toHaveAttribute("data-dragging");
+
+      // Release
+      await user.pointer([
+        { target: root, coords: { clientX: 60, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
     });
   });
 });

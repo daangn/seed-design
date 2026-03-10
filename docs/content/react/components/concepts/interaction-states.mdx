@@ -1,0 +1,54 @@
+---
+title: Interaction States
+description: SEED React 컴포넌트가 디바이스 환경에 따라 상호작용 스타일을 적용하는 방식을 설명합니다.
+---
+
+SEED React 컴포넌트는 모바일 터치 환경과 데스크톱 마우스 환경 모두에서 적절한 상호작용 피드백을 제공합니다. 별도의 설정이 불필요하며 SEED React 컴포넌트에 포함되어 있습니다.
+
+## 디바이스 적응형 스타일
+
+SEED에서 컴포넌트 스펙 및 색상 토큰은 **pressed** 상태만 정의합니다. SEED React는 이 pressed 스타일을 디바이스 환경에 따라 다른 시점에 표시합니다.
+
+| 디바이스 환경 | 트리거                | 표시되는 스타일 |
+| ------------- | --------------------- | --------------- |
+| 마우스        | 요소에 커서를 올릴 때 | pressed 스타일  |
+| 터치          | 요소를 누르고 있을 때 | pressed 스타일  |
+
+마우스 환경에서의 hover 스타일과 터치 환경에서의 active 스타일은 일반적으로 동일합니다.
+
+<TokenReference regex={/^\$color\..*-pressed$/} />
+
+### CSS
+
+SEED CSS는 `@media (hover)` 미디어 쿼리를 사용하여 디바이스를 구분합니다.
+
+```css
+/* 마우스 환경: hover 시 pressed 색상 적용 */
+@media (hover: hover) {
+  .seed-action-button--variant_brandSolid:is(:hover, [data-hover]) {
+    background: var(--seed-color-bg-brand-solid-pressed);
+  }
+}
+
+/* 터치 환경: active 시 pressed 색상 적용 */
+@media (hover: none) {
+  .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
+    background: var(--seed-color-bg-brand-solid-pressed);
+  }
+}
+```
+
+## 키보드 포커스 스타일
+
+웹 페이지를 키보드로 탐색하는 경우, 사용자가 현재 포커스된 요소를 시각적으로 인식할 수 있도록 focus ring이 표시됩니다. SEED React 컴포넌트에는 키보드 해당 스타일이 기본적으로 포함되어 있습니다.
+
+키보드 포커스 스타일은 디바이스 환경과 관계없이 키보드 탐색 시에 항상 표시됩니다.
+
+<ComponentExample name="react/action-button/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/action-button/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
