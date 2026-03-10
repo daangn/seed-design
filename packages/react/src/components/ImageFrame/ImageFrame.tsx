@@ -14,15 +14,15 @@ import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-r
 import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
 import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
-import { createSlotRecipeContext } from "@seed-design/react-utils";
 import clsx from "clsx";
 import * as React from "react";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
 import { Badge, type BadgeProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
 import { Icon } from "../Icon/Icon";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { withProvider, withContext } = createSlotRecipeContext({ root: imageFrameRecipe });
+const { withProvider, withContext } = createSlotRecipeContext(imageFrameRecipe);
 const ImageFrameRootSlot = withContext<HTMLDivElement, Image.RootProps>(Image.Root, "root");
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -30,6 +30,7 @@ const ImageFrameRootSlot = withContext<HTMLDivElement, Image.RootProps>(Image.Ro
 export interface ImageFrameRootProps
   extends Omit<AspectRatioProps, "children">,
     ImageFrameVariantProps {
+  children?: React.ReactNode;
   /**
    * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
    * Use borderRadius="r2" instead.
@@ -66,14 +67,9 @@ ImageFrameContent.displayName = "ImageFrame.Content";
 
 export interface ImageFrameFallbackProps extends Image.FallbackProps {}
 
-export const ImageFrameFallback = React.forwardRef<HTMLDivElement, ImageFrameFallbackProps>(
-  ({ children, style, ...rest }, ref) => {
-    return (
-      <Image.Fallback ref={ref} style={{ width: "100%", height: "100%", ...style }} {...rest}>
-        {children}
-      </Image.Fallback>
-    );
-  },
+export const ImageFrameFallback = withContext<HTMLDivElement, ImageFrameFallbackProps>(
+  Image.Fallback,
+  "fallback",
 );
 
 ImageFrameFallback.displayName = "ImageFrame.Fallback";
