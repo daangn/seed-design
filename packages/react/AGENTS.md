@@ -17,7 +17,7 @@
 - Headless 로직은 `@seed-design/react-*`에서 import
 - `clsx`로 className 병합
 - HTML 요소 대신 `Primitive.*` 사용
-- **`@seed-design/react-utils`의 유틸리티를 적극 활용**한다. 중복 구현을 피하고 일관성을 유지하기 위함이다.
+- compound component의 경우 Root 컴포넌트가 context를 포함해야 하고 하위 컴포넌트가 상위 context에서 제공하는 값을 바탕으로 동작해야 하므로 `createSlotRecipeContext`가 제공하는 도구를 적극적으로 활용한다.
 
 ## 코드 스타일 예시
 
