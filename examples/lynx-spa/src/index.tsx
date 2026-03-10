@@ -20,7 +20,10 @@ const themeClass = getThemeClassName(
 );
 
 root.render(
-  <page className={themeClass}>
+  <page
+    className={themeClass}
+    style={{ backgroundColor: 'var(--seed-color-bg-layer-default)' }}
+  >
     <App />
   </page>,
 );
