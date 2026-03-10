@@ -37,7 +37,7 @@
 - Updated dependencies [acae645]
   - @seed-design/react-snackbar@1.0.1
 
-## 1.3.0
+## 1.2.2
 
 ### Patch Changes
 
