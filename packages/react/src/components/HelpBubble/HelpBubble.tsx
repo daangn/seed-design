@@ -62,7 +62,15 @@ export const HelpBubblePositioner = withContext<HTMLDivElement, HelpBubblePositi
   "positioner",
 );
 
-export interface HelpBubblePositionerPortalProps extends PopoverPrimitive.PositionerPortalProps {}
+export interface HelpBubblePositionerPortalProps extends PopoverPrimitive.PositionerPortalProps {
+  /**
+   * Portal을 통해 렌더링할 때 React 트리 기준의 탭 순서를 유지할지 여부입니다.
+   * `true`로 설정하면 키보드 탭 순서가 React 트리를 따르지만,
+   * 일부 iOS Safari 버전에서 가상 키보드 dismiss 후 viewport 복원 이슈가 발생할 수 있습니다.
+   * @default false
+   */
+  preserveTabOrder?: boolean;
+}
 
 export const HelpBubblePositionerPortal = withContext<
   HTMLDivElement,

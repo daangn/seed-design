@@ -165,3 +165,18 @@ npx @seed-design/cli@latest add ui:help-bubble
   }
   ```
 </ComponentExample>
+
+### Portal
+
+부모 요소에 `overflow: hidden` 등이 설정되어 Help Bubble이 잘리는 경우, `HelpBubble.Positioner` 대신 `HelpBubble.PositionerPortal`을 사용하면 `document.body`에 포탈로 렌더링되어 잘림 없이 표시됩니다.
+
+`preserveTabOrder` prop을 `true`로 설정하면 키보드 탭 순서가 React 트리 기준으로 유지됩니다. 기본값은 `false`이며, `true` 설정 시 일부 iOS Safari 버전에서 가상 키보드 dismiss 후 viewport 복원 이슈가 발생할 수 있습니다.
+
+<ComponentExample name="react/help-bubble/portal">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/portal.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
