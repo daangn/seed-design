@@ -25,13 +25,6 @@ Headless (선택) → Rootage YAML → bun generate:all → Recipe → React →
 | 컴포넌트 UI | `packages/react/` | `bun packages:build` |
 | 문서 | `docs/content/` | 직접 수정 |
 
-## 컴포넌트 개발 필수 규칙
-
-컴포넌트를 제작하거나 수정할 때 반드시 아래 규칙을 따른다.
-
-- **snippet 레이어 최소 변경**: `docs/registry/ui/`의 snippet 레이어 변경은 최소한으로 한다. snippet은 사용자가 직접 커스터마이징하는 레이어이므로, 불필요한 변경은 사용자 코드에 영향을 줄 수 있다.
-- **`@seed-design/react-utils` 적극 활용**: `packages/react` 레이어에서 구현할 때는 `@seed-design/react-utils`의 유틸리티를 적극 사용한다. 중복 구현을 피하고 일관성을 유지하기 위함이다.
-
 ## 생성 파일 (수정 금지)
 
 - `packages/css/**` ← rootage에서 생성

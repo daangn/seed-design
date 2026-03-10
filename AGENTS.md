@@ -39,12 +39,7 @@ SEED Design은 당근의 디자인 시스템이다. 기술적 상세는 @TECH.md
 | `TECH.md` | 기술 상세, 아키텍처, 명령어 | AI 에이전트 |
 | `README.md` | 패키지 소개, 사용법, 개발 방법 | 사람 |
 
-## 컴포넌트 개발 규칙
-
-컴포넌트를 **제작하거나 수정할 때** 반드시 아래 규칙을 따른다.
-
-- **snippet 레이어 최소 변경**: `docs/registry`에 있는 snippet 레이어(`docs/registry/ui/`)의 변경은 최소한으로 한다. snippet은 사용자가 직접 커스터마이징하는 레이어이므로, 불필요한 변경은 사용자 코드에 영향을 줄 수 있다.
-- **`@seed-design/react-utils` 적극 활용**: `packages/react` 레이어에서 컴포넌트를 구현할 때는 `@seed-design/react-utils`의 유틸리티를 적극 사용한다. 중복 구현을 피하고 일관성을 유지하기 위함이다.
+각 패키지/폴더별 세부 규칙은 해당 디렉토리의 `AGENTS.md`에 명시되어 있으며, 해당 경로에서 작업할 때만 읽힌다.
 
 ## Boundaries
 
