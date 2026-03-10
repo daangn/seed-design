@@ -1,52 +1,41 @@
-import { defineSlotRecipe } from "../utils/define";
+import { defineRecipe } from "../utils/define";
 import { imageFrame as vars } from "../vars/component";
 
-const imageFrame = defineSlotRecipe({
+const imageFrame = defineRecipe({
   name: "image-frame",
-  slots: ["root", "fallback"],
   base: {
-    root: {
-      position: "relative",
-      overflow: "hidden",
-      borderRadius: "inherit",
+    position: "relative",
+    overflow: "hidden",
+    borderRadius: "inherit",
 
-      "& > img, & > video": {
-        display: "block",
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        borderRadius: "inherit",
-      },
-    },
-    fallback: {
+    "& > img, & > video": {
+      display: "block",
       width: "100%",
       height: "100%",
+      objectFit: "cover",
+      borderRadius: "inherit",
     },
   },
   variants: {
     stroke: {
       true: {
-        root: {
-          "&::after": {
-            content: "''",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            pointerEvents: "none",
-            borderRadius: "inherit",
-            boxShadow: `inset 0 0 0 ${vars.strokeTrue.enabled.root.strokeWidth} ${vars.strokeTrue.enabled.root.strokeColor}`,
-          },
+        "&::after": {
+          content: "''",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          pointerEvents: "none",
+          borderRadius: "inherit",
+          boxShadow: `inset 0 0 0 ${vars.strokeTrue.enabled.root.strokeWidth} ${vars.strokeTrue.enabled.root.strokeColor}`,
         },
       },
       false: {},
     },
     rounded: {
       true: {
-        root: {
-          borderRadius: vars.roundedTrue.enabled.root.cornerRadius,
-        },
+        borderRadius: vars.roundedTrue.enabled.root.cornerRadius,
       },
       false: {},
     },

@@ -13,8 +13,8 @@ import {
 import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
 import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
 import { Image } from "@seed-design/react-image";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
+import { createSlotRecipeContext } from "@seed-design/react-utils";
 import clsx from "clsx";
 import * as React from "react";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
@@ -22,7 +22,12 @@ import { Badge, type BadgeProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
 import { Icon } from "../Icon/Icon";
 
-export interface ImageFrameProps
+const { withProvider, withContext } = createSlotRecipeContext({ root: imageFrameRecipe });
+const ImageFrameRootSlot = withContext<HTMLDivElement, Image.RootProps>(Image.Root, "root");
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface ImageFrameRootProps
   extends Omit<AspectRatioProps, "children">,
     ImageFrameVariantProps {
   /**
@@ -31,88 +36,42 @@ export interface ImageFrameProps
    * Reason: 모서리 스타일은 borderRadius prop으로 통일합니다.
    */
   rounded?: ImageFrameVariantProps["rounded"];
-  src: string;
-  alt: string;
-  fallback?: React.ReactNode;
-  loading?: "eager" | "lazy";
-  decoding?: "async" | "auto" | "sync";
-  crossOrigin?: "anonymous" | "use-credentials" | "";
-  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
-  sizes?: string;
-  srcSet?: string;
-  onLoad?: React.ReactEventHandler<HTMLImageElement>;
-  onError?: React.ReactEventHandler<HTMLImageElement>;
-  /**
-   * Overlay elements to be rendered on top of the image.
-   * Use ImageFrameFloater to position them.
-   */
-  children?: React.ReactNode;
 }
 
-export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
-  (
-    {
-      ratio = 4 / 3,
-      stroke,
-      rounded,
-      src,
-      alt,
-      fallback,
-      className,
-      loading,
-      decoding,
-      crossOrigin,
-      referrerPolicy,
-      sizes,
-      srcSet,
-      onLoad,
-      onError,
-      children,
-      ...rest
-    },
-    ref,
-  ) => {
-    const classNames = imageFrameRecipe({ stroke, rounded });
-
-    return (
-      <AspectRatio ref={ref} ratio={ratio} className={className} {...rest}>
-        <Image.Root className={classNames.root}>
-          <Image.Content
-            src={src}
-            alt={alt}
-            loading={loading}
-            decoding={decoding}
-            crossOrigin={crossOrigin}
-            referrerPolicy={referrerPolicy}
-            sizes={sizes}
-            srcSet={srcSet}
-            onLoad={onLoad}
-            onError={onError}
-          />
-          {fallback && (
-            <Image.Fallback>
-              <ImageFrameFallback>{fallback}</ImageFrameFallback>
-            </Image.Fallback>
-          )}
-          {children}
-        </Image.Root>
+export const ImageFrameRoot = withProvider<HTMLDivElement, ImageFrameRootProps>(
+  React.forwardRef<HTMLDivElement, ImageFrameRootProps>(
+    ({ ratio = 4 / 3, className, style, children, ...rest }, ref) => (
+      <AspectRatio ref={ref} ratio={ratio} className={className} style={style} {...rest}>
+        <ImageFrameRootSlot>{children}</ImageFrameRootSlot>
       </AspectRatio>
-    );
-  },
+    ),
+  ),
+  "root",
 );
 
-ImageFrame.displayName = "ImageFrame";
+ImageFrameRoot.displayName = "ImageFrame.Root";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ImageFrameFallbackProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface ImageFrameContentProps extends Image.ContentProps {}
+
+export const ImageFrameContent = withContext<HTMLImageElement, ImageFrameContentProps>(
+  Image.Content,
+  "root",
+);
+
+ImageFrameContent.displayName = "ImageFrame.Content";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface ImageFrameFallbackProps extends Image.FallbackProps {}
 
 export const ImageFrameFallback = React.forwardRef<HTMLDivElement, ImageFrameFallbackProps>(
-  ({ className, ...rest }, ref) => {
+  ({ children, style, ...rest }, ref) => {
     return (
-      <Primitive.div ref={ref} className={clsx(imageFrameRecipe().fallback, className)} {...rest} />
+      <Image.Fallback ref={ref} style={{ width: "100%", height: "100%", ...style }} {...rest}>
+        {children}
+      </Image.Fallback>
     );
   },
 );
