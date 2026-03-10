@@ -14,6 +14,7 @@
     "@lynx-js/react": "^0.116.3",
     "@seed-design/css": "^1.2.4",
     "@seed-design/lynx-react": "workspace:*",
+    "@seed-design/rsbuild-plugin": "workspace:*",
     "clsx": "^2.1.1"
   },
   "devDependencies": {

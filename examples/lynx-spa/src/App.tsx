@@ -1,117 +1,113 @@
-import { ActionButton } from "@seed-design/lynx-react";
-import { actionButton } from "@seed-design/css/recipes/action-button.lynx";
+import { useState } from '@lynx-js/react';
+import { ActionButton } from '@seed-design/lynx-react';
+import { getThemeClassName } from '@seed-design/rsbuild-plugin/lynx';
 
-function DebugGlobalProps() {
-  let appTheme = "unknown";
-  let globalPropsRaw = "N/A";
-  let systemInfoRaw = "N/A";
+declare const __SEED_COLOR_MODE__: string;
 
-  try {
-    globalPropsRaw = JSON.stringify(lynx.__globalProps);
-    appTheme = (lynx.__globalProps as Record<string, unknown>).appTheme as string ?? "undefined";
-  } catch (e) {
-    globalPropsRaw = `Error: ${e}`;
-  }
+type Page = 'home' | 'theming' | 'action-button';
 
-  try {
-    systemInfoRaw = JSON.stringify(SystemInfo);
-  } catch (e) {
-    systemInfoRaw = `Error: ${e}`;
-  }
-
+function BackButton({ onBack }: { onBack: () => void }) {
   return (
     <view
+      bindtap={onBack}
       style={{
-        padding: "12px",
-        backgroundColor: "#f0f0f0",
-        borderRadius: "8px",
-        marginBottom: "16px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px",
+        padding: '8px 0',
+        marginBottom: '8px',
       }}
     >
-      <text style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>
-        🔍 Debug: Lynx Global Props
-      </text>
-      <text style={{ fontSize: "13px", color: "#555" }}>
-        appTheme: "{appTheme}"
-      </text>
-      <text style={{ fontSize: "13px", color: "#555" }}>
-        __globalProps: {globalPropsRaw}
-      </text>
-      <text style={{ fontSize: "13px", color: "#555" }}>
-        SystemInfo: {systemInfoRaw}
-      </text>
+      <text style={{ fontSize: '16px', color: '#3498db' }}>{'← Back'}</text>
     </view>
   );
 }
 
-function StateTestButtons() {
-  const classes = actionButton({
-    variant: "brandSolid",
-    size: "medium",
-    layout: "withText",
-    disabled: true,
-  });
+function ThemingPage() {
+  const colorMode =
+    typeof __SEED_COLOR_MODE__ !== 'undefined' ? __SEED_COLOR_MODE__ : 'system';
+  const globalProps = lynx?.__globalProps as
+    | Record<string, unknown>
+    | undefined;
+  const systemTheme = (globalProps?.theme as string) ?? 'unknown';
+  const frontendTheme = (globalProps?.frontendTheme as string) ?? 'unknown';
+  const themeClass = getThemeClassName(
+    colorMode as 'system' | 'light-only' | 'dark-only',
+    systemTheme,
+  );
 
   return (
-    <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-      <text style={{ fontSize: "14px", color: "#666" }}>
-        Test 1: recipe에 disabled 전달 (클래스 기반)
-      </text>
-      <view className={classes.root}>
-        <text className={classes.text}>Disabled via Recipe</text>
+    <view style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>Theming</text>
+
+      <view
+        style={{
+          padding: '12px',
+          backgroundColor: '#f0f0f0',
+          borderRadius: '8px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '6px',
+        }}
+      >
+        <text style={{ fontSize: '14px', fontWeight: 'bold', color: '#333' }}>
+          Environment
+        </text>
+        <text style={{ fontSize: '13px', color: '#555' }}>
+          colorMode (plugin): "{colorMode}"
+        </text>
+        <text style={{ fontSize: '13px', color: '#555' }}>
+          systemTheme (device): "{systemTheme}"
+        </text>
+        <text style={{ fontSize: '13px', color: '#555' }}>
+          frontendTheme (app): "{frontendTheme}"
+        </text>
+        <text style={{ fontSize: '13px', color: '#555' }}>
+          Applied class: "{themeClass}"
+        </text>
       </view>
 
-      <text style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>
-        Test 2: :active pseudo-class (터치 시 자동)
-      </text>
-      <ActionButton variant="brandSolid">Touch Me</ActionButton>
-    </view>
-  );
-}
-
-export function App(props: { onRender?: () => void }) {
-  props.onRender?.();
-
-  return (
-    <view
-      style={{
-        padding: "16px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <text
-        style={{
-          fontSize: "20px",
-          fontWeight: "bold",
-          marginBottom: "12px",
-          color: "#3498db",
-        }}
-      >
-        === Lynx Slot Recipe (ActionButton) ===
-      </text>
-      <DebugGlobalProps />
-      <text
-        style={{
-          fontSize: "18px",
-          fontWeight: "bold",
-          marginTop: "16px",
-          marginBottom: "8px",
-        }}
-      >
-        Variants
+      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
+        Theme Preview
       </text>
       <view
         style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
+        }}
+      >
+        <ActionButton variant="brandSolid">Brand Solid</ActionButton>
+        <ActionButton variant="neutralSolid">Neutral Solid</ActionButton>
+        <ActionButton variant="neutralWeak">Neutral Weak</ActionButton>
+        <ActionButton variant="criticalSolid">Critical Solid</ActionButton>
+      </view>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
+        }}
+      >
+        <ActionButton variant="brandOutline">Brand Outline</ActionButton>
+        <ActionButton variant="neutralOutline">Neutral Outline</ActionButton>
+        <ActionButton variant="ghost">Ghost</ActionButton>
+      </view>
+    </view>
+  );
+}
+
+function ActionButtonPage() {
+  return (
+    <view style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>ActionButton</text>
+
+      <text style={{ fontSize: '16px', fontWeight: 'bold' }}>Variants</text>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
         }}
       >
         <ActionButton variant="brandSolid">Brand Solid</ActionButton>
@@ -123,23 +119,16 @@ export function App(props: { onRender?: () => void }) {
         <ActionButton variant="ghost">Ghost</ActionButton>
       </view>
 
-      <text
-        style={{
-          fontSize: "18px",
-          fontWeight: "bold",
-          marginTop: "16px",
-          marginBottom: "8px",
-        }}
-      >
+      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
         Sizes
       </text>
       <view
         style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
+          alignItems: 'center',
         }}
       >
         <ActionButton size="xsmall">XSmall</ActionButton>
@@ -148,34 +137,15 @@ export function App(props: { onRender?: () => void }) {
         <ActionButton size="large">Large</ActionButton>
       </view>
 
-      <text
-        style={{
-          fontSize: "18px",
-          fontWeight: "bold",
-          marginTop: "16px",
-          marginBottom: "8px",
-        }}
-      >
-        State Tests
-      </text>
-      <StateTestButtons />
-
-      <text
-        style={{
-          fontSize: "18px",
-          fontWeight: "bold",
-          marginTop: "16px",
-          marginBottom: "8px",
-        }}
-      >
+      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
         Disabled
       </text>
       <view
         style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
         }}
       >
         <ActionButton variant="brandSolid" disabled>
@@ -185,6 +155,68 @@ export function App(props: { onRender?: () => void }) {
           Disabled Outline
         </ActionButton>
       </view>
+    </view>
+  );
+}
+
+function ListItem({ title, onTap }: { title: string; onTap: () => void }) {
+  return (
+    <view
+      bindtap={onTap}
+      style={{
+        padding: '14px 12px',
+        borderBottomWidth: '1px',
+        borderBottomColor: '#eee',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <text style={{ fontSize: '16px', color: '#333' }}>{title}</text>
+      <text style={{ fontSize: '16px', color: '#999' }}>{'→'}</text>
+    </view>
+  );
+}
+
+function HomePage({ navigate }: { navigate: (page: Page) => void }) {
+  return (
+    <view style={{ display: 'flex', flexDirection: 'column' }}>
+      <text
+        style={{
+          fontSize: '22px',
+          fontWeight: 'bold',
+          marginBottom: '16px',
+          color: '#3498db',
+        }}
+      >
+        SEED Design Lynx Catalog
+      </text>
+      <ListItem title="Theming" onTap={() => navigate('theming')} />
+      <ListItem title="ActionButton" onTap={() => navigate('action-button')} />
+    </view>
+  );
+}
+
+export function App(props: { onRender?: () => void }) {
+  const [currentPage, setCurrentPage] = useState<Page>('home');
+  props.onRender?.();
+
+  return (
+    <view
+      style={{
+        padding: '16px',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      }}
+    >
+      {currentPage !== 'home' && (
+        <BackButton onBack={() => setCurrentPage('home')} />
+      )}
+      {currentPage === 'home' && <HomePage navigate={setCurrentPage} />}
+      {currentPage === 'theming' && <ThemingPage />}
+      {currentPage === 'action-button' && <ActionButtonPage />}
     </view>
   );
 }
