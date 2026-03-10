@@ -193,8 +193,7 @@
   grid-row: var(--seed-box-grid-row);
 }
 
-.seed-box:is(:active, [data-active]) {
-  --seed-box-background--active: var(--seed-box-background);
+.seed-box[data-has-active-bg]:is(:active, [data-active]) {
   background: var(--seed-box-background--active);
 }
 

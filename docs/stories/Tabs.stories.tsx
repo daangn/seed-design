@@ -1,33 +1,30 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import {
-  ChipTabsRoot,
-  ChipTabsRootProps,
-  ChipTabsTrigger,
-  ChipTabsList,
-} from "seed-design/ui/chip-tabs";
+import { TabsRoot, TabsRootProps, TabsTrigger, TabsList } from "seed-design/ui/tabs";
 
-import { chipTabsVariantMap } from "@seed-design/css/recipes/chip-tabs";
+import { tabsVariantMap } from "@seed-design/css/recipes/tabs";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 
-const Component = (props: ChipTabsRootProps) => {
+const Component = (props: TabsRootProps) => {
   return (
-    <ChipTabsRoot {...props}>
-      <ChipTabsList>
-        <ChipTabsTrigger value="1">Tab 1</ChipTabsTrigger>
-        <ChipTabsTrigger value="2">Tab 2</ChipTabsTrigger>
-        <ChipTabsTrigger value="3">Tab 3</ChipTabsTrigger>
-      </ChipTabsList>
-    </ChipTabsRoot>
+    <div style={{ width: "100%" }}>
+      <TabsRoot {...props}>
+        <TabsList>
+          <TabsTrigger value="1">Tab 1</TabsTrigger>
+          <TabsTrigger value="2">Tab 2</TabsTrigger>
+          <TabsTrigger value="3">Tab 3</TabsTrigger>
+        </TabsList>
+      </TabsRoot>
+    </div>
   );
 };
 
 const meta = {
-  component: ChipTabsRoot,
+  component: TabsRoot,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ChipTabsRoot>;
+} satisfies Meta<typeof TabsRoot>;
 
 export default meta;
 
@@ -38,7 +35,7 @@ const CommonStoryTemplate: Story = {
     defaultValue: "1",
   },
   render: function Render(args) {
-    return <VariantTable Component={Component} variantMap={chipTabsVariantMap} {...args} />;
+    return <VariantTable Component={Component} variantMap={tabsVariantMap} {...args} />;
   },
 };
 
