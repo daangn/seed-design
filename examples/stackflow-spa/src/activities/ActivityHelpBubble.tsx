@@ -12,7 +12,7 @@ import {
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
-import { HelpBubbleTrigger, HelpBubbleTriggerPortal } from "seed-design/ui/help-bubble";
+import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -70,22 +70,6 @@ const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = ()
           <HelpBubbleTrigger title="Placement=bottom 테스트" placement="bottom">
             <ActionButton>Placement=bottom 테스트</ActionButton>
           </HelpBubbleTrigger>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            paddingTop: "20vh",
-            justifyContent: "center",
-            background: "#ffeeee",
-          }}
-        >
-          <HelpBubbleTriggerPortal
-            title="Portal Positioner 테스트"
-            description="이 버블이 열릴 때 전체 뷰포트가 스크롤되는 문제가 발생합니다"
-            defaultOpen
-          >
-            <ActionButton variant="criticalSolid">Portal 테스트 (문제 재현)</ActionButton>
-          </HelpBubbleTriggerPortal>
         </div>
         <div style={{ height: "100vh" }} />
       </AppScreenContent>
