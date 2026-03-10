@@ -24,7 +24,12 @@ export function ChangelogViewer({
 
   return (
     <SnackbarProvider>
-      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_220px] lg:items-start">
+      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
+        <ChangelogPackageRail
+          selectedPackage={state.selectedPackage}
+          packages={state.packages}
+          switchCompareTab={state.switchCompareTab}
+        />
         <div className="min-w-0 flex flex-col gap-6">
           <ChangelogFilterBar
             filteredEntryCount={data.filteredEntryCount}
@@ -38,11 +43,6 @@ export function ChangelogViewer({
           />
           <ChangelogGroups groupedEntries={data.groupedEntries} />
         </div>
-        <ChangelogPackageRail
-          selectedPackage={state.selectedPackage}
-          packages={state.packages}
-          switchCompareTab={state.switchCompareTab}
-        />
       </div>
     </SnackbarProvider>
   );

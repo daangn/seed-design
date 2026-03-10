@@ -86,11 +86,10 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                         {uniqueAdditionalPackages.length > 0 && (
                           <div className="mt-1.5 flex flex-wrap gap-1.5">
                             {uniqueAdditionalPackages.map((pkg) => {
-                              const targetAnchorId = getGroupAnchorId(pkg.name, pkg.version);
                               return (
                                 <a
                                   key={`${pkg.name}@${pkg.version}`}
-                                  href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}#${targetAnchorId}`}
+                                  href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}`}
                                   className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
                                 >
                                   <span>
@@ -120,11 +119,10 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                           </summary>
                           <div className="mt-1.5 flex flex-wrap gap-1.5">
                             {uniqueAdditionalPackages.map((pkg) => {
-                              const targetAnchorId = getGroupAnchorId(pkg.name, pkg.version);
                               return (
                                 <a
                                   key={`${pkg.name}@${pkg.version}`}
-                                  href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}#${targetAnchorId}`}
+                                  href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}`}
                                   className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
                                 >
                                   <span>

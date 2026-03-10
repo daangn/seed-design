@@ -35,7 +35,7 @@ export function ChangelogPackageRail({
       <div className="flex flex-wrap gap-2 lg:flex-col">
         {packages.map((pkg) => {
           const isActive = selectedPackage === pkg;
-          const label = pkg.replace("@seed-design/", "");
+          const label = pkg;
 
           return (
             <button
