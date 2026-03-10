@@ -39,6 +39,8 @@ SEED Design은 당근의 디자인 시스템이다. 기술적 상세는 @TECH.md
 | `TECH.md` | 기술 상세, 아키텍처, 명령어 | AI 에이전트 |
 | `README.md` | 패키지 소개, 사용법, 개발 방법 | 사람 |
 
+각 패키지/폴더별 세부 규칙은 해당 디렉토리의 `AGENTS.md`에 명시되어 있으며, 해당 경로에서 작업할 때만 읽힌다.
+
 ## Boundaries
 
 - ✅ **Always:**
@@ -59,6 +61,12 @@ SEED Design은 당근의 디자인 시스템이다. 기술적 상세는 @TECH.md
   - `.env`, API 키, 시크릿 커밋
   - `npm`/`pnpm`/`yarn` 사용 (`bun` 전용)
   - `dist/`, `node_modules/` 수정
+
+## Git 규칙
+
+- **커밋 메시지는 반드시 영어로 작성**한다. Conventional Commits 형식을 따른다: `type(scope): subject`
+  - 예: `feat(button): add loading state`, `fix(tooltip): correct z-index`, `docs: update component rules`
+- **PR 제목도 반드시 영어로 작성**한다. 커밋 메시지와 동일한 Conventional Commits 형식을 따른다.
 
 ## 응답 규칙
 

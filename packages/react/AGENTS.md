@@ -17,6 +17,7 @@
 - Headless 로직은 `@seed-design/react-*`에서 import
 - `clsx`로 className 병합
 - HTML 요소 대신 `Primitive.*` 사용
+- **`@seed-design/react-utils`의 유틸리티를 적극 활용**한다. 중복 구현을 피하고 일관성을 유지하기 위함이다.
 
 ## 코드 스타일 예시
 
