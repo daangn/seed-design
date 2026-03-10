@@ -3,7 +3,7 @@ import {
   ImageFrameFloater,
   ImageFrameBadge,
   ImageFrameReactionButton,
-} from "@seed-design/react";
+} from "seed-design/ui/image-frame";
 import { useState } from "react";
 
 export default function ImageFrameOverlayMultipleExample() {

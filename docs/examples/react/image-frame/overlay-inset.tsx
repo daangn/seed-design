@@ -1,4 +1,4 @@
-import { ImageFrame, ImageFrameFloater, ImageFrameIndicator } from "@seed-design/react";
+import { ImageFrame, ImageFrameFloater, ImageFrameIndicator } from "seed-design/ui/image-frame";
 
 export default function ImageFrameOverlayInsetExample() {
   return (
