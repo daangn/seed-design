@@ -1,6 +1,5 @@
 ---
 "@seed-design/stackflow": minor
-"@seed-design/qvism-preset": patch
 ---
 
 스와이프백 성능 및 안정성 개선
