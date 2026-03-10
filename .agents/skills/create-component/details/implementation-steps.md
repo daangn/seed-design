@@ -174,21 +174,84 @@ export const AvatarFallback = withContext<HTMLDivElement, AvatarFallbackProps>(I
    - ❌ `<Image.Fallback style={{ width: "100%", height: "100%" }}>`
    - ✅ qvism-preset recipe의 해당 슬롯(예: `fallback`)에 스타일을 작성하고, `withContext(Image.Fallback, "fallback")`으로 연결
 
-## Step 5: Registry UI (선택)
+## Step 5: Registry UI (Snippet 레이어)
 
 **위치**: `docs/registry/ui/[name].tsx`
-**조건**: 복합 컴포넌트의 경우
+
+### Snippet 레이어가 필요한 경우
+
+다음 조건 중 하나라도 해당하면 snippet 레이어를 추가해야 합니다:
+1. **복합 컴포넌트**: Root+Content+Fallback 등 여러 서브컴포넌트를 조합해야 하는 경우 (Avatar, ImageFrame 등)
+2. **서드파티 의존성 통합**: 외부 아이콘 라이브러리나 다른 패키지를 함께 사용해야 하는 경우
+3. **보일러플레이트 단순화**: 사용자가 매번 직접 조합하면 너무 복잡한 경우 (Image.Root + Image.Fallback + Image.Content 등)
+
+### 반대로 Snippet이 필요 없는 경우
+
+- 단일 컴포넌트 (`<Button>`, `<Badge>` 등): `@seed-design/react`에서 직접 사용
+- 이미 심플한 API를 가진 경우
+
+### Snippet 파일 작성 패턴 (Avatar 참고)
+
+```typescript
+"use client";
+
+import { ComponentName as SeedComponentName } from "@seed-design/react";
+import * as React from "react";
+
+export interface ComponentNameProps extends SeedComponentName.RootProps {
+  src?: string;
+  alt?: string;
+  fallback?: React.ReactNode;
+}
+
+/**
+ * @see https://seed-design.io/react/components/component-name
+ */
+export const ComponentName = React.forwardRef<HTMLDivElement, ComponentNameProps>(
+  ({ src, alt, fallback, children, ...otherProps }, ref) => {
+    return (
+      <SeedComponentName.Root ref={ref} {...otherProps}>
+        <SeedComponentName.Fallback>{fallback}</SeedComponentName.Fallback>
+        <SeedComponentName.Image src={src} alt={alt} />
+        {children}
+      </SeedComponentName.Root>
+    );
+  },
+);
+ComponentName.displayName = "ComponentName";
+
+// 하위 컴포넌트들도 re-export
+export interface ComponentNameBadgeProps extends SeedComponentName.BadgeProps {}
+export const ComponentNameBadge = SeedComponentName.Badge;
+```
 
 **추가 작업**:
-1. `docs/registry/registry-ui.ts`에 entry 추가
+1. `docs/registry/registry-ui.ts`에 entry 추가 (의존성 버전은 해당 컴포넌트가 추가된 버전 기준)
 2. `bun --filter @seed-design/docs generate:registry` 실행
+
+### React 문서 업데이트
+
+Snippet 레이어가 있는 컴포넌트의 문서는 반드시 다음 형태로 업데이트해야 합니다:
+- `## Installation` 섹션 추가: `npx @seed-design/cli@latest add ui:[name]` 명령어
+- `<ManualInstallation name="[name]" />` 컴포넌트 추가
+- `## Usage`의 import 경로를 `seed-design/ui/[name]`으로 변경
+- Props 섹션 경로를 `./registry/ui/[name].tsx`로 변경
 
 ## Step 6: Examples
 
-**위치**: `docs/components/example/[name]-*.tsx`
+**위치**: `docs/examples/react/[name]/`
 
+### Snippet 레이어가 있는 경우
 ```typescript
-// action-button-preview.tsx
+// preview.tsx - snippet에서 import
+import { ComponentName } from "seed-design/ui/component-name";
+// Layout 컴포넌트(Flex, VStack 등)는 계속 @seed-design/react에서
+import { Flex } from "@seed-design/react";
+```
+
+### Snippet 레이어가 없는 경우
+```typescript
+// preview.tsx - @seed-design/react에서 직접 import
 import { ActionButton } from "@seed-design/react"
 
 export default function ActionButtonPreview() {
