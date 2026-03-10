@@ -6,7 +6,15 @@ import { IconSquare2StackedLine } from "@karrotmarket/react-monochrome-icon";
 import type { GroupedChangelogEntry } from "@/components/changelog-viewer/use-changelog-viewer-data";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 
-export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedChangelogEntry[] }) {
+function extractTopLevelHtml(html: string): string {
+  return html.replace(/<ul>[\s\S]*$/, "").trim();
+}
+
+export function ChangelogGroups({
+  groupedEntries,
+}: {
+  groupedEntries: GroupedChangelogEntry[];
+}) {
   const adapter = useSnackbarAdapter();
 
   const copyDeepLink = async (url: string) => {
@@ -68,13 +76,7 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
             <div className="px-3 py-1">
               <ul className="list-disc pl-5 pr-1 marker:text-fd-muted-foreground">
                 {group.entries.map((entry, index) => {
-                  const uniqueAdditionalPackages = Array.from(
-                    new Map(
-                      entry.relatedPackages.map(
-                        (pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const,
-                      ),
-                    ).values(),
-                  );
+                  const { resolvedRelatedPackages } = entry;
 
                   //NOTE: 하위 패키지 업데이트에 의한 버전 변경 항목 표시
                   if (entry.isDependencyOnly) {
@@ -83,21 +85,34 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                         <span className="text-xs text-fd-muted-foreground">
                           하위 패키지 업데이트에 의한 버전 변경
                         </span>
-                        {uniqueAdditionalPackages.length > 0 && (
-                          <div className="mt-1.5 flex flex-wrap gap-1.5">
-                            {uniqueAdditionalPackages.map((pkg) => {
-                              return (
+                        {resolvedRelatedPackages.length > 0 && (
+                          <div className="mt-1.5 flex flex-col gap-1.5">
+                            {resolvedRelatedPackages.map((pkg) => (
+                              <div key={`${pkg.name}@${pkg.version}`}>
                                 <a
-                                  key={`${pkg.name}@${pkg.version}`}
                                   href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}`}
                                   className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
                                 >
-                                  <span>
-                                    {pkg.name}@{pkg.version}
-                                  </span>
+                                  {pkg.name}@{pkg.version}
                                 </a>
-                              );
-                            })}
+                                {pkg.resolvedEntries.length > 0 && (
+                                  <ul className="mt-1 list-disc pl-5 marker:text-fd-muted-foreground">
+                                    {pkg.resolvedEntries.map((e) => {
+                                      const topHtml = extractTopLevelHtml(e.contentHtml);
+                                      if (!topHtml) return null;
+                                      return (
+                                        <li
+                                          key={e.order}
+                                          className="text-xs text-fd-muted-foreground [&_a]:text-fd-muted-foreground [&_a]:underline"
+                                          // biome-ignore lint/security/noDangerouslySetInnerHtml: 파싱된 마크다운 HTML
+                                          dangerouslySetInnerHTML={{ __html: topHtml }}
+                                        />
+                                      );
+                                    })}
+                                  </ul>
+                                )}
+                              </div>
+                            ))}
                           </div>
                         )}
                       </li>
@@ -112,25 +127,38 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                         compact
                         showPackage={entry.package.name !== group.packageName}
                       />
-                      {uniqueAdditionalPackages.length > 0 && (
+                      {resolvedRelatedPackages.length > 0 && (
                         <details className="mt-1.5">
                           <summary className="cursor-pointer text-xs text-fd-muted-foreground hover:text-fd-foreground select-none">
-                            이 변경으로 함께 업데이트된 패키지 {uniqueAdditionalPackages.length}개
+                            이 변경으로 함께 업데이트된 패키지 {resolvedRelatedPackages.length}개
                           </summary>
-                          <div className="mt-1.5 flex flex-wrap gap-1.5">
-                            {uniqueAdditionalPackages.map((pkg) => {
-                              return (
+                          <div className="mt-1.5 flex flex-col gap-1.5">
+                            {resolvedRelatedPackages.map((pkg) => (
+                              <div key={`${pkg.name}@${pkg.version}`}>
                                 <a
-                                  key={`${pkg.name}@${pkg.version}`}
                                   href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}`}
                                   className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
                                 >
-                                  <span>
-                                    {pkg.name}@{pkg.version}
-                                  </span>
+                                  {pkg.name}@{pkg.version}
                                 </a>
-                              );
-                            })}
+                                {pkg.resolvedEntries.length > 0 && (
+                                  <ul className="mt-1 list-disc pl-5 marker:text-fd-muted-foreground">
+                                    {pkg.resolvedEntries.map((e) => {
+                                      const topHtml = extractTopLevelHtml(e.contentHtml);
+                                      if (!topHtml) return null;
+                                      return (
+                                        <li
+                                          key={e.order}
+                                          className="text-xs text-fd-muted-foreground [&_a]:text-fd-muted-foreground [&_a]:underline"
+                                          // biome-ignore lint/security/noDangerouslySetInnerHtml: 파싱된 마크다운 HTML
+                                          dangerouslySetInnerHTML={{ __html: topHtml }}
+                                        />
+                                      );
+                                    })}
+                                  </ul>
+                                )}
+                              </div>
+                            ))}
                           </div>
                         </details>
                       )}
