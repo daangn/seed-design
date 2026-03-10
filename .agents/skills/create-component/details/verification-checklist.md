@@ -42,6 +42,36 @@
 ✅ Agent Browser로 모든 환경 테스트
 ```
 
+### Recipe-React 불일치
+
+```text
+❌ defineSlotRecipe로 변경 후 generate 안 함
+   → CSS에 슬롯 클래스명이 없어서 스타일 깨짐
+   → bun generate:all 없이 React 코드만 수정
+
+✅ recipe 수정 → bun generate:all → React 코드 수정
+```
+
+### React에 style 직접 작성
+
+```text
+❌ <Component style={{ width: "100%", height: "100%" }} />
+   → 테마, 다크모드, CSS 변수 활용 불가
+   → 스타일 관리 분산
+
+✅ qvism-preset recipe의 해당 슬롯에 스타일 추가
+   → withContext로 슬롯 className 자동 적용
+```
+
+### 잘못된 import 경로
+
+```text
+❌ import { createSlotRecipeContext } from "@seed-design/react-utils"
+   → 존재하지 않는 패키지, 빌드 실패
+
+✅ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext"
+```
+
 ## 생성 파일 (수정 금지)
 
 | 패턴 | 소스 |
