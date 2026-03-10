@@ -29,7 +29,7 @@
             }
           }
         },
-        "asset": {
+        "image": {
           "properties": {
             "color": {
               "type": "color"
@@ -37,7 +37,25 @@
           }
         }
       },
-      "variants": {}
+      "variants": {
+        "type": {
+          "values": {
+            "default": {},
+            "buySell": {},
+            "car": {},
+            "commerce": {},
+            "coupon": {},
+            "food": {},
+            "group": {},
+            "image": {},
+            "jobs": {},
+            "business": {},
+            "post": {},
+            "realty": {}
+          },
+          "defaultValue": "default"
+        }
+      }
     },
     "definitions": [
       {
@@ -71,7 +89,7 @@
                   "value": "$dimension.x7"
                 }
               },
-              "asset": {
+              "image": {
                 "color": {
                   "type": "color",
                   "value": "$color.palette.gray-400"
@@ -80,6 +98,78 @@
             }
           }
         ]
+      },
+      {
+        "variants": {
+          "type": "default"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "buySell"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "car"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "commerce"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "coupon"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "food"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "group"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "image"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "jobs"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "business"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "post"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "type": "realty"
+        },
+        "definitions": []
       }
     ]
   }
