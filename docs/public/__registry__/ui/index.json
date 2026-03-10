@@ -352,6 +352,21 @@
     {
       "snippets": [
         {
+          "path": "image-frame.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.2.7",
+            "@seed-design/css": "~1.2.7"
+          }
+        }
+      ],
+      "id": "image-frame",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "inline-banner.tsx",
           "dependencies": {
             "@seed-design/react": "~1.0.0",

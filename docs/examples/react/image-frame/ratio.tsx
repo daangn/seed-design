@@ -1,4 +1,5 @@
-import { ImageFrame, Flex, VStack, Text } from "@seed-design/react";
+import { Flex, Text, VStack } from "@seed-design/react";
+import { ImageFrame } from "seed-design/ui/image-frame";
 
 export default function ImageFrameRatio() {
   return (

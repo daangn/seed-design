@@ -1,15 +1,17 @@
 import { IconCarrotFill } from "@karrotmarket/react-monochrome-icon";
 import {
+  Flex,
+  Text,
+  VStack,
+} from "@seed-design/react";
+import {
   ImageFrame,
-  ImageFrameFloater,
   ImageFrameBadge,
+  ImageFrameFloater,
   ImageFrameIcon,
   ImageFrameIndicator,
   ImageFrameReactionButton,
-  Flex,
-  VStack,
-  Text,
-} from "@seed-design/react";
+} from "seed-design/ui/image-frame";
 import { useState } from "react";
 
 export default function ImageFrameOverlayExample() {

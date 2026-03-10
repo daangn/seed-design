@@ -1,0 +1,16 @@
+{
+  "id": "image-frame",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "snippets": [
+    {
+      "path": "image-frame.tsx",
+      "content": "/**\n * @file ui:image-frame\n * @requires @seed-design/react@~1.2.7\n * @requires @seed-design/css@~1.2.7\n **/\n\n\"use client\";\n\nimport {\n  ImageFrameBadge as SeedImageFrameBadge,\n  ImageFrameContent as SeedImageFrameContent,\n  ImageFrameFallback as SeedImageFrameFallback,\n  ImageFrameFloater as SeedImageFrameFloater,\n  ImageFrameIcon as SeedImageFrameIcon,\n  ImageFrameIndicator as SeedImageFrameIndicator,\n  ImageFrameReactionButton as SeedImageFrameReactionButton,\n  ImageFrameRoot as SeedImageFrameRoot,\n  type ImageFrameBadgeProps as SeedImageFrameBadgeProps,\n  type ImageFrameFloaterProps as SeedImageFrameFloaterProps,\n  type ImageFrameIconProps as SeedImageFrameIconProps,\n  type ImageFrameIndicatorProps as SeedImageFrameIndicatorProps,\n  type ImageFrameReactionButtonProps as SeedImageFrameReactionButtonProps,\n  type ImageFrameRootProps as SeedImageFrameRootProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface ImageFrameProps extends SeedImageFrameRootProps {\n  src?: string;\n\n  alt?: string;\n\n  fallback?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/image-frame\n */\nexport const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(\n  ({ src, alt, fallback, children, ...otherProps }, ref) => {\n    return (\n      <SeedImageFrameRoot ref={ref} {...otherProps}>\n        <SeedImageFrameFallback>{fallback}</SeedImageFrameFallback>\n        <SeedImageFrameContent src={src} alt={alt} />\n        {children}\n      </SeedImageFrameRoot>\n    );\n  },\n);\nImageFrame.displayName = \"ImageFrame\";\n\nexport interface ImageFrameFloaterProps extends SeedImageFrameFloaterProps {}\n\nexport const ImageFrameFloater = SeedImageFrameFloater;\n\nexport interface ImageFrameBadgeProps extends SeedImageFrameBadgeProps {}\n\nexport const ImageFrameBadge = SeedImageFrameBadge;\n\nexport interface ImageFrameIconProps extends SeedImageFrameIconProps {}\n\nexport const ImageFrameIcon = SeedImageFrameIcon;\n\nexport interface ImageFrameIndicatorProps extends SeedImageFrameIndicatorProps {}\n\nexport const ImageFrameIndicator = SeedImageFrameIndicator;\n\nexport interface ImageFrameReactionButtonProps extends SeedImageFrameReactionButtonProps {}\n\nexport const ImageFrameReactionButton = SeedImageFrameReactionButton;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.2.7",
+        "@seed-design/css": "~1.2.7"
+      }
+    }
+  ]
+}
