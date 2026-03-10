@@ -81,6 +81,38 @@ export const actionButtonRecipe = defineRecipe({
 
 **주의**: hover 대신 active 상태 사용 (모바일 우선)
 
+### defineRecipe vs defineSlotRecipe
+
+슬롯이 하나인 단순 컴포넌트는 `defineRecipe`, 여러 슬롯이 필요한 복합 컴포넌트는 `defineSlotRecipe`를 사용합니다.
+
+**defineSlotRecipe 예시 (Avatar 패턴)**:
+```typescript
+const avatar = defineSlotRecipe({
+  name: "avatar",
+  slots: ["root", "image", "fallback", "badge"],
+  base: {
+    root: { /* root 슬롯 스타일 */ },
+    fallback: {
+      display: "flex",
+      width: "100%",
+      height: "100%",
+    },
+  },
+  variants: {
+    size: {
+      48: {
+        root: { "--avatar-size": "48px" },   // 슬롯별로 variants 적용
+        badge: { "--badge-size": "16px" },
+      },
+    },
+  },
+})
+```
+
+⚠️ **중요**: `defineSlotRecipe`로 변경하거나 슬롯을 추가한 후에는 반드시 `bun generate:all`을 실행하세요.
+- CSS 클래스명이 `.seed-{name}` → `.seed-{name}__root` 형태로 변경됩니다.
+- generate 없이 React 코드만 수정하면 CSS와 불일치가 발생합니다.
+
 ## Step 4: React 컴포넌트
 
 **위치**: `packages/react/src/components/[ComponentName]/`
@@ -110,6 +142,37 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
 )
 ActionButton.displayName = "ActionButton"
 ```
+
+### SlotRecipe 기반 복합 컴포넌트 패턴
+
+슬롯 recipe를 사용하는 경우 `createSlotRecipeContext`를 활용합니다:
+
+```typescript
+// ✅ 올바른 패턴 (Avatar 참고)
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { avatar } from "@seed-design/css/recipes/avatar";
+
+const { withProvider, withContext } = createSlotRecipeContext(avatar);
+// avatar는 (props) => { root: string, image: string, fallback: string, badge: string } 반환
+
+export const AvatarRoot = withProvider<HTMLDivElement, AvatarRootProps>(Image.Root, "root");
+export const AvatarFallback = withContext<HTMLDivElement, AvatarFallbackProps>(Image.Fallback, "fallback");
+// → AvatarFallback에 자동으로 seed-avatar__fallback 클래스 적용
+```
+
+**⚠️ 흔한 실수들**:
+
+1. **존재하지 않는 패키지 import**:
+   - ❌ `import { createSlotRecipeContext } from "@seed-design/react-utils"` (이 패키지 없음)
+   - ✅ `import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext"`
+
+2. **잘못된 createSlotRecipeContext 호출**:
+   - ❌ `createSlotRecipeContext({ root: imageFrameRecipe })` (단일 recipe를 객체로 감싸면 안 됨)
+   - ✅ `createSlotRecipeContext(imageFrameRecipe)` (slotRecipe를 직접 전달)
+
+3. **React 레이어에 style 직접 작성**:
+   - ❌ `<Image.Fallback style={{ width: "100%", height: "100%" }}>`
+   - ✅ qvism-preset recipe의 해당 슬롯(예: `fallback`)에 스타일을 작성하고, `withContext(Image.Fallback, "fallback")`으로 연결
 
 ## Step 5: Registry UI (선택)
 
