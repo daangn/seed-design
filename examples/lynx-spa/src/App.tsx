@@ -1,6 +1,52 @@
 import { ActionButton } from "@seed-design/lynx-react";
 import { actionButton } from "@seed-design/css/recipes/action-button.lynx";
 
+function DebugGlobalProps() {
+  let appTheme = "unknown";
+  let globalPropsRaw = "N/A";
+  let systemInfoRaw = "N/A";
+
+  try {
+    globalPropsRaw = JSON.stringify(lynx.__globalProps);
+    appTheme = (lynx.__globalProps as Record<string, unknown>).appTheme as string ?? "undefined";
+  } catch (e) {
+    globalPropsRaw = `Error: ${e}`;
+  }
+
+  try {
+    systemInfoRaw = JSON.stringify(SystemInfo);
+  } catch (e) {
+    systemInfoRaw = `Error: ${e}`;
+  }
+
+  return (
+    <view
+      style={{
+        padding: "12px",
+        backgroundColor: "#f0f0f0",
+        borderRadius: "8px",
+        marginBottom: "16px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "4px",
+      }}
+    >
+      <text style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>
+        🔍 Debug: Lynx Global Props
+      </text>
+      <text style={{ fontSize: "13px", color: "#555" }}>
+        appTheme: "{appTheme}"
+      </text>
+      <text style={{ fontSize: "13px", color: "#555" }}>
+        __globalProps: {globalPropsRaw}
+      </text>
+      <text style={{ fontSize: "13px", color: "#555" }}>
+        SystemInfo: {systemInfoRaw}
+      </text>
+    </view>
+  );
+}
+
 function StateTestButtons() {
   const classes = actionButton({
     variant: "brandSolid",
@@ -49,6 +95,7 @@ export function App(props: { onRender?: () => void }) {
       >
         === Lynx Slot Recipe (ActionButton) ===
       </text>
+      <DebugGlobalProps />
       <text
         style={{
           fontSize: "18px",
