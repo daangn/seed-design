@@ -2,7 +2,8 @@ import { breezeSource, reactSource, docsSource, lynxSource } from "@/app/source"
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { tokenize } from "@/components/search/tokenizer";
 import { TAGS } from "@/app/api/search/constants";
-import { getEntrySearchText, parseChangelog } from "@/lib/parse-changelog";
+import { getEntrySearchText } from "@/lib/changelog-entry";
+import { parseChangelog } from "@/lib/parse-changelog";
 
 // it should be cached forever
 export const revalidate = false;

@@ -2,7 +2,7 @@
 
 import { ChangelogEntryItem } from "@/components/changelog-entry-item";
 import { getGroupAnchorId } from "@/components/changelog-viewer/utils";
-import { getEntryPreviewHtml } from "@/lib/parse-changelog";
+import { getEntryPreviewHtml } from "@/lib/changelog-entry";
 import { IconSquare2StackedLine } from "@karrotmarket/react-monochrome-icon";
 import type { GroupedChangelogEntry } from "@/components/changelog-viewer/use-changelog-viewer-data";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
