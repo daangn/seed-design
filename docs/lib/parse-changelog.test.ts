@@ -23,9 +23,18 @@ describe("parseChangelogSources", () => {
       version: "1.2.6",
       url: "https://npmjs.com/package/@seed-design/react/v/1.2.6",
     });
-    expect(entries[0].contentHtml).toContain("IdentityPlaceholder의 스타일과 글리프를 업데이트합니다.");
-    expect(entries[0].contentHtml).toContain("/commit/77cdc0e");
-    expect(entries[0].contentHtml).not.toContain("77cdc0e:");
+    expect(entries[0].contentBlocks[0]).toMatchObject({
+      type: "markdown",
+    });
+    expect(entries[0].contentBlocks[0]?.type === "markdown" && entries[0].contentBlocks[0].html).toContain(
+      "IdentityPlaceholder의 스타일과 글리프를 업데이트합니다.",
+    );
+    expect(entries[0].contentBlocks[0]?.type === "markdown" && entries[0].contentBlocks[0].html).toContain(
+      "/commit/77cdc0e",
+    );
+    expect(entries[0].contentBlocks[0]?.type === "markdown" && entries[0].contentBlocks[0].html).not.toContain(
+      "77cdc0e:",
+    );
   });
 
   it("section title을 유지한다", async () => {
@@ -116,6 +125,35 @@ describe("parseChangelogSources", () => {
 
     expect(entries[0].commitRefs).toEqual(["cd9a46c"]);
     expect(entries[0].isDependencyOnly).toBe(false);
+  });
+
+  it("markdown code block을 별도 content block으로 분리한다", async () => {
+    const entries = await parseChangelogSources([
+      {
+        packageName: "@seed-design/react",
+        raw: `# @seed-design/react
+
+## 1.2.6
+
+### Patch Changes
+
+- 77cdc0e: 사용 예시를 추가합니다.
+
+  \`\`\`tsx
+  <IdentityPlaceholder identity="business" />
+  \`\`\`
+`,
+      },
+    ]);
+
+    expect(entries[0].contentBlocks).toEqual([
+      expect.objectContaining({ type: "markdown" }),
+      {
+        type: "code",
+        lang: "tsx",
+        code: '<IdentityPlaceholder identity="business" />',
+      },
+    ]);
   });
 
   it("여러 패키지 source를 함께 파싱한다", async () => {

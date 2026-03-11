@@ -2,7 +2,7 @@ import { breezeSource, reactSource, docsSource, lynxSource } from "@/app/source"
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { tokenize } from "@/components/search/tokenizer";
 import { TAGS } from "@/app/api/search/constants";
-import { parseChangelog } from "@/lib/parse-changelog";
+import { getEntrySearchText, parseChangelog } from "@/lib/parse-changelog";
 
 // it should be cached forever
 export const revalidate = false;
@@ -16,7 +16,7 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
     const versions = byPackage.get(entry.package.name)!;
     const key = entry.package.version;
     if (!versions.has(key)) versions.set(key, []);
-    versions.get(key)!.push(entry.contentHtml.replace(/<[^>]*>/g, ""));
+    versions.get(key)!.push(getEntrySearchText(entry));
   }
 
   return [...byPackage.entries()].flatMap(([packageName, versions]) => {

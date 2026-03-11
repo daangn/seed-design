@@ -2,13 +2,10 @@
 
 import { ChangelogEntryItem } from "@/components/changelog-entry-item";
 import { getGroupAnchorId } from "@/components/changelog-viewer/utils";
+import { getEntryPreviewHtml } from "@/lib/parse-changelog";
 import { IconSquare2StackedLine } from "@karrotmarket/react-monochrome-icon";
 import type { GroupedChangelogEntry } from "@/components/changelog-viewer/use-changelog-viewer-data";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
-
-function extractTopLevelHtml(html: string): string {
-  return html.replace(/<ul>[\s\S]*$/, "").trim();
-}
 
 export function ChangelogGroups({
   groupedEntries,
@@ -98,7 +95,7 @@ export function ChangelogGroups({
                                 {pkg.resolvedEntries.length > 0 && (
                                   <ul className="mt-1 list-disc pl-5 marker:text-fd-muted-foreground">
                                     {pkg.resolvedEntries.map((e) => {
-                                      const topHtml = extractTopLevelHtml(e.contentHtml);
+                                      const topHtml = getEntryPreviewHtml(e);
                                       if (!topHtml) return null;
                                       return (
                                         <li
@@ -144,7 +141,7 @@ export function ChangelogGroups({
                                 {pkg.resolvedEntries.length > 0 && (
                                   <ul className="mt-1 list-disc pl-5 marker:text-fd-muted-foreground">
                                     {pkg.resolvedEntries.map((e) => {
-                                      const topHtml = extractTopLevelHtml(e.contentHtml);
+                                      const topHtml = getEntryPreviewHtml(e);
                                       if (!topHtml) return null;
                                       return (
                                         <li

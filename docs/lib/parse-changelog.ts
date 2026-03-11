@@ -1,10 +1,12 @@
 import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
+import { rehypeCode } from "fumadocs-core/mdx-plugins";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
+import type { ShikiTransformer } from "shiki";
 
 const CHANGELOG_FILENAME = "CHANGELOG.md";
 
@@ -14,11 +16,23 @@ export interface ChangelogPackage {
   url: string;
 }
 
+export type ChangelogContentBlock =
+  | {
+      type: "markdown";
+      html: string;
+      plainText: string;
+    }
+  | {
+      type: "code";
+      code: string;
+      lang: string;
+    };
+
 export interface ChangelogEntry {
   order: number;
   section?: string;
   commitRefs: string[];
-  contentHtml: string;
+  contentBlocks: ChangelogContentBlock[];
   isDependencyOnly: boolean;
   package: ChangelogPackage;
   relatedPackages: ChangelogPackage[];
@@ -29,7 +43,26 @@ export interface ChangelogSource {
   raw: string;
 }
 
-const processor = remark().use(remarkGfm).use(remarkRehype).use(rehypeStringify);
+const removeBackground: ShikiTransformer = {
+  name: "remove-background",
+  pre(node) {
+    if (node.properties?.style) {
+      node.properties.style = (node.properties.style as string)
+        .replace(/background-color:[^;]+;?\s*/g, "")
+        .trim();
+    }
+  },
+};
+
+const processor = remark()
+  .use(remarkGfm)
+  .use(remarkRehype)
+  .use(rehypeCode, {
+    lazy: true,
+    themes: { light: "github-light", dark: "github-dark" },
+    transformers: [removeBackground],
+  })
+  .use(rehypeStringify);
 
 const RELATED_PACKAGE_REGEX = /^\s*-\s+(@seed-design\/[^\s@]+)@([^\s]+)\s*$/gm;
 const ENTRY_COMMIT_REGEX = /^-\s+([a-f0-9]{7}):/m;
@@ -76,7 +109,9 @@ async function collectPackageChangelogPaths(dir: string): Promise<string[]> {
 /** @description 각 패키지의 CHANGELOG.md와 package.json을 읽어 `{ packageName, raw }[]` 형태로 반환합니다. */
 export async function loadChangelogSources(rootDir: string): Promise<ChangelogSource[]> {
   const workspaceRoot = resolveWorkspaceRoot(rootDir);
-  const changelogPaths = (await collectPackageChangelogPaths(join(workspaceRoot, "packages"))).sort();
+  const changelogPaths = (
+    await collectPackageChangelogPaths(join(workspaceRoot, "packages"))
+  ).sort();
 
   const sources = await Promise.all(
     changelogPaths.map(async (changelogPath) => {
@@ -201,7 +236,11 @@ function getCommitUrl(commitRef: string) {
 }
 
 /** @description 항목 블록의 커밋 해시를 GitHub 링크로 변환하고, `abc123:` 접두사를 제거해 표시용 텍스트로 가공합니다. */
-function formatDisplayBlock(block: string, commitRefs: string[], isDependencyOnly: boolean): string {
+function formatDisplayBlock(
+  block: string,
+  commitRefs: string[],
+  isDependencyOnly: boolean,
+): string {
   if (isDependencyOnly || commitRefs.length === 0) {
     return block;
   }
@@ -229,11 +268,80 @@ async function mdToHtml(md: string): Promise<string> {
   return String(result);
 }
 
+function stripHtmlTags(html: string): string {
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
 /** @description 단일 `<li>` 항목만 있는 `<ul>` 태그를 벗겨냅니다. 단일 항목 변경사항의 불필요한 리스트 래핑을 제거합니다. */
 function unwrapSingleListItem(html: string): string {
   if (!html.startsWith("<ul>")) return html.trim();
 
-  return html.replace(/^<ul>\s*<li>/, "").replace(/<\/li>\s*<\/ul>\s*$/, "").trim();
+  return html
+    .replace(/^<ul>\s*<li>/, "")
+    .replace(/<\/li>\s*<\/ul>\s*$/, "")
+    .trim();
+}
+
+function escapeRegex(source: string): string {
+  return source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/** @description 마크다운 항목을 prose/code block 토큰으로 분리합니다. fenced code는 구조화된 블록으로 보존합니다. */
+async function parseContentBlocks(markdown: string): Promise<ChangelogContentBlock[]> {
+  const lines = markdown.split("\n");
+  const blocks: ChangelogContentBlock[] = [];
+  const markdownBuffer: string[] = [];
+
+  const flushMarkdown = async () => {
+    const chunk = markdownBuffer.join("\n").trim();
+    markdownBuffer.length = 0;
+
+    if (!chunk) return;
+
+    const html = unwrapSingleListItem(await mdToHtml(chunk));
+    if (!html) return;
+
+    blocks.push({
+      type: "markdown",
+      html,
+      plainText: stripHtmlTags(html),
+    });
+  };
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    const fenceMatch = line.match(/^(\s*)```([^`\s]*)\s*$/);
+
+    if (!fenceMatch) {
+      markdownBuffer.push(line);
+      continue;
+    }
+
+    await flushMarkdown();
+
+    const indent = fenceMatch[1];
+    const closingFencePattern = new RegExp(`^${escapeRegex(indent)}\\s*\\\`\\\`\\\`\\s*$`);
+    const codeLines: string[] = [];
+
+    for (index += 1; index < lines.length; index += 1) {
+      const codeLine = lines[index];
+      if (closingFencePattern.test(codeLine)) {
+        break;
+      }
+
+      codeLines.push(codeLine.startsWith(indent) ? codeLine.slice(indent.length) : codeLine);
+    }
+
+    blocks.push({
+      type: "code",
+      code: codeLines.join("\n"),
+      lang: fenceMatch[2] || "text",
+    });
+  }
+
+  await flushMarkdown();
+
+  return blocks;
 }
 
 /** @description npm 패키지 버전 URL을 반환합니다. */
@@ -257,7 +365,9 @@ function extractRelatedPackages(block: string): ChangelogPackage[] {
     });
   }
 
-  return Array.from(new Map(packages.map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const)).values());
+  return Array.from(
+    new Map(packages.map((pkg) => [`${pkg.name}@${pkg.version}`, pkg] as const)).values(),
+  );
 }
 
 // ── Entry points ──────────────────────────────────────────────────────────────
@@ -285,14 +395,14 @@ export async function parseChangelogSources(sources: ChangelogSource[]): Promise
           const commitRefs = extractCommitRefs(block);
           const isDependencyOnly = isDependencyOnlyBlock(block);
           const displayBlock = formatDisplayBlock(block, commitRefs, isDependencyOnly);
-          const contentHtml = unwrapSingleListItem(await mdToHtml(displayBlock));
-          if (!contentHtml) continue;
+          const contentBlocks = await parseContentBlocks(displayBlock);
+          if (contentBlocks.length === 0) continue;
 
           parsedEntries.push({
             order: order++,
             section: changeSection.section,
             commitRefs,
-            contentHtml,
+            contentBlocks,
             isDependencyOnly,
             package: basePackage,
             relatedPackages: extractRelatedPackages(block),
@@ -309,4 +419,20 @@ export async function parseChangelogSources(sources: ChangelogSource[]): Promise
 export async function parseChangelog(rootDir: string): Promise<ChangelogEntry[]> {
   const sources = await loadChangelogSources(rootDir);
   return parseChangelogSources(sources);
+}
+
+export function getEntryPreviewHtml(entry: Pick<ChangelogEntry, "contentBlocks">): string {
+  const block = entry.contentBlocks.find(
+    (contentBlock): contentBlock is Extract<ChangelogContentBlock, { type: "markdown" }> =>
+      contentBlock.type === "markdown",
+  );
+
+  return block?.html ?? "";
+}
+
+export function getEntrySearchText(entry: Pick<ChangelogEntry, "contentBlocks">): string {
+  return entry.contentBlocks
+    .map((block) => (block.type === "markdown" ? block.plainText : block.code))
+    .join(" ")
+    .trim();
 }
