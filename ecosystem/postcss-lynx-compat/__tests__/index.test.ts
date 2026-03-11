@@ -68,6 +68,66 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
+  describe("@supports 규칙 처리 (unwrapSupports)", () => {
+    it("env(safe-area-inset) @supports 블록을 unwrap한다 (내용 유지, 블록 제거)", async () => {
+      const input = `
+        page { --seed-safe-area-top: 0px; }
+        @supports (left: env(safe-area-inset-left)) {
+          page { --seed-safe-area-top: env(safe-area-inset-top); }
+        }
+      `;
+      const output = await run(input);
+      expect(output).not.toContain("@supports");
+      expect(output).toContain("env(safe-area-inset-top)");
+    });
+
+    it("constant(safe-area-inset) @supports 블록을 전체 제거한다", async () => {
+      const input = `
+        page { --seed-safe-area-top: 0px; }
+        @supports (left: constant(safe-area-inset-left)) {
+          page { --seed-safe-area-top: constant(safe-area-inset-top); }
+        }
+      `;
+      const output = await run(input);
+      expect(output).not.toContain("@supports");
+      expect(output).not.toContain("constant(");
+    });
+
+    it("safe-area 전체 패턴: constant 제거 + env unwrap", async () => {
+      const input = `
+        page { --seed-safe-area-top: 0px; --seed-safe-area-bottom: 0px; }
+        @supports (left: constant(safe-area-inset-left)) {
+          page {
+            --seed-safe-area-top: constant(safe-area-inset-top);
+            --seed-safe-area-bottom: constant(safe-area-inset-bottom);
+          }
+        }
+        @supports (left: env(safe-area-inset-left)) {
+          page {
+            --seed-safe-area-top: env(safe-area-inset-top);
+            --seed-safe-area-bottom: env(safe-area-inset-bottom);
+          }
+        }
+      `;
+      const output = await run(input);
+      expect(output).not.toContain("@supports");
+      expect(output).not.toContain("constant(");
+      expect(output).toContain("env(safe-area-inset-top)");
+      expect(output).toContain("env(safe-area-inset-bottom)");
+    });
+
+    it("매칭되지 않는 @supports 블록은 유지한다", async () => {
+      const input = `
+        @supports (display: grid) {
+          .container { display: grid; }
+        }
+      `;
+      const output = await run(input);
+      expect(output).toContain("@supports");
+      expect(output).toContain("display: grid");
+    });
+  });
+
   describe("셀렉터 변환 (transformSelectors)", () => {
     it(":--engaged를 :active로 변환한다", async () => {
       const input = ".btn:--engaged { background: red; }";
