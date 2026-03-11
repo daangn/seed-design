@@ -90,7 +90,7 @@ function handleShadow(shadow: Shadow | (string & {}) | undefined) {
   return vars.$shadow[shadow] ?? shadow;
 }
 
-export function handlePaddingWithSafeArea(
+function handlePaddingWithSafeArea(
   padding: string | 0 | undefined,
   direction: "top" | "bottom",
 ): string | undefined {
