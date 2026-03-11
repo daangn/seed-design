@@ -22,8 +22,6 @@
 .seed-image-frame__text--stroke_true::after {
     pointer-events: none;
 }
-.seed-image-frame--stroke_false {}
 .seed-image-frame--rounded_true {
     border-radius: var(--seed-radius-r2);
 }
-.seed-image-frame--rounded_false {}

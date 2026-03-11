@@ -72,8 +72,6 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
 }
-.seed-action-chip--layout_withText {}
-.seed-action-chip--layout_iconOnly {}
 .seed-action-chip--size_medium-layout_withText {
 }
 .seed-action-chip--size_medium-layout_iconOnly {

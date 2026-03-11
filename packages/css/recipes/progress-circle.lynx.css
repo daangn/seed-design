@@ -29,7 +29,6 @@
     --track-color: #ffffff2e;
     --range-color: #ffffff;
 }
-.seed-progress-circle__root--tone_inherit {}
 .seed-progress-circle__root--size_24 {
     --size: 24px;
     --thickness: 3px;
@@ -38,4 +37,3 @@
     --size: 40px;
     --thickness: 5px;
 }
-.seed-progress-circle__root--size_inherit {}

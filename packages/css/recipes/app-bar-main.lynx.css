@@ -30,7 +30,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    top: var(--seed-safe-area-top);
+    top: env(safe-area-inset-top, 0px);
     bottom: 0;
     left: 0;
     right: 0;

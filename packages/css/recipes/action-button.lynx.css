@@ -367,8 +367,6 @@
     --seed-suffix-icon-size: 22px;
     --seed-icon-size: 22px;
 }
-.seed-action-button--layout_withText {}
-.seed-action-button--layout_iconOnly {}
 .seed-action-button--size_xsmall-layout_withText {
     gap: var(--seed-dimension-x1);
     --seed-box-padding-left: 14px;
