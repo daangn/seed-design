@@ -7,6 +7,10 @@ const imageFrameSlotNames = [
     "seed-image-frame__root"
   ],
   [
+    "content",
+    "seed-image-frame__content"
+  ],
+  [
     "fallback",
     "seed-image-frame__fallback"
   ]

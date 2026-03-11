@@ -23,20 +23,22 @@ npx @seed-design/cli@latest add ui:image-frame
 ## Usage
 
 ```tsx
-import { ImageFrame } from "seed-design/ui/image-frame";
-import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
+import { AspectRatio } from "@seed-design/react";
 import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
+import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
+import { ImageFrame } from "seed-design/ui/image-frame";
 ```
 
 ```tsx
-<ImageFrame
-  ratio={4 / 3}
-  borderRadius="r2"
-  stroke
-  src="..."
-  alt="..."
-  fallback={<ContentPlaceholder svg={<IconPictureFill />} />}
-/>
+<AspectRatio ratio={4 / 3} style={{ width: 300 }}>
+  <ImageFrame
+    borderRadius="r2"
+    stroke
+    src="..."
+    alt="..."
+    fallback={<ContentPlaceholder svg={<IconPictureFill />} />}
+  />
+</AspectRatio>
 ```
 
 > fallback으로 사용되는 Content Placeholder에 대한 자세한 내용은 [Content Placeholder](/react/components/content-placeholder)를 참고하세요.
@@ -52,7 +54,7 @@ import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
 
 ### Ratio
 
-다양한 비율을 지정할 수 있습니다. `1`은 정사각형, `4/3`은 일반적인 사진 비율, `16/9`는 와이드스크린 비율입니다.
+`AspectRatio` 컴포넌트와 조합하여 다양한 비율을 지정할 수 있습니다. `1`은 정사각형, `4/3`은 일반적인 사진 비율, `16/9`는 와이드스크린 비율입니다.
 
 <ComponentExample name="react/image-frame/ratio">
   ```json doc-gen:file

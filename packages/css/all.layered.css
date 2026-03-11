@@ -5086,7 +5086,7 @@
     overflow: hidden;
   }
 
-  .seed-image-frame__root > img, .seed-image-frame__root > video {
+  .seed-image-frame__content {
     object-fit: cover;
     border-radius: inherit;
     width: 100%;

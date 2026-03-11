@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { ImageFrame } from "@seed-design/react";
+import { AspectRatio } from "@seed-design/react";
 
 import { imageFrameVariantMap } from "@seed-design/css/recipes/image-frame";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { ImageFrame } from "seed-design/ui/image-frame";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -97,15 +98,9 @@ const ImageFrameCase = ({
 }: ImageFrameCaseProps) => {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-      <ImageFrame
-        src={src}
-        alt={caseLabel}
-        ratio={ratio}
-        width={width}
-        height={height}
-        rounded={rounded}
-        stroke={stroke}
-      />
+      <AspectRatio ratio={ratio} width={width} height={height}>
+        <ImageFrame src={src} alt={caseLabel} rounded={rounded} stroke={stroke} />
+      </AspectRatio>
       <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
         <span style={{ fontSize: "12px", color: "var(--seed-color-fg-placeholder)" }}>
           {caseLabel}
