@@ -20,9 +20,9 @@ export interface VStackProps extends Omit<FlexProps, "flexDirection"> {
 
 export const VStack = React.forwardRef<HTMLDivElement, VStackProps>((props, ref) => {
   const { hStackFrom, ...rest } = props;
-  const flexDirection = hStackFrom
-    ? { base: "column" as const, [hStackFrom]: "row" as const }
-    : ("column" as const);
+  const flexDirection: FlexProps["flexDirection"] = hStackFrom
+    ? { base: "column", [hStackFrom]: "row" }
+    : "column";
 
   return <Flex ref={ref} flexDirection={flexDirection} {...rest} />;
 });
@@ -33,9 +33,9 @@ export interface HStackProps extends Omit<FlexProps, "flexDirection"> {
 
 export const HStack = React.forwardRef<HTMLDivElement, HStackProps>((props, ref) => {
   const { vStackFrom, ...rest } = props;
-  const flexDirection = vStackFrom
-    ? { base: "row" as const, [vStackFrom]: "column" as const }
-    : ("row" as const);
+  const flexDirection: FlexProps["flexDirection"] = vStackFrom
+    ? { base: "row", [vStackFrom]: "column" }
+    : "row";
 
   return <Flex ref={ref} flexDirection={flexDirection} {...rest} />;
 });

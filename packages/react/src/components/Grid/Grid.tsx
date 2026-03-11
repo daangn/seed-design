@@ -2,7 +2,7 @@ import { mergeProps } from "@seed-design/dom-utils";
 import * as React from "react";
 import type { BreakpointThreshold, ResponsiveValue } from "../../types/responsive";
 import { resolveResponsive, type StyleProps } from "../../utils/styled";
-import { resolveVisibility } from "../../utils/visibility";
+import { resolveDisplay } from "../../utils/visibility";
 import { Box, type BoxProps } from "../Box/Box";
 
 export interface GridProps extends Omit<BoxProps, "display"> {
@@ -77,9 +77,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>((props, ref) => 
     showFrom,
     ...rest
   } = props;
-  const visibilityDisplay = resolveVisibility("grid", hideFrom, showFrom) as
-    | StyleProps["display"]
-    | undefined;
+  const visibilityDisplay = resolveDisplay("grid", hideFrom, showFrom);
 
   return (
     // @ts-expect-error: display: "grid" is not allowed in the Box component
