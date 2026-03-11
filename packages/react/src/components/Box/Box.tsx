@@ -2,7 +2,7 @@ import clsx from "clsx";
 import * as React from "react";
 import type { BreakpointThreshold } from "../../types/responsive";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
-import { resolveThreshold } from "../../utils/visibility";
+import { resolveDisplay } from "../../utils/visibility";
 import { Slot } from "@radix-ui/react-slot";
 
 export interface BoxProps extends StyleProps, Omit<React.HTMLAttributes<HTMLDivElement>, "color"> {
@@ -17,8 +17,7 @@ export interface BoxProps extends StyleProps, Omit<React.HTMLAttributes<HTMLDivE
 
 export const Box = React.forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
   const { hideFrom, showFrom, ...rest } = props;
-  const visibilityDisplay =
-    resolveThreshold("block", "none", hideFrom) ?? resolveThreshold("none", "block", showFrom);
+  const visibilityDisplay = resolveDisplay({ base: "block", hideFrom, showFrom });
   const { style, restProps } = useStyleProps({
     ...rest,
     ...(visibilityDisplay !== undefined && { display: visibilityDisplay }),

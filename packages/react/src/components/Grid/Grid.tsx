@@ -2,7 +2,7 @@ import { mergeProps } from "@seed-design/dom-utils";
 import * as React from "react";
 import type { BreakpointThreshold, ResponsiveValue } from "../../types/responsive";
 import { resolveResponsive } from "../../utils/styled";
-import { resolveThreshold } from "../../utils/visibility";
+import { resolveDisplay } from "../../utils/visibility";
 import { Box, type BoxProps } from "../Box/Box";
 
 export interface GridProps extends Omit<BoxProps, "display"> {
@@ -78,10 +78,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>((props, ref) => 
     showFrom,
     ...rest
   } = props;
-  const resolvedDisplay =
-    resolveThreshold(display ?? "grid", "none", hideFrom) ??
-    resolveThreshold("none", display ?? "grid", showFrom) ??
-    "grid";
+  const resolvedDisplay = resolveDisplay({ base: display ?? "grid", hideFrom, showFrom }) ?? "grid";
 
   return (
     <Box
