@@ -15,7 +15,7 @@ import { vars } from "@seed-design/css/vars";
 import { forwardRef } from "react";
 import { type ResponsiveValue, isResponsiveObject } from "../types/responsive";
 
-function resolveResponsive<T>(
+export function resolveResponsive<T>(
   varName: string,
   value: ResponsiveValue<T>,
   transform: (v: T) => string | number | undefined,

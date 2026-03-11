@@ -1,5 +1,8 @@
 import { mergeProps } from "@seed-design/dom-utils";
 import * as React from "react";
+import type { BreakpointThreshold, ResponsiveValue } from "../../types/responsive";
+import { resolveResponsive, type StyleProps } from "../../utils/styled";
+import { resolveVisibility } from "../../utils/visibility";
 import { Box, type BoxProps } from "../Box/Box";
 
 export interface GridProps extends Omit<BoxProps, "display"> {
@@ -24,13 +27,13 @@ export interface GridProps extends Omit<BoxProps, "display"> {
    * Shorthand for `gridTemplateColumns`.
    * If number, `repeat({columns}, minmax(0, 1fr))` is applied.
    */
-  columns?: number | string;
+  columns?: ResponsiveValue<number | string>;
 
   /**
    * Shorthand for `gridTemplateRows`.
    * If number, `repeat({rows}, minmax(0, 1fr))` is applied.
    */
-  rows?: number | string;
+  rows?: ResponsiveValue<number | string>;
 
   // NOTE: grid-template-areas not currently supported here.
   // since grid-area is a shorthand of grid-column/row (in a grid item),
@@ -50,24 +53,48 @@ export interface GridProps extends Omit<BoxProps, "display"> {
    * Shorthand for `gridAutoRows`.
    */
   autoRows?: string;
+
+  hideFrom?: BreakpointThreshold;
+
+  showFrom?: BreakpointThreshold;
+}
+
+function handleGridTemplate(v: number | string): string {
+  return typeof v === "number" ? `repeat(${v}, minmax(0, 1fr))` : v;
 }
 
 export const Grid = React.forwardRef<HTMLDivElement, GridProps>((props, ref) => {
-  const { align, justify, justifyItems, columns, rows, autoFlow, autoColumns, autoRows, ...rest } =
-    props;
+  const {
+    align,
+    justify,
+    justifyItems,
+    columns,
+    rows,
+    autoFlow,
+    autoColumns,
+    autoRows,
+    hideFrom,
+    showFrom,
+    ...rest
+  } = props;
+  const visibilityDisplay = resolveVisibility("grid", hideFrom, showFrom) as
+    | StyleProps["display"]
+    | undefined;
 
   return (
     // @ts-expect-error: display: "grid" is not allowed in the Box component
     <Box
       ref={ref}
+      {...(visibilityDisplay !== undefined && { display: visibilityDisplay })}
       alignItems={align}
       justifyContent={justify}
       {...mergeProps(rest, {
         className: "seed-grid",
         style: {
-          "--seed-grid-columns":
-            typeof columns === "number" ? `repeat(${columns}, minmax(0, 1fr))` : columns,
-          "--seed-grid-rows": typeof rows === "number" ? `repeat(${rows}, minmax(0, 1fr))` : rows,
+          ...(columns !== undefined &&
+            resolveResponsive("--seed-grid-columns", columns, handleGridTemplate)),
+          ...(rows !== undefined &&
+            resolveResponsive("--seed-grid-rows", rows, handleGridTemplate)),
           "--seed-grid-auto-flow": autoFlow,
           "--seed-grid-auto-columns": autoColumns,
           "--seed-grid-auto-rows": autoRows,

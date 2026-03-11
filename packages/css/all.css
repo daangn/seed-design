@@ -298,9 +298,19 @@
 }
 
 .seed-grid {
-  --seed-grid-columns: initial;
+  --seed-grid-columns-base: initial;
+  --seed-grid-columns-sm: var(--seed-grid-columns-base);
+  --seed-grid-columns-md: var(--seed-grid-columns-sm);
+  --seed-grid-columns-lg: var(--seed-grid-columns-md);
+  --seed-grid-columns-xl: var(--seed-grid-columns-lg);
+  --seed-grid-columns: var(--seed-grid-columns-base);
   grid-template-columns: var(--seed-grid-columns);
-  --seed-grid-rows: initial;
+  --seed-grid-rows-base: initial;
+  --seed-grid-rows-sm: var(--seed-grid-rows-base);
+  --seed-grid-rows-md: var(--seed-grid-rows-sm);
+  --seed-grid-rows-lg: var(--seed-grid-rows-md);
+  --seed-grid-rows-xl: var(--seed-grid-rows-lg);
+  --seed-grid-rows: var(--seed-grid-rows-base);
   grid-template-rows: var(--seed-grid-rows);
   --seed-grid-auto-flow: initial;
   grid-auto-flow: var(--seed-grid-auto-flow);
@@ -9236,6 +9246,11 @@
     --seed-box-flex-direction: var(--seed-box-flex-direction-sm);
     --seed-box-gap: var(--seed-box-gap-sm);
   }
+
+  .seed-grid {
+    --seed-grid-columns: var(--seed-grid-columns-sm);
+    --seed-grid-rows: var(--seed-grid-rows-sm);
+  }
 }
 
 @media (width >= 768px) {
@@ -9260,6 +9275,11 @@
     --seed-box-display: var(--seed-box-display-md);
     --seed-box-flex-direction: var(--seed-box-flex-direction-md);
     --seed-box-gap: var(--seed-box-gap-md);
+  }
+
+  .seed-grid {
+    --seed-grid-columns: var(--seed-grid-columns-md);
+    --seed-grid-rows: var(--seed-grid-rows-md);
   }
 }
 
@@ -9286,6 +9306,11 @@
     --seed-box-flex-direction: var(--seed-box-flex-direction-lg);
     --seed-box-gap: var(--seed-box-gap-lg);
   }
+
+  .seed-grid {
+    --seed-grid-columns: var(--seed-grid-columns-lg);
+    --seed-grid-rows: var(--seed-grid-rows-lg);
+  }
 }
 
 @media (width >= 1440px) {
@@ -9310,5 +9335,10 @@
     --seed-box-display: var(--seed-box-display-xl);
     --seed-box-flex-direction: var(--seed-box-flex-direction-xl);
     --seed-box-gap: var(--seed-box-gap-xl);
+  }
+
+  .seed-grid {
+    --seed-grid-columns: var(--seed-grid-columns-xl);
+    --seed-grid-rows: var(--seed-grid-rows-xl);
   }
 }
