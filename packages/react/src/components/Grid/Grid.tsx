@@ -1,8 +1,7 @@
 import { mergeProps } from "@seed-design/dom-utils";
 import * as React from "react";
-import type { BreakpointThreshold, ResponsiveValue } from "../../types/responsive";
+import type { ResponsiveValue } from "../../types/responsive";
 import { resolveResponsive } from "../../utils/styled";
-import { resolveDisplay } from "../../utils/visibility";
 import { Box, type BoxProps } from "../Box/Box";
 
 export interface GridProps extends Omit<BoxProps, "display"> {
@@ -53,10 +52,6 @@ export interface GridProps extends Omit<BoxProps, "display"> {
    * Shorthand for `gridAutoRows`.
    */
   autoRows?: string;
-
-  hideFrom?: BreakpointThreshold;
-
-  showFrom?: BreakpointThreshold;
 }
 
 function handleGridTemplate(v: number | string): string {
@@ -64,26 +59,13 @@ function handleGridTemplate(v: number | string): string {
 }
 
 export const Grid = React.forwardRef<HTMLDivElement, GridProps>((props, ref) => {
-  const {
-    align,
-    justify,
-    justifyItems,
-    columns,
-    rows,
-    autoFlow,
-    autoColumns,
-    autoRows,
-    display,
-    hideFrom,
-    showFrom,
-    ...rest
-  } = props;
-  const resolvedDisplay = resolveDisplay({ base: display ?? "grid", hideFrom, showFrom }) ?? "grid";
+  const { align, justify, justifyItems, columns, rows, autoFlow, autoColumns, autoRows, ...rest } =
+    props;
 
   return (
     <Box
       ref={ref}
-      display={resolvedDisplay}
+      display="grid"
       alignItems={align}
       justifyContent={justify}
       {...mergeProps(rest, {
