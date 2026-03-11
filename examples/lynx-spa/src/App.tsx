@@ -2,9 +2,10 @@ import { useState } from "@lynx-js/react";
 
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
+import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 
-export type Page = "home" | "theming" | "action-button";
+export type Page = "home" | "theming" | "action-button" | "nested-vars-test";
 
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
@@ -39,6 +40,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "home" && <HomePage navigate={setCurrentPage} />}
       {currentPage === "theming" && <ThemingPage />}
       {currentPage === "action-button" && <ActionButtonPage />}
+      {currentPage === "nested-vars-test" && <NestedVarsTestPage />}
     </view>
   );
 }

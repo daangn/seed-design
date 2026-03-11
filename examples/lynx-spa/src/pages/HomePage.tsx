@@ -35,6 +35,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       </text>
       <ListItem title="Theming" onTap={() => navigate('theming')} />
       <ListItem title="ActionButton" onTap={() => navigate('action-button')} />
+      <ListItem title="Nested Vars Test (Lynx 3.6+)" onTap={() => navigate('nested-vars-test')} />
     </view>
   );
 }
