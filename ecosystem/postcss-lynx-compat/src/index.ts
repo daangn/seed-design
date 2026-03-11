@@ -63,6 +63,56 @@ function resolveClamp(value: string, strategy: "min" | "preferred" | "max"): str
   return result;
 }
 
+/**
+ * env() 함수에서 fallback 인자를 제거한다.
+ * Lynx는 env(name, fallback) 구문을 지원하지 않으므로 env(name)만 남긴다.
+ * 예: env(safe-area-inset-top, 0px) → env(safe-area-inset-top)
+ */
+function stripEnvFallbacks(value: string): string {
+  let result = "";
+  let i = 0;
+
+  while (i < value.length) {
+    const envStart = value.indexOf("env(", i);
+    if (envStart === -1) {
+      result += value.slice(i);
+      break;
+    }
+
+    result += value.slice(i, envStart);
+
+    // 괄호 depth 추적으로 env() 인자 분리
+    let depth = 1;
+    const argStart = envStart + 4; // "env(" 이후
+    let j = argStart;
+    let firstComma = -1;
+
+    while (j < value.length && depth > 0) {
+      if (value[j] === "(") depth++;
+      else if (value[j] === ")") {
+        depth--;
+        if (depth === 0) break;
+      } else if (value[j] === "," && depth === 1 && firstComma === -1) {
+        firstComma = j;
+      }
+      j++;
+    }
+
+    if (firstComma !== -1) {
+      // fallback이 있으면 첫 번째 인자만 남김
+      const name = value.slice(argStart, firstComma).trim();
+      result += `env(${name})`;
+    } else {
+      // fallback이 없으면 원본 유지
+      result += value.slice(envStart, j + 1);
+    }
+
+    i = j + 1;
+  }
+
+  return result;
+}
+
 // ── :is() 셀렉터 확장 ──
 
 /**
@@ -540,6 +590,13 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
           if (rule.nodes && rule.nodes.length === 0) rule.remove();
         });
       }
+
+      // Step 1.6: env() fallback 제거 — Lynx는 env(name, fallback) 미지원
+      root.walkDecls((decl) => {
+        if (!decl.value.includes("env(")) return;
+        const stripped = stripEnvFallbacks(decl.value);
+        if (stripped !== decl.value) decl.value = stripped;
+      });
 
       // Step 2: selectorMappings — data-attr → class 변환
       if (config.selectorMappings.length > 0) {

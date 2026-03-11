@@ -924,6 +924,46 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
+  describe("env() fallback strip", () => {
+    it("env(name, fallback) → env(name)으로 fallback을 제거한다", async () => {
+      const input = `
+        .snackbar-region {
+          left: calc(env(safe-area-inset-left, 0px));
+          right: calc(env(safe-area-inset-right, 0px));
+          bottom: calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px));
+        }
+      `;
+      const output = await run(input, { replaceVarWithEnv: [] });
+      expect(output).toContain("left: calc(env(safe-area-inset-left))");
+      expect(output).toContain("right: calc(env(safe-area-inset-right))");
+      expect(output).toContain(
+        "bottom: calc(env(safe-area-inset-bottom) + var(--snackbar-region-offset, 0px))",
+      );
+    });
+
+    it("fallback 없는 env()는 그대로 유지한다", async () => {
+      const input = `
+        .test { padding-top: env(safe-area-inset-top); }
+      `;
+      const output = await run(input, { replaceVarWithEnv: [] });
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
+    });
+
+    it("replaceVarWithEnv와 함께 동작한다", async () => {
+      const input = `
+        page { --seed-safe-area-top: env(safe-area-inset-top); }
+        .app-bar { padding-top: var(--seed-safe-area-top); }
+        .snackbar { bottom: calc(env(safe-area-inset-bottom, 0px)); }
+      `;
+      const output = await run(input);
+      // replaceVarWithEnv: var() → env() (fallback 없이 생성)
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
+      // 직접 작성된 env() fallback도 strip됨
+      expect(output).toContain("bottom: calc(env(safe-area-inset-bottom))");
+      expect(output).not.toContain("0px");
+    });
+  });
+
   describe("통합 시나리오: 웹 action-button base 변환", () => {
     it("웹 action-button base 스타일을 Lynx 호환으로 변환한다", async () => {
       const input = `
