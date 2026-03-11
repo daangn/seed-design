@@ -16,21 +16,26 @@ import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
-import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
+import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { Badge, type BadgeProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
 import { Icon } from "../Icon/Icon";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { withProvider, withContext } = createSlotRecipeContext(imageFrameRecipe);
-const ImageFrameRootSlot = withContext<HTMLDivElement, Image.RootProps>(Image.Root, "root");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ImageFrameRootProps
-  extends Omit<AspectRatioProps, "children">,
-    ImageFrameVariantProps {
-  children?: React.ReactNode;
+  extends Omit<Image.RootProps, "color">,
+    ImageFrameVariantProps,
+    StyleProps {
+  /**
+   * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
+   * Use AspectRatio component instead: <AspectRatio ratio={4 / 3}><ImageFrame.Root>...</ImageFrame.Root></AspectRatio>
+   * Reason: AspectRatio는 ImageFrame의 본질이 아닌 레이아웃 유틸리티입니다. snippet 레이어 또는 사용자 코드에서 직접 조합하세요.
+   */
+  ratio?: number;
   /**
    * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
    * Use borderRadius="r2" instead.
@@ -39,14 +44,18 @@ export interface ImageFrameRootProps
   rounded?: ImageFrameVariantProps["rounded"];
 }
 
+const ImageFrameRootBase = React.forwardRef<HTMLDivElement, ImageFrameRootProps>(
+  ({ ratio: _ratio, ...props }, ref) => {
+    const { style, restProps } = useStyleProps(props);
+
+    return <Image.Root ref={ref} style={style} {...restProps} />;
+  },
+);
+
+ImageFrameRootBase.displayName = "ImageFrameRootBase";
+
 export const ImageFrameRoot = withProvider<HTMLDivElement, ImageFrameRootProps>(
-  React.forwardRef<HTMLDivElement, ImageFrameRootProps>(
-    ({ ratio = 4 / 3, className, style, children, ...rest }, ref) => (
-      <AspectRatio ref={ref} ratio={ratio} className={className} style={style} {...rest}>
-        <ImageFrameRootSlot>{children}</ImageFrameRootSlot>
-      </AspectRatio>
-    ),
-  ),
+  ImageFrameRootBase,
   "root",
 );
 
@@ -58,7 +67,7 @@ export interface ImageFrameContentProps extends Image.ContentProps {}
 
 export const ImageFrameContent = withContext<HTMLImageElement, ImageFrameContentProps>(
   Image.Content,
-  "root",
+  "content",
 );
 
 ImageFrameContent.displayName = "ImageFrame.Content";

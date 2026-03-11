@@ -1,7 +1,7 @@
 import { AspectRatio, Flex, Text, VStack } from "@seed-design/react";
 import { ImageFrame } from "seed-design/ui/image-frame";
 
-export default function ImageFrameRatio() {
+export default function ImageFrameWithAspectRatio() {
   return (
     <Flex gap="x2" wrap="wrap" align="flex-end">
       <VStack gap="x2" alignItems="center">

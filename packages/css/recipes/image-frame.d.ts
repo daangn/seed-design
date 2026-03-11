@@ -15,7 +15,7 @@ declare type ImageFrameVariantMap = {
 
 export declare type ImageFrameVariantProps = Partial<ImageFrameVariant>;
 
-export declare type ImageFrameSlotName = "root" | "fallback";
+export declare type ImageFrameSlotName = "root" | "content" | "fallback";
 
 export declare const imageFrameVariantMap: ImageFrameVariantMap;
 

@@ -3,20 +3,19 @@ import { imageFrame as vars } from "../vars/component";
 
 const imageFrame = defineSlotRecipe({
   name: "image-frame",
-  slots: ["root", "fallback"],
+  slots: ["root", "content", "fallback"],
   base: {
     root: {
       position: "relative",
       overflow: "hidden",
       borderRadius: "inherit",
-
-      "& > img, & > video": {
-        display: "block",
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        borderRadius: "inherit",
-      },
+    },
+    content: {
+      display: "block",
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      borderRadius: "inherit",
     },
     fallback: {
       width: "100%",
