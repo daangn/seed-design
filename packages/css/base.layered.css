@@ -321,7 +321,6 @@
     grid-auto-rows: var(--seed-grid-auto-rows);
     --seed-grid-justify-items: stretch;
     justify-items: var(--seed-grid-justify-items);
-    display: grid;
   }
 
   .seed-consistent-width:before {
