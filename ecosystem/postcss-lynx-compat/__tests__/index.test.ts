@@ -761,6 +761,81 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
+  describe("resolveVarScope: none (Lynx 3.6+ nested var support)", () => {
+    it("page 내 nested var()를 그대로 유지한다", async () => {
+      const input = `
+        page {
+          --color-raw: #fa6616;
+          --color-bg: var(--color-raw);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      expect(output).toContain("--color-raw: #fa6616");
+      expect(output).toContain("--color-bg: var(--color-raw)");
+    });
+
+    it("컴포넌트 커스텀 프로퍼티의 var() 참조를 유지한다", async () => {
+      const input = `
+        page {
+          --color-raw: #fa6616;
+          --spacing: 16px;
+        }
+        .seed-btn {
+          --btn-bg: var(--color-raw);
+          --btn-pad: var(--spacing);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      expect(output).toContain("--btn-bg: var(--color-raw)");
+      expect(output).toContain("--btn-pad: var(--spacing)");
+    });
+
+    it("2단계 nested var() 체인을 유지한다", async () => {
+      const input = `
+        page {
+          --base: 16px;
+          --spacing: var(--base);
+          --pad: var(--spacing);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      expect(output).toContain("--base: 16px");
+      expect(output).toContain("--spacing: var(--base)");
+      expect(output).toContain("--pad: var(--spacing)");
+    });
+
+    it("calc() 내 var()도 유지한다", async () => {
+      const input = `
+        page {
+          --size: 10px;
+          --half-size: calc(var(--size) / 2);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      expect(output).toContain("--half-size: calc(var(--size) / 2)");
+    });
+
+    it("외부 tokenCss 참조도 resolve하지 않는다", async () => {
+      const tokenCss = `
+        :root {
+          --palette-gray: #1a1c20;
+          --fg-neutral: var(--palette-gray);
+        }
+      `;
+      const input = `
+        .seed-btn {
+          --btn-color: var(--fg-neutral);
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        resolveVarScope: "none",
+        tokenCss,
+      });
+      expect(output).toContain("--btn-color: var(--fg-neutral)");
+    });
+  });
+
   describe("통합 시나리오: 웹 action-button base 변환", () => {
     it("웹 action-button base 스타일을 Lynx 호환으로 변환한다", async () => {
       const input = `

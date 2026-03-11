@@ -468,7 +468,10 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     // OnceExit: postcss-nested 실행 후 일괄 처리
     OnceExit(root) {
       // Step 1: 중첩 CSS variable 해소 (page 토큰 + 외부 토큰 맵)
-      resolveNestedVars(root, externalTokenMap, config.resolveVarScope);
+      // "none": Lynx 3.6+ nested var() 네이티브 지원 시 flatten 비활성화
+      if (config.resolveVarScope !== "none") {
+        resolveNestedVars(root, externalTokenMap, config.resolveVarScope);
+      }
 
       // Step 2: selectorMappings — data-attr → class 변환
       if (config.selectorMappings.length > 0) {
