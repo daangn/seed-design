@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { BreakpointThreshold } from "../../types/responsive";
-import { resolveDisplay } from "../../utils/visibility";
+import { resolveThreshold } from "../../utils/visibility";
 import { Box, type BoxProps } from "../Box/Box";
 
 export interface FlexProps extends Omit<BoxProps, "display"> {
@@ -46,7 +46,10 @@ export interface FlexProps extends Omit<BoxProps, "display"> {
 
 export const Flex = React.forwardRef<HTMLDivElement, FlexProps>((props, ref) => {
   const { direction, wrap, align, justify, grow, shrink, hideFrom, showFrom, ...rest } = props;
-  const display = resolveDisplay("flex", hideFrom, showFrom) ?? "flex";
+  const display =
+    resolveThreshold("flex", "none" as const, hideFrom) ??
+    resolveThreshold("none" as const, "flex", showFrom) ??
+    "flex";
 
   return (
     <Box

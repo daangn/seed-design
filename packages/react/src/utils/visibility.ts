@@ -1,18 +1,14 @@
-import type { BreakpointThreshold, UnwrapResponsive } from "../types/responsive";
-import type { StyleProps } from "./styled";
+import type { BreakpointThreshold, ResponsiveValue } from "../types/responsive";
 
 /**
- * Converts hideFrom/showFrom into a responsive display object.
- * Each component passes its own baseDisplay (e.g. "block", "flex", "grid").
+ * Creates a responsive value that switches at a breakpoint threshold.
+ * Returns `baseValue` below the threshold and `thresholdValue` from it.
  */
-export function resolveDisplay(
-  baseValue: UnwrapResponsive<StyleProps["display"]>,
-  hideFrom?: BreakpointThreshold,
-  showFrom?: BreakpointThreshold,
-): StyleProps["display"] | undefined {
-  if (hideFrom) return { base: baseValue, [hideFrom]: "none" };
-
-  if (showFrom) return { base: "none", [showFrom]: baseValue };
-
-  return undefined;
+export function resolveThreshold<T>(
+  baseValue: T,
+  thresholdValue: T,
+  from?: BreakpointThreshold,
+): ResponsiveValue<T> | undefined {
+  if (!from) return undefined;
+  return { base: baseValue, [from]: thresholdValue };
 }
