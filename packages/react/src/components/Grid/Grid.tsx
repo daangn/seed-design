@@ -8,7 +8,7 @@ export interface GridProps extends Omit<BoxProps, "display"> {
   /**
    * @default "grid"
    */
-  display?: "grid" | "none";
+  display?: ResponsiveValue<"grid" | "none">;
 
   /**
    * Shorthand for `alignItems`.
