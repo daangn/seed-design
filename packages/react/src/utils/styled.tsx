@@ -141,6 +141,7 @@ function handleDisplay(display: string | undefined) {
   return (
     {
       flex: "flex",
+      grid: "grid",
       inlineFlex: "inline-flex", // @deprecated Use `inline-flex` instead.
       inlineBlock: "inline-block", // @deprecated Use `inline-block` instead.
       none: "none",
@@ -453,6 +454,7 @@ export interface StyleProps {
   display?: ResponsiveValue<
     | "block"
     | "flex"
+    | "grid"
     | "inline-flex"
     | "inline"
     | "inline-block"

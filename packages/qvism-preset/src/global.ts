@@ -221,8 +221,6 @@ export const globalCss = defineGlobalCss({
     },
   },
   ".seed-grid": {
-    display: "grid",
-
     "--seed-grid-columns--responsive": "initial",
     gridTemplateColumns: "var(--seed-grid-columns)",
     "--seed-grid-rows--responsive": "initial",
