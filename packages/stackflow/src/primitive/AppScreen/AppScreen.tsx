@@ -64,21 +64,9 @@ AppScreenEdge.displayName = "AppScreenEdge";
 
 export interface AppScreenLayerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-const swipeBackBoundaryStyle: React.CSSProperties = {
-  "--swipe-back-displacement": "initial",
-  "--swipe-back-displacement-ratio": "initial",
-  "--swipe-back-target": "initial",
-} as React.CSSProperties;
+export const AppScreenLayer = forwardRef<HTMLDivElement, AppScreenLayerProps>((props, ref) => {
+  const { layerProps } = useAppScreenContext();
 
-export const AppScreenLayer = forwardRef<HTMLDivElement, AppScreenLayerProps>(
-  ({ children, ...props }, ref) => {
-    const { layerProps } = useAppScreenContext();
-
-    return (
-      <Primitive.div ref={ref} {...mergeProps(layerProps, props)}>
-        <div style={swipeBackBoundaryStyle}>{children}</div>
-      </Primitive.div>
-    );
-  },
-);
+  return <Primitive.div ref={ref} {...mergeProps(layerProps, props)} />;
+});
 AppScreenLayer.displayName = "AppScreenLayer";
