@@ -6,8 +6,6 @@
 }.seed-contextual-floating-button__text {
     font-family: inherit;
 }
-.seed-contextual-floating-button.seed-contextual-floating-button--disabled_true {
-}
 .seed-contextual-floating-button {
     border-radius: var(--seed-radius-full);
     box-shadow: var(--seed-shadow-s3);

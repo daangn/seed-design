@@ -38,8 +38,6 @@
     --seed-box-bleed-right: 0px;
     font-family: inherit;
 }
-.seed-action-button.seed-action-button--disabled_true {
-}
 .seed-action-button {
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }

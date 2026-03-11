@@ -5,8 +5,6 @@
     max-width: 100%;
     gap: var(--seed-dimension-x2);
 }
-.seed-checkbox__root.seed-checkbox__root--disabled_true {
-}
 .seed-checkbox__label {
     color: var(--seed-color-fg-neutral);
 }

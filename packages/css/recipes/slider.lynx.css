@@ -5,10 +5,6 @@
     width: 100%;
     gap: var(--seed-dimension-x0_5);
 }
-.seed-slider__root.seed-slider__root--dragging_true {
-}
-.seed-slider__root.seed-slider__root--disabled_true {
-}
 .seed-slider__control {
     position: relative;
     height: 26px;
@@ -78,8 +74,6 @@
 }
 .seed-slider__thumb.seed-slider__thumb--thumb-dragging_true::after {
     transform: scale(1.2);
-}
-.seed-slider__thumb:focus, .seed-slider__thumb.seed-slider__thumb--focus_true {
 }
 .seed-slider__markers {
     position: relative;

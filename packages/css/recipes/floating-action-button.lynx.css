@@ -5,8 +5,6 @@
     border: none;
     font-family: inherit;
 }
-.seed-floating-action-button__root.seed-floating-action-button__root--disabled_true {
-}
 .seed-floating-action-button__root {
     position: relative;
     overflow: hidden;

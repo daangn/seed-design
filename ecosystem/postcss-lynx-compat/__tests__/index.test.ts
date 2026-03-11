@@ -688,7 +688,7 @@ describe("postcss-lynx-compat", () => {
     it("매핑 후 빈 셀렉터를 필터링한다", async () => {
       const input = `
         page, [data-seed-color-mode="system"] {
-          color-scheme: light dark;
+          --seed-token: red;
         }
       `;
       const output = await run(input, {
@@ -1011,6 +1011,70 @@ describe("postcss-lynx-compat", () => {
       expect(output).toContain("gap: var(--seed-box-gap)");
       expect(output).toContain("opacity: 1");
       expect(output).toContain("transition: background-color 0.1s, color 0.1s");
+    });
+  });
+
+  describe("text slot: 테마 셀렉터 스킵", () => {
+    it(".seed-theme-* 셀렉터는 text slot 분리하지 않는다", async () => {
+      const input = `
+        :root, :root.seed-theme-light {
+          --seed-color-fg: #1a1c20;
+          --seed-color-bg: #fff;
+        }
+        :root.seed-theme-dark {
+          --seed-color-fg: #f3f4f5;
+          --seed-color-bg: #000;
+        }
+        .seed-action-button {
+          color: var(--seed-color-fg);
+          display: inline-flex;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        textSlot: {
+          suffix: "__text",
+          textProperties: ["color", "font-size"],
+          sharedProperties: [],
+        },
+      });
+      // 테마 셀렉터에 __text suffix가 추가되면 안 됨
+      expect(output).not.toContain("seed-theme-light__text");
+      expect(output).not.toContain("seed-theme-dark__text");
+      // 컴포넌트 셀렉터에는 __text가 정상 추가됨
+      expect(output).toContain("seed-action-button__text");
+    });
+
+    it("컴포넌트+테마 조합 셀렉터는 text slot 분리한다", async () => {
+      const input = `
+        .seed-action-button.seed-theme-dark {
+          color: red;
+          display: inline-flex;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        textSlot: {
+          suffix: "__text",
+          textProperties: ["color"],
+          sharedProperties: [],
+        },
+      });
+      // 컴포넌트 + 테마 조합은 text slot 처리됨
+      expect(output).toContain("seed-action-button__text");
+    });
+  });
+
+  describe("빈 룰 제거", () => {
+    it("모든 declaration이 제거된 빈 룰을 정리한다", async () => {
+      const input = `
+        .seed-theme-light {
+          color-scheme: light;
+        }
+      `;
+      const output = await run(input, { warnOnly: false });
+      // color-scheme은 removeProperties에 등록됨 → 제거 → 빈 룰 → 제거
+      expect(output).not.toContain(".seed-theme-light");
     });
   });
 });

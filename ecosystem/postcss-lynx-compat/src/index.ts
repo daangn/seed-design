@@ -777,6 +777,15 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         // seed- 클래스가 아닌 rule은 스킵
         if (!rule.selector.includes(".seed-")) continue;
 
+        // 테마 셀렉터만 포함된 룰은 text slot 분리 불필요
+        // .seed-theme-dark, :root.seed-theme-light 등은 토큰 변수만 정의하므로 스킵
+        // .seed-action-button.seed-theme-dark 같은 경우는 컴포넌트 스타일이므로 처리
+        if (
+          rule.selector.includes(".seed-theme-") &&
+          !rule.selector.match(/\.seed-(?!theme-)[a-z]/)
+        )
+          continue;
+
         const textDecls: import("postcss").Declaration[] = [];
         const sharedDecls: import("postcss").Declaration[] = [];
         const viewOnlyDecls: import("postcss").Declaration[] = [];
@@ -824,6 +833,11 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
           rule.remove();
         }
       }
+
+      // Step 6: 빈 룰 제거 — 모든 변환 후 남은 빈 블록 정리
+      root.walkRules((rule) => {
+        if (rule.nodes && rule.nodes.length === 0) rule.remove();
+      });
     },
   };
 };

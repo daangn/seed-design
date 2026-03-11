@@ -125,8 +125,6 @@
     bottom: calc((28px - 44px) / 2);
     left: calc((28px - 44px) / 2);
 }
-.seed-bottom-sheet__closeButton:focus, .seed-bottom-sheet__closeButton.seed-bottom-sheet__closeButton--focus_true {
-}
 .seed-bottom-sheet__header--headerAlign_left {
     justify-content: flex-start;
 }
