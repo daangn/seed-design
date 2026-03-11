@@ -21,8 +21,6 @@
     bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
 }
-.seed-image-frame-reaction-button:focus, .seed-image-frame-reaction-button.seed-image-frame-reaction-button--focus_true {
-}
 .seed-image-frame-reaction-button[aria-pressed=true], .seed-image-frame-reaction-button.seed-image-frame-reaction-button--pressed_true {
     --seed-icon-color: #00000000;
 }

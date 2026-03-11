@@ -13,8 +13,6 @@
     --seed-suffix-icon-margin-left: 16px;
     --seed-suffix-icon-align-self: center;
 }
-.seed-inline-banner__rootbutton {
-}
 .seed-inline-banner__content {
     margin-inline-end: auto;
 }
@@ -23,8 +21,6 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
-}
-.seed-inline-banner__title::after {
 }
 .seed-inline-banner__description {
     font-size: var(--seed-font-size-t4);

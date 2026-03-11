@@ -63,6 +63,56 @@ function resolveClamp(value: string, strategy: "min" | "preferred" | "max"): str
   return result;
 }
 
+/**
+ * env() 함수에서 fallback 인자를 제거한다.
+ * Lynx는 env(name, fallback) 구문을 지원하지 않으므로 env(name)만 남긴다.
+ * 예: env(safe-area-inset-top, 0px) → env(safe-area-inset-top)
+ */
+function stripEnvFallbacks(value: string): string {
+  let result = "";
+  let i = 0;
+
+  while (i < value.length) {
+    const envStart = value.indexOf("env(", i);
+    if (envStart === -1) {
+      result += value.slice(i);
+      break;
+    }
+
+    result += value.slice(i, envStart);
+
+    // 괄호 depth 추적으로 env() 인자 분리
+    let depth = 1;
+    const argStart = envStart + 4; // "env(" 이후
+    let j = argStart;
+    let firstComma = -1;
+
+    while (j < value.length && depth > 0) {
+      if (value[j] === "(") depth++;
+      else if (value[j] === ")") {
+        depth--;
+        if (depth === 0) break;
+      } else if (value[j] === "," && depth === 1 && firstComma === -1) {
+        firstComma = j;
+      }
+      j++;
+    }
+
+    if (firstComma !== -1) {
+      // fallback이 있으면 첫 번째 인자만 남김
+      const name = value.slice(argStart, firstComma).trim();
+      result += `env(${name})`;
+    } else {
+      // fallback이 없으면 원본 유지
+      result += value.slice(envStart, j + 1);
+    }
+
+    i = j + 1;
+  }
+
+  return result;
+}
+
 // ── :is() 셀렉터 확장 ──
 
 /**
@@ -117,9 +167,18 @@ function isBaseSelector(s: string): boolean {
   return false;
 }
 
-/** page 관련 셀렉터인지 판별 (page, page[*, page.*, page 공백) */
+/** page/:root 관련 셀렉터인지 판별 */
 function isPageSelector(s: string): boolean {
-  return s === "page" || s.startsWith("page[") || s.startsWith("page.") || s.startsWith("page ");
+  return (
+    s === "page" ||
+    s.startsWith("page[") ||
+    s.startsWith("page.") ||
+    s.startsWith("page ") ||
+    s === ":root" ||
+    s.startsWith(":root[") ||
+    s.startsWith(":root.") ||
+    s.startsWith(":root ")
+  );
 }
 
 /** flat Map<string, string>의 중첩 var() 참조를 반복 해소 */
@@ -209,7 +268,6 @@ function buildTokenMap(tokenCss: string): Map<string, string> {
 function resolveNestedVars(
   root: import("postcss").Root,
   externalTokens?: Map<string, string>,
-  scope: "all" | "page-only" = "all",
 ): void {
   // Step 1: page 셀렉터에서 커스텀 프로퍼티 맵 수집
   const varEntries = new Map<string, { value: string; decl: import("postcss").Declaration }[]>();
@@ -243,9 +301,7 @@ function resolveNestedVars(
 
   if (resolvedTokens.size === 0) return;
 
-  // Step 3: 커스텀 프로퍼티 정의에서 토큰 참조 치환
-  // page-only: 커스텀 프로퍼티(--*)만 치환 — 일반 프로퍼티의 var()는 테마 오버라이드용으로 보존
-  // all: 모든 커스텀 프로퍼티 치환 (기존 동작)
+  // Step 3: 모든 커스텀 프로퍼티 정의에서 토큰 참조 치환
   root.walkDecls(/^--/, (decl) => {
     if (!decl.value.includes("var(")) return;
     const resolved = replaceVarRefs(decl.value, resolvedTokens);
@@ -396,6 +452,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     resolveVarScope: opts.resolveVarScope ?? defaultConfig.resolveVarScope,
     selectorMappings: opts.selectorMappings ?? defaultConfig.selectorMappings,
     unwrapSupports: opts.unwrapSupports ?? defaultConfig.unwrapSupports,
+    replaceVarWithEnv: opts.replaceVarWithEnv ?? defaultConfig.replaceVarWithEnv,
   };
 
   // 외부 토큰 CSS가 제공되면 빌드 타임에 파싱하여 맵 구축
@@ -486,8 +543,60 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       // Step 1: 중첩 CSS variable 해소 (page 토큰 + 외부 토큰 맵)
       // "none": Lynx 3.6+ nested var() 네이티브 지원 시 flatten 비활성화
       if (config.resolveVarScope !== "none") {
-        resolveNestedVars(root, externalTokenMap, config.resolveVarScope);
+        resolveNestedVars(root, externalTokenMap);
       }
+
+      // Step 1.5: var() → env() 직접 치환 (safe-area 등)
+      if (config.replaceVarWithEnv.length > 0) {
+        const varNameSet = new Set(config.replaceVarWithEnv.map((r) => r.varName));
+
+        // A: 모든 선언에서 var(--name) → env(envName, fallback) 치환
+        root.walkDecls((decl) => {
+          if (!decl.value.includes("var(")) return;
+          let value = decl.value;
+          let changed = false;
+
+          for (const { varName, envName, fallback } of config.replaceVarWithEnv) {
+            let searchFrom = 0;
+            while (true) {
+              const varIdx = value.indexOf(`var(${varName}`, searchFrom);
+              if (varIdx === -1) break;
+
+              const openParen = varIdx + 3; // 'var(' の '(' 位置
+              const closeParen = findMatchingParen(value, openParen);
+              if (closeParen === -1) break;
+
+              // var(--name) or var(--name, fallback) 전체를 env()로 치환
+              const envValue = fallback ? `env(${envName}, ${fallback})` : `env(${envName})`;
+              value = value.slice(0, varIdx) + envValue + value.slice(closeParen + 1);
+              changed = true;
+              searchFrom = varIdx + envValue.length;
+            }
+          }
+
+          if (changed) decl.value = value;
+        });
+
+        // B: :root/page 셀렉터에서 매핑된 커스텀 프로퍼티 정의 제거
+        root.walkRules((rule) => {
+          if (!rule.selectors.some(isPageSelector)) return;
+          rule.walkDecls(/^--/, (decl) => {
+            if (varNameSet.has(decl.prop)) decl.remove();
+          });
+        });
+
+        // C: 빈 룰 제거
+        root.walkRules((rule) => {
+          if (rule.nodes && rule.nodes.length === 0) rule.remove();
+        });
+      }
+
+      // Step 1.6: env() fallback 제거 — Lynx는 env(name, fallback) 미지원
+      root.walkDecls((decl) => {
+        if (!decl.value.includes("env(")) return;
+        const stripped = stripEnvFallbacks(decl.value);
+        if (stripped !== decl.value) decl.value = stripped;
+      });
 
       // Step 2: selectorMappings — data-attr → class 변환
       if (config.selectorMappings.length > 0) {
@@ -668,6 +777,15 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         // seed- 클래스가 아닌 rule은 스킵
         if (!rule.selector.includes(".seed-")) continue;
 
+        // 테마 셀렉터만 포함된 룰은 text slot 분리 불필요
+        // .seed-theme-dark, :root.seed-theme-light 등은 토큰 변수만 정의하므로 스킵
+        // .seed-action-button.seed-theme-dark 같은 경우는 컴포넌트 스타일이므로 처리
+        if (
+          rule.selector.includes(".seed-theme-") &&
+          !rule.selector.match(/\.seed-(?!theme-)[a-z]/)
+        )
+          continue;
+
         const textDecls: import("postcss").Declaration[] = [];
         const sharedDecls: import("postcss").Declaration[] = [];
         const viewOnlyDecls: import("postcss").Declaration[] = [];
@@ -715,6 +833,11 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
           rule.remove();
         }
       }
+
+      // Step 6: 빈 룰 제거 — 모든 변환 후 남은 빈 블록 정리
+      root.walkRules((rule) => {
+        if (rule.nodes && rule.nodes.length === 0) rule.remove();
+      });
     },
   };
 };

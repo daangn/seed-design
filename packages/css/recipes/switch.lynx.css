@@ -4,8 +4,6 @@
     justify-content: space-between;
     position: relative;
 }
-.seed-switch__root.seed-switch__root--disabled_true {
-}
 .seed-switch__label {
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);

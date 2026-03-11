@@ -16,8 +16,6 @@
     --seed-prefix-icon-size: 16px;
     --seed-suffix-icon-size: 16px;
 }
-.seed-callout__rootbutton, .seed-callout__roota {
-}
 .seed-callout__content {
     margin-right: auto;
     line-height: var(--seed-line-height-t4);
@@ -27,14 +25,10 @@
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-callout__title::after {
-}
 .seed-callout__description {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);
-}
-.seed-callout__description:not(:last-child)::after {
 }
 .seed-callout__link {
     font-family: inherit;

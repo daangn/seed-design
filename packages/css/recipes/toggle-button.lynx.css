@@ -8,8 +8,6 @@
 }.seed-toggle-button__text {
     font-family: inherit;
 }
-.seed-toggle-button.seed-toggle-button--disabled_true {
-}
 .seed-toggle-button {
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }

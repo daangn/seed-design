@@ -28,8 +28,6 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 0.8;
 }
-.seed-snackbar__root {
-}
 .seed-snackbar__content {
     display: flex;
     flex-grow: 1;
@@ -73,8 +71,6 @@
     right: calc(-1 * var(--seed-dimension-x2));
     min-height: 44px;
     background: transparent;
-}
-.seed-snackbar__actionButton:focus, .seed-snackbar__actionButton.seed-snackbar__actionButton--focus_true {
 }
 .seed-snackbar__prefixIcon--variant_default {
     display: none;

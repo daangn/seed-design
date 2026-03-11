@@ -44,8 +44,6 @@
 .seed-input-button__button.seed-input-button__button--readonly_true:not([data-disabled]) {
     background-color: var(--seed-color-bg-disabled);
 }
-.seed-input-button__button {
-}
 .seed-input-button__button.seed-input-button__button--invalid_true::after {
     border-width: 2px;
     border-color: var(--seed-color-stroke-critical-solid);
