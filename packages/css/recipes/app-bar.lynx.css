@@ -41,10 +41,10 @@
     flex-shrink: 0;
 }
 .seed-app-bar__root--theme_cupertino {
-    height: calc(44px + env(safe-area-inset-top, 0px));
+    height: calc(44px + env(safe-area-inset-top));
     padding-left: var(--seed-dimension-x4);
     padding-right: var(--seed-dimension-x4);
-    padding-top: env(safe-area-inset-top, 0px);
+    padding-top: env(safe-area-inset-top);
 }
 .seed-app-bar__iconButton--theme_cupertino {
     width: 44px;
@@ -61,10 +61,10 @@
     height: var(--seed-icon-size, 24px);
 }
 .seed-app-bar__root--theme_android {
-    height: calc(56px + env(safe-area-inset-top, 0px));
+    height: calc(56px + env(safe-area-inset-top));
     padding-left: var(--seed-dimension-x4);
     padding-right: var(--seed-dimension-x4);
-    padding-top: env(safe-area-inset-top, 0px);
+    padding-top: env(safe-area-inset-top);
 }
 .seed-app-bar__iconButton--theme_android {
     width: 44px;

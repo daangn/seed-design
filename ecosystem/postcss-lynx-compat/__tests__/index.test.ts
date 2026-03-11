@@ -834,14 +834,14 @@ describe("postcss-lynx-compat", () => {
   });
 
   describe("replaceVarWithEnv", () => {
-    it("var(--seed-safe-area-top)을 env(safe-area-inset-top, 0px)로 치환한다", async () => {
+    it("var(--seed-safe-area-top)을 env(safe-area-inset-top)로 치환한다", async () => {
       const input = `
         .seed-app-bar {
           padding-top: var(--seed-safe-area-top);
         }
       `;
       const output = await run(input);
-      expect(output).toContain("padding-top: env(safe-area-inset-top, 0px)");
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
       expect(output).not.toContain("var(--seed-safe-area-top)");
     });
 
@@ -852,7 +852,7 @@ describe("postcss-lynx-compat", () => {
         }
       `;
       const output = await run(input);
-      expect(output).toContain("padding-top: env(safe-area-inset-top, 0px)");
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
     });
 
     it("calc() 내부 var()를 치환한다", async () => {
@@ -862,7 +862,7 @@ describe("postcss-lynx-compat", () => {
         }
       `;
       const output = await run(input);
-      expect(output).toContain("height: calc(44px + env(safe-area-inset-top, 0px))");
+      expect(output).toContain("height: calc(44px + env(safe-area-inset-top))");
     });
 
     it("page/:root 셀렉터에서 매핑된 커스텀 프로퍼티 정의를 제거한다", async () => {
@@ -909,8 +909,8 @@ describe("postcss-lynx-compat", () => {
       // safe-area 커스텀 프로퍼티 정의 제거됨
       expect(output).not.toContain("--seed-safe-area-top");
       // var() → env() 치환됨
-      expect(output).toContain("padding-top: env(safe-area-inset-top, 0px)");
-      expect(output).toContain("height: calc(44px + env(safe-area-inset-top, 0px))");
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
+      expect(output).toContain("height: calc(44px + env(safe-area-inset-top))");
     });
 
     it("빈 배열로 비활성화할 수 있다", async () => {

@@ -360,8 +360,8 @@ export const defaultConfig: Required<LynxCompatConfig> = {
   ],
 
   replaceVarWithEnv: [
-    { varName: "--seed-safe-area-top", envName: "safe-area-inset-top", fallback: "0px" },
-    { varName: "--seed-safe-area-bottom", envName: "safe-area-inset-bottom", fallback: "0px" },
+    { varName: "--seed-safe-area-top", envName: "safe-area-inset-top" },
+    { varName: "--seed-safe-area-bottom", envName: "safe-area-inset-bottom" },
   ],
 
   selectorMappings: [],

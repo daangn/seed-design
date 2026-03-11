@@ -29,7 +29,7 @@
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x4);
-    padding-bottom: calc(var(--seed-dimension-x4) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(var(--seed-dimension-x4) + env(safe-area-inset-bottom));
     border-top-left-radius: var(--seed-radius-r5);
     border-top-right-radius: var(--seed-radius-r5);
 }

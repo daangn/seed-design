@@ -5,7 +5,7 @@
     left: 0;
     right: 0;
     overflow: hidden;
-    --app-bar-offset: calc(var(--app-bar-height) + env(safe-area-inset-top, 0px));
+    --app-bar-offset: calc(var(--app-bar-height) + env(safe-area-inset-top));
 }
 .seed-app-screen__dim {
     z-index: var(--z-index-dim);
@@ -283,13 +283,13 @@
     --seed-exit-scale: 1;
 }
 .seed-app-screen__layer--layerOffsetTop_safeArea {
-    padding-top: env(safe-area-inset-top, 0px);
+    padding-top: env(safe-area-inset-top);
 }
 .seed-app-screen__layer--layerOffsetTop_appBar {
     padding-top: var(--app-bar-offset);
 }
 .seed-app-screen__layer--layerOffsetBottom_safeArea {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-bottom: env(safe-area-inset-bottom);
 }
 .seed-app-screen__layer--tone_transparent-gradient_true::before {
     display: block;
@@ -297,8 +297,8 @@
     left: 0;
     right: 0;
     top: 0;
-    margin-bottom: calc(-1 * (66px + 400px + env(safe-area-inset-top, 0px)));
-    height: calc(66px + 400px + env(safe-area-inset-top, 0px));
+    margin-bottom: calc(-1 * (66px + 400px + env(safe-area-inset-top)));
+    height: calc(66px + 400px + env(safe-area-inset-top));
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.35) 400px, rgba(0, 0, 0, 0.00) 100%);
     pointer-events: none;
     z-index: 1;
@@ -307,7 +307,7 @@
     transform: translateY(-400px);
 }
 .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_safeArea::before {
-    transform: translateY(calc(-400px - env(safe-area-inset-top, 0px)));
+    transform: translateY(calc(-400px - env(safe-area-inset-top)));
 }
 .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_appBar::before {
     transform: translateY(calc(-400px - var(--app-bar-offset)));

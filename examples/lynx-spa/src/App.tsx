@@ -29,8 +29,8 @@ export function App(props: { onRender?: () => void }) {
     <view
       style={{
         padding: "16px",
-        paddingTop: "calc(16px + var(--seed-safe-area-top))",
-        paddingBottom: "calc(16px + var(--seed-safe-area-bottom))",
+        paddingTop: "calc(16px + env(safe-area-inset-top))",
+        paddingBottom: "calc(16px + env(safe-area-inset-bottom))",
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",

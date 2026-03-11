@@ -2133,10 +2133,10 @@
 }
 
 .seed-app-bar__root--theme_cupertino {
-  height: calc(44px + env(safe-area-inset-top, 0px));
+  height: calc(44px + env(safe-area-inset-top));
   padding-left: var(--seed-dimension-x4);
   padding-right: var(--seed-dimension-x4);
-  padding-top: env(safe-area-inset-top, 0px);
+  padding-top: env(safe-area-inset-top);
 }
 
 .seed-app-bar__iconButton--theme_cupertino {
@@ -2158,10 +2158,10 @@
 }
 
 .seed-app-bar__root--theme_android {
-  height: calc(56px + env(safe-area-inset-top, 0px));
+  height: calc(56px + env(safe-area-inset-top));
   padding-left: var(--seed-dimension-x4);
   padding-right: var(--seed-dimension-x4);
-  padding-top: env(safe-area-inset-top, 0px);
+  padding-top: env(safe-area-inset-top);
 }
 
 .seed-app-bar__iconButton--theme_android {
@@ -2407,7 +2407,7 @@
 
 .seed-app-bar-main__root--theme_cupertino {
   text-align: center;
-  top: env(safe-area-inset-top, 0px);
+  top: env(safe-area-inset-top);
   padding-left: var(--centered-title-padding-x, 0);
   padding-right: var(--centered-title-padding-x, 0);
   pointer-events: none;
@@ -2829,7 +2829,7 @@
 }
 
 .seed-app-screen__layer--layerOffsetTop_safeArea {
-  padding-top: env(safe-area-inset-top, 0px);
+  padding-top: env(safe-area-inset-top);
 }
 
 .seed-app-screen__layer--layerOffsetTop_appBar {
@@ -2837,12 +2837,12 @@
 }
 
 .seed-app-screen__layer--layerOffsetBottom_safeArea {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .seed-app-screen__layer--tone_transparent-gradient_true:before {
-  margin-bottom: calc(-1 * (66px + 400px + env(safe-area-inset-top, 0px)));
-  height: calc(66px + 400px + env(safe-area-inset-top, 0px));
+  margin-bottom: calc(-1 * (66px + 400px + env(safe-area-inset-top)));
+  height: calc(66px + 400px + env(safe-area-inset-top));
   pointer-events: none;
   z-index: 1;
   background: linear-gradient(#0003 0%, #00000059 400px, #0000 100%);
@@ -2858,7 +2858,7 @@
 }
 
 .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_safeArea:before {
-  transform: translateY(calc(-400px - env(safe-area-inset-top, 0px)));
+  transform: translateY(calc(-400px - env(safe-area-inset-top)));
 }
 
 .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_appBar:before {
@@ -3320,7 +3320,7 @@
   background: var(--seed-color-bg-layer-floating);
   border-top-left-radius: var(--seed-radius-r6);
   border-top-right-radius: var(--seed-radius-r6);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: env(safe-area-inset-bottom);
   transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive);
   flex-direction: column;
   flex: 1;
@@ -6055,7 +6055,7 @@
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
   padding-right: var(--seed-dimension-spacing-x-global-gutter);
   padding-top: var(--seed-dimension-x4);
-  padding-bottom: calc(var(--seed-dimension-x4)  + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(var(--seed-dimension-x4)  + env(safe-area-inset-bottom));
   border-top-left-radius: var(--seed-radius-r5);
   border-top-right-radius: var(--seed-radius-r5);
   flex-direction: column;
@@ -7660,9 +7660,9 @@
 
 .seed-snackbar-region {
   z-index: 2147483647;
-  left: calc(env(safe-area-inset-left, 0px));
-  right: calc(env(safe-area-inset-right, 0px));
-  bottom: calc(env(safe-area-inset-bottom, 0px)  + var(--snackbar-region-offset, 0px));
+  left: calc(env(safe-area-inset-left));
+  right: calc(env(safe-area-inset-right));
+  bottom: calc(env(safe-area-inset-bottom)  + var(--snackbar-region-offset, 0px));
   padding-left: var(--seed-dimension-x2);
   padding-right: var(--seed-dimension-x2);
   padding-top: var(--seed-dimension-x2);
