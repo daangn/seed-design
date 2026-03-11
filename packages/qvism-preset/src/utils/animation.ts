@@ -112,14 +112,12 @@ export function createPresence(
       interaction: props.interaction
         ? {
             animation: "none", // remove animation while swiping, so that animation re-run on idle or pop
-            willChange: "transform, opacity", // promote to GPU layer before transition starts
             ...transform(props.interaction), // while swiping back, set swiping position
           }
         : (undefined as never),
       cancel: props.cancel
         ? {
             animation: "none !important",
-            willChange: "transform, opacity",
             ...transform(props.cancel),
 
             transition: `transform ${enterConfig.duration} ${enterConfig.timingFunction}, opacity ${enterConfig.duration} ${enterConfig.timingFunction}`,
@@ -128,7 +126,6 @@ export function createPresence(
       complete: props.complete
         ? {
             animation: "none !important",
-            willChange: "transform, opacity",
             ...transform(props.complete),
 
             transition: `transform ${exitConfig.duration} ${exitConfig.timingFunction}, opacity ${exitConfig.duration} ${exitConfig.timingFunction}`,

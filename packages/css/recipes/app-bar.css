@@ -125,18 +125,15 @@
 }
 [data-swipe-back-state=swiping] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
     animation: none;
-    will-change: transform, opacity;
     transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
 }
 [data-swipe-back-state=canceling] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
     animation: none !important;
-    will-change: transform, opacity;
     transform: translate3d(var(--swipe-back-target, 0), 0, 0);
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
 [data-swipe-back-state=completing] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
     animation: none !important;
-    will-change: transform, opacity;
     transform: translate3d(var(--swipe-back-target, 100%), 0, 0);
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
@@ -174,19 +171,16 @@
 }
 [data-swipe-back-state=swiping] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none;
-    will-change: transform, opacity;
     transform: translate3d(calc(var(--swipe-back-displacement, 0) * 0.15), 0, 0);
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
 }
 [data-swipe-back-state=canceling] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
-    will-change: transform, opacity;
     opacity: 1;
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
 [data-swipe-back-state=completing] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
-    will-change: transform, opacity;
     opacity: 0;
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
@@ -224,18 +218,15 @@
 }
 [data-swipe-back-state=swiping] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none;
-    will-change: transform, opacity;
     opacity: calc(var(--swipe-back-displacement-ratio, 0));
 }
 [data-swipe-back-state=canceling] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none !important;
-    will-change: transform, opacity;
     opacity: 0;
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
 [data-swipe-back-state=completing] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none !important;
-    will-change: transform, opacity;
     opacity: 1;
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }

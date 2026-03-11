@@ -8,4 +8,4 @@
 - swipe-back state를 useRef + direct DOM write로 전환하여 React re-render 지연 제거
 - completing/canceling 시 two-frame technique 적용으로 현재 위치에서 부드럽게 애니메이션
 - completing 중 exit animation 재생 방지 (animation: none !important)
-- will-change: transform, opacity로 GPU 레이어 프로모션 명시
+- 불필요한 will-change 선언 제거로 GPU 레이어 과다 생성 방지
