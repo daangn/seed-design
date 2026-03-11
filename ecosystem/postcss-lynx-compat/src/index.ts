@@ -395,6 +395,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     textSlot: opts.textSlot ?? defaultConfig.textSlot,
     resolveVarScope: opts.resolveVarScope ?? defaultConfig.resolveVarScope,
     selectorMappings: opts.selectorMappings ?? defaultConfig.selectorMappings,
+    unwrapSupports: opts.unwrapSupports ?? defaultConfig.unwrapSupports,
   };
 
   // 외부 토큰 CSS가 제공되면 빌드 타임에 파싱하여 맵 구축
@@ -415,12 +416,27 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
 
     // Rule/AtRule 훅: 셀렉터 변환, pseudo-class 필터링, @media 제거
     AtRule(atRule) {
-      if (atRule.name !== "media") return;
+      // @media 규칙 제거
+      if (atRule.name === "media") {
+        for (const pattern of config.removeAtRules) {
+          if (atRule.params.includes(pattern)) {
+            atRule.remove();
+            return;
+          }
+        }
+      }
 
-      for (const pattern of config.removeAtRules) {
-        if (atRule.params.includes(pattern)) {
-          atRule.remove();
-          return;
+      // @supports 규칙 처리 (unwrap 또는 remove)
+      if (atRule.name === "supports") {
+        for (const rule of config.unwrapSupports) {
+          if (atRule.params.includes(rule.condition)) {
+            if (rule.action === "remove") {
+              atRule.remove();
+            } else if (rule.action === "unwrap") {
+              atRule.replaceWith(atRule.nodes);
+            }
+            return;
+          }
         }
       }
     },

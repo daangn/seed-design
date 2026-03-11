@@ -43,6 +43,14 @@ export interface LynxCompatConfig {
     replace: string;
   }>;
 
+  /** @supports 규칙 처리 — 조건별 unwrap(내용 유지, 블록 제거) 또는 remove(전체 제거) */
+  unwrapSupports?: Array<{
+    /** @supports 파라미터에 포함된 문자열 매칭 */
+    condition: string;
+    /** "unwrap": 블록 제거 후 내용을 부모로 이동, "remove": 블록 전체 제거 */
+    action: "unwrap" | "remove";
+  }>;
+
   /** 텍스트 슬롯 분리 설정 — 단일 recipe CSS를 view/text로 분리 */
   textSlot?: {
     /** text 슬롯 클래스 접미사 (예: "__text") */
