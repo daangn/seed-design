@@ -223,9 +223,9 @@ export const globalCss = defineGlobalCss({
   ".seed-grid": {
     display: "grid",
 
-    "--seed-grid-columns": "initial",
+    "--seed-grid-columns--responsive": "initial",
     gridTemplateColumns: "var(--seed-grid-columns)",
-    "--seed-grid-rows": "initial",
+    "--seed-grid-rows--responsive": "initial",
     gridTemplateRows: "var(--seed-grid-rows)",
     "--seed-grid-auto-flow": "initial",
     gridAutoFlow: "var(--seed-grid-auto-flow)",

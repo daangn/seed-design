@@ -1,4 +1,5 @@
 import * as React from "react";
+import type { BreakpointThreshold } from "../../types/responsive";
 import { Flex, type FlexProps } from "../Flex";
 
 /**
@@ -13,14 +14,28 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>((props, ref) =
   return <Flex ref={ref} display="flex" flexDirection="column" {...props} />;
 });
 
-export interface VStackProps extends Omit<FlexProps, "flexDirection"> {}
+export interface VStackProps extends Omit<FlexProps, "flexDirection"> {
+  hStackFrom?: BreakpointThreshold;
+}
 
 export const VStack = React.forwardRef<HTMLDivElement, VStackProps>((props, ref) => {
-  return <Flex ref={ref} display="flex" flexDirection="column" {...props} />;
+  const { hStackFrom, ...rest } = props;
+  const flexDirection = hStackFrom
+    ? { base: "column" as const, [hStackFrom]: "row" as const }
+    : ("column" as const);
+
+  return <Flex ref={ref} flexDirection={flexDirection} {...rest} />;
 });
 
-export interface HStackProps extends Omit<FlexProps, "flexDirection"> {}
+export interface HStackProps extends Omit<FlexProps, "flexDirection"> {
+  vStackFrom?: BreakpointThreshold;
+}
 
 export const HStack = React.forwardRef<HTMLDivElement, HStackProps>((props, ref) => {
-  return <Flex ref={ref} display="flex" flexDirection="row" {...props} />;
+  const { vStackFrom, ...rest } = props;
+  const flexDirection = vStackFrom
+    ? { base: "row" as const, [vStackFrom]: "column" as const }
+    : ("row" as const);
+
+  return <Flex ref={ref} flexDirection={flexDirection} {...rest} />;
 });
