@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 1.1.23
+
+### Patch Changes
+
+- 3dd89ff: Box의 배경 색상을 class 기반으로 지정하는 경우 `:active` 스타일 선언이 배경 색상을 덮어쓰는 문제를 수정합니다.
+
 ## 1.1.19
 
 ### Patch Changes

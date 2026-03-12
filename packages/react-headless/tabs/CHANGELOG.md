@@ -1,5 +1,12 @@
 # @seed-design/react-tabs
 
+## 1.0.3
+
+### Patch Changes
+
+- 3b74b70: Tabs trigger에 포커스 후 키보드 조작으로 탭 변경 시 탭은 변경되지만 포커스가 이동하지 않는 문제를 수정합니다.
+- 0f32740: Tabs trigger에 포커스된 상태에서 키보드 조작 시 스크롤 등 브라우저 기본 동작이 발생하지 않도록 수정합니다.
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "1.1.22",
+  "version": "1.1.23",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -57,14 +57,14 @@
     "@seed-design/react-slider": "1.0.1",
     "@seed-design/react-snackbar": "1.0.1",
     "@seed-design/react-switch": "1.0.1",
-    "@seed-design/react-tabs": "1.0.2",
+    "@seed-design/react-tabs": "1.0.3",
     "@seed-design/react-text-field": "1.1.1",
     "@seed-design/react-toggle": "1.0.0",
     "clsx": "^2.1.1",
     "unicode-segmenter": "^0.14.4"
   },
   "peerDependencies": {
-    "@seed-design/css": ">=1.1.17",
+    "@seed-design/css": ">=1.1.23",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
