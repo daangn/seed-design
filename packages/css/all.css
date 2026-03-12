@@ -3999,11 +3999,11 @@
   overflow: hidden;
 }
 
-.seed-content-placeholder__image {
+.seed-content-placeholder__asset {
   width: 50%;
   min-width: var(--seed-dimension-x4);
   aspect-ratio: 1;
-  max-width: 120px;
+  max-width: 64px;
   height: auto;
   color: var(--seed-color-palette-gray-400);
   fill: currentColor;

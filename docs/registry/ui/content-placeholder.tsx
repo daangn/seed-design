@@ -12,7 +12,7 @@ export const ContentPlaceholder = React.forwardRef<HTMLDivElement, ContentPlaceh
   ({ children, ...props }, ref) => {
     return (
       <SeedContentPlaceholder.Root {...props} ref={ref}>
-        <SeedContentPlaceholder.Image>{children}</SeedContentPlaceholder.Image>
+        <SeedContentPlaceholder.Asset>{children}</SeedContentPlaceholder.Asset>
       </SeedContentPlaceholder.Root>
     );
   },

@@ -3,7 +3,7 @@ import { defineSlotRecipe } from "../utils/define";
 
 const contentPlaceholder = defineSlotRecipe({
   name: "content-placeholder",
-  slots: ["root", "image"],
+  slots: ["root", "asset"],
   base: {
     root: {
       boxSizing: "border-box",
@@ -18,16 +18,16 @@ const contentPlaceholder = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.root.color,
     },
-    image: {
+    asset: {
       display: "block",
-      width: `calc(${vars.base.enabled.image.widthFraction} * 100%)`,
-      minWidth: vars.base.enabled.image.minWidth,
-      maxWidth: vars.base.enabled.image.maxWidth,
+      width: `calc(${vars.base.enabled.asset.heightFraction} * 100%)`,
+      minWidth: vars.base.enabled.asset.minWidth,
+      maxWidth: vars.base.enabled.asset.maxWidth,
       height: "auto",
       aspectRatio: "1 / 1",
       marginLeft: "auto",
       marginRight: "auto",
-      color: vars.base.enabled.image.color,
+      color: vars.base.enabled.asset.color,
       fill: "currentColor",
       stroke: "currentColor",
     },

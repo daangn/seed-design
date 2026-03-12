@@ -10,13 +10,13 @@ data:
         properties:
           color:
             type: color
-      image:
+      asset:
         properties:
           minWidth:
             type: dimension
           maxWidth:
             type: dimension
-          widthFraction:
+          heightFraction:
             type: number
           color:
             type: color
@@ -25,10 +25,10 @@ data:
       enabled:
         root:
           color: $color.palette.gray-200
-        image:
+        asset:
           minWidth: $dimension.x4
-          maxWidth: 120px
-          widthFraction: 0.5
+          maxWidth: 64px
+          heightFraction: 0.5
           color: $color.palette.gray-400
     type=default: {}
     type=buySell: {}

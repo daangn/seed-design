@@ -7,8 +7,8 @@ const contentPlaceholderSlotNames = [
     "seed-content-placeholder__root"
   ],
   [
-    "image",
-    "seed-content-placeholder__image"
+    "asset",
+    "seed-content-placeholder__asset"
   ]
 ];
 

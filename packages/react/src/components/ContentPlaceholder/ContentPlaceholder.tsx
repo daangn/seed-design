@@ -37,16 +37,16 @@ export const ContentPlaceholderRoot = React.forwardRef<HTMLDivElement, ContentPl
 
 ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
 
-export interface ContentPlaceholderImageProps extends React.SVGProps<SVGSVGElement> {}
+export interface ContentPlaceholderAssetProps extends React.SVGProps<SVGSVGElement> {}
 
-export const ContentPlaceholderImage = React.forwardRef<
+export const ContentPlaceholderAsset = React.forwardRef<
   SVGSVGElement,
-  ContentPlaceholderImageProps
+  ContentPlaceholderAssetProps
 >(({ children, className, ...props }, ref) => {
   const classNames = useClassNames();
   const parentProps = useProps();
 
-  const image = useMemo(() => {
+  const asset = useMemo(() => {
     if (children) return children;
 
     return contentPlaceholderAssetPresetMap[parentProps?.type ?? "default"];
@@ -55,11 +55,11 @@ export const ContentPlaceholderImage = React.forwardRef<
   return (
     <Slot
       ref={ref as React.ForwardedRef<HTMLElement>}
-      className={clsx(classNames.image, className)}
+      className={clsx(classNames.asset, className)}
       {...(props as React.HTMLAttributes<HTMLElement>)}
     >
-      {image}
+      {asset}
     </Slot>
   );
 });
-ContentPlaceholderImage.displayName = "ContentPlaceholderImage";
+ContentPlaceholderAsset.displayName = "ContentPlaceholderAsset";
