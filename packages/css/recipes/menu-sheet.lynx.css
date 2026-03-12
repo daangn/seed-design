@@ -29,7 +29,7 @@
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x4);
-    padding-bottom: calc(var(--seed-dimension-x4) + var(--seed-safe-area-bottom));
+    padding-bottom: calc(var(--seed-dimension-x4) + env(safe-area-inset-bottom));
     border-top-left-radius: var(--seed-radius-r5);
     border-top-right-radius: var(--seed-radius-r5);
 }
@@ -94,8 +94,6 @@
 }
 .seed-menu-sheet__closeButton:active {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
-}
-.seed-menu-sheet__closeButton {
 }
 .seed-menu-sheet__backdrop--skipAnimation_false.seed-menu-sheet__backdrop--state_open, .seed-menu-sheet__backdrop--skipAnimation_false.seed-menu-sheet__backdrop--open_true {
     animation: seed-enter;

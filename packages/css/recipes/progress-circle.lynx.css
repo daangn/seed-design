@@ -5,8 +5,6 @@
 .seed-progress-circle__root[data-progress-state=indeterminate] {
     animation: rotate 1.2s cubic-bezier(0.35, 0.25, 0.65, 0.75) infinite;
 }
-.seed-progress-circle__track {
-}
 .seed-progress-circle__range {
     transition-duration: 300ms;
     transition-timing-function: cubic-bezier(0, 0, 0.15, 1);
@@ -29,7 +27,6 @@
     --track-color: #ffffff2e;
     --range-color: #ffffff;
 }
-.seed-progress-circle__root--tone_inherit {}
 .seed-progress-circle__root--size_24 {
     --size: 24px;
     --thickness: 3px;
@@ -38,4 +35,3 @@
     --size: 40px;
     --thickness: 5px;
 }
-.seed-progress-circle__root--size_inherit {}

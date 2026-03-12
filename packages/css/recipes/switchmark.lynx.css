@@ -9,8 +9,6 @@
 .seed-switchmark__root.seed-switchmark__root--disabled_true {
     opacity: 0.38;
 }
-.seed-switchmark__root {
-}
 .seed-switchmark__thumb {
     border-radius: var(--seed-radius-full);
     transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms;

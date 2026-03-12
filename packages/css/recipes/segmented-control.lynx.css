@@ -46,8 +46,6 @@
 .seed-segmented-control__item.seed-segmented-control__item--checked_true {
     color: var(--seed-color-fg-neutral);
 }
-.seed-segmented-control__item {
-}
 .seed-segmented-control__item.seed-segmented-control__item--disabled_true {
     color: var(--seed-color-fg-disabled);
 }

@@ -18,8 +18,6 @@
     --seed-suffix-icon-margin-left: 8px;
     --seed-suffix-icon-align-self: center;
 }
-.seed-page-banner__rootbutton {
-}
 .seed-page-banner__content {
     display: flex;
     flex-wrap: wrap;
@@ -37,8 +35,6 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
-}
-.seed-page-banner__title::after {
 }
 .seed-page-banner__description {
     font-size: var(--seed-font-size-t4);

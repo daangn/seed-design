@@ -31,7 +31,7 @@ export default definePreset({
       postcssPlugins: [
         postcssLynxCompat({
           tokenCss: tokens._raw,
-          resolveVarScope: "page-only",
+          resolveVarScope: "all",
           selectorMappings: [
             { match: 'color-mode="dark-only"', replace: ".seed-theme-dark" },
             { match: 'user-color-scheme="dark"', replace: ".seed-theme-dark" },

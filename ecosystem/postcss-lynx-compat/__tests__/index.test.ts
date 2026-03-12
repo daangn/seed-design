@@ -68,6 +68,66 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
+  describe("@supports 규칙 처리 (unwrapSupports)", () => {
+    it("env(safe-area-inset) @supports 블록을 unwrap한다 (내용 유지, 블록 제거)", async () => {
+      const input = `
+        page { --seed-safe-area-top: 0px; }
+        @supports (left: env(safe-area-inset-left)) {
+          page { --seed-safe-area-top: env(safe-area-inset-top); }
+        }
+      `;
+      const output = await run(input, { replaceVarWithEnv: [] });
+      expect(output).not.toContain("@supports");
+      expect(output).toContain("env(safe-area-inset-top)");
+    });
+
+    it("constant(safe-area-inset) @supports 블록을 전체 제거한다", async () => {
+      const input = `
+        page { --seed-safe-area-top: 0px; }
+        @supports (left: constant(safe-area-inset-left)) {
+          page { --seed-safe-area-top: constant(safe-area-inset-top); }
+        }
+      `;
+      const output = await run(input, { replaceVarWithEnv: [] });
+      expect(output).not.toContain("@supports");
+      expect(output).not.toContain("constant(");
+    });
+
+    it("safe-area 전체 패턴: constant 제거 + env unwrap", async () => {
+      const input = `
+        page { --seed-safe-area-top: 0px; --seed-safe-area-bottom: 0px; }
+        @supports (left: constant(safe-area-inset-left)) {
+          page {
+            --seed-safe-area-top: constant(safe-area-inset-top);
+            --seed-safe-area-bottom: constant(safe-area-inset-bottom);
+          }
+        }
+        @supports (left: env(safe-area-inset-left)) {
+          page {
+            --seed-safe-area-top: env(safe-area-inset-top);
+            --seed-safe-area-bottom: env(safe-area-inset-bottom);
+          }
+        }
+      `;
+      const output = await run(input, { replaceVarWithEnv: [] });
+      expect(output).not.toContain("@supports");
+      expect(output).not.toContain("constant(");
+      expect(output).toContain("env(safe-area-inset-top)");
+      expect(output).toContain("env(safe-area-inset-bottom)");
+    });
+
+    it("매칭되지 않는 @supports 블록은 유지한다", async () => {
+      const input = `
+        @supports (display: grid) {
+          .container { display: grid; }
+        }
+      `;
+      const output = await run(input);
+      expect(output).toContain("@supports");
+      expect(output).toContain("display: grid");
+    });
+  });
+
   describe("셀렉터 변환 (transformSelectors)", () => {
     it(":--engaged를 :active로 변환한다", async () => {
       const input = ".btn:--engaged { background: red; }";
@@ -546,68 +606,8 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
-  describe("resolveVarScope: page-only", () => {
-    it("page 토큰 정의의 중첩 var()는 해소한다", async () => {
-      const input = `
-        page {
-          --palette-gray: #1a1c20;
-          --fg-neutral: var(--palette-gray);
-        }
-      `;
-      const output = await run(input, { warnOnly: true, resolveVarScope: "page-only" });
-      expect(output).toContain("--palette-gray: #1a1c20");
-      expect(output).toContain("--fg-neutral: #1a1c20");
-    });
-
-    it("컴포넌트 CSS의 커스텀 프로퍼티 정의 내 var()도 해소한다", async () => {
-      const input = `
-        page {
-          --palette-gray: #1a1c20;
-          --fg-neutral: var(--palette-gray);
-          --dimension-x4: 16px;
-        }
-        .seed-btn {
-          --btn-color: var(--fg-neutral);
-          --btn-padding: var(--dimension-x4);
-        }
-      `;
-      const output = await run(input, { warnOnly: true, resolveVarScope: "page-only" });
-      // page 내부는 flatten
-      expect(output).toContain("--fg-neutral: #1a1c20");
-      // 컴포넌트 커스텀 프로퍼티도 flatten (Lynx nested var 미지원)
-      expect(output).toContain("--btn-color: #1a1c20");
-      expect(output).toContain("--btn-padding: 16px");
-    });
-
-    it("일반 프로퍼티의 var() 참조는 보존한다", async () => {
-      const input = `
-        page {
-          --fg-neutral: #1a1c20;
-          --dimension-x4: 16px;
-        }
-        .seed-btn {
-          color: var(--fg-neutral);
-          padding-left: var(--dimension-x4);
-        }
-      `;
-      const output = await run(input, { warnOnly: true, resolveVarScope: "page-only" });
-      // 일반 프로퍼티의 var()는 보존 (테마 오버라이드 가능)
-      expect(output).toContain("color: var(--fg-neutral)");
-      expect(output).toContain("padding-left: var(--dimension-x4)");
-    });
-
-    it("page.class 셀렉터도 page-only 해소 대상이다", async () => {
-      const input = `
-        page.seed-theme-dark {
-          --palette-gray: #f3f4f5;
-          --fg-neutral: var(--palette-gray);
-        }
-      `;
-      const output = await run(input, { warnOnly: true, resolveVarScope: "page-only" });
-      expect(output).toContain("--fg-neutral: #f3f4f5");
-    });
-
-    it("resolveVarScope: all (기본값)이면 컴포넌트 var()도 해소한다", async () => {
+  describe("resolveVarScope: all (기본값)", () => {
+    it("컴포넌트 커스텀 프로퍼티의 var()도 해소한다", async () => {
       const input = `
         page {
           --palette-gray: #1a1c20;
@@ -688,7 +688,7 @@ describe("postcss-lynx-compat", () => {
     it("매핑 후 빈 셀렉터를 필터링한다", async () => {
       const input = `
         page, [data-seed-color-mode="system"] {
-          color-scheme: light dark;
+          --seed-token: red;
         }
       `;
       const output = await run(input, {
@@ -714,8 +714,8 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
-  describe("통합: 테마 지원 (page-only + selectorMappings)", () => {
-    it("토큰 flatten + 커스텀 프로퍼티 resolve + 일반 프로퍼티 var() 보존 + 테마 selector 변환", async () => {
+  describe("통합: 테마 지원 (resolveVarScope: all + selectorMappings)", () => {
+    it("토큰 flatten + 커스텀 프로퍼티 resolve + 테마 selector 변환", async () => {
       const input = `
         page, page[data-seed-color-mode="light-only"] {
           --palette-gray-1000: #1a1c20;
@@ -736,7 +736,7 @@ describe("postcss-lynx-compat", () => {
       `;
       const output = await run(input, {
         warnOnly: true,
-        resolveVarScope: "page-only",
+        resolveVarScope: "all",
         selectorMappings: [
           { match: 'color-mode="dark-only"', replace: ".seed-theme-dark" },
           { match: 'color-mode="light-only"', replace: ".seed-theme-light" },
@@ -752,12 +752,215 @@ describe("postcss-lynx-compat", () => {
       expect(output).toContain("page.seed-theme-light");
       expect(output).not.toContain("[data-seed-color-mode");
 
-      // 컴포넌트 커스텀 프로퍼티: nested var() resolve (Lynx 미지원)
+      // 컴포넌트 커스텀 프로퍼티: nested var() resolve
       expect(output).toContain("--seed-box-color: #1a1c20");
       expect(output).toContain("--seed-box-padding: 16px");
+    });
+  });
 
-      // 일반 프로퍼티: var() 참조 보존 (테마 전환 가능)
-      expect(output).toContain("color: var(--fg-neutral)");
+  describe("resolveVarScope: none (Lynx 3.6+ nested var support)", () => {
+    it("page 내 nested var()를 그대로 유지한다", async () => {
+      const input = `
+        page {
+          --color-raw: #fa6616;
+          --color-bg: var(--color-raw);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      expect(output).toContain("--color-raw: #fa6616");
+      expect(output).toContain("--color-bg: var(--color-raw)");
+    });
+
+    it("컴포넌트 커스텀 프로퍼티의 var() 참조를 유지한다", async () => {
+      const input = `
+        page {
+          --color-raw: #fa6616;
+          --spacing: 16px;
+        }
+        .seed-btn {
+          --btn-bg: var(--color-raw);
+          --btn-pad: var(--spacing);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      expect(output).toContain("--btn-bg: var(--color-raw)");
+      expect(output).toContain("--btn-pad: var(--spacing)");
+    });
+
+    it("2단계 nested var() 체인을 유지한다", async () => {
+      const input = `
+        page {
+          --base: 16px;
+          --spacing: var(--base);
+          --pad: var(--spacing);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      expect(output).toContain("--base: 16px");
+      expect(output).toContain("--spacing: var(--base)");
+      expect(output).toContain("--pad: var(--spacing)");
+    });
+
+    it("calc() 내 var()도 유지한다", async () => {
+      const input = `
+        page {
+          --size: 10px;
+          --half-size: calc(var(--size) / 2);
+        }
+      `;
+      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      expect(output).toContain("--half-size: calc(var(--size) / 2)");
+    });
+
+    it("외부 tokenCss 참조도 resolve하지 않는다", async () => {
+      const tokenCss = `
+        :root {
+          --palette-gray: #1a1c20;
+          --fg-neutral: var(--palette-gray);
+        }
+      `;
+      const input = `
+        .seed-btn {
+          --btn-color: var(--fg-neutral);
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        resolveVarScope: "none",
+        tokenCss,
+      });
+      expect(output).toContain("--btn-color: var(--fg-neutral)");
+    });
+  });
+
+  describe("replaceVarWithEnv", () => {
+    it("var(--seed-safe-area-top)을 env(safe-area-inset-top)로 치환한다", async () => {
+      const input = `
+        .seed-app-bar {
+          padding-top: var(--seed-safe-area-top);
+        }
+      `;
+      const output = await run(input);
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
+      expect(output).not.toContain("var(--seed-safe-area-top)");
+    });
+
+    it("fallback 있는 var()도 치환한다", async () => {
+      const input = `
+        .seed-app-bar {
+          padding-top: var(--seed-safe-area-top, 10px);
+        }
+      `;
+      const output = await run(input);
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
+    });
+
+    it("calc() 내부 var()를 치환한다", async () => {
+      const input = `
+        .seed-app-bar {
+          height: calc(44px + var(--seed-safe-area-top));
+        }
+      `;
+      const output = await run(input);
+      expect(output).toContain("height: calc(44px + env(safe-area-inset-top))");
+    });
+
+    it("page/:root 셀렉터에서 매핑된 커스텀 프로퍼티 정의를 제거한다", async () => {
+      const input = `
+        :root {
+          --seed-safe-area-top: 0px;
+          --seed-other-var: 10px;
+        }
+      `;
+      const output = await run(input, { warnOnly: true });
+      expect(output).not.toContain("--seed-safe-area-top");
+      expect(output).toContain("--seed-other-var: 10px");
+    });
+
+    it("빈 룰을 제거한다", async () => {
+      const input = `
+        :root {
+          --seed-safe-area-top: 0px;
+          --seed-safe-area-bottom: 0px;
+        }
+      `;
+      const output = await run(input, { warnOnly: true });
+      expect(output.trim()).toBe("");
+    });
+
+    it("@supports unwrap + replaceVarWithEnv 통합 동작한다", async () => {
+      const input = `
+        :root { --seed-safe-area-top: 0px; }
+        @supports (left: constant(safe-area-inset-left)) {
+          :root { --seed-safe-area-top: constant(safe-area-inset-top); }
+        }
+        @supports (left: env(safe-area-inset-left)) {
+          :root { --seed-safe-area-top: env(safe-area-inset-top); }
+        }
+        .seed-app-bar {
+          padding-top: var(--seed-safe-area-top);
+          height: calc(44px + var(--seed-safe-area-top));
+        }
+      `;
+      const output = await run(input);
+      // @supports 처리됨
+      expect(output).not.toContain("@supports");
+      expect(output).not.toContain("constant(");
+      // safe-area 커스텀 프로퍼티 정의 제거됨
+      expect(output).not.toContain("--seed-safe-area-top");
+      // var() → env() 치환됨
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
+      expect(output).toContain("height: calc(44px + env(safe-area-inset-top))");
+    });
+
+    it("빈 배열로 비활성화할 수 있다", async () => {
+      const input = `
+        .seed-app-bar {
+          padding-top: var(--seed-safe-area-top);
+        }
+      `;
+      const output = await run(input, { replaceVarWithEnv: [] });
+      expect(output).toContain("var(--seed-safe-area-top)");
+    });
+  });
+
+  describe("env() fallback strip", () => {
+    it("env(name, fallback) → env(name)으로 fallback을 제거한다", async () => {
+      const input = `
+        .snackbar-region {
+          left: calc(env(safe-area-inset-left, 0px));
+          right: calc(env(safe-area-inset-right, 0px));
+          bottom: calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px));
+        }
+      `;
+      const output = await run(input, { replaceVarWithEnv: [] });
+      expect(output).toContain("left: calc(env(safe-area-inset-left))");
+      expect(output).toContain("right: calc(env(safe-area-inset-right))");
+      expect(output).toContain(
+        "bottom: calc(env(safe-area-inset-bottom) + var(--snackbar-region-offset, 0px))",
+      );
+    });
+
+    it("fallback 없는 env()는 그대로 유지한다", async () => {
+      const input = `
+        .test { padding-top: env(safe-area-inset-top); }
+      `;
+      const output = await run(input, { replaceVarWithEnv: [] });
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
+    });
+
+    it("replaceVarWithEnv와 함께 동작한다", async () => {
+      const input = `
+        page { --seed-safe-area-top: env(safe-area-inset-top); }
+        .app-bar { padding-top: var(--seed-safe-area-top); }
+        .snackbar { bottom: calc(env(safe-area-inset-bottom, 0px)); }
+      `;
+      const output = await run(input);
+      // replaceVarWithEnv: var() → env() (fallback 없이 생성)
+      expect(output).toContain("padding-top: env(safe-area-inset-top)");
+      // 직접 작성된 env() fallback도 strip됨
+      expect(output).toContain("bottom: calc(env(safe-area-inset-bottom))");
+      expect(output).not.toContain("0px");
     });
   });
 
@@ -808,6 +1011,70 @@ describe("postcss-lynx-compat", () => {
       expect(output).toContain("gap: var(--seed-box-gap)");
       expect(output).toContain("opacity: 1");
       expect(output).toContain("transition: background-color 0.1s, color 0.1s");
+    });
+  });
+
+  describe("text slot: 테마 셀렉터 스킵", () => {
+    it(".seed-theme-* 셀렉터는 text slot 분리하지 않는다", async () => {
+      const input = `
+        :root, :root.seed-theme-light {
+          --seed-color-fg: #1a1c20;
+          --seed-color-bg: #fff;
+        }
+        :root.seed-theme-dark {
+          --seed-color-fg: #f3f4f5;
+          --seed-color-bg: #000;
+        }
+        .seed-action-button {
+          color: var(--seed-color-fg);
+          display: inline-flex;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        textSlot: {
+          suffix: "__text",
+          textProperties: ["color", "font-size"],
+          sharedProperties: [],
+        },
+      });
+      // 테마 셀렉터에 __text suffix가 추가되면 안 됨
+      expect(output).not.toContain("seed-theme-light__text");
+      expect(output).not.toContain("seed-theme-dark__text");
+      // 컴포넌트 셀렉터에는 __text가 정상 추가됨
+      expect(output).toContain("seed-action-button__text");
+    });
+
+    it("컴포넌트+테마 조합 셀렉터는 text slot 분리한다", async () => {
+      const input = `
+        .seed-action-button.seed-theme-dark {
+          color: red;
+          display: inline-flex;
+        }
+      `;
+      const output = await run(input, {
+        warnOnly: true,
+        textSlot: {
+          suffix: "__text",
+          textProperties: ["color"],
+          sharedProperties: [],
+        },
+      });
+      // 컴포넌트 + 테마 조합은 text slot 처리됨
+      expect(output).toContain("seed-action-button__text");
+    });
+  });
+
+  describe("빈 룰 제거", () => {
+    it("모든 declaration이 제거된 빈 룰을 정리한다", async () => {
+      const input = `
+        .seed-theme-light {
+          color-scheme: light;
+        }
+      `;
+      const output = await run(input, { warnOnly: false });
+      // color-scheme은 removeProperties에 등록됨 → 제거 → 빈 룰 → 제거
+      expect(output).not.toContain(".seed-theme-light");
     });
   });
 });

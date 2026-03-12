@@ -13,8 +13,6 @@
     transition-timing-function: var(--seed-timing-function-easing);
     transition-property: background-color, color, border-color, box-shadow;
 }
-.seed-chip__root.seed-chip__root--disabled_true {
-}
 .seed-chip__label {
     display: inline-flex;
     align-items: center;

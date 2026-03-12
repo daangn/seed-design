@@ -1,23 +1,4 @@
-page {
-  --seed-safe-area-top: 0px;
-  --seed-safe-area-bottom: 0px;
-}
-
-@supports (left: constant(safe-area-inset-left)) {
-  page {
-    --seed-safe-area-top: constant(safe-area-inset-top);
-    --seed-safe-area-bottom: constant(safe-area-inset-bottom);
-  }
-}
-
-@supports (left: env(safe-area-inset-left)) {
-  page {
-    --seed-safe-area-top: env(safe-area-inset-top);
-    --seed-safe-area-bottom: env(safe-area-inset-bottom);
-  }
-}
-
-page {
+:root {
   --seed-font-size-multiplier: 1;
   --seed-font-size-limit-min: .8;
   --seed-font-size-limit-max: 1.5;
@@ -31,7 +12,7 @@ page {
 }
 
 @supports (font: -apple-system-body) {
-  page[data-seed-platform="ios"][data-seed-font-scaling="enabled"] {
+  html[data-seed-platform="ios"][data-seed-font-scaling="enabled"] {
     --seed-font-size-multiplier: .9412;
   }
 }
@@ -305,16 +286,7 @@ page {
   font-weight: var(--seed-font-weight-bold);
 }
 
-page {
-}
-
-.seed-theme-light {
-}
-
-.seed-theme-dark {
-}
-
-page {
+:root {
   --seed-dimension-x0_5: 2px;
   --seed-dimension-x1: 4px;
   --seed-dimension-x1_5: 6px;
@@ -409,7 +381,7 @@ page {
   --seed-timing-function-exit-expressive: cubic-bezier(.35, 0, .95, .55);
 }
 
-page, page.seed-theme-light {
+:root, :root.seed-theme-light {
   --seed-color-palette-gray-00: #fff;
   --seed-color-palette-gray-100: #f7f8f9;
   --seed-color-palette-gray-200: #f3f4f5;
@@ -620,429 +592,7 @@ page, page.seed-theme-light {
   --seed-shadow-s3: 0px 4px 16px 0px #0000001f;
 }
 
-page, page.seed-theme-light__text {
-  --seed-color-palette-gray-00: #fff;
-  --seed-color-palette-gray-100: #f7f8f9;
-  --seed-color-palette-gray-200: #f3f4f5;
-  --seed-color-palette-gray-300: #eeeff1;
-  --seed-color-palette-gray-400: #dcdee3;
-  --seed-color-palette-gray-500: #d1d3d8;
-  --seed-color-palette-gray-600: #b0b3ba;
-  --seed-color-palette-gray-700: #868b94;
-  --seed-color-palette-gray-800: #555d6d;
-  --seed-color-palette-gray-900: #2a3038;
-  --seed-color-palette-gray-1000: #1a1c20;
-  --seed-color-palette-carrot-100: #fff2ec;
-  --seed-color-palette-carrot-200: #ffe8db;
-  --seed-color-palette-carrot-300: #ffd5c0;
-  --seed-color-palette-carrot-400: #ffb999;
-  --seed-color-palette-carrot-500: #ff9364;
-  --seed-color-palette-carrot-600: #f60;
-  --seed-color-palette-carrot-700: #e14d00;
-  --seed-color-palette-carrot-800: #b93901;
-  --seed-color-palette-carrot-900: #862b00;
-  --seed-color-palette-carrot-1000: #471601;
-  --seed-color-palette-blue-100: #eff6ff;
-  --seed-color-palette-blue-200: #e2edfc;
-  --seed-color-palette-blue-300: #cbdffa;
-  --seed-color-palette-blue-400: #aacefd;
-  --seed-color-palette-blue-500: #85b8fd;
-  --seed-color-palette-blue-600: #5e98fe;
-  --seed-color-palette-blue-700: #217cf9;
-  --seed-color-palette-blue-800: #135fcd;
-  --seed-color-palette-blue-900: #0b4596;
-  --seed-color-palette-blue-1000: #032451;
-  --seed-color-palette-red-100: #fdf0f0;
-  --seed-color-palette-red-200: #fde7e7;
-  --seed-color-palette-red-300: #fed4d2;
-  --seed-color-palette-red-400: #feb7b3;
-  --seed-color-palette-red-500: #fe928d;
-  --seed-color-palette-red-600: #fc6a66;
-  --seed-color-palette-red-700: #fa342c;
-  --seed-color-palette-red-800: #ca1d13;
-  --seed-color-palette-red-900: #921708;
-  --seed-color-palette-red-1000: #4a1209;
-  --seed-color-palette-green-100: #edfaf6;
-  --seed-color-palette-green-200: #d9f6e9;
-  --seed-color-palette-green-300: #b9e9d2;
-  --seed-color-palette-green-400: #7ddcb3;
-  --seed-color-palette-green-500: #42c593;
-  --seed-color-palette-green-600: #10ab7d;
-  --seed-color-palette-green-700: #079171;
-  --seed-color-palette-green-800: #00745f;
-  --seed-color-palette-green-900: #075445;
-  --seed-color-palette-green-1000: #0a2b24;
-  --seed-color-palette-yellow-100: #fff7de;
-  --seed-color-palette-yellow-200: #fdefb9;
-  --seed-color-palette-yellow-300: #fbdc65;
-  --seed-color-palette-yellow-400: #e9c647;
-  --seed-color-palette-yellow-500: #d4ab28;
-  --seed-color-palette-yellow-600: #c49725;
-  --seed-color-palette-yellow-700: #9b7821;
-  --seed-color-palette-yellow-800: #755b22;
-  --seed-color-palette-yellow-900: #4f3e1f;
-  --seed-color-palette-yellow-1000: #2c2512;
-  --seed-color-palette-purple-100: #f5f3fe;
-  --seed-color-palette-purple-200: #efeafe;
-  --seed-color-palette-purple-300: #e1d8ff;
-  --seed-color-palette-purple-400: #d0c0ff;
-  --seed-color-palette-purple-500: #b8a1ff;
-  --seed-color-palette-purple-600: #9f84fb;
-  --seed-color-palette-purple-700: #8969ea;
-  --seed-color-palette-purple-800: #6d50cb;
-  --seed-color-palette-purple-900: #50379b;
-  --seed-color-palette-purple-1000: #29175d;
-  --seed-color-palette-static-black: #000;
-  --seed-color-palette-static-black-alpha-100: #00000007;
-  --seed-color-palette-static-black-alpha-200: #0000000c;
-  --seed-color-palette-static-black-alpha-300: #00000010;
-  --seed-color-palette-static-black-alpha-400: #00000021;
-  --seed-color-palette-static-black-alpha-500: #0000002c;
-  --seed-color-palette-static-black-alpha-600: #0000004c;
-  --seed-color-palette-static-black-alpha-700: #00000074;
-  --seed-color-palette-static-black-alpha-800: #000000a2;
-  --seed-color-palette-static-black-alpha-900: #000000d0;
-  --seed-color-palette-static-black-alpha-1000: #000000e3;
-  --seed-color-palette-static-white: #fff;
-  --seed-color-palette-static-white-alpha-50: #ffffff0d;
-  --seed-color-palette-static-white-alpha-100: #ffffff17;
-  --seed-color-palette-static-white-alpha-200: #ffffff20;
-  --seed-color-palette-static-white-alpha-300: #ffffff2e;
-  --seed-color-palette-static-white-alpha-400: #ffffff3d;
-  --seed-color-palette-static-white-alpha-500: #ffffff60;
-  --seed-color-palette-static-white-alpha-600: #ffffff8b;
-  --seed-color-palette-static-white-alpha-700: #ffffffb3;
-  --seed-color-palette-static-white-alpha-800: #ffffffde;
-  --seed-color-palette-static-white-alpha-900: #ffffffea;
-  --seed-color-palette-static-white-alpha-1000: #fffffff4;
-  --seed-color-fg-brand: #f60;
-  --seed-color-fg-brand-contrast: #e14d00;
-  --seed-color-fg-critical: #fa342c;
-  --seed-color-fg-critical-contrast: #921708;
-  --seed-color-fg-disabled: #d1d3d8;
-  --seed-color-fg-informative: #217cf9;
-  --seed-color-fg-informative-contrast: #0b4596;
-  --seed-color-fg-neutral: #1a1c20;
-  --seed-color-fg-neutral-inverted: #fff;
-  --seed-color-fg-neutral-muted: #555d6d;
-  --seed-color-fg-neutral-subtle: #868b94;
-  --seed-color-fg-placeholder: #b0b3ba;
-  --seed-color-fg-positive: #079171;
-  --seed-color-fg-positive-contrast: #075445;
-  --seed-color-fg-warning: #9b7821;
-  --seed-color-fg-warning-contrast: #4f3e1f;
-  --seed-color-bg-brand-solid: #f60;
-  --seed-color-bg-brand-solid-pressed: #e14d00;
-  --seed-color-bg-brand-weak: #fff2ec;
-  --seed-color-bg-brand-weak-pressed: #ffe8db;
-  --seed-color-bg-critical-solid: #fa342c;
-  --seed-color-bg-critical-solid-pressed: #ca1d13;
-  --seed-color-bg-critical-weak: #fdf0f0;
-  --seed-color-bg-critical-weak-pressed: #fde7e7;
-  --seed-color-bg-disabled: #f3f4f5;
-  --seed-color-bg-informative-solid: #217cf9;
-  --seed-color-bg-informative-solid-pressed: #135fcd;
-  --seed-color-bg-informative-weak: #eff6ff;
-  --seed-color-bg-informative-weak-pressed: #e2edfc;
-  --seed-color-bg-layer-basement: #f3f4f5;
-  --seed-color-bg-layer-default: #fff;
-  --seed-color-bg-layer-default-pressed: #f7f8f9;
-  --seed-color-bg-layer-fill: #f7f8f9;
-  --seed-color-bg-layer-floating: #fff;
-  --seed-color-bg-layer-floating-pressed: #f7f8f9;
-  --seed-color-bg-magic-weak: #f9f2ee;
-  --seed-color-bg-neutral-inverted: #2a3038;
-  --seed-color-bg-neutral-inverted-pressed: #555d6d;
-  --seed-color-bg-neutral-solid: #1a1c20;
-  --seed-color-bg-neutral-solid-muted: #555d6d;
-  --seed-color-bg-neutral-solid-muted-pressed: #2a3038;
-  --seed-color-bg-neutral-weak: #f3f4f5;
-  --seed-color-bg-neutral-weak-alpha: #0000000c;
-  --seed-color-bg-neutral-weak-alpha-pressed: #00000010;
-  --seed-color-bg-neutral-weak-pressed: #eeeff1;
-  --seed-color-bg-overlay: #00000074;
-  --seed-color-bg-overlay-muted: #0000002c;
-  --seed-color-bg-positive-solid: #079171;
-  --seed-color-bg-positive-solid-pressed: #00745f;
-  --seed-color-bg-positive-weak: #edfaf6;
-  --seed-color-bg-positive-weak-pressed: #d9f6e9;
-  --seed-color-bg-transparent: #0000;
-  --seed-color-bg-transparent-pressed: #00000007;
-  --seed-color-bg-warning-solid: #fbdc65;
-  --seed-color-bg-warning-solid-pressed: #e9c647;
-  --seed-color-bg-warning-weak: #fff7de;
-  --seed-color-bg-warning-weak-pressed: #fdefb9;
-  --seed-color-stroke-brand-solid: #e14d00;
-  --seed-color-stroke-brand-weak: #ffd5c0;
-  --seed-color-stroke-critical-solid: #fa342c;
-  --seed-color-stroke-critical-weak: #fed4d2;
-  --seed-color-stroke-informative-solid: #217cf9;
-  --seed-color-stroke-informative-weak: #cbdffa;
-  --seed-color-stroke-neutral-contrast: #1a1c20;
-  --seed-color-stroke-neutral-muted: #00000010;
-  --seed-color-stroke-neutral-solid: #555d6d;
-  --seed-color-stroke-neutral-subtle: #0000000c;
-  --seed-color-stroke-neutral-weak: #dcdee3;
-  --seed-color-stroke-positive-solid: #079171;
-  --seed-color-stroke-positive-weak: #b9e9d2;
-  --seed-color-stroke-warning-solid: #9b7821;
-  --seed-color-stroke-warning-weak: #fbdc65;
-  --seed-color-stroke-focus-ring: #5e98fe;
-  --seed-color-manner-temp-l1-bg: #f1f2f3;
-  --seed-color-manner-temp-l1-text: #757b85;
-  --seed-color-manner-temp-l10-bg: #ffebee;
-  --seed-color-manner-temp-l10-text: #cb0123;
-  --seed-color-manner-temp-l2-bg: #f8f4ec;
-  --seed-color-manner-temp-l2-text: #ab863f;
-  --seed-color-manner-temp-l3-bg: #fff5e5;
-  --seed-color-manner-temp-l3-text: #e08a00;
-  --seed-color-manner-temp-l4-bg: #fff3e5;
-  --seed-color-manner-temp-l4-text: #f57e00;
-  --seed-color-manner-temp-l5-bg: #fff1e5;
-  --seed-color-manner-temp-l5-text: #ff7300;
-  --seed-color-manner-temp-l6-bg: #fff0e5;
-  --seed-color-manner-temp-l6-text: #f60;
-  --seed-color-manner-temp-l7-bg: #ffefe5;
-  --seed-color-manner-temp-l7-text: #ff5100;
-  --seed-color-manner-temp-l8-bg: #ffeee5;
-  --seed-color-manner-temp-l8-text: #f30;
-  --seed-color-manner-temp-l9-bg: #fdeded;
-  --seed-color-manner-temp-l9-text: #e82c45;
-  --seed-color-banner-blue: #e1f7ff;
-  --seed-color-banner-cool-gray: #ebf1f5;
-  --seed-color-banner-green: #f0fbe5;
-  --seed-color-banner-orange: #fff2e1;
-  --seed-color-banner-pink: #ffebf1;
-  --seed-color-banner-purple: #f5ecff;
-  --seed-color-banner-red: #ffecee;
-  --seed-color-banner-teal: #e6faf6;
-  --seed-color-banner-warm-gray: #f2f0ee;
-  --seed-color-banner-yellow: #fffae1;
-  --seed-gradient-fade-layer-floating: #fff0 0%, #000 100%;
-  --seed-gradient-fade-layer-default: #000 0%, #fff0 100%;
-  --seed-gradient-glow-magic: #fef6f7 0%, #fef0e7 80%, #f9f7f5 100%;
-  --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
-  --seed-gradient-highlight-magic: #f60 20%, #d25aca 100%;
-  --seed-gradient-highlight-magic-pressed: #e14f00 20%, #ae58bf 100%;
-  --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f5cc 46%, #fff9f5cc 54%, #fff9f500 100%;
-  --seed-gradient-shimmer-neutral: #fff0 0%, #ffffffab 46%, #ffffffab 54%, #fff0 100%;
-  --seed-shadow-s1: 0px 1px 4px 0px #00000014;
-  --seed-shadow-s2: 0px 2px 10px 0px #0000001a;
-  --seed-shadow-s3: 0px 4px 16px 0px #0000001f;
-}
-
-page.seed-theme-dark {
-  --seed-color-palette-gray-00: #000;
-  --seed-color-palette-gray-100: #16171b;
-  --seed-color-palette-gray-200: #1d2025;
-  --seed-color-palette-gray-300: #2b2e35;
-  --seed-color-palette-gray-400: #393d46;
-  --seed-color-palette-gray-500: #5b606a;
-  --seed-color-palette-gray-600: #868b94;
-  --seed-color-palette-gray-700: #b0b3ba;
-  --seed-color-palette-gray-800: #dcdee3;
-  --seed-color-palette-gray-900: #e9eaec;
-  --seed-color-palette-gray-1000: #f3f4f5;
-  --seed-color-palette-carrot-100: #31241f;
-  --seed-color-palette-carrot-200: #4b291c;
-  --seed-color-palette-carrot-300: #6b311c;
-  --seed-color-palette-carrot-400: #923600;
-  --seed-color-palette-carrot-500: #bd4201;
-  --seed-color-palette-carrot-600: #e65200;
-  --seed-color-palette-carrot-700: #f60;
-  --seed-color-palette-carrot-800: #ff9e65;
-  --seed-color-palette-carrot-900: #eecebc;
-  --seed-color-palette-carrot-1000: #f4eeea;
-  --seed-color-palette-blue-100: #202742;
-  --seed-color-palette-blue-200: #1e3352;
-  --seed-color-palette-blue-300: #1a4275;
-  --seed-color-palette-blue-400: #0f559e;
-  --seed-color-palette-blue-500: #1964d8;
-  --seed-color-palette-blue-600: #1e82eb;
-  --seed-color-palette-blue-700: #41a2f9;
-  --seed-color-palette-blue-800: #83bcf9;
-  --seed-color-palette-blue-900: #b9d7fb;
-  --seed-color-palette-blue-1000: #e5f0fe;
-  --seed-color-palette-red-100: #322323;
-  --seed-color-palette-red-200: #4f2624;
-  --seed-color-palette-red-300: #742826;
-  --seed-color-palette-red-400: #a12621;
-  --seed-color-palette-red-500: #ca2319;
-  --seed-color-palette-red-600: #f73526;
-  --seed-color-palette-red-700: #ff6e60;
-  --seed-color-palette-red-800: #ffa299;
-  --seed-color-palette-red-900: #f8c5c3;
-  --seed-color-palette-red-1000: #fdf2f2;
-  --seed-color-palette-green-100: #202926;
-  --seed-color-palette-green-200: #20362e;
-  --seed-color-palette-green-300: #20493b;
-  --seed-color-palette-green-400: #19604c;
-  --seed-color-palette-green-500: #117956;
-  --seed-color-palette-green-600: #1b946d;
-  --seed-color-palette-green-700: #22b27f;
-  --seed-color-palette-green-800: #35ce9a;
-  --seed-color-palette-green-900: #93e5c0;
-  --seed-color-palette-green-1000: #d4f6ef;
-  --seed-color-palette-yellow-100: #302819;
-  --seed-color-palette-yellow-200: #413218;
-  --seed-color-palette-yellow-300: #543e15;
-  --seed-color-palette-yellow-400: #714e15;
-  --seed-color-palette-yellow-500: #91601b;
-  --seed-color-palette-yellow-600: #b6720d;
-  --seed-color-palette-yellow-700: #ca901c;
-  --seed-color-palette-yellow-800: #dab156;
-  --seed-color-palette-yellow-900: #e5d49b;
-  --seed-color-palette-yellow-1000: #f7f0cd;
-  --seed-color-palette-purple-100: #28213b;
-  --seed-color-palette-purple-200: #3b2873;
-  --seed-color-palette-purple-300: #443081;
-  --seed-color-palette-purple-400: #5a3bb1;
-  --seed-color-palette-purple-500: #764fd9;
-  --seed-color-palette-purple-600: #8e6bee;
-  --seed-color-palette-purple-700: #a78df0;
-  --seed-color-palette-purple-800: #beadf2;
-  --seed-color-palette-purple-900: #d9cefa;
-  --seed-color-palette-purple-1000: #f0edfc;
-  --seed-color-palette-static-black: #000;
-  --seed-color-palette-static-black-alpha-100: #00000007;
-  --seed-color-palette-static-black-alpha-200: #0000000c;
-  --seed-color-palette-static-black-alpha-300: #00000010;
-  --seed-color-palette-static-black-alpha-400: #00000021;
-  --seed-color-palette-static-black-alpha-500: #0000002c;
-  --seed-color-palette-static-black-alpha-600: #0000004c;
-  --seed-color-palette-static-black-alpha-700: #00000074;
-  --seed-color-palette-static-black-alpha-800: #000000a2;
-  --seed-color-palette-static-black-alpha-900: #000000d0;
-  --seed-color-palette-static-black-alpha-1000: #000000e3;
-  --seed-color-palette-static-white: #fff;
-  --seed-color-palette-static-white-alpha-50: #ffffff0d;
-  --seed-color-palette-static-white-alpha-100: #ffffff17;
-  --seed-color-palette-static-white-alpha-200: #ffffff20;
-  --seed-color-palette-static-white-alpha-300: #ffffff2e;
-  --seed-color-palette-static-white-alpha-400: #ffffff3d;
-  --seed-color-palette-static-white-alpha-500: #ffffff60;
-  --seed-color-palette-static-white-alpha-600: #ffffff8b;
-  --seed-color-palette-static-white-alpha-700: #ffffffb3;
-  --seed-color-palette-static-white-alpha-800: #ffffffde;
-  --seed-color-palette-static-white-alpha-900: #ffffffea;
-  --seed-color-palette-static-white-alpha-1000: #fffffff4;
-  --seed-color-fg-brand: #e14d00;
-  --seed-color-fg-brand-contrast: #e14d00;
-  --seed-color-fg-critical: #fa342c;
-  --seed-color-fg-critical-contrast: #921708;
-  --seed-color-fg-disabled: #d1d3d8;
-  --seed-color-fg-informative: #217cf9;
-  --seed-color-fg-informative-contrast: #0b4596;
-  --seed-color-fg-neutral: #1a1c20;
-  --seed-color-fg-neutral-inverted: #f7f8f9;
-  --seed-color-fg-neutral-muted: #555d6d;
-  --seed-color-fg-neutral-subtle: #868b94;
-  --seed-color-fg-placeholder: #b0b3ba;
-  --seed-color-fg-positive: #079171;
-  --seed-color-fg-positive-contrast: #075445;
-  --seed-color-fg-warning: #9b7821;
-  --seed-color-fg-warning-contrast: #4f3e1f;
-  --seed-color-bg-brand-solid: #e14d00;
-  --seed-color-bg-brand-solid-pressed: #b93901;
-  --seed-color-bg-brand-weak: #fff2ec;
-  --seed-color-bg-brand-weak-pressed: #ffe8db;
-  --seed-color-bg-critical-solid: #fc6a66;
-  --seed-color-bg-critical-solid-pressed: #fa342c;
-  --seed-color-bg-critical-weak: #fdf0f0;
-  --seed-color-bg-critical-weak-pressed: #fde7e7;
-  --seed-color-bg-disabled: #eeeff1;
-  --seed-color-bg-informative-solid: #5e98fe;
-  --seed-color-bg-informative-solid-pressed: #217cf9;
-  --seed-color-bg-informative-weak: #eff6ff;
-  --seed-color-bg-informative-weak-pressed: #e2edfc;
-  --seed-color-bg-layer-basement: #fff;
-  --seed-color-bg-layer-default: #f7f8f9;
-  --seed-color-bg-layer-default-pressed: #eeeff1;
-  --seed-color-bg-layer-fill: #f3f4f5;
-  --seed-color-bg-layer-floating: #f3f4f5;
-  --seed-color-bg-layer-floating-pressed: #eeeff1;
-  --seed-color-bg-magic-weak: #201f1f;
-  --seed-color-bg-neutral-inverted: #1a1c20;
-  --seed-color-bg-neutral-inverted-pressed: #555d6d;
-  --seed-color-bg-neutral-solid: #eeeff1;
-  --seed-color-bg-neutral-solid-muted: #dcdee3;
-  --seed-color-bg-neutral-solid-muted-pressed: #d1d3d8;
-  --seed-color-bg-neutral-weak: #eeeff1;
-  --seed-color-bg-neutral-weak-alpha: #ffffff20;
-  --seed-color-bg-neutral-weak-alpha-pressed: #ffffff2e;
-  --seed-color-bg-neutral-weak-pressed: #dcdee3;
-  --seed-color-bg-overlay: #00000074;
-  --seed-color-bg-overlay-muted: #0000002c;
-  --seed-color-bg-positive-solid: #42c593;
-  --seed-color-bg-positive-solid-pressed: #10ab7d;
-  --seed-color-bg-positive-weak: #edfaf6;
-  --seed-color-bg-positive-weak-pressed: #d9f6e9;
-  --seed-color-bg-transparent: #fff0;
-  --seed-color-bg-transparent-pressed: #ffffff0d;
-  --seed-color-bg-warning-solid: #755b22;
-  --seed-color-bg-warning-solid-pressed: #4f3e1f;
-  --seed-color-bg-warning-weak: #fff7de;
-  --seed-color-bg-warning-weak-pressed: #fdefb9;
-  --seed-color-stroke-brand-solid: #e14d00;
-  --seed-color-stroke-brand-weak: #ffd5c0;
-  --seed-color-stroke-critical-solid: #fa342c;
-  --seed-color-stroke-critical-weak: #fed4d2;
-  --seed-color-stroke-informative-solid: #217cf9;
-  --seed-color-stroke-informative-weak: #cbdffa;
-  --seed-color-stroke-neutral-contrast: #1a1c20;
-  --seed-color-stroke-neutral-muted: #ffffff17;
-  --seed-color-stroke-neutral-solid: #555d6d;
-  --seed-color-stroke-neutral-subtle: #ffffff0d;
-  --seed-color-stroke-neutral-weak: #dcdee3;
-  --seed-color-stroke-positive-solid: #079171;
-  --seed-color-stroke-positive-weak: #b9e9d2;
-  --seed-color-stroke-warning-solid: #9b7821;
-  --seed-color-stroke-warning-weak: #fbdc65;
-  --seed-color-stroke-focus-ring: #5e98fe;
-  --seed-color-manner-temp-l1-bg: #292929;
-  --seed-color-manner-temp-l1-text: #b8b8b9;
-  --seed-color-manner-temp-l10-bg: #34040a;
-  --seed-color-manner-temp-l10-text: #fb6f82;
-  --seed-color-manner-temp-l2-bg: #332605;
-  --seed-color-manner-temp-l2-text: #f5db97;
-  --seed-color-manner-temp-l3-bg: #372b01;
-  --seed-color-manner-temp-l3-text: #fdda65;
-  --seed-color-manner-temp-l4-bg: #372301;
-  --seed-color-manner-temp-l4-text: #fbbe55;
-  --seed-color-manner-temp-l5-bg: #371f01;
-  --seed-color-manner-temp-l5-text: #faac4b;
-  --seed-color-manner-temp-l6-bg: #351b03;
-  --seed-color-manner-temp-l6-text: #fc9855;
-  --seed-color-manner-temp-l7-bg: #371701;
-  --seed-color-manner-temp-l7-text: #f97a25;
-  --seed-color-manner-temp-l8-bg: #380f00;
-  --seed-color-manner-temp-l8-text: #fe6a34;
-  --seed-color-manner-temp-l9-bg: #380500;
-  --seed-color-manner-temp-l9-text: #fe6a5d;
-  --seed-color-banner-blue: #0d2a3a;
-  --seed-color-banner-cool-gray: #242c33;
-  --seed-color-banner-green: #1e361c;
-  --seed-color-banner-orange: #42230a;
-  --seed-color-banner-pink: #3b172c;
-  --seed-color-banner-purple: #2e1e45;
-  --seed-color-banner-red: #3a0f15;
-  --seed-color-banner-teal: #143633;
-  --seed-color-banner-warm-gray: #2f2b27;
-  --seed-color-banner-yellow: #3e2b00;
-  --seed-gradient-fade-layer-floating: #1d202500 0%, #000 100%;
-  --seed-gradient-fade-layer-default: #000 0%, #16171b00 100%;
-  --seed-gradient-glow-magic: #2d252d 0%, #3a312b 80%, #333232 100%;
-  --seed-gradient-glow-magic-pressed: #3e333e 0%, #51453e 80%, #434242 100%;
-  --seed-gradient-highlight-magic: #f60 20%, #d25aca 100%;
-  --seed-gradient-highlight-magic-pressed: #ff9e65 20%, #e89bee 100%;
-  --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f51a 46%, #fff9f51a 54%, #fff9f500 100%;
-  --seed-gradient-shimmer-neutral: #fff0 0%, #ffffff1a 46%, #ffffff1a 54%, #fff0 100%;
-  --seed-shadow-s1: 0px 1px 4px 0px #00000080;
-  --seed-shadow-s2: 0px 2px 10px 0px #000000ad;
-  --seed-shadow-s3: 0px 4px 16px 0px #000c;
-}
-
-page.seed-theme-dark__text {
+:root.seed-theme-dark {
   --seed-color-palette-gray-00: #000;
   --seed-color-palette-gray-100: #16171b;
   --seed-color-palette-gray-200: #1d2025;
@@ -1294,9 +844,6 @@ page.seed-theme-dark__text {
   --seed-box-bleed-left: 0px;
   --seed-box-bleed-right: 0px;
   font-family: inherit;
-}
-
-.seed-action-button.seed-action-button--disabled_true {
 }
 
 .seed-action-button {
@@ -1838,9 +1385,6 @@ page.seed-theme-dark__text {
   background: var(--seed-color-bg-neutral-weak-pressed);
 }
 
-.seed-action-chip:focus, .seed-action-chip.seed-action-chip--focus_true {
-}
-
 .seed-action-chip.seed-action-chip--disabled_true {
   background: var(--seed-color-bg-disabled);
   --seed-prefix-icon-color: #d1d3d8;
@@ -1891,14 +1435,8 @@ page.seed-theme-dark__text {
   line-height: var(--seed-line-height-t4);
 }
 
-.seed-action-chip--size_medium-layout_withText {
-}
-
 .seed-action-chip--size_medium-layout_iconOnly {
   min-width: var(--seed-dimension-x9);
-}
-
-.seed-action-chip--size_small-layout_withText {
 }
 
 .seed-action-chip--size_small-layout_iconOnly {
@@ -2100,9 +1638,6 @@ page.seed-theme-dark__text {
   left: 0;
 }
 
-.seed-aspect-ratio > img, .seed-aspect-ratio > video {
-}
-
 .seed-app-bar__root {
   z-index: var(--z-index-app-bar);
   align-items: flex-end;
@@ -2152,10 +1687,10 @@ page.seed-theme-dark__text {
 }
 
 .seed-app-bar__root--theme_cupertino {
-  height: calc(44px + var(--seed-safe-area-top));
+  height: calc(44px + env(safe-area-inset-top));
   padding-left: var(--seed-dimension-x4);
   padding-right: var(--seed-dimension-x4);
-  padding-top: var(--seed-safe-area-top);
+  padding-top: env(safe-area-inset-top);
 }
 
 .seed-app-bar__iconButton--theme_cupertino {
@@ -2177,10 +1712,10 @@ page.seed-theme-dark__text {
 }
 
 .seed-app-bar__root--theme_android {
-  height: calc(56px + var(--seed-safe-area-top));
+  height: calc(56px + env(safe-area-inset-top));
   padding-left: var(--seed-dimension-x4);
   padding-right: var(--seed-dimension-x4);
-  padding-top: var(--seed-safe-area-top);
+  padding-top: env(safe-area-inset-top);
 }
 
 .seed-app-bar__iconButton--theme_android {
@@ -2426,7 +1961,7 @@ page.seed-theme-dark__text {
 
 .seed-app-bar-main__root--theme_cupertino {
   text-align: center;
-  top: var(--seed-safe-area-top);
+  top: env(safe-area-inset-top);
   padding-left: var(--centered-title-padding-x, 0);
   padding-right: var(--centered-title-padding-x, 0);
   pointer-events: none;
@@ -2848,7 +2383,7 @@ page.seed-theme-dark__text {
 }
 
 .seed-app-screen__layer--layerOffsetTop_safeArea {
-  padding-top: var(--seed-safe-area-top);
+  padding-top: env(safe-area-inset-top);
 }
 
 .seed-app-screen__layer--layerOffsetTop_appBar {
@@ -2856,12 +2391,12 @@ page.seed-theme-dark__text {
 }
 
 .seed-app-screen__layer--layerOffsetBottom_safeArea {
-  padding-bottom: var(--seed-safe-area-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .seed-app-screen__layer--tone_transparent-gradient_true:before {
-  margin-bottom: calc(-1 * (66px + 400px + var(--seed-safe-area-top)));
-  height: calc(66px + 400px + var(--seed-safe-area-top));
+  margin-bottom: calc(-1 * (66px + 400px + env(safe-area-inset-top)));
+  height: calc(66px + 400px + env(safe-area-inset-top));
   pointer-events: none;
   z-index: 1;
   background: linear-gradient(#0003 0%, #00000059 400px, #0000 100%);
@@ -2877,17 +2412,11 @@ page.seed-theme-dark__text {
 }
 
 .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_safeArea:before {
-  transform: translateY(calc(-400px - var(--seed-safe-area-top)));
+  transform: translateY(calc(-400px - env(safe-area-inset-top)));
 }
 
 .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_appBar:before {
   transform: translateY(calc(-400px - var(--app-bar-offset)));
-}
-
-.seed-article {
-}
-
-.seed-article:lang(ko) {
 }
 
 .seed-avatar__root {
@@ -3339,7 +2868,7 @@ page.seed-theme-dark__text {
   background: var(--seed-color-bg-layer-floating);
   border-top-left-radius: var(--seed-radius-r6);
   border-top-right-radius: var(--seed-radius-r6);
-  padding-bottom: var(--seed-safe-area-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
   transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive);
   flex-direction: column;
   flex: 1;
@@ -3440,9 +2969,6 @@ page.seed-theme-dark__text {
   right: -8px;
   bottom: -8px;
   left: -8px;
-}
-
-.seed-bottom-sheet__closeButton:focus, .seed-bottom-sheet__closeButton.seed-bottom-sheet__closeButton--focus_true {
 }
 
 .seed-bottom-sheet__header--headerAlign_left {
@@ -3559,9 +3085,6 @@ page.seed-theme-dark__text {
   display: flex;
 }
 
-.seed-callout__rootbutton, .seed-callout__roota {
-}
-
 .seed-callout__content {
   line-height: var(--seed-line-height-t4);
   margin-right: auto;
@@ -3573,16 +3096,10 @@ page.seed-theme-dark__text {
   font-weight: var(--seed-font-weight-bold);
 }
 
-.seed-callout__title:after {
-}
-
 .seed-callout__description {
   font-size: var(--seed-font-size-t4);
   line-height: var(--seed-line-height-t4);
   font-weight: var(--seed-font-weight-regular);
-}
-
-.seed-callout__description:not(:last-child):after {
 }
 
 .seed-callout__link {
@@ -3702,9 +3219,6 @@ page.seed-theme-dark__text {
   max-width: 100%;
   display: inline-flex;
   position: relative;
-}
-
-.seed-checkbox__root.seed-checkbox__root--disabled_true {
 }
 
 .seed-checkbox__label {
@@ -3897,9 +3411,6 @@ page.seed-theme-dark__text {
   transition-property: background-color, color, border-color, box-shadow;
   display: inline-flex;
   position: relative;
-}
-
-.seed-chip__root.seed-chip__root--disabled_true {
 }
 
 .seed-chip__label {
@@ -4323,9 +3834,6 @@ page.seed-theme-dark__text {
   font-family: inherit;
 }
 
-.seed-contextual-floating-button.seed-contextual-floating-button--disabled_true {
-}
-
 .seed-contextual-floating-button {
   border-radius: var(--seed-radius-full);
   box-shadow: var(--seed-shadow-s3);
@@ -4487,9 +3995,6 @@ page.seed-theme-dark__text {
   font-weight: var(--seed-font-weight-medium);
 }
 
-.seed-control-chip:focus, .seed-control-chip.seed-control-chip--focus_true {
-}
-
 .seed-control-chip:active {
   background: var(--seed-color-bg-layer-default-pressed);
 }
@@ -4566,14 +4071,8 @@ page.seed-theme-dark__text {
   line-height: var(--seed-line-height-t4);
 }
 
-.seed-control-chip--size_medium-layout_withText {
-}
-
 .seed-control-chip--size_medium-layout_iconOnly {
   min-width: var(--seed-dimension-x9);
-}
-
-.seed-control-chip--size_small-layout_withText {
 }
 
 .seed-control-chip--size_small-layout_iconOnly {
@@ -4884,12 +4383,6 @@ page.seed-theme-dark__text {
   font-family: inherit;
 }
 
-.seed-extended-fab:focus, .seed-extended-fab.seed-extended-fab--focus_true {
-}
-
-.seed-extended-fab.seed-extended-fab--disabled_true {
-}
-
 .seed-extended-fab {
   border-radius: var(--seed-radius-full);
   box-shadow: 0 2px 6px #00000026;
@@ -4970,12 +4463,6 @@ page.seed-theme-dark__text {
 
 .seed-fab__text {
   font-family: inherit;
-}
-
-.seed-fab:focus, .seed-fab.seed-fab--focus_true {
-}
-
-.seed-fab.seed-fab--disabled_true {
 }
 
 .seed-fab {
@@ -5111,9 +4598,6 @@ page.seed-theme-dark__text {
   align-items: center;
   font-family: inherit;
   display: inline-flex;
-}
-
-.seed-floating-action-button__root.seed-floating-action-button__root--disabled_true {
 }
 
 .seed-floating-action-button__root {
@@ -5376,9 +4860,6 @@ page.seed-theme-dark__text {
   position: absolute;
 }
 
-.seed-image-frame-reaction-button:focus, .seed-image-frame-reaction-button.seed-image-frame-reaction-button--focus_true {
-}
-
 .seed-image-frame-reaction-button[aria-pressed="true"], .seed-image-frame-reaction-button.seed-image-frame-reaction-button--pressed_true {
   --seed-icon-color: #0000;
 }
@@ -5403,9 +4884,6 @@ page.seed-theme-dark__text {
   display: flex;
 }
 
-.seed-inline-banner__rootbutton {
-}
-
 .seed-inline-banner__content {
   margin-inline-end: auto;
 }
@@ -5415,9 +4893,6 @@ page.seed-theme-dark__text {
   line-height: var(--seed-line-height-t4);
   font-weight: var(--seed-font-weight-bold);
   flex-shrink: 0;
-}
-
-.seed-inline-banner__title:after {
 }
 
 .seed-inline-banner__description {
@@ -5582,9 +5057,6 @@ page.seed-theme-dark__text {
 
 .seed-input-button__button.seed-input-button__button--readonly_true:not([data-disabled]) {
   background-color: var(--seed-color-bg-disabled);
-}
-
-.seed-input-button__button {
 }
 
 .seed-input-button__button.seed-input-button__button--invalid_true:after {
@@ -5830,9 +5302,6 @@ page.seed-theme-dark__text {
   left: 0;
 }
 
-.seed-list-item__content:focus, .seed-list-item__content.seed-list-item__content--focus_true {
-}
-
 .seed-list-item__content:before {
   z-index: -1;
   transition-property: background-color, left, right, border-radius;
@@ -6074,7 +5543,7 @@ page.seed-theme-dark__text {
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
   padding-right: var(--seed-dimension-spacing-x-global-gutter);
   padding-top: var(--seed-dimension-x4);
-  padding-bottom: calc(var(--seed-dimension-x4)  + var(--seed-safe-area-bottom));
+  padding-bottom: calc(var(--seed-dimension-x4)  + env(safe-area-inset-bottom));
   border-top-left-radius: var(--seed-radius-r5);
   border-top-right-radius: var(--seed-radius-r5);
   flex-direction: column;
@@ -6153,9 +5622,6 @@ page.seed-theme-dark__text {
   background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 
-.seed-menu-sheet__closeButton {
-}
-
 .seed-menu-sheet__backdrop--skipAnimation_false.seed-menu-sheet__backdrop--state_open, .seed-menu-sheet__backdrop--skipAnimation_false.seed-menu-sheet__backdrop--open_true {
   animation: seed-enter;
   animation-timing-function: var(--seed-timing-function-enter);
@@ -6227,9 +5693,6 @@ page.seed-theme-dark__text {
   border-bottom-left-radius: var(--seed-radius-r4);
   border-bottom-right-radius: var(--seed-radius-r4);
   box-shadow: none;
-}
-
-.seed-menu-sheet-item__root {
 }
 
 .seed-menu-sheet-item__root {
@@ -6368,9 +5831,6 @@ page.seed-theme-dark__text {
   display: flex;
 }
 
-.seed-page-banner__rootbutton {
-}
-
 .seed-page-banner__content {
   justify-content: space-between;
   align-items: center;
@@ -6390,9 +5850,6 @@ page.seed-theme-dark__text {
   line-height: var(--seed-line-height-t4);
   font-weight: var(--seed-font-weight-bold);
   flex-shrink: 0;
-}
-
-.seed-page-banner__title:after {
 }
 
 .seed-page-banner__description {
@@ -6596,9 +6053,6 @@ page.seed-theme-dark__text {
   animation: 1.2s cubic-bezier(.35, .25, .65, .75) infinite rotate;
 }
 
-.seed-progress-circle__track {
-}
-
 .seed-progress-circle__range {
   transition-duration: .3s;
   transition-timing-function: cubic-bezier(0, 0, .15, 1);
@@ -6657,9 +6111,6 @@ page.seed-theme-dark__text {
   max-width: 100%;
   display: inline-flex;
   position: relative;
-}
-
-.seed-radio__root.seed-radio__root--disabled_true {
 }
 
 .seed-radio__label {
@@ -6952,9 +6403,6 @@ page.seed-theme-dark__text {
   --scroll-fog-to-color: #000;
 }
 
-.seed-scroll-fog--hideScrollBar_true {
-}
-
 .seed-segmented-control__root {
   max-width: 100%;
   padding: var(--seed-dimension-x1);
@@ -7005,9 +6453,6 @@ page.seed-theme-dark__text {
 
 .seed-segmented-control__item.seed-segmented-control__item--checked_true {
   color: var(--seed-color-fg-neutral);
-}
-
-.seed-segmented-control__item {
 }
 
 .seed-segmented-control__item.seed-segmented-control__item--disabled_true {
@@ -7062,9 +6507,6 @@ page.seed-theme-dark__text {
 
 .seed-select-box__root.seed-select-box__root--disabled_true[data-checked] {
   box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-muted);
-}
-
-.seed-select-box__root {
 }
 
 .seed-select-box__trigger {
@@ -7269,12 +6711,6 @@ page.seed-theme-dark__text {
   display: flex;
 }
 
-.seed-slider__root.seed-slider__root--dragging_true {
-}
-
-.seed-slider__root.seed-slider__root--disabled_true {
-}
-
 .seed-slider__control {
   align-items: center;
   height: 26px;
@@ -7358,9 +6794,6 @@ page.seed-theme-dark__text {
 
 .seed-slider__thumb.seed-slider__thumb--thumb-dragging_true:after {
   transform: scale(1.2);
-}
-
-.seed-slider__thumb:focus, .seed-slider__thumb.seed-slider__thumb--focus_true {
 }
 
 .seed-slider__markers {
@@ -7610,9 +7043,6 @@ page.seed-theme-dark__text {
   animation-fill-mode: forwards;
 }
 
-.seed-snackbar__root {
-}
-
 .seed-snackbar__content {
   padding-left: var(--seed-dimension-x1_5);
   padding-right: var(--seed-dimension-x1_5);
@@ -7662,9 +7092,6 @@ page.seed-theme-dark__text {
   transform: translateY(-50%);
 }
 
-.seed-snackbar__actionButton:focus, .seed-snackbar__actionButton.seed-snackbar__actionButton--focus_true {
-}
-
 .seed-snackbar__prefixIcon--variant_default {
   display: none;
 }
@@ -7679,9 +7106,9 @@ page.seed-theme-dark__text {
 
 .seed-snackbar-region {
   z-index: 2147483647;
-  left: calc(env(safe-area-inset-left, 0px));
-  right: calc(env(safe-area-inset-right, 0px));
-  bottom: calc(env(safe-area-inset-bottom, 0px)  + var(--snackbar-region-offset, 0px));
+  left: calc(env(safe-area-inset-left));
+  right: calc(env(safe-area-inset-right));
+  bottom: calc(env(safe-area-inset-bottom)  + var(--snackbar-region-offset, 0px));
   padding-left: var(--seed-dimension-x2);
   padding-right: var(--seed-dimension-x2);
   padding-top: var(--seed-dimension-x2);
@@ -7705,9 +7132,6 @@ page.seed-theme-dark__text {
   align-items: flex-start;
   display: inline-flex;
   position: relative;
-}
-
-.seed-switch__root.seed-switch__root--disabled_true {
 }
 
 .seed-switch__label {
@@ -7767,9 +7191,6 @@ page.seed-theme-dark__text {
 
 .seed-switchmark__root.seed-switchmark__root--disabled_true {
   opacity: .38;
-}
-
-.seed-switchmark__root {
 }
 
 .seed-switchmark__thumb {
@@ -7930,9 +7351,6 @@ page.seed-theme-dark__text {
   bottom: 0;
 }
 
-.seed-tabs__trigger {
-}
-
 .seed-tabs__list--triggerLayout_fill {
   justify-content: space-around;
   padding-left: 0;
@@ -8073,9 +7491,6 @@ page.seed-theme-dark__text {
   --tag-group-item-white-space: normal;
   font-size: 0;
   display: inline-block;
-}
-
-.seed-tag-group__separator--truncate_false {
 }
 
 .seed-tag-group__root--size_t2-truncate_false {
@@ -8852,15 +8267,6 @@ page.seed-theme-dark__text {
   text-overflow: ellipsis;
 }
 
-.seed-text--textDecorationLine_none {
-}
-
-.seed-text--textDecorationLine_line-through {
-}
-
-.seed-text--textDecorationLine_underline {
-}
-
 .seed-text-input__root {
   align-items: center;
   width: 100%;
@@ -9067,9 +8473,6 @@ page.seed-theme-dark__text {
 
 .seed-toggle-button__text {
   font-family: inherit;
-}
-
-.seed-toggle-button.seed-toggle-button--disabled_true {
 }
 
 .seed-toggle-button {
@@ -9290,25 +8693,9 @@ page.seed-theme-dark__text {
 }
 
 @keyframes progress-circle-head {
-  0% {
-  }
-
-  75% {
-  }
-
-  100% {
-  }
 }
 
 @keyframes progress-circle-tail {
-  0% {
-  }
-
-  33.33% {
-  }
-
-  100% {
-  }
 }
 
 @keyframes fade-in {
