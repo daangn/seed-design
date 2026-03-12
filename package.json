@@ -89,8 +89,5 @@
   },
   "patchedDependencies": {
     "@radix-ui/react-dialog@1.1.15": "patches/@radix-ui%2Freact-dialog@1.1.15.patch"
-  },
-  "overrides": {
-    "esbuild": "0.27.2"
   }
 }
