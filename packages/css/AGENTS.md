@@ -19,17 +19,3 @@
 1. 토큰 → `packages/rootage/*.yaml` 수정
 2. Recipe → `packages/qvism-preset/src/recipes/*.ts` 수정
 3. `bun generate:all` 실행
-
-## 소스-생성물 관계
-
-| 소스 | 생성 명령 | 생성물 |
-|------|----------|--------|
-| `packages/qvism-preset/src/recipes/*.ts` | `bun qvism:generate` | `packages/css/recipes/*.{css,mjs,d.ts}` |
-| `packages/rootage/components/*.yaml` | `bun rootage:generate` | `packages/css/vars/component/*.{mjs,d.ts}` |
-
-## defineRecipe vs defineSlotRecipe 생성물 차이
-
-| Recipe 타입 | 클래스명 패턴 | 예시 |
-|------------|-------------|------|
-| `defineRecipe` | `.seed-{name}` | `.seed-button` |
-| `defineSlotRecipe` | `.seed-{name}__{slot}` | `.seed-avatar__root`, `.seed-avatar__fallback` |
