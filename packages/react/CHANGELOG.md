@@ -1,5 +1,25 @@
 # @seed-design/react
 
+## 1.2.7
+
+### Patch Changes
+
+- e903fac: TagGroupRoot 내부에서 `""`, 0 등 falsy한 값으로 조건부 렌더링 시 불필요한 separator가 표시될 수 있는 문제를 수정합니다.
+
+  ```tsx
+  <TagGroupRoot>
+    {/* distance === 0인 경우  separator 표시되는 문제 수정*/}
+    {distance && <TagGroupItem label={`${distance}m`} />}
+    {/* label === ""인 경우 separator  표시되는 문제 수정 */}
+    {label && <TagGroupItem label={label} />}
+  </TagGroupRoot>
+  ```
+
+- c9fb0c5: Box의 배경 색상을 class 기반으로 지정하는 경우 `:active` 스타일 선언이 배경 색상을 덮어쓰는 문제를 수정합니다.
+- Updated dependencies [2552b1d]
+- Updated dependencies [a465d74]
+  - @seed-design/react-tabs@1.0.3
+
 ## 1.2.6
 
 ### Patch Changes
