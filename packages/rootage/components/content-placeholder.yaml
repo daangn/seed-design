@@ -15,7 +15,7 @@ data:
           minWidth:
             type: dimension
           maxWidth:
-            type: dimension
+            type: number
           widthFraction:
             type: number
           color:
@@ -27,7 +27,7 @@ data:
           color: $color.palette.gray-200
         image:
           minWidth: $dimension.x4
-          maxWidth: 120%
+          maxWidth: 1.2
           widthFraction: 0.5
           color: $color.palette.gray-400
     type=default: {}

@@ -6,7 +6,7 @@ export const vars = {
       },
       "image": {
         "minWidth": "var(--seed-dimension-x4)",
-        "maxWidth": "120%",
+        "maxWidth": "1.2",
         "widthFraction": "0.5",
         "color": "var(--seed-color-palette-gray-400)"
       }

@@ -22,7 +22,7 @@ const contentPlaceholder = defineSlotRecipe({
       display: "block",
       width: "50%",
       minWidth: vars.base.enabled.image.minWidth,
-      maxWidth: vars.base.enabled.image.maxWidth,
+      maxWidth: "120%",
       height: "auto",
       aspectRatio: "1 / 1",
       marginLeft: "auto",
