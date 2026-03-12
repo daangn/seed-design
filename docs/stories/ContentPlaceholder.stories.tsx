@@ -6,7 +6,6 @@ import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { contentPlaceholderVariantMap } from "@seed-design/css/recipes/content-placeholder";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { IconSparkle2Fill } from "@karrotmarket/react-monochrome-icon";
 
 const meta = {
   component: ContentPlaceholder,
@@ -30,7 +29,6 @@ const conditionMap = {
     localProfile: { type: "localProfile" as const },
     buySell: { type: "buySell" as const },
     jobs: { type: "jobs" as const },
-    svg: { svg: <IconSparkle2Fill /> },
   },
 };
 
