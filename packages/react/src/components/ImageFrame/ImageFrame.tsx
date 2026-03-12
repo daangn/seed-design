@@ -16,111 +16,83 @@ import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
-import { AspectRatio } from "../AspectRatio/AspectRatio";
-import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
 import { Badge, type BadgeProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
 import { Icon } from "../Icon/Icon";
-import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-
-const { withProvider, withContext } = createSlotRecipeContext(imageFrameRecipe);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ImageFrameRootProps
-  extends Omit<Image.RootProps, "color">,
-    ImageFrameVariantProps,
-    StyleProps {
-  /**
-   * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
-   * Use AspectRatio component instead: <AspectRatio ratio={4 / 3}><ImageFrame.Root>...</ImageFrame.Root></AspectRatio>
-   * Reason: AspectRatio는 ImageFrame의 본질이 아닌 레이아웃 유틸리티입니다. snippet 레이어 또는 사용자 코드에서 직접 조합하세요.
-   */
-  ratio?: number;
+export interface ImageFrameProps
+  extends Omit<AspectRatioProps, "children">,
+    ImageFrameVariantProps {
   /**
    * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
    * Use borderRadius="r2" instead.
    * Reason: 모서리 스타일은 borderRadius prop으로 통일합니다.
    */
   rounded?: ImageFrameVariantProps["rounded"];
-}
-
-const ImageFrameRootBase = React.forwardRef<HTMLDivElement, ImageFrameRootProps>(
-  ({ ratio: _ratio, ...props }, ref) => {
-    const { style, restProps } = useStyleProps(props);
-
-    return <Image.Root ref={ref} style={style} {...restProps} />;
-  },
-);
-
-ImageFrameRootBase.displayName = "ImageFrameRootBase";
-
-export const ImageFrameRoot = withProvider<HTMLDivElement, ImageFrameRootProps>(
-  ImageFrameRootBase,
-  "root",
-);
-
-ImageFrameRoot.displayName = "ImageFrame.Root";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface ImageFrameContentProps extends Image.ContentProps {}
-
-export const ImageFrameContent = withContext<HTMLImageElement, ImageFrameContentProps>(
-  Image.Content,
-  "content",
-);
-
-ImageFrameContent.displayName = "ImageFrame.Content";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface ImageFrameFallbackProps extends Image.FallbackProps {}
-
-export const ImageFrameFallback = withContext<HTMLDivElement, ImageFrameFallbackProps>(
-  Image.Fallback,
-  "fallback",
-);
-
-ImageFrameFallback.displayName = "ImageFrame.Fallback";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface ImageFrameProps extends ImageFrameRootProps {
-  src?: string;
-  alt?: string;
-  /**
-   * Fallback content to show when the image fails to load or is loading.
-   */
+  src: string;
+  alt: string;
   fallback?: React.ReactNode;
+  loading?: "eager" | "lazy";
+  decoding?: "async" | "auto" | "sync";
+  crossOrigin?: "anonymous" | "use-credentials" | "";
+  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+  sizes?: string;
+  srcSet?: string;
+  onLoad?: React.ReactEventHandler<HTMLImageElement>;
+  onError?: React.ReactEventHandler<HTMLImageElement>;
+  children?: React.ReactNode;
 }
 
 export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
-  ({ ratio, src, alt, fallback, children, className, ...otherProps }, ref) => {
-    const { style, restProps } = useStyleProps(otherProps);
-
-    const content = (
-      <ImageFrameRoot {...restProps}>
-        {fallback != null && <ImageFrameFallback>{fallback}</ImageFrameFallback>}
-        <ImageFrameContent src={src} alt={alt ?? ""} />
-        {children}
-      </ImageFrameRoot>
-    );
-
-    if (ratio != null) {
-      return (
-        <AspectRatio ref={ref} ratio={ratio} className={className} style={style}>
-          {content}
-        </AspectRatio>
-      );
-    }
+  (
+    {
+      ratio = 4 / 3,
+      stroke,
+      rounded,
+      src,
+      alt,
+      fallback,
+      className,
+      loading,
+      decoding,
+      crossOrigin,
+      referrerPolicy,
+      sizes,
+      srcSet,
+      onLoad,
+      onError,
+      children,
+      ...rest
+    },
+    ref,
+  ) => {
+    const classNames = imageFrameRecipe({ stroke, rounded });
 
     return (
-      <ImageFrameRoot ref={ref} className={className} style={style} {...restProps}>
-        {fallback != null && <ImageFrameFallback>{fallback}</ImageFrameFallback>}
-        <ImageFrameContent src={src} alt={alt ?? ""} />
-        {children}
-      </ImageFrameRoot>
+      <AspectRatio ref={ref} ratio={ratio} className={className} {...rest}>
+        <Image.Root className={classNames.root}>
+          <Image.Content
+            className={classNames.content}
+            src={src}
+            alt={alt}
+            loading={loading}
+            decoding={decoding}
+            crossOrigin={crossOrigin}
+            referrerPolicy={referrerPolicy}
+            sizes={sizes}
+            srcSet={srcSet}
+            onLoad={onLoad}
+            onError={onError}
+          />
+          {fallback && (
+            <Image.Fallback className={classNames.fallback}>{fallback}</Image.Fallback>
+          )}
+          {children}
+        </Image.Root>
+      </AspectRatio>
     );
   },
 );
