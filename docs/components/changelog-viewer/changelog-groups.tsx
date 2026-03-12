@@ -7,23 +7,29 @@ import type {
   GroupedChangelogEntry,
   ResolvedRelatedPackage,
 } from "@/components/changelog-viewer/use-changelog-viewer-data";
+import { useEffect, useMemo, useState } from "react";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
+
+const STICKY_TOP_PX = 64;
 
 function ChangelogGroupHeader({
   group,
   groupQueryHref,
   absoluteGroupHref,
   onCopyLink,
+  sticky = false,
 }: {
   group: GroupedChangelogEntry;
   groupQueryHref: string;
   absoluteGroupHref: string;
   onCopyLink: (url: string) => void;
+  sticky?: boolean;
 }) {
   return (
     <div
       className={[
-        "sticky top-16 z-10 flex items-center justify-between gap-2 flex-wrap border-b border-fd-border px-4 h-10 bg-fd-card/95 backdrop-blur supports-[backdrop-filter]:bg-fd-card/80",
+        "flex items-center justify-between gap-2 flex-wrap border-b border-fd-border px-4 h-10 bg-fd-card/95 backdrop-blur supports-[backdrop-filter]:bg-fd-card/80",
+        sticky ? "sticky top-16 z-20 rounded-t-xl border border-fd-border" : "rounded-t-xl",
       ].join(" ")}
     >
       <div className="group/copy inline-flex items-center gap-1.5 min-w-0">
@@ -102,6 +108,46 @@ export function ChangelogGroups({
   groupedEntries: GroupedChangelogEntry[];
 }) {
   const adapter = useSnackbarAdapter();
+  const [activeGroupKey, setActiveGroupKey] = useState<string | null>(null);
+  const [showStickyHeader, setShowStickyHeader] = useState(false);
+
+  useEffect(() => {
+    if (groupedEntries.length === 0) {
+      setActiveGroupKey(null);
+      setShowStickyHeader(false);
+      return;
+    }
+
+    const updateStickyState = () => {
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-changelog-group-key]"),
+      );
+
+      const firstSection = sections[0];
+      if (firstSection) {
+        setShowStickyHeader(firstSection.getBoundingClientRect().top <= STICKY_TOP_PX);
+      }
+
+      const activeSection =
+        sections.find((section) => {
+          const rect = section.getBoundingClientRect();
+          return rect.top <= STICKY_TOP_PX && rect.bottom > STICKY_TOP_PX;
+        }) ??
+        sections.find((section) => section.getBoundingClientRect().top > STICKY_TOP_PX) ??
+        sections[sections.length - 1];
+
+      setActiveGroupKey(activeSection?.dataset.changelogGroupKey ?? null);
+    };
+
+    updateStickyState();
+    window.addEventListener("scroll", updateStickyState, { passive: true });
+    window.addEventListener("resize", updateStickyState);
+
+    return () => {
+      window.removeEventListener("scroll", updateStickyState);
+      window.removeEventListener("resize", updateStickyState);
+    };
+  }, [groupedEntries]);
 
   const copyDeepLink = async (url: string) => {
     try {
@@ -114,9 +160,35 @@ export function ChangelogGroups({
     } catch {}
   };
 
+  const stickyGroup = useMemo(() => {
+    if (groupedEntries.length === 0) return null;
+
+    if (activeGroupKey == null) return groupedEntries[0];
+
+    return (
+      groupedEntries.find((group) => `${group.packageName}@${group.version}` === activeGroupKey) ??
+      groupedEntries[0]
+    );
+  }, [activeGroupKey, groupedEntries]);
+
   return (
-    <div className="rounded-2xl border border-fd-border bg-fd-card/30 overflow-hidden">
-      {groupedEntries.map((group, index) => {
+    <div className="flex flex-col gap-6">
+      {showStickyHeader && stickyGroup && (
+        <ChangelogGroupHeader
+          sticky
+          group={stickyGroup}
+          groupQueryHref={`/react/updates/changelog?tab=${encodeURIComponent(stickyGroup.packageName)}&from=${encodeURIComponent(stickyGroup.version)}`}
+          absoluteGroupHref={
+            typeof window === "undefined"
+              ? `/react/updates/changelog?tab=${encodeURIComponent(stickyGroup.packageName)}&from=${encodeURIComponent(stickyGroup.version)}#${getGroupAnchorId(stickyGroup.packageName, stickyGroup.version)}`
+              : `${window.location.origin}/react/updates/changelog?tab=${encodeURIComponent(stickyGroup.packageName)}&from=${encodeURIComponent(stickyGroup.version)}#${getGroupAnchorId(stickyGroup.packageName, stickyGroup.version)}`
+          }
+          onCopyLink={(url) => {
+            void copyDeepLink(url);
+          }}
+        />
+      )}
+      {groupedEntries.map((group) => {
         const groupAnchorId = getGroupAnchorId(group.packageName, group.version);
         const groupQueryHref = `/react/updates/changelog?tab=${encodeURIComponent(group.packageName)}&from=${encodeURIComponent(group.version)}`;
         const groupAnchorHref = `${groupQueryHref}#${groupAnchorId}`;
@@ -131,10 +203,7 @@ export function ChangelogGroups({
             key={groupKey}
             id={groupAnchorId}
             data-changelog-group-key={groupKey}
-            className={[
-              "scroll-mt-24 bg-fd-background/60",
-              index === 0 ? "" : "border-t border-fd-border",
-            ].join(" ")}
+            className="rounded-xl border border-fd-border scroll-mt-24 overflow-clip"
           >
             <ChangelogGroupHeader
               group={group}
@@ -144,12 +213,11 @@ export function ChangelogGroups({
                 void copyDeepLink(url);
               }}
             />
-            <div className="px-4 py-2">
+            <div className="px-3 py-1">
               <ul className="list-disc pl-5 pr-1 marker:text-fd-muted-foreground">
                 {group.entries.map((entry, index) => {
                   const { resolvedRelatedPackages } = entry;
 
-                  //NOTE: 하위 패키지 업데이트에 의한 버전 변경 항목 표시
                   if (entry.isDependencyOnly) {
                     return (
                       <li key={`${group.packageName}@${group.version}-${entry.order}-${index}`}>
@@ -185,7 +253,7 @@ export function ChangelogGroups({
         );
       })}
       {groupedEntries.length === 0 && (
-        <div className="text-sm text-fd-muted-foreground px-4 py-3">
+        <div className="text-sm text-fd-muted-foreground px-1">
           조건에 맞는 변경사항이 없습니다.
         </div>
       )}
