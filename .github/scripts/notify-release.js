@@ -33,9 +33,23 @@ function toSlackCommitLink(item) {
 }
 
 /**
+ * @param {string} line
+ * @returns {{ name: string, version: string } | null}
+ */
+function parseDependencyPackageLine(line) {
+  const match = line.match(/^\s*-\s+(@[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+)@([0-9A-Za-z.+-]+)\s*$/);
+  if (!match) return null;
+
+  return {
+    name: match[1],
+    version: match[2],
+  };
+}
+
+/**
  * CHANGELOG.md에서 가장 최신 버전 섹션을 추출
  * @param {string} content
- * @returns {{ version: string, sections: Record<string, string[]> } | null}
+ * @returns {{ version: string, sections: Record<string, string[]>, updatedDependencies: Array<{ name: string, version: string }> } | null}
  */
 function extractLatestVersion(content) {
   const versionMatch = content.match(
@@ -48,24 +62,44 @@ function extractLatestVersion(content) {
 
   /** @type {Record<string, string[]>} */
   const sections = {};
+  /** @type {Array<{ name: string, version: string }>} */
+  const updatedDependencies = [];
   const sectionRegex = /### (.+?)\n([\s\S]*?)(?=\n### |\n## |$)/g;
   let match;
 
   for (match = sectionRegex.exec(body); match !== null; match = sectionRegex.exec(body)) {
     const sectionName = match[1].trim();
-    const items = match[2]
-      .split("\n")
-      .filter(
-        (line) =>
-          line.startsWith("- ") &&
-          IGNORED_LINE_PREFIXES.every((prefix) => !line.startsWith(prefix)),
-      )
-      .map(toSlackCommitLink);
+    /** @type {string[]} */
+    const items = [];
+    let isInUpdatedDependencies = false;
+
+    for (const line of match[2].split("\n")) {
+      const trimmedLine = line.trim();
+
+      if (IGNORED_LINE_PREFIXES.some((prefix) => trimmedLine.startsWith(prefix))) {
+        isInUpdatedDependencies = true;
+        continue;
+      }
+
+      const dependencyPackage = parseDependencyPackageLine(line);
+      if (dependencyPackage) {
+        updatedDependencies.push(dependencyPackage);
+
+        if (isInUpdatedDependencies || trimmedLine.startsWith("- @")) {
+          continue;
+        }
+      }
+
+      if (line.startsWith("- ")) {
+        isInUpdatedDependencies = false;
+        items.push(toSlackCommitLink(line));
+      }
+    }
 
     if (items.length > 0) sections[sectionName] = items;
   }
 
-  return { version, sections };
+  return { version, sections, updatedDependencies };
 }
 
 /**
@@ -79,6 +113,55 @@ function getPackageName(changelogPath) {
   } catch {
     return dir;
   }
+}
+
+/**
+ * @param {Array<{ packageName: string, version: string, sections: Record<string, string[]>, updatedDependencies: Array<{ name: string, version: string }> }>} releases
+ */
+function organizeReleases(releases) {
+  const releaseMap = new Map(releases.map((release) => [release.packageName, release]));
+  const childReleaseNames = new Set();
+  /** @type {Map<string, Array<{ packageName: string, version: string, sections: Record<string, string[]>, updatedDependencies: Array<{ name: string, version: string }> }>>} */
+  const childrenByPackage = new Map();
+
+  for (const release of releases) {
+    const hasDirectChanges = Object.keys(release.sections).length > 0;
+    if (hasDirectChanges) continue;
+
+    const parentDependency = release.updatedDependencies.find((dependency) => {
+      const parentRelease = releaseMap.get(dependency.name);
+      return parentRelease && parentRelease.version === dependency.version;
+    });
+
+    if (!parentDependency) continue;
+
+    childReleaseNames.add(release.packageName);
+
+    const siblings = childrenByPackage.get(parentDependency.name) ?? [];
+    siblings.push(release);
+    childrenByPackage.set(parentDependency.name, siblings);
+  }
+
+  return {
+    topLevelReleases: releases.filter((release) => !childReleaseNames.has(release.packageName)),
+    childrenByPackage,
+  };
+}
+
+/**
+ * @param {Map<string, Array<{ packageName: string, version: string }>>} childrenByPackage
+ * @param {string} packageName
+ * @param {number} depth
+ * @returns {string[]}
+ */
+function formatDependencyReleaseLines(childrenByPackage, packageName, depth = 0) {
+  const children = childrenByPackage.get(packageName) ?? [];
+  const prefix = `${"  ".repeat(depth)}↳`;
+
+  return children.flatMap((child) => [
+    `${prefix} ${child.packageName}@${child.version}`,
+    ...formatDependencyReleaseLines(childrenByPackage, child.packageName, depth + 1),
+  ]);
 }
 
 function main() {
@@ -105,6 +188,8 @@ function main() {
     process.exit(0);
   }
 
+  const { topLevelReleases, childrenByPackage } = organizeReleases(releases);
+
   // Block Kit 구성
   const blocks = [
     {
@@ -124,14 +209,23 @@ function main() {
     { type: "divider" },
   ];
 
-  for (const [i, release] of releases.entries()) {
+  for (const [i, release] of topLevelReleases.entries()) {
     const emoji = NUMBER_EMOJIS[i] ?? `${i + 1}.`;
     const allItems = Object.values(release.sections).flat();
+    const dependencyReleaseLines = formatDependencyReleaseLines(childrenByPackage, release.packageName);
+    const dependencySection =
+      dependencyReleaseLines.length > 0
+        ? [
+            "• 종속 패키지 업데이트",
+            ...dependencyReleaseLines.map((line) => `  ${line}`),
+          ]
+        : [];
 
     const text = [
       `${emoji} *${release.packageName}@${release.version}*`,
       "",
       ...allItems.slice(0, 10).map((item) => `• ${item.replace(/^- /, "")}`),
+      ...dependencySection,
     ].join("\n");
 
     blocks.push({
