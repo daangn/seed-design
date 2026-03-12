@@ -12,7 +12,7 @@
 }
 .seed-content-placeholder__image {
     display: block;
-    width: 50%;
+    width: calc(0.5 * 100%);
     min-width: var(--seed-dimension-x4);
     max-width: 120px;
     height: auto;

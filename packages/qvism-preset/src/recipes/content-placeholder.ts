@@ -20,7 +20,7 @@ const contentPlaceholder = defineSlotRecipe({
     },
     image: {
       display: "block",
-      width: "50%",
+      width: `calc(${vars.base.enabled.image.widthFraction} * 100%)`,
       minWidth: vars.base.enabled.image.minWidth,
       maxWidth: vars.base.enabled.image.maxWidth,
       height: "auto",

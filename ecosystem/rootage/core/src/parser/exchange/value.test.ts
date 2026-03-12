@@ -25,15 +25,6 @@ describe("parseValue", () => {
     expect(result).toEqual(factory.createDimensionLit(10, "px"));
   });
 
-  it("should parse a percentage dimension value", () => {
-    const dimensionValue: Document.Dimension = {
-      type: "dimension",
-      value: { value: 120, unit: "%" },
-    };
-    const result = parseValue(dimensionValue);
-    expect(result).toEqual(factory.createDimensionLit(120, "%"));
-  });
-
   it("should parse a number value", () => {
     const numberValue: Document.Number = { type: "number", value: 42 };
     const result = parseValue(numberValue);

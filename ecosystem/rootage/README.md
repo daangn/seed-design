@@ -451,8 +451,6 @@ data:
     - Android에서 대응되는 단위는 dp, iOS에서는 pt입니다.
   - rem: `${number}rem` (예: `1rem`)
     - 사용자가 설정한 시스템 기본 폰트 크기의 배수를 나타냅니다. Android에서 1rem에 해당하는 값은 16sp입니다.
-  - %: `${number}%` (예: `120%`)
-    - 부모 크기를 기준으로 하는 상대 크기를 나타냅니다.
 - **Duration**
   - 밀리초: `${number}ms` (예: `200ms`)
   - 초: `${number}s` (예: `0.5s`)

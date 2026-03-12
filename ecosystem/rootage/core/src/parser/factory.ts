@@ -67,7 +67,7 @@ export function createColorHexLit(value: `#${string}`): ColorHexLit {
 /**
  * DimensionLit factory
  */
-export function createDimensionLit(value: number, unit: "px" | "rem" | "%"): DimensionLit {
+export function createDimensionLit(value: number, unit: "px" | "rem"): DimensionLit {
   return {
     kind: "DimensionLit",
     value,
