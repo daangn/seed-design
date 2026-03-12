@@ -7,29 +7,24 @@ import type {
   GroupedChangelogEntry,
   ResolvedRelatedPackage,
 } from "@/components/changelog-viewer/use-changelog-viewer-data";
-import { useEffect, useMemo, useState } from "react";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
-
-const STICKY_TOP_PX = 64;
 
 function ChangelogGroupHeader({
   group,
   groupQueryHref,
   absoluteGroupHref,
   onCopyLink,
-  sticky = false,
 }: {
   group: GroupedChangelogEntry;
   groupQueryHref: string;
   absoluteGroupHref: string;
   onCopyLink: (url: string) => void;
-  sticky?: boolean;
 }) {
   return (
     <div
       className={[
         "flex items-center justify-between gap-2 flex-wrap border-b border-fd-border px-4 h-10 bg-fd-card/95 backdrop-blur supports-[backdrop-filter]:bg-fd-card/80",
-        sticky ? "sticky top-16 z-20 rounded-t-xl border border-fd-border" : "rounded-t-xl",
+        "rounded-t-xl",
       ].join(" ")}
     >
       <div className="group/copy inline-flex items-center gap-1.5 min-w-0">
@@ -108,46 +103,6 @@ export function ChangelogGroups({
   groupedEntries: GroupedChangelogEntry[];
 }) {
   const adapter = useSnackbarAdapter();
-  const [activeGroupKey, setActiveGroupKey] = useState<string | null>(null);
-  const [showStickyHeader, setShowStickyHeader] = useState(false);
-
-  useEffect(() => {
-    if (groupedEntries.length === 0) {
-      setActiveGroupKey(null);
-      setShowStickyHeader(false);
-      return;
-    }
-
-    const updateStickyState = () => {
-      const sections = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-changelog-group-key]"),
-      );
-
-      const firstSection = sections[0];
-      if (firstSection) {
-        setShowStickyHeader(firstSection.getBoundingClientRect().top <= STICKY_TOP_PX);
-      }
-
-      const activeSection =
-        sections.find((section) => {
-          const rect = section.getBoundingClientRect();
-          return rect.top <= STICKY_TOP_PX && rect.bottom > STICKY_TOP_PX;
-        }) ??
-        sections.find((section) => section.getBoundingClientRect().top > STICKY_TOP_PX) ??
-        sections[sections.length - 1];
-
-      setActiveGroupKey(activeSection?.dataset.changelogGroupKey ?? null);
-    };
-
-    updateStickyState();
-    window.addEventListener("scroll", updateStickyState, { passive: true });
-    window.addEventListener("resize", updateStickyState);
-
-    return () => {
-      window.removeEventListener("scroll", updateStickyState);
-      window.removeEventListener("resize", updateStickyState);
-    };
-  }, [groupedEntries]);
 
   const copyDeepLink = async (url: string) => {
     try {
@@ -160,34 +115,8 @@ export function ChangelogGroups({
     } catch {}
   };
 
-  const stickyGroup = useMemo(() => {
-    if (groupedEntries.length === 0) return null;
-
-    if (activeGroupKey == null) return groupedEntries[0];
-
-    return (
-      groupedEntries.find((group) => `${group.packageName}@${group.version}` === activeGroupKey) ??
-      groupedEntries[0]
-    );
-  }, [activeGroupKey, groupedEntries]);
-
   return (
     <div className="flex flex-col gap-6">
-      {showStickyHeader && stickyGroup && (
-        <ChangelogGroupHeader
-          sticky
-          group={stickyGroup}
-          groupQueryHref={`/react/updates/changelog?tab=${encodeURIComponent(stickyGroup.packageName)}&from=${encodeURIComponent(stickyGroup.version)}`}
-          absoluteGroupHref={
-            typeof window === "undefined"
-              ? `/react/updates/changelog?tab=${encodeURIComponent(stickyGroup.packageName)}&from=${encodeURIComponent(stickyGroup.version)}#${getGroupAnchorId(stickyGroup.packageName, stickyGroup.version)}`
-              : `${window.location.origin}/react/updates/changelog?tab=${encodeURIComponent(stickyGroup.packageName)}&from=${encodeURIComponent(stickyGroup.version)}#${getGroupAnchorId(stickyGroup.packageName, stickyGroup.version)}`
-          }
-          onCopyLink={(url) => {
-            void copyDeepLink(url);
-          }}
-        />
-      )}
       {groupedEntries.map((group) => {
         const groupAnchorId = getGroupAnchorId(group.packageName, group.version);
         const groupQueryHref = `/react/updates/changelog?tab=${encodeURIComponent(group.packageName)}&from=${encodeURIComponent(group.version)}`;
