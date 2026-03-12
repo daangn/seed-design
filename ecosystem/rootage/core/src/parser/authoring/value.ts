@@ -43,11 +43,11 @@ function parseDimension(expr: unknown): AST.DimensionLit | null {
     return null;
   }
 
-  const regex = /^(-?\d+(\.\d+)?)(px|rem)$/;
+  const regex = /^(-?\d+(\.\d+)?)(px|rem|%)$/;
   const match = expr.match(regex);
   if (match) {
     const value = Number.parseFloat(match[1]!);
-    const unit = match[3] as "px" | "rem";
+    const unit = match[3] as "px" | "rem" | "%";
     return factory.createDimensionLit(value, unit);
   }
   return null;

@@ -9,7 +9,7 @@ export interface ColorHexLit {
 export interface DimensionLit {
   kind: "DimensionLit";
   value: number;
-  unit: "px" | "rem";
+  unit: "px" | "rem" | "%";
 }
 
 export interface DurationLit {

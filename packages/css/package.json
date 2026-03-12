@@ -7,8 +7,10 @@
     "directory": "packages/css"
   },
   "scripts": {
-    "generate": "bun rootage:generate && qvism:generate",
+    "generate": "bun rootage:generate && bun qvism:generate",
+    "rootage": "rootage",
     "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
+    "qvism": "qvism",
     "qvism:generate": "bun qvism ./ ./recipes",
     "lint:publish": "bun publint"
   },

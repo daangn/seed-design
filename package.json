@@ -17,6 +17,7 @@
     "build": "ultra -r build",
     "packages:build": "ultra -r --build --filter 'packages/*' build",
     "ecosystem:build": "ultra -r --build --filter 'ecosystem/*' build",
+    "typecheck": "bun --filter @seed-design/qvism-preset typecheck && bun --filter @seed-design/docs-mcp typecheck",
     "lint:publish": "bun --filter '*' lint:publish",
     "lint:knip": "knip",
     "release": "bun packages:build && bun changeset publish",

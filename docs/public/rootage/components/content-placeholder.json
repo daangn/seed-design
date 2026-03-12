@@ -16,7 +16,7 @@
             }
           }
         },
-        "container": {
+        "asset": {
           "properties": {
             "minWidth": {
               "type": "dimension"
@@ -24,13 +24,9 @@
             "maxWidth": {
               "type": "dimension"
             },
-            "padding": {
-              "type": "dimension"
-            }
-          }
-        },
-        "image": {
-          "properties": {
+            "widthFraction": {
+              "type": "number"
+            },
             "color": {
               "type": "color"
             }
@@ -72,7 +68,7 @@
                   "value": "$color.palette.gray-200"
                 }
               },
-              "container": {
+              "asset": {
                 "minWidth": {
                   "type": "dimension",
                   "value": "$dimension.x4"
@@ -81,15 +77,13 @@
                   "type": "dimension",
                   "value": {
                     "value": 120,
-                    "unit": "px"
+                    "unit": "%"
                   }
                 },
-                "padding": {
-                  "type": "dimension",
-                  "value": "$dimension.x7"
-                }
-              },
-              "image": {
+                "widthFraction": {
+                  "type": "number",
+                  "value": 0.5
+                },
                 "color": {
                   "type": "color",
                   "value": "$color.palette.gray-400"

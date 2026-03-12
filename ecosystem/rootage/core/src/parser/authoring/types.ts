@@ -1,7 +1,7 @@
 export type TokenRef = `$${string}`;
 
 export type Color = `#${string}`;
-export type Dimension = `${number}px` | `${number}rem`;
+export type Dimension = `${number}px` | `${number}rem` | `${number}%`;
 export type Number = number;
 export type Duration = `${number}${"ms" | "s"}`;
 export type CubicBezier = {

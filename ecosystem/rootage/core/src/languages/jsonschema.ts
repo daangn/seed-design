@@ -251,7 +251,7 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
       },
       "dimensionShorthand": {
         "type": "string",
-        "pattern": "^-?\\d+(\\.\\d+)?(px|rem)$"
+        "pattern": "^-?\\d+(\\.\\d+)?(px|rem|%)$"
       },
       "durationShorthand": {
         "type": "string",

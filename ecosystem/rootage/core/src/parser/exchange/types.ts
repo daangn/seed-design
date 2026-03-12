@@ -3,7 +3,7 @@ export type TokenRef = `$${string}`;
 export type ColorLit = `#${string}`;
 export type DimensionLit = {
   value: number;
-  unit: "px" | "rem";
+  unit: "px" | "rem" | "%";
 };
 export type DurationLit = {
   value: number;
