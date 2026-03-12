@@ -12,6 +12,7 @@ import {
 } from "@seed-design/css/recipes/image-frame-indicator";
 import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
 import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
+import { mergeProps } from "@seed-design/dom-utils";
 import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-toggle";
 import clsx from "clsx";
@@ -20,6 +21,7 @@ import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
 import { Badge, type BadgeProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
 import { Icon } from "../Icon/Icon";
+import { InternalIcon } from "../private/Icon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -87,9 +89,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
             onLoad={onLoad}
             onError={onError}
           />
-          {fallback && (
-            <Image.Fallback className={classNames.fallback}>{fallback}</Image.Fallback>
-          )}
+          {fallback && <Image.Fallback className={classNames.fallback}>{fallback}</Image.Fallback>}
           {children}
         </Image.Root>
       </AspectRatio>
@@ -232,8 +232,16 @@ export interface ImageFrameReactionButtonProps
   extends Omit<TogglePrimitive.RootProps, "children"> {}
 
 const ReactionButtonIcon = () => {
-  const { pressed } = useToggleContext();
-  return <Icon svg={pressed ? <SelectedHeartIcon /> : <UnselectedHeartIcon />} />;
+  const { pressed, stateProps } = useToggleContext();
+  const mergedProps = mergeProps(stateProps, {
+    className: "seed-icon",
+  } as React.HTMLAttributes<HTMLElement>);
+  return (
+    <InternalIcon
+      svg={pressed ? <SelectedHeartIcon /> : <UnselectedHeartIcon />}
+      {...mergedProps}
+    />
+  );
 };
 
 export const ImageFrameReactionButton = React.forwardRef<
