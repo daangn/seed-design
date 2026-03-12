@@ -22,9 +22,11 @@ const contentPlaceholder = defineSlotRecipe({
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      width: `calc(${vars.base.enabled.asset.heightFraction} * 100%)`,
-      minWidth: vars.base.enabled.asset.minWidth,
-      maxWidth: vars.base.enabled.asset.maxWidth,
+      height: `calc(${vars.base.enabled.asset.heightFraction} * 100%)`,
+      minHeight: vars.base.enabled.asset.minWidth,
+      maxHeight: vars.base.enabled.asset.maxWidth,
+      width: "auto",
+      aspectRatio: "1 / 1",
       color: vars.base.enabled.asset.color,
 
       "& > svg": {

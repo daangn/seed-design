@@ -14,9 +14,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: calc(0.5 * 100%);
-    min-width: var(--seed-dimension-x4);
-    max-width: 64px;
+    height: calc(0.5 * 100%);
+    min-height: var(--seed-dimension-x4);
+    max-height: 64px;
+    width: auto;
+    aspect-ratio: 1 / 1;
     color: var(--seed-color-palette-gray-400);
 }
 .seed-content-placeholder__asset > svg {
