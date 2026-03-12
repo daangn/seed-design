@@ -1,5 +1,5 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { AspectRatio, ImageFrameContent, ImageFrameRoot } from "@seed-design/react";
+import { ImageFrame } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
@@ -113,11 +113,15 @@ const ActivityListImageFrame: StaticActivityComponentType<"ActivityListImageFram
                 title={item.title}
                 detail={item.detail}
                 prefix={
-                  <AspectRatio ratio={item.ratio} width={item.width} height={item.height}>
-                    <ImageFrameRoot rounded stroke>
-                      <ImageFrameContent src={item.src} alt={item.title} />
-                    </ImageFrameRoot>
-                  </AspectRatio>
+                  <ImageFrame
+                    ratio={item.ratio}
+                    width={item.width}
+                    height={item.height}
+                    rounded
+                    stroke
+                    src={item.src}
+                    alt={item.title}
+                  />
                 }
               />
               {index < IMAGE_CASES.length - 1 && <ListDivider />}
