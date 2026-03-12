@@ -135,6 +135,19 @@
               "docUrl": "/docs/components"
             },
             {
+              "id": "content-placeholder",
+              "title": "Content Placeholder",
+              "description": "이미지나 콘텐츠를 표시할 수 없을 때 아이콘 기반 대체 에셋을 제공하는 컴포넌트입니다.",
+              "docUrl": "/docs/components/content-placeholder",
+              "snippetKey": "ui:content-placeholder",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "content-placeholder.tsx"
+                }
+              ]
+            },
+            {
               "id": "contextual-floating-button",
               "title": "Contextual Floating Button",
               "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
@@ -853,6 +866,19 @@
               "title": "Composition",
               "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
               "docUrl": "/react/components/concepts/composition"
+            },
+            {
+              "id": "content-placeholder",
+              "title": "Content Placeholder",
+              "description": "콘텐츠가 비어 있거나 이미지를 불러오지 못했을 때 아이콘과 배경으로 대체 표시하는 컴포넌트입니다.",
+              "docUrl": "/react/components/content-placeholder",
+              "snippetKey": "ui:content-placeholder",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "content-placeholder.tsx"
+                }
+              ]
             },
             {
               "id": "contextual-floating-button",
