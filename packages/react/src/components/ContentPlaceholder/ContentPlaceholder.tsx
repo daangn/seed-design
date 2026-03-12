@@ -46,7 +46,7 @@ export const ContentPlaceholderImage = React.forwardRef<
   const classNames = useClassNames();
   const parentProps = useProps();
 
-  const asset = useMemo(() => {
+  const image = useMemo(() => {
     if (children) return children;
 
     return contentPlaceholderAssetPresetMap[parentProps?.type ?? "default"];
@@ -58,7 +58,7 @@ export const ContentPlaceholderImage = React.forwardRef<
       className={clsx(classNames.image, className)}
       {...(props as React.HTMLAttributes<HTMLElement>)}
     >
-      {asset}
+      {image}
     </Slot>
   );
 });
