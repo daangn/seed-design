@@ -249,14 +249,7 @@
               "id": "image-frame",
               "title": "Image Frame",
               "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
-              "docUrl": "/docs/components/image-frame",
-              "snippetKey": "ui:image-frame",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "image-frame.tsx"
-                }
-              ]
+              "docUrl": "/docs/components/image-frame"
             },
             {
               "id": "inline-banner",
@@ -1033,14 +1026,7 @@
               "id": "image-frame",
               "title": "Image Frame",
               "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
-              "docUrl": "/react/components/image-frame",
-              "snippetKey": "ui:image-frame",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "image-frame.tsx"
-                }
-              ]
+              "docUrl": "/react/components/image-frame"
             },
             {
               "id": "inline",

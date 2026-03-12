@@ -1,4 +1,5 @@
 export {
+  ImageFrame,
   ImageFrameRoot,
   ImageFrameContent,
   ImageFrameFallback,
@@ -7,6 +8,7 @@ export {
   ImageFrameIcon,
   ImageFrameIndicator,
   ImageFrameReactionButton,
+  type ImageFrameProps,
   type ImageFrameRootProps,
   type ImageFrameContentProps,
   type ImageFrameFallbackProps,
