@@ -2,12 +2,12 @@ import { HStack, VStack } from "@seed-design/react";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
 const sizes = [
-  { label: "48×48", width: 48, height: 48 },
-  { label: "80×80", width: 80, height: 80 },
-  { label: "120×120", width: 120, height: 120 },
-  { label: "200×200", width: 200, height: 200 },
-  { label: "80×120", width: 80, height: 120 },
-  { label: "200×120", width: 200, height: 120 },
+  { label: "48x48", width: 48, height: 48 },
+  { label: "200x80", width: 200, height: 80 },
+  { label: "200x120", width: 200, height: 120 },
+  { label: "200x50", width: 200, height: 50 },
+  { label: "40x120", width: 40, height: 120 },
+  { label: "40x40", width: 40, height: 40 },
 ];
 
 export default function ContentPlaceholderSizes() {
