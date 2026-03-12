@@ -14,7 +14,7 @@
     display: block;
     width: 50%;
     min-width: var(--seed-dimension-x4);
-    max-width: 120%;
+    max-width: 120px;
     height: auto;
     aspect-ratio: 1 / 1;
     margin-left: auto;

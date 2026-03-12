@@ -22,7 +22,7 @@
               "type": "dimension"
             },
             "maxWidth": {
-              "type": "number"
+              "type": "dimension"
             },
             "widthFraction": {
               "type": "number"
@@ -74,8 +74,11 @@
                   "value": "$dimension.x4"
                 },
                 "maxWidth": {
-                  "type": "number",
-                  "value": 1.2
+                  "type": "dimension",
+                  "value": {
+                    "value": 120,
+                    "unit": "px"
+                  }
                 },
                 "widthFraction": {
                   "type": "number",
