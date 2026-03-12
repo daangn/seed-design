@@ -1,3 +1,4 @@
+// NOTE: this array should be in ascending order from smallest to largest breakpoint
 export const breakpointNames = ["base", "sm", "md", "lg", "xl"];
 
 export const breakpoints = {
