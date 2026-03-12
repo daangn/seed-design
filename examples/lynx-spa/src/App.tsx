@@ -1,5 +1,7 @@
 import { ActionButton } from "@seed-design/lynx-react";
 import { actionButton } from "@seed-design/css/recipes/action-button.lynx";
+import LynxConsole from "lynx-console";
+import "lynx-console/style.css";
 
 function StateTestButtons() {
   const classes = actionButton({
@@ -138,6 +140,8 @@ export function App(props: { onRender?: () => void }) {
           Disabled Outline
         </ActionButton>
       </view>
+      {/* LynxConsole: floating developer console for debugging */}
+      <LynxConsole theme="light" safeAreaInsetBottom="34px" />
     </view>
   );
 }
