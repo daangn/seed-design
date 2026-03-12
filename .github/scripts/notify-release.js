@@ -250,7 +250,7 @@ function main() {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: "질문이 있으시다면 #_design-system 채널에 남겨주세요 :wave: (테스트 중이라 멘션은 잠시 제외했어요.)",
+      text: "질문이 있으시다면 #_design-system 에서 @design-system-fe-engineers 멘션 주세요 :wave:",
     },
   });
 
