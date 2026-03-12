@@ -10,7 +10,7 @@ data:
         properties:
           color:
             type: color
-      asset:
+      image:
         properties:
           minWidth:
             type: dimension
@@ -25,7 +25,7 @@ data:
       enabled:
         root:
           color: $color.palette.gray-200
-        asset:
+        image:
           minWidth: $dimension.x4
           maxWidth: 120%
           widthFraction: 0.5

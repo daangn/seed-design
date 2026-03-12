@@ -4,7 +4,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-palette-gray-200)"
       },
-      "asset": {
+      "image": {
         "minWidth": "var(--seed-dimension-x4)",
         "maxWidth": "120%",
         "widthFraction": "0.5",

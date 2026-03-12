@@ -1,8 +1,8 @@
 export {
   ContentPlaceholderRoot,
-  ContentPlaceholderAsset,
+  ContentPlaceholderImage,
   type ContentPlaceholderRootProps,
-  type ContentPlaceholderAssetProps,
+  type ContentPlaceholderImageProps,
 } from "./ContentPlaceholder";
 
 export * as ContentPlaceholder from "./ContentPlaceholder.namespace";

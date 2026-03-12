@@ -4096,7 +4096,7 @@
     overflow: hidden;
   }
 
-  .seed-content-placeholder__asset {
+  .seed-content-placeholder__image {
     width: 50%;
     min-width: var(--seed-dimension-x4);
     aspect-ratio: 1;

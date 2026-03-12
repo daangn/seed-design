@@ -11,7 +11,7 @@ declare type ContentPlaceholderVariantMap = {
 
 export declare type ContentPlaceholderVariantProps = Partial<ContentPlaceholderVariant>;
 
-export declare type ContentPlaceholderSlotName = "root" | "asset";
+export declare type ContentPlaceholderSlotName = "root" | "image";
 
 export declare const contentPlaceholderVariantMap: ContentPlaceholderVariantMap;
 

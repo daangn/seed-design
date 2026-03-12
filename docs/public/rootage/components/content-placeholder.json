@@ -16,7 +16,7 @@
             }
           }
         },
-        "asset": {
+        "image": {
           "properties": {
             "minWidth": {
               "type": "dimension"
@@ -68,7 +68,7 @@
                   "value": "$color.palette.gray-200"
                 }
               },
-              "asset": {
+              "image": {
                 "minWidth": {
                   "type": "dimension",
                   "value": "$dimension.x4"

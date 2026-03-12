@@ -10,7 +10,7 @@
     overflow: hidden;
     background-color: var(--seed-color-palette-gray-200)
 }
-.seed-content-placeholder__asset {
+.seed-content-placeholder__image {
     display: block;
     width: 50%;
     min-width: var(--seed-dimension-x4);

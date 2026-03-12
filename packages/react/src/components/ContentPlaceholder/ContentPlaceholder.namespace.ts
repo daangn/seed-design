@@ -1,6 +1,6 @@
 export {
   ContentPlaceholderRoot as Root,
-  ContentPlaceholderAsset as Asset,
+  ContentPlaceholderImage as Image,
   type ContentPlaceholderRootProps as RootProps,
-  type ContentPlaceholderAssetProps as AssetProps,
+  type ContentPlaceholderImageProps as ImageProps,
 } from "./ContentPlaceholder";
