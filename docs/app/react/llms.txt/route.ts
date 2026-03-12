@@ -4,6 +4,39 @@ import { reactSource } from "@/app/source";
 
 export const revalidate = false;
 
+const categoryOrder = [
+  "getting-started",
+  "components",
+  "stackflow",
+  "developer-tools",
+  "patterns",
+  "migration",
+  "updates",
+];
+
+const categoryDescriptions: Record<string, string> = {
+  components: "React 컴포넌트 API 및 사용법",
+  "getting-started": "설치 및 시작 가이드",
+  stackflow: "Stackflow 네이티브 네비게이션 연동",
+  "developer-tools": "Codemods, Figma 연동 등 개발 도구",
+  migration: "버전 마이그레이션 가이드",
+  updates: "업데이트 및 변경사항",
+  patterns: "사용 패턴 및 모범 사례",
+};
+
+function getDisplayTitle(page: LLMPage, categoryPages: LLMPage[]): string {
+  const title = page.data.title;
+  const duplicates = categoryPages.filter((p) => p.data.title === title);
+  if (duplicates.length <= 1) return title;
+
+  const parentSlug = page.slugs.length >= 2 ? page.slugs[page.slugs.length - 2] : null;
+  if (parentSlug) {
+    const label = parentSlug.charAt(0).toUpperCase() + parentSlug.slice(1);
+    return `${title} (${label})`;
+  }
+  return title;
+}
+
 export async function GET() {
   const pages = reactSource.getPages() as LLMPage[];
 
@@ -17,17 +50,15 @@ export async function GET() {
     categories.get(category)!.push(page);
   }
 
-  const categoryDescriptions: Record<string, string> = {
-    components: "React 컴포넌트 API 및 사용법",
-    "getting-started": "설치 및 시작 가이드",
-    stackflow: "Stackflow 네이티브 네비게이션 연동",
-    "developer-tools": "Codemods, Figma 연동 등 개발 도구",
-    migration: "버전 마이그레이션 가이드",
-    updates: "업데이트 및 변경사항",
-    patterns: "사용 패턴 및 모범 사례",
-  };
+  const sortedCategories = categoryOrder
+    .filter((c) => categories.has(c))
+    .map((c) => [c, categories.get(c)!] as const);
 
-  const categoryList = Array.from(categories.entries())
+  const remaining = Array.from(categories.entries()).filter(([c]) => !categoryOrder.includes(c));
+
+  const allCategories = [...sortedCategories, ...remaining];
+
+  const categoryList = allCategories
     .map(([category, categoryPages]) => {
       const description = categoryDescriptions[category] ?? "";
       const pageList = categoryPages
@@ -36,7 +67,8 @@ export async function GET() {
             i === page.slugs.length - 1 ? `${s}.txt` : s,
           );
           const llmsUrl = new URL(`/llms/react/${slugsWithExt.join("/")}`, baseUrl);
-          return `  - [${page.data.title}](${llmsUrl})`;
+          const displayTitle = getDisplayTitle(page, categoryPages);
+          return `- [${displayTitle}](${llmsUrl})`;
         })
         .sort()
         .join("\n");
