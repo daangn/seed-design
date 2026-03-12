@@ -25,33 +25,7 @@
 
 ### defineSlotRecipe 사용법
 
-```typescript
-import { defineSlotRecipe } from "../utils/define";
-
-const avatar = defineSlotRecipe({
-  name: "avatar",
-  slots: ["root", "image", "fallback", "badge"],
-  base: {
-    root: { /* root 슬롯 스타일 */ },
-    fallback: {
-      display: "flex",
-      width: "100%",
-      height: "100%",
-    },
-  },
-  variants: {
-    size: {
-      48: {
-        root: { "--avatar-size": "48px" },
-        badge: { "--badge-size": "16px" },
-      },
-    },
-  },
-});
-```
-
-- `base.slotName` 형태로 슬롯별 기본 스타일 작성
-- `variants.variantName.variantValue.slotName` 형태로 슬롯별 variants 적용
+`defineSlotRecipe`는 `name`, `slots` 배열, `base`, `variants` 등을 인자로 받는다. `base.slotName` 형태로 슬롯별 기본 스타일을 작성하고, `variants.variantName.variantValue.slotName` 형태로 슬롯별 variants를 적용한다.
 
 ### ⚠️ defineRecipe ↔ defineSlotRecipe 전환 시 주의사항
 

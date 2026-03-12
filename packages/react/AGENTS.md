@@ -19,82 +19,26 @@
 - HTML 요소 대신 `Primitive.*` 사용
 - compound component의 경우 Root 컴포넌트가 context를 포함해야 하고 하위 컴포넌트가 상위 context에서 제공하는 값을 바탕으로 동작해야 하므로 `createSlotRecipeContext`가 제공하는 도구를 적극적으로 활용한다.
 
-## 코드 스타일 예시
+## 코드 스타일
 
-✅ Good:
-```tsx
-import { actionButton } from "@seed-design/css/recipes/action-button";
-import { Primitive } from "@seed-design/react-primitive";
-
-export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
-  ({ variant = "brandSolid", size = "medium", className, ...props }, ref) => (
-    <Primitive.button
-      ref={ref}
-      className={clsx(actionButton({ variant, size }), className)}
-      {...props}
-    />
-  )
-);
-ActionButton.displayName = "ActionButton";
-```
-
-❌ Bad:
-```tsx
-// forwardRef 누락, displayName 없음, Primitive 미사용
-export const ActionButton = (props) => (
-  <button className={actionButton(props)} {...props} />
-);
-```
+모든 컴포넌트는 반드시 `forwardRef`로 감싸고 `displayName`을 설정해야 한다. HTML 요소 대신 `Primitive.*`을 사용하고, Recipe 함수 호출 결과를 `clsx`로 className에 병합한다.
 
 ## SlotRecipe 사용 패턴
 
-복합 컴포넌트(슬롯이 여러 개인 경우)는 `createSlotRecipeContext`를 사용합니다.
+복합 컴포넌트(슬롯이 여러 개인 경우)는 `createSlotRecipeContext`를 사용한다.
 
 ### import 경로
 
-✅ 올바른 import:
-```tsx
-import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-```
-
-❌ 잘못된 import (존재하지 않는 패키지):
-```tsx
-import { createSlotRecipeContext } from "@seed-design/react-utils";
-```
+`createSlotRecipeContext`는 반드시 `../../utils/createSlotRecipeContext` 상대 경로로 import한다. `@seed-design/react-utils` 같은 패키지는 존재하지 않는다.
 
 ### createSlotRecipeContext 호출 방법
 
-✅ 올바른 호출 (slotRecipe를 직접 전달):
-```tsx
-const { withProvider, withContext } = createSlotRecipeContext(avatar);
-```
-
-❌ 잘못된 호출 (객체로 감싸면 타입 불일치 발생):
-```tsx
-const { withProvider, withContext } = createSlotRecipeContext({ root: imageFrameRecipe });
-```
+`createSlotRecipeContext`에는 slotRecipe 함수를 직접 전달한다. 객체로 감싸면 타입 불일치가 발생한다.
 
 ### withContext 슬롯 연결
 
-각 슬롯 컴포넌트는 withContext로 해당 슬롯 이름을 지정합니다:
-```tsx
-export const AvatarFallback = withContext<HTMLDivElement, AvatarFallbackProps>(Image.Fallback, "fallback");
-```
+각 슬롯 컴포넌트는 `withContext`의 두 번째 인자로 해당 슬롯 이름(예: `"fallback"`)을 지정하여 자동으로 슬롯 className이 적용되게 한다.
 
-### ⚠️ 절대 금지: React 레이어에 style prop 직접 작성
+### 절대 금지: React 레이어에 style prop 직접 작성
 
-스타일은 반드시 qvism-preset recipe를 통해 className으로 적용해야 합니다.
-
-❌ 잘못된 코드:
-```tsx
-<Image.Fallback ref={ref} style={{ width: "100%", height: "100%" }} {...rest}>
-```
-
-✅ 올바른 코드:
-```tsx
-export const ImageFrameFallback = withContext<HTMLDivElement, ImageFrameFallbackProps>(
-  Image.Fallback,
-  "fallback",
-);
-// fallback의 width/height 100%는 qvism-preset recipes/image-frame.ts의 base.fallback에 작성
-```
+스타일은 반드시 qvism-preset recipe를 통해 className으로 적용해야 한다. style prop을 직접 사용하면 테마, 다크모드, CSS 변수 활용이 불가능하고 스타일 관리가 분산된다. 해당 슬롯의 스타일은 qvism-preset recipe의 `base.slotName`에 작성하고, `withContext`로 연결한다.
