@@ -13,7 +13,7 @@ import {
 import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
 import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
 import { Image } from "@seed-design/react-image";
-import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
+import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
 import { AspectRatio } from "../AspectRatio/AspectRatio";
@@ -259,18 +259,22 @@ const SelectedHeartIcon = () => {
 export interface ImageFrameReactionButtonProps
   extends Omit<TogglePrimitive.RootProps, "children"> {}
 
+const ReactionButtonIcon = () => {
+  const { pressed } = useToggleContext();
+  return <Icon svg={pressed ? <SelectedHeartIcon /> : <UnselectedHeartIcon />} />;
+};
+
 export const ImageFrameReactionButton = React.forwardRef<
   HTMLButtonElement,
   ImageFrameReactionButtonProps
->(({ className, pressed, ...rest }, ref) => {
+>(({ className, ...rest }, ref) => {
   return (
     <TogglePrimitive.Root
       ref={ref}
       className={clsx(imageFrameReactionButton(), className)}
-      pressed={pressed}
       {...rest}
     >
-      <Icon svg={pressed ? <SelectedHeartIcon /> : <UnselectedHeartIcon />} />
+      <ReactionButtonIcon />
     </TogglePrimitive.Root>
   );
 });
