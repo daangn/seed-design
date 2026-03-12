@@ -11,9 +11,11 @@ export function resolveResponsiveValue<T>(
 ): T | undefined {
   const idx = breakpointNames.indexOf(breakpoint);
   for (let i = idx; i >= 0; i--) {
-    const val = values[breakpointNames[i] as Breakpoint];
+    const val = values[breakpointNames[i]];
+
     if (val !== undefined) return val;
   }
+  
   return undefined;
 }
 
@@ -25,6 +27,7 @@ export function useBreakpointValue<T>(
 
   return useMemo(() => {
     if (!isResponsiveObject(values)) return values;
+
     return resolveResponsiveValue(values, breakpoint) as T;
   }, [values, breakpoint]);
 }
