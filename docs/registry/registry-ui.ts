@@ -376,14 +376,5 @@ export const registryUI: Registry = {
         },
       ],
     },
-    {
-      id: "image-frame",
-      snippets: [
-        {
-          path: "image-frame.tsx",
-          dependencies: { "@seed-design/react": "~1.2.7", "@seed-design/css": "~1.2.7" },
-        },
-      ],
-    },
   ],
 };
