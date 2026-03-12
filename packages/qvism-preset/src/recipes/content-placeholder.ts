@@ -19,13 +19,28 @@ const contentPlaceholder = defineSlotRecipe({
       backgroundColor: vars.base.enabled.root.color,
     },
     asset: {
-      display: "block",
-      height: `calc(${vars.base.enabled.asset.heightFraction} * 100%)`,
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: `calc(${vars.base.enabled.asset.heightFraction} * 100%)`,
       minWidth: vars.base.enabled.asset.minWidth,
       maxWidth: vars.base.enabled.asset.maxWidth,
       color: vars.base.enabled.asset.color,
-      fill: "currentColor",
-      stroke: "currentColor",
+
+      "& > svg": {
+        display: "block",
+        width: "100%",
+        height: "100%",
+        fill: "currentColor",
+        stroke: "currentColor",
+      },
+
+      "& > img": {
+        display: "block",
+        width: "100%",
+        height: "100%",
+        objectFit: "contain",
+      },
     },
   },
   variants: {

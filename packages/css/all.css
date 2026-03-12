@@ -4000,12 +4000,27 @@
 }
 
 .seed-content-placeholder__asset {
-  height: 50%;
+  width: 50%;
   min-width: var(--seed-dimension-x4);
   max-width: 64px;
   color: var(--seed-color-palette-gray-400);
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+
+.seed-content-placeholder__asset > svg {
   fill: currentColor;
   stroke: currentColor;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.seed-content-placeholder__asset > img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
   display: block;
 }
 

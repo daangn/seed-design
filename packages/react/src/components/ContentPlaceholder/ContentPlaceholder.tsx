@@ -7,7 +7,6 @@ import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { contentPlaceholderAssetPresetMap } from "./presets";
 import { mergeProps } from "@seed-design/dom-utils";
-import { Slot } from "@radix-ui/react-slot";
 import { clsx } from "clsx";
 import { useMemo } from "react";
 
@@ -37,10 +36,10 @@ export const ContentPlaceholderRoot = React.forwardRef<HTMLDivElement, ContentPl
 
 ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
 
-export interface ContentPlaceholderAssetProps extends React.SVGProps<SVGSVGElement> {}
+export interface ContentPlaceholderAssetProps extends React.HTMLAttributes<HTMLSpanElement> {}
 
 export const ContentPlaceholderAsset = React.forwardRef<
-  SVGSVGElement,
+  HTMLSpanElement,
   ContentPlaceholderAssetProps
 >(({ children, className, ...props }, ref) => {
   const classNames = useClassNames();
@@ -53,13 +52,13 @@ export const ContentPlaceholderAsset = React.forwardRef<
   }, [children, parentProps?.type]);
 
   return (
-    <Slot
-      ref={ref as React.ForwardedRef<HTMLElement>}
+    <Primitive.span
+      ref={ref}
       className={clsx(classNames.asset, className)}
-      {...(props as React.HTMLAttributes<HTMLElement>)}
+      {...props}
     >
       {asset}
-    </Slot>
+    </Primitive.span>
   );
 });
 ContentPlaceholderAsset.displayName = "ContentPlaceholderAsset";
