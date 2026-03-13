@@ -64,8 +64,9 @@ const conditionMap = {
     fallback: { src: undefined },
   },
   badgeMask: {
-    none: {},
+    none: { badgeMask: "none" },
     circle: {
+      badgeMask: "circle",
       children: (
         <AvatarBadge asChild>
           <Box bg="palette.green600" />
@@ -73,9 +74,11 @@ const conditionMap = {
       ),
     },
     flower: {
+      badgeMask: "flower",
       children: <AvatarBadge>{FLOWER_BADGE_SVG}</AvatarBadge>,
     },
     shield: {
+      badgeMask: "shield",
       children: <AvatarBadge>{SHIELD_BADGE_SVG}</AvatarBadge>,
     },
   },
