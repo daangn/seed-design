@@ -1123,7 +1123,14 @@
               "id": "menu",
               "title": "Menu",
               "description": "버튼 클릭 시 관련된 작업 항목을 보여주는 플로팅 드롭다운 메뉴 컴포넌트입니다.",
-              "docUrl": "/react/components/menu"
+              "docUrl": "/react/components/menu",
+              "snippetKey": "ui:menu",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu.tsx"
+                }
+              ]
             },
             {
               "id": "menu-sheet",

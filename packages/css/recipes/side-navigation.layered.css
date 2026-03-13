@@ -1,0 +1,25 @@
+@layer seed-components {
+  .seed-side-navigation__root {
+    flex-direction: column;
+    height: 100%;
+    display: flex;
+  }
+
+  .seed-side-navigation__header {
+    flex-shrink: 0;
+  }
+
+  .seed-side-navigation__content {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .seed-side-navigation__footer {
+    flex-shrink: 0;
+  }
+
+  .seed-side-navigation__group {
+    flex-direction: column;
+    display: flex;
+  }
+}

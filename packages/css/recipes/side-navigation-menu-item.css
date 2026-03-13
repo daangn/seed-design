@@ -1,0 +1,27 @@
+.seed-side-navigation-menu-item__item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    background: none;
+    border: none;
+}
+.seed-side-navigation-menu-item__collapsibleContent[data-collapsible] {
+    overflow: hidden;
+    height: 0;
+    opacity: 0;
+    transition: height 200ms ease-out, opacity 200ms ease-out;
+}
+.seed-side-navigation-menu-item__collapsibleContent[data-collapsible]:is([data-state="open"], [data-open]) {
+    height: var(--collapsible-content-height);
+    opacity: 1;
+    transition: height 250ms ease-out, opacity 250ms ease-out;
+}
+.seed-side-navigation-menu-item__chevron {
+    flex-shrink: 0;
+    transition: transform 200ms ease-out;
+}
+.seed-side-navigation-menu-item__chevron:is([data-state="open"], [data-open]) {
+    transform: rotate(180deg);
+}

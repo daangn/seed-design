@@ -36,12 +36,13 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
       </AppBar>
       <AppScreenContent>
         <div style={{ display: "flex", height: "100%" }}>
+          {/* TODO: width/border will come from recipe variant (neutral/transparent) */}
           <SideNavigation.Root style={{ width: 240, borderRight: "1px solid #eee" }}>
             <SideNavigation.Header style={{ padding: 16 }}>
               <strong>Service Name</strong>
             </SideNavigation.Header>
 
-            <SideNavigation.Content style={{ flex: 1, overflowY: "auto" }}>
+            <SideNavigation.Content>
               <SideNavigation.Group>
                 <SideNavigation.GroupLabel
                   style={{ padding: "8px 16px", fontSize: 12, color: "#888" }}
@@ -51,61 +52,25 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
 
                 <SideNavigation.MenuItemCollapsibleRoot defaultOpen>
                   <SideNavigation.MenuItemCollapsibleTrigger
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      width: "100%",
-                      padding: "8px 16px",
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      textAlign: "left",
-                    }}
+                    style={{ justifyContent: "space-between", padding: "8px 16px" }}
                   >
                     Models
                   </SideNavigation.MenuItemCollapsibleTrigger>
                   <SideNavigation.MenuItemCollapsibleContent>
                     <SideNavigation.MenuItemCollapsibleItem
-                      style={{
-                        display: "block",
-                        width: "100%",
-                        padding: "6px 16px 6px 32px",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        textAlign: "left",
-                      }}
+                      style={{ padding: "6px 16px 6px 32px" }}
                     >
                       Genesis
                     </SideNavigation.MenuItemCollapsibleItem>
                     <SideNavigation.MenuItemCollapsibleItem
-                      style={{
-                        display: "block",
-                        width: "100%",
-                        padding: "6px 16px 6px 32px",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        textAlign: "left",
-                      }}
+                      style={{ padding: "6px 16px 6px 32px" }}
                     >
                       Explorer
                     </SideNavigation.MenuItemCollapsibleItem>
                   </SideNavigation.MenuItemCollapsibleContent>
                 </SideNavigation.MenuItemCollapsibleRoot>
 
-                <SideNavigation.MenuItemButton
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    padding: "8px 16px",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
-                >
+                <SideNavigation.MenuItemButton style={{ padding: "8px 16px" }}>
                   Documentation
                 </SideNavigation.MenuItemButton>
               </SideNavigation.Group>
@@ -117,30 +82,10 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
                   Settings
                 </SideNavigation.GroupLabel>
 
-                <SideNavigation.MenuItemButton
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    padding: "8px 16px",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
-                >
+                <SideNavigation.MenuItemButton style={{ padding: "8px 16px" }}>
                   General
                 </SideNavigation.MenuItemButton>
-                <SideNavigation.MenuItemButton
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    padding: "8px 16px",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
-                >
+                <SideNavigation.MenuItemButton style={{ padding: "8px 16px" }}>
                   Billing
                 </SideNavigation.MenuItemButton>
               </SideNavigation.Group>
@@ -148,24 +93,14 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
 
             <SideNavigation.Footer style={{ padding: 16, borderTop: "1px solid #eee" }}>
               <SideNavigation.MenuItemButton
-                style={{
-                  display: "block",
-                  width: "100%",
-                  padding: "4px 0",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  textAlign: "left",
-                  fontSize: 13,
-                  color: "#888",
-                }}
+                style={{ padding: "4px 0", fontSize: 13, color: "#888" }}
               >
                 Help Center
               </SideNavigation.MenuItemButton>
             </SideNavigation.Footer>
           </SideNavigation.Root>
 
-          <SideNavigation.Inset style={{ flex: 1, padding: 24 }}>
+          <SideNavigation.Inset style={{ padding: 24 }}>
             <h2>Main Content Area</h2>
             <p>This is the inset area next to the side navigation.</p>
           </SideNavigation.Inset>
