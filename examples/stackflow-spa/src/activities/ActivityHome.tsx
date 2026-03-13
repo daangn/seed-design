@@ -1,7 +1,6 @@
 import {
   Box,
   Divider,
-  Icon,
   Portal,
   PullToRefresh,
   VStack,

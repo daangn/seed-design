@@ -86,70 +86,72 @@ SideNavigationGroupLabel.displayName = "SideNavigationGroupLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationMenuGroupProps extends Collapsible.RootProps {}
-
-export const SideNavigationMenuGroup = forwardRef<HTMLDivElement, SideNavigationMenuGroupProps>(
-  (props, ref) => {
-    return <Collapsible.Root ref={ref} {...props} />;
-  },
-);
-
-SideNavigationMenuGroup.displayName = "SideNavigationMenuGroup";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface SideNavigationMenuGroupContentProps extends Collapsible.ContentProps {}
-
-export const SideNavigationMenuGroupContent = forwardRef<
-  HTMLDivElement,
-  SideNavigationMenuGroupContentProps
->((props, ref) => {
-  return <Collapsible.Content ref={ref} {...props} />;
-});
-
-SideNavigationMenuGroupContent.displayName = "SideNavigationMenuGroupContent";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface SideNavigationMenuItemProps
+export interface SideNavigationMenuItemButtonProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-export const SideNavigationMenuItem = forwardRef<HTMLButtonElement, SideNavigationMenuItemProps>(
-  (props, ref) => {
-    return <Primitive.button ref={ref} {...props} />;
-  },
-);
-
-SideNavigationMenuItem.displayName = "SideNavigationMenuItem";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface SideNavigationMenuItemTriggerProps extends Collapsible.TriggerProps {}
-
-export const SideNavigationMenuItemTrigger = forwardRef<
+export const SideNavigationMenuItemButton = forwardRef<
   HTMLButtonElement,
-  SideNavigationMenuItemTriggerProps
->((props, ref) => {
-  return <Collapsible.Trigger ref={ref} {...props} />;
-});
-
-SideNavigationMenuItemTrigger.displayName = "SideNavigationMenuItemTrigger";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface SideNavigationMenuSubItemProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
-
-export const SideNavigationMenuSubItem = forwardRef<
-  HTMLButtonElement,
-  SideNavigationMenuSubItemProps
+  SideNavigationMenuItemButtonProps
 >((props, ref) => {
   return <Primitive.button ref={ref} {...props} />;
 });
 
-SideNavigationMenuSubItem.displayName = "SideNavigationMenuSubItem";
+SideNavigationMenuItemButton.displayName = "SideNavigationMenuItemButton";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface SideNavigationMenuItemCollapsibleRootProps extends Collapsible.RootProps {}
+
+export const SideNavigationMenuItemCollapsibleRoot = forwardRef<
+  HTMLDivElement,
+  SideNavigationMenuItemCollapsibleRootProps
+>((props, ref) => {
+  return <Collapsible.Root ref={ref} {...props} />;
+});
+
+SideNavigationMenuItemCollapsibleRoot.displayName = "SideNavigationMenuItemCollapsibleRoot";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface SideNavigationMenuItemCollapsibleTriggerProps extends Collapsible.TriggerProps {}
+
+export const SideNavigationMenuItemCollapsibleTrigger = forwardRef<
+  HTMLButtonElement,
+  SideNavigationMenuItemCollapsibleTriggerProps
+>((props, ref) => {
+  return <Collapsible.Trigger ref={ref} {...props} />;
+});
+
+SideNavigationMenuItemCollapsibleTrigger.displayName = "SideNavigationMenuItemCollapsibleTrigger";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface SideNavigationMenuItemCollapsibleContentProps extends Collapsible.ContentProps {}
+
+export const SideNavigationMenuItemCollapsibleContent = forwardRef<
+  HTMLDivElement,
+  SideNavigationMenuItemCollapsibleContentProps
+>((props, ref) => {
+  return <Collapsible.Content ref={ref} {...props} />;
+});
+
+SideNavigationMenuItemCollapsibleContent.displayName = "SideNavigationMenuItemCollapsibleContent";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface SideNavigationMenuItemCollapsibleItemProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLButtonElement> {}
+
+export const SideNavigationMenuItemCollapsibleItem = forwardRef<
+  HTMLButtonElement,
+  SideNavigationMenuItemCollapsibleItemProps
+>((props, ref) => {
+  return <Primitive.button ref={ref} {...props} />;
+});
+
+SideNavigationMenuItemCollapsibleItem.displayName = "SideNavigationMenuItemCollapsibleItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
