@@ -96,7 +96,7 @@ export function useGlobalInteraction() {
 
       const moveSwipeBack = useCallback(
         ({ x, t }: MoveSwipeBackProps) => {
-          const displacement = x - swipeBackContextRef.current.x0;
+          const displacement = Math.max(0, x - swipeBackContextRef.current.x0);
           const displacementRatio = displacement / window.innerWidth;
           const velocity = displacement / (t - swipeBackContextRef.current.t0);
           setSwipeBackContext({
