@@ -37,7 +37,7 @@
     "@vanilla-extract/vite-plugin": "^5.1.1",
     "@vitejs/plugin-legacy": "^7.0.0",
     "@vitejs/plugin-react-swc": "^4.0.0",
-    "rollup-plugin-visualizer": "^6.0.0",
+    "rollup-plugin-visualizer": "^7.0.0",
     "terser": "^5.39.0",
     "typescript": "^5.9.2",
     "vite": "^7.0.6",
