@@ -146,10 +146,48 @@ const nestedConditionMap = {
         </>
       ),
     },
+    "layout (responsive)": {
+      display: "flex",
+      flexDirection: { base: "column", md: "row" },
+      gap: { base: "x3", md: "x6" },
+      width: "full",
+      height: "200px",
+      children: (
+        <>
+          <Box width={{ base: "full", md: "200px" }} height={{ base: "40px", md: "full" }}>
+            <Placeholder label="200px on md" />
+          </Box>
+          <Box flexGrow>
+            <Placeholder label="grow" />
+          </Box>
+        </>
+      ),
+    },
+    "nested stacks (responsive)": {
+      display: "flex",
+      flexDirection: "column",
+      gap: { base: "x2", md: "x8" },
+      children: (
+        <>
+          <Box display="flex" flexDirection="row" gap={{ base: "x1", md: "x4" }}>
+            <Placeholder label="A1" />
+            <Placeholder label="A2" />
+            <Placeholder label="A3" />
+          </Box>
+          <Box display="flex" flexDirection="row" gap={{ base: "x1", md: "x4" }}>
+            <Placeholder label="B1" />
+            <Placeholder label="B2" />
+          </Box>
+        </>
+      ),
+    },
   },
 };
 
 export const Nested: Story = {
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
   render: (args) => (
     <VariantTable
       Component={meta.component}
