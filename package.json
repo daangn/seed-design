@@ -20,7 +20,7 @@
     "lint:publish": "bun --filter '*' lint:publish",
     "lint:knip": "knip",
     "release": "bun packages:build && bun changeset publish",
-    "version": "bun generate:changelog && changeset version && bun install --no-immutable",
+    "version": "changeset version && bun install --no-immutable",
     "format:all": "bun biome format --fix",
     "test:all": "bun test",
     "generate:all": "bun rootage:generate && bun qvism:generate && bun docs:generate",
@@ -51,7 +51,6 @@
     "clean:lib": "bun --filter '*' clean",
     "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
     "generate:codemod-docs": "bun scripts/generate-codemod-docs.ts",
-    "generate:changelog": "bun scripts/generate-changelog.ts",
     "mcp:start": "bunx --bun @seed-design/mcp@latest socket"
   },
   "devDependencies": {

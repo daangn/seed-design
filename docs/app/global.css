@@ -95,6 +95,10 @@ article .prose {
   padding-bottom: 3rem;
 }
 
+.changelog-page article .prose {
+  padding-bottom: 0;
+}
+
 /* Enable text selection in code blocks */
 pre, code, pre code {
   user-select: text !important;
