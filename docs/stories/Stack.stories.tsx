@@ -44,10 +44,10 @@ const vstackConditionMap = {
   condition: {
     bare: {},
     gap: { gap: "x4" },
-    "align center": { align: "center" },
-    "align stretch": { align: "stretch" },
-    "justify center": { justify: "center", height: "300px" },
-    "justify space-between": { justify: "space-between", height: "300px" },
+    "align center": { align: "center", height: "200px" },
+    "align flex-end": { align: "flex-end", height: "200px" },
+    "justify center": { justify: "center", width: "500px" },
+    "justify space-between": { justify: "space-between", width: "500px" },
     wrap: { wrap: "wrap", height: "120px" },
   },
 };
@@ -63,9 +63,9 @@ const hstackConditionMap = {
   condition: {
     bare: {},
     gap: { gap: "x4" },
-    "align center": { align: "center" },
-    "align stretch": { align: "stretch" },
-    "justify center": { justify: "center" },
+    "align center": { align: "center", height: "120px" },
+    "align stretch": { align: "stretch", height: "120px" },
+    "justify center": { justify: "center", width: "500px" },
     "justify space-between": { justify: "space-between", width: "500px" },
     wrap: { wrap: "wrap", width: "120px" },
   },

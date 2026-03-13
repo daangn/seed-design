@@ -54,12 +54,12 @@ const conditionMap = {
     // not tested here: alignSelf, justifySelf, flexGrow, flexShrink
     "direction row": { direction: "row" },
     "direction column": { direction: "column" },
-    "gap": { gap: "x4" },
-    "align center": { align: "center" },
-    "align stretch": { align: "stretch" },
-    "justify center": { justify: "center" },
+    gap: { gap: "x4" },
+    "align center": { align: "center", height: "200px" },
+    "align flex-end": { align: "flex-end", height: "200px" },
+    "justify center": { justify: "center", width: "500px" },
     "justify space-between": { justify: "space-between", width: "500px" },
-    wrap: { wrap: "wrap" , children: manyChildren, width: "200px" },
+    wrap: { wrap: "wrap", children: manyChildren, width: "200px" },
     "display none": { display: "none" },
   },
 };
