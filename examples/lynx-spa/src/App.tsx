@@ -8,6 +8,7 @@ import { FoundationMulticolorIconPage } from "./pages/FoundationMulticolorIconPa
 import { FoundationTypographyPage } from "./pages/FoundationTypographyPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
+import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 
 const LynxConsole = lazy(() => import("lynx-console"));
@@ -20,7 +21,8 @@ export type Page =
   | "foundation-color"
   | "foundation-monochrome-icon"
   | "foundation-multicolor-icon"
-  | "foundation-typography";
+  | "foundation-typography"
+  | "progress-circle";
 
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
@@ -61,6 +63,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
       {currentPage === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}
       {currentPage === "foundation-typography" && <FoundationTypographyPage />}
+      {currentPage === "progress-circle" && <ProgressCirclePage />}
       <Suspense>
         <LynxConsole theme="light" />
       </Suspense>
