@@ -1,0 +1,62 @@
+.seed-progress-circle__root {
+  border-radius: 50%;
+  mask-image: radial-gradient(circle, transparent 53%, black 53%);
+  position: relative;
+  display: flex;
+  overflow: hidden;
+}
+
+.seed-progress-circle__half-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.seed-progress-circle__half-rotator {
+  position: absolute;
+  display: flex;
+
+}
+
+.seed-progress-circle__half-rotator--side_LEFT {
+  justify-content: flex-start;
+  left: 0;
+}
+
+.seed-progress-circle__half-rotator--side_RIGHT {
+  justify-content: flex-end;
+  right: 0;
+}
+
+.seed-progress-circle__cap {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+
+}
+
+.seed-progress-circle__root--tone_neutral {
+  background: var(--seed-color-palette-gray-200);
+}
+
+.seed-progress-circle__root--tone_brand {
+  background: var(--seed-color-palette-carrot-200);
+}
+
+.seed-progress-circle__root--tone_staticWhite {
+  background: var(--seed-color-palette-static-white-alpha-300);
+}
+
+.seed-progress-circle__range--tone_neutral,
+.seed-progress-circle__cap--tone_neutral {
+  background: var(--seed-color-palette-gray-500);
+}
+
+.seed-progress-circle__range--tone_brand,
+.seed-progress-circle__cap--tone_brand {
+  background: var(--seed-color-bg-brand-solid);
+}
+
+.seed-progress-circle__range--tone_staticWhite,
+.seed-progress-circle__cap--tone_staticWhite {
+  background: var(--seed-color-palette-static-white);
+}

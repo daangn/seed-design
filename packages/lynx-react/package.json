@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "tsc",
+    "build": "tsc && cp -r src/components/ProgressCircle/recipes lib/components/ProgressCircle/",
     "lint:publish": "bun publint"
   },
   "peerDependencies": {
