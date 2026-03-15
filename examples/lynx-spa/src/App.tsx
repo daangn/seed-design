@@ -1,4 +1,4 @@
-import { useState } from "@lynx-js/react";
+import { Suspense, lazy, useState } from "@lynx-js/react";
 import { vars } from "@seed-design/css/vars";
 
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
@@ -7,6 +7,8 @@ import { FoundationTypographyPage } from "./pages/FoundationTypographyPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
+
+const LynxConsole = lazy(() => import("lynx-console"));
 
 export type Page =
   | "home"
@@ -53,6 +55,9 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "nested-vars-test" && <NestedVarsTestPage />}
       {currentPage === "foundation-color" && <FoundationColorPage />}
       {currentPage === "foundation-typography" && <FoundationTypographyPage />}
+      <Suspense>
+        <LynxConsole theme="light" />
+      </Suspense>
     </scroll-view>
   );
 }
