@@ -140,33 +140,6 @@ function filterTransitionPropertyValue(
   return filtered.length === 0 ? null : filtered.join(", ");
 }
 
-// ── var() 해소 공통 상수 & 유틸 ──
-
-const VAR_REGEX = /var\((--[\w-]+)(?:\s*,\s*([^)]*))?\)/g;
-const MAX_RESOLVE_ITERATIONS = 10;
-
-/** var() 참조를 토큰맵의 leaf 값으로 치환 */
-function replaceVarRefs(value: string, tokens: Map<string, string>): string {
-  return value.replace(VAR_REGEX, (match, varName: string) => {
-    const val = tokens.get(varName);
-    return val !== undefined ? val : match;
-  });
-}
-
-/**
- * base(light) 셀렉터인지 판별.
- * :root, page — ✅
- * :root[..light-only..], page[..light-only..] — ✅
- * :root[..dark-only..], page.seed-theme-dark — ❌
- */
-function isBaseSelector(s: string): boolean {
-  if (s === ":root" || s === "page") return true;
-  if (s.startsWith(":root[") || s.startsWith("page[")) {
-    return !s.includes("dark");
-  }
-  return false;
-}
-
 /** page/:root 관련 셀렉터인지 판별 */
 function isPageSelector(s: string): boolean {
   return (
@@ -179,134 +152,6 @@ function isPageSelector(s: string): boolean {
     s.startsWith(":root.") ||
     s.startsWith(":root ")
   );
-}
-
-/** flat Map<string, string>의 중첩 var() 참조를 반복 해소 */
-function resolveMapIteratively(varMap: Map<string, string>): void {
-  let changed = true;
-  let iterations = 0;
-  while (changed && iterations < MAX_RESOLVE_ITERATIONS) {
-    changed = false;
-    iterations++;
-    for (const [prop, value] of varMap) {
-      const resolved = value.replace(VAR_REGEX, (match, varName: string) => {
-        const target = varMap.get(varName);
-        if (!target || target.includes("var(")) return match;
-        return target;
-      });
-      if (resolved !== value) {
-        changed = true;
-        varMap.set(prop, resolved);
-      }
-    }
-  }
-}
-
-/** AST-연결 entries 배열의 중첩 var() 참조를 반복 해소 (decl.value 동시 업데이트) */
-function resolveEntriesIteratively(
-  varEntries: Map<string, { value: string; decl: import("postcss").Declaration }[]>,
-): void {
-  let changed = true;
-  let iterations = 0;
-  while (changed && iterations < MAX_RESOLVE_ITERATIONS) {
-    changed = false;
-    iterations++;
-    for (const [, entries] of varEntries) {
-      for (const entry of entries) {
-        const resolved = entry.value.replace(VAR_REGEX, (match, varName: string) => {
-          const target = varEntries.get(varName);
-          if (!target) return match;
-          const targetValue = target[0].value;
-          if (targetValue.includes("var(")) return match;
-          return targetValue;
-        });
-        if (resolved !== entry.value) {
-          changed = true;
-          entry.value = resolved;
-          entry.decl.value = resolved;
-        }
-      }
-    }
-  }
-}
-
-/**
- * 토큰 CSS 문자열에서 base(light) 셀렉터 내 커스텀 프로퍼티를 파싱하여 맵으로 반환.
- * dark 셀렉터의 값은 무시하여 light 토큰만 수집.
- * 중첩 var() 참조도 해소하여 최종 leaf 값만 포함.
- */
-function buildTokenMap(tokenCss: string): Map<string, string> {
-  const postcss = require("postcss");
-  const tokenRoot = postcss.parse(tokenCss);
-  const varMap = new Map<string, string>();
-
-  // base 셀렉터에서만 수집 (dark 제외)
-  tokenRoot.walkRules((rule: import("postcss").Rule) => {
-    if (!rule.selectors.some(isBaseSelector)) return;
-    rule.walkDecls(/^--/, (decl: import("postcss").Declaration) => {
-      varMap.set(decl.prop, decl.value);
-    });
-  });
-
-  resolveMapIteratively(varMap);
-
-  // leaf 값만 반환
-  const result = new Map<string, string>();
-  for (const [prop, value] of varMap) {
-    if (!value.includes("var(")) {
-      result.set(prop, value);
-    }
-  }
-  return result;
-}
-
-/**
- * 중첩 CSS variable을 빌드 타임에 해소.
- * Step 1: page 셀렉터 내 중첩 var() 해소
- * Step 2: 외부 토큰 맵이 있으면 커스텀 프로퍼티에서 토큰 참조 치환
- */
-function resolveNestedVars(
-  root: import("postcss").Root,
-  externalTokens?: Map<string, string>,
-): void {
-  // Step 1: page 셀렉터에서 커스텀 프로퍼티 맵 수집
-  const varEntries = new Map<string, { value: string; decl: import("postcss").Declaration }[]>();
-
-  root.walkRules((rule) => {
-    if (!rule.selectors.some(isPageSelector)) return;
-    rule.walkDecls(/^--/, (decl) => {
-      const entries = varEntries.get(decl.prop) || [];
-      entries.push({ value: decl.value, decl });
-      varEntries.set(decl.prop, entries);
-    });
-  });
-
-  resolveEntriesIteratively(varEntries);
-
-  // Step 2: 토큰 맵 구축 (외부 토큰 + page 내 해소된 값)
-  const resolvedTokens = new Map<string, string>();
-
-  if (externalTokens) {
-    for (const [prop, val] of externalTokens) {
-      resolvedTokens.set(prop, val);
-    }
-  }
-
-  for (const [prop, entries] of varEntries) {
-    const val = entries[0].value;
-    if (!val.includes("var(")) {
-      resolvedTokens.set(prop, val);
-    }
-  }
-
-  if (resolvedTokens.size === 0) return;
-
-  // Step 3: 모든 커스텀 프로퍼티 정의에서 토큰 참조 치환
-  root.walkDecls(/^--/, (decl) => {
-    if (!decl.value.includes("var(")) return;
-    const resolved = replaceVarRefs(decl.value, resolvedTokens);
-    if (resolved !== decl.value) decl.value = resolved;
-  });
 }
 
 /** 괄호/대괄호 depth를 존중하면서 콤마로 분리 */
@@ -449,14 +294,10 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     warnOnly: opts.warnOnly ?? defaultConfig.warnOnly,
     expandShorthands: { ...defaultConfig.expandShorthands, ...opts.expandShorthands },
     textSlot: opts.textSlot ?? defaultConfig.textSlot,
-    resolveVarScope: opts.resolveVarScope ?? defaultConfig.resolveVarScope,
     selectorMappings: opts.selectorMappings ?? defaultConfig.selectorMappings,
     unwrapSupports: opts.unwrapSupports ?? defaultConfig.unwrapSupports,
     replaceVarWithEnv: opts.replaceVarWithEnv ?? defaultConfig.replaceVarWithEnv,
   };
-
-  // 외부 토큰 CSS가 제공되면 빌드 타임에 파싱하여 맵 구축
-  const externalTokenMap = opts.tokenCss ? buildTokenMap(opts.tokenCss) : undefined;
 
   const supportedSet = new Set(config.supportedProperties);
   const removeMap = config.remove;
@@ -540,13 +381,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
 
     // OnceExit: postcss-nested 실행 후 일괄 처리
     OnceExit(root) {
-      // Step 1: 중첩 CSS variable 해소 (page 토큰 + 외부 토큰 맵)
-      // "none": Lynx 3.6+ nested var() 네이티브 지원 시 flatten 비활성화
-      if (config.resolveVarScope !== "none") {
-        resolveNestedVars(root, externalTokenMap);
-      }
-
-      // Step 1.5: var() → env() 직접 치환 (safe-area 등)
+      // Step 1: var() → env() 직접 치환 (safe-area 등)
       if (config.replaceVarWithEnv.length > 0) {
         const varNameSet = new Set(config.replaceVarWithEnv.map((r) => r.varName));
 

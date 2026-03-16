@@ -29,12 +29,6 @@ export interface LynxCompatConfig {
   /** shorthand → longhand 확장 규칙 → { shorthand: (value) => Declaration[] } */
   expandShorthands?: Record<string, (value: string) => Array<{ prop: string; value: string }>>;
 
-  /** 빌드 타임 토큰 CSS 문자열 — page 셀렉터 내 커스텀 프로퍼티를 파싱하여 var() 참조 해소에 사용 */
-  tokenCss?: string;
-
-  /** var() 해소 범위: "all"(모든 커스텀 프로퍼티의 nested var() 인라인) | "none"(Lynx 3.6+ nested var 지원 시 flatten 비활성화) */
-  resolveVarScope?: "all" | "none";
-
   /** selector 매핑 규칙 — data-attribute selector를 class selector로 변환 */
   selectorMappings?: Array<{
     /** 매칭할 패턴 (selector 내 문자열 매칭) */

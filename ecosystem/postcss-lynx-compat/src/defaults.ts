@@ -352,8 +352,6 @@ export const defaultConfig: Required<LynxCompatConfig> = {
 
   warnOnly: false,
 
-  resolveVarScope: "all",
-
   unwrapSupports: [
     { condition: "constant(safe-area-inset", action: "remove" },
     { condition: "env(safe-area-inset", action: "unwrap" },
