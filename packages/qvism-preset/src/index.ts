@@ -31,10 +31,10 @@ export default definePreset({
       postcssPlugins: [
         postcssLynxCompat({
           selectorMappings: [
+            { match: 'user-color-scheme="dark"', replace: ".seed-user-color-scheme-dark" },
+            { match: 'user-color-scheme="light"', replace: ".seed-user-color-scheme-light" },
             { match: 'color-mode="dark-only"', replace: ".seed-color-mode-dark-only" },
-            { match: 'user-color-scheme="dark"', replace: ".seed-color-mode-dark-only" },
             { match: 'color-mode="light-only"', replace: ".seed-color-mode-light-only" },
-            { match: 'user-color-scheme="light"', replace: ".seed-color-mode-light-only" },
             { match: 'color-mode="system"', replace: "" },
           ],
         }),
