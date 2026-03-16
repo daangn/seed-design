@@ -72,13 +72,16 @@ export async function GET() {
         })
         .sort()
         .join("\n");
-      const extraEntries = category === "updates" ? changelogEntry : "";
-      const allEntries = [extraEntries, pageList].filter(Boolean).join("\n");
+      const changelogEntry =
+        category === "updates"
+          ? `- [Changelog](${new URL("/llms/react/updates/changelog.txt", baseUrl)})`
+          : "";
       return `### ${category}
 
 ${description}
 
-${allEntries}`;
+${changelogEntry}
+${pageList}`;
     })
     .join("\n\n");
 
