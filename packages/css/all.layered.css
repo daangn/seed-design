@@ -4098,10 +4098,10 @@
 
   .seed-content-placeholder__asset {
     height: 50%;
-    min-height: var(--seed-dimension-x4);
+    min-width: var(--seed-dimension-x4);
     aspect-ratio: 1;
     width: auto;
-    max-height: 64px;
+    max-width: 64px;
     color: var(--seed-color-palette-gray-400);
     fill: currentColor;
     stroke: currentColor;

@@ -21,8 +21,8 @@ const contentPlaceholder = defineSlotRecipe({
     asset: {
       display: "block",
       height: `calc(${vars.base.enabled.asset.heightFraction} * 100%)`,
-      minHeight: vars.base.enabled.asset.minWidth,
-      maxHeight: vars.base.enabled.asset.maxWidth,
+      minWidth: vars.base.enabled.asset.minWidth,
+      maxWidth: vars.base.enabled.asset.maxWidth,
       width: "auto",
       aspectRatio: "1 / 1",
       color: vars.base.enabled.asset.color,
