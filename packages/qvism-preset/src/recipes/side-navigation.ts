@@ -290,10 +290,14 @@ export const sideNavigationMenuItem = defineSlotRecipe({
 
       color: tokens.$color.fg.neutralSubtle,
 
-      transition: `transform ${duration}`,
+      transition: `transform ${duration}, opacity ${duration}`,
 
       [pseudo(not(open))]: {
         transform: "rotate(180deg)",
+      },
+
+      [pseudo(collapsed)]: {
+        opacity: 0,
       },
     },
     panel: {
@@ -309,14 +313,7 @@ export const sideNavigationMenuItem = defineSlotRecipe({
         height: "var(--collapsible-content-height)",
         opacity: 1,
 
-        transition: "height 250ms, opacity 250ms",
-      },
-
-      // visually collapse open panels when sidebar is collapsed, without changing their open state
-      [pseudo(collapsed, "[data-collapsible]", open)]: {
-        overflow: "hidden",
-        height: 0,
-        opacity: 0,
+        transition: `height ${duration}, opacity ${duration}`,
       },
     },
   },

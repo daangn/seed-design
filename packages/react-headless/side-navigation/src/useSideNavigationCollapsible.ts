@@ -25,8 +25,10 @@ export function useSideNavigationCollapsible(props: UseSideNavigationCollapsible
     [collapsed, setUserOpen],
   );
 
+  const effectiveOpen = collapsed ? false : userOpen;
+
   return useCollapsible({
-    open: userOpen,
+    open: effectiveOpen,
     onOpenChange: handleOpenChange,
     disabled: props.disabled,
   });
