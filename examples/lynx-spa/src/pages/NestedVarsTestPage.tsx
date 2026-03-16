@@ -1,4 +1,8 @@
+import { vars } from "@seed-design/css/vars";
+
 import '../styles/nested-vars-test.css';
+
+const { $color } = vars;
 
 /**
  * Lynx 3.6+ Nested CSS Variables 테스트 페이지
@@ -39,10 +43,10 @@ function TestResult({
         padding: '8px',
         marginBottom: '6px',
         borderBottomWidth: '1px',
-        borderBottomColor: '#eee',
+        borderBottomColor: $color.stroke.neutralMuted,
       }}
     >
-      <text style={{ fontSize: '13px', color: '#999', marginBottom: '4px' }}>
+      <text style={{ fontSize: '13px', color: $color.fg.neutralSubtle, marginBottom: '4px' }}>
         {label} (기대: {expected})
       </text>
       {children}
@@ -56,7 +60,7 @@ export function NestedVarsTestPage() {
       <text style={{ fontSize: '20px', fontWeight: 'bold' }}>
         Nested CSS Variables Test
       </text>
-      <text style={{ fontSize: '13px', color: '#999' }}>
+      <text style={{ fontSize: '13px', color: $color.fg.neutralSubtle }}>
         Lynx 3.6+ nested var() 지원 검증
       </text>
 
@@ -94,7 +98,7 @@ export function NestedVarsTestPage() {
         label="calc() 내 var(): --test-spacing-lg = calc(var(--test-spacing-base) * 2)"
         expected="16px padding"
       >
-        <view style={{ backgroundColor: '#f0f0f0', borderRadius: '4px' }}>
+        <view style={{ backgroundColor: $color.bg.neutralWeak, borderRadius: '4px' }}>
           <text className="nested-test-brand">
             이 텍스트 주변에 16px padding이 있으면 calc(var()) 동작
           </text>

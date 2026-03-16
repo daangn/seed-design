@@ -13,7 +13,7 @@ type CSSFontWeight =
   | "800"
   | "900";
 
-const { $fontSize, $lineHeight, $fontWeight } = vars;
+const { $color, $fontSize, $lineHeight, $fontWeight } = vars;
 
 function SectionTitle({ children }: { children: string }) {
   return (
@@ -44,13 +44,13 @@ function FontSizeRow({
       style={{
         padding: "8px",
         borderBottomWidth: "1px",
-        borderBottomColor: "#eee",
+        borderBottomColor: $color.stroke.neutralMuted,
         display: "flex",
         flexDirection: "column",
         gap: "4px",
       }}
     >
-      <text style={{ fontSize: "11px", color: "#999" }}>
+      <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle }}>
         {name} → {sizeVar}
         {lineHeightVar ? ` / ${lineHeightVar}` : ""}
       </text>
@@ -78,13 +78,13 @@ function FontWeightRow({
       style={{
         padding: "8px",
         borderBottomWidth: "1px",
-        borderBottomColor: "#eee",
+        borderBottomColor: $color.stroke.neutralMuted,
         display: "flex",
         flexDirection: "column",
         gap: "4px",
       }}
     >
-      <text style={{ fontSize: "11px", color: "#999" }}>
+      <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle }}>
         {name} → {weightVar}
       </text>
       <text style={{ fontSize: "16px", fontWeight: weightVar as CSSFontWeight }}>
@@ -128,7 +128,7 @@ export function FoundationTypographyPage() {
   return (
     <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
       <text style={{ fontSize: "20px", fontWeight: "bold" }}>Typography</text>
-      <text style={{ fontSize: "13px", color: "#999", marginBottom: "8px" }}>
+      <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle, marginBottom: "8px" }}>
         @seed-design/css/vars — $fontSize, $lineHeight, $fontWeight tokens
       </text>
 
@@ -138,7 +138,7 @@ export function FoundationTypographyPage() {
       <FontWeightRow name="bold" weightVar={$fontWeight.bold} />
 
       <SectionTitle>Font Size (Dynamic)</SectionTitle>
-      <text style={{ fontSize: "12px", color: "#999", marginBottom: "4px" }}>
+      <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle, marginBottom: "4px" }}>
         사용자 설정에 따라 크기가 변하는 동적 사이즈
       </text>
       {dynamicSizes.map((item) => (
@@ -151,7 +151,7 @@ export function FoundationTypographyPage() {
       ))}
 
       <SectionTitle>Font Size (Static)</SectionTitle>
-      <text style={{ fontSize: "12px", color: "#999", marginBottom: "4px" }}>
+      <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle, marginBottom: "4px" }}>
         고정 크기 사이즈
       </text>
       {staticSizes.map((item) => (

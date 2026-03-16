@@ -1,4 +1,8 @@
+import { vars } from "@seed-design/css/vars";
+
 import type { Page } from '../App.jsx';
+
+const { $color } = vars;
 
 function ListItem({ title, onTap }: { title: string; onTap: () => void }) {
   return (
@@ -7,15 +11,15 @@ function ListItem({ title, onTap }: { title: string; onTap: () => void }) {
       style={{
         padding: '14px 12px',
         borderBottomWidth: '1px',
-        borderBottomColor: '#eee',
+        borderBottomColor: $color.stroke.neutralMuted,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
       }}
     >
-      <text style={{ fontSize: '16px', color: '#333' }}>{title}</text>
-      <text style={{ fontSize: '16px', color: '#999' }}>{'→'}</text>
+      <text style={{ fontSize: '16px', color: $color.fg.neutral }}>{title}</text>
+      <text style={{ fontSize: '16px', color: $color.fg.neutralSubtle }}>{'→'}</text>
     </view>
   );
 }
@@ -26,7 +30,7 @@ function SectionHeader({ children }: { children: string }) {
       style={{
         fontSize: '13px',
         fontWeight: 'bold',
-        color: '#999',
+        color: $color.fg.neutralSubtle,
         marginTop: '16px',
         marginBottom: '4px',
         paddingLeft: '12px',
@@ -47,7 +51,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
           fontSize: '22px',
           fontWeight: 'bold',
           marginBottom: '16px',
-          color: '#3498db',
+          color: $color.fg.brand,
         }}
       >
         SEED Design Lynx Catalog
