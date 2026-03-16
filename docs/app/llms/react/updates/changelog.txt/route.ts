@@ -2,8 +2,9 @@ import { baseUrl } from "@/app/metadata";
 import type { ChangelogSource } from "@/lib/parse-changelog";
 import { loadChangelogSources } from "@/lib/parse-changelog";
 import type { NextRequest } from "next/server";
+import { gte, valid, coerce } from "semver";
 
-export const revalidate = false;
+export const dynamic = "force-dynamic";
 
 const CHANGELOG_SOURCE_URL = "https://github.com/daangn/seed-design/tree/dev/packages";
 
@@ -16,11 +17,16 @@ function filterVersionSections(raw: string, minVersion: string): string {
   const body = raw.replace(/^# .+\n/, "");
   const sections = body.split(/(?=^## )/m).filter(Boolean);
 
+  const parsed = valid(minVersion) ?? valid(coerce(minVersion));
+  if (!parsed) return raw;
+
   const filtered = sections.filter((section) => {
     const versionMatch = section.match(/^## ([^\n]+)/);
     if (!versionMatch) return false;
     const version = versionMatch[1].trim();
-    return version >= minVersion;
+    const parsedVersion = valid(version) ?? valid(coerce(version));
+    if (!parsedVersion) return false;
+    return gte(parsedVersion, parsed);
   });
 
   if (filtered.length === 0) return "";

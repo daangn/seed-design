@@ -94,6 +94,7 @@
         "remark-rehype": "^11.1.2",
         "remark-stringify": "^11.0.0",
         "sanity": "^4.20.3",
+        "semver": "^7.7.4",
         "shiki": "^3.4.2",
         "simple-reveal": "^0.8.0",
         "styled-components": "6",
@@ -112,6 +113,7 @@
         "@types/node": "^25.0.0",
         "@types/react": "^19.2.7",
         "@types/react-dom": "^19.2.3",
+        "@types/semver": "^7.7.1",
         "chalk": "^5.3.0",
         "chromatic": "^13.0.0",
         "concurrently": "^9.2.1",
@@ -5717,6 +5719,8 @@
     "@seed-design/docs/@figma/rest-api-spec": ["@figma/rest-api-spec@0.35.0", "", {}, "sha512-0v/KJmCWzKBp/wmsqjOas7tLauD1s0nrJJ70vzOCqEEgNrZvugi6/Myssfy+BsfpU5bcC66KrgApqoRRnsbJ4Q=="],
 
     "@seed-design/docs/@types/node": ["@types/node@25.1.0", "", { "dependencies": { "undici-types": "~7.16.0" } }, "sha512-t7frlewr6+cbx+9Ohpl0NOTKXZNV9xHRmNOvql47BFJKcEG1CxtxlPEEe+gR9uhVWM4DwhnvTF110mIL4yP9RA=="],
+
+    "@seed-design/docs/semver": ["semver@7.7.4", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA=="],
 
     "@seed-design/docs/zod": ["zod@4.3.5", "", {}, "sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g=="],
 
