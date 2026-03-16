@@ -30,8 +30,6 @@ export default definePreset({
       suffix: "lynx",
       postcssPlugins: [
         postcssLynxCompat({
-          tokenCss: tokens._raw,
-          resolveVarScope: "all",
           selectorMappings: [
             { match: 'color-mode="dark-only"', replace: ".seed-theme-dark" },
             { match: 'user-color-scheme="dark"', replace: ".seed-theme-dark" },

@@ -525,103 +525,6 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
-  describe("중첩 CSS variable 해소 (resolveNestedVars)", () => {
-    it("page 셀렉터 내 1단계 중첩 var()를 해소한다", async () => {
-      const input = `
-        page {
-          --color-raw: #fa6616;
-          --color-bg: var(--color-raw);
-        }
-      `;
-      const output = await run(input, { warnOnly: true });
-      expect(output).toContain("--color-raw: #fa6616");
-      expect(output).toContain("--color-bg: #fa6616");
-      expect(output).not.toMatch(/--color-bg:\s*var\(/);
-    });
-
-    it("page 셀렉터 내 2단계 중첩 var()를 해소한다", async () => {
-      const input = `
-        page {
-          --base: 16px;
-          --spacing: var(--base);
-          --pad: var(--spacing);
-        }
-      `;
-      const output = await run(input, { warnOnly: true });
-      expect(output).toContain("--base: 16px");
-      expect(output).toContain("--spacing: 16px");
-      expect(output).toContain("--pad: 16px");
-    });
-
-    it("calc() 내 var()도 해소한다", async () => {
-      const input = `
-        page {
-          --size: 10px;
-          --half-size: calc(var(--size) / 2);
-        }
-      `;
-      const output = await run(input, { warnOnly: true });
-      expect(output).toContain("--half-size: calc(10px / 2)");
-    });
-
-    it("page에 없는 변수 참조는 그대로 유지한다", async () => {
-      const input = `
-        page {
-          --known: 10px;
-        }
-        .seed-btn {
-          --local: var(--unknown);
-          padding: var(--known);
-        }
-      `;
-      const output = await run(input, { warnOnly: true });
-      expect(output).toContain("--local: var(--unknown)");
-    });
-
-    it("컴포넌트 셀렉터의 커스텀 프로퍼티에서도 page 토큰 참조를 해소한다", async () => {
-      const input = `
-        page {
-          --color-raw: #fa6616;
-          --spacing: 16px;
-        }
-        .seed-btn {
-          --btn-bg: var(--color-raw);
-          --btn-pad: var(--spacing);
-        }
-      `;
-      const output = await run(input, { warnOnly: true });
-      expect(output).toContain("--btn-bg: #fa6616");
-      expect(output).toContain("--btn-pad: 16px");
-    });
-
-    it("page[data-*] 셀렉터도 해소 대상이다", async () => {
-      const input = `
-        page, page[data-seed-color-mode="light"] {
-          --palette: #333;
-          --fg-color: var(--palette);
-        }
-      `;
-      const output = await run(input, { warnOnly: true });
-      expect(output).toContain("--fg-color: #333");
-    });
-  });
-
-  describe("resolveVarScope: all (기본값)", () => {
-    it("컴포넌트 커스텀 프로퍼티의 var()도 해소한다", async () => {
-      const input = `
-        page {
-          --palette-gray: #1a1c20;
-          --fg-neutral: var(--palette-gray);
-        }
-        .seed-btn {
-          --btn-color: var(--fg-neutral);
-        }
-      `;
-      const output = await run(input, { warnOnly: true, resolveVarScope: "all" });
-      expect(output).toContain("--btn-color: #1a1c20");
-    });
-  });
-
   describe("selectorMappings", () => {
     it("data-attribute selector를 class selector로 변환한다", async () => {
       const input = `
@@ -714,51 +617,7 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
-  describe("통합: 테마 지원 (resolveVarScope: all + selectorMappings)", () => {
-    it("토큰 flatten + 커스텀 프로퍼티 resolve + 테마 selector 변환", async () => {
-      const input = `
-        page, page[data-seed-color-mode="light-only"] {
-          --palette-gray-1000: #1a1c20;
-          --fg-neutral: var(--palette-gray-1000);
-          --dimension-x4: 16px;
-        }
-        page[data-seed-color-mode="dark-only"] {
-          --palette-gray-100: #f3f4f5;
-          --fg-neutral: var(--palette-gray-100);
-        }
-        .seed-action-button {
-          --seed-box-color: var(--fg-neutral);
-          --seed-box-padding: var(--dimension-x4);
-          color: var(--fg-neutral);
-          padding-left: var(--seed-box-padding);
-          display: inline-flex;
-        }
-      `;
-      const output = await run(input, {
-        warnOnly: true,
-        resolveVarScope: "all",
-        selectorMappings: [
-          { match: 'color-mode="dark-only"', replace: ".seed-theme-dark" },
-          { match: 'color-mode="light-only"', replace: ".seed-theme-light" },
-        ],
-      });
-
-      // 토큰 정의: nested var() flatten
-      expect(output).toContain("--fg-neutral: #1a1c20");
-      expect(output).toContain("--fg-neutral: #f3f4f5");
-
-      // 테마 selector: class로 변환
-      expect(output).toContain("page.seed-theme-dark");
-      expect(output).toContain("page.seed-theme-light");
-      expect(output).not.toContain("[data-seed-color-mode");
-
-      // 컴포넌트 커스텀 프로퍼티: nested var() resolve
-      expect(output).toContain("--seed-box-color: #1a1c20");
-      expect(output).toContain("--seed-box-padding: 16px");
-    });
-  });
-
-  describe("resolveVarScope: none (Lynx 3.6+ nested var support)", () => {
+  describe("nested var() 유지 (Lynx 3.6+ 네이티브 지원)", () => {
     it("page 내 nested var()를 그대로 유지한다", async () => {
       const input = `
         page {
@@ -766,7 +625,7 @@ describe("postcss-lynx-compat", () => {
           --color-bg: var(--color-raw);
         }
       `;
-      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      const output = await run(input, { warnOnly: true });
       expect(output).toContain("--color-raw: #fa6616");
       expect(output).toContain("--color-bg: var(--color-raw)");
     });
@@ -782,7 +641,7 @@ describe("postcss-lynx-compat", () => {
           --btn-pad: var(--spacing);
         }
       `;
-      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      const output = await run(input, { warnOnly: true });
       expect(output).toContain("--btn-bg: var(--color-raw)");
       expect(output).toContain("--btn-pad: var(--spacing)");
     });
@@ -795,7 +654,7 @@ describe("postcss-lynx-compat", () => {
           --pad: var(--spacing);
         }
       `;
-      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      const output = await run(input, { warnOnly: true });
       expect(output).toContain("--base: 16px");
       expect(output).toContain("--spacing: var(--base)");
       expect(output).toContain("--pad: var(--spacing)");
@@ -808,28 +667,8 @@ describe("postcss-lynx-compat", () => {
           --half-size: calc(var(--size) / 2);
         }
       `;
-      const output = await run(input, { warnOnly: true, resolveVarScope: "none" });
+      const output = await run(input, { warnOnly: true });
       expect(output).toContain("--half-size: calc(var(--size) / 2)");
-    });
-
-    it("외부 tokenCss 참조도 resolve하지 않는다", async () => {
-      const tokenCss = `
-        :root {
-          --palette-gray: #1a1c20;
-          --fg-neutral: var(--palette-gray);
-        }
-      `;
-      const input = `
-        .seed-btn {
-          --btn-color: var(--fg-neutral);
-        }
-      `;
-      const output = await run(input, {
-        warnOnly: true,
-        resolveVarScope: "none",
-        tokenCss,
-      });
-      expect(output).toContain("--btn-color: var(--fg-neutral)");
     });
   });
 
