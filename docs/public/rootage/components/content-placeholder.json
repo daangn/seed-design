@@ -16,7 +16,7 @@
             }
           }
         },
-        "container": {
+        "asset": {
           "properties": {
             "minWidth": {
               "type": "dimension"
@@ -24,13 +24,10 @@
             "maxWidth": {
               "type": "dimension"
             },
-            "padding": {
-              "type": "dimension"
-            }
-          }
-        },
-        "image": {
-          "properties": {
+            "heightFraction": {
+              "type": "number",
+              "description": "root slot 대한 asset slot의 높이 비율입니다."
+            },
             "color": {
               "type": "color"
             }
@@ -72,7 +69,7 @@
                   "value": "$color.palette.gray-200"
                 }
               },
-              "container": {
+              "asset": {
                 "minWidth": {
                   "type": "dimension",
                   "value": "$dimension.x4"
@@ -80,16 +77,14 @@
                 "maxWidth": {
                   "type": "dimension",
                   "value": {
-                    "value": 120,
+                    "value": 64,
                     "unit": "px"
                   }
                 },
-                "padding": {
-                  "type": "dimension",
-                  "value": "$dimension.x7"
-                }
-              },
-              "image": {
+                "heightFraction": {
+                  "type": "number",
+                  "value": 0.5
+                },
                 "color": {
                   "type": "color",
                   "value": "$color.palette.gray-400"

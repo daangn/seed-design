@@ -7,12 +7,12 @@ import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { contentPlaceholderAssetPresetMap } from "./presets";
 import { mergeProps } from "@seed-design/dom-utils";
-import { Slot } from "@radix-ui/react-slot";
 import { clsx } from "clsx";
 import { useMemo } from "react";
 
-const { withContext, PropsProvider, ClassNamesProvider, useProps, useClassNames } =
-  createSlotRecipeContext(contentPlaceholder);
+const { PropsProvider, ClassNamesProvider, useProps, useClassNames } = createSlotRecipeContext(
+  contentPlaceholder,
+);
 
 export interface ContentPlaceholderRootProps
   extends ContentPlaceholderVariantProps,
@@ -36,38 +36,29 @@ export const ContentPlaceholderRoot = React.forwardRef<HTMLDivElement, ContentPl
 
 ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
 
-export interface ContentPlaceholderContainerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface ContentPlaceholderAssetProps extends React.HTMLAttributes<HTMLSpanElement> {}
 
-export const ContentPlaceholderContainer = withContext<
-  HTMLDivElement,
-  ContentPlaceholderContainerProps
->(Primitive.div, "container");
-
-export interface ContentPlaceholderImageProps extends React.SVGProps<SVGSVGElement> {}
-
-export const ContentPlaceholderImage = React.forwardRef<
-  SVGSVGElement,
-  ContentPlaceholderImageProps
+export const ContentPlaceholderAsset = React.forwardRef<
+  HTMLSpanElement,
+  ContentPlaceholderAssetProps
 >(({ children, className, ...props }, ref) => {
   const classNames = useClassNames();
   const parentProps = useProps();
 
-  const image = useMemo(() => {
+  const asset = useMemo(() => {
     if (children) return children;
 
     return contentPlaceholderAssetPresetMap[parentProps?.type ?? "default"];
   }, [children, parentProps?.type]);
 
   return (
-    <Slot
-      ref={ref as React.ForwardedRef<HTMLElement>}
-      className={clsx(classNames.image, className)}
-      {...(props as React.HTMLAttributes<HTMLElement>)}
+    <Primitive.span
+      ref={ref}
+      className={clsx(classNames.asset, className)}
+      {...props}
     >
-      {image}
-    </Slot>
+      {asset}
+    </Primitive.span>
   );
 });
-ContentPlaceholderImage.displayName = "ContentPlaceholderImage";
+ContentPlaceholderAsset.displayName = "ContentPlaceholderAsset";

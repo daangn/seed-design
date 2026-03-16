@@ -3,7 +3,7 @@ import { defineSlotRecipe } from "../utils/define";
 
 const contentPlaceholder = defineSlotRecipe({
   name: "content-placeholder",
-  slots: ["root", "container", "image"],
+  slots: ["root", "asset"],
   base: {
     root: {
       boxSizing: "border-box",
@@ -18,30 +18,31 @@ const contentPlaceholder = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.root.color,
     },
-    container: {
+    asset: {
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      boxSizing: "border-box",
-      width: "100%",
-      height: "100%",
-      minWidth: vars.base.enabled.container.minWidth,
-      maxWidth: vars.base.enabled.container.maxWidth,
-      padding: vars.base.enabled.container.padding,
-      marginLeft: "auto",
-      marginRight: "auto",
-    },
-    image: {
-      display: "block",
+      height: `calc(${vars.base.enabled.asset.heightFraction} * 100%)`,
+      minHeight: vars.base.enabled.asset.minWidth,
+      maxHeight: vars.base.enabled.asset.maxWidth,
       width: "auto",
-      height: "100%",
-      maxWidth: "100%",
       aspectRatio: "1 / 1",
-      marginLeft: "auto",
-      marginRight: "auto",
-      color: vars.base.enabled.image.color,
-      fill: "currentColor",
-      stroke: "currentColor",
+      color: vars.base.enabled.asset.color,
+
+      "& > svg": {
+        display: "block",
+        width: "100%",
+        height: "100%",
+        fill: "currentColor",
+        stroke: "currentColor",
+      },
+
+      "& > img": {
+        display: "block",
+        width: "100%",
+        height: "100%",
+        objectFit: "contain",
+      },
     },
   },
   variants: {

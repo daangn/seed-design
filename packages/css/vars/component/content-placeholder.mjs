@@ -4,12 +4,10 @@ export const vars = {
       "root": {
         "color": "var(--seed-color-palette-gray-200)"
       },
-      "container": {
+      "asset": {
         "minWidth": "var(--seed-dimension-x4)",
-        "maxWidth": "120px",
-        "padding": "var(--seed-dimension-x7)"
-      },
-      "image": {
+        "maxWidth": "64px",
+        "heightFraction": "0.5",
         "color": "var(--seed-color-palette-gray-400)"
       }
     }
