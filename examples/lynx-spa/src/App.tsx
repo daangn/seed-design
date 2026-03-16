@@ -1,11 +1,19 @@
 import { useState } from "@lynx-js/react";
 
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
+import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
+import { FoundationTypographyPage } from "./pages/FoundationTypographyPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 
-export type Page = "home" | "theming" | "action-button" | "nested-vars-test";
+export type Page =
+  | "home"
+  | "theming"
+  | "action-button"
+  | "nested-vars-test"
+  | "foundation-color"
+  | "foundation-typography";
 
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
@@ -26,14 +34,15 @@ export function App(props: { onRender?: () => void }) {
   props.onRender?.();
 
   return (
-    <view
+    <scroll-view
+      scroll-y
       style={{
         padding: "16px",
         paddingTop: "calc(16px + env(safe-area-inset-top))",
         paddingBottom: "calc(16px + env(safe-area-inset-bottom))",
         display: "flex",
         flexDirection: "column",
-        minHeight: "100vh",
+        height: "100vh",
       }}
     >
       {currentPage !== "home" && <BackButton onBack={() => setCurrentPage("home")} />}
@@ -41,6 +50,8 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "theming" && <ThemingPage />}
       {currentPage === "action-button" && <ActionButtonPage />}
       {currentPage === "nested-vars-test" && <NestedVarsTestPage />}
-    </view>
+      {currentPage === "foundation-color" && <FoundationColorPage />}
+      {currentPage === "foundation-typography" && <FoundationTypographyPage />}
+    </scroll-view>
   );
 }

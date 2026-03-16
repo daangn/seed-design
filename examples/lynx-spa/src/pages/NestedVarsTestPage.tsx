@@ -52,7 +52,7 @@ function TestResult({
 
 export function NestedVarsTestPage() {
   return (
-    <view style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <scroll-view scroll-y style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
       <text style={{ fontSize: '20px', fontWeight: 'bold' }}>
         Nested CSS Variables Test
       </text>
@@ -163,6 +163,6 @@ export function NestedVarsTestPage() {
       <TestResult label="fontSize: 20px 직접 지정" expected="20px 폰트">
         <text style={{ fontSize: '20px' }}>20px 텍스트 (테스트 B와 비교)</text>
       </TestResult>
-    </view>
+    </scroll-view>
   );
 }
