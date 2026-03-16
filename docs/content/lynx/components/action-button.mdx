@@ -1,0 +1,32 @@
+---
+title: Action Button
+description: 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
+---
+
+## Installation
+
+```package-install
+npm install @seed-design/lynx-react
+```
+
+<Callout>
+`@seed-design/css` 패키지가 peer dependency로 필요합니다.
+</Callout>
+
+## Usage
+
+```tsx
+import { ActionButton } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <ActionButton variant="brandSolid" size="medium" bindtap={() => console.log("tapped")}>
+      버튼
+    </ActionButton>
+  );
+}
+```
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/ActionButton/ActionButton.tsx" name="ActionButtonProps" />
