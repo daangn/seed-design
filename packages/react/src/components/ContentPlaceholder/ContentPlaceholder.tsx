@@ -3,6 +3,7 @@ import {
   type ContentPlaceholderVariantProps,
 } from "@seed-design/css/recipes/content-placeholder";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { contentPlaceholderAssetPresetMap } from "./presets";
@@ -10,9 +11,8 @@ import { mergeProps } from "@seed-design/dom-utils";
 import { clsx } from "clsx";
 import { useMemo } from "react";
 
-const { PropsProvider, ClassNamesProvider, useProps, useClassNames } = createSlotRecipeContext(
-  contentPlaceholder,
-);
+const { PropsProvider, ClassNamesProvider, useProps, useClassNames } =
+  createSlotRecipeContext(contentPlaceholder);
 
 export interface ContentPlaceholderRootProps
   extends ContentPlaceholderVariantProps,
@@ -36,29 +36,24 @@ export const ContentPlaceholderRoot = React.forwardRef<HTMLDivElement, ContentPl
 
 ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
 
-export interface ContentPlaceholderAssetProps extends React.HTMLAttributes<HTMLSpanElement> {}
+export interface ContentPlaceholderAssetProps extends React.HTMLAttributes<HTMLElement> {}
 
-export const ContentPlaceholderAsset = React.forwardRef<
-  HTMLSpanElement,
-  ContentPlaceholderAssetProps
->(({ children, className, ...props }, ref) => {
-  const classNames = useClassNames();
-  const parentProps = useProps();
+export const ContentPlaceholderAsset = React.forwardRef<HTMLElement, ContentPlaceholderAssetProps>(
+  ({ children, className, ...props }, ref) => {
+    const classNames = useClassNames();
+    const parentProps = useProps();
 
-  const asset = useMemo(() => {
-    if (children) return children;
+    const asset = useMemo(() => {
+      if (children) return children;
 
-    return contentPlaceholderAssetPresetMap[parentProps?.type ?? "default"];
-  }, [children, parentProps?.type]);
+      return contentPlaceholderAssetPresetMap[parentProps?.type ?? "default"];
+    }, [children, parentProps?.type]);
 
-  return (
-    <Primitive.span
-      ref={ref}
-      className={clsx(classNames.asset, className)}
-      {...props}
-    >
-      {asset}
-    </Primitive.span>
-  );
-});
+    return (
+      <Slot ref={ref} className={clsx(classNames.asset, className)} {...props}>
+        {asset}
+      </Slot>
+    );
+  },
+);
 ContentPlaceholderAsset.displayName = "ContentPlaceholderAsset";
