@@ -6,9 +6,11 @@ type ChangelogSource = { packageName: string; raw: string };
 
 let changelogCache: string | null = null;
 let initPromise: Promise<void> | null = null;
+let initFailed = false;
 
 async function fetchAndCacheChangelog(): Promise<void> {
   try {
+    initFailed = false;
     const sources = await loadChangelogSources(process.cwd());
     const sorted = sources.sort((a: ChangelogSource, b: ChangelogSource) =>
       a.packageName.localeCompare(b.packageName),
@@ -21,7 +23,8 @@ async function fetchAndCacheChangelog(): Promise<void> {
       })
       .join("\n\n---\n\n");
   } catch {
-    changelogCache = "";
+    initFailed = true;
+    changelogCache = null;
   }
 }
 
@@ -37,8 +40,9 @@ export const changelogPageRule: Rule = {
   init,
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "ChangelogPage",
-  transform: () => {
-    if (!changelogCache) return [];
+  transform: (node) => {
+    if (initFailed || changelogCache === null) return [node];
+    if (changelogCache === "") return [];
     return [{ type: "html", value: changelogCache }];
   },
 };
