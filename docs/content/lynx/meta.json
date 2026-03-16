@@ -1,5 +1,5 @@
 {
   "title": "Lynx",
-  "description": "Lynx 아이콘 프레임워크",
-  "pages": ["index", "icon"]
+  "description": "Lynx 프레임워크에서 SEED Design 사용하기",
+  "pages": ["index", "theming", "icon"]
 }

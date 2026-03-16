@@ -613,11 +613,12 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         if (!rule.selector.includes(".seed-")) continue;
 
         // 테마 셀렉터만 포함된 룰은 text slot 분리 불필요
-        // .seed-color-mode-dark-only, :root.seed-color-mode-light-only 등은 토큰 변수만 정의하므로 스킵
+        // .seed-color-mode-dark-only, :root.seed-user-color-scheme-dark 등은 토큰 변수만 정의하므로 스킵
         // .seed-action-button.seed-color-mode-dark-only 같은 경우는 컴포넌트 스타일이므로 처리
         if (
-          rule.selector.includes(".seed-color-mode-") &&
-          !rule.selector.match(/\.seed-(?!color-mode-)[a-z]/)
+          (rule.selector.includes(".seed-color-mode-") ||
+            rule.selector.includes(".seed-user-color-scheme-")) &&
+          !rule.selector.match(/\.seed-(?!color-mode-|user-color-scheme-)[a-z]/)
         )
           continue;
 
