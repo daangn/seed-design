@@ -25,7 +25,8 @@
               "type": "dimension"
             },
             "heightFraction": {
-              "type": "number"
+              "type": "number",
+              "description": "root slot 대한 asset slot의 높이 비율입니다."
             },
             "color": {
               "type": "color"
