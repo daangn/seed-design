@@ -32,6 +32,8 @@ export function useSideNavigation(props: UseSideNavigationProps) {
       stateProps,
 
       triggerProps: elementProps({
+        ...stateProps,
+
         onClick: (event) => {
           if (event.defaultPrevented) return;
 

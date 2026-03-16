@@ -1,5 +1,11 @@
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
-import { before, engaged, not, open, pseudo, selected } from "../utils/pseudo";
+import { onlyIcon } from "../utils/icon";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import { before, engaged, focusVisible, not, open, pseudo, selected } from "../utils/pseudo";
 import * as tokens from "../vars/vars";
 
 const collapsed = "[data-side-navigation-state=collapsed]";
@@ -14,6 +20,9 @@ export const sideNavigation = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
+      position: "relative",
+      overflowX: "hidden",
+
       width: "240px",
       height: "100%",
 
@@ -24,31 +33,36 @@ export const sideNavigation = defineSlotRecipe({
       },
     },
     header: {
+      boxSizing: "border-box",
+
       padding: "8px",
+      minHeight: "64px", // enough height for the trigger button
 
       flexShrink: 0,
-
-      // minHeight: "56px", // some height
     },
     content: {
       padding: "8px",
 
       flex: 1,
       overflowY: "auto",
-      // overflowX: "hidden",
-      // scrollbarGutter: "stable",
 
       display: "flex",
       flexDirection: "column",
 
       gap: "8px",
 
+      // scroll divider: covers (local) hide lines when at edge, lines (scroll) stay fixed
+      background: [
+        "linear-gradient(var(--side-navigation-bg, transparent), var(--side-navigation-bg, transparent)) center top / 100% 1px no-repeat local",
+        "linear-gradient(var(--side-navigation-bg, transparent), var(--side-navigation-bg, transparent)) center bottom / 100% 1px no-repeat local",
+        `linear-gradient(${tokens.$color.stroke.neutralMuted}, ${tokens.$color.stroke.neutralMuted}) center top / 100% 1px no-repeat scroll`,
+        `linear-gradient(${tokens.$color.stroke.neutralMuted}, ${tokens.$color.stroke.neutralMuted}) center bottom / 100% 1px no-repeat scroll`,
+      ].join(", "),
+
       transition: `gap ${duration}`,
 
       [pseudo(collapsed)]: {
         gap: 0,
-
-        // this isn't good actually, but i don't expect a scrollbar in the collapsed state
         scrollbarWidth: "none",
       },
     },
@@ -90,12 +104,50 @@ export const sideNavigation = defineSlotRecipe({
         opacity: 0,
       },
     },
-    trigger: {},
+    // we define trigger here instead of using ActionButton again since the stylesheets doesn't have much in common
+    trigger: {
+      minWidth: "40px",
+      minHeight: "40px",
+
+      padding: "10px",
+      borderRadius: "8px",
+
+      cursor: "pointer",
+      border: "none",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+
+      background: "transparent",
+
+      position: "absolute",
+      top: "12px",
+      right: "12px",
+
+      ...createFocusRingRestStyles(),
+      transition: `right ${duration}, background-color ${duration}, ${FOCUS_RING_TRANSITION}`,
+
+      [pseudo(focusVisible)]: createFocusRingStyles(),
+
+      ...onlyIcon({
+        size: "18px",
+        color: tokens.$color.fg.neutralSubtle,
+      }),
+
+      [pseudo(engaged)]: {
+        background: tokens.$color.bg.transparentPressed,
+      },
+
+      [pseudo(collapsed)]: {
+        right: "8px",
+      },
+    },
   },
   variants: {
     variant: {
       neutral: {
         root: {
+          "--side-navigation-bg": tokens.$color.palette.gray100,
           backgroundColor: tokens.$color.palette.gray100,
 
           boxShadow: `inset -1px 0 0 0 ${tokens.$color.stroke.neutralMuted}`,
@@ -140,6 +192,7 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       textAlign: "left",
       background: "none",
       border: "none",
+      outline: "none",
 
       transition: `padding ${duration}`,
 
@@ -154,8 +207,11 @@ export const sideNavigationMenuItem = defineSlotRecipe({
 
         borderRadius: "10px",
 
-        transition: `background-color ${duration}`,
+        ...createFocusRingRestStyles({ position: "inside" }),
+        transition: `background-color ${duration}, ${FOCUS_RING_TRANSITION}`,
       },
+
+      [pseudo(focusVisible, before)]: createFocusRingStyles({ position: "inside" }),
 
       [pseudo(collapsed, before)]: {
         right: "unset",

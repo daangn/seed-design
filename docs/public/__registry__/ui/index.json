@@ -657,6 +657,7 @@
       ],
       "id": "side-navigation",
       "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
       ]
     },

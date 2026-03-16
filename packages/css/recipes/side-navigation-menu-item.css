@@ -12,6 +12,7 @@
     text-align: left;
     background: none;
     border: none;
+    outline: none;
     transition: padding 200ms;
 }
 .seed-side-navigation-menu-item__root::before {
@@ -22,7 +23,13 @@
     bottom: 0;
     left: 0;
     border-radius: 10px;
-    transition: background-color 200ms;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    transition: background-color 200ms, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+}
+.seed-side-navigation-menu-item__root:is(:focus-visible, [data-focus-visible])::before {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-side-navigation-menu-item__root[data-side-navigation-state=collapsed]::before {
     right: unset;

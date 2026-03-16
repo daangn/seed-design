@@ -4,6 +4,7 @@
     text-align: left;
     background: none;
     border: none;
+    outline: none;
     align-items: center;
     gap: 12px;
     width: 100%;
@@ -18,10 +19,17 @@
 
   .seed-side-navigation-menu-item__root:before {
     content: "";
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     border-radius: 10px;
-    transition: background-color .2s;
     position: absolute;
     inset: 0;
+  }
+
+  .seed-side-navigation-menu-item__root:is(:focus-visible, [data-focus-visible]):before {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-side-navigation-menu-item__root[data-side-navigation-state="collapsed"]:before {
