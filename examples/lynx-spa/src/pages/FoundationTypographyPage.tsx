@@ -1,5 +1,18 @@
 import { vars } from "@seed-design/css/vars";
 
+type CSSFontWeight =
+  | "bold"
+  | "normal"
+  | "100"
+  | "200"
+  | "300"
+  | "400"
+  | "500"
+  | "600"
+  | "700"
+  | "800"
+  | "900";
+
 const { $fontSize, $lineHeight, $fontWeight } = vars;
 
 function SectionTitle({ children }: { children: string }) {
@@ -74,7 +87,7 @@ function FontWeightRow({
       <text style={{ fontSize: "11px", color: "#999" }}>
         {name} → {weightVar}
       </text>
-      <text style={{ fontSize: "16px", fontWeight: weightVar }}>
+      <text style={{ fontSize: "16px", fontWeight: weightVar as CSSFontWeight }}>
         다람쥐 헌 쳇바퀴에 타고파 The quick brown fox
       </text>
     </view>
