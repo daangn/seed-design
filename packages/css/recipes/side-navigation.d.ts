@@ -1,5 +1,8 @@
 declare interface SideNavigationVariant {
-  
+  /**
+  * @default "neutral"
+  */
+  variant: "neutral" | "transparent";
 }
 
 declare type SideNavigationVariantMap = {

@@ -6,6 +6,9 @@ export {
   SideNavigationGroup as Group,
   SideNavigationGroupLabel as GroupLabel,
   SideNavigationMenuItemButton as MenuItemButton,
+  SideNavigationMenuItemLabel as MenuItemLabel,
+  SideNavigationMenuItemPrefixIcon as MenuItemPrefixIcon,
+  SideNavigationMenuItemSuffixIcon as MenuItemSuffixIcon,
   SideNavigationMenuItemCollapsibleRoot as MenuItemCollapsibleRoot,
   SideNavigationMenuItemCollapsibleTrigger as MenuItemCollapsibleTrigger,
   SideNavigationMenuItemCollapsibleContent as MenuItemCollapsibleContent,
@@ -19,6 +22,9 @@ export {
   type SideNavigationGroupProps as GroupProps,
   type SideNavigationGroupLabelProps as GroupLabelProps,
   type SideNavigationMenuItemButtonProps as MenuItemButtonProps,
+  type SideNavigationMenuItemLabelProps as MenuItemLabelProps,
+  type SideNavigationMenuItemPrefixIconProps as MenuItemPrefixIconProps,
+  type SideNavigationMenuItemSuffixIconProps as MenuItemSuffixIconProps,
   type SideNavigationMenuItemCollapsibleRootProps as MenuItemCollapsibleRootProps,
   type SideNavigationMenuItemCollapsibleTriggerProps as MenuItemCollapsibleTriggerProps,
   type SideNavigationMenuItemCollapsibleContentProps as MenuItemCollapsibleContentProps,
@@ -26,3 +32,8 @@ export {
   type SideNavigationTriggerProps as TriggerProps,
   type SideNavigationInsetProps as InsetProps,
 } from "./SideNavigation";
+
+export {
+  SideNavigationProvider as Provider,
+  type SideNavigationProviderProps as ProviderProps,
+} from "@seed-design/react-side-navigation";

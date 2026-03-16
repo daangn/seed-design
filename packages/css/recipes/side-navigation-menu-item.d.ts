@@ -8,7 +8,7 @@ declare type SideNavigationMenuItemVariantMap = {
 
 export declare type SideNavigationMenuItemVariantProps = Partial<SideNavigationMenuItemVariant>;
 
-export declare type SideNavigationMenuItemSlotName = "item" | "collapsibleContent" | "chevron";
+export declare type SideNavigationMenuItemSlotName = "root" | "prefixIcon" | "label" | "suffixIcon" | "panel";
 
 export declare const sideNavigationMenuItemVariantMap: SideNavigationMenuItemVariantMap;
 

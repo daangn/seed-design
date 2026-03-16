@@ -32,11 +32,18 @@ const sideNavigationSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "variant": "neutral"
+};
 
 const compoundVariants = [];
 
-export const sideNavigationVariantMap = {};
+export const sideNavigationVariantMap = {
+  "variant": [
+    "neutral",
+    "transparent"
+  ]
+};
 
 export const sideNavigationVariantKeys = Object.keys(sideNavigationVariantMap);
 

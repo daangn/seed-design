@@ -3,16 +3,24 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 
 const sideNavigationMenuItemSlotNames = [
   [
-    "item",
-    "seed-side-navigation-menu-item__item"
+    "root",
+    "seed-side-navigation-menu-item__root"
   ],
   [
-    "collapsibleContent",
-    "seed-side-navigation-menu-item__collapsibleContent"
+    "prefixIcon",
+    "seed-side-navigation-menu-item__prefixIcon"
   ],
   [
-    "chevron",
-    "seed-side-navigation-menu-item__chevron"
+    "label",
+    "seed-side-navigation-menu-item__label"
+  ],
+  [
+    "suffixIcon",
+    "seed-side-navigation-menu-item__suffixIcon"
+  ],
+  [
+    "panel",
+    "seed-side-navigation-menu-item__panel"
   ]
 ];
 

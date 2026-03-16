@@ -9,7 +9,17 @@ import {
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
-import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconHouseFill,
+  IconChevronUpSmallFill,
+  IconMegaphoneTiltedFill,
+  IconPlusCircleFill,
+  IconDocumentFill,
+  IconToolboxFill,
+  IconWonCircleFill,
+  IconReceiptFill,
+  IconGearFill,
+} from "@karrotmarket/react-monochrome-icon";
 import { SideNavigation } from "@seed-design/react";
 
 declare module "@stackflow/config" {
@@ -30,80 +40,147 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
         <AppBarMain>Side Navigation</AppBarMain>
         <AppBarRight>
           <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <IconHouseFill />
           </AppBarIconButton>
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
+        {/* `Layout` 같은 컴포넌트가 필요할듯 */}
         <div style={{ display: "flex", height: "100%" }}>
-          {/* TODO: width/border will come from recipe variant (neutral/transparent) */}
-          <SideNavigation.Root style={{ width: 240, borderRight: "1px solid #eee" }}>
-            <SideNavigation.Header style={{ padding: 16 }}>
-              <strong>Service Name</strong>
-            </SideNavigation.Header>
+          <SideNavigation.Provider defaultCollapsed={false}>
+            <SideNavigation.Root>
+              <SideNavigation.Header>
+                <SideNavigation.Trigger>T</SideNavigation.Trigger>
+              </SideNavigation.Header>
 
-            <SideNavigation.Content>
-              <SideNavigation.Group>
-                <SideNavigation.GroupLabel
-                  style={{ padding: "8px 16px", fontSize: 12, color: "#888" }}
-                >
-                  Platform
-                </SideNavigation.GroupLabel>
+              <SideNavigation.Content>
+                <SideNavigation.Group>
+                  <SideNavigation.GroupLabel>광고</SideNavigation.GroupLabel>
 
-                <SideNavigation.MenuItemCollapsibleRoot defaultOpen>
-                  <SideNavigation.MenuItemCollapsibleTrigger
-                    style={{ justifyContent: "space-between", padding: "8px 16px" }}
-                  >
-                    Models
-                  </SideNavigation.MenuItemCollapsibleTrigger>
-                  <SideNavigation.MenuItemCollapsibleContent>
-                    <SideNavigation.MenuItemCollapsibleItem
-                      style={{ padding: "6px 16px 6px 32px" }}
-                    >
-                      Genesis
-                    </SideNavigation.MenuItemCollapsibleItem>
-                    <SideNavigation.MenuItemCollapsibleItem
-                      style={{ padding: "6px 16px 6px 32px" }}
-                    >
-                      Explorer
-                    </SideNavigation.MenuItemCollapsibleItem>
-                  </SideNavigation.MenuItemCollapsibleContent>
-                </SideNavigation.MenuItemCollapsibleRoot>
+                  <SideNavigation.MenuItemButton>
+                    <SideNavigation.MenuItemPrefixIcon svg={<IconHouseFill />} />
+                    <SideNavigation.MenuItemLabel>홈</SideNavigation.MenuItemLabel>
+                  </SideNavigation.MenuItemButton>
 
-                <SideNavigation.MenuItemButton style={{ padding: "8px 16px" }}>
-                  Documentation
-                </SideNavigation.MenuItemButton>
-              </SideNavigation.Group>
+                  <SideNavigation.MenuItemCollapsibleRoot defaultOpen>
+                    <SideNavigation.MenuItemCollapsibleTrigger>
+                      <SideNavigation.MenuItemPrefixIcon svg={<IconMegaphoneTiltedFill />} />
+                      <SideNavigation.MenuItemLabel>광고 만들기</SideNavigation.MenuItemLabel>
+                      <SideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
+                    </SideNavigation.MenuItemCollapsibleTrigger>
+                    <SideNavigation.MenuItemCollapsibleContent>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>
+                          디스플레이 광고 관리
+                        </SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>검색 광고 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                    </SideNavigation.MenuItemCollapsibleContent>
+                  </SideNavigation.MenuItemCollapsibleRoot>
 
-              <SideNavigation.Group>
-                <SideNavigation.GroupLabel
-                  style={{ padding: "8px 16px", fontSize: 12, color: "#888" }}
-                >
-                  Settings
-                </SideNavigation.GroupLabel>
+                  <SideNavigation.MenuItemButton>
+                    <SideNavigation.MenuItemPrefixIcon svg={<IconPlusCircleFill />} />
+                    <SideNavigation.MenuItemLabel>광고 만들기</SideNavigation.MenuItemLabel>
+                  </SideNavigation.MenuItemButton>
 
-                <SideNavigation.MenuItemButton style={{ padding: "8px 16px" }}>
-                  General
-                </SideNavigation.MenuItemButton>
-                <SideNavigation.MenuItemButton style={{ padding: "8px 16px" }}>
-                  Billing
-                </SideNavigation.MenuItemButton>
-              </SideNavigation.Group>
-            </SideNavigation.Content>
+                  <SideNavigation.MenuItemButton>
+                    <SideNavigation.MenuItemPrefixIcon svg={<IconDocumentFill />} />
+                    <SideNavigation.MenuItemLabel>보고서</SideNavigation.MenuItemLabel>
+                  </SideNavigation.MenuItemButton>
 
-            <SideNavigation.Footer style={{ padding: 16, borderTop: "1px solid #eee" }}>
-              <SideNavigation.MenuItemButton
-                style={{ padding: "4px 0", fontSize: 13, color: "#888" }}
-              >
-                Help Center
-              </SideNavigation.MenuItemButton>
-            </SideNavigation.Footer>
-          </SideNavigation.Root>
+                  <SideNavigation.MenuItemCollapsibleRoot defaultOpen>
+                    <SideNavigation.MenuItemCollapsibleTrigger>
+                      <SideNavigation.MenuItemPrefixIcon svg={<IconToolboxFill />} />
+                      <SideNavigation.MenuItemLabel>광고 도구</SideNavigation.MenuItemLabel>
+                      <SideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
+                    </SideNavigation.MenuItemCollapsibleTrigger>
+                    <SideNavigation.MenuItemCollapsibleContent>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>카탈로그 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>전환 추적 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>맞춤 타겟 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>리드폼 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>대량 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                    </SideNavigation.MenuItemCollapsibleContent>
+                  </SideNavigation.MenuItemCollapsibleRoot>
+                </SideNavigation.Group>
 
-          <SideNavigation.Inset style={{ padding: 24 }}>
-            <h2>Main Content Area</h2>
-            <p>This is the inset area next to the side navigation.</p>
-          </SideNavigation.Inset>
+                <SideNavigation.Group>
+                  <SideNavigation.GroupLabel>결제</SideNavigation.GroupLabel>
+
+                  <SideNavigation.MenuItemCollapsibleRoot>
+                    <SideNavigation.MenuItemCollapsibleTrigger>
+                      <SideNavigation.MenuItemPrefixIcon svg={<IconWonCircleFill />} />
+                      <SideNavigation.MenuItemLabel>광고캐시</SideNavigation.MenuItemLabel>
+                      <SideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
+                    </SideNavigation.MenuItemCollapsibleTrigger>
+                    <SideNavigation.MenuItemCollapsibleContent>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>광고캐시 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>세금계산서</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                    </SideNavigation.MenuItemCollapsibleContent>
+                  </SideNavigation.MenuItemCollapsibleRoot>
+
+                  <SideNavigation.MenuItemButton>
+                    <SideNavigation.MenuItemPrefixIcon svg={<IconReceiptFill />} />
+                    <SideNavigation.MenuItemLabel>변경내역</SideNavigation.MenuItemLabel>
+                  </SideNavigation.MenuItemButton>
+                </SideNavigation.Group>
+
+                <SideNavigation.Group>
+                  <SideNavigation.GroupLabel>계정</SideNavigation.GroupLabel>
+
+                  <SideNavigation.MenuItemCollapsibleRoot>
+                    <SideNavigation.MenuItemCollapsibleTrigger>
+                      <SideNavigation.MenuItemPrefixIcon svg={<IconGearFill />} />
+                      <SideNavigation.MenuItemLabel>설정</SideNavigation.MenuItemLabel>
+                      <SideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
+                    </SideNavigation.MenuItemCollapsibleTrigger>
+                    <SideNavigation.MenuItemCollapsibleContent>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>광고계정 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>심사서류 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>운영자 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>
+                          광고 대행사 관리
+                        </SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItemCollapsibleItem>
+                        <SideNavigation.MenuItemLabel>내 알림 관리</SideNavigation.MenuItemLabel>
+                      </SideNavigation.MenuItemCollapsibleItem>
+                    </SideNavigation.MenuItemCollapsibleContent>
+                  </SideNavigation.MenuItemCollapsibleRoot>
+                </SideNavigation.Group>
+              </SideNavigation.Content>
+
+              <SideNavigation.Footer />
+            </SideNavigation.Root>
+
+            <SideNavigation.Inset>
+              <h2>Main Content Area</h2>
+              <p>This is the inset area next to the side navigation.</p>
+            </SideNavigation.Inset>
+          </SideNavigation.Provider>
         </div>
       </AppScreenContent>
     </AppScreen>
