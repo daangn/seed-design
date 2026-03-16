@@ -1,9 +1,10 @@
-import { defineConfig } from '@lynx-js/rspeedy';
+import { defineConfig } from "@lynx-js/rspeedy";
 
-import { pluginQRCode } from '@lynx-js/qrcode-rsbuild-plugin';
-import { pluginReactLynx } from '@lynx-js/react-rsbuild-plugin';
-import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
-import { seedDesign } from '@seed-design/rsbuild-plugin/lynx';
+import { pluginQRCode } from "@lynx-js/qrcode-rsbuild-plugin";
+import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
+import { pluginTypeCheck } from "@rsbuild/plugin-type-check";
+import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
+import { seedDesign } from "@seed-design/rsbuild-plugin/lynx";
 
 export default defineConfig({
   plugins: [
@@ -15,10 +16,13 @@ export default defineConfig({
     }),
     pluginReactLynx(),
     pluginTypeCheck(),
-    seedDesign({ colorMode: 'system' }),
+    pluginLynxConfig({
+      enableCSSInlineVariables: true,
+    }),
+    seedDesign({ colorMode: "system" }),
   ],
   output: {
-    filename: '[name].[platform].bundle',
+    filename: "[name].[platform].bundle",
   },
   environments: {
     web: {},
