@@ -41,7 +41,10 @@ export const sideNavigation = defineSlotRecipe({
       flexShrink: 0,
     },
     content: {
-      padding: "8px",
+      paddingTop: "8px",
+      paddingLeft: "8px",
+      paddingRight: "8px",
+      paddingBottom: "16px",
 
       flex: 1,
       overflowY: "auto",
@@ -51,13 +54,15 @@ export const sideNavigation = defineSlotRecipe({
 
       gap: "8px",
 
-      // scroll divider: covers (local) hide lines when at edge, lines (scroll) stay fixed
+      // top divider: appears when scrolled away from top (background-attachment local/scroll trick)
       background: [
         "linear-gradient(var(--side-navigation-bg, transparent), var(--side-navigation-bg, transparent)) center top / 100% 1px no-repeat local",
-        "linear-gradient(var(--side-navigation-bg, transparent), var(--side-navigation-bg, transparent)) center bottom / 100% 1px no-repeat local",
         `linear-gradient(${tokens.$color.stroke.neutralMuted}, ${tokens.$color.stroke.neutralMuted}) center top / 100% 1px no-repeat scroll`,
-        `linear-gradient(${tokens.$color.stroke.neutralMuted}, ${tokens.$color.stroke.neutralMuted}) center bottom / 100% 1px no-repeat scroll`,
       ].join(", "),
+
+      // bottom scroll fog: fades content into padding at the bottom
+      maskImage: "linear-gradient(to top, transparent 0, black 16px)",
+      WebkitMaskImage: "linear-gradient(to top, transparent 0, black 16px)",
 
       transition: `gap ${duration}`,
 

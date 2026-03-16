@@ -21,14 +21,16 @@
   }
 
   .seed-side-navigation__content {
-    background: linear-gradient(var(--side-navigation-bg, transparent), var(--side-navigation-bg, transparent)) center top / 100% 1px no-repeat local, linear-gradient(var(--side-navigation-bg, transparent), var(--side-navigation-bg, transparent)) center bottom / 100% 1px no-repeat local, linear-gradient(var(--seed-color-stroke-neutral-muted), var(--seed-color-stroke-neutral-muted)) center top / 100% 1px no-repeat scroll, linear-gradient(var(--seed-color-stroke-neutral-muted), var(--seed-color-stroke-neutral-muted)) center bottom / 100% 1px no-repeat scroll;
+    background: linear-gradient(var(--side-navigation-bg, transparent), var(--side-navigation-bg, transparent)) center top / 100% 1px no-repeat local, linear-gradient(var(--seed-color-stroke-neutral-muted), var(--seed-color-stroke-neutral-muted)) center top / 100% 1px no-repeat scroll;
     flex-direction: column;
     flex: 1;
     gap: 8px;
-    padding: 8px;
+    padding: 8px 8px 16px;
     transition: gap .2s;
     display: flex;
     overflow-y: auto;
+    -webkit-mask-image: linear-gradient(to top, #0000 0, #000 16px);
+    mask-image: linear-gradient(to top, #0000 0, #000 16px);
   }
 
   .seed-side-navigation__content[data-side-navigation-state="collapsed"] {
