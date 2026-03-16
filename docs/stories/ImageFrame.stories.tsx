@@ -74,6 +74,7 @@ const conditionMap = {
   caseLabel: IMAGE_CASES.reduce(
     (acc, item) => {
       acc[item.caseLabel] = {
+        caseLabel: item.caseLabel,
         src: item.src,
         width: item.width,
         height: item.height,
@@ -82,7 +83,7 @@ const conditionMap = {
 
       return acc;
     },
-    {} as Record<string, Omit<ImageFrameCase, "caseLabel">>,
+    {} as Record<string, ImageFrameCase>,
   ),
 };
 
