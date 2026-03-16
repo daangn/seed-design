@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true,
+    "typeRoots": ["../../../node_modules/@types", "../../../types"],
+    "types": ["bun"],
+
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "declaration": true,
+    "declarationMap": true,
+
+    "jsx": "preserve",
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src"]
+}
