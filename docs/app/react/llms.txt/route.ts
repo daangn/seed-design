@@ -72,11 +72,13 @@ export async function GET() {
         })
         .sort()
         .join("\n");
+      const extraEntries = category === "updates" ? changelogEntry : "";
+      const allEntries = [extraEntries, pageList].filter(Boolean).join("\n");
       return `### ${category}
 
 ${description}
 
-${pageList}`;
+${allEntries}`;
     })
     .join("\n\n");
 
