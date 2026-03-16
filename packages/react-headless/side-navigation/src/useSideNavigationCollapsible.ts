@@ -8,7 +8,7 @@ export type UseSideNavigationCollapsibleProps = UseCollapsibleProps;
 export type UseSideNavigationCollapsibleReturn = ReturnType<typeof useSideNavigationCollapsible>;
 
 export function useSideNavigationCollapsible(props: UseSideNavigationCollapsibleProps) {
-  const { collapsed, setCollapsed } = useSideNavigationContext();
+  const { collapsed } = useSideNavigationContext();
 
   const [userOpen, setUserOpen] = useControllableState({
     prop: props.open,
@@ -20,13 +20,11 @@ export function useSideNavigationCollapsible(props: UseSideNavigationCollapsible
 
   const handleOpenChange = useCallback(
     (newOpen: boolean) => {
-      if (collapsed && newOpen) {
-        setCollapsed(false);
-      }
+      if (collapsed) return;
 
       setUserOpen(newOpen);
     },
-    [collapsed, setCollapsed, setUserOpen],
+    [collapsed, setUserOpen],
   );
 
   return useCollapsible({
