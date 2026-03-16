@@ -11,7 +11,7 @@ const CHANGELOG_SOURCE_URL = "https://github.com/daangn/seed-design/tree/dev/pac
  * 패키지의 raw changelog에서 특정 버전 이상의 섹션만 필터링합니다.
  * `## {version}` 헤딩 기준으로 분리하고, from 버전 이상만 포함합니다.
  */
-function filterVersionSections(raw: string, from: string): string {
+function filterVersionSections(raw: string, minVersion: string): string {
   const header = raw.match(/^# .+\n/)?.[0] ?? "";
   const body = raw.replace(/^# .+\n/, "");
   const sections = body.split(/(?=^## )/m).filter(Boolean);
@@ -20,25 +20,25 @@ function filterVersionSections(raw: string, from: string): string {
     const versionMatch = section.match(/^## ([^\n]+)/);
     if (!versionMatch) return false;
     const version = versionMatch[1].trim();
-    return version >= from;
+    return version >= minVersion;
   });
 
   if (filtered.length === 0) return "";
   return (header + filtered.join("")).trimStart();
 }
 
-function buildBody(sources: ChangelogSource[], tab?: string, from?: string): string {
+function buildBody(sources: ChangelogSource[], pkg?: string, version?: string): string {
   let filtered = sources.sort((a, b) => a.packageName.localeCompare(b.packageName));
 
-  if (tab) {
-    filtered = filtered.filter((s) => s.packageName === tab);
+  if (pkg) {
+    filtered = filtered.filter((s) => s.packageName === pkg);
   }
 
   return filtered
     .map(({ packageName, raw }) => {
       let content = raw;
-      if (from) {
-        content = filterVersionSections(content, from);
+      if (version) {
+        content = filterVersionSections(content, version);
         if (!content) return null;
       }
       const normalized = content.replace(/^# .+\n/, "").trimStart();
@@ -50,11 +50,11 @@ function buildBody(sources: ChangelogSource[], tab?: string, from?: string): str
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  const tab = searchParams.get("tab") ?? undefined;
-  const from = searchParams.get("from") ?? undefined;
+  const pkg = searchParams.get("package") ?? undefined;
+  const version = searchParams.get("version") ?? undefined;
 
   const sources = await loadChangelogSources(process.cwd());
-  const body = buildBody(sources, tab, from);
+  const body = buildBody(sources, pkg, version);
 
   const pageUrl = new URL("/react/updates/changelog", baseUrl).toString();
 
