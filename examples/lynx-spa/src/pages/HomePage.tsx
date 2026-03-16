@@ -20,6 +20,25 @@ function ListItem({ title, onTap }: { title: string; onTap: () => void }) {
   );
 }
 
+function SectionHeader({ children }: { children: string }) {
+  return (
+    <text
+      style={{
+        fontSize: '13px',
+        fontWeight: 'bold',
+        color: '#999',
+        marginTop: '16px',
+        marginBottom: '4px',
+        paddingLeft: '12px',
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px',
+      }}
+    >
+      {children}
+    </text>
+  );
+}
+
 export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
   return (
     <view style={{ display: 'flex', flexDirection: 'column' }}>
@@ -33,8 +52,16 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       >
         SEED Design Lynx Catalog
       </text>
-      <ListItem title="Theming" onTap={() => navigate('theming')} />
+
+      <SectionHeader>Foundation</SectionHeader>
+      <ListItem title="Color" onTap={() => navigate('foundation-color')} />
+      <ListItem title="Typography" onTap={() => navigate('foundation-typography')} />
+
+      <SectionHeader>Components</SectionHeader>
       <ListItem title="ActionButton" onTap={() => navigate('action-button')} />
+
+      <SectionHeader>Test</SectionHeader>
+      <ListItem title="Theming" onTap={() => navigate('theming')} />
       <ListItem title="Nested Vars Test (Lynx 3.6+)" onTap={() => navigate('nested-vars-test')} />
     </view>
   );
