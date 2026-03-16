@@ -17,7 +17,7 @@ export function ThemingPage() {
   );
 
   return (
-    <view style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+    <scroll-view scroll-y style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
       <text style={{ fontSize: '20px', fontWeight: 'bold' }}>Theming</text>
 
       <view
@@ -75,6 +75,6 @@ export function ThemingPage() {
         <ActionButton variant="neutralOutline">Neutral Outline</ActionButton>
         <ActionButton variant="ghost">Ghost</ActionButton>
       </view>
-    </view>
+    </scroll-view>
   );
 }

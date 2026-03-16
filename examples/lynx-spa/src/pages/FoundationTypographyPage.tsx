@@ -113,7 +113,7 @@ const staticSizes = [
 
 export function FoundationTypographyPage() {
   return (
-    <view style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
       <text style={{ fontSize: "20px", fontWeight: "bold" }}>Typography</text>
       <text style={{ fontSize: "13px", color: "#999", marginBottom: "8px" }}>
         @seed-design/css/vars — $fontSize, $lineHeight, $fontWeight tokens
@@ -149,6 +149,6 @@ export function FoundationTypographyPage() {
           lineHeightVar={item.lh}
         />
       ))}
-    </view>
+    </scroll-view>
   );
 }

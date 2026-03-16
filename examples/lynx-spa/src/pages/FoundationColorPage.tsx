@@ -107,7 +107,7 @@ function renderEntries(
 
 export function FoundationColorPage() {
   return (
-    <view style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
       <text style={{ fontSize: "20px", fontWeight: "bold" }}>Color</text>
       <text style={{ fontSize: "13px", color: "#999", marginBottom: "8px" }}>
         @seed-design/css/vars — $color tokens
@@ -148,6 +148,6 @@ export function FoundationColorPage() {
       >
         {renderEntries($color.stroke, "stroke")}
       </view>
-    </view>
+    </scroll-view>
   );
 }

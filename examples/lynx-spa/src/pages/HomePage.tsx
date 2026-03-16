@@ -41,7 +41,7 @@ function SectionHeader({ children }: { children: string }) {
 
 export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
   return (
-    <view style={{ display: 'flex', flexDirection: 'column' }}>
+    <scroll-view scroll-y style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
       <text
         style={{
           fontSize: '22px',
@@ -63,6 +63,6 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <SectionHeader>Test</SectionHeader>
       <ListItem title="Theming" onTap={() => navigate('theming')} />
       <ListItem title="Nested Vars Test (Lynx 3.6+)" onTap={() => navigate('nested-vars-test')} />
-    </view>
+    </scroll-view>
   );
 }

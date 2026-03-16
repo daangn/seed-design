@@ -2,7 +2,7 @@ import { ActionButton } from '@seed-design/lynx-react';
 
 export function ActionButtonPage() {
   return (
-    <view style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+    <scroll-view scroll-y style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
       <text style={{ fontSize: '20px', fontWeight: 'bold' }}>ActionButton</text>
 
       <text style={{ fontSize: '16px', fontWeight: 'bold' }}>Variants</text>
@@ -59,6 +59,6 @@ export function ActionButtonPage() {
           Disabled Outline
         </ActionButton>
       </view>
-    </view>
+    </scroll-view>
   );
 }
