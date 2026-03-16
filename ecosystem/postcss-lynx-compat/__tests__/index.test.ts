@@ -534,9 +534,11 @@ describe("postcss-lynx-compat", () => {
       `;
       const output = await run(input, {
         warnOnly: true,
-        selectorMappings: [{ match: 'color-mode="dark-only"', replace: ".seed-theme-dark" }],
+        selectorMappings: [
+          { match: 'color-mode="dark-only"', replace: ".seed-color-mode-dark-only" },
+        ],
       });
-      expect(output).toContain("page.seed-theme-dark");
+      expect(output).toContain("page.seed-color-mode-dark-only");
       expect(output).not.toContain("[data-seed-color-mode");
     });
 
@@ -552,12 +554,12 @@ describe("postcss-lynx-compat", () => {
       const output = await run(input, {
         warnOnly: true,
         selectorMappings: [
-          { match: 'color-mode="dark-only"', replace: ".seed-theme-dark" },
-          { match: 'color-mode="light-only"', replace: ".seed-theme-light" },
+          { match: 'color-mode="dark-only"', replace: ".seed-color-mode-dark-only" },
+          { match: 'color-mode="light-only"', replace: ".seed-color-mode-light-only" },
         ],
       });
-      expect(output).toContain("page.seed-theme-dark");
-      expect(output).toContain("page.seed-theme-light");
+      expect(output).toContain("page.seed-color-mode-dark-only");
+      expect(output).toContain("page.seed-color-mode-light-only");
     });
 
     it("콤마 구분 셀렉터에서 각각 변환한다", async () => {
@@ -568,9 +570,11 @@ describe("postcss-lynx-compat", () => {
       `;
       const output = await run(input, {
         warnOnly: true,
-        selectorMappings: [{ match: 'color-mode="light-only"', replace: ".seed-theme-light" }],
+        selectorMappings: [
+          { match: 'color-mode="light-only"', replace: ".seed-color-mode-light-only" },
+        ],
       });
-      expect(output).toContain("page.seed-theme-light");
+      expect(output).toContain("page.seed-color-mode-light-only");
       expect(output).toContain("page,");
     });
 
@@ -582,7 +586,9 @@ describe("postcss-lynx-compat", () => {
       `;
       const output = await run(input, {
         warnOnly: true,
-        selectorMappings: [{ match: 'color-mode="dark-only"', replace: ".seed-theme-dark" }],
+        selectorMappings: [
+          { match: 'color-mode="dark-only"', replace: ".seed-color-mode-dark-only" },
+        ],
       });
       // selectorMappings는 매칭 안 됨 → Phase 1의 [data-X] 변환이 처리
       expect(output).toContain("--disabled_true");
@@ -854,13 +860,13 @@ describe("postcss-lynx-compat", () => {
   });
 
   describe("text slot: 테마 셀렉터 스킵", () => {
-    it(".seed-theme-* 셀렉터는 text slot 분리하지 않는다", async () => {
+    it(".seed-color-mode-* 셀렉터는 text slot 분리하지 않는다", async () => {
       const input = `
-        :root, :root.seed-theme-light {
+        :root, :root.seed-color-mode-light-only {
           --seed-color-fg: #1a1c20;
           --seed-color-bg: #fff;
         }
-        :root.seed-theme-dark {
+        :root.seed-color-mode-dark-only {
           --seed-color-fg: #f3f4f5;
           --seed-color-bg: #000;
         }
@@ -878,15 +884,15 @@ describe("postcss-lynx-compat", () => {
         },
       });
       // 테마 셀렉터에 __text suffix가 추가되면 안 됨
-      expect(output).not.toContain("seed-theme-light__text");
-      expect(output).not.toContain("seed-theme-dark__text");
+      expect(output).not.toContain("seed-color-mode-light-only__text");
+      expect(output).not.toContain("seed-color-mode-dark-only__text");
       // 컴포넌트 셀렉터에는 __text가 정상 추가됨
       expect(output).toContain("seed-action-button__text");
     });
 
     it("컴포넌트+테마 조합 셀렉터는 text slot 분리한다", async () => {
       const input = `
-        .seed-action-button.seed-theme-dark {
+        .seed-action-button.seed-color-mode-dark-only {
           color: red;
           display: inline-flex;
         }
@@ -907,13 +913,13 @@ describe("postcss-lynx-compat", () => {
   describe("빈 룰 제거", () => {
     it("모든 declaration이 제거된 빈 룰을 정리한다", async () => {
       const input = `
-        .seed-theme-light {
+        .seed-color-mode-light-only {
           color-scheme: light;
         }
       `;
       const output = await run(input, { warnOnly: false });
       // color-scheme은 removeProperties에 등록됨 → 제거 → 빈 룰 → 제거
-      expect(output).not.toContain(".seed-theme-light");
+      expect(output).not.toContain(".seed-color-mode-light-only");
     });
   });
 });

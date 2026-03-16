@@ -20,7 +20,6 @@ initMainThreadConsole();
 initNetworkMonitor();
 initPerformanceMonitor();
 
-root.render(<App />);
 declare const __SEED_COLOR_MODE__: string;
 
 const colorMode = typeof __SEED_COLOR_MODE__ !== "undefined" ? __SEED_COLOR_MODE__ : "system";
