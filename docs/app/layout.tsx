@@ -8,6 +8,7 @@ import { LatestVersionBanner } from "@/components/latest-version-banner";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import ThemeSync from "@/components/theme-sync";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,7 +32,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <body>
         <LatestVersionBanner />
         <ThemeSync />
-        {children}
+        <NuqsAdapter>{children}</NuqsAdapter>
       </body>
     </html>
   );
