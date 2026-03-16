@@ -40,7 +40,7 @@ function ColorSwatch({
         <text style={{ color: varRef, fontSize: "14px", fontWeight: "bold" }}>
           Aa
         </text>
-        <text style={{ fontSize: "12px", color: "#666" }}>{name}</text>
+        <text style={{ fontSize: "12px", color: $color.fg.neutralMuted }}>{name}</text>
       </view>
     );
   }
@@ -63,10 +63,10 @@ function ColorSwatch({
             backgroundColor: varRef,
             borderRadius: "4px",
             borderWidth: "1px",
-            borderColor: "rgba(0,0,0,0.1)",
+            borderColor: $color.stroke.neutralMuted,
           }}
         />
-        <text style={{ fontSize: "12px", color: "#666" }}>{name}</text>
+        <text style={{ fontSize: "12px", color: $color.fg.neutralMuted }}>{name}</text>
       </view>
     );
   }
@@ -91,7 +91,7 @@ function ColorSwatch({
           borderRadius: "4px",
         }}
       />
-      <text style={{ fontSize: "12px", color: "#666" }}>{name}</text>
+      <text style={{ fontSize: "12px", color: $color.fg.neutralMuted }}>{name}</text>
     </view>
   );
 }
@@ -109,7 +109,7 @@ export function FoundationColorPage() {
   return (
     <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
       <text style={{ fontSize: "20px", fontWeight: "bold" }}>Color</text>
-      <text style={{ fontSize: "13px", color: "#999", marginBottom: "8px" }}>
+      <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle, marginBottom: "8px" }}>
         @seed-design/css/vars — $color tokens
       </text>
 

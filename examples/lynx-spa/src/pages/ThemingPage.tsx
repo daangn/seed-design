@@ -1,5 +1,8 @@
 import { ActionButton } from '@seed-design/lynx-react';
+import { vars } from '@seed-design/css/vars';
 import { getThemeClassName } from '@seed-design/rsbuild-plugin/lynx';
+
+const { $color } = vars;
 
 declare const __SEED_COLOR_MODE__: string;
 
@@ -23,26 +26,26 @@ export function ThemingPage() {
       <view
         style={{
           padding: '12px',
-          backgroundColor: '#f0f0f0',
+          backgroundColor: $color.bg.neutralWeak,
           borderRadius: '8px',
           display: 'flex',
           flexDirection: 'column',
           gap: '6px',
         }}
       >
-        <text style={{ fontSize: '14px', fontWeight: 'bold', color: '#333' }}>
+        <text style={{ fontSize: '14px', fontWeight: 'bold', color: $color.fg.neutral }}>
           Environment
         </text>
-        <text style={{ fontSize: '13px', color: '#555' }}>
+        <text style={{ fontSize: '13px', color: $color.fg.neutralMuted }}>
           colorMode (plugin): "{colorMode}"
         </text>
-        <text style={{ fontSize: '13px', color: '#555' }}>
+        <text style={{ fontSize: '13px', color: $color.fg.neutralMuted }}>
           systemTheme (device): "{systemTheme}"
         </text>
-        <text style={{ fontSize: '13px', color: '#555' }}>
+        <text style={{ fontSize: '13px', color: $color.fg.neutralMuted }}>
           frontendTheme (app): "{frontendTheme}"
         </text>
-        <text style={{ fontSize: '13px', color: '#555' }}>
+        <text style={{ fontSize: '13px', color: $color.fg.neutralMuted }}>
           Applied class: "{themeClass}"
         </text>
       </view>

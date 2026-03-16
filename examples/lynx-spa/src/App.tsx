@@ -1,4 +1,5 @@
 import { useState } from "@lynx-js/react";
+import { vars } from "@seed-design/css/vars";
 
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
@@ -24,7 +25,7 @@ function BackButton({ onBack }: { onBack: () => void }) {
         marginBottom: "8px",
       }}
     >
-      <text style={{ fontSize: "16px", color: "#3498db" }}>{"← Back"}</text>
+      <text style={{ fontSize: "16px", color: vars.$color.fg.brand }}>{"← Back"}</text>
     </view>
   );
 }
