@@ -13,8 +13,8 @@
     padding-bottom: var(--seed-dimension-x3_5);
     gap: var(--seed-dimension-x3);
     border-radius: var(--seed-radius-r2_5);
-    --seed-prefix-icon-size: 16px;
-    --seed-suffix-icon-size: 16px;
+    --seed-prefix-icon-size: var(--seed-dimension-x4);
+    --seed-suffix-icon-size: var(--seed-dimension-x4);
 }
 .seed-callout__content {
     margin-right: auto;
@@ -57,8 +57,8 @@
 }
 .seed-callout__root--tone_neutral {
     background-color: var(--seed-color-bg-neutral-weak);
-    --seed-prefix-icon-color: #1a1c20;
-    --seed-suffix-icon-color: #1a1c20;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-callout__root--tone_neutralbutton:active, .seed-callout__root--tone_neutrala:active {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
@@ -74,8 +74,8 @@
 }
 .seed-callout__root--tone_informative {
     background-color: var(--seed-color-bg-informative-weak);
-    --seed-prefix-icon-color: #0b4596;
-    --seed-suffix-icon-color: #0b4596;
+    --seed-prefix-icon-color: var(--seed-color-fg-informative-contrast);
+    --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
 }
 .seed-callout__root--tone_informativebutton:active, .seed-callout__root--tone_informativea:active {
     background-color: var(--seed-color-bg-informative-weak-pressed);
@@ -91,8 +91,8 @@
 }
 .seed-callout__root--tone_positive {
     background-color: var(--seed-color-bg-positive-weak);
-    --seed-prefix-icon-color: #075445;
-    --seed-suffix-icon-color: #075445;
+    --seed-prefix-icon-color: var(--seed-color-fg-positive-contrast);
+    --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
 }
 .seed-callout__root--tone_positivebutton:active, .seed-callout__root--tone_positivea:active {
     background-color: var(--seed-color-bg-positive-weak-pressed);
@@ -108,8 +108,8 @@
 }
 .seed-callout__root--tone_warning {
     background-color: var(--seed-color-bg-warning-weak);
-    --seed-prefix-icon-color: #4f3e1f;
-    --seed-suffix-icon-color: #4f3e1f;
+    --seed-prefix-icon-color: var(--seed-color-fg-warning-contrast);
+    --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
 }
 .seed-callout__root--tone_warningbutton:active, .seed-callout__root--tone_warninga:active {
     background-color: var(--seed-color-bg-warning-weak-pressed);
@@ -125,8 +125,8 @@
 }
 .seed-callout__root--tone_critical {
     background-color: var(--seed-color-bg-critical-weak);
-    --seed-prefix-icon-color: #921708;
-    --seed-suffix-icon-color: #921708;
+    --seed-prefix-icon-color: var(--seed-color-fg-critical-contrast);
+    --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
 }
 .seed-callout__root--tone_criticalbutton:active, .seed-callout__root--tone_criticala:active {
     background-color: var(--seed-color-bg-critical-weak-pressed);
@@ -142,8 +142,8 @@
 }
 .seed-callout__root--tone_magic {
     background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic));
-    --seed-prefix-icon-color: #1a1c20;
-    --seed-suffix-icon-color: #1a1c20;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-callout__root--tone_magicbutton:active, .seed-callout__root--tone_magica:active {
     background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));

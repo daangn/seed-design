@@ -11,11 +11,11 @@
     padding-right: var(--seed-dimension-x4);
     padding-top: var(--seed-dimension-x2_5);
     padding-bottom: var(--seed-dimension-x2_5);
-    --seed-prefix-icon-size: 16px;
-    --seed-prefix-icon-margin-right: 8px;
-    --seed-prefix-icon-margin-top: calc((40px - 16px) * 0.5 - 10px);
-    --seed-suffix-icon-size: 16px;
-    --seed-suffix-icon-margin-left: 8px;
+    --seed-prefix-icon-size: var(--seed-dimension-x4);
+    --seed-prefix-icon-margin-right: var(--seed-dimension-x2);
+    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * 0.5 - var(--seed-dimension-x2_5));
+    --seed-suffix-icon-size: var(--seed-dimension-x4);
+    --seed-suffix-icon-margin-left: var(--seed-dimension-x2);
     --seed-suffix-icon-align-self: center;
 }
 .seed-page-banner__content {
@@ -73,8 +73,8 @@
 }
 .seed-page-banner__root--tone_neutral-variant_weak {
     background-color: var(--seed-color-bg-neutral-weak);
-    --seed-prefix-icon-color: #1a1c20;
-    --seed-suffix-icon-color: #1a1c20;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-page-banner__root--tone_neutral-variant_weakbutton:active {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
@@ -90,8 +90,8 @@
 }
 .seed-page-banner__root--tone_neutral-variant_solid {
     background-color: var(--seed-color-bg-neutral-inverted);
-    --seed-prefix-icon-color: #ffffff;
-    --seed-suffix-icon-color: #ffffff;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-page-banner__root--tone_neutral-variant_solidbutton:active {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);
@@ -107,8 +107,8 @@
 }
 .seed-page-banner__root--tone_informative-variant_weak {
     background-color: var(--seed-color-bg-informative-weak);
-    --seed-prefix-icon-color: #0b4596;
-    --seed-suffix-icon-color: #0b4596;
+    --seed-prefix-icon-color: var(--seed-color-fg-informative-contrast);
+    --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
 }
 .seed-page-banner__root--tone_informative-variant_weakbutton:active {
     background-color: var(--seed-color-bg-informative-weak-pressed);
@@ -124,8 +124,8 @@
 }
 .seed-page-banner__root--tone_informative-variant_solid {
     background-color: var(--seed-color-bg-informative-solid);
-    --seed-prefix-icon-color: #ffffff;
-    --seed-suffix-icon-color: #ffffff;
+    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
+    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
 }
 .seed-page-banner__root--tone_informative-variant_solidbutton:active {
     background-color: var(--seed-color-bg-informative-solid-pressed);
@@ -141,8 +141,8 @@
 }
 .seed-page-banner__root--tone_positive-variant_weak {
     background-color: var(--seed-color-bg-positive-weak);
-    --seed-prefix-icon-color: #075445;
-    --seed-suffix-icon-color: #075445;
+    --seed-prefix-icon-color: var(--seed-color-fg-positive-contrast);
+    --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
 }
 .seed-page-banner__root--tone_positive-variant_weakbutton:active {
     background-color: var(--seed-color-bg-positive-weak-pressed);
@@ -158,8 +158,8 @@
 }
 .seed-page-banner__root--tone_positive-variant_solid {
     background-color: var(--seed-color-bg-positive-solid);
-    --seed-prefix-icon-color: #ffffff;
-    --seed-suffix-icon-color: #ffffff;
+    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
+    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
 }
 .seed-page-banner__root--tone_positive-variant_solidbutton:active {
     background-color: var(--seed-color-bg-positive-solid-pressed);
@@ -175,8 +175,8 @@
 }
 .seed-page-banner__root--tone_warning-variant_weak {
     background-color: var(--seed-color-bg-warning-weak);
-    --seed-prefix-icon-color: #4f3e1f;
-    --seed-suffix-icon-color: #4f3e1f;
+    --seed-prefix-icon-color: var(--seed-color-fg-warning-contrast);
+    --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
 }
 .seed-page-banner__root--tone_warning-variant_weakbutton:active {
     background-color: var(--seed-color-bg-warning-weak-pressed);
@@ -192,8 +192,8 @@
 }
 .seed-page-banner__root--tone_warning-variant_solid {
     background-color: var(--seed-color-bg-warning-solid);
-    --seed-prefix-icon-color: #000000d0;
-    --seed-suffix-icon-color: #000000d0;
+    --seed-prefix-icon-color: var(--seed-color-palette-static-black-alpha-900);
+    --seed-suffix-icon-color: var(--seed-color-palette-static-black-alpha-900);
 }
 .seed-page-banner__root--tone_warning-variant_solidbutton:active {
     background-color: var(--seed-color-bg-warning-solid-pressed);
@@ -209,8 +209,8 @@
 }
 .seed-page-banner__root--tone_critical-variant_weak {
     background-color: var(--seed-color-bg-critical-weak);
-    --seed-prefix-icon-color: #921708;
-    --seed-suffix-icon-color: #921708;
+    --seed-prefix-icon-color: var(--seed-color-fg-critical-contrast);
+    --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
 }
 .seed-page-banner__root--tone_critical-variant_weakbutton:active {
     background-color: var(--seed-color-bg-critical-weak-pressed);
@@ -226,8 +226,8 @@
 }
 .seed-page-banner__root--tone_critical-variant_solid {
     background-color: var(--seed-color-bg-critical-solid);
-    --seed-prefix-icon-color: #ffffff;
-    --seed-suffix-icon-color: #ffffff;
+    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
+    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
 }
 .seed-page-banner__root--tone_critical-variant_solidbutton:active {
     background-color: var(--seed-color-bg-critical-solid-pressed);
@@ -243,8 +243,8 @@
 }
 .seed-page-banner__root--tone_magic-variant_weak {
     background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic));
-    --seed-prefix-icon-color: #1a1c20;
-    --seed-suffix-icon-color: #1a1c20;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-page-banner__root--tone_magic-variant_weakbutton:active {
     background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));

@@ -24,16 +24,16 @@
     --seed-prefix-icon-size: 22px;
 }
 .seed-extended-action-sheet-item--tone_neutral {
-    --seed-prefix-icon-color: #1a1c20;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-extended-action-sheet-item__text--tone_neutral {
-    --seed-prefix-icon-color: #1a1c20;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     color: var(--seed-color-fg-neutral);
 }
 .seed-extended-action-sheet-item--tone_critical {
-    --seed-prefix-icon-color: #fa342c;
+    --seed-prefix-icon-color: var(--seed-color-fg-critical);
 }
 .seed-extended-action-sheet-item__text--tone_critical {
-    --seed-prefix-icon-color: #fa342c;
+    --seed-prefix-icon-color: var(--seed-color-fg-critical);
     color: var(--seed-color-fg-critical);
 }

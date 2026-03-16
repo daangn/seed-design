@@ -13,11 +13,11 @@
     width: 44px;
     height: 44px;
     --seed-icon-size: 22px;
-    --seed-icon-color: #1a1c20;
+    --seed-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-fab__text {
     --seed-icon-size: 22px;
-    --seed-icon-color: #1a1c20;
+    --seed-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-fab:active {
     background: var(--seed-color-bg-layer-floating-pressed);

@@ -16,22 +16,22 @@
         ;
 }
 .seed-progress-circle__root--tone_neutral {
-    --track-color: #f3f4f5;
-    --range-color: #d1d3d8;
+    --track-color: var(--seed-color-palette-gray-200);
+    --range-color: var(--seed-color-palette-gray-500);
 }
 .seed-progress-circle__root--tone_brand {
-    --track-color: #ffe8db;
-    --range-color: #ff6600;
+    --track-color: var(--seed-color-palette-carrot-200);
+    --range-color: var(--seed-color-bg-brand-solid);
 }
 .seed-progress-circle__root--tone_staticWhite {
-    --track-color: #ffffff2e;
-    --range-color: #ffffff;
+    --track-color: var(--seed-color-palette-static-white-alpha-300);
+    --range-color: var(--seed-color-palette-static-white);
 }
 .seed-progress-circle__root--size_24 {
-    --size: 24px;
+    --size: var(--seed-dimension-x6);
     --thickness: 3px;
 }
 .seed-progress-circle__root--size_40 {
-    --size: 40px;
+    --size: var(--seed-dimension-x10);
     --thickness: 5px;
 }

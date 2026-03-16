@@ -113,7 +113,7 @@
     animation-timing-function: var(--seed-timing-function-enter);
     animation-duration: var(--seed-duration-d4);
     --seed-enter-translate-x: -50%;
-    --seed-enter-translate-y: calc(-100% - 20px / 2 - 0.3125rem);
+    --seed-enter-translate-y: calc(-100% - var(--seed-dimension-x5) / 2 - 0.3125rem);
     --seed-enter-opacity: 0;
     --seed-enter-scale: 0.9;
 }
@@ -122,7 +122,7 @@
     animation-timing-function: var(--seed-timing-function-enter);
     animation-duration: var(--seed-duration-d4);
     --seed-enter-translate-x: 50%;
-    --seed-enter-translate-y: calc(-100% - 20px / 2 - 0.3125rem);
+    --seed-enter-translate-y: calc(-100% - var(--seed-dimension-x5) / 2 - 0.3125rem);
     --seed-enter-opacity: 0;
     --seed-enter-scale: 0.9;
 }
@@ -132,7 +132,7 @@
     animation-duration: var(--seed-duration-d4);
     animation-fill-mode: forwards;
     --seed-exit-translate-x: -50%;
-    --seed-exit-translate-y: calc(-100% - 20px / 2 - 0.3125rem);
+    --seed-exit-translate-y: calc(-100% - var(--seed-dimension-x5) / 2 - 0.3125rem);
     --seed-exit-opacity: 0;
     --seed-exit-scale: 1;
 }
@@ -142,7 +142,7 @@
     animation-duration: var(--seed-duration-d4);
     animation-fill-mode: forwards;
     --seed-exit-translate-x: 50%;
-    --seed-exit-translate-y: calc(-100% - 20px / 2 - 0.3125rem);
+    --seed-exit-translate-y: calc(-100% - var(--seed-dimension-x5) / 2 - 0.3125rem);
     --seed-exit-opacity: 0;
     --seed-exit-scale: 1;
 }

@@ -21,10 +21,10 @@
     background: var(--seed-color-bg-neutral-inverted-pressed);
 }
 .seed-extended-fab--variant_neutralSolid {
-    --seed-prefix-icon-color: #ffffff;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-extended-fab__text--variant_neutralSolid {
-    --seed-prefix-icon-color: #ffffff;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-extended-fab--variant_layerFloating {
     background: var(--seed-color-bg-layer-floating);
@@ -36,10 +36,10 @@
     background: var(--seed-color-bg-layer-floating-pressed);
 }
 .seed-extended-fab--variant_layerFloating {
-    --seed-prefix-icon-color: #1a1c20;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-extended-fab__text--variant_layerFloating {
-    --seed-prefix-icon-color: #1a1c20;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-extended-fab--size_small {
     min-height: 40px;

@@ -19,7 +19,7 @@
 }
 .seed-radio__root--size_large {
     min-height: var(--seed-dimension-x9);
-    --radiomark-margin-top: calc((36px - 24px) / 2);
+    --radiomark-margin-top: calc((var(--seed-dimension-x9) - var(--seed-dimension-x6)) / 2);
 }
 .seed-radio__label--size_large {
     font-size: var(--seed-font-size-t5);
@@ -28,7 +28,7 @@
 }
 .seed-radio__root--size_medium {
     min-height: var(--seed-dimension-x8);
-    --radiomark-margin-top: calc((32px - 20px) / 2);
+    --radiomark-margin-top: calc((var(--seed-dimension-x8) - var(--seed-dimension-x5)) / 2);
 }
 .seed-radio__label--size_medium {
     font-size: var(--seed-font-size-t4);
