@@ -1,3 +1,4 @@
+import { changelogPageRule } from "./changelog-page-rule";
 import { codeBlockTabsRule } from "./codeblock-tabs-rule";
 import { componentExampleRule } from "./component-example-rule";
 import { platformStatusRule } from "./platform-status-rule";
@@ -15,9 +16,11 @@ export const activeRules: Rule[] = [
   platformStatusRule,
   iconLibraryRule,
   componentSpecBlockRule,
+  changelogPageRule,
 ];
 
 export {
+  changelogPageRule,
   codeBlockTabsRule,
   componentExampleRule,
   typeTableRule,
