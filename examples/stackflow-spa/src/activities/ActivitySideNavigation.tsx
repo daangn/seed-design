@@ -8,6 +8,7 @@ import {
   AppBarRight,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { SideNavigation } from "seed-design/ui/side-navigation";
 
 import {
   IconHouseFill,
@@ -20,7 +21,6 @@ import {
   IconReceiptFill,
   IconGearFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { SideNavigation } from "@seed-design/react";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -45,73 +45,48 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        {/* `Layout` 같은 컴포넌트가 필요할듯 */}
         <div style={{ display: "flex", height: "100%" }}>
           <SideNavigation.Provider defaultCollapsed={false}>
             <SideNavigation.Root>
-              <SideNavigation.Header>
-                <SideNavigation.Trigger>T</SideNavigation.Trigger>
-              </SideNavigation.Header>
-
+              <SideNavigation.Header>header</SideNavigation.Header>
+              <SideNavigation.Trigger>T</SideNavigation.Trigger>
               <SideNavigation.Content>
                 <SideNavigation.Group>
                   <SideNavigation.GroupLabel>광고</SideNavigation.GroupLabel>
 
-                  <SideNavigation.MenuItemButton>
-                    <SideNavigation.MenuItemPrefixIcon svg={<IconHouseFill />} />
-                    <SideNavigation.MenuItemLabel>홈</SideNavigation.MenuItemLabel>
-                  </SideNavigation.MenuItemButton>
+                  <SideNavigation.MenuItemButton prefixIcon={<IconHouseFill />} label="홈" />
 
                   <SideNavigation.MenuItemCollapsibleRoot defaultOpen>
-                    <SideNavigation.MenuItemCollapsibleTrigger>
-                      <SideNavigation.MenuItemPrefixIcon svg={<IconMegaphoneTiltedFill />} />
-                      <SideNavigation.MenuItemLabel>광고 만들기</SideNavigation.MenuItemLabel>
-                      <SideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
-                    </SideNavigation.MenuItemCollapsibleTrigger>
+                    <SideNavigation.MenuItemCollapsibleTrigger
+                      prefixIcon={<IconMegaphoneTiltedFill />}
+                      label="광고 관리"
+                      suffixIcon={<IconChevronUpSmallFill />}
+                    />
                     <SideNavigation.MenuItemCollapsibleContent>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>
-                          디스플레이 광고 관리
-                        </SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>검색 광고 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItem label="디스플레이 광고 관리" />
+                      <SideNavigation.MenuItem label="검색 광고 관리" />
                     </SideNavigation.MenuItemCollapsibleContent>
                   </SideNavigation.MenuItemCollapsibleRoot>
 
-                  <SideNavigation.MenuItemButton>
-                    <SideNavigation.MenuItemPrefixIcon svg={<IconPlusCircleFill />} />
-                    <SideNavigation.MenuItemLabel>광고 만들기</SideNavigation.MenuItemLabel>
-                  </SideNavigation.MenuItemButton>
+                  <SideNavigation.MenuItemButton
+                    prefixIcon={<IconPlusCircleFill />}
+                    label="광고 만들기"
+                  />
 
-                  <SideNavigation.MenuItemButton>
-                    <SideNavigation.MenuItemPrefixIcon svg={<IconDocumentFill />} />
-                    <SideNavigation.MenuItemLabel>보고서</SideNavigation.MenuItemLabel>
-                  </SideNavigation.MenuItemButton>
+                  <SideNavigation.MenuItemButton prefixIcon={<IconDocumentFill />} label="보고서" />
 
                   <SideNavigation.MenuItemCollapsibleRoot defaultOpen>
-                    <SideNavigation.MenuItemCollapsibleTrigger>
-                      <SideNavigation.MenuItemPrefixIcon svg={<IconToolboxFill />} />
-                      <SideNavigation.MenuItemLabel>광고 도구</SideNavigation.MenuItemLabel>
-                      <SideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
-                    </SideNavigation.MenuItemCollapsibleTrigger>
+                    <SideNavigation.MenuItemCollapsibleTrigger
+                      prefixIcon={<IconToolboxFill />}
+                      label="광고 도구"
+                      suffixIcon={<IconChevronUpSmallFill />}
+                    />
                     <SideNavigation.MenuItemCollapsibleContent>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>카탈로그 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>전환 추적 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>맞춤 타겟 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>리드폼 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>대량 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItem label="카탈로그 관리" />
+                      <SideNavigation.MenuItem label="전환 추적 관리" />
+                      <SideNavigation.MenuItem label="맞춤 타겟 관리" />
+                      <SideNavigation.MenuItem label="리드폼 관리" />
+                      <SideNavigation.MenuItem label="대량 관리" />
                     </SideNavigation.MenuItemCollapsibleContent>
                   </SideNavigation.MenuItemCollapsibleRoot>
                 </SideNavigation.Group>
@@ -120,54 +95,38 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
                   <SideNavigation.GroupLabel>결제</SideNavigation.GroupLabel>
 
                   <SideNavigation.MenuItemCollapsibleRoot>
-                    <SideNavigation.MenuItemCollapsibleTrigger>
-                      <SideNavigation.MenuItemPrefixIcon svg={<IconWonCircleFill />} />
-                      <SideNavigation.MenuItemLabel>광고캐시</SideNavigation.MenuItemLabel>
-                      <SideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
-                    </SideNavigation.MenuItemCollapsibleTrigger>
+                    <SideNavigation.MenuItemCollapsibleTrigger
+                      prefixIcon={<IconWonCircleFill />}
+                      label="광고캐시"
+                      suffixIcon={<IconChevronUpSmallFill />}
+                    />
                     <SideNavigation.MenuItemCollapsibleContent>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>광고캐시 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>세금계산서</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItem label="광고캐시 관리" />
+                      <SideNavigation.MenuItem label="세금계산서" />
                     </SideNavigation.MenuItemCollapsibleContent>
                   </SideNavigation.MenuItemCollapsibleRoot>
 
-                  <SideNavigation.MenuItemButton>
-                    <SideNavigation.MenuItemPrefixIcon svg={<IconReceiptFill />} />
-                    <SideNavigation.MenuItemLabel>변경내역</SideNavigation.MenuItemLabel>
-                  </SideNavigation.MenuItemButton>
+                  <SideNavigation.MenuItemButton
+                    prefixIcon={<IconReceiptFill />}
+                    label="변경내역"
+                  />
                 </SideNavigation.Group>
 
                 <SideNavigation.Group>
                   <SideNavigation.GroupLabel>계정</SideNavigation.GroupLabel>
 
                   <SideNavigation.MenuItemCollapsibleRoot>
-                    <SideNavigation.MenuItemCollapsibleTrigger>
-                      <SideNavigation.MenuItemPrefixIcon svg={<IconGearFill />} />
-                      <SideNavigation.MenuItemLabel>설정</SideNavigation.MenuItemLabel>
-                      <SideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
-                    </SideNavigation.MenuItemCollapsibleTrigger>
+                    <SideNavigation.MenuItemCollapsibleTrigger
+                      prefixIcon={<IconGearFill />}
+                      label="설정"
+                      suffixIcon={<IconChevronUpSmallFill />}
+                    />
                     <SideNavigation.MenuItemCollapsibleContent>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>광고계정 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>심사서류 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>운영자 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>
-                          광고 대행사 관리
-                        </SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
-                      <SideNavigation.MenuItemCollapsibleItem>
-                        <SideNavigation.MenuItemLabel>내 알림 관리</SideNavigation.MenuItemLabel>
-                      </SideNavigation.MenuItemCollapsibleItem>
+                      <SideNavigation.MenuItem label="광고계정 관리" />
+                      <SideNavigation.MenuItem label="심사서류 관리" />
+                      <SideNavigation.MenuItem label="운영자 관리" />
+                      <SideNavigation.MenuItem label="광고 대행사 관리" />
+                      <SideNavigation.MenuItem label="내 알림 관리" />
                     </SideNavigation.MenuItemCollapsibleContent>
                   </SideNavigation.MenuItemCollapsibleRoot>
                 </SideNavigation.Group>

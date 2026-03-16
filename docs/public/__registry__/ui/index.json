@@ -648,6 +648,21 @@
     {
       "snippets": [
         {
+          "path": "side-navigation.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.1.0",
+            "@seed-design/css": "~1.1.0"
+          }
+        }
+      ],
+      "id": "side-navigation",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "slider.tsx",
           "dependencies": {
             "@seed-design/react": "~1.1.0",

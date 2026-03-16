@@ -28,29 +28,28 @@ export const sideNavigation = defineSlotRecipe({
 
       flexShrink: 0,
 
-      [pseudo(":empty")]: {
-        display: "none",
-      },
+      // minHeight: "56px", // some height
     },
     content: {
       padding: "8px",
 
       flex: 1,
       overflowY: "auto",
+      // overflowX: "hidden",
+      // scrollbarGutter: "stable",
 
       display: "flex",
       flexDirection: "column",
 
       gap: "8px",
 
-      // item will have its label width intact without any wrap when collapsed
-      overflowX: "hidden",
-      scrollbarGutter: "stable",
-
       transition: `gap ${duration}`,
 
       [pseudo(collapsed)]: {
         gap: 0,
+
+        // this isn't good actually, but i don't expect a scrollbar in the collapsed state
+        scrollbarWidth: "none",
       },
     },
     footer: {
@@ -79,13 +78,16 @@ export const sideNavigation = defineSlotRecipe({
       color: tokens.$color.fg.neutralMuted,
 
       overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+
       opacity: 1,
-      transition: `height ${duration}, opacity ${duration}, padding ${duration}`,
+      pointerEvents: "none", // prevent interaction when collapsed
+      transition: `margin ${duration}, opacity ${duration}`,
 
       [pseudo(collapsed)]: {
-        height: 0,
+        marginTop: "calc(-1 * (1lh + 6px * 2))", // hide groupLabel by negative margin (groupLabel height + vertical padding)
         opacity: 0,
-        padding: 0,
       },
     },
     trigger: {},
@@ -124,14 +126,14 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
 
-      // width is needed to make label intact without any wrap when collapsed,
-      width: "calc(240px - 8px * 2)", // root width - root horizontal padding
-
       gap: "12px",
 
-      minHeight: "44px",
+      height: "44px",
       paddingLeft: "8px",
       paddingRight: "8px",
+
+      width: "100%",
+      overflow: "hidden",
 
       cursor: "pointer",
 
@@ -139,8 +141,6 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       background: "none",
       border: "none",
 
-      // can't transition height between auto-44px without calc-size
-      // this only is problematic when the item has multiline label
       transition: `padding ${duration}`,
 
       [pseudo(before)]: {
@@ -160,7 +160,7 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       [pseudo(collapsed, before)]: {
         right: "unset",
 
-        width: "calc(56px - 8px * 2)", // collapsed root width - root horizontal padding
+        width: "calc(56px - 8px * 2)", // full width of the collapsed sidebar - horizontal padding
       },
 
       [pseudo(engaged, before)]: {
@@ -176,12 +176,8 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       },
 
       [pseudo(collapsed)]: {
-        height: "44px",
-
         paddingLeft: "10px",
         paddingRight: "10px",
-
-        overflow: "hidden",
       },
     },
     prefixIcon: {
@@ -207,6 +203,10 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       padding: "6px",
 
       flexGrow: 1,
+      minWidth: 0,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
 
       color: tokens.$color.fg.neutralMuted,
 
@@ -249,6 +249,13 @@ export const sideNavigationMenuItem = defineSlotRecipe({
         opacity: 1,
 
         transition: "height 250ms, opacity 250ms",
+      },
+
+      // visually collapse open panels when sidebar is collapsed, without changing their open state
+      [pseudo(collapsed, "[data-collapsible]", open)]: {
+        overflow: "hidden",
+        height: 0,
+        opacity: 0,
       },
     },
   },
