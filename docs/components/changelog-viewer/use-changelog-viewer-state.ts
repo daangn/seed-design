@@ -19,11 +19,11 @@ export function useChangelogViewerState(rawPackages: string[]) {
     [rawPackages],
   );
 
-  const [activeTab, setActiveTab] = useQueryState("tab", {
+  const [activeTab, setActiveTab] = useQueryState("package", {
     defaultValue: "",
     history: "push",
   });
-  const [versionFrom, setVersionFromRaw] = useQueryState("from", {
+  const [versionFrom, setVersionFromRaw] = useQueryState("version", {
     defaultValue: ALL,
     history: "push",
   });
@@ -31,7 +31,7 @@ export function useChangelogViewerState(rawPackages: string[]) {
   const [tabFilters, setTabFilters] = useState<TabFilterMap>({});
   const [versionFromOpen, setVersionFromOpen] = useState(false);
 
-  const selectedPackage = packages.includes(activeTab) ? activeTab : packages[0] ?? ALL;
+  const selectedPackage = packages.includes(activeTab) ? activeTab : (packages[0] ?? ALL);
 
   // 현재 활성 탭의 필터를 메모리 상태에 계속 저장
   useEffect(() => {
