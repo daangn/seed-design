@@ -59,6 +59,8 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
 
       <SectionHeader>Foundation</SectionHeader>
       <ListItem title="Color" onTap={() => navigate('foundation-color')} />
+      <ListItem title="Monochrome Icon" onTap={() => navigate('foundation-monochrome-icon')} />
+      <ListItem title="Multicolor Icon" onTap={() => navigate('foundation-multicolor-icon')} />
       <ListItem title="Typography" onTap={() => navigate('foundation-typography')} />
 
       <SectionHeader>Components</SectionHeader>
