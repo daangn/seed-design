@@ -221,8 +221,9 @@ function main() {
           ]
         : [];
 
+    const changelogUrl = `https://seed-design.io/react/updates/changelog?package=${encodeURIComponent(release.packageName)}&version=${release.version}`;
     const text = [
-      `${emoji} *${release.packageName}@${release.version}*`,
+      `${emoji} *<${changelogUrl}|${release.packageName}@${release.version}>*`,
       "",
       ...allItems.slice(0, 10).map((item) => `• ${item.replace(/^- /, "")}`),
       ...dependencySection,
