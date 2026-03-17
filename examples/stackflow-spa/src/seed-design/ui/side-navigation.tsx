@@ -1,6 +1,6 @@
 "use client";
 
-import { IconScissorsLine } from "@karrotmarket/react-monochrome-icon";
+import { IconSquareSplitedVerticalLeftLine } from "@karrotmarket/react-monochrome-icon";
 import { Icon, SideNavigation as SeedSideNavigation } from "@seed-design/react";
 import { useSideNavigationContext } from "@seed-design/react/primitive";
 import * as React from "react";
@@ -15,11 +15,12 @@ export const SideNavigationTrigger = React.forwardRef<
 
   return (
     <SeedSideNavigation.Trigger
+      // You may implement your own i18n for toggle label
       aria-label={collapsed ? "사이드바 열기" : "사이드바 닫기"}
       ref={ref}
       {...props}
     >
-      <Icon svg={<IconScissorsLine />} />
+      <Icon svg={<IconSquareSplitedVerticalLeftLine />} />
     </SeedSideNavigation.Trigger>
   );
 });
