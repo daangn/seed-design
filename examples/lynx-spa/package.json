@@ -6,6 +6,7 @@
     "build": "rspeedy build",
     "check": "biome check --write",
     "dev": "rspeedy dev",
+    "generate:icons": "node scripts/generate-icon-pages.js",
     "format": "biome format --write",
     "preview": "rspeedy preview",
     "test": "vitest run"
