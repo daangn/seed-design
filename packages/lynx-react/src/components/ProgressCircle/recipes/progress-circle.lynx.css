@@ -1,6 +1,6 @@
 .seed-progress-circle__root {
   border-radius: 50%;
-  mask-image: radial-gradient(circle, transparent 53%, black 53%);
+  mask-image: radial-gradient(circle, transparent 52%, black 54%);
   position: relative;
   display: flex;
   overflow: hidden;
