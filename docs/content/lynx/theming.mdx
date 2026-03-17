@@ -1,0 +1,108 @@
+---
+title: Theming
+description: Lynx 환경에서 SEED Design의 테마 시스템을 활용하는 방법을 알아봅니다.
+---
+
+## 개요
+
+SEED Design은 라이트 모드와 다크 모드를 지원하는 테마 시스템을 제공합니다.
+
+웹 환경에서는 `data-*` 속성 셀렉터를 통해 테마를 제어하지만, Lynx에서는 `data-*` 속성 셀렉터를 지원하지 않기 때문에 **CSS 클래스 이름**을 사용합니다.
+CSS 커스텀 프로퍼티(변수)는 Lynx에서도 기본적으로 상속되므로, 루트 요소에 설정된 테마 토큰이 하위 요소에 자연스럽게 적용됩니다.
+
+## 테마 클래스 이해하기
+
+SEED Design의 Lynx 테마 시스템은 두 종류의 클래스 이름을 사용합니다.
+
+### `seed-user-color-scheme-*` (루트 레벨 테마)
+
+rsbuild 플러그인이 `<page>` 요소에 적용하는 클래스입니다. 현재 해석(resolve)된 테마를 나타냅니다.
+
+- `seed-user-color-scheme-light`: 라이트 모드가 적용됨
+- `seed-user-color-scheme-dark`: 다크 모드가 적용됨
+
+이 클래스는 `colorMode` 설정과 기기의 다크 모드 여부에 따라 자동으로 결정됩니다.
+
+| `colorMode` 설정 | 기기 설정 | 적용되는 클래스 |
+|---|---|---|
+| `system` | 라이트 모드 | `seed-user-color-scheme-light` |
+| `system` | 다크 모드 | `seed-user-color-scheme-dark` |
+| `light-only` | (무관) | `seed-user-color-scheme-light` |
+| `dark-only` | (무관) | `seed-user-color-scheme-dark` |
+
+### `seed-color-mode-*-only` (자식 레벨 오버라이드)
+
+특정 요소와 그 하위 요소에 테마를 강제 적용할 때 사용하는 클래스입니다.
+
+- `seed-color-mode-light-only`: 해당 영역을 라이트 모드로 강제
+- `seed-color-mode-dark-only`: 해당 영역을 다크 모드로 강제
+
+## 작동 원리
+
+SEED CSS는 클래스 이름의 조합을 통해 적절한 색상 토큰을 적용합니다:
+
+```css
+/* 라이트 모드가 적용되는 경우 */
+:root,
+:root.seed-user-color-scheme-light,
+:root.seed-color-mode-light-only,
+.seed-color-mode-light-only {
+  /* 라이트 모드 색상 토큰 */
+}
+
+/* 다크 모드가 적용되는 경우 */
+:root.seed-user-color-scheme-dark,
+:root.seed-color-mode-dark-only,
+.seed-color-mode-dark-only {
+  /* 다크 모드 색상 토큰 */
+}
+```
+
+- `:root` 단독 셀렉터는 기본값으로 라이트 모드 토큰을 적용합니다.
+- `:root.seed-user-color-scheme-*` 셀렉터는 루트 요소에 설정된 전역 테마를 처리합니다.
+- `.seed-color-mode-*-only` 셀렉터는 하위 요소에서의 테마 오버라이드를 처리합니다. `:root` 접두사가 있는 셀렉터와 없는 셀렉터 모두 포함되어 있어, 루트 요소와 자식 요소 모두에서 동작합니다.
+
+## 전역 테마 적용
+
+rsbuild 플러그인이 `<page>` 요소에 자동으로 테마 클래스를 설정합니다. 플러그인의 `getThemeClassName()` 함수가 `colorMode` 설정과 기기의 다크 모드 상태를 기반으로 적절한 클래스 이름을 반환합니다.
+
+별도의 설정 없이도 플러그인이 테마를 자동으로 관리하므로, 대부분의 경우 추가 작업이 필요하지 않습니다.
+
+## 일부 요소에만 테마 오버라이드하기
+
+특정 영역에만 다른 테마를 적용하고 싶을 때는 해당 요소에 `seed-color-mode-light-only` 또는 `seed-color-mode-dark-only` 클래스를 추가합니다.
+
+```tsx
+import { View, Text } from "@lynx-js/react";
+
+function MyComponent() {
+  return (
+    <View>
+      {/* 현재 전역 테마를 따르는 영역 */}
+      <Text>전역 테마가 적용됩니다</Text>
+
+      {/* 다크 모드 강제 적용 영역 */}
+      <View className="seed-color-mode-dark-only">
+        <Text>다크 모드가 강제 적용됩니다</Text>
+      </View>
+
+      {/* 라이트 모드 강제 적용 영역 */}
+      <View className="seed-color-mode-light-only">
+        <Text>라이트 모드가 강제 적용됩니다</Text>
+      </View>
+    </View>
+  );
+}
+```
+
+오버라이드된 영역 내부의 모든 하위 요소는 CSS 커스텀 프로퍼티 상속을 통해 해당 테마의 토큰을 사용하게 됩니다.
+
+## Web과의 비교
+
+| | Web (React) | Lynx |
+|---|---|---|
+| 테마 제어 방식 | `data-*` 속성 셀렉터 | CSS 클래스 이름 |
+| 전역 테마 설정 | `data-seed-color-mode` + `data-seed-user-color-scheme` 속성을 `<html>`에 적용 | `seed-user-color-scheme-*` 클래스를 `<page>`에 적용 |
+| 테마 오버라이드 | `data-seed-color-mode="light-only"` 또는 `"dark-only"` 속성 | `seed-color-mode-light-only` 또는 `seed-color-mode-dark-only` 클래스 |
+| 토큰 상속 | CSS 커스텀 프로퍼티 상속 | CSS 커스텀 프로퍼티 상속 (동일) |
+| 자동 테마 관리 | 번들러 플러그인이 속성 설정 | rsbuild 플러그인이 클래스 설정 |

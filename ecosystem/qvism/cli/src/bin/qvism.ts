@@ -54,6 +54,23 @@ async function writeBundles(outputDir: string, config: Config) {
     path.join(outputDir, "base.layered.min.css"),
   );
   fs.writeFileSync(path.join(outputDir, "base.layered.min.css"), baseLayeredMinCss);
+
+  // Target-specific bundles (e.g., lynx)
+  if (config.targets) {
+    for (const target of config.targets) {
+      const targetConfig = { ...config, postcssPlugins: target.postcssPlugins };
+
+      const targetBaseCss = await generateBaseBundle(targetConfig);
+      const basePath = path.join(outputDir, `base.${target.suffix}.css`);
+      console.log(`Writing ${target.suffix} base css bundle to`, basePath);
+      fs.writeFileSync(basePath, targetBaseCss);
+
+      const targetAllCss = await generateAllBundle(targetConfig);
+      const allPath = path.join(outputDir, `all.${target.suffix}.css`);
+      console.log(`Writing ${target.suffix} all css bundle to`, allPath);
+      fs.writeFileSync(allPath, targetAllCss);
+    }
+  }
 }
 
 async function writeRecipes(recipesDir: string, config: Config) {
@@ -94,6 +111,48 @@ async function writeRecipes(recipesDir: string, config: Config) {
 
     console.log("Writing", name, "to", path.join(recipesDir, `${name}.layered.css`));
     fs.writeFileSync(path.join(recipesDir, `${name}.layered.css`), layeredCss);
+  }
+
+  // Target-specific recipes (e.g., lynx)
+  if (config.targets) {
+    for (const target of config.targets) {
+      const targetConfig = { ...config, postcssPlugins: target.postcssPlugins };
+
+      // Generate target CSS for each recipe
+      const targetRecipes = await generateEachRecipe(targetConfig);
+      for (const { name, css } of targetRecipes) {
+        const cssPath = path.join(recipesDir, `${name}.${target.suffix}.css`);
+        console.log(`Writing ${target.suffix}`, name, "to", cssPath);
+        fs.writeFileSync(cssPath, css);
+      }
+
+      // Generate target MJS + DTS for each recipe (imports target CSS)
+      await Promise.all(
+        Object.values(config.theme.recipes).map(async (definition) => {
+          const name = definition.name;
+          const targetJsCode = generateJs(definition, {
+            ...options,
+            cssImportPath: `./${name}.${target.suffix}.css`,
+            targetSlots: target.deriveSlots,
+            extraVariants: target.extraVariants,
+          });
+          const mjsPath = path.join(recipesDir, `${name}.${target.suffix}.mjs`);
+          console.log(`Writing ${target.suffix}`, name, "to", mjsPath);
+          fs.writeFileSync(mjsPath, targetJsCode);
+
+          // deriveSlots가 있으면 별도 .d.ts 생성 (반환 타입이 다름)
+          if (target.deriveSlots?.length) {
+            const targetDtsCode = generateDts(definition, {
+              targetSlots: target.deriveSlots,
+              extraVariants: target.extraVariants,
+            });
+            const dtsPath = path.join(recipesDir, `${name}.${target.suffix}.d.ts`);
+            console.log(`Writing ${target.suffix}`, name, "to", dtsPath);
+            fs.writeFileSync(dtsPath, targetDtsCode);
+          }
+        }),
+      );
+    }
   }
 }
 

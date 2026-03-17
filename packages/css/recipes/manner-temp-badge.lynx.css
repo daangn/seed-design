@@ -1,0 +1,76 @@
+.seed-manner-temp-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--seed-radius-full);
+    min-height: var(--seed-dimension-x5);
+    padding-left: var(--seed-dimension-x1_5);
+    padding-right: var(--seed-dimension-x1_5);
+    padding-top: var(--seed-dimension-x0_5);
+    padding-bottom: var(--seed-dimension-x0_5)
+}.seed-manner-temp-badge__text {
+    text-align: start;
+    font-size: var(--seed-font-size-t1);
+    line-height: var(--seed-line-height-t1);
+    font-weight: var(--seed-font-weight-bold)
+}
+.seed-manner-temp-badge--level_l1 {
+    background-color: var(--seed-color-manner-temp-l1-bg)
+}
+.seed-manner-temp-badge__text--level_l1 {
+    color: var(--seed-color-manner-temp-l1-text)
+}
+.seed-manner-temp-badge--level_l2 {
+    background-color: var(--seed-color-manner-temp-l2-bg)
+}
+.seed-manner-temp-badge__text--level_l2 {
+    color: var(--seed-color-manner-temp-l2-text)
+}
+.seed-manner-temp-badge--level_l3 {
+    background-color: var(--seed-color-manner-temp-l3-bg)
+}
+.seed-manner-temp-badge__text--level_l3 {
+    color: var(--seed-color-manner-temp-l3-text)
+}
+.seed-manner-temp-badge--level_l4 {
+    background-color: var(--seed-color-manner-temp-l4-bg)
+}
+.seed-manner-temp-badge__text--level_l4 {
+    color: var(--seed-color-manner-temp-l4-text)
+}
+.seed-manner-temp-badge--level_l5 {
+    background-color: var(--seed-color-manner-temp-l5-bg)
+}
+.seed-manner-temp-badge__text--level_l5 {
+    color: var(--seed-color-manner-temp-l5-text)
+}
+.seed-manner-temp-badge--level_l6 {
+    background-color: var(--seed-color-manner-temp-l6-bg)
+}
+.seed-manner-temp-badge__text--level_l6 {
+    color: var(--seed-color-manner-temp-l6-text)
+}
+.seed-manner-temp-badge--level_l7 {
+    background-color: var(--seed-color-manner-temp-l7-bg)
+}
+.seed-manner-temp-badge__text--level_l7 {
+    color: var(--seed-color-manner-temp-l7-text)
+}
+.seed-manner-temp-badge--level_l8 {
+    background-color: var(--seed-color-manner-temp-l8-bg)
+}
+.seed-manner-temp-badge__text--level_l8 {
+    color: var(--seed-color-manner-temp-l8-text)
+}
+.seed-manner-temp-badge--level_l9 {
+    background-color: var(--seed-color-manner-temp-l9-bg)
+}
+.seed-manner-temp-badge__text--level_l9 {
+    color: var(--seed-color-manner-temp-l9-text)
+}
+.seed-manner-temp-badge--level_l10 {
+    background-color: var(--seed-color-manner-temp-l10-bg)
+}
+.seed-manner-temp-badge__text--level_l10 {
+    color: var(--seed-color-manner-temp-l10-text)
+}

@@ -129,12 +129,97 @@ export function generateRecipeJs(
   );
 }
 
+export function generateRecipeJsWithSlots(
+  definition: RecipeDefinition<RecipeVariantRecord>,
+  options: {
+    prefix?: string;
+    importCss?: boolean;
+    cssImportPath?: string;
+    targetSlots?: string[];
+    extraVariants?: Record<string, (string | boolean)[]>;
+  } = {},
+): string {
+  const { importCss = true, targetSlots = [], extraVariants } = options;
+  const jsName = camelCase(definition.name);
+
+  // deriveSlots[0] ("root") → 원래 class name, deriveSlots[1+] → __slotName 접미사
+  const slotNames = targetSlots.map((slot, i) => [
+    slot,
+    i === 0
+      ? prefixName(definition.name, options)
+      : `${prefixName(definition.name, options)}__${slot}`,
+  ]);
+
+  const variantMap = Object.fromEntries(
+    Object.entries(definition.variants).map(([variantName, variant]) => [
+      variantName,
+      Object.keys(variant as Record<string, StyleObject>).map((key) =>
+        isBooleanString(key) ? booleanStringToBoolean(key) : key,
+      ),
+    ]),
+  );
+
+  // CSS 후처리로 생성된 추가 variant를 variantMap에 merge
+  if (extraVariants) {
+    for (const [key, values] of Object.entries(extraVariants)) {
+      variantMap[key] = values;
+    }
+  }
+
+  const compoundVariants =
+    definition.compoundVariants?.map(({ css, ...rest }: { css: StyleObject }) => rest) ?? [];
+
+  return (
+    (options.cssImportPath
+      ? `import '${options.cssImportPath}';\n`
+      : importCss
+        ? `import './${definition.name}.css';\n`
+        : "") +
+    outdent`
+  import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+
+  const ${jsName}SlotNames = ${JSON.stringify(slotNames, null, 2)};
+
+  const defaultVariant = ${JSON.stringify(definition.defaultVariants ?? {}, null, 2)};
+
+  const compoundVariants = ${JSON.stringify(compoundVariants, null, 2)};
+
+  export const ${jsName}VariantMap = ${JSON.stringify(variantMap, null, 2)};
+
+  export const ${jsName}VariantKeys = Object.keys(${jsName}VariantMap);
+
+  export function ${escapeReservedWord(jsName)}(props) {
+    return Object.fromEntries(
+      ${jsName}SlotNames.map(([slot, className]) => {
+        return [
+          slot,
+          createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+        ];
+      }),
+    );
+  }
+
+  Object.assign(${escapeReservedWord(jsName)}, { splitVariantProps: (props) => splitVariantProps(props, ${jsName}VariantMap) });
+
+  // @recipe(seed): ${definition.name}
+  `
+  );
+}
+
 export function generateJs(
   definition: RecipeKindDefinition,
-  options: { prefix?: string; cssImportPath?: string } = {},
+  options: {
+    prefix?: string;
+    cssImportPath?: string;
+    targetSlots?: string[];
+    extraVariants?: Record<string, (string | boolean)[]>;
+  } = {},
 ): string {
   if ("slots" in definition) {
     return generateSlotRecipeJs(definition, options);
+  }
+  if (options.targetSlots?.length) {
+    return generateRecipeJsWithSlots(definition as RecipeDefinition<RecipeVariantRecord>, options);
   }
   return generateRecipeJs(definition, options);
 }
