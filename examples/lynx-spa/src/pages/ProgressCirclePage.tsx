@@ -1,5 +1,33 @@
-import { useState } from '@lynx-js/react';
+import { useEffect, useState } from '@lynx-js/react';
 import { ProgressCircle } from '@seed-design/lynx-react';
+
+function AutoProgressTest() {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setValue((v) => (v >= 1 ? 0 : Math.min(1, v + 0.1)));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <view
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '16px',
+        alignItems: 'center',
+      }}
+    >
+      <ProgressCircle.Root tone="brand" size="40" minValue={0} maxValue={1} value={value}>
+        <ProgressCircle.Track />
+        <ProgressCircle.Range />
+      </ProgressCircle.Root>
+      <text style={{ fontSize: '14px' }}>{`${Math.round(value * 100)}%`}</text>
+    </view>
+  );
+}
 
 export function ProgressCirclePage() {
   const [progress, setProgress] = useState(0.3);
@@ -164,6 +192,11 @@ export function ProgressCirclePage() {
           <text style={{ fontSize: '14px' }}>+ 10%</text>
         </view>
       </view>
+
+      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
+        Transition Test (auto +10% every 1s)
+      </text>
+      <AutoProgressTest />
     </view>
   );
 }
