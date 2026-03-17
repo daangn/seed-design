@@ -15,6 +15,7 @@
     background-color: #0000;
     border: none;
     flex-direction: column;
+    flex-shrink: 0;
     padding: 0;
     display: flex;
   }
@@ -44,6 +45,7 @@
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
     color: var(--seed-color-fg-neutral-subtle);
+    flex-shrink: 0;
   }
 
   .seed-file-upload-trigger__icon:is(:disabled, [disabled], [data-disabled]) {

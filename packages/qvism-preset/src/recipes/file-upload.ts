@@ -29,6 +29,8 @@ const fileUploadTrigger = defineSlotRecipe({
 
       gap: triggerVars.base.enabled.root.gap,
 
+      flexShrink: 0,
+
       border: "none",
       padding: 0,
       font: "inherit",
@@ -53,6 +55,8 @@ const fileUploadTrigger = defineSlotRecipe({
       width: triggerVars.base.enabled.icon.size,
       height: triggerVars.base.enabled.icon.size,
       color: triggerVars.base.enabled.icon.color,
+
+      flexShrink: 0,
 
       [pseudo(disabled)]: {
         color: triggerVars.base.disabled.icon.color,
@@ -291,6 +295,8 @@ const fileUploadItem = defineSlotRecipe({
       },
       image: {
         root: {
+          flexShrink: 0,
+
           width: itemVars.typeImage.enabled.root.width,
 
           "&::before": {
@@ -365,6 +371,16 @@ const fileUpload = defineSlotRecipe({
     container: {
       display: "flex",
       gap: vars.base.enabled.items.gap,
+
+      // makes the container scrollable when there are many files
+      overflowX: "auto",
+
+      // keeps the icon removeButton's top from being cut off
+      paddingTop: removeButtonVars.base.enabled.root.offset,
+      marginTop: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
+
+      // makes the end of the container in line with the end of the last item
+      marginRight: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
     },
     // wraps the file items
     itemGroup: {

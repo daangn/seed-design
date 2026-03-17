@@ -151,6 +151,7 @@
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
 }
 .seed-file-upload-item__root--type_image {
+    flex-shrink: 0;
     width: 80px;
 }
 .seed-file-upload-item__root--type_image::before {

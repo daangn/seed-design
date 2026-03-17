@@ -29,6 +29,10 @@
 .seed-file-upload__container {
     display: flex;
     gap: var(--seed-dimension-x2);
+    overflow-x: auto;
+    padding-top: var(--seed-dimension-x1);
+    margin-top: calc(var(--seed-dimension-x1) * -1);
+    margin-right: calc(var(--seed-dimension-x1) * -1);
 }
 .seed-file-upload__itemGroup {
     display: flex;

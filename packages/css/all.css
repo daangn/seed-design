@@ -4978,7 +4978,11 @@
 
 .seed-file-upload__container {
   gap: var(--seed-dimension-x2);
+  padding-top: var(--seed-dimension-x1);
+  margin-top: calc(var(--seed-dimension-x1) * -1);
+  margin-right: calc(var(--seed-dimension-x1) * -1);
   display: flex;
+  overflow-x: auto;
 }
 
 .seed-file-upload__itemGroup {
@@ -5156,6 +5160,7 @@
 }
 
 .seed-file-upload-item__root--type_image {
+  flex-shrink: 0;
   width: 80px;
 }
 
@@ -5188,6 +5193,7 @@
   background-color: #0000;
   border: none;
   flex-direction: column;
+  flex-shrink: 0;
   padding: 0;
   display: flex;
 }
@@ -5217,6 +5223,7 @@
   width: var(--seed-dimension-x6);
   height: var(--seed-dimension-x6);
   color: var(--seed-color-fg-neutral-subtle);
+  flex-shrink: 0;
 }
 
 .seed-file-upload-trigger__icon:is(:disabled, [disabled], [data-disabled]) {
