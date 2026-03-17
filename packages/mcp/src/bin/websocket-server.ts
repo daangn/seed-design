@@ -64,16 +64,13 @@ function handleJoin(ws: ServerWebSocket<unknown>, data: JoinMessage): void {
     channel: channelName,
   });
 
-  // Send connection confirmation with ID if provided
-  if (id) {
-    console.log("Sending message to client:", id);
-
-    sendJson(ws, {
-      type: "system",
-      message: { id, result: `Connected to channel: ${channelName}` },
-      channel: channelName,
-    });
-  }
+  // Send connection confirmation
+  console.log("Sending message to client:", id);
+  sendJson(ws, {
+    type: "system",
+    message: { id, result: `Connected to channel: ${channelName}` },
+    channel: channelName,
+  });
 
   // Notify other clients in channel
   broadcastToChannel(
