@@ -51,8 +51,8 @@ export default function FileUploadReactHookForm() {
         showRequiredIndicator
         invalid={fieldState.invalid}
         errorMessage={fieldState.error?.message}
-        acceptedFiles={value}
-        onAcceptedFilesChange={onChange}
+        acceptedFileEntries={value}
+        onAcceptedFileEntriesChange={onChange}
         {...field}
       >
         <FileUpload />

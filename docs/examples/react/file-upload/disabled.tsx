@@ -21,7 +21,7 @@ export default function FileUploadDisabled() {
       <FileUploadField
         disabled
         maxFiles={5}
-        defaultAcceptedFiles={defaultFiles}
+        defaultAcceptedFileEntries={defaultFiles}
         label="파일 업로드"
         description="현재 파일을 업로드할 수 없습니다"
       >

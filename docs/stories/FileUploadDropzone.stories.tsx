@@ -38,9 +38,9 @@ const conditionMap = {
     "*": { accept: undefined },
   },
   files: {
-    "0": { defaultAcceptedFiles: [] },
+    "0": { defaultAcceptedFileEntries: [] },
     "1 pending": {
-      defaultAcceptedFiles: [
+      defaultAcceptedFileEntries: [
         {
           id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
@@ -49,7 +49,7 @@ const conditionMap = {
       ] satisfies FileEntry[],
     },
     "1 uploading": {
-      defaultAcceptedFiles: [
+      defaultAcceptedFileEntries: [
         {
           id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
@@ -58,7 +58,7 @@ const conditionMap = {
       ] satisfies FileEntry[],
     },
     "1 success": {
-      defaultAcceptedFiles: [
+      defaultAcceptedFileEntries: [
         {
           id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
@@ -67,7 +67,7 @@ const conditionMap = {
       ] satisfies FileEntry[],
     },
     "1 error": {
-      defaultAcceptedFiles: [
+      defaultAcceptedFileEntries: [
         {
           id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
@@ -76,7 +76,7 @@ const conditionMap = {
       ] satisfies FileEntry[],
     },
     "3": {
-      defaultAcceptedFiles: [
+      defaultAcceptedFileEntries: [
         {
           id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),

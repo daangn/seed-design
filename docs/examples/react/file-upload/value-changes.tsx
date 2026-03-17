@@ -6,18 +6,18 @@ import { FileUploadField, FileUpload, FileUploadItem } from "seed-design/ui/file
 function simulateUpload(
   file: File,
   id: string,
-  updateFileStatus: (id: string, details: FileStatusDetails) => void,
+  updateFileEntryStatus: (id: string, details: FileStatusDetails) => void,
 ) {
-  updateFileStatus(id, { status: "uploading", progress: 0 });
+  updateFileEntryStatus(id, { status: "uploading", progress: 0 });
 
   let progress = 0;
   const interval = setInterval(() => {
     progress += 25;
     if (progress >= 100) {
       clearInterval(interval);
-      updateFileStatus(id, { status: "success" });
+      updateFileEntryStatus(id, { status: "success" });
     } else {
-      updateFileStatus(id, { status: "uploading", progress });
+      updateFileEntryStatus(id, { status: "uploading", progress });
     }
   }, 500);
 }
@@ -35,9 +35,9 @@ export default function FileUploadValueChanges() {
         maxFiles={3}
         label="파일 업로드"
         description="콜백 호출 로그를 확인하세요"
-        onAcceptedFilesChange={(files) => {
+        onAcceptedFileEntriesChange={(files) => {
           addLog(
-            `onAcceptedFilesChange: ${files.map((f) => `${f.file.name} (${f.status})`).join(", ")}`,
+            `onAcceptedFileEntriesChange: ${files.map((f) => `${f.file.name} (${f.status})`).join(", ")}`,
           );
         }}
         onFileReject={(files) => {
@@ -47,14 +47,14 @@ export default function FileUploadValueChanges() {
         }}
       >
         <FileUpload>
-          {({ acceptedFiles, updateFileStatus }) => {
-            for (const fileEntry of acceptedFiles) {
+          {({ acceptedFileEntries, updateFileEntryStatus }) => {
+            for (const fileEntry of acceptedFileEntries) {
               if (fileEntry.status !== "pending") continue;
 
-              simulateUpload(fileEntry.file, fileEntry.id, updateFileStatus);
+              simulateUpload(fileEntry.file, fileEntry.id, updateFileEntryStatus);
             }
 
-            return acceptedFiles.map((fileEntry) => (
+            return acceptedFileEntries.map((fileEntry) => (
               <FileUploadItem key={fileEntry.id} fileEntry={fileEntry} />
             ));
           }}

@@ -22,7 +22,7 @@ export default function FileUploadCustomValidation() {
         errorMessage={errorMessage}
         label="파일 업로드"
         description="파일 이름은 확장자를 제외하고 8자 이하여야 합니다"
-        onAcceptedFilesChange={() => setErrorMessage(undefined)}
+        onAcceptedFileEntriesChange={() => setErrorMessage(undefined)}
         onFileReject={(files) => {
           if (files.every((f) => f.errors.includes("FILENAME_TOO_LONG")) === false) {
             return;

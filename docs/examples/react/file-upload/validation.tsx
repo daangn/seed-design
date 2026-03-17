@@ -32,7 +32,7 @@ export default function FileUploadValidation() {
         errorMessage={errorMessage}
         label="파일 업로드"
         description={`${formatBytes(MIN_FILE_SIZE)} ~ ${formatBytes(MAX_FILE_SIZE)} 크기의 파일만 업로드할 수 있습니다`}
-        onAcceptedFilesChange={() => setErrorMessage(undefined)}
+        onAcceptedFileEntriesChange={() => setErrorMessage(undefined)}
         onFileReject={(files) => {
           const messages = files.map(
             ({ file, errors }) => `"${file.name}": ${errors.map(getErrorMessage).join(", ")}`,

@@ -65,16 +65,16 @@ export const FileUploadTriggerItemCount = React.forwardRef<
   FileUploadTriggerItemCountProps
 >(({ className, ...otherProps }, ref) => {
   const classNames = useClassNames();
-  const { currentFileCount, maxFiles, stateProps } = useFileUploadContext();
+  const { currentFileEntryCount, maxFiles, stateProps } = useFileUploadContext();
 
   return (
     <Primitive.div className={clsx(classNames.itemCount, className)} ref={ref} {...otherProps}>
       <span
-        {...(currentFileCount === 0 && { "data-empty": true })}
+        {...(currentFileEntryCount === 0 && { "data-empty": true })}
         className={classNames.itemCount}
         {...stateProps}
       >
-        {currentFileCount}
+        {currentFileEntryCount}
       </span>
       <span className={classNames.maxItemCount} {...stateProps}>
         /{maxFiles}

@@ -37,7 +37,7 @@ export default function FileUploadForm() {
           description="최대 3개까지 업로드할 수 있습니다"
           required
           showRequiredIndicator
-          onAcceptedFilesChange={(files) => {
+          onAcceptedFileEntriesChange={(files) => {
             acceptedFilesRef.current = files.map((f) => f.file);
             if (files.length > 0) {
               setFieldErrors({});

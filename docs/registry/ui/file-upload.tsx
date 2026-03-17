@@ -146,8 +146,8 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(({ c
         <SeedFileUpload.Context>
           {typeof children === "function"
             ? children
-            : ({ acceptedFiles }) =>
-                acceptedFiles.map((fileEntry) => (
+            : ({ acceptedFileEntries }) =>
+                acceptedFileEntries.map((fileEntry) => (
                   <FileUploadItem key={fileEntry.id} fileEntry={fileEntry} />
                 ))}
         </SeedFileUpload.Context>
@@ -178,8 +178,8 @@ export const FileUploadDropzone: React.FC<FileUploadDropzoneProps> = ({ children
           <SeedFileUpload.Context>
             {typeof children === "function"
               ? children
-              : ({ acceptedFiles }) =>
-                  acceptedFiles.map((fileEntry) => (
+              : ({ acceptedFileEntries }) =>
+                  acceptedFileEntries.map((fileEntry) => (
                     <FileUploadItem key={fileEntry.id} fileEntry={fileEntry} />
                   ))}
           </SeedFileUpload.Context>

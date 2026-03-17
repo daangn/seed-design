@@ -28,7 +28,10 @@ npx @seed-design/cli@latest add ui:file-upload
 
 ### `FileUploadItem`
 
-<react-type-table path="./registry/ui/file-upload.tsx" name="FileUploadImageItemProps" />
+<react-type-table
+  path="./registry/ui/file-upload.tsx"
+  name="FileUploadImageItemProps"
+/>
 
 ## Examples
 
@@ -73,7 +76,7 @@ npx @seed-design/cli@latest add ui:file-upload
 
 ### Error Alert
 
-render prop 내에서 `acceptedFiles`의 status 변화를 감지하여 에러 발생 시 알림을 표시하는 예시입니다.
+render prop 내에서 `acceptedFileEntries`의 status 변화를 감지하여 에러 발생 시 알림을 표시하는 예시입니다.
 
 <ComponentExample name="react/file-upload/error-alert">
   ```json doc-gen:file
@@ -112,7 +115,7 @@ render prop 내에서 `acceptedFiles`의 status 변화를 감지하여 에러 �
 
 ### Controlled
 
-`acceptedFiles`와 `onAcceptedFilesChange`를 사용하여 외부에서 파일 목록을 제어할 수 있습니다.
+`acceptedFileEntries`와 `onAcceptedFileEntriesChange`를 사용하여 외부에서 파일 목록을 제어할 수 있습니다.
 
 <ComponentExample name="react/file-upload/controlled">
   ```json doc-gen:file
@@ -125,7 +128,7 @@ render prop 내에서 `acceptedFiles`의 status 변화를 감지하여 에러 �
 
 ### Listening to Value Changes
 
-`onAcceptedFilesChange`, `onFileReject` 콜백으로 파일 변경 이벤트를 감지할 수 있습니다.
+`onAcceptedFileEntriesChange`, `onFileReject` 콜백으로 파일 변경 이벤트를 감지할 수 있습니다.
 
 <ComponentExample name="react/file-upload/value-changes">
   ```json doc-gen:file
@@ -183,7 +186,7 @@ render prop 내에서 `acceptedFiles`의 status 변화를 감지하여 에러 �
 
 #### React Hook Form
 
-`useController`로 FileUpload의 `acceptedFiles`를 form 값으로 관리할 수 있습니다.
+`useController`로 FileUpload의 `acceptedFileEntries`를 form 값으로 관리할 수 있습니다.
 
 <ComponentExample name="react/file-upload/react-hook-form">
   ```json doc-gen:file

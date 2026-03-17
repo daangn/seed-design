@@ -26,15 +26,15 @@ export default function FileUploadStates() {
     (
       file: File,
       id: string,
-      updateFileStatus: (id: string, details: FileStatusDetails) => void,
+      updateFileEntryStatus: (id: string, details: FileStatusDetails) => void,
     ) => {
-      updateFileStatus(id, { status: "uploading", progress: 0 });
+      updateFileEntryStatus(id, { status: "uploading", progress: 0 });
 
       uploadFile(file, (progress) => {
-        updateFileStatus(id, { status: "uploading", progress });
+        updateFileEntryStatus(id, { status: "uploading", progress });
       })
-        .then(() => updateFileStatus(id, { status: "success" }))
-        .catch(() => updateFileStatus(id, { status: "error" }));
+        .then(() => updateFileEntryStatus(id, { status: "success" }))
+        .catch(() => updateFileEntryStatus(id, { status: "error" }));
     },
     [],
   );
@@ -48,18 +48,18 @@ export default function FileUploadStates() {
         description="업로드 상태 시뮬레이션"
       >
         <FileUpload>
-          {({ acceptedFiles, updateFileStatus }) => {
-            for (const fileEntry of acceptedFiles) {
+          {({ acceptedFileEntries, updateFileEntryStatus }) => {
+            for (const fileEntry of acceptedFileEntries) {
               if (fileEntry.status !== "pending") continue;
 
-              startUpload(fileEntry.file, fileEntry.id, updateFileStatus);
+              startUpload(fileEntry.file, fileEntry.id, updateFileEntryStatus);
             }
 
-            return acceptedFiles.map((fileEntry) => (
+            return acceptedFileEntries.map((fileEntry) => (
               <FileUploadItem
                 key={fileEntry.id}
                 fileEntry={fileEntry}
-                onRetry={() => updateFileStatus(fileEntry.id, { status: "pending" })}
+                onRetry={() => updateFileEntryStatus(fileEntry.id, { status: "pending" })}
               />
             ));
           }}

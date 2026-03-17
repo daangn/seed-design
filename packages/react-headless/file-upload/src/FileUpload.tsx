@@ -13,10 +13,6 @@ import {
   type UseFileUploadContext,
 } from "./useFileUploadContext";
 
-// =============================================================================
-// FileUploadRoot
-// =============================================================================
-
 export interface FileUploadRootProps
   extends UseFileUploadProps,
     PrimitiveProps,
@@ -40,7 +36,6 @@ export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
       required,
       validate,
 
-      // Rest
       ...otherProps
     },
     ref,
@@ -70,10 +65,6 @@ export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
 );
 FileUploadRoot.displayName = "FileUploadRoot";
 
-// =============================================================================
-// FileUploadDropzone
-// =============================================================================
-
 export interface FileUploadDropzoneProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
@@ -87,10 +78,6 @@ export const FileUploadDropzone = forwardRef<HTMLDivElement, FileUploadDropzoneP
   },
 );
 FileUploadDropzone.displayName = "FileUploadDropzone";
-
-// =============================================================================
-// FileUploadTrigger
-// =============================================================================
 
 export interface FileUploadTriggerProps
   extends PrimitiveProps,
@@ -106,10 +93,6 @@ export const FileUploadTrigger = forwardRef<HTMLButtonElement, FileUploadTrigger
 );
 FileUploadTrigger.displayName = "FileUploadTrigger";
 
-// =============================================================================
-// FileUploadHiddenInput
-// =============================================================================
-
 export interface FileUploadHiddenInputProps
   extends PrimitiveProps,
     React.InputHTMLAttributes<HTMLInputElement> {}
@@ -123,10 +106,6 @@ export const FileUploadHiddenInput = forwardRef<HTMLInputElement, FileUploadHidd
   },
 );
 FileUploadHiddenInput.displayName = "FileUploadHiddenInput";
-
-// =============================================================================
-// FileUploadItemName
-// =============================================================================
 
 export interface FileUploadItemNameProps
   extends PrimitiveProps,
@@ -147,10 +126,6 @@ export const FileUploadItemName = forwardRef<HTMLSpanElement, FileUploadItemName
   },
 );
 FileUploadItemName.displayName = "FileUploadItemName";
-
-// =============================================================================
-// FileUploadItemSize
-// =============================================================================
 
 export interface FileUploadItemSizeProps
   extends PrimitiveProps,
@@ -177,10 +152,6 @@ export const FileUploadItemSize = forwardRef<HTMLSpanElement, FileUploadItemSize
 );
 FileUploadItemSize.displayName = "FileUploadItemSize";
 
-// =============================================================================
-// FileUploadItemRemoveButton
-// =============================================================================
-
 export interface FileUploadItemRemoveButtonProps
   extends PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
@@ -197,10 +168,6 @@ export const FileUploadItemRemoveButton = forwardRef<
   return <Primitive.button ref={ref} {...mergedProps} />;
 });
 FileUploadItemRemoveButton.displayName = "FileUploadItemRemoveButton";
-
-// =============================================================================
-// FileUploadContext (render prop)
-// =============================================================================
 
 export interface FileUploadContextProps {
   children: (context: UseFileUploadContext) => React.ReactNode;
