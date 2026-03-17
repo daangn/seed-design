@@ -1500,6 +1500,12 @@
           "label": "업데이트",
           "items": [
             {
+              "id": "changelog",
+              "title": "Changelog",
+              "description": "최신 업데이트와 변경사항을 기록합니다.",
+              "docUrl": "/react/updates/changelog"
+            },
+            {
               "id": "v3-improvements",
               "title": "V3 Improvements",
               "description": "V2(Sprout) 대비 V3에서 개선된 점을 소개합니다.",
