@@ -12,28 +12,28 @@ import type { FileRejection, FileError, FileEntry, FileStatusDetails } from "./t
 import { getFileAcceptType } from "./accept-utils";
 
 interface UseFileUploadStateProps {
-  acceptedFiles?: FileEntry[];
-  defaultAcceptedFiles?: FileEntry[];
-  onAcceptedFilesChange?: (fileEntries: FileEntry[]) => void;
+  acceptedFileEntries?: FileEntry[];
+  defaultAcceptedFileEntries?: FileEntry[];
+  onAcceptedFileEntriesChange?: (fileEntries: FileEntry[]) => void;
   onFileReject?: (rejections: FileRejection[]) => void;
 }
 
 function useFileUploadState(props: UseFileUploadStateProps) {
-  const [acceptedFiles, setAcceptedFiles] = useControllableState<FileEntry[]>({
-    prop: props.acceptedFiles,
-    defaultProp: props.defaultAcceptedFiles ?? [],
+  const [acceptedFileEntries, setAcceptedFileEntries] = useControllableState<FileEntry[]>({
+    prop: props.acceptedFileEntries,
+    defaultProp: props.defaultAcceptedFileEntries ?? [],
     onChange: (filesWithStatus) => {
-      props.onAcceptedFilesChange?.(filesWithStatus);
+      props.onAcceptedFileEntriesChange?.(filesWithStatus);
     },
   });
 
   const [isDragging, setIsDragging] = useState(false);
 
   return {
-    acceptedFiles: acceptedFiles ?? [],
+    acceptedFileEntries: acceptedFileEntries ?? [],
     isDragging,
 
-    setAcceptedFiles,
+    setAcceptedFileEntries,
     setIsDragging,
   };
 }
@@ -103,10 +103,11 @@ export function useFileUpload({
   const inputRef = useRef<HTMLInputElement>(null);
   const idCounterRef = useRef(0);
 
-  const { acceptedFiles, isDragging, setAcceptedFiles, setIsDragging } = useFileUploadState(props);
+  const { acceptedFileEntries, isDragging, setAcceptedFileEntries, setIsDragging } =
+    useFileUploadState(props);
 
   const multiple = maxFiles > 1;
-  const maxFilesReached = acceptedFiles.length >= maxFiles;
+  const maxFilesReached = acceptedFileEntries.length >= maxFiles;
   const triggerDisabled = disabled || maxFilesReached;
 
   const acceptString = Array.isArray(accept) ? accept.join(",") : accept;
@@ -142,7 +143,7 @@ export function useFileUpload({
       const accepted: File[] = [];
       const rejected: FileRejection[] = [];
 
-      const currentCount = acceptedFiles.length;
+      const currentCount = acceptedFileEntries.length;
       let addedCount = 0;
 
       for (const file of files) {
@@ -181,7 +182,7 @@ export function useFileUpload({
 
       return { accepted, rejected };
     },
-    [maxFileSize, minFileSize, maxFiles, acceptedFiles.length, validate, isValidFileType],
+    [maxFileSize, minFileSize, maxFiles, acceptedFileEntries.length, validate, isValidFileType],
   );
 
   const openFilePicker = useCallback(() => {
@@ -190,7 +191,7 @@ export function useFileUpload({
     inputRef.current?.click();
   }, [triggerDisabled]);
 
-  const setFiles = useCallback(
+  const setFileEntries = useCallback(
     (files: File[]) => {
       if (disabled) return;
 
@@ -203,22 +204,22 @@ export function useFileUpload({
       }));
 
       if (multiple) {
-        setAcceptedFiles((prev) => [...(prev ?? []), ...acceptedEntries]);
+        setAcceptedFileEntries((prev) => [...(prev ?? []), ...acceptedEntries]);
       } else {
-        setAcceptedFiles(acceptedEntries.length > 0 ? [acceptedEntries[0]] : []);
+        setAcceptedFileEntries(acceptedEntries.length > 0 ? [acceptedEntries[0]] : []);
       }
 
       if (rejected.length > 0) {
         onFileReject?.(rejected);
       }
     },
-    [disabled, multiple, validateFiles, setAcceptedFiles, onFileReject],
+    [disabled, multiple, validateFiles, setAcceptedFileEntries, onFileReject],
   );
 
-  const reorderFiles = useCallback(
+  const reorderFileEntry = useCallback(
     (fromIndex: number, toIndex: number) => {
       if (disabled) return;
-      setAcceptedFiles((prev) => {
+      setAcceptedFileEntries((prev) => {
         const files = [...(prev ?? [])];
 
         if (fromIndex < 0 || fromIndex >= files.length) return prev;
@@ -230,7 +231,7 @@ export function useFileUpload({
         return files;
       });
     },
-    [disabled, setAcceptedFiles],
+    [disabled, setAcceptedFileEntries],
   );
 
   const createFileUrl = useCallback((file: File, callback: (url: string) => void) => {
@@ -239,23 +240,25 @@ export function useFileUpload({
     return () => URL.revokeObjectURL(url);
   }, []);
 
-  const updateFileStatus = useCallback(
+  const updateFileEntryStatus = useCallback(
     (id: string, details: FileStatusDetails) => {
-      setAcceptedFiles((prev) => (prev ?? []).map((f) => (f.id === id ? { ...f, ...details } : f)));
+      setAcceptedFileEntries((prev) =>
+        (prev ?? []).map((f) => (f.id === id ? { ...f, ...details } : f)),
+      );
     },
-    [setAcceptedFiles],
+    [setAcceptedFileEntries],
   );
 
-  const removeFile = useCallback(
+  const removeFileEntry = useCallback(
     (id: string) => {
-      setAcceptedFiles((prev) => (prev ?? []).filter((f) => f.id !== id));
+      setAcceptedFileEntries((prev) => (prev ?? []).filter((f) => f.id !== id));
     },
-    [setAcceptedFiles],
+    [setAcceptedFileEntries],
   );
 
-  const clearFiles = useCallback(() => {
-    setAcceptedFiles([]);
-  }, [setAcceptedFiles]);
+  const clearFileEntries = useCallback(() => {
+    setAcceptedFileEntries([]);
+  }, [setAcceptedFileEntries]);
 
   const stateProps = elementProps({
     "data-dragging": dataAttr(isDragging),
@@ -266,22 +269,22 @@ export function useFileUpload({
   return {
     inputRef,
 
-    acceptedFiles,
+    acceptedFileEntries,
     dragging: isDragging,
     disabled,
     invalid,
     required,
     maxFiles,
-    currentFileCount: acceptedFiles.length,
+    currentFileEntryCount: acceptedFileEntries.length,
     acceptType,
 
     openFilePicker,
-    setFiles,
-    reorderFiles,
+    setFileEntries,
+    reorderFileEntry,
     createFileUrl,
-    updateFileStatus,
-    removeFile,
-    clearFiles,
+    updateFileEntryStatus,
+    removeFileEntry,
+    clearFileEntries,
 
     stateProps,
 
@@ -326,7 +329,7 @@ export function useFileUpload({
         const files = event.dataTransfer?.files;
 
         if (files && files.length > 0) {
-          setFiles(Array.from(files));
+          setFileEntries(Array.from(files));
         }
       },
     }),
@@ -359,7 +362,7 @@ export function useFileUpload({
         const files = event.target.files;
 
         if (files) {
-          setFiles(Array.from(files));
+          setFileEntries(Array.from(files));
         }
 
         // Reset input value to allow re-selecting the same file
@@ -373,7 +376,7 @@ export function useFileUpload({
         // NOTE: `disabled` of item remove button works separately from the overall `disabled` state so we don't have stateProps here
 
         onClick: () => {
-          removeFile(id);
+          removeFileEntry(id);
         },
       }),
   };

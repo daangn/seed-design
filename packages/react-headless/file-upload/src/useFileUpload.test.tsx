@@ -17,6 +17,7 @@ import {
   type FileUploadRootProps,
 } from "./FileUpload";
 import { FileUploadItemProvider } from "./useFileUploadContext";
+import type { FileEntry } from "./types";
 
 function setUp(jsx: ReactElement) {
   return {
@@ -40,8 +41,8 @@ const BasicFileUpload = React.forwardRef<HTMLInputElement, FileUploadRootProps>(
       </FileUploadDropzone>
       <ul data-testid="item-group">
         <FileUploadContext>
-          {({ acceptedFiles }) =>
-            acceptedFiles.map((fileEntry, index) => (
+          {({ acceptedFileEntries }) =>
+            acceptedFileEntries.map((fileEntry, index) => (
               <FileUploadItemProvider key={fileEntry.id} value={fileEntry}>
                 <li data-testid={`item-${index}`}>
                   <FileUploadItemName />
@@ -131,9 +132,9 @@ describe("useFileUpload", () => {
 
   describe("file change handling", () => {
     it("should accept files via input change", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+      const onAcceptedFileEntriesChange = mock(() => {});
       const { getByTestId } = setUp(
-        <BasicFileUpload onAcceptedFilesChange={onAcceptedFilesChange} />,
+        <BasicFileUpload onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
       );
 
       const input = getByTestId("hidden-input") as HTMLInputElement;
@@ -142,16 +143,16 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file, status: "pending" }),
         ]);
       });
     });
 
-    it("should call onAcceptedFilesChange with cumulative files", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+    it("should call onAcceptedFileEntriesChange with cumulative files", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
       const { getByTestId } = setUp(
-        <BasicFileUpload maxFiles={5} onAcceptedFilesChange={onAcceptedFilesChange} />,
+        <BasicFileUpload maxFiles={5} onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
       );
 
       const input = getByTestId("hidden-input") as HTMLInputElement;
@@ -161,7 +162,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file1, file2] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file: file1, status: "pending" }),
           expect.objectContaining({ file: file2, status: "pending" }),
         ]);
@@ -172,7 +173,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file3] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file: file1, status: "pending" }),
           expect.objectContaining({ file: file2, status: "pending" }),
           expect.objectContaining({ file: file3, status: "pending" }),
@@ -328,18 +329,18 @@ describe("useFileUpload", () => {
   });
 
   describe("status change", () => {
-    it("should call onAcceptedFilesChange when file status changes", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+    it("should call onAcceptedFileEntriesChange when file status changes", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
 
       const StatusChangeUpload = () => {
         return (
-          <FileUploadRoot onAcceptedFilesChange={onAcceptedFilesChange}>
+          <FileUploadRoot onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}>
             <FileUploadHiddenInput data-testid="hidden-input" />
             <FileUploadContext>
-              {({ acceptedFiles, updateFileStatus }) => (
+              {({ acceptedFileEntries, updateFileEntryStatus }) => (
                 <>
                   <ul>
-                    {acceptedFiles.map((fileEntry, index) => (
+                    {acceptedFileEntries.map((fileEntry, index) => (
                       <FileUploadItemProvider key={fileEntry.id} value={fileEntry}>
                         <li data-testid={`file-${index}`}>
                           <FileUploadItemName />
@@ -351,8 +352,8 @@ describe("useFileUpload", () => {
                     type="button"
                     data-testid="start-upload"
                     onClick={() => {
-                      for (const f of acceptedFiles) {
-                        updateFileStatus(f.id, { status: "uploading", progress: 50 });
+                      for (const f of acceptedFileEntries) {
+                        updateFileEntryStatus(f.id, { status: "uploading", progress: 50 });
                       }
                     }}
                   >
@@ -373,7 +374,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file, status: "pending" }),
         ]);
       });
@@ -381,24 +382,24 @@ describe("useFileUpload", () => {
       await user.click(getByTestId("start-upload"));
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file, status: "uploading", progress: 50 }),
         ]);
       });
     });
   });
 
-  describe("updateFileStatus", () => {
+  describe("updateFileEntryStatus", () => {
     it("should update a file's status", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+      const onAcceptedFileEntriesChange = mock(() => {});
       const UpdateStatusUpload = () => (
-        <FileUploadRoot onAcceptedFilesChange={onAcceptedFilesChange}>
+        <FileUploadRoot onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}>
           <FileUploadHiddenInput data-testid="hidden-input" />
           <FileUploadContext>
-            {({ acceptedFiles, updateFileStatus }) => (
+            {({ acceptedFileEntries, updateFileEntryStatus }) => (
               <>
                 <ul>
-                  {acceptedFiles.map((f, i) => (
+                  {acceptedFileEntries.map((f, i) => (
                     <li key={f.id} data-testid={`file-${i}`}>
                       {f.file.name} - {f.status}
                       {"progress" in f && `-${f.progress}`}
@@ -409,8 +410,8 @@ describe("useFileUpload", () => {
                   type="button"
                   data-testid="update-status"
                   onClick={() => {
-                    for (const f of acceptedFiles) {
-                      updateFileStatus(f.id, { status: "uploading", progress: 50 });
+                    for (const f of acceptedFileEntries) {
+                      updateFileEntryStatus(f.id, { status: "uploading", progress: 50 });
                     }
                   }}
                 >
@@ -443,20 +444,22 @@ describe("useFileUpload", () => {
         <FileUploadRoot maxFiles={3}>
           <FileUploadHiddenInput data-testid="hidden-input" />
           <FileUploadContext>
-            {({ acceptedFiles, updateFileStatus }) => (
+            {({ acceptedFileEntries, updateFileEntryStatus }) => (
               <>
                 <ul>
-                  {acceptedFiles.map((f, i) => (
+                  {acceptedFileEntries.map((f, i) => (
                     <li key={f.id} data-testid={`file-${i}`}>
                       {f.file.name} - {f.status}
                     </li>
                   ))}
                 </ul>
-                {acceptedFiles.length > 0 && (
+                {acceptedFileEntries.length > 0 && (
                   <button
                     type="button"
                     data-testid="update-first"
-                    onClick={() => updateFileStatus(acceptedFiles[0].id, { status: "success" })}
+                    onClick={() =>
+                      updateFileEntryStatus(acceptedFileEntries[0].id, { status: "success" })
+                    }
                   >
                     Update First
                   </button>
@@ -489,22 +492,22 @@ describe("useFileUpload", () => {
     });
   });
 
-  describe("removeFile", () => {
+  describe("removeFileEntry", () => {
     it("should remove a specific file", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+      const onAcceptedFileEntriesChange = mock(() => {});
       const RemoveUpload = () => (
-        <FileUploadRoot maxFiles={3} onAcceptedFilesChange={onAcceptedFilesChange}>
+        <FileUploadRoot maxFiles={3} onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}>
           <FileUploadHiddenInput data-testid="hidden-input" />
           <FileUploadContext>
-            {({ acceptedFiles, removeFile }) => (
+            {({ acceptedFileEntries, removeFileEntry }) => (
               <ul>
-                {acceptedFiles.map((f, i) => (
+                {acceptedFileEntries.map((f, i) => (
                   <li key={f.id} data-testid={`file-${i}`}>
                     {f.file.name}
                     <button
                       type="button"
                       data-testid={`remove-${i}`}
-                      onClick={() => removeFile(f.id)}
+                      onClick={() => removeFileEntry(f.id)}
                     >
                       Remove
                     </button>
@@ -538,22 +541,22 @@ describe("useFileUpload", () => {
     });
   });
 
-  describe("clearFiles", () => {
+  describe("clearFileEntries", () => {
     it("should remove all files", async () => {
       const ClearUpload = () => (
         <FileUploadRoot maxFiles={3}>
           <FileUploadHiddenInput data-testid="hidden-input" />
           <FileUploadContext>
-            {({ acceptedFiles, clearFiles }) => (
+            {({ acceptedFileEntries, clearFileEntries }) => (
               <>
                 <ul>
-                  {acceptedFiles.map((f, i) => (
+                  {acceptedFileEntries.map((f, i) => (
                     <li key={f.id} data-testid={`file-${i}`}>
                       {f.file.name}
                     </li>
                   ))}
                 </ul>
-                <button type="button" data-testid="clear" onClick={clearFiles}>
+                <button type="button" data-testid="clear" onClick={clearFileEntries}>
                   Clear
                 </button>
               </>
@@ -584,29 +587,29 @@ describe("useFileUpload", () => {
   });
 
   describe("controlled mode", () => {
-    it("should work with controlled acceptedFiles", () => {
+    it("should work with controlled acceptedFileEntries", () => {
       const file = createMockFile("controlled.txt", 512, "text/plain");
-      const filesWithStatus = [{ id: "mock-1", file, status: "pending" as const }];
-      const { getByText } = setUp(<BasicFileUpload acceptedFiles={filesWithStatus} />);
+      const fileEntries: FileEntry[] = [{ id: "mock-1", file, status: "pending" }];
+      const { getByText } = setUp(<BasicFileUpload acceptedFileEntries={fileEntries} />);
 
       expect(getByText("controlled.txt")).toBeDefined();
     });
 
-    it("should work with defaultAcceptedFiles", () => {
+    it("should work with defaultAcceptedFileEntries", () => {
       const file = createMockFile("default.txt", 512, "text/plain");
-      const filesWithStatus = [{ id: "mock-1", file, status: "pending" as const }];
-      const { getByText } = setUp(<BasicFileUpload defaultAcceptedFiles={filesWithStatus} />);
+      const fileEntries: FileEntry[] = [{ id: "mock-1", file, status: "pending" }];
+      const { getByText } = setUp(<BasicFileUpload defaultAcceptedFileEntries={fileEntries} />);
 
       expect(getByText("default.txt")).toBeDefined();
     });
 
-    it("should reflect external acceptedFiles changes on rerender", () => {
+    it("should reflect external acceptedFileEntries changes on rerender", () => {
       const file1 = createMockFile("first.txt", 512, "text/plain");
       const file2 = createMockFile("second.txt", 512, "text/plain");
 
       const { getByText, queryByText, rerender } = setUp(
         <BasicFileUpload
-          acceptedFiles={[{ id: "mock-1", file: file1, status: "pending" as const }]}
+          acceptedFileEntries={[{ id: "mock-1", file: file1, status: "pending" }]}
         />,
       );
 
@@ -615,7 +618,7 @@ describe("useFileUpload", () => {
 
       rerender(
         <BasicFileUpload
-          acceptedFiles={[{ id: "mock-2", file: file2, status: "pending" as const }]}
+          acceptedFileEntries={[{ id: "mock-2", file: file2, status: "pending" }]}
         />,
       );
 
@@ -623,15 +626,15 @@ describe("useFileUpload", () => {
       expect(getByText("second.txt")).toBeDefined();
     });
 
-    it("should call onAcceptedFilesChange when removing a file in controlled mode", async () => {
+    it("should call onAcceptedFileEntriesChange when removing a file in controlled mode", async () => {
       const file = createMockFile("controlled.txt", 512, "text/plain");
-      const filesWithStatus = [{ id: "mock-1", file, status: "pending" as const }];
-      const onAcceptedFilesChange = mock(() => {});
+      const fileEntries: FileEntry[] = [{ id: "mock-1", file, status: "pending" }];
+      const onAcceptedFileEntriesChange = mock(() => {});
 
       const { getByTestId } = setUp(
         <BasicFileUpload
-          acceptedFiles={filesWithStatus}
-          onAcceptedFilesChange={onAcceptedFilesChange}
+          acceptedFileEntries={fileEntries}
+          onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}
         />,
       );
 
@@ -639,18 +642,18 @@ describe("useFileUpload", () => {
       await userEvent.click(deleteButton);
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([]);
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([]);
       });
     });
 
-    it("should call onAcceptedFilesChange when adding files in controlled mode", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+    it("should call onAcceptedFileEntriesChange when adding files in controlled mode", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
 
       const { getByTestId } = setUp(
         <BasicFileUpload
           maxFiles={3}
-          acceptedFiles={[]}
-          onAcceptedFilesChange={onAcceptedFilesChange}
+          acceptedFileEntries={[]}
+          onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}
         />,
       );
 
@@ -660,7 +663,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [newFile] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file: newFile, status: "pending" }),
         ]);
       });
@@ -777,9 +780,9 @@ describe("useFileUpload", () => {
     });
 
     it("should accept dropped files", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+      const onAcceptedFileEntriesChange = mock(() => {});
       const { getByTestId } = setUp(
-        <BasicFileUpload onAcceptedFilesChange={onAcceptedFilesChange} />,
+        <BasicFileUpload onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
       );
       const dropzone = getByTestId("dropzone");
 
@@ -792,7 +795,7 @@ describe("useFileUpload", () => {
       });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file, status: "pending" }),
         ]);
       });
@@ -845,8 +848,8 @@ describe("useFileUpload", () => {
             <FileUploadTrigger>Choose files</FileUploadTrigger>
             <ul data-testid="item-group">
               <FileUploadContext>
-                {({ acceptedFiles }) =>
-                  acceptedFiles.map((fileEntry, i) => (
+                {({ acceptedFileEntries }) =>
+                  acceptedFileEntries.map((fileEntry, i) => (
                     <FileUploadItemProvider key={fileEntry.id} value={fileEntry}>
                       <li data-testid={`item-${i}`}>
                         <FileUploadItemName />
@@ -1000,39 +1003,39 @@ describe("useFileUpload", () => {
   });
 
   describe("reorder files", () => {
-    // Helper component that exposes reorderFiles for testing
+    // Helper component that exposes reorderFileEntry for testing
     const ReorderTestComponent = () => {
       return (
         <FileUploadRoot maxFiles={5}>
           <FileUploadHiddenInput data-testid="hidden-input" />
           <FileUploadContext>
-            {({ acceptedFiles, reorderFiles }) => (
+            {({ acceptedFileEntries, reorderFileEntry }) => (
               <>
                 <ul data-testid="file-list">
-                  {acceptedFiles.map(({ file }, index) => (
-                    <li key={file.name} data-testid={`file-${index}`}>
-                      {file.name}
+                  {acceptedFileEntries.map((f, index) => (
+                    <li key={f.id} data-testid={`file-${index}`}>
+                      {f.file.name}
                     </li>
                   ))}
                 </ul>
                 <button
                   type="button"
                   data-testid="reorder-0-to-2"
-                  onClick={() => reorderFiles(0, 2)}
+                  onClick={() => reorderFileEntry(0, 2)}
                 >
                   Move first to third
                 </button>
                 <button
                   type="button"
                   data-testid="reorder-2-to-0"
-                  onClick={() => reorderFiles(2, 0)}
+                  onClick={() => reorderFileEntry(2, 0)}
                 >
                   Move third to first
                 </button>
                 <button
                   type="button"
                   data-testid="reorder-invalid"
-                  onClick={() => reorderFiles(-1, 10)}
+                  onClick={() => reorderFileEntry(-1, 10)}
                 >
                   Invalid reorder
                 </button>
@@ -1116,28 +1119,28 @@ describe("useFileUpload", () => {
     it("should not reorder when disabled", async () => {
       const file1 = createMockFile("file1.txt", 100, "text/plain");
       const file2 = createMockFile("file2.txt", 200, "text/plain");
-      const filesWithStatus = [
-        { id: "mock-1", file: file1, status: "pending" as const },
-        { id: "mock-2", file: file2, status: "pending" as const },
+      const fileEntries: FileEntry[] = [
+        { id: "mock-1", file: file1, status: "pending" },
+        { id: "mock-2", file: file2, status: "pending" },
       ];
 
       const DisabledReorderComponent = () => {
         return (
-          <FileUploadRoot maxFiles={5} disabled defaultAcceptedFiles={filesWithStatus}>
+          <FileUploadRoot maxFiles={5} disabled defaultAcceptedFileEntries={fileEntries}>
             <FileUploadContext>
-              {({ acceptedFiles, reorderFiles }) => (
+              {({ acceptedFileEntries, reorderFileEntry }) => (
                 <>
                   <ul data-testid="file-list">
-                    {acceptedFiles.map(({ file }, index) => (
-                      <li key={file.name} data-testid={`file-${index}`}>
-                        {file.name}
+                    {acceptedFileEntries.map((file, index) => (
+                      <li key={file.id} data-testid={`file-${index}`}>
+                        {file.file.name}
                       </li>
                     ))}
                   </ul>
                   <button
                     type="button"
                     data-testid="reorder-btn"
-                    onClick={() => reorderFiles(0, 1)}
+                    onClick={() => reorderFileEntry(0, 1)}
                   >
                     Reorder
                   </button>
@@ -1284,11 +1287,11 @@ describe("useFileUpload", () => {
     });
   });
 
-  describe("onAcceptedFilesChange on removal", () => {
-    it("should call onAcceptedFilesChange with empty array when last file is removed", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+  describe("onAcceptedFileEntriesChange on removal", () => {
+    it("should call onAcceptedFileEntriesChange with empty array when last file is removed", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
       const { getByTestId, user } = setUp(
-        <BasicFileUpload onAcceptedFilesChange={onAcceptedFilesChange} />,
+        <BasicFileUpload onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
       );
 
       const input = getByTestId("hidden-input") as HTMLInputElement;
@@ -1297,23 +1300,23 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file, status: "pending" }),
         ]);
       });
 
-      onAcceptedFilesChange.mockClear();
+      onAcceptedFileEntriesChange.mockClear();
       await user.click(getByTestId("delete-0"));
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([]);
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([]);
       });
     });
 
-    it("should call onAcceptedFilesChange with remaining files after removal", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+    it("should call onAcceptedFileEntriesChange with remaining files after removal", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
       const { getByTestId, user } = setUp(
-        <BasicFileUpload maxFiles={3} onAcceptedFilesChange={onAcceptedFilesChange} />,
+        <BasicFileUpload maxFiles={3} onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
       );
 
       const input = getByTestId("hidden-input") as HTMLInputElement;
@@ -1324,18 +1327,18 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file1, file2, file3] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file: file1, status: "pending" }),
           expect.objectContaining({ file: file2, status: "pending" }),
           expect.objectContaining({ file: file3, status: "pending" }),
         ]);
       });
 
-      onAcceptedFilesChange.mockClear();
+      onAcceptedFileEntriesChange.mockClear();
       await user.click(getByTestId("delete-1"));
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file: file1, status: "pending" }),
           expect.objectContaining({ file: file3, status: "pending" }),
         ]);
@@ -1345,13 +1348,13 @@ describe("useFileUpload", () => {
 
   describe("both callbacks", () => {
     it("should call both callbacks when batch has valid and invalid files", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+      const onAcceptedFileEntriesChange = mock(() => {});
       const onFileReject = mock(() => {});
       const { getByTestId } = setUp(
         <BasicFileUpload
           maxFiles={5}
           accept="image/*"
-          onAcceptedFilesChange={onAcceptedFilesChange}
+          onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}
           onFileReject={onFileReject}
         />,
       );
@@ -1363,7 +1366,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [validFile, invalidFile] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file: validFile, status: "pending" }),
         ]);
         expect(onFileReject).toHaveBeenCalledWith([
@@ -1373,12 +1376,12 @@ describe("useFileUpload", () => {
     });
 
     it("should partially accept and reject when maxFiles is reached mid-batch", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+      const onAcceptedFileEntriesChange = mock(() => {});
       const onFileReject = mock(() => {});
       const { getByTestId } = setUp(
         <BasicFileUpload
           maxFiles={3}
-          onAcceptedFilesChange={onAcceptedFilesChange}
+          onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}
           onFileReject={onFileReject}
         />,
       );
@@ -1391,13 +1394,13 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file1, file2] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file: file1, status: "pending" }),
           expect.objectContaining({ file: file2, status: "pending" }),
         ]);
       });
 
-      onAcceptedFilesChange.mockClear();
+      onAcceptedFileEntriesChange.mockClear();
       onFileReject.mockClear();
 
       const file3 = createMockFile("c.txt", 100, "text/plain");
@@ -1408,7 +1411,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file3, file4, file5] } });
 
       await waitFor(() => {
-        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file: file1, status: "pending" }),
           expect.objectContaining({ file: file2, status: "pending" }),
           expect.objectContaining({ file: file3, status: "pending" }),
@@ -1421,13 +1424,13 @@ describe("useFileUpload", () => {
     });
 
     it("should only call onFileReject when all files in batch are invalid", async () => {
-      const onAcceptedFilesChange = mock(() => {});
+      const onAcceptedFileEntriesChange = mock(() => {});
       const onFileReject = mock(() => {});
       const { getByTestId } = setUp(
         <BasicFileUpload
           maxFiles={5}
           accept="image/*"
-          onAcceptedFilesChange={onAcceptedFilesChange}
+          onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}
           onFileReject={onFileReject}
         />,
       );
@@ -1445,9 +1448,9 @@ describe("useFileUpload", () => {
         ]);
       });
 
-      // onAcceptedFilesChange is still called (via setAcceptedFiles) but with
+      // onAcceptedFileEntriesChange is still called (via setAcceptedFileEntries) but with
       // the same files as before (empty array spread), not with new accepted files
-      expect(onAcceptedFilesChange).not.toHaveBeenCalledWith(
+      expect(onAcceptedFileEntriesChange).not.toHaveBeenCalledWith(
         expect.arrayContaining([expect.objectContaining({ file: file1 })]),
       );
     });
