@@ -1,6 +1,7 @@
 import { VStack, Text } from "@seed-design/react";
 import { useState } from "react";
-import { FileUpload, FileUploadItem, type FileStatusDetails } from "seed-design/ui/file-upload";
+import type { FileStatusDetails } from "@seed-design/react/primitive";
+import { FileUploadField, FileUpload, FileUploadItem } from "seed-design/ui/file-upload";
 
 function simulateUpload(
   file: File,
@@ -29,7 +30,7 @@ export default function FileUploadValueChanges() {
 
   return (
     <VStack gap="x4" width="100%">
-      <FileUpload
+      <FileUploadField
         maxFiles={3}
         label="파일 업로드"
         description="콜백 호출 로그를 확인하세요"
@@ -44,21 +45,23 @@ export default function FileUploadValueChanges() {
           );
         }}
       >
-        {({ acceptedFiles, updateFileStatus }) => {
-          for (const { file, details } of acceptedFiles) {
-            if (details.status !== "pending") continue;
+        <FileUpload>
+          {({ acceptedFiles, updateFileStatus }) => {
+            for (const { file, details } of acceptedFiles) {
+              if (details.status !== "pending") continue;
 
-            simulateUpload(file, updateFileStatus);
-          }
+              simulateUpload(file, updateFileStatus);
+            }
 
-          return acceptedFiles.map((fileWithStatus, index) => (
-            <FileUploadItem
-              key={`${fileWithStatus.file.name}-${index}`}
-              fileWithStatus={fileWithStatus}
-            />
-          ));
-        }}
-      </FileUpload>
+            return acceptedFiles.map((fileWithStatus, index) => (
+              <FileUploadItem
+                key={`${fileWithStatus.file.name}-${index}`}
+                fileWithStatus={fileWithStatus}
+              />
+            ));
+          }}
+        </FileUpload>
+      </FileUploadField>
       <VStack gap="x1">
         {logs.length === 0 ? (
           <Text color="fg.neutralMuted">파일을 추가하거나 삭제하면 로그가 표시됩니다.</Text>

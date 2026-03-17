@@ -2,26 +2,33 @@
 
 import * as React from "react";
 import {
-  FileUpload as SeedFileUpload,
   Field as SeedField,
-  VisuallyHidden,
+  FileUpload as SeedFileUpload,
+  Icon,
   PrefixIcon,
+  VisuallyHidden,
 } from "@seed-design/react";
+import { useFileUploadContext } from "@seed-design/react/primitive";
 import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   IconCameraFill,
   IconPaperclipFill,
   IconExclamationmarkCircleFill,
+  IconArrowUpBracketDownFill,
+  IconArrowClockwiseCircularFill,
+  IconXmarkFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { FileUploadItem } from "./file-upload-item";
+import { ActionButton } from "./action-button";
+import { ProgressCircle } from "./progress-circle";
+import { formatBytes } from "../lib/format-bytes";
 
-export type {
-  FileWithStatus,
-  FileStatusDetails,
-  FileAcceptType,
-} from "@seed-design/react/primitive";
+// You may implement your own i18n for these labels
+const LABEL_SELECT_FILE = "파일 선택";
+const LABEL_DROP_FILE = "또는 여기로 드래그해서 업로드";
+const LABEL_RETRY = "재시도";
+const LABEL_REMOVE_FILE = "파일 제거";
 
-export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild" | "children"> {
+export interface FileUploadFieldProps extends Omit<SeedFileUpload.RootProps, "asChild"> {
   label?: React.ReactNode;
   /**
    * @default "medium"
@@ -32,36 +39,34 @@ export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild
 
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
-
   showRequiredIndicator?: boolean;
 
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   fieldRef?: React.Ref<HTMLDivElement>;
 
-  /**
-   * Optional render function that receives file upload context ({ acceptedFiles, updateFileStatus, removeFile, clearFiles }).
-   * When omitted, a default item list is rendered.
-   */
-  children?: SeedFileUpload.ContextProps["children"];
+  rootProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 /**
  * @see https://seed-design.io/react/components/file-upload
  */
-export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
+export const FileUploadField = React.forwardRef<HTMLInputElement, FileUploadFieldProps>(
   (
     {
       label,
       labelWeight,
+
       indicator,
       description,
       errorMessage,
       showRequiredIndicator,
+
       children,
 
       inputProps,
       fieldRef,
+      rootProps,
 
       ...props
     },
@@ -74,12 +79,13 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
 
     if (process.env.NODE_ENV !== "production" && !label) {
       console.warn(
-        "FileUpload: Provide a `label` prop for better accessibility. This warning will not be shown in production builds.",
+        "FileUploadField: Provide a `label` prop for better accessibility. This warning will not be shown in production builds.",
       );
     }
 
     return (
       <SeedField.Root
+        {...rootProps}
         name={props.name}
         disabled={props.disabled}
         required={props.required}
@@ -98,29 +104,7 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
           </SeedField.Header>
         )}
         <SeedFileUpload.Root {...props}>
-          <SeedFileUpload.Container>
-            {/* You may implement your own i18n for upload label */}
-            <SeedFileUpload.Trigger aria-label="파일 선택">
-              <SeedFileUpload.TriggerIcon
-                image={<IconCameraFill />}
-                general={<IconPaperclipFill />}
-              />
-              <SeedFileUpload.TriggerItemCount />
-            </SeedFileUpload.Trigger>
-            <SeedFileUpload.ItemGroup>
-              <SeedFileUpload.Context>
-                {typeof children === "function"
-                  ? children
-                  : ({ acceptedFiles }) =>
-                      acceptedFiles.map((fileWithStatus, index) => (
-                        <FileUploadItem
-                          key={`${fileWithStatus.file.name}-${index}`}
-                          fileWithStatus={fileWithStatus}
-                        />
-                      ))}
-              </SeedFileUpload.Context>
-            </SeedFileUpload.ItemGroup>
-          </SeedFileUpload.Container>
+          {children}
           <SeedFileUpload.HiddenInput ref={ref} {...inputProps} />
         </SeedFileUpload.Root>
         {renderFooter && (
@@ -145,4 +129,118 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
     );
   },
 );
+FileUploadField.displayName = "FileUploadField";
+
+export interface FileUploadProps {
+  children?: SeedFileUpload.ContextProps["children"];
+}
+
+export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(({ children }, ref) => {
+  return (
+    <SeedFileUpload.Container ref={ref}>
+      <SeedFileUpload.Trigger aria-label={LABEL_SELECT_FILE}>
+        <SeedFileUpload.TriggerIcon image={<IconCameraFill />} general={<IconPaperclipFill />} />
+        <SeedFileUpload.TriggerItemCount />
+      </SeedFileUpload.Trigger>
+      <SeedFileUpload.ItemGroup>
+        <SeedFileUpload.Context>
+          {typeof children === "function"
+            ? children
+            : ({ acceptedFiles }) =>
+                acceptedFiles.map((fileWithStatus, index) => (
+                  <FileUploadItem
+                    key={`${fileWithStatus.file.name}-${index}`}
+                    fileWithStatus={fileWithStatus}
+                  />
+                ))}
+        </SeedFileUpload.Context>
+      </SeedFileUpload.ItemGroup>
+    </SeedFileUpload.Container>
+  );
+});
 FileUpload.displayName = "FileUpload";
+
+export interface FileUploadDropzoneProps {
+  children?: SeedFileUpload.ContextProps["children"];
+}
+
+export const FileUploadDropzone: React.FC<FileUploadDropzoneProps> = ({ children }) => {
+  const { triggerProps } = useFileUploadContext();
+
+  return (
+    <>
+      <SeedFileUpload.Dropzone>
+        <ActionButton variant="neutralWeak" size="small" layout="withText" {...triggerProps}>
+          <PrefixIcon svg={<IconArrowUpBracketDownFill />} />
+          {LABEL_SELECT_FILE}
+        </ActionButton>
+        <SeedFileUpload.DropzoneLabel>{LABEL_DROP_FILE}</SeedFileUpload.DropzoneLabel>
+      </SeedFileUpload.Dropzone>
+      <SeedFileUpload.Container>
+        <SeedFileUpload.ItemGroup>
+          <SeedFileUpload.Context>
+            {typeof children === "function"
+              ? children
+              : ({ acceptedFiles }) =>
+                  acceptedFiles.map((fileWithStatus, index) => (
+                    <FileUploadItem
+                      key={`${fileWithStatus.file.name}-${index}`}
+                      fileWithStatus={fileWithStatus}
+                    />
+                  ))}
+          </SeedFileUpload.Context>
+        </SeedFileUpload.ItemGroup>
+      </SeedFileUpload.Container>
+    </>
+  );
+};
+FileUploadDropzone.displayName = "FileUploadDropzone";
+
+export interface FileUploadItemProps extends Omit<SeedFileUpload.ItemProps, "children"> {
+  onRetry?: () => void;
+}
+
+/**
+ * @see https://seed-design.io/react/components/file-upload
+ */
+export const FileUploadItem = React.forwardRef<HTMLLIElement, FileUploadItemProps>(
+  ({ onRetry, ...props }, ref) => {
+    const { acceptType } = useFileUploadContext();
+
+    return (
+      <SeedFileUpload.Item ref={ref} {...props}>
+        <SeedFileUpload.ItemPreview
+          image={<SeedFileUpload.ItemImage />}
+          general={
+            <>
+              <SeedFileUpload.ItemThumbnail fallback={<Icon svg={<IconPaperclipFill />} />} />
+              <SeedFileUpload.ItemMetadata>
+                <SeedFileUpload.ItemName />
+                <SeedFileUpload.ItemSizeText formatBytes={formatBytes} />
+              </SeedFileUpload.ItemMetadata>
+            </>
+          }
+          overlay={{
+            uploading: ({ progress }) => (
+              <ProgressCircle
+                size="24"
+                value={progress}
+                tone={acceptType === "image" ? "staticWhite" : "neutral"}
+              />
+            ),
+            error: (
+              <SeedFileUpload.ItemActionButton onClick={onRetry}>
+                <Icon svg={<IconArrowClockwiseCircularFill />} />
+                {LABEL_RETRY}
+              </SeedFileUpload.ItemActionButton>
+            ),
+          }}
+        />
+        <SeedFileUpload.ItemRemoveButton aria-label={LABEL_REMOVE_FILE}>
+          <Icon svg={<IconXmarkFill />} />
+        </SeedFileUpload.ItemRemoveButton>
+      </SeedFileUpload.Item>
+    );
+  },
+);
+FileUploadItem.displayName = "FileUploadItem";

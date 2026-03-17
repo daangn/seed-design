@@ -343,23 +343,6 @@ export const registryUI: Registry = {
           path: "file-upload.tsx",
           dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
-        {
-          path: "file-upload-item.tsx",
-          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
-        },
-      ],
-    },
-    {
-      id: "file-upload-dropzone",
-      snippets: [
-        {
-          path: "file-upload-dropzone.tsx",
-          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
-        },
-        {
-          path: "file-upload-item.tsx",
-          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
-        },
       ],
     },
     {

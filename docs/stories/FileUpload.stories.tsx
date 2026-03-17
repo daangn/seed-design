@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { FileUpload } from "seed-design/ui/file-upload";
+import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
 import type { FileWithStatus } from "@seed-design/react/primitive";
 
 // 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
@@ -14,9 +14,14 @@ function createMockImageFile(name: string): File {
   return new File([bytes], name, { type: "image/png" });
 }
 
-interface FileUploadStoryProps extends Omit<React.ComponentProps<typeof FileUpload>, "children"> {}
+interface FileUploadStoryProps
+  extends Omit<React.ComponentProps<typeof FileUploadField>, "children"> {}
 
-const FileUploadForStory = (props: FileUploadStoryProps) => <FileUpload maxFiles={3} {...props} />;
+const FileUploadForStory = (props: FileUploadStoryProps) => (
+  <FileUploadField maxFiles={3} {...props}>
+    <FileUpload />
+  </FileUploadField>
+);
 
 const meta = {
   component: FileUploadForStory,

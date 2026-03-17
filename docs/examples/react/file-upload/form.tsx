@@ -1,7 +1,7 @@
 import { VStack } from "@seed-design/react";
 import { useCallback, useRef, useState, type FormEvent } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { FileUpload } from "seed-design/ui/file-upload";
+import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
 
 type FieldErrors = {
   files?: string;
@@ -30,7 +30,7 @@ export default function FileUploadForm() {
   return (
     <VStack asChild gap="x3" width="full">
       <form onSubmit={handleSubmit}>
-        <FileUpload
+        <FileUploadField
           name="files"
           maxFiles={3}
           label="첨부파일"
@@ -44,7 +44,9 @@ export default function FileUploadForm() {
             }
           }}
           {...(fieldErrors.files && { invalid: true, errorMessage: fieldErrors.files })}
-        />
+        >
+          <FileUpload />
+        </FileUploadField>
         <ActionButton type="submit" variant="neutralSolid">
           제출
         </ActionButton>

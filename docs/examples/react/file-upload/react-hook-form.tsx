@@ -2,7 +2,8 @@ import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 import { useController, useForm } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
-import { FileUpload, type FileWithStatus } from "seed-design/ui/file-upload";
+import type { FileWithStatus } from "@seed-design/react/primitive";
+import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
 
 interface FormValues {
   files: FileWithStatus[];
@@ -43,7 +44,7 @@ export default function FileUploadReactHookForm() {
 
   return (
     <VStack gap="x3" width="full" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
-      <FileUpload
+      <FileUploadField
         maxFiles={5}
         label="첨부파일"
         description="최대 5개까지 업로드할 수 있습니다"
@@ -53,7 +54,9 @@ export default function FileUploadReactHookForm() {
         acceptedFiles={value}
         onAcceptedFilesChange={onChange}
         {...field}
-      />
+      >
+        <FileUpload />
+      </FileUploadField>
       <HStack gap="x2">
         <ActionButton type="reset" variant="neutralWeak">
           초기화

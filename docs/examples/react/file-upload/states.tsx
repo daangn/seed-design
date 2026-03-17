@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { VStack } from "@seed-design/react";
-import { FileUpload, FileUploadItem, type FileStatusDetails } from "seed-design/ui/file-upload";
+import type { FileStatusDetails } from "@seed-design/react/primitive";
+import { FileUploadField, FileUpload, FileUploadItem } from "seed-design/ui/file-upload";
 
 // 실제 환경에서는 fetch 등으로 교체하세요.
 async function uploadFile(
@@ -36,28 +37,30 @@ export default function FileUploadStates() {
 
   return (
     <VStack gap="x4" p="x6" width="100%">
-      <FileUpload
+      <FileUploadField
         accept="image/*"
         maxFiles={5}
         label="파일 업로드"
         description="업로드 상태 시뮬레이션"
       >
-        {({ acceptedFiles, updateFileStatus }) => {
-          for (const { file, details } of acceptedFiles) {
-            if (details.status !== "pending") continue;
+        <FileUpload>
+          {({ acceptedFiles, updateFileStatus }) => {
+            for (const { file, details } of acceptedFiles) {
+              if (details.status !== "pending") continue;
 
-            startUpload(file, updateFileStatus);
-          }
+              startUpload(file, updateFileStatus);
+            }
 
-          return acceptedFiles.map((fileWithStatus, index) => (
-            <FileUploadItem
-              key={`${fileWithStatus.file.name}-${index}`}
-              fileWithStatus={fileWithStatus}
-              onRetry={() => updateFileStatus(fileWithStatus.file, { status: "pending" })}
-            />
-          ));
-        }}
-      </FileUpload>
+            return acceptedFiles.map((fileWithStatus, index) => (
+              <FileUploadItem
+                key={`${fileWithStatus.file.name}-${index}`}
+                fileWithStatus={fileWithStatus}
+                onRetry={() => updateFileStatus(fileWithStatus.file, { status: "pending" })}
+              />
+            ));
+          }}
+        </FileUpload>
+      </FileUploadField>
     </VStack>
   );
 }

@@ -15,10 +15,8 @@ export {
 } from "./FileUpload";
 
 export {
-  FileUploadActionButton,
   FileUploadDropzone,
   FileUploadDropzoneLabel,
-  type FileUploadActionButtonProps,
   type FileUploadDropzoneLabelProps,
   type FileUploadDropzoneProps,
 } from "./FileUploadDropzone";
@@ -30,9 +28,6 @@ export {
   FileUploadItemMetadata,
   FileUploadItemName,
   FileUploadItemPreview,
-  FileUploadItemProgressCircleRange,
-  FileUploadItemProgressCircleRoot,
-  FileUploadItemProgressCircleTrack,
   FileUploadItemRemoveButton,
   FileUploadItemSize,
   FileUploadItemThumbnail,
@@ -41,9 +36,6 @@ export {
   type FileUploadItemMetadataProps,
   type FileUploadItemNameProps,
   type FileUploadItemPreviewProps,
-  type FileUploadItemProgressCircleRangeProps,
-  type FileUploadItemProgressCircleRootProps,
-  type FileUploadItemProgressCircleTrackProps,
   type FileUploadItemProps,
   type FileUploadItemRemoveButtonProps,
   type FileUploadItemSizeProps,

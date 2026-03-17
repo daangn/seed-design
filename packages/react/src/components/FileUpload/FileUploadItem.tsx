@@ -19,14 +19,6 @@ import { MiddleTruncate } from "@seed-design/react-middle-truncate";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { Slot } from "@radix-ui/react-slot";
-import {
-  ProgressCircleRoot,
-  ProgressCircleTrack,
-  ProgressCircleRange,
-  type ProgressCircleRootProps,
-  type ProgressCircleTrackProps,
-  type ProgressCircleRangeProps,
-} from "../ProgressCircle/ProgressCircle";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { useClassNames, ClassNamesProvider, withContext } = createSlotRecipeContext(fileUploadItem);
@@ -167,27 +159,6 @@ export const FileUploadItemThumbnail = React.forwardRef<
     </Primitive.div>
   );
 });
-
-export interface FileUploadItemProgressCircleRootProps extends ProgressCircleRootProps {}
-
-export const FileUploadItemProgressCircleRoot = React.forwardRef<
-  SVGSVGElement,
-  FileUploadItemProgressCircleRootProps
->((props, ref) => {
-  const { acceptType } = useFileUploadContext();
-  const tone = acceptType === "image" ? "staticWhite" : "neutral";
-
-  return <ProgressCircleRoot ref={ref} tone={tone} size="24" {...props} />;
-});
-FileUploadItemProgressCircleRoot.displayName = "FileUploadItemProgressCircleRoot";
-
-export interface FileUploadItemProgressCircleTrackProps extends ProgressCircleTrackProps {}
-
-export const FileUploadItemProgressCircleTrack = ProgressCircleTrack;
-
-export interface FileUploadItemProgressCircleRangeProps extends ProgressCircleRangeProps {}
-
-export const FileUploadItemProgressCircleRange = ProgressCircleRange;
 
 ////////////////////////////////////////////////////////////////////////////////////
 

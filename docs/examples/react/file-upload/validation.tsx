@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { VStack } from "@seed-design/react";
-import { FileUpload } from "seed-design/ui/file-upload";
+import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
 import { formatBytes } from "seed-design/lib/format-bytes";
 
 const MIN_FILE_SIZE = 1 * 1024; // 1KB
@@ -24,7 +24,7 @@ export default function FileUploadValidation() {
 
   return (
     <VStack gap="x4" p="x6" width="100%">
-      <FileUpload
+      <FileUploadField
         maxFiles={3}
         minFileSize={MIN_FILE_SIZE}
         maxFileSize={MAX_FILE_SIZE}
@@ -40,7 +40,9 @@ export default function FileUploadValidation() {
 
           setErrorMessage(messages.join("\n"));
         }}
-      />
+      >
+        <FileUpload />
+      </FileUploadField>
     </VStack>
   );
 }
