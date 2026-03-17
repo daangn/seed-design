@@ -1,12 +1,13 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import {
+  ariaAttr,
   dataAttr,
   elementProps,
   inputProps,
   buttonProps,
   visuallyHidden,
 } from "@seed-design/dom-utils";
-import { useId, useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import type {
   FileRejection,
   FileRejectDetails,
@@ -108,7 +109,6 @@ export function useFileUpload({
   onFileReject,
   ...props
 }: UseFileUploadProps = {}) {
-  const id = useId();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { acceptedFiles, isDragging, setAcceptedFiles, setIsDragging } = useFileUploadState(props);
@@ -370,8 +370,6 @@ export function useFileUpload({
     }),
 
     hiddenInputProps: inputProps({
-      // TODO: check field integration
-      id: `file-upload-input-${id}`,
       type: "file",
       name,
 
@@ -379,7 +377,7 @@ export function useFileUpload({
       multiple,
 
       disabled: disabled || maxFilesReached,
-      required,
+      "aria-required": ariaAttr(required),
 
       tabIndex: -1,
       style: visuallyHidden,

@@ -805,11 +805,39 @@ describe("useFileUpload", () => {
   });
 
   describe("form integration", () => {
-    it("should have required attribute when required", () => {
+    it("should have aria-required when required", () => {
       const { getByTestId } = setUp(<BasicFileUpload required />);
       const input = getByTestId("hidden-input") as HTMLInputElement;
 
-      expect(input.required).toBe(true);
+      expect(input.getAttribute("aria-required")).toBe("true");
+    });
+
+    it("should not have aria-required when not required", () => {
+      const { getByTestId } = setUp(<BasicFileUpload />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+
+      expect(input.getAttribute("aria-required")).toBeNull();
+    });
+
+    it("should have name attribute when name is provided", () => {
+      const { getByTestId } = setUp(<BasicFileUpload name="attachment" />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+
+      expect(input.getAttribute("name")).toBe("attachment");
+    });
+
+    it("should have disabled attribute when disabled", () => {
+      const { getByTestId } = setUp(<BasicFileUpload disabled />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+
+      expect(input.disabled).toBe(true);
+    });
+
+    it("should not generate an id on the hidden input", () => {
+      const { getByTestId } = setUp(<BasicFileUpload />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+
+      expect(input.getAttribute("id")).toBeNull();
     });
   });
 
