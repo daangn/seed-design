@@ -3,6 +3,7 @@ import { ComponentExample } from "@/components/component-example";
 import { ComponentGrid } from "@/components/component-grid";
 import { ComponentSpecBlock } from "@/components/component-spec-block";
 import { ManualInstallation } from "@/components/manual-installation";
+import { ChangelogPage } from "@/components/changelog-page";
 import { StackflowExample } from "@/components/stackflow-example";
 import { TokenReference } from "@/components/token-reference";
 import { createReactTypeTable } from "@/components/type-table/react-type-table";
@@ -89,6 +90,7 @@ export const mdxComponents: MDXComponents = {
   IconographyMigrationIndex,
   ProgressBoardTable,
   PlatformStatusTable,
+  ChangelogPage,
 
   // Icons for MDX
   IconTerminal,
