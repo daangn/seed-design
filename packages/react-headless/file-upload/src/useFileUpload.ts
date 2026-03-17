@@ -17,10 +17,6 @@ import type {
 } from "./types";
 import { getFileAcceptType } from "./accept-utils";
 
-// =============================================================================
-// State Hook
-// =============================================================================
-
 interface UseFileUploadStateProps {
   acceptedFiles?: FileWithStatus[];
   defaultAcceptedFiles?: FileWithStatus[];
@@ -47,10 +43,6 @@ function useFileUploadState(props: UseFileUploadStateProps) {
     setIsDragging,
   };
 }
-
-// =============================================================================
-// Main Hook
-// =============================================================================
 
 export interface UseFileUploadProps extends UseFileUploadStateProps {
   /**
@@ -118,20 +110,13 @@ export function useFileUpload({
 
   const { acceptedFiles, isDragging, setAcceptedFiles, setIsDragging } = useFileUploadState(props);
 
-  // ---------------------------------------------------------------------------
-  // Computed
-  // ---------------------------------------------------------------------------
-
   const multiple = maxFiles > 1;
   const maxFilesReached = acceptedFiles.length >= maxFiles;
+  const triggerDisabled = disabled || maxFilesReached;
 
   const acceptString = Array.isArray(accept) ? accept.join(",") : accept;
 
   const acceptType = getFileAcceptType(accept);
-
-  // ---------------------------------------------------------------------------
-  // File Validation
-  // ---------------------------------------------------------------------------
 
   const isValidFileType = useCallback(
     (file: File): boolean => {
@@ -184,7 +169,6 @@ export function useFileUpload({
           errors.push("FILE_TOO_SMALL");
         }
 
-        // Run custom validation
         if (validate) {
           const customErrors = validate(file);
           if (customErrors) {
@@ -205,15 +189,11 @@ export function useFileUpload({
     [maxFileSize, minFileSize, maxFiles, acceptedFiles.length, validate, isValidFileType],
   );
 
-  // ---------------------------------------------------------------------------
-  // Actions
-  // ---------------------------------------------------------------------------
-
   const openFilePicker = useCallback(() => {
-    if (disabled) return;
+    if (triggerDisabled) return;
 
     inputRef.current?.click();
-  }, [disabled]);
+  }, [triggerDisabled]);
 
   const setFiles = useCallback(
     (files: File[]) => {
@@ -244,10 +224,13 @@ export function useFileUpload({
       if (disabled) return;
       setAcceptedFiles((prev) => {
         const files = [...(prev ?? [])];
+
         if (fromIndex < 0 || fromIndex >= files.length) return prev;
         if (toIndex < 0 || toIndex >= files.length) return prev;
+
         const [removed] = files.splice(fromIndex, 1);
         files.splice(toIndex, 0, removed);
+
         return files;
       });
     },
@@ -280,19 +263,11 @@ export function useFileUpload({
     setAcceptedFiles([]);
   }, [setAcceptedFiles]);
 
-  // ---------------------------------------------------------------------------
-  // State Props
-  // ---------------------------------------------------------------------------
-
-  const stateProps = elementProps({
+  const stateProps = {
     "data-dragging": dataAttr(isDragging),
-    "data-disabled": dataAttr(disabled || maxFilesReached),
+    "data-disabled": dataAttr(triggerDisabled),
     "data-invalid": dataAttr(invalid),
-  });
-
-  // ---------------------------------------------------------------------------
-  // Return
-  // ---------------------------------------------------------------------------
+  };
 
   return {
     inputRef,
@@ -366,13 +341,15 @@ export function useFileUpload({
       },
     }),
 
-    triggerProps: buttonProps({
+    // not using buttonProps here since triggerProps is meant to be spread on components such as ActionButton,
+    // which excludes some props like `color`
+    triggerProps: {
       ...stateProps,
 
       type: "button",
-      disabled: disabled || maxFilesReached,
+      disabled: triggerDisabled,
       onClick: openFilePicker,
-    }),
+    } satisfies React.ButtonHTMLAttributes<HTMLButtonElement>,
 
     hiddenInputProps: inputProps({
       type: "file",
@@ -381,7 +358,7 @@ export function useFileUpload({
       accept: acceptString,
       multiple,
 
-      disabled: disabled || maxFilesReached,
+      disabled: triggerDisabled,
       "aria-required": ariaAttr(required),
 
       tabIndex: -1,
