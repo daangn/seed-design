@@ -27,8 +27,6 @@ export async function GET() {
     patterns: "사용 패턴 및 모범 사례",
   };
 
-  const changelogEntry = `  - [Changelog](${new URL("/llms/react/updates/changelog.txt", baseUrl)})`;
-
   const categoryList = Array.from(categories.entries())
     .map(([category, categoryPages]) => {
       const description = categoryDescriptions[category] ?? "";
@@ -42,13 +40,11 @@ export async function GET() {
         })
         .sort()
         .join("\n");
-      const extraEntries = category === "updates" ? changelogEntry : "";
-      const allEntries = [extraEntries, pageList].filter(Boolean).join("\n");
       return `### ${category}
 
 ${description}
 
-${allEntries}`;
+${pageList}`;
     })
     .join("\n\n");
 
