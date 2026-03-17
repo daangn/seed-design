@@ -54,11 +54,7 @@ export async function GET() {
     .filter((c) => categories.has(c))
     .map((c) => [c, categories.get(c)!] as const);
 
-  const remaining = Array.from(categories.entries()).filter(([c]) => !categoryOrder.includes(c));
-
-  const allCategories = [...sortedCategories, ...remaining];
-
-  const categoryList = allCategories
+  const categoryList = sortedCategories
     .map(([category, categoryPages]) => {
       const description = categoryDescriptions[category] ?? "";
       const pageList = categoryPages
@@ -72,15 +68,10 @@ export async function GET() {
         })
         .sort()
         .join("\n");
-      const changelogEntry =
-        category === "updates"
-          ? `- [Changelog](${new URL("/llms/react/updates/changelog.txt", baseUrl)})`
-          : "";
       return `### ${category}
 
 ${description}
 
-${changelogEntry}
 ${pageList}`;
     })
     .join("\n\n");
