@@ -252,7 +252,7 @@
         "@seed-design/lynx-react": "workspace:*",
         "@seed-design/rsbuild-plugin": "1.1.0",
         "clsx": "^2.1.1",
-        "lynx-console": "^0.0.1",
+        "lynx-console": "^0.1.1",
       },
       "devDependencies": {
         "@biomejs/biome": "2.3.14",
@@ -4419,7 +4419,7 @@
 
     "lucide-react": ["lucide-react@0.562.0", "", { "peerDependencies": { "react": "^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-82hOAu7y0dbVuFfmO4bYF1XEwYk/mEbM5E+b1jgci/udUBEE/R7LF5Ip0CCEmXe8AybRM8L+04eP+LGZeDvkiw=="],
 
-    "lynx-console": ["lynx-console@0.0.1", "", { "dependencies": { "javascript-stringify": "^2.1.0" }, "peerDependencies": { "@lynx-js/react": "^0.114.3", "@lynx-js/types": "^3.6.0", "@types/react": "^18" } }, "sha512-OA244Pbh2TS9F70vhju4IoOdTVX0jJhz7eGSX5/QJwIUafoa/nvTu47KvBW1ZzatBX50GVdA6i+K+CQvmC/bFA=="],
+    "lynx-console": ["lynx-console@0.1.1", "", { "dependencies": { "javascript-stringify": "^2.1.0" }, "peerDependencies": { "@lynx-js/react": "^0.114.3", "@lynx-js/types": "^3.6.0", "@types/react": "^18" } }, "sha512-ZMv6qK0vDDOYpLuBYCR+eSeF0lY6UFpUjWSqwN2ACKNv1lGNE5LUwgTR9MuSpIMMsbg0Vu5ZSz2Rb6lugnC25Q=="],
 
     "lynx-spa": ["lynx-spa@workspace:examples/lynx-spa"],
 
