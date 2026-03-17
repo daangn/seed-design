@@ -263,11 +263,11 @@ export function useFileUpload({
     setAcceptedFiles([]);
   }, [setAcceptedFiles]);
 
-  const stateProps = {
+  const stateProps = elementProps({
     "data-dragging": dataAttr(isDragging),
     "data-disabled": dataAttr(triggerDisabled),
     "data-invalid": dataAttr(invalid),
-  };
+  });
 
   return {
     inputRef,
@@ -290,10 +290,6 @@ export function useFileUpload({
     clearFiles,
 
     stateProps,
-
-    rootProps: elementProps({
-      ...stateProps,
-    }),
 
     dropzoneProps: elementProps({
       ...stateProps,
@@ -341,15 +337,16 @@ export function useFileUpload({
       },
     }),
 
-    // not using buttonProps here since triggerProps is meant to be spread on components such as ActionButton,
-    // which excludes some props like `color`
-    triggerProps: {
+    triggerProps: buttonProps({
       ...stateProps,
 
       type: "button",
       disabled: triggerDisabled,
       onClick: openFilePicker,
-    } satisfies React.ButtonHTMLAttributes<HTMLButtonElement>,
+
+      // escape hatch: triggerProps is meant to be spread on ActionButton,
+      // but ActionButton overrides HTML `color` attribute for its fg color
+    }) as Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color">,
 
     hiddenInputProps: inputProps({
       type: "file",

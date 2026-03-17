@@ -60,11 +60,10 @@ export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
       required,
       validate,
     });
-    const mergedProps = mergeProps(api.rootProps, otherProps);
 
     return (
       <FileUploadProvider value={api}>
-        <Primitive.div ref={ref} {...mergedProps} />
+        <Primitive.div ref={ref} {...otherProps} />
       </FileUploadProvider>
     );
   },
