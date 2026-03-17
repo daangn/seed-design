@@ -57,26 +57,19 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
       indicator,
       description,
       errorMessage,
-      children,
-
-      // field props
-      required,
-      disabled,
-      invalid,
-      name,
-
       showRequiredIndicator,
+      children,
 
       inputProps,
       fieldRef,
 
-      ...otherProps
+      ...props
     },
     ref,
   ) => {
     const renderHeader = label || indicator;
     const renderDescription = !!description;
-    const renderErrorMessage = errorMessage && invalid;
+    const renderErrorMessage = errorMessage && props.invalid;
     const renderFooter = renderDescription || renderErrorMessage;
 
     if (process.env.NODE_ENV !== "production" && !label) {
@@ -87,10 +80,11 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
 
     return (
       <SeedField.Root
-        required={required}
-        disabled={disabled}
-        invalid={invalid}
-        name={name}
+        name={props.name}
+        disabled={props.disabled}
+        required={props.required}
+        invalid={props.invalid}
+        readOnly={props.readOnly}
         ref={fieldRef}
       >
         {renderHeader && (
@@ -103,13 +97,7 @@ export const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
             {/* You might want to put your custom element here */}
           </SeedField.Header>
         )}
-        <SeedFileUpload.Root
-          required={required}
-          disabled={disabled}
-          invalid={invalid}
-          name={name}
-          {...otherProps}
-        >
+        <SeedFileUpload.Root {...props}>
           <SeedFileUpload.Container>
             {/* You may implement your own i18n for upload label */}
             <SeedFileUpload.Trigger aria-label="파일 선택">

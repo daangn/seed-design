@@ -71,7 +71,11 @@ export interface UseFileUploadProps extends UseFileUploadStateProps {
    */
   invalid?: boolean;
 
-  // might support readOnly later
+  /**
+   * NOTE: this currently is a no-op since the UI doesn't have a readOnly state
+   * @default false
+   */
+  readOnly?: boolean;
 
   /**
    * @default 1
@@ -101,6 +105,7 @@ export function useFileUpload({
   disabled = false,
   required = false,
   invalid = false,
+  readOnly = false,
   maxFiles = 1,
   maxFileSize = Number.POSITIVE_INFINITY,
   minFileSize = 0,

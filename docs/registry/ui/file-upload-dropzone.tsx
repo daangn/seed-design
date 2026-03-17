@@ -52,26 +52,19 @@ export const FileUploadDropzone = React.forwardRef<HTMLInputElement, FileUploadD
       indicator,
       description,
       errorMessage,
-      children,
-
-      // field props
-      required,
-      disabled,
-      invalid,
-      name,
-
       showRequiredIndicator,
+      children,
 
       inputProps,
       fieldRef,
 
-      ...otherProps
+      ...props
     },
     ref,
   ) => {
     const renderHeader = label || indicator;
     const renderDescription = !!description;
-    const renderErrorMessage = errorMessage && invalid;
+    const renderErrorMessage = errorMessage && props.invalid;
     const renderFooter = renderDescription || renderErrorMessage;
 
     if (process.env.NODE_ENV !== "production" && !label) {
@@ -82,10 +75,11 @@ export const FileUploadDropzone = React.forwardRef<HTMLInputElement, FileUploadD
 
     return (
       <SeedField.Root
-        required={required}
-        disabled={disabled}
-        invalid={invalid}
-        name={name}
+        name={props.name}
+        disabled={props.disabled}
+        required={props.required}
+        invalid={props.invalid}
+        readOnly={props.readOnly}
         ref={fieldRef}
       >
         {renderHeader && (
@@ -98,13 +92,7 @@ export const FileUploadDropzone = React.forwardRef<HTMLInputElement, FileUploadD
             {/* You might want to put your custom element here */}
           </SeedField.Header>
         )}
-        <SeedFileUpload.Root
-          required={required}
-          disabled={disabled}
-          invalid={invalid}
-          name={name}
-          {...otherProps}
-        >
+        <SeedFileUpload.Root {...props}>
           <SeedFileUpload.Dropzone>
             <SeedFileUpload.DropzoneActionButton
               variant="neutralWeak"
