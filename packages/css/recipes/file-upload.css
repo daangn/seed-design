@@ -3,6 +3,8 @@
     flex-direction: column;
     width: 100%;
     gap: var(--seed-dimension-x2);
+    margin-left: calc(var(--seed-file-upload-inset) * -1);
+    margin-right: calc(var(--seed-file-upload-inset) * -1);
 }
 .seed-file-upload__dropzone {
     display: flex;
@@ -33,6 +35,8 @@
     padding-top: var(--seed-dimension-x1);
     margin-top: calc(var(--seed-dimension-x1) * -1);
     margin-right: calc(var(--seed-dimension-x1) * -1);
+    padding-left: var(--seed-file-upload-inset);
+    padding-right: var(--seed-file-upload-inset);
 }
 .seed-file-upload__itemGroup {
     display: flex;

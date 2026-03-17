@@ -5,6 +5,7 @@ import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
 import type { FileWithStatus } from "@seed-design/react/primitive";
+import { fileUploadVariantMap } from "@seed-design/css/recipes/file-upload";
 
 // 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
 function createMockImageFile(name: string): File {
@@ -92,7 +93,7 @@ const CommonStoryTemplate: Story = {
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={{}}
+      variantMap={fileUploadVariantMap}
       conditionMap={conditionMap}
       {...args}
     />

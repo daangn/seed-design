@@ -332,6 +332,9 @@ const fileUpload = defineSlotRecipe({
       width: "100%",
 
       gap: vars.base.enabled.root.gap,
+
+      marginLeft: "calc(var(--seed-file-upload-inset) * -1)",
+      marginRight: "calc(var(--seed-file-upload-inset) * -1)",
     },
     dropzone: {
       display: "flex",
@@ -381,6 +384,9 @@ const fileUpload = defineSlotRecipe({
 
       // makes the end of the container in line with the end of the last item
       marginRight: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
+
+      paddingLeft: "var(--seed-file-upload-inset)",
+      paddingRight: "var(--seed-file-upload-inset)",
     },
     // wraps the file items
     itemGroup: {
