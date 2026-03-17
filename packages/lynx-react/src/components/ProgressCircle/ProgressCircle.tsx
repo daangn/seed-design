@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "@lynx-js/react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "@lynx-js/react";
 import clsx from "clsx";
 import { progressCircle } from "./recipes/progress-circle";
 import type { ProgressCircleVariantProps } from "./recipes/progress-circle";
@@ -132,6 +132,41 @@ function Track() {
   return null;
 }
 
+const TRANSITION_DURATION = 300;
+
+function useAnimatedProgress(target: number): number {
+  const [display, setDisplay] = useState(target);
+  const fromRef = useRef(target);
+  const startRef = useRef(0);
+  const rafRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    fromRef.current = display;
+    startRef.current = Date.now();
+
+    if (rafRef.current) clearInterval(rafRef.current);
+
+    rafRef.current = setInterval(() => {
+      const elapsed = Date.now() - startRef.current;
+      if (elapsed >= TRANSITION_DURATION) {
+        setDisplay(target);
+        if (rafRef.current) clearInterval(rafRef.current);
+        rafRef.current = null;
+        return;
+      }
+      const t = elapsed / TRANSITION_DURATION;
+      const eased = cubicBezier(t, 0, 0, 0.15, 1);
+      setDisplay(fromRef.current + (target - fromRef.current) * eased);
+    }, 16);
+
+    return () => {
+      if (rafRef.current) clearInterval(rafRef.current);
+    };
+  }, [target]);
+
+  return display;
+}
+
 function Range() {
   const { numSize, isDeterminate, progress, classes } = useProgressCircle();
 
@@ -139,8 +174,21 @@ function Range() {
     return <IndeterminateRange numSize={numSize} classes={classes} />;
   }
 
-  const { leftDegree, rightDegree } = determinateDegrees(progress);
-  const showCaps = progress > 0.01 && progress < 0.99;
+  return <DeterminateRange numSize={numSize} progress={progress} classes={classes} />;
+}
+
+function DeterminateRange({
+  numSize,
+  progress,
+  classes,
+}: {
+  numSize: number;
+  progress: number;
+  classes: Classes;
+}) {
+  const animatedProgress = useAnimatedProgress(progress);
+  const { leftDegree, rightDegree } = determinateDegrees(animatedProgress);
+  const showCaps = true;
   const halfSize = numSize / 2;
   const innerR = 0.53 * Math.SQRT2 * halfSize;
   const ringCenterR = (halfSize + innerR) / 2;
@@ -160,7 +208,7 @@ function Range() {
             capClass={classes.cap}
           />
           <RoundCap
-            angle={progress * 360}
+            angle={animatedProgress * 360}
             halfSize={halfSize}
             ringCenterR={ringCenterR}
             capSize={capSize}
