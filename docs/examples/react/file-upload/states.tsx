@@ -1,11 +1,6 @@
 import { useCallback } from "react";
 import { VStack } from "@seed-design/react";
-import {
-  FileUpload,
-  FileUploadItem,
-  type FileStatusDetails,
-  type FileWithStatus,
-} from "seed-design/ui/file-upload";
+import { FileUpload, FileUploadItem, type FileStatusDetails } from "seed-design/ui/file-upload";
 
 // 실제 환경에서는 fetch 등으로 교체하세요.
 async function uploadFile(
@@ -26,36 +21,17 @@ async function uploadFile(
 }
 
 export default function FileUploadStates() {
-  const updateFile = useCallback(
-    (
-      file: File,
-      details: FileStatusDetails,
-      setAcceptedFiles: (fn: (prev: FileWithStatus[]) => FileWithStatus[]) => void,
-    ) => {
-      setAcceptedFiles((prev) => prev.map((f) => (f.file === file ? { file, details } : f)));
+  const startUpload = useCallback(
+    (file: File, updateFileStatus: (file: File, details: FileStatusDetails) => void) => {
+      updateFileStatus(file, { status: "uploading", progress: 0 });
+
+      uploadFile(file, (progress) => {
+        updateFileStatus(file, { status: "uploading", progress });
+      })
+        .then(() => updateFileStatus(file, { status: "success" }))
+        .catch(() => updateFileStatus(file, { status: "error" }));
     },
     [],
-  );
-
-  const startUpload = useCallback(
-    (file: File, setAcceptedFiles: (fn: (prev: FileWithStatus[]) => FileWithStatus[]) => void) => {
-      // uploading 상태로 업데이트
-      updateFile(file, { status: "uploading", progress: 0 }, setAcceptedFiles);
-
-      // 업로드 시작
-      uploadFile(file, (progress) => {
-        updateFile(file, { status: "uploading", progress }, setAcceptedFiles);
-      })
-        .then(() => {
-          // success 상태로 업데이트
-          updateFile(file, { status: "success" }, setAcceptedFiles);
-        })
-        .catch(() => {
-          // error 상태로 업데이트
-          updateFile(file, { status: "error" }, setAcceptedFiles);
-        });
-    },
-    [updateFile],
   );
 
   return (
@@ -66,26 +42,18 @@ export default function FileUploadStates() {
         label="파일 업로드"
         description="업로드 상태 시뮬레이션"
       >
-        {({ acceptedFiles, setAcceptedFiles }) => {
+        {({ acceptedFiles, updateFileStatus }) => {
           for (const { file, details } of acceptedFiles) {
             if (details.status !== "pending") continue;
 
-            startUpload(file, setAcceptedFiles);
+            startUpload(file, updateFileStatus);
           }
 
           return acceptedFiles.map((fileWithStatus, index) => (
             <FileUploadItem
               key={`${fileWithStatus.file.name}-${index}`}
               fileWithStatus={fileWithStatus}
-              onRetry={() => {
-                setAcceptedFiles((prev) =>
-                  prev.map((f) =>
-                    f.file === fileWithStatus.file
-                      ? { file: fileWithStatus.file, details: { status: "pending" } }
-                      : f,
-                  ),
-                );
-              }}
+              onRetry={() => updateFileStatus(fileWithStatus.file, { status: "pending" })}
             />
           ));
         }}

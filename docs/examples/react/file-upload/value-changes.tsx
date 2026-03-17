@@ -1,23 +1,21 @@
 import { VStack, Text } from "@seed-design/react";
-import { useCallback, useState } from "react";
-import {
-  FileUpload,
-  FileUploadItem,
-  type FileWithStatus,
-  type FileStatusDetails,
-} from "seed-design/ui/file-upload";
+import { useState } from "react";
+import { FileUpload, FileUploadItem, type FileStatusDetails } from "seed-design/ui/file-upload";
 
-function simulateUpload(file: File, updateFile: (file: File, details: FileStatusDetails) => void) {
-  updateFile(file, { status: "uploading", progress: 0 });
+function simulateUpload(
+  file: File,
+  updateFileStatus: (file: File, details: FileStatusDetails) => void,
+) {
+  updateFileStatus(file, { status: "uploading", progress: 0 });
 
   let progress = 0;
   const interval = setInterval(() => {
     progress += 25;
     if (progress >= 100) {
       clearInterval(interval);
-      updateFile(file, { status: "success" });
+      updateFileStatus(file, { status: "success" });
     } else {
-      updateFile(file, { status: "uploading", progress });
+      updateFileStatus(file, { status: "uploading", progress });
     }
   }, 500);
 }
@@ -28,17 +26,6 @@ export default function FileUploadValueChanges() {
   const addLog = (message: string) => {
     setLogs((prev) => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
   };
-
-  const updateFile = useCallback(
-    (
-      file: File,
-      details: FileStatusDetails,
-      setAcceptedFiles: (fn: (prev: FileWithStatus[]) => FileWithStatus[]) => void,
-    ) => {
-      setAcceptedFiles((prev) => prev.map((f) => (f.file === file ? { file, details } : f)));
-    },
-    [],
-  );
 
   return (
     <VStack gap="x4" width="100%">
@@ -57,11 +44,11 @@ export default function FileUploadValueChanges() {
           );
         }}
       >
-        {({ acceptedFiles, setAcceptedFiles }) => {
+        {({ acceptedFiles, updateFileStatus }) => {
           for (const { file, details } of acceptedFiles) {
             if (details.status !== "pending") continue;
 
-            simulateUpload(file, (f, d) => updateFile(f, d, setAcceptedFiles));
+            simulateUpload(file, updateFileStatus);
           }
 
           return acceptedFiles.map((fileWithStatus, index) => (

@@ -250,6 +250,83 @@ describe("useFileUpload", () => {
 
       expect(input.disabled).toBe(true);
     });
+
+    it("should disable trigger and input when maxFiles is reached", async () => {
+      const { getByTestId, getByText } = setUp(<BasicFileUpload maxFiles={2} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("a.txt", 100, "text/plain");
+      const file2 = createMockFile("b.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file1, file2] } });
+
+      await waitFor(() => {
+        const trigger = getByText("Choose files") as HTMLButtonElement;
+        expect(trigger.disabled).toBe(true);
+        expect(input.disabled).toBe(true);
+      });
+    });
+
+    it("should have data-disabled on dropzone when maxFiles is reached", async () => {
+      const { getByTestId } = setUp(<BasicFileUpload maxFiles={1} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("a.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        const dropzone = getByTestId("dropzone");
+        expect(dropzone.getAttribute("data-disabled")).toBe("");
+      });
+    });
+
+    it("should re-enable trigger after removing a file when maxFiles was reached", async () => {
+      const { getByTestId, getByText } = setUp(<BasicFileUpload maxFiles={1} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("a.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        const trigger = getByText("Choose files") as HTMLButtonElement;
+        expect(trigger.disabled).toBe(true);
+      });
+
+      const deleteButton = getByTestId("delete-0");
+      await userEvent.click(deleteButton);
+
+      await waitFor(() => {
+        const trigger = getByText("Choose files") as HTMLButtonElement;
+        expect(trigger.disabled).toBe(false);
+      });
+    });
+
+    it("should not accept dropped files when maxFiles is reached", async () => {
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(<BasicFileUpload maxFiles={1} onFileReject={onFileReject} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("a.txt", 100, "text/plain");
+      fireEvent.change(input, { target: { files: [file1] } });
+
+      await waitFor(() => {
+        expect(getByTestId("item-0")).toBeDefined();
+      });
+
+      const dropzone = getByTestId("dropzone");
+      const file2 = createMockFile("b.txt", 100, "text/plain");
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file2] },
+      });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalledWith({
+          files: [{ file: file2, errors: ["TOO_MANY_FILES"] }],
+        });
+      });
+    });
   });
 
   describe("status change", () => {
@@ -261,7 +338,7 @@ describe("useFileUpload", () => {
           <FileUploadRoot onAcceptedFilesChange={onAcceptedFilesChange}>
             <FileUploadHiddenInput data-testid="hidden-input" />
             <FileUploadContext>
-              {({ acceptedFiles, setAcceptedFiles }) => (
+              {({ acceptedFiles, updateFileStatus }) => (
                 <>
                   <ul>
                     {acceptedFiles.map((fileWithStatus, index) => (
@@ -279,12 +356,9 @@ describe("useFileUpload", () => {
                     type="button"
                     data-testid="start-upload"
                     onClick={() => {
-                      setAcceptedFiles((prev) =>
-                        prev.map((f) => ({
-                          ...f,
-                          details: { status: "uploading" as const, progress: 50 },
-                        })),
-                      );
+                      for (const { file } of acceptedFiles) {
+                        updateFileStatus(file, { status: "uploading", progress: 50 });
+                      }
                     }}
                   >
                     Start Upload
@@ -319,6 +393,201 @@ describe("useFileUpload", () => {
     });
   });
 
+  describe("updateFileStatus", () => {
+    it("should update a file's status", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+      const UpdateStatusUpload = () => (
+        <FileUploadRoot onAcceptedFilesChange={onAcceptedFilesChange}>
+          <FileUploadHiddenInput data-testid="hidden-input" />
+          <FileUploadContext>
+            {({ acceptedFiles, updateFileStatus }) => (
+              <>
+                <ul>
+                  {acceptedFiles.map((f, i) => (
+                    <li key={i} data-testid={`file-${i}`}>
+                      {f.file.name} - {f.details.status}
+                      {"progress" in f.details && `-${f.details.progress}`}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  data-testid="update-status"
+                  onClick={() => {
+                    for (const { file } of acceptedFiles) {
+                      updateFileStatus(file, { status: "uploading", progress: 50 });
+                    }
+                  }}
+                >
+                  Update
+                </button>
+              </>
+            )}
+          </FileUploadContext>
+        </FileUploadRoot>
+      );
+
+      const { getByTestId } = setUp(<UpdateStatusUpload />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      fireEvent.change(input, {
+        target: { files: [createMockFile("a.txt", 100, "text/plain")] },
+      });
+
+      await waitFor(() => expect(getByTestId("file-0")).toBeDefined());
+
+      fireEvent.click(getByTestId("update-status"));
+
+      await waitFor(() => {
+        expect(getByTestId("file-0").textContent).toContain("uploading");
+        expect(getByTestId("file-0").textContent).toContain("50");
+      });
+    });
+
+    it("should only update the targeted file", async () => {
+      const UpdateOneUpload = () => (
+        <FileUploadRoot maxFiles={3}>
+          <FileUploadHiddenInput data-testid="hidden-input" />
+          <FileUploadContext>
+            {({ acceptedFiles, updateFileStatus }) => (
+              <>
+                <ul>
+                  {acceptedFiles.map((f, i) => (
+                    <li key={i} data-testid={`file-${i}`}>
+                      {f.file.name} - {f.details.status}
+                    </li>
+                  ))}
+                </ul>
+                {acceptedFiles.length > 0 && (
+                  <button
+                    type="button"
+                    data-testid="update-first"
+                    onClick={() => updateFileStatus(acceptedFiles[0].file, { status: "success" })}
+                  >
+                    Update First
+                  </button>
+                )}
+              </>
+            )}
+          </FileUploadContext>
+        </FileUploadRoot>
+      );
+
+      const { getByTestId } = setUp(<UpdateOneUpload />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      fireEvent.change(input, {
+        target: {
+          files: [
+            createMockFile("a.txt", 100, "text/plain"),
+            createMockFile("b.txt", 200, "text/plain"),
+          ],
+        },
+      });
+
+      await waitFor(() => expect(getByTestId("file-1")).toBeDefined());
+
+      fireEvent.click(getByTestId("update-first"));
+
+      await waitFor(() => {
+        expect(getByTestId("file-0").textContent).toContain("success");
+        expect(getByTestId("file-1").textContent).toContain("pending");
+      });
+    });
+  });
+
+  describe("removeFile", () => {
+    it("should remove a specific file", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+      const RemoveUpload = () => (
+        <FileUploadRoot maxFiles={3} onAcceptedFilesChange={onAcceptedFilesChange}>
+          <FileUploadHiddenInput data-testid="hidden-input" />
+          <FileUploadContext>
+            {({ acceptedFiles, removeFile }) => (
+              <ul>
+                {acceptedFiles.map((f, i) => (
+                  <li key={i} data-testid={`file-${i}`}>
+                    {f.file.name}
+                    <button
+                      type="button"
+                      data-testid={`remove-${i}`}
+                      onClick={() => removeFile(f.file)}
+                    >
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </FileUploadContext>
+        </FileUploadRoot>
+      );
+
+      const { getByTestId, queryByTestId } = setUp(<RemoveUpload />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      fireEvent.change(input, {
+        target: {
+          files: [
+            createMockFile("a.txt", 100, "text/plain"),
+            createMockFile("b.txt", 200, "text/plain"),
+          ],
+        },
+      });
+
+      await waitFor(() => expect(getByTestId("file-1")).toBeDefined());
+
+      fireEvent.click(getByTestId("remove-0"));
+
+      await waitFor(() => {
+        expect(getByTestId("file-0").textContent).toContain("b.txt");
+        expect(queryByTestId("file-1")).toBeNull();
+      });
+    });
+  });
+
+  describe("clearFiles", () => {
+    it("should remove all files", async () => {
+      const ClearUpload = () => (
+        <FileUploadRoot maxFiles={3}>
+          <FileUploadHiddenInput data-testid="hidden-input" />
+          <FileUploadContext>
+            {({ acceptedFiles, clearFiles }) => (
+              <>
+                <ul>
+                  {acceptedFiles.map((f, i) => (
+                    <li key={i} data-testid={`file-${i}`}>
+                      {f.file.name}
+                    </li>
+                  ))}
+                </ul>
+                <button type="button" data-testid="clear" onClick={clearFiles}>
+                  Clear
+                </button>
+              </>
+            )}
+          </FileUploadContext>
+        </FileUploadRoot>
+      );
+
+      const { getByTestId, queryByTestId } = setUp(<ClearUpload />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      fireEvent.change(input, {
+        target: {
+          files: [
+            createMockFile("a.txt", 100, "text/plain"),
+            createMockFile("b.txt", 200, "text/plain"),
+          ],
+        },
+      });
+
+      await waitFor(() => expect(getByTestId("file-1")).toBeDefined());
+
+      fireEvent.click(getByTestId("clear"));
+
+      await waitFor(() => {
+        expect(queryByTestId("file-0")).toBeNull();
+      });
+    });
+  });
+
   describe("controlled mode", () => {
     it("should work with controlled acceptedFiles", () => {
       const file = createMockFile("controlled.txt", 512, "text/plain");
@@ -334,6 +603,72 @@ describe("useFileUpload", () => {
       const { getByText } = setUp(<BasicFileUpload defaultAcceptedFiles={filesWithStatus} />);
 
       expect(getByText("default.txt")).toBeDefined();
+    });
+
+    it("should reflect external acceptedFiles changes on rerender", () => {
+      const file1 = createMockFile("first.txt", 512, "text/plain");
+      const file2 = createMockFile("second.txt", 512, "text/plain");
+
+      const { getByText, queryByText, rerender } = setUp(
+        <BasicFileUpload
+          acceptedFiles={[{ file: file1, details: { status: "pending" as const } }]}
+        />,
+      );
+
+      expect(getByText("first.txt")).toBeDefined();
+      expect(queryByText("second.txt")).toBeNull();
+
+      rerender(
+        <BasicFileUpload
+          acceptedFiles={[{ file: file2, details: { status: "pending" as const } }]}
+        />,
+      );
+
+      expect(queryByText("first.txt")).toBeNull();
+      expect(getByText("second.txt")).toBeDefined();
+    });
+
+    it("should call onAcceptedFilesChange when removing a file in controlled mode", async () => {
+      const file = createMockFile("controlled.txt", 512, "text/plain");
+      const filesWithStatus = [{ file, details: { status: "pending" as const } }];
+      const onAcceptedFilesChange = mock(() => {});
+
+      const { getByTestId } = setUp(
+        <BasicFileUpload
+          acceptedFiles={filesWithStatus}
+          onAcceptedFilesChange={onAcceptedFilesChange}
+        />,
+      );
+
+      const deleteButton = getByTestId("delete-0");
+      await userEvent.click(deleteButton);
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([]);
+      });
+    });
+
+    it("should call onAcceptedFilesChange when adding files in controlled mode", async () => {
+      const onAcceptedFilesChange = mock(() => {});
+
+      const { getByTestId } = setUp(
+        <BasicFileUpload
+          maxFiles={3}
+          acceptedFiles={[]}
+          onAcceptedFilesChange={onAcceptedFilesChange}
+        />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const newFile = createMockFile("new.txt", 512, "text/plain");
+
+      fireEvent.change(input, { target: { files: [newFile] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFilesChange).toHaveBeenCalledWith([
+          { file: newFile, details: { status: "pending" } },
+        ]);
+      });
     });
   });
 

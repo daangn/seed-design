@@ -35,7 +35,7 @@ export interface FileUploadDropzoneProps
   fieldRef?: React.Ref<HTMLDivElement>;
 
   /**
-   * Optional render function that receives file upload context ({ acceptedFiles, setAcceptedFiles }).
+   * Optional render function that receives file upload context ({ acceptedFiles, updateFileStatus, removeFile, clearFiles }).
    * When omitted, a default item list is rendered.
    */
   children?: SeedFileUpload.ContextProps["children"];

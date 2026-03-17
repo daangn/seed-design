@@ -19,7 +19,7 @@ export type {
   FileWithStatus,
   FileStatusDetails,
   FileAcceptType,
-} from "@seed-design/react-file-upload";
+} from "@seed-design/react/primitive";
 
 export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild" | "children"> {
   label?: React.ReactNode;
@@ -40,7 +40,7 @@ export interface FileUploadProps extends Omit<SeedFileUpload.RootProps, "asChild
   fieldRef?: React.Ref<HTMLDivElement>;
 
   /**
-   * Optional render function that receives file upload context ({ acceptedFiles, setAcceptedFiles }).
+   * Optional render function that receives file upload context ({ acceptedFiles, updateFileStatus, removeFile, clearFiles }).
    * When omitted, a default item list is rendered.
    */
   children?: SeedFileUpload.ContextProps["children"];

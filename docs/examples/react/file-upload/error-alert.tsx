@@ -9,23 +9,14 @@ export default function FileUploadErrorAlert() {
   return (
     <VStack gap="x4" p="x6" width="100%">
       <FileUpload maxFiles={5} label="파일 업로드" description="2번째 파일은 업로드에 실패합니다">
-        {({ acceptedFiles, setAcceptedFiles }) => {
+        {({ acceptedFiles, updateFileStatus }) => {
           for (const { file, details } of acceptedFiles) {
             if (details.status === "pending" && !processedRef.current.has(file)) {
               processedRef.current.add(file);
               const fileIndex = acceptedFiles.findIndex((f) => f.file === file);
               const shouldFail = fileIndex === 1;
 
-              setAcceptedFiles((prev) =>
-                prev.map((f) =>
-                  f.file === file
-                    ? {
-                        file,
-                        details: shouldFail ? { status: "error" } : { status: "success" },
-                      }
-                    : f,
-                ),
-              );
+              updateFileStatus(file, shouldFail ? { status: "error" } : { status: "success" });
             }
           }
 
@@ -50,13 +41,7 @@ export default function FileUploadErrorAlert() {
               onRetry={() => {
                 alertedRef.current.delete(fileWithStatus.file);
                 processedRef.current.delete(fileWithStatus.file);
-                setAcceptedFiles((prev) =>
-                  prev.map((f) =>
-                    f.file === fileWithStatus.file
-                      ? { file: fileWithStatus.file, details: { status: "pending" } }
-                      : f,
-                  ),
-                );
+                updateFileStatus(fileWithStatus.file, { status: "pending" });
               }}
             />
           ));
