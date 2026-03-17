@@ -1302,14 +1302,13 @@ export function FoundationMonochromeIconPage() {
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          gap: "4px",
         }}
       >
         {icons.map(({ component: IconComp, name }) => (
           <view
             key={name}
             style={{
-              width: "80px",
+              width: "25%",
               padding: "8px 4px",
               display: "flex",
               flexDirection: "column",
