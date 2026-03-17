@@ -11,8 +11,7 @@ import {
   useFileUploadContext,
   useFileUploadItemContext,
   type FileAcceptType,
-  type FileStatusDetails,
-  type FileWithStatus,
+  type FileEntry,
   splitFileName,
 } from "@seed-design/react-file-upload";
 import { MiddleTruncate } from "@seed-design/react-middle-truncate";
@@ -27,11 +26,11 @@ export interface FileUploadItemProps
   extends FileUploadItemVariantProps,
     PrimitiveProps,
     React.LiHTMLAttributes<HTMLLIElement> {
-  fileWithStatus: FileWithStatus;
+  fileEntry: FileEntry;
 }
 
 export const FileUploadItem = React.forwardRef<HTMLLIElement, FileUploadItemProps>(
-  ({ className, fileWithStatus, ...props }, ref) => {
+  ({ className, fileEntry, ...props }, ref) => {
     const { acceptType } = useFileUploadContext();
 
     const [variantProps, otherProps] = fileUploadItem.splitVariantProps({
@@ -43,7 +42,7 @@ export const FileUploadItem = React.forwardRef<HTMLLIElement, FileUploadItemProp
 
     return (
       <ClassNamesProvider value={classNames}>
-        <FileUploadItemProvider value={fileWithStatus}>
+        <FileUploadItemProvider value={fileEntry}>
           <Primitive.li ref={ref} className={clsx(classNames.root, className)} {...otherProps} />
         </FileUploadItemProvider>
       </ClassNamesProvider>
@@ -199,20 +198,19 @@ export type FileUploadItemPreviewProps = Omit<React.HTMLAttributes<HTMLDivElemen
 
 function resolveOverlayContent(
   overlay: FileUploadItemPreviewProps["overlay"],
-  details: FileStatusDetails,
+  entry: FileEntry,
 ): React.ReactNode {
   if (!overlay) return undefined;
 
   const { pending, uploading, success, error } = overlay;
-  const { status } = details;
 
-  switch (status) {
+  switch (entry.status) {
     case "pending":
       return typeof pending === "function" ? pending() : pending;
     case "uploading": {
       if (uploading) {
         return typeof uploading === "function"
-          ? uploading({ progress: details.progress })
+          ? uploading({ progress: entry.progress })
           : uploading;
       }
       return typeof pending === "function" ? pending() : pending;
@@ -231,10 +229,10 @@ function resolveOverlayContent(
 export const FileUploadItemPreview = React.forwardRef<HTMLDivElement, FileUploadItemPreviewProps>(
   ({ image, general, overlay, className, ...props }, ref) => {
     const { acceptType } = useFileUploadContext();
-    const { details } = useFileUploadItemContext();
+    const entry = useFileUploadItemContext();
     const classNames = useClassNames();
 
-    const overlayContent = resolveOverlayContent(overlay, details);
+    const overlayContent = resolveOverlayContent(overlay, entry);
 
     if (acceptType === "image" && image) {
       return (

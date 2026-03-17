@@ -190,9 +190,9 @@ export const FileUploadItemRemoveButton = forwardRef<
   FileUploadItemRemoveButtonProps
 >((props, ref) => {
   const { getItemRemoveButtonProps } = useFileUploadContext();
-  const { file } = useFileUploadItemContext();
+  const { id } = useFileUploadItemContext();
 
-  const mergedProps = mergeProps(getItemRemoveButtonProps(file), props);
+  const mergedProps = mergeProps(getItemRemoveButtonProps(id), props);
 
   return <Primitive.button ref={ref} {...mergedProps} />;
 });

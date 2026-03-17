@@ -8,24 +8,18 @@ import {
   visuallyHidden,
 } from "@seed-design/dom-utils";
 import { useState, useCallback, useRef } from "react";
-import type {
-  FileRejection,
-  FileRejectDetails,
-  FileError,
-  FileWithStatus,
-  FileStatusDetails,
-} from "./types";
+import type { FileRejection, FileError, FileEntry, FileStatusDetails } from "./types";
 import { getFileAcceptType } from "./accept-utils";
 
 interface UseFileUploadStateProps {
-  acceptedFiles?: FileWithStatus[];
-  defaultAcceptedFiles?: FileWithStatus[];
-  onAcceptedFilesChange?: (files: FileWithStatus[]) => void;
-  onFileReject?: (details: FileRejectDetails) => void;
+  acceptedFiles?: FileEntry[];
+  defaultAcceptedFiles?: FileEntry[];
+  onAcceptedFilesChange?: (fileEntries: FileEntry[]) => void;
+  onFileReject?: (rejections: FileRejection[]) => void;
 }
 
 function useFileUploadState(props: UseFileUploadStateProps) {
-  const [acceptedFiles, setAcceptedFiles] = useControllableState<FileWithStatus[]>({
+  const [acceptedFiles, setAcceptedFiles] = useControllableState<FileEntry[]>({
     prop: props.acceptedFiles,
     defaultProp: props.defaultAcceptedFiles ?? [],
     onChange: (filesWithStatus) => {
@@ -107,6 +101,7 @@ export function useFileUpload({
   ...props
 }: UseFileUploadProps = {}) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const idCounterRef = useRef(0);
 
   const { acceptedFiles, isDragging, setAcceptedFiles, setIsDragging } = useFileUploadState(props);
 
@@ -201,19 +196,20 @@ export function useFileUpload({
 
       const { accepted, rejected } = validateFiles(files);
 
-      const acceptedWithStatus: FileWithStatus[] = accepted.map((file) => ({
+      const acceptedEntries: FileEntry[] = accepted.map((file) => ({
+        id: `file-${++idCounterRef.current}`,
         file,
-        details: { status: "pending" },
+        status: "pending",
       }));
 
       if (multiple) {
-        setAcceptedFiles((prev) => [...(prev ?? []), ...acceptedWithStatus]);
+        setAcceptedFiles((prev) => [...(prev ?? []), ...acceptedEntries]);
       } else {
-        setAcceptedFiles(acceptedWithStatus.length > 0 ? [acceptedWithStatus[0]] : []);
+        setAcceptedFiles(acceptedEntries.length > 0 ? [acceptedEntries[0]] : []);
       }
 
       if (rejected.length > 0) {
-        onFileReject?.({ files: rejected });
+        onFileReject?.(rejected);
       }
     },
     [disabled, multiple, validateFiles, setAcceptedFiles, onFileReject],
@@ -244,17 +240,15 @@ export function useFileUpload({
   }, []);
 
   const updateFileStatus = useCallback(
-    (file: File, details: FileStatusDetails) => {
-      setAcceptedFiles((prev) =>
-        (prev ?? []).map((f) => (f.file === file ? { file, details } : f)),
-      );
+    (id: string, details: FileStatusDetails) => {
+      setAcceptedFiles((prev) => (prev ?? []).map((f) => (f.id === id ? { ...f, ...details } : f)));
     },
     [setAcceptedFiles],
   );
 
   const removeFile = useCallback(
-    (file: File) => {
-      setAcceptedFiles((prev) => (prev ?? []).filter(({ file: f }) => f !== file));
+    (id: string) => {
+      setAcceptedFiles((prev) => (prev ?? []).filter((f) => f.id !== id));
     },
     [setAcceptedFiles],
   );
@@ -373,13 +367,13 @@ export function useFileUpload({
       },
     }),
 
-    getItemRemoveButtonProps: (file: File) =>
+    getItemRemoveButtonProps: (id: string) =>
       buttonProps({
         type: "button",
         // NOTE: `disabled` of item remove button works separately from the overall `disabled` state so we don't have stateProps here
 
         onClick: () => {
-          removeFile(file);
+          removeFile(id);
         },
       }),
   };

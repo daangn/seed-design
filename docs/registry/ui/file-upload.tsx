@@ -147,11 +147,8 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(({ c
           {typeof children === "function"
             ? children
             : ({ acceptedFiles }) =>
-                acceptedFiles.map((fileWithStatus, index) => (
-                  <FileUploadItem
-                    key={`${fileWithStatus.file.name}-${index}`}
-                    fileWithStatus={fileWithStatus}
-                  />
+                acceptedFiles.map((fileEntry) => (
+                  <FileUploadItem key={fileEntry.id} fileEntry={fileEntry} />
                 ))}
         </SeedFileUpload.Context>
       </SeedFileUpload.ItemGroup>
@@ -182,11 +179,8 @@ export const FileUploadDropzone: React.FC<FileUploadDropzoneProps> = ({ children
             {typeof children === "function"
               ? children
               : ({ acceptedFiles }) =>
-                  acceptedFiles.map((fileWithStatus, index) => (
-                    <FileUploadItem
-                      key={`${fileWithStatus.file.name}-${index}`}
-                      fileWithStatus={fileWithStatus}
-                    />
+                  acceptedFiles.map((fileEntry) => (
+                    <FileUploadItem key={fileEntry.id} fileEntry={fileEntry} />
                   ))}
           </SeedFileUpload.Context>
         </SeedFileUpload.ItemGroup>

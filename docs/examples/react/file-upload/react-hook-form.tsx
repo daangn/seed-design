@@ -2,11 +2,11 @@ import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 import { useController, useForm } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
-import type { FileWithStatus } from "@seed-design/react/primitive";
+import type { FileEntry } from "@seed-design/react/primitive";
 import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
 
 interface FormValues {
-  files: FileWithStatus[];
+  files: FileEntry[];
 }
 
 export default function FileUploadReactHookForm() {

@@ -10,21 +10,15 @@ export interface FileRejection {
   errors: FileError[];
 }
 
-export interface FileRejectDetails {
-  files: FileRejection[];
-}
-
-export type FileUploadItemStatus = "pending" | "uploading" | "success" | "error";
-
 export type FileStatusDetails =
   | { status: "pending" }
   | { status: "uploading"; progress?: number }
   | { status: "success" }
   | { status: "error" };
 
-export interface FileWithStatus {
+export type FileEntry = {
+  id: string;
   file: File;
-  details: FileStatusDetails;
-}
+} & FileStatusDetails;
 
 export type FileAcceptType = "image" | undefined;

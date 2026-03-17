@@ -1,11 +1,11 @@
 import { VStack, HStack, Text } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import type { FileWithStatus } from "@seed-design/react/primitive";
+import type { FileEntry } from "@seed-design/react/primitive";
 import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
 
 export default function FileUploadControlled() {
-  const [acceptedFiles, setAcceptedFiles] = useState<FileWithStatus[]>([]);
+  const [acceptedFiles, setAcceptedFiles] = useState<FileEntry[]>([]);
 
   return (
     <VStack gap="x4" width="100%">

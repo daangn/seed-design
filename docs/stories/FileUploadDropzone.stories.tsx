@@ -4,7 +4,7 @@ import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { FileUploadField, FileUploadDropzone } from "seed-design/ui/file-upload";
-import type { FileWithStatus } from "@seed-design/react/primitive";
+import type { FileEntry } from "@seed-design/react/primitive";
 
 // 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
 function createMockImageFile(name: string): File {
@@ -42,44 +42,49 @@ const conditionMap = {
     "1 pending": {
       defaultAcceptedFiles: [
         {
+          id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
-          details: { status: "pending" },
+          status: "pending",
         },
-      ] satisfies FileWithStatus[],
+      ] satisfies FileEntry[],
     },
     "1 uploading": {
       defaultAcceptedFiles: [
         {
+          id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
-          details: { status: "uploading" },
+          status: "uploading",
         },
-      ] satisfies FileWithStatus[],
+      ] satisfies FileEntry[],
     },
     "1 success": {
       defaultAcceptedFiles: [
         {
+          id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
-          details: { status: "success" },
+          status: "success",
         },
-      ] satisfies FileWithStatus[],
+      ] satisfies FileEntry[],
     },
     "1 error": {
       defaultAcceptedFiles: [
         {
+          id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
-          details: { status: "error" },
+          status: "error",
         },
-      ] satisfies FileWithStatus[],
+      ] satisfies FileEntry[],
     },
     "3": {
       defaultAcceptedFiles: [
         {
+          id: "mock-1",
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
-          details: { status: "success" },
+          status: "success",
         },
-        { file: createMockImageFile("profile-picture-2024.png"), details: { status: "success" } },
-        { file: createMockImageFile("team-meeting-notes.png"), details: { status: "success" } },
-      ] satisfies FileWithStatus[],
+        { id: "mock-2", file: createMockImageFile("profile-picture-2024.png"), status: "success" },
+        { id: "mock-3", file: createMockImageFile("team-meeting-notes.png"), status: "success" },
+      ] satisfies FileEntry[],
     },
   },
   disabled: {

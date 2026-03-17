@@ -23,14 +23,18 @@ async function uploadFile(
 
 export default function FileUploadStates() {
   const startUpload = useCallback(
-    (file: File, updateFileStatus: (file: File, details: FileStatusDetails) => void) => {
-      updateFileStatus(file, { status: "uploading", progress: 0 });
+    (
+      file: File,
+      id: string,
+      updateFileStatus: (id: string, details: FileStatusDetails) => void,
+    ) => {
+      updateFileStatus(id, { status: "uploading", progress: 0 });
 
       uploadFile(file, (progress) => {
-        updateFileStatus(file, { status: "uploading", progress });
+        updateFileStatus(id, { status: "uploading", progress });
       })
-        .then(() => updateFileStatus(file, { status: "success" }))
-        .catch(() => updateFileStatus(file, { status: "error" }));
+        .then(() => updateFileStatus(id, { status: "success" }))
+        .catch(() => updateFileStatus(id, { status: "error" }));
     },
     [],
   );
@@ -45,17 +49,17 @@ export default function FileUploadStates() {
       >
         <FileUpload>
           {({ acceptedFiles, updateFileStatus }) => {
-            for (const { file, details } of acceptedFiles) {
-              if (details.status !== "pending") continue;
+            for (const fileEntry of acceptedFiles) {
+              if (fileEntry.status !== "pending") continue;
 
-              startUpload(file, updateFileStatus);
+              startUpload(fileEntry.file, fileEntry.id, updateFileStatus);
             }
 
-            return acceptedFiles.map((fileWithStatus, index) => (
+            return acceptedFiles.map((fileEntry) => (
               <FileUploadItem
-                key={`${fileWithStatus.file.name}-${index}`}
-                fileWithStatus={fileWithStatus}
-                onRetry={() => updateFileStatus(fileWithStatus.file, { status: "pending" })}
+                key={fileEntry.id}
+                fileEntry={fileEntry}
+                onRetry={() => updateFileStatus(fileEntry.id, { status: "pending" })}
               />
             ));
           }}

@@ -5,18 +5,19 @@ import { FileUploadField, FileUpload, FileUploadItem } from "seed-design/ui/file
 
 function simulateUpload(
   file: File,
-  updateFileStatus: (file: File, details: FileStatusDetails) => void,
+  id: string,
+  updateFileStatus: (id: string, details: FileStatusDetails) => void,
 ) {
-  updateFileStatus(file, { status: "uploading", progress: 0 });
+  updateFileStatus(id, { status: "uploading", progress: 0 });
 
   let progress = 0;
   const interval = setInterval(() => {
     progress += 25;
     if (progress >= 100) {
       clearInterval(interval);
-      updateFileStatus(file, { status: "success" });
+      updateFileStatus(id, { status: "success" });
     } else {
-      updateFileStatus(file, { status: "uploading", progress });
+      updateFileStatus(id, { status: "uploading", progress });
     }
   }, 500);
 }
@@ -36,10 +37,10 @@ export default function FileUploadValueChanges() {
         description="콜백 호출 로그를 확인하세요"
         onAcceptedFilesChange={(files) => {
           addLog(
-            `onAcceptedFilesChange: ${files.map((f) => `${f.file.name} (${f.details.status})`).join(", ")}`,
+            `onAcceptedFilesChange: ${files.map((f) => `${f.file.name} (${f.status})`).join(", ")}`,
           );
         }}
-        onFileReject={({ files }) => {
+        onFileReject={(files) => {
           addLog(
             `onFileReject: ${files.map((f) => `${f.file.name} (${f.errors.join(", ")})`).join(", ")}`,
           );
@@ -47,17 +48,14 @@ export default function FileUploadValueChanges() {
       >
         <FileUpload>
           {({ acceptedFiles, updateFileStatus }) => {
-            for (const { file, details } of acceptedFiles) {
-              if (details.status !== "pending") continue;
+            for (const fileEntry of acceptedFiles) {
+              if (fileEntry.status !== "pending") continue;
 
-              simulateUpload(file, updateFileStatus);
+              simulateUpload(fileEntry.file, fileEntry.id, updateFileStatus);
             }
 
-            return acceptedFiles.map((fileWithStatus, index) => (
-              <FileUploadItem
-                key={`${fileWithStatus.file.name}-${index}`}
-                fileWithStatus={fileWithStatus}
-              />
+            return acceptedFiles.map((fileEntry) => (
+              <FileUploadItem key={fileEntry.id} fileEntry={fileEntry} />
             ));
           }}
         </FileUpload>

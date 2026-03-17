@@ -3,8 +3,8 @@ import { VStack } from "@seed-design/react";
 import { FileUploadField, FileUpload, FileUploadItem } from "seed-design/ui/file-upload";
 
 export default function FileUploadErrorAlert() {
-  const processedRef = useRef<Set<File>>(new Set());
-  const alertedRef = useRef<Set<File>>(new Set());
+  const processedRef = useRef<Set<string>>(new Set());
+  const alertedRef = useRef<Set<string>>(new Set());
 
   return (
     <VStack gap="x4" p="x6" width="100%">
@@ -15,38 +15,41 @@ export default function FileUploadErrorAlert() {
       >
         <FileUpload>
           {({ acceptedFiles, updateFileStatus }) => {
-            for (const { file, details } of acceptedFiles) {
-              if (details.status === "pending" && !processedRef.current.has(file)) {
-                processedRef.current.add(file);
-                const fileIndex = acceptedFiles.findIndex((f) => f.file === file);
+            for (const fileEntry of acceptedFiles) {
+              if (fileEntry.status === "pending" && !processedRef.current.has(fileEntry.id)) {
+                processedRef.current.add(fileEntry.id);
+                const fileIndex = acceptedFiles.findIndex((f) => f.id === fileEntry.id);
                 const shouldFail = fileIndex === 1;
 
-                updateFileStatus(file, shouldFail ? { status: "error" } : { status: "success" });
+                updateFileStatus(
+                  fileEntry.id,
+                  shouldFail ? { status: "error" } : { status: "success" },
+                );
               }
             }
 
-            for (const file of processedRef.current) {
-              if (!acceptedFiles.some((f) => f.file === file)) {
-                processedRef.current.delete(file);
-                alertedRef.current.delete(file);
+            for (const id of processedRef.current) {
+              if (!acceptedFiles.some((f) => f.id === id)) {
+                processedRef.current.delete(id);
+                alertedRef.current.delete(id);
               }
             }
 
-            for (const { file, details } of acceptedFiles) {
-              if (details.status === "error" && !alertedRef.current.has(file)) {
-                alertedRef.current.add(file);
-                window.alert(`업로드에 실패했습니다: ${file.name}`);
+            for (const fileEntry of acceptedFiles) {
+              if (fileEntry.status === "error" && !alertedRef.current.has(fileEntry.id)) {
+                alertedRef.current.add(fileEntry.id);
+                window.alert(`업로드에 실패했습니다: ${fileEntry.file.name}`);
               }
             }
 
-            return acceptedFiles.map((fileWithStatus, index) => (
+            return acceptedFiles.map((fileEntry) => (
               <FileUploadItem
-                key={`${fileWithStatus.file.name}-${index}`}
-                fileWithStatus={fileWithStatus}
+                key={fileEntry.id}
+                fileEntry={fileEntry}
                 onRetry={() => {
-                  alertedRef.current.delete(fileWithStatus.file);
-                  processedRef.current.delete(fileWithStatus.file);
-                  updateFileStatus(fileWithStatus.file, { status: "pending" });
+                  alertedRef.current.delete(fileEntry.id);
+                  processedRef.current.delete(fileEntry.id);
+                  updateFileStatus(fileEntry.id, { status: "pending" });
                 }}
               />
             ));

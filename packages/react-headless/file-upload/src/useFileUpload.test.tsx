@@ -41,8 +41,8 @@ const BasicFileUpload = React.forwardRef<HTMLInputElement, FileUploadRootProps>(
       <ul data-testid="item-group">
         <FileUploadContext>
           {({ acceptedFiles }) =>
-            acceptedFiles.map((fileWithStatus, index) => (
-              <FileUploadItemProvider key={index} value={fileWithStatus}>
+            acceptedFiles.map((fileEntry, index) => (
+              <FileUploadItemProvider key={fileEntry.id} value={fileEntry}>
                 <li data-testid={`item-${index}`}>
                   <FileUploadItemName />
                   <FileUploadItemSize formatBytes={(bytes) => `${bytes} bytes`} />
@@ -143,7 +143,7 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file, details: { status: "pending" } },
+          expect.objectContaining({ file, status: "pending" }),
         ]);
       });
     });
@@ -162,8 +162,8 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file: file1, details: { status: "pending" } },
-          { file: file2, details: { status: "pending" } },
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file2, status: "pending" }),
         ]);
       });
 
@@ -173,9 +173,9 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file: file1, details: { status: "pending" } },
-          { file: file2, details: { status: "pending" } },
-          { file: file3, details: { status: "pending" } },
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file2, status: "pending" }),
+          expect.objectContaining({ file: file3, status: "pending" }),
         ]);
       });
     });
@@ -322,9 +322,7 @@ describe("useFileUpload", () => {
       });
 
       await waitFor(() => {
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [{ file: file2, errors: ["TOO_MANY_FILES"] }],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([{ file: file2, errors: ["TOO_MANY_FILES"] }]);
       });
     });
   });
@@ -341,11 +339,8 @@ describe("useFileUpload", () => {
               {({ acceptedFiles, updateFileStatus }) => (
                 <>
                   <ul>
-                    {acceptedFiles.map((fileWithStatus, index) => (
-                      <FileUploadItemProvider
-                        key={`${fileWithStatus.file.name}-${index}`}
-                        value={fileWithStatus}
-                      >
+                    {acceptedFiles.map((fileEntry, index) => (
+                      <FileUploadItemProvider key={fileEntry.id} value={fileEntry}>
                         <li data-testid={`file-${index}`}>
                           <FileUploadItemName />
                         </li>
@@ -356,8 +351,8 @@ describe("useFileUpload", () => {
                     type="button"
                     data-testid="start-upload"
                     onClick={() => {
-                      for (const { file } of acceptedFiles) {
-                        updateFileStatus(file, { status: "uploading", progress: 50 });
+                      for (const f of acceptedFiles) {
+                        updateFileStatus(f.id, { status: "uploading", progress: 50 });
                       }
                     }}
                   >
@@ -379,7 +374,7 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file, details: { status: "pending" } },
+          expect.objectContaining({ file, status: "pending" }),
         ]);
       });
 
@@ -387,7 +382,7 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file, details: { status: "uploading", progress: 50 } },
+          expect.objectContaining({ file, status: "uploading", progress: 50 }),
         ]);
       });
     });
@@ -404,9 +399,9 @@ describe("useFileUpload", () => {
               <>
                 <ul>
                   {acceptedFiles.map((f, i) => (
-                    <li key={i} data-testid={`file-${i}`}>
-                      {f.file.name} - {f.details.status}
-                      {"progress" in f.details && `-${f.details.progress}`}
+                    <li key={f.id} data-testid={`file-${i}`}>
+                      {f.file.name} - {f.status}
+                      {"progress" in f && `-${f.progress}`}
                     </li>
                   ))}
                 </ul>
@@ -414,8 +409,8 @@ describe("useFileUpload", () => {
                   type="button"
                   data-testid="update-status"
                   onClick={() => {
-                    for (const { file } of acceptedFiles) {
-                      updateFileStatus(file, { status: "uploading", progress: 50 });
+                    for (const f of acceptedFiles) {
+                      updateFileStatus(f.id, { status: "uploading", progress: 50 });
                     }
                   }}
                 >
@@ -452,8 +447,8 @@ describe("useFileUpload", () => {
               <>
                 <ul>
                   {acceptedFiles.map((f, i) => (
-                    <li key={i} data-testid={`file-${i}`}>
-                      {f.file.name} - {f.details.status}
+                    <li key={f.id} data-testid={`file-${i}`}>
+                      {f.file.name} - {f.status}
                     </li>
                   ))}
                 </ul>
@@ -461,7 +456,7 @@ describe("useFileUpload", () => {
                   <button
                     type="button"
                     data-testid="update-first"
-                    onClick={() => updateFileStatus(acceptedFiles[0].file, { status: "success" })}
+                    onClick={() => updateFileStatus(acceptedFiles[0].id, { status: "success" })}
                   >
                     Update First
                   </button>
@@ -504,12 +499,12 @@ describe("useFileUpload", () => {
             {({ acceptedFiles, removeFile }) => (
               <ul>
                 {acceptedFiles.map((f, i) => (
-                  <li key={i} data-testid={`file-${i}`}>
+                  <li key={f.id} data-testid={`file-${i}`}>
                     {f.file.name}
                     <button
                       type="button"
                       data-testid={`remove-${i}`}
-                      onClick={() => removeFile(f.file)}
+                      onClick={() => removeFile(f.id)}
                     >
                       Remove
                     </button>
@@ -553,7 +548,7 @@ describe("useFileUpload", () => {
               <>
                 <ul>
                   {acceptedFiles.map((f, i) => (
-                    <li key={i} data-testid={`file-${i}`}>
+                    <li key={f.id} data-testid={`file-${i}`}>
                       {f.file.name}
                     </li>
                   ))}
@@ -591,7 +586,7 @@ describe("useFileUpload", () => {
   describe("controlled mode", () => {
     it("should work with controlled acceptedFiles", () => {
       const file = createMockFile("controlled.txt", 512, "text/plain");
-      const filesWithStatus = [{ file, details: { status: "pending" as const } }];
+      const filesWithStatus = [{ id: "mock-1", file, status: "pending" as const }];
       const { getByText } = setUp(<BasicFileUpload acceptedFiles={filesWithStatus} />);
 
       expect(getByText("controlled.txt")).toBeDefined();
@@ -599,7 +594,7 @@ describe("useFileUpload", () => {
 
     it("should work with defaultAcceptedFiles", () => {
       const file = createMockFile("default.txt", 512, "text/plain");
-      const filesWithStatus = [{ file, details: { status: "pending" as const } }];
+      const filesWithStatus = [{ id: "mock-1", file, status: "pending" as const }];
       const { getByText } = setUp(<BasicFileUpload defaultAcceptedFiles={filesWithStatus} />);
 
       expect(getByText("default.txt")).toBeDefined();
@@ -611,7 +606,7 @@ describe("useFileUpload", () => {
 
       const { getByText, queryByText, rerender } = setUp(
         <BasicFileUpload
-          acceptedFiles={[{ file: file1, details: { status: "pending" as const } }]}
+          acceptedFiles={[{ id: "mock-1", file: file1, status: "pending" as const }]}
         />,
       );
 
@@ -620,7 +615,7 @@ describe("useFileUpload", () => {
 
       rerender(
         <BasicFileUpload
-          acceptedFiles={[{ file: file2, details: { status: "pending" as const } }]}
+          acceptedFiles={[{ id: "mock-2", file: file2, status: "pending" as const }]}
         />,
       );
 
@@ -630,7 +625,7 @@ describe("useFileUpload", () => {
 
     it("should call onAcceptedFilesChange when removing a file in controlled mode", async () => {
       const file = createMockFile("controlled.txt", 512, "text/plain");
-      const filesWithStatus = [{ file, details: { status: "pending" as const } }];
+      const filesWithStatus = [{ id: "mock-1", file, status: "pending" as const }];
       const onAcceptedFilesChange = mock(() => {});
 
       const { getByTestId } = setUp(
@@ -666,7 +661,7 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file: newFile, details: { status: "pending" } },
+          expect.objectContaining({ file: newFile, status: "pending" }),
         ]);
       });
     });
@@ -798,7 +793,7 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file, details: { status: "pending" } },
+          expect.objectContaining({ file, status: "pending" }),
         ]);
       });
     });
@@ -851,11 +846,11 @@ describe("useFileUpload", () => {
             <ul data-testid="item-group">
               <FileUploadContext>
                 {({ acceptedFiles }) =>
-                  acceptedFiles.map((fileWithStatus, index) => (
-                    <FileUploadItemProvider key={index} value={fileWithStatus}>
-                      <li data-testid={`item-${index}`}>
+                  acceptedFiles.map((fileEntry, i) => (
+                    <FileUploadItemProvider key={fileEntry.id} value={fileEntry}>
+                      <li data-testid={`item-${i}`}>
                         <FileUploadItemName />
-                        <FileUploadItemRemoveButton data-testid={`delete-${index}`}>
+                        <FileUploadItemRemoveButton data-testid={`delete-${i}`}>
                           Delete
                         </FileUploadItemRemoveButton>
                       </li>
@@ -1014,7 +1009,7 @@ describe("useFileUpload", () => {
             {({ acceptedFiles, reorderFiles }) => (
               <>
                 <ul data-testid="file-list">
-                  {acceptedFiles.map(({ file }, index: number) => (
+                  {acceptedFiles.map(({ file }, index) => (
                     <li key={file.name} data-testid={`file-${index}`}>
                       {file.name}
                     </li>
@@ -1122,8 +1117,8 @@ describe("useFileUpload", () => {
       const file1 = createMockFile("file1.txt", 100, "text/plain");
       const file2 = createMockFile("file2.txt", 200, "text/plain");
       const filesWithStatus = [
-        { file: file1, details: { status: "pending" as const } },
-        { file: file2, details: { status: "pending" as const } },
+        { id: "mock-1", file: file1, status: "pending" as const },
+        { id: "mock-2", file: file2, status: "pending" as const },
       ];
 
       const DisabledReorderComponent = () => {
@@ -1183,9 +1178,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [{ file, errors: ["FILE_TOO_LARGE"] }],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([{ file, errors: ["FILE_TOO_LARGE"] }]);
       });
     });
 
@@ -1201,9 +1194,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [{ file, errors: ["FILE_TOO_SMALL"] }],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([{ file, errors: ["FILE_TOO_SMALL"] }]);
       });
     });
 
@@ -1219,9 +1210,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [{ file, errors: ["INVALID_TYPE"] }],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([{ file, errors: ["INVALID_TYPE"] }]);
       });
     });
 
@@ -1236,9 +1225,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file1, file2] } });
 
       await waitFor(() => {
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [{ file: file2, errors: ["TOO_MANY_FILES"] }],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([{ file: file2, errors: ["TOO_MANY_FILES"] }]);
       });
     });
 
@@ -1254,9 +1241,9 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [{ file, errors: ["INVALID_TYPE", "FILE_TOO_LARGE"] }],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([
+          { file, errors: ["INVALID_TYPE", "FILE_TOO_LARGE"] },
+        ]);
       });
     });
 
@@ -1274,9 +1261,7 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [{ file, errors: ["CUSTOM_ERROR"] }],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([{ file, errors: ["CUSTOM_ERROR"] }]);
       });
     });
 
@@ -1294,9 +1279,7 @@ describe("useFileUpload", () => {
       });
 
       await waitFor(() => {
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [{ file, errors: ["INVALID_TYPE"] }],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([{ file, errors: ["INVALID_TYPE"] }]);
       });
     });
   });
@@ -1315,7 +1298,7 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file, details: { status: "pending" } },
+          expect.objectContaining({ file, status: "pending" }),
         ]);
       });
 
@@ -1342,9 +1325,9 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file: file1, details: { status: "pending" } },
-          { file: file2, details: { status: "pending" } },
-          { file: file3, details: { status: "pending" } },
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file2, status: "pending" }),
+          expect.objectContaining({ file: file3, status: "pending" }),
         ]);
       });
 
@@ -1353,8 +1336,8 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file: file1, details: { status: "pending" } },
-          { file: file3, details: { status: "pending" } },
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file3, status: "pending" }),
         ]);
       });
     });
@@ -1381,11 +1364,11 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file: validFile, details: { status: "pending" } },
+          expect.objectContaining({ file: validFile, status: "pending" }),
         ]);
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [{ file: invalidFile, errors: ["INVALID_TYPE"] }],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([
+          { file: invalidFile, errors: ["INVALID_TYPE"] },
+        ]);
       });
     });
 
@@ -1409,8 +1392,8 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file: file1, details: { status: "pending" } },
-          { file: file2, details: { status: "pending" } },
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file2, status: "pending" }),
         ]);
       });
 
@@ -1426,16 +1409,14 @@ describe("useFileUpload", () => {
 
       await waitFor(() => {
         expect(onAcceptedFilesChange).toHaveBeenCalledWith([
-          { file: file1, details: { status: "pending" } },
-          { file: file2, details: { status: "pending" } },
-          { file: file3, details: { status: "pending" } },
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file2, status: "pending" }),
+          expect.objectContaining({ file: file3, status: "pending" }),
         ]);
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [
-            { file: file4, errors: ["TOO_MANY_FILES"] },
-            { file: file5, errors: ["TOO_MANY_FILES"] },
-          ],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([
+          { file: file4, errors: ["TOO_MANY_FILES"] },
+          { file: file5, errors: ["TOO_MANY_FILES"] },
+        ]);
       });
     });
 
@@ -1458,12 +1439,10 @@ describe("useFileUpload", () => {
       fireEvent.change(input, { target: { files: [file1, file2] } });
 
       await waitFor(() => {
-        expect(onFileReject).toHaveBeenCalledWith({
-          files: [
-            { file: file1, errors: ["INVALID_TYPE"] },
-            { file: file2, errors: ["INVALID_TYPE"] },
-          ],
-        });
+        expect(onFileReject).toHaveBeenCalledWith([
+          { file: file1, errors: ["INVALID_TYPE"] },
+          { file: file2, errors: ["INVALID_TYPE"] },
+        ]);
       });
 
       // onAcceptedFilesChange is still called (via setAcceptedFiles) but with

@@ -32,12 +32,10 @@ export {
 } from "./useFileUpload";
 
 export type {
-  FileRejection,
   FileError,
-  FileRejectDetails,
-  FileUploadItemStatus,
+  FileRejection,
   FileStatusDetails,
-  FileWithStatus,
+  FileEntry,
   FileAcceptType,
 } from "./types";
 
