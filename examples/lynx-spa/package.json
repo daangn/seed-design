@@ -16,7 +16,7 @@
     "@seed-design/lynx-react": "workspace:*",
     "@seed-design/rsbuild-plugin": "1.1.0",
     "clsx": "^2.1.1",
-    "lynx-console": "^0.0.1"
+    "lynx-console": "^0.1.1"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.14",
