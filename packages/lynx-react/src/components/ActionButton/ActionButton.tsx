@@ -1,5 +1,5 @@
-import { actionButton } from "@seed-design/css/recipes/action-button.lynx";
-import type { ActionButtonVariantProps } from "@seed-design/css/recipes/action-button.lynx";
+import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
+import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
 import type { ReactNode } from "react";
 import clsx from "clsx";
 

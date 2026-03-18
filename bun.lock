@@ -449,6 +449,14 @@
         "typescript": "^5.9.2",
       },
     },
+    "packages/lynx-css": {
+      "name": "@seed-design/lynx-css",
+      "version": "0.1.0",
+      "devDependencies": {
+        "@seed-design/qvism-cli": "0.0.0",
+        "@seed-design/qvism-preset": "0.0.0",
+      },
+    },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
       "version": "0.1.0",
@@ -462,7 +470,7 @@
       },
       "peerDependencies": {
         "@lynx-js/react": ">=0.100.0",
-        "@seed-design/css": ">=1.1.17",
+        "@seed-design/lynx-css": ">=0.1.0",
       },
     },
     "packages/mcp": {
@@ -2569,6 +2577,8 @@
     "@seed-design/figma-extractor": ["@seed-design/figma-extractor@workspace:ecosystem/figma-extractor"],
 
     "@seed-design/figma-spec-widget": ["@seed-design/figma-spec-widget@workspace:tools/figma-spec-widget"],
+
+    "@seed-design/lynx-css": ["@seed-design/lynx-css@workspace:packages/lynx-css"],
 
     "@seed-design/lynx-react": ["@seed-design/lynx-react@workspace:packages/lynx-react"],
 

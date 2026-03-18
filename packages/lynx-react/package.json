@@ -27,7 +27,7 @@
     "lint:publish": "bun publint"
   },
   "peerDependencies": {
-    "@seed-design/css": ">=1.1.17",
+    "@seed-design/lynx-css": ">=0.1.0",
     "@lynx-js/react": ">=0.100.0"
   },
   "devDependencies": {

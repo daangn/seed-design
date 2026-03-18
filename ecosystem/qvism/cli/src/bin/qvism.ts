@@ -81,11 +81,20 @@ async function writeRecipes(recipesDir: string, config: Config) {
 
   // Write each recipe .mjs + .d.ts + layered .mjs
   const options = { prefix: config.prefix };
+  const baseJsOptions = {
+    ...options,
+    targetSlots: config.deriveSlots,
+    extraVariants: config.extraVariants,
+  };
+  const baseDtsOptions = config.deriveSlots?.length
+    ? { targetSlots: config.deriveSlots, extraVariants: config.extraVariants }
+    : undefined;
+
   await Promise.all(
     Object.values(config.theme.recipes).map(async (definition) => {
       const name = definition.name;
-      const jsCode = generateJs(definition, options);
-      const dtsCode = generateDts(definition);
+      const jsCode = generateJs(definition, baseJsOptions);
+      const dtsCode = generateDts(definition, baseDtsOptions);
 
       console.log("Writing", name, "to", path.join(recipesDir, `${name}.mjs`));
       fs.writeFileSync(path.join(recipesDir, `${name}.mjs`), jsCode);
@@ -95,7 +104,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
 
       // Layered .mjs (imports layered CSS instead)
       const layeredJsCode = generateJs(definition, {
-        ...options,
+        ...baseJsOptions,
         cssImportPath: `./${name}.layered.css`,
       });
       console.log("Writing", name, "to", path.join(recipesDir, `${name}.layered.mjs`));
