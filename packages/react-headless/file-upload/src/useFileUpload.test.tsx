@@ -206,6 +206,147 @@ describe("useFileUpload", () => {
         expect(getByText("1024 bytes")).toBeDefined();
       });
     });
+
+    it("should reset input value after file selection to allow re-selecting the same file", async () => {
+      const { getByTestId } = setUp(<BasicFileUpload maxFiles={5} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(getByTestId("item-0")).toBeDefined();
+      });
+
+      expect(input.value).toBe("");
+    });
+  });
+
+  describe("file selection via dropzone", () => {
+    it("should accept dropped files on dropzone", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
+      );
+      const dropzone = getByTestId("dropzone");
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file] },
+      });
+
+      await waitFor(() => {
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
+          expect.objectContaining({ file, status: "pending" }),
+        ]);
+      });
+    });
+
+    it("should not accept dropped files when disabled", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload disabled onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
+      );
+      const dropzone = getByTestId("dropzone");
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file] },
+      });
+
+      await waitFor(() => {
+        expect(onAcceptedFileEntriesChange).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe("file change handling via dropzone", () => {
+    it("should accept files via drop", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
+      );
+
+      const dropzone = getByTestId("dropzone");
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file] },
+      });
+
+      await waitFor(() => {
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
+          expect.objectContaining({ file, status: "pending" }),
+        ]);
+      });
+    });
+
+    it("should call onAcceptedFileEntriesChange with cumulative files via drop", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload maxFiles={5} onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
+      );
+
+      const dropzone = getByTestId("dropzone");
+      const file1 = createMockFile("file1.txt", 100, "text/plain");
+      const file2 = createMockFile("file2.txt", 200, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file1, file2] },
+      });
+
+      await waitFor(() => {
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file2, status: "pending" }),
+        ]);
+      });
+
+      const file3 = createMockFile("file3.txt", 300, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file3] },
+      });
+
+      await waitFor(() => {
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file2, status: "pending" }),
+          expect.objectContaining({ file: file3, status: "pending" }),
+        ]);
+      });
+    });
+
+    it("should display accepted files via drop", async () => {
+      const { getByTestId, getByText } = setUp(<BasicFileUpload />);
+
+      const dropzone = getByTestId("dropzone");
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file] },
+      });
+
+      await waitFor(() => {
+        expect(getByText("test.txt")).toBeDefined();
+      });
+    });
+
+    it("should display file size for dropped files", async () => {
+      const { getByTestId, getByText } = setUp(<BasicFileUpload />);
+
+      const dropzone = getByTestId("dropzone");
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file] },
+      });
+
+      await waitFor(() => {
+        expect(getByText("1024 bytes")).toBeDefined();
+      });
+    });
   });
 
   describe("file deletion", () => {
@@ -797,6 +938,59 @@ describe("useFileUpload", () => {
       await waitFor(() => {
         expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
           expect.objectContaining({ file, status: "pending" }),
+        ]);
+      });
+    });
+
+    it("should call onAcceptedFileEntriesChange with multiple dropped files", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload maxFiles={5} onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
+      );
+      const dropzone = getByTestId("dropzone");
+
+      const file1 = createMockFile("photo1.png", 500, "image/png");
+      const file2 = createMockFile("photo2.png", 600, "image/png");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file1, file2] },
+      });
+
+      await waitFor(() => {
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file2, status: "pending" }),
+        ]);
+      });
+    });
+
+    it("should accumulate files across multiple drops", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload maxFiles={5} onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
+      );
+      const dropzone = getByTestId("dropzone");
+
+      const file1 = createMockFile("first.txt", 100, "text/plain");
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file1] },
+      });
+
+      await waitFor(() => {
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
+          expect.objectContaining({ file: file1, status: "pending" }),
+        ]);
+      });
+
+      const file2 = createMockFile("second.txt", 200, "text/plain");
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file2] },
+      });
+
+      await waitFor(() => {
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
+          expect.objectContaining({ file: file1, status: "pending" }),
+          expect.objectContaining({ file: file2, status: "pending" }),
         ]);
       });
     });
