@@ -16,6 +16,8 @@ description: 파일을 선택하거나 드래그 앤 드롭으로 업로드할 �
 
 ### Default
 
+파일 순서 변경이 불필요한 경우 사용할 수 있는 컴포넌트를 포함합니다.
+
 ```package-install
 npx @seed-design/cli@latest add ui:file-upload
 ```
@@ -24,7 +26,7 @@ npx @seed-design/cli@latest add ui:file-upload
 
 ### Reorderable
 
-[dnd-kit](https://dndkit.com/overview) 기반으로 파일 순서를 변경할 수 있는 컴포넌트입니다.
+드래그 앤 드롭을 통한 파일 순서 변경이 필요한 경우 활용할 수 있는 컴포넌트를 포함합니다. 프로젝트에 [dnd-kit](https://dndkit.com/overview) 의존성이 추가됩니다.
 
 ```package-install
 npx @seed-design/cli@latest add ui:file-upload-reorderable
@@ -66,7 +68,7 @@ npx @seed-design/cli@latest add ui:file-upload-reorderable
 
 ### 기본 사용법
 
-`FileUploadField` 내에 `FileUpload`, `FileUploadDropzone`, `ReorderableFileUpload`, `ReorderableFileUploadDropzone`을 조합하여 사용합니다.
+`FileUploadField` 안에 `FileUpload`, `FileUploadDropzone`, `ReorderableFileUpload`, `ReorderableFileUploadDropzone` 중 하나를 조합하여 사용합니다.
 
 ```tsx
 import {
@@ -102,9 +104,11 @@ import {
 
 ### Item 직접 구성하기
 
-`FileUpload`, `FileUploadDropzone`, `ReorderableFileUpload`, `ReorderableFileUploadDropzone`의 render prop으로 `acceptedFileEntries`를 받아와 `FileUploadItem`을 직접 렌더링할 수 있습니다.
+`FileUpload`, `FileUploadDropzone`, `ReorderableFileUpload`, `ReorderableFileUploadDropzone`은 `children`을 render prop으로 사용합니다.
 
-`FileEntry`는 같은 컴포넌트 내에서 `key`로 사용할 수 있는 파일별 고유한 ID를 제공합니다.
+`acceptedFileEntries`을 활용하여 `FileUploadItem`을 직접 렌더링할 수 있습니다. 이때 `FileEntry` 타입이 제공하는 `id`를 `key`로 활용하는 것을 권장합니다.
+
+`children`을 제공하지 않는 경우 자동으로 `acceptedFileEntries`에 등록된 파일을 `FileUploadItem`으로 렌더링합니다.
 
 ```tsx
 import {
@@ -124,7 +128,20 @@ import {
 </FileUploadField>;
 ```
 
-## Examples
+## Uploading Files
+
+### Trigger
+
+`FileUpload`를 사용하면 trigger(업로드 버튼)가 포함된 레이아웃을 사용할 수 있습니다.
+
+<ComponentExample name="react/file-upload/trigger">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/trigger.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 ### Dropzone
 
@@ -139,22 +156,30 @@ import {
   ```
 </ComponentExample>
 
-### Accept Image Only
+### Listening to Accepted File Changes
 
-사용자가 선택한 이미지의 미리보기를 표시하려면, `accept`를 `"image/*"`, `["image/png", "image/jpeg"]` 등으로 설정하여 사용자가 이미지 파일만 선택할 수 있도록 제한합니다.
+`acceptedFileEntries`는 유효성 검사를 마친 파일의 목록입니다. `onAcceptedFileChanges` 콜백으로 `acceptedFileEntries`에 등록된 파일 변경 이벤트를 감지할 수 있습니다.
 
-<ComponentExample name="react/file-upload/accept-image">
+<ComponentExample name="react/file-upload/value-changes">
   ```json doc-gen:file
   {
-    "file": "examples/react/file-upload/accept-image.tsx",
+    "file": "examples/react/file-upload/value-changes.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
+## Validating Files
+
+사용자가 선택한 파일이 `acceptedFileEntries`에 등록되기 전 유효성을 확인할 수 있습니다.
+
+유효하지 않은 파일에 대해 각각 `onFileReject` 콜백이 실행됩니다. 해당 콜백에서 파일과 에러 코드들을 확인하여 에러 메시지를 표시할 수 있습니다.
+
 ### Max Files
 
-`maxFiles`로 업로드 가능한 최대 파일 수를 제한할 수 있습니다. 최대 수에 도달하면 trigger가 자동으로 비활성화됩니다.
+`maxFiles`로 업로드 가능한 최대 파일 수를 제한할 수 있습니다. 기본값은 `1`입니다. 최대 수에 도달한 경우 trigger(업로드 버튼)이 비활성화됩니다.
+
+업로드 가능한 파일의 수보다 많은 파일을 선택한 경우 업로드 가능한 파일까지 `acceptedFileEntries`에 등록됩니다. 나머지 파일에 대해서는 각각 `onFileReject` 콜백이 실행됩니다. 이때 reject된 파일의 에러는 `"TOO_MANY_FILES"`입니다.
 
 <ComponentExample name="react/file-upload/max-files">
   ```json doc-gen:file
@@ -165,22 +190,82 @@ import {
   ```
 </ComponentExample>
 
-### Disabled
+### Invalid File Type
 
-`disabled` prop으로 파일 업로드를 비활성화할 수 있습니다.
+`accept`로 업로드 가능한 파일의 종류를 제한할 수 있습니다.
 
-<ComponentExample name="react/file-upload/disabled">
+MIME type(`image/png`, `image/*`) 또는 확장자(`.png`, `.jpg, .jpeg`) 형식을 지정할 수 있으며, `string[]`을 전달하는 경우 각 `string` `,`로 join합니다.
+
+`<input type="file">`에 등록되는 `accept` 속성은 브라우저 UI에서만 동작하는 편의 기능입니다. 따라서 사용자는 브라우저 파일 선택 다이얼로그의 `모든 파일 보기` 등의 기능을 통해 `accept`로 제한된 파일도 선택할 수 있습니다. 이 경우 `"INVALID_TYPE"` 에러와 함께 `onFileReject` 콜백이 실행됩니다.
+
+<Callout type="warning">
+  파일 종류 검증이 필요한 경우 해당 검증은 서버에서도 수행되어야 합니다.
+</Callout>
+
+<ComponentExample name="react/file-upload/invalid-file-type">
   ```json doc-gen:file
   {
-    "file": "examples/react/file-upload/disabled.tsx",
+    "file": "examples/react/file-upload/invalid-file-type.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-### Error Alert
+### File Size
 
-render prop 내에서 `acceptedFileEntries`의 status 변화를 감지하여 에러 발생 시 알림을 표시하는 예시입니다.
+`minFileSize`, `maxFileSize` prop을 활용할 수 있습니다.
+
+- 사용자가 선택한 파일이 `minFileSize`보다 작은 경우 `"FILE_TOO_SMALL"` 에러와 함께 `onFileReject` 콜백이 실행됩니다.
+- 사용자가 선택한 파일이 `maxFileSize`보다 큰 경우 `"FILE_TOO_LARGE"` 에러와 함께 `onFileReject` 콜백이 실행됩니다.
+
+<ComponentExample name="react/file-upload/validation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/validation.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Validation
+
+`validate` prop으로 각 파일에 대한 유효성 검사를 직접 추가할 수 있습니다. 커스텀 에러 코드를 반환하여 `onFileReject`에서 에러 종류별로 메시지를 분기할 수 있습니다.
+
+<ComponentExample name="react/file-upload/custom-validation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/custom-validation.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Managing File Status
+
+`acceptedFileEntries`의 각 항목은 `pending`, `uploading`, `success`, `error`의 status를 가질 수 있습니다. 새로 추가되는 항목의 status 기본값은 `pending`입니다.
+
+파일 선택 직후 외부 업로드 API와 연동하는 경우, 사용자에게 각 파일 항목의 업로딩 상태를 보여줄 수 있습니다. Render prop context를 통해 제공되는 `updateFileEntryStatus`을 사용하여 항목의 status를 업데이트합니다.
+
+<ComponentExample name="react/file-upload/status">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/status.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+- `uploading`: [ProgressCircle](/react/components/progress-circle)이 표시됩니다.
+  - `progress`를 설정하여 업로드 진행률을 표시할 수 있습니다.
+  - `progress`를 지정하지 않는 경우 [indeterminate](/react/components/progress-circle#indeterminate) 상태로 표시됩니다.
+- `error`: 재시도 버튼이 표시됩니다.
+  - 클릭 시 `FileUploadItem`에 지정한 `onRetry` 콜백이 실행됩니다.
+
+유효성 검증에 성공한 파일 항목은 status와 관계없이 `acceptedFileEntries`에 유지되므로, 네이티브 form 제출 시 포함됩니다.
+
+### Listening to Status Changes
+
+`onAcceptedFileEntriesChange` 콜백을 통해 파일 항목의 status 변화를 감지할 수 있습니다.
 
 <ComponentExample name="react/file-upload/error-alert">
   ```json doc-gen:file
@@ -191,14 +276,53 @@ render prop 내에서 `acceptedFileEntries`의 status 변화를 감지하여 에
   ```
 </ComponentExample>
 
-### States
+## Reordering Files
 
-외부 업로드 API와 연동하여 pending → uploading → success/error 상태를 관리하는 예시입니다. `updateFileEntryStatus`로 각 파일의 status를 업데이트합니다.
+`ReorderableFileUpload` 또는 `ReorderableFileUploadDropzone`을 사용하면 드래그로 파일의 순서를 변경할 수 있습니다.
 
-<ComponentExample name="react/file-upload/states">
+두 컴포넌트는 `dnd-kit` 의존성 분리를 위해 별도 snippet [`ui:file-upload-reorderable`](#reorderable)로 제공됩니다.
+
+Context를 통해 `reorderFileEntry`가 제공되므로 원하는 드래그 앤 드롭 동작을 구현하거나 이미 프로젝트에서 사용 중인 드래그 앤 드롭 라이브러리와 연동하여 사용할 수 있습니다.
+
+<ComponentExample name="react/file-upload/reorderable">
   ```json doc-gen:file
   {
-    "file": "examples/react/file-upload/states.tsx",
+    "file": "examples/react/file-upload/reorderable.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Examples
+
+### Showing Thumbnails
+
+파일 이름 및 크기 대신 이미지 미리보기를 표시하려면 `accept`를 `"image/*"`, `["image/png", "image/jpeg"]` 등으로 설정하여 사용자가 이미지 파일만 선택할 수 있도록 제한합니다.
+
+<ComponentExample name="react/file-upload/accept-image">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/accept-image.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+<Callout type="warning">
+  [`"image/heic"`](https://caniuse.com/heif) 등 일부 이미지 형식은 브라우저에
+  따라 이미지 미리보기가 표시되지 않을 수 있습니다.
+</Callout>
+
+### Disabled
+
+`disabled` prop으로 trigger(업로드 버튼)과 dropzone(드래그 앤 드롭 영역)을 비활성화할 수 있습니다.
+
+`maxFiles`로 제한한 최대 파일 수에 도달한 경우 자동으로 비활성화됩니다.
+
+<ComponentExample name="react/file-upload/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/disabled.tsx",
     "codeblock": true
   }
   ```
@@ -217,65 +341,9 @@ render prop 내에서 `acceptedFileEntries`의 status 변화를 감지하여 에
   ```
 </ComponentExample>
 
-### Listening to Value Changes
-
-`onAcceptedFileEntriesChange`, `onFileReject` 콜백으로 파일 변경 이벤트를 감지할 수 있습니다.
-
-<ComponentExample name="react/file-upload/value-changes">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/file-upload/value-changes.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Validation
-
-`onFileReject` 콜백에서 reject된 파일의 에러 코드를 확인하여 에러 메시지를 표시할 수 있습니다.
-
-#### Built-in
-
-`minFileSize`, `maxFileSize` 등 내장 prop으로 유효성 검사를 수행합니다. 에러 코드별로 메시지를 분기하는 예시입니다.
-
-<ComponentExample name="react/file-upload/validation">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/file-upload/validation.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-#### Custom
-
-`validate` prop으로 커스텀 유효성 검사를 추가할 수 있습니다. 커스텀 에러 코드를 반환하면 `onFileReject`에서 에러 종류별로 메시지를 분기할 수 있습니다.
-
-<ComponentExample name="react/file-upload/custom-validation">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/file-upload/custom-validation.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Reorderable
-
-`ReorderableFileUpload` snippet을 사용하여 드래그로 파일 순서를 변경할 수 있습니다. 별도 snippet(`ui:file-upload-reorderable`)으로 제공됩니다.
-
-<ComponentExample name="react/file-upload/reorderable">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/file-upload/reorderable.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
 ### Custom Inset
 
-`--seed-file-upload-inset` CSS 변수를 사용하여 아이템 목록이 부모 패딩 바깥까지 edge-to-edge로 스크롤되도록 설정할 수 있습니다. `rootProps`를 통해 `FileUploadField`의 Field 래퍼에 스타일을 적용합니다.
+`--seed-file-upload-inset` CSS 변수를 사용하여 스크롤되는 아이템 목록이 레이아웃 바깥으로 빠져나오도록 구성할 수 있습니다.
 
 <ComponentExample name="react/file-upload/custom-inset">
   ```json doc-gen:file
@@ -299,11 +367,9 @@ render prop 내에서 `acceptedFileEntries`의 status 변화를 감지하여 에
   ```
 </ComponentExample>
 
-### Use Cases
+### Form (Uncontrolled)
 
-#### Form (Uncontrolled)
-
-`<form>`과 `name` prop을 사용하여 네이티브 form과 통합할 수 있습니다. 내부적으로 `DataTransfer` API를 사용하여 `input.files`를 동기화하므로, `FormData`에서 직접 파일을 가져올 수 있습니다.
+`acceptedFileEntries`에 등록된 파일이 `<input type="file">`의 `files`로 동기화되므로 `<form>`과 `name` prop을 사용하여 네이티브 form 제출에 사용할 수 있습니다.
 
 <ComponentExample name="react/file-upload/form">
   ```json doc-gen:file
@@ -314,9 +380,7 @@ render prop 내에서 `acceptedFileEntries`의 status 변화를 감지하여 에
   ```
 </ComponentExample>
 
-#### React Hook Form
-
-`useController`로 `FileUploadField`의 `acceptedFileEntries`를 controlled 모드로 관리할 수 있습니다.
+### React Hook Form
 
 <ComponentExample name="react/file-upload/react-hook-form">
   ```json doc-gen:file

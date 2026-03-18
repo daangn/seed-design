@@ -21,7 +21,7 @@ async function uploadFile(
   return { url: `https://example.com/uploads/${file.name}` };
 }
 
-export default function FileUploadStates() {
+export default function FileUploadStatus() {
   const startUpload = useCallback(
     (
       file: File,

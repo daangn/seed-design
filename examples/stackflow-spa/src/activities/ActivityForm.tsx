@@ -28,6 +28,7 @@ import {
 } from "seed-design/ui/select-box";
 import { Slider } from "seed-design/ui/slider";
 import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-design/ui/field-button";
+import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
 import {
   IconExclamationmarkCircleFill,
   IconEnvelopeLine,
@@ -204,6 +205,18 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
                       disabled
                     />
                   </RadioSelectBoxRoot>
+                  <FileUploadField
+                    label="첨부 파일"
+                    labelWeight="bold"
+                    indicator="선택"
+                    description="사진, 영수증 등을 첨부해주세요. (최대 3장)"
+                    name="attachments"
+                    accept="image/*"
+                    maxFiles={3}
+                  >
+                    <FileUpload />
+                  </FileUploadField>
+                  <Divider />
                   <CheckSelectBoxGroup
                     label="추가 서비스"
                     labelWeight="bold"

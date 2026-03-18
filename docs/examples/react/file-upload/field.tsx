@@ -8,10 +8,10 @@ export default function FileUploadField_() {
         maxFiles={3}
         label="첨부파일"
         labelWeight="bold"
-        description="파일을 선택하거나 드래그 앤 드롭하세요."
-        indicator="선택"
         required
         showRequiredIndicator
+        invalid
+        errorMessage="필수 항목입니다."
       >
         <FileUpload />
       </FileUploadField>
@@ -20,8 +20,7 @@ export default function FileUploadField_() {
         maxFiles={3}
         label="첨부파일"
         description="파일을 선택하거나 드래그 앤 드롭하세요."
-        invalid
-        errorMessage="필수 항목입니다."
+        indicator="선택"
       >
         <FileUpload />
       </FileUploadField>

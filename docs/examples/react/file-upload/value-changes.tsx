@@ -4,7 +4,7 @@ import type { FileStatusDetails } from "@seed-design/react/primitive";
 import { FileUploadField, FileUpload, FileUploadItem } from "seed-design/ui/file-upload";
 
 function simulateUpload(
-  file: File,
+  _file: File,
   id: string,
   updateFileEntryStatus: (id: string, details: FileStatusDetails) => void,
 ) {
@@ -30,7 +30,18 @@ export default function FileUploadValueChanges() {
   };
 
   return (
-    <VStack gap="x4" width="100%">
+    <VStack gap="x4" width="100%" alignItems="center">
+      <VStack gap="x1">
+        {logs.length === 0 ? (
+          <Text color="fg.neutralMuted">파일을 추가하거나 삭제하면 로그가 표시됩니다.</Text>
+        ) : (
+          logs.map((log, index) => (
+            <Text key={index} fontSize="fontSize.caption1">
+              {log}
+            </Text>
+          ))
+        )}
+      </VStack>
       <FileUploadField
         maxFiles={3}
         label="파일 업로드"
@@ -60,17 +71,6 @@ export default function FileUploadValueChanges() {
           }}
         </FileUpload>
       </FileUploadField>
-      <VStack gap="x1">
-        {logs.length === 0 ? (
-          <Text color="fg.neutralMuted">파일을 추가하거나 삭제하면 로그가 표시됩니다.</Text>
-        ) : (
-          logs.map((log, index) => (
-            <Text key={index} fontSize="fontSize.caption1">
-              {log}
-            </Text>
-          ))
-        )}
-      </VStack>
     </VStack>
   );
 }

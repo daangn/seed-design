@@ -27,7 +27,6 @@ export default function FileUploadCustomInset() {
         <FileUploadField
           maxFiles={5}
           label="첨부파일"
-          description="아이템이 부모 패딩 바깥까지 스크롤됩니다"
           defaultAcceptedFileEntries={mockedFiles.map((file, index) => ({
             id: `${index}`,
             file,
