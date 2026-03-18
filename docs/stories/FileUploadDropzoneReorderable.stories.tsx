@@ -3,10 +3,10 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { FileUploadField, FileUploadDropzone } from "seed-design/ui/file-upload";
+import { FileUploadField } from "seed-design/ui/file-upload";
+import { ReorderableFileUploadDropzone } from "seed-design/ui/file-upload-reorderable";
 import type { FileEntry } from "@seed-design/react/primitive";
 
-// 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
 function createMockImageFile(name: string): File {
   const base64 =
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4n+wOAAQOAaoOR2bDAAAAAElFTkSuQmCC";
@@ -18,8 +18,8 @@ interface FileUploadStoryProps
   extends Omit<React.ComponentProps<typeof FileUploadField>, "children"> {}
 
 const FileUploadForStory = (props: FileUploadStoryProps) => (
-  <FileUploadField maxFiles={3} {...props}>
-    <FileUploadDropzone />
+  <FileUploadField maxFiles={5} {...props}>
+    <ReorderableFileUploadDropzone />
   </FileUploadField>
 );
 
@@ -39,51 +39,24 @@ const conditionMap = {
   },
   files: {
     "0": { defaultAcceptedFileEntries: [] },
-    "1 pending": {
-      defaultAcceptedFileEntries: [
-        {
-          id: "mock-1",
-          file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
-          status: "pending",
-        },
-      ] satisfies FileEntry[],
-    },
-    "1 uploading": {
-      defaultAcceptedFileEntries: [
-        {
-          id: "mock-1",
-          file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
-          status: "uploading",
-        },
-      ] satisfies FileEntry[],
-    },
-    "1 success": {
-      defaultAcceptedFileEntries: [
-        {
-          id: "mock-1",
-          file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
-          status: "success",
-        },
-      ] satisfies FileEntry[],
-    },
-    "1 error": {
-      defaultAcceptedFileEntries: [
-        {
-          id: "mock-1",
-          file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
-          status: "error",
-        },
-      ] satisfies FileEntry[],
-    },
     "3": {
       defaultAcceptedFileEntries: [
         {
           id: "mock-1",
-          file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
+          file: createMockImageFile("summer-vacation-photo.png"),
           status: "success",
         },
-        { id: "mock-2", file: createMockImageFile("profile-picture-2024.png"), status: "success" },
+        { id: "mock-2", file: createMockImageFile("profile-picture.png"), status: "success" },
         { id: "mock-3", file: createMockImageFile("team-meeting-notes.png"), status: "success" },
+      ] satisfies FileEntry[],
+    },
+    "5": {
+      defaultAcceptedFileEntries: [
+        { id: "mock-1", file: createMockImageFile("photo-1.png"), status: "success" },
+        { id: "mock-2", file: createMockImageFile("photo-2.png"), status: "success" },
+        { id: "mock-3", file: createMockImageFile("photo-3.png"), status: "pending" },
+        { id: "mock-4", file: createMockImageFile("photo-4.png"), status: "uploading" },
+        { id: "mock-5", file: createMockImageFile("photo-5.png"), status: "error" },
       ] satisfies FileEntry[],
     },
   },
@@ -109,14 +82,4 @@ export const LightTheme = CommonStoryTemplate;
 export const DarkTheme = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { theme: "dark" },
-});
-
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
-});
-
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
 });

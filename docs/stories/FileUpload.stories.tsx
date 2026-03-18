@@ -10,7 +10,7 @@ import { fileUploadVariantMap } from "@seed-design/css/recipes/file-upload";
 // 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
 function createMockImageFile(name: string): File {
   const base64 =
-    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwADhQGAWjR9awAAAABJRU5ErkJggg==";
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4n+wOAAQOAaoOR2bDAAAAAElFTkSuQmCC";
   const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
   return new File([bytes], name, { type: "image/png" });
 }
