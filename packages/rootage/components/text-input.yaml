@@ -221,6 +221,7 @@ data:
           color: $color.fg.neutral-muted
         placeholder:
           color: $color.fg.neutral-muted
+    type=singleline: {}
     type=multiline,size=large:
       enabled:
         root:

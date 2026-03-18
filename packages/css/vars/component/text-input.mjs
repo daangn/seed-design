@@ -191,6 +191,7 @@ export const vars = {
       }
     }
   },
+  "typeSingleline": {},
   "typeMultilineSizeLarge": {
     "enabled": {
       "root": {
