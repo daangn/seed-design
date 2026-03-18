@@ -5162,7 +5162,6 @@
 
   .seed-file-upload__root {
     gap: var(--seed-dimension-x2);
-    width: 100%;
     margin-left: calc(var(--seed-file-upload-inset) * -1);
     margin-right: calc(var(--seed-file-upload-inset) * -1);
     flex-direction: column;
@@ -5199,7 +5198,6 @@
     gap: var(--seed-dimension-x2);
     padding-top: var(--seed-dimension-x1);
     margin-top: calc(var(--seed-dimension-x1) * -1);
-    margin-right: calc(var(--seed-dimension-x1) * -1);
     padding-left: var(--seed-file-upload-inset);
     padding-right: var(--seed-file-upload-inset);
     display: flex;

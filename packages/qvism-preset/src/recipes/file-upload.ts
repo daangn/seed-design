@@ -13,7 +13,6 @@ import {
   fileUploadTrigger as triggerVars,
   fileUploadDropzone as dropzoneVars,
 } from "../vars/component";
-import { vars as tokens } from "../vars";
 
 const fileUploadTrigger = defineSlotRecipe({
   name: "file-upload-trigger",
@@ -343,7 +342,6 @@ const fileUpload = defineSlotRecipe({
     root: {
       display: "flex",
       flexDirection: "column",
-      width: "100%",
 
       gap: vars.base.enabled.root.gap,
 
@@ -395,9 +393,6 @@ const fileUpload = defineSlotRecipe({
       // keeps the icon removeButton's top from being cut off
       paddingTop: removeButtonVars.base.enabled.root.offset,
       marginTop: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
-
-      // makes the end of the container in line with the end of the last item
-      marginRight: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
 
       paddingLeft: "var(--seed-file-upload-inset)",
       paddingRight: "var(--seed-file-upload-inset)",
