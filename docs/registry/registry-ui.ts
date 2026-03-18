@@ -349,6 +349,10 @@ export const registryUI: Registry = {
       id: "file-upload-reorderable",
       snippets: [
         {
+          path: "file-upload.tsx",
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
+        },
+        {
           path: "file-upload-reorderable.tsx",
           dependencies: {
             "@seed-design/react": "~1.2.0",

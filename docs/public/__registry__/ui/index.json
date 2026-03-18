@@ -338,6 +338,13 @@
     {
       "snippets": [
         {
+          "path": "file-upload.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.2.0",
+            "@seed-design/css": "~1.2.0"
+          }
+        },
+        {
           "path": "file-upload-reorderable.tsx",
           "dependencies": {
             "@seed-design/react": "~1.2.0",
@@ -354,6 +361,7 @@
         "@dnd-kit/dom",
         "@dnd-kit/react",
         "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -361,7 +369,14 @@
           "registryId": "ui",
           "itemIds": [
             "action-button",
-            "file-upload"
+            "file-upload",
+            "progress-circle"
+          ]
+        },
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "format-bytes"
           ]
         }
       ]
