@@ -53,8 +53,6 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
   (
     {
       ratio = 4 / 3,
-      stroke,
-      rounded,
       src,
       alt,
       fallback,
@@ -72,10 +70,11 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     },
     ref,
   ) => {
-    const classNames = imageFrameRecipe({ stroke, rounded });
+    const [variantProps, restProps] = imageFrameRecipe.splitVariantProps(rest);
+    const classNames = imageFrameRecipe(variantProps);
 
     return (
-      <AspectRatio ref={ref} ratio={ratio} className={className} {...rest}>
+      <AspectRatio ref={ref} ratio={ratio} className={className} {...restProps}>
         <Image.Root className={classNames.root}>
           <Image.Content
             className={classNames.content}
@@ -248,9 +247,7 @@ const ReactionButtonIcon = () => {
     className: pressed ? classNames.fillIcon : classNames.lineIcon,
   } as React.HTMLAttributes<HTMLElement>);
 
-  return (
-    <InternalIcon svg={pressed ? <HeartFillSvg /> : <HeartLineSvg />} {...iconProps} />
-  );
+  return <InternalIcon svg={pressed ? <HeartFillSvg /> : <HeartLineSvg />} {...iconProps} />;
 };
 
 export const ImageFrameReactionButton = React.forwardRef<
@@ -261,11 +258,7 @@ export const ImageFrameReactionButton = React.forwardRef<
 
   return (
     <ImageFrameReactionButtonClassNamesProvider value={classNames}>
-      <TogglePrimitive.Root
-        ref={ref}
-        className={clsx(classNames.root, className)}
-        {...rest}
-      >
+      <TogglePrimitive.Root ref={ref} className={clsx(classNames.root, className)} {...rest}>
         <ReactionButtonIcon />
       </TogglePrimitive.Root>
     </ImageFrameReactionButtonClassNamesProvider>
