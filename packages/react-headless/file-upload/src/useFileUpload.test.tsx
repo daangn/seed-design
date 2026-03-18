@@ -837,6 +837,37 @@ describe("useFileUpload", () => {
 
       expect(input.getAttribute("id")).toBeNull();
     });
+
+    it("should keep input.files in sync with accepted files via DataTransfer", async () => {
+      const { getByTestId } = setUp(<BasicFileUpload maxFiles={3} name="files" />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+
+      // Add 2 files
+      const file1 = createMockFile("a.txt", 100, "text/plain");
+      const file2 = createMockFile("b.txt", 200, "text/plain");
+      fireEvent.change(input, { target: { files: [file1, file2] } });
+
+      await waitFor(() => {
+        expect(input.files).toHaveLength(2);
+        expect(input.files?.[0]?.name).toBe("a.txt");
+        expect(input.files?.[1]?.name).toBe("b.txt");
+      });
+
+      // Remove first file → input.files should update
+      await userEvent.click(getByTestId("delete-0"));
+
+      await waitFor(() => {
+        expect(input.files).toHaveLength(1);
+        expect(input.files?.[0]?.name).toBe("b.txt");
+      });
+
+      // Remove last file → input.files should be empty
+      await userEvent.click(getByTestId("delete-0"));
+
+      await waitFor(() => {
+        expect(input.files).toHaveLength(0);
+      });
+    });
   });
 
   describe("duplicate file names", () => {

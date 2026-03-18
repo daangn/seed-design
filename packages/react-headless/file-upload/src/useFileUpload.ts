@@ -7,9 +7,19 @@ import {
   buttonProps,
   visuallyHidden,
 } from "@seed-design/dom-utils";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import type { FileRejection, FileError, FileEntry, FileStatusDetails } from "./types";
 import { getFileAcceptType } from "./accept-utils";
+
+function syncInputFiles(inputEl: HTMLInputElement, files: File[]) {
+  const dataTransfer = new DataTransfer();
+
+  for (const file of files) {
+    dataTransfer.items.add(file);
+  }
+
+  inputEl.files = dataTransfer.files;
+}
 
 interface UseFileUploadStateProps {
   acceptedFileEntries?: FileEntry[];
@@ -265,6 +275,14 @@ export function useFileUpload({
     "data-disabled": dataAttr(triggerDisabled),
     "data-invalid": dataAttr(invalid),
   });
+
+  useEffect(() => {
+    if (!inputRef.current) return;
+    syncInputFiles(
+      inputRef.current,
+      acceptedFileEntries.map((e) => e.file),
+    );
+  }, [acceptedFileEntries]);
 
   return {
     inputRef,
