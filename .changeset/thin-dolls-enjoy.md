@@ -1,6 +1,6 @@
 ---
-"@seed-design/react": minor
-"@seed-design/css": minor
+"@seed-design/react": patch
+"@seed-design/css": patch
 ---
 
 ImageFrame 컴포넌트 개선
