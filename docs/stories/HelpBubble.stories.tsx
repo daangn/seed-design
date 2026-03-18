@@ -32,6 +32,7 @@ const CommonStoryTemplate: Story = {
     children: <IconBellFill />,
     title: "Title",
     open: true,
+    placement: "bottom",
   },
   render: (args) => (
     <VariantTable
