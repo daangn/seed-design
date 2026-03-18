@@ -213,10 +213,12 @@ export function useFileUpload({
         status: "pending",
       }));
 
-      if (multiple) {
-        setAcceptedFileEntries((prev) => [...(prev ?? []), ...acceptedEntries]);
-      } else {
-        setAcceptedFileEntries(acceptedEntries.length > 0 ? [acceptedEntries[0]] : []);
+      if (acceptedEntries.length > 0) {
+        if (multiple) {
+          setAcceptedFileEntries((prev) => [...(prev ?? []), ...acceptedEntries]);
+        } else {
+          setAcceptedFileEntries([acceptedEntries[0]]);
+        }
       }
 
       if (rejected.length > 0) {

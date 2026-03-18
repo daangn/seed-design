@@ -871,36 +871,8 @@ describe("useFileUpload", () => {
   });
 
   describe("duplicate file names", () => {
-    // Uses index-based keys to avoid React key collision with same file names
-    const DuplicateFileUpload = React.forwardRef<HTMLInputElement, FileUploadRootProps>(
-      (props, ref) => {
-        return (
-          <FileUploadRoot {...props}>
-            <FileUploadTrigger>Choose files</FileUploadTrigger>
-            <ul data-testid="item-group">
-              <FileUploadContext>
-                {({ acceptedFileEntries }) =>
-                  acceptedFileEntries.map((fileEntry, i) => (
-                    <FileUploadItemProvider key={fileEntry.id} value={fileEntry}>
-                      <li data-testid={`item-${i}`}>
-                        <FileUploadItemName />
-                        <FileUploadItemRemoveButton data-testid={`delete-${i}`}>
-                          Delete
-                        </FileUploadItemRemoveButton>
-                      </li>
-                    </FileUploadItemProvider>
-                  ))
-                }
-              </FileUploadContext>
-            </ul>
-            <FileUploadHiddenInput ref={ref} data-testid="hidden-input" />
-          </FileUploadRoot>
-        );
-      },
-    );
-
     it("should accept multiple files with the same name", async () => {
-      const { getByTestId, getAllByText } = setUp(<DuplicateFileUpload maxFiles={3} />);
+      const { getByTestId, getAllByText } = setUp(<BasicFileUpload maxFiles={3} />);
 
       const input = getByTestId("hidden-input") as HTMLInputElement;
       const file1 = createMockFile("photo.png", 1024, "image/png");
@@ -914,73 +886,6 @@ describe("useFileUpload", () => {
         expect(getByTestId("item-0")).toBeDefined();
         expect(getByTestId("item-1")).toBeDefined();
         expect(getByTestId("item-2")).toBeDefined();
-      });
-    });
-
-    it("should delete only the targeted file among duplicates", async () => {
-      const { getByTestId, getAllByText, user } = setUp(<DuplicateFileUpload maxFiles={3} />);
-
-      const input = getByTestId("hidden-input") as HTMLInputElement;
-      const file1 = createMockFile("photo.png", 1024, "image/png");
-      const file2 = createMockFile("photo.png", 2048, "image/png");
-      const file3 = createMockFile("photo.png", 4096, "image/png");
-
-      fireEvent.change(input, { target: { files: [file1, file2, file3] } });
-
-      await waitFor(() => {
-        expect(getAllByText("photo.png")).toHaveLength(3);
-      });
-
-      // Delete the middle file (index 1)
-      await user.click(getByTestId("delete-1"));
-
-      await waitFor(() => {
-        expect(getAllByText("photo.png")).toHaveLength(2);
-      });
-    });
-
-    it("should delete all duplicate files one by one", async () => {
-      const { getByTestId, queryAllByText, user } = setUp(<DuplicateFileUpload maxFiles={3} />);
-
-      const input = getByTestId("hidden-input") as HTMLInputElement;
-      const file1 = createMockFile("photo.png", 1024, "image/png");
-      const file2 = createMockFile("photo.png", 2048, "image/png");
-
-      fireEvent.change(input, { target: { files: [file1, file2] } });
-
-      await waitFor(() => {
-        expect(queryAllByText("photo.png")).toHaveLength(2);
-      });
-
-      // Delete first item
-      await user.click(getByTestId("delete-0"));
-
-      await waitFor(() => {
-        expect(queryAllByText("photo.png")).toHaveLength(1);
-      });
-
-      // Delete remaining item
-      await user.click(getByTestId("delete-0"));
-
-      await waitFor(() => {
-        expect(queryAllByText("photo.png")).toHaveLength(0);
-      });
-    });
-  });
-
-  describe("duplicate file names", () => {
-    it("should accept multiple files with the same name", async () => {
-      const { getByTestId, getAllByText } = setUp(<BasicFileUpload maxFiles={3} />);
-
-      const input = getByTestId("hidden-input") as HTMLInputElement;
-      const file1 = createMockFile("photo.png", 1024, "image/png");
-      const file2 = createMockFile("photo.png", 2048, "image/png");
-      const file3 = createMockFile("photo.png", 4096, "image/png");
-
-      fireEvent.change(input, { target: { files: [file1, file2, file3] } });
-
-      await waitFor(() => {
-        expect(getAllByText("photo.png")).toHaveLength(3);
       });
     });
 
@@ -1477,13 +1382,8 @@ describe("useFileUpload", () => {
           { file: file1, errors: ["INVALID_TYPE"] },
           { file: file2, errors: ["INVALID_TYPE"] },
         ]);
+        expect(onAcceptedFileEntriesChange).not.toHaveBeenCalled();
       });
-
-      // onAcceptedFileEntriesChange is still called (via setAcceptedFileEntries) but with
-      // the same files as before (empty array spread), not with new accepted files
-      expect(onAcceptedFileEntriesChange).not.toHaveBeenCalledWith(
-        expect.arrayContaining([expect.objectContaining({ file: file1 })]),
-      );
     });
   });
 });
