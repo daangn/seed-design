@@ -16,16 +16,30 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const conditionMap = {
+  description: {
+    true: { description: "Description" },
+    false: { description: undefined },
+  },
+  showCloseButton: {
+    true: { showCloseButton: true },
+    false: { showCloseButton: false },
+  },
+};
+
 const CommonStoryTemplate: Story = {
   args: {
     children: <IconBellFill />,
     title: "Title",
-    description: "Description",
     open: true,
-    showCloseButton: true,
   },
   render: (args) => (
-    <VariantTable Component={meta.component} variantMap={helpBubbleVariantMap} {...args} />
+    <VariantTable
+      Component={meta.component}
+      variantMap={helpBubbleVariantMap}
+      conditionMap={conditionMap}
+      {...args}
+    />
   ),
 };
 
