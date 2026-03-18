@@ -5219,9 +5219,17 @@
     align-items: center;
     gap: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     height: 80px;
+    transition: opacity .2s;
     display: flex;
     position: relative;
+  }
+
+  .seed-file-upload-item__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-file-upload-item__root:before {
@@ -5230,6 +5238,14 @@
     pointer-events: none;
     position: absolute;
     inset: 0;
+  }
+
+  .seed-file-upload-item__root[role="button"]:not([aria-grabbed="true"]) {
+    cursor: grab;
+  }
+
+  .seed-file-upload-item__root[aria-grabbed="true"] {
+    opacity: .5;
   }
 
   .seed-file-upload-item__image {
@@ -5295,7 +5311,7 @@
     border-radius: inherit;
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     background: none;
     border: none;
     flex-direction: column;
@@ -5307,7 +5323,7 @@
 
   .seed-file-upload-item__actionButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-file-upload-item__actionButton {
@@ -5328,7 +5344,7 @@
     cursor: pointer;
     transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     border: none;
     justify-content: center;
     align-items: center;
@@ -5339,7 +5355,7 @@
 
   .seed-file-upload-item__removeButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-file-upload-item__removeButton {
@@ -5410,7 +5426,7 @@
     border-radius: var(--seed-radius-r3);
     transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     background-color: #0000;
     border: none;
     flex-direction: column;
@@ -5421,7 +5437,7 @@
 
   .seed-file-upload-trigger__root:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   @media (hover: hover) {

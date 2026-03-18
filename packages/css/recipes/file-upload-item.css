@@ -6,6 +6,13 @@
     gap: var(--seed-dimension-x2_5);
     height: 80px;
     border-radius: var(--seed-radius-r3);
+    transition: opacity 0.2s;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+.seed-file-upload-item__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-file-upload-item__root::before {
     content: "";
@@ -16,6 +23,12 @@
     left: 0;
     border-radius: inherit;
     pointer-events: none;
+}
+.seed-file-upload-item__root[role='button']:not([aria-grabbed=true]) {
+    cursor: grab;
+}
+.seed-file-upload-item__root[aria-grabbed=true] {
+    opacity: 0.5;
 }
 .seed-file-upload-item__image {
     width: 100%;
@@ -84,11 +97,11 @@
     border-radius: inherit;
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-file-upload-item__actionButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-file-upload-item__actionButton {
     font-size: var(--seed-font-size-t2);
@@ -113,11 +126,11 @@
     cursor: pointer;
     transition: background-color 0.2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-file-upload-item__removeButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-file-upload-item__removeButton {
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak), 0 0 0 2px var(--seed-color-bg-layer-default);

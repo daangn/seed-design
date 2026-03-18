@@ -13,6 +13,7 @@ import {
   fileUploadTrigger as triggerVars,
   fileUploadDropzone as dropzoneVars,
 } from "../vars/component";
+import { vars as tokens } from "../vars";
 
 const fileUploadTrigger = defineSlotRecipe({
   name: "file-upload-trigger",
@@ -40,8 +41,8 @@ const fileUploadTrigger = defineSlotRecipe({
       borderRadius: triggerVars.base.enabled.root.cornerRadius,
       transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
 
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: triggerVars.base.pressed.root.color,
@@ -124,6 +125,11 @@ const fileUploadItem = defineSlotRecipe({
       height: itemVars.base.enabled.root.height,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
+      transition: "opacity 0.2s",
+
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+
       "&::before": {
         content: '""',
         position: "absolute",
@@ -134,6 +140,14 @@ const fileUploadItem = defineSlotRecipe({
         borderRadius: "inherit",
 
         pointerEvents: "none",
+      },
+
+      [pseudo("[role='button']", not("[aria-grabbed=true]"))]: {
+        cursor: "grab",
+      },
+
+      [pseudo("[aria-grabbed=true]")]: {
+        opacity: 0.5,
       },
     },
     image: {
@@ -217,8 +231,8 @@ const fileUploadItem = defineSlotRecipe({
       borderRadius: "inherit",
       transition: FOCUS_RING_TRANSITION,
 
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
       fontSize: itemVars.base.enabled.actionButtonLabel.fontSize,
       lineHeight: itemVars.base.enabled.actionButtonLabel.lineHeight,
@@ -249,8 +263,8 @@ const fileUploadItem = defineSlotRecipe({
       cursor: "pointer",
       transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
 
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
       boxShadow: `inset 0 0 0 ${removeButtonVars.base.enabled.root.strokeWidth} ${removeButtonVars.base.enabled.root.strokeColor}, 0 0 0 ${removeButtonVars.base.enabled.root.foobarWidth} ${removeButtonVars.base.enabled.root.foobarColor}`,
 
