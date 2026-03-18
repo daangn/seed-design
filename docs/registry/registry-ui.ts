@@ -346,6 +346,21 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "file-upload-reorderable",
+      snippets: [
+        {
+          path: "file-upload-reorderable.tsx",
+          dependencies: {
+            "@seed-design/react": "~1.2.0",
+            "@seed-design/css": "~1.2.0",
+            "@dnd-kit/react": "~0.3.0",
+            "@dnd-kit/abstract": "~0.3.0",
+            "@dnd-kit/dom": "~0.3.0",
+          },
+        },
+      ],
+    },
+    {
       id: "contextual-floating-button",
       snippets: [
         {

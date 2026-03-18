@@ -338,6 +338,37 @@
     {
       "snippets": [
         {
+          "path": "file-upload-reorderable.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.2.0",
+            "@seed-design/css": "~1.2.0",
+            "@dnd-kit/react": "~0.3.0",
+            "@dnd-kit/abstract": "~0.3.0",
+            "@dnd-kit/dom": "~0.3.0"
+          }
+        }
+      ],
+      "id": "file-upload-reorderable",
+      "dependencies": [
+        "@dnd-kit/abstract",
+        "@dnd-kit/dom",
+        "@dnd-kit/react",
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button",
+            "file-upload"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "floating-action-button.tsx",
           "dependencies": {
             "@seed-design/react": "~1.0.0",
