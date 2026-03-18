@@ -197,8 +197,12 @@ export function useFileUpload({
 
   const openFilePicker = useCallback(() => {
     if (triggerDisabled) return;
+    if (!inputRef.current) return;
 
-    inputRef.current?.click();
+    // Reset value before opening the picker so re-selecting the same file still fires a change event
+    // see: https://github.com/chakra-ui/zag/blob/main/packages/machines/file-upload/src/file-upload.connect.ts
+    inputRef.current.value = "";
+    inputRef.current.click();
   }, [triggerDisabled]);
 
   const setFileEntries = useCallback(
@@ -385,7 +389,6 @@ export function useFileUpload({
           setFileEntries(Array.from(files));
         }
 
-        // Reset input value to allow re-selecting the same file
         event.target.value = "";
       },
     }),
