@@ -1,5 +1,5 @@
 import { VStack } from "@seed-design/react";
-import { useCallback, useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
 
@@ -9,23 +9,20 @@ type FieldErrors = {
 
 export default function FileUploadForm() {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const acceptedFilesRef = useRef<File[]>([]);
 
-  const handleSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newFieldErrors: FieldErrors = {};
+    const formData = new FormData(event.currentTarget);
+    const files = formData.getAll("files") as File[];
 
-    if (acceptedFilesRef.current.length === 0) {
-      newFieldErrors.files = "최소 1개의 파일을 업로드해주세요";
+    if (files.length === 0) {
+      setFieldErrors({ files: "최소 1개의 파일을 업로드해주세요" });
+      return;
     }
 
-    setFieldErrors(newFieldErrors);
-
-    if (Object.keys(newFieldErrors).length > 0) return;
-
-    window.alert(`제출된 파일: ${acceptedFilesRef.current.map((f) => f.name).join(", ")}`);
-  }, []);
+    window.alert(`제출된 파일: ${files.map((f) => f.name).join(", ")}`);
+  };
 
   return (
     <VStack asChild gap="x3" width="full">
@@ -38,7 +35,6 @@ export default function FileUploadForm() {
           required
           showRequiredIndicator
           onAcceptedFileEntriesChange={(files) => {
-            acceptedFilesRef.current = files.map((f) => f.file);
             if (files.length > 0) {
               setFieldErrors({});
             }

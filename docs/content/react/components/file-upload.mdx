@@ -14,30 +14,134 @@ description: 파일을 선택하거나 드래그 앤 드롭으로 업로드할 �
 
 ## Installation
 
+### Default
+
 ```package-install
 npx @seed-design/cli@latest add ui:file-upload
 ```
 
 <ManualInstallation name="file-upload" />
 
+### Reorderable
+
+[dnd-kit](https://dndkit.com/overview) 기반으로 파일 순서를 변경할 수 있는 컴포넌트입니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:file-upload-reorderable
+```
+
+<ManualInstallation name="file-upload-reorderable" />
+
 ## Props
+
+### `FileUploadField`
+
+<react-type-table
+  path="./registry/ui/file-upload.tsx"
+  name="FileUploadFieldProps"
+/>
 
 ### `FileUpload`
 
-<react-type-table path="./registry/ui/file-upload.tsx" name="FileUploadProps" />
+<react-type-table
+  path="./registry/ui/file-upload.tsx"
+  name="FileUploadProps"
+/>
+
+### `FileUploadDropzone`
+
+<react-type-table
+  path="./registry/ui/file-upload.tsx"
+  name="FileUploadDropzoneProps"
+/>
 
 ### `FileUploadItem`
 
 <react-type-table
   path="./registry/ui/file-upload.tsx"
-  name="FileUploadImageItemProps"
+  name="FileUploadItemProps"
 />
+
+## Usage
+
+### 기본 사용법
+
+`FileUploadField` 내에 `FileUpload`, `FileUploadDropzone`, `ReorderableFileUpload`, `ReorderableFileUploadDropzone`을 조합하여 사용합니다.
+
+```tsx
+import {
+  FileUploadField,
+  FileUpload,
+  FileUploadDropzone,
+} from "seed-design/ui/file-upload";
+
+<FileUploadField>
+  <FileUpload />
+</FileUploadField>;
+
+<FileUploadField>
+  <FileUploadDropzone />
+</FileUploadField>;
+```
+
+```tsx
+import { FileUploadField } from "seed-design/ui/file-upload";
+import {
+  ReorderableFileUpload,
+  ReorderableFileUploadDropzone,
+} from "seed-design/ui/file-upload-reorderable";
+
+<FileUploadField>
+  <ReorderableFileUpload />
+</FileUploadField>;
+
+<FileUploadField>
+  <ReorderableFileUploadDropzone />
+</FileUploadField>;
+```
+
+### Item 직접 구성하기
+
+`FileUpload`, `FileUploadDropzone`, `ReorderableFileUpload`, `ReorderableFileUploadDropzone`의 render prop으로 `acceptedFileEntries`를 받아와 `FileUploadItem`을 직접 렌더링할 수 있습니다.
+
+`FileEntry`는 같은 컴포넌트 내에서 `key`로 사용할 수 있는 파일별 고유한 ID를 제공합니다.
+
+```tsx
+import {
+  FileUploadField,
+  FileUpload,
+  FileUploadItem,
+} from "seed-design/ui/file-upload";
+
+<FileUploadField>
+  <FileUpload>
+    {({ acceptedFileEntries }) =>
+      acceptedFileEntries.map((entry) => (
+        <FileUploadItem key={entry.id} fileEntry={entry} />
+      ))
+    }
+  </FileUpload>
+</FileUploadField>;
+```
 
 ## Examples
 
+### Dropzone
+
+`FileUploadDropzone`을 사용하면 드래그 앤 드롭 영역이 포함된 레이아웃을 사용할 수 있습니다.
+
+<ComponentExample name="react/file-upload/dropzone">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/dropzone.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Accept Image Only
 
-`accept="image/*"`를 설정하여 이미지 파일만 허용할 수 있습니다.
+사용자가 선택한 이미지의 미리보기를 표시하려면, `accept`를 `"image/*"`, `["image/png", "image/jpeg"]` 등으로 설정하여 사용자가 이미지 파일만 선택할 수 있도록 제한합니다.
 
 <ComponentExample name="react/file-upload/accept-image">
   ```json doc-gen:file
@@ -89,25 +193,12 @@ render prop 내에서 `acceptedFileEntries`의 status 변화를 감지하여 에
 
 ### States
 
-외부 업로드 API와 연동하여 pending → uploading → success/error 상태를 관리하는 예시입니다. `updateFileStatus`로 각 파일의 status를 업데이트합니다.
+외부 업로드 API와 연동하여 pending → uploading → success/error 상태를 관리하는 예시입니다. `updateFileEntryStatus`로 각 파일의 status를 업데이트합니다.
 
 <ComponentExample name="react/file-upload/states">
   ```json doc-gen:file
   {
     "file": "examples/react/file-upload/states.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Field Integration
-
-`label`, `description`, `errorMessage` 등의 Field 관련 prop을 사용할 수 있습니다.
-
-<ComponentExample name="react/file-upload/field">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/file-upload/field.tsx",
     "codeblock": true
   }
   ```
@@ -169,11 +260,50 @@ render prop 내에서 `acceptedFileEntries`의 status 변화를 감지하여 에
   ```
 </ComponentExample>
 
+### Reorderable
+
+`ReorderableFileUpload` snippet을 사용하여 드래그로 파일 순서를 변경할 수 있습니다. 별도 snippet(`ui:file-upload-reorderable`)으로 제공됩니다.
+
+<ComponentExample name="react/file-upload/reorderable">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/reorderable.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Inset
+
+`--seed-file-upload-inset` CSS 변수를 사용하여 아이템 목록이 부모 패딩 바깥까지 edge-to-edge로 스크롤되도록 설정할 수 있습니다. `rootProps`를 통해 `FileUploadField`의 Field 래퍼에 스타일을 적용합니다.
+
+<ComponentExample name="react/file-upload/custom-inset">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/custom-inset.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Field Integration
+
+`label`, `description`, `errorMessage` 등의 Field 관련 prop을 사용할 수 있습니다.
+
+<ComponentExample name="react/file-upload/field">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/file-upload/field.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Use Cases
 
 #### Form (Uncontrolled)
 
-`<form>`과 `name` prop을 사용하여 네이티브 form과 통합할 수 있습니다.
+`<form>`과 `name` prop을 사용하여 네이티브 form과 통합할 수 있습니다. 내부적으로 `DataTransfer` API를 사용하여 `input.files`를 동기화하므로, `FormData`에서 직접 파일을 가져올 수 있습니다.
 
 <ComponentExample name="react/file-upload/form">
   ```json doc-gen:file
@@ -186,7 +316,7 @@ render prop 내에서 `acceptedFileEntries`의 status 변화를 감지하여 에
 
 #### React Hook Form
 
-`useController`로 FileUpload의 `acceptedFileEntries`를 form 값으로 관리할 수 있습니다.
+`useController`로 `FileUploadField`의 `acceptedFileEntries`를 controlled 모드로 관리할 수 있습니다.
 
 <ComponentExample name="react/file-upload/react-hook-form">
   ```json doc-gen:file
