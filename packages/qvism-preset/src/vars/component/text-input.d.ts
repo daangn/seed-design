@@ -204,6 +204,7 @@ export declare const vars: {
       }
     }
   },
+  "typeSingleline": {},
   "typeMultilineSizeLarge": {
     "enabled": {
       "root": {
