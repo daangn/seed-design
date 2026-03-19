@@ -338,7 +338,7 @@ export function registerTools(
         "Find layers by name within a Figma node's subtree. Returns a flat array of matching nodes with their IDs.",
         mode,
       ),
-      inputSchema: singleNodeBaseSchema.extend({
+      inputSchema: singleNodeParamsSchema.extend({
         name: z.string().describe("Regex pattern to match layer names (e.g., 'Usage', 'Do$')."),
       }),
     },
@@ -350,7 +350,15 @@ export function registerTools(
         const normalizer = createRestNormalizer(result);
         const node = normalizer(result.document);
 
-        const pattern = new RegExp(params.name);
+        let pattern: RegExp;
+        try {
+          pattern = new RegExp(params.name);
+        } catch {
+          return formatErrorResponse(
+            "find_nodes",
+            new Error(`Invalid regex pattern: ${params.name}`),
+          );
+        }
         const matches = collectMatchingNodes(node, pattern);
 
         return formatObjectResponse(matches);
