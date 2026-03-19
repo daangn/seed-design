@@ -170,6 +170,30 @@ export declare const privateTemplateChipGroup: {
   }
 };
 
+export declare const privateComponentContentPlaceholder: {
+  "name": "privateComponentContentPlaceholder",
+  "key": "49e110c31e4a7e6e9872d369f889dc48c0f5cef4",
+  "componentPropertyDefinitions": {
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Coupon",
+        "Realty",
+        "Car",
+        "Jobs",
+        "Buy-sell",
+        "Business",
+        "Post",
+        "Group",
+        "Image",
+        "Food",
+        "Commerce"
+      ]
+    }
+  }
+};
+
 export declare const privateComponentFieldFooterCharacterCount: {
   "name": "privateComponentFieldFooterCharacterCount",
   "key": "73f1a9275275c87b563e879e6948318523faf8e4",
@@ -226,6 +250,20 @@ export declare const privateComponentFieldHeaderSuffix: {
 export declare const privateComponentIdentityPlaceholder: {
   "name": "privateComponentIdentityPlaceholder",
   "key": "7d7ae18cabac6ebad19934516de8e7e256854eba",
+  "componentPropertyDefinitions": {
+    "Identity": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Person",
+        "Business"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentIdentityPlaceholderStatic: {
+  "name": "privateComponentIdentityPlaceholderStatic",
+  "key": "628e8010084e94e426edf97021ddaadff1c9e008",
   "componentPropertyDefinitions": {
     "Identity": {
       "type": "VARIANT",
@@ -1956,6 +1994,31 @@ export declare const componentAvatar: {
   }
 };
 
+export declare const templateAvatarPreset: {
+  "name": "templateAvatarPreset",
+  "key": "42eefce6a1ab0d45780d2be5346d8ec5f6bace6e",
+  "componentPropertyDefinitions": {
+    "Image": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "001",
+        "002",
+        "003",
+        "004",
+        "005",
+        "006",
+        "007",
+        "008",
+        "009",
+        "010",
+        "011",
+        "012",
+        "013"
+      ]
+    }
+  }
+};
+
 export declare const componentAvatarStack: {
   "name": "componentAvatarStack",
   "key": "99d74f36d2989b450cc0c7f15eb6495888bb1cec",
@@ -2196,7 +2259,8 @@ export declare const templateChatScreenPreset: {
         "비즈프로필(고객 뷰)",
         "비즈프로필 (사장님 뷰)",
         "알바 (구인자 뷰)",
-        "알바 (구직자 뷰)"
+        "알바 (구직자 뷰)",
+        "Service11"
       ]
     }
   }
