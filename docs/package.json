@@ -90,7 +90,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "chalk": "^5.3.0",
-    "chromatic": "^13.0.0",
+    "chromatic": "^15.0.0",
     "concurrently": "^9.2.1",
     "estree-util-value-to-estree": "^3.4.0",
     "figma-api": "^2.1.0-beta",
