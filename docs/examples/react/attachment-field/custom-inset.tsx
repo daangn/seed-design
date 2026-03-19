@@ -34,7 +34,7 @@ export default function AttachmentInputCustomInset() {
           }))}
           rootProps={{
             style: {
-              "--seed-attachment-input-inset": vars.$dimension.spacingX.globalGutter,
+              "--seed-attachment-input-extend-x": vars.$dimension.spacingX.globalGutter,
             } as React.CSSProperties,
           }}
         >

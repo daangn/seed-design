@@ -4945,8 +4945,8 @@
 
 .seed-attachment-input__root {
   gap: var(--seed-dimension-x2);
-  margin-left: calc(var(--seed-attachment-input-inset) * -1);
-  margin-right: calc(var(--seed-attachment-input-inset) * -1);
+  margin-left: calc(var(--seed-attachment-input-extend-x) * -1);
+  margin-right: calc(var(--seed-attachment-input-extend-x) * -1);
   flex-direction: column;
   display: flex;
 }
@@ -4981,8 +4981,8 @@
   gap: var(--seed-dimension-x2);
   padding-top: var(--seed-dimension-x1);
   margin-top: calc(var(--seed-dimension-x1) * -1);
-  padding-left: var(--seed-attachment-input-inset);
-  padding-right: var(--seed-attachment-input-inset);
+  padding-left: var(--seed-attachment-input-extend-x);
+  padding-right: var(--seed-attachment-input-extend-x);
   display: flex;
   overflow-x: auto;
 }

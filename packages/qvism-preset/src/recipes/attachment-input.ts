@@ -345,8 +345,8 @@ const attachmentInput = defineSlotRecipe({
 
       gap: vars.base.enabled.root.gap,
 
-      marginLeft: "calc(var(--seed-attachment-input-inset) * -1)",
-      marginRight: "calc(var(--seed-attachment-input-inset) * -1)",
+      marginLeft: "calc(var(--seed-attachment-input-extend-x) * -1)",
+      marginRight: "calc(var(--seed-attachment-input-extend-x) * -1)",
     },
     dropzone: {
       display: "flex",
@@ -394,8 +394,8 @@ const attachmentInput = defineSlotRecipe({
       paddingTop: removeButtonVars.base.enabled.root.offset,
       marginTop: `calc(${removeButtonVars.base.enabled.root.offset} * -1)`,
 
-      paddingLeft: "var(--seed-attachment-input-inset)",
-      paddingRight: "var(--seed-attachment-input-inset)",
+      paddingLeft: "var(--seed-attachment-input-extend-x)",
+      paddingRight: "var(--seed-attachment-input-extend-x)",
     },
     // wraps the file items
     itemGroup: {
