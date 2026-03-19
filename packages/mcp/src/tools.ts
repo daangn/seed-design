@@ -1,5 +1,11 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { createRestNormalizer, figma, getFigmaColorVariableNames, react } from "@seed-design/figma";
+import {
+  createRestNormalizer,
+  figma,
+  getFigmaColorVariableNames,
+  react,
+  type NormalizedSceneNode,
+} from "@seed-design/figma";
 import { z } from "zod";
 import type { McpConfig } from "./config";
 import { parseFigmaUrl } from "./figma-rest-client";
@@ -324,6 +330,36 @@ export function registerTools(
     },
   );
 
+  // Find Layers Tool (REST API + WebSocket)
+  server.registerTool(
+    "find_nodes",
+    {
+      description: getSingleNodeDescription(
+        "Find layers by name within a Figma node's subtree. Returns a flat array of matching nodes with their IDs.",
+        mode,
+      ),
+      inputSchema: singleNodeBaseSchema.extend({
+        name: z.string().describe("Regex pattern to match layer names (e.g., 'Usage', 'Do$')."),
+      }),
+    },
+    async (params: z.infer<typeof singleNodeBaseSchema> & { name: string }) => {
+      try {
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
+
+        const normalizer = createRestNormalizer(result);
+        const node = normalizer(result.document);
+
+        const pattern = new RegExp(params.name);
+        const matches = collectMatchingNodes(node, pattern);
+
+        return formatObjectResponse(matches);
+      } catch (error) {
+        return formatErrorResponse("find_nodes", error);
+      }
+    },
+  );
+
   // Utility Tools (No Figma connection required)
 
   // Retrieve Color Variable Names Tool
@@ -504,6 +540,25 @@ export function registerTools(
       },
     );
   }
+}
+
+function collectMatchingNodes(
+  node: NormalizedSceneNode,
+  pattern: RegExp,
+): Array<{ id: string; name: string; type: string }> {
+  const results: Array<{ id: string; name: string; type: string }> = [];
+
+  if ("name" in node && pattern.test(node.name)) {
+    results.push({ id: node.id, name: node.name, type: node.type });
+  }
+
+  if ("children" in node && node.children) {
+    for (const child of node.children) {
+      results.push(...collectMatchingNodes(child, pattern));
+    }
+  }
+
+  return results;
 }
 
 // editing tools require WebSocket client
