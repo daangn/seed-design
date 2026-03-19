@@ -194,6 +194,21 @@
     {
       "snippets": [
         {
+          "path": "content-placeholder.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.3.0",
+            "@seed-design/css": "~1.3.0"
+          }
+        }
+      ],
+      "id": "content-placeholder",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "contextual-floating-button.tsx",
           "dependencies": {
             "@seed-design/react": "~1.0.0",
