@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { AttachmentField, AttachmentInputDropzone } from "seed-design/ui/attachment-field";
+import { AttachmentField, AttachmentDropzone } from "seed-design/ui/attachment-field";
 import type { FileEntry } from "@seed-design/react/primitive";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 
@@ -20,7 +20,7 @@ interface AttachmentInputStoryProps
 
 const AttachmentInputForStory = (props: AttachmentInputStoryProps) => (
   <AttachmentField maxFiles={3} {...props}>
-    <AttachmentInputDropzone />
+    <AttachmentDropzone />
   </AttachmentField>
 );
 

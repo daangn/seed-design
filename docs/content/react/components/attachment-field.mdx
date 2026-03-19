@@ -50,11 +50,11 @@ npx @seed-design/cli@latest add ui:attachment-field-reorderable
   name="AttachmentInputProps"
 />
 
-### `AttachmentInputDropzone`
+### `AttachmentDropzone`
 
 <react-type-table
   path="./registry/ui/attachment-field.tsx"
-  name="AttachmentInputDropzoneProps"
+  name="AttachmentDropzoneProps"
 />
 
 ### `AttachmentInputItem`
@@ -68,13 +68,13 @@ npx @seed-design/cli@latest add ui:attachment-field-reorderable
 
 ### 기본 사용법
 
-`AttachmentField` 안에 `AttachmentInput`, `AttachmentInputDropzone`, `AttachmentInputReorderable`, `AttachmentInputDropzoneReorderable` 중 하나를 조합하여 사용합니다.
+`AttachmentField` 안에 `AttachmentInput`, `AttachmentDropzone`, `AttachmentInputReorderable`, `AttachmentDropzoneReorderable` 중 하나를 조합하여 사용합니다.
 
 ```tsx
 import {
   AttachmentField,
   AttachmentInput,
-  AttachmentInputDropzone,
+  AttachmentDropzone,
 } from "seed-design/ui/attachment-field";
 
 <AttachmentField>
@@ -82,7 +82,7 @@ import {
 </AttachmentField>;
 
 <AttachmentField>
-  <AttachmentInputDropzone />
+  <AttachmentDropzone />
 </AttachmentField>;
 ```
 
@@ -90,7 +90,7 @@ import {
 import { AttachmentField } from "seed-design/ui/attachment-field";
 import {
   AttachmentInputReorderable,
-  AttachmentInputDropzoneReorderable,
+  AttachmentDropzoneReorderable,
 } from "seed-design/ui/attachment-field-reorderable";
 
 <AttachmentField>
@@ -98,13 +98,13 @@ import {
 </AttachmentField>;
 
 <AttachmentField>
-  <AttachmentInputDropzoneReorderable />
+  <AttachmentDropzoneReorderable />
 </AttachmentField>;
 ```
 
 ### Item 직접 구성하기
 
-`AttachmentInput`, `AttachmentInputDropzone`, `AttachmentInputReorderable`, `AttachmentInputDropzoneReorderable`은 `children`을 render prop으로 사용합니다.
+`AttachmentInput`, `AttachmentDropzone`, `AttachmentInputReorderable`, `AttachmentDropzoneReorderable`은 `children`을 render prop으로 사용합니다.
 
 `acceptedFileEntries`을 활용하여 `AttachmentInputItem`을 직접 렌더링할 수 있습니다. 이때 `FileEntry` 타입이 제공하는 `id`를 `key`로 활용하는 것을 권장합니다.
 
@@ -145,7 +145,7 @@ import {
 
 ### Dropzone
 
-`AttachmentInputDropzone`을 사용하면 드래그 앤 드롭 영역이 포함된 레이아웃을 사용할 수 있습니다.
+`AttachmentDropzone`을 사용하면 드래그 앤 드롭 영역이 포함된 레이아웃을 사용할 수 있습니다.
 
 <ComponentExample name="react/attachment-field/dropzone">
   ```json doc-gen:file
@@ -278,7 +278,7 @@ MIME type(`image/png`, `image/*`) 또는 확장자(`.png`, `.jpg, .jpeg`) 형식
 
 ## Reordering Files
 
-`AttachmentInputReorderable` 또는 `AttachmentInputDropzoneReorderable`을 사용하면 드래그로 파일의 순서를 변경할 수 있습니다.
+`AttachmentInputReorderable` 또는 `AttachmentDropzoneReorderable`을 사용하면 드래그로 파일의 순서를 변경할 수 있습니다.
 
 두 컴포넌트는 `dnd-kit` 의존성 분리를 위해 별도 snippet [`ui:attachment-field-reorderable`](#reorderable)로 제공됩니다.
 

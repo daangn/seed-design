@@ -1,6 +1,6 @@
 import { VStack } from "@seed-design/react";
 import type { FileEntry } from "@seed-design/react/primitive";
-import { AttachmentField, AttachmentInputDropzone } from "seed-design/ui/attachment-field";
+import { AttachmentField, AttachmentDropzone } from "seed-design/ui/attachment-field";
 
 const defaultAcceptedFileEntries: FileEntry[] = [
   {
@@ -10,7 +10,7 @@ const defaultAcceptedFileEntries: FileEntry[] = [
   },
 ];
 
-export default function AttachmentInputDropzoneExample() {
+export default function AttachmentDropzoneExample() {
   return (
     <VStack gap="x4" p="x6" width="100%">
       <AttachmentField
@@ -19,7 +19,7 @@ export default function AttachmentInputDropzoneExample() {
         description="파일을 선택하거나 드래그 앤 드롭하세요"
         defaultAcceptedFileEntries={defaultAcceptedFileEntries}
       >
-        <AttachmentInputDropzone />
+        <AttachmentDropzone />
       </AttachmentField>
     </VStack>
   );

@@ -4,7 +4,7 @@ import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { AttachmentField } from "seed-design/ui/attachment-field";
-import { AttachmentInputDropzoneReorderable } from "seed-design/ui/attachment-field-reorderable";
+import { AttachmentDropzoneReorderable } from "seed-design/ui/attachment-field-reorderable";
 import type { FileEntry } from "@seed-design/react/primitive";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 
@@ -20,7 +20,7 @@ interface AttachmentInputStoryProps
 
 const AttachmentInputForStory = (props: AttachmentInputStoryProps) => (
   <AttachmentField maxFiles={5} {...props}>
-    <AttachmentInputDropzoneReorderable />
+    <AttachmentDropzoneReorderable />
   </AttachmentField>
 );
 

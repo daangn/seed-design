@@ -89,13 +89,13 @@ export const AttachmentInputReorderable = React.forwardRef<
 });
 AttachmentInputReorderable.displayName = "AttachmentInputReorderable";
 
-export interface AttachmentInputDropzoneReorderableProps {
+export interface AttachmentDropzoneReorderableProps {
   children?: SeedAttachmentInput.ContextProps["children"];
 }
 
-export const AttachmentInputDropzoneReorderable: React.FC<
-  AttachmentInputDropzoneReorderableProps
-> = ({ children }) => {
+export const AttachmentDropzoneReorderable: React.FC<AttachmentDropzoneReorderableProps> = ({
+  children,
+}) => {
   const { triggerProps, reorderFileEntry } = useFileUploadContext();
 
   return (
@@ -136,7 +136,7 @@ export const AttachmentInputDropzoneReorderable: React.FC<
     </>
   );
 };
-AttachmentInputDropzoneReorderable.displayName = "AttachmentInputDropzoneReorderable";
+AttachmentDropzoneReorderable.displayName = "AttachmentDropzoneReorderable";
 
 interface SortableAttachmentInputItemProps extends AttachmentInputItemProps {
   index: number;

@@ -163,11 +163,11 @@ export const AttachmentInput = React.forwardRef<HTMLDivElement, AttachmentInputP
 );
 AttachmentInput.displayName = "AttachmentInput";
 
-export interface AttachmentInputDropzoneProps {
+export interface AttachmentDropzoneProps {
   children?: SeedAttachmentInput.ContextProps["children"];
 }
 
-export const AttachmentInputDropzone: React.FC<AttachmentInputDropzoneProps> = ({ children }) => {
+export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children }) => {
   const { triggerProps } = useFileUploadContext();
 
   return (
@@ -194,7 +194,7 @@ export const AttachmentInputDropzone: React.FC<AttachmentInputDropzoneProps> = (
     </>
   );
 };
-AttachmentInputDropzone.displayName = "AttachmentInputDropzone";
+AttachmentDropzone.displayName = "AttachmentDropzone";
 
 export interface AttachmentInputItemProps extends Omit<SeedAttachmentInput.ItemProps, "children"> {
   onRetry?: () => void;
