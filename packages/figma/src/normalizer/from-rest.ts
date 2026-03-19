@@ -349,7 +349,7 @@ export function createRestNormalizer(
             characters: "",
             start: i,
             end: 0,
-            style: styleId ? normalizeSegmentStyle(styleTable[styleId]) : {},
+            style: styleId && styleTable[styleId] ? normalizeSegmentStyle(styleTable[styleId]) : {},
           };
         }
       }
