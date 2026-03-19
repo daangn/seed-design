@@ -1,0 +1,148 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: attachment-input-item
+  name: Attachment Input Item
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          width:
+            type: dimension
+          height:
+            type: dimension
+          paddingX:
+            type: dimension
+          gap:
+            type: dimension
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          opacity:
+            type: number
+      thumbnail:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+          cornerRadius:
+            type: dimension
+      thumbnailIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      name:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      size:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      backdrop:
+        properties:
+          color:
+            type: color
+      actionButton:
+        properties:
+          gap:
+            type: dimension
+      actionButtonIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      actionButtonLabel:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+
+  definitions:
+    base:
+      enabled:
+        root:
+          height: 80px
+          color: $color.bg.transparent
+          cornerRadius: $radius.r3
+          strokeWidth: 1px
+          gap: $dimension.x2_5
+        thumbnail:
+          color: $color.bg.neutral-weak
+          size: $dimension.x12
+          cornerRadius: $radius.r2
+        thumbnailIcon:
+          color: $color.fg.neutral-subtle
+          size: $dimension.x6
+        name:
+          color: $color.fg.neutral
+          fontSize: $font-size.t2
+          lineHeight: $line-height.t2
+          fontWeight: $font-weight.medium
+        size:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t1
+          lineHeight: $line-height.t1
+          fontWeight: $font-weight.regular
+        actionButton:
+          gap: $dimension.x1
+        actionButtonIcon:
+          size: $dimension.x6
+        actionButtonLabel:
+          fontSize: $font-size.t2
+          lineHeight: $line-height.t2
+          fontWeight: $font-weight.medium
+
+      dragging:
+        root:
+          opacity: 1 # TODO
+
+    type=file:
+      enabled:
+        root:
+          width: 160px
+          strokeColor: $color.stroke.neutral-weak
+          paddingX: $dimension.x4
+        actionButtonIcon:
+          color: $color.fg.neutral-subtle
+        actionButtonLabel:
+          color: $color.fg.neutral-subtle
+
+    type=image:
+      enabled:
+        root:
+          width: 80px
+          strokeColor: $color.stroke.neutral-subtle
+        backdrop:
+          color: $color.bg.overlay
+        actionButtonIcon:
+          color: $color.palette.static-white
+        actionButtonLabel:
+          color: $color.palette.static-white

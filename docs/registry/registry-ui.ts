@@ -337,23 +337,23 @@ export const registryUI: Registry = {
       ],
     },
     {
-      id: "file-upload",
+      id: "attachment-field",
       snippets: [
         {
-          path: "file-upload.tsx",
+          path: "attachment-field.tsx",
           dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
     },
     {
-      id: "file-upload-reorderable",
+      id: "attachment-field-reorderable",
       snippets: [
         {
-          path: "file-upload.tsx",
+          path: "attachment-field.tsx",
           dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
         {
-          path: "file-upload-reorderable.tsx",
+          path: "attachment-field-reorderable.tsx",
           dependencies: {
             "@seed-design/react": "~1.2.0",
             "@seed-design/css": "~1.2.0",

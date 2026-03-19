@@ -24,6 +24,21 @@
       "path": "/components/action-sheet.json"
     },
     {
+      "path": "/components/attachment-input-dropzone.json"
+    },
+    {
+      "path": "/components/attachment-input-item-remove-button.json"
+    },
+    {
+      "path": "/components/attachment-input-item.json"
+    },
+    {
+      "path": "/components/attachment-input-trigger.json"
+    },
+    {
+      "path": "/components/attachment-input.json"
+    },
+    {
       "path": "/components/avatar-stack.json"
     },
     {
@@ -94,21 +109,6 @@
     },
     {
       "path": "/components/field.json"
-    },
-    {
-      "path": "/components/file-upload-dropzone.json"
-    },
-    {
-      "path": "/components/file-upload-item-remove-button.json"
-    },
-    {
-      "path": "/components/file-upload-item.json"
-    },
-    {
-      "path": "/components/file-upload-trigger.json"
-    },
-    {
-      "path": "/components/file-upload.json"
     },
     {
       "path": "/components/floating-action-button.json"

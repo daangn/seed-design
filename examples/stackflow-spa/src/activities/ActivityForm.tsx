@@ -28,7 +28,7 @@ import {
 } from "seed-design/ui/select-box";
 import { Slider } from "seed-design/ui/slider";
 import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-design/ui/field-button";
-import { FileUploadField, FileUpload } from "seed-design/ui/file-upload";
+import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
 import {
   IconExclamationmarkCircleFill,
   IconEnvelopeLine,
@@ -205,7 +205,7 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
                       disabled
                     />
                   </RadioSelectBoxRoot>
-                  <FileUploadField
+                  <AttachmentField
                     label="첨부 파일"
                     labelWeight="bold"
                     indicator="선택"
@@ -214,8 +214,8 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
                     accept="image/*"
                     maxFiles={3}
                   >
-                    <FileUpload />
-                  </FileUploadField>
+                    <AttachmentInput />
+                  </AttachmentField>
                   <Divider />
                   <CheckSelectBoxGroup
                     label="추가 서비스"
