@@ -153,9 +153,10 @@
         },
         "type": {
           "values": {
+            "singleline": {},
             "multiline": {}
           },
-          "defaultValue": "multiline"
+          "defaultValue": "singleline"
         }
       }
     },
@@ -676,6 +677,12 @@
             }
           }
         ]
+      },
+      {
+        "variants": {
+          "type": "singleline"
+        },
+        "definitions": []
       },
       {
         "variants": {
