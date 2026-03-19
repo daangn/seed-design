@@ -83,14 +83,13 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
 
   const setContext = useCallback(
     ({ y0, y, displacement }: Omit<PullToRefreshContext, "displacementRatio">) => {
-      const clampedDisplacement = Math.max(0, displacement);
       contextStore.setState({
         y0,
         y,
-        displacement: clampedDisplacement,
-        displacementRatio: Math.min(clampedDisplacement / threshold, 1),
+        displacement,
+        displacementRatio: Math.min(displacement / threshold, 1),
       });
-      rootRef.current?.style.setProperty("--ptr-displacement", `${clampedDisplacement}px`);
+      rootRef.current?.style.setProperty("--ptr-displacement", `${displacement}px`);
     },
     [contextStore, threshold],
   );
@@ -119,13 +118,6 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
       if (state === "pulling" || state === "ready") {
         const { y0 } = contextStore.getState();
         const displacement = (y - y0) * displacementMultiplier;
-
-        if (displacement <= 0) {
-          setState("idle");
-          setContext({ y0: 0, y: -1, displacement: 0 });
-          return;
-        }
-
         setContext({ y0, y, displacement });
         onPtrPullMove?.(contextStore.getState());
 

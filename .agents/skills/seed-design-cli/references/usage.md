@@ -64,6 +64,33 @@ npx @seed-design/cli@latest compat -c action-button -c alert-dialog
 npx @seed-design/cli@latest compat --all
 ```
 
+### 5) Docs 조회
+
+컴포넌트/파운데이션에 대한 문서 링크, LLM용 텍스트 링크, 스니펫 링크를 조회합니다.
+
+인터랙티브 모드 (섹션 → 항목 순서로 선택):
+
+```bash
+npx @seed-design/cli@latest docs
+```
+
+특정 항목 직접 조회:
+
+```bash
+npx @seed-design/cli@latest docs action-button
+```
+
+출력 예시:
+
+```text
+action-button
+- docs: https://seed-design.io/react/components/action-button
+- llms.txt: https://seed-design.io/llms/react/components/action-button.txt
+- snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/ui/action-button.tsx
+```
+
+`snippet` 줄은 `ui` 또는 `breeze` 레지스트리 항목에만 출력됩니다. 파운데이션 등 스니펫이 없는 항목은 `document`와 `llms.txt`만 출력됩니다.
+
 ## seed-design.json Settings
 
 주요 필드:

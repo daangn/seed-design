@@ -1,5 +1,11 @@
 # @seed-design/stackflow
 
+## 1.1.18
+
+### Patch Changes
+
+- af9256e: AppScreen에 `layerOffsetTop` 또는 `layerOffsetBottom` 사용 시 해당 속성이 AppBar DOM에 attribute로 설정되는 문제를 수정합니다.
+
 ## 1.1.17
 
 ### Patch Changes

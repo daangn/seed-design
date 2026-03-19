@@ -6,6 +6,7 @@ import { createStyleContext } from "../../utils/createStyleContext";
 import { AppBarPropsProvider } from "../AppBar/AppBar";
 import { useTopActivity } from "../../primitive/private/useTopActivity";
 import { useActivity } from "@stackflow/react";
+import { appBar } from "@seed-design/css/recipes/app-bar";
 
 const { ClassNamesProvider, PropsProvider, withContext, useProps } = createStyleContext(appScreen);
 
@@ -36,12 +37,17 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
       : (topActivityTransitionStyle as NonNullable<AppScreenVariantProps["transitionStyle"]>),
   });
 
+  const [appBarVariantProps] = useMemo(
+    () => appBar.splitVariantProps(variantProps),
+    [variantProps],
+  );
+
   return (
     <ClassNamesProvider value={classNames}>
       <AppBarPropsProvider
         value={useMemo(
-          () => ({ ...variantProps, transitionStyle }),
-          [variantProps, transitionStyle],
+          () => ({ ...appBarVariantProps, transitionStyle }),
+          [appBarVariantProps, transitionStyle],
         )}
       >
         <AppScreenPrimitive.Root
