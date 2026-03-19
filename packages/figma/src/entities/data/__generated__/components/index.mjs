@@ -84,6 +84,11 @@ export const templateInformationList = {
   "key": "ea1ff4070a5ef4ada5974dc7030e8f9a1b759cdb"
 };
 
+export const componentFigmaOnly = {
+  "name": "componentFigmaOnly",
+  "key": "a790da2ff1fb6f761abf202034920c1504b8f8f1"
+};
+
 export const componentBottomSheetContentsAgreement = {
   "name": "componentBottomSheetContentsAgreement",
   "key": "9d530235407646750ce8298b2815093dffcbbd83"
@@ -370,9 +375,4 @@ export const componentSelectBoxItemSuffixCheck = {
 export const componentSelectBoxItemSuffixRadiomark = {
   "name": "componentSelectBoxItemSuffixRadiomark",
   "key": "cfb712b12fe2805b5594f8c143147c8aa3de490e"
-};
-
-export const componentFigmaOnly = {
-  "name": "componentFigmaOnly",
-  "key": "a790da2ff1fb6f761abf202034920c1504b8f8f1"
 };
