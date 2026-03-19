@@ -1,8 +1,8 @@
 import { forwardRef } from "react";
 import { Flex, type FlexProps } from "../Flex/Flex";
 
-export type VStackProps = FlexProps;
-export type HStackProps = FlexProps;
+export type VStackProps = Omit<FlexProps, "flexDirection">;
+export type HStackProps = Omit<FlexProps, "flexDirection">;
 
 export const VStack = forwardRef<any, VStackProps>((props, ref) => {
   return <Flex ref={ref} display="flex" flexDirection="column" {...props} />;
