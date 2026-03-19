@@ -52,6 +52,24 @@ Embeds an image from Figma by node ID. Used for anatomy diagrams, property illus
 <FigmaImage id="{figma-node-id}" alt="{Descriptive Korean alt text}" />
 ```
 
+**Image placement**: Place `FigmaImage` **after** the body text in each section, not directly under the heading. The standard order is: heading → body text → image. This lets the reader understand the context before seeing the visual.
+
+```tsx
+{/* Correct: text first, then image */}
+### Type
+
+기본 타입과 서비스나 카테고리 별 타입을 제공합니다.
+
+<FigmaImage id="..." alt="..." />
+
+{/* Wrong: image directly under heading */}
+### Type
+
+<FigmaImage id="..." alt="..." />
+
+기본 타입과 서비스나 카테고리 별 타입을 제공합니다.
+```
+
 Always write descriptive alt text that explains what the image shows.
 
 ## DoImage / DontImage

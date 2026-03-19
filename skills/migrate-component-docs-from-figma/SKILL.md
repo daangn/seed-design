@@ -38,6 +38,7 @@ Key principles:
 - **Bold** text from Figma becomes `**bold**` in markdown.
 - Use markdown tables where the content fits a tabular format.
 - Always hyperlink other components when mentioned: `[Bottom Sheet](/docs/components/bottom-sheet)`
+- **Place `FigmaImage` after body text, not directly under headings.** The correct order within each section is: heading → body text → image. This lets readers understand the context before seeing the visual.
 - Follow the standard heading order: Anatomy → Properties → Guidelines → Comparison → V3 Changes → Specification (include only applicable sections).
 - Write in Korean. Use official English names for component names and technical terms.
 - Use polite tone ("~합니다", "~해 주세요").
