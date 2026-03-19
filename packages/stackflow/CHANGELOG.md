@@ -1,5 +1,16 @@
 # @seed-design/stackflow
 
+## 1.1.19
+
+### Patch Changes
+
+- da4c6d4: AppScreen 스와이프 백 제스처가 좌→우 단방향으로만 동작하도록 수정합니다.
+
+  - 스와이프 백 중 초기 위치보다 왼쪽(역방향)으로 드래그할 수 없도록 수정합니다.
+  - `onSwipeBackMove` 콜백의 `displacement` 및 `displacementRatio` 값이 항상 0 이상으로 전달되도록 수정합니다.
+
+- 9eb86f4: Stackflow 플러그인 `seedPlugin`이 콜백 형태의 옵션을 지원하도록 수정합니다. Stack에 제공하는 `initialContext`를 통해 theme을 동적으로 결정할 수 있습니다.
+
 ## 1.1.18
 
 ### Patch Changes

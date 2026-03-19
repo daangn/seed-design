@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: content-placeholder
+  name: Content Placeholder
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+      asset:
+        properties:
+          minWidth:
+            type: dimension
+          maxWidth:
+            type: dimension
+          heightFraction:
+            type: number
+            description: root slot 대한 asset slot의 높이 비율입니다.
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.palette.gray-200
+        asset:
+          minWidth: $dimension.x4
+          maxWidth: 64px
+          heightFraction: 0.5
+          color: $color.palette.gray-400
+    type=default: {}
+    type=buySell: {}
+    type=car: {}
+    type=commerce: {}
+    type=coupon: {}
+    type=food: {}
+    type=group: {}
+    type=image: {}
+    type=jobs: {}
+    type=business: {}
+    type=post: {}
+    type=realty: {}

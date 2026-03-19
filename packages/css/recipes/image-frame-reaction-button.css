@@ -1,4 +1,4 @@
-.seed-image-frame-reaction-button {
+.seed-image-frame-reaction-button__root {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -10,10 +10,8 @@
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
     background: transparent;
-    --seed-icon-size: var(--seed-dimension-x6);
-    --seed-icon-color: var(--seed-color-palette-static-white);
 }
-.seed-image-frame-reaction-button::before {
+.seed-image-frame-reaction-button__root::before {
     content: '';
     position: absolute;
     top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
@@ -24,14 +22,31 @@
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
-.seed-image-frame-reaction-button:is(:focus, [data-focus]) {
+.seed-image-frame-reaction-button__root:is(:focus, [data-focus]) {
     outline: none;
 }
-.seed-image-frame-reaction-button:is(:focus-visible, [data-focus-visible]):before {
+.seed-image-frame-reaction-button__root:is(:focus-visible, [data-focus-visible]):before {
     border-radius: var(--seed-radius-r1);
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
-.seed-image-frame-reaction-button:is([aria-pressed=true], [data-pressed]) {
-    --seed-icon-color: var(--seed-color-bg-transparent);
+.seed-image-frame-reaction-button__fillIcon {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    pointer-events: none;
+}
+.seed-image-frame-reaction-button__lineIcon {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    color: var(--seed-color-palette-static-white);
+    pointer-events: none;
+}
+.seed-image-frame-reaction-button__lineIcon:is([aria-pressed=true], [data-pressed]) {
+    color: var(--seed-color-bg-transparent);
 }

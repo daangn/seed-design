@@ -1,5 +1,17 @@
 # @seed-design/figma
 
+## 1.3.7
+
+### Patch Changes
+
+- 534eb1c: 신규 컴포넌트 `ContentPlaceholder`에 대한 Figma Codegen을 지원합니다. `ImageFrame` codegen 시 `fallback` 값으로 `ContentPlaceholder` 코드를 생성합니다.
+- Updated dependencies [4f56e76]
+- Updated dependencies [32938de]
+- Updated dependencies [67a7780]
+- Updated dependencies [3273312]
+- Updated dependencies [9d9b891]
+  - @seed-design/css@1.2.6
+
 ## 1.3.6
 
 ### Patch Changes

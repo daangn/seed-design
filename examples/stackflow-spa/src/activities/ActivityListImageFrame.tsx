@@ -114,13 +114,13 @@ const ActivityListImageFrame: StaticActivityComponentType<"ActivityListImageFram
                 detail={item.detail}
                 prefix={
                   <ImageFrame
-                    src={item.src}
-                    alt={item.title}
                     ratio={item.ratio}
                     width={item.width}
                     height={item.height}
                     rounded
                     stroke
+                    src={item.src}
+                    alt={item.title}
                   />
                 }
               />

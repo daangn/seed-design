@@ -1779,6 +1779,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "dc015c59783f44e084809cc62404a93493842bb2": {
+    "name": "icon_map",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "3724666f033ddb53644d75d196f55c076cd7ae12": {
+    "name": "icon_map",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "07663395a21fd95087d677438538d8f61403c842": {
     "name": "icon_map_locationpin",
     "type": "monochrome",
@@ -2619,6 +2629,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "223debab61daa1aafd381a078e32b18f46ccbd59": {
+    "name": "icon_square_splited_vertical_left",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "3e9e65a307d3ce3135bf5db67ca987a791294a70": {
+    "name": "icon_square_splited_vertical_left",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "dba88cf915454127856088f2523c40ff5f4d21df": {
     "name": "icon_square2_stacked",
     "type": "monochrome",
@@ -3205,6 +3225,10 @@ export const FIGMA_ICONS = {
     "name": "icon_car_frontside",
     "type": "multicolor"
   },
+  "3591ea6c06e913f34881b9a873f8d7de8db47aa0": {
+    "name": "icon_car_frontside_bubble",
+    "type": "multicolor"
+  },
   "dce1bb113c685af444682183176ec0cb583d114f": {
     "name": "icon_card",
     "type": "multicolor"
@@ -3411,6 +3435,10 @@ export const FIGMA_ICONS = {
   },
   "5a0a4fb09505b0c67c47e6c9c5306af6a923334f": {
     "name": "icon_tshirt_bubble2",
+    "type": "multicolor"
+  },
+  "054c908bd177d6ff85ff90b7ab3887fa17a6c3fb": {
+    "name": "icon_vertrectangle_tiltedstacked",
     "type": "multicolor"
   },
   "ab66ee11be5539d340a87f1e9ca021fef1db3ef8": {
