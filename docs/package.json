@@ -62,6 +62,7 @@
     "react-dom": "^19.2.3",
     "react-error-boundary": "^6.0.0",
     "react-hook-form": "^7.53.2",
+    "react-resizable-panels": "^4.7.3",
     "recast": "^0.23.11",
     "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",

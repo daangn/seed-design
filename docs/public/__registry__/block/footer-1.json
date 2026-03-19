@@ -1,0 +1,17 @@
+{
+  "id": "footer-1",
+  "description": "심플 텍스트형 Footer (회사정보 + 링크 + 저작권)",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "snippets": [
+    {
+      "path": "footer-1.tsx",
+      "content": "/**\n * @file block:footer-1\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport { Box, HStack, Text, VStack } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nfunction FooterLink({ href, children }: { href: string; children: React.ReactNode }) {\n  return (\n    <a href={href} style={{ textDecoration: \"none\" }}>\n      <Text textStyle=\"t4Regular\" color=\"fg.neutralSubtle\">\n        {children}\n      </Text>\n    </a>\n  );\n}\n\nfunction FooterInfo({ children }: { children: React.ReactNode }) {\n  return (\n    <Text textStyle=\"t4Regular\" color=\"fg.neutralMuted\">\n      {children}\n    </Text>\n  );\n}\n\nexport function Footer1() {\n  return (\n    <Box\n      as=\"footer\"\n      width=\"100%\"\n      style={{ maxWidth: \"1040px\", marginInline: \"auto\" }}\n      paddingX=\"x8\"\n      paddingY=\"x10\"\n    >\n      <VStack gap=\"x4\" align=\"flex-start\">\n        <HStack gap=\"x4\" wrap>\n          <FooterLink href=\"#\">이용약관</FooterLink>\n          <FooterLink href=\"#\">개인정보처리방침</FooterLink>\n          <FooterLink href=\"#\">위치기반서비스 이용약관</FooterLink>\n          <FooterLink href=\"#\">광고주센터</FooterLink>\n          <FooterLink href=\"#\">고객센터</FooterLink>\n        </HStack>\n\n        <VStack gap=\"x1\" align=\"flex-start\">\n          <FooterInfo>주식회사 당근마켓 | 대표 김용현 | 사업자등록번호 000-00-00000</FooterInfo>\n          <FooterInfo>\n            직업정보제공사업 신고번호 J0000000000000 | 통신판매업 신고번호 제2000-서울서초-0000호\n          </FooterInfo>\n          <FooterInfo>서울특별시 서초구 강남대로 000, 0층 (서초동, 당근빌딩)</FooterInfo>\n        </VStack>\n\n        <HStack gap=\"x3\" wrap>\n          <FooterLink href=\"mailto:cs@daangn.com\">cs@daangn.com</FooterLink>\n        </HStack>\n\n        <Text textStyle=\"t4Regular\" color=\"fg.neutralMuted\">\n          © 2026 Danggeun Market Inc.\n        </Text>\n      </VStack>\n    </Box>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    }
+  ]
+}
