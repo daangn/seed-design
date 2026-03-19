@@ -9,23 +9,52 @@ import { VariantTable } from "./components/variant-table";
 
 const meta = {
   component: HelpBubbleTrigger,
-  decorators: [SeedThemeDecorator],
+  decorators: [
+    (Story) => (
+      <>
+        <style>{`
+          .help-bubble-story td {
+            padding: 40px 16px !important;
+          }
+        `}</style>
+        <div className="help-bubble-story">
+          <Story />
+        </div>
+      </>
+    ),
+    SeedThemeDecorator,
+  ],
 } satisfies Meta<typeof HelpBubbleTrigger>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const conditionMap = {
+  description: {
+    true: { description: "Description" },
+    false: { description: undefined },
+  },
+  showCloseButton: {
+    true: { showCloseButton: true },
+    false: { showCloseButton: false },
+  },
+};
+
 const CommonStoryTemplate: Story = {
   args: {
     children: <IconBellFill />,
     title: "Title",
-    description: "Description",
     open: true,
-    showCloseButton: true,
+    placement: "bottom",
   },
   render: (args) => (
-    <VariantTable Component={meta.component} variantMap={helpBubbleVariantMap} {...args} />
+    <VariantTable
+      Component={meta.component}
+      variantMap={helpBubbleVariantMap}
+      conditionMap={conditionMap}
+      {...args}
+    />
   ),
 };
 

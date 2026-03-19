@@ -45,7 +45,37 @@ export const { Stack, actions } = stackflow({
 
 ### Options
 
-<react-type-table path="../packages/stackflow/src/plugin.tsx" name="SeedPluginOptions" />
+<react-type-table
+  path="../packages/stackflow/src/plugin.tsx"
+  name="SeedPluginOptions"
+/>
+
+### Dynamic Options
+
+SSR 환경 등에서 theme을 동적으로 결정해야 하는 경우, Stack에 제공한 `initialContext`를 통해 `seedPlugin` 옵션을 설정할 수 있습니다.
+
+```tsx title="stackflow.ts"
+import { stackflow } from "@stackflow/react/future";
+import { seedPlugin } from "@seed-design/stackflow";
+
+export const { Stack, actions } = stackflow({
+  plugins: [
+    seedPlugin(({ initialContext }) => ({
+      theme: initialContext?.theme ?? "cupertino",
+    })),
+    // ...
+  ],
+  // ...
+});
+```
+
+`<Stack>` 렌더링 시 `initialContext`로 theme을 전달합니다.
+
+```tsx title="App.tsx"
+import type { SeedPluginOptions } from "@seed-design/stackflow";
+
+<Stack initialContext={{ theme } satisfies SeedPluginOptions} />;
+```
 
 ## What It Provides
 
@@ -59,12 +89,8 @@ export const { Stack, actions } = stackflow({
 // seedPlugin에 옵션으로 제공한 theme이 `AppScreen`에 기본적으로 적용됩니다.
 // `AppScreen`의 `theme` prop을 통해 오버라이드할 수 있습니다.
 <AppScreen>
-  <AppBar>
-    {/* ... */}
-  </AppBar>
-  <AppScreenContent>
-    {/* ... */}
-  </AppScreenContent>
+  <AppBar>{/* ... */}</AppBar>
+  <AppScreenContent>{/* ... */}</AppScreenContent>
 </AppScreen>
 ```
 
