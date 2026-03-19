@@ -1,5 +1,12 @@
 # @seed-design/rootage-artifacts
 
+## 1.2.5
+
+### Patch Changes
+
+- 4f56e76: (사용자 변경사항 없음) Rootage `text-input`에 `type=singleLine` variant 정의를 추가합니다.
+- 67a7780: Content Placeholder 컴포넌트를 추가합니다.
+
 ## 1.2.4
 
 ### Patch Changes
