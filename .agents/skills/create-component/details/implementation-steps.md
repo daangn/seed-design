@@ -18,6 +18,7 @@ YAML 파일에 `id`(kebab-case), `name`, `description`을 정의하고, `slots`�
 
 **위치**: `packages/qvism-preset/src/recipes/[name].ts`
 **추가 작업**: `recipes/index.ts`에 export 추가
+**컨벤션**: 구현 전 `packages/qvism-preset/AGENTS.md`를 읽고 해당 패키지의 컨벤션을 확인한다.
 
 Recipe 파일에서 `../vars/component/`의 생성된 토큰을 import하고, `defineRecipe`로 `base`, `variants`, `defaultVariants`를 정의한다.
 
@@ -37,15 +38,27 @@ Recipe 파일에서 `../vars/component/`의 생성된 토큰을 import하고, `d
 
 **위치**: `packages/react/src/components/[ComponentName]/`
 **빌드**: 완료 후 `bun packages:build`
+**컨벤션**: 구현 전 `packages/react/AGENTS.md`를 읽고 해당 패키지의 컨벤션을 확인한다.
 
 ### 아키텍처 패턴
 
 | 유형 | 패턴 | 예시 |
 |------|------|------|
-| 단일 컴포넌트 | `createRecipeContext` | Button, Badge |
-| 복합 컴포넌트 | `createSlotRecipeContext` | TextField, Chip |
+| 직접 splitVariantProps | `recipe.splitVariantProps(props)` | Badge |
+| 단일 슬롯 | `createRecipeContext` → `withContext` | Fab |
+| 복합 슬롯 | `createSlotRecipeContext` → `withProvider`/`withContext` | Chip |
 
-단일 컴포넌트는 Headless 컴포넌트와 CSS recipe를 import하여 `forwardRef`로 감싸고, recipe 함수 호출 결과를 className에 적용한다. 반드시 `displayName`을 설정한다.
+### Variant Props 처리 (필수)
+
+variant props(`variant`, `size`, `tone` 등)는 함수 인자에서 수동 destructuring하지 않는다. 반드시 `recipe.splitVariantProps(props)`를 사용하거나, `createRecipeContext`/`createSlotRecipeContext` 유틸을 사용한다. 세 패턴 모두 내부적으로 `splitVariantProps`를 호출하여 variant props와 HTML 속성을 타입 안전하게 분리한다.
+
+`recipe.splitVariantProps(props)`는 `[variantProps, restProps]` 튜플을 반환한다. `variantProps`만 recipe 함수에 전달하고, `restProps`는 DOM 요소에 spread한다.
+
+⚠️ **금지 패턴**: `({ variant, size, ...rest })` 형태로 variant를 함수 인자에서 직접 꺼내거나, `recipe({ variant, size })` 형태로 직접 전달하면 안 된다. variant가 추가/변경될 때 누락 위험이 있고, 타입 안전성이 보장되지 않는다.
+
+### 단일 슬롯 패턴 (createRecipeContext)
+
+`createRecipeContext(recipe)`로 context를 생성하고, `withContext`로 Primitive 요소를 감싸면 내부에서 자동으로 `splitVariantProps`를 호출한다. `forwardRef`로 감싸고 반드시 `displayName`을 설정한다.
 
 ### SlotRecipe 기반 복합 컴포넌트 패턴
 
@@ -53,9 +66,10 @@ Recipe 파일에서 `../vars/component/`의 생성된 토큰을 import하고, `d
 
 **⚠️ 흔한 실수들**:
 
-1. **존재하지 않는 패키지 import**: `createSlotRecipeContext`는 `@seed-design/react-utils`가 아닌 `../../utils/createSlotRecipeContext` 상대 경로에서 import한다.
-2. **잘못된 createSlotRecipeContext 호출**: slotRecipe를 객체로 감싸지 말고 직접 전달한다.
-3. **React 레이어에 style 직접 작성**: style prop 대신 qvism-preset recipe의 해당 슬롯에 스타일을 작성하고, `withContext`로 연결한다.
+1. **variant props 수동 destructuring**: `recipe.splitVariantProps(props)` 또는 `createRecipeContext`/`createSlotRecipeContext`를 사용한다. `({ variant, size, ...rest })` 형태 금지.
+2. **존재하지 않는 패키지 import**: `createSlotRecipeContext`는 `@seed-design/react-utils`가 아닌 `../../utils/createSlotRecipeContext` 상대 경로에서 import한다.
+3. **잘못된 createSlotRecipeContext 호출**: slotRecipe를 객체로 감싸지 말고 직접 전달한다.
+4. **React 레이어에 style 직접 작성**: style prop 대신 qvism-preset recipe의 해당 슬롯에 스타일을 작성하고, `withContext`로 연결한다.
 
 ## Step 5: Registry UI (Snippet 레이어)
 
