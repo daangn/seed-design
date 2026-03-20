@@ -5,7 +5,7 @@ import { reactSource } from "@/app/source";
 export const revalidate = false;
 
 export async function GET() {
-  const pages = reactSource.getPages() as LLMPage[];
+  const pages = reactSource.getPages();
 
   const categories = new Map<string, LLMPage[]>();
   for (const page of pages) {

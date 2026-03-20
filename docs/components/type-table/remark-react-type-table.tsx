@@ -1,14 +1,14 @@
 // This code includes portions derived from fuma-nama/fumadocs (https://github.com/fuma-nama/fumadocs)
 // Used under the MIT License: https://opensource.org/licenses/MIT
 
-import type { Expression, ExpressionStatement, ObjectExpression, Program, Property } from "estree";
+import type { Expression, ExpressionStatement, ObjectExpression, Property } from "estree";
 import { valueToEstree } from "estree-util-value-to-estree";
 import type { DocEntry } from "fumadocs-typescript";
 import { type Generator, renderMarkdownToHast } from "fumadocs-typescript";
 import { toEstree } from "hast-util-to-estree";
 import type { remark } from "remark";
 import type { Processor } from "unified";
-import type { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import type { MdxJsxAttribute } from "mdast-util-mdx-jsx";
 import { dirname } from "node:path";
 import { print } from "recast";
 import type { Transformer } from "unified";
@@ -33,7 +33,8 @@ function expressionToAttribute(key: string, value: Expression): MdxJsxAttribute 
               expression: value,
             },
           ],
-        } as Program,
+          sourceType: "module",
+        },
       },
       value: print(value).code,
     },
@@ -165,8 +166,8 @@ export function remarkReactTypeTable({
               }),
             ],
             data: {
-              // for Fumadocs `remarkStructure`
-              _string: [
+              // for fumadocs to index type table
+              _stringify: [
                 doc.name,
                 doc.description,
                 ...doc.entries.flatMap((entry) => [
@@ -174,16 +175,16 @@ export function remarkReactTypeTable({
                   entry.description,
                 ]),
               ],
-            } as MdxJsxFlowElement["data"],
+            },
             children: [],
-          } satisfies MdxJsxFlowElement;
+          };
         });
 
         Object.assign(node, {
           type: "root",
           attributes: [],
           children: await Promise.all(rendered),
-        } as Root);
+        });
       }
 
       queue.push(run());
