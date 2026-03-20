@@ -5,7 +5,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { before, engaged, focusVisible, not, open, pseudo, selected } from "../utils/pseudo";
+import { before, disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import * as tokens from "../vars/vars";
 
 const collapsed = "[data-side-navigation-state=collapsed]";
@@ -85,8 +85,8 @@ export const sideNavigation = defineSlotRecipe({
     },
     groupLabel: {
       // can have a badge inside
-      display: "flex",
-      alignItems: "center",
+      // display: "flex",
+      // alignItems: "center",
 
       padding: "6px",
 
@@ -192,14 +192,13 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       width: "100%",
       overflow: "hidden",
 
-      cursor: "pointer",
-
       textAlign: "left",
       background: "none",
       border: "none",
+      borderRadius: "10px",
       outline: "none",
 
-      transition: `padding ${duration}`,
+      transition: `padding ${duration}, background-color ${duration}`,
 
       [pseudo(before)]: {
         content: '""',
@@ -224,15 +223,23 @@ export const sideNavigationMenuItem = defineSlotRecipe({
         width: "calc(56px - 8px * 2)", // full width of the collapsed sidebar - horizontal padding
       },
 
-      [pseudo(engaged, before)]: {
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+      },
+
+      [pseudo(not(disabled))]: {
+        cursor: "pointer",
+      },
+
+      [pseudo(not(disabled), engaged, before)]: {
         backgroundColor: tokens.$color.bg.transparentPressed,
       },
 
-      [pseudo(selected)]: {
+      [pseudo("[data-current]")]: {
         backgroundColor: tokens.$color.palette.staticBlackAlpha200,
       },
 
-      [pseudo(selected, engaged)]: {
+      [pseudo("[data-current]", not(disabled), engaged)]: {
         backgroundColor: tokens.$color.palette.staticBlackAlpha300,
       },
 
@@ -251,15 +258,20 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       position: "absolute",
       top: "50%",
       transform: "translateY(-50%)",
+      transition: `color ${duration}`,
 
-      [pseudo(selected)]: {
+      [pseudo("[data-current]")]: {
         color: tokens.$color.fg.neutral,
+      },
+
+      [pseudo(disabled)]: {
+        color: tokens.$color.fg.disabled,
       },
     },
     label: {
       // can have a badge inside
-      display: "flex",
-      alignItems: "center",
+      // display: "flex",
+      // alignItems: "center",
 
       padding: "6px",
 
@@ -277,10 +289,18 @@ export const sideNavigationMenuItem = defineSlotRecipe({
 
       paddingLeft: "calc(20px + 12px)", // prefixIcon width + root gap
 
-      transition: `opacity ${duration}`,
+      transition: `opacity ${duration}, color ${duration}`,
 
       [pseudo(collapsed)]: {
         opacity: 0,
+      },
+
+      [pseudo("[data-current]")]: {
+        color: tokens.$color.fg.neutral,
+      },
+
+      [pseudo(disabled)]: {
+        color: tokens.$color.fg.disabled,
       },
     },
     suffixIcon: {

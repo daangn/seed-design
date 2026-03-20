@@ -1,7 +1,11 @@
 import {
   SideNavigation as SideNavigationPrimitive,
+  SideNavigationMenuItemProvider,
   useCollapsibleContext,
   useSideNavigationContext,
+  useSideNavigationMenuItem,
+  useSideNavigationMenuItemContext,
+  type UseSideNavigationMenuItemProps,
 } from "@seed-design/react-side-navigation";
 import {
   sideNavigation,
@@ -20,16 +24,21 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import React from "react";
+import clsx from "clsx";
 
 const { withProvider, withContext } = createSlotRecipeContext(sideNavigation);
 const {
-  withProvider: withMenuItemProvider,
   withRootProvider: withMenuItemRootProvider,
   withContext: withMenuItemContext,
+  ClassNamesProvider: MenuItemClassNamesProvider,
 } = createSlotRecipeContext(sideNavigationMenuItem);
 const { withContext: withInsetContext } = createRecipeContext(sideNavigationInset);
 
 const withSideNavigationStateProps = createWithStateProps([useSideNavigationContext]);
+const withMenuItemStateProps = createWithStateProps([
+  { useContext: useSideNavigationMenuItemContext, strict: false },
+]);
 const withCollapsibleStateProps = createWithStateProps([
   { useContext: useCollapsibleContext, strict: false },
 ]);
@@ -116,13 +125,34 @@ SideNavigationGroupLabel.displayName = "SideNavigationGroupLabel";
 
 export interface SideNavigationMenuItemProps
   extends SideNavigationMenuItemVariantProps,
+    UseSideNavigationMenuItemProps,
     PrimitiveProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-export const SideNavigationMenuItem = withMenuItemProvider<
+export const SideNavigationMenuItem = React.forwardRef<
   HTMLButtonElement,
   SideNavigationMenuItemProps
->(withSideNavigationStateProps(Primitive.button), "root");
+>(({ current, disabled, className, ...props }, ref) => {
+  const [variantProps, restProps] = sideNavigationMenuItem.splitVariantProps(props);
+  const classNames = sideNavigationMenuItem(variantProps);
+
+  const { stateProps: sideNavStateProps } = useSideNavigationContext();
+  const api = useSideNavigationMenuItem({ current, disabled });
+
+  return (
+    <SideNavigationMenuItemProvider value={api}>
+      <MenuItemClassNamesProvider value={classNames}>
+        <Primitive.button
+          className={clsx(classNames.root, className)}
+          ref={ref}
+          {...restProps}
+          {...sideNavStateProps}
+          {...api.rootProps}
+        />
+      </MenuItemClassNamesProvider>
+    </SideNavigationMenuItemProvider>
+  );
+});
 
 SideNavigationMenuItem.displayName = "SideNavigationMenuItem";
 
@@ -135,7 +165,7 @@ export interface SideNavigationMenuItemLabelProps
 export const SideNavigationMenuItemLabel = withMenuItemContext<
   HTMLSpanElement,
   SideNavigationMenuItemLabelProps
->(withSideNavigationStateProps(Primitive.span), "label");
+>(withMenuItemStateProps(withSideNavigationStateProps(Primitive.span)), "label");
 
 SideNavigationMenuItemLabel.displayName = "SideNavigationMenuItemLabel";
 
@@ -146,7 +176,10 @@ export interface SideNavigationMenuItemPrefixIconProps extends InternalIconProps
 export const SideNavigationMenuItemPrefixIcon = withMenuItemContext<
   SVGSVGElement,
   SideNavigationMenuItemPrefixIconProps
->(withSideNavigationStateProps(withCollapsibleStateProps(InternalIcon)), "prefixIcon");
+>(
+  withMenuItemStateProps(withSideNavigationStateProps(withCollapsibleStateProps(InternalIcon))),
+  "prefixIcon",
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -155,7 +188,10 @@ export interface SideNavigationMenuItemSuffixIconProps extends InternalIconProps
 export const SideNavigationMenuItemSuffixIcon = withMenuItemContext<
   SVGSVGElement,
   SideNavigationMenuItemSuffixIconProps
->(withSideNavigationStateProps(withCollapsibleStateProps(InternalIcon)), "suffixIcon");
+>(
+  withMenuItemStateProps(withSideNavigationStateProps(withCollapsibleStateProps(InternalIcon))),
+  "suffixIcon",
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

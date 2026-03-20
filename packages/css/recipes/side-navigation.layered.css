@@ -61,10 +61,8 @@
     text-overflow: ellipsis;
     opacity: 1;
     pointer-events: none;
-    align-items: center;
     padding: 6px;
     transition: margin .2s, opacity .2s;
-    display: flex;
     overflow: hidden;
   }
 

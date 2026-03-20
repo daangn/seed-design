@@ -47,8 +47,6 @@
     flex-direction: column;
 }
 .seed-side-navigation__groupLabel {
-    display: flex;
-    align-items: center;
     padding: 6px;
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);

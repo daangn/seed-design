@@ -30,6 +30,18 @@ export {
   type UseSideNavigationCollapsibleReturn,
 } from "./useSideNavigationCollapsible";
 
+export {
+  useSideNavigationMenuItem,
+  type UseSideNavigationMenuItemProps,
+  type UseSideNavigationMenuItemReturn,
+} from "./useSideNavigationMenuItem";
+
+export {
+  useSideNavigationMenuItemContext,
+  SideNavigationMenuItemProvider,
+  type UseSideNavigationMenuItemContext,
+} from "./useSideNavigationMenuItemContext";
+
 export { useCollapsibleContext } from "@seed-design/react-collapsible";
 
 export * as SideNavigation from "./SideNavigation.namespace";
