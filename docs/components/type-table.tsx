@@ -97,8 +97,41 @@ function Item({
   name: string;
   item: TypeNode;
 }) {
+  const hasContent = !!(description || defaultValue || parameters.length > 0 || returns);
   const [open, setOpen] = useState(false);
   const id = parentId ? `${parentId}-${name}` : undefined;
+
+  const nameLabel = (
+    <code
+      className={cn(
+        "text-fd-primary w-1/4 @max-xl:w-[unset] font-mono font-medium pe-2 shrink-0 break-all",
+        deprecated && "line-through text-fd-primary/50",
+      )}
+    >
+      {name}
+      {!required && "?"}
+    </code>
+  );
+
+  const typeLabel = typeDescriptionLink ? (
+    <Link href={typeDescriptionLink} className="underline @max-xl:hidden">
+      {type}
+    </Link>
+  ) : (
+    <span className="@max-xl:hidden">{type}</span>
+  );
+
+  if (!hasContent) {
+    return (
+      <div
+        id={id}
+        className="flex flex-row items-center w-full text-start ps-3 pe-3 py-2 not-prose rounded-xl border border-transparent"
+      >
+        {nameLabel}
+        {typeLabel}
+      </div>
+    );
+  }
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -122,22 +155,8 @@ function Item({
       )}
     >
       <CollapsibleTrigger className="relative flex flex-row items-center w-full group text-start ps-3 pe-6 py-2 not-prose hover:bg-fd-accent">
-        <code
-          className={cn(
-            "text-fd-primary w-1/4 @max-xl:w-[unset] font-mono font-medium pe-2 shrink-0 break-all",
-            deprecated && "line-through text-fd-primary/50",
-          )}
-        >
-          {name}
-          {!required && "?"}
-        </code>
-        {typeDescriptionLink ? (
-          <Link href={typeDescriptionLink} className="underline @max-xl:hidden">
-            {type}
-          </Link>
-        ) : (
-          <span className="@max-xl:hidden">{type}</span>
-        )}
+        {nameLabel}
+        {typeLabel}
         <IconChevronDownSmallLine className="absolute end-2 size-4 text-fd-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
       </CollapsibleTrigger>
       <CollapsibleContent>
