@@ -7,7 +7,6 @@ import { ManualInstallation } from "@/components/manual-installation";
 import { ChangelogPage } from "@/components/changelog-page";
 import { StackflowExample } from "@/components/stackflow-example";
 import { TokenReference } from "@/components/token-reference";
-import { createReactTypeTable } from "@/components/type-table/react-type-table";
 import {
   IconCarrotLine,
   IconDocumentLine,
@@ -19,7 +18,7 @@ import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import { TypeTable } from "fumadocs-ui/components/type-table";
+import { TypeTable } from "@/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import clsx from "clsx";
 import type { MDXComponents } from "mdx/types";
@@ -35,9 +34,6 @@ import { IconographyMigrationIndex } from "./migration/iconography-migration-ind
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
 import { PlatformStatusTable } from "./platform-status-table";
 import { ProgressBoardTable } from "./progress-board-table";
-import { typeTableGenerator } from "./type-table/generator";
-
-const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
@@ -81,7 +77,6 @@ export const mdxComponents: MDXComponents = {
   Pre,
   StackflowExample,
   TypeTable,
-  ReactTypeTable,
   ColorGrid,
   V3Icon,
   V2Icon,
