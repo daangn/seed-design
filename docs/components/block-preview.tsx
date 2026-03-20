@@ -2,9 +2,10 @@
 
 import {
   IconArrowUpRightArrowDownLeftLine,
-  IconSquare2StackedLine,
+  IconCheckmarkFill,
   IconLaptopLine,
   IconMobileLine,
+  IconSquare2StackedLine,
 } from "@karrotmarket/react-monochrome-icon";
 import * as React from "react";
 import { Group, Panel, Separator, type GroupImperativeHandle } from "react-resizable-panels";
@@ -63,58 +64,60 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
   return (
     <ErrorBoundary>
       <div className="not-prose my-6 space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 rounded-lg border border-fd-border p-1">
-            <ViewportButton
-              active={viewport === "desktop"}
-              onClick={() => handleViewportChange("desktop")}
-              label="Desktop"
-            >
-              <IconLaptopLine size={16} />
-            </ViewportButton>
-            <ViewportButton
-              active={viewport === "tablet"}
-              onClick={() => handleViewportChange("tablet")}
-              label="Tablet"
-            >
-              <TabletIcon />
-            </ViewportButton>
-            <ViewportButton
-              active={viewport === "mobile"}
-              onClick={() => handleViewportChange("mobile")}
-              label="Mobile"
-            >
-              <IconMobileLine size={16} />
-            </ViewportButton>
-            <div className="mx-0.5 h-4 w-px bg-fd-border" />
-            <ViewportButton
-              active={false}
-              onClick={() => window.open(iframeSrc, "_blank")}
-              label="새 탭에서 열기"
-            >
-              <IconArrowUpRightArrowDownLeftLine size={16} />
-            </ViewportButton>
-          </div>
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="flex items-center gap-2 rounded-lg border border-fd-border px-3 py-1.5 font-mono text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-          >
-            <span className="text-fd-foreground">{">"}_</span>
-            {cliCommand}
-            <IconSquare2StackedLine size={14} className={copied ? "text-green-500" : ""} />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="flex items-center gap-2 rounded-lg border border-fd-border px-3 py-1.5 font-mono text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
+        >
+          <span className="text-fd-foreground">{">"}_</span>
+          {cliCommand}
+          {copied ? <IconCheckmarkFill size={14} /> : <IconSquare2StackedLine size={14} />}
+        </button>
 
         <div className="overflow-hidden rounded-lg border border-fd-border">
-          <div className="flex items-center border-b border-fd-border px-4">
-            <TabButton active={view === "preview"} onClick={() => setView("preview")}>
-              미리보기
-            </TabButton>
-            {children && (
-              <TabButton active={view === "code"} onClick={() => setView("code")}>
-                코드
+          <div className="flex items-center justify-between border-b border-fd-border px-4">
+            <div className="flex items-center">
+              <TabButton active={view === "preview"} onClick={() => setView("preview")}>
+                미리보기
               </TabButton>
+              {children && (
+                <TabButton active={view === "code"} onClick={() => setView("code")}>
+                  코드
+                </TabButton>
+              )}
+            </div>
+            {view === "preview" && (
+              <div className="flex items-center gap-1">
+                <ViewportButton
+                  active={viewport === "desktop"}
+                  onClick={() => handleViewportChange("desktop")}
+                  label="Desktop"
+                >
+                  <IconLaptopLine size={16} />
+                </ViewportButton>
+                <ViewportButton
+                  active={viewport === "tablet"}
+                  onClick={() => handleViewportChange("tablet")}
+                  label="Tablet"
+                >
+                  <TabletIcon />
+                </ViewportButton>
+                <ViewportButton
+                  active={viewport === "mobile"}
+                  onClick={() => handleViewportChange("mobile")}
+                  label="Mobile"
+                >
+                  <IconMobileLine size={16} />
+                </ViewportButton>
+                <div className="mx-0.5 h-4 w-px bg-fd-border" />
+                <ViewportButton
+                  active={false}
+                  onClick={() => window.open(iframeSrc, "_blank")}
+                  label="새 탭에서 열기"
+                >
+                  <IconArrowUpRightArrowDownLeftLine size={16} />
+                </ViewportButton>
+              </div>
             )}
           </div>
           {view === "preview" ? (
