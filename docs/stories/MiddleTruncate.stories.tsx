@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { MiddleTruncate, type MiddleTruncateProps } from "@seed-design/react-middle-truncate";
+import { MiddleTruncate, type MiddleTruncateProps } from "@seed-design/react/primitive";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { VariantTable } from "./components/variant-table";
