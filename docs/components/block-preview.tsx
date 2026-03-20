@@ -32,6 +32,10 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
   const panelRef = React.useRef<PanelImperativeHandle>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
+  React.useEffect(() => {
+    setIsLoaded(false);
+  }, [name]);
+
   const resizeToViewport = React.useCallback((v: Viewport) => {
     requestAnimationFrame(() => {
       if (!containerRef.current || !panelRef.current) return;
@@ -191,6 +195,7 @@ function TabletIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
     >
       <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
       <line x1="12" y1="18" x2="12.01" y2="18" />
