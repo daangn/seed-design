@@ -2,7 +2,7 @@
 
 import {
   IconArrowUpRightArrowDownLeftLine,
-  IconCopyLine,
+  IconSquare2StackedLine,
   IconLaptopLine,
   IconMobileLine,
 } from "@karrotmarket/react-monochrome-icon";
@@ -102,7 +102,7 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
           >
             <span className="text-fd-foreground">{">"}_</span>
             {cliCommand}
-            <IconCopyLine size={14} className={copied ? "text-green-500" : ""} />
+            <IconSquare2StackedLine size={14} className={copied ? "text-green-500" : ""} />
           </button>
         </div>
 
