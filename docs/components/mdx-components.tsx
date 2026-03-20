@@ -43,14 +43,14 @@ const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
 
-  img: ({ className, src, ...rest }) => (
+  img: ({ className, ...rest }) => (
     <ImageZoom
       className={clsx(
         className,
         "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
       )}
-      src={typeof src === "string" ? src : undefined}
-      {...rest}
+      // biome-ignore lint/suspicious/noExplicitAny: fumadocs recommends this: https://www.fumadocs.dev/docs/ui/components/image-zoom#usage
+      {...(rest as any)}
     />
   ),
 
