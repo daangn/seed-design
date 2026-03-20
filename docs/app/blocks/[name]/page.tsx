@@ -19,5 +19,12 @@ export default async function BlockPage({ params }: { params: Promise<{ name: st
 }
 
 export function generateStaticParams() {
-  return Object.keys(blocks).map((name) => ({ name }));
+  const params = Object.keys(blocks).map((name) => ({ name }));
+
+  // output: export requires at least one param for dynamic routes
+  if (params.length === 0) {
+    return [{ name: "__placeholder__" }];
+  }
+
+  return params;
 }
