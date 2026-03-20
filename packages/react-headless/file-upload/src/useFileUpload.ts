@@ -92,6 +92,13 @@ export interface UseFileUploadProps extends UseFileUploadStateProps {
    * Custom validation function.
    */
   validate?: (file: File) => FileError[] | null;
+
+  /**
+   * Whether to prevent the browser's default behavior when files are dropped
+   * outside the dropzone (e.g., opening the file in a new tab).
+   * @default true
+   */
+  preventDocumentDrop?: boolean;
 }
 
 export type UseFileUploadReturn = ReturnType<typeof useFileUpload>;
@@ -107,10 +114,12 @@ export function useFileUpload({
   minFileSize = 0,
   name,
   validate,
+  preventDocumentDrop = true,
   onFileReject,
   ...props
 }: UseFileUploadProps = {}) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const dropzoneRef = useRef<HTMLDivElement>(null);
   const idCounterRef = useRef(0);
 
   const { acceptedFileEntries, isDragging, setAcceptedFileEntries, setIsDragging } =
@@ -290,8 +299,37 @@ export function useFileUpload({
     );
   }, [acceptedFileEntries]);
 
+  useEffect(() => {
+    if (!preventDocumentDrop) return;
+    if (disabled) return;
+
+    const onDragOver = (event: Event) => {
+      if (!dropzoneRef.current) return;
+
+      event.preventDefault();
+    };
+
+    const onDrop = (event: Event) => {
+      if (!dropzoneRef.current) return;
+
+      const target = event.target as Node | null;
+      if (dropzoneRef.current.contains(target)) return;
+
+      event.preventDefault();
+    };
+
+    document.addEventListener("dragover", onDragOver);
+    document.addEventListener("drop", onDrop);
+
+    return () => {
+      document.removeEventListener("dragover", onDragOver);
+      document.removeEventListener("drop", onDrop);
+    };
+  }, [preventDocumentDrop, disabled]);
+
   return {
     inputRef,
+    dropzoneRef,
 
     acceptedFileEntries,
     dragging: isDragging,

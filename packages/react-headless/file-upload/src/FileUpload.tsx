@@ -33,6 +33,7 @@ export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
       name,
       onAcceptedFileEntriesChange,
       onFileReject,
+      preventDocumentDrop,
       required,
       validate,
 
@@ -52,6 +53,7 @@ export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
       name,
       onAcceptedFileEntriesChange,
       onFileReject,
+      preventDocumentDrop,
       required,
       validate,
     });
@@ -71,10 +73,10 @@ export interface FileUploadDropzoneProps
 
 export const FileUploadDropzone = forwardRef<HTMLDivElement, FileUploadDropzoneProps>(
   (props, ref) => {
-    const { dropzoneProps } = useFileUploadContext();
+    const { dropzoneRef, dropzoneProps } = useFileUploadContext();
     const mergedProps = mergeProps(dropzoneProps, props);
 
-    return <Primitive.div ref={ref} {...mergedProps} />;
+    return <Primitive.div ref={composeRefs(dropzoneRef, ref)} {...mergedProps} />;
   },
 );
 FileUploadDropzone.displayName = "FileUploadDropzone";

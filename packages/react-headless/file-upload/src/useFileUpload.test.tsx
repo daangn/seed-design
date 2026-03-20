@@ -1580,4 +1580,68 @@ describe("useFileUpload", () => {
       });
     });
   });
+
+  describe("preventDocumentDrop", () => {
+    it("should prevent default on document drop by default", () => {
+      setUp(<BasicFileUpload />);
+
+      const dropEvent = new Event("drop", { bubbles: true, cancelable: true });
+      document.dispatchEvent(dropEvent);
+
+      expect(dropEvent.defaultPrevented).toBe(true);
+    });
+
+    it("should prevent default on document dragover by default", () => {
+      setUp(<BasicFileUpload />);
+
+      const dragOverEvent = new Event("dragover", { bubbles: true, cancelable: true });
+      document.dispatchEvent(dragOverEvent);
+
+      expect(dragOverEvent.defaultPrevented).toBe(true);
+    });
+
+    it("should not prevent default when preventDocumentDrop is false", () => {
+      setUp(<BasicFileUpload preventDocumentDrop={false} />);
+
+      const dropEvent = new Event("drop", { bubbles: true, cancelable: true });
+      document.dispatchEvent(dropEvent);
+
+      expect(dropEvent.defaultPrevented).toBe(false);
+    });
+
+    it("should not register listeners when disabled", () => {
+      setUp(<BasicFileUpload disabled preventDocumentDrop />);
+
+      const dropEvent = new Event("drop", { bubbles: true, cancelable: true });
+      document.dispatchEvent(dropEvent);
+
+      expect(dropEvent.defaultPrevented).toBe(false);
+    });
+
+    it("should clean up listeners on unmount", () => {
+      const { unmount } = setUp(<BasicFileUpload />);
+
+      unmount();
+
+      const dropEvent = new Event("drop", { bubbles: true, cancelable: true });
+      document.dispatchEvent(dropEvent);
+
+      expect(dropEvent.defaultPrevented).toBe(false);
+    });
+
+    it("should not interfere with drops inside the dropzone", () => {
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(<BasicFileUpload maxFiles={5} onFileReject={onFileReject} />);
+
+      const dropzone = getByTestId("dropzone");
+      const file = createMockFile("test.txt", 100, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file] },
+      });
+
+      // Drop on dropzone should still process files normally
+      expect(onFileReject).not.toHaveBeenCalled();
+    });
+  });
 });
