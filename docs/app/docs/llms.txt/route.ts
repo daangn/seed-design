@@ -1,8 +1,11 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
+import { getDisplayTitle, sortCategories } from "@/app/_llms/utils";
 import { docsSource } from "@/app/source";
 
 export const revalidate = false;
+
+const excludedCategories = new Set(["progress-board"]);
 
 const categoryOrder = ["foundation", "components", "guidelines", "migration", "resources"];
 
@@ -14,19 +17,6 @@ const categoryDescriptions: Record<string, string> = {
   resources: "디자인 리소스",
 };
 
-function getDisplayTitle(page: LLMPage, categoryPages: LLMPage[]): string {
-  const title = page.data.title;
-  const duplicates = categoryPages.filter((p) => p.data.title === title);
-  if (duplicates.length <= 1) return title;
-
-  const parentSlug = page.slugs.length >= 2 ? page.slugs[page.slugs.length - 2] : null;
-  if (parentSlug) {
-    const label = parentSlug.charAt(0).toUpperCase() + parentSlug.slice(1);
-    return `${title} (${label})`;
-  }
-  return title;
-}
-
 export async function GET() {
   const pages = docsSource.getPages() as LLMPage[];
 
@@ -34,18 +24,14 @@ export async function GET() {
   for (const page of pages) {
     if (page.slugs.length === 0) continue;
     const category = page.slugs[0];
-    if (!(category in categoryDescriptions)) continue;
+    if (excludedCategories.has(category)) continue;
     if (!categories.has(category)) {
       categories.set(category, []);
     }
     categories.get(category)!.push(page);
   }
 
-  const sortedCategories = categoryOrder
-    .filter((c) => categories.has(c))
-    .map((c) => [c, categories.get(c)!] as const);
-
-  const categoryList = sortedCategories
+  const categoryList = sortCategories(categories, categoryOrder)
     .map(([category, categoryPages]) => {
       const description = categoryDescriptions[category] ?? "";
       const pageList = categoryPages

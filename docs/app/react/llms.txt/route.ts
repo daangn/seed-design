@@ -1,5 +1,6 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
+import { getDisplayTitle, sortCategories } from "@/app/_llms/utils";
 import { reactSource } from "@/app/source";
 
 export const revalidate = false;
@@ -24,19 +25,6 @@ const categoryDescriptions: Record<string, string> = {
   patterns: "사용 패턴 및 모범 사례",
 };
 
-function getDisplayTitle(page: LLMPage, categoryPages: LLMPage[]): string {
-  const title = page.data.title;
-  const duplicates = categoryPages.filter((p) => p.data.title === title);
-  if (duplicates.length <= 1) return title;
-
-  const parentSlug = page.slugs.length >= 2 ? page.slugs[page.slugs.length - 2] : null;
-  if (parentSlug) {
-    const label = parentSlug.charAt(0).toUpperCase() + parentSlug.slice(1);
-    return `${title} (${label})`;
-  }
-  return title;
-}
-
 export async function GET() {
   const pages = reactSource.getPages() as LLMPage[];
 
@@ -50,11 +38,7 @@ export async function GET() {
     categories.get(category)!.push(page);
   }
 
-  const sortedCategories = categoryOrder
-    .filter((c) => categories.has(c))
-    .map((c) => [c, categories.get(c)!] as const);
-
-  const categoryList = sortedCategories
+  const categoryList = sortCategories(categories, categoryOrder)
     .map(([category, categoryPages]) => {
       const description = categoryDescriptions[category] ?? "";
       const pageList = categoryPages

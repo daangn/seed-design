@@ -1,8 +1,17 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
+import { sortCategories } from "@/app/_llms/utils";
 import { aiIntegrationSource } from "@/app/source";
 
 export const revalidate = false;
+
+const categoryOrder = ["docs-mcp", "figma-mcp", "cli"];
+
+const categoryDescriptions: Record<string, string> = {
+  "docs-mcp": "SEED Design MCP 서버 연동",
+  "figma-mcp": "Figma MCP 서버 연동",
+  cli: "CLI 스킬 및 도구",
+};
 
 export async function GET() {
   const pages = aiIntegrationSource.getPages() as LLMPage[];
@@ -17,13 +26,7 @@ export async function GET() {
     categories.get(category)!.push(page);
   }
 
-  const categoryDescriptions: Record<string, string> = {
-    "docs-mcp": "SEED Design MCP 서버 연동",
-    "figma-mcp": "Figma MCP 서버 연동",
-    cli: "CLI 스킬 및 도구",
-  };
-
-  const categoryList = Array.from(categories.entries())
+  const categoryList = sortCategories(categories, categoryOrder)
     .map(([category, categoryPages]) => {
       const description = categoryDescriptions[category] ?? "";
       const pageList = categoryPages
