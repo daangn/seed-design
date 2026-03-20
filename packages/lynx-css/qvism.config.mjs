@@ -1,11 +1,11 @@
+import { postcssEngaged } from "@seed-design/postcss-engaged";
+import { postcssLynxCompat } from "@seed-design/postcss-lynx-compat";
 import {
   recipes,
   tokens,
   keyframes,
   globalCss,
   definePreset,
-  postcssEngaged,
-  postcssLynxCompat,
   engaged,
   hover,
   active,

@@ -13,8 +13,6 @@ export { tokens } from "./tokens";
 export { keyframes } from "./keyframes";
 export { globalCss } from "./global";
 export { definePreset } from "./utils/define";
-export { postcssEngaged } from "@seed-design/postcss-engaged";
-export { postcssLynxCompat } from "@seed-design/postcss-lynx-compat";
 export { engaged, hover, active } from "./utils/pseudo";
 
 export default definePreset({
