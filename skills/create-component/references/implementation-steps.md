@@ -12,50 +12,25 @@ Headless 훅은 `use{Component}.ts` 파일에 `use{Component}` 형태로 작성�
 **위치**: `packages/rootage/components/[name].yaml`
 **명령어**: 완료 후 `bun generate:all`
 
-YAML 파일에 `id`(kebab-case), `name`, `description`을 정의하고, `slots`에 컴포넌트 파츠(예: root)를 나열한다. `variants`에는 각 variant의 값 배열과 기본값을, `states`에는 상태 목록(default, hover, pressed, disabled 등)을 정의한다.
+`packages/rootage/components/schema.json`을 참고하여 YAML 파일을 작성한다. 스키마에 정의된 `kind`, `metadata`, `data` 구조를 따르며, slots/variants/definitions를 올바르게 구성한다.
 
 ## Step 3: Recipe (Qvism Preset)
 
 **위치**: `packages/qvism-preset/src/recipes/[name].ts`
 **추가 작업**: `recipes/index.ts`에 export 추가
+**컨벤션**: 구현 전 `packages/qvism-preset/AGENTS.md`를 읽고 해당 패키지의 컨벤션을 확인한다.
 
-Recipe 파일에서 `../vars/component/`의 생성된 토큰을 import하고, `defineRecipe`로 `base`, `variants`, `defaultVariants`를 정의한다.
+Recipe 파일에서 `../vars/component/`의 생성된 토큰을 import하고, `defineRecipe` 또는 `defineSlotRecipe`로 스타일을 정의한다. 어떤 함수를 사용할지, 슬롯 구조, 전환 시 주의사항은 `packages/qvism-preset/AGENTS.md`에 명시되어 있다.
 
 **주의**: hover 대신 active 상태 사용 (모바일 우선)
-
-### defineRecipe vs defineSlotRecipe
-
-슬롯이 하나인 단순 컴포넌트는 `defineRecipe`, 여러 슬롯이 필요한 복합 컴포넌트는 `defineSlotRecipe`를 사용합니다.
-
-`defineSlotRecipe`는 `name`, `slots` 배열, `base`(슬롯별 스타일), `variants`(슬롯별 variants)를 정의한다. `base.slotName` 형태로 슬롯별 기본 스타일을 작성하고, `variants.variantName.variantValue.slotName` 형태로 슬롯별 variants를 적용한다.
-
-⚠️ **중요**: `defineSlotRecipe`로 변경하거나 슬롯을 추가한 후에는 반드시 `bun generate:all`을 실행하세요.
-- CSS 클래스명이 `.seed-{name}` → `.seed-{name}__root` 형태로 변경됩니다.
-- generate 없이 React 코드만 수정하면 CSS와 불일치가 발생합니다.
 
 ## Step 4: React 컴포넌트
 
 **위치**: `packages/react/src/components/[ComponentName]/`
 **빌드**: 완료 후 `bun packages:build`
+**컨벤션**: 구현 전 `packages/react/AGENTS.md`를 읽고 해당 패키지의 컨벤션을 확인한다.
 
-### 아키텍처 패턴
-
-| 유형 | 패턴 | 예시 |
-|------|------|------|
-| 단일 컴포넌트 | `createRecipeContext` | Button, Badge |
-| 복합 컴포넌트 | `createSlotRecipeContext` | TextField, Chip |
-
-단일 컴포넌트는 Headless 컴포넌트와 CSS recipe를 import하여 `forwardRef`로 감싸고, recipe 함수 호출 결과를 className에 적용한다. 반드시 `displayName`을 설정한다.
-
-### SlotRecipe 기반 복합 컴포넌트 패턴
-
-슬롯 recipe를 사용하는 경우 `createSlotRecipeContext`를 활용한다. `createSlotRecipeContext`는 반드시 `../../utils/createSlotRecipeContext` 상대 경로에서 import하고, slotRecipe 함수를 직접 전달한다. `withProvider`로 Root 컴포넌트를, `withContext`로 하위 슬롯 컴포넌트를 연결하면 각 슬롯에 자동으로 해당 className이 적용된다.
-
-**⚠️ 흔한 실수들**:
-
-1. **존재하지 않는 패키지 import**: `createSlotRecipeContext`는 `@seed-design/react-utils`가 아닌 `../../utils/createSlotRecipeContext` 상대 경로에서 import한다.
-2. **잘못된 createSlotRecipeContext 호출**: slotRecipe를 객체로 감싸지 말고 직접 전달한다.
-3. **React 레이어에 style 직접 작성**: style prop 대신 qvism-preset recipe의 해당 슬롯에 스타일을 작성하고, `withContext`로 연결한다.
+Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 상세는 `packages/react/AGENTS.md`에 명시되어 있다.
 
 ## Step 5: Registry UI (Snippet 레이어)
 

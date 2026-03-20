@@ -29,15 +29,11 @@ Recipe 작성 후 반드시 `recipes/index.ts`에 export를 추가해야 한다.
 
 ### Recipe-React 불일치
 
-`defineSlotRecipe`로 변경하거나 슬롯을 추가한 후에는 반드시 `bun generate:all`을 먼저 실행한 뒤 React 코드를 수정한다. generate 없이 React 코드만 수정하면 CSS에 슬롯 클래스명이 없어서 스타일이 깨진다.
+Recipe 타입을 변경하거나 슬롯을 추가한 후에는 반드시 `bun generate:all`을 먼저 실행한 뒤 React 코드를 수정한다. 상세는 `packages/qvism-preset/AGENTS.md`와 `packages/css/AGENTS.md` 참조.
 
-### React에 style 직접 작성
+### React 컴포넌트 패턴 위반
 
-style prop을 직접 사용하면 테마, 다크모드, CSS 변수 활용이 불가능하고 스타일 관리가 분산된다. 반드시 qvism-preset recipe의 해당 슬롯에 스타일을 추가하고, `withContext`로 슬롯 className을 자동 적용한다.
-
-### 잘못된 import 경로
-
-`createSlotRecipeContext`는 `@seed-design/react-utils`(존재하지 않는 패키지)가 아닌 `../../utils/createSlotRecipeContext` 상대 경로에서 import한다.
+variant props 수동 destructuring, 잘못된 import 경로, style prop 직접 사용 등의 금지 패턴은 `packages/react/AGENTS.md`에 명시되어 있다. 구현 전 반드시 확인한다.
 
 ## 생성 파일 (수정 금지)
 
