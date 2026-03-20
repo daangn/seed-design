@@ -86,7 +86,7 @@ function Item({
     description,
     required = false,
     deprecated,
-    typeDescription,
+    // typeDescription,
     default: defaultValue,
     type,
     typeDescriptionLink,
@@ -124,7 +124,7 @@ function Item({
       <CollapsibleTrigger className="relative flex flex-row items-center w-full group text-start ps-3 pe-6 py-2 not-prose hover:bg-fd-accent">
         <code
           className={cn(
-            "text-fd-primary w-1/4 font-mono font-medium pe-2 shrink-0 break-all",
+            "text-fd-primary w-1/4 @max-xl:w-[unset] font-mono font-medium pe-2 shrink-0 break-all",
             deprecated && "line-through text-fd-primary/50",
           )}
         >
@@ -136,7 +136,7 @@ function Item({
             {type}
           </Link>
         ) : (
-          <span className="@max-xl:hidden">{type}</span>
+          <span className="@max-xl:hidden text-sm">{type}</span>
         )}
         <IconChevronDownSmallLine className="absolute end-2 size-4 text-fd-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
       </CollapsibleTrigger>
@@ -145,12 +145,18 @@ function Item({
           <div className="text-sm prose col-span-full prose-no-margin empty:hidden py-0!">
             {description}
           </div>
-          {typeDescription && (
+          {type && (
             <>
               <p className={cn(fieldVariants(), "@max-xl:block hidden")}>Type</p>
-              <p className="my-auto not-prose @max-xl:block hidden">{typeDescription}</p>
+              <p className="my-auto not-prose @max-xl:block hidden">{type}</p>
             </>
           )}
+          {/* {typeDescription && (
+            <>
+              <p className={cn(fieldVariants())}>Full Type</p>
+              <p className="my-auto not-prose">{typeDescription}</p>
+            </>
+          )} */}
           {defaultValue && (
             <>
               <p className={cn(fieldVariants())}>Default</p>
