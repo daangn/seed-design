@@ -1,27 +1,10 @@
-"use client";
-
-import * as React from "react";
-import { notFound } from "next/navigation";
-import { use } from "react";
-
 import { registryBlock } from "../../../registry/registry-block";
+import { BlockRenderer } from "./block-renderer";
 
-export default function BlockPage({ params }: { params: Promise<{ name: string }> }) {
-  const { name } = use(params);
+export default async function BlockPage({ params }: { params: Promise<{ name: string }> }) {
+  const { name } = await params;
 
-  const Block = React.useMemo(() => {
-    return React.lazy(() =>
-      import(`../../../registry/block/${name}`).catch(() => ({
-        default: () => notFound(),
-      })),
-    );
-  }, [name]);
-
-  return (
-    <React.Suspense fallback={null}>
-      <Block />
-    </React.Suspense>
-  );
+  return <BlockRenderer name={name} />;
 }
 
 export function generateStaticParams() {
