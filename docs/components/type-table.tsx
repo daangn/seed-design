@@ -125,7 +125,7 @@ function Item({
     return (
       <div
         id={id}
-        className="flex flex-row items-center w-full text-start ps-3 pe-3 py-2 not-prose rounded-xl border border-transparent"
+        className="flex flex-row items-center w-full text-start ps-3 pe-3 py-2 not-prose rounded-xl border border-transparent hover:bg-fd-accent"
       >
         {nameLabel}
         {typeLabel}
@@ -154,7 +154,7 @@ function Item({
         open ? "shadow-sm bg-fd-background not-last:mb-2" : "border-transparent",
       )}
     >
-      <CollapsibleTrigger className="relative flex flex-row items-center w-full group text-start ps-3 pe-6 py-2 not-prose hover:bg-fd-accent">
+      <CollapsibleTrigger className="relative flex flex-row items-center w-full group text-start ps-3 pe-6 py-2 not-prose hover:bg-fd-accent cursor-pointer">
         {nameLabel}
         {typeLabel}
         <IconChevronDownSmallLine className="absolute end-2 size-4 text-fd-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
