@@ -1,20 +1,12 @@
 "use client";
 
-import * as React from "react";
 import { notFound } from "next/navigation";
 
-export function BlockRenderer({ name }: { name: string }) {
-  const Block = React.useMemo(() => {
-    return React.lazy(() =>
-      import(`../../../registry/block/${name}`).catch(() => ({
-        default: () => notFound(),
-      })),
-    );
-  }, [name]);
+// When blocks are added to registry/block/, create a static registry
+// similar to example-registry.ts and import getBlockComponent from it.
+// For now, the block directory is empty so we always show notFound.
 
-  return (
-    <React.Suspense fallback={null}>
-      <Block />
-    </React.Suspense>
-  );
+export function BlockRenderer({ name }: { name: string }) {
+  void name;
+  notFound();
 }
