@@ -1,4 +1,5 @@
 import { ColorGrid } from "@/components/color-grid";
+import { BlockPreview } from "@/components/block-preview";
 import { ComponentExample } from "@/components/component-example";
 import { ComponentGrid } from "@/components/component-grid";
 import { ComponentSpecBlock } from "@/components/component-spec-block";
@@ -61,6 +62,7 @@ export const mdxComponents: MDXComponents = {
 
   // Components
   ManualInstallation,
+  BlockPreview,
   ComponentExample,
   ComponentGrid,
   TokenReference,
