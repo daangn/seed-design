@@ -1,15 +1,21 @@
+"use client";
+
 import * as React from "react";
 import { notFound } from "next/navigation";
+import { use } from "react";
 
-const blocks: Record<string, React.LazyExoticComponent<React.ComponentType>> = {};
+import { registryBlock } from "../../../registry/registry-block";
 
-export default async function BlockPage({ params }: { params: Promise<{ name: string }> }) {
-  const { name } = await params;
-  const Block = blocks[name];
+export default function BlockPage({ params }: { params: Promise<{ name: string }> }) {
+  const { name } = use(params);
 
-  if (!Block) {
-    notFound();
-  }
+  const Block = React.useMemo(() => {
+    return React.lazy(() =>
+      import(`../../../registry/block/${name}`).catch(() => ({
+        default: () => notFound(),
+      })),
+    );
+  }, [name]);
 
   return (
     <React.Suspense fallback={null}>
@@ -19,7 +25,7 @@ export default async function BlockPage({ params }: { params: Promise<{ name: st
 }
 
 export function generateStaticParams() {
-  const params = Object.keys(blocks).map((name) => ({ name }));
+  const params = registryBlock.items.map((item) => ({ name: item.id }));
 
   // output: export requires at least one param for dynamic routes
   if (params.length === 0) {
