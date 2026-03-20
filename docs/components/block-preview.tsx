@@ -2,11 +2,12 @@
 
 import {
   IconArrowUpRightArrowDownLeftLine,
+  IconCopyLine,
   IconLaptopLine,
   IconMobileLine,
 } from "@karrotmarket/react-monochrome-icon";
 import * as React from "react";
-import { Group, Panel, Separator, type PanelImperativeHandle } from "react-resizable-panels";
+import { Group, Panel, Separator, type GroupImperativeHandle } from "react-resizable-panels";
 
 import ErrorBoundary from "./error-boundary";
 
@@ -29,36 +30,84 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
   const [view, setView] = React.useState<View>("preview");
   const [viewport, setViewport] = React.useState<Viewport>("desktop");
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const panelRef = React.useRef<PanelImperativeHandle>(null);
+  const [copied, setCopied] = React.useState(false);
+  const groupRef = React.useRef<GroupImperativeHandle>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setIsLoaded(false);
   }, [name]);
 
-  const resizeToViewport = React.useCallback((v: Viewport) => {
+  const handleViewportChange = (v: Viewport) => {
+    setViewport(v);
     requestAnimationFrame(() => {
-      if (!containerRef.current || !panelRef.current) return;
+      if (!containerRef.current || !groupRef.current) return;
       const containerWidth = containerRef.current.offsetWidth;
       if (containerWidth === 0) return;
       const targetWidth = VIEWPORT_WIDTHS[v];
       const percentage = Math.min((targetWidth / containerWidth) * 100, 100);
-      panelRef.current.resize(percentage);
+      groupRef.current.setLayout({ preview: percentage, spacer: 100 - percentage });
     });
-  }, []);
+  };
 
-  const handleViewportChange = (v: Viewport) => {
-    setViewport(v);
-    resizeToViewport(v);
+  const cliCommand = `npx @seed-design/cli@latest add block:${name}`;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(cliCommand);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const iframeSrc = `/blocks/${name}`;
 
   return (
     <ErrorBoundary>
-      <div className="not-prose my-6 overflow-hidden rounded-lg border border-fd-border">
-        <div className="flex items-center justify-between border-b border-fd-border px-4">
-          <div className="flex items-center gap-4">
+      <div className="not-prose my-6 space-y-3">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 rounded-lg border border-fd-border p-1">
+            <ViewportButton
+              active={viewport === "desktop"}
+              onClick={() => handleViewportChange("desktop")}
+              label="Desktop"
+            >
+              <IconLaptopLine size={16} />
+            </ViewportButton>
+            <ViewportButton
+              active={viewport === "tablet"}
+              onClick={() => handleViewportChange("tablet")}
+              label="Tablet"
+            >
+              <TabletIcon />
+            </ViewportButton>
+            <ViewportButton
+              active={viewport === "mobile"}
+              onClick={() => handleViewportChange("mobile")}
+              label="Mobile"
+            >
+              <IconMobileLine size={16} />
+            </ViewportButton>
+            <div className="mx-0.5 h-4 w-px bg-fd-border" />
+            <ViewportButton
+              active={false}
+              onClick={() => window.open(iframeSrc, "_blank")}
+              label="새 탭에서 열기"
+            >
+              <IconArrowUpRightArrowDownLeftLine size={16} />
+            </ViewportButton>
+          </div>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="flex items-center gap-2 rounded-lg border border-fd-border px-3 py-1.5 font-mono text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
+          >
+            <span className="text-fd-foreground">{">"}_</span>
+            {cliCommand}
+            <IconCopyLine size={14} className={copied ? "text-green-500" : ""} />
+          </button>
+        </div>
+
+        <div className="overflow-hidden rounded-lg border border-fd-border">
+          <div className="flex items-center border-b border-fd-border px-4">
             <TabButton active={view === "preview"} onClick={() => setView("preview")}>
               미리보기
             </TabButton>
@@ -68,66 +117,34 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
               </TabButton>
             )}
           </div>
-          {view === "preview" && (
-            <div className="flex items-center gap-1">
-              <ViewportButton
-                active={viewport === "desktop"}
-                onClick={() => handleViewportChange("desktop")}
-                label="Desktop"
-              >
-                <IconLaptopLine size={16} />
-              </ViewportButton>
-              <ViewportButton
-                active={viewport === "tablet"}
-                onClick={() => handleViewportChange("tablet")}
-                label="Tablet"
-              >
-                <TabletIcon />
-              </ViewportButton>
-              <ViewportButton
-                active={viewport === "mobile"}
-                onClick={() => handleViewportChange("mobile")}
-                label="Mobile"
-              >
-                <IconMobileLine size={16} />
-              </ViewportButton>
-              <div className="mx-1 h-4 w-px bg-fd-border" />
-              <button
-                type="button"
-                onClick={() => window.open(iframeSrc, "_blank")}
-                className="rounded-md p-1.5 text-fd-muted-foreground transition-colors hover:text-fd-foreground"
-                title="새 탭에서 열기"
-              >
-                <IconArrowUpRightArrowDownLeftLine size={16} />
-              </button>
+          {view === "preview" ? (
+            <div ref={containerRef}>
+              <Group groupRef={groupRef} orientation="horizontal">
+                <Panel id="preview" defaultSize={100} minSize={20}>
+                  <div className="relative" style={{ height: iframeHeight }}>
+                    <iframe
+                      src={iframeSrc}
+                      title="Block Preview"
+                      onLoad={() => setIsLoaded(true)}
+                      className="h-full w-full border-none bg-white dark:bg-neutral-950"
+                    />
+                    {!isLoaded && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-neutral-950">
+                        <div className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900 dark:border-neutral-700 dark:border-t-neutral-100" />
+                      </div>
+                    )}
+                  </div>
+                </Panel>
+                <Separator className="w-2 bg-fd-secondary transition-colors hover:bg-fd-accent" />
+                <Panel id="spacer" defaultSize={0} minSize={0} />
+              </Group>
+            </div>
+          ) : (
+            <div className="[&_figure]:my-0 [&_figure]:rounded-none [&_figure]:border-0">
+              {children}
             </div>
           )}
         </div>
-        {view === "preview" ? (
-          <div ref={containerRef}>
-            <Group orientation="horizontal">
-              <Panel panelRef={panelRef} defaultSize={100} minSize={20}>
-                <div className="relative" style={{ height: iframeHeight }}>
-                  <iframe
-                    src={iframeSrc}
-                    title="Block Preview"
-                    onLoad={() => setIsLoaded(true)}
-                    className="h-full w-full border-none bg-white dark:bg-neutral-950"
-                  />
-                  {!isLoaded && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-neutral-950">
-                      <div className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900 dark:border-neutral-700 dark:border-t-neutral-100" />
-                    </div>
-                  )}
-                </div>
-              </Panel>
-              <Separator className="w-2 bg-fd-secondary transition-colors hover:bg-fd-accent" />
-              <Panel defaultSize={0} minSize={0} />
-            </Group>
-          </div>
-        ) : (
-          <div>{children}</div>
-        )}
       </div>
     </ErrorBoundary>
   );
@@ -146,7 +163,7 @@ function TabButton({
     <button
       type="button"
       onClick={onClick}
-      className={`border-b-2 py-2 text-sm font-medium transition-colors ${
+      className={`border-b-2 px-3 py-2 text-sm font-medium transition-colors ${
         active
           ? "border-fd-primary text-fd-primary"
           : "border-transparent text-fd-muted-foreground hover:text-fd-accent-foreground"
