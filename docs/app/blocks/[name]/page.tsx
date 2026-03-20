@@ -1,11 +1,7 @@
 import * as React from "react";
 import { notFound } from "next/navigation";
 
-const blocks: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
-  "footer-1": React.lazy(() =>
-    import("../../../registry/block/footer-1").then((mod) => ({ default: mod.Footer1 })),
-  ),
-};
+const blocks: Record<string, React.LazyExoticComponent<React.ComponentType>> = {};
 
 export default async function BlockPage({ params }: { params: Promise<{ name: string }> }) {
   const { name } = await params;
