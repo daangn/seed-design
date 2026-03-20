@@ -53,10 +53,14 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
 
   const cliCommand = `npx @seed-design/cli@latest add block:${name}`;
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(cliCommand);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(cliCommand);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      console.error("Failed to copy to clipboard");
+    }
   };
 
   const iframeSrc = `/blocks/${name}`;
