@@ -19,7 +19,7 @@ import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import { ThemeToggle } from "fumadocs-ui/components/layout/theme-toggle";
+import { ThemeToggle } from "./theme-toggle";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import clsx from "clsx";
@@ -43,12 +43,13 @@ const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
 
-  img: ({ className, ...rest }) => (
+  img: ({ className, src, ...rest }) => (
     <ImageZoom
       className={clsx(
         className,
         "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
       )}
+      src={typeof src === "string" ? src : undefined}
       {...rest}
     />
   ),

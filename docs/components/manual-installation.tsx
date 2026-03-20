@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
 import type { GeneratedRegistryItem } from "@/registry/schema";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Step, Steps } from "fumadocs-ui/components/steps";
@@ -20,8 +18,9 @@ interface ManualInstallationProps {
 export async function ManualInstallation(props: ManualInstallationProps) {
   const { name } = props;
 
-  const registryPath = path.join(process.cwd(), "public", "__registry__", "ui", `${name}.json`);
-  const json = JSON.parse(fs.readFileSync(registryPath, "utf-8")) as GeneratedRegistryItem;
+  const json = (await import(`@/public/__registry__/ui/${name}.json`).then((module) => {
+    return module.default;
+  })) as GeneratedRegistryItem;
 
   const packageManagers = ["npm", "yarn", "pnpm", "bun"];
 

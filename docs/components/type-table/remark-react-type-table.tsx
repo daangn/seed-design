@@ -174,7 +174,7 @@ export function remarkReactTypeTable({
                   entry.description,
                 ]),
               ],
-            },
+            } as MdxJsxFlowElement["data"],
             children: [],
           } satisfies MdxJsxFlowElement;
         });
