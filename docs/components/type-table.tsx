@@ -136,7 +136,7 @@ function Item({
             {type}
           </Link>
         ) : (
-          <span className="@max-xl:hidden text-sm">{type}</span>
+          <span className="@max-xl:hidden">{type}</span>
         )}
         <IconChevronDownSmallLine className="absolute end-2 size-4 text-fd-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
       </CollapsibleTrigger>
