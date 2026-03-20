@@ -24,7 +24,7 @@ type Viewport = "desktop" | "tablet" | "mobile";
 const VIEWPORT_WIDTHS: Record<Viewport, number> = {
   desktop: 1200,
   tablet: 768,
-  mobile: 375,
+  mobile: 390,
 };
 
 export function BlockPreview({ name, iframeHeight = 400, children }: BlockPreviewProps) {
