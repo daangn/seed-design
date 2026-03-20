@@ -24,6 +24,7 @@ import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
 import { field, fieldLabel } from "./recipes/field";
 import floatingActionButton from "./recipes/floating-action-button";
+import header from "./recipes/header";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import imageFrame from "./recipes/image-frame";
@@ -94,6 +95,7 @@ export const recipes = {
   field,
   fieldLabel,
   floatingActionButton,
+  header,
   helpBubble,
   identityPlaceholder,
   imageFrame,

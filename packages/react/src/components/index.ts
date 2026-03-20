@@ -30,6 +30,7 @@ export * from "./Float";
 export * from "./FloatingActionButton";
 export * from "./Grid";
 export * from "./GridItem";
+export * from "./Header";
 export * from "./HelpBubble";
 export * from "./Icon";
 export * from "./IdentityPlaceholder";
