@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { getExampleComponent } from "./example-registry";
 
 interface ComponentPreviewProps {
   name: string;
@@ -11,11 +10,13 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   const { name } = props;
 
   const Preview = React.useMemo(() => {
-    const factory = getExampleComponent(name);
-    if (!factory) {
-      return () => <div>컴포넌트가 존재하지 않습니다.</div>;
+    const Component = React.lazy(() => import(`../examples/${name}.tsx`));
+
+    if (!Component) {
+      return <div>컴포넌트가 존재하지 않습니다.</div>;
     }
-    return React.lazy(factory);
+
+    return <Component />;
   }, [name]);
 
   return (
@@ -26,7 +27,7 @@ export function ComponentPreview(props: ComponentPreviewProps) {
           backgroundColor: "var(--seed-color-bg-layer-default)",
         }}
       >
-        <Preview />
+        {Preview}
       </div>
     </React.Suspense>
   );
