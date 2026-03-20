@@ -1,54 +1,32 @@
 ---
 title: Content Placeholder
-description: 이미지나 콘텐츠를 표시할 수 없을 때 아이콘 기반 대체 에셋을 제공하는 컴포넌트입니다.
+description: 이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.
+coverImageFigmaId: 429:3403
 ---
 
 <PlatformStatusTable componentId="content-placeholder" />
 
 ## Anatomy
 
-Content Placeholder는 `Root`, `Asset` 2개의 파트로 구성됩니다.
+Content Placeholder는 Root 컨테이너와 Asset으로 구성됩니다. 컨테이너의 사이즈에 따라 내부 Asset을 자연스럽게 표시합니다.
 
-- **Root**: 배경 영역
-- **Asset**: 실제 아이콘 에셋
+- Asset의 최소 너비는 16px, 최대 너비는 64px이며 정방형 비율을 고정합니다.
+
+<FigmaImage
+  id="424:2243"
+  alt="Content Placeholder의 Anatomy 이미지. Root 컨테이너와 Asset으로 구성됩니다."
+/>
 
 ## Properties
 
 ### Type
 
-`type` preset을 통해 디자인시스템이 관리하는 표준 아이콘을 사용할 수 있습니다.
+기본 타입과 서비스나 카테고리 별 타입을 제공합니다.
 
-| Type         | 용도 예시             |
-| ------------ | --------------------- |
-| `default`    | 기본 상태 (당근 로고) |
-| `coupon`     | 쿠폰                  |
-| `car`        | 자동차                |
-| `realty`     | 부동산                |
-| `food`       | 음식                  |
-| `image`      | 이미지                |
-| `group`      | 모임/그룹             |
-| `post`       | 게시글                |
-| `localProfile` | 동네 프로필         |
-| `buySell`    | 중고거래              |
-| `jobs`       | 구인구직              |
-
-### Customizing Asset
-
-특수한 사용처에서는 custom SVG를 직접 전달할 수 있습니다.
-
-## Guidelines
-
-### Type preset 우선 사용
-
-`type` preset을 사용하면 아이콘 교체가 필요할 때 소비자 코드 수정 없이 디자인시스템 버전 업만으로 변경을 반영할 수 있습니다.
-
-### Custom SVG는 예외 상황에서만 사용
-
-표준 타입으로 표현하기 어려운 도메인 특수 에셋에 한해 custom SVG를 사용합니다.
-
-### API 모호성 방지
-
-`type`과 custom SVG는 동시에 전달하지 않습니다. 둘 다 전달하지 않으면 `default` 타입이 표시됩니다.
+<FigmaImage
+  id="424:2253"
+  alt="Content Placeholder의 Type Property - Default를 포함한 12가지 타입"
+/>
 
 ## Specification
 
