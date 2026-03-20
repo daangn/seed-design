@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { AST, buildContext, css, Exchange } from "@seed-design/rootage-core";
 
 export function stringifyVariants(variants: AST.VariantExpression[]) {
@@ -30,19 +32,19 @@ export function stringifyValueLit(lit: AST.ValueLit): string {
 }
 
 export const getRootage = async () => {
-  const index: { resources: { path: string }[] } = await import("@/public/rootage/index.json").then(
-    (module) => {
-      return module.default;
-    },
-  );
-  const sourceFiles = await Promise.all(
-    index.resources.map((resource) =>
-      import(`@/public/rootage${resource.path}`).then((res: Exchange.Model) => ({
-        fileName: resource.path,
-        ast: Exchange.fromObject(res),
-      })),
-    ),
-  );
+  const publicDir = path.join(process.cwd(), "public");
+  const indexRaw = fs.readFileSync(path.join(publicDir, "rootage/index.json"), "utf-8");
+  const index: { resources: { path: string }[] } = JSON.parse(indexRaw);
+
+  const sourceFiles = index.resources.map((resource) => {
+    const raw = fs.readFileSync(path.join(publicDir, `rootage${resource.path}`), "utf-8");
+    const res = JSON.parse(raw) as Exchange.Model;
+    return {
+      fileName: resource.path,
+      ast: Exchange.fromObject(res),
+    };
+  });
+
   return buildContext(sourceFiles);
 };
 

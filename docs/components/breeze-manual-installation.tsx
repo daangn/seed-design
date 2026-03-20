@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { GeneratedRegistryItem } from "@/registry/schema";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
@@ -20,9 +22,14 @@ export async function BreezeManualInstallation(props: BreezeManualInstallationPr
   let json: GeneratedRegistryItem | null = null;
 
   try {
-    json = (await import(`@/public/__registry__/breeze/${name}.json`).then((module) => {
-      return module.default;
-    })) as GeneratedRegistryItem;
+    const registryPath = path.join(
+      process.cwd(),
+      "public",
+      "__registry__",
+      "breeze",
+      `${name}.json`,
+    );
+    json = JSON.parse(fs.readFileSync(registryPath, "utf-8")) as GeneratedRegistryItem;
   } catch (error) {
     console.error(`Failed to load breeze registry for ${name}:`, error);
     return (
