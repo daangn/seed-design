@@ -14,6 +14,11 @@
     gap: var(--seed-dimension-x2);
     border: 1px dashed var(--seed-color-palette-gray-500);
     border-radius: var(--seed-radius-r3);
+    transition: border-color 0.2s;
+}
+.seed-attachment-input__dropzone[data-dragging-over] {
+    border-style: solid;
+    border-color: var(--seed-color-stroke-neutral-solid);
 }
 .seed-attachment-input__dropzone:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;

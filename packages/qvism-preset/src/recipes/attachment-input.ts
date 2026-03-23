@@ -13,6 +13,7 @@ import {
   attachmentInputTrigger as triggerVars,
   attachmentInputDropzone as dropzoneVars,
 } from "../vars/component";
+import { vars as tokens } from "../vars";
 
 const attachmentInputTrigger = defineSlotRecipe({
   name: "attachment-input-trigger",
@@ -360,12 +361,12 @@ const attachmentInput = defineSlotRecipe({
       border: `${dropzoneVars.base.enabled.root.strokeWidth} dashed ${dropzoneVars.base.enabled.root.strokeColor}`,
       borderRadius: dropzoneVars.base.enabled.root.cornerRadius,
 
-      // transition: "border-color 0.2s, background-color 0.2s",
+      transition: "border-color 0.2s",
 
-      // [pseudo(engaged, "[data-dragging]")]: {
-      //   borderColor: tokens.$color.stroke.brandSolid,
-      //   backgroundColor: tokens.$color.bg.layerDefaultPressed,
-      // },
+      [pseudo("[data-dragging-over]")]: {
+        borderStyle: "solid",
+        borderColor: tokens.$color.stroke.neutralSolid,
+      },
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",

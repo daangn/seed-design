@@ -904,7 +904,7 @@ describe("useFileUpload", () => {
       fireEvent.dragOver(dropzone);
 
       await waitFor(() => {
-        expect(dropzone.getAttribute("data-dragging")).toBe("");
+        expect(dropzone.getAttribute("data-dragging-over")).toBe("");
       });
     });
 
@@ -916,7 +916,7 @@ describe("useFileUpload", () => {
       fireEvent.dragLeave(dropzone);
 
       await waitFor(() => {
-        expect(dropzone.getAttribute("data-dragging")).toBeNull();
+        expect(dropzone.getAttribute("data-dragging-over")).toBeNull();
       });
     });
 

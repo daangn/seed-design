@@ -286,7 +286,7 @@ export function useFileUpload({
   }, [setAcceptedFileEntries]);
 
   const stateProps = elementProps({
-    "data-dragging": dataAttr(isDragging),
+    "data-dragging-over": dataAttr(isDragging),
     "data-disabled": dataAttr(triggerDisabled),
     "data-invalid": dataAttr(invalid),
   });
@@ -353,7 +353,7 @@ export function useFileUpload({
     dropzoneProps: elementProps({
       ...stateProps,
       onDragOver: (event) => {
-        if (disabled) return;
+        if (triggerDisabled) return;
 
         event.preventDefault();
         event.stopPropagation();
@@ -361,7 +361,7 @@ export function useFileUpload({
         setIsDragging(true);
       },
       onDragEnter: (event) => {
-        if (disabled) return;
+        if (triggerDisabled) return;
 
         event.preventDefault();
         event.stopPropagation();
@@ -369,7 +369,7 @@ export function useFileUpload({
         setIsDragging(true);
       },
       onDragLeave: (event) => {
-        if (disabled) return;
+        if (triggerDisabled) return;
 
         event.preventDefault();
         event.stopPropagation();

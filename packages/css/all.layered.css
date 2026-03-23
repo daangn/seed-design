@@ -5176,7 +5176,13 @@
     border-radius: var(--seed-radius-r3);
     flex-direction: column;
     height: 120px;
+    transition: border-color .2s;
     display: flex;
+  }
+
+  .seed-attachment-input__dropzone[data-dragging-over] {
+    border-style: solid;
+    border-color: var(--seed-color-stroke-neutral-solid);
   }
 
   .seed-attachment-input__dropzone:is(:disabled, [disabled], [data-disabled]) {
