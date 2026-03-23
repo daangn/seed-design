@@ -45,7 +45,7 @@ const ActivityResultSection: StaticActivityComponentType<"ActivityResultSection"
               "요청하신 작업이 성공적으로 완료되었습니다.\n확인 후 다음 단계로 진행해주세요."
             }
             primaryActionProps={{
-              children: showAsset ? "애셋 숨김" : "애셋 표시",
+              children: showAsset ? "에셋 숨김" : "에셋 표시",
               onClick: () => setShowAsset((prev) => !prev),
             }}
             secondaryActionProps={{
