@@ -90,10 +90,10 @@
   }
 
   .seed-bottom-sheet__body {
-    --seed-box-padding-x: var(--seed-dimension-spacing-x-global-gutter);
-    --seed-box-height: initial;
-    --seed-box-min-height: initial;
-    --seed-box-max-height: initial;
+    --seed-box-padding-x-base: var(--seed-dimension-spacing-x-global-gutter);
+    --seed-box-height-base: initial;
+    --seed-box-min-height-base: initial;
+    --seed-box-max-height-base: initial;
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
     padding-left: var(--seed-box-padding-x);

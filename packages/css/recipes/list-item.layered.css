@@ -18,7 +18,7 @@
   }
 
   .seed-list-item__prefix {
-    --seed-box-padding-right: var(--seed-dimension-x3);
+    --seed-box-padding-right-base: var(--seed-dimension-x3);
     padding-right: var(--seed-box-padding-right);
     --seed-focus-ring: none;
     --seed-icon-size: 22px;
@@ -35,7 +35,7 @@
   .seed-list-item__suffix {
     --seed-box-position: initial;
     position: var(--seed-box-position);
-    --seed-box-gap: var(--seed-dimension-x1);
+    --seed-box-gap-base: var(--seed-dimension-x1);
     align-items: center;
     gap: var(--seed-box-gap);
     --seed-focus-ring: none;
@@ -56,10 +56,10 @@
   .seed-list-item__content {
     box-sizing: border-box;
     text-align: start;
-    --seed-box-gap: var(--seed-dimension-x0_5);
+    --seed-box-gap-base: var(--seed-dimension-x0_5);
     align-items: flex-start;
     gap: var(--seed-box-gap);
-    --seed-box-padding-right: var(--seed-dimension-x2_5);
+    --seed-box-padding-right-base: var(--seed-dimension-x2_5);
     padding: 0 var(--seed-box-padding-right) 0 0;
     background-color: #0000;
     border: none;

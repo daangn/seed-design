@@ -1097,20 +1097,20 @@
     --seed-box-flex-grow: initial;
     flex-shrink: 0;
     flex-grow: var(--seed-box-flex-grow);
-    --seed-box-min-width: initial;
+    --seed-box-min-width-base: initial;
     min-width: var(--seed-box-min-width);
-    --seed-box-padding-bottom: initial;
-    --seed-box-padding-top: initial;
-    --seed-box-padding-left: initial;
-    --seed-box-padding-right: initial;
+    --seed-box-padding-bottom-base: initial;
+    --seed-box-padding-top-base: initial;
+    --seed-box-padding-left-base: initial;
+    --seed-box-padding-right-base: initial;
     padding-top: var(--seed-box-padding-top);
     padding-bottom: var(--seed-box-padding-bottom);
     padding-left: var(--seed-box-padding-left);
     padding-right: var(--seed-box-padding-right);
-    --seed-box-bleed-bottom: 0px;
-    --seed-box-bleed-top: 0px;
-    --seed-box-bleed-left: 0px;
-    --seed-box-bleed-right: 0px;
+    --seed-box-bleed-bottom-base: 0px;
+    --seed-box-bleed-top-base: 0px;
+    --seed-box-bleed-left-base: 0px;
+    --seed-box-bleed-right-base: 0px;
     margin-top: calc(var(--seed-box-bleed-top) * -1);
     margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
     margin-left: calc(var(--seed-box-bleed-left) * -1);
@@ -1436,74 +1436,74 @@
 
   .seed-action-button--size_xsmall-layout_withText {
     gap: var(--seed-dimension-x1);
-    --seed-box-padding-left: var(--seed-dimension-x3_5);
-    --seed-box-padding-right: var(--seed-dimension-x3_5);
-    --seed-box-padding-top: var(--seed-dimension-x1_5);
-    --seed-box-padding-bottom: var(--seed-dimension-x1_5);
+    --seed-box-padding-left-base: var(--seed-dimension-x3_5);
+    --seed-box-padding-right-base: var(--seed-dimension-x3_5);
+    --seed-box-padding-top-base: var(--seed-dimension-x1_5);
+    --seed-box-padding-bottom-base: var(--seed-dimension-x1_5);
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
   }
 
   .seed-action-button--size_xsmall-layout_iconOnly {
     min-width: var(--seed-dimension-x8);
-    --seed-box-padding-left: var(--seed-dimension-x1_5);
-    --seed-box-padding-right: var(--seed-dimension-x1_5);
-    --seed-box-padding-top: var(--seed-dimension-x1_5);
-    --seed-box-padding-bottom: var(--seed-dimension-x1_5);
+    --seed-box-padding-left-base: var(--seed-dimension-x1_5);
+    --seed-box-padding-right-base: var(--seed-dimension-x1_5);
+    --seed-box-padding-top-base: var(--seed-dimension-x1_5);
+    --seed-box-padding-bottom-base: var(--seed-dimension-x1_5);
   }
 
   .seed-action-button--size_small-layout_withText {
     gap: var(--seed-dimension-x1);
-    --seed-box-padding-left: var(--seed-dimension-x3_5);
-    --seed-box-padding-right: var(--seed-dimension-x3_5);
-    --seed-box-padding-top: var(--seed-dimension-x2);
-    --seed-box-padding-bottom: var(--seed-dimension-x2);
+    --seed-box-padding-left-base: var(--seed-dimension-x3_5);
+    --seed-box-padding-right-base: var(--seed-dimension-x3_5);
+    --seed-box-padding-top-base: var(--seed-dimension-x2);
+    --seed-box-padding-bottom-base: var(--seed-dimension-x2);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
   }
 
   .seed-action-button--size_small-layout_iconOnly {
     min-width: var(--seed-dimension-x9);
-    --seed-box-padding-left: var(--seed-dimension-x2);
-    --seed-box-padding-right: var(--seed-dimension-x2);
-    --seed-box-padding-top: var(--seed-dimension-x2);
-    --seed-box-padding-bottom: var(--seed-dimension-x2);
+    --seed-box-padding-left-base: var(--seed-dimension-x2);
+    --seed-box-padding-right-base: var(--seed-dimension-x2);
+    --seed-box-padding-top-base: var(--seed-dimension-x2);
+    --seed-box-padding-bottom-base: var(--seed-dimension-x2);
   }
 
   .seed-action-button--size_medium-layout_withText {
     gap: var(--seed-dimension-x1_5);
-    --seed-box-padding-left: var(--seed-dimension-x4);
-    --seed-box-padding-right: var(--seed-dimension-x4);
-    --seed-box-padding-top: var(--seed-dimension-x2_5);
-    --seed-box-padding-bottom: var(--seed-dimension-x2_5);
+    --seed-box-padding-left-base: var(--seed-dimension-x4);
+    --seed-box-padding-right-base: var(--seed-dimension-x4);
+    --seed-box-padding-top-base: var(--seed-dimension-x2_5);
+    --seed-box-padding-bottom-base: var(--seed-dimension-x2_5);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
   }
 
   .seed-action-button--size_medium-layout_iconOnly {
     min-width: var(--seed-dimension-x10);
-    --seed-box-padding-left: var(--seed-dimension-x2_5);
-    --seed-box-padding-right: var(--seed-dimension-x2_5);
-    --seed-box-padding-top: var(--seed-dimension-x2_5);
-    --seed-box-padding-bottom: var(--seed-dimension-x2_5);
+    --seed-box-padding-left-base: var(--seed-dimension-x2_5);
+    --seed-box-padding-right-base: var(--seed-dimension-x2_5);
+    --seed-box-padding-top-base: var(--seed-dimension-x2_5);
+    --seed-box-padding-bottom-base: var(--seed-dimension-x2_5);
   }
 
   .seed-action-button--size_large-layout_withText {
     gap: var(--seed-dimension-x2);
-    --seed-box-padding-left: var(--seed-dimension-x5);
-    --seed-box-padding-right: var(--seed-dimension-x5);
-    --seed-box-padding-top: var(--seed-dimension-x3_5);
-    --seed-box-padding-bottom: var(--seed-dimension-x3_5);
+    --seed-box-padding-left-base: var(--seed-dimension-x5);
+    --seed-box-padding-right-base: var(--seed-dimension-x5);
+    --seed-box-padding-top-base: var(--seed-dimension-x3_5);
+    --seed-box-padding-bottom-base: var(--seed-dimension-x3_5);
     font-size: var(--seed-font-size-t6);
     line-height: var(--seed-line-height-t6);
   }
 
   .seed-action-button--size_large-layout_iconOnly {
     min-width: var(--seed-dimension-x13);
-    --seed-box-padding-left: var(--seed-dimension-x3_5);
-    --seed-box-padding-right: var(--seed-dimension-x3_5);
-    --seed-box-padding-top: var(--seed-dimension-x3_5);
-    --seed-box-padding-bottom: var(--seed-dimension-x3_5);
+    --seed-box-padding-left-base: var(--seed-dimension-x3_5);
+    --seed-box-padding-right-base: var(--seed-dimension-x3_5);
+    --seed-box-padding-top-base: var(--seed-dimension-x3_5);
+    --seed-box-padding-bottom-base: var(--seed-dimension-x3_5);
   }
 
   .seed-action-chip {
@@ -3135,10 +3135,10 @@
   }
 
   .seed-bottom-sheet__body {
-    --seed-box-padding-x: var(--seed-dimension-spacing-x-global-gutter);
-    --seed-box-height: initial;
-    --seed-box-min-height: initial;
-    --seed-box-max-height: initial;
+    --seed-box-padding-x-base: var(--seed-dimension-spacing-x-global-gutter);
+    --seed-box-height-base: initial;
+    --seed-box-min-height-base: initial;
+    --seed-box-max-height-base: initial;
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
     padding-left: var(--seed-box-padding-x);
@@ -5183,7 +5183,7 @@
     padding-top: var(--seed-dimension-x2_5);
     padding-bottom: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
-    --seed-box-max-width: initial;
+    --seed-box-max-width-base: initial;
     max-width: var(--seed-box-max-width);
     align-items: flex-start;
     display: flex;
@@ -5828,7 +5828,7 @@
   }
 
   .seed-list-item__prefix {
-    --seed-box-padding-right: var(--seed-dimension-x3);
+    --seed-box-padding-right-base: var(--seed-dimension-x3);
     padding-right: var(--seed-box-padding-right);
     --seed-focus-ring: none;
     --seed-icon-size: 22px;
@@ -5845,7 +5845,7 @@
   .seed-list-item__suffix {
     --seed-box-position: initial;
     position: var(--seed-box-position);
-    --seed-box-gap: var(--seed-dimension-x1);
+    --seed-box-gap-base: var(--seed-dimension-x1);
     align-items: center;
     gap: var(--seed-box-gap);
     --seed-focus-ring: none;
@@ -5866,10 +5866,10 @@
   .seed-list-item__content {
     box-sizing: border-box;
     text-align: start;
-    --seed-box-gap: var(--seed-dimension-x0_5);
+    --seed-box-gap-base: var(--seed-dimension-x0_5);
     align-items: flex-start;
     gap: var(--seed-box-gap);
-    --seed-box-padding-right: var(--seed-dimension-x2_5);
+    --seed-box-padding-right-base: var(--seed-dimension-x2_5);
     padding: 0 var(--seed-box-padding-right) 0 0;
     background-color: #0000;
     border: none;
@@ -7532,8 +7532,8 @@
 
   .seed-skeleton {
     box-sizing: border-box;
-    --seed-box-width: initial;
-    --seed-box-height: initial;
+    --seed-box-width-base: initial;
+    --seed-box-height-base: initial;
     width: var(--seed-box-width);
     height: var(--seed-box-height);
     display: inline-block;

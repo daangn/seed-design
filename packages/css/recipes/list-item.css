@@ -19,7 +19,7 @@
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
-    --seed-box-padding-right: var(--seed-dimension-x3);
+    --seed-box-padding-right-base: var(--seed-dimension-x3);
     padding-right: var(--seed-box-padding-right);
     --seed-focus-ring: none;
     --seed-icon-size: 22px;
@@ -34,7 +34,7 @@
     flex-shrink: 0;
     --seed-box-position: initial;
     position: var(--seed-box-position);
-    --seed-box-gap: var(--seed-dimension-x1);
+    --seed-box-gap-base: var(--seed-dimension-x1);
     gap: var(--seed-box-gap);
     --seed-focus-ring: none;
     font-size: var(--seed-font-size-t5);
@@ -57,9 +57,9 @@
     background-color: transparent;
     border: none;
     font-family: inherit;
-    --seed-box-gap: var(--seed-dimension-x0_5);
+    --seed-box-gap-base: var(--seed-dimension-x0_5);
     gap: var(--seed-box-gap);
-    --seed-box-padding-right: var(--seed-dimension-x2_5);
+    --seed-box-padding-right-base: var(--seed-dimension-x2_5);
     padding: 0 var(--seed-box-padding-right) 0 0;
     text-decoration: none;
 }
