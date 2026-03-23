@@ -26,6 +26,7 @@ export * from "./Fab";
 export * from "./Field";
 export * from "./FieldButton";
 export * from "./Fieldset";
+export * from "./AttachmentDisplay";
 export * from "./AttachmentInput";
 export * from "./Flex";
 export * from "./Float";

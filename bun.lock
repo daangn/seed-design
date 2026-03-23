@@ -470,6 +470,7 @@
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@radix-ui/react-use-layout-effect": "^1.1.1",
         "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-attachment-display": "0.0.0",
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.1",
         "@seed-design/react-collapsible": "0.1.0",
@@ -511,6 +512,24 @@
       },
       "peerDependencies": {
         "@seed-design/css": "0.0.0-alpha-20260324091316",
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/attachment-display": {
+      "name": "@seed-design/react-attachment-display",
+      "version": "0.0.0",
+      "dependencies": {
+        "@radix-ui/react-use-controllable-state": "1.2.2",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-primitive": "1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -2492,6 +2511,8 @@
     "@seed-design/qvism-preset": ["@seed-design/qvism-preset@workspace:packages/qvism-preset"],
 
     "@seed-design/react": ["@seed-design/react@workspace:packages/react"],
+
+    "@seed-design/react-attachment-display": ["@seed-design/react-attachment-display@workspace:packages/react-headless/attachment-display"],
 
     "@seed-design/react-avatar": ["@seed-design/react-avatar@workspace:packages/react-headless/avatar"],
 
