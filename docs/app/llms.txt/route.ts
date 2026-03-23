@@ -25,8 +25,8 @@ SEED Design은 당근마켓의 디자인 시스템입니다.
 개별 페이지는 /llms/{section}/{path} 형태로 접근할 수 있습니다.
 
 예시:
-- ${new URL("/llms/react/components/button.txt", baseUrl)} - Button 컴포넌트 문서
-- ${new URL("/llms/docs/foundation/color.txt", baseUrl)} - Color Foundation 문서
+- ${new URL("/llms/react/components/action-button.txt", baseUrl)} - Action Button 컴포넌트 문서
+- ${new URL("/llms/docs/foundation/color/palette.txt", baseUrl)} - Color Palette 문서
 - ${new URL("/llms/ai-integration/figma-mcp.txt", baseUrl)} - Figma MCP 문서
 
 ## Notes

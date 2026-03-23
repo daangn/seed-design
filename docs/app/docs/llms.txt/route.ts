@@ -5,7 +5,7 @@ import { docsSource } from "@/app/source";
 export const revalidate = false;
 
 export async function GET() {
-  const pages = docsSource.getPages() as LLMPage[];
+  const pages = docsSource.getPages();
 
   const categories = new Map<string, LLMPage[]>();
   for (const page of pages) {

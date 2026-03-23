@@ -30,7 +30,7 @@ export interface ImageFrameProps
   extends Omit<AspectRatioProps, "children">,
     ImageFrameVariantProps {
   /**
-   * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
+   * @deprecated Deprecated in `@seed-design/react@1.2.x`; will be removed in 1.3.0.
    * Use borderRadius="r2" instead.
    * Reason: 모서리 스타일은 borderRadius prop으로 통일합니다.
    */
