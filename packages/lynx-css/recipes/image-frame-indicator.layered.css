@@ -1,0 +1,20 @@
+@layer seed-components {
+  .seed-image-frame-indicator {
+    background-color: var(--seed-color-palette-static-black-alpha-800);
+    border-radius: var(--seed-radius-full);
+    padding-left: var(--seed-dimension-x1_5);
+    padding-right: var(--seed-dimension-x1_5);
+    padding-top: var(--seed-dimension-x0_5);
+    padding-bottom: var(--seed-dimension-x0_5);
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .seed-image-frame-indicator__text {
+    color: var(--seed-color-palette-static-white);
+    font-size: var(--seed-font-size-t1);
+    line-height: var(--seed-line-height-t1);
+    font-weight: var(--seed-font-weight-medium);
+  }
+}

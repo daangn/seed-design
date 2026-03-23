@@ -1,0 +1,30 @@
+@layer seed-components {
+  .seed-image-frame {
+    border-radius: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seed-image-frame > img, .seed-image-frame > video {
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .seed-image-frame--stroke_true:after {
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle);
+    position: absolute;
+    inset: 0;
+  }
+
+  .seed-image-frame__text--stroke_true:after {
+    pointer-events: none;
+  }
+
+  .seed-image-frame--rounded_true {
+    border-radius: var(--seed-radius-r2);
+  }
+}

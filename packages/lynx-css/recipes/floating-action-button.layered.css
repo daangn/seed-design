@@ -1,0 +1,67 @@
+@layer seed-components {
+  .seed-floating-action-button__root {
+    background: var(--seed-color-bg-brand-solid);
+    border-radius: var(--seed-radius-full);
+    box-shadow: var(--seed-shadow-s3);
+    color: var(--seed-color-palette-static-white);
+    font-family: inherit;
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-bold);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing);
+    border: none;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seed-floating-action-button__icon {
+    color: var(--seed-color-palette-static-white);
+    transition: margin-right var(--seed-duration-d4) var(--seed-timing-function-easing), width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing);
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .seed-floating-action-button__label {
+    overflow: hidden;
+  }
+
+  .seed-floating-action-button__root--extended_true {
+    padding-left: var(--seed-dimension-x4_5);
+    padding-right: var(--seed-dimension-x4_5);
+    width: fit-content;
+    max-width: 999px;
+    height: 48px;
+  }
+
+  .seed-floating-action-button__icon--extended_true {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5);
+    margin-right: var(--seed-dimension-x1);
+    transition: none;
+  }
+
+  .seed-floating-action-button__root--extended_false {
+    min-width: 56px;
+    max-width: 56px;
+    height: 56px;
+    padding: 0;
+  }
+
+  .seed-floating-action-button__icon--extended_false {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .seed-floating-action-button__label--extended_false {
+    opacity: 0;
+  }
+}
