@@ -19,7 +19,7 @@ SEED Design은 당근마켓의 디자인 시스템입니다.
 | Breeze Utilities | [llms.txt](${new URL("/breeze/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/breeze/llms-full.txt", baseUrl)}) | 유틸리티 UI 컴포넌트 |
 | Lynx | [llms.txt](${new URL("/lynx/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/lynx/llms-full.txt", baseUrl)}) | Lynx 프레임워크 |
 | AI Integration | [llms.txt](${new URL("/ai-integration/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/ai-integration/llms-full.txt", baseUrl)}) | AI 도구 연동 가이드 |
-| Changelog | [llms.txt](${new URL("/llms/changelog/llms.txt", baseUrl)}) | - | 패키지별/버전별 변경 이력 |
+| Changelog | [llms.txt](${new URL("/llms/react/updates/changelog.txt", baseUrl)}) | - | 패키지별/버전별 변경 이력 |
 
 ## Individual Page Access
 

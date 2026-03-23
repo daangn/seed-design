@@ -1,3 +1,8 @@
+import {
+  buildLookupFromSources,
+  groupEntriesByVersion,
+  renderVersionMarkdown,
+} from "@/lib/changelog-llms";
 import { loadChangelogSources, splitVersionSections } from "@/lib/parse-changelog";
 import { notFound } from "next/navigation";
 
@@ -56,11 +61,18 @@ export async function GET(
 
   if (idx === -1) notFound();
 
+  const { entries, lookup } = await buildLookupFromSources(sources);
+  const versionGroups = groupEntriesByVersion(entries, packageName);
+
   // versions는 최신순이므로 0..idx가 해당 버전 포함 이후 전체
   const sinceVersions = versions.slice(0, idx + 1);
 
   const body = sinceVersions
-    .map(({ version: v, body: b }) => `## ${v}\n\n${b}`)
+    .map(({ version: v }) => {
+      const group = versionGroups.get(v);
+      if (!group) return `## ${v}\n\n(no entries)`;
+      return renderVersionMarkdown(packageName, v, group, lookup);
+    })
     .join("\n\n---\n\n");
 
   return new Response(
