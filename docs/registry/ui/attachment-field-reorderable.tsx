@@ -15,7 +15,7 @@ import { AttachmentInputItem, type AttachmentInputItemProps } from "./attachment
 import { DragDropProvider } from "@dnd-kit/react";
 import { isSortable, useSortable } from "@dnd-kit/react/sortable";
 import { RestrictToHorizontalAxis } from "@dnd-kit/abstract/modifiers";
-import { Accessibility } from "@dnd-kit/dom";
+import { Accessibility, AutoScroller } from "@dnd-kit/dom";
 
 const LABEL_SELECT_FILE = "파일 선택";
 const LABEL_DROP_FILE = "또는 여기로 드래그해서 업로드";
@@ -53,7 +53,7 @@ export const AttachmentInputReorderable = React.forwardRef<
 
   return (
     <DragDropProvider
-      plugins={(defaults) => [...defaults, accessibilityPlugin]}
+      plugins={(defaults) => [...defaults.filter((p) => p !== AutoScroller), accessibilityPlugin]}
       onDragEnd={({ canceled, operation: { source } }) => {
         if (canceled) return;
         if (!isSortable(source)) return;
@@ -108,7 +108,7 @@ export const AttachmentDropzoneReorderable: React.FC<AttachmentDropzoneReorderab
         <SeedAttachmentInput.DropzoneLabel>{LABEL_DROP_FILE}</SeedAttachmentInput.DropzoneLabel>
       </SeedAttachmentInput.Dropzone>
       <DragDropProvider
-        plugins={(defaults) => [...defaults, accessibilityPlugin]}
+        plugins={(defaults) => [...defaults.filter((p) => p !== AutoScroller), accessibilityPlugin]}
         onDragEnd={({ canceled, operation: { source } }) => {
           if (canceled) return;
           if (!isSortable(source)) return;
