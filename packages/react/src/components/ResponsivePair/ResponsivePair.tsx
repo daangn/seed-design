@@ -17,7 +17,7 @@ export const ResponsivePair = React.forwardRef<HTMLDivElement, ResponsivePairPro
     const { wrap = "wrap-reverse", gap, children, ...rest } = props;
     const childrenArray = React.Children.toArray(children);
     const { style } = useStyleProps({
-      minWidth: `calc(${100 / childrenArray.length}% - var(--seed-box-gap) / ${childrenArray.length})`,
+      minWidth: `calc(${100 / childrenArray.length}% - var(--responsive-pair-gap) / ${childrenArray.length})`,
       flexGrow: 1,
     });
 
@@ -30,6 +30,12 @@ export const ResponsivePair = React.forwardRef<HTMLDivElement, ResponsivePairPro
         flexWrap={wrap}
         gap={gap}
         {...rest}
+        style={
+          {
+            "--responsive-pair-gap": "var(--seed-box-gap)",
+            ...rest.style,
+          } as React.CSSProperties
+        }
       >
         <Slot style={style}>{childrenArray[0]}</Slot>
         <Slot style={style}>{childrenArray[1]}</Slot>
