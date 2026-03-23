@@ -146,6 +146,10 @@ export interface TargetConfig {
   deriveSlots?: string[];
   /** CSS 후처리로 생성된 추가 variant (예: { disabled: [true], loading: [true] }) */
   extraVariants?: Record<string, (string | boolean)[]>;
+  /** 타겟 전용 출력 디렉토리. 설정 시 suffix 없이 해당 디렉토리에 출력 */
+  outputDir?: string;
+  /** 타겟 전용 recipes 출력 디렉토리. 설정 시 suffix 없이 해당 디렉토리에 출력 */
+  recipesDir?: string;
 }
 
 export interface Config {
@@ -157,12 +161,6 @@ export interface Config {
 
   /** 추가 CSS 출력 타겟 (예: lynx) */
   targets?: TargetConfig[];
-
-  /** base 생성에서 단일 recipe를 슬롯 기반 JS/DTS로 분리 (첫 번째가 base class) */
-  deriveSlots?: string[];
-
-  /** base 생성에서 CSS 후처리로 생성된 추가 variant (예: { disabled: [true], loading: [true] }) */
-  extraVariants?: Record<string, (string | boolean)[]>;
 }
 
 export interface CssgenConfig {

@@ -452,12 +452,6 @@
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
       "version": "0.1.0",
-      "devDependencies": {
-        "@seed-design/postcss-engaged": "0.0.0",
-        "@seed-design/postcss-lynx-compat": "0.0.0",
-        "@seed-design/qvism-cli": "0.0.0",
-        "@seed-design/qvism-preset": "0.0.0",
-      },
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",

@@ -47,15 +47,9 @@
   ],
   "scripts": {
     "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
-    "qvism:generate": "bun qvism ./ ./recipes",
     "lint:publish": "bun publint"
   },
-  "devDependencies": {
-    "@seed-design/postcss-engaged": "0.0.0",
-    "@seed-design/postcss-lynx-compat": "0.0.0",
-    "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/qvism-preset": "0.0.0"
-  },
+  "devDependencies": {},
   "publishConfig": {
     "access": "public"
   }
