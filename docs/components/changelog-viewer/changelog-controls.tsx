@@ -1,9 +1,19 @@
 "use client";
 
 import { ALL } from "@/components/changelog-viewer/constants";
-import { IconCheckmarkFill, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconCheckmarkFill,
+  IconChevronDownLine,
+  IconDocumentLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "fumadocs-ui/components/ui/popover";
+
+function getLlmsTxtHref(pkg: string, version: string): string | null {
+  if (pkg === ALL) return null;
+  if (version === ALL) return `/llms/react/updates/changelog/${pkg}/llms.txt`;
+  return `/llms/react/updates/changelog/${pkg}/${version}.txt`;
+}
 
 type QueryStateSetter = (value: string | null) => unknown;
 
@@ -129,6 +139,26 @@ export function ChangelogFilterBar({
         {selectedPackage !== ALL && (
           <span className="text-sm text-fd-muted-foreground">{filteredEntryCount}개 항목</span>
         )}
+        {(() => {
+          const href = getLlmsTxtHref(selectedPackage, versionFrom);
+          if (!href) return null;
+          return (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonVariants({
+                color: "ghost",
+                size: "sm",
+                className: "gap-1.5 items-center text-fd-muted-foreground",
+              })}
+              title="llms.txt로 보기"
+            >
+              <IconDocumentLine className="size-3.5 shrink-0" />
+              <span className="text-xs">llms.txt</span>
+            </a>
+          );
+        })()}
       </div>
     </div>
   );
