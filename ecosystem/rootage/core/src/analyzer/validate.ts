@@ -111,6 +111,11 @@ export function validate(ctx: RootageCtx): ValidationResult {
       slotSchemaMap.set(slotSchema.name, propertyTypeMap);
     }
 
+    const usedProperties = new Map<string, Set<string>>();
+    for (const slotSchema of componentSpec.schema.slots) {
+      usedProperties.set(slotSchema.name, new Set());
+    }
+
     for (const variant of componentSpec.body) {
       for (const state of variant.body) {
         for (const slot of state.body) {
@@ -124,6 +129,8 @@ export function validate(ctx: RootageCtx): ValidationResult {
           const propertyTypeMap = slotSchemaMap.get(slot.slot)!;
 
           for (const property of slot.body) {
+            usedProperties.get(slot.slot)?.add(property.property);
+
             if (!propertyTypeMap.has(property.property)) {
               return {
                 valid: false,
@@ -159,6 +166,18 @@ export function validate(ctx: RootageCtx): ValidationResult {
               };
             }
           }
+        }
+      }
+    }
+
+    for (const slotSchema of componentSpec.schema.slots) {
+      const usedProps = usedProperties.get(slotSchema.name) ?? new Set();
+      for (const prop of slotSchema.properties) {
+        if (!usedProps.has(prop.name)) {
+          return {
+            valid: false,
+            message: `Property "${prop.name}" in slot "${slotSchema.name}" is defined in schema but never used in definitions of component spec "${componentSpec.name}"`,
+          };
         }
       }
     }
