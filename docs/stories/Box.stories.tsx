@@ -185,9 +185,6 @@ const nestedConditionMap = {
 };
 
 export const Nested: Story = {
-  parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
-  },
   render: (args) => (
     <VariantTable
       Component={meta.component}
