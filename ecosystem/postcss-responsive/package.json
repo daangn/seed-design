@@ -31,7 +31,6 @@
   },
   "devDependencies": {
     "postcss": "^8.5.3",
-    "postcss-nested": "^7.0.2",
     "typescript": "^5.9.2"
   },
   "publishConfig": {

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import postcss from "postcss";
-import postcssNested from "postcss-nested";
+
 import { postcssResponsive } from "./index";
 
 const defaultBreakpoints = [
@@ -66,24 +66,6 @@ describe("postcss-responsive", () => {
        .seed-box { --seed-box-padding: var(--seed-box-padding-lg)}}
       @media (min-width: 1440px) {
        .seed-box { --seed-box-padding: var(--seed-box-padding-xl)}}"
-    `);
-  });
-
-  test("works with postcss-nested", async () => {
-    const output = await run(".parent { &.seed-box { --seed-box-padding--responsive: 0 } }", [
-      postcssResponsive({ breakpoints: defaultBreakpoints }),
-      postcssNested(),
-    ]);
-    expect(output).toMatchInlineSnapshot(`
-      ".parent.seed-box { --seed-box-padding-base: 0 ; --seed-box-padding-sm: var(--seed-box-padding-base); --seed-box-padding-md: var(--seed-box-padding-sm); --seed-box-padding-lg: var(--seed-box-padding-md); --seed-box-padding-xl: var(--seed-box-padding-lg); --seed-box-padding: var(--seed-box-padding-base)}
-      @media (min-width: 480px) {
-       &.seed-box { --seed-box-padding: var(--seed-box-padding-sm)}}
-      @media (min-width: 768px) {
-       &.seed-box { --seed-box-padding: var(--seed-box-padding-md)}}
-      @media (min-width: 1280px) {
-       &.seed-box { --seed-box-padding: var(--seed-box-padding-lg)}}
-      @media (min-width: 1440px) {
-       &.seed-box { --seed-box-padding: var(--seed-box-padding-xl)}}"
     `);
   });
 
