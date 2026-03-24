@@ -6,19 +6,17 @@ import { keyframes } from "./keyframes";
 import { recipes } from "./recipes";
 import { tokens } from "./tokens";
 import { definePreset } from "./utils/define";
+import { breakpointValues } from "./utils/breakpoint";
 import { engaged, hover, active } from "./utils/pseudo";
 
 export default definePreset({
   prefix: "seed",
   postcssPlugins: [
     postcssResponsive({
-      breakpoints: [
-        { name: "base", minWidth: 0 },
-        { name: "sm", minWidth: 480 },
-        { name: "md", minWidth: 768 },
-        { name: "lg", minWidth: 1280 },
-        { name: "xl", minWidth: 1440 },
-      ],
+      breakpoints: Object.entries(breakpointValues).map(([name, minWidth]) => ({
+        name,
+        minWidth,
+      })),
     }),
     postcssEngaged({
       selector: engaged,
