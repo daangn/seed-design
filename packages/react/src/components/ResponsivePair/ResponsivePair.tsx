@@ -31,7 +31,7 @@ export const ResponsivePair = React.forwardRef<HTMLDivElement, ResponsivePairPro
         {...rest}
         style={
           {
-            "--responsive-pair-gap": "var(--seed-box-gap)",
+            "--responsive-pair-gap": "var(--seed-box-gap, 0px)",
             ...rest.style,
           } as React.CSSProperties
         }
