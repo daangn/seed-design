@@ -23,7 +23,7 @@ declare type AppBarVariantMap = {
 
 export declare type AppBarVariantProps = Partial<AppBarVariant>;
 
-export declare type AppBarSlotName = "root" | "left" | "right" | "iconButton" | "icon";
+export declare type AppBarSlotName = "root" | "left" | "right" | "iconButton" | "icon" | "slot";
 
 export declare const appBarVariantMap: AppBarVariantMap;
 

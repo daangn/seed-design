@@ -21,6 +21,10 @@ const appBarSlotNames = [
   [
     "icon",
     "seed-app-bar__icon"
+  ],
+  [
+    "slot",
+    "seed-app-bar__slot"
   ]
 ];
 
