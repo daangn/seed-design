@@ -472,7 +472,7 @@ yargs(process.argv.slice(2))
           for (const stateBody of Object.values(variantExpr)) {
             for (const [slotName, slotBody] of Object.entries(stateBody)) {
               if (!usedProperties.has(slotName)) continue;
-              for (const propName of Object.keys(slotBody as Record<string, unknown>)) {
+              for (const propName of Object.keys(slotBody)) {
                 usedProperties.get(slotName)!.add(propName);
               }
             }
@@ -480,6 +480,7 @@ yargs(process.argv.slice(2))
         }
 
         // Remove unused properties from schema
+        let modelFixed = false;
         for (const [slotName, slotSchema] of Object.entries(model.data.schema.slots)) {
           const used = usedProperties.get(slotName) ?? new Set();
           for (const propName of Object.keys(slotSchema.properties)) {
@@ -488,50 +489,39 @@ yargs(process.argv.slice(2))
                 `Removing unused property "${propName}" from slot "${slotName}" in ${path.basename(filePaths[i])}`,
               );
               delete slotSchema.properties[propName];
-              fixed = true;
+              modelFixed = true;
             }
           }
         }
 
-        if (fixed) {
+        if (modelFixed) {
           fs.writeFileSync(filePaths[i], YAML.stringify(model));
+          fixed = true;
         }
       }
 
       if (fixed) {
         console.log("Auto-fixed unused schema properties. Re-validating...");
-        // Re-read and validate after fix
         const updatedContents = await Promise.all(
           filePaths.map((name) => fs.readFile(name, "utf-8")),
         );
         const updatedModels = updatedContents.map(
           (content) => YAML.parse(content) as Authoring.Model,
         );
-        const ctx = buildContext(
-          updatedModels.map((model, i) => ({
-            fileName: filePaths[i],
-            ast: Authoring.fromObject(model),
-            kind: model.kind,
-          })),
-        );
-        const result = validate(ctx);
-        if (!result.valid) {
-          console.error(result.message);
-          process.exit(1);
-        }
-      } else {
-        const ctx = buildContext(
-          models.map((model, i) => ({
-            fileName: filePaths[i],
-            ast: Authoring.fromObject(model),
-            kind: model.kind,
-          })),
-        );
-        const result = validate(ctx);
-        if (!result.valid) {
-          console.error(result.message);
-          process.exit(1);
-        }
+        models.splice(0, models.length, ...updatedModels);
+      }
+
+      const ctx = buildContext(
+        models.map((model, i) => ({
+          fileName: filePaths[i],
+          ast: Authoring.fromObject(model),
+          kind: model.kind,
+        })),
+      );
+      const result = validate(ctx);
+      if (!result.valid) {
+        console.error(result.message);
+        process.exit(1);
       }
 
       console.log("Validation passed.");
