@@ -164,6 +164,17 @@
         "postcss": "^8",
       },
     },
+    "ecosystem/postcss-responsive": {
+      "name": "@seed-design/postcss-responsive",
+      "version": "0.0.0",
+      "devDependencies": {
+        "postcss": "^8.5.3",
+        "typescript": "^5.9.2",
+      },
+      "peerDependencies": {
+        "postcss": "^8",
+      },
+    },
     "ecosystem/qvism/cli": {
       "name": "@seed-design/qvism-cli",
       "version": "0.0.0",
@@ -436,6 +447,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@seed-design/postcss-engaged": "0.0.0",
+        "@seed-design/postcss-responsive": "0.0.0",
         "@seed-design/qvism-core": "0.0.0",
         "@seed-design/rootage-core": "0.0.0",
       },
@@ -2400,6 +2412,8 @@
     "@seed-design/migration-index": ["@seed-design/migration-index@workspace:packages/migration-index"],
 
     "@seed-design/postcss-engaged": ["@seed-design/postcss-engaged@workspace:ecosystem/postcss-engaged"],
+
+    "@seed-design/postcss-responsive": ["@seed-design/postcss-responsive@workspace:ecosystem/postcss-responsive"],
 
     "@seed-design/qvism-cli": ["@seed-design/qvism-cli@workspace:ecosystem/qvism/cli"],
 

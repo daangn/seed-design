@@ -2,6 +2,28 @@
 import "@seed-design/css/all.css";
 
 import type { Preview } from "@storybook/nextjs";
+import { breakpoints } from "@seed-design/css/breakpoints";
+import { ViewportMap } from "storybook/viewport";
+
+const breakpointValues = Object.values(breakpoints);
+
+const viewportMap: ViewportMap = Object.fromEntries(
+  Object.entries(breakpoints).map(([key, value], i) => {
+    const nextValue = breakpointValues[i + 1];
+    const w = nextValue != null ? nextValue - 10 : value + 150;
+
+    return [
+      key,
+      {
+        name: `${w}px (>= ${key} (${value}px))`,
+        styles: {
+          width: `${w}px`,
+          height: `${Math.round(w > 768 ? (w * 9) / 16 : (w * 18.5) / 9)}px`,
+        },
+      },
+    ];
+  }),
+);
 
 // TODO: Replace with @seed-design/css/breakpoints when responsive styling lands
 const breakpoints = { base: 0, sm: 480, md: 768, lg: 1280, xl: 1440 };
