@@ -15,19 +15,19 @@ export function resolveResponsiveValue<T>(
 
     if (val !== undefined) return val;
   }
-  
+
   return undefined;
 }
 
 export function useBreakpointValue<T>(
   values: ResponsiveValue<T>,
   options?: UseBreakpointOptions,
-): T {
+): T | undefined {
   const breakpoint = useBreakpoint(options);
 
   return useMemo(() => {
     if (!isResponsiveObject(values)) return values;
 
-    return resolveResponsiveValue(values, breakpoint) as T;
+    return resolveResponsiveValue(values, breakpoint);
   }, [values, breakpoint]);
 }
