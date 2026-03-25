@@ -311,6 +311,14 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
 
       // NormalizedHasChildrenTrait
       children: await normalizeNodes(node.children),
+
+      // NormalizedSlotNode specific
+      // Plugin API types don't include "slotContentId" in componentPropertyReferences yet
+      ...((node.componentPropertyReferences as Record<string, string> | null)?.[
+        "slotContentId"
+      ] && {
+        componentPropertyReferences: node.componentPropertyReferences as Record<string, string>,
+      }),
     };
   }
 

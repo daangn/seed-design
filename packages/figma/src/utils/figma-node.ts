@@ -2,6 +2,7 @@ import type {
   NormalizedHasGeometryTrait,
   NormalizedInstanceNode,
   NormalizedSceneNode,
+  NormalizedSlotNode,
   NormalizedSolidPaint,
 } from "../normalizer";
 
@@ -53,6 +54,16 @@ export function findAllInstances<T>({ node, key }: { node: NormalizedSceneNode; 
     node,
     (n) => n.type === "INSTANCE" && (n.componentKey === key || n.componentSetKey === key),
   ) as (Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T })[];
+}
+
+export function findSlotNode<T extends NormalizedInstanceNode["componentProperties"]>(
+  node: Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T },
+  slotPropertyKey: { [K in keyof T]: T[K] extends { type: "SLOT" } ? K : never }[keyof T] & string,
+): NormalizedSlotNode | undefined {
+  return node.children.find(
+    (child): child is NormalizedSlotNode =>
+      child.type === "SLOT" && child.componentPropertyReferences?.slotContentId === slotPropertyKey,
+  );
 }
 
 export function getFirstSolidFill(node: NormalizedHasGeometryTrait) {

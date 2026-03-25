@@ -180,6 +180,9 @@ export interface NormalizedInstanceNode extends NormalizedFrameTrait {
 
 export interface NormalizedSlotNode extends NormalizedFrameTrait {
   type: FigmaRestSpec.SlotNode["type"];
+  componentPropertyReferences?: FigmaRestSpec.IsLayerTrait["componentPropertyReferences"] & {
+    slotContentId?: string;
+  };
 }
 
 export interface NormalizedVectorNode extends NormalizedDefaultShapeTrait, NormalizedCornerTrait {

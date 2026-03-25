@@ -290,6 +290,11 @@ export function createRestNormalizer(
 
       // NormalizedHasChildrenTrait
       children: normalizeNodes(node.children),
+
+      // NormalizedSlotNode specific
+      ...(node.componentPropertyReferences?.["slotContentId"] && {
+        componentPropertyReferences: node.componentPropertyReferences,
+      }),
     };
   }
 
