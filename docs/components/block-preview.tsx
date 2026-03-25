@@ -2,10 +2,8 @@
 
 import {
   IconArrowUpRightArrowDownLeftLine,
-  IconCheckmarkFill,
   IconLaptopLine,
   IconMobileLine,
-  IconSquare2StackedLine,
 } from "@karrotmarket/react-monochrome-icon";
 import * as React from "react";
 import { Group, Panel, Separator, type GroupImperativeHandle } from "react-resizable-panels";
@@ -31,10 +29,8 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
   const [view, setView] = React.useState<View>("preview");
   const [viewport, setViewport] = React.useState<Viewport>("desktop");
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [copied, setCopied] = React.useState(false);
   const groupRef = React.useRef<GroupImperativeHandle>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
-
   React.useEffect(() => {
     setIsLoaded(false);
   }, [name]);
@@ -51,33 +47,11 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
     });
   };
 
-  const cliCommand = `npx @seed-design/cli@latest add block:${name}`;
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(cliCommand);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      console.error("Failed to copy to clipboard");
-    }
-  };
-
   const iframeSrc = `/blocks/${name}`;
 
   return (
     <ErrorBoundary>
-      <div className="not-prose my-6 space-y-3">
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="flex items-center gap-2 rounded-lg border border-fd-border px-3 py-1.5 font-mono text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-        >
-          <span className="text-fd-foreground">{">"}_</span>
-          {cliCommand}
-          {copied ? <IconCheckmarkFill size={14} /> : <IconSquare2StackedLine size={14} />}
-        </button>
-
+      <div className="not-prose my-6">
         <div className="overflow-hidden rounded-lg border border-fd-border">
           <div className="flex items-center justify-between border-b border-fd-border px-4">
             <div className="flex items-center">
@@ -133,10 +107,13 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
                       src={iframeSrc}
                       title="Block Preview"
                       onLoad={() => setIsLoaded(true)}
-                      className="h-full w-full border-none bg-white dark:bg-neutral-950"
+                      className="h-full w-full border-none"
                     />
                     {!isLoaded && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-neutral-950">
+                      <div
+                        className="absolute inset-0 flex items-center justify-center"
+                        style={{ backgroundColor: "var(--seed-color-bg-layer-default)" }}
+                      >
                         <div className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900 dark:border-neutral-700 dark:border-t-neutral-100" />
                       </div>
                     )}
