@@ -11,6 +11,7 @@ import type {
   NormalizedTextNode,
   NormalizedComponentNode,
   NormalizedInstanceNode,
+  NormalizedSlotNode,
   NormalizedVectorNode,
   NormalizedBooleanOperationNode,
   NormalizedHasEffectsTrait,
@@ -41,6 +42,8 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
         return normalizeComponentNode(node);
       case "INSTANCE":
         return normalizeInstanceNode(node);
+      case "SLOT":
+        return normalizeSlotNode(node);
       case "VECTOR":
         return normalizeVectorNode(node);
       case "BOOLEAN_OPERATION":
@@ -268,6 +271,28 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
   }
 
   async function normalizeFrameNode(node: FrameNode): Promise<NormalizedFrameNode> {
+    return {
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: normalizeBoundVariables(node),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
+      ...(await normalizeShapeProps(node)),
+
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasFramePropertiesTrait
+      ...(await normalizeAutolayoutProps(node)),
+
+      // NormalizedHasChildrenTrait
+      children: await normalizeNodes(node.children),
+    };
+  }
+
+  async function normalizeSlotNode(node: SlotNode): Promise<NormalizedSlotNode> {
     return {
       // NormalizedIsLayerTrait
       type: node.type,
