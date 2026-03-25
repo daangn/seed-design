@@ -18,11 +18,6 @@ export declare const privateTemplateTimePickerField: {
   "key": "e38df17cf1e0f96e09774b015739dfde30d46115"
 };
 
-export declare const privateComponentBottomSheetContentsPlaceholder: {
-  "name": "privateComponentBottomSheetContentsPlaceholder",
-  "key": "e68b006d572300d3c987776192c8ab387fa45e05"
-};
-
 export declare const privateComponentField: {
   "name": "privateComponentField",
   "key": "96f0d114c3ec7826b22531502f05e82404835df4",
@@ -37,11 +32,6 @@ export declare const privateComponentField: {
       "type": "BOOLEAN"
     }
   }
-};
-
-export declare const privateComponentSelectBoxItemCustomContent: {
-  "name": "privateComponentSelectBoxItemCustomContent",
-  "key": "b327f8f0f74f9af3fded3f22fa4a64a08ed8d7cb"
 };
 
 export declare const privateComponentSliderItemHandleSliderItemValueIndicator: {
@@ -82,11 +72,6 @@ export declare const componentIcon: {
 export declare const templateInformationList: {
   "name": "templateInformationList",
   "key": "ea1ff4070a5ef4ada5974dc7030e8f9a1b759cdb"
-};
-
-export declare const componentFigmaOnly: {
-  "name": "componentFigmaOnly",
-  "key": "a790da2ff1fb6f761abf202034920c1504b8f8f1"
 };
 
 export declare const componentBottomSheetContentsAgreement: {
@@ -375,4 +360,9 @@ export declare const componentSelectBoxItemSuffixCheck: {
 export declare const componentSelectBoxItemSuffixRadiomark: {
   "name": "componentSelectBoxItemSuffixRadiomark",
   "key": "cfb712b12fe2805b5594f8c143147c8aa3de490e"
+};
+
+export declare const componentFigmaOnly: {
+  "name": "componentFigmaOnly",
+  "key": "a790da2ff1fb6f761abf202034920c1504b8f8f1"
 };
