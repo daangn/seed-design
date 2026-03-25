@@ -60,10 +60,11 @@ export function findSlotNode<T extends NormalizedInstanceNode["componentProperti
   node: Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T },
   slotPropertyKey: { [K in keyof T]: T[K] extends { type: "SLOT" } ? K : never }[keyof T] & string,
 ): NormalizedSlotNode | undefined {
-  return node.children.find(
-    (child): child is NormalizedSlotNode =>
+  return findOne(
+    node,
+    (child) =>
       child.type === "SLOT" && child.componentPropertyReferences?.slotContentId === slotPropertyKey,
-  );
+  ) as NormalizedSlotNode | undefined;
 }
 
 export function getFirstSolidFill(node: NormalizedHasGeometryTrait) {
