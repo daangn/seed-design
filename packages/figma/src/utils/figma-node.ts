@@ -68,10 +68,7 @@ export function findSlotNode<T extends NormalizedInstanceNode["componentProperti
 }
 
 export function getFirstSolidFill(node: NormalizedHasGeometryTrait) {
-  const fills = node.fills.filter(
-    (fill): fill is NormalizedSolidPaint =>
-      fill.type === "SOLID" && (!("visible" in fill) || fill.visible === true),
-  );
+  const fills = node.fills.filter((fill): fill is NormalizedSolidPaint => fill.type === "SOLID");
 
   if (fills.length === 0) {
     return undefined;
@@ -88,10 +85,7 @@ export function getFirstFillVariable(node: NormalizedHasGeometryTrait) {
 
 export function getFirstStroke(node: NormalizedHasGeometryTrait) {
   const strokes =
-    node.strokes?.filter(
-      (stroke): stroke is NormalizedSolidPaint =>
-        stroke.type === "SOLID" && (!("visible" in stroke) || stroke.visible === true),
-    ) ?? [];
+    node.strokes?.filter((stroke): stroke is NormalizedSolidPaint => stroke.type === "SOLID") ?? [];
 
   if (strokes.length === 0) {
     return undefined;

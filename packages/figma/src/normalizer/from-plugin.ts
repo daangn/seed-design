@@ -151,7 +151,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       return [];
     }
 
-    return fills.map(normalizePaint);
+    return fills.filter((paint) => paint.visible !== false).map(normalizePaint);
   }
 
   function normalizeRadiusProps(

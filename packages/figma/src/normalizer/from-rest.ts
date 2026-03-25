@@ -128,7 +128,9 @@ export function createRestNormalizer(
   function normalizePaints(paints: FigmaRestSpec.Paint[] | undefined): NormalizedPaint[] {
     if (!paints) return [];
 
-    return paints.map(normalizePaint);
+    return paints
+      .filter((paint) => !("visible" in paint) || paint.visible !== false)
+      .map(normalizePaint);
   }
 
   function normalizeRadiusProps({
