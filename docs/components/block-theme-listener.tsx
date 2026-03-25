@@ -5,7 +5,9 @@ import { useEffect, useLayoutEffect } from "react";
 function syncThemeFromParent() {
   if (window.parent === window) return;
 
-  const parentTheme = window.parent.document.documentElement.style.getPropertyValue("color-scheme");
+  const parentTheme = getComputedStyle(window.parent.document.documentElement).getPropertyValue(
+    "color-scheme",
+  );
   const theme = parentTheme === "dark" ? "dark" : "light";
   document.documentElement.style.colorScheme = theme;
   document.documentElement.dataset.seedUserColorScheme = theme;
