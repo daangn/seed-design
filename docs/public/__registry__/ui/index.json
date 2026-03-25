@@ -99,6 +99,30 @@
     {
       "snippets": [
         {
+          "path": "attachment-display.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.2.0",
+            "@seed-design/css": "~1.2.0"
+          }
+        }
+      ],
+      "id": "attachment-display",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "progress-circle"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "attachment-field.tsx",
           "dependencies": {
             "@seed-design/react": "~1.2.0",

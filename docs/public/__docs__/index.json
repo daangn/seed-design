@@ -773,6 +773,12 @@
               "docUrl": "/react/components/aspect-ratio"
             },
             {
+              "id": "attachment-display",
+              "title": "Attachment Display",
+              "description": "외부 소스(네이티브 브릿지, 서버 등)에서 제공된 미디어를 URL 기반으로 표시하는 컴포넌트입니다.",
+              "docUrl": "/react/components/attachment-display"
+            },
+            {
               "id": "attachment-field",
               "title": "Attachment Field",
               "description": "파일을 선택하거나 드래그 앤 드롭으로 업로드할 수 있는 컴포넌트입니다.",

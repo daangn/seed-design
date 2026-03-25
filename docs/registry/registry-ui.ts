@@ -337,6 +337,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "attachment-display",
+      snippets: [
+        {
+          path: "attachment-display.tsx",
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
+        },
+      ],
+    },
+    {
       id: "attachment-field",
       snippets: [
         {

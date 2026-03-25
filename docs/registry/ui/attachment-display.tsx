@@ -36,6 +36,10 @@ export const AttachmentDisplayInput = React.forwardRef<HTMLDivElement, Attachmen
   ({ children }, ref) => {
     return (
       <SeedAttachmentDisplay.Container ref={ref}>
+        <SeedAttachmentDisplay.Trigger aria-label={LABEL_ADD_MEDIA}>
+          <SeedAttachmentDisplay.TriggerIcon icon={<IconCameraFill />} />
+          <SeedAttachmentDisplay.TriggerItemCount />
+        </SeedAttachmentDisplay.Trigger>
         <SeedAttachmentDisplay.ItemGroup>
           <SeedAttachmentDisplay.Context>
             {typeof children === "function"
@@ -44,10 +48,6 @@ export const AttachmentDisplayInput = React.forwardRef<HTMLDivElement, Attachmen
                   items.map((entry) => <AttachmentDisplayItem key={entry.id} entry={entry} />)}
           </SeedAttachmentDisplay.Context>
         </SeedAttachmentDisplay.ItemGroup>
-        <SeedAttachmentDisplay.Trigger aria-label={LABEL_ADD_MEDIA}>
-          <SeedAttachmentDisplay.TriggerIcon icon={<IconCameraFill />} />
-          <SeedAttachmentDisplay.TriggerItemCount />
-        </SeedAttachmentDisplay.Trigger>
       </SeedAttachmentDisplay.Container>
     );
   },
