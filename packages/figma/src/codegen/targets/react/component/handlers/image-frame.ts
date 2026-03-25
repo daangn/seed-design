@@ -9,7 +9,7 @@ import type {
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import * as components from "@/entities/data/__generated__/components";
-import { findAll, findAllInstances, findOne } from "@/utils/figma-node";
+import { findAllInstances, findOne } from "@/utils/figma-node";
 import { createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { createBadgeHandler } from "@/codegen/targets/react/component/handlers/badge";
