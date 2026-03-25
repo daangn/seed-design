@@ -1,4 +1,9 @@
-import { createCodeGenerator, createValueResolver, defineElementTransformer } from "@/codegen/core";
+import {
+  createCodeGenerator,
+  createValueResolver,
+  createElement,
+  defineElementTransformer,
+} from "@/codegen/core";
 import type { CodeGenerator } from "@/codegen/core/codegen";
 import type { NormalizedSlotNode } from "@/normalizer";
 import { styleService, variableService } from "@/codegen/default-services";
@@ -92,9 +97,12 @@ export function createPipeline(options: CreatePipelineConfig = {}): CodeGenerato
     propsConverters,
   });
 
-  const slotTransformer = defineElementTransformer<NormalizedSlotNode>((node, traverse) =>
-    frameTransformer({ ...node, type: "FRAME" }, traverse),
-  );
+  const slotTransformer = defineElementTransformer<NormalizedSlotNode>((node, traverse) => {
+    const slotName = node.componentPropertyReferences?.slotContentId?.split("#")[0];
+    const frameResult = frameTransformer({ ...node, type: "FRAME" }, traverse);
+    if (!frameResult) return undefined;
+    return createElement("Slot", { ...(slotName && { name: slotName }) }, frameResult);
+  });
 
   const codegenTransformer = createCodeGenerator({
     frameTransformer,
