@@ -43,7 +43,7 @@ const ActivityAppBarSlot: StaticActivityComponentType<"ActivityAppBarSlot"> = ()
   const { push } = useFlow();
 
   return (
-    <AppScreen>
+    <AppScreen theme="cupertino">
       <AppBar>
         {!isRoot && (
           <AppBarLeft>
