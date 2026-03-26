@@ -1,11 +1,11 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { AppBarSlot } from "@seed-design/stackflow";
 import {
   AppBar,
   AppBarBackButton,
   AppBarLeft,
   AppBarRight,
   AppBarIconButton,
+  AppBarSlot,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
