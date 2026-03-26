@@ -124,3 +124,23 @@ export const AppBarIconButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
   },
 );
 AppBarIconButton.displayName = "IconButton";
+
+export interface AppBarSlotProps extends PrimitiveProps, React.HTMLAttributes<HTMLElement> {}
+
+export const AppBarSlot = forwardRef<HTMLElement, AppBarSlotProps>(
+  ({ children, className, ...otherProps }, ref) => {
+    const { stateProps } = useAppBarContext();
+    const classNames = useClassNames();
+
+    return (
+      <Slot
+        ref={ref}
+        className={clsx(classNames.custom, className)}
+        {...mergeProps(stateProps, otherProps)}
+      >
+        {children}
+      </Slot>
+    );
+  },
+);
+AppBarSlot.displayName = "AppBarSlot";
