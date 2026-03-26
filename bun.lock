@@ -55,9 +55,9 @@
         "@sanity/image-url": "^2.0.0",
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
-        "@seed-design/css": "1.2.6",
+        "@seed-design/css": "0.0.0-alpha-20260324091316",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.2.8",
+        "@seed-design/react": "0.0.0-alpha-20260324091316",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.19",
@@ -370,7 +370,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.2.6",
+      "version": "0.0.0-alpha-20260324091316",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -403,7 +403,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.3.8",
+      "version": "0.0.0-alpha-20260324091316",
       "dependencies": {
         "@seed-design/css": "1.2.6",
         "change-case": "^5.4.4",
@@ -419,7 +419,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.3.8",
+      "version": "0.0.0-alpha-20260324091316",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.25.3",
@@ -457,7 +457,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.2.8",
+      "version": "0.0.0-alpha-20260324091316",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -503,7 +503,7 @@
         "vite-plugin-dts": "^4.5.4",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.17",
+        "@seed-design/css": "0.0.0-alpha-20260324091316",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -1011,7 +1011,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.2.6",
+        "@seed-design/css": "0.0.0-alpha-20260324091316",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -1024,7 +1024,7 @@
         "vite-plugin-dts": "^4.5.3",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.19",
+        "@seed-design/css": "0.0.0-alpha-20260324091316",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "react": ">=18.0.0",
@@ -5763,7 +5763,13 @@
 
     "@seed-design/mcp/zod": ["zod@4.3.5", "", {}, "sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g=="],
 
+    "@seed-design/rsbuild-plugin/@seed-design/css": ["@seed-design/css@1.2.6", "", {}, "sha512-E1YsZpgWJuc6nu5dqvcxs+3pMBGUraLvmBjKUOFWFNmY6THenxy70+FgbVuCvqPdXZBz5s45AiBBvDCK18v35w=="],
+
     "@seed-design/tailwind3-plugin/tailwindcss": ["tailwindcss@3.4.18", "", { "dependencies": { "@alloc/quick-lru": "^5.2.0", "arg": "^5.0.2", "chokidar": "^3.6.0", "didyoumean": "^1.2.2", "dlv": "^1.1.3", "fast-glob": "^3.3.2", "glob-parent": "^6.0.2", "is-glob": "^4.0.3", "jiti": "^1.21.7", "lilconfig": "^3.1.3", "micromatch": "^4.0.8", "normalize-path": "^3.0.0", "object-hash": "^3.0.0", "picocolors": "^1.1.1", "postcss": "^8.4.47", "postcss-import": "^15.1.0", "postcss-js": "^4.0.1", "postcss-load-config": "^4.0.2 || ^5.0 || ^6.0", "postcss-nested": "^6.2.0", "postcss-selector-parser": "^6.1.2", "resolve": "^1.22.8", "sucrase": "^3.35.0" }, "bin": { "tailwind": "lib/cli.js", "tailwindcss": "lib/cli.js" } }, "sha512-6A2rnmW5xZMdw11LYjhcI5846rt9pbLSabY5XPxo+XWdxwZaFEn47Go4NzFiHu9sNNmr/kXivP1vStfvMaK1GQ=="],
+
+    "@seed-design/vite-plugin/@seed-design/css": ["@seed-design/css@1.2.6", "", {}, "sha512-E1YsZpgWJuc6nu5dqvcxs+3pMBGUraLvmBjKUOFWFNmY6THenxy70+FgbVuCvqPdXZBz5s45AiBBvDCK18v35w=="],
+
+    "@seed-design/webpack-plugin/@seed-design/css": ["@seed-design/css@1.2.6", "", {}, "sha512-E1YsZpgWJuc6nu5dqvcxs+3pMBGUraLvmBjKUOFWFNmY6THenxy70+FgbVuCvqPdXZBz5s45AiBBvDCK18v35w=="],
 
     "@shikijs/primitive/@shikijs/types": ["@shikijs/types@4.0.2", "", { "dependencies": { "@shikijs/vscode-textmate": "^10.0.2", "@types/hast": "^3.0.4" } }, "sha512-qzbeRooUTPnLE+sHD/Z8DStmaDgnbbc/pMrU203950aRqjX/6AFHeDYT+j00y2lPdz0ywJKx7o/7qnqTivtlXg=="],
 
