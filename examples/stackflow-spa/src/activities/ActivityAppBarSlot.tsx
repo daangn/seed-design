@@ -53,6 +53,12 @@ const ActivityAppBarSlot: StaticActivityComponentType<"ActivityAppBarSlot"> = ()
           <AppBarIconButton aria-label="알림">
             <IconBellLine />
           </AppBarIconButton>
+          <AppBarIconButton aria-label="알림">
+            <IconBellLine />
+          </AppBarIconButton>
+          <AppBarIconButton aria-label="알림">
+            <IconBellLine />
+          </AppBarIconButton>
         </AppBarRight>
       </AppBar>
       <AppScreenContent>

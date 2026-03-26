@@ -135,7 +135,7 @@ export const AppBarSlot = forwardRef<HTMLElement, AppBarSlotProps>(
     return (
       <Slot
         ref={ref}
-        className={clsx(classNames.slot, className)}
+        className={clsx(classNames.custom, className)}
         {...mergeProps(stateProps, otherProps)}
       >
         {children}

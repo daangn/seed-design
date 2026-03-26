@@ -242,7 +242,7 @@
     animation: none !important;
   }
 
-  [data-global-transition-state="enter-active"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+  [data-global-transition-state="enter-active"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     --seed-enter-translate-x: 0;
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: 0;
@@ -251,7 +251,7 @@
     animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
   }
 
-  [data-global-transition-state="exit-active"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+  [data-global-transition-state="exit-active"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     transform: translate3d(calc(var(--swipe-back-displacement, 0) * .15), 0, 0);
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
     --seed-exit-translate-x: 0;
@@ -261,7 +261,7 @@
     animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
   }
 
-  [data-global-transition-state="enter-done"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+  [data-global-transition-state="enter-done"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     --seed-enter-translate-x: calc(var(--swipe-back-displacement, 0) * .15);
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
@@ -270,25 +270,25 @@
     animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
   }
 
-  [data-swipe-back-state="swiping"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  [data-swipe-back-state="swiping"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     transform: translate3d(calc(var(--swipe-back-displacement, 0) * .15), 0, 0);
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
     animation: none;
   }
 
-  [data-swipe-back-state="canceling"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  [data-swipe-back-state="canceling"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     opacity: 1;
     transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
     animation: none !important;
   }
 
-  [data-swipe-back-state="completing"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  [data-swipe-back-state="completing"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     opacity: 0;
     transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
     animation: none !important;
   }
 
-  [data-global-transition-state="enter-active"][data-top-activity-type="full-screen"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+  [data-global-transition-state="enter-active"][data-top-activity-type="full-screen"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     opacity: 1;
     --seed-exit-translate-x: 0;
     --seed-exit-translate-y: 0;
@@ -297,7 +297,7 @@
     animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
   }
 
-  [data-global-transition-state="exit-active"][data-top-activity-type="full-screen"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+  [data-global-transition-state="exit-active"][data-top-activity-type="full-screen"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     --seed-enter-translate-x: 0;
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: calc(var(--swipe-back-displacement-ratio, 0));
@@ -306,7 +306,7 @@
     animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
   }
 
-  [data-global-transition-state="enter-done"][data-top-activity-type="full-screen"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+  [data-global-transition-state="enter-done"][data-top-activity-type="full-screen"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     opacity: calc(var(--swipe-back-displacement-ratio, 0));
     --seed-exit-translate-x: 0;
     --seed-exit-translate-y: 0;
@@ -315,18 +315,18 @@
     animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
   }
 
-  [data-swipe-back-state="swiping"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+  [data-swipe-back-state="swiping"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     opacity: calc(var(--swipe-back-displacement-ratio, 0));
     animation: none;
   }
 
-  [data-swipe-back-state="canceling"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+  [data-swipe-back-state="canceling"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     opacity: 0;
     transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
     animation: none !important;
   }
 
-  [data-swipe-back-state="completing"] .seed-app-bar__slot--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+  [data-swipe-back-state="completing"] .seed-app-bar__custom--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     opacity: 1;
     transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
     animation: none !important;

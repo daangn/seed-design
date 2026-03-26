@@ -23,8 +23,8 @@ const appBarSlotNames = [
     "seed-app-bar__icon"
   ],
   [
-    "slot",
-    "seed-app-bar__slot"
+    "custom",
+    "seed-app-bar__custom"
   ]
 ];
 
