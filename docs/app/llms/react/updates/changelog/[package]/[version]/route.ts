@@ -76,7 +76,7 @@ export async function GET(
     .join("\n\n---\n\n");
 
   return new Response(
-    `# ${packageName} — Changes since v${version}
+    `# ${packageName} — Changes since ${version}
 
 ${body}
 `,

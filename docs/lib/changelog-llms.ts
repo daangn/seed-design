@@ -23,6 +23,15 @@ function entryPlainText(entry: ChangelogEntry): string {
     .join("\n");
 }
 
+function formatListItem(text: string, indent = ""): string {
+  const lines = text.split("\n");
+  const first = lines[0] ?? "";
+  const rest = lines.slice(1);
+  return [`${indent}- ${first}`, ...rest.map((line) => (line ? `${indent}  ${line}` : ""))].join(
+    "\n",
+  );
+}
+
 export function renderVersionMarkdown(
   packageName: string,
   version: string,
@@ -61,7 +70,7 @@ export function renderVersionMarkdown(
   for (const [section, sectionEntries] of bySection) {
     lines.push("", `### ${section}`, "");
     for (const entry of sectionEntries) {
-      lines.push(`- ${entryPlainText(entry)}`);
+      lines.push(formatListItem(entryPlainText(entry)));
     }
   }
 
@@ -81,7 +90,7 @@ export function renderVersionMarkdown(
       for (const resolved of resolvedEntries) {
         const sectionLabel = resolved.section ? `[${resolved.section}]` : "";
         const text = entryPlainText(resolved);
-        lines.push(`  - ${sectionLabel ? `${sectionLabel} ` : ""}${text}`);
+        lines.push(formatListItem(`${sectionLabel ? `${sectionLabel} ` : ""}${text}`, "  "));
       }
     }
   }
