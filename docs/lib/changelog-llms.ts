@@ -1,9 +1,27 @@
-import { buildEntryLookup } from "@/lib/changelog-data";
-import type { EntryLookup } from "@/lib/changelog-data";
+import { buildEntryLookup, type EntryLookup } from "@/lib/changelog-data";
 import type { ChangelogEntry, ChangelogSource } from "./parse-changelog";
-import { parseChangelogSources } from "./parse-changelog";
+import { loadChangelogSources, parseChangelogSources } from "./parse-changelog";
 
-export { type EntryLookup } from "@/lib/changelog-data";
+export type { EntryLookup };
+
+const SCOPE = "@seed-design/";
+
+export function toSlug(packageName: string): string {
+  return packageName.replace(SCOPE, "");
+}
+
+export function toPackageName(slug: string): string {
+  return `${SCOPE}${slug}`;
+}
+
+let sourcesCache: Awaited<ReturnType<typeof loadChangelogSources>> | null = null;
+
+export async function getSources(): Promise<ChangelogSource[]> {
+  if (!sourcesCache) {
+    sourcesCache = await loadChangelogSources(process.cwd());
+  }
+  return sourcesCache;
+}
 
 export async function buildLookupFromSources(sources: ChangelogSource[]): Promise<{
   entries: ChangelogEntry[];

@@ -99,6 +99,7 @@ type ResolveAndGroupParams = {
   selectedPackage: string;
   versionFrom: string;
   allValue: string;
+  compareSemver: (a: string, b: string) => number;
 };
 
 export function resolveAndGroupEntries({
@@ -108,9 +109,7 @@ export function resolveAndGroupEntries({
   versionFrom,
   allValue,
   compareSemver,
-}: ResolveAndGroupParams & {
-  compareSemver: (a: string, b: string) => number;
-}): {
+}: ResolveAndGroupParams): {
   filteredEntryCount: number;
   groupedEntries: GroupedChangelogEntry[];
   versionLabel: string;

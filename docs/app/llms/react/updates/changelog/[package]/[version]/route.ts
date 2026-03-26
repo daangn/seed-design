@@ -1,31 +1,15 @@
 import {
   buildLookupFromSources,
+  getSources,
   groupEntriesByVersion,
   renderVersionMarkdown,
+  toPackageName,
+  toSlug,
 } from "@/lib/changelog-llms";
-import { loadChangelogSources, splitVersionSections } from "@/lib/parse-changelog";
+import { splitVersionSections } from "@/lib/parse-changelog";
 import { notFound } from "next/navigation";
 
 export const revalidate = false;
-
-const SCOPE = "@seed-design/";
-
-function toSlug(packageName: string): string {
-  return packageName.replace(SCOPE, "");
-}
-
-function toPackageName(slug: string): string {
-  return `${SCOPE}${slug}`;
-}
-
-let sourcesCache: Awaited<ReturnType<typeof loadChangelogSources>> | null = null;
-
-async function getSources() {
-  if (!sourcesCache) {
-    sourcesCache = await loadChangelogSources(process.cwd());
-  }
-  return sourcesCache;
-}
 
 export async function generateStaticParams() {
   const sources = await getSources();
