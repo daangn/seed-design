@@ -72,7 +72,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "LayerBar", onClick: () => push("ActivityLayerBar", {}) },
         { title: "TransparentBar", onClick: () => push("ActivityTransparentBar", {}) },
-        { title: "AppBar.Slot", onClick: () => push("ActivityAppBarSlot", {}) },
       ],
     },
     {
