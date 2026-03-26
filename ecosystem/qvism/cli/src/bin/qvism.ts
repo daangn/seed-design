@@ -59,7 +59,9 @@ async function writeBundles(outputDir: string, config: Config) {
   if (config.targets) {
     for (const target of config.targets) {
       const targetConfig = { ...config, postcssPlugins: target.postcssPlugins };
-      const targetDir = target.outputDir ? path.resolve(outputDir, target.outputDir) : outputDir;
+      const targetDir = target.outputDir
+        ? path.resolve(process.cwd(), target.outputDir)
+        : outputDir;
       const useSuffix = !target.outputDir;
 
       if (target.outputDir) {
@@ -179,7 +181,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
     for (const target of config.targets) {
       const targetConfig = { ...config, postcssPlugins: target.postcssPlugins };
       const targetRecipesDir = target.recipesDir
-        ? path.resolve(recipesDir, target.recipesDir)
+        ? path.resolve(process.cwd(), target.recipesDir)
         : recipesDir;
       const useSuffix = !target.recipesDir;
 
