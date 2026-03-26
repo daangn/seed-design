@@ -37,7 +37,8 @@
     "rootage:build": "ultra -r --build rootage:build",
     "rootage:generate": "ultra -r --rebuild rootage:generate",
     "rootage:generate:watch": "watchlist packages/rootage/artifacts -- bun rootage:generate",
-    "rootage:test": "bun test ecosystem/rootage",
+    "rootage:validate": "bun rootage:build && bun ./ecosystem/rootage/cli/bin/index.mjs validate",
+    "rootage:test": "bun rootage:validate && bun test ecosystem/rootage",
     "rootage:test:watch": "bun test --watch ecosystem/rootage",
     "qvism:build": "ultra -r --build qvism:build",
     "qvism:generate": "bun --filter @seed-design/qvism-preset build && bun --filter @seed-design/css qvism:generate",
@@ -87,6 +88,8 @@
     "yaml": "^2.8.2"
   },
   "patchedDependencies": {
-    "@radix-ui/react-dialog@1.1.15": "patches/@radix-ui%2Freact-dialog@1.1.15.patch"
+    "@radix-ui/react-dialog@1.1.15": "patches/@radix-ui%2Freact-dialog@1.1.15.patch",
+    "@figma/rest-api-spec@0.36.0": "patches/@figma%2Frest-api-spec@0.36.0.patch",
+    "@figma/plugin-typings@1.123.0": "patches/@figma%2Fplugin-typings@1.123.0.patch"
   }
 }

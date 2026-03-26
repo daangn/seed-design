@@ -1,4 +1,5 @@
-import { createCodeGenerator, createValueResolver } from "@/codegen/core";
+import { createCodeGenerator, createValueResolver, defineElementTransformer } from "@/codegen/core";
+import type { NormalizedSlotNode } from "@/normalizer";
 import { iconService, styleService, variableService } from "@/codegen/default-services";
 import { SKIP_COMPONENT_KEYS } from "@/codegen/skip-components";
 import {
@@ -118,8 +119,13 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
   const vectorTransformer = createVectorTransformer();
   const booleanOperationTransformer = createBooleanOperationTransformer();
 
+  const slotTransformer = defineElementTransformer<NormalizedSlotNode>((node, traverse) =>
+    frameTransformer({ ...node, type: "FRAME" }, traverse),
+  );
+
   const codeGenerator = createCodeGenerator({
     frameTransformer,
+    slotTransformer,
     textTransformer,
     rectangleTransformer,
     instanceTransformer,

@@ -1976,6 +1976,7 @@ export const componentAvatar = {
         "36",
         "42",
         "48",
+        "56",
         "64",
         "80",
         "96",
@@ -2031,6 +2032,7 @@ export const componentAvatarStack = {
         "36",
         "42",
         "48",
+        "56",
         "64",
         "80",
         "96",
@@ -2126,6 +2128,9 @@ export const componentBottomSheet = {
   "name": "componentBottomSheet",
   "key": "ffe99a21452831c28bd9375aac0aaf37d7ee6a0d",
   "componentPropertyDefinitions": {
+    "Contents Slot#6752:0": {
+      "type": "SLOT"
+    },
     "Title#19787:3": {
       "type": "TEXT"
     },
@@ -2140,9 +2145,6 @@ export const componentBottomSheet = {
     },
     "Show Description#25192:0": {
       "type": "BOOLEAN"
-    },
-    "Contents#25320:0": {
-      "type": "INSTANCE_SWAP"
     },
     "Show Safe Area#25488:8": {
       "type": "BOOLEAN"
@@ -2479,6 +2481,9 @@ export const componentChlid = {
   "name": "componentChlid",
   "key": "ef79a21a39ceb4ce24b2fb93c9b430c1980a3e71",
   "componentPropertyDefinitions": {
+    "Slot#6081:0": {
+      "type": "SLOT"
+    },
     "Type": {
       "type": "VARIANT",
       "variantOptions": [
@@ -4232,6 +4237,9 @@ export const componentSelectBoxItemHorizontal = {
   "name": "componentSelectBoxItemHorizontal",
   "key": "8174af8ef3654dad996723883f5b84f44f791513",
   "componentPropertyDefinitions": {
+    "Content Slot#6752:6": {
+      "type": "SLOT"
+    },
     "Title#28452:21": {
       "type": "TEXT"
     },
@@ -4280,6 +4288,9 @@ export const componentSelectBoxItemVertical = {
   "name": "componentSelectBoxItemVertical",
   "key": "ccc88f0aae500c64e7d43be63c4f1a70baf76bfe",
   "componentPropertyDefinitions": {
+    "Content Slot#6765:0": {
+      "type": "SLOT"
+    },
     "Title#58766:114": {
       "type": "TEXT"
     },

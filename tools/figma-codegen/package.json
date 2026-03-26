@@ -9,7 +9,7 @@
   "devDependencies": {
     "@create-figma-plugin/build": "^4.0.1",
     "@create-figma-plugin/tsconfig": "^4.0.0",
-    "@figma/plugin-typings": "^1.110.0",
+    "@figma/plugin-typings": "^1.123.0",
     "dotenv": "^17.2.3",
     "typescript": "^5.9.2"
   },

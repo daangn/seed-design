@@ -151,7 +151,7 @@ export const appBarMain = defineSlotRecipe({
 
 export const appBar = defineSlotRecipe({
   name: "app-bar",
-  slots: ["root", "left", "right", "iconButton", "icon"],
+  slots: ["root", "left", "right", "iconButton", "icon", "custom"],
   base: {
     root: {
       zIndex: "var(--z-index-app-bar)",
@@ -272,6 +272,23 @@ export const appBar = defineSlotRecipe({
           [`${swipeBackCompleting}:before`]: iOSAnimations.appBarBackground.complete,
         },
         icon: {
+          // top
+          [push]: iOSAnimations.icon.push,
+          [pop]: iOSAnimations.icon.pop,
+          [idle]: iOSAnimations.icon.idle,
+          [swipeBackSwiping]: iOSAnimations.icon.interaction,
+          [swipeBackCanceling]: iOSAnimations.icon.cancel,
+          [swipeBackCompleting]: iOSAnimations.icon.complete,
+
+          // behind
+          [pushBehind]: iOSAnimations.iconBehind.push,
+          [popBehind]: iOSAnimations.iconBehind.pop,
+          [idleBehind]: iOSAnimations.iconBehind.idle,
+          [swipeBackSwipingBehind]: iOSAnimations.iconBehind.interaction,
+          [swipeBackCancelingBehind]: iOSAnimations.iconBehind.cancel,
+          [swipeBackCompletingBehind]: iOSAnimations.iconBehind.complete,
+        },
+        custom: {
           // top
           [push]: iOSAnimations.icon.push,
           [pop]: iOSAnimations.icon.pop,

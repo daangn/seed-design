@@ -1,0 +1,92 @@
+diff --git a/plugin-api-standalone.d.ts b/plugin-api-standalone.d.ts
+index b677b85f3830c77d576c40a357ad212649eb80c7..9537ff0e312c888b5001c2a912ce634e9a25c27a 100644
+--- a/plugin-api-standalone.d.ts
++++ b/plugin-api-standalone.d.ts
+@@ -9620,7 +9620,7 @@ interface TextPathNode
+ /**
+  * @see https://developers.figma.com/docs/plugins/api/ComponentPropertyType
+  */
+-type ComponentPropertyType = 'BOOLEAN' | 'TEXT' | 'INSTANCE_SWAP' | 'VARIANT'
++type ComponentPropertyType = 'BOOLEAN' | 'TEXT' | 'INSTANCE_SWAP' | 'SLOT' | 'VARIANT'
+ /**
+  * @see https://developers.figma.com/docs/plugins/api/InstanceSwapPreferredValue
+  */
+@@ -9787,7 +9787,23 @@ interface InstanceNode extends DefaultFrameMixin, VariantMixin {
+    */
+   removeOverrides(): void
+ }
+-interface BooleanOperationNode
++/**
++ * @see https://developers.figma.com/docs/plugins/api/SlotNode
++ */
++interface SlotNode extends DefaultFrameMixin {
++  /**
++   * The type of this node, represented by the string literal "SLOT"
++   */
++  readonly type: 'SLOT'
++  /**
++   * Duplicates the slot node. By default, the duplicate will be parented under `figma.currentPage`.
++   */
++  clone(): SlotNode
++  /**
++   * Resets a slot node to the original component slot content.
++   */
++  resetSlot(): void
++}interface BooleanOperationNode
+   extends DefaultShapeMixin,
+     ChildrenMixin,
+     CornerMixin,
+@@ -10919,6 +10935,7 @@ type SceneNode =
+   | ComponentSetNode
+   | ComponentNode
+   | InstanceNode
++  | SlotNode
+   | BooleanOperationNode
+   | VectorNode
+   | StarNode
+diff --git a/plugin-api.d.ts b/plugin-api.d.ts
+index 15c2d34fef6dff2aa3caec8385ac353f536ea1f7..c49ae9cc2292a5f223db7fb7a21c3811074e1693 100644
+--- a/plugin-api.d.ts
++++ b/plugin-api.d.ts
+@@ -9616,7 +9616,7 @@ interface TextPathNode
+ /**
+  * @see https://developers.figma.com/docs/plugins/api/ComponentPropertyType
+  */
+-type ComponentPropertyType = 'BOOLEAN' | 'TEXT' | 'INSTANCE_SWAP' | 'VARIANT'
++type ComponentPropertyType = 'BOOLEAN' | 'TEXT' | 'INSTANCE_SWAP' | 'SLOT' | 'VARIANT'
+ /**
+  * @see https://developers.figma.com/docs/plugins/api/InstanceSwapPreferredValue
+  */
+@@ -9783,7 +9783,23 @@ interface InstanceNode extends DefaultFrameMixin, VariantMixin {
+    */
+   removeOverrides(): void
+ }
+-interface BooleanOperationNode
++/**
++ * @see https://developers.figma.com/docs/plugins/api/SlotNode
++ */
++interface SlotNode extends DefaultFrameMixin {
++  /**
++   * The type of this node, represented by the string literal "SLOT"
++   */
++  readonly type: 'SLOT'
++  /**
++   * Duplicates the slot node. By default, the duplicate will be parented under `figma.currentPage`.
++   */
++  clone(): SlotNode
++  /**
++   * Resets a slot node to the original component slot content.
++   */
++  resetSlot(): void
++}interface BooleanOperationNode
+   extends DefaultShapeMixin,
+     ChildrenMixin,
+     CornerMixin,
+@@ -10915,6 +10931,7 @@ type SceneNode =
+   | ComponentSetNode
+   | ComponentNode
+   | InstanceNode
++  | SlotNode
+   | BooleanOperationNode
+   | VectorNode
+   | StarNode
