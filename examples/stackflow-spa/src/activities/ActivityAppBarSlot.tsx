@@ -1,4 +1,4 @@
-import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarBackButton,
@@ -10,6 +10,7 @@ import {
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import { Flex, Text, VStack } from "@seed-design/react";
+import { ActionButton } from "seed-design/ui/action-button";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -19,7 +20,7 @@ declare module "@stackflow/config" {
 
 function FakeSearchBar(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <Flex grow py="x2" pr="x4" height="full" style={{ boxSizing: "border-box" }} {...props}>
+    <Flex grow py="x2" px="x2_5" height="full" style={{ boxSizing: "border-box" }} {...props}>
       <Flex
         px="x3"
         background="bg.neutralWeak"
@@ -38,21 +39,23 @@ function FakeSearchBar(props: React.HTMLAttributes<HTMLDivElement>) {
 }
 
 const ActivityAppBarSlot: StaticActivityComponentType<"ActivityAppBarSlot"> = () => {
+  const { isRoot } = useActivity();
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
+        {!isRoot && (
+          <AppBarLeft>
+            <AppBarBackButton />
+          </AppBarLeft>
+        )}
 
         <AppBarSlot>
           <FakeSearchBar />
         </AppBarSlot>
 
         <AppBarRight>
-          <AppBarIconButton aria-label="알림">
-            <IconBellLine />
-          </AppBarIconButton>
           <AppBarIconButton aria-label="알림">
             <IconBellLine />
           </AppBarIconButton>
@@ -67,6 +70,9 @@ const ActivityAppBarSlot: StaticActivityComponentType<"ActivityAppBarSlot"> = ()
             AppBar.Slot은 커스텀 요소에 stackflow 트랜지션 애니메이션을 적용합니다. 이 페이지에서
             뒤로 swipe하면 검색바가 IconButton과 동일하게 fade 트랜지션됩니다.
           </Text>
+          <ActionButton onClick={() => push("ActivityAppBarSlot", {})} variant="neutralSolid">
+            이 액티비티 다시 열기
+          </ActionButton>
         </VStack>
       </AppScreenContent>
     </AppScreen>
