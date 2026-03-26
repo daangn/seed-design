@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 1.2.6
+
+### Patch Changes
+
+- e78d460: Avatar 및 Avatar Stack의 `size=56` variant를 추가합니다.
+
 ## 1.2.5
 
 ### Patch Changes
