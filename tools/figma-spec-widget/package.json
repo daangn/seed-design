@@ -15,7 +15,7 @@
     "yaml": "^2.7.1"
   },
   "devDependencies": {
-    "@figma/plugin-typings": "^1.110.0",
+    "@figma/plugin-typings": "^1.123.0",
     "@figma/widget-typings": "*",
     "concurrently": "^9.1.2",
     "esbuild": "^0.27.0",
