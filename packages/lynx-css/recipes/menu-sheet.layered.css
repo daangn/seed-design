@@ -97,6 +97,10 @@
     display: flex;
   }
 
+  .seed-menu-sheet__closeButton:active {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+  }
+
   .seed-menu-sheet__backdrop--skipAnimation_false.seed-menu-sheet__backdrop--state_open, .seed-menu-sheet__backdrop--skipAnimation_false.seed-menu-sheet__backdrop--open_true {
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter);

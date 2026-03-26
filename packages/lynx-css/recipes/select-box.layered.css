@@ -19,6 +19,10 @@
     inset: 0;
   }
 
+  .seed-select-box__root:not([data-disabled]):active {
+    background-color: var(--seed-color-bg-transparent-pressed);
+  }
+
   .seed-select-box__root:not([data-disabled])[data-checked]:after {
     border-width: 2px;
     border-color: var(--seed-color-stroke-neutral-contrast);

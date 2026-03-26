@@ -19,6 +19,9 @@
     color: var(--seed-color-fg-placeholder);
     transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
+.seed-selectBoxCheckmark__icon:not([data-disabled]):active {
+    color: var(--seed-color-fg-neutral-subtle);
+}
 .seed-selectBoxCheckmark__icon:not([data-disabled])[data-checked] {
     color: var(--seed-color-fg-neutral);
 }

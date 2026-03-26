@@ -68,6 +68,10 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
+  .seed-callout__root--tone_neutralbutton:active, .seed-callout__root--tone_neutrala:active {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+  }
+
   .seed-callout__title--tone_neutral, .seed-callout__description--tone_neutral, .seed-callout__link--tone_neutral {
     color: var(--seed-color-fg-neutral);
   }
@@ -76,6 +80,10 @@
     background-color: var(--seed-color-bg-informative-weak);
     --seed-prefix-icon-color: var(--seed-color-fg-informative-contrast);
     --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
+  }
+
+  .seed-callout__root--tone_informativebutton:active, .seed-callout__root--tone_informativea:active {
+    background-color: var(--seed-color-bg-informative-weak-pressed);
   }
 
   .seed-callout__title--tone_informative, .seed-callout__description--tone_informative, .seed-callout__link--tone_informative {
@@ -88,6 +96,10 @@
     --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
   }
 
+  .seed-callout__root--tone_positivebutton:active, .seed-callout__root--tone_positivea:active {
+    background-color: var(--seed-color-bg-positive-weak-pressed);
+  }
+
   .seed-callout__title--tone_positive, .seed-callout__description--tone_positive, .seed-callout__link--tone_positive {
     color: var(--seed-color-fg-positive-contrast);
   }
@@ -96,6 +108,10 @@
     background-color: var(--seed-color-bg-warning-weak);
     --seed-prefix-icon-color: var(--seed-color-fg-warning-contrast);
     --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
+  }
+
+  .seed-callout__root--tone_warningbutton:active, .seed-callout__root--tone_warninga:active {
+    background-color: var(--seed-color-bg-warning-weak-pressed);
   }
 
   .seed-callout__title--tone_warning, .seed-callout__description--tone_warning, .seed-callout__link--tone_warning {
@@ -108,6 +124,10 @@
     --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
   }
 
+  .seed-callout__root--tone_criticalbutton:active, .seed-callout__root--tone_criticala:active {
+    background-color: var(--seed-color-bg-critical-weak-pressed);
+  }
+
   .seed-callout__title--tone_critical, .seed-callout__description--tone_critical, .seed-callout__link--tone_critical {
     color: var(--seed-color-fg-critical-contrast);
   }
@@ -116,6 +136,10 @@
     background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic));
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
+  }
+
+  .seed-callout__root--tone_magicbutton:active, .seed-callout__root--tone_magica:active {
+    background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
   }
 
   .seed-callout__title--tone_magic, .seed-callout__description--tone_magic, .seed-callout__link--tone_magic {

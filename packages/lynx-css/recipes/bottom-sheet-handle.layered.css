@@ -11,6 +11,10 @@
     transform: translateX(-50%);
   }
 
+  .seed-bottom-sheet-handle__root:active {
+    background-color: var(--seed-color-palette-gray-500);
+  }
+
   .seed-bottom-sheet-handle__touchArea {
     width: 44px;
     height: 44px;
