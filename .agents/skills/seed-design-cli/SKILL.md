@@ -22,7 +22,7 @@ SEED Design CLI를 프로젝트에 안정적으로 적용할 때 사용하는 �
 - `npx @seed-design/cli@latest add-all ...`
 - `npx @seed-design/cli@latest compat ...`
 - `npx @seed-design/cli@latest docs [query]`
-- `seed-design.json` 운영 (`path`, `tsx`, `rsc`, `telemetry`)
+- `seed-design.json` 운영 (`path`, `tsx`, `rsc`, `platform`, `telemetry`)
 - 스니펫 버전 호환성과 마이그레이션 운영
 - 컴포넌트/파운데이션 문서 링크, LLM용 텍스트 링크, 스니펫 링크 조회
 

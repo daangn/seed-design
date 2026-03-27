@@ -8,7 +8,7 @@ description: "@seed-design/cli 명령어를 안내해요."
 - `add`, `add-all`은 `seed-design.json` 설정 파일을 사용해요.
 - 설정 파일이 없거나 읽을 수 없으면 생성할지 먼저 물어봐요.
 - 항목 추가 시 필요한 npm 패키지 의존성은 자동으로 설치돼요.
-- `add`, `add-all` 실행 시 스니펫이 요구하는 `@seed-design/react`, `@seed-design/css` 버전과 현재 프로젝트 버전이 다르면 경고를 보여줘요.
+- `add`, `add-all` 실행 시 스니펫이 요구하는 seed-design 패키지 버전과 현재 프로젝트 버전이 다르면 경고를 보여줘요. (React: `@seed-design/react`, `@seed-design/css` / Lynx: `@seed-design/lynx-react`, `@seed-design/lynx-css`)
 - 기존 파일과 내용이 다르면 기본적으로 `덮어쓰기 / 백업 후 교체 / 건너뛰기`를 선택할 수 있어요.
 - `--on-diff` 옵션을 주면 충돌 처리 방식을 미리 고정할 수 있어요.
 - 실패 원인을 자세히 확인하려면 `--verbose` 옵션을 사용할 수 있어요.
@@ -44,6 +44,9 @@ npx @seed-design/cli@latest init
 │
 ◇  React Server Components를 사용중이신가요?
 │  No
+│
+◇  어떤 플랫폼을 사용하시나요?
+│  React
 │
 ◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
 │  ./seed-design
@@ -115,6 +118,7 @@ npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
 |------|------|
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `-p, --platform <platform>` | 대상 플랫폼 (`react` 또는 `lynx`). config의 `platform` 값을 덮어씀 |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
 | `-a, --all` | **Deprecated**. 현재는 에러를 출력하고 `add-all` 사용을 안내 |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
@@ -179,13 +183,14 @@ npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리
 | `--include-deprecated` | deprecated 항목 포함 |
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `-p, --platform <platform>` | 대상 플랫폼 (`react` 또는 `lynx`). config의 `platform` 값을 덮어씀 |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
 
 ## compat
 
-현재 프로젝트의 `@seed-design/react`, `@seed-design/css` 버전과 스니펫 요구 버전이 호환되는지 검사해요.
+현재 프로젝트의 seed-design 패키지 버전과 스니펫 요구 버전이 호환되는지 검사해요. 플랫폼에 따라 검사 대상 패키지가 달라요. (React: `@seed-design/react`, `@seed-design/css` / Lynx: `@seed-design/lynx-react`, `@seed-design/lynx-css`)
 
 ```package-install
 npx @seed-design/cli@latest compat
@@ -222,5 +227,6 @@ npx @seed-design/cli@latest compat --all
 | `-a, --all` | 모든 registry 항목 검사 |
 | `--cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `-p, --platform <platform>` | 대상 플랫폼 (`react` 또는 `lynx`). config의 `platform` 값을 덮어씀 |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
