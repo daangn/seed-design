@@ -68,6 +68,12 @@
     background-color: var(--seed-color-bg-neutral-inverted);
     color: var(--seed-color-fg-neutral-inverted);
 }
+.seed-chip-tabs__trigger--variant_neutralSolid:active {
+    background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
+}
+.seed-chip-tabs__trigger--variant_neutralSolid[aria-selected=true]:active, .seed-chip-tabs__trigger--variant_neutralSolid.seed-chip-tabs__trigger--selected_true:active {
+    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+}
 .seed-chip-tabs__trigger--variant_neutralSolid.seed-chip-tabs__trigger--disabled_true {
     color: var(--seed-color-fg-disabled);
 }
@@ -85,6 +91,12 @@
     border-color: transparent;
     color: var(--seed-color-fg-neutral-inverted);
 }
+.seed-chip-tabs__trigger--variant_neutralOutline:active {
+    background-color: var(--seed-color-bg-transparent-pressed);
+}
+.seed-chip-tabs__trigger--variant_neutralOutline[aria-selected=true]:active, .seed-chip-tabs__trigger--variant_neutralOutline.seed-chip-tabs__trigger--selected_true:active {
+    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+}
 .seed-chip-tabs__trigger--variant_neutralOutline.seed-chip-tabs__trigger--disabled_true {
     color: var(--seed-color-fg-disabled);
 }
@@ -99,6 +111,12 @@
 .seed-chip-tabs__trigger--variant_brandSolid[aria-selected=true], .seed-chip-tabs__trigger--variant_brandSolid.seed-chip-tabs__trigger--selected_true {
     background-color: var(--seed-color-bg-brand-solid);
     color: var(--seed-color-palette-static-white);
+}
+.seed-chip-tabs__trigger--variant_brandSolid:active {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+}
+.seed-chip-tabs__trigger--variant_brandSolid[aria-selected=true]:active, .seed-chip-tabs__trigger--variant_brandSolid.seed-chip-tabs__trigger--selected_true:active {
+    background-color: var(--seed-color-bg-brand-solid-pressed);
 }
 .seed-chip-tabs__trigger--variant_brandSolid.seed-chip-tabs__trigger--disabled_true {
     background-color: var(--seed-color-bg-disabled);

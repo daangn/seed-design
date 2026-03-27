@@ -40,6 +40,10 @@
     color: var(--seed-color-fg-neutral);
   }
 
+  .seed-reaction-button:active {
+    background: var(--seed-color-bg-transparent-pressed);
+  }
+
   .seed-reaction-button[aria-pressed="true"], .seed-reaction-button.seed-reaction-button--pressed_true {
     background: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-brand-weak);
@@ -56,6 +60,10 @@
     --seed-prefix-icon-color: var(--seed-color-fg-brand);
     --seed-count-color: var(--seed-color-fg-brand);
     color: var(--seed-color-fg-brand);
+  }
+
+  .seed-reaction-button[aria-pressed="true"]:active, .seed-reaction-button.seed-reaction-button--pressed_true:active {
+    background: var(--seed-color-bg-transparent-pressed);
   }
 
   .seed-reaction-button.seed-reaction-button--disabled_true {
