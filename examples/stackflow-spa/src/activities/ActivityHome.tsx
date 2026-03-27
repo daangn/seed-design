@@ -150,6 +150,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
+      title: "Menu",
+      items: [{ title: "Menu", onClick: () => push("ActivityMenu", {}) }],
+    },
+    {
       title: "BottomSheets",
       items: [
         { title: "BottomSheet", onClick: () => push("ActivityBottomSheet", {}) },

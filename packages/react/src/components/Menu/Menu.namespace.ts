@@ -8,6 +8,8 @@ export {
   MenuItem as Item,
   MenuItemLabel as ItemLabel,
   MenuDivider as Divider,
+  MenuSubmenuRoot as SubmenuRoot,
+  MenuSubmenuTrigger as SubmenuTrigger,
   type MenuRootProps as RootProps,
   type MenuTriggerProps as TriggerProps,
   type MenuPositionerProps as PositionerProps,
@@ -17,4 +19,6 @@ export {
   type MenuItemProps as ItemProps,
   type MenuItemLabelProps as ItemLabelProps,
   type MenuDividerProps as DividerProps,
+  type MenuSubmenuRootProps as SubmenuRootProps,
+  type MenuSubmenuTriggerProps as SubmenuTriggerProps,
 } from "./Menu";

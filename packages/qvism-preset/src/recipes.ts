@@ -40,6 +40,7 @@ import listHeader from "./recipes/list-header";
 import listItem from "./recipes/list-item";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
+import menu from "./recipes/menu";
 import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
@@ -113,6 +114,7 @@ export const recipes = {
   listItem,
   mannerTemp,
   mannerTempBadge,
+  menu,
   menuSheet,
   menuSheetItem,
   notificationBadge,
