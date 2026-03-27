@@ -25,7 +25,7 @@
     background-color: var(--seed-color-palette-gray-300);
   }
 
-  .seed-radiomark__root.seed-radiomark__root--disabled_true[data-checked] {
+  .seed-radiomark__root.seed-radiomark__root--disabled_true.seed-radiomark__root--checked_true {
     background-color: var(--seed-color-bg-transparent);
     border-width: 1px;
     border-color: var(--seed-color-palette-gray-300);
@@ -40,7 +40,7 @@
     display: block;
   }
 
-  .seed-radiomark__icon.seed-radiomark__icon--disabled_true[data-checked] {
+  .seed-radiomark__icon.seed-radiomark__icon--disabled_true.seed-radiomark__icon--checked_true {
     color: var(--seed-color-palette-gray-300);
   }
 
@@ -48,7 +48,7 @@
     background-color: var(--seed-color-bg-neutral-inverted);
   }
 
-  .seed-radiomark__root--tone_neutral:not(.seed-radiomark__root--disabled_true)[data-checked]:active {
+  .seed-radiomark__root--tone_neutral:not(.seed-radiomark__root--disabled_true).seed-radiomark__root--checked_true:active {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);
   }
 
@@ -60,7 +60,7 @@
     background-color: var(--seed-color-bg-brand-solid);
   }
 
-  .seed-radiomark__root--tone_brand:not(.seed-radiomark__root--disabled_true)[data-checked]:active {
+  .seed-radiomark__root--tone_brand:not(.seed-radiomark__root--disabled_true).seed-radiomark__root--checked_true:active {
     background-color: var(--seed-color-bg-brand-solid-pressed);
   }
 

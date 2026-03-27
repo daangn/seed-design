@@ -10,6 +10,13 @@
     --seed-suffix-icon-margin-bottom: calc(var(--seed-dimension-x1) * -1);
     display: inline-flex;
   }
+  .seed-manner-temp__text {
+    --seed-suffix-icon-size: var(--seed-dimension-x8);
+    --seed-suffix-icon-margin-left: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-right: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-top: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-bottom: calc(var(--seed-dimension-x1) * -1);
+  }
 
   .seed-manner-temp__text {
     --seed-suffix-icon-size: var(--seed-dimension-x8);

@@ -55,7 +55,7 @@
     color: var(--seed-color-fg-disabled);
   }
 
-  .seed-segmented-control__item.seed-segmented-control__item--disabled_true[data-checked] {
+  .seed-segmented-control__item.seed-segmented-control__item--disabled_true.seed-segmented-control__item--checked_true {
     background-color: var(--seed-color-bg-disabled);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
   }

@@ -33,10 +33,18 @@
 
   .seed-extended-action-sheet-item__text--tone_neutral {
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+  }
+
+  .seed-extended-action-sheet-item__text--tone_neutral {
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     color: var(--seed-color-fg-neutral);
   }
 
   .seed-extended-action-sheet-item--tone_critical {
+    --seed-prefix-icon-color: var(--seed-color-fg-critical);
+  }
+
+  .seed-extended-action-sheet-item__text--tone_critical {
     --seed-prefix-icon-color: var(--seed-color-fg-critical);
   }
 
