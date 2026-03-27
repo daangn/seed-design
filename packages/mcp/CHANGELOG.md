@@ -6,6 +6,13 @@
 
 - @seed-design/figma@0.0.0-alpha-20260324091316
 
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [72dfd8f]
+  - @seed-design/figma@1.3.9
+
 ## 1.3.8
 
 ### Patch Changes

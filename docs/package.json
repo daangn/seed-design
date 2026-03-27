@@ -37,7 +37,7 @@
     "@seed-design/react": "0.0.0-alpha-20260324091316",
     "@seed-design/react-icon": "^0.7.4",
     "@seed-design/rootage-core": "0.0.0",
-    "@seed-design/stackflow": "1.1.19",
+    "@seed-design/stackflow": "1.1.20",
     "@seed-design/tailwind4-theme": "1.1.18",
     "@stackflow/config": "^1.2.1",
     "@stackflow/core": "^1.2.0",

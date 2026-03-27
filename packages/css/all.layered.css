@@ -2854,6 +2854,18 @@
     --badge-offset: 30px;
   }
 
+  .seed-avatar__root--size_56 {
+    --avatar-size: 56px;
+    --avatar-stroke-width: 1px;
+    --badge-mask-size: 24px;
+    --badge-mask-offset: 34px;
+  }
+
+  .seed-avatar__badge--size_56 {
+    --badge-size: 20px;
+    --badge-offset: 36px;
+  }
+
   .seed-avatar__root--size_64 {
     --avatar-size: 64px;
     --avatar-stroke-width: 1px;
@@ -2977,6 +2989,15 @@
   .seed-avatar-stack__item--size_48 {
     clip-path: inset(-2px);
     box-shadow: 0 0 0 2px var(--seed-color-bg-layer-default);
+  }
+
+  .seed-avatar-stack__item--size_56:not(:first-child) {
+    margin-left: -13px;
+  }
+
+  .seed-avatar-stack__item--size_56 {
+    clip-path: inset(-3px);
+    box-shadow: 0 0 0 3px var(--seed-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_64:not(:first-child) {

@@ -5,7 +5,6 @@
 ### Minor Changes
 
 - a3780cd: Breakpoint 기반 반응형 스타일링을 지원합니다.
-
   - Box, Flex, Grid, VStack 등 유틸리티 컴포넌트의 레이아웃 관련 프로퍼티에 breakpoint 기반 반응형 객체를 사용할 수 있습니다.
 
   ```tsx
@@ -26,6 +25,13 @@
 
   - `<Grid display="none">`으로 Grid를 숨길 수 없던 문제를 수정합니다.
 
+## 1.2.7
+
+### Patch Changes
+
+- 846036b: `AppBarSlot` 컴포넌트를 추가합니다. `AppBar` 내에 `AppBarLeft`, `AppBarMain`, `AppBarRight`에 대응되지 않는 커스텀 요소를 배치하는 경우, 다른 요소와 동일한 화면 전환 트랜지션을 적용하기 위해 사용할 수 있습니다.
+- e78d460: Avatar 및 Avatar Stack의 `size=56` variant를 추가합니다.
+
 ## 1.2.6
 
 ### Patch Changes
@@ -35,7 +41,6 @@
 - 67a7780: Content Placeholder 컴포넌트를 추가합니다.
 - 3273312: 사용되지 않는 `tag-group-tag.css` 파일을 코드베이스에서 제거합니다. (`TagGroupItem`에서는 `tag-group-item.css` 사용)
 - 9d9b891: ImageFrame 컴포넌트 개선
-
   - `fallback` prop이 이미지 로딩 실패 시 대체 콘텐츠를 올바르게 표시하도록 개선합니다.
   - Reaction Button이 iOS에서 렌더링되지 않는 문제를 수정합니다.
   - Reaction Button uncontrolled 상태에서 클릭 시 상태가 변경되지 않는 문제를 수정합니다.
@@ -62,7 +67,6 @@
 ### Patch Changes
 
 - eb390cf: BottomSheet의 title padding을 수정합니다.
-
   - left 헤더 정렬 시 오른쪽 padding을 `50px` -> `56px`로 수정합니다.
   - center 헤더 정렬 시 양쪽 padding을 `60px` -> `56px`로 수정합니다.
 
@@ -86,7 +90,6 @@
 - 9446f2c: ImageFrameReactionButton에 fillIcon, lineIcon spec을 추가합니다
 - 8ad9484: ImageFrameReactionButton의 SVG 사이즈와 Rootage 정의를 수정합니다.
 - 9cbeba0: BottomSheet `showCloseButton` variant 변경 및 animation 버그 수정
-
   - `showCloseButton` variant 변경: CloseButton 미사용 시 header padding 조정 가능
   - `hasEntered` 상태 추가: modal prop 변경 시 enter animation 재실행 방지
 
@@ -95,7 +98,6 @@
 ### Minor Changes
 
 - 0ecb893: [Help Bubble](/react/components/help-bubble) 관련 컴포넌트를 업데이트합니다.
-
   - **1.1 → 1.2 업그레이드 시 snippet 업데이트 필요**: `HelpBubbleTrigger` 및 `HelpBubbleAnchor`의 내부 구조가 변경되었습니다. snippet을 다시 내려받아 주세요.
     - `npx @seed-design/cli@latest add ui:help-bubble`
     - **인터페이스 변경사항이 없으므로 `HelpBubbleAnchor`와 `HelpBubbleTrigger`를 사용하는 기존 코드를 변경할 필요가 없습니다.**
@@ -103,7 +105,6 @@
     - `zIndexOffset`을 활용하여 `HelpBubble.Positioner`의 z-index를 조정할 수 있습니다. ([예시](/react/components/help-bubble#z-index-offset))
 
 - 98dbac4: [Checkbox](/react/components/checkbox) 관련 컴포넌트를 추가합니다.
-
   - `CheckboxGroup` snippet 컴포넌트가 추가되었습니다. 사용하려면 snippet을 다시 내려받아 주세요.
     - `npx @seed-design/cli@latest add ui:checkbox`
     - `CheckboxGroup`은 자체적으로 gap과 100% width를 갖습니다. `VStack`을 사용하여 `Checkbox`를 묶지 않아도 됩니다.
@@ -111,9 +112,7 @@
     - `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator`, `labelWeight` prop을 사용할 수 있습니다.
 
   [Radio Group](/react/components/radio-group) 관련 컴포넌트를 업데이트합니다.
-
   - **1.1 → 1.2 업그레이드 시 snippet 업데이트 필요**: `RadioGroup` snippet의 내부 구조가 변경되었습니다. snippet을 다시 내려받아 주세요.
-
     - `npx @seed-design/cli@latest add ui:radio-group`
     - `RadioGroup`이 자체적으로 gap과 100% width를 갖습니다. `VStack`을 사용하여 `RadioGroupItem`을 묶는 코드를 제거합니다.
       - **1.1 → 1.2 업그레이드 시 변경 필요**: `RadioGroupItem`을 묶어서 사용하던 `VStack`을 제거하여 `RadioGroupItem`이 `RadioGroup`의 direct child가 되도록 변경하세요.
@@ -186,13 +185,10 @@
     ```
 
   RadioGroupItem, RadioChipItem, RadioSelectBoxItem, ListRadioItem에서 `invalid` prop이 제거되었습니다.
-
   - **1.1 → 1.2 업그레이드 시 확인 필요**: `invalid` 상태는 group/field 레벨에서 설정해주세요. 각 항목을 `data-invalid` 속성으로 스타일링하는 경우 확인이 필요합니다.
 
 - a58022d: `SwitchMark`를 `Switchmark`로, `RadioMark`를 `Radiomark`로 Snippet 컴포넌트 이름을 변경합니다.
-
   - **1.1 → 1.2 업그레이드 시 변경 권장**: snippet을 다시 내려받고, `SwitchMark`, `RadioMark`를 사용하는 코드를 아래와 같이 변경하세요.
-
     - `npx @seed-design/cli@latest add ui:switch ui:radio-group`
     - snippet에 `SwitchMark`, `RadioMark` 정의가 존재하지만, 1.3 릴리즈 시 snippet에서 해당 맵핑이 제거될 예정이므로 미리 변경해두시길 권장드립니다.
 
@@ -235,7 +231,6 @@
     ```
 
 - 2643d17: [Select Box](/react/components/select-box) 관련 컴포넌트를 업데이트합니다.
-
   - **1.1 → 1.2 업그레이드 시 snippet을 다시 내려받아 주세요.**
     - `npx @seed-design/cli@latest add ui:select-box`
   - `CheckSelectBoxGroup`, `RadioSelectBoxRoot`의 children이 기본적으로 gap이 포함된 그리드 레이아웃으로 정렬됩니다.
@@ -252,13 +247,11 @@
   - `CheckSelectBoxGroup`에 `label`, `aria-label`, `aria-labelledby` 중 아무것도 설정하지 않은 경우 경고를 표시합니다. (`RadioSelectBoxRoot`는 기존에도 표시)
 
 - a0e40ca: [Tag Group](/react/components/tag-group) 관련 컴포넌트를 업데이트합니다.
-
   - `TagGroupItem` 레이블 내부에서 줄바꿈이 발생할 수 있도록 수정합니다. (기존: `TagGroupItem` 또는 separator 전후에서 줄바꿈 발생)
   - 한 줄 레이아웃 및 우선순위 옵션을 추가합니다.
     - `TagGroupRoot`에 `truncate` prop을 사용하여 한 줄로 유지하고 말줄임 처리를 할 수 있습니다. (기본값: `false`)
     - `TagGroupItem`에 `flexShrink` prop을 사용하여 말줄임 우선순위를 조정할 수 있습니다.
   - **1.1 → 1.2 업그레이드 시 변경 필요**: `TagGroupItem` 내부 레이블을 `TagGroupItemLabel`로 감싸거나, 신규로 제공되는 Snippet에서 제공하는 API로 교체해주세요.
-
     - `npx @seed-design/cli@latest add ui:tag-group` 명령어로 Snippet을 추가할 수 있습니다.
 
     ```tsx
@@ -328,11 +321,9 @@
     ```
 
 - 358a1e4: [Menu Sheet](/react/components/menu-sheet) 관련 컴포넌트를 업데이트합니다.
-
   - `MenuSheetContent`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
   - `MenuSheetItem`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
   - **1.1 → 1.2 업그레이드 시 변경 필요**: snippet을 다시 내려받고, `MenuSheetItem`을 사용하는 코드를 아래와 같이 변경하세요.
-
     - `npx @seed-design/cli@latest add ui:menu-sheet`
     - `children` 대신 `label` prop을 사용합니다.
     - `description`, `prefixIcon` prop이 추가되었습니다.
@@ -356,7 +347,6 @@
 
 - 477ec8a: [`Grid` 및 `GridItem`](/react/components/layout/grid) 레이아웃 유틸리티 컴포넌트를 추가합니다.
 - 8fb7038: [BottomSheetContent](/react/components/bottom-sheet)와 [MenuSheetContent](/react/components/menu-sheet)가 기본적으로 bottom safe area만큼 하단 padding을 갖도록 수정합니다.
-
   - 별도로 safe area padding을 지정하는 경우 제거할 수 있습니다. BottomSheetContent 내부에서의 `<VStack paddingBottom="safeArea">` 등
 
 - 17c0ebd: Text Field (text-input)과 Field Button (input-button)의 포커스 및 에러 상태 border 트랜지션을 수정합니다.
@@ -375,7 +365,6 @@
 - 6fab0e7: Skeleton 가시성 향상을 위해 `$gradient.shimmer-magic` 및 `$gradient.shimmer-neutral` 토큰의 색상을 업데이트합니다.
 - 5faef3a: 주석, 참고 사항 및 상세 리스트 등 부가 정보에 사용할 수 있는 시맨틱 텍스트 스타일 `articleNote`를 추가합니다.
 - 50ee0a6: `@seed-design/css@1.3` 및 `@seed-design/react@1.3`에서 제거되는 토큰 및 옵션에 관한 경고를 추가합니다.
-
   - 1.3에서 제거 예정인 색상 토큰
     - [`$color.bg.layer-fill`](/docs/foundation/design-token/%24color.bg.layer-fill)
     - [`$gradient.fade-layer-floating`](/docs/foundation/design-token/%24gradient.fade-layer-floating)
@@ -406,7 +395,6 @@
       - 영향 범위인 컴포넌트: [Box](/react/components/layout/box), [Flex](/react/components/layout/flex), [HStack](/react/components/layout/h-stack), [VStack](/react/components/layout/v-stack), [Article](/react/components/article), [List (List.Root) 및 ListItem, ListButtonItem, ListLinkItem, ListSwitchItem, ListCheckItem, ListRadioItem (List.Item)](/react/components/list), [BottomSheetBody (BottomSheet.Body)](/react/components/bottom-sheet), ResponsivePair, [Inline (deprecated)](/react/components/inline), [Columns, Column (deprecated)](/react/components/columns), [Stack (deprecated)](/react/components/stack)
 
 - 94bebf8: `$color.bg.layer-basement` 위에서 컴포넌트의 가시성을 보장하기 위해 `$color.bg.neutral-weak-alpha` 토큰을 추가합니다.
-
   - Chip `variant=solid`에 적용
   - ChipTab `variant=neutralSolid`에 적용
   - SegmentedControl root에 적용
@@ -420,7 +408,6 @@
 - 2f29fe8: 정적 텍스트 스타일 추가 (t1Static* ~ t10Static*)
 - 9119723: Checkmark `variant=ghost` `tone=neutral`에서 icon의 색상을 $color.fg.neutral로 변경하고 색상 트랜지션을 추가합니다.
 - 6d30b72: Stackflow와 함께 AppScreen 사용 시 최상위 AppScreen이 push/pop될 때, 이외의 AppScreen이 고유한 `transitionStyle`을 재생하는 문제를 수정합니다. 같은 스택 내에 여러 `transitionStyle`이 공존할 때 자연스러운 트랜지션을 제공하기 위해 최상위 AppScreen의 `transitionStyle`을 재생합니다. ([데모](https://seed-design.io/react/stackflow/app-screen#transition-styles))
-
   - 예를 들면, `transitionStyle="fadeFromBottomAndroid"`인 0번 AppScreen 위에 `transitionStyle="slideFromLeftIOS"`인 1번 AppScreen이 push되는 경우, 0번 AppScreen이 `slideFromLeftIOS` 트랜지션을 재생하도록 수정합니다.
     - 0번 AppScreen이 자연스럽게 좌측으로 조금 밀려나며 어두워지고(`slideFromLeftIOS`) 1번 AppScreen이 우측에서 슬라이드 인(`slideFromLeftIOS`)
 
@@ -441,7 +428,6 @@
 
 - 9be0581: `radiomark` Rootage 정의를 명확화합니다. (스타일 변경사항 없음)
 - cc4a45a: 신규 [Elevation 가이드](https://seed-design.io/docs/foundation/elevation)에 맞는 shadow 토큰을 추가합니다.
-
   - React: Box, Flex, HStack 등 StyleProps를 사용하는 컴포넌트에서 `boxShadow` prop을 사용하여 shadow 토큰을 쉽게 사용할 수 있습니다.
 
 - 739937f: Button들의 xsmall variant의 텍스트 사이즈를 t4에서 t3로 변경해요.
@@ -465,7 +451,6 @@
 - 70d11b8: Segmented Control의 스타일을 업데이트합니다: Indicator에서 shadow 정의를 제거합니다.
 - c03a3dd: TextFieldInput 및 TextFieldTextarea (text-input 스타일시트)에서 브라우저 기본 자동 완성 스타일이 표시되지 않도록 수정합니다.
 - a12e49b: Field(TextField)의 스타일을 수정합니다.
-
   - `maxGraphemeCount`를 사용하지만 `description`을 사용하지 않는 경우 `maxGraphemeCount`가 우측이 아닌 좌측에 표시되는 문제를 수정합니다.
   - Tailwind Preflight 사용 시 Character Count 영역이 디자인 의도보다 높이를 더 많이 차지하는 문제를 수정합니다.
 
@@ -474,7 +459,6 @@
 ### Patch Changes
 
 - 37d332d: `AppBar`에 적용되는 그라디언트를 `AppScreen`으로 이동합니다.
-
   - `<AppBar tone="transparent">`를 사용하는 경우 `tone="transparent"`를 `AppScreen`으로 옮겨 그라디언트를 표시할 수 있습니다.
   - `AppScreen`에 `gradient={false}`를 설정하여 그라디언트를 숨길 수 있습니다.
 
@@ -500,7 +484,6 @@
 ### Patch Changes
 
 - dfe6c1e: transparent 상태 컬러 추가, 컴포넌트 상태 컬러 변경, transition 추가
-
   - `$color.bg.transparent-pressed` 컬러와 `$color.bg.transparent` 컬러가 추가되었습니다.
   - 다음 컴포넌트들의 색상이 transparent 관련 토큰으로 변경되었습니다.
     - `Chip` (outlineStrong, outlineWeak)
@@ -518,7 +501,6 @@
     - `Select Box`
 
 - a09e6b4: 다음 컴포넌트들의 color transition을 `$duration.color-transition` (d3) 토큰으로 변경합니다
-
   - `Action Button`
   - `Bottom Sheet Handle`
   - `Checkmark`
@@ -552,16 +534,13 @@
 ### Patch Changes
 
 - 15c658b: 일반적인 CSS Reset을 사용하지 않는 환경에서도 스타일이 의도한 대로 표시될 수 있도록 수정합니다.
-
   - `list-header`에 `box-sizing: border-box;` 추가
   - `button`으로 렌더링되는 컴포넌트 스타일 수정
 
 - f4e07bb: 1.1 이전 버전과 호환 가능하도록 임시적으로 사용할 text-input size=medium variant를 추가합니다.
-
   - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
 
 - 114dafd: text-input의 readonly 스타일을 업데이트합니다.
-
   - 영향 받는 React 컴포넌트: TextFieldInput, TextFieldTextarea
 
 - bc3cd6f: ScrollFog 컴포넌트를 추가합니다
@@ -576,7 +555,6 @@
   (BREAKING CHANGE: Error State snippet을 다시 설치해야 합니다.) Error State 스니펫에서 Action Button을 활용하도록 업데이트합니다.
 
 - 33def2d: (BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
-
   - vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
   - vaul과 동일한 인터페이스를 가지고 있습니다. (snap-points, fade-from-index, etc.)
   - `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
@@ -584,7 +562,6 @@
 ### Patch Changes
 
 - d6bb84d: (BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다.
-
   - 스타일 업데이트
   - size 통일 및 variant (underline) 추가
   - 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
@@ -592,12 +569,10 @@
   Field Button 컴포넌트를 추가합니다.
 
 - b131282: AppScreen에 `tone` 속성을 조절해 그라데이션이 들어간 투명한 배경을 사용할 수 있습니다.
-
   - AppBar에 있던 `tone` 속성을 AppScreen에서도 사용할 수 있도록 이동합니다.
   - AppScreen, AppBar 둘 다 `tone` 속성을 사용할 수 있도록 합니다.
 
 - 6af6501: (BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다.
-
   - Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
   - `PageBanner.TextContent`를 `PageBanner.Content`로 이름 변경합니다.
 
@@ -616,12 +591,10 @@
 
 - 6aafce0: Tag Group 컴포넌트를 추가합니다. Tag Group은 아이콘 및 텍스트로 이루어진 태그를 구분 기호와 함께 수평 레이아웃으로 표시하는 컴포넌트입니다.
 - 1902dfa: AppBar의 스타일을 업데이트합니다.
-
   - Top Navigation의 title 및 description에 `lineHeight` 값을 정의합니다. (React AppBar 컴포넌트에 반영됩니다.)
   - `<Icon />` 컴포넌트를 활용하여 `<AppBarIconButton />` 내부 아이콘을 커스터마이징할 수 있도록 수정합니다.
 
 - f2ddf29: Article 유틸리티 컴포넌트를 추가하고 Text 컴포넌트를 업데이트합니다.
-
   - Article 컴포넌트는 일관된 selection 스타일 및 줄바꿈 정책을 사용할 수 있게 돕습니다.
   - Text 컴포넌트에서 textDecorationLine="underline" 및 whiteSpace, userSelect prop을 지원합니다.
 
@@ -641,7 +614,6 @@
 ### Patch Changes
 
 - 0b8a02e: HelpBubble의 스타일을 업데이트하고, 신규 기능을 지원합니다.
-
   - arrowTip이 content에서 떨어져 보이던 문제를 수정합니다.
   - title과 description에서 `\n`을 줄바꿈으로 렌더링하도록 수정합니다.
   - `closeOnInteractOutside`를 `false`로 설정하여 Help Bubble 외부와 상호작용 시에도 닫히지 않도록 설정할 수 있습니다. (기본값: `true`)
@@ -676,7 +648,6 @@
 ### Patch Changes
 
 - e038490: (**BREAKING CHANGE**: Snippet을 다시 설치해야 합니다.) Manner Temp, Manner Temp Badge 컴포넌트를 업데이트합니다.
-
   - snippet 내 오타 수정
   - 신규 10단계 반영
   - 업데이트 가이드
@@ -686,11 +657,9 @@
 
 - 4153ca5: HelpBubble 컴포넌트의 배경색이 다크모드에서 흰색으로 변경됩니다.
 - a7d07f0: (**BREAKING CHANGE**: `SwitchMark` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) Switch의 토글 영역만을 정의한 Switch Mark 컴포넌트를 추가합니다.
-
   - `npx @seed-design/cli@latest add ui:switch` 명령어로 설치하세요.
 
   (**BREAKING CHANGE**: `ListHeader` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) List Header 컴포넌트를 추가합니다.
-
   - `npx @seed-design/cli@latest add ui:list` 명령어로 설치하세요.
 
 ## 0.2.5
@@ -698,7 +667,6 @@
 ### Patch Changes
 
 - 0ca19c0: Segmented Control 컴포넌트를 업데이트합니다.
-
   - Notification Badge를 표시하는 notification prop을 추가합니다.
   - `SegmentedControlItem`의 `children`을 `string`에서 `ReactNode`로 확대합니다.
   - 스타일을 업데이트합니다.
@@ -708,14 +676,12 @@
 ### Patch Changes
 
 - 8ebe8a5: Switch, Checkmark, Radio Mark의 스타일을 업데이트합니다.
-
   - tone=neutral variant를 추가합니다.
   - Switch의 thumb 크기를 조정합니다.
 
   Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 수정합니다.
 
 - f61b80d: 다크 모드에서의 색상 대비 보장을 위해 시맨틱 색상을 수정하고 컴포넌트에서의 색상을 변경합니다.
-
   - **$color.bg.warning-solid**: theme-dark에서 $color.palette.yellow-600 → $color.palette.yellow-800
   - **$color.bg.warning-solid-pressed**: theme-dark에서 $color.palette.yellow-700 → $color.palette.yellow-900
   - Badge, Page Banner의 tone=warning, variant=solid variant에서 전경 항목 색상 변경: $color.fg.neutral → $color.palette.static-black-alpha-900
@@ -725,14 +691,12 @@
 ### Patch Changes
 
 - a22b8b9: ChipTabs 컴포넌트 Variant, Size 변경 및 디자인 수정
-
   - variant `neutralOutline` 추가
   - variant `brandSolid` deprecated
   - size(`medium(default)` | `large`) 추가
 
 - 5836976: text-field의 value slot이 input의 size attribute로 인해 기본적으로 width를 가지는 문제를 해결합니다.
 - 12faf5a: List 컴포넌트를 추가하고, Checkbox 및 Radio 컴포넌트를 개선합니다.
-
   - List 컴포넌트를 제공하여, 정보를 구조화된 목록 형태로 표시할 수 있도록 합니다.
   - Checkbox와 Radio의 컨트롤 영역만을 표시하는 Checkmark와 RadioMark를 제공합니다.
   - Select Box에서 컨트롤 영역을 Checkmark와 RadioMark로 교체합니다.
@@ -743,7 +707,6 @@
 ### Patch Changes
 
 - 35984d0: Chip 컴포넌트를 업데이트합니다.
-
   - 아이콘에 트랜지션 효과가 적용되지 않던 현상을 수정합니다.
   - Button, Toggle 등 사용되는 방식에 따라 적절한 data prop을 받도록 수정합니다.
 
@@ -754,7 +717,6 @@
 - 8448880: 시맨틱 stroke 컬러 토큰을 업데이트합니다.
 
   **이름이 변경되는 stroke 토큰**
-
   - [Color Role 규칙](https://seed-design.io/docs/foundation/color/color-role)에 맞춰 일관적인 토큰 이름을 유지할 수 있도록 업데이트합니다.
   - 이름이 변경되는 stroke 토큰을 사용하고 있는 경우, 간단한 Find & Replace 마이그레이션이 필요합니다.
 
@@ -794,18 +756,15 @@
 ### Patch Changes
 
 - c51a261: font-size, line-height 토큰에 static variant를 추가합니다.
-
   - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
   - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
 
 - 5f2ee39: CSS 최적화 도구(e.g. cssnano)가 CSS variable로 정의된 longhand declaration을 병합하지 않도록 합니다. (workaround, [관련 issue](https://github.com/cssnano/cssnano/issues/1472))
 - 8299ba9: Snackbar 컴포넌트를 업데이트합니다.
-
   - root 영역에 maxWidth 스펙을 추가합니다.
   - `pauseOnInteraction`의 기본값을 `false`에서 `true`로 변경합니다.
 
 - 3de4cec: 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
-
   - CSS 변수 `--seed-{font-size|line-height}-limit-{min|max}` 도입
   - 빌드 타임 basePx 계산을 런타임 static 토큰 참조로 대체
   - global.ts에 폰트 스케일링 변수 통합
@@ -815,7 +774,6 @@
 ### Patch Changes
 
 - f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
-
   - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
 
   ```tsx
@@ -834,17 +792,14 @@
   ```
 
   시맨틱 색상 토큰을 추가하고 수정합니다.
-
   - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
   - `$color.bg.warning-solid-pressed` 추가
 
 - 1982494: Badge 컴포넌트를 업데이트합니다.
-
   - `tone=warning` variant를 추가합니다.
   - `maxWidth` 스펙을 추가합니다.
 
   신규 시맨틱 색상 토큰을 추가합니다.
-
   - `$color.fg.warning`
   - `$color.stroke.warning`
   - `$color.fg.brand-contrast`
@@ -862,7 +817,6 @@
 ### Patch Changes
 
 - 62094b6: Help Bubble의 스타일 문제를 수정합니다.
-
   - `placement=left-*` / `placement=right-*`에서 arrow가 content와 떨어져 표시되는 문제를 수정합니다.
 
 ## 0.1.10
@@ -870,7 +824,6 @@
 ### Patch Changes
 
 - ef91c21: Bottom Sheet의 스타일 문제를 수정해요.
-
   - Close Button에 브라우저 기본 스타일이 표시되는 문제를 수정해요.
 
 ## 0.1.9
@@ -878,18 +831,15 @@
 ### Patch Changes
 
 - 5a025b7: Switch 컴포넌트를 업데이트합니다.
-
   - size: medium → 32, small → 16으로 rename합니다.
     - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
   - size: 24를 추가합니다.
   - 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
 
 - ac35731: Chip.Root `position: relative` 속성 추가
-
   - 이제 Chip.Toggle을 사용해도 예상치 못한 스크롤이 발생하지 않습니다.
 
 - f9041e9: `CheckSelectBox`, `RadioSelectBox`의 `label`, `description` 영역을 수정합니다.
-
   - `span` 대신 `div`를 렌더링합니다.
   - 기본적으로 grow하도록 만들어 Badge 등 추가 요소를 넣기 쉽게 만듭니다.
 
@@ -898,7 +848,6 @@
 ### Patch Changes
 
 - 609b8f3: iOS의 `더 큰 텍스트` 기능에 제한을 둡니다.
-
   - iOS는 7단계(XS ~ XXXL)의 텍스트 크기 조절 이외에도, 보다 더 큰 텍스트를 위한 `더 큰 텍스트` 기능을 제공합니다.
   - iOS 네이티브에서는 `더 큰 텍스트`의 UI 레이아웃 대응이 어렵다고 결정하여, XXXL(135%) 이상의 텍스트 크기 조절을 지원하지 않습니다.
   - 웹뷰도 iOS와 동일한 제한을 위한 기능이 추가되었습니다.
@@ -908,7 +857,6 @@
 ### Patch Changes
 
 - 4afe80b: MultilineTextField의 스타일 문제를 수정합니다.
-
   - 스크롤바가 요소 끝에 표시되도록 수정합니다.
 
 ## 0.1.6
@@ -923,22 +871,18 @@
 ### Patch Changes
 
 - 861ecb4: Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
-
   - [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
   - Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
 
 - 3889eb6: Inline Banner의 스타일 문제를 수정합니다.
-
   - `title`과 `description`이 `inline-flex`로 레이아웃되던 문제를 해결합니다.
   - `title`과 `description` 간의 간격을 조정합니다.
   - 닫기 버튼(Dismissible)과 `suffix icon`, `link label`이 상단으로 레이아웃되던 문제를 해결합니다.
 
   Callout의 스타일 문제를 수정합니다.
-
   - `title`과 `description` 간의 간격을 조정합니다.
 
   Chip의 스타일 문제를 수정합니다.
-
   - `Chip.Button`의 `label`이 의도한 글꼴로 표시되도록 수정합니다.
 
 ## 0.1.4
@@ -946,7 +890,6 @@
 ### Patch Changes
 
 - 0ffcd48: Chip 컴포넌트가 추가되고, ActionChip, ControlChip 컴포넌트가 Deprecated 되었습니다.
-
   - [Chip 컴포넌트](https://seed-design.io/react/components/chip)
   - Chip 컴포넌트는 버튼과 토글 컴포넌트를 모두 포함하고 있습니다.
 
@@ -955,18 +898,15 @@
 ### Patch Changes
 
 - cdc0930: `@seed-design/stackflow` 백스와이프 애니메이션 개선
-
   - iOS 스타일 화면 전환 애니메이션의 지속 시간과 타이밍 함수가 `300ms`에서 `350ms`로 조정되어 더 부드러운 전환 효과를 제공합니다.
   - 스와이프 백 제스처 시 애니메이션이 보다 자연스럽고 일관되게 표현됩니다.
   - 스와이프 백 종료 시 CSS 변수를 활용해 전환 상태를 명확히 하여 사용자 경험이 개선되었습니다.
 
 - 946faf7: 그라디언트 토큰 추가 및 변경
-
   - `fade-layer-floating`, `fade-layer-default` 토큰이 추가되었습니다.
   - `$gradient.shimmer-magic` 토큰 stop color가 변경되었습니다.
 
 - 71c58fd: iOS Font Scaling
-
   - iOS 기기에서 시스템 폰트 크기 설정에 따라 동적으로 폰트 크기와 줄 높이를 조정하는 폰트 스케일링 옵션이 추가되었습니다.
   - 플러그인(webpack, vite, rsbuild)에서 `fontScaling` 옵션을 통해 폰트 스케일링 기능을 활성화할 수 있습니다.
   - `data-seed-font-scaling='enabled'` 일 때, 폰트 크기를 조정합니다.
@@ -1005,27 +945,22 @@
 - f801300: 새로운 black, white alpha 값을 추가합니다
 
   `$color.palette.static-black-alpha-50` (예전 값)
-
   - 예전 값: #0000000d (투명도 약 5.1%)
   - 변경 값: `$color.palette.static-black-alpha-200` (투명도 4.7%)
 
   `$color.palette.static-black-alpha-200` (예전 값)
-
   - 예전 값: #00000033 (투명도 20%)
   - 변경 값: `$color.palette.static-black-alpha-500` (투명도 17.3%)
 
   `$color.palette.static-black-alpha-500` (예전 값)
-
   - 예전 값: #00000080 (투명도 약 50.2%)
   - 변경 값: `$color.palette.static-black-alpha-700` (투명도 45.5%)
 
   `$color.palette.static-white-alpha-200` (예전 값)
-
   - 예전 값: #ffffff33 (투명도 20%)
   - 변경 값: `$color.palette.static-white-alpha-300` (투명도 18%)
 
   `$color.palette.static-white-alpha-800` (예전 값)
-
   - 예전 값: #ffffffcc (투명도 약 80%)
   - 변경 값: `$color.palette.static-white-alpha-800` (투명도 87.1%)
   - (참고: 이 값은 이름은 같지만 실제 투명도 값은 80%에서 87.1%로 변경되었습니다.)
@@ -1188,7 +1123,6 @@
 
 - 63f8651: MannerTemp 컴포넌트를 추가합니다.
 - d9b01a9: feat: 다크모드에서의 gray200, gray300 색상, 라이트모드 carrot700 색상을 변경해요
-
   - (light) carrot700: #e84500 -> #e04f00
   - (dark) gray300: #2c2f35 -> #2b2e35
   - (dark) gray200: #1b1c22 -> #22252b
@@ -1198,7 +1132,6 @@
 ### Patch Changes
 
 - 1424700: Notification Badge를 추가합니다.
-
   - Tabs의 Notification 슬롯을 Notification Badge로 변경합니다.
 
 - 0efeea1: change help-bubble paddingY, lineHeight
@@ -1258,7 +1191,6 @@
 ### Patch Changes
 
 - 93cfc30: feat: change theming data attribute names
-
   - theming에 사용되는 data attribute 이름을 변경합니다.
   - 유저가 선호하는 color scheme과 사전에 지정된 color mode를 구분하기 쉽도록 이름을 부여합니다.
   - 파편화된 platform 관련 네이밍을 통일합니다.

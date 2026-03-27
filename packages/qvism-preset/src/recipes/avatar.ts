@@ -168,6 +168,18 @@ const avatar = defineSlotRecipe({
           "--badge-offset": vars.size48.enabled.badge.offset,
         },
       },
+      56: {
+        root: {
+          "--avatar-size": vars.size56.enabled.root.size,
+          "--avatar-stroke-width": vars.size56.enabled.root.strokeWidth,
+          "--badge-mask-size": vars.size56.enabled.badgeMask.size,
+          "--badge-mask-offset": vars.size56.enabled.badgeMask.offset,
+        },
+        badge: {
+          "--badge-size": vars.size56.enabled.badge.size,
+          "--badge-offset": vars.size56.enabled.badge.offset,
+        },
+      },
       64: {
         root: {
           "--avatar-size": vars.size64.enabled.root.size,
