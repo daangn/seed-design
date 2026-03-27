@@ -1,36 +1,32 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { Tool } from "../types.js";
-import { discoverSeedDocsTool } from "./discover.js";
-import { listDocsTool, getDocTool, getFullDocsTool } from "./docs.js";
-import { getRootageTool } from "./get-rootage.js";
-import { listIconsTool, searchIconsTool, getIconDetailsTool } from "./icon-tools.js";
+import { registerPrompts } from "../prompts.js";
+import { registerResources } from "../resources.js";
+import { setDocsBaseUrl } from "../runtime-config.js";
+import { registerDocsTools } from "./docs.js";
+import { registerRootageTools } from "./get-rootage.js";
+import { registerIconTools } from "./icon-tools.js";
 
-const tools: Tool[] = [
-  discoverSeedDocsTool,
-  listDocsTool,
-  getDocTool,
-  getFullDocsTool,
-  getRootageTool,
-  listIconsTool,
-  searchIconsTool,
-  getIconDetailsTool,
-];
+const initializedServers = new WeakSet<McpServer>();
 
-const registeredToolCache = new Map<string, Tool>();
+export interface InitializeToolsOptions {
+  baseUrl?: string;
+}
 
-export const initializeTools = async (server: McpServer) => {
-  await Promise.all(
-    tools.map(async (tool) => {
-      if (registeredToolCache.has(tool.name)) {
-        return;
-      }
-      registeredToolCache.set(tool.name, tool);
-      const toolCtx = await tool.ctx?.();
-      tool.exec(server, {
-        name: tool.name,
-        description: tool.description,
-        ctx: toolCtx,
-      });
-    }),
-  );
-};
+export async function initializeTools(
+  server: McpServer,
+  options: InitializeToolsOptions = {},
+): Promise<void> {
+  if (initializedServers.has(server)) {
+    return;
+  }
+
+  setDocsBaseUrl(options.baseUrl);
+
+  registerDocsTools(server);
+  registerRootageTools(server);
+  registerIconTools(server);
+  registerResources(server);
+  registerPrompts(server);
+
+  initializedServers.add(server);
+}

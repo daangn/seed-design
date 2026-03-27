@@ -1,54 +1,60 @@
 import { z } from "zod";
-import type { Tool } from "../types.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { fetchRootageIndex, fetchRootageResource } from "../fetch.js";
+import { readOnlyAnnotations, toErrorMessage, toErrorResult } from "./utils.js";
 
-export const getRootageTool: Tool = {
-  name: "get_rootage",
-  description:
-    "Get SEED Design rootage specification. Use without path to get index (available resources list). " +
-    "Use with path to get specific resource (e.g., '/color.json', '/components/action-button.json').",
-  exec(server, { name, description }) {
-    server.tool(
-      name,
-      description,
-      {
+export function registerRootageTools(server: McpServer): void {
+  server.registerTool(
+    "read_rootage",
+    {
+      title: "Read Rootage Data",
+      description:
+        "Read SEED rootage JSON data. If path is omitted, returns the rootage index JSON.",
+      inputSchema: {
         path: z
           .string()
+          .trim()
+          .min(1)
           .optional()
-          .describe(
-            "Resource path from index.json (e.g., '/color.json', '/components/action-button.json'). " +
-              "Omit to get index with all available paths.",
-          ),
+          .describe("Rootage resource path (e.g. /color.json, /components/action-button.json)."),
       },
-      async ({ path }) => {
-        try {
-          if (!path) {
-            // Return index.json
-            const index = await fetchRootageIndex();
-            return {
-              content: [{ type: "text", text: JSON.stringify(index, null, 2) }],
-            };
-          }
-
-          // Return specific resource
-          const resource = await fetchRootageResource(path);
+      outputSchema: {
+        path: z.string().nullable(),
+        data: z.unknown(),
+        isIndex: z.boolean(),
+        error: z.string().optional(),
+      },
+      annotations: readOnlyAnnotations,
+    },
+    async ({ path }) => {
+      try {
+        if (path === undefined) {
+          const index = await fetchRootageIndex();
           return {
-            content: [{ type: "text", text: JSON.stringify(resource, null, 2) }],
-          };
-        } catch (error) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `Error fetching rootage${path ? ` resource '${path}'` : " index"}: ${
-                  error instanceof Error ? error.message : "Unknown error"
-                }\n\nUse get_rootage without path to see available resources.`,
-              },
-            ],
-            isError: true,
+            content: [{ type: "text", text: JSON.stringify(index, null, 2) }],
+            structuredContent: {
+              path: null,
+              data: index,
+              isIndex: true,
+            },
           };
         }
-      },
-    );
-  },
-};
+
+        const resource = await fetchRootageResource(path);
+        return {
+          content: [{ type: "text", text: JSON.stringify(resource, null, 2) }],
+          structuredContent: {
+            path,
+            data: resource,
+            isIndex: false,
+          },
+        };
+      } catch (error) {
+        return toErrorResult(
+          `Failed to read rootage${path ? ` path '${path}'` : " index"}: ${toErrorMessage(error)}`,
+          { path: path ?? null, data: null, isIndex: !path },
+        );
+      }
+    },
+  );
+}

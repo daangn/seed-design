@@ -1,3 +1,5 @@
+import { getDocsBaseUrl } from "./runtime-config.js";
+
 /**
  * SEED Design Documentation Configuration
  *
@@ -16,8 +18,6 @@ export interface SectionConfig {
   basePath: string;
   /** 섹션 개요 경로 (예: /react/llms.txt) */
   overviewPath: string;
-  /** 전체 문서 경로 (예: /react/llms-full.txt) */
-  fullPath: string;
   /** 카테고리 맵 (카테고리 ID → 설명) */
   categories: Record<string, string>;
 }
@@ -28,7 +28,6 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
     description: "React 컴포넌트 라이브러리, API 레퍼런스, 사용 예제",
     basePath: "/llms/react",
     overviewPath: "/react/llms.txt",
-    fullPath: "/react/llms-full.txt",
     categories: {
       components: "React 컴포넌트 API 및 사용법",
       "getting-started": "설치 및 시작 가이드",
@@ -44,7 +43,6 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
     description: "컴포넌트 디자인 가이드라인, Foundation (색상, 타이포그래피, 간격 등)",
     basePath: "/llms/docs",
     overviewPath: "/docs/llms.txt",
-    fullPath: "/docs/llms-full.txt",
     categories: {
       components: "컴포넌트 디자인 가이드라인",
       foundation: "색상, 타이포그래피, 간격 등 기초 토큰",
@@ -56,7 +54,6 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
     description: "프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트",
     basePath: "/llms/breeze",
     overviewPath: "/breeze/llms.txt",
-    fullPath: "/breeze/llms-full.txt",
     categories: {
       components: "Breeze 유틸리티 컴포넌트",
     },
@@ -66,7 +63,6 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
     description: "MCP, llms.txt 활용법 등 AI 도구 연동 가이드",
     basePath: "/llms/ai-integration",
     overviewPath: "/ai-integration/llms.txt",
-    fullPath: "/ai-integration/llms-full.txt",
     categories: {},
   },
   lynx: {
@@ -74,7 +70,6 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
     description: "Lynx 프레임워크",
     basePath: "/llms/lynx",
     overviewPath: "/lynx/llms.txt",
-    fullPath: "/lynx/llms-full.txt",
     categories: {},
   },
 };
@@ -101,4 +96,25 @@ export function isValidCategory(section: SectionId, category: string): boolean {
     return true;
   }
   return category in config.categories;
+}
+
+export function getSectionOverviewTxtUrl(section: SectionId): string {
+  return `${getDocsBaseUrl()}${SECTIONS[section].overviewPath}`;
+}
+
+function normalizeDocPath(path: string): string {
+  const cleanPath = path.replace(/\.txt$/, "").replace(/^\/+/, "");
+  if (
+    !cleanPath ||
+    /[?#]/.test(cleanPath) ||
+    cleanPath.split("/").some((segment) => segment === "" || segment === "." || segment === "..")
+  ) {
+    throw new Error(`Invalid doc path: ${path}`);
+  }
+  return cleanPath;
+}
+
+export function getSectionDocTxtUrl(section: SectionId, path: string): string {
+  const cleanPath = normalizeDocPath(path);
+  return `${getDocsBaseUrl()}${SECTIONS[section].basePath}/${cleanPath}.txt`;
 }

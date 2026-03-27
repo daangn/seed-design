@@ -1,20 +1,15 @@
-/**
- * Icon Tools for SEED Design MCP Server
- *
- * Provides tools for discovering and searching SEED Design icons.
- * Icon data is loaded at runtime from @karrotmarket/icon-data package.
- */
-
-import { z } from "zod";
 import { createRequire } from "node:module";
+import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { Tool, IconIndex, IconEntry, IconSearchResult } from "../types.js";
+import { getDocsBaseUrl } from "../runtime-config.js";
+import type { IconDetails, IconEntry, IconIndex, IconSearchResult, IconUsage } from "../types.js";
+import { readOnlyAnnotations, toErrorMessage, toErrorResult } from "./utils.js";
 
-const DOCS_BASE_URL = "https://seed-design.io/docs/foundation/iconography/library";
+const ICON_DOCS_PATH = "/docs/foundation/iconography/library";
 
-// ============================================================================
-// Runtime Icon Data Loading
-// ============================================================================
+function getIconDocsBaseUrl(): string {
+  return `${getDocsBaseUrl()}${ICON_DOCS_PATH}`;
+}
 
 interface RawIconData {
   name: string;
@@ -40,15 +35,14 @@ function extractVariant(iconName: string): "line" | "fill" | undefined {
 }
 
 function extractService(metadatas: string[]): string | undefined {
-  const serviceTag = metadatas.find((m) => m.startsWith("service:"));
-  if (serviceTag) {
-    return serviceTag.replace("service:", "");
-  }
-  return undefined;
+  const serviceTag = metadatas.find((metadata) => metadata.startsWith("service:"));
+  return serviceTag?.replace("service:", "");
 }
 
 function filterMetadatas(metadatas: string[]): string[] {
-  return metadatas.filter((m) => !m.startsWith("service:") && !m.startsWith("tag:"));
+  return metadatas.filter(
+    (metadata) => !metadata.startsWith("service:") && !metadata.startsWith("tag:"),
+  );
 }
 
 function processIcons(
@@ -77,61 +71,34 @@ function processIcons(
   });
 }
 
-// Module-level cache for icon data (loaded once, shared across all tools)
 let iconDataCache: IconIndex | null = null;
 
-/**
- * Load icon data from @karrotmarket/icon-data package at runtime.
- * Strips SVG/PNG data and keeps only searchable metadata.
- */
-async function loadIconData(): Promise<IconIndex> {
+export async function loadIconData(): Promise<IconIndex> {
   if (iconDataCache) {
     return iconDataCache;
   }
 
   const require = createRequire(import.meta.url);
 
-  try {
-    const monochromeData: Record<
-      string,
-      RawIconData
-    > = require("@karrotmarket/icon-data/monochrome.json");
-    const multicolorData: Record<
-      string,
-      RawIconData
-    > = require("@karrotmarket/icon-data/multicolor.json");
+  const monochromeData: Record<
+    string,
+    RawIconData
+  > = require("@karrotmarket/icon-data/monochrome.json");
+  const multicolorData: Record<
+    string,
+    RawIconData
+  > = require("@karrotmarket/icon-data/multicolor.json");
 
-    iconDataCache = {
-      version: "runtime",
-      generatedAt: new Date().toISOString(),
-      monochrome: processIcons(monochromeData, "monochrome"),
-      multicolor: processIcons(multicolorData, "multicolor"),
-    };
+  iconDataCache = {
+    version: "runtime",
+    generatedAt: new Date().toISOString(),
+    monochrome: processIcons(monochromeData, "monochrome"),
+    multicolor: processIcons(multicolorData, "multicolor"),
+  };
 
-    return iconDataCache;
-  } catch (error) {
-    throw new Error(
-      `Failed to load icon data from @karrotmarket/icon-data: ${error instanceof Error ? error.message : "Unknown error"}`,
-    );
-  }
+  return iconDataCache;
 }
 
-// ============================================================================
-// Icon Tool Context
-// ============================================================================
-
-interface IconToolContext {
-  iconData: IconIndex;
-}
-
-// ============================================================================
-// Helper Functions
-// ============================================================================
-
-/**
- * Convert icon name to React component name
- * e.g., "icon_arrow_left_line" -> "IconArrowLeftLine"
- */
 function toComponentName(iconName: string): string {
   return iconName
     .split("_")
@@ -139,13 +106,9 @@ function toComponentName(iconName: string): string {
     .join("");
 }
 
-/**
- * Get usage information for an icon across all frameworks
- */
-function getIconUsage(iconName: string, type: "monochrome" | "multicolor") {
+function getIconUsage(iconName: string, type: "monochrome" | "multicolor"): IconUsage[] {
   const componentName = toComponentName(iconName);
   const iconType = type === "monochrome" ? "monochrome-icon" : "multicolor-icon";
-
   const frameworks = ["react", "vue", "lynx"] as const;
 
   return frameworks.map((framework) => {
@@ -159,35 +122,36 @@ function getIconUsage(iconName: string, type: "monochrome" | "multicolor") {
   });
 }
 
-/**
- * Search icons by query (matches name and metadata)
- */
 function searchIcons(
   iconData: IconIndex,
   query: string,
   type?: "monochrome" | "multicolor",
   limit = 20,
 ): IconSearchResult[] {
-  const queryLower = query.toLowerCase();
+  const normalizedQuery = query.toLowerCase();
   const results: IconSearchResult[] = [];
 
   const searchInType = (icons: IconEntry[], iconType: "monochrome" | "multicolor") => {
     for (const icon of icons) {
-      const nameMatch = icon.name.toLowerCase().includes(queryLower);
+      const nameMatch = icon.name.toLowerCase().includes(normalizedQuery);
       const matchedKeywords = icon.metadatas.filter(
-        (m) => m.toLowerCase().includes(queryLower) || queryLower.includes(m.toLowerCase()),
+        (metadata) =>
+          metadata.toLowerCase().includes(normalizedQuery) ||
+          normalizedQuery.includes(metadata.toLowerCase()),
       );
 
-      if (nameMatch || matchedKeywords.length > 0) {
-        results.push({
-          name: icon.name,
-          type: iconType,
-          variant: icon.variant,
-          service: icon.service,
-          matchedKeywords: nameMatch ? [icon.name, ...matchedKeywords] : matchedKeywords,
-          allKeywords: icon.metadatas,
-        });
+      if (!nameMatch && matchedKeywords.length === 0) {
+        continue;
       }
+
+      results.push({
+        name: icon.name,
+        type: iconType,
+        variant: icon.variant,
+        service: icon.service,
+        matchedKeywords: nameMatch ? [icon.name, ...matchedKeywords] : matchedKeywords,
+        allKeywords: icon.metadatas,
+      });
     }
   };
 
@@ -199,49 +163,30 @@ function searchIcons(
   }
 
   results.sort((a, b) => b.matchedKeywords.length - a.matchedKeywords.length);
-
   return results.slice(0, limit);
 }
 
-interface IconDetailsInternal {
-  name: string;
-  type: "monochrome" | "multicolor";
-  keywords: string[];
-  variant?: "line" | "fill";
-  service?: string;
-  docsUrl: string;
-  usage: Array<{
-    framework: string;
-    package: string;
-    import: string;
-    component: string;
-  }>;
-}
-
-/**
- * Find an icon by name and return its details
- */
-function findIcon(iconData: IconIndex, iconName: string): IconDetailsInternal | null {
-  const monoIcon = iconData.monochrome.find((i) => i.name === iconName);
-  if (monoIcon) {
+function findIcon(iconData: IconIndex, iconName: string): IconDetails | null {
+  const monochrome = iconData.monochrome.find((icon) => icon.name === iconName);
+  if (monochrome) {
     return {
-      name: monoIcon.name,
+      name: monochrome.name,
       type: "monochrome",
-      keywords: monoIcon.metadatas,
-      variant: monoIcon.variant,
-      docsUrl: `${DOCS_BASE_URL}?icon=${iconName}`,
+      keywords: monochrome.metadatas,
+      variant: monochrome.variant,
+      docsUrl: `${getIconDocsBaseUrl()}?icon=${iconName}`,
       usage: getIconUsage(iconName, "monochrome"),
     };
   }
 
-  const multiIcon = iconData.multicolor.find((i) => i.name === iconName);
-  if (multiIcon) {
+  const multicolor = iconData.multicolor.find((icon) => icon.name === iconName);
+  if (multicolor) {
     return {
-      name: multiIcon.name,
+      name: multicolor.name,
       type: "multicolor",
-      keywords: multiIcon.metadatas,
-      service: multiIcon.service,
-      docsUrl: `${DOCS_BASE_URL}?icon=${iconName}`,
+      keywords: multicolor.metadatas,
+      service: multicolor.service,
+      docsUrl: `${getIconDocsBaseUrl()}?icon=${iconName}`,
       usage: getIconUsage(iconName, "multicolor"),
     };
   }
@@ -249,76 +194,6 @@ function findIcon(iconData: IconIndex, iconName: string): IconDetailsInternal | 
   return null;
 }
 
-/**
- * List icons with filtering
- */
-function listIcons(
-  iconData: IconIndex,
-  type?: "monochrome" | "multicolor",
-  variant?: "line" | "fill",
-  service?: string,
-  limit = 50,
-): {
-  totalCount: number;
-  returnedCount: number;
-  icons: Array<{ name: string; variant?: string; service?: string; keywords: string }>;
-} {
-  let icons: Array<{
-    name: string;
-    type: "monochrome" | "multicolor";
-    variant?: string;
-    service?: string;
-    metadatas: string[];
-  }> = [];
-
-  if (!type || type === "monochrome") {
-    icons.push(
-      ...iconData.monochrome.map((i) => ({
-        name: i.name,
-        type: "monochrome" as const,
-        variant: i.variant,
-        metadatas: i.metadatas,
-      })),
-    );
-  }
-
-  if (!type || type === "multicolor") {
-    icons.push(
-      ...iconData.multicolor.map((i) => ({
-        name: i.name,
-        type: "multicolor" as const,
-        service: i.service,
-        metadatas: i.metadatas,
-      })),
-    );
-  }
-
-  if (variant) {
-    icons = icons.filter((i) => i.variant === variant);
-  }
-
-  if (service) {
-    icons = icons.filter((i) => i.service === service);
-  }
-
-  const totalCount = icons.length;
-  const limited = icons.slice(0, limit);
-
-  return {
-    totalCount,
-    returnedCount: limited.length,
-    icons: limited.map((i) => ({
-      name: i.name,
-      variant: i.variant,
-      service: i.service,
-      keywords: i.metadatas.slice(0, 5).join(", "),
-    })),
-  };
-}
-
-/**
- * Get available services for multicolor icons
- */
 function getAvailableServices(iconData: IconIndex): string[] {
   const services = new Set<string>();
   for (const icon of iconData.multicolor) {
@@ -329,185 +204,215 @@ function getAvailableServices(iconData: IconIndex): string[] {
   return Array.from(services).sort();
 }
 
-// ============================================================================
-// MCP Tool Definitions
-// ============================================================================
+export async function getIconServices(): Promise<string[]> {
+  const iconData = await loadIconData();
+  return getAvailableServices(iconData);
+}
 
-export const listIconsTool: Tool<IconToolContext> = {
-  name: "list_icons",
-  description:
-    "List available SEED Design icons with optional filtering by type, variant, or service",
-  async ctx() {
-    const iconData = await loadIconData();
-    return { iconData };
-  },
-  exec(server: McpServer, { ctx, name, description }) {
-    server.tool(
-      name,
-      description,
-      {
-        type: z
-          .enum(["monochrome", "multicolor"])
-          .optional()
-          .describe(
-            "Filter by icon type. Monochrome icons are single-color, multicolor are service icons.",
-          ),
-        variant: z
-          .enum(["line", "fill"])
-          .optional()
-          .describe("Filter monochrome icons by variant (line or fill style)."),
-        service: z
-          .string()
-          .optional()
-          .describe(
-            "Filter multicolor icons by service category (e.g., '중고거래', '부동산', '알바').",
-          ),
-        limit: z
-          .number()
-          .optional()
-          .default(50)
-          .describe("Maximum number of icons to return (default: 50, max: 200)."),
+export function registerIconTools(server: McpServer): void {
+  server.registerTool(
+    "list_icons",
+    {
+      title: "List Icons",
+      description: "List SEED icons with optional type, variant, and service filtering.",
+      inputSchema: {
+        type: z.enum(["monochrome", "multicolor"]).optional(),
+        variant: z.enum(["line", "fill"]).optional(),
+        service: z.string().optional(),
+        limit: z.number().int().positive().max(200).optional().default(50),
       },
-      async ({ type, variant, service, limit }) => {
-        const effectiveLimit = Math.min(limit ?? 50, 200);
-        const result = listIcons(ctx.iconData, type, variant, service, effectiveLimit);
-
-        let response = `Found ${result.totalCount} icons`;
-        if (type) response += ` (type: ${type})`;
-        if (variant) response += ` (variant: ${variant})`;
-        if (service) response += ` (service: ${service})`;
-        response += `\nShowing ${result.returnedCount} icons:\n\n`;
-
-        for (const icon of result.icons) {
-          response += `- ${icon.name}`;
-          if (icon.variant) response += ` [${icon.variant}]`;
-          if (icon.service) response += ` [${icon.service}]`;
-          response += ` — ${icon.keywords}\n`;
-        }
-
-        if (result.totalCount > result.returnedCount) {
-          response += `\n... and ${result.totalCount - result.returnedCount} more icons.`;
-          response += "\nUse search_icons for specific queries or increase limit.";
-        }
-
-        if (!type || type === "multicolor") {
-          const services = getAvailableServices(ctx.iconData);
-          response += `\n\nAvailable service categories: ${services.join(", ")}`;
-        }
-
-        return { content: [{ type: "text", text: response }] };
+      outputSchema: {
+        totalCount: z.number().int().nonnegative(),
+        returnedCount: z.number().int().nonnegative(),
+        icons: z.array(
+          z.object({
+            name: z.string(),
+            type: z.enum(["monochrome", "multicolor"]),
+            variant: z.enum(["line", "fill"]).optional(),
+            service: z.string().optional(),
+            keywords: z.array(z.string()),
+          }),
+        ),
+        availableServices: z.array(z.string()),
+        error: z.string().optional(),
       },
-    );
-  },
-};
+      annotations: readOnlyAnnotations,
+    },
+    async ({ type, variant, service, limit }) => {
+      try {
+        const iconData = await loadIconData();
+        const allIcons = [
+          ...(type === "multicolor"
+            ? []
+            : iconData.monochrome.map((icon) => ({
+                name: icon.name,
+                type: "monochrome" as const,
+                variant: icon.variant,
+                service: undefined,
+                keywords: icon.metadatas,
+              }))),
+          ...(type === "monochrome"
+            ? []
+            : iconData.multicolor.map((icon) => ({
+                name: icon.name,
+                type: "multicolor" as const,
+                variant: undefined,
+                service: icon.service,
+                keywords: icon.metadatas,
+              }))),
+        ]
+          .filter((icon) => (variant ? icon.variant === variant : true))
+          .filter((icon) => (service ? icon.service === service : true));
 
-export const searchIconsTool: Tool<IconToolContext> = {
-  name: "search_icons",
-  description: "Search SEED Design icons by keyword. Supports both English and Korean queries.",
-  async ctx() {
-    const iconData = await loadIconData();
-    return { iconData };
-  },
-  exec(server: McpServer, { ctx, name, description }) {
-    server.tool(
-      name,
-      description,
-      {
-        query: z.string().describe("Search query (e.g., 'arrow', 'back', '화살표', 'shopping')"),
-        type: z
-          .enum(["monochrome", "multicolor"])
-          .optional()
-          .describe("Optional: filter results by icon type."),
-        limit: z
-          .number()
-          .optional()
-          .default(20)
-          .describe("Maximum results to return (default: 20, max: 100)."),
+        const cappedLimit = Math.max(1, Math.min(limit ?? 50, 200));
+        const icons = allIcons.slice(0, cappedLimit);
+        const availableServices = getAvailableServices(iconData);
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  totalCount: allIcons.length,
+                  returnedCount: icons.length,
+                  icons,
+                  availableServices,
+                },
+                null,
+                2,
+              ),
+            },
+          ],
+          structuredContent: {
+            totalCount: allIcons.length,
+            returnedCount: icons.length,
+            icons,
+            availableServices,
+          },
+        };
+      } catch (error) {
+        return toErrorResult(`Failed to list icons: ${toErrorMessage(error)}`, {
+          totalCount: 0,
+          returnedCount: 0,
+          icons: [],
+          availableServices: [],
+        });
+      }
+    },
+  );
+
+  server.registerTool(
+    "search_icons",
+    {
+      title: "Search Icons",
+      description: "Search icons by keyword in icon names and metadata.",
+      inputSchema: {
+        query: z.string().min(1),
+        type: z.enum(["monochrome", "multicolor"]).optional(),
+        limit: z.number().int().positive().max(100).optional().default(20),
       },
-      async ({ query, type, limit }) => {
-        const effectiveLimit = Math.min(limit ?? 20, 100);
-        const results = searchIcons(ctx.iconData, query, type, effectiveLimit);
-        const searchUrl = `${DOCS_BASE_URL}?search=${encodeURIComponent(query)}`;
-
-        if (results.length === 0) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `No icons found for "${query}".\n\nTry different keywords or browse all icons:\n${DOCS_BASE_URL}`,
-              },
-            ],
-          };
-        }
-
-        let response = `Found ${results.length} icons matching "${query}":\n`;
-        response += `View in browser: ${searchUrl}\n\n`;
-
-        for (const icon of results) {
-          response += `- ${icon.name} [${icon.type}]`;
-          if (icon.variant) response += ` (${icon.variant})`;
-          if (icon.service) response += ` (${icon.service})`;
-          response += `\n  Matched: ${icon.matchedKeywords.join(", ")}\n`;
-        }
-
-        return { content: [{ type: "text", text: response }] };
+      outputSchema: {
+        query: z.string(),
+        results: z.array(
+          z.object({
+            name: z.string(),
+            type: z.enum(["monochrome", "multicolor"]),
+            variant: z.enum(["line", "fill"]).optional(),
+            service: z.string().optional(),
+            matchedKeywords: z.array(z.string()),
+            allKeywords: z.array(z.string()),
+          }),
+        ),
+        searchUrl: z.string().url(),
+        error: z.string().optional(),
       },
-    );
-  },
-};
+      annotations: readOnlyAnnotations,
+    },
+    async ({ query, type, limit }) => {
+      try {
+        const iconData = await loadIconData();
+        const cappedLimit = Math.max(1, Math.min(limit ?? 20, 100));
+        const results = searchIcons(iconData, query, type, cappedLimit);
+        const searchUrl = `${getIconDocsBaseUrl()}?search=${encodeURIComponent(query)}`;
 
-export const getIconDetailsTool: Tool<IconToolContext> = {
-  name: "get_icon_details",
-  description:
-    "Get complete details for a specific SEED icon including React component import and documentation link.",
-  async ctx() {
-    const iconData = await loadIconData();
-    return { iconData };
-  },
-  exec(server: McpServer, { ctx, name, description }) {
-    server.tool(
-      name,
-      description,
-      {
-        iconName: z
-          .string()
-          .describe("The icon name (e.g., 'icon_arrow_left_line', 'icon_shoppingbag_items')"),
+        return {
+          content: [{ type: "text", text: JSON.stringify({ query, searchUrl, results }, null, 2) }],
+          structuredContent: {
+            query,
+            results,
+            searchUrl,
+          },
+        };
+      } catch (error) {
+        return toErrorResult(`Failed to search icons: ${toErrorMessage(error)}`, {
+          query,
+          results: [],
+          searchUrl: `${getIconDocsBaseUrl()}?search=${encodeURIComponent(query)}`,
+        });
+      }
+    },
+  );
+
+  server.registerTool(
+    "read_icon",
+    {
+      title: "Read Icon Details",
+      description: "Read icon details and import snippets for supported frameworks.",
+      inputSchema: {
+        iconName: z.string().min(1),
       },
-      async ({ iconName }) => {
-        const icon = findIcon(ctx.iconData, iconName);
-
+      outputSchema: {
+        icon: z
+          .object({
+            name: z.string(),
+            type: z.enum(["monochrome", "multicolor"]),
+            keywords: z.array(z.string()),
+            variant: z.enum(["line", "fill"]).optional(),
+            service: z.string().optional(),
+            docsUrl: z.string().url(),
+            usage: z.array(
+              z.object({
+                framework: z.string(),
+                package: z.string(),
+                import: z.string(),
+                component: z.string(),
+              }),
+            ),
+          })
+          .nullable(),
+        suggestions: z.array(z.string()),
+        error: z.string().optional(),
+      },
+      annotations: readOnlyAnnotations,
+    },
+    async ({ iconName }) => {
+      try {
+        const iconData = await loadIconData();
+        const icon = findIcon(iconData, iconName);
         if (!icon) {
-          const suggestions = searchIcons(ctx.iconData, iconName, undefined, 5);
-          let response = `Icon "${iconName}" not found.\n\n`;
-
-          if (suggestions.length > 0) {
-            response += "Did you mean:\n";
-            for (const s of suggestions) {
-              response += `- ${s.name}\n`;
-            }
-          }
-
-          return { content: [{ type: "text", text: response }] };
+          const suggestions = searchIcons(iconData, iconName, undefined, 5).map(
+            (result) => result.name,
+          );
+          return toErrorResult(`Icon '${iconName}' not found.`, {
+            icon: null,
+            suggestions,
+          });
         }
 
-        let response = `# ${icon.name}\n\n`;
-        response += `**Type:** ${icon.type}\n`;
-        if (icon.variant) response += `**Variant:** ${icon.variant}\n`;
-        if (icon.service) response += `**Service:** ${icon.service}\n`;
-        response += `**Keywords:** ${icon.keywords.join(", ")}\n\n`;
-
-        response += "## Usage\n\n";
-
-        for (const usage of icon.usage) {
-          response += `### ${usage.framework.charAt(0).toUpperCase() + usage.framework.slice(1)}\n`;
-          response += `\`\`\`tsx\n${usage.import}\n\n${usage.component}\n\`\`\`\n\n`;
-        }
-
-        response += "## Documentation\n\n";
-        response += `View this icon: ${icon.docsUrl}\n`;
-
-        return { content: [{ type: "text", text: response }] };
-      },
-    );
-  },
-};
+        return {
+          content: [{ type: "text", text: JSON.stringify({ icon, suggestions: [] }, null, 2) }],
+          structuredContent: {
+            icon,
+            suggestions: [],
+          },
+        };
+      } catch (error) {
+        return toErrorResult(`Failed to read icon details: ${toErrorMessage(error)}`, {
+          icon: null,
+          suggestions: [],
+        });
+      }
+    },
+  );
+}

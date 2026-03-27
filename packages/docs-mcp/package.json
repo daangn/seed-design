@@ -16,7 +16,8 @@
     "src"
   ],
   "bin": {
-    "seed-docs-mcp": "./dist/stdio.js"
+    "seed-docs-mcp": "./dist/stdio.js",
+    "seed-docs-mcp-http": "./dist/http-cli.js"
   },
   "exports": {
     ".": {
@@ -31,6 +32,13 @@
       "types": "./dist/tools/index.d.ts",
       "import": "./dist/tools/index.js"
     },
+    "./http": {
+      "types": "./dist/http.d.ts",
+      "import": "./dist/http.js"
+    },
+    "./http-cli": {
+      "import": "./dist/http-cli.js"
+    },
     "./stdio": {
       "import": "./dist/stdio.js"
     }
@@ -39,6 +47,7 @@
     "clean": "rm -rf dist",
     "build": "bunchee",
     "dev": "bun ./dist/stdio.js",
+    "dev:http": "bun ./dist/http-cli.js",
     "lint": "biome check ./src",
     "lint:fix": "biome check --fix ./src",
     "typecheck": "tsc --noEmit",

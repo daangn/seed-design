@@ -1,5 +1,24 @@
 # @seed-design/docs-mcp
 
+## 1.0.0
+
+### Major Changes
+
+- V2 MCP API로 재설계:
+  - 도구 교체: `list_sections`, `list_docs`, `search_docs`, `read_doc`, `read_docs_batch`, `read_rootage`, `list_icons`, `search_icons`, `read_icon`
+  - 제거: `discover_seed_docs`, `get_doc`, `get_full_docs`, `get_rootage`, `get_icon_details`
+- 모든 도구를 `registerTool + outputSchema + structuredContent` 패턴으로 통일
+- llms.txt 우선 정책 적용:
+  - `read_doc`, `read_docs_batch`는 `/llms/.../*.txt` 또는 `.../llms.txt`만 허용
+  - `text/html` 응답은 fallback 없이 오류 처리
+- Resources / Prompts 추가:
+  - `seed-docs://sections`
+  - `seed-docs://{section}/index`
+  - `seed-rootage://index`
+  - `seed-icons://services`
+  - `seed_docs_lookup` prompt
+- Streamable HTTP 엔트리 추가 (`seed-docs-mcp-http`)
+
 ## 0.5.1
 
 ### Patch Changes
