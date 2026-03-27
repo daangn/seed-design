@@ -1,4 +1,4 @@
-.seed-image-frame-reaction-button {
+.seed-image-frame-reaction-button__root {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -8,22 +8,37 @@
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
     background: transparent;
-    --seed-icon-size: var(--seed-dimension-x6);
-    --seed-icon-color: var(--seed-color-palette-static-white);
-}.seed-image-frame-reaction-button__text {
-    --seed-icon-size: var(--seed-dimension-x6);
-    --seed-icon-color: var(--seed-color-palette-static-white);
 }
-.seed-image-frame-reaction-button::before {
+.seed-image-frame-reaction-button__root::before {
     position: absolute;
     top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     right: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
 }
-.seed-image-frame-reaction-button[aria-pressed=true], .seed-image-frame-reaction-button.seed-image-frame-reaction-button--pressed_true {
-    --seed-icon-color: var(--seed-color-bg-transparent);
+.seed-image-frame-reaction-button__fillIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    pointer-events: none;
 }
-.seed-image-frame-reaction-button__text[aria-pressed=true], .seed-image-frame-reaction-button__text.seed-image-frame-reaction-button__text--pressed_true {
-    --seed-icon-color: var(--seed-color-bg-transparent);
+.seed-image-frame-reaction-button__lineIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    color: var(--seed-color-palette-static-white);
+    pointer-events: none;
+}
+.seed-image-frame-reaction-button__lineIcon[aria-pressed=true], .seed-image-frame-reaction-button__lineIcon.seed-image-frame-reaction-button__lineIcon--pressed_true {
+    color: var(--seed-color-bg-transparent);
 }

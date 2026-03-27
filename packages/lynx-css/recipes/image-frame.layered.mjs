@@ -4,11 +4,15 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const imageFrameSlotNames = [
   [
     "root",
-    "seed-image-frame"
+    "seed-image-frame__root"
   ],
   [
-    "text",
-    "seed-image-frame__text"
+    "content",
+    "seed-image-frame__content"
+  ],
+  [
+    "fallback",
+    "seed-image-frame__fallback"
   ]
 ];
 
@@ -27,12 +31,6 @@ export const imageFrameVariantMap = {
   "rounded": [
     true,
     false
-  ],
-  "disabled": [
-    true
-  ],
-  "loading": [
-    true
   ]
 };
 

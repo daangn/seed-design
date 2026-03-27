@@ -55,6 +55,15 @@
     box-shadow: 0 0 0 2px var(--seed-color-bg-layer-default);
   }
 
+  .seed-avatar-stack__item--size_56:not(:first-child) {
+    margin-left: -13px;
+  }
+
+  .seed-avatar-stack__item--size_56 {
+    clip-path: inset(-3px);
+    box-shadow: 0 0 0 3px var(--seed-color-bg-layer-default);
+  }
+
   .seed-avatar-stack__item--size_64:not(:first-child) {
     margin-left: -16px;
   }

@@ -1,7 +1,6 @@
 declare interface ImageFrameReactionButtonVariant {
   
-  disabled?: boolean;
-  loading?: boolean;}
+}
 
 declare type ImageFrameReactionButtonVariantMap = {
   [key in keyof ImageFrameReactionButtonVariant]: Array<ImageFrameReactionButtonVariant[key]>;
@@ -9,7 +8,7 @@ declare type ImageFrameReactionButtonVariantMap = {
 
 export declare type ImageFrameReactionButtonVariantProps = Partial<ImageFrameReactionButtonVariant>;
 
-export declare type ImageFrameReactionButtonSlotName = "root" | "text";
+export declare type ImageFrameReactionButtonSlotName = "root" | "fillIcon" | "lineIcon";
 
 export declare const imageFrameReactionButtonVariantMap: ImageFrameReactionButtonVariantMap;
 

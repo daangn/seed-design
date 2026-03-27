@@ -7,8 +7,7 @@ declare interface ImageFrameVariant {
   * @default false
   */
   rounded: boolean;
-  disabled?: boolean;
-  loading?: boolean;}
+}
 
 declare type ImageFrameVariantMap = {
   [key in keyof ImageFrameVariant]: Array<ImageFrameVariant[key]>;
@@ -16,7 +15,7 @@ declare type ImageFrameVariantMap = {
 
 export declare type ImageFrameVariantProps = Partial<ImageFrameVariant>;
 
-export declare type ImageFrameSlotName = "root" | "text";
+export declare type ImageFrameSlotName = "root" | "content" | "fallback";
 
 export declare const imageFrameVariantMap: ImageFrameVariantMap;
 

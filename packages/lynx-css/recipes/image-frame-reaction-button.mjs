@@ -4,11 +4,15 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const imageFrameReactionButtonSlotNames = [
   [
     "root",
-    "seed-image-frame-reaction-button"
+    "seed-image-frame-reaction-button__root"
   ],
   [
-    "text",
-    "seed-image-frame-reaction-button__text"
+    "fillIcon",
+    "seed-image-frame-reaction-button__fillIcon"
+  ],
+  [
+    "lineIcon",
+    "seed-image-frame-reaction-button__lineIcon"
   ]
 ];
 
@@ -16,14 +20,7 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const imageFrameReactionButtonVariantMap = {
-  "disabled": [
-    true
-  ],
-  "loading": [
-    true
-  ]
-};
+export const imageFrameReactionButtonVariantMap = {};
 
 export const imageFrameReactionButtonVariantKeys = Object.keys(imageFrameReactionButtonVariantMap);
 
