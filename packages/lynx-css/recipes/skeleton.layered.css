@@ -7,6 +7,10 @@
     display: inline-block;
     overflow: hidden;
   }
+  .seed-skeleton__text {
+    --seed-box-width: initial;
+    --seed-box-height: initial;
+  }
 
   .seed-skeleton__text {
     --seed-box-width: initial;

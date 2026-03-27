@@ -12,7 +12,10 @@
     margin: auto;
     display: none;
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .seed-checkmark__root--variant_square {
@@ -25,10 +28,6 @@
     border-width: 0;
   }
 
-  .seed-checkmark__root--variant_square:not(.seed-checkmark__root--disabled_true):active {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
-
   .seed-checkmark__root--variant_square.seed-checkmark__root--disabled_true {
     background: var(--seed-color-bg-disabled);
     border-color: var(--seed-color-stroke-neutral-muted);
@@ -38,12 +37,8 @@
     display: block;
   }
 
-  .seed-checkmark__icon--variant_square.seed-checkmark__icon--disabled_true[data-checked], .seed-checkmark__icon--variant_square.seed-checkmark__icon--disabled_true[data-indeterminate] {
+  .seed-checkmark__icon--variant_square.seed-checkmark__icon--disabled_true.seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_square.seed-checkmark__icon--disabled_true.seed-checkmark__icon--indeterminate_true {
     color: var(--seed-color-fg-disabled);
-  }
-
-  .seed-checkmark__root--variant_ghost:not(.seed-checkmark__root--disabled_true):active {
-    background: var(--seed-color-bg-transparent-pressed);
   }
 
   .seed-checkmark__icon--variant_ghost {
@@ -52,7 +47,7 @@
     display: block;
   }
 
-  .seed-checkmark__icon--variant_ghost.seed-checkmark__icon--disabled_true, .seed-checkmark__icon--variant_ghost.seed-checkmark__icon--disabled_true[data-checked], .seed-checkmark__icon--variant_ghost.seed-checkmark__icon--disabled_true[data-indeterminate] {
+  .seed-checkmark__icon--variant_ghost.seed-checkmark__icon--disabled_true, .seed-checkmark__icon--variant_ghost.seed-checkmark__icon--disabled_true.seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_ghost.seed-checkmark__icon--disabled_true.seed-checkmark__icon--indeterminate_true {
     color: var(--seed-color-fg-disabled);
   }
 
@@ -68,43 +63,27 @@
     height: var(--seed-dimension-x5);
   }
 
-  .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true)[data-checked], .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true)[data-indeterminate] {
+  .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--checked_true, .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--indeterminate_true {
     background: var(--seed-color-bg-neutral-inverted);
   }
 
-  .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true)[data-checked]:active, .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true)[data-indeterminate]:active {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
-
-  .seed-checkmark__icon--variant_square-tone_neutral:not(.seed-checkmark__icon--disabled_true)[data-checked], .seed-checkmark__icon--variant_square-tone_neutral:not(.seed-checkmark__icon--disabled_true)[data-indeterminate] {
+  .seed-checkmark__icon--variant_square-tone_neutral:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_square-tone_neutral:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--indeterminate_true {
     color: var(--seed-color-fg-neutral-inverted);
   }
 
-  .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true)[data-checked], .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true)[data-indeterminate] {
+  .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--checked_true, .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--indeterminate_true {
     background: var(--seed-color-bg-brand-solid);
   }
 
-  .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true)[data-checked]:active, .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true)[data-indeterminate]:active {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
-
-  .seed-checkmark__icon--variant_square-tone_brand:not(.seed-checkmark__icon--disabled_true)[data-checked], .seed-checkmark__icon--variant_square-tone_brand:not(.seed-checkmark__icon--disabled_true)[data-indeterminate] {
+  .seed-checkmark__icon--variant_square-tone_brand:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_square-tone_brand:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--indeterminate_true {
     color: var(--seed-color-palette-static-white);
   }
 
-  .seed-checkmark__root--variant_ghost-tone_neutral:not(.seed-checkmark__root--disabled_true)[data-checked]:active, .seed-checkmark__root--variant_ghost-tone_neutral:not(.seed-checkmark__root--disabled_true)[data-indeterminate]:active {
-    background: var(--seed-color-palette-gray-200);
-  }
-
-  .seed-checkmark__icon--variant_ghost-tone_neutral:not(.seed-checkmark__icon--disabled_true)[data-checked], .seed-checkmark__icon--variant_ghost-tone_neutral:not(.seed-checkmark__icon--disabled_true)[data-indeterminate] {
+  .seed-checkmark__icon--variant_ghost-tone_neutral:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_ghost-tone_neutral:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--indeterminate_true {
     color: var(--seed-color-fg-neutral);
   }
 
-  .seed-checkmark__root--variant_ghost-tone_brand:not(.seed-checkmark__root--disabled_true)[data-checked]:active, .seed-checkmark__root--variant_ghost-tone_brand:not(.seed-checkmark__root--disabled_true)[data-indeterminate]:active {
-    background: var(--seed-color-palette-carrot-200);
-  }
-
-  .seed-checkmark__icon--variant_ghost-tone_brand:not(.seed-checkmark__icon--disabled_true)[data-checked], .seed-checkmark__icon--variant_ghost-tone_brand:not(.seed-checkmark__icon--disabled_true)[data-indeterminate] {
+  .seed-checkmark__icon--variant_ghost-tone_brand:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_ghost-tone_brand:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--indeterminate_true {
     color: var(--seed-color-fg-brand);
   }
 

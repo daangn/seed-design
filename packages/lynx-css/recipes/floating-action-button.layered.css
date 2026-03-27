@@ -17,10 +17,6 @@
     overflow: hidden;
   }
 
-  .seed-floating-action-button__root:active {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
-
   .seed-floating-action-button__icon {
     color: var(--seed-color-palette-static-white);
     transition: margin-right var(--seed-duration-d4) var(--seed-timing-function-easing), width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing);

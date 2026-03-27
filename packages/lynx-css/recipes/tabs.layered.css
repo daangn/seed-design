@@ -72,7 +72,7 @@
     color: var(--seed-color-fg-disabled);
   }
 
-  .seed-tabs__trigger[aria-selected="true"][data-ssr]:after, .seed-tabs__trigger.seed-tabs__trigger--selected_true[data-ssr]:after {
+  .seed-tabs__trigger[aria-selected="true"][data-ssr]:after, .seed-tabs__trigger.seed-tabs__trigger--selected_true.seed-tabs__trigger--ssr_true:after {
     background-color: var(--seed-color-fg-neutral);
     height: 2px;
     position: absolute;
@@ -94,7 +94,7 @@
     flex: 1;
   }
 
-  .seed-tabs__trigger--triggerLayout_fill[aria-selected="true"][data-ssr]:after, .seed-tabs__trigger--triggerLayout_fill.seed-tabs__trigger--selected_true[data-ssr]:after {
+  .seed-tabs__trigger--triggerLayout_fill[aria-selected="true"][data-ssr]:after, .seed-tabs__trigger--triggerLayout_fill.seed-tabs__trigger--selected_true.seed-tabs__trigger--ssr_true:after {
     left: var(--seed-dimension-spacing-x-global-gutter);
     right: var(--seed-dimension-spacing-x-global-gutter);
   }
@@ -110,7 +110,7 @@
     width: calc(var(--indicator-width, 0px)  - 2 * 0px);
   }
 
-  .seed-tabs__trigger--triggerLayout_hug[aria-selected="true"][data-ssr]:after, .seed-tabs__trigger--triggerLayout_hug.seed-tabs__trigger--selected_true[data-ssr]:after {
+  .seed-tabs__trigger--triggerLayout_hug[aria-selected="true"][data-ssr]:after, .seed-tabs__trigger--triggerLayout_hug.seed-tabs__trigger--selected_true.seed-tabs__trigger--ssr_true:after {
     left: 0;
     right: 0;
   }

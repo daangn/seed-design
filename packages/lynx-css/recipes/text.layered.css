@@ -10,6 +10,16 @@
     --seed-max-lines: initial;
     margin: 0;
   }
+  .seed-text__text {
+    --seed-text-color: inherit;
+    --seed-font-size: inherit;
+    --seed-font-weight: inherit;
+    --seed-line-height: inherit;
+    --seed-text-align: inherit;
+    --seed-user-select: inherit;
+    --seed-white-space: inherit;
+    --seed-max-lines: initial;
+  }
 
   .seed-text__text {
     --seed-text-color: inherit;

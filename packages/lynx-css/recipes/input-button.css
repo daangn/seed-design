@@ -38,9 +38,6 @@
 .seed-input-button__button.seed-input-button__button--disabled_true {
     background-color: var(--seed-color-bg-disabled);
 }
-.seed-input-button__button:not([data-disabled]):not([data-readonly]):active {
-    background-color: var(--seed-color-bg-transparent-pressed);
-}
 .seed-input-button__button.seed-input-button__button--readonly_true:not([data-disabled]) {
     background-color: var(--seed-color-bg-disabled);
 }

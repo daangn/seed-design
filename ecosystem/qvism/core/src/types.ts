@@ -155,7 +155,11 @@ export interface TargetConfig {
 export interface Config {
   prefix?: string;
 
+  /** postcss-nested와 함께 실행할 플러그인 (예: postcssEngaged) */
   postcssPlugins?: AcceptedPlugin[];
+
+  /** lightningcss transform 이후 실행할 플러그인 (예: postcss-lynx-compat) */
+  postTransformPlugins?: AcceptedPlugin[];
 
   theme: Theme;
 

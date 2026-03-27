@@ -6,21 +6,27 @@
     align-items: flex-end;
     display: flex;
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .seed-bottom-sheet__backdrop {
     background: var(--seed-color-bg-overlay);
     z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
-  .seed-bottom-sheet__backdrop[data-snap-points="true"], .seed-bottom-sheet__backdrop:not([data-state="open"]):not([data-open])[data-snap-points="true"]:not([data-snap-points-overlay="true"]) {
+  .seed-bottom-sheet__backdrop.seed-bottom-sheet__backdrop--snap-points_true, .seed-bottom-sheet__backdrop:not([data-state="open"]):not([data-open])[data-snap-points="true"]:not([data-snap-points-overlay="true"]) {
     opacity: 0;
   }
 
-  .seed-bottom-sheet__backdrop.seed-bottom-sheet__backdrop--state_open[data-snap-points-overlay="true"], .seed-bottom-sheet__backdrop.seed-bottom-sheet__backdrop--open_true[data-snap-points-overlay="true"] {
+  .seed-bottom-sheet__backdrop.seed-bottom-sheet__backdrop--state_open.seed-bottom-sheet__backdrop--snap-points-overlay_true, .seed-bottom-sheet__backdrop.seed-bottom-sheet__backdrop--open_true.seed-bottom-sheet__backdrop--snap-points-overlay_true {
     opacity: 1;
   }
 
@@ -37,11 +43,11 @@
     position: relative;
   }
 
-  .seed-bottom-sheet__content[data-snap-points="true"] {
+  .seed-bottom-sheet__content.seed-bottom-sheet__content--snap-points_true {
     transform: translate3d(0, var(--initial-transform, 100%), 0);
   }
 
-  .seed-bottom-sheet__content[data-delayed-snap-points="true"] {
+  .seed-bottom-sheet__content.seed-bottom-sheet__content--delayed-snap-points_true {
     transform: translate3d(0, var(--snap-point-height, 0), 0);
   }
 
@@ -126,7 +132,10 @@
 
   .seed-bottom-sheet__closeButton:after {
     position: absolute;
-    inset: -8px;
+    top: -8px;
+    right: -8px;
+    bottom: -8px;
+    left: -8px;
   }
 
   .seed-bottom-sheet__header--headerAlign_left {
@@ -158,19 +167,19 @@
     padding-right: 56px;
   }
 
-  .seed-bottom-sheet__backdrop--skipAnimation_false.seed-bottom-sheet__backdrop--state_open[data-snap-points="false"]:not([data-animation-done="true"]), .seed-bottom-sheet__backdrop--skipAnimation_false.seed-bottom-sheet__backdrop--open_true[data-snap-points="false"]:not([data-animation-done="true"]) {
+  .seed-bottom-sheet__backdrop--skipAnimation_false.seed-bottom-sheet__backdrop--state_open.seed-bottom-sheet__backdrop--snap-points_false:not([data-animation-done="true"]), .seed-bottom-sheet__backdrop--skipAnimation_false.seed-bottom-sheet__backdrop--open_true.seed-bottom-sheet__backdrop--snap-points_false:not([data-animation-done="true"]) {
     animation-name: fade-in;
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter);
   }
 
-  .seed-bottom-sheet__backdrop--skipAnimation_false:not(.seed-bottom-sheet__backdrop--state_open):not([data-open])[data-snap-points="false"] {
+  .seed-bottom-sheet__backdrop--skipAnimation_false:not(.seed-bottom-sheet__backdrop--state_open):not(.seed-bottom-sheet__backdrop--open_true)[data-snap-points="false"] {
     animation-name: fade-out;
     animation-duration: var(--seed-duration-d4);
     animation-timing-function: var(--seed-timing-function-exit);
   }
 
-  .seed-bottom-sheet__backdrop--skipAnimation_false.seed-bottom-sheet__backdrop--state_open[data-snap-points="true"][data-should-overlay-animate="true"]:not([data-animation-done="true"]), .seed-bottom-sheet__backdrop--skipAnimation_false.seed-bottom-sheet__backdrop--open_true[data-snap-points="true"][data-should-overlay-animate="true"]:not([data-animation-done="true"]) {
+  .seed-bottom-sheet__backdrop--skipAnimation_false.seed-bottom-sheet__backdrop--state_open.seed-bottom-sheet__backdrop--snap-points_true[data-should-overlay-animate="true"]:not([data-animation-done="true"]), .seed-bottom-sheet__backdrop--skipAnimation_false.seed-bottom-sheet__backdrop--open_true.seed-bottom-sheet__backdrop--snap-points_true[data-should-overlay-animate="true"]:not([data-animation-done="true"]) {
     animation-name: fade-in;
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter);
@@ -181,19 +190,19 @@
     animation-timing-function: var(--seed-timing-function-enter-expressive);
   }
 
-  .seed-bottom-sheet__content--skipAnimation_false.seed-bottom-sheet__content--state_open[data-snap-points="false"]:not([data-animation-done="true"]), .seed-bottom-sheet__content--skipAnimation_false.seed-bottom-sheet__content--open_true[data-snap-points="false"]:not([data-animation-done="true"]) {
+  .seed-bottom-sheet__content--skipAnimation_false.seed-bottom-sheet__content--state_open.seed-bottom-sheet__content--snap-points_false:not([data-animation-done="true"]), .seed-bottom-sheet__content--skipAnimation_false.seed-bottom-sheet__content--open_true.seed-bottom-sheet__content--snap-points_false:not([data-animation-done="true"]) {
     animation-name: drawer-slide-from-bottom;
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter-expressive);
   }
 
-  .seed-bottom-sheet__content--skipAnimation_false:not(.seed-bottom-sheet__content--state_open):not([data-open])[data-snap-points="false"] {
+  .seed-bottom-sheet__content--skipAnimation_false:not(.seed-bottom-sheet__content--state_open):not(.seed-bottom-sheet__content--open_true)[data-snap-points="false"] {
     animation-name: drawer-slide-to-bottom;
     animation-duration: var(--seed-duration-d4);
     animation-timing-function: var(--seed-timing-function-exit);
   }
 
-  .seed-bottom-sheet__content--skipAnimation_false.seed-bottom-sheet__content--state_open[data-delayed-snap-points="true"]:not([data-animation-done="true"]), .seed-bottom-sheet__content--skipAnimation_false.seed-bottom-sheet__content--open_true[data-delayed-snap-points="true"]:not([data-animation-done="true"]) {
+  .seed-bottom-sheet__content--skipAnimation_false.seed-bottom-sheet__content--state_open.seed-bottom-sheet__content--delayed-snap-points_true:not([data-animation-done="true"]), .seed-bottom-sheet__content--skipAnimation_false.seed-bottom-sheet__content--open_true.seed-bottom-sheet__content--delayed-snap-points_true:not([data-animation-done="true"]) {
     animation-name: drawer-slide-from-bottom;
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter-expressive);

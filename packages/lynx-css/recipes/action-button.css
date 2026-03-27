@@ -61,9 +61,6 @@
     color: var(--seed-color-palette-static-white);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-action-button--variant_brandSolid:active {
-    background: var(--seed-color-bg-brand-solid-pressed);
-}
 .seed-action-button--variant_brandSolid.seed-action-button--disabled_true {
     background: var(--seed-color-bg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
@@ -95,9 +92,6 @@
     --range-color: var(--seed-color-palette-static-white);
     color: var(--seed-color-fg-neutral-inverted);
     font-weight: var(--seed-font-weight-bold);
-}
-.seed-action-button--variant_neutralSolid:active {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
 }
 .seed-action-button--variant_neutralSolid.seed-action-button--disabled_true {
     background: var(--seed-color-bg-disabled);
@@ -131,9 +125,6 @@
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-action-button--variant_neutralWeak:active {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-}
 .seed-action-button--variant_neutralWeak.seed-action-button--disabled_true {
     background: var(--seed-color-bg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
@@ -165,9 +156,6 @@
     --range-color: var(--seed-color-palette-static-white);
     color: var(--seed-color-palette-static-white);
     font-weight: var(--seed-font-weight-bold);
-}
-.seed-action-button--variant_criticalSolid:active {
-    background: var(--seed-color-bg-critical-solid-pressed);
 }
 .seed-action-button--variant_criticalSolid.seed-action-button--disabled_true {
     background: var(--seed-color-bg-disabled);
@@ -203,9 +191,6 @@
     --range-color: var(--seed-color-bg-brand-solid);
     color: var(--seed-color-fg-brand);
     font-weight: var(--seed-font-weight-bold);
-}
-.seed-action-button--variant_brandOutline:active {
-    background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-action-button--variant_brandOutline.seed-action-button--disabled_true {
     background: var(--seed-color-bg-transparent);
@@ -243,9 +228,6 @@
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-bold);
 }
-.seed-action-button--variant_neutralOutline:active {
-    background: var(--seed-color-bg-transparent-pressed);
-}
 .seed-action-button--variant_neutralOutline.seed-action-button--disabled_true {
     background: var(--seed-color-bg-transparent);
     border-color: var(--seed-color-stroke-neutral-muted);
@@ -282,9 +264,6 @@
     --range-color: var(--seed-color-fg-neutral);
     color: var(--seed-box-color);
     font-weight: var(--seed-font-weight);
-}
-.seed-action-button--variant_ghost:active {
-    background: var(--seed-color-bg-transparent-pressed);
 }
 .seed-action-button--variant_ghost.seed-action-button--disabled_true {
     background: #ffffff00;

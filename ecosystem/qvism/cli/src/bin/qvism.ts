@@ -58,7 +58,7 @@ async function writeBundles(outputDir: string, config: Config) {
   // Target-specific bundles (e.g., lynx)
   if (config.targets) {
     for (const target of config.targets) {
-      const targetConfig = { ...config, postcssPlugins: target.postcssPlugins };
+      const targetConfig = { ...config, postTransformPlugins: target.postcssPlugins };
       const targetDir = target.outputDir
         ? path.resolve(process.cwd(), target.outputDir)
         : outputDir;
@@ -179,7 +179,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
   // Target-specific recipes (e.g., lynx)
   if (config.targets) {
     for (const target of config.targets) {
-      const targetConfig = { ...config, postcssPlugins: target.postcssPlugins };
+      const targetConfig = { ...config, postTransformPlugins: target.postcssPlugins };
       const targetRecipesDir = target.recipesDir
         ? path.resolve(process.cwd(), target.recipesDir)
         : recipesDir;
