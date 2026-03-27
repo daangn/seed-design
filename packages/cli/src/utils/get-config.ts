@@ -15,6 +15,7 @@ export const configSchema = z
     $schema: z.string().optional(),
     rsc: z.coerce.boolean().default(false),
     tsx: z.coerce.boolean().default(true),
+    platform: z.enum(["react", "lynx"]).default("react"),
     path: z.string(),
     telemetry: z.coerce.boolean().optional().default(true),
   })

@@ -3,17 +3,36 @@ import fs from "fs-extra";
 import path from "path";
 import { highlight } from "./color";
 import { CliCancelError } from "./error";
+import { getPackageInfo } from "./get-package-info";
 
 import type { Config } from "./get-config";
 
 export const DEFAULT_INIT_CONFIG: Config = {
   rsc: false,
   tsx: true,
+  platform: "react",
   path: "./seed-design",
   telemetry: true,
 };
 
-export async function promptInitConfig(): Promise<Config> {
+export function detectPlatform(cwd: string): "react" | "lynx" {
+  try {
+    const pkg = getPackageInfo(cwd);
+    const allDeps = {
+      ...pkg.dependencies,
+      ...pkg.devDependencies,
+      ...pkg.peerDependencies,
+    };
+    if ("@lynx-js/react" in allDeps || "@seed-design/lynx-react" in allDeps) {
+      return "lynx";
+    }
+  } catch {}
+  return "react";
+}
+
+export async function promptInitConfig(cwd: string): Promise<Config> {
+  const detectedPlatform = detectPlatform(cwd);
+
   const group = await p.group(
     {
       tsx: () =>
@@ -25,6 +44,15 @@ export async function promptInitConfig(): Promise<Config> {
         p.confirm({
           message: `${highlight("React Server Components")}를 사용중이신가요?`,
           initialValue: DEFAULT_INIT_CONFIG.rsc,
+        }),
+      platform: () =>
+        p.select({
+          message: `어떤 ${highlight("플랫폼")}을 사용하시나요?`,
+          initialValue: detectedPlatform,
+          options: [
+            { value: "react" as const, label: "React" },
+            { value: "lynx" as const, label: "Lynx" },
+          ],
         }),
       path: () =>
         p.text({

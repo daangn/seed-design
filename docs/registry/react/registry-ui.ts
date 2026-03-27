@@ -1,4 +1,4 @@
-import type { Registry } from "./schema";
+import type { Registry } from "../schema";
 
 export const registryUI: Registry = {
   id: "ui",

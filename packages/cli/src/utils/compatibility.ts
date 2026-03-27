@@ -6,8 +6,19 @@ import path from "path";
 import { intersects, satisfies, valid, validRange } from "semver";
 import { highlight } from "./color";
 
-export const COMPAT_PACKAGE_NAMES = ["@seed-design/react", "@seed-design/css"] as const;
-export type CompatPackageName = (typeof COMPAT_PACKAGE_NAMES)[number];
+const REACT_COMPAT_PACKAGES = ["@seed-design/react", "@seed-design/css"] as const;
+const LYNX_COMPAT_PACKAGES = ["@seed-design/lynx-react", "@seed-design/lynx-css"] as const;
+
+/** @deprecated Use getCompatPackageNames(platform) instead */
+export const COMPAT_PACKAGE_NAMES = REACT_COMPAT_PACKAGES;
+
+export type CompatPackageName =
+  | (typeof REACT_COMPAT_PACKAGES)[number]
+  | (typeof LYNX_COMPAT_PACKAGES)[number];
+
+export function getCompatPackageNames(platform: string): readonly CompatPackageName[] {
+  return platform === "lynx" ? LYNX_COMPAT_PACKAGES : REACT_COMPAT_PACKAGES;
+}
 
 const WORKSPACE_VERSION_PREFIX = "workspace:";
 const NPM_ALIAS_PREFIX = "npm:";
@@ -28,6 +39,7 @@ export interface CompatibilityReport {
 
 export function getProjectSeedPackageVersionSpecs(
   cwd: string,
+  platform = "react",
 ): Partial<Record<CompatPackageName, string>> {
   try {
     const packageInfo = getPackageInfo(cwd);
@@ -38,8 +50,9 @@ export function getProjectSeedPackageVersionSpecs(
       ...packageInfo.optionalDependencies,
     };
     const result: Partial<Record<CompatPackageName, string>> = {};
+    const compatPackages = getCompatPackageNames(platform);
 
-    for (const packageName of COMPAT_PACKAGE_NAMES) {
+    for (const packageName of compatPackages) {
       const value = packageDeps[packageName];
       if (typeof value === "string") {
         result[packageName] = value;
@@ -56,10 +69,12 @@ export function analyzeRegistryItemCompatibility({
   publicRegistries,
   itemKeys,
   projectPackageVersions,
+  platform = "react",
 }: {
   publicRegistries: PublicRegistry[];
   itemKeys: string[];
   projectPackageVersions: Partial<Record<CompatPackageName, string>>;
+  platform?: string;
 }): CompatibilityReport {
   const checkedItemKeys = Array.from(new Set(itemKeys));
   const itemMap = new Map<string, PublicRegistry["items"][number]>(
@@ -69,6 +84,7 @@ export function analyzeRegistryItemCompatibility({
   );
 
   const issues: CompatibilityIssue[] = [];
+  const compatPackages = getCompatPackageNames(platform);
 
   for (const itemKey of checkedItemKeys) {
     const item = itemMap.get(itemKey);
@@ -76,7 +92,7 @@ export function analyzeRegistryItemCompatibility({
 
     const requiredRangesByPackage = collectRequiredRangesByPackage(item);
 
-    for (const packageName of COMPAT_PACKAGE_NAMES) {
+    for (const packageName of compatPackages) {
       const requiredRanges = Array.from(requiredRangesByPackage[packageName] ?? []);
 
       if (!requiredRanges.length) continue;
@@ -135,15 +151,19 @@ export function analyzeRegistryItemCompatibility({
 export function logCompatibilityReport({
   report,
   title,
+  platform = "react",
 }: {
   report: CompatibilityReport;
   title: string;
+  platform?: string;
 }) {
   if (!report.issues.length) return;
 
+  const compatPackages = getCompatPackageNames(platform);
+
   p.log.warn(title);
   p.log.info(
-    `현재 프로젝트 버전: ${COMPAT_PACKAGE_NAMES.map((packageName) => `${packageName}@${highlight(report.projectPackageVersions[packageName] ?? "미설치")}`).join(", ")}`,
+    `현재 프로젝트 버전: ${compatPackages.map((packageName) => `${packageName}@${highlight(report.projectPackageVersions[packageName] ?? "미설치")}`).join(", ")}`,
   );
 
   const issuesByItem = new Map<string, CompatibilityIssue[]>();

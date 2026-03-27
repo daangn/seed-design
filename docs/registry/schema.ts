@@ -1,3 +1,5 @@
+export type Platform = "react" | "lynx";
+
 export interface Registry {
   id: string;
 

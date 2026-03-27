@@ -11,6 +11,7 @@ import { highlight } from "../utils/color";
 import {
   analyzeRegistryItemCompatibility,
   findInstalledSnippetItemKeys,
+  getCompatPackageNames,
   getProjectSeedPackageVersionSpecs,
   logCompatibilityReport,
 } from "../utils/compatibility";
@@ -23,6 +24,7 @@ const compatOptionsSchema = z.object({
   registry: z.string().optional(),
   cwd: z.string(),
   baseUrl: z.string().optional(),
+  platform: z.enum(["react", "lynx"]).optional(),
 });
 
 function parseTargetInputs({
@@ -116,6 +118,7 @@ export const compatCommand = (cli: CAC) => {
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
     )
+    .option("-p, --platform <platform>", "플랫폼 (react 또는 lynx)")
     .example("seed-design compat")
     .example("seed-design compat -c action-button")
     .example("seed-design compat ui:action-button ui:alert-dialog")
@@ -132,14 +135,17 @@ export const compatCommand = (cli: CAC) => {
         }
 
         const { data: options } = parsed;
+        const rawConfig = await getRawConfig(options.cwd);
+        const platform = options.platform ?? rawConfig?.platform ?? "react";
         const { start, stop } = p.spinner();
 
         start("Registry를 가져오고 있어요...");
         const publicRegistries = await (async () => {
           try {
             const registries = await Promise.all(
-              (await fetchAvailableRegistries({ baseUrl: options.baseUrl })).map(async ({ id }) =>
-                fetchRegistry({ baseUrl: options.baseUrl, registryId: id }),
+              (await fetchAvailableRegistries({ baseUrl: options.baseUrl, platform })).map(
+                async ({ id }) =>
+                  fetchRegistry({ baseUrl: options.baseUrl, platform, registryId: id }),
               ),
             );
             stop("Registry를 가져왔어요.");
@@ -206,17 +212,19 @@ export const compatCommand = (cli: CAC) => {
           process.exit(0);
         }
 
-        const projectPackageVersions = getProjectSeedPackageVersionSpecs(options.cwd);
+        const projectPackageVersions = getProjectSeedPackageVersionSpecs(options.cwd, platform);
         const compatibilityReport = analyzeRegistryItemCompatibility({
           publicRegistries,
           itemKeys: resolvedTargetItemKeys,
           projectPackageVersions,
+          platform,
         });
 
         p.log.info(`검사 대상: ${highlight(compatibilityReport.checkedItemKeys.join(", "))}`);
 
         if (!compatibilityReport.issues.length) {
-          p.outro("모든 스니펫이 현재 @seed-design/react, @seed-design/css와 호환돼요.");
+          const compatPkgNames = getCompatPackageNames(platform);
+          p.outro(`모든 스니펫이 현재 ${compatPkgNames.join(", ")}와 호환돼요.`);
 
           try {
             await analytics.track(options.cwd, {
@@ -239,10 +247,10 @@ export const compatCommand = (cli: CAC) => {
         logCompatibilityReport({
           report: compatibilityReport,
           title: "현재 프로젝트 버전과 호환되지 않는 스니펫을 찾았어요.",
+          platform,
         });
-        p.log.info(
-          "필요한 버전으로 @seed-design/react 또는 @seed-design/css를 맞춘 뒤 다시 실행해보세요.",
-        );
+        const compatPkgList = getCompatPackageNames(platform);
+        p.log.info(`필요한 버전으로 ${compatPkgList.join(" 또는 ")}를 맞춘 뒤 다시 실행해보세요.`);
         p.outro("호환성 이슈가 있어요.");
 
         try {
