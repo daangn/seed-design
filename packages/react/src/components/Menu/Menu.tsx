@@ -1,88 +1,72 @@
+import { Menu as MenuPrimitive } from "@base-ui-components/react/menu";
+import type { Separator } from "@base-ui-components/react/separator";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { forwardRef } from "react";
+import * as React from "react";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuRootProps extends React.PropsWithChildren {}
+export interface MenuRootProps extends MenuPrimitive.Root.Props {}
 
-export const MenuRoot = ({ children }: MenuRootProps) => {
-  return <>{children}</>;
-};
+export const MenuRoot = MenuPrimitive.Root;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface MenuTriggerProps extends MenuPrimitive.Trigger.Props {}
 
-export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>((props, ref) => {
-  return <Primitive.button ref={ref} {...props} />;
-});
-MenuTrigger.displayName = "MenuTrigger";
+export const MenuTrigger = MenuPrimitive.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuPositionerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface MenuPositionerProps extends MenuPrimitive.Positioner.Props {}
 
-export const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>((props, ref) => {
-  return <Primitive.div ref={ref} {...props} />;
-});
+export const MenuPositioner = React.forwardRef<HTMLDivElement, MenuPositionerProps>(
+  (props, ref) => {
+    return (
+      <MenuPrimitive.Portal>
+        <MenuPrimitive.Positioner ref={ref} {...props} />
+      </MenuPrimitive.Portal>
+    );
+  },
+);
 MenuPositioner.displayName = "MenuPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface MenuContentProps extends MenuPrimitive.Popup.Props {}
 
-export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, ref) => {
-  return <Primitive.div ref={ref} role="menu" {...props} />;
-});
-MenuContent.displayName = "MenuContent";
+export const MenuContent = MenuPrimitive.Popup;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuGroupProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface MenuGroupProps extends MenuPrimitive.Group.Props {}
 
-export const MenuGroup = forwardRef<HTMLDivElement, MenuGroupProps>((props, ref) => {
-  return <Primitive.div ref={ref} role="group" {...props} />;
-});
-MenuGroup.displayName = "MenuGroup";
+export const MenuGroup = MenuPrimitive.Group;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuGroupHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface MenuGroupHeaderProps extends MenuPrimitive.GroupLabel.Props {}
 
-export const MenuGroupHeader = forwardRef<HTMLDivElement, MenuGroupHeaderProps>((props, ref) => {
-  return <Primitive.div ref={ref} role="presentation" {...props} />;
-});
-MenuGroupHeader.displayName = "MenuGroupHeader";
+export const MenuGroupHeader = MenuPrimitive.GroupLabel;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuItemProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface MenuItemProps extends MenuPrimitive.Item.Props {}
 
-export const MenuItem = forwardRef<HTMLButtonElement, MenuItemProps>((props, ref) => {
-  return <Primitive.button ref={ref} role="menuitem" {...props} />;
-});
-MenuItem.displayName = "MenuItem";
+export const MenuItem = MenuPrimitive.Item;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuItemLabelProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
-export const MenuItemLabel = forwardRef<HTMLSpanElement, MenuItemLabelProps>((props, ref) => {
+export const MenuItemLabel = React.forwardRef<HTMLSpanElement, MenuItemLabelProps>((props, ref) => {
   return <Primitive.span ref={ref} {...props} />;
 });
 MenuItemLabel.displayName = "MenuItemLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuDividerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface MenuDividerProps extends Separator.Props {}
 
-export const MenuDivider = forwardRef<HTMLDivElement, MenuDividerProps>((props, ref) => {
-  return <Primitive.div ref={ref} role="separator" {...props} />;
-});
-MenuDivider.displayName = "MenuDivider";
+export const MenuDivider: React.ForwardRefExoticComponent<
+  MenuDividerProps & React.RefAttributes<HTMLDivElement>
+> = MenuPrimitive.Separator;
