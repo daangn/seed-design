@@ -1,5 +1,13 @@
 {
   "title": "Lynx",
   "description": "Lynx 프레임워크에서 SEED Design 사용하기",
-  "pages": ["index", "theming", "icon", "---Components---", "...components"]
+  "pages": [
+    "index",
+    "---Getting Started---",
+    "...getting-started",
+    "---Foundation---",
+    "...foundation",
+    "---Components---",
+    "...components"
+  ]
 }
