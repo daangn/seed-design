@@ -1,0 +1,11 @@
+@layer seed-components {
+  .seed-image-frame-icon {
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .seed-image-frame-icon__text {
+    color: var(--seed-color-palette-static-white);
+  }
+}

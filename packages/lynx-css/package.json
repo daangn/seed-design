@@ -1,0 +1,56 @@
+{
+  "name": "@seed-design/lynx-css",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/lynx-css"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "type": "module",
+  "exports": {
+    "./*.css": "./*.css",
+    "./base.css": "./base.css",
+    "./all.css": "./all.css",
+    "./recipes/*.css": "./recipes/*.css",
+    "./recipes/*": {
+      "types": "./recipes/*.d.ts",
+      "default": {
+        "import": "./recipes/*.mjs"
+      }
+    },
+    "./vars": {
+      "types": "./vars/index.d.ts",
+      "import": "./vars/index.mjs"
+    },
+    "./vars/*": {
+      "types": "./vars/*.d.ts",
+      "import": "./vars/*.mjs"
+    },
+    "./vars/component": {
+      "types": "./vars/component/index.d.ts",
+      "import": "./vars/component/index.mjs"
+    },
+    "./vars/component/*": {
+      "types": "./vars/component/*.d.ts",
+      "import": "./vars/component/*.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "package.json",
+    "recipes",
+    "vars",
+    "*.css"
+  ],
+  "scripts": {
+    "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
+    "lint:publish": "bun publint"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
+}

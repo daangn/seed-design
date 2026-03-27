@@ -59,16 +59,78 @@ async function writeBundles(outputDir: string, config: Config) {
   if (config.targets) {
     for (const target of config.targets) {
       const targetConfig = { ...config, postcssPlugins: target.postcssPlugins };
+      const targetDir = target.outputDir
+        ? path.resolve(process.cwd(), target.outputDir)
+        : outputDir;
+      const useSuffix = !target.outputDir;
 
+      if (target.outputDir) {
+        fs.ensureDirSync(targetDir);
+      }
+
+      const baseName = useSuffix ? `base.${target.suffix}.css` : "base.css";
       const targetBaseCss = await generateBaseBundle(targetConfig);
-      const basePath = path.join(outputDir, `base.${target.suffix}.css`);
+      const basePath = path.join(targetDir, baseName);
       console.log(`Writing ${target.suffix} base css bundle to`, basePath);
       fs.writeFileSync(basePath, targetBaseCss);
 
+      const minBaseName = useSuffix ? `base.${target.suffix}.min.css` : "base.min.css";
+      const minTargetBaseCss = await generateBaseBundle(targetConfig, { minify: true });
+      const minBasePath = path.join(targetDir, minBaseName);
+      console.log(`Writing ${target.suffix} minified base css bundle to`, minBasePath);
+      fs.writeFileSync(minBasePath, minTargetBaseCss);
+
+      const allName = useSuffix ? `all.${target.suffix}.css` : "all.css";
       const targetAllCss = await generateAllBundle(targetConfig);
-      const allPath = path.join(outputDir, `all.${target.suffix}.css`);
+      const allPath = path.join(targetDir, allName);
       console.log(`Writing ${target.suffix} all css bundle to`, allPath);
       fs.writeFileSync(allPath, targetAllCss);
+
+      const minAllName = useSuffix ? `all.${target.suffix}.min.css` : "all.min.css";
+      const minTargetAllCss = await generateAllBundle(targetConfig, { minify: true });
+      const minAllPath = path.join(targetDir, minAllName);
+      console.log(`Writing ${target.suffix} minified all css bundle to`, minAllPath);
+      fs.writeFileSync(minAllPath, minTargetAllCss);
+
+      // Layered variants
+      const layeredAllName = useSuffix ? `all.${target.suffix}.layered.css` : "all.layered.css";
+      const layeredAllCss = await generateAllBundle(targetConfig, { layer: true });
+      console.log(
+        `Writing ${target.suffix} layered all css bundle to`,
+        path.join(targetDir, layeredAllName),
+      );
+      fs.writeFileSync(path.join(targetDir, layeredAllName), layeredAllCss);
+
+      const layeredAllMinName = useSuffix
+        ? `all.${target.suffix}.layered.min.css`
+        : "all.layered.min.css";
+      const layeredAllMinCss = await generateAllBundle(targetConfig, { minify: true, layer: true });
+      console.log(
+        `Writing ${target.suffix} minified layered all css bundle to`,
+        path.join(targetDir, layeredAllMinName),
+      );
+      fs.writeFileSync(path.join(targetDir, layeredAllMinName), layeredAllMinCss);
+
+      const layeredBaseName = useSuffix ? `base.${target.suffix}.layered.css` : "base.layered.css";
+      const layeredBaseCss = await generateBaseBundle(targetConfig, { layer: true });
+      console.log(
+        `Writing ${target.suffix} layered base css bundle to`,
+        path.join(targetDir, layeredBaseName),
+      );
+      fs.writeFileSync(path.join(targetDir, layeredBaseName), layeredBaseCss);
+
+      const layeredBaseMinName = useSuffix
+        ? `base.${target.suffix}.layered.min.css`
+        : "base.layered.min.css";
+      const layeredBaseMinCss = await generateBaseBundle(targetConfig, {
+        minify: true,
+        layer: true,
+      });
+      console.log(
+        `Writing ${target.suffix} minified layered base css bundle to`,
+        path.join(targetDir, layeredBaseMinName),
+      );
+      fs.writeFileSync(path.join(targetDir, layeredBaseMinName), layeredBaseMinCss);
     }
   }
 }
@@ -81,6 +143,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
 
   // Write each recipe .mjs + .d.ts + layered .mjs
   const options = { prefix: config.prefix };
+
   await Promise.all(
     Object.values(config.theme.recipes).map(async (definition) => {
       const name = definition.name;
@@ -117,28 +180,67 @@ async function writeRecipes(recipesDir: string, config: Config) {
   if (config.targets) {
     for (const target of config.targets) {
       const targetConfig = { ...config, postcssPlugins: target.postcssPlugins };
+      const targetRecipesDir = target.recipesDir
+        ? path.resolve(process.cwd(), target.recipesDir)
+        : recipesDir;
+      const useSuffix = !target.recipesDir;
+
+      if (target.recipesDir) {
+        fs.ensureDirSync(targetRecipesDir);
+
+        // Write shared.mjs to target recipes dir
+        const targetSharedJs = generateSharedJs();
+        console.log(
+          `Writing ${target.suffix} shared to`,
+          path.join(targetRecipesDir, "shared.mjs"),
+        );
+        fs.writeFileSync(path.join(targetRecipesDir, "shared.mjs"), targetSharedJs);
+      }
 
       // Generate target CSS for each recipe
       const targetRecipes = await generateEachRecipe(targetConfig);
-      for (const { name, css } of targetRecipes) {
-        const cssPath = path.join(recipesDir, `${name}.${target.suffix}.css`);
+      for (const { name, css, layeredCss } of targetRecipes) {
+        const cssName = useSuffix ? `${name}.${target.suffix}.css` : `${name}.css`;
+        const cssPath = path.join(targetRecipesDir, cssName);
         console.log(`Writing ${target.suffix}`, name, "to", cssPath);
         fs.writeFileSync(cssPath, css);
+
+        // Write layered CSS for outputDir targets
+        if (!useSuffix) {
+          const layeredCssPath = path.join(targetRecipesDir, `${name}.layered.css`);
+          console.log(`Writing ${target.suffix}`, name, "to", layeredCssPath);
+          fs.writeFileSync(layeredCssPath, layeredCss);
+        }
       }
 
       // Generate target MJS + DTS for each recipe (imports target CSS)
       await Promise.all(
         Object.values(config.theme.recipes).map(async (definition) => {
           const name = definition.name;
+          const cssImportPath = useSuffix ? `./${name}.${target.suffix}.css` : `./${name}.css`;
           const targetJsCode = generateJs(definition, {
             ...options,
-            cssImportPath: `./${name}.${target.suffix}.css`,
+            cssImportPath,
             targetSlots: target.deriveSlots,
             extraVariants: target.extraVariants,
           });
-          const mjsPath = path.join(recipesDir, `${name}.${target.suffix}.mjs`);
+          const mjsName = useSuffix ? `${name}.${target.suffix}.mjs` : `${name}.mjs`;
+          const mjsPath = path.join(targetRecipesDir, mjsName);
           console.log(`Writing ${target.suffix}`, name, "to", mjsPath);
           fs.writeFileSync(mjsPath, targetJsCode);
+
+          // Write layered MJS for outputDir targets
+          if (!useSuffix) {
+            const layeredJsCode = generateJs(definition, {
+              ...options,
+              cssImportPath: `./${name}.layered.css`,
+              targetSlots: target.deriveSlots,
+              extraVariants: target.extraVariants,
+            });
+            const layeredMjsPath = path.join(targetRecipesDir, `${name}.layered.mjs`);
+            console.log(`Writing ${target.suffix}`, name, "to", layeredMjsPath);
+            fs.writeFileSync(layeredMjsPath, layeredJsCode);
+          }
 
           // deriveSlots가 있으면 별도 .d.ts 생성 (반환 타입이 다름)
           if (target.deriveSlots?.length) {
@@ -146,7 +248,8 @@ async function writeRecipes(recipesDir: string, config: Config) {
               targetSlots: target.deriveSlots,
               extraVariants: target.extraVariants,
             });
-            const dtsPath = path.join(recipesDir, `${name}.${target.suffix}.d.ts`);
+            const dtsName = useSuffix ? `${name}.${target.suffix}.d.ts` : `${name}.d.ts`;
+            const dtsPath = path.join(targetRecipesDir, dtsName);
             console.log(`Writing ${target.suffix}`, name, "to", dtsPath);
             fs.writeFileSync(dtsPath, targetDtsCode);
           }

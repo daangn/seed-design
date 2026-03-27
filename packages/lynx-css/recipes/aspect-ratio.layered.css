@@ -1,0 +1,21 @@
+@layer seed-components {
+  .seed-aspect-ratio, .seed-aspect-ratio__text {
+    --seed-aspect-ratio-padding: 75%;
+  }
+
+  .seed-aspect-ratio:before {
+    height: 0;
+    padding-bottom: var(--seed-aspect-ratio-padding);
+    display: block;
+  }
+
+  .seed-aspect-ratio > :not(style) {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    inset: 0;
+  }
+}

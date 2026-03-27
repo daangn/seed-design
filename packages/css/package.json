@@ -26,15 +26,7 @@
     "./all.min.css": "./all.min.css",
     "./all.layered.css": "./all.layered.css",
     "./all.layered.min.css": "./all.layered.min.css",
-    "./base.lynx.css": "./base.lynx.css",
-    "./all.lynx.css": "./all.lynx.css",
     "./recipes/*.css": "./recipes/*.css",
-    "./recipes/*.lynx": {
-      "types": "./recipes/*.lynx.d.ts",
-      "default": {
-        "import": "./recipes/*.lynx.mjs"
-      }
-    },
     "./recipes/*": {
       "types": "./recipes/*.d.ts",
       "seed-layered": {

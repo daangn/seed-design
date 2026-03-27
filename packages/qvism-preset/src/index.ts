@@ -28,6 +28,8 @@ export default definePreset({
   targets: [
     {
       suffix: "lynx",
+      outputDir: "../lynx-css",
+      recipesDir: "../lynx-css/recipes",
       postcssPlugins: [
         postcssLynxCompat({
           selectorMappings: [

@@ -1539,6 +1539,12 @@
           "label": "업데이트",
           "items": [
             {
+              "id": "changelog",
+              "title": "Changelog",
+              "description": "최신 업데이트와 변경사항을 기록합니다.",
+              "docUrl": "/react/updates/changelog"
+            },
+            {
               "id": "v3-improvements",
               "title": "V3 Improvements",
               "description": "V2(Sprout) 대비 V3에서 개선된 점을 소개합니다.",
@@ -1586,10 +1592,29 @@
           "label": "컴포넌트",
           "items": [
             {
-              "id": "icon",
-              "title": "Icon",
+              "id": "action-button",
+              "title": "Action Button",
+              "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+              "docUrl": "/lynx/components/action-button",
+              "snippetKey": "ui:action-button",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "action-button.tsx"
+                }
+              ]
+            },
+            {
+              "id": "iconography",
+              "title": "Iconography",
               "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
-              "docUrl": "/lynx/icon"
+              "docUrl": "/lynx/foundation/iconography"
+            },
+            {
+              "id": "theming",
+              "title": "Theming",
+              "description": "Lynx 환경에서 SEED Design의 테마 시스템을 활용하는 방법을 알아봅니다.",
+              "docUrl": "/lynx/theming"
             }
           ]
         }

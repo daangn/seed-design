@@ -1,0 +1,33 @@
+@layer seed-components {
+  .seed-field-label__root {
+    color: var(--seed-color-fg-neutral);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+  }
+
+  .seed-field-label__indicatorText {
+    color: var(--seed-color-fg-neutral-subtle);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
+    padding-left: .25rem;
+    display: inline;
+  }
+
+  .seed-field-label__indicatorIcon {
+    width: .375rem;
+    height: .375rem;
+    color: var(--seed-color-fg-critical);
+    margin-top: .25rem;
+    margin-left: .125rem;
+    display: inline;
+  }
+
+  .seed-field-label__root--weight_medium {
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+  .seed-field-label__root--weight_bold {
+    font-weight: var(--seed-font-weight-bold);
+  }
+}
