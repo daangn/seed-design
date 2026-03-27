@@ -1,5 +1,28 @@
 # @seed-design/mcp
 
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [72dfd8f]
+  - @seed-design/figma@1.3.9
+
+## 1.3.8
+
+### Patch Changes
+
+- 9f11b31: SEED Figma MCP에 `find_nodes` 도구를 추가합니다. 하위 레이어를 이름(정규식)으로 검색하여 목록을 반환합니다.
+- Updated dependencies [7cbe9f3]
+  - @seed-design/figma@1.3.8
+
+## 1.3.7
+
+### Patch Changes
+
+- 9f039c5: Figma MCP 플러그인이 MCP 웹소켓 서버에 연결할 수 없던 문제를 해결합니다.
+- Updated dependencies [534eb1c]
+  - @seed-design/figma@1.3.7
+
 ## 1.3.6
 
 ### Patch Changes

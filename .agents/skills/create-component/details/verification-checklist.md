@@ -17,30 +17,23 @@
 
 ### 잘못된 순서
 
-```text
-❌ React 먼저 → Rootage 나중에
-   → CSS 변수가 없어서 스타일 깨짐
-
-✅ Rootage → generate → Recipe → React → Docs → Test
-```
+반드시 Rootage → generate → Recipe → React → Docs → Test 순서를 따른다. React를 먼저 작성하면 CSS 변수가 없어서 스타일이 깨진다.
 
 ### Recipe export 누락
 
-```text
-❌ Recipe 작성 후 index.ts에 추가 안 함
-   → 컴포넌트에서 import 실패
-
-✅ recipes/index.ts에 반드시 export 추가
-```
+Recipe 작성 후 반드시 `recipes/index.ts`에 export를 추가해야 한다. 누락하면 컴포넌트에서 import가 실패한다.
 
 ### 테스트 생략
 
-```text
-❌ 구현만 하고 Visual Test 안 함
-   → 다크모드/폰트 스케일링 버그 발견 못함
+구현 후 반드시 Agent Browser로 Visual Test를 수행한다. 생략하면 다크모드나 폰트 스케일링 관련 버그를 발견하지 못한다.
 
-✅ Agent Browser로 모든 환경 테스트
-```
+### Recipe-React 불일치
+
+Recipe 타입을 변경하거나 슬롯을 추가한 후에는 반드시 `bun generate:all`을 먼저 실행한 뒤 React 코드를 수정한다. 상세는 `packages/qvism-preset/AGENTS.md`와 `packages/css/AGENTS.md` 참조.
+
+### React 컴포넌트 패턴 위반
+
+variant props 수동 destructuring, 잘못된 import 경로, style prop 직접 사용 등의 금지 패턴은 `packages/react/AGENTS.md`에 명시되어 있다. 구현 전 반드시 확인한다.
 
 ## 생성 파일 (수정 금지)
 

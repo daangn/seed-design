@@ -23,17 +23,17 @@ export declare const informativeSolidPressed = "var(--seed-color-bg-informative-
 export declare const informativeWeak = "var(--seed-color-bg-informative-weak)";
 /** 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak-pressed) */
 export declare const informativeWeakPressed = "var(--seed-color-bg-informative-weak-pressed)";
-/** 가장 낮은 0단계의 '대지'입니다. 앱의 가장 깊은 곳에 위치하는 전체 배경색입니다. */
+/** 가장 낮은 0단계의 '대지'입니다. 화면 가장 깊은 곳에 위치하는 전체 배경색입니다. */
 export declare const layerBasement = "var(--seed-color-bg-layer-basement)";
-/** basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다. */
+/** basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다. */
 export declare const layerDefault = "var(--seed-color-bg-layer-default)";
-/** basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다. (pressed) */
+/** basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다. (pressed) */
 export declare const layerDefaultPressed = "var(--seed-color-bg-layer-default-pressed)";
 /** @deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다. */
 export declare const layerFill = "var(--seed-color-bg-layer-fill)";
-/** 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다. */
+/** 화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다. */
 export declare const layerFloating = "var(--seed-color-bg-layer-floating)";
-/** 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다. (pressed) */
+/** 화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다. (pressed) */
 export declare const layerFloatingPressed = "var(--seed-color-bg-layer-floating-pressed)";
 export declare const magicWeak = "var(--seed-color-bg-magic-weak)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted) */

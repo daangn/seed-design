@@ -7,6 +7,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 대표 사용처: 댓글을 남긴 사용자
+   */
   "size20": {
     "enabled": {
       "root": {
@@ -15,6 +18,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 대표 사용처: 답글 프로필
+   */
   "size24": {
     "enabled": {
       "root": {
@@ -33,6 +39,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 대표 사용처: 댓글 프로필
+   */
   "size36": {
     "enabled": {
       "root": {
@@ -51,6 +60,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 대표 사용처: 게시글 상세 내 프로필
+   */
   "size42": {
     "enabled": {
       "root": {
@@ -69,6 +81,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 대표 사용처: 작은 리스트
+   */
   "size48": {
     "enabled": {
       "root": {
@@ -87,6 +102,30 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 대표 사용처: 큰 리스트
+   */
+  "size56": {
+    "enabled": {
+      "root": {
+        "size": "56px",
+        "strokeWidth": "1px"
+      },
+      /** size=20에서는 지원되지 않습니다. */
+      "badgeMask": {
+        "offset": "34px",
+        "size": "24px"
+      },
+      /** size=20에서는 지원되지 않습니다. */
+      "badge": {
+        "offset": "36px",
+        "size": "20px"
+      }
+    }
+  },
+  /**
+   * 대표 사용처: 프로필 상세, 캐러셀
+   */
   "size64": {
     "enabled": {
       "root": {
@@ -141,6 +180,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 대표 사용처: 프로필 수정
+   */
   "size108": {
     "enabled": {
       "root": {

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { RootProvider } from "fumadocs-ui/provider";
+import { RootProvider } from "fumadocs-ui/provider/next";
 
 export default function NotFound() {
   return (

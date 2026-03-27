@@ -5,6 +5,7 @@ import type {
   NormalizedInstanceNode,
   NormalizedRectangleNode,
   NormalizedSceneNode,
+  NormalizedSlotNode,
   NormalizedTextNode,
   NormalizedVectorNode,
 } from "@/normalizer";
@@ -18,6 +19,7 @@ export interface CodeGeneratorDeps {
   frameTransformer: ElementTransformer<
     NormalizedFrameNode | NormalizedComponentNode | NormalizedInstanceNode
   >;
+  slotTransformer: ElementTransformer<NormalizedSlotNode>;
   textTransformer: ElementTransformer<NormalizedTextNode>;
   rectangleTransformer: ElementTransformer<NormalizedRectangleNode>;
   instanceTransformer: ElementTransformer<NormalizedInstanceNode>;
@@ -37,6 +39,7 @@ export interface CodeGenerator {
 
 export function createCodeGenerator({
   frameTransformer,
+  slotTransformer,
   textTransformer,
   rectangleTransformer,
   instanceTransformer,
@@ -75,6 +78,7 @@ export function createCodeGenerator({
       .with({ type: "TEXT" }, (node) => textTransformer(node, traverse))
       .with({ type: "RECTANGLE" }, (node) => rectangleTransformer(node, traverse))
       .with({ type: "COMPONENT" }, (node) => frameTransformer(node, traverse)) // NOTE: Treat component node as Frame for now
+      .with({ type: "SLOT" }, (node) => slotTransformer(node, traverse))
       .with({ type: "INSTANCE" }, (node) => instanceTransformer(node, traverse))
       .with({ type: "VECTOR" }, (node) => vectorTransformer(node, traverse))
       .with({ type: "BOOLEAN_OPERATION" }, (node) => booleanOperationTransformer(node, traverse))

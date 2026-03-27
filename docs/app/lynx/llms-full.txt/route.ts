@@ -1,12 +1,11 @@
 import { getLLMTextForFullCompilation } from "@/app/_llms/get-llm-text";
 import { shouldIncludeInFullText } from "@/app/_llms/config";
-import type { LLMPage } from "@/app/_llms/types";
 import { lynxSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
-  const pages = (lynxSource.getPages() as LLMPage[])
+  const pages = (lynxSource.getPages())
     .filter((page) => shouldIncludeInFullText("lynx", page.path))
     .sort((a, b) => a.path.localeCompare(b.path));
 
