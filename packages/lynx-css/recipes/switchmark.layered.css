@@ -22,7 +22,7 @@
     background: var(--seed-color-bg-neutral-inverted);
   }
 
-  .seed-switchmark__root--tone_neutral.seed-switchmark__root--disabled_true[data-checked] {
+  .seed-switchmark__root--tone_neutral.seed-switchmark__root--disabled_true.seed-switchmark__root--checked_true {
     background: var(--seed-color-palette-gray-600);
   }
 

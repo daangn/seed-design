@@ -94,20 +94,20 @@
     transition-timing-function: var(--seed-timing-function-easing);
 }
 @media (hover: hover) {
-.seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover])::before {
-    background-color: var(--seed-color-bg-transparent-pressed);
-    left: var(--seed-dimension-x1_5);
-    right: var(--seed-dimension-x1_5);
-    border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
-}
+    .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover])::before {
+        background-color: var(--seed-color-bg-transparent-pressed);
+        left: var(--seed-dimension-x1_5);
+        right: var(--seed-dimension-x1_5);
+        border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
+    }
 }
 @media (hover: none) {
-.seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active])::before {
-    background-color: var(--seed-color-bg-transparent-pressed);
-    left: var(--seed-dimension-x1_5);
-    right: var(--seed-dimension-x1_5);
-    border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
-}
+    .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active])::before {
+        background-color: var(--seed-color-bg-transparent-pressed);
+        left: var(--seed-dimension-x1_5);
+        right: var(--seed-dimension-x1_5);
+        border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
+    }
 }
 @media (hover: hover) {
     .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-hover]::before {
@@ -148,14 +148,14 @@
     background-color: var(--seed-color-bg-brand-weak);
 }
 @media (hover: hover) {
-.seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover])::before {
-    background-color: var(--seed-color-bg-brand-weak-pressed);
-}
+    .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover])::before {
+        background-color: var(--seed-color-bg-brand-weak-pressed);
+    }
 }
 @media (hover: none) {
-.seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active])::before {
-    background-color: var(--seed-color-bg-brand-weak-pressed);
-}
+    .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active])::before {
+        background-color: var(--seed-color-bg-brand-weak-pressed);
+    }
 }
 @media (hover: hover) {
     .seed-list-item__content--highlighted_true:not(:is(:disabled, [disabled], [data-disabled]))[data-hover]::before {

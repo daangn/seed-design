@@ -21,14 +21,14 @@
     transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 @media (hover: hover) {
-.seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
-    color: var(--seed-color-fg-neutral-subtle);
-}
+    .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+        color: var(--seed-color-fg-neutral-subtle);
+    }
 }
 @media (hover: none) {
-.seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    color: var(--seed-color-fg-neutral-subtle);
-}
+    .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+        color: var(--seed-color-fg-neutral-subtle);
+    }
 }
 .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]) {
     color: var(--seed-color-fg-neutral);

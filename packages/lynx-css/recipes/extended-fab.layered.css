@@ -56,6 +56,10 @@
 
   .seed-extended-fab__text--size_small {
     --seed-prefix-icon-size: 16px;
+  }
+
+  .seed-extended-fab__text--size_small {
+    --seed-prefix-icon-size: 16px;
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-medium);
@@ -65,6 +69,10 @@
     gap: var(--seed-dimension-x1);
     --seed-prefix-icon-size: 16px;
     min-height: 48px;
+  }
+
+  .seed-extended-fab__text--size_medium {
+    --seed-prefix-icon-size: 16px;
   }
 
   .seed-extended-fab__text--size_medium {
