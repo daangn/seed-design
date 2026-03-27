@@ -1521,7 +1521,7 @@
             "value": "$color.palette.gray-00"
           }
         },
-        "description": "가장 낮은 0단계의 '대지'입니다. 앱의 가장 깊은 곳에 위치하는 전체 배경색입니다."
+        "description": "가장 낮은 0단계의 '대지'입니다. 화면 가장 깊은 곳에 위치하는 전체 배경색입니다."
       },
       "$color.bg.layer-default": {
         "values": {
@@ -1534,7 +1534,7 @@
             "value": "$color.palette.gray-100"
           }
         },
-        "description": "basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다."
+        "description": "basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다."
       },
       "$color.bg.layer-default-pressed": {
         "values": {
@@ -1547,7 +1547,7 @@
             "value": "$color.palette.gray-300"
           }
         },
-        "description": "basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다. (pressed)"
+        "description": "basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다. (pressed)"
       },
       "$color.bg.layer-fill": {
         "values": {
@@ -1573,7 +1573,7 @@
             "value": "$color.palette.gray-200"
           }
         },
-        "description": "앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다."
+        "description": "화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다."
       },
       "$color.bg.layer-floating-pressed": {
         "values": {
@@ -1586,7 +1586,7 @@
             "value": "$color.palette.gray-300"
           }
         },
-        "description": "앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다. (pressed)"
+        "description": "화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다. (pressed)"
       },
       "$color.bg.magic-weak": {
         "values": {

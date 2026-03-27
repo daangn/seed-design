@@ -1,11 +1,10 @@
 import { baseUrl } from "@/app/metadata";
-import type { LLMPage } from "@/app/_llms/types";
 import { breezeSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
-  const pages = (breezeSource.getPages() as LLMPage[]).filter((page) => page.slugs.length > 0);
+  const pages = (breezeSource.getPages()).filter((page) => page.slugs.length > 0);
 
   const pageList = pages
     .map((page) => {

@@ -19,8 +19,6 @@ data:
             type: dimension
           paddingY:
             type: dimension
-          gap:
-            type: dimension
       label:
         properties:
           color:

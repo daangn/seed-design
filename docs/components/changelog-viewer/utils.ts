@@ -14,6 +14,10 @@ export function compareSemver(a: string, b: string): number {
   return a.localeCompare(b);
 }
 
+export function getChangelogHref(packageName: string, version: string): string {
+  return `/react/updates/changelog?package=${encodeURIComponent(packageName)}&version=${encodeURIComponent(version)}`;
+}
+
 export function getGroupAnchorId(packageName: string, version: string): string {
   const normalizedPackage = packageName
     .toLowerCase()

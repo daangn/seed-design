@@ -346,6 +346,68 @@ describe("validate", () => {
     expect(result.message).toContain('Property "color" expects type "color" but got "dimension"');
   });
 
+  it("should return false if schema property is never used in definitions", () => {
+    const files: SourceFile[] = [
+      {
+        fileName: "collection",
+        ast: Authoring.fromString(dedent`
+        kind: TokenCollections
+        metadata:
+          id: "1"
+          name: collection
+        data:
+          - name: color
+            modes:
+              - light
+              - dark`),
+      },
+      {
+        fileName: "tokens",
+        ast: Authoring.fromString(dedent`
+        kind: Tokens
+        metadata:
+          id: "2"
+          name: tokens
+        data:
+          collection: color
+          tokens:
+            "$color.bg.layer-1":
+              values:
+                light: "#ffffff"
+                dark: "#000000"`),
+      },
+      {
+        fileName: "component",
+        ast: Authoring.fromString(dedent`
+        kind: ComponentSpec
+        metadata:
+          id: "3"
+          name: component
+        data:
+          schema:
+            slots:
+              root:
+                properties:
+                  color:
+                    type: color
+                  unusedProp:
+                    type: color
+          definitions:
+            base:
+              enabled:
+                root:
+                  color: "$color.bg.layer-1"`),
+      },
+    ];
+
+    const result = validate(buildContext(files));
+
+    expect(result.valid).toEqual(false);
+    expect(result.message).toContain(
+      'Property "unusedProp" in slot "root" is defined in schema but never used in definitions',
+    );
+  });
+
   it("should return false if property type mismatches - token reference", () => {
     const files: SourceFile[] = [
       {

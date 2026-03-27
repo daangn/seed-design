@@ -1,4 +1,5 @@
 import { ColorGrid } from "@/components/color-grid";
+import { BlockPreview } from "@/components/block-preview";
 import { ComponentExample } from "@/components/component-example";
 import { ComponentGrid } from "@/components/component-grid";
 import { ComponentSpecBlock } from "@/components/component-spec-block";
@@ -6,7 +7,6 @@ import { ManualInstallation } from "@/components/manual-installation";
 import { ChangelogPage } from "@/components/changelog-page";
 import { StackflowExample } from "@/components/stackflow-example";
 import { TokenReference } from "@/components/token-reference";
-import { createReactTypeTable } from "@/components/type-table/react-type-table";
 import {
   IconCarrotLine,
   IconDocumentLine,
@@ -18,8 +18,7 @@ import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import { ThemeToggle } from "fumadocs-ui/components/layout/theme-toggle";
-import { TypeTable } from "fumadocs-ui/components/type-table";
+import { TypeTable } from "@/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import clsx from "clsx";
 import type { MDXComponents } from "mdx/types";
@@ -35,9 +34,6 @@ import { IconographyMigrationIndex } from "./migration/iconography-migration-ind
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
 import { PlatformStatusTable } from "./platform-status-table";
 import { ProgressBoardTable } from "./progress-board-table";
-import { typeTableGenerator } from "./type-table/generator";
-
-const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
@@ -48,7 +44,8 @@ export const mdxComponents: MDXComponents = {
         className,
         "bg-palette-gray-100 dark:bg-palette-gray-900 rounded-r2 overflow-hidden",
       )}
-      {...rest}
+      // biome-ignore lint/suspicious/noExplicitAny: fumadocs recommends this: https://www.fumadocs.dev/docs/ui/components/image-zoom#usage
+      {...(rest as any)}
     />
   ),
 
@@ -61,6 +58,7 @@ export const mdxComponents: MDXComponents = {
 
   // Components
   ManualInstallation,
+  BlockPreview,
   ComponentExample,
   ComponentGrid,
   TokenReference,
@@ -79,7 +77,6 @@ export const mdxComponents: MDXComponents = {
   Pre,
   StackflowExample,
   TypeTable,
-  ReactTypeTable,
   ColorGrid,
   V3Icon,
   V2Icon,
@@ -105,7 +102,6 @@ export const mdxComponents: MDXComponents = {
   Image,
 
   ImageZoom,
-  ThemeToggle,
 
   FigmaImage: () => null,
 };

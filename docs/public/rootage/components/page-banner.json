@@ -95,9 +95,6 @@
             "fontWeight": {
               "type": "number"
             },
-            "marginLeft": {
-              "type": "dimension"
-            },
             "color": {
               "type": "color"
             }

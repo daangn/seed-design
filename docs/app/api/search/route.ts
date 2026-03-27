@@ -3,6 +3,7 @@ import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { tokenize } from "@/components/search/tokenizer";
 import { TAGS } from "@/app/api/search/constants";
 import { getEntrySearchText } from "@/lib/changelog-entry";
+import { getChangelogHref } from "@/components/changelog-viewer/utils";
 import { parseChangelog } from "@/lib/parse-changelog";
 
 // it should be cached forever
@@ -24,7 +25,7 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
     const label = packageName.replace("@seed-design/", "");
 
     return [...versions.entries()].map(([version, items]) => {
-      const versionUrl = `/react/updates/changelog?tab=${encodeURIComponent(packageName)}&from=${encodeURIComponent(version)}`;
+      const versionUrl = getChangelogHref(packageName, version);
 
       return {
         id: versionUrl,

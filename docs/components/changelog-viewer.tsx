@@ -31,7 +31,7 @@ export function ChangelogViewer({
 
   return (
     <SnackbarProvider>
-      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
+      <div className="changelog-page flex flex-col gap-6 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
         <ChangelogPackageRail
           selectedPackage={state.selectedPackage}
           packages={state.packages}

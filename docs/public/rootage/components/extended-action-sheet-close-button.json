@@ -26,9 +26,6 @@
             },
             "paddingY": {
               "type": "dimension"
-            },
-            "gap": {
-              "type": "dimension"
             }
           }
         },
