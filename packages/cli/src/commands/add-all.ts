@@ -204,6 +204,7 @@ export const addAllCommand = (cli: CAC) => {
           rootPath,
           cwd,
           baseUrl,
+          framework,
           config,
           onDiff: options.onDiff,
         });

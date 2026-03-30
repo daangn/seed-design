@@ -217,6 +217,7 @@ export const addCommand = (cli: CAC) => {
           rootPath,
           cwd,
           baseUrl,
+          framework,
           config,
           onDiff: options.onDiff,
         });

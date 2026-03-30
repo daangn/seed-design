@@ -8,7 +8,7 @@ import { registryUI } from "../registry/react/registry-ui.js";
 import { registryBlock } from "../registry/react/registry-block.js";
 
 const REGISTRY_PATH = path.join(process.cwd(), "registry", "react");
-const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
+const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__", "react");
 
 // remove leading & trailing newline and add a new ending newline
 const cleanFile = (filePath: string) => `${filePath.replace(/^\n+|\n+$/g, "")}\n`;

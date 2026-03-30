@@ -90,7 +90,7 @@ export function analyzeRegistryItemCompatibility({
     const item = itemMap.get(itemKey);
     if (!item) continue;
 
-    const requiredRangesByPackage = collectRequiredRangesByPackage(item);
+    const requiredRangesByPackage = collectRequiredRangesByPackage(item, framework);
 
     for (const packageName of compatPackages) {
       const requiredRanges = Array.from(requiredRangesByPackage[packageName] ?? []);
@@ -227,14 +227,18 @@ export function findInstalledSnippetItemKeys({
   return installedItemKeys;
 }
 
-function collectRequiredRangesByPackage(item: PublicRegistry["items"][number]) {
+function collectRequiredRangesByPackage(
+  item: PublicRegistry["items"][number],
+  framework = "react",
+) {
+  const compatPackages = getCompatPackageNames(framework);
   const requiredRangesByPackage = Object.fromEntries(
-    COMPAT_PACKAGE_NAMES.map((packageName) => [packageName, new Set<string>()]),
+    compatPackages.map((packageName) => [packageName, new Set<string>()]),
   ) as Record<CompatPackageName, Set<string>>;
 
   for (const snippet of item.snippets) {
     for (const [packageName, requiredRange] of Object.entries(snippet.dependencies ?? {})) {
-      if (!isCompatPackageName(packageName)) continue;
+      if (!isCompatPackageName(packageName, framework)) continue;
       requiredRangesByPackage[packageName].add(requiredRange);
     }
   }
@@ -306,6 +310,9 @@ function getSnippetPathCandidates(originalPath: string): string[] {
   return Array.from(candidates);
 }
 
-function isCompatPackageName(packageName: string): packageName is CompatPackageName {
-  return COMPAT_PACKAGE_NAMES.includes(packageName as CompatPackageName);
+function isCompatPackageName(
+  packageName: string,
+  framework = "react",
+): packageName is CompatPackageName {
+  return (getCompatPackageNames(framework) as readonly string[]).includes(packageName);
 }
