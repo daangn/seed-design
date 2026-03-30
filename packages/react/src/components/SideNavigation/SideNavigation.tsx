@@ -1,11 +1,12 @@
 import {
   SideNavigation as SideNavigationPrimitive,
-  SideNavigationMenuItemProvider,
+  SideNavigationMenuItemProvider as ItemProviderPrimitive,
   useCollapsibleContext,
   useSideNavigationContext,
   useSideNavigationMenuItem,
   useSideNavigationMenuItemContext,
   type UseSideNavigationMenuItemProps,
+  type SideNavigationProviderProps as SideNavigationProviderPrimitiveProps,
 } from "@seed-design/react-side-navigation";
 import {
   sideNavigation,
@@ -24,6 +25,7 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { mediaQueries } from "@seed-design/css/breakpoints";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import React from "react";
 import clsx from "clsx";
@@ -44,6 +46,38 @@ const withMenuItemStateProps = createWithStateProps([
 const withCollapsibleStateProps = createWithStateProps([
   { useContext: useCollapsibleContext, strict: false },
 ]);
+
+////////////////////////////////////////////////////////////////////////////////////
+
+function ResponsiveCollapseEffect() {
+  const { setCollapsed } = useSideNavigationContext();
+
+  React.useEffect(() => {
+    const mql = window.matchMedia(mediaQueries.lg);
+
+    const handler = (e: MediaQueryListEvent) => {
+      setCollapsed(!e.matches);
+    };
+
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, [setCollapsed]);
+
+  return null;
+}
+
+export interface SideNavigationProviderProps extends SideNavigationProviderPrimitiveProps {}
+
+export function SideNavigationProvider(props: SideNavigationProviderProps) {
+  return (
+    <SideNavigationPrimitive.Provider {...props}>
+      <ResponsiveCollapseEffect />
+      {props.children}
+    </SideNavigationPrimitive.Provider>
+  );
+}
+
+SideNavigationProvider.displayName = "SideNavigationProvider";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -174,7 +208,7 @@ export const SideNavigationMenuItem = React.forwardRef<
   const api = useSideNavigationMenuItem({ current, disabled });
 
   return (
-    <SideNavigationMenuItemProvider value={api}>
+    <ItemProviderPrimitive value={api}>
       <MenuItemClassNamesProvider value={classNames}>
         <Primitive.button
           className={clsx(classNames.root, className)}
@@ -184,7 +218,7 @@ export const SideNavigationMenuItem = React.forwardRef<
           {...api.rootProps}
         />
       </MenuItemClassNamesProvider>
-    </SideNavigationMenuItemProvider>
+    </ItemProviderPrimitive>
   );
 });
 

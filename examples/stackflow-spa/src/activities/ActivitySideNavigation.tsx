@@ -27,7 +27,10 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
   return (
     <>
       <Layout.Root density={layoutDensity}>
-        <SideNavigationProvider defaultCollapsed={false}>
+        <SideNavigationProvider
+          defaultCollapsed={localStorage.getItem("sidebar-collapsed") === "true"}
+          onCollapsedChange={(v) => localStorage.setItem("sidebar-collapsed", String(v))}
+        >
           <SideNavigation tone={sideNavigationTone} />
           <SideNavigationInset>
             <Layout.Content>

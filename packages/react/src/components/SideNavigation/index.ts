@@ -34,6 +34,6 @@ export {
 export {
   SideNavigationProvider,
   type SideNavigationProviderProps,
-} from "@seed-design/react-side-navigation";
+} from "./SideNavigation";
 
 export * as SideNavigation from "./SideNavigation.namespace";

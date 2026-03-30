@@ -34,4 +34,4 @@ export {
 export {
   SideNavigationProvider as Provider,
   type SideNavigationProviderProps as ProviderProps,
-} from "@seed-design/react-side-navigation";
+} from "./SideNavigation";

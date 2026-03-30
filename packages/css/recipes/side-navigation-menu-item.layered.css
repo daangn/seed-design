@@ -11,6 +11,8 @@
     height: 44px;
     padding-left: 8px;
     padding-right: 8px;
+    scroll-margin-top: 8px;
+    scroll-margin-bottom: 24px;
     transition: padding .2s, background-color .2s;
     display: flex;
     position: relative;

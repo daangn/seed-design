@@ -7795,7 +7795,7 @@
   flex-direction: column;
   flex: 1;
   gap: 8px;
-  padding: 8px 8px 16px;
+  padding: 8px 8px 24px;
   display: flex;
   overflow-y: auto;
 }
@@ -7910,6 +7910,8 @@
   height: 44px;
   padding-left: 8px;
   padding-right: 8px;
+  scroll-margin-top: 8px;
+  scroll-margin-bottom: 24px;
   transition: padding .2s, background-color .2s;
   display: flex;
   position: relative;
