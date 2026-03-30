@@ -9,15 +9,15 @@ import { highlight } from "./color";
 const REACT_COMPAT_PACKAGES = ["@seed-design/react", "@seed-design/css"] as const;
 const LYNX_COMPAT_PACKAGES = ["@seed-design/lynx-react", "@seed-design/lynx-css"] as const;
 
-/** @deprecated Use getCompatPackageNames(platform) instead */
+/** @deprecated Use getCompatPackageNames(framework) instead */
 export const COMPAT_PACKAGE_NAMES = REACT_COMPAT_PACKAGES;
 
 export type CompatPackageName =
   | (typeof REACT_COMPAT_PACKAGES)[number]
   | (typeof LYNX_COMPAT_PACKAGES)[number];
 
-export function getCompatPackageNames(platform: string): readonly CompatPackageName[] {
-  return platform === "lynx" ? LYNX_COMPAT_PACKAGES : REACT_COMPAT_PACKAGES;
+export function getCompatPackageNames(framework: string): readonly CompatPackageName[] {
+  return framework === "lynx" ? LYNX_COMPAT_PACKAGES : REACT_COMPAT_PACKAGES;
 }
 
 const WORKSPACE_VERSION_PREFIX = "workspace:";
@@ -39,7 +39,7 @@ export interface CompatibilityReport {
 
 export function getProjectSeedPackageVersionSpecs(
   cwd: string,
-  platform = "react",
+  framework = "react",
 ): Partial<Record<CompatPackageName, string>> {
   try {
     const packageInfo = getPackageInfo(cwd);
@@ -50,7 +50,7 @@ export function getProjectSeedPackageVersionSpecs(
       ...packageInfo.optionalDependencies,
     };
     const result: Partial<Record<CompatPackageName, string>> = {};
-    const compatPackages = getCompatPackageNames(platform);
+    const compatPackages = getCompatPackageNames(framework);
 
     for (const packageName of compatPackages) {
       const value = packageDeps[packageName];
@@ -69,12 +69,12 @@ export function analyzeRegistryItemCompatibility({
   publicRegistries,
   itemKeys,
   projectPackageVersions,
-  platform = "react",
+  framework = "react",
 }: {
   publicRegistries: PublicRegistry[];
   itemKeys: string[];
   projectPackageVersions: Partial<Record<CompatPackageName, string>>;
-  platform?: string;
+  framework?: string;
 }): CompatibilityReport {
   const checkedItemKeys = Array.from(new Set(itemKeys));
   const itemMap = new Map<string, PublicRegistry["items"][number]>(
@@ -84,7 +84,7 @@ export function analyzeRegistryItemCompatibility({
   );
 
   const issues: CompatibilityIssue[] = [];
-  const compatPackages = getCompatPackageNames(platform);
+  const compatPackages = getCompatPackageNames(framework);
 
   for (const itemKey of checkedItemKeys) {
     const item = itemMap.get(itemKey);
@@ -151,15 +151,15 @@ export function analyzeRegistryItemCompatibility({
 export function logCompatibilityReport({
   report,
   title,
-  platform = "react",
+  framework = "react",
 }: {
   report: CompatibilityReport;
   title: string;
-  platform?: string;
+  framework?: string;
 }) {
   if (!report.issues.length) return;
 
-  const compatPackages = getCompatPackageNames(platform);
+  const compatPackages = getCompatPackageNames(framework);
 
   p.log.warn(title);
   p.log.info(

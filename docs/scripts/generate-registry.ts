@@ -7,7 +7,7 @@ import { registryLib } from "../registry/react/registry-lib.js";
 import { registryUI } from "../registry/react/registry-ui.js";
 import { registryBlock } from "../registry/react/registry-block.js";
 
-const REGISTRY_PATH = path.join(process.cwd(), "registry");
+const REGISTRY_PATH = path.join(process.cwd(), "registry", "react");
 const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
 
 // remove leading & trailing newline and add a new ending newline

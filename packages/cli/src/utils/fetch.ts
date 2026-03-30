@@ -33,12 +33,12 @@ export async function fetchDocsIndex({ baseUrl }: { baseUrl: string }): Promise<
 
 export async function fetchAvailableRegistries({
   baseUrl,
-  platform,
+  framework,
 }: {
   baseUrl: string;
-  platform: string;
+  framework: string;
 }): Promise<PublicAvailableRegistries> {
-  const response = await fetch(`${baseUrl}/__registry__/${platform}/index.json`);
+  const response = await fetch(`${baseUrl}/__registry__/${framework}/index.json`);
 
   if (!response.ok)
     throw new Error(`Failed to fetch registries: ${response.status} ${response.statusText}`);
@@ -57,14 +57,14 @@ export async function fetchAvailableRegistries({
 
 export async function fetchRegistry({
   baseUrl,
-  platform,
+  framework,
   registryId,
 }: {
   baseUrl: string;
-  platform: string;
+  framework: string;
   registryId: PublicRegistry["id"];
 }): Promise<PublicRegistry> {
-  const response = await fetch(`${baseUrl}/__registry__/${platform}/${registryId}/index.json`);
+  const response = await fetch(`${baseUrl}/__registry__/${framework}/${registryId}/index.json`);
 
   if (!response.ok)
     throw new Error(
@@ -81,17 +81,17 @@ export async function fetchRegistry({
 
 async function fetchRegistryItem({
   baseUrl,
-  platform,
+  framework,
   registryId,
   registryItemId,
 }: {
   baseUrl: string;
-  platform: string;
+  framework: string;
   registryId: PublicRegistry["id"];
   registryItemId: PublicRegistryItem["id"];
 }): Promise<PublicRegistryItem> {
   const response = await fetch(
-    `${baseUrl}/__registry__/${platform}/${registryId}/${registryItemId}.json`,
+    `${baseUrl}/__registry__/${framework}/${registryId}/${registryItemId}.json`,
   );
 
   if (!response.ok) {
@@ -110,23 +110,23 @@ async function fetchRegistryItem({
 
 export async function fetchRegistryItems({
   baseUrl,
-  platform,
+  framework,
   registryId,
   registryItemIds,
 }: {
   baseUrl: string;
-  platform: string;
+  framework: string;
   registryId: PublicRegistry["id"];
   registryItemIds: PublicRegistryItem["id"][];
 }): Promise<PublicRegistryItem[]> {
   return await Promise.all(
     registryItemIds.map(async (itemId) => {
       try {
-        return await fetchRegistryItem({ baseUrl, platform, registryId, registryItemId: itemId });
+        return await fetchRegistryItem({ baseUrl, framework, registryId, registryItemId: itemId });
       } catch (error) {
         // show available registry items in the registry
         const response = await fetch(
-          `${baseUrl}/__registry__/${platform}/${registryId}/index.json`,
+          `${baseUrl}/__registry__/${framework}/${registryId}/index.json`,
         );
 
         if (!response.ok)

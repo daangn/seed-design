@@ -10,12 +10,12 @@ import type { Config } from "./get-config";
 export const DEFAULT_INIT_CONFIG: Config = {
   rsc: false,
   tsx: true,
-  platform: "react",
+  framework: "react",
   path: "./seed-design",
   telemetry: true,
 };
 
-export function detectPlatform(cwd: string): "react" | "lynx" {
+export function detectFramework(cwd: string): "react" | "lynx" {
   try {
     const pkg = getPackageInfo(cwd);
     const allDeps = {
@@ -31,7 +31,7 @@ export function detectPlatform(cwd: string): "react" | "lynx" {
 }
 
 export async function promptInitConfig(cwd: string): Promise<Config> {
-  const detectedPlatform = detectPlatform(cwd);
+  const detectedFramework = detectFramework(cwd);
 
   const group = await p.group(
     {
@@ -45,10 +45,10 @@ export async function promptInitConfig(cwd: string): Promise<Config> {
           message: `${highlight("React Server Components")}를 사용중이신가요?`,
           initialValue: DEFAULT_INIT_CONFIG.rsc,
         }),
-      platform: () =>
+      framework: () =>
         p.select({
-          message: `어떤 ${highlight("플랫폼")}을 사용하시나요?`,
-          initialValue: detectedPlatform,
+          message: `어떤 ${highlight("프레임워크")}를 사용하시나요?`,
+          initialValue: detectedFramework,
           options: [
             { value: "react" as const, label: "React" },
             { value: "lynx" as const, label: "Lynx" },

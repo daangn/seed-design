@@ -26,7 +26,7 @@ CLI로 seed-design을 추가하는 방법을 알아봐요.
 {
   "rsc": false,
   "tsx": true,
-  "platform": "react",
+  "framework": "react",
   "path": "./seed-design",
   "telemetry": true
 }
@@ -40,7 +40,7 @@ CLI로 seed-design을 추가하는 방법을 알아봐요.
 {
   "rsc": false,
   "tsx": true,
-  "platform": "react",
+  "framework": "react",
   "path": "./seed-design",
   "telemetry": true
 }
@@ -57,7 +57,7 @@ CLI로 seed-design을 추가하는 방법을 알아봐요.
 | `path` | `string` | 없음 (init에서는 `./seed-design`) | 스니펫이 생성될 루트 경로 |
 | `rsc` | `boolean` | `false` | React Server Components 사용 여부에 맞춰 `"use client"` 유지/제거 |
 | `tsx` | `boolean` | `true` | 생성 파일을 TypeScript(`.ts/.tsx`) 또는 JavaScript(`.js/.jsx`)로 변환 |
-| `platform` | `"react" \| "lynx"` | `"react"` | 스니펫 대상 플랫폼. init 시 자동 감지 |
+| `framework` | `"react" \| "lynx"` | `"react"` | 스니펫 대상 프레임워크. init 시 자동 감지 |
 | `telemetry` | `boolean` | `true` | 익명 사용 데이터 수집 여부 |
 | `$schema` | `string` | 선택값 | JSON 스키마 힌트용 필드 (CLI 동작에는 영향 없음) |
 
@@ -115,9 +115,9 @@ TypeScript를 사용할지 설정해요.
 }
 ```
 
-### platform
+### framework
 
-스니펫 대상 플랫폼을 설정해요.
+스니펫 대상 프레임워크를 설정해요.
 
 `init` 실행 시 프로젝트의 `package.json`에 `@lynx-js/react` 또는 `@seed-design/lynx-react`가 있으면 `"lynx"`로 자동 감지돼요.
 
@@ -126,11 +126,11 @@ TypeScript를 사용할지 설정해요.
 
 ```json title="seed-design.json"
 {
-  "platform": "react" | "lynx" // default: "react"
+  "framework": "react" | "lynx" // default: "react"
 }
 ```
 
-CLI 명령어에서 `--platform` 옵션으로 이 값을 일시적으로 덮어쓸 수 있어요.
+CLI 명령어에서 `--framework` 옵션으로 이 값을 일시적으로 덮어쓸 수 있어요.
 
 ### telemetry
 

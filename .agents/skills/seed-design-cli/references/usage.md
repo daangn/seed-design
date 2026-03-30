@@ -97,7 +97,7 @@ action-button
 주요 필드:
 
 - `path`: 스니펫 출력 루트 경로
-- `platform`: 대상 플랫폼 (`react` | `lynx`, 기본값 `react`)
+- `framework`: 대상 프레임워크 (`react` | `lynx`, 기본값 `react`)
 - `tsx`: TypeScript 변환 여부
 - `rsc`: `"use client"` 유지 여부
 - `telemetry`: 익명 사용 데이터 수집 여부

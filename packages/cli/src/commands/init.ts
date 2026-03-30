@@ -5,7 +5,7 @@ import { highlight } from "../utils/color";
 import { handleCliError, isCliCancelError, isVerboseMode } from "../utils/error";
 import {
   DEFAULT_INIT_CONFIG,
-  detectPlatform,
+  detectFramework,
   promptInitConfig,
   writeInitConfigFile,
 } from "../utils/init-config";
@@ -43,7 +43,7 @@ export const initCommand = (cli: CAC) => {
         const options = parsed.data;
         const isDefaultMode = options.yes || options.default;
         const config: Config = isDefaultMode
-          ? { ...DEFAULT_INIT_CONFIG, platform: detectPlatform(options.cwd) }
+          ? { ...DEFAULT_INIT_CONFIG, framework: detectFramework(options.cwd) }
           : await promptInitConfig(options.cwd);
 
         const { start, stop } = p.spinner();

@@ -45,7 +45,7 @@ npx @seed-design/cli@latest init
 ◇  React Server Components를 사용중이신가요?
 │  No
 │
-◇  어떤 플랫폼을 사용하시나요?
+◇  어떤 프레임워크를 사용하시나요?
 │  React
 │
 ◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
@@ -118,7 +118,7 @@ npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
 |------|------|
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
-| `-p, --platform <platform>` | 대상 플랫폼 (`react` 또는 `lynx`). config의 `platform` 값을 덮어씀 |
+| `-f, --framework <framework>` | 대상 프레임워크 (`react` 또는 `lynx`). config의 `framework` 값을 덮어씀 |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
 | `-a, --all` | **Deprecated**. 현재는 에러를 출력하고 `add-all` 사용을 안내 |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
@@ -183,7 +183,7 @@ npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리
 | `--include-deprecated` | deprecated 항목 포함 |
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
-| `-p, --platform <platform>` | 대상 플랫폼 (`react` 또는 `lynx`). config의 `platform` 값을 덮어씀 |
+| `-f, --framework <framework>` | 대상 프레임워크 (`react` 또는 `lynx`). config의 `framework` 값을 덮어씀 |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
@@ -227,6 +227,6 @@ npx @seed-design/cli@latest compat --all
 | `-a, --all` | 모든 registry 항목 검사 |
 | `--cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
-| `-p, --platform <platform>` | 대상 플랫폼 (`react` 또는 `lynx`). config의 `platform` 값을 덮어씀 |
+| `-f, --framework <framework>` | 대상 프레임워크 (`react` 또는 `lynx`). config의 `framework` 값을 덮어씀 |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
