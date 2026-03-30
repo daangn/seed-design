@@ -54,17 +54,16 @@ export const sideNavigation = defineSlotRecipe({
 
       gap: "8px",
 
-      // top divider: appears when scrolled away from top (background-attachment local/scroll trick)
-      background: [
-        "linear-gradient(var(--side-navigation-bg, transparent), var(--side-navigation-bg, transparent)) center top / 100% 1px no-repeat local",
-        `linear-gradient(${tokens.$color.stroke.neutralMuted}, ${tokens.$color.stroke.neutralMuted}) center top / 100% 1px no-repeat scroll`,
-      ].join(", "),
+      // top divider: appears when scrolled away from top (toggled via JS data-scrolled attribute)
+      [pseudo("[data-scrolled]")]: {
+        boxShadow: `inset 0 1px 0 0 ${tokens.$color.stroke.neutralMuted}`,
+      },
 
       // bottom scroll fog: fades content into padding at the bottom
-      maskImage: "linear-gradient(to top, transparent 0, black 16px)",
-      WebkitMaskImage: "linear-gradient(to top, transparent 0, black 16px)",
+      maskImage: "linear-gradient(to top, transparent 0, black 24px)",
+      WebkitMaskImage: "linear-gradient(to top, transparent 0, black 24px)",
 
-      transition: `gap ${duration}`,
+      transition: `gap ${duration}, border-color ${duration}`,
 
       [pseudo(collapsed)]: {
         gap: 0,
@@ -149,10 +148,9 @@ export const sideNavigation = defineSlotRecipe({
     },
   },
   variants: {
-    variant: {
+    tone: {
       neutral: {
         root: {
-          "--side-navigation-bg": tokens.$color.palette.gray100,
           backgroundColor: tokens.$color.palette.gray100,
 
           boxShadow: `inset -1px 0 0 0 ${tokens.$color.stroke.neutralMuted}`,
@@ -162,7 +160,7 @@ export const sideNavigation = defineSlotRecipe({
     },
   },
   defaultVariants: {
-    variant: "neutral",
+    tone: "neutral",
   },
 });
 

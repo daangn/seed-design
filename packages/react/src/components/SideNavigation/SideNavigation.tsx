@@ -24,10 +24,12 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import React from "react";
 import clsx from "clsx";
+import { dataAttr } from "@seed-design/dom-utils";
 
-const { withProvider, withContext } = createSlotRecipeContext(sideNavigation);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(sideNavigation);
 const {
   withRootProvider: withMenuItemRootProvider,
   withContext: withMenuItemContext,
@@ -75,9 +77,41 @@ export interface SideNavigationContentProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const SideNavigationContent = withContext<HTMLDivElement, SideNavigationContentProps>(
-  withSideNavigationStateProps(Primitive.div),
-  "content",
+export const SideNavigationContent = React.forwardRef<HTMLDivElement, SideNavigationContentProps>(
+  ({ className, ...props }, forwardedRef) => {
+    const classNames = useClassNames();
+    const { stateProps } = useSideNavigationContext();
+    const ref = React.useRef<HTMLDivElement>(null);
+    const [scrolled, setScrolled] = React.useState(false);
+
+    React.useEffect(() => {
+      const element = ref.current;
+      if (!element) return;
+
+      const check = () => setScrolled(element.scrollTop > 0);
+      check();
+
+      element.addEventListener("scroll", check);
+
+      const observer = new ResizeObserver(check);
+      observer.observe(element);
+
+      return () => {
+        element.removeEventListener("scroll", check);
+        observer.disconnect();
+      };
+    }, []);
+
+    return (
+      <Primitive.div
+        ref={composeRefs(ref, forwardedRef)}
+        className={clsx(classNames.content, className)}
+        {...{ "data-scrolled": dataAttr(scrolled) }}
+        {...stateProps}
+        {...props}
+      />
+    );
+  },
 );
 
 SideNavigationContent.displayName = "SideNavigationContent";

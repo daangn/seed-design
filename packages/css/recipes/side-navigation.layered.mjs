@@ -33,13 +33,13 @@ const sideNavigationSlotNames = [
 ];
 
 const defaultVariant = {
-  "variant": "neutral"
+  "tone": "neutral"
 };
 
 const compoundVariants = [];
 
 export const sideNavigationVariantMap = {
-  "variant": [
+  "tone": [
     "neutral",
     "transparent"
   ]
