@@ -44,6 +44,8 @@ runs:
           ecosystem/**/build
           ecosystem/**/lib
         key: ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lock', 'bun.lockb') }}
+        restore-keys: |
+          ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-
 
     - name: Relink workspace after cache restore
       if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit == 'true' }}
