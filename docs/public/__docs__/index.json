@@ -1574,6 +1574,19 @@
               "title": "Footer",
               "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
               "docUrl": "/react/blocks/footer"
+            },
+            {
+              "id": "side-navigation",
+              "title": "Side Navigation",
+              "description": "사이드바 형태의 내비게이션 블록입니다. 그룹, 메뉴 아이템, 접기/펼치기를 조합해 다양한 레이아웃을 구성할 수 있습니다.",
+              "docUrl": "/react/blocks/side-navigation",
+              "snippetKey": "ui:side-navigation",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-navigation.tsx"
+                }
+              ]
             }
           ]
         }

@@ -43,5 +43,15 @@ export const registryBlock: Registry = {
         },
       ],
     },
+    {
+      id: "side-navigation-1",
+      description: "풀 스펙 SideNavigation (Collapsible + Footer + 다수 그룹 + Inset 레이아웃)",
+      snippets: [
+        {
+          path: "side-navigation-1.tsx",
+          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
   ],
 };
