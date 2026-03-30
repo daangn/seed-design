@@ -5,6 +5,7 @@ import {
   renderVersionMarkdown,
   toPackageName,
   toSlug,
+  toVersionSlug,
 } from "@/lib/changelog-llms";
 import { splitVersionSections } from "@/lib/parse-changelog";
 import { notFound } from "next/navigation";
@@ -19,7 +20,7 @@ export async function generateStaticParams() {
     const slug = toSlug(source.packageName);
     const versions = splitVersionSections(source.raw);
     for (const { version } of versions) {
-      params.push({ package: slug, version: `${version}.txt` });
+      params.push({ package: slug, version: `${toVersionSlug(version)}.txt` });
     }
   }
 
@@ -32,7 +33,7 @@ export async function GET(
 ) {
   const params = await context.params;
   const slug = params.package;
-  const version = params.version.replace(/\.txt$/, "");
+  const version = decodeURIComponent(params.version.replace(/\.txt$/, ""));
 
   const packageName = toPackageName(slug);
   const sources = await getSources();

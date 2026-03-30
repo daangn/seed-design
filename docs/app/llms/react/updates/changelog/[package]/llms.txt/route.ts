@@ -6,6 +6,7 @@ import {
   renderVersionMarkdown,
   toPackageName,
   toSlug,
+  toVersionSlug,
 } from "@/lib/changelog-llms";
 import { splitVersionSections } from "@/lib/parse-changelog";
 import { notFound } from "next/navigation";
@@ -33,7 +34,10 @@ export async function GET(_request: Request, context: { params: Promise<{ packag
 
   const versionList = versions
     .map(({ version }) => {
-      const url = new URL(`/llms/react/updates/changelog/${slug}/${version}.txt`, baseUrl);
+      const url = new URL(
+        `/llms/react/updates/changelog/${slug}/${toVersionSlug(version)}.txt`,
+        baseUrl,
+      );
       return `- [${version}](${url}) — changes since this version`;
     })
     .join("\n");

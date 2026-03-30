@@ -14,6 +14,10 @@ export function toPackageName(slug: string): string {
   return `${SCOPE}${slug}`;
 }
 
+export function toVersionSlug(version: string): string {
+  return encodeURIComponent(version);
+}
+
 let sourcesCache: Awaited<ReturnType<typeof loadChangelogSources>> | null = null;
 
 export async function getSources(): Promise<ChangelogSource[]> {
