@@ -1,0 +1,410 @@
+---
+title: Figma MCP
+description: AI Agent를 활용해 Figma 디자인을 React 코드로 변환하는 Model Context Protocol(MCP)를 제공합니다.
+---
+
+## 설치
+
+<Steps>
+<Step>
+
+### Figma 접근 방식 선택
+
+<Tabs groupId="figma-access-method" persist items={['REST API', 'WebSocket']}>
+
+<Tab value="REST API">
+
+**Figma URL과 Personal Access Token으로 레이어 정보를 가져옵니다.**
+
+1. [Figma 설정](https://www.figma.com/settings)에서 Personal Access Token을 발급받습니다.
+
+<Callout>
+
+토큰에 다음 권한을 부여해주세요.
+
+- `file_content:read`
+- `file_metadata:read`
+- `file_variables:read`
+- `library_assets:read`
+- `library_content:read`
+- `team_library_content:read`
+- `file_dev_resources:read`
+
+</Callout>
+
+2. MCP가 환경 변수를 통해 해당 토큰을 사용할 수 있도록 합니다. [MCP 서버 등록](#mcp-서버-등록) 단계에서 `FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수를 설정해주세요.
+
+</Tab>
+
+<Tab value="WebSocket">
+
+**WebSocket 서버와 Figma 플러그인을 통해 Figma 앱에서 실시간으로 선택한 레이어 정보를 가져옵니다.**
+
+`get_selection` 등 실시간 선택 기반 도구는 이 방식에서만 동작합니다.
+
+1. 백그라운드에서 WebSocket 서버를 실행합니다.
+
+<Callout>
+
+WebSocket 서버 실행을 위해 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
+
+</Callout>
+
+```bash
+bunx --bun @seed-design/mcp@latest socket
+```
+
+2. Figma에서 [MCP 플러그인](https://www.figma.com/community/plugin/1496384010980477154)을 설치하고 실행합니다.
+
+</Tab>
+
+</Tabs>
+
+#### `--mode` 옵션으로 도구 범위 제한하기
+
+MCP 서버 실행 시 `--mode` 옵션을 명시하면 해당 모드에서 사용 가능한 도구만 등록하여 context 크기를 줄일 수 있습니다.
+
+`--mode` 옵션을 제공하지 않는 경우 기본값으로 `all` 모드가 사용됩니다.
+
+| 모드           | 도구                  | 비고                                           |
+| -------------- | --------------------- | ---------------------------------------------- |
+| `all` (기본값) | 모든 도구 등록        | PAT 있으면 REST 우선, WS 전용 도구는 WS 사용   |
+| `rest`         | REST API 도구만 등록  | `get_selection` 등 WS 전용 도구 미등록         |
+| `websocket`    | WebSocket 도구만 등록 | 현재 모든 도구가 WebSocket 동작 가능, PAT 무시 |
+
+</Step>
+
+<Step>
+
+### MCP 서버 등록
+
+<Tabs groupId="figma-access-method" persist items={['REST API', 'WebSocket']}>
+
+<Tab value="REST API">
+
+`FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수를 설정해야 합니다.
+
+항상 REST API만 사용한다면 `--mode=rest` 플래그를 추가해도 됩니다.
+
+```json title=".mcp.json"
+{
+  "mcpServers": {
+    "seed-design-figma": {
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest"],
+      "env": {
+        "FIGMA_PERSONAL_ACCESS_TOKEN": "${FIGMA_PERSONAL_ACCESS_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab value="WebSocket">
+
+`FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수는 설정하지 않아도 됩니다.
+
+항상 WebSocket만 사용한다면 `--mode=websocket` 플래그를 추가해도 됩니다.
+
+```json title=".mcp.json"
+{
+  "mcpServers": {
+    "seed-design-figma": {
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest"]
+    }
+  }
+}
+```
+
+</Tab>
+
+</Tabs>
+
+</Step>
+
+<Step>
+
+### 사용하기
+
+<Tabs groupId="figma-access-method" persist items={['REST API', 'WebSocket']}>
+
+<Tab value="REST API">
+
+1. Figma에서 레이어의 URL을 복사(<kbd>⌘</kbd> + <kbd>L</kbd>)합니다.
+2. LLM 도구에게 요청합니다.
+
+```
+https://www.figma.com/design/abc123/MyDesign?node-id=123-456 이 레이어의 React 코드를 가져와주세요.
+```
+
+</Tab>
+
+<Tab value="WebSocket">
+
+1. Figma에서 레이어를 선택합니다.
+2. LLM 도구에게 요청합니다.
+
+```
+지금 선택한 레이어의 React 코드를 가져와주세요.
+```
+
+</Tab>
+
+</Tabs>
+
+</Step>
+
+</Steps>
+
+## 주요 툴 목록
+
+### REST API + WebSocket 공통
+
+Figma URL 또는 `fileKey` + `nodeId`를 전달하면 REST API로, `nodeId`만 전달하면 WebSocket으로 동작합니다. 모든 모드에서 등록됩니다.
+
+| 툴                              | 설명                                          |
+| ------------------------------- | --------------------------------------------- |
+| `get_node_info`                 | 레이어의 구조 정보를 반환합니다.              |
+| `get_nodes_info`                | 여러 레이어의 구조 정보를 한 번에 반환합니다. |
+| `get_node_react_code`           | 레이어의 React 코드를 생성합니다.             |
+| `get_component_info`            | 컴포넌트의 key와 속성 정의를 반환합니다.      |
+| `find_nodes`                   | 하위 레이어를 이름(정규식)으로 검색하여 ID 목록을 반환합니다. |
+| `retrieve_color_variable_names` | SEED Design 색상 변수 이름 목록을 반환합니다. |
+
+### WebSocket 전용
+
+Figma 플러그인과 통신이 필요합니다. `websocket` 또는 `all` 모드에서 등록됩니다.
+
+| 툴                     | 설명                                                                                                                               |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `get_selection`        | 현재 선택한 레이어의 ID를 반환합니다.                                                                                              |
+| `get_document_info`    | 현재 열린 Figma 문서의 정보를 반환합니다.                                                                                          |
+| `export_node_as_image` | 레이어를 이미지(PNG, JPG, SVG, PDF)로 내보냅니다.                                                                                  |
+| `add_annotations`      | 레이어에 [Annotation](https://help.figma.com/hc/en-us/articles/20774752502935-Add-measurements-and-annotate-designs)을 추가합니다. |
+| `get_annotations`      | 레이어의 Annotation을 가져옵니다.                                                                                                  |
+| `join_channel`         | 특정 채널에 참가합니다.                                                                                                            |
+
+<Accordions type="single">
+<Accordion title="커스텀 설정 사용하기">
+
+## 커스텀 설정 사용하기
+
+`get_node_react_code`는 기본적으로 SEED Figma 컴포넌트만 인식합니다. 팀 내부 디자인 시스템이나 커스텀 컴포넌트를 사용하는 경우, **ComponentHandler**를 작성해 Figma 컴포넌트를 원하는 React 컴포넌트로 매핑할 수 있습니다.
+
+MCP 서버 설정에 `--config` flag를 추가해 커스텀 설정 파일이 로드될 수 있도록 합니다.
+
+`--config` flag는 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
+
+```bash
+bunx --bun @seed-design/mcp@latest --config /path/to/config.ts
+```
+
+### 지원하는 설정 파일 형식
+
+`@seed-design/mcp`는 다음 확장자의 설정 파일을 지원합니다:
+
+- `.js`
+- `.mjs`
+- `.ts`
+- `.mts`
+
+### 설정 파일 예시
+
+```typescript
+import {
+  type react,
+  defineComponentHandler,
+  createElement,
+} from "@seed-design/figma";
+
+export default {
+  extend: {
+    componentHandlers: [
+      (_deps: react.ComponentHandlerDeps) =>
+        defineComponentHandler(
+          "figma_component_key",
+          ({ componentProperties: props }) => {
+            const tone = props.Tone.value.toLowerCase();
+
+            return createElement("CustomButton", {
+              tone,
+            });
+          },
+        ),
+    ],
+  },
+} satisfies react.CreatePipelineConfig;
+```
+
+### SEED Figma MCP로 ComponentHandler 작성하기
+
+<Callout title="예시">
+
+SEED Figma Slider 컴포넌트를 SEED React `<Slider />`로 매핑하는 [ComponentHandler 예시](https://github.com/daangn/seed-design/blob/dev/packages/figma/src/codegen/targets/react/component/handlers/slider.ts)를 확인할 수 있습니다.
+
+</Callout>
+
+<Steps>
+<Step>
+#### 프롬프트 복사
+
+아래 프롬프트를 복사해 파일로 저장합니다.
+
+````markdown
+# ComponentHandler Implementation Guide
+
+## Initial Context Gathering
+
+1. **Analyze Figma Selection**:
+   - Use `get_selection()` to examine the currently selected node(s)
+   - If no selection exists, prompt the user to select a specific component node
+   - Verify the selected node is a component that can be transformed
+
+2. **Retrieve Component Information**:
+   - Use `get_component_info(nodeId)` to extract detailed information about the component
+   - Collect the component key, all component properties, and variant definitions
+   - Identify any nested components or instances that might need special handling
+
+## Component Analysis and Planning
+
+3. **Determine Component Structure**:
+   - Analyze the component's visual structure, layout, and behavior patterns
+   - If the target React component implementation is unknown, request an example or props interface
+   - Identify which Figma properties should map to which React props
+
+4. **Define Transformation Strategy**:
+   - Plan how to handle variants, properties, nested components and children
+   - Determine if additional utilities or helper functions are needed
+   - Consider edge cases and special requirements for this component
+
+## Implementation
+
+5. **Create Component Handler**:
+   - Implement the handler using the following pattern:
+
+```typescript
+import {
+  createElement,
+  defineComponentHandler,
+  type InferComponentDefinition,
+  type react,
+} from "@seed-design/figma";
+
+// Define component properties based on Figma definition
+export type ComponentNameProperties = InferComponentDefinition<{
+  // Map all component properties from Figma
+  // Example:
+  PropertyName: {
+    type: "VARIANT" | "TEXT" | "BOOLEAN" | "INSTANCE_SWAP";
+    variantOptions?: string[]; // For VARIANT type
+    defaultValue?: string | boolean;
+  };
+}>;
+
+// Create and export the handler
+export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) =>
+  defineComponentHandler<ComponentNameProperties>(
+    "component-key-from-figma", // Replace with actual component key
+    ({ componentProperties: props }) => {
+      // Transform Figma properties to React props
+      // Use conditionals for variants and property handling
+
+      return createElement(
+        "ComponentName", // The React component name
+        {
+          // Map properties appropriately
+          propName: props.PropertyName.value,
+          // Add additional props as needed
+        },
+        [], // Nested elements if any (undefined or omitted if not needed)
+        "Optional comment for accessibility or development notes, use sparingly",
+      );
+    },
+  );
+```
+
+## Validation and Testing
+
+6. **Verify Handler Functionality**:
+   - Test the handler with different component variants
+   - Ensure all properties are correctly mapped and transformed
+   - Check that nested components and children are handled properly
+
+## Best Practices
+
+- Create reusable helper functions for common transformation patterns
+- Handle edge cases and optional properties gracefully
+- Add descriptive comments for complex transformations
+- Consider performance implications for deeply nested components
+- Ensure type safety throughout the transformation process
+````
+
+</Step>
+<Step>
+#### 프롬프트 실행
+
+저장된 프롬프트 파일과 구현해야 할 컴포넌트 파일을 맥락으로 전달하며 프롬프트를 실행합니다.
+
+```bash
+@CustomButton.tsx @ComponentHandlerRule.md CustomButton 컴포넌트의 ComponentHandler를 구현해주세요.
+```
+
+</Step>
+<Step>
+#### 결과 확인
+
+프롬프트 실행 결과로 생성된 ComponentHandler를 확인합니다.
+
+```typescript
+import {
+  createElement,
+  defineComponentHandler,
+  type InferComponentDefinition,
+  type react,
+} from "@seed-design/figma";
+
+export type CustomButtonProperties = InferComponentDefinition<{
+  tone: {
+    type: "VARIANT";
+    variantOptions: ["neutral", "brand"];
+  };
+}>;
+
+export const createCustomButtonHandler = (_deps: react.ComponentHandlerDeps) =>
+  defineComponentHandler<CustomButtonProperties>(
+    "figma_component_key",
+    ({ componentProperties: props }) => {
+      const tone = props.tone.value.toLowerCase();
+
+      return createElement("CustomButton", {
+        tone,
+      });
+    },
+  );
+```
+
+</Step>
+<Step>
+#### 설정 파일 적용
+
+생성된 ComponentHandler를 설정 파일에 추가합니다.
+
+```typescript
+import { type react } from "@seed-design/figma";
+import { createCustomButtonHandler } from "./CustomButton";
+
+export default {
+  extend: {
+    componentHandlers: [createCustomButtonHandler],
+  },
+} satisfies react.CreatePipelineConfig;
+```
+
+</Step>
+</Steps>
+
+</Accordion>
+</Accordions>

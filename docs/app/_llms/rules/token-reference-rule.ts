@@ -13,6 +13,7 @@ import {
   type ExpressionStatementNode,
   type LiteralNode,
   isProgramNode,
+  isRegexLiteral,
   isStringLiteral,
 } from "./estree-utils";
 
@@ -38,6 +39,28 @@ function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
   return (expr as ArrayExpressionNode).elements
     .filter((el): el is LiteralNode & { value: string } => isStringLiteral(el))
     .map((el) => el.value);
+}
+
+/*
+  <TokenReference regex={/\$color\..*-pressed$/} /> 에서 regex를 파싱합니다.
+*/
+function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
+  const attr = node.attributes.find(
+    (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "regex",
+  );
+  if (!attr || typeof attr.value !== "object" || !attr.value) return null;
+
+  const attrValue = attr.value as MdxJsxAttributeValueExpression;
+  const estree = attrValue.data?.estree;
+  if (!isProgramNode(estree)) return null;
+
+  const stmt = estree.body[0];
+  if (!stmt || stmt.type !== "ExpressionStatement") return null;
+
+  const expr = (stmt as ExpressionStatementNode).expression;
+  if (!isRegexLiteral(expr)) return null;
+
+  return new RegExp(expr.regex.pattern, expr.regex.flags);
 }
 
 interface RootageIndex {
@@ -114,7 +137,7 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
   if (tokenDataCache) return tokenDataCache;
 
   tokenDataCache = new Map();
-  const rootageDir = join(process.cwd(), "public/rootage");
+  const rootageDir = join(import.meta.dir, "../../../public/rootage");
 
   try {
     const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
@@ -144,8 +167,39 @@ export const tokenReferenceRule: Rule = {
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "TokenReference",
   transform: (node) => {
+    const regex = getRegexFromNode(node);
     const groups = getGroupsFromNode(node);
     const tokenData = loadTokenData();
+
+    if (regex) {
+      const matched: { id: string; entry: { values: Record<string, Exchange.Value> } }[] = [];
+      for (const data of tokenData.values()) {
+        for (const [id, entry] of Object.entries(data.data.tokens)) {
+          if (regex.test(id)) matched.push({ id, entry });
+        }
+      }
+
+      if (matched.length === 0) throw new Error(`No tokens matched regex: ${regex}`);
+
+      const themeNames = Object.keys(matched[0].entry.values);
+      const headers = ["Token", ...themeNames];
+      const separator = headers.map(() => "---");
+      const rows = matched.map(({ id, entry }) => {
+        const values = themeNames.map((theme) => {
+          const val = entry.values[theme];
+          return val ? formatTokenValue(val) : "";
+        });
+        return [id, ...values];
+      });
+
+      const tableMarkdown = [
+        markdownRow(headers),
+        markdownRow(separator),
+        ...rows.map(markdownRow),
+      ].join("\n");
+
+      return [{ type: "html", value: tableMarkdown }];
+    }
 
     if (groups.length === 0) {
       const sections: string[] = [];

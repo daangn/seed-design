@@ -3,11 +3,9 @@ name: Test Rootage Core
 on:
   push:
     paths:
-      - "ecosystem/rootage/core/**/*"
+      - "ecosystem/rootage/**/*"
+      - "packages/rootage/**/*"
       - ".github/workflows/rootage-core-test.yml"
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 permissions:
   contents: read

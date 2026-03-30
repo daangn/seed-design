@@ -1,5 +1,32 @@
 # @seed-design/css
 
+## 1.2.7
+
+### Patch Changes
+
+- 846036b: `AppBarSlot` 컴포넌트를 추가합니다. `AppBar` 내에 `AppBarLeft`, `AppBarMain`, `AppBarRight`에 대응되지 않는 커스텀 요소를 배치하는 경우, 다른 요소와 동일한 화면 전환 트랜지션을 적용하기 위해 사용할 수 있습니다.
+- e78d460: Avatar 및 Avatar Stack의 `size=56` variant를 추가합니다.
+
+## 1.2.6
+
+### Patch Changes
+
+- 4f56e76: (사용자 변경사항 없음) Rootage `text-input`에 `type=singleLine` variant 정의를 추가합니다.
+- 32938de: HelpBubble에서 닫기 버튼이 있을 때 title이 한 줄인 경우 아래쪽 여백이 과도하게 보이던 문제를 수정했습니다.
+- 67a7780: Content Placeholder 컴포넌트를 추가합니다.
+- 3273312: 사용되지 않는 `tag-group-tag.css` 파일을 코드베이스에서 제거합니다. (`TagGroupItem`에서는 `tag-group-item.css` 사용)
+- 9d9b891: ImageFrame 컴포넌트 개선
+
+  - `fallback` prop이 이미지 로딩 실패 시 대체 콘텐츠를 올바르게 표시하도록 개선합니다.
+  - Reaction Button이 iOS에서 렌더링되지 않는 문제를 수정합니다.
+  - Reaction Button uncontrolled 상태에서 클릭 시 상태가 변경되지 않는 문제를 수정합니다.
+
+## 1.2.5
+
+### Patch Changes
+
+- c9fb0c5: Box의 배경 색상을 class 기반으로 지정하는 경우 `:active` 스타일 선언이 배경 색상을 덮어쓰는 문제를 수정합니다.
+
 ## 1.2.4
 
 ### Patch Changes

@@ -35,7 +35,7 @@ type Story = StoryObj<typeof meta>;
 
 const CommonStoryTemplate: Story = {
   args: {
-    value: "1",
+    defaultValue: "1",
   },
   render: function Render(args) {
     return <VariantTable Component={Component} variantMap={chipTabsVariantMap} {...args} />;

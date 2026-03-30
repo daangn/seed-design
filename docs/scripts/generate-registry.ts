@@ -5,6 +5,7 @@ import { RegistryGenerator } from "./registry-generator.js";
 import { registryBreeze } from "../registry/registry-breeze.js";
 import { registryLib } from "../registry/registry-lib.js";
 import { registryUI } from "../registry/registry-ui.js";
+import { registryBlock } from "../registry/registry-block.js";
 
 const REGISTRY_PATH = path.join(process.cwd(), "registry");
 const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
@@ -17,7 +18,7 @@ async function main() {
 
   const generator = new RegistryGenerator({
     importAlias: "seed-design",
-    registries: [registryUI, registryLib, registryBreeze],
+    registries: [registryUI, registryLib, registryBreeze, registryBlock],
     innateDeps: new Set(["react", "react-dom"]),
     getFileContent: (filePath) => readFileSync(path.join(REGISTRY_PATH, filePath), "utf8"),
     transformSnippetContent: (content, { itemId, registryId, snippetMetadata }) => {

@@ -9,6 +9,7 @@ export * from "./callout";
 export * from "./checkbox";
 export * from "./checkmark";
 export * from "./chip";
+export * from "./content-placeholder";
 export * from "./contextual-floating-button";
 export * from "./divider";
 export * from "./field-button";

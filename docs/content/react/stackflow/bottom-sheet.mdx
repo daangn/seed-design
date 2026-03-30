@@ -76,6 +76,7 @@ const ActivityBottomSheetSimple: ActivityComponentType<"ActivityBottomSheetSimpl
 Bottom Sheet Activity 위에 다른 Activity를 push할 때 Bottom Sheet가 unmount되는 것을 방지하려면,
 
 - `open` 상태를 `isActive` 대신 `transitionState`로 관리하고
+- `modal` prop을 `isActive`로 설정하고
 - `onOpenChange` 핸들러에서 `!isOpen && isActive`인 경우 `pop()`을 실행하도록 합니다.
 
 이 패턴은 다음 상황에서 유용합니다.
@@ -93,12 +94,18 @@ return (
       transitionState === "enter-active" || transitionState === "enter-done"
     }
     // [!code highlight]
+    modal={isActive}
+    // [!code highlight]
     onOpenChange={(open) => !open && isActive && pop()}
   >
     {/* ... */}
   </BottomSheetRoot>
 );
 ```
+
+1. `open`을 `transitionState`로 관리하여 다른 Activity가 위에 push되어도 Bottom Sheet가 unmount되지 않도록 합니다.
+1. `modal={isActive}`로 Bottom Sheet Activity가 비활성 상태일 때 `modal`을 `false`로 설정합니다. 이렇게 하지 않으면, 위에 push된 Activity에서 스크롤 등의 상호작용이 동작하지 않습니다.
+1. `onOpenChange` 핸들러에서 `isActive`인 경우에만 `pop()`을 실행하여, 비활성 상태에서의 의도치 않은 Activity 종료를 방지합니다.
 
 ## Syncing BottomSheet State with a Step
 

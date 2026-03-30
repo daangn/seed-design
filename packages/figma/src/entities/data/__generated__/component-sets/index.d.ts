@@ -170,6 +170,30 @@ export declare const privateTemplateChipGroup: {
   }
 };
 
+export declare const privateComponentContentPlaceholder: {
+  "name": "privateComponentContentPlaceholder",
+  "key": "49e110c31e4a7e6e9872d369f889dc48c0f5cef4",
+  "componentPropertyDefinitions": {
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Coupon",
+        "Realty",
+        "Car",
+        "Jobs",
+        "Buy-sell",
+        "Business",
+        "Post",
+        "Group",
+        "Image",
+        "Food",
+        "Commerce"
+      ]
+    }
+  }
+};
+
 export declare const privateComponentFieldFooterCharacterCount: {
   "name": "privateComponentFieldFooterCharacterCount",
   "key": "73f1a9275275c87b563e879e6948318523faf8e4",
@@ -226,6 +250,20 @@ export declare const privateComponentFieldHeaderSuffix: {
 export declare const privateComponentIdentityPlaceholder: {
   "name": "privateComponentIdentityPlaceholder",
   "key": "7d7ae18cabac6ebad19934516de8e7e256854eba",
+  "componentPropertyDefinitions": {
+    "Identity": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Person",
+        "Business"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentIdentityPlaceholderStatic: {
+  "name": "privateComponentIdentityPlaceholderStatic",
+  "key": "628e8010084e94e426edf97021ddaadff1c9e008",
   "componentPropertyDefinitions": {
     "Identity": {
       "type": "VARIANT",
@@ -1938,6 +1976,7 @@ export declare const componentAvatar: {
         "36",
         "42",
         "48",
+        "56",
         "64",
         "80",
         "96",
@@ -1956,6 +1995,31 @@ export declare const componentAvatar: {
   }
 };
 
+export declare const templateAvatarPreset: {
+  "name": "templateAvatarPreset",
+  "key": "42eefce6a1ab0d45780d2be5346d8ec5f6bace6e",
+  "componentPropertyDefinitions": {
+    "Image": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "001",
+        "002",
+        "003",
+        "004",
+        "005",
+        "006",
+        "007",
+        "008",
+        "009",
+        "010",
+        "011",
+        "012",
+        "013"
+      ]
+    }
+  }
+};
+
 export declare const componentAvatarStack: {
   "name": "componentAvatarStack",
   "key": "99d74f36d2989b450cc0c7f15eb6495888bb1cec",
@@ -1968,6 +2032,7 @@ export declare const componentAvatarStack: {
         "36",
         "42",
         "48",
+        "56",
         "64",
         "80",
         "96",
@@ -2063,6 +2128,9 @@ export declare const componentBottomSheet: {
   "name": "componentBottomSheet",
   "key": "ffe99a21452831c28bd9375aac0aaf37d7ee6a0d",
   "componentPropertyDefinitions": {
+    "Contents Slot#6752:0": {
+      "type": "SLOT"
+    },
     "Title#19787:3": {
       "type": "TEXT"
     },
@@ -2077,9 +2145,6 @@ export declare const componentBottomSheet: {
     },
     "Show Description#25192:0": {
       "type": "BOOLEAN"
-    },
-    "Contents#25320:0": {
-      "type": "INSTANCE_SWAP"
     },
     "Show Safe Area#25488:8": {
       "type": "BOOLEAN"
@@ -2196,7 +2261,8 @@ export declare const templateChatScreenPreset: {
         "비즈프로필(고객 뷰)",
         "비즈프로필 (사장님 뷰)",
         "알바 (구인자 뷰)",
-        "알바 (구직자 뷰)"
+        "알바 (구직자 뷰)",
+        "Service11"
       ]
     }
   }
@@ -2415,6 +2481,9 @@ export declare const componentChlid: {
   "name": "componentChlid",
   "key": "ef79a21a39ceb4ce24b2fb93c9b430c1980a3e71",
   "componentPropertyDefinitions": {
+    "Slot#6081:0": {
+      "type": "SLOT"
+    },
     "Type": {
       "type": "VARIANT",
       "variantOptions": [
@@ -4168,6 +4237,9 @@ export declare const componentSelectBoxItemHorizontal: {
   "name": "componentSelectBoxItemHorizontal",
   "key": "8174af8ef3654dad996723883f5b84f44f791513",
   "componentPropertyDefinitions": {
+    "Content Slot#6752:6": {
+      "type": "SLOT"
+    },
     "Title#28452:21": {
       "type": "TEXT"
     },
@@ -4216,6 +4288,9 @@ export declare const componentSelectBoxItemVertical: {
   "name": "componentSelectBoxItemVertical",
   "key": "ccc88f0aae500c64e7d43be63c4f1a70baf76bfe",
   "componentPropertyDefinitions": {
+    "Content Slot#6765:0": {
+      "type": "SLOT"
+    },
     "Title#58766:114": {
       "type": "TEXT"
     },

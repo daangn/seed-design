@@ -1,0 +1,267 @@
+// @ts-check
+const fs = require("node:fs");
+const path = require("node:path");
+
+const changelogFiles = process.env.CHANGELOG_FILES?.split("\n").filter(Boolean) ?? [];
+const prUrl = process.env.PR_URL;
+
+/** changeset이 자동 생성하는 노이즈 라인 접두사 목록 */
+const IGNORED_LINE_PREFIXES = ["- Updated dependencies"];
+
+/** 순서 번호 이모지 */
+const NUMBER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
+const REPO = "daangn/seed-design";
+const VERSION_PATTERN =
+  String.raw`\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?`;
+
+/**
+ * CHANGELOG 항목의 커밋 표기를 Slack 링크 표기로 변환
+ * - [`abcdef1`](https://github.com/.../commit/abcdef1) -> <https://...|`abcdef1`>
+ * - `abcdef1`: ... -> <https://github.com/daangn/seed-design/commit/abcdef1|`abcdef1`>: ...
+ * @param {string} item
+ */
+function toSlackCommitLink(item) {
+  const withMarkdownLink = item.replace(
+    /\[`?([a-f0-9]{7,40})`?\]\((https:\/\/github\.com\/[^)]+\/commit\/[a-f0-9]{7,40})\)/gi,
+    (_, shortHash, url) => `<${url}|\`${shortHash}\`>`,
+  );
+
+  return withMarkdownLink.replace(
+    /^- [`']?([a-f0-9]{7,40})[`']?:\s*/i,
+    (_, hash) => `- <https://github.com/${REPO}/commit/${hash}|\`${hash.slice(0, 7)}\`>: `,
+  );
+}
+
+/**
+ * @param {string} line
+ * @returns {{ name: string, version: string } | null}
+ */
+function parseDependencyPackageLine(line) {
+  const match = line.match(/^\s*-\s+(@[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+)@([0-9A-Za-z.+-]+)\s*$/);
+  if (!match) return null;
+
+  return {
+    name: match[1],
+    version: match[2],
+  };
+}
+
+/**
+ * CHANGELOG.md에서 가장 최신 버전 섹션을 추출
+ * @param {string} content
+ * @returns {{ version: string, sections: Record<string, string[]>, updatedDependencies: Array<{ name: string, version: string }> } | null}
+ */
+function extractLatestVersion(content) {
+  const versionMatch = content.match(
+    new RegExp(`## (${VERSION_PATTERN})([\\s\\S]*?)(?=\\n## ${VERSION_PATTERN}|\\n# |$)`),
+  );
+  if (!versionMatch) return null;
+
+  const version = versionMatch[1];
+  const body = versionMatch[2].trim();
+
+  /** @type {Record<string, string[]>} */
+  const sections = {};
+  /** @type {Array<{ name: string, version: string }>} */
+  const updatedDependencies = [];
+  const sectionRegex = /### (.+?)\n([\s\S]*?)(?=\n### |\n## |$)/g;
+  let match;
+
+  for (match = sectionRegex.exec(body); match !== null; match = sectionRegex.exec(body)) {
+    const sectionName = match[1].trim();
+    /** @type {string[]} */
+    const items = [];
+    let isInUpdatedDependencies = false;
+
+    for (const line of match[2].split("\n")) {
+      const trimmedLine = line.trim();
+
+      if (IGNORED_LINE_PREFIXES.some((prefix) => trimmedLine.startsWith(prefix))) {
+        isInUpdatedDependencies = true;
+        continue;
+      }
+
+      const dependencyPackage = parseDependencyPackageLine(line);
+      if (dependencyPackage) {
+        updatedDependencies.push(dependencyPackage);
+
+        if (isInUpdatedDependencies || trimmedLine.startsWith("- @")) {
+          continue;
+        }
+      }
+
+      if (line.startsWith("- ")) {
+        isInUpdatedDependencies = false;
+        items.push(toSlackCommitLink(line));
+      }
+    }
+
+    if (items.length > 0) sections[sectionName] = items;
+  }
+
+  return { version, sections, updatedDependencies };
+}
+
+/**
+ * @param {string} changelogPath
+ */
+function getPackageName(changelogPath) {
+  const dir = path.dirname(changelogPath);
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(dir, "package.json"), "utf8"));
+    return pkg.name;
+  } catch {
+    return dir;
+  }
+}
+
+/**
+ * @param {Array<{ packageName: string, version: string, sections: Record<string, string[]>, updatedDependencies: Array<{ name: string, version: string }> }>} releases
+ */
+function organizeReleases(releases) {
+  const releaseMap = new Map(releases.map((release) => [release.packageName, release]));
+  const childReleaseNames = new Set();
+  /** @type {Map<string, Array<{ packageName: string, version: string, sections: Record<string, string[]>, updatedDependencies: Array<{ name: string, version: string }> }>>} */
+  const childrenByPackage = new Map();
+
+  for (const release of releases) {
+    const hasDirectChanges = Object.keys(release.sections).length > 0;
+    if (hasDirectChanges) continue;
+
+    const parentDependency = release.updatedDependencies.find((dependency) => {
+      const parentRelease = releaseMap.get(dependency.name);
+      return parentRelease && parentRelease.version === dependency.version;
+    });
+
+    if (!parentDependency) continue;
+
+    childReleaseNames.add(release.packageName);
+
+    const siblings = childrenByPackage.get(parentDependency.name) ?? [];
+    siblings.push(release);
+    childrenByPackage.set(parentDependency.name, siblings);
+  }
+
+  return {
+    topLevelReleases: releases.filter((release) => !childReleaseNames.has(release.packageName)),
+    childrenByPackage,
+  };
+}
+
+/**
+ * @param {Map<string, Array<{ packageName: string, version: string }>>} childrenByPackage
+ * @param {string} packageName
+ * @param {number} depth
+ * @returns {string[]}
+ */
+function formatDependencyReleaseLines(childrenByPackage, packageName, depth = 0) {
+  const children = childrenByPackage.get(packageName) ?? [];
+  const prefix = `${"  ".repeat(depth)}↳`;
+
+  return children.flatMap((child) => [
+    `${prefix} ${child.packageName}@${child.version}`,
+    ...formatDependencyReleaseLines(childrenByPackage, child.packageName, depth + 1),
+  ]);
+}
+
+function main() {
+  if (changelogFiles.length === 0) {
+    console.log("변경된 CHANGELOG.md 파일이 없어요.");
+    process.exit(0);
+  }
+
+  const releases = [];
+
+  for (const file of changelogFiles) {
+    if (!fs.existsSync(file)) continue;
+
+    const content = fs.readFileSync(file, "utf8");
+    const latest = extractLatestVersion(content);
+    if (!latest) continue;
+
+    const packageName = getPackageName(file);
+    releases.push({ packageName, ...latest });
+  }
+
+  if (releases.length === 0) {
+    console.log("파싱할 릴리즈가 없어요.");
+    process.exit(0);
+  }
+
+  const { topLevelReleases, childrenByPackage } = organizeReleases(releases);
+
+  // Block Kit 구성
+  const blocks = [
+    {
+      type: "header",
+      text: {
+        type: "plain_text",
+        text: "🌱 SEED Design 새 버전이 릴리즈됐어요!",
+      },
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "안녕하세요 프론트엔드 챕터 여러분~ SEED 새로운 버전이 릴리즈되었어요 :알잘딱:",
+      },
+    },
+    { type: "divider" },
+  ];
+
+  for (const [i, release] of topLevelReleases.entries()) {
+    const emoji = NUMBER_EMOJIS[i] ?? `${i + 1}.`;
+    const allItems = Object.values(release.sections).flat();
+    const dependencyReleaseLines = formatDependencyReleaseLines(childrenByPackage, release.packageName);
+    const dependencySection =
+      dependencyReleaseLines.length > 0
+        ? [
+            "• 종속 패키지 업데이트",
+            ...dependencyReleaseLines.map((line) => `  ${line}`),
+          ]
+        : [];
+
+    const changelogUrl = `https://seed-design.io/react/updates/changelog?package=${encodeURIComponent(release.packageName)}&version=${encodeURIComponent(release.version)}`;
+    const text = [
+      `${emoji} *<${changelogUrl}|${release.packageName}@${release.version}>*`,
+      "",
+      ...allItems.slice(0, 10).map((item) => `• ${item.replace(/^- /, "")}`),
+      ...dependencySection,
+    ].join("\n");
+
+    blocks.push({
+      type: "section",
+      text: { type: "mrkdwn", text: text.trim() },
+    });
+  }
+
+  blocks.push({
+    type: "actions",
+    elements: [
+      {
+        type: "button",
+        style: "primary",
+        text: { type: "plain_text", text: "PR 보기" },
+        url: prUrl ?? "",
+      },
+    ],
+  });
+
+  blocks.push({
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: "질문이 있으시다면 #_design-system 에서 @design-system-fe-engineers 멘션 주세요 :wave:",
+    },
+  });
+
+  // GITHUB_OUTPUT에 blocks 출력
+  const output = JSON.stringify(blocks);
+  const githubOutput = process.env.GITHUB_OUTPUT;
+  if (!githubOutput) throw new Error("GITHUB_OUTPUT 환경변수가 설정되지 않았어요.");
+  fs.appendFileSync(githubOutput, `blocks<<EOF\n${output}\nEOF\n`);
+
+  console.log("Slack payload 생성 완료!");
+}
+
+main();

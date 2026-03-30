@@ -1,4 +1,3 @@
-@layer theme, base, seed-base, components, seed-components, utilities;
 @import "tailwindcss" source(none);
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
@@ -94,6 +93,10 @@ strong {
 
 article .prose {
   padding-bottom: 3rem;
+}
+
+.changelog-page .prose {
+  padding-bottom: 0;
 }
 
 /* Enable text selection in code blocks */
