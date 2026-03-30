@@ -34,3 +34,8 @@ export {
   /** @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0. */
   type MenuSheetCloseButtonProps as CloseButtonProps,
 } from "./MenuSheet";
+
+export {
+  MenuSheetHandle as Handle,
+  type MenuSheetHandleProps as HandleProps,
+} from "../MenuSheetHandle";

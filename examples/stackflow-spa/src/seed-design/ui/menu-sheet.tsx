@@ -1,4 +1,5 @@
-import { PrefixIcon, MenuSheet as SeedMenuSheet } from "@seed-design/react";
+import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
+import { Icon, PrefixIcon, MenuSheet as SeedMenuSheet, VisuallyHidden } from "@seed-design/react";
 import { forwardRef } from "react";
 import type * as React from "react";
 
@@ -26,10 +27,31 @@ export interface MenuSheetContentProps extends Omit<SeedMenuSheet.ContentProps, 
   description?: React.ReactNode;
 
   layerIndex?: number;
+
+  /**
+   * @default true
+   */
+  showCloseButton?: boolean;
+
+  /**
+   * @default false
+   */
+  showHandle?: boolean;
 }
 
 export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps>(
-  ({ children, title, description, layerIndex, ...otherProps }, ref) => {
+  (
+    {
+      children,
+      title,
+      description,
+      layerIndex,
+      showCloseButton = true,
+      showHandle = false,
+      ...otherProps
+    },
+    ref,
+  ) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -41,21 +63,32 @@ export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps
       );
     }
 
+    const shouldRenderHeader = title || description;
+
     return (
       <SeedMenuSheet.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
         <SeedMenuSheet.Backdrop />
         <SeedMenuSheet.Content ref={ref} {...otherProps}>
-          {(title || description) && (
+          {showHandle && <SeedMenuSheet.Handle />}
+          {shouldRenderHeader && (
             <SeedMenuSheet.Header>
-              {title && <SeedMenuSheet.Title>{title}</SeedMenuSheet.Title>}
+              {title ? (
+                <SeedMenuSheet.Title>{title}</SeedMenuSheet.Title>
+              ) : (
+                <VisuallyHidden asChild>
+                  <SeedMenuSheet.Title>{otherProps["aria-label"] || ""}</SeedMenuSheet.Title>
+                </VisuallyHidden>
+              )}
               {description && <SeedMenuSheet.Description>{description}</SeedMenuSheet.Description>}
             </SeedMenuSheet.Header>
           )}
           <SeedMenuSheet.List>{children}</SeedMenuSheet.List>
-          <SeedMenuSheet.Footer>
-            {/* You may implement your own i18n for dismiss label */}
-            <SeedMenuSheet.CloseButton>취소</SeedMenuSheet.CloseButton>
-          </SeedMenuSheet.Footer>
+          {showCloseButton && (
+            // You may implement your own i18n for dismiss label
+            <SeedMenuSheet.CloseButton aria-label="닫기">
+              <Icon svg={<IconXmarkLine />} />
+            </SeedMenuSheet.CloseButton>
+          )}
         </SeedMenuSheet.Content>
       </SeedMenuSheet.Positioner>
     );

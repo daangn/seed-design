@@ -1,4 +1,5 @@
-import { Drawer } from "@seed-design/react-drawer";
+import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
+import { dataAttr } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { menuSheet, type MenuSheetVariantProps } from "@seed-design/css/recipes/menu-sheet";
 import {
@@ -84,9 +85,17 @@ export const MenuSheetHeader = withContext<HTMLDivElement, MenuSheetHeaderProps>
 export interface MenuSheetTitleProps extends Drawer.TitleProps {}
 
 export const MenuSheetTitle = withContext<HTMLHeadingElement, MenuSheetTitleProps>(
-  Drawer.Title,
+  React.forwardRef<HTMLHeadingElement, MenuSheetTitleProps>((props, ref) => {
+    const { isCloseButtonRendered } = useDrawerContext();
+
+    return (
+      <Drawer.Title ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
+    );
+  }),
   "title",
 );
+
+MenuSheetTitle.displayName = "MenuSheetTitle";
 
 export interface MenuSheetDescriptionProps extends Drawer.DescriptionProps {}
 

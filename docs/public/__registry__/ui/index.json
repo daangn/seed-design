@@ -455,6 +455,7 @@
       ],
       "id": "menu-sheet",
       "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
       ]
     },

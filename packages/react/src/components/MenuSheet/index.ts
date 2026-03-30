@@ -35,4 +35,6 @@ export {
   type MenuSheetCloseButtonProps,
 } from "./MenuSheet";
 
+export { MenuSheetHandle, type MenuSheetHandleProps } from "../MenuSheetHandle";
+
 export * as MenuSheet from "./MenuSheet.namespace";

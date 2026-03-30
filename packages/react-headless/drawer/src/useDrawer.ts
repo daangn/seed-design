@@ -326,15 +326,17 @@ export function useDrawer(props: UseDrawerProps) {
     }
 
     while (element) {
+      // Check for dialog boundary first — scrollable ancestors outside the dialog
+      // (e.g., html/body when the page is scrolled) must not block drag.
+      if (element.getAttribute("role") === "dialog") {
+        return true;
+      }
+
       if (element.scrollHeight > element.clientHeight) {
         if (element.scrollTop !== 0) {
           lastTimeDragPrevented.current = new Date();
           return false;
         }
-      }
-
-      if (element.getAttribute("role") === "dialog") {
-        return true;
       }
 
       element = element.parentNode as HTMLElement;
