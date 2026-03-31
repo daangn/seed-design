@@ -214,6 +214,7 @@ export interface TokensDocument {
 
 // TokenCollections
 export interface ModeDeclaration {
+  kind: "ModeDeclaration";
   id: string;
   description?: string;
 }
@@ -396,6 +397,7 @@ export type Node =
   | UnresolvedTokenDeclaration
   | UnresolvedTokenValueDeclaration
   | TokensDocument
+  | ModeDeclaration
   | TokenCollectionDeclaration
   | TokenCollectionsDocument
   | ColorPropertyDeclaration

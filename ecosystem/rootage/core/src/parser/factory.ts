@@ -32,7 +32,6 @@ import type {
   GradientTokenDeclaration,
   TokenDeclaration,
   TokenCollectionDeclaration,
-  ModeDeclaration,
   MetadataDeclaration,
   MetadataFieldDeclaration,
   ComponentSpecDocument,
@@ -53,6 +52,7 @@ import type {
   SlotSchemaDeclaration,
   VariantSchemaDeclaration,
   VariantValueSchemaDeclaration,
+  ModeDeclaration,
 } from "./ast";
 
 /**
@@ -833,12 +833,23 @@ export function createUnresolvedTokenValueDeclaration(
  */
 export function createTokenCollectionDeclaration(
   name: string,
-  modes: ModeDeclaration[],
+  modes: Array<{ id: string; description?: string }>,
 ): TokenCollectionDeclaration {
   return {
     kind: "TokenCollectionDeclaration",
     name,
-    modes,
+    modes: modes.map(({ id, description }) => createModeDeclaration(id, description)),
+  };
+}
+
+/**
+ * ModeDeclaration factory
+ */
+export function createModeDeclaration(id: string, description?: string): ModeDeclaration {
+  return {
+    kind: "ModeDeclaration",
+    id,
+    description,
   };
 }
 
