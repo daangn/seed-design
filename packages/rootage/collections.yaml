@@ -10,3 +10,15 @@ data:
     modes:
       - theme-light
       - theme-dark
+  - name: viewport-width
+    modes:
+      - id: base
+        description: "기본 모바일 화면"
+      - id: sm
+        description: "작은 태블릿 이상"
+      - id: md
+        description: "태블릿 이상"
+      - id: lg
+        description: "데스크탑 이상"
+      - id: xl
+        description: "넓은 데스크탑"

@@ -38,6 +38,8 @@ export type Value =
   | Gradient
   | TokenRef;
 
+export type ModeEntry = string | { id: string; description?: string };
+
 export interface TokenCollectionsModel {
   kind: "TokenCollections";
   metadata: {
@@ -47,7 +49,7 @@ export interface TokenCollectionsModel {
   };
   data: Array<{
     name: string;
-    modes: string[];
+    modes: ModeEntry[];
   }>;
 }
 
