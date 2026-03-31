@@ -1,6 +1,6 @@
 {
   "title": "Lynx",
-  "description": "Lynx 프레임워크에서 SEED Design 사용하기",
+  "description": "SEED Lynx 문서",
   "pages": [
     "index",
     "---Getting Started---",
@@ -8,6 +8,8 @@
     "---Foundation---",
     "...foundation",
     "---Components---",
-    "...components"
+    "...components",
+    "---Developer Tools---",
+    "icon"
   ]
 }

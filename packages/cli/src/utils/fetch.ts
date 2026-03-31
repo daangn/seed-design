@@ -33,11 +33,12 @@ export async function fetchDocsIndex({ baseUrl }: { baseUrl: string }): Promise<
 
 export async function fetchAvailableRegistries({
   baseUrl,
+  framework,
 }: {
   baseUrl: string;
+  framework: string;
 }): Promise<PublicAvailableRegistries> {
-  // TODO: make this file public
-  const response = await fetch(`${baseUrl}/__registry__/index.json`);
+  const response = await fetch(`${baseUrl}/__registry__/${framework}/index.json`);
 
   if (!response.ok)
     throw new Error(`Failed to fetch registries: ${response.status} ${response.statusText}`);
@@ -56,12 +57,14 @@ export async function fetchAvailableRegistries({
 
 export async function fetchRegistry({
   baseUrl,
+  framework,
   registryId,
 }: {
   baseUrl: string;
+  framework: string;
   registryId: PublicRegistry["id"];
 }): Promise<PublicRegistry> {
-  const response = await fetch(`${baseUrl}/__registry__/${registryId}/index.json`);
+  const response = await fetch(`${baseUrl}/__registry__/${framework}/${registryId}/index.json`);
 
   if (!response.ok)
     throw new Error(
@@ -78,14 +81,18 @@ export async function fetchRegistry({
 
 async function fetchRegistryItem({
   baseUrl,
+  framework,
   registryId,
   registryItemId,
 }: {
   baseUrl: string;
+  framework: string;
   registryId: PublicRegistry["id"];
   registryItemId: PublicRegistryItem["id"];
 }): Promise<PublicRegistryItem> {
-  const response = await fetch(`${baseUrl}/__registry__/${registryId}/${registryItemId}.json`);
+  const response = await fetch(
+    `${baseUrl}/__registry__/${framework}/${registryId}/${registryItemId}.json`,
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to fetch ${registryItemId}: ${response.status} ${response.statusText}`);
@@ -103,20 +110,24 @@ async function fetchRegistryItem({
 
 export async function fetchRegistryItems({
   baseUrl,
+  framework,
   registryId,
   registryItemIds,
 }: {
   baseUrl: string;
+  framework: string;
   registryId: PublicRegistry["id"];
   registryItemIds: PublicRegistryItem["id"][];
 }): Promise<PublicRegistryItem[]> {
   return await Promise.all(
     registryItemIds.map(async (itemId) => {
       try {
-        return await fetchRegistryItem({ baseUrl, registryId, registryItemId: itemId });
+        return await fetchRegistryItem({ baseUrl, framework, registryId, registryItemId: itemId });
       } catch (error) {
         // show available registry items in the registry
-        const response = await fetch(`${baseUrl}/__registry__/${registryId}/index.json`);
+        const response = await fetch(
+          `${baseUrl}/__registry__/${framework}/${registryId}/index.json`,
+        );
 
         if (!response.ok)
           throw new Error(

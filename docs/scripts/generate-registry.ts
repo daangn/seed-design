@@ -2,13 +2,13 @@ import chalk from "chalk";
 import { existsSync, promises as fs, readFileSync } from "fs";
 import path from "node:path";
 import { RegistryGenerator } from "./registry-generator.js";
-import { registryBreeze } from "../registry/registry-breeze.js";
-import { registryLib } from "../registry/registry-lib.js";
-import { registryUI } from "../registry/registry-ui.js";
-import { registryBlock } from "../registry/registry-block.js";
+import { registryBreeze } from "../registry/react/registry-breeze.js";
+import { registryLib } from "../registry/react/registry-lib.js";
+import { registryUI } from "../registry/react/registry-ui.js";
+import { registryBlock } from "../registry/react/registry-block.js";
 
-const REGISTRY_PATH = path.join(process.cwd(), "registry");
-const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
+const REGISTRY_PATH = path.join(process.cwd(), "registry", "react");
+const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__", "react");
 
 // remove leading & trailing newline and add a new ending newline
 const cleanFile = (filePath: string) => `${filePath.replace(/^\n+|\n+$/g, "")}\n`;
