@@ -101,7 +101,6 @@ Trigger 외의 방식으로 MenuSheet를 열고 닫을 수 있습니다. 이 경
 
 **닫힐 때** (`open: false`)
 
-- `"closeButton"`: `MenuSheet.CloseButton`으로 닫힘
 - `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
 - `"interactOutside"`: 외부 영역 클릭
 - `"drag"`: 드래그로 닫힘
@@ -196,22 +195,6 @@ Trigger 외의 방식으로 MenuSheet를 열고 닫을 수 있습니다. 이 경
   ```json doc-gen:file
   {
     "file": "examples/react/menu-sheet/show-handle.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Show Close Button
-
-`<MenuSheetContent>`에 `showCloseButton` prop을 전달하여 닫기 버튼을 표시할 수 있습니다.
-기본 값은 `false`입니다.
-
-`showCloseButton`을 `true`로 설정하면 닫기 버튼이 표시됩니다.
-
-<ComponentExample name="react/menu-sheet/show-close-button">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/menu-sheet/show-close-button.tsx",
     "codeblock": true
   }
   ```

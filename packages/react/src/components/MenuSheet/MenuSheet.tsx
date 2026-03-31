@@ -1,5 +1,4 @@
-import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
-import { dataAttr } from "@seed-design/dom-utils";
+import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { menuSheet, type MenuSheetVariantProps } from "@seed-design/css/recipes/menu-sheet";
 import {
@@ -85,17 +84,9 @@ export const MenuSheetHeader = withContext<HTMLDivElement, MenuSheetHeaderProps>
 export interface MenuSheetTitleProps extends Drawer.TitleProps {}
 
 export const MenuSheetTitle = withContext<HTMLHeadingElement, MenuSheetTitleProps>(
-  React.forwardRef<HTMLHeadingElement, MenuSheetTitleProps>((props, ref) => {
-    const { isCloseButtonRendered } = useDrawerContext();
-
-    return (
-      <Drawer.Title ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
-    );
-  }),
+  Drawer.Title,
   "title",
 );
-
-MenuSheetTitle.displayName = "MenuSheetTitle";
 
 export interface MenuSheetDescriptionProps extends Drawer.DescriptionProps {}
 
@@ -183,25 +174,6 @@ export const MenuSheetItemDescription = withItemContext<
   HTMLSpanElement,
   MenuSheetItemDescriptionProps
 >(Primitive.span, "description");
-
-////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
- * The close button pattern is no longer part of MenuSheet.
- * Implement your own dismiss button using `Drawer.CloseButton` if needed.
- */
-export interface MenuSheetCloseButtonProps extends Drawer.CloseButtonProps {}
-
-/**
- * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
- * The close button pattern is no longer part of MenuSheet.
- * Implement your own dismiss button using `Drawer.CloseButton` if needed.
- */
-export const MenuSheetCloseButton = withContext<HTMLButtonElement, MenuSheetCloseButtonProps>(
-  Drawer.CloseButton,
-  "closeButton",
-);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

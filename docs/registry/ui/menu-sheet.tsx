@@ -1,7 +1,6 @@
 "use client";
 
-import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
-import { Icon, PrefixIcon, MenuSheet as SeedMenuSheet, VisuallyHidden } from "@seed-design/react";
+import { PrefixIcon, MenuSheet as SeedMenuSheet, VisuallyHidden } from "@seed-design/react";
 import { forwardRef } from "react";
 import type * as React from "react";
 
@@ -31,29 +30,13 @@ export interface MenuSheetContentProps extends Omit<SeedMenuSheet.ContentProps, 
   layerIndex?: number;
 
   /**
-   * @default false
-   */
-  showCloseButton?: boolean;
-
-  /**
    * @default true
    */
   showHandle?: boolean;
 }
 
 export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps>(
-  (
-    {
-      children,
-      title,
-      description,
-      layerIndex,
-      showCloseButton = false,
-      showHandle = true,
-      ...otherProps
-    },
-    ref,
-  ) => {
+  ({ children, title, description, layerIndex, showHandle = true, ...otherProps }, ref) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -85,12 +68,6 @@ export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps
             </SeedMenuSheet.Header>
           )}
           <SeedMenuSheet.List>{children}</SeedMenuSheet.List>
-          {showCloseButton && (
-            // You may implement your own i18n for dismiss label
-            <SeedMenuSheet.CloseButton aria-label="닫기">
-              <Icon svg={<IconXmarkLine />} />
-            </SeedMenuSheet.CloseButton>
-          )}
         </SeedMenuSheet.Content>
       </SeedMenuSheet.Positioner>
     );
