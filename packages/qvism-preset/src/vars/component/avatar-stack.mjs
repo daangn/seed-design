@@ -57,6 +57,16 @@ export const vars = {
       }
     }
   },
+  "size56": {
+    "enabled": {
+      "root": {
+        "gap": "-13px"
+      },
+      "item": {
+        "strokeWidth": "3px"
+      }
+    }
+  },
   "size64": {
     "enabled": {
       "root": {

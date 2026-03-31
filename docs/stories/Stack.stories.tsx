@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { VStack, HStack } from "@seed-design/react";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
+import { VIEWPORT_MODES } from "./utils/parameters";
 
 const meta = {
   component: VStack,
@@ -57,6 +58,9 @@ export const VStackLightTheme: Story = {
   render: (args) => (
     <VariantTable Component={VStack} variantMap={{}} conditionMap={vstackConditionMap} {...args} />
   ),
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
 };
 
 const hstackConditionMap = {
@@ -76,4 +80,7 @@ export const HStackLightTheme: Story = {
   render: (args) => (
     <VariantTable Component={HStack} variantMap={{}} conditionMap={hstackConditionMap} {...args} />
   ),
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
 };

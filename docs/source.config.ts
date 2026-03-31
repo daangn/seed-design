@@ -1,8 +1,9 @@
 import { fileGenerator, remarkDocGen } from "fumadocs-docgen";
 import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
 import { remarkFigmaImage } from "./components/figma-image/remark-figma-image";
-import { typeTableGenerator } from "./components/type-table/generator";
-import { remarkReactTypeTable } from "./components/type-table/remark-react-type-table";
+import { filteredTypeTableGenerator } from "./components/type-table/generator";
+import { remarkAutoTypeTable } from "fumadocs-typescript";
+import { remarkFixObjectKeys } from "./components/type-table/remark-fix-object-keys";
 import lastModified from "fumadocs-mdx/plugins/last-modified";
 import z from "zod";
 import { env } from "@/app/env";
@@ -76,6 +77,50 @@ export const aiIntegrationDocs = defineDocs({
 export default defineConfig({
   plugins: [lastModified()],
   mdxOptions: {
+    remarkStructureOptions: {
+      mdxTypes(node) {
+        if (!node.children || node.children.length === 0) return true;
+
+        switch (node.name) {
+          case "TypeTable":
+          case "Callout":
+          case "Card":
+            return true;
+        }
+
+        return false;
+      },
+      stringify: {
+        filterElement: (node) => {
+          if (node.type !== "mdxJsxFlowElement" && node.type !== "mdxJsxTextElement") return true;
+
+          switch (node.name) {
+            // fumadocs built-in
+            case "File":
+            case "TypeTable":
+            case "Callout":
+            case "Card":
+
+            // SEED Docs specific
+            case "FigmaImage":
+            case "DoImage":
+            case "DontImage":
+              return true;
+          }
+
+          return "children-only";
+        },
+        filterMdxAttributes: (node, attribute) => {
+          if (attribute.type !== "mdxJsxAttribute") return false;
+
+          // if FigmaImage/DoImage/DontImage, remove src
+          if (node.name === "FigmaImage" || node.name === "DoImage" || node.name === "DontImage")
+            return attribute.name !== "src";
+
+          return true;
+        },
+      },
+    },
     remarkNpmOptions: {
       persist: {
         id: "package-manager",
@@ -84,14 +129,14 @@ export default defineConfig({
     remarkPlugins: [
       [remarkDocGen, { generators: [fileGenerator()] }],
       [
-        remarkReactTypeTable,
+        remarkAutoTypeTable,
         {
-          generator: typeTableGenerator,
-          options: {
-            parseDescriptionAsMarkdown: true,
-          },
+          generator: filteredTypeTableGenerator,
+          name: "react-type-table",
+          options: { basePath: process.cwd() },
         },
       ],
+      remarkFixObjectKeys,
       [
         remarkFigmaImage,
         {

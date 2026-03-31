@@ -1,4 +1,5 @@
 import { ImageFrame, Flex, VStack, Text } from "@seed-design/react";
+import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
 export default function ImageFrameRatio() {
   return (
@@ -11,6 +12,7 @@ export default function ImageFrameRatio() {
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="1:1"
           style={{ width: 120 }}
+          fallback={<ContentPlaceholder type="buySell" />}
         />
         <Text color="palette.gray700" textStyle="t1Regular">
           1:1
@@ -24,6 +26,7 @@ export default function ImageFrameRatio() {
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="4:3"
           style={{ width: 160 }}
+          fallback={<ContentPlaceholder type="food" />}
         />
         <Text color="palette.gray700" textStyle="t1Regular">
           4:3
@@ -37,6 +40,7 @@ export default function ImageFrameRatio() {
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="16:9"
           style={{ width: 200 }}
+          fallback={<ContentPlaceholder type="realty" />}
         />
         <Text color="palette.gray700" textStyle="t1Regular">
           16:9

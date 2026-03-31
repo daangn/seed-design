@@ -46,7 +46,6 @@ SEED Design은 당근의 디자인 시스템이다. 기술적 상세는 @TECH.md
 - ✅ **Always:**
   - `bun generate:all` 실행 후 변경사항 확인
   - 테스트 실행 후 커밋 (`bun test:all`)
-  - `forwardRef` + `displayName` 사용 (React 컴포넌트)
 
 - ⚠️ **Ask first:**
   - 새 패키지 추가

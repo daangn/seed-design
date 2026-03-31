@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Flex } from "@seed-design/react";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
+import { VIEWPORT_MODES } from "./utils/parameters";
 
 const meta = {
   component: Flex,
@@ -74,4 +75,7 @@ export const LightTheme: Story = {
       {...args}
     />
   ),
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
 };

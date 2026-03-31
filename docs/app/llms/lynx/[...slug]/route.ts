@@ -1,5 +1,4 @@
 import { getLLMText } from "@/app/_llms/get-llm-text";
-import type { LLMPage } from "@/app/_llms/types";
 import { lynxSource } from "@/app/source";
 import { notFound } from "next/navigation";
 
@@ -10,7 +9,7 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
 
   const actualSlug = slug.map((s, i) => (i === slug.length - 1 ? s.replace(/\.txt$/, "") : s));
 
-  const page = lynxSource.getPage(actualSlug) as LLMPage | undefined;
+  const page = lynxSource.getPage(actualSlug);
 
   if (!page) notFound();
 

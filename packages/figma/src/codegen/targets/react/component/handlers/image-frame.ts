@@ -1,5 +1,6 @@
 import type {
   BadgeProperties,
+  ContentPlaceholderProperties,
   ImageFrameIconProperties,
   ImageFrameOverlayIndicatorProperties,
   ImageFrameProperties,
@@ -12,6 +13,7 @@ import { findAllInstances, findOne } from "@/utils/figma-node";
 import { createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { createBadgeHandler } from "@/codegen/targets/react/component/handlers/badge";
+import { createContentPlaceholderHandler } from "@/codegen/targets/react/component/handlers/content-placeholder";
 
 const CORNER_CONFIGS = [
   {
@@ -88,10 +90,17 @@ export const createImageFrameIconHandler = (ctx: ComponentHandlerDeps) => {
 };
 
 export const createImageFrameHandler = (ctx: ComponentHandlerDeps) => {
+  const contentPlaceholderHandler = createContentPlaceholderHandler(ctx);
+
   return defineComponentHandler<ImageFrameProperties>(
     metadata.componentImageFrame.key,
     (node, traverse) => {
       const props = node.componentProperties;
+
+      const [placeholder] = findAllInstances<ContentPlaceholderProperties>({
+        node,
+        key: contentPlaceholderHandler.key,
+      });
 
       const floaters = [];
       for (const { showKey, placement } of CORNER_CONFIGS) {
@@ -114,6 +123,10 @@ export const createImageFrameHandler = (ctx: ComponentHandlerDeps) => {
 
         ...(props.Rounded.value === "True" && {
           borderRadius: ctx.valueResolver.getFormattedValue.topLeftRadius(node),
+        }),
+
+        ...(placeholder && {
+          fallback: contentPlaceholderHandler.transform(placeholder, traverse),
         }),
 
         ...(node.layoutGrow === 1

@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Grid, GridItem } from "@seed-design/react";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
+import { VIEWPORT_MODES } from "./utils/parameters";
 
 const meta = {
   component: Grid,
@@ -67,6 +68,9 @@ export const LightTheme: Story = {
       {...args}
     />
   ),
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
 };
 
 /** GridItem: colSpan, rowSpan, colStart/colEnd */

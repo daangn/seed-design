@@ -48,9 +48,6 @@
         },
         "content": {
           "properties": {
-            "color": {
-              "type": "color"
-            },
             "gap": {
               "type": "dimension"
             },

@@ -144,7 +144,7 @@ export async function loadChangelogSources(rootDir: string): Promise<ChangelogSo
 // ── Parsing ───────────────────────────────────────────────────────────────────
 
 /** @description CHANGELOG.md raw 텍스트를 `## 1.2.3` 단위의 버전 섹션 배열로 분리합니다. */
-function splitVersionSections(raw: string): Array<{ version: string; body: string }> {
+export function splitVersionSections(raw: string): Array<{ version: string; body: string }> {
   const sections = raw
     .replace(/^# .+\n+/, "")
     .split(/(?=^## )/m)

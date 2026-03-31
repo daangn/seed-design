@@ -58,6 +58,10 @@ export type ChipIconSuffixProperties = InferComponentDefinition<
   typeof components.componentChipSuffixIcon.componentPropertyDefinitions
 >;
 
+export type ContentPlaceholderProperties = InferComponentDefinition<
+  typeof sets.privateComponentContentPlaceholder.componentPropertyDefinitions
+>;
+
 export type ContextualFloatingButtonProperties = InferComponentDefinition<
   typeof sets.componentContextualFloatingButton.componentPropertyDefinitions
 >;

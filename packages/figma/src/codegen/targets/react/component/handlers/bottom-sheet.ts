@@ -4,7 +4,7 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import { match } from "ts-pattern";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import { findAllInstances } from "@/utils/figma-node";
+import { findAllInstances, findSlotNode } from "@/utils/figma-node";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("bottom-sheet");
 const { createLocalSnippetElement: createLocalSnippetElementTrigger } =
@@ -30,19 +30,15 @@ export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
         showCloseButton: props["Show Close Button#19787:11"].value,
       };
 
-      const bodyNodes = findAllInstances({
-        node,
-        key: props["Contents#25320:0"].componentKey,
-      });
+      const slotNode = findSlotNode(node, "Contents Slot#6752:0");
 
-      const bottomSheetBody =
-        bodyNodes.length === 1
-          ? createLocalSnippetElement("BottomSheetBody", {}, bodyNodes[0].children.map(traverse))
-          : createLocalSnippetElement(
-              "BottomSheetBody",
-              {},
-              createElement("div", undefined, "No content available"),
-            );
+      const bottomSheetBody = slotNode
+        ? createLocalSnippetElement("BottomSheetBody", {}, traverse(slotNode))
+        : createLocalSnippetElement(
+            "BottomSheetBody",
+            {},
+            createElement("div", undefined, "No content available"),
+          );
 
       const footerNodes = findAllInstances({
         node,

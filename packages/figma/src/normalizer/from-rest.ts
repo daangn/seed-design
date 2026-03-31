@@ -18,6 +18,7 @@ import type {
   NormalizedComponentNode,
   NormalizedInstanceNode,
   NormalizedTextSegment,
+  NormalizedSlotNode,
   NormalizedVectorNode,
   NormalizedBooleanOperationNode,
   NormalizedShadow,
@@ -64,6 +65,8 @@ export function createRestNormalizer(
         return normalizeComponentNode(node);
       case "INSTANCE":
         return normalizeInstanceNode(node);
+      case "SLOT":
+        return normalizeSlotNode(node);
       case "VECTOR":
         return normalizeVectorNode(node);
       case "BOOLEAN_OPERATION":
@@ -125,7 +128,9 @@ export function createRestNormalizer(
   function normalizePaints(paints: FigmaRestSpec.Paint[] | undefined): NormalizedPaint[] {
     if (!paints) return [];
 
-    return paints.map(normalizePaint);
+    return paints
+      .filter((paint) => !("visible" in paint) || paint.visible !== false)
+      .map(normalizePaint);
   }
 
   function normalizeRadiusProps({
@@ -268,6 +273,33 @@ export function createRestNormalizer(
     };
   }
 
+  function normalizeSlotNode(node: FigmaRestSpec.SlotNode): NormalizedSlotNode {
+    return {
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: normalizeBoundVariables(node.boundVariables),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait, NormalizedHasFramePropertiesTrait
+      ...normalizeShapeProps(node),
+
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasFramePropertiesTrait
+      ...normalizeAutolayoutProps(node),
+
+      // NormalizedHasChildrenTrait
+      children: normalizeNodes(node.children),
+
+      // NormalizedSlotNode specific
+      ...(node.componentPropertyReferences?.["slotContentId"] && {
+        componentPropertyReferences: node.componentPropertyReferences,
+      }),
+    };
+  }
+
   function normalizeRectangleNode(node: FigmaRestSpec.RectangleNode): NormalizedRectangleNode {
     return {
       //  NormalizedIsLayerTrait
@@ -349,7 +381,7 @@ export function createRestNormalizer(
             characters: "",
             start: i,
             end: 0,
-            style: styleId ? normalizeSegmentStyle(styleTable[styleId]) : {},
+            style: styleId && styleTable[styleId] ? normalizeSegmentStyle(styleTable[styleId]) : {},
           };
         }
       }

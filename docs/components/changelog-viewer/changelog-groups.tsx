@@ -1,12 +1,9 @@
 "use client";
 
 import { ChangelogEntryItem } from "@/components/changelog-entry-item";
-import { getGroupAnchorId } from "@/components/changelog-viewer/utils";
+import { getChangelogHref, getGroupAnchorId } from "@/components/changelog-viewer/utils";
 import { IconSquare2StackedLine } from "@karrotmarket/react-monochrome-icon";
-import type {
-  GroupedChangelogEntry,
-  ResolvedRelatedPackage,
-} from "@/components/changelog-viewer/use-changelog-viewer-data";
+import type { GroupedChangelogEntry, ResolvedRelatedPackage } from "@/lib/changelog-data";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 
 function ChangelogGroupHeader({
@@ -48,7 +45,9 @@ function ChangelogGroupHeader({
         </button>
       </div>
       <div className="inline-flex items-center gap-2">
-        <span className="text-xs text-fd-muted-foreground shrink-0">{group.entries.length}개 변경사항</span>
+        <span className="text-xs text-fd-muted-foreground shrink-0">
+          {group.entries.length}개 변경사항
+        </span>
       </div>
     </div>
   );
@@ -73,7 +72,7 @@ function RelatedPackageEntries({
             className="rounded-lg border border-fd-border/80 bg-fd-card/40 px-3 py-2"
           >
             <a
-              href={`/react/updates/changelog?tab=${encodeURIComponent(pkg.name)}&from=${encodeURIComponent(pkg.version)}`}
+              href={getChangelogHref(pkg.name, pkg.version)}
               className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
             >
               {pkg.name}@{pkg.version}
@@ -97,11 +96,7 @@ function RelatedPackageEntries({
   );
 }
 
-export function ChangelogGroups({
-  groupedEntries,
-}: {
-  groupedEntries: GroupedChangelogEntry[];
-}) {
+export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedChangelogEntry[] }) {
   const adapter = useSnackbarAdapter();
 
   const copyDeepLink = async (url: string) => {
@@ -119,13 +114,12 @@ export function ChangelogGroups({
     <div className="flex flex-col gap-6">
       {groupedEntries.map((group) => {
         const groupAnchorId = getGroupAnchorId(group.packageName, group.version);
-        const groupQueryHref = `/react/updates/changelog?tab=${encodeURIComponent(group.packageName)}&from=${encodeURIComponent(group.version)}`;
-        const groupAnchorHref = `${groupQueryHref}#${groupAnchorId}`;
+        const groupQueryHref = getChangelogHref(group.packageName, group.version);
         const groupKey = `${group.packageName}@${group.version}`;
         const absoluteGroupHref =
           typeof window === "undefined"
-            ? groupAnchorHref
-            : `${window.location.origin}${groupAnchorHref}`;
+            ? groupQueryHref
+            : `${window.location.origin}${groupQueryHref}`;
 
         return (
           <section

@@ -10,9 +10,9 @@ import type {
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import * as components from "@/entities/data/__generated__/components";
-import { findAllInstances } from "@/utils/figma-node";
+import { findAllInstances, findSlotNode } from "@/utils/figma-node";
 import { match } from "ts-pattern";
-import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import {
   createFieldFooterHandler,
@@ -34,7 +34,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("select-box");
 const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SelectBoxHorizontalProperties>(
     metadata.componentSelectBoxItemHorizontal.key,
-    (node) => {
+    (node, traverse) => {
       const { componentProperties: props } = node;
 
       const { tag, suffix } = match(props.Control.value)
@@ -77,6 +77,11 @@ const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
         return undefined;
       })();
 
+      const contentSlotNode = props["Show Custom Content#56903:0"].value
+        ? findSlotNode(node, "Content Slot#6752:6")
+        : undefined;
+      const footer = contentSlotNode ? traverse(contentSlotNode) : undefined;
+
       const commonProps = {
         // layout: "horizontal",
 
@@ -90,9 +95,7 @@ const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
 
         ...(suffix && { suffix }),
 
-        ...(props["Show Custom Content#56903:0"].value && {
-          footer: createSeedReactElement("Box", undefined, "Footer Placeholder"),
-        }),
+        ...(footer && { footer }),
 
         ...(tag === "RadioSelectBoxItem" && {
           value: props["Title#28452:21"].value,
@@ -115,7 +118,7 @@ const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
 const createSelectBoxVerticalHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SelectBoxVerticalProperties>(
     metadata.componentSelectBoxItemVertical.key,
-    (node) => {
+    (node, traverse) => {
       const { componentProperties: props } = node;
 
       const { tag, suffix } = match(props.Control.value)
@@ -158,6 +161,11 @@ const createSelectBoxVerticalHandler = (ctx: ComponentHandlerDeps) =>
         return undefined;
       })();
 
+      const contentSlotNode = props["Show Custom Content#58766:119"].value
+        ? findSlotNode(node, "Content Slot#6765:0")
+        : undefined;
+      const footer = contentSlotNode ? traverse(contentSlotNode) : undefined;
+
       const commonProps = {
         // layout: "vertical",
 
@@ -171,9 +179,7 @@ const createSelectBoxVerticalHandler = (ctx: ComponentHandlerDeps) =>
 
         ...(suffix && { suffix }),
 
-        ...(props["Show Custom Content#58766:119"].value && {
-          footer: createSeedReactElement("Box", undefined, "Footer Placeholder"),
-        }),
+        ...(footer && { footer }),
 
         ...(tag === "RadioSelectBoxItem" && {
           value: props["Title#58766:114"].value,

@@ -9,10 +9,11 @@ description: End-to-end SEED component implementation guide from rootage spec to
 
 ## Quick Start
 
-1. Rootage 스펙을 정의/수정하고 `bun generate:all`을 실행합니다.
-2. Recipe, React UI, Storybook, 문서를 순서대로 반영합니다.
-3. `bun packages:build`, `bun typecheck`, Visual Test 체크리스트를 완료합니다.
-4. 상세 구현은 `details/implementation-steps.md`와 `details/verification-checklist.md`를 사용합니다.
+1. 각 단계에서 수정 대상 폴더의 `AGENTS.md`를 먼저 읽고 해당 패키지의 컨벤션을 확인합니다.
+2. Rootage 스펙을 정의/수정하고 `bun generate:all`을 실행합니다.
+3. Recipe, React UI, Storybook, 문서를 순서대로 반영합니다.
+4. `bun packages:build`, `bun typecheck`, Visual Test 체크리스트를 완료합니다.
+5. 상세 구현은 `details/implementation-steps.md`와 `details/verification-checklist.md`를 사용합니다.
 
 ## 핵심 흐름
 

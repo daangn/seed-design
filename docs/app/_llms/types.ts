@@ -3,7 +3,6 @@ import type { Page } from "fumadocs-core/source";
 export type Section = "react" | "docs" | "breeze" | "lynx" | "ai-integration";
 
 export type LLMPage = Page & {
-  path: string;
   data: {
     title: string;
     description?: string;
