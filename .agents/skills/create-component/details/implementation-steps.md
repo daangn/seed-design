@@ -34,7 +34,7 @@ Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 �
 
 ## Step 5: Registry UI (Snippet 레이어)
 
-**위치**: `docs/registry/ui/[name].tsx`
+**위치**: `docs/registry/react/ui/[name].tsx` (Lynx: `docs/registry/lynx/ui/[name].tsx`)
 
 ### Snippet 레이어가 필요한 경우
 
@@ -53,7 +53,7 @@ Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 �
 Snippet 파일은 `"use client"` 선언으로 시작하며, `@seed-design/react`에서 compound 컴포넌트를 import하여 단순화된 API로 래핑한다. Props 인터페이스는 `SeedComponentName.RootProps`를 extends하고, `src`, `alt`, `fallback` 같은 편의 prop을 추가한다. 반드시 `React.forwardRef`로 감싸고 `displayName`을 설정한다. 하위 컴포넌트가 있으면 별도 인터페이스와 함께 re-export한다.
 
 **추가 작업**:
-1. `docs/registry/registry-ui.ts`에 entry 추가 (의존성 버전은 해당 컴포넌트가 추가된 버전 기준)
+1. `docs/registry/react/registry-ui.ts`에 entry 추가 (Lynx: `docs/registry/lynx/registry-ui.ts`) (의존성 버전은 해당 컴포넌트가 추가된 버전 기준)
 2. `bun --filter @seed-design/docs generate:registry` 실행
 
 ### React 문서 업데이트

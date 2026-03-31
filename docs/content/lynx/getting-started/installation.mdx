@@ -1,19 +1,161 @@
 ---
 title: Installation
-description: Lynx 프로젝트에 SEED Design을 설치하는 방법을 알아봅니다.
+description: Lynx 프로젝트에서 SEED Design을 설치하고 사용하는 방법을 알아봅니다.
 ---
 
-## 패키지 설치
+<Steps>
+<Step>
 
-Lynx 환경에서 SEED Design을 사용하려면 두 가지 패키지를 설치해야 합니다.
+### 의존성 설치
+
+필요한 의존성들을 설치해요.
 
 ```package-install
-npm install @seed-design/lynx-css @seed-design/lynx-react
+@seed-design/lynx-react @seed-design/lynx-css
 ```
-
-- `@seed-design/lynx-css`: Lynx 환경에 최적화된 CSS 변수와 컴포넌트 스타일을 제공합니다.
-- `@seed-design/lynx-react`: Lynx 환경에서 사용할 수 있는 React 컴포넌트를 제공합니다.
 
 <Callout>
 `@seed-design/lynx-react`는 `@seed-design/lynx-css`를 peer dependency로 필요로 합니다. 두 패키지를 함께 설치해야 합니다.
 </Callout>
+
+</Step>
+
+<Step>
+
+### base.css import하기
+
+```ts title="src/index.tsx"
+import "@seed-design/lynx-css/base.css";
+```
+
+</Step>
+
+<Step>
+
+### seed-design.json 생성하기
+
+<Tabs items={['CLI로 추가', '직접 추가']}>
+<Tab value="CLI로 추가">
+<Steps>
+<Step>
+
+### init 명령어 입력하기
+
+</Step>
+```package-install
+npx @seed-design/cli@latest init
+```
+
+<Step>
+
+### seed-design 설정
+
+`@lynx-js/react`가 설치되어 있으면 프레임워크가 자동으로 Lynx로 감지돼요.
+
+```sh
+◇  TypeScript를 사용중이신가요?
+│  Yes
+│
+◇  어떤 프레임워크를 사용하시나요?
+│  Lynx
+│
+◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
+│  ./seed-design
+│
+◇  개선을 위해 익명 사용 데이터를 수집할까요?
+│  Yes
+```
+
+</Step>
+</Steps>
+</Tab>
+
+<Tab value="직접 추가">
+
+아래 파일을 프로젝트 루트에 생성해주세요.
+
+```json title="seed-design.json"
+{
+  "tsx": true,
+  "framework": "lynx",
+  "path": "./seed-design"
+}
+```
+
+</Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+
+### tsconfig.json 설정하기
+
+<Callout>
+
+위에서 설정한 [seed-design.json path](/react/getting-started/cli/configuration#path)의 경로와 동일해야 해요.
+
+</Callout>
+
+</Step>
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    // ... your options
+    "paths": {
+      // [!code highlight]
+      "seed-design/*": [
+        // [!code highlight]
+        "./seed-design/*"
+      ]
+    }
+  }
+}
+```
+
+<Step>
+
+### 컴포넌트를 한번 사용해볼까요?
+
+```package-install
+npx @seed-design/cli@latest add ui:action-button
+```
+
+</Step>
+
+<Step>
+
+### (선택) lynx-console 설치하기
+
+[lynx-console](https://github.com/daangn/lynx-console)은 Lynx 앱 안에서 콘솔 로그, 네트워크, 성능 지표를 확인할 수 있는 개발자 도구예요.
+
+```package-install
+lynx-console
+```
+
+앱 entry에서 초기화하고 컴포넌트를 추가해주세요.
+
+```tsx title="src/App.tsx"
+import { initLogMonitor, initNetworkMonitor, initPerformanceMonitor } from "lynx-console/setup";
+import LynxConsole from "lynx-console";
+
+initLogMonitor();
+initNetworkMonitor();
+initPerformanceMonitor();
+
+function App() {
+  return (
+    <view>
+      {/* your app */}
+      <LynxConsole />
+    </view>
+  );
+}
+```
+
+자세한 사용법은 [lynx-console GitHub](https://github.com/daangn/lynx-console)을 참고하세요.
+
+</Step>
+
+</Steps>
