@@ -1,4 +1,4 @@
-import { vars } from "@seed-design/css/vars";
+import { vars } from "@seed-design/lynx-css/vars";
 
 type CSSFontWeight =
   | "bold"
@@ -66,13 +66,7 @@ function FontSizeRow({
   );
 }
 
-function FontWeightRow({
-  name,
-  weightVar,
-}: {
-  name: string;
-  weightVar: string;
-}) {
+function FontWeightRow({ name, weightVar }: { name: string; weightVar: string }) {
   return (
     <view
       style={{
@@ -129,7 +123,7 @@ export function FoundationTypographyPage() {
     <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
       <text style={{ fontSize: "20px", fontWeight: "bold" }}>Typography</text>
       <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle, marginBottom: "8px" }}>
-        @seed-design/css/vars — $fontSize, $lineHeight, $fontWeight tokens
+        @seed-design/lynx-css/vars — $fontSize, $lineHeight, $fontWeight tokens
       </text>
 
       <SectionTitle>Font Weight</SectionTitle>
@@ -142,12 +136,7 @@ export function FoundationTypographyPage() {
         사용자 설정에 따라 크기가 변하는 동적 사이즈
       </text>
       {dynamicSizes.map((item) => (
-        <FontSizeRow
-          key={item.name}
-          name={item.name}
-          sizeVar={item.size}
-          lineHeightVar={item.lh}
-        />
+        <FontSizeRow key={item.name} name={item.name} sizeVar={item.size} lineHeightVar={item.lh} />
       ))}
 
       <SectionTitle>Font Size (Static)</SectionTitle>
@@ -155,12 +144,7 @@ export function FoundationTypographyPage() {
         고정 크기 사이즈
       </text>
       {staticSizes.map((item) => (
-        <FontSizeRow
-          key={item.name}
-          name={item.name}
-          sizeVar={item.size}
-          lineHeightVar={item.lh}
-        />
+        <FontSizeRow key={item.name} name={item.name} sizeVar={item.size} lineHeightVar={item.lh} />
       ))}
     </scroll-view>
   );

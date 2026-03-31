@@ -1,5 +1,5 @@
 import { Suspense, lazy, useState } from "@lynx-js/react";
-import { vars } from "@seed-design/css/vars";
+import { vars } from "@seed-design/lynx-css/vars";
 
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
