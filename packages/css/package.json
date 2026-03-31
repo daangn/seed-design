@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/css",
-  "version": "1.2.7",
+  "version": "0.0.0-alpha-20260324091316",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -57,6 +57,10 @@
       "import": "./theming/index.mjs",
       "require": "./theming/index.cjs"
     },
+    "./breakpoints": {
+      "types": "./breakpoints/index.d.ts",
+      "import": "./breakpoints/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -64,6 +68,7 @@
     "recipes",
     "vars",
     "theming",
+    "breakpoints",
     "utils",
     "*.css"
   ],
