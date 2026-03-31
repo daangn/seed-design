@@ -13,13 +13,9 @@ export function parseTokenCollectionsDocument(
       const modeDescriptions: Record<string, string> = {};
 
       for (const m of tc.modes) {
-        if (typeof m === "string") {
-          modes.push(m);
-        } else {
-          modes.push(m.id);
-          if (m.description) {
-            modeDescriptions[m.id] = m.description;
-          }
+        modes.push(m.id);
+        if (m.description) {
+          modeDescriptions[m.id] = m.description;
         }
       }
 
