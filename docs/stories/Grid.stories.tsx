@@ -55,8 +55,6 @@ const conditionMap = {
     autoRows: { columns: 3, autoRows: "80px" },
     autoColumns: { autoFlow: "column", autoColumns: "120px" },
     "display none": { display: "none" },
-    "responsive columns": { columns: { base: 1, md: 3 } },
-    "responsive gap": { columns: 3, gap: { base: "x2", md: "x6" } },
   },
 };
 

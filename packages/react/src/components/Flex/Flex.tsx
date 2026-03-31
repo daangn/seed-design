@@ -1,12 +1,11 @@
 import * as React from "react";
-import type { ResponsiveValue } from "../../types/responsive";
 import { Box, type BoxProps } from "../Box/Box";
 
 export interface FlexProps extends Omit<BoxProps, "display"> {
   /**
    * @default "flex"
    */
-  display?: ResponsiveValue<"flex" | "none">;
+  display?: "flex" | "none";
 
   /**
    * Shorthand for `flexDirection`.

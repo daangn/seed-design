@@ -7,8 +7,8 @@
     "build": "cross-env NODE_ENV=production rspack build"
   },
   "dependencies": {
-    "@seed-design/css": "0.0.0-alpha-20260324091316",
-    "@seed-design/react": "0.0.0-alpha-20260324091316",
+    "@seed-design/css": "1.2.7",
+    "@seed-design/react": "1.2.8",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

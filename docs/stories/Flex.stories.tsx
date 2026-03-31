@@ -62,8 +62,6 @@ const conditionMap = {
     "justify space-between": { justify: "space-between", width: "500px" },
     wrap: { wrap: "wrap", children: manyChildren, width: "200px" },
     "display none": { display: "none" },
-    "responsive direction": { direction: { base: "column", md: "row" } },
-    "responsive gap": { gap: { base: "x2", md: "x6" } },
   },
 };
 

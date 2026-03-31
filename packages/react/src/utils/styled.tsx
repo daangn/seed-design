@@ -13,34 +13,6 @@ import type {
 } from "@seed-design/css/vars";
 import { vars } from "@seed-design/css/vars";
 import { forwardRef } from "react";
-import { type ResponsiveValue, isResponsiveObject } from "../types/responsive";
-
-export function resolveResponsive<T>(
-  varName: string,
-  value: ResponsiveValue<T>,
-  transform: (v: T) => string | number | undefined,
-): Record<string, string | number> {
-  if (!isResponsiveObject(value)) {
-    const transformed = transform(value);
-    if (transformed === undefined) return {};
-
-    return { [`${varName}-base`]: transformed };
-  }
-
-  const result: Record<string, string | number> = {};
-
-  for (const [breakpoint, breakpointValue] of Object.entries(value)) {
-    if (breakpointValue === undefined) continue;
-
-    const transformed = transform(breakpointValue);
-
-    if (transformed === undefined) continue;
-
-    result[`${varName}-${breakpoint}`] = transformed;
-  }
-
-  return result;
-}
 
 export function handleColor(color: string | undefined) {
   if (!color) {
@@ -90,7 +62,7 @@ function handleShadow(shadow: Shadow | (string & {}) | undefined) {
   return vars.$shadow[shadow] ?? shadow;
 }
 
-function handlePaddingWithSafeArea(
+export function handlePaddingWithSafeArea(
   padding: string | 0 | undefined,
   direction: "top" | "bottom",
 ): string | undefined {
@@ -141,7 +113,6 @@ function handleDisplay(display: string | undefined) {
   return (
     {
       flex: "flex",
-      grid: "grid",
       inlineFlex: "inline-flex", // @deprecated Use `inline-flex` instead.
       inlineBlock: "inline-block", // @deprecated Use `inline-block` instead.
       none: "none",
@@ -294,29 +265,17 @@ export interface StyleProps {
 
   boxShadow?: Shadow | (string & {});
 
-  width?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {})
-  >;
+  width?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
-  minWidth?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {})
-  >;
+  minWidth?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
-  maxWidth?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {})
-  >;
+  maxWidth?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
-  height?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {})
-  >;
+  height?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
-  minHeight?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {})
-  >;
+  minHeight?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
-  maxHeight?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {})
-  >;
+  maxHeight?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
   top?: 0 | (string & {});
 
@@ -326,142 +285,148 @@ export interface StyleProps {
 
   bottom?: 0 | (string & {});
 
-  padding?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  padding?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
   /**
    * Shorthand for `padding`.
    */
-  p?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  p?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingX?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  paddingX?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
   /**
    * Shorthand for `paddingX`.
    */
-  px?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  px?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingY?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  paddingY?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
   /**
    * Shorthand for `paddingY`.
    */
-  py?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  py?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingTop?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {})
-  >;
+  paddingTop?:
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | "safeArea"
+    | (string & {});
 
   /**
    * Shorthand for `paddingTop`.
    */
-  pt?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {})
-  >;
+  pt?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
 
-  paddingRight?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  paddingRight?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
   /**
    * Shorthand for `paddingRight`.
    */
-  pr?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  pr?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingBottom?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {})
-  >;
+  paddingBottom?:
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | "safeArea"
+    | (string & {});
 
   /**
    * Shorthand for `paddingBottom`.
    */
-  pb?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {})
-  >;
+  pb?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
 
-  paddingLeft?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  paddingLeft?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
   /**
    * Shorthand for `paddingLeft`.
    */
-  pl?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  pl?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
   /**
    * Negative x-axis margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
    */
-  bleedX?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  bleedX?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
 
   /**
    * Negative y-axis margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
    */
-  bleedY?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  bleedY?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
 
   /**
    * Negative top margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
    */
-  bleedTop?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  bleedTop?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
 
   /**
    * Negative right margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
    */
-  bleedRight?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  bleedRight?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
 
   /**
    * Negative bottom margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
    */
-  bleedBottom?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  bleedBottom?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
 
   /**
    * Negative left margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
    */
-  bleedLeft?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  bleedLeft?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
 
-  display?: ResponsiveValue<
+  display?:
     | "block"
     | "flex"
-    | "grid"
     | "inline-flex"
     | "inline"
     | "inline-block"
     | "none"
     | "inlineFlex" // @deprecated Use `inline-flex` instead.
-    | "inlineBlock" // @deprecated Use `inline-block` instead.
-  >;
+    | "inlineBlock"; // @deprecated Use `inline-block` instead.
 
   position?: "relative" | "absolute" | "fixed" | "sticky";
 
@@ -482,14 +447,13 @@ export interface StyleProps {
   flexShrink?: 0 | (number & {}) | true;
 
   // Flex
-  flexDirection?: ResponsiveValue<
+  flexDirection?:
     | "row"
     | "column"
     | "row-reverse"
     | "column-reverse"
     | "rowReverse" // @deprecated Use `row-reverse` instead.
-    | "columnReverse" // @deprecated Use `column-reverse` instead.
-  >;
+    | "columnReverse"; // @deprecated Use `column-reverse` instead.
 
   /**
    * If true, flex-wrap will be set to `wrap`.
@@ -536,9 +500,7 @@ export interface StyleProps {
     | "flexStart" // @deprecated Use `flex-start` instead.
     | "flexEnd"; // @deprecated Use `flex-end` instead.
 
-  gap?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
-  >;
+  gap?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
   // Grid Item
   // NOTE: gridArea는 지원하지 않습니다.
@@ -647,7 +609,6 @@ export function useStyleProps<T extends UseStyleProps>(
 
   return {
     style: {
-      // Non-responsive props
       "--seed-box-background": handleColor(background ?? bg) ?? gradientValue,
       "--seed-box-color": handleColor(color),
       "--seed-box-border-color": handleColor(borderColor),
@@ -666,16 +627,36 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-border-bottom-right-radius": handleRadius(borderBottomRightRadius),
       "--seed-box-border-bottom-left-radius": handleRadius(borderBottomLeftRadius),
       "--seed-box-box-shadow": handleShadow(boxShadow),
+      "--seed-box-width": handleDimension(width),
+      "--seed-box-min-width": handleDimension(minWidth),
+      "--seed-box-max-width": handleDimension(maxWidth),
+      "--seed-box-height": handleDimension(height),
+      "--seed-box-min-height": handleDimension(minHeight),
+      "--seed-box-max-height": handleDimension(maxHeight),
+      "--seed-box-padding": handleDimension(padding ?? p),
+      "--seed-box-padding-x": handleDimension(paddingX ?? px),
+      "--seed-box-padding-y": handleDimension(paddingY ?? py),
+      "--seed-box-padding-top": handlePaddingWithSafeArea(paddingTop ?? pt, "top"),
+      "--seed-box-padding-right": handleDimension(paddingRight ?? pr),
+      "--seed-box-padding-bottom": handlePaddingWithSafeArea(paddingBottom ?? pb, "bottom"),
+      "--seed-box-padding-left": handleDimension(paddingLeft ?? pl),
+      "--seed-box-bleed-top": handleBleed(bleedTop ?? bleedY, "top"),
+      "--seed-box-bleed-right": handleBleed(bleedRight ?? bleedX, "right"),
+      "--seed-box-bleed-bottom": handleBleed(bleedBottom ?? bleedY, "bottom"),
+      "--seed-box-bleed-left": handleBleed(bleedLeft ?? bleedX, "left"),
       "--seed-box-top": top,
       "--seed-box-left": left,
       "--seed-box-right": right,
       "--seed-box-bottom": bottom,
+      "--seed-box-gap": handleDimension(gap),
+      "--seed-box-display": handleDisplay(display),
       "--seed-box-position": position,
       "--seed-box-overflow-x": overflowX,
       "--seed-box-overflow-y": overflowY,
       "--seed-box-z-index": zIndex,
       "--seed-box-flex-grow": flexGrow === true ? 1 : flexGrow,
       "--seed-box-flex-shrink": flexShrink === true ? 1 : flexShrink,
+      "--seed-box-flex-direction": handleFlexDirection(flexDirection),
       "--seed-box-flex-wrap": flexWrap === true ? "wrap" : flexWrap,
       "--seed-box-justify-content": handleJustifyContent(justifyContent),
       "--seed-box-justify-self": justifySelf,
@@ -688,56 +669,6 @@ export function useStyleProps<T extends UseStyleProps>(
 
       // Active
       "--seed-box-background--active": handleColor(_active?.bg ?? _active?.background),
-
-      // Responsive props (breakpoint-suffixed)
-      ...(width !== undefined && resolveResponsive("--seed-box-width", width, handleDimension)),
-      ...(minWidth !== undefined &&
-        resolveResponsive("--seed-box-min-width", minWidth, handleDimension)),
-      ...(maxWidth !== undefined &&
-        resolveResponsive("--seed-box-max-width", maxWidth, handleDimension)),
-      ...(height !== undefined && resolveResponsive("--seed-box-height", height, handleDimension)),
-      ...(minHeight !== undefined &&
-        resolveResponsive("--seed-box-min-height", minHeight, handleDimension)),
-      ...(maxHeight !== undefined &&
-        resolveResponsive("--seed-box-max-height", maxHeight, handleDimension)),
-      ...((padding ?? p) !== undefined &&
-        resolveResponsive("--seed-box-padding", padding ?? p, handleDimension)),
-      ...((paddingX ?? px) !== undefined &&
-        resolveResponsive("--seed-box-padding-x", paddingX ?? px, handleDimension)),
-      ...((paddingY ?? py) !== undefined &&
-        resolveResponsive("--seed-box-padding-y", paddingY ?? py, handleDimension)),
-      ...((paddingTop ?? pt) !== undefined &&
-        resolveResponsive("--seed-box-padding-top", paddingTop ?? pt, (v) =>
-          handlePaddingWithSafeArea(v, "top"),
-        )),
-      ...((paddingRight ?? pr) !== undefined &&
-        resolveResponsive("--seed-box-padding-right", paddingRight ?? pr, handleDimension)),
-      ...((paddingBottom ?? pb) !== undefined &&
-        resolveResponsive("--seed-box-padding-bottom", paddingBottom ?? pb, (v) =>
-          handlePaddingWithSafeArea(v, "bottom"),
-        )),
-      ...((paddingLeft ?? pl) !== undefined &&
-        resolveResponsive("--seed-box-padding-left", paddingLeft ?? pl, handleDimension)),
-      ...((bleedTop ?? bleedY) !== undefined &&
-        resolveResponsive("--seed-box-bleed-top", bleedTop ?? bleedY, (v) =>
-          handleBleed(v, "top"),
-        )),
-      ...((bleedRight ?? bleedX) !== undefined &&
-        resolveResponsive("--seed-box-bleed-right", bleedRight ?? bleedX, (v) =>
-          handleBleed(v, "right"),
-        )),
-      ...((bleedBottom ?? bleedY) !== undefined &&
-        resolveResponsive("--seed-box-bleed-bottom", bleedBottom ?? bleedY, (v) =>
-          handleBleed(v, "bottom"),
-        )),
-      ...((bleedLeft ?? bleedX) !== undefined &&
-        resolveResponsive("--seed-box-bleed-left", bleedLeft ?? bleedX, (v) =>
-          handleBleed(v, "left"),
-        )),
-      ...(gap !== undefined && resolveResponsive("--seed-box-gap", gap, handleDimension)),
-      ...(display !== undefined && resolveResponsive("--seed-box-display", display, handleDisplay)),
-      ...(flexDirection !== undefined &&
-        resolveResponsive("--seed-box-flex-direction", flexDirection, handleFlexDirection)),
       ...style,
     } as React.CSSProperties,
     restProps: {

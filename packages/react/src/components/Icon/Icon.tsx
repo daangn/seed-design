@@ -1,7 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { createContext, forwardRef, useCallback, useContext, useMemo, useRef } from "react";
-import type { UnwrapResponsive } from "../../types/responsive";
 import { handleColor, handleDimension, type StyleProps } from "../../utils/styled";
 
 export interface PrefixIconProps {
@@ -109,7 +108,7 @@ export const IconRequired = ({
 export interface IconProps {
   svg: React.ReactNode;
 
-  size?: UnwrapResponsive<StyleProps["height"]>;
+  size?: StyleProps["height"];
 
   color?: StyleProps["color"];
 }

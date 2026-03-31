@@ -90,30 +90,10 @@
   }
 
   .seed-bottom-sheet__body {
-    --seed-box-padding-x-base: var(--seed-dimension-spacing-x-global-gutter);
-    --seed-box-padding-x-sm: var(--seed-box-padding-x-base);
-    --seed-box-padding-x-md: var(--seed-box-padding-x-sm);
-    --seed-box-padding-x-lg: var(--seed-box-padding-x-md);
-    --seed-box-padding-x-xl: var(--seed-box-padding-x-lg);
-    --seed-box-padding-x: var(--seed-box-padding-x-base);
-    --seed-box-height-base: initial;
-    --seed-box-height-sm: var(--seed-box-height-base);
-    --seed-box-height-md: var(--seed-box-height-sm);
-    --seed-box-height-lg: var(--seed-box-height-md);
-    --seed-box-height-xl: var(--seed-box-height-lg);
-    --seed-box-height: var(--seed-box-height-base);
-    --seed-box-min-height-base: initial;
-    --seed-box-min-height-sm: var(--seed-box-min-height-base);
-    --seed-box-min-height-md: var(--seed-box-min-height-sm);
-    --seed-box-min-height-lg: var(--seed-box-min-height-md);
-    --seed-box-min-height-xl: var(--seed-box-min-height-lg);
-    --seed-box-min-height: var(--seed-box-min-height-base);
-    --seed-box-max-height-base: initial;
-    --seed-box-max-height-sm: var(--seed-box-max-height-base);
-    --seed-box-max-height-md: var(--seed-box-max-height-sm);
-    --seed-box-max-height-lg: var(--seed-box-max-height-md);
-    --seed-box-max-height-xl: var(--seed-box-max-height-lg);
-    --seed-box-max-height: var(--seed-box-max-height-base);
+    --seed-box-padding-x: var(--seed-dimension-spacing-x-global-gutter);
+    --seed-box-height: initial;
+    --seed-box-min-height: initial;
+    --seed-box-max-height: initial;
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
     padding-left: var(--seed-box-padding-x);
@@ -240,41 +220,5 @@
     animation-name: drawer-slide-from-bottom;
     animation-duration: var(--seed-duration-d6);
     animation-timing-function: var(--seed-timing-function-enter-expressive);
-  }
-
-  @media (width >= 480px) {
-    .seed-bottom-sheet__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-sm);
-      --seed-box-height: var(--seed-box-height-sm);
-      --seed-box-min-height: var(--seed-box-min-height-sm);
-      --seed-box-max-height: var(--seed-box-max-height-sm);
-    }
-  }
-
-  @media (width >= 768px) {
-    .seed-bottom-sheet__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-md);
-      --seed-box-height: var(--seed-box-height-md);
-      --seed-box-min-height: var(--seed-box-min-height-md);
-      --seed-box-max-height: var(--seed-box-max-height-md);
-    }
-  }
-
-  @media (width >= 1280px) {
-    .seed-bottom-sheet__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-lg);
-      --seed-box-height: var(--seed-box-height-lg);
-      --seed-box-min-height: var(--seed-box-min-height-lg);
-      --seed-box-max-height: var(--seed-box-max-height-lg);
-    }
-  }
-
-  @media (width >= 1440px) {
-    .seed-bottom-sheet__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-xl);
-      --seed-box-height: var(--seed-box-height-xl);
-      --seed-box-min-height: var(--seed-box-min-height-xl);
-      --seed-box-max-height: var(--seed-box-max-height-xl);
-    }
   }
 }

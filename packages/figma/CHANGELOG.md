@@ -1,12 +1,5 @@
 # @seed-design/figma
 
-## 0.0.0-alpha-20260324091316
-
-### Patch Changes
-
-- Updated dependencies [a3780cd]
-  - @seed-design/css@0.0.0-alpha-20260324091316
-
 ## 1.3.9
 
 ### Patch Changes
@@ -46,6 +39,7 @@
 ### Patch Changes
 
 - d6df976: Figma Codegen 관련 개선사항을 적용합니다.
+
   - TabsTrigger, ChipTabsTrigger Codegen 시 label 값이 누락되던 문제를 수정합니다.
   - MenuSheet Codegen 시 컴포넌트 이름이 `MenuSheet`로 잘못 생성되던 문제를 `MenuSheetRoot`로 수정합니다.
   - BottomSheet Codegen 시 정적 컴포넌트 키 대신 props에서 동적으로 키를 참조하도록 수정하여 인스턴스 매칭 오류를 해결합니다.
@@ -64,6 +58,7 @@
 ### Patch Changes
 
 - 934a877: Figma Codegen 관련 개선 사항을 적용합니다.
+
   - Image Frame 컴포넌트의 React Codegen을 지원합니다.
   - OS 상단바 등 불필요한 UI 요소를 codegen 대상에서 제외합니다.
   - 너비가 Fill로 설정된 Action Button이 `flexGrow`를 갖도록 개선합니다.
@@ -105,7 +100,9 @@
 ### Minor Changes
 
 - a58022d: `SwitchMark`를 `Switchmark`로, `RadioMark`를 `Radiomark`로 Snippet 컴포넌트 이름을 변경합니다.
+
   - **1.1 → 1.2 업그레이드 시 변경 권장**: snippet을 다시 내려받고, `SwitchMark`, `RadioMark`를 사용하는 코드를 아래와 같이 변경하세요.
+
     - `npx @seed-design/cli@latest add ui:switch ui:radio-group`
     - snippet에 `SwitchMark`, `RadioMark` 정의가 존재하지만, 1.3 릴리즈 시 snippet에서 해당 맵핑이 제거될 예정이므로 미리 변경해두시길 권장드립니다.
 
@@ -148,11 +145,13 @@
     ```
 
 - a0e40ca: [Tag Group](/react/components/tag-group) 관련 컴포넌트를 업데이트합니다.
+
   - `TagGroupItem` 레이블 내부에서 줄바꿈이 발생할 수 있도록 수정합니다. (기존: `TagGroupItem` 또는 separator 전후에서 줄바꿈 발생)
   - 한 줄 레이아웃 및 우선순위 옵션을 추가합니다.
     - `TagGroupRoot`에 `truncate` prop을 사용하여 한 줄로 유지하고 말줄임 처리를 할 수 있습니다. (기본값: `false`)
     - `TagGroupItem`에 `flexShrink` prop을 사용하여 말줄임 우선순위를 조정할 수 있습니다.
   - **1.1 → 1.2 업그레이드 시 변경 필요**: `TagGroupItem` 내부 레이블을 `TagGroupItemLabel`로 감싸거나, 신규로 제공되는 Snippet에서 제공하는 API로 교체해주세요.
+
     - `npx @seed-design/cli@latest add ui:tag-group` 명령어로 Snippet을 추가할 수 있습니다.
 
     ```tsx
@@ -222,9 +221,11 @@
     ```
 
 - 358a1e4: [Menu Sheet](/react/components/menu-sheet) 관련 컴포넌트를 업데이트합니다.
+
   - `MenuSheetContent`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
   - `MenuSheetItem`에 설명을 추가할 수 있는 `description` prop이 추가되었습니다.
   - **1.1 → 1.2 업그레이드 시 변경 필요**: snippet을 다시 내려받고, `MenuSheetItem`을 사용하는 코드를 아래와 같이 변경하세요.
+
     - `npx @seed-design/cli@latest add ui:menu-sheet`
     - `children` 대신 `label` prop을 사용합니다.
     - `description`, `prefixIcon` prop이 추가되었습니다.
@@ -502,6 +503,7 @@
 ### Patch Changes
 
 - afdd1ee: Figma Codegen을 위한 컴포넌트 핸들러를 업데이트합니다.
+
   - List, Checkmark, RadioMark, Radio, Tabs, ChipTabs 지원
   - Chip, Divider, HelpBubble, Switch, Checkbox 업데이트
 
@@ -547,6 +549,7 @@
 ### Patch Changes
 
 - f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
   - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
 
   ```tsx
@@ -565,14 +568,17 @@
   ```
 
   시맨틱 색상 토큰을 추가하고 수정합니다.
+
   - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
   - `$color.bg.warning-solid-pressed` 추가
 
 - 1982494: Badge 컴포넌트를 업데이트합니다.
+
   - `tone=warning` variant를 추가합니다.
   - `maxWidth` 스펙을 추가합니다.
 
   신규 시맨틱 색상 토큰을 추가합니다.
+
   - `$color.fg.warning`
   - `$color.stroke.warning`
   - `$color.fg.brand-contrast`
@@ -610,6 +616,7 @@
 ### Patch Changes
 
 - aa40f66: Figma 컴포넌트 정보 및 핸들러를 최신화하고 codegen을 업데이트합니다.
+
   - Instance에 오버라이드한 내용이 있는 경우 주석으로 알립니다.
 
 - Updated dependencies [ef91c21]
@@ -620,12 +627,14 @@
 ### Patch Changes
 
 - 5a025b7: Switch 컴포넌트를 업데이트합니다.
+
   - size: medium → 32, small → 16으로 rename합니다.
     - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
   - size: 24를 추가합니다.
   - 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
 
 - f9379e0: Figma 컴포넌트 핸들러 정보를 최신화하고 정확한 prop을 생성하도록 수정합니다.
+
   - Chip, Progress Circle, Switch 컴포넌트 핸들러를 업데이트합니다.
   - `grow` 대신 `flexGrow`가 생성되도록, `borderWidth`가 `string`으로 생성되도록 수정합니다.
 
@@ -918,6 +927,7 @@
 ### Patch Changes
 
 - 1d9e06a: SEED Design의 Figma 통합을 위한 패키지를 제공합니다.
+
   - REST API와 Plugin API를 normalize 합니다. 플러그인 및 서버 환경 모두 동일한 방식으로 사용할 수 있도록 합니다.
   - Figma Plugin으로 제공되었던 Codegen 기능을 패키지로 제공합니다.
 

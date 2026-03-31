@@ -37,7 +37,7 @@ const listItem = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
 
-      "--seed-box-padding-right--responsive": vars.base.enabled.prefix.paddingRight,
+      "--seed-box-padding-right": vars.base.enabled.prefix.paddingRight,
       paddingRight: "var(--seed-box-padding-right)",
 
       "--seed-focus-ring": "none",
@@ -60,7 +60,7 @@ const listItem = defineSlotRecipe({
 
       "--seed-box-position": "initial",
       position: "var(--seed-box-position)",
-      "--seed-box-gap--responsive": vars.base.enabled.suffix.gap,
+      "--seed-box-gap": vars.base.enabled.suffix.gap,
       gap: "var(--seed-box-gap)",
 
       "--seed-focus-ring": "none",
@@ -93,9 +93,9 @@ const listItem = defineSlotRecipe({
       backgroundColor: "transparent",
       border: "none",
       fontFamily: "inherit",
-      "--seed-box-gap--responsive": vars.base.enabled.content.gap,
+      "--seed-box-gap": vars.base.enabled.content.gap,
       gap: "var(--seed-box-gap)",
-      "--seed-box-padding-right--responsive": vars.base.enabled.content.paddingRight,
+      "--seed-box-padding-right": vars.base.enabled.content.paddingRight,
       padding: "0 var(--seed-box-padding-right) 0 0",
 
       textDecoration: "none",
