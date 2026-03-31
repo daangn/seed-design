@@ -1,6 +1,7 @@
 export {
   MenuRoot as Root,
   MenuTrigger as Trigger,
+  MenuPositioner as Positioner,
   MenuContent as Content,
   MenuItem as Item,
   MenuGroup as Group,
@@ -8,6 +9,7 @@ export {
   MenuDivider as Divider,
   type MenuRootProps as RootProps,
   type MenuTriggerProps as TriggerProps,
+  type MenuPositionerProps as PositionerProps,
   type MenuContentProps as ContentProps,
   type MenuItemProps as ItemProps,
   type MenuGroupProps as GroupProps,

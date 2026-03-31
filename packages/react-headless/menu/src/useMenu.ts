@@ -1,78 +1,143 @@
 "use client";
 
 import {
-  useFloatingRootContext,
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+  limitShift,
   useClick,
   useRole,
   useDismiss,
   useListNavigation,
   useTypeahead,
   useInteractions,
+  type Placement,
 } from "@floating-ui/react";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-export interface UseMenuProps {
+interface UseMenuStateProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+}
+
+export interface UseMenuProps extends UseMenuStateProps {
   disabled?: boolean;
   modal?: boolean;
-  loopFocus?: boolean;
-  closeParentOnEsc?: boolean;
+  /** Floating UI placement. @default "bottom" */
+  placement?: Placement;
+  /** Distance between trigger and floating element. @default 0 */
+  gutter?: number;
+  /** Virtual padding around viewport edges. @default 8 */
+  overflowPadding?: number;
+  /** Positioning strategy. @default "absolute" */
+  strategy?: "absolute" | "fixed";
 }
 
 export interface UseMenuItemProps {
-  id?: string;
   disabled?: boolean;
-  closeOnClick?: boolean;
+  /**
+   * Overrides the text label to use when the item is matched during keyboard text navigation.
+   * Falls back to the element's text content if not provided.
+   */
   label?: string;
+
+  // intentionally defined here; onClick is omitted in MenuItemProps since it shouldn't be merged as restProps
+  /**
+   * Called when the item is activated (click or keyboard).
+   * Not called when the item is disabled.
+   */
   onClick?: React.MouseEventHandler;
 }
 
-export interface UseMenuGroupProps {
-  labelId?: string;
-}
-
-export interface UseMenuGroupLabelProps {
-  id?: string;
-}
-
 export interface UseMenuSubmenuTriggerProps {
-  id?: string;
   disabled?: boolean;
+  /**
+   * Overrides the text label to use when the item is matched during keyboard text navigation.
+   * Falls back to the element's text content if not provided.
+   */
   label?: string;
 }
 
 export type UseMenuReturn = ReturnType<typeof useMenu>;
 
 // ---------------------------------------------------------------------------
-// Hook
+// State Hook (internal)
+// ---------------------------------------------------------------------------
+
+function useMenuState(props: UseMenuStateProps) {
+  const [open = false, setOpenState] = useControllableState({
+    prop: props.open,
+    defaultProp: props.defaultOpen ?? false,
+    onChange: props.onOpenChange,
+  });
+
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const elementsRef = useRef<(HTMLElement | null)[]>([]);
+  const labelsRef = useRef<(string | null)[]>([]);
+  const triggerRef = useRef<Element | null>(null);
+  const prevOpenRef = useRef(false);
+
+  const itemIndexCounter = useRef(0);
+  itemIndexCounter.current = 0;
+
+  const groupIndexCounter = useRef(0);
+  groupIndexCounter.current = 0;
+
+  const menuId = useId();
+
+  return {
+    open,
+    setOpenState,
+    activeIndex,
+    setActiveIndex,
+    elementsRef,
+    labelsRef,
+    triggerRef,
+    prevOpenRef,
+    itemIndexCounter,
+    groupIndexCounter,
+    menuId,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Main Hook
 // ---------------------------------------------------------------------------
 
 export function useMenu(props: UseMenuProps = {}) {
   const {
-    open: openProp,
-    defaultOpen = false,
-    onOpenChange: onOpenChangeProp,
     disabled = false,
     modal = false,
-    loopFocus = false,
-    closeParentOnEsc = false,
+    placement: placementProp = "bottom",
+    gutter = 0,
+    overflowPadding = 8,
+    strategy: strategyProp = "absolute",
   } = props;
 
-  // ---- State ----
-
-  const [open = false, setOpenState] = useControllableState({
-    prop: openProp,
-    defaultProp: defaultOpen,
-    onChange: onOpenChangeProp,
-  });
+  const state = useMenuState(props);
+  const {
+    open,
+    setOpenState,
+    activeIndex,
+    setActiveIndex,
+    elementsRef,
+    labelsRef,
+    triggerRef,
+    prevOpenRef,
+    itemIndexCounter,
+    groupIndexCounter,
+    menuId,
+  } = state;
 
   const setOpen = useCallback(
     (nextOpen: boolean) => {
@@ -82,56 +147,59 @@ export function useMenu(props: UseMenuProps = {}) {
     [disabled, setOpenState],
   );
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [referenceEl, setReferenceEl] = useState<Element | null>(null);
-  const [floatingEl, setFloatingEl] = useState<HTMLElement | null>(null);
+  // ---- Floating UI: positioning + context ----
 
-  // Refs for list navigation
-  const elementsRef = useRef<(HTMLElement | null)[]>([]);
-  const labelsRef = useRef<(string | null)[]>([]);
-
-  // Track the trigger element for focus restoration
-  const triggerRef = useRef<Element | null>(null);
-  const prevOpenRef = useRef(false);
-
-  // Item index counter — reset each render so items register in order
-  const itemIndexCounter = useRef(0);
-  itemIndexCounter.current = 0;
-
-  // ---- Floating UI context ----
-
-  const rootContext = useFloatingRootContext({
+  const {
+    refs: floatingRefs,
+    context,
+    floatingStyles,
+  } = useFloating({
     open,
     onOpenChange: setOpen,
-    elements: {
-      reference: referenceEl,
-      floating: floatingEl,
-    },
+    strategy: strategyProp,
+    placement: placementProp,
+    middleware: [
+      offset(gutter),
+      flip({ padding: overflowPadding }),
+      shift({ padding: overflowPadding, limiter: limitShift() }),
+    ],
   });
+
+  // ---- Auto-update positioning ----
+
+  useEffect(() => {
+    if (!open) return;
+    if (!floatingRefs.reference.current || !floatingRefs.floating.current) return;
+    return autoUpdate(
+      floatingRefs.reference.current,
+      floatingRefs.floating.current,
+      context.update,
+    );
+  }, [open, floatingRefs.reference, floatingRefs.floating, context]);
 
   // ---- Interaction hooks ----
 
-  const click = useClick(rootContext, {
+  const click = useClick(context, {
     enabled: !disabled,
     event: "mousedown",
   });
 
-  const role = useRole(rootContext, {
+  const role = useRole(context, {
     role: "menu",
   });
 
-  const dismiss = useDismiss(rootContext, {
-    bubbles: closeParentOnEsc ? { escapeKey: true } : { escapeKey: false },
+  const dismiss = useDismiss(context, {
+    bubbles: { escapeKey: false },
   });
 
-  const listNavigation = useListNavigation(rootContext, {
+  const listNavigation = useListNavigation(context, {
     listRef: elementsRef,
     activeIndex,
     onNavigate: setActiveIndex,
-    loop: loopFocus,
+    loop: true,
   });
 
-  const typeahead = useTypeahead(rootContext, {
+  const typeahead = useTypeahead(context, {
     listRef: labelsRef,
     activeIndex,
     onMatch: setActiveIndex,
@@ -206,10 +274,10 @@ export function useMenu(props: UseMenuProps = {}) {
 
     refs: {
       trigger: (node: HTMLElement | null) => {
-        setReferenceEl(node);
+        floatingRefs.setReference(node);
         triggerRef.current = node;
       },
-      content: setFloatingEl,
+      positioner: floatingRefs.setFloating,
     },
 
     triggerProps: buttonProps({
@@ -217,6 +285,11 @@ export function useMenu(props: UseMenuProps = {}) {
       "aria-expanded": open,
       "data-open": dataAttr(open),
       ...getReferenceProps(),
+    }),
+
+    positionerProps: elementProps({
+      ...stateProps,
+      style: floatingStyles,
     }),
 
     contentProps: elementProps({
@@ -250,16 +323,18 @@ export function useMenu(props: UseMenuProps = {}) {
           ...getFloatingItemProps({
             onClick(event: React.MouseEvent) {
               if (itemProps.disabled) return;
+              if (event.defaultPrevented) return;
               itemProps.onClick?.(event);
-              if (itemProps.closeOnClick !== false) {
-                setOpen(false);
-              }
+              setOpen(false);
             },
             onKeyDown(event: React.KeyboardEvent) {
               if (itemProps.disabled) return;
               if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
-                (event.currentTarget as HTMLElement).click();
+
+                if (!(event.currentTarget instanceof HTMLElement)) return;
+
+                event.currentTarget.click();
               }
             },
           }),
@@ -301,17 +376,22 @@ export function useMenu(props: UseMenuProps = {}) {
       };
     },
 
-    getGroupProps: (groupProps?: UseMenuGroupProps) => {
-      return elementProps({
-        role: "group",
-        "aria-labelledby": groupProps?.labelId,
-      });
+    getGroupProps: () => {
+      const groupIndex = groupIndexCounter.current++;
+      const labelId = `menu:${menuId}:group-${groupIndex}:label`;
+      return {
+        labelId,
+        rootProps: elementProps({
+          role: "group",
+          "aria-labelledby": labelId,
+        }),
+      };
     },
 
-    getGroupLabelProps: (labelProps?: UseMenuGroupLabelProps) => {
+    getGroupLabelProps: (labelId: string) => {
       return elementProps({
         role: "presentation",
-        id: labelProps?.id,
+        id: labelId,
       });
     },
 

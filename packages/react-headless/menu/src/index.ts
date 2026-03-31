@@ -1,6 +1,7 @@
 export {
   MenuRoot,
   MenuTrigger,
+  MenuPositioner,
   MenuContent,
   MenuItem,
   MenuGroup,
@@ -8,6 +9,7 @@ export {
   MenuDivider,
   type MenuRootProps,
   type MenuTriggerProps,
+  type MenuPositionerProps,
   type MenuContentProps,
   type MenuItemProps,
   type MenuGroupProps,
@@ -19,11 +21,9 @@ export { useMenuContext, type UseMenuContext } from "./useMenuContext";
 
 export * as Menu from "./Menu.namespace";
 
-export {
-  type UseMenuProps,
-  type UseMenuItemProps,
-  type UseMenuGroupProps,
-  type UseMenuGroupLabelProps,
-  type UseMenuSubmenuTriggerProps,
-  type UseMenuReturn,
+export type {
+  UseMenuProps,
+  UseMenuItemProps,
+  UseMenuSubmenuTriggerProps,
+  UseMenuReturn,
 } from "./useMenu";

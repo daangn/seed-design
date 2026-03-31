@@ -1,0 +1,99 @@
+"use client";
+
+import { PrefixIcon, SuffixIcon, Menu as SeedMenu } from "@seed-design/react";
+import * as React from "react";
+
+export interface MenuRootProps extends SeedMenu.RootProps {}
+
+/**
+ * @see https://seed-design.io/react/components/menu
+ */
+export const MenuRoot = SeedMenu.Root;
+
+export interface MenuTriggerProps extends SeedMenu.TriggerProps {}
+
+export const MenuTrigger = SeedMenu.Trigger;
+
+export interface MenuContentProps extends SeedMenu.PositionerProps {}
+
+export const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
+  ({ children, ...props }, ref) => {
+    return (
+      <SeedMenu.Positioner {...props}>
+        <SeedMenu.Content ref={ref}>
+          <SeedMenu.ScrollArea>{children}</SeedMenu.ScrollArea>
+        </SeedMenu.Content>
+      </SeedMenu.Positioner>
+    );
+  },
+);
+MenuContent.displayName = "MenuContent";
+
+export interface MenuGroupProps extends SeedMenu.GroupProps {}
+
+export const MenuGroup = SeedMenu.Group;
+
+export interface MenuGroupHeaderProps extends SeedMenu.GroupHeaderProps {}
+
+export const MenuGroupHeader = SeedMenu.GroupHeader;
+
+export interface MenuItemProps extends Omit<SeedMenu.ItemProps, "children" | "label"> {
+  prefixIcon?: React.ReactNode;
+
+  label: React.ReactNode;
+
+  description?: React.ReactNode;
+
+  suffixIcon?: React.ReactNode;
+}
+
+export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
+  ({ prefixIcon, label, description, suffixIcon, ...props }, ref) => {
+    return (
+      <SeedMenu.Item ref={ref} {...props}>
+        {prefixIcon && <PrefixIcon svg={prefixIcon} />}
+        <SeedMenu.ItemBody>
+          <SeedMenu.ItemLabel>{label}</SeedMenu.ItemLabel>
+          {description && <SeedMenu.ItemDescription>{description}</SeedMenu.ItemDescription>}
+        </SeedMenu.ItemBody>
+        {suffixIcon && <SuffixIcon svg={suffixIcon} />}
+      </SeedMenu.Item>
+    );
+  },
+);
+MenuItem.displayName = "MenuItem";
+
+export interface MenuDividerProps extends SeedMenu.DividerProps {}
+
+export const MenuDivider = SeedMenu.Divider;
+
+// export interface MenuSubmenuRootProps extends SeedMenu.SubmenuRootProps {}
+
+// export const MenuSubmenuRoot = SeedMenu.SubmenuRoot;
+
+// export interface MenuSubmenuTriggerProps
+//   extends Omit<SeedMenu.SubmenuTriggerProps, "children" | "label"> {
+//   prefixIcon?: React.ReactNode;
+
+//   label: React.ReactNode;
+
+//   description?: React.ReactNode;
+
+//   suffixIcon?: React.ReactNode;
+// }
+
+// export const MenuSubmenuTrigger = React.forwardRef<HTMLDivElement, MenuSubmenuTriggerProps>(
+//   ({ prefixIcon, label, description, suffixIcon, ...props }, ref) => {
+//     return (
+//       <SeedMenu.SubmenuTrigger ref={ref} {...props}>
+//         {prefixIcon && <PrefixIcon svg={prefixIcon} />}
+//         <SeedMenu.ItemBody>
+//           <SeedMenu.ItemLabel>{label}</SeedMenu.ItemLabel>
+//           {description && <SeedMenu.ItemDescription>{description}</SeedMenu.ItemDescription>}
+//         </SeedMenu.ItemBody>
+//         {suffixIcon && <SuffixIcon svg={suffixIcon} />}
+//       </SeedMenu.SubmenuTrigger>
+//     );
+//   },
+// );
+// MenuSubmenuTrigger.displayName = "MenuSubmenuTrigger";

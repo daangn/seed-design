@@ -8,6 +8,7 @@ import * as React from "react";
 import {
   MenuRoot as Menu,
   MenuTrigger,
+  MenuPositioner,
   MenuContent,
   MenuItem,
   MenuGroup,
@@ -33,28 +34,32 @@ function setUp(jsx: ReactElement) {
 // Common test fixtures
 // ---------------------------------------------------------------------------
 
-function BasicMenu(props: UseMenuProps = {}) {
+function BasicMenu(props: UseMenuProps) {
   return (
     <Menu {...props}>
       <MenuTrigger>Open Menu</MenuTrigger>
-      <MenuContent>
-        <MenuItem>Item 1</MenuItem>
-        <MenuItem>Item 2</MenuItem>
-        <MenuItem>Item 3</MenuItem>
-      </MenuContent>
+      <MenuPositioner>
+        <MenuContent>
+          <MenuItem>Item 1</MenuItem>
+          <MenuItem>Item 2</MenuItem>
+          <MenuItem>Item 3</MenuItem>
+        </MenuContent>
+      </MenuPositioner>
     </Menu>
   );
 }
 
-function MenuWithDisabledItems(props: UseMenuProps = {}) {
+function MenuWithDisabledItems(props: UseMenuProps) {
   return (
     <Menu {...props}>
       <MenuTrigger>Open Menu</MenuTrigger>
-      <MenuContent>
-        <MenuItem>Item 1</MenuItem>
-        <MenuItem disabled>Item 2 (disabled)</MenuItem>
-        <MenuItem>Item 3</MenuItem>
-      </MenuContent>
+      <MenuPositioner>
+        <MenuContent>
+          <MenuItem>Item 1</MenuItem>
+          <MenuItem disabled>Item 2 (disabled)</MenuItem>
+          <MenuItem>Item 3</MenuItem>
+        </MenuContent>
+      </MenuPositioner>
     </Menu>
   );
 }
@@ -63,32 +68,36 @@ function MenuWithGroups() {
   return (
     <Menu>
       <MenuTrigger>Open Menu</MenuTrigger>
-      <MenuContent>
-        <MenuGroup labelId="group-1-label">
-          <MenuGroupLabel id="group-1-label">Group 1</MenuGroupLabel>
-          <MenuItem>Item A</MenuItem>
-          <MenuItem>Item B</MenuItem>
-        </MenuGroup>
-        <MenuDivider />
-        <MenuGroup labelId="group-2-label">
-          <MenuGroupLabel id="group-2-label">Group 2</MenuGroupLabel>
-          <MenuItem>Item C</MenuItem>
-        </MenuGroup>
-      </MenuContent>
+      <MenuPositioner>
+        <MenuContent>
+          <MenuGroup>
+            <MenuGroupLabel>Group 1</MenuGroupLabel>
+            <MenuItem>Item A</MenuItem>
+            <MenuItem>Item B</MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuGroup>
+            <MenuGroupLabel>Group 2</MenuGroupLabel>
+            <MenuItem>Item C</MenuItem>
+          </MenuGroup>
+        </MenuContent>
+      </MenuPositioner>
     </Menu>
   );
 }
 
-function MenuWithLabels(props: UseMenuProps = {}) {
+function MenuWithLabels(props: UseMenuProps) {
   return (
     <Menu {...props}>
       <MenuTrigger>Open Menu</MenuTrigger>
-      <MenuContent>
-        <MenuItem label="Apple">Apple</MenuItem>
-        <MenuItem label="Banana">Banana</MenuItem>
-        <MenuItem label="Cherry">Cherry</MenuItem>
-        <MenuItem label="Dragonfruit">Dragonfruit</MenuItem>
-      </MenuContent>
+      <MenuPositioner>
+        <MenuContent>
+          <MenuItem label="Apple">Apple</MenuItem>
+          <MenuItem label="Banana">Banana</MenuItem>
+          <MenuItem label="Cherry">Cherry</MenuItem>
+          <MenuItem label="Dragonfruit">Dragonfruit</MenuItem>
+        </MenuContent>
+      </MenuPositioner>
     </Menu>
   );
 }
@@ -104,9 +113,11 @@ function ControlledMenu({ onOpenChange }: { onOpenChange: (open: boolean) => voi
       }}
     >
       <MenuTrigger>Open Menu</MenuTrigger>
-      <MenuContent>
-        <MenuItem>Item 1</MenuItem>
-      </MenuContent>
+      <MenuPositioner>
+        <MenuContent>
+          <MenuItem>Item 1</MenuItem>
+        </MenuContent>
+      </MenuPositioner>
     </Menu>
   );
 }
@@ -149,7 +160,10 @@ describe("useMenu", () => {
       const { getByText, getAllByRole, user } = setUp(<MenuWithGroups />);
       await user.click(getByText("Open Menu"));
       const groups = getAllByRole("group");
-      expect(groups[0]).toHaveAttribute("aria-labelledby", "group-1-label");
+      const labelledBy = groups[0].getAttribute("aria-labelledby");
+      expect(labelledBy).toBeTruthy();
+      const label = getByText("Group 1");
+      expect(label).toHaveAttribute("id", labelledBy);
     });
   });
 
@@ -258,8 +272,8 @@ describe("useMenu", () => {
       expect(items[0]).toHaveFocus();
     });
 
-    it("wraps from last to first when loopFocus is true", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu loopFocus />);
+    it("wraps from last to first", async () => {
+      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
       await user.click(getByText("Open Menu"));
       const items = getAllByRole("menuitem");
       // Navigate to last item
@@ -270,8 +284,8 @@ describe("useMenu", () => {
       expect(items[0]).toHaveFocus();
     });
 
-    it("wraps from first to last when loopFocus is true", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu loopFocus />);
+    it("wraps from first to last", async () => {
+      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
       await user.click(getByText("Open Menu"));
       const items = getAllByRole("menuitem");
       // First item focused
@@ -347,11 +361,13 @@ describe("useMenu", () => {
       const { getByText, user } = setUp(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem label="Café">Café</MenuItem>
-            <MenuItem label="Naïve">Naïve</MenuItem>
-            <MenuItem label="Résumé">Résumé</MenuItem>
-          </MenuContent>
+          <MenuPositioner>
+            <MenuContent>
+              <MenuItem label="Café">Café</MenuItem>
+              <MenuItem label="Naïve">Naïve</MenuItem>
+              <MenuItem label="Résumé">Résumé</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
         </Menu>,
       );
       await user.click(getByText("Open Menu"));
@@ -364,12 +380,14 @@ describe("useMenu", () => {
       const { getByText, user } = setUp(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem label="A B" onClick={onClick}>
-              A B
-            </MenuItem>
-            <MenuItem label="CD">CD</MenuItem>
-          </MenuContent>
+          <MenuPositioner>
+            <MenuContent>
+              <MenuItem label="A B" onClick={onClick}>
+                A B
+              </MenuItem>
+              <MenuItem label="CD">CD</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
         </Menu>,
       );
       await user.click(getByText("Open Menu"));
@@ -383,10 +401,12 @@ describe("useMenu", () => {
       const { getByText, user } = setUp(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem label="Alpha">Item with icon 1</MenuItem>
-            <MenuItem label="Beta">Item with icon 2</MenuItem>
-          </MenuContent>
+          <MenuPositioner>
+            <MenuContent>
+              <MenuItem label="Alpha">Item with icon 1</MenuItem>
+              <MenuItem label="Beta">Item with icon 2</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
         </Menu>,
       );
       await user.click(getByText("Open Menu"));
@@ -404,9 +424,11 @@ describe("useMenu", () => {
       const { getByText, user } = setUp(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem onClick={onClick}>Clickable</MenuItem>
-          </MenuContent>
+          <MenuPositioner>
+            <MenuContent>
+              <MenuItem onClick={onClick}>Clickable</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
         </Menu>,
       );
       await user.click(getByText("Open Menu"));
@@ -418,9 +440,11 @@ describe("useMenu", () => {
       const { getByText, queryByRole, user } = setUp(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem>Clickable</MenuItem>
-          </MenuContent>
+          <MenuPositioner>
+            <MenuContent>
+              <MenuItem>Clickable</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
         </Menu>,
       );
       await user.click(getByText("Open Menu"));
@@ -428,28 +452,16 @@ describe("useMenu", () => {
       expect(queryByRole("menu")).not.toBeInTheDocument();
     });
 
-    it("keeps menu open when closeOnClick is false", async () => {
-      const { getByText, queryByRole, user } = setUp(
-        <Menu>
-          <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem closeOnClick={false}>Stay Open</MenuItem>
-          </MenuContent>
-        </Menu>,
-      );
-      await user.click(getByText("Open Menu"));
-      await user.click(getByText("Stay Open"));
-      expect(queryByRole("menu")).toBeInTheDocument();
-    });
-
     it("activates item on Enter key", async () => {
       const onClick = mock();
       const { getByText, user } = setUp(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem onClick={onClick}>Activatable</MenuItem>
-          </MenuContent>
+          <MenuPositioner>
+            <MenuContent>
+              <MenuItem onClick={onClick}>Activatable</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
         </Menu>,
       );
       await user.click(getByText("Open Menu"));
@@ -463,9 +475,11 @@ describe("useMenu", () => {
       const { getByText, user } = setUp(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem onClick={onClick}>Activatable</MenuItem>
-          </MenuContent>
+          <MenuPositioner>
+            <MenuContent>
+              <MenuItem onClick={onClick}>Activatable</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
         </Menu>,
       );
       await user.click(getByText("Open Menu"));
@@ -478,11 +492,13 @@ describe("useMenu", () => {
       const { getByText, user } = setUp(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem disabled onClick={onClick}>
-              Disabled
-            </MenuItem>
-          </MenuContent>
+          <MenuPositioner>
+            <MenuContent>
+              <MenuItem disabled onClick={onClick}>
+                Disabled
+              </MenuItem>
+            </MenuContent>
+          </MenuPositioner>
         </Menu>,
       );
       await user.click(getByText("Open Menu"));
@@ -561,9 +577,11 @@ describe("useMenu", () => {
       const { getByText } = setUp(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuContent>
-            <MenuItem onClick={onClick}>Target</MenuItem>
-          </MenuContent>
+          <MenuPositioner>
+            <MenuContent>
+              <MenuItem onClick={onClick}>Target</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
         </Menu>,
       );
       const trigger = getByText("Open Menu");

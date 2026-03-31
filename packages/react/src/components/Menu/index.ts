@@ -8,8 +8,6 @@ export {
   MenuItem,
   MenuItemLabel,
   MenuDivider,
-  MenuSubmenuRoot,
-  MenuSubmenuTrigger,
   type MenuRootProps,
   type MenuTriggerProps,
   type MenuPositionerProps,
@@ -19,8 +17,6 @@ export {
   type MenuItemProps,
   type MenuItemLabelProps,
   type MenuDividerProps,
-  type MenuSubmenuRootProps,
-  type MenuSubmenuTriggerProps,
 } from "./Menu";
 
 export * as Menu from "./Menu.namespace";

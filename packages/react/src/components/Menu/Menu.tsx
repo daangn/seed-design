@@ -1,5 +1,7 @@
-import { Menu as MenuPrimitive } from "@base-ui-components/react/menu";
-import type { Separator } from "@base-ui-components/react/separator";
+"use client";
+
+import { Menu as MenuPrimitive } from "@seed-design/react-menu";
+import { Portal } from "@seed-design/react-portal";
 import { menu, type MenuVariantProps } from "@seed-design/css/recipes/menu";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
@@ -10,31 +12,46 @@ const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuRootProps extends MenuVariantProps, MenuPrimitive.Root.Props {}
+export interface MenuRootProps extends MenuVariantProps, MenuPrimitive.RootProps {}
 
-export const MenuRoot = withRootProvider<MenuRootProps>(MenuPrimitive.Root);
+export const MenuRoot = (props: MenuRootProps) => {
+  const [variantProps, otherProps] = menu.splitVariantProps(props);
+  const classNames = menu(variantProps);
+
+  return (
+    <ClassNamesProvider value={classNames}>
+      <ItemPropsProvider value={{ size: variantProps.size }}>
+        <MenuPrimitive.Root {...otherProps} />
+      </ItemPropsProvider>
+    </ClassNamesProvider>
+  );
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuTriggerProps extends MenuPrimitive.Trigger.Props {}
+export interface MenuTriggerProps extends MenuPrimitive.TriggerProps {}
 
 export const MenuTrigger = MenuPrimitive.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuPositionerProps extends MenuPrimitive.Positioner.Props {}
+export interface MenuPositionerProps
+  extends MenuPrimitive.PositionerProps,
+    PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuPositioner = React.forwardRef<HTMLDivElement, MenuPositionerProps>(
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
+
     return (
-      <MenuPrimitive.Portal>
+      <Portal>
         <MenuPrimitive.Positioner
           ref={ref}
           className={clsx(classNames.positioner, className)}
           {...props}
         />
-      </MenuPrimitive.Portal>
+      </Portal>
     );
   },
 );
@@ -42,22 +59,31 @@ MenuPositioner.displayName = "MenuPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuContentProps extends MenuPrimitive.Popup.Props {}
+export interface MenuContentProps extends MenuPrimitive.ContentProps {}
 
 export const MenuContent = withContext<HTMLDivElement, MenuContentProps>(
-  MenuPrimitive.Popup,
+  MenuPrimitive.Content,
   "content",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuGroupProps extends MenuPrimitive.Group.Props {}
+export interface MenuScrollAreaProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const MenuScrollArea = withContext<HTMLDivElement, MenuScrollAreaProps>(
+  Primitive.div,
+  "scrollArea",
+);
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface MenuGroupProps extends MenuPrimitive.GroupProps {}
 
 export const MenuGroup = withContext<HTMLDivElement, MenuGroupProps>(MenuPrimitive.Group, "group");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuGroupHeaderProps extends MenuPrimitive.GroupLabel.Props {}
+export interface MenuGroupHeaderProps extends MenuPrimitive.GroupLabelProps {}
 
 export const MenuGroupHeader = withContext<HTMLDivElement, MenuGroupHeaderProps>(
   MenuPrimitive.GroupLabel,
@@ -66,7 +92,7 @@ export const MenuGroupHeader = withContext<HTMLDivElement, MenuGroupHeaderProps>
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuItemProps extends MenuPrimitive.Item.Props {}
+export interface MenuItemProps extends MenuItemVariantProps, MenuPrimitive.ItemProps {}
 
 export const MenuItem = withContext<HTMLDivElement, MenuItemProps>(MenuPrimitive.Item, "item");
 
@@ -81,24 +107,9 @@ export const MenuItemLabel = withContext<HTMLSpanElement, MenuItemLabelProps>(
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuDividerProps extends Separator.Props {}
+export interface MenuDividerProps extends MenuPrimitive.DividerProps {}
 
 export const MenuDivider = withContext<HTMLDivElement, MenuDividerProps>(
-  MenuPrimitive.Separator,
+  MenuPrimitive.Divider,
   "divider",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface MenuSubmenuRootProps extends MenuPrimitive.SubmenuRoot.Props {}
-
-export const MenuSubmenuRoot = MenuPrimitive.SubmenuRoot;
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface MenuSubmenuTriggerProps extends MenuPrimitive.SubmenuTrigger.Props {}
-
-export const MenuSubmenuTrigger = withContext<HTMLDivElement, MenuSubmenuTriggerProps>(
-  MenuPrimitive.SubmenuTrigger,
-  "item",
 );

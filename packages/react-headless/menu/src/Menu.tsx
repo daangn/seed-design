@@ -3,29 +3,47 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import type * as React from "react";
-import { forwardRef } from "react";
-import {
-  useMenu,
-  type UseMenuProps,
-  type UseMenuItemProps,
-  type UseMenuGroupProps,
-  type UseMenuGroupLabelProps,
-} from "./useMenu";
+import React, { forwardRef, createContext } from "react";
+import { useMenu, type UseMenuItemProps, type UseMenuProps } from "./useMenu";
 import { MenuProvider, useMenuContext } from "./useMenuContext";
+
+const MenuGroupLabelIdContext = createContext<string | null>(null);
 
 // ---------------------------------------------------------------------------
 // MenuRoot
 // ---------------------------------------------------------------------------
 
-export interface MenuRootProps extends UseMenuProps {
-  children: React.ReactNode;
-}
+export interface MenuRootProps
+  extends UseMenuProps,
+    PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const MenuRoot = (props: MenuRootProps) => {
-  const { children, ...otherProps } = props;
-  const api = useMenu(otherProps);
-  return <MenuProvider value={api}>{children}</MenuProvider>;
+export const MenuRoot = ({
+  open,
+  defaultOpen,
+  onOpenChange,
+  disabled,
+  modal,
+  placement,
+  gutter,
+  overflowPadding,
+  strategy,
+
+  ...props
+}: MenuRootProps) => {
+  const api = useMenu({
+    open,
+    defaultOpen,
+    onOpenChange,
+    disabled,
+    modal,
+    placement,
+    gutter,
+    overflowPadding,
+    strategy,
+  });
+
+  return <MenuProvider value={api} {...props} />;
 };
 
 // ---------------------------------------------------------------------------
@@ -36,6 +54,7 @@ export interface MenuTriggerProps extends PrimitiveProps, React.HTMLAttributes<H
 
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>((props, ref) => {
   const api = useMenuContext();
+
   return (
     <Primitive.button
       ref={composeRefs(api.refs.trigger, ref)}
@@ -46,6 +65,25 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>((prop
 MenuTrigger.displayName = "MenuTrigger";
 
 // ---------------------------------------------------------------------------
+// MenuPositioner
+// ---------------------------------------------------------------------------
+
+export interface MenuPositionerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>((props, ref) => {
+  const api = useMenuContext();
+  if (!api.open) return null;
+
+  return (
+    <Primitive.div
+      ref={composeRefs(api.refs.positioner, ref)}
+      {...mergeProps(api.positionerProps, props)}
+    />
+  );
+});
+MenuPositioner.displayName = "MenuPositioner";
+
+// ---------------------------------------------------------------------------
 // MenuContent
 // ---------------------------------------------------------------------------
 
@@ -54,12 +92,8 @@ export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<H
 export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, ref) => {
   const api = useMenuContext();
   if (!api.open) return null;
-  return (
-    <Primitive.div
-      ref={composeRefs(api.refs.content, ref)}
-      {...mergeProps(api.contentProps, props)}
-    />
-  );
+
+  return <Primitive.div ref={ref} {...mergeProps(api.contentProps, props)} />;
 });
 MenuContent.displayName = "MenuContent";
 
@@ -72,32 +106,36 @@ export interface MenuItemProps
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "onClick"> {}
 
-export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>((props, ref) => {
-  const { disabled, closeOnClick, label, onClick, ...otherProps } = props;
-  const api = useMenuContext();
-  const itemApi = api.getItemProps({ disabled, closeOnClick, label, onClick });
-  return (
-    <Primitive.div
-      ref={composeRefs(itemApi.refs.root, ref)}
-      {...mergeProps(itemApi.rootProps, otherProps)}
-    />
-  );
-});
+export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(
+  ({ disabled, label, onClick, ...restProps }, ref) => {
+    const { getItemProps } = useMenuContext();
+    const api = getItemProps({ disabled, label, onClick });
+
+    return (
+      <Primitive.div
+        ref={composeRefs(api.refs.root, ref)}
+        {...mergeProps(api.rootProps, restProps)}
+      />
+    );
+  },
+);
 MenuItem.displayName = "MenuItem";
 
 // ---------------------------------------------------------------------------
 // MenuGroup
 // ---------------------------------------------------------------------------
 
-export interface MenuGroupProps
-  extends UseMenuGroupProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface MenuGroupProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuGroup = forwardRef<HTMLDivElement, MenuGroupProps>((props, ref) => {
-  const { labelId, ...otherProps } = props;
-  const api = useMenuContext();
-  return <Primitive.div ref={ref} {...mergeProps(api.getGroupProps({ labelId }), otherProps)} />;
+  const { getGroupProps } = useMenuContext();
+  const { labelId, rootProps } = getGroupProps();
+
+  return (
+    <MenuGroupLabelIdContext.Provider value={labelId}>
+      <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />
+    </MenuGroupLabelIdContext.Provider>
+  );
 });
 MenuGroup.displayName = "MenuGroup";
 
@@ -105,16 +143,14 @@ MenuGroup.displayName = "MenuGroup";
 // MenuGroupLabel
 // ---------------------------------------------------------------------------
 
-export interface MenuGroupLabelProps
-  extends UseMenuGroupLabelProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface MenuGroupLabelProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuGroupLabel = forwardRef<HTMLDivElement, MenuGroupLabelProps>((props, ref) => {
-  const api = useMenuContext();
-  return (
-    <Primitive.div ref={ref} {...mergeProps(api.getGroupLabelProps({ id: props.id }), props)} />
-  );
+  const { getGroupLabelProps } = useMenuContext();
+  const labelId = React.useContext(MenuGroupLabelIdContext);
+  if (!labelId) throw new Error("MenuGroupLabel must be used within a MenuGroup");
+
+  return <Primitive.div ref={ref} {...mergeProps(getGroupLabelProps(labelId), props)} />;
 });
 MenuGroupLabel.displayName = "MenuGroupLabel";
 
@@ -126,6 +162,7 @@ export interface MenuDividerProps extends PrimitiveProps, React.HTMLAttributes<H
 
 export const MenuDivider = forwardRef<HTMLDivElement, MenuDividerProps>((props, ref) => {
   const api = useMenuContext();
+
   return <Primitive.div ref={ref} {...mergeProps(api.getDividerProps(), props)} />;
 });
 MenuDivider.displayName = "MenuDivider";

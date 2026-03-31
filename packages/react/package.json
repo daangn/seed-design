@@ -35,7 +35,6 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@base-ui-components/react": "^1.0.0-rc.0",
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.3",
@@ -51,6 +50,7 @@
     "@seed-design/react-field-button": "1.0.2",
     "@seed-design/react-fieldset": "0.1.0",
     "@seed-design/react-image": "0.1.1",
+    "@seed-design/react-menu": "0.0.0",
     "@seed-design/react-popover": "1.0.3",
     "@seed-design/react-portal": "1.0.0",
     "@seed-design/react-primitive": "1.0.0",
@@ -58,6 +58,7 @@
     "@seed-design/react-pull-to-refresh": "1.0.1",
     "@seed-design/react-radio-group": "1.1.0",
     "@seed-design/react-segmented-control": "1.0.1",
+    "@seed-design/react-side-navigation": "0.0.1",
     "@seed-design/react-slider": "1.0.2",
     "@seed-design/react-snackbar": "1.0.1",
     "@seed-design/react-switch": "1.0.1",
