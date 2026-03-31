@@ -38,7 +38,7 @@ export type Value =
   | Gradient
   | TokenRef;
 
-export type ModeEntry = { id: string; description?: string };
+export type ModeEntry = string | { id: string; description?: string };
 
 export interface TokenCollectionsModel {
   kind: "TokenCollections";

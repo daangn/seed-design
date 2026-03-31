@@ -8,17 +8,17 @@ data:
       - id: default
   - name: color
     modes:
-      - id: theme-light
-      - id: theme-dark
+      - theme-light
+      - theme-dark
   - name: viewport-width
     modes:
       - id: base
-        description: "세로 모드 폰"
+        description: "기본 모바일 화면"
       - id: sm
-        description: "가로 모드 폰 또는 좁은 태블릿"
+        description: "작은 태블릿 이상"
       - id: md
-        description: "태블릿"
+        description: "태블릿 이상"
       - id: lg
-        description: "데스크톱"
+        description: "데스크탑 이상"
       - id: xl
-        description: "넓은 데스크톱"
+        description: "넓은 데스크탑"

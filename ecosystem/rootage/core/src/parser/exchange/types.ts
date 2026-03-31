@@ -136,7 +136,7 @@ export interface TokensData {
   };
 }
 
-export type ModeEntry = { id: string; description?: string };
+export type ModeEntry = string | { id: string; description?: string };
 
 export interface TokenCollectionsModel {
   kind: "TokenCollections";
