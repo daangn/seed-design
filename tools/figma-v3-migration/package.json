@@ -23,7 +23,7 @@
     "@create-figma-plugin/utilities": "^4.0.0",
     "@figmazing/event": "0.0.1",
     "@karrotmarket/react-monochrome-icon": "^1.8.0",
-    "@seed-design/css": "^1.2.6",
+    "@seed-design/css": "^1.2.7",
     "@seed-design/migration-index": "^1.0.0",
     "@seed-design/react": "^1.2.8",
     "@seed-design/vite-plugin": "^1.1.0",
@@ -36,7 +36,7 @@
     "rgb-hex": "^4.1.0"
   },
   "devDependencies": {
-    "@figma/plugin-typings": "^1.110.0",
+    "@figma/plugin-typings": "^1.123.0",
     "@seed-design/figma-extractor": "^1.1.0",
     "@types/node": "^25.0.0",
     "@types/react": "^19.1.6",

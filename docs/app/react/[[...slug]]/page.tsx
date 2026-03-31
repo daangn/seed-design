@@ -1,5 +1,6 @@
 import { getGitHubSourceUrl, getLLMMarkdownUrl } from "@/app/_llms/config";
 import { reactSource } from "@/app/source";
+import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
 import { mdxComponents } from "@/components/mdx-components";
 import { LLMOptions, ViewOptions } from "@/components/page-actions";
 import { getComponentStatus } from "@/components/rootage";
@@ -27,6 +28,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   );
 
   const markdownUrl = getLLMMarkdownUrl("react", page.slugs);
+  const isChangelog = page.slugs.join("/") === "updates/changelog";
 
   return (
     <DocsPage
@@ -41,7 +43,11 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       <DocsTitle>{displayTitle}</DocsTitle>
       <DocsDescription>{displayDescription}</DocsDescription>
       <div className="flex flex-row gap-2 items-center mb-3 justify-end">
-        <LLMOptions markdownUrl={markdownUrl} />
+        {isChangelog ? (
+          <ChangelogLLMOptions fallbackUrl={markdownUrl} />
+        ) : (
+          <LLMOptions markdownUrl={markdownUrl} />
+        )}
         <ViewOptions markdownUrl={markdownUrl} githubUrl={getGitHubSourceUrl("react", page.path)} />
       </div>
       <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">

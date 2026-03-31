@@ -54,7 +54,7 @@ export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps
           <SeedMenuSheet.List>{children}</SeedMenuSheet.List>
           <SeedMenuSheet.Footer>
             {/* You may implement your own i18n for dismiss label */}
-            <SeedMenuSheet.CloseButton>취소</SeedMenuSheet.CloseButton>
+            <SeedMenuSheet.CloseButton>닫기</SeedMenuSheet.CloseButton>
           </SeedMenuSheet.Footer>
         </SeedMenuSheet.Content>
       </SeedMenuSheet.Positioner>
