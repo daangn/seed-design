@@ -17,7 +17,7 @@ const MenuSheetShowCloseButton = () => {
       <MenuSheetTrigger asChild>
         <ActionButton variant="neutralSolid">Open</ActionButton>
       </MenuSheetTrigger>
-      <MenuSheetContent title="Actions" aria-label="Menu Sheet" showCloseButton={false}>
+      <MenuSheetContent title="Actions" aria-label="Menu Sheet" showCloseButton>
         <MenuSheetGroup>
           <MenuSheetItem
             label="Action 1"

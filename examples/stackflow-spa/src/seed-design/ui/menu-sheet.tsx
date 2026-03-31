@@ -29,12 +29,12 @@ export interface MenuSheetContentProps extends Omit<SeedMenuSheet.ContentProps, 
   layerIndex?: number;
 
   /**
-   * @default true
+   * @default false
    */
   showCloseButton?: boolean;
 
   /**
-   * @default false
+   * @default true
    */
   showHandle?: boolean;
 }
@@ -46,8 +46,8 @@ export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps
       title,
       description,
       layerIndex,
-      showCloseButton = true,
-      showHandle = false,
+      showCloseButton = false,
+      showHandle = true,
       ...otherProps
     },
     ref,

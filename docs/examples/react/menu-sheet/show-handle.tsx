@@ -17,7 +17,7 @@ const MenuSheetShowHandle = () => {
       <MenuSheetTrigger asChild>
         <ActionButton variant="neutralSolid">Open</ActionButton>
       </MenuSheetTrigger>
-      <MenuSheetContent title="Actions" aria-label="Menu Sheet" showHandle>
+      <MenuSheetContent title="Actions" aria-label="Menu Sheet" showHandle={false}>
         <MenuSheetGroup>
           <MenuSheetItem label="Action 1" prefixIcon={<IconEyeSlashLine />} />
           <MenuSheetItem label="Action 2" prefixIcon={<IconEyeSlashLine />} />
