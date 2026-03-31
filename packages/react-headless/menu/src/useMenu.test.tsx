@@ -6,84 +6,27 @@ import type { ReactElement } from "react";
 import * as React from "react";
 
 import {
-  useMenu,
-  type UseMenuProps,
-  type UseMenuItemProps,
-  type UseMenuGroupProps,
-  type UseMenuGroupLabelProps,
-} from "./useMenu";
+  MenuRoot as Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+  MenuGroup,
+  MenuGroupLabel,
+  MenuDivider,
+  type MenuRootProps,
+} from "./index";
 
 // ---------------------------------------------------------------------------
-// Test Harness Components
+// Test Helpers
 // ---------------------------------------------------------------------------
 
-type UseMenuReturn = ReturnType<typeof useMenu>;
+type UseMenuProps = MenuRootProps;
 
 function setUp(jsx: ReactElement) {
   return {
     user: userEvent.setup(),
     ...render(jsx),
   };
-}
-
-const MenuContext = React.createContext<UseMenuReturn | null>(null);
-
-function useMenuContext() {
-  const context = React.useContext(MenuContext);
-  if (!context) {
-    throw new Error("Menu components must be rendered inside <Menu>");
-  }
-  return context;
-}
-
-function Menu({ children, ...props }: React.PropsWithChildren<UseMenuProps>) {
-  const api = useMenu(props);
-  return <MenuContext.Provider value={api}>{children}</MenuContext.Provider>;
-}
-
-function MenuTrigger({ children }: React.PropsWithChildren) {
-  const api = useMenuContext();
-  return (
-    <button ref={api.refs.trigger} {...api.triggerProps}>
-      {children}
-    </button>
-  );
-}
-
-function MenuContent({ children }: React.PropsWithChildren) {
-  const api = useMenuContext();
-  if (!api.open) return null;
-  return (
-    <div ref={api.refs.content} {...api.contentProps}>
-      {children}
-    </div>
-  );
-}
-
-function MenuItem(props: UseMenuItemProps & { children?: React.ReactNode }) {
-  const { getItemProps } = useMenuContext();
-  const { children, ...restProps } = props;
-  const itemApi = getItemProps(restProps);
-  return (
-    <div ref={itemApi.refs.root} {...itemApi.rootProps}>
-      {children}
-    </div>
-  );
-}
-
-function MenuGroup({ children, ...props }: React.PropsWithChildren<UseMenuGroupProps>) {
-  const { getGroupProps } = useMenuContext();
-  return <div {...getGroupProps(props)}>{children}</div>;
-}
-
-function MenuGroupLabel({ children, ...props }: React.PropsWithChildren<UseMenuGroupLabelProps>) {
-  const { getGroupLabelProps } = useMenuContext();
-  return <div {...getGroupLabelProps(props)}>{children}</div>;
-}
-
-function MenuDivider() {
-  const { getDividerProps } = useMenuContext();
-  return <hr {...getDividerProps()} />;
 }
 
 // ---------------------------------------------------------------------------
