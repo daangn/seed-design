@@ -34,11 +34,7 @@ export function LLMOptions({
   );
 }
 
-function LLMOptionsContent({
-  markdownUrl,
-}: {
-  markdownUrl: string;
-}) {
+function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
   const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const adapter = useSnackbarAdapter();

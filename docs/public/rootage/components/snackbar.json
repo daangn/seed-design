@@ -45,9 +45,6 @@
             "paddingY": {
               "type": "dimension"
             },
-            "gap": {
-              "type": "dimension"
-            },
             "enterOpacity": {
               "type": "number"
             },

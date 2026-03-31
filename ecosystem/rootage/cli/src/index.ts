@@ -446,4 +446,85 @@ yargs(process.argv.slice(2))
       console.log("Done");
     },
   )
+  .command(
+    "validate",
+    "Validate YAML files and auto-fix unused schema properties",
+    () => {},
+    async () => {
+      const filePaths = readYAMLFilesSync(artifactsDir);
+      const fileContents = await Promise.all(filePaths.map((name) => fs.readFile(name, "utf-8")));
+      const models = fileContents.map((content) => YAML.parse(content) as Authoring.Model);
+
+      // Auto-fix: remove unused schema properties from ComponentSpec models
+      let fixed = false;
+      for (let i = 0; i < models.length; i++) {
+        const model = models[i];
+        if (model.kind !== "ComponentSpec") continue;
+        if (!model.data.schema?.slots) continue;
+
+        // Collect used properties from definitions
+        const usedProperties = new Map<string, Set<string>>();
+        for (const slotName of Object.keys(model.data.schema.slots)) {
+          usedProperties.set(slotName, new Set());
+        }
+
+        for (const variantExpr of Object.values(model.data.definitions)) {
+          for (const stateBody of Object.values(variantExpr)) {
+            for (const [slotName, slotBody] of Object.entries(stateBody)) {
+              if (!usedProperties.has(slotName)) continue;
+              for (const propName of Object.keys(slotBody)) {
+                usedProperties.get(slotName)!.add(propName);
+              }
+            }
+          }
+        }
+
+        // Remove unused properties from schema
+        let modelFixed = false;
+        for (const [slotName, slotSchema] of Object.entries(model.data.schema.slots)) {
+          const used = usedProperties.get(slotName) ?? new Set();
+          for (const propName of Object.keys(slotSchema.properties)) {
+            if (!used.has(propName)) {
+              console.log(
+                `Removing unused property "${propName}" from slot "${slotName}" in ${path.basename(filePaths[i])}`,
+              );
+              delete slotSchema.properties[propName];
+              modelFixed = true;
+            }
+          }
+        }
+
+        if (modelFixed) {
+          fs.writeFileSync(filePaths[i], YAML.stringify(model));
+          fixed = true;
+        }
+      }
+
+      if (fixed) {
+        console.log("Auto-fixed unused schema properties. Re-validating...");
+        const updatedContents = await Promise.all(
+          filePaths.map((name) => fs.readFile(name, "utf-8")),
+        );
+        const updatedModels = updatedContents.map(
+          (content) => YAML.parse(content) as Authoring.Model,
+        );
+        models.splice(0, models.length, ...updatedModels);
+      }
+
+      const ctx = buildContext(
+        models.map((model, i) => ({
+          fileName: filePaths[i],
+          ast: Authoring.fromObject(model),
+          kind: model.kind,
+        })),
+      );
+      const result = validate(ctx);
+      if (!result.valid) {
+        console.error(result.message);
+        process.exit(1);
+      }
+
+      console.log("Validation passed.");
+    },
+  )
   .help().argv;
