@@ -4,47 +4,53 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches: [dev]
-  pull_request_target:
-    types: [labeled]
-    branches: [dev]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to analyze"
+        required: true
+        type: number
 
 jobs:
   analyze-dependencies:
     concurrency:
-      group: renovate-dependency-review-${{ github.event.pull_request.number }}
+      group: renovate-dependency-review-${{ github.event.pull_request.number || inputs.pr_number }}
       cancel-in-progress: true
     if: >-
-      (github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/'))
-      || (github.event_name == 'pull_request_target'
-          && github.event.label.name == 'analyze-deps')
+      github.event_name == 'workflow_dispatch'
+      || (github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
       contents: read
       pull-requests: write
-      id-token: write
     steps:
-      - name: Remove trigger label
-        if: github.event_name == 'pull_request_target'
-        run: gh pr edit ${{ github.event.pull_request.number }} --remove-label analyze-deps
+      - name: Resolve PR metadata
+        if: github.event_name == 'workflow_dispatch'
+        id: pr-info
+        run: |
+          PR_DATA=$(gh api repos/${{ github.repository }}/pulls/${{ inputs.pr_number }} \
+            --jq '{head_ref: .head.ref, base_sha: .base.sha}')
+          echo "head_ref=$(echo "$PR_DATA" | jq -r '.head_ref')" >> "$GITHUB_OUTPUT"
+          echo "base_sha=$(echo "$PR_DATA" | jq -r '.base_sha')" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
 
       - name: Checkout PR branch
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ steps.pr-info.outputs.head_ref || github.head_ref }}
           fetch-depth: 0
 
       - name: Run Claude Dependency Analysis
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@88c168b39e7e64da0286d812b6e9fbebb6708185 # v1
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
           track_progress: true
           use_sticky_comment: true
           prompt: |
             REPO: ${{ github.repository }}
-            PR NUMBER: ${{ github.event.pull_request.number }}
+            PR NUMBER: ${{ inputs.pr_number || github.event.pull_request.number }}
 
             한국어로 분석 결과를 작성하세요.
 
@@ -53,7 +59,7 @@ jobs:
             업데이트된 패키지들이 우리 코드베이스에 미치는 영향을 분석해주세요.
 
             <step-1-identify-changes>
-            1. `git diff ${{ github.event.pull_request.base.sha }} -- '**/package.json'` 으로 변경된 package.json 파일들을 확인
+            1. `git diff ${{ steps.pr-info.outputs.base_sha || github.event.pull_request.base.sha }} -- '**/package.json'` 으로 변경된 package.json 파일들을 확인
             2. 각 파일에서 업데이트된 패키지명, 이전 버전, 새 버전을 추출
             3. major/minor/patch 업데이트 타입을 분류
             </step-1-identify-changes>
