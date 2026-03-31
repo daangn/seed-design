@@ -922,17 +922,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-action-button--variant_brandSolid:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-action-button--variant_brandSolid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   .seed-action-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -959,17 +957,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-action-button--variant_neutralSolid:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-action-button--variant_neutralSolid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-action-button--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -996,17 +992,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-action-button--variant_neutralWeak:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-action-button--variant_neutralWeak:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-action-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {
@@ -1033,17 +1027,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-action-button--variant_criticalSolid:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-critical-solid-pressed);
-  }
+    .seed-action-button--variant_criticalSolid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-critical-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-critical-solid-pressed);
-  }
+    .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-critical-solid-pressed);
+    }
   }
 
   .seed-action-button--variant_criticalSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -1073,17 +1065,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-action-button--variant_brandOutline:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-action-button--variant_brandOutline:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-action-button--variant_brandOutline:is(:disabled, [disabled], [data-disabled]) {
@@ -1114,17 +1104,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-action-button--variant_neutralOutline:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-action-button--variant_neutralOutline:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-action-button--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
@@ -1154,17 +1142,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-action-button--variant_ghost:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-action-button--variant_ghost:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-action-button--variant_ghost:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-action-button--variant_ghost:is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-action-button--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
@@ -3177,17 +3163,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-bottom-sheet-handle__root:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-palette-gray-500);
-  }
+    .seed-bottom-sheet-handle__root:is(:hover, [data-hover]) {
+      background-color: var(--seed-color-palette-gray-500);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-bottom-sheet-handle__root:is(:active, [data-active]) {
-    background-color: var(--seed-color-palette-gray-500);
-  }
+    .seed-bottom-sheet-handle__root:is(:active, [data-active]) {
+      background-color: var(--seed-color-palette-gray-500);
+    }
   }
 
   .seed-bottom-sheet-handle__touchArea {
@@ -3316,17 +3300,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-callout__root--tone_neutral:is(button, a):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-callout__root--tone_neutral:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_neutral, .seed-callout__description--tone_neutral, .seed-callout__link--tone_neutral {
@@ -3340,17 +3322,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-callout__root--tone_informative:is(button, a):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-informative-weak-pressed);
-  }
+    .seed-callout__root--tone_informative:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-informative-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-informative-weak-pressed);
-  }
+    .seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-informative-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_informative, .seed-callout__description--tone_informative, .seed-callout__link--tone_informative {
@@ -3364,17 +3344,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-callout__root--tone_positive:is(button, a):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-positive-weak-pressed);
-  }
+    .seed-callout__root--tone_positive:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-positive-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-positive-weak-pressed);
-  }
+    .seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-positive-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_positive, .seed-callout__description--tone_positive, .seed-callout__link--tone_positive {
@@ -3388,17 +3366,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-callout__root--tone_warning:is(button, a):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-warning-weak-pressed);
-  }
+    .seed-callout__root--tone_warning:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-warning-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-warning-weak-pressed);
-  }
+    .seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-warning-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_warning, .seed-callout__description--tone_warning, .seed-callout__link--tone_warning {
@@ -3412,17 +3388,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-callout__root--tone_critical:is(button, a):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-critical-weak-pressed);
-  }
+    .seed-callout__root--tone_critical:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-critical-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-critical-weak-pressed);
-  }
+    .seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-critical-weak-pressed);
+    }
   }
 
   .seed-callout__title--tone_critical, .seed-callout__description--tone_critical, .seed-callout__link--tone_critical {
@@ -3436,17 +3410,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-callout__root--tone_magic:is(button, a):is(:hover, [data-hover]) {
-    background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
-  }
+    .seed-callout__root--tone_magic:is(button, a):is(:hover, [data-hover]) {
+      background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    }
   }
 
   @media (hover: none) {
-
-  .seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
-    background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
-  }
+    .seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
+      background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    }
   }
 
   .seed-callout__title--tone_magic, .seed-callout__description--tone_magic, .seed-callout__link--tone_magic {
@@ -3548,17 +3520,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-checkmark__root--variant_square:is(:disabled, [disabled], [data-disabled]) {
@@ -3575,17 +3545,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-checkmark__icon--variant_ghost {
@@ -3615,17 +3583,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-checkmark__icon--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
@@ -3637,17 +3603,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   .seed-checkmark__icon--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
@@ -3655,17 +3619,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
-    background: var(--seed-color-palette-gray-200);
-  }
+    .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+      background: var(--seed-color-palette-gray-200);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-    background: var(--seed-color-palette-gray-200);
-  }
+    .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+      background: var(--seed-color-palette-gray-200);
+    }
   }
 
   .seed-checkmark__icon--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
@@ -3673,17 +3635,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
-    background: var(--seed-color-palette-carrot-200);
-  }
+    .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+      background: var(--seed-color-palette-carrot-200);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-    background: var(--seed-color-palette-carrot-200);
-  }
+    .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+      background: var(--seed-color-palette-carrot-200);
+    }
   }
 
   .seed-checkmark__icon--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
@@ -3784,31 +3744,27 @@
   }
 
   @media (hover: hover) {
-
-  .seed-chip__root--variant_solid:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-weak-alpha-pressed);
-  }
+    .seed-chip__root--variant_solid:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-neutral-weak-alpha-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip__root--variant_solid:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-weak-alpha-pressed);
-  }
+    .seed-chip__root--variant_solid:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-neutral-weak-alpha-pressed);
+    }
   }
 
   @media (hover: hover) {
-
-  .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-chip__root--variant_solid:is(:disabled, [disabled], [data-disabled]) {
@@ -3834,17 +3790,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-chip__root--variant_outlineStrong:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-chip__root--variant_outlineStrong:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip__root--variant_outlineStrong:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-chip__root--variant_outlineStrong:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]) {
@@ -3853,17 +3807,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-chip__root--variant_outlineStrong:is(:disabled, [disabled], [data-disabled]) {
@@ -3889,17 +3841,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-chip__root--variant_outlineWeak:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-chip__root--variant_outlineWeak:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip__root--variant_outlineWeak:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-chip__root--variant_outlineWeak:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]) {
@@ -3908,17 +3858,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-chip__root--variant_outlineWeak:is(:disabled, [disabled], [data-disabled]) {
@@ -4094,31 +4042,27 @@
   }
 
   @media (hover: hover) {
-
-  .seed-chip-tabs__trigger--variant_neutralSolid:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_neutralSolid:is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
+    }
   }
 
   @media (hover: hover) {
-
-  .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -4144,31 +4088,27 @@
   }
 
   @media (hover: hover) {
-
-  .seed-chip-tabs__trigger--variant_neutralOutline:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_neutralOutline:is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip-tabs__trigger--variant_neutralOutline:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_neutralOutline:is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: hover) {
-
-  .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-chip-tabs__trigger--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
@@ -4192,31 +4132,27 @@
   }
 
   @media (hover: hover) {
-
-  .seed-chip-tabs__trigger--variant_brandSolid:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_brandSolid:is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip-tabs__trigger--variant_brandSolid:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_brandSolid:is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: hover) {
-
-  .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   .seed-chip-tabs__trigger--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -4343,17 +4279,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-contextual-floating-button--variant_solid:is(:disabled, [disabled], [data-disabled]) {
@@ -4377,17 +4311,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
-  }
+    .seed-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-layer-floating-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
-  }
+    .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
+      background: var(--seed-color-bg-layer-floating-pressed);
+    }
   }
 
   .seed-contextual-floating-button--variant_layer:is(:disabled, [disabled], [data-disabled]) {
@@ -5060,17 +4992,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-floating-action-button__root:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-floating-action-button__root:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-floating-action-button__root:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-floating-action-button__root:is(:active, [data-active]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   .seed-floating-action-button__icon {
@@ -5565,17 +5495,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-input-button__button[data-readonly]:not([data-disabled]) {
@@ -5863,23 +5791,21 @@
   }
 
   @media (hover: hover) {
-
-  .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
-    background-color: var(--seed-color-bg-transparent-pressed);
-    left: var(--seed-dimension-x1_5);
-    right: var(--seed-dimension-x1_5);
-    border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
-  }
+    .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
+      background-color: var(--seed-color-bg-transparent-pressed);
+      left: var(--seed-dimension-x1_5);
+      right: var(--seed-dimension-x1_5);
+      border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
+    }
   }
 
   @media (hover: none) {
-
-  .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
-    background-color: var(--seed-color-bg-transparent-pressed);
-    left: var(--seed-dimension-x1_5);
-    right: var(--seed-dimension-x1_5);
-    border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
-  }
+    .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
+      background-color: var(--seed-color-bg-transparent-pressed);
+      left: var(--seed-dimension-x1_5);
+      right: var(--seed-dimension-x1_5);
+      border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
+    }
   }
 
   @media (hover: hover) {
@@ -5928,17 +5854,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
-    background-color: var(--seed-color-bg-brand-weak-pressed);
-  }
+    .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
+      background-color: var(--seed-color-bg-brand-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
-    background-color: var(--seed-color-bg-brand-weak-pressed);
-  }
+    .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
+      background-color: var(--seed-color-bg-brand-weak-pressed);
+    }
   }
 
   @media (hover: hover) {
@@ -6183,17 +6107,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-menu-sheet__closeButton:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-menu-sheet__closeButton:is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-menu-sheet__closeButton:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-menu-sheet__closeButton:is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-menu-sheet__closeButton {
@@ -6265,17 +6187,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-menu-sheet-item__root:is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-menu-sheet-item__root:is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-menu-sheet-item__root:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-menu-sheet-item__root:is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-menu-sheet-item__root:first-child {
@@ -6542,17 +6462,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_neutral-variant_weak, .seed-page-banner__description--tone_neutral-variant_weak, .seed-page-banner__button--tone_neutral-variant_weak {
@@ -6566,17 +6484,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_neutral-variant_solid, .seed-page-banner__description--tone_neutral-variant_solid, .seed-page-banner__button--tone_neutral-variant_solid {
@@ -6590,17 +6506,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-informative-weak-pressed);
-  }
+    .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-informative-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-informative-weak-pressed);
-  }
+    .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-informative-weak-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_informative-variant_weak, .seed-page-banner__description--tone_informative-variant_weak, .seed-page-banner__button--tone_informative-variant_weak {
@@ -6614,17 +6528,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-informative-solid-pressed);
-  }
+    .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-informative-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-informative-solid-pressed);
-  }
+    .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-informative-solid-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_informative-variant_solid, .seed-page-banner__description--tone_informative-variant_solid, .seed-page-banner__button--tone_informative-variant_solid {
@@ -6638,17 +6550,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-positive-weak-pressed);
-  }
+    .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-positive-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-positive-weak-pressed);
-  }
+    .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-positive-weak-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_positive-variant_weak, .seed-page-banner__description--tone_positive-variant_weak, .seed-page-banner__button--tone_positive-variant_weak {
@@ -6662,17 +6572,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-positive-solid-pressed);
-  }
+    .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-positive-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-positive-solid-pressed);
-  }
+    .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-positive-solid-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_positive-variant_solid, .seed-page-banner__description--tone_positive-variant_solid, .seed-page-banner__button--tone_positive-variant_solid {
@@ -6686,17 +6594,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-warning-weak-pressed);
-  }
+    .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-warning-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-warning-weak-pressed);
-  }
+    .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-warning-weak-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_warning-variant_weak, .seed-page-banner__description--tone_warning-variant_weak, .seed-page-banner__button--tone_warning-variant_weak {
@@ -6710,17 +6616,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-warning-solid-pressed);
-  }
+    .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-warning-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-warning-solid-pressed);
-  }
+    .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-warning-solid-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_warning-variant_solid, .seed-page-banner__description--tone_warning-variant_solid, .seed-page-banner__button--tone_warning-variant_solid {
@@ -6734,17 +6638,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-critical-weak-pressed);
-  }
+    .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-critical-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-critical-weak-pressed);
-  }
+    .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-critical-weak-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_critical-variant_weak, .seed-page-banner__description--tone_critical-variant_weak, .seed-page-banner__button--tone_critical-variant_weak {
@@ -6758,17 +6660,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-critical-solid-pressed);
-  }
+    .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-critical-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-critical-solid-pressed);
-  }
+    .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-critical-solid-pressed);
+    }
   }
 
   .seed-page-banner__title--tone_critical-variant_solid, .seed-page-banner__description--tone_critical-variant_solid, .seed-page-banner__button--tone_critical-variant_solid {
@@ -6782,17 +6682,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:hover, [data-hover]) {
-    background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
-  }
+    .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:hover, [data-hover]) {
+      background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    }
   }
 
   @media (hover: none) {
-
-  .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
-    background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
-  }
+    .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
+      background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    }
   }
 
   .seed-page-banner__title--tone_magic-variant_weak, .seed-page-banner__description--tone_magic-variant_weak, .seed-page-banner__button--tone_magic-variant_weak {
@@ -6945,17 +6843,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-radiomark__root:is(:checked, [data-checked]) {
@@ -6995,17 +6891,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
-  }
+    .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    }
   }
 
   .seed-radiomark__icon--tone_neutral:is(:checked, [data-checked]) {
@@ -7017,17 +6911,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   .seed-radiomark__icon--tone_brand:is(:checked, [data-checked]) {
@@ -7102,17 +6994,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-reaction-button:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-reaction-button:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-reaction-button:is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-reaction-button:is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-reaction-button:is([aria-pressed="true"], [data-pressed]) {
@@ -7124,17 +7014,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
+      background: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-reaction-button:is(:disabled, [disabled], [data-disabled]) {
@@ -7297,35 +7185,31 @@
   }
 
   @media (hover: hover) {
-
-  .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-palette-gray-100);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-  }
+    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-palette-gray-100);
+      box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
-    background-color: var(--seed-color-palette-gray-100);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-  }
+    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
+      background-color: var(--seed-color-palette-gray-100);
+      box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    }
   }
 
   @media (hover: hover) {
-
-  .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-  }
+    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+      box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-  }
+    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-neutral-weak-pressed);
+      box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    }
   }
 
   .seed-select-box__root {
@@ -7351,17 +7235,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-transparent-pressed);
-  }
+    .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
   }
 
   .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):after {
@@ -7499,17 +7381,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
-    color: var(--seed-color-fg-neutral-subtle);
-  }
+    .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+      color: var(--seed-color-fg-neutral-subtle);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    color: var(--seed-color-fg-neutral-subtle);
-  }
+    .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+      color: var(--seed-color-fg-neutral-subtle);
+    }
   }
 
   .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]) {
@@ -9207,17 +9087,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
-  }
+    .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
+      background: var(--seed-color-bg-brand-solid-pressed);
+    }
   }
 
   .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]) {
@@ -9230,17 +9108,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-toggle-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -9271,17 +9147,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]) {
@@ -9294,17 +9168,15 @@
   }
 
   @media (hover: hover) {
-
-  .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   @media (hover: none) {
-
-  .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-  }
+    .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-toggle-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {

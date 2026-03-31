@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 export function BlockRenderer({ name }: { name: string }) {
   const Block = React.useMemo(() => {
     return React.lazy(() =>
-      import(`../../../registry/block/${name}`).catch(() => ({
+      import(`../../../registry/react/block/${name}`).catch(() => ({
         default: () => notFound(),
       })),
     );

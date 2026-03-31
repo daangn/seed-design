@@ -6,16 +6,19 @@
     top: 50%;
     transform: translate(-50%, -50%);
   }
+  .seed-slider-tick__text {
+    transform: translate(-50%, -50%);
+  }
 
   .seed-slider-tick__text {
     transform: translate(-50%, -50%);
   }
 
-  .seed-slider-tick[data-dir="ltr"] {
+  .seed-slider-tick.seed-slider-tick--dir_ltr {
     left: calc(var(--tick-position) * 1% + var(--tick-offset));
   }
 
-  .seed-slider-tick[data-dir="rtl"] {
+  .seed-slider-tick.seed-slider-tick--dir_rtl {
     right: calc(var(--tick-position) * 1% + var(--tick-offset));
   }
 

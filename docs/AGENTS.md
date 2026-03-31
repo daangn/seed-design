@@ -13,4 +13,4 @@ SEED Design **문서 사이트**. Next.js + Fumadocs 기반. 컴포넌트 문서
 
 - Frontmatter에 `title`, `description`을 필수로 포함한다.
 - 문서 UI와 스토리는 문서 본문과 분리된 참조 계층으로 관리한다.
-- **`docs/registry/ui/`의 snippet 레이어 변경은 최소한으로 한다.** snippet은 사용자가 직접 커스터마이징하는 레이어이므로, 불필요한 변경은 사용자 코드에 영향을 줄 수 있다.
+- **`docs/registry/{react,lynx}/ui/`의 snippet 레이어 변경은 최소한으로 한다.** snippet은 사용자가 직접 커스터마이징하는 레이어이므로, 불필요한 변경은 사용자 코드에 영향을 줄 수 있다.

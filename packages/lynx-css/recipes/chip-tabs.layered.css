@@ -94,7 +94,7 @@
     color: var(--seed-color-fg-disabled);
   }
 
-  .seed-chip-tabs__trigger--variant_neutralSolid.seed-chip-tabs__trigger--disabled_true[aria-selected="true"], .seed-chip-tabs__trigger--variant_neutralSolid.seed-chip-tabs__trigger--disabled_true[data-selected] {
+  .seed-chip-tabs__trigger--variant_neutralSolid.seed-chip-tabs__trigger--disabled_true[aria-selected="true"], .seed-chip-tabs__trigger--variant_neutralSolid.seed-chip-tabs__trigger--disabled_true.seed-chip-tabs__trigger--selected_true {
     background-color: var(--seed-color-bg-disabled);
     color: var(--seed-color-fg-disabled);
   }
@@ -123,7 +123,7 @@
     color: var(--seed-color-fg-disabled);
   }
 
-  .seed-chip-tabs__trigger--variant_neutralOutline.seed-chip-tabs__trigger--disabled_true[aria-selected="true"], .seed-chip-tabs__trigger--variant_neutralOutline.seed-chip-tabs__trigger--disabled_true[data-selected] {
+  .seed-chip-tabs__trigger--variant_neutralOutline.seed-chip-tabs__trigger--disabled_true[aria-selected="true"], .seed-chip-tabs__trigger--variant_neutralOutline.seed-chip-tabs__trigger--disabled_true.seed-chip-tabs__trigger--selected_true {
     background-color: var(--seed-color-bg-disabled);
     color: var(--seed-color-fg-disabled);
   }
@@ -151,7 +151,7 @@
     color: var(--seed-color-fg-disabled);
   }
 
-  .seed-chip-tabs__trigger--variant_brandSolid.seed-chip-tabs__trigger--disabled_true[aria-selected="true"], .seed-chip-tabs__trigger--variant_brandSolid.seed-chip-tabs__trigger--disabled_true[data-selected] {
+  .seed-chip-tabs__trigger--variant_brandSolid.seed-chip-tabs__trigger--disabled_true[aria-selected="true"], .seed-chip-tabs__trigger--variant_brandSolid.seed-chip-tabs__trigger--disabled_true.seed-chip-tabs__trigger--selected_true {
     background-color: var(--seed-color-bg-disabled);
   }
 

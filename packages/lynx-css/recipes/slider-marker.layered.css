@@ -13,11 +13,11 @@
     line-height: var(--seed-line-height-t3);
   }
 
-  .seed-slider-marker[data-dir="ltr"] {
+  .seed-slider-marker.seed-slider-marker--dir_ltr {
     left: calc(var(--marker-position) * 1% + var(--marker-offset));
   }
 
-  .seed-slider-marker[data-dir="rtl"] {
+  .seed-slider-marker.seed-slider-marker--dir_rtl {
     right: calc(var(--marker-position) * 1% + var(--marker-offset));
   }
 
@@ -25,11 +25,11 @@
     color: var(--seed-color-fg-disabled);
   }
 
-  .seed-slider-marker__text--align_start[data-dir="ltr"] {
+  .seed-slider-marker__text--align_start.seed-slider-marker__text--dir_ltr {
     text-align: left;
   }
 
-  .seed-slider-marker__text--align_start[data-dir="rtl"] {
+  .seed-slider-marker__text--align_start.seed-slider-marker__text--dir_rtl {
     text-align: right;
   }
 
@@ -37,28 +37,36 @@
     text-align: center;
   }
 
-  .seed-slider-marker--align_center[data-dir="ltr"], .seed-slider-marker__text--align_center[data-dir="ltr"] {
+  .seed-slider-marker--align_center.seed-slider-marker--dir_ltr, .seed-slider-marker__text--align_center.seed-slider-marker__text--dir_ltr {
     transform: translateX(-50%);
   }
 
-  .seed-slider-marker--align_center[data-dir="rtl"], .seed-slider-marker__text--align_center[data-dir="rtl"] {
+  .seed-slider-marker--align_center.seed-slider-marker--dir_rtl, .seed-slider-marker__text--align_center.seed-slider-marker__text--dir_rtl {
     transform: translateX(50%);
   }
 
-  .seed-slider-marker--align_end[data-dir="ltr"] {
+  .seed-slider-marker--align_end.seed-slider-marker--dir_ltr {
     transform: translateX(-100%);
   }
 
-  .seed-slider-marker__text--align_end[data-dir="ltr"] {
+  .seed-slider-marker__text--align_end.seed-slider-marker__text--dir_ltr {
+    transform: translateX(-100%);
+  }
+
+  .seed-slider-marker__text--align_end.seed-slider-marker__text--dir_ltr {
     text-align: right;
     transform: translateX(-100%);
   }
 
-  .seed-slider-marker--align_end[data-dir="rtl"] {
+  .seed-slider-marker--align_end.seed-slider-marker--dir_rtl {
     transform: translateX(100%);
   }
 
-  .seed-slider-marker__text--align_end[data-dir="rtl"] {
+  .seed-slider-marker__text--align_end.seed-slider-marker__text--dir_rtl {
+    transform: translateX(100%);
+  }
+
+  .seed-slider-marker__text--align_end.seed-slider-marker__text--dir_rtl {
     text-align: left;
     transform: translateX(100%);
   }

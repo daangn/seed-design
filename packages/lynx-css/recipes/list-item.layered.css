@@ -66,7 +66,10 @@
 
   .seed-list-item__content:after {
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .seed-list-item__content:before {
@@ -75,7 +78,10 @@
     transition-duration: var(--seed-duration-color-transition);
     transition-timing-function: var(--seed-timing-function-easing);
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .seed-list-item__contentbutton:not([data-disabled]):active:before, .seed-list-item__contenta:not([data-disabled]):active:before {
