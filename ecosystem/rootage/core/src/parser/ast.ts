@@ -213,11 +213,15 @@ export interface TokensDocument {
 }
 
 // TokenCollections
+export interface ModeDeclaration {
+  id: string;
+  description?: string;
+}
+
 export interface TokenCollectionDeclaration {
   kind: "TokenCollectionDeclaration";
   name: string;
-  modes: string[];
-  modeDescriptions?: Record<string, string>;
+  modes: ModeDeclaration[];
 }
 
 export interface TokenCollectionsDocument {

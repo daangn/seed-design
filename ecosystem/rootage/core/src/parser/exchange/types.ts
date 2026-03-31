@@ -136,8 +136,6 @@ export interface TokensData {
   };
 }
 
-export type ModeEntry = string | { id: string; description?: string };
-
 export interface TokenCollectionsModel {
   kind: "TokenCollections";
   metadata: {
@@ -147,7 +145,7 @@ export interface TokenCollectionsModel {
   };
   data: Array<{
     name: string;
-    modes: ModeEntry[];
+    modes: Array<{ id: string; description?: string }>;
   }>;
 }
 

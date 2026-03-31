@@ -32,6 +32,7 @@ import type {
   GradientTokenDeclaration,
   TokenDeclaration,
   TokenCollectionDeclaration,
+  ModeDeclaration,
   MetadataDeclaration,
   MetadataFieldDeclaration,
   ComponentSpecDocument,
@@ -832,14 +833,12 @@ export function createUnresolvedTokenValueDeclaration(
  */
 export function createTokenCollectionDeclaration(
   name: string,
-  modes: string[],
-  modeDescriptions?: Record<string, string>,
+  modes: ModeDeclaration[],
 ): TokenCollectionDeclaration {
   return {
     kind: "TokenCollectionDeclaration",
     name,
     modes,
-    ...(modeDescriptions && Object.keys(modeDescriptions).length > 0 && { modeDescriptions }),
   };
 }
 

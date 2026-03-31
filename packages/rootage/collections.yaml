@@ -8,8 +8,8 @@ data:
       - id: default
   - name: color
     modes:
-      - theme-light
-      - theme-dark
+      - id: theme-light
+      - id: theme-dark
   - name: viewport-width
     modes:
       - id: base
