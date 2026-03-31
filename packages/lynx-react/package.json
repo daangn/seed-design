@@ -40,7 +40,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@seed-design/lynx-primitive": "0.0.1",
+    "@seed-design/lynx-primitive": "workspace:*",
     "clsx": "^2.1.1"
   }
 }
