@@ -4,13 +4,19 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches: [dev]
+  issue_comment:
+    types: [created]
 
 jobs:
   analyze-dependencies:
     concurrency:
-      group: renovate-dependency-review-${{ github.event.pull_request.number }}
+      group: renovate-dependency-review-${{ github.event.pull_request.number || github.event.issue.number }}
       cancel-in-progress: true
-    if: startsWith(github.head_ref, 'renovate/')
+    if: >-
+      (github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/'))
+      || (github.event_name == 'issue_comment'
+          && github.event.issue.pull_request
+          && contains(github.event.comment.body, '/analyze-deps'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -18,9 +24,22 @@ jobs:
       pull-requests: write
       id-token: write
     steps:
+      - name: Get PR info (for comment trigger)
+        if: github.event_name == 'issue_comment'
+        id: pr-info
+        run: |
+          PR_NUMBER=${{ github.event.issue.number }}
+          PR_DATA=$(gh api repos/${{ github.repository }}/pulls/${PR_NUMBER} --jq '{head_ref: .head.ref, base_sha: .base.sha}')
+          echo "head_ref=$(echo "$PR_DATA" | jq -r '.head_ref')" >> "$GITHUB_OUTPUT"
+          echo "base_sha=$(echo "$PR_DATA" | jq -r '.base_sha')" >> "$GITHUB_OUTPUT"
+          echo "pr_number=${PR_NUMBER}" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Checkout PR branch
         uses: actions/checkout@v6
         with:
+          ref: ${{ steps.pr-info.outputs.head_ref || github.head_ref }}
           fetch-depth: 0
 
       - name: Run Claude Dependency Analysis
@@ -31,7 +50,7 @@ jobs:
           use_sticky_comment: true
           prompt: |
             REPO: ${{ github.repository }}
-            PR NUMBER: ${{ github.event.pull_request.number }}
+            PR NUMBER: ${{ steps.pr-info.outputs.pr_number || github.event.pull_request.number }}
 
             한국어로 분석 결과를 작성하세요.
 
@@ -40,7 +59,7 @@ jobs:
             업데이트된 패키지들이 우리 코드베이스에 미치는 영향을 분석해주세요.
 
             <step-1-identify-changes>
-            1. `git diff ${{ github.event.pull_request.base.sha }} -- '**/package.json'` 으로 변경된 package.json 파일들을 확인
+            1. `git diff ${{ steps.pr-info.outputs.base_sha || github.event.pull_request.base.sha }} -- '**/package.json'` 으로 변경된 package.json 파일들을 확인
             2. 각 파일에서 업데이트된 패키지명, 이전 버전, 새 버전을 추출
             3. major/minor/patch 업데이트 타입을 분류
             </step-1-identify-changes>
