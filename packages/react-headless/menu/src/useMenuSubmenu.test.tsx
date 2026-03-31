@@ -8,13 +8,15 @@ import * as React from "react";
 import {
   useMenu,
   type UseMenuProps,
-  type MenuItemProps,
-  type SubmenuTriggerProps,
+  type UseMenuItemProps,
+  type UseMenuSubmenuTriggerProps,
 } from "./useMenu";
 
 // ---------------------------------------------------------------------------
 // Test Harness Components
 // ---------------------------------------------------------------------------
+
+type UseMenuReturn = ReturnType<typeof useMenu>;
 
 function setUp(jsx: ReactElement) {
   return {
@@ -39,28 +41,44 @@ function Menu({ children, ...props }: React.PropsWithChildren<UseMenuProps>) {
 }
 
 function MenuTrigger({ children }: React.PropsWithChildren) {
-  const { triggerProps } = useMenuContext();
-  return <button {...triggerProps}>{children}</button>;
+  const api = useMenuContext();
+  return (
+    <button ref={api.refs.trigger} {...api.triggerProps}>
+      {children}
+    </button>
+  );
 }
 
 function MenuContent({ children }: React.PropsWithChildren) {
-  const { open, contentProps } = useMenuContext();
-  if (!open) return null;
-  return <div {...contentProps}>{children}</div>;
+  const api = useMenuContext();
+  if (!api.open) return null;
+  return (
+    <div ref={api.refs.content} {...api.contentProps}>
+      {children}
+    </div>
+  );
 }
 
-function MenuItem(props: MenuItemProps & { children?: React.ReactNode }) {
+function MenuItem(props: UseMenuItemProps & { children?: React.ReactNode }) {
   const { getItemProps } = useMenuContext();
   const { children, ...restProps } = props;
-  const itemProps = getItemProps(restProps);
-  return <div {...itemProps}>{children}</div>;
+  const itemApi = getItemProps(restProps);
+  return (
+    <div ref={itemApi.refs.root} {...itemApi.rootProps}>
+      {children}
+    </div>
+  );
 }
 
-function SubmenuTrigger(props: SubmenuTriggerProps & { children?: React.ReactNode }) {
+function SubmenuTrigger(props: UseMenuSubmenuTriggerProps & { children?: React.ReactNode }) {
   const { getSubmenuTriggerProps } = useMenuContext();
   const { children, ...restProps } = props;
-  const submenuTriggerProps = getSubmenuTriggerProps(restProps);
-  return <div {...submenuTriggerProps}>{children}</div>;
+  const itemApi = getSubmenuTriggerProps(restProps);
+  return (
+    <div ref={itemApi.refs.root} {...itemApi.rootProps}>
+      {children}
+    </div>
+  );
 }
 
 // ---------------------------------------------------------------------------

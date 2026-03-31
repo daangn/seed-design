@@ -10,7 +10,7 @@ import {
   useInteractions,
 } from "@floating-ui/react";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { dataAttr } from "@seed-design/dom-utils";
+import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 // ---------------------------------------------------------------------------
@@ -27,29 +27,26 @@ export interface UseMenuProps {
   closeParentOnEsc?: boolean;
 }
 
-export interface MenuItemProps {
+export interface UseMenuItemProps {
   id?: string;
   disabled?: boolean;
   closeOnClick?: boolean;
   label?: string;
   onClick?: React.MouseEventHandler;
-  children?: React.ReactNode;
 }
 
-export interface MenuGroupProps {
-  children?: React.ReactNode;
+export interface UseMenuGroupProps {
+  labelId?: string;
 }
 
-export interface MenuGroupLabelProps {
+export interface UseMenuGroupLabelProps {
   id?: string;
-  children?: React.ReactNode;
 }
 
-export interface SubmenuTriggerProps {
+export interface UseMenuSubmenuTriggerProps {
   id?: string;
   disabled?: boolean;
   label?: string;
-  children?: React.ReactNode;
 }
 
 export type UseMenuReturn = ReturnType<typeof useMenu>;
@@ -148,11 +145,8 @@ export function useMenu(props: UseMenuProps = {}) {
 
   // ---- Focus management ----
 
-  // Focus first item when menu opens, return focus to trigger on close
   useEffect(() => {
     if (open && !prevOpenRef.current) {
-      // Menu just opened — focus the first item after a microtask
-      // (allowing the floating element to mount)
       queueMicrotask(() => {
         const firstItem = elementsRef.current.find((el) => el != null);
         firstItem?.focus();
@@ -160,7 +154,6 @@ export function useMenu(props: UseMenuProps = {}) {
     }
 
     if (!open && prevOpenRef.current) {
-      // Menu just closed — return focus to trigger
       const trigger = triggerRef.current;
       if (trigger && trigger instanceof HTMLElement) {
         trigger.focus();
@@ -193,121 +186,139 @@ export function useMenu(props: UseMenuProps = {}) {
     }
   }, [open]);
 
-  // ---- Prop getters ----
+  // ---- State props ----
 
-  const triggerProps = useMemo(
-    () => ({
-      ...getReferenceProps(),
-      ref: (node: HTMLElement | null) => {
-        setReferenceEl(node);
-        triggerRef.current = node;
-      },
-      "aria-haspopup": "menu" as const,
-      "aria-expanded": open,
-      "data-open": dataAttr(open),
-    }),
-    [getReferenceProps, open],
+  const stateProps = useMemo(
+    () =>
+      elementProps({
+        "data-open": dataAttr(open),
+      }),
+    [open],
   );
 
-  const contentProps = useMemo(
-    () => ({
-      ...getFloatingProps(),
-      ref: setFloatingEl,
-      role: "menu" as const,
-    }),
-    [getFloatingProps],
-  );
-
-  const getItemProps = useCallback(
-    (itemProps: MenuItemProps) => {
-      const index = itemIndexCounter.current++;
-      const isActive = activeIndex === index;
-
-      return {
-        ...getFloatingItemProps({
-          onClick(event: React.MouseEvent) {
-            if (itemProps.disabled) return;
-            itemProps.onClick?.(event);
-            if (itemProps.closeOnClick !== false) {
-              setOpen(false);
-            }
-          },
-          onKeyDown(event: React.KeyboardEvent) {
-            if (itemProps.disabled) return;
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              (event.currentTarget as HTMLElement).click();
-            }
-          },
-        }),
-        ref: (node: HTMLElement | null) => {
-          elementsRef.current[index] = node;
-          labelsRef.current[index] = itemProps.label ?? (node?.textContent || null);
-        },
-        role: "menuitem" as const,
-        tabIndex: isActive ? 0 : -1,
-        "data-highlighted": dataAttr(isActive),
-        "data-disabled": dataAttr(itemProps.disabled),
-        "aria-disabled": itemProps.disabled ? ("true" as const) : undefined,
-      };
-    },
-    [activeIndex, getFloatingItemProps, setOpen],
-  );
-
-  const getSubmenuTriggerProps = useCallback(
-    (itemProps: SubmenuTriggerProps) => {
-      const index = itemIndexCounter.current++;
-      const isActive = activeIndex === index;
-
-      return {
-        ...getFloatingItemProps(),
-        ref: (node: HTMLElement | null) => {
-          elementsRef.current[index] = node;
-          labelsRef.current[index] = itemProps.label ?? (node?.textContent || null);
-        },
-        role: "menuitem" as const,
-        tabIndex: isActive ? 0 : -1,
-        "data-highlighted": dataAttr(isActive),
-        "data-disabled": dataAttr(itemProps.disabled),
-        "aria-disabled": itemProps.disabled ? ("true" as const) : undefined,
-      };
-    },
-    [activeIndex, getFloatingItemProps],
-  );
-
-  const getGroupProps = useCallback(
-    (groupProps?: MenuGroupProps & { "aria-labelledby"?: string }) => {
-      return {
-        role: "group" as const,
-        "aria-labelledby": groupProps?.["aria-labelledby"],
-      };
-    },
-    [],
-  );
-
-  const getGroupLabelProps = useCallback((labelProps?: MenuGroupLabelProps) => {
-    return {
-      role: "presentation" as const,
-      id: labelProps?.id,
-    };
-  }, []);
-
-  const getDividerProps = useCallback(() => {
-    return {
-      role: "separator" as const,
-    };
-  }, []);
+  // ---- Return ----
 
   return {
     open,
     setOpen,
     activeIndex,
-    triggerProps,
-    contentProps,
-    getItemProps,
-    getSubmenuTriggerProps,
-    getGroupProps,
-    getGroupLabelProps,
-    getDividerProps,
+    stateProps,
+
+    refs: {
+      trigger: (node: HTMLElement | null) => {
+        setReferenceEl(node);
+        triggerRef.current = node;
+      },
+      content: setFloatingEl,
+    },
+
+    triggerProps: buttonProps({
+      "aria-haspopup": "menu",
+      "aria-expanded": open,
+      "data-open": dataAttr(open),
+      ...getReferenceProps(),
+    }),
+
+    contentProps: elementProps({
+      role: "menu",
+      ...getFloatingProps(),
+    }),
+
+    getItemProps: (itemProps: UseMenuItemProps) => {
+      const index = itemIndexCounter.current++;
+      const isActive = activeIndex === index;
+
+      const itemStateProps = elementProps({
+        "data-highlighted": dataAttr(isActive),
+        "data-disabled": dataAttr(itemProps.disabled),
+      });
+
+      const ref = (node: HTMLElement | null) => {
+        elementsRef.current[index] = node;
+        labelsRef.current[index] = itemProps.label ?? (node?.textContent || null);
+      };
+
+      return {
+        isHighlighted: isActive,
+        isDisabled: itemProps.disabled,
+
+        refs: { root: ref },
+        stateProps: itemStateProps,
+
+        rootProps: elementProps({
+          ...itemStateProps,
+          ...getFloatingItemProps({
+            onClick(event: React.MouseEvent) {
+              if (itemProps.disabled) return;
+              itemProps.onClick?.(event);
+              if (itemProps.closeOnClick !== false) {
+                setOpen(false);
+              }
+            },
+            onKeyDown(event: React.KeyboardEvent) {
+              if (itemProps.disabled) return;
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                (event.currentTarget as HTMLElement).click();
+              }
+            },
+          }),
+          role: "menuitem",
+          tabIndex: isActive ? 0 : -1,
+          "aria-disabled": itemProps.disabled ? "true" : undefined,
+        }),
+      };
+    },
+
+    getSubmenuTriggerProps: (itemProps: UseMenuSubmenuTriggerProps) => {
+      const index = itemIndexCounter.current++;
+      const isActive = activeIndex === index;
+
+      const itemStateProps = elementProps({
+        "data-highlighted": dataAttr(isActive),
+        "data-disabled": dataAttr(itemProps.disabled),
+      });
+
+      const ref = (node: HTMLElement | null) => {
+        elementsRef.current[index] = node;
+        labelsRef.current[index] = itemProps.label ?? (node?.textContent || null);
+      };
+
+      return {
+        isHighlighted: isActive,
+        isDisabled: itemProps.disabled,
+
+        refs: { root: ref },
+        stateProps: itemStateProps,
+
+        rootProps: elementProps({
+          ...itemStateProps,
+          ...getFloatingItemProps(),
+          role: "menuitem",
+          tabIndex: isActive ? 0 : -1,
+          "aria-disabled": itemProps.disabled ? "true" : undefined,
+        }),
+      };
+    },
+
+    getGroupProps: (groupProps?: UseMenuGroupProps) => {
+      return elementProps({
+        role: "group",
+        "aria-labelledby": groupProps?.labelId,
+      });
+    },
+
+    getGroupLabelProps: (labelProps?: UseMenuGroupLabelProps) => {
+      return elementProps({
+        role: "presentation",
+        id: labelProps?.id,
+      });
+    },
+
+    getDividerProps: () => {
+      return elementProps({
+        role: "separator",
+      });
+    },
   };
 }
