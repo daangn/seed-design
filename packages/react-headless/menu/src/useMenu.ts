@@ -101,10 +101,6 @@ export function useMenu(props: UseMenuProps = {}) {
   const itemIndexCounter = useRef(0);
   itemIndexCounter.current = 0;
 
-  // ---- Group label tracking ----
-
-  const groupLabelIdMap = useRef<Map<string, string>>(new Map());
-
   // ---- Floating UI context ----
 
   const rootContext = useFloatingRootContext({
@@ -234,6 +230,13 @@ export function useMenu(props: UseMenuProps = {}) {
             itemProps.onClick?.(event);
             if (itemProps.closeOnClick !== false) {
               setOpen(false);
+            }
+          },
+          onKeyDown(event: React.KeyboardEvent) {
+            if (itemProps.disabled) return;
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              (event.currentTarget as HTMLElement).click();
             }
           },
         }),
