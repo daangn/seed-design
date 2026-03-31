@@ -31,7 +31,7 @@
     "@lynx-js/types": "3.7.0",
     "@rsbuild/plugin-type-check": "1.3.3",
     "@testing-library/jest-dom": "^6.9.1",
-    "@types/react": "^18.3.28",
+    "@types/react": "^19",
     "jsdom": "^27.4.0",
     "postcss": "^8.5.8",
     "sharp": "^0.34.5",
