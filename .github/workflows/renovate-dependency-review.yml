@@ -38,6 +38,19 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number
             });
+
+            const headRef = pr.data.head.ref;
+            const baseRef = pr.data.base.ref;
+
+            if (!headRef.startsWith('renovate/')) {
+              core.setFailed(`This command only works on Renovate PRs (renovate/* branch). Got: ${headRef}`);
+              return;
+            }
+            if (baseRef !== 'dev') {
+              core.setFailed(`This command only works on PRs targeting dev. Got: ${baseRef}`);
+              return;
+            }
+
             core.setOutput('number', pr.data.number);
             core.setOutput('ref', pr.data.head.ref);
             core.setOutput('sha', pr.data.head.sha);
@@ -48,7 +61,7 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            github.rest.reactions.createForIssueComment({
+            await github.rest.reactions.createForIssueComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: context.payload.comment.id,
@@ -179,7 +192,7 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            github.rest.reactions.createForIssueComment({
+            await github.rest.reactions.createForIssueComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: context.payload.comment.id,
@@ -191,7 +204,7 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            github.rest.reactions.createForIssueComment({
+            await github.rest.reactions.createForIssueComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: context.payload.comment.id,
