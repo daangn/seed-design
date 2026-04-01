@@ -4,42 +4,61 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches: [dev]
-  workflow_dispatch:
-    inputs:
-      pr_number:
-        description: "PR number to analyze"
-        required: true
-        type: number
+  issue_comment:
+    types: [created]
 
 jobs:
   analyze-dependencies:
     concurrency:
-      group: renovate-dependency-review-${{ github.event.pull_request.number || inputs.pr_number }}
+      group: renovate-dependency-review-${{ github.event.pull_request.number || github.event.issue.number }}
       cancel-in-progress: true
     if: >-
-      github.event_name == 'workflow_dispatch'
-      || (github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/'))
+      (github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/'))
+      || (
+        github.event_name == 'issue_comment'
+        && github.event.issue.pull_request
+        && startsWith(github.event.comment.body, '/renovate-review')
+        && contains(fromJson('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
       contents: read
       pull-requests: write
+      id-token: write
     steps:
-      - name: Resolve PR metadata
-        if: github.event_name == 'workflow_dispatch'
+      - name: Get PR details
+        if: github.event_name == 'issue_comment'
         id: pr-info
-        run: |
-          PR_DATA=$(gh api repos/${{ github.repository }}/pulls/${{ inputs.pr_number }} \
-            --jq '{head_ref: .head.ref, base_sha: .base.sha}')
-          echo "head_ref=$(echo "$PR_DATA" | jq -r '.head_ref')" >> "$GITHUB_OUTPUT"
-          echo "base_sha=$(echo "$PR_DATA" | jq -r '.base_sha')" >> "$GITHUB_OUTPUT"
-        env:
-          GH_TOKEN: ${{ github.token }}
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            core.setOutput('number', pr.data.number);
+            core.setOutput('ref', pr.data.head.ref);
+            core.setOutput('sha', pr.data.head.sha);
+            core.setOutput('base_sha', pr.data.base.sha);
+
+      - name: Add reaction
+        if: github.event_name == 'issue_comment'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'eyes'
+            });
 
       - name: Checkout PR branch
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          ref: ${{ steps.pr-info.outputs.head_ref || github.head_ref }}
+          ref: ${{ steps.pr-info.outputs.ref || github.head_ref }}
           fetch-depth: 0
 
       - name: Run Claude Dependency Analysis
@@ -50,7 +69,7 @@ jobs:
           use_sticky_comment: true
           prompt: |
             REPO: ${{ github.repository }}
-            PR NUMBER: ${{ inputs.pr_number || github.event.pull_request.number }}
+            PR NUMBER: ${{ steps.pr-info.outputs.number || github.event.pull_request.number }}
 
             한국어로 분석 결과를 작성하세요.
 
@@ -154,3 +173,27 @@ jobs:
               Read,
               mcp__github_comment__update_claude_comment
             "
+
+      - name: Add success reaction
+        if: success() && github.event_name == 'issue_comment'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'hooray'
+            });
+
+      - name: Add failure reaction
+        if: failure() && github.event_name == 'issue_comment'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '-1'
+            });
