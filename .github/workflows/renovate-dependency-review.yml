@@ -41,7 +41,13 @@ jobs:
 
             const headRef = pr.data.head.ref;
             const baseRef = pr.data.base.ref;
+            const headRepo = pr.data.head.repo?.full_name;
+            const baseRepo = `${context.repo.owner}/${context.repo.repo}`;
 
+            if (headRepo !== baseRepo) {
+              core.setFailed(`This command only works on same-repository PRs. Got: ${headRepo}`);
+              return;
+            }
             if (!headRef.startsWith('renovate/')) {
               core.setFailed(`This command only works on Renovate PRs (renovate/* branch). Got: ${headRef}`);
               return;
