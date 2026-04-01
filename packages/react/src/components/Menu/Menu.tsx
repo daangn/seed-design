@@ -1,7 +1,6 @@
 "use client";
 
 import { Menu as MenuPrimitive, useMenuContext, useMenuItemContext } from "@seed-design/react-menu";
-import { Portal } from "@seed-design/react-portal";
 import { menu, type MenuVariantProps } from "@seed-design/css/recipes/menu";
 import { menuItem, type MenuItemVariantProps } from "@seed-design/css/recipes/menu-item";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -55,13 +54,11 @@ export const MenuPositioner = React.forwardRef<HTMLDivElement, MenuPositionerPro
     const classNames = useClassNames();
 
     return (
-      <Portal>
-        <MenuPrimitive.Positioner
-          ref={ref}
-          className={clsx(classNames.positioner, className)}
-          {...props}
-        />
-      </Portal>
+      <MenuPrimitive.Positioner
+        ref={ref}
+        className={clsx(classNames.positioner, className)}
+        {...props}
+      />
     );
   },
 );

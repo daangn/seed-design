@@ -8,21 +8,34 @@ import {
   shift,
   useClick,
   useRole,
-  useDismiss,
   useListNavigation,
   useTypeahead,
   useInteractions,
   useTransitionStatus,
   type Placement,
 } from "@floating-ui/react";
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { useControllableState } from "@seed-design/react-use-controllable-state";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+
+interface MenuReasonToDetailMap {
+  trigger: { event: MouseEvent | KeyboardEvent };
+  escapeKeyDown: { event: KeyboardEvent };
+  interactOutside: { event: PointerEvent };
+  cascadeDismiss: { dismissedParent: HTMLElement };
+  itemClick: { event: MouseEvent };
+}
+
+type MenuChangeDetails = {
+  [R in keyof MenuReasonToDetailMap]: {
+    reason?: R;
+  } & MenuReasonToDetailMap[R];
+}[keyof MenuReasonToDetailMap];
 
 interface UseMenuStateProps {
   open?: boolean;
   defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, details?: MenuChangeDetails) => void;
 }
 
 export interface UseMenuProps extends UseMenuStateProps {
@@ -84,7 +97,10 @@ export type UseMenuReturn = ReturnType<typeof useMenu>;
 export type GetItemPropsReturn = ReturnType<UseMenuReturn["getItemProps"]>;
 
 function useMenuState(props: UseMenuStateProps) {
-  const [open = false, setOpenState] = useControllableState({
+  const [open = false, setOpenState] = useControllableState<
+    boolean,
+    Parameters<NonNullable<UseMenuStateProps["onOpenChange"]>>[1]
+  >({
     prop: props.open,
     defaultProp: props.defaultOpen ?? false,
     onChange: props.onOpenChange,
@@ -137,11 +153,25 @@ export function useMenu(props: UseMenuProps) {
   } = props;
 
   const setOpen = useCallback(
-    (nextOpen: boolean) => {
+    (nextOpen: boolean, details?: MenuChangeDetails) => {
       if (disabled && nextOpen) return;
-      setOpenState(nextOpen);
+      setOpenState(nextOpen, details);
     },
     [disabled, setOpenState],
+  );
+
+  const handleFloatingOpenChange = useCallback(
+    (nextOpen: boolean, event?: Event, reason?: string) => {
+      if (reason === "click" && event) {
+        // NOTE: floating-ui passes click/mousedown/keydown on "click" reason
+        setOpen(nextOpen, { reason: "trigger", event: event as MouseEvent | KeyboardEvent });
+
+        return;
+      }
+
+      setOpen(nextOpen);
+    },
+    [setOpen],
   );
 
   const {
@@ -150,7 +180,7 @@ export function useMenu(props: UseMenuProps) {
     floatingStyles,
   } = useFloating({
     open,
-    onOpenChange: setOpen,
+    onOpenChange: handleFloatingOpenChange,
     strategy,
     placement,
     middleware: [
@@ -181,10 +211,6 @@ export function useMenu(props: UseMenuProps) {
     role: "menu",
   });
 
-  const dismiss = useDismiss(context, {
-    bubbles: { escapeKey: false },
-  });
-
   const listNavigation = useListNavigation(context, {
     listRef: elementsRef,
     activeIndex,
@@ -204,7 +230,7 @@ export function useMenu(props: UseMenuProps) {
     getReferenceProps,
     getFloatingProps,
     getItemProps: getFloatingItemProps,
-  } = useInteractions([click, role, dismiss, listNavigation, typeahead]);
+  } = useInteractions([click, role, listNavigation, typeahead]);
 
   useEffect(() => {
     if (!open || !modal) return;
@@ -283,7 +309,7 @@ export function useMenu(props: UseMenuProps) {
               if (itemProps.disabled) return;
               if (event.defaultPrevented) return;
               itemProps.onClick?.(event);
-              setOpen(false);
+              setOpen(false, { reason: "itemClick", event: event.nativeEvent });
             },
             onKeyDown(event) {
               if (itemProps.disabled) return;

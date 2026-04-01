@@ -1,6 +1,7 @@
 import { useControllableState } from "@seed-design/react-use-controllable-state";
+import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import type React from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { isAndroid, isIOS, isMobileFirefox } from "./browser";
 import {
   CLOSE_THRESHOLD,
@@ -21,6 +22,7 @@ interface DrawerReasonToDetailMap {
   interactOutside: { event: PointerEvent | FocusEvent };
   drag: { event: PointerEvent };
   handleClickOnLastSnapPoint: { event: MouseEvent };
+  cascadeDismiss: { dismissedParent: HTMLElement };
 }
 
 type DrawerChangeDetails = {
@@ -132,6 +134,18 @@ export interface UseDrawerProps {
    * @default true
    */
   closeOnEscape?: boolean;
+
+  /**
+   * Whether to lazy mount the drawer content on first open.
+   * @default false
+   */
+  lazyMount?: boolean;
+
+  /**
+   * Whether to unmount the drawer content on exit.
+   * @default false
+   */
+  unmountOnExit?: boolean;
 }
 
 export function useDrawer(props: UseDrawerProps) {
@@ -160,10 +174,16 @@ export function useDrawer(props: UseDrawerProps) {
     repositionInputs = true,
     onAnimationEnd,
     container,
-    autoFocus = false,
+    autoFocus = true,
     closeOnInteractOutside = true,
     closeOnEscape = true,
+    lazyMount: lazyMountProp = false,
+    unmountOnExit: unmountOnExitProp = false,
   } = props;
+
+  const drawerId = useId();
+  const titleId = `${drawerId}-title`;
+  const descriptionId = `${drawerId}-description`;
 
   const [isOpen = false, setIsOpen] = useControllableState<boolean, DrawerChangeDetails>({
     defaultProp: defaultOpen,
@@ -670,6 +690,14 @@ export function useDrawer(props: UseDrawerProps) {
     setShouldOverlayAnimate(false);
   }, [isOpen, snapPoints, fadeFromIndex]);
 
+  const stateProps = useMemo(
+    () =>
+      elementProps({
+        "data-open": dataAttr(isOpen),
+      }),
+    [isOpen],
+  );
+
   return useMemo(
     () => ({
       activeSnapPoint,
@@ -700,9 +728,49 @@ export function useDrawer(props: UseDrawerProps) {
       setIsOpen,
       closeOnInteractOutside,
       closeOnEscape,
+      titleId,
+      descriptionId,
+      lazyMount: lazyMountProp,
+      unmountOnExit: unmountOnExitProp,
       hasAnimationDone,
       closeButtonRef,
       isCloseButtonRendered,
+
+      triggerProps: buttonProps({
+        ...stateProps,
+        onClick: (e) => {
+          if (e.defaultPrevented) return;
+          setIsOpen(true);
+        },
+      }),
+      positionerProps: elementProps({
+        ...stateProps,
+        style: {
+          pointerEvents: isOpen ? undefined : ("none" as const),
+        },
+      }),
+      backdropProps: elementProps({
+        ...stateProps,
+      }),
+      titleProps: elementProps({
+        id: titleId,
+        ...stateProps,
+      }),
+      descriptionProps: elementProps({
+        id: descriptionId,
+        ...stateProps,
+      }),
+      headerProps: elementProps({
+        "data-show-close-button": dataAttr(isCloseButtonRendered),
+        ...stateProps,
+      }),
+      closeButtonProps: buttonProps({
+        ...stateProps,
+        onClick: (e) => {
+          if (e.defaultPrevented) return;
+          setIsOpen(false, { reason: "closeButton", event: e.nativeEvent });
+        },
+      }),
     }),
     [
       activeSnapPoint,
@@ -729,9 +797,14 @@ export function useDrawer(props: UseDrawerProps) {
       onRelease,
       onDrag,
       onPress,
+      titleId,
+      descriptionId,
+      lazyMountProp,
+      unmountOnExitProp,
       hasAnimationDone,
       closeButtonRef,
       isCloseButtonRendered,
+      stateProps,
     ],
   );
 }

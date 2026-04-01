@@ -1,7 +1,14 @@
 "use client";
 
-import { FloatingFocusManager, FloatingList, useListItem } from "@floating-ui/react";
+import {
+  FloatingFocusManager,
+  FloatingList,
+  FloatingPortal,
+  useListItem,
+} from "@floating-ui/react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
+import { FocusScope } from "@radix-ui/react-focus-scope";
+import { useDismissableLayer } from "@seed-design/react-dismissable-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import React, { forwardRef, createContext } from "react";
@@ -10,10 +17,6 @@ import { MenuProvider, useMenuContext } from "./useMenuContext";
 import { MenuItemProvider } from "./useMenuItemContext";
 
 const MenuGroupLabelIdContext = createContext<string | null>(null);
-
-// ---------------------------------------------------------------------------
-// MenuRoot
-// ---------------------------------------------------------------------------
 
 export interface MenuRootProps
   extends UseMenuProps,
@@ -48,10 +51,6 @@ export const MenuRoot = ({
   return <MenuProvider value={api} {...props} />;
 };
 
-// ---------------------------------------------------------------------------
-// MenuTrigger
-// ---------------------------------------------------------------------------
-
 export interface MenuTriggerProps extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>((props, ref) => {
@@ -66,46 +65,93 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>((prop
 });
 MenuTrigger.displayName = "MenuTrigger";
 
-// ---------------------------------------------------------------------------
-// MenuPositioner
-// ---------------------------------------------------------------------------
-
 export interface MenuPositionerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>((props, ref) => {
   const api = useMenuContext();
 
+  // FloatingPortal (not a generic portal) so that FloatingFocusManager
+  // detects the portal context and renders focus-guard sentinels.
   return (
-    <Primitive.div
-      ref={composeRefs(api.refs.positioner, ref)}
-      {...mergeProps(api.positionerProps, props)}
-    />
+    <FloatingPortal>
+      <Primitive.div
+        ref={composeRefs(api.refs.positioner, ref)}
+        {...mergeProps(api.positionerProps, props)}
+      />
+    </FloatingPortal>
   );
 });
 MenuPositioner.displayName = "MenuPositioner";
 
-// ---------------------------------------------------------------------------
-// MenuContent
-// ---------------------------------------------------------------------------
-
 export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, ref) => {
-  const { floatingContext, contentProps, open, elementsRef, labelsRef } = useMenuContext();
+  const { floatingContext, contentProps, open, setOpen, elementsRef, labelsRef } = useMenuContext();
 
+  const { dismissibleRef, dismissibleProps } = useDismissableLayer({
+    enabled: open,
+    onEscapeKeyDown: (event) => {
+      setOpen(false, { reason: "escapeKeyDown", event });
+    },
+    onPointerDownOutside: (event) => {
+      setOpen(false, { reason: "interactOutside", event });
+    },
+    onCascadeDismiss: ({ dismissedParent }) => {
+      setOpen(false, { reason: "cascadeDismiss", dismissedParent });
+    },
+    onFocusOutside: () => {
+      // focus trapping is handled by FloatingFocusManager — nothing to do here
+    },
+    exclude: (target) => {
+      const reference = floatingContext.refs.reference.current;
+      if (!(reference instanceof HTMLElement)) return false;
+
+      return reference.contains(target);
+    },
+  });
+
+  const content = (
+    <Primitive.div
+      ref={composeRefs(ref, dismissibleRef)}
+      {...mergeProps(contentProps, dismissibleProps, props)}
+    />
+  );
+
+  // FloatingFocusManager: handles position-aware initial focus, return focus,
+  // closeOnFocusOut, tab order guards, and useListNavigation coordination.
+  //
+  // FocusScope: participates in Radix's focusScopesStack so that parent
+  // FocusScopes (e.g. Dialog, Drawer) are automatically paused while this
+  // Menu is open. Without this, focus cannot leave a trapped parent scope
+  // to reach Menu content rendered in a Portal.
+  //
+  // FocusScope is conditionally rendered (only when open) because Menu
+  // content is always in the DOM (hidden via data-hidden). If FocusScope
+  // were always mounted, it would register in the stack at page load —
+  // before any Dialog — and could never re-register above a Dialog that
+  // mounts later. Mounting only when open ensures it lands at the top of
+  // the stack, pausing the parent scope.
   return (
     <FloatingFocusManager context={floatingContext} disabled={!open} modal={false}>
       <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
-        <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />
+        {open ? (
+          <FocusScope
+            asChild
+            trapped={false}
+            loop={false}
+            onMountAutoFocus={(e) => e.preventDefault()}
+            onUnmountAutoFocus={(e) => e.preventDefault()}
+          >
+            {content}
+          </FocusScope>
+        ) : (
+          content
+        )}
       </FloatingList>
     </FloatingFocusManager>
   );
 });
 MenuContent.displayName = "MenuContent";
-
-// ---------------------------------------------------------------------------
-// MenuItem
-// ---------------------------------------------------------------------------
 
 export interface MenuItemProps
   extends UseMenuItemProps,
@@ -127,10 +173,6 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(
 );
 MenuItem.displayName = "MenuItem";
 
-// ---------------------------------------------------------------------------
-// MenuGroup
-// ---------------------------------------------------------------------------
-
 export interface MenuGroupProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuGroup = forwardRef<HTMLDivElement, MenuGroupProps>((props, ref) => {
@@ -145,10 +187,6 @@ export const MenuGroup = forwardRef<HTMLDivElement, MenuGroupProps>((props, ref)
 });
 MenuGroup.displayName = "MenuGroup";
 
-// ---------------------------------------------------------------------------
-// MenuGroupLabel
-// ---------------------------------------------------------------------------
-
 export interface MenuGroupLabelProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuGroupLabel = forwardRef<HTMLDivElement, MenuGroupLabelProps>((props, ref) => {
@@ -159,10 +197,6 @@ export const MenuGroupLabel = forwardRef<HTMLDivElement, MenuGroupLabelProps>((p
   return <Primitive.div ref={ref} {...mergeProps(getGroupLabelProps(labelId), props)} />;
 });
 MenuGroupLabel.displayName = "MenuGroupLabel";
-
-// ---------------------------------------------------------------------------
-// MenuDivider
-// ---------------------------------------------------------------------------
 
 export interface MenuDividerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 

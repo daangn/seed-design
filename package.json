@@ -91,7 +91,6 @@
     "esbuild": "0.27.4"
   },
   "patchedDependencies": {
-    "@radix-ui/react-dialog@1.1.15": "patches/@radix-ui%2Freact-dialog@1.1.15.patch",
     "@figma/rest-api-spec@0.36.0": "patches/@figma%2Frest-api-spec@0.36.0.patch",
     "@figma/plugin-typings@1.123.0": "patches/@figma%2Fplugin-typings@1.123.0.patch"
   }

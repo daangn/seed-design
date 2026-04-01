@@ -17,10 +17,6 @@ import {
   type MenuRootProps,
 } from "./index";
 
-// ---------------------------------------------------------------------------
-// Test Helpers
-// ---------------------------------------------------------------------------
-
 type UseMenuProps = MenuRootProps;
 
 function setUp(jsx: ReactElement) {
@@ -29,10 +25,6 @@ function setUp(jsx: ReactElement) {
     ...render(jsx),
   };
 }
-
-// ---------------------------------------------------------------------------
-// Common test fixtures
-// ---------------------------------------------------------------------------
 
 function BasicMenu(props: UseMenuProps) {
   return (
@@ -126,11 +118,7 @@ function ControlledMenu({ onOpenChange }: { onOpenChange: (open: boolean) => voi
 // Tests
 // ===========================================================================
 
-describe("useMenu", () => {
-  // -------------------------------------------------------------------------
-  // Rendering & Structure
-  // -------------------------------------------------------------------------
-  describe("rendering & structure", () => {
+describe("useMenu", () => {  describe("rendering & structure", () => {
     it("renders a trigger with aria-haspopup='menu'", () => {
       const { getByText } = setUp(<BasicMenu />);
       const trigger = getByText("Open Menu");
@@ -165,12 +153,7 @@ describe("useMenu", () => {
       const label = getByText("Group 1");
       expect(label).toHaveAttribute("id", labelledBy);
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Open/Close State
-  // -------------------------------------------------------------------------
-  describe("open/close state", () => {
+  });  describe("open/close state", () => {
     it("opens on trigger click", async () => {
       const { getByText, queryByRole, user } = setUp(<BasicMenu />);
       expect(queryByRole("menu")).not.toHaveAttribute("data-open");
@@ -231,12 +214,7 @@ describe("useMenu", () => {
       await user.click(getByText("Open Menu"));
       expect(queryByRole("menu")).not.toHaveAttribute("data-open");
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Keyboard Navigation
-  // -------------------------------------------------------------------------
-  describe("keyboard navigation", () => {
+  });  describe("keyboard navigation", () => {
     it("focuses the first item when opened by keyboard (ArrowDown on trigger)", async () => {
       const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
       getByText("Open Menu").focus();
@@ -338,12 +316,7 @@ describe("useMenu", () => {
       await user.keyboard(" ");
       expect(queryByRole("menu")).toHaveAttribute("data-open");
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Typeahead
-  // -------------------------------------------------------------------------
-  describe("typeahead", () => {
+  });  describe("typeahead", () => {
     it("focuses item matching typed character", async () => {
       const { getByText, user } = setUp(<MenuWithLabels />);
       await user.click(getByText("Open Menu"));
@@ -418,12 +391,7 @@ describe("useMenu", () => {
       await user.keyboard("b");
       expect(getByText("Item with icon 2")).toHaveFocus();
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Item Interaction
-  // -------------------------------------------------------------------------
-  describe("item interaction", () => {
+  });  describe("item interaction", () => {
     it("calls onClick on item when clicked", async () => {
       const onClick = mock();
       const { getByText, user } = setUp(
@@ -515,12 +483,7 @@ describe("useMenu", () => {
       await user.keyboard("{Enter}");
       expect(onClick).not.toHaveBeenCalled();
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Focus Management
-  // -------------------------------------------------------------------------
-  describe("focus management", () => {
+  });  describe("focus management", () => {
     it("doesn't focus the first item when menu opens", async () => {
       const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
       await user.click(getByText("Open Menu"));
@@ -587,12 +550,7 @@ describe("useMenu", () => {
       await user.keyboard(" "); // select first item
       expect(trigger).toHaveFocus();
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Mouse Interaction
-  // -------------------------------------------------------------------------
-  describe("mouse interaction", () => {
+  });  describe("mouse interaction", () => {
     it("activates item on mouse-up after drag from trigger", async () => {
       const onClick = mock();
       const { getByText } = setUp(
@@ -615,12 +573,7 @@ describe("useMenu", () => {
       fireEvent.click(item);
       expect(onClick).toHaveBeenCalledTimes(1);
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Modal Behavior
-  // -------------------------------------------------------------------------
-  describe("modal behavior", () => {
+  });  describe("modal behavior", () => {
     it("locks scroll when modal=true", async () => {
       const { getByText, user } = setUp(<BasicMenu modal />);
       await user.click(getByText("Open Menu"));
@@ -633,12 +586,7 @@ describe("useMenu", () => {
       await user.click(getByText("Open Menu"));
       expect(document.body.style.overflow).not.toBe("hidden");
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Data Attributes
-  // -------------------------------------------------------------------------
-  describe("data attributes", () => {
+  });  describe("data attributes", () => {
     it("sets data-open on trigger when menu is open", async () => {
       const { getByText, user } = setUp(<BasicMenu />);
       const trigger = getByText("Open Menu");

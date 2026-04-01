@@ -3,11 +3,12 @@ import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useId, useMemo } from "react";
 
 interface DialogReasonToDetailMap {
-  // we might add synthetic events later if needed; currently we aim consistency; DismissableLayer gives us native events
+  // we might add synthetic events later if needed; currently we aim consistency; DismissibleLayer gives us native events
   trigger: { event: MouseEvent };
   closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
   interactOutside: { event: PointerEvent | FocusEvent };
+  cascadeDismiss: { dismissedParent: HTMLElement };
 }
 
 type DialogChangeDetails = {

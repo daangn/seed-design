@@ -28,10 +28,6 @@ function SubmenuTrigger(props: UseMenuSubmenuTriggerProps & { children?: React.R
   );
 }
 
-// ---------------------------------------------------------------------------
-// Common test fixtures
-// ---------------------------------------------------------------------------
-
 function MenuWithSubmenu(props: { closeParentOnEsc?: boolean } = {}) {
   return (
     <Menu>
@@ -51,11 +47,7 @@ function MenuWithSubmenu(props: { closeParentOnEsc?: boolean } = {}) {
   );
 }
 
-describe("useMenu submenu", () => {
-  // -------------------------------------------------------------------------
-  // Submenu Open/Close
-  // -------------------------------------------------------------------------
-  describe("open/close", () => {
+describe("useMenu submenu", () => {  describe("open/close", () => {
     it("opens submenu on ArrowRight (LTR) from submenu trigger", async () => {
       const { getByText, user, getAllByRole } = setUp(<MenuWithSubmenu />);
       await user.click(getByText("Open Menu"));
@@ -118,12 +110,7 @@ describe("useMenu submenu", () => {
       expect(queryByText("Sub Item 1")).not.toBeInTheDocument();
       expect(getByText("Item 1")).toBeInTheDocument();
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Submenu Focus
-  // -------------------------------------------------------------------------
-  describe("focus", () => {
+  });  describe("focus", () => {
     it("focuses first item in submenu when opened via keyboard", async () => {
       const { getByText, user } = setUp(<MenuWithSubmenu />);
       await user.click(getByText("Open Menu"));
@@ -151,12 +138,7 @@ describe("useMenu submenu", () => {
       await user.keyboard("{ArrowRight}"); // Open submenu
       expect(getByText("Submenu")).toHaveAttribute("tabindex", "0");
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Submenu Dismiss
-  // -------------------------------------------------------------------------
-  describe("dismiss", () => {
+  });  describe("dismiss", () => {
     it("closes entire tree on outside click", async () => {
       const { getByText, queryByText, queryByRole, user, getAllByRole } = setUp(
         <div>
@@ -197,12 +179,7 @@ describe("useMenu submenu", () => {
       // Both menus should be closed
       expect(queryByRole("menu")).not.toBeInTheDocument();
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Submenu Hover
-  // -------------------------------------------------------------------------
-  describe("hover", () => {
+  });  describe("hover", () => {
     it("opens submenu when hovering the submenu trigger", async () => {
       const { getByText, user, getAllByRole } = setUp(<MenuWithSubmenu />);
       await user.click(getByText("Open Menu"));
@@ -229,12 +206,7 @@ describe("useMenu submenu", () => {
       expect(getAllByRole("menu")[1]).toHaveAttribute("data-open");
       expect(getByText("Sub Item 2")).toBeInTheDocument();
     });
-  });
-
-  // -------------------------------------------------------------------------
-  // Submenu Rendering
-  // -------------------------------------------------------------------------
-  describe("rendering", () => {
+  });  describe("rendering", () => {
     it("renders submenu trigger as role='menuitem'", async () => {
       const { getByText, user } = setUp(<MenuWithSubmenu />);
       await user.click(getByText("Open Menu"));

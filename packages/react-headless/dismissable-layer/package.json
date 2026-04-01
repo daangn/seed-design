@@ -1,11 +1,11 @@
 {
-  "name": "@seed-design/react-menu",
+  "name": "@seed-design/react-dismissable-layer",
   "version": "0.0.0",
   "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/react-headless/menu"
+    "directory": "packages/react-headless/dismissable-layer"
   },
   "sideEffects": false,
   "type": "module",
@@ -27,15 +27,7 @@
     "build": "bunchee",
     "lint:publish": "bun publint"
   },
-  "dependencies": {
-    "@floating-ui/react": "^0.27.0",
-    "@radix-ui/react-compose-refs": "^1.1.2",
-    "@radix-ui/react-focus-scope": "^1.1.8",
-    "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-dismissable-layer": "0.0.0",
-    "@seed-design/react-primitive": "^1.0.0",
-    "@seed-design/react-use-controllable-state": "1.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/react": "^19.1.6",
     "react": "^19.1.0",

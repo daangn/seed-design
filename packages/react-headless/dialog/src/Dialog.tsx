@@ -1,12 +1,13 @@
 "use client";
 
-import { DismissableLayer } from "@radix-ui/react-dismissable-layer";
 import { FocusScope } from "@radix-ui/react-focus-scope";
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useDismissableLayer } from "@seed-design/react-dismissable-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef } from "react";
-import { Presence } from "./private/Presence";
+import { Presence } from "@seed-design/react-presence";
 import { useDialog, type UseDialogProps } from "./useDialog";
 import { DialogProvider, useDialogContext } from "./useDialogContext";
 
@@ -54,35 +55,35 @@ DialogBackdrop.displayName = "DialogBackdrop";
 
 export interface DialogContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-// TODO: implement DismissableLayer in useDialog instead of radix-ui
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props, ref) => {
   const api = useDialogContext();
+
+  const { dismissibleRef, dismissibleProps } = useDismissableLayer({
+    enabled: api.open,
+    onEscapeKeyDown: (e) => {
+      if (!api.closeOnEscape) return;
+      api.setOpen(false, { reason: "escapeKeyDown", event: e });
+    },
+    onPointerDownOutside: (e) => {
+      if (!api.closeOnInteractOutside) return;
+      api.setOpen(false, { reason: "interactOutside", event: e });
+    },
+    onFocusOutside: () => {
+      // focus trapping is handled by FocusScope — nothing to do here
+
+      if (!api.closeOnInteractOutside) return; // not actually going to happen; FocusScope will work regardless
+    },
+    onCascadeDismiss: ({ dismissedParent }) => {
+      api.setOpen(false, { reason: "cascadeDismiss", dismissedParent });
+    },
+  });
 
   return (
     <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
       <FocusScope asChild loop trapped={api.open}>
-        {/* onDismiss = onEscapeKeyDown + onInteractOutside (= onFocusOutside + onPointerDownOutside) */}
-        <DismissableLayer
-          ref={ref}
-          onEscapeKeyDown={(e) => {
-            if (!api.closeOnEscape) {
-              e.preventDefault();
-              return;
-            }
-
-            api.setOpen(false, { reason: "escapeKeyDown", event: e });
-          }}
-          // onInteractOutside = onFocusOutside + onPointerDownOutside
-          onInteractOutside={(e) => {
-            if (!api.closeOnInteractOutside) {
-              e.preventDefault();
-              return;
-            }
-
-            api.setOpen(false, { reason: "interactOutside", event: e.detail.originalEvent });
-          }}
-          // onFocusOutside isn't needed because FocusScope traps the focus
-          {...mergeProps(api.contentProps, props)}
+        <Primitive.div
+          ref={composeRefs(ref, dismissibleRef)}
+          {...mergeProps(api.contentProps, dismissibleProps, props)}
         />
       </FocusScope>
     </Presence>
