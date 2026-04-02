@@ -13,27 +13,21 @@ export interface BoxProps extends StyleProps {
 
 export const Box = forwardRef<any, BoxProps>((props, ref) => {
   const { style, restProps } = useStyleProps(props);
-  const { asChild = false, className, ...nativeProps } = restProps;
-
-  // DEBUG: circular reference 원인 파악
-  try {
-    JSON.stringify(style);
-  } catch (e) {
-    console.error("[Box] style is circular:", Object.keys(style));
-  }
-  try {
-    JSON.stringify(nativeProps);
-  } catch (e) {
-    console.error("[Box] nativeProps is circular:", Object.keys(nativeProps));
-  }
+  const { asChild = false, className, children, ...nativeProps } = restProps;
 
   if (asChild) {
     return (
-      <Slot ref={ref} className={clsx("seed-box", className)} style={style} {...nativeProps} />
+      <Slot ref={ref} className={clsx("seed-box", className)} style={style} {...nativeProps}>
+        {children}
+      </Slot>
     );
   }
 
-  return <view ref={ref} className={clsx("seed-box", className)} style={style} {...nativeProps} />;
+  return (
+    <view ref={ref} className={clsx("seed-box", className)} style={style} {...nativeProps}>
+      {children}
+    </view>
+  );
 });
 
 Box.displayName = "Box";
