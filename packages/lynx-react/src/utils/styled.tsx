@@ -2,6 +2,7 @@
  * StyleProps utilities for Lynx.
  * Based on packages/react/src/utils/styled.tsx, adapted for Lynx environment.
  */
+import { dynamicStyle } from "./dynamic-style";
 import type {
   ScopedColorBg,
   ScopedColorFg,
@@ -341,7 +342,7 @@ interface UseStyleProps extends StyleProps {
 export function useStyleProps<T extends UseStyleProps>(
   props: T,
 ): {
-  style: React.CSSProperties;
+  style: string;
   restProps: Omit<T, keyof UseStyleProps>;
 } {
   const {
@@ -475,12 +476,8 @@ export function useStyleProps<T extends UseStyleProps>(
     ...style,
   };
 
-  const cleanStyle = Object.fromEntries(
-    Object.entries(rawStyle).filter(([_, v]) => v !== undefined),
-  );
-
   return {
-    style: cleanStyle as React.CSSProperties,
+    style: dynamicStyle(rawStyle),
     restProps: restProps as Omit<T, keyof UseStyleProps>,
   };
 }

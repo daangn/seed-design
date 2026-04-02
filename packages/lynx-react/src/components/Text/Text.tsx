@@ -11,6 +11,7 @@ import {
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import { forwardRef, useMemo } from "react";
+import { dynamicStyle } from "../../utils/dynamic-style";
 
 function handleColor(color: string | undefined) {
   if (!color) {
@@ -77,7 +78,7 @@ export interface TextProps extends Pick<TextVariantProps, "textStyle"> {
   align?: "left" | "center" | "right";
 
   className?: string;
-  style?: React.CSSProperties;
+  style?: Record<string, unknown>;
   children?: ReactNode;
 }
 
@@ -116,7 +117,7 @@ export const Text = forwardRef<any, TextProps>(
       [textStyle, maxLines],
     );
 
-    const cssVars = {
+    const cssVars = dynamicStyle({
       "--seed-max-lines": maxLines,
       "--seed-text-color": handleColor(color),
       "--seed-font-size": handleFontSize(fontSize),
@@ -124,10 +125,10 @@ export const Text = forwardRef<any, TextProps>(
       "--seed-font-weight": handleFontWeight(fontWeight),
       "--seed-text-align": align,
       ...style,
-    } as React.CSSProperties;
+    });
 
     return (
-      <view ref={ref} className={clsx(classes.root, className)} style={cssVars}>
+      <view ref={ref} className={clsx(classes.root, className)} style={cssVars as any}>
         <text className={classes.text}>{children}</text>
       </view>
     );

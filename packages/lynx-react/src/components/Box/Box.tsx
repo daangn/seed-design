@@ -7,7 +7,7 @@ import { useStyleProps, type StyleProps } from "../../utils/styled";
 export interface BoxProps extends StyleProps {
   asChild?: boolean;
   className?: string;
-  style?: React.CSSProperties;
+  style?: Record<string, unknown>;
   children?: ReactNode;
 }
 
@@ -17,14 +17,14 @@ export const Box = forwardRef<any, BoxProps>((props, ref) => {
 
   if (asChild) {
     return (
-      <Slot ref={ref} className={clsx("seed-box", className)} style={style} {...nativeProps}>
+      <Slot ref={ref} className={clsx("seed-box", className)} style={style as any} {...nativeProps}>
         {children}
       </Slot>
     );
   }
 
   return (
-    <view ref={ref} className={clsx("seed-box", className)} style={style} {...nativeProps}>
+    <view ref={ref} className={clsx("seed-box", className)} style={style as any} {...nativeProps}>
       {children}
     </view>
   );
