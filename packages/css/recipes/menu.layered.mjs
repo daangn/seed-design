@@ -19,8 +19,8 @@ const menuSlotNames = [
     "seed-menu__group"
   ],
   [
-    "groupHeader",
-    "seed-menu__groupHeader"
+    "groupLabel",
+    "seed-menu__groupLabel"
   ],
   [
     "divider",

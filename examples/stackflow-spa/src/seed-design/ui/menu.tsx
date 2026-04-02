@@ -37,9 +37,9 @@ export interface MenuGroupProps extends SeedMenu.GroupProps {}
 
 export const MenuGroup = SeedMenu.Group;
 
-export interface MenuGroupHeaderProps extends SeedMenu.GroupHeaderProps {}
+export interface MenuGroupLabelProps extends SeedMenu.GroupLabelProps {}
 
-export const MenuGroupHeader = SeedMenu.GroupHeader;
+export const MenuGroupLabel = SeedMenu.GroupLabel;
 
 export interface MenuItemProps extends Omit<SeedMenu.ItemProps, "children" | "label"> {
   prefixIcon?: React.ReactNode;

@@ -20,6 +20,48 @@ npx @seed-design/cli@latest add ui:menu
 
 <ManualInstallation name="menu" />
 
+## Usage
+
+Menu는 아래와 같은 구조로 구성됩니다.
+
+```tsx
+import {
+  MenuRoot,
+  MenuTrigger,
+  MenuContent,
+  MenuGroup,
+  MenuGroupLabel,
+  MenuItem,
+  MenuDivider,
+} from "seed-design/ui/menu";
+```
+
+```tsx
+<MenuRoot>
+  <MenuTrigger>...</MenuTrigger>
+  <MenuContent>
+    <MenuGroup>
+      <MenuGroupLabel>그룹 제목</MenuGroupLabel>
+      <MenuItem label="항목 1" />
+      <MenuItem label="항목 2" />
+    </MenuGroup>
+    <MenuDivider />
+    <MenuGroup>
+      <MenuItem label="항목 3" />
+    </MenuGroup>
+  </MenuContent>
+</MenuRoot>
+```
+
+- `MenuRoot`: 메뉴의 상태(열림/닫힘)와 위치를 관리합니다.
+- `MenuTrigger`: 클릭 시 메뉴를 열고 닫는 트리거입니다.
+- `MenuAnchor`: 메뉴의 위치 기준점만 제공하며, 열고 닫는 동작은 포함하지 않습니다. `FieldButton`처럼 내부 `<button>`을 직접 제어해야 하는 경우에 `MenuTrigger` 대신 사용합니다.
+- `MenuContent`: 메뉴 항목들을 감싸는 플로팅 컨테이너입니다.
+- `MenuGroup`: 관련된 항목들을 그룹으로 묶습니다. 모든 `MenuItem`은 `MenuGroup` 안에 있어야 합니다.
+- `MenuGroupLabel`: 그룹의 제목을 표시합니다.
+- `MenuItem`: 개별 메뉴 항목입니다.
+- `MenuDivider`: 그룹 사이의 구분선입니다.
+
 ## Props
 
 ### `MenuRoot`
@@ -57,11 +99,11 @@ npx @seed-design/cli@latest add ui:menu
   name="MenuGroupProps"
 />
 
-### `MenuGroupHeader`
+### `MenuGroupLabel`
 
 <react-type-table
   path="./registry/ui/menu.tsx"
-  name="MenuGroupHeaderProps"
+  name="MenuGroupLabelProps"
 />
 
 ### `MenuItem`

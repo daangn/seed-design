@@ -19,7 +19,7 @@ import {
   MenuAnchor,
   MenuContent,
   MenuGroup,
-  MenuGroupHeader,
+  MenuGroupLabel,
   MenuItem,
   MenuDivider,
   // MenuSubmenuRoot,
@@ -100,7 +100,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </MenuTrigger>
             <MenuContent>
               <MenuGroup>
-                <MenuGroupHeader>Actions</MenuGroupHeader>
+                <MenuGroupLabel>Actions</MenuGroupLabel>
                 <MenuItem label="Add to Library" prefixIcon={<IconPlusLine />} />
                 <MenuItem
                   label="Edit"
@@ -178,7 +178,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </MenuTrigger>
             <MenuContent>
               <MenuGroup>
-                <MenuGroupHeader>Actions</MenuGroupHeader>
+                <MenuGroupLabel>Actions</MenuGroupLabel>
                 <MenuItem label="Add to Library" prefixIcon={<IconPlusLine />} />
                 <MenuItem
                   label="Edit"
@@ -263,7 +263,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                     </MenuTrigger>
                     <MenuContent>
                       <MenuGroup>
-                        <MenuGroupHeader>Actions</MenuGroupHeader>
+                        <MenuGroupLabel>Actions</MenuGroupLabel>
                         <MenuItem label="Add to Library" prefixIcon={<IconPlusLine />} />
                         <MenuItem
                           label="Edit"
@@ -316,7 +316,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                       </MenuTrigger>
                       <MenuContent>
                         <MenuGroup>
-                          <MenuGroupHeader>Actions</MenuGroupHeader>
+                          <MenuGroupLabel>Actions</MenuGroupLabel>
                           <MenuItem label="Add to Library" prefixIcon={<IconPlusLine />} />
                           <MenuItem
                             label="Edit"
@@ -377,6 +377,20 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
               <MenuGroup>
                 {["사과", "바나나", "포도", "딸기", "수박"].map((fruit) => (
                   <MenuItem key={fruit} label={fruit} onClick={() => setSelectedFruit(fruit)} />
+                ))}
+              </MenuGroup>
+            </MenuContent>
+          </MenuRoot>
+
+          <MenuRoot size="medium">
+            <MenuTrigger asChild>
+              <ActionButton>Many Items</ActionButton>
+            </MenuTrigger>
+            <MenuContent>
+              <MenuGroup>
+                <MenuGroupLabel>Recently Played</MenuGroupLabel>
+                {Array.from({ length: 30 }, (_, i) => (
+                  <MenuItem key={`track-${i}`} label={`Track ${i + 1}`} />
                 ))}
               </MenuGroup>
             </MenuContent>

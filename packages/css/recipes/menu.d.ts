@@ -11,7 +11,7 @@ declare type MenuVariantMap = {
 
 export declare type MenuVariantProps = Partial<MenuVariant>;
 
-export declare type MenuSlotName = "positioner" | "content" | "scrollArea" | "group" | "groupHeader" | "divider";
+export declare type MenuSlotName = "positioner" | "content" | "scrollArea" | "group" | "groupLabel" | "divider";
 
 export declare const menuVariantMap: MenuVariantMap;
 

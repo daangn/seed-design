@@ -51,7 +51,7 @@
     display: flex;
     flex-direction: column;
 }
-.seed-menu__groupHeader {
+.seed-menu__groupLabel {
     color: var(--seed-color-fg-neutral-subtle);
 }
 .seed-menu__divider {
@@ -64,7 +64,7 @@
 .seed-menu__content--size_medium {
     width: var(--seed-menu-reference-width, 240px);
 }
-.seed-menu__groupHeader--size_medium {
+.seed-menu__groupLabel--size_medium {
     padding-top: var(--seed-dimension-x2_5);
     padding-bottom: var(--seed-dimension-x2_5);
     padding-left: var(--seed-dimension-x4);
@@ -76,7 +76,7 @@
 .seed-menu__content--size_small {
     width: var(--seed-menu-reference-width, 200px);
 }
-.seed-menu__groupHeader--size_small {
+.seed-menu__groupLabel--size_small {
     padding-top: var(--seed-dimension-x2);
     padding-bottom: var(--seed-dimension-x2);
     padding-left: var(--seed-dimension-x4);

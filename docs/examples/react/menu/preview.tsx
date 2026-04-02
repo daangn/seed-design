@@ -8,7 +8,7 @@ import {
   MenuContent,
   MenuDivider,
   MenuGroup,
-  MenuGroupHeader,
+  MenuGroupLabel,
   MenuItem,
   MenuRoot,
   MenuTrigger,
@@ -22,7 +22,7 @@ export default function MenuPreview() {
       </MenuTrigger>
       <MenuContent>
         <MenuGroup>
-          <MenuGroupHeader>작업</MenuGroupHeader>
+          <MenuGroupLabel>작업</MenuGroupLabel>
           <MenuItem label="라이브러리에 추가" prefixIcon={<IconPlusLine />} />
           <MenuItem
             label="수정"

@@ -96,11 +96,11 @@ export const MenuGroup = withContext<HTMLDivElement, MenuGroupProps>(MenuPrimiti
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuGroupHeaderProps extends MenuPrimitive.GroupLabelProps {}
+export interface MenuGroupLabelProps extends MenuPrimitive.GroupLabelProps {}
 
-export const MenuGroupHeader = withContext<HTMLDivElement, MenuGroupHeaderProps>(
+export const MenuGroupLabel = withContext<HTMLDivElement, MenuGroupLabelProps>(
   MenuPrimitive.GroupLabel,
-  "groupHeader",
+  "groupLabel",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

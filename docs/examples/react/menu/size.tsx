@@ -4,7 +4,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import {
   MenuContent,
   MenuGroup,
-  MenuGroupHeader,
+  MenuGroupLabel,
   MenuItem,
   MenuRoot,
   MenuTrigger,
@@ -19,7 +19,7 @@ export default function MenuSize() {
         </MenuTrigger>
         <MenuContent>
           <MenuGroup>
-            <MenuGroupHeader>작업</MenuGroupHeader>
+            <MenuGroupLabel>작업</MenuGroupLabel>
             <MenuItem label="추가" prefixIcon={<IconPlusLine />} />
             <MenuItem label="수정" prefixIcon={<IconPencilLine />} />
           </MenuGroup>
@@ -32,7 +32,7 @@ export default function MenuSize() {
         </MenuTrigger>
         <MenuContent>
           <MenuGroup>
-            <MenuGroupHeader>작업</MenuGroupHeader>
+            <MenuGroupLabel>작업</MenuGroupLabel>
             <MenuItem label="추가" prefixIcon={<IconPlusLine />} />
             <MenuItem label="수정" prefixIcon={<IconPencilLine />} />
           </MenuGroup>

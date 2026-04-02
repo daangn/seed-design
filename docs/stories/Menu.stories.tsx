@@ -13,7 +13,7 @@ import {
   MenuContent,
   MenuDivider,
   MenuGroup,
-  MenuGroupHeader,
+  MenuGroupLabel,
   MenuItem,
   MenuRoot,
 } from "seed-design/ui/menu";
@@ -44,7 +44,7 @@ const MenuPreview = ({ size }: MenuVariantProps) => {
         <MenuRoot open size={size}>
           <MenuContent container={containerRef}>
             <MenuGroup>
-              <MenuGroupHeader>작업</MenuGroupHeader>
+              <MenuGroupLabel>작업</MenuGroupLabel>
               <MenuItem
                 prefixIcon={<IconPlusLine />}
                 label="Action 1 Action 1 Action 1 Action 1"

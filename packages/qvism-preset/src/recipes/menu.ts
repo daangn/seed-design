@@ -24,7 +24,7 @@ import { prefixIcon, suffixIcon } from "../utils/icon";
 
 export const menu = defineSlotRecipe({
   name: "menu",
-  slots: ["positioner", "content", "scrollArea", "group", "groupHeader", "divider"],
+  slots: ["positioner", "content", "scrollArea", "group", "groupLabel", "divider"],
   base: {
     positioner: {
       // helps menu to be open at the top of the stackflow stack; it won't have any AppScreen on top of it
@@ -86,7 +86,7 @@ export const menu = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
     },
-    groupHeader: {
+    groupLabel: {
       color: tokens.$color.fg.neutralSubtle,
     },
     divider: {
@@ -103,7 +103,7 @@ export const menu = defineSlotRecipe({
         content: {
           width: "var(--seed-menu-reference-width, 240px)",
         },
-        groupHeader: {
+        groupLabel: {
           paddingTop: tokens.$dimension.x2_5,
           paddingBottom: tokens.$dimension.x2_5,
           paddingLeft: tokens.$dimension.x4,
@@ -118,7 +118,7 @@ export const menu = defineSlotRecipe({
         content: {
           width: "var(--seed-menu-reference-width, 200px)",
         },
-        groupHeader: {
+        groupLabel: {
           paddingTop: tokens.$dimension.x2,
           paddingBottom: tokens.$dimension.x2,
           paddingLeft: tokens.$dimension.x4,
