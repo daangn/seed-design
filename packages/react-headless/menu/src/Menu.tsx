@@ -65,22 +65,30 @@ export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>((prop
 });
 MenuTrigger.displayName = "MenuTrigger";
 
-export interface MenuPositionerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface MenuPositionerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * The container element to render the portal into.
+   * @default document.body
+   */
+  container?: React.RefObject<HTMLElement | null>;
+}
 
-export const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>((props, ref) => {
-  const api = useMenuContext();
+export const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>(
+  ({ container, ...props }, ref) => {
+    const api = useMenuContext();
 
-  // FloatingPortal (not a generic portal) so that FloatingFocusManager
-  // detects the portal context and renders focus-guard sentinels.
-  return (
-    <FloatingPortal>
-      <Primitive.div
-        ref={composeRefs(api.refs.positioner, ref)}
-        {...mergeProps(api.positionerProps, props)}
-      />
-    </FloatingPortal>
-  );
-});
+    // FloatingPortal (not a generic portal) so that FloatingFocusManager
+    // detects the portal context and renders focus-guard sentinels.
+    return (
+      <FloatingPortal root={container ?? undefined}>
+        <Primitive.div
+          ref={composeRefs(api.refs.positioner, ref)}
+          {...mergeProps(api.positionerProps, props)}
+        />
+      </FloatingPortal>
+    );
+  },
+);
 MenuPositioner.displayName = "MenuPositioner";
 
 export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
