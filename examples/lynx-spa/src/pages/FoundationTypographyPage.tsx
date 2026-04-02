@@ -1,18 +1,5 @@
 import { vars } from "@seed-design/lynx-css/vars";
 
-type CSSFontWeight =
-  | "bold"
-  | "normal"
-  | "100"
-  | "200"
-  | "300"
-  | "400"
-  | "500"
-  | "600"
-  | "700"
-  | "800"
-  | "900";
-
 const { $color, $fontSize, $lineHeight, $fontWeight } = vars;
 
 function SectionTitle({ children }: { children: string }) {
@@ -50,15 +37,12 @@ function FontSizeRow({
         gap: "4px",
       }}
     >
-      <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle }}>
+      <text style={`font-size: 11px; color: ${$color.fg.neutralSubtle};`}>
         {name} → {sizeVar}
         {lineHeightVar ? ` / ${lineHeightVar}` : ""}
       </text>
       <text
-        style={{
-          fontSize: sizeVar,
-          lineHeight: lineHeightVar ?? "normal",
-        }}
+        style={`font-size: ${sizeVar}; line-height: ${lineHeightVar ?? "normal"};`}
       >
         다람쥐 헌 쳇바퀴에 타고파 The quick brown fox
       </text>
@@ -78,10 +62,10 @@ function FontWeightRow({ name, weightVar }: { name: string; weightVar: string })
         gap: "4px",
       }}
     >
-      <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle }}>
+      <text style={`font-size: 11px; color: ${$color.fg.neutralSubtle};`}>
         {name} → {weightVar}
       </text>
-      <text style={{ fontSize: "16px", fontWeight: weightVar as CSSFontWeight }}>
+      <text style={`font-size: 16px; font-weight: ${weightVar};`}>
         다람쥐 헌 쳇바퀴에 타고파 The quick brown fox
       </text>
     </view>
