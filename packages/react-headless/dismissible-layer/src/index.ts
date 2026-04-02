@@ -1,7 +1,7 @@
 export {
-  useDismissableLayer,
-  type UseDismissableLayerOptions,
-} from "./useDismissableLayer";
+  useDismissibleLayer,
+  type UseDismissibleLayerOptions,
+} from "./useDismissibleLayer";
 
 export {
   LayerStackContext,

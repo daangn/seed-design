@@ -2,7 +2,7 @@
 
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { useDismissableLayer } from "@seed-design/react-dismissable-layer";
+import { useDismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
@@ -58,7 +58,7 @@ export interface DialogContentProps extends PrimitiveProps, React.HTMLAttributes
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props, ref) => {
   const api = useDialogContext();
 
-  const { dismissibleRef, dismissibleProps } = useDismissableLayer({
+  const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
     enabled: api.open,
     onEscapeKeyDown: (e) => {
       if (!api.closeOnEscape) return;

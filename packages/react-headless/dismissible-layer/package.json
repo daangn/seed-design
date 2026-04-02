@@ -1,11 +1,11 @@
 {
-  "name": "@seed-design/react-dismissable-layer",
+  "name": "@seed-design/react-dismissible-layer",
   "version": "0.0.0",
   "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/react-headless/dismissable-layer"
+    "directory": "packages/react-headless/dismissible-layer"
   },
   "sideEffects": false,
   "type": "module",

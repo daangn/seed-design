@@ -8,7 +8,7 @@ import {
 } from "@floating-ui/react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
-import { useDismissableLayer } from "@seed-design/react-dismissable-layer";
+import { useDismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import React, { forwardRef, createContext } from "react";
@@ -112,7 +112,7 @@ export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<H
 export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, ref) => {
   const { floatingContext, contentProps, open, setOpen, elementsRef, labelsRef } = useMenuContext();
 
-  const { dismissibleRef, dismissibleProps } = useDismissableLayer({
+  const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
     enabled: open,
     onEscapeKeyDown: (event) => {
       setOpen(false, { reason: "escapeKeyDown", event });

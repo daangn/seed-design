@@ -16,7 +16,7 @@ import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
 
 interface DrawerReasonToDetailMap {
-  // we might add synthetic events later if needed; currently we aim consistency; DismissableLayer gives us native events
+  // we might add synthetic events later if needed; currently we aim consistency; DismissibleLayer gives us native events
   closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
   interactOutside: { event: PointerEvent | FocusEvent };

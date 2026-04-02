@@ -575,7 +575,7 @@
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-focus-scope": "^1.1.4",
         "@seed-design/dom-utils": "1.0.0",
-        "@seed-design/react-dismissable-layer": "0.0.0",
+        "@seed-design/react-dismissible-layer": "0.0.0",
         "@seed-design/react-presence": "0.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-use-controllable-state": "1.0.0",
@@ -590,8 +590,8 @@
         "react-dom": ">=18.0.0",
       },
     },
-    "packages/react-headless/dismissable-layer": {
-      "name": "@seed-design/react-dismissable-layer",
+    "packages/react-headless/dismissible-layer": {
+      "name": "@seed-design/react-dismissible-layer",
       "version": "0.0.0",
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -611,7 +611,7 @@
         "@radix-ui/react-focus-scope": "^1.1.4",
         "@radix-ui/react-use-callback-ref": "^1.1.0",
         "@seed-design/dom-utils": "1.0.0",
-        "@seed-design/react-dismissable-layer": "0.0.0",
+        "@seed-design/react-dismissible-layer": "0.0.0",
         "@seed-design/react-presence": "0.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-use-controllable-state": "1.0.0",
@@ -711,7 +711,7 @@
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-focus-scope": "^1.1.8",
         "@seed-design/dom-utils": "1.0.0",
-        "@seed-design/react-dismissable-layer": "0.0.0",
+        "@seed-design/react-dismissible-layer": "0.0.0",
         "@seed-design/react-primitive": "^1.0.0",
         "@seed-design/react-use-controllable-state": "1.0.0",
       },
@@ -2490,7 +2490,7 @@
 
     "@seed-design/react-dialog": ["@seed-design/react-dialog@workspace:packages/react-headless/dialog"],
 
-    "@seed-design/react-dismissable-layer": ["@seed-design/react-dismissable-layer@workspace:packages/react-headless/dismissable-layer"],
+    "@seed-design/react-dismissible-layer": ["@seed-design/react-dismissible-layer@workspace:packages/react-headless/dismissible-layer"],
 
     "@seed-design/react-drawer": ["@seed-design/react-drawer@workspace:packages/react-headless/drawer"],
 

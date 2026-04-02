@@ -14,7 +14,7 @@ import { useEscapeKeydown } from "./use-escape-keydown";
 import { usePointerDownOutside } from "./use-pointer-down-outside";
 import { useFocusOutside } from "./use-focus-outside";
 
-export interface UseDismissableLayerOptions {
+export interface UseDismissibleLayerOptions {
   /**
    * Whether the dismissible layer is active. When false, the layer is not
    * registered in the stack and no event listeners are attached.
@@ -61,7 +61,7 @@ export interface UseDismissableLayerOptions {
 
 const NOOP = () => {};
 
-export function useDismissableLayer(options: UseDismissableLayerOptions) {
+export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
   const {
     enabled,
     blockPointerEvents = false,

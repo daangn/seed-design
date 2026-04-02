@@ -3,7 +3,7 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
-import { useDismissableLayer } from "@seed-design/react-dismissable-layer";
+import { useDismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { Presence } from "@seed-design/react-presence";
 import { dataAttr, mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -120,7 +120,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
   const wasBeyondThePointRef = useRef(false);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
 
-  const { dismissibleRef, dismissibleProps } = useDismissableLayer({
+  const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
     enabled: isOpen,
     blockPointerEvents: modal,
     onEscapeKeyDown: (e) => {

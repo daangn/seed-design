@@ -1,17 +1,17 @@
 import { render, fireEvent, act } from "@testing-library/react";
 import { describe, expect, it, mock, beforeEach } from "bun:test";
 import * as React from "react";
-import { useDismissableLayer, type UseDismissableLayerOptions } from "./useDismissableLayer";
+import { useDismissibleLayer, type UseDismissibleLayerOptions } from "./useDismissibleLayer";
 
 function DismissibleBox({
   options,
   children,
   ...divProps
 }: {
-  options: UseDismissableLayerOptions;
+  options: UseDismissibleLayerOptions;
   children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>) {
-  const { dismissibleRef, dismissibleProps } = useDismissableLayer(options);
+  const { dismissibleRef, dismissibleProps } = useDismissibleLayer(options);
 
   return (
     <div ref={dismissibleRef} data-testid="dismissible" {...dismissibleProps} {...divProps}>
@@ -24,13 +24,13 @@ function NestedLayers({
   outerOptions,
   innerOptions,
 }: {
-  outerOptions: UseDismissableLayerOptions;
-  innerOptions: UseDismissableLayerOptions;
+  outerOptions: UseDismissibleLayerOptions;
+  innerOptions: UseDismissibleLayerOptions;
 }) {
   const { dismissibleRef: outerRef, dismissibleProps: outerProps } =
-    useDismissableLayer(outerOptions);
+    useDismissibleLayer(outerOptions);
   const { dismissibleRef: innerRef, dismissibleProps: innerProps } =
-    useDismissableLayer(innerOptions);
+    useDismissibleLayer(innerOptions);
 
   return (
     <div ref={outerRef} data-testid="outer" {...outerProps}>
@@ -43,7 +43,7 @@ function NestedLayers({
   );
 }
 
-describe("useDismissableLayer", () => {
+describe("useDismissibleLayer", () => {
   beforeEach(() => {
     document.body.innerHTML = "";
   });
@@ -164,7 +164,7 @@ describe("useDismissableLayer", () => {
       const triggerRef = React.createRef<HTMLButtonElement>();
 
       function TestComponent() {
-        const { dismissibleRef, dismissibleProps } = useDismissableLayer({
+        const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
           enabled: true,
           onPointerDownOutside,
           exclude: (target) => triggerRef.current?.contains(target) ?? false,

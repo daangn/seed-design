@@ -29,7 +29,7 @@
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-focus-scope": "^1.1.4",
-    "@seed-design/react-dismissable-layer": "0.0.0",
+    "@seed-design/react-dismissible-layer": "0.0.0",
     "@seed-design/react-presence": "0.0.0",
     "@seed-design/react-use-controllable-state": "1.0.0",
     "@seed-design/dom-utils": "1.0.0",
