@@ -1,0 +1,178 @@
+---
+title: Menu
+description: 버튼 클릭 시 관련된 작업 항목을 보여주는 플로팅 드롭다운 메뉴 컴포넌트입니다.
+---
+
+<ComponentExample name="react/menu/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:menu
+```
+
+<ManualInstallation name="menu" />
+
+## Props
+
+### `MenuRoot`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuRootProps"
+/>
+
+### `MenuTrigger`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuTriggerProps"
+/>
+
+### `MenuContent`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuContentProps"
+/>
+
+### `MenuGroup`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuGroupProps"
+/>
+
+### `MenuGroupHeader`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuGroupHeaderProps"
+/>
+
+### `MenuItem`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuItemProps"
+/>
+
+### `MenuDivider`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuDividerProps"
+/>
+
+## Examples
+
+### Size
+
+`MenuRoot`의 `size` prop으로 메뉴의 크기를 설정합니다.
+
+<ComponentExample name="react/menu/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Description
+
+`MenuItem`의 `description` prop을 사용하여 항목에 부가 설명을 추가합니다.
+
+<ComponentExample name="react/menu/with-description">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/with-description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Tone
+
+`MenuItem`의 `tone` prop으로 항목의 톤을 설정합니다.
+
+<ComponentExample name="react/menu/tone">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/tone.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled Items
+
+`MenuItem`의 `disabled` prop을 사용하여 특정 항목을 비활성화합니다.
+
+<ComponentExample name="react/menu/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Placement
+
+`MenuRoot`의 `placement` prop으로 메뉴의 위치를 설정합니다. 기본값은 `"bottom"`입니다.
+
+<ComponentExample name="react/menu/placement">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/placement.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+Trigger 외의 방식으로 Menu를 열고 닫을 수 있습니다.
+
+<ComponentExample name="react/menu/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**열릴 때** (`open: true`)
+
+- `"trigger"`: `MenuTrigger`로 열림
+
+**닫힐 때** (`open: false`)
+
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+- `"itemClick"`: 메뉴 항목 클릭
+- `"cascadeDismiss"`: 상위 레이어 닫힘으로 인한 연쇄 닫힘
+
+<ComponentExample name="react/menu/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
