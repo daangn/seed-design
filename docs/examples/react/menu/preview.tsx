@@ -14,7 +14,7 @@ import {
   MenuTrigger,
 } from "seed-design/ui/menu";
 
-const MenuPreview = () => {
+export default function MenuPreview() {
   return (
     <MenuRoot>
       <MenuTrigger asChild>
@@ -42,6 +42,4 @@ const MenuPreview = () => {
       </MenuContent>
     </MenuRoot>
   );
-};
-
-export default MenuPreview;
+}

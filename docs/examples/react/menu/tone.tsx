@@ -13,7 +13,7 @@ import {
   MenuTrigger,
 } from "seed-design/ui/menu";
 
-const MenuTone = () => {
+export default function MenuTone() {
   return (
     <MenuRoot>
       <MenuTrigger asChild>
@@ -31,6 +31,4 @@ const MenuTone = () => {
       </MenuContent>
     </MenuRoot>
   );
-};
-
-export default MenuTone;
+}

@@ -38,6 +38,12 @@ export const MenuRoot = (props: MenuRootProps) => {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface MenuAnchorProps extends MenuPrimitive.AnchorProps {}
+
+export const MenuAnchor = MenuPrimitive.Anchor;
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface MenuTriggerProps extends MenuPrimitive.TriggerProps {}
 
 export const MenuTrigger = MenuPrimitive.Trigger;

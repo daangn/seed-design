@@ -6,7 +6,7 @@ import {
 import { ActionButton } from "seed-design/ui/action-button";
 import { MenuContent, MenuGroup, MenuItem, MenuRoot, MenuTrigger } from "seed-design/ui/menu";
 
-const MenuDisabled = () => {
+export default function MenuDisabled() {
   return (
     <MenuRoot>
       <MenuTrigger asChild>
@@ -26,6 +26,4 @@ const MenuDisabled = () => {
       </MenuContent>
     </MenuRoot>
   );
-};
-
-export default MenuDisabled;
+}

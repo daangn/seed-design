@@ -10,7 +10,7 @@ import {
   MenuTrigger,
 } from "seed-design/ui/menu";
 
-const MenuSize = () => {
+export default function MenuSize() {
   return (
     <HStack gap="x4">
       <MenuRoot size="medium">
@@ -40,6 +40,4 @@ const MenuSize = () => {
       </MenuRoot>
     </HStack>
   );
-};
-
-export default MenuSize;
+}

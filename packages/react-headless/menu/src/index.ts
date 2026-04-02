@@ -1,5 +1,6 @@
 export {
   MenuRoot,
+  MenuAnchor,
   MenuTrigger,
   MenuPositioner,
   MenuContent,
@@ -8,6 +9,7 @@ export {
   MenuGroupLabel,
   MenuDivider,
   type MenuRootProps,
+  type MenuAnchorProps,
   type MenuTriggerProps,
   type MenuPositionerProps,
   type MenuContentProps,

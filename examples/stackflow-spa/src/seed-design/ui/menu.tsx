@@ -10,6 +10,10 @@ export interface MenuRootProps extends SeedMenu.RootProps {}
  */
 export const MenuRoot = SeedMenu.Root;
 
+export interface MenuAnchorProps extends SeedMenu.AnchorProps {}
+
+export const MenuAnchor = SeedMenu.Anchor;
+
 export interface MenuTriggerProps extends SeedMenu.TriggerProps {}
 
 export const MenuTrigger = SeedMenu.Trigger;

@@ -2,7 +2,7 @@ import { IconPencilLine, IconPlusLine } from "@karrotmarket/react-monochrome-ico
 import { ActionButton } from "seed-design/ui/action-button";
 import { MenuContent, MenuGroup, MenuItem, MenuRoot, MenuTrigger } from "seed-design/ui/menu";
 
-const MenuPlacement = () => {
+export default function MenuPlacement() {
   return (
     <div
       style={{
@@ -28,6 +28,4 @@ const MenuPlacement = () => {
       ))}
     </div>
   );
-};
-
-export default MenuPlacement;
+}

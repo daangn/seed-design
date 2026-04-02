@@ -1,5 +1,6 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
+import { useRef, useState } from "react";
 
 import {
   AppBar,
@@ -10,31 +11,39 @@ import {
   AppBarRight,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import {
-  IconArrowUpBracketDownLine,
-  IconChevronRightLine,
-  IconHouseLine,
-} from "@karrotmarket/react-monochrome-icon";
+import { IconArrowUpBracketDownLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   MenuRoot,
   MenuTrigger,
-  MenuPositioner,
+  MenuAnchor,
   MenuContent,
   MenuGroup,
   MenuGroupHeader,
   MenuItem,
-  MenuItemLabel,
   MenuDivider,
   // MenuSubmenuRoot,
   // MenuSubmenuTrigger,
 } from "seed-design/ui/menu";
+import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-design/ui/field-button";
+import { BottomSheetRoot, BottomSheetContent, BottomSheetBody } from "seed-design/ui/bottom-sheet";
 import {
   IconPlusLine,
   IconPencilLine,
   IconTrashcanLine,
-  IconArrowRightLine,
 } from "@karrotmarket/react-monochrome-icon";
+import {
+  AlertDialogRoot,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from "seed-design/ui/alert-dialog";
+import { BottomSheetFooter, ResponsivePair, Portal } from "@seed-design/react";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -44,6 +53,12 @@ declare module "@stackflow/config" {
 
 const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
   const { push } = useFlow();
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetFromMenuOpen, setSheetFromMenuOpen] = useState(false);
+  const menuInSheetOpenRef = useRef(false);
+  const menuInDialogOpenRef = useRef(false);
+  const [fieldButtonMenuOpen, setFieldButtonMenuOpen] = useState(false);
+  const [selectedFruit, setSelectedFruit] = useState("");
 
   return (
     <AppScreen>
@@ -98,6 +113,12 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                   prefixIcon={<IconArrowUpBracketDownLine />}
                 />
                 <MenuItem label="Disabled Action" prefixIcon={<IconPlusLine />} disabled />
+                <MenuItem
+                  label="Open Sheet"
+                  description="Opens a BottomSheet"
+                  prefixIcon={<IconArrowUpBracketDownLine />}
+                  onClick={() => setSheetFromMenuOpen(true)}
+                />
               </MenuGroup>
               {/* <MenuDivider /> */}
               {/* <MenuGroup>
@@ -136,6 +157,20 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
               </MenuGroup>
             </MenuContent>
           </MenuRoot>
+
+          <BottomSheetRoot open={sheetFromMenuOpen} onOpenChange={setSheetFromMenuOpen}>
+            <Portal>
+              <BottomSheetContent
+                title="Opened from Menu"
+                showHandle
+                layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
+              >
+                <BottomSheetBody>
+                  <p>Menu item 클릭으로 열린 BottomSheet입니다.</p>
+                </BottomSheetBody>
+              </BottomSheetContent>
+            </Portal>
+          </BottomSheetRoot>
 
           <MenuRoot size="small">
             <MenuTrigger asChild>
@@ -191,6 +226,158 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                   tone="critical"
                   prefixIcon={<IconTrashcanLine />}
                 />
+              </MenuGroup>
+            </MenuContent>
+          </MenuRoot>
+
+          <ActionButton onClick={() => setSheetOpen(true)}>Menu in BottomSheet</ActionButton>
+          <BottomSheetRoot
+            open={sheetOpen}
+            onOpenChange={(open) => {
+              console.log({ menuSheetOpenRef: menuInSheetOpenRef.current, open });
+              if (!open && menuInSheetOpenRef.current) return;
+
+              console.log("closing");
+
+              setSheetOpen(open);
+            }}
+          >
+            <Portal>
+              <BottomSheetContent
+                title="Menu in BottomSheet"
+                showHandle
+                layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
+              >
+                <BottomSheetBody>
+                  <p>BottomSheet 내부에서 Menu를 열 수 있습니다.</p>
+                </BottomSheetBody>
+                <BottomSheetFooter>
+                  <MenuRoot
+                    size="medium"
+                    onOpenChange={(open) => {
+                      menuInSheetOpenRef.current = open;
+                    }}
+                  >
+                    <MenuTrigger asChild>
+                      <ActionButton variant="neutralWeak">Open Menu</ActionButton>
+                    </MenuTrigger>
+                    <MenuContent>
+                      <MenuGroup>
+                        <MenuGroupHeader>Actions</MenuGroupHeader>
+                        <MenuItem label="Add to Library" prefixIcon={<IconPlusLine />} />
+                        <MenuItem
+                          label="Edit"
+                          description="Modify the current item"
+                          prefixIcon={<IconPencilLine />}
+                        />
+                        <MenuItem
+                          label="Share"
+                          description="Share with others"
+                          prefixIcon={<IconArrowUpBracketDownLine />}
+                        />
+                      </MenuGroup>
+                      <MenuDivider />
+                      <MenuGroup>
+                        <MenuItem
+                          label="Delete"
+                          description="This action cannot be undone"
+                          tone="critical"
+                          prefixIcon={<IconTrashcanLine />}
+                        />
+                      </MenuGroup>
+                    </MenuContent>
+                  </MenuRoot>
+                </BottomSheetFooter>
+              </BottomSheetContent>
+            </Portal>
+          </BottomSheetRoot>
+
+          <AlertDialogRoot
+            onOpenChange={(open) => {
+              if (!open && menuInDialogOpenRef.current) return;
+            }}
+          >
+            <AlertDialogTrigger asChild>
+              <ActionButton>Menu in AlertDialog</ActionButton>
+            </AlertDialogTrigger>
+            <Portal>
+              <AlertDialogContent layerIndex={useActivityZIndexBase({ activityOffset: 1 })}>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Menu in AlertDialog</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    AlertDialog 내부에서 Menu를 열 수 있습니다.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <ResponsivePair gap="x2">
+                    <MenuRoot size="medium">
+                      <MenuTrigger asChild>
+                        <ActionButton variant="neutralWeak">Open Menu</ActionButton>
+                      </MenuTrigger>
+                      <MenuContent>
+                        <MenuGroup>
+                          <MenuGroupHeader>Actions</MenuGroupHeader>
+                          <MenuItem label="Add to Library" prefixIcon={<IconPlusLine />} />
+                          <MenuItem
+                            label="Edit"
+                            description="Modify the current item"
+                            prefixIcon={<IconPencilLine />}
+                          />
+                          <MenuItem
+                            label="Share"
+                            description="Share with others"
+                            prefixIcon={<IconArrowUpBracketDownLine />}
+                          />
+                        </MenuGroup>
+                        <MenuDivider />
+                        <MenuGroup>
+                          <MenuItem
+                            label="Delete"
+                            description="This action cannot be undone"
+                            tone="critical"
+                            prefixIcon={<IconTrashcanLine />}
+                          />
+                        </MenuGroup>
+                      </MenuContent>
+                    </MenuRoot>
+                    <AlertDialogAction variant="neutralSolid">Confirm</AlertDialogAction>
+                  </ResponsivePair>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </Portal>
+          </AlertDialogRoot>
+
+          <MenuRoot
+            open={fieldButtonMenuOpen}
+            onOpenChange={setFieldButtonMenuOpen}
+            matchReferenceWidth
+          >
+            <MenuAnchor asChild>
+              <FieldButton
+                label="과일"
+                description="좋아하는 과일을 선택해주세요."
+                values={selectedFruit ? [selectedFruit] : undefined}
+                showClearButton={!!selectedFruit}
+                onValuesChange={([value]) => setSelectedFruit(value)}
+                buttonProps={{
+                  onClick: () => setFieldButtonMenuOpen((prev) => !prev),
+                  "aria-haspopup": "menu",
+                  "aria-expanded": fieldButtonMenuOpen,
+                  "aria-label": selectedFruit ? `과일 변경. 현재: ${selectedFruit}` : "과일 선택",
+                }}
+              >
+                {selectedFruit ? (
+                  <FieldButtonValue>{selectedFruit}</FieldButtonValue>
+                ) : (
+                  <FieldButtonPlaceholder>과일을 선택해주세요</FieldButtonPlaceholder>
+                )}
+              </FieldButton>
+            </MenuAnchor>
+            <MenuContent>
+              <MenuGroup>
+                {["사과", "바나나", "포도", "딸기", "수박"].map((fruit) => (
+                  <MenuItem key={fruit} label={fruit} onClick={() => setSelectedFruit(fruit)} />
+                ))}
               </MenuGroup>
             </MenuContent>
           </MenuRoot>

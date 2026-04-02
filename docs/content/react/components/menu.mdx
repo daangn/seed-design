@@ -36,6 +36,13 @@ npx @seed-design/cli@latest add ui:menu
   name="MenuTriggerProps"
 />
 
+### `MenuAnchor`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuAnchorProps"
+/>
+
 ### `MenuContent`
 
 <react-type-table
@@ -138,9 +145,39 @@ npx @seed-design/cli@latest add ui:menu
   ```
 </ComponentExample>
 
+### Anchor
+
+`MenuAnchor`의 `children`은 Menu가 위치를 잡는 데에만 사용되며, `MenuTrigger`와 달리 클릭으로 열고 닫는 동작이 포함되지 않습니다.
+
+`open` prop을 controlled하게 사용하여 열리고 닫힌 상태를 직접 관리해야 합니다.
+
+<ComponentExample name="react/menu/anchor">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/anchor.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Match Width
+
+`MenuRoot`의 `matchReferenceWidth` prop을 사용하면 메뉴의 너비가 reference 요소(Trigger 또는 Anchor)의 너비에 맞춰집니다.
+
+<ComponentExample name="react/menu/match-reference-width">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/match-reference-width.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### With FieldButton
 
-`FieldButton`을 트리거로 사용하여 입력 필드 형태의 드롭다운 메뉴를 구성합니다.
+`FieldButton`은 내부에 별도의 `<button>` 요소를 가진 복합 컴포넌트이므로, `MenuTrigger` 대신 `MenuAnchor`를 사용합니다. `buttonProps`를 통해 `onClick`, `aria-haspopup`, `aria-expanded`를 내부 `<button>` 요소에 직접 전달합니다.
+
+`matchReferenceWidth`를 함께 사용하면 메뉴 너비가 `FieldButton`에 맞춰져 Select와 유사한 UI를 구현할 수 있습니다.
 
 <ComponentExample name="react/menu/with-field-button">
   ```json doc-gen:file
@@ -151,18 +188,11 @@ npx @seed-design/cli@latest add ui:menu
   ```
 </ComponentExample>
 
-### Controlled
+<Card title="Field Button" href="/react/components/field-button">
 
-Trigger 외의 방식으로 Menu를 열고 닫을 수 있습니다.
+입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.
 
-<ComponentExample name="react/menu/controlled">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/menu/controlled.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
+</Card>
 
 ### `onOpenChange` Details
 

@@ -33,6 +33,7 @@ export const MenuRoot = ({
   gutter,
   overflowPadding,
   strategy,
+  matchReferenceWidth,
 
   ...props
 }: MenuRootProps) => {
@@ -46,10 +47,25 @@ export const MenuRoot = ({
     gutter,
     overflowPadding,
     strategy,
+    matchReferenceWidth,
   });
 
   return <MenuProvider value={api} {...props} />;
 };
+
+export interface MenuAnchorProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const MenuAnchor = forwardRef<HTMLDivElement, MenuAnchorProps>((props, ref) => {
+  const api = useMenuContext();
+
+  return (
+    <Primitive.div
+      ref={composeRefs(api.refs.anchor, ref)}
+      {...mergeProps(api.anchorProps, props)}
+    />
+  );
+});
+MenuAnchor.displayName = "MenuAnchor";
 
 export interface MenuTriggerProps extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 

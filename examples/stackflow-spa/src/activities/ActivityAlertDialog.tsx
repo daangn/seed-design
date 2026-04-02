@@ -11,7 +11,7 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
 } from "seed-design/ui/alert-dialog";
-import { Divider, ResponsivePair, VStack } from "@seed-design/react";
+import { ResponsivePair, VStack } from "@seed-design/react";
 import { send } from "@stackflow/compat-await-push";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { Switch } from "seed-design/ui/switch";

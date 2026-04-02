@@ -44,7 +44,7 @@ export const menu = defineSlotRecipe({
         ...enterAnimation({
           scale: "0.95",
           opacity: "0",
-          duration: tokens.$duration.d2,
+          duration: tokens.$duration.d3,
           timingFunction: tokens.$timingFunction.enter,
         }),
       },
@@ -53,7 +53,7 @@ export const menu = defineSlotRecipe({
         ...exitAnimation({
           scale: "0.95",
           opacity: "0",
-          duration: tokens.$duration.d1,
+          duration: tokens.$duration.d2,
           timingFunction: tokens.$timingFunction.exit,
         }),
       },
@@ -77,6 +77,10 @@ export const menu = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       gap: tokens.$dimension.x2,
+
+      // bottom scroll fog: fades content into padding at the bottom
+      maskImage: `linear-gradient(to top, transparent 0, black ${tokens.$dimension.x2})`,
+      WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${tokens.$dimension.x2})`,
     },
     group: {
       display: "flex",
@@ -97,7 +101,7 @@ export const menu = defineSlotRecipe({
     size: {
       medium: {
         content: {
-          width: "240px",
+          width: "var(--seed-menu-reference-width, 240px)",
         },
         groupHeader: {
           paddingTop: tokens.$dimension.x2_5,
@@ -112,7 +116,7 @@ export const menu = defineSlotRecipe({
       },
       small: {
         content: {
-          width: "200px",
+          width: "var(--seed-menu-reference-width, 200px)",
         },
         groupHeader: {
           paddingTop: tokens.$dimension.x2,

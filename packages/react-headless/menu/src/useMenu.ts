@@ -6,6 +6,7 @@ import {
   offset,
   flip,
   shift,
+  size,
   useClick,
   useRole,
   useListNavigation,
@@ -65,6 +66,12 @@ export interface UseMenuProps extends UseMenuStateProps {
    * @default "absolute"
    */
   strategy?: "absolute" | "fixed";
+
+  /**
+   * Whether the floating element's width should match the reference(trigger/anchor)'s width.
+   * @default false
+   */
+  matchReferenceWidth?: boolean;
 }
 
 export interface UseMenuItemProps {
@@ -150,6 +157,7 @@ export function useMenu(props: UseMenuProps) {
     gutter = 8,
     overflowPadding = 8,
     strategy = "absolute",
+    matchReferenceWidth = false,
   } = props;
 
   const setOpen = useCallback(
@@ -187,6 +195,15 @@ export function useMenu(props: UseMenuProps) {
       offset(gutter),
       flip({ padding: overflowPadding }),
       shift({ padding: overflowPadding }),
+      matchReferenceWidth &&
+        size({
+          apply({ rects, elements }) {
+            elements.floating.style.setProperty(
+              "--seed-menu-reference-width",
+              `${rects.reference.width}px`,
+            );
+          },
+        }),
     ],
   });
 
@@ -226,11 +243,8 @@ export function useMenu(props: UseMenuProps) {
     onMatch: setActiveIndex,
   });
 
-  const {
-    getReferenceProps,
-    getFloatingProps,
-    getItemProps: getFloatingItemProps,
-  } = useInteractions([click, role, listNavigation, typeahead]);
+  const triggerInteractions = useInteractions([click, role, listNavigation, typeahead]);
+  const anchorInteractions = useInteractions([role, listNavigation, typeahead]);
 
   useEffect(() => {
     if (!open || !modal) return;
@@ -263,6 +277,9 @@ export function useMenu(props: UseMenuProps) {
     labelsRef,
 
     refs: {
+      anchor: (node: HTMLElement | null) => {
+        floatingRefs.setReference(node);
+      },
       trigger: (node: HTMLElement | null) => {
         floatingRefs.setReference(node);
         triggerRef.current = node;
@@ -270,11 +287,16 @@ export function useMenu(props: UseMenuProps) {
       positioner: floatingRefs.setFloating,
     },
 
+    anchorProps: elementProps({
+      "data-open": dataAttr(open),
+      ...anchorInteractions.getReferenceProps(),
+    }),
+
     triggerProps: buttonProps({
       "aria-haspopup": "menu",
       "aria-expanded": open,
       "data-open": dataAttr(open),
-      ...getReferenceProps(),
+      ...triggerInteractions.getReferenceProps(),
     }),
 
     positionerProps: elementProps({
@@ -285,7 +307,15 @@ export function useMenu(props: UseMenuProps) {
     contentProps: elementProps({
       ...stateProps,
       role: "menu",
-      ...getFloatingProps(),
+      style: {
+        "--transform-origin": {
+          top: "bottom",
+          bottom: "top",
+          left: "right",
+          right: "left",
+        }[context.placement.split("-")[0]],
+      } as React.CSSProperties,
+      ...triggerInteractions.getFloatingProps(),
     }),
 
     getItemProps: (itemProps: UseMenuItemProps, index: number) => {
@@ -304,7 +334,7 @@ export function useMenu(props: UseMenuProps) {
 
         rootProps: elementProps({
           ...itemStateProps,
-          ...getFloatingItemProps({
+          ...triggerInteractions.getItemProps({
             onClick(event) {
               if (itemProps.disabled) return;
               if (event.defaultPrevented) return;
@@ -345,7 +375,7 @@ export function useMenu(props: UseMenuProps) {
 
         rootProps: elementProps({
           ...itemStateProps,
-          ...getFloatingItemProps(),
+          ...triggerInteractions.getItemProps(),
           role: "menuitem",
           tabIndex: isActive ? 0 : -1,
           "aria-disabled": itemProps.disabled ? "true" : undefined,

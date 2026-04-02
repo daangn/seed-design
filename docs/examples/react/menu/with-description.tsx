@@ -6,7 +6,7 @@ import {
 import { ActionButton } from "seed-design/ui/action-button";
 import { MenuContent, MenuGroup, MenuItem, MenuRoot, MenuTrigger } from "seed-design/ui/menu";
 
-const MenuWithDescription = () => {
+export default function MenuWithDescription() {
   return (
     <MenuRoot>
       <MenuTrigger asChild>
@@ -33,6 +33,4 @@ const MenuWithDescription = () => {
       </MenuContent>
     </MenuRoot>
   );
-};
-
-export default MenuWithDescription;
+}
