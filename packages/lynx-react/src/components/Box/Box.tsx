@@ -7,7 +7,7 @@ import { useStyleProps, type StyleProps } from "../../utils/styled";
 export interface BoxProps extends StyleProps {
   asChild?: boolean;
   className?: string;
-  style?: Record<string, unknown>;
+  style?: React.CSSProperties;
   children?: ReactNode;
 }
 

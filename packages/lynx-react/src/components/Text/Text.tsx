@@ -78,7 +78,7 @@ export interface TextProps extends Pick<TextVariantProps, "textStyle"> {
   align?: "left" | "center" | "right";
 
   className?: string;
-  style?: Record<string, unknown>;
+  style?: React.CSSProperties;
   children?: ReactNode;
 }
 
