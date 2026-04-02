@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { IconPlusLine } from "@karrotmarket/react-monochrome-icon";
+import { IconPlusLine, IconTrashcanLine } from "@karrotmarket/react-monochrome-icon";
 import { menuVariantMap } from "@seed-design/css/recipes/menu";
-import { Box } from "@seed-design/react";
-import type { ReactNode } from "react";
+import type { MenuVariantProps } from "@seed-design/css/recipes/menu";
+import { useRef } from "react";
 import {
   MenuContent,
   MenuDivider,
@@ -16,15 +16,11 @@ import {
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
-const MenuPreview = ({
-  prefixIcon,
-  description,
-}: {
-  prefixIcon?: ReactNode;
-  description?: ReactNode;
-}) => {
+const MenuPreview = ({ size }: MenuVariantProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <Box width="300px" p="x4">
+    <div ref={containerRef} style={{ width: 300, padding: 16, position: "relative" }}>
       <style>{`
         .seed-menu__positioner {
           position: relative !important;
@@ -34,21 +30,36 @@ const MenuPreview = ({
           animation: none !important;
         }
       `}</style>
-      <MenuRoot open>
-        <MenuContent>
+      <MenuRoot open size={size}>
+        <MenuContent container={containerRef}>
           <MenuGroup>
             <MenuGroupHeader>작업</MenuGroupHeader>
-            <MenuItem prefixIcon={prefixIcon} label="Action 1" description={description} />
-            <MenuItem prefixIcon={prefixIcon} label="Action 2" />
-            <MenuItem prefixIcon={prefixIcon} label="Action 3" disabled />
+            <MenuItem
+              prefixIcon={<IconPlusLine />}
+              label="Action 1 Action 1 Action 1 Action 1"
+              description="Incididunt do nostrud amet mollit"
+            />
+            <MenuItem
+              label="Action 2"
+              description="Reprehenderit duis minim elit magna amet pariatur dolor deserunt"
+            />
+            <MenuItem prefixIcon={<IconPlusLine />} label="Action 3 Action 3 Action 3 Action 3" />
+            <MenuItem label="Action 4" />
+            <MenuItem prefixIcon={<IconPlusLine />} label="Action 5" description="asdf" disabled />
           </MenuGroup>
           <MenuDivider />
           <MenuGroup>
-            <MenuItem tone="critical" prefixIcon={prefixIcon} label="삭제" />
+            <MenuItem
+              tone="critical"
+              prefixIcon={<IconTrashcanLine />}
+              label="삭제"
+              description="foobar"
+            />
+            <MenuItem tone="critical" label="삭제" />
           </MenuGroup>
         </MenuContent>
       </MenuRoot>
-    </Box>
+    </div>
   );
 };
 
@@ -61,23 +72,12 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const conditionMap = {
-  prefixIcon: {
-    true: { prefixIcon: <IconPlusLine /> },
-    false: { prefixIcon: undefined },
-  },
-  description: {
-    true: { description: "항목에 대한 설명" },
-    false: { description: undefined },
-  },
-};
-
 const CommonStoryTemplate: Story = {
   render: (args) => (
     <VariantTable
       Component={meta.component}
       variantMap={menuVariantMap}
-      conditionMap={conditionMap}
+      conditionMap={{}}
       {...args}
     />
   ),
