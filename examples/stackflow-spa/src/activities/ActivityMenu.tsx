@@ -231,17 +231,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
           </MenuRoot>
 
           <ActionButton onClick={() => setSheetOpen(true)}>Menu in BottomSheet</ActionButton>
-          <BottomSheetRoot
-            open={sheetOpen}
-            onOpenChange={(open) => {
-              console.log({ menuSheetOpenRef: menuInSheetOpenRef.current, open });
-              if (!open && menuInSheetOpenRef.current) return;
-
-              console.log("closing");
-
-              setSheetOpen(open);
-            }}
-          >
+          <BottomSheetRoot open={sheetOpen} onOpenChange={setSheetOpen}>
             <Portal>
               <BottomSheetContent
                 title="Menu in BottomSheet"
@@ -292,11 +282,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </Portal>
           </BottomSheetRoot>
 
-          <AlertDialogRoot
-            onOpenChange={(open) => {
-              if (!open && menuInDialogOpenRef.current) return;
-            }}
-          >
+          <AlertDialogRoot>
             <AlertDialogTrigger asChild>
               <ActionButton>Menu in AlertDialog</ActionButton>
             </AlertDialogTrigger>

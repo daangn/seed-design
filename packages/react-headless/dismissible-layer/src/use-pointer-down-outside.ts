@@ -5,6 +5,7 @@ import {
   isBelowPointerBlockingLayer,
   isInBranch,
   isInNestedLayer,
+  isTopMost,
   type LayerStackContextValue,
 } from "./layer-stack";
 
@@ -44,6 +45,12 @@ export function usePointerDownOutside(
       const target = event.target as HTMLElement;
 
       if (target && !isPointerInsideReactTreeRef.current) {
+        // Only the topmost layer should process outside clicks.
+        // Lower layers will get their turn after the topmost is dismissed.
+        if (!isTopMost(ctx, node)) {
+          isPointerInsideReactTreeRef.current = false;
+          return;
+        }
         // Check layer stack conditions
         if (isBelowPointerBlockingLayer(ctx, node)) {
           isPointerInsideReactTreeRef.current = false;

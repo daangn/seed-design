@@ -10,7 +10,7 @@ export default function MenuAnchorExample() {
   const [open, setOpen] = useState(false);
 
   return (
-    <HStack align="center" justify="space-between">
+    <HStack align="center" justify="space-between" width="full">
       <ActionButton variant="neutralSolid" onClick={() => setOpen((prev) => !prev)}>
         토글
       </ActionButton>
