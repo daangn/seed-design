@@ -19,16 +19,6 @@
         "types": "./lib/index.d.cts",
         "default": "./lib/index.cjs"
       }
-    },
-    "./lynx": {
-      "import": {
-        "types": "./lib/lynx.d.ts",
-        "default": "./lib/lynx.js"
-      },
-      "require": {
-        "types": "./lib/lynx.d.cts",
-        "default": "./lib/lynx.cjs"
-      }
     }
   },
   "main": "./lib/index.cjs",

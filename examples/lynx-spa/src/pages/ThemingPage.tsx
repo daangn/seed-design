@@ -1,20 +1,13 @@
-import { ActionButton } from "@seed-design/lynx-react";
+import { ActionButton, getSeedClassName } from "@seed-design/lynx-react";
 import { vars } from "@seed-design/lynx-css/vars";
-import { getThemeClassName } from "@seed-design/rsbuild-plugin/lynx";
 
 const { $color } = vars;
 
-declare const __SEED_COLOR_MODE__: string;
-
 export function ThemingPage() {
-  const colorMode = typeof __SEED_COLOR_MODE__ !== "undefined" ? __SEED_COLOR_MODE__ : "system";
   const globalProps = lynx?.__globalProps as Record<string, unknown> | undefined;
   const systemTheme = (globalProps?.theme as string) ?? "unknown";
   const frontendTheme = (globalProps?.frontendTheme as string) ?? "unknown";
-  const themeClass = getThemeClassName(
-    colorMode as "system" | "light-only" | "dark-only",
-    systemTheme,
-  );
+  const seedClassName = getSeedClassName({ colorMode: "system" });
 
   return (
     <scroll-view
@@ -37,16 +30,13 @@ export function ThemingPage() {
           Environment
         </text>
         <text style={{ fontSize: "13px", color: $color.fg.neutralMuted }}>
-          colorMode (plugin): "{colorMode}"
-        </text>
-        <text style={{ fontSize: "13px", color: $color.fg.neutralMuted }}>
           systemTheme (device): "{systemTheme}"
         </text>
         <text style={{ fontSize: "13px", color: $color.fg.neutralMuted }}>
           frontendTheme (app): "{frontendTheme}"
         </text>
         <text style={{ fontSize: "13px", color: $color.fg.neutralMuted }}>
-          Applied class: "{themeClass}"
+          Applied class: "{seedClassName}"
         </text>
       </view>
 
