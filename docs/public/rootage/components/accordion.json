@@ -33,6 +33,9 @@
             },
             "paddingY": {
               "type": "dimension"
+            },
+            "color": {
+              "type": "color"
             }
           }
         },
@@ -255,6 +258,19 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "trigger": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent-pressed"
                 }
               }
             }

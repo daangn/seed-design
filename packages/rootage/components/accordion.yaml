@@ -22,6 +22,8 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          color:
+            type: color
       prefixIcon:
         properties:
           size:
@@ -124,6 +126,9 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
+      pressed:
+        trigger:
+          color: $color.bg.transparent-pressed
 
     size=medium:
       enabled:

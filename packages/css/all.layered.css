@@ -884,6 +884,18 @@
     outline-offset: var(--seed-dimension-x0_5);
   }
 
+  @media (hover: hover) {
+    .seed-accordion__trigger:is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-accordion__trigger:is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
+  }
+
   .seed-accordion__trigger:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
   }

@@ -36,6 +36,11 @@ export const vars = {
       "suffixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       }
+    },
+    "pressed": {
+      "trigger": {
+        "color": "var(--seed-color-bg-transparent-pressed)"
+      }
     }
   },
   "sizeMedium": {
