@@ -8,6 +8,7 @@ import { FoundationMulticolorIconPage } from "./pages/FoundationMulticolorIconPa
 import { FoundationTypographyPage } from "./pages/FoundationTypographyPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
+import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 
 const LynxConsole = lazy(() => import("lynx-console"));
@@ -16,6 +17,7 @@ export type Page =
   | "home"
   | "theming"
   | "action-button"
+  | "progress-circle"
   | "nested-vars-test"
   | "foundation-color"
   | "foundation-monochrome-icon"
@@ -56,6 +58,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "home" && <HomePage navigate={setCurrentPage} />}
       {currentPage === "theming" && <ThemingPage />}
       {currentPage === "action-button" && <ActionButtonPage />}
+      {currentPage === "progress-circle" && <ProgressCirclePage />}
       {currentPage === "nested-vars-test" && <NestedVarsTestPage />}
       {currentPage === "foundation-color" && <FoundationColorPage />}
       {currentPage === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
