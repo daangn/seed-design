@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@seed-design/postcss-engaged": "0.0.0",
+    "@seed-design/postcss-responsive": "0.0.0",
     "@seed-design/qvism-core": "0.0.0",
     "@seed-design/rootage-core": "0.0.0"
   },
