@@ -1,0 +1,17 @@
+{
+  "id": "accordion",
+  "dependencies": [
+    "@karrotmarket/react-monochrome-icon",
+    "@seed-design/react"
+  ],
+  "snippets": [
+    {
+      "path": "accordion.tsx",
+      "content": "/**\n * @file ui:accordion\n * @requires @seed-design/react@~1.2.0\n * @requires @seed-design/css@~1.2.0\n **/\n\n\"use client\";\n\nimport { Accordion as SeedAccordion } from \"@seed-design/react\";\nimport { IconChevronDownSmallLine } from \"@karrotmarket/react-monochrome-icon\";\nimport * as React from \"react\";\n\nexport type AccordionRootProps = SeedAccordion.RootProps;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const AccordionRoot = SeedAccordion.Root;\n\nexport type AccordionItemProps = SeedAccordion.ItemProps;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const AccordionItem = SeedAccordion.Item;\n\nexport type AccordionTriggerProps = SeedAccordion.TriggerProps;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(\n  ({ children, ...props }, ref) => (\n    <SeedAccordion.Trigger ref={ref} {...props}>\n      {children}\n      <SeedAccordion.SuffixIcon>\n        <IconChevronDownSmallLine />\n      </SeedAccordion.SuffixIcon>\n    </SeedAccordion.Trigger>\n  ),\n);\nAccordionTrigger.displayName = \"Accordion.Trigger\";\n\nexport type AccordionContentProps = SeedAccordion.ContentProps;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const AccordionContent = SeedAccordion.Content;\n\nexport type AccordionTitleProps = SeedAccordion.TitleProps;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const AccordionTitle = SeedAccordion.Title;\n\nexport type AccordionDescriptionProps = SeedAccordion.DescriptionProps;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const AccordionDescription = SeedAccordion.Description;\n\nexport type AccordionPrefixIconProps = SeedAccordion.PrefixIconProps;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const AccordionPrefixIcon = SeedAccordion.PrefixIcon;\n\nexport type AccordionPrefixAvatarProps = SeedAccordion.PrefixAvatarProps;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const AccordionPrefixAvatar = SeedAccordion.PrefixAvatar;\n\nexport type AccordionSuffixIconProps = SeedAccordion.SuffixIconProps;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const AccordionSuffixIcon = SeedAccordion.SuffixIcon;\n\n/**\n * @see https://seed-design.io/react/components/accordion\n */\nexport const Accordion = Object.assign(AccordionRoot, {\n  Item: AccordionItem,\n  Trigger: AccordionTrigger,\n  Content: AccordionContent,\n  Title: AccordionTitle,\n  Description: AccordionDescription,\n  PrefixIcon: AccordionPrefixIcon,\n  PrefixAvatar: AccordionPrefixAvatar,\n  SuffixIcon: AccordionSuffixIcon,\n});\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.2.0",
+        "@seed-design/css": "~1.2.0"
+      }
+    }
+  ]
+}
