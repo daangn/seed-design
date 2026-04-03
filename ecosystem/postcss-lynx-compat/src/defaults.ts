@@ -350,6 +350,17 @@ export const defaultConfig: Required<LynxCompatConfig> = {
 
   clampStrategy: "preferred",
 
+  convertRem: true,
+  remBase: 16,
+
+  removeCustomProperties: [
+    /^--seed-font-size-.*-static$/,
+    /^--seed-line-height-.*-static$/,
+    /^--seed-font-size-multiplier$/,
+    /^--seed-font-size-limit-/,
+    /^--seed-line-height-limit-/,
+  ],
+
   warnOnly: false,
 
   unwrapSupports: [

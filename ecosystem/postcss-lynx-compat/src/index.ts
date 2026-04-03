@@ -64,6 +64,31 @@ function resolveClamp(value: string, strategy: "min" | "preferred" | "max"): str
 }
 
 /**
+ * CSS 값 내의 rem 단위를 px로 변환한다.
+ * Lynx는 font-size에서 rem을 지원하지 않으므로 빌드 시 px로 변환.
+ * calc(), var() 등 CSS 함수 구조는 그대로 유지하고 단위만 변환.
+ */
+function convertRemToPx(value: string, basePx: number): string {
+  return value.replace(/(?<![a-zA-Z])(\d*\.?\d+)rem\b/g, (_, num) => {
+    const px = Number.parseFloat(num) * basePx;
+    return `${Number.parseFloat(px.toFixed(4))}px`;
+  });
+}
+
+/**
+ * font-size/line-height multiplier calc()를 해소한다.
+ * `calc(<value> * var(--seed-font-size-multiplier, 1))` → `<value>`
+ * multiplier fallback이 1이므로 곱셈 결과는 원래 값.
+ * 다른 var() (예: swipe-back-displacement)는 건드리지 않음.
+ */
+function resolveCalc(value: string): string {
+  return value.replace(
+    /calc\(\s*([^)]+?)\s*\*\s*var\(--seed-font-size-multiplier,\s*1\)\s*\)/g,
+    (_, operand) => operand.trim(),
+  );
+}
+
+/**
  * env() 함수에서 fallback 인자를 제거한다.
  * Lynx는 env(name, fallback) 구문을 지원하지 않으므로 env(name)만 남긴다.
  * 예: env(safe-area-inset-top, 0px) → env(safe-area-inset-top)
@@ -297,6 +322,9 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     selectorMappings: opts.selectorMappings ?? defaultConfig.selectorMappings,
     unwrapSupports: opts.unwrapSupports ?? defaultConfig.unwrapSupports,
     replaceVarWithEnv: opts.replaceVarWithEnv ?? defaultConfig.replaceVarWithEnv,
+    convertRem: opts.convertRem ?? defaultConfig.convertRem,
+    remBase: opts.remBase ?? defaultConfig.remBase,
+    removeCustomProperties: opts.removeCustomProperties ?? defaultConfig.removeCustomProperties,
   };
 
   const supportedSet = new Set(config.supportedProperties);
@@ -504,13 +532,24 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       root.walkDecls((decl) => {
         const prop = decl.prop;
 
-        // CSS custom property (--*) → 항상 통과, 값만 clamp/calc 처리
+        // CSS custom property (--*) → 항상 통과, 값 변환 처리
         if (prop.startsWith("--")) {
+          // 제거 대상 custom property 확인
+          if (config.removeCustomProperties.some((re) => re.test(prop))) {
+            decl.remove();
+            return;
+          }
           if (decl.value.includes("clamp(")) {
             decl.value = resolveClamp(decl.value, config.clampStrategy);
           }
-          // calc() 평탄화: font-size/line-height multiplier 패턴만 대상
-          // (Lynx는 calc() 자체는 지원하지만, multiplier var의 fallback 평가가 필요)
+          // rem → px 변환
+          if (config.convertRem && decl.value.includes("rem")) {
+            decl.value = convertRemToPx(decl.value, config.remBase);
+          }
+          // font-size-multiplier calc() 해소
+          if (decl.value.includes("seed-font-size-multiplier")) {
+            decl.value = resolveCalc(decl.value);
+          }
           return;
         }
 
@@ -538,6 +577,11 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         // clamp() 값 변환 (일반 프로퍼티)
         if (decl.value.includes("clamp(")) {
           decl.value = resolveClamp(decl.value, config.clampStrategy);
+        }
+
+        // rem → px 변환 (일반 프로퍼티)
+        if (config.convertRem && decl.value.includes("rem")) {
+          decl.value = convertRemToPx(decl.value, config.remBase);
         }
 
         // transition 값에서 미지원 프로퍼티 필터링

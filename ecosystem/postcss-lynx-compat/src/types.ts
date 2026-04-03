@@ -55,6 +55,14 @@ export interface LynxCompatConfig {
     action: "unwrap" | "remove";
   }>;
 
+  /** rem → px 변환 활성화 (Lynx는 font-size에서 rem 미지원) */
+  convertRem?: boolean;
+  /** rem → px 변환 기준값 (기본: 16) */
+  remBase?: number;
+
+  /** 제거할 CSS custom property 패턴 (정규식 배열) */
+  removeCustomProperties?: RegExp[];
+
   /** 텍스트 슬롯 분리 설정 — 단일 recipe CSS를 view/text로 분리 */
   textSlot?: {
     /** text 슬롯 클래스 접미사 (예: "__text") */
