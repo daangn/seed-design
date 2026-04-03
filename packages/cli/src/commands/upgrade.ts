@@ -181,14 +181,14 @@ export const upgradeCommand = (cli: CAC) => {
       "upgrade [package-name]",
       "패키지의 현재 버전과 최신 버전 사이의 변경사항을 확인합니다",
     )
-    .option("--cwd <cwd>", "the working directory. defaults to the current directory.", {
+    .option("-c, --cwd <cwd>", "the working directory. defaults to the current directory.", {
       default: process.cwd(),
     })
     .option("-u, --baseUrl <baseUrl>", "the base url for changelog lookup.", { default: BASE_URL })
     .option("--raw", "UI 없이 순수 마크다운만 출력합니다. LLM 파이프에 유용합니다.", {
       default: false,
     })
-    .option("--all", "설치된 모든 @seed-design 패키지의 변경사항을 확인합니다.", {
+    .option("-a, --all", "설치된 모든 @seed-design 패키지의 변경사항을 확인합니다.", {
       default: false,
     })
     .example("seed-design upgrade")
