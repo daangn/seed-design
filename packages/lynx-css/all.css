@@ -6157,49 +6157,6 @@
   color: var(--seed-color-fg-neutral);
 }
 
-.seed-progress-circle__root {
-  display: inline-flex;
-  position: relative;
-}
-
-.seed-progress-circle__root.seed-progress-circle__root--progress-state_indeterminate {
-  animation: 1.2s cubic-bezier(.35, .25, .65, .75) infinite rotate;
-}
-
-.seed-progress-circle__range {
-  transition-duration: .3s;
-  transition-timing-function: cubic-bezier(0, 0, .15, 1);
-}
-
-.seed-progress-circle__range.seed-progress-circle__range--progress-state_indeterminate {
-  animation: 1.2s cubic-bezier(.35, 0, .65, 1) infinite progress-circle-head, 1.2s cubic-bezier(.35, 0, .65, .6) infinite progress-circle-tail;
-}
-
-.seed-progress-circle__root--tone_neutral {
-  --track-color: var(--seed-color-palette-gray-200);
-  --range-color: var(--seed-color-palette-gray-500);
-}
-
-.seed-progress-circle__root--tone_brand {
-  --track-color: var(--seed-color-palette-carrot-200);
-  --range-color: var(--seed-color-bg-brand-solid);
-}
-
-.seed-progress-circle__root--tone_staticWhite {
-  --track-color: var(--seed-color-palette-static-white-alpha-300);
-  --range-color: var(--seed-color-palette-static-white);
-}
-
-.seed-progress-circle__root--size_24 {
-  --size: var(--seed-dimension-x6);
-  --thickness: 3px;
-}
-
-.seed-progress-circle__root--size_40 {
-  --size: var(--seed-dimension-x10);
-  --thickness: 5px;
-}
-
 .seed-pull-to-refresh__root {
   --ptr-size: 44px;
   --ptr-transition-duration: var(--seed-duration-d6);

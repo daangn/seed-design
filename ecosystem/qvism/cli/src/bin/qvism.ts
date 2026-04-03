@@ -58,8 +58,16 @@ async function writeBundles(outputDir: string, config: Config) {
   // Target-specific bundles (e.g., lynx)
   if (config.targets) {
     for (const target of config.targets) {
+      const filteredRecipes = target.excludeRecipes
+        ? Object.fromEntries(
+            Object.entries(config.theme.recipes).filter(
+              ([_, r]) => !target.excludeRecipes!.includes(r.name),
+            ),
+          )
+        : config.theme.recipes;
       const targetConfig = {
         ...config,
+        theme: { ...config.theme, recipes: filteredRecipes },
         postcssPlugins: undefined,
         postTransformPlugins: target.postcssPlugins,
       };
@@ -183,8 +191,16 @@ async function writeRecipes(recipesDir: string, config: Config) {
   // Target-specific recipes (e.g., lynx)
   if (config.targets) {
     for (const target of config.targets) {
+      const filteredRecipes = target.excludeRecipes
+        ? Object.fromEntries(
+            Object.entries(config.theme.recipes).filter(
+              ([_, r]) => !target.excludeRecipes!.includes(r.name),
+            ),
+          )
+        : config.theme.recipes;
       const targetConfig = {
         ...config,
+        theme: { ...config.theme, recipes: filteredRecipes },
         postcssPlugins: undefined,
         postTransformPlugins: target.postcssPlugins,
       };
@@ -223,7 +239,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
 
       // Generate target MJS + DTS for each recipe (imports target CSS)
       await Promise.all(
-        Object.values(config.theme.recipes).map(async (definition) => {
+        Object.values(targetConfig.theme.recipes).map(async (definition) => {
           const name = definition.name;
           const cssImportPath = useSuffix ? `./${name}.${target.suffix}.css` : `./${name}.css`;
           const targetJsCode = generateJs(definition, {

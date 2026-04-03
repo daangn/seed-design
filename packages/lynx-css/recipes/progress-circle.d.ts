@@ -1,12 +1,14 @@
+/* TODO: Lynx SVG(stroke-dasharray) 지원 시 qvism recipe 자동 생성으로 전환하고 이 파일 삭제 */
+
 declare interface ProgressCircleVariant {
   /**
-  * @default "neutral"
-  */
-  tone: "neutral" | "brand" | "staticWhite" | "inherit";
-/**
-  * @default 40
-  */
-  size: "24" | "40" | "inherit";
+   * @default "neutral"
+   */
+  tone: "neutral" | "brand" | "staticWhite";
+  /**
+   * @default "40"
+   */
+  size: "24" | "40";
 }
 
 declare type ProgressCircleVariantMap = {
@@ -15,7 +17,7 @@ declare type ProgressCircleVariantMap = {
 
 export declare type ProgressCircleVariantProps = Partial<ProgressCircleVariant>;
 
-export declare type ProgressCircleSlotName = "root" | "track" | "range";
+export declare type ProgressCircleSlotName = "root" | "range" | "cap";
 
 export declare const progressCircleVariantMap: ProgressCircleVariantMap;
 
@@ -25,4 +27,4 @@ export declare const progressCircle: ((
   splitVariantProps: <T extends ProgressCircleVariantProps>(
     props: T,
   ) => [ProgressCircleVariantProps, Omit<T, keyof ProgressCircleVariantProps>];
-}
+};

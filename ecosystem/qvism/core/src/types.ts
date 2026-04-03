@@ -150,6 +150,8 @@ export interface TargetConfig {
   outputDir?: string;
   /** 타겟 전용 recipes 출력 디렉토리. 설정 시 suffix 없이 해당 디렉토리에 출력 */
   recipesDir?: string;
+  /** 이 타겟에서 생성을 건너뛸 recipe 이름 목록 */
+  excludeRecipes?: string[];
 }
 
 export interface Config {
