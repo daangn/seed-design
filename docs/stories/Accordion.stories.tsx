@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
+import { AccordionRoot } from "seed-design/ui/accordion";
 import { Accordion } from "seed-design/ui/accordion";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
@@ -7,7 +8,7 @@ import { accordionVariantMap } from "@seed-design/css/recipes/accordion";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
-const AccordionDemo = (props: React.ComponentProps<typeof Accordion>) => (
+const AccordionDemo = (props: React.ComponentProps<typeof AccordionRoot>) => (
   <Accordion {...props} style={{ width: 360 }}>
     <Accordion.Item value="item-1">
       <Accordion.Trigger>
@@ -40,9 +41,9 @@ const AccordionDemo = (props: React.ComponentProps<typeof Accordion>) => (
 );
 
 const meta = {
-  component: AccordionDemo,
+  component: AccordionRoot,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof AccordionDemo>;
+} satisfies Meta<typeof AccordionRoot>;
 
 export default meta;
 
