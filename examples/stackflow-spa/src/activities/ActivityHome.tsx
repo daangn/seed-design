@@ -228,6 +228,17 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
               render: () => <Snackbar message="Queued Snackbar" />,
             }),
         },
+        {
+          title: "Snackbar (dismiss+setTimeout workaround)",
+          onClick: () => {
+            snackbarAdapter.dismiss();
+            setTimeout(() => {
+              snackbarAdapter.create({
+                render: () => <Snackbar message="Workaround Snackbar" />,
+              });
+            });
+          },
+        },
       ],
     },
     {
