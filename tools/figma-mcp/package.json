@@ -17,10 +17,10 @@
   },
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^1.10.0",
-    "@seed-design/css": "1.2.7",
-    "@seed-design/figma": "1.3.9",
+    "@seed-design/css": "0.0.0-alpha-20260324091316",
+    "@seed-design/figma": "0.0.0-alpha-20260324091316",
     "@seed-design/migration-index": "1.0.0",
-    "@seed-design/react": "1.2.8",
+    "@seed-design/react": "0.0.0-alpha-20260324091316",
     "@seed-design/vite-plugin": "1.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
