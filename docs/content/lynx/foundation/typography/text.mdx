@@ -16,7 +16,7 @@ import { Text } from "@seed-design/lynx-react";
 ```
 
 <Callout>
-Lynx에서 `Text` 컴포넌트는 내부적으로 `view` > `text` 구조로 렌더링됩니다. Lynx 플랫폼에서는 텍스트가 반드시 `text` 요소 안에 위치해야 하기 때문입니다.
+Lynx에서 `Text` 컴포넌트는 `text` 요소로 렌더링됩니다.
 </Callout>
 
 ## Props
@@ -109,27 +109,6 @@ export function ColorsExample() {
 }
 ```
 
-### Max Lines
-
-`maxLines` 속성을 사용하여 텍스트가 차지하는 최대 줄 수를 제한할 수 있습니다. 지정된 줄 수를 초과하는 텍스트는 생략 부호(ellipsis) `…` 로 표시됩니다.
-
-```tsx
-import { Text, VStack } from "@seed-design/lynx-react";
-
-export function MaxLinesExample() {
-  return (
-    <VStack gap="x2">
-      <Text color="fg.neutral" textStyle="t5Regular" maxLines={1}>
-        이 텍스트는 한 줄로 제한됩니다. 텍스트가 길어지면 말줄임표로 표시됩니다. 이 문장은 한 줄을 넘어가도록 충분히 길게 작성되었습니다.
-      </Text>
-      <Text color="fg.neutral" textStyle="t5Regular" maxLines={2}>
-        이 텍스트는 두 줄로 제한됩니다. 텍스트가 길어지면 말줄임표로 표시됩니다. 이 문장은 두 줄을 넘어가도록 충분히 길게 작성되었습니다. 추가 텍스트를 넣어 줄 수를 초과하게 만듭니다.
-      </Text>
-    </VStack>
-  );
-}
-```
-
 ### Alignment
 
 `align` 속성으로 텍스트 정렬을 설정합니다.
@@ -148,30 +127,13 @@ export function AlignmentExample() {
 }
 ```
 
-### Static
-
-폰트 스케일링에 반응하지 않는 static 토큰을 활용하는 텍스트 스타일을 적용할 수 있습니다.
-
-```tsx
-import { Text, VStack } from "@seed-design/lynx-react";
-
-export function StaticExample() {
-  return (
-    <VStack gap="x1">
-      <Text color="fg.neutral" textStyle="t3StaticRegular">t3StaticRegular</Text>
-      <Text color="fg.neutral" textStyle="t5StaticMedium">t5StaticMedium</Text>
-      <Text color="fg.neutral" textStyle="t7StaticBold">t7StaticBold</Text>
-    </VStack>
-  );
-}
-```
-
 ### React와의 차이점
 
 <Callout type="warning">
 Lynx `Text`는 React `Text`와 다음과 같은 차이가 있습니다.
 
-- **`as` 속성 미지원**: Lynx에서는 항상 `view` > `text` 구조로 렌더링되므로 `as`로 요소를 변경할 수 없습니다.
+- **`as` 속성 미지원**: Lynx에서는 항상 `text` 요소로 렌더링되므로 `as`로 요소를 변경할 수 없습니다.
+- **`maxLines` 미지원**: Lynx에서는 텍스트 줄 수 제한을 직접 지원하지 않습니다.
 - **`userSelect` 미지원**: Lynx 플랫폼에서는 텍스트 선택 동작이 네이티브 레벨에서 제어됩니다.
 - **`whiteSpace` 미지원**: Lynx의 텍스트 레이아웃은 웹과 다르게 동작합니다.
 - **`textDecorationLine` 미지원**: 밑줄, 취소선 등의 텍스트 장식은 현재 지원되지 않습니다.
