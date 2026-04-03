@@ -3,10 +3,7 @@
 import { ChangelogEntryItem } from "@/components/changelog-entry-item";
 import { getChangelogHref, getGroupAnchorId } from "@/components/changelog-viewer/utils";
 import { IconSquare2StackedLine } from "@karrotmarket/react-monochrome-icon";
-import type {
-  GroupedChangelogEntry,
-  ResolvedRelatedPackage,
-} from "@/components/changelog-viewer/use-changelog-viewer-data";
+import type { GroupedChangelogEntry, ResolvedRelatedPackage } from "@/lib/changelog-data";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 
 function ChangelogGroupHeader({
@@ -48,7 +45,9 @@ function ChangelogGroupHeader({
         </button>
       </div>
       <div className="inline-flex items-center gap-2">
-        <span className="text-xs text-fd-muted-foreground shrink-0">{group.entries.length}개 변경사항</span>
+        <span className="text-xs text-fd-muted-foreground shrink-0">
+          {group.entries.length}개 변경사항
+        </span>
       </div>
     </div>
   );
@@ -97,11 +96,7 @@ function RelatedPackageEntries({
   );
 }
 
-export function ChangelogGroups({
-  groupedEntries,
-}: {
-  groupedEntries: GroupedChangelogEntry[];
-}) {
+export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedChangelogEntry[] }) {
   const adapter = useSnackbarAdapter();
 
   const copyDeepLink = async (url: string) => {
