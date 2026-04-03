@@ -1,7 +1,7 @@
 import { ActionButton } from "seed-design/ui/action-button";
-import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
+import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "seed-design/ui/snackbar";
 
-export default function SnackbarStrategy() {
+function Component() {
   const adapter = useSnackbarAdapter();
 
   return (
@@ -28,5 +28,13 @@ export default function SnackbarStrategy() {
         Queued (critical)
       </ActionButton>
     </div>
+  );
+}
+
+export default function SnackbarStrategy() {
+  return (
+    <SnackbarProvider>
+      <Component />
+    </SnackbarProvider>
   );
 }
