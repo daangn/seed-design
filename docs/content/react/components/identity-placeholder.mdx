@@ -48,7 +48,7 @@ import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 내부 SVG(`IdentityPlaceholder.Image`)에는 기본으로 `role="img"`와 `aria-label="Identity placeholder"`(영문)가 설정되어 있습니다. 스크린 리더는 플레이스홀더 그래픽을 이미지로 인식합니다.
 
 - **`Avatar` 안에서 사용할 때**: 접근성은 주로 `Avatar`와 상위 맥락(목록 항목 이름, 버튼 레이블 등)에 맡기는 패턴이 일반적입니다. 자세한 내용은 [Avatar](/react/components/avatar) 문서를 참고하세요.
-- **단독으로 쓰는 경우**: 주변에 동일한 정보를 텍스트로 이미 제공하고 있다면, 중복 안내를 피하기 위해 상위 요소에 `aria-hidden`을 검토할 수 있습니다. 앱의 정보 구조에 맞게 선택하세요.
+- **단독으로 쓰는 경우**: 주변에 동일한 정보를 텍스트로 이미 제공하고 있다면, 중복 안내를 피하기 위해 **장식용 플레이스홀더 요소 자체**에 `aria-hidden="true"` 적용을 검토할 수 있습니다. 포커스 가능한 요소나 인터랙티브 컨테이너에는 적용하지 마세요. 앱의 정보 구조에 맞게 선택하세요.
 
 ## Props
 
