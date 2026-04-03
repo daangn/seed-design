@@ -324,7 +324,7 @@ describe("getTypeResolvedSourceFile", () => {
           data: [
             {
               name: "color",
-              modes: ["light", "dark"],
+              modes: [{ id: "light" }, { id: "dark" }],
             },
           ],
         }),
@@ -377,7 +377,7 @@ describe("getTypeResolvedSourceFile", () => {
           data: [
             {
               name: "color",
-              modes: ["light", "dark"],
+              modes: [{ id: "light" }, { id: "dark" }],
             },
           ],
         }),
