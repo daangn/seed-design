@@ -43,7 +43,14 @@ export function handleDimension(dimension: string | 0 | undefined): string | und
   const [type, value] = dimension.split(".");
 
   // @ts-expect-error
-  return vars.$dimension[dimension] ?? vars.$dimension[type]?.[value] ?? dimension;
+  const resolved = vars.$dimension[dimension] ?? vars.$dimension[type]?.[value] ?? dimension;
+
+  // 숫자만으로 이루어진 string이면 px 단위 추가 (Lynx는 unitless length를 허용하지 않음)
+  if (typeof resolved === "string" && /^\d+(\.\d+)?$/.test(resolved)) {
+    return `${resolved}px`;
+  }
+
+  return resolved;
 }
 
 function handleBleed(
