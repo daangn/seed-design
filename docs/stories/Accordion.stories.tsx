@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { AccordionRoot } from "seed-design/ui/accordion";
 import { Accordion } from "seed-design/ui/accordion";
 
-import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { accordionVariantMap } from "@seed-design/css/recipes/accordion";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
@@ -58,7 +57,7 @@ const CommonStoryTemplate: Story = {
 
 export const LightTheme = CommonStoryTemplate;
 
-export const DarkTheme = createStoryWithParameters({
+export const DarkTheme: Story = {
   ...CommonStoryTemplate,
   parameters: { theme: "dark" },
-});
+};
