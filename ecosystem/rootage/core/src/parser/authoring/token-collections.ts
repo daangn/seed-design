@@ -8,6 +8,22 @@ export function parseTokenCollectionsDocument(
 ): TokenCollectionsDocument {
   return factory.createTokenCollectionsDocument(
     parseMetadataDeclaration(model.metadata),
-    model.data.map((tc) => factory.createTokenCollectionDeclaration(tc.name, tc.modes)),
+    model.data.map((tc) => {
+      const modes: string[] = [];
+      const modeDescriptions: Record<string, string> = {};
+
+      for (const m of tc.modes) {
+        modes.push(m.id);
+        if (m.description) {
+          modeDescriptions[m.id] = m.description;
+        }
+      }
+
+      return factory.createTokenCollectionDeclaration(
+        tc.name,
+        modes,
+        Object.keys(modeDescriptions).length > 0 ? modeDescriptions : undefined,
+      );
+    }),
   );
 }

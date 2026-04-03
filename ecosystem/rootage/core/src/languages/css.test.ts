@@ -52,11 +52,11 @@ test("getTokenCss should generate css code", () => {
       data: [
         {
           name: "color",
-          modes: ["light", "dark"],
+          modes: [{ id: "light" }, { id: "dark" }],
         },
         {
           name: "global",
-          modes: ["default"],
+          modes: [{ id: "default" }],
         },
       ],
     },
