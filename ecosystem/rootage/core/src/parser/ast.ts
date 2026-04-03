@@ -213,10 +213,16 @@ export interface TokensDocument {
 }
 
 // TokenCollections
+export interface ModeDeclaration {
+  kind: "ModeDeclaration";
+  id: string;
+  description?: string;
+}
+
 export interface TokenCollectionDeclaration {
   kind: "TokenCollectionDeclaration";
   name: string;
-  modes: string[];
+  modes: ModeDeclaration[];
 }
 
 export interface TokenCollectionsDocument {
@@ -391,6 +397,7 @@ export type Node =
   | UnresolvedTokenDeclaration
   | UnresolvedTokenValueDeclaration
   | TokensDocument
+  | ModeDeclaration
   | TokenCollectionDeclaration
   | TokenCollectionsDocument
   | ColorPropertyDeclaration

@@ -18,8 +18,8 @@ describe("validate", () => {
         data:
           - name: color
             modes:
-              - light
-              - dark`),
+              - id: light
+              - id: dark`),
       },
       {
         fileName: "tokens",
@@ -98,8 +98,8 @@ describe("validate", () => {
           name: collection
         data:
           - name: color
-            modes: 
-              - light`),
+            modes:
+              - id: light`),
       },
       {
         fileName: "tokens",
@@ -134,8 +134,8 @@ describe("validate", () => {
           name: collection
         data:
           - name: color
-            modes: 
-              - light`),
+            modes:
+              - id: light`),
       },
       {
         fileName: "tokens",
@@ -170,8 +170,8 @@ describe("validate", () => {
         data:
           - name: color
             modes:
-              - light
-              - dark`),
+              - id: light
+              - id: dark`),
       },
       {
         fileName: "component",
@@ -212,8 +212,8 @@ describe("validate", () => {
         data:
           - name: color
             modes:
-              - light
-              - dark`),
+              - id: light
+              - id: dark`),
       },
       {
         fileName: "tokens",
@@ -270,8 +270,8 @@ describe("validate", () => {
         data:
           - name: color
             modes:
-              - light
-              - dark`),
+              - id: light
+              - id: dark`),
       },
       {
         fileName: "tokens",
@@ -358,8 +358,8 @@ describe("validate", () => {
         data:
           - name: color
             modes:
-              - light
-              - dark`),
+              - id: light
+              - id: dark`),
       },
       {
         fileName: "tokens",
@@ -420,7 +420,7 @@ describe("validate", () => {
         data:
           - name: dimension
             modes:
-              - default`),
+              - id: default`),
       },
       {
         fileName: "tokens",
