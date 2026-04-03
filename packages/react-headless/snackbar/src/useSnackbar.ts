@@ -11,6 +11,14 @@ interface UseSnackbarStateProps {
    * @default true
    */
   pauseOnInteraction?: boolean;
+
+  /**
+   * How to handle multiple snackbars.
+   * - `"immediate"`: New snackbar replaces the current one instantly.
+   * - `"queued"`: New snackbar waits in a queue until the current one is dismissed.
+   * @default "immediate"
+   */
+  strategy?: "immediate" | "queued";
 }
 
 export interface CreateSnackbarOptions {
@@ -34,12 +42,23 @@ export interface CreateSnackbarOptions {
    * The content to render in the snackbar region
    */
   render: () => React.ReactNode;
+
+  /**
+   * Override the provider-level strategy for this specific snackbar.
+   * - `"immediate"`: Replace the current snackbar instantly.
+   * - `"queued"`: Wait in the queue until the current one is dismissed.
+   */
+  strategy?: "immediate" | "queued";
 }
 
-function useSnackbarState({ pauseOnInteraction = true }: UseSnackbarStateProps) {
+function useSnackbarState({
+  pauseOnInteraction = true,
+  strategy = "immediate",
+}: UseSnackbarStateProps) {
   const [state, setState] = useState<SnackbarState>("inactive");
   const [queue, setQueue] = useState<CreateSnackbarOptions[]>([]);
   const [currentSnackbar, setCurrentSnackbar] = useState<CreateSnackbarOptions | null>(null);
+  const [generation, setGeneration] = useState(0);
 
   const visibleDuration = currentSnackbar?.timeout ?? 4000;
   const removeDelay = currentSnackbar?.removeDelay ?? 200;
@@ -91,16 +110,40 @@ function useSnackbarState({ pauseOnInteraction = true }: UseSnackbarStateProps) 
       }, removeDelay);
       return () => clearTimeout(timeout);
     }
-  }, [state, queue, visibleDuration, removeDelay, pop, invokeOnClose, removeCurrentSnackbar]);
+  }, [
+    state,
+    queue,
+    generation,
+    visibleDuration,
+    removeDelay,
+    pop,
+    invokeOnClose,
+    removeCurrentSnackbar,
+  ]);
 
   // events
   const events = useMemo(
     () => ({
       push: (option: CreateSnackbarOptions) => {
-        push(option);
-        if (state === "inactive") {
-          pop();
-          setState("active");
+        const effectiveStrategy = option.strategy ?? strategy;
+
+        if (effectiveStrategy === "immediate") {
+          if (state === "inactive") {
+            setCurrentSnackbar(option);
+            setState("active");
+          } else {
+            invokeOnClose();
+            setQueue([]);
+            setCurrentSnackbar(option);
+            setState("active");
+            setGeneration((g) => g + 1);
+          }
+        } else {
+          push(option);
+          if (state === "inactive") {
+            pop();
+            setState("active");
+          }
         }
       },
       pause: () => {
@@ -122,7 +165,7 @@ function useSnackbarState({ pauseOnInteraction = true }: UseSnackbarStateProps) 
         }
       },
     }),
-    [state, push, pop, invokeOnClose, pauseOnInteraction],
+    [state, strategy, push, pop, invokeOnClose, pauseOnInteraction],
   );
 
   return useMemo(

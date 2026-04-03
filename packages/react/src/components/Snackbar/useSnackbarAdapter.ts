@@ -17,6 +17,7 @@ export function useSnackbarAdapter() {
           removeDelay: options.removeDelay ?? 200,
           onClose: options.onClose,
           render: options.render,
+          strategy: options.strategy,
         });
       },
       dismiss: api.dismiss,
