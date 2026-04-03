@@ -1,0 +1,65 @@
+---
+title: Progress Circle
+description: 작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.
+---
+
+## Installation
+
+```package-install
+npm install @seed-design/lynx-react
+```
+
+<Callout>
+`@seed-design/lynx-css` 패키지가 peer dependency로 필요합니다.
+</Callout>
+
+## Usage
+
+```tsx
+import { ProgressCircle } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <ProgressCircle.Root tone="brand" size="40">
+      <ProgressCircle.Track />
+      <ProgressCircle.Range />
+    </ProgressCircle.Root>
+  );
+}
+```
+
+### Determinate
+
+`minValue`, `maxValue`, `value`를 지정하면 determinate 모드로 동작합니다.
+
+```tsx
+import { ProgressCircle } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <ProgressCircle.Root tone="brand" size="40" minValue={0} maxValue={1} value={0.5}>
+      <ProgressCircle.Track />
+      <ProgressCircle.Range />
+    </ProgressCircle.Root>
+  );
+}
+```
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/ProgressCircle/ProgressCircle.tsx" name="RootProps" />
+
+## 웹 버전과의 차이
+
+Lynx 버전은 플랫폼 제약으로 인해 웹(`@seed-design/react`) 버전과 내부 구현이 다릅니다. API는 동일하게 유지되지만, 아래 차이점을 참고하세요.
+
+| | 웹 (React) | Lynx |
+|---|---|---|
+| **렌더링** | SVG `<circle>` + `stroke-dasharray` | CSS `clip-path` 기반 pie sector |
+| **애니메이션** | CSS `@keyframes` + `animation` | JavaScript `setInterval` (16ms 간격) |
+| **Determinate 전환** | CSS `transition` (stroke-dashoffset) | JavaScript 기반 easing 애니메이션 |
+| **Headless 레이어** | `@seed-design/react-headless` 사용 | 자체 구현 (headless 미사용) |
+
+<Callout>
+Lynx에서 SVG 및 `stroke-dasharray` 지원이 추가되면 웹과 동일한 구현으로 전환될 예정입니다.
+</Callout>

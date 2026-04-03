@@ -41,6 +41,7 @@ export default definePreset({
           ],
         }),
       ],
+      excludeRecipes: ["progress-circle"],
       deriveSlots: ["root", "text"],
       extraVariants: {
         disabled: [true],

@@ -65,6 +65,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
 
       <SectionHeader>Components</SectionHeader>
       <ListItem title="ActionButton" onTap={() => navigate('action-button')} />
+      <ListItem title="ProgressCircle" onTap={() => navigate('progress-circle')} />
 
       <SectionHeader>Test</SectionHeader>
       <ListItem title="Theming" onTap={() => navigate('theming')} />
