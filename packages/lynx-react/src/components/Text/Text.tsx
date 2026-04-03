@@ -68,11 +68,6 @@ export interface TextProps extends Pick<TextVariantProps, "textStyle"> {
   fontWeight?: FontWeight;
 
   /**
-   * The maximum number of lines to display. If the text overflows, it will be truncated with ellipsis.
-   */
-  maxLines?: number;
-
-  /**
    * The alignment of the text.
    */
   align?: "left" | "center" | "right";
@@ -82,59 +77,30 @@ export interface TextProps extends Pick<TextVariantProps, "textStyle"> {
   children?: ReactNode;
 }
 
-function mapMaxLines(maxLines: number | undefined): "none" | "single" | "multi" {
-  if (maxLines === undefined) {
-    return "none";
-  }
-  if (maxLines === 1) {
-    return "single";
-  }
-  return "multi";
-}
-
 export const Text = forwardRef<any, TextProps>(
   (
-    {
-      color,
-      textStyle,
-      fontSize,
-      lineHeight,
-      fontWeight,
-      maxLines,
-      align,
-      children,
-      className,
-      style,
-    },
+    { color, textStyle, fontSize, lineHeight, fontWeight, align, children, className, style },
     ref,
   ) => {
-    const classes = useMemo(
-      () =>
-        text({
-          textStyle,
-          maxLines: mapMaxLines(maxLines),
-        }),
-      [textStyle, maxLines],
-    );
+    const classes = useMemo(() => text({ textStyle }), [textStyle]);
 
-    const cssVars = dynamicStyle({
-      "--seed-max-lines": maxLines,
-      "--seed-text-color": handleColor(color),
-      "--seed-font-size": handleFontSize(fontSize),
-      "--seed-line-height": handleLineHeight(lineHeight ?? fontSize),
-      "--seed-font-weight": handleFontWeight(fontWeight),
-      "--seed-text-align": align,
+    const textStyleStr = dynamicStyle({
+      color: handleColor(color),
+      "font-size": handleFontSize(fontSize),
+      "line-height": handleLineHeight(lineHeight ?? fontSize),
+      "font-weight": handleFontWeight(fontWeight),
+      "text-align": align,
       ...style,
     });
 
     return (
-      <view
+      <text
         {...(ref ? { ref } : {})}
-        className={clsx(classes.root, className)}
-        style={cssVars as any}
+        className={clsx(classes.text, className)}
+        style={textStyleStr as any}
       >
-        <text className={classes.text}>{children}</text>
-      </view>
+        {children}
+      </text>
     );
   },
 );

@@ -35,28 +35,11 @@ export function LayoutTextPage() {
         <Text color="fg.neutral" textStyle="t5Regular" fontWeight="bold">Bold</Text>
       </VStack>
 
-      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Max Lines</text>
-      <VStack gap="x2">
-        <Text color="fg.neutral" textStyle="t5Regular" maxLines={1}>
-          이 텍스트는 한 줄로 제한됩니다. 텍스트가 길어지면 말줄임표로 표시됩니다. 이 문장은 한 줄을 넘어가도록 충분히 길게 작성되었습니다.
-        </Text>
-        <Text color="fg.neutral" textStyle="t5Regular" maxLines={2}>
-          이 텍스트는 두 줄로 제한됩니다. 텍스트가 길어지면 말줄임표로 표시됩니다. 이 문장은 두 줄을 넘어가도록 충분히 길게 작성되었습니다. 추가 텍스트를 넣어 줄 수를 초과하게 만듭니다.
-        </Text>
-      </VStack>
-
       <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Alignment</text>
       <VStack gap="x1">
         <Text color="fg.neutral" textStyle="t5Regular" align="left">Left aligned</Text>
         <Text color="fg.neutral" textStyle="t5Regular" align="center">Center aligned</Text>
         <Text color="fg.neutral" textStyle="t5Regular" align="right">Right aligned</Text>
-      </VStack>
-
-      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Static Text Styles</text>
-      <VStack gap="x1">
-        <Text color="fg.neutral" textStyle="t3StaticRegular">t3StaticRegular</Text>
-        <Text color="fg.neutral" textStyle="t5StaticMedium">t5StaticMedium</Text>
-        <Text color="fg.neutral" textStyle="t7StaticBold">t7StaticBold</Text>
       </VStack>
     </scroll-view>
   );
