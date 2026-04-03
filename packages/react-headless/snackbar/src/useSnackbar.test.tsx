@@ -120,14 +120,15 @@ describe("useSnackbar", () => {
     it("should replace current snackbar with new one", () => {
       setUp();
 
-      act(() => {
-        snackbarApi.create(createSnackbar("First"));
-      });
+      act(() => snackbarApi.create(createSnackbar("First", { removeDelay: 100 })));
       expect(screen.getByText("First")).toBeInTheDocument();
 
-      act(() => {
-        snackbarApi.create(createSnackbar("Second"));
-      });
+      act(() => snackbarApi.create(createSnackbar("Second")));
+
+      // First is in dismissing state (exit animation)
+      // Advance removeDelay to complete exit, then new one enters
+      act(() => jest.advanceTimersByTime(100));
+
       expect(screen.queryByText("First")).not.toBeInTheDocument();
       expect(screen.getByText("Second")).toBeInTheDocument();
     });
@@ -136,13 +137,12 @@ describe("useSnackbar", () => {
       const onClose = mock(() => {});
       setUp();
 
-      act(() => {
-        snackbarApi.create(createSnackbar("First", { onClose }));
-      });
+      act(() => snackbarApi.create(createSnackbar("First", { onClose, removeDelay: 100 })));
 
-      act(() => {
-        snackbarApi.create(createSnackbar("Second"));
-      });
+      act(() => snackbarApi.create(createSnackbar("Second")));
+
+      // onClose fires during dismissing → inactive transition
+      act(() => jest.advanceTimersByTime(100));
 
       expect(onClose).toHaveBeenCalledTimes(1);
     });
@@ -151,7 +151,7 @@ describe("useSnackbar", () => {
       setUp({ strategy: "queued" });
 
       // Queue up 3 snackbars in queued mode
-      act(() => snackbarApi.create(createSnackbar("First")));
+      act(() => snackbarApi.create(createSnackbar("First", { removeDelay: 100 })));
       act(() => {
         snackbarApi.create(createSnackbar("Queued A", { strategy: "queued" }));
         snackbarApi.create(createSnackbar("Queued B", { strategy: "queued" }));
@@ -160,10 +160,11 @@ describe("useSnackbar", () => {
       expect(screen.getByText("First")).toBeInTheDocument();
       expect(snackbarApi.queue.length).toBe(2);
 
-      // Immediate snackbar clears queue and replaces
-      act(() => {
-        snackbarApi.create(createSnackbar("Urgent", { strategy: "immediate" }));
-      });
+      // Immediate snackbar clears queue, triggers dismiss of First
+      act(() => snackbarApi.create(createSnackbar("Urgent", { strategy: "immediate" })));
+
+      // Advance removeDelay for First to exit, then Urgent enters
+      act(() => jest.advanceTimersByTime(100));
 
       expect(screen.getByText("Urgent")).toBeInTheDocument();
       expect(snackbarApi.queue.length).toBe(0);
@@ -172,24 +173,24 @@ describe("useSnackbar", () => {
     it("should restart timeout after replacement", () => {
       setUp();
 
-      act(() => {
-        snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 }));
-      });
+      act(() => snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 })));
 
       // Advance 800ms (not yet dismissed)
       act(() => jest.advanceTimersByTime(800));
       expect(screen.getByText("First")).toBeInTheDocument();
 
-      // Replace with new snackbar (timeout resets)
-      act(() => {
-        snackbarApi.create(createSnackbar("Second", { timeout: 1000, removeDelay: 100 }));
-      });
+      // Replace: triggers dismiss of First
+      act(() => snackbarApi.create(createSnackbar("Second", { timeout: 1000, removeDelay: 100 })));
 
-      // Advance 800ms again — Second should still be visible (fresh timeout)
+      // Advance 100ms removeDelay for First exit → Second enters with fresh timeout
+      act(() => jest.advanceTimersByTime(100));
+      expect(screen.getByText("Second")).toBeInTheDocument();
+
+      // Advance 800ms — Second should still be visible (fresh timeout = 1000ms)
       act(() => jest.advanceTimersByTime(800));
       expect(screen.getByText("Second")).toBeInTheDocument();
 
-      // Advance remaining 200ms + removeDelay → gone
+      // Advance remaining 200ms → dismissing, then 100ms removeDelay → gone
       act(() => jest.advanceTimersByTime(200));
       act(() => jest.advanceTimersByTime(100));
       expect(screen.queryByText("Second")).not.toBeInTheDocument();
@@ -243,8 +244,12 @@ describe("useSnackbar", () => {
       expect(screen.getByText("First")).toBeInTheDocument();
       expect(snackbarApi.queue.length).toBe(2);
 
-      // 4. Urgent replaces First immediately and clears queue
+      // 4. Urgent replaces First: dismiss First, queue only Urgent
       act(() => snackbarApi.create(createSnackbar("Urgent", { timeout: 1000, removeDelay: 100 })));
+
+      // First exit animation
+      act(() => jest.advanceTimersByTime(100));
+
       expect(screen.queryByText("First")).not.toBeInTheDocument();
       expect(screen.getByText("Urgent")).toBeInTheDocument();
       expect(snackbarApi.queue.length).toBe(0);
@@ -271,12 +276,16 @@ describe("useSnackbar", () => {
       act(() => snackbarApi.create(createSnackbar("Third", { timeout: 1000, removeDelay: 100 })));
       expect(snackbarApi.queue.length).toBe(2);
 
-      // 4. Urgent with immediate override replaces First and clears queue
+      // 4. Urgent with immediate override: dismiss First, queue only Urgent
       act(() =>
         snackbarApi.create(
           createSnackbar("Urgent", { strategy: "immediate", timeout: 1000, removeDelay: 100 }),
         ),
       );
+
+      // First exit animation
+      act(() => jest.advanceTimersByTime(100));
+
       expect(screen.queryByText("First")).not.toBeInTheDocument();
       expect(screen.getByText("Urgent")).toBeInTheDocument();
       expect(snackbarApi.queue.length).toBe(0);

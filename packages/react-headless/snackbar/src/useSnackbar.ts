@@ -58,7 +58,6 @@ function useSnackbarState({
   const [state, setState] = useState<SnackbarState>("inactive");
   const [queue, setQueue] = useState<CreateSnackbarOptions[]>([]);
   const [currentSnackbar, setCurrentSnackbar] = useState<CreateSnackbarOptions | null>(null);
-  const [generation, setGeneration] = useState(0);
 
   const visibleDuration = currentSnackbar?.timeout ?? 4000;
   const removeDelay = currentSnackbar?.removeDelay ?? 200;
@@ -110,16 +109,7 @@ function useSnackbarState({
       }, removeDelay);
       return () => clearTimeout(timeout);
     }
-  }, [
-    state,
-    queue,
-    generation,
-    visibleDuration,
-    removeDelay,
-    pop,
-    invokeOnClose,
-    removeCurrentSnackbar,
-  ]);
+  }, [state, queue, visibleDuration, removeDelay, pop, invokeOnClose, removeCurrentSnackbar]);
 
   // events
   const events = useMemo(
@@ -131,12 +121,11 @@ function useSnackbarState({
           if (state === "inactive") {
             setCurrentSnackbar(option);
             setState("active");
+          } else if (state === "dismissing") {
+            setQueue([option]);
           } else {
-            invokeOnClose();
-            setQueue([]);
-            setCurrentSnackbar(option);
-            setState("active");
-            setGeneration((g) => g + 1);
+            setQueue([option]);
+            setState("dismissing");
           }
         } else {
           push(option);
