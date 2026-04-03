@@ -1,59 +1,32 @@
-import { VStack } from "@seed-design/react";
-import { useRef, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
-import {
-  Snackbar,
-  SnackbarProvider,
-  useSnackbarAdapter,
-  type SnackbarProviderProps,
-} from "seed-design/ui/snackbar";
+import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 
-function Component() {
+export default function SnackbarStrategy() {
   const adapter = useSnackbarAdapter();
-  const countRef = useRef(0);
 
   return (
     <div style={{ display: "flex", gap: 8 }}>
       <ActionButton
+        variant="neutralSolid"
         onClick={() =>
           adapter.create({
-            render: () => <Snackbar message={`Snackbar #${++countRef.current}`} />,
+            render: () => <Snackbar variant="positive" message="저장되었습니다" />,
           })
         }
       >
-        Create
+        Immediate (positive)
       </ActionButton>
       <ActionButton
         variant="neutralSolid"
         onClick={() =>
           adapter.create({
-            render: () => <Snackbar message={`Snackbar #${++countRef.current}`} />,
+            strategy: "queued",
+            render: () => <Snackbar variant="critical" message="오류가 발생했습니다" />,
           })
         }
       >
-        Create Another
+        Queued (critical)
       </ActionButton>
     </div>
-  );
-}
-
-export default function SnackbarStrategy() {
-  const [strategy, setStrategy] = useState<SnackbarProviderProps["strategy"]>("immediate");
-
-  return (
-    <VStack gap="spacingY.componentDefault" alignItems="center">
-      <SnackbarProvider strategy={strategy}>
-        <Component />
-      </SnackbarProvider>
-      <SegmentedControl
-        aria-label="Strategy"
-        value={strategy}
-        onValueChange={(value) => setStrategy(value as typeof strategy)}
-      >
-        <SegmentedControlItem value="immediate">Immediate</SegmentedControlItem>
-        <SegmentedControlItem value="queued">Queued</SegmentedControlItem>
-      </SegmentedControl>
-    </VStack>
   );
 }
