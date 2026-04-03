@@ -161,6 +161,17 @@
         "postcss": "^8",
       },
     },
+    "ecosystem/postcss-responsive": {
+      "name": "@seed-design/postcss-responsive",
+      "version": "0.0.0",
+      "devDependencies": {
+        "postcss": "^8.5.3",
+        "typescript": "^5.9.2",
+      },
+      "peerDependencies": {
+        "postcss": "^8",
+      },
+    },
     "ecosystem/qvism/cli": {
       "name": "@seed-design/qvism-cli",
       "version": "0.0.0",
@@ -513,6 +524,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@seed-design/postcss-engaged": "0.0.0",
+        "@seed-design/postcss-responsive": "0.0.0",
         "@seed-design/qvism-core": "0.0.0",
         "@seed-design/rootage-core": "0.0.0",
       },
@@ -2739,6 +2751,8 @@
     "@seed-design/migration-index": ["@seed-design/migration-index@workspace:packages/migration-index"],
 
     "@seed-design/postcss-engaged": ["@seed-design/postcss-engaged@workspace:ecosystem/postcss-engaged"],
+
+    "@seed-design/postcss-responsive": ["@seed-design/postcss-responsive@workspace:ecosystem/postcss-responsive"],
 
     "@seed-design/qvism-cli": ["@seed-design/qvism-cli@workspace:ecosystem/qvism/cli"],
 
@@ -6505,6 +6519,8 @@
     "@seed-design/lynx-react/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
 
     "@seed-design/mcp/zod": ["zod@4.3.6", "", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
+
+    "@seed-design/postcss-responsive/typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "@seed-design/react/vite-plugin-dts": ["vite-plugin-dts@5.0.0", "", { "dependencies": { "unplugin-dts": "1.0.0" }, "peerDependencies": { "@microsoft/api-extractor": ">=7", "rollup": ">=3", "vite": ">=3" }, "optionalPeers": ["@microsoft/api-extractor", "rollup", "vite"] }, "sha512-VLNAUttBq7pLxxL/m/ztjd5zj5yiviiC7ijfPFVLK5c45FLcibvieBsdjSka3a4ag1qdrAF9K3OysH4/lW+rPQ=="],
 

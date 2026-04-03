@@ -1218,6 +1218,12 @@
               ]
             },
             {
+              "id": "responsive-design",
+              "title": "Responsive Design",
+              "description": "Viewport 크기에 따라 레이아웃과 스타일을 조정하는 방법을 알아봅니다.",
+              "docUrl": "/react/components/concepts/responsive-design"
+            },
+            {
               "id": "result-section",
               "title": "Result Section",
               "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
