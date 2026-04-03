@@ -362,7 +362,10 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     { varName: "--seed-safe-area-bottom", envName: "safe-area-inset-bottom" },
   ],
 
-  selectorMappings: [],
+  selectorMappings: [
+    { match: '[data-seed-platform="ios"]', replace: ".seed-platform-ios" },
+    { match: '[data-seed-platform="android"]', replace: ".seed-platform-android" },
+  ],
 
   textSlot: {
     suffix: "__text",

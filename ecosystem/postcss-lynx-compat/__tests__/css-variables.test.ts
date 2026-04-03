@@ -214,4 +214,47 @@ describe("postcss-lynx-compat", () => {
       expect(output).not.toContain("0px");
     });
   });
+
+  describe("calc() 평탄화", () => {
+    it("var() fallback을 치환하고 곱셈을 평가한다", async () => {
+      const input =
+        ":root { --seed-font-size-t1: calc(.6875rem * var(--seed-font-size-multiplier, 1)); }";
+      const output = await run(input);
+      expect(output).toContain("--seed-font-size-t1: 0.6875rem");
+      expect(output).not.toContain("calc(");
+    });
+
+    it("단순 곱셈: number * unit", async () => {
+      const input = ":root { --size: calc(1.5rem * 2); }";
+      const output = await run(input);
+      expect(output).toContain("--size: 3rem");
+    });
+
+    it("동일 단위 덧셈", async () => {
+      const input = ":root { --total: calc(44px + 0px); }";
+      const output = await run(input);
+      expect(output).toContain("--total: 44px");
+    });
+
+    it("단위 혼합은 그대로 유지", async () => {
+      const input = ".box { width: calc(100% - 20px); }";
+      const output = await run(input);
+      expect(output).toContain("width: calc(100% - 20px)");
+    });
+
+    it("일반 프로퍼티에서도 calc()를 평탄화한다", async () => {
+      const input = ".box { padding: calc(8px + 0px); }";
+      const output = await run(input);
+      expect(output).toContain("padding: 8px");
+    });
+  });
+
+  describe("플랫폼 셀렉터 매핑", () => {
+    it("[data-seed-platform='ios']를 .seed-platform-ios로 변환한다", async () => {
+      const input = '[data-seed-platform="ios"] { --seed-font-size-limit-max: 1.35; }';
+      const output = await run(input);
+      expect(output).toContain(".seed-platform-ios");
+      expect(output).not.toContain("[data-seed-platform");
+    });
+  });
 });

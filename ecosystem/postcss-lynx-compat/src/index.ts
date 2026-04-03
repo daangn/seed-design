@@ -64,6 +64,89 @@ function resolveClamp(value: string, strategy: "min" | "preferred" | "max"): str
 }
 
 /**
+ * calc() 표현식을 평탄화한다.
+ * Lynx가 calc()를 지원하지 않으므로, 정적으로 평가 가능한 식은 결과값으로 치환한다.
+ *
+ * 1. var(--name, fallback) → fallback 값으로 치환
+ * 2. <number><unit> * <number> → 곱셈 결과
+ * 3. <number><unit> + <number><unit> → 동일 단위일 때 덧셈 결과
+ * 4. 평가 불가 → 원본 유지
+ */
+function resolveCalc(value: string): string {
+  let result = "";
+  let i = 0;
+
+  while (i < value.length) {
+    const calcStart = value.indexOf("calc(", i);
+    if (calcStart === -1) {
+      result += value.slice(i);
+      break;
+    }
+
+    result += value.slice(i, calcStart);
+
+    // 괄호 depth 추적으로 calc() 내부 추출
+    let depth = 1;
+    const argStart = calcStart + 5; // "calc(" 이후
+    let j = argStart;
+
+    while (j < value.length && depth > 0) {
+      if (value[j] === "(") depth++;
+      else if (value[j] === ")") depth--;
+      j++;
+    }
+
+    const inner = value.slice(argStart, j - 1).trim();
+
+    // var(--name, fallback) → fallback 치환
+    const resolved = inner.replace(/var\([^,]+,\s*([^)]+)\)/g, (_, fallback) => fallback.trim());
+
+    // 단순 곱셈: <number><unit> * <number> 또는 <number> * <number><unit>
+    const mulMatch = resolved.match(
+      /^\s*([+-]?\d*\.?\d+)(rem|px|em|%|rpx|vw|vh)?\s*\*\s*([+-]?\d*\.?\d+)(rem|px|em|%|rpx|vw|vh)?\s*$/,
+    );
+    if (mulMatch) {
+      const [, n1, u1, n2, u2] = mulMatch;
+      const num1 = Number.parseFloat(n1);
+      const num2 = Number.parseFloat(n2);
+      const unit = u1 || u2 || "";
+      // 양쪽 모두 단위가 있으면 평가 불가 (rem * px 등)
+      if (u1 && u2) {
+        result += `calc(${inner})`;
+      } else {
+        const product = num1 * num2;
+        // 부동소수점 정리: 최대 소수점 4자리
+        result += `${Number.parseFloat(product.toFixed(4))}${unit}`;
+      }
+      i = j;
+      continue;
+    }
+
+    // 단순 덧셈/뺄셈: <number><unit> +/- <number><unit> (동일 단위)
+    const addMatch = resolved.match(
+      /^\s*([+-]?\d*\.?\d+)(rem|px|em|%|rpx|vw|vh)\s*([+-])\s*(\d*\.?\d+)(rem|px|em|%|rpx|vw|vh)\s*$/,
+    );
+    if (addMatch) {
+      const [, n1, u1, op, n2, u2] = addMatch;
+      if (u1 === u2) {
+        const num1 = Number.parseFloat(n1);
+        const num2 = Number.parseFloat(n2);
+        const sum = op === "+" ? num1 + num2 : num1 - num2;
+        result += `${Number.parseFloat(sum.toFixed(4))}${u1}`;
+        i = j;
+        continue;
+      }
+    }
+
+    // 평가 불가 → 원본 유지
+    result += `calc(${inner})`;
+    i = j;
+  }
+
+  return result;
+}
+
+/**
  * env() 함수에서 fallback 인자를 제거한다.
  * Lynx는 env(name, fallback) 구문을 지원하지 않으므로 env(name)만 남긴다.
  * 예: env(safe-area-inset-top, 0px) → env(safe-area-inset-top)
@@ -504,10 +587,13 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
       root.walkDecls((decl) => {
         const prop = decl.prop;
 
-        // CSS custom property (--*) → 항상 통과, 값만 clamp 처리
+        // CSS custom property (--*) → 항상 통과, 값만 clamp/calc 처리
         if (prop.startsWith("--")) {
           if (decl.value.includes("clamp(")) {
             decl.value = resolveClamp(decl.value, config.clampStrategy);
+          }
+          if (decl.value.includes("calc(")) {
+            decl.value = resolveCalc(decl.value);
           }
           return;
         }
@@ -536,6 +622,11 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         // clamp() 값 변환 (일반 프로퍼티)
         if (decl.value.includes("clamp(")) {
           decl.value = resolveClamp(decl.value, config.clampStrategy);
+        }
+
+        // calc() 평탄화 (일반 프로퍼티)
+        if (decl.value.includes("calc(")) {
+          decl.value = resolveCalc(decl.value);
         }
 
         // transition 값에서 미지원 프로퍼티 필터링

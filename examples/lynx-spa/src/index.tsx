@@ -10,7 +10,7 @@ import {
 
 import "./styles/global.css";
 
-import { getThemeClassName } from "@seed-design/rsbuild-plugin/lynx";
+import { getSeedClassName } from "@seed-design/lynx-react";
 import { App } from "./App.jsx";
 
 // Initialize lynx-console monitors before rendering.
@@ -20,18 +20,9 @@ initMainThreadConsole();
 initNetworkMonitor();
 initPerformanceMonitor();
 
-declare const __SEED_COLOR_MODE__: string;
-
-const colorMode = typeof __SEED_COLOR_MODE__ !== "undefined" ? __SEED_COLOR_MODE__ : "system";
-const systemTheme = (lynx?.__globalProps as Record<string, unknown>)?.theme as string | undefined;
-const themeClass = getThemeClassName(
-  colorMode as "system" | "light-only" | "dark-only",
-  systemTheme,
-);
-
 root.render(
   <page
-    className={themeClass}
+    className={getSeedClassName({ colorMode: "system" })}
     style={{ backgroundColor: 'var(--seed-color-bg-layer-default)' }}
   >
     <App />
