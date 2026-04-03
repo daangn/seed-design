@@ -220,6 +220,14 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
               ),
             }),
         },
+        {
+          title: "Snackbar (queued)",
+          onClick: () =>
+            snackbarAdapter.create({
+              strategy: "queued",
+              render: () => <Snackbar message="Queued Snackbar" />,
+            }),
+        },
       ],
     },
     {
