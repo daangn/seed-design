@@ -218,38 +218,81 @@ describe("useSnackbar", () => {
   });
 
   describe("per-snackbar strategy override", () => {
-    it("should allow per-snackbar queued override in immediate provider", () => {
+    it("should mix queued and immediate overrides in immediate provider", () => {
       setUp(); // default: immediate
 
+      // 1. First shows immediately
       act(() => snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 })));
-      act(() => snackbarApi.create(createSnackbar("Queued", { strategy: "queued" })));
-
-      // First is showing, Queued is waiting in queue
       expect(screen.getByText("First")).toBeInTheDocument();
-      expect(screen.queryByText("Queued")).not.toBeInTheDocument();
+
+      // 2. Queued-A waits in queue
+      act(() =>
+        snackbarApi.create(
+          createSnackbar("Queued-A", { strategy: "queued", timeout: 1000, removeDelay: 100 }),
+        ),
+      );
+      expect(screen.getByText("First")).toBeInTheDocument();
       expect(snackbarApi.queue.length).toBe(1);
 
-      // Dismiss first → queued one shows
-      act(() => jest.advanceTimersByTime(1000));
-      act(() => jest.advanceTimersByTime(100));
-
-      expect(screen.getByText("Queued")).toBeInTheDocument();
-    });
-
-    it("should allow per-snackbar immediate override in queued provider", () => {
-      setUp({ strategy: "queued" });
-
-      act(() => {
-        snackbarApi.create(createSnackbar("First"));
-      });
+      // 3. Queued-B also waits in queue
+      act(() =>
+        snackbarApi.create(
+          createSnackbar("Queued-B", { strategy: "queued", timeout: 1000, removeDelay: 100 }),
+        ),
+      );
       expect(screen.getByText("First")).toBeInTheDocument();
+      expect(snackbarApi.queue.length).toBe(2);
 
-      act(() => {
-        snackbarApi.create(createSnackbar("Urgent", { strategy: "immediate" }));
-      });
-
+      // 4. Urgent replaces First immediately and clears queue
+      act(() => snackbarApi.create(createSnackbar("Urgent", { timeout: 1000, removeDelay: 100 })));
       expect(screen.queryByText("First")).not.toBeInTheDocument();
       expect(screen.getByText("Urgent")).toBeInTheDocument();
+      expect(snackbarApi.queue.length).toBe(0);
+
+      // 5. After Urgent times out, nothing left
+      act(() => jest.advanceTimersByTime(1000));
+      act(() => jest.advanceTimersByTime(100));
+      expect(screen.queryByText("Urgent")).not.toBeInTheDocument();
+    });
+
+    it("should mix queued and immediate overrides in queued provider", () => {
+      setUp({ strategy: "queued" }); // default: queued
+
+      // 1. First shows (queued default, but nothing active → shows immediately)
+      act(() => snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 })));
+      expect(screen.getByText("First")).toBeInTheDocument();
+
+      // 2. Second queues behind First
+      act(() => snackbarApi.create(createSnackbar("Second", { timeout: 1000, removeDelay: 100 })));
+      expect(screen.getByText("First")).toBeInTheDocument();
+      expect(snackbarApi.queue.length).toBe(1);
+
+      // 3. Third queues behind Second
+      act(() => snackbarApi.create(createSnackbar("Third", { timeout: 1000, removeDelay: 100 })));
+      expect(snackbarApi.queue.length).toBe(2);
+
+      // 4. Urgent with immediate override replaces First and clears queue
+      act(() =>
+        snackbarApi.create(
+          createSnackbar("Urgent", { strategy: "immediate", timeout: 1000, removeDelay: 100 }),
+        ),
+      );
+      expect(screen.queryByText("First")).not.toBeInTheDocument();
+      expect(screen.getByText("Urgent")).toBeInTheDocument();
+      expect(snackbarApi.queue.length).toBe(0);
+
+      // 5. While Urgent is showing, queue a new one (default queued)
+      act(() =>
+        snackbarApi.create(createSnackbar("After-Urgent", { timeout: 1000, removeDelay: 100 })),
+      );
+      expect(screen.getByText("Urgent")).toBeInTheDocument();
+      expect(snackbarApi.queue.length).toBe(1);
+
+      // 6. Urgent times out → After-Urgent shows from queue
+      act(() => jest.advanceTimersByTime(1000));
+      act(() => jest.advanceTimersByTime(100));
+      expect(screen.queryByText("Urgent")).not.toBeInTheDocument();
+      expect(screen.getByText("After-Urgent")).toBeInTheDocument();
     });
   });
 });
