@@ -21,6 +21,16 @@
 2. Recipe → `packages/qvism-preset/src/recipes/*.ts` 수정
 3. `bun generate:all` 실행
 
+### 수동 관리 recipe (qvism 자동 생성 제외)
+
+Lynx 플랫폼 제약으로 qvism recipe에서 자동 생성할 수 없는 컴포넌트는 수동으로 관리한다. 이 파일들은 `qvism-preset`의 `excludeRecipes`에 등록되어 `bun generate:all` 시 덮어쓰여지지 않는다.
+
+| Recipe | 제외 이유 | 웹과의 차이 |
+|--------|-----------|-------------|
+| `progress-circle` | Lynx에서 SVG(`stroke-dasharray`) 미지원 | 웹: SVG + CSS 애니메이션, Lynx: clip-path + JS setInterval 애니메이션 |
+
+수동 recipe 파일에는 `TODO` 주석이 포함되어 있으며, Lynx의 해당 기능 지원 시 qvism 자동 생성으로 전환한다.
+
 ### css 패키지와의 차이
 
 - Lynx 전용 PostCSS 파이프라인 사용 (`postcssEngaged`, `postcssLynxCompat`)
