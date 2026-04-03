@@ -72,7 +72,7 @@ function FontWeightRow({ name, weightVar }: { name: string; weightVar: string })
   );
 }
 
-const dynamicSizes = [
+const fontSizes = [
   { name: "t1", size: $fontSize.t1, lh: $lineHeight.t1 },
   { name: "t2", size: $fontSize.t2, lh: $lineHeight.t2 },
   { name: "t3", size: $fontSize.t3, lh: $lineHeight.t3 },
@@ -85,22 +85,6 @@ const dynamicSizes = [
   { name: "t10", size: $fontSize.t10, lh: $lineHeight.t10 },
 ];
 
-const staticSizes = [
-  { name: "t1Static", size: $fontSize.t1Static, lh: $lineHeight.t1Static },
-  { name: "t2Static", size: $fontSize.t2Static, lh: $lineHeight.t2Static },
-  { name: "t3Static", size: $fontSize.t3Static, lh: $lineHeight.t3Static },
-  { name: "t4Static", size: $fontSize.t4Static, lh: $lineHeight.t4Static },
-  { name: "t5Static", size: $fontSize.t5Static, lh: $lineHeight.t5Static },
-  { name: "t6Static", size: $fontSize.t6Static, lh: $lineHeight.t6Static },
-  { name: "t7Static", size: $fontSize.t7Static, lh: $lineHeight.t7Static },
-  { name: "t8Static", size: $fontSize.t8Static, lh: $lineHeight.t8Static },
-  { name: "t9Static", size: $fontSize.t9Static, lh: $lineHeight.t9Static },
-  {
-    name: "t10Static",
-    size: $fontSize.t10Static,
-    lh: $lineHeight.t10Static,
-  },
-];
 
 export function FoundationTypographyPage() {
   return (
@@ -115,19 +99,8 @@ export function FoundationTypographyPage() {
       <FontWeightRow name="medium" weightVar={$fontWeight.medium} />
       <FontWeightRow name="bold" weightVar={$fontWeight.bold} />
 
-      <SectionTitle>Font Size (Dynamic)</SectionTitle>
-      <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle, marginBottom: "4px" }}>
-        사용자 설정에 따라 크기가 변하는 동적 사이즈
-      </text>
-      {dynamicSizes.map((item) => (
-        <FontSizeRow key={item.name} name={item.name} sizeVar={item.size} lineHeightVar={item.lh} />
-      ))}
-
-      <SectionTitle>Font Size (Static)</SectionTitle>
-      <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle, marginBottom: "4px" }}>
-        고정 크기 사이즈
-      </text>
-      {staticSizes.map((item) => (
+      <SectionTitle>Font Size</SectionTitle>
+      {fontSizes.map((item) => (
         <FontSizeRow key={item.name} name={item.name} sizeVar={item.size} lineHeightVar={item.lh} />
       ))}
     </scroll-view>
