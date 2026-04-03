@@ -64,13 +64,11 @@ function resolveClamp(value: string, strategy: "min" | "preferred" | "max"): str
 }
 
 /**
- * calc() 표현식을 평탄화한다.
- * Lynx가 calc()를 지원하지 않으므로, 정적으로 평가 가능한 식은 결과값으로 치환한다.
+ * CSS custom property 값 내의 calc() 중 var()를 포함하는 것만 평탄화한다.
+ * Lynx는 calc() 자체를 지원하지만, CSS custom property 정의 시 var() fallback을
+ * 정적으로 평가해야 하는 경우가 있다. (예: font-size-multiplier)
  *
- * 1. var(--name, fallback) → fallback 값으로 치환
- * 2. <number><unit> * <number> → 곱셈 결과
- * 3. <number><unit> + <number><unit> → 동일 단위일 때 덧셈 결과
- * 4. 평가 불가 → 원본 유지
+ * var()가 없는 calc()는 Lynx가 런타임에서 처리하므로 그대로 유지한다.
  */
 function resolveCalc(value: string): string {
   let result = "";
@@ -98,6 +96,13 @@ function resolveCalc(value: string): string {
 
     const inner = value.slice(argStart, j - 1).trim();
 
+    // var()가 포함되지 않은 calc()는 Lynx가 런타임에서 처리 → 원본 유지
+    if (!inner.includes("var(")) {
+      result += `calc(${inner})`;
+      i = j;
+      continue;
+    }
+
     // var(--name, fallback) → fallback 치환
     const resolved = inner.replace(/var\([^,]+,\s*([^)]+)\)/g, (_, fallback) => fallback.trim());
 
@@ -110,32 +115,14 @@ function resolveCalc(value: string): string {
       const num1 = Number.parseFloat(n1);
       const num2 = Number.parseFloat(n2);
       const unit = u1 || u2 || "";
-      // 양쪽 모두 단위가 있으면 평가 불가 (rem * px 등)
       if (u1 && u2) {
         result += `calc(${inner})`;
       } else {
         const product = num1 * num2;
-        // 부동소수점 정리: 최대 소수점 4자리
         result += `${Number.parseFloat(product.toFixed(4))}${unit}`;
       }
       i = j;
       continue;
-    }
-
-    // 단순 덧셈/뺄셈: <number><unit> +/- <number><unit> (동일 단위)
-    const addMatch = resolved.match(
-      /^\s*([+-]?\d*\.?\d+)(rem|px|em|%|rpx|vw|vh)\s*([+-])\s*(\d*\.?\d+)(rem|px|em|%|rpx|vw|vh)\s*$/,
-    );
-    if (addMatch) {
-      const [, n1, u1, op, n2, u2] = addMatch;
-      if (u1 === u2) {
-        const num1 = Number.parseFloat(n1);
-        const num2 = Number.parseFloat(n2);
-        const sum = op === "+" ? num1 + num2 : num1 - num2;
-        result += `${Number.parseFloat(sum.toFixed(4))}${u1}`;
-        i = j;
-        continue;
-      }
     }
 
     // 평가 불가 → 원본 유지
@@ -380,6 +367,7 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
     selectorMappings: opts.selectorMappings ?? defaultConfig.selectorMappings,
     unwrapSupports: opts.unwrapSupports ?? defaultConfig.unwrapSupports,
     replaceVarWithEnv: opts.replaceVarWithEnv ?? defaultConfig.replaceVarWithEnv,
+    flattenCalc: opts.flattenCalc ?? defaultConfig.flattenCalc,
   };
 
   const supportedSet = new Set(config.supportedProperties);
@@ -592,7 +580,9 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
           if (decl.value.includes("clamp(")) {
             decl.value = resolveClamp(decl.value, config.clampStrategy);
           }
-          if (decl.value.includes("calc(")) {
+          // calc() 평탄화: font-size/line-height multiplier 패턴만 대상
+          // (Lynx는 calc() 자체는 지원하지만, multiplier var의 fallback 평가가 필요)
+          if (config.flattenCalc && decl.value.includes("calc(")) {
             decl.value = resolveCalc(decl.value);
           }
           return;
@@ -622,11 +612,6 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         // clamp() 값 변환 (일반 프로퍼티)
         if (decl.value.includes("clamp(")) {
           decl.value = resolveClamp(decl.value, config.clampStrategy);
-        }
-
-        // calc() 평탄화 (일반 프로퍼티)
-        if (decl.value.includes("calc(")) {
-          decl.value = resolveCalc(decl.value);
         }
 
         // transition 값에서 미지원 프로퍼티 필터링

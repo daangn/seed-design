@@ -224,28 +224,16 @@ describe("postcss-lynx-compat", () => {
       expect(output).not.toContain("calc(");
     });
 
-    it("단순 곱셈: number * unit", async () => {
+    it("var()가 없는 calc()는 그대로 유지 (Lynx가 calc() 지원)", async () => {
       const input = ":root { --size: calc(1.5rem * 2); }";
       const output = await run(input);
-      expect(output).toContain("--size: 3rem");
+      expect(output).toContain("--size: calc(1.5rem * 2)");
     });
 
-    it("동일 단위 덧셈", async () => {
-      const input = ":root { --total: calc(44px + 0px); }";
-      const output = await run(input);
-      expect(output).toContain("--total: 44px");
-    });
-
-    it("단위 혼합은 그대로 유지", async () => {
-      const input = ".box { width: calc(100% - 20px); }";
-      const output = await run(input);
-      expect(output).toContain("width: calc(100% - 20px)");
-    });
-
-    it("일반 프로퍼티에서도 calc()를 평탄화한다", async () => {
+    it("일반 프로퍼티의 calc()는 그대로 유지", async () => {
       const input = ".box { padding: calc(8px + 0px); }";
       const output = await run(input);
-      expect(output).toContain("padding: 8px");
+      expect(output).toContain("padding: calc(8px + 0px)");
     });
   });
 
