@@ -8,14 +8,45 @@
     {
       "name": "global",
       "modes": [
-        "default"
+        {
+          "id": "default"
+        }
       ]
     },
     {
       "name": "color",
       "modes": [
-        "theme-light",
-        "theme-dark"
+        {
+          "id": "theme-light"
+        },
+        {
+          "id": "theme-dark"
+        }
+      ]
+    },
+    {
+      "name": "viewport-width",
+      "modes": [
+        {
+          "id": "base",
+          "description": "세로 모드 폰"
+        },
+        {
+          "id": "sm",
+          "description": "가로 모드 폰 또는 좁은 태블릿"
+        },
+        {
+          "id": "md",
+          "description": "태블릿"
+        },
+        {
+          "id": "lg",
+          "description": "데스크톱"
+        },
+        {
+          "id": "xl",
+          "description": "넓은 데스크톱"
+        }
       ]
     }
   ]
