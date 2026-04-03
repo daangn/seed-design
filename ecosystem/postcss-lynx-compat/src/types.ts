@@ -23,9 +23,6 @@ export interface LynxCompatConfig {
   /** clamp() 처리 전략 */
   clampStrategy?: "min" | "preferred" | "max";
 
-  /** CSS custom property 내 calc()를 평탄화할지 여부 (var() fallback 치환 후 정적 평가) */
-  flattenCalc?: boolean;
-
   /** true이면 미등록 프로퍼티를 경고로 처리 (기본: false → 에러) */
   warnOnly?: boolean;
 

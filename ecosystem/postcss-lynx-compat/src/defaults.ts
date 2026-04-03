@@ -350,8 +350,6 @@ export const defaultConfig: Required<LynxCompatConfig> = {
 
   clampStrategy: "preferred",
 
-  flattenCalc: true,
-
   warnOnly: false,
 
   unwrapSupports: [
