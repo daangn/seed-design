@@ -15,6 +15,10 @@
       "types": "./lib/index.d.ts",
       "import": "./lib/index.js"
     },
+    "./dynamic-style": {
+      "types": "./lib/utils/dynamic-style.d.ts",
+      "import": "./lib/utils/dynamic-style.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -27,6 +31,7 @@
     "lint:publish": "bun publint"
   },
   "peerDependencies": {
+    "@seed-design/css": ">=1.1.17",
     "@seed-design/lynx-css": ">=0.1.0",
     "@lynx-js/react": ">=0.100.0"
   },
@@ -39,6 +44,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@seed-design/lynx-primitive": "workspace:*",
     "clsx": "^2.1.1"
   }
 }

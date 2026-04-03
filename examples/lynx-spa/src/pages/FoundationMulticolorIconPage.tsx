@@ -1,4 +1,4 @@
-import { vars } from "@seed-design/css/vars";
+import { vars } from "@seed-design/lynx-css/vars";
 
 import IconAnimalFace from "@karrotmarket/lynx-multicolor-icon/IconAnimalFace";
 import IconApple from "@karrotmarket/lynx-multicolor-icon/IconApple";
@@ -75,15 +75,21 @@ import IconWrench from "@karrotmarket/lynx-multicolor-icon/IconWrench";
 const { $color } = vars;
 
 interface IconEntry {
-  component: (props: { size?: number }) => JSX.Element;
+  component: (props: { size?: number }) => React.JSX.Element;
   name: string;
 }
 
 const icons: IconEntry[] = [
   { component: IconAnimalFace, name: "AnimalFace" },
   { component: IconApple, name: "Apple" },
-  { component: IconArrowUpRightShoppingbagTilted, name: "ArrowUpRightShoppingbagTilted" },
-  { component: IconAsteriskHorizrectangleCoolwave3, name: "AsteriskHorizrectangleCoolwave3" },
+  {
+    component: IconArrowUpRightShoppingbagTilted,
+    name: "ArrowUpRightShoppingbagTilted",
+  },
+  {
+    component: IconAsteriskHorizrectangleCoolwave3,
+    name: "AsteriskHorizrectangleCoolwave3",
+  },
   { component: IconBoxFlap, name: "BoxFlap" },
   { component: IconBuilding2, name: "Building2" },
   { component: IconBuilding2Twosize, name: "Building2Twosize" },
@@ -139,10 +145,16 @@ const icons: IconEntry[] = [
   { component: IconSparkle2, name: "Sparkle2" },
   { component: IconSpraybottleSponge, name: "SpraybottleSponge" },
   { component: IconTree, name: "Tree" },
-  { component: IconTriangleRightChatbubbleLeft, name: "TriangleRightChatbubbleLeft" },
+  {
+    component: IconTriangleRightChatbubbleLeft,
+    name: "TriangleRightChatbubbleLeft",
+  },
   { component: IconTruck, name: "Truck" },
   { component: IconTshirtBubble2, name: "TshirtBubble2" },
-  { component: IconVertrectangleTiltedstacked, name: "VertrectangleTiltedstacked" },
+  {
+    component: IconVertrectangleTiltedstacked,
+    name: "VertrectangleTiltedstacked",
+  },
   { component: IconVestHorizstripe, name: "VestHorizstripe" },
   { component: IconWarninglight, name: "Warninglight" },
   { component: IconWindow2Store, name: "Window2Store" },

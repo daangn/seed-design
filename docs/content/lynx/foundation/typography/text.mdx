@@ -1,0 +1,140 @@
+---
+title: Text
+description: 텍스트를 표시하는 기본 타이포그래피 컴포넌트입니다. Lynx의 text 요소를 렌더링하며 일관된 글꼴 스타일과 크기를 적용합니다.
+---
+
+## Usage
+
+```tsx
+import { Text } from "@seed-design/lynx-react";
+```
+
+```tsx
+<Text color="fg.neutral" textStyle="t5Regular">
+  Hello, Lynx!
+</Text>
+```
+
+<Callout>
+Lynx에서 `Text` 컴포넌트는 `text` 요소로 렌더링됩니다.
+</Callout>
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Text/Text.tsx" name="TextProps" />
+
+## Examples
+
+### Text Styles
+
+Figma의 Text Style과 대응되는 `textStyle` 속성을 사용하는 것이 기본 방법입니다. `textStyle`은 글꼴 크기, 줄 간격, 글꼴 굵기를 한 번에 설정합니다.
+
+```tsx
+import { Text, VStack } from "@seed-design/lynx-react";
+
+export function TextStylesExample() {
+  return (
+    <VStack gap="x1">
+      <Text color="fg.neutral" textStyle="t1Regular">t1Regular</Text>
+      <Text color="fg.neutral" textStyle="t2Regular">t2Regular</Text>
+      <Text color="fg.neutral" textStyle="t3Regular">t3Regular</Text>
+      <Text color="fg.neutral" textStyle="t4Regular">t4Regular</Text>
+      <Text color="fg.neutral" textStyle="t5Regular">t5Regular</Text>
+      <Text color="fg.neutral" textStyle="t6Bold">t6Bold</Text>
+      <Text color="fg.neutral" textStyle="t7Bold">t7Bold</Text>
+      <Text color="fg.neutral" textStyle="t8Bold">t8Bold</Text>
+      <Text color="fg.neutral" textStyle="t9Bold">t9Bold</Text>
+      <Text color="fg.neutral" textStyle="t10Bold">t10Bold</Text>
+    </VStack>
+  );
+}
+```
+
+#### Font Sizes
+
+더 구체적으로 변경이 필요한 경우 `fontSize` 및 `lineHeight` 속성을 각각 사용할 수 있습니다.
+
+`lineHeight` 속성은 `fontSize`에 대응되는 기본값으로 설정되며, `lineHeight` 속성으로 변경이 가능합니다.
+
+```tsx
+import { Text, VStack } from "@seed-design/lynx-react";
+
+export function FontSizesExample() {
+  return (
+    <VStack gap="x1">
+      <Text color="fg.neutral" fontSize="t1">fontSize t1</Text>
+      <Text color="fg.neutral" fontSize="t3">fontSize t3</Text>
+      <Text color="fg.neutral" fontSize="t5">fontSize t5</Text>
+      <Text color="fg.neutral" fontSize="t7">fontSize t7</Text>
+    </VStack>
+  );
+}
+```
+
+#### Font Weights
+
+더 구체적으로 변경이 필요한 경우 `fontWeight` 속성을 사용할 수 있습니다.
+
+```tsx
+import { Text, VStack } from "@seed-design/lynx-react";
+
+export function FontWeightsExample() {
+  return (
+    <VStack gap="x1">
+      <Text color="fg.neutral" textStyle="t5Regular" fontWeight="regular">Regular</Text>
+      <Text color="fg.neutral" textStyle="t5Regular" fontWeight="medium">Medium</Text>
+      <Text color="fg.neutral" textStyle="t5Regular" fontWeight="bold">Bold</Text>
+    </VStack>
+  );
+}
+```
+
+### Colors
+
+`color` 속성으로 텍스트 색상을 지정합니다. 시맨틱 컬러 토큰을 사용할 수 있습니다.
+
+```tsx
+import { Text, VStack } from "@seed-design/lynx-react";
+
+export function ColorsExample() {
+  return (
+    <VStack gap="x1">
+      <Text color="fg.neutral" textStyle="t5Regular">fg.neutral</Text>
+      <Text color="fg.neutralSubtle" textStyle="t5Regular">fg.neutralSubtle</Text>
+      <Text color="fg.brand" textStyle="t5Regular">fg.brand</Text>
+      <Text color="fg.critical" textStyle="t5Regular">fg.critical</Text>
+      <Text color="fg.success" textStyle="t5Regular">fg.success</Text>
+    </VStack>
+  );
+}
+```
+
+### Alignment
+
+`align` 속성으로 텍스트 정렬을 설정합니다.
+
+```tsx
+import { Text, VStack } from "@seed-design/lynx-react";
+
+export function AlignmentExample() {
+  return (
+    <VStack gap="x1">
+      <Text color="fg.neutral" textStyle="t5Regular" align="left">Left aligned</Text>
+      <Text color="fg.neutral" textStyle="t5Regular" align="center">Center aligned</Text>
+      <Text color="fg.neutral" textStyle="t5Regular" align="right">Right aligned</Text>
+    </VStack>
+  );
+}
+```
+
+### React와의 차이점
+
+<Callout type="warning">
+Lynx `Text`는 React `Text`와 다음과 같은 차이가 있습니다.
+
+- **`as` 속성 미지원**: Lynx에서는 항상 `text` 요소로 렌더링되므로 `as`로 요소를 변경할 수 없습니다.
+- **`maxLines` 미지원**: Lynx에서는 텍스트 줄 수 제한을 직접 지원하지 않습니다.
+- **`userSelect` 미지원**: Lynx 플랫폼에서는 텍스트 선택 동작이 네이티브 레벨에서 제어됩니다.
+- **`whiteSpace` 미지원**: Lynx의 텍스트 레이아웃은 웹과 다르게 동작합니다.
+- **`textDecorationLine` 미지원**: 밑줄, 취소선 등의 텍스트 장식은 현재 지원되지 않습니다.
+</Callout>

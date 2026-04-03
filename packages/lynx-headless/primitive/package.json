@@ -1,0 +1,38 @@
+{
+  "name": "@seed-design/lynx-primitive",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/lynx-headless/primitive"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.jsx"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "tsc",
+    "lint:publish": "bun publint"
+  },
+  "peerDependencies": {
+    "@lynx-js/react": ">=0.100.0"
+  },
+  "devDependencies": {
+    "@lynx-js/react": "^0.116.3",
+    "@types/react": "^19.2.2",
+    "react": "^19.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

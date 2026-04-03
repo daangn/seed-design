@@ -1,0 +1,102 @@
+---
+title: Box
+description: Box 컴포넌트는 가장 기초적인 레이아웃 컴포넌트입니다. Lynx의 view 요소를 렌더링하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.
+---
+
+## Usage
+
+```tsx
+import { Box } from "@seed-design/lynx-react";
+```
+
+```tsx
+<Box />
+```
+
+<Callout type="warning">
+Lynx에서는 텍스트를 반드시 `text` 요소 안에 넣어야 합니다. `Box` 내부에 직접 문자열을 넣으면 렌더링되지 않습니다.
+</Callout>
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Box/Box.tsx" name="BoxProps" />
+
+## Examples
+
+### Background & Padding
+
+디자인 토큰을 사용하여 배경색과 패딩을 적용할 수 있습니다.
+
+```tsx
+import { Box } from "@seed-design/lynx-react";
+
+export function BackgroundExample() {
+  return (
+    <Box bg="bg.neutralWeak" px="x3" py="x2" borderRadius="r2">
+      <text>Box with background and padding</text>
+    </Box>
+  );
+}
+```
+
+### Border & Radius
+
+`borderWidth`, `borderColor`, `borderRadius` 속성으로 테두리를 설정할 수 있습니다.
+
+```tsx
+import { Box } from "@seed-design/lynx-react";
+
+export function BorderExample() {
+  return (
+    <Box borderWidth="1" borderColor="stroke.neutral" borderRadius="r2" px="x3" py="x2">
+      <text>Box with border</text>
+    </Box>
+  );
+}
+```
+
+### Shadow
+
+`boxShadow` 속성으로 그림자 효과를 적용할 수 있습니다.
+
+```tsx
+import { Box } from "@seed-design/lynx-react";
+
+export function ShadowExample() {
+  return (
+    <Box bg="bg.neutral" boxShadow="s2" borderRadius="r2" px="x3" py="x2">
+      <text>Box with shadow</text>
+    </Box>
+  );
+}
+```
+
+### Nested Box
+
+Box를 중첩하여 복잡한 레이아웃을 구성할 수 있습니다.
+
+```tsx
+import { Box } from "@seed-design/lynx-react";
+
+export function NestedExample() {
+  return (
+    <Box bg="bg.neutralWeak" p="x3" borderRadius="r2">
+      <Box bg="bg.neutral" p="x3" borderRadius="r2">
+        <Box bg="bg.brandWeak" p="x2" borderRadius="r1">
+          <text>Nested boxes</text>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+```
+
+### Lynx 플랫폼 참고 사항
+
+<Callout>
+Lynx의 `Box`는 HTML `div` 대신 네이티브 `view` 요소를 렌더링합니다. React의 `Box`와 동일한 스타일 속성을 지원하지만, 다음 사항에 유의하세요.
+
+- 모든 요소는 기본적으로 `box-sizing: border-box`입니다.
+- `overflow: scroll`은 지원되지 않습니다. 스크롤이 필요하면 `scroll-view`를 사용하세요.
+- `position`은 `relative`, `absolute`, `fixed`만 지원됩니다.
+</Callout>

@@ -214,4 +214,98 @@ describe("postcss-lynx-compat", () => {
       expect(output).not.toContain("0px");
     });
   });
+
+  describe("플랫폼 셀렉터 매핑", () => {
+    it("[data-seed-platform='ios']를 .seed-platform-ios로 변환한다", async () => {
+      const input = '[data-seed-platform="ios"] { --seed-custom-var: 1.35; }';
+      const output = await run(input);
+      expect(output).toContain(".seed-platform-ios");
+      expect(output).not.toContain("[data-seed-platform");
+    });
+  });
+
+  describe("rem → px 변환", () => {
+    it("CSS custom property 내 rem을 px로 변환한다 (1rem = 16px)", async () => {
+      const input =
+        ":root { --seed-font-size-t5: calc(1rem * var(--seed-font-size-multiplier, 1)); }";
+      const output = await run(input);
+      expect(output).toContain("16px");
+      expect(output).not.toContain("1rem");
+    });
+
+    it("소수점 rem을 변환한다 (.6875rem → 11px)", async () => {
+      const input =
+        ":root { --seed-font-size-t1: calc(.6875rem * var(--seed-font-size-multiplier, 1)); }";
+      const output = await run(input);
+      expect(output).toContain("11px");
+      expect(output).not.toContain(".6875rem");
+    });
+
+    it("일반 프로퍼티의 rem은 변환하지 않는다 (Lynx가 레이아웃에서 rem 지원)", async () => {
+      const input = ".badge { max-width: 1.5rem; }";
+      const output = await run(input);
+      expect(output).toContain("max-width: 1.5rem");
+    });
+
+    it("font-size 이외의 CSS custom property의 rem은 변환하지 않는다", async () => {
+      const input = ":root { --seed-badge-max-width: 1.5rem; }";
+      const output = await run(input);
+      expect(output).toContain("--seed-badge-max-width: 1.5rem");
+    });
+
+    it("em은 변환하지 않는다", async () => {
+      const input = ".text { font-size: 1.5em; }";
+      const output = await run(input);
+      expect(output).toContain("font-size: 1.5em");
+    });
+  });
+
+  describe("font-size-multiplier calc() 해소", () => {
+    it("calc(<px> * var(--seed-font-size-multiplier, 1)) → <px>", async () => {
+      const input =
+        ":root { --seed-font-size-t1: calc(.6875rem * var(--seed-font-size-multiplier, 1)); }";
+      const output = await run(input);
+      // rem→px 변환 후 calc 해소: calc(11px * var(..., 1)) → 11px
+      expect(output).toContain("--seed-font-size-t1: 11px");
+      expect(output).not.toContain("calc(");
+    });
+
+    it("다른 var()는 건드리지 않는다", async () => {
+      const input =
+        ":root { --seed-enter-translate-x: calc(var(--swipe-back-displacement, 0) * 0.15); }";
+      const output = await run(input);
+      expect(output).toContain("calc(var(--swipe-back-displacement, 0) * 0.15)");
+    });
+  });
+
+  describe("static 토큰 + multiplier/limit 제거", () => {
+    it("--seed-font-size-*-static 선언을 제거한다", async () => {
+      const input = ":root { --seed-font-size-t1-static: 11px; --seed-font-size-t1: 11px; }";
+      const output = await run(input);
+      expect(output).not.toContain("--seed-font-size-t1-static");
+      expect(output).toContain("--seed-font-size-t1: 11px");
+    });
+
+    it("--seed-font-size-multiplier 선언을 제거한다", async () => {
+      const input = ":root { --seed-font-size-multiplier: 1; --seed-font-size-t1: 11px; }";
+      const output = await run(input);
+      expect(output).not.toContain("--seed-font-size-multiplier");
+      expect(output).toContain("--seed-font-size-t1");
+    });
+
+    it("--seed-font-size-limit-* 선언을 제거한다", async () => {
+      const input =
+        ":root { --seed-font-size-limit-min: .8; --seed-font-size-limit-max: 1.5; --seed-font-size-t1: 11px; }";
+      const output = await run(input);
+      expect(output).not.toContain("--seed-font-size-limit-min");
+      expect(output).not.toContain("--seed-font-size-limit-max");
+    });
+
+    it("--seed-line-height-*-static 선언을 제거한다", async () => {
+      const input = ":root { --seed-line-height-t1-static: 15px; --seed-line-height-t1: 15px; }";
+      const output = await run(input);
+      expect(output).not.toContain("--seed-line-height-t1-static");
+      expect(output).toContain("--seed-line-height-t1: 15px");
+    });
+  });
 });

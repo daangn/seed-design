@@ -350,6 +350,17 @@ export const defaultConfig: Required<LynxCompatConfig> = {
 
   clampStrategy: "preferred",
 
+  convertRem: true,
+  remBase: 16,
+
+  removeCustomProperties: [
+    /^--seed-font-size-.*-static$/,
+    /^--seed-line-height-.*-static$/,
+    /^--seed-font-size-multiplier$/,
+    /^--seed-font-size-limit-/,
+    /^--seed-line-height-limit-/,
+  ],
+
   warnOnly: false,
 
   unwrapSupports: [
@@ -362,7 +373,10 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     { varName: "--seed-safe-area-bottom", envName: "safe-area-inset-bottom" },
   ],
 
-  selectorMappings: [],
+  selectorMappings: [
+    { match: '[data-seed-platform="ios"]', replace: ".seed-platform-ios" },
+    { match: '[data-seed-platform="android"]', replace: ".seed-platform-android" },
+  ],
 
   textSlot: {
     suffix: "__text",

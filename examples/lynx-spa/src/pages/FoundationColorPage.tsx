@@ -1,4 +1,4 @@
-import { vars } from "@seed-design/css/vars";
+import { vars } from "@seed-design/lynx-css/vars";
 
 const { $color } = vars;
 
@@ -37,9 +37,7 @@ function ColorSwatch({
           gap: "8px",
         }}
       >
-        <text style={{ color: varRef, fontSize: "14px", fontWeight: "bold" }}>
-          Aa
-        </text>
+        <text style={{ color: varRef, fontSize: "14px", fontWeight: "bold" }}>Aa</text>
         <text style={{ fontSize: "12px", color: $color.fg.neutralMuted }}>{name}</text>
       </view>
     );
@@ -96,10 +94,7 @@ function ColorSwatch({
   );
 }
 
-function renderEntries(
-  obj: Record<string, string>,
-  mode: "fg" | "bg" | "stroke",
-) {
+function renderEntries(obj: Record<string, string>, mode: "fg" | "bg" | "stroke") {
   return Object.entries(obj).map(([name, varRef]) => (
     <ColorSwatch key={name} name={name} varRef={varRef} mode={mode} />
   ));
@@ -110,7 +105,7 @@ export function FoundationColorPage() {
     <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
       <text style={{ fontSize: "20px", fontWeight: "bold" }}>Color</text>
       <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle, marginBottom: "8px" }}>
-        @seed-design/css/vars — $color tokens
+        @seed-design/lynx-css/vars — $color tokens
       </text>
 
       <SectionTitle>Foreground (fg)</SectionTitle>
