@@ -1,3 +1,4 @@
+export { vars as accordion } from "./accordion.mjs";
 export { vars as actionButton } from "./action-button.mjs";
 export { vars as actionChip } from "./action-chip.mjs";
 export { vars as actionSheetCloseButton } from "./action-sheet-close-button.mjs";

@@ -1,3 +1,4 @@
+export { vars as accordion } from "./accordion";
 export { vars as actionButton } from "./action-button";
 export { vars as actionChip } from "./action-chip";
 export { vars as actionSheetCloseButton } from "./action-sheet-close-button";
