@@ -123,16 +123,6 @@ JS에서 설정한 CSS 변수를 인라인 스타일처럼 처리합니다.
 | **켜면** | fixed 요소가 논리적 부모를 기준으로 안정적으로 레이아웃 트리에 연결됩니다 |
 | **SEED Design 이점** | Modal, BottomSheet, Toast, Snackbar 등 오버레이 컴포넌트가 안정적으로 동작합니다 |
 
-#### `enableFlexBasisZeroPercent`
-
-`flex` 축약 속성에서 생략된 `flex-basis`를 `0%`로 처리합니다 (웹 브라우저 동작과 동일).
-
-| | 설명 |
-|---|---|
-| **끄면** | `flex: 1`에서 flex-basis가 `0` (숫자)으로 설정됩니다. 웹과 레이아웃 결과가 다를 수 있습니다 |
-| **켜면** | `flex: 1`에서 flex-basis가 `0%` (퍼센트)로 설정됩니다. 웹 브라우저와 동일한 동작입니다 |
-| **SEED Design 이점** | Flex 레이아웃을 사용하는 컴포넌트(ActionButton group, Tabs 등)가 웹과 동일하게 배치됩니다 |
-
 ---
 
 ## 상황별 설정
@@ -171,16 +161,6 @@ Gesture Handler API를 활성화합니다.
 | **끄면** | Lynx 제스처와 네이티브 제스처가 충돌할 수 있습니다 |
 | **켜면** | Shadow gesture를 통해 네이티브/Lynx 제스처 충돌을 관리합니다 |
 | **언제 켜나요** | Lynx 뷰가 네이티브 스크롤 컨테이너 안에 있거나, 네이티브 제스처와 경합하는 경우에 사용합니다. `enableNewGesture`와 함께 사용하세요 |
-
-#### `enableTransformedTouchPosition`
-
-`transform`이 적용된 요소에서 터치 좌표를 올바르게 계산합니다.
-
-| | 설명 |
-|---|---|
-| **끄면** | transform된 요소의 터치 좌표가 변환을 고려하지 않습니다. 회전/스케일된 요소를 탭하면 잘못된 위치가 감지됩니다 |
-| **켜면** | 터치 좌표가 transform 변환을 반영하여 정확하게 계산됩니다 |
-| **언제 켜나요** | `transform: rotate()`, `scale()` 등이 적용된 인터랙티브 요소가 있을 때 활성화합니다 |
 
 ### 관찰 & 렌더링
 
@@ -282,13 +262,11 @@ export default defineConfig({
       enableTextRefactor: true,
       fontScaleEffectiveOnlyOnSp: true,
       enableFixedNew: true,
-      enableFlexBasisZeroPercent: true,
 
       // 이벤트 (필요 시)
       // enableNewGesture: true,
       // enableEventHandleRefactor: true,
       // enablePlatformGesture: true,
-      // enableTransformedTouchPosition: true,
 
       // 관찰 & 렌더링 (필요 시)
       // enableNewIntersectionObserver: true,
