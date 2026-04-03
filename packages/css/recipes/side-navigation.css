@@ -5,6 +5,7 @@
     overflow-x: hidden;
     width: 240px;
     height: 100%;
+    flex-shrink: 0;
     transition: width 200ms;
 }
 .seed-side-navigation__root[data-side-navigation-state=collapsed] {
@@ -34,6 +35,8 @@
     mask-image: linear-gradient(to top, transparent 0, black 24px);
     -webkit-mask-image: linear-gradient(to top, transparent 0, black 24px);
     transition: gap 200ms, border-color 200ms;
+    scrollbar-width: thin;
+    scrollbar-color: var(--seed-color-bg-neutral-weak) transparent;
 }
 .seed-side-navigation__content[data-side-navigation-state=collapsed] {
     gap: 0;

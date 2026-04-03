@@ -1,6 +1,7 @@
 @layer seed-components {
   .seed-side-navigation__root {
     flex-direction: column;
+    flex-shrink: 0;
     width: 240px;
     height: 100%;
     transition: width .2s;
@@ -34,6 +35,8 @@
   }
 
   .seed-side-navigation__content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--seed-color-bg-neutral-weak) transparent;
     transition: gap .2s, border-color .2s;
     -webkit-mask-image: linear-gradient(to top, #0000 0, #000 24px);
     mask-image: linear-gradient(to top, #0000 0, #000 24px);

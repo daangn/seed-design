@@ -13,7 +13,7 @@ import {
   IconReceiptLine,
   IconWrenchLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Flex } from "@seed-design/react";
+import { Layout } from "@seed-design/react";
 
 import {
   SideNavigationContent,
@@ -33,8 +33,8 @@ import {
 
 export default function SideNavigation1() {
   return (
-    <SideNavigationProvider>
-      <div style={{ display: "flex", height: "100dvh" }}>
+    <Layout.Root>
+      <SideNavigationProvider>
         <SideNavigationRoot>
           <SideNavigationHeader>
             <SideNavigationTrigger />
@@ -92,11 +92,9 @@ export default function SideNavigation1() {
         </SideNavigationRoot>
 
         <SideNavigationInset>
-          <Flex align="center" justify="center">
-            SideNavigationInset
-          </Flex>
+          <Layout.Content>SideNavigationInset</Layout.Content>
         </SideNavigationInset>
-      </div>
-    </SideNavigationProvider>
+      </SideNavigationProvider>
+    </Layout.Root>
   );
 }

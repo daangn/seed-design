@@ -7772,6 +7772,7 @@
 
 .seed-side-navigation__root {
   flex-direction: column;
+  flex-shrink: 0;
   width: 240px;
   height: 100%;
   transition: width .2s;
@@ -7805,6 +7806,8 @@
 }
 
 .seed-side-navigation__content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--seed-color-bg-neutral-weak) transparent;
   transition: gap .2s, border-color .2s;
   -webkit-mask-image: linear-gradient(to top, #0000 0, #000 24px);
   mask-image: linear-gradient(to top, #0000 0, #000 24px);
@@ -7896,6 +7899,11 @@
 .seed-side-navigation__root--tone_neutral {
   background-color: var(--seed-color-palette-gray-100);
   box-shadow: inset -1px 0 0 0 var(--seed-color-stroke-neutral-muted);
+}
+
+.seed-side-navigation-inset {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .seed-side-navigation-menu-item__root {

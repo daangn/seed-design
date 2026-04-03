@@ -1,1 +1,6 @@
-@layer seed-components;
+@layer seed-components {
+  .seed-side-navigation-inset {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+}

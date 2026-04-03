@@ -25,6 +25,7 @@ export const sideNavigation = defineSlotRecipe({
 
       width: "240px",
       height: "100%",
+      flexShrink: 0,
 
       transition: `width ${duration}`,
 
@@ -65,8 +66,14 @@ export const sideNavigation = defineSlotRecipe({
 
       transition: `gap ${duration}, border-color ${duration}`,
 
+      // chrome 121~ / safari 18.2~
+      scrollbarWidth: "thin",
+      scrollbarColor: `${tokens.$color.bg.neutralWeak} transparent`, // 더 진해야함
+
       [pseudo(collapsed)]: {
         gap: 0,
+
+        // chrome 121~ / safari 18.2~
         scrollbarWidth: "none",
       },
     },
@@ -166,7 +173,11 @@ export const sideNavigation = defineSlotRecipe({
 
 export const sideNavigationInset = defineRecipe({
   name: "side-navigation-inset",
-  base: {},
+  base: {
+    flexGrow: 1,
+
+    overflowY: "auto",
+  },
   variants: {},
   defaultVariants: {},
 });
