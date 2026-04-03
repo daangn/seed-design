@@ -29,23 +29,23 @@
       "modes": [
         {
           "id": "base",
-          "description": "기본 모바일 화면"
+          "description": "세로 모드 폰"
         },
         {
           "id": "sm",
-          "description": "작은 태블릿 이상"
+          "description": "가로 모드 폰 또는 좁은 태블릿"
         },
         {
           "id": "md",
-          "description": "태블릿 이상"
+          "description": "태블릿"
         },
         {
           "id": "lg",
-          "description": "데스크탑 이상"
+          "description": "데스크톱"
         },
         {
           "id": "xl",
-          "description": "넓은 데스크탑"
+          "description": "넓은 데스크톱"
         }
       ]
     }
