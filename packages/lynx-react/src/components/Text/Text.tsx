@@ -128,7 +128,11 @@ export const Text = forwardRef<any, TextProps>(
     });
 
     return (
-      <view ref={ref} className={clsx(classes.root, className)} style={cssVars as any}>
+      <view
+        {...(ref ? { ref } : {})}
+        className={clsx(classes.root, className)}
+        style={cssVars as any}
+      >
         <text className={classes.text}>{children}</text>
       </view>
     );

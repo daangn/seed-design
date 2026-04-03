@@ -15,19 +15,18 @@ export const Box = forwardRef<any, BoxProps>((props, ref) => {
   const { style, restProps } = useStyleProps(props);
   const { asChild = false, className, children, ...nativeProps } = restProps;
 
+  const mergedProps = {
+    ...(ref ? { ref } : {}),
+    className: clsx("seed-box", className),
+    style: style as any,
+    ...nativeProps,
+  };
+
   if (asChild) {
-    return (
-      <Slot ref={ref} className={clsx("seed-box", className)} style={style as any} {...nativeProps}>
-        {children}
-      </Slot>
-    );
+    return <Slot {...mergedProps}>{children}</Slot>;
   }
 
-  return (
-    <view ref={ref} className={clsx("seed-box", className)} style={style as any} {...nativeProps}>
-      {children}
-    </view>
-  );
+  return <view {...mergedProps}>{children}</view>;
 });
 
 Box.displayName = "Box";
