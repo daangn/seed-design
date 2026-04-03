@@ -20,7 +20,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const collection = decl.collection;
   const modes = rootage.tokenCollectionEntities[collection].modes;
 
-  const resolvedTokens = modes.map((mode) => {
+  const resolvedTokens = modes.map(({ id: mode }) => {
     const resolved = resolveToken(rootage, tokenId, {
       [collection]: mode,
     });

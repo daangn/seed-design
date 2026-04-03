@@ -64,7 +64,7 @@ export function validate(ctx: RootageCtx): ValidationResult {
       (collection) => collection.name === tokenBinding.collection,
     )!;
     for (const { mode } of tokenBinding.values) {
-      if (!collection.modes.includes(mode)) {
+      if (!collection.modes.some((m) => m.id === mode)) {
         return {
           valid: false,
           message: `Mode "${mode}" is not defined in token collection "${tokenBinding.collection}" but used in "${tokenBinding.token.identifier}"`,
