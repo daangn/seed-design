@@ -87,27 +87,28 @@ function useSnackbarState({
 
   // entry events
   useEffect(() => {
-    if (state === "inactive") {
-      if (queue.length >= 1) {
-        pop();
-        setState("active");
+    switch (state) {
+      case "inactive": {
+        if (queue.length >= 1) {
+          pop();
+          setState("active");
+        }
+        break;
       }
-    }
-
-    if (state === "active") {
-      const timeout = setTimeout(() => {
-        setState("dismissing");
-      }, visibleDuration);
-      return () => clearTimeout(timeout);
-    }
-
-    if (state === "dismissing") {
-      const timeout = setTimeout(() => {
-        setState("inactive");
-        invokeOnClose();
-        removeCurrentSnackbar();
-      }, removeDelay);
-      return () => clearTimeout(timeout);
+      case "active": {
+        const timeout = setTimeout(() => {
+          setState("dismissing");
+        }, visibleDuration);
+        return () => clearTimeout(timeout);
+      }
+      case "dismissing": {
+        const timeout = setTimeout(() => {
+          setState("inactive");
+          invokeOnClose();
+          removeCurrentSnackbar();
+        }, removeDelay);
+        return () => clearTimeout(timeout);
+      }
     }
   }, [state, queue, visibleDuration, removeDelay, pop, invokeOnClose, removeCurrentSnackbar]);
 
