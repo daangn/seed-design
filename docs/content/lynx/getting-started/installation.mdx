@@ -116,6 +116,43 @@ npx @seed-design/cli@latest init
 
 <Step>
 
+### Lynx 피쳐 플래그 설정하기
+
+SEED Design 컴포넌트가 Lynx에서 정상 동작하려면 `pluginLynxConfig`로 피쳐 플래그를 설정해야 해요.
+
+```package-install
+@lynx-js/config-rsbuild-plugin
+```
+
+```ts title="lynx.config.ts"
+import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
+
+export default defineConfig({
+  plugins: [
+    // ... 기존 플러그인들
+    pluginLynxConfig({
+      enableCSSSelector: true,
+      enableCSSInvalidation: true,
+      enableCSSInheritance: true,
+      enableCSSInlineVariables: true,
+      enableCSSStrictMode: true,
+      enableTextRefactor: true,
+      fontScaleEffectiveOnlyOnSp: true,
+      enableFixedNew: true,
+      enableFlexBasisZeroPercent: true,
+    }),
+  ],
+});
+```
+
+<Callout>
+각 플래그의 역할과 상황별 추가 설정은 [Feature Flags](/lynx/feature-flags)에서 확인하세요.
+</Callout>
+
+</Step>
+
+<Step>
+
 ### 컴포넌트를 한번 사용해볼까요?
 
 ```package-install
