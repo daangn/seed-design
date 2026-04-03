@@ -50,6 +50,7 @@ const vstackConditionMap = {
     "justify center": { justify: "center", width: "500px" },
     "justify space-between": { justify: "space-between", width: "500px" },
     wrap: { wrap: "wrap", height: "120px" },
+    "responsive gap": { gap: { base: "x2", md: "x6" } },
   },
 };
 
@@ -72,6 +73,7 @@ const hstackConditionMap = {
     "justify center": { justify: "center", width: "500px" },
     "justify space-between": { justify: "space-between", width: "500px" },
     wrap: { wrap: "wrap", width: "120px" },
+    "responsive gap": { gap: { base: "x2", md: "x6" } },
   },
 };
 

@@ -57,6 +57,10 @@
       "import": "./theming/index.mjs",
       "require": "./theming/index.cjs"
     },
+    "./breakpoints": {
+      "types": "./breakpoints/index.d.ts",
+      "import": "./breakpoints/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -64,6 +68,7 @@
     "recipes",
     "vars",
     "theming",
+    "breakpoints",
     "utils",
     "*.css"
   ],

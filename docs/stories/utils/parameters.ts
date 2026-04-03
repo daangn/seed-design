@@ -1,4 +1,5 @@
 import type { Parameters, StoryObj } from "@storybook/nextjs";
+import { breakpointNames } from "@seed-design/css/breakpoints";
 
 export const FONT_SCALE_MAP = {
   "Extra Small": "14px",
@@ -12,14 +13,9 @@ export const FONT_SCALE_MAP = {
 
 export type FontScales = keyof typeof FONT_SCALE_MAP;
 
-// TODO: Replace with @seed-design/css/breakpoints when responsive styling lands
-export const VIEWPORT_MODES = {
-  base: { viewport: "base" },
-  sm: { viewport: "sm" },
-  md: { viewport: "md" },
-  lg: { viewport: "lg" },
-  xl: { viewport: "xl" },
-};
+export const VIEWPORT_MODES = Object.fromEntries(
+  breakpointNames.map((name) => [name, { viewport: name }]),
+);
 
 export const CHROMATIC_PARAMETERS = {
   chromatic: {
