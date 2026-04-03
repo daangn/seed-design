@@ -37,7 +37,7 @@
 }
 .seed-menu__scrollArea {
     overflow-y: auto;
-    max-height: min(480px, calc(100vh - 2 * 8px));
+    max-height: min(480px, var(--seed-menu-available-height, 480px));
     box-sizing: border-box;
     padding-top: var(--seed-dimension-x2);
     padding-bottom: var(--seed-dimension-x2);

@@ -68,7 +68,7 @@ export const menu = defineSlotRecipe({
     },
     scrollArea: {
       overflowY: "auto",
-      maxHeight: "min(480px, calc(100vh - 2 * 8px))", // 8px를 rootage의 viewport padding 등으로 교체
+      maxHeight: "min(480px, var(--seed-menu-available-height, 480px))",
       boxSizing: "border-box",
 
       paddingTop: tokens.$dimension.x2,

@@ -6148,8 +6148,8 @@
 }
 
 .seed-menu__scrollArea {
+  max-height: min(480px, var(--seed-menu-available-height, 480px));
   box-sizing: border-box;
-  max-height: min(480px, 100vh - 16px);
   padding-top: var(--seed-dimension-x2);
   padding-bottom: var(--seed-dimension-x2);
   gap: var(--seed-dimension-x2);

@@ -195,15 +195,21 @@ export function useMenu(props: UseMenuProps) {
       offset(gutter),
       flip({ padding: overflowPadding }),
       shift({ padding: overflowPadding }),
-      matchReferenceWidth &&
-        size({
-          apply({ rects, elements }) {
+      size({
+        padding: overflowPadding,
+        apply({ availableHeight, rects, elements }) {
+          elements.floating.style.setProperty(
+            "--seed-menu-available-height",
+            `${availableHeight}px`,
+          );
+          if (matchReferenceWidth) {
             elements.floating.style.setProperty(
               "--seed-menu-reference-width",
               `${rects.reference.width}px`,
             );
-          },
-        }),
+          }
+        },
+      }),
     ],
   });
 
