@@ -38,111 +38,109 @@ interface AccordionRootBaseProps
 export type AccordionRootProps = AccordionRootBaseProps &
   (UseAccordionSingleProps | UseAccordionMultipleProps);
 
-export const AccordionRoot = forwardRef<HTMLDivElement, AccordionRootProps>(
-  (
-    {
-      type,
-      value,
-      defaultValue,
-      onValueChange,
-      collapsible,
-      disabled,
-      className,
-      onKeyDown,
-      children,
-      ...props
-    },
-    ref,
-  ) => {
-    const [variantProps, otherProps] = accordion.splitVariantProps(props);
-    const classNames = accordion(variantProps);
+export const AccordionRoot = forwardRef<HTMLDivElement, AccordionRootProps>((allProps, ref) => {
+  const {
+    type,
+    value,
+    defaultValue,
+    onValueChange,
+    disabled,
+    className,
+    onKeyDown,
+    children,
+    ...rest
+  } = allProps;
 
-    // Build accordion props based on type
-    const accordionProps = useMemo(() => {
-      if (type === "single") {
-        return {
-          type: "single" as const,
-          value: value as string | undefined,
-          defaultValue: defaultValue as string | undefined,
-          onValueChange: onValueChange as ((value: string) => void) | undefined,
-          collapsible: collapsible as boolean | undefined,
-          disabled,
-        };
-      }
+  const collapsible = "collapsible" in allProps ? allProps.collapsible : undefined;
+
+  const [variantProps, otherProps] = accordion.splitVariantProps(rest);
+  const classNames = accordion(variantProps);
+
+  // Build accordion props based on type
+  const accordionProps = useMemo(() => {
+    if (type === "single") {
       return {
-        type: "multiple" as const,
-        value: value as string[] | undefined,
-        defaultValue: defaultValue as string[] | undefined,
-        onValueChange: onValueChange as ((value: string[]) => void) | undefined,
+        type: "single" as const,
+        value: value as string | undefined,
+        defaultValue: defaultValue as string | undefined,
+        onValueChange: onValueChange as ((value: string) => void) | undefined,
+        collapsible: collapsible as boolean | undefined,
         disabled,
       };
-    }, [type, value, defaultValue, onValueChange, collapsible, disabled]);
+    }
+    return {
+      type: "multiple" as const,
+      value: value as string[] | undefined,
+      defaultValue: defaultValue as string[] | undefined,
+      onValueChange: onValueChange as ((value: string[]) => void) | undefined,
+      disabled,
+    };
+  }, [type, value, defaultValue, onValueChange, collapsible, disabled]);
 
-    const api = useAccordion(accordionProps);
+  const api = useAccordion(accordionProps);
 
-    const handleKeyDown = useCallback(
-      (event: React.KeyboardEvent<HTMLDivElement>) => {
-        onKeyDown?.(event);
-        if (event.defaultPrevented) return;
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(event);
+      if (event.defaultPrevented) return;
 
-        const { key } = event;
-        if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(key)) return;
+      const { key } = event;
+      if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(key)) return;
 
-        const target = event.target as HTMLElement;
-        if (!target.hasAttribute("data-accordion-trigger")) return;
+      const target = event.target as HTMLElement;
+      if (!target.hasAttribute("data-accordion-trigger")) return;
 
-        event.preventDefault();
+      event.preventDefault();
 
-        const triggers = Array.from(
-          event.currentTarget.querySelectorAll<HTMLElement>(
-            "[data-accordion-trigger]:not([disabled])",
-          ),
-        );
+      const triggers = Array.from(
+        event.currentTarget.querySelectorAll<HTMLElement>(
+          "[data-accordion-trigger]:not([disabled])",
+        ),
+      );
 
-        if (triggers.length === 0) return;
+      if (triggers.length === 0) return;
 
-        const currentIndex = triggers.indexOf(target);
+      const currentIndex = triggers.indexOf(target);
 
-        let nextIndex: number;
-        switch (key) {
-          case "ArrowDown":
-            nextIndex = currentIndex + 1 >= triggers.length ? 0 : currentIndex + 1;
-            break;
-          case "ArrowUp":
-            nextIndex = currentIndex - 1 < 0 ? triggers.length - 1 : currentIndex - 1;
-            break;
-          case "Home":
-            nextIndex = 0;
-            break;
-          case "End":
-            nextIndex = triggers.length - 1;
-            break;
-          default:
-            return;
-        }
+      let nextIndex: number;
+      switch (key) {
+        case "ArrowDown":
+          nextIndex = currentIndex + 1 >= triggers.length ? 0 : currentIndex + 1;
+          break;
+        case "ArrowUp":
+          nextIndex = currentIndex - 1 < 0 ? triggers.length - 1 : currentIndex - 1;
+          break;
+        case "Home":
+          nextIndex = 0;
+          break;
+        case "End":
+          nextIndex = triggers.length - 1;
+          break;
+        default:
+          return;
+      }
 
-        triggers[nextIndex]?.focus();
-      },
-      [onKeyDown],
-    );
+      triggers[nextIndex]?.focus();
+    },
+    [onKeyDown],
+  );
 
-    return (
-      <AccordionProvider value={api}>
-        <ClassNamesProvider value={classNames}>
-          <Primitive.div
-            ref={ref}
-            className={clsx(classNames.root, className)}
-            onKeyDown={handleKeyDown}
-            data-disabled={dataAttr(api.disabled)}
-            {...otherProps}
-          >
-            {children}
-          </Primitive.div>
-        </ClassNamesProvider>
-      </AccordionProvider>
-    );
-  },
-);
+  return (
+    <AccordionProvider value={api}>
+      <ClassNamesProvider value={classNames}>
+        <Primitive.div
+          ref={ref}
+          className={clsx(classNames.root, className)}
+          onKeyDown={handleKeyDown}
+          data-disabled={dataAttr(api.disabled)}
+          {...otherProps}
+        >
+          {children}
+        </Primitive.div>
+      </ClassNamesProvider>
+    </AccordionProvider>
+  );
+});
 AccordionRoot.displayName = "Accordion.Root";
 
 ////////////////////////////////////////////////////////////////////////////////////
