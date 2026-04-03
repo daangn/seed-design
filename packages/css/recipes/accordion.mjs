@@ -37,6 +37,10 @@ const accordionSlotNames = [
   [
     "content",
     "seed-accordion__content"
+  ],
+  [
+    "contentInner",
+    "seed-accordion__contentInner"
   ]
 ];
 

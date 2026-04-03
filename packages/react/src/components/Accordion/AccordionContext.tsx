@@ -21,6 +21,7 @@ export interface AccordionItemContext {
   value: string;
   open: boolean;
   disabled: boolean;
+  triggerId: string;
 }
 
 const AccordionItemCtx = createContext<AccordionItemContext | null>(null);

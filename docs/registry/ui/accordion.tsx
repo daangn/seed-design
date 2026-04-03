@@ -40,7 +40,14 @@ export type AccordionContentProps = SeedAccordion.ContentProps;
 /**
  * @see https://seed-design.io/react/components/accordion
  */
-export const AccordionContent = SeedAccordion.Content;
+export const AccordionContent = React.forwardRef<HTMLDivElement, AccordionContentProps>(
+  ({ children, ...props }, ref) => (
+    <SeedAccordion.Content ref={ref} {...props}>
+      <SeedAccordion.ContentInner>{children}</SeedAccordion.ContentInner>
+    </SeedAccordion.Content>
+  ),
+);
+AccordionContent.displayName = "Accordion.Content";
 
 export type AccordionTitleProps = SeedAccordion.TitleProps;
 
@@ -80,10 +87,18 @@ export const AccordionSuffixIcon = SeedAccordion.SuffixIcon;
 /**
  * @see https://seed-design.io/react/components/accordion
  */
+export type AccordionContentInnerProps = SeedAccordion.ContentInnerProps;
+
+/**
+ * @see https://seed-design.io/react/components/accordion
+ */
+export const AccordionContentInner = SeedAccordion.ContentInner;
+
 export const Accordion = Object.assign(AccordionRoot, {
   Item: AccordionItem,
   Trigger: AccordionTrigger,
   Content: AccordionContent,
+  ContentInner: AccordionContentInner,
   Title: AccordionTitle,
   Description: AccordionDescription,
   PrefixIcon: AccordionPrefixIcon,

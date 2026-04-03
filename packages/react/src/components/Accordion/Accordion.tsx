@@ -1,6 +1,5 @@
 "use client";
 
-import { composeRefs } from "@radix-ui/react-compose-refs";
 import { accordion, type AccordionVariantProps } from "@seed-design/css/recipes/accordion";
 import { dataAttr } from "@seed-design/dom-utils";
 import {
@@ -53,7 +52,8 @@ export const AccordionRoot = forwardRef<HTMLDivElement, AccordionRootProps>((all
 
   const collapsible = "collapsible" in allProps ? allProps.collapsible : undefined;
 
-  const [variantProps, otherProps] = accordion.splitVariantProps(rest);
+  const { collapsible: _collapsible, ...restWithoutCollapsible } = rest as Record<string, unknown>;
+  const [variantProps, otherProps] = accordion.splitVariantProps(restWithoutCollapsible);
   const classNames = accordion(variantProps);
 
   // Build accordion props based on type
@@ -157,14 +157,16 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
 
     const disabled = disabledProp ?? accordionCtx.disabled;
     const open = accordionCtx.isOpen(value);
+    const triggerId = useId();
 
     const itemContext = useMemo(
       () => ({
         value,
         open,
         disabled,
+        triggerId,
       }),
-      [value, open, disabled],
+      [value, open, disabled, triggerId],
     );
 
     const collapsible = useCollapsible({
@@ -208,7 +210,6 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
     const itemCtx = useAccordionItemContext();
     const collapsibleCtx = useCollapsibleContext();
 
-    const triggerId = useId();
     const contentId = collapsibleCtx.triggerAriaProps["aria-controls"];
 
     const handleClick = useCallback(
@@ -223,7 +224,7 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
     return (
       <Primitive.button
         ref={ref}
-        id={triggerId}
+        id={itemCtx.triggerId}
         type="button"
         className={clsx(classNames.trigger, className)}
         data-accordion-trigger=""
@@ -250,19 +251,32 @@ export interface AccordionContentProps
 export const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
-    const collapsibleCtx = useCollapsibleContext();
+    const itemCtx = useAccordionItemContext();
 
     return (
       <Collapsible.Content
-        ref={composeRefs(ref, collapsibleCtx.refs.content)}
+        ref={ref}
         className={clsx(classNames.content, className)}
         role="region"
+        aria-labelledby={itemCtx.triggerId}
         {...props}
       />
     );
   },
 );
 AccordionContent.displayName = "Accordion.Content";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface AccordionContentInnerProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const AccordionContentInner = withContext<HTMLDivElement, AccordionContentInnerProps>(
+  Primitive.div,
+  "contentInner",
+);
+AccordionContentInner.displayName = "Accordion.ContentInner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

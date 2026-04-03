@@ -17,6 +17,7 @@ const accordion = defineSlotRecipe({
     "description",
     "suffixIcon",
     "content",
+    "contentInner",
   ],
   base: {
     root: {
@@ -100,19 +101,22 @@ const accordion = defineSlotRecipe({
     content: {
       overflow: "hidden",
       height: 0,
-
-      paddingLeft: vars.base.enabled.content.paddingX,
-      paddingRight: vars.base.enabled.content.paddingX,
+      opacity: 0,
 
       // when closing
-      transition: `height ${vars.base.enabled.content.collapseHeightDuration} ${vars.base.enabled.content.collapseHeightTimingFunction}`,
+      transition: `height ${vars.base.enabled.content.collapseHeightDuration} ${vars.base.enabled.content.collapseHeightTimingFunction}, opacity ${vars.base.enabled.content.collapseHeightDuration} ${vars.base.enabled.content.collapseHeightTimingFunction}`,
 
       [pseudo(open)]: {
         height: "var(--collapsible-content-height)",
+        opacity: 1,
 
         // when opening
-        transition: `height ${vars.base.enabled.content.expandHeightDuration} ${vars.base.enabled.content.expandHeightTimingFunction}`,
+        transition: `height ${vars.base.enabled.content.expandHeightDuration} ${vars.base.enabled.content.expandHeightTimingFunction}, opacity ${vars.base.enabled.content.expandHeightDuration} ${vars.base.enabled.content.expandHeightTimingFunction}`,
       },
+    },
+    contentInner: {
+      paddingLeft: vars.base.enabled.content.paddingX,
+      paddingRight: vars.base.enabled.content.paddingX,
     },
   },
   variants: {
@@ -158,7 +162,7 @@ const accordion = defineSlotRecipe({
             marginLeft: vars.sizeMedium.enabled.suffixIcon.paddingLeft,
           }),
         },
-        content: {
+        contentInner: {
           paddingTop: vars.sizeMedium.enabled.content.paddingTop,
           paddingBottom: vars.sizeMedium.enabled.content.paddingBottom,
         },
@@ -194,7 +198,7 @@ const accordion = defineSlotRecipe({
             marginLeft: vars.sizeLarge.enabled.suffixIcon.paddingLeft,
           }),
         },
-        content: {
+        contentInner: {
           paddingTop: vars.sizeLarge.enabled.content.paddingTop,
           paddingBottom: vars.sizeLarge.enabled.content.paddingBottom,
         },
