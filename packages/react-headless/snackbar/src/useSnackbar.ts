@@ -118,21 +118,30 @@ function useSnackbarState({
         const effectiveStrategy = option.strategy ?? strategy;
 
         if (effectiveStrategy === "immediate") {
-          if (state === "inactive") {
-            setCurrentSnackbar(option);
-            setState("active");
-          } else if (state === "dismissing") {
-            setQueue([option]);
-          } else {
-            setQueue([option]);
-            setState("dismissing");
-          }
+          setState((prev) => {
+            switch (prev) {
+              case "inactive":
+                setCurrentSnackbar(option);
+                return "active";
+              case "dismissing":
+                setQueue([option]);
+                return prev;
+              default:
+                setQueue([option]);
+                return "dismissing";
+            }
+          });
         } else {
           push(option);
-          if (state === "inactive") {
-            pop();
-            setState("active");
-          }
+          setState((prev) => {
+            switch (prev) {
+              case "inactive":
+                pop();
+                return "active";
+              default:
+                return prev;
+            }
+          });
         }
       },
       pause: () => {

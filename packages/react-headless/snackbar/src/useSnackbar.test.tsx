@@ -201,8 +201,10 @@ describe("useSnackbar", () => {
     it("should queue snackbars when strategy is queued", () => {
       setUp({ strategy: "queued" });
 
-      act(() => snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 })));
-      act(() => snackbarApi.create(createSnackbar("Second")));
+      act(() => {
+        snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 }));
+        snackbarApi.create(createSnackbar("Second"));
+      });
 
       // First is showing, Second is in queue
       expect(screen.getByText("First")).toBeInTheDocument();
@@ -222,25 +224,17 @@ describe("useSnackbar", () => {
     it("should mix queued and immediate overrides in immediate provider", () => {
       setUp(); // default: immediate
 
-      // 1. First shows immediately
-      act(() => snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 })));
-      expect(screen.getByText("First")).toBeInTheDocument();
-
-      // 2. Queued-A waits in queue
-      act(() =>
+      // 1. First shows, then Queued-A and Queued-B are created in same act
+      act(() => {
+        snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 }));
         snackbarApi.create(
           createSnackbar("Queued-A", { strategy: "queued", timeout: 1000, removeDelay: 100 }),
-        ),
-      );
-      expect(screen.getByText("First")).toBeInTheDocument();
-      expect(snackbarApi.queue.length).toBe(1);
-
-      // 3. Queued-B also waits in queue
-      act(() =>
+        );
         snackbarApi.create(
           createSnackbar("Queued-B", { strategy: "queued", timeout: 1000, removeDelay: 100 }),
-        ),
-      );
+        );
+      });
+
       expect(screen.getByText("First")).toBeInTheDocument();
       expect(snackbarApi.queue.length).toBe(2);
 
@@ -263,17 +257,14 @@ describe("useSnackbar", () => {
     it("should mix queued and immediate overrides in queued provider", () => {
       setUp({ strategy: "queued" }); // default: queued
 
-      // 1. First shows (queued default, but nothing active → shows immediately)
-      act(() => snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 })));
-      expect(screen.getByText("First")).toBeInTheDocument();
+      // 1. First shows, Second and Third queue — all in same act
+      act(() => {
+        snackbarApi.create(createSnackbar("First", { timeout: 1000, removeDelay: 100 }));
+        snackbarApi.create(createSnackbar("Second", { timeout: 1000, removeDelay: 100 }));
+        snackbarApi.create(createSnackbar("Third", { timeout: 1000, removeDelay: 100 }));
+      });
 
-      // 2. Second queues behind First
-      act(() => snackbarApi.create(createSnackbar("Second", { timeout: 1000, removeDelay: 100 })));
       expect(screen.getByText("First")).toBeInTheDocument();
-      expect(snackbarApi.queue.length).toBe(1);
-
-      // 3. Third queues behind Second
-      act(() => snackbarApi.create(createSnackbar("Third", { timeout: 1000, removeDelay: 100 })));
       expect(snackbarApi.queue.length).toBe(2);
 
       // 4. Urgent with immediate override: dismiss First, queue only Urgent
