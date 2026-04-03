@@ -833,11 +833,13 @@ export function createUnresolvedTokenValueDeclaration(
 export function createTokenCollectionDeclaration(
   name: string,
   modes: string[],
+  modeDescriptions?: Record<string, string>,
 ): TokenCollectionDeclaration {
   return {
     kind: "TokenCollectionDeclaration",
     name,
     modes,
+    ...(modeDescriptions && Object.keys(modeDescriptions).length > 0 && { modeDescriptions }),
   };
 }
 

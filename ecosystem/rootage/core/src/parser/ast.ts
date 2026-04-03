@@ -217,6 +217,7 @@ export interface TokenCollectionDeclaration {
   kind: "TokenCollectionDeclaration";
   name: string;
   modes: string[];
+  modeDescriptions?: Record<string, string>;
 }
 
 export interface TokenCollectionsDocument {
