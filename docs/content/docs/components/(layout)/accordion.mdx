@@ -1,0 +1,68 @@
+---
+title: Accordion
+description: 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
+---
+
+<PlatformStatusTable
+  data={{
+    "react": "done"
+  }}
+/>
+
+## 구성 요소
+
+Accordion은 다음 요소로 구성됩니다:
+
+- **Header (Trigger)**: 클릭하여 콘텐츠를 펼치거나 접는 영역
+  - Title (필수): 메인 타이틀
+  - Description (옵션): 서브 텍스트
+  - Prefix (옵션): 아이콘 또는 아바타
+  - Indicator: chevron 아이콘 (필수)
+- **Content (Panel)**: 펼쳐지는 콘텐츠 영역. 슬롯으로 제공
+
+## Variants
+
+### Inline
+
+하나의 흐름 안에서 보여지는 경우에 사용합니다. 아코디언이 속한 컨테이너 안에서 full-width를 차지하고 아이템 간 구분선을 표시합니다. FAQ에 자주 사용됩니다.
+
+### Separated
+
+각 아코디언 아이템이 분리되어 있는 형태입니다. 아이템 각각이 경계를 가지고 있고, border-radius를 지닙니다. 모달에서 사용하거나 독립된 아이템 성격이 강할 때 적합합니다.
+
+## Size
+
+- **Medium** (기본): 일반적인 사용에 적합
+- **Large**: 더 큰 패딩과 폰트 크기, 강조가 필요한 경우
+
+## 동작
+
+### 확장 모드
+
+- **Multiple** (기본): 여러 개의 항목을 동시에 열 수 있습니다
+- **Single**: 한 번에 하나의 항목만 열립니다
+
+### 초기 상태
+
+- 기본: 전체 접힘
+- 예외로 열어둬야 하는 항목이 있다면 가능
+
+## Collapsible vs Accordion
+
+- 콘텐츠 섹션이 **2개 이상이고, 구조적 관계가 있다면** Accordion을 사용합니다.
+- 펼치고 접을 수 있는 영역이 **1개이거나, 독립적으로 동작한다면** Collapsible을 사용합니다.
+
+## 접근성
+
+| 키 | 동작 |
+|-----|------|
+| `Enter` / `Space` | 포커스된 트리거 토글 |
+| `ArrowDown` | 다음 트리거로 포커스 이동 |
+| `ArrowUp` | 이전 트리거로 포커스 이동 |
+| `Home` | 첫 번째 트리거로 포커스 이동 |
+| `End` | 마지막 트리거로 포커스 이동 |
+| `Tab` | 일반 탭 순서 이동 |
+
+## Specification
+
+<ComponentSpecBlock id="accordion" />
