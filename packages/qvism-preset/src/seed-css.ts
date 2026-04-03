@@ -1,4 +1,5 @@
 import { css, type AST } from "@seed-design/rootage-core";
+import { breakpointValues } from "./utils/breakpoint";
 
 type TokenDeclaration = AST.TokenDeclaration;
 type TokenLit = AST.TokenLit;
@@ -98,6 +99,12 @@ export default function generateSeedCss(
 :root[data-seed-color-mode="dark-only"],
 :root [data-seed-color-mode="dark-only"]`,
       },
+      "viewport-width": Object.fromEntries(
+        Object.entries(breakpointValues).map(([breakpoint, value]) => [
+          breakpoint,
+          value !== 0 ? `@media (min-width: ${value}px)` : ":root",
+        ]),
+      ),
     },
     customDeclaration: createSeedDeclaration(prefix), // Pass prefix to declaration factory
   };
