@@ -23,6 +23,7 @@ const upgradeOptionsSchema = z.object({
   cwd: z.string(),
   baseUrl: z.string(),
   raw: z.boolean(),
+  all: z.boolean(),
 });
 
 function toFullPackageName(input: string): string {
@@ -74,6 +75,106 @@ function resolveExactVersion(versionSpec: string): string | null {
   return null;
 }
 
+interface UpgradeOneResult {
+  package: string;
+  currentVersion: string;
+  latestVersion: string;
+  upToDate: boolean;
+  changelog: string | null;
+}
+
+async function upgradeOne({
+  targetPackage,
+  currentVersionSpec,
+  baseUrl,
+}: {
+  targetPackage: string;
+  currentVersionSpec: string;
+  baseUrl: string;
+}): Promise<UpgradeOneResult> {
+  const currentVersion = resolveExactVersion(currentVersionSpec);
+
+  if (!currentVersion) {
+    throw new CliError({
+      message: `${targetPackage}의 버전을 파싱할 수 없어요: ${currentVersionSpec}`,
+      hint: "package.json에서 버전 형식을 확인해주세요.",
+    });
+  }
+
+  const latestVersion = await fetchLatestVersion(targetPackage);
+
+  if (currentVersion === latestVersion) {
+    return {
+      package: targetPackage,
+      currentVersion,
+      latestVersion,
+      upToDate: true,
+      changelog: null,
+    };
+  }
+
+  const slug = toSlug(targetPackage);
+  const changelog = await fetchChangelog({
+    baseUrl,
+    packageSlug: slug,
+    version: currentVersion,
+  });
+
+  return {
+    package: targetPackage,
+    currentVersion,
+    latestVersion,
+    upToDate: false,
+    changelog,
+  };
+}
+
+function printResultRaw(result: UpgradeOneResult & { error?: string }) {
+  if (result.error) {
+    console.error(`## ${result.package}\n\nError: ${result.error}\n`);
+  } else if (result.upToDate) {
+    console.log(`${result.package}@${result.currentVersion} is already up to date.\n`);
+  } else {
+    console.log(result.changelog);
+    console.log("");
+  }
+}
+
+function printResultInteractive(result: UpgradeOneResult & { error?: string }) {
+  if (result.error) {
+    p.log.error(`${highlight(result.package)}: ${result.error}`);
+  } else if (result.upToDate) {
+    p.log.info(
+      `${highlight(result.package)}: ${highlight(result.currentVersion)} — 이미 최신 버전이에요.`,
+    );
+  } else {
+    p.log.info(
+      `${highlight(result.package)}: ${highlight(result.currentVersion)} → ${highlight(result.latestVersion)}`,
+    );
+    p.log.message(result.changelog ?? "");
+    p.log.info(
+      `업그레이드하려면: ${highlight(`bun add ${result.package}@${result.latestVersion}`)}`,
+    );
+  }
+}
+
+async function trackResults(cwd: string, results: UpgradeOneResult[], startTime: number) {
+  try {
+    for (const result of results) {
+      await analytics.track(cwd, {
+        event: "upgrade",
+        properties: {
+          package: result.package,
+          current_version: result.currentVersion,
+          latest_version: result.latestVersion,
+          up_to_date: result.upToDate,
+          duration_ms: Date.now() - startTime,
+        },
+      });
+    }
+  } catch {}
+}
+
 export const upgradeCommand = (cli: CAC) => {
   cli
     .command(
@@ -87,10 +188,13 @@ export const upgradeCommand = (cli: CAC) => {
     .option("--raw", "UI 없이 순수 마크다운만 출력합니다. LLM 파이프에 유용합니다.", {
       default: false,
     })
+    .option("--all", "설치된 모든 @seed-design 패키지의 변경사항을 확인합니다.", {
+      default: false,
+    })
+    .example("seed-design upgrade")
     .example("seed-design upgrade react")
-    .example("seed-design upgrade react --raw")
-    .example("seed-design upgrade css")
-    .example("seed-design upgrade @seed-design/react")
+    .example("seed-design upgrade --all")
+    .example("seed-design upgrade --all --raw")
     .action(async (packageName, opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
@@ -110,7 +214,7 @@ export const upgradeCommand = (cli: CAC) => {
       }
 
       const { data: options } = parsed;
-      const raw = options.raw;
+      const { raw, all } = options;
 
       if (!raw) p.intro("seed-design upgrade");
 
@@ -125,6 +229,72 @@ export const upgradeCommand = (cli: CAC) => {
           });
         }
 
+        if (options.packageName && all) {
+          throw new CliError({
+            message: "패키지명과 --all 옵션을 동시에 사용할 수 없어요.",
+            hint: "`seed-design upgrade --all` 또는 `seed-design upgrade react` 중 하나만 사용해주세요.",
+          });
+        }
+
+        // --all: iterate all packages
+        if (all) {
+          if (raw) {
+            const results = await Promise.all(
+              packageNames.map((name) =>
+                upgradeOne({
+                  targetPackage: name,
+                  currentVersionSpec: seedPackages[name],
+                  baseUrl: options.baseUrl,
+                }).catch((error): UpgradeOneResult & { error: string } => ({
+                  package: name,
+                  currentVersion: seedPackages[name],
+                  latestVersion: "unknown",
+                  upToDate: false,
+                  changelog: null,
+                  error: error instanceof Error ? error.message : String(error),
+                })),
+              ),
+            );
+
+            for (const result of results) {
+              printResultRaw(result);
+            }
+
+            await trackResults(options.cwd, results, startTime);
+            process.exit(0);
+          }
+
+          // --all interactive
+          const { start, stop } = p.spinner();
+          start("모든 패키지의 변경사항을 가져오고 있어요...");
+          const results = await Promise.all(
+            packageNames.map((name) =>
+              upgradeOne({
+                targetPackage: name,
+                currentVersionSpec: seedPackages[name],
+                baseUrl: options.baseUrl,
+              }).catch((error): UpgradeOneResult & { error: string } => ({
+                package: name,
+                currentVersion: seedPackages[name],
+                latestVersion: "unknown",
+                upToDate: false,
+                changelog: null,
+                error: error instanceof Error ? error.message : String(error),
+              })),
+            ),
+          );
+          stop("변경사항을 가져왔어요.");
+
+          for (const result of results) {
+            printResultInteractive(result);
+          }
+
+          p.outro("완료했어요.");
+          await trackResults(options.cwd, results, startTime);
+          process.exit(0);
+        }
+
+        // resolve target package
         let targetPackage: string;
 
         if (options.packageName) {
@@ -137,10 +307,11 @@ export const upgradeCommand = (cli: CAC) => {
             });
           }
         } else {
+          // no package, no --all: interactive select
           if (raw) {
             throw new CliError({
-              message: "--raw 모드에서는 패키지명을 직접 지정해야 해요.",
-              hint: "예: `seed-design upgrade react --raw`",
+              message: "--raw 모드에서는 패키지명 또는 --all 옵션이 필요해요.",
+              hint: "예: `seed-design upgrade react --raw` 또는 `seed-design upgrade --all --raw`",
             });
           }
 
@@ -160,103 +331,37 @@ export const upgradeCommand = (cli: CAC) => {
           }
         }
 
-        const currentVersionSpec = seedPackages[targetPackage];
-        const currentVersion = resolveExactVersion(currentVersionSpec);
-
-        if (!currentVersion) {
-          throw new CliError({
-            message: `${highlight(targetPackage)}의 버전을 파싱할 수 없어요: ${highlight(currentVersionSpec)}`,
-            hint: "package.json에서 버전 형식을 확인해주세요.",
-          });
-        }
-
-        let latestVersion: string;
+        // single package
         if (raw) {
-          latestVersion = await fetchLatestVersion(targetPackage);
-        } else {
-          const { start, stop } = p.spinner();
-          start("최신 버전을 확인하고 있어요...");
-          try {
-            latestVersion = await fetchLatestVersion(targetPackage);
-            stop("최신 버전을 확인했어요.");
-          } catch (error) {
-            stop("최신 버전을 확인하지 못했어요.");
-            throw error;
-          }
-
-          p.log.info(
-            `${highlight(targetPackage)}: ${highlight(currentVersion)} → ${highlight(latestVersion)}`,
-          );
-        }
-
-        if (currentVersion === latestVersion) {
-          if (raw) {
-            console.log(`${targetPackage}@${currentVersion} is already up to date.`);
-          } else {
-            p.outro("이미 최신 버전이에요.");
-          }
-
-          try {
-            await analytics.track(options.cwd, {
-              event: "upgrade",
-              properties: {
-                package: targetPackage,
-                current_version: currentVersion,
-                latest_version: latestVersion,
-                up_to_date: true,
-                duration_ms: Date.now() - startTime,
-              },
-            });
-          } catch {}
-
+          const result = await upgradeOne({
+            targetPackage,
+            currentVersionSpec: seedPackages[targetPackage],
+            baseUrl: options.baseUrl,
+          });
+          printResultRaw(result);
+          await trackResults(options.cwd, [result], startTime);
           process.exit(0);
         }
 
-        const slug = toSlug(targetPackage);
-
-        let changelog: string;
-        if (raw) {
-          changelog = await fetchChangelog({
-            baseUrl: options.baseUrl,
-            packageSlug: slug,
-            version: currentVersion,
-          });
-        } else {
-          const { start, stop } = p.spinner();
-          start("변경사항을 가져오고 있어요...");
-          try {
-            changelog = await fetchChangelog({
-              baseUrl: options.baseUrl,
-              packageSlug: slug,
-              version: currentVersion,
-            });
-            stop("변경사항을 가져왔어요.");
-          } catch (error) {
-            stop("변경사항을 가져오지 못했어요.");
-            throw error;
-          }
-        }
-
-        if (raw) {
-          console.log(changelog);
-        } else {
-          p.log.message(changelog);
-          p.log.info(`업그레이드하려면: ${highlight(`bun add ${targetPackage}@${latestVersion}`)}`);
-          p.outro("완료했어요.");
-        }
-
+        // single package interactive
+        const { start, stop } = p.spinner();
+        start("최신 버전을 확인하고 있어요...");
+        let result: UpgradeOneResult;
         try {
-          await analytics.track(options.cwd, {
-            event: "upgrade",
-            properties: {
-              package: targetPackage,
-              current_version: currentVersion,
-              latest_version: latestVersion,
-              up_to_date: false,
-              duration_ms: Date.now() - startTime,
-            },
+          result = await upgradeOne({
+            targetPackage,
+            currentVersionSpec: seedPackages[targetPackage],
+            baseUrl: options.baseUrl,
           });
-        } catch {}
+          stop("변경사항을 가져왔어요.");
+        } catch (error) {
+          stop("변경사항을 가져오지 못했어요.");
+          throw error;
+        }
+
+        printResultInteractive(result);
+        p.outro("완료했어요.");
+        await trackResults(options.cwd, [result], startTime);
       } catch (error) {
         if (isCliCancelError(error)) {
           if (!raw) p.outro(highlight(error.message));

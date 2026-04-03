@@ -68,20 +68,16 @@ npx @seed-design/cli@latest compat --all
 
 패키지의 현재 버전과 최신 버전 사이의 변경사항을 확인합니다.
 
+전체 패키지 한 번에 조회:
+
+```bash
+npx @seed-design/cli@latest upgrade --all
+```
+
+특정 패키지만 조회:
+
 ```bash
 npx @seed-design/cli@latest upgrade react
-```
-
-UI 없이 순수 마크다운 출력 (LLM 파이프에 유용):
-
-```bash
-npx @seed-design/cli@latest upgrade react --raw
-```
-
-인자 없이 실행하면 설치된 `@seed-design/*` 패키지 중 선택:
-
-```bash
-npx @seed-design/cli@latest upgrade
 ```
 
 ## seed-design.json Settings

@@ -2,7 +2,7 @@
 
 ## Overview
 
-`upgrade` 명령은 프로젝트에 설치된 `@seed-design/*` 패키지의 현재 버전과 최신 버전 사이의 변경사항(changelog)을 가져옵니다. `--raw` 플래그를 사용하면 UI 없이 순수 마크다운으로 출력되어 LLM이 파싱하기에 적합합니다.
+`upgrade` 명령은 프로젝트에 설치된 `@seed-design/*` 패키지의 현재 버전과 최신 버전 사이의 변경사항(changelog)을 가져와 순수 마크다운으로 출력합니다.
 
 ## Upgrade Diagnosis Workflow
 
@@ -10,11 +10,24 @@
 
 ### Step 1: Changelog 수집
 
+사용자가 특정 패키지를 언급했는지에 따라 명령이 달라집니다.
+
+**패키지 미지정 → 전체 패키지 탐색:**
+
 ```bash
-npx @seed-design/cli@latest upgrade react --raw
+npx @seed-design/cli@latest upgrade --all
 ```
 
-`--raw` 플래그로 changelog 마크다운을 받습니다. 대상 패키지를 지정하지 않으면 interactive select가 나오므로 반드시 패키지명을 명시합니다.
+`--all` 옵션으로 설치된 모든 `@seed-design/*` 패키지의 changelog를 한 번에 수집합니다. 최신 버전인 패키지는 "already up to date"로 표시됩니다.
+
+**특정 패키지 지정 → 해당 패키지만 탐색:**
+
+```bash
+npx @seed-design/cli@latest upgrade react
+npx @seed-design/cli@latest upgrade css
+```
+
+사용자가 "react 패키지만 확인해줘" 등으로 특정 패키지를 언급하면 해당 패키지만 조회합니다.
 
 ### Step 2: 프로젝트 코드 탐색
 
@@ -43,6 +56,8 @@ changelog 항목별로 프로젝트 영향 여부를 분류하여 보고합니�
 - [변경 내용]: 프로젝트에서 사용하지 않음
 ```
 
+전체 패키지 탐색 시 패키지별로 위 형식을 반복합니다. 이미 최신인 패키지는 간략히 표시합니다.
+
 ### Step 4: 업그레이드 안내
 
 진단 결과에 따라 업그레이드 명령을 안내합니다.
@@ -55,28 +70,20 @@ bun add @seed-design/react@{최신버전}
 
 ## Commands
 
-### Interactive Mode
-
 ```bash
-npx @seed-design/cli@latest upgrade
+# 전체 패키지 changelog 조회
+npx @seed-design/cli@latest upgrade --all
+
+# 특정 패키지만 조회
+npx @seed-design/cli@latest upgrade react
+npx @seed-design/cli@latest upgrade css
 ```
-
-패키지를 선택하고 changelog를 터미널에서 확인합니다.
-
-### Raw Mode (LLM 진단용)
-
-```bash
-npx @seed-design/cli@latest upgrade react --raw
-npx @seed-design/cli@latest upgrade css --raw
-```
-
-순수 마크다운 출력. 파이프나 LLM 입력에 사용합니다.
 
 ### Options
 
+- `--all`: 설치된 모든 @seed-design 패키지의 변경사항을 확인
 - `--cwd <path>`: 작업 디렉토리 지정 (기본: 현재 디렉토리)
 - `--baseUrl <url>`: changelog를 가져올 docs 서버 URL (기본: https://seed-design.io)
-- `--raw`: UI 없이 순수 마크다운 출력
 
 ## Decision Guide
 
