@@ -542,8 +542,12 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
           if (decl.value.includes("clamp(")) {
             decl.value = resolveClamp(decl.value, config.clampStrategy);
           }
-          // rem → px 변환
-          if (config.convertRem && decl.value.includes("rem")) {
+          // rem → px 변환 (font-size/line-height 토큰만 — Lynx는 font-size에서 rem 미지원)
+          if (
+            config.convertRem &&
+            decl.value.includes("rem") &&
+            (prop.startsWith("--seed-font-size") || prop.startsWith("--seed-line-height"))
+          ) {
             decl.value = convertRemToPx(decl.value, config.remBase);
           }
           // font-size-multiplier calc() 해소
@@ -577,11 +581,6 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
         // clamp() 값 변환 (일반 프로퍼티)
         if (decl.value.includes("clamp(")) {
           decl.value = resolveClamp(decl.value, config.clampStrategy);
-        }
-
-        // rem → px 변환 (일반 프로퍼티)
-        if (config.convertRem && decl.value.includes("rem")) {
-          decl.value = convertRemToPx(decl.value, config.remBase);
         }
 
         // transition 값에서 미지원 프로퍼티 필터링

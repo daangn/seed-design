@@ -19,15 +19,13 @@ describe("postcss-lynx-compat", () => {
     it("clampStrategy: min을 지원한다", async () => {
       const input = ":root { --size: clamp(1rem, 2vw, 1.5rem); }";
       const output = await run(input, { clampStrategy: "min" });
-      // 1rem → 16px (rem→px 변환 적용됨)
-      expect(output).toContain("--size: 16px");
+      expect(output).toContain("--size: 1rem");
     });
 
     it("clampStrategy: max를 지원한다", async () => {
       const input = ":root { --size: clamp(1rem, 2vw, 1.5rem); }";
       const output = await run(input, { clampStrategy: "max" });
-      // 1.5rem → 24px (rem→px 변환 적용됨)
-      expect(output).toContain("--size: 24px");
+      expect(output).toContain("--size: 1.5rem");
     });
   });
 
@@ -243,10 +241,16 @@ describe("postcss-lynx-compat", () => {
       expect(output).not.toContain(".6875rem");
     });
 
-    it("일반 프로퍼티의 rem도 변환한다", async () => {
-      const input = ".text { font-size: 1.5rem; }";
+    it("일반 프로퍼티의 rem은 변환하지 않는다 (Lynx가 레이아웃에서 rem 지원)", async () => {
+      const input = ".badge { max-width: 1.5rem; }";
       const output = await run(input);
-      expect(output).toContain("font-size: 24px");
+      expect(output).toContain("max-width: 1.5rem");
+    });
+
+    it("font-size 이외의 CSS custom property의 rem은 변환하지 않는다", async () => {
+      const input = ":root { --seed-badge-max-width: 1.5rem; }";
+      const output = await run(input);
+      expect(output).toContain("--seed-badge-max-width: 1.5rem");
     });
 
     it("em은 변환하지 않는다", async () => {
