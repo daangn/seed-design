@@ -1,11 +1,13 @@
 "use client";
 
+import { FloatingFocusManager, FloatingList, useListItem } from "@floating-ui/react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import React, { forwardRef, createContext } from "react";
 import { useMenu, type UseMenuItemProps, type UseMenuProps } from "./useMenu";
 import { MenuProvider, useMenuContext } from "./useMenuContext";
+import { MenuItemProvider } from "./useMenuItemContext";
 
 const MenuGroupLabelIdContext = createContext<string | null>(null);
 
@@ -72,7 +74,6 @@ export interface MenuPositionerProps extends PrimitiveProps, React.HTMLAttribute
 
 export const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>((props, ref) => {
   const api = useMenuContext();
-  if (!api.open) return null;
 
   return (
     <Primitive.div
@@ -90,10 +91,15 @@ MenuPositioner.displayName = "MenuPositioner";
 export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, ref) => {
-  const api = useMenuContext();
-  if (!api.open) return null;
+  const { floatingContext, contentProps, open, elementsRef, labelsRef } = useMenuContext();
 
-  return <Primitive.div ref={ref} {...mergeProps(api.contentProps, props)} />;
+  return (
+    <FloatingFocusManager context={floatingContext} disabled={!open} modal={false}>
+      <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+        <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />
+      </FloatingList>
+    </FloatingFocusManager>
+  );
 });
 MenuContent.displayName = "MenuContent";
 
@@ -109,13 +115,13 @@ export interface MenuItemProps
 export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(
   ({ disabled, label, onClick, ...restProps }, ref) => {
     const { getItemProps } = useMenuContext();
-    const api = getItemProps({ disabled, label, onClick });
+    const { ref: listRef, index } = useListItem({ label });
+    const api = getItemProps({ disabled, onClick }, index);
 
     return (
-      <Primitive.div
-        ref={composeRefs(api.refs.root, ref)}
-        {...mergeProps(api.rootProps, restProps)}
-      />
+      <MenuItemProvider value={api}>
+        <Primitive.div ref={composeRefs(listRef, ref)} {...mergeProps(api.rootProps, restProps)} />
+      </MenuItemProvider>
     );
   },
 );

@@ -10,7 +10,11 @@ import {
   AppBarRight,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconArrowUpBracketDownLine,
+  IconChevronRightLine,
+  IconHouseLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   MenuRoot,
@@ -56,6 +60,25 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
       </AppBar>
       <AppScreenContent>
         <div style={{ display: "flex", flexDirection: "column", gap: 24, padding: 16 }}>
+          <p>
+            Duis consectetur ad veniam id sit sunt reprehenderit exercitation amet dolore sunt
+            veniam sunt aliquip quis. Culpa adipisicing aute anim anim amet enim incididunt culpa.
+            Dolore quis ullamco consequat fugiat proident ad commodo nostrud eu commodo. Eiusmod
+            incididunt pariatur est. Ea aliquip officia quis culpa dolore irure esse non pariatur
+            duis. Cupidatat ad id esse esse Lorem consectetur magna consectetur reprehenderit sit.
+            Pariatur nisi sunt ipsum amet veniam exercitation nulla sint reprehenderit proident
+            cillum minim nostrud. Magna ullamco laborum ex deserunt esse sunt ea excepteur proident
+            magna amet enim proident culpa.Velit amet veniam adipisicing. Laborum nulla irure
+            aliquip culpa aute Lorem veniam officia sunt ut enim consectetur. Pariatur enim mollit
+            quis eiusmod esse occaecat. Consectetur excepteur esse qui ullamco nostrud irure et
+            velit tempor qui proident proident ipsum amet dolor. Nulla nisi nisi sit aliquip dolore
+            aliquip pariatur id nulla laboris eiusmod magna minim aute exercitation. Pariatur in
+            labore anim ad elit ex enim. Est dolor elit aliquip est exercitation velit commodo et
+            Lorem dolor sint do amet consectetur.Mollit sit velit consequat veniam est deserunt qui
+            aliquip. Id consequat cillum ad magna ex officia non deserunt in sint duis veniam. Est
+            culpa pariatur ut. Aute ea exercitation enim ut adipisicing enim voluptate do dolore
+            culpa enim velit sit.
+          </p>
           <MenuRoot size="medium">
             <MenuTrigger asChild>
               <ActionButton>Trigger</ActionButton>
@@ -72,11 +95,11 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                 <MenuItem
                   label="Share"
                   description="Share with others"
-                  suffixIcon={<IconArrowRightLine />}
+                  prefixIcon={<IconArrowUpBracketDownLine />}
                 />
                 <MenuItem label="Disabled Action" prefixIcon={<IconPlusLine />} disabled />
               </MenuGroup>
-              <MenuDivider />
+              {/* <MenuDivider /> */}
               {/* <MenuGroup>
                 <MenuSubmenuRoot>
                   <MenuSubmenuTrigger
@@ -130,13 +153,13 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                 <MenuItem
                   label="Share"
                   description="Share with others"
-                  suffixIcon={<IconArrowRightLine />}
+                  prefixIcon={<IconArrowUpBracketDownLine />}
                 />
                 <MenuItem label="Disabled Action" prefixIcon={<IconPlusLine />} disabled />
               </MenuGroup>
-              <MenuDivider />
-              <MenuGroup>
-                {/* <MenuSubmenuRoot>
+              {/* <MenuDivider /> */}
+              {/* <MenuGroup> */}
+              {/* <MenuSubmenuRoot>
                   <MenuSubmenuTrigger
                     label="Add to Playlist"
                     suffixIcon={<IconChevronRightLine />}
@@ -159,7 +182,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                     </MenuGroup>
                   </MenuContent>
                 </MenuSubmenuRoot> */}
-              </MenuGroup>
+              {/* </MenuGroup> */}
               <MenuDivider />
               <MenuGroup>
                 <MenuItem

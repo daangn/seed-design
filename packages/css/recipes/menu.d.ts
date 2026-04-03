@@ -1,8 +1,8 @@
 declare interface MenuVariant {
   /**
-  * @default "small"
+  * @default "medium"
   */
-  size: "small" | "medium";
+  size: "medium" | "small";
 }
 
 declare type MenuVariantMap = {
@@ -11,7 +11,7 @@ declare type MenuVariantMap = {
 
 export declare type MenuVariantProps = Partial<MenuVariant>;
 
-export declare type MenuSlotName = "positioner" | "content" | "group" | "groupHeader" | "item" | "itemLabel" | "divider";
+export declare type MenuSlotName = "positioner" | "content" | "scrollArea" | "group" | "groupHeader" | "divider";
 
 export declare const menuVariantMap: MenuVariantMap;
 

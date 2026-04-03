@@ -1,17 +1,14 @@
 .seed-menu__positioner {
-    --popover-z-index: 99;
-    z-index: calc(var(--popover-z-index) + var(--z-index-offset, 0));
+    --menu-z-index: 99999;
+    z-index: calc(var(--menu-z-index) + var(--z-index-offset, 0));
     outline: none;
 }
 .seed-menu__content {
-    box-sizing: border-box;
-    padding-block: 4px;
-    border-radius: var(--seed-radius-r3);
+    border-radius: var(--seed-radius-r5);
     background: var(--seed-color-bg-layer-floating);
-    box-shadow: var(--seed-shadow-s2);
+    box-shadow: var(--seed-shadow-s3);
     transform-origin: var(--transform-origin);
-    max-height: 480px;
-    overflow-y: auto;
+    overflow: hidden;
 }
 .seed-menu__content:is([data-state="open"], [data-open]) {
     animation: seed-enter;
@@ -32,68 +29,57 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 0.95;
 }
-.seed-menu__group {}
-.seed-menu__groupHeader {
-    padding-block: 6px;
-    padding-left: 14px;
-    padding-right: 14px;
-    font-size: var(--seed-font-size-t2);
-    line-height: var(--seed-line-height-t2);
-    font-weight: var(--seed-font-weight-regular);
-    color: var(--seed-color-fg-neutral-subtle);
-    cursor: default;
-    user-select: none;
+.seed-menu__content:is([hidden], [data-hidden]) {
+    display: none !important;
 }
-.seed-menu__item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding-block: 8px;
-    padding-left: 14px;
-    padding-right: 14px;
-    min-height: 36px;
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    cursor: default;
-    user-select: none;
-    border: none;
-    font-family: inherit;
-    margin: 0;
+.seed-menu__content:is(:focus, [data-focus]) {
+    outline: none;
+}
+.seed-menu__scrollArea {
+    overflow-y: auto;
+    max-height: min(480px, calc(100vh - 2 * 8px));
     box-sizing: border-box;
-    width: 100%;
-    text-align: start;
-    color: var(--seed-color-fg-neutral);
-    background-color: transparent;
+    padding-top: var(--seed-dimension-x2);
+    padding-bottom: var(--seed-dimension-x2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--seed-dimension-x2);
 }
-.seed-menu__item[data-highlighted] {
-    background-color: var(--seed-color-bg-neutral-weak-alpha);
+.seed-menu__group {
+    display: flex;
+    flex-direction: column;
 }
-.seed-menu__item:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
-    cursor: not-allowed;
-}
-.seed-menu__item {
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-}
-.seed-menu__item:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-}
-.seed-menu__itemLabel {
-    flex: 1;
+.seed-menu__groupHeader {
+    color: var(--seed-color-fg-neutral-subtle);
 }
 .seed-menu__divider {
-    margin-block: 4px;
-    margin-inline: 14px;
+    margin-left: var(--seed-dimension-x4);
+    margin-right: var(--seed-dimension-x4);
     height: 1px;
+    flex-shrink: 0;
     background-color: var(--seed-color-stroke-neutral-muted);
-    border: none;
+}
+.seed-menu__content--size_medium {
+    width: 240px;
+}
+.seed-menu__groupHeader--size_medium {
+    padding-top: var(--seed-dimension-x2_5);
+    padding-bottom: var(--seed-dimension-x2_5);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    font-weight: var(--seed-font-weight-medium);
 }
 .seed-menu__content--size_small {
     width: 200px;
 }
-.seed-menu__content--size_medium {
-    width: 260px;
+.seed-menu__groupHeader--size_small {
+    padding-top: var(--seed-dimension-x2);
+    padding-bottom: var(--seed-dimension-x2);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
+    font-size: var(--seed-font-size-t3);
+    line-height: var(--seed-line-height-t3);
+    font-weight: var(--seed-font-weight-regular);
 }

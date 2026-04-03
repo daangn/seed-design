@@ -1,34 +1,44 @@
 import { vars as tokens } from "../vars";
+import * as shadow from "../vars/shadow";
 import { defineSlotRecipe } from "../utils/define";
-import { disabled, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import {
+  disabled,
+  engaged,
+  focus,
+  focusVisible,
+  not,
+  open,
+  pseudo,
+  before,
+  hidden,
+} from "../utils/pseudo";
+import { enterAnimation, exitAnimation } from "../utils/animation";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { enterAnimation, exitAnimation } from "../utils/animation";
+import { prefixIcon, suffixIcon } from "../utils/icon";
 
-const highlighted = "[data-highlighted]";
+// const highlighted = "[data-highlighted]";
 
-const menu = defineSlotRecipe({
+export const menu = defineSlotRecipe({
   name: "menu",
-  slots: ["positioner", "content", "group", "groupHeader", "item", "itemLabel", "divider"],
+  slots: ["positioner", "content", "scrollArea", "group", "groupHeader", "divider"],
   base: {
     positioner: {
-      "--popover-z-index": "99",
-      zIndex: "calc(var(--popover-z-index) + var(--z-index-offset, 0))",
+      // helps menu to be open at the top of the stackflow stack; it won't have any AppScreen on top of it
+      "--menu-z-index": "99999",
+      zIndex: "calc(var(--menu-z-index) + var(--z-index-offset, 0))",
       outline: "none",
     },
     content: {
-      boxSizing: "border-box",
-      paddingBlock: "4px",
-      borderRadius: tokens.$radius.r3,
+      borderRadius: tokens.$radius.r5,
       background: tokens.$color.bg.layerFloating,
-      boxShadow: "var(--seed-shadow-s2)",
+      boxShadow: shadow.s3,
       transformOrigin: "var(--transform-origin)",
 
-      maxHeight: "480px",
-      overflowY: "auto",
+      overflow: "hidden",
 
       [pseudo(open)]: {
         ...enterAnimation({
@@ -47,86 +57,251 @@ const menu = defineSlotRecipe({
           timingFunction: tokens.$timingFunction.exit,
         }),
       },
+
+      [pseudo(hidden)]: {
+        display: "none !important",
+      },
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
     },
-    group: {},
-    groupHeader: {
-      paddingBlock: "6px",
-      paddingLeft: "14px",
-      paddingRight: "14px",
-      fontSize: tokens.$fontSize.t2,
-      lineHeight: tokens.$lineHeight.t2,
-      fontWeight: tokens.$fontWeight.regular,
-      color: tokens.$color.fg.neutralSubtle,
-      cursor: "default",
-      userSelect: "none",
-    },
-    item: {
-      display: "flex",
-      alignItems: "center",
-      gap: "8px",
-
-      paddingBlock: "8px",
-      paddingLeft: "14px",
-      paddingRight: "14px",
-      minHeight: "36px",
-
-      fontSize: tokens.$fontSize.t4,
-      lineHeight: tokens.$lineHeight.t4,
-
-      outline: "none",
-      cursor: "default",
-      userSelect: "none",
-      border: "none",
-      fontFamily: "inherit",
-      margin: 0,
+    scrollArea: {
+      overflowY: "auto",
+      maxHeight: "min(480px, calc(100vh - 2 * 8px))", // 8px를 rootage의 viewport padding 등으로 교체
       boxSizing: "border-box",
-      width: "100%",
-      textAlign: "start",
 
-      color: tokens.$color.fg.neutral,
-      backgroundColor: "transparent",
+      paddingTop: tokens.$dimension.x2,
+      paddingBottom: tokens.$dimension.x2,
 
-      [pseudo(highlighted)]: {
-        backgroundColor: tokens.$color.bg.neutralWeakAlpha,
-      },
-
-      [pseudo(disabled)]: {
-        color: tokens.$color.fg.disabled,
-        cursor: "not-allowed",
-      },
-
-      transition: FOCUS_RING_TRANSITION,
-      ...createFocusRingRestStyles({ position: "inside" }),
-      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+      display: "flex",
+      flexDirection: "column",
+      gap: tokens.$dimension.x2,
     },
-    itemLabel: {
-      flex: 1,
+    group: {
+      display: "flex",
+      flexDirection: "column",
+    },
+    groupHeader: {
+      color: tokens.$color.fg.neutralSubtle,
     },
     divider: {
-      marginBlock: "4px",
-      marginInline: "14px",
+      marginLeft: tokens.$dimension.x4,
+      marginRight: tokens.$dimension.x4,
       height: "1px",
+      flexShrink: 0,
       backgroundColor: tokens.$color.stroke.neutralMuted,
-      border: "none",
     },
   },
   variants: {
     size: {
+      medium: {
+        content: {
+          width: "240px",
+        },
+        groupHeader: {
+          paddingTop: tokens.$dimension.x2_5,
+          paddingBottom: tokens.$dimension.x2_5,
+          paddingLeft: tokens.$dimension.x4,
+          paddingRight: tokens.$dimension.x4,
+
+          fontSize: tokens.$fontSize.t4,
+          lineHeight: tokens.$lineHeight.t4,
+          fontWeight: tokens.$fontWeight.medium,
+        },
+      },
       small: {
         content: {
           width: "200px",
         },
-      },
-      medium: {
-        content: {
-          width: "260px",
+        groupHeader: {
+          paddingTop: tokens.$dimension.x2,
+          paddingBottom: tokens.$dimension.x2,
+          paddingLeft: tokens.$dimension.x4,
+          paddingRight: tokens.$dimension.x4,
+
+          fontSize: tokens.$fontSize.t3,
+          lineHeight: tokens.$lineHeight.t3,
+          fontWeight: tokens.$fontWeight.regular,
         },
       },
     },
   },
   defaultVariants: {
-    size: "small",
+    size: "medium",
   },
 });
 
-export default menu;
+export const menuItem = defineSlotRecipe({
+  name: "menu-item",
+  slots: ["root", "body", "label", "description"],
+  base: {
+    root: {
+      position: "relative",
+      scrollMarginTop: tokens.$dimension.x2, // same as scrollArea paddingTop
+      scrollMarginBottom: tokens.$dimension.x2, // same as scrollArea paddingBottom
+
+      display: "flex",
+      alignItems: "center",
+
+      outline: "none",
+      cursor: "default", // 결정, 다른 practice 참고
+      userSelect: "none", // 결정
+      border: "none",
+      fontFamily: "inherit",
+      margin: 0,
+      textAlign: "start",
+
+      isolation: "isolate",
+
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: tokens.$dimension.x2,
+        right: tokens.$dimension.x2,
+        borderRadius: tokens.$radius.r3,
+        zIndex: -1,
+
+        transition: `${FOCUS_RING_TRANSITION}, background-color ${tokens.$duration.colorTransition} ${tokens.$timingFunction.easing}`,
+        ...createFocusRingRestStyles({ position: "inside" }),
+      },
+
+      // highlight 조건 확인
+      // [pseudo(highlighted, before)]: {
+      //   // nested menu에서 highlight되는 거라면, 별도 디자인 스펙이 필요할 수도 있겠음
+      //   backgroundColor: tokens.$color.bg.transparentPressed,
+      // },
+
+      // transition이 필요한지 확인
+      [pseudo(not(disabled), engaged, before)]: {
+        backgroundColor: tokens.$color.bg.transparentPressed,
+      },
+
+      [pseudo(focusVisible, before)]: createFocusRingStyles({ position: "inside" }),
+
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+
+        ...prefixIcon({
+          color: tokens.$color.fg.disabled,
+        }),
+
+        ...suffixIcon({
+          color: tokens.$color.fg.disabled,
+        }),
+      },
+    },
+    body: {
+      display: "flex",
+      flexDirection: "column",
+
+      flexGrow: 1,
+      gap: tokens.$dimension.x0_5,
+    },
+    label: {
+      fontWeight: tokens.$fontWeight.regular,
+
+      [pseudo(disabled)]: {
+        color: tokens.$color.fg.disabled,
+      },
+    },
+    description: {
+      fontWeight: tokens.$fontWeight.regular,
+      color: tokens.$color.fg.neutralSubtle,
+
+      [pseudo(disabled)]: {
+        color: tokens.$color.fg.disabled, // 확인
+      },
+    },
+  },
+  variants: {
+    size: {
+      medium: {
+        root: {
+          paddingTop: tokens.$dimension.x3,
+          paddingBottom: tokens.$dimension.x3,
+          paddingLeft: tokens.$dimension.x4,
+          paddingRight: tokens.$dimension.x4,
+
+          gap: tokens.$dimension.x3, // 확인
+
+          ...prefixIcon({
+            size: "22px",
+          }),
+
+          ...suffixIcon({
+            size: "18px",
+          }),
+        },
+        label: {
+          fontSize: tokens.$fontSize.t5,
+          lineHeight: tokens.$lineHeight.t5,
+        },
+        description: {
+          fontSize: tokens.$fontSize.t3,
+          lineHeight: tokens.$lineHeight.t3,
+        },
+      },
+      small: {
+        root: {
+          paddingTop: tokens.$dimension.x2_5,
+          paddingBottom: tokens.$dimension.x2_5,
+          paddingLeft: tokens.$dimension.x4,
+          paddingRight: tokens.$dimension.x4,
+
+          gap: tokens.$dimension.x2, // 확인
+
+          ...prefixIcon({
+            size: "18px",
+          }),
+
+          ...suffixIcon({
+            size: "16px",
+          }),
+        },
+        label: {
+          fontSize: tokens.$fontSize.t4,
+          lineHeight: tokens.$lineHeight.t4,
+        },
+        description: {
+          fontSize: tokens.$fontSize.t2,
+          lineHeight: tokens.$lineHeight.t2,
+        },
+      },
+    },
+    tone: {
+      neutral: {
+        root: {
+          ...prefixIcon({
+            color: tokens.$color.fg.neutral,
+          }),
+          ...suffixIcon({
+            color: tokens.$color.fg.neutral,
+          }),
+        },
+        label: {
+          color: tokens.$color.fg.neutral,
+        },
+      },
+      critical: {
+        root: {
+          ...prefixIcon({
+            color: tokens.$color.fg.critical,
+          }),
+          ...suffixIcon({
+            color: tokens.$color.fg.critical,
+          }),
+        },
+        label: {
+          color: tokens.$color.fg.critical,
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    size: "medium",
+    tone: "neutral",
+  },
+});

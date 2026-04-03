@@ -11,6 +11,10 @@ const menuSlotNames = [
     "seed-menu__content"
   ],
   [
+    "scrollArea",
+    "seed-menu__scrollArea"
+  ],
+  [
     "group",
     "seed-menu__group"
   ],
@@ -19,29 +23,21 @@ const menuSlotNames = [
     "seed-menu__groupHeader"
   ],
   [
-    "item",
-    "seed-menu__item"
-  ],
-  [
-    "itemLabel",
-    "seed-menu__itemLabel"
-  ],
-  [
     "divider",
     "seed-menu__divider"
   ]
 ];
 
 const defaultVariant = {
-  "size": "small"
+  "size": "medium"
 };
 
 const compoundVariants = [];
 
 export const menuVariantMap = {
   "size": [
-    "small",
-    "medium"
+    "medium",
+    "small"
   ]
 };
 

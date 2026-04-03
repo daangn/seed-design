@@ -18,6 +18,7 @@ export {
 } from "./Menu";
 
 export { useMenuContext, type UseMenuContext } from "./useMenuContext";
+export { useMenuItemContext, type UseMenuItemContext } from "./useMenuItemContext";
 
 export * as Menu from "./Menu.namespace";
 
