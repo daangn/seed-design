@@ -98,7 +98,7 @@ describe("validate", () => {
           name: collection
         data:
           - name: color
-            modes: 
+            modes:
               - id: light`),
       },
       {
@@ -134,7 +134,7 @@ describe("validate", () => {
           name: collection
         data:
           - name: color
-            modes: 
+            modes:
               - id: light`),
       },
       {

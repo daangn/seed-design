@@ -52,6 +52,7 @@ import type {
   SlotSchemaDeclaration,
   VariantSchemaDeclaration,
   VariantValueSchemaDeclaration,
+  ModeDeclaration,
 } from "./ast";
 
 /**
@@ -832,14 +833,23 @@ export function createUnresolvedTokenValueDeclaration(
  */
 export function createTokenCollectionDeclaration(
   name: string,
-  modes: string[],
-  modeDescriptions?: Record<string, string>,
+  modes: Array<{ id: string; description?: string }>,
 ): TokenCollectionDeclaration {
   return {
     kind: "TokenCollectionDeclaration",
     name,
-    modes,
-    ...(modeDescriptions && Object.keys(modeDescriptions).length > 0 && { modeDescriptions }),
+    modes: modes.map(({ id, description }) => createModeDeclaration(id, description)),
+  };
+}
+
+/**
+ * ModeDeclaration factory
+ */
+export function createModeDeclaration(id: string, description?: string): ModeDeclaration {
+  return {
+    kind: "ModeDeclaration",
+    id,
+    description,
   };
 }
 
