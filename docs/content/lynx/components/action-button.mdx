@@ -30,3 +30,12 @@ export function App() {
 ## Props
 
 <react-type-table path="../packages/lynx-react/src/components/ActionButton/ActionButton.tsx" name="ActionButtonProps" />
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `ActionButton`은 React `ActionButton`과 다음과 같은 차이가 있습니다.
+
+- **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
+- **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`/`<text>` 요소를 렌더링합니다.
+</Callout>

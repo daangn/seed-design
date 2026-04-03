@@ -139,3 +139,12 @@ export function GrowExample() {
   );
 }
 ```
+
+### Lynx 플랫폼 참고 사항
+
+<Callout>
+Lynx의 `Flex`는 HTML `div` 대신 네이티브 `view` 요소를 렌더링합니다. React의 `Flex`와 동일한 스타일 속성을 지원하지만, 다음 사항에 유의하세요.
+
+- `overflow: scroll`은 지원되지 않습니다. 스크롤이 필요하면 `scroll-view`를 사용하세요.
+- `position`은 `relative`, `absolute`, `fixed`만 지원됩니다.
+</Callout>

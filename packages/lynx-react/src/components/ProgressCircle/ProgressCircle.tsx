@@ -151,8 +151,11 @@ function Root(props: RootProps) {
   const isDeterminate =
     props.minValue !== undefined && props.maxValue !== undefined && props.value !== undefined;
 
+  const range = (props.maxValue ?? 1) - (props.minValue ?? 0);
   const progress = isDeterminate
-    ? ((props.value ?? 0) - (props.minValue ?? 0)) / ((props.maxValue ?? 1) - (props.minValue ?? 0))
+    ? range === 0
+      ? 0
+      : ((props.value ?? 0) - (props.minValue ?? 0)) / range
     : 0;
 
   const classes = progressCircle({ tone, size });
