@@ -23,7 +23,7 @@ export default defineConfig({
       // CSS
       enableCSSInheritance: true,
       enableCSSInlineVariables: true,
-      enableCSSStrictMode: true,
+      enableCSSStrictMode: false,
 
       // 텍스트 & 레이아웃
       enableTextRefactor: true,
