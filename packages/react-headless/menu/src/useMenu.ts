@@ -314,7 +314,7 @@ export function useMenu(props: UseMenuProps) {
       ...stateProps,
       role: "menu",
       style: {
-        "--transform-origin": {
+        "--seed-menu-transform-origin": {
           top: "bottom",
           bottom: "top",
           left: "right",
