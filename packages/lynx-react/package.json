@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@lynx-js/react": "^0.116.3",
+    "@lynx-js/types": "^3.7.0",
     "@types/react": "^19.2.2",
     "react": "^19.1.0"
   },
