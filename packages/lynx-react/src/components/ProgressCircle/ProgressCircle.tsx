@@ -60,6 +60,21 @@ function pieClipPath(size: number, angleDeg: number): string | undefined {
   return `path("M ${c} ${c} L ${c} ${c - r} A ${r} ${r} 0 ${largeArc} 1 ${endX} ${endY} Z")`;
 }
 
+interface RingGeometry {
+  halfSize: number;
+  innerR: number;
+  ringCenterR: number;
+  capSize: number;
+}
+
+function computeRingGeometry(numSize: number): RingGeometry {
+  const halfSize = numSize / 2;
+  const innerR = 0.53 * Math.SQRT2 * halfSize;
+  const ringCenterR = (halfSize + innerR) / 2;
+  const capSize = halfSize - innerR;
+  return { halfSize, innerR, ringCenterR, capSize };
+}
+
 // --- Indeterminate animation constants ---
 
 const INDETERMINATE_DURATION = 1200;
@@ -96,20 +111,14 @@ interface IndeterminateSubscriber {
   headCapRef: MainThread.Element | null;
   tailCapRef: MainThread.Element | null;
   numSize: number;
+  geo: RingGeometry;
 }
 
-/**
- * Compute all derived style values for an indeterminate circle and apply them
- * directly via setStyleProperties (no React re-render).
- */
 function applyIndeterminateStyles(sub: IndeterminateSubscriber, state: IndeterminateState): void {
   "main thread";
 
-  const { numSize } = sub;
-  const halfSize = numSize / 2;
-  const innerR = 0.53 * Math.SQRT2 * halfSize;
-  const ringCenterR = (halfSize + innerR) / 2;
-  const capSize = halfSize - innerR;
+  const { numSize, geo } = sub;
+  const { halfSize, ringCenterR, capSize } = geo;
 
   // Container rotation
   sub.containerRef?.setStyleProperty("transform", `rotate(${state.containerDeg}deg)`);
@@ -200,20 +209,22 @@ function unsubscribeIndeterminate(id: number): void {
 
 const TRANSITION_DURATION = 300;
 
+const NO_OP_CANCEL = { cancel: () => {} };
+
 function animateDeterminateProgress(
   from: number,
   to: number,
   numSize: number,
+  geo: RingGeometry,
   rangeRef: MainThread.Element | null,
   startCapRef: MainThread.Element | null,
   endCapRef: MainThread.Element | null,
 ): { cancel: () => void } {
   "main thread";
 
-  const halfSize = numSize / 2;
-  const innerR = 0.53 * Math.SQRT2 * halfSize;
-  const ringCenterR = (halfSize + innerR) / 2;
-  const capSize = halfSize - innerR;
+  if (from === to) return NO_OP_CANCEL;
+
+  const { halfSize, ringCenterR, capSize } = geo;
   let rafId = 0;
   let startTs = 0;
 
@@ -350,17 +361,13 @@ function DeterminateRange({
   const prevProgressRef = useMainThreadRef<number>(progress);
   const cancelRef = useMainThreadRef<(() => void) | null>(null);
 
-  const halfSize = numSize / 2;
-  const innerR = 0.53 * Math.SQRT2 * halfSize;
-  const ringCenterR = (halfSize + innerR) / 2;
-  const capSize = halfSize - innerR;
+  const geo = computeRingGeometry(numSize);
+  const { halfSize, ringCenterR, capSize } = geo;
 
-  // Initial angle for first render
   const initialAngle = progress * 360;
   const initialClipPath = pieClipPath(numSize, initialAngle);
   const initialEndRad = (initialAngle * Math.PI) / 180;
 
-  // Start animation on main thread when progress changes
   const startAnimation = (newProgress: number) => {
     "main thread";
 
@@ -371,6 +378,7 @@ function DeterminateRange({
       from,
       newProgress,
       numSize,
+      geo,
       rangeRef.current,
       startCapRef.current,
       endCapRef.current,
@@ -383,11 +391,8 @@ function DeterminateRange({
     startAnimation(progress);
 
     return () => {
-      const cleanup = () => {
-        "main thread";
-        cancelRef.current?.();
-      };
-      cleanup();
+      "main thread";
+      cancelRef.current?.();
     };
   }, [progress]);
 
@@ -435,12 +440,9 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
   const tailCapRef = useMainThreadRef<MainThread.Element>(null);
   const subIdRef = useMainThreadRef<number>(-1);
 
-  const halfSize = numSize / 2;
-  const innerR = 0.53 * Math.SQRT2 * halfSize;
-  const ringCenterR = (halfSize + innerR) / 2;
-  const capSize = halfSize - innerR;
+  const geo = computeRingGeometry(numSize);
+  const { halfSize, ringCenterR, capSize } = geo;
 
-  // Subscribe to shared animation loop on mount
   const startLoop = () => {
     "main thread";
 
@@ -450,6 +452,7 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
       headCapRef: headCapRef.current,
       tailCapRef: tailCapRef.current,
       numSize,
+      geo,
     });
   };
 
