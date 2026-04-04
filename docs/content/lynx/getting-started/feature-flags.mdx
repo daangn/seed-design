@@ -68,6 +68,11 @@ CSS 값 파싱을 웹 표준과 동일하게 엄격하게 적용합니다.
 | **켜면**             | 유효하지 않은 `<length>` 값을 드롭합니다. `width: 100`처럼 단위가 빠진 값은 무시됩니다      |
 | **SEED Design 이점** | SEED Design의 CSS가 웹과 Lynx에서 동일하게 파싱됩니다. 플랫폼 간 스타일 불일치를 방지합니다 |
 
+<Callout type="warn">
+  `enableCSSStrictMode`를 활성화하면 일부 CSS 속성이 Lynx에서 올바르게 파싱되지 않는 호환성 문제가 있습니다.
+  현재는 **비활성화(`false`)를 권장**합니다.
+</Callout>
+
 #### `enableCSSInheritance`
 
 CSS 속성 상속을 활성화합니다.
@@ -278,7 +283,7 @@ export default defineConfig({
       // CSS
       enableCSSInheritance: true,
       enableCSSInlineVariables: true,
-      enableCSSStrictMode: true,
+      // enableCSSStrictMode: false (CSS 속성 호환성 이슈로 비활성화 권장)
 
       // 텍스트 & 레이아웃
       enableTextRefactor: true,
