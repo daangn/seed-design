@@ -11,6 +11,9 @@ import { LayoutBoxPage } from "./pages/LayoutBoxPage.jsx";
 import { LayoutFlexPage } from "./pages/LayoutFlexPage.jsx";
 import { LayoutStackPage } from "./pages/LayoutStackPage.jsx";
 import { LayoutTextPage } from "./pages/LayoutTextPage.jsx";
+import { TestNativeBoxPage } from "./pages/TestNativeBoxPage.jsx";
+import { TestSeedBoxPage } from "./pages/TestSeedBoxPage.jsx";
+import { TestTailwindBoxPage } from "./pages/TestTailwindBoxPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
@@ -30,7 +33,10 @@ export type Page =
   | "layout-box"
   | "layout-flex"
   | "layout-stack"
-  | "layout-text";
+  | "layout-text"
+  | "test-native-box"
+  | "test-seed-box"
+  | "test-tailwind-box";
 
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
@@ -76,6 +82,9 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "layout-flex" && <LayoutFlexPage />}
       {currentPage === "layout-stack" && <LayoutStackPage />}
       {currentPage === "layout-text" && <LayoutTextPage />}
+      {currentPage === "test-native-box" && <TestNativeBoxPage />}
+      {currentPage === "test-seed-box" && <TestSeedBoxPage />}
+      {currentPage === "test-tailwind-box" && <TestTailwindBoxPage />}
       <Suspense>
         <LynxConsole theme="light" />
       </Suspense>
