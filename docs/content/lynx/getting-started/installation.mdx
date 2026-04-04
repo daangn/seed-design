@@ -15,7 +15,8 @@ description: Lynx 프로젝트에서 SEED Design을 설치하고 사용하는 �
 ```
 
 <Callout>
-`@seed-design/lynx-react`는 `@seed-design/lynx-css`를 peer dependency로 필요로 합니다. 두 패키지를 함께 설치해야 합니다.
+  `@seed-design/lynx-react`는 `@seed-design/lynx-css`를 peer dependency로 필요로
+  합니다. 두 패키지를 함께 설치해야 합니다.
 </Callout>
 
 </Step>
@@ -145,7 +146,8 @@ export default defineConfig({
 ```
 
 <Callout>
-각 플래그의 역할과 상황별 추가 설정은 [Feature Flags](/lynx/feature-flags)에서 확인하세요.
+  각 플래그의 역할과 상황별 추가 설정은 [Feature Flags](/lynx/feature-flags)에서
+  확인하세요.
 </Callout>
 
 </Step>
@@ -173,7 +175,11 @@ lynx-console
 앱 entry에서 초기화하고 컴포넌트를 추가해주세요.
 
 ```tsx title="src/App.tsx"
-import { initLogMonitor, initNetworkMonitor, initPerformanceMonitor } from "lynx-console/setup";
+import {
+  initLogMonitor,
+  initNetworkMonitor,
+  initPerformanceMonitor,
+} from "lynx-console/setup";
 import LynxConsole from "lynx-console";
 
 initLogMonitor();

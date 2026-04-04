@@ -14,12 +14,16 @@ import { Box } from "@seed-design/lynx-react";
 ```
 
 <Callout type="warning">
-Lynx에서는 텍스트를 반드시 `text` 요소 안에 넣어야 합니다. `Box` 내부에 직접 문자열을 넣으면 렌더링되지 않습니다.
+  Lynx에서는 텍스트를 반드시 `text` 요소 안에 넣어야 합니다. `Box` 내부에 직접
+  문자열을 넣으면 렌더링되지 않습니다.
 </Callout>
 
 ## Props
 
-<react-type-table path="../packages/lynx-react/src/components/Box/Box.tsx" name="BoxProps" />
+<react-type-table
+  path="../packages/lynx-react/src/components/Box/Box.tsx"
+  name="BoxProps"
+/>
 
 ## Examples
 
@@ -48,7 +52,13 @@ import { Box } from "@seed-design/lynx-react";
 
 export function BorderExample() {
   return (
-    <Box borderWidth="1" borderColor="stroke.neutral" borderRadius="r2" px="x3" py="x2">
+    <Box
+      borderWidth="1"
+      borderColor="stroke.neutral"
+      borderRadius="r2"
+      px="x3"
+      py="x2"
+    >
       <text>Box with border</text>
     </Box>
   );
@@ -99,4 +109,5 @@ Lynx의 `Box`는 HTML `div` 대신 네이티브 `view` 요소를 렌더링합니
 - 모든 요소는 기본적으로 `box-sizing: border-box`입니다.
 - `overflow: scroll`은 지원되지 않습니다. 스크롤이 필요하면 `scroll-view`를 사용하세요.
 - `position`은 `relative`, `absolute`, `fixed`만 지원됩니다.
+
 </Callout>

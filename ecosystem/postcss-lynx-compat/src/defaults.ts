@@ -354,8 +354,7 @@ export const defaultConfig: Required<LynxCompatConfig> = {
   remBase: 16,
 
   removeCustomProperties: [
-    /^--seed-font-size-.*-static$/,
-    /^--seed-line-height-.*-static$/,
+    // static 토큰은 유지 (px 고정값으로 레이아웃 고정 텍스트에 사용)
     /^--seed-font-size-multiplier$/,
     /^--seed-font-size-limit-/,
     /^--seed-line-height-limit-/,
