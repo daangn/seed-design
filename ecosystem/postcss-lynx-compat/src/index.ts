@@ -564,12 +564,10 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
             decl.value = resolveCalc(decl.value);
           }
           // px → sp 변환 (dynamic font-size/line-height 토큰만)
-          // static, limit, multiplier 토큰은 변환하지 않음
+          // -static 토큰은 px 유지 (limit/multiplier는 removeCustomProperties에서 이미 제거됨)
           if (
             (prop.startsWith("--seed-font-size") || prop.startsWith("--seed-line-height")) &&
-            !prop.endsWith("-static") &&
-            !prop.includes("-limit-") &&
-            !prop.includes("-multiplier")
+            !prop.endsWith("-static")
           ) {
             decl.value = convertPxToSp(decl.value);
           }
