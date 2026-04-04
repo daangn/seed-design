@@ -23,11 +23,35 @@ Lynx에서 `Text` 컴포넌트는 `text` 요소로 렌더링됩니다.
 
 <react-type-table path="../packages/lynx-react/src/components/Text/Text.tsx" name="TextProps" />
 
+## 폰트 스케일링 (sp / px)
+
+Lynx에서 SEED Design은 **Dynamic(sp)**과 **Static(px)** 두 종류의 타이포그래피 토큰을 제공합니다.
+
+| 종류 | 단위 | 폰트 스케일링 | 사용 시나리오 |
+|------|------|---------------|--------------|
+| Dynamic (`t1Regular`, `t5Bold` 등) | `sp` | 시스템 폰트 크기에 반응 | 본문, 제목 등 일반 텍스트 |
+| Static (`t1StaticRegular`, `t5StaticBold` 등) | `px` | 고정 크기 | 탭 바, 배지 등 레이아웃 고정 텍스트 |
+
+<Callout>
+`fontScaleEffectiveOnlyOnSp` feature flag가 활성화되어 있어야 합니다. 이 플래그가 켜지면 `sp` 단위만 시스템 폰트 크기 변경에 반응하고, `px` 단위는 고정됩니다. [Feature Flags 문서](/lynx/getting-started/feature-flags)를 참고하세요.
+</Callout>
+
+### 웹과의 차이점
+
+| 항목 | 웹 | Lynx |
+|------|-----|------|
+| Dynamic font-size | `clamp()` + `rem` | `sp` |
+| Static font-size | `px` | `px` |
+| Dynamic line-height | `clamp()` + `rem` | `sp` |
+| Static line-height | `px` | `px` |
+
 ## Examples
 
-### Text Styles
+### Text Styles (Dynamic)
 
 Figma의 Text Style과 대응되는 `textStyle` 속성을 사용하는 것이 기본 방법입니다. `textStyle`은 글꼴 크기, 줄 간격, 글꼴 굵기를 한 번에 설정합니다.
+
+Dynamic textStyle은 `sp` 단위를 사용하므로 시스템 폰트 크기 변경에 반응합니다.
 
 ```tsx
 import { Text, VStack } from "@seed-design/lynx-react";
@@ -50,6 +74,26 @@ export function TextStylesExample() {
 }
 ```
 
+### Text Styles (Static)
+
+Static textStyle은 `px` 단위를 사용하므로 시스템 폰트 크기 변경에 반응하지 않습니다. 탭 바, 배지 등 레이아웃이 고정되어야 하는 텍스트에 적합합니다.
+
+```tsx
+import { Text, VStack } from "@seed-design/lynx-react";
+
+export function StaticTextStylesExample() {
+  return (
+    <VStack gap="x1">
+      <Text color="fg.neutral" textStyle="t1StaticRegular">t1StaticRegular</Text>
+      <Text color="fg.neutral" textStyle="t3StaticRegular">t3StaticRegular</Text>
+      <Text color="fg.neutral" textStyle="t5StaticRegular">t5StaticRegular</Text>
+      <Text color="fg.neutral" textStyle="t7StaticBold">t7StaticBold</Text>
+      <Text color="fg.neutral" textStyle="t10StaticBold">t10StaticBold</Text>
+    </VStack>
+  );
+}
+```
+
 #### Font Sizes
 
 더 구체적으로 변경이 필요한 경우 `fontSize` 및 `lineHeight` 속성을 각각 사용할 수 있습니다.
@@ -62,10 +106,10 @@ import { Text, VStack } from "@seed-design/lynx-react";
 export function FontSizesExample() {
   return (
     <VStack gap="x1">
-      <Text color="fg.neutral" fontSize="t1">fontSize t1</Text>
-      <Text color="fg.neutral" fontSize="t3">fontSize t3</Text>
-      <Text color="fg.neutral" fontSize="t5">fontSize t5</Text>
-      <Text color="fg.neutral" fontSize="t7">fontSize t7</Text>
+      <Text color="fg.neutral" fontSize="t1">fontSize t1 (dynamic, sp)</Text>
+      <Text color="fg.neutral" fontSize="t3">fontSize t3 (dynamic, sp)</Text>
+      <Text color="fg.neutral" fontSize="t5">fontSize t5 (dynamic, sp)</Text>
+      <Text color="fg.neutral" fontSize="t7">fontSize t7 (dynamic, sp)</Text>
     </VStack>
   );
 }

@@ -76,6 +76,15 @@ function convertRemToPx(value: string, basePx: number): string {
 }
 
 /**
+ * CSS 값 내의 px 단위를 sp로 변환한다.
+ * Lynx에서 sp 단위는 시스템 폰트 크기 설정에 반응한다.
+ * fontScaleEffectiveOnlyOnSp 플래그 활성화 시 sp만 스케일링됨.
+ */
+function convertPxToSp(value: string): string {
+  return value.replace(/(\d*\.?\d+)px\b/g, (_, num) => `${num}sp`);
+}
+
+/**
  * font-size/line-height multiplier calc()를 해소한다.
  * `calc(<value> * var(--seed-font-size-multiplier, 1))` → `<value>`
  * multiplier fallback이 1이므로 곱셈 결과는 원래 값.
@@ -553,6 +562,16 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
           // font-size-multiplier calc() 해소
           if (decl.value.includes("seed-font-size-multiplier")) {
             decl.value = resolveCalc(decl.value);
+          }
+          // px → sp 변환 (dynamic font-size/line-height 토큰만)
+          // static, limit, multiplier 토큰은 변환하지 않음
+          if (
+            (prop.startsWith("--seed-font-size") || prop.startsWith("--seed-line-height")) &&
+            !prop.endsWith("-static") &&
+            !prop.includes("-limit-") &&
+            !prop.includes("-multiplier")
+          ) {
+            decl.value = convertPxToSp(decl.value);
           }
           return;
         }

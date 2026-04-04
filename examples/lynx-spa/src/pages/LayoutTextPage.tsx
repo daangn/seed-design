@@ -5,7 +5,10 @@ export function LayoutTextPage() {
     <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "12px", flex: 1 }}>
       <text style={{ fontSize: "20px", fontWeight: "bold" }}>Text</text>
 
-      <text style={{ fontSize: "16px", fontWeight: "bold" }}>Text Styles</text>
+      <text style={{ fontSize: "16px", fontWeight: "bold" }}>Dynamic Text Styles (sp)</text>
+      <text style={{ fontSize: "11px", color: "#999", marginBottom: "4px" }}>
+        시스템 폰트 크기 설정에 반응합니다
+      </text>
       <VStack gap="x1">
         <Text color="fg.neutral" textStyle="t1Regular">t1Regular</Text>
         <Text color="fg.neutral" textStyle="t2Regular">t2Regular</Text>
@@ -17,6 +20,18 @@ export function LayoutTextPage() {
         <Text color="fg.neutral" textStyle="t8Bold">t8Bold</Text>
         <Text color="fg.neutral" textStyle="t9Bold">t9Bold</Text>
         <Text color="fg.neutral" textStyle="t10Bold">t10Bold</Text>
+      </VStack>
+
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Static Text Styles (px)</text>
+      <text style={{ fontSize: "11px", color: "#999", marginBottom: "4px" }}>
+        시스템 폰트 크기 설정에 반응하지 않습니다
+      </text>
+      <VStack gap="x1">
+        <Text color="fg.neutral" textStyle="t1StaticRegular">t1StaticRegular</Text>
+        <Text color="fg.neutral" textStyle="t3StaticRegular">t3StaticRegular</Text>
+        <Text color="fg.neutral" textStyle="t5StaticRegular">t5StaticRegular</Text>
+        <Text color="fg.neutral" textStyle="t7StaticBold">t7StaticBold</Text>
+        <Text color="fg.neutral" textStyle="t10StaticBold">t10StaticBold</Text>
       </VStack>
 
       <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Colors</text>

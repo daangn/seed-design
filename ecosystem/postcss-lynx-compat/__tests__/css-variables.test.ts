@@ -224,20 +224,20 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
-  describe("rem → px 변환", () => {
-    it("CSS custom property 내 rem을 px로 변환한다 (1rem = 16px)", async () => {
+  describe("rem → px → sp 변환", () => {
+    it("dynamic font-size 토큰의 rem을 sp로 변환한다 (1rem = 16px → 16sp)", async () => {
       const input =
         ":root { --seed-font-size-t5: calc(1rem * var(--seed-font-size-multiplier, 1)); }";
       const output = await run(input);
-      expect(output).toContain("16px");
+      expect(output).toContain("16sp");
       expect(output).not.toContain("1rem");
     });
 
-    it("소수점 rem을 변환한다 (.6875rem → 11px)", async () => {
+    it("소수점 rem을 sp로 변환한다 (.6875rem → 11sp)", async () => {
       const input =
         ":root { --seed-font-size-t1: calc(.6875rem * var(--seed-font-size-multiplier, 1)); }";
       const output = await run(input);
-      expect(output).toContain("11px");
+      expect(output).toContain("11sp");
       expect(output).not.toContain(".6875rem");
     });
 
@@ -261,12 +261,12 @@ describe("postcss-lynx-compat", () => {
   });
 
   describe("font-size-multiplier calc() 해소", () => {
-    it("calc(<px> * var(--seed-font-size-multiplier, 1)) → <px>", async () => {
+    it("calc(<px> * var(--seed-font-size-multiplier, 1)) → <sp>", async () => {
       const input =
         ":root { --seed-font-size-t1: calc(.6875rem * var(--seed-font-size-multiplier, 1)); }";
       const output = await run(input);
-      // rem→px 변환 후 calc 해소: calc(11px * var(..., 1)) → 11px
-      expect(output).toContain("--seed-font-size-t1: 11px");
+      // rem→px 변환 → calc 해소 → px→sp 변환: 11sp
+      expect(output).toContain("--seed-font-size-t1: 11sp");
       expect(output).not.toContain("calc(");
     });
 
@@ -278,12 +278,49 @@ describe("postcss-lynx-compat", () => {
     });
   });
 
-  describe("static 토큰 + multiplier/limit 제거", () => {
-    it("--seed-font-size-*-static 선언을 제거한다", async () => {
+  describe("px → sp 변환 (dynamic 토큰)", () => {
+    it("dynamic font-size 토큰을 sp로 변환한다", async () => {
+      const input = ":root { --seed-font-size-t1: 11px; --seed-font-size-t5: 16px; }";
+      const output = await run(input);
+      expect(output).toContain("--seed-font-size-t1: 11sp");
+      expect(output).toContain("--seed-font-size-t5: 16sp");
+    });
+
+    it("dynamic line-height 토큰을 sp로 변환한다", async () => {
+      const input = ":root { --seed-line-height-t1: 15px; --seed-line-height-t5: 22px; }";
+      const output = await run(input);
+      expect(output).toContain("--seed-line-height-t1: 15sp");
+      expect(output).toContain("--seed-line-height-t5: 22sp");
+    });
+
+    it("static font-size 토큰은 px를 유지한다", async () => {
+      const input = ":root { --seed-font-size-t1-static: 11px; }";
+      const output = await run(input);
+      expect(output).toContain("--seed-font-size-t1-static: 11px");
+      expect(output).not.toContain("11sp");
+    });
+
+    it("static line-height 토큰은 px를 유지한다", async () => {
+      const input = ":root { --seed-line-height-t1-static: 15px; }";
+      const output = await run(input);
+      expect(output).toContain("--seed-line-height-t1-static: 15px");
+      expect(output).not.toContain("15sp");
+    });
+
+    it("font-size/line-height가 아닌 토큰은 변환하지 않는다", async () => {
+      const input = ":root { --seed-size-4: 16px; }";
+      const output = await run(input);
+      expect(output).toContain("--seed-size-4: 16px");
+      expect(output).not.toContain("16sp");
+    });
+  });
+
+  describe("static 토큰 유지 + multiplier/limit 제거", () => {
+    it("--seed-font-size-*-static 선언을 유지한다 (px 고정값)", async () => {
       const input = ":root { --seed-font-size-t1-static: 11px; --seed-font-size-t1: 11px; }";
       const output = await run(input);
-      expect(output).not.toContain("--seed-font-size-t1-static");
-      expect(output).toContain("--seed-font-size-t1: 11px");
+      expect(output).toContain("--seed-font-size-t1-static: 11px");
+      expect(output).toContain("--seed-font-size-t1: 11sp");
     });
 
     it("--seed-font-size-multiplier 선언을 제거한다", async () => {
@@ -301,11 +338,11 @@ describe("postcss-lynx-compat", () => {
       expect(output).not.toContain("--seed-font-size-limit-max");
     });
 
-    it("--seed-line-height-*-static 선언을 제거한다", async () => {
+    it("--seed-line-height-*-static 선언을 유지한다 (px 고정값)", async () => {
       const input = ":root { --seed-line-height-t1-static: 15px; --seed-line-height-t1: 15px; }";
       const output = await run(input);
-      expect(output).not.toContain("--seed-line-height-t1-static");
-      expect(output).toContain("--seed-line-height-t1: 15px");
+      expect(output).toContain("--seed-line-height-t1-static: 15px");
+      expect(output).toContain("--seed-line-height-t1: 15sp");
     });
   });
 });
