@@ -63,11 +63,8 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="Multicolor Icon" onTap={() => navigate("foundation-multicolor-icon")} />
       <ListItem title="Typography" onTap={() => navigate("foundation-typography")} />
 
-      <SectionHeader>Layout</SectionHeader>
-      <ListItem title="Box" onTap={() => navigate("layout-box")} />
-      <ListItem title="Flex" onTap={() => navigate("layout-flex")} />
-      <ListItem title="VStack / HStack" onTap={() => navigate("layout-stack")} />
-      <ListItem title="Text" onTap={() => navigate("layout-text")} />
+      <SectionHeader>Tailwind</SectionHeader>
+      <ListItem title="Tailwind Demo" onTap={() => navigate("tailwind-demo")} />
 
       <SectionHeader>Components</SectionHeader>
       <ListItem title="ActionButton" onTap={() => navigate("action-button")} />
