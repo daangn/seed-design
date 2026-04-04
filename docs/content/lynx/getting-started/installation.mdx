@@ -11,13 +11,42 @@ description: Lynx 프로젝트에서 SEED Design을 설치하고 사용하는 �
 필요한 의존성들을 설치해요.
 
 ```package-install
-@seed-design/lynx-react @seed-design/lynx-css
+@seed-design/lynx-react @seed-design/lynx-css @seed-design/tailwind3-plugin tailwindcss@3
 ```
 
-<Callout>
-  `@seed-design/lynx-react`는 `@seed-design/lynx-css`를 peer dependency로 필요로
-  합니다. 두 패키지를 함께 설치해야 합니다.
+<Callout type="warning">
+  Lynx는 현재 **Tailwind CSS v3**만 지원합니다. Tailwind v4는 Rsbuild에서 아직
+  미지원이므로 반드시 `tailwindcss@3`을 설치하세요.
 </Callout>
+
+</Step>
+
+<Step>
+
+### Tailwind CSS 설정하기
+
+Lynx에서 SEED 디자인 토큰을 사용하려면 Tailwind CSS v3와 `@seed-design/tailwind3-plugin`을 설정해야 해요.
+
+자세한 내용은 [`@seed-design/tailwind3-plugin` README](https://github.com/daangn/seed-design/tree/dev/packages/tailwind3-plugin)를 참고하세요.
+
+```ts title="tailwind.config.ts"
+import type { Config } from "tailwindcss";
+import seedDesignPlugin from "@seed-design/tailwind3-plugin";
+
+export default {
+  content: ["./src/**/*.{jsx,tsx}"],
+  corePlugins: { preflight: false },
+  plugins: [seedDesignPlugin],
+} satisfies Config;
+```
+
+```js title="postcss.config.js"
+export default {
+  plugins: {
+    tailwindcss: {},
+  },
+};
+```
 
 </Step>
 
@@ -27,6 +56,15 @@ description: Lynx 프로젝트에서 SEED Design을 설치하고 사용하는 �
 
 ```ts title="src/index.tsx"
 import "@seed-design/lynx-css/base.css";
+```
+
+CSS 파일에 Tailwind 디렉티브를 추가해요.
+
+```css title="src/styles/global.css"
+@import "@seed-design/lynx-css/base.css";
+
+@tailwind components;
+@tailwind utilities;
 ```
 
 </Step>
@@ -146,8 +184,8 @@ export default defineConfig({
 ```
 
 <Callout>
-  각 플래그의 역할과 상황별 추가 설정은 [Feature Flags](/lynx/feature-flags)에서
-  확인하세요.
+  각 플래그의 역할과 상황별 추가 설정은 [Feature
+  Flags](/lynx/getting-started/feature-flags)에서 확인하세요.
 </Callout>
 
 </Step>

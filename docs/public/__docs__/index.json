@@ -1599,12 +1599,6 @@
               ]
             },
             {
-              "id": "box",
-              "title": "Box",
-              "description": "Box 컴포넌트는 가장 기초적인 레이아웃 컴포넌트입니다. Lynx의 view 요소를 렌더링하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/lynx/foundation/layout/box"
-            },
-            {
               "id": "cli",
               "title": "CLI",
               "description": "Lynx 프로젝트에서 SEED Design CLI를 사용하는 방법을 안내해요.",
@@ -1615,18 +1609,6 @@
               "title": "Feature Flags",
               "description": "SEED Design을 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
               "docUrl": "/lynx/getting-started/feature-flags"
-            },
-            {
-              "id": "flex",
-              "title": "Flex",
-              "description": "Flex 컴포넌트는 flexbox를 사용하며 Lynx의 view 요소를 렌더링합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/lynx/foundation/layout/flex"
-            },
-            {
-              "id": "h-stack",
-              "title": "HStack",
-              "description": "가로로 쌓이는 레이아웃을 구성합니다. Lynx의 view 요소를 렌더링하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/lynx/foundation/layout/h-stack"
             },
             {
               "id": "iconography",
@@ -1654,22 +1636,16 @@
               ]
             },
             {
-              "id": "text",
-              "title": "Text",
-              "description": "텍스트를 표시하는 기본 타이포그래피 컴포넌트입니다. Lynx의 text 요소를 렌더링하며 일관된 글꼴 스타일과 크기를 적용합니다.",
-              "docUrl": "/lynx/foundation/typography/text"
+              "id": "styling",
+              "title": "Styling with Tailwind",
+              "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
+              "docUrl": "/lynx/foundation/layout/styling"
             },
             {
               "id": "theming",
               "title": "Theming",
               "description": "Lynx 환경에서 SEED Design의 테마 시스템을 활용하는 방법을 알아봅니다.",
               "docUrl": "/lynx/getting-started/theming"
-            },
-            {
-              "id": "v-stack",
-              "title": "VStack",
-              "description": "세로로 쌓이는 레이아웃을 구성합니다. Lynx의 view 요소를 렌더링하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/lynx/foundation/layout/v-stack"
             }
           ]
         }

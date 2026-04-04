@@ -1,0 +1,113 @@
+---
+title: Styling with Tailwind
+description: Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.
+---
+
+## Overview
+
+Lynx에서는 `@seed-design/tailwind3-plugin`과 Tailwind CSS v3를 사용하여 SEED 디자인 토큰을 적용합니다. 네이티브 `<view>`, `<text>` 엘리먼트에 Tailwind 클래스를 직접 사용합니다.
+
+<Callout type="info">
+  Lynx에서는 성능 최적화를 위해 런타임 StyleProps 대신 빌드 타임 Tailwind CSS
+  클래스를 사용합니다.
+</Callout>
+
+## Setup
+
+```package-install
+npm install tailwindcss@3 @seed-design/tailwind3-plugin
+```
+
+### tailwind.config.ts
+
+```ts
+import type { Config } from "tailwindcss";
+import seedDesignPlugin from "@seed-design/tailwind3-plugin";
+
+export default {
+  content: ["./src/**/*.{jsx,tsx}"],
+  corePlugins: { preflight: false },
+  plugins: [seedDesignPlugin],
+} satisfies Config;
+```
+
+### postcss.config.js
+
+```js
+export default {
+  plugins: {
+    tailwindcss: {},
+  },
+};
+```
+
+### CSS
+
+```css
+@import "@seed-design/lynx-css/base.css";
+
+@tailwind components;
+@tailwind utilities;
+```
+
+## Color
+
+SEED 색상 토큰은 Tailwind의 `bg-`, `text-`, `border-` 접두사로 사용합니다.
+
+```tsx
+// 배경색
+<view className="bg-bg-layer-default" />
+<view className="bg-bg-neutral-weak" />
+<view className="bg-bg-brand-solid" />
+
+// 텍스트 색상
+<text className="text-fg-neutral">기본 텍스트</text>
+<text className="text-fg-brand">브랜드 텍스트</text>
+<text className="text-fg-critical">에러 텍스트</text>
+
+// 테두리 색상
+<view className="border border-stroke-neutral-muted" />
+```
+
+## Typography
+
+SEED 타이포그래피 토큰은 컴포넌트 클래스로 제공됩니다.
+
+```tsx
+<text className="t1-regular">가장 작은 텍스트</text>
+<text className="t5-regular">기본 본문</text>
+<text className="t5-bold">굵은 본문</text>
+<text className="t7-bold">큰 제목</text>
+<text className="t10-bold">가장 큰 제목</text>
+```
+
+## Layout
+
+Tailwind의 Flexbox 유틸리티를 네이티브 `<view>` 엘리먼트에 사용합니다.
+
+```tsx
+// Flex row (HStack)
+<view className="flex flex-row gap-2 items-center">
+  <view className="bg-bg-brand-weak px-3 py-2 rounded">
+    <text>A</text>
+  </view>
+  <view className="bg-bg-brand-weak px-3 py-2 rounded">
+    <text>B</text>
+  </view>
+</view>
+
+// Flex column (VStack)
+<view className="flex flex-col gap-2">
+  <text className="t5-regular text-fg-neutral">Item 1</text>
+  <text className="t5-regular text-fg-neutral">Item 2</text>
+</view>
+```
+
+## Lynx 플랫폼 참고 사항
+
+<Callout>
+- `overflow: scroll`은 지원되지 않습니다. 스크롤이 필요하면 `<scroll-view>` 엘리먼트를 사용하세요.
+- `position`의 기본값은 `relative`입니다 (웹의 `static`과 다름).
+- `<list>` + `<list-item>`은 가상화된 리스트에 사용합니다. `item-key`가 필수입니다.
+- CSS `initial`, `inherit`, `unset` 키워드는 지원되지 않습니다.
+</Callout>
