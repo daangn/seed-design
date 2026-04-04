@@ -1,0 +1,163 @@
+/*
+ * CSS Selector 지원 검증 테스트
+ *
+ * postcss-lynx-compat의 Step 3 변환을 피하기 위해
+ * tag selector (view[data-*]) 형태를 사용합니다.
+ * Step 3은 .class[data-*] 패턴만 변환하므로 tag selector는 그대로 통과됩니다.
+ *
+ * 각 테스트 케이스에서 "적용됨" = 초록색 배경, "미적용" = 기본(없음)
+ */
+
+/* ================================================================
+ * 1. Data-attribute selectors (기본)
+ * 엔진 코드 근거: attribute_selector_matching.cc - dataset lookup
+ * ================================================================ */
+
+/* 1-1. [data-attr] 존재 여부 */
+view[data-sel-test="1-1"] {
+  background-color: #ef4444;
+}
+view[data-sel-test="1-1"][data-active] {
+  background-color: #22c55e;
+}
+
+/* 1-2. [data-attr="value"] 정확한 값 매칭 */
+view[data-sel-test="1-2"] {
+  background-color: #ef4444;
+}
+view[data-sel-test="1-2"][data-variant="primary"] {
+  background-color: #22c55e;
+}
+
+/* 1-3. [data-attr="value"] 다른 값 */
+view[data-sel-test="1-3a"][data-size="small"] {
+  background-color: #3b82f6;
+}
+view[data-sel-test="1-3b"][data-size="large"] {
+  background-color: #f97316;
+}
+
+/* ================================================================
+ * 2. Attribute selector 연산자
+ * 엔진 코드 근거: GetSelectorAttrKeyOpValue - *, ^, $ 연산자
+ * ================================================================ */
+
+/* 2-1. [data-attr*="value"] contains */
+view[data-sel-test="2-1"] {
+  background-color: #ef4444;
+}
+view[data-sel-test="2-1"][data-text*="partial"] {
+  background-color: #22c55e;
+}
+
+/* 2-2. [data-attr^="value"] starts with */
+view[data-sel-test="2-2"] {
+  background-color: #ef4444;
+}
+view[data-sel-test="2-2"][data-text^="hello"] {
+  background-color: #22c55e;
+}
+
+/* 2-3. [data-attr$="value"] ends with */
+view[data-sel-test="2-3"] {
+  background-color: #ef4444;
+}
+view[data-sel-test="2-3"][data-text$="world"] {
+  background-color: #22c55e;
+}
+
+/* ================================================================
+ * 3. Pseudo-classes (지원 예상)
+ * 엔진 코드 근거: selector_matcher.cc MatchPseudoClass()
+ * ================================================================ */
+
+/* 3-1. :active - PseudoState 비트마스크 확인 */
+view[data-sel-test="3-1"] {
+  background-color: #3b82f6;
+}
+view[data-sel-test="3-1"]:active {
+  background-color: #22c55e;
+}
+
+/* 3-2. :not() - MatchPseudoNot() 구현됨 */
+view[data-sel-test="3-2"] {
+  background-color: #ef4444;
+}
+view[data-sel-test="3-2"]:not([data-excluded]) {
+  background-color: #22c55e;
+}
+
+/* 3-3. :not() 부정 케이스 - excluded가 있으면 :not() 미매칭 */
+view[data-sel-test="3-3"] {
+  background-color: #ef4444;
+}
+view[data-sel-test="3-3"]:not([data-excluded]) {
+  background-color: #22c55e;
+}
+
+/* ================================================================
+ * 4. Pseudo-classes (미지원 예상)
+ * 엔진 코드 근거: MatchPseudoClass()에 case 없음 → false 반환
+ *
+ * 주의: :checked, :indeterminate, :invalid은
+ * postcss-lynx-compat의 filterPseudoClasses에 의해 제거되므로
+ * CSS 파일로는 테스트 불가 (아래 주석 참조)
+ * ================================================================ */
+
+/* 4-1. :disabled - PseudoState 미정의 */
+view[data-sel-test="4-1"] {
+  background-color: #ef4444;
+}
+/* :disabled는 PseudoState enum에 없으므로 항상 false → 빨간색 유지 예상 */
+/* 단, postcss-lynx-compat가 변환하지 않으므로 그대로 Lynx에 전달됨 */
+
+/* 4-2. :is() - switch case 없음 */
+/* postcss-lynx-compat가 :is()를 확장하므로 원본 :is()는 Lynx에 도달하지 않음 */
+/* 별도로 :is()를 우회 테스트하기 어려움 - 스킵 */
+
+/* ================================================================
+ * 5. Combinators (자손/자식/형제)
+ * 엔진 코드 근거: RelationType enum, MatchForRelation()
+ * ================================================================ */
+
+/* 5-1. > 자식 선택자 */
+view[data-sel-test="5-1"] > view {
+  background-color: #22c55e;
+}
+
+/* 5-2. (공백) 자손 선택자 */
+view[data-sel-test="5-2"] text {
+  color: #22c55e;
+}
+
+/* 5-3. + 인접 형제 선택자 */
+view[data-sel-test="5-3-trigger"] + view[data-sel-test="5-3-target"] {
+  background-color: #22c55e;
+}
+
+/* 5-4. ~ 일반 형제 선택자 */
+view[data-sel-test="5-4-trigger"] ~ view[data-sel-test="5-4-target"] {
+  background-color: #22c55e;
+}
+
+/* ================================================================
+ * 6. 복합 선택자 (Compound)
+ * ================================================================ */
+
+/* 6-1. tag + data-attr 복합 (class를 앞에 두면 postcss-lynx-compat Step 3에 걸림) */
+view[data-compound="true"][data-state="active"] {
+  background-color: #22c55e;
+}
+
+/* 6-2. 다중 data-attr */
+view[data-sel-test="6-2"][data-a="1"][data-b="2"] {
+  background-color: #22c55e;
+}
+
+/* ================================================================
+ * 7. :root (page) 선택자
+ * 엔진 코드 근거: tag.str() == "page"
+ * ================================================================ */
+:root {
+  --css-sel-test-root-color: #22c55e;
+}

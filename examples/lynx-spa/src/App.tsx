@@ -13,6 +13,7 @@ import { TestTailwindBoxPage } from "./pages/TestTailwindBoxPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
+import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
 
 const LynxConsole = lazy(() => import("lynx-console"));
 
@@ -28,7 +29,8 @@ export type Page =
   | "foundation-typography"
   | "tailwind-demo"
   | "test-native-box"
-  | "test-tailwind-box";
+  | "test-tailwind-box"
+  | "css-selector-test";
 
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
@@ -73,6 +75,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "tailwind-demo" && <TailwindDemoPage />}
       {currentPage === "test-native-box" && <TestNativeBoxPage />}
       {currentPage === "test-tailwind-box" && <TestTailwindBoxPage />}
+      {currentPage === "css-selector-test" && <CSSSelectorTestPage />}
       <Suspense>
         <LynxConsole theme="light" />
       </Suspense>

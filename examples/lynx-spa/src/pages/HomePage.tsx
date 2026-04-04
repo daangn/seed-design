@@ -77,6 +77,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <SectionHeader>Test</SectionHeader>
       <ListItem title="Theming" onTap={() => navigate("theming")} />
       <ListItem title="Nested Vars Test (Lynx 3.6+)" onTap={() => navigate("nested-vars-test")} />
+      <ListItem title="CSS Selector Test" onTap={() => navigate("css-selector-test")} />
     </scroll-view>
   );
 }
