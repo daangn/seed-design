@@ -28,7 +28,7 @@
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
-    --seed-box-position: initial;
+    --seed-box-position: relative;
     position: var(--seed-box-position);
     --seed-box-gap: var(--seed-dimension-x1);
     gap: var(--seed-box-gap);

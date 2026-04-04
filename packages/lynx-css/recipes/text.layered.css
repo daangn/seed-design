@@ -7,7 +7,6 @@
     --seed-text-align: inherit;
     --seed-user-select: inherit;
     --seed-white-space: inherit;
-    --seed-max-lines: initial;
     margin: 0;
   }
   .seed-text__text {
@@ -18,7 +17,6 @@
     --seed-text-align: inherit;
     --seed-user-select: inherit;
     --seed-white-space: inherit;
-    --seed-max-lines: initial;
   }
 
   .seed-text__text {
@@ -29,7 +27,6 @@
     --seed-text-align: inherit;
     --seed-user-select: inherit;
     --seed-white-space: inherit;
-    --seed-max-lines: initial;
     color: var(--seed-text-color);
     font-size: var(--seed-font-size);
     font-weight: var(--seed-font-weight);

@@ -66,7 +66,7 @@
     height: var(--seed-dimension-x10);
     margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
     margin-left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x2));
-    --seed-suffix-icon-margin-left: initial;
+    --seed-suffix-icon-margin-left: auto;
     border-radius: var(--seed-radius-r1);
     background-color: #0000;
     border: none;

@@ -64,6 +64,76 @@ function resolveClamp(value: string, strategy: "min" | "preferred" | "max"): str
 }
 
 /**
+ * CSS custom property의 `initial` 값을 Lynx 호환 기본값으로 변환한다.
+ * Lynx는 `initial`, `inherit`, `unset` 키워드를 지원하지 않음.
+ * null 반환 시 해당 선언을 제거해야 함.
+ */
+function getInitialReplacement(prop: string): string | null {
+  // 색상 계열
+  if (prop.includes("background")) return "transparent";
+  if (prop.includes("border-color")) return "transparent";
+  if (prop.includes("color")) return null; // color는 선언 제거 (Lynx에서 부모 상속)
+
+  // 크기 계열
+  if (prop.includes("max-width") || prop.includes("max-height")) return "none";
+  if (
+    prop.includes("width") ||
+    prop.includes("height") ||
+    prop.includes("min-width") ||
+    prop.includes("min-height")
+  )
+    return "auto";
+
+  // 위치 계열
+  if (
+    prop.endsWith("-top") ||
+    prop.endsWith("-bottom") ||
+    prop.endsWith("-left") ||
+    prop.endsWith("-right")
+  ) {
+    // border-color-top 등은 이미 위에서 처리됨
+    return "auto";
+  }
+  if (prop.includes("position")) return "relative";
+
+  // 테두리/시각 계열
+  if (prop.includes("border-radius")) return "0";
+  if (prop.includes("box-shadow")) return "none";
+  if (prop.includes("transform")) return "none";
+
+  // 오버플로우
+  if (prop.includes("overflow")) return "visible";
+
+  // Flex 계열
+  if (prop.includes("flex-grow")) return "0";
+  if (prop.includes("flex-shrink")) return "1";
+  if (prop.includes("flex-direction")) return "row";
+  if (prop.includes("flex-wrap")) return "nowrap";
+  if (prop.includes("justify-content")) return "flex-start";
+  if (prop.includes("align-items")) return "stretch";
+  if (prop.includes("align-content")) return "stretch";
+  if (prop.includes("align-self")) return "auto";
+
+  // Grid 계열
+  if (prop.includes("grid-auto-flow")) return "row";
+  if (prop.includes("grid-auto-columns") || prop.includes("grid-auto-rows")) return "auto";
+  if (prop.includes("grid-column") || prop.includes("grid-row")) return "auto";
+  if (prop.includes("grid-columns") || prop.includes("grid-rows")) return "none";
+
+  // gap
+  if (prop.includes("gap")) return "0px";
+
+  // z-index
+  if (prop.includes("z-index")) return "auto";
+
+  // display
+  if (prop.includes("display")) return "flex";
+
+  // 나머지: 선언 제거 (안전한 fallback)
+  return null;
+}
+
+/**
  * CSS 값 내의 rem 단위를 px로 변환한다.
  * Lynx는 font-size에서 rem을 지원하지 않으므로 빌드 시 px로 변환.
  * calc(), var() 등 CSS 함수 구조는 그대로 유지하고 단위만 변환.
@@ -547,6 +617,15 @@ export const postcssLynxCompat: PluginCreator<LynxCompatConfig> = (opts = {}) =>
           if (config.removeCustomProperties.some((re) => re.test(prop))) {
             decl.remove();
             return;
+          }
+          // initial → Lynx 호환 기본값 변환 (Lynx는 initial 키워드 미지원)
+          if (decl.value === "initial") {
+            const replacement = getInitialReplacement(prop);
+            if (replacement === null) {
+              decl.remove();
+              return;
+            }
+            decl.value = replacement;
           }
           if (decl.value.includes("clamp(")) {
             decl.value = resolveClamp(decl.value, config.clampStrategy);

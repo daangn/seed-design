@@ -13,14 +13,14 @@
   .seed-contextual-floating-button {
     border-radius: var(--seed-radius-full);
     box-shadow: var(--seed-shadow-s3);
-    --seed-box-z-index: initial;
+    --seed-box-z-index: auto;
     z-index: var(--seed-box-z-index);
-    --seed-box-position: initial;
+    --seed-box-position: relative;
     position: var(--seed-box-position);
-    --seed-box-top: initial;
-    --seed-box-right: initial;
-    --seed-box-bottom: initial;
-    --seed-box-left: initial;
+    --seed-box-top: auto;
+    --seed-box-right: auto;
+    --seed-box-bottom: auto;
+    --seed-box-left: auto;
     top: var(--seed-box-top);
     right: var(--seed-box-right);
     bottom: var(--seed-box-bottom);
@@ -32,12 +32,12 @@
   }
 
   .seed-contextual-floating-button__text {
-    --seed-box-z-index: initial;
-    --seed-box-position: initial;
-    --seed-box-top: initial;
-    --seed-box-right: initial;
-    --seed-box-bottom: initial;
-    --seed-box-left: initial;
+    --seed-box-z-index: auto;
+    --seed-box-position: relative;
+    --seed-box-top: auto;
+    --seed-box-right: auto;
+    --seed-box-bottom: auto;
+    --seed-box-left: auto;
     --seed-icon-size: 22px;
     --size: 16px;
     --thickness: 2px;
@@ -45,12 +45,12 @@
   }
 
   .seed-contextual-floating-button__text {
-    --seed-box-z-index: initial;
-    --seed-box-position: initial;
-    --seed-box-top: initial;
-    --seed-box-right: initial;
-    --seed-box-bottom: initial;
-    --seed-box-left: initial;
+    --seed-box-z-index: auto;
+    --seed-box-position: relative;
+    --seed-box-top: auto;
+    --seed-box-right: auto;
+    --seed-box-bottom: auto;
+    --seed-box-left: auto;
     --seed-icon-size: 22px;
     --size: 16px;
     --thickness: 2px;
