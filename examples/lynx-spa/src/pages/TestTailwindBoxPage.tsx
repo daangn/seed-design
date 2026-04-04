@@ -2,7 +2,10 @@ const ITEMS = Array.from({ length: 30 }, (_, i) => i);
 
 export function TestTailwindBoxPage() {
   return (
-    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "12px", flex: 1 }}>
+    <scroll-view
+      scroll-y
+      style={{ display: "flex", flexDirection: "column", gap: "12px", flex: 1 }}
+    >
       <text style={{ fontSize: "20px", fontWeight: "bold" }}>Tailwind Box</text>
 
       {ITEMS.map((i) => (

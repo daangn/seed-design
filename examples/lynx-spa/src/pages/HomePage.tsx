@@ -75,7 +75,6 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
 
       <SectionHeader>Performance Comparison</SectionHeader>
       <ListItem title="Native view" onTap={() => navigate("test-native-box")} />
-      <ListItem title="SEED Box" onTap={() => navigate("test-seed-box")} />
       <ListItem title="Tailwind Box" onTap={() => navigate("test-tailwind-box")} />
 
       <SectionHeader>Test</SectionHeader>
