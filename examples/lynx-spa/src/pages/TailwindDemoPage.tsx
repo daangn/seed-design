@@ -6,7 +6,7 @@ export function TailwindDemoPage() {
       {/* Colors */}
       <text style={{ fontSize: "16px", fontWeight: "bold" }}>Background Colors</text>
       <view className="flex flex-col gap-2">
-        <view className="bg-bg-layer-default p-3 rounded-lg border border-stroke-neutral">
+        <view className="bg-bg-layer-default p-3 rounded-lg border border-stroke-neutral-muted">
           <text className="text-fg-neutral">bg-bg-layer-default</text>
         </view>
         <view className="bg-bg-neutral-weak p-3 rounded-lg">
@@ -72,13 +72,13 @@ export function TailwindDemoPage() {
       {/* Border */}
       <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Border & Radius</text>
       <view className="flex flex-row gap-2">
-        <view className="border border-stroke-neutral rounded p-3">
+        <view className="border border-stroke-neutral-muted rounded p-3">
           <text className="t4-regular">rounded</text>
         </view>
-        <view className="border border-stroke-neutral rounded-lg p-3">
+        <view className="border border-stroke-neutral-muted rounded-lg p-3">
           <text className="t4-regular">rounded-lg</text>
         </view>
-        <view className="border border-stroke-neutral rounded-full p-3">
+        <view className="border border-stroke-neutral-muted rounded-full p-3">
           <text className="t4-regular">full</text>
         </view>
       </view>
