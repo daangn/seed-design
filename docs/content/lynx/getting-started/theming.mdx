@@ -68,6 +68,24 @@ rsbuild 플러그인이 `<page>` 요소에 자동으로 테마 클래스를 설�
 
 별도의 설정 없이도 플러그인이 테마를 자동으로 관리하므로, 대부분의 경우 추가 작업이 필요하지 않습니다.
 
+## Tailwind CSS와 함께 사용하기
+
+SEED 토큰은 Tailwind CSS v3 유틸리티 클래스로도 사용할 수 있습니다. `@seed-design/tailwind3-plugin`이 SEED 색상 토큰을 Tailwind 클래스로 매핑합니다.
+
+```tsx
+// 테마에 따라 자동으로 색상이 변경됩니다
+<view className="bg-bg-layer-default">
+  <text className="text-fg-neutral">테마에 반응하는 텍스트</text>
+</view>
+```
+
+Tailwind 클래스는 CSS 커스텀 프로퍼티(`var(--seed-color-*)`)를 사용하므로, 테마 클래스가 변경되면 자동으로 모든 색상이 업데이트됩니다.
+
+<Callout type="warning">
+Lynx는 현재 **Tailwind CSS v3**만 지원합니다. Tailwind v4는 Rsbuild에서 아직 미지원입니다.
+자세한 설정은 [`@seed-design/tailwind3-plugin`](https://github.com/daangn/seed-design/tree/dev/packages/tailwind3-plugin)을 참고하세요.
+</Callout>
+
 ## 일부 요소에만 테마 오버라이드하기
 
 특정 영역에만 다른 테마를 적용하고 싶을 때는 해당 요소에 `seed-color-mode-light-only` 또는 `seed-color-mode-dark-only` 클래스를 추가합니다.
