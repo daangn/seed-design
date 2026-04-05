@@ -68,5 +68,8 @@
     "@seed-design/figma-spec-widget": "0.0.0",
     "figma-v3-migration": "1.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "add-lynx-framework-support",
+    "lynx-alpha-release"
+  ]
 }
