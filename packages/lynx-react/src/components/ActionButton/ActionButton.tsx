@@ -47,7 +47,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>(
       variant,
       size,
       layout: "withText",
-      disabled: disabled || undefined,
+      disabled: disabled ? true : undefined,
     });
     const isInteractive = !disabled;
 
