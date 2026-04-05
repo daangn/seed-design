@@ -1,0 +1,55 @@
+/* TODO: Lynx SVG(stroke-dasharray) 지원 시 qvism recipe로 전환하고 이 파일 삭제 */
+
+.seed-progress-circle__root {
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+}
+
+/* size 40: outer r=20, inner r=15 (0.53 * sqrt(2) * 20) */
+.seed-progress-circle__root--size_40 {
+  clip-path: path(
+    "M20 0 A20 20 0 1 1 20 40 A20 20 0 1 1 20 0 Z M20 5 A15 15 0 1 0 20 35 A15 15 0 1 0 20 5 Z"
+  );
+}
+
+/* size 24: outer r=12, inner r=9 (0.53 * sqrt(2) * 12) */
+.seed-progress-circle__root--size_24 {
+  clip-path: path(
+    "M12 0 A12 12 0 1 1 12 24 A12 12 0 1 1 12 0 Z M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 Z"
+  );
+}
+
+.seed-progress-circle__cap {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.seed-progress-circle__root--tone_neutral {
+  background: var(--seed-color-palette-gray-200);
+}
+
+.seed-progress-circle__root--tone_brand {
+  background: var(--seed-color-palette-carrot-200);
+}
+
+.seed-progress-circle__root--tone_staticWhite {
+  background: var(--seed-color-palette-static-white-alpha-300);
+}
+
+.seed-progress-circle__range--tone_neutral,
+.seed-progress-circle__cap--tone_neutral {
+  background: var(--seed-color-palette-gray-500);
+}
+
+.seed-progress-circle__range--tone_brand,
+.seed-progress-circle__cap--tone_brand {
+  background: var(--seed-color-bg-brand-solid);
+}
+
+.seed-progress-circle__range--tone_staticWhite,
+.seed-progress-circle__cap--tone_staticWhite {
+  background: var(--seed-color-palette-static-white);
+}

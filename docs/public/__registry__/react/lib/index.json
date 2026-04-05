@@ -1,0 +1,14 @@
+{
+  "id": "lib",
+  "hideFromCLICatalog": true,
+  "items": [
+    {
+      "snippets": [
+        {
+          "path": "manner-temp-level.ts"
+        }
+      ],
+      "id": "manner-temp-level"
+    }
+  ]
+}

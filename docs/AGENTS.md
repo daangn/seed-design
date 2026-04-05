@@ -13,4 +13,13 @@ SEED Design **문서 사이트**. Next.js + Fumadocs 기반. 컴포넌트 문서
 
 - Frontmatter에 `title`, `description`을 필수로 포함한다.
 - 문서 UI와 스토리는 문서 본문과 분리된 참조 계층으로 관리한다.
-- **`docs/registry/ui/`의 snippet 레이어 변경은 최소한으로 한다.** snippet은 사용자가 직접 커스터마이징하는 레이어이므로, 불필요한 변경은 사용자 코드에 영향을 줄 수 있다.
+- **`docs/registry/{react,lynx}/ui/`의 snippet 레이어 변경은 최소한으로 한다.** snippet은 사용자가 직접 커스터마이징하는 레이어이므로, 불필요한 변경은 사용자 코드에 영향을 줄 수 있다.
+- **`content/` 하위에 AGENTS.md를 두지 않는다.** fumadocs가 `content/` 전체를 스캔하여 `.md` 파일을 문서 콘텐츠로 인식하므로 frontmatter 에러가 발생한다.
+
+### Lynx 문서 작성 가이드 (`content/lynx/`)
+
+Lynx 컴포넌트 문서를 작성할 때는 **웹 버전과의 차이점을 반드시 문서화**한다. 사용자가 웹에서 Lynx로 전환할 때 혼란을 줄이기 위해 다음 관점을 확인한다:
+
+- **렌더링 방식 차이**: Lynx에서 지원하지 않는 웹 기능(SVG, 특정 CSS 속성 등)으로 인한 대체 구현
+- **API 차이**: props 차이, 컴파운드 컴포넌트 구조 차이, 이벤트 핸들링(`bindtap` 등)
+- **누락 기능**: 웹에는 있지만 Lynx에서 미지원인 기능

@@ -1,0 +1,51 @@
+{
+  "name": "@seed-design/lynx-react",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/lynx-react"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./dynamic-style": {
+      "types": "./lib/utils/dynamic-style.d.ts",
+      "import": "./lib/utils/dynamic-style.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "tsc",
+    "lint:publish": "bun publint"
+  },
+  "peerDependencies": {
+    "@seed-design/css": ">=1.1.17",
+    "@seed-design/lynx-css": ">=0.1.0",
+    "@lynx-js/react": ">=0.100.0"
+  },
+  "devDependencies": {
+    "@lynx-js/react": "^0.116.3",
+    "@lynx-js/types": "^3.7.0",
+    "@types/react": "^19.2.2",
+    "react": "^19.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@seed-design/lynx-primitive": "workspace:*",
+    "clsx": "^2.1.1"
+  }
+}

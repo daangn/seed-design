@@ -14,6 +14,7 @@ export async function writeRegistryItemSnippets({
   rootPath,
   cwd,
   baseUrl,
+  framework,
   config,
   onDiff,
 }: {
@@ -21,6 +22,7 @@ export async function writeRegistryItemSnippets({
   rootPath: string;
   cwd: string;
   baseUrl: string;
+  framework: string;
   config: Config;
   onDiff?: "overwrite" | "backup";
 }) {
@@ -33,6 +35,7 @@ export async function writeRegistryItemSnippets({
 
     const registryItems = await fetchRegistryItems({
       baseUrl,
+      framework,
       registryId,
       registryItemIds: items.map((i) => i.id),
     });

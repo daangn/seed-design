@@ -1,0 +1,36 @@
+@layer seed-components {
+  .seed-selectBoxCheckmark__root {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5);
+    flex: none;
+    position: relative;
+  }
+
+  .seed-selectBoxCheckmark__icon {
+    text-align: center;
+    overflow: initial;
+    width: 15px;
+    height: 15px;
+    color: var(--seed-color-fg-placeholder);
+    transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .seed-selectBoxCheckmark__icon:not([data-disabled]):active {
+    color: var(--seed-color-fg-neutral-subtle);
+  }
+
+  .seed-selectBoxCheckmark__icon:not([data-disabled])[data-checked] {
+    color: var(--seed-color-fg-neutral);
+  }
+
+  .seed-selectBoxCheckmark__icon.seed-selectBoxCheckmark__icon--disabled_true {
+    color: var(--seed-color-fg-disabled);
+  }
+}

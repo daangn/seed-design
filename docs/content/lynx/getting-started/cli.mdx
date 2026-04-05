@@ -1,0 +1,65 @@
+---
+title: CLI
+description: Lynx 프로젝트에서 SEED Design CLI를 사용하는 방법을 안내해요.
+---
+
+SEED Design CLI는 React와 Lynx에서 동일한 명령어를 사용해요. 이 페이지에서는 Lynx 프로젝트에서 달라지는 부분만 설명해요.
+
+전체 명령어와 옵션은 [CLI Commands](/react/getting-started/cli/commands)를, 설정 파일 상세는 [CLI Configuration](/react/getting-started/cli/configuration)을 참고하세요.
+
+## 프레임워크 자동 감지
+
+`seed-design init` 실행 시 프로젝트의 `package.json`에 `@lynx-js/react` 또는 `@seed-design/lynx-react`가 있으면 프레임워크가 자동으로 **Lynx**로 감지돼요.
+
+```sh
+◇  어떤 프레임워크를 사용하시나요?
+│  Lynx   ← 자동 감지
+```
+
+`--yes` 플래그를 사용하면 감지된 프레임워크로 바로 설정 파일이 생성돼요.
+
+```package-install
+npx @seed-design/cli@latest init --yes
+```
+
+## seed-design.json
+
+Lynx 프로젝트에서 생성되는 설정 파일 예시예요.
+
+```json title="seed-design.json"
+{
+  "tsx": true,
+  "framework": "lynx",
+  "path": "./seed-design",
+  "telemetry": true
+}
+```
+
+<Callout>
+
+`rsc` 옵션은 React Server Components 전용이므로 Lynx에서는 사용하지 않아요.
+
+</Callout>
+
+## --framework 플래그
+
+명시적으로 프레임워크를 지정하고 싶다면 `--framework` 플래그를 사용할 수 있어요.
+
+```package-install
+npx @seed-design/cli@latest add ui:action-button --framework lynx
+```
+
+`add`, `add-all`, `compat` 명령어에서 모두 사용할 수 있어요. 이 플래그는 `seed-design.json`의 `framework` 값을 일시적으로 덮어써요.
+
+## 호환성 검사
+
+`compat` 명령어는 프레임워크에 따라 검사하는 패키지가 달라요.
+
+| 프레임워크 | 검사 대상 패키지                                   |
+| ---------- | -------------------------------------------------- |
+| React      | `@seed-design/react`, `@seed-design/css`           |
+| Lynx       | `@seed-design/lynx-react`, `@seed-design/lynx-css` |
+
+```package-install
+npx @seed-design/cli@latest compat
+```

@@ -1,0 +1,59 @@
+.seed-segmented-control__root {
+    display: grid;
+    max-width: 100%;
+    position: relative;
+    padding: var(--seed-dimension-x1);
+    border-radius: var(--seed-radius-full);
+    background-color: var(--seed-color-bg-neutral-weak-alpha);
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    grid-auto-rows: 1fr;
+    align-items: center;
+}
+.seed-segmented-control__indicator {
+    position: absolute;
+    z-index: -1;
+    transform: translateX(calc(var(--segment-index) * 100%));
+    top: var(--seed-dimension-x1);
+    bottom: var(--seed-dimension-x1);
+    left: var(--seed-dimension-x1);
+    width: calc((100% - var(--seed-dimension-x1) * 2) / var(--segment-count));
+    border-radius: var(--seed-radius-full);
+    background-color: var(--seed-color-palette-gray-00);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    transition: transform var(--seed-duration-d4) var(--seed-timing-function-easing);
+}
+.seed-segmented-control__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 86px;
+    min-height: 34px;
+    gap: var(--seed-dimension-x1_5);
+    height: 100%;
+    padding-left: var(--seed-dimension-x6);
+    padding-right: var(--seed-dimension-x6);
+    padding-top: var(--seed-dimension-x1_5);
+    padding-bottom: var(--seed-dimension-x1_5);
+    border-radius: var(--seed-radius-full);
+    font-weight: var(--seed-font-weight-bold);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    color: var(--seed-color-fg-neutral-subtle);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+}
+.seed-segmented-control__item.seed-segmented-control__item--checked_true {
+    color: var(--seed-color-fg-neutral);
+}
+.seed-segmented-control__item.seed-segmented-control__item--disabled_true {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-segmented-control__item.seed-segmented-control__item--disabled_true[data-checked] {
+    background-color: var(--seed-color-bg-disabled);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+}
+.seed-segmented-control__item:not([data-disabled])[data-checked]:active {
+    background-color: var(--seed-color-palette-gray-100);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+}

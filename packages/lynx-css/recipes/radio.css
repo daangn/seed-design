@@ -1,0 +1,37 @@
+.seed-radio__root {
+    display: inline-flex;
+    align-items: flex-start;
+    position: relative;
+    max-width: 100%;
+    gap: var(--seed-dimension-x2);
+}
+.seed-radio__label {
+    color: var(--seed-color-fg-neutral);
+}
+.seed-radio__label.seed-radio__label--disabled_true {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-radio__label--weight_regular {
+    font-weight: var(--seed-font-weight-regular);
+}
+.seed-radio__label--weight_bold {
+    font-weight: var(--seed-font-weight-bold);
+}
+.seed-radio__root--size_large {
+    min-height: var(--seed-dimension-x9);
+    --radiomark-margin-top: calc((var(--seed-dimension-x9) - var(--seed-dimension-x6)) / 2);
+}
+.seed-radio__label--size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    margin-top: calc(var(--seed-dimension-x9) / 2 - var(--seed-line-height-t5) / 2);
+}
+.seed-radio__root--size_medium {
+    min-height: var(--seed-dimension-x8);
+    --radiomark-margin-top: calc((var(--seed-dimension-x8) - var(--seed-dimension-x5)) / 2);
+}
+.seed-radio__label--size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2);
+}

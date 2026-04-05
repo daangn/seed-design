@@ -1,0 +1,40 @@
+/* Lynx 3.6+ Nested CSS Variables 테스트 */
+
+/* 테스트 A: page 레벨 nested var() */
+page {
+  --test-palette-brand: #fa6616;
+  --test-palette-critical: #e53e3e;
+  --test-fg-brand: var(--test-palette-brand);
+  --test-fg-critical: var(--test-palette-critical);
+
+  --test-spacing-base: 8px;
+  --test-spacing-lg: calc(var(--test-spacing-base) * 2);
+
+  /* 2단계 중첩 */
+  --test-base-size: 14px;
+  --test-font-size: var(--test-base-size);
+  --test-heading-size: calc(var(--test-font-size) * 1.5);
+}
+
+/* 테스트 B: 컴포넌트 레벨 nested var() */
+.nested-test-brand {
+  --local-color: var(--test-fg-brand);
+  color: var(--local-color);
+  font-size: var(--test-font-size);
+  padding-top: var(--test-spacing-lg);
+  padding-bottom: var(--test-spacing-lg);
+  padding-left: var(--test-spacing-lg);
+  padding-right: var(--test-spacing-lg);
+}
+
+.nested-test-critical {
+  --local-color: var(--test-fg-critical);
+  color: var(--local-color);
+  font-size: var(--test-font-size);
+}
+
+.nested-test-heading {
+  font-size: var(--test-heading-size);
+  font-weight: bold;
+  color: var(--test-fg-brand);
+}

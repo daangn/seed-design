@@ -1,0 +1,32 @@
+@layer seed-components {
+  .seed-slider-tick {
+    background-color: var(--seed-color-fg-neutral-inverted);
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .seed-slider-tick__text {
+    transform: translate(-50%, -50%);
+  }
+
+  .seed-slider-tick__text {
+    transform: translate(-50%, -50%);
+  }
+
+  .seed-slider-tick.seed-slider-tick--dir_ltr {
+    left: calc(var(--tick-position) * 1% + var(--tick-offset));
+  }
+
+  .seed-slider-tick.seed-slider-tick--dir_rtl {
+    right: calc(var(--tick-position) * 1% + var(--tick-offset));
+  }
+
+  .seed-slider-tick--weight_thin {
+    width: 1px;
+  }
+
+  .seed-slider-tick--weight_thick {
+    width: var(--seed-dimension-x1);
+  }
+}

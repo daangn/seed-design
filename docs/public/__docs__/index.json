@@ -1586,10 +1586,66 @@
           "label": "컴포넌트",
           "items": [
             {
-              "id": "icon",
-              "title": "Icon",
+              "id": "action-button",
+              "title": "Action Button",
+              "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+              "docUrl": "/lynx/components/action-button",
+              "snippetKey": "ui:action-button",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "action-button.tsx"
+                }
+              ]
+            },
+            {
+              "id": "cli",
+              "title": "CLI",
+              "description": "Lynx 프로젝트에서 SEED Design CLI를 사용하는 방법을 안내해요.",
+              "docUrl": "/lynx/getting-started/cli"
+            },
+            {
+              "id": "feature-flags",
+              "title": "Feature Flags",
+              "description": "SEED Design을 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
+              "docUrl": "/lynx/getting-started/feature-flags"
+            },
+            {
+              "id": "iconography",
+              "title": "Iconography",
               "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
-              "docUrl": "/lynx/icon"
+              "docUrl": "/lynx/foundation/iconography"
+            },
+            {
+              "id": "installation",
+              "title": "Installation",
+              "description": "Lynx 프로젝트에서 SEED Design을 설치하고 사용하는 방법을 알아봅니다.",
+              "docUrl": "/lynx/getting-started/installation"
+            },
+            {
+              "id": "progress-circle",
+              "title": "Progress Circle",
+              "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
+              "docUrl": "/lynx/components/progress-circle",
+              "snippetKey": "ui:progress-circle",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "progress-circle.tsx"
+                }
+              ]
+            },
+            {
+              "id": "styling",
+              "title": "Styling with Tailwind",
+              "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
+              "docUrl": "/lynx/foundation/layout/styling"
+            },
+            {
+              "id": "theming",
+              "title": "Theming",
+              "description": "Lynx 환경에서 SEED Design의 테마 시스템을 활용하는 방법을 알아봅니다.",
+              "docUrl": "/lynx/getting-started/theming"
             }
           ]
         }

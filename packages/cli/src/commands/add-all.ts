@@ -30,6 +30,7 @@ const addAllOptionsSchema = z.object({
   includeDeprecated: z.boolean().optional(),
   cwd: z.string(),
   baseUrl: z.string().optional(),
+  framework: z.enum(["react", "lynx"]).optional(),
   onDiff: z.enum(["overwrite", "backup"]).optional(),
 });
 
@@ -50,6 +51,7 @@ export const addAllCommand = (cli: CAC) => {
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
     )
+    .option("-f, --framework <framework>", "프레임워크 (react 또는 lynx)")
     .option("--on-diff <mode>", "Action when file differs: overwrite or backup")
     .example("seed-design add-all ui --include-deprecated")
     .example("seed-design add-all ui lib breeze")
@@ -69,6 +71,7 @@ export const addAllCommand = (cli: CAC) => {
         const cwd = options.cwd;
         const baseUrl = options.baseUrl;
         const config = await getConfig(cwd);
+        const framework = options.framework ?? config.framework;
         const rootPath = path.resolve(cwd, config.path);
 
         const { start, stop } = p.spinner();
@@ -77,8 +80,8 @@ export const addAllCommand = (cli: CAC) => {
         const publicRegistries = await (async () => {
           try {
             const registries = await Promise.all(
-              (await fetchAvailableRegistries({ baseUrl })).map(async ({ id }) =>
-                fetchRegistry({ baseUrl, registryId: id }),
+              (await fetchAvailableRegistries({ baseUrl, framework })).map(async ({ id }) =>
+                fetchRegistry({ baseUrl, framework, registryId: id }),
               ),
             );
             stop("Registry를 가져왔어요.");
@@ -186,12 +189,14 @@ export const addAllCommand = (cli: CAC) => {
           itemKeys: registryItemsToAdd.flatMap(({ registryId, items }) =>
             items.map((item) => `${registryId}:${item.id}`),
           ),
-          projectPackageVersions: getProjectSeedPackageVersionSpecs(options.cwd),
+          projectPackageVersions: getProjectSeedPackageVersionSpecs(options.cwd, framework),
+          framework,
         });
 
         logCompatibilityReport({
           report: compatibilityReport,
           title: "현재 프로젝트 버전과 호환되지 않을 수 있는 스니펫이 있어요.",
+          framework,
         });
 
         await writeRegistryItemSnippets({
@@ -199,6 +204,7 @@ export const addAllCommand = (cli: CAC) => {
           rootPath,
           cwd,
           baseUrl,
+          framework,
           config,
           onDiff: options.onDiff,
         });

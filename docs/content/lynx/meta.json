@@ -1,5 +1,13 @@
 {
   "title": "Lynx",
-  "description": "Lynx 아이콘 프레임워크",
-  "pages": ["index", "icon"]
+  "description": "SEED Lynx 문서",
+  "pages": [
+    "index",
+    "---Getting Started---",
+    "...getting-started",
+    "---Foundation---",
+    "...foundation",
+    "---Components---",
+    "...components"
+  ]
 }

@@ -1,0 +1,83 @@
+@layer seed-components {
+  .seed-menu-sheet-item__root {
+    background-color: var(--seed-color-bg-neutral-weak);
+    min-height: 52px;
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
+    padding-top: var(--seed-dimension-x3_5);
+    padding-bottom: var(--seed-dimension-x3_5);
+    align-items: center;
+    gap: var(--seed-dimension-x3_5);
+    box-shadow: inset 0 calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-muted);
+    border: none;
+    margin: 0;
+    font-family: inherit;
+    display: flex;
+  }
+
+  .seed-menu-sheet-item__root:active {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+  }
+
+  .seed-menu-sheet-item__root:first-child {
+    border-top-left-radius: var(--seed-radius-r4);
+    border-top-right-radius: var(--seed-radius-r4);
+  }
+
+  .seed-menu-sheet-item__root:last-child {
+    border-bottom-left-radius: var(--seed-radius-r4);
+    border-bottom-right-radius: var(--seed-radius-r4);
+    box-shadow: none;
+  }
+
+  .seed-menu-sheet-item__root {
+    --seed-prefix-icon-size: 22px;
+  }
+
+  .seed-menu-sheet-item__content {
+    gap: var(--seed-dimension-x0_5);
+    flex-direction: column;
+    display: flex;
+  }
+
+  .seed-menu-sheet-item__label {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+  .seed-menu-sheet-item__description {
+    font-size: var(--seed-font-size-t3);
+    line-height: var(--seed-line-height-t3);
+    font-weight: var(--seed-font-weight-medium);
+    color: var(--seed-color-fg-neutral-subtle);
+  }
+
+  .seed-menu-sheet-item__root--tone_neutral {
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+  }
+
+  .seed-menu-sheet-item__label--tone_neutral {
+    color: var(--seed-color-fg-neutral);
+  }
+
+  .seed-menu-sheet-item__root--tone_critical {
+    --seed-prefix-icon-color: var(--seed-color-fg-critical);
+  }
+
+  .seed-menu-sheet-item__label--tone_critical {
+    color: var(--seed-color-fg-critical);
+  }
+
+  .seed-menu-sheet-item__content--labelAlign_left {
+    text-align: start;
+  }
+
+  .seed-menu-sheet-item__root--labelAlign_center {
+    justify-content: center;
+  }
+
+  .seed-menu-sheet-item__content--labelAlign_center {
+    align-items: center;
+  }
+}

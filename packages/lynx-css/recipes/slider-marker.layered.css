@@ -1,0 +1,73 @@
+@layer seed-components {
+  .seed-slider-marker {
+    width: max-content;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  .seed-slider-marker__text {
+    color: var(--seed-color-fg-neutral-muted);
+    font-weight: var(--seed-font-weight-regular);
+    font-size: var(--seed-font-size-t3);
+    line-height: var(--seed-line-height-t3);
+  }
+
+  .seed-slider-marker.seed-slider-marker--dir_ltr {
+    left: calc(var(--marker-position) * 1% + var(--marker-offset));
+  }
+
+  .seed-slider-marker.seed-slider-marker--dir_rtl {
+    right: calc(var(--marker-position) * 1% + var(--marker-offset));
+  }
+
+  .seed-slider-marker__text.seed-slider-marker__text--disabled_true {
+    color: var(--seed-color-fg-disabled);
+  }
+
+  .seed-slider-marker__text--align_start.seed-slider-marker__text--dir_ltr {
+    text-align: left;
+  }
+
+  .seed-slider-marker__text--align_start.seed-slider-marker__text--dir_rtl {
+    text-align: right;
+  }
+
+  .seed-slider-marker__text--align_center {
+    text-align: center;
+  }
+
+  .seed-slider-marker--align_center.seed-slider-marker--dir_ltr, .seed-slider-marker__text--align_center.seed-slider-marker__text--dir_ltr {
+    transform: translateX(-50%);
+  }
+
+  .seed-slider-marker--align_center.seed-slider-marker--dir_rtl, .seed-slider-marker__text--align_center.seed-slider-marker__text--dir_rtl {
+    transform: translateX(50%);
+  }
+
+  .seed-slider-marker--align_end.seed-slider-marker--dir_ltr {
+    transform: translateX(-100%);
+  }
+
+  .seed-slider-marker__text--align_end.seed-slider-marker__text--dir_ltr {
+    transform: translateX(-100%);
+  }
+
+  .seed-slider-marker__text--align_end.seed-slider-marker__text--dir_ltr {
+    text-align: right;
+    transform: translateX(-100%);
+  }
+
+  .seed-slider-marker--align_end.seed-slider-marker--dir_rtl {
+    transform: translateX(100%);
+  }
+
+  .seed-slider-marker__text--align_end.seed-slider-marker__text--dir_rtl {
+    transform: translateX(100%);
+  }
+
+  .seed-slider-marker__text--align_end.seed-slider-marker__text--dir_rtl {
+    text-align: left;
+    transform: translateX(100%);
+  }
+}

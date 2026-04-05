@@ -1,0 +1,50 @@
+@layer seed-components {
+  .seed-image-frame-reaction-button__root {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    background: none;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    display: inline-flex;
+    position: relative;
+  }
+
+  .seed-image-frame-reaction-button__root:before {
+    top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    right: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    bottom: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    position: absolute;
+  }
+
+  .seed-image-frame-reaction-button__fillIcon {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    pointer-events: none;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .seed-image-frame-reaction-button__lineIcon {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    color: var(--seed-color-palette-static-white);
+    pointer-events: none;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .seed-image-frame-reaction-button__lineIcon[aria-pressed="true"], .seed-image-frame-reaction-button__lineIcon.seed-image-frame-reaction-button__lineIcon--pressed_true {
+    color: var(--seed-color-bg-transparent);
+  }
+}

@@ -35,7 +35,7 @@ Headless (선택) → Rootage YAML → bun generate:all → Recipe → React →
 
 - `packages/css/**` ← rootage에서 생성
 - `packages/qvism-preset/src/vars/**` ← rootage에서 생성
-- `docs/registry/*.json` ← registry-*.ts에서 생성
+- `docs/registry/*.json` ← registry-*.ts에서 생성 (플랫폼별: `docs/registry/{react,lynx}/`)
 
 ## 전체 파이프라인
 

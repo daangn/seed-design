@@ -1,0 +1,133 @@
+@layer seed-components {
+  .seed-checkmark__root {
+    margin-top: var(--checkmark-margin-top, 0);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    flex: none;
+    position: relative;
+  }
+
+  .seed-checkmark__icon {
+    text-align: center;
+    overflow: initial;
+    margin: auto;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .seed-checkmark__root--variant_square {
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--seed-color-stroke-neutral-weak);
+  }
+
+  .seed-checkmark__root--variant_square.seed-checkmark__root--checked_true, .seed-checkmark__root--variant_square.seed-checkmark__root--indeterminate_true {
+    border-width: 0;
+  }
+
+  .seed-checkmark__root--variant_square:not(.seed-checkmark__root--disabled_true):active {
+    background: var(--seed-color-bg-transparent-pressed);
+  }
+
+  .seed-checkmark__root--variant_square.seed-checkmark__root--disabled_true {
+    background: var(--seed-color-bg-disabled);
+    border-color: var(--seed-color-stroke-neutral-muted);
+  }
+
+  .seed-checkmark__icon--variant_square.seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_square.seed-checkmark__icon--indeterminate_true {
+    display: block;
+  }
+
+  .seed-checkmark__icon--variant_square.seed-checkmark__icon--disabled_true.seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_square.seed-checkmark__icon--disabled_true.seed-checkmark__icon--indeterminate_true {
+    color: var(--seed-color-fg-disabled);
+  }
+
+  .seed-checkmark__root--variant_ghost:not(.seed-checkmark__root--disabled_true):active {
+    background: var(--seed-color-bg-transparent-pressed);
+  }
+
+  .seed-checkmark__icon--variant_ghost {
+    color: var(--seed-color-fg-placeholder);
+    transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    display: block;
+  }
+
+  .seed-checkmark__icon--variant_ghost.seed-checkmark__icon--disabled_true, .seed-checkmark__icon--variant_ghost.seed-checkmark__icon--disabled_true.seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_ghost.seed-checkmark__icon--disabled_true.seed-checkmark__icon--indeterminate_true {
+    color: var(--seed-color-fg-disabled);
+  }
+
+  .seed-checkmark__root--size_large {
+    border-radius: var(--seed-radius-r1);
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+  }
+
+  .seed-checkmark__root--size_medium {
+    border-radius: var(--seed-radius-r1);
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5);
+  }
+
+  .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--checked_true, .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--indeterminate_true {
+    background: var(--seed-color-bg-neutral-inverted);
+  }
+
+  .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--checked_true:active, .seed-checkmark__root--variant_square-tone_neutral:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--indeterminate_true:active {
+    background: var(--seed-color-bg-neutral-inverted-pressed);
+  }
+
+  .seed-checkmark__icon--variant_square-tone_neutral:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_square-tone_neutral:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--indeterminate_true {
+    color: var(--seed-color-fg-neutral-inverted);
+  }
+
+  .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--checked_true, .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--indeterminate_true {
+    background: var(--seed-color-bg-brand-solid);
+  }
+
+  .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--checked_true:active, .seed-checkmark__root--variant_square-tone_brand:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--indeterminate_true:active {
+    background: var(--seed-color-bg-brand-solid-pressed);
+  }
+
+  .seed-checkmark__icon--variant_square-tone_brand:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_square-tone_brand:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--indeterminate_true {
+    color: var(--seed-color-palette-static-white);
+  }
+
+  .seed-checkmark__root--variant_ghost-tone_neutral:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--checked_true:active, .seed-checkmark__root--variant_ghost-tone_neutral:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--indeterminate_true:active {
+    background: var(--seed-color-palette-gray-200);
+  }
+
+  .seed-checkmark__icon--variant_ghost-tone_neutral:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_ghost-tone_neutral:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--indeterminate_true {
+    color: var(--seed-color-fg-neutral);
+  }
+
+  .seed-checkmark__root--variant_ghost-tone_brand:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--checked_true:active, .seed-checkmark__root--variant_ghost-tone_brand:not(.seed-checkmark__root--disabled_true).seed-checkmark__root--indeterminate_true:active {
+    background: var(--seed-color-palette-carrot-200);
+  }
+
+  .seed-checkmark__icon--variant_ghost-tone_brand:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--checked_true, .seed-checkmark__icon--variant_ghost-tone_brand:not(.seed-checkmark__icon--disabled_true).seed-checkmark__icon--indeterminate_true {
+    color: var(--seed-color-fg-brand);
+  }
+
+  .seed-checkmark__icon--size_medium-variant_ghost {
+    width: 14px;
+    height: 14px;
+  }
+
+  .seed-checkmark__icon--size_large-variant_ghost {
+    width: 18px;
+    height: 18px;
+  }
+
+  .seed-checkmark__icon--size_medium-variant_square {
+    width: 12px;
+    height: 12px;
+  }
+
+  .seed-checkmark__icon--size_large-variant_square {
+    width: 14px;
+    height: 14px;
+  }
+}
