@@ -1,7 +1,7 @@
 ---
-"@seed-design/lynx-primitive": minor
-"@seed-design/lynx-css": minor
-"@seed-design/lynx-react": minor
+"@seed-design/lynx-primitive": patch
+"@seed-design/lynx-css": patch
+"@seed-design/lynx-react": patch
 ---
 
 feat(lynx): initial alpha release

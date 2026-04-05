@@ -249,7 +249,6 @@
         "@lynx-js/react": "^0.117.0",
         "@seed-design/lynx-css": "workspace:*",
         "@seed-design/lynx-react": "workspace:*",
-        "@seed-design/rsbuild-plugin": "1.1.0",
         "@seed-design/tailwind3-plugin": "workspace:*",
         "clsx": "^2.1.1",
         "lynx-console": "^0.3.0",
@@ -483,7 +482,7 @@
       "peerDependencies": {
         "@lynx-js/react": ">=0.100.0",
         "@seed-design/css": ">=1.1.17",
-        "@seed-design/lynx-css": ">=0.1.0",
+        "@seed-design/lynx-css": ">=0.0.0",
       },
     },
     "packages/mcp": {
