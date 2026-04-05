@@ -162,10 +162,6 @@ function Root(props: RootProps) {
   );
 }
 
-function Track() {
-  return null;
-}
-
 function Range() {
   const { numSize, isDeterminate, progress, classes } = useProgressCircleCtx();
 
@@ -409,6 +405,5 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
 
 export const ProgressCircle = {
   Root,
-  Track,
   Range,
 };

@@ -114,24 +114,22 @@ Lynx는 현재 **Tailwind CSS v3**만 지원합니다. Tailwind v4는 Rsbuild에
 특정 영역에만 다른 테마를 적용하고 싶을 때는 해당 요소에 `seed-color-mode-light-only` 또는 `seed-color-mode-dark-only` 클래스를 추가합니다.
 
 ```tsx
-import { View, Text } from "@lynx-js/react";
-
 function MyComponent() {
   return (
-    <View>
+    <view>
       {/* 현재 전역 테마를 따르는 영역 */}
-      <Text>전역 테마가 적용됩니다</Text>
+      <text>전역 테마가 적용됩니다</text>
 
       {/* 다크 모드 강제 적용 영역 */}
-      <View className="seed-color-mode-dark-only">
-        <Text>다크 모드가 강제 적용됩니다</Text>
-      </View>
+      <view className="seed-color-mode-dark-only">
+        <text>다크 모드가 강제 적용됩니다</text>
+      </view>
 
       {/* 라이트 모드 강제 적용 영역 */}
-      <View className="seed-color-mode-light-only">
-        <Text>라이트 모드가 강제 적용됩니다</Text>
-      </View>
-    </View>
+      <view className="seed-color-mode-light-only">
+        <text>라이트 모드가 강제 적용됩니다</text>
+      </view>
+    </view>
   );
 }
 ```

@@ -21,7 +21,7 @@ function AutoProgressTest() {
       }}
     >
       <ProgressCircle.Root tone="brand" size="40" minValue={0} maxValue={1} value={value}>
-        <ProgressCircle.Track />
+
         <ProgressCircle.Range />
       </ProgressCircle.Root>
       <text style={{ fontSize: "14px" }}>{`${Math.round(value * 100)}%`}</text>
@@ -49,11 +49,11 @@ export function ProgressCirclePage() {
         }}
       >
         <ProgressCircle.Root tone="neutral" size="40">
-          <ProgressCircle.Track />
+  
           <ProgressCircle.Range />
         </ProgressCircle.Root>
         <ProgressCircle.Root tone="brand" size="40">
-          <ProgressCircle.Track />
+  
           <ProgressCircle.Range />
         </ProgressCircle.Root>
         <view
@@ -64,7 +64,7 @@ export function ProgressCirclePage() {
           }}
         >
           <ProgressCircle.Root tone="staticWhite" size="40">
-            <ProgressCircle.Track />
+    
             <ProgressCircle.Range />
           </ProgressCircle.Root>
         </view>
@@ -80,11 +80,11 @@ export function ProgressCirclePage() {
         }}
       >
         <ProgressCircle.Root tone="brand" size="24">
-          <ProgressCircle.Track />
+  
           <ProgressCircle.Range />
         </ProgressCircle.Root>
         <ProgressCircle.Root tone="brand" size="40">
-          <ProgressCircle.Track />
+  
           <ProgressCircle.Range />
         </ProgressCircle.Root>
       </view>
@@ -99,19 +99,19 @@ export function ProgressCirclePage() {
         }}
       >
         <ProgressCircle.Root tone="neutral" size="40" minValue={0} maxValue={1} value={0.25}>
-          <ProgressCircle.Track />
+  
           <ProgressCircle.Range />
         </ProgressCircle.Root>
         <ProgressCircle.Root tone="brand" size="40" minValue={0} maxValue={1} value={0.5}>
-          <ProgressCircle.Track />
+  
           <ProgressCircle.Range />
         </ProgressCircle.Root>
         <ProgressCircle.Root tone="brand" size="40" minValue={0} maxValue={1} value={0.75}>
-          <ProgressCircle.Track />
+  
           <ProgressCircle.Range />
         </ProgressCircle.Root>
         <ProgressCircle.Root tone="brand" size="40" minValue={0} maxValue={1} value={1}>
-          <ProgressCircle.Track />
+  
           <ProgressCircle.Range />
         </ProgressCircle.Root>
       </view>
@@ -126,7 +126,7 @@ export function ProgressCirclePage() {
         }}
       >
         <ProgressCircle.Root tone="brand" size="40" minValue={0} maxValue={1} value={progress}>
-          <ProgressCircle.Track />
+  
           <ProgressCircle.Range />
         </ProgressCircle.Root>
         <text style={{ fontSize: "14px" }}>{`${Math.round(progress * 100)}%`}</text>
