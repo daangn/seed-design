@@ -21,7 +21,6 @@ import { ProgressCircle } from "@seed-design/lynx-react";
 export function App() {
   return (
     <ProgressCircle.Root tone="brand" size="40">
-      <ProgressCircle.Track />
       <ProgressCircle.Range />
     </ProgressCircle.Root>
   );
@@ -38,7 +37,6 @@ import { ProgressCircle } from "@seed-design/lynx-react";
 export function App() {
   return (
     <ProgressCircle.Root tone="brand" size="40" minValue={0} maxValue={1} value={0.5}>
-      <ProgressCircle.Track />
       <ProgressCircle.Range />
     </ProgressCircle.Root>
   );
@@ -59,6 +57,7 @@ Lynx 버전은 플랫폼 제약으로 인해 웹(`@seed-design/react`) 버전과
 | **애니메이션** | CSS `@keyframes` + `animation` | Main thread `requestAnimationFrame` + `setStyleProperty` |
 | **Determinate 전환** | CSS `transition` (stroke-dashoffset) | Main thread `requestAnimationFrame` 기반 easing 애니메이션 |
 | **Headless 레이어** | `@seed-design/react-headless` 사용 | 자체 구현 (headless 미사용) |
+| **Track** | `<ProgressCircle.Track />` SVG circle 렌더링 | Root의 CSS `background` + `clip-path`로 대체 (Track 컴포넌트 없음) |
 | **다중 인스턴스** | CSS 기반 (GPU 가속) | 인스턴스별 독립 RAF 루프 |
 
 <Callout type="warn">
