@@ -7,10 +7,10 @@ import * as React from "react";
 /**
  * @platform Lynx
  *
- * Lynx 미지원 기능 (SVG 지원 이후 추가 예정):
- * - loading: spinner 렌더링에 SVG 필요
- * - layout: "iconOnly": 아이콘 렌더링에 SVG 필요
- * - PrefixIcon / SuffixIcon: SVG 기반 아이콘 컴포넌트
+ * 미지원 기능 (Lynx 아이콘 인터페이스 확정 후 추가 예정):
+ * - loading: Lynx용 loading indicator 컴포넌트 미구현
+ * - layout: "iconOnly": 아이콘 인터페이스 확정 후 지원
+ * - PrefixIcon / SuffixIcon: 아이콘 인터페이스 확정 후 지원
  *
  * 웹 대비 미지원 기능:
  * - color / fontWeight props: CSS variable 동적 주입 제한
@@ -51,9 +51,6 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>(
     });
     const isInteractive = !disabled;
 
-    // children 분리 — Lynx commitPatchUpdate circular ref 방지
-    const { children: _, ...nativeProps } = restProps as Record<string, unknown>;
-
     return (
       <Primitive.view
         ref={ref}
@@ -65,7 +62,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>(
           mainThreadBindtap && {
             "main-thread:bindtap": mainThreadBindtap,
           })}
-        {...nativeProps}
+        {...restProps}
       >
         <text className={classes.text}>{children}</text>
       </Primitive.view>
