@@ -3,6 +3,12 @@ title: Installation
 description: Lynx 프로젝트에서 SEED Design을 설치하고 사용하는 방법을 알아봅니다.
 ---
 
+{/* TODO: dev 브랜치 머지 시 alpha Callout 및 @alpha 태그, --baseUrl 옵션 제거 */}
+
+<Callout type="warning">
+SEED Design Lynx 패키지는 현재 **alpha** 단계예요. API가 변경될 수 있어요.
+</Callout>
+
 <Steps>
 <Step>
 
@@ -10,8 +16,9 @@ description: Lynx 프로젝트에서 SEED Design을 설치하고 사용하는 �
 
 필요한 의존성들을 설치해요.
 
+{/* TODO: dev 브랜치 머지 시 @alpha 태그 제거 */}
 ```package-install
-@seed-design/lynx-react @seed-design/lynx-css @seed-design/tailwind3-plugin tailwindcss@3
+@seed-design/lynx-react@alpha @seed-design/lynx-css@alpha @seed-design/tailwind3-plugin tailwindcss@3
 ```
 
 <Callout type="warning">
@@ -81,8 +88,9 @@ CSS 파일에 Tailwind 디렉티브를 추가해요.
 ### init 명령어 입력하기
 
 </Step>
+{/* TODO: dev 브랜치 머지 시 @alpha 태그 제거 */}
 ```package-install
-npx @seed-design/cli@latest init
+npx @seed-design/cli@alpha init
 ```
 
 <Step>
@@ -194,8 +202,9 @@ export default defineConfig({
 
 ### 컴포넌트를 한번 사용해볼까요?
 
+{/* TODO: dev 브랜치 머지 시 @alpha 태그와 --baseUrl 옵션 제거 */}
 ```package-install
-npx @seed-design/cli@latest add ui:action-button
+npx @seed-design/cli@alpha add ui:action-button --baseUrl https://lynx.seed-design.pages.dev
 ```
 
 </Step>
