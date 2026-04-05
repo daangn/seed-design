@@ -56,10 +56,13 @@ Lynx 버전은 플랫폼 제약으로 인해 웹(`@seed-design/react`) 버전과
 | | 웹 (React) | Lynx |
 |---|---|---|
 | **렌더링** | SVG `<circle>` + `stroke-dasharray` | CSS `clip-path` 기반 pie sector |
-| **애니메이션** | CSS `@keyframes` + `animation` | JavaScript `setInterval` (16ms 간격) |
-| **Determinate 전환** | CSS `transition` (stroke-dashoffset) | JavaScript 기반 easing 애니메이션 |
+| **애니메이션** | CSS `@keyframes` + `animation` | Main thread `requestAnimationFrame` + `setStyleProperty` |
+| **Determinate 전환** | CSS `transition` (stroke-dashoffset) | Main thread `requestAnimationFrame` 기반 easing 애니메이션 |
 | **Headless 레이어** | `@seed-design/react-headless` 사용 | 자체 구현 (headless 미사용) |
+| **다중 인스턴스** | CSS 기반 (GPU 가속) | 인스턴스별 독립 RAF 루프 |
 
-<Callout>
-Lynx에서 SVG 및 `stroke-dasharray` 지원이 추가되면 웹과 동일한 구현으로 전환될 예정입니다.
+<Callout type="warn">
+**성능 주의:** Lynx에서 `clip-path`가 animatable property가 아니므로 JS로 매 프레임 SVG path 문자열을 생성합니다.
+다수의 Indeterminate 인스턴스를 동시에 렌더링하면 성능 저하가 발생할 수 있습니다.
+Lynx에서 SVG + `stroke-dasharray` 지원이 추가되면 CSS-only 애니메이션으로 전환될 예정입니다.
 </Callout>
