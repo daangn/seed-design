@@ -659,7 +659,7 @@
             {
               "id": "migration-reference",
               "title": "Migration Reference",
-              "description": "V2 V3 마이그레이션 레퍼런스",
+              "description": "SEED 마이그레이션 레퍼런스",
               "docUrl": "/docs/migration/migration-reference"
             }
           ]
@@ -1371,13 +1371,13 @@
             {
               "id": "guide",
               "title": "Guide",
-              "description": "Seed Design V2에서 V3로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
+              "description": "Sprout에서 SEED로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
               "docUrl": "/react/migration/guide"
             },
             {
               "id": "migrating-icons",
               "title": "Migrating Icons",
-              "description": "SEED V2 아이콘을 V3 아이콘으로 쉽게 마이그레이션해요.",
+              "description": "구형 아이콘을 신규 아이콘으로 쉽게 마이그레이션해요.",
               "docUrl": "/react/migration/migrating-icons"
             }
           ]
@@ -1529,7 +1529,7 @@
             {
               "id": "introduction",
               "title": "Introduction",
-              "description": "\"@seed-design/codemod는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.\"",
+              "description": "\"@seed-design/codemod는 Sprout에서 SEED로 마이그레이션하기 위한 코드 변환 도구예요.\"",
               "docUrl": "/react/developer-tools/codemods/introduction"
             }
           ]
@@ -1543,12 +1543,6 @@
               "title": "Changelog",
               "description": "최신 업데이트와 변경사항을 기록합니다.",
               "docUrl": "/react/updates/changelog"
-            },
-            {
-              "id": "v3-improvements",
-              "title": "V3 Improvements",
-              "description": "V2(Sprout) 대비 V3에서 개선된 점을 소개합니다.",
-              "docUrl": "/react/updates/v3-improvements"
             }
           ]
         }
@@ -1605,16 +1599,53 @@
               ]
             },
             {
+              "id": "cli",
+              "title": "CLI",
+              "description": "Lynx 프로젝트에서 SEED Design CLI를 사용하는 방법을 안내해요.",
+              "docUrl": "/lynx/getting-started/cli"
+            },
+            {
+              "id": "feature-flags",
+              "title": "Feature Flags",
+              "description": "SEED Design을 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
+              "docUrl": "/lynx/getting-started/feature-flags"
+            },
+            {
               "id": "iconography",
               "title": "Iconography",
               "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
               "docUrl": "/lynx/foundation/iconography"
             },
             {
+              "id": "installation",
+              "title": "Installation",
+              "description": "Lynx 프로젝트에서 SEED Design을 설치하고 사용하는 방법을 알아봅니다.",
+              "docUrl": "/lynx/getting-started/installation"
+            },
+            {
+              "id": "progress-circle",
+              "title": "Progress Circle",
+              "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
+              "docUrl": "/lynx/components/progress-circle",
+              "snippetKey": "ui:progress-circle",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "progress-circle.tsx"
+                }
+              ]
+            },
+            {
+              "id": "styling",
+              "title": "Styling with Tailwind",
+              "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
+              "docUrl": "/lynx/foundation/layout/styling"
+            },
+            {
               "id": "theming",
               "title": "Theming",
               "description": "Lynx 환경에서 SEED Design의 테마 시스템을 활용하는 방법을 알아봅니다.",
-              "docUrl": "/lynx/theming"
+              "docUrl": "/lynx/getting-started/theming"
             }
           ]
         }

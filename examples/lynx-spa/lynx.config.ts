@@ -16,7 +16,33 @@ export default defineConfig({
     pluginReactLynx(),
     pluginTypeCheck(),
     pluginLynxConfig({
+      // 기본 활성화이지만 명시적으로 설정
+      enableCSSSelector: true,
+      enableCSSInvalidation: true,
+
+      // CSS
+      enableCSSInheritance: true,
       enableCSSInlineVariables: true,
+      enableCSSStrictMode: false,
+
+      // 텍스트 & 레이아웃
+      enableTextRefactor: true,
+      fontScaleEffectiveOnlyOnSp: true,
+      enableFixedNew: true,
+
+      // 이벤트 (필요 시)
+      // enableNewGesture: true,
+      // enableEventHandleRefactor: true,
+      // enablePlatformGesture: true,
+
+      // 관찰 & 렌더링 (필요 시)
+      // enableNewIntersectionObserver: true,
+      // enableVsyncAlignedFlush: true,
+      // unifyVWVHBehavior: true,
+
+      // 성능 (필요 시)
+      // enableCSSLazyImport: true,
+      // enableTextLayoutCache: true,
     }),
   ],
   output: {

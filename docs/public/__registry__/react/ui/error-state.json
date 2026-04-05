@@ -1,0 +1,26 @@
+{
+  "id": "error-state",
+  "deprecated": true,
+  "dependencies": [
+    "@seed-design/css",
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "action-button"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "error-state.tsx",
+      "content": "/**\n * @file ui:error-state\n * @requires @seed-design/react@~1.1.0\n * @requires @seed-design/css@~1.1.0\n **/\n\n\"use client\";\n\nimport { Text, VStack, type TextProps } from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { ActionButton, type ActionButtonProps } from \"./action-button\";\nimport type { ScopedColorBg } from \"@seed-design/css/vars\";\n\n/**\n * @deprecated Use result-section instead.\n */\nexport interface ErrorStateProps\n  extends Omit<React.HTMLAttributes<HTMLDivElement>, \"title\" | \"color\"> {\n  title?: React.ReactNode;\n\n  description: React.ReactNode;\n\n  primaryActionProps?: ActionButtonProps;\n\n  secondaryActionProps?: ActionButtonProps;\n\n  /**\n   * @default \"default\"\n   */\n  variant?: \"default\" | \"basement\";\n}\n\nconst bg = {\n  default: \"bg.layerDefault\",\n  basement: \"bg.neutralWeak\",\n} as const satisfies Record<NonNullable<ErrorStateProps[\"variant\"]>, ScopedColorBg>;\n\nconst primaryActionVariant = {\n  default: \"neutralWeak\",\n  basement: \"neutralOutline\",\n} as const satisfies Record<\n  NonNullable<ErrorStateProps[\"variant\"]>,\n  NonNullable<ActionButtonProps[\"variant\"]>\n>;\n\nconst descriptionTextStyle = {\n  descriptionOnly: \"t5Regular\",\n  withTitle: \"t4Regular\",\n} as const satisfies Record<string, NonNullable<TextProps[\"textStyle\"]>>;\n\n/**\n * @deprecated Use result-section instead.\n * @see https://seed-design.io/react/components/error-state\n */\nexport const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>((props, ref) => {\n  const {\n    title,\n    description,\n    primaryActionProps,\n    secondaryActionProps,\n    variant = \"default\",\n    ...otherProps\n  } = props;\n  return (\n    <VStack\n      ref={ref}\n      justify=\"center\"\n      align=\"center\"\n      gap=\"x10\"\n      px=\"x14\"\n      height=\"full\"\n      flexGrow={1}\n      bg={bg[variant]}\n      {...otherProps}\n    >\n      <VStack gap=\"x1\">\n        <Text align=\"center\" textStyle=\"t5Bold\">\n          {title}\n        </Text>\n        <Text\n          align=\"center\"\n          color=\"fg.neutralSubtle\"\n          textStyle={title ? descriptionTextStyle.withTitle : descriptionTextStyle.descriptionOnly}\n        >\n          {description}\n        </Text>\n      </VStack>\n      {(primaryActionProps || secondaryActionProps) && (\n        <VStack align=\"center\" gap=\"x4\">\n          {primaryActionProps && (\n            <ActionButton variant={primaryActionVariant[variant]} {...primaryActionProps} />\n          )}\n          {secondaryActionProps && (\n            <ActionButton\n              variant=\"ghost\"\n              color=\"fg.neutralMuted\"\n              fontWeight=\"medium\"\n              bleedX=\"asPadding\"\n              bleedY=\"asPadding\"\n              {...secondaryActionProps}\n            />\n          )}\n        </VStack>\n      )}\n    </VStack>\n  );\n});\nErrorState.displayName = \"ErrorState\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.1.0",
+        "@seed-design/css": "~1.1.0"
+      }
+    }
+  ]
+}

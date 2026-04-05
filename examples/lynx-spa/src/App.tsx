@@ -7,13 +7,13 @@ import { FoundationMonochromeIconPage } from "./pages/FoundationMonochromeIconPa
 import { FoundationMulticolorIconPage } from "./pages/FoundationMulticolorIconPage.jsx";
 import { FoundationTypographyPage } from "./pages/FoundationTypographyPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
-import { LayoutBoxPage } from "./pages/LayoutBoxPage.jsx";
-import { LayoutFlexPage } from "./pages/LayoutFlexPage.jsx";
-import { LayoutStackPage } from "./pages/LayoutStackPage.jsx";
-import { LayoutTextPage } from "./pages/LayoutTextPage.jsx";
+import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
+import { TestNativeBoxPage } from "./pages/TestNativeBoxPage.jsx";
+import { TestTailwindBoxPage } from "./pages/TestTailwindBoxPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
+import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
 
 const LynxConsole = lazy(() => import("lynx-console"));
 
@@ -27,10 +27,10 @@ export type Page =
   | "foundation-monochrome-icon"
   | "foundation-multicolor-icon"
   | "foundation-typography"
-  | "layout-box"
-  | "layout-flex"
-  | "layout-stack"
-  | "layout-text";
+  | "tailwind-demo"
+  | "test-native-box"
+  | "test-tailwind-box"
+  | "css-selector-test";
 
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
@@ -72,10 +72,10 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
       {currentPage === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}
       {currentPage === "foundation-typography" && <FoundationTypographyPage />}
-      {currentPage === "layout-box" && <LayoutBoxPage />}
-      {currentPage === "layout-flex" && <LayoutFlexPage />}
-      {currentPage === "layout-stack" && <LayoutStackPage />}
-      {currentPage === "layout-text" && <LayoutTextPage />}
+      {currentPage === "tailwind-demo" && <TailwindDemoPage />}
+      {currentPage === "test-native-box" && <TestNativeBoxPage />}
+      {currentPage === "test-tailwind-box" && <TestTailwindBoxPage />}
+      {currentPage === "css-selector-test" && <CSSSelectorTestPage />}
       <Suspense>
         <LynxConsole theme="light" />
       </Suspense>

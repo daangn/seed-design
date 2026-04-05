@@ -1,14 +1,14 @@
 @layer seed-components {
   .seed-action-button {
-    --seed-box-flex-grow: initial;
+    --seed-box-flex-grow: 0;
     flex-shrink: 0;
     flex-grow: var(--seed-box-flex-grow);
-    --seed-box-min-width: initial;
+    --seed-box-min-width: auto;
     min-width: var(--seed-box-min-width);
-    --seed-box-padding-bottom: initial;
-    --seed-box-padding-top: initial;
-    --seed-box-padding-left: initial;
-    --seed-box-padding-right: initial;
+    --seed-box-padding-bottom: auto;
+    --seed-box-padding-top: auto;
+    --seed-box-padding-left: auto;
+    --seed-box-padding-right: auto;
     padding-top: var(--seed-box-padding-top);
     padding-bottom: var(--seed-box-padding-bottom);
     padding-left: var(--seed-box-padding-left);
@@ -28,12 +28,12 @@
     position: relative;
   }
   .seed-action-button__text {
-    --seed-box-flex-grow: initial;
-    --seed-box-min-width: initial;
-    --seed-box-padding-bottom: initial;
-    --seed-box-padding-top: initial;
-    --seed-box-padding-left: initial;
-    --seed-box-padding-right: initial;
+    --seed-box-flex-grow: 0;
+    --seed-box-min-width: auto;
+    --seed-box-padding-bottom: auto;
+    --seed-box-padding-top: auto;
+    --seed-box-padding-left: auto;
+    --seed-box-padding-right: auto;
     --seed-box-bleed-bottom: 0px;
     --seed-box-bleed-top: 0px;
     --seed-box-bleed-left: 0px;
@@ -41,12 +41,12 @@
   }
 
   .seed-action-button__text {
-    --seed-box-flex-grow: initial;
-    --seed-box-min-width: initial;
-    --seed-box-padding-bottom: initial;
-    --seed-box-padding-top: initial;
-    --seed-box-padding-left: initial;
-    --seed-box-padding-right: initial;
+    --seed-box-flex-grow: 0;
+    --seed-box-min-width: auto;
+    --seed-box-padding-bottom: auto;
+    --seed-box-padding-top: auto;
+    --seed-box-padding-left: auto;
+    --seed-box-padding-right: auto;
     --seed-box-bleed-bottom: 0px;
     --seed-box-bleed-top: 0px;
     --seed-box-bleed-left: 0px;

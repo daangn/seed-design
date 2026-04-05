@@ -29,7 +29,7 @@
   }
 
   .seed-list-item__suffix {
-    --seed-box-position: initial;
+    --seed-box-position: relative;
     position: var(--seed-box-position);
     --seed-box-gap: var(--seed-dimension-x1);
     align-items: center;

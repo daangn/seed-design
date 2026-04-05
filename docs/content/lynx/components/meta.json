@@ -1,10 +1,4 @@
 {
   "title": "Components",
-  "pages": [
-    "---Foundation---",
-    "...(foundation)",
-    "---Components---",
-    "action-button",
-    "progress-circle"
-  ]
+  "pages": ["action-button", "progress-circle"]
 }

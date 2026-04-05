@@ -1,20 +1,20 @@
 @layer seed-components {
   .seed-skeleton {
-    --seed-box-width: initial;
-    --seed-box-height: initial;
+    --seed-box-width: auto;
+    --seed-box-height: auto;
     width: var(--seed-box-width);
     height: var(--seed-box-height);
     display: inline-block;
     overflow: hidden;
   }
   .seed-skeleton__text {
-    --seed-box-width: initial;
-    --seed-box-height: initial;
+    --seed-box-width: auto;
+    --seed-box-height: auto;
   }
 
   .seed-skeleton__text {
-    --seed-box-width: initial;
-    --seed-box-height: initial;
+    --seed-box-width: auto;
+    --seed-box-height: auto;
   }
 
   .seed-skeleton:after {

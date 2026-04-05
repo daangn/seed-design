@@ -11,7 +11,7 @@
     padding-top: var(--seed-dimension-x2_5);
     padding-bottom: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
-    --seed-box-max-width: initial;
+    --seed-box-max-width: none;
     max-width: var(--seed-box-max-width);
 }
 .seed-help-bubble__content.seed-help-bubble__content--state_open, .seed-help-bubble__content.seed-help-bubble__content--open_true {
