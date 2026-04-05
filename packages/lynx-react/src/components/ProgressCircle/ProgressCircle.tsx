@@ -110,19 +110,6 @@ const TRANSITION_DURATION = 300;
 
 // --- Components ---
 
-/**
- * ProgressCircle는 Lynx에서 SVG를 사용할 수 없어 CSS clip-path 기반 pie sector로 구현됩니다.
- *
- * **Known Issues:**
- * - 애니메이션이 JS requestAnimationFrame + setStyleProperty 기반이라 다수 인스턴스에서 성능 저하 가능
- * - Lynx main thread 제약으로 인스턴스 간 RAF 공유 불가 (모듈 레벨 Map 미지원)
- * - clip-path는 Lynx에서 CSS transition/animation 불가 (animatable property 아님)
- *
- * **향후 개선:**
- * - Lynx SVG + stroke-dasharray 지원 시 CSS-only 애니메이션으로 전환 예정
- *
- * @see {@link https://lynxjs.org} Lynx 공식 문서
- */
 export interface RootProps extends ProgressCircleVariantProps {
   minValue?: number;
   maxValue?: number;
@@ -131,6 +118,16 @@ export interface RootProps extends ProgressCircleVariantProps {
   className?: string;
 }
 
+/**
+ * Lynx에서 SVG를 사용할 수 없어 CSS clip-path 기반 pie sector로 구현.
+ *
+ * **Known Issues:**
+ * - clip-path가 Lynx에서 animatable이 아니라 JS RAF로 매 프레임 SVG path 생성
+ * - Lynx main thread에서 모듈 레벨 Map 미지원으로 인스턴스 간 RAF 공유 불가
+ * - 다수 인스턴스 동시 렌더링 시 성능 저하 가능
+ *
+ * Lynx SVG + stroke-dasharray 지원 시 CSS-only 애니메이션으로 전환 예정.
+ */
 function Root(props: RootProps) {
   const size: Size = (props.size as Size) ?? "40";
   const tone: Tone = (props.tone as Tone) ?? "neutral";
@@ -215,7 +212,6 @@ function DeterminateRange({
     if (from === newProgress) return;
 
     const rangeEl = rangeRef.current;
-    const startCapEl = startCapRef.current;
     const endCapEl = endCapRef.current;
     let startTs = 0;
 
@@ -232,10 +228,6 @@ function DeterminateRange({
       endCapEl?.setStyleProperties({
         left: `${halfSize + ringCenterR * Math.sin(rad) - capSize / 2}px`,
         top: `${halfSize - ringCenterR * Math.cos(rad) - capSize / 2}px`,
-      });
-      startCapEl?.setStyleProperties({
-        left: `${halfSize - capSize / 2}px`,
-        top: `${halfSize - ringCenterR - capSize / 2}px`,
       });
     }
 
@@ -324,7 +316,6 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
     const containerEl = containerRef.current;
     const rangeEl = rangeRef.current;
     const headCapEl = headCapRef.current;
-    const tailCapEl = tailCapRef.current;
     let startTs = 0;
 
     function tick(ts: number): void {
@@ -348,11 +339,6 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
         left: `${halfSize + ringCenterR * Math.sin(headRad) - capSize / 2}px`,
         top: `${halfSize - ringCenterR * Math.cos(headRad) - capSize / 2}px`,
       });
-      tailCapEl?.setStyleProperties({
-        left: `${halfSize - capSize / 2}px`,
-        top: `${halfSize - ringCenterR - capSize / 2}px`,
-      });
-
       rafIdRef.current = requestAnimationFrame(tick);
     }
 
@@ -374,7 +360,6 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
     };
   }, []);
 
-  // Initial render: t=0 → containerDeg=0, arcLength=0
   const initialClipPath = 'path("M 0 0 Z")';
 
   return (
