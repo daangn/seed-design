@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useMainThreadRef } from "@lynx-js/react";
+import {
+  createContext,
+  runOnMainThread,
+  useContext,
+  useEffect,
+  useMemo,
+  useMainThreadRef,
+} from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
@@ -25,10 +32,33 @@ function useProgressCircleCtx() {
   return ctx;
 }
 
-// --- Math utilities ---
-// These pure functions are shared by both main thread and background thread code.
+// --- Background-thread-only utilities (for initial render) ---
+
+function computeRingGeometry(numSize: number) {
+  const halfSize = numSize / 2;
+  const innerR = 0.53 * Math.SQRT2 * halfSize;
+  const ringCenterR = (halfSize + innerR) / 2;
+  const capSize = halfSize - innerR;
+  return { halfSize, innerR, ringCenterR, capSize };
+}
+
+function bgPieClipPath(size: number, angleDeg: number): string | undefined {
+  if (angleDeg >= 360) return undefined;
+  if (angleDeg <= 0) return 'path("M 0 0 Z")';
+  const c = size / 2;
+  const r = c + 1;
+  const rad = (angleDeg * Math.PI) / 180;
+  const endX = c + r * Math.sin(rad);
+  const endY = c - r * Math.cos(rad);
+  const largeArc = angleDeg > 180 ? 1 : 0;
+  return `path("M ${c} ${c} L ${c} ${c - r} A ${r} ${r} 0 ${largeArc} 1 ${endX} ${endY} Z")`;
+}
+
+// --- Main-thread-only utilities (for animations) ---
+// Compiled into the main thread bundle. Must NOT be called from render code.
 
 function cubicBezier(rawT: number, x1: number, y1: number, x2: number, y2: number): number {
+  "main thread";
   const t = Math.max(0, Math.min(1, rawT));
   const cx = 3 * x1;
   const bx = 3 * (x2 - x1) - cx;
@@ -47,44 +77,20 @@ function cubicBezier(rawT: number, x1: number, y1: number, x2: number, y2: numbe
 }
 
 function pieClipPath(size: number, angleDeg: number): string | undefined {
+  "main thread";
   if (angleDeg >= 360) return undefined;
   if (angleDeg <= 0) return 'path("M 0 0 Z")';
-
   const c = size / 2;
   const r = c + 1;
   const rad = (angleDeg * Math.PI) / 180;
   const endX = c + r * Math.sin(rad);
   const endY = c - r * Math.cos(rad);
   const largeArc = angleDeg > 180 ? 1 : 0;
-
   return `path("M ${c} ${c} L ${c} ${c - r} A ${r} ${r} 0 ${largeArc} 1 ${endX} ${endY} Z")`;
 }
 
-interface RingGeometry {
-  halfSize: number;
-  innerR: number;
-  ringCenterR: number;
-  capSize: number;
-}
-
-function computeRingGeometry(numSize: number): RingGeometry {
-  const halfSize = numSize / 2;
-  const innerR = 0.53 * Math.SQRT2 * halfSize;
-  const ringCenterR = (halfSize + innerR) / 2;
-  const capSize = halfSize - innerR;
-  return { halfSize, innerR, ringCenterR, capSize };
-}
-
-// --- Indeterminate animation constants ---
-
-const INDETERMINATE_DURATION = 1200;
-
-interface IndeterminateState {
-  containerDeg: number;
-  arcLength: number;
-}
-
-function sampleIndeterminate(t: number): IndeterminateState {
+function sampleIndeterminate(t: number) {
+  "main thread";
   const containerEased = cubicBezier(t, 0.35, 0.25, 0.65, 0.75);
   const headEased = cubicBezier(t, 0.35, 0, 0.65, 1);
   const tailEased = cubicBezier(t, 0.35, 0, 0.65, 0.6);
@@ -97,197 +103,26 @@ function sampleIndeterminate(t: number): IndeterminateState {
   return { containerDeg, arcLength };
 }
 
-// --- Shared indeterminate animation loop ---
-// Uses a single requestAnimationFrame loop on the main thread to drive all
-// indeterminate ProgressCircle instances. This avoids N independent setInterval
-// timers and N setState re-renders per frame.
-//
-// Pattern reference: lynx-ui (official Lynx UI library) uses requestAnimationFrame
-// + 'main thread' directive + setStyleProperty() for all animations.
+// --- Animation constants ---
 
-interface IndeterminateSubscriber {
-  containerRef: MainThread.Element | null;
-  rangeRef: MainThread.Element | null;
-  headCapRef: MainThread.Element | null;
-  tailCapRef: MainThread.Element | null;
-  numSize: number;
-  geo: RingGeometry;
-}
-
-function applyIndeterminateStyles(sub: IndeterminateSubscriber, state: IndeterminateState): void {
-  "main thread";
-
-  const { numSize, geo } = sub;
-  const { halfSize, ringCenterR, capSize } = geo;
-
-  // Container rotation
-  sub.containerRef?.setStyleProperty("transform", `rotate(${state.containerDeg}deg)`);
-
-  // Range clip-path
-  const clipPath = pieClipPath(numSize, state.arcLength);
-  if (clipPath) {
-    sub.rangeRef?.setStyleProperty("clip-path", clipPath);
-  } else {
-    sub.rangeRef?.setStyleProperty("clip-path", "none");
-  }
-
-  // Head cap position
-  const headRad = (state.arcLength * Math.PI) / 180;
-  const headCapX = halfSize + ringCenterR * Math.sin(headRad) - capSize / 2;
-  const headCapY = halfSize - ringCenterR * Math.cos(headRad) - capSize / 2;
-  sub.headCapRef?.setStyleProperties({
-    left: `${headCapX}px`,
-    top: `${headCapY}px`,
-  });
-
-  // Tail cap position (always at 12 o'clock in local coords)
-  const tailCapX = halfSize - capSize / 2;
-  const tailCapY = halfSize - ringCenterR - capSize / 2;
-  sub.tailCapRef?.setStyleProperties({
-    left: `${tailCapX}px`,
-    top: `${tailCapY}px`,
-  });
-}
-
-// Module-level shared animation state for indeterminate circles.
-// One RAF loop serves all subscribers.
-const indeterminateSubscribers = new Map<number, IndeterminateSubscriber>();
-let indeterminateRafId = 0;
-let indeterminateStartTs = 0;
-let nextSubscriberId = 0;
-
-function indeterminateTick(ts: number): void {
-  "main thread";
-
-  if (!indeterminateStartTs) {
-    indeterminateStartTs = Number(ts);
-  }
-
-  const elapsed = ts - indeterminateStartTs;
-  const t = (elapsed % INDETERMINATE_DURATION) / INDETERMINATE_DURATION;
-  const state = sampleIndeterminate(t);
-
-  indeterminateSubscribers.forEach((sub) => {
-    applyIndeterminateStyles(sub, state);
-  });
-
-  if (indeterminateSubscribers.size > 0) {
-    indeterminateRafId = requestAnimationFrame(indeterminateTick);
-  }
-}
-
-function subscribeIndeterminate(sub: IndeterminateSubscriber): number {
-  "main thread";
-
-  const id = nextSubscriberId++;
-  indeterminateSubscribers.set(id, sub);
-
-  // Start loop if this is the first subscriber
-  if (indeterminateSubscribers.size === 1) {
-    indeterminateStartTs = 0;
-    indeterminateRafId = requestAnimationFrame(indeterminateTick);
-  }
-
-  return id;
-}
-
-function unsubscribeIndeterminate(id: number): void {
-  "main thread";
-
-  indeterminateSubscribers.delete(id);
-
-  // Stop loop if no more subscribers
-  if (indeterminateSubscribers.size === 0 && indeterminateRafId) {
-    cancelAnimationFrame(indeterminateRafId);
-    indeterminateRafId = 0;
-  }
-}
-
-// --- Determinate animation (RAF-based) ---
-// Short-lived (300ms) transition when progress value changes.
-// Each instance gets its own RAF since transitions are independent and brief.
-
+const INDETERMINATE_DURATION = 1200;
 const TRANSITION_DURATION = 300;
-
-const NO_OP_CANCEL = { cancel: () => {} };
-
-function animateDeterminateProgress(
-  from: number,
-  to: number,
-  numSize: number,
-  geo: RingGeometry,
-  rangeRef: MainThread.Element | null,
-  startCapRef: MainThread.Element | null,
-  endCapRef: MainThread.Element | null,
-): { cancel: () => void } {
-  "main thread";
-
-  if (from === to) return NO_OP_CANCEL;
-
-  const { halfSize, ringCenterR, capSize } = geo;
-  let rafId = 0;
-  let startTs = 0;
-
-  function applyProgress(progress: number): void {
-    "main thread";
-
-    const angleDeg = progress * 360;
-    const clipPath = pieClipPath(numSize, angleDeg);
-
-    if (clipPath) {
-      rangeRef?.setStyleProperty("clip-path", clipPath);
-    } else {
-      rangeRef?.setStyleProperty("clip-path", "none");
-    }
-
-    // End cap position
-    const rad = (angleDeg * Math.PI) / 180;
-    endCapRef?.setStyleProperties({
-      left: `${halfSize + ringCenterR * Math.sin(rad) - capSize / 2}px`,
-      top: `${halfSize - ringCenterR * Math.cos(rad) - capSize / 2}px`,
-    });
-
-    // Start cap is always at 12 o'clock (angle 0)
-    startCapRef?.setStyleProperties({
-      left: `${halfSize - capSize / 2}px`,
-      top: `${halfSize - ringCenterR - capSize / 2}px`,
-    });
-  }
-
-  function step(ts: number): void {
-    "main thread";
-
-    if (!startTs) {
-      startTs = Number(ts);
-    }
-
-    const elapsed = ts - startTs;
-    if (elapsed >= TRANSITION_DURATION) {
-      applyProgress(to);
-      return;
-    }
-
-    const t = elapsed / TRANSITION_DURATION;
-    const eased = cubicBezier(t, 0, 0, 0.15, 1);
-    const current = from + (to - from) * eased;
-    applyProgress(current);
-    rafId = requestAnimationFrame(step);
-  }
-
-  // Apply initial state immediately
-  applyProgress(from);
-  rafId = requestAnimationFrame(step);
-
-  return {
-    cancel: () => {
-      "main thread";
-      cancelAnimationFrame(rafId);
-    },
-  };
-}
 
 // --- Components ---
 
+/**
+ * ProgressCircle는 Lynx에서 SVG를 사용할 수 없어 CSS clip-path 기반 pie sector로 구현됩니다.
+ *
+ * **Known Issues:**
+ * - 애니메이션이 JS requestAnimationFrame + setStyleProperty 기반이라 다수 인스턴스에서 성능 저하 가능
+ * - Lynx main thread 제약으로 인스턴스 간 RAF 공유 불가 (모듈 레벨 Map 미지원)
+ * - clip-path는 Lynx에서 CSS transition/animation 불가 (animatable property 아님)
+ *
+ * **향후 개선:**
+ * - Lynx SVG + stroke-dasharray 지원 시 CSS-only 애니메이션으로 전환 예정
+ *
+ * @see {@link https://lynxjs.org} Lynx 공식 문서
+ */
 export interface RootProps extends ProgressCircleVariantProps {
   minValue?: number;
   maxValue?: number;
@@ -359,40 +194,81 @@ function DeterminateRange({
   const startCapRef = useMainThreadRef<MainThread.Element>(null);
   const endCapRef = useMainThreadRef<MainThread.Element>(null);
   const prevProgressRef = useMainThreadRef<number>(progress);
-  const cancelRef = useMainThreadRef<(() => void) | null>(null);
+  const cancelRef = useMainThreadRef<number>(0);
 
-  const geo = computeRingGeometry(numSize);
-  const { halfSize, ringCenterR, capSize } = geo;
+  const { halfSize, ringCenterR, capSize } = computeRingGeometry(numSize);
 
   const initialAngle = progress * 360;
-  const initialClipPath = pieClipPath(numSize, initialAngle);
+  const initialClipPath = bgPieClipPath(numSize, initialAngle);
   const initialEndRad = (initialAngle * Math.PI) / 180;
 
-  const startAnimation = (newProgress: number) => {
+  function startAnimation(newProgress: number) {
     "main thread";
 
-    cancelRef.current?.();
+    if (cancelRef.current) {
+      cancelAnimationFrame(cancelRef.current);
+      cancelRef.current = 0;
+    }
 
     const from = prevProgressRef.current ?? 0;
-    const { cancel } = animateDeterminateProgress(
-      from,
-      newProgress,
-      numSize,
-      geo,
-      rangeRef.current,
-      startCapRef.current,
-      endCapRef.current,
-    );
-    cancelRef.current = cancel;
     prevProgressRef.current = newProgress;
-  };
+    if (from === newProgress) return;
+
+    const rangeEl = rangeRef.current;
+    const startCapEl = startCapRef.current;
+    const endCapEl = endCapRef.current;
+    let startTs = 0;
+
+    function applyProgress(p: number): void {
+      const angleDeg = p * 360;
+      const cp = pieClipPath(numSize, angleDeg);
+      if (cp) {
+        rangeEl?.setStyleProperty("clip-path", cp);
+      } else {
+        rangeEl?.setStyleProperty("clip-path", "none");
+      }
+
+      const rad = (angleDeg * Math.PI) / 180;
+      endCapEl?.setStyleProperties({
+        left: `${halfSize + ringCenterR * Math.sin(rad) - capSize / 2}px`,
+        top: `${halfSize - ringCenterR * Math.cos(rad) - capSize / 2}px`,
+      });
+      startCapEl?.setStyleProperties({
+        left: `${halfSize - capSize / 2}px`,
+        top: `${halfSize - ringCenterR - capSize / 2}px`,
+      });
+    }
+
+    function step(ts: number): void {
+      if (!startTs) startTs = Number(ts);
+      const elapsed = ts - startTs;
+      if (elapsed >= TRANSITION_DURATION) {
+        applyProgress(newProgress);
+        cancelRef.current = 0;
+        return;
+      }
+      const t = elapsed / TRANSITION_DURATION;
+      const eased = cubicBezier(t, 0, 0, 0.15, 1);
+      applyProgress(from + (newProgress - from) * eased);
+      cancelRef.current = requestAnimationFrame(step);
+    }
+
+    applyProgress(from);
+    cancelRef.current = requestAnimationFrame(step);
+  }
+
+  function cancelAnimation() {
+    "main thread";
+    if (cancelRef.current) {
+      cancelAnimationFrame(cancelRef.current);
+      cancelRef.current = 0;
+    }
+  }
 
   useEffect(() => {
-    startAnimation(progress);
-
+    runOnMainThread(startAnimation)(progress);
     return () => {
-      "main thread";
-      cancelRef.current?.();
+      runOnMainThread(cancelAnimation)();
     };
   }, [progress]);
 
@@ -438,49 +314,68 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
   const rangeRef = useMainThreadRef<MainThread.Element>(null);
   const headCapRef = useMainThreadRef<MainThread.Element>(null);
   const tailCapRef = useMainThreadRef<MainThread.Element>(null);
-  const subIdRef = useMainThreadRef<number>(-1);
+  const rafIdRef = useMainThreadRef<number>(0);
 
-  const geo = computeRingGeometry(numSize);
-  const { halfSize, ringCenterR, capSize } = geo;
+  const { halfSize, ringCenterR, capSize } = computeRingGeometry(numSize);
 
-  const startLoop = () => {
+  function startLoop() {
     "main thread";
 
-    subIdRef.current = subscribeIndeterminate({
-      containerRef: containerRef.current,
-      rangeRef: rangeRef.current,
-      headCapRef: headCapRef.current,
-      tailCapRef: tailCapRef.current,
-      numSize,
-      geo,
-    });
-  };
+    const containerEl = containerRef.current;
+    const rangeEl = rangeRef.current;
+    const headCapEl = headCapRef.current;
+    const tailCapEl = tailCapRef.current;
+    let startTs = 0;
 
-  const stopLoop = () => {
-    "main thread";
+    function tick(ts: number): void {
+      if (!startTs) startTs = Number(ts);
 
-    if (subIdRef.current >= 0) {
-      unsubscribeIndeterminate(subIdRef.current);
-      subIdRef.current = -1;
+      const elapsed = ts - startTs;
+      const t = (elapsed % INDETERMINATE_DURATION) / INDETERMINATE_DURATION;
+      const state = sampleIndeterminate(t);
+
+      containerEl?.setStyleProperty("transform", `rotate(${state.containerDeg}deg)`);
+
+      const clipPath = pieClipPath(numSize, state.arcLength);
+      if (clipPath) {
+        rangeEl?.setStyleProperty("clip-path", clipPath);
+      } else {
+        rangeEl?.setStyleProperty("clip-path", "none");
+      }
+
+      const headRad = (state.arcLength * Math.PI) / 180;
+      headCapEl?.setStyleProperties({
+        left: `${halfSize + ringCenterR * Math.sin(headRad) - capSize / 2}px`,
+        top: `${halfSize - ringCenterR * Math.cos(headRad) - capSize / 2}px`,
+      });
+      tailCapEl?.setStyleProperties({
+        left: `${halfSize - capSize / 2}px`,
+        top: `${halfSize - ringCenterR - capSize / 2}px`,
+      });
+
+      rafIdRef.current = requestAnimationFrame(tick);
     }
-  };
+
+    rafIdRef.current = requestAnimationFrame(tick);
+  }
+
+  function stopLoop() {
+    "main thread";
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = 0;
+    }
+  }
 
   useEffect(() => {
-    startLoop();
+    runOnMainThread(startLoop)();
     return () => {
-      stopLoop();
+      runOnMainThread(stopLoop)();
     };
   }, []);
 
-  // Initial state for first render (t=0)
-  const initial = sampleIndeterminate(0);
-  const initialClipPath = pieClipPath(numSize, initial.arcLength);
-
-  const tailCapX = halfSize - capSize / 2;
-  const tailCapY = halfSize - ringCenterR - capSize / 2;
-  const headRad = (initial.arcLength * Math.PI) / 180;
-  const headCapX = halfSize + ringCenterR * Math.sin(headRad) - capSize / 2;
-  const headCapY = halfSize - ringCenterR * Math.cos(headRad) - capSize / 2;
+  // Initial render: t=0 → containerDeg=0, arcLength=0
+  const initialClipPath = 'path("M 0 0 Z")';
 
   return (
     <view
@@ -489,7 +384,7 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
         position: "absolute",
         width: `${numSize}px`,
         height: `${numSize}px`,
-        transform: `rotate(${initial.containerDeg}deg)`,
+        transform: "rotate(0deg)",
       }}
     >
       <view
@@ -509,8 +404,8 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
         style={{
           width: `${capSize}px`,
           height: `${capSize}px`,
-          left: `${tailCapX}px`,
-          top: `${tailCapY}px`,
+          left: `${halfSize - capSize / 2}px`,
+          top: `${halfSize - ringCenterR - capSize / 2}px`,
         }}
       />
       <view
@@ -519,8 +414,8 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
         style={{
           width: `${capSize}px`,
           height: `${capSize}px`,
-          left: `${headCapX}px`,
-          top: `${headCapY}px`,
+          left: `${halfSize - capSize / 2}px`,
+          top: `${halfSize - ringCenterR - capSize / 2}px`,
         }}
       />
     </view>
