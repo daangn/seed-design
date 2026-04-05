@@ -7,10 +7,10 @@ import * as React from "react";
 /**
  * @platform Lynx
  *
- * 미지원 기능 (Lynx 아이콘 인터페이스 확정 후 추가 예정):
- * - loading: Lynx용 loading indicator 컴포넌트 미구현
- * - layout: "iconOnly": 아이콘 인터페이스 확정 후 지원
- * - PrefixIcon / SuffixIcon: 아이콘 인터페이스 확정 후 지원
+ * 미지원 기능 (Lynx 3.7 SVG 지원 후 추가 예정):
+ * - loading: SVG 기반 spinner 필요
+ * - layout: "iconOnly": SVG 아이콘 렌더링 필요
+ * - PrefixIcon / SuffixIcon: SVG 아이콘 렌더링 필요
  *
  * 웹 대비 미지원 기능:
  * - color / fontWeight props: CSS variable 동적 주입 제한

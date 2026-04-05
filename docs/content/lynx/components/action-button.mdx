@@ -38,19 +38,21 @@ Lynx `ActionButton`은 React `ActionButton`과 다음과 같은 차이가 있습
 
 - **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
 - **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`/`<text>` 요소를 렌더링합니다.
+- **`asChild` 지원**: `Primitive.view` 기반으로 Slot 패턴을 지원합니다.
+- **ref forwarding**: `React.forwardRef`로 ref를 전달할 수 있습니다.
 </Callout>
 
 ## Lynx 미지원 기능
 
 현재 Lynx 플랫폼 제약으로 다음 기능이 지원되지 않습니다.
 
-### 아이콘 인터페이스 확정 후 추가 예정
+### Lynx 3.7 SVG 지원 후 추가 예정
 
 | 기능 | 웹 대응 | 설명 |
 |------|---------|------|
-| `loading` | `usePendingButton` | Lynx용 loading indicator 컴포넌트 미구현 |
-| `layout: "iconOnly"` | `IconRequired` | 아이콘 인터페이스 확정 후 지원 |
-| `PrefixIcon` / `SuffixIcon` | `Icon` 컴포넌트 | 아이콘 인터페이스 확정 후 지원 |
+| `loading` | `usePendingButton` | SVG 기반 spinner 필요 |
+| `layout: "iconOnly"` | `IconRequired` | SVG 아이콘 렌더링 필요 |
+| `PrefixIcon` / `SuffixIcon` | `Icon` 컴포넌트 | SVG 아이콘 렌더링 필요 |
 
 ### 추후 검토
 
