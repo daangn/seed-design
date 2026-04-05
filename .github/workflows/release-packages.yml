@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - lynx
     paths:
       - "packages/**"
       - "docs/**"

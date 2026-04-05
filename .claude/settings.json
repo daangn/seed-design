@@ -80,17 +80,6 @@
           }
         ]
       }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/validation-reminder.sh",
-            "timeout": 2000
-          }
-        ]
-      }
     ]
   }
 }
