@@ -27,46 +27,39 @@ export interface ActionButtonProps
   "main-thread:bindtap"?: () => void;
 }
 
-export const ActionButton = React.forwardRef<unknown, ActionButtonProps>(
-  (
-    {
-      variant = "brandSolid",
-      size = "medium",
-      disabled = false,
-      children,
-      className,
-      flexGrow,
-      asChild,
-      bindtap,
-      "main-thread:bindtap": mainThreadBindtap,
-      ...restProps
-    },
-    ref,
-  ) => {
-    const classes = actionButton({
-      variant,
-      size,
-      layout: "withText",
-      disabled: disabled ? true : undefined,
-    });
-    const isInteractive = !disabled;
+export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props, ref) => {
+  const [variantProps, restProps] = actionButton.splitVariantProps(props);
+  const {
+    children,
+    className,
+    flexGrow,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    ...nativeProps
+  } = restProps;
 
-    return (
-      <Primitive.view
-        ref={ref}
-        asChild={asChild}
-        className={clsx(classes.root, className)}
-        style={flexGrow != null ? { flexGrow } : undefined}
-        {...(isInteractive && bindtap && { bindtap })}
-        {...(isInteractive &&
-          mainThreadBindtap && {
-            "main-thread:bindtap": mainThreadBindtap,
-          })}
-        {...restProps}
-      >
-        <text className={classes.text}>{children}</text>
-      </Primitive.view>
-    );
-  },
-);
+  const { disabled = false } = variantProps;
+  const classes = actionButton({
+    ...variantProps,
+    layout: "withText",
+    disabled: disabled ? true : undefined,
+  });
+  const isInteractive = !disabled;
+
+  return (
+    <Primitive.view
+      ref={ref}
+      className={clsx(classes.root, className)}
+      style={flexGrow != null ? { flexGrow } : undefined}
+      {...(isInteractive && bindtap && { bindtap })}
+      {...(isInteractive &&
+        mainThreadBindtap && {
+          "main-thread:bindtap": mainThreadBindtap,
+        })}
+      {...nativeProps}
+    >
+      <text className={classes.text}>{children}</text>
+    </Primitive.view>
+  );
+});
 ActionButton.displayName = "ActionButton";
