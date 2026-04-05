@@ -1,6 +1,5 @@
 import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
 import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
-import { Primitive, type PrimitiveProps } from "@seed-design/lynx-primitive";
 import clsx from "clsx";
 import * as React from "react";
 
@@ -16,9 +15,7 @@ import * as React from "react";
  * - color / fontWeight props: CSS variable 동적 주입 제한
  * - bleedX / bleedY props: CSS variable 동적 주입 제한
  */
-export interface ActionButtonProps
-  extends Omit<ActionButtonVariantProps, "loading" | "layout">,
-    PrimitiveProps {
+export interface ActionButtonProps extends Omit<ActionButtonVariantProps, "loading" | "layout"> {
   children?: React.ReactNode;
   disabled?: boolean;
   className?: string;
@@ -47,8 +44,8 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   const isInteractive = !disabled;
 
   return (
-    <Primitive.view
-      ref={ref}
+    <view
+      {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
       className={clsx(classes.root, className)}
       style={flexGrow != null ? { flexGrow } : undefined}
       {...(isInteractive && bindtap && { bindtap })}
@@ -59,7 +56,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
       {...nativeProps}
     >
       <text className={classes.text}>{children}</text>
-    </Primitive.view>
+    </view>
   );
 });
 ActionButton.displayName = "ActionButton";
