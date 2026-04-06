@@ -182,17 +182,24 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
   if (tokenDataCache) return tokenDataCache;
 
   tokenDataCache = new Map();
-  const rootageDir = join(import.meta.dir, "../../../public/rootage");
-
-  console.log("[TokenReference] import.meta.dir:", import.meta.dir);
-  console.log("[TokenReference] rootageDir:", rootageDir);
+  // Next.js 빌드 시 cwd는 docs/, bun test는 루트에서 실행
+  const candidates = [
+    join(process.cwd(), "public/rootage"),
+    join(process.cwd(), "docs/public/rootage"),
+  ];
+  const rootageDir = candidates.find((dir) => {
+    try {
+      readFileSync(join(dir, "index.json"), "utf-8");
+      return true;
+    } catch {
+      return false;
+    }
+  });
+  if (!rootageDir) return tokenDataCache;
 
   try {
-    const indexPath = join(rootageDir, "index.json");
-    console.log("[TokenReference] reading index:", indexPath);
-    const indexContent = readFileSync(indexPath, "utf-8");
+    const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
     const index = JSON.parse(indexContent) as RootageIndex;
-    console.log("[TokenReference] resources count:", index.resources.length);
 
     for (const resource of index.resources) {
       const { path } = resource;
@@ -206,9 +213,8 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
         // 읽지 못한 파일은 건너뜀
       }
     }
-    console.log("[TokenReference] loaded tokens:", tokenDataCache.size);
-  } catch (e) {
-    console.error("[TokenReference] loadTokenData failed:", e);
+  } catch {
+    // index.json 읽기 실패 시 빈 캐시 반환
   }
 
   return tokenDataCache;
