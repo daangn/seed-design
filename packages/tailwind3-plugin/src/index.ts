@@ -28,8 +28,6 @@ export default plugin(
 
     // gradient arbitrary value 지원
     const gradientStopsForArbitrary = {
-      "fade-layer-floating": "#ffffff00 0.00%, #000000 100.00%",
-      "fade-layer-default": "#000000 0.00%, #ffffff00 100.00%",
       "glow-magic": "#fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%",
       "glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
       "highlight-magic": "#ff6600 20.00%, #d25aca 100.00%",
@@ -182,7 +180,6 @@ export default plugin(
   "bg-layer-basement": "var(--seed-color-bg-layer-basement)",
   "bg-layer-default": "var(--seed-color-bg-layer-default)",
   "bg-layer-default-pressed": "var(--seed-color-bg-layer-default-pressed)",
-  "bg-layer-fill": "var(--seed-color-bg-layer-fill)",
   "bg-layer-floating": "var(--seed-color-bg-layer-floating)",
   "bg-layer-floating-pressed": "var(--seed-color-bg-layer-floating-pressed)",
   "bg-magic-weak": "var(--seed-color-bg-magic-weak)",
@@ -253,8 +250,6 @@ export default plugin(
   "banner-teal": "var(--seed-color-banner-teal)",
   "banner-warm-gray": "var(--seed-color-banner-warm-gray)",
   "banner-yellow": "var(--seed-color-banner-yellow)",
-  "gradient-stops-fade-layer-floating": "#ffffff00 0.00%, #000000 100.00%",
-  "gradient-stops-fade-layer-default": "#000000 0.00%, #ffffff00 100.00%",
   "gradient-stops-glow-magic": "#fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%",
   "gradient-stops-glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
   "gradient-stops-highlight-magic": "#ff6600 20.00%, #d25aca 100.00%",
@@ -263,22 +258,6 @@ export default plugin(
   "gradient-stops-shimmer-neutral": "#ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%"
 },
         backgroundImage: {
-  "fade-layer-floating-to-t": "linear-gradient(to top, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-tr": "linear-gradient(to top right, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-r": "linear-gradient(to right, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-br": "linear-gradient(to bottom right, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-b": "linear-gradient(to bottom, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-bl": "linear-gradient(to bottom left, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-l": "linear-gradient(to left, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-tl": "linear-gradient(to top left, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-default-to-t": "linear-gradient(to top, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-tr": "linear-gradient(to top right, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-r": "linear-gradient(to right, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-br": "linear-gradient(to bottom right, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-b": "linear-gradient(to bottom, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-bl": "linear-gradient(to bottom left, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-l": "linear-gradient(to left, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-tl": "linear-gradient(to top left, #000000 0.00%, #ffffff00 100.00%)",
   "glow-magic-to-t": "linear-gradient(to top, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
   "glow-magic-to-tr": "linear-gradient(to top right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
   "glow-magic-to-r": "linear-gradient(to right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
