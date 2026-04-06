@@ -44,8 +44,7 @@ export const chipTabsVariantMap = {
   ],
   "variant": [
     "neutralSolid",
-    "neutralOutline",
-    "brandSolid"
+    "neutralOutline"
   ],
   "contentLayout": [
     "fill",
