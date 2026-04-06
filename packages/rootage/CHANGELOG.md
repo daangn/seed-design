@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 1.1.10
+
+### Patch Changes
+
+- f76b19b: IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+
 ## 1.1.9
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @seed-design/react
 
+## 1.1.24
+
+### Patch Changes
+
+- f76b19b: IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+- Updated dependencies [f76b19b]
+  - @seed-design/css@1.1.24
+
 ## 1.1.23
 
 ### Patch Changes
