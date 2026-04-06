@@ -184,9 +184,15 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
   tokenDataCache = new Map();
   const rootageDir = join(import.meta.dir, "../../../public/rootage");
 
+  console.log("[TokenReference] import.meta.dir:", import.meta.dir);
+  console.log("[TokenReference] rootageDir:", rootageDir);
+
   try {
-    const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
+    const indexPath = join(rootageDir, "index.json");
+    console.log("[TokenReference] reading index:", indexPath);
+    const indexContent = readFileSync(indexPath, "utf-8");
     const index = JSON.parse(indexContent) as RootageIndex;
+    console.log("[TokenReference] resources count:", index.resources.length);
 
     for (const resource of index.resources) {
       const { path } = resource;
@@ -200,8 +206,9 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
         // 읽지 못한 파일은 건너뜀
       }
     }
-  } catch {
-    // index.json 읽기 실패 시 빈 캐시 반환
+    console.log("[TokenReference] loaded tokens:", tokenDataCache.size);
+  } catch (e) {
+    console.error("[TokenReference] loadTokenData failed:", e);
   }
 
   return tokenDataCache;
