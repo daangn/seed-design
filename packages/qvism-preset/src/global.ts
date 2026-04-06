@@ -27,8 +27,8 @@ export const globalCss = defineGlobalCss({
 
   // iOS platform-specific overrides
   "[data-seed-platform='ios']": {
-    "--seed-font-size-limit-max": "1.35", // iOS 135% limit
-    "--seed-line-height-limit-max": "1.35",
+    "--seed-font-size-limit-max": "1.6", // iOS 160% limit
+    "--seed-line-height-limit-max": "1.6",
   },
 
   "html[data-seed-platform='ios'][data-seed-font-scaling='enabled']": {

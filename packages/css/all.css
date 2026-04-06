@@ -26,8 +26,8 @@
 }
 
 [data-seed-platform="ios"] {
-  --seed-font-size-limit-max: 1.35;
-  --seed-line-height-limit-max: 1.35;
+  --seed-font-size-limit-max: 1.6;
+  --seed-line-height-limit-max: 1.6;
 }
 
 @supports (font: -apple-system-body) {
