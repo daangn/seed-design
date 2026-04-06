@@ -18,13 +18,41 @@ import {
 } from "./estree-utils";
 
 /*
+  fumadocs processed text에서 HTML entity로 escape된 문자열을 디코딩합니다.
+  예: `[&#x22;color&#x22;, &#x22;palette&#x22;]` → `["color", "palette"]`
+*/
+function decodeHtmlEntities(str: string): string {
+  return str
+    .replace(/&#x22;/g, '"')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&");
+}
+
+/*
   <TokenReference groups={["color", "palette"]} /> 에서 groups 배열을 파싱합니다.
+  fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
 */
 function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "groups",
   );
-  if (!attr || typeof attr.value !== "object" || !attr.value) return [];
+  if (!attr) return [];
+
+  // fumadocs processed text: groups="[&#x22;color&#x22;, &#x22;palette&#x22;]"
+  if (typeof attr.value === "string") {
+    try {
+      const decoded = decodeHtmlEntities(attr.value);
+      const parsed: unknown = JSON.parse(decoded);
+      if (Array.isArray(parsed)) return parsed.filter((v): v is string => typeof v === "string");
+    } catch {
+      // JSON 파싱 실패 시 빈 배열 반환
+    }
+    return [];
+  }
+
+  if (typeof attr.value !== "object" || !attr.value) return [];
 
   const attrValue = attr.value as MdxJsxAttributeValueExpression;
   const estree = attrValue.data?.estree;
@@ -43,12 +71,29 @@ function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
 
 /*
   <TokenReference regex={/\$color\..*-pressed$/} /> 에서 regex를 파싱합니다.
+  fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
 */
 function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "regex",
   );
-  if (!attr || typeof attr.value !== "object" || !attr.value) return null;
+  if (!attr) return null;
+
+  // fumadocs processed text: regex="/\$color\..*-pressed$/"
+  if (typeof attr.value === "string") {
+    const decoded = decodeHtmlEntities(attr.value);
+    const match = decoded.match(/^\/(.+)\/([gimsuy]*)$/);
+    if (match) {
+      try {
+        return new RegExp(match[1], match[2]);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  if (typeof attr.value !== "object" || !attr.value) return null;
 
   const attrValue = attr.value as MdxJsxAttributeValueExpression;
   const estree = attrValue.data?.estree;
