@@ -105,7 +105,6 @@ export default defineConfig({
             case "FigmaImage":
             case "DoImage":
             case "DontImage":
-            case "TokenReference":
               return true;
           }
 
