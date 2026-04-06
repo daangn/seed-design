@@ -82,7 +82,7 @@ function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
   // fumadocs processed text: regex="/\$color\..*-pressed$/"
   if (typeof attr.value === "string") {
     const decoded = decodeHtmlEntities(attr.value);
-    const match = decoded.match(/^\/(.+)\/([gimsuy]*)$/);
+    const match = decoded.match(/^\/(.+)\/([dgimsuvy]*)$/);
     if (match) {
       try {
         return new RegExp(match[1], match[2]);
@@ -233,11 +233,12 @@ export const tokenReferenceRule: Rule = {
       const matched: { id: string; entry: { values: Record<string, Exchange.Value> } }[] = [];
       for (const data of tokenData.values()) {
         for (const [id, entry] of Object.entries(data.data.tokens)) {
+          regex.lastIndex = 0;
           if (regex.test(id)) matched.push({ id, entry });
         }
       }
 
-      if (matched.length === 0) throw new Error(`No tokens matched regex: ${regex}`);
+      if (matched.length === 0) return [node];
 
       const themeNames = Object.keys(matched[0].entry.values);
       const headers = ["Token", ...themeNames];
@@ -266,16 +267,16 @@ export const tokenReferenceRule: Rule = {
         if (table) sections.push(`## ${data.metadata.name}\n\n${table}`);
       }
       const allTables = sections.join("\n\n");
-      if (!allTables) throw new Error("No token tables generated");
+      if (!allTables) return [node];
       return [{ type: "html", value: allTables }];
     }
 
     const tokenPath = `/${groups[0]}.json`;
     const data = tokenData.get(tokenPath);
-    if (!data) throw new Error(`Token file not found: ${tokenPath}`);
+    if (!data) return [node];
 
     const tableMarkdown = generateMarkdownTable(data.data.tokens, groups);
-    if (!tableMarkdown) throw new Error(`No table generated for groups: ${groups.join(".")}`);
+    if (!tableMarkdown) return [node];
 
     return [{ type: "html", value: tableMarkdown }];
   },
