@@ -144,11 +144,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#fff2ec"
+            "value": "#ebf6ff"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#31241f"
+            "value": "#0b3e91"
           }
         }
       },
@@ -156,11 +156,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#ffe8db"
+            "value": "#e2f2ff"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#4b291c"
+            "value": "#065cb3"
           }
         }
       },
@@ -168,11 +168,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#ffd5c0"
+            "value": "#d4ecff"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#6b311c"
+            "value": "#0679df"
           }
         }
       },
@@ -180,11 +180,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#ffb999"
+            "value": "#b3ddff"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#923600"
+            "value": "#0a93ff"
           }
         }
       },
@@ -192,11 +192,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#ff9364"
+            "value": "#5bb7ff"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#bd4201"
+            "value": "#5bb7ff"
           }
         }
       },
@@ -204,11 +204,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#ff6600"
+            "value": "#0a93ff"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#e65200"
+            "value": "#b3ddff"
           }
         }
       },
@@ -216,11 +216,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#e14d00"
+            "value": "#0679df"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#ff6600"
+            "value": "#d4ecff"
           }
         }
       },
@@ -228,11 +228,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#b93901"
+            "value": "#065cb3"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#ff9e65"
+            "value": "#e2f2ff"
           }
         }
       },
@@ -240,11 +240,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#862b00"
+            "value": "#0b3e91"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#eecebc"
+            "value": "#ebf6ff"
           }
         }
       },
@@ -252,11 +252,11 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#471601"
+            "value": "#072a6b"
           },
           "theme-dark": {
             "type": "color",
-            "value": "#f4eeea"
+            "value": "#f6fbff"
           }
         }
       },
