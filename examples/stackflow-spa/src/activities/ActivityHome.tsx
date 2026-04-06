@@ -231,6 +231,16 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
+      title: "Forms",
+      items: [
+        { title: "Switch", onClick: () => push("ActivitySwitch", {}) },
+        { title: "Checkbox", onClick: () => push("ActivityCheckbox", {}) },
+        { title: "RadioGroup", onClick: () => push("ActivityRadioGroup", {}) },
+        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "Form", onClick: () => push("ActivityForm", {}) },
+      ],
+    },
+    {
       title: "Other Components",
       items: [
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
@@ -238,8 +248,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
-        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
-        { title: "Form", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {
