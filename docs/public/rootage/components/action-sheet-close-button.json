@@ -3,7 +3,7 @@
   "metadata": {
     "id": "action-sheet-close-button",
     "name": "Action Sheet Close Button",
-    "deprecated": "Use menu-sheet-close-button instead."
+    "deprecated": "No longer used."
   },
   "data": {
     "id": "action-sheet-close-button",
