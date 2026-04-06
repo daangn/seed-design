@@ -107,7 +107,7 @@ npx @seed-design/cli@latest init
 ### Vite config 수정하기
 
 ```package-install
-npm install -D @seed-design/vite-plugin vite-tsconfig-paths
+npm install -D @seed-design/vite-plugin
 ```
 
 <Callout>
@@ -120,14 +120,15 @@ npm install -D @seed-design/vite-plugin vite-tsconfig-paths
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { seedDesignPlugin } from "@seed-design/vite-plugin"; // [!code highlight]
-import tsconfigPaths from "vite-tsconfig-paths"; // [!code highlight]
 
 export default defineConfig({
   plugins: [
     react(),
     seedDesignPlugin(), // [!code highlight]
-    tsconfigPaths(), // [!code highlight]
   ],
+  resolve: {
+    tsconfigPaths: true, // [!code highlight]
+  },
 });
 ```
 
