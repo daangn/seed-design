@@ -11,7 +11,7 @@ export default defineConfig({
   build: {
     cssCodeSplit: true,
     minify: false,
-    rollupOptions: {
+    rolldownOptions: {
       treeshake: true,
     },
     target: ["chrome77", "safari14"],

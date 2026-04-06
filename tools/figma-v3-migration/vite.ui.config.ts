@@ -20,7 +20,7 @@ export default defineConfig({
     emptyOutDir: false,
     cssCodeSplit: false,
     assetsInlineLimit: 100000000,
-    rollupOptions: {
+    rolldownOptions: {
       input: resolve(__dirname, "index.html"),
       external: ["tabbable"],
     },
