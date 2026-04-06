@@ -67,6 +67,7 @@ const menuSheet = defineSlotRecipe({
       textAlign: "center",
 
       gap: vars.base.enabled.header.gap,
+      paddingTop: vars.base.enabled.header.paddingTop,
       paddingBottom: vars.base.enabled.header.paddingBottom,
     },
     title: {
