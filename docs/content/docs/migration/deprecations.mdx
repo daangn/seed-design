@@ -7,15 +7,20 @@ description: Deprecated 항목의 현황과 제거 계획을 관리합니다.
 
 ## Deprecated 현황
 
-| 항목                          | 종류          | Deprecated 버전 | 제거 예정 버전 | 대체안                 | 비고                                       |
-| ----------------------------- | ------------- | --------------- | -------------- | ---------------------- | ------------------------------------------ |
-| Image Frame - rounded 옵션    | 컴포넌트 옵션 | 1.2.x           | 1.3.0          | borderRadius="r2"      | rootage image-frame 옵션 정리              |
-| $color.bg.layer-fill          | 디자인 토큰   | 1.2.x           | 1.3.0          | $color.bg.neutral-weak | 더이상 사용하지 않음 (elevation 문서 안내) |
-| $gradient.fade-layer-floating | 디자인 토큰   | 1.2.x           | 1.3.0          | -                      | 대체안 미정                                |
-| $gradient.fade-layer-default  | 디자인 토큰   | 1.2.x           | 1.3.0          | -                      | 대체안 미정                                |
+| 항목                       | 종류          | Deprecated 버전 | 제거 예정 버전 | 대체안            | 비고                          |
+| -------------------------- | ------------- | --------------- | -------------- | ----------------- | ----------------------------- |
+| Image Frame - rounded 옵션 | 컴포넌트 옵션 | 1.2.x           | 1.3.0          | borderRadius="r2" | rootage image-frame 옵션 정리 |
 
 ## 제거 완료 히스토리
 
-| 항목 | 제거 버전 | 대체안 | 비고 |
-| ---- | --------- | ------ | ---- |
-| -    | -         | -      | -    |
+| 항목                          | 제거 버전 | 대체안                       | 비고                                       |
+| ----------------------------- | --------- | ---------------------------- | ------------------------------------------ |
+| $color.bg.layer-fill          | 1.3.0     | $color.bg.neutral-weak       | 더이상 사용하지 않음 (elevation 문서 안내) |
+| $gradient.fade-layer-floating | 1.3.0     | -                            | 대체안 없이 제거                           |
+| $gradient.fade-layer-default  | 1.3.0     | -                            | 대체안 없이 제거                           |
+| ChipTabs variant=brandSolid   | 1.3.0     | neutralSolid, neutralOutline | 대체안 사용 시 디자인 변경됨               |
+| Checkbox weight=stronger      | 1.3.0     | weight=bold                  | 네이밍 변경                                |
+| Checkbox weight=default       | 1.3.0     | weight=regular               | 네이밍 변경                                |
+| Switch size=small             | 1.3.0     | size=16                      | 네이밍 변경                                |
+| Switch size=medium            | 1.3.0     | size=32                      | 네이밍 변경                                |
+| StyleProps camelCase 값       | 1.3.0     | kebab-case 값                | display, flexDirection, justifyContent 등  |
