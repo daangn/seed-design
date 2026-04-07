@@ -41,18 +41,9 @@ const imageFrame = defineSlotRecipe({
       },
       false: {},
     },
-    rounded: {
-      true: {
-        root: {
-          borderRadius: vars.roundedTrue.enabled.root.cornerRadius,
-        },
-      },
-      false: {},
-    },
   },
   defaultVariants: {
     stroke: false,
-    rounded: false,
   },
 });
 

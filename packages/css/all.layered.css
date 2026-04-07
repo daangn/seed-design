@@ -5430,10 +5430,6 @@
     inset: 0;
   }
 
-  .seed-image-frame__root--rounded_true {
-    border-radius: var(--seed-radius-r2);
-  }
-
   .seed-image-frame-indicator {
     box-sizing: border-box;
     background-color: var(--seed-color-palette-static-black-alpha-800);
