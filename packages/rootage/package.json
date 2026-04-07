@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/rootage-artifacts",
+  "name": "@ride-developer/rootage-artifacts",
   "version": "1.2.6",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/rootage"
   },
   "scripts": {

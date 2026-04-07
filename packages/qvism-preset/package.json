@@ -29,9 +29,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@seed-design/postcss-engaged": "0.0.0",
-    "@seed-design/qvism-core": "0.0.0",
-    "@seed-design/rootage-core": "0.0.0"
+    "@ride-developer/postcss-engaged": "0.0.0",
+    "@ride-developer/qvism-core": "0.0.0",
+    "@ride-developer/rootage-core": "0.0.0"
   },
   "publishConfig": {
     "access": "public"

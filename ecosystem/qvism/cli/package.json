@@ -23,7 +23,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/qvism-core": "0.0.0",
+    "@ride-developer/qvism-core": "0.0.0",
     "cac": "^6.7.14",
     "cosmiconfig": "^9.0.0",
     "fs-extra": "^11.3.0"

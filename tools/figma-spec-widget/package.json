@@ -11,7 +11,7 @@
   "author": "Asher <asher@daangn.com>",
   "license": "MIT",
   "dependencies": {
-    "@seed-design/rootage-core": "0.0.0",
+    "@ride-developer/rootage-core": "0.0.0",
     "yaml": "^2.7.1"
   },
   "devDependencies": {
