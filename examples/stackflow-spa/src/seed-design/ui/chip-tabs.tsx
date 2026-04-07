@@ -3,12 +3,7 @@ import { forwardRef } from "react";
 
 export interface ChipTabsRootProps extends SeedChipTabs.RootProps {}
 
-export const ChipTabsRoot = (props: ChipTabsRootProps) => {
-  const { children, ...otherProps } = props;
-
-  return <SeedChipTabs.Root {...otherProps}>{children}</SeedChipTabs.Root>;
-};
-ChipTabsRoot.displayName = "ChipTabsRoot";
+export const ChipTabsRoot = SeedChipTabs.Root;
 
 export interface ChipTabsListProps extends SeedChipTabs.ListProps {}
 
