@@ -50,23 +50,22 @@ export default function AttachmentInputStatus() {
         maxFiles={5}
         label="파일 업로드"
         description="업로드 상태 시뮬레이션"
+        onFileAccept={(entries, { updateFileEntryStatus }) => {
+          for (const entry of entries) {
+            startUpload(entry.file, entry.id, updateFileEntryStatus);
+          }
+        }}
       >
         <AttachmentInput>
-          {({ acceptedFileEntries, updateFileEntryStatus }) => {
-            for (const fileEntry of acceptedFileEntries) {
-              if (fileEntry.status !== "pending") continue;
-
-              startUpload(fileEntry.file, fileEntry.id, updateFileEntryStatus);
-            }
-
-            return acceptedFileEntries.map((fileEntry) => (
+          {({ acceptedFileEntries, updateFileEntryStatus }) =>
+            acceptedFileEntries.map((fileEntry) => (
               <AttachmentInputItem
                 key={fileEntry.id}
                 fileEntry={fileEntry}
-                onRetry={() => updateFileEntryStatus(fileEntry.id, { status: "pending" })}
+                onRetry={() => startUpload(fileEntry.file, fileEntry.id, updateFileEntryStatus)}
               />
-            ));
-          }}
+            ))
+          }
         </AttachmentInput>
       </AttachmentField>
     </VStack>

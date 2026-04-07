@@ -158,7 +158,7 @@ import {
 
 ### Listening to Accepted File Changes
 
-`acceptedFileEntries`는 유효성 검사를 마친 파일의 목록입니다. `onAcceptedFileChanges` 콜백으로 `acceptedFileEntries`에 등록된 파일 변경 이벤트를 감지할 수 있습니다.
+`acceptedFileEntries`는 유효성 검사를 마친 파일의 목록입니다. `onAcceptedFileEntriesChange` 콜백으로 `acceptedFileEntries`에 등록된 파일 변경 이벤트를 감지할 수 있습니다.
 
 <ComponentExample name="react/attachment-field/value-changes">
   ```json doc-gen:file
@@ -244,7 +244,7 @@ MIME type(`image/png`, `image/*`) 또는 확장자(`.png`, `.jpg, .jpeg`) 형식
 
 `acceptedFileEntries`의 각 항목은 `pending`, `uploading`, `success`, `error`의 status를 가질 수 있습니다. 새로 추가되는 항목의 status 기본값은 `pending`입니다.
 
-파일 선택 직후 외부 업로드 API와 연동하는 경우, 사용자에게 각 파일 항목의 업로딩 상태를 보여줄 수 있습니다. Render prop context를 통해 제공되는 `updateFileEntryStatus`을 사용하여 항목의 status를 업데이트합니다.
+파일 선택 직후 외부 업로드 API와 연동하는 경우, 사용자에게 각 파일 항목의 업로딩 상태를 보여줄 수 있습니다. `onFileAccept` 콜백에서 새로 추가된 파일을 받고, 함께 제공되는 `updateFileEntryStatus` 헬퍼를 사용하여 항목의 status를 업데이트합니다.
 
 <ComponentExample name="react/attachment-field/status">
   ```json doc-gen:file

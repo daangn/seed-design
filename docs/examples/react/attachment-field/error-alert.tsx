@@ -45,6 +45,11 @@ export default function AttachmentInputErrorAlert() {
         maxFiles={5}
         label="파일 업로드"
         description="업로드에 실패하면 alert가 표시됩니다"
+        onFileAccept={(entries, { updateFileEntryStatus }) => {
+          for (const entry of entries) {
+            startUpload(entry.file, entry.id, updateFileEntryStatus);
+          }
+        }}
         onAcceptedFileEntriesChange={(fileEntries) => {
           for (const fileEntry of fileEntries) {
             if (fileEntry.status === "error" && !alertedIds.current.has(fileEntry.id)) {
@@ -61,23 +66,18 @@ export default function AttachmentInputErrorAlert() {
         }}
       >
         <AttachmentInput>
-          {({ acceptedFileEntries, updateFileEntryStatus }) => {
-            for (const fileEntry of acceptedFileEntries) {
-              if (fileEntry.status !== "pending") continue;
-              startUpload(fileEntry.file, fileEntry.id, updateFileEntryStatus);
-            }
-
-            return acceptedFileEntries.map((fileEntry) => (
+          {({ acceptedFileEntries, updateFileEntryStatus }) =>
+            acceptedFileEntries.map((fileEntry) => (
               <AttachmentInputItem
                 key={fileEntry.id}
                 fileEntry={fileEntry}
                 onRetry={() => {
                   alertedIds.current.delete(fileEntry.id);
-                  updateFileEntryStatus(fileEntry.id, { status: "pending" });
+                  startUpload(fileEntry.file, fileEntry.id, updateFileEntryStatus);
                 }}
               />
-            ));
-          }}
+            ))
+          }
         </AttachmentInput>
       </AttachmentField>
     </VStack>

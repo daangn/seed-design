@@ -50,6 +50,11 @@ export default function AttachmentInputValueChanges() {
         maxFiles={3}
         label="파일 업로드"
         description="콜백 호출 로그를 확인하세요"
+        onFileAccept={(entries, { updateFileEntryStatus }) => {
+          for (const entry of entries) {
+            simulateUpload(entry.file, entry.id, updateFileEntryStatus);
+          }
+        }}
         onAcceptedFileEntriesChange={(files) => {
           addLog(
             `onAcceptedFileEntriesChange: ${files.map((f) => `${f.file.name} (${f.status})`).join(", ")}`,
@@ -62,17 +67,11 @@ export default function AttachmentInputValueChanges() {
         }}
       >
         <AttachmentInput>
-          {({ acceptedFileEntries, updateFileEntryStatus }) => {
-            for (const fileEntry of acceptedFileEntries) {
-              if (fileEntry.status !== "pending") continue;
-
-              simulateUpload(fileEntry.file, fileEntry.id, updateFileEntryStatus);
-            }
-
-            return acceptedFileEntries.map((fileEntry) => (
+          {({ acceptedFileEntries }) =>
+            acceptedFileEntries.map((fileEntry) => (
               <AttachmentInputItem key={fileEntry.id} fileEntry={fileEntry} />
-            ));
-          }}
+            ))
+          }
         </AttachmentInput>
       </AttachmentField>
     </VStack>
