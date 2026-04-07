@@ -25,7 +25,7 @@ export const skeletonVariantKeys = Object.keys(skeletonVariantMap);
 
 export function skeleton(props) {
   return createClassName(
-    "seed-skeleton",
+    "ride-skeleton",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

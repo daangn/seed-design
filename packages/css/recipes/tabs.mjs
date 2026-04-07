@@ -4,31 +4,31 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const tabsSlotNames = [
   [
     "root",
-    "seed-tabs__root"
+    "ride-tabs__root"
   ],
   [
     "list",
-    "seed-tabs__list"
+    "ride-tabs__list"
   ],
   [
     "carousel",
-    "seed-tabs__carousel"
+    "ride-tabs__carousel"
   ],
   [
     "carouselCamera",
-    "seed-tabs__carouselCamera"
+    "ride-tabs__carouselCamera"
   ],
   [
     "content",
-    "seed-tabs__content"
+    "ride-tabs__content"
   ],
   [
     "indicator",
-    "seed-tabs__indicator"
+    "ride-tabs__indicator"
   ],
   [
     "trigger",
-    "seed-tabs__trigger"
+    "ride-tabs__trigger"
   ]
 ];
 

@@ -4,35 +4,35 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const helpBubbleSlotNames = [
   [
     "positioner",
-    "seed-help-bubble__positioner"
+    "ride-help-bubble__positioner"
   ],
   [
     "content",
-    "seed-help-bubble__content"
+    "ride-help-bubble__content"
   ],
   [
     "arrow",
-    "seed-help-bubble__arrow"
+    "ride-help-bubble__arrow"
   ],
   [
     "arrowTip",
-    "seed-help-bubble__arrowTip"
+    "ride-help-bubble__arrowTip"
   ],
   [
     "body",
-    "seed-help-bubble__body"
+    "ride-help-bubble__body"
   ],
   [
     "title",
-    "seed-help-bubble__title"
+    "ride-help-bubble__title"
   ],
   [
     "description",
-    "seed-help-bubble__description"
+    "ride-help-bubble__description"
   ],
   [
     "closeButton",
-    "seed-help-bubble__closeButton"
+    "ride-help-bubble__closeButton"
   ]
 ];
 

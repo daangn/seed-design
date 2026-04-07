@@ -1,4 +1,4 @@
-.seed-action-chip {
+.ride-action-chip {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -23,13 +23,13 @@
     --ride-count-font-weight: var(--ride-font-weight-medium);
     --ride-count-color: var(--ride-color-fg-neutral-muted);
 }
-.seed-action-chip:is(:active, [data-active]) {
+.ride-action-chip:is(:active, [data-active]) {
     background: var(--ride-color-bg-neutral-weak-pressed);
 }
-.seed-action-chip:is(:focus, [data-focus]) {
+.ride-action-chip:is(:focus, [data-focus]) {
     outline: none;
 }
-.seed-action-chip:is(:disabled, [disabled], [data-disabled]) {
+.ride-action-chip:is(:disabled, [disabled], [data-disabled]) {
     background: var(--ride-color-bg-disabled);
     color: var(--ride-color-fg-disabled);
     cursor: not-allowed;
@@ -37,7 +37,7 @@
     --ride-suffix-icon-color: var(--ride-color-fg-disabled);
     --ride-icon-color: var(--ride-color-fg-disabled);
 }
-.seed-action-chip--size_medium {
+.ride-action-chip--size_medium {
     min-height: var(--ride-dimension-x9);
     padding-block: var(--ride-dimension-x2);
     gap: var(--ride-dimension-x1);
@@ -48,7 +48,7 @@
     --ride-suffix-icon-size: var(--ride-dimension-x3_5);
     --ride-icon-size: var(--ride-dimension-x4);
 }
-.seed-action-chip--size_small {
+.ride-action-chip--size_small {
     min-height: var(--ride-dimension-x8);
     padding-block: var(--ride-dimension-x1_5);
     gap: var(--ride-dimension-x1);
@@ -59,17 +59,17 @@
     --ride-suffix-icon-size: var(--ride-dimension-x3_5);
     --ride-icon-size: var(--ride-dimension-x4);
 }
-.seed-action-chip--layout_withText {}
-.seed-action-chip--layout_iconOnly {}
-.seed-action-chip--size_medium-layout_withText {
+.ride-action-chip--layout_withText {}
+.ride-action-chip--layout_iconOnly {}
+.ride-action-chip--size_medium-layout_withText {
     padding-inline: var(--ride-dimension-x3_5);
 }
-.seed-action-chip--size_medium-layout_iconOnly {
+.ride-action-chip--size_medium-layout_iconOnly {
     min-width: var(--ride-dimension-x9);
 }
-.seed-action-chip--size_small-layout_withText {
+.ride-action-chip--size_small-layout_withText {
     padding-inline: var(--ride-dimension-x3);
 }
-.seed-action-chip--size_small-layout_iconOnly {
+.ride-action-chip--size_small-layout_iconOnly {
     min-width: var(--ride-dimension-x8);
 }

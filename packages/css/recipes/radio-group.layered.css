@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-radio-group {
+  .ride-radio-group {
     gap: var(--ride-dimension-x1);
     flex-direction: column;
     display: flex;

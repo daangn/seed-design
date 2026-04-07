@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-page-banner__root {
+  .ride-page-banner__root {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -23,19 +23,19 @@
     display: flex;
   }
 
-  .seed-page-banner__root:is(button) {
+  .ride-page-banner__root:is(button) {
     cursor: pointer;
     transition: outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
   }
 
-  .seed-page-banner__root:is(button):is(:focus-visible, [data-focus-visible]) {
+  .ride-page-banner__root:is(button):is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
   }
 
-  .seed-page-banner__content {
+  .ride-page-banner__content {
     justify-content: space-between;
     align-items: center;
     gap: var(--ride-dimension-x1_5);
@@ -44,30 +44,30 @@
     display: flex;
   }
 
-  .seed-page-banner__body {
+  .ride-page-banner__body {
     line-height: var(--ride-line-height-t4);
     flex-grow: 1;
   }
 
-  .seed-page-banner__title {
+  .ride-page-banner__title {
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
     font-weight: var(--ride-font-weight-bold);
     flex-shrink: 0;
   }
 
-  .seed-page-banner__title:after {
+  .ride-page-banner__title:after {
     content: "  ";
     white-space: pre;
   }
 
-  .seed-page-banner__description {
+  .ride-page-banner__description {
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
     font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-page-banner__button {
+  .ride-page-banner__button {
     cursor: pointer;
     margin: calc((var(--ride-dimension-x10) - var(--ride-line-height-t3)) * .5 * -1);
     padding: calc((var(--ride-dimension-x10) - var(--ride-line-height-t3)) * .5);
@@ -85,12 +85,12 @@
     display: flex;
   }
 
-  .seed-page-banner__button:is(:focus-visible, [data-focus-visible]) {
+  .ride-page-banner__button:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
   }
 
-  .seed-page-banner__closeButton {
+  .ride-page-banner__closeButton {
     width: var(--ride-dimension-x10);
     height: var(--ride-dimension-x10);
     margin: calc((var(--ride-dimension-x10) - var(--ride-dimension-x4)) * -.5);
@@ -112,250 +112,250 @@
     display: flex;
   }
 
-  .seed-page-banner__closeButton:is(:focus-visible, [data-focus-visible]) {
+  .ride-page-banner__closeButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
   }
 
-  .seed-page-banner__root--tone_neutral-variant_weak {
+  .ride-page-banner__root--tone_neutral-variant_weak {
     background-color: var(--ride-color-bg-neutral-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-neutral);
     --ride-suffix-icon-color: var(--ride-color-fg-neutral);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_neutral-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_neutral-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_neutral-variant_weak, .seed-page-banner__description--tone_neutral-variant_weak, .seed-page-banner__button--tone_neutral-variant_weak {
+  .ride-page-banner__title--tone_neutral-variant_weak, .ride-page-banner__description--tone_neutral-variant_weak, .ride-page-banner__button--tone_neutral-variant_weak {
     color: var(--ride-color-fg-neutral);
   }
 
-  .seed-page-banner__root--tone_neutral-variant_solid {
+  .ride-page-banner__root--tone_neutral-variant_solid {
     background-color: var(--ride-color-bg-neutral-inverted);
     --ride-prefix-icon-color: var(--ride-color-fg-neutral-inverted);
     --ride-suffix-icon-color: var(--ride-color-fg-neutral-inverted);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_neutral-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-neutral-inverted-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-neutral-inverted-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_neutral-variant_solid, .seed-page-banner__description--tone_neutral-variant_solid, .seed-page-banner__button--tone_neutral-variant_solid {
+  .ride-page-banner__title--tone_neutral-variant_solid, .ride-page-banner__description--tone_neutral-variant_solid, .ride-page-banner__button--tone_neutral-variant_solid {
     color: var(--ride-color-fg-neutral-inverted);
   }
 
-  .seed-page-banner__root--tone_informative-variant_weak {
+  .ride-page-banner__root--tone_informative-variant_weak {
     background-color: var(--ride-color-bg-informative-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-informative-contrast);
     --ride-suffix-icon-color: var(--ride-color-fg-informative-contrast);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_informative-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-informative-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_informative-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-informative-weak-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_informative-variant_weak, .seed-page-banner__description--tone_informative-variant_weak, .seed-page-banner__button--tone_informative-variant_weak {
+  .ride-page-banner__title--tone_informative-variant_weak, .ride-page-banner__description--tone_informative-variant_weak, .ride-page-banner__button--tone_informative-variant_weak {
     color: var(--ride-color-fg-informative-contrast);
   }
 
-  .seed-page-banner__root--tone_informative-variant_solid {
+  .ride-page-banner__root--tone_informative-variant_solid {
     background-color: var(--ride-color-bg-informative-solid);
     --ride-prefix-icon-color: var(--ride-color-palette-static-white);
     --ride-suffix-icon-color: var(--ride-color-palette-static-white);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_informative-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-informative-solid-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_informative-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-informative-solid-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_informative-variant_solid, .seed-page-banner__description--tone_informative-variant_solid, .seed-page-banner__button--tone_informative-variant_solid {
+  .ride-page-banner__title--tone_informative-variant_solid, .ride-page-banner__description--tone_informative-variant_solid, .ride-page-banner__button--tone_informative-variant_solid {
     color: var(--ride-color-palette-static-white);
   }
 
-  .seed-page-banner__root--tone_positive-variant_weak {
+  .ride-page-banner__root--tone_positive-variant_weak {
     background-color: var(--ride-color-bg-positive-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-positive-contrast);
     --ride-suffix-icon-color: var(--ride-color-fg-positive-contrast);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_positive-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-positive-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_positive-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-positive-weak-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_positive-variant_weak, .seed-page-banner__description--tone_positive-variant_weak, .seed-page-banner__button--tone_positive-variant_weak {
+  .ride-page-banner__title--tone_positive-variant_weak, .ride-page-banner__description--tone_positive-variant_weak, .ride-page-banner__button--tone_positive-variant_weak {
     color: var(--ride-color-fg-positive-contrast);
   }
 
-  .seed-page-banner__root--tone_positive-variant_solid {
+  .ride-page-banner__root--tone_positive-variant_solid {
     background-color: var(--ride-color-bg-positive-solid);
     --ride-prefix-icon-color: var(--ride-color-palette-static-white);
     --ride-suffix-icon-color: var(--ride-color-palette-static-white);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_positive-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-positive-solid-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_positive-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-positive-solid-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_positive-variant_solid, .seed-page-banner__description--tone_positive-variant_solid, .seed-page-banner__button--tone_positive-variant_solid {
+  .ride-page-banner__title--tone_positive-variant_solid, .ride-page-banner__description--tone_positive-variant_solid, .ride-page-banner__button--tone_positive-variant_solid {
     color: var(--ride-color-palette-static-white);
   }
 
-  .seed-page-banner__root--tone_warning-variant_weak {
+  .ride-page-banner__root--tone_warning-variant_weak {
     background-color: var(--ride-color-bg-warning-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-warning-contrast);
     --ride-suffix-icon-color: var(--ride-color-fg-warning-contrast);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_warning-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-warning-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_warning-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-warning-weak-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_warning-variant_weak, .seed-page-banner__description--tone_warning-variant_weak, .seed-page-banner__button--tone_warning-variant_weak {
+  .ride-page-banner__title--tone_warning-variant_weak, .ride-page-banner__description--tone_warning-variant_weak, .ride-page-banner__button--tone_warning-variant_weak {
     color: var(--ride-color-fg-warning-contrast);
   }
 
-  .seed-page-banner__root--tone_warning-variant_solid {
+  .ride-page-banner__root--tone_warning-variant_solid {
     background-color: var(--ride-color-bg-warning-solid);
     --ride-prefix-icon-color: var(--ride-color-palette-static-black-alpha-900);
     --ride-suffix-icon-color: var(--ride-color-palette-static-black-alpha-900);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_warning-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-warning-solid-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_warning-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-warning-solid-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_warning-variant_solid, .seed-page-banner__description--tone_warning-variant_solid, .seed-page-banner__button--tone_warning-variant_solid {
+  .ride-page-banner__title--tone_warning-variant_solid, .ride-page-banner__description--tone_warning-variant_solid, .ride-page-banner__button--tone_warning-variant_solid {
     color: var(--ride-color-palette-static-black-alpha-900);
   }
 
-  .seed-page-banner__root--tone_critical-variant_weak {
+  .ride-page-banner__root--tone_critical-variant_weak {
     background-color: var(--ride-color-bg-critical-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-critical-contrast);
     --ride-suffix-icon-color: var(--ride-color-fg-critical-contrast);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_critical-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-critical-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_critical-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-critical-weak-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_critical-variant_weak, .seed-page-banner__description--tone_critical-variant_weak, .seed-page-banner__button--tone_critical-variant_weak {
+  .ride-page-banner__title--tone_critical-variant_weak, .ride-page-banner__description--tone_critical-variant_weak, .ride-page-banner__button--tone_critical-variant_weak {
     color: var(--ride-color-fg-critical-contrast);
   }
 
-  .seed-page-banner__root--tone_critical-variant_solid {
+  .ride-page-banner__root--tone_critical-variant_solid {
     background-color: var(--ride-color-bg-critical-solid);
     --ride-prefix-icon-color: var(--ride-color-palette-static-white);
     --ride-suffix-icon-color: var(--ride-color-palette-static-white);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_critical-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-critical-solid-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_critical-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-critical-solid-pressed);
     }
   }
 
-  .seed-page-banner__title--tone_critical-variant_solid, .seed-page-banner__description--tone_critical-variant_solid, .seed-page-banner__button--tone_critical-variant_solid {
+  .ride-page-banner__title--tone_critical-variant_solid, .ride-page-banner__description--tone_critical-variant_solid, .ride-page-banner__button--tone_critical-variant_solid {
     color: var(--ride-color-palette-static-white);
   }
 
-  .seed-page-banner__root--tone_magic-variant_weak {
+  .ride-page-banner__root--tone_magic-variant_weak {
     background-image: linear-gradient(88deg, var(--ride-gradient-glow-magic));
     --ride-prefix-icon-color: var(--ride-color-fg-neutral);
     --ride-suffix-icon-color: var(--ride-color-fg-neutral);
   }
 
   @media (hover: hover) {
-    .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:hover, [data-hover]) {
+    .ride-page-banner__root--tone_magic-variant_weak:is(button):is(:hover, [data-hover]) {
       background-image: linear-gradient(88deg, var(--ride-gradient-glow-magic-pressed));
     }
   }
 
   @media (hover: none) {
-    .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
+    .ride-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
       background-image: linear-gradient(88deg, var(--ride-gradient-glow-magic-pressed));
     }
   }
 
-  .seed-page-banner__title--tone_magic-variant_weak, .seed-page-banner__description--tone_magic-variant_weak, .seed-page-banner__button--tone_magic-variant_weak {
+  .ride-page-banner__title--tone_magic-variant_weak, .ride-page-banner__description--tone_magic-variant_weak, .ride-page-banner__button--tone_magic-variant_weak {
     color: var(--ride-color-fg-neutral);
   }
 }

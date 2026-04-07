@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-reaction-button {
+  .ride-reaction-button {
     box-sizing: border-box;
     cursor: pointer;
     text-transform: none;
@@ -19,12 +19,12 @@
     position: relative;
   }
 
-  .seed-reaction-button:is(:focus-visible, [data-focus-visible]) {
+  .ride-reaction-button:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-reaction-button {
+  .ride-reaction-button {
     transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing), box-shadow var(--ride-duration-color-transition) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
     background: var(--ride-color-bg-transparent);
     font-weight: var(--ride-font-weight-medium);
@@ -37,18 +37,18 @@
   }
 
   @media (hover: hover) {
-    .seed-reaction-button:is(:hover, [data-hover]) {
+    .ride-reaction-button:is(:hover, [data-hover]) {
       background: var(--ride-color-bg-transparent-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-reaction-button:is(:active, [data-active]) {
+    .ride-reaction-button:is(:active, [data-active]) {
       background: var(--ride-color-bg-transparent-pressed);
     }
   }
 
-  .seed-reaction-button:is([aria-pressed="true"], [data-pressed]) {
+  .ride-reaction-button:is([aria-pressed="true"], [data-pressed]) {
     background: var(--ride-color-bg-transparent);
     color: var(--ride-color-fg-brand);
     box-shadow: inset 0 0 0 1px var(--ride-color-stroke-brand-weak);
@@ -57,18 +57,18 @@
   }
 
   @media (hover: hover) {
-    .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
+    .ride-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--ride-color-bg-transparent-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
+    .ride-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--ride-color-bg-transparent-pressed);
     }
   }
 
-  .seed-reaction-button:is(:disabled, [disabled], [data-disabled]) {
+  .ride-reaction-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     background: var(--ride-color-bg-disabled);
     color: var(--ride-color-fg-disabled);
@@ -77,18 +77,18 @@
     --ride-count-color: var(--ride-color-fg-disabled);
   }
 
-  .seed-reaction-button[data-loading] {
+  .ride-reaction-button[data-loading] {
     background: var(--ride-color-bg-neutral-weak-pressed);
   }
 
-  .seed-reaction-button:is([aria-pressed="true"], [data-pressed])[data-loading] {
+  .ride-reaction-button:is([aria-pressed="true"], [data-pressed])[data-loading] {
     background: var(--ride-color-bg-transparent-pressed);
     box-shadow: inset 0 0 0 1px var(--ride-color-stroke-brand-weak);
     --track-color: var(--ride-color-palette-carrot-200);
     --range-color: var(--ride-color-fg-brand);
   }
 
-  .seed-reaction-button--size_xsmall {
+  .ride-reaction-button--size_xsmall {
     height: var(--ride-dimension-x8);
     padding-left: var(--ride-dimension-x3);
     padding-right: var(--ride-dimension-x3);
@@ -105,7 +105,7 @@
     --ride-prefix-icon-size: 18px;
   }
 
-  .seed-reaction-button--size_small {
+  .ride-reaction-button--size_small {
     height: var(--ride-dimension-x9);
     padding-left: var(--ride-dimension-x3_5);
     padding-right: var(--ride-dimension-x3_5);

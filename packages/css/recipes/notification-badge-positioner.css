@@ -1,33 +1,33 @@
-.seed-notification-badge-positioner {
+.ride-notification-badge-positioner {
     display: inline-flex;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
     position: absolute
 }
-.seed-notification-badge-positioner--attach_icon {
+.ride-notification-badge-positioner--attach_icon {
     translate: 100% -100%;
     bottom: auto;
     left: auto
 }
-.seed-notification-badge-positioner--attach_text {
+.ride-notification-badge-positioner--attach_text {
     translate: 100% 0%;
     bottom: auto;
     left: auto
 }
-.seed-notification-badge-positioner--size_small {}
-.seed-notification-badge-positioner--size_large {}
-.seed-notification-badge-positioner--size_large-attach_icon {
+.ride-notification-badge-positioner--size_small {}
+.ride-notification-badge-positioner--size_large {}
+.ride-notification-badge-positioner--size_large-attach_icon {
     top: 14px;
     right: 8px
 }
-.seed-notification-badge-positioner--size_small-attach_icon {
+.ride-notification-badge-positioner--size_small-attach_icon {
     top: 7px;
     right: 7px
 }
-.seed-notification-badge-positioner--size_large-attach_text {
+.ride-notification-badge-positioner--size_large-attach_text {
     right: calc(-1 * 2px)
 }
-.seed-notification-badge-positioner--size_small-attach_text {
+.ride-notification-badge-positioner--size_small-attach_text {
     right: calc(-1 * 2px)
 }

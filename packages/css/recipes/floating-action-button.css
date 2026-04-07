@@ -1,4 +1,4 @@
-.seed-floating-action-button__root {
+.ride-floating-action-button__root {
     display: inline-flex;
     box-sizing: border-box;
     align-items: center;
@@ -13,14 +13,14 @@
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-floating-action-button__root:is(:focus-visible, [data-focus-visible]) {
+.ride-floating-action-button__root:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-floating-action-button__root:is(:disabled, [disabled], [data-disabled]) {
+.ride-floating-action-button__root:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
-.seed-floating-action-button__root {
+.ride-floating-action-button__root {
     position: relative;
     overflow: hidden;
     background: var(--ride-color-bg-brand-solid);
@@ -33,16 +33,16 @@
     transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing), max-width var(--ride-duration-d4) var(--ride-timing-function-easing), height var(--ride-duration-d4) var(--ride-timing-function-easing), padding var(--ride-duration-d4) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
 }
 @media (hover: hover) {
-    .seed-floating-action-button__root:is(:hover, [data-hover]) {
+    .ride-floating-action-button__root:is(:hover, [data-hover]) {
         background: var(--ride-color-bg-brand-solid-pressed);
     }
 }
 @media (hover: none) {
-    .seed-floating-action-button__root:is(:active, [data-active]) {
+    .ride-floating-action-button__root:is(:active, [data-active]) {
         background: var(--ride-color-bg-brand-solid-pressed);
     }
 }
-.seed-floating-action-button__icon {
+.ride-floating-action-button__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -50,31 +50,31 @@
     color: var(--ride-color-palette-static-white);
     transition: margin-right var(--ride-duration-d4) var(--ride-timing-function-easing), width var(--ride-duration-d4) var(--ride-timing-function-easing), height var(--ride-duration-d4) var(--ride-timing-function-easing);
 }
-.seed-floating-action-button__label {
+.ride-floating-action-button__label {
     word-break: keep-all;
     white-space: nowrap;
     overflow: hidden;
 }
-.seed-floating-action-button__root--extended_true {
+.ride-floating-action-button__root--extended_true {
     padding-left: var(--ride-dimension-x4_5);
     padding-right: var(--ride-dimension-x4_5);
     height: 48px;
     width: fit-content;
     max-width: 999px;
 }
-.seed-floating-action-button__icon--extended_true {
+.ride-floating-action-button__icon--extended_true {
     width: var(--ride-dimension-x5);
     height: var(--ride-dimension-x5);
     margin-right: var(--ride-dimension-x1);
     transition: none;
 }
-.seed-floating-action-button__root--extended_false {
+.ride-floating-action-button__root--extended_false {
     padding: 0;
     min-width: 56px;
     max-width: 56px;
     height: 56px;
 }
-.seed-floating-action-button__icon--extended_false {
+.ride-floating-action-button__icon--extended_false {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -82,6 +82,6 @@
     width: var(--ride-dimension-x6);
     height: var(--ride-dimension-x6);
 }
-.seed-floating-action-button__label--extended_false {
+.ride-floating-action-button__label--extended_false {
     opacity: 0;
 }

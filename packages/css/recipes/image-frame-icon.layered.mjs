@@ -11,7 +11,7 @@ export const imageFrameIconVariantKeys = Object.keys(imageFrameIconVariantMap);
 
 export function imageFrameIcon(props) {
   return createClassName(
-    "seed-image-frame-icon",
+    "ride-image-frame-icon",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

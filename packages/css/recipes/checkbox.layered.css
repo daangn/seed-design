@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-checkbox__root {
+  .ride-checkbox__root {
     vertical-align: top;
     isolation: isolate;
     cursor: pointer;
@@ -10,43 +10,43 @@
     position: relative;
   }
 
-  .seed-checkbox__root:is(:disabled, [disabled], [data-disabled]) {
+  .ride-checkbox__root:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
   }
 
-  .seed-checkbox__label {
+  .ride-checkbox__label {
     color: var(--ride-color-fg-neutral);
   }
 
-  .seed-checkbox__label:is(:disabled, [disabled], [data-disabled]) {
+  .ride-checkbox__label:is(:disabled, [disabled], [data-disabled]) {
     color: var(--ride-color-fg-disabled);
   }
 
-  .seed-checkbox__label--weight_regular {
+  .ride-checkbox__label--weight_regular {
     font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-checkbox__label--weight_bold {
+  .ride-checkbox__label--weight_bold {
     font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-checkbox__root--size_large {
+  .ride-checkbox__root--size_large {
     min-height: var(--ride-dimension-x9);
     --checkmark-margin-top: calc((var(--ride-dimension-x9) - var(--ride-dimension-x6)) / 2);
   }
 
-  .seed-checkbox__label--size_large {
+  .ride-checkbox__label--size_large {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     margin-top: calc(var(--ride-dimension-x9) / 2 - var(--ride-line-height-t5) / 2);
   }
 
-  .seed-checkbox__root--size_medium {
+  .ride-checkbox__root--size_medium {
     min-height: var(--ride-dimension-x8);
     --checkmark-margin-top: calc((var(--ride-dimension-x8) - var(--ride-dimension-x5)) / 2);
   }
 
-  .seed-checkbox__label--size_medium {
+  .ride-checkbox__label--size_medium {
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
     margin-top: calc(var(--ride-dimension-x8) / 2 - var(--ride-line-height-t4) / 2);

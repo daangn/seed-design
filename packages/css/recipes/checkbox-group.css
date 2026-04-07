@@ -1,4 +1,4 @@
-.seed-checkbox-group {
+.ride-checkbox-group {
     display: flex;
     flex-direction: column;
     gap: var(--ride-dimension-x1)

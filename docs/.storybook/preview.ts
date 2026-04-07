@@ -1,4 +1,4 @@
-// import Seed Design
+// import Ride Design
 import "@ride-developer/css/all.css";
 
 import type { Preview } from "@storybook/nextjs";

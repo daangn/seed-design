@@ -4,43 +4,43 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const sliderSlotNames = [
   [
     "root",
-    "seed-slider__root"
+    "ride-slider__root"
   ],
   [
     "track",
-    "seed-slider__track"
+    "ride-slider__track"
   ],
   [
     "control",
-    "seed-slider__control"
+    "ride-slider__control"
   ],
   [
     "range",
-    "seed-slider__range"
+    "ride-slider__range"
   ],
   [
     "thumb",
-    "seed-slider__thumb"
+    "ride-slider__thumb"
   ],
   [
     "tick",
-    "seed-slider__tick"
+    "ride-slider__tick"
   ],
   [
     "markers",
-    "seed-slider__markers"
+    "ride-slider__markers"
   ],
   [
     "valueIndicatorRoot",
-    "seed-slider__valueIndicatorRoot"
+    "ride-slider__valueIndicatorRoot"
   ],
   [
     "valueIndicatorArrow",
-    "seed-slider__valueIndicatorArrow"
+    "ride-slider__valueIndicatorArrow"
   ],
   [
     "valueIndicatorArrowTip",
-    "seed-slider__valueIndicatorArrowTip"
+    "ride-slider__valueIndicatorArrowTip"
   ]
 ];
 

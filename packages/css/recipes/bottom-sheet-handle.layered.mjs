@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const bottomSheetHandleSlotNames = [
   [
     "root",
-    "seed-bottom-sheet-handle__root"
+    "ride-bottom-sheet-handle__root"
   ],
   [
     "touchArea",
-    "seed-bottom-sheet-handle__touchArea"
+    "ride-bottom-sheet-handle__touchArea"
   ]
 ];
 

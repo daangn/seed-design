@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const switchSlotNames = [
   [
     "root",
-    "seed-switch__root"
+    "ride-switch__root"
   ],
   [
     "label",
-    "seed-switch__label"
+    "ride-switch__label"
   ]
 ];
 

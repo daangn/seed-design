@@ -28,7 +28,7 @@ const actionButton = defineRecipe({
     flexShrink: 0,
     fontFamily: "inherit",
 
-    // Intentional duplication with seed-box; we'll adjust utility styles later
+    // Intentional duplication with ride-box; we'll adjust utility styles later
     "--ride-box-flex-grow": "initial",
     flexGrow: "var(--ride-box-flex-grow)",
     "--ride-box-min-width": "initial",

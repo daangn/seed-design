@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-content-placeholder__root {
+  .ride-content-placeholder__root {
     box-sizing: border-box;
     vertical-align: top;
     background-color: var(--ride-color-palette-gray-200);
@@ -12,7 +12,7 @@
     overflow: hidden;
   }
 
-  .seed-content-placeholder__asset {
+  .ride-content-placeholder__asset {
     height: 50%;
     min-width: var(--ride-dimension-x4);
     aspect-ratio: 1;

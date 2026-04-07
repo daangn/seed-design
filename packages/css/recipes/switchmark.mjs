@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const switchmarkSlotNames = [
   [
     "root",
-    "seed-switchmark__root"
+    "ride-switchmark__root"
   ],
   [
     "thumb",
-    "seed-switchmark__thumb"
+    "ride-switchmark__thumb"
   ]
 ];
 

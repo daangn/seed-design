@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-identity-placeholder__root {
+  .ride-identity-placeholder__root {
     box-sizing: border-box;
     vertical-align: top;
     background-color: var(--ride-color-palette-gray-500);
@@ -11,7 +11,7 @@
     position: relative;
   }
 
-  .seed-identity-placeholder__image {
+  .ride-identity-placeholder__image {
     object-fit: cover;
     width: 100%;
     height: 100%;

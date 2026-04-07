@@ -18,7 +18,7 @@ export const sliderTickVariantKeys = Object.keys(sliderTickVariantMap);
 
 export function sliderTick(props) {
   return createClassName(
-    "seed-slider-tick",
+    "ride-slider-tick",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

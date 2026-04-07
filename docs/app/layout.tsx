@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     >
       <head>
         <meta name="color-scheme" content="light dark" />
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/ridelogo.png" type="image/png" />
         <GoogleAnalytics GA_MEASUREMENT_ID="G-02SS22W02G" />
       </head>
       <body>

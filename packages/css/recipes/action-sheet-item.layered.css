@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-action-sheet-item {
+  .ride-action-sheet-item {
     background-color: var(--ride-color-bg-layer-floating);
     min-height: 50px;
     padding-inline: var(--ride-dimension-spacing-x-global-gutter);
@@ -13,11 +13,11 @@
     position: relative;
   }
 
-  .seed-action-sheet-item:is(:active, [data-active]) {
+  .ride-action-sheet-item:is(:active, [data-active]) {
     background-color: var(--ride-color-bg-layer-floating-pressed);
   }
 
-  .seed-action-sheet-item:after {
+  .ride-action-sheet-item:after {
     content: "";
     left: var(--ride-dimension-spacing-x-global-gutter);
     right: var(--ride-dimension-spacing-x-global-gutter);
@@ -28,11 +28,11 @@
     bottom: 0;
   }
 
-  .seed-action-sheet-item--tone_neutral {
+  .ride-action-sheet-item--tone_neutral {
     color: var(--ride-color-fg-neutral);
   }
 
-  .seed-action-sheet-item--tone_critical {
+  .ride-action-sheet-item--tone_critical {
     color: var(--ride-color-fg-critical);
   }
 }

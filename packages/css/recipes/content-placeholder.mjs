@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const contentPlaceholderSlotNames = [
   [
     "root",
-    "seed-content-placeholder__root"
+    "ride-content-placeholder__root"
   ],
   [
     "asset",
-    "seed-content-placeholder__asset"
+    "ride-content-placeholder__asset"
   ]
 ];
 

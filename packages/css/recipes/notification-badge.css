@@ -1,4 +1,4 @@
-.seed-notification-badge {
+.ride-notification-badge {
     display: inline-flex;
     box-sizing: border-box;
     align-items: center;
@@ -11,12 +11,12 @@
     background-color: var(--ride-color-bg-brand-solid);
     color: var(--ride-color-palette-static-white)
 }
-.seed-notification-badge--size_small {
+.ride-notification-badge--size_small {
     width: 6px;
     height: 6px;
     border-radius: var(--ride-radius-full)
 }
-.seed-notification-badge--size_large {
+.ride-notification-badge--size_large {
     min-height: 18px;
     border-radius: var(--ride-radius-full);
     padding-left: var(--ride-dimension-x1);

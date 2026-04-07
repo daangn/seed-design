@@ -1,4 +1,4 @@
-.seed-dialog__positioner {
+.ride-dialog__positioner {
     position: fixed;
     display: flex;
     justify-content: center;
@@ -11,7 +11,7 @@
     --dialog-z-index: 2;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0))
 }
-.seed-dialog__backdrop {
+.ride-dialog__backdrop {
     position: fixed;
     top: 0;
     right: 0;
@@ -20,7 +20,7 @@
     background: var(--ride-color-bg-overlay);
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0))
 }
-.seed-dialog__content {
+.ride-dialog__content {
     position: relative;
     display: flex;
     flex: 1;
@@ -33,7 +33,7 @@
     margin: auto var(--ride-dimension-x8);
     border-radius: var(--ride-radius-r5)
 }
-.seed-dialog__header {
+.ride-dialog__header {
     display: flex;
     flex-direction: column;
     padding-left: var(--ride-dimension-x5);
@@ -41,14 +41,14 @@
     padding-top: var(--ride-dimension-x5);
     gap: var(--ride-dimension-x1_5)
 }
-.seed-dialog__title {
+.ride-dialog__title {
     color: var(--ride-color-fg-neutral);
     font-size: var(--ride-font-size-t7);
     line-height: var(--ride-line-height-t7);
     font-weight: var(--ride-font-weight-bold);
     margin: 0
 }
-.seed-dialog__description {
+.ride-dialog__description {
     color: var(--ride-color-fg-neutral);
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
@@ -56,7 +56,7 @@
     margin: 0;
     white-space: pre-wrap
 }
-.seed-dialog__footer {
+.ride-dialog__footer {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -65,7 +65,7 @@
     padding-top: var(--ride-dimension-x4);
     padding-bottom: var(--ride-dimension-x5)
 }
-.seed-dialog__backdrop--skipAnimation_false:is([data-state="open"], [data-open]) {
+.ride-dialog__backdrop--skipAnimation_false:is([data-state="open"], [data-open]) {
     animation: ride-enter;
     animation-timing-function: var(--ride-timing-function-enter);
     animation-duration: var(--ride-duration-d2);
@@ -74,7 +74,7 @@
     --ride-enter-opacity: 0;
     --ride-enter-scale: 1
 }
-.seed-dialog__backdrop--skipAnimation_false:not(:is([data-state="open"], [data-open])) {
+.ride-dialog__backdrop--skipAnimation_false:not(:is([data-state="open"], [data-open])) {
     animation: ride-exit;
     animation-timing-function: var(--ride-timing-function-exit);
     animation-duration: var(--ride-duration-d2);
@@ -84,7 +84,7 @@
     --ride-exit-opacity: 0;
     --ride-exit-scale: 1
 }
-.seed-dialog__content--skipAnimation_false:is([data-state="open"], [data-open]) {
+.ride-dialog__content--skipAnimation_false:is([data-state="open"], [data-open]) {
     animation: ride-enter;
     animation-timing-function: var(--ride-timing-function-enter-expressive);
     animation-duration: var(--ride-duration-d4);
@@ -93,7 +93,7 @@
     --ride-enter-opacity: 0;
     --ride-enter-scale: 1.3
 }
-.seed-dialog__content--skipAnimation_false:not(:is([data-state="open"], [data-open])) {
+.ride-dialog__content--skipAnimation_false:not(:is([data-state="open"], [data-open])) {
     animation: ride-exit;
     animation-timing-function: var(--ride-timing-function-exit);
     animation-duration: var(--ride-duration-d2);

@@ -26,7 +26,7 @@ export const mannerTempVariantKeys = Object.keys(mannerTempVariantMap);
 
 export function mannerTemp(props) {
   return createClassName(
-    "seed-manner-temp",
+    "ride-manner-temp",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

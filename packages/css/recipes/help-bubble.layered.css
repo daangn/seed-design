@@ -1,10 +1,10 @@
 @layer ride-components {
-  .seed-help-bubble__positioner {
+  .ride-help-bubble__positioner {
     --popover-z-index: 99;
     z-index: calc(var(--popover-z-index) + var(--z-index-offset, 0));
   }
 
-  .seed-help-bubble__content {
+  .ride-help-bubble__content {
     background: var(--ride-color-bg-neutral-inverted);
     padding-left: var(--ride-dimension-x3);
     padding-right: var(--ride-dimension-x3);
@@ -17,7 +17,7 @@
     display: flex;
   }
 
-  .seed-help-bubble__content:is([data-state="open"], [data-open]) {
+  .ride-help-bubble__content:is([data-state="open"], [data-open]) {
     animation: ride-enter;
     animation-timing-function: var(--ride-timing-function-enter);
     animation-duration: var(--ride-duration-d4);
@@ -27,7 +27,7 @@
     --ride-enter-scale: .9;
   }
 
-  .seed-help-bubble__content:not(:is([data-state="open"], [data-open])) {
+  .ride-help-bubble__content:not(:is([data-state="open"], [data-open])) {
     animation: ride-exit;
     animation-timing-function: var(--ride-timing-function-easing);
     animation-duration: var(--ride-duration-d4);
@@ -38,30 +38,30 @@
     animation-fill-mode: forwards;
   }
 
-  .seed-help-bubble__content:is([hidden], [data-hidden]) {
+  .ride-help-bubble__content:is([hidden], [data-hidden]) {
     display: none !important;
   }
 
-  .seed-help-bubble__arrow {
+  .ride-help-bubble__arrow {
     width: 12px;
     height: 12px;
   }
 
-  .seed-help-bubble__arrowTip {
+  .ride-help-bubble__arrowTip {
     fill: var(--ride-color-bg-neutral-inverted);
     width: 12px;
     height: 8px;
     display: block;
   }
 
-  .seed-help-bubble__body {
+  .ride-help-bubble__body {
     gap: var(--ride-dimension-x0_5);
     word-break: keep-all;
     flex-direction: column;
     display: flex;
   }
 
-  .seed-help-bubble__title {
+  .ride-help-bubble__title {
     color: var(--ride-color-fg-neutral-inverted);
     font-size: var(--ride-font-size-t3);
     font-weight: var(--ride-font-weight-bold);
@@ -69,7 +69,7 @@
     white-space: pre-wrap;
   }
 
-  .seed-help-bubble__description {
+  .ride-help-bubble__description {
     color: var(--ride-color-fg-neutral-inverted);
     font-size: var(--ride-font-size-t3);
     font-weight: var(--ride-font-weight-regular);
@@ -77,7 +77,7 @@
     white-space: pre-wrap;
   }
 
-  .seed-help-bubble__closeButton {
+  .ride-help-bubble__closeButton {
     cursor: pointer;
     padding: calc((38px - var(--ride-dimension-x3_5)) / 2);
     margin-left: calc(var(--ride-dimension-x1) - ((38px - var(--ride-dimension-x3_5)) / 2));
@@ -98,7 +98,7 @@
     display: flex;
   }
 
-  .seed-help-bubble__closeButton:is(:focus-visible, [data-focus-visible]) {
+  .ride-help-bubble__closeButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
   }

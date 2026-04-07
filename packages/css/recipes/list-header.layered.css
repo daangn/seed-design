@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-list-header {
+  .ride-list-header {
     align-items: center;
     gap: var(--ride-dimension-x2_5);
     box-sizing: border-box;
@@ -14,12 +14,12 @@
     display: flex;
   }
 
-  .seed-list-header--variant_mediumWeak {
+  .ride-list-header--variant_mediumWeak {
     font-weight: var(--ride-font-weight-medium);
     color: var(--ride-color-fg-neutral-subtle);
   }
 
-  .seed-list-header--variant_boldSolid {
+  .ride-list-header--variant_boldSolid {
     font-weight: var(--ride-font-weight-bold);
     color: var(--ride-color-fg-neutral);
   }

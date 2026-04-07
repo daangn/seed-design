@@ -1,11 +1,11 @@
 @layer ride-components {
-  .seed-field-label__root {
+  .ride-field-label__root {
     color: var(--ride-color-fg-neutral);
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
   }
 
-  .seed-field-label__indicatorText {
+  .ride-field-label__indicatorText {
     vertical-align: bottom;
     padding-left: clamp(calc(4px * var(--ride-font-size-limit-min)), .25rem, calc(4px * var(--ride-font-size-limit-max)));
     color: var(--ride-color-fg-neutral-subtle);
@@ -15,7 +15,7 @@
     display: inline;
   }
 
-  .seed-field-label__indicatorIcon {
+  .ride-field-label__indicatorIcon {
     vertical-align: top;
     width: clamp(calc(6px * var(--ride-font-size-limit-min)), .375rem, calc(6px * var(--ride-font-size-limit-max)));
     height: clamp(calc(6px * var(--ride-font-size-limit-min)), .375rem, calc(6px * var(--ride-font-size-limit-max)));
@@ -25,11 +25,11 @@
     display: inline;
   }
 
-  .seed-field-label__root--weight_medium {
+  .ride-field-label__root--weight_medium {
     font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-field-label__root--weight_bold {
+  .ride-field-label__root--weight_bold {
     font-weight: var(--ride-font-weight-bold);
   }
 }

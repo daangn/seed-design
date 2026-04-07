@@ -1,4 +1,4 @@
-.seed-list-header {
+.ride-list-header {
     display: flex;
     align-items: center;
     width: 100%;
@@ -12,11 +12,11 @@
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4)
 }
-.seed-list-header--variant_mediumWeak {
+.ride-list-header--variant_mediumWeak {
     font-weight: var(--ride-font-weight-medium);
     color: var(--ride-color-fg-neutral-subtle)
 }
-.seed-list-header--variant_boldSolid {
+.ride-list-header--variant_boldSolid {
     font-weight: var(--ride-font-weight-bold);
     color: var(--ride-color-fg-neutral)
 }

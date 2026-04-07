@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-snackbar-region {
+  .ride-snackbar-region {
     z-index: 2147483647;
     left: calc(env(safe-area-inset-left, 0px));
     right: calc(env(safe-area-inset-right, 0px));

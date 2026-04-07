@@ -1,4 +1,4 @@
-.seed-content-placeholder__root {
+.ride-content-placeholder__root {
     box-sizing: border-box;
     position: relative;
     display: inline-flex;
@@ -10,7 +10,7 @@
     overflow: hidden;
     background-color: var(--ride-color-palette-gray-200)
 }
-.seed-content-placeholder__asset {
+.ride-content-placeholder__asset {
     display: block;
     height: calc(0.5 * 100%);
     min-width: var(--ride-dimension-x4);

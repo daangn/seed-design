@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-bottom-sheet-handle__root {
+  .ride-bottom-sheet-handle__root {
     background-color: var(--ride-color-palette-gray-400);
     width: 36px;
     height: 4px;
@@ -13,18 +13,18 @@
   }
 
   @media (hover: hover) {
-    .seed-bottom-sheet-handle__root:is(:hover, [data-hover]) {
+    .ride-bottom-sheet-handle__root:is(:hover, [data-hover]) {
       background-color: var(--ride-color-palette-gray-500);
     }
   }
 
   @media (hover: none) {
-    .seed-bottom-sheet-handle__root:is(:active, [data-active]) {
+    .ride-bottom-sheet-handle__root:is(:active, [data-active]) {
       background-color: var(--ride-color-palette-gray-500);
     }
   }
 
-  .seed-bottom-sheet-handle__touchArea {
+  .ride-bottom-sheet-handle__touchArea {
     touch-action: inherit;
     width: 44px;
     height: 44px;

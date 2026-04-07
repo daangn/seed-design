@@ -4,15 +4,15 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const segmentedControlSlotNames = [
   [
     "root",
-    "seed-segmented-control__root"
+    "ride-segmented-control__root"
   ],
   [
     "indicator",
-    "seed-segmented-control__indicator"
+    "ride-segmented-control__indicator"
   ],
   [
     "item",
-    "seed-segmented-control__item"
+    "ride-segmented-control__item"
   ]
 ];
 

@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-image-frame-reaction-button__root {
+  .ride-image-frame-reaction-button__root {
     box-sizing: border-box;
     cursor: pointer;
     width: var(--ride-dimension-x6);
@@ -13,7 +13,7 @@
     position: relative;
   }
 
-  .seed-image-frame-reaction-button__root:before {
+  .ride-image-frame-reaction-button__root:before {
     content: "";
     top: calc((var(--ride-dimension-x10) - var(--ride-dimension-x6)) / 2 * -1);
     right: calc((var(--ride-dimension-x10) - var(--ride-dimension-x6)) / 2 * -1);
@@ -25,17 +25,17 @@
     position: absolute;
   }
 
-  .seed-image-frame-reaction-button__root:is(:focus, [data-focus]) {
+  .ride-image-frame-reaction-button__root:is(:focus, [data-focus]) {
     outline: none;
   }
 
-  .seed-image-frame-reaction-button__root:is(:focus-visible, [data-focus-visible]):before {
+  .ride-image-frame-reaction-button__root:is(:focus-visible, [data-focus-visible]):before {
     border-radius: var(--ride-radius-r1);
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
   }
 
-  .seed-image-frame-reaction-button__fillIcon {
+  .ride-image-frame-reaction-button__fillIcon {
     width: var(--ride-dimension-x6);
     height: var(--ride-dimension-x6);
     pointer-events: none;
@@ -44,7 +44,7 @@
     inset: 0;
   }
 
-  .seed-image-frame-reaction-button__lineIcon {
+  .ride-image-frame-reaction-button__lineIcon {
     width: var(--ride-dimension-x6);
     height: var(--ride-dimension-x6);
     color: var(--ride-color-palette-static-white);
@@ -54,7 +54,7 @@
     inset: 0;
   }
 
-  .seed-image-frame-reaction-button__lineIcon:is([aria-pressed="true"], [data-pressed]) {
+  .ride-image-frame-reaction-button__lineIcon:is([aria-pressed="true"], [data-pressed]) {
     color: var(--ride-color-bg-transparent);
   }
 }

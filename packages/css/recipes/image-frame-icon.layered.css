@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-image-frame-icon {
+  .ride-image-frame-icon {
     color: var(--ride-color-palette-static-white);
     justify-content: center;
     align-items: center;

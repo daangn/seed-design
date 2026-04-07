@@ -18,7 +18,7 @@ export const listHeaderVariantKeys = Object.keys(listHeaderVariantMap);
 
 export function listHeader(props) {
   return createClassName(
-    "seed-list-header",
+    "ride-list-header",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

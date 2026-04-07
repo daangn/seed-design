@@ -79,7 +79,7 @@ export const textVariantKeys = Object.keys(textVariantMap);
 
 export function text(props) {
   return createClassName(
-    "seed-text",
+    "ride-text",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

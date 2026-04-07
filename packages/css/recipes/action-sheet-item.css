@@ -1,4 +1,4 @@
-.seed-action-sheet-item {
+.ride-action-sheet-item {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,10 +11,10 @@
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
 }
-.seed-action-sheet-item:is(:active, [data-active]) {
+.ride-action-sheet-item:is(:active, [data-active]) {
     background-color: var(--ride-color-bg-layer-floating-pressed);
 }
-.seed-action-sheet-item:after {
+.ride-action-sheet-item:after {
     content: '';
     display: block;
     position: absolute;
@@ -24,9 +24,9 @@
     height: 1px;
     background: var(--ride-color-stroke-neutral-muted);
 }
-.seed-action-sheet-item--tone_neutral {
+.ride-action-sheet-item--tone_neutral {
     color: var(--ride-color-fg-neutral);
 }
-.seed-action-sheet-item--tone_critical {
+.ride-action-sheet-item--tone_critical {
     color: var(--ride-color-fg-critical);
 }

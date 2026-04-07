@@ -1,4 +1,4 @@
-.seed-contextual-floating-button {
+.ride-contextual-floating-button {
     display: inline-flex;
     box-sizing: border-box;
     align-items: center;
@@ -13,14 +13,14 @@
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-contextual-floating-button:is(:focus-visible, [data-focus-visible]) {
+.ride-contextual-floating-button:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-contextual-floating-button:is(:disabled, [disabled], [data-disabled]) {
+.ride-contextual-floating-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
-.seed-contextual-floating-button {
+.ride-contextual-floating-button {
     border-radius: var(--ride-radius-full);
     box-shadow: var(--ride-shadow-s3);
     font-size: var(--ride-font-size-t4);
@@ -43,7 +43,7 @@
     --thickness: 2px;
     transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
 }
-.seed-contextual-floating-button--variant_solid {
+.ride-contextual-floating-button--variant_solid {
     background: var(--ride-color-bg-neutral-inverted);
     color: var(--ride-color-fg-neutral-inverted);
     --ride-icon-color: var(--ride-color-fg-neutral-inverted);
@@ -52,25 +52,25 @@
     --range-color: var(--ride-color-fg-neutral-inverted);
 }
 @media (hover: hover) {
-    .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
+    .ride-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
         background: var(--ride-color-bg-neutral-inverted-pressed);
     }
 }
 @media (hover: none) {
-    .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
+    .ride-contextual-floating-button--variant_solid:is(:active, [data-active]) {
         background: var(--ride-color-bg-neutral-inverted-pressed);
     }
 }
-.seed-contextual-floating-button--variant_solid:is(:disabled, [disabled], [data-disabled]) {
+.ride-contextual-floating-button--variant_solid:is(:disabled, [disabled], [data-disabled]) {
     background: var(--ride-color-bg-disabled);
     color: var(--ride-color-fg-disabled);
     --ride-prefix-icon-color: var(--ride-color-fg-disabled);
     --ride-icon-color: var(--ride-color-fg-disabled);
 }
-.seed-contextual-floating-button--variant_solid[data-loading] {
+.ride-contextual-floating-button--variant_solid[data-loading] {
     background: var(--ride-color-bg-neutral-inverted-pressed);
 }
-.seed-contextual-floating-button--variant_layer {
+.ride-contextual-floating-button--variant_layer {
     background: var(--ride-color-bg-layer-floating);
     color: var(--ride-color-fg-neutral);
     --ride-icon-color: var(--ride-color-fg-neutral);
@@ -79,25 +79,25 @@
     --range-color: var(--ride-color-fg-neutral);
 }
 @media (hover: hover) {
-    .seed-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
+    .ride-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
         background: var(--ride-color-bg-layer-floating-pressed);
     }
 }
 @media (hover: none) {
-    .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
+    .ride-contextual-floating-button--variant_layer:is(:active, [data-active]) {
         background: var(--ride-color-bg-layer-floating-pressed);
     }
 }
-.seed-contextual-floating-button--variant_layer:is(:disabled, [disabled], [data-disabled]) {
+.ride-contextual-floating-button--variant_layer:is(:disabled, [disabled], [data-disabled]) {
     background: var(--ride-color-bg-disabled);
     color: var(--ride-color-fg-disabled);
     --ride-prefix-icon-color: var(--ride-color-fg-disabled);
     --ride-icon-color: var(--ride-color-fg-disabled);
 }
-.seed-contextual-floating-button--variant_layer[data-loading] {
+.ride-contextual-floating-button--variant_layer[data-loading] {
     background: var(--ride-color-bg-layer-floating-pressed);
 }
-.seed-contextual-floating-button--layout_withText {
+.ride-contextual-floating-button--layout_withText {
     min-height: 36px;
     padding-left: var(--ride-dimension-x3_5);
     padding-right: var(--ride-dimension-x3_5);
@@ -106,7 +106,7 @@
     gap: var(--ride-dimension-x1);
     --ride-prefix-icon-size: 16px;
 }
-.seed-contextual-floating-button--layout_iconOnly {
+.ride-contextual-floating-button--layout_iconOnly {
     width: 44px;
     height: 44px;
     --ride-icon-size: 22px;

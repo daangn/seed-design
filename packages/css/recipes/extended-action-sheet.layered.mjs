@@ -4,39 +4,39 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const extendedActionSheetSlotNames = [
   [
     "backdrop",
-    "seed-extended-action-sheet__backdrop"
+    "ride-extended-action-sheet__backdrop"
   ],
   [
     "positioner",
-    "seed-extended-action-sheet__positioner"
+    "ride-extended-action-sheet__positioner"
   ],
   [
     "content",
-    "seed-extended-action-sheet__content"
+    "ride-extended-action-sheet__content"
   ],
   [
     "header",
-    "seed-extended-action-sheet__header"
+    "ride-extended-action-sheet__header"
   ],
   [
     "title",
-    "seed-extended-action-sheet__title"
+    "ride-extended-action-sheet__title"
   ],
   [
     "list",
-    "seed-extended-action-sheet__list"
+    "ride-extended-action-sheet__list"
   ],
   [
     "group",
-    "seed-extended-action-sheet__group"
+    "ride-extended-action-sheet__group"
   ],
   [
     "footer",
-    "seed-extended-action-sheet__footer"
+    "ride-extended-action-sheet__footer"
   ],
   [
     "closeButton",
-    "seed-extended-action-sheet__closeButton"
+    "ride-extended-action-sheet__closeButton"
   ]
 ];
 

@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-selectBoxCheckmark__root {
+  .ride-selectBoxCheckmark__root {
     box-sizing: border-box;
     width: var(--ride-dimension-x5);
     height: var(--ride-dimension-x5);
@@ -7,7 +7,7 @@
     position: relative;
   }
 
-  .seed-selectBoxCheckmark__icon {
+  .ride-selectBoxCheckmark__icon {
     text-align: center;
     overflow: initial;
     width: 15px;
@@ -21,22 +21,22 @@
   }
 
   @media (hover: hover) {
-    .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+    .ride-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       color: var(--ride-color-fg-neutral-subtle);
     }
   }
 
   @media (hover: none) {
-    .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    .ride-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       color: var(--ride-color-fg-neutral-subtle);
     }
   }
 
-  .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]) {
+  .ride-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]) {
     color: var(--ride-color-fg-neutral);
   }
 
-  .seed-selectBoxCheckmark__icon:is(:disabled, [disabled], [data-disabled]) {
+  .ride-selectBoxCheckmark__icon:is(:disabled, [disabled], [data-disabled]) {
     color: var(--ride-color-fg-disabled);
   }
 }

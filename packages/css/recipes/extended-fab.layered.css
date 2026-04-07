@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-extended-fab {
+  .ride-extended-fab {
     box-sizing: border-box;
     cursor: pointer;
     text-transform: none;
@@ -16,46 +16,46 @@
     display: inline-flex;
   }
 
-  .seed-extended-fab:is(:focus, [data-focus]) {
+  .ride-extended-fab:is(:focus, [data-focus]) {
     outline: none;
   }
 
-  .seed-extended-fab:is(:disabled, [disabled], [data-disabled]) {
+  .ride-extended-fab:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
   }
 
-  .seed-extended-fab {
+  .ride-extended-fab {
     border-radius: var(--ride-radius-full);
     box-shadow: 0 2px 6px #00000026;
   }
 
-  .seed-extended-fab--variant_neutralSolid {
+  .ride-extended-fab--variant_neutralSolid {
     background: var(--ride-color-bg-neutral-inverted);
     color: var(--ride-color-fg-neutral-inverted);
   }
 
-  .seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
+  .ride-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
     background: var(--ride-color-bg-neutral-inverted-pressed);
   }
 
-  .seed-extended-fab--variant_neutralSolid {
+  .ride-extended-fab--variant_neutralSolid {
     --ride-prefix-icon-color: var(--ride-color-fg-neutral-inverted);
   }
 
-  .seed-extended-fab--variant_layerFloating {
+  .ride-extended-fab--variant_layerFloating {
     background: var(--ride-color-bg-layer-floating);
     color: var(--ride-color-fg-neutral);
   }
 
-  .seed-extended-fab--variant_layerFloating:is(:active, [data-active]) {
+  .ride-extended-fab--variant_layerFloating:is(:active, [data-active]) {
     background: var(--ride-color-bg-layer-floating-pressed);
   }
 
-  .seed-extended-fab--variant_layerFloating {
+  .ride-extended-fab--variant_layerFloating {
     --ride-prefix-icon-color: var(--ride-color-fg-neutral);
   }
 
-  .seed-extended-fab--size_small {
+  .ride-extended-fab--size_small {
     padding-inline: var(--ride-dimension-x3_5);
     padding-block: var(--ride-dimension-x2_5);
     gap: var(--ride-dimension-x1);
@@ -66,7 +66,7 @@
     --ride-prefix-icon-size: 16px;
   }
 
-  .seed-extended-fab--size_medium {
+  .ride-extended-fab--size_medium {
     padding-inline: var(--ride-dimension-x4);
     padding-block: var(--ride-dimension-x3);
     gap: var(--ride-dimension-x1);

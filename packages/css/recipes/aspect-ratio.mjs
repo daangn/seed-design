@@ -11,7 +11,7 @@ export const aspectRatioVariantKeys = Object.keys(aspectRatioVariantMap);
 
 export function aspectRatio(props) {
   return createClassName(
-    "seed-aspect-ratio",
+    "ride-aspect-ratio",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

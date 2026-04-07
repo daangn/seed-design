@@ -1,12 +1,12 @@
 @layer ride-components {
-  .seed-field__root {
+  .ride-field__root {
     gap: var(--ride-dimension-x2);
     flex-direction: column;
     width: 100%;
     display: flex;
   }
 
-  .seed-field__header {
+  .ride-field__header {
     padding-left: var(--ride-dimension-x0_5);
     padding-right: var(--ride-dimension-x0_5);
     justify-content: space-between;
@@ -15,7 +15,7 @@
     display: flex;
   }
 
-  .seed-field__footer {
+  .ride-field__footer {
     padding-left: var(--ride-dimension-x0_5);
     padding-right: var(--ride-dimension-x0_5);
     align-items: flex-start;
@@ -23,7 +23,7 @@
     display: flex;
   }
 
-  .seed-field__description {
+  .ride-field__description {
     color: var(--ride-color-fg-neutral-subtle);
     font-weight: var(--ride-font-weight-regular);
     font-size: var(--ride-font-size-t4);
@@ -35,7 +35,7 @@
     display: flex;
   }
 
-  .seed-field__errorMessage {
+  .ride-field__errorMessage {
     color: var(--ride-color-fg-critical);
     font-weight: var(--ride-font-weight-regular);
     font-size: var(--ride-font-size-t4);
@@ -47,35 +47,35 @@
     display: flex;
   }
 
-  .seed-field__characterCountArea {
+  .ride-field__characterCountArea {
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
     margin-left: auto;
   }
 
-  .seed-field__characterCount {
+  .ride-field__characterCount {
     color: var(--ride-color-fg-neutral);
     font-weight: var(--ride-font-weight-regular);
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
   }
 
-  .seed-field__characterCount[data-empty]:not(:is(:invalid, [data-invalid])) {
+  .ride-field__characterCount[data-empty]:not(:is(:invalid, [data-invalid])) {
     color: var(--ride-color-fg-neutral-subtle);
   }
 
-  .seed-field__characterCount:is(:invalid, [data-invalid]) {
+  .ride-field__characterCount:is(:invalid, [data-invalid]) {
     color: var(--ride-color-fg-critical);
   }
 
-  .seed-field__maxCharacterCount {
+  .ride-field__maxCharacterCount {
     color: var(--ride-color-fg-neutral-subtle);
     font-weight: var(--ride-font-weight-regular);
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
   }
 
-  .seed-field__maxCharacterCount:is(:invalid, [data-invalid]) {
+  .ride-field__maxCharacterCount:is(:invalid, [data-invalid]) {
     color: var(--ride-color-fg-critical);
   }
 }

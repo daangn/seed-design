@@ -1,19 +1,19 @@
 @layer ride-components {
-  .seed-progress-circle__root {
+  .ride-progress-circle__root {
     box-sizing: border-box;
     display: inline-flex;
     position: relative;
   }
 
-  .seed-progress-circle__root[data-progress-state="indeterminate"] {
+  .ride-progress-circle__root[data-progress-state="indeterminate"] {
     animation: 1.2s cubic-bezier(.35, .25, .65, .75) infinite rotate;
   }
 
-  .seed-progress-circle__track {
+  .ride-progress-circle__track {
     stroke: var(--track-color);
   }
 
-  .seed-progress-circle__range {
+  .ride-progress-circle__range {
     stroke: var(--range-color);
     stroke-linecap: round;
     transition-property: stroke-dasharray;
@@ -21,31 +21,31 @@
     transition-timing-function: cubic-bezier(0, 0, .15, 1);
   }
 
-  .seed-progress-circle__range[data-progress-state="indeterminate"] {
+  .ride-progress-circle__range[data-progress-state="indeterminate"] {
     animation: 1.2s cubic-bezier(.35, 0, .65, 1) infinite progress-circle-head, 1.2s cubic-bezier(.35, 0, .65, .6) infinite progress-circle-tail;
   }
 
-  .seed-progress-circle__root--tone_neutral {
+  .ride-progress-circle__root--tone_neutral {
     --track-color: var(--ride-color-palette-gray-200);
     --range-color: var(--ride-color-palette-gray-500);
   }
 
-  .seed-progress-circle__root--tone_brand {
+  .ride-progress-circle__root--tone_brand {
     --track-color: var(--ride-color-palette-carrot-200);
     --range-color: var(--ride-color-bg-brand-solid);
   }
 
-  .seed-progress-circle__root--tone_staticWhite {
+  .ride-progress-circle__root--tone_staticWhite {
     --track-color: var(--ride-color-palette-static-white-alpha-300);
     --range-color: var(--ride-color-palette-static-white);
   }
 
-  .seed-progress-circle__root--size_24 {
+  .ride-progress-circle__root--size_24 {
     --size: var(--ride-dimension-x6);
     --thickness: 3px;
   }
 
-  .seed-progress-circle__root--size_40 {
+  .ride-progress-circle__root--size_40 {
     --size: var(--ride-dimension-x10);
     --thickness: 5px;
   }

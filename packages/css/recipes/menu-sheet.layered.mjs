@@ -4,43 +4,43 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const menuSheetSlotNames = [
   [
     "backdrop",
-    "seed-menu-sheet__backdrop"
+    "ride-menu-sheet__backdrop"
   ],
   [
     "positioner",
-    "seed-menu-sheet__positioner"
+    "ride-menu-sheet__positioner"
   ],
   [
     "content",
-    "seed-menu-sheet__content"
+    "ride-menu-sheet__content"
   ],
   [
     "header",
-    "seed-menu-sheet__header"
+    "ride-menu-sheet__header"
   ],
   [
     "title",
-    "seed-menu-sheet__title"
+    "ride-menu-sheet__title"
   ],
   [
     "description",
-    "seed-menu-sheet__description"
+    "ride-menu-sheet__description"
   ],
   [
     "list",
-    "seed-menu-sheet__list"
+    "ride-menu-sheet__list"
   ],
   [
     "group",
-    "seed-menu-sheet__group"
+    "ride-menu-sheet__group"
   ],
   [
     "footer",
-    "seed-menu-sheet__footer"
+    "ride-menu-sheet__footer"
   ],
   [
     "closeButton",
-    "seed-menu-sheet__closeButton"
+    "ride-menu-sheet__closeButton"
   ]
 ];
 

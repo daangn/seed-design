@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const avatarStackSlotNames = [
   [
     "root",
-    "seed-avatar-stack__root"
+    "ride-avatar-stack__root"
   ],
   [
     "item",
-    "seed-avatar-stack__item"
+    "ride-avatar-stack__item"
   ]
 ];
 

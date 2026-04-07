@@ -18,7 +18,7 @@ export const notificationBadgeVariantKeys = Object.keys(notificationBadgeVariant
 
 export function notificationBadge(props) {
   return createClassName(
-    "seed-notification-badge",
+    "ride-notification-badge",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

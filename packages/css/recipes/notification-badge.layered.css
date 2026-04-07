@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-notification-badge {
+  .ride-notification-badge {
     box-sizing: border-box;
     text-transform: none;
     text-align: start;
@@ -13,13 +13,13 @@
     display: inline-flex;
   }
 
-  .seed-notification-badge--size_small {
+  .ride-notification-badge--size_small {
     border-radius: var(--ride-radius-full);
     width: 6px;
     height: 6px;
   }
 
-  .seed-notification-badge--size_large {
+  .ride-notification-badge--size_large {
     border-radius: var(--ride-radius-full);
     min-height: 18px;
     padding-left: var(--ride-dimension-x1);

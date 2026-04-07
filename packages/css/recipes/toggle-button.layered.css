@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-toggle-button {
+  .ride-toggle-button {
     box-sizing: border-box;
     cursor: pointer;
     text-transform: none;
@@ -19,21 +19,21 @@
     position: relative;
   }
 
-  .seed-toggle-button:is(:focus-visible, [data-focus-visible]) {
+  .ride-toggle-button:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-toggle-button:is(:disabled, [disabled], [data-disabled]) {
+  .ride-toggle-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
   }
 
-  .seed-toggle-button {
+  .ride-toggle-button {
     transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
     font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-toggle-button--variant_brandSolid {
+  .ride-toggle-button--variant_brandSolid {
     background: var(--ride-color-bg-brand-solid);
     color: var(--ride-color-palette-static-white);
     --track-color: var(--ride-color-palette-static-white-alpha-300);
@@ -41,18 +41,18 @@
   }
 
   @media (hover: hover) {
-    .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
+    .ride-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
       background: var(--ride-color-bg-brand-solid-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
+    .ride-toggle-button--variant_brandSolid:is(:active, [data-active]) {
       background: var(--ride-color-bg-brand-solid-pressed);
     }
   }
 
-  .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]) {
+  .ride-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]) {
     background: var(--ride-color-bg-neutral-weak);
     color: var(--ride-color-fg-neutral);
     --track-color: var(--ride-color-palette-gray-500);
@@ -62,38 +62,38 @@
   }
 
   @media (hover: hover) {
-    .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
+    .ride-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
+    .ride-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
-  .seed-toggle-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
+  .ride-toggle-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
     background: var(--ride-color-bg-disabled);
     color: var(--ride-color-fg-disabled);
     --ride-prefix-icon-color: var(--ride-color-fg-disabled);
     --ride-suffix-icon-color: var(--ride-color-fg-disabled);
   }
 
-  .seed-toggle-button--variant_brandSolid[data-loading] {
+  .ride-toggle-button--variant_brandSolid[data-loading] {
     background: var(--ride-color-bg-brand-solid-pressed);
   }
 
-  .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed])[data-loading] {
+  .ride-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed])[data-loading] {
     background: var(--ride-color-bg-neutral-weak-pressed);
   }
 
-  .seed-toggle-button--variant_brandSolid {
+  .ride-toggle-button--variant_brandSolid {
     --ride-prefix-icon-color: var(--ride-color-palette-static-white);
     --ride-suffix-icon-color: var(--ride-color-palette-static-white);
   }
 
-  .seed-toggle-button--variant_neutralWeak {
+  .ride-toggle-button--variant_neutralWeak {
     background: var(--ride-color-bg-neutral-weak);
     color: var(--ride-color-fg-neutral);
     --track-color: var(--ride-color-palette-gray-500);
@@ -101,18 +101,18 @@
   }
 
   @media (hover: hover) {
-    .seed-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
+    .ride-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
       background: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
+    .ride-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
       background: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
-  .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]) {
+  .ride-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]) {
     background: var(--ride-color-bg-neutral-weak);
     color: var(--ride-color-fg-neutral);
     --track-color: var(--ride-color-palette-gray-500);
@@ -122,34 +122,34 @@
   }
 
   @media (hover: hover) {
-    .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
+    .ride-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
+    .ride-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
-  .seed-toggle-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {
+  .ride-toggle-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {
     background: var(--ride-color-bg-disabled);
     color: var(--ride-color-fg-disabled);
     --ride-prefix-icon-color: var(--ride-color-fg-disabled);
     --ride-suffix-icon-color: var(--ride-color-fg-disabled);
   }
 
-  .seed-toggle-button--variant_neutralWeak[data-loading], .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed])[data-loading] {
+  .ride-toggle-button--variant_neutralWeak[data-loading], .ride-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed])[data-loading] {
     background: var(--ride-color-bg-neutral-weak-pressed);
   }
 
-  .seed-toggle-button--variant_neutralWeak {
+  .ride-toggle-button--variant_neutralWeak {
     --ride-prefix-icon-color: var(--ride-color-fg-neutral);
     --ride-suffix-icon-color: var(--ride-color-fg-neutral);
   }
 
-  .seed-toggle-button--size_xsmall {
+  .ride-toggle-button--size_xsmall {
     height: var(--ride-dimension-x8);
     border-radius: var(--ride-radius-full);
     gap: var(--ride-dimension-x1);
@@ -165,7 +165,7 @@
     --ride-suffix-icon-size: var(--ride-dimension-x3_5);
   }
 
-  .seed-toggle-button--size_small {
+  .ride-toggle-button--size_small {
     height: var(--ride-dimension-x9);
     border-radius: var(--ride-radius-full);
     gap: var(--ride-dimension-x1);

@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-slider-tick {
+  .ride-slider-tick {
     background-color: var(--ride-color-fg-neutral-inverted);
     height: 100%;
     position: absolute;
@@ -7,19 +7,19 @@
     transform: translate(-50%, -50%);
   }
 
-  .seed-slider-tick[data-dir="ltr"] {
+  .ride-slider-tick[data-dir="ltr"] {
     left: calc(var(--tick-position) * 1% + var(--tick-offset));
   }
 
-  .seed-slider-tick[data-dir="rtl"] {
+  .ride-slider-tick[data-dir="rtl"] {
     right: calc(var(--tick-position) * 1% + var(--tick-offset));
   }
 
-  .seed-slider-tick--weight_thin {
+  .ride-slider-tick--weight_thin {
     width: 1px;
   }
 
-  .seed-slider-tick--weight_thick {
+  .ride-slider-tick--weight_thick {
     width: var(--ride-dimension-x1);
   }
 }

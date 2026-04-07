@@ -4,19 +4,19 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const avatarSlotNames = [
   [
     "root",
-    "seed-avatar__root"
+    "ride-avatar__root"
   ],
   [
     "image",
-    "seed-avatar__image"
+    "ride-avatar__image"
   ],
   [
     "fallback",
-    "seed-avatar__fallback"
+    "ride-avatar__fallback"
   ],
   [
     "badge",
-    "seed-avatar__badge"
+    "ride-avatar__badge"
   ]
 ];
 

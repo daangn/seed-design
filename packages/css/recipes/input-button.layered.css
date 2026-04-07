@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-input-button__root {
+  .ride-input-button__root {
     box-sizing: border-box;
     isolation: isolate;
     width: 100%;
@@ -12,7 +12,7 @@
     position: relative;
   }
 
-  .seed-input-button__button {
+  .ride-input-button__button {
     z-index: -1;
     cursor: pointer;
     border-radius: var(--ride-radius-r3);
@@ -25,7 +25,7 @@
     inset: 0;
   }
 
-  .seed-input-button__button:after {
+  .ride-input-button__button:after {
     content: "";
     border-radius: inherit;
     transition: border-color .1s var(--ride-timing-function-easing);
@@ -35,44 +35,44 @@
     inset: 0;
   }
 
-  .seed-input-button__button[data-disabled] {
+  .ride-input-button__button[data-disabled] {
     cursor: not-allowed;
     background-color: var(--ride-color-bg-disabled);
   }
 
   @media (hover: hover) {
-    .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:hover, [data-hover]) {
+    .ride-input-button__button:not([data-disabled]):not([data-readonly]):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-transparent-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:active, [data-active]) {
+    .ride-input-button__button:not([data-disabled]):not([data-readonly]):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-transparent-pressed);
     }
   }
 
-  .seed-input-button__button[data-readonly]:not([data-disabled]) {
+  .ride-input-button__button[data-readonly]:not([data-disabled]) {
     cursor: default;
     background-color: var(--ride-color-bg-disabled);
   }
 
-  .seed-input-button__button {
+  .ride-input-button__button {
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-input-button__button:is(:focus-visible, [data-focus-visible]) {
+  .ride-input-button__button:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-input-button__button:is(:invalid, [data-invalid]):after {
+  .ride-input-button__button:is(:invalid, [data-invalid]):after {
     border-width: 2px;
     border-color: var(--ride-color-stroke-critical-solid);
   }
 
-  .seed-input-button__value {
+  .ride-input-button__value {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
@@ -84,15 +84,15 @@
     overflow: hidden;
   }
 
-  .seed-input-button__value[data-disabled] {
+  .ride-input-button__value[data-disabled] {
     color: var(--ride-color-fg-disabled);
   }
 
-  .seed-input-button__value[data-readonly]:not([data-disabled]) {
+  .ride-input-button__value[data-readonly]:not([data-disabled]) {
     color: var(--ride-color-fg-neutral);
   }
 
-  .seed-input-button__placeholder {
+  .ride-input-button__placeholder {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
@@ -104,15 +104,15 @@
     overflow: hidden;
   }
 
-  .seed-input-button__placeholder[data-disabled] {
+  .ride-input-button__placeholder[data-disabled] {
     color: var(--ride-color-fg-disabled);
   }
 
-  .seed-input-button__placeholder[data-readonly]:not([data-disabled]) {
+  .ride-input-button__placeholder[data-readonly]:not([data-disabled]) {
     color: var(--ride-color-fg-placeholder);
   }
 
-  .seed-input-button__prefixText {
+  .ride-input-button__prefixText {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
@@ -120,7 +120,7 @@
     pointer-events: none;
   }
 
-  .seed-input-button__prefixIcon {
+  .ride-input-button__prefixIcon {
     width: var(--ride-dimension-x5);
     height: var(--ride-dimension-x5);
     color: var(--ride-color-fg-neutral-muted);
@@ -128,7 +128,7 @@
     flex-shrink: 0;
   }
 
-  .seed-input-button__suffixText {
+  .ride-input-button__suffixText {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
@@ -136,7 +136,7 @@
     pointer-events: none;
   }
 
-  .seed-input-button__suffixIcon {
+  .ride-input-button__suffixIcon {
     width: var(--ride-dimension-x5);
     height: var(--ride-dimension-x5);
     color: var(--ride-color-fg-neutral-muted);
@@ -144,7 +144,7 @@
     flex-shrink: 0;
   }
 
-  .seed-input-button__clearButton {
+  .ride-input-button__clearButton {
     cursor: pointer;
     border-radius: var(--ride-radius-full);
     transition: outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
@@ -155,12 +155,12 @@
     padding: 0;
   }
 
-  .seed-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
+  .ride-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-input-button__clearButton {
+  .ride-input-button__clearButton {
     --ride-icon-size: 22px;
     --ride-icon-color: var(--ride-color-fg-neutral-subtle);
   }

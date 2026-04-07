@@ -1,4 +1,4 @@
-.seed-radio-group {
+.ride-radio-group {
     display: flex;
     flex-direction: column;
     gap: var(--ride-dimension-x1)

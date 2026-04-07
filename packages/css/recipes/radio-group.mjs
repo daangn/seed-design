@@ -11,7 +11,7 @@ export const radioGroupVariantKeys = Object.keys(radioGroupVariantMap);
 
 export function radioGroup(props) {
   return createClassName(
-    "seed-radio-group",
+    "ride-radio-group",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

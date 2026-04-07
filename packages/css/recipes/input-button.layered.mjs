@@ -4,39 +4,39 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const inputButtonSlotNames = [
   [
     "root",
-    "seed-input-button__root"
+    "ride-input-button__root"
   ],
   [
     "value",
-    "seed-input-button__value"
+    "ride-input-button__value"
   ],
   [
     "placeholder",
-    "seed-input-button__placeholder"
+    "ride-input-button__placeholder"
   ],
   [
     "button",
-    "seed-input-button__button"
+    "ride-input-button__button"
   ],
   [
     "prefixText",
-    "seed-input-button__prefixText"
+    "ride-input-button__prefixText"
   ],
   [
     "prefixIcon",
-    "seed-input-button__prefixIcon"
+    "ride-input-button__prefixIcon"
   ],
   [
     "suffixText",
-    "seed-input-button__suffixText"
+    "ride-input-button__suffixText"
   ],
   [
     "suffixIcon",
-    "seed-input-button__suffixIcon"
+    "ride-input-button__suffixIcon"
   ],
   [
     "clearButton",
-    "seed-input-button__clearButton"
+    "ride-input-button__clearButton"
   ]
 ];
 

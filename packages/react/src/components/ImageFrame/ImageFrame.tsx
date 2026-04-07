@@ -193,7 +193,7 @@ const HeartOutlineStrokePath =
 
 const HeartFillSvg = (props: React.SVGAttributes<SVGSVGElement>) => {
   const id = React.useId();
-  const gradientId = `seed-heart-gradient${id.replace(/:/g, "")}`;
+  const gradientId = `ride-heart-gradient${id.replace(/:/g, "")}`;
 
   return (
     <svg

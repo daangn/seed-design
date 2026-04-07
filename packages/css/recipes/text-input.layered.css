@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-text-input__root {
+  .ride-text-input__root {
     align-items: center;
     width: 100%;
     display: flex;
@@ -7,7 +7,7 @@
     overflow: hidden;
   }
 
-  .seed-text-input__root:after {
+  .ride-text-input__root:after {
     content: "";
     border-radius: inherit;
     transition: border-color .1s var(--ride-timing-function-easing);
@@ -17,7 +17,7 @@
     inset: 0;
   }
 
-  .seed-text-input__value {
+  .ride-text-input__value {
     box-sizing: border-box;
     font: inherit;
     resize: none;
@@ -32,204 +32,204 @@
     padding-right: 0;
   }
 
-  .seed-text-input__value:is(input) {
+  .ride-text-input__value:is(input) {
     width: 0;
   }
 
-  .seed-text-input__value::placeholder {
+  .ride-text-input__value::placeholder {
     color: var(--ride-color-fg-placeholder);
     font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text-input__value:is(:autofill, :autofill) {
+  .ride-text-input__value:is(:autofill, :autofill) {
     -webkit-text-fill-color: var(--ride-color-fg-neutral);
     transition: background-color 2147480000s 2147480000s;
   }
 
   @supports (background-clip: text) {
-    .seed-text-input__value:is(:autofill, :autofill) {
+    .ride-text-input__value:is(:autofill, :autofill) {
       background-clip: text;
       transition: none;
     }
   }
 
-  .seed-text-input__value:is(:disabled, [disabled], [data-disabled]) {
+  .ride-text-input__value:is(:disabled, [disabled], [data-disabled]) {
     color: var(--ride-color-fg-disabled);
     cursor: not-allowed;
   }
 
-  .seed-text-input__value:is(:disabled, [disabled], [data-disabled])::placeholder {
+  .ride-text-input__value:is(:disabled, [disabled], [data-disabled])::placeholder {
     color: var(--ride-color-fg-disabled);
   }
 
-  .seed-text-input__prefixText {
+  .ride-text-input__prefixText {
     color: var(--ride-color-fg-neutral-muted);
     font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text-input__prefixIcon {
+  .ride-text-input__prefixIcon {
     color: var(--ride-color-fg-neutral-muted);
     flex-shrink: 0;
   }
 
-  .seed-text-input__suffixText {
+  .ride-text-input__suffixText {
     color: var(--ride-color-fg-neutral-muted);
     font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text-input__suffixIcon {
+  .ride-text-input__suffixIcon {
     color: var(--ride-color-fg-neutral-muted);
     flex-shrink: 0;
   }
 
-  .seed-text-input__root--variant_outline {
+  .ride-text-input__root--variant_outline {
     border-radius: var(--ride-radius-r3);
     box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-weak);
   }
 
-  .seed-text-input__root--variant_outline:after {
+  .ride-text-input__root--variant_outline:after {
     border-style: solid;
     border-width: 2px;
   }
 
-  .seed-text-input__root--variant_outline:not([data-readonly]):is(:focus, [data-focus]):after {
+  .ride-text-input__root--variant_outline:not([data-readonly]):is(:focus, [data-focus]):after {
     border-color: var(--ride-color-stroke-neutral-contrast);
     border-width: 2px;
   }
 
-  .seed-text-input__root--variant_outline:is(:invalid, [data-invalid]):after, .seed-text-input__root--variant_outline:is(:invalid, [data-invalid]):is(:focus, [data-focus]):after {
+  .ride-text-input__root--variant_outline:is(:invalid, [data-invalid]):after, .ride-text-input__root--variant_outline:is(:invalid, [data-invalid]):is(:focus, [data-focus]):after {
     border-color: var(--ride-color-stroke-critical-solid);
     border-width: 2px;
   }
 
-  .seed-text-input__root--variant_outline:is(:disabled, [disabled], [data-disabled]), .seed-text-input__root--variant_outline[data-readonly]:not(:is(:disabled, [disabled], [data-disabled])) {
+  .ride-text-input__root--variant_outline:is(:disabled, [disabled], [data-disabled]), .ride-text-input__root--variant_outline[data-readonly]:not(:is(:disabled, [disabled], [data-disabled])) {
     background-color: var(--ride-color-bg-disabled);
   }
 
-  .seed-text-input__value--variant_outline:first-child {
+  .ride-text-input__value--variant_outline:first-child {
     padding-left: var(--ride-dimension-x4);
   }
 
-  .seed-text-input__value--variant_outline:last-child {
+  .ride-text-input__value--variant_outline:last-child {
     padding-right: var(--ride-dimension-x4);
   }
 
-  .seed-text-input__prefixText--variant_outline:first-child, .seed-text-input__prefixIcon--variant_outline:first-child {
+  .ride-text-input__prefixText--variant_outline:first-child, .ride-text-input__prefixIcon--variant_outline:first-child {
     margin-left: var(--ride-dimension-x4);
   }
 
-  .seed-text-input__suffixText--variant_outline:last-child, .seed-text-input__suffixIcon--variant_outline:last-child {
+  .ride-text-input__suffixText--variant_outline:last-child, .ride-text-input__suffixIcon--variant_outline:last-child {
     margin-right: var(--ride-dimension-x4);
   }
 
-  .seed-text-input__root--variant_underline {
+  .ride-text-input__root--variant_underline {
     gap: var(--ride-dimension-x2_5);
     min-height: var(--ride-dimension-x10);
     box-shadow: inset 0 calc(1px * -1) 0 0 var(--ride-color-stroke-neutral-weak);
   }
 
-  .seed-text-input__root--variant_underline:after {
+  .ride-text-input__root--variant_underline:after {
     border-bottom-style: solid;
     border-bottom-width: 2px;
   }
 
-  .seed-text-input__root--variant_underline:not([data-readonly]):is(:focus, [data-focus]):after {
+  .ride-text-input__root--variant_underline:not([data-readonly]):is(:focus, [data-focus]):after {
     border-bottom-color: var(--ride-color-stroke-neutral-contrast);
     border-bottom-width: 2px;
   }
 
-  .seed-text-input__root--variant_underline:is(:invalid, [data-invalid]):after, .seed-text-input__root--variant_underline:is(:invalid, [data-invalid]):is(:focus, [data-focus]):after {
+  .ride-text-input__root--variant_underline:is(:invalid, [data-invalid]):after, .ride-text-input__root--variant_underline:is(:invalid, [data-invalid]):is(:focus, [data-focus]):after {
     border-bottom-color: var(--ride-color-stroke-critical-solid);
     border-bottom-width: 2px;
   }
 
-  .seed-text-input__value--variant_underline, .seed-text-input__value--variant_underline::placeholder {
+  .ride-text-input__value--variant_underline, .ride-text-input__value--variant_underline::placeholder {
     font-size: var(--ride-font-size-t6);
     line-height: var(--ride-line-height-t6);
   }
 
-  .seed-text-input__value--variant_underline[data-readonly]:not(:is(:disabled, [disabled], [data-disabled])), .seed-text-input__value--variant_underline[data-readonly]:not(:is(:disabled, [disabled], [data-disabled]))::placeholder {
+  .ride-text-input__value--variant_underline[data-readonly]:not(:is(:disabled, [disabled], [data-disabled])), .ride-text-input__value--variant_underline[data-readonly]:not(:is(:disabled, [disabled], [data-disabled]))::placeholder {
     color: var(--ride-color-fg-neutral-muted);
   }
 
-  .seed-text-input__prefixText--variant_underline {
+  .ride-text-input__prefixText--variant_underline {
     font-size: var(--ride-font-size-t6);
     line-height: var(--ride-line-height-t6);
   }
 
-  .seed-text-input__prefixIcon--variant_underline {
+  .ride-text-input__prefixIcon--variant_underline {
     width: var(--ride-dimension-x6);
     height: var(--ride-dimension-x6);
   }
 
-  .seed-text-input__suffixText--variant_underline {
+  .ride-text-input__suffixText--variant_underline {
     font-size: var(--ride-font-size-t6);
     line-height: var(--ride-line-height-t6);
   }
 
-  .seed-text-input__suffixIcon--variant_underline {
+  .ride-text-input__suffixIcon--variant_underline {
     width: var(--ride-dimension-x6);
     height: var(--ride-dimension-x6);
   }
 
-  .seed-text-input__value--size_large:is(textarea) {
+  .ride-text-input__value--size_large:is(textarea) {
     min-height: 95px;
     padding-top: var(--ride-dimension-x3_5);
     padding-bottom: var(--ride-dimension-x3_5);
   }
 
-  .seed-text-input__value--size_medium:is(textarea) {
+  .ride-text-input__value--size_medium:is(textarea) {
     min-height: 90px;
     padding-top: 11px;
     padding-bottom: 11px;
   }
 
-  .seed-text-input__root--variant_outline-size_large {
+  .ride-text-input__root--variant_outline-size_large {
     gap: var(--ride-dimension-x2_5);
     min-height: var(--ride-dimension-x13);
   }
 
-  .seed-text-input__value--variant_outline-size_large, .seed-text-input__value--variant_outline-size_large::placeholder, .seed-text-input__prefixText--variant_outline-size_large {
+  .ride-text-input__value--variant_outline-size_large, .ride-text-input__value--variant_outline-size_large::placeholder, .ride-text-input__prefixText--variant_outline-size_large {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
   }
 
-  .seed-text-input__prefixIcon--variant_outline-size_large {
+  .ride-text-input__prefixIcon--variant_outline-size_large {
     width: var(--ride-dimension-x5);
     height: var(--ride-dimension-x5);
   }
 
-  .seed-text-input__suffixText--variant_outline-size_large {
+  .ride-text-input__suffixText--variant_outline-size_large {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
   }
 
-  .seed-text-input__suffixIcon--variant_outline-size_large {
+  .ride-text-input__suffixIcon--variant_outline-size_large {
     width: var(--ride-dimension-x5);
     height: var(--ride-dimension-x5);
   }
 
-  .seed-text-input__root--variant_outline-size_medium {
+  .ride-text-input__root--variant_outline-size_medium {
     gap: var(--ride-dimension-x1_5);
     min-height: var(--ride-dimension-x10);
   }
 
-  .seed-text-input__value--variant_outline-size_medium, .seed-text-input__value--variant_outline-size_medium::placeholder, .seed-text-input__prefixText--variant_outline-size_medium {
+  .ride-text-input__value--variant_outline-size_medium, .ride-text-input__value--variant_outline-size_medium::placeholder, .ride-text-input__prefixText--variant_outline-size_medium {
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
   }
 
-  .seed-text-input__prefixIcon--variant_outline-size_medium {
+  .ride-text-input__prefixIcon--variant_outline-size_medium {
     width: var(--ride-dimension-x4);
     height: var(--ride-dimension-x4);
   }
 
-  .seed-text-input__suffixText--variant_outline-size_medium {
+  .ride-text-input__suffixText--variant_outline-size_medium {
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
   }
 
-  .seed-text-input__suffixIcon--variant_outline-size_medium {
+  .ride-text-input__suffixIcon--variant_outline-size_medium {
     width: var(--ride-dimension-x4);
     height: var(--ride-dimension-x4);
   }

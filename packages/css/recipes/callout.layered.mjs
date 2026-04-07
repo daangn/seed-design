@@ -4,27 +4,27 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const calloutSlotNames = [
   [
     "root",
-    "seed-callout__root"
+    "ride-callout__root"
   ],
   [
     "content",
-    "seed-callout__content"
+    "ride-callout__content"
   ],
   [
     "title",
-    "seed-callout__title"
+    "ride-callout__title"
   ],
   [
     "description",
-    "seed-callout__description"
+    "ride-callout__description"
   ],
   [
     "link",
-    "seed-callout__link"
+    "ride-callout__link"
   ],
   [
     "closeButton",
-    "seed-callout__closeButton"
+    "ride-callout__closeButton"
   ]
 ];
 

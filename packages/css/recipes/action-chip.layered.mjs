@@ -40,7 +40,7 @@ export const actionChipVariantKeys = Object.keys(actionChipVariantMap);
 
 export function actionChip(props) {
   return createClassName(
-    "seed-action-chip",
+    "ride-action-chip",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

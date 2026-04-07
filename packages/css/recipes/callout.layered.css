@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-callout__root {
+  .ride-callout__root {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -22,46 +22,46 @@
     display: flex;
   }
 
-  .seed-callout__root:is(button, a) {
+  .ride-callout__root:is(button, a) {
     cursor: pointer;
     transition: outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-callout__root:is(button, a):is(:focus-visible, [data-focus-visible]) {
+  .ride-callout__root:is(button, a):is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-callout__content {
+  .ride-callout__content {
     line-height: var(--ride-line-height-t4);
     margin-right: auto;
   }
 
-  .seed-callout__title {
+  .ride-callout__title {
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
     font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-callout__title:after {
+  .ride-callout__title:after {
     content: "  ";
     white-space: pre;
   }
 
-  .seed-callout__description {
+  .ride-callout__description {
     font-size: var(--ride-font-size-t4);
     line-height: var(--ride-line-height-t4);
     font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-callout__description:not(:last-child):after {
+  .ride-callout__description:not(:last-child):after {
     content: "  ";
     white-space: pre;
   }
 
-  .seed-callout__link {
+  .ride-callout__link {
     cursor: pointer;
     font-family: inherit;
     font-size: var(--ride-font-size-t4);
@@ -79,12 +79,12 @@
     display: inline-block;
   }
 
-  .seed-callout__link:is(:focus-visible, [data-focus-visible]) {
+  .ride-callout__link:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-callout__closeButton {
+  .ride-callout__closeButton {
     cursor: pointer;
     width: var(--ride-dimension-x10);
     height: var(--ride-dimension-x10);
@@ -103,140 +103,140 @@
     display: flex;
   }
 
-  .seed-callout__closeButton:is(:focus-visible, [data-focus-visible]) {
+  .ride-callout__closeButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-callout__root--tone_neutral {
+  .ride-callout__root--tone_neutral {
     background-color: var(--ride-color-bg-neutral-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-neutral);
     --ride-suffix-icon-color: var(--ride-color-fg-neutral);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_neutral:is(button, a):is(:hover, [data-hover]) {
+    .ride-callout__root--tone_neutral:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
+    .ride-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_neutral, .seed-callout__description--tone_neutral, .seed-callout__link--tone_neutral {
+  .ride-callout__title--tone_neutral, .ride-callout__description--tone_neutral, .ride-callout__link--tone_neutral {
     color: var(--ride-color-fg-neutral);
   }
 
-  .seed-callout__root--tone_informative {
+  .ride-callout__root--tone_informative {
     background-color: var(--ride-color-bg-informative-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-informative-contrast);
     --ride-suffix-icon-color: var(--ride-color-fg-informative-contrast);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_informative:is(button, a):is(:hover, [data-hover]) {
+    .ride-callout__root--tone_informative:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-informative-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
+    .ride-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-informative-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_informative, .seed-callout__description--tone_informative, .seed-callout__link--tone_informative {
+  .ride-callout__title--tone_informative, .ride-callout__description--tone_informative, .ride-callout__link--tone_informative {
     color: var(--ride-color-fg-informative-contrast);
   }
 
-  .seed-callout__root--tone_positive {
+  .ride-callout__root--tone_positive {
     background-color: var(--ride-color-bg-positive-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-positive-contrast);
     --ride-suffix-icon-color: var(--ride-color-fg-positive-contrast);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_positive:is(button, a):is(:hover, [data-hover]) {
+    .ride-callout__root--tone_positive:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-positive-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
+    .ride-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-positive-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_positive, .seed-callout__description--tone_positive, .seed-callout__link--tone_positive {
+  .ride-callout__title--tone_positive, .ride-callout__description--tone_positive, .ride-callout__link--tone_positive {
     color: var(--ride-color-fg-positive-contrast);
   }
 
-  .seed-callout__root--tone_warning {
+  .ride-callout__root--tone_warning {
     background-color: var(--ride-color-bg-warning-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-warning-contrast);
     --ride-suffix-icon-color: var(--ride-color-fg-warning-contrast);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_warning:is(button, a):is(:hover, [data-hover]) {
+    .ride-callout__root--tone_warning:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-warning-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
+    .ride-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-warning-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_warning, .seed-callout__description--tone_warning, .seed-callout__link--tone_warning {
+  .ride-callout__title--tone_warning, .ride-callout__description--tone_warning, .ride-callout__link--tone_warning {
     color: var(--ride-color-fg-warning-contrast);
   }
 
-  .seed-callout__root--tone_critical {
+  .ride-callout__root--tone_critical {
     background-color: var(--ride-color-bg-critical-weak);
     --ride-prefix-icon-color: var(--ride-color-fg-critical-contrast);
     --ride-suffix-icon-color: var(--ride-color-fg-critical-contrast);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_critical:is(button, a):is(:hover, [data-hover]) {
+    .ride-callout__root--tone_critical:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--ride-color-bg-critical-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
+    .ride-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
       background-color: var(--ride-color-bg-critical-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_critical, .seed-callout__description--tone_critical, .seed-callout__link--tone_critical {
+  .ride-callout__title--tone_critical, .ride-callout__description--tone_critical, .ride-callout__link--tone_critical {
     color: var(--ride-color-fg-critical-contrast);
   }
 
-  .seed-callout__root--tone_magic {
+  .ride-callout__root--tone_magic {
     background-image: linear-gradient(88deg, var(--ride-gradient-glow-magic));
     --ride-prefix-icon-color: var(--ride-color-fg-neutral);
     --ride-suffix-icon-color: var(--ride-color-fg-neutral);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_magic:is(button, a):is(:hover, [data-hover]) {
+    .ride-callout__root--tone_magic:is(button, a):is(:hover, [data-hover]) {
       background-image: linear-gradient(88deg, var(--ride-gradient-glow-magic-pressed));
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
+    .ride-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
       background-image: linear-gradient(88deg, var(--ride-gradient-glow-magic-pressed));
     }
   }
 
-  .seed-callout__title--tone_magic, .seed-callout__description--tone_magic, .seed-callout__link--tone_magic {
+  .ride-callout__title--tone_magic, .ride-callout__description--tone_magic, .ride-callout__link--tone_magic {
     color: var(--ride-color-fg-neutral);
   }
 }

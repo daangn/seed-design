@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <RootProvider>
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-fd-background text-fd-foreground px-4">
-        <Image src="/favicon.svg" alt="" width={36} height={32} aria-hidden />
+        <Image src="/ridelogo.png" alt="" width={36} height={32} aria-hidden />
 
         <div className="flex flex-col items-center gap-2 text-center">
           <p className="text-sm font-medium text-fd-muted-foreground">404</p>

@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const tagGroupItemSlotNames = [
   [
     "root",
-    "seed-tag-group-item__root"
+    "ride-tag-group-item__root"
   ],
   [
     "label",
-    "seed-tag-group-item__label"
+    "ride-tag-group-item__label"
   ]
 ];
 

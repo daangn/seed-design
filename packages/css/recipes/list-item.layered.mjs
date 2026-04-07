@@ -4,27 +4,27 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const listItemSlotNames = [
   [
     "root",
-    "seed-list-item__root"
+    "ride-list-item__root"
   ],
   [
     "content",
-    "seed-list-item__content"
+    "ride-list-item__content"
   ],
   [
     "title",
-    "seed-list-item__title"
+    "ride-list-item__title"
   ],
   [
     "detail",
-    "seed-list-item__detail"
+    "ride-list-item__detail"
   ],
   [
     "prefix",
-    "seed-list-item__prefix"
+    "ride-list-item__prefix"
   ],
   [
     "suffix",
-    "seed-list-item__suffix"
+    "ride-list-item__suffix"
   ]
 ];
 

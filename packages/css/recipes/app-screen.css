@@ -1,4 +1,4 @@
-.seed-app-screen__root {
+.ride-app-screen__root {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -7,7 +7,7 @@
     overflow: hidden;
     --app-bar-offset: calc(var(--app-bar-height) + var(--ride-safe-area-top));
 }
-.seed-app-screen__dim {
+.ride-app-screen__dim {
     z-index: var(--z-index-dim);
     position: absolute;
     width: 100%;
@@ -15,7 +15,7 @@
     left: 0;
     right: 0;
 }
-.seed-app-screen__layer {
+.ride-app-screen__layer {
     z-index: var(--z-index-layer);
     box-sizing: border-box;
     position: absolute;
@@ -26,13 +26,13 @@
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
-.seed-app-screen__layer::-webkit-scrollbar {
+.ride-app-screen__layer::-webkit-scrollbar {
     display: none;
 }
-.seed-app-screen__layer {
+.ride-app-screen__layer {
     background-color: var(--ride-color-bg-layer-default);
 }
-.seed-app-screen__edge {
+.ride-app-screen__edge {
     z-index: var(--z-index-edge);
     position: absolute;
     width: 20px;
@@ -40,25 +40,25 @@
     left: 0;
     right: 0;
 }
-.seed-app-screen__root--theme_cupertino {
+.ride-app-screen__root--theme_cupertino {
     --app-bar-height: 44px;
 }
-.seed-app-screen__root--theme_android {
+.ride-app-screen__root--theme_android {
     --app-bar-height: 56px;
 }
-.seed-app-screen__edge--theme_android {
+.ride-app-screen__edge--theme_android {
     display: none;
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS {
+.ride-app-screen__root--transitionStyle_slideFromRightIOS {
     --z-index-dim: calc(var(--z-index-base) + 0);
     --z-index-layer: calc(var(--z-index-base) + 2);
     --z-index-edge: calc(var(--z-index-base) + 4);
     --z-index-app-bar: calc(var(--z-index-base) + 7);
 }
-.seed-app-screen__layer--transitionStyle_slideFromRightIOS {
+.ride-app-screen__layer--transitionStyle_slideFromRightIOS {
     transform: translate3d(0, 0, 0);
 }
-[data-global-transition-state=enter-active] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+[data-global-transition-state=enter-active] .ride-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -68,7 +68,7 @@
     --ride-enter-scale: 1;
     transform: translate3d(var(--swipe-back-target, var(--swipe-back-displacement, 0)), 0, 0);
 }
-[data-global-transition-state=exit-active] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+[data-global-transition-state=exit-active] .ride-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
     animation: ride-exit;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
@@ -79,7 +79,7 @@
     --ride-exit-opacity: 1;
     --ride-exit-scale: 1;
 }
-[data-global-transition-state=enter-done] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+[data-global-transition-state=enter-done] .ride-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -89,21 +89,21 @@
     --ride-enter-scale: 1;
     transform: translate3d(var(--swipe-back-target, var(--swipe-back-displacement, 0)), 0, 0);
 }
-[data-swipe-back-state=swiping] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+[data-swipe-back-state=swiping] .ride-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none;
     transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
 }
-[data-swipe-back-state=canceling] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+[data-swipe-back-state=canceling] .ride-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
     transform: translate3d(0, 0, 0);
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
-[data-swipe-back-state=completing] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+[data-swipe-back-state=completing] .ride-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
     transform: translate3d(100%, 0, 0);
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
-[data-global-transition-state=enter-active][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+[data-global-transition-state=enter-active][data-top-activity-type="full-screen"] .ride-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     transform: translate3d(0, 0, 0);
     animation: ride-exit;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
@@ -114,7 +114,7 @@
     --ride-exit-opacity: 1;
     --ride-exit-scale: 1;
 }
-[data-global-transition-state=exit-active][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+[data-global-transition-state=exit-active][data-top-activity-type="full-screen"] .ride-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -124,7 +124,7 @@
     --ride-enter-scale: 1;
     transform: translate3d(0, 0, 0);
 }
-[data-global-transition-state=enter-done][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+[data-global-transition-state=enter-done][data-top-activity-type="full-screen"] .ride-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     transform: translate3d(calc(-30% + var(--swipe-back-displacement, 0) * 0.3), 0, 0);
     animation: ride-exit;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
@@ -135,25 +135,25 @@
     --ride-exit-opacity: 1;
     --ride-exit-scale: 1;
 }
-[data-swipe-back-state=swiping] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+[data-swipe-back-state=swiping] .ride-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none;
     transform: translate3d(calc(-30% + var(--swipe-back-displacement, 0) * 0.3), 0, 0);
 }
-[data-swipe-back-state=canceling] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+[data-swipe-back-state=canceling] .ride-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none !important;
     transform: translate3d(-30%, 0, 0);
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
-[data-swipe-back-state=completing] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+[data-swipe-back-state=completing] .ride-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none !important;
     transform: translate3d(0, 0, 0);
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
-.seed-app-screen__dim--transitionStyle_slideFromRightIOS {
+.ride-app-screen__dim--transitionStyle_slideFromRightIOS {
     height: 100%;
     background: var(--ride-color-bg-overlay);
 }
-[data-global-transition-state=enter-active] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+[data-global-transition-state=enter-active] .ride-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -163,7 +163,7 @@
     --ride-enter-scale: 1;
     opacity: 1;
 }
-[data-global-transition-state=exit-active] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+[data-global-transition-state=exit-active] .ride-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
     animation: ride-exit;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
@@ -174,7 +174,7 @@
     --ride-exit-opacity: 0;
     --ride-exit-scale: 1;
 }
-[data-global-transition-state=enter-done] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+[data-global-transition-state=enter-done] .ride-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -184,31 +184,31 @@
     --ride-enter-scale: 1;
     opacity: 1;
 }
-[data-swipe-back-state=swiping] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+[data-swipe-back-state=swiping] .ride-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none;
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
 }
-[data-swipe-back-state=canceling] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+[data-swipe-back-state=canceling] .ride-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
-[data-swipe-back-state=completing] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+[data-swipe-back-state=completing] .ride-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
     opacity: 0;
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
-.seed-app-screen__root--transitionStyle_fadeFromBottomAndroid {
+.ride-app-screen__root--transitionStyle_fadeFromBottomAndroid {
     --z-index-dim: calc(var(--z-index-base) + 0);
     --z-index-layer: calc(var(--z-index-base) + 3);
     --z-index-edge: calc(var(--z-index-base) + 4);
     --z-index-app-bar: calc(var(--z-index-base) + 4);
 }
-.seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid {
+.ride-app-screen__dim--transitionStyle_fadeFromBottomAndroid {
     height: 160px;
     background: linear-gradient(var(--ride-color-bg-overlay), rgba(0, 0, 0, 0));
 }
-[data-global-transition-state=enter-active] .seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
+[data-global-transition-state=enter-active] .ride-app-screen__dim--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.23, 0.1, 0.32, 1);
     animation-duration: 300ms;
@@ -219,7 +219,7 @@
     transform: translate3d(0, -8vh, 0);
     opacity: 1;
 }
-[data-global-transition-state=exit-active] .seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
+[data-global-transition-state=exit-active] .ride-app-screen__dim--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
     transform: translate3d(0, -8vh, 0);
     opacity: 1;
     animation: ride-exit;
@@ -231,10 +231,10 @@
     --ride-exit-opacity: 0;
     --ride-exit-scale: 1;
 }
-.seed-app-screen__layer--transitionStyle_fadeFromBottomAndroid {
+.ride-app-screen__layer--transitionStyle_fadeFromBottomAndroid {
     transform: translate3d(0, 0, 0);
 }
-[data-global-transition-state=enter-active] .seed-app-screen__layer--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
+[data-global-transition-state=enter-active] .ride-app-screen__layer--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.23, 0.1, 0.32, 1);
     animation-duration: 300ms;
@@ -245,7 +245,7 @@
     transform: translate3d(0, 0, 0);
     opacity: 1;
 }
-[data-global-transition-state=exit-active] .seed-app-screen__layer--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
+[data-global-transition-state=exit-active] .ride-app-screen__layer--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     animation: ride-exit;
@@ -257,16 +257,16 @@
     --ride-exit-opacity: 0;
     --ride-exit-scale: 1;
 }
-.seed-app-screen__root--transitionStyle_fadeIn {
+.ride-app-screen__root--transitionStyle_fadeIn {
     --z-index-dim: calc(var(--z-index-base) + 0);
     --z-index-layer: calc(var(--z-index-base) + 3);
     --z-index-edge: calc(var(--z-index-base) + 4);
     --z-index-app-bar: calc(var(--z-index-base) + 4);
 }
-.seed-app-screen__dim--transitionStyle_fadeIn {
+.ride-app-screen__dim--transitionStyle_fadeIn {
     display: none;
 }
-[data-global-transition-state=enter-active] .seed-app-screen__layer--transitionStyle_fadeIn[data-activity-is-top] {
+[data-global-transition-state=enter-active] .ride-app-screen__layer--transitionStyle_fadeIn[data-activity-is-top] {
     animation: ride-enter;
     animation-timing-function: ease-out;
     animation-duration: 300ms;
@@ -276,7 +276,7 @@
     --ride-enter-scale: 1;
     opacity: 1;
 }
-[data-global-transition-state=exit-active] .seed-app-screen__layer--transitionStyle_fadeIn[data-activity-is-top] {
+[data-global-transition-state=exit-active] .ride-app-screen__layer--transitionStyle_fadeIn[data-activity-is-top] {
     opacity: 1;
     animation: ride-exit;
     animation-timing-function: ease-in;
@@ -287,16 +287,16 @@
     --ride-exit-opacity: 0;
     --ride-exit-scale: 1;
 }
-.seed-app-screen__layer--layerOffsetTop_safeArea {
+.ride-app-screen__layer--layerOffsetTop_safeArea {
     padding-top: var(--ride-safe-area-top);
 }
-.seed-app-screen__layer--layerOffsetTop_appBar {
+.ride-app-screen__layer--layerOffsetTop_appBar {
     padding-top: var(--app-bar-offset);
 }
-.seed-app-screen__layer--layerOffsetBottom_safeArea {
+.ride-app-screen__layer--layerOffsetBottom_safeArea {
     padding-bottom: var(--ride-safe-area-bottom);
 }
-.seed-app-screen__layer--tone_transparent-gradient_true::before {
+.ride-app-screen__layer--tone_transparent-gradient_true::before {
     content: '';
     display: block;
     position: sticky;
@@ -309,12 +309,12 @@
     pointer-events: none;
     z-index: 1;
 }
-.seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetBottom_none::before {
+.ride-app-screen__layer--tone_transparent-gradient_true-layerOffsetBottom_none::before {
     transform: translateY(-400px);
 }
-.seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_safeArea::before {
+.ride-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_safeArea::before {
     transform: translateY(calc(-400px - var(--ride-safe-area-top)));
 }
-.seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_appBar::before {
+.ride-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_appBar::before {
     transform: translateY(calc(-400px - var(--app-bar-offset)));
 }

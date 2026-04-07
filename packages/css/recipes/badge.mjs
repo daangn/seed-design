@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const badgeSlotNames = [
   [
     "root",
-    "seed-badge__root"
+    "ride-badge__root"
   ],
   [
     "label",
-    "seed-badge__label"
+    "ride-badge__label"
   ]
 ];
 

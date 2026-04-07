@@ -4,23 +4,23 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const snackbarSlotNames = [
   [
     "root",
-    "seed-snackbar__root"
+    "ride-snackbar__root"
   ],
   [
     "message",
-    "seed-snackbar__message"
+    "ride-snackbar__message"
   ],
   [
     "prefixIcon",
-    "seed-snackbar__prefixIcon"
+    "ride-snackbar__prefixIcon"
   ],
   [
     "actionButton",
-    "seed-snackbar__actionButton"
+    "ride-snackbar__actionButton"
   ],
   [
     "content",
-    "seed-snackbar__content"
+    "ride-snackbar__content"
   ]
 ];
 

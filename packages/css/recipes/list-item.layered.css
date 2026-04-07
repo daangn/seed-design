@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-list-item__root {
+  .ride-list-item__root {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -17,7 +17,7 @@
     position: relative;
   }
 
-  .seed-list-item__prefix {
+  .ride-list-item__prefix {
     --ride-box-padding-right: var(--ride-dimension-x3);
     padding-right: var(--ride-box-padding-right);
     --ride-focus-ring: none;
@@ -28,11 +28,11 @@
     display: inline-flex;
   }
 
-  .seed-list-item__prefix:is(:disabled, [disabled], [data-disabled]) {
+  .ride-list-item__prefix:is(:disabled, [disabled], [data-disabled]) {
     --ride-icon-color: var(--ride-color-fg-disabled);
   }
 
-  .seed-list-item__suffix {
+  .ride-list-item__suffix {
     --ride-box-position: initial;
     position: var(--ride-box-position);
     --ride-box-gap: var(--ride-dimension-x1);
@@ -49,11 +49,11 @@
     display: inline-flex;
   }
 
-  .seed-list-item__suffix:is(:disabled, [disabled], [data-disabled]) {
+  .ride-list-item__suffix:is(:disabled, [disabled], [data-disabled]) {
     --ride-icon-color: var(--ride-color-fg-disabled);
   }
 
-  .seed-list-item__content {
+  .ride-list-item__content {
     box-sizing: border-box;
     text-align: start;
     --ride-box-gap: var(--ride-dimension-x0_5);
@@ -70,7 +70,7 @@
     display: inline-flex;
   }
 
-  .seed-list-item__content:after {
+  .ride-list-item__content:after {
     content: "";
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
@@ -79,16 +79,16 @@
     inset: 0;
   }
 
-  .seed-list-item__content:is(:focus, [data-focus]) {
+  .ride-list-item__content:is(:focus, [data-focus]) {
     outline: none;
   }
 
-  .seed-list-item__content:is(:focus-visible, [data-focus-visible]):after {
+  .ride-list-item__content:is(:focus-visible, [data-focus-visible]):after {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
   }
 
-  .seed-list-item__content:before {
+  .ride-list-item__content:before {
     content: "";
     z-index: -1;
     transition-property: background-color, left, right, border-radius;
@@ -99,7 +99,7 @@
   }
 
   @media (hover: hover) {
-    .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
+    .ride-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--ride-color-bg-transparent-pressed);
       left: var(--ride-dimension-x1_5);
       right: var(--ride-dimension-x1_5);
@@ -108,7 +108,7 @@
   }
 
   @media (hover: none) {
-    .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
+    .ride-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--ride-color-bg-transparent-pressed);
       left: var(--ride-dimension-x1_5);
       right: var(--ride-dimension-x1_5);
@@ -117,7 +117,7 @@
   }
 
   @media (hover: hover) {
-    .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-hover]:before {
+    .ride-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-hover]:before {
       background-color: var(--ride-color-bg-transparent-pressed);
       left: var(--ride-dimension-x1_5);
       right: var(--ride-dimension-x1_5);
@@ -126,7 +126,7 @@
   }
 
   @media (hover: none) {
-    .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
+    .ride-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
       background-color: var(--ride-color-bg-transparent-pressed);
       left: var(--ride-dimension-x1_5);
       right: var(--ride-dimension-x1_5);
@@ -134,7 +134,7 @@
     }
   }
 
-  .seed-list-item__title {
+  .ride-list-item__title {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
@@ -142,45 +142,45 @@
     flex-shrink: 0;
   }
 
-  .seed-list-item__title:is(:disabled, [disabled], [data-disabled]) {
+  .ride-list-item__title:is(:disabled, [disabled], [data-disabled]) {
     color: var(--ride-color-fg-disabled);
   }
 
-  .seed-list-item__detail {
+  .ride-list-item__detail {
     font-size: var(--ride-font-size-t3);
     line-height: var(--ride-line-height-t3);
     font-weight: var(--ride-font-weight-regular);
     color: var(--ride-color-fg-neutral-subtle);
   }
 
-  .seed-list-item__detail:is(:disabled, [disabled], [data-disabled]) {
+  .ride-list-item__detail:is(:disabled, [disabled], [data-disabled]) {
     color: var(--ride-color-fg-disabled);
   }
 
-  .seed-list-item__content--highlighted_true:before {
+  .ride-list-item__content--highlighted_true:before {
     background-color: var(--ride-color-bg-brand-weak);
   }
 
   @media (hover: hover) {
-    .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
+    .ride-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--ride-color-bg-brand-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
+    .ride-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--ride-color-bg-brand-weak-pressed);
     }
   }
 
   @media (hover: hover) {
-    .seed-list-item__content--highlighted_true:not(:is(:disabled, [disabled], [data-disabled]))[data-hover]:before {
+    .ride-list-item__content--highlighted_true:not(:is(:disabled, [disabled], [data-disabled]))[data-hover]:before {
       background-color: var(--ride-color-bg-brand-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-list-item__content--highlighted_true:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
+    .ride-list-item__content--highlighted_true:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
       background-color: var(--ride-color-bg-brand-weak-pressed);
     }
   }

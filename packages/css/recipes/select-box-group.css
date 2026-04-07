@@ -1,10 +1,10 @@
-.seed-select-box-group {
+.ride-select-box-group {
     display: grid;
     width: 100%;
     grid-template-columns: repeat(var(--ride-select-box-group--columns, 1), minmax(0, 1fr));
     row-gap: var(--ride-dimension-spacing-y-component-default);
     column-gap: var(--ride-dimension-x3);
 }
-.seed-select-box-group:not([data-columns='1']) {
+.ride-select-box-group:not([data-columns='1']) {
     grid-auto-rows: 1fr;
 }

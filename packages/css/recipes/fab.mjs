@@ -11,7 +11,7 @@ export const fabVariantKeys = Object.keys(fabVariantMap);
 
 export function fab(props) {
   return createClassName(
-    "seed-fab",
+    "ride-fab",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

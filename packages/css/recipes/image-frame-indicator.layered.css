@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-image-frame-indicator {
+  .ride-image-frame-indicator {
     box-sizing: border-box;
     background-color: var(--ride-color-palette-static-black-alpha-800);
     color: var(--ride-color-palette-static-white);

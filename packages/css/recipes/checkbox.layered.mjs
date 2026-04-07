@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const checkboxSlotNames = [
   [
     "root",
-    "seed-checkbox__root"
+    "ride-checkbox__root"
   ],
   [
     "label",
-    "seed-checkbox__label"
+    "ride-checkbox__label"
   ]
 ];
 

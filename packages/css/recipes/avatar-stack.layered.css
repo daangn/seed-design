@@ -1,102 +1,102 @@
 @layer ride-components {
-  .seed-avatar-stack__root {
+  .ride-avatar-stack__root {
     box-sizing: border-box;
     align-items: center;
     display: inline-flex;
   }
 
-  .seed-avatar-stack__item {
+  .ride-avatar-stack__item {
     border-radius: var(--ride-radius-full);
     background-clip: padding-box;
     display: block;
   }
 
-  .seed-avatar-stack__item--size_20:not(:first-child) {
+  .ride-avatar-stack__item--size_20:not(:first-child) {
     margin-left: -5px;
   }
 
-  .seed-avatar-stack__item--size_20 {
+  .ride-avatar-stack__item--size_20 {
     clip-path: inset(-1px);
     box-shadow: 0 0 0 1px var(--ride-color-bg-layer-default);
   }
 
-  .seed-avatar-stack__item--size_24:not(:first-child) {
+  .ride-avatar-stack__item--size_24:not(:first-child) {
     margin-left: -6px;
   }
 
-  .seed-avatar-stack__item--size_24 {
+  .ride-avatar-stack__item--size_24 {
     clip-path: inset(-1px);
     box-shadow: 0 0 0 1px var(--ride-color-bg-layer-default);
   }
 
-  .seed-avatar-stack__item--size_36:not(:first-child) {
+  .ride-avatar-stack__item--size_36:not(:first-child) {
     margin-left: -8px;
   }
 
-  .seed-avatar-stack__item--size_36 {
+  .ride-avatar-stack__item--size_36 {
     clip-path: inset(-2px);
     box-shadow: 0 0 0 2px var(--ride-color-bg-layer-default);
   }
 
-  .seed-avatar-stack__item--size_42:not(:first-child) {
+  .ride-avatar-stack__item--size_42:not(:first-child) {
     margin-left: -10px;
   }
 
-  .seed-avatar-stack__item--size_42 {
+  .ride-avatar-stack__item--size_42 {
     clip-path: inset(-2px);
     box-shadow: 0 0 0 2px var(--ride-color-bg-layer-default);
   }
 
-  .seed-avatar-stack__item--size_48:not(:first-child) {
+  .ride-avatar-stack__item--size_48:not(:first-child) {
     margin-left: -12px;
   }
 
-  .seed-avatar-stack__item--size_48 {
+  .ride-avatar-stack__item--size_48 {
     clip-path: inset(-2px);
     box-shadow: 0 0 0 2px var(--ride-color-bg-layer-default);
   }
 
-  .seed-avatar-stack__item--size_56:not(:first-child) {
+  .ride-avatar-stack__item--size_56:not(:first-child) {
     margin-left: -13px;
   }
 
-  .seed-avatar-stack__item--size_56 {
+  .ride-avatar-stack__item--size_56 {
     clip-path: inset(-3px);
     box-shadow: 0 0 0 3px var(--ride-color-bg-layer-default);
   }
 
-  .seed-avatar-stack__item--size_64:not(:first-child) {
+  .ride-avatar-stack__item--size_64:not(:first-child) {
     margin-left: -16px;
   }
 
-  .seed-avatar-stack__item--size_64 {
+  .ride-avatar-stack__item--size_64 {
     clip-path: inset(-3px);
     box-shadow: 0 0 0 3px var(--ride-color-bg-layer-default);
   }
 
-  .seed-avatar-stack__item--size_80:not(:first-child) {
+  .ride-avatar-stack__item--size_80:not(:first-child) {
     margin-left: -20px;
   }
 
-  .seed-avatar-stack__item--size_80 {
+  .ride-avatar-stack__item--size_80 {
     clip-path: inset(-4px);
     box-shadow: 0 0 0 4px var(--ride-color-bg-layer-default);
   }
 
-  .seed-avatar-stack__item--size_96:not(:first-child) {
+  .ride-avatar-stack__item--size_96:not(:first-child) {
     margin-left: -24px;
   }
 
-  .seed-avatar-stack__item--size_96 {
+  .ride-avatar-stack__item--size_96 {
     clip-path: inset(-5px);
     box-shadow: 0 0 0 5px var(--ride-color-bg-layer-default);
   }
 
-  .seed-avatar-stack__item--size_108:not(:first-child) {
+  .ride-avatar-stack__item--size_108:not(:first-child) {
     margin-left: -27px;
   }
 
-  .seed-avatar-stack__item--size_108 {
+  .ride-avatar-stack__item--size_108 {
     clip-path: inset(-5px);
     box-shadow: 0 0 0 5px var(--ride-color-bg-layer-default);
   }

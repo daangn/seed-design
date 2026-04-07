@@ -1,4 +1,4 @@
-.seed-checkmark__root {
+.ride-checkmark__root {
     position: relative;
     box-sizing: border-box;
     flex: none;
@@ -7,11 +7,11 @@
     outline: var(--ride-focus-ring, var(--ride-dimension-x0_5) solid transparent);
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-checkmark__root:is(:focus-visible, [data-focus-visible]) {
+.ride-checkmark__root:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-focus-ring, var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring));
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-checkmark__icon {
+.ride-checkmark__icon {
     display: none;
     content: "";
     position: absolute;
@@ -23,136 +23,136 @@
     text-align: center;
     overflow: initial;
 }
-.seed-checkmark__root--variant_square {
+.ride-checkmark__root--variant_square {
     border-width: 1px;
     border-style: solid;
     border-color: var(--ride-color-stroke-neutral-weak);
 }
-.seed-checkmark__root--variant_square:is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__root--variant_square:is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     border-width: 0;
 }
 @media (hover: hover) {
-    .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+    .ride-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
         background: var(--ride-color-bg-transparent-pressed);
     }
 }
 @media (hover: none) {
-    .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    .ride-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
         background: var(--ride-color-bg-transparent-pressed);
     }
 }
-.seed-checkmark__root--variant_square:is(:disabled, [disabled], [data-disabled]) {
+.ride-checkmark__root--variant_square:is(:disabled, [disabled], [data-disabled]) {
     background: var(--ride-color-bg-disabled);
     border-color: var(--ride-color-stroke-neutral-muted);
 }
-.seed-checkmark__icon--variant_square:is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__icon--variant_square:is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     display: block;
 }
-.seed-checkmark__icon--variant_square:is(:disabled, [disabled], [data-disabled]):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__icon--variant_square:is(:disabled, [disabled], [data-disabled]):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--ride-color-fg-disabled);
 }
 @media (hover: hover) {
-    .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+    .ride-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
         background: var(--ride-color-bg-transparent-pressed);
     }
 }
 @media (hover: none) {
-    .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    .ride-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
         background: var(--ride-color-bg-transparent-pressed);
     }
 }
-.seed-checkmark__icon--variant_ghost {
+.ride-checkmark__icon--variant_ghost {
     display: block;
     color: var(--ride-color-fg-placeholder);
     transition: color var(--ride-duration-color-transition) var(--ride-timing-function-easing);
 }
-.seed-checkmark__icon--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
+.ride-checkmark__icon--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
     color: var(--ride-color-fg-disabled);
 }
-.seed-checkmark__icon--variant_ghost:is(:disabled, [disabled], [data-disabled]):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__icon--variant_ghost:is(:disabled, [disabled], [data-disabled]):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--ride-color-fg-disabled);
 }
-.seed-checkmark__root--size_large {
+.ride-checkmark__root--size_large {
     border-radius: var(--ride-radius-r1);
     width: var(--ride-dimension-x6);
     height: var(--ride-dimension-x6);
 }
-.seed-checkmark__root--size_medium {
+.ride-checkmark__root--size_medium {
     border-radius: var(--ride-radius-r1);
     width: var(--ride-dimension-x5);
     height: var(--ride-dimension-x5);
 }
-.seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     background: var(--ride-color-bg-neutral-inverted);
 }
 @media (hover: hover) {
-    .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+    .ride-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
         background: var(--ride-color-bg-neutral-inverted-pressed);
     }
 }
 @media (hover: none) {
-    .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+    .ride-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
         background: var(--ride-color-bg-neutral-inverted-pressed);
     }
 }
-.seed-checkmark__icon--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__icon--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--ride-color-fg-neutral-inverted);
 }
-.seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     background: var(--ride-color-bg-brand-solid);
 }
 @media (hover: hover) {
-    .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+    .ride-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
         background: var(--ride-color-bg-brand-solid-pressed);
     }
 }
 @media (hover: none) {
-    .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+    .ride-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
         background: var(--ride-color-bg-brand-solid-pressed);
     }
 }
-.seed-checkmark__icon--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__icon--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--ride-color-palette-static-white);
 }
 @media (hover: hover) {
-    .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+    .ride-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
         background: var(--ride-color-palette-gray-200);
     }
 }
 @media (hover: none) {
-    .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+    .ride-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
         background: var(--ride-color-palette-gray-200);
     }
 }
-.seed-checkmark__icon--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__icon--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--ride-color-fg-neutral);
 }
 @media (hover: hover) {
-    .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
+    .ride-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
         background: var(--ride-color-palette-carrot-200);
     }
 }
 @media (hover: none) {
-    .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
+    .ride-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
         background: var(--ride-color-palette-carrot-200);
     }
 }
-.seed-checkmark__icon--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
+.ride-checkmark__icon--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     color: var(--ride-color-fg-brand);
 }
-.seed-checkmark__icon--size_medium-variant_ghost {
+.ride-checkmark__icon--size_medium-variant_ghost {
     width: 14px;
     height: 14px;
 }
-.seed-checkmark__icon--size_large-variant_ghost {
+.ride-checkmark__icon--size_large-variant_ghost {
     width: 18px;
     height: 18px;
 }
-.seed-checkmark__icon--size_medium-variant_square {
+.ride-checkmark__icon--size_medium-variant_square {
     width: 12px;
     height: 12px;
 }
-.seed-checkmark__icon--size_large-variant_square {
+.ride-checkmark__icon--size_large-variant_square {
     width: 14px;
     height: 14px;
 }

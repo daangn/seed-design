@@ -4,35 +4,35 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const actionSheetSlotNames = [
   [
     "backdrop",
-    "seed-action-sheet__backdrop"
+    "ride-action-sheet__backdrop"
   ],
   [
     "positioner",
-    "seed-action-sheet__positioner"
+    "ride-action-sheet__positioner"
   ],
   [
     "content",
-    "seed-action-sheet__content"
+    "ride-action-sheet__content"
   ],
   [
     "header",
-    "seed-action-sheet__header"
+    "ride-action-sheet__header"
   ],
   [
     "title",
-    "seed-action-sheet__title"
+    "ride-action-sheet__title"
   ],
   [
     "description",
-    "seed-action-sheet__description"
+    "ride-action-sheet__description"
   ],
   [
     "list",
-    "seed-action-sheet__list"
+    "ride-action-sheet__list"
   ],
   [
     "closeButton",
-    "seed-action-sheet__closeButton"
+    "ride-action-sheet__closeButton"
   ]
 ];
 

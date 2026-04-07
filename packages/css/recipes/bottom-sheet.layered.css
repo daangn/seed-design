@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-bottom-sheet__positioner {
+  .ride-bottom-sheet__positioner {
     overscroll-behavior-y: none;
     --sheet-z-index: 2;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
@@ -10,22 +10,22 @@
     inset: 0;
   }
 
-  .seed-bottom-sheet__backdrop {
+  .ride-bottom-sheet__backdrop {
     background: var(--ride-color-bg-overlay);
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
 
-  .seed-bottom-sheet__backdrop[data-snap-points="true"], .seed-bottom-sheet__backdrop:not(:is([data-state="open"], [data-open]))[data-snap-points="true"]:not([data-snap-points-overlay="true"]) {
+  .ride-bottom-sheet__backdrop[data-snap-points="true"], .ride-bottom-sheet__backdrop:not(:is([data-state="open"], [data-open]))[data-snap-points="true"]:not([data-snap-points-overlay="true"]) {
     opacity: 0;
   }
 
-  .seed-bottom-sheet__backdrop:is([data-state="open"], [data-open])[data-snap-points-overlay="true"] {
+  .ride-bottom-sheet__backdrop:is([data-state="open"], [data-open])[data-snap-points-overlay="true"] {
     opacity: 1;
   }
 
-  .seed-bottom-sheet__content {
+  .ride-bottom-sheet__content {
     box-sizing: border-box;
     word-break: break-all;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
@@ -42,15 +42,15 @@
     position: relative;
   }
 
-  .seed-bottom-sheet__content[data-snap-points="true"] {
+  .ride-bottom-sheet__content[data-snap-points="true"] {
     transform: translate3d(0, var(--initial-transform, 100%), 0);
   }
 
-  .seed-bottom-sheet__content[data-delayed-snap-points="true"] {
+  .ride-bottom-sheet__content[data-delayed-snap-points="true"] {
     transform: translate3d(0, var(--snap-point-height, 0), 0);
   }
 
-  .seed-bottom-sheet__content:after {
+  .ride-bottom-sheet__content:after {
     content: "";
     background: inherit;
     z-index: -1;
@@ -61,7 +61,7 @@
     right: 0;
   }
 
-  .seed-bottom-sheet__header {
+  .ride-bottom-sheet__header {
     gap: var(--ride-dimension-x2);
     padding-top: var(--ride-dimension-x6);
     padding-bottom: var(--ride-dimension-x4);
@@ -69,7 +69,7 @@
     display: flex;
   }
 
-  .seed-bottom-sheet__title {
+  .ride-bottom-sheet__title {
     color: var(--ride-color-fg-neutral);
     font-size: var(--ride-font-size-t8);
     line-height: var(--ride-line-height-t8);
@@ -78,7 +78,7 @@
     margin: 0;
   }
 
-  .seed-bottom-sheet__description {
+  .ride-bottom-sheet__description {
     color: var(--ride-color-fg-neutral-muted);
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
@@ -89,7 +89,7 @@
     margin: 0;
   }
 
-  .seed-bottom-sheet__body {
+  .ride-bottom-sheet__body {
     --ride-box-padding-x: var(--ride-dimension-spacing-x-global-gutter);
     --ride-box-height: initial;
     --ride-box-min-height: initial;
@@ -107,7 +107,7 @@
     display: flex;
   }
 
-  .seed-bottom-sheet__footer {
+  .ride-bottom-sheet__footer {
     padding-left: var(--ride-dimension-spacing-x-global-gutter);
     padding-right: var(--ride-dimension-spacing-x-global-gutter);
     padding-top: var(--ride-dimension-x3);
@@ -116,7 +116,7 @@
     display: flex;
   }
 
-  .seed-bottom-sheet__closeButton {
+  .ride-bottom-sheet__closeButton {
     top: var(--ride-dimension-x6);
     right: var(--ride-dimension-x4);
     border-radius: var(--ride-radius-full);
@@ -133,7 +133,7 @@
     position: absolute;
   }
 
-  .seed-bottom-sheet__closeButton:after {
+  .ride-bottom-sheet__closeButton:after {
     content: "";
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
@@ -142,81 +142,81 @@
     inset: -8px;
   }
 
-  .seed-bottom-sheet__closeButton:is(:focus, [data-focus]) {
+  .ride-bottom-sheet__closeButton:is(:focus, [data-focus]) {
     outline: none;
   }
 
-  .seed-bottom-sheet__closeButton:is(:focus-visible, [data-focus-visible]):after {
+  .ride-bottom-sheet__closeButton:is(:focus-visible, [data-focus-visible]):after {
     border-radius: var(--ride-radius-r1);
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: calc(var(--ride-dimension-x0_5) * -1);
   }
 
-  .seed-bottom-sheet__header--headerAlign_left {
+  .ride-bottom-sheet__header--headerAlign_left {
     justify-content: flex-start;
   }
 
-  .seed-bottom-sheet__title--headerAlign_left {
+  .ride-bottom-sheet__title--headerAlign_left {
     padding-left: var(--ride-dimension-spacing-x-global-gutter);
     padding-right: var(--ride-dimension-spacing-x-global-gutter);
   }
 
-  .seed-bottom-sheet__title--headerAlign_left[data-show-close-button] {
+  .ride-bottom-sheet__title--headerAlign_left[data-show-close-button] {
     padding-left: var(--ride-dimension-spacing-x-global-gutter);
     padding-right: 56px;
   }
 
-  .seed-bottom-sheet__header--headerAlign_center {
+  .ride-bottom-sheet__header--headerAlign_center {
     text-align: center;
     justify-content: center;
   }
 
-  .seed-bottom-sheet__title--headerAlign_center {
+  .ride-bottom-sheet__title--headerAlign_center {
     padding-left: var(--ride-dimension-spacing-x-global-gutter);
     padding-right: var(--ride-dimension-spacing-x-global-gutter);
   }
 
-  .seed-bottom-sheet__title--headerAlign_center[data-show-close-button] {
+  .ride-bottom-sheet__title--headerAlign_center[data-show-close-button] {
     padding-left: 56px;
     padding-right: 56px;
   }
 
-  .seed-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points="false"]:not([data-animation-done="true"]) {
+  .ride-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points="false"]:not([data-animation-done="true"]) {
     animation-name: fade-in;
     animation-duration: var(--ride-duration-d6);
     animation-timing-function: var(--ride-timing-function-enter);
   }
 
-  .seed-bottom-sheet__backdrop--skipAnimation_false:not(:is([data-state="open"], [data-open]))[data-snap-points="false"] {
+  .ride-bottom-sheet__backdrop--skipAnimation_false:not(:is([data-state="open"], [data-open]))[data-snap-points="false"] {
     animation-name: fade-out;
     animation-duration: var(--ride-duration-d4);
     animation-timing-function: var(--ride-timing-function-exit);
   }
 
-  .seed-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points="true"][data-should-overlay-animate="true"]:not([data-animation-done="true"]) {
+  .ride-bottom-sheet__backdrop--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points="true"][data-should-overlay-animate="true"]:not([data-animation-done="true"]) {
     animation-name: fade-in;
     animation-duration: var(--ride-duration-d6);
     animation-timing-function: var(--ride-timing-function-enter);
   }
 
-  .seed-bottom-sheet__content--skipAnimation_false {
+  .ride-bottom-sheet__content--skipAnimation_false {
     animation-duration: var(--ride-duration-d6);
     animation-timing-function: var(--ride-timing-function-enter-expressive);
   }
 
-  .seed-bottom-sheet__content--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points="false"]:not([data-animation-done="true"]) {
+  .ride-bottom-sheet__content--skipAnimation_false:is([data-state="open"], [data-open])[data-snap-points="false"]:not([data-animation-done="true"]) {
     animation-name: drawer-slide-from-bottom;
     animation-duration: var(--ride-duration-d6);
     animation-timing-function: var(--ride-timing-function-enter-expressive);
   }
 
-  .seed-bottom-sheet__content--skipAnimation_false:not(:is([data-state="open"], [data-open]))[data-snap-points="false"] {
+  .ride-bottom-sheet__content--skipAnimation_false:not(:is([data-state="open"], [data-open]))[data-snap-points="false"] {
     animation-name: drawer-slide-to-bottom;
     animation-duration: var(--ride-duration-d4);
     animation-timing-function: var(--ride-timing-function-exit);
   }
 
-  .seed-bottom-sheet__content--skipAnimation_false:is([data-state="open"], [data-open])[data-delayed-snap-points="true"]:not([data-animation-done="true"]) {
+  .ride-bottom-sheet__content--skipAnimation_false:is([data-state="open"], [data-open])[data-delayed-snap-points="true"]:not([data-animation-done="true"]) {
     animation-name: drawer-slide-from-bottom;
     animation-duration: var(--ride-duration-d6);
     animation-timing-function: var(--ride-timing-function-enter-expressive);

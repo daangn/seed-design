@@ -8,7 +8,7 @@ import { definePreset } from "./utils/define";
 import { engaged, hover, active } from "./utils/pseudo";
 
 export default definePreset({
-  prefix: "seed",
+  prefix: "ride",
   postcssPlugins: [
     postcssEngaged({
       selector: engaged,

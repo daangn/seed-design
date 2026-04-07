@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-skeleton {
+  .ride-skeleton {
     box-sizing: border-box;
     --ride-box-width: initial;
     --ride-box-height: initial;
@@ -9,7 +9,7 @@
     overflow: hidden;
   }
 
-  .seed-skeleton:after {
+  .ride-skeleton:after {
     content: "";
     width: 100%;
     height: 100%;
@@ -22,35 +22,35 @@
     display: block;
   }
 
-  .seed-skeleton--radius_0 {
+  .ride-skeleton--radius_0 {
     border-radius: 0;
   }
 
-  .seed-skeleton--radius_8 {
+  .ride-skeleton--radius_8 {
     border-radius: 8px;
   }
 
-  .seed-skeleton--radius_16 {
+  .ride-skeleton--radius_16 {
     border-radius: 16px;
   }
 
-  .seed-skeleton--radius_full {
+  .ride-skeleton--radius_full {
     border-radius: var(--ride-radius-full);
   }
 
-  .seed-skeleton--tone_neutral {
+  .ride-skeleton--tone_neutral {
     background: var(--ride-color-palette-gray-200);
   }
 
-  .seed-skeleton--tone_neutral:after {
+  .ride-skeleton--tone_neutral:after {
     background-image: linear-gradient(90deg, var(--ride-gradient-shimmer-neutral));
   }
 
-  .seed-skeleton--tone_magic {
+  .ride-skeleton--tone_magic {
     background: var(--ride-color-bg-magic-weak);
   }
 
-  .seed-skeleton--tone_magic:after {
+  .ride-skeleton--tone_magic:after {
     background-image: linear-gradient(90deg, var(--ride-gradient-shimmer-magic));
   }
 }

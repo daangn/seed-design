@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-extended-action-sheet-item {
+  .ride-extended-action-sheet-item {
     background-color: var(--ride-color-bg-neutral-weak);
     min-height: 52px;
     padding-inline: var(--ride-dimension-x4);
@@ -14,24 +14,24 @@
     display: flex;
   }
 
-  .seed-extended-action-sheet-item:is(:active, [data-active]) {
+  .ride-extended-action-sheet-item:is(:active, [data-active]) {
     background-color: var(--ride-color-bg-neutral-weak-pressed);
   }
 
-  .seed-extended-action-sheet-item:last-child {
+  .ride-extended-action-sheet-item:last-child {
     box-shadow: none;
   }
 
-  .seed-extended-action-sheet-item {
+  .ride-extended-action-sheet-item {
     --ride-prefix-icon-size: 22px;
   }
 
-  .seed-extended-action-sheet-item--tone_neutral {
+  .ride-extended-action-sheet-item--tone_neutral {
     color: var(--ride-color-fg-neutral);
     --ride-prefix-icon-color: var(--ride-color-fg-neutral);
   }
 
-  .seed-extended-action-sheet-item--tone_critical {
+  .ride-extended-action-sheet-item--tone_critical {
     color: var(--ride-color-fg-critical);
     --ride-prefix-icon-color: var(--ride-color-fg-critical);
   }

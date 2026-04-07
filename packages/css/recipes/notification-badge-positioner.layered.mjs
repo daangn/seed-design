@@ -40,7 +40,7 @@ export const notificationBadgePositionerVariantKeys = Object.keys(notificationBa
 
 export function notificationBadgePositioner(props) {
   return createClassName(
-    "seed-notification-badge-positioner",
+    "ride-notification-badge-positioner",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

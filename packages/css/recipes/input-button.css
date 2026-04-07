@@ -1,4 +1,4 @@
-.seed-input-button__root {
+.ride-input-button__root {
     display: flex;
     width: 100%;
     align-items: center;
@@ -10,7 +10,7 @@
     padding-left: var(--ride-dimension-x4);
     padding-right: var(--ride-dimension-x4);
 }
-.seed-input-button__button {
+.ride-input-button__button {
     position: absolute;
     z-index: -1;
     top: 0;
@@ -25,7 +25,7 @@
     box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-weak);
     transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
 }
-.seed-input-button__button::after {
+.ride-input-button__button::after {
     content: "";
     position: absolute;
     top: 0;
@@ -39,37 +39,37 @@
     transition: border-color 0.1s var(--ride-timing-function-easing);
     pointer-events: none;
 }
-.seed-input-button__button[data-disabled] {
+.ride-input-button__button[data-disabled] {
     cursor: not-allowed;
     background-color: var(--ride-color-bg-disabled);
 }
 @media (hover: hover) {
-    .seed-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:hover, [data-hover]) {
+    .ride-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:hover, [data-hover]) {
         background-color: var(--ride-color-bg-transparent-pressed);
     }
 }
 @media (hover: none) {
-    .seed-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:active, [data-active]) {
+    .ride-input-button__button:not([data-disabled]):not(:is([data-readonly])):is(:active, [data-active]) {
         background-color: var(--ride-color-bg-transparent-pressed);
     }
 }
-.seed-input-button__button:is([data-readonly]):not([data-disabled]) {
+.ride-input-button__button:is([data-readonly]):not([data-disabled]) {
     cursor: default;
     background-color: var(--ride-color-bg-disabled);
 }
-.seed-input-button__button {
+.ride-input-button__button {
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-input-button__button:is(:focus-visible, [data-focus-visible]) {
+.ride-input-button__button:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-input-button__button:is(:invalid, [data-invalid])::after {
+.ride-input-button__button:is(:invalid, [data-invalid])::after {
     border-width: 2px;
     border-color: var(--ride-color-stroke-critical-solid);
 }
-.seed-input-button__value {
+.ride-input-button__value {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
@@ -80,13 +80,13 @@
     flex-grow: 1;
     pointer-events: none;
 }
-.seed-input-button__value[data-disabled] {
+.ride-input-button__value[data-disabled] {
     color: var(--ride-color-fg-disabled);
 }
-.seed-input-button__value:is([data-readonly]):not([data-disabled]) {
+.ride-input-button__value:is([data-readonly]):not([data-disabled]) {
     color: var(--ride-color-fg-neutral);
 }
-.seed-input-button__placeholder {
+.ride-input-button__placeholder {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
@@ -97,41 +97,41 @@
     flex-grow: 1;
     pointer-events: none;
 }
-.seed-input-button__placeholder[data-disabled] {
+.ride-input-button__placeholder[data-disabled] {
     color: var(--ride-color-fg-disabled);
 }
-.seed-input-button__placeholder:is([data-readonly]):not([data-disabled]) {
+.ride-input-button__placeholder:is([data-readonly]):not([data-disabled]) {
     color: var(--ride-color-fg-placeholder);
 }
-.seed-input-button__prefixText {
+.ride-input-button__prefixText {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
     color: var(--ride-color-fg-neutral-muted);
     pointer-events: none;
 }
-.seed-input-button__prefixIcon {
+.ride-input-button__prefixIcon {
     width: var(--ride-dimension-x5);
     height: var(--ride-dimension-x5);
     flex-shrink: 0;
     color: var(--ride-color-fg-neutral-muted);
     pointer-events: none;
 }
-.seed-input-button__suffixText {
+.ride-input-button__suffixText {
     font-size: var(--ride-font-size-t5);
     line-height: var(--ride-line-height-t5);
     font-weight: var(--ride-font-weight-regular);
     color: var(--ride-color-fg-neutral-muted);
     pointer-events: none;
 }
-.seed-input-button__suffixIcon {
+.ride-input-button__suffixIcon {
     width: var(--ride-dimension-x5);
     height: var(--ride-dimension-x5);
     flex-shrink: 0;
     color: var(--ride-color-fg-neutral-muted);
     pointer-events: none;
 }
-.seed-input-button__clearButton {
+.ride-input-button__clearButton {
     cursor: pointer;
     border: none;
     background-color: transparent;
@@ -141,11 +141,11 @@
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
+.ride-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-input-button__clearButton {
+.ride-input-button__clearButton {
     --ride-icon-size: 22px;
     --ride-icon-color: var(--ride-color-fg-neutral-subtle);
 }

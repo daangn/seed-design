@@ -1,32 +1,32 @@
-.seed-app-bar-main__root {
+.ride-app-bar-main__root {
     flex: 1
 }
-.seed-app-bar-main__title {
+.ride-app-bar-main__title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis
 }
-.seed-app-bar-main__subtitle {
+.ride-app-bar-main__subtitle {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis
 }
-.seed-app-bar-main__title--layout_titleOnly {
+.ride-app-bar-main__title--layout_titleOnly {
     font-size: var(--ride-font-size-t6-static);
     font-weight: var(--ride-font-weight-bold);
     line-height: var(--ride-line-height-t6-static)
 }
-.seed-app-bar-main__title--layout_withSubtitle {
+.ride-app-bar-main__title--layout_withSubtitle {
     font-size: var(--ride-font-size-t5-static);
     font-weight: var(--ride-font-weight-bold);
     line-height: var(--ride-line-height-t5-static)
 }
-.seed-app-bar-main__subtitle--layout_withSubtitle {
+.ride-app-bar-main__subtitle--layout_withSubtitle {
     font-size: var(--ride-font-size-t2-static);
     font-weight: var(--ride-font-weight-regular);
     line-height: var(--ride-line-height-t2-static)
 }
-.seed-app-bar-main__root--theme_cupertino {
+.ride-app-bar-main__root--theme_cupertino {
     position: absolute;
     display: flex;
     align-items: center;
@@ -40,7 +40,7 @@
     padding-right: var(--centered-title-padding-x, 0);
     pointer-events: none
 }
-.seed-app-bar-main__root--theme_android {
+.ride-app-bar-main__root--theme_android {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -48,7 +48,7 @@
     min-width: 0;
     height: 100%
 }
-[data-global-transition-state=enter-active] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+[data-global-transition-state=enter-active] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -59,7 +59,7 @@
     transform: translate3d(0, 0, 0);
     opacity: 1
 }
-[data-global-transition-state=exit-active] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+[data-global-transition-state=exit-active] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     transform: translate3d(calc(var(--swipe-back-displacement, 0) * 0.15), 0, 0);
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
     animation: ride-exit;
@@ -71,7 +71,7 @@
     --ride-exit-opacity: 0;
     --ride-exit-scale: 1
 }
-[data-global-transition-state=enter-done] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+[data-global-transition-state=enter-done] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -82,24 +82,24 @@
     transform: translate3d(0, 0, 0);
     opacity: 1
 }
-[data-swipe-back-state=swiping] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+[data-swipe-back-state=swiping] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none;
     transform: translate3d(calc(var(--swipe-back-displacement, 0) * 0.15), 0, 0);
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3)
 }
-[data-swipe-back-state=canceling] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+[data-swipe-back-state=canceling] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
     transform: translate3d(0, 0, 0);
     opacity: 1;
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99)
 }
-[data-swipe-back-state=completing] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+[data-swipe-back-state=completing] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none !important;
     transform: translate3d(25%, 0, 0);
     opacity: 0;
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99)
 }
-[data-global-transition-state=enter-active][data-top-activity-type="full-screen"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+[data-global-transition-state=enter-active][data-top-activity-type="full-screen"] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     animation: ride-exit;
@@ -111,7 +111,7 @@
     --ride-exit-opacity: 0;
     --ride-exit-scale: 1
 }
-[data-global-transition-state=exit-active][data-top-activity-type="full-screen"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+[data-global-transition-state=exit-active][data-top-activity-type="full-screen"] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     animation: ride-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -122,7 +122,7 @@
     transform: translate3d(0, 0, 0);
     opacity: 1
 }
-[data-global-transition-state=enter-done][data-top-activity-type="full-screen"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+[data-global-transition-state=enter-done][data-top-activity-type="full-screen"] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     transform: translate3d(calc(-25% + var(--swipe-back-displacement, 0) * 0.15), 0, 0);
     opacity: calc(var(--swipe-back-displacement-ratio, 0));
     animation: ride-exit;
@@ -134,38 +134,38 @@
     --ride-exit-opacity: 0;
     --ride-exit-scale: 1
 }
-[data-swipe-back-state=swiping] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+[data-swipe-back-state=swiping] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none;
     transform: translate3d(calc(-25% + var(--swipe-back-displacement, 0) * 0.15), 0, 0);
     opacity: calc(var(--swipe-back-displacement-ratio, 0))
 }
-[data-swipe-back-state=canceling] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+[data-swipe-back-state=canceling] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none !important;
     transform: translate3d(-25%, 0, 0);
     opacity: 0;
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99)
 }
-[data-swipe-back-state=completing] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+[data-swipe-back-state=completing] .ride-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none !important;
     transform: translate3d(0, 0, 0);
     opacity: 1;
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99)
 }
-.seed-app-bar-main__root--tone_layer {
+.ride-app-bar-main__root--tone_layer {
     color: var(--ride-color-fg-neutral)
 }
-.seed-app-bar-main__title--tone_layer {
+.ride-app-bar-main__title--tone_layer {
     color: var(--ride-color-fg-neutral)
 }
-.seed-app-bar-main__subtitle--tone_layer {
+.ride-app-bar-main__subtitle--tone_layer {
     color: var(--ride-color-fg-neutral-muted)
 }
-.seed-app-bar-main__root--tone_transparent {
+.ride-app-bar-main__root--tone_transparent {
     color: var(--ride-color-palette-static-white)
 }
-.seed-app-bar-main__title--tone_transparent {
+.ride-app-bar-main__title--tone_transparent {
     color: var(--ride-color-palette-static-white)
 }
-.seed-app-bar-main__subtitle--tone_transparent {
+.ride-app-bar-main__subtitle--tone_transparent {
     color: var(--ride-color-palette-static-white)
 }

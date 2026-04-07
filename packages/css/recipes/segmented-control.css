@@ -1,4 +1,4 @@
-.seed-segmented-control__root {
+.ride-segmented-control__root {
     display: grid;
     box-sizing: border-box;
     max-width: 100%;
@@ -12,7 +12,7 @@
     align-items: center;
     isolation: isolate;
 }
-.seed-segmented-control__indicator {
+.ride-segmented-control__indicator {
     position: absolute;
     z-index: -1;
     will-change: transform;
@@ -26,7 +26,7 @@
     box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-muted);
     transition: transform var(--ride-duration-d4) var(--ride-timing-function-easing);
 }
-.seed-segmented-control__item {
+.ride-segmented-control__item {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,45 +50,45 @@
     color: var(--ride-color-fg-neutral-subtle);
     transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing), color var(--ride-duration-color-transition) var(--ride-timing-function-easing), box-shadow var(--ride-duration-color-transition) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
 }
-.seed-segmented-control__item:is(:checked, [data-checked]) {
+.ride-segmented-control__item:is(:checked, [data-checked]) {
     color: var(--ride-color-fg-neutral);
 }
-.seed-segmented-control__item {
+.ride-segmented-control__item {
     outline: var(--ride-dimension-x0_5) solid transparent;
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-segmented-control__item:is(:focus-visible, [data-focus-visible]) {
+.ride-segmented-control__item:is(:focus-visible, [data-focus-visible]) {
     outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
     outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-segmented-control__item:is(:disabled, [disabled], [data-disabled]) {
+.ride-segmented-control__item:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     color: var(--ride-color-fg-disabled);
 }
-.seed-segmented-control__item:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+.ride-segmented-control__item:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
     background-color: var(--ride-color-bg-disabled);
     box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-muted);
 }
 @media (hover: hover) {
-    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
+    .ride-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
         background-color: var(--ride-color-palette-gray-100);
         box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-muted);
     }
 }
 @media (hover: none) {
-    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
+    .ride-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
         background-color: var(--ride-color-palette-gray-100);
         box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-muted);
     }
 }
 @media (hover: hover) {
-    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:hover, [data-hover]) {
+    .ride-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:hover, [data-hover]) {
         background-color: var(--ride-color-bg-neutral-weak-pressed);
         box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-muted);
     }
 }
 @media (hover: none) {
-    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:active, [data-active]) {
+    .ride-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:active, [data-active]) {
         background-color: var(--ride-color-bg-neutral-weak-pressed);
         box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-muted);
     }

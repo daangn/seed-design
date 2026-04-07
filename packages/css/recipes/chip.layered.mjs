@@ -4,23 +4,23 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const chipSlotNames = [
   [
     "root",
-    "seed-chip__root"
+    "ride-chip__root"
   ],
   [
     "label",
-    "seed-chip__label"
+    "ride-chip__label"
   ],
   [
     "prefixIcon",
-    "seed-chip__prefixIcon"
+    "ride-chip__prefixIcon"
   ],
   [
     "suffixIcon",
-    "seed-chip__suffixIcon"
+    "ride-chip__suffixIcon"
   ],
   [
     "prefixAvatar",
-    "seed-chip__prefixAvatar"
+    "ride-chip__prefixAvatar"
   ]
 ];
 

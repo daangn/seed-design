@@ -1,5 +1,5 @@
 @layer ride-components {
-  .seed-text {
+  .ride-text {
     color: var(--ride-text-color);
     font-size: var(--ride-font-size);
     font-weight: var(--ride-font-weight);
@@ -17,313 +17,313 @@
     margin: 0;
   }
 
-  .seed-text--textStyle_screenTitle {
+  .ride-text--textStyle_screenTitle {
     --ride-font-size: var(--ride-font-size-t10);
     --ride-line-height: var(--ride-line-height-t10);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_articleBody {
+  .ride-text--textStyle_articleBody {
     --ride-font-size: var(--ride-font-size-t5);
     --ride-line-height: var(--ride-line-height-t6);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_articleNote {
+  .ride-text--textStyle_articleNote {
     --ride-font-size: var(--ride-font-size-t4);
     --ride-line-height: var(--ride-line-height-t5);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t1Regular {
+  .ride-text--textStyle_t1Regular {
     --ride-font-size: var(--ride-font-size-t1);
     --ride-line-height: var(--ride-line-height-t1);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t1Medium {
+  .ride-text--textStyle_t1Medium {
     --ride-font-size: var(--ride-font-size-t1);
     --ride-line-height: var(--ride-line-height-t1);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t1Bold {
+  .ride-text--textStyle_t1Bold {
     --ride-font-size: var(--ride-font-size-t1);
     --ride-line-height: var(--ride-line-height-t1);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t2Regular {
+  .ride-text--textStyle_t2Regular {
     --ride-font-size: var(--ride-font-size-t2);
     --ride-line-height: var(--ride-line-height-t2);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t2Medium {
+  .ride-text--textStyle_t2Medium {
     --ride-font-size: var(--ride-font-size-t2);
     --ride-line-height: var(--ride-line-height-t2);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t2Bold {
+  .ride-text--textStyle_t2Bold {
     --ride-font-size: var(--ride-font-size-t2);
     --ride-line-height: var(--ride-line-height-t2);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t3Regular {
+  .ride-text--textStyle_t3Regular {
     --ride-font-size: var(--ride-font-size-t3);
     --ride-line-height: var(--ride-line-height-t3);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t3Medium {
+  .ride-text--textStyle_t3Medium {
     --ride-font-size: var(--ride-font-size-t3);
     --ride-line-height: var(--ride-line-height-t3);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t3Bold {
+  .ride-text--textStyle_t3Bold {
     --ride-font-size: var(--ride-font-size-t3);
     --ride-line-height: var(--ride-line-height-t3);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t4Regular {
+  .ride-text--textStyle_t4Regular {
     --ride-font-size: var(--ride-font-size-t4);
     --ride-line-height: var(--ride-line-height-t4);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t4Medium {
+  .ride-text--textStyle_t4Medium {
     --ride-font-size: var(--ride-font-size-t4);
     --ride-line-height: var(--ride-line-height-t4);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t4Bold {
+  .ride-text--textStyle_t4Bold {
     --ride-font-size: var(--ride-font-size-t4);
     --ride-line-height: var(--ride-line-height-t4);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t5Regular {
+  .ride-text--textStyle_t5Regular {
     --ride-font-size: var(--ride-font-size-t5);
     --ride-line-height: var(--ride-line-height-t5);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t5Medium {
+  .ride-text--textStyle_t5Medium {
     --ride-font-size: var(--ride-font-size-t5);
     --ride-line-height: var(--ride-line-height-t5);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t5Bold {
+  .ride-text--textStyle_t5Bold {
     --ride-font-size: var(--ride-font-size-t5);
     --ride-line-height: var(--ride-line-height-t5);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t6Regular {
+  .ride-text--textStyle_t6Regular {
     --ride-font-size: var(--ride-font-size-t6);
     --ride-line-height: var(--ride-line-height-t6);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t6Medium {
+  .ride-text--textStyle_t6Medium {
     --ride-font-size: var(--ride-font-size-t6);
     --ride-line-height: var(--ride-line-height-t6);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t6Bold {
+  .ride-text--textStyle_t6Bold {
     --ride-font-size: var(--ride-font-size-t6);
     --ride-line-height: var(--ride-line-height-t6);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t7Regular {
+  .ride-text--textStyle_t7Regular {
     --ride-font-size: var(--ride-font-size-t7);
     --ride-line-height: var(--ride-line-height-t7);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t7Medium {
+  .ride-text--textStyle_t7Medium {
     --ride-font-size: var(--ride-font-size-t7);
     --ride-line-height: var(--ride-line-height-t7);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t7Bold {
+  .ride-text--textStyle_t7Bold {
     --ride-font-size: var(--ride-font-size-t7);
     --ride-line-height: var(--ride-line-height-t7);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t8Bold {
+  .ride-text--textStyle_t8Bold {
     --ride-font-size: var(--ride-font-size-t8);
     --ride-line-height: var(--ride-line-height-t8);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t9Bold {
+  .ride-text--textStyle_t9Bold {
     --ride-font-size: var(--ride-font-size-t9);
     --ride-line-height: var(--ride-line-height-t9);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t10Bold {
+  .ride-text--textStyle_t10Bold {
     --ride-font-size: var(--ride-font-size-t10);
     --ride-line-height: var(--ride-line-height-t10);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t1StaticRegular {
+  .ride-text--textStyle_t1StaticRegular {
     --ride-font-size: var(--ride-font-size-t1-static);
     --ride-line-height: var(--ride-line-height-t1-static);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t1StaticMedium {
+  .ride-text--textStyle_t1StaticMedium {
     --ride-font-size: var(--ride-font-size-t1-static);
     --ride-line-height: var(--ride-line-height-t1-static);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t1StaticBold {
+  .ride-text--textStyle_t1StaticBold {
     --ride-font-size: var(--ride-font-size-t1-static);
     --ride-line-height: var(--ride-line-height-t1-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t2StaticRegular {
+  .ride-text--textStyle_t2StaticRegular {
     --ride-font-size: var(--ride-font-size-t2-static);
     --ride-line-height: var(--ride-line-height-t2-static);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t2StaticMedium {
+  .ride-text--textStyle_t2StaticMedium {
     --ride-font-size: var(--ride-font-size-t2-static);
     --ride-line-height: var(--ride-line-height-t2-static);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t2StaticBold {
+  .ride-text--textStyle_t2StaticBold {
     --ride-font-size: var(--ride-font-size-t2-static);
     --ride-line-height: var(--ride-line-height-t2-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t3StaticRegular {
+  .ride-text--textStyle_t3StaticRegular {
     --ride-font-size: var(--ride-font-size-t3-static);
     --ride-line-height: var(--ride-line-height-t3-static);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t3StaticMedium {
+  .ride-text--textStyle_t3StaticMedium {
     --ride-font-size: var(--ride-font-size-t3-static);
     --ride-line-height: var(--ride-line-height-t3-static);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t3StaticBold {
+  .ride-text--textStyle_t3StaticBold {
     --ride-font-size: var(--ride-font-size-t3-static);
     --ride-line-height: var(--ride-line-height-t3-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t4StaticRegular {
+  .ride-text--textStyle_t4StaticRegular {
     --ride-font-size: var(--ride-font-size-t4-static);
     --ride-line-height: var(--ride-line-height-t4-static);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t4StaticMedium {
+  .ride-text--textStyle_t4StaticMedium {
     --ride-font-size: var(--ride-font-size-t4-static);
     --ride-line-height: var(--ride-line-height-t4-static);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t4StaticBold {
+  .ride-text--textStyle_t4StaticBold {
     --ride-font-size: var(--ride-font-size-t4-static);
     --ride-line-height: var(--ride-line-height-t4-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t5StaticRegular {
+  .ride-text--textStyle_t5StaticRegular {
     --ride-font-size: var(--ride-font-size-t5-static);
     --ride-line-height: var(--ride-line-height-t5-static);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t5StaticMedium {
+  .ride-text--textStyle_t5StaticMedium {
     --ride-font-size: var(--ride-font-size-t5-static);
     --ride-line-height: var(--ride-line-height-t5-static);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t5StaticBold {
+  .ride-text--textStyle_t5StaticBold {
     --ride-font-size: var(--ride-font-size-t5-static);
     --ride-line-height: var(--ride-line-height-t5-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t6StaticRegular {
+  .ride-text--textStyle_t6StaticRegular {
     --ride-font-size: var(--ride-font-size-t6-static);
     --ride-line-height: var(--ride-line-height-t6-static);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t6StaticMedium {
+  .ride-text--textStyle_t6StaticMedium {
     --ride-font-size: var(--ride-font-size-t6-static);
     --ride-line-height: var(--ride-line-height-t6-static);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t6StaticBold {
+  .ride-text--textStyle_t6StaticBold {
     --ride-font-size: var(--ride-font-size-t6-static);
     --ride-line-height: var(--ride-line-height-t6-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t7StaticRegular {
+  .ride-text--textStyle_t7StaticRegular {
     --ride-font-size: var(--ride-font-size-t7-static);
     --ride-line-height: var(--ride-line-height-t7-static);
     --ride-font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-text--textStyle_t7StaticMedium {
+  .ride-text--textStyle_t7StaticMedium {
     --ride-font-size: var(--ride-font-size-t7-static);
     --ride-line-height: var(--ride-line-height-t7-static);
     --ride-font-weight: var(--ride-font-weight-medium);
   }
 
-  .seed-text--textStyle_t7StaticBold {
+  .ride-text--textStyle_t7StaticBold {
     --ride-font-size: var(--ride-font-size-t7-static);
     --ride-line-height: var(--ride-line-height-t7-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t8StaticBold {
+  .ride-text--textStyle_t8StaticBold {
     --ride-font-size: var(--ride-font-size-t8-static);
     --ride-line-height: var(--ride-line-height-t8-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t9StaticBold {
+  .ride-text--textStyle_t9StaticBold {
     --ride-font-size: var(--ride-font-size-t9-static);
     --ride-line-height: var(--ride-line-height-t9-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--textStyle_t10StaticBold {
+  .ride-text--textStyle_t10StaticBold {
     --ride-font-size: var(--ride-font-size-t10-static);
     --ride-line-height: var(--ride-line-height-t10-static);
     --ride-font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-text--maxLines_none {
+  .ride-text--maxLines_none {
     overflow: unset;
     min-width: unset;
     text-overflow: unset;
@@ -331,7 +331,7 @@
     -webkit-line-clamp: unset;
   }
 
-  .seed-text--maxLines_single {
+  .ride-text--maxLines_single {
     text-overflow: ellipsis;
     white-space: nowrap;
     -webkit-line-clamp: var(--ride-max-lines);
@@ -340,7 +340,7 @@
     overflow: hidden;
   }
 
-  .seed-text--maxLines_multi {
+  .ride-text--maxLines_multi {
     text-overflow: ellipsis;
     min-width: 0;
     white-space: initial;
@@ -350,15 +350,15 @@
     overflow: hidden;
   }
 
-  .seed-text--textDecorationLine_none {
+  .ride-text--textDecorationLine_none {
     text-decoration-line: none;
   }
 
-  .seed-text--textDecorationLine_line-through {
+  .ride-text--textDecorationLine_line-through {
     text-decoration-line: line-through;
   }
 
-  .seed-text--textDecorationLine_underline {
+  .ride-text--textDecorationLine_underline {
     text-decoration-line: underline;
   }
 }
