@@ -1,4 +1,4 @@
-import { Grid } from "@seed-design/react";
+import { Grid } from "@ride-developer/react";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 
 export default function IdentityPlaceholderPreview() {

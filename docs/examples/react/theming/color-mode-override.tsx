@@ -1,6 +1,6 @@
 import { ActionButton } from "seed-design/ui/action-button";
-import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
-import { Text, VStack } from "@seed-design/react";
+import { actionButtonVariantMap } from "@ride-developer/css/recipes/action-button";
+import { Text, VStack } from "@ride-developer/react";
 
 function Demo() {
   return (

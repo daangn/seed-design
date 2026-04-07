@@ -1,4 +1,4 @@
-import { HStack, ScrollFog } from "@seed-design/react";
+import { HStack, ScrollFog } from "@ride-developer/react";
 
 export default function ScrollFogHorizontal() {
   return (

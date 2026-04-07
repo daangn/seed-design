@@ -6,11 +6,11 @@ import {
   switchmark,
   switchmarkVariantMap,
   type SwitchmarkVariantProps,
-} from "@seed-design/css/recipes/switchmark";
+} from "@ride-developer/css/recipes/switchmark";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { Switch } from "@seed-design/react/primitive";
+import { Switch } from "@ride-developer/react/primitive";
 
 function CustomSwitch(props: SwitchmarkVariantProps & Switch.RootProps) {
   const [switchmarkVariantProps, otherProps] = switchmark.splitVariantProps(props);

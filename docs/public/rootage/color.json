@@ -1560,7 +1560,7 @@
             "value": "$color.palette.gray-200"
           }
         },
-        "description": "@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다."
+        "description": "@deprecated `@ride-developer/css@1.3.0`에서 제거될 예정입니다."
       },
       "$color.bg.layer-floating": {
         "values": {

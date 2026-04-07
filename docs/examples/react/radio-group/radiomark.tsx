@@ -1,6 +1,6 @@
-import { HStack, Text, VStack } from "@seed-design/react";
+import { HStack, Text, VStack } from "@ride-developer/react";
 import { Radiomark } from "seed-design/ui/radio-group";
-import { RadioGroup } from "@seed-design/react/primitive";
+import { RadioGroup } from "@ride-developer/react/primitive";
 
 function CustomRadioGroupItem({ children, ...props }: RadioGroup.ItemProps) {
   return (

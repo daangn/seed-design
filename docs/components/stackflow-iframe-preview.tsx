@@ -1,7 +1,7 @@
 "use client";
 
 import type { Activity } from "@stackflow/core";
-import { Box, Flex, HStack, Text, VStack } from "@seed-design/react";
+import { Box, Flex, HStack, Text, VStack } from "@ride-developer/react";
 import { IconArrowUpRightFill } from "@karrotmarket/react-monochrome-icon";
 import { useEffect, useRef, useState } from "react";
 import { ProgressCircle } from "seed-design/ui/progress-circle";

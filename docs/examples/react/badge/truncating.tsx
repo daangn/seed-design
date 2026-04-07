@@ -1,4 +1,4 @@
-import { Badge, VStack } from "@seed-design/react";
+import { Badge, VStack } from "@ride-developer/react";
 
 export default function BadgeTruncating() {
   return (

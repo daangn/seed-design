@@ -1,4 +1,4 @@
-import { Flex } from "@seed-design/react";
+import { Flex } from "@ride-developer/react";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { ImageFrame } from "@seed-design/react";
+import { ImageFrame } from "@ride-developer/react";
 
-import { imageFrameVariantMap } from "@seed-design/css/recipes/image-frame";
+import { imageFrameVariantMap } from "@ride-developer/css/recipes/image-frame";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";

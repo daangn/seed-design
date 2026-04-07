@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { MannerTempBadge } from "seed-design/ui/manner-temp-badge";
 
 export default function BadgePreview() {

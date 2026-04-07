@@ -3,8 +3,8 @@ import {
   IconPersonCircleLine,
   IconSlashCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Divider, Icon, VStack } from "@seed-design/react";
-import { RadioGroup } from "@seed-design/react/primitive";
+import { Divider, Icon, VStack } from "@ride-developer/react";
+import { RadioGroup } from "@ride-developer/react/primitive";
 import { List, ListButtonItem, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
 import { Checkmark } from "seed-design/ui/checkbox";
 import { Radiomark } from "seed-design/ui/radio-group";

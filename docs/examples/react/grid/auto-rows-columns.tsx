@@ -1,4 +1,4 @@
-import { Divider, Flex, Grid, HStack } from "@seed-design/react";
+import { Divider, Flex, Grid, HStack } from "@ride-developer/react";
 
 export default function AutoRowsColumns() {
   return (

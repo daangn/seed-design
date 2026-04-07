@@ -7,7 +7,7 @@ import {
   ChipTabsList,
 } from "seed-design/ui/chip-tabs";
 
-import { chipTabsVariantMap } from "@seed-design/css/recipes/chip-tabs";
+import { chipTabsVariantMap } from "@ride-developer/css/recipes/chip-tabs";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";

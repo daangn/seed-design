@@ -1,7 +1,7 @@
 {
   "id": "loading-indicator",
   "dependencies": [
-    "@seed-design/react"
+    "@ride-developer/react"
   ],
   "innerDependencies": [
     {
@@ -14,10 +14,10 @@
   "snippets": [
     {
       "path": "loading-indicator.tsx",
-      "content": "/**\n * @file ui:loading-indicator\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport {\n  LoadingIndicator as SeedLoadingIndicator,\n  type LoadingIndicatorProps as SeedLoadingIndicatorProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { ProgressCircle } from \"./progress-circle\";\n\nexport interface LoadingIndicatorProps extends Omit<SeedLoadingIndicatorProps, \"indicator\"> {\n  indicator?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/loading-indicator\n */\nexport const LoadingIndicator = React.forwardRef<\n  React.ElementRef<typeof SeedLoadingIndicator>,\n  LoadingIndicatorProps\n>(\n  (\n    { children, indicator = <ProgressCircle size=\"inherit\" tone=\"inherit\" />, ...otherProps },\n    ref,\n  ) => {\n    return (\n      <SeedLoadingIndicator ref={ref} indicator={indicator} {...otherProps}>\n        {children}\n      </SeedLoadingIndicator>\n    );\n  },\n);\nLoadingIndicator.displayName = \"LoadingIndicator\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "content": "/**\n * @file ui:loading-indicator\n * @requires @ride-developer/react@~1.0.0\n * @requires @ride-developer/css@~1.0.0\n **/\n\n\"use client\";\n\nimport {\n  LoadingIndicator as SeedLoadingIndicator,\n  type LoadingIndicatorProps as SeedLoadingIndicatorProps,\n} from \"@ride-developer/react\";\nimport * as React from \"react\";\nimport { ProgressCircle } from \"./progress-circle\";\n\nexport interface LoadingIndicatorProps extends Omit<SeedLoadingIndicatorProps, \"indicator\"> {\n  indicator?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/loading-indicator\n */\nexport const LoadingIndicator = React.forwardRef<\n  React.ElementRef<typeof SeedLoadingIndicator>,\n  LoadingIndicatorProps\n>(\n  (\n    { children, indicator = <ProgressCircle size=\"inherit\" tone=\"inherit\" />, ...otherProps },\n    ref,\n  ) => {\n    return (\n      <SeedLoadingIndicator ref={ref} indicator={indicator} {...otherProps}>\n        {children}\n      </SeedLoadingIndicator>\n    );\n  },\n);\nLoadingIndicator.displayName = \"LoadingIndicator\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @ride-developer/* packages.\n * You can extend this snippet however you want.\n */\n",
       "dependencies": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@ride-developer/react": "~1.0.0",
+        "@ride-developer/css": "~1.0.0"
       }
     }
   ]

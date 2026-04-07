@@ -1,4 +1,4 @@
-import { HStack } from "@seed-design/react";
+import { HStack } from "@ride-developer/react";
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
 export default function TextFieldTextareaDisabled() {

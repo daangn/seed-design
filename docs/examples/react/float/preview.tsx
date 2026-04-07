@@ -1,4 +1,4 @@
-import { Box, Float } from "@seed-design/react";
+import { Box, Float } from "@ride-developer/react";
 import { ContextualFloatingButton } from "seed-design/ui/contextual-floating-button";
 
 export default function FloatPreview() {

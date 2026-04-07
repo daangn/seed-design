@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { tagGroupVariantMap } from "@seed-design/css/recipes/tag-group";
-import { tagGroupItemVariantMap } from "@seed-design/css/recipes/tag-group-item";
+import { tagGroupVariantMap } from "@ride-developer/css/recipes/tag-group";
+import { tagGroupItemVariantMap } from "@ride-developer/css/recipes/tag-group-item";
 
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";

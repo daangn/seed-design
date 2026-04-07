@@ -1,4 +1,4 @@
-import { Box, Divider, VStack } from "@seed-design/react";
+import { Box, Divider, VStack } from "@ride-developer/react";
 
 export default function DividerPreview() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { IconCheckmarkClipboardLine, IconCheckmarkFill } from "@karrotmarket/react-monochrome-icon";
-import { AST } from "@seed-design/rootage-core";
+import { AST } from "@ride-developer/rootage-core";
 import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import { useState } from "react";
 import { TokenCell, TokenValue } from "./token-cell";

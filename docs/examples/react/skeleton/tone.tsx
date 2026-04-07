@@ -1,4 +1,4 @@
-import { Box, Skeleton, VStack } from "@seed-design/react";
+import { Box, Skeleton, VStack } from "@ride-developer/react";
 
 export default function SkeletonTone() {
   return (

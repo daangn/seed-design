@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { MannerTemp } from "seed-design/ui/manner-temp";
 
-import { mannerTempVariantMap } from "@seed-design/css/recipes/manner-temp";
+import { mannerTempVariantMap } from "@ride-developer/css/recipes/manner-temp";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";

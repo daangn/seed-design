@@ -1,4 +1,4 @@
-import { Skeleton, VStack } from "@seed-design/react";
+import { Skeleton, VStack } from "@ride-developer/react";
 
 export default function SkeletonPreview() {
   return (

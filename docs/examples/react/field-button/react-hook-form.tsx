@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { HStack, VStack } from "@seed-design/react";
+import { HStack, VStack } from "@ride-developer/react";
 import { useController, useForm } from "react-hook-form";
 import { FieldButton, FieldButtonValue, FieldButtonPlaceholder } from "seed-design/ui/field-button";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -10,7 +10,7 @@ import {
   BottomSheetFooter,
 } from "seed-design/ui/bottom-sheet";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
-import { Portal } from "@seed-design/react";
+import { Portal } from "@ride-developer/react";
 
 interface ProductFormData {
   category: string;

@@ -1,4 +1,4 @@
-import { ActionButton, HStack, VStack } from "@seed-design/react";
+import { ActionButton, HStack, VStack } from "@ride-developer/react";
 import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
 

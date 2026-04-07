@@ -1,6 +1,6 @@
 import { HelpBubbleAnchor } from "seed-design/ui/help-bubble";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { useState } from "react";
 
 const WIDTH_OPTIONS = ["200px", "300px", "unset"] as const;

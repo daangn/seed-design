@@ -1,5 +1,5 @@
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
-import { Icon } from "@seed-design/react";
+import { Icon } from "@ride-developer/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 

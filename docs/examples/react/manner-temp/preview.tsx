@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { MannerTemp } from "seed-design/ui/manner-temp";
 
 export default function MannerTempPreview() {

@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 import { ActionButton } from "seed-design/ui/action-button";
 

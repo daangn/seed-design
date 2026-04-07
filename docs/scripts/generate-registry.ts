@@ -44,7 +44,7 @@ async function main() {
 
 ${content}
 /**
- * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.
+ * This file is a snippet from SEED Design, helping you get started quickly with @ride-developer/* packages.
  * You can extend this snippet however you want.
  */
 `);

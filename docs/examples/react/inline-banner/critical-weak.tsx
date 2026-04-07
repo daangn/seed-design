@@ -1,5 +1,5 @@
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { ActionableInlineBanner, InlineBanner } from "seed-design/ui/inline-banner";
 
 export default function InlineBannerCriticalWeak() {

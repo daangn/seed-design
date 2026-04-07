@@ -1,6 +1,6 @@
 "use client";
 
-import { PullToRefresh } from "@seed-design/react";
+import { PullToRefresh } from "@ride-developer/react";
 import { forwardRef } from "react";
 import { ProgressCircle } from "./progress-circle";
 

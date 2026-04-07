@@ -1,4 +1,4 @@
-import { Box, Inline } from "@seed-design/react";
+import { Box, Inline } from "@ride-developer/react";
 
 /**
  * @deprecated Use `HStack` instead.

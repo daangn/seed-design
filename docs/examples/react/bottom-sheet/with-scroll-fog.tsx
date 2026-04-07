@@ -1,4 +1,4 @@
-import { Box, ScrollFog, VStack } from "@seed-design/react";
+import { Box, ScrollFog, VStack } from "@ride-developer/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   BottomSheetBody,

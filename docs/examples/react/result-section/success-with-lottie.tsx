@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { VStack, Box } from "@seed-design/react";
+import { VStack, Box } from "@ride-developer/react";
 import { ResultSection } from "seed-design/ui/result-section";
 import { useTheme } from "@/hooks/useTheme";
 

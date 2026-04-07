@@ -1,5 +1,5 @@
 import { IconPlusCircleLine, IconWonLine } from "@karrotmarket/react-monochrome-icon";
-import { HStack, VStack } from "@seed-design/react";
+import { HStack, VStack } from "@ride-developer/react";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 export default function TextFieldInputBothAffixes() {

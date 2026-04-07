@@ -1,4 +1,4 @@
-import { HStack, VStack, Text } from "@seed-design/react";
+import { HStack, VStack, Text } from "@ride-developer/react";
 
 export default function TailwindBorderRadius() {
   return (

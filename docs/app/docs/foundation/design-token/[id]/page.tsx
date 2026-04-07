@@ -2,7 +2,7 @@ import { getRootage, stringifyValueLit } from "@/components/rootage";
 import { TokenLink } from "@/components/token-link";
 import { TypeIndicator } from "@/components/type-indicator";
 import { IconArrowRightLine } from "@karrotmarket/react-monochrome-icon";
-import { resolveReferences, resolveToken } from "@seed-design/rootage-core";
+import { resolveReferences, resolveToken } from "@ride-developer/rootage-core";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import Link from "next/link";

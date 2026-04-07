@@ -8,7 +8,7 @@ import type { RegisteredActivityName } from "@stackflow/config";
 import type { ActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import type * as React from "react";
-import { Box, Flex } from "@seed-design/react";
+import { Box, Flex } from "@ride-developer/react";
 
 const usePreventScroll = (ref: React.RefObject<HTMLElement>) => {
   const [isTouchInside, setIsTouchInside] = useState(false);

@@ -6,10 +6,10 @@ import {
   Field as SeedField,
   VisuallyHidden,
   PrefixIcon,
-} from "@seed-design/react";
-import type { SliderTickVariantProps } from "@seed-design/css/recipes/slider-tick";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
-import type { SliderMarkerVariantProps } from "@seed-design/css/recipes/slider-marker";
+} from "@ride-developer/react";
+import type { SliderTickVariantProps } from "@ride-developer/css/recipes/slider-tick";
+import type { FieldLabelVariantProps } from "@ride-developer/css/recipes/field-label";
+import type { SliderMarkerVariantProps } from "@ride-developer/css/recipes/slider-marker";
 import * as React from "react";
 
 export interface SliderProps extends SeedSlider.RootProps {

@@ -1,4 +1,4 @@
-import { ImageFrame, Flex, VStack, Text } from "@seed-design/react";
+import { ImageFrame, Flex, VStack, Text } from "@ride-developer/react";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
 export default function ImageFrameRatio() {

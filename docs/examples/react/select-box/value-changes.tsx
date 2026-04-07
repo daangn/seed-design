@@ -1,4 +1,4 @@
-import { HStack, Text, VStack } from "@seed-design/react";
+import { HStack, Text, VStack } from "@ride-developer/react";
 import {
   CheckSelectBox,
   CheckSelectBoxCheckmark,

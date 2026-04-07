@@ -1395,7 +1395,7 @@
             {
               "id": "commands",
               "title": "Commands",
-              "description": "\"@seed-design/cli 명령어를 안내해요.\"",
+              "description": "\"@ride-developer/cli 명령어를 안내해요.\"",
               "docUrl": "/react/getting-started/cli/commands"
             },
             {
@@ -1529,7 +1529,7 @@
             {
               "id": "introduction",
               "title": "Introduction",
-              "description": "\"@seed-design/codemod는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.\"",
+              "description": "\"@ride-developer/codemod는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.\"",
               "docUrl": "/react/developer-tools/codemods/introduction"
             }
           ]

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Switch as SeedSwitch } from "@seed-design/react";
+import { Switch as SeedSwitch } from "@ride-developer/react";
 
 export interface SwitchProps extends SeedSwitch.RootProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -44,11 +44,11 @@ export const Switchmark = React.forwardRef<HTMLDivElement, SwitchmarkProps>((pro
 Switchmark.displayName = "Switchmark";
 
 /**
- * @deprecated Use `Switchmark` instead. Will be removed in @seed-design/react@1.3.0.
+ * @deprecated Use `Switchmark` instead. Will be removed in @ride-developer/react@1.3.0.
  */
 export const SwitchMark = Switchmark;
 
 /**
- * @deprecated Use `SwitchmarkProps` instead. Will be removed in @seed-design/react@1.3.0.
+ * @deprecated Use `SwitchmarkProps` instead. Will be removed in @ride-developer/react@1.3.0.
  */
 export type SwitchMarkProps = SwitchmarkProps;

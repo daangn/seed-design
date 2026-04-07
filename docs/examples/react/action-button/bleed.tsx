@@ -1,4 +1,4 @@
-import { HStack, Text, VStack } from "@seed-design/react";
+import { HStack, Text, VStack } from "@ride-developer/react";
 import { ActionButton } from "seed-design/ui/action-button";
 
 export default function ActionButtonBleed() {

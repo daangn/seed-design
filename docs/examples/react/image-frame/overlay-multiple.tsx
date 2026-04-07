@@ -3,7 +3,7 @@ import {
   ImageFrameFloater,
   ImageFrameBadge,
   ImageFrameReactionButton,
-} from "@seed-design/react";
+} from "@ride-developer/react";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 import { useState } from "react";
 

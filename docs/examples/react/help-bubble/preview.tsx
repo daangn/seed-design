@@ -1,7 +1,7 @@
 import { IconILowercaseSerifCircleLine } from "@karrotmarket/react-monochrome-icon";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 import { ActionButton } from "seed-design/ui/action-button";
-import { Icon } from "@seed-design/react";
+import { Icon } from "@ride-developer/react";
 
 export default function HelpBubblePreview() {
   return (

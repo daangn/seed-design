@@ -1,7 +1,7 @@
 import { FloatingActionButton } from "seed-design/ui/floating-action-button";
 import { Switch } from "seed-design/ui/switch";
 import IconPlusLine from "@karrotmarket/react-monochrome-icon/IconPlusLine";
-import { Flex, VStack } from "@seed-design/react";
+import { Flex, VStack } from "@ride-developer/react";
 import { useState } from "react";
 
 export default function FloatingActionButtonExtended() {

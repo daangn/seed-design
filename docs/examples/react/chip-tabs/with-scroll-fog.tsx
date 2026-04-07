@@ -1,4 +1,4 @@
-import { ScrollFog } from "@seed-design/react";
+import { ScrollFog } from "@ride-developer/react";
 import {
   ChipTabsCarousel,
   ChipTabsList,

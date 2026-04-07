@@ -1,4 +1,4 @@
-import { Box, VStack } from "@seed-design/react";
+import { Box, VStack } from "@ride-developer/react";
 
 export default function VStackPreview() {
   return (

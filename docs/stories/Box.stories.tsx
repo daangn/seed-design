@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { Box } from "@seed-design/react";
+import { Box } from "@ride-developer/react";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VIEWPORT_MODES } from "./utils/parameters";

@@ -23,7 +23,7 @@ description: AI Agent를 활용해 Figma 디자인을 React 코드로 변환하�
 ```bash
 claude mcp add seed-design-figma \
   --env FIGMA_PERSONAL_ACCESS_TOKEN=${FIGMA_PERSONAL_ACCESS_TOKEN} \
-  -- bunx -y @seed-design/mcp@latest
+  -- bunx -y @ride-developer/mcp@latest
 ```
 
 </Tab>
@@ -33,7 +33,7 @@ claude mcp add seed-design-figma \
 ```bash
 codex mcp add seed-design-figma \
   --env FIGMA_PERSONAL_ACCESS_TOKEN=${FIGMA_PERSONAL_ACCESS_TOKEN} \
-  -- bunx -y @seed-design/mcp@latest
+  -- bunx -y @ride-developer/mcp@latest
 ```
 
 </Tab>
@@ -47,7 +47,7 @@ codex mcp add seed-design-figma \
   "mcpServers": {
     "seed-design-figma": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest"],
+      "args": ["-y", "@ride-developer/mcp@latest"],
       "env": {
         "FIGMA_PERSONAL_ACCESS_TOKEN": "<YOUR_FIGMA_PERSONAL_ACCESS_TOKEN>"
       }
@@ -67,7 +67,7 @@ codex mcp add seed-design-figma \
   "mcpServers": {
     "seed-design-figma": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest"],
+      "args": ["-y", "@ride-developer/mcp@latest"],
       "env": {
         "FIGMA_PERSONAL_ACCESS_TOKEN": "<YOUR_FIGMA_PERSONAL_ACCESS_TOKEN>"
       }
@@ -93,7 +93,7 @@ WebSocket 서버 실행을 위해 Bun 런타임이 필요합니다. `--bun` flag
 </Callout>
 
 ```bash
-bunx --bun @seed-design/mcp@latest socket
+bunx --bun @ride-developer/mcp@latest socket
 ```
 
 그 다음 MCP 서버를 등록합니다.
@@ -104,7 +104,7 @@ bunx --bun @seed-design/mcp@latest socket
 
 ```bash
 claude mcp add seed-design-figma \
-  -- bunx -y @seed-design/mcp@latest
+  -- bunx -y @ride-developer/mcp@latest
 ```
 
 </Tab>
@@ -113,7 +113,7 @@ claude mcp add seed-design-figma \
 
 ```bash
 codex mcp add seed-design-figma \
-  -- bunx -y @seed-design/mcp@latest
+  -- bunx -y @ride-developer/mcp@latest
 ```
 
 </Tab>
@@ -127,7 +127,7 @@ codex mcp add seed-design-figma \
   "mcpServers": {
     "seed-design-figma": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest"]
+      "args": ["-y", "@ride-developer/mcp@latest"]
     }
   }
 }
@@ -144,7 +144,7 @@ codex mcp add seed-design-figma \
   "mcpServers": {
     "seed-design-figma": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest"]
+      "args": ["-y", "@ride-developer/mcp@latest"]
     }
   }
 }
@@ -206,7 +206,7 @@ WebSocket 서버 실행을 위해 Bun 런타임이 필요합니다. `--bun` flag
 </Callout>
 
 ```bash
-bunx --bun @seed-design/mcp@latest socket
+bunx --bun @ride-developer/mcp@latest socket
 ```
 
 2. Figma에서 [MCP 플러그인](https://www.figma.com/community/plugin/1496384010980477154)을 설치하고 실행합니다.
@@ -246,7 +246,7 @@ MCP 서버 실행 시 `--mode` 옵션을 명시하면 해당 모드에서 사용
   "mcpServers": {
     "seed-design-figma": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest"],
+      "args": ["-y", "@ride-developer/mcp@latest"],
       "env": {
         "FIGMA_PERSONAL_ACCESS_TOKEN": "${FIGMA_PERSONAL_ACCESS_TOKEN}"
       }
@@ -268,7 +268,7 @@ MCP 서버 실행 시 `--mode` 옵션을 명시하면 해당 모드에서 사용
   "mcpServers": {
     "seed-design-figma": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest"]
+      "args": ["-y", "@ride-developer/mcp@latest"]
     }
   }
 }
@@ -354,12 +354,12 @@ MCP 서버 설정에 `--config` flag를 추가해 커스텀 설정 파일이 로
 `--config` flag는 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
 
 ```bash
-bunx --bun @seed-design/mcp@latest --config /path/to/config.ts
+bunx --bun @ride-developer/mcp@latest --config /path/to/config.ts
 ```
 
 ### 지원하는 설정 파일 형식
 
-`@seed-design/mcp`는 다음 확장자의 설정 파일을 지원합니다:
+`@ride-developer/mcp`는 다음 확장자의 설정 파일을 지원합니다:
 
 - `.js`
 - `.mjs`
@@ -373,7 +373,7 @@ import {
   type react,
   defineComponentHandler,
   createElement,
-} from "@seed-design/figma";
+} from "@ride-developer/figma";
 
 export default {
   extend: {
@@ -446,7 +446,7 @@ import {
   defineComponentHandler,
   type InferComponentDefinition,
   type react,
-} from "@seed-design/figma";
+} from "@ride-developer/figma";
 
 // Define component properties based on Figma definition
 export type ComponentNameProperties = InferComponentDefinition<{
@@ -519,7 +519,7 @@ import {
   defineComponentHandler,
   type InferComponentDefinition,
   type react,
-} from "@seed-design/figma";
+} from "@ride-developer/figma";
 
 export type CustomButtonProperties = InferComponentDefinition<{
   tone: {
@@ -548,7 +548,7 @@ export const createCustomButtonHandler = (_deps: react.ComponentHandlerDeps) =>
 생성된 ComponentHandler를 설정 파일에 추가합니다.
 
 ```typescript
-import { type react } from "@seed-design/figma";
+import { type react } from "@ride-developer/figma";
 import { createCustomButtonHandler } from "./CustomButton";
 
 export default {

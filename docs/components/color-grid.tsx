@@ -1,4 +1,4 @@
-import { resolveToken } from "@seed-design/rootage-core";
+import { resolveToken } from "@ride-developer/rootage-core";
 import { getRootage } from "./rootage";
 import { ColorSwatch } from "./color-swatch";
 

@@ -6,7 +6,7 @@ const withMDX = createMDX();
 const config = {
   output: "export",
   reactStrictMode: true,
-  transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
+  transpilePackages: ["@ride-developer/react", "@ride-developer/stackflow"],
   serverExternalPackages: [
     "ts-morph",
     "typescript",

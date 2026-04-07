@@ -29,15 +29,15 @@ V3를 사용하기 위한 기반 작업들을 먼저 진행합니다.
 필요한 의존성들을 설치해요.
 
 ```package-install
-@seed-design/react @seed-design/css
+@ride-developer/react @ride-developer/css
 ```
 
-- `@seed-design/react`는 리액트 컴포넌트 라이브러리가 전부 포함되어 있습니다.
+- `@ride-developer/react`는 리액트 컴포넌트 라이브러리가 전부 포함되어 있습니다.
   - 기존 `sprout` 패키지들을 대체합니다.
   - 컴포넌트 마이그레이션 전까지는 기존 패키지들을 사용해주세요.
-- `@seed-design/css`는 스타일 관련된 모든 것이 포함되어 있습니다. (vars, theming, recipe, css, etc.)
-  - 기존 `@seed-design/stylesheet` 라이브러리를 대체합니다.
-  - 기존 `@seed-design/design-token` 라이브러리를 대체합니다.
+- `@ride-developer/css`는 스타일 관련된 모든 것이 포함되어 있습니다. (vars, theming, recipe, css, etc.)
+  - 기존 `@ride-developer/stylesheet` 라이브러리를 대체합니다.
+  - 기존 `@ride-developer/design-token` 라이브러리를 대체합니다.
   - 파운데이션 마이그레이션 전까지는 기존 패키지들을 사용해주세요.
 
 </Step>
@@ -49,7 +49,7 @@ V3를 사용하기 위한 기반 작업들을 먼저 진행합니다.
 ### CSS import
 
 <Callout>
-V2 `@seed-design/stylesheet` 패키지의 `global.css`와 상호운용이 가능합니다.
+V2 `@ride-developer/stylesheet` 패키지의 `global.css`와 상호운용이 가능합니다.
 </Callout>
 
 <Callout type="warn">
@@ -57,7 +57,7 @@ V2 `@seed-design/stylesheet` 패키지의 `global.css`와 상호운용이 가능
 </Callout>
 
 ```ts title="index.tsx"
-import "@seed-design/css/all.css"; // [!code ++]
+import "@ride-developer/css/all.css"; // [!code ++]
 ```
 
 V3 스타일시트 사용법은 [Installation의 css import](/react/getting-started/installation/manual#allcss-import하기) 설명을 참고해주세요.
@@ -102,34 +102,34 @@ Vite, Rsbuild, Webpack 등의 번들러를 사용하는 프로젝트에서는 �
 
 Vite 사용 시
 
-- [@seed-design/vite-plugin](https://github.com/daangn/seed-design/tree/dev/packages/vite-plugin)
+- [@ride-developer/vite-plugin](https://github.com/daangn/seed-design/tree/dev/packages/vite-plugin)
 
 ```package-install
-@seed-design/vite-plugin
+@ride-developer/vite-plugin
 ```
 
 Rsbuild 사용 시
 
-- [@seed-design/rsbuild-plugin](https://github.com/daangn/seed-design/tree/dev/packages/rsbuild-plugin)
+- [@ride-developer/rsbuild-plugin](https://github.com/daangn/seed-design/tree/dev/packages/rsbuild-plugin)
 
 ```package-install
-@seed-design/rsbuild-plugin
+@ride-developer/rsbuild-plugin
 ```
 
 Webpack 사용 시
 
-- [@seed-design/webpack-plugin](https://github.com/daangn/seed-design/tree/dev/packages/webpack-plugin)
+- [@ride-developer/webpack-plugin](https://github.com/daangn/seed-design/tree/dev/packages/webpack-plugin)
 
 ```package-install
-@seed-design/webpack-plugin
+@ride-developer/webpack-plugin
 ```
 
 #### 스크립트 적용
 
-`@seed-design/css/theming` 패키지에서 제공하는 `generateThemingScript` 함수를 사용해서 스크립트를 생성해요.
+`@ride-developer/css/theming` 패키지에서 제공하는 `generateThemingScript` 함수를 사용해서 스크립트를 생성해요.
 
 ```ts title="index.tsx"
-import { generateThemingScript } from "@seed-design/css/theming";
+import { generateThemingScript } from "@ride-developer/css/theming";
 ```
 
 생성된 스크립트를 직접 적용해주세요.
@@ -201,14 +201,14 @@ import { generateThemingScript } from "@seed-design/css/theming";
 
 ### 용례 분석하기
 
-우선 현재 프로젝트에서 `@seed-design/design-token` 패키지를 사용하는 용례를 분석해야합니다.
+우선 현재 프로젝트에서 `@ride-developer/design-token` 패키지를 사용하는 용례를 분석해야합니다.
 
-- `@seed-design/design-token` 패키지의 vars를 사용하는 용례
-- `@seed-design/design-token` 패키지의 vars를 확장해서 사용하는 컴포넌트
+- `@ride-developer/design-token` 패키지의 vars를 사용하는 용례
+- `@ride-developer/design-token` 패키지의 vars를 확장해서 사용하는 컴포넌트
 - 위 컴포넌트를 사용중인 코드 용례
-- `@seed-design/stylesheet` 패키지를 사용하는 용례
+- `@ride-developer/stylesheet` 패키지를 사용하는 용례
 - `--seed-` prefix로 시작하는 CSS Variable을 사용하는 용례
-- 사용중인 CSS 라이브러리와 `@seed-design/design-token` 패키지와 결합해서 사용하는 용례
+- 사용중인 CSS 라이브러리와 `@ride-developer/design-token` 패키지와 결합해서 사용하는 용례
 
 아래의 프롬프트를 이용해서 현재 프로젝트에서 사용중인 용례를 분석할 수도 있습니다.
 
@@ -216,12 +216,12 @@ import { generateThemingScript } from "@seed-design/css/theming";
 Seed Design System의 디자인 토큰을 새로운 토큰으로 마이그레이션
 할건데 코드 어디 부분들을 변경해야 하는지 보고서를 써줘.
 
-1. `@seed-design/design-token` 패키지의 vars 변수를 사용하는 용례
-2. `@seed-design/design-token` 패키지의 vars 변수를 확장해서 사용하는 컴포넌트
+1. `@ride-developer/design-token` 패키지의 vars 변수를 사용하는 용례
+2. `@ride-developer/design-token` 패키지의 vars 변수를 확장해서 사용하는 컴포넌트
 3. 2번 컴포넌트를 사용중인 코드 용례 
-4. `@seed-design/styleesheet` 패키지를 사용하는 용례
+4. `@ride-developer/styleesheet` 패키지를 사용하는 용례
 5. `--seed-` prefix로 시작하는 CSS Variable을 사용하는 용례
-6. 사용중인 CSS 라이브러리와 `@seed-design/design-token` 패키지와 결합해서 사용하는 용례
+6. 사용중인 CSS 라이브러리와 `@ride-developer/design-token` 패키지와 결합해서 사용하는 용례
 
 위와 같은 사례들말고도 네가 더 분석해서 추가적으로 마이그레이션 해야하는 부분들도 알려줘.
 ```
@@ -241,9 +241,9 @@ Seed Design System의 디자인 토큰을 새로운 토큰으로 마이그레이
 - [replace-custom-seed-design-typography](https://seed-design.io/react/developer-tools/codemods/available-transforms#replace-custom-seed-design-typography) 커스텀 transform을 사용해서 마이그레이션 할 수 있습니다.
 
 ```ts title="typography.ts"
-import type { TextVariant } from '@seed-design/css/recipes/text';
+import type { TextVariant } from '@ride-developer/css/recipes/text';
 
-import { vars as typographyVars } from '@seed-design/css/vars/component/typography';
+import { vars as typographyVars } from '@ride-developer/css/vars/component/typography';
 
 /**
  * @see https://seed-design.io/docs/foundation/typography/overview
@@ -283,7 +283,7 @@ export const typography = Object.entries(typographyVars).reduce(
 기본적으로 마이그레이션은 [Codemod](/react/developer-tools/codemods/introduction)를 이용해 진행합니다.
 
 ```package-install
-npx @seed-design/codemod@latest <transform> <target_path> <옵션>
+npx @ride-developer/codemod@latest <transform> <target_path> <옵션>
 ```
 
 - Codemod는 기본적으로 `color`와 `typography` transform을 분리해서 제공합니다.
@@ -295,8 +295,8 @@ npx @seed-design/codemod@latest <transform> <target_path> <옵션>
 #### Tailwind CSS
 
 - Tailwind V3 플러그인을 제공합니다.
-- [@seed-design/tailwind3-plugin](https://github.com/daangn/seed-design/tree/dev/packages/tailwind3-plugin)
-- [@seed-design/tailwind4-theme](https://github.com/daangn/seed-design/tree/dev/packages/tailwind4-theme)
+- [@ride-developer/tailwind3-plugin](https://github.com/daangn/seed-design/tree/dev/packages/tailwind3-plugin)
+- [@ride-developer/tailwind4-theme](https://github.com/daangn/seed-design/tree/dev/packages/tailwind4-theme)
 - Tailwind transform은 [replace-tailwind-typography](/react/developer-tools/codemods/available-transforms#replace-tailwind-typography), [replace-tailwind-color](/react/developer-tools/codemods/available-transforms#replace-tailwind-color) 두 개가 제공됩니다.
 - Tailwind 같은 경우는 각 프로젝트에서 커스텀 플러그인을 작성해서 사용중인 경우가 많기 때문에 Codemod가 정확하게 맞지 않을 수 있습니다.
 - Codemod 페이지에서 변경 예시를 살펴보고 프로젝트와 상황이 같다면 사용할 수 있습니다.
@@ -309,7 +309,7 @@ npx @seed-design/codemod@latest <transform> <target_path> <옵션>
 
 #### Emotion, Vanilla Extract CSS, (CSS-in-JS)
 
-- Emotion, Vanilla Extract CSS와 같은 CSS-in-JS 라이브러리는 `@seed-design/design-token`을 사용하는 경우가 대부분입니다.
+- Emotion, Vanilla Extract CSS와 같은 CSS-in-JS 라이브러리는 `@ride-developer/design-token`을 사용하는 경우가 대부분입니다.
 - [replace-seed-design-token-vars](/react/developer-tools/codemods/available-transforms#replace-seed-design-token-vars) transform을 사용해서 일괄적으로 마이그레이션 할 수 있습니다.
 - 해당 transform은 `color`와 `typography` 두 개 동시에 변경합니다.
 
@@ -402,7 +402,7 @@ Sprout 내부에 V2 토큰을 V3 토큰으로 전부 교체한 Compatibility 버
 주의할 점: 너무 예전의 버전을 사용하는 경우 컴포넌트 내부에서 breaking changes가 있을 수 있습니다.
 
 V2 V3 Compatibility 버전까지 설치가 되었다면 파운데이션 마이그레이션이 끝난 것으로 간주할 수 있습니다.
-이론상 이때부터는 `@seed-design/design-token` 패키지와 `@seed-design/stylesheet` 패키지를 제거할 수 있습니다.
+이론상 이때부터는 `@ride-developer/design-token` 패키지와 `@ride-developer/stylesheet` 패키지를 제거할 수 있습니다.
 또한 V3 컴포넌트를 점진적 사용이 가능합니다.
 
 ### V3 Compat Script 제거
@@ -466,5 +466,5 @@ TBD
 
 ### Vanilla Extract CSS + Vite + V3 사용시
 
-- `@vanilla-extract/vite-plugin`와 `@seed-design/vite-plugin`을 같이 사용하는 경우 빌드가 실패할 수 있습니다.
+- `@vanilla-extract/vite-plugin`와 `@ride-developer/vite-plugin`을 같이 사용하는 경우 빌드가 실패할 수 있습니다.
 - `@vanilla-extract/vite-plugin`의 버전을 `5` 이상으로 업그레이드 해주세요.

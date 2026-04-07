@@ -1,15 +1,15 @@
 {
   "id": "identity-placeholder",
   "dependencies": [
-    "@seed-design/react"
+    "@ride-developer/react"
   ],
   "snippets": [
     {
       "path": "identity-placeholder.tsx",
-      "content": "/**\n * @file ui:identity-placeholder\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport { IdentityPlaceholder as SeedIdentityPlaceholder } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface IdentityPlaceholderProps extends SeedIdentityPlaceholder.RootProps {}\n\n/**\n * @see https://seed-design.io/react/components/identity-placeholder\n */\nexport const IdentityPlaceholder = React.forwardRef<HTMLDivElement, IdentityPlaceholderProps>(\n  (props, ref) => {\n    return (\n      <SeedIdentityPlaceholder.Root {...props} ref={ref}>\n        <SeedIdentityPlaceholder.Image />\n      </SeedIdentityPlaceholder.Root>\n    );\n  },\n);\nIdentityPlaceholder.displayName = \"IdentityPlaceholder\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "content": "/**\n * @file ui:identity-placeholder\n * @requires @ride-developer/react@~1.0.0\n * @requires @ride-developer/css@~1.0.0\n **/\n\n\"use client\";\n\nimport { IdentityPlaceholder as SeedIdentityPlaceholder } from \"@ride-developer/react\";\nimport * as React from \"react\";\n\nexport interface IdentityPlaceholderProps extends SeedIdentityPlaceholder.RootProps {}\n\n/**\n * @see https://seed-design.io/react/components/identity-placeholder\n */\nexport const IdentityPlaceholder = React.forwardRef<HTMLDivElement, IdentityPlaceholderProps>(\n  (props, ref) => {\n    return (\n      <SeedIdentityPlaceholder.Root {...props} ref={ref}>\n        <SeedIdentityPlaceholder.Image />\n      </SeedIdentityPlaceholder.Root>\n    );\n  },\n);\nIdentityPlaceholder.displayName = \"IdentityPlaceholder\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @ride-developer/* packages.\n * You can extend this snippet however you want.\n */\n",
       "dependencies": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@ride-developer/react": "~1.0.0",
+        "@ride-developer/css": "~1.0.0"
       }
     }
   ]

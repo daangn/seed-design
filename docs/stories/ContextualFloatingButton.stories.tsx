@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { ContextualFloatingButton } from "seed-design/ui/contextual-floating-button";
-import { Icon } from "@seed-design/react";
+import { Icon } from "@ride-developer/react";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { contextualFloatingButtonVariantMap } from "@seed-design/css/recipes/contextual-floating-button";
-import { PrefixIcon } from "@seed-design/react";
+import { contextualFloatingButtonVariantMap } from "@ride-developer/css/recipes/contextual-floating-button";
+import { PrefixIcon } from "@ride-developer/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 

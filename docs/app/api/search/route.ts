@@ -22,7 +22,7 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
   }
 
   return [...byPackage.entries()].flatMap(([packageName, versions]) => {
-    const label = packageName.replace("@seed-design/", "");
+    const label = packageName.replace("@ride-developer/", "");
 
     return [...versions.entries()].map(([version, items]) => {
       const versionUrl = getChangelogHref(packageName, version);

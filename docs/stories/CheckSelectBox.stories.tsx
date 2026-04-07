@@ -6,7 +6,7 @@ import {
   CheckSelectBoxGroup,
 } from "seed-design/ui/select-box";
 import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
-import { Box, Text } from "@seed-design/react";
+import { Box, Text } from "@ride-developer/react";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";

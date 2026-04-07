@@ -1,7 +1,7 @@
 "use client";
 
-import { HStack, SegmentedControl as SeedSegmentedControl } from "@seed-design/react";
-import { NotificationBadgePositioner, NotificationBadge } from "@seed-design/react";
+import { HStack, SegmentedControl as SeedSegmentedControl } from "@ride-developer/react";
+import { NotificationBadgePositioner, NotificationBadge } from "@ride-developer/react";
 import * as React from "react";
 
 export interface SegmentedControlProps extends SeedSegmentedControl.RootProps {}

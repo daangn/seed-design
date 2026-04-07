@@ -2,8 +2,8 @@ import { List, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
 import { Checkmark } from "seed-design/ui/checkbox";
 import { Radiomark } from "seed-design/ui/radio-group";
-import { HStack, VStack } from "@seed-design/react";
-import { RadioGroup } from "@seed-design/react/primitive";
+import { HStack, VStack } from "@ride-developer/react";
+import { RadioGroup } from "@ride-developer/react/primitive";
 
 export default function ListBorderRadius() {
   return (

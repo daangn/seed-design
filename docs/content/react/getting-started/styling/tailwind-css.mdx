@@ -17,7 +17,7 @@ SEED에서 제공하는 토큰을 Tailwind CSS 3과 4 유틸리티 클래스를 
 ### 의존성 설치
 
 ```package-install
-@seed-design/css @seed-design/tailwind4-theme
+@ride-developer/css @ride-developer/tailwind4-theme
 ```
 
 </Step>
@@ -28,9 +28,9 @@ SEED에서 제공하는 토큰을 Tailwind CSS 3과 4 유틸리티 클래스를 
 
 ```css title="style.css"
 @layer theme, base, seed-base, components, seed-components, utilities;
-@import "@seed-design/css/base.layered.css";
+@import "@ride-developer/css/base.layered.css";
 @import "tailwindcss";
-@import "@seed-design/tailwind4-theme";
+@import "@ride-developer/tailwind4-theme";
 ```
 
 <Callout>
@@ -76,7 +76,7 @@ Tailwind CSS 스타일시트는 theming 스크립트와 별개로 작동합니�
 ### 의존성 설치
 
 ```package-install
-@seed-design/css @seed-design/tailwind3-plugin
+@ride-developer/css @ride-developer/tailwind3-plugin
 ```
 
 </Step>
@@ -86,7 +86,7 @@ Tailwind CSS 스타일시트는 theming 스크립트와 별개로 작동합니�
 ### base.css import
 
 ```ts title="index.tsx"
-import "@seed-design/css/base.css";
+import "@ride-developer/css/base.css";
 ```
 
 </Step>
@@ -96,7 +96,7 @@ import "@seed-design/css/base.css";
 ### Tailwind 설정 파일 수정
 
 ```js title="tailwind.config.js"
-import seedPlugin from "@seed-design/tailwind3-plugin"; // [!code highlight]
+import seedPlugin from "@ride-developer/tailwind3-plugin"; // [!code highlight]
 
 /** @type {import('tailwindcss').Config} */
 export default {

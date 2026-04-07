@@ -1,4 +1,4 @@
-import { Box, Text, VStack } from "@seed-design/react";
+import { Box, Text, VStack } from "@ride-developer/react";
 
 const sampleText = `이것은 여러 개         의
 공백, 줄바꿈과

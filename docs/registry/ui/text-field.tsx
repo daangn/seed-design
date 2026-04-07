@@ -8,8 +8,8 @@ import {
   useTextFieldWithGraphemes,
   VisuallyHidden,
   PrefixIcon,
-} from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
+} from "@ride-developer/react";
+import type { FieldLabelVariantProps } from "@ride-developer/css/recipes/field-label";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 
 export interface TextFieldProps

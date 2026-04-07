@@ -2,7 +2,7 @@ import { client } from "@/sanity-studio/lib/client";
 import { COMPONENT_QUERY } from "@/sanity-studio/lib/queries";
 import { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
 import { IconArrowRightFill, IconArrowUpRightFill } from "@karrotmarket/react-monochrome-icon";
-import { Badge, Icon } from "@seed-design/react";
+import { Badge, Icon } from "@ride-developer/react";
 import Link from "next/link";
 
 interface PlatformStatusTableProps {

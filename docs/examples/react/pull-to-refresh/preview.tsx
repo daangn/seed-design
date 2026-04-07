@@ -1,6 +1,6 @@
-import { AppBar, AppScreen } from "@seed-design/stackflow";
+import { AppBar, AppScreen } from "@ride-developer/stackflow";
 import { ActivityComponentType } from "@stackflow/react/future";
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
@@ -14,7 +14,7 @@ declare module "@stackflow/config" {
 }
 
 const PullToRefreshPreview: ActivityComponentType<"react/pull-to-refresh/preview"> = () => {
-  // AppScreen is imported from @seed-design/stackflow instead of snippet for demo purpose.
+  // AppScreen is imported from @ride-developer/stackflow instead of snippet for demo purpose.
   // AppScreen snippet is integrating PullToRefresh, so it's not necessary to use it here.
   return (
     <AppScreen.Root>

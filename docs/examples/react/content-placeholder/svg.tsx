@@ -3,7 +3,7 @@ import {
   IconDiamondFill,
   IconSparkle2Fill,
 } from "@karrotmarket/react-monochrome-icon";
-import { HStack } from "@seed-design/react";
+import { HStack } from "@ride-developer/react";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
 export default function ContentPlaceholderSvgExample() {

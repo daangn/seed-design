@@ -1,9 +1,9 @@
 "use client";
 
-import { Text, VStack, type TextProps } from "@seed-design/react";
+import { Text, VStack, type TextProps } from "@ride-developer/react";
 import * as React from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
-import type { ScopedColorBg } from "@seed-design/css/vars";
+import type { ScopedColorBg } from "@ride-developer/css/vars";
 
 /**
  * @deprecated Use result-section instead.

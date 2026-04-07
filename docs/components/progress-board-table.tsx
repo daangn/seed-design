@@ -3,7 +3,7 @@ import { ALL_COMPONENTS_QUERY } from "@/sanity-studio/lib/queries";
 import { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
-import { Badge } from "@seed-design/react";
+import { Badge } from "@ride-developer/react";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 

@@ -4,8 +4,8 @@ import { createStoryWithParameters } from "@/stories/utils/parameters";
 import {
   bottomSheetVariantMap,
   type BottomSheetVariantProps,
-} from "@seed-design/css/recipes/bottom-sheet";
-import { Box, Text } from "@seed-design/react";
+} from "@ride-developer/css/recipes/bottom-sheet";
+import { Box, Text } from "@ride-developer/react";
 import type { ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {

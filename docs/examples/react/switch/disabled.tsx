@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { useState } from "react";
 import { Switch } from "seed-design/ui/switch";
 

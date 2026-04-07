@@ -1,13 +1,13 @@
 export const ALL = "all";
 
 export const PINNED_PACKAGES = [
-  "@seed-design/react",
-  "@seed-design/css",
-  "@seed-design/stackflow",
-  "@seed-design/cli",
-  "@seed-design/tailwind4-theme",
-  "@seed-design/tailwind3-plugin",
-  "@seed-design/vite-plugin",
-  "@seed-design/webpack-plugin",
-  "@seed-design/rsbuild-plugin",
+  "@ride-developer/react",
+  "@ride-developer/css",
+  "@ride-developer/stackflow",
+  "@ride-developer/cli",
+  "@ride-developer/tailwind4-theme",
+  "@ride-developer/tailwind3-plugin",
+  "@ride-developer/vite-plugin",
+  "@ride-developer/webpack-plugin",
+  "@ride-developer/rsbuild-plugin",
 ];

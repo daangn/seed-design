@@ -3,7 +3,7 @@
 import {
   ActionButton as SeedActionButton,
   type ActionButtonProps as SeedActionButtonProps,
-} from "@seed-design/react";
+} from "@ride-developer/react";
 import * as React from "react";
 import { LoadingIndicator } from "./loading-indicator";
 

@@ -1,4 +1,4 @@
-import { PrefixIcon, ResponsivePair } from "@seed-design/react";
+import { PrefixIcon, ResponsivePair } from "@ride-developer/react";
 import { IconCheckFill } from "@seed-design/react-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 import {

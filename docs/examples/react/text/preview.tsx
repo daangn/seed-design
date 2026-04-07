@@ -1,4 +1,4 @@
-import { Flex, Text } from "@seed-design/react";
+import { Flex, Text } from "@ride-developer/react";
 
 export default function TextPreview() {
   return (

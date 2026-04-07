@@ -1,4 +1,4 @@
-import { ImageFrame } from "@seed-design/react";
+import { ImageFrame } from "@ride-developer/react";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
 export default function ImageFramePreview() {

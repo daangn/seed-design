@@ -6,9 +6,9 @@ import {
   RadioGroupField as SeedRadioGroupField,
   PrefixIcon,
   VisuallyHidden,
-} from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
-import { radioGroup, type RadioGroupVariantProps } from "@seed-design/css/recipes/radio-group";
+} from "@ride-developer/react";
+import type { FieldLabelVariantProps } from "@ride-developer/css/recipes/field-label";
+import { radioGroup, type RadioGroupVariantProps } from "@ride-developer/css/recipes/radio-group";
 import * as React from "react";
 
 export interface RadioGroupProps extends SeedRadioGroupField.RootProps, RadioGroupVariantProps {
@@ -151,11 +151,11 @@ export const Radiomark = React.forwardRef<HTMLDivElement, RadiomarkProps>((props
 Radiomark.displayName = "Radiomark";
 
 /**
- * @deprecated Use `Radiomark` instead. Will be removed in @seed-design/react@1.3.0.
+ * @deprecated Use `Radiomark` instead. Will be removed in @ride-developer/react@1.3.0.
  */
 export const RadioMark = Radiomark;
 
 /**
- * @deprecated Use `RadiomarkProps` instead. Will be removed in @seed-design/react@1.3.0.
+ * @deprecated Use `RadiomarkProps` instead. Will be removed in @ride-developer/react@1.3.0.
  */
 export type RadioMarkProps = RadiomarkProps;

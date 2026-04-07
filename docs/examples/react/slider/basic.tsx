@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { Slider } from "seed-design/ui/slider";
 
 export default function SliderBasic() {

@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
 
 export default function RadioGroupLongLabel() {

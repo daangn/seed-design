@@ -20,10 +20,10 @@ AppScreen 컴포넌트에 대해 자세히 알아봅니다.
 
 ## Installation
 
-`seedPlugin`은 `@seed-design/stackflow` 패키지에 포함되어 있습니다.
+`seedPlugin`은 `@ride-developer/stackflow` 패키지에 포함되어 있습니다.
 
 ```package-install
-npm install @seed-design/stackflow
+npm install @ride-developer/stackflow
 ```
 
 ## Usage
@@ -32,7 +32,7 @@ Stackflow 설정 시 `plugins` 배열에 `seedPlugin`을 추가합니다.
 
 ```tsx
 import { stackflow } from "@stackflow/react/future";
-import { seedPlugin } from "@seed-design/stackflow";
+import { seedPlugin } from "@ride-developer/stackflow";
 
 export const { Stack, actions } = stackflow({
   plugins: [
@@ -56,7 +56,7 @@ SSR 환경 등에서 theme을 동적으로 결정해야 하는 경우, Stack에 
 
 ```tsx title="stackflow.ts"
 import { stackflow } from "@stackflow/react/future";
-import { seedPlugin } from "@seed-design/stackflow";
+import { seedPlugin } from "@ride-developer/stackflow";
 
 export const { Stack, actions } = stackflow({
   plugins: [
@@ -72,7 +72,7 @@ export const { Stack, actions } = stackflow({
 `<Stack>` 렌더링 시 `initialContext`로 theme을 전달합니다.
 
 ```tsx title="App.tsx"
-import type { SeedPluginOptions } from "@seed-design/stackflow";
+import type { SeedPluginOptions } from "@ride-developer/stackflow";
 
 <Stack initialContext={{ theme } satisfies SeedPluginOptions} />;
 ```

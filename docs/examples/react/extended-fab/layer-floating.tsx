@@ -1,5 +1,5 @@
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { ExtendedFab, PrefixIcon } from "@seed-design/react";
+import { ExtendedFab, PrefixIcon } from "@ride-developer/react";
 
 export default function ExtendedFabLayerFloating() {
   return (

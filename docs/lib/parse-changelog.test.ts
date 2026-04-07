@@ -5,8 +5,8 @@ describe("parseChangelogSources", () => {
   it("패키지와 버전을 기준으로 changelog entry를 파싱한다", async () => {
     const entries = await parseChangelogSources([
       {
-        packageName: "@seed-design/react",
-        raw: `# @seed-design/react
+        packageName: "@ride-developer/react",
+        raw: `# @ride-developer/react
 
 ## 1.2.6
 
@@ -19,9 +19,9 @@ describe("parseChangelogSources", () => {
 
     expect(entries).toHaveLength(1);
     expect(entries[0].package).toEqual({
-      name: "@seed-design/react",
+      name: "@ride-developer/react",
       version: "1.2.6",
-      url: "https://npmjs.com/package/@seed-design/react/v/1.2.6",
+      url: "https://npmjs.com/package/@ride-developer/react/v/1.2.6",
     });
     expect(entries[0].contentBlocks[0]).toMatchObject({
       type: "markdown",
@@ -40,8 +40,8 @@ describe("parseChangelogSources", () => {
   it("section title을 유지한다", async () => {
     const entries = await parseChangelogSources([
       {
-        packageName: "@seed-design/cli",
-        raw: `# @seed-design/cli
+        packageName: "@ride-developer/cli",
+        raw: `# @ride-developer/cli
 
 ## 1.2.0
 
@@ -58,30 +58,30 @@ describe("parseChangelogSources", () => {
   it("Updated dependencies의 관련 패키지를 파싱한다", async () => {
     const entries = await parseChangelogSources([
       {
-        packageName: "@seed-design/react",
-        raw: `# @seed-design/react
+        packageName: "@ride-developer/react",
+        raw: `# @ride-developer/react
 
 ## 1.2.6
 
 ### Patch Changes
 
 - Updated dependencies [fe1cdb3]
-  - @seed-design/react-slider@1.0.2
-  - @seed-design/react-toggle@1.0.1
+  - @ride-developer/react-slider@1.0.2
+  - @ride-developer/react-toggle@1.0.1
 `,
       },
     ]);
 
     expect(entries[0].relatedPackages).toEqual([
       {
-        name: "@seed-design/react-slider",
+        name: "@ride-developer/react-slider",
         version: "1.0.2",
-        url: "https://npmjs.com/package/@seed-design/react-slider/v/1.0.2",
+        url: "https://npmjs.com/package/@ride-developer/react-slider/v/1.0.2",
       },
       {
-        name: "@seed-design/react-toggle",
+        name: "@ride-developer/react-toggle",
         version: "1.0.1",
-        url: "https://npmjs.com/package/@seed-design/react-toggle/v/1.0.1",
+        url: "https://npmjs.com/package/@ride-developer/react-toggle/v/1.0.1",
       },
     ]);
     expect(entries[0].isDependencyOnly).toBe(true);
@@ -91,8 +91,8 @@ describe("parseChangelogSources", () => {
   it("한 버전의 여러 bullet을 개별 entry로 분리한다", async () => {
     const entries = await parseChangelogSources([
       {
-        packageName: "@seed-design/css",
-        raw: `# @seed-design/css
+        packageName: "@ride-developer/css",
+        raw: `# @ride-developer/css
 
 ## 1.2.4
 
@@ -111,8 +111,8 @@ describe("parseChangelogSources", () => {
   it("일반 변경 항목의 commit ref를 파싱한다", async () => {
     const entries = await parseChangelogSources([
       {
-        packageName: "@seed-design/css",
-        raw: `# @seed-design/css
+        packageName: "@ride-developer/css",
+        raw: `# @ride-developer/css
 
 ## 1.2.4
 
@@ -130,8 +130,8 @@ describe("parseChangelogSources", () => {
   it("markdown code block을 별도 content block으로 분리한다", async () => {
     const entries = await parseChangelogSources([
       {
-        packageName: "@seed-design/react",
-        raw: `# @seed-design/react
+        packageName: "@ride-developer/react",
+        raw: `# @ride-developer/react
 
 ## 1.2.6
 
@@ -159,8 +159,8 @@ describe("parseChangelogSources", () => {
   it("여러 패키지 source를 함께 파싱한다", async () => {
     const entries = await parseChangelogSources([
       {
-        packageName: "@seed-design/react",
-        raw: `# @seed-design/react
+        packageName: "@ride-developer/react",
+        raw: `# @ride-developer/react
 
 ## 1.2.6
 
@@ -170,8 +170,8 @@ describe("parseChangelogSources", () => {
 `,
       },
       {
-        packageName: "@seed-design/css",
-        raw: `# @seed-design/css
+        packageName: "@ride-developer/css",
+        raw: `# @ride-developer/css
 
 ## 1.2.4
 
@@ -183,8 +183,8 @@ describe("parseChangelogSources", () => {
     ]);
 
     expect(entries.map((entry) => entry.package.name)).toEqual([
-      "@seed-design/react",
-      "@seed-design/css",
+      "@ride-developer/react",
+      "@ride-developer/css",
     ]);
   });
 });

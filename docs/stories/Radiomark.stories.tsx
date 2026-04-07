@@ -5,11 +5,11 @@ import {
   radiomark,
   radiomarkVariantMap,
   type RadiomarkVariantProps,
-} from "@seed-design/css/recipes/radiomark";
+} from "@ride-developer/css/recipes/radiomark";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { RadioGroup } from "@seed-design/react/primitive";
+import { RadioGroup } from "@ride-developer/react/primitive";
 
 function CustomRadioGroup(
   props: RadiomarkVariantProps & {

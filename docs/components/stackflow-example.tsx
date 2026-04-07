@@ -5,7 +5,7 @@ import ErrorBoundary from "./error-boundary";
 
 import { StackflowPreview } from "./stackflow-preview";
 import { StackflowIframePreview } from "./stackflow-iframe-preview";
-import { Box } from "@seed-design/react";
+import { Box } from "@ride-developer/react";
 
 type StackflowExampleProps = (
   | { names: string[]; path?: never }

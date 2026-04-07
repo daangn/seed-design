@@ -1,5 +1,5 @@
 import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 
 export default function RadioGroupSize() {
   return (

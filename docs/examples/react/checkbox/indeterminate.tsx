@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { Checkbox } from "seed-design/ui/checkbox";
 
 export default function CheckboxIndeterminate() {

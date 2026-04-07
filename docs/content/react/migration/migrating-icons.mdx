@@ -12,7 +12,7 @@ description: SEED V2 아이콘을 V3 아이콘으로 쉽게 마이그레이션�
 아래 3개 아이콘 패키지를 사용하고 있다면, 제공되는 codemod 스크립트를 사용해서 리뉴얼된 아이콘 패키지로 손쉽게 업그레이드할 수 있어요.
 
 - [`@seed-deesign/react-icon`](https://www.npmjs.com/package/@seed-design/react-icon)
-- [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon) (deprecated)
+- [`@ride-developer/icon`](https://www.npmjs.com/package/@ride-developer/icon) (deprecated)
 - [`@karrotmarket/karrot-ui-icon`](https://www.npmjs.com/package/@karrotmarket/karrot-ui-icon) (deprecated) (React 컴포넌트를 사용하는 경우)
 
 3개 패키지에서 사용하고 있는 아이콘은 [`@karrotmarket/react-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-monochrome-icon)의 아이콘으로 대체돼요.
@@ -24,8 +24,8 @@ description: SEED V2 아이콘을 V3 아이콘으로 쉽게 마이그레이션�
 - PNG, SVG 등의 파일로 기존 아이콘을 사용하는 경우
   - [`@karrotmarket/karrot-ui-icon`](https://www.npmjs.com/package/@karrotmarket/karrot-ui-icon) (deprecated)에서 제공되는 SVG 파일을 사용하는 경우
 - 다음 패키지를 사용하는 경우
-  - [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon) → [`@daangn/vue2-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue2-monochrome-icon)으로 대체돼요.
-  - [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon) → [`@daangn/vue3-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue3-monochrome-icon)으로 대체돼요.
+  - [`@ride-developer/vue2-icon`](https://www.npmjs.com/package/@ride-developer/vue2-icon) → [`@daangn/vue2-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue2-monochrome-icon)으로 대체돼요.
+  - [`@ride-developer/vue3-icon`](https://www.npmjs.com/package/@ride-developer/vue3-icon) → [`@daangn/vue3-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue3-monochrome-icon)으로 대체돼요.
 
 ## 작업 순서
 
@@ -75,7 +75,7 @@ npm install @karrotmarket/react-monochrome-icon @karrotmarket/react-multicolor-i
 `replace-react-icon` transform을 실행해요.
 
 ```shell
-npx @seed-design/codemod@latest replace-react-icon <target_path>
+npx @ride-developer/codemod@latest replace-react-icon <target_path>
 ```
 
 <Card title="replace-react-icon" href="/react/developer-tools/codemods/available-transforms#replace-react-icon" icon={<IconTerminal/>}>
@@ -143,7 +143,7 @@ codemod 스크립트 실행 중 파싱 오류가 발생할 수 있어요. 파싱
 이전 아이콘이 모두 대체된 것을 확인하고, 이전 패키지를 제거해요.
 
 ```package-install
-npm uninstall @seed-design/icon @seed-design/react-icon @karrotmarket/karrot-ui-icon
+npm uninstall @ride-developer/icon @seed-design/react-icon @karrotmarket/karrot-ui-icon
 ```
 
 </Step>
@@ -175,7 +175,7 @@ npm uninstall @seed-design/icon @seed-design/react-icon @karrotmarket/karrot-ui-
 이전 아이콘 패키지들을 제거해요.
 
 ```package-install
-npm uninstall @seed-design/icon @seed-design/react-icon @karrotmarket/karrot-ui-icon @seed-design/vue2-icon @seed-design/vue3-icon
+npm uninstall @ride-developer/icon @seed-design/react-icon @karrotmarket/karrot-ui-icon @ride-developer/vue2-icon @ride-developer/vue3-icon
 ```
 
 </Step>

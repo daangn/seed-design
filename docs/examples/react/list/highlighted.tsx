@@ -1,5 +1,5 @@
 import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
-import { Box, Icon, VStack } from "@seed-design/react";
+import { Box, Icon, VStack } from "@ride-developer/react";
 import { useState } from "react";
 import { List, ListDivider, ListItem, ListButtonItem } from "seed-design/ui/list";
 import { Switch } from "seed-design/ui/switch";

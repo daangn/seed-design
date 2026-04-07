@@ -1,4 +1,4 @@
-import { VStack, Text } from "@seed-design/react";
+import { VStack, Text } from "@ride-developer/react";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useState } from "react";
 

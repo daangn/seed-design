@@ -1,4 +1,4 @@
-import { VStack, HStack, Text } from "@seed-design/react";
+import { VStack, HStack, Text } from "@ride-developer/react";
 import { Slider } from "seed-design/ui/slider";
 import { ActionButton } from "seed-design/ui/action-button";
 import { useState } from "react";
