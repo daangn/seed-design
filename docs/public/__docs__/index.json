@@ -776,7 +776,14 @@
               "id": "attachment-display",
               "title": "Attachment Display",
               "description": "외부 소스(네이티브 브릿지, 서버 등)에서 제공된 미디어를 URL 기반으로 표시하는 컴포넌트입니다.",
-              "docUrl": "/react/components/attachment-display"
+              "docUrl": "/react/components/attachment-display",
+              "snippetKey": "ui:attachment-display",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "attachment-display.tsx"
+                }
+              ]
             },
             {
               "id": "attachment-field",
