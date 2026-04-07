@@ -41,7 +41,7 @@ export const AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(
         style={
           {
             // NOTE: aspectRatio는 iOS 15+부터 지원하기 때문에 padding으로 ratio hack을 사용합니다.
-            "--seed-aspect-ratio-padding": `${(1 / ratio) * 100}%`,
+            "--ride-aspect-ratio-padding": `${(1 / ratio) * 100}%`,
             ...style,
           } as React.CSSProperties
         }

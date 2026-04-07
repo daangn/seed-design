@@ -34,7 +34,7 @@ export function useBoxBackgroundProps<T extends BoxBackgroundProps>(
 
   return {
     style: {
-      "--seed-box-background": handleColor(background ?? bg),
+      "--ride-box-background": handleColor(background ?? bg),
     } as React.CSSProperties,
     restProps: restProps as Omit<T, keyof BoxBackgroundProps>,
   };

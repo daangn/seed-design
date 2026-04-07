@@ -64,7 +64,7 @@ export const RadioSelectBoxGroup = forwardRef<HTMLDivElement, RadioSelectBoxGrou
           style={
             {
               ...style,
-              "--seed-select-box-group--columns": columns,
+              "--ride-select-box-group--columns": columns,
             } as React.CSSProperties
           }
           {...otherProps}

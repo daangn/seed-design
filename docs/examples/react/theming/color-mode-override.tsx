@@ -18,7 +18,7 @@ export default function ThemingColorModeOverride() {
   return (
     <div className="grid grid-cols-2 size-full">
       <VStack
-        data-seed-color-mode="light-only"
+        data-ride-color-mode="light-only"
         bg="bg.layerDefault"
         alignItems="center"
         justify="center"
@@ -31,7 +31,7 @@ export default function ThemingColorModeOverride() {
         <Demo />
       </VStack>
       <VStack
-        data-seed-color-mode="dark-only"
+        data-ride-color-mode="dark-only"
         bg="bg.layerDefault"
         alignItems="center"
         justify="center"

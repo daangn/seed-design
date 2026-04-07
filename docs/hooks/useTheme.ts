@@ -19,10 +19,10 @@ function readThemeInfo(): ThemeInfo {
   }
 
   const colorMode = document.documentElement.getAttribute(
-    "data-seed-color-mode"
+    "data-ride-color-mode"
   ) as ColorMode;
   const userColorScheme = document.documentElement.getAttribute(
-    "data-seed-user-color-scheme"
+    "data-ride-user-color-scheme"
   );
 
   return {
@@ -45,7 +45,7 @@ export function useTheme(): ThemeInfo {
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["data-seed-color-mode", "data-seed-user-color-scheme"],
+      attributeFilter: ["data-ride-color-mode", "data-ride-user-color-scheme"],
     });
 
     return () => observer.disconnect();

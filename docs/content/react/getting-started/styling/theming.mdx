@@ -6,7 +6,7 @@ description: SEED Design의 테마 시스템을 이해하고 활용하는 방법
 ## 개요
 
 SEED Design은 라이트 모드와 다크 모드를 지원하는 테마 시스템을 제공합니다.
-테마는 HTML 요소의 `data-seed-color-mode`와 `data-seed-user-color-scheme` 속성을 통해 제어됩니다.
+테마는 HTML 요소의 `data-ride-color-mode`와 `data-ride-user-color-scheme` 속성을 통해 제어됩니다.
 
 두 속성의 역할과 차이점을 이해하고, 전역 테마 설정 방법과 특정 영역에만 테마를 오버라이딩하는 방법을 알아봅니다.
 
@@ -14,7 +14,7 @@ SEED Design은 라이트 모드와 다크 모드를 지원하는 테마 시스�
 
 SEED Design의 테마 시스템은 두 가지 `data-*` 속성을 사용합니다.
 
-### `data-seed-color-mode`
+### `data-ride-color-mode`
 
 애플리케이션의 **테마 정책**을 설정하는 속성입니다. 세 가지 값을 가질 수 있습니다.
 
@@ -24,27 +24,27 @@ SEED Design의 테마 시스템은 두 가지 `data-*` 속성을 사용합니다
 
 ```html
 <!-- 시스템 설정 따르기 -->
-<html data-seed-color-mode="system" />
+<html data-ride-color-mode="system" />
 
 <!-- 라이트 모드로 고정 -->
-<html data-seed-color-mode="light-only" />
+<html data-ride-color-mode="light-only" />
 
 <!-- 다크 모드로 고정 -->
-<html data-seed-color-mode="dark-only" />
+<html data-ride-color-mode="dark-only" />
 ```
 
-### `data-seed-user-color-scheme`
+### `data-ride-user-color-scheme`
 
 사용자 기기의 **실제 컬러 스킴**을 나타내는 속성입니다. 두 가지 값을 가집니다.
 
 - `light`: 사용자의 시스템이 라이트 모드로 설정되어 있음
 - `dark`: 사용자의 시스템이 다크 모드로 설정되어 있음
 
-이 값은 `data-seed-color-mode="system"`일 때만 의미를 가지며, `prefers-color-scheme` 미디어 쿼리를 통해 자동으로 업데이트됩니다.
+이 값은 `data-ride-color-mode="system"`일 때만 의미를 가지며, `prefers-color-scheme` 미디어 쿼리를 통해 자동으로 업데이트됩니다.
 
 ```html
 <!-- 시스템 설정을 따르도록 설정했으며, 현재 사용자는 라이트 모드를 사용 중 -->
-<html data-seed-color-mode="system" data-seed-user-color-scheme="light"></html>
+<html data-ride-color-mode="system" data-ride-user-color-scheme="light"></html>
 ```
 
 ### 작동 원리
@@ -54,16 +54,16 @@ SEED CSS는 두 속성의 조합을 통해 적절한 색상 토큰을 적용합�
 ```css
 /* 라이트 모드가 적용되는 경우 */
 :root,
-:root[data-seed-color-mode="system"][data-seed-user-color-scheme="light"],
-:root[data-seed-color-mode="light-only"],
-:root [data-seed-color-mode="light-only"] {
+:root[data-ride-color-mode="system"][data-ride-user-color-scheme="light"],
+:root[data-ride-color-mode="light-only"],
+:root [data-ride-color-mode="light-only"] {
   /* 라이트 모드 색상 토큰 */
 }
 
 /* 다크 모드가 적용되는 경우 */
-:root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
-:root[data-seed-color-mode="dark-only"],
-:root [data-seed-color-mode="dark-only"] {
+:root[data-ride-color-mode="system"][data-ride-user-color-scheme="dark"],
+:root[data-ride-color-mode="dark-only"],
+:root [data-ride-color-mode="dark-only"] {
   /* 다크 모드 색상 토큰 */
 }
 ```
@@ -81,7 +81,7 @@ SEED CSS는 두 속성의 조합을 통해 적절한 색상 토큰을 적용합�
 
 ## 일부 요소에만 테마 오버라이드하기
 
-특정 영역이나 컴포넌트에만 다른 테마를 적용하고 싶을 때는 해당 요소에 `data-seed-color-mode`에 `light-only`, `dark-only` 또는 `system` 값을 설정합니다.
+특정 영역이나 컴포넌트에만 다른 테마를 적용하고 싶을 때는 해당 요소에 `data-ride-color-mode`에 `light-only`, `dark-only` 또는 `system` 값을 설정합니다.
 
 <ComponentExample name="react/theming/color-mode-override">
   ```json doc-gen:file
@@ -95,7 +95,7 @@ SEED CSS는 두 속성의 조합을 통해 적절한 색상 토큰을 적용합�
 ## 클라이언트에서 현재 테마 정보 감지하기
 
 컴포넌트에서 현재 테마 설정에 따라 다른 동작을 수행해야 할 때가 있습니다.
-이런 경우 `data-seed-color-mode`와 `data-seed-user-color-scheme` 속성을 감지하여 사용할 수 있습니다.
+이런 경우 `data-ride-color-mode`와 `data-ride-user-color-scheme` 속성을 감지하여 사용할 수 있습니다.
 
 다음은 커스텀 훅을 만들어 현재 테마 정보를 감지하는 예제입니다:
 
@@ -121,10 +121,10 @@ function readThemeInfo(): ThemeInfo {
   }
 
   const colorMode = document.documentElement.getAttribute(
-    "data-seed-color-mode"
+    "data-ride-color-mode"
   ) as ColorMode;
   const userColorScheme = document.documentElement.getAttribute(
-    "data-seed-user-color-scheme"
+    "data-ride-user-color-scheme"
   );
 
   return {
@@ -147,7 +147,7 @@ export function useTheme(): ThemeInfo {
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["data-seed-color-mode", "data-seed-user-color-scheme"],
+      attributeFilter: ["data-ride-color-mode", "data-ride-user-color-scheme"],
     });
 
     return () => observer.disconnect();
@@ -181,7 +181,7 @@ function MyComponent() {
 
 ### 작동 원리
 
-- `MutationObserver`를 사용하여 `data-seed-color-mode`와 `data-seed-user-color-scheme` 속성의 변경을 감지합니다.
+- `MutationObserver`를 사용하여 `data-ride-color-mode`와 `data-ride-user-color-scheme` 속성의 변경을 감지합니다.
 - `colorMode`는 애플리케이션의 테마 정책(`system`, `light-only`, `dark-only`)을 나타냅니다.
 - `userColorScheme`는 현재 적용된 실제 컬러 스킴(`light` 또는 `dark`)을 나타냅니다.
 - 시스템 설정이 변경되거나 테마가 전환될 때 자동으로 상태가 업데이트됩니다.

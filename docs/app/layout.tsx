@@ -19,9 +19,9 @@ export default function Layout({ children }: { children: ReactNode }) {
     <html
       lang="ko"
       className={inter.className}
-      data-seed
-      data-seed-user-color-scheme="light"
-      data-seed-color-mode="system"
+      data-ride
+      data-ride-user-color-scheme="light"
+      data-ride-color-mode="system"
       suppressHydrationWarning
     >
       <head>

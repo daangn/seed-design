@@ -21,7 +21,7 @@ description: Seed Design을 번들러 통합 없이 설치하고 사용하는 �
 
 ### index.html 수정하기
 
-Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `data-seed-user-color-scheme`
+Seed Design의 컬러 토큰은 `<html />` 태그의 `data-ride-color-mode`, `data-ride-user-color-scheme`
 속성을 통해 라이트/다크모드 전환을 해요.
 
 <Card
@@ -36,9 +36,9 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `da
   <Tab value="system">
     ```tsx title="index.html" 
     <html
-      data-seed // [!code highlight]
-      data-seed-color-mode="system" // [!code highlight]
-      data-seed-user-color-scheme="light" // [!code highlight]
+      data-ride // [!code highlight]
+      data-ride-color-mode="system" // [!code highlight]
+      data-ride-user-color-scheme="light" // [!code highlight]
     >
       <head>
         <!-- [!code highlight] -->
@@ -73,8 +73,8 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `da
   <Tab value="light only">
     ```tsx title="index.html"
     <html
-      data-seed // [!code highlight]
-      data-seed-color-mode="light-only" // [!code highlight]
+      data-ride // [!code highlight]
+      data-ride-color-mode="light-only" // [!code highlight]
     >
       <head>
         <!-- [!code highlight] -->
@@ -87,8 +87,8 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `da
   <Tab value="dark only">
     ```tsx title="index.html"
     <html
-      data-seed // [!code highlight]
-      data-seed-color-mode="dark-only" // [!code highlight]
+      data-ride // [!code highlight]
+      data-ride-color-mode="dark-only" // [!code highlight]
     >
       <head>
         <!-- [!code highlight] -->

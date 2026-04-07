@@ -134,8 +134,8 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
         className="ride-icon"
         style={
           {
-            "--seed-icon-size": sizeValue,
-            "--seed-icon-color": colorValue,
+            "--ride-icon-size": sizeValue,
+            "--ride-icon-color": colorValue,
           } as React.CSSProperties
         }
         {...otherProps}

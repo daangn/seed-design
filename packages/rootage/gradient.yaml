@@ -9,7 +9,7 @@ data:
     $gradient.fade-layer-floating:
       description: |
         스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.
-        @deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다.
+        @deprecated `@ride-developer/css@2.0.0`에서 제거될 예정입니다.
       values:
         theme-light:
           type: gradient
@@ -28,7 +28,7 @@ data:
     $gradient.fade-layer-default:
       description: |
         스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.
-        @deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다.
+        @deprecated `@ride-developer/css@2.0.0`에서 제거될 예정입니다.
       values:
         theme-light:
           type: gradient

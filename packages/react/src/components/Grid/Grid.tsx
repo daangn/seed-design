@@ -65,13 +65,13 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>((props, ref) => 
       {...mergeProps(rest, {
         className: "ride-grid",
         style: {
-          "--seed-grid-columns":
+          "--ride-grid-columns":
             typeof columns === "number" ? `repeat(${columns}, minmax(0, 1fr))` : columns,
-          "--seed-grid-rows": typeof rows === "number" ? `repeat(${rows}, minmax(0, 1fr))` : rows,
-          "--seed-grid-auto-flow": autoFlow,
-          "--seed-grid-auto-columns": autoColumns,
-          "--seed-grid-auto-rows": autoRows,
-          "--seed-grid-justify-items": justifyItems,
+          "--ride-grid-rows": typeof rows === "number" ? `repeat(${rows}, minmax(0, 1fr))` : rows,
+          "--ride-grid-auto-flow": autoFlow,
+          "--ride-grid-auto-columns": autoColumns,
+          "--ride-grid-auto-rows": autoRows,
+          "--ride-grid-justify-items": justifyItems,
         } as React.CSSProperties,
       })}
     />

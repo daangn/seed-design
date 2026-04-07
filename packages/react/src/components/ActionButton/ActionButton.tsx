@@ -75,8 +75,8 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
             style={
               {
                 ...style,
-                ...(color && { "--seed-box-color": handleColor(color) }),
-                ...(fontWeight && { "--seed-font-weight": vars.$fontWeight[fontWeight] }),
+                ...(color && { "--ride-box-color": handleColor(color) }),
+                ...(fontWeight && { "--ride-font-weight": vars.$fontWeight[fontWeight] }),
               } as React.CSSProperties
             }
             {...api.stateProps}

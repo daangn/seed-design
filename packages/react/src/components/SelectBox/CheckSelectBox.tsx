@@ -65,7 +65,7 @@ export const CheckSelectBoxGroup = forwardRef<HTMLDivElement, CheckSelectBoxGrou
           style={
             {
               ...style,
-              "--seed-select-box-group--columns": columns,
+              "--ride-select-box-group--columns": columns,
             } as React.CSSProperties
           }
           {...otherProps}

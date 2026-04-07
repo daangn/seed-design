@@ -11,11 +11,11 @@ export const SeedThemeDecorator: Decorator = (Story, ctx) => {
     // theme
 
     document.documentElement.setAttribute(
-      "data-seed-color-mode",
+      "data-ride-color-mode",
       isDarkTheme ? "dark-only" : "light-only",
     );
     document.documentElement.setAttribute(
-      "data-seed-user-color-scheme",
+      "data-ride-user-color-scheme",
       isDarkTheme ? "dark" : "light",
     );
 
