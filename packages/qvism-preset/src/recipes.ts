@@ -23,6 +23,7 @@ import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
+import footer from "./recipes/footer";
 import { field, fieldLabel } from "./recipes/field";
 import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
@@ -96,6 +97,7 @@ export const recipes = {
   field,
   fieldLabel,
   floatingActionButton,
+  footer,
   helpBubble,
   identityPlaceholder,
   imageFrame,

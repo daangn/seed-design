@@ -124,7 +124,7 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
               </Group>
             </div>
           ) : (
-            <div className="[&_figure]:my-0 [&_figure]:rounded-none [&_figure]:border-0">
+            <div className="[&_figure]:my-0 [&_figure]:rounded-none [&_figure]:border-0 [&_[data-orientation]]:my-0 [&_[data-orientation]]:rounded-none [&_[data-orientation]]:border-0">
               {children}
             </div>
           )}
