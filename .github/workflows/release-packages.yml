@@ -22,7 +22,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      packages: read
+      packages: write
       id-token: write
 
     steps:
@@ -35,6 +35,7 @@ jobs:
       - uses: actions/setup-node@v6 # this is faster than `bun install -g npm@latest`
         with:
           node-version: "24"
+          registry-url: "https://npm.pkg.github.com"
 
       - uses: ./.github/actions/setup
 
@@ -47,6 +48,7 @@ jobs:
           title: "release: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
           POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
 
