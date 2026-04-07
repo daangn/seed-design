@@ -13,7 +13,6 @@ export { vars as callout } from "./callout.mjs";
 export { vars as checkboxGroup } from "./checkbox-group.mjs";
 export { vars as checkbox } from "./checkbox.mjs";
 export { vars as checkmark } from "./checkmark.mjs";
-export { vars as chipTab } from "./chip-tab.mjs";
 export { vars as chipTablist } from "./chip-tablist.mjs";
 export { vars as chip } from "./chip.mjs";
 export { vars as contentPlaceholder } from "./content-placeholder.mjs";
