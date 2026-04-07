@@ -70,6 +70,7 @@
   },
   "changesets": [
     "add-lynx-framework-support",
-    "lynx-alpha-release"
+    "lynx-alpha-release",
+    "menu-sheet-handle-rootage"
   ]
 }
