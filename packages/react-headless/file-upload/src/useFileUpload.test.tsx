@@ -17,7 +17,7 @@ import {
   type FileUploadRootProps,
 } from "./FileUpload";
 import { FileUploadItemProvider } from "./useFileUploadContext";
-import type { FileEntry } from "./types";
+import type { FileEntry, FileStatusDetails } from "./types";
 
 function setUp(jsx: ReactElement) {
   return {
@@ -1642,6 +1642,195 @@ describe("useFileUpload", () => {
 
       // Drop on dropzone should still process files normally
       expect(onFileReject).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("onFileAccept", () => {
+    it("should call onFileAccept with newly added entries via input", async () => {
+      const onFileAccept = mock(() => {});
+      const { getByTestId } = setUp(<BasicFileUpload onFileAccept={onFileAccept} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onFileAccept).toHaveBeenCalledTimes(1);
+        expect(onFileAccept).toHaveBeenCalledWith(
+          [expect.objectContaining({ file, status: "pending" })],
+          { updateFileEntryStatus: expect.any(Function) },
+        );
+      });
+    });
+
+    it("should call onFileAccept with only newly added entries, not all entries", async () => {
+      const onFileAccept = mock(() => {});
+      const { getByTestId } = setUp(<BasicFileUpload maxFiles={5} onFileAccept={onFileAccept} />);
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file1 = createMockFile("file1.txt", 100, "text/plain");
+      const file2 = createMockFile("file2.txt", 200, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file1] } });
+
+      await waitFor(() => {
+        expect(onFileAccept).toHaveBeenCalledTimes(1);
+        expect(onFileAccept).toHaveBeenCalledWith(
+          [expect.objectContaining({ file: file1 })],
+          expect.any(Object),
+        );
+      });
+
+      fireEvent.change(input, { target: { files: [file2] } });
+
+      await waitFor(() => {
+        expect(onFileAccept).toHaveBeenCalledTimes(2);
+        expect(onFileAccept).toHaveBeenLastCalledWith(
+          [expect.objectContaining({ file: file2 })],
+          expect.any(Object),
+        );
+      });
+    });
+
+    it("should provide a working updateFileEntryStatus helper", async () => {
+      const onFileAccept = mock(
+        (
+          entries: FileEntry[],
+          helpers: {
+            updateFileEntryStatus: (id: string, details: FileStatusDetails) => void;
+          },
+        ) => {
+          for (const entry of entries) {
+            helpers.updateFileEntryStatus(entry.id, { status: "uploading", progress: 0 });
+          }
+        },
+      );
+      const onAcceptedFileEntriesChange = mock(() => {});
+
+      const { getByTestId } = setUp(
+        <BasicFileUpload
+          onFileAccept={onFileAccept}
+          onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}
+        />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onAcceptedFileEntriesChange).toHaveBeenCalledWith([
+          expect.objectContaining({ file, status: "uploading", progress: 0 }),
+        ]);
+      });
+    });
+
+    it("should not call onFileAccept when files are rejected", async () => {
+      const onFileAccept = mock(() => {});
+      const onFileReject = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload
+          accept="image/*"
+          onFileAccept={onFileAccept}
+          onFileReject={onFileReject}
+        />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      await waitFor(() => {
+        expect(onFileReject).toHaveBeenCalled();
+        expect(onFileAccept).not.toHaveBeenCalled();
+      });
+    });
+
+    it("should not call onFileAccept when removing or clearing files", async () => {
+      const onFileAccept = mock(() => {});
+
+      const RemoveTestUpload = () => (
+        <FileUploadRoot maxFiles={3} onFileAccept={onFileAccept}>
+          <FileUploadHiddenInput data-testid="hidden-input" />
+          <FileUploadContext>
+            {({ acceptedFileEntries, removeFileEntry, clearFileEntries }) => (
+              <>
+                <ul>
+                  {acceptedFileEntries.map((f, i) => (
+                    <li key={f.id} data-testid={`file-${i}`}>
+                      {f.file.name}
+                      <button
+                        type="button"
+                        data-testid={`remove-${i}`}
+                        onClick={() => removeFileEntry(f.id)}
+                      >
+                        Remove
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <button type="button" data-testid="clear" onClick={clearFileEntries}>
+                  Clear
+                </button>
+              </>
+            )}
+          </FileUploadContext>
+        </FileUploadRoot>
+      );
+
+      const { getByTestId } = setUp(<RemoveTestUpload />);
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      const file = createMockFile("test.txt", 100, "text/plain");
+
+      fireEvent.change(input, { target: { files: [file] } });
+      await waitFor(() => expect(getByTestId("file-0")).toBeDefined());
+
+      // Reset mock after initial accept call
+      onFileAccept.mockClear();
+
+      fireEvent.click(getByTestId("remove-0"));
+      await waitFor(() => {
+        expect(onFileAccept).not.toHaveBeenCalled();
+      });
+    });
+
+    it("should call onFileAccept via drop on dropzone", async () => {
+      const onFileAccept = mock(() => {});
+      const { getByTestId } = setUp(<BasicFileUpload onFileAccept={onFileAccept} />);
+
+      const dropzone = getByTestId("dropzone");
+      const file = createMockFile("dropped.txt", 1024, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file] },
+      });
+
+      await waitFor(() => {
+        expect(onFileAccept).toHaveBeenCalledTimes(1);
+        expect(onFileAccept).toHaveBeenCalledWith(
+          [expect.objectContaining({ file, status: "pending" })],
+          { updateFileEntryStatus: expect.any(Function) },
+        );
+      });
+    });
+
+    it("should not call onFileAccept when disabled", async () => {
+      const onFileAccept = mock(() => {});
+      const { getByTestId } = setUp(<BasicFileUpload disabled onFileAccept={onFileAccept} />);
+
+      const dropzone = getByTestId("dropzone");
+      const file = createMockFile("test.txt", 1024, "text/plain");
+
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [file] },
+      });
+
+      await waitFor(() => {
+        expect(onFileAccept).not.toHaveBeenCalled();
+      });
     });
   });
 });

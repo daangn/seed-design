@@ -26,6 +26,10 @@ interface UseFileUploadStateProps {
   defaultAcceptedFileEntries?: FileEntry[];
   onAcceptedFileEntriesChange?: (fileEntries: FileEntry[]) => void;
   onFileReject?: (rejections: FileRejection[]) => void;
+  onFileAccept?: (
+    acceptedEntries: FileEntry[],
+    helpers: { updateFileEntryStatus: (id: string, details: FileStatusDetails) => void },
+  ) => void;
 }
 
 function useFileUploadState(props: UseFileUploadStateProps) {
@@ -116,6 +120,7 @@ export function useFileUpload({
   validate,
   preventDocumentDrop = true,
   onFileReject,
+  onFileAccept,
   ...props
 }: UseFileUploadProps = {}) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -214,6 +219,15 @@ export function useFileUpload({
     inputRef.current.click();
   }, [triggerDisabled]);
 
+  const updateFileEntryStatus = useCallback(
+    (id: string, details: FileStatusDetails) => {
+      setAcceptedFileEntries((prev) =>
+        (prev ?? []).map((f) => (f.id === id ? { ...f, ...details } : f)),
+      );
+    },
+    [setAcceptedFileEntries],
+  );
+
   const setFileEntries = useCallback(
     (files: File[]) => {
       if (disabled) return;
@@ -227,18 +241,28 @@ export function useFileUpload({
       }));
 
       if (acceptedEntries.length > 0) {
+        const finalEntries = multiple ? acceptedEntries : [acceptedEntries[0]];
         if (multiple) {
-          setAcceptedFileEntries((prev) => [...(prev ?? []), ...acceptedEntries]);
+          setAcceptedFileEntries((prev) => [...(prev ?? []), ...finalEntries]);
         } else {
-          setAcceptedFileEntries([acceptedEntries[0]]);
+          setAcceptedFileEntries(finalEntries);
         }
+        onFileAccept?.(finalEntries, { updateFileEntryStatus });
       }
 
       if (rejected.length > 0) {
         onFileReject?.(rejected);
       }
     },
-    [disabled, multiple, validateFiles, setAcceptedFileEntries, onFileReject],
+    [
+      disabled,
+      multiple,
+      validateFiles,
+      setAcceptedFileEntries,
+      onFileReject,
+      onFileAccept,
+      updateFileEntryStatus,
+    ],
   );
 
   const reorderFileEntry = useCallback(
@@ -264,15 +288,6 @@ export function useFileUpload({
     callback(url);
     return () => URL.revokeObjectURL(url);
   }, []);
-
-  const updateFileEntryStatus = useCallback(
-    (id: string, details: FileStatusDetails) => {
-      setAcceptedFileEntries((prev) =>
-        (prev ?? []).map((f) => (f.id === id ? { ...f, ...details } : f)),
-      );
-    },
-    [setAcceptedFileEntries],
-  );
 
   const removeFileEntry = useCallback(
     (id: string) => {
