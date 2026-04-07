@@ -65,6 +65,56 @@ npx @seed-design/cli@latest add ui:menu-sheet
 
 ## Examples
 
+### Trigger
+
+`<MenuSheetTrigger>`는 `asChild` 패턴을 사용해 자식 요소가 MenuSheet를 열 수 있도록 합니다.
+
+`<MenuSheetTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, `MenuSheet`의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
+<ComponentExample name="react/menu-sheet/trigger">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu-sheet/trigger.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+Trigger 외의 방식으로 MenuSheet를 열고 닫을 수 있습니다. 이 경우 `open` prop을 사용하여 MenuSheet의 상태를 제어합니다.
+
+<ComponentExample name="react/menu-sheet/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu-sheet/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**닫힐 때** (`open: false`)
+
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+- `"drag"`: 드래그로 닫힘
+- `"handleClickOnLastSnapPoint"`: 마지막 스냅 포인트에서 핸들 클릭으로 닫힘
+
+<ComponentExample name="react/menu-sheet/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu-sheet/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### With Title
 
 `MenuSheetContent`의 `title` prop을 사용하여 시트 헤더에 제목을 표시합니다.
@@ -134,26 +184,31 @@ npx @seed-design/cli@latest add ui:menu-sheet
   ```
 </ComponentExample>
 
-### `onOpenChange` Details
+### Show Handle
 
-`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+`<MenuSheetContent>`에 `showHandle` prop을 전달하여 Handle 표시 여부를 제어할 수 있습니다.
+기본 값은 `true`입니다.
 
-#### `reason`
+`showHandle`을 `false`로 설정하면 Handle이 표시되지 않습니다.
 
-**열릴 때** (`open: true`)
-
-- `"trigger"`: `MenuSheetTrigger` (`MenuSheet.Trigger`)로 열림
-
-**닫힐 때** (`open: false`)
-
-- `"closeButton"`: `MenuSheet.CloseButton`으로 닫힘
-- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
-- `"interactOutside"`: 외부 영역 클릭
-
-<ComponentExample name="react/menu-sheet/open-change-reason">
+<ComponentExample name="react/menu-sheet/show-handle">
   ```json doc-gen:file
   {
-    "file": "examples/react/menu-sheet/open-change-reason.tsx",
+    "file": "examples/react/menu-sheet/show-handle.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Dismissible
+
+`dismissible` prop을 `false`로 설정하면 closeOnEscape, closeOnInteractOutside, draggable 기능이 비활성화됩니다.
+의도적으로 MenuSheet를 닫을 수 없게 하고 싶을 때 사용합니다. 이외에는 유저가 MenuSheet를 닫을 수 있는 방법을 제공해야 합니다.
+
+<ComponentExample name="react/menu-sheet/dismissible">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu-sheet/dismissible.tsx",
     "codeblock": true
   }
   ```

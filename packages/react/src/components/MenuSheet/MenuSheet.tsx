@@ -1,4 +1,4 @@
-import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
+import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { menuSheet, type MenuSheetVariantProps } from "@seed-design/css/recipes/menu-sheet";
 import {
@@ -7,7 +7,6 @@ import {
 } from "@seed-design/css/recipes/menu-sheet-item";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(menuSheet);
@@ -17,56 +16,45 @@ const {
   withContext: withItemContext,
   ClassNamesProvider: ItemClassNamesProvider,
 } = createSlotRecipeContext(menuSheetItem);
-const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuSheetRootProps extends MenuSheetVariantProps, DialogPrimitive.RootProps {
-  /**
-   * @default true
-   */
-  lazyMount?: DialogPrimitive.RootProps["lazyMount"];
-  /**
-   * @default true
-   */
-  unmountOnExit?: DialogPrimitive.RootProps["unmountOnExit"];
-}
+export interface MenuSheetRootProps extends MenuSheetVariantProps, Drawer.RootProps {}
 
-export const MenuSheetRoot = withRootProvider<MenuSheetRootProps>(DialogPrimitive.Root, {
+export const MenuSheetRoot = withRootProvider<MenuSheetRootProps>(Drawer.Root, {
   defaultProps: {
-    lazyMount: true,
-    unmountOnExit: true,
+    direction: "bottom",
   },
 });
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuSheetTriggerProps extends DialogPrimitive.TriggerProps {}
+export interface MenuSheetTriggerProps extends Drawer.TriggerProps {}
 
-export const MenuSheetTrigger = DialogPrimitive.Trigger;
+export const MenuSheetTrigger = Drawer.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuSheetPositionerProps extends DialogPrimitive.PositionerProps {}
+export interface MenuSheetPositionerProps extends Drawer.PositionerProps {}
 
 export const MenuSheetPositioner = withContext<HTMLDivElement, MenuSheetPositionerProps>(
-  DialogPrimitive.Positioner,
+  Drawer.Positioner,
   "positioner",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuSheetBackdropProps extends DialogPrimitive.BackdropProps {}
+export interface MenuSheetBackdropProps extends Drawer.BackdropProps {}
 
 export const MenuSheetBackdrop = withContext<HTMLDivElement, MenuSheetBackdropProps>(
-  DialogPrimitive.Backdrop,
+  Drawer.Backdrop,
   "backdrop",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuSheetContentProps
-  extends DialogPrimitive.ContentProps,
+  extends Drawer.ContentProps,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
 export const MenuSheetContent = React.forwardRef<HTMLDivElement, MenuSheetContentProps>(
@@ -76,11 +64,7 @@ export const MenuSheetContent = React.forwardRef<HTMLDivElement, MenuSheetConten
 
     return (
       <ItemPropsProvider value={variantProps}>
-        <DialogPrimitive.Content
-          className={clsx(classNames.content, className)}
-          ref={ref}
-          {...otherProps}
-        />
+        <Drawer.Content className={clsx(classNames.content, className)} ref={ref} {...otherProps} />
       </ItemPropsProvider>
     );
   },
@@ -93,27 +77,21 @@ export interface MenuSheetHeaderProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuSheetHeader = withContext<HTMLDivElement, MenuSheetHeaderProps>(
-  withStateProps(Primitive.div),
+  Drawer.Header,
   "header",
 );
 
-// NOTE: uses DialogPrimitive.TitleProps,
-// but actual rendered component is a Primitive.h2 rather than a DialogPrimitive.Title
-// find out why later; h2 is same but missing and some a11y features
-export interface MenuSheetTitleProps extends DialogPrimitive.TitleProps {}
+export interface MenuSheetTitleProps extends Drawer.TitleProps {}
 
 export const MenuSheetTitle = withContext<HTMLHeadingElement, MenuSheetTitleProps>(
-  withStateProps(Primitive.h2),
+  Drawer.Title,
   "title",
 );
 
-// NOTE: uses DialogPrimitive.DescriptionProps,
-// but actual rendered component is a Primitive.p rather than a DialogPrimitive.Description
-// find out why later; p is same but missing and some a11y features
-export interface MenuSheetDescriptionProps extends DialogPrimitive.DescriptionProps {}
+export interface MenuSheetDescriptionProps extends Drawer.DescriptionProps {}
 
 export const MenuSheetDescription = withContext<HTMLParagraphElement, MenuSheetDescriptionProps>(
-  withStateProps(Primitive.p),
+  Drawer.Description,
   "description",
 );
 
@@ -121,10 +99,7 @@ export const MenuSheetDescription = withContext<HTMLParagraphElement, MenuSheetD
 
 export interface MenuSheetListProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const MenuSheetList = withContext<HTMLDivElement, MenuSheetListProps>(
-  withStateProps(Primitive.div),
-  "list",
-);
+export const MenuSheetList = withContext<HTMLDivElement, MenuSheetListProps>(Primitive.div, "list");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -138,16 +113,10 @@ export const MenuSheetGroup = React.forwardRef<HTMLDivElement, MenuSheetGroupPro
     const parentProps = useItemProps();
 
     const classNames = useClassNames();
-    const { stateProps } = useDialogContext();
 
     return (
       <ItemPropsProvider value={{ ...parentProps, ...variantProps }}>
-        <Primitive.div
-          className={clsx(classNames.group, className)}
-          ref={ref}
-          {...stateProps}
-          {...otherProps}
-        />
+        <Primitive.div className={clsx(classNames.group, className)} ref={ref} {...otherProps} />
       </ItemPropsProvider>
     );
   },
@@ -166,14 +135,12 @@ export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemPr
     const parentProps = useItemProps();
 
     const classNames = menuSheetItem({ ...parentProps, ...variantProps });
-    const { stateProps } = useDialogContext();
 
     return (
       <ItemClassNamesProvider value={classNames}>
         <Primitive.button
           ref={ref}
           className={clsx(classNames.root, propClassName)}
-          {...stateProps}
           {...otherProps}
         />
       </ItemClassNamesProvider>
@@ -186,7 +153,7 @@ export interface MenuSheetItemContentProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuSheetItemContent = withItemContext<HTMLDivElement, MenuSheetItemContentProps>(
-  withStateProps(Primitive.div),
+  Primitive.div,
   "content",
 );
 
@@ -195,7 +162,7 @@ export interface MenuSheetItemLabelProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const MenuSheetItemLabel = withItemContext<HTMLSpanElement, MenuSheetItemLabelProps>(
-  withStateProps(Primitive.span),
+  Primitive.span,
   "label",
 );
 
@@ -206,7 +173,7 @@ export interface MenuSheetItemDescriptionProps
 export const MenuSheetItemDescription = withItemContext<
   HTMLSpanElement,
   MenuSheetItemDescriptionProps
->(withStateProps(Primitive.span), "description");
+>(Primitive.span, "description");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -215,15 +182,6 @@ export interface MenuSheetFooterProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuSheetFooter = withContext<HTMLDivElement, MenuSheetFooterProps>(
-  withStateProps(Primitive.div),
+  Primitive.div,
   "footer",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface MenuSheetCloseButtonProps extends DialogPrimitive.CloseButtonProps {}
-
-export const MenuSheetCloseButton = withContext<HTMLDivElement, MenuSheetCloseButtonProps>(
-  DialogPrimitive.CloseButton,
-  "closeButton",
 );
