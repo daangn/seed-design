@@ -1,4 +1,4 @@
-import { createConfig, createPipeline, sources, writers } from "@seed-design/figma-extractor";
+import { createConfig, createPipeline, sources, writers } from "@ride-developer/figma-extractor";
 
 const config = createConfig({
   pipelines: {

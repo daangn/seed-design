@@ -3,7 +3,7 @@ import {
   stringifyValueExpression,
   stringifyTokenExpression,
   type ComponentSpecExpression,
-} from "@seed-design/rootage-core/legacy";
+} from "@ride-developer/rootage-core/legacy";
 import YAML from "yaml";
 import { stringifyConditions, stringifyVariants } from "./stringify";
 

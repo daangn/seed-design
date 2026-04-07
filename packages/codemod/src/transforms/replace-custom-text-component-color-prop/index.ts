@@ -1,4 +1,4 @@
-import { colorMappings } from "@seed-design/migration-index/color";
+import { colorMappings } from "@ride-developer/migration-index/color";
 import { camelCase } from "change-case";
 import type { Transform } from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";

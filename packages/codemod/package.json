@@ -1,5 +1,5 @@
 {
-  "name": "@seed-design/codemod",
+  "name": "@ride-developer/codemod",
   "version": "1.0.0",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/migration-index": "^1.0.0",
+    "@ride-developer/migration-index": "^1.0.0",
     "cac": "^6.7.14",
     "change-case": "^5.4.4",
     "es-toolkit": "^1.35.0",

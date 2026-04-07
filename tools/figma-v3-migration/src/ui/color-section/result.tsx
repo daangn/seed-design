@@ -1,4 +1,4 @@
-import { ActionButton, Box, Flex, Text } from "@seed-design/react";
+import { ActionButton, Box, Flex, Text } from "@ride-developer/react";
 import type { SerializedColorVariablesSuggestionsResults, SerializedVariable } from "shared/types";
 import { getOldFullValueName, getOldValueName, useColorMigration } from "./context";
 

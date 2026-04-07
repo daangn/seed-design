@@ -1,7 +1,7 @@
 import { ActionButton } from "@/design-system/ui/action-button";
 import { Callout } from "@/design-system/ui/callout";
 import { TextField, TextFieldInput } from "@/design-system/ui/text-field";
-import { Flex, VStack, Text, type TextProps } from "@seed-design/react";
+import { Flex, VStack, Text, type TextProps } from "@ride-developer/react";
 import { useEffect, useRef, useState } from "react";
 
 interface PendingRequest {
@@ -341,7 +341,7 @@ export default function App() {
             MCP 웹소켓 서버를 시작하려면 다음 명령어를 실행하세요.
           </Text>
           <Text textStyle="t3Bold" color="fg.neutralMuted" as={"code" as TextProps["as"]}>
-            bunx --bun @seed-design/mcp@latest socket
+            bunx --bun @ride-developer/mcp@latest socket
           </Text>
         </VStack>
       )}

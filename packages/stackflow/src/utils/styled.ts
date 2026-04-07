@@ -1,8 +1,8 @@
-import type { ScopedColorBg, ScopedColorPalette, ScopedColorBanner } from "@seed-design/css/vars";
-import { vars } from "@seed-design/css/vars";
+import type { ScopedColorBg, ScopedColorPalette, ScopedColorBanner } from "@ride-developer/css/vars";
+import { vars } from "@ride-developer/css/vars";
 
 /**
- * A minimal subset of `StyleProps` from `@seed-design/react`.
+ * A minimal subset of `StyleProps` from `@ride-developer/react`.
  * Copied here to avoid package dependency. May be extracted to a shared package later.
  */
 export interface BoxBackgroundProps {

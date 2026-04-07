@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import * as Icons from "@seed-design/icon";
+import * as Icons from "@ride-developer/icon";
 
 console.log(Icons.IconSellRegular);
 

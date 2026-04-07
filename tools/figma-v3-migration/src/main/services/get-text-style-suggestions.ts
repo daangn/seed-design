@@ -1,4 +1,4 @@
-import { typographyMappings } from "@seed-design/migration-index/typography";
+import { typographyMappings } from "@ride-developer/migration-index/typography";
 import * as changeCase from "change-case";
 import type {
   GroupedSerializedTextStyleSuggestionsResults,

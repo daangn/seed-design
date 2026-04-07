@@ -1,5 +1,5 @@
 {
-  "name": "@seed-design/rsbuild-plugin",
+  "name": "@ride-developer/rsbuild-plugin",
   "version": "1.1.0",
   "repository": {
     "type": "git",
@@ -36,11 +36,11 @@
   "dependencies": {},
   "devDependencies": {
     "@rsbuild/core": "^1.3.11",
-    "@seed-design/css": "^1.1.0"
+    "@ride-developer/css": "^1.1.0"
   },
   "peerDependencies": {
     "@rsbuild/core": "^1.1.0",
-    "@seed-design/css": "^1.1.0"
+    "@ride-developer/css": "^1.1.0"
   },
   "publishConfig": {
     "access": "public"

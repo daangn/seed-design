@@ -1,4 +1,4 @@
-import { Box } from "@seed-design/react";
+import { Box } from "@ride-developer/react";
 import { Callout } from "common/design-system/ui/callout";
 
 export function StartCallout() {

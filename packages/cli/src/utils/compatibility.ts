@@ -6,7 +6,7 @@ import path from "path";
 import { intersects, satisfies, valid, validRange } from "semver";
 import { highlight } from "./color";
 
-export const COMPAT_PACKAGE_NAMES = ["@seed-design/react", "@seed-design/css"] as const;
+export const COMPAT_PACKAGE_NAMES = ["@ride-developer/react", "@ride-developer/css"] as const;
 export type CompatPackageName = (typeof COMPAT_PACKAGE_NAMES)[number];
 
 const WORKSPACE_VERSION_PREFIX = "workspace:";

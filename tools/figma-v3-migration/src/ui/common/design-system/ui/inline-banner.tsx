@@ -1,4 +1,4 @@
-import { PrefixIcon, InlineBanner as SeedInlineBanner, SuffixIcon } from "@seed-design/react";
+import { PrefixIcon, InlineBanner as SeedInlineBanner, SuffixIcon } from "@ride-developer/react";
 import * as React from "react";
 
 import { IconChevronRightLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";

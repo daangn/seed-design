@@ -1,5 +1,5 @@
 import type { HtmlBasicTag, RsbuildPlugin } from "@rsbuild/core";
-import { generateThemingScript, type ColorMode } from "@seed-design/css/theming";
+import { generateThemingScript, type ColorMode } from "@ride-developer/css/theming";
 
 const PLUGIN_NAME = "rsbuild:seed-design";
 

@@ -1,4 +1,4 @@
-import "@seed-design/css/base.css";
+import "@ride-developer/css/base.css";
 import "./styles.css";
 
 import React from "react";

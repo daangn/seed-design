@@ -1,4 +1,4 @@
-import { colorMappings } from "@seed-design/migration-index";
+import { colorMappings } from "@ride-developer/migration-index";
 import type { Transform } from "jscodeshift";
 import postcss, { type Plugin } from "postcss";
 import { createTransformLogger } from "../../utils/logger.js";

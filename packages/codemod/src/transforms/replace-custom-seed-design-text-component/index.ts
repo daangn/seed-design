@@ -1,5 +1,5 @@
-import { colorMappings } from "@seed-design/migration-index";
-import { typographyMappings } from "@seed-design/migration-index/typography";
+import { colorMappings } from "@ride-developer/migration-index";
+import { typographyMappings } from "@ride-developer/migration-index/typography";
 import type { Transform } from "jscodeshift";
 import { getTokenTypeForProperty } from "../../utils/color-properties.js";
 import { createTransformLogger } from "../../utils/logger.js";
@@ -153,7 +153,7 @@ function handleImports(j: any, root: any, hasTransformedComponents: boolean) {
   // 파일 상단 주석 보존
   const fileComments = root.get().node.comments || [];
 
-  // 기존 import를 @seed-design/react로 교체
+  // 기존 import를 @ride-developer/react로 교체
   textImports.forEach((path: any) => {
     // 주석 보존
     const importComments = path.node.comments || [];
@@ -164,8 +164,8 @@ function handleImports(j: any, root: any, hasTransformedComponents: boolean) {
     );
 
     if (defaultSpecifier) {
-      // 이 import 문을 @seed-design/react import로 대체
-      path.node.source.value = "@seed-design/react";
+      // 이 import 문을 @ride-developer/react import로 대체
+      path.node.source.value = "@ride-developer/react";
       path.node.specifiers = [j.importSpecifier(j.identifier("Text"))];
     }
 

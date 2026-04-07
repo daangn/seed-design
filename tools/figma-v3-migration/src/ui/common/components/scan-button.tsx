@@ -1,4 +1,4 @@
-import { ActionButton } from "@seed-design/react";
+import { ActionButton } from "@ride-developer/react";
 import type { SerializedBaseNode } from "shared/types";
 
 interface ScanButtonProps {

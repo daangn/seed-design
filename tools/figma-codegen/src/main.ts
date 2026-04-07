@@ -1,4 +1,4 @@
-import { react, createPluginNormalizer } from "@seed-design/figma";
+import { react, createPluginNormalizer } from "@ride-developer/figma";
 import { posthog } from "./posthog";
 
 const pipeline = react.createPipeline({

@@ -1,9 +1,9 @@
 /** 스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.
-@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다.
+@deprecated `@ride-developer/css@1.3.0`에서 제거될 예정입니다.
  */
 export declare const fadeLayerFloating = "var(--ride-gradient-fade-layer-floating)";
 /** 스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.
-@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다.
+@deprecated `@ride-developer/css@1.3.0`에서 제거될 예정입니다.
  */
 export declare const fadeLayerDefault = "var(--ride-gradient-fade-layer-default)";
 /** 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러입니다. */

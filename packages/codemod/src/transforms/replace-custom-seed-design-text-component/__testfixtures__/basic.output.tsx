@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { Text } from "@seed-design/react";
+import { Text } from "@ride-developer/react";
 
 const Component = () => {
   return (

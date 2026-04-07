@@ -1,6 +1,6 @@
 import type { Transform } from "jscodeshift";
 import postcss, { type Plugin } from "postcss";
-import { typographyMappings } from "@seed-design/migration-index/typography";
+import { typographyMappings } from "@ride-developer/migration-index/typography";
 import { createTransformLogger } from "../../utils/logger.js";
 
 // transform 최상단에 logger 정의

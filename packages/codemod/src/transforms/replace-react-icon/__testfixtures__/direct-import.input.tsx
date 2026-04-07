@@ -1,7 +1,7 @@
 // @ts-nocheck
 
-import IconListRegular from "@seed-design/icon/IconListRegular";
-import IconSellThin from "@seed-design/icon/dist/lib/test/somewhat/IconSellThin";
+import IconListRegular from "@ride-developer/icon/IconListRegular";
+import IconSellThin from "@ride-developer/icon/dist/lib/test/somewhat/IconSellThin";
 
 function App() {
   return (

@@ -1,4 +1,4 @@
-import { colorMappings, type FoundationTokenMapping } from "@seed-design/migration-index";
+import { colorMappings, type FoundationTokenMapping } from "@ride-developer/migration-index";
 import type { API, FileInfo, Options } from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";
 import { getTokenTypeForProperty } from "../../utils/color-properties.js";

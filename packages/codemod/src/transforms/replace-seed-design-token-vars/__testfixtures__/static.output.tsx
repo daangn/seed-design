@@ -1,4 +1,4 @@
-import { vars } from "@seed-design/css/vars";
+import { vars } from "@ride-developer/css/vars";
 
 const staticColors = {
   staticBlack: vars.$color.palette.staticBlack,

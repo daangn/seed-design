@@ -1,4 +1,4 @@
-import { text } from "@seed-design/css/recipes/text";
+import { text } from "@ride-developer/css/recipes/text";
 
 const label3Bold = text({ textStyle: "t4Bold" });
 const label3Regular = text({ textStyle: "t4Regular" });

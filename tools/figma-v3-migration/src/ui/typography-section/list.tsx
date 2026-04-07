@@ -1,6 +1,6 @@
 import { IconChevronDownLine, IconChevronUpLine } from "@karrotmarket/react-monochrome-icon";
-import { vars } from "@seed-design/css/vars";
-import { Box, Flex, Stack, Text } from "@seed-design/react";
+import { vars } from "@ride-developer/css/vars";
+import { Box, Flex, Stack, Text } from "@ride-developer/react";
 import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
 import { useMigration } from "common/context/migration";

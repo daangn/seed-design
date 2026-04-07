@@ -1,4 +1,4 @@
-import { Box, Flex } from "@seed-design/react";
+import { Box, Flex } from "@ride-developer/react";
 import { Footer } from "common/components/footer";
 import type { GroupedSerializedTextStyleSuggestionsResults } from "shared/types";
 import { useTypographyMigration } from "./context";

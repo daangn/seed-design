@@ -1,4 +1,4 @@
-import { createConfig, createPipeline, sources } from "@seed-design/figma-extractor";
+import { createConfig, createPipeline, sources } from "@ride-developer/figma-extractor";
 import monochrome from "@karrotmarket/icon-data/monochrome.json" with { type: "json" };
 import multicolor from "@karrotmarket/icon-data/multicolor.json" with { type: "json" };
 import { camelCase, pascalCase } from "change-case";

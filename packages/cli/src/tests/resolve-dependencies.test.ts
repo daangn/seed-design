@@ -45,7 +45,7 @@ describe("resolveDependencies", () => {
             id: "tabs",
             description: "Tabs component",
             snippets: [{ path: "tabs.tsx" }],
-            dependencies: ["@seed-design/react-tabs", "clsx"],
+            dependencies: ["@ride-developer/react-tabs", "clsx"],
           },
         ],
       },
@@ -57,7 +57,7 @@ describe("resolveDependencies", () => {
     });
 
     expect(result.npmDependenciesToAdd.size).toBe(2);
-    expect(result.npmDependenciesToAdd.has("@seed-design/react-tabs")).toBe(true);
+    expect(result.npmDependenciesToAdd.has("@ride-developer/react-tabs")).toBe(true);
     expect(result.npmDependenciesToAdd.has("clsx")).toBe(true);
   });
 

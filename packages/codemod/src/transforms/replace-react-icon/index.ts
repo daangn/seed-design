@@ -29,14 +29,14 @@ export interface MigrateIconsOptions {
 export const reactMatch: MigrateIconsOptions["match"] = {
   source: [
     {
-      startsWith: "@seed-design/icon",
+      startsWith: "@ride-developer/icon",
       replaceWith: {
         default: "@karrotmarket/react-monochrome-icon",
         multicolor: "@karrotmarket/react-multicolor-icon",
       },
     },
     {
-      startsWith: "@seed-design/react-icon",
+      startsWith: "@ride-developer/react-icon",
       replaceWith: {
         default: "@karrotmarket/react-monochrome-icon",
         multicolor: "@karrotmarket/react-multicolor-icon",
