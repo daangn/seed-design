@@ -6,6 +6,7 @@ import { registryBreeze as reactRegistryBreeze } from "../registry/react/registr
 import { registryLib as reactRegistryLib } from "../registry/react/registry-lib.js";
 import { registryUI as reactRegistryUI } from "../registry/react/registry-ui.js";
 import { registryBlock as reactRegistryBlock } from "../registry/react/registry-block.js";
+import { registryIcon as reactRegistryIcon } from "../registry/react/registry-icon.js";
 import { registryUI as lynxRegistryUI } from "../registry/lynx/registry-ui.js";
 import type { Framework } from "../registry/schema.js";
 
@@ -52,7 +53,13 @@ const frameworks = [
     name: "react" satisfies Framework,
     registryPath: path.join(process.cwd(), "registry", "react"),
     outputPath: path.join(process.cwd(), "public", "__registry__", "react"),
-    registries: [reactRegistryUI, reactRegistryLib, reactRegistryBreeze, reactRegistryBlock],
+    registries: [
+      reactRegistryUI,
+      reactRegistryLib,
+      reactRegistryBreeze,
+      reactRegistryBlock,
+      reactRegistryIcon,
+    ],
     innateDeps: new Set(["react", "react-dom"]),
   },
   {
@@ -117,7 +124,11 @@ async function main() {
   const availableFrameworksPath = path.join(process.cwd(), "public", "__registry__", "index.json");
   await fs.writeFile(
     availableFrameworksPath,
-    JSON.stringify(frameworks.map(({ name }) => ({ id: name })), null, 2),
+    JSON.stringify(
+      frameworks.map(({ name }) => ({ id: name })),
+      null,
+      2,
+    ),
     "utf8",
   );
 
