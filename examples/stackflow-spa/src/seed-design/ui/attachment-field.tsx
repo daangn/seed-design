@@ -226,12 +226,14 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
                 tone={acceptType === "image" ? "staticWhite" : "neutral"}
               />
             ),
-            error: (
-              <SeedAttachmentInput.ItemActionButton onClick={onRetry}>
-                <Icon svg={<IconArrowClockwiseCircularFill />} />
-                {LABEL_RETRY}
-              </SeedAttachmentInput.ItemActionButton>
-            ),
+            ...(onRetry && {
+              error: (
+                <SeedAttachmentInput.ItemActionButton onClick={onRetry}>
+                  <Icon svg={<IconArrowClockwiseCircularFill />} />
+                  {LABEL_RETRY}
+                </SeedAttachmentInput.ItemActionButton>
+              ),
+            }),
           }}
         />
         <SeedAttachmentInput.ItemRemoveButton aria-label={LABEL_REMOVE_FILE}>

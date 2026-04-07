@@ -72,12 +72,14 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
             uploading: ({ progress }) => (
               <ProgressCircle size="24" value={progress} tone="staticWhite" />
             ),
-            error: (
-              <SeedAttachmentDisplay.ItemActionButton onClick={onRetry}>
-                <Icon svg={<IconArrowClockwiseCircularFill />} />
-                {LABEL_RETRY}
-              </SeedAttachmentDisplay.ItemActionButton>
-            ),
+            ...(onRetry && {
+              error: (
+                <SeedAttachmentDisplay.ItemActionButton onClick={onRetry}>
+                  <Icon svg={<IconArrowClockwiseCircularFill />} />
+                  {LABEL_RETRY}
+                </SeedAttachmentDisplay.ItemActionButton>
+              ),
+            }),
           }}
         />
         <SeedAttachmentDisplay.ItemRemoveButton aria-label={LABEL_REMOVE}>
