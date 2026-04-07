@@ -29,6 +29,7 @@ export * from "./Fieldset";
 export * from "./Flex";
 export * from "./Float";
 export * from "./FloatingActionButton";
+export * from "./Footer";
 export * from "./Grid";
 export * from "./GridItem";
 export * from "./HelpBubble";
