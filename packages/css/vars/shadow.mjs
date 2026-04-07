@@ -1,3 +1,3 @@
-export const s1 = "var(--seed-shadow-s1)";
-export const s2 = "var(--seed-shadow-s2)";
-export const s3 = "var(--seed-shadow-s3)";
+export const s1 = "var(--ride-shadow-s1)";
+export const s2 = "var(--ride-shadow-s2)";
+export const s3 = "var(--ride-shadow-s3)";

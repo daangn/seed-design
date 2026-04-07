@@ -1,8 +1,8 @@
-@layer seed-components {
+@layer ride-components {
   .seed-avatar__root {
     box-sizing: border-box;
     vertical-align: top;
-    border-radius: var(--seed-radius-full);
+    border-radius: var(--ride-radius-full);
     width: var(--avatar-size);
     height: var(--avatar-size);
     justify-content: center;
@@ -14,8 +14,8 @@
   .seed-avatar__root:after {
     content: "";
     pointer-events: none;
-    border-radius: var(--seed-radius-full);
-    box-shadow: inset 0 0 0 var(--avatar-stroke-width) var(--seed-color-stroke-neutral-subtle);
+    border-radius: var(--ride-radius-full);
+    box-shadow: inset 0 0 0 var(--avatar-stroke-width) var(--ride-color-stroke-neutral-subtle);
     -webkit-mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
     -webkit-mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
     -webkit-mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
@@ -56,7 +56,7 @@
 
   .seed-avatar__fallback {
     object-fit: cover;
-    border-radius: var(--seed-radius-full);
+    border-radius: var(--ride-radius-full);
     width: 100%;
     height: 100%;
     -webkit-mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);

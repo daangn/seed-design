@@ -2,38 +2,38 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-dimension-x4)",
-        "paddingY": "var(--seed-dimension-x2_5)",
-        "minHeight": "var(--seed-dimension-x10)"
+        "paddingX": "var(--ride-dimension-x4)",
+        "paddingY": "var(--ride-dimension-x2_5)",
+        "minHeight": "var(--ride-dimension-x10)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "size": "var(--seed-dimension-x4)",
-        "marginRight": "var(--seed-dimension-x2)"
+        "size": "var(--ride-dimension-x4)",
+        "marginRight": "var(--ride-dimension-x2)"
       },
       "content": {
-        "gap": "var(--seed-dimension-x1_5)"
+        "gap": "var(--ride-dimension-x1_5)"
       },
       "title": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)",
+        "fontWeight": "var(--ride-font-weight-bold)"
       },
       "description": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-medium)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)",
+        "fontWeight": "var(--ride-font-weight-medium)"
       },
       "button": {
-        "targetHeight": "var(--seed-dimension-x10)",
-        "fontSize": "var(--seed-font-size-t3)",
-        "lineHeight": "var(--seed-line-height-t3)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "targetHeight": "var(--ride-dimension-x10)",
+        "fontSize": "var(--ride-font-size-t3)",
+        "lineHeight": "var(--ride-line-height-t3)",
+        "fontWeight": "var(--ride-font-weight-bold)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x4)",
-        "targetSize": "var(--seed-dimension-x10)",
-        "marginLeft": "var(--seed-dimension-x2)"
+        "size": "var(--ride-dimension-x4)",
+        "targetSize": "var(--ride-dimension-x10)",
+        "marginLeft": "var(--ride-dimension-x2)"
       }
     }
   },
@@ -43,28 +43,28 @@ export declare const vars: {
   "toneNeutralVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)"
+        "color": "var(--ride-color-bg-neutral-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "title": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "button": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--ride-color-bg-neutral-weak-pressed)"
       }
     }
   },
@@ -74,28 +74,28 @@ export declare const vars: {
   "toneNeutralVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--ride-color-bg-neutral-inverted)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       "title": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       "button": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--ride-color-bg-neutral-inverted-pressed)"
       }
     }
   },
@@ -105,28 +105,28 @@ export declare const vars: {
   "tonePositiveVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-positive-weak)"
+        "color": "var(--ride-color-bg-positive-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       },
       "title": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       },
       "description": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       },
       "button": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-positive-weak-pressed)"
+        "color": "var(--ride-color-bg-positive-weak-pressed)"
       }
     }
   },
@@ -136,28 +136,28 @@ export declare const vars: {
   "tonePositiveVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-positive-solid)"
+        "color": "var(--ride-color-bg-positive-solid)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "title": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "description": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "button": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-positive-solid-pressed)"
+        "color": "var(--ride-color-bg-positive-solid-pressed)"
       }
     }
   },
@@ -167,28 +167,28 @@ export declare const vars: {
   "toneInformativeVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-informative-weak)"
+        "color": "var(--ride-color-bg-informative-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       },
       "title": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       },
       "description": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       },
       "button": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-informative-weak-pressed)"
+        "color": "var(--ride-color-bg-informative-weak-pressed)"
       }
     }
   },
@@ -198,28 +198,28 @@ export declare const vars: {
   "toneInformativeVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-informative-solid)"
+        "color": "var(--ride-color-bg-informative-solid)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "title": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "description": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "button": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-informative-solid-pressed)"
+        "color": "var(--ride-color-bg-informative-solid-pressed)"
       }
     }
   },
@@ -229,28 +229,28 @@ export declare const vars: {
   "toneWarningVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-warning-weak)"
+        "color": "var(--ride-color-bg-warning-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       },
       "title": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       },
       "description": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       },
       "button": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-warning-weak-pressed)"
+        "color": "var(--ride-color-bg-warning-weak-pressed)"
       }
     }
   },
@@ -260,28 +260,28 @@ export declare const vars: {
   "toneWarningVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-warning-solid)"
+        "color": "var(--ride-color-bg-warning-solid)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--ride-color-palette-static-black-alpha-900)"
       },
       "title": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--ride-color-palette-static-black-alpha-900)"
       },
       "description": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--ride-color-palette-static-black-alpha-900)"
       },
       "button": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--ride-color-palette-static-black-alpha-900)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--ride-color-palette-static-black-alpha-900)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-warning-solid-pressed)"
+        "color": "var(--ride-color-bg-warning-solid-pressed)"
       }
     }
   },
@@ -291,28 +291,28 @@ export declare const vars: {
   "toneCriticalVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-critical-weak)"
+        "color": "var(--ride-color-bg-critical-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       },
       "title": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       },
       "description": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       },
       "button": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-critical-weak-pressed)"
+        "color": "var(--ride-color-bg-critical-weak-pressed)"
       }
     }
   },
@@ -322,28 +322,28 @@ export declare const vars: {
   "toneCriticalVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-critical-solid)"
+        "color": "var(--ride-color-bg-critical-solid)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "title": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "description": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "button": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-critical-solid-pressed)"
+        "color": "var(--ride-color-bg-critical-solid-pressed)"
       }
     }
   },
@@ -354,28 +354,28 @@ export declare const vars: {
   "toneMagicVariantWeak": {
     "enabled": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic)"
+        "gradient": "var(--ride-gradient-glow-magic)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "title": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "button": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       }
     },
     "pressed": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic-pressed)"
+        "gradient": "var(--ride-gradient-glow-magic-pressed)"
       }
     }
   }

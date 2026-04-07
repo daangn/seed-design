@@ -2,9 +2,9 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "padding": "var(--seed-dimension-x1)",
-        "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-bg-neutral-weak-alpha)"
+        "padding": "var(--ride-dimension-x1)",
+        "cornerRadius": "var(--ride-radius-full)",
+        "color": "var(--ride-color-bg-neutral-weak-alpha)"
       }
     }
   }

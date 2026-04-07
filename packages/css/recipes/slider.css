@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: stretch;
     width: 100%;
-    gap: var(--seed-dimension-x0_5);
+    gap: var(--ride-dimension-x0_5);
     user-select: none;
     touch-action: none;
 }
@@ -22,16 +22,16 @@
 .seed-slider__track {
     position: relative;
     flex-grow: 1;
-    background-color: var(--seed-color-palette-gray-400);
-    height: var(--seed-dimension-x1);
-    border-radius: var(--seed-radius-full);
+    background-color: var(--ride-color-palette-gray-400);
+    height: var(--ride-dimension-x1);
+    border-radius: var(--ride-radius-full);
     overflow: hidden;
 }
 .seed-slider__range {
     position: absolute;
     height: 100%;
-    background-color: var(--seed-color-fg-neutral);
-    transition: left var(--seed-duration-d3) var(--seed-timing-function-easing), right var(--seed-duration-d3) var(--seed-timing-function-easing);
+    background-color: var(--ride-color-fg-neutral);
+    transition: left var(--ride-duration-d3) var(--ride-timing-function-easing), right var(--ride-duration-d3) var(--ride-timing-function-easing);
     will-change: left, right;
 }
 .seed-slider__range[data-dir='ltr'] {
@@ -43,7 +43,7 @@
     left: var(--range-end);
 }
 .seed-slider__range:is(:disabled, [disabled], [data-disabled]) {
-    background-color: var(--seed-color-fg-disabled);
+    background-color: var(--ride-color-fg-disabled);
 }
 .seed-slider__range[data-dragging] {
     transition: none;
@@ -51,10 +51,10 @@
 .seed-slider__thumb {
     position: absolute;
     top: 50%;
-    width: var(--seed-dimension-x5);
-    height: var(--seed-dimension-x5);
+    width: var(--ride-dimension-x5);
+    height: var(--ride-dimension-x5);
     transform: translate(-50%, -50%);
-    transition: left var(--seed-duration-d3) var(--seed-timing-function-easing), right var(--seed-duration-d3) var(--seed-timing-function-easing), opacity var(--seed-duration-d2) var(--seed-timing-function-easing);
+    transition: left var(--ride-duration-d3) var(--ride-timing-function-easing), right var(--ride-duration-d3) var(--ride-timing-function-easing), opacity var(--ride-duration-d2) var(--ride-timing-function-easing);
     will-change: left, right, opacity;
 }
 .seed-slider__thumb[data-ssr] {
@@ -73,16 +73,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--seed-color-bg-neutral-inverted);
-    border-radius: var(--seed-radius-full);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
-    transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    background-color: var(--ride-color-bg-neutral-inverted);
+    border-radius: var(--ride-radius-full);
+    outline: var(--ride-dimension-x0_5) solid transparent;
+    outline-offset: var(--ride-dimension-x0_5);
+    transition: transform var(--ride-duration-d3) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
     will-change: transform;
     cursor: grab;
 }
 .seed-slider__thumb:is(:disabled, [disabled], [data-disabled])::after {
-    background-color: var(--seed-color-fg-disabled);
+    background-color: var(--ride-color-fg-disabled);
     cursor: not-allowed;
 }
 .seed-slider__thumb[data-dragging] {
@@ -95,12 +95,12 @@
     outline: none;
 }
 .seed-slider__thumb:is(:focus-visible, [data-focus-visible])::after {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
+    outline-offset: var(--ride-dimension-x0_5);
 }
 .seed-slider__markers {
     position: relative;
-    height: var(--seed-line-height-t3);
+    height: var(--ride-line-height-t3);
 }
 .seed-slider__valueIndicatorRoot {
     display: flex;
@@ -109,68 +109,68 @@
     position: absolute;
     top: 50%;
     box-sizing: border-box;
-    transition: left var(--seed-duration-d3) var(--seed-timing-function-easing), right var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: left var(--ride-duration-d3) var(--ride-timing-function-easing), right var(--ride-duration-d3) var(--ride-timing-function-easing);
     will-change: left, right;
-    background: var(--seed-color-bg-neutral-inverted);
-    padding-left: var(--seed-dimension-x2);
-    padding-right: var(--seed-dimension-x2);
-    padding-top: var(--seed-dimension-x1);
-    padding-bottom: var(--seed-dimension-x1);
-    border-radius: var(--seed-radius-r1_5);
-    color: var(--seed-color-fg-neutral-inverted);
-    font-size: var(--seed-font-size-t3);
-    line-height: var(--seed-line-height-t3);
-    font-weight: var(--seed-font-weight-medium);
+    background: var(--ride-color-bg-neutral-inverted);
+    padding-left: var(--ride-dimension-x2);
+    padding-right: var(--ride-dimension-x2);
+    padding-top: var(--ride-dimension-x1);
+    padding-bottom: var(--ride-dimension-x1);
+    border-radius: var(--ride-radius-r1_5);
+    color: var(--ride-color-fg-neutral-inverted);
+    font-size: var(--ride-font-size-t3);
+    line-height: var(--ride-line-height-t3);
+    font-weight: var(--ride-font-weight-medium);
     white-space: pre-wrap;
     text-align: center;
     width: max-content;
-    min-width: calc(var(--seed-dimension-x2) * 2 + var(--seed-dimension-x2));
+    min-width: calc(var(--ride-dimension-x2) * 2 + var(--ride-dimension-x2));
 }
 .seed-slider__valueIndicatorRoot[data-dir='ltr'] {
     left: calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset));
-    transform: translate(-50%, calc(-100% - var(--seed-dimension-x5) / 2 - var(--seed-dimension-x3)));
+    transform: translate(-50%, calc(-100% - var(--ride-dimension-x5) / 2 - var(--ride-dimension-x3)));
 }
 .seed-slider__valueIndicatorRoot[data-dir='rtl'] {
     right: calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset));
-    transform: translate(50%, calc(-100% - var(--seed-dimension-x5) / 2 - var(--seed-dimension-x3)));
+    transform: translate(50%, calc(-100% - var(--ride-dimension-x5) / 2 - var(--ride-dimension-x3)));
 }
 .seed-slider__valueIndicatorRoot[data-value-indicator-shown][data-dir='ltr'] {
-    animation: seed-enter;
-    animation-timing-function: var(--seed-timing-function-enter);
-    animation-duration: var(--seed-duration-d4);
-    --seed-enter-translate-x: -50%;
-    --seed-enter-translate-y: calc(-100% - var(--seed-dimension-x5) / 2 - 0.3125rem);
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 0.9;
+    animation: ride-enter;
+    animation-timing-function: var(--ride-timing-function-enter);
+    animation-duration: var(--ride-duration-d4);
+    --ride-enter-translate-x: -50%;
+    --ride-enter-translate-y: calc(-100% - var(--ride-dimension-x5) / 2 - 0.3125rem);
+    --ride-enter-opacity: 0;
+    --ride-enter-scale: 0.9;
 }
 .seed-slider__valueIndicatorRoot[data-value-indicator-shown][data-dir='rtl'] {
-    animation: seed-enter;
-    animation-timing-function: var(--seed-timing-function-enter);
-    animation-duration: var(--seed-duration-d4);
-    --seed-enter-translate-x: 50%;
-    --seed-enter-translate-y: calc(-100% - var(--seed-dimension-x5) / 2 - 0.3125rem);
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 0.9;
+    animation: ride-enter;
+    animation-timing-function: var(--ride-timing-function-enter);
+    animation-duration: var(--ride-duration-d4);
+    --ride-enter-translate-x: 50%;
+    --ride-enter-translate-y: calc(-100% - var(--ride-dimension-x5) / 2 - 0.3125rem);
+    --ride-enter-opacity: 0;
+    --ride-enter-scale: 0.9;
 }
 .seed-slider__valueIndicatorRoot:not([data-value-indicator-shown])[data-dir='ltr'] {
-    animation: seed-exit;
-    animation-timing-function: var(--seed-timing-function-easing);
-    animation-duration: var(--seed-duration-d4);
+    animation: ride-exit;
+    animation-timing-function: var(--ride-timing-function-easing);
+    animation-duration: var(--ride-duration-d4);
     animation-fill-mode: forwards;
-    --seed-exit-translate-x: -50%;
-    --seed-exit-translate-y: calc(-100% - var(--seed-dimension-x5) / 2 - 0.3125rem);
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
+    --ride-exit-translate-x: -50%;
+    --ride-exit-translate-y: calc(-100% - var(--ride-dimension-x5) / 2 - 0.3125rem);
+    --ride-exit-opacity: 0;
+    --ride-exit-scale: 1;
 }
 .seed-slider__valueIndicatorRoot:not([data-value-indicator-shown])[data-dir='rtl'] {
-    animation: seed-exit;
-    animation-timing-function: var(--seed-timing-function-easing);
-    animation-duration: var(--seed-duration-d4);
+    animation: ride-exit;
+    animation-timing-function: var(--ride-timing-function-easing);
+    animation-duration: var(--ride-duration-d4);
     animation-fill-mode: forwards;
-    --seed-exit-translate-x: 50%;
-    --seed-exit-translate-y: calc(-100% - var(--seed-dimension-x5) / 2 - 0.3125rem);
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
+    --ride-exit-translate-x: 50%;
+    --ride-exit-translate-y: calc(-100% - var(--ride-dimension-x5) / 2 - 0.3125rem);
+    --ride-exit-opacity: 0;
+    --ride-exit-scale: 1;
 }
 .seed-slider__valueIndicatorRoot[data-dragging] {
     transition: none;
@@ -179,11 +179,11 @@
     animation-duration: 0s;
 }
 .seed-slider__valueIndicatorArrow {
-    width: var(--seed-dimension-x2);
-    height: var(--seed-dimension-x2);
+    width: var(--ride-dimension-x2);
+    height: var(--ride-dimension-x2);
     position: absolute;
     top: 100%;
-    transition: left var(--seed-duration-d3) var(--seed-timing-function-easing), right var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: left var(--ride-duration-d3) var(--ride-timing-function-easing), right var(--ride-duration-d3) var(--ride-timing-function-easing);
     will-change: left, right;
 }
 .seed-slider__valueIndicatorArrow[data-dir='ltr'] {
@@ -199,7 +199,7 @@
 }
 .seed-slider__valueIndicatorArrowTip {
     display: block;
-    fill: var(--seed-color-bg-neutral-inverted);
-    width: var(--seed-dimension-x2);
-    height: var(--seed-dimension-x1_5);
+    fill: var(--ride-color-bg-neutral-inverted);
+    width: var(--ride-dimension-x2);
+    height: var(--ride-dimension-x1_5);
 }

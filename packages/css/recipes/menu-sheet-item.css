@@ -1,76 +1,76 @@
 .seed-menu-sheet-item__root {
     display: flex;
     align-items: center;
-    background-color: var(--seed-color-bg-neutral-weak);
+    background-color: var(--ride-color-bg-neutral-weak);
     min-height: 52px;
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
-    padding-top: var(--seed-dimension-x3_5);
-    padding-bottom: var(--seed-dimension-x3_5);
-    gap: var(--seed-dimension-x3_5);
-    box-shadow: inset 0 calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-muted);
+    padding-left: var(--ride-dimension-x4);
+    padding-right: var(--ride-dimension-x4);
+    padding-top: var(--ride-dimension-x3_5);
+    padding-bottom: var(--ride-dimension-x3_5);
+    gap: var(--ride-dimension-x3_5);
+    box-shadow: inset 0 calc(-1 * 1px) 0 var(--ride-color-stroke-neutral-muted);
     margin: 0;
     border: none;
     font-family: inherit;
 }
 @media (hover: hover) {
     .seed-menu-sheet-item__root:is(:hover, [data-hover]) {
-        background-color: var(--seed-color-bg-neutral-weak-pressed);
+        background-color: var(--ride-color-bg-neutral-weak-pressed);
     }
 }
 @media (hover: none) {
     .seed-menu-sheet-item__root:is(:active, [data-active]) {
-        background-color: var(--seed-color-bg-neutral-weak-pressed);
+        background-color: var(--ride-color-bg-neutral-weak-pressed);
     }
 }
 .seed-menu-sheet-item__root:first-child {
-    border-top-left-radius: var(--seed-radius-r4);
-    border-top-right-radius: var(--seed-radius-r4);
+    border-top-left-radius: var(--ride-radius-r4);
+    border-top-right-radius: var(--ride-radius-r4);
 }
 .seed-menu-sheet-item__root:last-child {
-    border-bottom-left-radius: var(--seed-radius-r4);
-    border-bottom-right-radius: var(--seed-radius-r4);
+    border-bottom-left-radius: var(--ride-radius-r4);
+    border-bottom-right-radius: var(--ride-radius-r4);
     box-shadow: none;
 }
 .seed-menu-sheet-item__root {
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    transition: outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
+    outline: var(--ride-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--ride-dimension-x0_5) * -1);
 }
 .seed-menu-sheet-item__root:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
+    outline-offset: calc(var(--ride-dimension-x0_5) * -1);
 }
 .seed-menu-sheet-item__root {
-    --seed-prefix-icon-size: 22px;
+    --ride-prefix-icon-size: 22px;
 }
 .seed-menu-sheet-item__content {
     display: flex;
     flex-direction: column;
-    gap: var(--seed-dimension-x0_5);
+    gap: var(--ride-dimension-x0_5);
 }
 .seed-menu-sheet-item__label {
-    font-size: var(--seed-font-size-t5);
-    line-height: var(--seed-line-height-t5);
-    font-weight: var(--seed-font-weight-regular);
+    font-size: var(--ride-font-size-t5);
+    line-height: var(--ride-line-height-t5);
+    font-weight: var(--ride-font-weight-regular);
 }
 .seed-menu-sheet-item__description {
-    font-size: var(--seed-font-size-t3);
-    line-height: var(--seed-line-height-t3);
-    font-weight: var(--seed-font-weight-medium);
-    color: var(--seed-color-fg-neutral-subtle);
+    font-size: var(--ride-font-size-t3);
+    line-height: var(--ride-line-height-t3);
+    font-weight: var(--ride-font-weight-medium);
+    color: var(--ride-color-fg-neutral-subtle);
 }
 .seed-menu-sheet-item__root--tone_neutral {
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --ride-prefix-icon-color: var(--ride-color-fg-neutral);
 }
 .seed-menu-sheet-item__label--tone_neutral {
-    color: var(--seed-color-fg-neutral);
+    color: var(--ride-color-fg-neutral);
 }
 .seed-menu-sheet-item__root--tone_critical {
-    --seed-prefix-icon-color: var(--seed-color-fg-critical);
+    --ride-prefix-icon-color: var(--ride-color-fg-critical);
 }
 .seed-menu-sheet-item__label--tone_critical {
-    color: var(--seed-color-fg-critical);
+    color: var(--ride-color-fg-critical);
 }
 .seed-menu-sheet-item__content--labelAlign_left {
     text-align: start;

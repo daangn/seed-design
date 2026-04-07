@@ -8,16 +8,16 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: var(--seed-color-palette-gray-200)
+    background-color: var(--ride-color-palette-gray-200)
 }
 .seed-content-placeholder__asset {
     display: block;
     height: calc(0.5 * 100%);
-    min-width: var(--seed-dimension-x4);
+    min-width: var(--ride-dimension-x4);
     max-width: 64px;
     width: auto;
     aspect-ratio: 1 / 1;
-    color: var(--seed-color-palette-gray-400);
+    color: var(--ride-color-palette-gray-400);
     fill: currentColor;
     stroke: currentColor;
     object-fit: contain

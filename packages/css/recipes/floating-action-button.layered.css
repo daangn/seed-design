@@ -1,12 +1,12 @@
-@layer seed-components {
+@layer ride-components {
   .seed-floating-action-button__root {
     box-sizing: border-box;
     cursor: pointer;
     text-transform: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    outline: var(--ride-dimension-x0_5) solid transparent;
+    outline-offset: var(--ride-dimension-x0_5);
     border: none;
     justify-content: center;
     align-items: center;
@@ -16,8 +16,8 @@
   }
 
   .seed-floating-action-button__root:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
+    outline-offset: var(--ride-dimension-x0_5);
   }
 
   .seed-floating-action-button__root:is(:disabled, [disabled], [data-disabled]) {
@@ -25,33 +25,33 @@
   }
 
   .seed-floating-action-button__root {
-    background: var(--seed-color-bg-brand-solid);
-    border-radius: var(--seed-radius-full);
-    box-shadow: var(--seed-shadow-s3);
-    color: var(--seed-color-palette-static-white);
-    font-size: var(--seed-font-size-t5);
-    line-height: var(--seed-line-height-t5);
-    font-weight: var(--seed-font-weight-bold);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    background: var(--ride-color-bg-brand-solid);
+    border-radius: var(--ride-radius-full);
+    box-shadow: var(--ride-shadow-s3);
+    color: var(--ride-color-palette-static-white);
+    font-size: var(--ride-font-size-t5);
+    line-height: var(--ride-line-height-t5);
+    font-weight: var(--ride-font-weight-bold);
+    transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing), max-width var(--ride-duration-d4) var(--ride-timing-function-easing), height var(--ride-duration-d4) var(--ride-timing-function-easing), padding var(--ride-duration-d4) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
     position: relative;
     overflow: hidden;
   }
 
   @media (hover: hover) {
     .seed-floating-action-button__root:is(:hover, [data-hover]) {
-      background: var(--seed-color-bg-brand-solid-pressed);
+      background: var(--ride-color-bg-brand-solid-pressed);
     }
   }
 
   @media (hover: none) {
     .seed-floating-action-button__root:is(:active, [data-active]) {
-      background: var(--seed-color-bg-brand-solid-pressed);
+      background: var(--ride-color-bg-brand-solid-pressed);
     }
   }
 
   .seed-floating-action-button__icon {
-    color: var(--seed-color-palette-static-white);
-    transition: margin-right var(--seed-duration-d4) var(--seed-timing-function-easing), width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing);
+    color: var(--ride-color-palette-static-white);
+    transition: margin-right var(--ride-duration-d4) var(--ride-timing-function-easing), width var(--ride-duration-d4) var(--ride-timing-function-easing), height var(--ride-duration-d4) var(--ride-timing-function-easing);
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
@@ -65,17 +65,17 @@
   }
 
   .seed-floating-action-button__root--extended_true {
-    padding-left: var(--seed-dimension-x4_5);
-    padding-right: var(--seed-dimension-x4_5);
+    padding-left: var(--ride-dimension-x4_5);
+    padding-right: var(--ride-dimension-x4_5);
     width: fit-content;
     max-width: 999px;
     height: 48px;
   }
 
   .seed-floating-action-button__icon--extended_true {
-    width: var(--seed-dimension-x5);
-    height: var(--seed-dimension-x5);
-    margin-right: var(--seed-dimension-x1);
+    width: var(--ride-dimension-x5);
+    height: var(--ride-dimension-x5);
+    margin-right: var(--ride-dimension-x1);
     transition: none;
   }
 
@@ -87,8 +87,8 @@
   }
 
   .seed-floating-action-button__icon--extended_false {
-    width: var(--seed-dimension-x6);
-    height: var(--seed-dimension-x6);
+    width: var(--ride-dimension-x6);
+    height: var(--ride-dimension-x6);
     position: absolute;
     top: 50%;
     left: 50%;

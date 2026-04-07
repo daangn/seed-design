@@ -1,6 +1,6 @@
-@layer seed-components {
+@layer ride-components {
   .seed-slider-tick {
-    background-color: var(--seed-color-fg-neutral-inverted);
+    background-color: var(--ride-color-fg-neutral-inverted);
     height: 100%;
     position: absolute;
     top: 50%;
@@ -20,6 +20,6 @@
   }
 
   .seed-slider-tick--weight_thick {
-    width: var(--seed-dimension-x1);
+    width: var(--ride-dimension-x1);
   }
 }

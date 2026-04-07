@@ -1,35 +1,35 @@
-@layer seed-components {
+@layer ride-components {
   .seed-field-label__root {
-    color: var(--seed-color-fg-neutral);
-    font-size: var(--seed-font-size-t5);
-    line-height: var(--seed-line-height-t5);
+    color: var(--ride-color-fg-neutral);
+    font-size: var(--ride-font-size-t5);
+    line-height: var(--ride-line-height-t5);
   }
 
   .seed-field-label__indicatorText {
     vertical-align: bottom;
-    padding-left: clamp(calc(4px * var(--seed-font-size-limit-min)), .25rem, calc(4px * var(--seed-font-size-limit-max)));
-    color: var(--seed-color-fg-neutral-subtle);
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t5);
-    font-weight: var(--seed-font-weight-regular);
+    padding-left: clamp(calc(4px * var(--ride-font-size-limit-min)), .25rem, calc(4px * var(--ride-font-size-limit-max)));
+    color: var(--ride-color-fg-neutral-subtle);
+    font-size: var(--ride-font-size-t4);
+    line-height: var(--ride-line-height-t5);
+    font-weight: var(--ride-font-weight-regular);
     display: inline;
   }
 
   .seed-field-label__indicatorIcon {
     vertical-align: top;
-    width: clamp(calc(6px * var(--seed-font-size-limit-min)), .375rem, calc(6px * var(--seed-font-size-limit-max)));
-    height: clamp(calc(6px * var(--seed-font-size-limit-min)), .375rem, calc(6px * var(--seed-font-size-limit-max)));
-    margin-top: clamp(calc(4px * var(--seed-font-size-limit-min)), .25rem, calc(4px * var(--seed-font-size-limit-max)));
-    margin-left: clamp(calc(2px * var(--seed-font-size-limit-min)), .125rem, calc(2px * var(--seed-font-size-limit-max)));
-    color: var(--seed-color-fg-critical);
+    width: clamp(calc(6px * var(--ride-font-size-limit-min)), .375rem, calc(6px * var(--ride-font-size-limit-max)));
+    height: clamp(calc(6px * var(--ride-font-size-limit-min)), .375rem, calc(6px * var(--ride-font-size-limit-max)));
+    margin-top: clamp(calc(4px * var(--ride-font-size-limit-min)), .25rem, calc(4px * var(--ride-font-size-limit-max)));
+    margin-left: clamp(calc(2px * var(--ride-font-size-limit-min)), .125rem, calc(2px * var(--ride-font-size-limit-max)));
+    color: var(--ride-color-fg-critical);
     display: inline;
   }
 
   .seed-field-label__root--weight_medium {
-    font-weight: var(--seed-font-weight-medium);
+    font-weight: var(--ride-font-weight-medium);
   }
 
   .seed-field-label__root--weight_bold {
-    font-weight: var(--seed-font-weight-bold);
+    font-weight: var(--ride-font-weight-bold);
   }
 }

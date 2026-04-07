@@ -1,4 +1,4 @@
-@layer seed-components {
+@layer ride-components {
   .seed-extended-fab {
     box-sizing: border-box;
     cursor: pointer;
@@ -25,55 +25,55 @@
   }
 
   .seed-extended-fab {
-    border-radius: var(--seed-radius-full);
+    border-radius: var(--ride-radius-full);
     box-shadow: 0 2px 6px #00000026;
   }
 
   .seed-extended-fab--variant_neutralSolid {
-    background: var(--seed-color-bg-neutral-inverted);
-    color: var(--seed-color-fg-neutral-inverted);
+    background: var(--ride-color-bg-neutral-inverted);
+    color: var(--ride-color-fg-neutral-inverted);
   }
 
   .seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--ride-color-bg-neutral-inverted-pressed);
   }
 
   .seed-extended-fab--variant_neutralSolid {
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
+    --ride-prefix-icon-color: var(--ride-color-fg-neutral-inverted);
   }
 
   .seed-extended-fab--variant_layerFloating {
-    background: var(--seed-color-bg-layer-floating);
-    color: var(--seed-color-fg-neutral);
+    background: var(--ride-color-bg-layer-floating);
+    color: var(--ride-color-fg-neutral);
   }
 
   .seed-extended-fab--variant_layerFloating:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
+    background: var(--ride-color-bg-layer-floating-pressed);
   }
 
   .seed-extended-fab--variant_layerFloating {
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --ride-prefix-icon-color: var(--ride-color-fg-neutral);
   }
 
   .seed-extended-fab--size_small {
-    padding-inline: var(--seed-dimension-x3_5);
-    padding-block: var(--seed-dimension-x2_5);
-    gap: var(--seed-dimension-x1);
+    padding-inline: var(--ride-dimension-x3_5);
+    padding-block: var(--ride-dimension-x2_5);
+    gap: var(--ride-dimension-x1);
     min-height: 40px;
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
-    font-weight: var(--seed-font-weight-medium);
-    --seed-prefix-icon-size: 16px;
+    font-size: var(--ride-font-size-t4);
+    line-height: var(--ride-line-height-t4);
+    font-weight: var(--ride-font-weight-medium);
+    --ride-prefix-icon-size: 16px;
   }
 
   .seed-extended-fab--size_medium {
-    padding-inline: var(--seed-dimension-x4);
-    padding-block: var(--seed-dimension-x3);
-    gap: var(--seed-dimension-x1);
+    padding-inline: var(--ride-dimension-x4);
+    padding-block: var(--ride-dimension-x3);
+    gap: var(--ride-dimension-x1);
     min-height: 48px;
-    font-size: var(--seed-font-size-t5);
-    line-height: var(--seed-line-height-t5);
-    font-weight: var(--seed-font-weight-bold);
-    --seed-prefix-icon-size: 16px;
+    font-size: var(--ride-font-size-t5);
+    line-height: var(--ride-line-height-t5);
+    font-weight: var(--ride-font-weight-bold);
+    --ride-prefix-icon-size: 16px;
   }
 }

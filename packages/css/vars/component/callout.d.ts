@@ -2,35 +2,35 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-dimension-x3_5)",
-        "paddingY": "var(--seed-dimension-x3_5)",
-        "gap": "var(--seed-dimension-x3)",
-        "cornerRadius": "var(--seed-radius-r2_5)",
+        "paddingX": "var(--ride-dimension-x3_5)",
+        "paddingY": "var(--ride-dimension-x3_5)",
+        "gap": "var(--ride-dimension-x3)",
+        "cornerRadius": "var(--ride-radius-r2_5)",
         "minHeight": "50px"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       },
       "title": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)",
+        "fontWeight": "var(--ride-font-weight-bold)"
       },
       "description": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)",
+        "fontWeight": "var(--ride-font-weight-regular)"
       },
       /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)",
+        "fontWeight": "var(--ride-font-weight-regular)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x4)",
-        "targetSize": "var(--seed-dimension-x10)"
+        "size": "var(--ride-dimension-x4)",
+        "targetSize": "var(--ride-dimension-x10)"
       }
     }
   },
@@ -40,29 +40,29 @@ export declare const vars: {
   "toneNeutral": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)"
+        "color": "var(--ride-color-bg-neutral-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "title": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--ride-color-bg-neutral-weak-pressed)"
       }
     }
   },
@@ -72,29 +72,29 @@ export declare const vars: {
   "toneInformative": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-informative-weak)"
+        "color": "var(--ride-color-bg-informative-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       },
       "title": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       },
       "description": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       },
       /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-informative-weak-pressed)"
+        "color": "var(--ride-color-bg-informative-weak-pressed)"
       }
     }
   },
@@ -104,29 +104,29 @@ export declare const vars: {
   "tonePositive": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-positive-weak)"
+        "color": "var(--ride-color-bg-positive-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       },
       "title": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       },
       "description": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       },
       /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-positive-weak-pressed)"
+        "color": "var(--ride-color-bg-positive-weak-pressed)"
       }
     }
   },
@@ -136,29 +136,29 @@ export declare const vars: {
   "toneWarning": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-warning-weak)"
+        "color": "var(--ride-color-bg-warning-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       },
       "title": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       },
       "description": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       },
       /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-warning-weak-pressed)"
+        "color": "var(--ride-color-bg-warning-weak-pressed)"
       }
     }
   },
@@ -168,29 +168,29 @@ export declare const vars: {
   "toneCritical": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-critical-weak)"
+        "color": "var(--ride-color-bg-critical-weak)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       },
       "title": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       },
       "description": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       },
       /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-critical-weak-pressed)"
+        "color": "var(--ride-color-bg-critical-weak-pressed)"
       }
     }
   },
@@ -200,29 +200,29 @@ export declare const vars: {
   "toneMagic": {
     "enabled": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic)"
+        "gradient": "var(--ride-gradient-glow-magic)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "title": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
       "link": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       }
     },
     "pressed": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic-pressed)"
+        "gradient": "var(--ride-gradient-glow-magic-pressed)"
       }
     }
   }

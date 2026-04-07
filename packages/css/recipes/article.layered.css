@@ -1,4 +1,4 @@
-@layer seed-components {
+@layer ride-components {
   .seed-article {
     user-select: text;
     word-break: normal;

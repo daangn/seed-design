@@ -2,7 +2,7 @@
     position: absolute;
     top: 50%;
     height: 100%;
-    background-color: var(--seed-color-fg-neutral-inverted);
+    background-color: var(--ride-color-fg-neutral-inverted);
     transform: translate(-50%, -50%);
 }
 .seed-slider-tick[data-dir='ltr'] {
@@ -15,5 +15,5 @@
     width: 1px;
 }
 .seed-slider-tick--weight_thick {
-    width: var(--seed-dimension-x1);
+    width: var(--ride-dimension-x1);
 }

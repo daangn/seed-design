@@ -2,17 +2,17 @@ export declare const vars: {
   "base": {
     "enabled": {
       "label": {
-        "color": "var(--seed-color-fg-neutral-subtle)"
+        "color": "var(--ride-color-fg-neutral-subtle)"
       }
     },
     "selected": {
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       }
     },
     "disabled": {
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     }
   },
@@ -20,13 +20,13 @@ export declare const vars: {
     "enabled": {
       "root": {
         "minHeight": "44px",
-        "paddingX": "var(--seed-dimension-x2_5)",
-        "paddingY": "var(--seed-dimension-x2_5)"
+        "paddingX": "var(--ride-dimension-x2_5)",
+        "paddingY": "var(--ride-dimension-x2_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)",
+        "fontWeight": "var(--ride-font-weight-bold)"
       }
     }
   },
@@ -34,13 +34,13 @@ export declare const vars: {
     "enabled": {
       "root": {
         "minHeight": "40px",
-        "paddingX": "var(--seed-dimension-x2_5)",
-        "paddingY": "var(--seed-dimension-x2_5)"
+        "paddingX": "var(--ride-dimension-x2_5)",
+        "paddingY": "var(--ride-dimension-x2_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)",
+        "fontWeight": "var(--ride-font-weight-bold)"
       }
     }
   }

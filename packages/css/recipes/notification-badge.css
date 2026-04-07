@@ -8,22 +8,22 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-decoration: none;
-    background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white)
+    background-color: var(--ride-color-bg-brand-solid);
+    color: var(--ride-color-palette-static-white)
 }
 .seed-notification-badge--size_small {
     width: 6px;
     height: 6px;
-    border-radius: var(--seed-radius-full)
+    border-radius: var(--ride-radius-full)
 }
 .seed-notification-badge--size_large {
     min-height: 18px;
-    border-radius: var(--seed-radius-full);
-    padding-left: var(--seed-dimension-x1);
-    padding-right: var(--seed-dimension-x1);
+    border-radius: var(--ride-radius-full);
+    padding-left: var(--ride-dimension-x1);
+    padding-right: var(--ride-dimension-x1);
     padding-top: 0px;
     padding-bottom: 0px;
-    font-size: var(--seed-font-size-t1);
-    line-height: var(--seed-line-height-t1);
-    font-weight: var(--seed-font-weight-bold)
+    font-size: var(--ride-font-size-t1);
+    line-height: var(--ride-line-height-t1);
+    font-weight: var(--ride-font-weight-bold)
 }

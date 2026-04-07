@@ -1,12 +1,12 @@
-@layer seed-components {
+@layer ride-components {
   .seed-aspect-ratio {
-    --seed-aspect-ratio-padding: 75%;
+    --ride-aspect-ratio-padding: 75%;
   }
 
   .seed-aspect-ratio:before {
     content: "";
     height: 0;
-    padding-bottom: var(--seed-aspect-ratio-padding);
+    padding-bottom: var(--ride-aspect-ratio-padding);
     display: block;
   }
 

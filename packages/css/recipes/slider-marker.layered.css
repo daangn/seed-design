@@ -1,10 +1,10 @@
-@layer seed-components {
+@layer ride-components {
   .seed-slider-marker {
     width: max-content;
-    color: var(--seed-color-fg-neutral-muted);
-    font-weight: var(--seed-font-weight-regular);
-    font-size: var(--seed-font-size-t3);
-    line-height: var(--seed-line-height-t3);
+    color: var(--ride-color-fg-neutral-muted);
+    font-weight: var(--ride-font-weight-regular);
+    font-size: var(--ride-font-size-t3);
+    line-height: var(--ride-line-height-t3);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -19,7 +19,7 @@
   }
 
   .seed-slider-marker:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
+    color: var(--ride-color-fg-disabled);
   }
 
   .seed-slider-marker--align_start[data-dir="ltr"] {

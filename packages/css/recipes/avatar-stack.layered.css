@@ -1,4 +1,4 @@
-@layer seed-components {
+@layer ride-components {
   .seed-avatar-stack__root {
     box-sizing: border-box;
     align-items: center;
@@ -6,7 +6,7 @@
   }
 
   .seed-avatar-stack__item {
-    border-radius: var(--seed-radius-full);
+    border-radius: var(--ride-radius-full);
     background-clip: padding-box;
     display: block;
   }
@@ -17,7 +17,7 @@
 
   .seed-avatar-stack__item--size_20 {
     clip-path: inset(-1px);
-    box-shadow: 0 0 0 1px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 1px var(--ride-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_24:not(:first-child) {
@@ -26,7 +26,7 @@
 
   .seed-avatar-stack__item--size_24 {
     clip-path: inset(-1px);
-    box-shadow: 0 0 0 1px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 1px var(--ride-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_36:not(:first-child) {
@@ -35,7 +35,7 @@
 
   .seed-avatar-stack__item--size_36 {
     clip-path: inset(-2px);
-    box-shadow: 0 0 0 2px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 2px var(--ride-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_42:not(:first-child) {
@@ -44,7 +44,7 @@
 
   .seed-avatar-stack__item--size_42 {
     clip-path: inset(-2px);
-    box-shadow: 0 0 0 2px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 2px var(--ride-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_48:not(:first-child) {
@@ -53,7 +53,7 @@
 
   .seed-avatar-stack__item--size_48 {
     clip-path: inset(-2px);
-    box-shadow: 0 0 0 2px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 2px var(--ride-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_56:not(:first-child) {
@@ -62,7 +62,7 @@
 
   .seed-avatar-stack__item--size_56 {
     clip-path: inset(-3px);
-    box-shadow: 0 0 0 3px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 3px var(--ride-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_64:not(:first-child) {
@@ -71,7 +71,7 @@
 
   .seed-avatar-stack__item--size_64 {
     clip-path: inset(-3px);
-    box-shadow: 0 0 0 3px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 3px var(--ride-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_80:not(:first-child) {
@@ -80,7 +80,7 @@
 
   .seed-avatar-stack__item--size_80 {
     clip-path: inset(-4px);
-    box-shadow: 0 0 0 4px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 4px var(--ride-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_96:not(:first-child) {
@@ -89,7 +89,7 @@
 
   .seed-avatar-stack__item--size_96 {
     clip-path: inset(-5px);
-    box-shadow: 0 0 0 5px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 5px var(--ride-color-bg-layer-default);
   }
 
   .seed-avatar-stack__item--size_108:not(:first-child) {
@@ -98,6 +98,6 @@
 
   .seed-avatar-stack__item--size_108 {
     clip-path: inset(-5px);
-    box-shadow: 0 0 0 5px var(--seed-color-bg-layer-default);
+    box-shadow: 0 0 0 5px var(--ride-color-bg-layer-default);
   }
 }

@@ -3,7 +3,7 @@ export declare const vars: {
     "enabled": {
       "root": {
         /** 내부에 오버레이 요소가 존재하는 경우 이미지 모서리와 오버레이 요소 사이의 간격입니다. 이 값은 기본값이며 변경할 수 있습니다. */
-        "padding": "var(--seed-dimension-x1_5)"
+        "padding": "var(--ride-dimension-x1_5)"
       }
     }
   },
@@ -14,7 +14,7 @@ export declare const vars: {
     "enabled": {
       "root": {
         /** stroke 옵션 사용 시 적용되는 테두리 색상입니다. */
-        "strokeColor": "var(--seed-color-stroke-neutral-subtle)",
+        "strokeColor": "var(--ride-color-stroke-neutral-subtle)",
         /** stroke 옵션 사용 시 적용되는 테두리 두께입니다. */
         "strokeWidth": "1px"
       }
@@ -34,7 +34,7 @@ Reason: 모서리 스타일은 `borderRadius` prop으로 통일합니다.
     "enabled": {
       "root": {
         /** 이 값은 기본값이며 변경할 수 있습니다. */
-        "cornerRadius": "var(--seed-radius-r2)"
+        "cornerRadius": "var(--ride-radius-r2)"
       }
     }
   },

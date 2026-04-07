@@ -23,8 +23,8 @@
     bottom: 0;
     pointer-events: none;
     border-radius: inherit;
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle)
+    box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-subtle)
 }
 .seed-image-frame__root--rounded_true {
-    border-radius: var(--seed-radius-r2)
+    border-radius: var(--ride-radius-r2)
 }

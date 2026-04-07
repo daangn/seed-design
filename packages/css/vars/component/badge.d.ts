@@ -4,14 +4,14 @@ export declare const vars: {
       "root": {
         /** 10글자 이상의 텍스트를 말줄임 처리하기 위해 설정된 최대 너비입니다. */
         "maxWidth": "6.75rem",
-        "minHeight": "var(--seed-dimension-x6)",
-        "paddingX": "var(--seed-dimension-x2)",
-        "paddingY": "var(--seed-dimension-x1)",
-        "cornerRadius": "var(--seed-radius-r1_5)"
+        "minHeight": "var(--ride-dimension-x6)",
+        "paddingX": "var(--ride-dimension-x2)",
+        "paddingY": "var(--ride-dimension-x1)",
+        "cornerRadius": "var(--ride-radius-r1_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
+        "fontSize": "var(--ride-font-size-t2)",
+        "lineHeight": "var(--ride-line-height-t2)"
       }
     }
   },
@@ -20,14 +20,14 @@ export declare const vars: {
       "root": {
         /** 10글자 이상의 텍스트를 말줄임 처리하기 위해 설정된 최대 너비입니다. */
         "maxWidth": "7.5rem",
-        "minHeight": "var(--seed-dimension-x5)",
-        "paddingX": "var(--seed-dimension-x1_5)",
-        "paddingY": "var(--seed-dimension-x0_5)",
-        "cornerRadius": "var(--seed-radius-r1)"
+        "minHeight": "var(--ride-dimension-x5)",
+        "paddingX": "var(--ride-dimension-x1_5)",
+        "paddingY": "var(--ride-dimension-x0_5)",
+        "cornerRadius": "var(--ride-radius-r1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t1)",
-        "lineHeight": "var(--seed-line-height-t1)"
+        "fontSize": "var(--ride-font-size-t1)",
+        "lineHeight": "var(--ride-line-height-t1)"
       }
     }
   },
@@ -37,7 +37,7 @@ export declare const vars: {
   "variantWeak": {
     "enabled": {
       "label": {
-        "fontWeight": "var(--seed-font-weight-medium)"
+        "fontWeight": "var(--ride-font-weight-medium)"
       }
     }
   },
@@ -47,7 +47,7 @@ export declare const vars: {
   "variantSolid": {
     "enabled": {
       "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--ride-font-weight-bold)"
       }
     }
   },
@@ -60,7 +60,7 @@ export declare const vars: {
         "strokeWidth": "1px"
       },
       "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--ride-font-weight-bold)"
       }
     }
   },
@@ -71,10 +71,10 @@ export declare const vars: {
   "toneNeutralVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)"
+        "color": "var(--ride-color-bg-neutral-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--ride-color-fg-neutral-muted)"
       }
     }
   },
@@ -85,10 +85,10 @@ export declare const vars: {
   "toneNeutralVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-palette-gray-800)"
+        "color": "var(--ride-color-palette-gray-800)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       }
     }
   },
@@ -99,10 +99,10 @@ export declare const vars: {
   "toneNeutralVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--ride-color-fg-neutral-muted)"
       }
     }
   },
@@ -112,10 +112,10 @@ export declare const vars: {
   "toneBrandVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-weak)"
+        "color": "var(--ride-color-bg-brand-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-brand-contrast)"
+        "color": "var(--ride-color-fg-brand-contrast)"
       }
     }
   },
@@ -125,10 +125,10 @@ export declare const vars: {
   "toneBrandVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)"
+        "color": "var(--ride-color-bg-brand-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     }
   },
@@ -138,10 +138,10 @@ export declare const vars: {
   "toneBrandVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-brand-weak)"
+        "strokeColor": "var(--ride-color-stroke-brand-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-brand)"
+        "color": "var(--ride-color-fg-brand)"
       }
     }
   },
@@ -152,10 +152,10 @@ export declare const vars: {
   "toneInformativeVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-informative-weak)"
+        "color": "var(--ride-color-bg-informative-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       }
     }
   },
@@ -166,10 +166,10 @@ export declare const vars: {
   "toneInformativeVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-informative-solid)"
+        "color": "var(--ride-color-bg-informative-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     }
   },
@@ -180,10 +180,10 @@ export declare const vars: {
   "toneInformativeVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-informative-weak)"
+        "strokeColor": "var(--ride-color-stroke-informative-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-informative)"
+        "color": "var(--ride-color-fg-informative)"
       }
     }
   },
@@ -194,10 +194,10 @@ export declare const vars: {
   "tonePositiveVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-positive-weak)"
+        "color": "var(--ride-color-bg-positive-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       }
     }
   },
@@ -208,10 +208,10 @@ export declare const vars: {
   "tonePositiveVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-positive-solid)"
+        "color": "var(--ride-color-bg-positive-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     }
   },
@@ -222,10 +222,10 @@ export declare const vars: {
   "tonePositiveVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-positive-weak)"
+        "strokeColor": "var(--ride-color-stroke-positive-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-positive)"
+        "color": "var(--ride-color-fg-positive)"
       }
     }
   },
@@ -236,10 +236,10 @@ export declare const vars: {
   "toneWarningVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-warning-weak)"
+        "color": "var(--ride-color-bg-warning-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       }
     }
   },
@@ -250,10 +250,10 @@ export declare const vars: {
   "toneWarningVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-warning-solid)"
+        "color": "var(--ride-color-bg-warning-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--ride-color-palette-static-black-alpha-900)"
       }
     }
   },
@@ -264,10 +264,10 @@ export declare const vars: {
   "toneWarningVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-warning-weak)"
+        "strokeColor": "var(--ride-color-stroke-warning-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-warning)"
+        "color": "var(--ride-color-fg-warning)"
       }
     }
   },
@@ -278,10 +278,10 @@ export declare const vars: {
   "toneCriticalVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-critical-weak)"
+        "color": "var(--ride-color-bg-critical-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       }
     }
   },
@@ -292,10 +292,10 @@ export declare const vars: {
   "toneCriticalVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-critical-solid)"
+        "color": "var(--ride-color-bg-critical-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     }
   },
@@ -306,10 +306,10 @@ export declare const vars: {
   "toneCriticalVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-critical-weak)"
+        "strokeColor": "var(--ride-color-stroke-critical-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-critical)"
+        "color": "var(--ride-color-fg-critical)"
       }
     }
   }

@@ -1,9 +1,9 @@
-@layer seed-components {
+@layer ride-components {
   .seed-bottom-sheet-handle__root {
-    background-color: var(--seed-color-palette-gray-400);
+    background-color: var(--ride-color-palette-gray-400);
     width: 36px;
     height: 4px;
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing);
     touch-action: pan-y;
     border-radius: 9999px;
     position: absolute;
@@ -14,13 +14,13 @@
 
   @media (hover: hover) {
     .seed-bottom-sheet-handle__root:is(:hover, [data-hover]) {
-      background-color: var(--seed-color-palette-gray-500);
+      background-color: var(--ride-color-palette-gray-500);
     }
   }
 
   @media (hover: none) {
     .seed-bottom-sheet-handle__root:is(:active, [data-active]) {
-      background-color: var(--seed-color-palette-gray-500);
+      background-color: var(--ride-color-palette-gray-500);
     }
   }
 

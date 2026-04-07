@@ -1,8 +1,8 @@
-@layer seed-components {
+@layer ride-components {
   .seed-select-box-group {
-    grid-template-columns: repeat(var(--seed-select-box-group--columns, 1), minmax(0, 1fr));
-    row-gap: var(--seed-dimension-spacing-y-component-default);
-    column-gap: var(--seed-dimension-x3);
+    grid-template-columns: repeat(var(--ride-select-box-group--columns, 1), minmax(0, 1fr));
+    row-gap: var(--ride-dimension-spacing-y-component-default);
+    column-gap: var(--ride-dimension-x3);
     width: 100%;
     display: grid;
   }

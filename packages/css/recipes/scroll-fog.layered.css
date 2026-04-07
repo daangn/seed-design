@@ -1,4 +1,4 @@
-@layer seed-components {
+@layer ride-components {
   .seed-scroll-fog {
     --scroll-fog-from-color: #0000;
     --scroll-fog-to-color: #000;

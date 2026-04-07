@@ -1,6 +1,6 @@
-@layer seed-components {
+@layer ride-components {
   .seed-radio-group {
-    gap: var(--seed-dimension-x1);
+    gap: var(--ride-dimension-x1);
     flex-direction: column;
     display: flex;
   }

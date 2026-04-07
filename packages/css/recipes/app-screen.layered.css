@@ -1,6 +1,6 @@
-@layer seed-components {
+@layer ride-components {
   .seed-app-screen__root {
-    --app-bar-offset: calc(var(--app-bar-height)  + var(--seed-safe-area-top));
+    --app-bar-offset: calc(var(--app-bar-height) + var(--ride-safe-area-top));
     width: 100%;
     height: 100%;
     position: absolute;
@@ -35,7 +35,7 @@
   }
 
   .seed-app-screen__layer {
-    background-color: var(--seed-color-bg-layer-default);
+    background-color: var(--ride-color-bg-layer-default);
   }
 
   .seed-app-screen__edge {
@@ -60,10 +60,10 @@
   }
 
   .seed-app-screen__root--transitionStyle_slideFromRightIOS {
-    --z-index-dim: calc(var(--z-index-base)  + 0);
-    --z-index-layer: calc(var(--z-index-base)  + 2);
-    --z-index-edge: calc(var(--z-index-base)  + 4);
-    --z-index-app-bar: calc(var(--z-index-base)  + 7);
+    --z-index-dim: calc(var(--z-index-base) + 0);
+    --z-index-layer: calc(var(--z-index-base) + 2);
+    --z-index-edge: calc(var(--z-index-base) + 4);
+    --z-index-app-bar: calc(var(--z-index-base) + 7);
   }
 
   .seed-app-screen__layer--transitionStyle_slideFromRightIOS {
@@ -71,30 +71,30 @@
   }
 
   [data-global-transition-state="enter-active"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
-    --seed-enter-translate-x: 100%;
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 1;
-    --seed-enter-scale: 1;
+    --ride-enter-translate-x: 100%;
+    --ride-enter-translate-y: 0;
+    --ride-enter-opacity: 1;
+    --ride-enter-scale: 1;
     transform: translate3d(var(--swipe-back-target, var(--swipe-back-displacement, 0)), 0, 0);
-    animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
+    animation: .35s cubic-bezier(.2, .1, .21, .99) ride-enter;
   }
 
   [data-global-transition-state="exit-active"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
-    --seed-exit-translate-x: 100%;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 1;
-    --seed-exit-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
+    --ride-exit-translate-x: 100%;
+    --ride-exit-translate-y: 0;
+    --ride-exit-opacity: 1;
+    --ride-exit-scale: 1;
+    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards ride-exit;
   }
 
   [data-global-transition-state="enter-done"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
-    --seed-enter-translate-x: var(--swipe-back-displacement, 0);
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 1;
-    --seed-enter-scale: 1;
+    --ride-enter-translate-x: var(--swipe-back-displacement, 0);
+    --ride-enter-translate-y: 0;
+    --ride-enter-opacity: 1;
+    --ride-enter-scale: 1;
     transform: translate3d(var(--swipe-back-target, var(--swipe-back-displacement, 0)), 0, 0);
-    animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
+    animation: .35s cubic-bezier(.2, .1, .21, .99) ride-enter;
   }
 
   [data-swipe-back-state="swiping"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
@@ -115,30 +115,30 @@
   }
 
   [data-global-transition-state="enter-active"][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
-    --seed-exit-translate-x: -30%;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 1;
-    --seed-exit-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
+    --ride-exit-translate-x: -30%;
+    --ride-exit-translate-y: 0;
+    --ride-exit-opacity: 1;
+    --ride-exit-scale: 1;
+    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards ride-exit;
     transform: translate3d(0, 0, 0);
   }
 
   [data-global-transition-state="exit-active"][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
-    --seed-enter-translate-x: calc(-30% + var(--swipe-back-displacement, 0) * .3);
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 1;
-    --seed-enter-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
+    --ride-enter-translate-x: calc(-30% + var(--swipe-back-displacement, 0) * .3);
+    --ride-enter-translate-y: 0;
+    --ride-enter-opacity: 1;
+    --ride-enter-scale: 1;
+    animation: .35s cubic-bezier(.2, .1, .21, .99) ride-enter;
     transform: translate3d(0, 0, 0);
   }
 
   [data-global-transition-state="enter-done"][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     transform: translate3d(calc(-30% + var(--swipe-back-displacement, 0) * .3), 0, 0);
-    --seed-exit-translate-x: -30%;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 1;
-    --seed-exit-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
+    --ride-exit-translate-x: -30%;
+    --ride-exit-translate-y: 0;
+    --ride-exit-opacity: 1;
+    --ride-exit-scale: 1;
+    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards ride-exit;
   }
 
   [data-swipe-back-state="swiping"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
@@ -159,35 +159,35 @@
   }
 
   .seed-app-screen__dim--transitionStyle_slideFromRightIOS {
-    background: var(--seed-color-bg-overlay);
+    background: var(--ride-color-bg-overlay);
     height: 100%;
   }
 
   [data-global-transition-state="enter-active"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
-    --seed-enter-translate-x: 0;
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 1;
+    --ride-enter-translate-x: 0;
+    --ride-enter-translate-y: 0;
+    --ride-enter-opacity: 0;
+    --ride-enter-scale: 1;
     opacity: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
+    animation: .35s cubic-bezier(.2, .1, .21, .99) ride-enter;
   }
 
   [data-global-transition-state="exit-active"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
-    --seed-exit-translate-x: 0;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
+    --ride-exit-translate-x: 0;
+    --ride-exit-translate-y: 0;
+    --ride-exit-opacity: 0;
+    --ride-exit-scale: 1;
+    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards ride-exit;
   }
 
   [data-global-transition-state="enter-done"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
-    --seed-enter-translate-x: 0;
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
-    --seed-enter-scale: 1;
+    --ride-enter-translate-x: 0;
+    --ride-enter-translate-y: 0;
+    --ride-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+    --ride-enter-scale: 1;
     opacity: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
+    animation: .35s cubic-bezier(.2, .1, .21, .99) ride-enter;
   }
 
   [data-swipe-back-state="swiping"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
@@ -208,34 +208,34 @@
   }
 
   .seed-app-screen__root--transitionStyle_fadeFromBottomAndroid {
-    --z-index-dim: calc(var(--z-index-base)  + 0);
-    --z-index-layer: calc(var(--z-index-base)  + 3);
-    --z-index-edge: calc(var(--z-index-base)  + 4);
-    --z-index-app-bar: calc(var(--z-index-base)  + 4);
+    --z-index-dim: calc(var(--z-index-base) + 0);
+    --z-index-layer: calc(var(--z-index-base) + 3);
+    --z-index-edge: calc(var(--z-index-base) + 4);
+    --z-index-app-bar: calc(var(--z-index-base) + 4);
   }
 
   .seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid {
-    background: linear-gradient(var(--seed-color-bg-overlay), #0000);
+    background: linear-gradient(var(--ride-color-bg-overlay), #0000);
     height: 160px;
   }
 
   [data-global-transition-state="enter-active"] .seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
-    --seed-enter-translate-x: 0;
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 1;
+    --ride-enter-translate-x: 0;
+    --ride-enter-translate-y: 0;
+    --ride-enter-opacity: 0;
+    --ride-enter-scale: 1;
     opacity: 1;
-    animation: .3s cubic-bezier(.23, .1, .32, 1) seed-enter;
+    animation: .3s cubic-bezier(.23, .1, .32, 1) ride-enter;
     transform: translate3d(0, -8vh, 0);
   }
 
   [data-global-transition-state="exit-active"] .seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
     opacity: 1;
-    --seed-exit-translate-x: 0;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
-    animation: .15s linear forwards seed-exit;
+    --ride-exit-translate-x: 0;
+    --ride-exit-translate-y: 0;
+    --ride-exit-opacity: 0;
+    --ride-exit-scale: 1;
+    animation: .15s linear forwards ride-exit;
     transform: translate3d(0, -8vh, 0);
   }
 
@@ -244,30 +244,30 @@
   }
 
   [data-global-transition-state="enter-active"] .seed-app-screen__layer--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
-    --seed-enter-translate-x: 0;
-    --seed-enter-translate-y: 8vh;
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 1;
+    --ride-enter-translate-x: 0;
+    --ride-enter-translate-y: 8vh;
+    --ride-enter-opacity: 0;
+    --ride-enter-scale: 1;
     opacity: 1;
-    animation: .3s cubic-bezier(.23, .1, .32, 1) seed-enter;
+    animation: .3s cubic-bezier(.23, .1, .32, 1) ride-enter;
     transform: translate3d(0, 0, 0);
   }
 
   [data-global-transition-state="exit-active"] .seed-app-screen__layer--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
     opacity: 1;
-    --seed-exit-translate-x: 0;
-    --seed-exit-translate-y: 8vh;
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
-    animation: .15s linear forwards seed-exit;
+    --ride-exit-translate-x: 0;
+    --ride-exit-translate-y: 8vh;
+    --ride-exit-opacity: 0;
+    --ride-exit-scale: 1;
+    animation: .15s linear forwards ride-exit;
     transform: translate3d(0, 0, 0);
   }
 
   .seed-app-screen__root--transitionStyle_fadeIn {
-    --z-index-dim: calc(var(--z-index-base)  + 0);
-    --z-index-layer: calc(var(--z-index-base)  + 3);
-    --z-index-edge: calc(var(--z-index-base)  + 4);
-    --z-index-app-bar: calc(var(--z-index-base)  + 4);
+    --z-index-dim: calc(var(--z-index-base) + 0);
+    --z-index-layer: calc(var(--z-index-base) + 3);
+    --z-index-edge: calc(var(--z-index-base) + 4);
+    --z-index-app-bar: calc(var(--z-index-base) + 4);
   }
 
   .seed-app-screen__dim--transitionStyle_fadeIn {
@@ -275,25 +275,25 @@
   }
 
   [data-global-transition-state="enter-active"] .seed-app-screen__layer--transitionStyle_fadeIn[data-activity-is-top] {
-    --seed-enter-translate-x: 0;
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 1;
+    --ride-enter-translate-x: 0;
+    --ride-enter-translate-y: 0;
+    --ride-enter-opacity: 0;
+    --ride-enter-scale: 1;
     opacity: 1;
-    animation: .3s ease-out seed-enter;
+    animation: .3s ease-out ride-enter;
   }
 
   [data-global-transition-state="exit-active"] .seed-app-screen__layer--transitionStyle_fadeIn[data-activity-is-top] {
     opacity: 1;
-    --seed-exit-translate-x: 0;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
-    animation: .15s ease-in forwards seed-exit;
+    --ride-exit-translate-x: 0;
+    --ride-exit-translate-y: 0;
+    --ride-exit-opacity: 0;
+    --ride-exit-scale: 1;
+    animation: .15s ease-in forwards ride-exit;
   }
 
   .seed-app-screen__layer--layerOffsetTop_safeArea {
-    padding-top: var(--seed-safe-area-top);
+    padding-top: var(--ride-safe-area-top);
   }
 
   .seed-app-screen__layer--layerOffsetTop_appBar {
@@ -301,13 +301,13 @@
   }
 
   .seed-app-screen__layer--layerOffsetBottom_safeArea {
-    padding-bottom: var(--seed-safe-area-bottom);
+    padding-bottom: var(--ride-safe-area-bottom);
   }
 
   .seed-app-screen__layer--tone_transparent-gradient_true:before {
     content: "";
-    margin-bottom: calc(-1 * (66px + 400px + var(--seed-safe-area-top)));
-    height: calc(66px + 400px + var(--seed-safe-area-top));
+    margin-bottom: calc(-1 * (66px + 400px + var(--ride-safe-area-top)));
+    height: calc(66px + 400px + var(--ride-safe-area-top));
     pointer-events: none;
     z-index: 1;
     background: linear-gradient(#0003 0%, #00000059 400px, #0000 100%);
@@ -323,7 +323,7 @@
   }
 
   .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_safeArea:before {
-    transform: translateY(calc(-400px - var(--seed-safe-area-top)));
+    transform: translateY(calc(-400px - var(--ride-safe-area-top)));
   }
 
   .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_appBar:before {

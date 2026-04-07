@@ -2,10 +2,10 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-palette-gray-500)"
+        "color": "var(--ride-color-palette-gray-500)"
       },
       "image": {
-        "color": "var(--seed-color-palette-static-white-alpha-800)"
+        "color": "var(--ride-color-palette-static-white-alpha-800)"
       }
     }
   }

@@ -14,147 +14,147 @@
     text-decoration: none;
     flex-shrink: 0;
     font-family: inherit;
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    outline: var(--ride-dimension-x0_5) solid transparent;
+    outline-offset: var(--ride-dimension-x0_5);
 }
 .seed-toggle-button:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
+    outline-offset: var(--ride-dimension-x0_5);
 }
 .seed-toggle-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
 .seed-toggle-button {
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    font-weight: var(--seed-font-weight-bold);
+    transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
+    font-weight: var(--ride-font-weight-bold);
 }
 .seed-toggle-button--variant_brandSolid {
-    background: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
-    --track-color: var(--seed-color-palette-static-white-alpha-300);
-    --range-color: var(--seed-color-palette-static-white);
+    background: var(--ride-color-bg-brand-solid);
+    color: var(--ride-color-palette-static-white);
+    --track-color: var(--ride-color-palette-static-white-alpha-300);
+    --range-color: var(--ride-color-palette-static-white);
 }
 @media (hover: hover) {
     .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
-        background: var(--seed-color-bg-brand-solid-pressed);
+        background: var(--ride-color-bg-brand-solid-pressed);
     }
 }
 @media (hover: none) {
     .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
-        background: var(--seed-color-bg-brand-solid-pressed);
+        background: var(--ride-color-bg-brand-solid-pressed);
     }
 }
 .seed-toggle-button--variant_brandSolid:is([aria-pressed=true], [data-pressed]) {
-    background: var(--seed-color-bg-neutral-weak);
-    color: var(--seed-color-fg-neutral);
-    --track-color: var(--seed-color-palette-gray-500);
-    --range-color: var(--seed-color-fg-neutral);
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
-    --seed-suffix-icon-color: var(--seed-color-fg-neutral);
+    background: var(--ride-color-bg-neutral-weak);
+    color: var(--ride-color-fg-neutral);
+    --track-color: var(--ride-color-palette-gray-500);
+    --range-color: var(--ride-color-fg-neutral);
+    --ride-prefix-icon-color: var(--ride-color-fg-neutral);
+    --ride-suffix-icon-color: var(--ride-color-fg-neutral);
 }
 @media (hover: hover) {
     .seed-toggle-button--variant_brandSolid:is([aria-pressed=true], [data-pressed]):is(:hover, [data-hover]) {
-        background: var(--seed-color-bg-neutral-weak-pressed);
+        background: var(--ride-color-bg-neutral-weak-pressed);
     }
 }
 @media (hover: none) {
     .seed-toggle-button--variant_brandSolid:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
-        background: var(--seed-color-bg-neutral-weak-pressed);
+        background: var(--ride-color-bg-neutral-weak-pressed);
     }
 }
 .seed-toggle-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
-    color: var(--seed-color-fg-disabled);
-    --seed-prefix-icon-color: var(--seed-color-fg-disabled);
-    --seed-suffix-icon-color: var(--seed-color-fg-disabled);
+    background: var(--ride-color-bg-disabled);
+    color: var(--ride-color-fg-disabled);
+    --ride-prefix-icon-color: var(--ride-color-fg-disabled);
+    --ride-suffix-icon-color: var(--ride-color-fg-disabled);
 }
 .seed-toggle-button--variant_brandSolid[data-loading] {
-    background: var(--seed-color-bg-brand-solid-pressed);
+    background: var(--ride-color-bg-brand-solid-pressed);
 }
 .seed-toggle-button--variant_brandSolid:is([aria-pressed=true], [data-pressed])[data-loading] {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+    background: var(--ride-color-bg-neutral-weak-pressed);
 }
 .seed-toggle-button--variant_brandSolid {
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+    --ride-prefix-icon-color: var(--ride-color-palette-static-white);
+    --ride-suffix-icon-color: var(--ride-color-palette-static-white);
 }
 .seed-toggle-button--variant_neutralWeak {
-    background: var(--seed-color-bg-neutral-weak);
-    color: var(--seed-color-fg-neutral);
-    --track-color: var(--seed-color-palette-gray-500);
-    --range-color: var(--seed-color-fg-neutral);
+    background: var(--ride-color-bg-neutral-weak);
+    color: var(--ride-color-fg-neutral);
+    --track-color: var(--ride-color-palette-gray-500);
+    --range-color: var(--ride-color-fg-neutral);
 }
 @media (hover: hover) {
     .seed-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
-        background: var(--seed-color-bg-neutral-weak-pressed);
+        background: var(--ride-color-bg-neutral-weak-pressed);
     }
 }
 @media (hover: none) {
     .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
-        background: var(--seed-color-bg-neutral-weak-pressed);
+        background: var(--ride-color-bg-neutral-weak-pressed);
     }
 }
 .seed-toggle-button--variant_neutralWeak:is([aria-pressed=true], [data-pressed]) {
-    background: var(--seed-color-bg-neutral-weak);
-    color: var(--seed-color-fg-neutral);
-    --track-color: var(--seed-color-palette-gray-500);
-    --range-color: var(--seed-color-fg-neutral);
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
-    --seed-suffix-icon-color: var(--seed-color-fg-neutral);
+    background: var(--ride-color-bg-neutral-weak);
+    color: var(--ride-color-fg-neutral);
+    --track-color: var(--ride-color-palette-gray-500);
+    --range-color: var(--ride-color-fg-neutral);
+    --ride-prefix-icon-color: var(--ride-color-fg-neutral);
+    --ride-suffix-icon-color: var(--ride-color-fg-neutral);
 }
 @media (hover: hover) {
     .seed-toggle-button--variant_neutralWeak:is([aria-pressed=true], [data-pressed]):is(:hover, [data-hover]) {
-        background: var(--seed-color-bg-neutral-weak-pressed);
+        background: var(--ride-color-bg-neutral-weak-pressed);
     }
 }
 @media (hover: none) {
     .seed-toggle-button--variant_neutralWeak:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
-        background: var(--seed-color-bg-neutral-weak-pressed);
+        background: var(--ride-color-bg-neutral-weak-pressed);
     }
 }
 .seed-toggle-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
-    color: var(--seed-color-fg-disabled);
-    --seed-prefix-icon-color: var(--seed-color-fg-disabled);
-    --seed-suffix-icon-color: var(--seed-color-fg-disabled);
+    background: var(--ride-color-bg-disabled);
+    color: var(--ride-color-fg-disabled);
+    --ride-prefix-icon-color: var(--ride-color-fg-disabled);
+    --ride-suffix-icon-color: var(--ride-color-fg-disabled);
 }
 .seed-toggle-button--variant_neutralWeak[data-loading] {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+    background: var(--ride-color-bg-neutral-weak-pressed);
 }
 .seed-toggle-button--variant_neutralWeak:is([aria-pressed=true], [data-pressed])[data-loading] {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+    background: var(--ride-color-bg-neutral-weak-pressed);
 }
 .seed-toggle-button--variant_neutralWeak {
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
-    --seed-suffix-icon-color: var(--seed-color-fg-neutral);
+    --ride-prefix-icon-color: var(--ride-color-fg-neutral);
+    --ride-suffix-icon-color: var(--ride-color-fg-neutral);
 }
 .seed-toggle-button--size_xsmall {
-    height: var(--seed-dimension-x8);
-    border-radius: var(--seed-radius-full);
-    gap: var(--seed-dimension-x1);
-    padding-left: var(--seed-dimension-x3_5);
-    padding-right: var(--seed-dimension-x3_5);
-    padding-top: var(--seed-dimension-x1_5);
-    padding-bottom: var(--seed-dimension-x1_5);
-    font-size: var(--seed-font-size-t3);
-    line-height: var(--seed-line-height-t3);
+    height: var(--ride-dimension-x8);
+    border-radius: var(--ride-radius-full);
+    gap: var(--ride-dimension-x1);
+    padding-left: var(--ride-dimension-x3_5);
+    padding-right: var(--ride-dimension-x3_5);
+    padding-top: var(--ride-dimension-x1_5);
+    padding-bottom: var(--ride-dimension-x1_5);
+    font-size: var(--ride-font-size-t3);
+    line-height: var(--ride-line-height-t3);
     --size: 14px;
     --thickness: 2px;
-    --seed-prefix-icon-size: var(--seed-dimension-x3_5);
-    --seed-suffix-icon-size: var(--seed-dimension-x3_5);
+    --ride-prefix-icon-size: var(--ride-dimension-x3_5);
+    --ride-suffix-icon-size: var(--ride-dimension-x3_5);
 }
 .seed-toggle-button--size_small {
-    height: var(--seed-dimension-x9);
-    border-radius: var(--seed-radius-full);
-    gap: var(--seed-dimension-x1);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
-    padding-top: var(--seed-dimension-x2);
-    padding-bottom: var(--seed-dimension-x2);
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
+    height: var(--ride-dimension-x9);
+    border-radius: var(--ride-radius-full);
+    gap: var(--ride-dimension-x1);
+    padding-left: var(--ride-dimension-x4);
+    padding-right: var(--ride-dimension-x4);
+    padding-top: var(--ride-dimension-x2);
+    padding-bottom: var(--ride-dimension-x2);
+    font-size: var(--ride-font-size-t4);
+    line-height: var(--ride-line-height-t4);
     --size: 14px;
     --thickness: 2px;
-    --seed-prefix-icon-size: var(--seed-dimension-x3_5);
-    --seed-suffix-icon-size: var(--seed-dimension-x3_5);
+    --ride-prefix-icon-size: var(--ride-dimension-x3_5);
+    --ride-suffix-icon-size: var(--ride-dimension-x3_5);
 }

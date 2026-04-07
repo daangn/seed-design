@@ -1,4 +1,4 @@
-@layer seed-components {
+@layer ride-components {
   .seed-fab {
     box-sizing: border-box;
     cursor: pointer;
@@ -22,16 +22,16 @@
   }
 
   .seed-fab {
-    background: var(--seed-color-bg-layer-floating);
-    border-radius: var(--seed-radius-full);
-    --seed-icon-size: 22px;
-    --seed-icon-color: var(--seed-color-fg-neutral);
+    background: var(--ride-color-bg-layer-floating);
+    border-radius: var(--ride-radius-full);
+    --ride-icon-size: 22px;
+    --ride-icon-color: var(--ride-color-fg-neutral);
     width: 44px;
     height: 44px;
     box-shadow: 0 2px 6px #00000026;
   }
 
   .seed-fab:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
+    background: var(--ride-color-bg-layer-floating-pressed);
   }
 }
