@@ -261,7 +261,7 @@ export const AttachmentInputItemPreview = React.forwardRef<
   }
 
   return (
-    <Slot className={className} ref={ref} {...props}>
+    <Slot ref={ref} {...props}>
       {general}
     </Slot>
   );
