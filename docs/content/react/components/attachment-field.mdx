@@ -263,19 +263,6 @@ MIME type(`image/png`, `image/*`) 또는 확장자(`.png`, `.jpg, .jpeg`) 형식
 
 유효성 검증에 성공한 파일 항목은 status와 관계없이 `acceptedFileEntries`에 유지되므로, 네이티브 form 제출 시 포함됩니다.
 
-### Listening to Status Changes
-
-`onAcceptedFileEntriesChange` 콜백을 통해 파일 항목의 status 변화를 감지할 수 있습니다.
-
-<ComponentExample name="react/attachment-field/error-alert">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/attachment-field/error-alert.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
 ## Reordering Files
 
 `AttachmentInputReorderable` 또는 `AttachmentDropzoneReorderable`을 사용하면 드래그로 파일의 순서를 변경할 수 있습니다.

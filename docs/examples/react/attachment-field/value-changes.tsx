@@ -51,6 +51,7 @@ export default function AttachmentInputValueChanges() {
         label="파일 업로드"
         description="콜백 호출 로그를 확인하세요"
         onFileAccept={(entries, { updateFileEntryStatus }) => {
+          addLog(`onFileAccept: ${entries.map((e) => e.file.name).join(", ")}`);
           for (const entry of entries) {
             simulateUpload(entry.file, entry.id, updateFileEntryStatus);
           }
