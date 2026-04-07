@@ -1,5 +1,5 @@
 {
-  "name": "@seed-design/project",
+  "name": "@ride-developer/project",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -27,13 +27,13 @@
     "figma:sync": "bun figma-extractor --config=scripts/.config/figma-extractor.config.ts scripts/data variables && bun run ./scripts/figma-to-rootage.ts",
     "images:convert": "bun scripts/convert-images-to-webp.ts",
     "images:preview": "bun scripts/convert-images-to-webp.ts --dry-run",
-    "docs:generate": "bun --filter @seed-design/docs generate:all",
-    "docs:dev": "bun --filter @seed-design/docs dev",
-    "docs:build": "bun --filter @seed-design/docs build",
+    "docs:generate": "bun --filter @ride-developer/docs generate:all",
+    "docs:dev": "bun --filter @ride-developer/docs dev",
+    "docs:build": "bun --filter @ride-developer/docs build",
     "docs:test": "bun test docs",
     "docs:test:watch": "bun test --watch docs",
-    "storybook": "bun --filter @seed-design/docs storybook",
-    "storybook:build": "bun --filter @seed-design/docs build-storybook",
+    "storybook": "bun --filter @ride-developer/docs storybook",
+    "storybook:build": "bun --filter @ride-developer/docs build-storybook",
     "rootage:build": "ultra -r --build rootage:build",
     "rootage:generate": "ultra -r --rebuild rootage:generate",
     "rootage:generate:watch": "watchlist packages/rootage/artifacts -- bun rootage:generate",
@@ -41,9 +41,9 @@
     "rootage:test": "bun rootage:validate && bun test ecosystem/rootage",
     "rootage:test:watch": "bun test --watch ecosystem/rootage",
     "qvism:build": "ultra -r --build qvism:build",
-    "qvism:generate": "bun --filter @seed-design/qvism-preset build && bun --filter @seed-design/css qvism:generate",
+    "qvism:generate": "bun --filter @ride-developer/qvism-preset build && bun --filter @ride-developer/css qvism:generate",
     "qvism:generate:watch": "watchlist packages/qvism-preset -- bun qvism:generate",
-    "cli:watch": "watchlist packages/cli -- bun --filter @seed-design/cli dev",
+    "cli:watch": "watchlist packages/cli -- bun --filter @ride-developer/cli dev",
     "headless:build": "ultra -r --filter 'packages/react-headless/*' build",
     "headless:test": "bun test packages/react-headless",
     "headless:test:watch": "bun test --watch packages/react-headless",
@@ -52,7 +52,7 @@
     "clean:lib": "bun --filter '*' clean",
     "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
     "generate:codemod-docs": "bun scripts/generate-codemod-docs.ts",
-    "mcp:start": "bunx --bun @seed-design/mcp@latest socket"
+    "mcp:start": "bunx --bun @ride-developer/mcp@latest socket"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",

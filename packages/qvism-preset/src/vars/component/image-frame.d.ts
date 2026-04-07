@@ -26,7 +26,7 @@ export declare const vars: {
   "strokeFalse": {},
   /**
    * 모서리를 둥글게 처리합니다.
-@deprecated `rounded` 옵션은 @ride-developer/react@1.3.0에서 제거될 예정입니다. `borderRadius="r2"`를 사용하세요.
+@deprecated `rounded` 옵션은 @seed-design/react@1.3.0에서 제거될 예정입니다. `borderRadius="r2"`를 사용하세요.
 Reason: 모서리 스타일은 `borderRadius` prop으로 통일합니다.
 
    */
@@ -40,7 +40,7 @@ Reason: 모서리 스타일은 `borderRadius` prop으로 통일합니다.
   },
   /**
    * 모서리를 둥글게 처리하지 않습니다.
-@deprecated `rounded` 옵션은 @ride-developer/react@1.3.0에서 제거될 예정입니다. `borderRadius="r2"`를 사용하세요.
+@deprecated `rounded` 옵션은 @seed-design/react@1.3.0에서 제거될 예정입니다. `borderRadius="r2"`를 사용하세요.
 Reason: 모서리 스타일은 `borderRadius` prop으로 통일합니다.
 
    */

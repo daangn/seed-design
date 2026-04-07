@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "seed-design": {
+    "ride-design": {
       "type": "stdio",
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp@latest"]
+      "args": ["-y", "@ride-developer/mcp@latest"]
     },
     "playwright": {
       "command": "bunx",

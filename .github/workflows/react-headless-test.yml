@@ -20,7 +20,7 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Build headless common dependencies
-        run: bun --filter @seed-design/dom-utils build && bun headless:build
+        run: bun --filter @ride-developer/dom-utils build && bun headless:build
 
       - name: Run tests
         run: bun headless:test
