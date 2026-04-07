@@ -12,8 +12,8 @@ import {
   useEffect,
   type RefCallback,
 } from "react";
-import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
-import { useSupports } from "@seed-design/react-supports";
+import { dataAttr, elementProps, inputProps } from "@ride-developer/dom-utils";
+import { useSupports } from "@ride-developer/react-supports";
 import { useSize } from "@radix-ui/react-use-size";
 import { useIsSSR } from "./useIsSSR";
 import { useElementSizesMap } from "./useElementSizesMap";

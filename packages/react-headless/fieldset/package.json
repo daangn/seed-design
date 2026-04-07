@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-fieldset",
+  "name": "@ride-developer/react-fieldset",
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/fieldset"
   },
   "sideEffects": false,

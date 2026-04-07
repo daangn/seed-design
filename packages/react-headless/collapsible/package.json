@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-collapsible",
+  "name": "@ride-developer/react-collapsible",
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/collapsible"
   },
   "sideEffects": false,

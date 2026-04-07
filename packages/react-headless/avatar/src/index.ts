@@ -1,5 +1,5 @@
 /**
- * @deprecated Use `@seed-design/react-image` instead.
+ * @deprecated Use `@ride-developer/react-image` instead.
  * @see https://seed-design.io/docs/react/components/image
  */
 

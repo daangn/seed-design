@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-popover",
+  "name": "@ride-developer/react-popover",
   "version": "1.0.3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/popover"
   },
   "sideEffects": false,

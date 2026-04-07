@@ -1,4 +1,4 @@
-import { Primitive } from "@seed-design/react-primitive";
+import { Primitive } from "@ride-developer/react-primitive";
 import { useRef } from "react";
 import { usePresence } from "./usePresence";
 

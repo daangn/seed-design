@@ -7,9 +7,9 @@ import {
   elementProps,
   inputProps,
   visuallyHidden,
-} from "@seed-design/dom-utils";
-import { useFieldset } from "@seed-design/react-fieldset";
-import { useSupports } from "@seed-design/react-supports";
+} from "@ride-developer/dom-utils";
+import { useFieldset } from "@ride-developer/react-fieldset";
+import { useSupports } from "@ride-developer/react-supports";
 
 interface UseRadioGroupStateProps {
   value?: string;

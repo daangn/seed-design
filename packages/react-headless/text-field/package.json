@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-text-field",
+  "name": "@ride-developer/react-text-field",
   "version": "1.1.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/text-field"
   },
   "sideEffects": false,

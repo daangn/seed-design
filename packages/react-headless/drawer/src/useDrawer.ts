@@ -1,4 +1,4 @@
-import { useControllableState } from "@seed-design/react-use-controllable-state";
+import { useControllableState } from "@ride-developer/react-use-controllable-state";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { isAndroid, isIOS, isMobileFirefox } from "./browser";

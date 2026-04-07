@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-tabs",
+  "name": "@ride-developer/react-tabs",
   "version": "1.0.3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/tabs"
   },
   "sideEffects": false,

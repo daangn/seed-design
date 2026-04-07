@@ -1,5 +1,5 @@
-import { useControllableState } from "@seed-design/react-use-controllable-state";
-import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
+import { useControllableState } from "@ride-developer/react-use-controllable-state";
+import { buttonProps, dataAttr, elementProps } from "@ride-developer/dom-utils";
 import { useId, useMemo } from "react";
 
 interface DialogReasonToDetailMap {

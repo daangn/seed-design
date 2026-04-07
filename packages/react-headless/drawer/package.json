@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-drawer",
+  "name": "@ride-developer/react-drawer",
   "version": "1.0.9",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/drawer"
   },
   "sideEffects": false,

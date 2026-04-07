@@ -1,4 +1,4 @@
-import { useControllableState } from "@seed-design/react-use-controllable-state";
+import { useControllableState } from "@ride-developer/react-use-controllable-state";
 import React from "react";
 import { TRANSITIONS, VELOCITY_THRESHOLD } from "./constants";
 import { isVertical, set } from "./helpers";

@@ -2,8 +2,8 @@
 
 import { DismissableLayer } from "@radix-ui/react-dismissable-layer";
 import { FocusScope } from "@radix-ui/react-focus-scope";
-import { mergeProps } from "@seed-design/dom-utils";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import type * as React from "react";
 import { forwardRef } from "react";
 import { Presence } from "./private/Presence";

@@ -1,5 +1,5 @@
-import { mergeProps } from "@seed-design/dom-utils";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { forwardRef } from "react";
 import { useScrollable, type UseScrollableProps } from "./useScrollable";

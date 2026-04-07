@@ -1,12 +1,12 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useSize } from "@radix-ui/react-use-size";
-import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
+import { ariaAttr, buttonProps, dataAttr, elementProps } from "@ride-developer/dom-utils";
 import type * as React from "react";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import * as dom from "./dom";
 import { getNextIndex, getPrevIndex, scrollTabIntoView } from "./utils";
 import { useIsSSR } from "./useIsSSR";
-import { useSupports } from "@seed-design/react-supports";
+import { useSupports } from "@ride-developer/react-supports";
 
 export interface UseTabsStateProps {
   value?: string;

@@ -1,12 +1,12 @@
 /**
- * @deprecated Use `@seed-design/react-image` instead.
+ * @deprecated Use `@ride-developer/react-image` instead.
  * @see https://seed-design.io/docs/react/components/image
  */
 "use client";
 
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { mergeProps } from "@seed-design/dom-utils";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import type * as React from "react";
 import { forwardRef } from "react";
 import { useAvatar, type UseAvatarProps } from "./useAvatar";

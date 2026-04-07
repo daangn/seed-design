@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-switch",
+  "name": "@ride-developer/react-switch",
   "version": "1.0.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/switch"
   },
   "sideEffects": false,

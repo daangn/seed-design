@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-slider",
+  "name": "@ride-developer/react-slider",
   "version": "1.0.2",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/slider"
   },
   "sideEffects": false,
