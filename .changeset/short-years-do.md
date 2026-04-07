@@ -1,13 +1,10 @@
 ---
-"@seed-design/tailwind3-plugin": minor
-"@seed-design/migration-index": minor
-"@seed-design/tailwind4-theme": minor
-"@seed-design/stackflow": minor
-"@seed-design/rootage-artifacts": minor
-"@seed-design/figma": minor
-"@seed-design/react": minor
 "@seed-design/css": minor
-"@seed-design/mcp": minor
+"@seed-design/migration-index": minor
+"@seed-design/react": minor
+"@seed-design/rootage-artifacts": minor
+"@seed-design/tailwind3-plugin": minor
+"@seed-design/tailwind4-theme": minor
 ---
 
 1.2에서 Deprecate된 옵션을 제거합니다.
