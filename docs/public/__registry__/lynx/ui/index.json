@@ -13,8 +13,7 @@
       ],
       "id": "action-button",
       "dependencies": [
-        "@seed-design/lynx-css",
-        "clsx",
+        "@seed-design/lynx-react",
         "react"
       ],
       "innerDependencies": [
