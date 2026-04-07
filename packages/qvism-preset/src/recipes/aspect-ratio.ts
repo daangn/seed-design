@@ -7,13 +7,13 @@ const aspectRatio = defineRecipe({
     // NOTE: AspectRatio is supposed to be a subset of `Box`
     // currently position & overflow properties are set through the Box props
 
-    "--seed-aspect-ratio-padding": "75%",
+    "--ride-aspect-ratio-padding": "75%",
 
     [pseudo(before)]: {
       content: "''",
       display: "block",
       height: 0,
-      paddingBottom: "var(--seed-aspect-ratio-padding)",
+      paddingBottom: "var(--ride-aspect-ratio-padding)",
     },
 
     [pseudo(directChild)]: {

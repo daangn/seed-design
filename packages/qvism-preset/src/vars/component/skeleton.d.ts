@@ -3,7 +3,7 @@ export declare const vars: {
     "enabled": {
       "shimmer": {
         "duration": "1.5s",
-        "timingFunction": "var(--seed-timing-function-easing)"
+        "timingFunction": "var(--ride-timing-function-easing)"
       }
     }
   },
@@ -43,7 +43,7 @@ export declare const vars: {
   "radiusFull": {
     "enabled": {
       "root": {
-        "cornerRadius": "var(--seed-radius-full)"
+        "cornerRadius": "var(--ride-radius-full)"
       }
     }
   },
@@ -53,10 +53,10 @@ export declare const vars: {
   "toneNeutral": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-palette-gray-200)"
+        "color": "var(--ride-color-palette-gray-200)"
       },
       "shimmer": {
-        "gradient": "var(--seed-gradient-shimmer-neutral)"
+        "gradient": "var(--ride-gradient-shimmer-neutral)"
       }
     }
   },
@@ -66,10 +66,10 @@ export declare const vars: {
   "toneMagic": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-magic-weak)"
+        "color": "var(--ride-color-bg-magic-weak)"
       },
       "shimmer": {
-        "gradient": "var(--seed-gradient-shimmer-magic)"
+        "gradient": "var(--ride-gradient-shimmer-magic)"
       }
     }
   }

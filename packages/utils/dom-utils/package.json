@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/dom-utils",
+  "name": "@ride-developer/dom-utils",
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/dom-utils"
   },
   "sideEffects": false,

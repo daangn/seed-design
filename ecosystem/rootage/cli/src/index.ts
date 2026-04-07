@@ -15,7 +15,7 @@ import {
   tailwind3,
   tailwind4,
   validate,
-} from "@seed-design/rootage-core";
+} from "@ride-developer/rootage-core";
 import fs from "fs-extra";
 import path from "node:path";
 import YAML from "yaml";
@@ -24,7 +24,7 @@ import yargs from "yargs";
 
 const require = createRequire(import.meta.url);
 
-const artifactsPath = require.resolve("@seed-design/rootage-artifacts");
+const artifactsPath = require.resolve("@ride-developer/rootage-artifacts");
 const artifactsDir = path.dirname(artifactsPath);
 
 const [, , , dir = "./"] = process.argv;

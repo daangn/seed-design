@@ -8,10 +8,10 @@ const skeleton = defineRecipe({
     boxSizing: "border-box",
     overflow: "hidden",
 
-    "--seed-box-width": "initial",
-    "--seed-box-height": "initial",
-    width: "var(--seed-box-width)",
-    height: "var(--seed-box-height)",
+    "--ride-box-width": "initial",
+    "--ride-box-height": "initial",
+    width: "var(--ride-box-width)",
+    height: "var(--ride-box-height)",
 
     "&::after": {
       content: "''",

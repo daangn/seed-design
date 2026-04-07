@@ -16,7 +16,7 @@ export const selectBoxGroup = defineRecipe({
     display: "grid",
     width: "100%",
 
-    gridTemplateColumns: "repeat(var(--seed-select-box-group--columns, 1), minmax(0, 1fr))",
+    gridTemplateColumns: "repeat(var(--ride-select-box-group--columns, 1), minmax(0, 1fr))",
 
     rowGap: groupVars.base.enabled.root.gapY,
     columnGap: groupVars.base.enabled.root.gapX,
@@ -100,7 +100,7 @@ export const selectBox = defineSlotRecipe({
 
       flexGrow: 1,
 
-      "--seed-focus-ring": "none",
+      "--ride-focus-ring": "none",
     },
     content: {
       display: "flex",

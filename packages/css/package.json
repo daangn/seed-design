@@ -68,8 +68,8 @@
     "*.css"
   ],
   "devDependencies": {
-    "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/qvism-preset": "0.0.0"
+    "@ride-developer/qvism-cli": "0.0.0",
+    "@ride-developer/qvism-preset": "0.0.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",

@@ -123,7 +123,7 @@ const pageBanner = defineSlotRecipe({
 
       // Consume suffixIcon margin here, and reset suffix icon margin.
       marginLeft: `calc(${closeButtonNegativeMargin} + ${vars.base.enabled.suffixIcon.marginLeft})`,
-      "--seed-suffix-icon-margin-left": "initial",
+      "--ride-suffix-icon-margin-left": "initial",
 
       alignSelf: "center",
 

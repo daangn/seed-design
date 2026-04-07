@@ -121,9 +121,9 @@ export const fieldLabel = defineSlotRecipe({
       display: "inline",
       verticalAlign: "bottom",
 
-      // TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
+      // TODO: have some better way to derive `--ride-font-size-limit-min/max` and px values
       // NOTE: when updating vars, update px values accordingly
-      paddingLeft: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorText.paddingLeft}, calc(4px * var(--seed-font-size-limit-max)))`,
+      paddingLeft: `clamp(calc(4px * var(--ride-font-size-limit-min)), ${vars.base.enabled.indicatorText.paddingLeft}, calc(4px * var(--ride-font-size-limit-max)))`,
 
       color: vars.base.enabled.indicatorText.color,
       fontSize: vars.base.enabled.indicatorText.fontSize,
@@ -134,12 +134,12 @@ export const fieldLabel = defineSlotRecipe({
       display: "inline",
       verticalAlign: "top",
 
-      // TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
+      // TODO: have some better way to derive `--ride-font-size-limit-min/max` and px values
       // NOTE: when updating vars, update px values accordingly
-      width: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
-      height: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
-      marginTop: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingTop}, calc(4px * var(--seed-font-size-limit-max)))`,
-      marginLeft: `clamp(calc(2px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingLeft}, calc(2px * var(--seed-font-size-limit-max)))`,
+      width: `clamp(calc(6px * var(--ride-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--ride-font-size-limit-max)))`,
+      height: `clamp(calc(6px * var(--ride-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--ride-font-size-limit-max)))`,
+      marginTop: `clamp(calc(4px * var(--ride-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingTop}, calc(4px * var(--ride-font-size-limit-max)))`,
+      marginLeft: `clamp(calc(2px * var(--ride-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingLeft}, calc(2px * var(--ride-font-size-limit-max)))`,
 
       color: vars.base.enabled.indicatorIcon.color,
     },

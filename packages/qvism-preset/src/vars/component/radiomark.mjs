@@ -2,19 +2,19 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "colorDuration": "var(--ride-duration-color-transition)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
-        "cornerRadius": "var(--seed-radius-full)"
+        "strokeColor": "var(--ride-color-stroke-neutral-weak)",
+        "cornerRadius": "var(--ride-radius-full)"
       },
       "icon": {
-        "cornerRadius": "var(--seed-radius-full)"
+        "cornerRadius": "var(--ride-radius-full)"
       }
     },
     "enabledPressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--ride-color-bg-transparent-pressed)"
       }
     },
     "enabledSelected": {
@@ -27,90 +27,90 @@ export const vars = {
   "toneBrand": {
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)"
+        "color": "var(--ride-color-bg-brand-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     },
     "enabledSelectedPressed": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
+        "color": "var(--ride-color-bg-brand-solid-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-palette-gray-300)"
+        "color": "var(--ride-color-palette-gray-300)"
       }
     },
     "disabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-transparent)",
+        "color": "var(--ride-color-bg-transparent)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-palette-gray-300)"
+        "strokeColor": "var(--ride-color-palette-gray-300)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-gray-300)"
+        "color": "var(--ride-color-palette-gray-300)"
       }
     }
   },
   "toneNeutral": {
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--ride-color-bg-neutral-inverted)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       }
     },
     "enabledSelectedPressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--ride-color-bg-neutral-inverted-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-palette-gray-300)"
+        "color": "var(--ride-color-palette-gray-300)"
       }
     },
     "disabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-transparent)",
+        "color": "var(--ride-color-bg-transparent)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-palette-gray-300)"
+        "strokeColor": "var(--ride-color-palette-gray-300)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-gray-300)"
+        "color": "var(--ride-color-palette-gray-300)"
       }
     }
   },
   "sizeMedium": {
     "enabled": {
       "root": {
-        "size": "var(--seed-dimension-x5)"
+        "size": "var(--ride-dimension-x5)"
       },
       "icon": {
-        "size": "var(--seed-dimension-x2)"
+        "size": "var(--ride-dimension-x2)"
       }
     },
     "disabled": {
       "icon": {
-        "size": "var(--seed-dimension-x2_5)"
+        "size": "var(--ride-dimension-x2_5)"
       }
     }
   },
   "sizeLarge": {
     "enabled": {
       "root": {
-        "size": "var(--seed-dimension-x6)"
+        "size": "var(--ride-dimension-x6)"
       },
       "icon": {
-        "size": "var(--seed-dimension-x2_5)"
+        "size": "var(--ride-dimension-x2_5)"
       }
     },
     "disabled": {
       "icon": {
-        "size": "var(--seed-dimension-x3)"
+        "size": "var(--ride-dimension-x3)"
       }
     }
   }

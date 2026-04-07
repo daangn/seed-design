@@ -31,7 +31,7 @@ export const appScreen = defineSlotRecipe({
       right: 0,
       overflow: "hidden",
 
-      "--app-bar-offset": "calc(var(--app-bar-height) + var(--seed-safe-area-top))",
+      "--app-bar-offset": "calc(var(--app-bar-height) + var(--ride-safe-area-top))",
     },
     dim: {
       zIndex: "var(--z-index-dim)",
@@ -165,7 +165,7 @@ export const appScreen = defineSlotRecipe({
       none: {},
       safeArea: {
         layer: {
-          paddingTop: "var(--seed-safe-area-top)",
+          paddingTop: "var(--ride-safe-area-top)",
         },
       },
       appBar: {
@@ -178,7 +178,7 @@ export const appScreen = defineSlotRecipe({
       none: {},
       safeArea: {
         layer: {
-          paddingBottom: "var(--seed-safe-area-bottom)",
+          paddingBottom: "var(--ride-safe-area-bottom)",
         },
       },
     },
@@ -204,8 +204,8 @@ export const appScreen = defineSlotRecipe({
             left: 0,
             right: 0,
             top: 0,
-            marginBottom: `calc(-1 * (66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top)))`,
-            height: `calc(66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top))`,
+            marginBottom: `calc(-1 * (66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--ride-safe-area-top)))`,
+            height: `calc(66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--ride-safe-area-top))`,
 
             // since we're using sticky, when iOS overscroll happens the before pseudoelement will stick to the top of `layer` and won't show the gradient in the overscroll area.
             // so we extend the height of the gradient and use transform to move it up to the possible gradient area.
@@ -236,7 +236,7 @@ export const appScreen = defineSlotRecipe({
       css: {
         layer: {
           "&::before": {
-            transform: `translateY(calc(-${OVERSCROLL_GRADIENT_OFFSET} - var(--seed-safe-area-top)))`,
+            transform: `translateY(calc(-${OVERSCROLL_GRADIENT_OFFSET} - var(--ride-safe-area-top)))`,
           },
         },
       },

@@ -11,31 +11,31 @@ const text = defineRecipe({
   base: {
     margin: 0,
 
-    color: "var(--seed-text-color)",
-    fontSize: "var(--seed-font-size)",
-    fontWeight: "var(--seed-font-weight)",
-    lineHeight: "var(--seed-line-height)",
-    textAlign: "var(--seed-text-align)",
-    userSelect: "var(--seed-user-select)",
+    color: "var(--ride-text-color)",
+    fontSize: "var(--ride-font-size)",
+    fontWeight: "var(--ride-font-weight)",
+    lineHeight: "var(--ride-line-height)",
+    textAlign: "var(--ride-text-align)",
+    userSelect: "var(--ride-user-select)",
 
-    "--seed-text-color": "inherit",
-    "--seed-font-size": "inherit",
-    "--seed-font-weight": "inherit",
-    "--seed-line-height": "inherit",
-    "--seed-text-align": "inherit",
-    "--seed-user-select": "inherit",
-    "--seed-white-space": "inherit",
+    "--ride-text-color": "inherit",
+    "--ride-font-size": "inherit",
+    "--ride-font-weight": "inherit",
+    "--ride-line-height": "inherit",
+    "--ride-text-align": "inherit",
+    "--ride-user-select": "inherit",
+    "--ride-white-space": "inherit",
 
-    "--seed-max-lines": "initial",
+    "--ride-max-lines": "initial",
   },
   variants: {
     textStyle: Object.fromEntries(
       Object.entries(vars).map(([key, value]) => [
         uncapitalize(key.split("textStyle")[1]),
         {
-          "--seed-font-size": value.enabled.root.fontSize,
-          "--seed-line-height": value.enabled.root.lineHeight,
-          "--seed-font-weight": value.enabled.root.fontWeight,
+          "--ride-font-size": value.enabled.root.fontSize,
+          "--ride-line-height": value.enabled.root.lineHeight,
+          "--ride-font-weight": value.enabled.root.fontWeight,
         },
       ]),
     ) as Record<Uncapitalize<OmitPrefix<keyof typeof vars>>, any>,
@@ -44,7 +44,7 @@ const text = defineRecipe({
         overflow: "unset",
         minWidth: "unset",
         textOverflow: "unset",
-        whiteSpace: "var(--seed-white-space)",
+        whiteSpace: "var(--ride-white-space)",
         WebkitLineClamp: "unset",
       },
       single: {
@@ -53,7 +53,7 @@ const text = defineRecipe({
         minWidth: 0,
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
-        WebkitLineClamp: "var(--seed-max-lines)",
+        WebkitLineClamp: "var(--ride-max-lines)",
       },
       multi: {
         display: "-webkit-box",
@@ -62,7 +62,7 @@ const text = defineRecipe({
         textOverflow: "ellipsis",
         whiteSpace: "initial",
         WebkitBoxOrient: "vertical",
-        WebkitLineClamp: "var(--seed-max-lines)",
+        WebkitLineClamp: "var(--ride-max-lines)",
       },
     },
     textDecorationLine: {

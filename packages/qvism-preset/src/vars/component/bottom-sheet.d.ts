@@ -2,52 +2,52 @@ export declare const vars: {
   "base": {
     "enabled": {
       "backdrop": {
-        "color": "var(--seed-color-bg-overlay)",
-        "enterDuration": "var(--seed-duration-d6)",
-        "enterTimingFunction": "var(--seed-timing-function-enter)",
+        "color": "var(--ride-color-bg-overlay)",
+        "enterDuration": "var(--ride-duration-d6)",
+        "enterTimingFunction": "var(--ride-timing-function-enter)",
         "enterOpacity": "0",
-        "exitDuration": "var(--seed-duration-d4)",
-        "exitTimingFunction": "var(--seed-timing-function-exit)",
+        "exitDuration": "var(--ride-duration-d4)",
+        "exitTimingFunction": "var(--ride-timing-function-exit)",
         "exitOpacity": "0"
       },
       "content": {
-        "color": "var(--seed-color-bg-layer-floating)",
+        "color": "var(--ride-color-bg-layer-floating)",
         "maxWidth": "640px",
-        "topCornerRadius": "var(--seed-radius-r6)",
-        "enterDuration": "var(--seed-duration-d6)",
-        "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
-        "exitDuration": "var(--seed-duration-d4)",
-        "exitTimingFunction": "var(--seed-timing-function-exit)"
+        "topCornerRadius": "var(--ride-radius-r6)",
+        "enterDuration": "var(--ride-duration-d6)",
+        "enterTimingFunction": "var(--ride-timing-function-enter-expressive)",
+        "exitDuration": "var(--ride-duration-d4)",
+        "exitTimingFunction": "var(--ride-timing-function-exit)"
       },
       "header": {
-        "gap": "var(--seed-dimension-x2)",
-        "paddingTop": "var(--seed-dimension-x6)",
-        "paddingBottom": "var(--seed-dimension-x4)"
+        "gap": "var(--ride-dimension-x2)",
+        "paddingTop": "var(--ride-dimension-x6)",
+        "paddingBottom": "var(--ride-dimension-x4)"
       },
       "body": {
-        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
+        "paddingX": "var(--ride-dimension-spacing-x-global-gutter)"
       },
       "footer": {
-        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
-        "paddingTop": "var(--seed-dimension-x3)",
-        "paddingBottom": "var(--seed-dimension-x4)"
+        "paddingX": "var(--ride-dimension-spacing-x-global-gutter)",
+        "paddingTop": "var(--ride-dimension-x3)",
+        "paddingBottom": "var(--ride-dimension-x4)"
       },
       "title": {
-        "color": "var(--seed-color-fg-neutral)",
-        "fontSize": "var(--seed-font-size-t8)",
-        "lineHeight": "var(--seed-line-height-t8)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "color": "var(--ride-color-fg-neutral)",
+        "fontSize": "var(--ride-font-size-t8)",
+        "lineHeight": "var(--ride-line-height-t8)",
+        "fontWeight": "var(--ride-font-weight-bold)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral-muted)",
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-regular)",
-        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
+        "color": "var(--ride-color-fg-neutral-muted)",
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)",
+        "fontWeight": "var(--ride-font-weight-regular)",
+        "paddingX": "var(--ride-dimension-spacing-x-global-gutter)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x6)",
-        "fromRight": "var(--seed-dimension-x4)"
+        "fromTop": "var(--ride-dimension-x6)",
+        "fromRight": "var(--ride-dimension-x4)"
       }
     }
   },
@@ -55,15 +55,15 @@ export declare const vars: {
     "enabled": {
       "title": {
         "paddingRight": "56px",
-        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)"
+        "paddingLeft": "var(--ride-dimension-spacing-x-global-gutter)"
       }
     }
   },
   "headerAlignmentLeftCloseButtonFalse": {
     "enabled": {
       "title": {
-        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
-        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
+        "paddingLeft": "var(--ride-dimension-spacing-x-global-gutter)",
+        "paddingRight": "var(--ride-dimension-spacing-x-global-gutter)"
       }
     }
   },
@@ -78,8 +78,8 @@ export declare const vars: {
   "headerAlignmentCenterCloseButtonFalse": {
     "enabled": {
       "title": {
-        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
-        "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
+        "paddingLeft": "var(--ride-dimension-spacing-x-global-gutter)",
+        "paddingRight": "var(--ride-dimension-spacing-x-global-gutter)"
       }
     }
   }
