@@ -393,7 +393,7 @@ describe("useFileUpload", () => {
       expect(input.disabled).toBe(true);
     });
 
-    it("should disable trigger and input when maxFiles is reached", async () => {
+    it("should disable trigger but not input when maxFiles is reached", async () => {
       const { getByTestId, getByText } = setUp(<BasicFileUpload maxFiles={2} />);
 
       const input = getByTestId("hidden-input") as HTMLInputElement;
@@ -405,7 +405,8 @@ describe("useFileUpload", () => {
       await waitFor(() => {
         const trigger = getByText("Choose files") as HTMLButtonElement;
         expect(trigger.disabled).toBe(true);
-        expect(input.disabled).toBe(true);
+        // input should remain enabled so form submission includes the files
+        expect(input.disabled).toBe(false);
       });
     });
 

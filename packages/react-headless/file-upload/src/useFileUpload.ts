@@ -429,7 +429,7 @@ export function useFileUpload({
       accept: acceptString,
       multiple,
 
-      disabled: triggerDisabled,
+      disabled,
       "aria-required": ariaAttr(required),
 
       tabIndex: -1,
