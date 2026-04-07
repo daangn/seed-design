@@ -1,8 +1,8 @@
-import { actionSheet, type ActionSheetVariantProps } from "@seed-design/css/recipes/action-sheet";
+import { actionSheet, type ActionSheetVariantProps } from "@ride-developer/css/recipes/action-sheet";
 import {
   actionSheetItem,
   type ActionSheetItemVariantProps,
-} from "@seed-design/css/recipes/action-sheet-item";
+} from "@ride-developer/css/recipes/action-sheet-item";
 import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";

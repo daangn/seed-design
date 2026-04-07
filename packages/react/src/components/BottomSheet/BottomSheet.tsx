@@ -1,4 +1,4 @@
-import { bottomSheet, type BottomSheetVariantProps } from "@seed-design/css/recipes/bottom-sheet";
+import { bottomSheet, type BottomSheetVariantProps } from "@ride-developer/css/recipes/bottom-sheet";
 import { dataAttr } from "@seed-design/dom-utils";
 import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";

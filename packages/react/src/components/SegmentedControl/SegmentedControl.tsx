@@ -1,7 +1,7 @@
 import {
   segmentedControl,
   type SegmentedControlVariantProps,
-} from "@seed-design/css/recipes/segmented-control";
+} from "@ride-developer/css/recipes/segmented-control";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { SegmentedControl as SegmentedControlPrimitive } from "@seed-design/react-segmented-control";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

@@ -1,4 +1,4 @@
-import { chip, type ChipVariantProps } from "@seed-design/css/recipes/chip";
+import { chip, type ChipVariantProps } from "@ride-developer/css/recipes/chip";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

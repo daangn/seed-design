@@ -1,5 +1,5 @@
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { extendedFab, type ExtendedFabVariantProps } from "@seed-design/css/recipes/extended-fab";
+import { extendedFab, type ExtendedFabVariantProps } from "@ride-developer/css/recipes/extended-fab";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 
 const { withContext } = createRecipeContext(extendedFab);

@@ -1,10 +1,10 @@
 import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { menuSheet, type MenuSheetVariantProps } from "@seed-design/css/recipes/menu-sheet";
+import { menuSheet, type MenuSheetVariantProps } from "@ride-developer/css/recipes/menu-sheet";
 import {
   menuSheetItem,
   type MenuSheetItemVariantProps,
-} from "@seed-design/css/recipes/menu-sheet-item";
+} from "@ride-developer/css/recipes/menu-sheet-item";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";

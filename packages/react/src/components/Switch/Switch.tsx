@@ -1,6 +1,6 @@
 import { Switch as SwitchPrimitive, useSwitchContext } from "@seed-design/react-switch";
-import { switchStyle, type SwitchVariantProps } from "@seed-design/css/recipes/switch";
-import { switchmark, type SwitchmarkVariantProps } from "@seed-design/css/recipes/switchmark";
+import { switchStyle, type SwitchVariantProps } from "@ride-developer/css/recipes/switch";
+import { switchmark, type SwitchmarkVariantProps } from "@ride-developer/css/recipes/switchmark";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";

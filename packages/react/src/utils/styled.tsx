@@ -10,8 +10,8 @@ import type {
   Gradient,
   Shadow,
   ScopedColorBanner,
-} from "@seed-design/css/vars";
-import { vars } from "@seed-design/css/vars";
+} from "@ride-developer/css/vars";
+import { vars } from "@ride-developer/css/vars";
 import { forwardRef } from "react";
 
 export function handleColor(color: string | undefined) {

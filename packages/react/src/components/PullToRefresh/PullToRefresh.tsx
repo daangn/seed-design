@@ -2,7 +2,7 @@ import { PullToRefresh as PullToRefreshPrimitive } from "@seed-design/react-pull
 import {
   pullToRefresh,
   type PullToRefreshVariantProps,
-} from "@seed-design/css/recipes/pull-to-refresh";
+} from "@ride-developer/css/recipes/pull-to-refresh";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { withContext, withProvider } = createSlotRecipeContext(pullToRefresh);

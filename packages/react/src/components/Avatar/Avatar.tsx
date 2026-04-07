@@ -1,7 +1,7 @@
 import { Image } from "@seed-design/react-image";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { avatar, type AvatarVariantProps } from "@seed-design/css/recipes/avatar";
-import { avatarStack, type AvatarStackVariantProps } from "@seed-design/css/recipes/avatar-stack";
+import { avatar, type AvatarVariantProps } from "@ride-developer/css/recipes/avatar";
+import { avatarStack, type AvatarStackVariantProps } from "@ride-developer/css/recipes/avatar-stack";
 import clsx from "clsx";
 import * as React from "react";
 import { useMemo } from "react";

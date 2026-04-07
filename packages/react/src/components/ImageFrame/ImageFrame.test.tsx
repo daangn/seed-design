@@ -1,4 +1,4 @@
-import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
+import { imageFrameReactionButton } from "@ride-developer/css/recipes/image-frame-reaction-button";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "bun:test";

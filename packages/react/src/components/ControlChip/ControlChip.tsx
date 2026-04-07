@@ -1,4 +1,4 @@
-import { controlChip, type ControlChipVariantProps } from "@seed-design/css/recipes/control-chip";
+import { controlChip, type ControlChipVariantProps } from "@ride-developer/css/recipes/control-chip";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";

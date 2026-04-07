@@ -3,11 +3,11 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import {
   extendedActionSheet,
   type ExtendedActionSheetVariantProps,
-} from "@seed-design/css/recipes/extended-action-sheet";
+} from "@ride-developer/css/recipes/extended-action-sheet";
 import {
   extendedActionSheetItem,
   type ExtendedActionSheetItemVariantProps,
-} from "@seed-design/css/recipes/extended-action-sheet-item";
+} from "@ride-developer/css/recipes/extended-action-sheet-item";
 import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

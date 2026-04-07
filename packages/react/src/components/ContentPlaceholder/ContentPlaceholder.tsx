@@ -1,7 +1,7 @@
 import {
   contentPlaceholder,
   type ContentPlaceholderVariantProps,
-} from "@seed-design/css/recipes/content-placeholder";
+} from "@ride-developer/css/recipes/content-placeholder";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";

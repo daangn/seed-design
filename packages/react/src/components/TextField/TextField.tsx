@@ -2,7 +2,7 @@ import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { TextField, useTextFieldContext } from "@seed-design/react-text-field";
 import { useFieldContext } from "@seed-design/react-field";
-import { textInput, type TextInputVariantProps } from "@seed-design/css/recipes/text-input";
+import { textInput, type TextInputVariantProps } from "@ride-developer/css/recipes/text-input";
 import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef, useCallback, useRef } from "react";

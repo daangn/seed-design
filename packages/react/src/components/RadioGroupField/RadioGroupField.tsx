@@ -1,7 +1,7 @@
 "use client";
 
-import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
-import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
+import { field, type FieldVariantProps } from "@ride-developer/css/recipes/field";
+import { fieldLabel, type FieldLabelVariantProps } from "@ride-developer/css/recipes/field-label";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { RadioGroup as RadioGroupPrimitive } from "@seed-design/react-radio-group";
 import type * as React from "react";

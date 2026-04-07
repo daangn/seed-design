@@ -1,7 +1,7 @@
 import type * as React from "react";
 import { forwardRef } from "react";
 
-import { pageBanner, type PageBannerVariantProps } from "@seed-design/css/recipes/page-banner";
+import { pageBanner, type PageBannerVariantProps } from "@ride-developer/css/recipes/page-banner";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import {

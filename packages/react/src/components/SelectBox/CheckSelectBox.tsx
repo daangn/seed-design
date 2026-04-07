@@ -1,13 +1,13 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { selectBox, type SelectBoxVariantProps } from "@seed-design/css/recipes/select-box";
+import { selectBox, type SelectBoxVariantProps } from "@ride-developer/css/recipes/select-box";
 import {
   selectBoxCheckmark,
   type SelectBoxCheckmarkVariantProps,
-} from "@seed-design/css/recipes/selectBoxCheckmark";
+} from "@ride-developer/css/recipes/selectBoxCheckmark";
 import {
   selectBoxGroup,
   type SelectBoxGroupVariantProps,
-} from "@seed-design/css/recipes/select-box-group";
+} from "@ride-developer/css/recipes/select-box-group";
 import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
 import {
   Collapsible,

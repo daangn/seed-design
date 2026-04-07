@@ -1,4 +1,4 @@
-import { tabs, type TabsVariantProps } from "@seed-design/css/recipes/tabs";
+import { tabs, type TabsVariantProps } from "@ride-developer/css/recipes/tabs";
 import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 

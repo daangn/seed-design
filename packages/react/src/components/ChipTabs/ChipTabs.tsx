@@ -1,4 +1,4 @@
-import { chipTabs, type ChipTabsVariantProps } from "@seed-design/css/recipes/chip-tabs";
+import { chipTabs, type ChipTabsVariantProps } from "@ride-developer/css/recipes/chip-tabs";
 import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { forwardRef } from "react";

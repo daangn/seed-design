@@ -1,6 +1,5 @@
-# @seed-design/react
+# @ride-developer/react
 
-This package integrates following packages to provide full-featured React components.
+Ride Design System React components.
 
-- [@seed-design/css](../css)
-- [@seed-design/react-headless](../react-headless)
+- [@ride-developer/css](../css)

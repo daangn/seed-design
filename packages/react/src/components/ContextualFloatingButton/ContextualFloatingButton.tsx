@@ -1,7 +1,7 @@
 import {
   contextualFloatingButton,
   type ContextualFloatingButtonVariantProps,
-} from "@seed-design/css/recipes/contextual-floating-button";
+} from "@ride-developer/css/recipes/contextual-floating-button";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";

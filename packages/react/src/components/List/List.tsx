@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { listItem, type ListItemVariantProps } from "@seed-design/css/recipes/list-item";
+import { listItem, type ListItemVariantProps } from "@ride-developer/css/recipes/list-item";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

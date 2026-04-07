@@ -1,4 +1,4 @@
-import { actionChip, type ActionChipVariantProps } from "@seed-design/css/recipes/action-chip";
+import { actionChip, type ActionChipVariantProps } from "@ride-developer/css/recipes/action-chip";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";

@@ -1,4 +1,4 @@
-import { aspectRatio as aspectRatioRecipe } from "@seed-design/css/recipes/aspect-ratio";
+import { aspectRatio as aspectRatioRecipe } from "@ride-developer/css/recipes/aspect-ratio";
 import clsx from "clsx";
 import * as React from "react";
 import { Box, type BoxProps } from "../Box/Box";

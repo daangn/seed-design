@@ -1,5 +1,5 @@
-import { checkbox, type CheckboxVariantProps } from "@seed-design/css/recipes/checkbox";
-import { checkmark, type CheckmarkVariantProps } from "@seed-design/css/recipes/checkmark";
+import { checkbox, type CheckboxVariantProps } from "@ride-developer/css/recipes/checkbox";
+import { checkmark, type CheckmarkVariantProps } from "@ride-developer/css/recipes/checkmark";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
@@ -13,7 +13,7 @@ import { createRecipeContext } from "../../utils/createRecipeContext";
 import {
   checkboxGroup,
   type CheckboxGroupVariantProps,
-} from "@seed-design/css/recipes/checkbox-group";
+} from "@ride-developer/css/recipes/checkbox-group";
 
 const { withContext: withGroupContext } = createRecipeContext(checkboxGroup);
 const { ClassNamesProvider, withContext } = createSlotRecipeContext(checkbox);

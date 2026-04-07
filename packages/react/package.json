@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react",
+  "name": "@ride-developer/react",
   "version": "1.2.8",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react"
   },
   "sideEffects": [
@@ -67,7 +67,7 @@
     "unicode-segmenter": "^0.14.4"
   },
   "peerDependencies": {
-    "@seed-design/css": ">=1.1.17",
+    "@ride-developer/css": ">=1.2.7",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
@@ -84,6 +84,7 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
     "access": "public"
   }
 }

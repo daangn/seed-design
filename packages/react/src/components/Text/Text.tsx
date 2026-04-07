@@ -1,4 +1,4 @@
-import { text, type TextVariantProps } from "@seed-design/css/recipes/text";
+import { text, type TextVariantProps } from "@ride-developer/css/recipes/text";
 import {
   vars,
   type FontSize,
@@ -6,7 +6,7 @@ import {
   type LineHeight,
   type ScopedColorFg,
   type ScopedColorPalette,
-} from "@seed-design/css/vars";
+} from "@ride-developer/css/vars";
 import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef, useMemo } from "react";

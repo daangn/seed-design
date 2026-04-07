@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/css",
+  "name": "@ride-developer/css",
   "version": "1.2.7",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/css"
   },
   "scripts": {
@@ -72,6 +72,7 @@
     "@seed-design/qvism-preset": "0.0.0"
   },
   "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
     "access": "public"
   }
 }

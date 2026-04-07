@@ -1,6 +1,6 @@
-import { radio, type RadioVariantProps } from "@seed-design/css/recipes/radio";
-import { radioGroup, type RadioGroupVariantProps } from "@seed-design/css/recipes/radio-group";
-import { radiomark, type RadiomarkVariantProps } from "@seed-design/css/recipes/radiomark";
+import { radio, type RadioVariantProps } from "@ride-developer/css/recipes/radio";
+import { radioGroup, type RadioGroupVariantProps } from "@ride-developer/css/recipes/radio-group";
+import { radiomark, type RadiomarkVariantProps } from "@ride-developer/css/recipes/radiomark";
 import { mergeProps } from "@seed-design/dom-utils";
 import {
   RadioGroup as RadioGroupPrimitive,

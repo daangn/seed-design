@@ -1,16 +1,16 @@
 import {
   imageFrame as imageFrameRecipe,
   type ImageFrameVariantProps,
-} from "@seed-design/css/recipes/image-frame";
+} from "@ride-developer/css/recipes/image-frame";
 import {
   imageFrameIcon,
   type ImageFrameIconVariantProps,
-} from "@seed-design/css/recipes/image-frame-icon";
+} from "@ride-developer/css/recipes/image-frame-icon";
 import {
   imageFrameIndicator,
   type ImageFrameIndicatorVariantProps,
-} from "@seed-design/css/recipes/image-frame-indicator";
-import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
+} from "@ride-developer/css/recipes/image-frame-indicator";
+import { imageFrameReactionButton } from "@ride-developer/css/recipes/image-frame-reaction-button";
 import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Image } from "@seed-design/react-image";

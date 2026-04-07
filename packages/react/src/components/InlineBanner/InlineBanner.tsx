@@ -3,7 +3,7 @@ import type * as React from "react";
 import {
   inlineBanner,
   type InlineBannerVariantProps,
-} from "@seed-design/css/recipes/inline-banner";
+} from "@ride-developer/css/recipes/inline-banner";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import {

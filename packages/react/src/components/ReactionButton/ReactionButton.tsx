@@ -1,7 +1,7 @@
 import {
   reactionButton,
   type ReactionButtonVariantProps,
-} from "@seed-design/css/recipes/reaction-button";
+} from "@ride-developer/css/recipes/reaction-button";
 import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
 import clsx from "clsx";
 import * as React from "react";

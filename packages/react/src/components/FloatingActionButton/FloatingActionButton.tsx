@@ -1,7 +1,7 @@
 import {
   floatingActionButton,
   type FloatingActionButtonVariantProps,
-} from "@seed-design/css/recipes/floating-action-button";
+} from "@ride-developer/css/recipes/floating-action-button";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

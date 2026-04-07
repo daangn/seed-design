@@ -1,4 +1,4 @@
-import type { ContentPlaceholderVariant } from "@seed-design/css/recipes/content-placeholder";
+import type { ContentPlaceholderVariant } from "@ride-developer/css/recipes/content-placeholder";
 
 export const contentPlaceholderAssetPresetMap: Record<
   ContentPlaceholderVariant["type"],

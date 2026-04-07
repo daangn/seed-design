@@ -1,5 +1,5 @@
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { skeleton, type SkeletonVariantProps } from "@seed-design/css/recipes/skeleton";
+import { skeleton, type SkeletonVariantProps } from "@ride-developer/css/recipes/skeleton";
 import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";

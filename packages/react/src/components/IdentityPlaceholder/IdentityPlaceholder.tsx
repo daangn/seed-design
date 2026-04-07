@@ -1,7 +1,7 @@
 import {
   identityPlaceholder,
   type IdentityPlaceholderVariantProps,
-} from "@seed-design/css/recipes/identity-placeholder";
+} from "@ride-developer/css/recipes/identity-placeholder";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import * as React from "react";

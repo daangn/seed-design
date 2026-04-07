@@ -1,5 +1,5 @@
-import { snackbar, type SnackbarVariantProps } from "@seed-design/css/recipes/snackbar";
-import { snackbarRegion } from "@seed-design/css/recipes/snackbar-region";
+import { snackbar, type SnackbarVariantProps } from "@ride-developer/css/recipes/snackbar";
+import { snackbarRegion } from "@ride-developer/css/recipes/snackbar-region";
 import { visuallyHidden } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { Snackbar as SnackbarPrimitive } from "@seed-design/react-snackbar";

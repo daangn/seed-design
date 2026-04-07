@@ -1,4 +1,3 @@
-# @seed-design/css
+# @ride-developer/css
 
-CSS implementation of Seed Design, providing design tokens and component styles and theming codes.
-
+CSS implementation of Ride Design System, providing design tokens and component styles and theming codes.
