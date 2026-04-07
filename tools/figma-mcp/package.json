@@ -20,7 +20,7 @@
     "@ride-developer/css": "2.0.0",
     "@ride-developer/figma": "2.0.0",
     "@ride-developer/migration-index": "2.0.0",
-    "@ride-developer/react": "2.0.0",
+    "@ride-developer/react": "2.0.1",
     "@ride-developer/vite-plugin": "2.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

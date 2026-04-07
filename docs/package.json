@@ -34,7 +34,7 @@
     "@sanity/vision": "^4.20.3",
     "@ride-developer/css": "2.0.0",
     "@ride-developer/migration-index": "2.0.0",
-    "@ride-developer/react": "2.0.0",
+    "@ride-developer/react": "2.0.1",
     "@seed-design/react-icon": "^0.7.4",
     "@ride-developer/rootage-core": "0.0.0",
     "@ride-developer/stackflow": "2.0.0",

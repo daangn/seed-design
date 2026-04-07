@@ -1,5 +1,14 @@
 # @seed-design/react
 
+## 2.0.1
+
+### Patch Changes
+
+- d54a97d: Add 'use client' directive to all React components for Next.js App Router compatibility.
+
+  Previously, components lacked the directive causing "Invalid hook call" errors when used
+  in Next.js SSR context. All 74 component files now include 'use client' at the top.
+
 ## 2.0.0
 
 ### Major Changes
