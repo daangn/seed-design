@@ -11,6 +11,12 @@ function syncThemeFromParent() {
   const theme = parentTheme === "dark" ? "dark" : "light";
   document.documentElement.style.colorScheme = theme;
   document.documentElement.dataset.seedUserColorScheme = theme;
+
+  if (theme === "dark") {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
 }
 
 export function BlockThemeListener() {

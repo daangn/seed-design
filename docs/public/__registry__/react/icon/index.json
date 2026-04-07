@@ -1,0 +1,62 @@
+{
+  "id": "icon",
+  "hideFromCLICatalog": true,
+  "items": [
+    {
+      "snippets": [
+        {
+          "path": "icon-blog.tsx"
+        }
+      ],
+      "id": "icon-blog"
+    },
+    {
+      "snippets": [
+        {
+          "path": "icon-facebook.tsx"
+        }
+      ],
+      "id": "icon-facebook"
+    },
+    {
+      "snippets": [
+        {
+          "path": "icon-github.tsx"
+        }
+      ],
+      "id": "icon-github"
+    },
+    {
+      "snippets": [
+        {
+          "path": "icon-instagram.tsx"
+        }
+      ],
+      "id": "icon-instagram"
+    },
+    {
+      "snippets": [
+        {
+          "path": "icon-kakaotalk.tsx"
+        }
+      ],
+      "id": "icon-kakaotalk"
+    },
+    {
+      "snippets": [
+        {
+          "path": "icon-medium.tsx"
+        }
+      ],
+      "id": "icon-medium"
+    },
+    {
+      "snippets": [
+        {
+          "path": "icon-youtube.tsx"
+        }
+      ],
+      "id": "icon-youtube"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "icon-facebook",
+  "snippets": [
+    {
+      "path": "icon-facebook.tsx",
+      "content": "/**\n * @file icon:icon-facebook\n **/\n\nimport type * as React from \"react\";\n\ntype IconProps = React.SVGProps<SVGSVGElement>;\n\nexport function IconFacebook(props: IconProps) {\n  return (\n    <svg\n      width=\"24\"\n      height=\"24\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      {...props}\n    >\n      <path\n        d=\"M12 1C18.0751 1 23 5.92492 23 12C23 17.6241 18.7789 22.2621 13.333 22.9199V15.3613H16.3086L16.9258 12H13.333V10.8115C13.333 9.14613 13.9459 8.44086 15.5088 8.35938C15.6126 8.35397 15.7207 8.35157 15.833 8.35156C16.3928 8.35156 16.8438 8.36533 17.1035 8.39258L17.1045 5.3457C17.0911 5.34199 17.0769 5.33868 17.0625 5.33496C16.9445 5.30449 16.793 5.27368 16.6211 5.24512C16.1392 5.16512 15.4987 5.09818 14.9961 5.07812L14.7129 5.07227C13.5641 5.07227 12.6084 5.2415 11.8379 5.58887C11.7609 5.62359 11.6856 5.65996 11.6123 5.69824C11.0988 5.96629 10.6761 6.32259 10.3398 6.76855C10.2437 6.89603 10.1542 7.03055 10.0723 7.17285C9.58069 8.02629 9.34277 9.14793 9.34277 10.5518V12H7.07422V15.3613H9.34277V22.6758C4.55169 21.4868 1 17.1585 1 12C1 5.92492 5.92492 1 12 1Z\"\n        fill=\"currentColor\"\n      />\n    </svg>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n"
+    }
+  ]
+}
