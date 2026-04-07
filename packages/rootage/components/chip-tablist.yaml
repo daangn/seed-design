@@ -26,7 +26,3 @@ data:
       enabled:
         root:
           gap: 8px
-    variant=brandSolid:
-      enabled:
-        root:
-          gap: 8px

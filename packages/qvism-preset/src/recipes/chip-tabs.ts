@@ -166,36 +166,6 @@ const chipTabs = defineSlotRecipe({
           },
         },
       },
-      brandSolid: {
-        trigger: {
-          backgroundColor: triggerVars.variantBrandSolid.enabled.root.color,
-
-          color: triggerVars.variantBrandSolid.enabled.label.color,
-
-          [pseudo(selected)]: {
-            backgroundColor: triggerVars.variantBrandSolid.selected.root.color,
-            color: triggerVars.variantBrandSolid.selected.label.color,
-          },
-
-          [pseudo(engaged)]: {
-            backgroundColor: triggerVars.variantBrandSolid.enabledPressed.root.color,
-          },
-
-          [pseudo(selected, engaged)]: {
-            backgroundColor: triggerVars.variantBrandSolid.selectedPressed.root.color,
-          },
-
-          [pseudo(disabled)]: {
-            cursor: "not-allowed",
-            backgroundColor: triggerVars.variantBrandSolid.disabled.root.color,
-            color: triggerVars.variantBrandSolid.disabled.label.color,
-          },
-
-          [pseudo(disabled, selected)]: {
-            backgroundColor: triggerVars.variantBrandSolid.selectedDisabled.root.color,
-          },
-        },
-      },
     },
     contentLayout: {
       fill: {

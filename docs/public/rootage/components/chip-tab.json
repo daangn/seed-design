@@ -65,8 +65,7 @@
         "variant": {
           "values": {
             "neutralSolid": {},
-            "neutralOutline": {},
-            "brandSolid": {}
+            "neutralOutline": {}
           },
           "defaultValue": "neutralSolid"
         }
@@ -392,112 +391,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "variant": "brandSolid"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-weak"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-muted"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "enabled",
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-weak-pressed"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "selected"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "selected",
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid-pressed"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.disabled"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "selected",
-              "disabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.disabled"
                 }
               }
             }
