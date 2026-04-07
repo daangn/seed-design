@@ -1,4 +1,4 @@
-import { ProgressCircle as ProgressCirclePrimitive } from "@seed-design/react-progress";
+import { ProgressCircle as ProgressCirclePrimitive } from "@ride-developer/react-progress";
 import {
   progressCircle,
   type ProgressCircleVariantProps,

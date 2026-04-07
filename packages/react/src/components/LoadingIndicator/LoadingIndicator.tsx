@@ -1,5 +1,5 @@
-import { mergeProps } from "@seed-design/dom-utils";
-import { Primitive } from "@seed-design/react-primitive";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Primitive } from "@ride-developer/react-primitive";
 import { forwardRef } from "react";
 import { usePendingButtonContext } from "./usePendingButton";
 
@@ -15,7 +15,7 @@ export const LoadingIndicator = forwardRef<HTMLSpanElement, LoadingIndicatorProp
     <>
       <Primitive.span
         ref={ref}
-        {...mergeProps(stateProps, { className: "seed-loading-indicator" }, otherProps)}
+        {...mergeProps(stateProps, { className: "ride-loading-indicator" }, otherProps)}
       >
         {indicator}
       </Primitive.span>

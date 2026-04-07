@@ -1,7 +1,7 @@
 import { scrollFog, type ScrollFogVariantProps } from "@ride-developer/css/recipes/scroll-fog";
 import clsx from "clsx";
 import { forwardRef, useMemo } from "react";
-import { scrollFog as vars } from "@seed-design/css/vars/component";
+import { scrollFog as vars } from "@ride-developer/css/vars/component";
 
 type ScrollPlacement = "top" | "bottom" | "left" | "right";
 

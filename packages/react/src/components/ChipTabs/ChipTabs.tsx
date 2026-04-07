@@ -1,5 +1,5 @@
 import { chipTabs, type ChipTabsVariantProps } from "@ride-developer/css/recipes/chip-tabs";
-import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
+import { Tabs as TabsPrimitive } from "@ride-developer/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { forwardRef } from "react";
 import clsx from "clsx";
@@ -14,7 +14,7 @@ export const ChipTabsRoot = forwardRef<HTMLDivElement, ChipTabsRootProps>(
   ({ className, ...props }, ref) => {
     if (process.env.NODE_ENV !== "production" && props.variant === "brandSolid") {
       console.warn(
-        "[SEED Design System] ChipTabs variant='brandSolid' is deprecated and will be removed in @seed-design/react@1.3.0. Use variant='neutralSolid' or variant='neutralOutline' instead.",
+        "[Ride Design System] ChipTabs variant='brandSolid' is deprecated and will be removed in @ride-developer/react@2.0.0. Use variant='neutralSolid' or variant='neutralOutline' instead.",
       );
     }
 

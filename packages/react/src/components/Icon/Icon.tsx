@@ -13,7 +13,7 @@ export const PrefixIcon = forwardRef<SVGSVGElement, PrefixIconProps>(
       <Slot
         ref={ref as React.ForwardedRef<HTMLElement>}
         aria-hidden
-        className="seed-prefix-icon"
+        className="ride-prefix-icon"
         {...otherProps}
       >
         {svg}
@@ -32,7 +32,7 @@ export const SuffixIcon = forwardRef<SVGSVGElement, SuffixIconProps>(
       <Slot
         ref={ref as React.ForwardedRef<HTMLElement>}
         aria-hidden
-        className="seed-suffix-icon"
+        className="ride-suffix-icon"
         {...otherProps}
       >
         {svg}
@@ -131,7 +131,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
       <Slot
         ref={ref as React.ForwardedRef<HTMLElement>}
         aria-hidden
-        className="seed-icon"
+        className="ride-icon"
         style={
           {
             "--seed-icon-size": sizeValue,

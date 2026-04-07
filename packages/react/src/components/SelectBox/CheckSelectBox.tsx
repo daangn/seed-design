@@ -8,14 +8,14 @@ import {
   selectBoxGroup,
   type SelectBoxGroupVariantProps,
 } from "@ride-developer/css/recipes/select-box-group";
-import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
+import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@ride-developer/react-checkbox";
 import {
   Collapsible,
   CollapsibleProvider,
   useCollapsible,
   useCollapsibleContext,
-} from "@seed-design/react-collapsible";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+} from "@ride-developer/react-collapsible";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import clsx from "clsx";
 import {
   createContext,

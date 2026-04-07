@@ -1,4 +1,4 @@
-import { mergeProps } from "@seed-design/dom-utils";
+import { mergeProps } from "@ride-developer/dom-utils";
 import * as React from "react";
 import { Box, type BoxProps } from "../Box/Box";
 
@@ -63,7 +63,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>((props, ref) => 
       alignItems={align}
       justifyContent={justify}
       {...mergeProps(rest, {
-        className: "seed-grid",
+        className: "ride-grid",
         style: {
           "--seed-grid-columns":
             typeof columns === "number" ? `repeat(${columns}, minmax(0, 1fr))` : columns,

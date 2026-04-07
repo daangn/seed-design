@@ -15,4 +15,4 @@ export {
   type TabsTriggerProps as TriggerProps,
 } from "./Tabs";
 
-export { tabsCarouselPreventDrag as carouselPreventDrag } from "@seed-design/react-tabs";
+export { tabsCarouselPreventDrag as carouselPreventDrag } from "@ride-developer/react-tabs";

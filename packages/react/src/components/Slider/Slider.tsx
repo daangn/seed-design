@@ -6,15 +6,15 @@ import {
   sliderMarker,
   type SliderMarkerVariantProps,
 } from "@ride-developer/css/recipes/slider-marker";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { Slider, useSliderContext } from "@seed-design/react-slider";
+import { Slider, useSliderContext } from "@ride-developer/react-slider";
 import { forwardRef, useState, type HTMLAttributes } from "react";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import clsx from "clsx";
-import { mergeProps } from "@seed-design/dom-utils";
-import { useFieldContext } from "@seed-design/react-field";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { useFieldContext } from "@ride-developer/react-field";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(slider);

@@ -1,5 +1,5 @@
-import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Dialog as DialogPrimitive, useDialogContext } from "@ride-developer/react-dialog";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import {
   extendedActionSheet,
   type ExtendedActionSheetVariantProps,

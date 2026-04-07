@@ -1,5 +1,5 @@
-import { visuallyHidden } from "@seed-design/dom-utils";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { visuallyHidden } from "@ride-developer/dom-utils";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import type * as React from "react";
 import { forwardRef } from "react";
 

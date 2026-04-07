@@ -1,5 +1,5 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { Drawer } from "@seed-design/react-drawer";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
+import { Drawer } from "@ride-developer/react-drawer";
 import { bottomSheetHandle } from "@ride-developer/css/recipes/bottom-sheet-handle";
 import React from "react";
 import clsx from "clsx";

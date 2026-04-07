@@ -1,5 +1,5 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { FieldButton, useFieldButtonContext } from "@seed-design/react-field-button";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
+import { FieldButton, useFieldButtonContext } from "@ride-developer/react-field-button";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";

@@ -1,4 +1,4 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import clsx from "clsx";
 import { forwardRef } from "react";
 
@@ -14,7 +14,7 @@ export const ConsistentWidth = forwardRef<HTMLSpanElement, ConsistentWidthProps>
     <Primitive.span
       data-text={props.children}
       ref={ref}
-      className={clsx("seed-consistent-width", className)}
+      className={clsx("ride-consistent-width", className)}
       {...otherProps}
     />
   );

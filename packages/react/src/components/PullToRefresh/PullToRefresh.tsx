@@ -1,4 +1,4 @@
-import { PullToRefresh as PullToRefreshPrimitive } from "@seed-design/react-pull-to-refresh";
+import { PullToRefresh as PullToRefreshPrimitive } from "@ride-developer/react-pull-to-refresh";
 import {
   pullToRefresh,
   type PullToRefreshVariantProps,

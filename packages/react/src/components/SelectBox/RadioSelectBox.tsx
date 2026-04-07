@@ -9,12 +9,12 @@ import {
   CollapsibleProvider,
   useCollapsible,
   useCollapsibleContext,
-} from "@seed-design/react-collapsible";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+} from "@ride-developer/react-collapsible";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import {
   RadioGroup as RadioGroupPrimitive,
   useRadioGroupItemContext,
-} from "@seed-design/react-radio-group";
+} from "@ride-developer/react-radio-group";
 import {
   createContext,
   forwardRef,

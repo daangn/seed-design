@@ -1,8 +1,8 @@
-import { Switch as SwitchPrimitive, useSwitchContext } from "@seed-design/react-switch";
+import { Switch as SwitchPrimitive, useSwitchContext } from "@ride-developer/react-switch";
 import { switchStyle, type SwitchVariantProps } from "@ride-developer/css/recipes/switch";
 import { switchmark, type SwitchmarkVariantProps } from "@ride-developer/css/recipes/switchmark";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import React from "react";
 import clsx from "clsx";
@@ -37,7 +37,7 @@ export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
       (props.size === "small" || props.size === "medium")
     ) {
       console.warn(
-        `[SEED Design System] Switch size='${props.size}' is deprecated and will be removed in @seed-design/react@1.3.0. Use size='${props.size === "small" ? "16" : "32"}' instead.`,
+        `[Ride Design System] Switch size='${props.size}' is deprecated and will be removed in @ride-developer/react@2.0.0. Use size='${props.size === "small" ? "16" : "32"}' instead.`,
       );
     }
 

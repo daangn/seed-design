@@ -6,7 +6,7 @@ import {
   notificationBadgePositioner,
   type NotificationBadgePositionerVariantProps,
 } from "@ride-developer/css/recipes/notification-badge-positioner";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
 import { useMemo } from "react";

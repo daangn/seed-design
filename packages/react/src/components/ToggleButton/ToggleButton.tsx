@@ -2,7 +2,7 @@ import {
   toggleButton,
   type ToggleButtonVariantProps,
 } from "@ride-developer/css/recipes/toggle-button";
-import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
+import { Toggle as TogglePrimitive } from "@ride-developer/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
 import {

@@ -2,7 +2,7 @@ import type * as React from "react";
 import { forwardRef } from "react";
 
 import { pageBanner, type PageBannerVariantProps } from "@ride-developer/css/recipes/page-banner";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import {
   DismissibleCloseButton,

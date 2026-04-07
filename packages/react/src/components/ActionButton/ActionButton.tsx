@@ -2,7 +2,7 @@ import {
   actionButton,
   type ActionButtonVariantProps,
 } from "@ride-developer/css/recipes/action-button";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
 import { handleColor, useStyleProps, type StyleProps } from "../../utils/styled";

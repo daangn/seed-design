@@ -4,7 +4,7 @@ import {
   inlineBanner,
   type InlineBannerVariantProps,
 } from "@ride-developer/css/recipes/inline-banner";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import {
   DismissibleCloseButton,

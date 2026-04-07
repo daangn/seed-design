@@ -2,8 +2,8 @@ import {
   identityPlaceholder,
   type IdentityPlaceholderVariantProps,
 } from "@ride-developer/css/recipes/identity-placeholder";
-import { mergeProps } from "@seed-design/dom-utils";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 

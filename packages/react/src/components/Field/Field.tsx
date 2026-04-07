@@ -1,5 +1,5 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { Field, useFieldContext } from "@seed-design/react-field";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
+import { Field, useFieldContext } from "@ride-developer/react-field";
 import type * as React from "react";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
