@@ -36,7 +36,8 @@
     "react-dom": ">=18.0.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
     "@radix-ui/react-use-effect-event": "^0.0.2",

@@ -34,7 +34,8 @@
     "@ride-developer/rootage-core": "0.0.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "csstype": "^3.1.3"

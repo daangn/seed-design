@@ -44,7 +44,8 @@
     "@karrotmarket/react-multicolor-icon": "^1.0.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
   "engines": {
     "node": ">=20.16.0"
