@@ -1,3 +1,4 @@
+'use client';
 import {
   floatingActionButton,
   type FloatingActionButtonVariantProps,

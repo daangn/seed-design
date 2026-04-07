@@ -1,3 +1,4 @@
+'use client';
 import type { Dimension } from "@ride-developer/css/vars";
 import * as React from "react";
 import { Box } from "../Box/Box";

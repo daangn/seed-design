@@ -1,3 +1,4 @@
+'use client';
 import { mannerTemp, type MannerTempVariantProps } from "@ride-developer/css/recipes/manner-temp";
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import type * as React from "react";

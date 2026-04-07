@@ -1,3 +1,4 @@
+'use client';
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { Drawer } from "@ride-developer/react-drawer";
 import { bottomSheetHandle } from "@ride-developer/css/recipes/bottom-sheet-handle";

@@ -1,3 +1,4 @@
+'use client';
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { extendedFab, type ExtendedFabVariantProps } from "@ride-developer/css/recipes/extended-fab";
 import { createRecipeContext } from "../../utils/createRecipeContext";

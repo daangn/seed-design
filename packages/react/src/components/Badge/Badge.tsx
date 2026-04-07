@@ -1,3 +1,4 @@
+'use client';
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { badge, type BadgeVariantProps } from "@ride-developer/css/recipes/badge";
 import type * as React from "react";

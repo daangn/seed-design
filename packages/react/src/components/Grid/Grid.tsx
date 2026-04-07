@@ -1,3 +1,4 @@
+'use client';
 import { mergeProps } from "@ride-developer/dom-utils";
 import * as React from "react";
 import { Box, type BoxProps } from "../Box/Box";

@@ -1,3 +1,4 @@
+'use client';
 import clsx from "clsx";
 import * as React from "react";
 import { useStyleProps, type StyleProps } from "../../utils/styled";

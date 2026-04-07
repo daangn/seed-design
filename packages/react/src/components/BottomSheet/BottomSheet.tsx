@@ -1,3 +1,4 @@
+'use client';
 import { bottomSheet, type BottomSheetVariantProps } from "@ride-developer/css/recipes/bottom-sheet";
 import { dataAttr } from "@ride-developer/dom-utils";
 import { Drawer, useDrawerContext } from "@ride-developer/react-drawer";

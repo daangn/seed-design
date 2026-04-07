@@ -1,3 +1,4 @@
+'use client';
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { selectBox, type SelectBoxVariantProps } from "@ride-developer/css/recipes/select-box";
 import {

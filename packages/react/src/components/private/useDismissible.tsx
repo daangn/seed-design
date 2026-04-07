@@ -1,3 +1,4 @@
+'use client';
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { buttonProps, elementProps, mergeProps } from "@ride-developer/dom-utils";
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";

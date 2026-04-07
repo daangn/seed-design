@@ -1,3 +1,4 @@
+'use client';
 import { Dialog as DialogPrimitive, useDialogContext } from "@ride-developer/react-dialog";
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { menuSheet, type MenuSheetVariantProps } from "@ride-developer/css/recipes/menu-sheet";

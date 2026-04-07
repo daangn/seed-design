@@ -1,3 +1,4 @@
+'use client';
 import { ProgressCircle as ProgressCirclePrimitive } from "@ride-developer/react-progress";
 import {
   progressCircle,

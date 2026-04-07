@@ -1,3 +1,4 @@
+'use client';
 import { Popover as PopoverPrimitive, usePopoverContext } from "@ride-developer/react-popover";
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { helpBubble, type HelpBubbleVariantProps } from "@ride-developer/css/recipes/help-bubble";

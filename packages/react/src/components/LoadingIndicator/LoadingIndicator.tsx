@@ -1,3 +1,4 @@
+'use client';
 import { mergeProps } from "@ride-developer/dom-utils";
 import { Primitive } from "@ride-developer/react-primitive";
 import { forwardRef } from "react";

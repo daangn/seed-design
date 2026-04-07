@@ -1,3 +1,4 @@
+'use client';
 import { actionChip, type ActionChipVariantProps } from "@ride-developer/css/recipes/action-chip";
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import type * as React from "react";

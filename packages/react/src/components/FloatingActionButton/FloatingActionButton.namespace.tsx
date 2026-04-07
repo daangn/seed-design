@@ -1,3 +1,4 @@
+'use client';
 export {
   FloatingActionButtonIcon as Icon,
   FloatingActionButtonLabel as Label,

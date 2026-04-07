@@ -1,3 +1,4 @@
+'use client';
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import clsx from "clsx";
 import { forwardRef } from "react";

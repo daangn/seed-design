@@ -1,0 +1,1084 @@
+{
+  "primitive": {
+    "color": {
+      "common": {
+        "white": { "value": "#ffffff", "type": "color", "description": "순수 흰색" },
+        "black": { "value": "#000000", "type": "color", "description": "순수 검정" }
+      },
+      "blue": {
+        "50": { "value": "#f6fbff", "type": "color" },
+        "100": { "value": "#ebf6ff", "type": "color" },
+        "200": { "value": "#e2f2ff", "type": "color" },
+        "300": { "value": "#d4ecff", "type": "color" },
+        "400": { "value": "#b3ddff", "type": "color" },
+        "500": { "value": "#5bb7ff", "type": "color" },
+        "600": { "value": "#0a93ff", "type": "color", "description": "Ride 브랜드 컬러 (Primary Normal)" },
+        "700": { "value": "#0679df", "type": "color" },
+        "800": { "value": "#065cb3", "type": "color" },
+        "900": { "value": "#0b3e91", "type": "color" }
+      },
+      "gray": {
+        "50": { "value": "#f7f9fa", "type": "color" },
+        "100": { "value": "#f1f4f6", "type": "color" },
+        "200": { "value": "#e7edf0", "type": "color" },
+        "300": { "value": "#cfd5d9", "type": "color" },
+        "400": { "value": "#aeb7bc", "type": "color" },
+        "500": { "value": "#6e777c", "type": "color", "description": "중간 회색" },
+        "600": { "value": "#5e686e", "type": "color" },
+        "700": { "value": "#4a5256", "type": "color" },
+        "800": { "value": "#353b3f", "type": "color" },
+        "900": { "value": "#222629", "type": "color" },
+        "1000": { "value": "#121414", "type": "color", "description": "가장 어두운 회색" }
+      },
+      "red": {
+        "50": { "value": "#ffefef", "type": "color" },
+        "100": { "value": "#fad8d8", "type": "color" },
+        "200": { "value": "#f2b2b2", "type": "color" },
+        "300": { "value": "#e68686", "type": "color" },
+        "400": { "value": "#de6969", "type": "color" },
+        "500": { "value": "#da5b5b", "type": "color" },
+        "600": { "value": "#d64c4c", "type": "color", "description": "Ride critical 컬러" },
+        "700": { "value": "#c54343", "type": "color" },
+        "800": { "value": "#9f3433", "type": "color" },
+        "900": { "value": "#792523", "type": "color" }
+      },
+      "yellow": {
+        "50": { "value": "#fff7d8", "type": "color" },
+        "100": { "value": "#fff4c6", "type": "color" },
+        "200": { "value": "#ffefb2", "type": "color" },
+        "300": { "value": "#ffe88d", "type": "color" },
+        "400": { "value": "#ffe065", "type": "color" },
+        "500": { "value": "#ffd633", "type": "color" },
+        "600": { "value": "#ffcc00", "type": "color", "description": "Ride warning 컬러" },
+        "700": { "value": "#fdc100", "type": "color" },
+        "800": { "value": "#fab400", "type": "color" },
+        "900": { "value": "#e4a400", "type": "color" }
+      },
+      "green": {
+        "50": { "value": "#eaf9ee", "type": "color" },
+        "100": { "value": "#d7f4df", "type": "color" },
+        "200": { "value": "#c2eece", "type": "color" },
+        "300": { "value": "#97e2b4", "type": "color" },
+        "400": { "value": "#6cd69a", "type": "color" },
+        "500": { "value": "#41ca80", "type": "color" },
+        "600": { "value": "#15bd66", "type": "color", "description": "Ride success 컬러" },
+        "700": { "value": "#10ac4c", "type": "color" },
+        "800": { "value": "#099a32", "type": "color" },
+        "900": { "value": "#018827", "type": "color" }
+      },
+      "oxford": {
+        "50": { "value": "#dadaee", "type": "color" },
+        "100": { "value": "#c1c1d7", "type": "color" },
+        "200": { "value": "#a7a7bf", "type": "color" },
+        "300": { "value": "#73738f", "type": "color" },
+        "400": { "value": "#5a5a78", "type": "color" },
+        "500": { "value": "#474766", "type": "color" },
+        "600": { "value": "#333354", "type": "color", "description": "Ride oxford 보조 컬러" },
+        "700": { "value": "#202042", "type": "color" },
+        "800": { "value": "#0c0c30", "type": "color" },
+        "900": { "value": "#030319", "type": "color" }
+      },
+      "social": {
+        "kakao": { "value": "#fee500", "type": "color", "description": "카카오 브랜드 컬러" },
+        "naver": { "value": "#03cf5d", "type": "color", "description": "네이버 브랜드 컬러" },
+        "apple": { "value": "#000000", "type": "color", "description": "애플 브랜드 컬러" },
+        "google": { "value": "#f2f2f2", "type": "color", "description": "구글 브랜드 컬러" }
+      }
+    },
+    "fontSizes": {
+      "t1": { "value": "10", "type": "fontSizes", "description": "10px" },
+      "t2": { "value": "11", "type": "fontSizes", "description": "11px" },
+      "t3": { "value": "12", "type": "fontSizes", "description": "12px" },
+      "t4": { "value": "13", "type": "fontSizes", "description": "13px" },
+      "t5": { "value": "14", "type": "fontSizes", "description": "14px" },
+      "t6": { "value": "15", "type": "fontSizes", "description": "15px" },
+      "t7": { "value": "16", "type": "fontSizes", "description": "16px" },
+      "t8": { "value": "17", "type": "fontSizes", "description": "17px" },
+      "t9": { "value": "19", "type": "fontSizes", "description": "19px" },
+      "t10": { "value": "20", "type": "fontSizes", "description": "20px" },
+      "t11": { "value": "22", "type": "fontSizes", "description": "22px" },
+      "t12": { "value": "24", "type": "fontSizes", "description": "24px" },
+      "t13": { "value": "26", "type": "fontSizes", "description": "26px" },
+      "t14": { "value": "28", "type": "fontSizes", "description": "28px" },
+      "t15": { "value": "32", "type": "fontSizes", "description": "32px" },
+      "t16": { "value": "36", "type": "fontSizes", "description": "36px" },
+      "t17": { "value": "40", "type": "fontSizes", "description": "40px" },
+      "t18": { "value": "48", "type": "fontSizes", "description": "48px" }
+    },
+    "lineHeights": {
+      "t1": { "value": "10", "type": "lineHeights", "description": "10px" },
+      "t2": { "value": "12", "type": "lineHeights", "description": "12px" },
+      "t3": { "value": "14", "type": "lineHeights", "description": "14px" },
+      "t4": { "value": "16", "type": "lineHeights", "description": "16px" },
+      "t5": { "value": "18", "type": "lineHeights", "description": "18px" },
+      "t6": { "value": "20", "type": "lineHeights", "description": "20px" },
+      "t7": { "value": "22", "type": "lineHeights", "description": "22px" },
+      "t8": { "value": "24", "type": "lineHeights", "description": "24px" },
+      "t9": { "value": "26", "type": "lineHeights", "description": "26px" },
+      "t10": { "value": "30", "type": "lineHeights", "description": "30px" },
+      "t11": { "value": "34", "type": "lineHeights", "description": "34px" },
+      "t12": { "value": "36", "type": "lineHeights", "description": "36px" },
+      "t13": { "value": "38", "type": "lineHeights", "description": "38px" },
+      "t14": { "value": "40", "type": "lineHeights", "description": "40px" },
+      "t15": { "value": "44", "type": "lineHeights", "description": "44px" },
+      "t16": { "value": "50", "type": "lineHeights", "description": "50px" },
+      "t17": { "value": "56", "type": "lineHeights", "description": "56px" },
+      "t18": { "value": "68", "type": "lineHeights", "description": "68px" }
+    },
+    "fontWeights": {
+      "regular": { "value": "Regular", "type": "fontWeights", "description": "일반 굵기" },
+      "medium": { "value": "Medium", "type": "fontWeights", "description": "중간 굵기" },
+      "semibold": { "value": "SemiBold", "type": "fontWeights", "description": "세미볼드" },
+      "bold": { "value": "Bold", "type": "fontWeights", "description": "굵은 글씨" }
+    },
+    "fontFamilies": {
+      "default": {
+        "value": "Pretendard",
+        "type": "fontFamilies",
+        "description": "Ride 기본 폰트"
+      }
+    },
+    "letterSpacing": {
+      "default": { "value": "0", "type": "letterSpacing", "description": "기본 자간" },
+      "tight": { "value": "-0.2", "type": "letterSpacing", "description": "좁은 자간 (Display, Paragraph)" }
+    },
+    "paragraphSpacing": {
+      "none": { "value": "0", "type": "paragraphSpacing", "description": "문단 간격 없음" },
+      "small": { "value": "6", "type": "paragraphSpacing", "description": "작은 문단 간격" },
+      "medium": { "value": "10", "type": "paragraphSpacing", "description": "중간 문단 간격" }
+    },
+    "dimension": {
+      "x0_5": { "value": "2", "type": "sizing", "description": "2px" },
+      "x1":   { "value": "4", "type": "sizing", "description": "4px" },
+      "x1_5": { "value": "6", "type": "sizing", "description": "6px" },
+      "x2":   { "value": "8", "type": "sizing", "description": "8px" },
+      "x2_5": { "value": "10", "type": "sizing", "description": "10px" },
+      "x3":   { "value": "12", "type": "sizing", "description": "12px" },
+      "x3_5": { "value": "14", "type": "sizing", "description": "14px" },
+      "x4":   { "value": "16", "type": "sizing", "description": "16px" },
+      "x4_5": { "value": "18", "type": "sizing", "description": "18px" },
+      "x5":   { "value": "20", "type": "sizing", "description": "20px" },
+      "x5_5": { "value": "22", "type": "sizing", "description": "22px" },
+      "x6":   { "value": "24", "type": "sizing", "description": "24px" },
+      "x6_5": { "value": "26", "type": "sizing", "description": "26px" },
+      "x7":   { "value": "28", "type": "sizing", "description": "28px" },
+      "x7_5": { "value": "30", "type": "sizing", "description": "30px" },
+      "x8":   { "value": "32", "type": "sizing", "description": "32px" },
+      "x8_5": { "value": "34", "type": "sizing", "description": "34px" },
+      "x9":   { "value": "36", "type": "sizing", "description": "36px" },
+      "x9_5": { "value": "38", "type": "sizing", "description": "38px" },
+      "x10":  { "value": "40", "type": "sizing", "description": "40px" },
+      "x10_5":{ "value": "42", "type": "sizing", "description": "42px" },
+      "x11":  { "value": "44", "type": "sizing", "description": "44px" },
+      "x11_5":{ "value": "46", "type": "sizing", "description": "46px" },
+      "x12":  { "value": "48", "type": "sizing", "description": "48px" },
+      "x12_5":{ "value": "50", "type": "sizing", "description": "50px" },
+      "x13":  { "value": "52", "type": "sizing", "description": "52px" },
+      "x13_5":{ "value": "54", "type": "sizing", "description": "54px" },
+      "x14":  { "value": "56", "type": "sizing", "description": "56px" },
+      "x14_5":{ "value": "58", "type": "sizing", "description": "58px" },
+      "x15":  { "value": "60", "type": "sizing", "description": "60px" },
+      "x15_5":{ "value": "62", "type": "sizing", "description": "62px" },
+      "x16":  { "value": "64", "type": "sizing", "description": "64px" }
+    },
+    "spacing": {
+      "global-gutter":      { "value": "{dimension.x4}", "type": "spacing", "description": "화면 좌우 여백 (16px)" },
+      "between-text":       { "value": "{dimension.x1_5}", "type": "spacing", "description": "텍스트 간 간격 (6px)" },
+      "component-default":  { "value": "{dimension.x3}", "type": "spacing", "description": "컴포넌트 기본 간격 (12px)" },
+      "nav-to-title":       { "value": "{dimension.x5}", "type": "spacing", "description": "네비게이션→타이틀 간격 (20px)" },
+      "screen-bottom":      { "value": "{dimension.x14}", "type": "spacing", "description": "화면 하단 여백 (56px)" }
+    },
+    "radius": {
+      "r0":   { "value": "0", "type": "borderRadius" },
+      "r1":   { "value": "4", "type": "borderRadius" },
+      "r1_5": { "value": "6", "type": "borderRadius" },
+      "r2":   { "value": "8", "type": "borderRadius" },
+      "r2_5": { "value": "10", "type": "borderRadius" },
+      "r3":   { "value": "12", "type": "borderRadius" },
+      "r3_5": { "value": "14", "type": "borderRadius" },
+      "r4":   { "value": "16", "type": "borderRadius" },
+      "full": { "value": "9999", "type": "borderRadius" }
+    },
+    "shadow": {
+      "s1": { "value": "0px 1px 4px 0px rgba(0,0,0,0.08)", "type": "boxShadow", "description": "Elevation 1 — 카드, 리스트 아이템" },
+      "s2": { "value": "0px 2px 10px 0px rgba(0,0,0,0.10)", "type": "boxShadow", "description": "Elevation 2 — 바텀시트, 드롭다운" },
+      "s3": { "value": "0px 4px 16px 0px rgba(0,0,0,0.12)", "type": "boxShadow", "description": "Elevation 3 — 다이얼로그, 플로팅 요소" }
+    }
+  },
+  "semantic": {
+    "color": {
+      "fg": {
+        "brand-solid": { "value": "{color.blue.600}", "type": "color", "description": "브랜드 텍스트 (강조) — Ride Primary Normal" },
+        "brand-solid-pressed": { "value": "{color.blue.700}", "type": "color", "description": "브랜드 텍스트 (눌렀을 때) — Ride Primary Strong" },
+        "brand-weak": { "value": "{color.blue.500}", "type": "color", "description": "브랜드 텍스트 (약한 강조)" },
+        "brand-muted": { "value": "{color.blue.400}", "type": "color", "description": "브랜드 텍스트 (흐림)" },
+        "brand-contrast": { "value": "{color.common.white}", "type": "color", "description": "브랜드 배경 위 텍스트 (흰색)" },
+        "neutral": { "value": "{color.gray.900}", "type": "color", "description": "기본 텍스트 색상 — Ride Label Primary" },
+        "neutral-weak": { "value": "{color.gray.700}", "type": "color", "description": "부가 정보 텍스트" },
+        "neutral-muted": { "value": "{color.gray.600}", "type": "color", "description": "흐린 텍스트 (placeholder) — Ride Label Secondary" },
+        "neutral-subtle": { "value": "{color.gray.500}", "type": "color", "description": "매우 연한 텍스트" },
+        "neutral-inverted": { "value": "{color.common.white}", "type": "color", "description": "어두운 배경 위 텍스트" },
+        "success-solid": { "value": "{color.green.600}", "type": "color", "description": "성공/긍정 텍스트" },
+        "success-solid-pressed": { "value": "{color.green.700}", "type": "color", "description": "성공 텍스트 (눌렀을 때)" },
+        "success-weak": { "value": "{color.green.500}", "type": "color" },
+        "success-muted": { "value": "{color.green.400}", "type": "color" },
+        "success-contrast": { "value": "{color.common.white}", "type": "color", "description": "초록 배경 위 텍스트" },
+        "warning-solid": { "value": "{color.yellow.700}", "type": "color", "description": "경고 텍스트" },
+        "warning-solid-pressed": { "value": "{color.yellow.800}", "type": "color", "description": "경고 텍스트 (눌렀을 때)" },
+        "warning-weak": { "value": "{color.yellow.600}", "type": "color" },
+        "warning-muted": { "value": "{color.yellow.500}", "type": "color" },
+        "warning-contrast": { "value": "{color.gray.900}", "type": "color", "description": "노란 배경 위 텍스트 (검정)" },
+        "critical-solid": { "value": "{color.red.600}", "type": "color", "description": "오류/위험 텍스트" },
+        "critical-solid-pressed": { "value": "{color.red.700}", "type": "color", "description": "오류 텍스트 (눌렀을 때)" },
+        "critical-weak": { "value": "{color.red.500}", "type": "color" },
+        "critical-muted": { "value": "{color.red.400}", "type": "color" },
+        "critical-contrast": { "value": "{color.common.white}", "type": "color", "description": "빨간 배경 위 텍스트" },
+        "info-solid": { "value": "{color.gray.600}", "type": "color", "description": "정보 텍스트 (Gray 기반)" },
+        "info-solid-pressed": { "value": "{color.gray.700}", "type": "color", "description": "정보 텍스트 (눌렀을 때)" },
+        "info-weak": { "value": "{color.gray.500}", "type": "color" },
+        "info-muted": { "value": "{color.gray.400}", "type": "color" },
+        "info-contrast": { "value": "{color.common.white}", "type": "color", "description": "회색 배경 위 텍스트" },
+        "oxford-solid": { "value": "{color.oxford.600}", "type": "color", "description": "Oxford 텍스트" },
+        "oxford-solid-pressed": { "value": "{color.oxford.700}", "type": "color" },
+        "oxford-weak": { "value": "{color.oxford.500}", "type": "color" },
+        "oxford-muted": { "value": "{color.oxford.400}", "type": "color" },
+        "oxford-contrast": { "value": "{color.common.white}", "type": "color" }
+      },
+      "bg": {
+        "brand-solid": { "value": "{color.blue.600}", "type": "color", "description": "브랜드 배경 (버튼 등) — Ride Primary Normal" },
+        "brand-solid-pressed": { "value": "{color.blue.700}", "type": "color", "description": "브랜드 배경 (눌렀을 때)" },
+        "brand-weak": { "value": "{color.blue.100}", "type": "color", "description": "연한 브랜드 배경" },
+        "brand-weak-pressed": { "value": "{color.blue.200}", "type": "color", "description": "연한 브랜드 배경 (눌렀을 때) — brand-weak 버튼 pressed 상태" },
+        "brand-subtle": { "value": "{color.blue.50}", "type": "color", "description": "매우 연한 브랜드 배경" },
+        "brand-inverted": { "value": "{color.blue.800}", "type": "color", "description": "어두운 브랜드 배경 — Ride Primary Heavy" },
+        "neutral": { "value": "{color.gray.900}", "type": "color", "description": "기본 배경 (페이지) — Ride Background Primary" },
+        "neutral-solid": { "value": "{color.gray.100}", "type": "color", "description": "중립 배경 (카드, 패널) — Ride Background Secondary" },
+        "neutral-weak": { "value": "{color.gray.200}", "type": "color", "description": "약한 중립 배경 — Ride Background Tertiary" },
+        "neutral-muted": { "value": "{color.gray.300}", "type": "color", "description": "흐린 중립 배경" },
+        "neutral-subtle": { "value": "{color.gray.50}", "type": "color", "description": "매우 연한 중립 배경" },
+        "neutral-inverted": { "value": "{color.gray.900}", "type": "color", "description": "어두운 배경" },
+        "success-solid": { "value": "{color.green.500}", "type": "color", "description": "성공 배경 (버튼)" },
+        "success-solid-pressed": { "value": "{color.green.600}", "type": "color", "description": "성공 배경 (눌렀을 때)" },
+        "success-weak": { "value": "{color.green.100}", "type": "color", "description": "연한 성공 배경" },
+        "success-subtle": { "value": "{color.green.50}", "type": "color", "description": "매우 연한 성공 배경" },
+        "warning-solid": { "value": "{color.yellow.400}", "type": "color", "description": "경고 배경 (버튼)" },
+        "warning-solid-pressed": { "value": "{color.yellow.500}", "type": "color", "description": "경고 배경 (눌렀을 때)" },
+        "warning-weak": { "value": "{color.yellow.100}", "type": "color", "description": "연한 경고 배경" },
+        "warning-subtle": { "value": "{color.yellow.50}", "type": "color", "description": "매우 연한 경고 배경" },
+        "critical-solid": { "value": "{color.red.600}", "type": "color", "description": "오류 배경 (버튼)" },
+        "critical-solid-pressed": { "value": "{color.red.700}", "type": "color", "description": "오류 배경 (눌렀을 때)" },
+        "critical-weak": { "value": "{color.red.100}", "type": "color", "description": "연한 오류 배경" },
+        "critical-subtle": { "value": "{color.red.50}", "type": "color", "description": "매우 연한 오류 배경" },
+        "info-solid": { "value": "{color.gray.500}", "type": "color", "description": "정보 배경 (Gray 기반)" },
+        "info-solid-pressed": { "value": "{color.gray.600}", "type": "color", "description": "정보 배경 (눌렀을 때)" },
+        "info-weak": { "value": "{color.gray.100}", "type": "color", "description": "연한 정보 배경" },
+        "info-subtle": { "value": "{color.gray.50}", "type": "color", "description": "매우 연한 정보 배경" },
+        "oxford-solid": { "value": "{color.oxford.500}", "type": "color", "description": "Oxford 배경" },
+        "oxford-solid-pressed": { "value": "{color.oxford.600}", "type": "color" },
+        "oxford-weak": { "value": "{color.oxford.100}", "type": "color" },
+        "oxford-subtle": { "value": "{color.oxford.50}", "type": "color" },
+        "layer-basement": { "value": "{color.gray.50}", "type": "color", "description": "최하위 배경 레이어 (스크롤 뒤)" },
+        "layer-default": { "value": "{color.common.white}", "type": "color", "description": "기본 표면 (카드, 페이지)" },
+        "layer-floating": { "value": "{color.common.white}", "type": "color", "description": "플로팅 요소 표면 (모달, 시트)" }
+      },
+      "stroke": {
+        "brand-solid": { "value": "{color.blue.600}", "type": "color", "description": "브랜드 테두리" },
+        "brand-solid-pressed": { "value": "{color.blue.700}", "type": "color", "description": "브랜드 테두리 (눌렀을 때)" },
+        "brand-weak": { "value": "{color.blue.300}", "type": "color", "description": "연한 브랜드 테두리" },
+        "neutral": { "value": "{color.gray.900}", "type": "color", "description": "기본 테두리 (구분선) — Ride Divider Medium" },
+        "neutral-weak": { "value": "{color.gray.200}", "type": "color", "description": "약한 테두리 — Ride Divider Light" },
+        "neutral-muted": { "value": "{color.gray.100}", "type": "color", "description": "매우 연한 테두리 — Ride Divider ExLight" },
+        "success-solid": { "value": "{color.green.500}", "type": "color", "description": "성공 테두리" },
+        "success-solid-pressed": { "value": "{color.green.600}", "type": "color" },
+        "success-weak": { "value": "{color.green.300}", "type": "color" },
+        "warning-solid": { "value": "{color.yellow.400}", "type": "color", "description": "경고 테두리" },
+        "warning-solid-pressed": { "value": "{color.yellow.500}", "type": "color" },
+        "warning-weak": { "value": "{color.yellow.200}", "type": "color" },
+        "critical-solid": { "value": "{color.red.600}", "type": "color", "description": "오류 테두리" },
+        "critical-solid-pressed": { "value": "{color.red.700}", "type": "color" },
+        "critical-weak": { "value": "{color.red.300}", "type": "color" },
+        "info-solid": { "value": "{color.gray.500}", "type": "color", "description": "정보 테두리 (Gray 기반)" },
+        "info-solid-pressed": { "value": "{color.gray.600}", "type": "color" },
+        "info-weak": { "value": "{color.gray.300}", "type": "color" },
+        "oxford-solid": { "value": "{color.oxford.500}", "type": "color", "description": "Oxford 테두리" },
+        "oxford-solid-pressed": { "value": "{color.oxford.600}", "type": "color" },
+        "oxford-weak": { "value": "{color.oxford.300}", "type": "color" }
+      }
+    },
+    "typography": {
+      "display": {
+        "d1": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t18}",
+            "lineHeight": "{lineHeights.t18}",
+            "fontWeight": "{fontWeights.bold}",
+            "letterSpacing": "{letterSpacing.tight}"
+          },
+          "type": "typography",
+          "description": "Display - 48px, Bold"
+        },
+        "d2": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t17}",
+            "lineHeight": "{lineHeights.t17}",
+            "fontWeight": "{fontWeights.bold}"
+          },
+          "type": "typography",
+          "description": "Display - 40px, Bold"
+        },
+        "d3": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t16}",
+            "lineHeight": "{lineHeights.t16}",
+            "fontWeight": "{fontWeights.bold}"
+          },
+          "type": "typography",
+          "description": "Display - 36px, Bold"
+        },
+        "d4": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t15}",
+            "lineHeight": "{lineHeights.t15}",
+            "fontWeight": "{fontWeights.bold}"
+          },
+          "type": "typography",
+          "description": "Display - 32px, Bold"
+        },
+        "d5": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t14}",
+            "lineHeight": "{lineHeights.t14}",
+            "fontWeight": "{fontWeights.bold}"
+          },
+          "type": "typography",
+          "description": "Display - 28px, Bold"
+        },
+        "d6": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t12}",
+            "lineHeight": "{lineHeights.t13}",
+            "fontWeight": "{fontWeights.bold}"
+          },
+          "type": "typography",
+          "description": "Display - 24px, Bold"
+        }
+      },
+      "header": {
+        "h1": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t13}",
+              "lineHeight": "{lineHeights.t13}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 26px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t13}",
+              "lineHeight": "{lineHeights.t13}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 26px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t13}",
+              "lineHeight": "{lineHeights.t13}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 26px, Medium"
+          }
+        },
+        "h2": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t12}",
+              "lineHeight": "{lineHeights.t12}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 24px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t12}",
+              "lineHeight": "{lineHeights.t12}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 24px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t12}",
+              "lineHeight": "{lineHeights.t12}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 24px, Medium"
+          }
+        },
+        "h3": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t11}",
+              "lineHeight": "{lineHeights.t11}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 22px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t11}",
+              "lineHeight": "{lineHeights.t11}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 22px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t11}",
+              "lineHeight": "{lineHeights.t11}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 22px, Medium"
+          }
+        },
+        "h4": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t10}",
+              "lineHeight": "{lineHeights.t10}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 20px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t10}",
+              "lineHeight": "{lineHeights.t10}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 20px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t10}",
+              "lineHeight": "{lineHeights.t10}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 20px, Medium"
+          }
+        },
+        "h5": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t9}",
+              "lineHeight": "{lineHeights.t9}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 19px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t9}",
+              "lineHeight": "{lineHeights.t9}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 19px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t9}",
+              "lineHeight": "{lineHeights.t9}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 19px, Medium"
+          }
+        },
+        "h6": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t8}",
+              "lineHeight": "{lineHeights.t8}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 17px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t8}",
+              "lineHeight": "{lineHeights.t8}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 17px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t8}",
+              "lineHeight": "{lineHeights.t8}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 17px, Medium"
+          }
+        },
+        "h7": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t7}",
+              "lineHeight": "{lineHeights.t8}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 16px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t7}",
+              "lineHeight": "{lineHeights.t8}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 16px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t7}",
+              "lineHeight": "{lineHeights.t8}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 16px, Medium"
+          }
+        },
+        "h8": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t6}",
+              "lineHeight": "{lineHeights.t6}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 15px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t6}",
+              "lineHeight": "{lineHeights.t6}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 15px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t6}",
+              "lineHeight": "{lineHeights.t6}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 15px, Medium"
+          }
+        },
+        "h9": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t5}",
+              "lineHeight": "{lineHeights.t5}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 14px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t5}",
+              "lineHeight": "{lineHeights.t5}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 14px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t5}",
+              "lineHeight": "{lineHeights.t5}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 14px, Medium"
+          }
+        },
+        "h10": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t4}",
+              "lineHeight": "{lineHeights.t5}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 13px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t4}",
+              "lineHeight": "{lineHeights.t5}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 13px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t4}",
+              "lineHeight": "{lineHeights.t5}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 13px, Medium"
+          }
+        },
+        "h11": {
+          "bold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t2}",
+              "lineHeight": "{lineHeights.t4}",
+              "fontWeight": "{fontWeights.bold}"
+            },
+            "type": "typography",
+            "description": "Header - 11px, Bold"
+          },
+          "semibold": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t2}",
+              "lineHeight": "{lineHeights.t4}",
+              "fontWeight": "{fontWeights.semibold}"
+            },
+            "type": "typography",
+            "description": "Header - 11px, SemiBold"
+          },
+          "medium": {
+            "value": {
+              "fontFamily": "Pretendard",
+              "fontSize": "{fontSizes.t2}",
+              "lineHeight": "{lineHeights.t4}",
+              "fontWeight": "{fontWeights.medium}"
+            },
+            "type": "typography",
+            "description": "Header - 11px, Medium"
+          }
+        }
+      },
+      "body": {
+        "b1": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t12}",
+            "lineHeight": "{lineHeights.t13}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 24px, Regular"
+        },
+        "b2": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t12}",
+            "lineHeight": "{lineHeights.t12}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 24px, Regular"
+        },
+        "b3": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t11}",
+            "lineHeight": "{lineHeights.t11}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 22px, Regular"
+        },
+        "b4": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t10}",
+            "lineHeight": "{lineHeights.t10}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 20px, Regular"
+        },
+        "b5": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t9}",
+            "lineHeight": "{lineHeights.t9}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 19px, Regular"
+        },
+        "b6": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t8}",
+            "lineHeight": "{lineHeights.t8}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 17px, Regular"
+        },
+        "b7": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t7}",
+            "lineHeight": "{lineHeights.t8}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 16px, Regular"
+        },
+        "b8": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t6}",
+            "lineHeight": "{lineHeights.t6}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 15px, Regular"
+        },
+        "b9": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t5}",
+            "lineHeight": "{lineHeights.t5}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 14px, Regular"
+        },
+        "b10": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t4}",
+            "lineHeight": "{lineHeights.t5}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 13px, Regular"
+        },
+        "b11": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t2}",
+            "lineHeight": "{lineHeights.t4}",
+            "fontWeight": "{fontWeights.regular}"
+          },
+          "type": "typography",
+          "description": "Body - 11px, Regular"
+        }
+      },
+      "button": {
+        "b1": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t9}",
+            "lineHeight": "{lineHeights.t9}",
+            "fontWeight": "{fontWeights.medium}"
+          },
+          "type": "typography",
+          "description": "Button - 19px, Medium"
+        },
+        "b2": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t8}",
+            "lineHeight": "{lineHeights.t8}",
+            "fontWeight": "{fontWeights.medium}"
+          },
+          "type": "typography",
+          "description": "Button - 17px, Medium"
+        },
+        "b3": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t6}",
+            "lineHeight": "{lineHeights.t6}",
+            "fontWeight": "{fontWeights.medium}"
+          },
+          "type": "typography",
+          "description": "Button - 15px, Medium"
+        },
+        "b4": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t4}",
+            "lineHeight": "{lineHeights.t6}",
+            "fontWeight": "{fontWeights.medium}"
+          },
+          "type": "typography",
+          "description": "Button - 13px/20px, Medium"
+        },
+        "b5": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t2}",
+            "lineHeight": "{lineHeights.t4}",
+            "fontWeight": "{fontWeights.medium}"
+          },
+          "type": "typography",
+          "description": "Button - 11px, Medium"
+        }
+      },
+      "label": {
+        "l1": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t7}",
+            "lineHeight": "{lineHeights.t5}",
+            "fontWeight": "{fontWeights.medium}"
+          },
+          "type": "typography",
+          "description": "Label - 16px, Medium"
+        },
+        "l2": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t5}",
+            "lineHeight": "{lineHeights.t3}",
+            "fontWeight": "{fontWeights.medium}"
+          },
+          "type": "typography",
+          "description": "Label - 14px, Medium"
+        },
+        "l3": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t3}",
+            "lineHeight": "{lineHeights.t2}",
+            "fontWeight": "{fontWeights.medium}"
+          },
+          "type": "typography",
+          "description": "Label - 12px, Medium"
+        },
+        "l4": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t1}",
+            "lineHeight": "{lineHeights.t1}",
+            "fontWeight": "{fontWeights.medium}"
+          },
+          "type": "typography",
+          "description": "Label - 10px, Medium"
+        }
+      },
+      "paragraph": {
+        "p1": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t8}",
+            "lineHeight": "{lineHeights.t10}",
+            "fontWeight": "{fontWeights.regular}",
+            "letterSpacing": "{letterSpacing.tight}",
+            "paragraphSpacing": "{paragraphSpacing.medium}"
+          },
+          "type": "typography",
+          "description": "Paragraph - 17px, Regular"
+        },
+        "p2": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t6}",
+            "lineHeight": "{lineHeights.t9}",
+            "fontWeight": "{fontWeights.regular}",
+            "letterSpacing": "{letterSpacing.tight}",
+            "paragraphSpacing": "{paragraphSpacing.small}"
+          },
+          "type": "typography",
+          "description": "Paragraph - 15px, Regular"
+        },
+        "p3": {
+          "value": {
+            "fontFamily": "Pretendard",
+            "fontSize": "{fontSizes.t5}",
+            "lineHeight": "{lineHeights.t7}",
+            "fontWeight": "{fontWeights.regular}",
+            "letterSpacing": "{letterSpacing.tight}",
+            "paragraphSpacing": "{paragraphSpacing.small}"
+          },
+          "type": "typography",
+          "description": "Paragraph - 14px, Regular"
+        }
+      }
+    },
+    "spacing": {
+      "default": { "value": "{dimension.x4}", "type": "spacing", "description": "기본 간격 — 16px (3단계 고정값)" },
+      "gutterX": { "value": "{dimension.x4}", "type": "spacing", "description": "화면 좌우 여백 — 16px" },
+      "gutterY": { "value": "{dimension.x4}", "type": "spacing", "description": "화면 상하 여백 — 16px" }
+    },
+    "skeleton": {
+      "bg": { "value": "{color.gray.100}", "type": "color", "description": "스켈레톤 기본 배경 (#f1f4f6)" },
+      "shimmer": { "value": "{color.gray.200}", "type": "color", "description": "스켈레톤 시머 하이라이트 (#e7edf0)" },
+      "radius": { "value": "{radius.r2}", "type": "borderRadius", "description": "스켈레톤 기본 라운딩 — 8px" }
+    },
+
+    "component": {
+      "label": {
+        "size": {
+          "small": {
+            "paddingX": { "value": "{dimension.x2}", "type": "dimension", "description": "Small 좌우 패딩 — 8px" },
+            "paddingY": { "value": "{dimension.x1_5}", "type": "dimension", "description": "Small 상하 패딩 — 6px" },
+            "typography": { "value": "{typography.label.l3}", "type": "typography", "description": "Small 타이포 — 12px Medium" }
+          },
+          "medium": {
+            "paddingX": { "value": "{dimension.x2_5}", "type": "dimension", "description": "Medium 좌우 패딩 — 10px" },
+            "paddingY": { "value": "{dimension.x1_5}", "type": "dimension", "description": "Medium 상하 패딩 — 6px" },
+            "typography": { "value": "{typography.header.h10.bold}", "type": "typography", "description": "Medium 타이포 — 13px Bold" }
+          }
+        },
+        "style": {
+          "brand": {
+            "solid": {
+              "bg": { "value": "{color.bg.brand-solid}", "type": "color", "description": "브랜드 솔리드 배경" },
+              "fg": { "value": "{color.fg.brand-contrast}", "type": "color", "description": "브랜드 솔리드 텍스트" }
+            },
+            "weak": {
+              "bg": { "value": "{color.bg.brand-weak}", "type": "color", "description": "브랜드 약한 배경" },
+              "fg": { "value": "{color.fg.brand-solid}", "type": "color", "description": "브랜드 약한 텍스트" }
+            }
+          },
+          "neutral": {
+            "solid": {
+              "bg": { "value": "{color.bg.neutral}", "type": "color", "description": "중립 솔리드 배경 (gray.900)" },
+              "fg": { "value": "{color.fg.neutral-inverted}", "type": "color", "description": "중립 솔리드 텍스트" }
+            },
+            "weak": {
+              "bg": { "value": "{color.bg.neutral-weak}", "type": "color", "description": "중립 약한 배경" },
+              "fg": { "value": "{color.fg.neutral}", "type": "color", "description": "중립 약한 텍스트" }
+            }
+          },
+          "success": {
+            "solid": {
+              "bg": { "value": "{color.bg.success-solid}", "type": "color", "description": "성공 솔리드 배경" },
+              "fg": { "value": "{color.fg.success-contrast}", "type": "color", "description": "성공 솔리드 텍스트" }
+            },
+            "weak": {
+              "bg": { "value": "{color.bg.success-weak}", "type": "color", "description": "성공 약한 배경" },
+              "fg": { "value": "{color.fg.success-solid}", "type": "color", "description": "성공 약한 텍스트" }
+            }
+          },
+          "warning": {
+            "solid": {
+              "bg": { "value": "{color.bg.warning-solid}", "type": "color", "description": "경고 솔리드 배경" },
+              "fg": { "value": "{color.common.white}", "type": "color", "description": "경고 솔리드 텍스트 (흰색)" }
+            },
+            "weak": {
+              "bg": { "value": "{color.bg.warning-weak}", "type": "color", "description": "경고 약한 배경" },
+              "fg": { "value": "{color.fg.warning-solid}", "type": "color", "description": "경고 약한 텍스트" }
+            }
+          },
+          "critical": {
+            "solid": {
+              "bg": { "value": "{color.bg.critical-solid}", "type": "color", "description": "오류 솔리드 배경" },
+              "fg": { "value": "{color.fg.critical-contrast}", "type": "color", "description": "오류 솔리드 텍스트" }
+            },
+            "weak": {
+              "bg": { "value": "{color.bg.critical-weak}", "type": "color", "description": "오류 약한 배경" },
+              "fg": { "value": "{color.fg.critical-solid}", "type": "color", "description": "오류 약한 텍스트" }
+            }
+          },
+          "info": {
+            "solid": {
+              "bg": { "value": "{color.bg.info-solid}", "type": "color", "description": "정보 솔리드 배경" },
+              "fg": { "value": "{color.fg.info-contrast}", "type": "color", "description": "정보 솔리드 텍스트" }
+            },
+            "weak": {
+              "bg": { "value": "{color.bg.info-weak}", "type": "color", "description": "정보 약한 배경" },
+              "fg": { "value": "{color.fg.info-solid}", "type": "color", "description": "정보 약한 텍스트" }
+            }
+          },
+          "oxford": {
+            "solid": {
+              "bg": { "value": "{color.bg.oxford-solid}", "type": "color", "description": "Oxford 솔리드 배경" },
+              "fg": { "value": "{color.fg.oxford-contrast}", "type": "color", "description": "Oxford 솔리드 텍스트" }
+            },
+            "weak": {
+              "bg": { "value": "{color.bg.oxford-weak}", "type": "color", "description": "Oxford 약한 배경" },
+              "fg": { "value": "{color.fg.oxford-solid}", "type": "color", "description": "Oxford 약한 텍스트" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$themes": [
+    {
+      "id": "ride-light",
+      "name": "Light",
+      "selectedTokenSets": {
+        "primitive": "source",
+        "semantic": "enabled"
+      }
+    }
+  ],
+  "$metadata": {
+    "tokenSetOrder": ["primitive", "semantic"]
+  }
+}

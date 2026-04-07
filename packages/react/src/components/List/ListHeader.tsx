@@ -1,3 +1,4 @@
+'use client';
 import { listHeader, type ListHeaderVariantProps } from "@ride-developer/css/recipes/list-header";
 import { forwardRef } from "react";
 import clsx from "clsx";

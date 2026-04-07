@@ -1,3 +1,4 @@
+'use client';
 import { elementProps } from "@ride-developer/dom-utils";
 import * as React from "react";
 

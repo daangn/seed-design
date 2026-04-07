@@ -1,3 +1,4 @@
+'use client';
 import { chipTabs, type ChipTabsVariantProps } from "@ride-developer/css/recipes/chip-tabs";
 import { Tabs as TabsPrimitive } from "@ride-developer/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

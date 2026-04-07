@@ -1,3 +1,4 @@
+'use client';
 import { linkContent, type LinkContentVariantProps } from "@ride-developer/css/recipes/link-content";
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { createRecipeContext } from "../../utils/createRecipeContext";

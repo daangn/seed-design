@@ -1,3 +1,4 @@
+'use client';
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { tagGroup, type TagGroupVariantProps } from "@ride-developer/css/recipes/tag-group";
 import {

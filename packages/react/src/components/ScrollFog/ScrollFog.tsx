@@ -1,3 +1,4 @@
+'use client';
 import { scrollFog, type ScrollFogVariantProps } from "@ride-developer/css/recipes/scroll-fog";
 import clsx from "clsx";
 import { forwardRef, useMemo } from "react";

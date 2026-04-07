@@ -1,3 +1,4 @@
+'use client';
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { fab, type FabVariantProps } from "@ride-developer/css/recipes/fab";
 import type * as React from "react";

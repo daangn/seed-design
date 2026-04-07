@@ -1,3 +1,4 @@
+'use client';
 import {
   imageFrame as imageFrameRecipe,
   type ImageFrameVariantProps,

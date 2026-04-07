@@ -1,3 +1,4 @@
+'use client';
 import { snackbar, type SnackbarVariantProps } from "@ride-developer/css/recipes/snackbar";
 import { snackbarRegion } from "@ride-developer/css/recipes/snackbar-region";
 import { visuallyHidden } from "@ride-developer/dom-utils";

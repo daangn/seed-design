@@ -1,3 +1,4 @@
+'use client';
 import { Switch as SwitchPrimitive, useSwitchContext } from "@ride-developer/react-switch";
 import { switchStyle, type SwitchVariantProps } from "@ride-developer/css/recipes/switch";
 import { switchmark, type SwitchmarkVariantProps } from "@ride-developer/css/recipes/switchmark";

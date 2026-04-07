@@ -1,3 +1,4 @@
+'use client';
 import { Slot } from "@radix-ui/react-slot";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { createContext, forwardRef, useCallback, useContext, useMemo, useRef } from "react";

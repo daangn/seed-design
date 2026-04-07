@@ -1,3 +1,4 @@
+'use client';
 import { tabs, type TabsVariantProps } from "@ride-developer/css/recipes/tabs";
 import { Tabs as TabsPrimitive } from "@ride-developer/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

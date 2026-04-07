@@ -1,3 +1,4 @@
+'use client';
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { Field, useFieldContext } from "@ride-developer/react-field";
 import type * as React from "react";

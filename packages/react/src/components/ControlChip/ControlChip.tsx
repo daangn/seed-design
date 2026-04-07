@@ -1,3 +1,4 @@
+'use client';
 import { controlChip, type ControlChipVariantProps } from "@ride-developer/css/recipes/control-chip";
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import type * as React from "react";

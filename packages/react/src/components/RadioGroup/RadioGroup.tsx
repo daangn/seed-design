@@ -1,3 +1,4 @@
+'use client';
 import { radio, type RadioVariantProps } from "@ride-developer/css/recipes/radio";
 import { radioGroup, type RadioGroupVariantProps } from "@ride-developer/css/recipes/radio-group";
 import { radiomark, type RadiomarkVariantProps } from "@ride-developer/css/recipes/radiomark";

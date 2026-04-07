@@ -1,3 +1,4 @@
+'use client';
 import type * as React from "react";
 
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";

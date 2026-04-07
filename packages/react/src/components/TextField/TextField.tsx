@@ -1,3 +1,4 @@
+'use client';
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { TextField, useTextFieldContext } from "@ride-developer/react-text-field";

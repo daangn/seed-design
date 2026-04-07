@@ -1,3 +1,4 @@
+'use client';
 import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { FieldButton, useFieldButtonContext } from "@ride-developer/react-field-button";
 import * as React from "react";

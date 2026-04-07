@@ -1,3 +1,4 @@
+'use client';
 import { PullToRefresh as PullToRefreshPrimitive } from "@ride-developer/react-pull-to-refresh";
 import {
   pullToRefresh,

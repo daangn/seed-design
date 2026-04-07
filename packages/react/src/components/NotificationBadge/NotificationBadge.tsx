@@ -1,3 +1,4 @@
+'use client';
 import {
   notificationBadge,
   type NotificationBadgeVariantProps,

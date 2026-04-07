@@ -1,3 +1,4 @@
+'use client';
 import { text, type TextVariantProps } from "@ride-developer/css/recipes/text";
 import {
   vars,

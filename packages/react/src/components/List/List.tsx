@@ -1,3 +1,4 @@
+'use client';
 import type * as React from "react";
 
 import { listItem, type ListItemVariantProps } from "@ride-developer/css/recipes/list-item";

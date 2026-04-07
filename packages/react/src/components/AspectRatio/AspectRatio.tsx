@@ -1,3 +1,4 @@
+'use client';
 import { aspectRatio as aspectRatioRecipe } from "@ride-developer/css/recipes/aspect-ratio";
 import clsx from "clsx";
 import * as React from "react";

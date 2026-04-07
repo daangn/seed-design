@@ -1,3 +1,4 @@
+'use client';
 import { checkbox, type CheckboxVariantProps } from "@ride-developer/css/recipes/checkbox";
 import { checkmark, type CheckmarkVariantProps } from "@ride-developer/css/recipes/checkmark";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
