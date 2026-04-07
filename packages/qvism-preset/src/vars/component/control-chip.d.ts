@@ -2,156 +2,156 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
-        "cornerRadius": "var(--seed-radius-full)"
+        "cornerRadius": "var(--ride-radius-full)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)",
-        "fontWeight": "var(--seed-font-weight-medium)"
+        "color": "var(--ride-color-fg-neutral)",
+        "fontWeight": "var(--ride-font-weight-medium)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-subtle)"
+        "color": "var(--ride-color-fg-neutral-subtle)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "count": {
-        "color": "var(--seed-color-fg-neutral-muted)",
-        "fontWeight": "var(--seed-font-weight-medium)"
+        "color": "var(--ride-color-fg-neutral-muted)",
+        "fontWeight": "var(--ride-font-weight-medium)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--ride-color-bg-layer-default-pressed)"
       }
     },
     "selected": {
       "root": {
         "strokeWidth": "0px",
-        "color": "var(--seed-color-bg-neutral-solid-muted)"
+        "color": "var(--ride-color-bg-neutral-solid-muted)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "color": "var(--ride-color-palette-static-white)",
+        "fontWeight": "var(--ride-font-weight-bold)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "count": {
-        "color": "var(--seed-color-palette-static-white-alpha-800)"
+        "color": "var(--ride-color-palette-static-white-alpha-800)"
       }
     },
     "selectedPressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-solid-muted-pressed)"
+        "color": "var(--ride-color-bg-neutral-solid-muted-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--ride-color-bg-disabled)"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       "count": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     }
   },
   "sizeSmall": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x8)",
-        "paddingY": "var(--seed-dimension-x1_5)",
-        "gap": "var(--seed-dimension-x1)"
+        "minHeight": "var(--ride-dimension-x8)",
+        "paddingY": "var(--ride-dimension-x1_5)",
+        "gap": "var(--ride-dimension-x1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)"
       },
       "prefixIcon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x3_5)"
+        "size": "var(--ride-dimension-x3_5)"
       },
       "count": {
-        "fontSize": "var(--seed-font-size-t4)"
+        "fontSize": "var(--ride-font-size-t4)"
       }
     }
   },
   "sizeMedium": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x9)",
-        "paddingY": "var(--seed-dimension-x2)",
-        "gap": "var(--seed-dimension-x1)"
+        "minHeight": "var(--ride-dimension-x9)",
+        "paddingY": "var(--ride-dimension-x2)",
+        "gap": "var(--ride-dimension-x1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)"
       },
       "prefixIcon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x3_5)"
+        "size": "var(--ride-dimension-x3_5)"
       },
       "count": {
-        "fontSize": "var(--seed-font-size-t4)"
+        "fontSize": "var(--ride-font-size-t4)"
       }
     }
   },
   "sizeSmallLayoutWithText": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-dimension-x3)"
+        "paddingX": "var(--ride-dimension-x3)"
       }
     }
   },
   "sizeSmallLayoutIconOnly": {
     "enabled": {
       "root": {
-        "minWidth": "var(--seed-dimension-x8)"
+        "minWidth": "var(--ride-dimension-x8)"
       },
       "icon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       }
     }
   },
   "sizeMediumLayoutWithText": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-dimension-x3_5)"
+        "paddingX": "var(--ride-dimension-x3_5)"
       }
     }
   },
   "sizeMediumLayoutIconOnly": {
     "enabled": {
       "root": {
-        "minWidth": "var(--seed-dimension-x9)"
+        "minWidth": "var(--ride-dimension-x9)"
       },
       "icon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       }
     }
   }

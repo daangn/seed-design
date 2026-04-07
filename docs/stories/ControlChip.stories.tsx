@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ControlChip } from "seed-design/ui/control-chip";
 
 import { IconBellFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
-import { controlChipVariantMap } from "@seed-design/css/recipes/control-chip";
+import { controlChipVariantMap } from "@ride-developer/css/recipes/control-chip";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { Count, Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";
+import { Count, Icon, PrefixIcon, SuffixIcon } from "@ride-developer/react";
 
 const meta = {
   component: ControlChip.Toggle,

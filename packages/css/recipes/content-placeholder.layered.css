@@ -1,8 +1,8 @@
-@layer seed-components {
-  .seed-content-placeholder__root {
+@layer ride-components {
+  .ride-content-placeholder__root {
     box-sizing: border-box;
     vertical-align: top;
-    background-color: var(--seed-color-palette-gray-200);
+    background-color: var(--ride-color-palette-gray-200);
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -12,13 +12,13 @@
     overflow: hidden;
   }
 
-  .seed-content-placeholder__asset {
+  .ride-content-placeholder__asset {
     height: 50%;
-    min-width: var(--seed-dimension-x4);
+    min-width: var(--ride-dimension-x4);
     aspect-ratio: 1;
     width: auto;
     max-width: 64px;
-    color: var(--seed-color-palette-gray-400);
+    color: var(--ride-color-palette-gray-400);
     fill: currentColor;
     stroke: currentColor;
     object-fit: contain;

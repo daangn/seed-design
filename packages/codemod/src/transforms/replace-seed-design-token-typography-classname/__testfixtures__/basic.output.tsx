@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { text } from "@seed-design/css/recipes/text";
+import { text } from "@ride-developer/css/recipes/text";
 import { style } from "@vanilla-extract/css";
 
 const typography = {

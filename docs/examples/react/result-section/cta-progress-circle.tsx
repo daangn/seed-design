@@ -4,7 +4,7 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { ResultSection } from "seed-design/ui/result-section";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
-import { Box, Flex, Icon, VStack } from "@seed-design/react";
+import { Box, Flex, Icon, VStack } from "@ride-developer/react";
 import { ActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useState, type ComponentProps } from "react";
 

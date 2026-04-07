@@ -1,4 +1,4 @@
-import { AspectRatio, Text, VStack } from "@seed-design/react";
+import { AspectRatio, Text, VStack } from "@ride-developer/react";
 
 export default function AspectRatioPreview() {
   return (

@@ -11,7 +11,7 @@ description: Vite 프로젝트에서 Seed Design을 설치하고 사용하는 �
 필요한 의존성들을 설치해요.
 
 ```package-install
-@seed-design/react @seed-design/css
+@ride-developer/react @ride-developer/css
 ```
 
 </Step>
@@ -20,7 +20,7 @@ description: Vite 프로젝트에서 Seed Design을 설치하고 사용하는 �
 ### base.css import하기
 
 ```ts title="index.tsx"
-import "@seed-design/css/base.css";
+import "@ride-developer/css/base.css";
 ```
 
 </Step>
@@ -38,7 +38,7 @@ import "@seed-design/css/base.css";
 
 </Step>
 ```sh
-npx @seed-design/cli@latest init
+npx @ride-developer/cli@latest init
 ```
 
 <Step>
@@ -107,7 +107,7 @@ npx @seed-design/cli@latest init
 ### Vite config 수정하기
 
 ```package-install
-npm install -D @seed-design/vite-plugin vite-tsconfig-paths
+npm install -D @ride-developer/vite-plugin vite-tsconfig-paths
 ```
 
 <Callout>
@@ -119,7 +119,7 @@ npm install -D @seed-design/vite-plugin vite-tsconfig-paths
 ```ts title="vite.config.ts"
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import { seedDesignPlugin } from "@seed-design/vite-plugin"; // [!code highlight]
+import { seedDesignPlugin } from "@ride-developer/vite-plugin"; // [!code highlight]
 import tsconfigPaths from "vite-tsconfig-paths"; // [!code highlight]
 
 export default defineConfig({
@@ -138,7 +138,7 @@ export default defineConfig({
 ### 컴포넌트를 한번 사용해볼까요?
 
 ```sh
-npx @seed-design/cli@latest add ui:action-button
+npx @ride-developer/cli@latest add ui:action-button
 ```
 
 </Step>

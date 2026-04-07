@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { ErrorState } from "seed-design/ui/error-state";
 
 export default function ErrorStatePreview() {

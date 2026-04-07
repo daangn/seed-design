@@ -2,8 +2,8 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorDuration": "var(--ride-duration-color-transition)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)"
       }
     }
   },
@@ -11,12 +11,12 @@ export const vars = {
     "enabled": {
       "root": {
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
+        "strokeColor": "var(--ride-color-stroke-neutral-weak)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--ride-color-bg-transparent-pressed)"
       }
     },
     "enabledSelected": {
@@ -27,110 +27,110 @@ export const vars = {
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "color": "var(--ride-color-bg-disabled)",
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "disabledSelected": {
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     }
   },
   "variantSquareToneBrand": {
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)"
+        "color": "var(--ride-color-bg-brand-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     },
     "pressedSelected": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
+        "color": "var(--ride-color-bg-brand-solid-pressed)"
       }
     }
   },
   "variantSquareToneNeutral": {
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--ride-color-bg-neutral-inverted)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       }
     },
     "pressedSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--ride-color-bg-neutral-inverted-pressed)"
       }
     }
   },
   "variantGhost": {
     "enabled": {
       "icon": {
-        "color": "var(--seed-color-fg-placeholder)",
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "color": "var(--ride-color-fg-placeholder)",
+        "colorDuration": "var(--ride-duration-color-transition)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--ride-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "disabledSelected": {
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     }
   },
   "variantGhostToneBrand": {
     "enabledSelected": {
       "icon": {
-        "color": "var(--seed-color-fg-brand)"
+        "color": "var(--ride-color-fg-brand)"
       }
     },
     "pressedSelected": {
       "root": {
-        "color": "var(--seed-color-palette-carrot-200)"
+        "color": "var(--ride-color-palette-carrot-200)"
       }
     }
   },
   "variantGhostToneNeutral": {
     "enabledSelected": {
       "icon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       }
     },
     "pressedSelected": {
       "root": {
-        "color": "var(--seed-color-palette-gray-200)"
+        "color": "var(--ride-color-palette-gray-200)"
       }
     }
   },
   "sizeMedium": {
     "enabled": {
       "root": {
-        "size": "var(--seed-dimension-x5)",
-        "cornerRadius": "var(--seed-radius-r1)"
+        "size": "var(--ride-dimension-x5)",
+        "cornerRadius": "var(--ride-radius-r1)"
       }
     }
   },
   "sizeLarge": {
     "enabled": {
       "root": {
-        "size": "var(--seed-dimension-x6)",
-        "cornerRadius": "var(--seed-radius-r1)"
+        "size": "var(--ride-dimension-x6)",
+        "cornerRadius": "var(--ride-radius-r1)"
       }
     }
   },

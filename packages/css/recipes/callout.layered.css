@@ -1,5 +1,5 @@
-@layer seed-components {
-  .seed-callout__root {
+@layer ride-components {
+  .ride-callout__root {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -8,70 +8,70 @@
     text-align: start;
     width: 100%;
     min-height: 50px;
-    padding-left: var(--seed-dimension-x3_5);
-    padding-right: var(--seed-dimension-x3_5);
-    padding-top: var(--seed-dimension-x3_5);
-    padding-bottom: var(--seed-dimension-x3_5);
+    padding-left: var(--ride-dimension-x3_5);
+    padding-right: var(--ride-dimension-x3_5);
+    padding-top: var(--ride-dimension-x3_5);
+    padding-bottom: var(--ride-dimension-x3_5);
     align-items: center;
-    gap: var(--seed-dimension-x3);
-    border-radius: var(--seed-radius-r2_5);
-    --seed-prefix-icon-size: var(--seed-dimension-x4);
-    --seed-suffix-icon-size: var(--seed-dimension-x4);
+    gap: var(--ride-dimension-x3);
+    border-radius: var(--ride-radius-r2_5);
+    --ride-prefix-icon-size: var(--ride-dimension-x4);
+    --ride-suffix-icon-size: var(--ride-dimension-x4);
     border: none;
     text-decoration: none;
     display: flex;
   }
 
-  .seed-callout__root:is(button, a) {
+  .ride-callout__root:is(button, a) {
     cursor: pointer;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    transition: outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
+    outline: var(--ride-dimension-x0_5) solid transparent;
+    outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-callout__root:is(button, a):is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+  .ride-callout__root:is(button, a):is(:focus-visible, [data-focus-visible]) {
+    outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
+    outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-callout__content {
-    line-height: var(--seed-line-height-t4);
+  .ride-callout__content {
+    line-height: var(--ride-line-height-t4);
     margin-right: auto;
   }
 
-  .seed-callout__title {
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
-    font-weight: var(--seed-font-weight-bold);
+  .ride-callout__title {
+    font-size: var(--ride-font-size-t4);
+    line-height: var(--ride-line-height-t4);
+    font-weight: var(--ride-font-weight-bold);
   }
 
-  .seed-callout__title:after {
+  .ride-callout__title:after {
     content: "  ";
     white-space: pre;
   }
 
-  .seed-callout__description {
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
-    font-weight: var(--seed-font-weight-regular);
+  .ride-callout__description {
+    font-size: var(--ride-font-size-t4);
+    line-height: var(--ride-line-height-t4);
+    font-weight: var(--ride-font-weight-regular);
   }
 
-  .seed-callout__description:not(:last-child):after {
+  .ride-callout__description:not(:last-child):after {
     content: "  ";
     white-space: pre;
   }
 
-  .seed-callout__link {
+  .ride-callout__link {
     cursor: pointer;
     font-family: inherit;
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
-    font-weight: var(--seed-font-weight-regular);
+    font-size: var(--ride-font-size-t4);
+    line-height: var(--ride-line-height-t4);
+    font-weight: var(--ride-font-weight-regular);
     text-underline-offset: 2px;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    border-radius: var(--seed-radius-r1);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    transition: outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
+    border-radius: var(--ride-radius-r1);
+    outline: var(--ride-dimension-x0_5) solid transparent;
+    outline-offset: var(--ride-dimension-x0_5);
     background-color: #0000;
     border: none;
     padding: 0;
@@ -79,20 +79,20 @@
     display: inline-block;
   }
 
-  .seed-callout__link:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+  .ride-callout__link:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
+    outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-callout__closeButton {
+  .ride-callout__closeButton {
     cursor: pointer;
-    width: var(--seed-dimension-x10);
-    height: var(--seed-dimension-x10);
-    margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
-    border-radius: var(--seed-radius-r2_5);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    width: var(--ride-dimension-x10);
+    height: var(--ride-dimension-x10);
+    margin: calc((var(--ride-dimension-x10) - var(--ride-dimension-x4)) * -.5);
+    border-radius: var(--ride-radius-r2_5);
+    transition: outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
+    outline: var(--ride-dimension-x0_5) solid transparent;
+    outline-offset: var(--ride-dimension-x0_5);
     background-color: #0000;
     border: none;
     flex-grow: 0;
@@ -103,140 +103,140 @@
     display: flex;
   }
 
-  .seed-callout__closeButton:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+  .ride-callout__closeButton:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring);
+    outline-offset: var(--ride-dimension-x0_5);
   }
 
-  .seed-callout__root--tone_neutral {
-    background-color: var(--seed-color-bg-neutral-weak);
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
-    --seed-suffix-icon-color: var(--seed-color-fg-neutral);
+  .ride-callout__root--tone_neutral {
+    background-color: var(--ride-color-bg-neutral-weak);
+    --ride-prefix-icon-color: var(--ride-color-fg-neutral);
+    --ride-suffix-icon-color: var(--ride-color-fg-neutral);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_neutral:is(button, a):is(:hover, [data-hover]) {
-      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    .ride-callout__root--tone_neutral:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
-      background-color: var(--seed-color-bg-neutral-weak-pressed);
+    .ride-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
+      background-color: var(--ride-color-bg-neutral-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_neutral, .seed-callout__description--tone_neutral, .seed-callout__link--tone_neutral {
-    color: var(--seed-color-fg-neutral);
+  .ride-callout__title--tone_neutral, .ride-callout__description--tone_neutral, .ride-callout__link--tone_neutral {
+    color: var(--ride-color-fg-neutral);
   }
 
-  .seed-callout__root--tone_informative {
-    background-color: var(--seed-color-bg-informative-weak);
-    --seed-prefix-icon-color: var(--seed-color-fg-informative-contrast);
-    --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
+  .ride-callout__root--tone_informative {
+    background-color: var(--ride-color-bg-informative-weak);
+    --ride-prefix-icon-color: var(--ride-color-fg-informative-contrast);
+    --ride-suffix-icon-color: var(--ride-color-fg-informative-contrast);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_informative:is(button, a):is(:hover, [data-hover]) {
-      background-color: var(--seed-color-bg-informative-weak-pressed);
+    .ride-callout__root--tone_informative:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--ride-color-bg-informative-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
-      background-color: var(--seed-color-bg-informative-weak-pressed);
+    .ride-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
+      background-color: var(--ride-color-bg-informative-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_informative, .seed-callout__description--tone_informative, .seed-callout__link--tone_informative {
-    color: var(--seed-color-fg-informative-contrast);
+  .ride-callout__title--tone_informative, .ride-callout__description--tone_informative, .ride-callout__link--tone_informative {
+    color: var(--ride-color-fg-informative-contrast);
   }
 
-  .seed-callout__root--tone_positive {
-    background-color: var(--seed-color-bg-positive-weak);
-    --seed-prefix-icon-color: var(--seed-color-fg-positive-contrast);
-    --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
+  .ride-callout__root--tone_positive {
+    background-color: var(--ride-color-bg-positive-weak);
+    --ride-prefix-icon-color: var(--ride-color-fg-positive-contrast);
+    --ride-suffix-icon-color: var(--ride-color-fg-positive-contrast);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_positive:is(button, a):is(:hover, [data-hover]) {
-      background-color: var(--seed-color-bg-positive-weak-pressed);
+    .ride-callout__root--tone_positive:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--ride-color-bg-positive-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
-      background-color: var(--seed-color-bg-positive-weak-pressed);
+    .ride-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
+      background-color: var(--ride-color-bg-positive-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_positive, .seed-callout__description--tone_positive, .seed-callout__link--tone_positive {
-    color: var(--seed-color-fg-positive-contrast);
+  .ride-callout__title--tone_positive, .ride-callout__description--tone_positive, .ride-callout__link--tone_positive {
+    color: var(--ride-color-fg-positive-contrast);
   }
 
-  .seed-callout__root--tone_warning {
-    background-color: var(--seed-color-bg-warning-weak);
-    --seed-prefix-icon-color: var(--seed-color-fg-warning-contrast);
-    --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
+  .ride-callout__root--tone_warning {
+    background-color: var(--ride-color-bg-warning-weak);
+    --ride-prefix-icon-color: var(--ride-color-fg-warning-contrast);
+    --ride-suffix-icon-color: var(--ride-color-fg-warning-contrast);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_warning:is(button, a):is(:hover, [data-hover]) {
-      background-color: var(--seed-color-bg-warning-weak-pressed);
+    .ride-callout__root--tone_warning:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--ride-color-bg-warning-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
-      background-color: var(--seed-color-bg-warning-weak-pressed);
+    .ride-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
+      background-color: var(--ride-color-bg-warning-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_warning, .seed-callout__description--tone_warning, .seed-callout__link--tone_warning {
-    color: var(--seed-color-fg-warning-contrast);
+  .ride-callout__title--tone_warning, .ride-callout__description--tone_warning, .ride-callout__link--tone_warning {
+    color: var(--ride-color-fg-warning-contrast);
   }
 
-  .seed-callout__root--tone_critical {
-    background-color: var(--seed-color-bg-critical-weak);
-    --seed-prefix-icon-color: var(--seed-color-fg-critical-contrast);
-    --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
+  .ride-callout__root--tone_critical {
+    background-color: var(--ride-color-bg-critical-weak);
+    --ride-prefix-icon-color: var(--ride-color-fg-critical-contrast);
+    --ride-suffix-icon-color: var(--ride-color-fg-critical-contrast);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_critical:is(button, a):is(:hover, [data-hover]) {
-      background-color: var(--seed-color-bg-critical-weak-pressed);
+    .ride-callout__root--tone_critical:is(button, a):is(:hover, [data-hover]) {
+      background-color: var(--ride-color-bg-critical-weak-pressed);
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
-      background-color: var(--seed-color-bg-critical-weak-pressed);
+    .ride-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
+      background-color: var(--ride-color-bg-critical-weak-pressed);
     }
   }
 
-  .seed-callout__title--tone_critical, .seed-callout__description--tone_critical, .seed-callout__link--tone_critical {
-    color: var(--seed-color-fg-critical-contrast);
+  .ride-callout__title--tone_critical, .ride-callout__description--tone_critical, .ride-callout__link--tone_critical {
+    color: var(--ride-color-fg-critical-contrast);
   }
 
-  .seed-callout__root--tone_magic {
-    background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic));
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
-    --seed-suffix-icon-color: var(--seed-color-fg-neutral);
+  .ride-callout__root--tone_magic {
+    background-image: linear-gradient(88deg, var(--ride-gradient-glow-magic));
+    --ride-prefix-icon-color: var(--ride-color-fg-neutral);
+    --ride-suffix-icon-color: var(--ride-color-fg-neutral);
   }
 
   @media (hover: hover) {
-    .seed-callout__root--tone_magic:is(button, a):is(:hover, [data-hover]) {
-      background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    .ride-callout__root--tone_magic:is(button, a):is(:hover, [data-hover]) {
+      background-image: linear-gradient(88deg, var(--ride-gradient-glow-magic-pressed));
     }
   }
 
   @media (hover: none) {
-    .seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
-      background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
+    .ride-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
+      background-image: linear-gradient(88deg, var(--ride-gradient-glow-magic-pressed));
     }
   }
 
-  .seed-callout__title--tone_magic, .seed-callout__description--tone_magic, .seed-callout__link--tone_magic {
-    color: var(--seed-color-fg-neutral);
+  .ride-callout__title--tone_magic, .ride-callout__description--tone_magic, .ride-callout__link--tone_magic {
+    color: var(--ride-color-fg-neutral);
   }
 }

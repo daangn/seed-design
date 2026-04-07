@@ -1,7 +1,7 @@
-import { bottomSheet, type BottomSheetVariantProps } from "@seed-design/css/recipes/bottom-sheet";
-import { dataAttr } from "@seed-design/dom-utils";
-import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { bottomSheet, type BottomSheetVariantProps } from "@ride-developer/css/recipes/bottom-sheet";
+import { dataAttr } from "@ride-developer/dom-utils";
+import { Drawer, useDrawerContext } from "@ride-developer/react-drawer";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";

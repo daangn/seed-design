@@ -38,8 +38,8 @@ const helpBubble = defineSlotRecipe({
       paddingBottom: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      "--seed-box-max-width": "initial",
-      maxWidth: "var(--seed-box-max-width)",
+      "--ride-box-max-width": "initial",
+      maxWidth: "var(--ride-box-max-width)",
 
       [pseudo(open)]: {
         ...enterAnimation({

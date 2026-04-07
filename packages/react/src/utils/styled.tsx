@@ -10,8 +10,8 @@ import type {
   Gradient,
   Shadow,
   ScopedColorBanner,
-} from "@seed-design/css/vars";
-import { vars } from "@seed-design/css/vars";
+} from "@ride-developer/css/vars";
+import { vars } from "@ride-developer/css/vars";
 import { forwardRef } from "react";
 
 export function handleColor(color: string | undefined) {
@@ -47,7 +47,7 @@ function handleBleed(
   direction: "top" | "right" | "bottom" | "left",
 ) {
   if (dimension === "asPadding") {
-    return `var(--seed-box-padding-${direction})`;
+    return `var(--ride-box-padding-${direction})`;
   }
 
   return handleDimension(dimension);
@@ -67,7 +67,7 @@ export function handlePaddingWithSafeArea(
   direction: "top" | "bottom",
 ): string | undefined {
   if (padding === "safeArea") {
-    return `var(--seed-safe-area-${direction})`;
+    return `var(--ride-safe-area-${direction})`;
   }
 
   const paddingValue = handleDimension(padding);
@@ -105,7 +105,7 @@ function handleDisplay(display: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (display === "inlineFlex" || display === "inlineBlock") {
       console.warn(
-        `[SEED Design System] display='${display}' is deprecated and will be removed in @seed-design/react@1.3.0. Use display='${display === "inlineFlex" ? "inline-flex" : "inline-block"}' instead.`,
+        `[Ride Design System] display='${display}' is deprecated and will be removed in @ride-developer/react@2.0.0. Use display='${display === "inlineFlex" ? "inline-flex" : "inline-block"}' instead.`,
       );
     }
   }
@@ -128,7 +128,7 @@ function handleFlexDirection(flexDirection: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (flexDirection === "rowReverse" || flexDirection === "columnReverse") {
       console.warn(
-        `[SEED Design System] flexDirection='${flexDirection}' is deprecated and will be removed in @seed-design/react@1.3.0. Use flexDirection='${flexDirection === "rowReverse" ? "row-reverse" : "column-reverse"}' instead.`,
+        `[Ride Design System] flexDirection='${flexDirection}' is deprecated and will be removed in @ride-developer/react@2.0.0. Use flexDirection='${flexDirection === "rowReverse" ? "row-reverse" : "column-reverse"}' instead.`,
       );
     }
   }
@@ -151,12 +151,12 @@ function handleJustifyContent(justifyContent: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (justifyContent === "flexStart" || justifyContent === "flexEnd") {
       console.warn(
-        `[SEED Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @seed-design/react@1.3.0. Use justifyContent='${justifyContent === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
+        `[Ride Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @ride-developer/react@2.0.0. Use justifyContent='${justifyContent === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
       );
     }
     if (justifyContent === "spaceBetween" || justifyContent === "spaceAround") {
       console.warn(
-        `[SEED Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @seed-design/react@1.3.0. Use justifyContent='${justifyContent === "spaceBetween" ? "space-between" : "space-around"}' instead.`,
+        `[Ride Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @ride-developer/react@2.0.0. Use justifyContent='${justifyContent === "spaceBetween" ? "space-between" : "space-around"}' instead.`,
       );
     }
   }
@@ -180,7 +180,7 @@ function handleAlignItems(alignItems: string | undefined) {
   if (process.env.NODE_ENV !== "production") {
     if (alignItems === "flexStart" || alignItems === "flexEnd") {
       console.warn(
-        `[SEED Design System] alignItems='${alignItems}' is deprecated and will be removed in @seed-design/react@1.3.0. Use alignItems='${alignItems === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
+        `[Ride Design System] alignItems='${alignItems}' is deprecated and will be removed in @ride-developer/react@2.0.0. Use alignItems='${alignItems === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
       );
     }
   }
@@ -609,66 +609,66 @@ export function useStyleProps<T extends UseStyleProps>(
 
   return {
     style: {
-      "--seed-box-background": handleColor(background ?? bg) ?? gradientValue,
-      "--seed-box-color": handleColor(color),
-      "--seed-box-border-color": handleColor(borderColor),
-      "--seed-box-border-width": borderWidth !== undefined ? `${borderWidth}px` : undefined,
-      "--seed-box-border-top-width":
+      "--ride-box-background": handleColor(background ?? bg) ?? gradientValue,
+      "--ride-box-color": handleColor(color),
+      "--ride-box-border-color": handleColor(borderColor),
+      "--ride-box-border-width": borderWidth !== undefined ? `${borderWidth}px` : undefined,
+      "--ride-box-border-top-width":
         borderTopWidth !== undefined ? `${borderTopWidth}px` : undefined,
-      "--seed-box-border-right-width":
+      "--ride-box-border-right-width":
         borderRightWidth !== undefined ? `${borderRightWidth}px` : undefined,
-      "--seed-box-border-bottom-width":
+      "--ride-box-border-bottom-width":
         borderBottomWidth !== undefined ? `${borderBottomWidth}px` : undefined,
-      "--seed-box-border-left-width":
+      "--ride-box-border-left-width":
         borderLeftWidth !== undefined ? `${borderLeftWidth}px` : undefined,
-      "--seed-box-border-radius": handleRadius(borderRadius),
-      "--seed-box-border-top-left-radius": handleRadius(borderTopLeftRadius),
-      "--seed-box-border-top-right-radius": handleRadius(borderTopRightRadius),
-      "--seed-box-border-bottom-right-radius": handleRadius(borderBottomRightRadius),
-      "--seed-box-border-bottom-left-radius": handleRadius(borderBottomLeftRadius),
-      "--seed-box-box-shadow": handleShadow(boxShadow),
-      "--seed-box-width": handleDimension(width),
-      "--seed-box-min-width": handleDimension(minWidth),
-      "--seed-box-max-width": handleDimension(maxWidth),
-      "--seed-box-height": handleDimension(height),
-      "--seed-box-min-height": handleDimension(minHeight),
-      "--seed-box-max-height": handleDimension(maxHeight),
-      "--seed-box-padding": handleDimension(padding ?? p),
-      "--seed-box-padding-x": handleDimension(paddingX ?? px),
-      "--seed-box-padding-y": handleDimension(paddingY ?? py),
-      "--seed-box-padding-top": handlePaddingWithSafeArea(paddingTop ?? pt, "top"),
-      "--seed-box-padding-right": handleDimension(paddingRight ?? pr),
-      "--seed-box-padding-bottom": handlePaddingWithSafeArea(paddingBottom ?? pb, "bottom"),
-      "--seed-box-padding-left": handleDimension(paddingLeft ?? pl),
-      "--seed-box-bleed-top": handleBleed(bleedTop ?? bleedY, "top"),
-      "--seed-box-bleed-right": handleBleed(bleedRight ?? bleedX, "right"),
-      "--seed-box-bleed-bottom": handleBleed(bleedBottom ?? bleedY, "bottom"),
-      "--seed-box-bleed-left": handleBleed(bleedLeft ?? bleedX, "left"),
-      "--seed-box-top": top,
-      "--seed-box-left": left,
-      "--seed-box-right": right,
-      "--seed-box-bottom": bottom,
-      "--seed-box-gap": handleDimension(gap),
-      "--seed-box-display": handleDisplay(display),
-      "--seed-box-position": position,
-      "--seed-box-overflow-x": overflowX,
-      "--seed-box-overflow-y": overflowY,
-      "--seed-box-z-index": zIndex,
-      "--seed-box-flex-grow": flexGrow === true ? 1 : flexGrow,
-      "--seed-box-flex-shrink": flexShrink === true ? 1 : flexShrink,
-      "--seed-box-flex-direction": handleFlexDirection(flexDirection),
-      "--seed-box-flex-wrap": flexWrap === true ? "wrap" : flexWrap,
-      "--seed-box-justify-content": handleJustifyContent(justifyContent),
-      "--seed-box-justify-self": justifySelf,
-      "--seed-box-align-items": handleAlignItems(alignItems),
-      "--seed-box-align-content": handleAlignItems(alignContent),
-      "--seed-box-align-self": handleAlignItems(alignSelf),
-      "--seed-box-grid-column": gridColumn,
-      "--seed-box-grid-row": gridRow,
-      "--seed-box-unstable-transform": unstable_transform,
+      "--ride-box-border-radius": handleRadius(borderRadius),
+      "--ride-box-border-top-left-radius": handleRadius(borderTopLeftRadius),
+      "--ride-box-border-top-right-radius": handleRadius(borderTopRightRadius),
+      "--ride-box-border-bottom-right-radius": handleRadius(borderBottomRightRadius),
+      "--ride-box-border-bottom-left-radius": handleRadius(borderBottomLeftRadius),
+      "--ride-box-box-shadow": handleShadow(boxShadow),
+      "--ride-box-width": handleDimension(width),
+      "--ride-box-min-width": handleDimension(minWidth),
+      "--ride-box-max-width": handleDimension(maxWidth),
+      "--ride-box-height": handleDimension(height),
+      "--ride-box-min-height": handleDimension(minHeight),
+      "--ride-box-max-height": handleDimension(maxHeight),
+      "--ride-box-padding": handleDimension(padding ?? p),
+      "--ride-box-padding-x": handleDimension(paddingX ?? px),
+      "--ride-box-padding-y": handleDimension(paddingY ?? py),
+      "--ride-box-padding-top": handlePaddingWithSafeArea(paddingTop ?? pt, "top"),
+      "--ride-box-padding-right": handleDimension(paddingRight ?? pr),
+      "--ride-box-padding-bottom": handlePaddingWithSafeArea(paddingBottom ?? pb, "bottom"),
+      "--ride-box-padding-left": handleDimension(paddingLeft ?? pl),
+      "--ride-box-bleed-top": handleBleed(bleedTop ?? bleedY, "top"),
+      "--ride-box-bleed-right": handleBleed(bleedRight ?? bleedX, "right"),
+      "--ride-box-bleed-bottom": handleBleed(bleedBottom ?? bleedY, "bottom"),
+      "--ride-box-bleed-left": handleBleed(bleedLeft ?? bleedX, "left"),
+      "--ride-box-top": top,
+      "--ride-box-left": left,
+      "--ride-box-right": right,
+      "--ride-box-bottom": bottom,
+      "--ride-box-gap": handleDimension(gap),
+      "--ride-box-display": handleDisplay(display),
+      "--ride-box-position": position,
+      "--ride-box-overflow-x": overflowX,
+      "--ride-box-overflow-y": overflowY,
+      "--ride-box-z-index": zIndex,
+      "--ride-box-flex-grow": flexGrow === true ? 1 : flexGrow,
+      "--ride-box-flex-shrink": flexShrink === true ? 1 : flexShrink,
+      "--ride-box-flex-direction": handleFlexDirection(flexDirection),
+      "--ride-box-flex-wrap": flexWrap === true ? "wrap" : flexWrap,
+      "--ride-box-justify-content": handleJustifyContent(justifyContent),
+      "--ride-box-justify-self": justifySelf,
+      "--ride-box-align-items": handleAlignItems(alignItems),
+      "--ride-box-align-content": handleAlignItems(alignContent),
+      "--ride-box-align-self": handleAlignItems(alignSelf),
+      "--ride-box-grid-column": gridColumn,
+      "--ride-box-grid-row": gridRow,
+      "--ride-box-unstable-transform": unstable_transform,
 
       // Active
-      "--seed-box-background--active": handleColor(_active?.bg ?? _active?.background),
+      "--ride-box-background--active": handleColor(_active?.bg ?? _active?.background),
       ...style,
     } as React.CSSProperties,
     restProps: {

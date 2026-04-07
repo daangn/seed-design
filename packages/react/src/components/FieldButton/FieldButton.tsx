@@ -1,12 +1,12 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { FieldButton, useFieldButtonContext } from "@seed-design/react-field-button";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
+import { FieldButton, useFieldButtonContext } from "@ride-developer/react-field-button";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
-import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
+import { field, type FieldVariantProps } from "@ride-developer/css/recipes/field";
+import { fieldLabel, type FieldLabelVariantProps } from "@ride-developer/css/recipes/field-label";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
-import { inputButton } from "@seed-design/css/recipes/input-button";
+import { inputButton } from "@ride-developer/css/recipes/input-button";
 import clsx from "clsx";
 
 const { withContext: withFieldContext, withProvider: withFieldProvider } =

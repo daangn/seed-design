@@ -4,15 +4,15 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const imageFrameReactionButtonSlotNames = [
   [
     "root",
-    "seed-image-frame-reaction-button__root"
+    "ride-image-frame-reaction-button__root"
   ],
   [
     "fillIcon",
-    "seed-image-frame-reaction-button__fillIcon"
+    "ride-image-frame-reaction-button__fillIcon"
   ],
   [
     "lineIcon",
-    "seed-image-frame-reaction-button__lineIcon"
+    "ride-image-frame-reaction-button__lineIcon"
   ]
 ];
 

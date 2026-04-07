@@ -4,9 +4,9 @@ import {
   IconHorizline2VerticalChatbubbleRectangularRightFill,
   IconStarFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { Icon, VStack } from "@seed-design/react";
+import { Icon, VStack } from "@ride-developer/react";
 import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
-import { TagGroup as SeedTagGroup } from "@seed-design/react";
+import { TagGroup as SeedTagGroup } from "@ride-developer/react";
 
 export default function TagGroupCustomizingItem() {
   return (

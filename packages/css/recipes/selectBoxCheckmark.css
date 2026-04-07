@@ -1,11 +1,11 @@
-.seed-selectBoxCheckmark__root {
+.ride-selectBoxCheckmark__root {
     position: relative;
     box-sizing: border-box;
     flex: none;
-    width: var(--seed-dimension-x5);
-    height: var(--seed-dimension-x5);
+    width: var(--ride-dimension-x5);
+    height: var(--ride-dimension-x5);
 }
-.seed-selectBoxCheckmark__icon {
+.ride-selectBoxCheckmark__icon {
     display: block;
     position: absolute;
     margin: auto;
@@ -17,22 +17,22 @@
     overflow: initial;
     width: 15px;
     height: 15px;
-    color: var(--seed-color-fg-placeholder);
-    transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    color: var(--ride-color-fg-placeholder);
+    transition: color var(--ride-duration-color-transition) var(--ride-timing-function-easing);
 }
 @media (hover: hover) {
-    .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
-        color: var(--seed-color-fg-neutral-subtle);
+    .ride-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+        color: var(--ride-color-fg-neutral-subtle);
     }
 }
 @media (hover: none) {
-    .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-        color: var(--seed-color-fg-neutral-subtle);
+    .ride-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+        color: var(--ride-color-fg-neutral-subtle);
     }
 }
-.seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]) {
-    color: var(--seed-color-fg-neutral);
+.ride-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]) {
+    color: var(--ride-color-fg-neutral);
 }
-.seed-selectBoxCheckmark__icon:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
+.ride-selectBoxCheckmark__icon:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--ride-color-fg-disabled);
 }

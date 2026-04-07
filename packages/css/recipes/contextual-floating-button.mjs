@@ -23,7 +23,7 @@ export const contextualFloatingButtonVariantKeys = Object.keys(contextualFloatin
 
 export function contextualFloatingButton(props) {
   return createClassName(
-    "seed-contextual-floating-button",
+    "ride-contextual-floating-button",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

@@ -6,8 +6,8 @@
     "onlyUpdatePeerDependentsWhenOutOfRange": true
   },
   "linked": [
-    ["@seed-design/figma", "@seed-design/mcp"],
-    ["@seed-design/codemod", "@seed-design/migration-index"]
+    ["@ride-developer/figma", "@ride-developer/mcp"],
+    ["@ride-developer/codemod", "@ride-developer/migration-index"]
   ],
   "access": "public",
   "baseBranch": "dev",

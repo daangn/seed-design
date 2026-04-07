@@ -254,14 +254,14 @@ export class RegistryGenerator {
         }
 
         // non-relative imports (npm packages)
-        // e.g. "@seed-design/react"
+        // e.g. "@ride-developer/react"
         if (this.#installedDeps.has(moduleSpecifier)) {
           dependencies.add(moduleSpecifier);
 
           continue;
         }
 
-        // e.g. "@seed-design/react/primitive" -> adds "@seed-design/react"
+        // e.g. "@ride-developer/react/primitive" -> adds "@ride-developer/react"
         for (const dep of this.#installedDeps) {
           if (moduleSpecifier.startsWith(`${dep}/`)) {
             dependencies.add(dep);

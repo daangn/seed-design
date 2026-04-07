@@ -4,15 +4,15 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const appBarMainSlotNames = [
   [
     "root",
-    "seed-app-bar-main__root"
+    "ride-app-bar-main__root"
   ],
   [
     "title",
-    "seed-app-bar-main__title"
+    "ride-app-bar-main__title"
   ],
   [
     "subtitle",
-    "seed-app-bar-main__subtitle"
+    "ride-app-bar-main__subtitle"
   ]
 ];
 

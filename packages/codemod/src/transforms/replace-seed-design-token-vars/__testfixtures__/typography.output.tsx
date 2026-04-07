@@ -1,6 +1,6 @@
-import { vars as legacyVars } from "@seed-design/design-token";
+import { vars as legacyVars } from "@ride-developer/design-token";
 
-import { vars as typoVars } from "@seed-design/css/vars/component/typography";
+import { vars as typoVars } from "@ride-developer/css/vars/component/typography";
 
 // Basic typography
 const basicTypography = {

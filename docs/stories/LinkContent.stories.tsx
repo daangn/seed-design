@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { LinkContent } from "@seed-design/react";
+import { LinkContent } from "@ride-developer/react";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconChevronRightLine } from "@karrotmarket/react-monochrome-icon";
-import { linkContentVariantMap } from "@seed-design/css/recipes/link-content";
-import { SuffixIcon } from "@seed-design/react";
+import { linkContentVariantMap } from "@ride-developer/css/recipes/link-content";
+import { SuffixIcon } from "@ride-developer/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 

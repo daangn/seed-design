@@ -64,10 +64,10 @@ const processor = remark()
   })
   .use(rehypeStringify);
 
-const RELATED_PACKAGE_REGEX = /^\s*-\s+(@seed-design\/[^\s@]+)@([^\s]+)\s*$/gm;
+const RELATED_PACKAGE_REGEX = /^\s*-\s+(@ride-developer\/[^\s@]+)@([^\s]+)\s*$/gm;
 const ENTRY_COMMIT_REGEX = /^-\s+([a-f0-9]{7}):/m;
 const DEPENDENCY_COMMIT_REGEX = /Updated dependencies \[([a-f0-9]{7})\]/g;
-const GITHUB_COMMIT_BASE_URL = "https://github.com/daangn/seed-design/commit";
+const GITHUB_COMMIT_BASE_URL = "https://github.com/ride-developer/ride-design-system/commit";
 
 // ── I/O ──────────────────────────────────────────────────────────────────────
 
@@ -127,7 +127,7 @@ export async function loadChangelogSources(rootDir: string): Promise<ChangelogSo
       ]);
 
       const packageJson = JSON.parse(packageJsonRaw) as { name?: string };
-      if (!packageJson.name?.startsWith("@seed-design/")) {
+      if (!packageJson.name?.startsWith("@ride-developer/")) {
         return null;
       }
 

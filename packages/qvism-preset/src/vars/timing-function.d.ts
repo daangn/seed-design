@@ -1,6 +1,6 @@
-export declare const linear = "var(--seed-timing-function-linear)";
-export declare const easing = "var(--seed-timing-function-easing)";
-export declare const enter = "var(--seed-timing-function-enter)";
-export declare const exit = "var(--seed-timing-function-exit)";
-export declare const enterExpressive = "var(--seed-timing-function-enter-expressive)";
-export declare const exitExpressive = "var(--seed-timing-function-exit-expressive)";
+export declare const linear = "var(--ride-timing-function-linear)";
+export declare const easing = "var(--ride-timing-function-easing)";
+export declare const enter = "var(--ride-timing-function-enter)";
+export declare const exit = "var(--ride-timing-function-exit)";
+export declare const enterExpressive = "var(--ride-timing-function-enter-expressive)";
+export declare const exitExpressive = "var(--ride-timing-function-exit-expressive)";

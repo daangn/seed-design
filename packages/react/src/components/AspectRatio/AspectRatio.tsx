@@ -1,4 +1,4 @@
-import { aspectRatio as aspectRatioRecipe } from "@seed-design/css/recipes/aspect-ratio";
+import { aspectRatio as aspectRatioRecipe } from "@ride-developer/css/recipes/aspect-ratio";
 import clsx from "clsx";
 import * as React from "react";
 import { Box, type BoxProps } from "../Box/Box";
@@ -41,7 +41,7 @@ export const AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(
         style={
           {
             // NOTE: aspectRatio는 iOS 15+부터 지원하기 때문에 padding으로 ratio hack을 사용합니다.
-            "--seed-aspect-ratio-padding": `${(1 / ratio) * 100}%`,
+            "--ride-aspect-ratio-padding": `${(1 / ratio) * 100}%`,
             ...style,
           } as React.CSSProperties
         }

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
-import { textInputVariantMap } from "@seed-design/css/recipes/text-input";
+import { textInputVariantMap } from "@ride-developer/css/recipes/text-input";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";

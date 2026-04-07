@@ -2,23 +2,23 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)",
-        "cornerRadius": "var(--seed-radius-full)",
-        "shadow": "var(--seed-shadow-s3)",
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)",
-        "layoutDuration": "var(--seed-duration-d4)",
-        "layoutTimingFunction": "var(--seed-timing-function-easing)"
+        "color": "var(--ride-color-bg-brand-solid)",
+        "cornerRadius": "var(--ride-radius-full)",
+        "shadow": "var(--ride-shadow-s3)",
+        "colorDuration": "var(--ride-duration-color-transition)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)",
+        "layoutDuration": "var(--ride-duration-d4)",
+        "layoutTimingFunction": "var(--ride-timing-function-easing)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)",
-        "sizeDuration": "var(--seed-duration-d4)",
-        "sizeTimingFunction": "var(--seed-timing-function-easing)"
+        "color": "var(--ride-color-palette-static-white)",
+        "sizeDuration": "var(--ride-duration-d4)",
+        "sizeTimingFunction": "var(--ride-timing-function-easing)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
+        "color": "var(--ride-color-bg-brand-solid-pressed)"
       }
     }
   },
@@ -28,19 +28,19 @@ export declare const vars: {
   "extendedTrue": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x1)",
-        "paddingX": "var(--seed-dimension-x4_5)",
-        "paddingY": "var(--seed-dimension-x3)",
+        "gap": "var(--ride-dimension-x1)",
+        "paddingX": "var(--ride-dimension-x4_5)",
+        "paddingY": "var(--ride-dimension-x3)",
         "minHeight": "48px"
       },
       "icon": {
-        "size": "var(--seed-dimension-x5)"
+        "size": "var(--ride-dimension-x5)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)",
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "color": "var(--ride-color-palette-static-white)",
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)",
+        "fontWeight": "var(--ride-font-weight-bold)"
       }
     }
   },
@@ -53,7 +53,7 @@ export declare const vars: {
         "size": "56px"
       },
       "icon": {
-        "size": "var(--seed-dimension-x6)"
+        "size": "var(--ride-dimension-x6)"
       }
     }
   }

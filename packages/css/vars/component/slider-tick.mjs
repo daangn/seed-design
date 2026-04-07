@@ -2,7 +2,7 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       }
     }
   },
@@ -16,7 +16,7 @@ export const vars = {
   "weightThick": {
     "enabled": {
       "root": {
-        "width": "var(--seed-dimension-x1)"
+        "width": "var(--ride-dimension-x1)"
       }
     }
   }

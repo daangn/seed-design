@@ -1,5 +1,5 @@
-import { colorMappings } from "@seed-design/migration-index/color";
-import { typographyMappings } from "@seed-design/migration-index/typography";
+import { colorMappings } from "@ride-developer/migration-index/color";
+import { typographyMappings } from "@ride-developer/migration-index/typography";
 import type * as jscodeshift from "jscodeshift";
 import { getTokenTypeForProperty } from "../../utils/color-properties.js";
 import { createTransformLogger } from "../../utils/logger.js";
@@ -367,7 +367,7 @@ const replaceVarsColorAndTypography: jscodeshift.Transform = (file, api) => {
 
     // design-token import 찾기
     const designTokenImports = root.find(j.ImportDeclaration, {
-      source: { value: "@seed-design/design-token" },
+      source: { value: "@ride-developer/design-token" },
     });
 
     // import 주석 보존

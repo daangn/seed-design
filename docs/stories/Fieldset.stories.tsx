@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { Fieldset, VisuallyHidden, PrefixIcon, Box } from "@seed-design/react";
+import { Fieldset, VisuallyHidden, PrefixIcon, Box } from "@ride-developer/react";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { fieldVariantMap } from "@seed-design/css/recipes/field";
+import { fieldVariantMap } from "@ride-developer/css/recipes/field";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";

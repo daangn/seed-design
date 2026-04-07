@@ -26,7 +26,7 @@ export const mannerTempBadgeVariantKeys = Object.keys(mannerTempBadgeVariantMap)
 
 export function mannerTempBadge(props) {
   return createClassName(
-    "seed-manner-temp-badge",
+    "ride-manner-temp-badge",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

@@ -1,4 +1,4 @@
-import { Badge, Flex, Text } from "@seed-design/react";
+import { Badge, Flex, Text } from "@ride-developer/react";
 import { events } from "shared/event";
 import type { SerializedBaseNode } from "shared/types";
 

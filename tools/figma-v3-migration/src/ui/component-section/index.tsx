@@ -1,4 +1,4 @@
-import { Flex } from "@seed-design/react";
+import { Flex } from "@ride-developer/react";
 import { Footer } from "common/components/footer";
 import { useComponentSection } from "./context";
 import { ComponentSuggestionsList } from "./list";

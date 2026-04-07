@@ -1,4 +1,4 @@
-import type { Dimension } from "@seed-design/css/vars";
+import type { Dimension } from "@ride-developer/css/vars";
 import * as React from "react";
 import { Box } from "../Box/Box";
 import { handleDimension } from "../../utils/styled";

@@ -27,8 +27,8 @@ const switchmarkRecipe = defineSlotRecipe({
         opacity: vars.base.disabled.root.opacity,
       },
 
-      ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
-      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
+      ...createFocusRingRestStyles({ overridableBy: "--ride-focus-ring" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--ride-focus-ring" }),
     },
     thumb: {
       borderRadius: vars.base.enabled.thumb.cornerRadius,

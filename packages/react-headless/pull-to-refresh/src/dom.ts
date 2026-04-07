@@ -1,4 +1,4 @@
-const PREVENT_PULL_ATTRIBUTE = "data-seed-pull-to-refresh-prevent-pull";
+const PREVENT_PULL_ATTRIBUTE = "data-ride-pull-to-refresh-prevent-pull";
 
 export const pullToRefreshPreventPull = {
   [PREVENT_PULL_ATTRIBUTE]: "",

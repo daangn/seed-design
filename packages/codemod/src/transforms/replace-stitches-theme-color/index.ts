@@ -3,7 +3,7 @@ import {
   scaleColorMappings,
   semanticColorMappings,
   staticColorMappings,
-} from "@seed-design/migration-index/color";
+} from "@ride-developer/migration-index/color";
 import type { Transform } from "jscodeshift";
 import { getParentPropertyName, processTernaryExpressions } from "../../utils/ast";
 import { isBackgroundProperty, isFgProperty, isStrokeProperty } from "../../utils/color-properties";

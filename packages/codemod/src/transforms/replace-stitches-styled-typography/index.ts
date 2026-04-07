@@ -1,4 +1,4 @@
-import { typographyMappings } from "@seed-design/migration-index/typography";
+import { typographyMappings } from "@ride-developer/migration-index/typography";
 import type { ObjectExpression, ObjectMethod, ObjectProperty, Transform } from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";
 

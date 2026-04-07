@@ -1,4 +1,4 @@
-import { Box, HStack } from "@seed-design/react";
+import { Box, HStack } from "@ride-developer/react";
 
 export default function HStackPreview() {
   return (

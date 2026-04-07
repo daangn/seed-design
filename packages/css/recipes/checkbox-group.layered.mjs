@@ -11,7 +11,7 @@ export const checkboxGroupVariantKeys = Object.keys(checkboxGroupVariantMap);
 
 export function checkboxGroup(props) {
   return createClassName(
-    "seed-checkbox-group",
+    "ride-checkbox-group",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

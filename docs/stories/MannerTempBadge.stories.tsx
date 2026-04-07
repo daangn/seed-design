@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { MannerTempBadge } from "seed-design/ui/manner-temp-badge";
 
-import { mannerTempBadgeVariantMap } from "@seed-design/css/recipes/manner-temp-badge";
+import { mannerTempBadgeVariantMap } from "@ride-developer/css/recipes/manner-temp-badge";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";

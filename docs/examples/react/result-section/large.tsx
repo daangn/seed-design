@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { VStack } from "@ride-developer/react";
 import { ResultSection } from "seed-design/ui/result-section";
 
 export default function ResultSectionLarge() {

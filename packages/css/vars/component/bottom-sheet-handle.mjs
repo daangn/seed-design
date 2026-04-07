@@ -5,10 +5,10 @@ export const vars = {
         "fromTop": "6px",
         "width": "36px",
         "height": "4px",
-        "color": "var(--seed-color-palette-gray-400)",
+        "color": "var(--ride-color-palette-gray-400)",
         "borderRadius": "9999px",
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorDuration": "var(--ride-duration-color-transition)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)"
       },
       "touchArea": {
         "width": "44px",
@@ -17,7 +17,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-palette-gray-500)"
+        "color": "var(--ride-color-palette-gray-500)"
       }
     }
   }

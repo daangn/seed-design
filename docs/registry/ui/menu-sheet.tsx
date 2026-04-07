@@ -1,6 +1,6 @@
 "use client";
 
-import { PrefixIcon, MenuSheet as SeedMenuSheet } from "@seed-design/react";
+import { PrefixIcon, MenuSheet as SeedMenuSheet } from "@ride-developer/react";
 import { forwardRef } from "react";
 import type * as React from "react";
 

@@ -1,18 +1,18 @@
-:root[data-seed] {
+:root[data-ride] {
   color-scheme: light dark;
 }
 
-:root[data-seed="light-only"] {
+:root[data-ride="light-only"] {
   color-scheme: light;
   color-scheme: only light;
 }
 
-:root[data-seed="dark-only"] {
+:root[data-ride="dark-only"] {
   color-scheme: dark;
   color-scheme: only dark;
 }
 
-:root[data-seed] {
+:root[data-ride] {
   --seed-static-color-static-black: #000000;
   --seed-static-color-static-white: #ffffff;
   --seed-static-color-static-gray-900: #212124;
@@ -215,12 +215,12 @@
 }
 
 :root,
-:root[data-seed-user-color-scheme="light"],
-:root[data-seed-color-mode="light-only"],
-:root [data-seed-color-mode="light-only"],
-:root[data-seed][data-seed="light-only"][data-seed-scale-color="dark"],
-:root[data-seed][data-seed-scale-color="light"]:not([data-seed="dark-only"]),
-:root[data-seed]:not([data-seed="dark-only"]) [data-seed-scale-color="light"] {
+:root[data-ride-user-color-scheme="light"],
+:root[data-ride-color-mode="light-only"],
+:root [data-ride-color-mode="light-only"],
+:root[data-ride][data-ride="light-only"][data-ride-scale-color="dark"],
+:root[data-ride][data-ride-scale-color="light"]:not([data-ride="dark-only"]),
+:root[data-ride]:not([data-ride="dark-only"]) [data-ride-scale-color="light"] {
   --seed-scale-color-gray-00: #ffffff;
   --seed-scale-color-gray-50: #f7f8fa;
   --seed-scale-color-gray-100: #f2f3f6;
@@ -369,12 +369,12 @@
   --seed-semantic-color-gray-active: var(--seed-scale-color-gray-700);
 }
 
-:root[data-seed-user-color-scheme="dark"],
-:root[data-seed-color-mode="dark-only"],
-:root [data-seed-color-mode="dark-only"],
-:root[data-seed][data-seed="dark-only"][data-seed-scale-color="light"],
-:root[data-seed][data-seed-scale-color="dark"]:not([data-seed="light-only"]),
-:root[data-seed]:not([data-seed="light-only"]) [data-seed-scale-color="dark"] {
+:root[data-ride-user-color-scheme="dark"],
+:root[data-ride-color-mode="dark-only"],
+:root [data-ride-color-mode="dark-only"],
+:root[data-ride][data-ride="dark-only"][data-ride-scale-color="light"],
+:root[data-ride][data-ride-scale-color="dark"]:not([data-ride="light-only"]),
+:root[data-ride]:not([data-ride="light-only"]) [data-ride-scale-color="dark"] {
   --seed-scale-color-gray-00: #17171a;
   --seed-scale-color-gray-50: #212124;
   --seed-scale-color-gray-100: #2b2e33;
@@ -524,12 +524,12 @@
 }
 
 /* V3 Compat layer */
-:root[data-seed-v3-compat][data-seed-user-color-scheme="dark"],
-:root[data-seed-v3-compat][data-seed-color-mode="dark-only"],
-:root[data-seed-v3-compat] [data-seed-color-mode="dark-only"],
-:root[data-seed-v3-compat][data-seed][data-seed="dark-only"][data-seed-scale-color="light"],
-:root[data-seed-v3-compat][data-seed][data-seed-scale-color="dark"]:not([data-seed="light-only"]),
-:root[data-seed-v3-compat][data-seed]:not([data-seed="light-only"]) [data-seed-scale-color="dark"] {
+:root[data-ride-v3-compat][data-ride-user-color-scheme="dark"],
+:root[data-ride-v3-compat][data-ride-color-mode="dark-only"],
+:root[data-ride-v3-compat] [data-ride-color-mode="dark-only"],
+:root[data-ride-v3-compat][data-ride][data-ride="dark-only"][data-ride-scale-color="light"],
+:root[data-ride-v3-compat][data-ride][data-ride-scale-color="dark"]:not([data-ride="light-only"]),
+:root[data-ride-v3-compat][data-ride]:not([data-ride="light-only"]) [data-ride-scale-color="dark"] {
   --seed-semantic-color-paper-sheet: var(--seed-scale-color-v3-gray-100);
   --seed-semantic-color-paper-contents: var(--seed-scale-color-v3-gray-00);
   --seed-semantic-color-paper-default: var(--seed-scale-color-v3-gray-100);
@@ -537,8 +537,8 @@
 }
 
 :root,
-:root[data-seed-platform="ios"],
-:root[data-seed][data-seed-scale-letter-spacing="ios"] {
+:root[data-ride-platform="ios"],
+:root[data-ride][data-ride-scale-letter-spacing="ios"] {
   --seed-scale-letter-spacing-none: 0em;
   --seed-scale-letter-spacing-narrow-200: -0.02em;
   --seed-scale-letter-spacing-narrow-300: -0.03em;
@@ -587,8 +587,8 @@
   --seed-semantic-typography-label6-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
 }
 
-:root[data-seed-platform="android"],
-:root[data-seed][data-seed-scale-letter-spacing="android"] {
+:root[data-ride-platform="android"],
+:root[data-ride][data-ride-scale-letter-spacing="android"] {
   --seed-scale-letter-spacing-none: 0em;
   --seed-scale-letter-spacing-narrow-200: -0.02em;
   --seed-scale-letter-spacing-narrow-300: -0.03em;

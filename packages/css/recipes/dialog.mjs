@@ -4,35 +4,35 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const dialogSlotNames = [
   [
     "positioner",
-    "seed-dialog__positioner"
+    "ride-dialog__positioner"
   ],
   [
     "backdrop",
-    "seed-dialog__backdrop"
+    "ride-dialog__backdrop"
   ],
   [
     "content",
-    "seed-dialog__content"
+    "ride-dialog__content"
   ],
   [
     "header",
-    "seed-dialog__header"
+    "ride-dialog__header"
   ],
   [
     "footer",
-    "seed-dialog__footer"
+    "ride-dialog__footer"
   ],
   [
     "action",
-    "seed-dialog__action"
+    "ride-dialog__action"
   ],
   [
     "title",
-    "seed-dialog__title"
+    "ride-dialog__title"
   ],
   [
     "description",
-    "seed-dialog__description"
+    "ride-dialog__description"
   ]
 ];
 

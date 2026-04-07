@@ -2,8 +2,8 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "cornerRadius": "var(--seed-radius-full)",
-        "strokeColor": "var(--seed-color-stroke-neutral-subtle)"
+        "cornerRadius": "var(--ride-radius-full)",
+        "strokeColor": "var(--ride-color-stroke-neutral-subtle)"
       }
     }
   },

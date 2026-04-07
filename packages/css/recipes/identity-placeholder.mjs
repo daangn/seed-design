@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const identityPlaceholderSlotNames = [
   [
     "root",
-    "seed-identity-placeholder__root"
+    "ride-identity-placeholder__root"
   ],
   [
     "image",
-    "seed-identity-placeholder__image"
+    "ride-identity-placeholder__image"
   ]
 ];
 

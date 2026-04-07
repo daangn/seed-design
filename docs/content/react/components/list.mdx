@@ -16,7 +16,7 @@ description: 가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트�
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add ui:list
+npx @ride-developer/cli@latest add ui:list
 ```
 
 <ManualInstallation name="list" />
@@ -272,7 +272,7 @@ import { List, ListItem } from "seed-design/ui/list";
 
 ### Usage
 
-@seed-design/react 패키지에서 제공하는 `List`와 `ListHeader` 컴포넌트는 다음과 같은 구조로 사용됩니다.
+@ride-developer/react 패키지에서 제공하는 `List`와 `ListHeader` 컴포넌트는 다음과 같은 구조로 사용됩니다.
 
 ```
 ListHeader
@@ -288,7 +288,7 @@ List.Root
 ```
 
 ```tsx
-import { ListHeader, List, Icon } from "@seed-design/react";
+import { ListHeader, List, Icon } from "@ride-developer/react";
 
 <ListHeader>
   내 정보
@@ -334,7 +334,7 @@ import { ListHeader, List, Icon } from "@seed-design/react";
 리스트 항목 전체 영역을 클릭 가능한 버튼으로 만드는 경우 활용할 수 있는 패턴입니다. 이 경우 `List.Item`에 `asChild` prop을 사용하지 않도록 유의하세요. `List.Prefix` 또는 `List.Suffix`에 버튼을 넣는 경우 `button`이 중첩되는 등 유효하지 않은 HTML이 생성됩니다.
 
 ```tsx
-import { List as SeedList } from "@seed-design/react";
+import { List as SeedList } from "@ride-developer/react";
 
 <SeedList.Item>
   {/* [!code highlight] */}
@@ -384,8 +384,8 @@ import { ListButtonItem } from "seed-design/ui/list";
 리스트 항목 전체 영역을 `label`로 만들고, `List.Prefix` 또는 `List.Suffix`에 [Switchmark](/react/components/switch#using-switchmark), [Checkmark](/react/components/checkbox#using-checkmark) 또는 [Radiomark](/react/components/radio-group#using-radiomark)를 넣는 경우 활용할 수 있는 패턴입니다.
 
 ```tsx
-import { List as SeedList } from "@seed-design/react";
-import { Checkbox } from "@seed-design/react/primitive";
+import { List as SeedList } from "@ride-developer/react";
+import { Checkbox } from "@ride-developer/react/primitive";
 
 {/* [!code highlight] */}
 <SeedList.Item asChild> {/* <label> */}

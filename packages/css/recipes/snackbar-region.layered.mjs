@@ -11,7 +11,7 @@ export const snackbarRegionVariantKeys = Object.keys(snackbarRegionVariantMap);
 
 export function snackbarRegion(props) {
   return createClassName(
-    "seed-snackbar-region",
+    "ride-snackbar-region",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

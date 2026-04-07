@@ -1,4 +1,4 @@
-import { RadioGroup } from "@seed-design/react/primitive";
+import { RadioGroup } from "@ride-developer/react/primitive";
 import { List, ListDivider, ListRadioItem } from "seed-design/ui/list";
 import { Radiomark } from "seed-design/ui/radio-group";
 

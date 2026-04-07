@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { DismissibleCallout } from "seed-design/ui/callout";
 
-import { calloutVariantMap } from "@seed-design/css/recipes/callout";
+import { calloutVariantMap } from "@ride-developer/css/recipes/callout";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";

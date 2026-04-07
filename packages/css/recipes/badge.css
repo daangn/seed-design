@@ -1,4 +1,4 @@
-.seed-badge__root {
+.ride-badge__root {
     display: inline-flex;
     box-sizing: border-box;
     align-items: center;
@@ -8,111 +8,111 @@
     -moz-osx-font-smoothing: grayscale;
     text-decoration: none
 }
-.seed-badge__label {
+.ride-badge__label {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap
 }
-.seed-badge__root--size_medium {
-    max-width: clamp(calc(108px * var(--seed-font-size-limit-min)), 7.5rem, calc(108px * var(--seed-font-size-limit-max)));
-    min-height: var(--seed-dimension-x5);
-    padding-left: var(--seed-dimension-x1_5);
-    padding-right: var(--seed-dimension-x1_5);
-    padding-top: var(--seed-dimension-x0_5);
-    padding-bottom: var(--seed-dimension-x0_5);
-    border-radius: var(--seed-radius-r1);
-    font-size: var(--seed-font-size-t1);
-    line-height: var(--seed-line-height-t1)
+.ride-badge__root--size_medium {
+    max-width: clamp(calc(108px * var(--ride-font-size-limit-min)), 7.5rem, calc(108px * var(--ride-font-size-limit-max)));
+    min-height: var(--ride-dimension-x5);
+    padding-left: var(--ride-dimension-x1_5);
+    padding-right: var(--ride-dimension-x1_5);
+    padding-top: var(--ride-dimension-x0_5);
+    padding-bottom: var(--ride-dimension-x0_5);
+    border-radius: var(--ride-radius-r1);
+    font-size: var(--ride-font-size-t1);
+    line-height: var(--ride-line-height-t1)
 }
-.seed-badge__root--size_large {
-    max-width: clamp(calc(120px * var(--seed-font-size-limit-min)), 6.75rem, calc(120px * var(--seed-font-size-limit-max)));
-    min-height: var(--seed-dimension-x6);
-    padding-left: var(--seed-dimension-x2);
-    padding-right: var(--seed-dimension-x2);
-    padding-top: var(--seed-dimension-x1);
-    padding-bottom: var(--seed-dimension-x1);
-    border-radius: var(--seed-radius-r1_5);
-    font-size: var(--seed-font-size-t2);
-    line-height: var(--seed-line-height-t2)
+.ride-badge__root--size_large {
+    max-width: clamp(calc(120px * var(--ride-font-size-limit-min)), 6.75rem, calc(120px * var(--ride-font-size-limit-max)));
+    min-height: var(--ride-dimension-x6);
+    padding-left: var(--ride-dimension-x2);
+    padding-right: var(--ride-dimension-x2);
+    padding-top: var(--ride-dimension-x1);
+    padding-bottom: var(--ride-dimension-x1);
+    border-radius: var(--ride-radius-r1_5);
+    font-size: var(--ride-font-size-t2);
+    line-height: var(--ride-line-height-t2)
 }
-.seed-badge__root--variant_weak {
-    font-weight: var(--seed-font-weight-medium)
+.ride-badge__root--variant_weak {
+    font-weight: var(--ride-font-weight-medium)
 }
-.seed-badge__root--variant_solid {
-    font-weight: var(--seed-font-weight-bold)
+.ride-badge__root--variant_solid {
+    font-weight: var(--ride-font-weight-bold)
 }
-.seed-badge__root--variant_outline {
-    font-weight: var(--seed-font-weight-bold)
+.ride-badge__root--variant_outline {
+    font-weight: var(--ride-font-weight-bold)
 }
-.seed-badge__root--tone_neutral-variant_weak {
-    background-color: var(--seed-color-bg-neutral-weak);
-    color: var(--seed-color-fg-neutral-muted)
+.ride-badge__root--tone_neutral-variant_weak {
+    background-color: var(--ride-color-bg-neutral-weak);
+    color: var(--ride-color-fg-neutral-muted)
 }
-.seed-badge__root--tone_neutral-variant_solid {
-    background-color: var(--seed-color-palette-gray-800);
-    color: var(--seed-color-fg-neutral-inverted)
+.ride-badge__root--tone_neutral-variant_solid {
+    background-color: var(--ride-color-palette-gray-800);
+    color: var(--ride-color-fg-neutral-inverted)
 }
-.seed-badge__root--tone_neutral-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-    color: var(--seed-color-fg-neutral-muted)
+.ride-badge__root--tone_neutral-variant_outline {
+    box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-muted);
+    color: var(--ride-color-fg-neutral-muted)
 }
-.seed-badge__root--tone_brand-variant_weak {
-    background-color: var(--seed-color-bg-brand-weak);
-    color: var(--seed-color-fg-brand-contrast)
+.ride-badge__root--tone_brand-variant_weak {
+    background-color: var(--ride-color-bg-brand-weak);
+    color: var(--ride-color-fg-brand-contrast)
 }
-.seed-badge__root--tone_brand-variant_solid {
-    background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white)
+.ride-badge__root--tone_brand-variant_solid {
+    background-color: var(--ride-color-bg-brand-solid);
+    color: var(--ride-color-palette-static-white)
 }
-.seed-badge__root--tone_brand-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-brand-weak);
-    color: var(--seed-color-fg-brand)
+.ride-badge__root--tone_brand-variant_outline {
+    box-shadow: inset 0 0 0 1px var(--ride-color-stroke-brand-weak);
+    color: var(--ride-color-fg-brand)
 }
-.seed-badge__root--tone_informative-variant_weak {
-    background-color: var(--seed-color-bg-informative-weak);
-    color: var(--seed-color-fg-informative-contrast)
+.ride-badge__root--tone_informative-variant_weak {
+    background-color: var(--ride-color-bg-informative-weak);
+    color: var(--ride-color-fg-informative-contrast)
 }
-.seed-badge__root--tone_informative-variant_solid {
-    background-color: var(--seed-color-bg-informative-solid);
-    color: var(--seed-color-palette-static-white)
+.ride-badge__root--tone_informative-variant_solid {
+    background-color: var(--ride-color-bg-informative-solid);
+    color: var(--ride-color-palette-static-white)
 }
-.seed-badge__root--tone_informative-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-informative-weak);
-    color: var(--seed-color-fg-informative)
+.ride-badge__root--tone_informative-variant_outline {
+    box-shadow: inset 0 0 0 1px var(--ride-color-stroke-informative-weak);
+    color: var(--ride-color-fg-informative)
 }
-.seed-badge__root--tone_positive-variant_weak {
-    background-color: var(--seed-color-bg-positive-weak);
-    color: var(--seed-color-fg-positive-contrast)
+.ride-badge__root--tone_positive-variant_weak {
+    background-color: var(--ride-color-bg-positive-weak);
+    color: var(--ride-color-fg-positive-contrast)
 }
-.seed-badge__root--tone_positive-variant_solid {
-    background-color: var(--seed-color-bg-positive-solid);
-    color: var(--seed-color-palette-static-white)
+.ride-badge__root--tone_positive-variant_solid {
+    background-color: var(--ride-color-bg-positive-solid);
+    color: var(--ride-color-palette-static-white)
 }
-.seed-badge__root--tone_positive-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-positive-weak);
-    color: var(--seed-color-fg-positive)
+.ride-badge__root--tone_positive-variant_outline {
+    box-shadow: inset 0 0 0 1px var(--ride-color-stroke-positive-weak);
+    color: var(--ride-color-fg-positive)
 }
-.seed-badge__root--tone_warning-variant_weak {
-    background-color: var(--seed-color-bg-warning-weak);
-    color: var(--seed-color-fg-warning-contrast)
+.ride-badge__root--tone_warning-variant_weak {
+    background-color: var(--ride-color-bg-warning-weak);
+    color: var(--ride-color-fg-warning-contrast)
 }
-.seed-badge__root--tone_warning-variant_solid {
-    background-color: var(--seed-color-bg-warning-solid);
-    color: var(--seed-color-palette-static-black-alpha-900)
+.ride-badge__root--tone_warning-variant_solid {
+    background-color: var(--ride-color-bg-warning-solid);
+    color: var(--ride-color-palette-static-black-alpha-900)
 }
-.seed-badge__root--tone_warning-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-warning-weak);
-    color: var(--seed-color-fg-warning)
+.ride-badge__root--tone_warning-variant_outline {
+    box-shadow: inset 0 0 0 1px var(--ride-color-stroke-warning-weak);
+    color: var(--ride-color-fg-warning)
 }
-.seed-badge__root--tone_critical-variant_weak {
-    background-color: var(--seed-color-bg-critical-weak);
-    color: var(--seed-color-fg-critical-contrast)
+.ride-badge__root--tone_critical-variant_weak {
+    background-color: var(--ride-color-bg-critical-weak);
+    color: var(--ride-color-fg-critical-contrast)
 }
-.seed-badge__root--tone_critical-variant_solid {
-    background-color: var(--seed-color-bg-critical-solid);
-    color: var(--seed-color-palette-static-white)
+.ride-badge__root--tone_critical-variant_solid {
+    background-color: var(--ride-color-bg-critical-solid);
+    color: var(--ride-color-palette-static-white)
 }
-.seed-badge__root--tone_critical-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-critical-weak);
-    color: var(--seed-color-fg-critical)
+.ride-badge__root--tone_critical-variant_outline {
+    box-shadow: inset 0 0 0 1px var(--ride-color-stroke-critical-weak);
+    color: var(--ride-color-fg-critical)
 }

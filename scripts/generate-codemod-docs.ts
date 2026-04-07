@@ -115,7 +115,7 @@ description: codemod를 통해 실행 가능한 변환 목록입니다.
     mdx += `${doc.readme}\n\n`;
 
     mdx += `\`\`\`package-install
-npx @seed-design/codemod@latest ${doc.path} <target_path>
+npx @ride-developer/codemod@latest ${doc.path} <target_path>
 \`\`\`\n\n`;
 
     if (doc.example) {

@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-portal",
-  "version": "1.0.0",
+  "name": "@ride-developer/react-portal",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/portal"
   },
   "sideEffects": false,

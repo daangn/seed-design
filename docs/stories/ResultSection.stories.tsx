@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ResultSection } from "seed-design/ui/result-section";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { Box, Icon } from "@seed-design/react";
+import { Box, Icon } from "@ride-developer/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { IconDiamond } from "@karrotmarket/react-multicolor-icon";
 import { VariantTable } from "@/stories/components/variant-table";

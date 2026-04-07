@@ -4,15 +4,15 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const imageFrameSlotNames = [
   [
     "root",
-    "seed-image-frame__root"
+    "ride-image-frame__root"
   ],
   [
     "content",
-    "seed-image-frame__content"
+    "ride-image-frame__content"
   ],
   [
     "fallback",
-    "seed-image-frame__fallback"
+    "ride-image-frame__fallback"
   ]
 ];
 

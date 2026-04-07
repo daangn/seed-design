@@ -1,4 +1,4 @@
-import { ImageFrame, ImageFrameFloater, ImageFrameIndicator } from "@seed-design/react";
+import { ImageFrame, ImageFrameFloater, ImageFrameIndicator } from "@ride-developer/react";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
 export default function ImageFrameOverlayInsetExample() {

@@ -1,5 +1,5 @@
 // packages/codemod/src/transforms/replace-custom-imported-typography-variable/index.ts
-import { typographyMappings } from "@seed-design/migration-index";
+import { typographyMappings } from "@ride-developer/migration-index";
 import type { API, FileInfo, Options } from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";
 

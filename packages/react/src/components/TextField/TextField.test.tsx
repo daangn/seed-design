@@ -4,7 +4,7 @@ import { describe, expect, it, mock } from "bun:test";
 import type { ReactElement } from "react";
 import React from "react";
 
-import { Field } from "@seed-design/react-field";
+import { Field } from "@ride-developer/react-field";
 import {
   TextFieldRoot,
   TextFieldInput,

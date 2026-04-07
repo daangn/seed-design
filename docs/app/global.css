@@ -1,7 +1,7 @@
 @import "tailwindcss" source(none);
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
-@import "@seed-design/tailwind4-theme";
+@import "@ride-developer/tailwind4-theme";
 
 @source ".";
 @source "../components";

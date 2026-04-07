@@ -1,20 +1,20 @@
 "use client";
 
-import { slider, type SliderVariantProps } from "@seed-design/css/recipes/slider";
-import { sliderTick, type SliderTickVariantProps } from "@seed-design/css/recipes/slider-tick";
+import { slider, type SliderVariantProps } from "@ride-developer/css/recipes/slider";
+import { sliderTick, type SliderTickVariantProps } from "@ride-developer/css/recipes/slider-tick";
 import {
   sliderMarker,
   type SliderMarkerVariantProps,
-} from "@seed-design/css/recipes/slider-marker";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+} from "@ride-developer/css/recipes/slider-marker";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { Slider, useSliderContext } from "@seed-design/react-slider";
+import { Slider, useSliderContext } from "@ride-developer/react-slider";
 import { forwardRef, useState, type HTMLAttributes } from "react";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import clsx from "clsx";
-import { mergeProps } from "@seed-design/dom-utils";
-import { useFieldContext } from "@seed-design/react-field";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { useFieldContext } from "@ride-developer/react-field";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(slider);

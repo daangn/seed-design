@@ -1,21 +1,21 @@
 import { defineKeyframes } from "./utils/define";
 
 export const keyframes = defineKeyframes({
-  "seed-enter": {
+  "ride-enter": {
     from: {
-      opacity: "var(--seed-enter-opacity, 1)",
-      transform: `translate3d(var(--seed-enter-translate-x, 0), var(--seed-enter-translate-y, 0), 0)
-      scale3d(var(--seed-enter-scale, 1), var(--seed-enter-scale, 1), var(--seed-enter-scale, 1))
-      rotate(var(--seed-enter-rotate, 0))`,
+      opacity: "var(--ride-enter-opacity, 1)",
+      transform: `translate3d(var(--ride-enter-translate-x, 0), var(--ride-enter-translate-y, 0), 0)
+      scale3d(var(--ride-enter-scale, 1), var(--ride-enter-scale, 1), var(--ride-enter-scale, 1))
+      rotate(var(--ride-enter-rotate, 0))`,
     },
   },
 
-  "seed-exit": {
+  "ride-exit": {
     to: {
-      opacity: "var(--seed-exit-opacity, 1)",
-      transform: `translate3d(var(--seed-exit-translate-x, 0), var(--seed-exit-translate-y, 0), 0)
-      scale3d(var(--seed-exit-scale, 1), var(--seed-exit-scale, 1), var(--seed-exit-scale, 1))
-      rotate(var(--seed-exit-rotate, 0))`,
+      opacity: "var(--ride-exit-opacity, 1)",
+      transform: `translate3d(var(--ride-exit-translate-x, 0), var(--ride-exit-translate-y, 0), 0)
+      scale3d(var(--ride-exit-scale, 1), var(--ride-exit-scale, 1), var(--ride-exit-scale, 1))
+      rotate(var(--ride-exit-rotate, 0))`,
     },
   },
 

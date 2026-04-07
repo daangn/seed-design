@@ -1,4 +1,4 @@
-import { ActionButton, Flex } from "@seed-design/react";
+import { ActionButton, Flex } from "@ride-developer/react";
 import { ScanButton } from "common/components/scan-button";
 import { StartCallout } from "common/components/start-callout";
 import { TargetBadges } from "common/components/taget-badges";

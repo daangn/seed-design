@@ -2,22 +2,22 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
+        "color": "var(--ride-color-bg-layer-default)",
         "strokeBottomWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)"
       },
       "indicator": {
         "height": "2px",
-        "color": "var(--seed-color-fg-neutral)",
-        "transformDuration": "var(--seed-duration-d4)",
-        "transformTimingFunction": "var(--seed-timing-function-easing)"
+        "color": "var(--ride-color-fg-neutral)",
+        "transformDuration": "var(--ride-duration-d4)",
+        "transformTimingFunction": "var(--ride-timing-function-easing)"
       }
     }
   },
   "layoutHug": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
+        "paddingX": "var(--ride-dimension-spacing-x-global-gutter)"
       },
       "indicator": {
         "insetX": "0px"
@@ -30,7 +30,7 @@ export declare const vars: {
         "paddingX": "0px"
       },
       "indicator": {
-        "insetX": "var(--seed-dimension-spacing-x-global-gutter)"
+        "insetX": "var(--ride-dimension-spacing-x-global-gutter)"
       }
     }
   },

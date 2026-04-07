@@ -1,4 +1,4 @@
-import { Box, Stack } from "@seed-design/react";
+import { Box, Stack } from "@ride-developer/react";
 
 /**
  * @deprecated Use `VStack` instead.

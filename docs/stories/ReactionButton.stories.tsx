@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ReactionButton } from "seed-design/ui/reaction-button";
 
 import { IconBellFill, IconChevronRightFill } from "@karrotmarket/react-monochrome-icon";
-import { reactionButtonVariantMap } from "@seed-design/css/recipes/reaction-button";
+import { reactionButtonVariantMap } from "@ride-developer/css/recipes/reaction-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { Count, PrefixIcon } from "@seed-design/react";
+import { Count, PrefixIcon } from "@ride-developer/react";
 
 const meta = {
   component: ReactionButton,

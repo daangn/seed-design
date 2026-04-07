@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { vars } from "@seed-design/css/vars";
+import { vars } from "@ride-developer/css/vars";
 
 // 우선순위가 높은 변환 (먼저 처리되어야 함)
 const border1 = vars.$color.stroke.neutralMuted;

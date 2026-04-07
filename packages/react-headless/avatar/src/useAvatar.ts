@@ -1,14 +1,14 @@
 /**
- * @deprecated Use `@seed-design/react-image` instead.
+ * @deprecated Use `@ride-developer/react-image` instead.
  * @see https://seed-design.io/docs/react/components/image
  */
 
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
-import { dataAttr, elementProps, imgProps } from "@seed-design/dom-utils";
+import { dataAttr, elementProps, imgProps } from "@ride-developer/dom-utils";
 import { useMemo, useRef, useState } from "react";
 
-/** @deprecated Use `ImageLoadingStatus` from `@seed-design/react-image` instead. */
+/** @deprecated Use `ImageLoadingStatus` from `@ride-developer/react-image` instead. */
 type LoadingStatus = "loading" | "loaded" | "error";
 
 interface UseAvatarStateProps {

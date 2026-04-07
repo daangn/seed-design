@@ -1,8 +1,8 @@
 import { Slot } from "@radix-ui/react-slot";
-import { appBar, type AppBarVariantProps } from "@seed-design/css/recipes/app-bar";
-import { appBarMain, type AppBarMainVariantProps } from "@seed-design/css/recipes/app-bar-main";
-import { mergeProps } from "@seed-design/dom-utils";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { appBar, type AppBarVariantProps } from "@ride-developer/css/recipes/app-bar";
+import { appBarMain, type AppBarMainVariantProps } from "@ride-developer/css/recipes/app-bar-main";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import clsx from "clsx";
 import { forwardRef } from "react";
 import { AppBar as AppBarPrimitive } from "../../primitive";

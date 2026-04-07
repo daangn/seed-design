@@ -1,4 +1,4 @@
-import { text, type TextVariantProps } from "@seed-design/css/recipes/text";
+import { text, type TextVariantProps } from "@ride-developer/css/recipes/text";
 import {
   vars,
   type FontSize,
@@ -6,7 +6,7 @@ import {
   type LineHeight,
   type ScopedColorFg,
   type ScopedColorPalette,
-} from "@seed-design/css/vars";
+} from "@ride-developer/css/vars";
 import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef, useMemo } from "react";
@@ -147,14 +147,14 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
         className={clsx(textClassName, className)}
         style={
           {
-            "--seed-max-lines": maxLines,
-            "--seed-text-color": handleColor(color),
-            "--seed-font-size": handleFontSize(fontSize),
-            "--seed-line-height": handleLineHeight(lineHeight ?? fontSize),
-            "--seed-font-weight": handleFontWeight(fontWeight),
-            "--seed-text-align": align,
-            "--seed-user-select": userSelect,
-            "--seed-white-space": whiteSpace,
+            "--ride-max-lines": maxLines,
+            "--ride-text-color": handleColor(color),
+            "--ride-font-size": handleFontSize(fontSize),
+            "--ride-line-height": handleLineHeight(lineHeight ?? fontSize),
+            "--ride-font-weight": handleFontWeight(fontWeight),
+            "--ride-text-align": align,
+            "--ride-user-select": userSelect,
+            "--ride-white-space": whiteSpace,
             ...style,
           } as React.CSSProperties
         }

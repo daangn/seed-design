@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog } from "@seed-design/react";
+import { Dialog } from "@ride-developer/react";
 import { forwardRef } from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 import type * as React from "react";

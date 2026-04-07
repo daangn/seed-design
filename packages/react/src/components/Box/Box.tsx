@@ -15,9 +15,9 @@ export const Box = React.forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
 
   if (asChild) {
     return (
-      <Slot ref={ref} className={clsx("seed-box", className)} style={style} {...nativeProps} />
+      <Slot ref={ref} className={clsx("ride-box", className)} style={style} {...nativeProps} />
     );
   }
 
-  return <Comp ref={ref} className={clsx("seed-box", className)} style={style} {...nativeProps} />;
+  return <Comp ref={ref} className={clsx("ride-box", className)} style={style} {...nativeProps} />;
 });

@@ -218,7 +218,7 @@ export async function generateEachRecipe(
 
       const layeredCss = transform({
         filename: `${name}.css`,
-        code: Buffer.from(wrapInLayer(css, "seed-components")),
+        code: Buffer.from(wrapInLayer(css, "ride-components")),
         minify: false,
       }).code.toString();
 
@@ -242,7 +242,7 @@ export async function generateBaseBundle(
   const css = await transpileRulesToCss(rules, config.postcssPlugins);
 
   if (layer) {
-    const wrapped = wrapInLayer(css, "seed-base");
+    const wrapped = wrapInLayer(css, "ride-base");
     return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
   }
 
@@ -271,7 +271,7 @@ export async function generateAllBundle(
     const baseRules = [...globalRules, ...tokenRules, ...keyframeRules];
     const baseCss = await transpileRulesToCss(baseRules, config.postcssPlugins);
     const recipesCss = await transpileRulesToCss(recipeRules, config.postcssPlugins);
-    const wrapped = `${wrapInLayer(baseCss, "seed-base")}\n${wrapInLayer(recipesCss, "seed-components")}`;
+    const wrapped = `${wrapInLayer(baseCss, "ride-base")}\n${wrapInLayer(recipesCss, "ride-components")}`;
 
     return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
   }

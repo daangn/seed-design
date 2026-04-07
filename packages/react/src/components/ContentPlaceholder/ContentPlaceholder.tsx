@@ -1,13 +1,13 @@
 import {
   contentPlaceholder,
   type ContentPlaceholderVariantProps,
-} from "@seed-design/css/recipes/content-placeholder";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+} from "@ride-developer/css/recipes/content-placeholder";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { contentPlaceholderAssetPresetMap } from "./presets";
-import { mergeProps } from "@seed-design/dom-utils";
+import { mergeProps } from "@ride-developer/dom-utils";
 import { clsx } from "clsx";
 import { useMemo } from "react";
 

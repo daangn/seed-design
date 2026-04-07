@@ -1,5 +1,5 @@
-import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useSupports } from "@seed-design/react-supports";
+import { ariaAttr, buttonProps, dataAttr, elementProps } from "@ride-developer/dom-utils";
+import { useSupports } from "@ride-developer/react-supports";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSafeOffset } from "./useSafeOffset";
 

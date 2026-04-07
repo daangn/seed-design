@@ -26,9 +26,9 @@ const badge = defineSlotRecipe({
     size: {
       medium: {
         root: {
-          // TODO: have some better way to derive `--seed-font-size-limit-min/max` and `108px`
+          // TODO: have some better way to derive `--ride-font-size-limit-min/max` and `108px`
           // NOTE: when updating vars.sizeMedium.enabled.root.maxWidth, update 108px accordingly
-          maxWidth: `clamp(calc(108px * var(--seed-font-size-limit-min)), ${vars.sizeMedium.enabled.root.maxWidth}, calc(108px * var(--seed-font-size-limit-max)))`,
+          maxWidth: `clamp(calc(108px * var(--ride-font-size-limit-min)), ${vars.sizeMedium.enabled.root.maxWidth}, calc(108px * var(--ride-font-size-limit-max)))`,
           minHeight: vars.sizeMedium.enabled.root.minHeight,
           paddingLeft: vars.sizeMedium.enabled.root.paddingX,
           paddingRight: vars.sizeMedium.enabled.root.paddingX,
@@ -42,9 +42,9 @@ const badge = defineSlotRecipe({
       },
       large: {
         root: {
-          // TODO: have some better way to derive `--seed-font-size-limit-min/max` and `120px`
+          // TODO: have some better way to derive `--ride-font-size-limit-min/max` and `120px`
           // NOTE: when updating vars.sizeLarge.enabled.root.maxWidth, update 120px accordingly
-          maxWidth: `clamp(calc(120px * var(--seed-font-size-limit-min)), ${vars.sizeLarge.enabled.root.maxWidth}, calc(120px * var(--seed-font-size-limit-max)))`,
+          maxWidth: `clamp(calc(120px * var(--ride-font-size-limit-min)), ${vars.sizeLarge.enabled.root.maxWidth}, calc(120px * var(--ride-font-size-limit-max)))`,
           minHeight: vars.sizeLarge.enabled.root.minHeight,
           paddingLeft: vars.sizeLarge.enabled.root.paddingX,
           paddingRight: vars.sizeLarge.enabled.root.paddingX,

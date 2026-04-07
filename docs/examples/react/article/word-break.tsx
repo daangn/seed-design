@@ -1,4 +1,4 @@
-import { Article, Text, VStack } from "@seed-design/react";
+import { Article, Text, VStack } from "@ride-developer/react";
 
 export default function ArticleWordBreak() {
   return (

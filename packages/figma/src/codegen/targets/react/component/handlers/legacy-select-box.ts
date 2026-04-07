@@ -36,7 +36,7 @@ const createLegacySelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
 
       return createLocalSnippetElement(tag, commonProps, undefined, {
         comment:
-          "이 Figma 컴포넌트는 @seed-design/react@1.2보다 낮은 버전의 SelectBox입니다. 신규 컴포넌트로 교체할 수 있습니다.",
+          "이 Figma 컴포넌트는 @ride-developer/react@1.2보다 낮은 버전의 SelectBox입니다. 신규 컴포넌트로 교체할 수 있습니다.",
       });
     },
   );
@@ -80,7 +80,7 @@ export const createLegacySelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => 
 
       return createLocalSnippetElement(tag, commonProps, stack, {
         comment:
-          "이 Figma 컴포넌트는 @seed-design/react@1.2보다 낮은 버전의 SelectBox입니다. 신규 컴포넌트로 교체할 수 있습니다.",
+          "이 Figma 컴포넌트는 @ride-developer/react@1.2보다 낮은 버전의 SelectBox입니다. 신규 컴포넌트로 교체할 수 있습니다.",
       });
     },
   );

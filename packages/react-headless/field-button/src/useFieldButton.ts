@@ -1,7 +1,7 @@
-import { ariaAttr, buttonProps, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
+import { ariaAttr, buttonProps, dataAttr, elementProps, inputProps } from "@ride-developer/dom-utils";
 import { useCallback, useId, useState } from "react";
 import { getDescriptionId, getErrorMessageId } from "./dom";
-import { useSupports } from "@seed-design/react-supports";
+import { useSupports } from "@ride-developer/react-supports";
 
 interface UseFieldButtonStateProps {
   values?: string[];

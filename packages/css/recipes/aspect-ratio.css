@@ -1,13 +1,13 @@
-.seed-aspect-ratio {
-    --seed-aspect-ratio-padding: 75%;
+.ride-aspect-ratio {
+    --ride-aspect-ratio-padding: 75%;
 }
-.seed-aspect-ratio::before {
+.ride-aspect-ratio::before {
     content: '';
     display: block;
     height: 0;
-    padding-bottom: var(--seed-aspect-ratio-padding);
+    padding-bottom: var(--ride-aspect-ratio-padding);
 }
-.seed-aspect-ratio > *:not(style) {
+.ride-aspect-ratio > *:not(style) {
     position: absolute;
     top: 0;
     left: 0;
@@ -19,6 +19,6 @@
     justify-content: center;
     align-items: center;
 }
-.seed-aspect-ratio > img, .seed-aspect-ratio > video {
+.ride-aspect-ratio > img, .ride-aspect-ratio > video {
     object-fit: cover;
 }

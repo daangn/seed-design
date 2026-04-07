@@ -1,22 +1,22 @@
-.seed-tag-group__separator {
-    color: var(--seed-color-palette-gray-600);
-    font-weight: var(--seed-font-weight-regular);
+.ride-tag-group__separator {
+    color: var(--ride-color-palette-gray-600);
+    font-weight: var(--ride-font-weight-regular);
     white-space: pre;
     user-select: none
 }
-.seed-tag-group__separator--size_t2 {
-    font-size: var(--seed-font-size-t2);
-    line-height: var(--seed-line-height-t2)
+.ride-tag-group__separator--size_t2 {
+    font-size: var(--ride-font-size-t2);
+    line-height: var(--ride-line-height-t2)
 }
-.seed-tag-group__separator--size_t3 {
-    font-size: var(--seed-font-size-t3);
-    line-height: var(--seed-line-height-t3)
+.ride-tag-group__separator--size_t3 {
+    font-size: var(--ride-font-size-t3);
+    line-height: var(--ride-line-height-t3)
 }
-.seed-tag-group__separator--size_t4 {
-    font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4)
+.ride-tag-group__separator--size_t4 {
+    font-size: var(--ride-font-size-t4);
+    line-height: var(--ride-line-height-t4)
 }
-.seed-tag-group__root--truncate_true {
+.ride-tag-group__root--truncate_true {
     display: inline-flex;
     align-items: center;
     max-width: 100%;
@@ -25,7 +25,7 @@
     --tag-group-item-text-overflow: ellipsis;
     --tag-group-item-white-space: nowrap
 }
-.seed-tag-group__root--truncate_false {
+.ride-tag-group__root--truncate_false {
     display: inline-block;
     font-size: 0;
     --tag-group-item-display: inline;
@@ -33,15 +33,15 @@
     --tag-group-item-text-overflow: clip;
     --tag-group-item-white-space: normal
 }
-.seed-tag-group__separator--truncate_false {
+.ride-tag-group__separator--truncate_false {
     vertical-align: middle
 }
-.seed-tag-group__root--size_t2-truncate_false {
-    line-height: var(--seed-line-height-t2)
+.ride-tag-group__root--size_t2-truncate_false {
+    line-height: var(--ride-line-height-t2)
 }
-.seed-tag-group__root--size_t3-truncate_false {
-    line-height: var(--seed-line-height-t3)
+.ride-tag-group__root--size_t3-truncate_false {
+    line-height: var(--ride-line-height-t3)
 }
-.seed-tag-group__root--size_t4-truncate_false {
-    line-height: var(--seed-line-height-t4)
+.ride-tag-group__root--size_t4-truncate_false {
+    line-height: var(--ride-line-height-t4)
 }

@@ -4,15 +4,15 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const floatingActionButtonSlotNames = [
   [
     "root",
-    "seed-floating-action-button__root"
+    "ride-floating-action-button__root"
   ],
   [
     "icon",
-    "seed-floating-action-button__icon"
+    "ride-floating-action-button__icon"
   ],
   [
     "label",
-    "seed-floating-action-button__label"
+    "ride-floating-action-button__label"
   ]
 ];
 

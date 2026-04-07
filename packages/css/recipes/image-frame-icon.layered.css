@@ -1,6 +1,6 @@
-@layer seed-components {
-  .seed-image-frame-icon {
-    color: var(--seed-color-palette-static-white);
+@layer ride-components {
+  .ride-image-frame-icon {
+    color: var(--ride-color-palette-static-white);
     justify-content: center;
     align-items: center;
     display: inline-flex;

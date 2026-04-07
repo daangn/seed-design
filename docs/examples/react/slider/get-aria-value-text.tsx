@@ -1,4 +1,4 @@
-import { VStack, Text } from "@seed-design/react";
+import { VStack, Text } from "@ride-developer/react";
 import { useState } from "react";
 import { Slider } from "seed-design/ui/slider";
 

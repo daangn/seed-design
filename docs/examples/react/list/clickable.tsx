@@ -6,7 +6,7 @@ import {
   IconPlusFill,
   IconSquare2StackedFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { PrefixIcon, Icon, Box } from "@seed-design/react";
+import { PrefixIcon, Icon, Box } from "@ride-developer/react";
 import { useCallback, useState } from "react";
 import { List, ListDivider, ListItem, ListButtonItem, ListLinkItem } from "seed-design/ui/list";
 import { ActionButton } from "seed-design/ui/action-button";

@@ -4,15 +4,15 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const fieldLabelSlotNames = [
   [
     "root",
-    "seed-field-label__root"
+    "ride-field-label__root"
   ],
   [
     "indicatorText",
-    "seed-field-label__indicatorText"
+    "ride-field-label__indicatorText"
   ],
   [
     "indicatorIcon",
-    "seed-field-label__indicatorIcon"
+    "ride-field-label__indicatorIcon"
   ]
 ];
 

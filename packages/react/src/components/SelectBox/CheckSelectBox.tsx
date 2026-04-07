@@ -1,21 +1,21 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { selectBox, type SelectBoxVariantProps } from "@seed-design/css/recipes/select-box";
+import { selectBox, type SelectBoxVariantProps } from "@ride-developer/css/recipes/select-box";
 import {
   selectBoxCheckmark,
   type SelectBoxCheckmarkVariantProps,
-} from "@seed-design/css/recipes/selectBoxCheckmark";
+} from "@ride-developer/css/recipes/selectBoxCheckmark";
 import {
   selectBoxGroup,
   type SelectBoxGroupVariantProps,
-} from "@seed-design/css/recipes/select-box-group";
-import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
+} from "@ride-developer/css/recipes/select-box-group";
+import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@ride-developer/react-checkbox";
 import {
   Collapsible,
   CollapsibleProvider,
   useCollapsible,
   useCollapsibleContext,
-} from "@seed-design/react-collapsible";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+} from "@ride-developer/react-collapsible";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import clsx from "clsx";
 import {
   createContext,
@@ -65,7 +65,7 @@ export const CheckSelectBoxGroup = forwardRef<HTMLDivElement, CheckSelectBoxGrou
           style={
             {
               ...style,
-              "--seed-select-box-group--columns": columns,
+              "--ride-select-box-group--columns": columns,
             } as React.CSSProperties
           }
           {...otherProps}

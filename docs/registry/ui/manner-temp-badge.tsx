@@ -4,7 +4,7 @@ import {
   Celsius,
   MannerTempBadge as SeedMannerTempBadge,
   type MannerTempBadgeProps as SeedMannerTempBadgeProps,
-} from "@seed-design/react";
+} from "@ride-developer/react";
 import * as React from "react";
 import { mannerTempToLevel } from "../lib/manner-temp-level";
 

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { vars } from "@seed-design/css/vars";
+import { vars } from "@ride-developer/css/vars";
 
 export const Component = () => {
   const styles = {

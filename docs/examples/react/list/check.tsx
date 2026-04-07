@@ -1,4 +1,4 @@
-import { Badge, HStack } from "@seed-design/react";
+import { Badge, HStack } from "@ride-developer/react";
 import { List, ListDivider, ListCheckItem } from "seed-design/ui/list";
 import { Checkmark } from "seed-design/ui/checkbox";
 

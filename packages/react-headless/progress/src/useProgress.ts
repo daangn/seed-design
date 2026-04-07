@@ -1,4 +1,4 @@
-import { elementProps } from "@seed-design/dom-utils";
+import { elementProps } from "@ride-developer/dom-utils";
 
 export interface UseProgressProps {
   /**

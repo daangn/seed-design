@@ -11,7 +11,7 @@ export const selectBoxGroupVariantKeys = Object.keys(selectBoxGroupVariantMap);
 
 export function selectBoxGroup(props) {
   return createClassName(
-    "seed-select-box-group",
+    "ride-select-box-group",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

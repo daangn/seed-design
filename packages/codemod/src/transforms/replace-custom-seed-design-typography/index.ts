@@ -1,4 +1,4 @@
-import { typographyMappings, type FoundationTokenMapping } from "@seed-design/migration-index";
+import { typographyMappings, type FoundationTokenMapping } from "@ride-developer/migration-index";
 import type { API, FileInfo, Options } from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";
 

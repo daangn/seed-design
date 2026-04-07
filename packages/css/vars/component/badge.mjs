@@ -3,14 +3,14 @@ export const vars = {
     "enabled": {
       "root": {
         "maxWidth": "6.75rem",
-        "minHeight": "var(--seed-dimension-x6)",
-        "paddingX": "var(--seed-dimension-x2)",
-        "paddingY": "var(--seed-dimension-x1)",
-        "cornerRadius": "var(--seed-radius-r1_5)"
+        "minHeight": "var(--ride-dimension-x6)",
+        "paddingX": "var(--ride-dimension-x2)",
+        "paddingY": "var(--ride-dimension-x1)",
+        "cornerRadius": "var(--ride-radius-r1_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
+        "fontSize": "var(--ride-font-size-t2)",
+        "lineHeight": "var(--ride-line-height-t2)"
       }
     }
   },
@@ -18,28 +18,28 @@ export const vars = {
     "enabled": {
       "root": {
         "maxWidth": "7.5rem",
-        "minHeight": "var(--seed-dimension-x5)",
-        "paddingX": "var(--seed-dimension-x1_5)",
-        "paddingY": "var(--seed-dimension-x0_5)",
-        "cornerRadius": "var(--seed-radius-r1)"
+        "minHeight": "var(--ride-dimension-x5)",
+        "paddingX": "var(--ride-dimension-x1_5)",
+        "paddingY": "var(--ride-dimension-x0_5)",
+        "cornerRadius": "var(--ride-radius-r1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t1)",
-        "lineHeight": "var(--seed-line-height-t1)"
+        "fontSize": "var(--ride-font-size-t1)",
+        "lineHeight": "var(--ride-line-height-t1)"
       }
     }
   },
   "variantWeak": {
     "enabled": {
       "label": {
-        "fontWeight": "var(--seed-font-weight-medium)"
+        "fontWeight": "var(--ride-font-weight-medium)"
       }
     }
   },
   "variantSolid": {
     "enabled": {
       "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--ride-font-weight-bold)"
       }
     }
   },
@@ -49,187 +49,187 @@ export const vars = {
         "strokeWidth": "1px"
       },
       "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--ride-font-weight-bold)"
       }
     }
   },
   "toneNeutralVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)"
+        "color": "var(--ride-color-bg-neutral-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--ride-color-fg-neutral-muted)"
       }
     }
   },
   "toneNeutralVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-palette-gray-800)"
+        "color": "var(--ride-color-palette-gray-800)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       }
     }
   },
   "toneNeutralVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--ride-color-fg-neutral-muted)"
       }
     }
   },
   "toneBrandVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-weak)"
+        "color": "var(--ride-color-bg-brand-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-brand-contrast)"
+        "color": "var(--ride-color-fg-brand-contrast)"
       }
     }
   },
   "toneBrandVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)"
+        "color": "var(--ride-color-bg-brand-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     }
   },
   "toneBrandVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-brand-weak)"
+        "strokeColor": "var(--ride-color-stroke-brand-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-brand)"
+        "color": "var(--ride-color-fg-brand)"
       }
     }
   },
   "toneInformativeVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-informative-weak)"
+        "color": "var(--ride-color-bg-informative-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-informative-contrast)"
+        "color": "var(--ride-color-fg-informative-contrast)"
       }
     }
   },
   "toneInformativeVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-informative-solid)"
+        "color": "var(--ride-color-bg-informative-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     }
   },
   "toneInformativeVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-informative-weak)"
+        "strokeColor": "var(--ride-color-stroke-informative-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-informative)"
+        "color": "var(--ride-color-fg-informative)"
       }
     }
   },
   "tonePositiveVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-positive-weak)"
+        "color": "var(--ride-color-bg-positive-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-positive-contrast)"
+        "color": "var(--ride-color-fg-positive-contrast)"
       }
     }
   },
   "tonePositiveVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-positive-solid)"
+        "color": "var(--ride-color-bg-positive-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     }
   },
   "tonePositiveVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-positive-weak)"
+        "strokeColor": "var(--ride-color-stroke-positive-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-positive)"
+        "color": "var(--ride-color-fg-positive)"
       }
     }
   },
   "toneWarningVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-warning-weak)"
+        "color": "var(--ride-color-bg-warning-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-warning-contrast)"
+        "color": "var(--ride-color-fg-warning-contrast)"
       }
     }
   },
   "toneWarningVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-warning-solid)"
+        "color": "var(--ride-color-bg-warning-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--ride-color-palette-static-black-alpha-900)"
       }
     }
   },
   "toneWarningVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-warning-weak)"
+        "strokeColor": "var(--ride-color-stroke-warning-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-warning)"
+        "color": "var(--ride-color-fg-warning)"
       }
     }
   },
   "toneCriticalVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-critical-weak)"
+        "color": "var(--ride-color-bg-critical-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-critical-contrast)"
+        "color": "var(--ride-color-fg-critical-contrast)"
       }
     }
   },
   "toneCriticalVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-critical-solid)"
+        "color": "var(--ride-color-bg-critical-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     }
   },
   "toneCriticalVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-critical-weak)"
+        "strokeColor": "var(--ride-color-stroke-critical-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-critical)"
+        "color": "var(--ride-color-fg-critical)"
       }
     }
   }

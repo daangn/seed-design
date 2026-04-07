@@ -2,22 +2,22 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)",
+        "color": "var(--ride-color-bg-neutral-weak)",
         "minHeight": "52px",
-        "cornerRadius": "var(--seed-radius-r3)",
-        "paddingX": "var(--seed-dimension-x5)",
-        "paddingY": "var(--seed-dimension-x3_5)"
+        "cornerRadius": "var(--ride-radius-r3)",
+        "paddingX": "var(--ride-dimension-x5)",
+        "paddingY": "var(--ride-dimension-x3_5)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)",
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-medium)"
+        "color": "var(--ride-color-fg-neutral)",
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)",
+        "fontWeight": "var(--ride-font-weight-medium)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--ride-color-bg-neutral-weak-pressed)"
       }
     }
   }

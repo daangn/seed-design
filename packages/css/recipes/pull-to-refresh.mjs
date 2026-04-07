@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const pullToRefreshSlotNames = [
   [
     "root",
-    "seed-pull-to-refresh__root"
+    "ride-pull-to-refresh__root"
   ],
   [
     "indicator",
-    "seed-pull-to-refresh__indicator"
+    "ride-pull-to-refresh__indicator"
   ]
 ];
 

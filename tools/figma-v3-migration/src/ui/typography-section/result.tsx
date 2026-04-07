@@ -1,4 +1,4 @@
-import { ActionButton, Flex, Text } from "@seed-design/react";
+import { ActionButton, Flex, Text } from "@ride-developer/react";
 import type { SerializedTextStyleSuggestionsResults } from "shared/types";
 import { useTypographyMigration } from "./context";
 

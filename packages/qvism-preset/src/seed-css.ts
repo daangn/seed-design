@@ -1,4 +1,4 @@
-import { css, type AST } from "@seed-design/rootage-core";
+import { css, type AST } from "@ride-developer/rootage-core";
 
 type TokenDeclaration = AST.TokenDeclaration;
 type TokenLit = AST.TokenLit;
@@ -65,21 +65,21 @@ export default function generateSeedCss(
 ): string {
   // SEED-specific default options - we ignore most of the passed options
   // and use our own defaults because CLI provides minimal options
-  const prefix = options?.prefix || "seed"; // Extract prefix for use in declaration
+  const prefix = options?.prefix || "ride"; // Extract prefix for use in declaration
   const seedOptions = {
     prefix,
     banner:
       options?.banner ||
-      `:root, [data-seed-color-mode="system"] {
+      `:root, [data-ride-color-mode="system"] {
   color-scheme: light dark;
 }
 
-[data-seed-color-mode="light-only"] {
+[data-ride-color-mode="light-only"] {
   color-scheme: light;
   color-scheme: only light;
 }
 
-[data-seed-color-mode="dark-only"] {
+[data-ride-color-mode="dark-only"] {
   color-scheme: dark;
   color-scheme: only dark;
 }
@@ -91,12 +91,12 @@ export default function generateSeedCss(
       },
       color: {
         "theme-light": `:root,
-:root[data-seed-color-mode="system"][data-seed-user-color-scheme="light"],
-:root[data-seed-color-mode="light-only"],
-:root [data-seed-color-mode="light-only"]`,
-        "theme-dark": `:root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
-:root[data-seed-color-mode="dark-only"],
-:root [data-seed-color-mode="dark-only"]`,
+:root[data-ride-color-mode="system"][data-ride-user-color-scheme="light"],
+:root[data-ride-color-mode="light-only"],
+:root [data-ride-color-mode="light-only"]`,
+        "theme-dark": `:root[data-ride-color-mode="system"][data-ride-user-color-scheme="dark"],
+:root[data-ride-color-mode="dark-only"],
+:root [data-ride-color-mode="dark-only"]`,
       },
     },
     customDeclaration: createSeedDeclaration(prefix), // Pass prefix to declaration factory

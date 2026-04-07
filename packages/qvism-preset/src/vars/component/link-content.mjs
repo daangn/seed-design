@@ -2,56 +2,56 @@ export const vars = {
   "weightRegular": {
     "enabled": {
       "label": {
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontWeight": "var(--ride-font-weight-regular)"
       }
     }
   },
   "weightBold": {
     "enabled": {
       "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--ride-font-weight-bold)"
       }
     }
   },
   "sizeT4": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x0_5)"
+        "gap": "var(--ride-dimension-x0_5)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x3)"
+        "size": "var(--ride-dimension-x3)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)"
       }
     }
   },
   "sizeT5": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x0_5)"
+        "gap": "var(--ride-dimension-x0_5)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x3_5)"
+        "size": "var(--ride-dimension-x3_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)"
       }
     }
   },
   "sizeT6": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x0_5)"
+        "gap": "var(--ride-dimension-x0_5)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)"
+        "fontSize": "var(--ride-font-size-t6)",
+        "lineHeight": "var(--ride-line-height-t6)"
       }
     }
   }

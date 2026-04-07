@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const checkmarkSlotNames = [
   [
     "root",
-    "seed-checkmark__root"
+    "ride-checkmark__root"
   ],
   [
     "icon",
-    "seed-checkmark__icon"
+    "ride-checkmark__icon"
   ]
 ];
 

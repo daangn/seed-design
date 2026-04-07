@@ -1,6 +1,6 @@
 "use client";
 
-import { IdentityPlaceholder as SeedIdentityPlaceholder } from "@seed-design/react";
+import { IdentityPlaceholder as SeedIdentityPlaceholder } from "@ride-developer/react";
 import * as React from "react";
 
 export interface IdentityPlaceholderProps extends SeedIdentityPlaceholder.RootProps {}

@@ -42,7 +42,7 @@ function setupCli(track) {
     )
     .option("--extensions <extensions>", "변환할 파일 확장자")
     .option("--ignore-config <ignoreConfig>", "Ignore config")
-    .example("  $ npx @seed-design/codemod replace-react-icon src/ui")
+    .example("  $ npx @ride-developer/codemod replace-react-icon src/ui")
     .action(async (transformName, paths, opts) => {
       const options = transformOptionsSchema.parse(opts);
 

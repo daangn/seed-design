@@ -1,5 +1,5 @@
-@layer seed-components {
-  .seed-fab {
+@layer ride-components {
+  .ride-fab {
     box-sizing: border-box;
     cursor: pointer;
     text-transform: none;
@@ -13,25 +13,25 @@
     display: inline-flex;
   }
 
-  .seed-fab:is(:focus, [data-focus]) {
+  .ride-fab:is(:focus, [data-focus]) {
     outline: none;
   }
 
-  .seed-fab:is(:disabled, [disabled], [data-disabled]) {
+  .ride-fab:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
   }
 
-  .seed-fab {
-    background: var(--seed-color-bg-layer-floating);
-    border-radius: var(--seed-radius-full);
-    --seed-icon-size: 22px;
-    --seed-icon-color: var(--seed-color-fg-neutral);
+  .ride-fab {
+    background: var(--ride-color-bg-layer-floating);
+    border-radius: var(--ride-radius-full);
+    --ride-icon-size: 22px;
+    --ride-icon-color: var(--ride-color-fg-neutral);
     width: 44px;
     height: 44px;
     box-shadow: 0 2px 6px #00000026;
   }
 
-  .seed-fab:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
+  .ride-fab:is(:active, [data-active]) {
+    background: var(--ride-color-bg-layer-floating-pressed);
   }
 }

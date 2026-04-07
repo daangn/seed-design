@@ -216,7 +216,7 @@ export const compatCommand = (cli: CAC) => {
         p.log.info(`검사 대상: ${highlight(compatibilityReport.checkedItemKeys.join(", "))}`);
 
         if (!compatibilityReport.issues.length) {
-          p.outro("모든 스니펫이 현재 @seed-design/react, @seed-design/css와 호환돼요.");
+          p.outro("모든 스니펫이 현재 @ride-developer/react, @ride-developer/css와 호환돼요.");
 
           try {
             await analytics.track(options.cwd, {
@@ -241,7 +241,7 @@ export const compatCommand = (cli: CAC) => {
           title: "현재 프로젝트 버전과 호환되지 않는 스니펫을 찾았어요.",
         });
         p.log.info(
-          "필요한 버전으로 @seed-design/react 또는 @seed-design/css를 맞춘 뒤 다시 실행해보세요.",
+          "필요한 버전으로 @ride-developer/react 또는 @ride-developer/css를 맞춘 뒤 다시 실행해보세요.",
         );
         p.outro("호환성 이슈가 있어요.");
 

@@ -1,4 +1,4 @@
-.seed-scroll-fog {
+.ride-scroll-fog {
     position: relative;
     overflow: auto;
     height: 100%;
@@ -14,10 +14,10 @@
     mask-composite: intersect;
     -webkit-mask-composite: source-in;
 }
-.seed-scroll-fog--hideScrollBar_true {
+.ride-scroll-fog--hideScrollBar_true {
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
-.seed-scroll-fog--hideScrollBar_true::-webkit-scrollbar {
+.ride-scroll-fog--hideScrollBar_true::-webkit-scrollbar {
     display: none;
 }

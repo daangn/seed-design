@@ -2,10 +2,10 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "cornerRadius": "var(--seed-radius-full)",
-        "shadow": "var(--seed-shadow-s3)",
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "cornerRadius": "var(--ride-radius-full)",
+        "shadow": "var(--ride-shadow-s3)",
+        "colorDuration": "var(--ride-duration-color-transition)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)"
       },
       "progressCircle": {
         "size": "16px",
@@ -16,88 +16,88 @@ export const vars = {
   "variantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--ride-color-bg-neutral-inverted)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-gray-700)",
-        "rangeColor": "var(--seed-color-fg-neutral-inverted)"
+        "trackColor": "var(--ride-color-palette-gray-700)",
+        "rangeColor": "var(--ride-color-fg-neutral-inverted)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--ride-color-bg-neutral-inverted-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--ride-color-bg-disabled)"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--ride-color-bg-neutral-inverted-pressed)"
       }
     }
   },
   "variantLayer": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-floating)"
+        "color": "var(--ride-color-bg-layer-floating)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-gray-500)",
-        "rangeColor": "var(--seed-color-fg-neutral)"
+        "trackColor": "var(--ride-color-palette-gray-500)",
+        "rangeColor": "var(--ride-color-fg-neutral)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-floating-pressed)"
+        "color": "var(--ride-color-bg-layer-floating-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--ride-color-bg-disabled)"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-layer-floating-pressed)"
+        "color": "var(--ride-color-bg-layer-floating-pressed)"
       }
     }
   },
@@ -105,14 +105,14 @@ export const vars = {
     "enabled": {
       "root": {
         "minHeight": "36px",
-        "paddingX": "var(--seed-dimension-x3_5)",
-        "paddingY": "var(--seed-dimension-x2)",
-        "gap": "var(--seed-dimension-x1)"
+        "paddingX": "var(--ride-dimension-x3_5)",
+        "paddingY": "var(--ride-dimension-x2)",
+        "gap": "var(--ride-dimension-x1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-medium)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)",
+        "fontWeight": "var(--ride-font-weight-medium)"
       },
       "prefixIcon": {
         "size": "16px"

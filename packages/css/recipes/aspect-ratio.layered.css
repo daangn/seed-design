@@ -1,16 +1,16 @@
-@layer seed-components {
-  .seed-aspect-ratio {
-    --seed-aspect-ratio-padding: 75%;
+@layer ride-components {
+  .ride-aspect-ratio {
+    --ride-aspect-ratio-padding: 75%;
   }
 
-  .seed-aspect-ratio:before {
+  .ride-aspect-ratio:before {
     content: "";
     height: 0;
-    padding-bottom: var(--seed-aspect-ratio-padding);
+    padding-bottom: var(--ride-aspect-ratio-padding);
     display: block;
   }
 
-  .seed-aspect-ratio > :not(style) {
+  .ride-aspect-ratio > :not(style) {
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -20,7 +20,7 @@
     inset: 0;
   }
 
-  .seed-aspect-ratio > img, .seed-aspect-ratio > video {
+  .ride-aspect-ratio > img, .ride-aspect-ratio > video {
     object-fit: cover;
   }
 }

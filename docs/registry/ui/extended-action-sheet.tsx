@@ -1,6 +1,6 @@
 "use client";
 
-import { ExtendedActionSheet as SeedExtendedActionSheet } from "@seed-design/react";
+import { ExtendedActionSheet as SeedExtendedActionSheet } from "@ride-developer/react";
 import { forwardRef } from "react";
 import type * as React from "react";
 

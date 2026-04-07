@@ -18,8 +18,8 @@ const registries: PublicRegistry[] = [
           {
             path: "action-button.tsx",
             dependencies: {
-              "@seed-design/react": "~1.0.0",
-              "@seed-design/css": "~1.0.0",
+              "@ride-developer/react": "~1.0.0",
+              "@ride-developer/css": "~1.0.0",
             },
           },
         ],
@@ -30,8 +30,8 @@ const registries: PublicRegistry[] = [
           {
             path: "checkbox.tsx",
             dependencies: {
-              "@seed-design/react": "~1.2.0",
-              "@seed-design/css": "~1.2.0",
+              "@ride-developer/react": "~1.2.0",
+              "@ride-developer/css": "~1.2.0",
             },
           },
         ],
@@ -46,8 +46,8 @@ describe("analyzeRegistryItemCompatibility", () => {
       publicRegistries: registries,
       itemKeys: ["ui:action-button"],
       projectPackageVersions: {
-        "@seed-design/react": "1.0.9",
-        "@seed-design/css": "1.0.2",
+        "@ride-developer/react": "1.0.9",
+        "@ride-developer/css": "1.0.2",
       },
     });
 
@@ -59,15 +59,15 @@ describe("analyzeRegistryItemCompatibility", () => {
       publicRegistries: registries,
       itemKeys: ["ui:checkbox"],
       projectPackageVersions: {
-        "@seed-design/react": "1.1.0",
-        "@seed-design/css": "1.2.1",
+        "@ride-developer/react": "1.1.0",
+        "@ride-developer/css": "1.2.1",
       },
     });
 
     expect(report.issues).toHaveLength(1);
     expect(report.issues[0]).toMatchObject({
       itemKey: "ui:checkbox",
-      packageName: "@seed-design/react",
+      packageName: "@ride-developer/react",
       type: "incompatible-version",
     });
   });
@@ -77,14 +77,14 @@ describe("analyzeRegistryItemCompatibility", () => {
       publicRegistries: registries,
       itemKeys: ["ui:action-button"],
       projectPackageVersions: {
-        "@seed-design/react": "1.0.9",
+        "@ride-developer/react": "1.0.9",
       },
     });
 
     expect(report.issues).toHaveLength(1);
     expect(report.issues[0]).toMatchObject({
       itemKey: "ui:action-button",
-      packageName: "@seed-design/css",
+      packageName: "@ride-developer/css",
       type: "missing-package",
     });
   });
@@ -94,8 +94,8 @@ describe("analyzeRegistryItemCompatibility", () => {
       publicRegistries: registries,
       itemKeys: ["ui:action-button"],
       projectPackageVersions: {
-        "@seed-design/react": "workspace:^1.0.0",
-        "@seed-design/css": "workspace:^1.0.0",
+        "@ride-developer/react": "workspace:^1.0.0",
+        "@ride-developer/css": "workspace:^1.0.0",
       },
     });
 
@@ -107,15 +107,15 @@ describe("analyzeRegistryItemCompatibility", () => {
       publicRegistries: registries,
       itemKeys: ["ui:action-button"],
       projectPackageVersions: {
-        "@seed-design/react": "workspace:*",
-        "@seed-design/css": "1.0.2",
+        "@ride-developer/react": "workspace:*",
+        "@ride-developer/css": "1.0.2",
       },
     });
 
     expect(report.issues).toHaveLength(1);
     expect(report.issues[0]).toMatchObject({
       itemKey: "ui:action-button",
-      packageName: "@seed-design/react",
+      packageName: "@ride-developer/react",
       type: "invalid-version-spec",
     });
   });

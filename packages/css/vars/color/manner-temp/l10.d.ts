@@ -1,2 +1,2 @@
-export declare const bg = "var(--seed-color-manner-temp-l10-bg)";
-export declare const text = "var(--seed-color-manner-temp-l10-text)";
+export declare const bg = "var(--ride-color-manner-temp-l10-bg)";
+export declare const text = "var(--ride-color-manner-temp-l10-text)";

@@ -52,44 +52,44 @@ data:
         theme-dark: "#f3f4f5"
     $color.palette.carrot-100:
       values:
-        theme-light: "#fff2ec"
-        theme-dark: "#31241f"
+        theme-light: "#ebf6ff"
+        theme-dark: "#0b3e91"
     $color.palette.carrot-200:
       values:
-        theme-light: "#ffe8db"
-        theme-dark: "#4b291c"
+        theme-light: "#e2f2ff"
+        theme-dark: "#065cb3"
     $color.palette.carrot-300:
       values:
-        theme-light: "#ffd5c0"
-        theme-dark: "#6b311c"
+        theme-light: "#d4ecff"
+        theme-dark: "#0679df"
     $color.palette.carrot-400:
       values:
-        theme-light: "#ffb999"
-        theme-dark: "#923600"
+        theme-light: "#b3ddff"
+        theme-dark: "#0a93ff"
     $color.palette.carrot-500:
       values:
-        theme-light: "#ff9364"
-        theme-dark: "#bd4201"
+        theme-light: "#5bb7ff"
+        theme-dark: "#5bb7ff"
     $color.palette.carrot-600:
       values:
-        theme-light: "#ff6600"
-        theme-dark: "#e65200"
+        theme-light: "#0a93ff"
+        theme-dark: "#b3ddff"
     $color.palette.carrot-700:
       values:
-        theme-light: "#e14d00"
-        theme-dark: "#ff6600"
+        theme-light: "#0679df"
+        theme-dark: "#d4ecff"
     $color.palette.carrot-800:
       values:
-        theme-light: "#b93901"
-        theme-dark: "#ff9e65"
+        theme-light: "#065cb3"
+        theme-dark: "#e2f2ff"
     $color.palette.carrot-900:
       values:
-        theme-light: "#862b00"
-        theme-dark: "#eecebc"
+        theme-light: "#0b3e91"
+        theme-dark: "#ebf6ff"
     $color.palette.carrot-1000:
       values:
-        theme-light: "#471601"
-        theme-dark: "#f4eeea"
+        theme-light: "#072a6b"
+        theme-dark: "#f6fbff"
     $color.palette.blue-100:
       values:
         theme-light: "#eff6ff"
@@ -540,7 +540,7 @@ data:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
     $color.bg.layer-fill:
-      description: "@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다."
+      description: "@deprecated `@ride-developer/css@2.0.0`에서 제거될 예정입니다."
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-200

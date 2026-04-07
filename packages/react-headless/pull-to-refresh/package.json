@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-pull-to-refresh",
-  "version": "1.0.1",
+  "name": "@ride-developer/react-pull-to-refresh",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/pull-to-refresh"
   },
   "sideEffects": false,
@@ -29,8 +29,8 @@
   "dependencies": {
     "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@radix-ui/react-compose-refs": "^1.1.2",
-    "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-primitive": "1.0.0"
+    "@ride-developer/dom-utils": "2.0.0",
+    "@ride-developer/react-primitive": "2.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

@@ -1,6 +1,6 @@
 import { Slider } from "seed-design/ui/slider";
 import { useState } from "react";
-import { VStack, Text } from "@seed-design/react";
+import { VStack, Text } from "@ride-developer/react";
 
 export default function SliderSteps() {
   const [value, setValue] = useState([50]);

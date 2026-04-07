@@ -1,13 +1,13 @@
-.seed-skeleton {
+.ride-skeleton {
     display: inline-block;
     box-sizing: border-box;
     overflow: hidden;
-    --seed-box-width: initial;
-    --seed-box-height: initial;
-    width: var(--seed-box-width);
-    height: var(--seed-box-height);
+    --ride-box-width: initial;
+    --ride-box-height: initial;
+    width: var(--ride-box-width);
+    height: var(--ride-box-height);
 }
-.seed-skeleton::after {
+.ride-skeleton::after {
     content: '';
     display: block;
     width: 100%;
@@ -16,30 +16,30 @@
     animation-fill-mode: forwards;
     animation-name: slide-x;
     animation-duration: 1.5s;
-    animation-timing-function: var(--seed-timing-function-easing);
+    animation-timing-function: var(--ride-timing-function-easing);
     animation-iteration-count: infinite;
 }
-.seed-skeleton--radius_0 {
+.ride-skeleton--radius_0 {
     border-radius: 0px;
 }
-.seed-skeleton--radius_8 {
+.ride-skeleton--radius_8 {
     border-radius: 8px;
 }
-.seed-skeleton--radius_16 {
+.ride-skeleton--radius_16 {
     border-radius: 16px;
 }
-.seed-skeleton--radius_full {
-    border-radius: var(--seed-radius-full);
+.ride-skeleton--radius_full {
+    border-radius: var(--ride-radius-full);
 }
-.seed-skeleton--tone_neutral {
-    background: var(--seed-color-palette-gray-200);
+.ride-skeleton--tone_neutral {
+    background: var(--ride-color-palette-gray-200);
 }
-.seed-skeleton--tone_neutral::after {
-    background-image: linear-gradient(90deg, var(--seed-gradient-shimmer-neutral));
+.ride-skeleton--tone_neutral::after {
+    background-image: linear-gradient(90deg, var(--ride-gradient-shimmer-neutral));
 }
-.seed-skeleton--tone_magic {
-    background: var(--seed-color-bg-magic-weak);
+.ride-skeleton--tone_magic {
+    background: var(--ride-color-bg-magic-weak);
 }
-.seed-skeleton--tone_magic::after {
-    background-image: linear-gradient(90deg, var(--seed-gradient-shimmer-magic));
+.ride-skeleton--tone_magic::after {
+    background-image: linear-gradient(90deg, var(--ride-gradient-shimmer-magic));
 }

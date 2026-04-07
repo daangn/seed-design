@@ -1,4 +1,4 @@
-import { getFigmaVariableKey } from "@seed-design/figma";
+import { getFigmaVariableKey } from "@ride-developer/figma";
 
 export interface FillColorParams {
   nodeId: string;

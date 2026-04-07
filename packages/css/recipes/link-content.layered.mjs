@@ -24,7 +24,7 @@ export const linkContentVariantKeys = Object.keys(linkContentVariantMap);
 
 export function linkContent(props) {
   return createClassName(
-    "seed-link-content",
+    "ride-link-content",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

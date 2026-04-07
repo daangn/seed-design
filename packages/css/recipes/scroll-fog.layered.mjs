@@ -17,7 +17,7 @@ export const scrollFogVariantKeys = Object.keys(scrollFogVariantMap);
 
 export function scrollFog(props) {
   return createClassName(
-    "seed-scroll-fog",
+    "ride-scroll-fog",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

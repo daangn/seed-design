@@ -1,5 +1,5 @@
-import { linkContent, type LinkContentVariantProps } from "@seed-design/css/recipes/link-content";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { linkContent, type LinkContentVariantProps } from "@ride-developer/css/recipes/link-content";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import type * as React from "react";
 import { withStyleProps, type StyleProps } from "../../utils/styled";

@@ -18,7 +18,7 @@ export const reactionButtonVariantKeys = Object.keys(reactionButtonVariantMap);
 
 export function reactionButton(props) {
   return createClassName(
-    "seed-reaction-button",
+    "ride-reaction-button",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

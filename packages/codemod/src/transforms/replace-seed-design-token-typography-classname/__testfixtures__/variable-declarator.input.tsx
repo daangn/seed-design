@@ -1,4 +1,4 @@
-import { classNames } from "@seed-design/design-token";
+import { classNames } from "@ride-developer/design-token";
 
 const label3Bold = classNames.$semantic.typography.label3Bold;
 const label3Regular = classNames.$semantic.typography.label3Regular;

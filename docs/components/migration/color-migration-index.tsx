@@ -4,8 +4,8 @@ import {
   scaleColorMappings,
   semanticColorMappings,
   staticColorMappings,
-} from "@seed-design/migration-index/color";
-import { resolveToken, type AST } from "@seed-design/rootage-core";
+} from "@ride-developer/migration-index/color";
+import { resolveToken, type AST } from "@ride-developer/rootage-core";
 import { ColorMigrationRow } from "./color-migration-row";
 
 interface ColorMigrationIndexProps {

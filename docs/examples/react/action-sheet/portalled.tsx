@@ -1,4 +1,4 @@
-import { Portal } from "@seed-design/react";
+import { Portal } from "@ride-developer/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   ActionSheetContent,

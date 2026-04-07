@@ -1,5 +1,5 @@
-import { tabs, type TabsVariantProps } from "@seed-design/css/recipes/tabs";
-import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
+import { tabs, type TabsVariantProps } from "@ride-developer/css/recipes/tabs";
+import { Tabs as TabsPrimitive } from "@ride-developer/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { withProvider, withContext } = createSlotRecipeContext(tabs);

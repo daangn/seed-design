@@ -1,6 +1,6 @@
 "use client";
 
-import { FloatingActionButton as SeedFloatingActionButton } from "@seed-design/react";
+import { FloatingActionButton as SeedFloatingActionButton } from "@ride-developer/react";
 import * as React from "react";
 
 export interface FloatingActionButtonProps

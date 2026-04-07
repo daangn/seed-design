@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { vars } from "@seed-design/design-token";
+import { vars } from "@ride-developer/design-token";
 
 const style1 = {
   color: vars.$semantic.color.primary,

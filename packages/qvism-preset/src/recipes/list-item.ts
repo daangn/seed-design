@@ -29,18 +29,18 @@ const listItem = defineSlotRecipe({
       paddingTop: vars.base.enabled.root.paddingY,
       paddingBottom: vars.base.enabled.root.paddingY,
 
-      "--seed-box-align-items": "center",
-      alignItems: "var(--seed-box-align-items)",
+      "--ride-box-align-items": "center",
+      alignItems: "var(--ride-box-align-items)",
     },
     prefix: {
       display: "inline-flex",
       alignItems: "center",
       flexShrink: 0,
 
-      "--seed-box-padding-right": vars.base.enabled.prefix.paddingRight,
-      paddingRight: "var(--seed-box-padding-right)",
+      "--ride-box-padding-right": vars.base.enabled.prefix.paddingRight,
+      paddingRight: "var(--ride-box-padding-right)",
 
-      "--seed-focus-ring": "none",
+      "--ride-focus-ring": "none",
 
       ...onlyIcon({
         color: vars.base.enabled.prefixIcon.color,
@@ -58,12 +58,12 @@ const listItem = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
 
-      "--seed-box-position": "initial",
-      position: "var(--seed-box-position)",
-      "--seed-box-gap": vars.base.enabled.suffix.gap,
-      gap: "var(--seed-box-gap)",
+      "--ride-box-position": "initial",
+      position: "var(--ride-box-position)",
+      "--ride-box-gap": vars.base.enabled.suffix.gap,
+      gap: "var(--ride-box-gap)",
 
-      "--seed-focus-ring": "none",
+      "--ride-focus-ring": "none",
 
       fontSize: vars.base.enabled.suffixText.fontSize,
       lineHeight: vars.base.enabled.suffixText.lineHeight,
@@ -93,10 +93,10 @@ const listItem = defineSlotRecipe({
       backgroundColor: "transparent",
       border: "none",
       fontFamily: "inherit",
-      "--seed-box-gap": vars.base.enabled.content.gap,
-      gap: "var(--seed-box-gap)",
-      "--seed-box-padding-right": vars.base.enabled.content.paddingRight,
-      padding: "0 var(--seed-box-padding-right) 0 0",
+      "--ride-box-gap": vars.base.enabled.content.gap,
+      gap: "var(--ride-box-gap)",
+      "--ride-box-padding-right": vars.base.enabled.content.paddingRight,
+      padding: "0 var(--ride-box-padding-right) 0 0",
 
       textDecoration: "none",
 

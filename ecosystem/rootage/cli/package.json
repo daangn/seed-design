@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/rootage-cli",
+  "name": "@ride-developer/rootage-cli",
   "version": "0.0.0",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "ecosystem/rootage/cli"
   },
   "license": "MIT",
@@ -24,8 +24,8 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/rootage-artifacts": "1.2.6",
-    "@seed-design/rootage-core": "0.0.0",
+    "@ride-developer/rootage-artifacts": "2.0.0",
+    "@ride-developer/rootage-core": "0.0.0",
     "fs-extra": "^11.3.0",
     "yaml": "^2.7.1",
     "yargs": "^18.0.0"

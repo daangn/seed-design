@@ -4,35 +4,35 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const fieldSlotNames = [
   [
     "root",
-    "seed-field__root"
+    "ride-field__root"
   ],
   [
     "header",
-    "seed-field__header"
+    "ride-field__header"
   ],
   [
     "footer",
-    "seed-field__footer"
+    "ride-field__footer"
   ],
   [
     "description",
-    "seed-field__description"
+    "ride-field__description"
   ],
   [
     "errorMessage",
-    "seed-field__errorMessage"
+    "ride-field__errorMessage"
   ],
   [
     "characterCountArea",
-    "seed-field__characterCountArea"
+    "ride-field__characterCountArea"
   ],
   [
     "characterCount",
-    "seed-field__characterCount"
+    "ride-field__characterCount"
   ],
   [
     "maxCharacterCount",
-    "seed-field__maxCharacterCount"
+    "ride-field__maxCharacterCount"
   ]
 ];
 

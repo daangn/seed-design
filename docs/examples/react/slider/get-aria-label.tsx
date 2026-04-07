@@ -1,4 +1,4 @@
-import { VStack, Text, type SliderRootProps } from "@seed-design/react";
+import { VStack, Text, type SliderRootProps } from "@ride-developer/react";
 import { useState } from "react";
 import { Slider } from "seed-design/ui/slider";
 

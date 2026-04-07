@@ -71,7 +71,7 @@ export const appBarMain = defineSlotRecipe({
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          top: "var(--seed-safe-area-top)",
+          top: "var(--ride-safe-area-top)",
           bottom: 0,
           left: 0,
           right: 0,
@@ -209,10 +209,10 @@ export const appBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeCupertino.enabled.root.minHeight} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.themeCupertino.enabled.root.minHeight} + var(--ride-safe-area-top))`,
           paddingLeft: vars.themeCupertino.enabled.root.paddingX,
           paddingRight: vars.themeCupertino.enabled.root.paddingX,
-          paddingTop: "var(--seed-safe-area-top)",
+          paddingTop: "var(--ride-safe-area-top)",
         },
         iconButton: {
           width: vars.themeCupertino.enabled.icon.targetSize,
@@ -230,16 +230,16 @@ export const appBar = defineSlotRecipe({
         // Instead of making another `icon` slot, defining the icon style using ...onlyIcon({}) inside the `iconButton` slot sounds better
         // if we decide to do so, we should require users to wrap the icon with the <Icon /> component. (currently it's optional)
         icon: {
-          width: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
+          width: `var(--ride-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
+          height: `var(--ride-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
         },
       },
       android: {
         root: {
-          height: `calc(${vars.themeAndroid.enabled.root.minHeight} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.themeAndroid.enabled.root.minHeight} + var(--ride-safe-area-top))`,
           paddingLeft: vars.themeAndroid.enabled.root.paddingX,
           paddingRight: vars.themeAndroid.enabled.root.paddingX,
-          paddingTop: "var(--seed-safe-area-top)",
+          paddingTop: "var(--ride-safe-area-top)",
         },
         iconButton: {
           width: vars.themeAndroid.enabled.icon.targetSize,
@@ -253,8 +253,8 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          width: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
+          width: `var(--ride-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
+          height: `var(--ride-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
         },
         left: {
           paddingRight: "16px",
@@ -323,11 +323,11 @@ export const appBar = defineSlotRecipe({
       layer: {
         root: {
           "&:before": {
-            background: `var(--seed-box-background, ${vars.toneLayer.enabled.root.color})`,
+            background: `var(--ride-box-background, ${vars.toneLayer.enabled.root.color})`,
           },
         },
         icon: {
-          color: `var(--seed-icon-color, ${vars.toneLayer.enabled.icon.color})`,
+          color: `var(--ride-icon-color, ${vars.toneLayer.enabled.icon.color})`,
         },
       },
       transparent: {
@@ -335,7 +335,7 @@ export const appBar = defineSlotRecipe({
           backgroundColor: vars.toneTransparent.enabled.root.color,
         },
         icon: {
-          color: `var(--seed-icon-color, ${vars.toneTransparent.enabled.icon.color})`,
+          color: `var(--ride-icon-color, ${vars.toneTransparent.enabled.icon.color})`,
         },
       },
     },

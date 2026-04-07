@@ -25,10 +25,10 @@ const linkContent = defineRecipe({
     paddingInline: 0,
     paddingBlock: 0,
 
-    color: "var(--seed-box-color)",
+    color: "var(--ride-box-color)",
 
     ...suffixIcon({
-      color: "var(--seed-box-color)",
+      color: "var(--ride-box-color)",
     }),
   },
   variants: {

@@ -1,6 +1,6 @@
 "use client";
 
-import { PrefixIcon, TagGroup as SeedTagGroup, SuffixIcon } from "@seed-design/react";
+import { PrefixIcon, TagGroup as SeedTagGroup, SuffixIcon } from "@ride-developer/react";
 import * as React from "react";
 
 export interface TagGroupRootProps extends SeedTagGroup.RootProps {}

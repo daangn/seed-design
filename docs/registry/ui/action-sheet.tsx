@@ -1,6 +1,6 @@
 "use client";
 
-import { ActionSheet as SeedActionSheet } from "@seed-design/react";
+import { ActionSheet as SeedActionSheet } from "@ride-developer/react";
 import { forwardRef } from "react";
 import type * as React from "react";
 

@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { ExtendedFab } from "@seed-design/react";
+import { ExtendedFab } from "@ride-developer/react";
 
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { extendedFabVariantMap } from "@seed-design/css/recipes/extended-fab";
+import { extendedFabVariantMap } from "@ride-developer/css/recipes/extended-fab";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { PrefixIcon } from "@seed-design/react";
+import { PrefixIcon } from "@ride-developer/react";
 
 const meta = {
   component: ExtendedFab,

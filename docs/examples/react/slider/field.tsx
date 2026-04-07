@@ -1,4 +1,4 @@
-import { Divider, VStack } from "@seed-design/react";
+import { Divider, VStack } from "@ride-developer/react";
 import { Slider } from "seed-design/ui/slider";
 
 const markers = [

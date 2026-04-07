@@ -40,7 +40,7 @@ export const controlChipVariantKeys = Object.keys(controlChipVariantMap);
 
 export function controlChip(props) {
   return createClassName(
-    "seed-control-chip",
+    "ride-control-chip",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

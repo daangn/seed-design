@@ -1,6 +1,6 @@
 import { FloatingActionButton } from "seed-design/ui/floating-action-button";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { Box, Float } from "@seed-design/react";
+import { Box, Float } from "@ride-developer/react";
 
 export default function FloatingActionButtonFloatComposition() {
   return (

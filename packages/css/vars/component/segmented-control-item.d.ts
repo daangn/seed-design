@@ -4,37 +4,37 @@ export declare const vars: {
       "root": {
         "minWidth": "86px",
         "minHeight": "34px",
-        "paddingX": "var(--seed-dimension-x6)",
-        "paddingY": "var(--seed-dimension-x1_5)",
-        "cornerRadius": "var(--seed-radius-full)",
-        "gap": "var(--seed-dimension-x1_5)",
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "paddingX": "var(--ride-dimension-x6)",
+        "paddingY": "var(--ride-dimension-x1_5)",
+        "cornerRadius": "var(--ride-radius-full)",
+        "gap": "var(--ride-dimension-x1_5)",
+        "colorDuration": "var(--ride-duration-color-transition)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-bold)",
-        "color": "var(--seed-color-fg-neutral-subtle)",
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)",
+        "fontWeight": "var(--ride-font-weight-bold)",
+        "color": "var(--ride-color-fg-neutral-subtle)",
+        "colorDuration": "var(--ride-duration-color-transition)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)",
+        "color": "var(--ride-color-bg-neutral-weak-pressed)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)"
       }
     },
     "selected": {
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       }
     },
     "disabled": {
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     }
   }

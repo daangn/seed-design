@@ -1,5 +1,5 @@
 import { IconCheckmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
-import { Icon } from "@seed-design/react";
+import { Icon } from "@ride-developer/react";
 import clsx from "clsx";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 

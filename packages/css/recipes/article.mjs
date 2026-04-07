@@ -11,7 +11,7 @@ export const articleVariantKeys = Object.keys(articleVariantMap);
 
 export function article(props) {
   return createClassName(
-    "seed-article",
+    "ride-article",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

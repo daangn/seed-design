@@ -5,7 +5,7 @@ import {
   getFigmaColorVariableNames,
   react,
   type NormalizedSceneNode,
-} from "@seed-design/figma";
+} from "@ride-developer/figma";
 import { z } from "zod";
 import type { McpConfig } from "./config";
 import { parseFigmaUrl } from "./figma-rest-client";

@@ -1,4 +1,4 @@
-import { vars } from "@seed-design/design-token";
+import { vars } from "@ride-developer/design-token";
 
 const scaleColors = {
   // Gray scale

@@ -4,8 +4,8 @@ import { ActionButton } from "seed-design/ui/action-button";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconBellFill, IconChevronRightFill } from "@karrotmarket/react-monochrome-icon";
-import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
-import { PrefixIcon, SuffixIcon, Icon } from "@seed-design/react";
+import { actionButtonVariantMap } from "@ride-developer/css/recipes/action-button";
+import { PrefixIcon, SuffixIcon, Icon } from "@ride-developer/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 

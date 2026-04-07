@@ -4,27 +4,27 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const inlineBannerSlotNames = [
   [
     "root",
-    "seed-inline-banner__root"
+    "ride-inline-banner__root"
   ],
   [
     "content",
-    "seed-inline-banner__content"
+    "ride-inline-banner__content"
   ],
   [
     "title",
-    "seed-inline-banner__title"
+    "ride-inline-banner__title"
   ],
   [
     "description",
-    "seed-inline-banner__description"
+    "ride-inline-banner__description"
   ],
   [
     "link",
-    "seed-inline-banner__link"
+    "ride-inline-banner__link"
   ],
   [
     "closeButton",
-    "seed-inline-banner__closeButton"
+    "ride-inline-banner__closeButton"
   ]
 ];
 

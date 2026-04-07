@@ -1,4 +1,4 @@
-import { HStack } from "@seed-design/react";
+import { HStack } from "@ride-developer/react";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 export default function TextFieldInputIndicator() {

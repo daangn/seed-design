@@ -1,20 +1,20 @@
 import {
   imageFrame as imageFrameRecipe,
   type ImageFrameVariantProps,
-} from "@seed-design/css/recipes/image-frame";
+} from "@ride-developer/css/recipes/image-frame";
 import {
   imageFrameIcon,
   type ImageFrameIconVariantProps,
-} from "@seed-design/css/recipes/image-frame-icon";
+} from "@ride-developer/css/recipes/image-frame-icon";
 import {
   imageFrameIndicator,
   type ImageFrameIndicatorVariantProps,
-} from "@seed-design/css/recipes/image-frame-indicator";
-import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
-import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
-import { mergeProps } from "@seed-design/dom-utils";
-import { Image } from "@seed-design/react-image";
-import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-toggle";
+} from "@ride-developer/css/recipes/image-frame-indicator";
+import { imageFrameReactionButton } from "@ride-developer/css/recipes/image-frame-reaction-button";
+import { imageFrameFloater as floaterVars } from "@ride-developer/css/vars/component";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Image } from "@ride-developer/react-image";
+import { Toggle as TogglePrimitive, useToggleContext } from "@ride-developer/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
@@ -30,7 +30,7 @@ export interface ImageFrameProps
   extends Omit<AspectRatioProps, "children">,
     ImageFrameVariantProps {
   /**
-   * @deprecated Deprecated in `@seed-design/react@1.2.x`; will be removed in 1.3.0.
+   * @deprecated Deprecated in `@ride-developer/react@1.2.x`; will be removed in 1.3.0.
    * Use borderRadius="r2" instead.
    * Reason: 모서리 스타일은 borderRadius prop으로 통일합니다.
    */
@@ -193,7 +193,7 @@ const HeartOutlineStrokePath =
 
 const HeartFillSvg = (props: React.SVGAttributes<SVGSVGElement>) => {
   const id = React.useId();
-  const gradientId = `seed-heart-gradient${id.replace(/:/g, "")}`;
+  const gradientId = `ride-heart-gradient${id.replace(/:/g, "")}`;
 
   return (
     <svg

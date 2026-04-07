@@ -1,8 +1,8 @@
 import {
   actionButton,
   type ActionButtonVariantProps,
-} from "@seed-design/css/recipes/action-button";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+} from "@ride-developer/css/recipes/action-button";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
 import { handleColor, useStyleProps, type StyleProps } from "../../utils/styled";
@@ -17,7 +17,7 @@ import {
   type ScopedColorPalette,
   type FontWeight,
   vars,
-} from "@seed-design/css/vars";
+} from "@ride-developer/css/vars";
 
 export interface ActionButtonProps
   extends ActionButtonVariantProps,
@@ -75,8 +75,8 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
             style={
               {
                 ...style,
-                ...(color && { "--seed-box-color": handleColor(color) }),
-                ...(fontWeight && { "--seed-font-weight": vars.$fontWeight[fontWeight] }),
+                ...(color && { "--ride-box-color": handleColor(color) }),
+                ...(fontWeight && { "--ride-font-weight": vars.$fontWeight[fontWeight] }),
               } as React.CSSProperties
             }
             {...api.stateProps}

@@ -1,15 +1,15 @@
 import type * as React from "react";
 
-import { listItem, type ListItemVariantProps } from "@seed-design/css/recipes/list-item";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { listItem, type ListItemVariantProps } from "@ride-developer/css/recipes/list-item";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { handleRadius, withStyleProps, type StyleProps } from "../../utils/styled";
 import { VStack, type VStackProps } from "../Stack";
-import { useCheckboxContext } from "@seed-design/react-checkbox";
+import { useCheckboxContext } from "@ride-developer/react-checkbox";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { useRadioGroupItemContext } from "@seed-design/react-radio-group";
-import { useSwitchContext } from "@seed-design/react-switch";
+import { useRadioGroupItemContext } from "@ride-developer/react-radio-group";
+import { useSwitchContext } from "@ride-developer/react-switch";
 
 const { withContext, withProvider } = createSlotRecipeContext(listItem);
 const withStateProps = createWithStateProps([

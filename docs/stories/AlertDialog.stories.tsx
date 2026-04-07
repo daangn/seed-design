@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { dialogVariantMap } from "@seed-design/css/recipes/dialog";
-import { Box, ResponsivePair, VStack } from "@seed-design/react";
+import { dialogVariantMap } from "@ride-developer/css/recipes/dialog";
+import { Box, ResponsivePair, VStack } from "@ride-developer/react";
 import {
   AlertDialogRoot,
   AlertDialogContent,

@@ -1,5 +1,5 @@
 import { IconPlusFill } from "@karrotmarket/react-monochrome-icon";
-import { ActionChip, Icon } from "@seed-design/react";
+import { ActionChip, Icon } from "@ride-developer/react";
 
 export default function ActionChipIconOnly() {
   return (

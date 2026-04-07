@@ -1,4 +1,4 @@
-import { HStack } from "@seed-design/react";
+import { HStack } from "@ride-developer/react";
 import { Checkbox, CheckboxGroup } from "seed-design/ui/checkbox";
 
 export default function CheckboxSize() {

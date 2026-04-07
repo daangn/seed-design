@@ -3,7 +3,7 @@
 import {
   ListHeader as SeedListHeader,
   type ListHeaderProps as SeedListHeaderProps,
-} from "@seed-design/react";
+} from "@ride-developer/react";
 
 export interface ListHeaderProps extends SeedListHeaderProps {}
 

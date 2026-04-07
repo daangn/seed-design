@@ -4,27 +4,27 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const textInputSlotNames = [
   [
     "root",
-    "seed-text-input__root"
+    "ride-text-input__root"
   ],
   [
     "value",
-    "seed-text-input__value"
+    "ride-text-input__value"
   ],
   [
     "prefixText",
-    "seed-text-input__prefixText"
+    "ride-text-input__prefixText"
   ],
   [
     "prefixIcon",
-    "seed-text-input__prefixIcon"
+    "ride-text-input__prefixIcon"
   ],
   [
     "suffixText",
-    "seed-text-input__suffixText"
+    "ride-text-input__suffixText"
   ],
   [
     "suffixIcon",
-    "seed-text-input__suffixIcon"
+    "ride-text-input__suffixIcon"
   ]
 ];
 

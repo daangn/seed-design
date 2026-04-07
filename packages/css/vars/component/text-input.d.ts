@@ -2,55 +2,55 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
+        "strokeColor": "var(--ride-color-stroke-neutral-weak)",
         /** enabled 상태의 stroke 위에 focused/invalid 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다. */
         "strokeDuration": "0.1s",
-        "strokeTimingFunction": "var(--seed-timing-function-easing)"
+        "strokeTimingFunction": "var(--ride-timing-function-easing)"
       },
       "value": {
-        "color": "var(--seed-color-fg-neutral)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "color": "var(--ride-color-fg-neutral)",
+        "fontWeight": "var(--ride-font-weight-regular)"
       },
       "placeholder": {
-        "color": "var(--seed-color-fg-placeholder)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "color": "var(--ride-color-fg-placeholder)",
+        "fontWeight": "var(--ride-font-weight-regular)"
       },
       "prefixText": {
-        "color": "var(--seed-color-fg-neutral-muted)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "color": "var(--ride-color-fg-neutral-muted)",
+        "fontWeight": "var(--ride-font-weight-regular)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--ride-color-fg-neutral-muted)"
       },
       "suffixText": {
-        "color": "var(--seed-color-fg-neutral-muted)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "color": "var(--ride-color-fg-neutral-muted)",
+        "fontWeight": "var(--ride-font-weight-regular)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--ride-color-fg-neutral-muted)"
       }
     },
     "focused": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-contrast)"
+        "strokeColor": "var(--ride-color-stroke-neutral-contrast)"
       }
     },
     "invalid": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-critical-solid)"
+        "strokeColor": "var(--ride-color-stroke-critical-solid)"
       }
     },
     "invalidFocused": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-critical-solid)"
+        "strokeColor": "var(--ride-color-stroke-critical-solid)"
       }
     },
     "disabled": {
       "value": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       "placeholder": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     }
   },
@@ -60,8 +60,8 @@ export declare const vars: {
   "variantOutline": {
     "enabled": {
       "root": {
-        "cornerRadius": "var(--seed-radius-r3)",
-        "paddingX": "var(--seed-dimension-x4)",
+        "cornerRadius": "var(--ride-radius-r3)",
+        "paddingX": "var(--ride-dimension-x4)",
         "strokeWidth": "1px"
       }
     },
@@ -77,12 +77,12 @@ export declare const vars: {
     },
     "readonly": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--ride-color-bg-disabled)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--ride-color-bg-disabled)"
       }
     }
   },
@@ -92,30 +92,30 @@ export declare const vars: {
   "variantOutlineSizeLarge": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x2_5)",
-        "minHeight": "var(--seed-dimension-x13)"
+        "gap": "var(--ride-dimension-x2_5)",
+        "minHeight": "var(--ride-dimension-x13)"
       },
       "value": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)"
       },
       "placeholder": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)"
       },
       "prefixText": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)"
       },
       "prefixIcon": {
-        "size": "var(--seed-dimension-x5)"
+        "size": "var(--ride-dimension-x5)"
       },
       "suffixText": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
+        "fontSize": "var(--ride-font-size-t5)",
+        "lineHeight": "var(--ride-line-height-t5)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x5)"
+        "size": "var(--ride-dimension-x5)"
       }
     }
   },
@@ -125,30 +125,30 @@ export declare const vars: {
   "variantOutlineSizeMedium": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x1_5)",
-        "minHeight": "var(--seed-dimension-x10)"
+        "gap": "var(--ride-dimension-x1_5)",
+        "minHeight": "var(--ride-dimension-x10)"
       },
       "value": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)"
       },
       "placeholder": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)"
       },
       "prefixText": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)"
       },
       "prefixIcon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       },
       "suffixText": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       }
     }
   },
@@ -158,31 +158,31 @@ export declare const vars: {
   "variantUnderline": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x2_5)",
-        "minHeight": "var(--seed-dimension-x10)",
+        "gap": "var(--ride-dimension-x2_5)",
+        "minHeight": "var(--ride-dimension-x10)",
         "strokeBottomWidth": "1px"
       },
       "value": {
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)"
+        "fontSize": "var(--ride-font-size-t6)",
+        "lineHeight": "var(--ride-line-height-t6)"
       },
       "placeholder": {
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)"
+        "fontSize": "var(--ride-font-size-t6)",
+        "lineHeight": "var(--ride-line-height-t6)"
       },
       "prefixText": {
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)"
+        "fontSize": "var(--ride-font-size-t6)",
+        "lineHeight": "var(--ride-line-height-t6)"
       },
       "prefixIcon": {
-        "size": "var(--seed-dimension-x6)"
+        "size": "var(--ride-dimension-x6)"
       },
       "suffixText": {
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)"
+        "fontSize": "var(--ride-font-size-t6)",
+        "lineHeight": "var(--ride-line-height-t6)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x6)"
+        "size": "var(--ride-dimension-x6)"
       }
     },
     "focused": {
@@ -197,10 +197,10 @@ export declare const vars: {
     },
     "readonly": {
       "value": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--ride-color-fg-neutral-muted)"
       },
       "placeholder": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--ride-color-fg-neutral-muted)"
       }
     }
   },
@@ -209,7 +209,7 @@ export declare const vars: {
     "enabled": {
       "root": {
         "minHeight": "95px",
-        "paddingY": "var(--seed-dimension-x3_5)"
+        "paddingY": "var(--ride-dimension-x3_5)"
       }
     }
   },

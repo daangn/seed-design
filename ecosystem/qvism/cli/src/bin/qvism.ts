@@ -13,7 +13,7 @@ import {
   generateJs,
   generateSharedJs,
   type Config,
-} from "@seed-design/qvism-core";
+} from "@ride-developer/qvism-core";
 
 async function writeBundles(outputDir: string, config: Config) {
   const allCss = await generateAllBundle(config);
@@ -32,7 +32,7 @@ async function writeBundles(outputDir: string, config: Config) {
   console.log("Writing minified base css bundle to", path.join(outputDir, "base.min.css"));
   fs.writeFileSync(path.join(outputDir, "base.min.css"), minifiedBaseCss);
 
-  // Layered variants (@layer seed-base / seed-components)
+  // Layered variants (@layer ride-base / ride-components)
   const allLayeredCss = await generateAllBundle(config, { layer: true });
   console.log("Writing layered css bundle to", path.join(outputDir, "all.layered.css"));
   fs.writeFileSync(path.join(outputDir, "all.layered.css"), allLayeredCss);

@@ -18,7 +18,7 @@ export const extendedActionSheetItemVariantKeys = Object.keys(extendedActionShee
 
 export function extendedActionSheetItem(props) {
   return createClassName(
-    "seed-extended-action-sheet-item",
+    "ride-extended-action-sheet-item",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

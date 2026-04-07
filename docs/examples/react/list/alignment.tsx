@@ -1,5 +1,5 @@
 import { List, ListItem } from "seed-design/ui/list";
-import { HStack } from "@seed-design/react";
+import { HStack } from "@ride-developer/react";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { Avatar } from "seed-design/ui/avatar";
 

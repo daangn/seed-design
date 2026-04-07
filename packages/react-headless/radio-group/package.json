@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-radio-group",
-  "version": "1.1.0",
+  "name": "@ride-developer/react-radio-group",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/radio-group"
   },
   "sideEffects": false,
@@ -29,10 +29,10 @@
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-use-controllable-state": "1.2.2",
-    "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-fieldset": "0.1.0",
-    "@seed-design/react-primitive": "1.0.0",
-    "@seed-design/react-supports": "0.0.1"
+    "@ride-developer/dom-utils": "2.0.0",
+    "@ride-developer/react-fieldset": "1.0.0",
+    "@ride-developer/react-primitive": "2.0.0",
+    "@ride-developer/react-supports": "1.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

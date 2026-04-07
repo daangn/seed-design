@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { classNames } from "@seed-design/design-token";
+import { classNames } from "@ride-developer/design-token";
 import { style } from "@vanilla-extract/css";
 
 const typography = {

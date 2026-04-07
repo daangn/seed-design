@@ -1,12 +1,12 @@
-import { appScreen, type AppScreenVariantProps } from "@seed-design/css/recipes/app-screen";
-import { mergeProps } from "@seed-design/dom-utils";
+import { appScreen, type AppScreenVariantProps } from "@ride-developer/css/recipes/app-screen";
+import { mergeProps } from "@ride-developer/dom-utils";
 import { forwardRef, useMemo } from "react";
 import { AppScreen as AppScreenPrimitive } from "../../primitive";
 import { createStyleContext } from "../../utils/createStyleContext";
 import { AppBarPropsProvider } from "../AppBar/AppBar";
 import { useTopActivity } from "../../primitive/private/useTopActivity";
 import { useActivity } from "@stackflow/react";
-import { appBar } from "@seed-design/css/recipes/app-bar";
+import { appBar } from "@ride-developer/css/recipes/app-bar";
 
 const { ClassNamesProvider, PropsProvider, withContext, useProps } = createStyleContext(appScreen);
 

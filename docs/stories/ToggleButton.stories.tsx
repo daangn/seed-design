@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ToggleButton } from "seed-design/ui/toggle-button";
 
 import { IconBellFill, IconChevronRightFill } from "@karrotmarket/react-monochrome-icon";
-import { toggleButtonVariantMap } from "@seed-design/css/recipes/toggle-button";
+import { toggleButtonVariantMap } from "@ride-developer/css/recipes/toggle-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { PrefixIcon, SuffixIcon } from "@seed-design/react";
+import { PrefixIcon, SuffixIcon } from "@ride-developer/react";
 
 const meta = {
   component: ToggleButton,

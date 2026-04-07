@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Text, VStack, type TextProps, type VStackProps } from "@seed-design/react";
+import { Text, VStack, type TextProps, type VStackProps } from "@ride-developer/react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 
 export interface ResultSectionProps

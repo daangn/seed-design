@@ -5,11 +5,11 @@ import {
   checkmark,
   checkmarkVariantMap,
   type CheckmarkVariantProps,
-} from "@seed-design/css/recipes/checkmark";
+} from "@ride-developer/css/recipes/checkmark";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { Checkbox } from "@seed-design/react/primitive";
+import { Checkbox } from "@ride-developer/react/primitive";
 
 function CustomCheckbox(props: CheckmarkVariantProps & Checkbox.RootProps) {
   const [checkmarkVariantProps, otherProps] = checkmark.splitVariantProps(props);

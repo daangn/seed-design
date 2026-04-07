@@ -1,5 +1,5 @@
 import "./layer-order.css";
-import "@seed-design/css/base.layered.min.css";
+import "@ride-developer/css/base.layered.min.css";
 import "simple-reveal/index.css";
 import "./global.css";
 
@@ -19,14 +19,14 @@ export default function Layout({ children }: { children: ReactNode }) {
     <html
       lang="ko"
       className={inter.className}
-      data-seed
-      data-seed-user-color-scheme="light"
-      data-seed-color-mode="system"
+      data-ride
+      data-ride-user-color-scheme="light"
+      data-ride-color-mode="system"
       suppressHydrationWarning
     >
       <head>
         <meta name="color-scheme" content="light dark" />
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/ridelogo.png" type="image/png" />
         <GoogleAnalytics GA_MEASUREMENT_ID="G-02SS22W02G" />
       </head>
       <body>

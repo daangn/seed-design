@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const radioSlotNames = [
   [
     "root",
-    "seed-radio__root"
+    "ride-radio__root"
   ],
   [
     "label",
-    "seed-radio__label"
+    "ride-radio__label"
   ]
 ];
 

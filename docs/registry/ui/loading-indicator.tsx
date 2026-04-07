@@ -3,7 +3,7 @@
 import {
   LoadingIndicator as SeedLoadingIndicator,
   type LoadingIndicatorProps as SeedLoadingIndicatorProps,
-} from "@seed-design/react";
+} from "@ride-developer/react";
 import * as React from "react";
 import { ProgressCircle } from "./progress-circle";
 

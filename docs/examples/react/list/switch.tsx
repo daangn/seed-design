@@ -1,6 +1,6 @@
 import { IconTrashcanLine } from "@karrotmarket/react-monochrome-icon";
 import { IconSparkle2 } from "@karrotmarket/react-multicolor-icon";
-import { Icon } from "@seed-design/react";
+import { Icon } from "@ride-developer/react";
 import { List, ListDivider, ListSwitchItem } from "seed-design/ui/list";
 import { Switchmark } from "seed-design/ui/switch";
 

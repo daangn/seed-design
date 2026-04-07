@@ -4,19 +4,19 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const appScreenSlotNames = [
   [
     "root",
-    "seed-app-screen__root"
+    "ride-app-screen__root"
   ],
   [
     "layer",
-    "seed-app-screen__layer"
+    "ride-app-screen__layer"
   ],
   [
     "dim",
-    "seed-app-screen__dim"
+    "ride-app-screen__dim"
   ],
   [
     "edge",
-    "seed-app-screen__edge"
+    "ride-app-screen__edge"
   ]
 ];
 

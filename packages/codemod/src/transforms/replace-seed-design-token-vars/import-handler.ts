@@ -15,7 +15,7 @@ export function handleImports(
 
   // design-token import 찾기
   const designTokenImports = root.find(j.ImportDeclaration, {
-    source: { value: "@seed-design/design-token" },
+    source: { value: "@ride-developer/design-token" },
   });
 
   // design-token import가 없으면 처리하지 않음
@@ -35,7 +35,7 @@ export function handleImports(
   // 타이포그래피 토큰만 변경된 경우
   const hasChangedTypographyOnly = !hasChangedColorVars && hasChangedTypography;
 
-  // 1. legacyVars가 필요한 경우 (@seed-design/design-token 유지 필요)
+  // 1. legacyVars가 필요한 경우 (@ride-developer/design-token 유지 필요)
   if (needsLegacyVars) {
     // 기존 import에서 vars를 legacyVars로 변경
     designTokenImports.forEach((path) => {
@@ -66,12 +66,12 @@ export function handleImports(
       path.node.comments = importComments;
     });
 
-    // 2. 컬러 토큰이 변경된 경우 (@seed-design/css/vars 추가)
+    // 2. 컬러 토큰이 변경된 경우 (@ride-developer/css/vars 추가)
     if (hasChangedVars) {
       addCssVarsImport(j, root);
     }
 
-    // 3. 타이포그래피 토큰이 변경된 경우 (@seed-design/css/vars/component/typography 추가)
+    // 3. 타이포그래피 토큰이 변경된 경우 (@ride-developer/css/vars/component/typography 추가)
     if (hasChangedTypography) {
       addTypographyImport(j, root);
     }
@@ -80,13 +80,13 @@ export function handleImports(
   else {
     // 타이포그래피만 변경된 경우
     if (hasChangedTypographyOnly) {
-      // design-token import를 @seed-design/css/vars/component/typography로 변경
+      // design-token import를 @ride-developer/css/vars/component/typography로 변경
       designTokenImports.forEach((path) => {
         // 주석 보존
         const importComments = path.node.comments || [];
 
         // 소스 변경
-        path.node.source.value = "@seed-design/css/vars/component/typography";
+        path.node.source.value = "@ride-developer/css/vars/component/typography";
 
         // 로컬 이름 변경 (vars -> typoVars)
         const varsSpecifiers = path.node.specifiers?.filter(
@@ -113,7 +113,7 @@ export function handleImports(
         const importComments = path.node.comments || [];
 
         // 소스 변경
-        path.node.source.value = "@seed-design/css/vars";
+        path.node.source.value = "@ride-developer/css/vars";
 
         // 주석 다시 설정
         path.node.comments = importComments;
@@ -132,16 +132,16 @@ export function handleImports(
   }
 }
 
-// @seed-design/css/vars import 추가 헬퍼 함수
+// @ride-developer/css/vars import 추가 헬퍼 함수
 function addCssVarsImport(j: jscodeshift.JSCodeshift, root: jscodeshift.Collection) {
   const cssVarsImport = root.find(j.ImportDeclaration, {
-    source: { value: "@seed-design/css/vars" },
+    source: { value: "@ride-developer/css/vars" },
   });
 
   if (cssVarsImport.length === 0) {
     const varsImport = j.importDeclaration(
       [j.importSpecifier(j.identifier("vars"), j.identifier("vars"))],
-      j.literal("@seed-design/css/vars"),
+      j.literal("@ride-developer/css/vars"),
     );
 
     // 첫 번째 import 찾기
@@ -157,24 +157,24 @@ function addCssVarsImport(j: jscodeshift.JSCodeshift, root: jscodeshift.Collecti
   }
 }
 
-// @seed-design/css/vars/component/typography import 추가 헬퍼 함수
+// @ride-developer/css/vars/component/typography import 추가 헬퍼 함수
 function addTypographyImport(j: jscodeshift.JSCodeshift, root: jscodeshift.Collection) {
   const typographyImport = root.find(j.ImportDeclaration, {
-    source: { value: "@seed-design/css/vars/component/typography" },
+    source: { value: "@ride-developer/css/vars/component/typography" },
   });
 
   if (typographyImport.length === 0) {
     const typoVarsImport = j.importDeclaration(
       [j.importSpecifier(j.identifier("vars"), j.identifier("typoVars"))],
-      j.literal("@seed-design/css/vars/component/typography"),
+      j.literal("@ride-developer/css/vars/component/typography"),
     );
 
-    // @seed-design/css/vars import 찾기
+    // @ride-developer/css/vars import 찾기
     const cssVarsImport = root.find(j.ImportDeclaration, {
-      source: { value: "@seed-design/css/vars" },
+      source: { value: "@ride-developer/css/vars" },
     });
 
-    // @seed-design/css/vars import 후에 추가
+    // @ride-developer/css/vars import 후에 추가
     if (cssVarsImport.size() > 0) {
       cssVarsImport.at(0).insertAfter(typoVarsImport);
     } else {

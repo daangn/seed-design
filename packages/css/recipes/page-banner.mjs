@@ -4,31 +4,31 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const pageBannerSlotNames = [
   [
     "root",
-    "seed-page-banner__root"
+    "ride-page-banner__root"
   ],
   [
     "content",
-    "seed-page-banner__content"
+    "ride-page-banner__content"
   ],
   [
     "body",
-    "seed-page-banner__body"
+    "ride-page-banner__body"
   ],
   [
     "title",
-    "seed-page-banner__title"
+    "ride-page-banner__title"
   ],
   [
     "description",
-    "seed-page-banner__description"
+    "ride-page-banner__description"
   ],
   [
     "button",
-    "seed-page-banner__button"
+    "ride-page-banner__button"
   ],
   [
     "closeButton",
-    "seed-page-banner__closeButton"
+    "ride-page-banner__closeButton"
   ]
 ];
 

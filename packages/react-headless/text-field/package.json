@@ -1,9 +1,9 @@
 {
-  "name": "@seed-design/react-text-field",
-  "version": "1.1.1",
+  "name": "@ride-developer/react-text-field",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/seed-design.git",
+    "url": "git+https://github.com/ride-developer/ride-design-system.git",
     "directory": "packages/react-headless/text-field"
   },
   "sideEffects": false,
@@ -28,9 +28,9 @@
   },
   "dependencies": {
     "@radix-ui/react-use-controllable-state": "1.2.2",
-    "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-primitive": "1.0.0",
-    "@seed-design/react-supports": "0.0.1"
+    "@ride-developer/dom-utils": "2.0.0",
+    "@ride-developer/react-primitive": "2.0.0",
+    "@ride-developer/react-supports": "1.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

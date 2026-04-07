@@ -7,4 +7,4 @@ export {
   type PullToRefreshRootProps as RootProps,
 } from "./PullToRefresh";
 
-export { pullToRefreshPreventPull as preventPull } from "@seed-design/react-pull-to-refresh";
+export { pullToRefreshPreventPull as preventPull } from "@ride-developer/react-pull-to-refresh";

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { Skeleton } from "@seed-design/react";
+import { Skeleton } from "@ride-developer/react";
 
-import { skeletonVariantMap } from "@seed-design/css/recipes/skeleton";
+import { skeletonVariantMap } from "@ride-developer/css/recipes/skeleton";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";

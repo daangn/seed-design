@@ -1,4 +1,4 @@
-import { Flex, Grid } from "@seed-design/react";
+import { Flex, Grid } from "@ride-developer/react";
 
 export default function GridPreview() {
   return (

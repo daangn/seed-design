@@ -1,6 +1,6 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
-import { dataAttr, elementProps } from "@seed-design/dom-utils";
+import { dataAttr, elementProps } from "@ride-developer/dom-utils";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import * as dom from "./dom";
 

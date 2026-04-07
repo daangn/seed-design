@@ -1,4 +1,4 @@
-import { Badge, HStack, VStack } from "@seed-design/react";
+import { Badge, HStack, VStack } from "@ride-developer/react";
 
 export default function BadgeInformative() {
   return (

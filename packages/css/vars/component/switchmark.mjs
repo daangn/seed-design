@@ -2,29 +2,29 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-palette-gray-600)",
-        "colorDuration": "var(--seed-duration-d1)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "cornerRadius": "var(--ride-radius-full)",
+        "color": "var(--ride-color-palette-gray-600)",
+        "colorDuration": "var(--ride-duration-d1)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)",
         "colorDelay": "20ms"
       },
       "thumb": {
-        "cornerRadius": "var(--seed-radius-full)",
+        "cornerRadius": "var(--ride-radius-full)",
         "scale": "0.8",
-        "scaleDuration": "var(--seed-duration-d3)",
-        "scaleTimingFunction": "var(--seed-timing-function-easing)",
-        "translateDuration": "var(--seed-duration-d3)",
-        "translateTimingFunction": "var(--seed-timing-function-easing)",
-        "colorDuration": "var(--seed-duration-d1)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--ride-duration-d3)",
+        "scaleTimingFunction": "var(--ride-timing-function-easing)",
+        "translateDuration": "var(--ride-duration-d3)",
+        "translateTimingFunction": "var(--ride-timing-function-easing)",
+        "colorDuration": "var(--ride-duration-d1)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)",
         "colorDelay": "20ms"
       }
     },
     "disabled": {
       "root": {
         "opacity": "0.38",
-        "opacityDuration": "var(--seed-duration-d1)",
-        "opacityTimingFunction": "var(--seed-timing-function-easing)"
+        "opacityDuration": "var(--ride-duration-d1)",
+        "opacityTimingFunction": "var(--ride-timing-function-easing)"
       }
     },
     "selected": {
@@ -36,34 +36,34 @@ export const vars = {
   "toneBrand": {
     "enabled": {
       "thumb": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       }
     },
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)"
+        "color": "var(--ride-color-bg-brand-solid)"
       }
     }
   },
   "toneNeutral": {
     "enabled": {
       "thumb": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       }
     },
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--ride-color-bg-neutral-inverted)"
       }
     },
     "disabled": {
       "thumb": {
-        "color": "var(--seed-color-palette-static-black-alpha-700)"
+        "color": "var(--ride-color-palette-static-black-alpha-700)"
       }
     },
     "disabledSelected": {
       "root": {
-        "color": "var(--seed-color-palette-gray-600)"
+        "color": "var(--ride-color-palette-gray-600)"
       }
     }
   },

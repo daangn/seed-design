@@ -4,31 +4,31 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const selectBoxSlotNames = [
   [
     "root",
-    "seed-select-box__root"
+    "ride-select-box__root"
   ],
   [
     "trigger",
-    "seed-select-box__trigger"
+    "ride-select-box__trigger"
   ],
   [
     "content",
-    "seed-select-box__content"
+    "ride-select-box__content"
   ],
   [
     "body",
-    "seed-select-box__body"
+    "ride-select-box__body"
   ],
   [
     "label",
-    "seed-select-box__label"
+    "ride-select-box__label"
   ],
   [
     "description",
-    "seed-select-box__description"
+    "ride-select-box__description"
   ],
   [
     "footer",
-    "seed-select-box__footer"
+    "ride-select-box__footer"
   ]
 ];
 

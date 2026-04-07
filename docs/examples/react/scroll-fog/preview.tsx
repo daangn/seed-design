@@ -1,4 +1,4 @@
-import { Box, ScrollFog, VStack } from "@seed-design/react";
+import { Box, ScrollFog, VStack } from "@ride-developer/react";
 
 export default function ScrollFogPreview() {
   return (

@@ -2,11 +2,11 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorDuration": "var(--ride-duration-color-transition)",
+        "colorTimingFunction": "var(--ride-timing-function-easing)"
       },
       "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--ride-font-weight-bold)"
       }
     }
   },
@@ -16,56 +16,56 @@ export declare const vars: {
   "variantBrandSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)"
+        "color": "var(--ride-color-bg-brand-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "trackColor": "var(--ride-color-palette-static-white-alpha-300)",
+        "rangeColor": "var(--ride-color-palette-static-white)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
+        "color": "var(--ride-color-bg-brand-solid-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--ride-color-bg-disabled)"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
+        "color": "var(--ride-color-bg-brand-solid-pressed)"
       }
     }
   },
@@ -75,56 +75,56 @@ export declare const vars: {
   "variantNeutralSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--ride-color-bg-neutral-inverted)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--ride-color-fg-neutral-inverted)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "trackColor": "var(--ride-color-palette-static-white-alpha-300)",
+        "rangeColor": "var(--ride-color-palette-static-white)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--ride-color-bg-neutral-inverted-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--ride-color-bg-disabled)"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--ride-color-bg-neutral-inverted-pressed)"
       }
     }
   },
@@ -134,56 +134,56 @@ export declare const vars: {
   "variantNeutralWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)"
+        "color": "var(--ride-color-bg-neutral-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-gray-500)",
-        "rangeColor": "var(--seed-color-fg-neutral)"
+        "trackColor": "var(--ride-color-palette-gray-500)",
+        "rangeColor": "var(--ride-color-fg-neutral)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--ride-color-bg-neutral-weak-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--ride-color-bg-disabled)"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--ride-color-bg-neutral-weak-pressed)"
       }
     }
   },
@@ -193,56 +193,56 @@ export declare const vars: {
   "variantCriticalSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-critical-solid)"
+        "color": "var(--ride-color-bg-critical-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--ride-color-palette-static-white)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "trackColor": "var(--ride-color-palette-static-white-alpha-300)",
+        "rangeColor": "var(--ride-color-palette-static-white)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-critical-solid-pressed)"
+        "color": "var(--ride-color-bg-critical-solid-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--ride-color-bg-disabled)"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-critical-solid-pressed)"
+        "color": "var(--ride-color-bg-critical-solid-pressed)"
       }
     }
   },
@@ -252,59 +252,59 @@ export declare const vars: {
   "variantNeutralOutline": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-transparent)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "color": "var(--ride-color-bg-transparent)",
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)",
         "strokeWidth": "1px"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-gray-500)",
-        "rangeColor": "var(--seed-color-fg-neutral)"
+        "trackColor": "var(--ride-color-palette-gray-500)",
+        "rangeColor": "var(--ride-color-fg-neutral)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--ride-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-transparent)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "color": "var(--ride-color-bg-transparent)",
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-transparent)"
+        "color": "var(--ride-color-bg-transparent)"
       }
     }
   },
@@ -314,59 +314,59 @@ export declare const vars: {
   "variantBrandOutline": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-transparent)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "color": "var(--ride-color-bg-transparent)",
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)",
         "strokeWidth": "1px"
       },
       "label": {
-        "color": "var(--seed-color-fg-brand)"
+        "color": "var(--ride-color-fg-brand)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-brand)"
+        "color": "var(--ride-color-fg-brand)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-brand)"
+        "color": "var(--ride-color-fg-brand)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-brand)"
+        "color": "var(--ride-color-fg-brand)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-carrot-200)",
-        "rangeColor": "var(--seed-color-bg-brand-solid)"
+        "trackColor": "var(--ride-color-palette-carrot-200)",
+        "rangeColor": "var(--ride-color-bg-brand-solid)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--ride-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-transparent)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "color": "var(--ride-color-bg-transparent)",
+        "strokeColor": "var(--ride-color-stroke-neutral-muted)"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-transparent)"
+        "color": "var(--ride-color-bg-transparent)"
       }
     }
   },
@@ -379,28 +379,28 @@ export declare const vars: {
         "color": "#ffffff00"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--ride-color-fg-neutral)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-gray-500)",
-        "rangeColor": "var(--seed-color-fg-neutral)"
+        "trackColor": "var(--ride-color-palette-gray-500)",
+        "rangeColor": "var(--ride-color-fg-neutral)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--ride-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
@@ -408,24 +408,24 @@ export declare const vars: {
         "color": "#ffffff00"
       },
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--ride-color-bg-transparent-pressed)"
       }
     }
   },
@@ -435,8 +435,8 @@ export declare const vars: {
   "sizeXsmall": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x8)",
-        "cornerRadius": "var(--seed-radius-full)"
+        "minHeight": "var(--ride-dimension-x8)",
+        "cornerRadius": "var(--ride-radius-full)"
       },
       "progressCircle": {
         "size": "14px",
@@ -451,21 +451,21 @@ export declare const vars: {
   "sizeXsmallLayoutWithText": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x1)",
-        "paddingX": "var(--seed-dimension-x3_5)",
-        "paddingY": "var(--seed-dimension-x1_5)"
+        "gap": "var(--ride-dimension-x1)",
+        "paddingX": "var(--ride-dimension-x3_5)",
+        "paddingY": "var(--ride-dimension-x1_5)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "size": "var(--seed-dimension-x3_5)"
+        "size": "var(--ride-dimension-x3_5)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "size": "var(--seed-dimension-x3_5)"
+        "size": "var(--ride-dimension-x3_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t3)",
-        "lineHeight": "var(--seed-line-height-t3)"
+        "fontSize": "var(--ride-font-size-t3)",
+        "lineHeight": "var(--ride-line-height-t3)"
       }
     }
   },
@@ -476,13 +476,13 @@ export declare const vars: {
   "sizeXsmallLayoutIconOnly": {
     "enabled": {
       "root": {
-        "minWidth": "var(--seed-dimension-x8)",
-        "paddingX": "var(--seed-dimension-x1_5)",
-        "paddingY": "var(--seed-dimension-x1_5)"
+        "minWidth": "var(--ride-dimension-x8)",
+        "paddingX": "var(--ride-dimension-x1_5)",
+        "paddingY": "var(--ride-dimension-x1_5)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "size": "var(--seed-dimension-x3_5)"
+        "size": "var(--ride-dimension-x3_5)"
       }
     }
   },
@@ -492,8 +492,8 @@ export declare const vars: {
   "sizeSmall": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x9)",
-        "cornerRadius": "var(--seed-radius-r2)"
+        "minHeight": "var(--ride-dimension-x9)",
+        "cornerRadius": "var(--ride-radius-r2)"
       },
       "progressCircle": {
         "size": "14px",
@@ -508,21 +508,21 @@ export declare const vars: {
   "sizeSmallLayoutWithText": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x1)",
-        "paddingX": "var(--seed-dimension-x3_5)",
-        "paddingY": "var(--seed-dimension-x2)"
+        "gap": "var(--ride-dimension-x1)",
+        "paddingX": "var(--ride-dimension-x3_5)",
+        "paddingY": "var(--ride-dimension-x2)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "size": "var(--seed-dimension-x3_5)"
+        "size": "var(--ride-dimension-x3_5)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "size": "var(--seed-dimension-x3_5)"
+        "size": "var(--ride-dimension-x3_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)"
       }
     }
   },
@@ -533,13 +533,13 @@ export declare const vars: {
   "sizeSmallLayoutIconOnly": {
     "enabled": {
       "root": {
-        "minWidth": "var(--seed-dimension-x9)",
-        "paddingX": "var(--seed-dimension-x2)",
-        "paddingY": "var(--seed-dimension-x2)"
+        "minWidth": "var(--ride-dimension-x9)",
+        "paddingX": "var(--ride-dimension-x2)",
+        "paddingY": "var(--ride-dimension-x2)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       }
     }
   },
@@ -549,8 +549,8 @@ export declare const vars: {
   "sizeMedium": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x10)",
-        "cornerRadius": "var(--seed-radius-r2)"
+        "minHeight": "var(--ride-dimension-x10)",
+        "cornerRadius": "var(--ride-radius-r2)"
       },
       "progressCircle": {
         "size": "16px",
@@ -565,21 +565,21 @@ export declare const vars: {
   "sizeMediumLayoutWithText": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x1_5)",
-        "paddingX": "var(--seed-dimension-x4)",
-        "paddingY": "var(--seed-dimension-x2_5)"
+        "gap": "var(--ride-dimension-x1_5)",
+        "paddingX": "var(--ride-dimension-x4)",
+        "paddingY": "var(--ride-dimension-x2_5)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--ride-dimension-x4)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
+        "fontSize": "var(--ride-font-size-t4)",
+        "lineHeight": "var(--ride-line-height-t4)"
       }
     }
   },
@@ -590,9 +590,9 @@ export declare const vars: {
   "sizeMediumLayoutIconOnly": {
     "enabled": {
       "root": {
-        "minWidth": "var(--seed-dimension-x10)",
-        "paddingX": "var(--seed-dimension-x2_5)",
-        "paddingY": "var(--seed-dimension-x2_5)"
+        "minWidth": "var(--ride-dimension-x10)",
+        "paddingX": "var(--ride-dimension-x2_5)",
+        "paddingY": "var(--ride-dimension-x2_5)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
@@ -606,8 +606,8 @@ export declare const vars: {
   "sizeLarge": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x13)",
-        "cornerRadius": "var(--seed-radius-r3)"
+        "minHeight": "var(--ride-dimension-x13)",
+        "cornerRadius": "var(--ride-radius-r3)"
       },
       "progressCircle": {
         "size": "18px",
@@ -622,9 +622,9 @@ export declare const vars: {
   "sizeLargeLayoutWithText": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x2)",
-        "paddingX": "var(--seed-dimension-x5)",
-        "paddingY": "var(--seed-dimension-x3_5)"
+        "gap": "var(--ride-dimension-x2)",
+        "paddingX": "var(--ride-dimension-x5)",
+        "paddingY": "var(--ride-dimension-x3_5)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
@@ -635,8 +635,8 @@ export declare const vars: {
         "size": "22px"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)"
+        "fontSize": "var(--ride-font-size-t6)",
+        "lineHeight": "var(--ride-line-height-t6)"
       }
     }
   },
@@ -647,9 +647,9 @@ export declare const vars: {
   "sizeLargeLayoutIconOnly": {
     "enabled": {
       "root": {
-        "minWidth": "var(--seed-dimension-x13)",
-        "paddingX": "var(--seed-dimension-x3_5)",
-        "paddingY": "var(--seed-dimension-x3_5)"
+        "minWidth": "var(--ride-dimension-x13)",
+        "paddingX": "var(--ride-dimension-x3_5)",
+        "paddingY": "var(--ride-dimension-x3_5)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {

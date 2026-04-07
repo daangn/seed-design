@@ -1,4 +1,4 @@
-import { HStack } from "@seed-design/react";
+import { HStack } from "@ride-developer/react";
 import { FieldButton, FieldButtonPlaceholder } from "seed-design/ui/field-button";
 
 export default function FieldButtonDisabled() {

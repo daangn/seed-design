@@ -1,7 +1,7 @@
-import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
+import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@ride-developer/dom-utils";
 import { useCallback, useId, useState } from "react";
 import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
-import { useSupports } from "@seed-design/react-supports";
+import { useSupports } from "@ride-developer/react-supports";
 
 function useFieldState() {
   const [isHovered, setIsHovered] = useState(false);

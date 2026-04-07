@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { ActionablePageBanner } from "seed-design/ui/page-banner";
 
-import { pageBannerVariantMap } from "@seed-design/css/recipes/page-banner";
+import { pageBannerVariantMap } from "@ride-developer/css/recipes/page-banner";
 import { VariantTable } from "./components/variant-table";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";

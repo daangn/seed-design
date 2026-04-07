@@ -1,4 +1,4 @@
-import { Flex, HStack, VStack } from "@seed-design/react";
+import { Flex, HStack, VStack } from "@ride-developer/react";
 import { useState } from "react";
 import { HelpBubbleAnchor } from "seed-design/ui/help-bubble";
 import { Slider } from "seed-design/ui/slider";

@@ -3,7 +3,7 @@
 import {
   ToggleButton as SeedToggleButton,
   type ToggleButtonProps as SeedToggleButtonProps,
-} from "@seed-design/react";
+} from "@ride-developer/react";
 import * as React from "react";
 import { LoadingIndicator } from "./loading-indicator";
 

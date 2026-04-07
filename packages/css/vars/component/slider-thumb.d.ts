@@ -2,18 +2,18 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "size": "var(--seed-dimension-x5)",
-        "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-bg-neutral-inverted)",
-        "scaleDuration": "var(--seed-duration-d3)",
-        "scaleTimingFunction": "var(--seed-timing-function-easing)",
-        "translateDuration": "var(--seed-duration-d3)",
-        "translateTimingFunction": "var(--seed-timing-function-easing)"
+        "size": "var(--ride-dimension-x5)",
+        "cornerRadius": "var(--ride-radius-full)",
+        "color": "var(--ride-color-bg-neutral-inverted)",
+        "scaleDuration": "var(--ride-duration-d3)",
+        "scaleTimingFunction": "var(--ride-timing-function-easing)",
+        "translateDuration": "var(--ride-duration-d3)",
+        "translateTimingFunction": "var(--ride-timing-function-easing)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--ride-color-fg-disabled)"
       }
     },
     "pressed": {

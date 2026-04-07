@@ -1,4 +1,4 @@
-import { colorMappings } from "@seed-design/migration-index/color";
+import { colorMappings } from "@ride-developer/migration-index/color";
 import { deltaE } from "color-delta-e";
 import type {
   DetachedResultWithColorSuggestions,

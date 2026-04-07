@@ -1,305 +1,305 @@
-.seed-text {
+.ride-text {
     margin: 0;
-    color: var(--seed-text-color);
-    font-size: var(--seed-font-size);
-    font-weight: var(--seed-font-weight);
-    line-height: var(--seed-line-height);
-    text-align: var(--seed-text-align);
-    user-select: var(--seed-user-select);
-    --seed-text-color: inherit;
-    --seed-font-size: inherit;
-    --seed-font-weight: inherit;
-    --seed-line-height: inherit;
-    --seed-text-align: inherit;
-    --seed-user-select: inherit;
-    --seed-white-space: inherit;
-    --seed-max-lines: initial
+    color: var(--ride-text-color);
+    font-size: var(--ride-font-size);
+    font-weight: var(--ride-font-weight);
+    line-height: var(--ride-line-height);
+    text-align: var(--ride-text-align);
+    user-select: var(--ride-user-select);
+    --ride-text-color: inherit;
+    --ride-font-size: inherit;
+    --ride-font-weight: inherit;
+    --ride-line-height: inherit;
+    --ride-text-align: inherit;
+    --ride-user-select: inherit;
+    --ride-white-space: inherit;
+    --ride-max-lines: initial
 }
-.seed-text--textStyle_screenTitle {
-    --seed-font-size: var(--seed-font-size-t10);
-    --seed-line-height: var(--seed-line-height-t10);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_screenTitle {
+    --ride-font-size: var(--ride-font-size-t10);
+    --ride-line-height: var(--ride-line-height-t10);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_articleBody {
-    --seed-font-size: var(--seed-font-size-t5);
-    --seed-line-height: var(--seed-line-height-t6);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_articleBody {
+    --ride-font-size: var(--ride-font-size-t5);
+    --ride-line-height: var(--ride-line-height-t6);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_articleNote {
-    --seed-font-size: var(--seed-font-size-t4);
-    --seed-line-height: var(--seed-line-height-t5);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_articleNote {
+    --ride-font-size: var(--ride-font-size-t4);
+    --ride-line-height: var(--ride-line-height-t5);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t1Regular {
-    --seed-font-size: var(--seed-font-size-t1);
-    --seed-line-height: var(--seed-line-height-t1);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t1Regular {
+    --ride-font-size: var(--ride-font-size-t1);
+    --ride-line-height: var(--ride-line-height-t1);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t1Medium {
-    --seed-font-size: var(--seed-font-size-t1);
-    --seed-line-height: var(--seed-line-height-t1);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t1Medium {
+    --ride-font-size: var(--ride-font-size-t1);
+    --ride-line-height: var(--ride-line-height-t1);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t1Bold {
-    --seed-font-size: var(--seed-font-size-t1);
-    --seed-line-height: var(--seed-line-height-t1);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t1Bold {
+    --ride-font-size: var(--ride-font-size-t1);
+    --ride-line-height: var(--ride-line-height-t1);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t2Regular {
-    --seed-font-size: var(--seed-font-size-t2);
-    --seed-line-height: var(--seed-line-height-t2);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t2Regular {
+    --ride-font-size: var(--ride-font-size-t2);
+    --ride-line-height: var(--ride-line-height-t2);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t2Medium {
-    --seed-font-size: var(--seed-font-size-t2);
-    --seed-line-height: var(--seed-line-height-t2);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t2Medium {
+    --ride-font-size: var(--ride-font-size-t2);
+    --ride-line-height: var(--ride-line-height-t2);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t2Bold {
-    --seed-font-size: var(--seed-font-size-t2);
-    --seed-line-height: var(--seed-line-height-t2);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t2Bold {
+    --ride-font-size: var(--ride-font-size-t2);
+    --ride-line-height: var(--ride-line-height-t2);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t3Regular {
-    --seed-font-size: var(--seed-font-size-t3);
-    --seed-line-height: var(--seed-line-height-t3);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t3Regular {
+    --ride-font-size: var(--ride-font-size-t3);
+    --ride-line-height: var(--ride-line-height-t3);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t3Medium {
-    --seed-font-size: var(--seed-font-size-t3);
-    --seed-line-height: var(--seed-line-height-t3);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t3Medium {
+    --ride-font-size: var(--ride-font-size-t3);
+    --ride-line-height: var(--ride-line-height-t3);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t3Bold {
-    --seed-font-size: var(--seed-font-size-t3);
-    --seed-line-height: var(--seed-line-height-t3);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t3Bold {
+    --ride-font-size: var(--ride-font-size-t3);
+    --ride-line-height: var(--ride-line-height-t3);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t4Regular {
-    --seed-font-size: var(--seed-font-size-t4);
-    --seed-line-height: var(--seed-line-height-t4);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t4Regular {
+    --ride-font-size: var(--ride-font-size-t4);
+    --ride-line-height: var(--ride-line-height-t4);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t4Medium {
-    --seed-font-size: var(--seed-font-size-t4);
-    --seed-line-height: var(--seed-line-height-t4);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t4Medium {
+    --ride-font-size: var(--ride-font-size-t4);
+    --ride-line-height: var(--ride-line-height-t4);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t4Bold {
-    --seed-font-size: var(--seed-font-size-t4);
-    --seed-line-height: var(--seed-line-height-t4);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t4Bold {
+    --ride-font-size: var(--ride-font-size-t4);
+    --ride-line-height: var(--ride-line-height-t4);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t5Regular {
-    --seed-font-size: var(--seed-font-size-t5);
-    --seed-line-height: var(--seed-line-height-t5);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t5Regular {
+    --ride-font-size: var(--ride-font-size-t5);
+    --ride-line-height: var(--ride-line-height-t5);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t5Medium {
-    --seed-font-size: var(--seed-font-size-t5);
-    --seed-line-height: var(--seed-line-height-t5);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t5Medium {
+    --ride-font-size: var(--ride-font-size-t5);
+    --ride-line-height: var(--ride-line-height-t5);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t5Bold {
-    --seed-font-size: var(--seed-font-size-t5);
-    --seed-line-height: var(--seed-line-height-t5);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t5Bold {
+    --ride-font-size: var(--ride-font-size-t5);
+    --ride-line-height: var(--ride-line-height-t5);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t6Regular {
-    --seed-font-size: var(--seed-font-size-t6);
-    --seed-line-height: var(--seed-line-height-t6);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t6Regular {
+    --ride-font-size: var(--ride-font-size-t6);
+    --ride-line-height: var(--ride-line-height-t6);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t6Medium {
-    --seed-font-size: var(--seed-font-size-t6);
-    --seed-line-height: var(--seed-line-height-t6);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t6Medium {
+    --ride-font-size: var(--ride-font-size-t6);
+    --ride-line-height: var(--ride-line-height-t6);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t6Bold {
-    --seed-font-size: var(--seed-font-size-t6);
-    --seed-line-height: var(--seed-line-height-t6);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t6Bold {
+    --ride-font-size: var(--ride-font-size-t6);
+    --ride-line-height: var(--ride-line-height-t6);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t7Regular {
-    --seed-font-size: var(--seed-font-size-t7);
-    --seed-line-height: var(--seed-line-height-t7);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t7Regular {
+    --ride-font-size: var(--ride-font-size-t7);
+    --ride-line-height: var(--ride-line-height-t7);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t7Medium {
-    --seed-font-size: var(--seed-font-size-t7);
-    --seed-line-height: var(--seed-line-height-t7);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t7Medium {
+    --ride-font-size: var(--ride-font-size-t7);
+    --ride-line-height: var(--ride-line-height-t7);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t7Bold {
-    --seed-font-size: var(--seed-font-size-t7);
-    --seed-line-height: var(--seed-line-height-t7);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t7Bold {
+    --ride-font-size: var(--ride-font-size-t7);
+    --ride-line-height: var(--ride-line-height-t7);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t8Bold {
-    --seed-font-size: var(--seed-font-size-t8);
-    --seed-line-height: var(--seed-line-height-t8);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t8Bold {
+    --ride-font-size: var(--ride-font-size-t8);
+    --ride-line-height: var(--ride-line-height-t8);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t9Bold {
-    --seed-font-size: var(--seed-font-size-t9);
-    --seed-line-height: var(--seed-line-height-t9);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t9Bold {
+    --ride-font-size: var(--ride-font-size-t9);
+    --ride-line-height: var(--ride-line-height-t9);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t10Bold {
-    --seed-font-size: var(--seed-font-size-t10);
-    --seed-line-height: var(--seed-line-height-t10);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t10Bold {
+    --ride-font-size: var(--ride-font-size-t10);
+    --ride-line-height: var(--ride-line-height-t10);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t1StaticRegular {
-    --seed-font-size: var(--seed-font-size-t1-static);
-    --seed-line-height: var(--seed-line-height-t1-static);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t1StaticRegular {
+    --ride-font-size: var(--ride-font-size-t1-static);
+    --ride-line-height: var(--ride-line-height-t1-static);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t1StaticMedium {
-    --seed-font-size: var(--seed-font-size-t1-static);
-    --seed-line-height: var(--seed-line-height-t1-static);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t1StaticMedium {
+    --ride-font-size: var(--ride-font-size-t1-static);
+    --ride-line-height: var(--ride-line-height-t1-static);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t1StaticBold {
-    --seed-font-size: var(--seed-font-size-t1-static);
-    --seed-line-height: var(--seed-line-height-t1-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t1StaticBold {
+    --ride-font-size: var(--ride-font-size-t1-static);
+    --ride-line-height: var(--ride-line-height-t1-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t2StaticRegular {
-    --seed-font-size: var(--seed-font-size-t2-static);
-    --seed-line-height: var(--seed-line-height-t2-static);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t2StaticRegular {
+    --ride-font-size: var(--ride-font-size-t2-static);
+    --ride-line-height: var(--ride-line-height-t2-static);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t2StaticMedium {
-    --seed-font-size: var(--seed-font-size-t2-static);
-    --seed-line-height: var(--seed-line-height-t2-static);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t2StaticMedium {
+    --ride-font-size: var(--ride-font-size-t2-static);
+    --ride-line-height: var(--ride-line-height-t2-static);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t2StaticBold {
-    --seed-font-size: var(--seed-font-size-t2-static);
-    --seed-line-height: var(--seed-line-height-t2-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t2StaticBold {
+    --ride-font-size: var(--ride-font-size-t2-static);
+    --ride-line-height: var(--ride-line-height-t2-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t3StaticRegular {
-    --seed-font-size: var(--seed-font-size-t3-static);
-    --seed-line-height: var(--seed-line-height-t3-static);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t3StaticRegular {
+    --ride-font-size: var(--ride-font-size-t3-static);
+    --ride-line-height: var(--ride-line-height-t3-static);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t3StaticMedium {
-    --seed-font-size: var(--seed-font-size-t3-static);
-    --seed-line-height: var(--seed-line-height-t3-static);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t3StaticMedium {
+    --ride-font-size: var(--ride-font-size-t3-static);
+    --ride-line-height: var(--ride-line-height-t3-static);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t3StaticBold {
-    --seed-font-size: var(--seed-font-size-t3-static);
-    --seed-line-height: var(--seed-line-height-t3-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t3StaticBold {
+    --ride-font-size: var(--ride-font-size-t3-static);
+    --ride-line-height: var(--ride-line-height-t3-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t4StaticRegular {
-    --seed-font-size: var(--seed-font-size-t4-static);
-    --seed-line-height: var(--seed-line-height-t4-static);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t4StaticRegular {
+    --ride-font-size: var(--ride-font-size-t4-static);
+    --ride-line-height: var(--ride-line-height-t4-static);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t4StaticMedium {
-    --seed-font-size: var(--seed-font-size-t4-static);
-    --seed-line-height: var(--seed-line-height-t4-static);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t4StaticMedium {
+    --ride-font-size: var(--ride-font-size-t4-static);
+    --ride-line-height: var(--ride-line-height-t4-static);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t4StaticBold {
-    --seed-font-size: var(--seed-font-size-t4-static);
-    --seed-line-height: var(--seed-line-height-t4-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t4StaticBold {
+    --ride-font-size: var(--ride-font-size-t4-static);
+    --ride-line-height: var(--ride-line-height-t4-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t5StaticRegular {
-    --seed-font-size: var(--seed-font-size-t5-static);
-    --seed-line-height: var(--seed-line-height-t5-static);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t5StaticRegular {
+    --ride-font-size: var(--ride-font-size-t5-static);
+    --ride-line-height: var(--ride-line-height-t5-static);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t5StaticMedium {
-    --seed-font-size: var(--seed-font-size-t5-static);
-    --seed-line-height: var(--seed-line-height-t5-static);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t5StaticMedium {
+    --ride-font-size: var(--ride-font-size-t5-static);
+    --ride-line-height: var(--ride-line-height-t5-static);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t5StaticBold {
-    --seed-font-size: var(--seed-font-size-t5-static);
-    --seed-line-height: var(--seed-line-height-t5-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t5StaticBold {
+    --ride-font-size: var(--ride-font-size-t5-static);
+    --ride-line-height: var(--ride-line-height-t5-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t6StaticRegular {
-    --seed-font-size: var(--seed-font-size-t6-static);
-    --seed-line-height: var(--seed-line-height-t6-static);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t6StaticRegular {
+    --ride-font-size: var(--ride-font-size-t6-static);
+    --ride-line-height: var(--ride-line-height-t6-static);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t6StaticMedium {
-    --seed-font-size: var(--seed-font-size-t6-static);
-    --seed-line-height: var(--seed-line-height-t6-static);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t6StaticMedium {
+    --ride-font-size: var(--ride-font-size-t6-static);
+    --ride-line-height: var(--ride-line-height-t6-static);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t6StaticBold {
-    --seed-font-size: var(--seed-font-size-t6-static);
-    --seed-line-height: var(--seed-line-height-t6-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t6StaticBold {
+    --ride-font-size: var(--ride-font-size-t6-static);
+    --ride-line-height: var(--ride-line-height-t6-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t7StaticRegular {
-    --seed-font-size: var(--seed-font-size-t7-static);
-    --seed-line-height: var(--seed-line-height-t7-static);
-    --seed-font-weight: var(--seed-font-weight-regular)
+.ride-text--textStyle_t7StaticRegular {
+    --ride-font-size: var(--ride-font-size-t7-static);
+    --ride-line-height: var(--ride-line-height-t7-static);
+    --ride-font-weight: var(--ride-font-weight-regular)
 }
-.seed-text--textStyle_t7StaticMedium {
-    --seed-font-size: var(--seed-font-size-t7-static);
-    --seed-line-height: var(--seed-line-height-t7-static);
-    --seed-font-weight: var(--seed-font-weight-medium)
+.ride-text--textStyle_t7StaticMedium {
+    --ride-font-size: var(--ride-font-size-t7-static);
+    --ride-line-height: var(--ride-line-height-t7-static);
+    --ride-font-weight: var(--ride-font-weight-medium)
 }
-.seed-text--textStyle_t7StaticBold {
-    --seed-font-size: var(--seed-font-size-t7-static);
-    --seed-line-height: var(--seed-line-height-t7-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t7StaticBold {
+    --ride-font-size: var(--ride-font-size-t7-static);
+    --ride-line-height: var(--ride-line-height-t7-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t8StaticBold {
-    --seed-font-size: var(--seed-font-size-t8-static);
-    --seed-line-height: var(--seed-line-height-t8-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t8StaticBold {
+    --ride-font-size: var(--ride-font-size-t8-static);
+    --ride-line-height: var(--ride-line-height-t8-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t9StaticBold {
-    --seed-font-size: var(--seed-font-size-t9-static);
-    --seed-line-height: var(--seed-line-height-t9-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t9StaticBold {
+    --ride-font-size: var(--ride-font-size-t9-static);
+    --ride-line-height: var(--ride-line-height-t9-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--textStyle_t10StaticBold {
-    --seed-font-size: var(--seed-font-size-t10-static);
-    --seed-line-height: var(--seed-line-height-t10-static);
-    --seed-font-weight: var(--seed-font-weight-bold)
+.ride-text--textStyle_t10StaticBold {
+    --ride-font-size: var(--ride-font-size-t10-static);
+    --ride-line-height: var(--ride-line-height-t10-static);
+    --ride-font-weight: var(--ride-font-weight-bold)
 }
-.seed-text--maxLines_none {
+.ride-text--maxLines_none {
     overflow: unset;
     min-width: unset;
     text-overflow: unset;
-    white-space: var(--seed-white-space);
+    white-space: var(--ride-white-space);
     -webkit-line-clamp: unset
 }
-.seed-text--maxLines_single {
+.ride-text--maxLines_single {
     display: block;
     overflow: hidden;
     min-width: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
-    -webkit-line-clamp: var(--seed-max-lines)
+    -webkit-line-clamp: var(--ride-max-lines)
 }
-.seed-text--maxLines_multi {
+.ride-text--maxLines_multi {
     display: -webkit-box;
     overflow: hidden;
     min-width: 0;
     text-overflow: ellipsis;
     white-space: initial;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: var(--seed-max-lines)
+    -webkit-line-clamp: var(--ride-max-lines)
 }
-.seed-text--textDecorationLine_none {
+.ride-text--textDecorationLine_none {
     text-decoration-line: none
 }
-.seed-text--textDecorationLine_line-through {
+.ride-text--textDecorationLine_line-through {
     text-decoration-line: line-through
 }
-.seed-text--textDecorationLine_underline {
+.ride-text--textDecorationLine_underline {
     text-decoration-line: underline
 }

@@ -30,7 +30,7 @@ const radiomark = defineSlotRecipe({
 
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
-      ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
+      ...createFocusRingRestStyles({ overridableBy: "--ride-focus-ring" }),
 
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
@@ -52,7 +52,7 @@ const radiomark = defineSlotRecipe({
         borderColor: vars.toneBrand.disabledSelected.root.strokeColor,
       },
 
-      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--ride-focus-ring" }),
     },
     icon: {
       display: "none",

@@ -23,7 +23,7 @@ export const toggleButtonVariantKeys = Object.keys(toggleButtonVariantMap);
 
 export function toggleButton(props) {
   return createClassName(
-    "seed-toggle-button",
+    "ride-toggle-button",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

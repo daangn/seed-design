@@ -1,4 +1,4 @@
-.seed-radiomark__root {
+.ride-radiomark__root {
     border-style: solid;
     box-sizing: border-box;
     position: relative;
@@ -7,101 +7,101 @@
     justify-content: center;
     flex: none;
     border-width: 1px;
-    border-color: var(--seed-color-stroke-neutral-weak);
-    border-radius: var(--seed-radius-full);
+    border-color: var(--ride-color-stroke-neutral-weak);
+    border-radius: var(--ride-radius-full);
     margin-top: var(--radiomark-margin-top, 0);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid transparent);
-    outline-offset: var(--seed-dimension-x0_5);
+    transition: background-color var(--ride-duration-color-transition) var(--ride-timing-function-easing), outline-color var(--ride-duration-d3) var(--ride-timing-function-easing);
+    outline: var(--ride-focus-ring, var(--ride-dimension-x0_5) solid transparent);
+    outline-offset: var(--ride-dimension-x0_5);
 }
 @media (hover: hover) {
-    .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
-        background-color: var(--seed-color-bg-transparent-pressed);
+    .ride-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+        background-color: var(--ride-color-bg-transparent-pressed);
     }
 }
 @media (hover: none) {
-    .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-        background-color: var(--seed-color-bg-transparent-pressed);
+    .ride-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+        background-color: var(--ride-color-bg-transparent-pressed);
     }
 }
-.seed-radiomark__root:is(:checked, [data-checked]) {
+.ride-radiomark__root:is(:checked, [data-checked]) {
     border-width: 0px;
 }
-.seed-radiomark__root:is(:disabled, [disabled], [data-disabled]) {
-    background-color: var(--seed-color-palette-gray-300);
+.ride-radiomark__root:is(:disabled, [disabled], [data-disabled]) {
+    background-color: var(--ride-color-palette-gray-300);
 }
-.seed-radiomark__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
-    background-color: var(--seed-color-bg-transparent);
+.ride-radiomark__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+    background-color: var(--ride-color-bg-transparent);
     border-width: 1px;
-    border-color: var(--seed-color-palette-gray-300);
+    border-color: var(--ride-color-palette-gray-300);
 }
-.seed-radiomark__root:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring));
-    outline-offset: var(--seed-dimension-x0_5);
+.ride-radiomark__root:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--ride-focus-ring, var(--ride-dimension-x0_5) solid var(--ride-color-stroke-focus-ring));
+    outline-offset: var(--ride-dimension-x0_5);
 }
-.seed-radiomark__icon {
+.ride-radiomark__icon {
     display: none;
-    border-radius: var(--seed-radius-full);
+    border-radius: var(--ride-radius-full);
 }
-.seed-radiomark__icon:is(:checked, [data-checked]) {
+.ride-radiomark__icon:is(:checked, [data-checked]) {
     display: block;
 }
-.seed-radiomark__icon:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
-    color: var(--seed-color-palette-gray-300);
+.ride-radiomark__icon:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+    color: var(--ride-color-palette-gray-300);
 }
-.seed-radiomark__root--tone_neutral:is(:checked, [data-checked]) {
-    background-color: var(--seed-color-bg-neutral-inverted);
+.ride-radiomark__root--tone_neutral:is(:checked, [data-checked]) {
+    background-color: var(--ride-color-bg-neutral-inverted);
 }
 @media (hover: hover) {
-    .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
-        background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    .ride-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
+        background-color: var(--ride-color-bg-neutral-inverted-pressed);
     }
 }
 @media (hover: none) {
-    .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
-        background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    .ride-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
+        background-color: var(--ride-color-bg-neutral-inverted-pressed);
     }
 }
-.seed-radiomark__icon--tone_neutral:is(:checked, [data-checked]) {
-    color: var(--seed-color-fg-neutral-inverted);
+.ride-radiomark__icon--tone_neutral:is(:checked, [data-checked]) {
+    color: var(--ride-color-fg-neutral-inverted);
 }
-.seed-radiomark__root--tone_brand:is(:checked, [data-checked]) {
-    background-color: var(--seed-color-bg-brand-solid);
+.ride-radiomark__root--tone_brand:is(:checked, [data-checked]) {
+    background-color: var(--ride-color-bg-brand-solid);
 }
 @media (hover: hover) {
-    .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
-        background-color: var(--seed-color-bg-brand-solid-pressed);
+    .ride-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
+        background-color: var(--ride-color-bg-brand-solid-pressed);
     }
 }
 @media (hover: none) {
-    .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
-        background-color: var(--seed-color-bg-brand-solid-pressed);
+    .ride-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
+        background-color: var(--ride-color-bg-brand-solid-pressed);
     }
 }
-.seed-radiomark__icon--tone_brand:is(:checked, [data-checked]) {
-    color: var(--seed-color-palette-static-white);
+.ride-radiomark__icon--tone_brand:is(:checked, [data-checked]) {
+    color: var(--ride-color-palette-static-white);
 }
-.seed-radiomark__root--size_large {
-    width: var(--seed-dimension-x6);
-    height: var(--seed-dimension-x6);
+.ride-radiomark__root--size_large {
+    width: var(--ride-dimension-x6);
+    height: var(--ride-dimension-x6);
 }
-.seed-radiomark__icon--size_large {
-    width: var(--seed-dimension-x2_5);
-    height: var(--seed-dimension-x2_5);
+.ride-radiomark__icon--size_large {
+    width: var(--ride-dimension-x2_5);
+    height: var(--ride-dimension-x2_5);
 }
-.seed-radiomark__icon--size_large:is(:disabled, [disabled], [data-disabled]) {
-    width: var(--seed-dimension-x3);
-    height: var(--seed-dimension-x3);
+.ride-radiomark__icon--size_large:is(:disabled, [disabled], [data-disabled]) {
+    width: var(--ride-dimension-x3);
+    height: var(--ride-dimension-x3);
 }
-.seed-radiomark__root--size_medium {
-    width: var(--seed-dimension-x5);
-    height: var(--seed-dimension-x5);
+.ride-radiomark__root--size_medium {
+    width: var(--ride-dimension-x5);
+    height: var(--ride-dimension-x5);
 }
-.seed-radiomark__icon--size_medium {
-    width: var(--seed-dimension-x2);
-    height: var(--seed-dimension-x2);
+.ride-radiomark__icon--size_medium {
+    width: var(--ride-dimension-x2);
+    height: var(--ride-dimension-x2);
 }
-.seed-radiomark__icon--size_medium:is(:disabled, [disabled], [data-disabled]) {
-    width: var(--seed-dimension-x2_5);
-    height: var(--seed-dimension-x2_5);
+.ride-radiomark__icon--size_medium:is(:disabled, [disabled], [data-disabled]) {
+    width: var(--ride-dimension-x2_5);
+    height: var(--ride-dimension-x2_5);
 }

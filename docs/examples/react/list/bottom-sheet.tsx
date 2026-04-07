@@ -8,7 +8,7 @@ import {
 import { ActionButton } from "seed-design/ui/action-button";
 import { Checkmark } from "seed-design/ui/checkbox";
 import { List, ListCheckItem } from "seed-design/ui/list";
-import { PrefixIcon, VStack } from "@seed-design/react";
+import { PrefixIcon, VStack } from "@ride-developer/react";
 import { useState } from "react";
 import { IconArrowClockwiseCircularFill } from "@karrotmarket/react-monochrome-icon";
 

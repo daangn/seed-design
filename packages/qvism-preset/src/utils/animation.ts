@@ -25,26 +25,26 @@ export interface AnimationProps {
 
 export function enterAnimation(props: AnimationProps) {
   return {
-    animation: "seed-enter",
+    animation: "ride-enter",
     animationTimingFunction: props.timingFunction,
     animationDuration: props.duration,
-    "--seed-enter-translate-x": props.translateX ?? "0",
-    "--seed-enter-translate-y": props.translateY ?? "0",
-    "--seed-enter-opacity": props.opacity?.toString() ?? "1",
-    "--seed-enter-scale": props.scale?.toString() ?? "1",
+    "--ride-enter-translate-x": props.translateX ?? "0",
+    "--ride-enter-translate-y": props.translateY ?? "0",
+    "--ride-enter-opacity": props.opacity?.toString() ?? "1",
+    "--ride-enter-scale": props.scale?.toString() ?? "1",
   };
 }
 
 export function exitAnimation(props: AnimationProps) {
   return {
-    animation: "seed-exit",
+    animation: "ride-exit",
     animationTimingFunction: props.timingFunction,
     animationDuration: props.duration,
     animationFillMode: "forwards",
-    "--seed-exit-translate-x": props.translateX ?? "0",
-    "--seed-exit-translate-y": props.translateY ?? "0",
-    "--seed-exit-opacity": props.opacity?.toString() ?? "1",
-    "--seed-exit-scale": props.scale?.toString() ?? "1",
+    "--ride-exit-translate-x": props.translateX ?? "0",
+    "--ride-exit-translate-y": props.translateY ?? "0",
+    "--ride-exit-opacity": props.opacity?.toString() ?? "1",
+    "--ride-exit-scale": props.scale?.toString() ?? "1",
   };
 }
 

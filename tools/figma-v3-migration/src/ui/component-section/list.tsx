@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Text } from "@seed-design/react";
+import { Box, Flex, Stack, Text } from "@ride-developer/react";
 import type { InstanceInfo } from "shared/types";
 import { useComponentSection } from "./context";
 import type { ReactNode } from "react";

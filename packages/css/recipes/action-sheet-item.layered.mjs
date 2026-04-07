@@ -18,7 +18,7 @@ export const actionSheetItemVariantKeys = Object.keys(actionSheetItemVariantMap)
 
 export function actionSheetItem(props) {
   return createClassName(
-    "seed-action-sheet-item",
+    "ride-action-sheet-item",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

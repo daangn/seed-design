@@ -1,4 +1,4 @@
-import { VStack, HStack } from "@seed-design/react";
+import { VStack, HStack } from "@ride-developer/react";
 import { FieldButton, FieldButtonValue } from "seed-design/ui/field-button";
 import { ActionButton } from "seed-design/ui/action-button";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";

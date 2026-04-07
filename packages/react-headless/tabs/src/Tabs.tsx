@@ -1,8 +1,8 @@
 "use client";
 
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { mergeProps } from "@seed-design/dom-utils";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import type * as React from "react";
 import { forwardRef, useMemo } from "react";
 import { useRenderStrategy, type UseRenderStrategyProps } from "./private/useRenderStrategy";

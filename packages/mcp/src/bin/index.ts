@@ -156,7 +156,7 @@ async function startMcpServer(options: McpServerOptions = {}): Promise<void> {
 
 // CLI
 
-const cli = cac("@seed-design/mcp");
+const cli = cac("@ride-developer/mcp");
 
 cli
   .command("", "Start the MCP server")

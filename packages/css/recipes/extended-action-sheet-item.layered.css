@@ -1,38 +1,38 @@
-@layer seed-components {
-  .seed-extended-action-sheet-item {
-    background-color: var(--seed-color-bg-neutral-weak);
+@layer ride-components {
+  .ride-extended-action-sheet-item {
+    background-color: var(--ride-color-bg-neutral-weak);
     min-height: 52px;
-    padding-inline: var(--seed-dimension-x4);
-    padding-block: var(--seed-dimension-x3_5);
+    padding-inline: var(--ride-dimension-x4);
+    padding-block: var(--ride-dimension-x3_5);
     justify-content: flex-start;
     align-items: center;
-    gap: var(--seed-dimension-x3_5);
-    box-shadow: inset 0 calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-muted);
-    font-size: var(--seed-font-size-t5);
-    line-height: var(--seed-line-height-t5);
-    font-weight: var(--seed-font-weight-regular);
+    gap: var(--ride-dimension-x3_5);
+    box-shadow: inset 0 calc(-1 * 1px) 0 var(--ride-color-stroke-neutral-muted);
+    font-size: var(--ride-font-size-t5);
+    line-height: var(--ride-line-height-t5);
+    font-weight: var(--ride-font-weight-regular);
     display: flex;
   }
 
-  .seed-extended-action-sheet-item:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
+  .ride-extended-action-sheet-item:is(:active, [data-active]) {
+    background-color: var(--ride-color-bg-neutral-weak-pressed);
   }
 
-  .seed-extended-action-sheet-item:last-child {
+  .ride-extended-action-sheet-item:last-child {
     box-shadow: none;
   }
 
-  .seed-extended-action-sheet-item {
-    --seed-prefix-icon-size: 22px;
+  .ride-extended-action-sheet-item {
+    --ride-prefix-icon-size: 22px;
   }
 
-  .seed-extended-action-sheet-item--tone_neutral {
-    color: var(--seed-color-fg-neutral);
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+  .ride-extended-action-sheet-item--tone_neutral {
+    color: var(--ride-color-fg-neutral);
+    --ride-prefix-icon-color: var(--ride-color-fg-neutral);
   }
 
-  .seed-extended-action-sheet-item--tone_critical {
-    color: var(--seed-color-fg-critical);
-    --seed-prefix-icon-color: var(--seed-color-fg-critical);
+  .ride-extended-action-sheet-item--tone_critical {
+    color: var(--ride-color-fg-critical);
+    --ride-prefix-icon-color: var(--ride-color-fg-critical);
   }
 }

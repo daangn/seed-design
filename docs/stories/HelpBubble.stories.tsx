@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { helpBubbleVariantMap } from "@seed-design/css/recipes/help-bubble";
+import { helpBubbleVariantMap } from "@ride-developer/css/recipes/help-bubble";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";

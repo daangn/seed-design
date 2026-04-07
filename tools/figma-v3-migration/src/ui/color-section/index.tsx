@@ -1,4 +1,4 @@
-import { Box, Flex } from "@seed-design/react";
+import { Box, Flex } from "@ride-developer/react";
 import { Footer } from "common/components/footer";
 import { SEED_V3_LIBRARY_VARIABLE_PREFIXES } from "shared/constants";
 import type { SerializedColorVariablesSuggestionsResults } from "shared/types";

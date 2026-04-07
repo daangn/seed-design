@@ -1,20 +1,20 @@
-.seed-image-frame__root {
+.ride-image-frame__root {
     position: relative;
     overflow: hidden;
     border-radius: inherit
 }
-.seed-image-frame__content {
+.ride-image-frame__content {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: inherit
 }
-.seed-image-frame__fallback {
+.ride-image-frame__fallback {
     width: 100%;
     height: 100%
 }
-.seed-image-frame__root--stroke_true::after {
+.ride-image-frame__root--stroke_true::after {
     content: '';
     position: absolute;
     top: 0;
@@ -23,8 +23,8 @@
     bottom: 0;
     pointer-events: none;
     border-radius: inherit;
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle)
+    box-shadow: inset 0 0 0 1px var(--ride-color-stroke-neutral-subtle)
 }
-.seed-image-frame__root--rounded_true {
-    border-radius: var(--seed-radius-r2)
+.ride-image-frame__root--rounded_true {
+    border-radius: var(--ride-radius-r2)
 }

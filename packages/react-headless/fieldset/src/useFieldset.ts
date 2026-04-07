@@ -1,6 +1,6 @@
 import { useCallback, useId, useState } from "react";
 
-import { elementProps } from "@seed-design/dom-utils";
+import { elementProps } from "@ride-developer/dom-utils";
 import { getDescriptionId, getErrorMessageId, getLabelId } from "./dom";
 
 export type UseFieldsetReturn = ReturnType<typeof useFieldset>;

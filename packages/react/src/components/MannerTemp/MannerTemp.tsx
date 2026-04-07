@@ -1,5 +1,5 @@
-import { mannerTemp, type MannerTempVariantProps } from "@seed-design/css/recipes/manner-temp";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { mannerTemp, type MannerTempVariantProps } from "@ride-developer/css/recipes/manner-temp";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import type * as React from "react";
 import { forwardRef, useMemo } from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";

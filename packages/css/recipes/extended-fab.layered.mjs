@@ -23,7 +23,7 @@ export const extendedFabVariantKeys = Object.keys(extendedFabVariantMap);
 
 export function extendedFab(props) {
   return createClassName(
-    "seed-extended-fab",
+    "ride-extended-fab",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

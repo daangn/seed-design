@@ -4,7 +4,7 @@ import { FloatingActionButton } from "seed-design/ui/floating-action-button";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { floatingActionButtonVariantMap } from "@seed-design/css/recipes/floating-action-button";
+import { floatingActionButtonVariantMap } from "@ride-developer/css/recipes/floating-action-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 

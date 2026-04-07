@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Switch as SeedSwitch } from "@seed-design/react";
+import { Switch as SeedSwitch } from "@ride-developer/react";
 
 export interface SwitchProps extends SeedSwitch.RootProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;

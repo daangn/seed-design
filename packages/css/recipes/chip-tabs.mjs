@@ -4,27 +4,27 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const chipTabsSlotNames = [
   [
     "root",
-    "seed-chip-tabs__root"
+    "ride-chip-tabs__root"
   ],
   [
     "list",
-    "seed-chip-tabs__list"
+    "ride-chip-tabs__list"
   ],
   [
     "carousel",
-    "seed-chip-tabs__carousel"
+    "ride-chip-tabs__carousel"
   ],
   [
     "carouselCamera",
-    "seed-chip-tabs__carouselCamera"
+    "ride-chip-tabs__carouselCamera"
   ],
   [
     "content",
-    "seed-chip-tabs__content"
+    "ride-chip-tabs__content"
   ],
   [
     "trigger",
-    "seed-chip-tabs__trigger"
+    "ride-chip-tabs__trigger"
   ]
 ];
 

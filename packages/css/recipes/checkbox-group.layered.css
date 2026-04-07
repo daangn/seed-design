@@ -1,6 +1,6 @@
-@layer seed-components {
-  .seed-checkbox-group {
-    gap: var(--seed-dimension-x1);
+@layer ride-components {
+  .ride-checkbox-group {
+    gap: var(--ride-dimension-x1);
     flex-direction: column;
     display: flex;
   }

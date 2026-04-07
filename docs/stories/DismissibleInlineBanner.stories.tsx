@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { DismissibleInlineBanner } from "seed-design/ui/inline-banner";
 
-import { inlineBannerVariantMap } from "@seed-design/css/recipes/inline-banner";
+import { inlineBannerVariantMap } from "@ride-developer/css/recipes/inline-banner";
 import { VariantTable } from "./components/variant-table";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";

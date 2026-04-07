@@ -1,4 +1,4 @@
-import type { AST } from "@seed-design/rootage-core";
+import type { AST } from "@ride-developer/rootage-core";
 import { Fragment } from "react";
 import { ComponentVariantTable } from "./component-variant-table";
 import { getRootage } from "./rootage";

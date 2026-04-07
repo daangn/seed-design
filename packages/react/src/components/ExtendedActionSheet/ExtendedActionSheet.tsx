@@ -1,13 +1,13 @@
-import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Dialog as DialogPrimitive, useDialogContext } from "@ride-developer/react-dialog";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import {
   extendedActionSheet,
   type ExtendedActionSheetVariantProps,
-} from "@seed-design/css/recipes/extended-action-sheet";
+} from "@ride-developer/css/recipes/extended-action-sheet";
 import {
   extendedActionSheetItem,
   type ExtendedActionSheetItemVariantProps,
-} from "@seed-design/css/recipes/extended-action-sheet-item";
+} from "@ride-developer/css/recipes/extended-action-sheet-item";
 import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

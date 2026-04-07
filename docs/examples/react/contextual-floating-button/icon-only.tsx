@@ -1,5 +1,5 @@
 import { IconPlusFill } from "@karrotmarket/react-monochrome-icon";
-import { Icon } from "@seed-design/react";
+import { Icon } from "@ride-developer/react";
 import { ContextualFloatingButton } from "seed-design/ui/contextual-floating-button";
 
 export default function ContextualFloatingButtonIconOnly() {

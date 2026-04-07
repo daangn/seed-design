@@ -1,9 +1,9 @@
-import { checkbox, type CheckboxVariantProps } from "@seed-design/css/recipes/checkbox";
-import { checkmark, type CheckmarkVariantProps } from "@seed-design/css/recipes/checkmark";
+import { checkbox, type CheckboxVariantProps } from "@ride-developer/css/recipes/checkbox";
+import { checkmark, type CheckmarkVariantProps } from "@ride-developer/css/recipes/checkmark";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
-import { mergeProps } from "@seed-design/dom-utils";
-import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@ride-developer/react-checkbox";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import clsx from "clsx";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
@@ -13,7 +13,7 @@ import { createRecipeContext } from "../../utils/createRecipeContext";
 import {
   checkboxGroup,
   type CheckboxGroupVariantProps,
-} from "@seed-design/css/recipes/checkbox-group";
+} from "@ride-developer/css/recipes/checkbox-group";
 
 const { withContext: withGroupContext } = createRecipeContext(checkboxGroup);
 const { ClassNamesProvider, withContext } = createSlotRecipeContext(checkbox);
@@ -54,7 +54,7 @@ export const CheckboxRoot = Object.assign(
       (props.weight === "default" || props.weight === "stronger")
     ) {
       console.warn(
-        `[SEED Design System] Checkbox weight='${props.weight}' is deprecated and will be removed in @seed-design/react@1.3.0. Use weight='${props.weight === "default" ? "regular" : "bold"}' instead.`,
+        `[Ride Design System] Checkbox weight='${props.weight}' is deprecated and will be removed in @ride-developer/react@2.0.0. Use weight='${props.weight === "default" ? "regular" : "bold"}' instead.`,
       );
     }
 

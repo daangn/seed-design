@@ -1,9 +1,9 @@
 import {
   segmentedControl,
   type SegmentedControlVariantProps,
-} from "@seed-design/css/recipes/segmented-control";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { SegmentedControl as SegmentedControlPrimitive } from "@seed-design/react-segmented-control";
+} from "@ride-developer/css/recipes/segmented-control";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
+import { SegmentedControl as SegmentedControlPrimitive } from "@ride-developer/react-segmented-control";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { withProvider, withContext } = createSlotRecipeContext(segmentedControl);

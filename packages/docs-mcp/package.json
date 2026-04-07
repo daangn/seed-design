@@ -1,6 +1,6 @@
 {
-  "name": "@seed-design/docs-mcp",
-  "version": "0.5.1",
+  "name": "@ride-developer/docs-mcp",
+  "version": "1.0.0",
   "description": "The official MCP server for SEED Design documentation",
   "repository": {
     "type": "git",

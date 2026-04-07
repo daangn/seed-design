@@ -11,7 +11,7 @@ export const imageFrameIndicatorVariantKeys = Object.keys(imageFrameIndicatorVar
 
 export function imageFrameIndicator(props) {
   return createClassName(
-    "seed-image-frame-indicator",
+    "ride-image-frame-indicator",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

@@ -1,6 +1,6 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { mergeProps } from "@seed-design/dom-utils";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { mergeProps } from "@ride-developer/dom-utils";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
 import { forwardRef } from "react";
 import { useGlobalInteraction } from "./useGlobalInteraction";
 import { GlobalInteractionProvider } from "./useGlobalInteractionContext";

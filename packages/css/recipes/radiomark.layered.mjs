@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const radiomarkSlotNames = [
   [
     "root",
-    "seed-radiomark__root"
+    "ride-radiomark__root"
   ],
   [
     "icon",
-    "seed-radiomark__icon"
+    "ride-radiomark__icon"
   ]
 ];
 

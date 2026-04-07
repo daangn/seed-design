@@ -1,7 +1,7 @@
-import { HStack } from "@seed-design/react";
+import { HStack } from "@ride-developer/react";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
-import { contentPlaceholderVariantMap } from "@seed-design/css/recipes/content-placeholder";
+import { contentPlaceholderVariantMap } from "@ride-developer/css/recipes/content-placeholder";
 
 export default function ContentPlaceholderTypeExample() {
   return (

@@ -1,4 +1,4 @@
-import { generateThemingScript, type ColorMode } from "@seed-design/css/theming";
+import { generateThemingScript, type ColorMode } from "@ride-developer/css/theming";
 import type { HtmlTagDescriptor, Plugin } from "vite";
 
 const PLUGIN_NAME = "vite-plugin-seed-design";

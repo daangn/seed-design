@@ -4,19 +4,19 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const menuSheetItemSlotNames = [
   [
     "root",
-    "seed-menu-sheet-item__root"
+    "ride-menu-sheet-item__root"
   ],
   [
     "content",
-    "seed-menu-sheet-item__content"
+    "ride-menu-sheet-item__content"
   ],
   [
     "label",
-    "seed-menu-sheet-item__label"
+    "ride-menu-sheet-item__label"
   ],
   [
     "description",
-    "seed-menu-sheet-item__description"
+    "ride-menu-sheet-item__description"
   ]
 ];
 

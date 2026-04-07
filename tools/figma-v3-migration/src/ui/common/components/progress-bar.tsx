@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@seed-design/react";
+import { Box, Flex, Text } from "@ride-developer/react";
 
 export interface MigrationProgress {
   total: number;

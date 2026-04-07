@@ -4,11 +4,11 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const selectBoxCheckmarkSlotNames = [
   [
     "root",
-    "seed-selectBoxCheckmark__root"
+    "ride-selectBoxCheckmark__root"
   ],
   [
     "icon",
-    "seed-selectBoxCheckmark__icon"
+    "ride-selectBoxCheckmark__icon"
   ]
 ];
 

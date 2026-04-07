@@ -1,4 +1,4 @@
-import { Divider, Grid, GridItem, HStack } from "@seed-design/react";
+import { Divider, Grid, GridItem, HStack } from "@ride-developer/react";
 
 export default function Spanning() {
   return (

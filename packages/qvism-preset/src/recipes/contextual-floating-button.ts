@@ -36,20 +36,20 @@ const contextualFloatingButton = defineRecipe({
     lineHeight: vars.layoutWithText.enabled.label.lineHeight,
     fontWeight: vars.layoutWithText.enabled.label.fontWeight,
 
-    "--seed-box-z-index": "initial",
-    zIndex: "var(--seed-box-z-index)",
+    "--ride-box-z-index": "initial",
+    zIndex: "var(--ride-box-z-index)",
 
-    "--seed-box-position": "initial",
-    position: "var(--seed-box-position)",
+    "--ride-box-position": "initial",
+    position: "var(--ride-box-position)",
 
-    "--seed-box-top": "initial",
-    "--seed-box-right": "initial",
-    "--seed-box-bottom": "initial",
-    "--seed-box-left": "initial",
-    top: "var(--seed-box-top)",
-    right: "var(--seed-box-right)",
-    bottom: "var(--seed-box-bottom)",
-    left: "var(--seed-box-left)",
+    "--ride-box-top": "initial",
+    "--ride-box-right": "initial",
+    "--ride-box-bottom": "initial",
+    "--ride-box-left": "initial",
+    top: "var(--ride-box-top)",
+    right: "var(--ride-box-right)",
+    bottom: "var(--ride-box-bottom)",
+    left: "var(--ride-box-left)",
 
     ...onlyIcon({
       size: vars.layoutIconOnly.enabled.icon.size,

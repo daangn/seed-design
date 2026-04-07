@@ -1,4 +1,4 @@
-import { PrefixIcon, Callout as SeedCallout, SuffixIcon } from "@seed-design/react";
+import { PrefixIcon, Callout as SeedCallout, SuffixIcon } from "@ride-developer/react";
 import * as React from "react";
 
 import { IconChevronRightLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";

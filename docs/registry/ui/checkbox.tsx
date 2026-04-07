@@ -8,13 +8,13 @@ import {
   Fieldset as SeedFieldset,
   PrefixIcon,
   VisuallyHidden,
-} from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
+} from "@ride-developer/react";
+import type { FieldLabelVariantProps } from "@ride-developer/css/recipes/field-label";
 import * as React from "react";
 import {
   checkboxGroup,
   type CheckboxGroupVariantProps,
-} from "@seed-design/css/recipes/checkbox-group";
+} from "@ride-developer/css/recipes/checkbox-group";
 
 export interface CheckboxGroupProps extends SeedFieldset.RootProps, CheckboxGroupVariantProps {
   label?: React.ReactNode;

@@ -1,9 +1,9 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { tagGroup, type TagGroupVariantProps } from "@seed-design/css/recipes/tag-group";
+import { Primitive, type PrimitiveProps } from "@ride-developer/react-primitive";
+import { tagGroup, type TagGroupVariantProps } from "@ride-developer/css/recipes/tag-group";
 import {
   tagGroupItem,
   type TagGroupItemVariantProps,
-} from "@seed-design/css/recipes/tag-group-item";
+} from "@ride-developer/css/recipes/tag-group-item";
 import { forwardRef, Children, Fragment } from "react";
 import clsx from "clsx";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";

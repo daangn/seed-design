@@ -113,7 +113,7 @@ export const tagGroupItem = defineSlotRecipe({
       alignItems: "center", // for centering icon+label when inline-flex
       verticalAlign: "middle", // for centering item itself when root display: inline
 
-      flexShrink: "var(--seed-box-flex-shrink, 1)",
+      flexShrink: "var(--ride-box-flex-shrink, 1)",
       minWidth: 0,
 
       // NOTE: might remove React.Children logic regarding separators from react package, once minimum required version satisfies Safari 17.4

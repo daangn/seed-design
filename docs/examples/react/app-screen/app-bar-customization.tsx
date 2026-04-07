@@ -1,4 +1,4 @@
-import { Flex, Icon } from "@seed-design/react";
+import { Flex, Icon } from "@ride-developer/react";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import type { ActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";

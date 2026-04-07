@@ -1,4 +1,4 @@
-import { dataAttr, elementProps } from "@seed-design/dom-utils";
+import { dataAttr, elementProps } from "@ride-developer/dom-utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type ScrollPlacement = "top" | "bottom" | "left" | "right";

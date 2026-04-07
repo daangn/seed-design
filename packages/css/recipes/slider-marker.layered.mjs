@@ -19,7 +19,7 @@ export const sliderMarkerVariantKeys = Object.keys(sliderMarkerVariantMap);
 
 export function sliderMarker(props) {
   return createClassName(
-    "seed-slider-marker",
+    "ride-slider-marker",
     mergeVariants(defaultVariant, props),
     compoundVariants,
   );

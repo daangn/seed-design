@@ -1,4 +1,4 @@
-import { Box } from "@seed-design/react";
+import { Box } from "@ride-developer/react";
 
 export default function BoxPreview() {
   return (
