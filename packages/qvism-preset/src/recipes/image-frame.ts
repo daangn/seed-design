@@ -16,6 +16,9 @@ const imageFrame = defineSlotRecipe({
       height: "100%",
       objectFit: "cover",
       borderRadius: "inherit",
+      "&[hidden]": {
+        display: "none",
+      },
     },
     fallback: {
       width: "100%",

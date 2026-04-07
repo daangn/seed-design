@@ -13,6 +13,10 @@
     display: block;
   }
 
+  .seed-image-frame__content[hidden] {
+    display: none;
+  }
+
   .seed-image-frame__fallback {
     width: 100%;
     height: 100%;
