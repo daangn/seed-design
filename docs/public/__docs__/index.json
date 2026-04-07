@@ -1572,6 +1572,18 @@
               "docUrl": "/react/updates/changelog"
             }
           ]
+        },
+        {
+          "id": "blocks",
+          "label": "blocks",
+          "items": [
+            {
+              "id": "footer",
+              "title": "Footer",
+              "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
+              "docUrl": "/react/blocks/footer"
+            }
+          ]
         }
       ]
     },
