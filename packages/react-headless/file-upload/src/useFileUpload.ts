@@ -235,7 +235,7 @@ export function useFileUpload({
       const { accepted, rejected } = validateFiles(files);
 
       const acceptedEntries: FileEntry[] = accepted.map((file) => ({
-        id: `file-${++idCounterRef.current}`,
+        id: `file-${Date.now()}-${++idCounterRef.current}`,
         file,
         status: "pending",
       }));
