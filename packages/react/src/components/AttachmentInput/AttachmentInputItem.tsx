@@ -65,13 +65,13 @@ export const AttachmentInputItemName = React.forwardRef<
   const { file } = useFileUploadItemContext();
   const { extension } = splitFileName(file.name);
 
-  const renderChildren = typeof children === "string";
-
   return (
     <FileUploadPrimitive.ItemName ref={ref} className={clsx(classNames.name, className)} {...props}>
-      <MiddleTruncate maxLines={2} {...(!renderChildren && { end: extension.length })}>
-        {renderChildren ? children : file.name}
-      </MiddleTruncate>
+      {children ?? (
+        <MiddleTruncate maxLines={2} {...{ end: extension.length }}>
+          {file.name}
+        </MiddleTruncate>
+      )}
     </FileUploadPrimitive.ItemName>
   );
 });
@@ -89,7 +89,7 @@ export const AttachmentInputItemSize = React.forwardRef<
   return (
     <FileUploadPrimitive.ItemSize
       ref={ref}
-      className={clsx(classNames.size, classNames)}
+      className={clsx(classNames.size, className)}
       {...props}
     />
   );
@@ -245,21 +245,23 @@ export const AttachmentInputItemPreview = React.forwardRef<
         <Slot ref={ref} {...props}>
           {image}
         </Slot>
-        {overlayContent && <div className={classNames.backdrop}>{overlayContent}</div>}
+        {overlayContent && (
+          <div className={clsx(classNames.backdrop, className)}>{overlayContent}</div>
+        )}
       </>
     );
   }
 
   if (overlayContent) {
     return (
-      <div className={classNames.backdrop} ref={ref} {...props}>
+      <div className={clsx(classNames.backdrop, className)} ref={ref} {...props}>
         {overlayContent}
       </div>
     );
   }
 
   return (
-    <Slot ref={ref} {...props}>
+    <Slot className={className} ref={ref} {...props}>
       {general}
     </Slot>
   );

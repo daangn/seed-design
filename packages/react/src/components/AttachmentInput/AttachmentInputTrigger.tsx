@@ -69,7 +69,7 @@ export const AttachmentInputTriggerItemCount = React.forwardRef<
   const { currentFileEntryCount, maxFiles, stateProps } = useFileUploadContext();
 
   return (
-    <Primitive.div className={clsx(classNames.itemCount, className)} ref={ref} {...otherProps}>
+    <Primitive.div className={clsx(classNames.itemCountArea, className)} ref={ref} {...otherProps}>
       <span
         {...(currentFileEntryCount === 0 && { "data-empty": true })}
         className={classNames.itemCount}
