@@ -14,6 +14,8 @@
     gap: var(--seed-dimension-x2);
     border: 1px dashed var(--seed-color-palette-gray-500);
     border-radius: var(--seed-radius-r3);
+    padding-left: 8px;
+    padding-right: 8px;
     transition: border-color 0.2s;
 }
 .seed-attachment-input__dropzone[data-dragging-over] {
@@ -28,6 +30,7 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-font-size-t4);
     font-weight: var(--seed-font-weight-medium);
+    text-align: center;
 }
 .seed-attachment-input__dropzoneLabel:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);

@@ -164,7 +164,6 @@
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
 }
 .seed-attachment-input-item__root--type_image {
-    flex-shrink: 0;
     width: 80px;
 }
 .seed-attachment-input-item__root--type_image::before {

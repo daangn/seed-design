@@ -182,7 +182,6 @@
   }
 
   .seed-attachment-input-item__root--type_image {
-    flex-shrink: 0;
     width: 80px;
   }
 

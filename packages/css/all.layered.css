@@ -5176,6 +5176,8 @@
     border-radius: var(--seed-radius-r3);
     flex-direction: column;
     height: 120px;
+    padding-left: 8px;
+    padding-right: 8px;
     transition: border-color .2s;
     display: flex;
   }
@@ -5194,6 +5196,7 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-font-size-t4);
     font-weight: var(--seed-font-weight-medium);
+    text-align: center;
   }
 
   .seed-attachment-input__dropzoneLabel:is(:disabled, [disabled], [data-disabled]) {
@@ -5401,7 +5404,6 @@
   }
 
   .seed-attachment-input-item__root--type_image {
-    flex-shrink: 0;
     width: 80px;
   }
 

@@ -309,8 +309,6 @@ const attachmentInputItem = defineSlotRecipe({
       },
       image: {
         root: {
-          flexShrink: 0,
-
           width: itemVars.typeImage.enabled.root.width,
 
           "&::before": {
@@ -361,6 +359,10 @@ const attachmentInput = defineSlotRecipe({
       border: `${dropzoneVars.base.enabled.root.strokeWidth} dashed ${dropzoneVars.base.enabled.root.strokeColor}`,
       borderRadius: dropzoneVars.base.enabled.root.cornerRadius,
 
+      // define in rootage
+      paddingLeft: "8px",
+      paddingRight: "8px",
+
       transition: "border-color 0.2s",
 
       [pseudo("[data-dragging-over]")]: {
@@ -378,6 +380,8 @@ const attachmentInput = defineSlotRecipe({
       fontSize: dropzoneVars.base.enabled.label.fontSize,
       lineHeight: dropzoneVars.base.enabled.label.lineHeight,
       fontWeight: dropzoneVars.base.enabled.label.fontWeight,
+
+      textAlign: "center",
 
       [pseudo(disabled)]: {
         color: dropzoneVars.base.disabled.label.color,
