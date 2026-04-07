@@ -78,7 +78,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.paper-contents",
-    next: ["$color.bg.layer-fill"],
+    next: ["$color.bg.neutral-weak"],
     alternative: ["$color.palette.gray-100"],
   },
   {

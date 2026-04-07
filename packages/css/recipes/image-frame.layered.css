@@ -26,8 +26,4 @@
     position: absolute;
     inset: 0;
   }
-
-  .seed-image-frame__root--rounded_true {
-    border-radius: var(--seed-radius-r2);
-  }
 }
