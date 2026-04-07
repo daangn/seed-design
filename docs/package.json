@@ -33,6 +33,8 @@
     "@sanity/table": "^2.0.1",
     "@sanity/vision": "^4.20.3",
     "@seed-design/css": "1.2.8",
+    "@seed-design/lynx-css": "workspace:*",
+    "@seed-design/lynx-react": "workspace:*",
     "@seed-design/migration-index": "1.0.0",
     "@seed-design/react": "1.2.9",
     "@seed-design/react-icon": "^0.7.4",

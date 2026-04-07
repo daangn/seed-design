@@ -1,0 +1,16 @@
+{
+  "id": "action-button",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "action-button.tsx",
+      "content": "/**\n * @file ui:action-button\n * @requires @seed-design/lynx-react@~0.1.0-alpha.0\n * @requires @seed-design/lynx-css@~0.1.0-alpha.0\n **/\n\nimport {\n  ActionButton as SeedActionButton,\n  type ActionButtonProps as SeedActionButtonProps,\n} from \"@seed-design/lynx-react\";\n\nexport interface ActionButtonProps extends SeedActionButtonProps {}\n\n/**\n * @see https://seed-design.io/lynx/components/action-button\n */\nexport const ActionButton = SeedActionButton;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": "~0.1.0-alpha.0",
+        "@seed-design/lynx-css": "~0.1.0-alpha.0"
+      }
+    }
+  ]
+}

@@ -2,43 +2,39 @@ import chalk from "chalk";
 import { existsSync, promises as fs, readFileSync } from "fs";
 import path from "node:path";
 import { RegistryGenerator } from "./registry-generator.js";
-import { registryBreeze } from "../registry/react/registry-breeze.js";
-import { registryLib } from "../registry/react/registry-lib.js";
-import { registryUI } from "../registry/react/registry-ui.js";
-import { registryBlock } from "../registry/react/registry-block.js";
-
-const REGISTRY_PATH = path.join(process.cwd(), "registry", "react");
-const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__", "react");
+import { registryBreeze as reactRegistryBreeze } from "../registry/react/registry-breeze.js";
+import { registryLib as reactRegistryLib } from "../registry/react/registry-lib.js";
+import { registryUI as reactRegistryUI } from "../registry/react/registry-ui.js";
+import { registryBlock as reactRegistryBlock } from "../registry/react/registry-block.js";
+import { registryUI as lynxRegistryUI } from "../registry/lynx/registry-ui.js";
 
 // remove leading & trailing newline and add a new ending newline
 const cleanFile = (filePath: string) => `${filePath.replace(/^\n+|\n+$/g, "")}\n`;
 
-async function main() {
-  console.log(chalk.gray("Generating Component Registry..."));
+const transformSnippetContent = (
+  content: string,
+  {
+    itemId,
+    registryId,
+    snippetMetadata,
+  }: {
+    registryId: string;
+    itemId: string;
+    snippetMetadata: { path: string; dependencies?: Record<string, string> };
+  },
+) => {
+  const extension = path.extname(snippetMetadata.path);
 
-  const generator = new RegistryGenerator({
-    importAlias: "seed-design",
-    registries: [registryUI, registryLib, registryBreeze, registryBlock],
-    innateDeps: new Set(["react", "react-dom"]),
-    getFileContent: (filePath) => readFileSync(path.join(REGISTRY_PATH, filePath), "utf8"),
-    transformSnippetContent: (content, { itemId, registryId, snippetMetadata }) => {
-      const extension = path.extname(snippetMetadata.path);
+  if (extension !== ".ts" && extension !== ".tsx" && extension !== ".js" && extension !== ".jsx")
+    return cleanFile(content);
 
-      if (
-        extension !== ".ts" &&
-        extension !== ".tsx" &&
-        extension !== ".js" &&
-        extension !== ".jsx"
-      )
-        return cleanFile(content);
+  const dependencies = snippetMetadata.dependencies
+    ? Object.entries(snippetMetadata.dependencies)
+        .map(([pkg, version]) => ` * @requires ${pkg}@${version}`)
+        .join("\n")
+    : "";
 
-      const dependencies = snippetMetadata.dependencies
-        ? Object.entries(snippetMetadata.dependencies)
-            .map(([pkg, version]) => ` * @requires ${pkg}@${version}`)
-            .join("\n")
-        : "";
-
-      return cleanFile(`/**
+  return cleanFile(`/**
  * @file ${registryId}:${itemId}${dependencies ? `\n${dependencies}` : ""}
  **/
 
@@ -48,35 +44,71 @@ ${content}
  * You can extend this snippet however you want.
  */
 `);
-    },
-  });
+};
 
-  const { registries, availableRegistries } = generator.generate();
+const frameworks = [
+  {
+    name: "react",
+    registryPath: path.join(process.cwd(), "registry", "react"),
+    outputPath: path.join(process.cwd(), "public", "__registry__", "react"),
+    registries: [reactRegistryUI, reactRegistryLib, reactRegistryBreeze, reactRegistryBlock],
+    innateDeps: new Set(["react", "react-dom"]),
+  },
+  {
+    name: "lynx",
+    registryPath: path.join(process.cwd(), "registry", "lynx"),
+    outputPath: path.join(process.cwd(), "public", "__registry__", "lynx"),
+    registries: [lynxRegistryUI],
+    innateDeps: new Set(["@lynx-js/react"]),
+  },
+];
 
-  await Promise.all(
-    registries.map(async ({ index, items }) => {
-      const outPath = path.join(GENERATED_REGISTRY_PATH, index.id);
+async function main() {
+  console.log(chalk.gray("Generating Component Registry..."));
 
-      if (!existsSync(outPath)) {
-        await fs.mkdir(outPath, { recursive: true });
-      }
+  for (const framework of frameworks) {
+    console.log(chalk.gray(`\nGenerating ${framework.name} registry...`));
 
-      for (const item of items) {
-        const itemPath = path.join(outPath, `${item.id}.json`);
-        await fs.writeFile(itemPath, JSON.stringify(item, null, 2), "utf8");
-      }
+    const generator = new RegistryGenerator({
+      importAlias: "seed-design",
+      registries: framework.registries,
+      innateDeps: framework.innateDeps,
+      getFileContent: (filePath) =>
+        readFileSync(path.join(framework.registryPath, filePath), "utf8"),
+      transformSnippetContent,
+    });
 
-      const indexPath = path.join(outPath, "index.json");
-      await fs.writeFile(indexPath, JSON.stringify(index, null, 2), "utf8");
+    const { registries, availableRegistries } = generator.generate();
 
-      console.log(chalk.gray(`Generated ${index.id} registry...`));
-    }),
-  );
+    await Promise.all(
+      registries.map(async ({ index, items }) => {
+        const outPath = path.join(framework.outputPath, index.id);
 
-  const availableRegistriesPath = path.join(GENERATED_REGISTRY_PATH, "index.json");
-  await fs.writeFile(availableRegistriesPath, JSON.stringify(availableRegistries, null, 2), "utf8");
+        if (!existsSync(outPath)) {
+          await fs.mkdir(outPath, { recursive: true });
+        }
 
-  console.log(chalk.green("All Registries Generated !"));
+        for (const item of items) {
+          const itemPath = path.join(outPath, `${item.id}.json`);
+          await fs.writeFile(itemPath, JSON.stringify(item, null, 2), "utf8");
+        }
+
+        const indexPath = path.join(outPath, "index.json");
+        await fs.writeFile(indexPath, JSON.stringify(index, null, 2), "utf8");
+
+        console.log(chalk.gray(`  Generated ${index.id} registry...`));
+      }),
+    );
+
+    const availableRegistriesPath = path.join(framework.outputPath, "index.json");
+    await fs.writeFile(
+      availableRegistriesPath,
+      JSON.stringify(availableRegistries, null, 2),
+      "utf8",
+    );
+  }
+
+  console.log(chalk.green("\nAll Registries Generated !"));
 }
 
 main().catch((error) => {
