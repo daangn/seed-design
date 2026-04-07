@@ -1,6 +1,6 @@
 {
   "name": "@ride-developer/react-tabs",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ride-developer/ride-design-system.git",
@@ -31,9 +31,9 @@
     "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@radix-ui/react-use-controllable-state": "1.2.2",
     "@radix-ui/react-use-size": "^1.1.1",
-    "@ride-developer/dom-utils": "1.0.0",
-    "@ride-developer/react-primitive": "1.0.0",
-    "@ride-developer/react-supports": "0.0.1",
+    "@ride-developer/dom-utils": "2.0.0",
+    "@ride-developer/react-primitive": "2.0.0",
+    "@ride-developer/react-supports": "1.0.0",
     "embla-carousel-auto-height": "^8.6.0",
     "embla-carousel-react": "^8.6.0"
   },

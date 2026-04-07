@@ -1,6 +1,6 @@
 {
   "name": "@ride-developer/tailwind3-plugin",
-  "version": "1.1.18",
+  "version": "2.0.0",
   "description": "Tailwind3 CSS plugin for Seed Design tokens",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "@ride-developer/figma",
-  "version": "1.3.9",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -39,7 +39,7 @@
     "sync-entities": "find src/entities/data/__generated__ -mindepth 1 -maxdepth 1 ! -name 'archive' -exec rm -rf {} + 2>/dev/null; bun figma-extractor src/entities/data/__generated__"
   },
   "dependencies": {
-    "@ride-developer/css": "1.2.7",
+    "@ride-developer/css": "2.0.0",
     "change-case": "^5.4.4",
     "ts-pattern": "^5.7.0"
   },
@@ -47,7 +47,7 @@
     "@figma/plugin-typings": "^1.123.0",
     "@figma/rest-api-spec": "^0.36.0",
     "@karrotmarket/icon-data": "^1.22.0",
-    "@ride-developer/figma-extractor": "^1.1.0",
+    "@ride-developer/figma-extractor": "^2.0.0",
     "typescript": "^5.9.2"
   },
   "publishConfig": {

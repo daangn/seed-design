@@ -1,6 +1,6 @@
 {
   "name": "@ride-developer/react-collapsible",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ride-developer/ride-design-system.git",
@@ -30,8 +30,8 @@
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@radix-ui/react-use-layout-effect": "^1.1.1",
-    "@ride-developer/dom-utils": "1.0.0",
-    "@ride-developer/react-primitive": "1.0.0"
+    "@ride-developer/dom-utils": "2.0.0",
+    "@ride-developer/react-primitive": "2.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

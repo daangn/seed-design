@@ -1,6 +1,6 @@
 {
   "name": "@ride-developer/react-progress",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ride-developer/ride-design-system.git",
@@ -27,8 +27,8 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@ride-developer/dom-utils": "1.0.0",
-    "@ride-developer/react-primitive": "1.0.0"
+    "@ride-developer/dom-utils": "2.0.0",
+    "@ride-developer/react-primitive": "2.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

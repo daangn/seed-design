@@ -24,7 +24,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@ride-developer/rootage-artifacts": "1.2.6",
+    "@ride-developer/rootage-artifacts": "2.0.0",
     "@ride-developer/rootage-core": "0.0.0",
     "fs-extra": "^11.3.0",
     "yaml": "^2.7.1",
