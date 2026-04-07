@@ -62,7 +62,7 @@ export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
 
     return (
       <FileUploadProvider value={api}>
-        <Primitive.div ref={ref} {...otherProps} />
+        <Primitive.div ref={ref} {...api.stateProps} {...otherProps} />
       </FileUploadProvider>
     );
   },
