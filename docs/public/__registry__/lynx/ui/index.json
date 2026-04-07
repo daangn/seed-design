@@ -13,7 +13,17 @@
       ],
       "id": "action-button",
       "dependencies": [
-        "@seed-design/lynx-react"
+        "@seed-design/lynx-css",
+        "clsx",
+        "react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "progress-circle"
+          ]
+        }
       ]
     },
     {
