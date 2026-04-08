@@ -29,13 +29,59 @@ SEED Design CHANGELOG 분석에서 추출한 메시지 작성 규칙과 예시.
 - 기존 컴포넌트에 새 prop/API 추가 (기존 API 하위 호환 유지)
 - 새 CSS recipe 추가
 - snippet 업데이트가 필요한 내부 구조 변경 (하위 호환은 됨)
+- 기존 prop/API 제거 또는 이름 변경 (**breaking change** — BREAKING CHANGE 접두사 사용)
+- 기존 동작의 breaking change (**breaking change** — BREAKING CHANGE 접두사 사용)
+- 컴포넌트 이름 변경 (**breaking change** — BREAKING CHANGE 접두사 사용)
+- snippet 재설치가 필요한 변경 (**breaking change** — BREAKING CHANGE 접두사 사용)
 
 ### major
 
-- 기존 prop/API 제거 또는 이름 변경
-- 기존 동작의 breaking change
-- 컴포넌트 이름 변경
-- 필수 마이그레이션이 필요한 변경
+거의 사용하지 않는다. 판단이 어려우면 사용자에게 확인한다.
+
+- 패키지 전체 구조 변경 (예: 패키지 분리/통합)
+- 전체 API 표면의 근본적 재설계
+- 런타임/프레임워크 요구사항 변경 (예: React 버전 요구 변경)
+
+## BREAKING CHANGE 접두사
+
+minor 또는 patch에 breaking change가 포함될 때, 메시지 첫 줄 앞에 `(BREAKING CHANGE: {사용자가 해야 할 마이그레이션 액션})` 접두사를 붙인다.
+
+### 형식
+
+```
+(BREAKING CHANGE: {마이그레이션 액션}) {변경 설명}
+```
+
+### 예시
+
+```
+(BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
+
+  - vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
+  - vaul과 동일한 인터페이스를 가지고 있습니다. (snap-points, fade-from-index, etc.)
+  - `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
+```
+
+```
+(BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다.
+
+  - 스타일 업데이트
+  - size 통일 및 variant (underline) 추가
+  - 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
+```
+
+```
+(BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다.
+
+  - Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
+  - `PageBanner.TextContent`를 `PageBanner.Content`로 이름 변경합니다.
+```
+
+### 규칙
+
+- 접두사의 마이그레이션 액션은 사용자가 **무엇을 해야 하는지** 명시한다 (예: "snippet을 다시 설치해야 합니다", "`prop명`을 `새이름`으로 변경해야 합니다")
+- 접두사 뒤의 설명은 **무엇이 바뀌었는지** 서술한다
+- 불릿 리스트로 세부 변경사항과 마이그레이션 방법을 안내한다
 
 ## 메시지 구조
 
