@@ -42,8 +42,6 @@ interface UseMenuStateProps {
 export interface UseMenuProps extends UseMenuStateProps {
   disabled?: boolean;
 
-  modal?: boolean;
-
   /**
    * Floating UI placement. @default "bottom"
    */
@@ -152,7 +150,6 @@ export function useMenu(props: UseMenuProps) {
 
   const {
     disabled = false,
-    modal = false,
     placement = "bottom",
     gutter = 8,
     overflowPadding = 8,
@@ -251,17 +248,6 @@ export function useMenu(props: UseMenuProps) {
 
   const triggerInteractions = useInteractions([click, role, listNavigation, typeahead]);
   const anchorInteractions = useInteractions([role, listNavigation, typeahead]);
-
-  useEffect(() => {
-    if (!open || !modal) return;
-
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open, modal]);
 
   const stateProps = useMemo(
     () =>
