@@ -88,6 +88,8 @@ function findSimilar(input: string, candidates: string[], maxDistance = 3): stri
  * against the docs index hierarchy.
  */
 function buildSuggestionHint(segments: string[], categories: DocsCategory[]): string | undefined {
+  if (segments.length === 0) return undefined;
+
   const suggestions: string[] = [];
 
   // Try to fuzzy-match the first segment against category IDs
