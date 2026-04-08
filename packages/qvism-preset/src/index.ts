@@ -5,7 +5,7 @@ import { keyframes } from "./keyframes";
 import { recipes } from "./recipes";
 import { tokens } from "./tokens";
 import { definePreset } from "./utils/define";
-import { engaged, hover, active, media } from "./utils/pseudo";
+import { engaged, hover, active } from "./utils/pseudo";
 
 export default definePreset({
   prefix: "seed",
@@ -17,8 +17,8 @@ export default definePreset({
         active,
       },
       media: {
-        hover: media.isHoverableInputDevice.replace("@media ", ""),
-        active: media.isNotHoverableInputDevice.replace("@media ", ""),
+        hover: "(hover: hover) and (pointer: fine)",
+        active: "not all and (hover: hover) and (pointer: fine)",
       },
     }),
   ],
