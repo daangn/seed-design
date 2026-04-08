@@ -106,6 +106,40 @@ npx @seed-design/cli@latest init
 
 ### Vite config 수정하기
 
+<Tabs items={['Vite 8', 'Vite 7 이하']}>
+
+<Tab value="Vite 8">
+
+```package-install
+npm install -D @seed-design/vite-plugin
+```
+
+<Callout>
+
+`seedDesignPlugin`은 [theming](/react/getting-started/styling/theming) 및 CSS 파일 자동 로드 등을 담당해요.
+
+</Callout>
+
+```ts title="vite.config.ts"
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import { seedDesignPlugin } from "@seed-design/vite-plugin"; // [!code highlight]
+
+export default defineConfig({
+  plugins: [
+    react(),
+    seedDesignPlugin(), // [!code highlight]
+  ],
+  resolve: {
+    tsconfigPaths: true, // [!code highlight]
+  },
+});
+```
+
+</Tab>
+
+<Tab value="Vite 7 이하">
+
 ```package-install
 npm install -D @seed-design/vite-plugin vite-tsconfig-paths
 ```
@@ -130,6 +164,10 @@ export default defineConfig({
   ],
 });
 ```
+
+</Tab>
+
+</Tabs>
 
 </Step>
 

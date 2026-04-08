@@ -27,7 +27,7 @@ export default defineConfig(({ mode }) => {
         // formats: ["iife"],
         fileName: "code",
       },
-      rollupOptions: {},
+      rolldownOptions: {},
       // 소스맵 생성
       sourcemap: true,
       // 빌드시 콘솔 로그 지우지 않음
