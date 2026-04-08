@@ -64,6 +64,22 @@ npx @seed-design/cli@latest compat -c action-button -c alert-dialog
 npx @seed-design/cli@latest compat --all
 ```
 
+### 5) Upgrade Changelog
+
+패키지의 현재 버전과 최신 버전 사이의 변경사항을 확인합니다.
+
+전체 패키지 한 번에 조회:
+
+```bash
+npx @seed-design/cli@latest upgrade --all
+```
+
+특정 패키지만 조회:
+
+```bash
+npx @seed-design/cli@latest upgrade react
+```
+
 ## seed-design.json Settings
 
 주요 필드:

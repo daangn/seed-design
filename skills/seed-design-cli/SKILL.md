@@ -1,6 +1,6 @@
 ---
 name: seed-design-cli
-description: SEED Design CLI workflows for init/add/add-all/compat, seed-design.json setup, snippet version compatibility checks, baseUrl-based registry selection, and custom snippet migration strategies. Use when onboarding SEED snippets, adding components, resolving version mismatches, or updating customized snippet files.
+description: SEED Design CLI workflows for init/add/add-all/compat/upgrade, seed-design.json setup, snippet version compatibility checks, upgrade changelog diagnosis, baseUrl-based registry selection, and custom snippet migration strategies. Use when onboarding SEED snippets, adding components, resolving version mismatches, upgrading packages, or updating customized snippet files.
 ---
 
 # Seed Design CLI
@@ -14,6 +14,7 @@ SEED Design CLI를 프로젝트에 안정적으로 적용할 때 사용하는 �
 3. `compat`으로 현재 프로젝트 버전과 스니펫 요구 버전 호환성을 검사합니다.
 4. 버전 호환이 필요하면 `--baseUrl`로 맞는 레지스트리를 지정합니다.
 5. 파일 충돌 시 덮어쓰기/백업/건너뛰기 전략을 선택합니다.
+6. `upgrade`로 패키지 업그레이드 시 변경사항을 확인하고 프로젝트 영향을 진단합니다.
 
 ## Scope
 
@@ -21,8 +22,10 @@ SEED Design CLI를 프로젝트에 안정적으로 적용할 때 사용하는 �
 - `npx @seed-design/cli@latest add ...`
 - `npx @seed-design/cli@latest add-all ...`
 - `npx @seed-design/cli@latest compat ...`
+- `npx @seed-design/cli@latest upgrade ...`
 - `seed-design.json` 운영 (`path`, `tsx`, `rsc`, `telemetry`)
 - 스니펫 버전 호환성과 마이그레이션 운영
+- 업그레이드 changelog 기반 프로젝트 영향도 진단
 
 ## References
 
@@ -33,3 +36,4 @@ SEED Design CLI를 프로젝트에 안정적으로 적용할 때 사용하는 �
 
 - 일반 사용 흐름: `references/usage.md`
 - 호환/마이그레이션: `references/migration.md`
+- 업그레이드 진단: `references/upgrade.md`
