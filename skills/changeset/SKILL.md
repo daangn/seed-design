@@ -115,7 +115,7 @@ jq -r '{name: .name, private: (.private // false)}' <패키지경로>/package.js
 
 ## Linked 패키지 그룹
 
-`.changeset/config.json`의 `linked` 배열에 정의된 패키지들은 동일 버전으로 릴리스된다. 한 그룹의 패키지 중 하나만 변경되더라도 그룹 내 다른 패키지의 포함 여부를 사용자에게 알려야 한다.
+`.changeset/config.json`의 `linked` 배열에 정의된 패키지들은 릴리스 시 동일 버전으로 자동 처리된다. changeset에는 변경된 패키지만 포함하면 된다.
 
 - `[@seed-design/figma, @seed-design/mcp]`
 - `[@seed-design/codemod, @seed-design/migration-index]`
