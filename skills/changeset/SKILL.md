@@ -23,7 +23,7 @@ git diff를 분석하여 changeset 초안을 생성하고, 사용자 확인 후 
 5. 각 패키지별로 `git diff dev...HEAD -- <패키지_경로>`를 실행하여 실제 변경 내용을 확인한다.
 6. `references/patterns.md`의 **타입 분류 기준**에 따라 patch/minor/major를 판단한다.
    - **주의**: breaking change는 대부분 **minor**로 분류한다 (major가 아님). major는 패키지 전체 구조 변경 같은 대격변에만 사용한다.
-   - breaking change가 포함된 minor/patch에는 `(BREAKING CHANGE: ...)` 접두사를 메시지에 붙인다 — `references/patterns.md` 참조.
+   - breaking change가 포함된 minor에는 `(BREAKING CHANGE: ...)` 접두사를 메시지에 붙인다 — `references/patterns.md` 참조.
 7. 판단 근거를 간략히 기록한다.
 
 ### Phase 3: 메시지 작성
@@ -39,7 +39,7 @@ git diff를 분석하여 changeset 초안을 생성하고, 사용자 확인 후 
 
 11. 아래 형식으로 초안을 보여준다:
 
-```
+```text
 ## Changeset 초안
 
 ### 포함 패키지

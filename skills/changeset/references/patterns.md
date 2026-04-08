@@ -44,17 +44,17 @@ SEED Design CHANGELOG 분석에서 추출한 메시지 작성 규칙과 예시.
 
 ## BREAKING CHANGE 접두사
 
-minor 또는 patch에 breaking change가 포함될 때, 메시지 첫 줄 앞에 `(BREAKING CHANGE: {사용자가 해야 할 마이그레이션 액션})` 접두사를 붙인다.
+minor에 breaking change가 포함될 때, 메시지 첫 줄 앞에 `(BREAKING CHANGE: {사용자가 해야 할 마이그레이션 액션})` 접두사를 붙인다.
 
 ### 형식
 
-```
+```text
 (BREAKING CHANGE: {마이그레이션 액션}) {변경 설명}
 ```
 
 ### 예시
 
-```
+```text
 (BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
 
   - vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
@@ -62,7 +62,7 @@ minor 또는 patch에 breaking change가 포함될 때, 메시지 첫 줄 앞에
   - `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
 ```
 
-```
+```text
 (BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다.
 
   - 스타일 업데이트
@@ -70,7 +70,7 @@ minor 또는 patch에 breaking change가 포함될 때, 메시지 첫 줄 앞에
   - 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
 ```
 
-```
+```text
 (BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다.
 
   - Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
@@ -89,15 +89,15 @@ minor 또는 patch에 breaking change가 포함될 때, 메시지 첫 줄 앞에
 
 간결한 변경사항 한 줄:
 
-```
+```text
 BottomSheet title 영역의 padding을 수정합니다.
 ```
 
-```
-iOS의 폰트 스케일링 max limit을 135%에서 160%로 늘려요.
+```text
+iOS의 폰트 스케일링 max limit을 135%에서 160%로 늘립니다.
 ```
 
-```
+```text
 Avatar 및 Avatar Stack의 `size=56` variant를 추가합니다.
 ```
 
@@ -105,7 +105,7 @@ Avatar 및 Avatar Stack의 `size=56` variant를 추가합니다.
 
 여러 변경이 하나의 맥락에 묶일 때:
 
-```
+```text
 ImageFrame 컴포넌트 개선
 
 - `fallback` prop이 이미지 로딩 실패 시 대체 콘텐츠를 올바르게 표시하도록 개선합니다.
@@ -117,33 +117,33 @@ ImageFrame 컴포넌트 개선
 
 내부 변경이지만 changeset이 필요한 경우:
 
-```
+```text
 (사용자 변경사항 없음) Rootage `text-input`에 `type=singleLine` variant 정의를 추가합니다.
 ```
 
 ### minor — 제목 + 설명 + 코드 예제
 
-```
+```text
 Breakpoint 기반 반응형 스타일링을 지원합니다.
 
 - Box, Flex, Grid, VStack 등 유틸리티 컴포넌트의 레이아웃 관련 프로퍼티에 breakpoint 기반 반응형 객체를 사용할 수 있습니다.
 
-` ``tsx
+```tsx
 <Box padding={{ base: "x3", md: "x6" }} />
 <Grid columns={{ base: 1, md: 2, lg: 4 }} gap="x4" />
-` ``
 ```
+```text
 
 ```
 Content Placeholder 컴포넌트를 추가합니다.
-```
+```text
 
 ```
 Footer Block을 추가합니다.
 
 - `Footer.LinkText`: 푸터에서 사용하는 링크 텍스트 컴포넌트
 - 4가지 푸터 블록 예제와 소셜 미디어 아이콘 컴포넌트 포함
-```
+```text
 
 ### major — 제목 + 설명 + 마이그레이션 가이드
 
@@ -151,16 +151,16 @@ Footer Block을 추가합니다.
 `AlertDialogRoot`, `MenuSheetRoot` 및 `BottomSheetRoot`의 `onOpenChange` 두 번째 인자로 `details`를 제공합니다. `details.reason`과 `details.event`를 사용할 수 있습니다.
 
 `DialogAction`을 `DialogPrimitive.CloseButton`으로 교체합니다. `AlertDialogAction` `onClick` 핸들러에서 `event.preventDefault()`를 호출하여 닫기 동작을 방지할 수 있습니다.
-```
+```text
 
 ```
 **`add` 명령어 사용 방식을 변경합니다.**
 
 - 항목 추가
 
-` ``sh
+```sh
 seed-design add ui:action-button breeze:animate-number
-` ``
+```text
 
 - 기존 `seed-design add action-button` 형식은 더 이상 지원되지 않습니다.
 - `seed-design add-all ui lib breeze`로 레지스트리별 일괄 추가가 가능합니다.
@@ -172,7 +172,7 @@ seed-design add ui:action-button breeze:animate-number
 
 ### 동일 맥락 — 하나의 changeset으로 통합
 
-```
+```text
 ---
 "@seed-design/react": patch
 "@seed-design/css": patch
@@ -190,7 +190,7 @@ IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="
 
 한 changeset 내에서 패키지마다 다른 타입을 지정할 수 있다:
 
-```
+```text
 ---
 "@seed-design/react": minor
 "@seed-design/css": minor
@@ -200,7 +200,7 @@ IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="
 
 ## changeset 파일 형식
 
-```
+```text
 ---
 "@seed-design/패키지명": patch|minor|major
 ---
