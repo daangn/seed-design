@@ -20,18 +20,18 @@ SEED에서 컴포넌트 스펙 및 색상 토큰은 **pressed** 상태만 정의
 
 ### CSS
 
-SEED CSS는 `@media (hover)` 미디어 쿼리를 사용하여 디바이스를 구분합니다.
+SEED CSS는 `@media (hover)` 와 `@media (pointer)` 미디어 쿼리를 조합하여 디바이스를 구분합니다.
 
 ```css
 /* 마우스 환경: hover 시 pressed 색상 적용 */
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .seed-action-button--variant_brandSolid:is(:hover, [data-hover]) {
     background: var(--seed-color-bg-brand-solid-pressed);
   }
 }
 
 /* 터치 환경: active 시 pressed 색상 적용 */
-@media (hover: none) {
+@media not all and (hover: hover) and (pointer: fine) {
   .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
     background: var(--seed-color-bg-brand-solid-pressed);
   }
