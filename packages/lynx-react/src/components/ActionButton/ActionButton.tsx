@@ -16,8 +16,6 @@ import * as React from "react";
  */
 export interface ActionButtonProps extends Omit<ActionButtonVariantProps, "layout"> {
   children?: React.ReactNode;
-  disabled?: boolean;
-  loading?: boolean;
   className?: string;
   flexGrow?: number;
   bindtap?: () => void;
@@ -30,13 +28,12 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     children,
     className,
     flexGrow,
-    loading = false,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     ...nativeProps
   } = restProps;
 
-  const { disabled = false } = variantProps;
+  const { disabled = false, loading = false } = variantProps;
   const classes = actionButton({
     ...variantProps,
     layout: "withText",
