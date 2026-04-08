@@ -64,45 +64,27 @@ git diff를 분석하여 changeset 초안을 생성하고, 사용자 확인 후 
 
 ## 패키지 식별 방법
 
-변경 파일 경로에서 가장 가까운 `package.json`을 찾아 `name` 필드를 읽는다.
+변경 파일 경로에서 가장 가까운 `package.json`을 찾아 `name` 필드를 읽고, 변경된 패키지 목록을 사용자에게 보여준 뒤 확인을 받는다.
 
 ```bash
-# 변경 파일에서 패키지 루트 추출
+# 변경 파일에서 패키지 루트 추출 → 패키지명 조회
 git diff dev...HEAD --name-only | while read f; do
   dir="$f"
   while [ "$dir" != "." ]; do
     dir=$(dirname "$dir")
     [ -f "$dir/package.json" ] && echo "$dir" && break
   done
-done | sort -u
-
-# 각 패키지의 name과 private 확인
-jq -r '{name: .name, private: (.private // false)}' <패키지경로>/package.json
+done | sort -u | while read pkg_dir; do
+  jq -r '{dir: "'"$pkg_dir"'", name: .name, private: (.private // false)}' "$pkg_dir/package.json"
+done
 ```
 
-### 주요 패키지 매핑 (참고용)
+위 결과에서 private 패키지와 제외 대상을 걸러내고, 남은 패키지 목록을 사용자에게 확인받는다.
 
-| 경로 | 패키지명 | 비고 |
-|------|---------|------|
-| `packages/react/` | `@seed-design/react` | |
-| `packages/css/` | `@seed-design/css` | 생성 파일 포함 — rootage 변경이 원인일 수 있음 |
-| `packages/rootage/` | `@seed-design/rootage-artifacts` | 디렉토리명 ≠ 패키지명 |
-| `packages/cli/` | `@seed-design/cli` | |
-| `packages/figma/` | `@seed-design/figma` | linked: mcp |
-| `packages/mcp/` | `@seed-design/mcp` | linked: figma |
-| `packages/codemod/` | `@seed-design/codemod` | linked: migration-index |
-| `packages/migration-index/` | `@seed-design/migration-index` | linked: codemod |
-| `packages/docs-mcp/` | `@seed-design/docs-mcp` | |
-| `packages/stackflow/` | `@seed-design/stackflow` | |
-| `packages/design-token/` | `@seed-design/design-token` | |
-| `packages/stylesheet/` | `@seed-design/stylesheet` | |
-| `packages/tailwind3-plugin/` | `@seed-design/tailwind3-plugin` | |
-| `packages/tailwind4-theme/` | `@seed-design/tailwind4-theme` | |
-| `packages/vite-plugin/` | `@seed-design/vite-plugin` | |
-| `packages/rsbuild-plugin/` | `@seed-design/rsbuild-plugin` | |
-| `packages/webpack-plugin/` | `@seed-design/webpack-plugin` | |
-| `packages/react-headless/<name>/` | `@seed-design/react-<name>` | 하위 패키지별 |
-| `ecosystem/figma-extractor/` | `@seed-design/figma-extractor` | |
+### 주의
+
+- `packages/rootage/`의 패키지명은 `@seed-design/rootage-artifacts`이다 (디렉토리명 ≠ 패키지명).
+- `packages/css/`는 rootage/qvism-preset에서 생성되는 파일이 많다. css에 변경이 감지되면 실제 원인이 rootage 변경인지 확인한다.
 
 ## 제외 대상 (changeset 불필요)
 
@@ -122,7 +104,6 @@ jq -r '{name: .name, private: (.private // false)}' <패키지경로>/package.js
 
 ## 주의사항
 
-- `packages/css/`는 rootage/qvism-preset에서 생성되는 파일이 많다. css에 변경이 감지되면 실제 원인이 rootage 변경인지 확인하고, changeset 메시지에 반영한다.
 - changeset 메시지는 **CHANGELOG에 그대로 들어가는 유저향 텍스트**다. 내부 구현 디테일이 아닌 사용자 영향을 서술한다.
 - frontmatter의 패키지명은 반드시 쌍따옴표(`"`)로 감싼다.
 
