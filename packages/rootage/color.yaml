@@ -12,43 +12,43 @@ data:
         theme-dark: "#000000"
     $color.palette.gray-100:
       values:
-        theme-light: "#f7f8f9"
+        theme-light: "#f1f4f6"
         theme-dark: "#16171b"
     $color.palette.gray-200:
       values:
-        theme-light: "#f3f4f5"
+        theme-light: "#e7edf0"
         theme-dark: "#1d2025"
     $color.palette.gray-300:
       values:
-        theme-light: "#eeeff1"
+        theme-light: "#cfd5d9"
         theme-dark: "#2b2e35"
     $color.palette.gray-400:
       values:
-        theme-light: "#dcdee3"
+        theme-light: "#aeb7bc"
         theme-dark: "#393d46"
     $color.palette.gray-500:
       values:
-        theme-light: "#d1d3d8"
+        theme-light: "#6e777c"
         theme-dark: "#5b606a"
     $color.palette.gray-600:
       values:
-        theme-light: "#b0b3ba"
+        theme-light: "#5e686e"
         theme-dark: "#868b94"
     $color.palette.gray-700:
       values:
-        theme-light: "#868b94"
+        theme-light: "#4a5256"
         theme-dark: "#b0b3ba"
     $color.palette.gray-800:
       values:
-        theme-light: "#555d6d"
+        theme-light: "#353b3f"
         theme-dark: "#dcdee3"
     $color.palette.gray-900:
       values:
-        theme-light: "#2a3038"
+        theme-light: "#222629"
         theme-dark: "#e9eaec"
     $color.palette.gray-1000:
       values:
-        theme-light: "#1a1c20"
+        theme-light: "#121414"
         theme-dark: "#f3f4f5"
     $color.palette.carrot-100:
       values:
@@ -92,39 +92,39 @@ data:
         theme-dark: "#f6fbff"
     $color.palette.blue-100:
       values:
-        theme-light: "#eff6ff"
+        theme-light: "#ebf6ff"
         theme-dark: "#202742"
     $color.palette.blue-200:
       values:
-        theme-light: "#e2edfc"
+        theme-light: "#e2f2ff"
         theme-dark: "#1e3352"
     $color.palette.blue-300:
       values:
-        theme-light: "#cbdffa"
+        theme-light: "#d4ecff"
         theme-dark: "#1a4275"
     $color.palette.blue-400:
       values:
-        theme-light: "#aacefd"
+        theme-light: "#b3ddff"
         theme-dark: "#0f559e"
     $color.palette.blue-500:
       values:
-        theme-light: "#85b8fd"
+        theme-light: "#5bb7ff"
         theme-dark: "#1964d8"
     $color.palette.blue-600:
       values:
-        theme-light: "#5e98fe"
+        theme-light: "#0a93ff"
         theme-dark: "#1e82eb"
     $color.palette.blue-700:
       values:
-        theme-light: "#217cf9"
+        theme-light: "#0679df"
         theme-dark: "#41a2f9"
     $color.palette.blue-800:
       values:
-        theme-light: "#135fcd"
+        theme-light: "#065cb3"
         theme-dark: "#83bcf9"
     $color.palette.blue-900:
       values:
-        theme-light: "#0b4596"
+        theme-light: "#0b3e91"
         theme-dark: "#b9d7fb"
     $color.palette.blue-1000:
       values:
@@ -132,39 +132,39 @@ data:
         theme-dark: "#e5f0fe"
     $color.palette.red-100:
       values:
-        theme-light: "#fdf0f0"
+        theme-light: "#fad8d8"
         theme-dark: "#322323"
     $color.palette.red-200:
       values:
-        theme-light: "#fde7e7"
+        theme-light: "#f2b2b2"
         theme-dark: "#4f2624"
     $color.palette.red-300:
       values:
-        theme-light: "#fed4d2"
+        theme-light: "#e68686"
         theme-dark: "#742826"
     $color.palette.red-400:
       values:
-        theme-light: "#feb7b3"
+        theme-light: "#de6969"
         theme-dark: "#a12621"
     $color.palette.red-500:
       values:
-        theme-light: "#fe928d"
+        theme-light: "#da5b5b"
         theme-dark: "#ca2319"
     $color.palette.red-600:
       values:
-        theme-light: "#fc6a66"
+        theme-light: "#d64c4c"
         theme-dark: "#f73526"
     $color.palette.red-700:
       values:
-        theme-light: "#fa342c"
+        theme-light: "#c54343"
         theme-dark: "#ff6e60"
     $color.palette.red-800:
       values:
-        theme-light: "#ca1d13"
+        theme-light: "#9f3433"
         theme-dark: "#ffa299"
     $color.palette.red-900:
       values:
-        theme-light: "#921708"
+        theme-light: "#792523"
         theme-dark: "#f8c5c3"
     $color.palette.red-1000:
       values:
@@ -172,39 +172,39 @@ data:
         theme-dark: "#fdf2f2"
     $color.palette.green-100:
       values:
-        theme-light: "#edfaf6"
+        theme-light: "#d7f4df"
         theme-dark: "#202926"
     $color.palette.green-200:
       values:
-        theme-light: "#d9f6e9"
+        theme-light: "#c2eece"
         theme-dark: "#20362e"
     $color.palette.green-300:
       values:
-        theme-light: "#b9e9d2"
+        theme-light: "#97e2b4"
         theme-dark: "#20493b"
     $color.palette.green-400:
       values:
-        theme-light: "#7ddcb3"
+        theme-light: "#6cd69a"
         theme-dark: "#19604c"
     $color.palette.green-500:
       values:
-        theme-light: "#42c593"
+        theme-light: "#41ca80"
         theme-dark: "#117956"
     $color.palette.green-600:
       values:
-        theme-light: "#10ab7d"
+        theme-light: "#15bd66"
         theme-dark: "#1b946d"
     $color.palette.green-700:
       values:
-        theme-light: "#079171"
+        theme-light: "#10ac4c"
         theme-dark: "#22b27f"
     $color.palette.green-800:
       values:
-        theme-light: "#00745f"
+        theme-light: "#099a32"
         theme-dark: "#35ce9a"
     $color.palette.green-900:
       values:
-        theme-light: "#075445"
+        theme-light: "#018827"
         theme-dark: "#93e5c0"
     $color.palette.green-1000:
       values:
@@ -212,39 +212,39 @@ data:
         theme-dark: "#d4f6ef"
     $color.palette.yellow-100:
       values:
-        theme-light: "#fff7de"
+        theme-light: "#fff4c6"
         theme-dark: "#302819"
     $color.palette.yellow-200:
       values:
-        theme-light: "#fdefb9"
+        theme-light: "#ffefb2"
         theme-dark: "#413218"
     $color.palette.yellow-300:
       values:
-        theme-light: "#fbdc65"
+        theme-light: "#ffe88d"
         theme-dark: "#543e15"
     $color.palette.yellow-400:
       values:
-        theme-light: "#e9c647"
+        theme-light: "#ffe065"
         theme-dark: "#714e15"
     $color.palette.yellow-500:
       values:
-        theme-light: "#d4ab28"
+        theme-light: "#ffd633"
         theme-dark: "#91601b"
     $color.palette.yellow-600:
       values:
-        theme-light: "#c49725"
+        theme-light: "#ffcc00"
         theme-dark: "#b6720d"
     $color.palette.yellow-700:
       values:
-        theme-light: "#9b7821"
+        theme-light: "#fdc100"
         theme-dark: "#ca901c"
     $color.palette.yellow-800:
       values:
-        theme-light: "#755b22"
+        theme-light: "#fab400"
         theme-dark: "#dab156"
     $color.palette.yellow-900:
       values:
-        theme-light: "#4f3e1f"
+        theme-light: "#e4a400"
         theme-dark: "#e5d49b"
     $color.palette.yellow-1000:
       values:
