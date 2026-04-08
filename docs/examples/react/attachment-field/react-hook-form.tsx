@@ -9,7 +9,7 @@ interface FormValues {
   files: FileEntry[];
 }
 
-export default function AttachmentInputReactHookForm() {
+export default function AttachmentFieldReactHookForm() {
   const { handleSubmit, reset, control } = useForm<FormValues>({
     reValidateMode: "onSubmit",
     defaultValues: {

@@ -11,7 +11,7 @@ function getErrorMessage(errorCode: string): string {
   }
 }
 
-export default function AttachmentInputInvalidFileType() {
+export default function AttachmentFieldInvalidFileType() {
   const [errorMessage, setErrorMessage] = useState<string>();
 
   return (

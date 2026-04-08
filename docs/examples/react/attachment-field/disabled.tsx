@@ -15,7 +15,7 @@ const defaultFiles: FileEntry[] = [
   },
 ];
 
-export default function AttachmentInputDisabled() {
+export default function AttachmentFieldDisabled() {
   return (
     <VStack gap="x4" p="x6" width="100%">
       <AttachmentField

@@ -19,7 +19,7 @@ function getErrorMessage(errorCode: string): string {
   }
 }
 
-export default function AttachmentInputValidation() {
+export default function AttachmentFieldValidation() {
   const [errorMessage, setErrorMessage] = useState<string>();
 
   return (

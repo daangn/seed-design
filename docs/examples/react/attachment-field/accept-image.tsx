@@ -1,7 +1,7 @@
 import { VStack } from "@seed-design/react";
 import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
 
-export default function AttachmentInputAcceptImage() {
+export default function AttachmentFieldAcceptImage() {
   return (
     <VStack gap="x4" p="x6" width="100%">
       <AttachmentField

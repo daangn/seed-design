@@ -25,7 +25,7 @@ async function uploadFile(
   return { url: `https://example.com/uploads/${file.name}` };
 }
 
-export default function AttachmentInputStatus() {
+export default function AttachmentFieldStatus() {
   const startUpload = useCallback(
     (
       file: File,

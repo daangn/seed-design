@@ -34,7 +34,7 @@ const defaultAcceptedFileEntries: FileEntry[] = [
   },
 ];
 
-export default function AttachmentInputReorderableExample() {
+export default function AttachmentFieldReorderableExample() {
   return (
     <AttachmentField
       accept="image/*"

@@ -1,7 +1,7 @@
 import { Divider, VStack } from "@seed-design/react";
 import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
 
-export default function AttachmentField_() {
+export default function AttachmentFieldField() {
   return (
     <VStack gap="x8" width="100%">
       <AttachmentField

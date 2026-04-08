@@ -10,7 +10,7 @@ const defaultAcceptedFileEntries: FileEntry[] = [
   },
 ];
 
-export default function AttachmentDropzoneExample() {
+export default function AttachmentFieldDropzone() {
   return (
     <VStack gap="x4" p="x6" width="100%">
       <AttachmentField

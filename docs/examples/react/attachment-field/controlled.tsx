@@ -4,7 +4,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import type { FileEntry } from "@seed-design/react/primitive";
 import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
 
-export default function AttachmentInputControlled() {
+export default function AttachmentFieldControlled() {
   const [acceptedFileEntries, setAcceptedFileEntries] = useState<FileEntry[]>([]);
 
   return (

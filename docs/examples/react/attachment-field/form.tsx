@@ -7,7 +7,7 @@ type FieldErrors = {
   files?: string;
 };
 
-export default function AttachmentInputForm() {
+export default function AttachmentFieldForm() {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

@@ -10,7 +10,7 @@ function validateFileName(file: File) {
   return null;
 }
 
-export default function AttachmentInputCustomValidation() {
+export default function AttachmentFieldCustomValidation() {
   const [errorMessage, setErrorMessage] = useState<string>();
 
   return (

@@ -9,7 +9,7 @@ const defaultAcceptedFileEntries: FileEntry[] = [
   },
 ];
 
-export default function AttachmentInputTriggerExample() {
+export default function AttachmentFieldTriggerExample() {
   return (
     <AttachmentField
       maxFiles={3}

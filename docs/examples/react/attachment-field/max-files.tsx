@@ -10,7 +10,7 @@ const defaultAcceptedFileEntries: FileEntry[] = [
   },
 ];
 
-export default function AttachmentInputMaxFiles() {
+export default function AttachmentFieldMaxFiles() {
   return (
     <VStack gap="x4" p="x6" width="100%">
       <AttachmentField

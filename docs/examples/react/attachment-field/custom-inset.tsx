@@ -10,7 +10,7 @@ const mockedFiles = Array.from({ length: 8 }, (_, i) => {
   return file;
 });
 
-export default function AttachmentInputCustomInset() {
+export default function AttachmentFieldCustomInset() {
   return (
     <VStack
       px="spacingX.globalGutter"

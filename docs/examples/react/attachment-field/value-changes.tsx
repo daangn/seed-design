@@ -26,7 +26,7 @@ function simulateUpload(
   }, 500);
 }
 
-export default function AttachmentInputValueChanges() {
+export default function AttachmentFieldValueChanges() {
   const [logs, setLogs] = useState<string[]>([]);
 
   const addLog = (message: string) => {
