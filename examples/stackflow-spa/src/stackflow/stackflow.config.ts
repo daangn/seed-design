@@ -51,6 +51,7 @@ export const config = defineConfig({
     { route: "/switch", name: "ActivitySwitch" },
     { route: "/swipeable-tabs", name: "ActivitySwipeableTabs" },
     { route: "/tabs", name: "ActivityTabs" },
+    { route: "/tabs-auto-height-lazy", name: "ActivityTabsAutoHeightLazy" },
     { route: "/form", name: "ActivityForm" },
     { route: "/category-sheet", name: "ActivityCategorySheet" },
     { route: "/toggle-button", name: "ActivityToggleButton" },
