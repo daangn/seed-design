@@ -181,10 +181,10 @@ export const upgradeCommand = (cli: CAC) => {
       "upgrade [package-name]",
       "패키지의 현재 버전과 최신 버전 사이의 변경사항을 확인합니다",
     )
-    .option("-c, --cwd <cwd>", "the working directory. defaults to the current directory.", {
+    .option("-c, --cwd <cwd>", "작업 디렉토리. 기본값은 현재 디렉토리입니다.", {
       default: process.cwd(),
     })
-    .option("-u, --baseUrl <baseUrl>", "the base url for changelog lookup.", { default: BASE_URL })
+    .option("-u, --baseUrl <baseUrl>", "changelog를 조회할 base URL입니다.", { default: BASE_URL })
     .option("--raw", "UI 없이 순수 마크다운만 출력합니다. LLM 파이프에 유용합니다.", {
       default: false,
     })
@@ -261,7 +261,8 @@ export const upgradeCommand = (cli: CAC) => {
             }
 
             await trackResults(options.cwd, results, startTime);
-            process.exit(0);
+            const hasErrors = results.some((r) => "error" in r && Boolean(r.error));
+            process.exit(hasErrors ? 1 : 0);
           }
 
           // --all interactive
@@ -291,7 +292,8 @@ export const upgradeCommand = (cli: CAC) => {
 
           p.outro("완료했어요.");
           await trackResults(options.cwd, results, startTime);
-          process.exit(0);
+          const hasErrors = results.some((r) => "error" in r && Boolean(r.error));
+          process.exit(hasErrors ? 1 : 0);
         }
 
         // resolve target package

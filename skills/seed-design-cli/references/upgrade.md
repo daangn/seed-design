@@ -82,6 +82,7 @@ npx @seed-design/cli@latest upgrade css
 ### Options
 
 - `--all`: 설치된 모든 @seed-design 패키지의 변경사항을 확인
+- `--raw`: UI 없이 순수 마크다운 출력. LLM 파이프에 유용
 - `--cwd <path>`: 작업 디렉토리 지정 (기본: 현재 디렉토리)
 - `--baseUrl <url>`: changelog를 가져올 docs 서버 URL (기본: https://seed-design.io)
 
@@ -89,5 +90,5 @@ npx @seed-design/cli@latest upgrade css
 
 - 최신 버전과 동일하면 "이미 최신 버전" 으로 종료됩니다.
 - Breaking Changes가 있으면 반드시 수정 후 업그레이드합니다.
-- Patch Changes만 있으면 바로 업그레이드해도 안전합니다.
+- Patch 릴리스는 대체로 안전하지만, 회귀 가능성을 고려해 변경사항을 확인한 후 업그레이드하는 것을 권장합니다.
 - Updated Dependencies에서 하위 패키지를 직접 import하는 경우 해당 변경사항도 확인합니다.

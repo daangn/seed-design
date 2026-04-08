@@ -12,6 +12,26 @@ import {
 } from "@/src/schema";
 import { CliError } from "@/src/utils/error";
 
+const FETCH_TIMEOUT_MS = 10_000;
+
+async function fetchWithTimeout(url: string, timeoutMs = FETCH_TIMEOUT_MS): Promise<Response> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { signal: controller.signal });
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new CliError({
+        message: `요청 시간이 초과되었어요 (${timeoutMs}ms): ${url}`,
+        hint: "네트워크 상태를 확인하고 다시 시도해주세요.",
+      });
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function fetchDocsIndex({ baseUrl }: { baseUrl: string }): Promise<DocsIndex> {
   const response = await fetch(`${baseUrl}/__docs__/index.json`);
 
@@ -102,7 +122,7 @@ async function fetchRegistryItem({
 }
 
 export async function fetchLatestVersion(packageName: string): Promise<string> {
-  const response = await fetch(`https://registry.npmjs.org/${packageName}/latest`);
+  const response = await fetchWithTimeout(`https://registry.npmjs.org/${packageName}/latest`);
 
   if (!response.ok) {
     throw new CliError({
@@ -110,7 +130,12 @@ export async function fetchLatestVersion(packageName: string): Promise<string> {
     });
   }
 
-  const data = (await response.json()) as { version: string };
+  const data = await response.json();
+  if (!data || typeof data !== "object" || typeof data.version !== "string") {
+    throw new CliError({
+      message: `${packageName} 최신 버전 응답 형식이 올바르지 않아요.`,
+    });
+  }
   return data.version;
 }
 
@@ -124,7 +149,7 @@ export async function fetchChangelog({
   version: string;
 }): Promise<string> {
   const url = `${baseUrl}/llms/react/updates/changelog/${packageSlug}/${encodeURIComponent(version)}.txt`;
-  const response = await fetch(url);
+  const response = await fetchWithTimeout(url);
 
   if (!response.ok) {
     throw new CliError({
