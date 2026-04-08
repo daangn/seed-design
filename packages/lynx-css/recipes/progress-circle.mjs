@@ -16,8 +16,8 @@ const defaultVariant = {
 const compoundVariants = [];
 
 export const progressCircleVariantMap = {
-  tone: ["neutral", "brand", "staticWhite"],
-  size: ["24", "40"],
+  tone: ["neutral", "brand", "staticWhite", "inherit"],
+  size: ["14", "16", "18", "24", "40"],
 };
 
 export const progressCircleVariantKeys = Object.keys(progressCircleVariantMap);
