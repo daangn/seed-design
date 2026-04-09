@@ -105,6 +105,13 @@ export const vars = {
       }
     }
   },
+  "variantInline": {
+    "enabled": {
+      "item": {
+        "dividerColor": "var(--seed-color-stroke-neutral-subtle)"
+      }
+    }
+  },
   "variantSeparated": {
     "enabled": {
       "item": {

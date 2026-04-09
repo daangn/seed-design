@@ -29,6 +29,10 @@ const accordion = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       width: "100%",
+
+      [pseudo(engaged)]: {
+        backgroundColor: vars.base.pressed.trigger.color,
+      },
     },
     trigger: {
       display: "flex",
@@ -45,10 +49,6 @@ const accordion = defineSlotRecipe({
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
-
-      [pseudo(engaged)]: {
-        backgroundColor: vars.base.pressed.trigger.color,
-      },
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
@@ -125,7 +125,13 @@ const accordion = defineSlotRecipe({
   },
   variants: {
     variant: {
-      inline: {},
+      inline: {
+        item: {
+          "&:not(:last-child)": {
+            boxShadow: `inset 0 -1px 0 0 ${vars.variantInline.enabled.item.dividerColor}`,
+          },
+        },
+      },
       separated: {
         item: {
           boxShadow: `inset 0 0 0 1px ${vars.variantSeparated.enabled.item.borderColor}`,

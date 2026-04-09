@@ -23,6 +23,9 @@
             },
             "cornerRadius": {
               "type": "dimension"
+            },
+            "dividerColor": {
+              "type": "color"
             }
           }
         },
@@ -149,14 +152,14 @@
         },
         "variant": {
           "values": {
-            "separated": {
-              "description": "Card-style independent items with gap"
-            },
             "inline": {
               "description": "Full-width items with dividers"
+            },
+            "separated": {
+              "description": "Card-style independent items with gap"
             }
           },
-          "defaultValue": "separated"
+          "defaultValue": "inline"
         }
       }
     },
@@ -431,6 +434,26 @@
                 "paddingBottom": {
                   "type": "dimension",
                   "value": "$dimension.x5"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "inline"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "item": {
+                "dividerColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-subtle"
                 }
               }
             }

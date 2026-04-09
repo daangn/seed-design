@@ -16,6 +16,8 @@ data:
             type: color
           cornerRadius:
             type: dimension
+          dividerColor:
+            type: color
       trigger:
         properties:
           paddingX:
@@ -175,6 +177,11 @@ data:
         content:
           paddingTop: $dimension.x1
           paddingBottom: $dimension.x5
+
+    variant=inline:
+      enabled:
+        item:
+          dividerColor: $color.stroke.neutral-subtle
 
     variant=separated:
       enabled:

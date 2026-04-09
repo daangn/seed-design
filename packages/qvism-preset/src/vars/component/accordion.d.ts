@@ -106,6 +106,16 @@ export declare const vars: {
     }
   },
   /**
+   * Full-width items with dividers
+   */
+  "variantInline": {
+    "enabled": {
+      "item": {
+        "dividerColor": "var(--seed-color-stroke-neutral-subtle)"
+      }
+    }
+  },
+  /**
    * Card-style independent items with gap
    */
   "variantSeparated": {
