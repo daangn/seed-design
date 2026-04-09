@@ -125,6 +125,10 @@ export function setIdlePositions(
       setTransform(t.behindTitle, "translate3d(-25%, 0, 0)");
     }
     for (const icon of t.behindIcons) setOpacity(icon, "0");
+  } else {
+    // Android/fadeIn: behind activity stays in place but its appBar must be hidden
+    // because top activity's appBar overlaps at the same position
+    if (t.behindAppBarRoot) setOpacity(t.behindAppBarRoot, "0");
   }
 }
 
