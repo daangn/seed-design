@@ -57,8 +57,6 @@ export const config = defineConfig({
     { route: "/toggle-button", name: "ActivityToggleButton" },
     { route: "/transition-style", name: "ActivityTransitionStyle" },
     { route: "/transparent-bar", name: "ActivityTransparentBar" },
-    { route: "/hide-effect-test", name: "ActivityHideEffectTest" },
-    { route: "/overlay-test", name: "ActivityOverlayTest" },
 
     { route: "/demo/home", name: "ActivityDemoHome" },
     { route: "/demo/article-detail", name: "ActivityDemoArticleDetail" },

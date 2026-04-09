@@ -89,15 +89,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
-      title: "Hide Effect Test",
-      items: [
-        {
-          title: "Hide Effect Test (display:none + overlay)",
-          onClick: () => push("ActivityHideEffectTest", {}),
-        },
-      ],
-    },
-    {
       title: "Avatars",
       items: [
         { title: "AvatarStack", onClick: () => push("ActivityAvatarStack", {}) },
