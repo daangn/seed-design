@@ -161,6 +161,51 @@ export async function fetchChangelog({
   return response.text();
 }
 
+export async function fetchLlmsTxt({ url }: { url: string }): Promise<string> {
+  const response = await fetchWithTimeout(url);
+
+  if (!response.ok) {
+    throw new CliError({
+      message: `llms.txt를 가져오지 못했어요: ${response.status} ${response.statusText}`,
+      hint: `${url} 에 접근할 수 있는지 확인해주세요.`,
+    });
+  }
+
+  return response.text();
+}
+
+/**
+ * Try fetching llms.txt content with fallback URL patterns.
+ * 1. {baseUrl}/llms/{query}.txt
+ * 2. {baseUrl}/llms/{query}/llms.txt (for package changelog index)
+ */
+export async function tryFetchLlmsTxt({
+  baseUrl,
+  query,
+}: {
+  baseUrl: string;
+  query: string;
+}): Promise<string> {
+  const normalizedQuery = query.startsWith("/") ? query.slice(1) : query;
+
+  const urls = [
+    `${baseUrl}/llms/${normalizedQuery}.txt`,
+    `${baseUrl}/llms/${normalizedQuery}/llms.txt`,
+  ];
+
+  for (const url of urls) {
+    const response = await fetchWithTimeout(url).catch(() => null);
+    if (response?.ok) {
+      return response.text();
+    }
+  }
+
+  throw new CliError({
+    message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
+    hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
+  });
+}
+
 export async function fetchRegistryItems({
   baseUrl,
   registryId,

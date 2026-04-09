@@ -2,44 +2,98 @@
 
 ## Overview
 
-`upgrade` 명령은 프로젝트에 설치된 `@seed-design/*` 패키지의 현재 버전과 최신 버전 사이의 변경사항(changelog)을 가져옵니다. 기본은 인터랙티브 UI로 출력되며, `--raw` 사용 시 순수 마크다운으로 출력됩니다.
+업그레이드 진단은 CLI 프리미티브(`docs`, `compat`)를 조합하여 수행합니다. CLI는 데이터 fetch만 담당하고, 이 스킬이 해석과 분석을 담당합니다.
 
 ## Upgrade Diagnosis Workflow
 
-이 스킬이 호출되면 아래 순서로 프로젝트 영향도를 진단합니다.
+### Step 1: 패키지와 버전 결정
 
-### Step 1: Changelog 수집
+사용자의 요청에서 **어떤 패키지**의 **어떤 버전부터** 변경사항을 확인할지 파악합니다. 아래 판단 트리를 따릅니다.
 
-사용자가 특정 패키지를 언급했는지에 따라 명령이 달라집니다.
-
-**패키지 미지정 → 전체 패키지 탐색:**
-
-```bash
-npx @seed-design/cli@latest upgrade --all --raw
+```
+사용자 요청 분석
+├─ 패키지와 버전 모두 명확함
+│   예: "react 1.2.5에서 최신까지 변경사항 알려줘"
+│   → 바로 Step 2로 진행
+│
+├─ 패키지는 명확하지만 버전이 불명확함
+│   예: "react 패키지 업그레이드 변경사항 알려줘"
+│   ├─ 프로젝트 환경이 있음 → package.json에서 버전 확인
+│   └─ 프로젝트 환경이 없음 → 사용자에게 현재 버전 질문
+│
+├─ 패키지도 버전도 불명확함
+│   예: "seed-design 업그레이드하고 싶어"
+│   ├─ 프로젝트 환경이 있음 → package.json에서 설치된 @seed-design/* 패키지 전체 확인
+│   └─ 프로젝트 환경이 없음 → 사용자에게 어떤 패키지/버전인지 질문
+│
+└─ 특정 버전 범위를 지정함
+    예: "react 1.2.5에서 1.2.7까지 변경사항"
+    → from 버전으로 fetch 후 Step 3에서 범위 필터링
 ```
 
-`--all --raw` 옵션으로 설치된 모든 `@seed-design/*` 패키지의 changelog를 순수 마크다운으로 한 번에 수집합니다. 최신 버전인 패키지는 "already up to date"로 표시됩니다.
+**프로젝트 환경에서 버전 확인 방법:**
 
-**특정 패키지 지정 → 해당 패키지만 탐색:**
+1. `package.json`을 직접 읽어 `@seed-design/react`, `@seed-design/css` 등의 버전을 확인합니다.
+2. 또는 CLI의 `compat` 명령을 활용합니다:
+   ```bash
+   npx @seed-design/cli@latest compat --all
+   ```
+
+**사용자에게 질문이 필요한 경우:**
+
+패키지나 버전을 특정할 수 없으면 추측하지 말고 사용자에게 질문합니다. 예시:
+- "어떤 @seed-design 패키지의 변경사항을 확인하고 싶으신가요? (react, css 등)"
+- "현재 사용 중인 @seed-design/react 버전이 어떻게 되나요?"
+
+### Step 2: Changelog fetch
+
+`docs --raw` 명령으로 changelog를 가져옵니다. Step 1에서 결정된 패키지와 버전에 따라 적절한 경로를 사용합니다.
 
 ```bash
-npx @seed-design/cli@latest upgrade react --raw
-npx @seed-design/cli@latest upgrade css --raw
+# 전체 changelog (모든 패키지)
+npx @seed-design/cli@latest docs react/updates/changelog --raw
+
+# 특정 패키지의 전체 changelog
+npx @seed-design/cli@latest docs react/updates/changelog/react --raw
+
+# 특정 패키지의 특정 버전 이후 changelog (가장 일반적인 케이스)
+npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.5 --raw
 ```
 
-사용자가 "react 패키지만 확인해줘" 등으로 특정 패키지를 언급하면 해당 패키지만 조회합니다.
+버전이 결정된 경우 마지막 형태(`{package}/{version}`)를 사용합니다. 이 엔드포인트는 해당 버전 이후부터 최신까지의 변경사항을 반환합니다.
 
-### Step 2: 프로젝트 코드 탐색
+### Step 3: 버전 범위 파싱 (필요 시)
 
-changelog에서 언급된 컴포넌트/API를 기준으로 사용자 프로젝트에서 해당 코드를 검색합니다.
+llms.txt 엔드포인트는 "since version → latest" 형태로 응답합니다. 사용자가 특정 target 버전까지만 확인하고 싶은 경우 (예: 1.2.5 → 1.2.7), 마크다운에서 해당 버전 범위의 섹션만 추출합니다.
+
+changelog 마크다운 형식:
+```md
+# @seed-design/react — Changes since {version}
+
+## {latest-version}
+### Patch Changes
+- ...
+
+## {next-version}
+### Patch Changes
+- ...
+```
+
+각 `## {version}` 섹션이 하나의 릴리즈입니다. target 버전이 있으면 해당 버전보다 높은 섹션만 필터링합니다.
+
+### Step 4: 프로젝트 영향도 분석 (선택)
+
+프로젝트 환경이 있는 경우에만 수행합니다.
+
+changelog에서 언급된 컴포넌트/API를 기준으로 프로젝트 코드를 검색합니다:
 
 - **Breaking Changes / Minor Changes**: 변경된 컴포넌트 이름, prop 이름, API 시그니처를 프로젝트에서 grep
 - **Patch Changes**: 버그 수정으로 인한 동작 변경이 프로젝트에 영향을 주는지 확인
 - **Updated Dependencies**: 하위 패키지 변경이 프로젝트의 직접 import에 영향을 주는지 확인
 
-### Step 3: 영향도 보고
+프로젝트 환경이 없으면 changelog 요약만 제공합니다.
 
-changelog 항목별로 프로젝트 영향 여부를 분류하여 보고합니다.
+### Step 5: 영향도 보고
 
 보고 형식:
 
@@ -56,11 +110,24 @@ changelog 항목별로 프로젝트 영향 여부를 분류하여 보고합니�
 - [변경 내용]: 프로젝트에서 사용하지 않음
 ```
 
-전체 패키지 탐색 시 패키지별로 위 형식을 반복합니다. 이미 최신인 패키지는 간략히 표시합니다.
+프로젝트 환경이 없는 경우:
 
-### Step 4: 업그레이드 안내
+```md
+## @seed-design/react {from버전} → {to버전} 변경사항
 
-진단 결과에 따라 업그레이드 명령을 안내합니다.
+### Breaking Changes
+- ...
+
+### Patch Changes
+- ...
+
+### Updated Dependencies
+- ...
+```
+
+### Step 6: 업그레이드 안내
+
+프로젝트 환경이 있는 경우 업그레이드 명령을 안내합니다:
 
 ```bash
 bun add @seed-design/react@{최신버전}
@@ -68,30 +135,20 @@ bun add @seed-design/react@{최신버전}
 
 수정이 필요한 항목이 있으면 업그레이드 전후로 어떤 코드를 바꿔야 하는지 구체적인 diff를 제시합니다.
 
-## Commands
+## CLI Primitives
 
-```bash
-# 전체 패키지 changelog 조회 (LLM/스크립트용)
-npx @seed-design/cli@latest upgrade --all --raw
+이 스킬이 조합하는 CLI 명령어:
 
-# 특정 패키지만 조회 (LLM/스크립트용)
-npx @seed-design/cli@latest upgrade react --raw
-
-# 인터랙티브 UI로 확인
-npx @seed-design/cli@latest upgrade --all
-npx @seed-design/cli@latest upgrade react
-```
-
-### Options
-
-- `--all`: 설치된 모든 @seed-design 패키지의 변경사항을 확인
-- `--raw`: UI 없이 순수 마크다운 출력. LLM 파이프에 유용
-- `--cwd <path>`: 작업 디렉토리 지정 (기본: 현재 디렉토리)
-- `--baseUrl <url>`: changelog를 가져올 docs 서버 URL (기본: https://seed-design.io)
+| 명령어 | 역할 |
+|--------|------|
+| `docs react/updates/changelog --raw` | 전체 changelog fetch |
+| `docs react/updates/changelog/{pkg} --raw` | 특정 패키지 changelog fetch |
+| `docs react/updates/changelog/{pkg}/{ver} --raw` | 특정 버전 이후 changelog fetch |
+| `compat --all` | 프로젝트의 설치된 seed 패키지 버전 + 스니펫 호환성 확인 |
 
 ## Decision Guide
 
-- 최신 버전과 동일하면 "이미 최신 버전" 으로 종료됩니다.
+- 최신 버전과 동일하면 "이미 최신 버전"으로 종료합니다.
 - Breaking Changes가 있으면 반드시 수정 후 업그레이드합니다.
 - Patch 릴리스는 대체로 안전하지만, 회귀 가능성을 고려해 변경사항을 확인한 후 업그레이드하는 것을 권장합니다.
 - Updated Dependencies에서 하위 패키지를 직접 import하는 경우 해당 변경사항도 확인합니다.
