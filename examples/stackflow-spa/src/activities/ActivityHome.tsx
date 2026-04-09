@@ -228,6 +228,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Tabs", onClick: () => push("ActivityTabs", {}) },
         { title: "AnimatedTabs", onClick: () => push("ActivityAnimatedTabs", {}) },
         { title: "SwipeableTabs", onClick: () => push("ActivitySwipeableTabs", {}) },
+        {
+          title: "TabsAutoHeightLazy",
+          onClick: () => push("ActivityTabsAutoHeightLazy", {}),
+        },
       ],
     },
     {

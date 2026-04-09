@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 1.2.8
+
+### Patch Changes
+
+- c02bfba: ImageFrame에서 이미지 로드 실패 시 깨진 img 요소가 fallback 위에 노출되는 문제를 수정합니다.
+- f391668: 삼성 Galaxy 기기에서 `:hover` 스타일이 요소에서 손을 뗀 이후에도 남아있는 문제를 수정합니다.
+
 ## 1.2.7
 
 ### Patch Changes

@@ -1,4 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
+import { not, pseudo } from "../utils/pseudo";
 import { imageFrame as vars } from "../vars/component";
 
 const imageFrame = defineSlotRecipe({
@@ -16,10 +17,16 @@ const imageFrame = defineSlotRecipe({
       height: "100%",
       objectFit: "cover",
       borderRadius: "inherit",
+      [pseudo(not("[data-loading-state='loaded']"))]: {
+        display: "none",
+      },
     },
     fallback: {
       width: "100%",
       height: "100%",
+      [pseudo("[data-loading-state='loaded']")]: {
+        display: "none",
+      },
     },
   },
   variants: {

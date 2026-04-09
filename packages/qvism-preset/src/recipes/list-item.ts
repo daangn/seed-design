@@ -5,7 +5,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { engaged, disabled, focus, focusVisible, not, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focus, focusVisible, media, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
 
 const listItem = defineSlotRecipe({
@@ -148,7 +148,7 @@ const listItem = defineSlotRecipe({
       // otherwise, see if it has [data-active] or [data-hover]. e.g. ListCheckItem
       // this restriction prevents noninteractive(static/presentation/decorative) list items from having an active style
       // split by device capability just like engaged does
-      "@media (hover: hover)": {
+      [media.isHoverableInputDevice]: {
         [pseudo(not(disabled), "[data-hover]", "::before")]: {
           backgroundColor: vars.base.pressed.root.color,
 
@@ -158,7 +158,7 @@ const listItem = defineSlotRecipe({
           borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
         },
       },
-      "@media (hover: none)": {
+      [media.isNotHoverableInputDevice]: {
         [pseudo(not(disabled), "[data-active]", "::before")]: {
           backgroundColor: vars.base.pressed.root.color,
 
@@ -207,12 +207,12 @@ const listItem = defineSlotRecipe({
             backgroundColor: vars.base.highlightedPressed.root.color,
           },
 
-          "@media (hover: hover)": {
+          [media.isHoverableInputDevice]: {
             [pseudo(not(disabled), "[data-hover]", "::before")]: {
               backgroundColor: vars.base.highlightedPressed.root.color,
             },
           },
-          "@media (hover: none)": {
+          [media.isNotHoverableInputDevice]: {
             [pseudo(not(disabled), "[data-active]", "::before")]: {
               backgroundColor: vars.base.highlightedPressed.root.color,
             },
