@@ -54,9 +54,9 @@
         "@sanity/image-url": "^2.0.0",
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
-        "@seed-design/css": "1.1.23",
+        "@seed-design/css": "1.1.24",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.1.23",
+        "@seed-design/react": "1.1.25",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.16",
@@ -344,7 +344,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.1.23",
+      "version": "1.1.24",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -377,7 +377,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.1.23",
+      "version": "1.1.24",
       "dependencies": {
         "@seed-design/css": "1.1.17",
         "change-case": "^5.4.4",
@@ -393,7 +393,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.1.23",
+      "version": "1.1.24",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
@@ -428,7 +428,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.1.23",
+      "version": "1.1.25",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -452,7 +452,7 @@
         "@seed-design/react-slider": "1.0.1",
         "@seed-design/react-snackbar": "1.0.1",
         "@seed-design/react-switch": "1.0.1",
-        "@seed-design/react-tabs": "1.0.3",
+        "@seed-design/react-tabs": "1.0.4",
         "@seed-design/react-text-field": "1.1.1",
         "@seed-design/react-toggle": "1.0.0",
         "clsx": "^2.1.1",
@@ -471,7 +471,7 @@
         "vite-plugin-dts": "^4.5.4",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.23",
+        "@seed-design/css": ">=1.1.24",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -833,7 +833,7 @@
     },
     "packages/react-headless/tabs": {
       "name": "@seed-design/react-tabs",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
@@ -911,7 +911,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "1.1.9",
+      "version": "1.1.10",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
@@ -938,7 +938,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.1.23",
+        "@seed-design/css": "1.1.24",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -951,7 +951,7 @@
         "vite-plugin-dts": "^4.5.3",
       },
       "peerDependencies": {
-        "@seed-design/css": ">=1.1.23",
+        "@seed-design/css": ">=1.1.24",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "react": ">=18.0.0",
