@@ -3,6 +3,7 @@ import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
 import { forwardRef, useRef } from "react";
+import { DEFAULT_ACTIVITY_TYPE, useHideEffect } from "../../hooks/useHideEffect";
 import { useAppScreen, type UseAppScreenProps } from "./useAppScreen";
 import { AppScreenProvider, useAppScreenContext } from "./useAppScreenContext";
 
@@ -18,6 +19,7 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     onSwipeBackEnd,
     onSwipeBackMove,
     onSwipeBackStart,
+    activityType,
     ...otherProps
   } = props;
   const innerRef = useRef<HTMLDivElement>(null);
@@ -27,9 +29,14 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     onSwipeBackEnd,
     onSwipeBackMove,
     onSwipeBackStart,
+    activityType,
   });
   usePreventTouchDuringTransition({
     ref: innerRef as React.RefObject<HTMLDivElement>,
+  });
+  useHideEffect({
+    ref: innerRef as React.RefObject<HTMLElement>,
+    activityType: activityType ?? DEFAULT_ACTIVITY_TYPE,
   });
 
   return (

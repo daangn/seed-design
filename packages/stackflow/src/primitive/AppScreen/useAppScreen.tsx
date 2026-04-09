@@ -3,12 +3,16 @@ import { useNullableActivity } from "@stackflow/react-ui-core";
 import { useMemo } from "react";
 import { type UseSwipeBackProps, useSwipeBack } from "../GlobalInteraction/useSwipeBack";
 import { useActivityZIndexBase } from "../../hooks";
+import { DEFAULT_ACTIVITY_TYPE, type ActivityType } from "../../hooks/useHideEffect";
 
-export interface UseAppScreenProps extends UseSwipeBackProps {}
+export interface UseAppScreenProps extends UseSwipeBackProps {
+  activityType?: ActivityType;
+}
 
 export type UseAppScreenReturn = ReturnType<typeof useAppScreen>;
 
 export function useAppScreen(props: UseAppScreenProps) {
+  const activityType = props.activityType ?? DEFAULT_ACTIVITY_TYPE;
   const activity = useNullableActivity();
 
   const transitionState = activity?.transitionState ?? "enter-done";
@@ -39,7 +43,7 @@ export function useAppScreen(props: UseAppScreenProps) {
       stateProps,
       activityProps: elementProps({
         "data-part": "activity",
-        "data-activity-type": "full-screen",
+        "data-activity-type": activityType,
         ...activityProps,
         ...stateProps,
         "data-activity-id": activity?.id,
