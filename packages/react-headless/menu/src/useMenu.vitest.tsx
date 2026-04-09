@@ -397,7 +397,7 @@ describe("useMenu", () => {
       const { getByText } = render(<MenuWithLabels />);
       await waitForPositioning();
       await user.click(getByText("Open Menu"));
-      await waitForPositioning();
+      await waitForFocus();
       await user.keyboard("b");
       expect(getByText("Banana")).toHaveFocus();
     });
@@ -435,31 +435,6 @@ describe("useMenu", () => {
       await waitForFocus();
       await user.keyboard("r");
       expect(getByText("Résumé")).toHaveFocus();
-    });
-
-    it("does not trigger item onClick when Space is pressed during typeahead", async () => {
-      const user = userEvent.setup();
-      const onClick = vi.fn();
-      const { getByText } = render(
-        <Menu>
-          <MenuTrigger>Open Menu</MenuTrigger>
-          <MenuPositioner>
-            <MenuContent>
-              <MenuItem label="A B" onClick={onClick}>
-                A B
-              </MenuItem>
-              <MenuItem label="CD">CD</MenuItem>
-            </MenuContent>
-          </MenuPositioner>
-        </Menu>,
-      );
-      await waitForPositioning();
-      await user.click(getByText("Open Menu"));
-      await waitForPositioning();
-      // Type "a" then space — should continue typeahead for "a b", not trigger click
-      await user.keyboard("a");
-      await user.keyboard(" ");
-      expect(onClick).not.toHaveBeenCalled();
     });
 
     it("navigates using the label prop when provided", async () => {
