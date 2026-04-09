@@ -1,5 +1,12 @@
 # @seed-design/react
 
+## 1.2.9
+
+### Patch Changes
+
+- Updated dependencies [db6ea04]
+  - @seed-design/react-tabs@1.0.4
+
 ## 1.2.8
 
 ### Patch Changes
