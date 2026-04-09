@@ -97,7 +97,11 @@ export function useGlobalInteraction() {
 
     const startSwipeBack = useCallback(
       ({ x0, t0 }: StartSwipeBackProps) => {
-        // Cancel any running transition animations
+        // Cancel pending push rAF and any running animations
+        if (pendingRAFRef.current !== null) {
+          cancelAnimationFrame(pendingRAFRef.current);
+          pendingRAFRef.current = null;
+        }
         cancelAll(runningAnimsRef.current);
         runningAnimsRef.current = [];
 
