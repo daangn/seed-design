@@ -209,6 +209,18 @@ function androidAnimate(t: TransitionTargets, direction: "push" | "pop"): Animat
     easing: isPush ? ANDROID_ENTER_EASING : ANDROID_EXIT_EASING,
     fill: "forwards",
   };
+
+  // Prevent flash on push: set start positions before animation
+  if (isPush) {
+    setOpacity(t.topLayer, "0");
+    setTransform(t.topLayer, "translate3d(0, 8vh, 0)");
+    setOpacity(t.topDim, "0");
+    if (t.topAppBarRoot) {
+      setOpacity(t.topAppBarRoot, "0");
+      setTransform(t.topAppBarRoot, "translate3d(0, 8vh, 0)");
+    }
+  }
+
   const [fromOpacity, toOpacity] = isPush ? ["0", "1"] : ["1", "0"];
   const [fromY, toY] = isPush ? ["8vh", "0"] : ["0", "8vh"];
   const shared: [Keyframe, Keyframe] = [
@@ -234,6 +246,13 @@ function fadeInAnimate(t: TransitionTargets, direction: "push" | "pop"): Animati
     easing: isPush ? FADE_IN_ENTER_EASING : FADE_IN_EXIT_EASING,
     fill: "forwards",
   };
+
+  // Prevent flash on push: set start positions before animation
+  if (isPush) {
+    setOpacity(t.topLayer, "0");
+    if (t.topAppBarRoot) setOpacity(t.topAppBarRoot, "0");
+  }
+
   const frames: [Keyframe, Keyframe] = [
     { opacity: isPush ? "0" : "1" },
     { opacity: isPush ? "1" : "0" },
