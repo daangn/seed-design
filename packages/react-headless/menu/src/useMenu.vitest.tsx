@@ -7,6 +7,8 @@
 //
 // see vitest.config.ts for the jsdom environment setup.
 
+/// <reference types="@testing-library/jest-dom/vitest" />
+
 import { render, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
@@ -595,7 +597,7 @@ describe("useMenu", () => {
 
     it("focuses the first item when menu opens using Enter", async () => {
       const user = userEvent.setup();
-      const { getByText, getAllByRole, queryByRole } = render(<BasicMenu />);
+      const { getByText, getAllByRole } = render(<BasicMenu />);
       await waitForPositioning();
       getByText("Open Menu").focus();
       await user.keyboard("{Enter}");
