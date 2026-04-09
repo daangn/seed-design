@@ -23,7 +23,6 @@ import {
   MenuItem,
   MenuGroup,
   MenuGroupLabel,
-  MenuDivider,
   type MenuRootProps,
 } from "./index";
 
@@ -82,7 +81,6 @@ function MenuWithGroups() {
             <MenuItem>Item A</MenuItem>
             <MenuItem>Item B</MenuItem>
           </MenuGroup>
-          <MenuDivider />
           <MenuGroup>
             <MenuGroupLabel>Group 2</MenuGroupLabel>
             <MenuItem>Item C</MenuItem>
@@ -156,14 +154,6 @@ describe("useMenu", () => {
       await user.click(getByText("Open Menu"));
       const items = getAllByRole("menuitem");
       expect(items).toHaveLength(3);
-    });
-
-    it("renders a separator with role='separator'", async () => {
-      const user = userEvent.setup();
-      const { getByText, getByRole } = render(<MenuWithGroups />);
-      await waitForPositioning();
-      await user.click(getByText("Open Menu"));
-      expect(getByRole("separator")).toBeInTheDocument();
     });
 
     it("renders a group with role='group' and aria-labelledby pointing to group label", async () => {

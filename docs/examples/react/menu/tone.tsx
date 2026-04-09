@@ -4,14 +4,7 @@ import {
   IconTrashcanLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
-import {
-  MenuContent,
-  MenuDivider,
-  MenuGroup,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
-} from "seed-design/ui/menu";
+import { MenuContent, MenuGroup, MenuItem, MenuRoot, MenuTrigger } from "seed-design/ui/menu";
 
 export default function MenuTone() {
   return (
@@ -24,7 +17,6 @@ export default function MenuTone() {
           <MenuItem label="추가" prefixIcon={<IconPlusLine />} />
           <MenuItem label="수정" prefixIcon={<IconPencilLine />} />
         </MenuGroup>
-        <MenuDivider />
         <MenuGroup>
           <MenuItem label="삭제" tone="critical" prefixIcon={<IconTrashcanLine />} />
         </MenuGroup>

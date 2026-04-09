@@ -32,7 +32,6 @@ import {
   MenuGroup,
   MenuGroupLabel,
   MenuItem,
-  MenuDivider,
 } from "seed-design/ui/menu";
 ```
 
@@ -45,7 +44,6 @@ import {
       <MenuItem label="항목 1" />
       <MenuItem label="항목 2" />
     </MenuGroup>
-    <MenuDivider />
     <MenuGroup>
       <MenuItem label="항목 3" />
     </MenuGroup>
@@ -60,7 +58,6 @@ import {
 - `MenuGroup`: 관련된 항목들을 그룹으로 묶습니다. 모든 `MenuItem`은 `MenuGroup` 안에 있어야 합니다.
 - `MenuGroupLabel`: 그룹의 제목을 표시합니다.
 - `MenuItem`: 개별 메뉴 항목입니다.
-- `MenuDivider`: 그룹 사이의 구분선입니다.
 
 ## Props
 
@@ -111,13 +108,6 @@ import {
 <react-type-table
   path="./registry/ui/menu.tsx"
   name="MenuItemProps"
-/>
-
-### `MenuDivider`
-
-<react-type-table
-  path="./registry/ui/menu.tsx"
-  name="MenuDividerProps"
 />
 
 ## Examples

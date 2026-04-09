@@ -9,14 +9,7 @@ import {
 import { menuVariantMap } from "@seed-design/css/recipes/menu";
 import type { MenuVariantProps } from "@seed-design/css/recipes/menu";
 import { useCallback, useRef, useState } from "react";
-import {
-  MenuContent,
-  MenuDivider,
-  MenuGroup,
-  MenuGroupLabel,
-  MenuItem,
-  MenuRoot,
-} from "seed-design/ui/menu";
+import { MenuContent, MenuGroup, MenuGroupLabel, MenuItem, MenuRoot } from "seed-design/ui/menu";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -64,7 +57,6 @@ const MenuPreview = ({ size }: MenuVariantProps) => {
                 disabled
               />
             </MenuGroup>
-            <MenuDivider />
             <MenuGroup>
               <MenuItem
                 tone="critical"

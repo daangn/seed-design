@@ -27,7 +27,7 @@ const MENU_REFERENCE_WIDTH = "--seed-menu-reference-width";
 
 export const menu = defineSlotRecipe({
   name: "menu",
-  slots: ["positioner", "content", "scrollArea", "group", "groupLabel", "divider"],
+  slots: ["positioner", "content", "scrollArea", "group", "groupLabel"],
   base: {
     positioner: {
       // helps menu to be open at the top of the stackflow stack; it won't have any AppScreen on top of it
@@ -88,16 +88,20 @@ export const menu = defineSlotRecipe({
     group: {
       display: "flex",
       flexDirection: "column",
+
+      "& + &::before": {
+        content: '""',
+        display: "block",
+        marginLeft: menuVars.base.enabled.divider.marginX,
+        marginRight: menuVars.base.enabled.divider.marginX,
+        marginBottom: menuVars.base.enabled.root.gap,
+        height: menuVars.base.enabled.divider.height,
+        flexShrink: 0,
+        backgroundColor: menuVars.base.enabled.divider.color,
+      },
     },
     groupLabel: {
       color: menuVars.base.enabled.groupLabel.color,
-    },
-    divider: {
-      marginLeft: menuVars.base.enabled.divider.marginX,
-      marginRight: menuVars.base.enabled.divider.marginX,
-      height: menuVars.base.enabled.divider.height,
-      flexShrink: 0,
-      backgroundColor: menuVars.base.enabled.divider.color,
     },
   },
   variants: {

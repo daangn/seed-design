@@ -67,10 +67,6 @@ export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
 );
 MenuItem.displayName = "MenuItem";
 
-export interface MenuDividerProps extends SeedMenu.DividerProps {}
-
-export const MenuDivider = SeedMenu.Divider;
-
 // export interface MenuSubmenuRootProps extends SeedMenu.SubmenuRootProps {}
 
 // export const MenuSubmenuRoot = SeedMenu.SubmenuRoot;

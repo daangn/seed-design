@@ -155,12 +155,3 @@ export const MenuItemDescription = withItemContext<HTMLSpanElement, MenuItemDesc
   withItemStateProps(Primitive.span),
   "description",
 );
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface MenuDividerProps extends MenuPrimitive.DividerProps {}
-
-export const MenuDivider = withContext<HTMLDivElement, MenuDividerProps>(
-  MenuPrimitive.Divider,
-  "divider",
-);

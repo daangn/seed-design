@@ -21,7 +21,6 @@ import {
   MenuGroup,
   MenuGroupLabel,
   MenuItem,
-  MenuDivider,
   // MenuSubmenuRoot,
   // MenuSubmenuTrigger,
 } from "seed-design/ui/menu";
@@ -133,20 +132,17 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                       <MenuItem label="Inside Out" />
                       <MenuItem label="Night Beats" />
                     </MenuGroup>
-                    <MenuDivider />
-                    <MenuGroup>
+                          <MenuGroup>
                       {Array.from({ length: 50 }, (_, i) => (
                         <MenuItem key={`playlist-${i}`} label={`Playlist ${i + 1}`} />
                       ))}
                     </MenuGroup>
-                    <MenuDivider />
-                    <MenuGroup>
+                          <MenuGroup>
                       <MenuItem label="New playlist..." />
                     </MenuGroup>
                   </MenuContent>
                 </MenuSubmenuRoot>
               </MenuGroup> */}
-              <MenuDivider />
               <MenuGroup>
                 <MenuItem
                   label="Delete"
@@ -205,20 +201,17 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                       <MenuItem label="Inside Out" />
                       <MenuItem label="Night Beats" />
                     </MenuGroup>
-                    <MenuDivider />
-                    <MenuGroup>
+                          <MenuGroup>
                       {Array.from({ length: 50 }, (_, i) => (
                         <MenuItem key={`playlist-sm-${i}`} label={`Playlist ${i + 1}`} />
                       ))}
                     </MenuGroup>
-                    <MenuDivider />
-                    <MenuGroup>
+                          <MenuGroup>
                       <MenuItem label="New playlist..." />
                     </MenuGroup>
                   </MenuContent>
                 </MenuSubmenuRoot> */}
               {/* </MenuGroup> */}
-              <MenuDivider />
               <MenuGroup>
                 <MenuItem
                   label="Delete"
@@ -266,7 +259,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                           prefixIcon={<IconArrowUpBracketDownLine />}
                         />
                       </MenuGroup>
-                      <MenuDivider />
                       <MenuGroup>
                         <MenuItem
                           label="Delete"
@@ -315,7 +307,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                             prefixIcon={<IconArrowUpBracketDownLine />}
                           />
                         </MenuGroup>
-                        <MenuDivider />
                         <MenuGroup>
                           <MenuItem
                             label="Delete"

@@ -220,12 +220,3 @@ export const MenuGroupLabel = forwardRef<HTMLDivElement, MenuGroupLabelProps>((p
   return <Primitive.div ref={ref} {...mergeProps(getGroupLabelProps(labelId), props)} />;
 });
 MenuGroupLabel.displayName = "MenuGroupLabel";
-
-export interface MenuDividerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
-
-export const MenuDivider = forwardRef<HTMLDivElement, MenuDividerProps>((props, ref) => {
-  const api = useMenuContext();
-
-  return <Primitive.div ref={ref} {...mergeProps(api.getDividerProps(), props)} />;
-});
-MenuDivider.displayName = "MenuDivider";

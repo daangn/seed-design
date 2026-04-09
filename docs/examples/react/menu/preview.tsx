@@ -6,7 +6,6 @@ import {
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   MenuContent,
-  MenuDivider,
   MenuGroup,
   MenuGroupLabel,
   MenuItem,
@@ -30,7 +29,6 @@ export default function MenuPreview() {
             prefixIcon={<IconPencilLine />}
           />
         </MenuGroup>
-        <MenuDivider />
         <MenuGroup>
           <MenuItem
             label="삭제"

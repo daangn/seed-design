@@ -21,10 +21,6 @@ const menuSlotNames = [
   [
     "groupLabel",
     "seed-menu__groupLabel"
-  ],
-  [
-    "divider",
-    "seed-menu__divider"
   ]
 ];
 

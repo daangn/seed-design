@@ -51,15 +51,18 @@
     display: flex;
     flex-direction: column;
 }
-.seed-menu__groupLabel {
-    color: var(--seed-color-fg-neutral-subtle);
-}
-.seed-menu__divider {
+.seed-menu__group + .seed-menu__group::before {
+    content: "";
+    display: block;
     margin-left: var(--seed-dimension-x4);
     margin-right: var(--seed-dimension-x4);
+    margin-bottom: var(--seed-dimension-x2);
     height: 1px;
     flex-shrink: 0;
     background-color: var(--seed-color-stroke-neutral-muted);
+}
+.seed-menu__groupLabel {
+    color: var(--seed-color-fg-neutral-subtle);
 }
 .seed-menu__content--size_medium {
     width: var(--seed-menu-reference-width, 240px);

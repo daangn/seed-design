@@ -60,16 +60,19 @@
     display: flex;
   }
 
-  .seed-menu__groupLabel {
-    color: var(--seed-color-fg-neutral-subtle);
-  }
-
-  .seed-menu__divider {
+  .seed-menu__group + .seed-menu__group:before {
+    content: "";
     margin-left: var(--seed-dimension-x4);
     margin-right: var(--seed-dimension-x4);
+    margin-bottom: var(--seed-dimension-x2);
     background-color: var(--seed-color-stroke-neutral-muted);
     flex-shrink: 0;
     height: 1px;
+    display: block;
+  }
+
+  .seed-menu__groupLabel {
+    color: var(--seed-color-fg-neutral-subtle);
   }
 
   .seed-menu__content--size_medium {

@@ -11,7 +11,6 @@ export {
   MenuItemBody,
   MenuItemLabel,
   MenuItemDescription,
-  MenuDivider,
   type MenuRootProps,
   type MenuAnchorProps,
   type MenuTriggerProps,
@@ -24,7 +23,6 @@ export {
   type MenuItemBodyProps,
   type MenuItemLabelProps,
   type MenuItemDescriptionProps,
-  type MenuDividerProps,
 } from "./Menu";
 
 export * as Menu from "./Menu.namespace";

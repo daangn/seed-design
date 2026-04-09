@@ -11,7 +11,6 @@ export {
   MenuItemBody as ItemBody,
   MenuItemLabel as ItemLabel,
   MenuItemDescription as ItemDescription,
-  MenuDivider as Divider,
   type MenuRootProps as RootProps,
   type MenuAnchorProps as AnchorProps,
   type MenuTriggerProps as TriggerProps,
@@ -24,5 +23,4 @@ export {
   type MenuItemBodyProps as ItemBodyProps,
   type MenuItemLabelProps as ItemLabelProps,
   type MenuItemDescriptionProps as ItemDescriptionProps,
-  type MenuDividerProps as DividerProps,
 } from "./Menu";

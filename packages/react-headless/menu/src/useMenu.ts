@@ -397,11 +397,5 @@ export function useMenu(props: UseMenuProps) {
         id: labelId,
       });
     },
-
-    getDividerProps: () => {
-      return elementProps({
-        role: "separator",
-      });
-    },
   };
 }
