@@ -1,6 +1,12 @@
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTopActivity } from "../private/useTopActivity";
+import {
+  type SwipeTargets,
+  applySwipeStyles,
+  clearInlineStyles,
+  findSwipeTargets,
+} from "./swipe-animation";
 
 export type SwipeBackState = "idle" | "swiping" | "canceling" | "completing";
 
@@ -57,103 +63,117 @@ export function useGlobalInteraction() {
   });
   const stackRef = useRef<HTMLDivElement>(null);
 
-  const setSwipeBackContext = useCallback((ctx: SwipeBackContext) => {
-    swipeBackContextRef.current = ctx;
-    stackRef.current?.style.setProperty(
-      "--swipe-back-displacement",
-      `${ctx.displacement.toString()}px`,
-    );
-    stackRef.current?.style.setProperty(
-      "--swipe-back-displacement-ratio",
-      ctx.displacementRatio.toString(),
-    );
-  }, []);
+  // Cached swipe targets — populated once on startSwipeBack, reused during gesture
+  const cachedTargetsRef = useRef<SwipeTargets | null>(null);
 
-  const getSwipeBackEvents = useCallback(
-    (props: SwipeBackProps) => {
-      const {
-        swipeBackDisplacementRatioThreshold: displacementRatioThreshold = 0.4,
-        swipeBackVelocityThreshold: velocityThreshold = 1,
-      } = props;
-      const onSwipeStart = useCallbackRef(props.onSwipeBackStart);
-      const onSwipeMove = useCallbackRef(props.onSwipeBackMove);
-      const onSwipeEnd = useCallbackRef(props.onSwipeBackEnd);
+  const getSwipeBackEvents = useCallback((props: SwipeBackProps) => {
+    const {
+      swipeBackDisplacementRatioThreshold: displacementRatioThreshold = 0.4,
+      swipeBackVelocityThreshold: velocityThreshold = 1,
+    } = props;
+    const onSwipeStart = useCallbackRef(props.onSwipeBackStart);
+    const onSwipeMove = useCallbackRef(props.onSwipeBackMove);
+    const onSwipeEnd = useCallbackRef(props.onSwipeBackEnd);
 
-      const startSwipeBack = useCallback(
-        ({ x0, t0 }: StartSwipeBackProps) => {
-          setSwipeBackContext({
-            x0,
-            t0,
-            displacement: 0,
-            displacementRatio: 0,
-            velocity: 0,
-          });
-          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
-          onSwipeStart?.();
-        },
-        [onSwipeStart],
-      );
-
-      const moveSwipeBack = useCallback(
-        ({ x, t }: MoveSwipeBackProps) => {
-          const displacement = Math.max(0, x - swipeBackContextRef.current.x0);
-          const displacementRatio = displacement / window.innerWidth;
-          const velocity = displacement / (t - swipeBackContextRef.current.t0);
-          setSwipeBackContext({
-            ...swipeBackContextRef.current,
-            displacement,
-            displacementRatio,
-            velocity,
-          });
-          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
-          onSwipeMove?.({ displacement, displacementRatio });
-        },
-        [onSwipeMove],
-      );
-
-      const endSwipeBack = useCallback(
-        (_: EndSwipeBackProps) => {
-          const swiped =
-            swipeBackContextRef.current.displacementRatio > displacementRatioThreshold ||
-            swipeBackContextRef.current.velocity > velocityThreshold;
-
-          if (swiped) {
-            stackRef.current?.style.setProperty("--swipe-back-target", "100%");
-            setSwipeBackState("completing");
-          } else {
-            stackRef.current?.style.setProperty("--swipe-back-target", "0");
-            setSwipeBackState("canceling");
-          }
-
-          onSwipeEnd?.({ swiped });
-        },
-        [onSwipeEnd, displacementRatioThreshold, velocityThreshold],
-      );
-
-      const reset = useCallback(() => {
-        setSwipeBackContext({
-          x0: 0,
-          t0: 0,
+    const startSwipeBack = useCallback(
+      ({ x0, t0 }: StartSwipeBackProps) => {
+        swipeBackContextRef.current = {
+          x0,
+          t0,
           displacement: 0,
           displacementRatio: 0,
           velocity: 0,
-        });
-        stackRef.current?.style.setProperty("--swipe-back-target", "0");
-        setSwipeBackState("idle");
-      }, []);
+        };
 
-      return useMemo(
-        () => ({
-          startSwipeBack,
-          moveSwipeBack,
-          endSwipeBack,
-          reset,
-        }),
-        [startSwipeBack, moveSwipeBack, endSwipeBack, reset],
-      );
-    },
-    [setSwipeBackContext],
-  );
+        // Cache target elements once per gesture
+        if (stackRef.current) {
+          cachedTargetsRef.current = findSwipeTargets(stackRef.current);
+        }
+
+        setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
+        onSwipeStart?.();
+      },
+      [onSwipeStart],
+    );
+
+    const moveSwipeBack = useCallback(
+      ({ x, t }: MoveSwipeBackProps) => {
+        const displacement = Math.max(0, x - swipeBackContextRef.current.x0);
+        const displacementRatio = displacement / window.innerWidth;
+        const velocity = displacement / (t - swipeBackContextRef.current.t0);
+
+        swipeBackContextRef.current = {
+          ...swipeBackContextRef.current,
+          displacement,
+          displacementRatio,
+          velocity,
+        };
+
+        // Direct inline style on each element instead of CSS variables on stack root.
+        // Inline style only triggers repaint on that element, not cascading recalc.
+        const targets = cachedTargetsRef.current;
+        if (targets) {
+          applySwipeStyles(targets, displacement, displacementRatio);
+        }
+
+        onSwipeMove?.({ displacement, displacementRatio });
+      },
+      [onSwipeMove],
+    );
+
+    const endSwipeBack = useCallback(
+      (_: EndSwipeBackProps) => {
+        const ctx = swipeBackContextRef.current;
+        const swiped =
+          ctx.displacementRatio > displacementRatioThreshold || ctx.velocity > velocityThreshold;
+
+        // 1. Remove inline styles so CSS recipe regains control
+        if (cachedTargetsRef.current) {
+          clearInlineStyles(cachedTargetsRef.current);
+          cachedTargetsRef.current = null;
+        }
+
+        // 2. Set CSS variables ONCE to current displacement.
+        //    This ensures the CSS recipe transition starts from the correct position.
+        stackRef.current?.style.setProperty("--swipe-back-displacement", `${ctx.displacement}px`);
+        stackRef.current?.style.setProperty(
+          "--swipe-back-displacement-ratio",
+          ctx.displacementRatio.toString(),
+        );
+
+        // 3. Set target and state — CSS recipe transition takes over
+        if (swiped) {
+          stackRef.current?.style.setProperty("--swipe-back-target", "100%");
+          setSwipeBackState("completing");
+        } else {
+          stackRef.current?.style.setProperty("--swipe-back-target", "0");
+          setSwipeBackState("canceling");
+        }
+
+        onSwipeEnd?.({ swiped });
+      },
+      [onSwipeEnd, displacementRatioThreshold, velocityThreshold],
+    );
+
+    const reset = useCallback(() => {
+      // Clear CSS variables
+      stackRef.current?.style.setProperty("--swipe-back-displacement", "0px");
+      stackRef.current?.style.setProperty("--swipe-back-displacement-ratio", "0");
+      stackRef.current?.style.setProperty("--swipe-back-target", "0");
+      setSwipeBackState("idle");
+      cachedTargetsRef.current = null;
+    }, []);
+
+    return useMemo(
+      () => ({
+        startSwipeBack,
+        moveSwipeBack,
+        endSwipeBack,
+        reset,
+      }),
+      [startSwipeBack, moveSwipeBack, endSwipeBack, reset],
+    );
+  }, []);
 
   const topActivity = useTopActivity();
 
@@ -178,11 +198,10 @@ export function useGlobalInteraction() {
       swipeBackContextRef,
       swipeBackState,
       setSwipeBackState,
-      setSwipeBackContext,
       getSwipeBackEvents,
 
       stackProps,
     }),
-    [swipeBackState, setSwipeBackContext, getSwipeBackEvents, stackProps],
+    [swipeBackState, getSwipeBackEvents, stackProps],
   );
 }
