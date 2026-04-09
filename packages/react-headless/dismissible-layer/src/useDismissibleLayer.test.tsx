@@ -1,17 +1,34 @@
 import { render, fireEvent, act } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it, mock, beforeEach } from "bun:test";
 import * as React from "react";
 import { useDismissibleLayer, type UseDismissibleLayerOptions } from "./useDismissibleLayer";
+
+const NOOP = () => {};
+const optionDefaults = {
+  onEscapeKeyDown: NOOP,
+  onPressOutside: NOOP,
+  onFocusOutside: NOOP,
+  onCascadeDismiss: NOOP,
+} satisfies Pick<
+  UseDismissibleLayerOptions,
+  "onEscapeKeyDown" | "onPressOutside" | "onFocusOutside" | "onCascadeDismiss"
+>;
+
+type TestOptions = Partial<UseDismissibleLayerOptions> & { enabled: boolean };
 
 function DismissibleBox({
   options,
   children,
   ...divProps
 }: {
-  options: UseDismissibleLayerOptions;
+  options: TestOptions;
   children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>) {
-  const { dismissibleRef, dismissibleProps } = useDismissibleLayer(options);
+  const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
+    ...optionDefaults,
+    ...options,
+  });
 
   return (
     <div ref={dismissibleRef} data-testid="dismissible" {...dismissibleProps} {...divProps}>
@@ -24,13 +41,17 @@ function NestedLayers({
   outerOptions,
   innerOptions,
 }: {
-  outerOptions: UseDismissibleLayerOptions;
-  innerOptions: UseDismissibleLayerOptions;
+  outerOptions: TestOptions;
+  innerOptions: TestOptions;
 }) {
-  const { dismissibleRef: outerRef, dismissibleProps: outerProps } =
-    useDismissibleLayer(outerOptions);
-  const { dismissibleRef: innerRef, dismissibleProps: innerProps } =
-    useDismissibleLayer(innerOptions);
+  const { dismissibleRef: outerRef, dismissibleProps: outerProps } = useDismissibleLayer({
+    ...optionDefaults,
+    ...outerOptions,
+  });
+  const { dismissibleRef: innerRef, dismissibleProps: innerProps } = useDismissibleLayer({
+    ...optionDefaults,
+    ...innerOptions,
+  });
 
   return (
     <div ref={outerRef} data-testid="outer" {...outerProps}>
@@ -48,32 +69,36 @@ describe("useDismissibleLayer", () => {
     document.body.innerHTML = "";
   });
   describe("enabled", () => {
-    it("does not call onEscapeKeyDown when enabled is false", () => {
+    it("does not call onEscapeKeyDown when enabled is false", async () => {
+      const user = userEvent.setup();
       const onEscapeKeyDown = mock(() => {});
       render(<DismissibleBox options={{ enabled: false, onEscapeKeyDown }} />);
 
-      fireEvent.keyDown(document, { key: "Escape" });
+      await user.keyboard("{Escape}");
       expect(onEscapeKeyDown).not.toHaveBeenCalled();
     });
 
-    it("calls onEscapeKeyDown when enabled is true", () => {
+    it("calls onEscapeKeyDown when enabled is true", async () => {
+      const user = userEvent.setup();
       const onEscapeKeyDown = mock(() => {});
       render(<DismissibleBox options={{ enabled: true, onEscapeKeyDown }} />);
 
-      fireEvent.keyDown(document, { key: "Escape" });
+      await user.keyboard("{Escape}");
       expect(onEscapeKeyDown).toHaveBeenCalledTimes(1);
     });
   });
   describe("escape", () => {
-    it("calls onEscapeKeyDown on Escape", () => {
+    it("calls onEscapeKeyDown on Escape", async () => {
+      const user = userEvent.setup();
       const onEscapeKeyDown = mock(() => {});
       render(<DismissibleBox options={{ enabled: true, onEscapeKeyDown }} />);
 
-      fireEvent.keyDown(document, { key: "Escape" });
+      await user.keyboard("{Escape}");
       expect(onEscapeKeyDown).toHaveBeenCalledTimes(1);
     });
 
-    it("only topmost layer receives onEscapeKeyDown in nested scenario", () => {
+    it("only topmost layer receives onEscapeKeyDown in nested scenario", async () => {
+      const user = userEvent.setup();
       const outerEscape = mock(() => {});
       const innerEscape = mock(() => {});
 
@@ -84,13 +109,14 @@ describe("useDismissibleLayer", () => {
         />,
       );
 
-      fireEvent.keyDown(document, { key: "Escape" });
+      await user.keyboard("{Escape}");
 
       expect(innerEscape).toHaveBeenCalledTimes(1);
       expect(outerEscape).not.toHaveBeenCalled();
     });
 
-    it("outer layer receives Escape after inner is disabled", () => {
+    it("outer layer receives Escape after inner is disabled", async () => {
+      const user = userEvent.setup();
       const outerEscape = mock(() => {});
       const innerEscape = mock(() => {});
 
@@ -108,7 +134,7 @@ describe("useDismissibleLayer", () => {
         />,
       );
 
-      fireEvent.keyDown(document, { key: "Escape" });
+      await user.keyboard("{Escape}");
 
       expect(outerEscape).toHaveBeenCalledTimes(1);
       expect(innerEscape).not.toHaveBeenCalled();
@@ -124,6 +150,7 @@ describe("useDismissibleLayer", () => {
   });
   describe("pointer down outside", () => {
     it("calls onPressOutside when clicking outside", async () => {
+      const user = userEvent.setup();
       const onPressOutside = mock(() => {});
       render(
         <>
@@ -139,11 +166,12 @@ describe("useDismissibleLayer", () => {
       const outside = document.querySelector('[data-testid="outside"]');
       if (!outside) throw new Error("Outside button not found");
 
-      fireEvent.pointerDown(outside);
+      await user.click(outside);
       expect(onPressOutside).toHaveBeenCalledTimes(1);
     });
 
     it("does not call onPressOutside when clicking inside", async () => {
+      const user = userEvent.setup();
       const onPressOutside = mock(() => {});
       const { getByTestId } = render(
         <DismissibleBox options={{ enabled: true, onPressOutside }}>
@@ -155,16 +183,18 @@ describe("useDismissibleLayer", () => {
 
       await act(() => new Promise((r) => setTimeout(r, 10)));
 
-      fireEvent.pointerDown(getByTestId("inside"));
+      await user.click(getByTestId("inside"));
       expect(onPressOutside).not.toHaveBeenCalled();
     });
 
     it("does not call onPressOutside when clicking an excluded target", async () => {
+      const user = userEvent.setup();
       const onPressOutside = mock(() => {});
       const triggerRef = React.createRef<HTMLButtonElement>();
 
       function TestComponent() {
         const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
+          ...optionDefaults,
           enabled: true,
           onPressOutside,
           exclude: (target) => triggerRef.current?.contains(target) ?? false,
@@ -188,7 +218,7 @@ describe("useDismissibleLayer", () => {
       const trigger = document.querySelector('[data-testid="trigger"]');
       if (!trigger) throw new Error("Trigger not found");
 
-      fireEvent.pointerDown(trigger);
+      await user.click(trigger);
       expect(onPressOutside).not.toHaveBeenCalled();
     });
   });
@@ -240,6 +270,8 @@ describe("useDismissibleLayer", () => {
       if (!outside) throw new Error("Outside button not found");
 
       outside.dispatchEvent(event);
+      // "confirm" (default): pointerdown defers to click
+      fireEvent.click(outside);
       expect(event.defaultPrevented).toBe(true);
     });
   });
@@ -260,6 +292,7 @@ describe("useDismissibleLayer", () => {
     }
 
     it("does not dismiss on pointerdown with pointerType touch", async () => {
+      const user = userEvent.setup();
       const onPressOutside = mock(() => {});
       render(
         <>
@@ -272,7 +305,7 @@ describe("useDismissibleLayer", () => {
       await wait();
 
       const outside = document.querySelector('[data-testid="outside"]')!;
-      fireEvent.pointerDown(outside, { pointerType: "touch" });
+      await user.pointer({ keys: "[TouchA>]", target: outside });
       expect(onPressOutside).not.toHaveBeenCalled();
     });
 
@@ -407,12 +440,13 @@ describe("useDismissibleLayer", () => {
       expect(onPressOutside).not.toHaveBeenCalled();
     });
 
-    it("does not dismiss when touchstart target is excluded", async () => {
+    it("dismisses on drag even when touchstart target is excluded", async () => {
       const onPressOutside = mock(() => {});
       const triggerRef = React.createRef<HTMLButtonElement>();
 
       function TestComponent() {
         const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
+          ...optionDefaults,
           enabled: true,
           onPressOutside,
           pressBehavior: "drag",
@@ -436,8 +470,8 @@ describe("useDismissibleLayer", () => {
 
       const trigger = document.querySelector('[data-testid="trigger"]')!;
       touchStart(trigger, 100, 100);
-      touchMove(trigger, 100, 115);
-      expect(onPressOutside).not.toHaveBeenCalled();
+      touchMove(trigger, 100, 115); // >10px drag from excluded target → dismiss
+      expect(onPressOutside).toHaveBeenCalledTimes(1);
     });
 
     it("default mode still defers touch to click", async () => {
@@ -462,6 +496,7 @@ describe("useDismissibleLayer", () => {
     });
 
     it("mouse pointerdown still dismisses immediately in drag mode", async () => {
+      const user = userEvent.setup();
       const onPressOutside = mock(() => {});
       render(
         <>
@@ -474,11 +509,12 @@ describe("useDismissibleLayer", () => {
       await wait();
 
       const outside = document.querySelector('[data-testid="outside"]')!;
-      fireEvent.pointerDown(outside);
+      await user.pointer({ keys: "[MouseLeft>]", target: outside });
       expect(onPressOutside).toHaveBeenCalledTimes(1);
     });
 
     it("does not dismiss on pointerdown in confirm mode", async () => {
+      const user = userEvent.setup();
       const onPressOutside = mock(() => {});
       render(
         <>
@@ -491,11 +527,12 @@ describe("useDismissibleLayer", () => {
       await wait();
 
       const outside = document.querySelector('[data-testid="outside"]')!;
-      fireEvent.pointerDown(outside);
+      await user.pointer({ keys: "[MouseLeft>]", target: outside });
       expect(onPressOutside).not.toHaveBeenCalled();
     });
 
     it("dismisses on click in confirm mode", async () => {
+      const user = userEvent.setup();
       const onPressOutside = mock(() => {});
       render(
         <>
@@ -508,10 +545,10 @@ describe("useDismissibleLayer", () => {
       await wait();
 
       const outside = document.querySelector('[data-testid="outside"]')!;
-      fireEvent.pointerDown(outside);
+      await user.pointer({ keys: "[MouseLeft>]", target: outside });
       expect(onPressOutside).not.toHaveBeenCalled();
 
-      fireEvent.click(outside);
+      await user.pointer({ keys: "[/MouseLeft]" });
       expect(onPressOutside).toHaveBeenCalledTimes(1);
     });
   });

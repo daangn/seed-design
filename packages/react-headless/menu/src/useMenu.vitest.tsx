@@ -1,8 +1,16 @@
-import { render, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { describe, expect, it, mock } from "bun:test";
+// this file is .vitest.tsx, not .test.tsx — so bun test won't pick it up.
+//
+// @floating-ui/react defers focus via requestAnimationFrame (enqueueFocus).
+// bun test preloads happydom, which doesn't fire rAF the way we need.
+// vitest + jsdom (pretendToBeVisual) gives us a real rAF that ticks at ~16ms,
+// letting waitForFocus() actually flush the deferred .focus() calls.
+//
+// see vitest.config.ts for the jsdom environment setup.
 
-import type { ReactElement } from "react";
+import { render, fireEvent, act } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
+
 import * as React from "react";
 
 import {
@@ -19,12 +27,17 @@ import {
 
 type UseMenuProps = MenuRootProps;
 
-function setUp(jsx: ReactElement) {
-  return {
-    user: userEvent.setup(),
-    ...render(jsx),
-  };
-}
+// Flush microtasks so Floating UI position state settles.
+// See: https://floating-ui.com/docs/react#testing
+const waitForPositioning = () => act(async () => {});
+
+// Flush rAF-deferred focus from FloatingFocusManager / useListNavigation.
+// jsdom (pretendToBeVisual) fires rAF callbacks every ~16 ms via setInterval,
+// so a short timer is needed for enqueueFocus() in @floating-ui/react to land.
+const waitForFocus = () =>
+  act(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  });
 
 function BasicMenu(props: UseMenuProps) {
   return (
@@ -120,33 +133,41 @@ function ControlledMenu({ onOpenChange }: { onOpenChange: (open: boolean) => voi
 
 describe("useMenu", () => {
   describe("rendering & structure", () => {
-    it("renders a trigger with aria-haspopup='menu'", () => {
-      const { getByText } = setUp(<BasicMenu />);
-      const trigger = getByText("Open Menu");
-      expect(trigger).toHaveAttribute("aria-haspopup", "menu");
+    it("renders a trigger with aria-haspopup='menu'", async () => {
+      const { getByText } = render(<BasicMenu />);
+      await waitForPositioning();
+      expect(getByText("Open Menu")).toHaveAttribute("aria-haspopup", "menu");
     });
 
     it("renders menu content with role='menu' when open", async () => {
-      const { getByText, getByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(getByRole("menu")).toHaveAttribute("data-open");
     });
 
     it("renders items with role='menuitem'", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       const items = getAllByRole("menuitem");
       expect(items).toHaveLength(3);
     });
 
     it("renders a separator with role='separator'", async () => {
-      const { getByText, getByRole, user } = setUp(<MenuWithGroups />);
+      const user = userEvent.setup();
+      const { getByText, getByRole } = render(<MenuWithGroups />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(getByRole("separator")).toBeInTheDocument();
     });
 
     it("renders a group with role='group' and aria-labelledby pointing to group label", async () => {
-      const { getByText, getAllByRole, user } = setUp(<MenuWithGroups />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<MenuWithGroups />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       const groups = getAllByRole("group");
       const labelledBy = groups[0].getAttribute("aria-labelledby");
@@ -155,16 +176,21 @@ describe("useMenu", () => {
       expect(label).toHaveAttribute("id", labelledBy);
     });
   });
+
   describe("open/close state", () => {
     it("opens on trigger click", async () => {
-      const { getByText, queryByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, queryByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       expect(queryByRole("menu")).not.toHaveAttribute("data-open");
       await user.click(getByText("Open Menu"));
       expect(queryByRole("menu")).toHaveAttribute("data-open");
     });
 
     it("closes on trigger click when open", async () => {
-      const { getByText, queryByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, queryByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(queryByRole("menu")).toHaveAttribute("data-open");
       await user.click(getByText("Open Menu"));
@@ -172,26 +198,36 @@ describe("useMenu", () => {
     });
 
     it("supports controlled open state", async () => {
-      const onOpenChange = mock();
-      const { getByText, user } = setUp(<ControlledMenu onOpenChange={onOpenChange} />);
+      const user = userEvent.setup();
+      const onOpenChange = vi.fn();
+      const { getByText } = render(<ControlledMenu onOpenChange={onOpenChange} />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(onOpenChange).toHaveBeenCalledWith(true);
     });
 
-    it("supports uncontrolled with defaultOpen", () => {
-      const { queryByRole } = setUp(<BasicMenu defaultOpen />);
+    it("supports uncontrolled with defaultOpen", async () => {
+      const { queryByRole } = render(<BasicMenu defaultOpen />);
+      await waitForPositioning();
       expect(queryByRole("menu")).toHaveAttribute("data-open");
     });
 
     it("calls onOpenChange when toggled", async () => {
-      const onOpenChange = mock();
-      const { getByText, user } = setUp(<BasicMenu onOpenChange={onOpenChange} />);
+      const user = userEvent.setup();
+      const onOpenChange = vi.fn();
+      const { getByText } = render(<BasicMenu onOpenChange={onOpenChange} />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
-      expect(onOpenChange).toHaveBeenCalledWith(true);
+      expect(onOpenChange).toHaveBeenCalledWith(
+        true,
+        expect.objectContaining({ reason: "trigger" }),
+      );
     });
 
     it("closes on Escape key", async () => {
-      const { getByText, queryByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, queryByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(queryByRole("menu")).toHaveAttribute("data-open");
       await user.keyboard("{Escape}");
@@ -199,12 +235,14 @@ describe("useMenu", () => {
     });
 
     it("closes on outside click", async () => {
-      const { getByText, queryByRole, user } = setUp(
+      const user = userEvent.setup();
+      const { getByText, queryByRole } = render(
         <div>
           <BasicMenu />
           <button type="button">Outside</button>
         </div>,
       );
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(queryByRole("menu")).toHaveAttribute("data-open");
       await user.click(getByText("Outside"));
@@ -212,30 +250,41 @@ describe("useMenu", () => {
     });
 
     it("does not open when disabled", async () => {
-      const { getByText, queryByRole, user } = setUp(<BasicMenu disabled />);
+      const user = userEvent.setup();
+      const { getByText, queryByRole } = render(<BasicMenu disabled />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(queryByRole("menu")).not.toHaveAttribute("data-open");
     });
   });
+
   describe("keyboard navigation", () => {
     it("focuses the first item when opened by keyboard (ArrowDown on trigger)", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       getByText("Open Menu").focus();
       await user.keyboard("{ArrowDown}");
+      await waitForFocus();
       const items = getAllByRole("menuitem");
       expect(items[0]).toHaveFocus();
     });
 
     it("focuses the last item when opened by ArrowUp on trigger", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       getByText("Open Menu").focus();
       await user.keyboard("{ArrowUp}");
+      await waitForFocus();
       const items = getAllByRole("menuitem");
       expect(items[items.length - 1]).toHaveFocus();
     });
 
     it("navigates items with ArrowDown", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       const items = getAllByRole("menuitem");
       // No item should be focused after opening
@@ -246,7 +295,9 @@ describe("useMenu", () => {
     });
 
     it("navigates items with ArrowUp", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       const items = getAllByRole("menuitem");
       // No item should be focused after opening
@@ -257,8 +308,11 @@ describe("useMenu", () => {
     });
 
     it("wraps from last to first", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
+      await waitForFocus();
       const items = getAllByRole("menuitem");
       // Navigate to last item
       await user.keyboard("{End}");
@@ -269,7 +323,9 @@ describe("useMenu", () => {
     });
 
     it("wraps from first to last", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       const items = getAllByRole("menuitem");
       // First item focused
@@ -278,8 +334,11 @@ describe("useMenu", () => {
     });
 
     it("navigates to first item with Home", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
+      await waitForFocus();
       const items = getAllByRole("menuitem");
       await user.keyboard("{End}"); // go to last
       await user.keyboard("{Home}");
@@ -287,15 +346,20 @@ describe("useMenu", () => {
     });
 
     it("navigates to last item with End", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
+      await waitForFocus();
       const items = getAllByRole("menuitem");
       await user.keyboard("{End}");
       expect(items[items.length - 1]).toHaveFocus();
     });
 
     it("excludes disabled items during keyboard navigation", async () => {
-      const { getByText, getAllByRole, user } = setUp(<MenuWithDisabledItems />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<MenuWithDisabledItems />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       const items = getAllByRole("menuitem");
       // No item should be focused after opening
@@ -307,30 +371,41 @@ describe("useMenu", () => {
     });
 
     it("opens the menu with Enter on trigger", async () => {
-      const { getByText, queryByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, queryByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       getByText("Open Menu").focus();
       await user.keyboard("{Enter}");
       expect(queryByRole("menu")).toHaveAttribute("data-open");
     });
 
     it("opens the menu with Space on trigger", async () => {
-      const { getByText, queryByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, queryByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       getByText("Open Menu").focus();
       await user.keyboard(" ");
       expect(queryByRole("menu")).toHaveAttribute("data-open");
     });
   });
+
   describe("typeahead", () => {
     it("focuses item matching typed character", async () => {
-      const { getByText, user } = setUp(<MenuWithLabels />);
+      const user = userEvent.setup();
+      const { getByText } = render(<MenuWithLabels />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
+      await waitForPositioning();
       await user.keyboard("b");
       expect(getByText("Banana")).toHaveFocus();
     });
 
     it("resets typeahead after timeout", async () => {
-      const { getByText, user } = setUp(<MenuWithLabels />);
+      const user = userEvent.setup();
+      const { getByText } = render(<MenuWithLabels />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
+      await waitForFocus();
       await user.keyboard("b");
       expect(getByText("Banana")).toHaveFocus();
       // Wait for typeahead reset (750ms default)
@@ -340,7 +415,8 @@ describe("useMenu", () => {
     });
 
     it("supports diacritic characters", async () => {
-      const { getByText, user } = setUp(
+      const user = userEvent.setup();
+      const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
@@ -352,14 +428,17 @@ describe("useMenu", () => {
           </MenuPositioner>
         </Menu>,
       );
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
+      await waitForFocus();
       await user.keyboard("r");
       expect(getByText("Résumé")).toHaveFocus();
     });
 
     it("does not trigger item onClick when Space is pressed during typeahead", async () => {
-      const onClick = mock();
-      const { getByText, user } = setUp(
+      const user = userEvent.setup();
+      const onClick = vi.fn();
+      const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
@@ -372,7 +451,9 @@ describe("useMenu", () => {
           </MenuPositioner>
         </Menu>,
       );
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
+      await waitForPositioning();
       // Type "a" then space — should continue typeahead for "a b", not trigger click
       await user.keyboard("a");
       await user.keyboard(" ");
@@ -380,7 +461,8 @@ describe("useMenu", () => {
     });
 
     it("navigates using the label prop when provided", async () => {
-      const { getByText, user } = setUp(
+      const user = userEvent.setup();
+      const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
@@ -391,15 +473,19 @@ describe("useMenu", () => {
           </MenuPositioner>
         </Menu>,
       );
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
+      await waitForFocus();
       await user.keyboard("b");
       expect(getByText("Item with icon 2")).toHaveFocus();
     });
   });
+
   describe("item interaction", () => {
     it("calls onClick on item when clicked", async () => {
-      const onClick = mock();
-      const { getByText, user } = setUp(
+      const user = userEvent.setup();
+      const onClick = vi.fn();
+      const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
@@ -409,13 +495,15 @@ describe("useMenu", () => {
           </MenuPositioner>
         </Menu>,
       );
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       await user.click(getByText("Clickable"));
       expect(onClick).toHaveBeenCalledTimes(1);
     });
 
     it("closes menu after item click (default closeOnClick=true)", async () => {
-      const { getByText, queryByRole, user } = setUp(
+      const user = userEvent.setup();
+      const { getByText, queryByRole } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
@@ -425,14 +513,16 @@ describe("useMenu", () => {
           </MenuPositioner>
         </Menu>,
       );
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       await user.click(getByText("Clickable"));
       expect(queryByRole("menu")).not.toHaveAttribute("data-open");
     });
 
     it("activates focused item on Enter key", async () => {
-      const onClick = mock();
-      const { getByText, user } = setUp(
+      const user = userEvent.setup();
+      const onClick = vi.fn();
+      const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
@@ -442,16 +532,17 @@ describe("useMenu", () => {
           </MenuPositioner>
         </Menu>,
       );
-      getByText("Open Menu").click();
-
+      await waitForPositioning();
+      await user.click(getByText("Open Menu"));
       getByText("Activatable").focus();
       await user.keyboard("{Enter}");
       expect(onClick).toHaveBeenCalledTimes(1);
     });
 
     it("activates focused item on Space key", async () => {
-      const onClick = mock();
-      const { getByText, user } = setUp(
+      const user = userEvent.setup();
+      const onClick = vi.fn();
+      const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
@@ -461,16 +552,17 @@ describe("useMenu", () => {
           </MenuPositioner>
         </Menu>,
       );
-      getByText("Open Menu").click();
-
+      await waitForPositioning();
+      await user.click(getByText("Open Menu"));
       getByText("Activatable").focus();
       await user.keyboard(" ");
       expect(onClick).toHaveBeenCalledTimes(1);
     });
 
     it("does not activate disabled item on click or keyboard", async () => {
-      const onClick = mock();
-      const { getByText, user } = setUp(
+      const user = userEvent.setup();
+      const onClick = vi.fn();
+      const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
@@ -482,6 +574,7 @@ describe("useMenu", () => {
           </MenuPositioner>
         </Menu>,
       );
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       await user.click(getByText("Disabled"));
       expect(onClick).not.toHaveBeenCalled();
@@ -489,48 +582,65 @@ describe("useMenu", () => {
       expect(onClick).not.toHaveBeenCalled();
     });
   });
+
   describe("focus management", () => {
     it("doesn't focus the first item when menu opens", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       const items = getAllByRole("menuitem");
       expect(items[0]).not.toHaveFocus();
     });
 
     it("focuses the first item when menu opens using Enter", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole, queryByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       getByText("Open Menu").focus();
       await user.keyboard("{Enter}");
+      await waitForFocus();
       const items = getAllByRole("menuitem");
       expect(items[0]).toHaveFocus();
     });
 
     it("focuses the first item when menu opens using Space", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       getByText("Open Menu").focus();
       await user.keyboard(" ");
+      await waitForFocus();
       const items = getAllByRole("menuitem");
       expect(items[0]).toHaveFocus();
     });
 
     it("focuses the first item when menu opens using ArrowDown", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       getByText("Open Menu").focus();
       await user.keyboard("{ArrowDown}");
+      await waitForFocus();
       const items = getAllByRole("menuitem");
       expect(items[0]).toHaveFocus();
     });
 
     it("focuses the last item when menu opens using ArrowUp", async () => {
-      const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
       getByText("Open Menu").focus();
       await user.keyboard("{ArrowUp}");
+      await waitForFocus();
       const items = getAllByRole("menuitem");
       expect(items[items.length - 1]).toHaveFocus();
     });
 
     it("returns focus to trigger when menu closes via Escape", async () => {
-      const { getByText, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText } = render(<BasicMenu />);
+      await waitForPositioning();
       const trigger = getByText("Open Menu");
       await user.click(trigger);
       await user.keyboard("{Escape}");
@@ -538,7 +648,9 @@ describe("useMenu", () => {
     });
 
     it("returns focus to trigger after item selection via Enter", async () => {
-      const { getByText, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText } = render(<BasicMenu />);
+      await waitForPositioning();
       const trigger = getByText("Open Menu");
       await user.click(trigger);
 
@@ -548,7 +660,9 @@ describe("useMenu", () => {
     });
 
     it("returns focus to trigger after item selection via Space", async () => {
-      const { getByText, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText } = render(<BasicMenu />);
+      await waitForPositioning();
       const trigger = getByText("Open Menu");
       await user.click(trigger);
 
@@ -557,10 +671,11 @@ describe("useMenu", () => {
       expect(trigger).toHaveFocus();
     });
   });
+
   describe("mouse interaction", () => {
     it("activates item on mouse-up after drag from trigger", async () => {
-      const onClick = mock();
-      const { getByText } = setUp(
+      const onClick = vi.fn();
+      const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
@@ -570,9 +685,11 @@ describe("useMenu", () => {
           </MenuPositioner>
         </Menu>,
       );
+      await waitForPositioning();
       const trigger = getByText("Open Menu");
       // Simulate: mousedown on trigger → move to item → mouseup on item
       fireEvent.pointerDown(trigger);
+      await waitForPositioning();
       // Menu should now be open
       const item = getByText("Target");
       fireEvent.pointerEnter(item);
@@ -581,9 +698,12 @@ describe("useMenu", () => {
       expect(onClick).toHaveBeenCalledTimes(1);
     });
   });
+
   describe("data attributes", () => {
     it("sets data-open on trigger when menu is open", async () => {
-      const { getByText, user } = setUp(<BasicMenu />);
+      const user = userEvent.setup();
+      const { getByText } = render(<BasicMenu />);
+      await waitForPositioning();
       const trigger = getByText("Open Menu");
       expect(trigger).not.toHaveAttribute("data-open");
       await user.click(trigger);
@@ -591,7 +711,9 @@ describe("useMenu", () => {
     });
 
     it("sets data-disabled on disabled items", async () => {
-      const { getByText, user } = setUp(<MenuWithDisabledItems />);
+      const user = userEvent.setup();
+      const { getByText } = render(<MenuWithDisabledItems />);
+      await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(getByText("Item 2 (disabled)")).toHaveAttribute("data-disabled");
     });

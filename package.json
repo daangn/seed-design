@@ -45,7 +45,7 @@
     "qvism:generate:watch": "watchlist packages/qvism-preset -- bun qvism:generate",
     "cli:watch": "watchlist packages/cli -- bun --filter @seed-design/cli dev",
     "headless:build": "ultra -r --filter 'packages/react-headless/*' build",
-    "headless:test": "bun test packages/react-headless",
+    "headless:test": "bash -c 'bun test packages/react-headless; a=$?; bun --filter @seed-design/react-menu test; b=$?; exit $((a || b))'",
     "headless:test:watch": "bun test --watch packages/react-headless",
     "react:test": "bun test packages/react",
     "react:test:watch": "bun test --watch packages/react",
