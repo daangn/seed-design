@@ -1,5 +1,20 @@
 # @seed-design/cli
 
+## 1.3.1
+
+### Patch Changes
+
+- 8f37e56: `docs` 명령어에서 경로를 잘못 입력했을 때 유사한 항목을 제안합니다.
+
+  - 오타가 포함된 경로를 입력하면 가장 가까운 유효 경로를 알려줍니다. (예: `react/component/action-buton` → `react/components/action-button`)
+  - 카테고리, 섹션, 아이템 각 단계에서 유사 후보를 자동 검색합니다.
+
+- 0471a92: `upgrade` 명령어를 추가합니다.
+
+  - 프로젝트에 설치된 `@seed-design/*` 패키지의 현재 버전과 최신 버전을 비교하고, 그 사이의 변경사항(changelog)을 확인할 수 있습니다.
+  - `--raw` 플래그를 사용하면 UI 없이 순수 마크다운으로 출력되어 LLM 에이전트에 전달하기 적합합니다.
+  - 패키지명은 shorthand(`react`) 또는 full name(`@seed-design/react`) 모두 지원합니다.
+
 ## 1.3.0
 
 ### Minor Changes

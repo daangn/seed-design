@@ -1,5 +1,11 @@
 # @seed-design/vite-plugin
 
+## 1.1.1
+
+### Patch Changes
+
+- 251fd85: Vite 8과 함께 사용할 수 있도록 peerDependencies를 최신화합니다.
+
 ## 1.1.0
 
 ### Patch Changes
