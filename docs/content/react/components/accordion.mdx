@@ -50,7 +50,24 @@ npx @seed-design/cli@latest add ui:accordion
   name="AccordionContentProps"
 />
 
+## Content Structure
+
+`Accordion.Content`는 접히고 펼쳐지는 영역이며, 내부에 `Accordion.ContentInner`가 자동으로 감싸져 패딩이 적용됩니다. 스니펫을 사용할 경우 `ContentInner`를 직접 작성할 필요가 없습니다.
+
 ## Examples
+
+### Inline Variant
+
+기본 variant입니다. 아이템이 연속된 흐름으로 제공되며, 아이템 사이에 구분선이 표시됩니다.
+
+<ComponentExample name="react/accordion/inline">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/inline.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 ### Separated
 
@@ -78,6 +95,10 @@ npx @seed-design/cli@latest add ui:accordion
   ```
 </ComponentExample>
 
+### Collapsible
+
+`type="single"` 모드에서 `collapsible` prop을 사용하여 열린 항목을 다시 클릭했을 때 닫힘 여부를 제어할 수 있습니다. 기본값은 `true`입니다. `collapsible={false}`로 설정하면 항상 하나의 항목이 열려 있어야 합니다.
+
 ### Large Size
 
 `size="large"` 를 사용하면 더 큰 크기의 아코디언을 표시합니다.
@@ -99,6 +120,19 @@ npx @seed-design/cli@latest add ui:accordion
   ```json doc-gen:file
   {
     "file": "examples/react/accordion/with-prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Prefix Avatar
+
+`PrefixAvatar`를 사용하여 트리거 좌측에 아바타를 배치할 수 있습니다.
+
+<ComponentExample name="react/accordion/with-prefix-avatar">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/with-prefix-avatar.tsx",
     "codeblock": true
   }
   ```
