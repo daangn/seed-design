@@ -1,6 +1,19 @@
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { useTopActivity } from "../private/useTopActivity";
+import {
+  type TransitionTargets,
+  type TransitionStyle,
+  findTransitionTargets,
+  applySwipeStyles,
+  clearAllStyles,
+  cancelAll,
+  setIdlePositions,
+  setPostExitPositions,
+  animateTransition,
+  animateSwipeComplete,
+  animateSwipeCancel,
+} from "./transition-animation";
 
 export type SwipeBackState = "idle" | "swiping" | "canceling" | "completing";
 
@@ -46,7 +59,7 @@ export interface MoveSwipeBackProps {
 export interface EndSwipeBackProps {}
 
 export function useGlobalInteraction() {
-  const [swipeBackState, setSwipeBackState] = useState<SwipeBackState>("idle");
+  const swipeBackStateRef = useRef<SwipeBackState>("idle");
 
   const swipeBackContextRef = useRef<SwipeBackContext>({
     x0: 0,
@@ -57,132 +70,254 @@ export function useGlobalInteraction() {
   });
   const stackRef = useRef<HTMLDivElement>(null);
 
-  const setSwipeBackContext = useCallback((ctx: SwipeBackContext) => {
-    swipeBackContextRef.current = ctx;
-    stackRef.current?.style.setProperty(
-      "--swipe-back-displacement",
-      `${ctx.displacement.toString()}px`,
-    );
-    stackRef.current?.style.setProperty(
-      "--swipe-back-displacement-ratio",
-      ctx.displacementRatio.toString(),
-    );
+  // Cached transition targets — populated once per gesture/transition
+  const cachedTargetsRef = useRef<TransitionTargets | null>(null);
+
+  // Running WAAPI animations — for cancellation on new transitions
+  const runningAnimsRef = useRef<Animation[]>([]);
+
+  /** Update swipe-back-state attribute on the stack DOM element. */
+  const setSwipeBackState = useCallback((state: SwipeBackState) => {
+    swipeBackStateRef.current = state;
+    if (stackRef.current) {
+      stackRef.current.dataset["swipeBackState"] = state;
+    }
   }, []);
 
-  const getSwipeBackEvents = useCallback(
-    (props: SwipeBackProps) => {
-      const {
-        swipeBackDisplacementRatioThreshold: displacementRatioThreshold = 0.4,
-        swipeBackVelocityThreshold: velocityThreshold = 1,
-      } = props;
-      const onSwipeStart = useCallbackRef(props.onSwipeBackStart);
-      const onSwipeMove = useCallbackRef(props.onSwipeBackMove);
-      const onSwipeEnd = useCallbackRef(props.onSwipeBackEnd);
+  const getSwipeBackEvents = useCallback((props: SwipeBackProps) => {
+    const {
+      swipeBackDisplacementRatioThreshold: displacementRatioThreshold = 0.4,
+      swipeBackVelocityThreshold: velocityThreshold = 1,
+    } = props;
+    const onSwipeStart = useCallbackRef(props.onSwipeBackStart);
+    const onSwipeMove = useCallbackRef(props.onSwipeBackMove);
+    const onSwipeEnd = useCallbackRef(props.onSwipeBackEnd);
 
-      const startSwipeBack = useCallback(
-        ({ x0, t0 }: StartSwipeBackProps) => {
-          setSwipeBackContext({
-            x0,
-            t0,
-            displacement: 0,
-            displacementRatio: 0,
-            velocity: 0,
-          });
-          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
-          onSwipeStart?.();
-        },
-        [onSwipeStart],
-      );
+    const startSwipeBack = useCallback(
+      ({ x0, t0 }: StartSwipeBackProps) => {
+        // Cancel any running transition animations
+        cancelAll(runningAnimsRef.current);
+        runningAnimsRef.current = [];
 
-      const moveSwipeBack = useCallback(
-        ({ x, t }: MoveSwipeBackProps) => {
-          const displacement = Math.max(0, x - swipeBackContextRef.current.x0);
-          const displacementRatio = displacement / window.innerWidth;
-          const velocity = displacement / (t - swipeBackContextRef.current.t0);
-          setSwipeBackContext({
-            ...swipeBackContextRef.current,
-            displacement,
-            displacementRatio,
-            velocity,
-          });
-          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
-          onSwipeMove?.({ displacement, displacementRatio });
-        },
-        [onSwipeMove],
-      );
-
-      const endSwipeBack = useCallback(
-        (_: EndSwipeBackProps) => {
-          const swiped =
-            swipeBackContextRef.current.displacementRatio > displacementRatioThreshold ||
-            swipeBackContextRef.current.velocity > velocityThreshold;
-
-          if (swiped) {
-            stackRef.current?.style.setProperty("--swipe-back-target", "100%");
-            setSwipeBackState("completing");
-          } else {
-            stackRef.current?.style.setProperty("--swipe-back-target", "0");
-            setSwipeBackState("canceling");
-          }
-
-          onSwipeEnd?.({ swiped });
-        },
-        [onSwipeEnd, displacementRatioThreshold, velocityThreshold],
-      );
-
-      const reset = useCallback(() => {
-        setSwipeBackContext({
-          x0: 0,
-          t0: 0,
+        swipeBackContextRef.current = {
+          x0,
+          t0,
           displacement: 0,
           displacementRatio: 0,
           velocity: 0,
-        });
-        stackRef.current?.style.setProperty("--swipe-back-target", "0");
-        setSwipeBackState("idle");
-      }, []);
+        };
 
-      return useMemo(
-        () => ({
-          startSwipeBack,
-          moveSwipeBack,
-          endSwipeBack,
-          reset,
-        }),
-        [startSwipeBack, moveSwipeBack, endSwipeBack, reset],
-      );
-    },
-    [setSwipeBackContext],
-  );
+        // Cache target elements once per gesture
+        if (stackRef.current) {
+          cachedTargetsRef.current = findTransitionTargets(stackRef.current);
+        }
+
+        setSwipeBackState("swiping");
+        onSwipeStart?.();
+      },
+      [onSwipeStart],
+    );
+
+    const moveSwipeBack = useCallback(
+      ({ x, t }: MoveSwipeBackProps) => {
+        const displacement = Math.max(0, x - swipeBackContextRef.current.x0);
+        const displacementRatio = displacement / window.innerWidth;
+        const velocity = displacement / (t - swipeBackContextRef.current.t0);
+
+        swipeBackContextRef.current = {
+          ...swipeBackContextRef.current,
+          displacement,
+          displacementRatio,
+          velocity,
+        };
+
+        // Direct inline style on each element — no CSS variable cascade
+        const targets = cachedTargetsRef.current;
+        if (targets) {
+          applySwipeStyles(targets, displacement, displacementRatio);
+        }
+
+        onSwipeMove?.({ displacement, displacementRatio });
+      },
+      [onSwipeMove],
+    );
+
+    const endSwipeBack = useCallback(
+      (_: EndSwipeBackProps) => {
+        const ctx = swipeBackContextRef.current;
+        const swiped =
+          ctx.displacementRatio > displacementRatioThreshold || ctx.velocity > velocityThreshold;
+
+        const targets = cachedTargetsRef.current;
+        if (!targets) {
+          setSwipeBackState("idle");
+          onSwipeEnd?.({ swiped });
+          return;
+        }
+
+        // Clear inline styles from swiping — WAAPI will take over from current position
+        clearAllStyles(targets);
+
+        if (swiped) {
+          setSwipeBackState("completing");
+          // Mark to skip the next exit-active from stackflow
+          skipNextExitRef.current = true;
+          const { animations, finished } = animateSwipeComplete(
+            targets,
+            ctx.displacement,
+            ctx.velocity,
+          );
+          runningAnimsRef.current = animations;
+
+          finished.then(() => {
+            // Set inline styles BEFORE cancel to prevent flash
+            setPostExitPositions(targets);
+            cancelAll(animations);
+            runningAnimsRef.current = [];
+            cachedTargetsRef.current = null;
+            setSwipeBackState("idle");
+          });
+        } else {
+          setSwipeBackState("canceling");
+          const { animations, finished } = animateSwipeCancel(
+            targets,
+            ctx.displacement,
+            ctx.velocity,
+          );
+          runningAnimsRef.current = animations;
+
+          finished.then(() => {
+            // Set inline styles BEFORE cancel to prevent flash
+            setIdlePositions(targets);
+            cancelAll(animations);
+            runningAnimsRef.current = [];
+            cachedTargetsRef.current = null;
+            setSwipeBackState("idle");
+          });
+        }
+
+        onSwipeEnd?.({ swiped });
+      },
+      [onSwipeEnd, displacementRatioThreshold, velocityThreshold],
+    );
+
+    const reset = useCallback(() => {
+      cancelAll(runningAnimsRef.current);
+      runningAnimsRef.current = [];
+      if (cachedTargetsRef.current) {
+        clearAllStyles(cachedTargetsRef.current);
+      }
+      cachedTargetsRef.current = null;
+      swipeBackContextRef.current = {
+        x0: 0,
+        t0: 0,
+        displacement: 0,
+        displacementRatio: 0,
+        velocity: 0,
+      };
+      setSwipeBackState("idle");
+    }, []);
+
+    return useMemo(
+      () => ({
+        startSwipeBack,
+        moveSwipeBack,
+        endSwipeBack,
+        reset,
+      }),
+      [startSwipeBack, moveSwipeBack, endSwipeBack, reset],
+    );
+  }, []);
 
   const topActivity = useTopActivity();
 
+  // ── WAAPI push/pop transitions triggered by stackflow state changes ──
+  const prevTransitionStateRef = useRef<string>(topActivity.transitionState);
+  const pendingRAFRef = useRef<number | null>(null);
+
+  // Skip the next exit-active transition after swipe completing,
+  // because stackflow fires exit-active as part of its normal lifecycle
+  // but we've already animated the exit via WAAPI.
+  const skipNextExitRef = useRef(false);
+
+  useLayoutEffect(() => {
+    const prev = prevTransitionStateRef.current;
+    const next = topActivity.transitionState;
+    prevTransitionStateRef.current = next;
+
+    const stackEl = stackRef.current;
+    if (!stackEl) return;
+
+    const swipeState = swipeBackStateRef.current;
+    const style = (topActivity.transitionStyle ?? "slideFromRightIOS") as TransitionStyle;
+
+    if (next === "enter-active" && prev !== "enter-active") {
+      if (swipeState !== "idle") return;
+
+      cancelAll(runningAnimsRef.current);
+      runningAnimsRef.current = [];
+      if (pendingRAFRef.current !== null) {
+        cancelAnimationFrame(pendingRAFRef.current);
+      }
+      pendingRAFRef.current = requestAnimationFrame(() => {
+        pendingRAFRef.current = null;
+        const targets = findTransitionTargets(stackEl);
+        const { animations, finished } = animateTransition(targets, "push", style);
+        runningAnimsRef.current = animations;
+        finished.then(() => {
+          setIdlePositions(targets);
+          cancelAll(animations);
+          runningAnimsRef.current = [];
+        });
+      });
+    }
+
+    if (next === "exit-active" && prev !== "exit-active") {
+      // Always consume the skip flag first, regardless of swipe state
+      if (skipNextExitRef.current) {
+        skipNextExitRef.current = false;
+        return;
+      }
+
+      if (swipeState !== "idle") return;
+
+      if (pendingRAFRef.current !== null) {
+        cancelAnimationFrame(pendingRAFRef.current);
+        pendingRAFRef.current = null;
+      }
+      cancelAll(runningAnimsRef.current);
+      runningAnimsRef.current = [];
+      const targets = findTransitionTargets(stackEl);
+      const { animations, finished } = animateTransition(targets, "pop", style);
+      runningAnimsRef.current = animations;
+      finished.then(() => {
+        setPostExitPositions(targets);
+        cancelAll(animations);
+        runningAnimsRef.current = [];
+      });
+    }
+  }, [topActivity.transitionState, topActivity.transitionStyle]);
+
   const stackProps = useMemo(
     () => ({
-      "data-swipe-back-state": swipeBackState,
+      "data-swipe-back-state": swipeBackStateRef.current,
       "data-global-transition-state": topActivity.transitionState,
       "data-top-activity-type": topActivity.activityType,
       "data-top-transition-style": topActivity.transitionStyle,
     }),
-    [
-      swipeBackState,
-      topActivity.transitionState,
-      topActivity.activityType,
-      topActivity.transitionStyle,
-    ],
+    [topActivity.transitionState, topActivity.activityType, topActivity.transitionStyle],
   ) as React.HTMLAttributes<HTMLElement>;
 
   return useMemo(
     () => ({
       stackRef,
       swipeBackContextRef,
-      swipeBackState,
+      swipeBackState: swipeBackStateRef.current,
       setSwipeBackState,
-      setSwipeBackContext,
       getSwipeBackEvents,
 
       stackProps,
     }),
-    [swipeBackState, setSwipeBackContext, getSwipeBackEvents, stackProps],
+    [setSwipeBackState, getSwipeBackEvents, stackProps],
   );
 }

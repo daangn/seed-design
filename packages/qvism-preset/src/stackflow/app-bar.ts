@@ -6,21 +6,6 @@ import {
 } from "../utils/focus-ring";
 import { pseudo, focusVisible } from "../utils/pseudo";
 import { topNavigation as vars } from "../vars/component";
-import { fadeInAnimations, fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
-import {
-  idle,
-  idleBehind,
-  pop,
-  popBehind,
-  push,
-  pushBehind,
-  swipeBackCanceling,
-  swipeBackCancelingBehind,
-  swipeBackCompleting,
-  swipeBackCompletingBehind,
-  swipeBackSwiping,
-  swipeBackSwipingBehind,
-} from "./pseudo";
 import { vars as tokens } from "../vars/";
 
 export const appBarMain = defineSlotRecipe({
@@ -94,25 +79,7 @@ export const appBarMain = defineSlotRecipe({
       },
     },
     transitionStyle: {
-      slideFromRightIOS: {
-        root: {
-          // top
-          [push]: iOSAnimations.title.push,
-          [pop]: iOSAnimations.title.pop,
-          [idle]: iOSAnimations.title.idle,
-          [swipeBackSwiping]: iOSAnimations.title.interaction,
-          [swipeBackCanceling]: iOSAnimations.title.cancel,
-          [swipeBackCompleting]: iOSAnimations.title.complete,
-
-          // behind
-          [pushBehind]: iOSAnimations.titleBehind.push,
-          [popBehind]: iOSAnimations.titleBehind.pop,
-          [idleBehind]: iOSAnimations.titleBehind.idle,
-          [swipeBackSwipingBehind]: iOSAnimations.titleBehind.interaction,
-          [swipeBackCancelingBehind]: iOSAnimations.titleBehind.cancel,
-          [swipeBackCompletingBehind]: iOSAnimations.titleBehind.complete,
-        },
-      },
+      slideFromRightIOS: {},
       fadeFromBottomAndroid: {},
       fadeIn: {},
     },
@@ -262,62 +229,9 @@ export const appBar = defineSlotRecipe({
       },
     },
     transitionStyle: {
-      slideFromRightIOS: {
-        root: {
-          [`${push}:before`]: iOSAnimations.appBarBackground.push,
-          [`${pop}:before`]: iOSAnimations.appBarBackground.pop,
-          [`${idle}:before`]: iOSAnimations.appBarBackground.idle,
-          [`${swipeBackSwiping}:before`]: iOSAnimations.appBarBackground.interaction,
-          [`${swipeBackCanceling}:before`]: iOSAnimations.appBarBackground.cancel,
-          [`${swipeBackCompleting}:before`]: iOSAnimations.appBarBackground.complete,
-        },
-        icon: {
-          // top
-          [push]: iOSAnimations.icon.push,
-          [pop]: iOSAnimations.icon.pop,
-          [idle]: iOSAnimations.icon.idle,
-          [swipeBackSwiping]: iOSAnimations.icon.interaction,
-          [swipeBackCanceling]: iOSAnimations.icon.cancel,
-          [swipeBackCompleting]: iOSAnimations.icon.complete,
-
-          // behind
-          [pushBehind]: iOSAnimations.iconBehind.push,
-          [popBehind]: iOSAnimations.iconBehind.pop,
-          [idleBehind]: iOSAnimations.iconBehind.idle,
-          [swipeBackSwipingBehind]: iOSAnimations.iconBehind.interaction,
-          [swipeBackCancelingBehind]: iOSAnimations.iconBehind.cancel,
-          [swipeBackCompletingBehind]: iOSAnimations.iconBehind.complete,
-        },
-        custom: {
-          // top
-          [push]: iOSAnimations.icon.push,
-          [pop]: iOSAnimations.icon.pop,
-          [idle]: iOSAnimations.icon.idle,
-          [swipeBackSwiping]: iOSAnimations.icon.interaction,
-          [swipeBackCanceling]: iOSAnimations.icon.cancel,
-          [swipeBackCompleting]: iOSAnimations.icon.complete,
-
-          // behind
-          [pushBehind]: iOSAnimations.iconBehind.push,
-          [popBehind]: iOSAnimations.iconBehind.pop,
-          [idleBehind]: iOSAnimations.iconBehind.idle,
-          [swipeBackSwipingBehind]: iOSAnimations.iconBehind.interaction,
-          [swipeBackCancelingBehind]: iOSAnimations.iconBehind.cancel,
-          [swipeBackCompletingBehind]: iOSAnimations.iconBehind.complete,
-        },
-      },
-      fadeFromBottomAndroid: {
-        root: {
-          [push]: fadeFromBottomAndroidAnimations.appBar.push,
-          [pop]: fadeFromBottomAndroidAnimations.appBar.pop,
-        },
-      },
-      fadeIn: {
-        root: {
-          [push]: fadeInAnimations.appBar.push,
-          [pop]: fadeInAnimations.appBar.pop,
-        },
-      },
+      slideFromRightIOS: {},
+      fadeFromBottomAndroid: {},
+      fadeIn: {},
     },
     tone: {
       layer: {
