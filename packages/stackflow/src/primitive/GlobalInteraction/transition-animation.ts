@@ -112,47 +112,68 @@ function clearStyles(el: HTMLElement | null) {
 }
 
 /**
- * Set the "idle after push" positions: top at 0, behind at -30%.
- * Called after push completes to maintain correct layering.
+ * Set the "idle after push" positions.
+ * iOS: top at 0, behind at -30% with title/icons hidden.
+ * Android/fadeIn: top at 0, behind untouched (no parallax).
  */
-export function setIdlePositions(t: TransitionTargets) {
+export function setIdlePositions(
+  t: TransitionTargets,
+  style: TransitionStyle = "slideFromRightIOS",
+) {
   // Top activity — visible at origin
   clearStyles(t.topLayer);
   clearStyles(t.topDim);
   clearStyles(t.topTitle);
   for (const icon of t.topIcons) clearStyles(icon);
-  if (t.topAppBarRoot) t.topAppBarRoot.style.removeProperty("--swipe-back-displacement");
-
-  // Behind activity — offset to the left
-  setTransform(t.behindLayer, `translate3d(${BEHIND_OFFSET_PERCENT}%, 0, 0)`);
-  if (t.behindTitle) {
-    setOpacity(t.behindTitle, "0");
-    setTransform(t.behindTitle, "translate3d(-25%, 0, 0)");
+  if (t.topAppBarRoot) {
+    t.topAppBarRoot.style.opacity = "";
+    t.topAppBarRoot.style.removeProperty("--swipe-back-displacement");
   }
-  for (const icon of t.behindIcons) setOpacity(icon, "0");
+
+  // Behind activity — iOS only: offset to the left
+  if (style === "slideFromRightIOS") {
+    setTransform(t.behindLayer, `translate3d(${BEHIND_OFFSET_PERCENT}%, 0, 0)`);
+    if (t.behindTitle) {
+      setOpacity(t.behindTitle, "0");
+      setTransform(t.behindTitle, "translate3d(-25%, 0, 0)");
+    }
+    for (const icon of t.behindIcons) setOpacity(icon, "0");
+  }
 }
 
 /**
- * Set positions after pop/swipe-complete:
- * - Top activity pinned off-screen (until stackflow removes DOM)
- * - Behind activity cleared to CSS defaults (it's now visible)
+ * Set positions after pop/swipe-complete.
+ * Pins top activity in its exit position, clears behind activity.
  */
-export function setPostExitPositions(t: TransitionTargets) {
-  // Top activity — pinned off-screen so it doesn't flash back
-  setTransform(t.topLayer, "translate3d(100%, 0, 0)");
+export function setPostExitPositions(
+  t: TransitionTargets,
+  style: TransitionStyle = "slideFromRightIOS",
+) {
+  // Top activity — pinned in exit position so it doesn't flash back
+  if (style === "slideFromRightIOS") {
+    setTransform(t.topLayer, "translate3d(100%, 0, 0)");
+    if (t.topTitle) {
+      setOpacity(t.topTitle, "0");
+      setTransform(t.topTitle, "translate3d(25%, 0, 0)");
+    }
+    for (const icon of t.topIcons) {
+      setOpacity(icon, "0");
+      setTransform(icon, "translate3d(25%, 0, 0)");
+    }
+    if (t.topAppBarRoot) setOpacity(t.topAppBarRoot, "0");
+  } else if (style === "fadeFromBottomAndroid") {
+    setTransform(t.topLayer, "translate3d(0, 8vh, 0)");
+    setOpacity(t.topLayer, "0");
+    if (t.topAppBarRoot) {
+      setOpacity(t.topAppBarRoot, "0");
+      setTransform(t.topAppBarRoot, "translate3d(0, 8vh, 0)");
+    }
+  } else {
+    // fadeIn
+    setOpacity(t.topLayer, "0");
+    if (t.topAppBarRoot) setOpacity(t.topAppBarRoot, "0");
+  }
   setOpacity(t.topDim, "0");
-  if (t.topTitle) {
-    setOpacity(t.topTitle, "0");
-    setTransform(t.topTitle, "translate3d(25%, 0, 0)");
-  }
-  for (const icon of t.topIcons) {
-    setOpacity(icon, "0");
-    setTransform(icon, "translate3d(25%, 0, 0)");
-  }
-  // Hide appBar root entirely — this also hides ::before which can't be inlined
-  if (t.topAppBarRoot) {
-    setOpacity(t.topAppBarRoot, "0");
-  }
 
   // Behind activity — visible at origin
   clearStyles(t.behindLayer);

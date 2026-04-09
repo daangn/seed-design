@@ -265,7 +265,7 @@ export function useGlobalInteraction() {
         const { animations, finished } = animateTransition(targets, "push", style);
         runningAnimsRef.current = animations;
         finished.then(() => {
-          setIdlePositions(targets);
+          setIdlePositions(targets, style);
           cancelAll(animations);
           runningAnimsRef.current = [];
         });
@@ -291,7 +291,7 @@ export function useGlobalInteraction() {
       const { animations, finished } = animateTransition(targets, "pop", style);
       runningAnimsRef.current = animations;
       finished.then(() => {
-        setPostExitPositions(targets);
+        setPostExitPositions(targets, style);
         cancelAll(animations);
         runningAnimsRef.current = [];
       });
