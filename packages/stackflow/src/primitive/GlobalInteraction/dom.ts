@@ -41,6 +41,12 @@ function queryAllParts(activity: HTMLElement | null, ...parts: string[]): HTMLEl
   return Array.from(activity.querySelectorAll<HTMLElement>(selector));
 }
 
+/** Read transition style directly from the top activity DOM element. */
+export function readTransitionStyle(stackEl: HTMLElement): TransitionStyle {
+  const topActivity = stackEl.querySelector<HTMLElement>("[data-activity-is-top]");
+  return (topActivity?.dataset["transitionStyle"] as TransitionStyle) ?? "slideFromRightIOS";
+}
+
 /** Find all transition target elements. Call once per gesture/transition. */
 export function findTransitionTargets(stackEl: HTMLElement): TransitionTargets {
   const topActivity = stackEl.querySelector<HTMLElement>("[data-activity-is-top]");

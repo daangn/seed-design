@@ -3,8 +3,8 @@ import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { useTopActivity } from "../private/useTopActivity";
 import {
   type TransitionTargets,
-  type TransitionStyle,
   findTransitionTargets,
+  readTransitionStyle,
   applySwipeStyles,
   clearAllStyles,
   setIdlePositions,
@@ -251,7 +251,6 @@ export function useGlobalInteraction() {
     if (!stackEl) return;
 
     const swipeState = swipeBackStateRef.current;
-    const style = (topActivity.transitionStyle ?? "slideFromRightIOS") as TransitionStyle;
 
     if (next === "enter-active" && prev !== "enter-active") {
       if (swipeState !== "idle") return;
@@ -263,6 +262,8 @@ export function useGlobalInteraction() {
       }
       pendingRAFRef.current = requestAnimationFrame(() => {
         pendingRAFRef.current = null;
+        // Read style from DOM at animation time — React state may be stale
+        const style = readTransitionStyle(stackEl);
         const targets = findTransitionTargets(stackEl);
         const { animations, finished } = animateTransition(targets, "push", style);
         runningAnimsRef.current = animations;
@@ -275,7 +276,6 @@ export function useGlobalInteraction() {
     }
 
     if (next === "exit-active" && prev !== "exit-active") {
-      // Always consume the skip flag first, regardless of swipe state
       if (skipNextExitRef.current) {
         skipNextExitRef.current = false;
         return;
@@ -289,6 +289,8 @@ export function useGlobalInteraction() {
       }
       cancelAll(runningAnimsRef.current);
       runningAnimsRef.current = [];
+      // Read style from DOM — always fresh
+      const style = readTransitionStyle(stackEl);
       const targets = findTransitionTargets(stackEl);
       const { animations, finished } = animateTransition(targets, "pop", style);
       runningAnimsRef.current = animations;
@@ -298,7 +300,7 @@ export function useGlobalInteraction() {
         runningAnimsRef.current = [];
       });
     }
-  }, [topActivity.transitionState, topActivity.transitionStyle]);
+  }, [topActivity.transitionState]);
 
   const stackProps = useMemo(
     () => ({
