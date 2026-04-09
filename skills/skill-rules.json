@@ -161,6 +161,32 @@
         ]
       }
     },
+    "changeset": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "git diff 분석 기반으로 changeset을 자동 생성합니다",
+      "promptTriggers": {
+        "keywords": [
+          "changeset",
+          "체인지셋",
+          "변경사항 기록",
+          "버전 범프",
+          "version bump",
+          "릴리스 노트",
+          "release note",
+          "changelog"
+        ],
+        "intentPatterns": [
+          "(changeset|체인지셋).*(작성|생성|추가|만들|write|create|add)",
+          "(작성|생성|추가|만들).*(changeset|체인지셋)",
+          "changeset",
+          "(버전|version).*(올려|bump|범프|업)",
+          "(릴리스|release).*(준비|노트|note)",
+          "변경.*기록"
+        ]
+      }
+    },
     "deprecation": {
       "type": "domain",
       "enforcement": "suggest",

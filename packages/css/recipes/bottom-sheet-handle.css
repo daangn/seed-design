@@ -10,12 +10,12 @@
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
     touch-action: pan-y;
 }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .seed-bottom-sheet-handle__root:is(:hover, [data-hover]) {
         background-color: var(--seed-color-palette-gray-500);
     }
 }
-@media (hover: none) {
+@media not all and (hover: hover) and (pointer: fine) {
     .seed-bottom-sheet-handle__root:is(:active, [data-active]) {
         background-color: var(--seed-color-palette-gray-500);
     }

@@ -49,8 +49,8 @@ export async function TypographyMigrationIndex() {
       </colgroup>
       <thead>
         <tr>
-          <th>V2</th>
-          <th>V3</th>
+          <th>이전</th>
+          <th>SEED</th>
           <th>비고</th>
         </tr>
       </thead>

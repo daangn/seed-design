@@ -49,4 +49,24 @@ describe("tokenReferenceRule", () => {
 
     expect(actual).toContain("TokenReference");
   });
+
+  it("converts TokenReference with HTML-escaped groups attribute", () => {
+    const input = `<TokenReference groups="[&#x22;color&#x22;, &#x22;palette&#x22;]" />`;
+
+    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
+
+    expect(actual).toContain("| Token |");
+    expect(actual).toContain("$color.palette.");
+    expect(actual).not.toContain("TokenReference");
+  });
+
+  it("converts TokenReference with HTML-escaped regex attribute", () => {
+    const input = String.raw`<TokenReference regex="/\$color\..*-pressed$/" />`;
+
+    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
+
+    expect(actual).toContain("| Token |");
+    expect(actual).toContain("$color.bg.brand-solid-pressed");
+    expect(actual).not.toContain("TokenReference");
+  });
 });

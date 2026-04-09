@@ -1,25 +1,25 @@
 ---
 title: Guide
-description: Seed Design V2에서 V3로 마이그레이션하기 위해 필요한 작업들을 안내합니다.
+description: Sprout에서 SEED로 마이그레이션하기 위해 필요한 작업들을 안내합니다.
 ---
 
 
 ## 마이그레이션 개요
 
-V2에서 V3로 넘어가기 위해서는 크게 아래와 같은 순서로 진행됩니다.
+Sprout에서 SEED로 넘어가기 위해서는 크게 아래와 같은 순서로 진행됩니다.
 
 1. 이전 버전 용례 분석
-2. V3 설치
+2. SEED 설치
 3. 파운데이션 마이그레이션 (일괄 적용 권장)
 4. 컴포넌트 마이그레이션 (화면별로 적용 권장 및 점진적 적용 가능)
 
 기본적으로 파운데이션까지는 프로젝트 전체에 일괄 교체를 진행합니다.
 컴포넌트는 그 이후에 화면별로 적용하거나, 컴포넌트별로 적용하는 것과 같이 점진적 적용이 가능합니다.
 
-## V3 설치
+## SEED 설치
 
-V3를 사용하기 위한 기반 작업들을 먼저 진행합니다.
-아래 작업들이 끝나면 V3 사용이 가능합니다.
+SEED를 사용하기 위한 기반 작업들을 먼저 진행합니다.
+아래 작업들이 끝나면 SEED 사용이 가능합니다.
 
 <Steps>
 
@@ -49,7 +49,7 @@ V3를 사용하기 위한 기반 작업들을 먼저 진행합니다.
 ### CSS import
 
 <Callout>
-V2 `@seed-design/stylesheet` 패키지의 `global.css`와 상호운용이 가능합니다.
+Sprout `@seed-design/stylesheet` 패키지의 `global.css`와 상호운용이 가능합니다.
 </Callout>
 
 <Callout type="warn">
@@ -60,7 +60,7 @@ V2 `@seed-design/stylesheet` 패키지의 `global.css`와 상호운용이 가능
 import "@seed-design/css/all.css"; // [!code ++]
 ```
 
-V3 스타일시트 사용법은 [Installation의 css import](/react/getting-started/installation/manual#allcss-import하기) 설명을 참고해주세요.
+SEED 스타일시트 사용법은 [Installation의 css import](/react/getting-started/installation/manual#allcss-import하기) 설명을 참고해주세요.
 
 </Step>
 
@@ -69,7 +69,7 @@ V3 스타일시트 사용법은 [Installation의 css import](/react/getting-star
 
 #### 변경사항
 
-기존 V2에서 사용되던 data-attribute가 바뀌었습니다.
+기존 Sprout에서 사용되던 data-attribute가 바뀌었습니다.
 
 ```html
 <!-- [!code --] -->
@@ -78,12 +78,12 @@ V3 스타일시트 사용법은 [Installation의 css import](/react/getting-star
 <html data-seed data-seed-color-mode="system" data-seed-user-color-scheme="light" />
 ```
 
-- `data-seed`: Seed Design 전역 테마 적용 (V3에서 그대로 유지)
+- `data-seed`: Seed Design 전역 테마 적용 (SEED에서 그대로 유지)
 - `data-seed-color-mode`: Seed Design 테마 강제 적용
   - `light-only`, `dark-only`, `system` 중 하나를 선택할 수 있습니다.
 - `data-seed-user-color-scheme`: 유저 기기의 설정
   - `light`, `dark` 중 하나의 값을 가집니다.
-  - v2에서 `data-seed-scale-color` 속성을 사용하던 코드가 있다면 `data-seed-user-color-scheme` 속성으로 변경해주세요.
+  - Sprout에서 `data-seed-scale-color` 속성을 사용하던 코드가 있다면 `data-seed-user-color-scheme` 속성으로 변경해주세요.
 
 <Card
   title="Theming"
@@ -229,7 +229,7 @@ Seed Design System의 디자인 토큰을 새로운 토큰으로 마이그레이
 ### 마이그레이션 전략
 
 - 만약 여러 패키지를 사용하는 경우에는 공통 패키지 먼저 마이그레이션 합니다.
-- 전처리해서 사용하는 경우에는 전처리 코드 자체를 V3로 마이그레이션 한 후 나머지 코드들을 Codemod로 마이그레이션 하는게 좋습니다.
+- 전처리해서 사용하는 경우에는 전처리 코드 자체를 SEED로 마이그레이션 한 후 나머지 코드들을 Codemod로 마이그레이션 하는게 좋습니다.
 - Color와 Typography 각각 진행해도 되지만, Color와 Typography 마이그레이션을 동시에 진행 후 한번에 QA를 진행하는게 더 간결합니다.
 
 ### Typography Preset
@@ -389,11 +389,11 @@ Codemod 실행 시 디버깅에 도움을 주는 로그 파일을 생성할 수 
 2025-03-28 18:46:54 /Project/src/components/component2.tsx (line: 60): $paperDefault-semantic → $bg-layer-default (line 60)
 ```
 
-### V2 V3 Compatibility
+### Sprout-SEED Compatibility
 
-Color, Typography 마이그레이션이 끝나고 나면 기존 Sprout (V2) 컴포넌트와의 호환성 문제가 있을 수 있습니다.
+Color, Typography 마이그레이션이 끝나고 나면 기존 Sprout 컴포넌트와의 호환성 문제가 있을 수 있습니다.
 
-Sprout 내부에 V2 토큰을 V3 토큰으로 전부 교체한 Compatibility 버전을 제공합니다.
+Sprout 내부에 Sprout 토큰을 SEED 토큰으로 전부 교체한 Compatibility 버전을 제공합니다.
 여기까지 진행해야 파운데이션 마이그레이션이 끝난 것으로 간주할 수 있습니다.
 
 [Sprout Compatibility 버전](https://github.com/daangn/sprout/pkgs/npm/sprout-components-button) 페이지에서
@@ -401,17 +401,17 @@ Sprout 내부에 V2 토큰을 V3 토큰으로 전부 교체한 Compatibility 버
 
 주의할 점: 너무 예전의 버전을 사용하는 경우 컴포넌트 내부에서 breaking changes가 있을 수 있습니다.
 
-V2 V3 Compatibility 버전까지 설치가 되었다면 파운데이션 마이그레이션이 끝난 것으로 간주할 수 있습니다.
+Sprout-SEED Compatibility 버전까지 설치가 되었다면 파운데이션 마이그레이션이 끝난 것으로 간주할 수 있습니다.
 이론상 이때부터는 `@seed-design/design-token` 패키지와 `@seed-design/stylesheet` 패키지를 제거할 수 있습니다.
-또한 V3 컴포넌트를 점진적 사용이 가능합니다.
+또한 SEED 컴포넌트를 점진적 사용이 가능합니다.
 
-### V3 Compat Script 제거
+### Compat Script 제거
 
 ```html
 <script src="https://assets.krrt.io/daangn/seed-design-critical-script/latest/lib/index.js"></script>
 ```
 
-기존에 25.10.0 앱버전 이상에서 V2 백그라운드 색상을 V3로 변경하기 위해 추가했던 스크립트는
+기존에 25.10.0 앱버전 이상에서 Sprout 백그라운드 색상을 SEED로 변경하기 위해 추가했던 스크립트는
 마이그레이션이 끝나고 제거해도 됩니다.
 
 ## 컴포넌트 마이그레이션
@@ -424,7 +424,7 @@ TBD
 
 #### 토큰 매핑이 안되는 경우 (컬러, 타이포그래피)
 
-- V3에서 지원하지 않는 토큰을 사용하는 경우입니다. (주로 alpha 색상 토큰이거나 너무 작거나 큰 타이포 토큰입니다.)
+- SEED에서 지원하지 않는 토큰을 사용하는 경우입니다. (주로 alpha 색상 토큰이거나 너무 작거나 큰 타이포 토큰입니다.)
 - 토큰 매핑을 확인할 수 있는 방법은 [설명](#파운데이션-토큰-매핑은-어디서-확인할-수-있나요)을 참고해주세요.
 - 해당 경우는 디자이너분과 상의 후 다른 적절한 토큰으로 직접 매핑해주세요.
 - 결정에 어려움이 있는 경우 디자인코어팀에 문의해주세요.
@@ -436,7 +436,7 @@ TBD
 
 #### static 토큰이 palette로 변경된 경우 (컬러)
 
-- V3에서 static 컬러 토큰은 웬만해서는 `white`, `black` 두 가지만 지원합니다.
+- SEED에서 static 컬러 토큰은 웬만해서는 `white`, `black` 두 가지만 지원합니다.
 - 나머지 색상 (yellow, green, blue, red, gray) 등은 palette 토큰으로 변경되었습니다.
 - 다크모드와 라이트모드에 따라 색상이 달라질 수 있기 때문에 확인이 필요합니다.
 - 배경은 변하는데 텍스트 색상이 변하지 않거나, 그 반대의 상황이 나올 수 있습니다.
@@ -454,7 +454,7 @@ TBD
 #### alternate 토큰으로 변경된 경우 (타이포그래피)
 
 - 기본적으로 [Mapping](/docs/migration/migration-reference)은 1:1 매핑을 지원합니다.
-- 하지만 V3에서 Deprecated 된 토큰인 경우, 대체 토큰으로 매핑 될 수 있습니다.
+- 하지만 SEED에서 Deprecated 된 토큰인 경우, 대체 토큰으로 매핑 될 수 있습니다.
 - 그런 경우 font size나 line height가 변경되었을 수 있습니다.
 - 이 경우는 직접 UI를 확인해야 합니다.
 
@@ -464,7 +464,7 @@ TBD
 
 ## Known Issues
 
-### Vanilla Extract CSS + Vite + V3 사용시
+### Vanilla Extract CSS + Vite + SEED 사용시
 
 - `@vanilla-extract/vite-plugin`와 `@seed-design/vite-plugin`을 같이 사용하는 경우 빌드가 실패할 수 있습니다.
 - `@vanilla-extract/vite-plugin`의 버전을 `5` 이상으로 업그레이드 해주세요.

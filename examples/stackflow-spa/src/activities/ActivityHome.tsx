@@ -228,6 +228,20 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Tabs", onClick: () => push("ActivityTabs", {}) },
         { title: "AnimatedTabs", onClick: () => push("ActivityAnimatedTabs", {}) },
         { title: "SwipeableTabs", onClick: () => push("ActivitySwipeableTabs", {}) },
+        {
+          title: "TabsAutoHeightLazy",
+          onClick: () => push("ActivityTabsAutoHeightLazy", {}),
+        },
+      ],
+    },
+    {
+      title: "Forms",
+      items: [
+        { title: "Switch", onClick: () => push("ActivitySwitch", {}) },
+        { title: "Checkbox", onClick: () => push("ActivityCheckbox", {}) },
+        { title: "RadioGroup", onClick: () => push("ActivityRadioGroup", {}) },
+        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "Form", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {
@@ -239,8 +253,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
-        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
-        { title: "Form", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {

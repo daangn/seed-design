@@ -31,7 +31,7 @@
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-subtle);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
-    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4)  - var(--seed-dimension-x4)) / 2);
+    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) / 2);
     display: flex;
   }
 
@@ -43,7 +43,7 @@
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-color: var(--seed-color-fg-critical);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
-    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4)  - var(--seed-dimension-x4)) / 2);
+    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) / 2);
     display: flex;
   }
 

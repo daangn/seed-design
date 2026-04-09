@@ -196,7 +196,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "content-placeholder.tsx",
-          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+          dependencies: { "@seed-design/react": "~1.2.8", "@seed-design/css": "~1.2.6" },
         },
       ],
     },
