@@ -128,7 +128,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
       if (!dismissible || !closeOnEscape) return;
       closeDrawer(false, { reason: "escapeKeyDown", event: e });
     },
-    onPointerDownOutside: (e) => {
+    onPressOutside: (e) => {
       if (e.defaultPrevented) return;
       if (!modal) return;
       if (keyboardIsOpen.current) keyboardIsOpen.current = false;

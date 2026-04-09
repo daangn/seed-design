@@ -34,10 +34,10 @@ export interface UseDismissibleLayerOptions {
   onEscapeKeyDown: (event: KeyboardEvent) => void;
 
   /**
-   * Called when a pointer-down occurs outside the layer.
+   * Called when a press occurs outside the layer.
    * Call `event.preventDefault()` to signal that the event is handled.
    */
-  onPointerDownOutside: (event: PointerEvent) => void;
+  onPressOutside: (event: PointerEvent) => void;
 
   /**
    * Called when focus moves outside the layer.
@@ -57,6 +57,15 @@ export interface UseDismissibleLayerOptions {
    * not trigger dismiss (e.g., Menu trigger).
    */
   exclude?: (target: HTMLElement) => boolean;
+
+  /**
+   * Determines when an outside press triggers dismiss.
+   *
+   * - `"confirm"` (default): Both mouse and touch defer to click.
+   * - `"eager"`: Mouse on pointerdown, touch defers to click.
+   * - `"drag"`: Mouse on pointerdown, touch on drag (>10px immediate, >5px on touchend).
+   */
+  pressBehavior?: "eager" | "confirm" | "drag";
 }
 
 const NOOP = () => {};
@@ -66,10 +75,11 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
     enabled,
     blockPointerEvents = false,
     onEscapeKeyDown,
-    onPointerDownOutside,
+    onPressOutside,
     onFocusOutside,
     onCascadeDismiss,
     exclude,
+    pressBehavior,
   } = options;
 
   const ctx = useLayerStackContext();
@@ -142,18 +152,19 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
 
   useEscapeKeydown(enabled ? node : null, ctx, handleEscapeKeyDown);
 
-  // -- Pointer down outside --
-  const handlePointerDownOutside = useCallback(
+  // -- Press outside --
+  const handlePressOutside = useCallback(
     (event: PointerEvent) => {
-      onPointerDownOutside(event);
+      onPressOutside(event);
     },
-    [onPointerDownOutside],
+    [onPressOutside],
   );
 
-  const pointerDownOutsideProps = usePointerDownOutside(enabled ? node : null, ctx, {
+  const pressOutsideProps = usePointerDownOutside(enabled ? node : null, ctx, {
     enabled,
     exclude,
-    onPointerDownOutside: handlePointerDownOutside,
+    onPressOutside: handlePressOutside,
+    pressBehavior,
   });
 
   // -- Focus outside --
@@ -195,7 +206,7 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
   return {
     dismissibleRef,
     dismissibleProps: {
-      onPointerDownCapture: pointerDownOutsideProps.onPointerDownCapture,
+      onPointerDownCapture: pressOutsideProps.onPointerDownCapture,
       onFocusCapture: focusOutsideProps.onFocusCapture,
       onBlurCapture: focusOutsideProps.onBlurCapture,
       style,

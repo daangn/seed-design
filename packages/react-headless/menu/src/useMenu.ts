@@ -210,8 +210,14 @@ export function useMenu(props: UseMenuProps) {
     ],
   });
 
+  const { status } = useTransitionStatus(context);
+
+  // Keep autoUpdate alive during exit animation so the positioner
+  // follows the trigger even while the menu is animating out.
+  const mounted = status !== "unmounted";
+
   useEffect(() => {
-    if (!open) return;
+    if (!mounted) return;
     if (!floatingRefs.reference.current || !floatingRefs.floating.current) return;
 
     return autoUpdate(
@@ -219,9 +225,7 @@ export function useMenu(props: UseMenuProps) {
       floatingRefs.floating.current,
       context.update,
     );
-  }, [open, floatingRefs.reference, floatingRefs.floating, context]);
-
-  const { status } = useTransitionStatus(context);
+  }, [mounted, floatingRefs.reference, floatingRefs.floating, context]);
 
   const click = useClick(context, {
     enabled: !disabled,

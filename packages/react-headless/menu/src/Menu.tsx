@@ -28,7 +28,6 @@ export const MenuRoot = ({
   defaultOpen,
   onOpenChange,
   disabled,
-  modal,
   placement,
   gutter,
   overflowPadding,
@@ -42,7 +41,6 @@ export const MenuRoot = ({
     defaultOpen,
     onOpenChange,
     disabled,
-    modal,
     placement,
     gutter,
     overflowPadding,
@@ -114,10 +112,11 @@ export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, 
 
   const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
     enabled: open,
+    pressBehavior: "drag",
     onEscapeKeyDown: (event) => {
       setOpen(false, { reason: "escapeKeyDown", event });
     },
-    onPointerDownOutside: (event) => {
+    onPressOutside: (event) => {
       setOpen(false, { reason: "interactOutside", event });
     },
     onCascadeDismiss: ({ dismissedParent }) => {

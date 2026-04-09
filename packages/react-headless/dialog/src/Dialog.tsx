@@ -64,7 +64,7 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
       if (!api.closeOnEscape) return;
       api.setOpen(false, { reason: "escapeKeyDown", event: e });
     },
-    onPointerDownOutside: (e) => {
+    onPressOutside: (e) => {
       if (!api.closeOnInteractOutside) return;
       api.setOpen(false, { reason: "interactOutside", event: e });
     },

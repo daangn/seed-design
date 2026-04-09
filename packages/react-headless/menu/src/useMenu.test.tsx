@@ -118,7 +118,8 @@ function ControlledMenu({ onOpenChange }: { onOpenChange: (open: boolean) => voi
 // Tests
 // ===========================================================================
 
-describe("useMenu", () => {  describe("rendering & structure", () => {
+describe("useMenu", () => {
+  describe("rendering & structure", () => {
     it("renders a trigger with aria-haspopup='menu'", () => {
       const { getByText } = setUp(<BasicMenu />);
       const trigger = getByText("Open Menu");
@@ -153,7 +154,8 @@ describe("useMenu", () => {  describe("rendering & structure", () => {
       const label = getByText("Group 1");
       expect(label).toHaveAttribute("id", labelledBy);
     });
-  });  describe("open/close state", () => {
+  });
+  describe("open/close state", () => {
     it("opens on trigger click", async () => {
       const { getByText, queryByRole, user } = setUp(<BasicMenu />);
       expect(queryByRole("menu")).not.toHaveAttribute("data-open");
@@ -214,7 +216,8 @@ describe("useMenu", () => {  describe("rendering & structure", () => {
       await user.click(getByText("Open Menu"));
       expect(queryByRole("menu")).not.toHaveAttribute("data-open");
     });
-  });  describe("keyboard navigation", () => {
+  });
+  describe("keyboard navigation", () => {
     it("focuses the first item when opened by keyboard (ArrowDown on trigger)", async () => {
       const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
       getByText("Open Menu").focus();
@@ -316,7 +319,8 @@ describe("useMenu", () => {  describe("rendering & structure", () => {
       await user.keyboard(" ");
       expect(queryByRole("menu")).toHaveAttribute("data-open");
     });
-  });  describe("typeahead", () => {
+  });
+  describe("typeahead", () => {
     it("focuses item matching typed character", async () => {
       const { getByText, user } = setUp(<MenuWithLabels />);
       await user.click(getByText("Open Menu"));
@@ -391,7 +395,8 @@ describe("useMenu", () => {  describe("rendering & structure", () => {
       await user.keyboard("b");
       expect(getByText("Item with icon 2")).toHaveFocus();
     });
-  });  describe("item interaction", () => {
+  });
+  describe("item interaction", () => {
     it("calls onClick on item when clicked", async () => {
       const onClick = mock();
       const { getByText, user } = setUp(
@@ -483,7 +488,8 @@ describe("useMenu", () => {  describe("rendering & structure", () => {
       await user.keyboard("{Enter}");
       expect(onClick).not.toHaveBeenCalled();
     });
-  });  describe("focus management", () => {
+  });
+  describe("focus management", () => {
     it("doesn't focus the first item when menu opens", async () => {
       const { getByText, getAllByRole, user } = setUp(<BasicMenu />);
       await user.click(getByText("Open Menu"));
@@ -550,7 +556,8 @@ describe("useMenu", () => {  describe("rendering & structure", () => {
       await user.keyboard(" "); // select first item
       expect(trigger).toHaveFocus();
     });
-  });  describe("mouse interaction", () => {
+  });
+  describe("mouse interaction", () => {
     it("activates item on mouse-up after drag from trigger", async () => {
       const onClick = mock();
       const { getByText } = setUp(
@@ -573,20 +580,8 @@ describe("useMenu", () => {  describe("rendering & structure", () => {
       fireEvent.click(item);
       expect(onClick).toHaveBeenCalledTimes(1);
     });
-  });  describe("modal behavior", () => {
-    it("locks scroll when modal=true", async () => {
-      const { getByText, user } = setUp(<BasicMenu modal />);
-      await user.click(getByText("Open Menu"));
-      // Check that body has overflow hidden or similar scroll lock
-      expect(document.body.style.overflow).toBe("hidden");
-    });
-
-    it("does not lock scroll when modal=false", async () => {
-      const { getByText, user } = setUp(<BasicMenu modal={false} />);
-      await user.click(getByText("Open Menu"));
-      expect(document.body.style.overflow).not.toBe("hidden");
-    });
-  });  describe("data attributes", () => {
+  });
+  describe("data attributes", () => {
     it("sets data-open on trigger when menu is open", async () => {
       const { getByText, user } = setUp(<BasicMenu />);
       const trigger = getByText("Open Menu");
