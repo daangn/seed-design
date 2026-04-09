@@ -3,7 +3,10 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
-import { useDismissibleLayer } from "@seed-design/react-dismissible-layer";
+import {
+  useDismissibleLayer,
+  DismissibleParentContext,
+} from "@seed-design/react-dismissible-layer";
 import { Presence } from "@seed-design/react-presence";
 import { dataAttr, mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -120,7 +123,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
   const wasBeyondThePointRef = useRef(false);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
 
-  const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
+  const { dismissibleRef, dismissibleProps, layerNode } = useDismissibleLayer({
     enabled: isOpen,
     blockPointerEvents: modal,
     onEscapeKeyDown: (e) => {
@@ -188,96 +191,98 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
   }
 
   return (
-    <Presence present={isOpen} unmountOnExit={unmountOnExit} lazyMount={lazyMount}>
-      <FocusScope
-        asChild
-        loop
-        trapped={isOpen}
-        onMountAutoFocus={(e) => {
-          // prevent FocusScope's default autoFocus behavior
-          e.preventDefault();
+    <DismissibleParentContext.Provider value={layerNode}>
+      <Presence present={isOpen} unmountOnExit={unmountOnExit} lazyMount={lazyMount}>
+        <FocusScope
+          asChild
+          loop
+          trapped={isOpen}
+          onMountAutoFocus={(e) => {
+            // prevent FocusScope's default autoFocus behavior
+            e.preventDefault();
 
-          // when autoFocus is true, FocusScope sets the focus to the first tabbable element; otherwise content;
-          // the desired behavior is to set the focus to the content regardless of whether there are tabbable elements or not when true]
-          if (autoFocus) {
-            drawerRef.current?.focus();
-          }
+            // when autoFocus is true, FocusScope sets the focus to the first tabbable element; otherwise content;
+            // the desired behavior is to set the focus to the content regardless of whether there are tabbable elements or not when true]
+            if (autoFocus) {
+              drawerRef.current?.focus();
+            }
 
-          // later, we can do something like:
-          // when trigger has clicked using keyboard, focus the first tabbable element;
-          // when trigger has clicked using mouse, focus the content
-          // -> matches Menu behavior
-        }}
-      >
-        <Primitive.div
-          role="dialog"
-          aria-modal={modal}
-          aria-labelledby={titleId}
-          aria-describedby={descriptionId}
-          data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
-          data-drawer-direction={direction}
-          data-open={dataAttr(isOpen)}
-          data-animation-done={hasAnimationDone ? "true" : "false"}
-          data-drawer=""
-          data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
-          data-custom-container={container ? "true" : "false"}
-          {...restProps}
-          ref={composeRefs(ref, drawerRef, dismissibleRef)}
-          {...dismissibleProps}
-          style={
-            snapPointsOffset && snapPointsOffset.length > 0
-              ? ({
-                  "--snap-point-height": `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
-                  ...dismissibleProps.style,
-                  ...style,
-                } as React.CSSProperties)
-              : { ...dismissibleProps.style, ...style }
-          }
-          onPointerDown={(event) => {
-            if (handleOnly) return;
-            restProps.onPointerDown?.(event);
-            pointerStartRef.current = { x: event.pageX, y: event.pageY };
-            onPress(event);
+            // later, we can do something like:
+            // when trigger has clicked using keyboard, focus the first tabbable element;
+            // when trigger has clicked using mouse, focus the content
+            // -> matches Menu behavior
           }}
-          onPointerMove={(event) => {
-            lastKnownPointerEventRef.current = event;
-            if (handleOnly) return;
-            restProps.onPointerMove?.(event);
-            if (!pointerStartRef.current) return;
-            const yPosition = event.pageY - pointerStartRef.current.y;
-            const xPosition = event.pageX - pointerStartRef.current.x;
+        >
+          <Primitive.div
+            role="dialog"
+            aria-modal={modal}
+            aria-labelledby={titleId}
+            aria-describedby={descriptionId}
+            data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
+            data-drawer-direction={direction}
+            data-open={dataAttr(isOpen)}
+            data-animation-done={hasAnimationDone ? "true" : "false"}
+            data-drawer=""
+            data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
+            data-custom-container={container ? "true" : "false"}
+            {...restProps}
+            ref={composeRefs(ref, drawerRef, dismissibleRef)}
+            {...dismissibleProps}
+            style={
+              snapPointsOffset && snapPointsOffset.length > 0
+                ? ({
+                    "--snap-point-height": `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
+                    ...dismissibleProps.style,
+                    ...style,
+                  } as React.CSSProperties)
+                : { ...dismissibleProps.style, ...style }
+            }
+            onPointerDown={(event) => {
+              if (handleOnly) return;
+              restProps.onPointerDown?.(event);
+              pointerStartRef.current = { x: event.pageX, y: event.pageY };
+              onPress(event);
+            }}
+            onPointerMove={(event) => {
+              lastKnownPointerEventRef.current = event;
+              if (handleOnly) return;
+              restProps.onPointerMove?.(event);
+              if (!pointerStartRef.current) return;
+              const yPosition = event.pageY - pointerStartRef.current.y;
+              const xPosition = event.pageX - pointerStartRef.current.x;
 
-            const swipeStartThreshold = event.pointerType === "touch" ? 10 : 2;
-            const delta = { x: xPosition, y: yPosition };
+              const swipeStartThreshold = event.pointerType === "touch" ? 10 : 2;
+              const delta = { x: xPosition, y: yPosition };
 
-            const isAllowedToSwipe = isDeltaInDirection(delta, direction, swipeStartThreshold);
-            if (isAllowedToSwipe) onDrag(event);
-            else if (
-              Math.abs(xPosition) > swipeStartThreshold ||
-              Math.abs(yPosition) > swipeStartThreshold
-            ) {
+              const isAllowedToSwipe = isDeltaInDirection(delta, direction, swipeStartThreshold);
+              if (isAllowedToSwipe) onDrag(event);
+              else if (
+                Math.abs(xPosition) > swipeStartThreshold ||
+                Math.abs(yPosition) > swipeStartThreshold
+              ) {
+                pointerStartRef.current = null;
+              }
+            }}
+            onPointerUp={(event) => {
+              restProps.onPointerUp?.(event);
               pointerStartRef.current = null;
-            }
-          }}
-          onPointerUp={(event) => {
-            restProps.onPointerUp?.(event);
-            pointerStartRef.current = null;
-            wasBeyondThePointRef.current = false;
-            onRelease(event);
-          }}
-          onPointerOut={(event) => {
-            restProps.onPointerOut?.(event);
-            handleOnPointerUp(lastKnownPointerEventRef.current);
-          }}
-          onContextMenu={(event) => {
-            restProps.onContextMenu?.(event);
-            if (lastKnownPointerEventRef.current) {
+              wasBeyondThePointRef.current = false;
+              onRelease(event);
+            }}
+            onPointerOut={(event) => {
+              restProps.onPointerOut?.(event);
               handleOnPointerUp(lastKnownPointerEventRef.current);
-            }
-          }}
-        />
-      </FocusScope>
-    </Presence>
+            }}
+            onContextMenu={(event) => {
+              restProps.onContextMenu?.(event);
+              if (lastKnownPointerEventRef.current) {
+                handleOnPointerUp(lastKnownPointerEventRef.current);
+              }
+            }}
+          />
+        </FocusScope>
+      </Presence>
+    </DismissibleParentContext.Provider>
   );
 });
 DrawerContent.displayName = "DrawerContent";

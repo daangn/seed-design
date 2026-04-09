@@ -2,7 +2,10 @@
 
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { useDismissibleLayer } from "@seed-design/react-dismissible-layer";
+import {
+  useDismissibleLayer,
+  DismissibleParentContext,
+} from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
@@ -58,7 +61,7 @@ export interface DialogContentProps extends PrimitiveProps, React.HTMLAttributes
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props, ref) => {
   const api = useDialogContext();
 
-  const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
+  const { dismissibleRef, dismissibleProps, layerNode } = useDismissibleLayer({
     enabled: api.open,
     onEscapeKeyDown: (e) => {
       if (!api.closeOnEscape) return;
@@ -79,14 +82,16 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
   });
 
   return (
-    <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
-      <FocusScope asChild loop trapped={api.open}>
-        <Primitive.div
-          ref={composeRefs(ref, dismissibleRef)}
-          {...mergeProps(api.contentProps, dismissibleProps, props)}
-        />
-      </FocusScope>
-    </Presence>
+    <DismissibleParentContext.Provider value={layerNode}>
+      <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
+        <FocusScope asChild loop trapped={api.open}>
+          <Primitive.div
+            ref={composeRefs(ref, dismissibleRef)}
+            {...mergeProps(api.contentProps, dismissibleProps, props)}
+          />
+        </FocusScope>
+      </Presence>
+    </DismissibleParentContext.Provider>
   );
 });
 DialogContent.displayName = "DialogContent";

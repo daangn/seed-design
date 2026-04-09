@@ -8,7 +8,10 @@ import {
 } from "@floating-ui/react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
-import { useDismissibleLayer } from "@seed-design/react-dismissible-layer";
+import {
+  useDismissibleLayer,
+  DismissibleParentContext,
+} from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import React, { forwardRef, createContext } from "react";
@@ -110,7 +113,7 @@ export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<H
 export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, ref) => {
   const { floatingContext, contentProps, open, setOpen, elementsRef, labelsRef } = useMenuContext();
 
-  const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
+  const { dismissibleRef, dismissibleProps, layerNode } = useDismissibleLayer({
     enabled: open,
     pressBehavior: "drag",
     onEscapeKeyDown: (event) => {
@@ -134,10 +137,12 @@ export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, 
   });
 
   const content = (
-    <Primitive.div
-      ref={composeRefs(ref, dismissibleRef)}
-      {...mergeProps(contentProps, dismissibleProps, props)}
-    />
+    <DismissibleParentContext.Provider value={layerNode}>
+      <Primitive.div
+        ref={composeRefs(ref, dismissibleRef)}
+        {...mergeProps(contentProps, dismissibleProps, props)}
+      />
+    </DismissibleParentContext.Provider>
   );
 
   // FloatingFocusManager: handles position-aware initial focus, return focus,

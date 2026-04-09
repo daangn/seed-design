@@ -127,6 +127,37 @@ function ControlledMenu({ onOpenChange }: { onOpenChange: (open: boolean) => voi
   );
 }
 
+function TwoSiblingMenus({
+  onMenuAOpenChange,
+  onMenuBOpenChange,
+}: {
+  onMenuAOpenChange?: (open: boolean) => void;
+  onMenuBOpenChange?: (open: boolean) => void;
+} = {}) {
+  return (
+    <div>
+      <Menu onOpenChange={onMenuAOpenChange}>
+        <MenuTrigger>Trigger A</MenuTrigger>
+        <MenuPositioner>
+          <MenuContent>
+            <MenuItem>Item A1</MenuItem>
+            <MenuItem>Item A2</MenuItem>
+          </MenuContent>
+        </MenuPositioner>
+      </Menu>
+      <Menu onOpenChange={onMenuBOpenChange}>
+        <MenuTrigger>Trigger B</MenuTrigger>
+        <MenuPositioner>
+          <MenuContent>
+            <MenuItem>Item B1</MenuItem>
+            <MenuItem>Item B2</MenuItem>
+          </MenuContent>
+        </MenuPositioner>
+      </Menu>
+    </div>
+  );
+}
+
 // ===========================================================================
 // Tests
 // ===========================================================================
@@ -636,6 +667,135 @@ describe("useMenu", () => {
       await user.keyboard("{ArrowDown}"); // focus first item
       await user.keyboard(" "); // select first item
       expect(trigger).toHaveFocus();
+    });
+  });
+
+  describe("sibling menus", () => {
+    it("opens Menu B after closing Menu A by clicking Trigger B", async () => {
+      const user = userEvent.setup();
+      const { getByText } = render(<TwoSiblingMenus />);
+      await waitForPositioning();
+
+      // Open Menu A
+      await user.click(getByText("Trigger A"));
+      expect(getByText("Trigger A")).toHaveAttribute("aria-expanded", "true");
+
+      // Click Trigger B — should close Menu A and open Menu B
+      await user.click(getByText("Trigger B"));
+
+      expect(getByText("Trigger A")).toHaveAttribute("aria-expanded", "false");
+      expect(getByText("Trigger B")).toHaveAttribute("aria-expanded", "true");
+    });
+
+    it("does not cascade-dismiss Menu B when Menu A's layer is removed", async () => {
+      const user = userEvent.setup();
+      const onMenuBOpenChange = vi.fn();
+      const { getByText } = render(<TwoSiblingMenus onMenuBOpenChange={onMenuBOpenChange} />);
+      await waitForPositioning();
+
+      // Open Menu A
+      await user.click(getByText("Trigger A"));
+      await waitForPositioning();
+
+      // Click Trigger B
+      await user.click(getByText("Trigger B"));
+      await waitForPositioning();
+
+      // Menu B should have been opened and NOT immediately closed
+      const calls = onMenuBOpenChange.mock.calls.map((args) => args[0] as boolean);
+      expect(calls).toEqual([true]);
+    });
+
+    it("opens Menu B after tapping Trigger B while Menu A is open (touch)", async () => {
+      const user = userEvent.setup();
+      const { getByText } = render(<TwoSiblingMenus />);
+      await waitForPositioning();
+
+      // Open Menu A
+      await user.click(getByText("Trigger A"));
+      expect(getByText("Trigger A")).toHaveAttribute("aria-expanded", "true");
+
+      // Wait for Menu A's pointerdown handler (registered via setTimeout(0))
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 10));
+      });
+
+      // Simulate touch tap on Trigger B.
+      // userEvent.pointer doesn't fire touchstart/touchend which the drag-mode
+      // handler needs, so we use fireEvent for the touch events.
+      const triggerB = getByText("Trigger B");
+      fireEvent.touchStart(triggerB, { touches: [{ clientX: 50, clientY: 50 }] });
+      fireEvent.touchEnd(triggerB, { touches: [] });
+      // After touchend, Menu A's deferToClick handler is registered.
+      // The synthetic click triggers both Menu A's dismiss and Menu B's open.
+      fireEvent.click(triggerB);
+      await waitForPositioning();
+
+      // Menu A should be closed, Menu B should be open
+      expect(getByText("Trigger A")).toHaveAttribute("aria-expanded", "false");
+      expect(getByText("Trigger B")).toHaveAttribute("aria-expanded", "true");
+    });
+
+    it("does not cascade-dismiss Menu B on touch switch (touch)", async () => {
+      const user = userEvent.setup();
+      const onMenuBOpenChange = vi.fn();
+      const { getByText } = render(<TwoSiblingMenus onMenuBOpenChange={onMenuBOpenChange} />);
+      await waitForPositioning();
+
+      // Open Menu A
+      await user.click(getByText("Trigger A"));
+      await waitForPositioning();
+
+      // Wait for Menu A's pointerdown handler
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 10));
+      });
+
+      // Touch tap on Trigger B (see above for why fireEvent is needed here)
+      const triggerB = getByText("Trigger B");
+      fireEvent.touchStart(triggerB, { touches: [{ clientX: 50, clientY: 50 }] });
+      fireEvent.touchEnd(triggerB, { touches: [] });
+      fireEvent.click(triggerB);
+      await waitForPositioning();
+
+      // Menu B should have opened and NOT been immediately closed by cascade dismiss
+      const calls = onMenuBOpenChange.mock.calls.map((args) => args[0] as boolean);
+      // If the bug exists, calls would be [true, false] (opened then cascade-dismissed)
+      expect(calls).toEqual([true]);
+    });
+
+    it("keeps Menu B open and interactive after switching from Menu A", async () => {
+      const user = userEvent.setup();
+      const onClick = vi.fn();
+      const { getByText } = render(
+        <div>
+          <Menu>
+            <MenuTrigger>Trigger A</MenuTrigger>
+            <MenuPositioner>
+              <MenuContent>
+                <MenuItem>Item A1</MenuItem>
+              </MenuContent>
+            </MenuPositioner>
+          </Menu>
+          <Menu>
+            <MenuTrigger>Trigger B</MenuTrigger>
+            <MenuPositioner>
+              <MenuContent>
+                <MenuItem onClick={onClick}>Item B1</MenuItem>
+              </MenuContent>
+            </MenuPositioner>
+          </Menu>
+        </div>,
+      );
+      await waitForPositioning();
+
+      await user.click(getByText("Trigger A"));
+      await user.click(getByText("Trigger B"));
+      await waitForFocus();
+
+      // Menu B items should be clickable
+      await user.click(getByText("Item B1"));
+      expect(onClick).toHaveBeenCalledTimes(1);
     });
   });
 
