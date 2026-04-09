@@ -11,6 +11,13 @@ export interface Layer {
   node: HTMLElement;
   dismiss: (detail: CascadeDismissDetail) => void;
   blockPointerEvents?: boolean;
+  /**
+   * The parent layer's node. Used to determine cascade-dismiss scope.
+   * Only layers whose parentNode matches the removed layer's node will be
+   * cascade-dismissed. Layers without a parentNode are top-level and never
+   * cascade-dismissed by sibling layer removal.
+   */
+  parentNode?: HTMLElement | null;
 }
 
 export interface LayerStackContextValue {
@@ -115,14 +122,31 @@ export function removeLayer(ctx: LayerStackContextValue, node: HTMLElement) {
   ctx.recentlyRemoved.add(node);
   queueMicrotask(() => ctx.recentlyRemoved.delete(node));
 
-  // Dismiss nested layers
-  const nested = ctx.layers.slice(index + 1);
-  for (const layer of nested) {
-    layer.dismiss({ dismissedParent: node });
+  // Cascade-dismiss only layers that declare this node as their parent.
+  // This prevents sibling layers (independent menus, dialogs, etc.) from
+  // being incorrectly dismissed when an unrelated layer closes.
+  // Transitive children are handled by their own removeLayer calls.
+  const children = ctx.layers.filter((l) => l.parentNode === node);
+  for (const child of children) {
+    child.dismiss({ dismissedParent: node });
   }
 
   ctx.layers.splice(index, 1);
   notifyLayerChange();
+}
+
+/**
+ * React context that propagates a parent dismissible layer's node down the
+ * React tree (including through portals). Nested dismissible layers read this
+ * to register as children of the parent, enabling correct cascade-dismiss
+ * behavior without affecting unrelated sibling layers.
+ *
+ * Follows the same pattern as base-ui's FloatingNodeContext.
+ */
+export const DismissibleParentContext = createContext<HTMLElement | null>(null);
+
+export function useDismissibleParentNode() {
+  return useContext(DismissibleParentContext);
 }
 
 export function addBranch(ctx: LayerStackContextValue, node: HTMLElement) {

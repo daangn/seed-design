@@ -71,7 +71,7 @@ describe("layer-stack", () => {
       expect(ctx.layers).toHaveLength(0);
     });
 
-    it("dismisses nested layers when a lower layer is removed", () => {
+    it("does not cascade-dismiss sibling layers (no parentNode)", () => {
       const a = createNode("a");
       const b = createNode("b");
       const c = createNode("c");
@@ -84,9 +84,46 @@ describe("layer-stack", () => {
 
       removeLayer(ctx, a);
 
-      expect(dismissB).toHaveBeenCalledTimes(1);
-      expect(dismissC).toHaveBeenCalledTimes(1);
-      expect(ctx.layers).toHaveLength(2); // b and c remain (their own remove is called by their dismiss)
+      expect(dismissB).not.toHaveBeenCalled();
+      expect(dismissC).not.toHaveBeenCalled();
+      expect(ctx.layers).toHaveLength(2);
+    });
+
+    it("cascade-dismisses child layers (matching parentNode)", () => {
+      const parent = createNode("parent");
+      const child = createNode("child");
+      const grandchild = createNode("grandchild");
+      const dismissChild = mock(() => {});
+      const dismissGrandchild = mock(() => {});
+
+      addLayer(ctx, createLayer(parent));
+      addLayer(ctx, createLayer(child, { dismiss: dismissChild, parentNode: parent }));
+      addLayer(ctx, createLayer(grandchild, { dismiss: dismissGrandchild, parentNode: child }));
+
+      removeLayer(ctx, parent);
+
+      // Only direct children are dismissed; grandchild is dismissed
+      // transitively when the child's own removeLayer runs.
+      expect(dismissChild).toHaveBeenCalledTimes(1);
+      expect(dismissGrandchild).not.toHaveBeenCalled();
+      expect(ctx.layers).toHaveLength(2);
+    });
+
+    it("does not cascade-dismiss layers with a different parent", () => {
+      const dialog = createNode("dialog");
+      const menu = createNode("menu");
+      const siblingMenu = createNode("sibling-menu");
+      const dismissMenu = mock(() => {});
+      const dismissSibling = mock(() => {});
+
+      addLayer(ctx, createLayer(dialog));
+      addLayer(ctx, createLayer(menu, { dismiss: dismissMenu, parentNode: dialog }));
+      addLayer(ctx, createLayer(siblingMenu, { dismiss: dismissSibling }));
+
+      removeLayer(ctx, dialog);
+
+      expect(dismissMenu).toHaveBeenCalledTimes(1);
+      expect(dismissSibling).not.toHaveBeenCalled();
     });
 
     it("adds node to recentlyRemoved", () => {

@@ -9,6 +9,8 @@ export {
   isTopMost,
   addBranch,
   removeBranch,
+  DismissibleParentContext,
+  useDismissibleParentNode,
   type Layer,
   type CascadeDismissDetail,
   type LayerStackContextValue,

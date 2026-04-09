@@ -7,6 +7,7 @@ import {
   isTopMost,
   getPointerEventsEnabled,
   useLayerStackContext,
+  useDismissibleParentNode,
   LAYER_UPDATE_EVENT,
   type CascadeDismissDetail,
 } from "./layer-stack";
@@ -83,6 +84,7 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
   } = options;
 
   const ctx = useLayerStackContext();
+  const parentNode = useDismissibleParentNode();
   const [node, setNode] = useState<HTMLElement | null>(null);
   const [, forceRender] = useState({});
 
@@ -107,6 +109,7 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
       node,
       dismiss: (detail: CascadeDismissDetail) => onCascadeDismissRef.current?.(detail),
       blockPointerEvents,
+      parentNode,
     };
 
     addLayer(ctx, layer);
@@ -114,7 +117,7 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
     return () => {
       removeLayer(ctx, node);
     };
-  }, [node, enabled, blockPointerEvents, ctx]);
+  }, [node, enabled, blockPointerEvents, ctx, parentNode]);
 
   // -- Pointer event blocking --
   useEffect(() => {
@@ -200,6 +203,8 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
         onBlurCapture: NOOP,
       },
       isTopLayer: true,
+      /** The current layer node, for providing DismissibleParentContext to children. */
+      layerNode: node,
     };
   }
 
@@ -212,5 +217,7 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
       style,
     },
     isTopLayer: topLayer,
+    /** The current layer node, for providing DismissibleParentContext to children. */
+    layerNode: node,
   };
 }
