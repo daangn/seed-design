@@ -210,8 +210,8 @@ function androidAnimate(t: TransitionTargets, direction: "push" | "pop"): Animat
     fill: "forwards",
   };
 
-  // Prevent flash on push: set start positions before animation
   if (isPush) {
+    // Prevent flash: set start positions before animation
     setOpacity(t.topLayer, "0");
     setTransform(t.topLayer, "translate3d(0, 8vh, 0)");
     setOpacity(t.topDim, "0");
@@ -219,6 +219,9 @@ function androidAnimate(t: TransitionTargets, direction: "push" | "pop"): Animat
       setOpacity(t.topAppBarRoot, "0");
       setTransform(t.topAppBarRoot, "translate3d(0, 8vh, 0)");
     }
+  } else {
+    // Restore behind appBar before pop starts (was hidden during idle)
+    if (t.behindAppBarRoot) t.behindAppBarRoot.style.opacity = "";
   }
 
   const [fromOpacity, toOpacity] = isPush ? ["0", "1"] : ["1", "0"];
@@ -247,10 +250,13 @@ function fadeInAnimate(t: TransitionTargets, direction: "push" | "pop"): Animati
     fill: "forwards",
   };
 
-  // Prevent flash on push: set start positions before animation
   if (isPush) {
+    // Prevent flash: set start positions before animation
     setOpacity(t.topLayer, "0");
     if (t.topAppBarRoot) setOpacity(t.topAppBarRoot, "0");
+  } else {
+    // Restore behind appBar before pop starts (was hidden during idle)
+    if (t.behindAppBarRoot) t.behindAppBarRoot.style.opacity = "";
   }
 
   const frames: [Keyframe, Keyframe] = [
