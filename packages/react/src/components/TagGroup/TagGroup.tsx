@@ -31,7 +31,10 @@ export const TagGroupRoot = forwardRef<HTMLSpanElement, TagGroupRootProps>(
       <PropsProvider value={tagGroupItemVariantProps}>
         <Primitive.span ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
           {Children.toArray(children)
-            .filter((child) => child !== null && child !== undefined)
+            // putting something other than TagGroupItem in TagGroupRoot is not a good idea,
+            // but we shouldn't throw an error for it either
+            // thus .filter(React.isValidElement) is too strict here
+            .filter(Boolean)
             .map((child, index) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: those fragments won't change order
               <Fragment key={index}>

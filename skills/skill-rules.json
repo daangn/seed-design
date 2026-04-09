@@ -50,26 +50,30 @@
         ]
       }
     },
-    "write-component-guideline": {
+    "migrate-docs-from-figma": {
       "type": "domain",
       "enforcement": "suggest",
       "priority": "high",
-      "description": "컴포넌트 디자인 가이드라인 문서를 작성합니다",
+      "description": "Figma 문서 레이어에서 콘텐츠를 추출하여 컴포넌트 가이드라인 MDX를 작성합니다",
       "promptTriggers": {
         "keywords": [
           "component guidelines",
           "design documentation",
-          "anatomy",
-          "props table",
+          "figma to docs",
+          "guideline from figma",
           "가이드라인",
           "디자인 문서",
           "컴포넌트 가이드라인",
-          "props 테이블"
+          "피그마에서 문서",
+          "figma node",
+          "figma url"
         ],
         "intentPatterns": [
           "(generate|create|write|update|작성|생성|업데이트).*(guideline|design|가이드라인|디자인).*(doc|documentation|문서)",
           "(document|문서화).*(component|컴포넌트).*(guideline|가이드라인)",
-          "rootage yaml",
+          "(migrate|extract|가져오기|추출).*(figma|피그마).*(doc|문서)",
+          "(write|create|작성).*(mdx|docs).*(from|figma|피그마)",
+          "figma\\.com/design",
           "ComponentSpecBlock",
           "PlatformStatusTable"
         ]
@@ -154,6 +158,32 @@
           "(test|테스트).*(dark|light|font|다크|라이트|폰트)",
           "storybook.*(theme|테마)",
           "(component|컴포넌트).*(test|테스트)"
+        ]
+      }
+    },
+    "changeset": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "git diff 분석 기반으로 changeset을 자동 생성합니다",
+      "promptTriggers": {
+        "keywords": [
+          "changeset",
+          "체인지셋",
+          "변경사항 기록",
+          "버전 범프",
+          "version bump",
+          "릴리스 노트",
+          "release note",
+          "changelog"
+        ],
+        "intentPatterns": [
+          "(changeset|체인지셋).*(작성|생성|추가|만들|write|create|add)",
+          "(작성|생성|추가|만들).*(changeset|체인지셋)",
+          "changeset",
+          "(버전|version).*(올려|bump|범프|업)",
+          "(릴리스|release).*(준비|노트|note)",
+          "변경.*기록"
         ]
       }
     },

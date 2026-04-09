@@ -1,5 +1,24 @@
 # @seed-design/rootage-artifacts
 
+## 1.2.7
+
+### Patch Changes
+
+- 9b36676: (React 컴포넌트 변경사항 없음) menu-sheet 컴포넌트 스펙에 핸들 여백을 위한 header.paddingTop을 추가하고 menu-sheet-close-button을 deprecated 처리합니다.
+
+## 1.2.6
+
+### Patch Changes
+
+- e78d460: Avatar 및 Avatar Stack의 `size=56` variant를 추가합니다.
+
+## 1.2.5
+
+### Patch Changes
+
+- 4f56e76: (사용자 변경사항 없음) Rootage `text-input`에 `type=singleLine` variant 정의를 추가합니다.
+- 67a7780: Content Placeholder 컴포넌트를 추가합니다.
+
 ## 1.2.4
 
 ### Patch Changes

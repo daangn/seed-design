@@ -14,3 +14,29 @@
 - Recipe 이름: kebab-case (예: `action-button`)
 - Pseudo 선택자: `active` (hover 대신, 모바일 우선), `disabled`, `focus`, `checked` 등
 - 토큰 참조: `vars.{variant}.{state}.{slot}.{property}`
+
+## 상태 기반 선택자 작성 규칙
+
+같은 headless 훅을 사용하는 recipe 간에는 CSS 선택자 전략을 통일한다.
+
+- 새로운 상태 기반 선택자를 추가할 때, 동일 훅을 사용하는 다른 recipe의 선택자 패턴을 먼저 확인한다.
+- HTML 속성(`hidden`, `disabled`)보다 `data-*` 상태 속성(`data-loading-state` 등)을 우선 사용한다. HTML 속성은 프레임워크 레이어에서 override될 수 있어 불안정하다.
+- 예시: `useImage` 훅을 사용하는 Avatar와 ImageFrame은 모두 `data-loading-state` 기반 선택자를 사용한다.
+
+## defineRecipe vs defineSlotRecipe
+
+| 기준 | `defineRecipe` | `defineSlotRecipe` |
+|------|---------------|-------------------|
+| 슬롯 수 | 1개 (root만) | 2개 이상 |
+| 예시 | ActionButton, Badge | Avatar, TextField, Chip |
+| CSS 클래스명 | `.seed-{name}` | `.seed-{name}__{slot}` |
+
+### defineSlotRecipe 사용법
+
+`defineSlotRecipe`는 `name`, `slots` 배열, `base`, `variants` 등을 인자로 받는다. `base.slotName` 형태로 슬롯별 기본 스타일을 작성하고, `variants.variantName.variantValue.slotName` 형태로 슬롯별 variants를 적용한다.
+
+### ⚠️ defineRecipe ↔ defineSlotRecipe 전환 시 주의사항
+
+1. **반드시 `bun generate:all` 실행**: Recipe 타입을 변경한 후 generate를 실행하지 않으면 CSS와 소스가 불일치해 빌드가 깨집니다.
+2. **CSS 클래스명 패턴이 변경됨**: `defineRecipe`의 `.seed-{name}` → `defineSlotRecipe`의 `.seed-{name}__root`로 변경되므로 React 컴포넌트에서 사용하는 import도 업데이트 필요.
+3. **올바른 순서**: Recipe 수정 → `bun generate:all` → React 코드 수정

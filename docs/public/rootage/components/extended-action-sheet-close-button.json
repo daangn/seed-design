@@ -3,7 +3,7 @@
   "metadata": {
     "id": "extended-action-sheet-close-button",
     "name": "Extended Action Sheet Close Button",
-    "deprecated": "Use menu-sheet-close-button instead."
+    "deprecated": "No longer used."
   },
   "data": {
     "id": "extended-action-sheet-close-button",
@@ -25,9 +25,6 @@
               "type": "dimension"
             },
             "paddingY": {
-              "type": "dimension"
-            },
-            "gap": {
               "type": "dimension"
             }
           }

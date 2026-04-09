@@ -38,6 +38,7 @@ const PRIVATE_PATTERNS: RegExp[] = [
   /Page Banner/,
   /Bottom Action Bar/,
   /Identity Placeholder/,
+  /Content Placeholder/,
 
   // FAB
   /Button Type/,

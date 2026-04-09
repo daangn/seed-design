@@ -3,86 +3,57 @@ import {
   type ContentPlaceholderVariantProps,
 } from "@seed-design/css/recipes/content-placeholder";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { InternalIcon } from "../private/Icon";
-import { contentPlaceholderAssetPresetMap, type ContentPlaceholderAssetType } from "./presets";
+import { contentPlaceholderAssetPresetMap } from "./presets";
+import { mergeProps } from "@seed-design/dom-utils";
+import { clsx } from "clsx";
+import { useMemo } from "react";
 
-const { withProvider, withContext } = createSlotRecipeContext(contentPlaceholder);
+const { PropsProvider, ClassNamesProvider, useProps, useClassNames } =
+  createSlotRecipeContext(contentPlaceholder);
 
 export interface ContentPlaceholderRootProps
   extends ContentPlaceholderVariantProps,
     PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const ContentPlaceholderRoot = withProvider<HTMLDivElement, ContentPlaceholderRootProps>(
-  Primitive.div,
-  "root",
+export const ContentPlaceholderRoot = React.forwardRef<HTMLDivElement, ContentPlaceholderRootProps>(
+  (props, ref) => {
+    const [variantProps, restProps] = contentPlaceholder.splitVariantProps(props);
+    const classNames = contentPlaceholder(variantProps);
+
+    return (
+      <PropsProvider value={variantProps}>
+        <ClassNamesProvider value={classNames}>
+          <Primitive.div ref={ref} {...mergeProps({ className: classNames.root }, restProps)} />
+        </ClassNamesProvider>
+      </PropsProvider>
+    );
+  },
 );
 
 ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
 
-export interface ContentPlaceholderContainerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface ContentPlaceholderAssetProps extends React.HTMLAttributes<HTMLElement> {}
 
-export const ContentPlaceholderContainer = withContext<
-  HTMLDivElement,
-  ContentPlaceholderContainerProps
->(Primitive.div, "container");
+export const ContentPlaceholderAsset = React.forwardRef<HTMLElement, ContentPlaceholderAssetProps>(
+  ({ children, className, ...props }, ref) => {
+    const classNames = useClassNames();
+    const parentProps = useProps();
 
-type ContentPlaceholderAssetCommonProps = Omit<React.HTMLAttributes<SVGSVGElement>, "children">;
+    const asset = useMemo(() => {
+      if (children) return children;
 
-export type ContentPlaceholderAssetProps =
-  | (ContentPlaceholderAssetCommonProps & {
-      type?: ContentPlaceholderAssetType;
-      svg?: never;
-    })
-  | (ContentPlaceholderAssetCommonProps & {
-      svg: React.ReactNode;
-      type?: never;
-    });
+      return contentPlaceholderAssetPresetMap[parentProps?.type ?? "default"];
+    }, [children, parentProps?.type]);
 
-export type { ContentPlaceholderAssetType };
-
-export type ContentPlaceholderProps = Omit<ContentPlaceholderRootProps, "children"> &
-  (
-    | {
-        type?:
-          | "default"
-          | "coupon"
-          | "car"
-          | "realty"
-          | "food"
-          | "image"
-          | "group"
-          | "post"
-          | "localProfile"
-          | "buySell"
-          | "jobs";
-        svg?: never;
-      }
-    | { svg: React.ReactNode; type?: never }
-  );
-
-const ContentPlaceholderAssetBase = React.forwardRef<SVGSVGElement, ContentPlaceholderAssetProps>(
-  ({ type, svg, ...props }, ref) => {
-    if (process.env.NODE_ENV !== "production" && type !== undefined && svg !== undefined) {
-      throw new Error("ContentPlaceholder.Asset: `type` and `svg` cannot be used together.");
-    }
-
-    const resolvedType: ContentPlaceholderAssetType = type ?? "default";
-    const resolvedSvg = svg ?? contentPlaceholderAssetPresetMap[resolvedType];
-
-    return <InternalIcon ref={ref} svg={resolvedSvg} {...props} />;
+    return (
+      <Slot ref={ref} className={clsx(classNames.asset, className)} {...props}>
+        {asset}
+      </Slot>
+    );
   },
 );
-
-ContentPlaceholderAssetBase.displayName = "ContentPlaceholderAssetBase";
-
-export const ContentPlaceholderAsset = withContext<SVGSVGElement, ContentPlaceholderAssetProps>(
-  ContentPlaceholderAssetBase,
-  "asset",
-);
-
 ContentPlaceholderAsset.displayName = "ContentPlaceholderAsset";

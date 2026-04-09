@@ -6,8 +6,32 @@ import { env } from "@/app/env";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
 const MAX_RETRIES = 7;
+const MAX_CONCURRENCY = 1;
 const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 const CACHE_ID = "urls";
+
+// Simple semaphore to limit concurrent Figma API requests
+let activeRequests = 0;
+const waitQueue: (() => void)[] = [];
+
+function acquireSemaphore(): Promise<void> {
+  if (activeRequests < MAX_CONCURRENCY) {
+    activeRequests++;
+    return Promise.resolve();
+  }
+  return new Promise<void>((resolve) => {
+    waitQueue.push(() => {
+      activeRequests++;
+      resolve();
+    });
+  });
+}
+
+function releaseSemaphore(): void {
+  activeRequests--;
+  const next = waitQueue.shift();
+  if (next) next();
+}
 
 // Store cache in docs/.cache/figma-image (gitignored. persisted via Actions cache)
 const cacheDir = path.resolve(process.cwd(), ".cache/figma-image");
@@ -72,45 +96,68 @@ export async function fetchFigmaImageUrls({
     `${LOG_PREFIX} Fetching ${uncachedIds.length} image(s) from Figma API... (options: ${JSON.stringify(options)})`,
   );
 
+  await acquireSemaphore();
+
   let lastError: Error | null = null;
 
-  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-    try {
-      const response = await client.getImages(
-        { file_key: fileKey },
-        { ids: uncachedIds.join(","), ...options },
-      );
+  try {
+    // Recheck cache after acquiring semaphore — earlier calls may have populated it while we waited
+    imageUrlCache.load(CACHE_ID, cacheDir);
+    const pendingIds = uncachedIds.filter((nodeId) => {
+      const cached = env.figmaCacheDisabled
+        ? undefined
+        : imageUrlCache.get<string>(getCacheKey(nodeId, options));
 
-      if (response.err) throw new Error(`Figma API error: ${response.err}`);
-
-      const images = response.images ?? {};
-
-      for (const [nodeId, url] of Object.entries(images)) {
-        if (!url) continue;
-
-        result.set(nodeId, url);
-        imageUrlCache.set(getCacheKey(nodeId, options), url);
+      if (cached) {
+        result.set(nodeId, cached);
+        return false;
       }
 
-      imageUrlCache.save();
+      return true;
+    });
 
-      return result;
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
+    if (pendingIds.length === 0) return result;
 
-      if (!isRetryableError(error)) throw error;
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      try {
+        const response = await client.getImages(
+          { file_key: fileKey },
+          { ids: pendingIds.join(","), ...options },
+        );
 
-      const waitTime = 2 ** attempt * 3000; // 3s, 6s, 12s
+        if (response.err) throw new Error(`Figma API error: ${response.err}`);
 
-      console.log(
-        `${LOG_PREFIX} ${lastError.message}, waiting ${waitTime}ms (attempt ${attempt + 1}/${MAX_RETRIES})...`,
-      );
+        const images = response.images ?? {};
 
-      await delay(waitTime);
+        for (const [nodeId, url] of Object.entries(images)) {
+          if (!url) continue;
+
+          result.set(nodeId, url);
+          imageUrlCache.set(getCacheKey(nodeId, options), url);
+        }
+
+        imageUrlCache.save();
+
+        return result;
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error(String(error));
+
+        if (!isRetryableError(error)) throw error;
+
+        const waitTime = 2 ** attempt * 3000; // 3s, 6s, 12s
+
+        console.log(
+          `${LOG_PREFIX} ${lastError.message}, waiting ${waitTime}ms (attempt ${attempt + 1}/${MAX_RETRIES})...`,
+        );
+
+        await delay(waitTime);
+      }
     }
-  }
 
-  throw lastError ?? new Error("Failed to fetch Figma images after retries");
+    throw lastError ?? new Error("Failed to fetch Figma images after retries");
+  } finally {
+    releaseSemaphore();
+  }
 }
 
 // Helpers
@@ -125,8 +172,18 @@ function delay(ms: number): Promise<void> {
 }
 
 function isRetryableError(error: unknown): boolean {
-  // error instanceof ApiError (from figma-api) doesn't return true here
-  if (error instanceof Error && error.message.includes("429")) return true;
+  if (!(error instanceof Error)) return false;
+
+  const message = error.message;
+
+  // Rate limit
+  if (message.includes("429")) return true;
+
+  // Network errors caused by rate limiting or transient issues
+  if (message.includes("socket hang up")) return true;
+  if (message.includes("ECONNRESET")) return true;
+  if (message.includes("ETIMEDOUT")) return true;
+  if (message.includes("EPIPE")) return true;
 
   return false;
 }

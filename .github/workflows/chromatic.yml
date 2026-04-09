@@ -35,7 +35,7 @@ jobs:
           build-packages: true
 
       - name: Publish to Chromatic
-        uses: chromaui/action@v13
+        uses: chromaui/action@v15
         # Chromatic GitHub Action options
         with:
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.

@@ -1,8 +1,7 @@
 import { seedDesignPlugin } from "@seed-design/vite-plugin";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import legacy from "@vitejs/plugin-legacy";
-import react from "@vitejs/plugin-react-swc";
-import tsconfigPaths from "vite-tsconfig-paths";
+import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
@@ -11,19 +10,17 @@ export default defineConfig({
   build: {
     cssCodeSplit: true,
     minify: false,
-    rollupOptions: {
+    rolldownOptions: {
       treeshake: true,
     },
     target: ["chrome77", "safari14"],
   },
 
-  plugins: [
-    tsconfigPaths(),
+  resolve: {
+    tsconfigPaths: true,
+  },
 
-    /**
-     * Babel 컴파일러를 사용하는 @vitejs/plugin-react 대신에
-     * 속도가 개선된 SWC 컴파일러를 적용한 @vitejs/plugin-react-swc을 사용해요.
-     */
+  plugins: [
     react(),
     checker({
       typescript: true,

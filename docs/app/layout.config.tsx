@@ -41,7 +41,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
     tabs: [
       {
         title: "Docs",
-        description: "당근 앱을 위한 디자인 언어",
+        description: "당근 제품을 위한 디자인 언어",
         url: "/docs",
         icon: (
           <SidebarTabIconContainer>

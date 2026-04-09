@@ -38,6 +38,7 @@
             "36": {},
             "42": {},
             "48": {},
+            "56": {},
             "64": {},
             "80": {},
             "96": {},
@@ -222,6 +223,38 @@
                   "type": "dimension",
                   "value": {
                     "value": 2,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "56"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": {
+                    "value": -13,
+                    "unit": "px"
+                  }
+                }
+              },
+              "item": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 3,
                     "unit": "px"
                   }
                 }

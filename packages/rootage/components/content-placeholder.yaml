@@ -10,16 +10,15 @@ data:
         properties:
           color:
             type: color
-      container:
+      asset:
         properties:
           minWidth:
             type: dimension
           maxWidth:
             type: dimension
-          padding:
-            type: dimension
-      asset:
-        properties:
+          heightFraction:
+            type: number
+            description: root slot 대한 asset slot의 높이 비율입니다.
           color:
             type: color
   definitions:
@@ -27,9 +26,20 @@ data:
       enabled:
         root:
           color: $color.palette.gray-200
-        container:
-          minWidth: $dimension.x4
-          maxWidth: 120px
-          padding: $dimension.x7
         asset:
+          minWidth: $dimension.x4
+          maxWidth: 64px
+          heightFraction: 0.5
           color: $color.palette.gray-400
+    type=default: {}
+    type=buySell: {}
+    type=car: {}
+    type=commerce: {}
+    type=coupon: {}
+    type=food: {}
+    type=group: {}
+    type=image: {}
+    type=jobs: {}
+    type=business: {}
+    type=post: {}
+    type=realty: {}

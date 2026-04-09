@@ -19,6 +19,10 @@ export interface AppBarRightProps extends SeedAppBar.RightProps {}
 
 export const AppBarRight = SeedAppBar.Right;
 
+export interface AppBarSlotProps extends SeedAppBar.SlotProps {}
+
+export const AppBarSlot = SeedAppBar.Slot;
+
 export interface AppBarMainProps extends Omit<SeedAppBar.MainProps, "asChild"> {
   /**
    * The title of the app bar.

@@ -135,6 +135,19 @@
               "docUrl": "/docs/components"
             },
             {
+              "id": "content-placeholder",
+              "title": "Content Placeholder",
+              "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
+              "docUrl": "/docs/components/content-placeholder",
+              "snippetKey": "ui:content-placeholder",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "content-placeholder.tsx"
+                }
+              ]
+            },
+            {
               "id": "contextual-floating-button",
               "title": "Contextual Floating Button",
               "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
@@ -229,6 +242,19 @@
                 {
                   "label": "react",
                   "path": "help-bubble.tsx"
+                }
+              ]
+            },
+            {
+              "id": "identity-placeholder",
+              "title": "Identity Placeholder",
+              "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
+              "docUrl": "/docs/components/identity-placeholder",
+              "snippetKey": "ui:identity-placeholder",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "identity-placeholder.tsx"
                 }
               ]
             },
@@ -633,7 +659,7 @@
             {
               "id": "migration-reference",
               "title": "Migration Reference",
-              "description": "V2 V3 마이그레이션 레퍼런스",
+              "description": "SEED 마이그레이션 레퍼런스",
               "docUrl": "/docs/migration/migration-reference"
             }
           ]
@@ -855,6 +881,19 @@
               "docUrl": "/react/components/concepts/composition"
             },
             {
+              "id": "content-placeholder",
+              "title": "Content Placeholder",
+              "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
+              "docUrl": "/react/components/content-placeholder",
+              "snippetKey": "ui:content-placeholder",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "content-placeholder.tsx"
+                }
+              ]
+            },
+            {
               "id": "contextual-floating-button",
               "title": "Contextual Floating Button",
               "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
@@ -986,7 +1025,7 @@
             {
               "id": "identity-placeholder",
               "title": "Identity Placeholder",
-              "description": "사용자 정보가 없거나 로딩 중일 때 표시되는 플레이스홀더 컴포넌트입니다. 프로필 이미지와 이름 영역을 일관되게 표현할 때 사용됩니다.",
+              "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
               "docUrl": "/react/components/identity-placeholder",
               "snippetKey": "ui:identity-placeholder",
               "snippets": [
@@ -1332,13 +1371,13 @@
             {
               "id": "guide",
               "title": "Guide",
-              "description": "Seed Design V2에서 V3로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
+              "description": "Sprout에서 SEED로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
               "docUrl": "/react/migration/guide"
             },
             {
               "id": "migrating-icons",
               "title": "Migrating Icons",
-              "description": "SEED V2 아이콘을 V3 아이콘으로 쉽게 마이그레이션해요.",
+              "description": "구형 아이콘을 신규 아이콘으로 쉽게 마이그레이션해요.",
               "docUrl": "/react/migration/migrating-icons"
             }
           ]
@@ -1490,7 +1529,7 @@
             {
               "id": "introduction",
               "title": "Introduction",
-              "description": "\"@seed-design/codemod는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.\"",
+              "description": "\"@seed-design/codemod는 Sprout에서 SEED로 마이그레이션하기 위한 코드 변환 도구예요.\"",
               "docUrl": "/react/developer-tools/codemods/introduction"
             }
           ]
@@ -1504,12 +1543,6 @@
               "title": "Changelog",
               "description": "최신 업데이트와 변경사항을 기록합니다.",
               "docUrl": "/react/updates/changelog"
-            },
-            {
-              "id": "v3-improvements",
-              "title": "V3 Improvements",
-              "description": "V2(Sprout) 대비 V3에서 개선된 점을 소개합니다.",
-              "docUrl": "/react/updates/v3-improvements"
             }
           ]
         }

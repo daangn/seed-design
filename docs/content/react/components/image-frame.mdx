@@ -17,7 +17,6 @@ description: 사용자가 업로드한 이미지를 표시하기 위한 컴포�
 ```tsx
 import { ImageFrame } from "@seed-design/react";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
-import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
 ```
 
 ```tsx
@@ -27,11 +26,9 @@ import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
   stroke
   src="..."
   alt="..."
-  fallback={<ContentPlaceholder svg={<IconPictureFill />} />}
+  fallback={<ContentPlaceholder type="image" />}
 />
 ```
-
-> fallback으로 사용되는 Content Placeholder에 대한 자세한 내용은 [Content Placeholder](/react/components/content-placeholder)를 참고하세요.
 
 ## Props
 
@@ -81,6 +78,19 @@ import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
   ```
 </ComponentExample>
 
+### Fallback Image
+
+`fallback` prop으로 이미지가 로드되지 않았을 때 보여질 요소를 지정할 수 있습니다. 주로 [ContentPlaceholder](/react/components/content-placeholder)를 사용합니다.
+
+<ComponentExample name="react/image-frame/fallback">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/image-frame/fallback.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Overlay
 
 `ImageFrameFloater`를 사용하여 이미지 위에 오버레이 요소를 배치할 수 있습니다. `ImageFrameBadge`, `ImageFrameIcon`, `ImageFrameIndicator`, `ImageFrameReactionButton` 등 다양한 오버레이 컴포넌트를 제공합니다.
@@ -94,7 +104,7 @@ import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
   ```
 </ComponentExample>
 
-### Multiple Overlays
+#### Multiple Overlays
 
 여러 위치에 오버레이를 동시에 배치할 수 있습니다.
 
@@ -107,7 +117,7 @@ import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
   ```
 </ComponentExample>
 
-### Custom Overlay
+#### Custom Overlay
 
 `ImageFrameFloater`는 모든 React 요소를 children으로 받을 수 있습니다. 미리 정의된 오버레이 컴포넌트 외에도 커스텀 UI를 배치할 수 있습니다.
 
@@ -120,7 +130,7 @@ import { IconPictureFill } from "@karrotmarket/react-monochrome-icon";
   ```
 </ComponentExample>
 
-### Offset
+#### Offset
 
 `offsetX`, `offsetY` prop으로 오버레이의 여백을 조절할 수 있습니다. 기본값은 `6px`입니다.
 

@@ -1,0 +1,62 @@
+diff --git a/dist/api_types.ts b/dist/api_types.ts
+index 77e3e617772cd586c26cee2d3ab1e788a98c78eb..b5cbe196234f1cfa67862d99bcb7616c0bfeea75 100644
+--- a/dist/api_types.ts
++++ b/dist/api_types.ts
+@@ -853,6 +853,7 @@ export type Node =
+   | SectionNode
+   | ShapeWithTextNode
+   | SliceNode
++  | SlotNode
+   | StarNode
+   | StickyNode
+   | TableNode
+@@ -926,6 +927,7 @@ export type SubcanvasNode =
+   | SectionNode
+   | ShapeWithTextNode
+   | SliceNode
++  | SlotNode
+   | StarNode
+   | StickyNode
+   | TableNode
+@@ -1141,6 +1143,14 @@ export type InstanceNode = {
+   overrides: Overrides[]
+ } & FrameTraits
+ 
++
++export type SlotNode = {
++  /**
++   * The type of this node, represented by the string literal "SLOT"
++   */
++  type: 'SLOT'
++} & FrameTraits
++
+ export type EmbedNode = {
+   /**
+    * The type of this node, represented by the string literal "EMBED"
+@@ -2407,7 +2417,7 @@ export type TextPathTypeStyle = {
+ /**
+  * Component property type.
+  */
+-export type ComponentPropertyType = 'BOOLEAN' | 'INSTANCE_SWAP' | 'TEXT' | 'VARIANT'
++export type ComponentPropertyType = 'BOOLEAN' | 'INSTANCE_SWAP' | 'SLOT' | 'TEXT' | 'VARIANT'
+ 
+ /**
+  * Instance swap preferred value.
+@@ -2436,7 +2446,7 @@ export type ComponentPropertyDefinition = {
+   /**
+    * Initial value of this property for instances.
+    */
+-  defaultValue: boolean | string
++  defaultValue: boolean | string // NOTE: SLOT type has no defaultValue
+ 
+   /**
+    * All possible values for this property. Only exists on VARIANT properties.
+@@ -2461,7 +2471,7 @@ export type ComponentProperty = {
+   /**
+    * Value of the property for this component instance.
+    */
+-  value: boolean | string
++  value: boolean | string // NOTE: SLOT type returns { guid: { sessionID, localID } } — do not use directly
+ 
+   /**
+    * Preferred values for this property. Only applicable if type is `INSTANCE_SWAP`.
