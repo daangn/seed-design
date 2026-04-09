@@ -13,6 +13,7 @@ import clsx from "clsx";
 import { forwardRef, useCallback, useId, useMemo } from "react";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { createWithStateProps } from "../../utils/createWithStateProps";
 import {
   AccordionItemProvider,
   AccordionProvider,
@@ -26,6 +27,17 @@ import {
 } from "./useAccordion";
 
 const { ClassNamesProvider, withContext, useClassNames } = createSlotRecipeContext(accordion);
+
+const useAccordionItemStateProps = (_prop?: { strict?: boolean }) => {
+  const ctx = useAccordionItemContext();
+  return {
+    stateProps: {
+      "data-disabled": dataAttr(ctx.disabled),
+    } as React.HTMLAttributes<HTMLElement>,
+  };
+};
+
+const withStateProps = createWithStateProps([useAccordionItemStateProps]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -285,7 +297,7 @@ export interface AccordionTitleProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const AccordionTitle = withContext<HTMLSpanElement, AccordionTitleProps>(
-  Primitive.span,
+  withStateProps(Primitive.span),
   "title",
 );
 AccordionTitle.displayName = "Accordion.Title";
@@ -297,7 +309,7 @@ export interface AccordionDescriptionProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const AccordionDescription = withContext<HTMLSpanElement, AccordionDescriptionProps>(
-  Primitive.span,
+  withStateProps(Primitive.span),
   "description",
 );
 AccordionDescription.displayName = "Accordion.Description";
@@ -342,6 +354,7 @@ export const AccordionSuffixIcon = forwardRef<HTMLDivElement, AccordionSuffixIco
         ref={ref}
         className={clsx(classNames.suffixIcon, className)}
         data-open={dataAttr(itemCtx.open)}
+        data-disabled={dataAttr(itemCtx.disabled)}
         {...props}
       />
     );

@@ -11,14 +11,14 @@ export type AccordionRootProps = SeedAccordion.RootProps;
  */
 export const AccordionRoot = SeedAccordion.Root;
 
-export type AccordionItemProps = SeedAccordion.ItemProps;
+export interface AccordionItemProps extends SeedAccordion.ItemProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionItem = SeedAccordion.Item;
 
-export type AccordionTriggerProps = SeedAccordion.TriggerProps;
+export interface AccordionTriggerProps extends SeedAccordion.TriggerProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
@@ -35,42 +35,49 @@ export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTri
 );
 AccordionTrigger.displayName = "Accordion.Trigger";
 
-export type AccordionContentProps = SeedAccordion.ContentProps;
+export interface AccordionContentProps extends SeedAccordion.ContentProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
-export const AccordionContent = SeedAccordion.Content;
+export const AccordionContent = React.forwardRef<HTMLDivElement, AccordionContentProps>(
+  ({ children, ...props }, ref) => (
+    <SeedAccordion.Content ref={ref} {...props}>
+      <SeedAccordion.ContentInner>{children}</SeedAccordion.ContentInner>
+    </SeedAccordion.Content>
+  ),
+);
+AccordionContent.displayName = "Accordion.Content";
 
-export type AccordionTitleProps = SeedAccordion.TitleProps;
+export interface AccordionTitleProps extends SeedAccordion.TitleProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionTitle = SeedAccordion.Title;
 
-export type AccordionDescriptionProps = SeedAccordion.DescriptionProps;
+export interface AccordionDescriptionProps extends SeedAccordion.DescriptionProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionDescription = SeedAccordion.Description;
 
-export type AccordionPrefixIconProps = SeedAccordion.PrefixIconProps;
+export interface AccordionPrefixIconProps extends SeedAccordion.PrefixIconProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionPrefixIcon = SeedAccordion.PrefixIcon;
 
-export type AccordionPrefixAvatarProps = SeedAccordion.PrefixAvatarProps;
+export interface AccordionPrefixAvatarProps extends SeedAccordion.PrefixAvatarProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionPrefixAvatar = SeedAccordion.PrefixAvatar;
 
-export type AccordionSuffixIconProps = SeedAccordion.SuffixIconProps;
+export interface AccordionSuffixIconProps extends SeedAccordion.SuffixIconProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
