@@ -48,5 +48,5 @@ export interface AppBarMainProps extends PrimitiveProps, React.HTMLAttributes<HT
 export const AppBarMain = forwardRef<HTMLDivElement, AppBarMainProps>((props, ref) => {
   const { stateProps } = useAppBarContext();
 
-  return <Primitive.div ref={ref} {...mergeProps(stateProps, props)} />;
+  return <Primitive.div ref={ref} data-part="appBarMain" {...mergeProps(stateProps, props)} />;
 });

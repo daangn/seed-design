@@ -7,13 +7,15 @@ import {
   findTransitionTargets,
   applySwipeStyles,
   clearAllStyles,
-  cancelAll,
   setIdlePositions,
   setPostExitPositions,
+} from "./dom";
+import {
+  cancelAll,
   animateTransition,
   animateSwipeComplete,
   animateSwipeCancel,
-} from "./transition-animation";
+} from "./animation";
 
 export type SwipeBackState = "idle" | "swiping" | "canceling" | "completing";
 

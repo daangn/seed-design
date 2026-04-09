@@ -116,7 +116,7 @@ export const AppBarIconButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
         className={clsx(classNames.iconButton, className)}
         {...mergeProps(stateProps, otherProps)}
       >
-        <Slot className={classNames.icon} {...stateProps}>
+        <Slot className={classNames.icon} data-part="appBarIcon" {...stateProps}>
           {children}
         </Slot>
       </Primitive.button>
@@ -136,6 +136,7 @@ export const AppBarSlot = forwardRef<HTMLElement, AppBarSlotProps>(
       <Slot
         ref={ref}
         className={clsx(classNames.custom, className)}
+        data-part="appBarCustom"
         {...mergeProps(stateProps, otherProps)}
       >
         {children}
