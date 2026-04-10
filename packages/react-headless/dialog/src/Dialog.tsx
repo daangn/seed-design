@@ -59,29 +59,33 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
 
   return (
     <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
-      <FocusScope asChild loop trapped={api.open}>
-        <DismissibleLayer
-          enabled={api.open}
-          onEscapeKeyDown={(e) => {
-            if (!api.closeOnEscape) return;
-            api.setOpen(false, { reason: "escapeKeyDown", event: e });
-          }}
-          onPressOutside={(e) => {
-            if (!api.closeOnInteractOutside) return;
-            api.setOpen(false, { reason: "interactOutside", event: e });
-          }}
-          onFocusOutside={() => {
-            // focus trapping is handled by FocusScope — nothing to do here
+      {/* DismissibleLayer must wrap FocusScope, not the other way around.
+          FocusScope asChild uses Slot to forward tabIndex/onKeyDown/ref to the
+          DOM element; if DismissibleLayer sits between them, those props are
+          swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
+      <DismissibleLayer
+        enabled={api.open}
+        onEscapeKeyDown={(e) => {
+          if (!api.closeOnEscape) return;
+          api.setOpen(false, { reason: "escapeKeyDown", event: e });
+        }}
+        onPressOutside={(e) => {
+          if (!api.closeOnInteractOutside) return;
+          api.setOpen(false, { reason: "interactOutside", event: e });
+        }}
+        onFocusOutside={() => {
+          // focus trapping is handled by FocusScope — nothing to do here
 
-            if (!api.closeOnInteractOutside) return; // not actually going to happen; FocusScope will work regardless
-          }}
-          onCascadeDismiss={({ dismissedParent }) => {
-            api.setOpen(false, { reason: "cascadeDismiss", dismissedParent });
-          }}
-        >
+          if (!api.closeOnInteractOutside) return; // not actually going to happen; FocusScope will work regardless
+        }}
+        onCascadeDismiss={({ dismissedParent }) => {
+          api.setOpen(false, { reason: "cascadeDismiss", dismissedParent });
+        }}
+      >
+        <FocusScope asChild loop trapped={api.open}>
           <Primitive.div ref={ref} {...mergeProps(api.contentProps, props)} />
-        </DismissibleLayer>
-      </FocusScope>
+        </FocusScope>
+      </DismissibleLayer>
     </Presence>
   );
 });

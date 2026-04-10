@@ -164,48 +164,52 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
 
   return (
     <Presence present={isOpen} unmountOnExit={unmountOnExit} lazyMount={lazyMount}>
-      <FocusScope
-        asChild
-        loop
-        trapped={isOpen}
-        onMountAutoFocus={(e) => {
-          // prevent FocusScope's default autoFocus behavior
-          e.preventDefault();
+      {/* DismissibleLayer must wrap FocusScope, not the other way around.
+          FocusScope asChild uses Slot to forward tabIndex/onKeyDown/ref to the
+          DOM element; if DismissibleLayer sits between them, those props are
+          swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
+      <DismissibleLayer
+        enabled={isOpen}
+        blockPointerEvents={modal}
+        onEscapeKeyDown={(e) => {
+          if (e.defaultPrevented) return;
+          if (!dismissible || !closeOnEscape) return;
+          closeDrawer(false, { reason: "escapeKeyDown", event: e });
+        }}
+        onPressOutside={(e) => {
+          if (e.defaultPrevented) return;
+          if (!modal) return;
+          if (keyboardIsOpen.current) keyboardIsOpen.current = false;
 
-          // when autoFocus is true, FocusScope sets the focus to the first tabbable element; otherwise content;
-          // the desired behavior is to set the focus to the content regardless of whether there are tabbable elements or not when true]
-          if (autoFocus) {
-            drawerRef.current?.focus();
-          }
-
-          // later, we can do something like:
-          // when trigger has clicked using keyboard, focus the first tabbable element;
-          // when trigger has clicked using mouse, focus the content
-          // -> matches Menu behavior
+          if (e.defaultPrevented) return;
+          if (!dismissible || !closeOnInteractOutside) return;
+          closeDrawer(false, { reason: "interactOutside", event: e });
+        }}
+        onFocusOutside={() => {
+          // close drawer here?
+        }}
+        onCascadeDismiss={({ dismissedParent }) => {
+          closeDrawer(false, { reason: "cascadeDismiss", dismissedParent });
         }}
       >
-        <DismissibleLayer
-          enabled={isOpen}
-          blockPointerEvents={modal}
-          onEscapeKeyDown={(e) => {
-            if (e.defaultPrevented) return;
-            if (!dismissible || !closeOnEscape) return;
-            closeDrawer(false, { reason: "escapeKeyDown", event: e });
-          }}
-          onPressOutside={(e) => {
-            if (e.defaultPrevented) return;
-            if (!modal) return;
-            if (keyboardIsOpen.current) keyboardIsOpen.current = false;
+        <FocusScope
+          asChild
+          loop
+          trapped={isOpen}
+          onMountAutoFocus={(e) => {
+            // prevent FocusScope's default autoFocus behavior
+            e.preventDefault();
 
-            if (e.defaultPrevented) return;
-            if (!dismissible || !closeOnInteractOutside) return;
-            closeDrawer(false, { reason: "interactOutside", event: e });
-          }}
-          onFocusOutside={() => {
-            // close drawer here?
-          }}
-          onCascadeDismiss={({ dismissedParent }) => {
-            closeDrawer(false, { reason: "cascadeDismiss", dismissedParent });
+            // when autoFocus is true, FocusScope sets the focus to the first tabbable element; otherwise content;
+            // the desired behavior is to set the focus to the content regardless of whether there are tabbable elements or not when true]
+            if (autoFocus) {
+              drawerRef.current?.focus();
+            }
+
+            // later, we can do something like:
+            // when trigger has clicked using keyboard, focus the first tabbable element;
+            // when trigger has clicked using mouse, focus the content
+            // -> matches Menu behavior
           }}
         >
           <Primitive.div
@@ -273,8 +277,8 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
               }
             }}
           />
-        </DismissibleLayer>
-      </FocusScope>
+        </FocusScope>
+      </DismissibleLayer>
     </Presence>
   );
 });
