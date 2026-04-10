@@ -11,19 +11,31 @@
       "slots": {
         "root": {
           "properties": {
-            "highlightInset": {
-              "type": "dimension"
-            },
-            "highlightCornerRadius": {
-              "type": "dimension"
-            },
-            "pressedColor": {
+            "color": {
               "type": "color"
             },
-            "colorTransitionDuration": {
+            "marginX": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "colorDuration": {
               "type": "duration"
             },
-            "colorTransitionTimingFunction": {
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "marginDuration": {
+              "type": "duration"
+            },
+            "marginTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "borderRadiusDuration": {
+              "type": "duration"
+            },
+            "borderRadiusTimingFunction": {
               "type": "cubicBezier"
             },
             "paddingX": {
@@ -128,19 +140,27 @@
             ],
             "slots": {
               "root": {
-                "highlightInset": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                },
-                "highlightCornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r3"
-                },
-                "colorTransitionDuration": {
+                "colorDuration": {
                   "type": "duration",
                   "value": "$duration.color-transition"
                 },
-                "colorTransitionTimingFunction": {
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "marginDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "marginTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "borderRadiusDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "borderRadiusTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 }
@@ -175,9 +195,17 @@
             ],
             "slots": {
               "root": {
-                "pressedColor": {
+                "color": {
                   "type": "color",
                   "value": "$color.bg.transparent-pressed"
+                },
+                "marginX": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
                 }
               }
             }

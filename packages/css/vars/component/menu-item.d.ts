@@ -2,10 +2,12 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "highlightInset": "var(--seed-dimension-x2)",
-        "highlightCornerRadius": "var(--seed-radius-r3)",
-        "colorTransitionDuration": "var(--seed-duration-color-transition)",
-        "colorTransitionTimingFunction": "var(--seed-timing-function-easing)"
+        "colorDuration": "var(--seed-duration-color-transition)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "marginDuration": "var(--seed-duration-d3)",
+        "marginTimingFunction": "var(--seed-timing-function-easing)",
+        "borderRadiusDuration": "var(--seed-duration-d3)",
+        "borderRadiusTimingFunction": "var(--seed-timing-function-easing)"
       },
       "body": {
         "gap": "var(--seed-dimension-x0_5)"
@@ -20,7 +22,9 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "pressedColor": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)",
+        "marginX": "var(--seed-dimension-x2)",
+        "cornerRadius": "var(--seed-radius-r3)"
       }
     },
     "disabled": {

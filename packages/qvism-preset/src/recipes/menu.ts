@@ -19,6 +19,7 @@ import {
 } from "../utils/focus-ring";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 
+// implement when submenu is needed
 // const highlighted = "[data-highlighted]";
 
 const MENU_TRANSFORM_ORIGIN = "--seed-menu-transform-origin";
@@ -156,8 +157,8 @@ export const menuItem = defineSlotRecipe({
       alignItems: "center",
 
       outline: "none",
-      cursor: "default", // 결정, 다른 practice 참고
-      userSelect: "none", // 결정
+      cursor: "default",
+      userSelect: "none",
       border: "none",
       fontFamily: "inherit",
       margin: 0,
@@ -170,27 +171,37 @@ export const menuItem = defineSlotRecipe({
         position: "absolute",
         top: 0,
         bottom: 0,
-        left: menuItemVars.base.enabled.root.highlightInset,
-        right: menuItemVars.base.enabled.root.highlightInset,
-        borderRadius: menuItemVars.base.enabled.root.highlightCornerRadius,
+        left: 0,
+        right: 0,
         zIndex: -1,
 
-        transition: `${FOCUS_RING_TRANSITION}, background-color ${menuItemVars.base.enabled.root.colorTransitionDuration} ${menuItemVars.base.enabled.root.colorTransitionTimingFunction}`,
+        transitionProperty: "background-color, left, right, border-radius",
+        transitionDuration: menuItemVars.base.enabled.root.colorDuration,
+        transitionTimingFunction: menuItemVars.base.enabled.root.colorTimingFunction,
+      },
+
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        right: menuItemVars.base.pressed.root.marginX,
+        bottom: 0,
+        left: menuItemVars.base.pressed.root.marginX,
+        borderRadius: menuItemVars.base.pressed.root.cornerRadius,
         ...createFocusRingRestStyles({ position: "inside" }),
+        transition: FOCUS_RING_TRANSITION,
       },
 
-      // highlight 조건 확인
-      // [pseudo(highlighted, before)]: {
-      //   // nested menu에서 highlight되는 거라면, 별도 디자인 스펙이 필요할 수도 있겠음
-      //   backgroundColor: menuItemVars.base.pressed.root.pressedColor,
-      // },
-
-      // transition이 필요한지 확인
       [pseudo(not(disabled), engaged, before)]: {
-        backgroundColor: menuItemVars.base.pressed.root.pressedColor,
+        backgroundColor: menuItemVars.base.pressed.root.color,
+        left: menuItemVars.base.pressed.root.marginX,
+        right: menuItemVars.base.pressed.root.marginX,
+        borderRadius: menuItemVars.base.pressed.root.cornerRadius,
       },
 
-      [pseudo(focusVisible, before)]: createFocusRingStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: {
+        "&::after": createFocusRingStyles({ position: "inside" }),
+      },
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
