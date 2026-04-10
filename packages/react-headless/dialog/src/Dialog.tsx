@@ -42,7 +42,6 @@ DialogPositioner.displayName = "DialogPositioner";
 
 export interface DialogBackdropProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-// We might need scroll lock here; not needed yet in stackflow based webview.
 export const DialogBackdrop = forwardRef<HTMLDivElement, DialogBackdropProps>((props, ref) => {
   const api = useDialogContext();
   return (
@@ -66,6 +65,7 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
           swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
       <DismissibleLayer
         enabled={api.open}
+        // We might need scroll lock here; not needed yet in stackflow based webview.
         onEscapeKeyDown={(e) => {
           if (!api.closeOnEscape) return;
           api.setOpen(false, { reason: "escapeKeyDown", event: e });
