@@ -19,7 +19,7 @@ import { useControllableState } from "@seed-design/react-use-controllable-state"
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
-const MIN_HEIGHT = 100;
+const MIN_HEIGHT = 200;
 
 function getTransformOrigin(placement: string) {
   const [side, align] = placement.split("-");
