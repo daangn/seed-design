@@ -35,7 +35,7 @@ const MenuPreview = ({ size }: MenuVariantProps) => {
       `}</style>
       {mounted && (
         <MenuRoot open size={size}>
-          <MenuContent container={containerRef}>
+          <MenuContent positionerContainer={containerRef}>
             <MenuGroup>
               <MenuGroupLabel>작업</MenuGroupLabel>
               <MenuItem

@@ -24,15 +24,17 @@ export interface MenuTriggerProps extends SeedMenu.TriggerProps {}
  */
 export const MenuTrigger = SeedMenu.Trigger;
 
-export interface MenuContentProps extends SeedMenu.ContentProps {}
+export interface MenuContentProps extends SeedMenu.ContentProps {
+  positionerContainer?: SeedMenu.PositionerProps["container"];
+}
 
 /**
  * @see https://seed-design.io/react/components/menu
  */
 export const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
-  ({ children, ...props }, ref) => {
+  ({ children, positionerContainer, ...props }, ref) => {
     return (
-      <SeedMenu.Positioner>
+      <SeedMenu.Positioner container={positionerContainer}>
         <SeedMenu.Content ref={ref} {...props}>
           <SeedMenu.ScrollArea>{children}</SeedMenu.ScrollArea>
         </SeedMenu.Content>
