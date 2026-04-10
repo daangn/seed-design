@@ -33,6 +33,7 @@ variant props는 반드시 아래 세 가지 패턴 중 하나로 처리한다. 
 | 직접 splitVariantProps | `recipe.splitVariantProps(props)` | Badge |
 | 단일 슬롯 | `createRecipeContext` → `withContext` | Fab |
 | 복합 슬롯 | `createSlotRecipeContext` → `withProvider`/`withContext` | Chip |
+| 다중 Recipe | `splitMultipleVariantsProps` | RadioGroup, Checkbox, Switch, TagGroup |
 
 ### 직접 splitVariantProps
 
