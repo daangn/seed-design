@@ -197,7 +197,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         <FocusScope
           asChild
           loop
-          trapped={isOpen}
+          trapped={modal && isOpen}
           onMountAutoFocus={(e) => {
             // prevent FocusScope's default autoFocus behavior
             e.preventDefault();
