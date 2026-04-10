@@ -140,6 +140,32 @@ describe("useDismissibleLayer", () => {
       expect(innerEscape).not.toHaveBeenCalled();
     });
 
+    it("does not propagate Escape to outer layer when inner layer ignores it", async () => {
+      const user = userEvent.setup();
+      const outerEscape = mock(() => {});
+      // Inner layer receives Escape but does nothing (simulates closeOnEscape=false)
+      const innerEscape = mock(() => {});
+
+      render(
+        <NestedLayers
+          outerOptions={{ enabled: true, onEscapeKeyDown: outerEscape }}
+          innerOptions={{ enabled: true, onEscapeKeyDown: innerEscape }}
+        />,
+      );
+
+      await user.keyboard("{Escape}");
+
+      // Inner layer received it but didn't close (still topmost)
+      expect(innerEscape).toHaveBeenCalledTimes(1);
+      // Outer layer must NOT receive it — isTopMost guard prevents this
+      expect(outerEscape).not.toHaveBeenCalled();
+
+      // Press Escape again — inner is still topmost, outer still blocked
+      await user.keyboard("{Escape}");
+      expect(innerEscape).toHaveBeenCalledTimes(2);
+      expect(outerEscape).not.toHaveBeenCalled();
+    });
+
     it("ignores Escape during IME composition", () => {
       const onEscapeKeyDown = mock(() => {});
       render(<DismissibleBox options={{ enabled: true, onEscapeKeyDown }} />);
