@@ -160,7 +160,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "Menu", onClick: () => push("ActivityMenu", {}) },
         {
-          title: "Menu from ListItem",
+          title: "Menu from ListButtonItem",
           component: (
             <MenuRoot size="medium" matchReferenceWidth>
               <MenuTrigger asChild>
