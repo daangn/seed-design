@@ -5,7 +5,9 @@ export default function AccordionCustomizingTrigger() {
     <Accordion>
       <Accordion.Item value="item-1">
         <Accordion.Trigger>
-          <Accordion.Title>공지사항</Accordion.Title>
+          <Accordion.Body>
+            <Accordion.Title>공지사항</Accordion.Title>
+          </Accordion.Body>
           <span
             style={{
               marginLeft: "8px",
@@ -27,7 +29,9 @@ export default function AccordionCustomizingTrigger() {
       </Accordion.Item>
       <Accordion.Item value="item-2">
         <Accordion.Trigger>
-          <Accordion.Title>이벤트</Accordion.Title>
+          <Accordion.Body>
+            <Accordion.Title>이벤트</Accordion.Title>
+          </Accordion.Body>
           <span
             style={{
               marginLeft: "8px",
@@ -49,7 +53,9 @@ export default function AccordionCustomizingTrigger() {
       </Accordion.Item>
       <Accordion.Item value="item-3">
         <Accordion.Trigger>
-          <Accordion.Title>자주 묻는 질문</Accordion.Title>
+          <Accordion.Body>
+            <Accordion.Title>자주 묻는 질문</Accordion.Title>
+          </Accordion.Body>
         </Accordion.Trigger>
         <Accordion.Content>
           <p>자주 묻는 질문 목록입니다.</p>

@@ -12,12 +12,12 @@
     transition-property: background-color;
 }
 @media (hover: hover) {
-    .seed-accordion__item:is(:hover, [data-hover]) {
+    .seed-accordion__item:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
         background-color: var(--seed-color-bg-transparent-pressed);
     }
 }
 @media (hover: none) {
-    .seed-accordion__item:is(:active, [data-active]) {
+    .seed-accordion__item:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
         background-color: var(--seed-color-bg-transparent-pressed);
     }
 }

@@ -26,7 +26,7 @@ export interface AccordionTriggerProps extends SeedAccordion.TriggerProps {}
 export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   ({ children, ...props }, ref) => (
     <SeedAccordion.Trigger ref={ref} {...props}>
-      <SeedAccordion.Body>{children}</SeedAccordion.Body>
+      {children}
       <SeedAccordion.SuffixIcon>
         <IconChevronDownSmallLine />
       </SeedAccordion.SuffixIcon>

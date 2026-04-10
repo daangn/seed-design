@@ -2,7 +2,7 @@ import { accordion as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
 import { prefixIcon, suffixIcon } from "../utils/icon";
-import { disabled, engaged, focusVisible, open, pseudo } from "../utils/pseudo";
+import { disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
 
 const accordion = defineSlotRecipe({
@@ -35,7 +35,7 @@ const accordion = defineSlotRecipe({
       transitionTimingFunction: vars.base.enabled.item.colorTimingFunction,
       transitionProperty: "background-color",
 
-      [pseudo(engaged)]: {
+      [pseudo(engaged, not(disabled))]: {
         backgroundColor: vars.base.pressed.trigger.color,
       },
     },
