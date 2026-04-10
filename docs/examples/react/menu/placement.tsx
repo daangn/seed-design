@@ -12,7 +12,7 @@ import {
 
 function PlacementMenu({ placement }: { placement: NonNullable<MenuRootProps["placement"]> }) {
   return (
-    <MenuRoot placement={placement} defaultOpen>
+    <MenuRoot placement={placement}>
       <MenuTrigger asChild>
         <ActionButton variant="neutralSolid">{placement}</ActionButton>
       </MenuTrigger>
