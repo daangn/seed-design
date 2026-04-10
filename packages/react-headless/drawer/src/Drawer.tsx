@@ -185,7 +185,10 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
           closeDrawer(false, { reason: "interactOutside", event: e });
         }}
         onFocusOutside={() => {
-          // close drawer here?
+          // Focus trapping is handled by FocusScope — nothing to do here.
+          // The old Radix architecture needed e.preventDefault() here (PR #1187)
+          // to prevent cascade closes, but the new DismissibleLayer handles
+          // that via onCascadeDismiss instead.
         }}
         onCascadeDismiss={({ dismissedParent }) => {
           closeDrawer(false, { reason: "cascadeDismiss", dismissedParent });
