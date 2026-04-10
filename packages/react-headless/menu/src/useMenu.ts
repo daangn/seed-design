@@ -19,6 +19,15 @@ import { useControllableState } from "@seed-design/react-use-controllable-state"
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
+const MIN_HEIGHT = 100;
+
+function getTransformOrigin(placement: string) {
+  const [side, align] = placement.split("-");
+  const y = { top: "bottom", bottom: "top", left: "center", right: "center" }[side] ?? "top";
+  const x = { start: "left", end: "right" }[align] ?? "center";
+  return `${x} ${y}`;
+}
+
 interface MenuReasonToDetailMap {
   trigger: { event: MouseEvent | KeyboardEvent };
   escapeKeyDown: { event: KeyboardEvent };
@@ -190,14 +199,12 @@ export function useMenu(props: UseMenuProps) {
     placement,
     middleware: [
       offset(gutter),
-      flip({ padding: overflowPadding }),
-      shift({ padding: overflowPadding }),
       size({
         padding: overflowPadding,
         apply({ availableHeight, rects, elements }) {
           elements.floating.style.setProperty(
             "--seed-menu-available-height",
-            `${availableHeight}px`,
+            `${Math.max(MIN_HEIGHT, availableHeight)}px`,
           );
           if (matchReferenceWidth) {
             elements.floating.style.setProperty(
@@ -207,6 +214,8 @@ export function useMenu(props: UseMenuProps) {
           }
         },
       }),
+      flip({ padding: overflowPadding, fallbackStrategy: "initialPlacement" }),
+      shift({ padding: overflowPadding }),
     ],
   });
 
@@ -304,12 +313,7 @@ export function useMenu(props: UseMenuProps) {
       ...stateProps,
       role: "menu",
       style: {
-        "--seed-menu-transform-origin": {
-          top: "bottom",
-          bottom: "top",
-          left: "right",
-          right: "left",
-        }[context.placement.split("-")[0]],
+        "--seed-menu-transform-origin": getTransformOrigin(context.placement),
       } as React.CSSProperties,
       ...triggerInteractions.getFloatingProps(),
     }),

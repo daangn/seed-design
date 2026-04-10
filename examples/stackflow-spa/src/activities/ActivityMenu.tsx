@@ -134,7 +134,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
       </AppBar>
       <AppScreenContent>
         <VStack gap="x6" style={{ padding: 16 }}>
-          {/* 1. Basic Trigger */}
           <VStack gap="x3">
             <SectionTitle>Basic Trigger</SectionTitle>
             <HStack gap="x3">
@@ -184,7 +183,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </HStack>
           </VStack>
 
-          {/* 2. Placement */}
           <VStack gap="x3">
             <SectionTitle>Placement</SectionTitle>
             <HStack gap="x3">
@@ -226,7 +224,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </HStack>
           </VStack>
 
-          {/* 3. Anchor (controlled) with Avatar */}
           <VStack gap="x3">
             <SectionTitle>Anchor (Controlled)</SectionTitle>
             <HStack align="center" gap="x4" justify="space-between">
@@ -263,7 +260,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </HStack>
           </VStack>
 
-          {/* 4. FieldButton + matchReferenceWidth */}
           <VStack gap="x3">
             <SectionTitle>FieldButton (Select-like)</SectionTitle>
             <MenuRoot
@@ -302,7 +298,23 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </MenuRoot>
           </VStack>
 
-          {/* 5. onOpenChange details / reason tracking */}
+          <VStack gap="x3">
+            <SectionTitle>Many Items (Scroll)</SectionTitle>
+            <MenuRoot size="medium">
+              <MenuTrigger asChild>
+                <ActionButton variant="neutralWeak">30개 항목</ActionButton>
+              </MenuTrigger>
+              <MenuContent>
+                <MenuGroup>
+                  <MenuGroupLabel>Recently Played</MenuGroupLabel>
+                  {Array.from({ length: 30 }, (_, i) => (
+                    <MenuItem key={`track-${i}`} label={`Track ${i + 1}`} />
+                  ))}
+                </MenuGroup>
+              </MenuContent>
+            </MenuRoot>
+          </VStack>
+
           <VStack gap="x3">
             <SectionTitle>onOpenChange Reason</SectionTitle>
             <HStack align="center" gap="x4">
@@ -326,7 +338,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </HStack>
           </VStack>
 
-          {/* 6. Menu → BottomSheet */}
           <VStack gap="x3">
             <SectionTitle>Menu → BottomSheet</SectionTitle>
             <MenuRoot size="medium">
@@ -360,7 +371,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </BottomSheetRoot>
           </VStack>
 
-          {/* 7. Menu inside BottomSheet */}
           <VStack gap="x3">
             <SectionTitle>Menu in BottomSheet</SectionTitle>
             <ActionButton onClick={() => setSheetOpen(true)}>BottomSheet 열기</ActionButton>
@@ -405,7 +415,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </BottomSheetRoot>
           </VStack>
 
-          {/* 8. Menu inside AlertDialog */}
           <VStack gap="x3">
             <SectionTitle>Menu in AlertDialog</SectionTitle>
             <AlertDialogRoot>
@@ -439,24 +448,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                 </AlertDialogContent>
               </Portal>
             </AlertDialogRoot>
-          </VStack>
-
-          {/* 9. Many items (scroll) */}
-          <VStack gap="x3">
-            <SectionTitle>Many Items (Scroll)</SectionTitle>
-            <MenuRoot size="medium">
-              <MenuTrigger asChild>
-                <ActionButton variant="neutralWeak">30개 항목</ActionButton>
-              </MenuTrigger>
-              <MenuContent>
-                <MenuGroup>
-                  <MenuGroupLabel>Recently Played</MenuGroupLabel>
-                  {Array.from({ length: 30 }, (_, i) => (
-                    <MenuItem key={`track-${i}`} label={`Track ${i + 1}`} />
-                  ))}
-                </MenuGroup>
-              </MenuContent>
-            </MenuRoot>
           </VStack>
         </VStack>
       </AppScreenContent>
