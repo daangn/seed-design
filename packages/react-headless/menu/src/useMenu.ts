@@ -322,11 +322,13 @@ export function useMenu(props: UseMenuProps) {
       const isActive = activeIndex === index;
 
       const itemStateProps = elementProps({
+        // implement when submenu is needed
         // "data-highlighted": dataAttr(isActive),
         "data-disabled": dataAttr(itemProps.disabled),
       });
 
       return {
+        // implement when submenu is needed
         // isHighlighted: isActive,
         isDisabled: itemProps.disabled,
 
@@ -363,11 +365,13 @@ export function useMenu(props: UseMenuProps) {
       const isActive = activeIndex === index;
 
       const itemStateProps = elementProps({
+        // implement when submenu is needed
         // "data-highlighted": dataAttr(isActive),
         "data-disabled": dataAttr(itemProps.disabled),
       });
 
       return {
+        // implement when submenu is needed
         // isHighlighted: isActive,
         isDisabled: itemProps.disabled,
 
