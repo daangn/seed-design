@@ -71,6 +71,12 @@ export interface UseDismissibleLayerOptions {
 
 const NOOP = () => {};
 
+// Module-level storage for the original body pointer-events value.
+// Follows Radix's pattern: save once when the first blocking layer mounts,
+// restore when the last blocking layer unmounts. This decouples save/restore
+// from React's bottom-up cleanup order.
+let originalBodyPointerEvents: string;
+
 export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
   const {
     enabled,
@@ -120,22 +126,27 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
   }, [node, enabled, blockPointerEvents, ctx, parentNode]);
 
   // -- Pointer event blocking --
+  // Follows Radix's pattern: save original value once when the first blocking
+  // layer mounts, restore when the last unmounts. The module-level variable
+  // decouples save/restore from React's bottom-up cleanup order.
   useEffect(() => {
     if (!node || !enabled || !blockPointerEvents) return;
 
     const ownerDocument = node.ownerDocument ?? document;
-    const hasExistingBlocking = ctx.layers.some((l) => l.blockPointerEvents && l.node !== node);
+    const blockingLayers = ctx.layers.filter((l) => l.blockPointerEvents);
 
-    const savedPointerEvents = hasExistingBlocking ? null : ownerDocument.body.style.pointerEvents;
-
-    if (savedPointerEvents !== null) {
+    if (blockingLayers.length === 1) {
+      // First blocking layer — save the original value and block
+      originalBodyPointerEvents = ownerDocument.body.style.pointerEvents;
       ownerDocument.body.style.pointerEvents = "none";
     }
 
     return () => {
+      // Check count BEFORE this layer is removed from ctx.layers.
+      // At cleanup time, this layer is still in the array.
       const remainingBlocking = ctx.layers.filter((l) => l.blockPointerEvents && l.node !== node);
-      if (remainingBlocking.length === 0 && savedPointerEvents !== null) {
-        ownerDocument.body.style.pointerEvents = savedPointerEvents;
+      if (remainingBlocking.length === 0) {
+        ownerDocument.body.style.pointerEvents = originalBodyPointerEvents;
       }
     };
   }, [node, enabled, blockPointerEvents, ctx]);

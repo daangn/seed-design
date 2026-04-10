@@ -631,4 +631,102 @@ describe("useDismissibleLayer", () => {
       expect(onFocusOutside).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe("pointer event blocking", () => {
+    it("restores body.style.pointerEvents after nested blocking layers unmount", async () => {
+      const original = document.body.style.pointerEvents;
+
+      function Harness() {
+        const [showBoth, setShowBoth] = React.useState(true);
+
+        return (
+          <>
+            {showBoth && (
+              <DismissibleBox
+                options={{ enabled: true, blockPointerEvents: true }}
+                data-testid="outer"
+              >
+                <DismissibleBox
+                  options={{ enabled: true, blockPointerEvents: true }}
+                  data-testid="inner"
+                />
+              </DismissibleBox>
+            )}
+            <button type="button" data-testid="unmount" onClick={() => setShowBoth(false)}>
+              Unmount
+            </button>
+          </>
+        );
+      }
+
+      const { getByTestId } = render(<Harness />);
+
+      // Both blocking layers are mounted → body should be "none"
+      expect(document.body.style.pointerEvents).toBe("none");
+
+      // Unmount both layers — React cleans up children before parents
+      await act(async () => getByTestId("unmount").click());
+
+      // body.style.pointerEvents must be restored
+      expect(document.body.style.pointerEvents).toBe(original);
+    });
+
+    it("restores body.style.pointerEvents when blocking layers mount sequentially then unmount together", async () => {
+      const original = document.body.style.pointerEvents;
+
+      function Harness() {
+        const [showFirst, setShowFirst] = React.useState(false);
+        const [showSecond, setShowSecond] = React.useState(false);
+
+        return (
+          <>
+            {showFirst && (
+              <DismissibleBox
+                options={{ enabled: true, blockPointerEvents: true }}
+                data-testid="first"
+              />
+            )}
+            {showSecond && (
+              <DismissibleBox
+                options={{ enabled: true, blockPointerEvents: true }}
+                data-testid="second"
+              />
+            )}
+            <button type="button" data-testid="mount-first" onClick={() => setShowFirst(true)}>
+              Mount First
+            </button>
+            <button type="button" data-testid="mount-second" onClick={() => setShowSecond(true)}>
+              Mount Second
+            </button>
+            <button
+              type="button"
+              data-testid="unmount-all"
+              onClick={() => {
+                setShowFirst(false);
+                setShowSecond(false);
+              }}
+            >
+              Unmount All
+            </button>
+          </>
+        );
+      }
+
+      const { getByTestId } = render(<Harness />);
+
+      // Mount first blocking layer
+      await act(async () => getByTestId("mount-first").click());
+      expect(document.body.style.pointerEvents).toBe("none");
+
+      // Mount second blocking layer
+      await act(async () => getByTestId("mount-second").click());
+      expect(document.body.style.pointerEvents).toBe("none");
+
+      // Unmount both at once
+      await act(async () => getByTestId("unmount-all").click());
+
+      // body.style.pointerEvents must be restored
+      expect(document.body.style.pointerEvents).toBe(original);
+    });
+  });
 });
