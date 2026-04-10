@@ -1,0 +1,117 @@
+name: Weekly Harness Audit
+
+on:
+  schedule:
+    - cron: "0 3 * * 1" # 매주 월요일 KST 12:00 (UTC 03:00)
+  workflow_dispatch: {}
+
+jobs:
+  harness-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@88c168b39e7e64da0286d812b6e9fbebb6708185 # v1
+        with:
+          anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
+          track_progress: true
+          use_sticky_comment: false
+          prompt: |
+            REPO: ${{ github.repository }}
+
+            한국어로 작업하세요. 커밋 메시지와 PR 제목은 영어로 작성하세요.
+
+            <harness-audit>
+            seed-design 레포의 Claude Code harness(AGENTS.md, TECH.md, hooks, skills, agents, settings)를 감사합니다.
+
+            <step-1-collect>
+            감사 대상 문서를 수집합니다:
+            1. 모든 AGENTS.md: `find . -name "AGENTS.md" -not -path "*/node_modules/*" -not -path "*/.next/*"`
+            2. 모든 TECH.md: `find . -name "TECH.md" -not -path "*/node_modules/*"`
+            3. .claude/agents/ 내 에이전트 정의 파일
+            4. skills/ 내 SKILL.md 파일
+            5. .claude/hooks/ 내 hook 스크립트
+            6. .claude/settings.json hook 설정
+            </step-1-collect>
+
+            <step-2-verify>
+            각 문서에서 참조하는 항목을 실제 코드와 교차 검증합니다:
+            - 파일/디렉토리 경로 → 존재 여부 확인 (`ls`, `find`)
+            - package.json scripts에 기록된 커맨드 → 실제 존재 여부
+            - 코드 패턴/컨벤션 → 실제 소스에서 grep으로 사용 여부
+            - import 패턴 → 실제 코드에서 사용 여부
+
+            검증 기준:
+            - Dead 경로: 참조된 파일/디렉토리가 존재하지 않음
+            - Stale 패턴: 문서에 기술된 패턴이 실제 코드에서 사용되지 않음
+            - 누락: 실제 존재하는 커맨드/패턴이 문서에 빠져있음
+            - 모순: 문서의 규칙과 실제 코드가 상충함
+            </step-2-verify>
+
+            <step-3-check-harness>
+            harness 구성 상태를 확인합니다:
+            - .claude/skills, .agents/skills가 skills/로의 symlink인지 확인
+            - symlink이 아니라 실제 파일이면 drift로 판정
+            - .claude/hooks/ 내 스크립트가 settings.json에 등록되어 있는지 확인
+            - settings.json에 등록된 hook 스크립트 파일이 실제로 존재하는지 확인
+            </step-3-check-harness>
+
+            <step-4-fix>
+            발견된 문제를 직접 수정합니다.
+
+            수정 대상:
+            - Dead 경로 참조 → 올바른 경로로 수정
+            - 누락된 커맨드/패턴 → 추가
+            - 모순되는 규칙 → 실제 코드 기준으로 수정
+            - 동기화 깨짐 → symlink 복구
+
+            수정하지 않는 것:
+            - TBD/placeholder 콘텐츠 (의도적 미완성)
+            - 외부 URL (검증 불가)
+            - 코드 자체 (문서만 수정)
+            </step-4-fix>
+
+            <step-5-pr>
+            수정한 내용이 있으면:
+            1. `git checkout -b chore/harness-audit-$(date +%Y%m%d)`
+            2. 변경 파일을 git add
+            3. `git commit -m "chore: fix stale harness references found by weekly audit"`
+            4. `git push origin HEAD`
+            5. `gh pr create --base dev --title "chore: weekly harness audit fixes" --body "$(본문)"`
+               - body에 발견/수정 사항 요약을 마크다운 테이블로 포함
+               - 각 항목: 파일, 문제, 수정 내용
+
+            수정할 내용이 없으면:
+            "✅ 모든 문서가 최신 상태입니다. 수정 필요 없음." 메시지를 출력하고 종료합니다.
+            </step-5-pr>
+            </harness-audit>
+          claude_args: |
+            --model claude-sonnet-4-5-20250929
+            --allowedTools "
+              Read,
+              Glob,
+              Grep,
+              Edit,
+              Write,
+              Bash(find *),
+              Bash(ls *),
+              Bash(cat *),
+              Bash(head *),
+              Bash(diff *),
+              Bash(date *),
+              Bash(git checkout *),
+              Bash(git add *),
+              Bash(git commit *),
+              Bash(git push *),
+              Bash(git status),
+              Bash(git log *),
+              Bash(git diff *),
+              Bash(gh pr create *)
+            "
