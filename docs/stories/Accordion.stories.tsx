@@ -62,8 +62,14 @@ export const DarkTheme: Story = {
   parameters: { theme: "dark" },
 };
 
-const AccordionOpenDemo = (props: React.ComponentProps<typeof AccordionRoot>) => (
-  <Accordion {...props} style={{ width: 360 }} defaultValue={["item-1"]}>
+const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof AccordionRoot>) => (
+  <Accordion
+    variant={variant}
+    size={size}
+    type="multiple"
+    style={{ width: 360 }}
+    defaultValue={["item-1"]}
+  >
     <Accordion.Item value="item-1">
       <Accordion.Trigger>
         <Accordion.Title>배송은 얼마나 걸리나요?</Accordion.Title>
