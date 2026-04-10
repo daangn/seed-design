@@ -63,7 +63,9 @@ export const MenuAnchor = forwardRef<HTMLDivElement, MenuAnchorProps>((props, re
 });
 MenuAnchor.displayName = "MenuAnchor";
 
-export interface MenuTriggerProps extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
+export interface MenuTriggerProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>((props, ref) => {
   const api = useMenuContext();
