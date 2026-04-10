@@ -131,7 +131,13 @@ export function removeLayer(ctx: LayerStackContextValue, node: HTMLElement) {
     child.dismiss({ dismissedParent: node });
   }
 
-  ctx.layers.splice(index, 1);
+  // Re-compute index: cascade-dismiss may have recursively removed layers,
+  // shifting the target's position in the array. In React, parents mount
+  // before children so children are always at higher indices — but this is
+  // a pure data structure with no React dependency, so we defend against
+  // arbitrary insertion order.
+  const freshIndex = ctx.layers.findIndex((l) => l.node === node);
+  if (freshIndex >= 0) ctx.layers.splice(freshIndex, 1);
   notifyLayerChange();
 }
 

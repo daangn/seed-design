@@ -126,6 +126,34 @@ describe("layer-stack", () => {
       expect(dismissSibling).not.toHaveBeenCalled();
     });
 
+    it("correctly removes parent when child dismiss triggers recursive removeLayer", () => {
+      const child = createNode("child");
+      const parent = createNode("parent");
+      const sibling = createNode("sibling");
+
+      // child is inserted BEFORE parent — possible in pure data structure usage.
+      // child.dismiss recursively calls removeLayer, shifting parent's index.
+      addLayer(
+        ctx,
+        createLayer(child, {
+          dismiss: () => removeLayer(ctx, child),
+          parentNode: parent,
+        }),
+      );
+      addLayer(ctx, createLayer(parent));
+      addLayer(ctx, createLayer(sibling));
+
+      // Before: [child, parent, sibling]. parent is at index 1.
+      // removeLayer(parent) → cascade-dismisses child → child.dismiss() → removeLayer(child)
+      // After child removal: [parent, sibling]. parent shifts to index 0.
+      // The pre-computed index (1) is now stale — must re-compute.
+      removeLayer(ctx, parent);
+
+      // Only sibling should remain
+      expect(ctx.layers).toHaveLength(1);
+      expect(ctx.layers[0].node).toBe(sibling);
+    });
+
     it("adds node to recentlyRemoved", () => {
       const node = createNode();
       addLayer(ctx, createLayer(node));
