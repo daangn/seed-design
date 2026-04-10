@@ -181,7 +181,6 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
           if (!modal) return;
           if (keyboardIsOpen.current) keyboardIsOpen.current = false;
 
-          if (e.defaultPrevented) return;
           if (!dismissible || !closeOnInteractOutside) return;
           closeDrawer(false, { reason: "interactOutside", event: e });
         }}
