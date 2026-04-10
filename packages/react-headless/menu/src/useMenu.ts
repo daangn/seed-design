@@ -87,7 +87,7 @@ export interface UseMenuItemProps {
    * Overrides the text label to use when the item is matched during keyboard text navigation.
    * Falls back to the element's text content if not provided.
    */
-  label?: string;
+  typeaheadLabel?: string;
 
   // intentionally defined here; onClick is omitted in MenuItemProps since it shouldn't be merged as restProps
   /**
@@ -104,7 +104,7 @@ export interface UseMenuItemProps {
 //    * Overrides the text label to use when the item is matched during keyboard text navigation.
 //    * Falls back to the element's text content if not provided.
 //    */
-//   label?: string;
+//   typeaheadLabel?: string;
 // }
 
 export type UseMenuReturn = ReturnType<typeof useMenu>;

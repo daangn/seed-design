@@ -1,5 +1,3 @@
-"use client";
-
 import { PrefixIcon, SuffixIcon, Menu as SeedMenu } from "@seed-design/react";
 import * as React from "react";
 
@@ -12,14 +10,23 @@ export const MenuRoot = SeedMenu.Root;
 
 export interface MenuAnchorProps extends SeedMenu.AnchorProps {}
 
+/**
+ * @see https://seed-design.io/react/components/menu
+ */
 export const MenuAnchor = SeedMenu.Anchor;
 
 export interface MenuTriggerProps extends SeedMenu.TriggerProps {}
 
+/**
+ * @see https://seed-design.io/react/components/menu
+ */
 export const MenuTrigger = SeedMenu.Trigger;
 
 export interface MenuContentProps extends SeedMenu.PositionerProps {}
 
+/**
+ * @see https://seed-design.io/react/components/menu
+ */
 export const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
   ({ children, ...props }, ref) => {
     return (
@@ -35,13 +42,19 @@ MenuContent.displayName = "MenuContent";
 
 export interface MenuGroupProps extends SeedMenu.GroupProps {}
 
+/**
+ * @see https://seed-design.io/react/components/menu
+ */
 export const MenuGroup = SeedMenu.Group;
 
 export interface MenuGroupLabelProps extends SeedMenu.GroupLabelProps {}
 
+/**
+ * @see https://seed-design.io/react/components/menu
+ */
 export const MenuGroupLabel = SeedMenu.GroupLabel;
 
-export interface MenuItemProps extends Omit<SeedMenu.ItemProps, "children" | "label"> {
+export interface MenuItemProps extends Omit<SeedMenu.ItemProps, "children"> {
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;
@@ -51,6 +64,9 @@ export interface MenuItemProps extends Omit<SeedMenu.ItemProps, "children" | "la
   suffixIcon?: React.ReactNode;
 }
 
+/**
+ * @see https://seed-design.io/react/components/menu
+ */
 export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
   ({ prefixIcon, label, description, suffixIcon, ...props }, ref) => {
     return (
@@ -66,34 +82,3 @@ export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
   },
 );
 MenuItem.displayName = "MenuItem";
-
-// export interface MenuSubmenuRootProps extends SeedMenu.SubmenuRootProps {}
-
-// export const MenuSubmenuRoot = SeedMenu.SubmenuRoot;
-
-// export interface MenuSubmenuTriggerProps
-//   extends Omit<SeedMenu.SubmenuTriggerProps, "children" | "label"> {
-//   prefixIcon?: React.ReactNode;
-
-//   label: React.ReactNode;
-
-//   description?: React.ReactNode;
-
-//   suffixIcon?: React.ReactNode;
-// }
-
-// export const MenuSubmenuTrigger = React.forwardRef<HTMLDivElement, MenuSubmenuTriggerProps>(
-//   ({ prefixIcon, label, description, suffixIcon, ...props }, ref) => {
-//     return (
-//       <SeedMenu.SubmenuTrigger ref={ref} {...props}>
-//         {prefixIcon && <PrefixIcon svg={prefixIcon} />}
-//         <SeedMenu.ItemBody>
-//           <SeedMenu.ItemLabel>{label}</SeedMenu.ItemLabel>
-//           {description && <SeedMenu.ItemDescription>{description}</SeedMenu.ItemDescription>}
-//         </SeedMenu.ItemBody>
-//         {suffixIcon && <SuffixIcon svg={suffixIcon} />}
-//       </SeedMenu.SubmenuTrigger>
-//     );
-//   },
-// );
-// MenuSubmenuTrigger.displayName = "MenuSubmenuTrigger";

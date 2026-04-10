@@ -179,9 +179,9 @@ export interface MenuItemProps
     Omit<React.HTMLAttributes<HTMLDivElement>, "onClick"> {}
 
 export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(
-  ({ disabled, label, onClick, ...restProps }, ref) => {
+  ({ disabled, typeaheadLabel, onClick, ...restProps }, ref) => {
     const { getItemProps } = useMenuContext();
-    const { ref: listRef, index } = useListItem({ label });
+    const { ref: listRef, index } = useListItem({ label: typeaheadLabel });
     const api = getItemProps({ disabled, onClick }, index);
 
     return (

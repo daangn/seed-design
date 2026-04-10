@@ -97,10 +97,10 @@ function MenuWithLabels(props: UseMenuProps) {
       <MenuTrigger>Open Menu</MenuTrigger>
       <MenuPositioner>
         <MenuContent>
-          <MenuItem label="Apple">Apple</MenuItem>
-          <MenuItem label="Banana">Banana</MenuItem>
-          <MenuItem label="Cherry">Cherry</MenuItem>
-          <MenuItem label="Dragonfruit">Dragonfruit</MenuItem>
+          <MenuItem typeaheadLabel="Apple">Apple</MenuItem>
+          <MenuItem typeaheadLabel="Banana">Banana</MenuItem>
+          <MenuItem typeaheadLabel="Cherry">Cherry</MenuItem>
+          <MenuItem typeaheadLabel="Dragonfruit">Dragonfruit</MenuItem>
         </MenuContent>
       </MenuPositioner>
     </Menu>
@@ -491,9 +491,9 @@ describe("useMenu", () => {
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
             <MenuContent>
-              <MenuItem label="Café">Café</MenuItem>
-              <MenuItem label="Naïve">Naïve</MenuItem>
-              <MenuItem label="Résumé">Résumé</MenuItem>
+              <MenuItem typeaheadLabel="Café">Café</MenuItem>
+              <MenuItem typeaheadLabel="Naïve">Naïve</MenuItem>
+              <MenuItem typeaheadLabel="Résumé">Résumé</MenuItem>
             </MenuContent>
           </MenuPositioner>
         </Menu>,
@@ -505,15 +505,15 @@ describe("useMenu", () => {
       expect(getByText("Résumé")).toHaveFocus();
     });
 
-    it("navigates using the label prop when provided", async () => {
+    it("navigates using the typeaheadLabel prop when provided", async () => {
       const user = userEvent.setup();
       const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
           <MenuPositioner>
             <MenuContent>
-              <MenuItem label="Alpha">Item with icon 1</MenuItem>
-              <MenuItem label="Beta">Item with icon 2</MenuItem>
+              <MenuItem typeaheadLabel="Alpha">Item with icon 1</MenuItem>
+              <MenuItem typeaheadLabel="Beta">Item with icon 2</MenuItem>
             </MenuContent>
           </MenuPositioner>
         </Menu>,
