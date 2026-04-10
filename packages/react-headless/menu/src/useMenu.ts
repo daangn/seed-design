@@ -250,6 +250,8 @@ export function useMenu(props: UseMenuProps) {
     activeIndex,
     onNavigate: setActiveIndex,
     loop: true,
+    // Hover and focus states should be differentiated; disable focus-on-hover
+    // so that hover styling can be handled separately via CSS :hover.
     focusItemOnHover: false,
     // focusItemOnOpen: false,
   });
