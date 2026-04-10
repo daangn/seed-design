@@ -247,6 +247,53 @@ describe("useMenu", () => {
       );
     });
 
+    it("reports reason 'escapeKeyDown' when closed by Escape", async () => {
+      const user = userEvent.setup();
+      const onOpenChange = vi.fn();
+      const { getByText } = render(<BasicMenu onOpenChange={onOpenChange} />);
+      await waitForPositioning();
+      await user.click(getByText("Open Menu"));
+      onOpenChange.mockClear();
+      await user.keyboard("{Escape}");
+      expect(onOpenChange).toHaveBeenCalledWith(
+        false,
+        expect.objectContaining({ reason: "escapeKeyDown" }),
+      );
+    });
+
+    it("reports reason 'interactOutside' when closed by outside click", async () => {
+      const user = userEvent.setup();
+      const onOpenChange = vi.fn();
+      const { getByText } = render(
+        <div>
+          <BasicMenu onOpenChange={onOpenChange} />
+          <button type="button">Outside</button>
+        </div>,
+      );
+      await waitForPositioning();
+      await user.click(getByText("Open Menu"));
+      onOpenChange.mockClear();
+      await user.click(getByText("Outside"));
+      expect(onOpenChange).toHaveBeenCalledWith(
+        false,
+        expect.objectContaining({ reason: "interactOutside" }),
+      );
+    });
+
+    it("reports reason 'itemClick' when closed by item selection", async () => {
+      const user = userEvent.setup();
+      const onOpenChange = vi.fn();
+      const { getByText } = render(<BasicMenu onOpenChange={onOpenChange} />);
+      await waitForPositioning();
+      await user.click(getByText("Open Menu"));
+      onOpenChange.mockClear();
+      await user.click(getByText("Item 1"));
+      expect(onOpenChange).toHaveBeenCalledWith(
+        false,
+        expect.objectContaining({ reason: "itemClick" }),
+      );
+    });
+
     it("closes on Escape key", async () => {
       const user = userEvent.setup();
       const { getByText, queryByRole } = render(<BasicMenu />);
