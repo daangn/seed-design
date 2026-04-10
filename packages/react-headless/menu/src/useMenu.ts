@@ -97,14 +97,15 @@ export interface UseMenuItemProps {
   onClick?: React.MouseEventHandler;
 }
 
-export interface UseMenuSubmenuTriggerProps {
-  disabled?: boolean;
-  /**
-   * Overrides the text label to use when the item is matched during keyboard text navigation.
-   * Falls back to the element's text content if not provided.
-   */
-  label?: string;
-}
+// implement when submenu is needed
+// export interface UseMenuSubmenuTriggerProps {
+//   disabled?: boolean;
+//   /**
+//    * Overrides the text label to use when the item is matched during keyboard text navigation.
+//    * Falls back to the element's text content if not provided.
+//    */
+//   label?: string;
+// }
 
 export type UseMenuReturn = ReturnType<typeof useMenu>;
 
@@ -361,31 +362,30 @@ export function useMenu(props: UseMenuProps) {
       };
     },
 
-    getSubmenuTriggerProps: (itemProps: UseMenuSubmenuTriggerProps, index: number) => {
-      const isActive = activeIndex === index;
-
-      const itemStateProps = elementProps({
-        // implement when submenu is needed
-        // "data-highlighted": dataAttr(isActive),
-        "data-disabled": dataAttr(itemProps.disabled),
-      });
-
-      return {
-        // implement when submenu is needed
-        // isHighlighted: isActive,
-        isDisabled: itemProps.disabled,
-
-        stateProps: itemStateProps,
-
-        rootProps: elementProps({
-          ...itemStateProps,
-          ...triggerInteractions.getItemProps(),
-          role: "menuitem",
-          tabIndex: isActive ? 0 : -1,
-          "aria-disabled": itemProps.disabled ? "true" : undefined,
-        }),
-      };
-    },
+    // implement when submenu is needed
+    // getSubmenuTriggerProps: (itemProps: UseMenuSubmenuTriggerProps, index: number) => {
+    //   const isActive = activeIndex === index;
+    //
+    //   const itemStateProps = elementProps({
+    //     "data-highlighted": dataAttr(isActive),
+    //     "data-disabled": dataAttr(itemProps.disabled),
+    //   });
+    //
+    //   return {
+    //     isHighlighted: isActive,
+    //     isDisabled: itemProps.disabled,
+    //
+    //     stateProps: itemStateProps,
+    //
+    //     rootProps: elementProps({
+    //       ...itemStateProps,
+    //       ...triggerInteractions.getItemProps(),
+    //       role: "menuitem",
+    //       tabIndex: isActive ? 0 : -1,
+    //       "aria-disabled": itemProps.disabled ? "true" : undefined,
+    //     }),
+    //   };
+    // },
 
     getGroupProps: () => {
       const groupIndex = groupIndexCounter.current++;

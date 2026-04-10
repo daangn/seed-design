@@ -25,6 +25,7 @@ export * as Menu from "./Menu.namespace";
 export type {
   UseMenuProps,
   UseMenuItemProps,
-  UseMenuSubmenuTriggerProps,
+  // implement when submenu is needed
+  // UseMenuSubmenuTriggerProps,
   UseMenuReturn,
 } from "./useMenu";
