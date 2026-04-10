@@ -40,7 +40,9 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
           <Accordion variant="inline">
             <Accordion.Item value="item-1">
               <Accordion.Trigger>
-                <Accordion.Title>당근마켓은 어떤 서비스인가요?</Accordion.Title>
+                <Accordion.Body>
+                  <Accordion.Title>당근마켓은 어떤 서비스인가요?</Accordion.Title>
+                </Accordion.Body>
               </Accordion.Trigger>
               <Accordion.Content>
                 당근마켓은 동네 이웃 간의 중고거래를 돕는 플랫폼입니다. 가까운 이웃과 직거래로
@@ -49,8 +51,10 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
             </Accordion.Item>
             <Accordion.Item value="item-2">
               <Accordion.Trigger>
-                <Accordion.Title>안전하게 거래하는 방법이 있나요?</Accordion.Title>
-                <Accordion.Description>직거래 안전 가이드</Accordion.Description>
+                <Accordion.Body>
+                  <Accordion.Title>안전하게 거래하는 방법이 있나요?</Accordion.Title>
+                  <Accordion.Description>직거래 안전 가이드</Accordion.Description>
+                </Accordion.Body>
               </Accordion.Trigger>
               <Accordion.Content>
                 공공장소에서 만나거나 안전거래 서비스를 이용해 보세요. 상품을 직접 확인하고 거래하는
@@ -59,7 +63,9 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
             </Accordion.Item>
             <Accordion.Item value="item-3">
               <Accordion.Trigger>
-                <Accordion.Title>매너온도는 무엇인가요?</Accordion.Title>
+                <Accordion.Body>
+                  <Accordion.Title>매너온도는 무엇인가요?</Accordion.Title>
+                </Accordion.Body>
               </Accordion.Trigger>
               <Accordion.Content>
                 매너온도는 당근마켓 회원들의 거래 매너를 수치화한 지표입니다. 좋은 거래 경험을
@@ -74,7 +80,9 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
           <Accordion variant="separated" type="single" collapsible>
             <Accordion.Item value="item-1">
               <Accordion.Trigger>
-                <Accordion.Title>당근마켓은 어떤 서비스인가요?</Accordion.Title>
+                <Accordion.Body>
+                  <Accordion.Title>당근마켓은 어떤 서비스인가요?</Accordion.Title>
+                </Accordion.Body>
               </Accordion.Trigger>
               <Accordion.Content>
                 당근마켓은 동네 이웃 간의 중고거래를 돕는 플랫폼입니다. 가까운 이웃과 직거래로
@@ -83,8 +91,10 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
             </Accordion.Item>
             <Accordion.Item value="item-2">
               <Accordion.Trigger>
-                <Accordion.Title>안전하게 거래하는 방법이 있나요?</Accordion.Title>
-                <Accordion.Description>직거래 안전 가이드</Accordion.Description>
+                <Accordion.Body>
+                  <Accordion.Title>안전하게 거래하는 방법이 있나요?</Accordion.Title>
+                  <Accordion.Description>직거래 안전 가이드</Accordion.Description>
+                </Accordion.Body>
               </Accordion.Trigger>
               <Accordion.Content>
                 공공장소에서 만나거나 안전거래 서비스를 이용해 보세요. 상품을 직접 확인하고 거래하는
@@ -93,7 +103,9 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
             </Accordion.Item>
             <Accordion.Item value="item-3">
               <Accordion.Trigger>
-                <Accordion.Title>매너온도는 무엇인가요?</Accordion.Title>
+                <Accordion.Body>
+                  <Accordion.Title>매너온도는 무엇인가요?</Accordion.Title>
+                </Accordion.Body>
               </Accordion.Trigger>
               <Accordion.Content>
                 매너온도는 당근마켓 회원들의 거래 매너를 수치화한 지표입니다. 좋은 거래 경험을
