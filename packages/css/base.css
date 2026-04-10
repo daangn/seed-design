@@ -763,18 +763,14 @@
 @keyframes seed-enter {
   from {
     opacity: var(--seed-enter-opacity, 1);
-    transform: translate3d(var(--seed-enter-translate-x, 0), var(--seed-enter-translate-y, 0), 0)
-      scale3d(var(--seed-enter-scale, 1), var(--seed-enter-scale, 1), var(--seed-enter-scale, 1))
-      rotate(var(--seed-enter-rotate, 0));
+    transform: translate3d(var(--seed-enter-translate-x, 0), var(--seed-enter-translate-y, 0), 0) scale3d(var(--seed-enter-scale, 1), var(--seed-enter-scale, 1), var(--seed-enter-scale, 1)) rotate(var(--seed-enter-rotate, 0));
   }
 }
 
 @keyframes seed-exit {
   to {
     opacity: var(--seed-exit-opacity, 1);
-    transform: translate3d(var(--seed-exit-translate-x, 0), var(--seed-exit-translate-y, 0), 0)
-      scale3d(var(--seed-exit-scale, 1), var(--seed-exit-scale, 1), var(--seed-exit-scale, 1))
-      rotate(var(--seed-exit-rotate, 0));
+    transform: translate3d(var(--seed-exit-translate-x, 0), var(--seed-exit-translate-y, 0), 0) scale3d(var(--seed-exit-scale, 1), var(--seed-exit-scale, 1), var(--seed-exit-scale, 1)) rotate(var(--seed-exit-rotate, 0));
   }
 }
 

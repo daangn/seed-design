@@ -26,6 +26,12 @@
             },
             "dividerColor": {
               "type": "color"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -116,6 +122,29 @@
             }
           }
         },
+        "body": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "contentInner": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
         "content": {
           "properties": {
             "paddingX": {
@@ -172,10 +201,26 @@
               "enabled"
             ],
             "slots": {
+              "item": {
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
               "trigger": {
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.spacing-x.global-gutter"
+                }
+              },
+              "body": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
                 }
               },
               "title": {
@@ -195,7 +240,7 @@
                 },
                 "fontWeight": {
                   "type": "number",
-                  "value": "$font-weight.regular"
+                  "value": "$font-weight.medium"
                 },
                 "gap": {
                   "type": "dimension",
@@ -214,6 +259,24 @@
                 "rotateTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
+                }
+              },
+              "contentInner": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
                 }
               },
               "content": {

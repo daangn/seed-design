@@ -2,7 +2,7 @@
   .seed-dialog__positioner {
     overscroll-behavior-y: none;
     --dialog-z-index: 2;
-    z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
+    z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
     justify-content: center;
     align-items: center;
     display: flex;
@@ -12,7 +12,7 @@
 
   .seed-dialog__backdrop {
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
+    z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
@@ -20,7 +20,7 @@
   .seed-dialog__content {
     box-sizing: border-box;
     word-break: break-all;
-    z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
+    z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 272px;
     margin: auto var(--seed-dimension-x8);

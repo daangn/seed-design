@@ -26,7 +26,7 @@ export interface AccordionTriggerProps extends SeedAccordion.TriggerProps {}
 export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   ({ children, ...props }, ref) => (
     <SeedAccordion.Trigger ref={ref} {...props}>
-      {children}
+      <SeedAccordion.Body>{children}</SeedAccordion.Body>
       <SeedAccordion.SuffixIcon>
         <IconChevronDownSmallLine />
       </SeedAccordion.SuffixIcon>
@@ -94,11 +94,19 @@ export interface AccordionContentInnerProps extends SeedAccordion.ContentInnerPr
  */
 export const AccordionContentInner = SeedAccordion.ContentInner;
 
+export interface AccordionBodyProps extends SeedAccordion.BodyProps {}
+
+/**
+ * @see https://seed-design.io/react/components/accordion
+ */
+export const AccordionBody = SeedAccordion.Body;
+
 export const Accordion = Object.assign(AccordionRoot, {
   Item: AccordionItem,
   Trigger: AccordionTrigger,
   Content: AccordionContent,
   ContentInner: AccordionContentInner,
+  Body: AccordionBody,
   Title: AccordionTitle,
   Description: AccordionDescription,
   PrefixIcon: AccordionPrefixIcon,

@@ -14,12 +14,12 @@
     outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid transparent);
     outline-offset: var(--seed-dimension-x0_5);
 }
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) {
     .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
         background-color: var(--seed-color-bg-transparent-pressed);
     }
 }
-@media not all and (hover: hover) and (pointer: fine) {
+@media (hover: none) {
     .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
         background-color: var(--seed-color-bg-transparent-pressed);
     }
@@ -52,12 +52,12 @@
 .seed-radiomark__root--tone_neutral:is(:checked, [data-checked]) {
     background-color: var(--seed-color-bg-neutral-inverted);
 }
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) {
     .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
         background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
 }
-@media not all and (hover: hover) and (pointer: fine) {
+@media (hover: none) {
     .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
         background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -68,12 +68,12 @@
 .seed-radiomark__root--tone_brand:is(:checked, [data-checked]) {
     background-color: var(--seed-color-bg-brand-solid);
 }
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) {
     .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
         background-color: var(--seed-color-bg-brand-solid-pressed);
     }
 }
-@media not all and (hover: hover) and (pointer: fine) {
+@media (hover: none) {
     .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
         background-color: var(--seed-color-bg-brand-solid-pressed);
     }

@@ -13,12 +13,12 @@
     border: none;
     font-family: inherit;
 }
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) {
     .seed-menu-sheet-item__root:is(:hover, [data-hover]) {
         background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
 }
-@media not all and (hover: hover) and (pointer: fine) {
+@media (hover: none) {
     .seed-menu-sheet-item__root:is(:active, [data-active]) {
         background-color: var(--seed-color-bg-neutral-weak-pressed);
     }

@@ -40,13 +40,13 @@
     background-color: var(--seed-color-bg-disabled);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }

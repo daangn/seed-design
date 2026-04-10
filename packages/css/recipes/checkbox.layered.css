@@ -32,7 +32,7 @@
 
   .seed-checkbox__root--size_large {
     min-height: var(--seed-dimension-x9);
-    --checkmark-margin-top: calc((var(--seed-dimension-x9) - var(--seed-dimension-x6)) / 2);
+    --checkmark-margin-top: calc((var(--seed-dimension-x9)  - var(--seed-dimension-x6)) / 2);
   }
 
   .seed-checkbox__label--size_large {
@@ -43,7 +43,7 @@
 
   .seed-checkbox__root--size_medium {
     min-height: var(--seed-dimension-x8);
-    --checkmark-margin-top: calc((var(--seed-dimension-x8) - var(--seed-dimension-x5)) / 2);
+    --checkmark-margin-top: calc((var(--seed-dimension-x8)  - var(--seed-dimension-x5)) / 2);
   }
 
   .seed-checkbox__label--size_medium {

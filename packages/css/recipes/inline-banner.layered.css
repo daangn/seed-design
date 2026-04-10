@@ -10,7 +10,7 @@
     padding-block: var(--seed-dimension-x2_5);
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x2);
-    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
+    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
     --seed-suffix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-margin-left: var(--seed-dimension-x4);
     --seed-suffix-icon-align-self: center;
@@ -67,8 +67,8 @@
   .seed-inline-banner__closeButton {
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
-    margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
-    margin-left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x4));
+    margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
+    margin-left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x4));
     --seed-suffix-icon-margin-left: initial;
     cursor: pointer;
     background-color: #0000;

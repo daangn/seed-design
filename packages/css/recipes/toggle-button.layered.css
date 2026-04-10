@@ -40,13 +40,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -61,13 +61,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -100,13 +100,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -121,13 +121,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }

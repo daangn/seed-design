@@ -1,8 +1,15 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      "item": {
+        "colorDuration": "var(--seed-duration-color-transition)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)"
+      },
       "trigger": {
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
+      },
+      "body": {
+        "gap": "var(--seed-dimension-x0_5)"
       },
       "title": {
         "color": "var(--seed-color-fg-neutral)",
@@ -10,13 +17,19 @@ export declare const vars: {
       },
       "description": {
         "color": "var(--seed-color-fg-neutral-subtle)",
-        "fontWeight": "var(--seed-font-weight-regular)",
+        "fontWeight": "var(--seed-font-weight-medium)",
         "gap": "var(--seed-dimension-x0_5)"
       },
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral-subtle)",
         "rotateDuration": "var(--seed-duration-d6)",
         "rotateTimingFunction": "var(--seed-timing-function-easing)"
+      },
+      "contentInner": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t5)",
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "color": "var(--seed-color-fg-neutral-muted)"
       },
       "content": {
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",

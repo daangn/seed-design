@@ -14,7 +14,7 @@
     padding-bottom: var(--seed-dimension-x2_5);
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x2);
-    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
+    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
     --seed-suffix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-margin-left: var(--seed-dimension-x2);
     --seed-suffix-icon-align-self: center;
@@ -69,8 +69,8 @@
 
   .seed-page-banner__button {
     cursor: pointer;
-    margin: calc((var(--seed-dimension-x10) - var(--seed-line-height-t3)) * .5 * -1);
-    padding: calc((var(--seed-dimension-x10) - var(--seed-line-height-t3)) * .5);
+    margin: calc((var(--seed-dimension-x10)  - var(--seed-line-height-t3)) * .5 * -1);
+    padding: calc((var(--seed-dimension-x10)  - var(--seed-line-height-t3)) * .5);
     font-family: inherit;
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
@@ -93,8 +93,8 @@
   .seed-page-banner__closeButton {
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
-    margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
-    margin-left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x2));
+    margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
+    margin-left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x2));
     --seed-suffix-icon-margin-left: initial;
     cursor: pointer;
     border-radius: var(--seed-radius-r1);
@@ -123,13 +123,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -145,13 +145,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -167,13 +167,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
@@ -189,13 +189,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-informative-solid-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-informative-solid-pressed);
     }
@@ -211,13 +211,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
@@ -233,13 +233,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-positive-solid-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-positive-solid-pressed);
     }
@@ -255,13 +255,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
@@ -277,13 +277,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-black-alpha-900);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-warning-solid-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-warning-solid-pressed);
     }
@@ -299,13 +299,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
@@ -321,13 +321,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-critical-solid-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-critical-solid-pressed);
     }
@@ -343,13 +343,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:hover, [data-hover]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }

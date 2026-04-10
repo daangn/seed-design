@@ -216,12 +216,12 @@
   }
 
   .seed-slider__valueIndicatorArrow[data-dir="ltr"] {
-    left: calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)));
+    left: calc(50% + (var(--thumb-offset)  - var(--indicator-label-offset)));
     transform: translateX(-50%);
   }
 
   .seed-slider__valueIndicatorArrow[data-dir="rtl"] {
-    right: calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)));
+    right: calc(50% + (var(--thumb-offset)  - var(--indicator-label-offset)));
     transform: translateX(50%);
   }
 

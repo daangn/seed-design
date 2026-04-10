@@ -36,13 +36,13 @@
     --seed-count-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-reaction-button:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-reaction-button:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -56,13 +56,13 @@
     --seed-count-color: var(--seed-color-fg-brand);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }

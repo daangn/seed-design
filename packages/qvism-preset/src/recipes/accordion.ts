@@ -13,6 +13,7 @@ const accordion = defineSlotRecipe({
     "trigger",
     "prefixIcon",
     "prefixAvatar",
+    "body",
     "title",
     "description",
     "suffixIcon",
@@ -29,6 +30,10 @@ const accordion = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       width: "100%",
+
+      transitionDuration: vars.base.enabled.item.colorDuration,
+      transitionTimingFunction: vars.base.enabled.item.colorTimingFunction,
+      transitionProperty: "background-color",
 
       [pseudo(engaged)]: {
         backgroundColor: vars.base.pressed.trigger.color,
@@ -64,8 +69,14 @@ const accordion = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
     },
-    title: {
+    body: {
+      display: "flex",
       flex: 1,
+      flexDirection: "column",
+      gap: vars.base.enabled.body.gap,
+      minWidth: 0,
+    },
+    title: {
       color: vars.base.enabled.title.color,
       fontWeight: vars.base.enabled.title.fontWeight,
 
@@ -121,6 +132,10 @@ const accordion = defineSlotRecipe({
     contentInner: {
       paddingLeft: vars.base.enabled.content.paddingX,
       paddingRight: vars.base.enabled.content.paddingX,
+      fontSize: vars.base.enabled.contentInner.fontSize,
+      lineHeight: vars.base.enabled.contentInner.lineHeight,
+      fontWeight: vars.base.enabled.contentInner.fontWeight,
+      color: vars.base.enabled.contentInner.color,
     },
   },
   variants: {

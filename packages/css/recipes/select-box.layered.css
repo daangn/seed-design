@@ -21,13 +21,13 @@
     inset: 0;
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }

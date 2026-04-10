@@ -20,13 +20,13 @@
     inset: 0;
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) {
     .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       color: var(--seed-color-fg-neutral-subtle);
     }
   }
 
-  @media not all and (hover: hover) and (pointer: fine) {
+  @media (hover: none) {
     .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       color: var(--seed-color-fg-neutral-subtle);
     }

@@ -113,8 +113,8 @@
   }
 
   .seed-tabs__indicator--triggerLayout_fill {
-    left: calc(var(--indicator-left, 0px) + var(--seed-dimension-spacing-x-global-gutter));
-    width: calc(var(--indicator-width, 0px) - 2 * var(--seed-dimension-spacing-x-global-gutter));
+    left: calc(var(--indicator-left, 0px)  + var(--seed-dimension-spacing-x-global-gutter));
+    width: calc(var(--indicator-width, 0px)  - 2 * var(--seed-dimension-spacing-x-global-gutter));
   }
 
   .seed-tabs__trigger--triggerLayout_fill {
@@ -133,8 +133,8 @@
   }
 
   .seed-tabs__indicator--triggerLayout_hug {
-    left: calc(var(--indicator-left, 0px) + 0px);
-    width: calc(var(--indicator-width, 0px) - 2 * 0px);
+    left: calc(var(--indicator-left, 0px)  + 0px);
+    width: calc(var(--indicator-width, 0px)  - 2 * 0px);
   }
 
   .seed-tabs__trigger--triggerLayout_hug:is([aria-selected="true"], [data-selected])[data-ssr]:after {

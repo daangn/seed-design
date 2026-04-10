@@ -96,12 +96,12 @@
     font-weight: var(--seed-font-weight-medium);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) {
     .seed-menu-sheet__closeButton:is(:hover, [data-hover]) {
         background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
 }
-@media not all and (hover: hover) and (pointer: fine) {
+@media (hover: none) {
     .seed-menu-sheet__closeButton:is(:active, [data-active]) {
         background-color: var(--seed-color-bg-neutral-weak-pressed);
     }

@@ -292,6 +292,13 @@ AccordionContentInner.displayName = "Accordion.ContentInner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface AccordionBodyProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const AccordionBody = withContext<HTMLDivElement, AccordionBodyProps>(Primitive.div, "body");
+AccordionBody.displayName = "Accordion.Body";
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface AccordionTitleProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}

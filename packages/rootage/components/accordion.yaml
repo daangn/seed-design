@@ -18,6 +18,10 @@ data:
             type: dimension
           dividerColor:
             type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
       trigger:
         properties:
           paddingX:
@@ -72,6 +76,20 @@ data:
             type: duration
           rotateTimingFunction:
             type: cubicBezier
+      body:
+        properties:
+          gap:
+            type: dimension
+      contentInner:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
       content:
         properties:
           paddingX:
@@ -102,19 +120,29 @@ data:
   definitions:
     base:
       enabled:
+        item:
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
         trigger:
           paddingX: $dimension.spacing-x.global-gutter
+        body:
+          gap: $dimension.x0_5
         title:
           color: $color.fg.neutral
           fontWeight: $font-weight.medium
         description:
           color: $color.fg.neutral-subtle
-          fontWeight: $font-weight.regular
+          fontWeight: $font-weight.medium
           gap: $dimension.x0_5
         suffixIcon:
           color: $color.fg.neutral-subtle
           rotateDuration: $duration.d6
           rotateTimingFunction: $timing-function.easing
+        contentInner:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+          color: $color.fg.neutral-muted
         content:
           paddingX: $dimension.spacing-x.global-gutter
           expandHeightDuration: $duration.d6
