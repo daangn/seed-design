@@ -3,14 +3,14 @@ export {
   type UseDismissibleLayerOptions,
 } from "./useDismissibleLayer";
 
+export { DismissibleLayer, type DismissibleLayerProps } from "./DismissibleLayer";
+
 export {
   LayerStackContext,
   useLayerStackContext,
   isTopMost,
   addBranch,
   removeBranch,
-  DismissibleParentContext,
-  useDismissibleParentNode,
   type Layer,
   type CascadeDismissDetail,
   type LayerStackContextValue,

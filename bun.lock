@@ -593,6 +593,9 @@
     "packages/react-headless/dismissible-layer": {
       "name": "@seed-design/react-dismissible-layer",
       "version": "0.0.0",
+      "dependencies": {
+        "@radix-ui/react-slot": "^1.2.4",
+      },
       "devDependencies": {
         "@types/react": "^19.1.6",
         "react": "^19.1.0",

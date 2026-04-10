@@ -1,11 +1,7 @@
 "use client";
 
 import { FocusScope } from "@radix-ui/react-focus-scope";
-import { composeRefs } from "@radix-ui/react-compose-refs";
-import {
-  useDismissibleLayer,
-  DismissibleParentContext,
-} from "@seed-design/react-dismissible-layer";
+import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
@@ -61,37 +57,32 @@ export interface DialogContentProps extends PrimitiveProps, React.HTMLAttributes
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props, ref) => {
   const api = useDialogContext();
 
-  const { dismissibleRef, dismissibleProps, layerNode } = useDismissibleLayer({
-    enabled: api.open,
-    onEscapeKeyDown: (e) => {
-      if (!api.closeOnEscape) return;
-      api.setOpen(false, { reason: "escapeKeyDown", event: e });
-    },
-    onPressOutside: (e) => {
-      if (!api.closeOnInteractOutside) return;
-      api.setOpen(false, { reason: "interactOutside", event: e });
-    },
-    onFocusOutside: () => {
-      // focus trapping is handled by FocusScope — nothing to do here
-
-      if (!api.closeOnInteractOutside) return; // not actually going to happen; FocusScope will work regardless
-    },
-    onCascadeDismiss: ({ dismissedParent }) => {
-      api.setOpen(false, { reason: "cascadeDismiss", dismissedParent });
-    },
-  });
-
   return (
-    <DismissibleParentContext.Provider value={layerNode}>
-      <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
-        <FocusScope asChild loop trapped={api.open}>
-          <Primitive.div
-            ref={composeRefs(ref, dismissibleRef)}
-            {...mergeProps(api.contentProps, dismissibleProps, props)}
-          />
-        </FocusScope>
-      </Presence>
-    </DismissibleParentContext.Provider>
+    <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
+      <FocusScope asChild loop trapped={api.open}>
+        <DismissibleLayer
+          enabled={api.open}
+          onEscapeKeyDown={(e) => {
+            if (!api.closeOnEscape) return;
+            api.setOpen(false, { reason: "escapeKeyDown", event: e });
+          }}
+          onPressOutside={(e) => {
+            if (!api.closeOnInteractOutside) return;
+            api.setOpen(false, { reason: "interactOutside", event: e });
+          }}
+          onFocusOutside={() => {
+            // focus trapping is handled by FocusScope — nothing to do here
+
+            if (!api.closeOnInteractOutside) return; // not actually going to happen; FocusScope will work regardless
+          }}
+          onCascadeDismiss={({ dismissedParent }) => {
+            api.setOpen(false, { reason: "cascadeDismiss", dismissedParent });
+          }}
+        >
+          <Primitive.div ref={ref} {...mergeProps(api.contentProps, props)} />
+        </DismissibleLayer>
+      </FocusScope>
+    </Presence>
   );
 });
 DialogContent.displayName = "DialogContent";

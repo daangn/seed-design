@@ -8,10 +8,7 @@ import {
 } from "@floating-ui/react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
-import {
-  useDismissibleLayer,
-  DismissibleParentContext,
-} from "@seed-design/react-dismissible-layer";
+import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import React, { forwardRef, createContext } from "react";
@@ -113,36 +110,31 @@ export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<H
 export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, ref) => {
   const { floatingContext, contentProps, open, setOpen, elementsRef, labelsRef } = useMenuContext();
 
-  const { dismissibleRef, dismissibleProps, layerNode } = useDismissibleLayer({
-    enabled: open,
-    pressBehavior: "drag",
-    onEscapeKeyDown: (event) => {
-      setOpen(false, { reason: "escapeKeyDown", event });
-    },
-    onPressOutside: (event) => {
-      setOpen(false, { reason: "interactOutside", event });
-    },
-    onCascadeDismiss: ({ dismissedParent }) => {
-      setOpen(false, { reason: "cascadeDismiss", dismissedParent });
-    },
-    onFocusOutside: () => {
-      // focus trapping is handled by FloatingFocusManager — nothing to do here
-    },
-    exclude: (target) => {
-      const reference = floatingContext.refs.reference.current;
-      if (!(reference instanceof HTMLElement)) return false;
-
-      return reference.contains(target);
-    },
-  });
-
   const content = (
-    <DismissibleParentContext.Provider value={layerNode}>
-      <Primitive.div
-        ref={composeRefs(ref, dismissibleRef)}
-        {...mergeProps(contentProps, dismissibleProps, props)}
-      />
-    </DismissibleParentContext.Provider>
+    <DismissibleLayer
+      enabled={open}
+      pressBehavior="drag"
+      onEscapeKeyDown={(event) => {
+        setOpen(false, { reason: "escapeKeyDown", event });
+      }}
+      onPressOutside={(event) => {
+        setOpen(false, { reason: "interactOutside", event });
+      }}
+      onCascadeDismiss={({ dismissedParent }) => {
+        setOpen(false, { reason: "cascadeDismiss", dismissedParent });
+      }}
+      onFocusOutside={() => {
+        // focus trapping is handled by FloatingFocusManager — nothing to do here
+      }}
+      exclude={(target) => {
+        const reference = floatingContext.refs.reference.current;
+        if (!(reference instanceof HTMLElement)) return false;
+
+        return reference.contains(target);
+      }}
+    >
+      <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />
+    </DismissibleLayer>
   );
 
   // FloatingFocusManager: handles position-aware initial focus, return focus,

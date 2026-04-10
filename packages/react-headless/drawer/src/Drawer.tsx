@@ -3,10 +3,7 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
-import {
-  useDismissibleLayer,
-  DismissibleParentContext,
-} from "@seed-design/react-dismissible-layer";
+import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { Presence } from "@seed-design/react-presence";
 import { dataAttr, mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -123,31 +120,6 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
   const wasBeyondThePointRef = useRef(false);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
 
-  const { dismissibleRef, dismissibleProps, layerNode } = useDismissibleLayer({
-    enabled: isOpen,
-    blockPointerEvents: modal,
-    onEscapeKeyDown: (e) => {
-      if (e.defaultPrevented) return;
-      if (!dismissible || !closeOnEscape) return;
-      closeDrawer(false, { reason: "escapeKeyDown", event: e });
-    },
-    onPressOutside: (e) => {
-      if (e.defaultPrevented) return;
-      if (!modal) return;
-      if (keyboardIsOpen.current) keyboardIsOpen.current = false;
-
-      if (e.defaultPrevented) return;
-      if (!dismissible || !closeOnInteractOutside) return;
-      closeDrawer(false, { reason: "interactOutside", event: e });
-    },
-    onFocusOutside: () => {
-      // close drawer here?
-    },
-    onCascadeDismiss: ({ dismissedParent }) => {
-      closeDrawer(false, { reason: "cascadeDismiss", dismissedParent });
-    },
-  });
-
   const isDeltaInDirection = (
     delta: { x: number; y: number },
     dir: DrawerDirection,
@@ -191,26 +163,49 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
   }
 
   return (
-    <DismissibleParentContext.Provider value={layerNode}>
-      <Presence present={isOpen} unmountOnExit={unmountOnExit} lazyMount={lazyMount}>
-        <FocusScope
-          asChild
-          loop
-          trapped={isOpen}
-          onMountAutoFocus={(e) => {
-            // prevent FocusScope's default autoFocus behavior
-            e.preventDefault();
+    <Presence present={isOpen} unmountOnExit={unmountOnExit} lazyMount={lazyMount}>
+      <FocusScope
+        asChild
+        loop
+        trapped={isOpen}
+        onMountAutoFocus={(e) => {
+          // prevent FocusScope's default autoFocus behavior
+          e.preventDefault();
 
-            // when autoFocus is true, FocusScope sets the focus to the first tabbable element; otherwise content;
-            // the desired behavior is to set the focus to the content regardless of whether there are tabbable elements or not when true]
-            if (autoFocus) {
-              drawerRef.current?.focus();
-            }
+          // when autoFocus is true, FocusScope sets the focus to the first tabbable element; otherwise content;
+          // the desired behavior is to set the focus to the content regardless of whether there are tabbable elements or not when true]
+          if (autoFocus) {
+            drawerRef.current?.focus();
+          }
 
-            // later, we can do something like:
-            // when trigger has clicked using keyboard, focus the first tabbable element;
-            // when trigger has clicked using mouse, focus the content
-            // -> matches Menu behavior
+          // later, we can do something like:
+          // when trigger has clicked using keyboard, focus the first tabbable element;
+          // when trigger has clicked using mouse, focus the content
+          // -> matches Menu behavior
+        }}
+      >
+        <DismissibleLayer
+          enabled={isOpen}
+          blockPointerEvents={modal}
+          onEscapeKeyDown={(e) => {
+            if (e.defaultPrevented) return;
+            if (!dismissible || !closeOnEscape) return;
+            closeDrawer(false, { reason: "escapeKeyDown", event: e });
+          }}
+          onPressOutside={(e) => {
+            if (e.defaultPrevented) return;
+            if (!modal) return;
+            if (keyboardIsOpen.current) keyboardIsOpen.current = false;
+
+            if (e.defaultPrevented) return;
+            if (!dismissible || !closeOnInteractOutside) return;
+            closeDrawer(false, { reason: "interactOutside", event: e });
+          }}
+          onFocusOutside={() => {
+            // close drawer here?
+          }}
+          onCascadeDismiss={({ dismissedParent }) => {
+            closeDrawer(false, { reason: "cascadeDismiss", dismissedParent });
           }}
         >
           <Primitive.div
@@ -226,16 +221,14 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
             data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
             data-custom-container={container ? "true" : "false"}
             {...restProps}
-            ref={composeRefs(ref, drawerRef, dismissibleRef)}
-            {...dismissibleProps}
+            ref={composeRefs(ref, drawerRef)}
             style={
               snapPointsOffset && snapPointsOffset.length > 0
                 ? ({
                     "--snap-point-height": `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
-                    ...dismissibleProps.style,
                     ...style,
                   } as React.CSSProperties)
-                : { ...dismissibleProps.style, ...style }
+                : style
             }
             onPointerDown={(event) => {
               if (handleOnly) return;
@@ -280,9 +273,9 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
               }
             }}
           />
-        </FocusScope>
-      </Presence>
-    </DismissibleParentContext.Provider>
+        </DismissibleLayer>
+      </FocusScope>
+    </Presence>
   );
 });
 DrawerContent.displayName = "DrawerContent";
