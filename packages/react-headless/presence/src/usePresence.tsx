@@ -8,7 +8,7 @@ export type UsePresenceReturn = ReturnType<typeof usePresence>;
 
 export function usePresence(present: boolean) {
   const [node, setNode] = React.useState<HTMLElement>();
-  const stylesRef = React.useRef<CSSStyleDeclaration>({} as any);
+  const stylesRef = React.useRef<CSSStyleDeclaration | null>(null);
   const prevPresentRef = React.useRef(present);
   const prevAnimationNameRef = React.useRef<string>("none");
   const initialState = present ? "mounted" : "unmounted";
@@ -129,16 +129,16 @@ export function usePresence(present: boolean) {
 
   return {
     isPresent: ["mounted", "unmountSuspended"].includes(state),
-    ref: React.useCallback((node: HTMLElement) => {
+    ref: React.useCallback((node: HTMLElement | null) => {
       if (node) stylesRef.current = getComputedStyle(node);
-      setNode(node);
+      setNode(node ?? undefined);
     }, []),
   };
 }
 
 /* -----------------------------------------------------------------------------------------------*/
 
-function getAnimationName(styles?: CSSStyleDeclaration) {
+function getAnimationName(styles: CSSStyleDeclaration | null) {
   return styles?.animationName || "none";
 }
 
@@ -153,7 +153,7 @@ type UnionToIntersection<T> = (T extends any ? (x: T) => any : never) extends (x
 
 function useStateMachine<M>(initialState: MachineState<M>, machine: M & Machine<MachineState<M>>) {
   return React.useReducer((state: MachineState<M>, event: MachineEvent<M>): MachineState<M> => {
-    const nextState = (machine[state] as any)[event];
+    const nextState = (machine[state] as Record<string, MachineState<M>>)[event as keyof Record<string, MachineState<M>>];
     return nextState ?? state;
   }, initialState);
 }
