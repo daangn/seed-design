@@ -21,10 +21,10 @@ export default function AlertDialogOnOpenChangeReason() {
     <VStack gap="x4" align="center">
       <AlertDialogRoot
         open={open}
-        onOpenChange={(open, meta) => {
+        onOpenChange={(open, details) => {
           setOpen(open);
 
-          (open ? setOpenReason : setCloseReason)(meta?.reason ?? null);
+          (open ? setOpenReason : setCloseReason)(details?.reason ?? null);
         }}
       >
         <AlertDialogTrigger asChild>

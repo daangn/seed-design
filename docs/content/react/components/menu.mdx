@@ -112,6 +112,19 @@ import {
 
 ## Examples
 
+### Trigger
+
+`<MenuTrigger>`는 `aria-haspopup="menu"` 속성을 설정하고, Menu의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
+<ComponentExample name="react/menu/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Size
 
 `MenuRoot`의 `size` prop으로 메뉴의 크기를 설정합니다.
@@ -238,6 +251,7 @@ import {
 
 **닫힐 때** (`open: false`)
 
+- `"trigger"`: `MenuTrigger`로 닫힘
 - `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
 - `"interactOutside"`: 외부 영역 클릭
 - `"itemClick"`: 메뉴 항목 클릭

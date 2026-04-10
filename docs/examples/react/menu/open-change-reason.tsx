@@ -13,10 +13,10 @@ export default function MenuOpenChangeReason() {
     <VStack gap="x4" align="center">
       <MenuRoot
         open={open}
-        onOpenChange={(open, meta) => {
+        onOpenChange={(open, details) => {
           setOpen(open);
 
-          (open ? setOpenReason : setCloseReason)(meta?.reason ?? null);
+          (open ? setOpenReason : setCloseReason)(details?.reason ?? null);
         }}
       >
         <MenuTrigger asChild>

@@ -11,7 +11,12 @@ export default function MenuAnchorExample() {
 
   return (
     <HStack align="center" justify="space-between" width="full">
-      <ActionButton variant="neutralSolid" onClick={() => setOpen((prev) => !prev)}>
+      <ActionButton
+        variant="neutralSolid"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+      >
         토글
       </ActionButton>
       <MenuRoot open={open} onOpenChange={setOpen}>
