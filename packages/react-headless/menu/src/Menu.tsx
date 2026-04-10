@@ -18,10 +18,9 @@ import { MenuItemProvider } from "./useMenuItemContext";
 
 const MenuGroupLabelIdContext = createContext<string | null>(null);
 
-export interface MenuRootProps
-  extends UseMenuProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface MenuRootProps extends UseMenuProps {
+  children?: React.ReactNode;
+}
 
 export const MenuRoot = ({
   open,
@@ -33,8 +32,7 @@ export const MenuRoot = ({
   overflowPadding,
   strategy,
   matchReferenceWidth,
-
-  ...props
+  children,
 }: MenuRootProps) => {
   const api = useMenu({
     open,
@@ -48,7 +46,7 @@ export const MenuRoot = ({
     matchReferenceWidth,
   });
 
-  return <MenuProvider value={api} {...props} />;
+  return <MenuProvider value={api}>{children}</MenuProvider>;
 };
 
 export interface MenuAnchorProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
