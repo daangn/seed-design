@@ -196,6 +196,12 @@ import {
 
 `open` prop을 controlled하게 사용하여 열리고 닫힌 상태를 직접 관리해야 합니다.
 
+<Callout title="Menu는 기본적으로 Menu 밖 영역에서 클릭(마우스 환경) 또는 드래그(터치 환경)가 발생할 때 닫힙니다.">
+
+아래 예시의 경우 `onOpenChange` 콜백에 조건을 추가하여 바깥 영역을 클릭한 경우에도 메뉴가 닫히지 않도록 구현되어 있습니다.
+
+</Callout>
+
 <ComponentExample name="react/menu/anchor">
   ```json doc-gen:file
   {

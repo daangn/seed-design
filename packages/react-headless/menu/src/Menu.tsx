@@ -110,32 +110,7 @@ export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<H
 export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, ref) => {
   const { floatingContext, contentProps, open, setOpen, elementsRef, labelsRef } = useMenuContext();
 
-  const content = (
-    <DismissibleLayer
-      enabled={open}
-      pressBehavior="drag"
-      onEscapeKeyDown={(event) => {
-        setOpen(false, { reason: "escapeKeyDown", event });
-      }}
-      onPressOutside={(event) => {
-        setOpen(false, { reason: "interactOutside", event });
-      }}
-      onCascadeDismiss={({ dismissedParent }) => {
-        setOpen(false, { reason: "cascadeDismiss", dismissedParent });
-      }}
-      onFocusOutside={() => {
-        // focus trapping is handled by FloatingFocusManager — nothing to do here
-      }}
-      exclude={(target) => {
-        const reference = floatingContext.refs.reference.current;
-        if (!(reference instanceof HTMLElement)) return false;
-
-        return reference.contains(target);
-      }}
-    >
-      <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />
-    </DismissibleLayer>
-  );
+  const content = <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />;
 
   // FloatingFocusManager: handles position-aware initial focus, return focus,
   // closeOnFocusOut, tab order guards, and useListNavigation coordination.
@@ -154,19 +129,46 @@ export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, 
   return (
     <FloatingFocusManager context={floatingContext} disabled={!open} modal={false}>
       <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
-        {open ? (
-          <FocusScope
-            asChild
-            trapped={false}
-            loop={false}
-            onMountAutoFocus={(e) => e.preventDefault()}
-            onUnmountAutoFocus={(e) => e.preventDefault()}
-          >
-            {content}
-          </FocusScope>
-        ) : (
-          content
-        )}
+        {/* DismissibleLayer must wrap FocusScope, not the other way around.
+            FocusScope asChild uses Slot to forward tabIndex/onKeyDown/ref to the
+            DOM element; if DismissibleLayer sits between them, those props are
+            swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
+        <DismissibleLayer
+          enabled={open}
+          pressBehavior="drag"
+          onEscapeKeyDown={(event) => {
+            setOpen(false, { reason: "escapeKeyDown", event });
+          }}
+          onPressOutside={(event) => {
+            setOpen(false, { reason: "interactOutside", event });
+          }}
+          onCascadeDismiss={({ dismissedParent }) => {
+            setOpen(false, { reason: "cascadeDismiss", dismissedParent });
+          }}
+          onFocusOutside={() => {
+            // focus trapping is handled by FloatingFocusManager — nothing to do here
+          }}
+          exclude={(target) => {
+            const reference = floatingContext.refs.reference.current;
+            if (!(reference instanceof HTMLElement)) return false;
+
+            return reference.contains(target);
+          }}
+        >
+          {open ? (
+            <FocusScope
+              asChild
+              trapped={false}
+              loop={false}
+              onMountAutoFocus={(e) => e.preventDefault()}
+              onUnmountAutoFocus={(e) => e.preventDefault()}
+            >
+              {content}
+            </FocusScope>
+          ) : (
+            content
+          )}
+        </DismissibleLayer>
       </FloatingList>
     </FloatingFocusManager>
   );

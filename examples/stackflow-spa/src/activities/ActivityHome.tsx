@@ -35,10 +35,16 @@ import { Snackbar } from "seed-design/ui/snackbar";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { Callout } from "seed-design/ui/callout";
+import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
 import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
-import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
-import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconHandPointUpLine,
+  IconBellLine,
+  IconPlusLine,
+  IconPencilLine,
+  IconTrashcanLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { receive } from "@stackflow/compat-await-push";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 
@@ -151,7 +157,28 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     },
     {
       title: "Menu",
-      items: [{ title: "Menu", onClick: () => push("ActivityMenu", {}) }],
+      items: [
+        { title: "Menu", onClick: () => push("ActivityMenu", {}) },
+        {
+          title: "Menu from ListItem",
+          component: (
+            <MenuRoot size="medium" matchReferenceWidth>
+              <MenuTrigger asChild>
+                <ListButtonItem title="Menu from ListButtonItem" />
+              </MenuTrigger>
+              <MenuContent>
+                <MenuGroup>
+                  <MenuItem label="추가" prefixIcon={<IconPlusLine />} />
+                  <MenuItem label="수정" prefixIcon={<IconPencilLine />} />
+                </MenuGroup>
+                <MenuGroup>
+                  <MenuItem label="삭제" tone="critical" prefixIcon={<IconTrashcanLine />} />
+                </MenuGroup>
+              </MenuContent>
+            </MenuRoot>
+          ),
+        },
+      ],
     },
     {
       title: "BottomSheets",

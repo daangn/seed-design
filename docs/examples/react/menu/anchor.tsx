@@ -2,7 +2,7 @@ import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { IconPencilLine, IconPlusLine } from "@karrotmarket/react-monochrome-icon";
 import { useState } from "react";
-import { ActionButton } from "seed-design/ui/action-button";
+import { Switch } from "seed-design/ui/switch";
 import { MenuAnchor, MenuContent, MenuGroup, MenuItem, MenuRoot } from "seed-design/ui/menu";
 import { HStack } from "@seed-design/react";
 
@@ -11,15 +11,14 @@ export default function MenuAnchorExample() {
 
   return (
     <HStack align="center" justify="space-between" width="full">
-      <ActionButton
-        variant="neutralSolid"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-haspopup="menu"
-        aria-expanded={open}
+      <Switch tone="neutral" label="메뉴" checked={open} onCheckedChange={setOpen} />
+      <MenuRoot
+        open={open}
+        onOpenChange={(nextOpen, details) => {
+          if (!nextOpen && details?.reason === "interactOutside") return;
+          setOpen(nextOpen);
+        }}
       >
-        토글
-      </ActionButton>
-      <MenuRoot open={open} onOpenChange={setOpen}>
         <MenuAnchor asChild>
           <Avatar
             size="80"
