@@ -40,6 +40,7 @@
   "sideEffects": false,
   "type": "module",
   "dependencies": {
+    "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-slot": "^1.2.4"
   }
 }
