@@ -228,14 +228,15 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
             data-custom-container={container ? "true" : "false"}
             {...restProps}
             ref={composeRefs(ref, drawerRef)}
-            style={
-              snapPointsOffset && snapPointsOffset.length > 0
+            style={{
+              ...(snapPointsOffset && snapPointsOffset.length > 0
                 ? ({
                     "--snap-point-height": `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
                     ...style,
                   } as React.CSSProperties)
-                : style
-            }
+                : style),
+              ...(!modal && { pointerEvents: "auto" }),
+            }}
             onPointerDown={(event) => {
               if (handleOnly) return;
               restProps.onPointerDown?.(event);

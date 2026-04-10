@@ -746,7 +746,7 @@ export function useDrawer(props: UseDrawerProps) {
       positionerProps: elementProps({
         ...stateProps,
         style: {
-          pointerEvents: isOpen ? undefined : ("none" as const),
+          pointerEvents: isOpen && modal ? undefined : "none",
         },
       }),
       backdropProps: elementProps({
