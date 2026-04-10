@@ -7,7 +7,7 @@ interface DialogReasonToDetailMap {
   trigger: { event: MouseEvent };
   closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
-  interactOutside: { event: PointerEvent | FocusEvent };
+  interactOutside: { event: PointerEvent | TouchEvent | FocusEvent };
   cascadeDismiss: { dismissedParent: HTMLElement };
 }
 

@@ -38,7 +38,7 @@ export interface UseDismissibleLayerOptions {
    * Called when a press occurs outside the layer.
    * Call `event.preventDefault()` to signal that the event is handled.
    */
-  onPressOutside: (event: PointerEvent) => void;
+  onPressOutside: (event: PointerEvent | TouchEvent) => void;
 
   /**
    * Called when focus moves outside the layer.
@@ -157,7 +157,7 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
 
   // -- Press outside --
   const handlePressOutside = useCallback(
-    (event: PointerEvent) => {
+    (event: PointerEvent | TouchEvent) => {
       onPressOutside(event);
     },
     [onPressOutside],

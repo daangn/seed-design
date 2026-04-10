@@ -19,7 +19,7 @@ interface DrawerReasonToDetailMap {
   // we might add synthetic events later if needed; currently we aim consistency; DismissibleLayer gives us native events
   closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
-  interactOutside: { event: PointerEvent | FocusEvent };
+  interactOutside: { event: PointerEvent | TouchEvent | FocusEvent };
   drag: { event: PointerEvent };
   handleClickOnLastSnapPoint: { event: MouseEvent };
   cascadeDismiss: { dismissedParent: HTMLElement };

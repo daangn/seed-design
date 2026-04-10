@@ -31,7 +31,7 @@ function getTransformOrigin(placement: string) {
 interface MenuReasonToDetailMap {
   trigger: { event: MouseEvent | KeyboardEvent };
   escapeKeyDown: { event: KeyboardEvent };
-  interactOutside: { event: PointerEvent };
+  interactOutside: { event: PointerEvent | TouchEvent };
   cascadeDismiss: { dismissedParent: HTMLElement };
   itemClick: { event: MouseEvent };
 }

@@ -12,7 +12,7 @@ import {
 export interface UsePointerDownOutsideOptions {
   enabled: boolean;
   exclude?: (target: HTMLElement) => boolean;
-  onPressOutside: (event: PointerEvent) => void;
+  onPressOutside: (event: PointerEvent | TouchEvent) => void;
 
   /**
    * Determines when an outside press triggers dismiss.
@@ -198,7 +198,7 @@ export function usePointerDownOutside(
       }
 
       if (distance > 10) {
-        callbackRef.current(event as unknown as PointerEvent);
+        callbackRef.current(event);
         clearTimeout(suppressTimerRef.current);
         suppressTimerRef.current = setTimeout(() => {
           suppressPointerRef.current = false;
