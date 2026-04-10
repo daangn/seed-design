@@ -7,13 +7,13 @@ export default function AccordionWithPrefixAvatar() {
     <Accordion>
       <Accordion.Item value="item-1">
         <Accordion.Trigger>
-          <Accordion.PrefixAvatar>
+          <Accordion.Prefix>
             <Avatar
               size="24"
               src="https://avatars.githubusercontent.com/u/54893898?v=4"
               fallback={<IdentityPlaceholder />}
             />
-          </Accordion.PrefixAvatar>
+          </Accordion.Prefix>
           <Accordion.Body>
             <Accordion.Title>아코디언 항목 1</Accordion.Title>
           </Accordion.Body>
@@ -24,13 +24,13 @@ export default function AccordionWithPrefixAvatar() {
       </Accordion.Item>
       <Accordion.Item value="item-2">
         <Accordion.Trigger>
-          <Accordion.PrefixAvatar>
+          <Accordion.Prefix>
             <Avatar
               size="24"
               src="https://avatars.githubusercontent.com/u/54893898?v=4"
               fallback={<IdentityPlaceholder />}
             />
-          </Accordion.PrefixAvatar>
+          </Accordion.Prefix>
           <Accordion.Body>
             <Accordion.Title>아코디언 항목 2</Accordion.Title>
           </Accordion.Body>
@@ -41,13 +41,13 @@ export default function AccordionWithPrefixAvatar() {
       </Accordion.Item>
       <Accordion.Item value="item-3">
         <Accordion.Trigger>
-          <Accordion.PrefixAvatar>
+          <Accordion.Prefix>
             <Avatar
               size="24"
               src="https://avatars.githubusercontent.com/u/54893898?v=4"
               fallback={<IdentityPlaceholder />}
             />
-          </Accordion.PrefixAvatar>
+          </Accordion.Prefix>
           <Accordion.Body>
             <Accordion.Title>아코디언 항목 3</Accordion.Title>
           </Accordion.Body>

@@ -48,21 +48,8 @@
             }
           }
         },
-        "prefixIcon": {
+        "prefix": {
           "properties": {
-            "size": {
-              "type": "dimension"
-            },
-            "paddingRight": {
-              "type": "dimension"
-            }
-          }
-        },
-        "prefixAvatar": {
-          "properties": {
-            "size": {
-              "type": "dimension"
-            },
             "paddingRight": {
               "type": "dimension"
             }
@@ -359,21 +346,7 @@
                   "value": "$dimension.x4"
                 }
               },
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
-                },
-                "paddingRight": {
-                  "type": "dimension",
-                  "value": "$dimension.x3"
-                }
-              },
-              "prefixAvatar": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x7"
-                },
+              "prefix": {
                 "paddingRight": {
                   "type": "dimension",
                   "value": "$dimension.x3"
@@ -439,21 +412,7 @@
                   "value": "$dimension.x5"
                 }
               },
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "paddingRight": {
-                  "type": "dimension",
-                  "value": "$dimension.x3"
-                }
-              },
-              "prefixAvatar": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x9"
-                },
+              "prefix": {
                 "paddingRight": {
                   "type": "dimension",
                   "value": "$dimension.x3"

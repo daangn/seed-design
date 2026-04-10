@@ -63,19 +63,12 @@ export interface AccordionDescriptionProps extends SeedAccordion.DescriptionProp
  */
 export const AccordionDescription = SeedAccordion.Description;
 
-export interface AccordionPrefixIconProps extends SeedAccordion.PrefixIconProps {}
+export interface AccordionPrefixProps extends SeedAccordion.PrefixProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
-export const AccordionPrefixIcon = SeedAccordion.PrefixIcon;
-
-export interface AccordionPrefixAvatarProps extends SeedAccordion.PrefixAvatarProps {}
-
-/**
- * @see https://seed-design.io/react/components/accordion
- */
-export const AccordionPrefixAvatar = SeedAccordion.PrefixAvatar;
+export const AccordionPrefix = SeedAccordion.Prefix;
 
 export interface AccordionSuffixIconProps extends SeedAccordion.SuffixIconProps {}
 
@@ -109,7 +102,6 @@ export const Accordion = Object.assign(AccordionRoot, {
   Body: AccordionBody,
   Title: AccordionTitle,
   Description: AccordionDescription,
-  PrefixIcon: AccordionPrefixIcon,
-  PrefixAvatar: AccordionPrefixAvatar,
+  Prefix: AccordionPrefix,
   SuffixIcon: AccordionSuffixIcon,
 });

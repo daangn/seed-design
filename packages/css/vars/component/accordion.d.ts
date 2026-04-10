@@ -61,12 +61,7 @@ export declare const vars: {
       "trigger": {
         "paddingY": "var(--seed-dimension-x4)"
       },
-      "prefixIcon": {
-        "size": "var(--seed-dimension-x5)",
-        "paddingRight": "var(--seed-dimension-x3)"
-      },
-      "prefixAvatar": {
-        "size": "var(--seed-dimension-x7)",
+      "prefix": {
         "paddingRight": "var(--seed-dimension-x3)"
       },
       "title": {
@@ -92,12 +87,7 @@ export declare const vars: {
       "trigger": {
         "paddingY": "var(--seed-dimension-x5)"
       },
-      "prefixIcon": {
-        "size": "var(--seed-dimension-x6)",
-        "paddingRight": "var(--seed-dimension-x3)"
-      },
-      "prefixAvatar": {
-        "size": "var(--seed-dimension-x9)",
+      "prefix": {
         "paddingRight": "var(--seed-dimension-x3)"
       },
       "title": {

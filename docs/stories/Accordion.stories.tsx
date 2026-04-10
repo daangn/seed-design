@@ -13,9 +13,9 @@ const AccordionDemo = (props: React.ComponentProps<typeof AccordionRoot>) => (
   <Accordion {...props} style={{ width: 360 }}>
     <Accordion.Item value="item-1">
       <Accordion.Trigger>
-        <Accordion.PrefixIcon>
+        <Accordion.Prefix>
           <Icon svg={<IconCalendarFill />} />
-        </Accordion.PrefixIcon>
+        </Accordion.Prefix>
         <Accordion.Body>
           <Accordion.Title>배송은 얼마나 걸리나요?</Accordion.Title>
         </Accordion.Body>
@@ -83,9 +83,9 @@ const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof Accord
   >
     <Accordion.Item value="item-1">
       <Accordion.Trigger>
-        <Accordion.PrefixIcon>
+        <Accordion.Prefix>
           <Icon svg={<IconCalendarFill />} />
-        </Accordion.PrefixIcon>
+        </Accordion.Prefix>
         <Accordion.Body>
           <Accordion.Title>배송은 얼마나 걸리나요?</Accordion.Title>
         </Accordion.Body>

@@ -30,16 +30,8 @@ data:
             type: dimension
           color:
             type: color
-      prefixIcon:
+      prefix:
         properties:
-          size:
-            type: dimension
-          paddingRight:
-            type: dimension
-      prefixAvatar:
-        properties:
-          size:
-            type: dimension
           paddingRight:
             type: dimension
       title:
@@ -164,11 +156,7 @@ data:
       enabled:
         trigger:
           paddingY: $dimension.x4
-        prefixIcon:
-          size: $dimension.x5
-          paddingRight: $dimension.x3
-        prefixAvatar:
-          size: $dimension.x7
+        prefix:
           paddingRight: $dimension.x3
         title:
           fontSize: $font-size.t5
@@ -187,11 +175,7 @@ data:
       enabled:
         trigger:
           paddingY: $dimension.x5
-        prefixIcon:
-          size: $dimension.x6
-          paddingRight: $dimension.x3
-        prefixAvatar:
-          size: $dimension.x9
+        prefix:
           paddingRight: $dimension.x3
         title:
           fontSize: $font-size.t7

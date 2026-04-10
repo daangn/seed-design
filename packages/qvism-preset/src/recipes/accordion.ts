@@ -1,9 +1,13 @@
 import { accordion as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
-import { prefixIcon, suffixIcon } from "../utils/icon";
+import { suffixIcon } from "../utils/icon";
 import { disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
-import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
+import {
+  FOCUS_RING_TRANSITION,
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+} from "../utils/focus-ring";
 
 const accordion = defineSlotRecipe({
   name: "accordion",
@@ -11,8 +15,7 @@ const accordion = defineSlotRecipe({
     "root",
     "item",
     "trigger",
-    "prefixIcon",
-    "prefixAvatar",
+    "prefix",
     "body",
     "title",
     "description",
@@ -52,6 +55,7 @@ const accordion = defineSlotRecipe({
       paddingLeft: vars.base.enabled.trigger.paddingX,
       paddingRight: vars.base.enabled.trigger.paddingX,
 
+      transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
@@ -59,12 +63,7 @@ const accordion = defineSlotRecipe({
         cursor: "not-allowed",
       },
     },
-    prefixIcon: {
-      display: "inline-flex",
-      alignItems: "center",
-      flexShrink: 0,
-    },
-    prefixAvatar: {
+    prefix: {
       display: "inline-flex",
       alignItems: "center",
       flexShrink: 0,
@@ -161,17 +160,8 @@ const accordion = defineSlotRecipe({
           paddingTop: vars.sizeMedium.enabled.trigger.paddingY,
           paddingBottom: vars.sizeMedium.enabled.trigger.paddingY,
         },
-        prefixIcon: {
-          ...prefixIcon({
-            size: vars.sizeMedium.enabled.prefixIcon.size,
-            marginRight: vars.sizeMedium.enabled.prefixIcon.paddingRight,
-          }),
-        },
-        prefixAvatar: {
-          ...prefixIcon({
-            size: vars.sizeMedium.enabled.prefixAvatar.size,
-            marginRight: vars.sizeMedium.enabled.prefixAvatar.paddingRight,
-          }),
+        prefix: {
+          marginRight: vars.sizeMedium.enabled.prefix.paddingRight,
         },
         title: {
           fontSize: vars.sizeMedium.enabled.title.fontSize,
@@ -197,17 +187,8 @@ const accordion = defineSlotRecipe({
           paddingTop: vars.sizeLarge.enabled.trigger.paddingY,
           paddingBottom: vars.sizeLarge.enabled.trigger.paddingY,
         },
-        prefixIcon: {
-          ...prefixIcon({
-            size: vars.sizeLarge.enabled.prefixIcon.size,
-            marginRight: vars.sizeLarge.enabled.prefixIcon.paddingRight,
-          }),
-        },
-        prefixAvatar: {
-          ...prefixIcon({
-            size: vars.sizeLarge.enabled.prefixAvatar.size,
-            marginRight: vars.sizeLarge.enabled.prefixAvatar.paddingRight,
-          }),
+        prefix: {
+          marginRight: vars.sizeLarge.enabled.prefix.paddingRight,
         },
         title: {
           fontSize: vars.sizeLarge.enabled.title.fontSize,

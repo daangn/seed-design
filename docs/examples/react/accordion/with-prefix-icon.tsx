@@ -6,9 +6,9 @@ export default function AccordionWithPrefixIcon() {
     <Accordion>
       <Accordion.Item value="item-1">
         <Accordion.Trigger>
-          <Accordion.PrefixIcon>
+          <Accordion.Prefix>
             <IconCalendarFill />
-          </Accordion.PrefixIcon>
+          </Accordion.Prefix>
           <Accordion.Body>
             <Accordion.Title>아코디언 항목 1</Accordion.Title>
           </Accordion.Body>
@@ -19,9 +19,9 @@ export default function AccordionWithPrefixIcon() {
       </Accordion.Item>
       <Accordion.Item value="item-2">
         <Accordion.Trigger>
-          <Accordion.PrefixIcon>
+          <Accordion.Prefix>
             <IconCalendarFill />
-          </Accordion.PrefixIcon>
+          </Accordion.Prefix>
           <Accordion.Body>
             <Accordion.Title>아코디언 항목 2</Accordion.Title>
           </Accordion.Body>
@@ -32,9 +32,9 @@ export default function AccordionWithPrefixIcon() {
       </Accordion.Item>
       <Accordion.Item value="item-3">
         <Accordion.Trigger>
-          <Accordion.PrefixIcon>
+          <Accordion.Prefix>
             <IconCalendarFill />
-          </Accordion.PrefixIcon>
+          </Accordion.Prefix>
           <Accordion.Body>
             <Accordion.Title>아코디언 항목 3</Accordion.Title>
           </Accordion.Body>

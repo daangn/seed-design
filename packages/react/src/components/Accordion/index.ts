@@ -7,8 +7,7 @@ export {
   AccordionBody,
   AccordionTitle,
   AccordionDescription,
-  AccordionPrefixIcon,
-  AccordionPrefixAvatar,
+  AccordionPrefix,
   AccordionSuffixIcon,
   type AccordionRootProps,
   type AccordionItemProps,
@@ -18,8 +17,7 @@ export {
   type AccordionBodyProps,
   type AccordionTitleProps,
   type AccordionDescriptionProps,
-  type AccordionPrefixIconProps,
-  type AccordionPrefixAvatarProps,
+  type AccordionPrefixProps,
   type AccordionSuffixIconProps,
 } from "./Accordion";
 

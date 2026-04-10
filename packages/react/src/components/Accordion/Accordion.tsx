@@ -323,27 +323,15 @@ AccordionDescription.displayName = "Accordion.Description";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionPrefixIconProps
+export interface AccordionPrefixProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const AccordionPrefixIcon = withContext<HTMLDivElement, AccordionPrefixIconProps>(
-  Primitive.div,
-  "prefixIcon",
+export const AccordionPrefix = withContext<HTMLDivElement, AccordionPrefixProps>(
+  withStateProps(Primitive.div),
+  "prefix",
 );
-AccordionPrefixIcon.displayName = "Accordion.PrefixIcon";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface AccordionPrefixAvatarProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const AccordionPrefixAvatar = withContext<HTMLDivElement, AccordionPrefixAvatarProps>(
-  Primitive.div,
-  "prefixAvatar",
-);
-AccordionPrefixAvatar.displayName = "Accordion.PrefixAvatar";
+AccordionPrefix.displayName = "Accordion.Prefix";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
