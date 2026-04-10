@@ -91,7 +91,7 @@ const mergedProps = mergeProps(
 
 ### 금지 패턴
 
-- HTML `required` 속성 대신 `aria-required` 사용
+- SEED Design headless 컴포넌트에서는 네이티브 폼 검증 대신 커스텀 검증을 사용하므로, HTML `required` 속성 대신 `aria-required`로 보조 기술에 필수 필드임을 알린다. 네이티브 폼 검증이 필요한 경우 `required`와 `aria-required`를 함께 사용할 수 있다
 - `useId()`로 직접 ID 생성하지 않음 (Field context가 관리)
 - `useFieldContext({ strict: true })`로 Field를 필수로 만들지 않음 (Field 래핑은 선택적)
 
@@ -100,7 +100,7 @@ const mergedProps = mergeProps(
 compound 컴포넌트(카테고리 B/C/D)에서 `ComponentName.Root`, `ComponentName.Label` 형태의 API를 제공한다.
 
 **파일 구조**:
-```
+```text
 Component/
 ├── Component.tsx           # 실제 구현 (export ComponentRoot, ComponentLabel, ...)
 ├── Component.namespace.ts  # 짧은 이름 re-export

@@ -17,7 +17,7 @@ Phase 0에서 결정한 카테고리에 따라 아래 레퍼런스 컴포넌트�
 | Namespace | 없음 |
 
 **Badge 패턴 요약**:
-```
+```text
 1. recipe.splitVariantProps(props) → [variantProps, restProps]
 2. recipe(variantProps) → { root, label } (slot별 className)
 3. <Primitive.span className={clsx(root, className)} {...restProps}>
@@ -42,7 +42,7 @@ Phase 0에서 결정한 카테고리에 따라 아래 레퍼런스 컴포넌트�
 | Index export | `export * as Component from "./Component.namespace"` |
 
 **Avatar 패턴 요약**:
-```
+```text
 1. createSlotRecipeContext(avatar) → { withProvider, withContext }
 2. AvatarRoot = withProvider(Primitive.div, "root")
 3. AvatarImage = withContext(Image.Content, "image")
@@ -67,7 +67,7 @@ Phase 0에서 결정한 카테고리에 따라 아래 레퍼런스 컴포넌트�
 | Namespace | 있음 |
 
 **TextField 패턴 요약** (Form 통합 canonical):
-```
+```text
 1. createSlotRecipeContext(textInput) → { withProvider, withContext, useClassNames }
 2. createWithStateProps([useTextFieldContext, { useContext: useFieldContext, strict: false }])
 3. TextFieldRoot = withProvider(withFieldStateProps(TextField.Root), "root")
@@ -94,7 +94,7 @@ Phase 0에서 결정한 카테고리에 따라 아래 레퍼런스 컴포넌트�
 | Namespace | 있음 |
 
 **Checkbox 패턴 요약**:
-```
+```text
 1. createRecipeContext(checkboxGroup) → { withContext: withGroupContext }
 2. createSlotRecipeContext(checkbox) → { ClassNamesProvider, withContext }
 3. createSlotRecipeContext(checkmark) → { withProvider: withCheckmarkProvider }

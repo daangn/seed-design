@@ -13,11 +13,11 @@ SEED Design은 외부 라이브러리에 직접 의존하지 않지만, 인터�
 | shadcn/ui | snippet/registry 패턴 | snippet 설계 시 |
 
 **GitHub 경로**:
-- Base UI React: `github.com/mui/base-ui/tree/master/packages/react`
-- Base UI Utils: `github.com/mui/base-ui/tree/master/packages/utils`
-- Radix Primitives: `github.com/radix-ui/primitives`
-- Chakra UI: `github.com/chakra-ui/chakra-ui`
-- shadcn/ui: `github.com/shadcn-ui/ui`
+- Base UI React: https://github.com/mui/base-ui/tree/master/packages/react
+- Base UI Utils: https://github.com/mui/base-ui/tree/master/packages/utils
+- Radix Primitives: https://github.com/radix-ui/primitives
+- Chakra UI: https://github.com/chakra-ui/chakra-ui
+- shadcn/ui: https://github.com/shadcn-ui/ui
 
 ### 조사 방법
 
@@ -38,7 +38,11 @@ SEED Design이 실제로 의존하는 외부 패키지. 새 의존성을 추가�
 | `@radix-ui/react-slot` | polymorphic 렌더링 (asChild) | react, stackflow |
 | `@radix-ui/react-use-controllable-state` | controlled/uncontrolled 상태 | 15+ headless 컴포넌트 |
 | `@radix-ui/react-use-layout-effect` | SSR 안전한 layout effect | react |
-| `@radix-ui/react-dialog` | focus scope, dismissable layer | dialog, drawer |
+| `@radix-ui/react-use-callback-ref` | 안정적인 callback ref 헬퍼 | hooks, controlled 컴포넌트 |
+| `@radix-ui/react-use-size` | 요소 크기 관찰 | slider, tabs |
+| `@radix-ui/react-collapsible` | collapsible/accordion 동작 | collapsible, accordion |
+| `@radix-ui/react-dismissable-layer` | 외부 클릭 닫기 | dialog, drawer, popover |
+| `@radix-ui/react-focus-scope` | 포커스 트랩 관리 | dialog, drawer, modal |
 | `@floating-ui/react` | 포지셔닝 수학 | popover |
 
 새 외부 의존성 추가는 반드시 유저에게 확인한다 (AGENTS.md §Boundaries "Ask first").
