@@ -4692,6 +4692,10 @@
     position: relative;
   }
 
+  .seed-dialog__content:is(:focus, [data-focus]) {
+    outline: none;
+  }
+
   .seed-dialog__header {
     padding-left: var(--seed-dimension-x5);
     padding-right: var(--seed-dimension-x5);
