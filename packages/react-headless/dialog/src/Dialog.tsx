@@ -38,6 +38,7 @@ export const DialogPositioner = forwardRef<HTMLDivElement, DialogPositionerProps
   const api = useDialogContext();
   return <Primitive.div ref={ref} {...mergeProps(api.positionerProps, props)} />;
 });
+DialogPositioner.displayName = "DialogPositioner";
 
 export interface DialogBackdropProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
