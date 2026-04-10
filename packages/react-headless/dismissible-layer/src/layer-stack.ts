@@ -108,6 +108,10 @@ export function notifyLayerChange() {
 export { LAYER_UPDATE_EVENT };
 
 export function addLayer(ctx: LayerStackContextValue, layer: Layer) {
+  // Guard against double-registration (e.g., React strict mode re-running effects).
+  const existing = ctx.layers.findIndex((l) => l.node === layer.node);
+  if (existing >= 0) ctx.layers.splice(existing, 1);
+
   ctx.layers.push(layer);
   notifyLayerChange();
 }

@@ -55,6 +55,16 @@ describe("layer-stack", () => {
       expect(ctx.layers[0].node).toBe(a);
       expect(ctx.layers[1].node).toBe(b);
     });
+
+    it("replaces existing layer when same node is added twice", () => {
+      const node = createNode();
+      const first = createLayer(node, { blockPointerEvents: false });
+      const second = createLayer(node, { blockPointerEvents: true });
+      addLayer(ctx, first);
+      addLayer(ctx, second);
+      expect(ctx.layers).toHaveLength(1);
+      expect(ctx.layers[0].blockPointerEvents).toBe(true);
+    });
   });
 
   describe("removeLayer", () => {
