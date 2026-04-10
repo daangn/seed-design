@@ -107,9 +107,17 @@ const OpenStoryTemplate: Story = {
   ),
 };
 
-export const OpenLightTheme = OpenStoryTemplate;
+export const OpenLightTheme: Story = {
+  ...OpenStoryTemplate,
+  parameters: {
+    chromatic: { delay: 500, pauseAnimationAtEnd: true },
+  },
+};
 
 export const OpenDarkTheme: Story = {
   ...OpenStoryTemplate,
-  parameters: { theme: "dark" },
+  parameters: {
+    theme: "dark",
+    chromatic: { delay: 500, pauseAnimationAtEnd: true },
+  },
 };
