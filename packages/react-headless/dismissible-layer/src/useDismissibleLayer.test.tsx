@@ -552,4 +552,57 @@ describe("useDismissibleLayer", () => {
       expect(onPressOutside).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe("focus outside", () => {
+    const wait = (ms = 10) => act(() => new Promise((r) => setTimeout(r, ms)));
+
+    it("calls onFocusOutside after re-enable even if focus was inside before disable", async () => {
+      const onFocusOutside = mock(() => {});
+      let setEnabledExternal: (v: boolean) => void;
+
+      function Harness() {
+        const [enabled, setEnabled] = React.useState(true);
+        setEnabledExternal = setEnabled;
+        const { dismissibleRef, dismissibleProps } = useDismissibleLayer({
+          ...optionDefaults,
+          enabled,
+          onFocusOutside,
+        });
+
+        return (
+          <>
+            <div ref={dismissibleRef} data-testid="layer" {...dismissibleProps}>
+              <button type="button" data-testid="inside">
+                Inside
+              </button>
+            </div>
+            <button type="button" data-testid="outside">
+              Outside
+            </button>
+          </>
+        );
+      }
+
+      const { getByTestId } = render(<Harness />);
+      await wait();
+
+      // Focus inside the layer — sets isFocusInsideReactTreeRef to true via onFocusCapture
+      const insideBtn = getByTestId("inside");
+      act(() => insideBtn.focus());
+
+      // Disable the layer WITHOUT moving focus (no blur → ref stays true)
+      await act(async () => setEnabledExternal(false));
+      await wait();
+
+      // Re-enable the layer — ref is still stale (true) if cleanup didn't reset it
+      await act(async () => setEnabledExternal(true));
+      await wait();
+
+      // Fire focusin on an outside element — should trigger onFocusOutside
+      const outsideBtn = getByTestId("outside");
+      fireEvent.focusIn(outsideBtn);
+
+      expect(onFocusOutside).toHaveBeenCalledTimes(1);
+    });
+  });
 });

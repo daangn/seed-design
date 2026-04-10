@@ -45,7 +45,10 @@ export function useFocusOutside(
     };
 
     ownerDocument.addEventListener("focusin", handleFocus);
-    return () => ownerDocument.removeEventListener("focusin", handleFocus);
+    return () => {
+      ownerDocument.removeEventListener("focusin", handleFocus);
+      isFocusInsideReactTreeRef.current = false;
+    };
   }, [node, ctx, options.enabled]);
 
   return {
