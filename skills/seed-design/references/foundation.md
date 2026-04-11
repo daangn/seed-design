@@ -6,7 +6,7 @@ SEED Design의 파운데이션 — 색상, 타이포그래피, 스페이싱, 테
 
 디자인 가이드라인의 전체 목록은 llms.txt에서 확인할 수 있습니다:
 
-```
+```text
 https://seed-design.io/docs/llms.txt
 ```
 

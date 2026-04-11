@@ -6,7 +6,7 @@ SEED Design 컴포넌트를 탐색하고 사용하는 방법입니다.
 
 전체 컴포넌트 목록과 설명은 llms.txt에서 항상 최신 상태로 확인할 수 있습니다:
 
-```
+```text
 https://seed-design.io/react/llms.txt
 ```
 
