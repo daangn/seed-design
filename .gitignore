@@ -19,6 +19,8 @@ docs/out
 scripts/data
 
 .env
+.env.local
+.env*.local
 .sisyphus/*
 .claude/worktrees/*
 

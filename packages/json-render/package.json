@@ -1,0 +1,31 @@
+{
+  "name": "@seed-design/json-render",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./catalog": "./src/catalog/index.ts",
+    "./registry": "./src/registry/index.ts",
+    "./generator": "./src/generator/index.ts",
+    "./client": "./src/client/index.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "@json-render/codegen": "^0.17.0",
+    "@json-render/core": "^0.17.0",
+    "@json-render/react": "^0.17.0",
+    "zod": "^4.3.6"
+  },
+  "peerDependencies": {
+    "@seed-design/css": ">=1.0.0",
+    "@seed-design/react": ">=1.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.2"
+  }
+}
