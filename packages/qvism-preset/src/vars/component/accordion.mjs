@@ -52,7 +52,9 @@ export const vars = {
     },
     "pressed": {
       "trigger": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)",
+        "marginX": "var(--seed-dimension-x1_5)",
+        "cornerRadius": "var(--seed-dimension-x2_5)"
       }
     }
   },

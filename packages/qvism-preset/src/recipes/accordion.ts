@@ -33,16 +33,10 @@ const accordion = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       width: "100%",
-
-      transitionDuration: vars.base.enabled.item.colorDuration,
-      transitionTimingFunction: vars.base.enabled.item.colorTimingFunction,
-      transitionProperty: "background-color",
-
-      [pseudo(engaged, not(disabled))]: {
-        backgroundColor: vars.base.pressed.trigger.color,
-      },
     },
     trigger: {
+      position: "relative",
+      isolation: "isolate",
       display: "flex",
       alignItems: "center",
       width: "100%",
@@ -58,6 +52,24 @@ const accordion = defineSlotRecipe({
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
+
+      // engaged 배경 pseudo element (list-item 패턴)
+      [pseudo("::before")]: {
+        content: "''",
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        zIndex: -1,
+        transitionProperty: "background-color, left, right, border-radius",
+        transitionDuration: vars.base.enabled.item.colorDuration,
+        transitionTimingFunction: vars.base.enabled.item.colorTimingFunction,
+      },
+
+      [pseudo(not(disabled), engaged, "::before")]: {
+        backgroundColor: vars.base.pressed.trigger.color,
+      },
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
@@ -143,6 +155,13 @@ const accordion = defineSlotRecipe({
         item: {
           "&:not(:last-child)": {
             boxShadow: `inset 0 -1px 0 0 ${vars.variantInline.enabled.item.dividerColor}`,
+          },
+        },
+        trigger: {
+          [pseudo(not(disabled), engaged, "::before")]: {
+            left: vars.base.pressed.trigger.marginX,
+            right: vars.base.pressed.trigger.marginX,
+            borderRadius: vars.base.pressed.trigger.cornerRadius,
           },
         },
       },

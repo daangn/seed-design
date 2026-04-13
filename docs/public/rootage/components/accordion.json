@@ -45,6 +45,12 @@
             },
             "color": {
               "type": "color"
+            },
+            "marginX": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
             }
           }
         },
@@ -324,6 +330,14 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.transparent-pressed"
+                },
+                "marginX": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
                 }
               }
             }

@@ -30,6 +30,10 @@ data:
             type: dimension
           color:
             type: color
+          marginX:
+            type: dimension
+          cornerRadius:
+            type: dimension
       prefix:
         properties:
           paddingRight:
@@ -151,6 +155,8 @@ data:
       pressed:
         trigger:
           color: $color.bg.transparent-pressed
+          marginX: $dimension.x1_5
+          cornerRadius: $dimension.x2_5
 
     size=medium:
       enabled:
