@@ -1,0 +1,33 @@
+{
+  "name": "@seed-design/example-generative-ui",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "@json-render/codegen": "^0.17.0",
+    "@json-render/core": "^0.17.0",
+    "@json-render/react": "^0.17.0",
+    "@karrotmarket/react-monochrome-icon": "^1.10.0",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@seed-design/css": "workspace:*",
+    "@seed-design/json-render": "workspace:*",
+    "@seed-design/react": "workspace:*",
+    "@seed-design/stylesheet": "workspace:*",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@seed-design/vite-plugin": "workspace:*",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.0",
+    "typescript": "^5.9.2",
+    "vite": "^8.0.0"
+  }
+}
