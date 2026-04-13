@@ -11,8 +11,8 @@ import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
 import type { ProgressCircleVariantProps } from "@seed-design/lynx-css/recipes/progress-circle";
 
-type Tone = "neutral" | "brand" | "staticWhite";
-type Size = "24" | "40";
+type Tone = "neutral" | "brand" | "staticWhite" | "inherit";
+type Size = "14" | "16" | "18" | "24" | "40";
 
 interface ProgressCircleContextValue {
   tone: Tone;

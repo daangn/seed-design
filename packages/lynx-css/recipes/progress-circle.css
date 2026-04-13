@@ -21,6 +21,21 @@
   );
 }
 
+/* size 18: outer r=9, inner r=7 — used inside action-button (large) loading state */
+.seed-progress-circle__root--size_18 {
+  clip-path: path("M9 0 A9 9 0 1 1 9 18 A9 9 0 1 1 9 0 Z M9 2 A7 7 0 1 0 9 16 A7 7 0 1 0 9 2 Z");
+}
+
+/* size 16: outer r=8, inner r=6 — used inside action-button (medium) loading state */
+.seed-progress-circle__root--size_16 {
+  clip-path: path("M8 0 A8 8 0 1 1 8 16 A8 8 0 1 1 8 0 Z M8 2 A6 6 0 1 0 8 14 A6 6 0 1 0 8 2 Z");
+}
+
+/* size 14: outer r=7, inner r=5 — used inside action-button (xsmall/small) loading state */
+.seed-progress-circle__root--size_14 {
+  clip-path: path("M7 0 A7 7 0 1 1 7 14 A7 7 0 1 1 7 0 Z M7 2 A5 5 0 1 0 7 12 A5 5 0 1 0 7 2 Z");
+}
+
 .seed-progress-circle__cap {
   position: absolute;
   border-radius: 50%;
@@ -52,4 +67,14 @@
 .seed-progress-circle__range--tone_staticWhite,
 .seed-progress-circle__cap--tone_staticWhite {
   background: var(--seed-color-palette-static-white);
+}
+
+/* inherit: inherits --track-color / --range-color from parent (e.g. action-button) */
+.seed-progress-circle__root--tone_inherit {
+  background: var(--track-color);
+}
+
+.seed-progress-circle__range--tone_inherit,
+.seed-progress-circle__cap--tone_inherit {
+  background: var(--range-color);
 }

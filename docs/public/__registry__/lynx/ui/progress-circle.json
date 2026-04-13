@@ -1,0 +1,16 @@
+{
+  "id": "progress-circle",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "progress-circle.tsx",
+      "content": "/**\n * @file ui:progress-circle\n * @requires @seed-design/lynx-react@~0.1.0-alpha.0\n * @requires @seed-design/lynx-css@~0.1.0-alpha.0\n **/\n\nimport {\n  ProgressCircle as SeedProgressCircle,\n  type ProgressCircleProps as SeedProgressCircleProps,\n} from \"@seed-design/lynx-react\";\n\nexport interface ProgressCircleProps extends SeedProgressCircleProps {}\n\n/**\n * @see https://seed-design.io/lynx/components/progress-circle\n */\nexport function ProgressCircle(props: ProgressCircleProps) {\n  return (\n    <SeedProgressCircle.Root {...props}>\n      <SeedProgressCircle.Range />\n    </SeedProgressCircle.Root>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": "~0.1.0-alpha.0",
+        "@seed-design/lynx-css": "~0.1.0-alpha.0"
+      }
+    }
+  ]
+}
