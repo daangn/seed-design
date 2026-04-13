@@ -121,46 +121,6 @@ async function fetchRegistryItem({
   return parsedItem;
 }
 
-export async function fetchLatestVersion(packageName: string): Promise<string> {
-  const response = await fetchWithTimeout(`https://registry.npmjs.org/${packageName}/latest`);
-
-  if (!response.ok) {
-    throw new CliError({
-      message: `${packageName}의 최신 버전을 가져오지 못했어요: ${response.status} ${response.statusText}`,
-    });
-  }
-
-  const data = await response.json();
-  if (!data || typeof data !== "object" || typeof data.version !== "string") {
-    throw new CliError({
-      message: `${packageName} 최신 버전 응답 형식이 올바르지 않아요.`,
-    });
-  }
-  return data.version;
-}
-
-export async function fetchChangelog({
-  baseUrl,
-  packageSlug,
-  version,
-}: {
-  baseUrl: string;
-  packageSlug: string;
-  version: string;
-}): Promise<string> {
-  const url = `${baseUrl}/llms/react/updates/changelog/${packageSlug}/${encodeURIComponent(version)}.txt`;
-  const response = await fetchWithTimeout(url);
-
-  if (!response.ok) {
-    throw new CliError({
-      message: `변경사항을 가져오지 못했어요: ${response.status} ${response.statusText}`,
-      hint: `${url} 에 접근할 수 있는지 확인해주세요.`,
-    });
-  }
-
-  return response.text();
-}
-
 export async function fetchLlmsTxt({ url }: { url: string }): Promise<string> {
   const response = await fetchWithTimeout(url);
 
