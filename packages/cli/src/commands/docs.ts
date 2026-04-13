@@ -289,6 +289,12 @@ export const docsCommand = (cli: CAC) => {
           if (options.query) {
             const segments = parseQueryPath(options.query);
 
+            // Deep paths (more than category/section/item) can't be resolved from index
+            // e.g., react/updates/changelog/react/1.2.9 — skip to fallback in --raw mode
+            if (raw && segments.length > 3) {
+              return undefined;
+            }
+
             // Try to resolve as path: category / section / item
             const matchedCategory = categories.find((c) => c.id === segments[0]);
 
