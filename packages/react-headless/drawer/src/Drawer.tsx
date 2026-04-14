@@ -9,7 +9,7 @@ import { Presence } from "@seed-design/react-presence";
 import { dataAttr, mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import type { DrawerDirection } from "./types";
 import { useDrawer, type UseDrawerProps } from "./useDrawer";
 import { DrawerProvider, useDrawerContext } from "./useDrawerContext";
@@ -114,14 +114,14 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     unmountOnExit,
   } = useDrawerContext();
 
-  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
+  const contentRef = useCallback((el: HTMLDivElement | null) => setContentNode(el), []);
 
   // aria-hide everything except the content when modal
   useEffect(() => {
-    if (!isOpen || !modal) return;
-    const content = contentRef.current;
-    if (content) return hideOthers(content);
-  }, [isOpen, modal]);
+    if (!isOpen || !modal || !contentNode) return;
+    return hideOthers(contentNode);
+  }, [isOpen, modal, contentNode]);
 
   // Needed to use transition instead of animations
   const [delayedSnapPoints, setDelayedSnapPoints] = useState(false);
