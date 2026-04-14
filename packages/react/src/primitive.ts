@@ -5,6 +5,7 @@ export * from "@seed-design/react-popover";
 export * from "@seed-design/react-progress";
 export * from "@seed-design/react-pull-to-refresh";
 export * from "@seed-design/react-radio-group";
+export * from "@seed-design/react-side-navigation";
 export * from "@seed-design/react-slider";
 export * from "@seed-design/react-snackbar";
 export * from "@seed-design/react-switch";

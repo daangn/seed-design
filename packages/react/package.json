@@ -57,6 +57,7 @@
     "@seed-design/react-pull-to-refresh": "1.0.1",
     "@seed-design/react-radio-group": "1.1.0",
     "@seed-design/react-segmented-control": "1.0.1",
+    "@seed-design/react-side-navigation": "0.0.1",
     "@seed-design/react-slider": "1.0.2",
     "@seed-design/react-snackbar": "1.0.1",
     "@seed-design/react-switch": "1.0.1",
