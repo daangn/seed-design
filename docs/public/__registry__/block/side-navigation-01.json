@@ -1,0 +1,26 @@
+{
+  "id": "side-navigation-01",
+  "description": "풀 스펙 SideNavigation (Collapsible + Footer + 다수 그룹 + Inset 레이아웃)",
+  "dependencies": [
+    "@karrotmarket/react-monochrome-icon",
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "side-navigation"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "side-navigation-01.tsx",
+      "content": "/**\n * @file block:side-navigation-01\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport {\n  IconBarchartBoardLine,\n  IconBellLine,\n  IconDocumentLine,\n  IconGearLine,\n  IconGlobeLine,\n  IconHouseLine,\n  IconMegaphoneLine,\n  IconPerson2Line,\n  IconPersonLine,\n  IconReceiptLine,\n  IconWrenchLine,\n} from \"@karrotmarket/react-monochrome-icon\";\nimport { Layout } from \"@seed-design/react\";\n\nimport {\n  SideNavigationContent,\n  SideNavigationFooter,\n  SideNavigationGroup,\n  SideNavigationGroupLabel,\n  SideNavigationHeader,\n  SideNavigationInset,\n  SideNavigationMenuItemButton,\n  SideNavigationMenuItemCollapsibleContent,\n  SideNavigationMenuItemCollapsibleRoot,\n  SideNavigationMenuItemCollapsibleTrigger,\n  SideNavigationProvider,\n  SideNavigationRoot,\n  SideNavigationTrigger,\n} from \"../ui/side-navigation\";\n\nexport default function SideNavigation1() {\n  return (\n    <Layout.Root>\n      <SideNavigationProvider>\n        <SideNavigationRoot>\n          <SideNavigationHeader>\n            <SideNavigationTrigger />\n          </SideNavigationHeader>\n\n          <SideNavigationContent>\n            <SideNavigationGroup>\n              <SideNavigationMenuItemButton prefixIcon={<IconHouseLine />} label=\"홈\" current />\n              <SideNavigationMenuItemButton\n                prefixIcon={<IconBarchartBoardLine />}\n                label=\"대시보드\"\n              />\n              <SideNavigationMenuItemButton prefixIcon={<IconBellLine />} label=\"알림\" />\n            </SideNavigationGroup>\n\n            <SideNavigationGroup>\n              <SideNavigationGroupLabel>콘텐츠</SideNavigationGroupLabel>\n              <SideNavigationMenuItemButton prefixIcon={<IconDocumentLine />} label=\"게시글\" />\n              <SideNavigationMenuItemButton prefixIcon={<IconMegaphoneLine />} label=\"공지사항\" />\n              <SideNavigationMenuItemCollapsibleRoot>\n                <SideNavigationMenuItemCollapsibleTrigger\n                  prefixIcon={<IconGlobeLine />}\n                  label=\"채널\"\n                />\n                <SideNavigationMenuItemCollapsibleContent>\n                  <SideNavigationMenuItemButton label=\"일반\" />\n                  <SideNavigationMenuItemButton label=\"공지\" />\n                  <SideNavigationMenuItemButton label=\"피드백\" />\n                </SideNavigationMenuItemCollapsibleContent>\n              </SideNavigationMenuItemCollapsibleRoot>\n            </SideNavigationGroup>\n\n            <SideNavigationGroup>\n              <SideNavigationGroupLabel>관리</SideNavigationGroupLabel>\n              <SideNavigationMenuItemButton prefixIcon={<IconPerson2Line />} label=\"팀 관리\" />\n              <SideNavigationMenuItemCollapsibleRoot>\n                <SideNavigationMenuItemCollapsibleTrigger\n                  prefixIcon={<IconWrenchLine />}\n                  label=\"설정\"\n                />\n                <SideNavigationMenuItemCollapsibleContent>\n                  <SideNavigationMenuItemButton label=\"일반 설정\" />\n                  <SideNavigationMenuItemButton label=\"권한\" />\n                  <SideNavigationMenuItemButton label=\"연동\" />\n                </SideNavigationMenuItemCollapsibleContent>\n              </SideNavigationMenuItemCollapsibleRoot>\n              <SideNavigationMenuItemButton prefixIcon={<IconReceiptLine />} label=\"결제\" />\n            </SideNavigationGroup>\n          </SideNavigationContent>\n\n          <SideNavigationFooter>\n            <SideNavigationMenuItemButton prefixIcon={<IconGearLine />} label=\"환경설정\" />\n            <SideNavigationMenuItemButton prefixIcon={<IconPersonLine />} label=\"내 프로필\" />\n          </SideNavigationFooter>\n        </SideNavigationRoot>\n\n        <SideNavigationInset>\n          <Layout.Content>SideNavigationInset</Layout.Content>\n        </SideNavigationInset>\n      </SideNavigationProvider>\n    </Layout.Root>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    }
+  ]
+}
