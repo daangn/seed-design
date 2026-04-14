@@ -63,5 +63,25 @@ export const registryBlock: Registry = {
         },
       ],
     },
+    {
+      id: "layout-01",
+      description: "기본 Layout (Header + Content + Footer)",
+      snippets: [
+        {
+          path: "layout-01.tsx",
+          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
+    {
+      id: "layout-02",
+      description: "대시보드 Layout (density=high + 그리드 카드)",
+      snippets: [
+        {
+          path: "layout-02.tsx",
+          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
   ],
 };

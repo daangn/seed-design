@@ -1,0 +1,57 @@
+---
+title: Layout
+description: 페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.
+full: true
+---
+
+## Usage
+
+```tsx
+import { Layout } from "@seed-design/react";
+```
+
+```tsx
+<Layout.Root>
+  <Layout.Content>
+    {/* 콘텐츠 */}
+  </Layout.Content>
+</Layout.Root>
+```
+
+## Props
+
+### Layout.Root
+
+<react-type-table path="../packages/react/src/components/Layout/Layout.tsx" name="LayoutRootProps" />
+
+### Layout.Content
+
+<react-type-table path="../packages/react/src/components/Layout/Layout.tsx" name="LayoutContentProps" />
+
+## Density
+
+`density` prop으로 콘텐츠 영역의 최대 너비를 조절합니다.
+
+| Density | 768px 이상 | 1280px 이상 |
+|---------|-----------|------------|
+| `low` | 720px | 720px |
+| `medium` (기본) | 720px | 1040px |
+| `high` | 제한 없음 | 제한 없음 |
+
+## Blocks
+
+```package-install
+npx @seed-design/cli@latest add block:layout-01
+```
+
+<BlockPreview name="layout-01">
+  <BlockCodeTabs name="layout-01" />
+</BlockPreview>
+
+```package-install
+npx @seed-design/cli@latest add block:layout-02
+```
+
+<BlockPreview name="layout-02">
+  <BlockCodeTabs name="layout-02" />
+</BlockPreview>
