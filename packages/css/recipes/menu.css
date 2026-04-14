@@ -44,8 +44,6 @@
     display: flex;
     flex-direction: column;
     gap: var(--seed-dimension-x2);
-    mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x2));
-    -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x2));
 }
 .seed-menu__group {
     display: flex;

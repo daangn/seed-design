@@ -58,7 +58,7 @@ export const registryBlock: Registry = {
       description: "SideNavigation with Header 브랜딩 (collapsed 상태 반응형 + 프로필 Menu)",
       snippets: [
         {
-          path: "side-navigation-03.tsx",
+          path: "side-navigation-02.tsx",
           dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
         },
       ],
