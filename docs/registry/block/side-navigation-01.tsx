@@ -19,11 +19,9 @@ import {
   SideNavigationContent,
   SideNavigationFooter,
   SideNavigationGroup,
-  SideNavigationGroupLabel,
   SideNavigationHeader,
   SideNavigationInset,
   SideNavigationItemButton,
-  SideNavigationItemCollapsible,
   SideNavigationProvider,
   SideNavigationRoot,
   SideNavigationTrigger,
@@ -39,36 +37,39 @@ export default function SideNavigation1() {
           </SideNavigationHeader>
 
           <SideNavigationContent>
-            <SideNavigationGroup>
-              <SideNavigationItemButton prefixIcon={<IconHouseLine />} label="홈" current />
-              <SideNavigationItemButton
-                prefixIcon={<IconBarchartBoardLine />}
-                label="대시보드"
-              />
-              <SideNavigationItemButton prefixIcon={<IconBellLine />} label="알림" />
-            </SideNavigationGroup>
+            <SideNavigationGroup
+              items={[
+                { label: "홈", prefixIcon: <IconHouseLine />, current: true },
+                { label: "대시보드", prefixIcon: <IconBarchartBoardLine /> },
+                { label: "알림", prefixIcon: <IconBellLine /> },
+              ]}
+            />
 
-            <SideNavigationGroup>
-              <SideNavigationGroupLabel>콘텐츠</SideNavigationGroupLabel>
-              <SideNavigationItemButton prefixIcon={<IconDocumentLine />} label="게시글" />
-              <SideNavigationItemButton prefixIcon={<IconMegaphoneLine />} label="공지사항" />
-              <SideNavigationItemCollapsible
-                prefixIcon={<IconGlobeLine />}
-                label="채널"
-                items={[{ label: "일반" }, { label: "공지" }, { label: "피드백" }]}
-              />
-            </SideNavigationGroup>
+            <SideNavigationGroup
+              label="콘텐츠"
+              items={[
+                { label: "게시글", prefixIcon: <IconDocumentLine /> },
+                { label: "공지사항", prefixIcon: <IconMegaphoneLine /> },
+                {
+                  label: "채널",
+                  prefixIcon: <IconGlobeLine />,
+                  items: [{ label: "일반" }, { label: "공지" }, { label: "피드백" }],
+                },
+              ]}
+            />
 
-            <SideNavigationGroup>
-              <SideNavigationGroupLabel>관리</SideNavigationGroupLabel>
-              <SideNavigationItemButton prefixIcon={<IconPerson2Line />} label="팀 관리" />
-              <SideNavigationItemCollapsible
-                prefixIcon={<IconWrenchLine />}
-                label="설정"
-                items={[{ label: "일반 설정" }, { label: "권한" }, { label: "연동" }]}
-              />
-              <SideNavigationItemButton prefixIcon={<IconReceiptLine />} label="결제" />
-            </SideNavigationGroup>
+            <SideNavigationGroup
+              label="관리"
+              items={[
+                { label: "팀 관리", prefixIcon: <IconPerson2Line /> },
+                {
+                  label: "설정",
+                  prefixIcon: <IconWrenchLine />,
+                  items: [{ label: "일반 설정" }, { label: "권한" }, { label: "연동" }],
+                },
+                { label: "결제", prefixIcon: <IconReceiptLine /> },
+              ]}
+            />
           </SideNavigationContent>
 
           <SideNavigationFooter>

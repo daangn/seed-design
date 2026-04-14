@@ -1,5 +1,3 @@
-"use client";
-
 import {
   IconChevronUpSmallFill,
   IconSquareSplitedVerticalLeftLine,
@@ -9,7 +7,10 @@ import { MenuContent, MenuGroup, MenuGroupLabel, MenuItem, MenuRoot, MenuTrigger
 import { useSideNavigationContext } from "@seed-design/react/primitive";
 import * as React from "react";
 
-export interface SideNavigationTriggerProps extends SeedSideNavigation.TriggerProps {}
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface SideNavigationTriggerProps
+  extends Omit<SeedSideNavigation.TriggerProps, "children"> {}
 
 export const SideNavigationTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -19,7 +20,6 @@ export const SideNavigationTrigger = React.forwardRef<
 
   return (
     <SeedSideNavigation.Trigger
-      // You may implement your own i18n for toggle label
       aria-label={collapsed ? "사이드바 열기" : "사이드바 닫기"}
       ref={ref}
       {...props}
@@ -30,7 +30,10 @@ export const SideNavigationTrigger = React.forwardRef<
 });
 SideNavigationTrigger.displayName = "SideNavigationTrigger";
 
-export interface SideNavigationItemButtonProps extends SeedSideNavigation.ItemProps {
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface SideNavigationItemButtonProps
+  extends Omit<SeedSideNavigation.ItemProps, "children"> {
   prefixIcon?: React.ReactNode;
   label: React.ReactNode;
   suffixIcon?: React.ReactNode;
@@ -52,90 +55,115 @@ SideNavigationItemButton.displayName = "SideNavigationItemButton";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationCollapsibleItemData {
-  label: React.ReactNode;
-  prefixIcon?: React.ReactNode;
-  suffixIcon?: React.ReactNode;
-  current?: boolean;
-  disabled?: boolean;
-  onClick?: React.MouseEventHandler;
+export interface SideNavigationGroupProps {
+  label?: React.ReactNode;
+  items: ({
+    key?: React.Key;
+    label: React.ReactNode;
+    prefixIcon?: React.ReactNode;
+  } & (
+    | {
+        current?: boolean;
+        disabled?: boolean;
+        onClick?: React.MouseEventHandler;
+        items?: never;
+        defaultOpen?: never;
+      }
+    | {
+        current?: never;
+        disabled?: never;
+        onClick?: never;
+        defaultOpen?: boolean;
+        items: {
+          key?: React.Key;
+          label: React.ReactNode;
+          current?: boolean;
+          disabled?: boolean;
+          onClick?: React.MouseEventHandler;
+        }[];
+      }
+  ))[];
 }
 
-export interface SideNavigationItemCollapsibleProps
-  extends Omit<SeedSideNavigation.ItemCollapsibleRootProps, "children"> {
-  prefixIcon?: React.ReactNode;
-  label: React.ReactNode;
-  items: SideNavigationCollapsibleItemData[];
-}
+export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigationGroupProps>(
+  ({ label, items }, ref) => {
+    const { collapsed, transitioning } = useSideNavigationContext();
 
-export const SideNavigationItemCollapsible = React.forwardRef<
-  HTMLDivElement,
-  SideNavigationItemCollapsibleProps
->(({ prefixIcon, label, items, ...rootProps }, ref) => {
-  const { collapsed, transitioning } = useSideNavigationContext();
-  const showMenu = collapsed && !transitioning;
-  const hasCurrentChild = items.some((item) => item.current);
-
-  if (showMenu) {
     return (
-      <MenuRoot size="small" placement="right-start">
-        <MenuTrigger asChild>
-          <SideNavigationItemButton
-            prefixIcon={prefixIcon}
-            label={label}
-            current={hasCurrentChild}
-          />
-        </MenuTrigger>
-        <MenuContent>
-          <MenuGroup>
-            <MenuGroupLabel>{label}</MenuGroupLabel>
-            {items.map((item, index) => (
-              <MenuItem
-                key={index}
+      <SeedSideNavigation.Group ref={ref}>
+        {label && <SeedSideNavigation.GroupLabel>{label}</SeedSideNavigation.GroupLabel>}
+        {items.map((item, index) => {
+          if (!item.items) {
+            return (
+              <SideNavigationItemButton
+                key={item.key ?? index}
+                current={item.current}
                 disabled={item.disabled}
-                onClick={item.onClick}
+                prefixIcon={item.prefixIcon}
                 label={item.label}
+                onClick={item.onClick}
               />
-            ))}
-          </MenuGroup>
-        </MenuContent>
-      </MenuRoot>
+            );
+          }
+
+          const hasCurrentChild = item.items.some((sub) => sub.current);
+
+          if (collapsed && !transitioning) {
+            return (
+              <MenuRoot key={item.key ?? index} size="small" placement="right-start">
+                <MenuTrigger asChild>
+                  <SideNavigationItemButton
+                    prefixIcon={item.prefixIcon}
+                    label={item.label}
+                    current={hasCurrentChild}
+                  />
+                </MenuTrigger>
+                <MenuContent>
+                  <MenuGroup>
+                    <MenuGroupLabel>{item.label}</MenuGroupLabel>
+                    {item.items.map((sub, subIndex) => (
+                      <MenuItem
+                        key={sub.key ?? subIndex}
+                        disabled={sub.disabled}
+                        onClick={sub.onClick}
+                        label={sub.label}
+                      />
+                    ))}
+                  </MenuGroup>
+                </MenuContent>
+              </MenuRoot>
+            );
+          }
+
+          return (
+            <SeedSideNavigation.ItemCollapsibleRoot
+              key={item.key ?? index}
+              defaultOpen={item.defaultOpen}
+            >
+              <SeedSideNavigation.ItemCollapsibleTrigger current={collapsed && hasCurrentChild}>
+                {item.prefixIcon && <SeedSideNavigation.ItemPrefixIcon svg={item.prefixIcon} />}
+                <SeedSideNavigation.ItemLabel>{item.label}</SeedSideNavigation.ItemLabel>
+                <SeedSideNavigation.ItemSuffixIcon svg={<IconChevronUpSmallFill />} />
+              </SeedSideNavigation.ItemCollapsibleTrigger>
+              <SeedSideNavigation.ItemCollapsibleContent>
+                {item.items.map((sub, subIndex) => (
+                  <SideNavigationItemButton
+                    key={sub.key ?? subIndex}
+                    current={sub.current}
+                    disabled={sub.disabled}
+                    label={sub.label}
+                    onClick={sub.onClick}
+                  />
+                ))}
+              </SeedSideNavigation.ItemCollapsibleContent>
+            </SeedSideNavigation.ItemCollapsibleRoot>
+          );
+        })}
+      </SeedSideNavigation.Group>
     );
-  }
-
-  return (
-    <SeedSideNavigation.ItemCollapsibleRoot ref={ref} {...rootProps}>
-      <SeedSideNavigation.ItemCollapsibleTrigger
-        data-current={collapsed && hasCurrentChild ? "" : undefined}
-      >
-        {prefixIcon && (
-          <SeedSideNavigation.ItemPrefixIcon
-            svg={prefixIcon}
-            data-current={collapsed && hasCurrentChild ? "" : undefined}
-          />
-        )}
-        <SeedSideNavigation.ItemLabel>{label}</SeedSideNavigation.ItemLabel>
-        <SeedSideNavigation.ItemSuffixIcon svg={<IconChevronUpSmallFill />} />
-      </SeedSideNavigation.ItemCollapsibleTrigger>
-      <SeedSideNavigation.ItemCollapsibleContent>
-        {items.map((item, index) => (
-          <SideNavigationItemButton
-            key={index}
-            current={item.current}
-            disabled={item.disabled}
-            prefixIcon={item.prefixIcon}
-            label={item.label}
-            suffixIcon={item.suffixIcon}
-            onClick={item.onClick}
-          />
-        ))}
-      </SeedSideNavigation.ItemCollapsibleContent>
-    </SeedSideNavigation.ItemCollapsibleRoot>
-  );
-});
-SideNavigationItemCollapsible.displayName = "SideNavigationItemCollapsible";
-
-////////////////////////////////////////////////////////////////////////////////////
+  },
+);
+SideNavigationGroup.displayName = "SideNavigationGroup";
 
 export interface SideNavigationProviderProps extends SeedSideNavigation.ProviderProps {}
 export const SideNavigationProvider = SeedSideNavigation.Provider;
@@ -151,12 +179,6 @@ export const SideNavigationContent = SeedSideNavigation.Content;
 
 export interface SideNavigationFooterProps extends SeedSideNavigation.FooterProps {}
 export const SideNavigationFooter = SeedSideNavigation.Footer;
-
-export interface SideNavigationGroupProps extends SeedSideNavigation.GroupProps {}
-export const SideNavigationGroup = SeedSideNavigation.Group;
-
-export interface SideNavigationGroupLabelProps extends SeedSideNavigation.GroupLabelProps {}
-export const SideNavigationGroupLabel = SeedSideNavigation.GroupLabel;
 
 export interface SideNavigationInsetProps extends SeedSideNavigation.InsetProps {}
 export const SideNavigationInset = SeedSideNavigation.Inset;
