@@ -193,30 +193,29 @@ export interface SideNavigationItemProps
     PrimitiveProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-export const SideNavigationItem = React.forwardRef<
-  HTMLButtonElement,
-  SideNavigationItemProps
->(({ current, disabled, className, ...props }, ref) => {
-  const [variantProps, restProps] = sideNavigationMenuItem.splitVariantProps(props);
-  const classNames = sideNavigationMenuItem(variantProps);
+export const SideNavigationItem = React.forwardRef<HTMLButtonElement, SideNavigationItemProps>(
+  ({ current, disabled, className, ...props }, ref) => {
+    const [variantProps, restProps] = sideNavigationMenuItem.splitVariantProps(props);
+    const classNames = sideNavigationMenuItem(variantProps);
 
-  const { stateProps: sideNavStateProps } = useSideNavigationContext();
-  const api = useSideNavigationItem({ current, disabled });
+    const { stateProps: sideNavStateProps } = useSideNavigationContext();
+    const api = useSideNavigationItem({ current, disabled });
 
-  return (
-    <ItemProviderPrimitive value={api}>
-      <ItemClassNamesProvider value={classNames}>
-        <Primitive.button
-          className={clsx(classNames.root, className)}
-          ref={ref}
-          {...restProps}
-          {...sideNavStateProps}
-          {...api.rootProps}
-        />
-      </ItemClassNamesProvider>
-    </ItemProviderPrimitive>
-  );
-});
+    return (
+      <ItemProviderPrimitive value={api}>
+        <ItemClassNamesProvider value={classNames}>
+          <Primitive.button
+            className={clsx(classNames.root, className)}
+            ref={ref}
+            {...restProps}
+            {...sideNavStateProps}
+            {...api.rootProps}
+          />
+        </ItemClassNamesProvider>
+      </ItemProviderPrimitive>
+    );
+  },
+);
 
 SideNavigationItem.displayName = "SideNavigationItem";
 
@@ -278,12 +277,29 @@ SideNavigationItemCollapsibleRoot.displayName = "SideNavigationItemCollapsibleRo
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationItemCollapsibleTriggerProps
-  extends SideNavigationPrimitive.ItemCollapsibleTriggerProps {}
+  extends UseSideNavigationItemProps,
+    SideNavigationPrimitive.ItemCollapsibleTriggerProps {}
 
-export const SideNavigationItemCollapsibleTrigger = withItemContext<
+export const SideNavigationItemCollapsibleTrigger = React.forwardRef<
   HTMLButtonElement,
   SideNavigationItemCollapsibleTriggerProps
->(withSideNavigationStateProps(SideNavigationPrimitive.ItemCollapsibleTrigger), "root");
+>(({ current, disabled, className, ...props }, ref) => {
+  const classNames = sideNavigationMenuItem();
+  const { stateProps: sideNavStateProps } = useSideNavigationContext();
+  const api = useSideNavigationItem({ current, disabled });
+
+  return (
+    <ItemProviderPrimitive value={api}>
+      <SideNavigationPrimitive.ItemCollapsibleTrigger
+        ref={ref}
+        className={clsx(classNames.root, className)}
+        {...sideNavStateProps}
+        {...api.stateProps}
+        {...props}
+      />
+    </ItemProviderPrimitive>
+  );
+});
 
 SideNavigationItemCollapsibleTrigger.displayName = "SideNavigationItemCollapsibleTrigger";
 
