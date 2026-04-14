@@ -3,9 +3,9 @@
 오버레이, 애니메이션이 필요한 복잡 컴포넌트들.
 lynx-ui-dialog, lynx-ui-sheet, lynx-ui-presence를 핵심 참고.
 
-> **Portal은 Phase 0으로 이동됨** - 오버레이 컴포넌트의 전제 조건이므로 인프라에서 먼저 구현.
+> **Portal은 Lynx에서 제외** — 웹의 `createPortal` 개념은 Lynx에서 불필요. 오버레이는 [lynx-ui-overlay](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-overlay/src/) 패턴 참고.
 
-**Phase 의존성:** Phase 0 (Portal, useControllableState)
+**Phase 의존성:** Phase 0 (useControllableState)
 
 ---
 

@@ -83,19 +83,7 @@ function usePressTap(props: UsePressTapProps): UsePressTapReturn
 - `bindtap` -> onTap 호출 (disabled면 무시)
 - 모든 핸들러는 useMemoizedFn으로 안정 참조 유지
 
-### 4. Portal 구현
-
-**파일**: `src/components/Portal/Portal.tsx`
-
-오버레이/시트 컴포넌트(Phase 5)의 전제 조건이므로 인프라 Phase에서 먼저 구현.
-
-**React 소스**: `packages/react/src/components/Portal/Portal.tsx`
-**React headless**: `packages/react-headless/portal/src/`
-
-**참고:** Lynx에서 `createPortal` 지원 여부 확인 필요. 미지원이면 lynx-ui-overlay 패턴 참고:
-- [lynx-ui-overlay](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-overlay/src/)
-
-### 5. 기존 유틸 확인
+### 4. 기존 유틸 확인
 
 이미 존재하는 유틸:
 - `src/utils/dynamic-style.ts` - CSS variable 동적 주입
@@ -116,6 +104,5 @@ function usePressTap(props: UsePressTapProps): UsePressTapReturn
 - [ ] `package.json`에 `@lynx-js/lynx-ui-common` 추가
 - [ ] `src/utils/use-controllable-state.ts` 구현
 - [ ] `src/utils/use-press-tap.ts` 구현
-- [ ] `src/components/Portal/Portal.tsx` 구현
 - [ ] `docs/content/lynx/hooks/use-controllable-state.mdx` 문서
 - [ ] `docs/content/lynx/hooks/use-press-tap.mdx` 문서

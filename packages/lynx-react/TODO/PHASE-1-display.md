@@ -128,22 +128,7 @@ ActionButton 패턴과 동일: `recipe.splitVariantProps()` → `clsx(classes.sl
 
 ---
 
-## 7. Celsius
-
-**React 소스**: `packages/react/src/components/Celsius/Celsius.tsx`
-**Lynx CSS recipe**: 없음
-
-**구현:**
-- 가장 단순. `value` prop → `"${value}°C"` 문자열 반환
-- FC (forwardRef 아님)
-
-- [ ] `src/components/Celsius/Celsius.tsx`
-- [ ] `docs/content/lynx/components/celsius.mdx`
-- [ ] `examples/lynx-spa/src/pages/CelsiusPage.tsx`
-
----
-
-## 8. MannerTemp
+## 7. MannerTemp
 
 **React 소스**: `packages/react/src/components/MannerTemp/MannerTemp.tsx`
 **Lynx CSS recipe**: `mannerTemp`
@@ -165,7 +150,7 @@ ActionButton 패턴과 동일: `recipe.splitVariantProps()` → `clsx(classes.sl
 
 ---
 
-## 9. MannerTempBadge
+## 8. MannerTempBadge
 
 **React 소스**: `packages/react/src/components/MannerTempBadge/MannerTempBadge.tsx`
 **Lynx CSS recipe**: `mannerTempBadge`
@@ -181,18 +166,3 @@ ActionButton 패턴과 동일: `recipe.splitVariantProps()` → `clsx(classes.sl
 - [ ] `docs/content/lynx/components/manner-temp-badge.mdx`
 - [ ] `examples/lynx-spa/src/pages/MannerTempBadgePage.tsx`
 
----
-
-## 10. VisuallyHidden
-
-**React 소스**: `packages/react/src/components/VisuallyHidden/VisuallyHidden.tsx`
-**Lynx CSS recipe**: 없음 (인라인 스타일)
-
-**구현:**
-- `@seed-design/dom-utils`의 `visuallyHidden` 스타일 객체 적용
-- 접근성용 — Lynx에서의 접근성 모델 확인 필요
-- 스크린 리더 지원이 없으면 불필요할 수 있음
-
-- [ ] `src/components/VisuallyHidden/VisuallyHidden.tsx`
-- [ ] `docs/content/lynx/components/visually-hidden.mdx`
-- [ ] `examples/lynx-spa/src/pages/VisuallyHiddenPage.tsx`
