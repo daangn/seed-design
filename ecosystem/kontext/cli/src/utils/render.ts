@@ -68,12 +68,6 @@ export function renderDepsJson(deps: DepResult[]): string {
   return JSON.stringify(deps, null, 2);
 }
 
-const LAYER_LABELS: Record<string, string> = {
-  naming: "naming",
-  import: "import",
-  "co-change": "co-change",
-};
-
 export function renderLintResults(result: LintResult): string {
   const lines: string[] = [];
 
@@ -86,7 +80,7 @@ export function renderLintResults(result: LintResult): string {
       const items = result.suggestions.filter((s) => s.layer === layer);
       if (items.length === 0) continue;
 
-      lines.push(pc.cyan(`  [${LAYER_LABELS[layer]}] ${items.length} suggestions`));
+      lines.push(pc.cyan(`  [${layer}] ${items.length} suggestions`));
       for (const item of items.slice(0, 10)) {
         const conf = `${(item.confidence * 100).toFixed(0)}%`;
         lines.push(`  ${pc.dim("├─")} ${item.source} ${pc.dim("↔")} ${item.target}`);

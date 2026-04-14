@@ -80,11 +80,6 @@ function renderCheckResults(results) {
 function renderDepsJson(deps) {
     return JSON.stringify(deps, null, 2);
 }
-const LAYER_LABELS = {
-    naming: "naming",
-    import: "import",
-    "co-change": "co-change"
-};
 function renderLintResults(result) {
     const lines = [];
     if (result.suggestions.length > 0) {
@@ -98,7 +93,7 @@ function renderLintResults(result) {
         ]){
             const items = result.suggestions.filter((s)=>s.layer === layer);
             if (items.length === 0) continue;
-            lines.push(pc.cyan(`  [${LAYER_LABELS[layer]}] ${items.length} suggestions`));
+            lines.push(pc.cyan(`  [${layer}] ${items.length} suggestions`));
             for (const item of items.slice(0, 10)){
                 const conf = `${(item.confidence * 100).toFixed(0)}%`;
                 lines.push(`  ${pc.dim("├─")} ${item.source} ${pc.dim("↔")} ${item.target}`);
@@ -126,12 +121,24 @@ function renderLintResults(result) {
     return lines.join("\n");
 }
 
+function loadOrBuildGraph(rootDir) {
+    const graphPath = resolve(rootDir, ".kontext", "graph.json");
+    try {
+        const raw = readFileSync(graphPath, "utf-8");
+        return JSON.parse(raw);
+    } catch  {
+        return buildGraph({
+            rootDir
+        });
+    }
+}
+
 function checkCommand(cli) {
     cli.command("check", "Verify all affected paths exist").option("--root <dir>", "Repository root directory", {
         default: process.cwd()
     }).option("--ci", "Exit with code 1 if any files are missing").action((options)=>{
         const rootDir = resolve(options.root);
-        const graph = loadOrBuildGraph$1(rootDir);
+        const graph = loadOrBuildGraph(rootDir);
         const results = checkCompleteness(graph);
         const hasMissing = results.some((r)=>r.missing.length > 0);
         console.log(renderCheckResults(results));
@@ -147,17 +154,6 @@ function checkCommand(cli) {
         }
     });
 }
-function loadOrBuildGraph$1(rootDir) {
-    const graphPath = resolve(rootDir, ".kontext", "graph.json");
-    try {
-        const raw = readFileSync(graphPath, "utf-8");
-        return JSON.parse(raw);
-    } catch  {
-        return buildGraph({
-            rootDir
-        });
-    }
-}
 
 function depsCommand(cli) {
     cli.command("deps <file>", "Show all files affected by changes to <file>").option("--root <dir>", "Repository root directory", {
@@ -165,7 +161,6 @@ function depsCommand(cli) {
     }).option("--json", "Output as JSON").action((file, options)=>{
         const rootDir = resolve(options.root);
         const graph = loadOrBuildGraph(rootDir);
-        // #6: rootDir 기준으로 상대 경로 변환 (서브디렉토리에서 실행해도 정상 동작)
         const absFile = isAbsolute(file) ? file : resolve(rootDir, file);
         const relFile = relative(rootDir, absFile);
         const deps = findDeps(graph, relFile);
@@ -180,18 +175,6 @@ function depsCommand(cli) {
             console.log(renderDepsTree(relFile, deps));
         }
     });
-}
-function loadOrBuildGraph(rootDir) {
-    const graphPath = resolve(rootDir, ".kontext", "graph.json");
-    try {
-        const raw = readFileSync(graphPath, "utf-8");
-        return JSON.parse(raw);
-    } catch  {
-        // 캐시가 없으면 즉시 빌드
-        return buildGraph({
-            rootDir
-        });
-    }
 }
 
 function lintCommand(cli) {

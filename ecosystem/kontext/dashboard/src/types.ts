@@ -10,6 +10,8 @@ export interface GraphEdge {
   reason?: string;
   generated: boolean;
   command?: string;
+  optional: boolean;
+  definedBy: string;
 }
 
 export interface KontextGraph {

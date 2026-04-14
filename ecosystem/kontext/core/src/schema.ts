@@ -109,6 +109,14 @@ export function validateConfig(data: unknown, filePath: string): KontextConfig {
           }
           if (!Array.isArray(ov.affects)) {
             issues.push(`${ovPrefix}.affects must be an array`);
+          } else {
+            for (let m = 0; m < ov.affects.length; m++) {
+              const ovEntry = ov.affects[m] as Record<string, unknown>;
+              const ovEntryPrefix = `${ovPrefix}.affects[${m}]`;
+              if (typeof ovEntry.path !== "string" || ovEntry.path.length === 0) {
+                issues.push(`${ovEntryPrefix}.path must be a non-empty string`);
+              }
+            }
           }
         }
       }

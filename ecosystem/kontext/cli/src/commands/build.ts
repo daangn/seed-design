@@ -3,12 +3,13 @@ import { writeFileSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { buildGraph } from "@kontext/core";
 import pc from "picocolors";
+import type { RootOption } from "../utils/graph.js";
 
 export function buildCommand(cli: CAC) {
   cli
     .command("build", "Build the dependency graph from all kontext.yaml files")
     .option("--root <dir>", "Repository root directory", { default: process.cwd() })
-    .action((options: { root: string }) => {
+    .action((options: RootOption) => {
       const rootDir = resolve(options.root);
 
       console.log(pc.dim("Scanning for kontext.yaml files..."));

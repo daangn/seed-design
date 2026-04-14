@@ -3,7 +3,7 @@ export type { BuildOptions } from "./graph-builder.js";
 export { lint } from "./lint.js";
 export { parseKontextFile } from "./parser.js";
 export { analyzeImpact, checkCompleteness, findAffectedBy, findDeps } from "./query.js";
-export { expandTemplate, extractId, hasTemplate } from "./resolver.js";
+export { expandTemplate, extractId, hasTemplate, toKebabCase } from "./resolver.js";
 export { SchemaValidationError, validateConfig } from "./schema.js";
 export type {
   AffectedEntry,

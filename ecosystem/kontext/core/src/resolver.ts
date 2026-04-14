@@ -71,7 +71,7 @@ function toPascalCase(kebab: string): string {
     .join("");
 }
 
-function toKebabCase(name: string): string {
+export function toKebabCase(name: string): string {
   // PascalCase → kebab-case
   return name
     .replace(/([a-z0-9])([A-Z])/g, "$1-$2")

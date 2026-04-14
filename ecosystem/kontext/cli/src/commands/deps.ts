@@ -1,20 +1,19 @@
 import type { CAC } from "cac";
-import { readFileSync } from "node:fs";
 import { resolve, relative, isAbsolute } from "node:path";
-import { buildGraph, findDeps } from "@kontext/core";
-import type { KontextGraph } from "@kontext/core";
+import { findDeps } from "@kontext/core";
 import { renderDepsJson, renderDepsTree } from "../utils/render.js";
+import type { RootOption } from "../utils/graph.js";
+import { loadOrBuildGraph } from "../utils/graph.js";
 
 export function depsCommand(cli: CAC) {
   cli
     .command("deps <file>", "Show all files affected by changes to <file>")
     .option("--root <dir>", "Repository root directory", { default: process.cwd() })
     .option("--json", "Output as JSON")
-    .action((file: string, options: { root: string; json?: boolean }) => {
+    .action((file: string, options: RootOption & { json?: boolean }) => {
       const rootDir = resolve(options.root);
       const graph = loadOrBuildGraph(rootDir);
 
-      // #6: rootDir 기준으로 상대 경로 변환 (서브디렉토리에서 실행해도 정상 동작)
       const absFile = isAbsolute(file) ? file : resolve(rootDir, file);
       const relFile = relative(rootDir, absFile);
 
@@ -32,15 +31,4 @@ export function depsCommand(cli: CAC) {
         console.log(renderDepsTree(relFile, deps));
       }
     });
-}
-
-function loadOrBuildGraph(rootDir: string): KontextGraph {
-  const graphPath = resolve(rootDir, ".kontext", "graph.json");
-  try {
-    const raw = readFileSync(graphPath, "utf-8");
-    return JSON.parse(raw) as KontextGraph;
-  } catch {
-    // 캐시가 없으면 즉시 빌드
-    return buildGraph({ rootDir });
-  }
 }

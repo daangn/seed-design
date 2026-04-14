@@ -2,7 +2,7 @@ import { existsSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { minimatch } from "minimatch";
 import { parseKontextFile } from "./parser.js";
-import { expandTemplate, hasTemplate } from "./resolver.js";
+import { expandTemplate, hasTemplate, toKebabCase } from "./resolver.js";
 import type { AffectedEntry, GraphEdge, GraphNode, KontextGraph } from "./types.js";
 
 export interface BuildOptions {
@@ -210,11 +210,7 @@ function extractIdFromWatched(filePath: string): string | null {
   const dotIdx = name.lastIndexOf(".");
   const base = dotIdx >= 0 ? name.slice(0, dotIdx) : name;
   if (!base || base === "index") return null;
-
-  return base
-    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
-    .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
-    .toLowerCase();
+  return toKebabCase(base);
 }
 
 function ensureNode(
