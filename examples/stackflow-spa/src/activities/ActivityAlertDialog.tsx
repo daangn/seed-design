@@ -49,7 +49,11 @@ const ActivityAlertDialog: StaticActivityComponentType<"ActivityAlertDialog"> = 
     : handleClose;
 
   return (
-    <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
+    <AlertDialogRoot
+      open={open}
+      modal={keepMounted ? activity.isActive : undefined}
+      onOpenChange={onOpenChange}
+    >
       <AlertDialogContent layerIndex={useActivityZIndexBase()}>
         <AlertDialogHeader>
           <AlertDialogTitle>제목</AlertDialogTitle>
