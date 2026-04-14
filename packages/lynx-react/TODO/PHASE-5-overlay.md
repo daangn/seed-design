@@ -1,38 +1,19 @@
 # Phase 5: 오버레이/시트 컴포넌트
 
-포탈, 오버레이, 애니메이션이 필요한 복잡 컴포넌트들.
+오버레이, 애니메이션이 필요한 복잡 컴포넌트들.
 lynx-ui-dialog, lynx-ui-sheet, lynx-ui-presence를 핵심 참고.
 
----
+> **Portal은 Phase 0으로 이동됨** - 오버레이 컴포넌트의 전제 조건이므로 인프라에서 먼저 구현.
 
-## 1. Portal
-
-**React 소스**: `packages/react/src/components/Portal/Portal.tsx`
-**React headless**: `packages/react-headless/portal/src/`
-**Lynx CSS recipe**: 없음
-
-**Props:**
-- `disabled?: boolean` — true면 children 인라인 렌더
-- `container?: RefObject<HTMLElement | null>` — 렌더 대상
-
-**Lynx 구현 포인트:**
-- 웹: `ReactDOM.createPortal`로 document.body에 렌더
-- Lynx: `createPortal` 지원 여부 확인 필요
-- 미지원이면 Lynx 네이티브 오버레이 API 사용 (lynx-ui-overlay 참고)
-
-**참고:**
-- lynx-ui-overlay: `/Documents/GitHub/lynx-ui/packages/lynx-ui-overlay/src/`
-
-- [ ] `src/components/Portal/Portal.tsx`
-- [ ] `docs/content/lynx/components/portal.mdx`
+**Phase 의존성:** Phase 0 (Portal, useControllableState)
 
 ---
 
-## 2. Dialog
+## 1. Dialog
 
 **React 소스**: `packages/react/src/components/Dialog/Dialog.tsx`
 **React headless**: `packages/react-headless/dialog/src/`
-**lynx-ui 참고**: `/Documents/GitHub/lynx-ui/packages/lynx-ui-dialog/src/`
+**lynx-ui 참고**: `https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-dialog/src/`
 **Lynx CSS recipe**: `dialog` (7슬롯: positioner, backdrop, content, header, title, description, footer)
 
 **Exports:** `DialogRoot`, `DialogTrigger`, `DialogPositioner`, `DialogBackdrop`, `DialogContent`, `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogFooter`, `DialogAction`
@@ -63,7 +44,7 @@ lynx-ui-dialog, lynx-ui-sheet, lynx-ui-presence를 핵심 참고.
 - **Escape key 불필요** (모바일)
 
 **참고 파일:**
-- `/Documents/GitHub/lynx-ui/packages/lynx-ui-presence/src/` — 애니메이션 상태 관리
+- `https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-presence/src/` — 애니메이션 상태 관리
 
 - [ ] `src/components/Dialog/useDialog.ts`
 - [ ] `src/components/Dialog/Dialog.tsx`
@@ -72,10 +53,10 @@ lynx-ui-dialog, lynx-ui-sheet, lynx-ui-presence를 핵심 참고.
 
 ---
 
-## 3. BottomSheet
+## 2. BottomSheet
 
 **React 소스**: `packages/react/src/components/BottomSheet/BottomSheet.tsx`
-**lynx-ui 참고**: `/Documents/GitHub/lynx-ui/packages/lynx-ui-sheet/src/`
+**lynx-ui 참고**: `https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-sheet/src/`
 **Lynx CSS recipe**: `bottomSheet`
 
 **Exports:** `BottomSheetRoot`, `BottomSheetTrigger`, `BottomSheetPositioner`, `BottomSheetBackdrop`, `BottomSheetContent`, `BottomSheetHeader`, `BottomSheetTitle`, `BottomSheetDescription`, `BottomSheetBody`, `BottomSheetFooter`, `BottomSheetCloseButton`
@@ -113,7 +94,7 @@ lynx-ui-dialog, lynx-ui-sheet, lynx-ui-presence를 핵심 참고.
 
 ---
 
-## 4. BottomSheetHandle
+## 3. BottomSheetHandle
 
 **React 소스**: `packages/react/src/components/BottomSheetHandle/BottomSheetHandle.tsx`
 **Lynx CSS recipe**: `bottomSheetHandle` (2슬롯: root, touchArea)
@@ -128,7 +109,7 @@ lynx-ui-dialog, lynx-ui-sheet, lynx-ui-presence를 핵심 참고.
 
 ---
 
-## 5. ActionSheet (deprecated → MenuSheet)
+## 4. ActionSheet (deprecated → MenuSheet)
 
 **React 소스**: `packages/react/src/components/ActionSheet/ActionSheet.tsx`
 **Lynx CSS recipe**: `actionSheet`
@@ -140,7 +121,7 @@ lynx-ui-dialog, lynx-ui-sheet, lynx-ui-presence를 핵심 참고.
 
 ---
 
-## 6. ExtendedActionSheet (deprecated → MenuSheet)
+## 5. ExtendedActionSheet (deprecated → MenuSheet)
 
 **React 소스**: `packages/react/src/components/ExtendedActionSheet/ExtendedActionSheet.tsx`
 **Lynx CSS recipe**: `extendedActionSheet`
@@ -152,7 +133,7 @@ lynx-ui-dialog, lynx-ui-sheet, lynx-ui-presence를 핵심 참고.
 
 ---
 
-## 7. MenuSheet
+## 6. MenuSheet
 
 **React 소스**: `packages/react/src/components/MenuSheet/MenuSheet.tsx`
 **Lynx CSS recipes**: `menuSheet`, `menuSheetItem`

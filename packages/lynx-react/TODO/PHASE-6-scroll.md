@@ -9,7 +9,7 @@ lynx-ui-common의 `useBounce`, `useRefresh`, lynx-ui-scroll-view를 핵심 참�
 
 **React 소스**: `packages/react/src/components/ScrollFog/ScrollFog.tsx`
 **React headless**: `packages/react-headless/scrollable/src/`
-**lynx-ui 참고**: `/Documents/GitHub/lynx-ui/packages/lynx-ui-scroll-view/src/`
+**lynx-ui 참고**: `https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-scroll-view/src/`
 **Lynx CSS recipe**: `scrollFog`
 
 **Variant Props:**
@@ -59,7 +59,7 @@ lynx-ui-common의 `useBounce`, `useRefresh`, lynx-ui-scroll-view를 핵심 참�
 - Indicator: render function 패턴 `(props: IndicatorRenderProps) => ReactNode`
 
 **lynx-ui-common 참고:**
-- `useRefresh`: `/Documents/GitHub/lynx-ui/packages/lynx-ui-common/src/hooks/useRefresh.ts`
+- `useRefresh`: `https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-common/src/hooks/useRefresh.ts`
 - `useBounce`: 바운스 효과와 통합
 
 **Lynx 구현 포인트:**

@@ -9,7 +9,7 @@ Phase 0의 `useControllableState`, `usePressTap`에 의존.
 
 **React 소스**: `packages/react/src/components/Switch/Switch.tsx`
 **React headless**: `packages/react-headless/switch/src/`
-**lynx-ui 참고**: `/Documents/GitHub/lynx-ui/packages/lynx-ui-switch/src/switch.tsx`
+**lynx-ui 참고**: [lynx-ui-switch](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-switch/src/)
 **Lynx CSS recipes**: `switch` (root, label), `switchmark` (root, thumb)
 
 **Exports:** `SwitchRoot`, `SwitchControl`, `SwitchThumb`, `SwitchLabel`
@@ -58,7 +58,7 @@ Phase 0의 `useControllableState`, `usePressTap`에 의존.
 
 **Variant Props:**
 - `size`: "medium" | "large", default: "medium"
-- `variant`: "neutralSolid" | "neutralOutline", default: "neutralSolid"
+- `variant`: "neutralSolid" | "neutralOutline" | "brandSolid" (deprecated), default: "neutralSolid"
 - `contentLayout`: "fill" | "hug", default: "hug"
 - `stickyList`: boolean, default: false
 

@@ -7,7 +7,7 @@
 ## 1. List
 
 **React 소스**: `packages/react/src/components/List/List.tsx`
-**lynx-ui 참고**: `/Documents/GitHub/lynx-ui/packages/lynx-ui-list/src/`
+**lynx-ui 참고**: [lynx-ui-list](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-list/src/)
 **Lynx CSS recipe**: `listItem` (6슬롯: root, content, prefix, suffix, title, detail), `listHeader`
 
 **Exports:** `ListRoot`, `ListItem`, `ListContent`, `ListPrefix`, `ListSuffix`, `ListTitle`, `ListDetail`
