@@ -1,7 +1,11 @@
 "use client";
 
-import { IconRectangleSplitedLineVerticalLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconChevronUpSmallFill,
+  IconSquareSplitedVerticalLeftLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { Icon, SideNavigation as SeedSideNavigation } from "@seed-design/react";
+import { MenuContent, MenuGroup, MenuGroupLabel, MenuItem, MenuRoot, MenuTrigger } from "./menu";
 import { useSideNavigationContext } from "@seed-design/react/primitive";
 import * as React from "react";
 
@@ -20,7 +24,7 @@ export const SideNavigationTrigger = React.forwardRef<
       ref={ref}
       {...props}
     >
-      <Icon svg={<IconRectangleSplitedLineVerticalLine />} />
+      <Icon svg={<IconSquareSplitedVerticalLeftLine />} />
     </SeedSideNavigation.Trigger>
   );
 });
@@ -46,26 +50,83 @@ export const SideNavigationMenuItemButton = React.forwardRef<
 });
 SideNavigationMenuItemButton.displayName = "SideNavigationMenuItemButton";
 
-export interface SideNavigationMenuItemCollapsibleTriggerProps
-  extends SeedSideNavigation.MenuItemCollapsibleTriggerProps {
-  prefixIcon?: React.ReactElement;
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface SideNavigationCollapsibleItemData {
   label: React.ReactNode;
+  prefixIcon?: React.ReactElement;
   suffixIcon?: React.ReactElement;
+  current?: boolean;
+  disabled?: boolean;
+  onClick?: React.MouseEventHandler;
 }
 
-export const SideNavigationMenuItemCollapsibleTrigger = React.forwardRef<
-  HTMLButtonElement,
-  SideNavigationMenuItemCollapsibleTriggerProps
->(({ prefixIcon, label, suffixIcon, ...rest }, ref) => {
+export interface SideNavigationMenuItemCollapsibleProps
+  extends Omit<SeedSideNavigation.MenuItemCollapsibleRootProps, "children"> {
+  prefixIcon?: React.ReactElement;
+  label: React.ReactNode;
+  items: SideNavigationCollapsibleItemData[];
+}
+
+export const SideNavigationMenuItemCollapsible = React.forwardRef<
+  HTMLDivElement,
+  SideNavigationMenuItemCollapsibleProps
+>(({ prefixIcon, label, items, ...rootProps }, ref) => {
+  const { collapsed } = useSideNavigationContext();
+
+  if (collapsed) {
+    return (
+      <MenuRoot size="small" placement="right-start">
+        <MenuTrigger asChild>
+          <SideNavigationMenuItemButton
+            prefixIcon={prefixIcon}
+            label={label}
+            current={items.some((item) => item.current)}
+          />
+        </MenuTrigger>
+        <MenuContent>
+          <MenuGroup>
+            <MenuGroupLabel>{label}</MenuGroupLabel>
+            {items.map((item, index) => (
+              <MenuItem
+                key={index}
+                disabled={item.disabled}
+                onClick={item.onClick}
+                label={item.label}
+              />
+            ))}
+          </MenuGroup>
+        </MenuContent>
+      </MenuRoot>
+    );
+  }
+
   return (
-    <SeedSideNavigation.MenuItemCollapsibleTrigger ref={ref} {...rest}>
-      {prefixIcon && <SeedSideNavigation.MenuItemPrefixIcon svg={prefixIcon} />}
-      <SeedSideNavigation.MenuItemLabel>{label}</SeedSideNavigation.MenuItemLabel>
-      {suffixIcon && <SeedSideNavigation.MenuItemSuffixIcon svg={suffixIcon} />}
-    </SeedSideNavigation.MenuItemCollapsibleTrigger>
+    <SeedSideNavigation.MenuItemCollapsibleRoot ref={ref} {...rootProps}>
+      <SeedSideNavigation.MenuItemCollapsibleTrigger>
+        {prefixIcon && <SeedSideNavigation.MenuItemPrefixIcon svg={prefixIcon} />}
+        <SeedSideNavigation.MenuItemLabel>{label}</SeedSideNavigation.MenuItemLabel>
+        <SeedSideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
+      </SeedSideNavigation.MenuItemCollapsibleTrigger>
+      <SeedSideNavigation.MenuItemCollapsibleContent>
+        {items.map((item, index) => (
+          <SideNavigationMenuItemButton
+            key={index}
+            current={item.current}
+            disabled={item.disabled}
+            prefixIcon={item.prefixIcon}
+            label={item.label}
+            suffixIcon={item.suffixIcon}
+            onClick={item.onClick}
+          />
+        ))}
+      </SeedSideNavigation.MenuItemCollapsibleContent>
+    </SeedSideNavigation.MenuItemCollapsibleRoot>
   );
 });
-SideNavigationMenuItemCollapsibleTrigger.displayName = "SideNavigationMenuItemCollapsibleTrigger";
+SideNavigationMenuItemCollapsible.displayName = "SideNavigationMenuItemCollapsible";
+
+////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationProviderProps extends SeedSideNavigation.ProviderProps {}
 export const SideNavigationProvider = SeedSideNavigation.Provider;
@@ -87,15 +148,6 @@ export const SideNavigationGroup = SeedSideNavigation.Group;
 
 export interface SideNavigationGroupLabelProps extends SeedSideNavigation.GroupLabelProps {}
 export const SideNavigationGroupLabel = SeedSideNavigation.GroupLabel;
-
-export interface SideNavigationMenuItemCollapsibleRootProps
-  extends SeedSideNavigation.MenuItemCollapsibleRootProps {}
-export const SideNavigationMenuItemCollapsibleRoot = SeedSideNavigation.MenuItemCollapsibleRoot;
-
-export interface SideNavigationMenuItemCollapsibleContentProps
-  extends SeedSideNavigation.MenuItemCollapsibleContentProps {}
-export const SideNavigationMenuItemCollapsibleContent =
-  SeedSideNavigation.MenuItemCollapsibleContent;
 
 export interface SideNavigationInsetProps extends SeedSideNavigation.InsetProps {}
 export const SideNavigationInset = SeedSideNavigation.Inset;

@@ -5,9 +5,7 @@ import {
   SideNavigationContent,
   SideNavigationGroup,
   SideNavigationGroupLabel,
-  SideNavigationMenuItemCollapsibleRoot,
-  SideNavigationMenuItemCollapsibleTrigger,
-  SideNavigationMenuItemCollapsibleContent,
+  SideNavigationMenuItemCollapsible,
   SideNavigationMenuItemButton,
   SideNavigationFooter,
   SideNavigationTrigger,
@@ -16,7 +14,6 @@ import {
 
 import {
   IconHouseFill,
-  IconChevronUpSmallFill,
   IconMegaphoneTiltedFill,
   IconPlusCircleFill,
   IconDocumentFill,
@@ -62,23 +59,15 @@ export function SideNavigation(props: SideNavigationProps) {
             {...navItemProps("홈")}
           />
 
-          <SideNavigationMenuItemCollapsibleRoot defaultOpen>
-            <SideNavigationMenuItemCollapsibleTrigger
-              prefixIcon={<IconMegaphoneTiltedFill />}
-              label="광고 관리"
-              suffixIcon={<IconChevronUpSmallFill />}
-            />
-            <SideNavigationMenuItemCollapsibleContent>
-              <SideNavigationMenuItemButton
-                label="디스플레이 광고 관리"
-                {...navItemProps("디스플레이 광고 관리")}
-              />
-              <SideNavigationMenuItemButton
-                label="검색 광고 관리"
-                {...navItemProps("검색 광고 관리")}
-              />
-            </SideNavigationMenuItemCollapsibleContent>
-          </SideNavigationMenuItemCollapsibleRoot>
+          <SideNavigationMenuItemCollapsible
+            defaultOpen
+            prefixIcon={<IconMegaphoneTiltedFill />}
+            label="광고 관리"
+            items={[
+              { label: "디스플레이 광고 관리", ...navItemProps("디스플레이 광고 관리") },
+              { label: "검색 광고 관리", ...navItemProps("검색 광고 관리") },
+            ]}
+          />
 
           <SideNavigationMenuItemButton
             prefixIcon={<IconPlusCircleFill />}
@@ -92,49 +81,31 @@ export function SideNavigation(props: SideNavigationProps) {
             {...navItemProps("보고서")}
           />
 
-          <SideNavigationMenuItemCollapsibleRoot defaultOpen>
-            <SideNavigationMenuItemCollapsibleTrigger
-              prefixIcon={<IconToolboxFill />}
-              label="광고 도구"
-              suffixIcon={<IconChevronUpSmallFill />}
-            />
-            <SideNavigationMenuItemCollapsibleContent>
-              <SideNavigationMenuItemButton
-                label="카탈로그 관리"
-                {...navItemProps("카탈로그 관리")}
-              />
-              <SideNavigationMenuItemButton
-                disabled
-                label="전환 추적 관리"
-                {...navItemProps("전환 추적 관리")}
-              />
-              <SideNavigationMenuItemButton
-                label="맞춤 타겟 관리"
-                {...navItemProps("맞춤 타겟 관리")}
-              />
-              <SideNavigationMenuItemButton label="리드폼 관리" {...navItemProps("리드폼 관리")} />
-              <SideNavigationMenuItemButton label="대량 관리" {...navItemProps("대량 관리")} />
-            </SideNavigationMenuItemCollapsibleContent>
-          </SideNavigationMenuItemCollapsibleRoot>
+          <SideNavigationMenuItemCollapsible
+            defaultOpen
+            prefixIcon={<IconToolboxFill />}
+            label="광고 도구"
+            items={[
+              { label: "카탈로그 관리", ...navItemProps("카탈로그 관리") },
+              { label: "전환 추적 관리", disabled: true, ...navItemProps("전환 추적 관리") },
+              { label: "맞춤 타겟 관리", ...navItemProps("맞춤 타겟 관리") },
+              { label: "리드폼 관리", ...navItemProps("리드폼 관리") },
+              { label: "대량 관리", ...navItemProps("대량 관리") },
+            ]}
+          />
         </SideNavigationGroup>
 
         <SideNavigationGroup>
           <SideNavigationGroupLabel>결제</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemCollapsibleRoot>
-            <SideNavigationMenuItemCollapsibleTrigger
-              prefixIcon={<IconWonCircleFill />}
-              label="광고캐시"
-              suffixIcon={<IconChevronUpSmallFill />}
-            />
-            <SideNavigationMenuItemCollapsibleContent>
-              <SideNavigationMenuItemButton
-                label="광고캐시 관리"
-                {...navItemProps("광고캐시 관리")}
-              />
-              <SideNavigationMenuItemButton label="세금계산서" {...navItemProps("세금계산서")} />
-            </SideNavigationMenuItemCollapsibleContent>
-          </SideNavigationMenuItemCollapsibleRoot>
+          <SideNavigationMenuItemCollapsible
+            prefixIcon={<IconWonCircleFill />}
+            label="광고캐시"
+            items={[
+              { label: "광고캐시 관리", ...navItemProps("광고캐시 관리") },
+              { label: "세금계산서", ...navItemProps("세금계산서") },
+            ]}
+          />
 
           <SideNavigationMenuItemButton
             prefixIcon={<IconReceiptFill />}
@@ -147,32 +118,17 @@ export function SideNavigation(props: SideNavigationProps) {
         <SideNavigationGroup>
           <SideNavigationGroupLabel>계정</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemCollapsibleRoot>
-            <SideNavigationMenuItemCollapsibleTrigger
-              prefixIcon={<IconGearFill />}
-              label="설정"
-              suffixIcon={<IconChevronUpSmallFill />}
-            />
-            <SideNavigationMenuItemCollapsibleContent>
-              <SideNavigationMenuItemButton
-                label="광고계정 관리"
-                {...navItemProps("광고계정 관리")}
-              />
-              <SideNavigationMenuItemButton
-                label="심사서류 관리"
-                {...navItemProps("심사서류 관리")}
-              />
-              <SideNavigationMenuItemButton label="운영자 관리" {...navItemProps("운영자 관리")} />
-              <SideNavigationMenuItemButton
-                label="광고 대행사 관리"
-                {...navItemProps("광고 대행사 관리")}
-              />
-              <SideNavigationMenuItemButton
-                label="내 알림 관리"
-                {...navItemProps("내 알림 관리")}
-              />
-            </SideNavigationMenuItemCollapsibleContent>
-          </SideNavigationMenuItemCollapsibleRoot>
+          <SideNavigationMenuItemCollapsible
+            prefixIcon={<IconGearFill />}
+            label="설정"
+            items={[
+              { label: "광고계정 관리", ...navItemProps("광고계정 관리") },
+              { label: "심사서류 관리", ...navItemProps("심사서류 관리") },
+              { label: "운영자 관리", ...navItemProps("운영자 관리") },
+              { label: "광고 대행사 관리", ...navItemProps("광고 대행사 관리") },
+              { label: "내 알림 관리", ...navItemProps("내 알림 관리") },
+            ]}
+          />
         </SideNavigationGroup>
 
         <SideNavigationGroup>
@@ -183,22 +139,16 @@ export function SideNavigation(props: SideNavigationProps) {
             label="대시보드"
             {...navItemProps("대시보드")}
           />
-          <SideNavigationMenuItemCollapsibleRoot>
-            <SideNavigationMenuItemCollapsibleTrigger
-              prefixIcon={<IconStarFill />}
-              label="성과 리포트"
-              suffixIcon={<IconChevronUpSmallFill />}
-            />
-            <SideNavigationMenuItemCollapsibleContent>
-              <SideNavigationMenuItemButton label="일간 리포트" {...navItemProps("일간 리포트")} />
-              <SideNavigationMenuItemButton label="주간 리포트" {...navItemProps("주간 리포트")} />
-              <SideNavigationMenuItemButton label="월간 리포트" {...navItemProps("월간 리포트")} />
-              <SideNavigationMenuItemButton
-                label="맞춤 기간 리포트"
-                {...navItemProps("맞춤 기간 리포트")}
-              />
-            </SideNavigationMenuItemCollapsibleContent>
-          </SideNavigationMenuItemCollapsibleRoot>
+          <SideNavigationMenuItemCollapsible
+            prefixIcon={<IconStarFill />}
+            label="성과 리포트"
+            items={[
+              { label: "일간 리포트", ...navItemProps("일간 리포트") },
+              { label: "주간 리포트", ...navItemProps("주간 리포트") },
+              { label: "월간 리포트", ...navItemProps("월간 리포트") },
+              { label: "맞춤 기간 리포트", ...navItemProps("맞춤 기간 리포트") },
+            ]}
+          />
           <SideNavigationMenuItemButton
             prefixIcon={<IconFlagFill />}
             label="목표 관리"
@@ -219,18 +169,15 @@ export function SideNavigation(props: SideNavigationProps) {
             label="비즈프로필 관리"
             {...navItemProps("비즈프로필 관리")}
           />
-          <SideNavigationMenuItemCollapsibleRoot>
-            <SideNavigationMenuItemCollapsibleTrigger
-              prefixIcon={<IconTagFill />}
-              label="쿠폰"
-              suffixIcon={<IconChevronUpSmallFill />}
-            />
-            <SideNavigationMenuItemCollapsibleContent>
-              <SideNavigationMenuItemButton label="쿠폰 만들기" {...navItemProps("쿠폰 만들기")} />
-              <SideNavigationMenuItemButton label="발급 내역" {...navItemProps("발급 내역")} />
-              <SideNavigationMenuItemButton label="사용 내역" {...navItemProps("사용 내역")} />
-            </SideNavigationMenuItemCollapsibleContent>
-          </SideNavigationMenuItemCollapsibleRoot>
+          <SideNavigationMenuItemCollapsible
+            prefixIcon={<IconTagFill />}
+            label="쿠폰"
+            items={[
+              { label: "쿠폰 만들기", ...navItemProps("쿠폰 만들기") },
+              { label: "발급 내역", ...navItemProps("발급 내역") },
+              { label: "사용 내역", ...navItemProps("사용 내역") },
+            ]}
+          />
           <SideNavigationMenuItemButton
             prefixIcon={<IconGiftFill />}
             label="프로모션"
@@ -241,24 +188,15 @@ export function SideNavigation(props: SideNavigationProps) {
         <SideNavigationGroup>
           <SideNavigationGroupLabel>고객 관리</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemCollapsibleRoot>
-            <SideNavigationMenuItemCollapsibleTrigger
-              prefixIcon={<IconPersonFill />}
-              label="타겟 고객"
-              suffixIcon={<IconChevronUpSmallFill />}
-            />
-            <SideNavigationMenuItemCollapsibleContent>
-              <SideNavigationMenuItemButton
-                label="고객 세그먼트"
-                {...navItemProps("고객 세그먼트")}
-              />
-              <SideNavigationMenuItemButton
-                label="리타겟팅 목록"
-                {...navItemProps("리타겟팅 목록")}
-              />
-              <SideNavigationMenuItemButton label="유사 타겟" {...navItemProps("유사 타겟")} />
-            </SideNavigationMenuItemCollapsibleContent>
-          </SideNavigationMenuItemCollapsibleRoot>
+          <SideNavigationMenuItemCollapsible
+            prefixIcon={<IconPersonFill />}
+            label="타겟 고객"
+            items={[
+              { label: "고객 세그먼트", ...navItemProps("고객 세그먼트") },
+              { label: "리타겟팅 목록", ...navItemProps("리타겟팅 목록") },
+              { label: "유사 타겟", ...navItemProps("유사 타겟") },
+            ]}
+          />
           <SideNavigationMenuItemButton
             prefixIcon={<IconPerson2Fill />}
             label="고객 인사이트"
