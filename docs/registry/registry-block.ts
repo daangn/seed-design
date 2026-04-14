@@ -9,7 +9,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "footer-01.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
         },
       ],
     },
@@ -19,7 +19,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "footer-02.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
         },
       ],
     },
@@ -29,7 +29,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "footer-03.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
         },
       ],
     },
@@ -39,17 +39,27 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "footer-04.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
         },
       ],
     },
     {
       id: "side-navigation-01",
-      description: "풀 스펙 SideNavigation (Collapsible + Footer + 다수 그룹 + Inset 레이아웃)",
+      description: "기본 SideNavigation (그룹 + Collapsible + Footer)",
       snippets: [
         {
           path: "side-navigation-01.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+        },
+      ],
+    },
+    {
+      id: "side-navigation-02",
+      description: "SideNavigation with Header 브랜딩 (collapsed 상태 반응형 + 프로필 Menu)",
+      snippets: [
+        {
+          path: "side-navigation-03.tsx",
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
         },
       ],
     },
