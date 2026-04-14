@@ -47,6 +47,16 @@ export interface UseDialogProps extends UseDialogStateProps {
   role?: "dialog" | "alertdialog";
 
   /**
+   * Whether the dialog should behave as a modal overlay.
+   * When true, focus is trapped, background content is hidden from assistive technology,
+   * and `aria-modal` is set.
+   * Set to `false` to temporarily suspend modal behavior (e.g., when a Stackflow Activity
+   * is pushed on top of a mounted dialog).
+   * @default true
+   */
+  modal?: boolean;
+
+  /**
    * Whether to close the dialog when the outside is clicked
    * @default true
    */
@@ -75,6 +85,7 @@ export type UseDialogReturn = ReturnType<typeof useDialog>;
 export function useDialog(props: UseDialogProps = {}) {
   const { open, onOpenChange } = useDialogState(props);
 
+  const modal = props.modal ?? true;
   const id = useId();
   const titleId = `${id}-title`;
   const descriptionId = `${id}-description`;
@@ -91,6 +102,7 @@ export function useDialog(props: UseDialogProps = {}) {
   return useMemo(
     () => ({
       open,
+      modal,
       setOpen: onOpenChange,
       closeOnInteractOutside: props.closeOnInteractOutside ?? true,
       closeOnEscape: props.closeOnEscape ?? true,
@@ -118,7 +130,7 @@ export function useDialog(props: UseDialogProps = {}) {
       contentProps: elementProps({
         ...stateProps,
         role: props.role ?? "dialog",
-        "aria-modal": true,
+        "aria-modal": modal,
         "aria-labelledby": titleId,
         "aria-describedby": descriptionId,
       }),
@@ -140,6 +152,7 @@ export function useDialog(props: UseDialogProps = {}) {
     }),
     [
       open,
+      modal,
       onOpenChange,
       stateProps,
       titleId,

@@ -1,11 +1,13 @@
 "use client";
 
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
+import { hideOthers } from "aria-hidden";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { Presence } from "@seed-design/react-presence";
 import { useDialog, type UseDialogProps } from "./useDialog";
 import { DialogProvider, useDialogContext } from "./useDialogContext";
@@ -56,6 +58,14 @@ export interface DialogContentProps extends PrimitiveProps, React.HTMLAttributes
 
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props, ref) => {
   const api = useDialogContext();
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // aria-hide everything except the content (better supported equivalent to setting aria-modal)
+  useEffect(() => {
+    if (!api.open || !api.modal) return;
+    const content = contentRef.current;
+    if (content) return hideOthers(content);
+  }, [api.open, api.modal]);
 
   return (
     <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
@@ -83,8 +93,11 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
           api.setOpen(false, { reason: "cascadeDismiss", dismissedParent });
         }}
       >
-        <FocusScope asChild loop trapped={api.open}>
-          <Primitive.div ref={ref} {...mergeProps(api.contentProps, props)} />
+        <FocusScope asChild loop trapped={api.open && api.modal}>
+          <Primitive.div
+            ref={composeRefs(ref, contentRef)}
+            {...mergeProps(api.contentProps, props)}
+          />
         </FocusScope>
       </DismissibleLayer>
     </Presence>

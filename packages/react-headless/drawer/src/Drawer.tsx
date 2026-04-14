@@ -3,6 +3,7 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
+import { hideOthers } from "aria-hidden";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { Presence } from "@seed-design/react-presence";
 import { dataAttr, mergeProps } from "@seed-design/dom-utils";
@@ -112,6 +113,15 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     lazyMount,
     unmountOnExit,
   } = useDrawerContext();
+
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // aria-hide everything except the content when modal
+  useEffect(() => {
+    if (!isOpen || !modal) return;
+    const content = contentRef.current;
+    if (content) return hideOthers(content);
+  }, [isOpen, modal]);
 
   // Needed to use transition instead of animations
   const [delayedSnapPoints, setDelayedSnapPoints] = useState(false);
@@ -227,7 +237,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
             data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
             data-custom-container={container ? "true" : "false"}
             {...restProps}
-            ref={composeRefs(ref, drawerRef)}
+            ref={composeRefs(ref, drawerRef, contentRef)}
             style={{
               ...(snapPointsOffset && snapPointsOffset.length > 0
                 ? ({

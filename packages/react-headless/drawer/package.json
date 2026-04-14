@@ -30,11 +30,12 @@
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-focus-scope": "^1.1.4",
     "@radix-ui/react-use-callback-ref": "^1.1.0",
+    "@seed-design/dom-utils": "1.0.0",
     "@seed-design/react-dismissible-layer": "0.0.0",
     "@seed-design/react-presence": "0.0.0",
+    "@seed-design/react-primitive": "1.0.0",
     "@seed-design/react-use-controllable-state": "1.0.0",
-    "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-primitive": "1.0.0"
+    "aria-hidden": "^1.2.6"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",
