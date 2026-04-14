@@ -81,10 +81,6 @@ export const menu = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       gap: menuVars.base.enabled.root.gap,
-
-      // bottom scroll fog: fades content into padding at the bottom
-      maskImage: `linear-gradient(to top, transparent 0, black ${menuVars.base.enabled.root.paddingY})`,
-      WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${menuVars.base.enabled.root.paddingY})`,
     },
     group: {
       display: "flex",
