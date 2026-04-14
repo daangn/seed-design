@@ -29,47 +29,46 @@ function SideNavigationHeaderContent() {
   const { collapsed } = useSideNavigationContext();
 
   return (
-    <VStack paddingX="x2" paddingY="x2" gap="x3">
-      <HStack alignItems="center" height="x8">
-        {!collapsed && (
+    <VStack paddingX="x2" paddingY="x2" gap="x3" align="flex-start">
+      {!collapsed && (
+        <>
           <Badge size="large" tone="neutral" variant="weak">
             서비스명
           </Badge>
-        )}
-      </HStack>
-
-      <MenuRoot matchReferenceWidth={!collapsed} placement={collapsed ? "right-start" : "bottom"}>
-        <MenuTrigger asChild>
-          <HStack
-            as="button"
-            alignItems="center"
-            gap="x3"
-            width="full"
-            borderRadius="x2_5"
-            style={{ cursor: "pointer" }}
-          >
-            <Box flexShrink={0} {...(collapsed && { style: { transform: "translateX(-5px)" } })}>
-              <Avatar
-                size="36"
-                src="https://avatars.githubusercontent.com/u/54893898?v=4"
-                fallback={<IdentityPlaceholder />}
-              />
-            </Box>
-            {!collapsed && (
-              <Text fontSize="t4" lineHeight="t4" color="fg.neutral" maxLines={1}>
-                닉네임
-              </Text>
-            )}
-          </HStack>
-        </MenuTrigger>
-        <MenuContent>
-          <MenuGroup>
-            <MenuItem label="프로필 설정" />
-            <MenuItem label="계정 전환" />
-            <MenuItem label="로그아웃" />
-          </MenuGroup>
-        </MenuContent>
-      </MenuRoot>
+          <MenuRoot matchReferenceWidth>
+            <MenuTrigger asChild>
+              <HStack
+                as="button"
+                alignItems="center"
+                gap="x3"
+                width="full"
+                borderRadius="x2_5"
+                style={{ cursor: "pointer" }}
+              >
+                <Box flexShrink={0}>
+                  <Avatar
+                    size="36"
+                    src="https://avatars.githubusercontent.com/u/54893898?v=4"
+                    fallback={<IdentityPlaceholder />}
+                  />
+                </Box>
+                {!collapsed && (
+                  <Text fontSize="t4" lineHeight="t4" color="fg.neutral" maxLines={1}>
+                    닉네임
+                  </Text>
+                )}
+              </HStack>
+            </MenuTrigger>
+            <MenuContent>
+              <MenuGroup>
+                <MenuItem label="프로필 설정" />
+                <MenuItem label="계정 전환" />
+                <MenuItem label="로그아웃" />
+              </MenuGroup>
+            </MenuContent>
+          </MenuRoot>
+        </>
+      )}
     </VStack>
   );
 }
