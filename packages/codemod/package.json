@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/codemod",
-  "version": "1.0.0",
+  "version": "0.0.0-alpha-20260414104312",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -18,7 +18,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/migration-index": "^1.0.0",
+    "@seed-design/migration-index": "0.0.0-alpha-20260414104312",
     "cac": "^6.7.14",
     "change-case": "^5.4.4",
     "es-toolkit": "^1.35.0",

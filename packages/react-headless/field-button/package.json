@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-field-button",
-  "version": "1.0.2",
+  "version": "0.0.0-alpha-20260414104312",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -30,7 +30,7 @@
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-primitive": "1.0.0",
+    "@seed-design/react-primitive": "0.0.0-alpha-20260414104312",
     "@seed-design/react-supports": "0.0.1"
   },
   "devDependencies": {

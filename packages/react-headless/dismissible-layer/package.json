@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-dismissible-layer",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha-20260414104312",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -28,7 +28,6 @@
     "lib",
     "src"
   ],
-  "private": true,
   "publishConfig": {
     "access": "public"
   },

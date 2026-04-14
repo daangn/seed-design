@@ -1,5 +1,12 @@
 # @seed-design/react-field-button
 
+## 0.0.0-alpha-20260414104312
+
+### Patch Changes
+
+- Updated dependencies
+  - @seed-design/react-primitive@0.0.0-alpha-20260414104312
+
 ## 1.0.2
 
 ### Patch Changes

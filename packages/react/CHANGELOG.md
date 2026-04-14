@@ -1,5 +1,65 @@
 # @seed-design/react
 
+## 0.0.0-alpha-20260414104312
+
+### Patch Changes
+
+- Side Navigation, Footer, Menu 컴포넌트를 추가합니다.
+- Updated dependencies
+  - @seed-design/react-side-navigation@0.0.0-alpha-20260414104312
+  - @seed-design/react-primitive@0.0.0-alpha-20260414104312
+  - @seed-design/react-dialog@0.0.0-alpha-20260414104312
+  - @seed-design/react-drawer@0.0.0-alpha-20260414104312
+  - @seed-design/react-menu@0.0.0-alpha-20260414104312
+  - @seed-design/css@0.0.0-alpha-20260414104312
+  - @seed-design/react-avatar@0.0.0-alpha-20260414104312
+  - @seed-design/react-checkbox@0.0.0-alpha-20260414104312
+  - @seed-design/react-collapsible@0.0.0-alpha-20260414104312
+  - @seed-design/react-field@0.0.0-alpha-20260414104312
+  - @seed-design/react-field-button@0.0.0-alpha-20260414104312
+  - @seed-design/react-image@0.0.0-alpha-20260414104312
+  - @seed-design/react-popover@0.0.0-alpha-20260414104312
+  - @seed-design/react-progress@0.0.0-alpha-20260414104312
+  - @seed-design/react-pull-to-refresh@0.0.0-alpha-20260414104312
+  - @seed-design/react-radio-group@0.0.0-alpha-20260414104312
+  - @seed-design/react-segmented-control@0.0.0-alpha-20260414104312
+  - @seed-design/react-snackbar@0.0.0-alpha-20260414104312
+  - @seed-design/react-switch@0.0.0-alpha-20260414104312
+  - @seed-design/react-tabs@0.0.0-alpha-20260414104312
+  - @seed-design/react-text-field@0.0.0-alpha-20260414104312
+  - @seed-design/react-toggle@0.0.0-alpha-20260414104312
+
+## 0.0.0
+
+### Minor Changes
+
+- 819110b: 1.2에서 Deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - Image Frame의 `rounded` variant
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+
+- 01668c1: Footer Block을 추가합니다.
+
+  - `Footer.LinkText`: 푸터에서 사용하는 링크 텍스트 컴포넌트
+  - 4가지 푸터 블록 예제와 소셜 미디어 아이콘 컴포넌트 포함
+
+### Patch Changes
+
+- Updated dependencies [c02bfba]
+- Updated dependencies [eadb7e8]
+- Updated dependencies [819110b]
+- Updated dependencies [01668c1]
+  - @seed-design/css@0.0.0
+
 ## 0.0.0-alpha-20260324091316
 
 ### Minor Changes
