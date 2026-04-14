@@ -7,13 +7,14 @@ import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { cva } from "class-variance-authority";
 
 const VERSIONS = [
+  { label: "alpha", url: "https://alpha.seed-design.pages.dev/react" },
   { label: "v1.2 (latest)", url: "https://seed-design.io/react" },
   { label: "v1.1", url: "https://1-1.seed-design.pages.dev/react" },
   { label: "v1.0", url: "https://1-0.seed-design.pages.dev/react" },
 ] as const satisfies ReadonlyArray<{ label: string; url: string }>;
 
 // NOTE: update CURRENT_VERSION when releasing a new version & keep in release branch
-const CURRENT_VERSION: (typeof VERSIONS)[number]["label"] = "v1.2 (latest)";
+const CURRENT_VERSION: (typeof VERSIONS)[number]["label"] = "alpha";
 
 const itemVariants = cva(
   "text-sm p-2 rounded-lg inline-flex items-center gap-2 hover:text-fd-accent-foreground hover:bg-fd-accent [&_svg]:size-4",
