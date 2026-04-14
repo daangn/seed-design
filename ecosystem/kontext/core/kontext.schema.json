@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://kontext.dev/schema/v1.json",
+  "title": "Kontext Configuration",
+  "description": "Dependency graph declaration for monorepo packages",
+  "type": "object",
+  "required": ["apiVersion", "relations"],
+  "additionalProperties": false,
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "const": "kontext/v1",
+      "description": "Schema version"
+    },
+    "ignore": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Glob patterns to ignore across this entire package (barrel files, deprecated, test files, etc.)"
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["when", "affects"],
+        "additionalProperties": false,
+        "properties": {
+          "when": {
+            "type": "string",
+            "description": "Glob pattern for files to watch within this package"
+          },
+          "exclude": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Glob patterns to exclude from the 'when' match"
+          },
+          "affects": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/affectedEntry" }
+          },
+          "overrides": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["match", "affects"],
+              "additionalProperties": false,
+              "properties": {
+                "match": {
+                  "type": "string",
+                  "description": "Glob pattern to match specific files for override (supports brace expansion)"
+                },
+                "affects": {
+                  "type": "array",
+                  "items": { "$ref": "#/$defs/affectedEntry" }
+                }
+              }
+            },
+            "description": "Override default affects for specific file patterns"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "affectedEntry": {
+      "type": "object",
+      "required": ["path"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Affected file path (repo root relative). Supports {id}=kebab-case, {Id}=PascalCase templates"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why this file is affected"
+        },
+        "generated": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this is an auto-generated file"
+        },
+        "command": {
+          "type": "string",
+          "description": "Command to run when generated=true"
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, won't warn when file is missing in 'check'"
+        }
+      }
+    }
+  }
+}

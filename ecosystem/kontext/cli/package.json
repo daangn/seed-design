@@ -1,0 +1,39 @@
+{
+  "name": "@kontext/cli",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "ecosystem/kontext/cli"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "type": "module",
+  "bin": {
+    "kontext": "./bin/kontext.mjs"
+  },
+  "files": [
+    "src",
+    "bin"
+  ],
+  "scripts": {
+    "clean": "rm -rf bin",
+    "build": "bunchee",
+    "kontext:build": "bun run build",
+    "dev": "bunchee --watch",
+    "lint:publish": "bun publint"
+  },
+  "dependencies": {
+    "@kontext/core": "0.0.0",
+    "@clack/prompts": "^1.0.0",
+    "cac": "^6.7.14",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

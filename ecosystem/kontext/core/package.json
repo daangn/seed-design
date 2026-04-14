@@ -1,0 +1,41 @@
+{
+  "name": "@kontext/core",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "ecosystem/kontext/core"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    }
+  },
+  "main": "./lib/index.cjs",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "test": "bun test",
+    "kontext:build": "bun run build",
+    "lint:publish": "bun publint"
+  },
+  "dependencies": {
+    "yaml": "^2.7.1",
+    "minimatch": "^10.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

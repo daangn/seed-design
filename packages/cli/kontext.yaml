@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=../../ecosystem/kontext/core/kontext.schema.json
+apiVersion: kontext/v1
+
+relations:
+  - when: "src/commands/**"
+    affects:
+      - path: docs/content/react/getting-started/cli/commands.mdx
+        reason: CLI 명령어 추가/변경 시 문서 업데이트
+      - path: docs/content/react/getting-started/cli/configuration.mdx
+        reason: 명령어의 config 옵션 변경 시 설정 문서 업데이트
+        optional: true
+      - path: skills/seed-design-cli/references/usage.md
+        reason: CLI 사용법 변경 시 스킬 문서 업데이트
+    overrides:
+      - match: "src/commands/upgrade.ts"
+        affects:
+          - path: docs/content/react/getting-started/cli/commands.mdx
+            reason: upgrade 명령 변경 시 문서 업데이트
+          - path: skills/seed-design-cli/references/upgrade.md
+            reason: upgrade 스킬 문서 업데이트
+      - match: "src/commands/compat.ts"
+        affects:
+          - path: docs/content/react/getting-started/cli/commands.mdx
+            reason: compat 명령 변경 시 문서 업데이트
+          - path: skills/seed-design-cli/references/migration.md
+            reason: 호환성/마이그레이션 스킬 문서 업데이트
+
+  - when: "src/utils/**"
+    affects:
+      - path: docs/content/react/getting-started/cli/commands.mdx
+        reason: CLI 내부 유틸 변경이 명령 동작에 영향줄 수 있음
+        optional: true
+      - path: skills/seed-design-cli/references/usage.md
+        reason: 유틸 변경이 사용법에 영향줄 수 있음
+        optional: true
+
+  - when: "src/schema.ts"
+    affects:
+      - path: docs/registry/schema.ts
+        reason: CLI schema와 registry schema는 동기화 필요
+      - path: docs/content/react/getting-started/cli/configuration.mdx
+        reason: config 스키마 변경 시 설정 문서 업데이트

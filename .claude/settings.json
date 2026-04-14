@@ -68,6 +68,16 @@
             "command": "bash .claude/hooks/post-edit-tasks.sh"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/kontext-deps-hook.sh",
+            "timeout": 5000
+          }
+        ]
       }
     ],
     "Stop": [

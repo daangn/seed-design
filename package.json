@@ -10,6 +10,7 @@
     "ecosystem/*",
     "ecosystem/rootage/*",
     "ecosystem/qvism/*",
+    "ecosystem/kontext/*",
     "examples/*",
     "docs"
   ],

@@ -2,6 +2,7 @@
 *.log
 *.tsbuildinfo
 .ultra.cache.json
+.kontext/
 
 .nyc_output/
 
