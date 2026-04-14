@@ -90,6 +90,10 @@ const bottomSheet = defineSlotRecipe({
         transform: "translate3d(0, var(--snap-point-height, 0), 0)",
       },
 
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
       /** Expand Content Background */
       "&::after": {
         top: "100%",
@@ -181,11 +185,15 @@ const bottomSheet = defineSlotRecipe({
 
       "&:after": {
         content: '""',
+
         position: "absolute",
         top: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
         right: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
         bottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
         left: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+
+        borderRadius: tokens.$radius.r1,
+
         ...createFocusRingRestStyles({ position: "inside" }),
         transition: FOCUS_RING_TRANSITION,
       },
@@ -196,7 +204,6 @@ const bottomSheet = defineSlotRecipe({
 
       [pseudo(focusVisible)]: {
         "&:after": {
-          borderRadius: tokens.$radius.r1,
           ...createFocusRingStyles({ position: "inside" }),
         },
       },
@@ -244,6 +251,7 @@ const bottomSheet = defineSlotRecipe({
             animationName: "fade-out",
             animationDuration: vars.base.enabled.backdrop.exitDuration,
             animationTimingFunction: vars.base.enabled.backdrop.exitTimingFunction,
+            animationFillMode: "forwards",
           },
           [pseudo(
             open,
@@ -268,6 +276,7 @@ const bottomSheet = defineSlotRecipe({
             animationName: "drawer-slide-to-bottom",
             animationDuration: vars.base.enabled.content.exitDuration,
             animationTimingFunction: vars.base.enabled.content.exitTimingFunction,
+            animationFillMode: "forwards",
           },
           [pseudo(open, "[data-delayed-snap-points='true']", not("[data-animation-done='true']"))]:
             {

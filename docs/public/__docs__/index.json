@@ -1120,6 +1120,12 @@
               ]
             },
             {
+              "id": "menu",
+              "title": "Menu",
+              "description": "버튼 클릭 시 관련된 작업 항목을 보여주는 플로팅 드롭다운 메뉴 컴포넌트입니다.",
+              "docUrl": "/react/components/menu"
+            },
+            {
               "id": "menu-sheet",
               "title": "Menu Sheet",
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",

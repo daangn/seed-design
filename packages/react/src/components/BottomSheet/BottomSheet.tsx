@@ -15,6 +15,8 @@ export interface BottomSheetRootProps extends BottomSheetVariantProps, Drawer.Ro
 export const BottomSheetRoot = withRootProvider<BottomSheetRootProps>(Drawer.Root, {
   defaultProps: {
     direction: "bottom",
+    lazyMount: true,
+    unmountOnExit: true,
   },
 });
 

@@ -44,6 +44,7 @@ export * from "./List";
 export * from "./LoadingIndicator";
 export * from "./MannerTemp";
 export * from "./MannerTempBadge";
+export * from "./Menu";
 export * from "./MenuSheet";
 export * from "./NotificationBadge";
 export * from "./PageBanner";

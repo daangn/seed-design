@@ -65,6 +65,19 @@ npx @seed-design/cli@latest add ui:menu-sheet
 
 ## Examples
 
+### Trigger
+
+`<MenuSheetTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, MenuSheet의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
+<ComponentExample name="react/menu-sheet/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu-sheet/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### With Title
 
 `MenuSheetContent`의 `title` prop을 사용하여 시트 헤더에 제목을 표시합니다.

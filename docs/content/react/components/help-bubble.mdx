@@ -50,6 +50,8 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 `children`으로는 `button` 등 포커스 가능한 요소를 넣어야 합니다.
 
+`<HelpBubbleTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, Help Bubble의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
 <ComponentExample name="react/help-bubble/trigger">
   ```json doc-gen:file
   {
