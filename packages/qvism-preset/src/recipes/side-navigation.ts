@@ -68,7 +68,7 @@ export const sideNavigation = defineSlotRecipe({
 
       // chrome 121~ / safari 18.2~
       scrollbarWidth: "thin",
-      scrollbarColor: `${tokens.$color.bg.neutralWeak} transparent`, // 더 진해야함
+      scrollbarColor: `${tokens.$color.bg.neutralWeakAlpha} transparent`, // TODO: -webkit-scrollbar fallback 추가
 
       [pseudo(collapsed)]: {
         gap: 0,

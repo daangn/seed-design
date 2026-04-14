@@ -36,7 +36,7 @@
 
   .seed-side-navigation__content {
     scrollbar-width: thin;
-    scrollbar-color: var(--seed-color-bg-neutral-weak) transparent;
+    scrollbar-color: var(--seed-color-bg-neutral-weak-alpha) transparent;
     transition: gap .2s, border-color .2s;
     -webkit-mask-image: linear-gradient(to top, #0000 0, #000 24px);
     mask-image: linear-gradient(to top, #0000 0, #000 24px);

@@ -36,7 +36,7 @@
     -webkit-mask-image: linear-gradient(to top, transparent 0, black 24px);
     transition: gap 200ms, border-color 200ms;
     scrollbar-width: thin;
-    scrollbar-color: var(--seed-color-bg-neutral-weak) transparent;
+    scrollbar-color: var(--seed-color-bg-neutral-weak-alpha) transparent;
 }
 .seed-side-navigation__content[data-side-navigation-state=collapsed] {
     gap: 0;
