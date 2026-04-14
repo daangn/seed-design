@@ -5,8 +5,7 @@
   "pages": [
     "index",
     "external:[llms.txt](/llms.txt)",
-    "---Skills---",
-    "...(skills)",
+    "skill",
     "---MCP---",
     "...(mcp)",
     "lynx-tools"
