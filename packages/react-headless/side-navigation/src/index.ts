@@ -2,15 +2,15 @@ export {
   SideNavigationProvider,
   SideNavigationRoot,
   SideNavigationTrigger,
-  SideNavigationMenuItemCollapsibleRoot,
-  SideNavigationMenuItemCollapsibleTrigger,
-  SideNavigationMenuItemCollapsibleContent,
+  SideNavigationItemCollapsibleRoot,
+  SideNavigationItemCollapsibleTrigger,
+  SideNavigationItemCollapsibleContent,
   type SideNavigationProviderProps,
   type SideNavigationRootProps,
   type SideNavigationTriggerProps,
-  type SideNavigationMenuItemCollapsibleRootProps,
-  type SideNavigationMenuItemCollapsibleTriggerProps,
-  type SideNavigationMenuItemCollapsibleContentProps,
+  type SideNavigationItemCollapsibleRootProps,
+  type SideNavigationItemCollapsibleTriggerProps,
+  type SideNavigationItemCollapsibleContentProps,
 } from "./SideNavigation";
 
 export {
@@ -31,16 +31,16 @@ export {
 } from "./useSideNavigationCollapsible";
 
 export {
-  useSideNavigationMenuItem,
-  type UseSideNavigationMenuItemProps,
-  type UseSideNavigationMenuItemReturn,
-} from "./useSideNavigationMenuItem";
+  useSideNavigationItem,
+  type UseSideNavigationItemProps,
+  type UseSideNavigationItemReturn,
+} from "./useSideNavigationItem";
 
 export {
-  useSideNavigationMenuItemContext,
-  SideNavigationMenuItemProvider,
-  type UseSideNavigationMenuItemContext,
-} from "./useSideNavigationMenuItemContext";
+  useSideNavigationItemContext,
+  SideNavigationItemProvider,
+  type UseSideNavigationItemContext,
+} from "./useSideNavigationItemContext";
 
 export { useCollapsibleContext } from "@seed-design/react-collapsible";
 

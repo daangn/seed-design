@@ -30,58 +30,60 @@ export const SideNavigationTrigger = React.forwardRef<
 });
 SideNavigationTrigger.displayName = "SideNavigationTrigger";
 
-export interface SideNavigationMenuItemButtonProps extends SeedSideNavigation.MenuItemProps {
-  prefixIcon?: React.ReactElement;
+export interface SideNavigationItemButtonProps extends SeedSideNavigation.ItemProps {
+  prefixIcon?: React.ReactNode;
   label: React.ReactNode;
-  suffixIcon?: React.ReactElement;
+  suffixIcon?: React.ReactNode;
 }
 
-export const SideNavigationMenuItemButton = React.forwardRef<
+export const SideNavigationItemButton = React.forwardRef<
   HTMLButtonElement,
-  SideNavigationMenuItemButtonProps
+  SideNavigationItemButtonProps
 >(({ prefixIcon, label, suffixIcon, ...rest }, ref) => {
   return (
-    <SeedSideNavigation.MenuItem ref={ref} {...rest}>
-      {prefixIcon && <SeedSideNavigation.MenuItemPrefixIcon svg={prefixIcon} />}
-      <SeedSideNavigation.MenuItemLabel>{label}</SeedSideNavigation.MenuItemLabel>
-      {suffixIcon && <SeedSideNavigation.MenuItemSuffixIcon svg={suffixIcon} />}
-    </SeedSideNavigation.MenuItem>
+    <SeedSideNavigation.Item ref={ref} {...rest}>
+      {prefixIcon && <SeedSideNavigation.ItemPrefixIcon svg={prefixIcon} />}
+      <SeedSideNavigation.ItemLabel>{label}</SeedSideNavigation.ItemLabel>
+      {suffixIcon && <SeedSideNavigation.ItemSuffixIcon svg={suffixIcon} />}
+    </SeedSideNavigation.Item>
   );
 });
-SideNavigationMenuItemButton.displayName = "SideNavigationMenuItemButton";
+SideNavigationItemButton.displayName = "SideNavigationItemButton";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationCollapsibleItemData {
   label: React.ReactNode;
-  prefixIcon?: React.ReactElement;
-  suffixIcon?: React.ReactElement;
+  prefixIcon?: React.ReactNode;
+  suffixIcon?: React.ReactNode;
   current?: boolean;
   disabled?: boolean;
   onClick?: React.MouseEventHandler;
 }
 
-export interface SideNavigationMenuItemCollapsibleProps
-  extends Omit<SeedSideNavigation.MenuItemCollapsibleRootProps, "children"> {
-  prefixIcon?: React.ReactElement;
+export interface SideNavigationItemCollapsibleProps
+  extends Omit<SeedSideNavigation.ItemCollapsibleRootProps, "children"> {
+  prefixIcon?: React.ReactNode;
   label: React.ReactNode;
   items: SideNavigationCollapsibleItemData[];
 }
 
-export const SideNavigationMenuItemCollapsible = React.forwardRef<
+export const SideNavigationItemCollapsible = React.forwardRef<
   HTMLDivElement,
-  SideNavigationMenuItemCollapsibleProps
+  SideNavigationItemCollapsibleProps
 >(({ prefixIcon, label, items, ...rootProps }, ref) => {
-  const { collapsed } = useSideNavigationContext();
+  const { collapsed, transitioning } = useSideNavigationContext();
+  const showMenu = collapsed && !transitioning;
+  const hasCurrentChild = items.some((item) => item.current);
 
-  if (collapsed) {
+  if (showMenu) {
     return (
       <MenuRoot size="small" placement="right-start">
         <MenuTrigger asChild>
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={prefixIcon}
             label={label}
-            current={items.some((item) => item.current)}
+            current={hasCurrentChild}
           />
         </MenuTrigger>
         <MenuContent>
@@ -102,15 +104,22 @@ export const SideNavigationMenuItemCollapsible = React.forwardRef<
   }
 
   return (
-    <SeedSideNavigation.MenuItemCollapsibleRoot ref={ref} {...rootProps}>
-      <SeedSideNavigation.MenuItemCollapsibleTrigger>
-        {prefixIcon && <SeedSideNavigation.MenuItemPrefixIcon svg={prefixIcon} />}
-        <SeedSideNavigation.MenuItemLabel>{label}</SeedSideNavigation.MenuItemLabel>
-        <SeedSideNavigation.MenuItemSuffixIcon svg={<IconChevronUpSmallFill />} />
-      </SeedSideNavigation.MenuItemCollapsibleTrigger>
-      <SeedSideNavigation.MenuItemCollapsibleContent>
+    <SeedSideNavigation.ItemCollapsibleRoot ref={ref} {...rootProps}>
+      <SeedSideNavigation.ItemCollapsibleTrigger
+        data-current={collapsed && hasCurrentChild ? "" : undefined}
+      >
+        {prefixIcon && (
+          <SeedSideNavigation.ItemPrefixIcon
+            svg={prefixIcon}
+            data-current={collapsed && hasCurrentChild ? "" : undefined}
+          />
+        )}
+        <SeedSideNavigation.ItemLabel>{label}</SeedSideNavigation.ItemLabel>
+        <SeedSideNavigation.ItemSuffixIcon svg={<IconChevronUpSmallFill />} />
+      </SeedSideNavigation.ItemCollapsibleTrigger>
+      <SeedSideNavigation.ItemCollapsibleContent>
         {items.map((item, index) => (
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             key={index}
             current={item.current}
             disabled={item.disabled}
@@ -120,11 +129,11 @@ export const SideNavigationMenuItemCollapsible = React.forwardRef<
             onClick={item.onClick}
           />
         ))}
-      </SeedSideNavigation.MenuItemCollapsibleContent>
-    </SeedSideNavigation.MenuItemCollapsibleRoot>
+      </SeedSideNavigation.ItemCollapsibleContent>
+    </SeedSideNavigation.ItemCollapsibleRoot>
   );
 });
-SideNavigationMenuItemCollapsible.displayName = "SideNavigationMenuItemCollapsible";
+SideNavigationItemCollapsible.displayName = "SideNavigationItemCollapsible";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

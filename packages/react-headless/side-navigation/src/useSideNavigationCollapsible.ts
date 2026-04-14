@@ -1,6 +1,6 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { type UseCollapsibleProps, useCollapsible } from "@seed-design/react-collapsible";
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useSideNavigationContext } from "./useSideNavigationContext";
 
 export type UseSideNavigationCollapsibleProps = UseCollapsibleProps;
@@ -8,7 +8,7 @@ export type UseSideNavigationCollapsibleProps = UseCollapsibleProps;
 export type UseSideNavigationCollapsibleReturn = ReturnType<typeof useSideNavigationCollapsible>;
 
 export function useSideNavigationCollapsible(props: UseSideNavigationCollapsibleProps) {
-  const { collapsed } = useSideNavigationContext();
+  const { collapsed, transitioning } = useSideNavigationContext();
 
   const [userOpen, setUserOpen] = useControllableState({
     prop: props.open,
@@ -16,20 +16,23 @@ export function useSideNavigationCollapsible(props: UseSideNavigationCollapsible
     onChange: props.onOpenChange,
   });
 
-  const handleOpenChange = useCallback(
-    (newOpen: boolean) => {
-      if (collapsed) return;
+  // On initial mount: ready immediately (no animation needed).
+  // On remount after expand (transitioning=true): start closed, then open after paint.
+  const [mountReady, setMountReady] = useState(!collapsed && !transitioning);
 
-      setUserOpen(newOpen);
-    },
-    [collapsed, setUserOpen],
-  );
+  useEffect(() => {
+    if (!collapsed) {
+      setMountReady(true);
+    } else {
+      setMountReady(false);
+    }
+  }, [collapsed]);
 
-  const effectiveOpen = collapsed ? false : userOpen;
+  const effectiveOpen = collapsed ? false : mountReady ? userOpen : false;
 
   return useCollapsible({
     open: effectiveOpen,
-    onOpenChange: handleOpenChange,
+    onOpenChange: setUserOpen,
     disabled: props.disabled,
   });
 }

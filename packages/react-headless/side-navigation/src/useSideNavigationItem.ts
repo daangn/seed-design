@@ -1,13 +1,13 @@
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 
-export interface UseSideNavigationMenuItemProps {
+export interface UseSideNavigationItemProps {
   current?: boolean;
   disabled?: boolean;
 }
 
-export type UseSideNavigationMenuItemReturn = ReturnType<typeof useSideNavigationMenuItem>;
+export type UseSideNavigationItemReturn = ReturnType<typeof useSideNavigationItem>;
 
-export function useSideNavigationMenuItem(props: UseSideNavigationMenuItemProps) {
+export function useSideNavigationItem(props: UseSideNavigationItemProps) {
   const { current, disabled } = props;
 
   const stateProps = elementProps({

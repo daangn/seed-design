@@ -5,8 +5,8 @@ import {
   SideNavigationContent,
   SideNavigationGroup,
   SideNavigationGroupLabel,
-  SideNavigationMenuItemCollapsible,
-  SideNavigationMenuItemButton,
+  SideNavigationItemCollapsible,
+  SideNavigationItemButton,
   SideNavigationFooter,
   SideNavigationTrigger,
   type SideNavigationRootProps,
@@ -53,13 +53,13 @@ export function SideNavigation(props: SideNavigationProps) {
         <SideNavigationGroup>
           <SideNavigationGroupLabel>광고</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconHouseFill />}
             label="홈"
             {...navItemProps("홈")}
           />
 
-          <SideNavigationMenuItemCollapsible
+          <SideNavigationItemCollapsible
             defaultOpen
             prefixIcon={<IconMegaphoneTiltedFill />}
             label="광고 관리"
@@ -69,19 +69,19 @@ export function SideNavigation(props: SideNavigationProps) {
             ]}
           />
 
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconPlusCircleFill />}
             label="광고 만들기"
             {...navItemProps("광고 만들기")}
           />
 
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconDocumentFill />}
             label="보고서"
             {...navItemProps("보고서")}
           />
 
-          <SideNavigationMenuItemCollapsible
+          <SideNavigationItemCollapsible
             defaultOpen
             prefixIcon={<IconToolboxFill />}
             label="광고 도구"
@@ -98,7 +98,7 @@ export function SideNavigation(props: SideNavigationProps) {
         <SideNavigationGroup>
           <SideNavigationGroupLabel>결제</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemCollapsible
+          <SideNavigationItemCollapsible
             prefixIcon={<IconWonCircleFill />}
             label="광고캐시"
             items={[
@@ -107,7 +107,7 @@ export function SideNavigation(props: SideNavigationProps) {
             ]}
           />
 
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconReceiptFill />}
             label="변경내역"
             disabled
@@ -118,7 +118,7 @@ export function SideNavigation(props: SideNavigationProps) {
         <SideNavigationGroup>
           <SideNavigationGroupLabel>계정</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemCollapsible
+          <SideNavigationItemCollapsible
             prefixIcon={<IconGearFill />}
             label="설정"
             items={[
@@ -134,12 +134,12 @@ export function SideNavigation(props: SideNavigationProps) {
         <SideNavigationGroup>
           <SideNavigationGroupLabel>성과 분석</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconBarchartSquareFill />}
             label="대시보드"
             {...navItemProps("대시보드")}
           />
-          <SideNavigationMenuItemCollapsible
+          <SideNavigationItemCollapsible
             prefixIcon={<IconStarFill />}
             label="성과 리포트"
             items={[
@@ -149,12 +149,12 @@ export function SideNavigation(props: SideNavigationProps) {
               { label: "맞춤 기간 리포트", ...navItemProps("맞춤 기간 리포트") },
             ]}
           />
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconFlagFill />}
             label="목표 관리"
             {...navItemProps("목표 관리")}
           />
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconBookmarkFill />}
             label="저장된 필터"
             {...navItemProps("저장된 필터")}
@@ -164,12 +164,12 @@ export function SideNavigation(props: SideNavigationProps) {
         <SideNavigationGroup>
           <SideNavigationGroupLabel>비즈니스</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconStoreFill />}
             label="비즈프로필 관리"
             {...navItemProps("비즈프로필 관리")}
           />
-          <SideNavigationMenuItemCollapsible
+          <SideNavigationItemCollapsible
             prefixIcon={<IconTagFill />}
             label="쿠폰"
             items={[
@@ -178,7 +178,7 @@ export function SideNavigation(props: SideNavigationProps) {
               { label: "사용 내역", ...navItemProps("사용 내역") },
             ]}
           />
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconGiftFill />}
             label="프로모션"
             {...navItemProps("프로모션")}
@@ -188,7 +188,7 @@ export function SideNavigation(props: SideNavigationProps) {
         <SideNavigationGroup>
           <SideNavigationGroupLabel>고객 관리</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemCollapsible
+          <SideNavigationItemCollapsible
             prefixIcon={<IconPersonFill />}
             label="타겟 고객"
             items={[
@@ -197,12 +197,12 @@ export function SideNavigation(props: SideNavigationProps) {
               { label: "유사 타겟", ...navItemProps("유사 타겟") },
             ]}
           />
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconPerson2Fill />}
             label="고객 인사이트"
             {...navItemProps("고객 인사이트")}
           />
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconBellFill />}
             label="알림 발송"
             {...navItemProps("알림 발송")}
@@ -212,12 +212,12 @@ export function SideNavigation(props: SideNavigationProps) {
         <SideNavigationGroup>
           <SideNavigationGroupLabel>기타</SideNavigationGroupLabel>
 
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconClockFill />}
             label="활동 로그"
             {...navItemProps("활동 로그")}
           />
-          <SideNavigationMenuItemButton
+          <SideNavigationItemButton
             prefixIcon={<IconLockFill />}
             label="권한 관리"
             {...navItemProps("권한 관리")}
@@ -226,7 +226,7 @@ export function SideNavigation(props: SideNavigationProps) {
       </SideNavigationContent>
 
       <SideNavigationFooter>
-        <SideNavigationMenuItemButton
+        <SideNavigationItemButton
           prefixIcon={<IconBellFill />}
           label="알림"
           {...navItemProps("알림")}

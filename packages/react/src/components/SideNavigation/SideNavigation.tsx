@@ -1,11 +1,11 @@
 import {
   SideNavigation as SideNavigationPrimitive,
-  SideNavigationMenuItemProvider as ItemProviderPrimitive,
+  SideNavigationItemProvider as ItemProviderPrimitive,
   useCollapsibleContext,
   useSideNavigationContext,
-  useSideNavigationMenuItem,
-  useSideNavigationMenuItemContext,
-  type UseSideNavigationMenuItemProps,
+  useSideNavigationItem,
+  useSideNavigationItemContext,
+  type UseSideNavigationItemProps,
   type SideNavigationProviderProps as SideNavigationProviderPrimitiveProps,
 } from "@seed-design/react-side-navigation";
 import {
@@ -32,14 +32,14 @@ import clsx from "clsx";
 import { dataAttr } from "@seed-design/dom-utils";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(sideNavigation);
-const { ClassNamesProvider: MenuItemClassNamesProvider, withContext: withMenuItemContext } =
+const { ClassNamesProvider: ItemClassNamesProvider, withContext: withItemContext } =
   createSlotRecipeContext(sideNavigationMenuItem);
 const { withContext: withInsetContext } = createRecipeContext(sideNavigationInset);
 
 const withSideNavigationStateProps = createWithStateProps([useSideNavigationContext]);
-const withMenuItemStateProps = createWithStateProps([
+const withItemStateProps = createWithStateProps([
   useSideNavigationContext,
-  { useContext: useSideNavigationMenuItemContext, strict: false },
+  { useContext: useSideNavigationItemContext, strict: false },
   { useContext: useCollapsibleContext, strict: false },
 ]);
 
@@ -187,25 +187,25 @@ SideNavigationGroupLabel.displayName = "SideNavigationGroupLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationMenuItemProps
+export interface SideNavigationItemProps
   extends SideNavigationMenuItemVariantProps,
-    UseSideNavigationMenuItemProps,
+    UseSideNavigationItemProps,
     PrimitiveProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-export const SideNavigationMenuItem = React.forwardRef<
+export const SideNavigationItem = React.forwardRef<
   HTMLButtonElement,
-  SideNavigationMenuItemProps
+  SideNavigationItemProps
 >(({ current, disabled, className, ...props }, ref) => {
   const [variantProps, restProps] = sideNavigationMenuItem.splitVariantProps(props);
   const classNames = sideNavigationMenuItem(variantProps);
 
   const { stateProps: sideNavStateProps } = useSideNavigationContext();
-  const api = useSideNavigationMenuItem({ current, disabled });
+  const api = useSideNavigationItem({ current, disabled });
 
   return (
     <ItemProviderPrimitive value={api}>
-      <MenuItemClassNamesProvider value={classNames}>
+      <ItemClassNamesProvider value={classNames}>
         <Primitive.button
           className={clsx(classNames.root, className)}
           ref={ref}
@@ -213,91 +213,91 @@ export const SideNavigationMenuItem = React.forwardRef<
           {...sideNavStateProps}
           {...api.rootProps}
         />
-      </MenuItemClassNamesProvider>
+      </ItemClassNamesProvider>
     </ItemProviderPrimitive>
   );
 });
 
-SideNavigationMenuItem.displayName = "SideNavigationMenuItem";
+SideNavigationItem.displayName = "SideNavigationItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationMenuItemLabelProps
+export interface SideNavigationItemLabelProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const SideNavigationMenuItemLabel = withMenuItemContext<
+export const SideNavigationItemLabel = withItemContext<
   HTMLSpanElement,
-  SideNavigationMenuItemLabelProps
->(withMenuItemStateProps(Primitive.span), "label");
+  SideNavigationItemLabelProps
+>(withItemStateProps(Primitive.span), "label");
 
-SideNavigationMenuItemLabel.displayName = "SideNavigationMenuItemLabel";
+SideNavigationItemLabel.displayName = "SideNavigationItemLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationMenuItemPrefixIconProps extends InternalIconProps {}
+export interface SideNavigationItemPrefixIconProps extends InternalIconProps {}
 
-export const SideNavigationMenuItemPrefixIcon = withMenuItemContext<
+export const SideNavigationItemPrefixIcon = withItemContext<
   SVGSVGElement,
-  SideNavigationMenuItemPrefixIconProps
->(withMenuItemStateProps(InternalIcon), "prefixIcon");
+  SideNavigationItemPrefixIconProps
+>(withItemStateProps(InternalIcon), "prefixIcon");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationMenuItemSuffixIconProps extends InternalIconProps {}
+export interface SideNavigationItemSuffixIconProps extends InternalIconProps {}
 
-export const SideNavigationMenuItemSuffixIcon = withMenuItemContext<
+export const SideNavigationItemSuffixIcon = withItemContext<
   SVGSVGElement,
-  SideNavigationMenuItemSuffixIconProps
->(withMenuItemStateProps(InternalIcon), "suffixIcon");
+  SideNavigationItemSuffixIconProps
+>(withItemStateProps(InternalIcon), "suffixIcon");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationMenuItemCollapsibleRootProps
+export interface SideNavigationItemCollapsibleRootProps
   extends SideNavigationMenuItemVariantProps,
-    SideNavigationPrimitive.MenuItemCollapsibleRootProps {}
+    SideNavigationPrimitive.ItemCollapsibleRootProps {}
 
-export const SideNavigationMenuItemCollapsibleRoot = React.forwardRef<
+export const SideNavigationItemCollapsibleRoot = React.forwardRef<
   HTMLDivElement,
-  SideNavigationMenuItemCollapsibleRootProps
+  SideNavigationItemCollapsibleRootProps
 >(({ children, ...props }, ref) => {
   const [variantProps, restProps] = sideNavigationMenuItem.splitVariantProps(props);
   const classNames = sideNavigationMenuItem(variantProps);
 
   return (
-    <MenuItemClassNamesProvider value={classNames}>
-      <SideNavigationPrimitive.MenuItemCollapsibleRoot ref={ref} {...restProps}>
+    <ItemClassNamesProvider value={classNames}>
+      <SideNavigationPrimitive.ItemCollapsibleRoot ref={ref} {...restProps}>
         {children}
-      </SideNavigationPrimitive.MenuItemCollapsibleRoot>
-    </MenuItemClassNamesProvider>
+      </SideNavigationPrimitive.ItemCollapsibleRoot>
+    </ItemClassNamesProvider>
   );
 });
 
-SideNavigationMenuItemCollapsibleRoot.displayName = "SideNavigationMenuItemCollapsibleRoot";
+SideNavigationItemCollapsibleRoot.displayName = "SideNavigationItemCollapsibleRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationMenuItemCollapsibleTriggerProps
-  extends SideNavigationPrimitive.MenuItemCollapsibleTriggerProps {}
+export interface SideNavigationItemCollapsibleTriggerProps
+  extends SideNavigationPrimitive.ItemCollapsibleTriggerProps {}
 
-export const SideNavigationMenuItemCollapsibleTrigger = withMenuItemContext<
+export const SideNavigationItemCollapsibleTrigger = withItemContext<
   HTMLButtonElement,
-  SideNavigationMenuItemCollapsibleTriggerProps
->(withSideNavigationStateProps(SideNavigationPrimitive.MenuItemCollapsibleTrigger), "root");
+  SideNavigationItemCollapsibleTriggerProps
+>(withSideNavigationStateProps(SideNavigationPrimitive.ItemCollapsibleTrigger), "root");
 
-SideNavigationMenuItemCollapsibleTrigger.displayName = "SideNavigationMenuItemCollapsibleTrigger";
+SideNavigationItemCollapsibleTrigger.displayName = "SideNavigationItemCollapsibleTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationMenuItemCollapsibleContentProps
-  extends SideNavigationPrimitive.MenuItemCollapsibleContentProps {}
+export interface SideNavigationItemCollapsibleContentProps
+  extends SideNavigationPrimitive.ItemCollapsibleContentProps {}
 
-export const SideNavigationMenuItemCollapsibleContent = withMenuItemContext<
+export const SideNavigationItemCollapsibleContent = withItemContext<
   HTMLDivElement,
-  SideNavigationMenuItemCollapsibleContentProps
->(SideNavigationPrimitive.MenuItemCollapsibleContent, "panel");
+  SideNavigationItemCollapsibleContentProps
+>(SideNavigationPrimitive.ItemCollapsibleContent, "panel");
 
-SideNavigationMenuItemCollapsibleContent.displayName = "SideNavigationMenuItemCollapsibleContent";
+SideNavigationItemCollapsibleContent.displayName = "SideNavigationItemCollapsibleContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
