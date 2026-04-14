@@ -15,7 +15,10 @@ export function lintCommand(cli: CAC) {
     .option("--threshold <n>", "Jaccard similarity threshold", { default: 0.7 })
     .option("--min-co <n>", "Minimum co-occurrences", { default: 3 })
     .option("--json", "Output as JSON")
-    .option("--fix", "Auto-apply suggestions to kontext.yaml files")
+    .option(
+      "--fix",
+      "Auto-apply suggestions to kontext.yaml files (experimental, not yet implemented)",
+    )
     .action(
       (options: {
         root: string;

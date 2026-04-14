@@ -1,5 +1,5 @@
-import { readFileSync, existsSync } from "node:fs";
-import { resolve, relative } from "node:path";
+import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
+import { resolve, relative, join } from "node:path";
 import { execSync } from "node:child_process";
 
 const input = readFileSync("/dev/stdin", "utf-8");
@@ -16,9 +16,32 @@ if (relPath.startsWith("ecosystem/kontext/") || relPath.startsWith(".kontext/"))
   process.exit(0);
 }
 
-// 그래프 로드 (없으면 자동 빌드)
+// #4: 그래프 로드 + 캐시 invalidation (kontext.yaml이 더 새로우면 재빌드)
 const graphPath = resolve(rootDir, ".kontext/graph.json");
-if (!existsSync(graphPath)) {
+
+function needsRebuild(): boolean {
+  if (!existsSync(graphPath)) return true;
+  const graphMtime = statSync(graphPath).mtimeMs;
+  // kontext.yaml 파일들의 최신 mtime 찾기
+  try {
+    const findYaml = (dir: string): number => {
+      let maxMtime = 0;
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        if (["node_modules", ".git", "dist", "lib"].includes(entry.name)) continue;
+        const full = join(dir, entry.name);
+        if (entry.isDirectory()) maxMtime = Math.max(maxMtime, findYaml(full));
+        else if (entry.name === "kontext.yaml")
+          maxMtime = Math.max(maxMtime, statSync(full).mtimeMs);
+      }
+      return maxMtime;
+    };
+    return findYaml(rootDir) > graphMtime;
+  } catch {
+    return true;
+  }
+}
+
+if (needsRebuild()) {
   try {
     execSync("bun ecosystem/kontext/cli/bin/kontext.mjs build", {
       cwd: rootDir,

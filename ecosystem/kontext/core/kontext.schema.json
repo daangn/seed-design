@@ -26,6 +26,7 @@
         "properties": {
           "when": {
             "type": "string",
+            "minLength": 1,
             "description": "Glob pattern for files to watch within this package"
           },
           "exclude": {
@@ -46,6 +47,7 @@
               "properties": {
                 "match": {
                   "type": "string",
+                  "minLength": 1,
                   "description": "Glob pattern to match specific files for override (supports brace expansion)"
                 },
                 "affects": {
@@ -68,6 +70,7 @@
       "properties": {
         "path": {
           "type": "string",
+          "minLength": 1,
           "description": "Affected file path (repo root relative). Supports {id}=kebab-case, {Id}=PascalCase templates"
         },
         "reason": {

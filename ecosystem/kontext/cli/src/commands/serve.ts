@@ -1,7 +1,7 @@
 import type { CAC } from "cac";
 import { createServer } from "node:http";
-import { readFileSync, existsSync } from "node:fs";
-import { resolve, join, extname } from "node:path";
+import { readFileSync, existsSync, statSync } from "node:fs";
+import { resolve, join, extname, normalize } from "node:path";
 import { buildGraph } from "@kontext/core";
 import pc from "picocolors";
 
@@ -11,7 +11,6 @@ const MIME_TYPES: Record<string, string> = {
   ".mjs": "application/javascript",
   ".css": "text/css",
   ".json": "application/json",
-  ".tsx": "application/javascript",
 };
 
 export function serveCommand(cli: CAC) {
@@ -21,7 +20,9 @@ export function serveCommand(cli: CAC) {
     .option("--port <port>", "Port number", { default: 4321 })
     .action((options: { root: string; port: number }) => {
       const rootDir = resolve(options.root);
-      const dashboardDir = resolve(import.meta.dirname ?? __dirname, "../../dashboard/dist");
+      // #3: rootDir 기반으로 대시보드 경로를 해석 (import.meta.dirname 깊이에 무관)
+      const dashboardDir = resolve(rootDir, "ecosystem/kontext/dashboard/dist");
+      const dashboardDirPrefix = dashboardDir + "/";
 
       const graph = buildGraph({ rootDir });
       const graphJson = JSON.stringify(graph);
@@ -29,30 +30,31 @@ export function serveCommand(cli: CAC) {
       const server = createServer((req, res) => {
         const url = req.url ?? "/";
 
-        // API: graph data
         if (url === "/api/graph") {
           res.writeHead(200, { "Content-Type": "application/json" });
           res.end(graphJson);
           return;
         }
 
-        // Static files from dashboard dist
+        // #2: normalize + relative 기반 containment 체크로 sibling prefix 우회 방지
+        const sanitizedUrl = normalize(url).replace(/^(\.\.[/\\])+/, "");
         const filePath =
-          url === "/" ? join(dashboardDir, "index.html") : resolve(dashboardDir, `.${url}`);
+          url === "/" ? join(dashboardDir, "index.html") : join(dashboardDir, sanitizedUrl);
 
-        if (!filePath.startsWith(dashboardDir)) {
+        const resolvedPath = resolve(filePath);
+        if (resolvedPath !== dashboardDir && !resolvedPath.startsWith(dashboardDirPrefix)) {
           res.writeHead(403);
           res.end("Forbidden");
           return;
         }
 
-        if (existsSync(filePath)) {
-          const ext = extname(filePath);
+        // #7: 디렉토리 요청 시 EISDIR 방지
+        if (existsSync(resolvedPath) && statSync(resolvedPath).isFile()) {
+          const ext = extname(resolvedPath);
           const mime = MIME_TYPES[ext] ?? "application/octet-stream";
           res.writeHead(200, { "Content-Type": mime });
-          res.end(readFileSync(filePath));
+          res.end(readFileSync(resolvedPath));
         } else {
-          // SPA fallback
           const indexPath = join(dashboardDir, "index.html");
           if (existsSync(indexPath)) {
             res.writeHead(200, { "Content-Type": "text/html" });

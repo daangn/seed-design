@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { basename, resolve } from "node:path";
 import { minimatch } from "minimatch";
@@ -189,14 +189,15 @@ function analyzeCoChange(
   const coChangeSuggestions: LintSuggestion[] = [];
   const staleWarnings: LintStaleWarning[] = [];
 
-  // git log 파싱
+  // git log 파싱 — execFileSync 배열 인자로 shell injection 완전 차단
+  const safeCommitCount = Math.max(1, Math.min(Math.floor(Number(commitCount)), 10000));
   let gitOutput: string;
   try {
-    gitOutput = execSync(`git log --name-only --pretty=format:"COMMIT:%H" -n ${commitCount}`, {
-      cwd: rootDir,
-      encoding: "utf-8",
-      maxBuffer: 50 * 1024 * 1024,
-    });
+    gitOutput = execFileSync(
+      "git",
+      ["log", "--name-only", "--pretty=format:COMMIT:%H", "-n", String(safeCommitCount)],
+      { cwd: rootDir, encoding: "utf-8", maxBuffer: 50 * 1024 * 1024 },
+    );
   } catch {
     return { coChangeSuggestions, staleWarnings };
   }

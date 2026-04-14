@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 import { cac } from 'cac';
-import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
-import __node_cjsPath, { resolve, join, extname } from 'node:path';
+import { mkdirSync, writeFileSync, readFileSync, existsSync, statSync } from 'node:fs';
+import { resolve, isAbsolute, relative, normalize, join, extname } from 'node:path';
 import { buildGraph, checkCompleteness, findDeps, lint } from '@kontext/core';
 import pc from 'picocolors';
 import { createServer } from 'node:http';
-import __node_cjsUrl from 'node:url';
 
 function buildCommand(cli) {
     cli.command("build", "Build the dependency graph from all kontext.yaml files").option("--root <dir>", "Repository root directory", {
@@ -166,8 +165,9 @@ function depsCommand(cli) {
     }).option("--json", "Output as JSON").action((file, options)=>{
         const rootDir = resolve(options.root);
         const graph = loadOrBuildGraph(rootDir);
-        // 상대 경로로 변환
-        const relFile = resolve(file).startsWith(rootDir) ? resolve(file).slice(rootDir.length + 1) : file;
+        // #6: rootDir 기준으로 상대 경로 변환 (서브디렉토리에서 실행해도 정상 동작)
+        const absFile = isAbsolute(file) ? file : resolve(rootDir, file);
+        const relFile = relative(rootDir, absFile);
         const deps = findDeps(graph, relFile);
         if (deps.length === 0) {
             console.log(`No relations found for ${relFile}`);
@@ -203,7 +203,7 @@ function lintCommand(cli) {
         default: 0.7
     }).option("--min-co <n>", "Minimum co-occurrences", {
         default: 3
-    }).option("--json", "Output as JSON").option("--fix", "Auto-apply suggestions to kontext.yaml files").action((options)=>{
+    }).option("--json", "Output as JSON").option("--fix", "Auto-apply suggestions to kontext.yaml files (experimental, not yet implemented)").action((options)=>{
         const rootDir = resolve(options.root);
         if (!options.json) {
             console.log(pc.dim("Analyzing repository..."));
@@ -230,16 +230,12 @@ function lintCommand(cli) {
     });
 }
 
-const __filename = __node_cjsUrl.fileURLToPath(import.meta.url);
-const __dirname = __node_cjsPath.dirname(__filename);
-
 const MIME_TYPES = {
     ".html": "text/html",
     ".js": "application/javascript",
     ".mjs": "application/javascript",
     ".css": "text/css",
-    ".json": "application/json",
-    ".tsx": "application/javascript"
+    ".json": "application/json"
 };
 function serveCommand(cli) {
     cli.command("serve", "Start the Kontext dashboard").option("--root <dir>", "Repository root directory", {
@@ -248,14 +244,15 @@ function serveCommand(cli) {
         default: 4321
     }).action((options)=>{
         const rootDir = resolve(options.root);
-        const dashboardDir = resolve(import.meta.dirname ?? __dirname, "../../dashboard/dist");
+        // #3: rootDir 기반으로 대시보드 경로를 해석 (import.meta.dirname 깊이에 무관)
+        const dashboardDir = resolve(rootDir, "ecosystem/kontext/dashboard/dist");
+        const dashboardDirPrefix = dashboardDir + "/";
         const graph = buildGraph({
             rootDir
         });
         const graphJson = JSON.stringify(graph);
         const server = createServer((req, res)=>{
             const url = req.url ?? "/";
-            // API: graph data
             if (url === "/api/graph") {
                 res.writeHead(200, {
                     "Content-Type": "application/json"
@@ -263,17 +260,24 @@ function serveCommand(cli) {
                 res.end(graphJson);
                 return;
             }
-            // Static files from dashboard dist
-            const filePath = url === "/" ? join(dashboardDir, "index.html") : join(dashboardDir, url);
-            if (existsSync(filePath)) {
-                const ext = extname(filePath);
+            // #2: normalize + relative 기반 containment 체크로 sibling prefix 우회 방지
+            const sanitizedUrl = normalize(url).replace(/^(\.\.[/\\])+/, "");
+            const filePath = url === "/" ? join(dashboardDir, "index.html") : join(dashboardDir, sanitizedUrl);
+            const resolvedPath = resolve(filePath);
+            if (resolvedPath !== dashboardDir && !resolvedPath.startsWith(dashboardDirPrefix)) {
+                res.writeHead(403);
+                res.end("Forbidden");
+                return;
+            }
+            // #7: 디렉토리 요청 시 EISDIR 방지
+            if (existsSync(resolvedPath) && statSync(resolvedPath).isFile()) {
+                const ext = extname(resolvedPath);
                 const mime = MIME_TYPES[ext] ?? "application/octet-stream";
                 res.writeHead(200, {
                     "Content-Type": mime
                 });
-                res.end(readFileSync(filePath));
+                res.end(readFileSync(resolvedPath));
             } else {
-                // SPA fallback
                 const indexPath = join(dashboardDir, "index.html");
                 if (existsSync(indexPath)) {
                     res.writeHead(200, {

@@ -30,7 +30,7 @@ export function GraphExplorer({ graph }: { graph: KontextGraph }) {
       elements.push({
         data: {
           id: node.id,
-          label: node.id.split("/").pop() ?? node.id,
+          label: node.id.replace(/\/$/, "").split("/").pop() || node.id,
           packageDir: node.packageDir,
           color: getColor(node.packageDir),
           exists: node.exists,

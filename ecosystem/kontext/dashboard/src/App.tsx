@@ -72,6 +72,7 @@ function TabButton({
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={active}
       style={{
         padding: "6px 14px",
         borderRadius: 6,

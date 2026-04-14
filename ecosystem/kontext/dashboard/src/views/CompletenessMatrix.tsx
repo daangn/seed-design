@@ -58,11 +58,19 @@ export function CompletenessMatrix({ graph }: { graph: KontextGraph }) {
             <tr key={row.id}>
               <td style={tdStyle}>{row.id}</td>
               {LAYER_ORDER.map((l) => (
-                <td key={l} style={{ ...tdStyle, textAlign: "center" }}>
+                <td
+                  key={l}
+                  style={{ ...tdStyle, textAlign: "center" }}
+                  aria-label={row.layers[l] ? "exists" : "missing"}
+                >
                   {row.layers[l] ? (
-                    <span style={{ color: "#22c55e" }}>●</span>
+                    <span style={{ color: "#22c55e" }} aria-hidden="true">
+                      ●
+                    </span>
                   ) : (
-                    <span style={{ color: "#555" }}>○</span>
+                    <span style={{ color: "#555" }} aria-hidden="true">
+                      ○
+                    </span>
                   )}
                 </td>
               ))}

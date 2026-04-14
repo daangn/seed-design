@@ -19,7 +19,7 @@ relations:
 - `{id}` → kebab-case (e.g., `action-button`)
 - `{Id}` → PascalCase (e.g., `ActionButton`)
 
-watch 패턴에서 매칭된 파일명에서 자동 추출됨.
+`when` 패턴에서 매칭된 파일명에서 자동 추출됨.
 
 ## 예시
 

@@ -1,6 +1,6 @@
 import type { CAC } from "cac";
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { resolve, relative, isAbsolute } from "node:path";
 import { buildGraph, findDeps } from "@kontext/core";
 import type { KontextGraph } from "@kontext/core";
 import { renderDepsJson, renderDepsTree } from "../utils/render.js";
@@ -14,10 +14,9 @@ export function depsCommand(cli: CAC) {
       const rootDir = resolve(options.root);
       const graph = loadOrBuildGraph(rootDir);
 
-      // 상대 경로로 변환
-      const relFile = resolve(file).startsWith(rootDir)
-        ? resolve(file).slice(rootDir.length + 1)
-        : file;
+      // #6: rootDir 기준으로 상대 경로 변환 (서브디렉토리에서 실행해도 정상 동작)
+      const absFile = isAbsolute(file) ? file : resolve(rootDir, file);
+      const relFile = relative(rootDir, absFile);
 
       const deps = findDeps(graph, relFile);
 
