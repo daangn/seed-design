@@ -32,6 +32,16 @@ https://seed-design.io/docs/llms.txt
 
 핵심 원칙: 스케일은 t1(가장 작음)부터 t10(가장 큼). CSS 변수 `--seed-font-size-t{n}`, `--seed-line-height-t{n}`, `--seed-font-weight-*`로 사용합니다.
 
+### 아이코노그래피
+
+| 토픽 | URL |
+|------|-----|
+| 아이코노그래피 개요 | https://seed-design.io/llms/docs/foundation/iconography/overview.txt |
+| 아이콘 사용법 | https://seed-design.io/llms/docs/foundation/iconography/usage.txt |
+| 아이콘 라이브러리 | https://seed-design.io/llms/docs/foundation/iconography/library.txt |
+
+핵심 원칙: React 아이콘 컴포넌트는 `@karrotmarket/react-monochrome-icon`(단색)과 `@karrotmarket/react-multicolor-icon`(멀티컬러)에서 import합니다. 아이콘명은 PascalCase로 변환하여 사용합니다 (예: `icon_heart_fill` → `IconHeartFill`).
+
 ### 스페이싱, 테마, 기타
 
 | 토픽 | URL |

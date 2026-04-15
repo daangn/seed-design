@@ -16,10 +16,18 @@ interface RawIconData {
 
 interface IconRow {
   name: string;
+  reactComponentName: string;
   figmaName: string;
   keywords: string[];
   services: string[];
   tags: string[];
+}
+
+function toComponentName(iconName: string): string {
+  return iconName
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join("");
 }
 
 const SERVICE_PREFIX = "service:";
@@ -72,6 +80,7 @@ function toRow(icon: RawIconData): IconRow {
 
   return {
     name: icon.name,
+    reactComponentName: toComponentName(icon.name),
     figmaName: icon.figma?.name ?? "",
     keywords,
     services,
@@ -92,11 +101,19 @@ function formatList(values: string[]): string {
 }
 
 function buildTable(rows: IconRow[]): string {
-  const headers = ["Icon Name", "Figma Name", "Keywords", "Services", "Tags"];
+  const headers = [
+    "Icon Name",
+    "React Component Name",
+    "Figma Name",
+    "Keywords",
+    "Services",
+    "Tags",
+  ];
   const separator = headers.map(() => "---");
   const bodyRows = rows.map((row) =>
     markdownRow([
       escapeCell(row.name),
+      escapeCell(row.reactComponentName),
       escapeCell(row.figmaName),
       escapeCell(formatList(row.keywords)),
       escapeCell(formatList(row.services)),
