@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "1.3.0",
+  "version": "0.0.0-alpha-20260414104312",
   "resources": [
     {
       "path": "/collections.json"
