@@ -27,7 +27,9 @@ export function useControllableState<T>(
     if (!isControlled) {
       setUncontrolledValue(nextValue);
     }
-    onChange?.(nextValue);
+    if (nextValue !== currentValue) {
+      onChange?.(nextValue);
+    }
   });
 
   return [currentValue, setValue];
