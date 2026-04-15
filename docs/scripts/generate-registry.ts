@@ -59,7 +59,7 @@ const frameworks = [
     registryPath: path.join(process.cwd(), "registry", "lynx"),
     outputPath: path.join(process.cwd(), "public", "__registry__", "lynx"),
     registries: [lynxRegistryUI],
-    innateDeps: new Set(["@lynx-js/react"]),
+    innateDeps: new Set(["@lynx-js/react", "react", "react-dom"]),
   },
 ];
 
