@@ -39,6 +39,18 @@ const conditionMap = {
         height: "133px",
       },
     },
+    wide: {
+      style: {
+        width: "320px",
+        height: "200px",
+      },
+    },
+    extraWide: {
+      style: {
+        width: "480px",
+        height: "240px",
+      },
+    },
   },
   type: {
     ...Object.fromEntries(
