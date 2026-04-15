@@ -101,19 +101,26 @@ Menu는 시스템 내에서 Level 2 계층을 점유하며, 주변 요소와의 
 
 ### Icon 사용하기
 
-<FigmaImage id="676:11572" alt="Menu Item에서 Prefix Icon 사용 예시" />
-
-<FigmaImage id="676:11587" alt="Menu Item에서 Suffix Icon 사용 예시" />
-
 Menu Item에서 아이콘은 선택적으로 사용하며, 사용 시 아래 규칙을 따릅니다.
 
-**아이콘 위치**
+#### 아이콘 위치
 
 - **Prefix:** 항목의 의미나 카테고리를 나타낼 때
 - **Suffix:** 서브메뉴, 외부 링크 등 방향성을 나타낼 때
 - Prefix와 Suffix를 동시에 사용하지 않습니다. (chevron 예외)
 
-**규칙**
+<Grid>
+  <DoImage
+    figmaId="676:11572"
+    body="아이콘을 사용할 경우 모든 항목에 일관되게 사용합니다."
+    alt="모든 Menu Item에 아이콘을 일관되게 사용한 예시"
+  />
+  <DontImage
+    figmaId="676:11587"
+    body="일부 항목에만 아이콘을 사용하지 않습니다."
+    alt="일부 Menu Item에만 아이콘을 사용한 예시"
+  />
+</Grid>
 
 - 아이콘은 반드시 label과 함께 사용합니다. (단독 사용 금지)
 - 동일 레벨의 아이템에는 아이콘을 일관되게 사용하거나 전부 미사용합니다.
@@ -121,14 +128,20 @@ Menu Item에서 아이콘은 선택적으로 사용하며, 사용 시 아래 규
 
 ### Label 작성하기
 
-<FigmaImage id="676:11610" alt="Menu Item의 Label 작성 예시 - Label만 사용" />
-
-<FigmaImage
-  id="676:11625"
-  alt="Menu Item의 Label 작성 예시 - Label과 Description 함께 사용"
-/>
-
 Label은 항목의 기능을 명확하고 간결하게 전달하며, Description은 Label만으로 의미 전달이 부족할 때 보조적으로 사용합니다.
+
+<Grid>
+  <DoImage
+    figmaId="676:11610"
+    body="Description은 필요한 경우에만 선택적으로 사용합니다."
+    alt="일부 Menu Item에만 선택적으로 Description을 사용한 예시"
+  />
+  <DontImage
+    figmaId="676:11625"
+    body="전체 항목에 Description을 사용하지 않습니다."
+    alt="모든 Menu Item에 Description을 일괄 적용한 예시"
+  />
+</Grid>
 
 - **Label:** 2~6자 이내, 동사형으로 작성
 - **Description:** 1줄 이내, Label을 보완하는 보조 설명
