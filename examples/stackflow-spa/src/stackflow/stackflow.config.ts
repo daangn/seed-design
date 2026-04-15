@@ -24,6 +24,8 @@ export const config = defineConfig({
     { route: "/chip-toggle", name: "ActivityChipToggle" },
     { route: "/codegen-test", name: "ActivityCodegenTest" },
     { route: "/detail", name: "ActivityDetail" },
+    { route: "/drawer-activity", name: "ActivityDrawerActivity" },
+    { route: "/drawer", name: "ActivityDrawer" },
     { route: "/error-state", name: "ActivityErrorState" },
     { route: "/font-scaling", name: "ActivityFontScaling" },
     { route: "/result-section", name: "ActivityResultSection" },

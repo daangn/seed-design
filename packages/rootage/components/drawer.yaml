@@ -1,0 +1,148 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: drawer
+  name: Drawer
+data:
+  schema:
+    slots:
+      backdrop:
+        properties:
+          color:
+            type: color
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitOpacity:
+            type: number
+      content:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          width:
+            type: dimension
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+      header:
+        properties:
+          gap:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingBottom:
+            type: dimension
+      body:
+        properties:
+          paddingX:
+            type: dimension
+      footer:
+        properties:
+          paddingX:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingBottom:
+            type: dimension
+      title:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      description:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          paddingX:
+            type: dimension
+      closeButton:
+        properties:
+          fromTop:
+            type: dimension
+          fromRight:
+            type: dimension
+    variants:
+      size:
+        values:
+          small: {}
+          medium: {}
+          large: {}
+  definitions:
+    base:
+      enabled:
+        backdrop:
+          color: $color.bg.overlay
+          enterDuration: $duration.d6
+          enterTimingFunction: $timing-function.enter
+          enterOpacity: 0
+          exitDuration: $duration.d6
+          exitTimingFunction: $timing-function.exit
+          exitOpacity: 0
+        content:
+          color: $color.bg.layer-floating
+          cornerRadius: $radius.r6
+          enterDuration: $duration.d6
+          enterTimingFunction: $timing-function.enter-expressive
+          exitDuration: $duration.d6
+          exitTimingFunction: $timing-function.exit-expressive
+        header:
+          gap: $dimension.x2
+          paddingTop: $dimension.x6
+          paddingBottom: $dimension.x4
+        body:
+          paddingX: $dimension.spacing-x.global-gutter
+        footer:
+          paddingX: $dimension.spacing-x.global-gutter
+          paddingTop: $dimension.x3
+          paddingBottom: $dimension.x4
+        title:
+          color: $color.fg.neutral
+          fontSize: $font-size.t8
+          lineHeight: $line-height.t8
+          fontWeight: $font-weight.bold
+        description:
+          color: $color.fg.neutral-muted
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+          paddingX: $dimension.spacing-x.global-gutter
+        closeButton:
+          fromTop: $dimension.x6
+          fromRight: $dimension.x4
+    size=small:
+      enabled:
+        content:
+          width: 480px
+    size=medium:
+      enabled:
+        content:
+          width: 720px
+    size=large:
+      enabled:
+        content:
+          width: 960px

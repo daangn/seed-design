@@ -248,6 +248,22 @@
     {
       "snippets": [
         {
+          "path": "drawer.tsx",
+          "dependencies": {
+            "@seed-design/react": "~0.0.0-alpha",
+            "@seed-design/css": "~0.0.0-alpha"
+          }
+        }
+      ],
+      "id": "drawer",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "error-state.tsx",
           "dependencies": {
             "@seed-design/react": "~1.1.0",

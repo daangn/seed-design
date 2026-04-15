@@ -19,6 +19,7 @@ import contentPlaceholder from "./recipes/content-placeholder";
 import contextualFloatingButton from "./recipes/contextual-floating-button";
 import controlChip from "./recipes/control-chip";
 import dialog from "./recipes/dialog";
+import drawer from "./recipes/drawer";
 import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
@@ -92,6 +93,7 @@ export const recipes = {
   contextualFloatingButton,
   controlChip,
   dialog,
+  drawer,
   extendedActionSheet,
   extendedActionSheetItem,
   extendedFab,
