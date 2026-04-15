@@ -10,6 +10,6 @@ describe("iconLibraryRule", () => {
 
     expect(actual).toContain("## Monochrome Icons");
     expect(actual).toContain("## Multicolor Icons");
-    expect(actual).toContain("| Icon Name | Figma Name | Keywords | Services | Tags |");
+    expect(actual).toContain("| Icon Name | React Component | Figma Name | Keywords | Services | Tags |");
   });
 });
