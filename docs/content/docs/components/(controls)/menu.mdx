@@ -1,0 +1,154 @@
+---
+title: Menu
+description: 사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.
+---
+
+## Anatomy
+
+<FigmaImage
+  id="676:11358"
+  alt="Menu의 Anatomy 이미지. Container, Menu Group, Menu Group Label, Menu Item, Divider로 구성됩니다."
+/>
+
+- **Container:** 모든 내부 요소를 감싸며 배경, 그림자, 테두리 값을 결정합니다.
+- **Menu Group:** 연관된 아이템들의 집합 단위입니다. 그룹 내에 Header와 Items를 포함합니다.
+- **Menu Group Label:** 해당 그룹의 성격을 나타내는 텍스트 영역입니다. 비활성 상태이며 시각적 가이드 역할을 합니다.
+- **Menu Item:** 실제 사용자가 클릭하거나 포커스할 수 있는 최소 단위의 선택지입니다. Prefix Icon / Label / Badge / Suffix Icon을 포함합니다.
+- **Divider:** Menu Group 간의 시각적 경계를 짓는 구분선입니다. Menu Item 간에는 Divider를 사용하지 않으며 모든 Menu Group 간에 표시됩니다.
+
+## Properties
+
+### Size
+
+<FigmaImage id="676:11385" alt="Menu의 Size Property - Small, Medium" />
+
+사용자의 시선 이동 동선과 텍스트 가독성의 균형을 기준으로 설정합니다.
+
+- **Small:** `lg` 이상 breakpoint에서 사용합니다. 마우스 커서의 이동 거리를 최소화하고 수직 스캔 속도를 높이기 위한 최적의 폭입니다.
+- **Medium:** `lg` 미만 breakpoint에서 사용합니다. 엄지손가락 조작 범위와 한글/영문 메뉴명의 가독성을 보장하는 최소 터치 너비입니다.
+
+### Width
+
+<FigmaImage id="676:11416" alt="Menu의 Width Property - Fixed, Stretch" />
+
+컨테이너의 가로 확장 방식을 정의합니다.
+
+- **Fixed (Default)**: 각 Size에 지정된 너비를 따릅니다.
+- **Stretch (100% of Trigger):** 트리거(예: Field Button)와 너비를 일치시켜 시각적 종속성을 강조합니다.
+
+### Height & Quantity
+
+<FigmaImage
+  id="676:11452"
+  alt="Menu의 Height & Quantity - 최대 높이와 스크롤 정책"
+/>
+
+메뉴의 개수는 사용자가 한눈에 훑고 기억할 수 있는 범위 내에서 설정해야 합니다. 항목 개수를 기준으로 높이와 스크롤 여부를 결정합니다.
+
+- **그룹화:** 항목이 7개를 초과할 경우 Menu Group과 Divider로 분리합니다.
+- **순서:** 가장 중요한 액션 그룹을 최상단에, 파괴적 액션(삭제 등) 그룹은 최하단에 배치합니다.
+- **최대 높이 (Max Height):** Item 개수와 상관없이 480px를 초과하면 내부 스크롤을 활성화합니다.
+- **스크롤 정책 (Scroll Threshold):** Max Height에 도달하면 스크롤을 제공합니다.
+
+### Menu Item
+
+<FigmaImage id="676:11469" alt="Menu Item의 Variant와 State" />
+
+실제 사용자가 클릭하거나 포커스할 수 있는 최소 단위의 선택지입니다.
+
+#### Variant
+
+- **Default:** 일반적인 액션이나 정보 제공
+- **Destructive:** 삭제, 탈퇴 등 위험 액션 (Red 계열 컬러 적용)
+
+#### State
+
+- **Enabled:** 선택 가능한 상태
+- **Hover/Pressed:** 마우스 오버, 클릭/터치 시 옅은 배경색 강조
+- **Focused:** 키보드 포커스 시 포커스링 표시
+- **Disabled:** 선택 불가 상태
+
+### Placement
+
+<FigmaImage id="676:11474" alt="Menu의 Placement - Bottom-Start 예시" />
+
+<FigmaImage id="676:11490" alt="Menu의 Placement - Left-Start 예시" />
+
+Menu는 Trigger 되는 요소를 기준으로 적절한 위치 옵션을 제공합니다. Placement Prop은 Side - Alignment 조합으로 구성됩니다.
+
+트리거와 메뉴 사이에는 항상 x2(8px)의 간격을 두어 시각적 분리감과 조작 편의성을 확보합니다.
+
+- **Side:** "Top" | "Bottom" | "Right" | "Left"
+- **Alignment:** "Top" | "Bottom" | "Right" | "Left" | "Center"
+
+### Smart Positioning
+
+<FigmaImage id="676:11520" alt="Menu의 Smart Positioning - Flip 동작" />
+
+사용자의 브라우저 뷰포트 경계에서 컨텐츠가 잘리지 않도록 지능적으로 위치를 수정합니다.
+
+- **Flip (반전):** 지정된 Side에 공간이 부족할 경우, 즉시 반대편으로 방향을 전환합니다. (예: 하단 공간 부족 시 Bottom → Top)
+- **Shift (미세 조정):** 정렬(Alignment)로 인해 메뉴의 측면이 화면 밖으로 나갈 경우, 트리거와의 정렬선을 깨더라도 메뉴 전체가 화면 안으로 들어오도록 수평/수직 이동시킵니다.
+- **Viewport Margin:** 메뉴와 화면 끝단 사이에는 최소 x2(8px)의 안전 마진을 두어 브라우저 벽에 메뉴가 밀착되지 않도록 보호합니다.
+
+### Elevation
+
+<FigmaImage id="676:11555" alt="Menu의 Elevation - Level 1과 Level 2 계층" />
+
+Menu는 시스템 내에서 Level 2 계층을 점유하며, 주변 요소와의 경계를 구분하는 부드러운 Light Shadow를 적용합니다.
+
+## Guidelines
+
+### Icon 사용하기
+
+<FigmaImage id="676:11572" alt="Menu Item에서 Prefix Icon 사용 예시" />
+
+<FigmaImage id="676:11587" alt="Menu Item에서 Suffix Icon 사용 예시" />
+
+Menu Item에서 아이콘은 선택적으로 사용하며, 사용 시 아래 규칙을 따릅니다.
+
+**아이콘 위치**
+
+- **Prefix:** 항목의 의미나 카테고리를 나타낼 때
+- **Suffix:** 서브메뉴, 외부 링크 등 방향성을 나타낼 때
+- Prefix와 Suffix를 동시에 사용하지 않습니다. (chevron 예외)
+
+**규칙**
+
+- 아이콘은 반드시 label과 함께 사용합니다. (단독 사용 금지)
+- 동일 레벨의 아이템에는 아이콘을 일관되게 사용하거나 전부 미사용합니다.
+- Disabled 상태에서는 label과 동일하게 비활성 색상을 적용합니다.
+
+### Label 작성하기
+
+<FigmaImage id="676:11610" alt="Menu Item의 Label 작성 예시 - Label만 사용" />
+
+<FigmaImage
+  id="676:11625"
+  alt="Menu Item의 Label 작성 예시 - Label과 Description 함께 사용"
+/>
+
+Label은 항목의 기능을 명확하고 간결하게 전달하며, Description은 Label만으로 의미 전달이 부족할 때 보조적으로 사용합니다.
+
+- **Label:** 2~6자 이내, 동사형으로 작성
+- **Description:** 1줄 이내, Label을 보완하는 보조 설명
+- 동일 메뉴 내 label의 어조와 형식을 통일합니다.
+- Description은 필요한 항목에만 선택적으로 사용합니다. (전체 항목 일괄 사용 지양)
+- 줄임말, 전문 용어, 영문 혼용은 지양합니다.
+- Destructive 항목(삭제 등)은 Critical Tone을 적용합니다.
+
+#### 줄바꿈 정책
+
+<FigmaImage id="676:11639" alt="Menu Item의 줄바꿈 케이스 예시" />
+
+기본적으로 1줄 표시를 권장하지만, 폰트 스케일링 및 다국어(영어 등) 환경을 고려하여 말줄임 없이 줄바꿈하여 표시합니다.
+
+## Specification
+
+### Menu
+
+<ComponentSpecBlock id="menu" headingComponent="h4" />
+
+### Menu Item
+
+<ComponentSpecBlock id="menu-item" headingComponent="h4" />
