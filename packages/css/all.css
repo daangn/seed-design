@@ -4343,7 +4343,7 @@
   min-width: var(--seed-dimension-x4);
   aspect-ratio: 1;
   width: auto;
-  max-width: 64px;
+  max-width: 160px;
   color: var(--seed-color-palette-gray-400);
   fill: currentColor;
   stroke: currentColor;

@@ -77,7 +77,7 @@
                 "maxWidth": {
                   "type": "dimension",
                   "value": {
-                    "value": 64,
+                    "value": 160,
                     "unit": "px"
                   }
                 },
