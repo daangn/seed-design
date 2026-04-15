@@ -48,8 +48,6 @@
     padding-top: var(--seed-dimension-x2);
     padding-bottom: var(--seed-dimension-x2);
     gap: var(--seed-dimension-x2);
-    mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x2));
-    -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x2));
     flex-direction: column;
     display: flex;
     overflow-y: auto;

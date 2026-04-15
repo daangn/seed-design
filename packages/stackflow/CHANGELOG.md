@@ -1,5 +1,24 @@
 # @seed-design/stackflow
 
+## 0.0.0-alpha-20260414104312
+
+### Patch Changes
+
+- Side Navigation, Footer, Menu 컴포넌트를 추가합니다.
+- Updated dependencies
+  - @seed-design/react-primitive@0.0.0-alpha-20260414104312
+  - @seed-design/css@0.0.0-alpha-20260414104312
+
+## 2.0.0
+
+### Patch Changes
+
+- Updated dependencies [c02bfba]
+- Updated dependencies [eadb7e8]
+- Updated dependencies [819110b]
+- Updated dependencies [01668c1]
+  - @seed-design/css@0.0.0
+
 ## 1.1.20
 
 ### Patch Changes

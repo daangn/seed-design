@@ -52,6 +52,7 @@ export const config = defineConfig({
     { route: "/reaction-button", name: "ActivityReactionButton" },
     { route: "/segmented-control", name: "ActivitySegmentedControl" },
     { route: "/switch", name: "ActivitySwitch" },
+    { route: "/side-navigation", name: "ActivitySideNavigation" },
     { route: "/swipeable-tabs", name: "ActivitySwipeableTabs" },
     { route: "/tabs", name: "ActivityTabs" },
     { route: "/form", name: "ActivityForm" },
