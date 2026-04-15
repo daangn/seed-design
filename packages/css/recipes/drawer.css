@@ -79,6 +79,7 @@
     bottom: 0;
     left: 0;
     width: var(--seed-box-width, var(--drawer-size-width));
+    max-width: 100vw;
 }
 .seed-drawer__content[data-drawer-direction='left']::after {
     content: "";
@@ -95,6 +96,7 @@
     bottom: 0;
     right: 0;
     width: var(--seed-box-width, var(--drawer-size-width));
+    max-width: 100vw;
 }
 .seed-drawer__content[data-drawer-direction='right']::after {
     content: "";

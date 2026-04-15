@@ -81,6 +81,7 @@ const drawer = defineSlotRecipe({
         bottom: 0,
         left: 0,
         width: "var(--seed-box-width, var(--drawer-size-width))",
+        maxWidth: "100vw",
         "&::after": {
           content: '""',
           position: "absolute",
@@ -97,6 +98,7 @@ const drawer = defineSlotRecipe({
         bottom: 0,
         right: 0,
         width: "var(--seed-box-width, var(--drawer-size-width))",
+        maxWidth: "100vw",
         "&::after": {
           content: '""',
           position: "absolute",

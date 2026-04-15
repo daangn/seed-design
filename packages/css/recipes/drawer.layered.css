@@ -77,6 +77,7 @@
 
   .seed-drawer__content[data-drawer-direction="left"] {
     width: var(--seed-box-width, var(--drawer-size-width));
+    max-width: 100vw;
     top: 0;
     bottom: 0;
     left: 0;
@@ -95,6 +96,7 @@
 
   .seed-drawer__content[data-drawer-direction="right"] {
     width: var(--seed-box-width, var(--drawer-size-width));
+    max-width: 100vw;
     top: 0;
     bottom: 0;
     right: 0;
