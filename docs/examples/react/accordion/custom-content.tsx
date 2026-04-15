@@ -1,14 +1,21 @@
-import { Accordion } from "seed-design/ui/accordion";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionTitle,
+  AccordionContent,
+  AccordionDescription,
+} from "seed-design/ui/accordion";
 
 export default function AccordionCustomContent() {
   return (
     <Accordion>
-      <Accordion.Item value="item-1">
-        <Accordion.Trigger>
-          <Accordion.Title>배송 안내</Accordion.Title>
-          <Accordion.Description>배송 정책 및 예상 소요 시간</Accordion.Description>
-        </Accordion.Trigger>
-        <Accordion.Content>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>
+          <AccordionTitle>배송 안내</AccordionTitle>
+          <AccordionDescription>배송 정책 및 예상 소요 시간</AccordionDescription>
+        </AccordionTrigger>
+        <AccordionContent>
           <div
             style={{
               margin: "0 16px 16px",
@@ -32,14 +39,14 @@ export default function AccordionCustomContent() {
               </p>
             </div>
           </div>
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-2">
-        <Accordion.Trigger>
-          <Accordion.Title>반품 및 교환</Accordion.Title>
-          <Accordion.Description>반품/교환 절차 안내</Accordion.Description>
-        </Accordion.Trigger>
-        <Accordion.Content>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>
+          <AccordionTitle>반품 및 교환</AccordionTitle>
+          <AccordionDescription>반품/교환 절차 안내</AccordionDescription>
+        </AccordionTrigger>
+        <AccordionContent>
           <ul
             style={{
               margin: "0 16px 16px",
@@ -56,8 +63,8 @@ export default function AccordionCustomContent() {
             <li>2. 상품 수거 (택배 방문 수거)</li>
             <li>3. 검수 후 환불 또는 교환 처리</li>
           </ul>
-        </Accordion.Content>
-      </Accordion.Item>
+        </AccordionContent>
+      </AccordionItem>
     </Accordion>
   );
 }

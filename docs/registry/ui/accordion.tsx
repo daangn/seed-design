@@ -66,10 +66,8 @@ export interface AccordionDescriptionProps extends SeedAccordion.DescriptionProp
  */
 export const AccordionDescription = SeedAccordion.Description;
 
-export const Accordion = Object.assign(AccordionRoot, {
-  Item: AccordionItem,
-  Trigger: AccordionTrigger,
-  Content: AccordionContent,
-  Title: AccordionTitle,
-  Description: AccordionDescription,
-});
+/**
+ * Alias for AccordionRoot
+ * @see https://seed-design.io/react/components/accordion
+ */
+export const Accordion = AccordionRoot;

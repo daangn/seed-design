@@ -1,12 +1,18 @@
-import { Accordion } from "seed-design/ui/accordion";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionTitle,
+  AccordionContent,
+} from "seed-design/ui/accordion";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 
 export default function AccordionWithPrefixAvatar() {
   return (
     <Accordion>
-      <Accordion.Item value="item-1">
-        <Accordion.Trigger
+      <AccordionItem value="item-1">
+        <AccordionTrigger
           prefix={
             <Avatar
               size="24"
@@ -15,14 +21,14 @@ export default function AccordionWithPrefixAvatar() {
             />
           }
         >
-          <Accordion.Title>아코디언 항목 1</Accordion.Title>
-        </Accordion.Trigger>
-        <Accordion.Content>
+          <AccordionTitle>아코디언 항목 1</AccordionTitle>
+        </AccordionTrigger>
+        <AccordionContent>
           <p>첫 번째 항목의 내용입니다.</p>
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-2">
-        <Accordion.Trigger
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger
           prefix={
             <Avatar
               size="24"
@@ -31,14 +37,14 @@ export default function AccordionWithPrefixAvatar() {
             />
           }
         >
-          <Accordion.Title>아코디언 항목 2</Accordion.Title>
-        </Accordion.Trigger>
-        <Accordion.Content>
+          <AccordionTitle>아코디언 항목 2</AccordionTitle>
+        </AccordionTrigger>
+        <AccordionContent>
           <p>두 번째 항목의 내용입니다.</p>
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-3">
-        <Accordion.Trigger
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger
           prefix={
             <Avatar
               size="24"
@@ -47,12 +53,12 @@ export default function AccordionWithPrefixAvatar() {
             />
           }
         >
-          <Accordion.Title>아코디언 항목 3</Accordion.Title>
-        </Accordion.Trigger>
-        <Accordion.Content>
+          <AccordionTitle>아코디언 항목 3</AccordionTitle>
+        </AccordionTrigger>
+        <AccordionContent>
           <p>세 번째 항목의 내용입니다.</p>
-        </Accordion.Content>
-      </Accordion.Item>
+        </AccordionContent>
+      </AccordionItem>
     </Accordion>
   );
 }
