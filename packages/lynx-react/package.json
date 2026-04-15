@@ -45,6 +45,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@lynx-js/lynx-ui-common": "^3.130.0",
     "@seed-design/lynx-primitive": "workspace:*",
     "clsx": "^2.1.1"
   }

@@ -3,6 +3,8 @@ import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/act
 import clsx from "clsx";
 import * as React from "react";
 
+import { usePressTap } from "../../utils/use-press-tap";
+
 /**
  * @platform Lynx
  *
@@ -42,16 +44,18 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   });
   const isInteractive = !disabled && !loading;
 
+  const { pressed: _pressed, ...pressTapHandlers } = usePressTap({
+    disabled: !isInteractive,
+    onTap: bindtap,
+    mainThreadOnTap: mainThreadBindtap,
+  });
+
   return (
     <view
       {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
       className={clsx(classes.root, className)}
       style={flexGrow != null ? { flexGrow } : undefined}
-      {...(isInteractive && bindtap && { bindtap })}
-      {...(isInteractive &&
-        mainThreadBindtap && {
-          "main-thread:bindtap": mainThreadBindtap,
-        })}
+      {...pressTapHandlers}
       {...nativeProps}
     >
       {loading ? children : <text className={classes.text}>{children}</text>}

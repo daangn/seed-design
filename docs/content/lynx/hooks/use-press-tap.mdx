@@ -1,0 +1,110 @@
+---
+title: usePressTap
+description: Lynx 요소의 press/tap 인터랙션 상태를 관리하는 훅입니다.
+---
+
+## Installation
+
+```package-install
+npx @seed-design/cli@alpha add ui:action-button --baseUrl https://lynx.seed-design.pages.dev
+```
+
+`usePressTap`은 `@seed-design/lynx-react` 패키지에 포함되어 있습니다.
+
+## Usage
+
+### 기본 사용
+
+```tsx
+import { usePressTap } from "@seed-design/lynx-react";
+
+function TappableCard() {
+  const { pressed, ...handlers } = usePressTap({
+    onTap: () => console.log("tapped!"),
+  });
+
+  return (
+    <view {...handlers}>
+      <text>{pressed ? "Pressing..." : "Tap me"}</text>
+    </view>
+  );
+}
+```
+
+### Disabled 상태
+
+```tsx
+function DisabledButton({ disabled }: { disabled: boolean }) {
+  const { pressed, ...handlers } = usePressTap({
+    disabled,
+    onTap: () => console.log("won't fire when disabled"),
+  });
+
+  return <view {...handlers}><text>Button</text></view>;
+}
+```
+
+### Main Thread 이벤트
+
+```tsx
+"main thread";
+
+import { usePressTap } from "@seed-design/lynx-react";
+
+function AnimatedButton() {
+  const mainThreadTap = () => {
+    "main thread";
+    // main thread에서 실행되는 애니메이션 로직
+  };
+
+  const { pressed, ...handlers } = usePressTap({
+    onTap: () => console.log("tapped"),
+    mainThreadOnTap: mainThreadTap,
+  });
+
+  return <view {...handlers}><text>Animated</text></view>;
+}
+```
+
+## API
+
+### Options
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `disabled` | `boolean` | `false` | `true`일 때 press 상태 변경과 tap 이벤트가 차단됩니다. |
+| `onTap` | `() => void` | - | 탭 시 호출되는 콜백입니다. |
+| `mainThreadOnTap` | `() => void` | - | Main thread에서 실행되는 탭 콜백입니다. `disabled` 시 바인딩되지 않습니다. |
+
+### Return
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `pressed` | `boolean` | 현재 press 상태입니다. |
+| `bindtap` | `(e: TouchEvent) => void` | 탭 이벤트 핸들러입니다. |
+| `bindtouchstart` | `(e: TouchEvent) => void` | 터치 시작 핸들러입니다. |
+| `bindtouchend` | `(e: TouchEvent) => void` | 터치 종료 핸들러입니다. |
+| `bindtouchcancel` | `(e: TouchEvent) => void` | 터치 취소 핸들러입니다. |
+| `main-thread:bindtap` | `(() => void) \| undefined` | Main thread 탭 핸들러입니다. `disabled`이거나 `mainThreadOnTap`이 미제공이면 포함되지 않습니다. |
+
+## CSS 스타일링 참고
+
+Lynx에서 press 상태의 시각적 피드백은 CSS `:active` pseudo-class가 자동으로 처리합니다. `pressed` 상태는 JavaScript 로직용이며, CSS 스타일링에 사용하지 마세요.
+
+```css
+/* Recipe에서 자동 생성 — 직접 작성 불필요 */
+.button:active {
+  background: var(--seed-color-bg-brand-solid-pressed);
+}
+```
+
+## 웹 버전과의 차이
+
+| 항목 | Lynx (`usePressTap`) | Web (`usePress` 등) |
+|------|----------------------|---------------------|
+| 이벤트 모델 | `bindtap`, `bindtouchstart/end/cancel` | `onPointerDown/Up/Move`, `onClick` |
+| Press 감지 | 터치 이벤트 기반 | 포인터 이벤트 기반 |
+| Hover 지원 | 없음 (모바일 전용) | `isHovered` 상태 포함 |
+| Focus 지원 | 없음 | `isFocused`, `isFocusVisible` 포함 |
+| Main thread | `main-thread:bindtap` 지원 | 해당 없음 |
+| CSS 연동 | 네이티브 `:active` 자동 적용 | `data-active` attribute selector |

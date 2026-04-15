@@ -1,0 +1,80 @@
+---
+title: useControllableState
+description: Controlled/uncontrolled 상태 패턴을 지원하는 훅입니다.
+---
+
+## Installation
+
+```package-install
+npx @seed-design/cli@alpha add ui:action-button --baseUrl https://lynx.seed-design.pages.dev
+```
+
+`useControllableState`는 `@seed-design/lynx-react` 패키지에 포함되어 있습니다.
+
+## Usage
+
+### Uncontrolled (기본)
+
+```tsx
+import { useControllableState } from "@seed-design/lynx-react";
+
+function Counter() {
+  const [count, setCount] = useControllableState({
+    defaultValue: 0,
+    onChange: (value) => console.log("count changed:", value),
+  });
+
+  return (
+    <view bindtap={() => setCount(count + 1)}>
+      <text>{count}</text>
+    </view>
+  );
+}
+```
+
+### Controlled
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { useControllableState } from "@seed-design/lynx-react";
+
+function ControlledCounter({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  const [count, setCount] = useControllableState({
+    value,
+    defaultValue: 0,
+    onChange,
+  });
+
+  return (
+    <view bindtap={() => setCount(count + 1)}>
+      <text>{count}</text>
+    </view>
+  );
+}
+```
+
+## API
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `T \| undefined` | - | Controlled 값. 제공 시 controlled 모드로 동작합니다. |
+| `defaultValue` | `T` | (필수) | Uncontrolled 모드에서의 초기값입니다. |
+| `onChange` | `(value: T) => void` | - | 값이 변경될 때 호출되는 콜백입니다. 두 모드 모두에서 호출됩니다. |
+
+### Return
+
+`[T, (value: T) => void]` 튜플을 반환합니다.
+
+- 첫 번째 요소: 현재 값
+- 두 번째 요소: 값을 변경하는 setter 함수 (안정적 참조)
+
+## 웹 버전과의 차이
+
+| 항목 | Lynx (`useControllableState`) | Web (`react-headless`) |
+|------|-------------------------------|------------------------|
+| Dev 경고 | 없음 | controlled ↔ uncontrolled 전환 시 경고 |
+| onChange 시그니처 | `(value: T) => void` | `(value: T, ...details: any[]) => void` |
+| Setter 시그니처 | `(value: T) => void` | `(value: T \| ((prev: T) => T)) => void` |
+| 의존성 | `@lynx-js/lynx-ui-common` | 자체 구현 |
