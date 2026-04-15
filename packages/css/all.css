@@ -2105,6 +2105,10 @@
   display: none;
 }
 
+.seed-app-screen__layer:focus {
+  outline: none;
+}
+
 .seed-app-screen__layer {
   background-color: var(--seed-color-bg-layer-default);
 }
