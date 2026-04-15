@@ -14,7 +14,7 @@
     padding-bottom: var(--seed-dimension-x2_5);
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x2);
-    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
+    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
     --seed-suffix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-margin-left: var(--seed-dimension-x2);
     --seed-suffix-icon-align-self: center;
@@ -69,8 +69,8 @@
 
   .seed-page-banner__button {
     cursor: pointer;
-    margin: calc((var(--seed-dimension-x10)  - var(--seed-line-height-t3)) * .5 * -1);
-    padding: calc((var(--seed-dimension-x10)  - var(--seed-line-height-t3)) * .5);
+    margin: calc((var(--seed-dimension-x10) - var(--seed-line-height-t3)) * .5 * -1);
+    padding: calc((var(--seed-dimension-x10) - var(--seed-line-height-t3)) * .5);
     font-family: inherit;
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
@@ -93,8 +93,8 @@
   .seed-page-banner__closeButton {
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
-    margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
-    margin-left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x2));
+    margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
+    margin-left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x2));
     --seed-suffix-icon-margin-left: initial;
     cursor: pointer;
     border-radius: var(--seed-radius-r1);
