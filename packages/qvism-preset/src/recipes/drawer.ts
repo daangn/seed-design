@@ -26,7 +26,6 @@ const drawer = defineSlotRecipe({
   base: {
     positioner: {
       position: "fixed",
-      display: "flex",
       top: 0,
       right: 0,
       bottom: 0,
@@ -35,24 +34,6 @@ const drawer = defineSlotRecipe({
 
       "--drawer-z-index": "2",
       zIndex: "calc(var(--drawer-z-index) + var(--layer-index, 0))",
-
-      // Direction-based alignment
-      [pseudo("[data-drawer-direction='right']")]: {
-        justifyContent: "flex-end",
-        flexDirection: "row",
-      },
-      [pseudo("[data-drawer-direction='left']")]: {
-        justifyContent: "flex-start",
-        flexDirection: "row",
-      },
-      [pseudo("[data-drawer-direction='bottom']")]: {
-        justifyContent: "center",
-        alignItems: "flex-end",
-      },
-      [pseudo("[data-drawer-direction='top']")]: {
-        justifyContent: "center",
-        alignItems: "flex-start",
-      },
     },
     backdrop: {
       position: "fixed",
@@ -75,7 +56,7 @@ const drawer = defineSlotRecipe({
       }),
     },
     content: {
-      position: "relative",
+      position: "absolute",
       display: "flex",
       flexDirection: "column",
       boxSizing: "border-box",
@@ -90,24 +71,32 @@ const drawer = defineSlotRecipe({
         outline: "none",
       },
 
-      // Left/Right: full height, width from size variant or StyleProps
+      // Left/Right: full height, anchored to the corresponding edge
       [pseudo("[data-drawer-direction='left']")]: {
-        height: "100vh",
+        top: 0,
+        bottom: 0,
+        left: 0,
         width: "var(--seed-box-width, var(--drawer-size-width))",
       },
       [pseudo("[data-drawer-direction='right']")]: {
-        height: "100vh",
+        top: 0,
+        bottom: 0,
+        right: 0,
         width: "var(--seed-box-width, var(--drawer-size-width))",
       },
 
-      // Top/Bottom: full width, auto height with max
+      // Top/Bottom: full width, anchored to the corresponding edge
       [pseudo("[data-drawer-direction='bottom']")]: {
-        width: "100%",
+        left: 0,
+        right: 0,
+        bottom: 0,
         maxHeight: "var(--seed-box-max-height, 90vh)",
         paddingBottom: "var(--seed-safe-area-bottom)",
       },
       [pseudo("[data-drawer-direction='top']")]: {
-        width: "100%",
+        left: 0,
+        right: 0,
+        top: 0,
         maxHeight: "var(--seed-box-max-height, 90vh)",
       },
 
