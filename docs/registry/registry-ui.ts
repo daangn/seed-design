@@ -67,10 +67,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "drawer.tsx",
-          dependencies: {
-            "@seed-design/react": "~0.0.0-alpha",
-            "@seed-design/css": "~0.0.0-alpha",
-          },
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
         },
       ],
     },
