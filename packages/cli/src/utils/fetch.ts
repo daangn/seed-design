@@ -153,17 +153,44 @@ export async function tryFetchLlmsTxt({
     `${baseUrl}/llms/${normalizedQuery}/llms.txt`,
   ];
 
+  let lastError: unknown;
+
   for (const url of urls) {
-    const response = await fetchWithTimeout(url).catch(() => null);
-    if (response?.ok) {
+    let response: Response;
+    try {
+      response = await fetchWithTimeout(url);
+    } catch (error) {
+      lastError = error;
+      continue;
+    }
+
+    if (response.ok) {
       return response.text();
     }
+
+    // 404 → try next URL candidate
+    if (response.status === 404) {
+      lastError = new CliError({
+        message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
+        hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
+      });
+      continue;
+    }
+
+    // Non-404 errors (5xx, 401, etc.) — propagate immediately
+    throw new CliError({
+      message: `llms.txt 요청이 실패했어요: ${response.status} ${response.statusText}`,
+      hint: `URL: ${url}`,
+    });
   }
 
-  throw new CliError({
-    message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
-    hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
-  });
+  throw (
+    lastError ??
+    new CliError({
+      message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
+      hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
+    })
+  );
 }
 
 export async function fetchRegistryItems({

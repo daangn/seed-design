@@ -10,7 +10,7 @@
 
 사용자의 요청에서 **어떤 패키지**의 **어떤 버전부터** 변경사항을 확인할지 파악합니다. 아래 판단 트리를 따릅니다.
 
-```
+```text
 사용자 요청 분석
 ├─ 패키지와 버전 모두 명확함
 │   예: "react 1.2.5에서 최신까지 변경사항 알려줘"
@@ -33,11 +33,7 @@
 
 **프로젝트 환경에서 버전 확인 방법:**
 
-1. `package.json`을 직접 읽어 `@seed-design/react`, `@seed-design/css` 등의 버전을 확인합니다.
-2. 또는 CLI의 `compat` 명령을 활용합니다:
-   ```bash
-   npx @seed-design/cli@latest compat --all
-   ```
+`package.json`을 직접 읽어 `@seed-design/react`, `@seed-design/css` 등의 버전을 확인합니다. `package.json`이 버전의 source of truth입니다.
 
 **사용자에게 질문이 필요한 경우:**
 
@@ -45,7 +41,7 @@
 
 **질문 판단 흐름:**
 
-```
+```text
 정보 부족 판단
 ├─ 패키지가 불명확함
 │   → 먼저 사용자의 의도를 파악:
