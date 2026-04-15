@@ -91,10 +91,7 @@ export const DrawerDescription = withContext<HTMLParagraphElement, DrawerDescrip
 
 export interface DrawerBodyProps
   extends PrimitiveProps,
-    Pick<
-      StyleProps,
-      "paddingX" | "height" | "maxHeight" | "minHeight" | "justifyContent" | "alignItems"
-    >,
+    Pick<StyleProps, "height" | "maxHeight" | "minHeight" | "justifyContent" | "alignItems">,
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const DrawerBody = withContext<HTMLDivElement, DrawerBodyProps>(

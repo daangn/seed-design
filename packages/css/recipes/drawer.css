@@ -70,27 +70,19 @@
 .seed-drawer__content[data-drawer-direction='left'] {
     height: 100vh;
     width: var(--seed-box-width, var(--drawer-size-width));
-    border-top-right-radius: var(--seed-radius-r6);
-    border-bottom-right-radius: var(--seed-radius-r6);
 }
 .seed-drawer__content[data-drawer-direction='right'] {
     height: 100vh;
     width: var(--seed-box-width, var(--drawer-size-width));
-    border-top-left-radius: var(--seed-radius-r6);
-    border-bottom-left-radius: var(--seed-radius-r6);
 }
 .seed-drawer__content[data-drawer-direction='bottom'] {
     width: 100%;
     max-height: var(--seed-box-max-height, 90vh);
-    border-top-left-radius: var(--seed-radius-r6);
-    border-top-right-radius: var(--seed-radius-r6);
     padding-bottom: var(--seed-safe-area-bottom);
 }
 .seed-drawer__content[data-drawer-direction='top'] {
     width: 100%;
     max-height: var(--seed-box-max-height, 90vh);
-    border-bottom-left-radius: var(--seed-radius-r6);
-    border-bottom-right-radius: var(--seed-radius-r6);
 }
 .seed-drawer__content:is([data-state="open"], [data-open])[data-drawer-direction='right'] {
     animation: seed-enter;
@@ -171,7 +163,9 @@
 .seed-drawer__header {
     display: flex;
     flex-direction: column;
-    gap: var(--seed-dimension-x2);
+    gap: var(--seed-dimension-x1_5);
+    padding-left: var(--seed-dimension-x6);
+    padding-right: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x6);
     padding-bottom: var(--seed-dimension-x4);
 }
@@ -181,8 +175,6 @@
     line-height: var(--seed-line-height-t8);
     font-weight: var(--seed-font-weight-bold);
     word-break: keep-all;
-    padding-left: var(--seed-dimension-spacing-x-global-gutter);
-    padding-right: var(--seed-dimension-spacing-x-global-gutter);
 }
 .seed-drawer__title[data-show-close-button] {
     padding-right: 56px;
@@ -195,8 +187,6 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
-    padding-left: var(--seed-dimension-spacing-x-global-gutter);
-    padding-right: var(--seed-dimension-spacing-x-global-gutter);
     margin: 0;
     white-space: pre-wrap;
 }
@@ -205,12 +195,6 @@
     flex-direction: column;
     flex: 1;
     overflow-y: auto;
-    --seed-box-padding-x-base: var(--seed-dimension-spacing-x-global-gutter);
-    --seed-box-padding-x-sm: var(--seed-box-padding-x-base);
-    --seed-box-padding-x-md: var(--seed-box-padding-x-sm);
-    --seed-box-padding-x-lg: var(--seed-box-padding-x-md);
-    --seed-box-padding-x-xl: var(--seed-box-padding-x-lg);
-    --seed-box-padding-x: var(--seed-box-padding-x-base);
     --seed-box-height-base: initial;
     --seed-box-height-sm: var(--seed-box-height-base);
     --seed-box-height-md: var(--seed-box-height-sm);
@@ -231,8 +215,6 @@
     --seed-box-max-height: var(--seed-box-max-height-base);
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
-    padding-left: var(--seed-box-padding-x);
-    padding-right: var(--seed-box-padding-x);
     height: var(--seed-box-height);
     min-height: var(--seed-box-min-height);
     max-height: var(--seed-box-max-height);
@@ -242,10 +224,11 @@
 .seed-drawer__footer {
     display: flex;
     flex-direction: column;
-    padding-left: var(--seed-dimension-spacing-x-global-gutter);
-    padding-right: var(--seed-dimension-spacing-x-global-gutter);
-    padding-top: var(--seed-dimension-x3);
-    padding-bottom: var(--seed-dimension-x4);
+    padding-left: var(--seed-dimension-x6);
+    padding-right: var(--seed-dimension-x6);
+    padding-top: var(--seed-dimension-x4);
+    padding-bottom: var(--seed-dimension-x6);
+    gap: var(--seed-dimension-x2);
 }
 .seed-drawer__closeButton {
     position: absolute;
@@ -293,7 +276,6 @@
 }
 @media (min-width: 480px) {
     .seed-drawer__body {
-        --seed-box-padding-x: var(--seed-box-padding-x-sm);
         --seed-box-height: var(--seed-box-height-sm);
         --seed-box-min-height: var(--seed-box-min-height-sm);
         --seed-box-max-height: var(--seed-box-max-height-sm);
@@ -301,7 +283,6 @@
 }
 @media (min-width: 768px) {
     .seed-drawer__body {
-        --seed-box-padding-x: var(--seed-box-padding-x-md);
         --seed-box-height: var(--seed-box-height-md);
         --seed-box-min-height: var(--seed-box-min-height-md);
         --seed-box-max-height: var(--seed-box-max-height-md);
@@ -309,7 +290,6 @@
 }
 @media (min-width: 1280px) {
     .seed-drawer__body {
-        --seed-box-padding-x: var(--seed-box-padding-x-lg);
         --seed-box-height: var(--seed-box-height-lg);
         --seed-box-min-height: var(--seed-box-min-height-lg);
         --seed-box-max-height: var(--seed-box-max-height-lg);
@@ -317,7 +297,6 @@
 }
 @media (min-width: 1440px) {
     .seed-drawer__body {
-        --seed-box-padding-x: var(--seed-box-padding-x-xl);
         --seed-box-height: var(--seed-box-height-xl);
         --seed-box-min-height: var(--seed-box-min-height-xl);
         --seed-box-max-height: var(--seed-box-max-height-xl);

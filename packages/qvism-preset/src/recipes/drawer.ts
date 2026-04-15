@@ -94,29 +94,21 @@ const drawer = defineSlotRecipe({
       [pseudo("[data-drawer-direction='left']")]: {
         height: "100vh",
         width: "var(--seed-box-width, var(--drawer-size-width))",
-        borderTopRightRadius: vars.base.enabled.content.cornerRadius,
-        borderBottomRightRadius: vars.base.enabled.content.cornerRadius,
       },
       [pseudo("[data-drawer-direction='right']")]: {
         height: "100vh",
         width: "var(--seed-box-width, var(--drawer-size-width))",
-        borderTopLeftRadius: vars.base.enabled.content.cornerRadius,
-        borderBottomLeftRadius: vars.base.enabled.content.cornerRadius,
       },
 
       // Top/Bottom: full width, auto height with max
       [pseudo("[data-drawer-direction='bottom']")]: {
         width: "100%",
         maxHeight: "var(--seed-box-max-height, 90vh)",
-        borderTopLeftRadius: vars.base.enabled.content.cornerRadius,
-        borderTopRightRadius: vars.base.enabled.content.cornerRadius,
         paddingBottom: "var(--seed-safe-area-bottom)",
       },
       [pseudo("[data-drawer-direction='top']")]: {
         width: "100%",
         maxHeight: "var(--seed-box-max-height, 90vh)",
-        borderBottomLeftRadius: vars.base.enabled.content.cornerRadius,
-        borderBottomRightRadius: vars.base.enabled.content.cornerRadius,
       },
 
       // Direction-based slide animations
@@ -166,6 +158,8 @@ const drawer = defineSlotRecipe({
       flexDirection: "column",
 
       gap: vars.base.enabled.header.gap,
+      paddingLeft: vars.base.enabled.header.paddingX,
+      paddingRight: vars.base.enabled.header.paddingX,
       paddingTop: vars.base.enabled.header.paddingTop,
       paddingBottom: vars.base.enabled.header.paddingBottom,
     },
@@ -175,9 +169,6 @@ const drawer = defineSlotRecipe({
       lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
       wordBreak: "keep-all",
-
-      paddingLeft: "var(--seed-dimension-spacing-x-global-gutter)",
-      paddingRight: "var(--seed-dimension-spacing-x-global-gutter)",
 
       // When close button is shown, add extra right padding
       [pseudo("[data-show-close-button]")]: {
@@ -192,9 +183,6 @@ const drawer = defineSlotRecipe({
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
 
-      paddingLeft: vars.base.enabled.description.paddingX,
-      paddingRight: vars.base.enabled.description.paddingX,
-
       margin: 0,
       whiteSpace: "pre-wrap",
     },
@@ -204,14 +192,11 @@ const drawer = defineSlotRecipe({
       flex: 1,
       overflowY: "auto",
 
-      "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
       "--seed-box-height--responsive": "initial",
       "--seed-box-min-height--responsive": "initial",
       "--seed-box-max-height--responsive": "initial",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
-      paddingLeft: "var(--seed-box-padding-x)",
-      paddingRight: "var(--seed-box-padding-x)",
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
       maxHeight: "var(--seed-box-max-height)",
@@ -224,9 +209,9 @@ const drawer = defineSlotRecipe({
 
       paddingLeft: vars.base.enabled.footer.paddingX,
       paddingRight: vars.base.enabled.footer.paddingX,
-
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
+      gap: vars.base.enabled.footer.gap,
     },
     closeButton: {
       position: "absolute",
