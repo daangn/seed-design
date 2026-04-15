@@ -115,15 +115,15 @@ size는 `direction`이 `"left"` 또는 `"right"`일 때만 적용됩니다. 상�
   ```
 </ComponentExample>
 
-### Custom Width
+### Custom Size
 
 `<DrawerContent>`에 `width`, `maxWidth`, `height`, `maxHeight` prop을 전달하여 크기를 직접 제어할 수 있습니다.
-프리셋 size 대신 뷰포트 기반의 유동적인 너비가 필요할 때 사용합니다.
+프리셋 size 대신 뷰포트 기반의 유동적인 크기가 필요할 때 사용합니다.
 
-<ComponentExample name="react/drawer/custom-width">
+<ComponentExample name="react/drawer/custom-size">
   ```json doc-gen:file
   {
-    "file": "examples/react/drawer/custom-width.tsx",
+    "file": "examples/react/drawer/custom-size.tsx",
     "codeblock": true
   }
   ```
@@ -152,6 +152,19 @@ size는 `direction`이 `"left"` 또는 `"right"`일 때만 적용됩니다. 상�
   ```json doc-gen:file
   {
     "file": "examples/react/drawer/dismissible.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Scroll
+
+본문 콘텐츠가 길어질 경우 `DrawerBody` 내부에서 스크롤이 발생합니다. 헤더와 푸터는 고정되며, 스크롤 시 헤더 하단에 `Divider`를 표시하고 하단에 `ScrollFog`를 적용하여 콘텐츠 존재를 암시할 수 있습니다.
+
+<ComponentExample name="react/drawer/with-scroll">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/drawer/with-scroll.tsx",
     "codeblock": true
   }
   ```

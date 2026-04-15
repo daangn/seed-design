@@ -6,9 +6,8 @@ import {
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
-import { bottomSheetCloseButton as closeButtonVars, drawer as vars } from "../vars/component";
-import { vars as tokens } from "../vars";
+import { active, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { drawerCloseButton as closeButtonVars, drawer as vars } from "../vars/component";
 
 const drawer = defineSlotRecipe({
   name: "drawer",
@@ -66,6 +65,11 @@ const drawer = defineSlotRecipe({
       background: vars.base.enabled.content.color,
       touchAction: "none",
       willChange: "transform",
+
+      "--seed-box-width--responsive": "initial",
+      "--seed-box-max-width--responsive": "initial",
+      "--seed-box-height--responsive": "initial",
+      "--seed-box-max-height--responsive": "initial",
 
       [pseudo(focus)]: {
         outline: "none",
@@ -161,7 +165,7 @@ const drawer = defineSlotRecipe({
 
       // When close button is shown, add extra right padding
       [pseudo("[data-show-close-button]")]: {
-        paddingRight: "56px",
+        paddingRight: closeButtonVars.base.enabled.root.size,
       },
 
       margin: 0,
@@ -222,6 +226,10 @@ const drawer = defineSlotRecipe({
         size: closeButtonVars.base.enabled.icon.size,
       }),
 
+      [pseudo(active)]: {
+        background: closeButtonVars.base.pressed.root.color,
+      },
+
       "&:after": {
         content: '""',
 
@@ -231,7 +239,7 @@ const drawer = defineSlotRecipe({
         bottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
         left: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
 
-        borderRadius: tokens.$radius.r1,
+        borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
 
         ...createFocusRingRestStyles({ position: "inside" }),
         transition: FOCUS_RING_TRANSITION,
