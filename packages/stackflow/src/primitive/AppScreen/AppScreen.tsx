@@ -46,6 +46,9 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
 
   return (
     <AppScreenProvider value={api}>
+      {/* onMountAutoFocus is prevented because it fires during enter-active and
+          interrupts the CSS animation. Focus is handled by the useEffect above instead,
+          which defers until transitionState reaches "enter-done". */}
       <FocusScope asChild trapped loop onMountAutoFocus={(e) => e.preventDefault()}>
         <Primitive.div
           ref={composeRefs(innerRef, ref)}
