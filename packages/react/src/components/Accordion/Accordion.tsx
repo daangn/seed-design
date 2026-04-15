@@ -28,7 +28,7 @@ import {
 
 const { ClassNamesProvider, withContext, useClassNames } = createSlotRecipeContext(accordion);
 
-const useAccordionItemStateProps = (_prop?: { strict?: boolean }) => {
+const useAccordionItemStateProps = (props?: { strict?: boolean }) => {
   const ctx = useAccordionItemContext();
   return {
     stateProps: {
@@ -63,9 +63,7 @@ export const AccordionRoot = forwardRef<HTMLDivElement, AccordionRootProps>((all
   } = allProps;
 
   const collapsible = "collapsible" in allProps ? allProps.collapsible : undefined;
-
-  const { collapsible: _collapsible, ...restWithoutCollapsible } = rest as Record<string, unknown>;
-  const [variantProps, otherProps] = accordion.splitVariantProps(restWithoutCollapsible);
+  const [variantProps, otherProps] = accordion.splitVariantProps(rest);
   const classNames = accordion(variantProps);
 
   // Build accordion props based on type

@@ -1,7 +1,7 @@
 import { accordion as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
-import { suffixIcon } from "../utils/icon";
+import { onlyIcon, suffixIcon } from "../utils/icon";
 import { disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import {
   FOCUS_RING_TRANSITION,
@@ -79,6 +79,16 @@ const accordion = defineSlotRecipe({
       display: "inline-flex",
       alignItems: "center",
       flexShrink: 0,
+
+      ...onlyIcon({
+        color: vars.base.enabled.prefix.color,
+      }),
+
+      [pseudo(disabled)]: {
+        ...onlyIcon({
+          color: vars.base.disabled.prefix.color,
+        }),
+      },
     },
     body: {
       display: "flex",

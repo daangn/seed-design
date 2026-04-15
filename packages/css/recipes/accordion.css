@@ -59,6 +59,10 @@
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
+    --seed-icon-color: var(--seed-color-fg-neutral-subtle);
+}
+.seed-accordion__prefix:is(:disabled, [disabled], [data-disabled]) {
+    --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-accordion__body {
     display: flex;

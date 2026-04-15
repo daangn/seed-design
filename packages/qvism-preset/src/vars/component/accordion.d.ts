@@ -8,6 +8,9 @@ export declare const vars: {
       "trigger": {
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
       },
+      "prefix": {
+        "color": "var(--seed-color-fg-neutral-subtle)"
+      },
       "body": {
         "gap": "var(--seed-dimension-x0_5)"
       },
@@ -40,6 +43,9 @@ export declare const vars: {
       }
     },
     "disabled": {
+      "prefix": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
       "title": {
         "color": "var(--seed-color-fg-disabled)"
       },

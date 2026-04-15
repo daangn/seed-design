@@ -18,15 +18,18 @@ export interface AccordionItemProps extends SeedAccordion.ItemProps {}
  */
 export const AccordionItem = SeedAccordion.Item;
 
-export interface AccordionTriggerProps extends SeedAccordion.TriggerProps {}
+export interface AccordionTriggerProps extends Omit<SeedAccordion.TriggerProps, "prefix"> {
+  prefix?: React.ReactNode;
+}
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(
-  ({ children, ...props }, ref) => (
+  ({ children, prefix, ...props }, ref) => (
     <SeedAccordion.Trigger ref={ref} {...props}>
-      {children}
+      {prefix && <SeedAccordion.Prefix>{prefix}</SeedAccordion.Prefix>}
+      <SeedAccordion.Body>{children}</SeedAccordion.Body>
       <SeedAccordion.SuffixIcon>
         <IconChevronDownSmallLine />
       </SeedAccordion.SuffixIcon>
@@ -63,27 +66,6 @@ export interface AccordionDescriptionProps extends SeedAccordion.DescriptionProp
  */
 export const AccordionDescription = SeedAccordion.Description;
 
-export interface AccordionPrefixProps extends SeedAccordion.PrefixProps {}
-
-/**
- * @see https://seed-design.io/react/components/accordion
- */
-export const AccordionPrefix = SeedAccordion.Prefix;
-
-export interface AccordionSuffixIconProps extends SeedAccordion.SuffixIconProps {}
-
-/**
- * @see https://seed-design.io/react/components/accordion
- */
-export const AccordionSuffixIcon = SeedAccordion.SuffixIcon;
-
-export interface AccordionBodyProps extends SeedAccordion.BodyProps {}
-
-/**
- * @see https://seed-design.io/react/components/accordion
- */
-export const AccordionBody = SeedAccordion.Body;
-
 /**
  * @see https://seed-design.io/react/components/accordion
  */
@@ -91,9 +73,6 @@ export const Accordion = Object.assign(AccordionRoot, {
   Item: AccordionItem,
   Trigger: AccordionTrigger,
   Content: AccordionContent,
-  Body: AccordionBody,
   Title: AccordionTitle,
   Description: AccordionDescription,
-  Prefix: AccordionPrefix,
-  SuffixIcon: AccordionSuffixIcon,
 });

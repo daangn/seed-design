@@ -58,6 +58,9 @@
           "properties": {
             "paddingRight": {
               "type": "dimension"
+            },
+            "color": {
+              "type": "color"
             }
           }
         },
@@ -210,6 +213,12 @@
                   "value": "$dimension.spacing-x.global-gutter"
                 }
               },
+              "prefix": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                }
+              },
               "body": {
                 "gap": {
                   "type": "dimension",
@@ -301,6 +310,12 @@
               "disabled"
             ],
             "slots": {
+              "prefix": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
               "title": {
                 "color": {
                   "type": "color",

@@ -914,9 +914,14 @@
   }
 
   .seed-accordion__prefix {
+    --seed-icon-color: var(--seed-color-fg-neutral-subtle);
     flex-shrink: 0;
     align-items: center;
     display: inline-flex;
+  }
+
+  .seed-accordion__prefix:is(:disabled, [disabled], [data-disabled]) {
+    --seed-icon-color: var(--seed-color-fg-disabled);
   }
 
   .seed-accordion__body {

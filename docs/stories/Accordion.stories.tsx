@@ -12,13 +12,8 @@ import { VariantTable } from "./components/variant-table";
 const AccordionDemo = (props: React.ComponentProps<typeof AccordionRoot>) => (
   <Accordion {...props} style={{ width: 360 }}>
     <Accordion.Item value="item-1">
-      <Accordion.Trigger>
-        <Accordion.Prefix>
-          <Icon svg={<IconCalendarFill />} />
-        </Accordion.Prefix>
-        <Accordion.Body>
-          <Accordion.Title>배송은 얼마나 걸리나요?</Accordion.Title>
-        </Accordion.Body>
+      <Accordion.Trigger prefix={<Icon svg={<IconCalendarFill />} />}>
+        <Accordion.Title>배송은 얼마나 걸리나요?</Accordion.Title>
       </Accordion.Trigger>
       <Accordion.Content>
         주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
@@ -26,10 +21,8 @@ const AccordionDemo = (props: React.ComponentProps<typeof AccordionRoot>) => (
     </Accordion.Item>
     <Accordion.Item value="item-2">
       <Accordion.Trigger>
-        <Accordion.Body>
-          <Accordion.Title>반품 및 교환은 어떻게 하나요?</Accordion.Title>
-          <Accordion.Description>상품 수령 후 7일 이내</Accordion.Description>
-        </Accordion.Body>
+        <Accordion.Title>반품 및 교환은 어떻게 하나요?</Accordion.Title>
+        <Accordion.Description>상품 수령 후 7일 이내</Accordion.Description>
       </Accordion.Trigger>
       <Accordion.Content>
         상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된 경우
@@ -38,9 +31,7 @@ const AccordionDemo = (props: React.ComponentProps<typeof AccordionRoot>) => (
     </Accordion.Item>
     <Accordion.Item value="item-3">
       <Accordion.Trigger>
-        <Accordion.Body>
-          <Accordion.Title>결제 수단은 어떤 것이 있나요?</Accordion.Title>
-        </Accordion.Body>
+        <Accordion.Title>결제 수단은 어떤 것이 있나요?</Accordion.Title>
       </Accordion.Trigger>
       <Accordion.Content>
         신용카드, 체크카드, 계좌이체, 간편결제(카카오페이, 네이버페이) 등 다양한 결제 수단을
@@ -82,13 +73,8 @@ const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof Accord
     defaultValue={["item-1"]}
   >
     <Accordion.Item value="item-1">
-      <Accordion.Trigger>
-        <Accordion.Prefix>
-          <Icon svg={<IconCalendarFill />} />
-        </Accordion.Prefix>
-        <Accordion.Body>
-          <Accordion.Title>배송은 얼마나 걸리나요?</Accordion.Title>
-        </Accordion.Body>
+      <Accordion.Trigger prefix={<Icon svg={<IconCalendarFill />} />}>
+        <Accordion.Title>배송은 얼마나 걸리나요?</Accordion.Title>
       </Accordion.Trigger>
       <Accordion.Content>
         주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
@@ -96,10 +82,8 @@ const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof Accord
     </Accordion.Item>
     <Accordion.Item value="item-2">
       <Accordion.Trigger>
-        <Accordion.Body>
-          <Accordion.Title>반품 및 교환은 어떻게 하나요?</Accordion.Title>
-          <Accordion.Description>상품 수령 후 7일 이내</Accordion.Description>
-        </Accordion.Body>
+        <Accordion.Title>반품 및 교환은 어떻게 하나요?</Accordion.Title>
+        <Accordion.Description>상품 수령 후 7일 이내</Accordion.Description>
       </Accordion.Trigger>
       <Accordion.Content>
         상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된 경우
@@ -108,9 +92,7 @@ const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof Accord
     </Accordion.Item>
     <Accordion.Item value="item-3">
       <Accordion.Trigger>
-        <Accordion.Body>
-          <Accordion.Title>결제 수단은 어떤 것이 있나요?</Accordion.Title>
-        </Accordion.Body>
+        <Accordion.Title>결제 수단은 어떤 것이 있나요?</Accordion.Title>
       </Accordion.Trigger>
       <Accordion.Content>
         신용카드, 체크카드, 계좌이체, 간편결제(카카오페이, 네이버페이) 등 다양한 결제 수단을

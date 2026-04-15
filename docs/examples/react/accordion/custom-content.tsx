@@ -5,10 +5,8 @@ export default function AccordionCustomContent() {
     <Accordion>
       <Accordion.Item value="item-1">
         <Accordion.Trigger>
-          <Accordion.Body>
-            <Accordion.Title>배송 안내</Accordion.Title>
-            <Accordion.Description>배송 정책 및 예상 소요 시간</Accordion.Description>
-          </Accordion.Body>
+          <Accordion.Title>배송 안내</Accordion.Title>
+          <Accordion.Description>배송 정책 및 예상 소요 시간</Accordion.Description>
         </Accordion.Trigger>
         <Accordion.Content>
           <div
@@ -38,10 +36,8 @@ export default function AccordionCustomContent() {
       </Accordion.Item>
       <Accordion.Item value="item-2">
         <Accordion.Trigger>
-          <Accordion.Body>
-            <Accordion.Title>반품 및 교환</Accordion.Title>
-            <Accordion.Description>반품/교환 절차 안내</Accordion.Description>
-          </Accordion.Body>
+          <Accordion.Title>반품 및 교환</Accordion.Title>
+          <Accordion.Description>반품/교환 절차 안내</Accordion.Description>
         </Accordion.Trigger>
         <Accordion.Content>
           <ul
