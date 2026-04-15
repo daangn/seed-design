@@ -1309,6 +1309,7 @@
       "version": "1.1.23",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-focus-scope": "^1.1.4",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
         "@seed-design/dom-utils": "1.0.0",

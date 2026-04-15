@@ -1,4 +1,5 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
+import { FocusScope } from "@radix-ui/react-focus-scope";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
@@ -34,11 +35,21 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
 
   return (
     <AppScreenProvider value={api}>
-      <Primitive.div
-        ref={composeRefs(innerRef, ref)}
-        data-stackflow-component-name="AppScreen"
-        {...mergeProps(api.activityProps, otherProps)}
-      />
+      <FocusScope
+        asChild
+        trapped
+        loop
+        onMountAutoFocus={(e) => {
+          e.preventDefault();
+          api.layerRef.current?.focus();
+        }}
+      >
+        <Primitive.div
+          ref={composeRefs(innerRef, ref)}
+          data-stackflow-component-name="AppScreen"
+          {...mergeProps(api.activityProps, otherProps)}
+        />
+      </FocusScope>
     </AppScreenProvider>
   );
 });
@@ -65,8 +76,14 @@ AppScreenEdge.displayName = "AppScreenEdge";
 export interface AppScreenLayerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppScreenLayer = forwardRef<HTMLDivElement, AppScreenLayerProps>((props, ref) => {
-  const { layerProps } = useAppScreenContext();
+  const { layerProps, layerRef } = useAppScreenContext();
 
-  return <Primitive.div ref={ref} {...mergeProps(layerProps, props)} />;
+  return (
+    <Primitive.div
+      ref={composeRefs(ref, layerRef)}
+      tabIndex={-1}
+      {...mergeProps(layerProps, props)}
+    />
+  );
 });
 AppScreenLayer.displayName = "AppScreenLayer";
