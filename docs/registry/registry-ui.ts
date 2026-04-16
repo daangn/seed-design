@@ -211,6 +211,15 @@ export const registryUI: Registry = {
       deprecated: true,
     },
     {
+      id: "menu",
+      snippets: [
+        {
+          path: "menu.tsx",
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+        },
+      ],
+    },
+    {
       id: "menu-sheet",
       snippets: [
         {
@@ -400,6 +409,15 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "result-section.tsx",
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
+        },
+      ],
+    },
+    {
+      id: "side-navigation",
+      snippets: [
+        {
+          path: "side-navigation.tsx",
           dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],

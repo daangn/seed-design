@@ -1,5 +1,19 @@
 # @seed-design/mcp
 
+## 0.0.0-alpha-20260414104312
+
+### Patch Changes
+
+- Side Navigation, Footer, Menu 컴포넌트를 추가합니다.
+- Updated dependencies
+  - @seed-design/figma@0.0.0-alpha-20260414104312
+
+## 0.0.0
+
+### Patch Changes
+
+- @seed-design/figma@0.0.0
+
 ## 1.3.9
 
 ### Patch Changes

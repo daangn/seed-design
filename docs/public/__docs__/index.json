@@ -318,6 +318,19 @@
               ]
             },
             {
+              "id": "menu",
+              "title": "Menu",
+              "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+              "docUrl": "/docs/components/menu",
+              "snippetKey": "ui:menu",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu.tsx"
+                }
+              ]
+            },
+            {
               "id": "menu-sheet",
               "title": "Menu Sheet",
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
@@ -423,6 +436,19 @@
                 {
                   "label": "react",
                   "path": "select-box.tsx"
+                }
+              ]
+            },
+            {
+              "id": "side-navigation",
+              "title": "Side Navigation",
+              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+              "docUrl": "/docs/components/side-navigation",
+              "snippetKey": "ui:side-navigation",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-navigation.tsx"
                 }
               ]
             },
@@ -1133,6 +1159,19 @@
               ]
             },
             {
+              "id": "menu",
+              "title": "Menu",
+              "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+              "docUrl": "/react/components/menu",
+              "snippetKey": "ui:menu",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu.tsx"
+                }
+              ]
+            },
+            {
               "id": "menu-sheet",
               "title": "Menu Sheet",
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
@@ -1574,6 +1613,25 @@
               "title": "Footer",
               "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
               "docUrl": "/react/blocks/footer"
+            },
+            {
+              "id": "layout",
+              "title": "Layout",
+              "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",
+              "docUrl": "/react/blocks/layout"
+            },
+            {
+              "id": "side-navigation",
+              "title": "Side Navigation",
+              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+              "docUrl": "/react/blocks/side-navigation",
+              "snippetKey": "ui:side-navigation",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-navigation.tsx"
+                }
+              ]
             }
           ]
         }

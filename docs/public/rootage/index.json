@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "1.2.6",
+  "version": "0.0.0-alpha-20260414104312",
   "resources": [
     {
       "path": "/collections.json"
@@ -156,6 +156,9 @@
       "path": "/components/manner-temp.json"
     },
     {
+      "path": "/components/menu-item.json"
+    },
+    {
       "path": "/components/menu-sheet-close-button.json"
     },
     {
@@ -163,6 +166,9 @@
     },
     {
       "path": "/components/menu-sheet.json"
+    },
+    {
+      "path": "/components/menu.json"
     },
     {
       "path": "/components/notification-badge.json"

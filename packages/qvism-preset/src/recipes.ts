@@ -45,6 +45,7 @@ import listHeader from "./recipes/list-header";
 import listItem from "./recipes/list-item";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
+import { menu, menuItem } from "./recipes/menu";
 import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
@@ -58,6 +59,11 @@ import reactionButton from "./recipes/reaction-button";
 import scrollFog from "./recipes/scroll-fog";
 import segmentedControl from "./recipes/segmented-control";
 import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
+import {
+  sideNavigation,
+  sideNavigationInset,
+  sideNavigationMenuItem,
+} from "./recipes/side-navigation";
 import skeleton from "./recipes/skeleton";
 import { slider, sliderMarker, sliderTick } from "./recipes/slider";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
@@ -121,6 +127,8 @@ export const recipes = {
   listItem,
   mannerTemp,
   mannerTempBadge,
+  menu,
+  menuItem,
   menuSheet,
   menuSheetItem,
   notificationBadge,
@@ -137,6 +145,9 @@ export const recipes = {
   selectBox,
   selectBoxCheckmark,
   selectBoxGroup,
+  sideNavigation,
+  sideNavigationInset,
+  sideNavigationMenuItem,
   skeleton,
   slider,
   sliderMarker,

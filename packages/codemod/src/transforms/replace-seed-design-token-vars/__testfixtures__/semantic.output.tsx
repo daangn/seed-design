@@ -36,7 +36,7 @@ const styles = {
   backgroundImage: vars.$color.bg.layerFloating,
   backgroundBlendMode: vars.$color.bg.layerFloating,
   webkitBackgroundClip: vars.$color.bg.layerFloating,
-  layerBackground: vars.$color.bg.layerFill,
+  layerBackground: vars.$color.bg.neutralWeak,
   canvasBackground: vars.$color.bg.layerDefault,
   screenBackgroundColor: vars.$color.bg.layerBasement,
   highlightBackground: vars.$color.palette.carrot100,
