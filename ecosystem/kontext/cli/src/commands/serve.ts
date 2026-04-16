@@ -19,6 +19,30 @@ const MIME_TYPES: Record<string, string> = {
 
 const SKIP_DIRS = new Set(["node_modules", ".git", "dist", "lib", ".kontext", ".next", ".turbo"]);
 
+const BINARY_EXTS = new Set([
+  ".png",
+  ".jpg",
+  ".jpeg",
+  ".gif",
+  ".webp",
+  ".ico",
+  ".svg",
+  ".woff",
+  ".woff2",
+  ".ttf",
+  ".eot",
+  ".otf",
+  ".wasm",
+  ".zip",
+  ".tar",
+  ".gz",
+  ".br",
+  ".pdf",
+  ".mp3",
+  ".mp4",
+  ".webm",
+]);
+
 function jsonResponse(res: import("node:http").ServerResponse, statusCode: number, data: unknown) {
   res.writeHead(statusCode, {
     "Content-Type": "application/json",
@@ -173,42 +197,24 @@ export function serveCommand(cli: CAC) {
               return;
             }
 
-            if (!existsSync(targetPath) || !statSync(targetPath).isFile()) {
+            let stat: ReturnType<typeof statSync>;
+            try {
+              stat = statSync(targetPath);
+            } catch {
               jsonResponse(res, 404, { error: "File not found" });
               return;
             }
-
-            const stat = statSync(targetPath);
+            if (!stat.isFile()) {
+              jsonResponse(res, 404, { error: "File not found" });
+              return;
+            }
             if (stat.size > 512 * 1024) {
               jsonResponse(res, 413, { error: "File too large (max 512KB)" });
               return;
             }
 
             const ext = extname(targetPath).toLowerCase();
-            const binaryExts = new Set([
-              ".png",
-              ".jpg",
-              ".jpeg",
-              ".gif",
-              ".webp",
-              ".ico",
-              ".svg",
-              ".woff",
-              ".woff2",
-              ".ttf",
-              ".eot",
-              ".otf",
-              ".wasm",
-              ".zip",
-              ".tar",
-              ".gz",
-              ".br",
-              ".pdf",
-              ".mp3",
-              ".mp4",
-              ".webm",
-            ]);
-            if (binaryExts.has(ext)) {
+            if (BINARY_EXTS.has(ext)) {
               jsonResponse(res, 415, { error: "Binary file", binary: true });
               return;
             }
@@ -248,9 +254,7 @@ export function serveCommand(cli: CAC) {
               const { content } = JSON.parse(body) as { content: string };
 
               const dir = dirname(configPath);
-              if (!existsSync(dir)) {
-                mkdirSync(dir, { recursive: true });
-              }
+              mkdirSync(dir, { recursive: true });
               writeFileSync(configPath, content, "utf-8");
               jsonResponse(res, 200, { success: true });
               return;

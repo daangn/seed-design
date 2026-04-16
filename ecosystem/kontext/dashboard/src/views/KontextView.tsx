@@ -317,7 +317,7 @@ export function KontextView({ graph, onSaved }: KontextViewProps) {
       const path = e.dataTransfer.getData("text/plain");
       if (path) addAffect(relationId, path);
     },
-    [relations, ignorePatterns],
+    [],
   );
 
   async function handleSave() {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useShiki } from "@/hooks/useShiki";
 import { cn } from "@/lib/utils";
@@ -11,13 +11,11 @@ interface CodePreviewProps {
 
 export function CodePreview({ code, lang, className }: CodePreviewProps) {
   const { highlight, isReady } = useShiki();
-  const [html, setHtml] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!isReady) return;
-    const result = highlight(code, lang);
-    setHtml(result);
-  }, [code, lang, isReady, highlight]);
+  const html = useMemo(
+    () => (isReady ? highlight(code, lang) : null),
+    [code, lang, isReady, highlight],
+  );
 
   return (
     <ScrollArea className={cn("h-full", className)}>

@@ -233,6 +233,29 @@ const SKIP_DIRS = new Set([
     ".next",
     ".turbo"
 ]);
+const BINARY_EXTS = new Set([
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".webp",
+    ".ico",
+    ".svg",
+    ".woff",
+    ".woff2",
+    ".ttf",
+    ".eot",
+    ".otf",
+    ".wasm",
+    ".zip",
+    ".tar",
+    ".gz",
+    ".br",
+    ".pdf",
+    ".mp3",
+    ".mp4",
+    ".webm"
+]);
 function jsonResponse(res, statusCode, data) {
     res.writeHead(statusCode, {
         "Content-Type": "application/json",
@@ -380,13 +403,21 @@ function serveCommand(cli) {
                         });
                         return;
                     }
-                    if (!existsSync(targetPath) || !statSync(targetPath).isFile()) {
+                    let stat;
+                    try {
+                        stat = statSync(targetPath);
+                    } catch  {
                         jsonResponse(res, 404, {
                             error: "File not found"
                         });
                         return;
                     }
-                    const stat = statSync(targetPath);
+                    if (!stat.isFile()) {
+                        jsonResponse(res, 404, {
+                            error: "File not found"
+                        });
+                        return;
+                    }
                     if (stat.size > 512 * 1024) {
                         jsonResponse(res, 413, {
                             error: "File too large (max 512KB)"
@@ -394,30 +425,7 @@ function serveCommand(cli) {
                         return;
                     }
                     const ext = extname(targetPath).toLowerCase();
-                    const binaryExts = new Set([
-                        ".png",
-                        ".jpg",
-                        ".jpeg",
-                        ".gif",
-                        ".webp",
-                        ".ico",
-                        ".svg",
-                        ".woff",
-                        ".woff2",
-                        ".ttf",
-                        ".eot",
-                        ".otf",
-                        ".wasm",
-                        ".zip",
-                        ".tar",
-                        ".gz",
-                        ".br",
-                        ".pdf",
-                        ".mp3",
-                        ".mp4",
-                        ".webm"
-                    ]);
-                    if (binaryExts.has(ext)) {
+                    if (BINARY_EXTS.has(ext)) {
                         jsonResponse(res, 415, {
                             error: "Binary file",
                             binary: true
@@ -469,11 +477,9 @@ function serveCommand(cli) {
                         const body = await parseBody(req);
                         const { content } = JSON.parse(body);
                         const dir = dirname(configPath);
-                        if (!existsSync(dir)) {
-                            mkdirSync(dir, {
-                                recursive: true
-                            });
-                        }
+                        mkdirSync(dir, {
+                            recursive: true
+                        });
                         writeFileSync(configPath, content, "utf-8");
                         jsonResponse(res, 200, {
                             success: true

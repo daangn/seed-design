@@ -4,10 +4,8 @@ import type { KontextConfig } from "@/types";
 export function useConfig() {
   const [config, setConfig] = useState<KontextConfig | null>(null);
   const [saving, setSaving] = useState(false);
-  const [currentPackage, setCurrentPackage] = useState<string | null>(null);
 
   const loadConfig = useCallback(async (packageDir: string) => {
-    setCurrentPackage(packageDir);
     try {
       const res = await fetch(`/api/config/${encodeURIComponent(packageDir)}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -36,5 +34,5 @@ export function useConfig() {
     }
   }, []);
 
-  return { config, saving, currentPackage, loadConfig, saveConfig };
+  return { config, saving, loadConfig, saveConfig };
 }
