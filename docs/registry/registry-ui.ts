@@ -357,9 +357,9 @@ export const registryUI: Registry = {
           dependencies: {
             "@seed-design/react": "~1.2.0",
             "@seed-design/css": "~1.2.0",
-            "@dnd-kit/react": "^0.3.2",
-            "@dnd-kit/abstract": "^0.3.2",
-            "@dnd-kit/dom": "^0.3.2",
+            "@dnd-kit/react": "^0.4.0",
+            "@dnd-kit/abstract": "^0.4.0",
+            "@dnd-kit/dom": "^0.4.0",
           },
         },
       ],

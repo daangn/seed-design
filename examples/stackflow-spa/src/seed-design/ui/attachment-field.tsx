@@ -6,7 +6,11 @@ import {
   PrefixIcon,
   VisuallyHidden,
 } from "@seed-design/react";
-import { useFileUploadContext, type FileEntry } from "@seed-design/react/primitive";
+import {
+  useFileUploadContext,
+  type FileEntry,
+  type UseFileUploadReturn,
+} from "@seed-design/react/primitive";
 import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   IconCameraFill,
@@ -132,7 +136,13 @@ AttachmentField.displayName = "AttachmentField";
 
 export type AttachmentInputProps =
   | { children: SeedAttachmentInput.ContextProps["children"]; onRetry?: never }
-  | { children?: undefined; onRetry?: (fileEntry: FileEntry) => void };
+  | {
+      children?: undefined;
+      onRetry?: (
+        fileEntry: FileEntry,
+        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+      ) => void;
+    };
 
 export const AttachmentInput = React.forwardRef<HTMLDivElement, AttachmentInputProps>(
   ({ children, onRetry }, ref) => {
@@ -149,12 +159,14 @@ export const AttachmentInput = React.forwardRef<HTMLDivElement, AttachmentInputP
           <SeedAttachmentInput.Context>
             {typeof children === "function"
               ? children
-              : ({ acceptedFileEntries }) =>
+              : ({ acceptedFileEntries, updateFileEntryStatus }) =>
                   acceptedFileEntries.map((fileEntry) => (
                     <AttachmentInputItem
                       key={fileEntry.id}
                       fileEntry={fileEntry}
-                      {...(onRetry && { onRetry: () => onRetry(fileEntry) })}
+                      {...(onRetry && {
+                        onRetry: () => onRetry(fileEntry, { updateFileEntryStatus }),
+                      })}
                     />
                   ))}
           </SeedAttachmentInput.Context>
@@ -167,7 +179,13 @@ AttachmentInput.displayName = "AttachmentInput";
 
 export type AttachmentDropzoneProps =
   | { children: SeedAttachmentInput.ContextProps["children"]; onRetry?: never }
-  | { children?: undefined; onRetry?: (fileEntry: FileEntry) => void };
+  | {
+      children?: undefined;
+      onRetry?: (
+        fileEntry: FileEntry,
+        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+      ) => void;
+    };
 
 export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children, onRetry }) => {
   const { triggerProps } = useFileUploadContext();
@@ -186,12 +204,14 @@ export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children
           <SeedAttachmentInput.Context>
             {typeof children === "function"
               ? children
-              : ({ acceptedFileEntries }) =>
+              : ({ acceptedFileEntries, updateFileEntryStatus }) =>
                   acceptedFileEntries.map((fileEntry) => (
                     <AttachmentInputItem
                       key={fileEntry.id}
                       fileEntry={fileEntry}
-                      {...(onRetry && { onRetry: () => onRetry(fileEntry) })}
+                      {...(onRetry && {
+                        onRetry: () => onRetry(fileEntry, { updateFileEntryStatus }),
+                      })}
                     />
                   ))}
           </SeedAttachmentInput.Context>

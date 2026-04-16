@@ -1,6 +1,10 @@
 import * as React from "react";
 import { AttachmentInput as SeedAttachmentInput, PrefixIcon } from "@seed-design/react";
-import { useFileUploadContext, type FileEntry } from "@seed-design/react/primitive";
+import {
+  useFileUploadContext,
+  type FileEntry,
+  type UseFileUploadReturn,
+} from "@seed-design/react/primitive";
 import {
   IconCameraFill,
   IconPaperclipFill,
@@ -17,6 +21,8 @@ import { Accessibility, AutoScroller } from "@dnd-kit/dom";
 
 const LABEL_SELECT_FILE = "파일 선택";
 const LABEL_DROP_FILE = "또는 여기로 드래그해서 업로드";
+
+const autoScrollerPlugin = AutoScroller.configure({ threshold: { x: 0.2, y: 0 } });
 
 const accessibilityPlugin = Accessibility.configure({
   screenReaderInstructions: {
@@ -41,7 +47,13 @@ const accessibilityPlugin = Accessibility.configure({
 
 export type AttachmentInputReorderableProps =
   | { children: SeedAttachmentInput.ContextProps["children"]; onRetry?: never }
-  | { children?: undefined; onRetry?: (fileEntry: FileEntry) => void };
+  | {
+      children?: undefined;
+      onRetry?: (
+        fileEntry: FileEntry,
+        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+      ) => void;
+    };
 
 export const AttachmentInputReorderable = React.forwardRef<
   HTMLDivElement,
@@ -51,7 +63,7 @@ export const AttachmentInputReorderable = React.forwardRef<
 
   return (
     <DragDropProvider
-      plugins={(defaults) => [...defaults.filter((p) => p !== AutoScroller), accessibilityPlugin]}
+      plugins={(defaults) => [...defaults, autoScrollerPlugin, accessibilityPlugin]}
       onDragEnd={({ canceled, operation: { source } }) => {
         if (canceled) return;
         if (!isSortable(source)) return;
@@ -71,13 +83,15 @@ export const AttachmentInputReorderable = React.forwardRef<
           <SeedAttachmentInput.Context>
             {typeof children === "function"
               ? children
-              : ({ acceptedFileEntries }) =>
+              : ({ acceptedFileEntries, updateFileEntryStatus }) =>
                   acceptedFileEntries.map((fileEntry, index) => (
                     <SortableAttachmentInputItem
                       key={fileEntry.id}
                       fileEntry={fileEntry}
                       index={index}
-                      {...(onRetry && { onRetry: () => onRetry(fileEntry) })}
+                      {...(onRetry && {
+                        onRetry: () => onRetry(fileEntry, { updateFileEntryStatus }),
+                      })}
                     />
                   ))}
           </SeedAttachmentInput.Context>
@@ -90,7 +104,13 @@ AttachmentInputReorderable.displayName = "AttachmentInputReorderable";
 
 export type AttachmentDropzoneReorderableProps =
   | { children: SeedAttachmentInput.ContextProps["children"]; onRetry?: never }
-  | { children?: undefined; onRetry?: (fileEntry: FileEntry) => void };
+  | {
+      children?: undefined;
+      onRetry?: (
+        fileEntry: FileEntry,
+        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+      ) => void;
+    };
 
 export const AttachmentDropzoneReorderable: React.FC<AttachmentDropzoneReorderableProps> = ({
   children,
@@ -108,7 +128,7 @@ export const AttachmentDropzoneReorderable: React.FC<AttachmentDropzoneReorderab
         <SeedAttachmentInput.DropzoneLabel>{LABEL_DROP_FILE}</SeedAttachmentInput.DropzoneLabel>
       </SeedAttachmentInput.Dropzone>
       <DragDropProvider
-        plugins={(defaults) => [...defaults.filter((p) => p !== AutoScroller), accessibilityPlugin]}
+        plugins={(defaults) => [...defaults, autoScrollerPlugin, accessibilityPlugin]}
         onDragEnd={({ canceled, operation: { source } }) => {
           if (canceled) return;
           if (!isSortable(source)) return;
@@ -121,13 +141,15 @@ export const AttachmentDropzoneReorderable: React.FC<AttachmentDropzoneReorderab
             <SeedAttachmentInput.Context>
               {typeof children === "function"
                 ? children
-                : ({ acceptedFileEntries }) =>
+                : ({ acceptedFileEntries, updateFileEntryStatus }) =>
                     acceptedFileEntries.map((fileEntry, index) => (
                       <SortableAttachmentInputItem
                         key={fileEntry.id}
                         fileEntry={fileEntry}
                         index={index}
-                        {...(onRetry && { onRetry: () => onRetry(fileEntry) })}
+                        {...(onRetry && {
+                          onRetry: () => onRetry(fileEntry, { updateFileEntryStatus }),
+                        })}
                       />
                     ))}
             </SeedAttachmentInput.Context>
@@ -143,7 +165,7 @@ interface SortableAttachmentInputItemProps extends AttachmentInputItemProps {
   index: number;
 }
 
-const SortableAttachmentInputItem = React.forwardRef<
+export const SortableAttachmentInputItem = React.forwardRef<
   HTMLLIElement,
   SortableAttachmentInputItemProps
 >(({ fileEntry, index, ...props }, _ref) => {
