@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: attachment-input
+  name: Attachment Input
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+        description: Attachment Input Dropzone과 Items를 감싸는 컨테이너입니다.
+      items:
+        properties:
+          gap:
+            type: dimension
+        description: Attachment Input Trigger 및 Attachment Input Items를 감싸는 컨테이너입니다.
+  definitions:
+    base:
+      enabled:
+        root:
+          gap: $dimension.x2
+        items:
+          gap: $dimension.x2

@@ -19,6 +19,10 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@dnd-kit/abstract": "^0.4.0",
+    "@dnd-kit/dom": "^0.4.0",
+    "@dnd-kit/react": "^0.4.0",
+    "@fumadocs/mdx-remote": "^1.3.2",
     "@karrotmarket/icon-data": "^1.17.0",
     "@karrotmarket/react-monochrome-icon": "^1.12.0",
     "@karrotmarket/react-multicolor-icon": "^1.10.0",

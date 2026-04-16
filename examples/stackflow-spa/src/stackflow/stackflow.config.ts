@@ -53,6 +53,7 @@ export const config = defineConfig({
     { route: "/side-navigation", name: "ActivitySideNavigation" },
     { route: "/swipeable-tabs", name: "ActivitySwipeableTabs" },
     { route: "/tabs", name: "ActivityTabs" },
+    { route: "/attachment-field", name: "ActivityAttachmentField" },
     { route: "/form", name: "ActivityForm" },
     { route: "/category-sheet", name: "ActivityCategorySheet" },
     { route: "/toggle-button", name: "ActivityToggleButton" },

@@ -48,6 +48,8 @@
     "@seed-design/react-field": "0.0.0-alpha-20260414104312",
     "@seed-design/react-field-button": "0.0.0-alpha-20260414104312",
     "@seed-design/react-fieldset": "0.1.0",
+    "@seed-design/react-file-upload": "0,0,0",
+    "@seed-design/react-middle-truncate": "0.0.0",
     "@seed-design/react-image": "0.0.0-alpha-20260414104312",
     "@seed-design/react-menu": "0.0.0-alpha-20260414104312",
     "@seed-design/react-popover": "0.0.0-alpha-20260414104312",
