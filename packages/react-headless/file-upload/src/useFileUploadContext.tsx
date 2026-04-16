@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import type { UseFileUploadReturn } from "./useFileUpload";
+import type { UseFileUploadItemReturn } from "./useFileUpload";
 import type { FileEntry } from "./types";
 
 // =============================================================================
@@ -29,7 +30,7 @@ export function useFileUploadContext<T extends boolean | undefined = true>({
 // FileUploadItem Context
 // =============================================================================
 
-export type FileUploadItemContext = FileEntry;
+export type FileUploadItemContext = FileEntry & UseFileUploadItemReturn;
 
 const ItemContext = createContext<FileUploadItemContext | null>(null);
 

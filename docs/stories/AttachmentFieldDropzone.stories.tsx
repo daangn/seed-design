@@ -20,7 +20,7 @@ interface AttachmentInputStoryProps
 
 const AttachmentInputForStory = (props: AttachmentInputStoryProps) => (
   <AttachmentField maxFiles={3} {...props}>
-    <AttachmentDropzone />
+    <AttachmentDropzone onRetry={() => {}} />
   </AttachmentField>
 );
 

@@ -20,7 +20,7 @@ interface AttachmentInputReorderableStoryProps
 
 const AttachmentInputReorderableForStory = (props: AttachmentInputReorderableStoryProps) => (
   <AttachmentField maxFiles={5} {...props}>
-    <AttachmentInputReorderable />
+    <AttachmentInputReorderable onRetry={() => {}} />
   </AttachmentField>
 );
 

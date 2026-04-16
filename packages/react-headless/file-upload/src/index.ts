@@ -6,6 +6,10 @@ export {
   FileUploadItemName,
   FileUploadItemSize,
   FileUploadItemRemoveButton,
+  FileUploadItemImage,
+  FileUploadItemThumbnail,
+  FileUploadItemMetadata,
+  FileUploadItemBackdrop,
   FileUploadContext,
   type FileUploadRootProps,
   type FileUploadDropzoneProps,
@@ -14,6 +18,10 @@ export {
   type FileUploadItemNameProps,
   type FileUploadItemSizeProps,
   type FileUploadItemRemoveButtonProps,
+  type FileUploadItemImageProps,
+  type FileUploadItemThumbnailProps,
+  type FileUploadItemMetadataProps,
+  type FileUploadItemBackdropProps,
   type FileUploadContextProps,
 } from "./FileUpload";
 
@@ -27,8 +35,10 @@ export {
 
 export {
   useFileUpload,
+  useFileUploadItem,
   type UseFileUploadProps,
   type UseFileUploadReturn,
+  type UseFileUploadItemReturn,
 } from "./useFileUpload";
 
 export type {

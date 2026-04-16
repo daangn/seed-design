@@ -299,6 +299,16 @@ const attachmentInputItem = defineSlotRecipe({
             boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeFile.enabled.root.strokeColor}`,
           },
         },
+        thumbnail: {
+          [pseudo("[data-has-overlay]")]: {
+            display: "none",
+          },
+        },
+        metadata: {
+          [pseudo("[data-has-overlay]")]: {
+            display: "none",
+          },
+        },
         actionButton: {
           color: itemVars.typeFile.enabled.actionButtonLabel.color,
 
@@ -314,6 +324,12 @@ const attachmentInputItem = defineSlotRecipe({
           "&::before": {
             boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeImage.enabled.root.strokeColor}`,
           },
+        },
+        thumbnail: {
+          display: "none",
+        },
+        metadata: {
+          display: "none",
         },
         backdrop: {
           background: itemVars.typeImage.enabled.backdrop.color,

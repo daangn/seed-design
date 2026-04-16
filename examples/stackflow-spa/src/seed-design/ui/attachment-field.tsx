@@ -6,7 +6,7 @@ import {
   PrefixIcon,
   VisuallyHidden,
 } from "@seed-design/react";
-import { useFileUploadContext } from "@seed-design/react/primitive";
+import { useFileUploadContext, type FileEntry } from "@seed-design/react/primitive";
 import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   IconCameraFill,
@@ -130,12 +130,12 @@ export const AttachmentField = React.forwardRef<HTMLInputElement, AttachmentFiel
 );
 AttachmentField.displayName = "AttachmentField";
 
-export interface AttachmentInputProps {
-  children?: SeedAttachmentInput.ContextProps["children"];
-}
+export type AttachmentInputProps =
+  | { children: SeedAttachmentInput.ContextProps["children"]; onRetry?: never }
+  | { children?: undefined; onRetry?: (fileEntry: FileEntry) => void };
 
 export const AttachmentInput = React.forwardRef<HTMLDivElement, AttachmentInputProps>(
-  ({ children }, ref) => {
+  ({ children, onRetry }, ref) => {
     return (
       <SeedAttachmentInput.Container ref={ref}>
         <SeedAttachmentInput.Trigger aria-label={LABEL_SELECT_FILE}>
@@ -151,7 +151,11 @@ export const AttachmentInput = React.forwardRef<HTMLDivElement, AttachmentInputP
               ? children
               : ({ acceptedFileEntries }) =>
                   acceptedFileEntries.map((fileEntry) => (
-                    <AttachmentInputItem key={fileEntry.id} fileEntry={fileEntry} />
+                    <AttachmentInputItem
+                      key={fileEntry.id}
+                      fileEntry={fileEntry}
+                      {...(onRetry && { onRetry: () => onRetry(fileEntry) })}
+                    />
                   ))}
           </SeedAttachmentInput.Context>
         </SeedAttachmentInput.ItemGroup>
@@ -161,11 +165,11 @@ export const AttachmentInput = React.forwardRef<HTMLDivElement, AttachmentInputP
 );
 AttachmentInput.displayName = "AttachmentInput";
 
-export interface AttachmentDropzoneProps {
-  children?: SeedAttachmentInput.ContextProps["children"];
-}
+export type AttachmentDropzoneProps =
+  | { children: SeedAttachmentInput.ContextProps["children"]; onRetry?: never }
+  | { children?: undefined; onRetry?: (fileEntry: FileEntry) => void };
 
-export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children }) => {
+export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children, onRetry }) => {
   const { triggerProps } = useFileUploadContext();
 
   return (
@@ -184,7 +188,11 @@ export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children
               ? children
               : ({ acceptedFileEntries }) =>
                   acceptedFileEntries.map((fileEntry) => (
-                    <AttachmentInputItem key={fileEntry.id} fileEntry={fileEntry} />
+                    <AttachmentInputItem
+                      key={fileEntry.id}
+                      fileEntry={fileEntry}
+                      {...(onRetry && { onRetry: () => onRetry(fileEntry) })}
+                    />
                   ))}
           </SeedAttachmentInput.Context>
         </SeedAttachmentInput.ItemGroup>
@@ -207,35 +215,31 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
 
     return (
       <SeedAttachmentInput.Item ref={ref} {...props}>
-        <SeedAttachmentInput.ItemPreview
-          image={<SeedAttachmentInput.ItemImage />}
-          general={
-            <>
-              <SeedAttachmentInput.ItemThumbnail fallback={<Icon svg={<IconPaperclipFill />} />} />
-              <SeedAttachmentInput.ItemMetadata>
-                <SeedAttachmentInput.ItemName />
-                <SeedAttachmentInput.ItemSizeText formatBytes={formatBytes} />
-              </SeedAttachmentInput.ItemMetadata>
-            </>
-          }
-          overlay={{
-            uploading: ({ progress }) => (
-              <ProgressCircle
-                size="24"
-                value={progress}
-                tone={acceptType === "image" ? "staticWhite" : "neutral"}
-              />
-            ),
-            ...(onRetry && {
-              error: (
-                <SeedAttachmentInput.ItemActionButton onClick={onRetry}>
-                  <Icon svg={<IconArrowClockwiseCircularFill />} />
-                  {LABEL_RETRY}
-                </SeedAttachmentInput.ItemActionButton>
-              ),
-            }),
-          }}
-        />
+        <SeedAttachmentInput.ItemImage />
+        <SeedAttachmentInput.ItemThumbnail>
+          <Icon svg={<IconPaperclipFill />} />
+        </SeedAttachmentInput.ItemThumbnail>
+        <SeedAttachmentInput.ItemMetadata>
+          <SeedAttachmentInput.ItemName />
+          <SeedAttachmentInput.ItemSizeText formatBytes={formatBytes} />
+        </SeedAttachmentInput.ItemMetadata>
+        <SeedAttachmentInput.ItemBackdrop status="uploading">
+          {(entry) => (
+            <ProgressCircle
+              size="24"
+              tone={acceptType === "image" ? "staticWhite" : "neutral"}
+              {...("progress" in entry && { value: entry.progress })}
+            />
+          )}
+        </SeedAttachmentInput.ItemBackdrop>
+        {onRetry && (
+          <SeedAttachmentInput.ItemBackdrop status="error">
+            <SeedAttachmentInput.ItemActionButton onClick={onRetry}>
+              <Icon svg={<IconArrowClockwiseCircularFill />} />
+              {LABEL_RETRY}
+            </SeedAttachmentInput.ItemActionButton>
+          </SeedAttachmentInput.ItemBackdrop>
+        )}
         <SeedAttachmentInput.ItemRemoveButton aria-label={LABEL_REMOVE_FILE}>
           <Icon svg={<IconXmarkFill />} />
         </SeedAttachmentInput.ItemRemoveButton>

@@ -10,6 +10,7 @@ import {
 import { useState, useCallback, useRef, useEffect } from "react";
 import type { FileRejection, FileError, FileEntry, FileStatusDetails } from "./types";
 import { getFileAcceptType } from "./accept-utils";
+import { useFileUploadContext } from "./useFileUploadContext";
 
 function syncInputFiles(inputEl: HTMLInputElement, files: File[]) {
   const dataTransfer = new DataTransfer();
@@ -445,15 +446,55 @@ export function useFileUpload({
         event.target.value = "";
       },
     }),
+  };
+}
 
-    getItemRemoveButtonProps: (id: string) =>
-      buttonProps({
-        type: "button",
-        // NOTE: `disabled` of item remove button works separately from the overall `disabled` state so we don't have stateProps here
+export type UseFileUploadItemReturn = ReturnType<typeof useFileUploadItem>;
 
-        onClick: () => {
-          removeFileEntry(id);
-        },
+export function useFileUploadItem(fileEntry: FileEntry) {
+  const { createFileUrl, removeFileEntry, acceptType } = useFileUploadContext();
+
+  const [isOverlayRendered, setIsOverlayRendered] = useState(false);
+  const overlayRef = useCallback((node: HTMLElement | null) => {
+    setIsOverlayRendered(!!node);
+  }, []);
+
+  // Image blob URL management
+  const [imageSrc, setImageSrc] = useState<string>();
+
+  useEffect(() => {
+    if (acceptType !== "image") return;
+    if (!fileEntry.file) return;
+
+    return createFileUrl(fileEntry.file, setImageSrc);
+  }, [fileEntry.file, createFileUrl, acceptType]);
+
+  const overlayStateProps = elementProps({
+    "data-has-overlay": dataAttr(isOverlayRendered),
+  });
+
+  return {
+    ...fileEntry,
+
+    refs: { overlay: overlayRef },
+
+    ...(acceptType === "image" &&
+      imageSrc && {
+        imageProps: {
+          src: imageSrc,
+          alt: fileEntry.file.name,
+        } satisfies React.ImgHTMLAttributes<HTMLImageElement>,
       }),
+
+    thumbnailProps: overlayStateProps,
+    metadataProps: overlayStateProps,
+
+    // NOTE: `disabled` of item remove button works separately from the overall `disabled` state so we don't have stateProps here
+    removeButtonProps: buttonProps({
+      type: "button",
+      onClick: () => {
+        removeFileEntry(fileEntry.id);
+      },
+    }),
   };
 }

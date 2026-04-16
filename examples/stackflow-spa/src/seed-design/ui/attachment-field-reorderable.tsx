@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { AttachmentInput as SeedAttachmentInput, PrefixIcon } from "@seed-design/react";
 import { useFileUploadContext, type FileEntry } from "@seed-design/react/primitive";

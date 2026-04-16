@@ -17,6 +17,7 @@ import {
   type FileUploadRootProps,
 } from "./FileUpload";
 import { FileUploadItemProvider } from "./useFileUploadContext";
+import { useFileUploadItem } from "./useFileUpload";
 import type { FileEntry, FileStatusDetails } from "./types";
 
 function setUp(jsx: ReactElement) {
@@ -32,6 +33,22 @@ function createMockFile(name: string, size: number, type: string): File {
   return new File([content], name, { type });
 }
 
+function BasicFileUploadItem({ fileEntry, index }: { fileEntry: FileEntry; index: number }) {
+  const api = useFileUploadItem(fileEntry);
+
+  return (
+    <FileUploadItemProvider value={api}>
+      <li data-testid={`item-${index}`}>
+        <FileUploadItemName />
+        <FileUploadItemSize formatBytes={(bytes) => `${bytes} bytes`} />
+        <FileUploadItemRemoveButton data-testid={`delete-${index}`}>
+          Delete
+        </FileUploadItemRemoveButton>
+      </li>
+    </FileUploadItemProvider>
+  );
+}
+
 const BasicFileUpload = React.forwardRef<HTMLInputElement, FileUploadRootProps>((props, ref) => {
   return (
     <FileUploadRoot {...props}>
@@ -43,15 +60,7 @@ const BasicFileUpload = React.forwardRef<HTMLInputElement, FileUploadRootProps>(
         <FileUploadContext>
           {({ acceptedFileEntries }) =>
             acceptedFileEntries.map((fileEntry, index) => (
-              <FileUploadItemProvider key={fileEntry.id} value={fileEntry}>
-                <li data-testid={`item-${index}`}>
-                  <FileUploadItemName />
-                  <FileUploadItemSize formatBytes={(bytes) => `${bytes} bytes`} />
-                  <FileUploadItemRemoveButton data-testid={`delete-${index}`}>
-                    Delete
-                  </FileUploadItemRemoveButton>
-                </li>
-              </FileUploadItemProvider>
+              <BasicFileUploadItem key={fileEntry.id} fileEntry={fileEntry} index={index} />
             ))
           }
         </FileUploadContext>
@@ -474,6 +483,18 @@ describe("useFileUpload", () => {
     it("should call onAcceptedFileEntriesChange when file status changes", async () => {
       const onAcceptedFileEntriesChange = mock(() => {});
 
+      function StatusChangeItem({ fileEntry, index }: { fileEntry: FileEntry; index: number }) {
+        const api = useFileUploadItem(fileEntry);
+
+        return (
+          <FileUploadItemProvider value={api}>
+            <li data-testid={`file-${index}`}>
+              <FileUploadItemName />
+            </li>
+          </FileUploadItemProvider>
+        );
+      }
+
       const StatusChangeUpload = () => {
         return (
           <FileUploadRoot onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}>
@@ -483,11 +504,7 @@ describe("useFileUpload", () => {
                 <>
                   <ul>
                     {acceptedFileEntries.map((fileEntry, index) => (
-                      <FileUploadItemProvider key={fileEntry.id} value={fileEntry}>
-                        <li data-testid={`file-${index}`}>
-                          <FileUploadItemName />
-                        </li>
-                      </FileUploadItemProvider>
+                      <StatusChangeItem key={fileEntry.id} fileEntry={fileEntry} index={index} />
                     ))}
                   </ul>
                   <button

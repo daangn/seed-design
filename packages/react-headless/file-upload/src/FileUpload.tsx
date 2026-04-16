@@ -6,6 +6,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef } from "react";
 import { useFileUpload, type UseFileUploadProps } from "./useFileUpload";
+import type { FileEntry } from "./types";
 import {
   FileUploadProvider,
   useFileUploadContext,
@@ -35,6 +36,7 @@ export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
       onFileAccept,
       onFileReject,
       preventDocumentDrop,
+      readOnly,
       required,
       validate,
 
@@ -56,6 +58,7 @@ export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
       onFileAccept,
       onFileReject,
       preventDocumentDrop,
+      readOnly,
       required,
       validate,
     });
@@ -164,14 +167,82 @@ export const FileUploadItemRemoveButton = forwardRef<
   HTMLButtonElement,
   FileUploadItemRemoveButtonProps
 >((props, ref) => {
-  const { getItemRemoveButtonProps } = useFileUploadContext();
-  const { id } = useFileUploadItemContext();
+  const { removeButtonProps } = useFileUploadItemContext();
 
-  const mergedProps = mergeProps(getItemRemoveButtonProps(id), props);
+  const mergedProps = mergeProps(removeButtonProps, props);
 
   return <Primitive.button ref={ref} {...mergedProps} />;
 });
 FileUploadItemRemoveButton.displayName = "FileUploadItemRemoveButton";
+
+export interface FileUploadItemImageProps
+  extends PrimitiveProps,
+    React.ImgHTMLAttributes<HTMLImageElement> {}
+
+export const FileUploadItemImage = forwardRef<HTMLImageElement, FileUploadItemImageProps>(
+  (props, ref) => {
+    const ctx = useFileUploadItemContext();
+
+    if (!("imageProps" in ctx)) return null;
+
+    const mergedProps = mergeProps(ctx.imageProps ?? {}, props);
+
+    return <Primitive.img ref={ref} {...mergedProps} />;
+  },
+);
+FileUploadItemImage.displayName = "FileUploadItemImage";
+
+export interface FileUploadItemThumbnailProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const FileUploadItemThumbnail = forwardRef<HTMLDivElement, FileUploadItemThumbnailProps>(
+  (props, ref) => {
+    const { thumbnailProps } = useFileUploadItemContext();
+
+    const mergedProps = mergeProps(thumbnailProps, props);
+
+    return <Primitive.div ref={ref} {...mergedProps} />;
+  },
+);
+FileUploadItemThumbnail.displayName = "FileUploadItemThumbnail";
+
+export interface FileUploadItemMetadataProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const FileUploadItemMetadata = forwardRef<HTMLDivElement, FileUploadItemMetadataProps>(
+  (props, ref) => {
+    const { metadataProps } = useFileUploadItemContext();
+
+    const mergedProps = mergeProps(metadataProps, props);
+
+    return <Primitive.div ref={ref} {...mergedProps} />;
+  },
+);
+FileUploadItemMetadata.displayName = "FileUploadItemMetadata";
+
+export interface FileUploadItemBackdropProps
+  extends PrimitiveProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+  status: FileEntry["status"];
+  children: React.ReactNode | ((entry: FileEntry) => React.ReactNode);
+}
+
+export const FileUploadItemBackdrop = forwardRef<HTMLDivElement, FileUploadItemBackdropProps>(
+  ({ status, children, ...props }, ref) => {
+    const entry = useFileUploadItemContext();
+
+    if (entry.status !== status) return null;
+
+    return (
+      <Primitive.div ref={composeRefs(entry.refs.overlay, ref)} {...props}>
+        {typeof children === "function" ? children(entry) : children}
+      </Primitive.div>
+    );
+  },
+);
+FileUploadItemBackdrop.displayName = "FileUploadItemBackdrop";
 
 export interface FileUploadContextProps {
   children: (context: UseFileUploadContext) => React.ReactNode;

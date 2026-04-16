@@ -9,15 +9,14 @@ import {
   FileUpload as FileUploadPrimitive,
   FileUploadItemProvider,
   useFileUploadContext,
+  useFileUploadItem,
   useFileUploadItemContext,
-  type FileAcceptType,
   type FileEntry,
   splitFileName,
 } from "@seed-design/react-file-upload";
 import { MiddleTruncate } from "@seed-design/react-middle-truncate";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
-import { Slot } from "@radix-ui/react-slot";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { useClassNames, ClassNamesProvider, withContext } =
@@ -33,6 +32,7 @@ export interface AttachmentInputItemProps
 export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInputItemProps>(
   ({ className, fileEntry, ...props }, ref) => {
     const { acceptType } = useFileUploadContext();
+    const api = useFileUploadItem(fileEntry);
 
     const [variantProps, otherProps] = attachmentInputItem.splitVariantProps({
       type: acceptType,
@@ -43,13 +43,14 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
 
     return (
       <ClassNamesProvider value={classNames}>
-        <FileUploadItemProvider value={fileEntry}>
+        <FileUploadItemProvider value={api}>
           <Primitive.li ref={ref} className={clsx(classNames.root, className)} {...otherProps} />
         </FileUploadItemProvider>
       </ClassNamesProvider>
     );
   },
 );
+AttachmentInputItem.displayName = "AttachmentInputItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -75,6 +76,7 @@ export const AttachmentInputItemName = React.forwardRef<
     </FileUploadPrimitive.ItemName>
   );
 });
+AttachmentInputItemName.displayName = "AttachmentInputItemName";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -94,6 +96,7 @@ export const AttachmentInputItemSize = React.forwardRef<
     />
   );
 });
+AttachmentInputItemSize.displayName = "AttachmentInputItemSize";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -105,59 +108,20 @@ export const AttachmentInputItemRemoveButton = withContext<
   AttachmentInputItemRemoveButtonProps
 >(FileUploadPrimitive.ItemRemoveButton, "removeButton");
 
-export interface AttachmentInputItemImageProps
-  extends PrimitiveProps,
-    React.ImgHTMLAttributes<HTMLImageElement> {}
+export interface AttachmentInputItemImageProps extends FileUploadPrimitive.ItemImageProps {}
 
-export const AttachmentInputItemImage = React.forwardRef<
+export const AttachmentInputItemImage = withContext<
   HTMLImageElement,
   AttachmentInputItemImageProps
->(({ className, ...props }, ref) => {
-  const { createFileUrl } = useFileUploadContext();
-  const { file } = useFileUploadItemContext();
+>(FileUploadPrimitive.ItemImage, "image");
 
-  const [src, setSrc] = React.useState<string>();
+export interface AttachmentInputItemThumbnailProps extends FileUploadPrimitive.ItemThumbnailProps {}
 
-  const classNames = useClassNames();
-
-  React.useEffect(() => {
-    if (!file) return;
-
-    return createFileUrl(file, setSrc);
-  }, [file, createFileUrl]);
-
-  if (!src) return null;
-
-  return (
-    <Primitive.img
-      ref={ref}
-      src={src}
-      alt={file?.name} // file name as alt text is valid here
-      className={clsx(classNames.image, className)}
-      {...props}
-    />
-  );
-});
-
-export interface AttachmentInputItemThumbnailProps
-  extends PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
-  fallback?: React.ReactNode;
-}
-
-export const AttachmentInputItemThumbnail = React.forwardRef<
+// when actual thumbnail implementation happens, this will likely need a dedicated headless component
+export const AttachmentInputItemThumbnail = withContext<
   HTMLDivElement,
   AttachmentInputItemThumbnailProps
->(({ fallback, className, ...props }, ref) => {
-  const classNames = useClassNames();
-
-  return (
-    // when actual thumbnail implementation happens, Primitive.div will likely be replaced with FileUploadPrimitive.ItemThumbnail or something
-    <Primitive.div ref={ref} className={clsx(classNames.thumbnail, className)} {...props}>
-      {fallback}
-    </Primitive.div>
-  );
-});
+>(FileUploadPrimitive.ItemThumbnail, "thumbnail");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -180,105 +144,22 @@ export const AttachmentInputItemActionButton = React.forwardRef<
     />
   );
 });
+AttachmentInputItemActionButton.displayName = "AttachmentInputItemActionButton";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export type AttachmentInputItemPreviewProps = Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "children"
-> & {
-  [K in NonNullable<FileAcceptType>]?: React.ReactNode;
-} & {
-  general: React.ReactNode;
+export interface AttachmentInputItemBackdropProps extends FileUploadPrimitive.ItemBackdropProps {}
 
-  overlay?: {
-    pending?: React.ReactNode | (() => React.ReactNode);
-    uploading?: React.ReactNode | ((props: { progress?: number }) => React.ReactNode);
-    success?: React.ReactNode | (() => React.ReactNode);
-    error?: React.ReactNode | (() => React.ReactNode);
-  };
-};
-
-function resolveOverlayContent(
-  overlay: AttachmentInputItemPreviewProps["overlay"],
-  entry: FileEntry,
-): React.ReactNode {
-  if (!overlay) return undefined;
-
-  const { pending, uploading, success, error } = overlay;
-
-  switch (entry.status) {
-    case "pending":
-      return typeof pending === "function" ? pending() : pending;
-    case "uploading": {
-      if (uploading) {
-        return typeof uploading === "function"
-          ? uploading({ progress: entry.progress })
-          : uploading;
-      }
-      return typeof pending === "function" ? pending() : pending;
-    }
-    case "success": {
-      if (success) return typeof success === "function" ? success() : success;
-      return typeof pending === "function" ? pending() : pending;
-    }
-    case "error": {
-      if (error) return typeof error === "function" ? error() : error;
-      return typeof pending === "function" ? pending() : pending;
-    }
-  }
-}
-
-export const AttachmentInputItemPreview = React.forwardRef<
+export const AttachmentInputItemBackdrop = withContext<
   HTMLDivElement,
-  AttachmentInputItemPreviewProps
->(({ image, general, overlay, className, ...props }, ref) => {
-  const { acceptType } = useFileUploadContext();
-  const entry = useFileUploadItemContext();
-  const classNames = useClassNames();
-
-  const overlayContent = resolveOverlayContent(overlay, entry);
-
-  if (acceptType === "image" && image) {
-    return (
-      <>
-        <Slot ref={ref} {...props}>
-          {image}
-        </Slot>
-        {overlayContent && (
-          <div className={clsx(classNames.backdrop, className)}>{overlayContent}</div>
-        )}
-      </>
-    );
-  }
-
-  if (overlayContent) {
-    return (
-      <div className={clsx(classNames.backdrop, className)} ref={ref} {...props}>
-        {overlayContent}
-      </div>
-    );
-  }
-
-  return (
-    <Slot ref={ref} {...props}>
-      {general}
-    </Slot>
-  );
-});
-AttachmentInputItemPreview.displayName = "AttachmentInputItemPreview";
+  AttachmentInputItemBackdropProps
+>(FileUploadPrimitive.ItemBackdrop, "backdrop");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AttachmentInputItemMetadataProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface AttachmentInputItemMetadataProps extends FileUploadPrimitive.ItemMetadataProps {}
 
-export const AttachmentInputItemMetadata = React.forwardRef<
+export const AttachmentInputItemMetadata = withContext<
   HTMLDivElement,
   AttachmentInputItemMetadataProps
->(({ className, ...props }, ref) => {
-  const classNames = useClassNames();
-
-  return <Primitive.div ref={ref} className={clsx(classNames.metadata, className)} {...props} />;
-});
+>(FileUploadPrimitive.ItemMetadata, "metadata");
