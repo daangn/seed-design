@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: attachment-input-dropzone
+  name: Attachment Input Dropzone
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+        description: 파일을 root 위로 dragging over 하는 동안 border style이 dashed에서 solid로 변경됩니다.
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+  definitions:
+    base:
+      enabled:
+        root:
+          height: 120px
+          gap: $dimension.x2
+          paddingX: $dimension.x2
+          cornerRadius: $radius.r3
+          strokeWidth: 1px
+          strokeColor: $color.palette.gray-500
+          # strokeStyle: dashed # maybe implement later
+        label:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t4
+          lineHeight: $font-size.t4
+          fontWeight: $font-weight.medium
+      draggingOver:
+        root:
+          strokeColor: $color.stroke.neutral-solid
+      disabled:
+        label:
+          color: $color.fg.disabled
