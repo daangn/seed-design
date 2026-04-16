@@ -295,10 +295,25 @@ react/component/action-buton: 문서를 찾을 수 없어요.
    - react/components/action-button
 ```
 
+### Raw 모드
+
+`--raw` 옵션을 사용하면 UI 없이 llms.txt 내용을 순수 마크다운으로 출력해요. LLM 파이프나 스크립트에서 활용할 수 있어요.
+
+```package-install
+npx @seed-design/cli@latest docs react/components/action-button --raw
+```
+
+패키지 changelog도 가져올 수 있어요.
+
+```package-install
+npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.5 --raw
+```
+
 ### 옵션
 
 | 옵션 | 설명 |
 |------|------|
+| `--raw` | UI 없이 llms.txt 내용을 순수 마크다운으로 출력 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
