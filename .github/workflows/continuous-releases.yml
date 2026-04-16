@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Add reaction
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             github.rest.reactions.createForIssueComment({
@@ -46,7 +46,7 @@ jobs:
         run: bunx pkg-pr-new publish './packages/*' './packages/react-headless/*' './packages/utils/*' --compact --comment=off --json output.json
 
       - name: Comment on PR
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
@@ -72,7 +72,7 @@ jobs:
 
       - name: Add success reaction
         if: success()
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             github.rest.reactions.createForIssueComment({
@@ -84,7 +84,7 @@ jobs:
 
       - name: Add failure reaction
         if: failure()
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             github.rest.reactions.createForIssueComment({
