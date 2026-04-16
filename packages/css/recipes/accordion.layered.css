@@ -56,7 +56,7 @@
   }
 
   .seed-accordion__prefix {
-    --seed-icon-color: var(--seed-color-fg-neutral-subtle);
+    --seed-icon-color: var(--seed-color-fg-neutral);
     flex-shrink: 0;
     align-items: center;
     display: inline-flex;

@@ -219,7 +219,7 @@
               "prefix": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-subtle"
+                  "value": "$color.fg.neutral"
                 }
               },
               "body": {

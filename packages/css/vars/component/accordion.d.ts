@@ -9,7 +9,7 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
       },
       "prefix": {
-        "color": "var(--seed-color-fg-neutral-subtle)"
+        "color": "var(--seed-color-fg-neutral)"
       },
       "body": {
         "gap": "var(--seed-dimension-x0_5)"
