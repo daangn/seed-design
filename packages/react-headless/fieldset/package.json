@@ -29,7 +29,7 @@
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-primitive": "^1.0.0"
+    "@seed-design/react-primitive": "0.0.0-alpha-20260414104312"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

@@ -1,5 +1,23 @@
 # @seed-design/react
 
+## 0.0.0-alpha-20260416135457
+
+### Patch Changes
+
+- fix(react): correct react-file-upload dependency version
+
+## 0.0.0-alpha-20260416134952
+
+### Minor Changes
+
+- 9ae485e: Attachment Field 관련 컴포넌트를 추가합니다.
+
+### Patch Changes
+
+- Updated dependencies [9ae485e]
+  - @seed-design/react-middle-truncate@0.0.0-alpha-20260416134952
+  - @seed-design/css@0.0.0-alpha-20260416134952
+
 ## 0.0.0-alpha-20260414104312
 
 ### Patch Changes
