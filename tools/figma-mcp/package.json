@@ -17,11 +17,11 @@
   },
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^1.10.0",
-    "@seed-design/css": "0.0.0-alpha-20260414104312",
-    "@seed-design/figma": "0.0.0-alpha-20260414104312",
+    "@seed-design/css": "0.0.0-alpha-20260416134952",
+    "@seed-design/figma": "0.0.0-alpha-20260416134952",
     "@seed-design/migration-index": "0.0.0-alpha-20260414104312",
-    "@seed-design/react": "0.0.0-alpha-20260414104312",
-    "@seed-design/vite-plugin": "0.0.0-alpha-20260414104312",
+    "@seed-design/react": "0.0.0-alpha-20260416135457",
+    "@seed-design/vite-plugin": "0.0.0-alpha-20260416134952",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
