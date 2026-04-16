@@ -18,6 +18,11 @@ export declare const privateTemplateTimePickerField: {
   "key": "e38df17cf1e0f96e09774b015739dfde30d46115"
 };
 
+export declare const privateComponentItemMenuItemGroup: {
+  "name": "privateComponentItemMenuItemGroup",
+  "key": "5f64d89069596e92a14f8cee6b66bc43e1a89e09"
+};
+
 export declare const privateComponentItemNowBarStatusBarChip_94d: {
   "name": "privateComponentItemNowBarStatusBarChip",
   "key": "94d47f0ff371fa9baa5a5a5ee12344338cde5fd7"
@@ -45,6 +50,39 @@ export declare const componentItemNowBarDefault: {
       "type": "TEXT"
     }
   }
+};
+
+export declare const privateComponentMenuItemBadge: {
+  "name": "privateComponentMenuItemBadge",
+  "key": "c74503291f75e9a4ded3d122dc8d5557ca343d81"
+};
+
+export declare const privateComponentMenuItemIcon: {
+  "name": "privateComponentMenuItemIcon",
+  "key": "0492a418f27c645c0392844565695dbc8d2f44af"
+};
+
+export declare const privateComponentMenuItemSuffixChevron: {
+  "name": "privateComponentMenuItemSuffixChevron",
+  "key": "0bf5e8b6f6b81617b69add92af4659e0fa300c76"
+};
+
+export declare const privateComponentSidebarMenuGroup: {
+  "name": "privateComponentSidebarMenuGroup",
+  "key": "06a3f8ec77ea5d4992e656a1ef75da843d2ed040",
+  "componentPropertyDefinitions": {
+    "Slot#3329:9": {
+      "type": "SLOT"
+    },
+    "Show Label#3329:10": {
+      "type": "BOOLEAN"
+    }
+  }
+};
+
+export declare const privateComponentSidebarMenuGroupLabel: {
+  "name": "privateComponentSidebarMenuGroupLabel",
+  "key": "f583b031f6df1f10682e208b4b87d9bd158e8fd2"
 };
 
 export declare const privateComponentSliderItemHandleSliderItemValueIndicator: {

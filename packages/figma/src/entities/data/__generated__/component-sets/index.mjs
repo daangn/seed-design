@@ -418,6 +418,26 @@ export const privateComponentItemButtonType = {
   }
 };
 
+export const privateComponentItemMenuItem = {
+  "name": "privateComponentItemMenuItem",
+  "key": "f0587a7a1d313f5be38d87fe386ab1f7b89e7953",
+  "componentPropertyDefinitions": {
+    "Icon#52689:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Label#52689:4": {
+      "type": "TEXT"
+    },
+    "\bState": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
+      ]
+    }
+  }
+};
+
 export const privateComponentItemMenuType = {
   "name": "privateComponentItemMenuType",
   "key": "e888d8fa0a1031f916adfd4d4a1cb05d4ae69b75",
@@ -514,6 +534,99 @@ export const privateComponentItemLiveActivityTagGroup = {
       "variantOptions": [
         "1",
         "2"
+      ]
+    }
+  }
+};
+
+export const privateComponentMenuGroup = {
+  "name": "privateComponentMenuGroup",
+  "key": "09a4fa7ba8b01cb0912f1d95c4e5ee67563a9562",
+  "componentPropertyDefinitions": {
+    "Items#2013:7": {
+      "type": "SLOT"
+    },
+    "Has Header#2013:10": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export const privateComponentMenuGroupLabel = {
+  "name": "privateComponentMenuGroupLabel",
+  "key": "07a04219faec33ebd988f9883b314a7c4f1dcafe",
+  "componentPropertyDefinitions": {
+    "Label#2125:0": {
+      "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export const privateComponentMenuItem = {
+  "name": "privateComponentMenuItem",
+  "key": "adb610a300212eac49e2b86908ad9712e6c67e21",
+  "componentPropertyDefinitions": {
+    "Has Description#1995:9": {
+      "type": "BOOLEAN"
+    },
+    "Suffix Slot#1995:10": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Prefix Icon#1995:11": {
+      "type": "BOOLEAN"
+    },
+    "Title Sub Slot#1995:12": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Title#1995:13": {
+      "type": "TEXT"
+    },
+    "Description#1995:14": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#1995:15": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Title Sub Slot#1995:16": {
+      "type": "BOOLEAN"
+    },
+    "Has Suffix#2013:0": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    },
+    "Tone": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Neutral",
+        "Critical"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled"
       ]
     }
   }
@@ -684,6 +797,124 @@ export const privateComponentSelectBoxItemCheckmark = {
         "Enabled",
         "Pressed",
         "Selected",
+        "Disabled"
+      ]
+    }
+  }
+};
+
+export const privateTemplateShareSheetMenuGroup = {
+  "name": "privateTemplateShareSheetMenuGroup",
+  "key": "ab02952328ca4705ee94355b69675055c67fa1ef",
+  "componentPropertyDefinitions": {
+    "Action Count": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ]
+    }
+  }
+};
+
+export const privateTemplateShareSheetMenuItem = {
+  "name": "privateTemplateShareSheetMenuItem",
+  "key": "8f94361b6329f78eecb4656f0533080166b4b037",
+  "componentPropertyDefinitions": {
+    "Show Prefix Icon#17043:5": {
+      "type": "BOOLEAN"
+    },
+    "Sub Text#51411:0": {
+      "type": "TEXT"
+    },
+    "Show Item Description#51411:19": {
+      "type": "BOOLEAN"
+    },
+    "Label#55905:8": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#55948:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Tone": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Neutral"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled"
+      ]
+    }
+  }
+};
+
+export const privateComponentSidebarMenuItem = {
+  "name": "privateComponentSidebarMenuItem",
+  "key": "0c241e8cf55c66565835dc6d124ceedf32f96567",
+  "componentPropertyDefinitions": {
+    "Expanded#308:0": {
+      "type": "BOOLEAN"
+    },
+    "Collapsible Items Container#3329:0": {
+      "type": "SLOT"
+    },
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Collapsible"
+      ]
+    }
+  }
+};
+
+export const privateComponentSidebarMenuItemPremitive = {
+  "name": "privateComponentSidebarMenuItemPremitive",
+  "key": "e291d4e534433a1115ad041adf28b4b9ac61b4d3",
+  "componentPropertyDefinitions": {
+    "Has Suffix Icon#5:0": {
+      "type": "BOOLEAN"
+    },
+    "Prefix Icon#5:5": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Suffix Icon#5:10": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Label#5:24": {
+      "type": "TEXT"
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Icon First",
+        "Text Only",
+        "Icon Only"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Hover",
         "Disabled"
       ]
     }
@@ -2947,6 +3178,23 @@ export const componentMannerTempBadge = {
         "L8",
         "L9",
         "L10"
+      ]
+    }
+  }
+};
+
+export const componentMenu = {
+  "name": "componentMenu",
+  "key": "fa09812bfb6ba24fc6367636032f14a2b2931ee9",
+  "componentPropertyDefinitions": {
+    "Slot#2013:6": {
+      "type": "SLOT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
       ]
     }
   }
