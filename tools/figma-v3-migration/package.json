@@ -22,7 +22,7 @@
   "dependencies": {
     "@create-figma-plugin/utilities": "^4.0.0",
     "@figmazing/event": "0.0.1",
-    "@karrotmarket/react-monochrome-icon": "^1.8.0",
+    "@karrotmarket/react-monochrome-icon": "^1.14.0",
     "@seed-design/css": "^1.2.8",
     "@seed-design/migration-index": "^1.0.0",
     "@seed-design/react": "^1.2.9",
