@@ -125,6 +125,18 @@ export const AttachmentInputItemThumbnail = withContext<
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface AttachmentInputItemBadgeProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const AttachmentInputItemBadge = withContext<HTMLDivElement, AttachmentInputItemBadgeProps>(
+  Primitive.div,
+  "badge",
+);
+AttachmentInputItemBadge.displayName = "AttachmentInputItemBadge";
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface AttachmentInputItemActionButtonProps
   extends PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}

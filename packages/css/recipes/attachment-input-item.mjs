@@ -27,6 +27,10 @@ const attachmentInputItemSlotNames = [
     "seed-attachment-input-item__size"
   ],
   [
+    "badge",
+    "seed-attachment-input-item__badge"
+  ],
+  [
     "backdrop",
     "seed-attachment-input-item__backdrop"
   ],

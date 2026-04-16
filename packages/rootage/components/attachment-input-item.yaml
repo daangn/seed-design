@@ -64,17 +64,15 @@ data:
         properties:
           color:
             type: color
-      actionButton:
-        properties:
-          gap:
-            type: dimension
-      actionButtonIcon:
+      badge:
         properties:
           color:
             type: color
-          size:
+          height:
             type: dimension
-      actionButtonLabel:
+          cornerRadius:
+            type: dimension
+      badgeLabel:
         properties:
           color:
             type: color
@@ -111,18 +109,10 @@ data:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1
           fontWeight: $font-weight.regular
-        actionButton:
-          gap: $dimension.x1
-        actionButtonIcon:
-          size: $dimension.x6
-        actionButtonLabel:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-          fontWeight: $font-weight.medium
 
       dragging:
         root:
-          opacity: 1 # TODO
+          opacity: 0.5
 
     type=file:
       enabled:
@@ -130,10 +120,6 @@ data:
           width: 160px
           strokeColor: $color.stroke.neutral-weak
           paddingX: $dimension.x4
-        actionButtonIcon:
-          color: $color.fg.neutral-subtle
-        actionButtonLabel:
-          color: $color.fg.neutral-subtle
 
     type=image:
       enabled:
@@ -142,7 +128,12 @@ data:
           strokeColor: $color.stroke.neutral-subtle
         backdrop:
           color: $color.bg.overlay
-        actionButtonIcon:
+        badge:
+          color: $color.bg.overlay
+          height: $dimension.x6
+          cornerRadius: $radius.r3
+        badgeLabel:
           color: $color.palette.static-white
-        actionButtonLabel:
-          color: $color.palette.static-white
+          fontSize: $font-size.t2
+          lineHeight: $line-height.t2
+          fontWeight: $font-weight.medium

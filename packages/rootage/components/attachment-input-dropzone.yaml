@@ -12,12 +12,15 @@ data:
             type: dimension
           gap:
             type: dimension
+          paddingX:
+            type: dimension
           cornerRadius:
             type: dimension
           strokeWidth:
             type: dimension
           strokeColor:
             type: color
+        description: 파일을 root 위로 dragging over 하는 동안 border style이 dashed에서 solid로 변경됩니다.
       label:
         properties:
           color:
@@ -34,6 +37,7 @@ data:
         root:
           height: 120px
           gap: $dimension.x2
+          paddingX: $dimension.x2
           cornerRadius: $radius.r3
           strokeWidth: 1px
           strokeColor: $color.palette.gray-500
@@ -43,6 +47,9 @@ data:
           fontSize: $font-size.t4
           lineHeight: $font-size.t4
           fontWeight: $font-weight.medium
+      draggingOver:
+        root:
+          strokeColor: $color.stroke.neutral-solid
       disabled:
         label:
           color: $color.fg.disabled

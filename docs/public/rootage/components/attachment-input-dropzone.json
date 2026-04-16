@@ -17,6 +17,9 @@
             "gap": {
               "type": "dimension"
             },
+            "paddingX": {
+              "type": "dimension"
+            },
             "cornerRadius": {
               "type": "dimension"
             },
@@ -26,7 +29,8 @@
             "strokeColor": {
               "type": "color"
             }
-          }
+          },
+          "description": "파일을 root 위로 dragging over 하는 동안 border style이 dashed에서 solid로 변경됩니다."
         },
         "label": {
           "properties": {
@@ -68,6 +72,10 @@
                   "type": "dimension",
                   "value": "$dimension.x2"
                 },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r3"
@@ -100,6 +108,19 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.medium"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "draggingOver"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-solid"
                 }
               }
             }

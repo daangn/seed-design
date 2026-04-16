@@ -4,6 +4,7 @@ export { vars as actionSheetCloseButton } from "./action-sheet-close-button";
 export { vars as actionSheetItem } from "./action-sheet-item";
 export { vars as actionSheet } from "./action-sheet";
 export { vars as attachmentInputDropzone } from "./attachment-input-dropzone";
+export { vars as attachmentInputItemActionButton } from "./attachment-input-item-action-button";
 export { vars as attachmentInputItemRemoveButton } from "./attachment-input-item-remove-button";
 export { vars as attachmentInputItem } from "./attachment-input-item";
 export { vars as attachmentInputTrigger } from "./attachment-input-trigger";

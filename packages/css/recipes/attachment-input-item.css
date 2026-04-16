@@ -51,7 +51,6 @@
 .seed-attachment-input-item__metadata {
     display: flex;
     flex-direction: column;
-    gap: 2px;
     width: 100%;
     flex-grow: 1;
 }
@@ -180,6 +179,22 @@
 }
 .seed-attachment-input-item__metadata--type_image {
     display: none;
+}
+.seed-attachment-input-item__badge--type_image {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--seed-dimension-x6);
+    background-color: var(--seed-color-bg-overlay);
+    border-radius: 0 0 var(--seed-radius-r3) var(--seed-radius-r3);
+    font-size: var(--seed-font-size-t2);
+    line-height: var(--seed-line-height-t2);
+    font-weight: var(--seed-font-weight-medium);
+    color: var(--seed-color-palette-static-white);
 }
 .seed-attachment-input-item__backdrop--type_image {
     background: var(--seed-color-bg-overlay);

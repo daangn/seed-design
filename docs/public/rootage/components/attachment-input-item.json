@@ -102,24 +102,20 @@
             }
           }
         },
-        "actionButton": {
-          "properties": {
-            "gap": {
-              "type": "dimension"
-            }
-          }
-        },
-        "actionButtonIcon": {
+        "badge": {
           "properties": {
             "color": {
               "type": "color"
             },
-            "size": {
+            "height": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
               "type": "dimension"
             }
           }
         },
-        "actionButtonLabel": {
+        "badgeLabel": {
           "properties": {
             "color": {
               "type": "color"
@@ -242,32 +238,6 @@
                   "type": "number",
                   "value": "$font-weight.regular"
                 }
-              },
-              "actionButton": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
-                }
-              },
-              "actionButtonIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                }
-              },
-              "actionButtonLabel": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t2"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t2"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.medium"
-                }
               }
             }
           },
@@ -279,7 +249,7 @@
               "root": {
                 "opacity": {
                   "type": "number",
-                  "value": 1
+                  "value": 0.5
                 }
               }
             }
@@ -311,18 +281,6 @@
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x4"
-                }
-              },
-              "actionButtonIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-subtle"
-                }
-              },
-              "actionButtonLabel": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-subtle"
                 }
               }
             }
@@ -358,16 +316,36 @@
                   "value": "$color.bg.overlay"
                 }
               },
-              "actionButtonIcon": {
+              "badge": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.bg.overlay"
+                },
+                "height": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
                 }
               },
-              "actionButtonLabel": {
+              "badgeLabel": {
                 "color": {
                   "type": "color",
                   "value": "$color.palette.static-white"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t2"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t2"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
                 }
               }
             }

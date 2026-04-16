@@ -28,22 +28,11 @@ export declare const vars: {
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",
         "fontWeight": "var(--seed-font-weight-regular)"
-      },
-      "actionButton": {
-        "gap": "var(--seed-dimension-x1)"
-      },
-      "actionButtonIcon": {
-        "size": "var(--seed-dimension-x6)"
-      },
-      "actionButtonLabel": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)",
-        "fontWeight": "var(--seed-font-weight-medium)"
       }
     },
     "dragging": {
       "root": {
-        "opacity": "1"
+        "opacity": "0.5"
       }
     }
   },
@@ -53,12 +42,6 @@ export declare const vars: {
         "width": "160px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "paddingX": "var(--seed-dimension-x4)"
-      },
-      "actionButtonIcon": {
-        "color": "var(--seed-color-fg-neutral-subtle)"
-      },
-      "actionButtonLabel": {
-        "color": "var(--seed-color-fg-neutral-subtle)"
       }
     }
   },
@@ -71,11 +54,16 @@ export declare const vars: {
       "backdrop": {
         "color": "var(--seed-color-bg-overlay)"
       },
-      "actionButtonIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+      "badge": {
+        "color": "var(--seed-color-bg-overlay)",
+        "height": "var(--seed-dimension-x6)",
+        "cornerRadius": "var(--seed-radius-r3)"
       },
-      "actionButtonLabel": {
-        "color": "var(--seed-color-palette-static-white)"
+      "badgeLabel": {
+        "color": "var(--seed-color-palette-static-white)",
+        "fontSize": "var(--seed-font-size-t2)",
+        "lineHeight": "var(--seed-line-height-t2)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     }
   }

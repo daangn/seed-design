@@ -27,6 +27,9 @@
       "path": "/components/attachment-input-dropzone.json"
     },
     {
+      "path": "/components/attachment-input-item-action-button.json"
+    },
+    {
       "path": "/components/attachment-input-item-remove-button.json"
     },
     {
