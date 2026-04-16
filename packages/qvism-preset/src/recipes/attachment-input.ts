@@ -379,6 +379,10 @@ const attachmentInput = defineSlotRecipe({
       paddingLeft: "8px",
       paddingRight: "8px",
 
+      // counteract root's negative margin so the dropzone stays within the original bounds
+      marginLeft: "var(--seed-attachment-input-extend-x)",
+      marginRight: "var(--seed-attachment-input-extend-x)",
+
       transition: "border-color 0.2s",
 
       [pseudo("[data-dragging-over]")]: {

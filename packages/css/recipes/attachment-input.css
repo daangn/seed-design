@@ -16,6 +16,8 @@
     border-radius: var(--seed-radius-r3);
     padding-left: 8px;
     padding-right: 8px;
+    margin-left: var(--seed-attachment-input-extend-x);
+    margin-right: var(--seed-attachment-input-extend-x);
     transition: border-color 0.2s;
 }
 .seed-attachment-input__dropzone[data-dragging-over] {

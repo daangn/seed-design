@@ -4957,8 +4957,10 @@
   gap: var(--seed-dimension-x2);
   border: 1px dashed var(--seed-color-palette-gray-500);
   border-radius: var(--seed-radius-r3);
-  flex-direction: column;
   height: 120px;
+  margin-left: var(--seed-attachment-input-extend-x);
+  margin-right: var(--seed-attachment-input-extend-x);
+  flex-direction: column;
   padding-left: 8px;
   padding-right: 8px;
   transition: border-color .2s;
