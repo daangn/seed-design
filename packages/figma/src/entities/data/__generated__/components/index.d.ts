@@ -18,18 +18,31 @@ export declare const privateTemplateTimePickerField: {
   "key": "e38df17cf1e0f96e09774b015739dfde30d46115"
 };
 
-export declare const privateComponentField: {
-  "name": "privateComponentField",
-  "key": "96f0d114c3ec7826b22531502f05e82404835df4",
+export declare const privateComponentItemNowBarStatusBarChip_94d: {
+  "name": "privateComponentItemNowBarStatusBarChip",
+  "key": "94d47f0ff371fa9baa5a5a5ee12344338cde5fd7"
+};
+
+export declare const privateComponentItemNowBarStatusBarChip_8ae: {
+  "name": "privateComponentItemNowBarStatusBarChip",
+  "key": "8ae4e0cd11f3bbb066abb529be510ba02e5ff574"
+};
+
+export declare const componentItemNowBarDefault: {
+  "name": "componentItemNowBarDefault",
+  "key": "a2f3edc65589e907ae54169a4c2dbe6c4593b417",
   "componentPropertyDefinitions": {
-    "Input#40606:0": {
-      "type": "INSTANCE_SWAP"
-    },
-    "Show Header#40606:1": {
+    "Show ProgressBar#8551:0": {
       "type": "BOOLEAN"
     },
-    "Show Footer#40606:2": {
+    "Show Button#8551:1": {
       "type": "BOOLEAN"
+    },
+    "Title#8551:2": {
+      "type": "TEXT"
+    },
+    "Contents#8551:3": {
+      "type": "TEXT"
     }
   }
 };
@@ -72,6 +85,22 @@ export declare const componentIcon: {
 export declare const templateInformationList: {
   "name": "templateInformationList",
   "key": "ea1ff4070a5ef4ada5974dc7030e8f9a1b759cdb"
+};
+
+export declare const componentField: {
+  "name": "componentField",
+  "key": "96f0d114c3ec7826b22531502f05e82404835df4",
+  "componentPropertyDefinitions": {
+    "Input#40606:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Show Header#40606:1": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:2": {
+      "type": "BOOLEAN"
+    }
+  }
 };
 
 export declare const componentBottomSheetContentsAgreement: {
@@ -137,6 +166,16 @@ export declare const componentImageFrameOverlayIndicator: {
       "type": "TEXT"
     }
   }
+};
+
+export declare const templateItemEmbedViewTypeDiscountRate: {
+  "name": "templateItemEmbedViewTypeDiscountRate",
+  "key": "6672b5e163637b12b0b648cbbcaafffdc63b809c"
+};
+
+export declare const templateItemEmbedViewTypeOriginalPrice: {
+  "name": "templateItemEmbedViewTypeOriginalPrice",
+  "key": "3ce31f0965fc9c600f4d8fe2feb1152dda088297"
 };
 
 export declare const componentListItemDetailCustom: {
