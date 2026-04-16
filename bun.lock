@@ -44,7 +44,6 @@
       "dependencies": {
         "@dnd-kit/abstract": "^0.3.2",
         "@dnd-kit/dom": "^0.3.2",
-        "@dnd-kit/helpers": "^0.3.2",
         "@dnd-kit/react": "^0.3.2",
         "@fumadocs/mdx-remote": "^1.3.2",
         "@karrotmarket/icon-data": "^1.17.0",
@@ -270,13 +269,16 @@
       "name": "@seed-design/stackflow-spa",
       "version": "0.0.0",
       "dependencies": {
+        "@dnd-kit/abstract": "^0.3.2",
+        "@dnd-kit/dom": "^0.3.2",
+        "@dnd-kit/react": "^0.3.2",
         "@karrotmarket/react-monochrome-icon": "^1.10.0",
         "@karrotmarket/react-multicolor-icon": "^1.7.0",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
         "@seed-design/css": "0.0.0-alpha-20260324091316",
         "@seed-design/react": "0.0.0-alpha-20260324091316",
-        "@seed-design/stackflow": "1.1.19",
+        "@seed-design/stackflow": "1.1.20",
         "@seed-design/stylesheet": "1.1.1",
         "@stackflow/compat-await-push": "^1.1.13",
         "@stackflow/config": "^1.2.1",
@@ -470,7 +472,6 @@
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@radix-ui/react-use-layout-effect": "^1.1.1",
         "@seed-design/dom-utils": "1.0.0",
-        "@seed-design/react-attachment-display": "0.0.0",
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.1",
         "@seed-design/react-collapsible": "0.1.0",
@@ -512,24 +513,6 @@
       },
       "peerDependencies": {
         "@seed-design/css": "0.0.0-alpha-20260324091316",
-        "react": ">=18.0.0",
-        "react-dom": ">=18.0.0",
-      },
-    },
-    "packages/react-headless/attachment-display": {
-      "name": "@seed-design/react-attachment-display",
-      "version": "0.0.0",
-      "dependencies": {
-        "@radix-ui/react-use-controllable-state": "1.2.2",
-        "@seed-design/dom-utils": "1.0.0",
-        "@seed-design/react-primitive": "1.0.0",
-      },
-      "devDependencies": {
-        "@types/react": "^19.1.6",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
-      },
-      "peerDependencies": {
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -1696,8 +1679,6 @@
 
     "@dnd-kit/geometry": ["@dnd-kit/geometry@0.3.2", "", { "dependencies": { "@dnd-kit/state": "^0.3.2", "tslib": "^2.6.2" } }, "sha512-3UBPuIS7E3oGiHxOE8h810QA+0pnrnCtGxl4Os1z3yy5YkC/BEYGY+TxWPTQaY1/OMV7GCX7ZNMlama2QN3n3w=="],
 
-    "@dnd-kit/helpers": ["@dnd-kit/helpers@0.3.2", "", { "dependencies": { "@dnd-kit/abstract": "^0.3.2", "tslib": "^2.6.2" } }, "sha512-pj7pCE6BiysNetpPnzb3BJOrcKiqueUr1LFg6wYoi2fIFYpz66n2Ojd7HTwfwkpv0oyC3QlvA6Dk8cOmi6VavA=="],
-
     "@dnd-kit/modifiers": ["@dnd-kit/modifiers@6.0.1", "", { "dependencies": { "@dnd-kit/utilities": "^3.2.1", "tslib": "^2.0.0" }, "peerDependencies": { "@dnd-kit/core": "^6.0.6", "react": ">=16.8.0" } }, "sha512-rbxcsg3HhzlcMHVHWDuh9LCjpOVAgqbV78wLGI8tziXY3+qcMQ61qVXIvNKQFuhj75dSfD+o+PYZQ/NUk2A23A=="],
 
     "@dnd-kit/react": ["@dnd-kit/react@0.3.2", "", { "dependencies": { "@dnd-kit/abstract": "^0.3.2", "@dnd-kit/dom": "^0.3.2", "@dnd-kit/state": "^0.3.2", "tslib": "^2.6.2" }, "peerDependencies": { "react": "^18.0.0 || ^19.0.0", "react-dom": "^18.0.0 || ^19.0.0" } }, "sha512-1Opg1xw6I75Z95c+rF2NJa0pdGb8rLAENtuopKtJ1J0PudWlz+P6yL137xy/6DV43uaRmNGtsdbMbR0yRYJ72g=="],
@@ -2511,8 +2492,6 @@
     "@seed-design/qvism-preset": ["@seed-design/qvism-preset@workspace:packages/qvism-preset"],
 
     "@seed-design/react": ["@seed-design/react@workspace:packages/react"],
-
-    "@seed-design/react-attachment-display": ["@seed-design/react-attachment-display@workspace:packages/react-headless/attachment-display"],
 
     "@seed-design/react-avatar": ["@seed-design/react-avatar@workspace:packages/react-headless/avatar"],
 

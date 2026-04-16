@@ -1,4 +1,3 @@
-export * from "@seed-design/react-attachment-display";
 export * from "@seed-design/react-avatar";
 export * from "@seed-design/react-checkbox";
 export * from "@seed-design/react-dialog";
