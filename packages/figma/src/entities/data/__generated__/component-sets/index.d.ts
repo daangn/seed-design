@@ -418,6 +418,26 @@ export declare const privateComponentItemButtonType: {
   }
 };
 
+export declare const privateComponentItemMenuItem: {
+  "name": "privateComponentItemMenuItem",
+  "key": "f0587a7a1d313f5be38d87fe386ab1f7b89e7953",
+  "componentPropertyDefinitions": {
+    "Icon#52689:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Label#52689:4": {
+      "type": "TEXT"
+    },
+    "\bState": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
+      ]
+    }
+  }
+};
+
 export declare const privateComponentItemMenuType: {
   "name": "privateComponentItemMenuType",
   "key": "e888d8fa0a1031f916adfd4d4a1cb05d4ae69b75",
@@ -494,6 +514,119 @@ export declare const privateComponentItemTag: {
       "variantOptions": [
         "Regular",
         "Bold"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentItemLiveActivityTagGroup: {
+  "name": "privateComponentItemLiveActivityTagGroup",
+  "key": "9322629a723642968dc8b89abf31f93eaaea96cb",
+  "componentPropertyDefinitions": {
+    "Tag 1 Text#7703:15": {
+      "type": "TEXT"
+    },
+    "Tag 2 Text#7703:18": {
+      "type": "TEXT"
+    },
+    "Tag Count": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1",
+        "2"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentMenuGroup: {
+  "name": "privateComponentMenuGroup",
+  "key": "09a4fa7ba8b01cb0912f1d95c4e5ee67563a9562",
+  "componentPropertyDefinitions": {
+    "Items#2013:7": {
+      "type": "SLOT"
+    },
+    "Has Header#2013:10": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentMenuGroupLabel: {
+  "name": "privateComponentMenuGroupLabel",
+  "key": "07a04219faec33ebd988f9883b314a7c4f1dcafe",
+  "componentPropertyDefinitions": {
+    "Label#2125:0": {
+      "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentMenuItem: {
+  "name": "privateComponentMenuItem",
+  "key": "adb610a300212eac49e2b86908ad9712e6c67e21",
+  "componentPropertyDefinitions": {
+    "Has Description#1995:9": {
+      "type": "BOOLEAN"
+    },
+    "Suffix Slot#1995:10": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Prefix Icon#1995:11": {
+      "type": "BOOLEAN"
+    },
+    "Title Sub Slot#1995:12": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Title#1995:13": {
+      "type": "TEXT"
+    },
+    "Description#1995:14": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#1995:15": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Title Sub Slot#1995:16": {
+      "type": "BOOLEAN"
+    },
+    "Has Suffix#2013:0": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    },
+    "Tone": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Neutral",
+        "Critical"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled"
       ]
     }
   }
@@ -664,6 +797,124 @@ export declare const privateComponentSelectBoxItemCheckmark: {
         "Enabled",
         "Pressed",
         "Selected",
+        "Disabled"
+      ]
+    }
+  }
+};
+
+export declare const privateTemplateShareSheetMenuGroup: {
+  "name": "privateTemplateShareSheetMenuGroup",
+  "key": "ab02952328ca4705ee94355b69675055c67fa1ef",
+  "componentPropertyDefinitions": {
+    "Action Count": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ]
+    }
+  }
+};
+
+export declare const privateTemplateShareSheetMenuItem: {
+  "name": "privateTemplateShareSheetMenuItem",
+  "key": "8f94361b6329f78eecb4656f0533080166b4b037",
+  "componentPropertyDefinitions": {
+    "Show Prefix Icon#17043:5": {
+      "type": "BOOLEAN"
+    },
+    "Sub Text#51411:0": {
+      "type": "TEXT"
+    },
+    "Show Item Description#51411:19": {
+      "type": "BOOLEAN"
+    },
+    "Label#55905:8": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#55948:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Tone": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Neutral"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentSidebarMenuItem: {
+  "name": "privateComponentSidebarMenuItem",
+  "key": "0c241e8cf55c66565835dc6d124ceedf32f96567",
+  "componentPropertyDefinitions": {
+    "Expanded#308:0": {
+      "type": "BOOLEAN"
+    },
+    "Collapsible Items Container#3329:0": {
+      "type": "SLOT"
+    },
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Collapsible"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentSidebarMenuItemPremitive: {
+  "name": "privateComponentSidebarMenuItemPremitive",
+  "key": "e291d4e534433a1115ad041adf28b4b9ac61b4d3",
+  "componentPropertyDefinitions": {
+    "Has Suffix Icon#5:0": {
+      "type": "BOOLEAN"
+    },
+    "Prefix Icon#5:5": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Suffix Icon#5:10": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Label#5:24": {
+      "type": "TEXT"
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Icon First",
+        "Text Only",
+        "Icon Only"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Hover",
         "Disabled"
       ]
     }
@@ -1961,6 +2212,21 @@ export declare const componentAlertDialog: {
   }
 };
 
+export declare const componentAndroidNowBarScreen: {
+  "name": "componentAndroidNowBarScreen",
+  "key": "735019feaa75b4e71618a8b0bc21a7a1985c2978",
+  "componentPropertyDefinitions": {
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Status bar chip",
+        "Expanded view",
+        "Collapsed view"
+      ]
+    }
+  }
+};
+
 export declare const componentAvatar: {
   "name": "componentAvatar",
   "key": "f17031afc2c71f35e5a147f6937a2b918029d334",
@@ -2286,7 +2552,7 @@ export declare const componentCheckbox: {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated]Brand"
+        "Brand"
       ]
     },
     "Shape": {
@@ -2358,8 +2624,8 @@ export declare const componentCheckmark: {
     "Tone": {
       "type": "VARIANT",
       "variantOptions": [
-        "🚫[Deprecated]Brand",
-        "Neutral"
+        "Neutral",
+        "Brand"
       ]
     },
     "Shape": {
@@ -2744,8 +3010,8 @@ export declare const componentImageFrame: {
   }
 };
 
-export declare const componentIOsLiveAcitivityScreenFigmaOnly: {
-  "name": "componentIOsLiveAcitivityScreenFigmaOnly",
+export declare const componentIOsLiveAcitivityScreen: {
+  "name": "componentIOsLiveAcitivityScreen",
   "key": "3d7ff6cf68e769096237bcc0122be08caf8b6ce4",
   "componentPropertyDefinitions": {
     "Type": {
@@ -2912,6 +3178,23 @@ export declare const componentMannerTempBadge: {
         "L8",
         "L9",
         "L10"
+      ]
+    }
+  }
+};
+
+export declare const componentMenu: {
+  "name": "componentMenu",
+  "key": "fa09812bfb6ba24fc6367636032f14a2b2931ee9",
+  "componentPropertyDefinitions": {
+    "Slot#2013:6": {
+      "type": "SLOT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
       ]
     }
   }
@@ -3124,7 +3407,7 @@ export declare const componentRadio: {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated]Brand"
+        "Brand"
       ]
     },
     "Weight": {
@@ -3189,7 +3472,7 @@ export declare const componentRadiomark: {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated]Brand"
+        "Brand"
       ]
     },
     "Selected": {
@@ -3446,6 +3729,65 @@ export declare const componentShareModalFigmaOnly: {
   }
 };
 
+export declare const componentSideNavigation: {
+  "name": "componentSideNavigation",
+  "key": "72906d8fc24bdd5905bef1fc967193f88aa3e6b7",
+  "componentPropertyDefinitions": {
+    "Is Scrolled#1072:7": {
+      "type": "BOOLEAN"
+    },
+    "Show Scroll Fog#1881:0": {
+      "type": "BOOLEAN"
+    },
+    "Body Slot#3329:6": {
+      "type": "SLOT"
+    },
+    "Header Slot#3329:11": {
+      "type": "SLOT"
+    },
+    "Footer Slot#3329:14": {
+      "type": "SLOT"
+    },
+    "Has Header#3333:17": {
+      "type": "BOOLEAN"
+    },
+    "Has Footer#3333:20": {
+      "type": "BOOLEAN"
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Neutral",
+        "Transparent"
+      ]
+    }
+  }
+};
+
+export declare const componentSideNavigationPreset: {
+  "name": "componentSideNavigationPreset",
+  "key": "4aa3ac505361b0099c29d3bf910ebf9e0620b261",
+  "componentPropertyDefinitions": {
+    "Product": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "커머스",
+        "알바 - 본사",
+        "알바 - 지점",
+        "비즈프로필",
+        "광고 - 전문가모드"
+      ]
+    },
+    "Collapsed": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    }
+  }
+};
+
 export declare const componentSkeleton: {
   "name": "componentSkeleton",
   "key": "fdf69f0324c6c1145e5c715655f73bbb45575ba2",
@@ -3603,7 +3945,7 @@ export declare const componentSwitch: {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated] Brand"
+        "Brand"
       ]
     },
     "Selected": {
@@ -3646,7 +3988,7 @@ export declare const componentSwitchmark: {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated] Brand"
+        "Brand"
       ]
     },
     "Selected": {
@@ -4144,6 +4486,52 @@ export declare const componentBottomNavigationKr: {
   }
 };
 
+export declare const templateEmbedViewType: {
+  "name": "templateEmbedViewType",
+  "key": "6913a0eb2ae6a5e704ee862cb2294046274bcaae",
+  "componentPropertyDefinitions": {
+    "Title#2602:0": {
+      "type": "TEXT"
+    },
+    "Description#2602:1": {
+      "type": "TEXT"
+    },
+    "Show Thumbnail#2602:2": {
+      "type": "BOOLEAN"
+    },
+    "Show Delete Button#2614:4": {
+      "type": "BOOLEAN"
+    },
+    "Show Title#2727:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Description#2727:7": {
+      "type": "BOOLEAN"
+    },
+    "Show Tag Group#3562:0": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled",
+        "Loading",
+        "Forbidden",
+        "Not Found"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Title First",
+        "Description First"
+      ]
+    }
+  }
+};
+
 export declare const componentImageFrameReactionButton: {
   "name": "componentImageFrameReactionButton",
   "key": "559ac01a2ef202564821a5c7f0dbf46dcd61b3f9",
@@ -4237,7 +4625,7 @@ export declare const componentSelectBoxItemHorizontal: {
   "name": "componentSelectBoxItemHorizontal",
   "key": "8174af8ef3654dad996723883f5b84f44f791513",
   "componentPropertyDefinitions": {
-    "Content Slot#6752:6": {
+    "Contents Slot#6752:6": {
       "type": "SLOT"
     },
     "Title#28452:21": {
@@ -4330,6 +4718,48 @@ export declare const componentSelectBoxItemVertical: {
         "Enabled",
         "Pressed",
         "Disabled"
+      ]
+    }
+  }
+};
+
+export declare const templateShareSheet: {
+  "name": "templateShareSheet",
+  "key": "1dadeec71d6ddcac198ed197366e5c4b5a114ef9",
+  "componentPropertyDefinitions": {
+    "Share Sheet Slot#2497:0": {
+      "type": "SLOT"
+    },
+    "Show Slot#2497:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Header#4926:7": {
+      "type": "BOOLEAN"
+    },
+    "Title Text#14599:0": {
+      "type": "TEXT"
+    },
+    "Description Text#21827:0": {
+      "type": "TEXT"
+    },
+    "Show Safe Area#25531:15": {
+      "type": "BOOLEAN"
+    },
+    "Show Header Description#32984:0": {
+      "type": "BOOLEAN"
+    },
+    "Menu Group Count": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text Only"
       ]
     }
   }

@@ -18,20 +18,71 @@ export const privateTemplateTimePickerField = {
   "key": "e38df17cf1e0f96e09774b015739dfde30d46115"
 };
 
-export const privateComponentField = {
-  "name": "privateComponentField",
-  "key": "96f0d114c3ec7826b22531502f05e82404835df4",
+export const privateComponentItemMenuItemGroup = {
+  "name": "privateComponentItemMenuItemGroup",
+  "key": "5f64d89069596e92a14f8cee6b66bc43e1a89e09"
+};
+
+export const privateComponentItemNowBarStatusBarChip_94d = {
+  "name": "privateComponentItemNowBarStatusBarChip",
+  "key": "94d47f0ff371fa9baa5a5a5ee12344338cde5fd7"
+};
+
+export const privateComponentItemNowBarStatusBarChip_8ae = {
+  "name": "privateComponentItemNowBarStatusBarChip",
+  "key": "8ae4e0cd11f3bbb066abb529be510ba02e5ff574"
+};
+
+export const componentItemNowBarDefault = {
+  "name": "componentItemNowBarDefault",
+  "key": "a2f3edc65589e907ae54169a4c2dbe6c4593b417",
   "componentPropertyDefinitions": {
-    "Input#40606:0": {
-      "type": "INSTANCE_SWAP"
-    },
-    "Show Header#40606:1": {
+    "Show ProgressBar#8551:0": {
       "type": "BOOLEAN"
     },
-    "Show Footer#40606:2": {
+    "Show Button#8551:1": {
+      "type": "BOOLEAN"
+    },
+    "Title#8551:2": {
+      "type": "TEXT"
+    },
+    "Contents#8551:3": {
+      "type": "TEXT"
+    }
+  }
+};
+
+export const privateComponentMenuItemBadge = {
+  "name": "privateComponentMenuItemBadge",
+  "key": "c74503291f75e9a4ded3d122dc8d5557ca343d81"
+};
+
+export const privateComponentMenuItemIcon = {
+  "name": "privateComponentMenuItemIcon",
+  "key": "0492a418f27c645c0392844565695dbc8d2f44af"
+};
+
+export const privateComponentMenuItemSuffixChevron = {
+  "name": "privateComponentMenuItemSuffixChevron",
+  "key": "0bf5e8b6f6b81617b69add92af4659e0fa300c76"
+};
+
+export const privateComponentSidebarMenuGroup = {
+  "name": "privateComponentSidebarMenuGroup",
+  "key": "06a3f8ec77ea5d4992e656a1ef75da843d2ed040",
+  "componentPropertyDefinitions": {
+    "Slot#3329:9": {
+      "type": "SLOT"
+    },
+    "Show Label#3329:10": {
       "type": "BOOLEAN"
     }
   }
+};
+
+export const privateComponentSidebarMenuGroupLabel = {
+  "name": "privateComponentSidebarMenuGroupLabel",
+  "key": "f583b031f6df1f10682e208b4b87d9bd158e8fd2"
 };
 
 export const privateComponentSliderItemHandleSliderItemValueIndicator = {
@@ -72,6 +123,22 @@ export const componentIcon = {
 export const templateInformationList = {
   "name": "templateInformationList",
   "key": "ea1ff4070a5ef4ada5974dc7030e8f9a1b759cdb"
+};
+
+export const componentField = {
+  "name": "componentField",
+  "key": "96f0d114c3ec7826b22531502f05e82404835df4",
+  "componentPropertyDefinitions": {
+    "Input#40606:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Show Header#40606:1": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:2": {
+      "type": "BOOLEAN"
+    }
+  }
 };
 
 export const componentBottomSheetContentsAgreement = {
@@ -137,6 +204,16 @@ export const componentImageFrameOverlayIndicator = {
       "type": "TEXT"
     }
   }
+};
+
+export const templateItemEmbedViewTypeDiscountRate = {
+  "name": "templateItemEmbedViewTypeDiscountRate",
+  "key": "6672b5e163637b12b0b648cbbcaafffdc63b809c"
+};
+
+export const templateItemEmbedViewTypeOriginalPrice = {
+  "name": "templateItemEmbedViewTypeOriginalPrice",
+  "key": "3ce31f0965fc9c600f4d8fe2feb1152dda088297"
 };
 
 export const componentListItemDetailCustom = {

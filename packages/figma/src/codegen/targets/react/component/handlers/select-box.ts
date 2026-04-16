@@ -78,7 +78,7 @@ const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
       })();
 
       const contentSlotNode = props["Show Custom Content#56903:0"].value
-        ? findSlotNode(node, "Content Slot#6752:6")
+        ? findSlotNode(node, "Contents Slot#6752:6")
         : undefined;
       const footer = contentSlotNode ? traverse(contentSlotNode) : undefined;
 
