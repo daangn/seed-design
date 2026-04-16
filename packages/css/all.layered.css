@@ -997,8 +997,18 @@
     color: var(--seed-color-fg-neutral-muted);
   }
 
-  .seed-accordion__item--variant_inline:not(:last-child) {
-    box-shadow: inset 0 -1px 0 0 var(--seed-color-stroke-neutral-subtle);
+  .seed-accordion__item--variant_inline {
+    position: relative;
+  }
+
+  .seed-accordion__item--variant_inline:not(:last-child):after {
+    content: "";
+    bottom: 0;
+    left: var(--seed-dimension-x3);
+    right: var(--seed-dimension-x3);
+    background-color: var(--seed-color-stroke-neutral-subtle);
+    height: 1px;
+    position: absolute;
   }
 
   @media (hover: hover) {

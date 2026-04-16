@@ -18,6 +18,8 @@ data:
             type: dimension
           dividerColor:
             type: color
+          dividerPaddingX:
+            type: dimension
           colorDuration:
             type: duration
           colorTimingFunction:
@@ -206,6 +208,7 @@ data:
       enabled:
         item:
           dividerColor: $color.stroke.neutral-subtle
+          dividerPaddingX: $dimension.x3
 
     variant=separated:
       enabled:

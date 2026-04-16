@@ -27,6 +27,9 @@
             "dividerColor": {
               "type": "color"
             },
+            "dividerPaddingX": {
+              "type": "dimension"
+            },
             "colorDuration": {
               "type": "duration"
             },
@@ -505,6 +508,10 @@
                 "dividerColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-subtle"
+                },
+                "dividerPaddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x3"
                 }
               }
             }

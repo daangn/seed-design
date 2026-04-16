@@ -163,8 +163,16 @@ const accordion = defineSlotRecipe({
     variant: {
       inline: {
         item: {
-          "&:not(:last-child)": {
-            boxShadow: `inset 0 -1px 0 0 ${vars.variantInline.enabled.item.dividerColor}`,
+          position: "relative",
+
+          [pseudo(":not(:last-child)::after")]: {
+            content: "''",
+            position: "absolute",
+            bottom: 0,
+            left: vars.variantInline.enabled.item.dividerPaddingX,
+            right: vars.variantInline.enabled.item.dividerPaddingX,
+            height: "1px",
+            backgroundColor: vars.variantInline.enabled.item.dividerColor,
           },
         },
         trigger: {

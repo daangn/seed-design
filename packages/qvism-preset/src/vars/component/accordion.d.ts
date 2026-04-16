@@ -122,7 +122,8 @@ export declare const vars: {
   "variantInline": {
     "enabled": {
       "item": {
-        "dividerColor": "var(--seed-color-stroke-neutral-subtle)"
+        "dividerColor": "var(--seed-color-stroke-neutral-subtle)",
+        "dividerPaddingX": "var(--seed-dimension-x3)"
       }
     }
   },
