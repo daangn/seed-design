@@ -59,11 +59,7 @@ export default function AttachmentFieldCustomizingItems() {
         <AttachmentInput>
           {({ acceptedFileEntries }) =>
             acceptedFileEntries.map((fileEntry, index) => (
-              <CustomImageItem
-                key={fileEntry.id}
-                fileEntry={fileEntry}
-                {...(index === 0 && { isCover: true })}
-              />
+              <CustomImageItem key={fileEntry.id} fileEntry={fileEntry} isCover={index === 0} />
             ))
           }
         </AttachmentInput>
