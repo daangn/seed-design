@@ -2,7 +2,7 @@ import {
   ActionButton as SeedActionButton,
   type ActionButtonProps as SeedActionButtonProps,
 } from "@seed-design/lynx-react";
-import * as React from "react";
+import * as React from "@lynx-js/react";
 import { ProgressCircle } from "./progress-circle";
 
 export interface ActionButtonProps extends SeedActionButtonProps {}
