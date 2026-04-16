@@ -154,6 +154,7 @@ jobs:
         uses: anthropics/claude-code-action@905d4eb99ab3d43143d74fb0dcae537f29ac330a # v1
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
+          allowed_bots: "renovate[bot]"
           track_progress: true
           use_sticky_comment: true
           prompt: |
