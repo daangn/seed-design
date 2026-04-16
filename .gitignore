@@ -24,3 +24,7 @@ scripts/data
 .claude/worktrees/*
 
 .codex
+.playwright-mcp
+.superpowers/
+.impeccable.md
+.gstack/

@@ -1,0 +1,256 @@
+@import "tailwindcss";
+
+/* Variable fonts loaded from node_modules via Vite's URL resolution */
+@font-face {
+  font-family: "Geist";
+  src: url("/node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GeistPixelSquare";
+  src: url("/node_modules/geist/dist/fonts/geist-pixel/GeistPixel-Square.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  --color-background: oklch(0.07 0.005 260);
+  --color-foreground: oklch(0.93 0.005 260);
+  --color-card: oklch(0.10 0.005 260);
+  --color-card-foreground: oklch(0.93 0.005 260);
+  --color-popover: oklch(0.10 0.005 260);
+  --color-popover-foreground: oklch(0.93 0.005 260);
+  --color-primary: oklch(0.65 0.15 250);
+  --color-primary-foreground: oklch(0.98 0.005 260);
+  --color-secondary: oklch(0.18 0.005 260);
+  --color-secondary-foreground: oklch(0.85 0.005 260);
+  --color-muted: oklch(0.18 0.005 260);
+  --color-muted-foreground: oklch(0.55 0.005 260);
+  --color-accent: oklch(0.18 0.01 260);
+  --color-accent-foreground: oklch(0.93 0.005 260);
+  --color-destructive: oklch(0.55 0.2 25);
+  --color-destructive-foreground: oklch(0.98 0.005 260);
+  --color-border: oklch(0.20 0.005 260);
+  --color-input: oklch(0.20 0.005 260);
+  --color-ring: oklch(0.65 0.15 250);
+
+  --color-sidebar-background: oklch(0.09 0.005 260);
+  --color-sidebar-foreground: oklch(0.93 0.005 260);
+  --color-sidebar-primary: oklch(0.65 0.15 250);
+  --color-sidebar-primary-foreground: oklch(0.98 0.005 260);
+  --color-sidebar-accent: oklch(0.15 0.01 260);
+  --color-sidebar-accent-foreground: oklch(0.93 0.005 260);
+  --color-sidebar-border: oklch(0.18 0.005 260);
+  --color-sidebar-ring: oklch(0.65 0.15 250);
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  --color-pkg-rootage: oklch(0.65 0.15 250);
+  --color-pkg-qvism: oklch(0.65 0.18 155);
+  --color-pkg-css: oklch(0.65 0.15 290);
+  --color-pkg-react: oklch(0.65 0.18 340);
+  --color-pkg-headless: oklch(0.65 0.15 55);
+  --color-pkg-cli: oklch(0.75 0.15 90);
+  --color-pkg-docs: oklch(0.65 0.12 220);
+  --color-pkg-ecosystem: oklch(0.50 0.02 260);
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  button,
+  [role="tab"],
+  [role="button"],
+  summary,
+  a[href] {
+    cursor: pointer;
+  }
+}
+
+/* Bayer 4x4 dithering pattern */
+.dither-bg {
+  position: relative;
+}
+
+.dither-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect x='0' y='0' width='2' height='2' fill='%23fff' opacity='0.0625'/%3E%3Crect x='4' y='0' width='2' height='2' fill='%23fff' opacity='0.5625'/%3E%3Crect x='2' y='2' width='2' height='2' fill='%23fff' opacity='0.8125'/%3E%3Crect x='6' y='2' width='2' height='2' fill='%23fff' opacity='0.3125'/%3E%3Crect x='0' y='4' width='2' height='2' fill='%23fff' opacity='0.75'/%3E%3Crect x='4' y='4' width='2' height='2' fill='%23fff' opacity='0.1875'/%3E%3Crect x='2' y='6' width='2' height='2' fill='%23fff' opacity='0.4375'/%3E%3Crect x='6' y='6' width='2' height='2' fill='%23fff' opacity='0.9375'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 8px 8px;
+  z-index: 0;
+}
+
+.dither-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+.dither-divider {
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0px,
+    var(--color-border) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.font-pixel {
+  font-family: "GeistPixelSquare", "Geist Mono", monospace;
+  font-feature-settings: normal;
+  letter-spacing: 0.05em;
+}
+
+/* Dithered header accent bar */
+.dither-accent-bar {
+  height: 2px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='2'%3E%3Crect x='0' y='0' width='2' height='2' fill='%234a9eff' opacity='0.6'/%3E%3Crect x='2' y='0' width='2' height='2' fill='%234a9eff' opacity='0.2'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 4px 2px;
+}
+
+/* Stagger animation for relation cards */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card-in {
+  animation: fadeSlideIn 0.2s ease-out both;
+}
+
+/* SVG connection line draw-on animation */
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Flash animation for scrollToPath */
+@keyframes flash {
+  0%,
+  100% {
+    background-color: transparent;
+  }
+  25%,
+  75% {
+    background-color: oklch(0.25 0.06 250);
+  }
+}
+
+.animate-flash {
+  animation: flash 0.8s ease-out;
+}
+
+/* Subtle glow pulse for active kontext.yaml in Files tab */
+@keyframes kontextGlow {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 1px oklch(0.55 0.15 250 / 0.3);
+  }
+  50% {
+    box-shadow: inset 0 0 0 1px oklch(0.55 0.15 250 / 0.6);
+  }
+}
+
+.animate-kontext-glow {
+  animation: kontextGlow 2s ease-in-out infinite;
+}
+
+/* Shiki code highlight overrides */
+.shiki-container pre,
+.shiki-container code {
+  background: transparent !important;
+  font-family: "Geist Mono Variable", "Geist Mono", monospace !important;
+  font-size: 11px !important;
+  line-height: 1.625 !important;
+}
+
+/* Line numbers via CSS counter */
+.shiki-container code {
+  counter-reset: line;
+}
+
+.shiki-container .line {
+  display: inline-block;
+  width: 100%;
+  padding-left: 3.5rem;
+  position: relative;
+}
+
+.shiki-container .line::before {
+  counter-increment: line;
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  width: 2.5rem;
+  text-align: right;
+  padding-right: 0.75rem;
+  color: oklch(0.35 0.005 260);
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.25 0.005 260);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.35 0.005 260);
+}
