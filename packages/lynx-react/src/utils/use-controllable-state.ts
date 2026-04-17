@@ -1,4 +1,4 @@
-import { useState } from "@lynx-js/react";
+import { useRef, useState } from "@lynx-js/react";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 
 export interface UseControllableStateProps<T> {
@@ -22,13 +22,15 @@ export function useControllableState<T>(
   const isControlled = value !== undefined;
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const currentValue = isControlled ? value : uncontrolledValue;
+  const prevValueRef = useRef(currentValue);
 
   const setValue = useMemoizedFn((nextValue: T) => {
     if (!isControlled) {
       setUncontrolledValue(nextValue);
     }
-    if (nextValue !== currentValue) {
+    if (nextValue !== prevValueRef.current) {
       onChange?.(nextValue);
+      prevValueRef.current = nextValue;
     }
   });
 

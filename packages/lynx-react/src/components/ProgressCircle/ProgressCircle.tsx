@@ -1,3 +1,4 @@
+import * as React from "@lynx-js/react";
 import {
   createContext,
   runOnMainThread,
@@ -402,6 +403,9 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
     </view>
   );
 }
+
+Root.displayName = "ProgressCircle.Root";
+Range.displayName = "ProgressCircle.Range";
 
 export const ProgressCircle = {
   Root,
