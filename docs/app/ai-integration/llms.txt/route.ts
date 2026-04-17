@@ -35,7 +35,8 @@ export async function GET() {
             i === page.slugs.length - 1 ? `${s}.txt` : s,
           );
           const llmsUrl = new URL(`/llms/ai-integration/${slugsWithExt.join("/")}`, baseUrl);
-          return `- [${page.data.title}](${llmsUrl})`;
+          const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
+          return `- [${page.data.title}](${llmsUrl})${deprecatedLabel}`;
         })
         .sort()
         .join("\n");

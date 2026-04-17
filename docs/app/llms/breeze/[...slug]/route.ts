@@ -13,7 +13,9 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
 
   if (!page) notFound();
 
-  return new Response(await getLLMText(page, "breeze"), {
+  const allPages = breezeSource.getPages();
+
+  return new Response(await getLLMText(page, "breeze", allPages), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
     },

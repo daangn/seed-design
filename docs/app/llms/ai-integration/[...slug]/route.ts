@@ -13,7 +13,9 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
 
   if (!page) notFound();
 
-  return new Response(await getLLMText(page, "ai-integration"), {
+  const allPages = aiIntegrationSource.getPages();
+
+  return new Response(await getLLMText(page, "ai-integration", allPages), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
     },

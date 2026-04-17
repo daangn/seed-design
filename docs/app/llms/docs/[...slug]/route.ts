@@ -13,7 +13,9 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
 
   if (!page) notFound();
 
-  return new Response(await getLLMText(page, "docs"), {
+  const allPages = docsSource.getPages();
+
+  return new Response(await getLLMText(page, "docs", allPages), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
     },

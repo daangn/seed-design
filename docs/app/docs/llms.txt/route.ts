@@ -41,7 +41,8 @@ export async function GET() {
           );
           const llmsUrl = new URL(`/llms/docs/${slugsWithExt.join("/")}`, baseUrl);
           const displayTitle = getDisplayTitle(page, categoryPages);
-          return `- [${displayTitle}](${llmsUrl})`;
+          const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
+          return `- [${displayTitle}](${llmsUrl})${deprecatedLabel}`;
         })
         .sort()
         .join("\n");

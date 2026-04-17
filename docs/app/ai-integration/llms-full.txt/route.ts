@@ -9,7 +9,10 @@ export async function GET() {
     .filter((page) => shouldIncludeInFullText("ai-integration", page.path))
     .sort((a, b) => a.path.localeCompare(b.path));
 
-  const results = await Promise.all(pages.map(getLLMTextForFullCompilation));
+  const allPages = aiIntegrationSource.getPages();
+  const results = await Promise.all(
+    pages.map((page) => getLLMTextForFullCompilation(page, "ai-integration", allPages)),
+  );
 
   return new Response(results.join("\n\n---\n\n"));
 }

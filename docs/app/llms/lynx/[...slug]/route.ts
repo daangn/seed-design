@@ -13,7 +13,9 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
 
   if (!page) notFound();
 
-  return new Response(await getLLMText(page, "lynx"), {
+  const allPages = lynxSource.getPages();
+
+  return new Response(await getLLMText(page, "lynx", allPages), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
     },

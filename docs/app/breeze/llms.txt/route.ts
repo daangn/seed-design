@@ -10,7 +10,8 @@ export async function GET() {
     .map((page) => {
       const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
       const llmsUrl = new URL(`/llms/breeze/${slugsWithExt.join("/")}`, baseUrl);
-      return `- [${page.data.title}](${llmsUrl}): ${page.data.description ?? ""}`;
+      const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
+      return `- [${page.data.title}](${llmsUrl})${deprecatedLabel}: ${page.data.description ?? ""}`;
     })
     .sort()
     .join("\n");

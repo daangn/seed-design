@@ -9,7 +9,10 @@ export async function GET() {
     .filter((page) => shouldIncludeInFullText("breeze", page.path))
     .sort((a, b) => a.path.localeCompare(b.path));
 
-  const results = await Promise.all(pages.map(getLLMTextForFullCompilation));
+  const allPages = breezeSource.getPages();
+  const results = await Promise.all(
+    pages.map((page) => getLLMTextForFullCompilation(page, "breeze", allPages)),
+  );
 
   return new Response(results.join("\n\n---\n\n"));
 }
