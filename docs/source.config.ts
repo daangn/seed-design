@@ -14,6 +14,7 @@ export const docs = defineDocs({
     async: true,
     schema: frontmatterSchema.extend({
       deprecated: z.string().optional(),
+      replacement: z.string().optional(),
       coverImageFigmaId: z.string().optional(),
     }),
     postprocess: {
@@ -28,6 +29,7 @@ export const reactDocs = defineDocs({
     async: true,
     schema: frontmatterSchema.extend({
       deprecated: z.string().optional(),
+      replacement: z.string().optional(),
     }),
     postprocess: {
       includeProcessedMarkdown: true,
