@@ -11,13 +11,13 @@ Read docs below in advance to help you understand the library or frameworks this
 
 ## Commands
 
-- `npm run dev` - Start the dev server
+- `bun run dev` - Start the dev server
 
-- `npm run build` - Build the app for production
+- `bun run build` - Build the app for production
 
-- `npm run preview` - Preview the production build locally
+- `bun run preview` - Preview the production build locally
 
-- `npm exec rspeedy inspect` - Inspect the Rspeedy config and Rspack config of the project.
+- `bunx rspeedy inspect` - Inspect the Rspeedy config and Rspack config of the project.
 
 ## Related Docs
 
