@@ -28,7 +28,9 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "tsc",
-    "lint:publish": "bun publint"
+    "lint:publish": "bun publint",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "peerDependencies": {
     "@seed-design/css": ">=1.1.17",
@@ -38,8 +40,11 @@
   "devDependencies": {
     "@lynx-js/react": "^0.116.3",
     "@lynx-js/types": "^3.7.0",
+    "@testing-library/jest-dom": "^6.9.1",
     "@types/react": "^19.2.2",
-    "react": "^19.1.0"
+    "jsdom": "^29.0.2",
+    "react": "^19.1.0",
+    "vitest": "^3.2.4"
   },
   "publishConfig": {
     "access": "public"
