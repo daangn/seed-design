@@ -9,9 +9,8 @@ export async function GET() {
     .filter((page) => shouldIncludeInFullText("react", page.path))
     .sort((a, b) => a.path.localeCompare(b.path));
 
-  const allPages = reactSource.getPages();
   const pageResults = await Promise.all(
-    pages.map((page) => getLLMTextForFullCompilation(page, { section: "react", allPages })),
+    pages.map((page) => getLLMTextForFullCompilation(page)),
   );
 
   return new Response(pageResults.join("\n\n---\n\n"));
