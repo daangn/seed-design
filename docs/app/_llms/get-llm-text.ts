@@ -58,15 +58,14 @@ ${processed}`;
 
 export async function getLLMTextForFullCompilation(
   page: LLMPage,
-  section?: Section,
-  allPages?: LLMPage[],
+  options?: { section: Section; allPages: LLMPage[] },
 ): Promise<string> {
   await _ready;
   const processed = normalizeLLMBody(await page.data.getText("processed"));
 
   const deprecationNotice =
-    page.data.deprecated && section && allPages
-      ? buildDeprecationNotice(page, section, allPages)
+    page.data.deprecated && options
+      ? buildDeprecationNotice(page, options.section, options.allPages)
       : page.data.deprecated
         ? `\n> **Deprecated:** ${page.data.deprecated}\n`
         : "";

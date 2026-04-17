@@ -11,7 +11,7 @@ export async function GET() {
 
   const allPages = reactSource.getPages();
   const pageResults = await Promise.all(
-    pages.map((page) => getLLMTextForFullCompilation(page, "react", allPages)),
+    pages.map((page) => getLLMTextForFullCompilation(page, { section: "react", allPages })),
   );
 
   return new Response(pageResults.join("\n\n---\n\n"));
