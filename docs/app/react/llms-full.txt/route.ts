@@ -10,7 +10,7 @@ export async function GET() {
     .sort((a, b) => a.path.localeCompare(b.path));
 
   const pageResults = await Promise.all(
-    pages.map((page) => getLLMTextForFullCompilation(page)),
+    pages.map(getLLMTextForFullCompilation),
   );
 
   return new Response(pageResults.join("\n\n---\n\n"));
