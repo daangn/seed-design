@@ -123,6 +123,44 @@ export interface ComponentProps
 - 네이티브 `<view>` 요소 직접 사용 (`Primitive.view` 사용 금지 — BackgroundSnapshot 에러)
 - `displayName` 필수
 
+## Variant Props 처리 패턴
+
+variant props는 반드시 `splitVariantProps`를 통해 native 속성과 타입 안전하게 분리한다. 아래 유틸들은 내부에서 자동으로 `splitVariantProps`를 호출하고 Lynx 런타임 제약(children 분리, ref null 가드)을 이미 반영하므로, 사용하는 컴포넌트는 동일 처리를 중복할 필요가 없다.
+
+| 유형 | 도구 | Lynx 예시 |
+| --- | --- | --- |
+| 단일 슬롯 | `createRecipeContext` → `withContext` | (도입 예정) |
+| 복합 슬롯 | `createSlotRecipeContext` → `withProvider`/`withContext` | ActionButton |
+
+### createRecipeContext (단일 슬롯)
+
+Recipe 반환값이 `string`인 단일 슬롯 recipe용. `withContext(Component)`로 감싸면 내부에서 자동으로 `splitVariantProps`를 호출하고 `className`을 `clsx`로 병합해 Component에 적용한다.
+
+```tsx
+import { createRecipeContext } from "@seed-design/lynx-react";
+import { someRecipe, type SomeRecipeVariantProps } from "@seed-design/lynx-css/recipes/some";
+
+const { withContext } = createRecipeContext(someRecipe);
+
+export const MyComponent = withContext<unknown, SomeRecipeVariantProps & { className?: string }>(
+  "view",
+);
+```
+
+### createSlotRecipeContext (복합 슬롯)
+
+Recipe 반환값이 `Record<slot, string>`인 복합 슬롯 recipe용.
+
+- `withProvider(Component, slot, options?)`: Root 요소를 감싸 자체 slot className을 적용하고 `ClassNamesProvider`로 하위에 슬롯 className을 주입한다.
+- `withContext(Component, slot?)`: `ClassNamesProvider`에서 해당 slot className을 읽어 Component에 적용한다. slot이 없으면 className만 병합한다.
+- `withRootProvider(Component, options?)`: Root 자체에 className을 적용하지 않고 context 주입만 필요한 경우.
+
+현재 `ActionButton`이 `root`/`text` 두 슬롯을 합성하는 예시다. 외부에는 `<ActionButton>...</ActionButton>` 단일 API를 유지하되 내부는 `withProvider("view", "root")` + `withContext("text", "text")` 조합이다.
+
+### 절대 금지: variant props 수동 destructuring
+
+`({ variant, size, ...rest })` 형태로 variant를 함수 인자에서 직접 꺼내거나 `recipe({ variant, size })`로 직접 전달하지 않는다. variant가 추가/변경될 때 누락 위험이 있고 타입 안전성이 보장되지 않는다.
+
 ## 파일 작성 컨벤션
 
 - 컴포넌트: `src/components/<ComponentName>/<ComponentName>.tsx` + `index.ts`

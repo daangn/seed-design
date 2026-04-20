@@ -1,9 +1,33 @@
 import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
 import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
-import clsx from "clsx";
 import * as React from "react";
 
-import { usePressTap } from "../../utils/use-press-tap";
+import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { usePressTap, type UsePressTapReturn } from "../../utils/use-press-tap";
+
+const { withProvider, withContext } = createSlotRecipeContext(actionButton);
+
+type ActionButtonRootOwnProps = {
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+  bindtouchstart?: UsePressTapReturn["bindtouchstart"];
+  bindtouchend?: UsePressTapReturn["bindtouchend"];
+  bindtouchcancel?: UsePressTapReturn["bindtouchcancel"];
+  bindtap?: UsePressTapReturn["bindtap"];
+  "main-thread:bindtap"?: UsePressTapReturn["main-thread:bindtap"];
+};
+
+const ActionButtonRoot = withProvider<unknown, ActionButtonVariantProps & ActionButtonRootOwnProps>(
+  "view",
+  "root",
+  { defaultProps: { layout: "withText" } },
+);
+
+const ActionButtonTextSlot = withContext<
+  unknown,
+  { children?: React.ReactNode; className?: string }
+>("text", "text");
 
 /**
  * @platform Lynx
@@ -25,23 +49,14 @@ export interface ActionButtonProps extends Omit<ActionButtonVariantProps, "layou
 }
 
 export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props, ref) => {
-  const [variantProps, restProps] = actionButton.splitVariantProps(props);
   const {
     children,
-    className,
     flexGrow,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    ...nativeProps
-  } = restProps;
-
-  const { disabled = false, loading = false } = variantProps;
-  const classes = actionButton({
-    ...variantProps,
-    layout: "withText",
-    loading: loading ? true : undefined,
-    disabled: disabled ? true : undefined,
-  });
+    ...variantAndRest
+  } = props;
+  const { disabled = false, loading = false } = variantAndRest;
   const isInteractive = !disabled && !loading;
 
   const { pressed: _pressed, ...pressTapHandlers } = usePressTap({
@@ -51,15 +66,14 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   });
 
   return (
-    <view
-      {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
-      className={clsx(classes.root, className)}
+    <ActionButtonRoot
+      {...variantAndRest}
+      ref={ref}
       style={flexGrow != null ? { flexGrow } : undefined}
       {...pressTapHandlers}
-      {...nativeProps}
     >
-      {loading ? children : <text className={classes.text}>{children}</text>}
-    </view>
+      {loading ? children : <ActionButtonTextSlot>{children}</ActionButtonTextSlot>}
+    </ActionButtonRoot>
   );
 });
 ActionButton.displayName = "ActionButton";
