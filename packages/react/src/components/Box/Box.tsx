@@ -4,13 +4,14 @@ import type { BreakpointThreshold } from "../../types/responsive";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { Slot } from "@radix-ui/react-slot";
 
-export interface BoxProps extends StyleProps, Omit<React.HTMLAttributes<HTMLDivElement>, "color"> {
-  as?: React.ElementType;
+export type BoxProps = StyleProps &
+  Omit<React.HTMLAttributes<HTMLDivElement>, "color"> & {
+    as?: React.ElementType;
 
-  asChild?: boolean;
+    asChild?: boolean;
 
-  hideFrom?: BreakpointThreshold;
-}
+    hideFrom?: BreakpointThreshold;
+  };
 
 export const Box = React.forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
   const { hideFrom, ...rest } = props;

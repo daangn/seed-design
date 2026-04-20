@@ -125,7 +125,7 @@ function handleGradient(gradientToken: string | undefined, direction: string | u
   return `linear-gradient(${direction}, ${colorStops})`;
 }
 
-export interface StyleProps {
+interface StylePropsBase {
   /**
    * Shorthand for `background`.
    */
@@ -352,6 +352,83 @@ export interface StyleProps {
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
   >;
 
+  margin?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
+   * Shorthand for `margin`.
+   */
+  m?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  marginX?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginX`.
+   */
+  mx?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  marginY?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginY`.
+   */
+  my?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  marginTop?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginTop`.
+   */
+  mt?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  marginRight?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginRight`.
+   */
+  mr?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  marginBottom?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginBottom`.
+   */
+  mb?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  marginLeft?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginLeft`.
+   */
+  ml?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
   display?: ResponsiveValue<
     "block" | "flex" | "grid" | "inline-flex" | "inline" | "inline-block" | "none"
   >;
@@ -416,9 +493,47 @@ export interface StyleProps {
   };
 }
 
-interface UseStyleProps extends StyleProps {
+/** Distributes `Omit` over each union branch, preserving the union structure. */
+export type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+
+type MarginTopKeys = "margin" | "m" | "marginY" | "my" | "marginTop" | "mt";
+type MarginRightKeys = "margin" | "m" | "marginX" | "mx" | "marginRight" | "mr";
+type MarginBottomKeys = "margin" | "m" | "marginY" | "my" | "marginBottom" | "mb";
+type MarginLeftKeys = "margin" | "m" | "marginX" | "mx" | "marginLeft" | "ml";
+
+type BleedTopKeys = "bleedY" | "bleedTop";
+type BleedRightKeys = "bleedX" | "bleedRight";
+type BleedBottomKeys = "bleedY" | "bleedBottom";
+type BleedLeftKeys = "bleedX" | "bleedLeft";
+
+type DirectionExclusion<MKeys extends keyof StylePropsBase, BKeys extends keyof StylePropsBase> =
+  | (Pick<StylePropsBase, MKeys> & { [K in BKeys]?: never })
+  | ({ [K in MKeys]?: never } & Pick<StylePropsBase, BKeys>)
+  | ({ [K in MKeys]?: never } & { [K in BKeys]?: never });
+
+type MarginBleedKeys =
+  | MarginTopKeys
+  | MarginRightKeys
+  | MarginBottomKeys
+  | MarginLeftKeys
+  | BleedTopKeys
+  | BleedRightKeys
+  | BleedBottomKeys
+  | BleedLeftKeys;
+
+/**
+ * Margin and bleed props are mutually exclusive per CSS direction
+ * (e.g. `marginTop` conflicts with `bleedY`/`bleedTop`, but not `bleedX`).
+ */
+export type StyleProps = Omit<StylePropsBase, MarginBleedKeys> &
+  DirectionExclusion<MarginTopKeys, BleedTopKeys> &
+  DirectionExclusion<MarginRightKeys, BleedRightKeys> &
+  DirectionExclusion<MarginBottomKeys, BleedBottomKeys> &
+  DirectionExclusion<MarginLeftKeys, BleedLeftKeys>;
+
+type UseStyleProps = StyleProps & {
   style?: React.CSSProperties;
-}
+};
 
 export function useStyleProps<T extends UseStyleProps>(
   props: T,
@@ -472,6 +587,20 @@ export function useStyleProps<T extends UseStyleProps>(
     bleedRight,
     bleedBottom,
     bleedLeft,
+    margin,
+    m,
+    marginX,
+    mx,
+    marginY,
+    my,
+    marginTop,
+    mt,
+    marginRight,
+    mr,
+    marginBottom,
+    mb,
+    marginLeft,
+    ml,
     bottom,
     left,
     right,
@@ -593,6 +722,20 @@ export function useStyleProps<T extends UseStyleProps>(
         resolveResponsive("--seed-box-bleed-left", bleedLeft ?? bleedX, (v) =>
           handleBleed(v, "left"),
         )),
+      ...((margin ?? m) !== undefined &&
+        resolveResponsive("--seed-box-margin", margin ?? m, handleDimension)),
+      ...((marginX ?? mx) !== undefined &&
+        resolveResponsive("--seed-box-margin-x", marginX ?? mx, handleDimension)),
+      ...((marginY ?? my) !== undefined &&
+        resolveResponsive("--seed-box-margin-y", marginY ?? my, handleDimension)),
+      ...((marginTop ?? mt) !== undefined &&
+        resolveResponsive("--seed-box-margin-top", marginTop ?? mt, handleDimension)),
+      ...((marginRight ?? mr) !== undefined &&
+        resolveResponsive("--seed-box-margin-right", marginRight ?? mr, handleDimension)),
+      ...((marginBottom ?? mb) !== undefined &&
+        resolveResponsive("--seed-box-margin-bottom", marginBottom ?? mb, handleDimension)),
+      ...((marginLeft ?? ml) !== undefined &&
+        resolveResponsive("--seed-box-margin-left", marginLeft ?? ml, handleDimension)),
       ...(gap !== undefined && resolveResponsive("--seed-box-gap", gap, handleDimension)),
       ...(display !== undefined && resolveResponsive("--seed-box-display", display, (v) => v)),
       ...(flexDirection !== undefined &&
