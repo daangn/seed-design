@@ -1,5 +1,6 @@
 ---
 "@seed-design/react": minor
+"@seed-design/react-accordion": minor
 "@seed-design/css": minor
 "@seed-design/rootage-artifacts": minor
 ---
@@ -12,6 +13,11 @@
 - `variant="inline" | "separated"` 지원 (기본값: `inline`)
 - `size="medium" | "large"` 지원 (기본값: `medium`)
 - WAI-ARIA Accordion Pattern 준수 (키보드 `Enter`/`Space`/`ArrowUp`/`ArrowDown`/`Home`/`End`)
+- 접근성을 위해 `AccordionHeader`(`<h3>`) 래퍼가 자동 적용됩니다.
+
+### Headless 패키지 분리
+
+`@seed-design/react-accordion` 패키지가 새로 추가되었습니다. 스타일 없이 상태 관리와 접근성 로직만 필요한 경우 직접 사용할 수 있습니다.
 
 ```tsx
 import {
