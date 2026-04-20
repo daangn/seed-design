@@ -3,12 +3,13 @@ import {
   TagGroupItem,
   TagGroupItemLabel,
   TagGroupRoot,
+  type TagGroupRootProps,
 } from "@seed-design/lynx-react";
 import { vars } from "@seed-design/lynx-css/vars";
 
 const { $color } = vars;
 
-type Size = "t2" | "t3" | "t4";
+type Size = NonNullable<TagGroupRootProps["size"]>;
 
 function SectionHeader({ children }: { children: string }) {
   return (

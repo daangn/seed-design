@@ -1,3 +1,6 @@
+/**
+ * @see https://seed-design.io/lynx/components/tag-group
+ */
 export {
   TagGroupRoot,
   TagGroupItem,
