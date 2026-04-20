@@ -1,5 +1,5 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 export interface UseAccordionSingleProps {
   type: "single";
@@ -19,12 +19,14 @@ export interface UseAccordionMultipleProps {
 }
 
 export type UseAccordionProps = UseAccordionSingleProps | UseAccordionMultipleProps;
+export type UseAccordionReturn = ReturnType<typeof useAccordion>;
 
 function isSingleProps(props: UseAccordionProps): props is UseAccordionSingleProps {
   return props.type === "single";
 }
 
 export function useAccordion(props: UseAccordionProps) {
+  const isSingle = isSingleProps(props);
   const disabled = props.disabled ?? false;
 
   const [singleValue, setSingleValue] = useControllableState<string>({
@@ -43,13 +45,13 @@ export function useAccordion(props: UseAccordionProps) {
 
   const isOpen = useCallback(
     (itemValue: string) =>
-      isSingleProps(props) ? singleValue === itemValue : multipleValue.includes(itemValue),
-    [props, singleValue, multipleValue],
+      isSingle ? singleValue === itemValue : multipleValue.includes(itemValue),
+    [isSingle, singleValue, multipleValue],
   );
 
   const toggle = useCallback(
     (itemValue: string) => {
-      if (isSingleProps(props)) {
+      if (isSingle) {
         if (singleValue === itemValue) {
           if (collapsible) setSingleValue("");
         } else {
@@ -61,10 +63,11 @@ export function useAccordion(props: UseAccordionProps) {
         );
       }
     },
-    [props, singleValue, collapsible, setSingleValue, setMultipleValue],
+    [isSingle, singleValue, collapsible, setSingleValue, setMultipleValue],
   );
 
-  return { disabled, collapsible, isOpen, toggle };
+  return useMemo(
+    () => ({ disabled, collapsible, isOpen, toggle }),
+    [disabled, collapsible, isOpen, toggle],
+  );
 }
-
-export type UseAccordionReturn = ReturnType<typeof useAccordion>;
