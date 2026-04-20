@@ -61,6 +61,21 @@ npx @seed-design/cli@latest add ui:help-bubble
   ```
 </ComponentExample>
 
+### Hover Trigger
+
+`trigger="hover"`를 설정하면 클릭 대신 포인터 호버로 Help Bubble이 열리고 닫힙니다. `openDelay`와 `closeDelay`로 열림/닫힘 지연(ms)을 조절할 수 있습니다.
+
+터치 디바이스에서도 동작하며, 디바이스 환경에 따라 동작이 자동 전환되지는 않습니다. 필요에 따라 명시적으로 `trigger` 값을 지정해야 합니다.
+
+<ComponentExample name="react/help-bubble/hover">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/hover.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Anchor
 
 `HelpBubbleAnchor`의 `children`은 Help Bubble이 위치를 잡는 데에만 사용되며 클릭으로 열고 닫는 동작은 없습니다.
