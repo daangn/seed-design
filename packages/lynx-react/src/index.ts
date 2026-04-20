@@ -1,5 +1,13 @@
 export { ActionButton, type ActionButtonProps } from "./components/ActionButton";
 export { ProgressCircle, type ProgressCircleProps } from "./components/ProgressCircle";
+export {
+  TagGroupRoot,
+  TagGroupItem,
+  TagGroupItemLabel,
+  type TagGroupRootProps,
+  type TagGroupItemProps,
+  type TagGroupItemLabelProps,
+} from "./components/TagGroup";
 export { createRecipeContext } from "./utils/create-recipe-context";
 export {
   createSlotRecipeContext,

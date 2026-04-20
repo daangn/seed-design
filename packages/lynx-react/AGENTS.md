@@ -122,6 +122,50 @@ export interface ComponentProps
 - 모든 컴포넌트는 `React.forwardRef` 사용 + ref null 가드
 - 네이티브 `<view>` 요소 직접 사용 (`Primitive.view` 사용 금지 — BackgroundSnapshot 에러)
 - `displayName` 필수
+- 컴포넌트의 `React` namespace는 `react`에서 import (`import * as React from "react"`). JSX 내부에서 사용하는 Lynx 전용 primitive(`Fragment`, `createContext`, `createElement` 등)는 `@lynx-js/react`에서 import
+
+## Variant Props 처리 패턴
+
+variant props는 아래 패턴 중 하나로 처리한다. 모두 내부적으로 `splitVariantProps`를 사용해 variant props와 네이티브 props를 타입 안전하게 분리한다.
+
+| 유형 | 도구 | 대표 컴포넌트 | 비고 |
+|------|------|--------------|------|
+| 직접 `splitVariantProps` | `recipe.splitVariantProps(props)` | ActionButton | 단일 recipe, compound 아님 |
+| 복합 슬롯 | `createSlotRecipeContext` → `PropsProvider`/`ClassNamesProvider`/`withContext` | TagGroup | slot recipe + compound |
+| 다중 Recipe | `splitMultipleVariantsProps` | TagGroup Root | 한 컴포넌트가 여러 recipe를 동시에 받을 때 (shared variant 자동 전파) |
+| 단일 Recipe + Context | `createRecipeContext` | 미구현 | 실제 필요 시점에 포팅 (YAGNI) |
+
+각 유틸은 `src/utils/*` 상대 경로로 import한다. `@seed-design/react-utils` 같은 외부 패키지는 존재하지 않으며, `@seed-design/react`에서 import 금지 (웹 Primitive/토큰에 묶여 Lynx 런타임에서 동작하지 않음).
+
+### 절대 금지: variant props 수동 destructuring
+
+```tsx
+// ❌ 수동 destructuring
+const { variant, size, children, ...rest } = props;
+const classes = recipe({ variant, size });
+
+// ✅ splitVariantProps 경유
+const [variantProps, otherProps] = recipe.splitVariantProps(props);
+const classes = recipe(variantProps);
+```
+
+variant 추가/변경 시 누락 위험 + 타입 안정성 손실. 반드시 `splitVariantProps` 계열 유틸을 경유한다.
+
+## Compound Component Context 정책
+
+슬롯이 여러 개인 compound 컴포넌트(TagGroup, 추후 Switch/BottomSheet 등)는 `createSlotRecipeContext`가 제공하는 두 종류 context를 목적별로 구분해 사용한다.
+
+- **`PropsProvider` / `useProps`**: Root → 하위 slot 컴포넌트에 **variant props**를 전파. 하위에서 local variant props와 merge한 뒤 recipe를 호출한다.
+- **`ClassNamesProvider` / `useClassNames` / `withContext`**: slot 컴포넌트 → 그 안의 자식 slot에 **미리 계산된 classNames 묶음**을 내려보내 자식이 매번 recipe를 재호출하지 않게 한다. `withContext("text", "label")`처럼 간단한 slot 컴포넌트를 HOC로 만들 수도 있다.
+
+### state-driven compound 예외
+
+variant·tone 같은 정적 prop 외에 애니메이션 진행률·열림 상태 같은 runtime state까지 공유해야 하는 경우(ProgressCircle처럼), `createSlotRecipeContext`만으로는 부족하다. **custom `createContext`로 별도 state context를 만들고**, classNames context와 혼합해서 사용한다.
+
+### `withContext`의 Lynx 특이 사항
+
+- `withContext`는 `"view"`/`"text"` 같은 Lynx 네이티브 element name 문자열을 받는다. `Primitive.*`는 BackgroundSnapshot 에러로 사용 금지.
+- `withContext`로 만든 slot 컴포넌트는 내부적으로 ref null 가드를 수행하므로 사용부에서 추가 가드가 필요 없다.
 
 ## Variant Props 처리 패턴
 

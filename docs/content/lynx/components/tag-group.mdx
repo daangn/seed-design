@@ -1,0 +1,77 @@
+---
+title: Tag Group
+description: 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.
+---
+
+## Installation
+
+{/* TODO: dev 브랜치 머지 시 @alpha 태그와 --baseUrl 옵션 제거 */}
+```package-install
+npx @seed-design/cli@alpha add ui:tag-group --baseUrl https://lynx.seed-design.pages.dev
+```
+
+## Usage
+
+```tsx
+import { TagGroupItem, TagGroupItemLabel, TagGroupRoot } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <TagGroupRoot size="t2">
+      <TagGroupItem>
+        <TagGroupItemLabel>동네 인증</TagGroupItemLabel>
+      </TagGroupItem>
+      <TagGroupItem>
+        <TagGroupItemLabel>매너 온도 42.0°C</TagGroupItemLabel>
+      </TagGroupItem>
+      <TagGroupItem tone="brand" weight="bold">
+        <TagGroupItemLabel>추천</TagGroupItemLabel>
+      </TagGroupItem>
+    </TagGroupRoot>
+  );
+}
+```
+
+`TagGroupRoot`의 `size`/`weight`/`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `" · "`이고 `separator` prop으로 바꿀 수 있습니다.
+
+## Props
+
+### `TagGroupRoot`
+
+<react-type-table
+  path="../packages/lynx-react/src/components/TagGroup/TagGroup.tsx"
+  name="TagGroupRootProps"
+/>
+
+### `TagGroupItem`
+
+<react-type-table
+  path="../packages/lynx-react/src/components/TagGroup/TagGroup.tsx"
+  name="TagGroupItemProps"
+/>
+
+### `TagGroupItemLabel`
+
+<react-type-table
+  path="../packages/lynx-react/src/components/TagGroup/TagGroup.tsx"
+  name="TagGroupItemLabelProps"
+/>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `TagGroup`은 React `TagGroup`과 다음과 같은 차이가 있습니다.
+
+- **렌더링 요소**: HTML `<span>` 대신 네이티브 `<view>`(컨테이너)와 `<text>`(separator, label)를 렌더링합니다.
+- **`asChild` 미지원**: Lynx에는 `Slot` 개념이 없습니다.
+- **`flexShrink` prop 미지원**: CSS variable 동적 주입 제한.
+- **아이콘 slot 없음**: Lynx 3.7 SVG 지원 후 Tier B에서 재검토합니다.
+</Callout>
+
+## Lynx 미지원 기능
+
+| 기능 | 웹 대응 | 설명 |
+|------|---------|------|
+| `flexShrink` | StyleProps | CSS variable 동적 주입 제한 |
+| `asChild` | Primitive Slot | Lynx에서 제공하지 않음 |
+| 아이콘 표시 | `<img>` / SVG | Lynx 3.7 SVG 지원 후 검토 (Tier B) |
