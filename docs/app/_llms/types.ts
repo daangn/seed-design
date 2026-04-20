@@ -7,7 +7,6 @@ export type LLMPage = Page & {
     title: string;
     description?: string;
     deprecated?: string;
-    replacement?: string;
     getText: (type: "raw" | "processed") => Promise<string | undefined>;
   };
 };
