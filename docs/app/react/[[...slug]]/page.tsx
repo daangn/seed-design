@@ -6,7 +6,33 @@ import { LLMOptions, ViewOptions } from "@/components/page-actions";
 import { getComponentStatus } from "@/components/rootage";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+
+function renderInlineMarkdown(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    parts.push(
+      <Link key={match.index} href={match[2]} className="underline font-medium">
+        {match[1]}
+      </Link>,
+    );
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+}
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
@@ -21,7 +47,8 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   const displayTitle = deprecated ? `${page.data.title} (Deprecated)` : page.data.title;
   const displayDescription = deprecated ? (
     <span className="text-red-600">
-      {deprecatedMessage} <span className="text-gray-600">{page.data.description}</span>
+      {deprecatedMessage ? renderInlineMarkdown(deprecatedMessage) : null}{" "}
+      <span className="text-gray-600">{page.data.description}</span>
     </span>
   ) : (
     <span>{page.data.description}</span>
