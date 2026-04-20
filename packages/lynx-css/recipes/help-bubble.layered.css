@@ -1,7 +1,7 @@
 @layer seed-components {
   .seed-help-bubble__positioner {
     --popover-z-index: 99;
-    z-index: calc(var(--popover-z-index)  + var(--z-index-offset, 0));
+    z-index: calc(var(--popover-z-index) + var(--z-index-offset, 0));
   }
 
   .seed-help-bubble__content {
@@ -75,10 +75,10 @@
 
   .seed-help-bubble__closeButton {
     padding: calc((38px - var(--seed-dimension-x3_5)) / 2);
-    margin-left: calc(var(--seed-dimension-x1)  - ((38px - var(--seed-dimension-x3_5)) / 2));
+    margin-left: calc(var(--seed-dimension-x1) - ((38px - var(--seed-dimension-x3_5)) / 2));
     margin-right: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2));
-    margin-top: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2)  + var(--seed-dimension-x0_5));
-    margin-bottom: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2)  + var(--seed-dimension-x0_5));
+    margin-top: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
+    margin-bottom: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
     color: var(--seed-color-fg-neutral-inverted);
     --seed-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);

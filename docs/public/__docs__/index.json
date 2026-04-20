@@ -1646,6 +1646,18 @@
               "title": "Theming",
               "description": "Lynx 환경에서 SEED Design의 테마 시스템을 활용하는 방법을 알아봅니다.",
               "docUrl": "/lynx/getting-started/theming"
+            },
+            {
+              "id": "use-controllable-state",
+              "title": "useControllableState",
+              "description": "Controlled/uncontrolled 상태 패턴을 지원하는 훅입니다.",
+              "docUrl": "/lynx/hooks/use-controllable-state"
+            },
+            {
+              "id": "use-press-tap",
+              "title": "usePressTap",
+              "description": "Lynx 요소의 press/tap 인터랙션 상태를 관리하는 훅입니다.",
+              "docUrl": "/lynx/hooks/use-press-tap"
             }
           ]
         }
@@ -1660,12 +1672,6 @@
           "label": "컴포넌트",
           "items": [
             {
-              "id": "cli",
-              "title": "seed-design-cli",
-              "description": "SEED Design CLI workflows for init/add/add-all/compat, seed-design.json setup, snippet version compatibility checks, baseUrl-based registry selection, and custom snippet migration strategies. Use when onboarding SEED snippets, adding components, resolving version mismatches, or updating customized snippet files.",
-              "docUrl": "/ai-integration/cli"
-            },
-            {
               "id": "docs-mcp",
               "title": "Docs MCP",
               "description": "AI Agent가 SEED Design 문서에 직접 접근할 수 있는 MCP 서버를 제공합니다.",
@@ -1676,6 +1682,12 @@
               "title": "Figma MCP",
               "description": "AI Agent를 활용해 Figma 디자인을 React 코드로 변환하는 Model Context Protocol(MCP)를 제공합니다.",
               "docUrl": "/ai-integration/figma-mcp"
+            },
+            {
+              "id": "skill",
+              "title": "Skill",
+              "description": "SEED Design 통합 가이드. 프로젝트 셋업, 컴포넌트 탐색/사용, 파운데이션(색상·타이포·스페이싱) 활용, 테마/스타일링, CLI 워크플로우(init/add/add-all/compat/docs/upgrade), 스니펫 버전 호환성, 업그레이드 진단까지 커버.",
+              "docUrl": "/ai-integration/skill"
             }
           ]
         }

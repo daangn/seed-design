@@ -54,7 +54,7 @@
   }
 
   .seed-switchmark__thumb--size_16.seed-switchmark__thumb--checked_true {
-    transform: scale(1)translateX(10px);
+    transform: scale(1) translateX(10px);
   }
 
   .seed-switchmark__root--size_24 {
@@ -69,7 +69,7 @@
   }
 
   .seed-switchmark__thumb--size_24.seed-switchmark__thumb--checked_true {
-    transform: scale(1)translateX(14px);
+    transform: scale(1) translateX(14px);
   }
 
   .seed-switchmark__root--size_32 {
@@ -84,6 +84,6 @@
   }
 
   .seed-switchmark__thumb--size_32.seed-switchmark__thumb--checked_true {
-    transform: scale(1)translateX(20px);
+    transform: scale(1) translateX(20px);
   }
 }

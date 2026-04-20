@@ -50,7 +50,7 @@
   .seed-callout__closeButton {
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
-    margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
+    margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
     border-radius: var(--seed-radius-r2_5);
     background-color: #0000;
     border: none;

@@ -1,7 +1,7 @@
 @layer seed-components {
   .seed-dialog__positioner {
     --dialog-z-index: 2;
-    z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     justify-content: center;
     align-items: center;
     display: flex;
@@ -14,7 +14,7 @@
 
   .seed-dialog__backdrop {
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     position: fixed;
     top: 0;
     right: 0;
@@ -23,7 +23,7 @@
   }
 
   .seed-dialog__content {
-    z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 272px;
     margin: auto var(--seed-dimension-x8);

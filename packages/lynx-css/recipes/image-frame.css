@@ -1,17 +1,23 @@
 .seed-image-frame__root {
     position: relative;
     overflow: hidden;
-    border-radius: inherit
+    border-radius: inherit;
 }
 .seed-image-frame__content {
     display: block;
     width: 100%;
     height: 100%;
-    border-radius: inherit
+    border-radius: inherit;
+}
+.seed-image-frame__content:not([data-loading-state='loaded']) {
+    display: none;
 }
 .seed-image-frame__fallback {
     width: 100%;
-    height: 100%
+    height: 100%;
+}
+.seed-image-frame__fallback[data-loading-state='loaded'] {
+    display: none;
 }
 .seed-image-frame__root--stroke_true::after {
     position: absolute;
@@ -21,8 +27,8 @@
     bottom: 0;
     pointer-events: none;
     border-radius: inherit;
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle)
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle);
 }
 .seed-image-frame__root--rounded_true {
-    border-radius: var(--seed-radius-r2)
+    border-radius: var(--seed-radius-r2);
 }
