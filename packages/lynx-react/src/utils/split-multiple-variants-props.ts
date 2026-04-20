@@ -1,4 +1,6 @@
-type Recipe = { splitVariantProps: (...args: never[]) => [unknown, unknown] };
+type RecipeLike = {
+  splitVariantProps: (props: Record<string, unknown>) => [Record<string, unknown>, unknown];
+};
 
 type ExtractVariantProps<T> = T extends {
   splitVariantProps: (...args: never[]) => [infer V, unknown];
@@ -15,29 +17,42 @@ type ExtractAllVariantKeys<R> = {
 }[keyof R];
 
 /**
- * Split props into multiple recipe variant buckets at once.
+ * Split `props` across multiple recipes' variant extractors in one pass.
  *
- * Each recipe in `recipesMap` picks the variant keys it knows about via its
- * `splitVariantProps`. Keys that appear in more than one recipe (e.g. a shared
- * `size` variant) land in every matching bucket. The second element is the
- * props that no recipe claimed.
+ * Given `recipesMap` of `{ [recipeKey]: recipe }`, returns:
+ * - A bucket per recipe key with that recipe's variant-only props.
+ * - `remainingProps` with every recipe variant key stripped out.
+ *
+ * Keys that appear in more than one recipe (e.g. shared `size`) are copied
+ * into each corresponding bucket. `remainingProps` never includes any key
+ * that any recipe claimed as a variant.
+ *
+ * Mirror of `packages/react/src/utils/splitMultipleVariantsProps` adapted
+ * to TypeScript for Lynx. Use when a single compound component composes two
+ * or more recipes (e.g. Switch's `switch` + `switchmark`).
  */
-export function splitMultipleVariantsProps<R extends Record<string, Recipe>, P>(
+export function splitMultipleVariantsProps<R extends Record<string, RecipeLike>, P>(
   props: P,
   recipesMap: R,
 ): [{ [K in keyof R]: ExtractVariantProps<R[K]> }, Omit<P, ExtractAllVariantKeys<R>>] {
   const multipleVariantsProps = {} as { [K in keyof R]: ExtractVariantProps<R[K]> };
   const extractedKeys = new Set<string>();
+  const propsRecord = props as Record<string, unknown>;
 
   for (const recipeKey in recipesMap) {
-    const [variantProps] = recipesMap[recipeKey].splitVariantProps(props as never);
-    multipleVariantsProps[recipeKey] = variantProps as ExtractVariantProps<R[typeof recipeKey]>;
-    for (const k in variantProps as Record<string, unknown>) extractedKeys.add(k);
+    const [variantProps] = recipesMap[recipeKey].splitVariantProps(propsRecord);
+    multipleVariantsProps[recipeKey] = variantProps as ExtractVariantProps<R[keyof R]>;
+
+    for (const variantPropKey in variantProps) {
+      extractedKeys.add(variantPropKey);
+    }
   }
 
   const remainingProps = {} as Record<string, unknown>;
-  for (const k in props as Record<string, unknown>) {
-    if (!extractedKeys.has(k)) remainingProps[k] = (props as Record<string, unknown>)[k];
+
+  for (const propKey in propsRecord) {
+    if (extractedKeys.has(propKey)) continue;
+    remainingProps[propKey] = propsRecord[propKey];
   }
 
   return [multipleVariantsProps, remainingProps as Omit<P, ExtractAllVariantKeys<R>>];

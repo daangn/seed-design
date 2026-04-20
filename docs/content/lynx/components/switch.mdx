@@ -32,6 +32,17 @@ export function App() {
 }
 ```
 
+`SwitchControl`은 `tone`과 `size`를 직접 받아 Root의 기본값을 override할 수 있습니다.
+
+```tsx
+<SwitchRoot tone="brand" size="32" defaultChecked>
+  <SwitchControl tone="neutral">
+    <SwitchThumb />
+  </SwitchControl>
+  <SwitchLabel>레이블</SwitchLabel>
+</SwitchRoot>
+```
+
 Controlled 모드는 `checked`와 `onCheckedChange`를 함께 전달하여 사용합니다.
 
 ```tsx
@@ -65,7 +76,7 @@ Lynx `Switch`는 React `Switch`와 다음과 같은 차이가 있습니다.
 
 - **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap 핸들러는 Switch 내부에서 소유합니다.
 - **렌더링 요소**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
-- **Compound 구조**: `SwitchRoot` → `SwitchControl` → `SwitchThumb` / `SwitchLabel` 구성은 동일하지만, 상태는 Context로만 공유됩니다.
+- **Compound 구조**: `SwitchRoot` → `SwitchControl` → `SwitchThumb` / `SwitchLabel` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다. Control에 `tone`/`size`를 직접 전달해 Root를 override 하는 것도 지원합니다.
 - **ref forwarding**: 모든 서브 컴포넌트는 `React.forwardRef`를 지원합니다.
 </Callout>
 

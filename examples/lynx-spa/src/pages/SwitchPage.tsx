@@ -88,6 +88,18 @@ export function SwitchPage() {
         </SwitchRoot>
       </view>
 
+      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
+        Control override (Root=brand, Control=neutral)
+      </text>
+      <view style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
+        <SwitchRoot tone="brand" defaultChecked>
+          <SwitchControl tone="neutral">
+            <SwitchThumb />
+          </SwitchControl>
+          <SwitchLabel>Override</SwitchLabel>
+        </SwitchRoot>
+      </view>
+
       <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>Disabled</text>
       <view style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <SwitchRoot disabled>
