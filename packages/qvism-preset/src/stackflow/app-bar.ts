@@ -43,21 +43,17 @@ export const appBarMain = defineSlotRecipe({
   },
   variants: {
     layout: {
+      // TODO: have some better way to derive static font-size/line-height token references
+      // NOTE: when updating vars, update static token references accordingly
+      // NOTE: nested clamp — outer component bounds narrow the inner global clamp baked into the token (intersection; requires component range ⊆ global range). see packages/qvism-preset/src/global.ts
       titleOnly: {
         title: {
-          // TODO: have some better way to derive static font-size/line-height token references
-          // NOTE: when updating vars, update static token references accordingly
-          // NOTE: nested clamp — outer component bounds narrow the inner global clamp baked into the token (intersection; requires component range ⊆ global range)
-          // Global scale limits are defined in packages/qvism-preset/src/global.ts
           fontSize: `clamp(calc(${tokens.$fontSize.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.minFontSizeScale}), ${vars.titleLayoutTitleOnly.enabled.title.fontSize}, calc(${tokens.$fontSize.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.maxFontSizeScale}))`,
           fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
           lineHeight: `clamp(calc(${tokens.$lineHeight.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.minLineHeightScale}), ${vars.titleLayoutTitleOnly.enabled.title.lineHeight}, calc(${tokens.$lineHeight.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.maxLineHeightScale}))`,
         },
       },
       withSubtitle: {
-        // TODO: have some better way to derive static font-size/line-height token references
-        // NOTE: when updating vars, update static token references accordingly
-        // NOTE: nested clamp — outer component bounds narrow the inner global clamp baked into the token (intersection; requires component range ⊆ global range). see packages/qvism-preset/src/global.ts
         title: {
           fontSize: `clamp(calc(${tokens.$fontSize.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.minFontSizeScale}), ${vars.titleLayoutWithSubtitle.enabled.title.fontSize}, calc(${tokens.$fontSize.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.maxFontSizeScale}))`,
           fontWeight: vars.titleLayoutWithSubtitle.enabled.title.fontWeight,
@@ -82,8 +78,8 @@ export const appBarMain = defineSlotRecipe({
           bottom: 0,
           left: 0,
           right: 0,
-          paddingLeft: `calc(var(--centered-title-padding-x, 0px) + ${vars.themeCupertino.enabled.main.paddingX})`,
-          paddingRight: `calc(var(--centered-title-padding-x, 0px) + ${vars.themeCupertino.enabled.main.paddingX})`,
+          paddingLeft: "var(--centered-title-padding-x, 0)",
+          paddingRight: "var(--centered-title-padding-x, 0)",
           pointerEvents: "none",
         },
       },
@@ -264,7 +260,7 @@ export const appBar = defineSlotRecipe({
           height: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
         },
         left: {
-          paddingRight: vars.themeAndroid.enabled.left.paddingRight,
+          paddingRight: "16px",
         },
       },
     },

@@ -1564,7 +1564,7 @@
 }
 
 .seed-app-bar__left--theme_android {
-  padding-right: var(--seed-dimension-x4);
+  padding-right: 16px;
 }
 
 [data-global-transition-state="enter-active"] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:before {
@@ -1880,8 +1880,8 @@
 .seed-app-bar-main__root--theme_cupertino {
   text-align: center;
   top: var(--seed-safe-area-top);
-  padding-left: calc(var(--centered-title-padding-x, 0px) + var(--seed-dimension-x1));
-  padding-right: calc(var(--centered-title-padding-x, 0px) + var(--seed-dimension-x1));
+  padding-left: var(--centered-title-padding-x, 0);
+  padding-right: var(--centered-title-padding-x, 0);
   pointer-events: none;
   justify-content: center;
   align-items: center;

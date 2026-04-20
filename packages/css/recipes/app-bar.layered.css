@@ -105,7 +105,7 @@
   }
 
   .seed-app-bar__left--theme_android {
-    padding-right: var(--seed-dimension-x4);
+    padding-right: 16px;
   }
 
   [data-global-transition-state="enter-active"] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:before {

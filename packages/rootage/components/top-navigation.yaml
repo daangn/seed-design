@@ -18,10 +18,6 @@ data:
             type: color
           strokeWidth:
             type: dimension
-      main:
-        properties:
-          paddingX:
-            type: dimension
       title:
         properties:
           color:
@@ -58,12 +54,6 @@ data:
             type: number
           minLineHeightScale:
             type: number
-      left:
-        properties:
-          paddingRight:
-            type: dimension
-      right:
-        properties: {}
       icon:
         properties:
           size:
@@ -78,8 +68,6 @@ data:
         root:
           height: 44px
           paddingX: $dimension.x4
-        main:
-          paddingX: $dimension.x1
         icon:
           size: 24px
           targetSize: 44px
@@ -88,8 +76,6 @@ data:
         root:
           height: 56px
           paddingX: $dimension.x4
-        left:
-          paddingRight: $dimension.x4
         icon:
           size: 24px
           targetSize: 44px

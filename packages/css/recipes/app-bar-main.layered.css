@@ -30,8 +30,8 @@
   .seed-app-bar-main__root--theme_cupertino {
     text-align: center;
     top: var(--seed-safe-area-top);
-    padding-left: calc(var(--centered-title-padding-x, 0px) + var(--seed-dimension-x1));
-    padding-right: calc(var(--centered-title-padding-x, 0px) + var(--seed-dimension-x1));
+    padding-left: var(--centered-title-padding-x, 0);
+    padding-right: var(--centered-title-padding-x, 0);
     pointer-events: none;
     justify-content: center;
     align-items: center;

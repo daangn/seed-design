@@ -36,8 +36,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding-left: calc(var(--centered-title-padding-x, 0px) + var(--seed-dimension-x1));
-    padding-right: calc(var(--centered-title-padding-x, 0px) + var(--seed-dimension-x1));
+    padding-left: var(--centered-title-padding-x, 0);
+    padding-right: var(--centered-title-padding-x, 0);
     pointer-events: none
 }
 .seed-app-bar-main__root--theme_android {

@@ -5,9 +5,6 @@ export const vars = {
         "height": "44px",
         "paddingX": "var(--seed-dimension-x4)"
       },
-      "main": {
-        "paddingX": "var(--seed-dimension-x1)"
-      },
       "icon": {
         "size": "24px",
         "targetSize": "44px"
@@ -19,9 +16,6 @@ export const vars = {
       "root": {
         "height": "56px",
         "paddingX": "var(--seed-dimension-x4)"
-      },
-      "left": {
-        "paddingRight": "var(--seed-dimension-x4)"
       },
       "icon": {
         "size": "24px",

@@ -28,13 +28,6 @@
             }
           }
         },
-        "main": {
-          "properties": {
-            "paddingX": {
-              "type": "dimension"
-            }
-          }
-        },
         "title": {
           "properties": {
             "color": {
@@ -90,16 +83,6 @@
               "type": "number"
             }
           }
-        },
-        "left": {
-          "properties": {
-            "paddingRight": {
-              "type": "dimension"
-            }
-          }
-        },
-        "right": {
-          "properties": {}
         },
         "icon": {
           "properties": {
@@ -169,12 +152,6 @@
                   "value": "$dimension.x4"
                 }
               },
-              "main": {
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
-                }
-              },
               "icon": {
                 "size": {
                   "type": "dimension",
@@ -214,12 +191,6 @@
                   }
                 },
                 "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                }
-              },
-              "left": {
-                "paddingRight": {
                   "type": "dimension",
                   "value": "$dimension.x4"
                 }
