@@ -67,7 +67,7 @@ const CommonStoryTemplate: Story = {
 
 export const LightTheme = CommonStoryTemplate;
 
-export const DarkTheme = createStoryWithParameters({
+export const DarkTheme = createStoryWithParameters<typeof meta>({
   ...CommonStoryTemplate,
   parameters: { theme: "dark" },
 });
@@ -117,14 +117,14 @@ const OpenStoryTemplate: Story = {
   ),
 };
 
-export const OpenLightTheme = createStoryWithParameters({
+export const OpenLightTheme = createStoryWithParameters<typeof meta>({
   ...OpenStoryTemplate,
   parameters: {
     chromatic: { ...CHROMATIC_PARAMETERS.chromatic, delay: 500 },
   },
 });
 
-export const OpenDarkTheme = createStoryWithParameters({
+export const OpenDarkTheme = createStoryWithParameters<typeof meta>({
   ...OpenStoryTemplate,
   parameters: {
     theme: "dark",
