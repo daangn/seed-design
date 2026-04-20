@@ -3,35 +3,15 @@
 variant/size props만 받아 className을 생성하는 가장 단순한 컴포넌트들.
 ActionButton 패턴과 동일: `recipe.splitVariantProps()` → `clsx(classes.slot)` → `<view>`/`<text>`.
 
----
-
-## 1. Text
-
-**React 소스**: `packages/react/src/components/Text/Text.tsx`
-**Lynx CSS recipe**: `text` (단일 className, 슬롯 없음)
-
-**Variant Props:**
-- `textStyle`: 54개 프리셋 (t1Regular ~ t10Bold, t1Static ~ t10Static 등), default: "t5Regular"
-- `maxLines`: "none" | "single" | "multi", default: "none"
-- `textDecorationLine`: "none" | "line-through" | "underline", default: "none"
-
-**Lynx 구현 포인트:**
-- 웹에서 `as` prop으로 HTML 요소 변경 → Lynx에서는 항상 `<text>` 사용
-- 웹에서 CSS variable (`--seed-text-color`, `--seed-font-size` 등) → Lynx에서 `dynamicStyle()` 필요
-- `maxLines` 매핑: number → "none"(undefined), "single"(1), "multi"(>1)
-- `inherit` 패턴 미지원 — 직접 값 지정
-
-**미지원 기능:**
-- `color`, `fontSize`, `lineHeight`, `fontWeight` 오버라이드 (CSS variable 동적 주입 제한)
-- `userSelect`, `whiteSpace` (Lynx 미지원 CSS 속성)
-
-- [ ] `src/components/Text/Text.tsx`
-- [ ] `docs/content/lynx/components/text.mdx`
-- [ ] `examples/lynx-spa/src/pages/TextPage.tsx`
+> **스코프 정리 (2026-04-20):** Phase 1은 웹에서 실질적으로 공개·문서화된 컴포넌트 중, Lynx에서 고유 가치가 있는 것만 남겼다.
+> - Count: `@seed-design/react`에서 export되지만 rootage 스펙과 docs 페이지가 없는 내부 유틸 → Lynx로 포팅하지 않음.
+> - Text: Lynx는 Tailwind v3 + 직접 `<text>` 사용으로 대체 가능하므로 스타일드 래퍼 불요.
+> - Divider: Lynx의 `<view>` + border 스타일로 호출부에서 충분히 표현 가능하므로 후순위.
+> - NotificationBadge / MannerTempBadge: 웹 페어 컴포넌트 중 상위(NotificationBadge의 Positioner, MannerTemp의 Emote)에 흡수 가능하거나 수요가 낮아 후순위.
 
 ---
 
-## 2. Badge
+## 1. Badge
 
 **React 소스**: `packages/react/src/components/Badge/Badge.tsx`
 **Lynx CSS recipe**: `badge` (2슬롯: root, label)
@@ -51,65 +31,7 @@ ActionButton 패턴과 동일: `recipe.splitVariantProps()` → `clsx(classes.sl
 
 ---
 
-## 3. Count
-
-**React 소스**: `packages/react/src/components/Count/Count.tsx`
-**Lynx CSS recipe**: 없음 (정적 class `"seed-count"`)
-
-**구현:**
-- 최소 래퍼. `<text className="seed-count">{children}</text>`
-- variant props 없음
-
-- [ ] `src/components/Count/Count.tsx`
-- [ ] `docs/content/lynx/components/count.mdx`
-- [ ] `examples/lynx-spa/src/pages/CountPage.tsx`
-
----
-
-## 4. Divider
-
-**React 소스**: `packages/react/src/components/Divider/Divider.tsx`
-**Lynx CSS recipe**: 없음 (Box 기반 스타일링)
-
-**Lynx 구현 포인트:**
-- 웹에서 Box 컴포넌트 사용 → Lynx에서는 `<view>` + 인라인 스타일
-- `orientation`: "horizontal" | "vertical", default: "horizontal"
-- `inset`: boolean → 16px 마진 추가
-- 한쪽 border만 설정 (horizontal → borderBottom, vertical → borderRight)
-- `color` 기본값: "stroke.neutralMuted" → Lynx CSS variable로 매핑
-
-**미지원 기능:**
-- `as` prop (항상 `<view>`)
-- `aria-orientation` (Lynx에서 의미 없음)
-
-- [ ] `src/components/Divider/Divider.tsx`
-- [ ] `docs/content/lynx/components/divider.mdx`
-- [ ] `examples/lynx-spa/src/pages/DividerPage.tsx`
-
----
-
-## 5. NotificationBadge
-
-**React 소스**: `packages/react/src/components/NotificationBadge/NotificationBadge.tsx`
-**Lynx CSS recipe**: `notificationBadge`, `notificationBadgePositioner`
-
-**Exports:** `NotificationBadge`, `NotificationBadgePositioner`
-
-**Variant Props:**
-- NotificationBadge: `size` ("small" | "large", default: "large")
-- Positioner: `attach` ("icon" | "text", default: "icon"), `size` ("small" | "large", default: "large")
-
-**Lynx 구현 포인트:**
-- Compound component: Positioner가 size 컨텍스트를 Badge에 전달
-- Lynx에서 Context API 사용 가능 (React 기본 기능)
-
-- [ ] `src/components/NotificationBadge/NotificationBadge.tsx`
-- [ ] `docs/content/lynx/components/notification-badge.mdx`
-- [ ] `examples/lynx-spa/src/pages/NotificationBadgePage.tsx`
-
----
-
-## 6. Skeleton
+## 2. Skeleton
 
 **React 소스**: `packages/react/src/components/Skeleton/Skeleton.tsx`
 **Lynx CSS recipe**: `skeleton`
@@ -128,7 +50,7 @@ ActionButton 패턴과 동일: `recipe.splitVariantProps()` → `clsx(classes.sl
 
 ---
 
-## 7. MannerTemp
+## 3. MannerTemp
 
 **React 소스**: `packages/react/src/components/MannerTemp/MannerTemp.tsx`
 **Lynx CSS recipe**: `mannerTemp`
@@ -147,22 +69,3 @@ ActionButton 패턴과 동일: `recipe.splitVariantProps()` → `clsx(classes.sl
 - [ ] `src/components/MannerTemp/MannerTemp.tsx`
 - [ ] `docs/content/lynx/components/manner-temp.mdx`
 - [ ] `examples/lynx-spa/src/pages/MannerTempPage.tsx`
-
----
-
-## 8. MannerTempBadge
-
-**React 소스**: `packages/react/src/components/MannerTempBadge/MannerTempBadge.tsx`
-**Lynx CSS recipe**: `mannerTempBadge`
-
-**Variant Props:**
-- `level`: "l1" ~ "l10", default: "l1"
-
-**구현:**
-- 단일 컴포넌트, 슬롯 없음
-- MannerTemp과 유사하지만 Emote 없음
-
-- [ ] `src/components/MannerTempBadge/MannerTempBadge.tsx`
-- [ ] `docs/content/lynx/components/manner-temp-badge.mdx`
-- [ ] `examples/lynx-spa/src/pages/MannerTempBadgePage.tsx`
-

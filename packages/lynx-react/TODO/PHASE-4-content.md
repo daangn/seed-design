@@ -29,23 +29,7 @@
 
 ---
 
-## 2. Article
-
-**React 소스**: `packages/react/src/components/Article/Article.tsx`
-**Lynx CSS recipe**: `article`
-
-**구현:**
-- Box 래퍼 → Lynx에서는 `<view className={article()}>` 직접
-- `as="article"` → Lynx에서는 `<view>`
-- 가장 단순한 구조
-
-- [ ] `src/components/Article/Article.tsx`
-- [ ] `docs/content/lynx/components/article.mdx`
-- [ ] `examples/lynx-spa/src/pages/ArticlePage.tsx`
-
----
-
-## 3. LinkContent
+## 2. LinkContent
 
 **React 소스**: `packages/react/src/components/LinkContent/LinkContent.tsx` (deprecated)
 **Lynx CSS recipe**: `linkContent`
@@ -58,7 +42,7 @@
 
 ---
 
-## 4. Avatar
+## 3. Avatar
 
 **React 소스**: `packages/react/src/components/Avatar/Avatar.tsx`
 **React headless**: `packages/react-headless/avatar/src/` (Image primitive)
@@ -82,7 +66,7 @@
 
 ---
 
-## 5. ImageFrame
+## 4. ImageFrame
 
 **React 소스**: `packages/react/src/components/ImageFrame/ImageFrame.tsx`
 **Lynx CSS recipes**: `imageFrame`, `imageFrameIcon`, `imageFrameIndicator`, `imageFrameReactionButton`
@@ -105,7 +89,7 @@
 
 ---
 
-## 6. InlineBanner
+## 5. InlineBanner
 
 **React 소스**: `packages/react/src/components/InlineBanner/InlineBanner.tsx` (deprecated → PageBanner)
 **Lynx CSS recipe**: `inlineBanner` (6슬롯)
@@ -118,7 +102,7 @@
 
 ---
 
-## 7. PageBanner
+## 6. PageBanner
 
 **React 소스**: `packages/react/src/components/PageBanner/PageBanner.tsx`
 **Lynx CSS recipe**: `pageBanner`
@@ -139,7 +123,7 @@
 
 ---
 
-## 8. Callout
+## 7. Callout
 
 **React 소스**: `packages/react/src/components/Callout/Callout.tsx`
 **Lynx CSS recipe**: `callout` (6슬롯: root, content, title, description, link, closeButton)
