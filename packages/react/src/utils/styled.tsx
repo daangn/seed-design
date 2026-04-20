@@ -353,80 +353,80 @@ interface StylePropsBase {
   >;
 
   margin?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `margin`.
    */
   m?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   marginX?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginX`.
    */
   mx?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   marginY?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginY`.
    */
   my?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   marginTop?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginTop`.
    */
   mt?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   marginRight?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginRight`.
    */
   mr?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   marginBottom?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginBottom`.
    */
   mb?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   marginLeft?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginLeft`.
    */
   ml?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   display?: ResponsiveValue<
