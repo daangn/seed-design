@@ -40,68 +40,36 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(bottomShee
 const DEFAULT_SNAP_POINTS: Array<number | string> = ["fit"];
 
 ////////////////////////////////////////////////////////////////////////////////////
-// SEED Transitions — recipe CSS가 쓰는 duration + cubic-bezier 값을
-// lynx-ui-sheet의 SheetTransition (tween + ease) 포맷으로 매핑한다.
-// ease 함수는 lynx-ui-sheet 내부의 main-thread `animate()`에서 호출되므로
-// 반드시 `"main thread"` directive로 컴파일되어야 한다.
+// SEED Transitions — 웹 SEED BottomSheet (recipe: d6/d4 + enter-expressive/enter/exit)
+// 의 감각을 lynx-ui-sheet의 spring으로 근사한 기본값.
+//
+// spring을 사용하는 이유:
+// - lynx-ui-sheet 내장 main-thread 구현이라 stiffness/damping/mass만 JSON 직렬화로
+//   안전 전달 (ease 함수 크로스스레드 문제 없음)
+// - lynx-ui 공식 예제도 spring 기본 — 런타임 안정성 검증됨
+//
+// 튜닝 기준 (300ms 수준의 빠르고 약간의 탄성감):
+// - 웹 d6 + enter-expressive ≈ stiffness 400, damping 35 (snap 드래그 settle)
+// - 웹 d6 + enter              ≈ stiffness 350, damping 32 (첫 open)
+// - 웹 d4 + exit               ≈ stiffness 400, damping 40 (close, critically damped)
 ////////////////////////////////////////////////////////////////////////////////////
 
-function cubicBezierY(t: number, x1: number, y1: number, x2: number, y2: number): number {
-  "main thread";
-  const clamped = t < 0 ? 0 : t > 1 ? 1 : t;
-  const cx = 3 * x1;
-  const bx = 3 * (x2 - x1) - cx;
-  const ax = 1 - cx - bx;
-  let currentT = clamped;
-  for (let i = 0; i < 8; i++) {
-    const currentX = ((ax * currentT + bx) * currentT + cx) * currentT - clamped;
-    const currentDx = (3 * ax * currentT + 2 * bx) * currentT + cx;
-    if (Math.abs(currentDx) < 1e-6) break;
-    currentT = currentT - currentX / currentDx;
-  }
-  const cy = 3 * y1;
-  const by = 3 * (y2 - y1) - cy;
-  const ay = 1 - cy - by;
-  return ((ay * currentT + by) * currentT + cy) * currentT;
-}
-
-// SEED `--seed-timing-function-enter-expressive`: cubic-bezier(.03, .4, .1, 1)
-function seedEnterExpressiveEase(t: number): number {
-  "main thread";
-  return cubicBezierY(t, 0.03, 0.4, 0.1, 1);
-}
-
-// SEED `--seed-timing-function-enter`: cubic-bezier(0, 0, .15, 1)
-function seedEnterEase(t: number): number {
-  "main thread";
-  return cubicBezierY(t, 0, 0, 0.15, 1);
-}
-
-// SEED `--seed-timing-function-exit`: cubic-bezier(.35, 0, 1, 1)
-function seedExitEase(t: number): number {
-  "main thread";
-  return cubicBezierY(t, 0.35, 0, 1, 1);
-}
-
-// SEED `--seed-duration-d6`: 300ms — recipe content 기본 transition
 const SEED_SNAP_ANIMATION: SheetTransition = {
-  type: "tween",
-  duration: 0.3,
-  ease: seedEnterExpressiveEase,
+  type: "spring",
+  stiffness: 400,
+  damping: 35,
 };
 
-// 첫 open: d6 + enter
 const SEED_ENTER_ANIMATION: SheetTransition = {
-  type: "tween",
-  duration: 0.3,
-  ease: seedEnterEase,
+  type: "spring",
+  stiffness: 350,
+  damping: 32,
 };
 
-// close: SEED `--seed-duration-d4`: 200ms + exit
 const SEED_EXIT_ANIMATION: SheetTransition = {
-  type: "tween",
-  duration: 0.2,
-  ease: seedExitEase,
+  type: "spring",
+  stiffness: 400,
+  damping: 40,
 };
 
 /**
