@@ -53,7 +53,7 @@ Lynx view 엔진은 웹 CSS inline flow(`display: inline` / `inline-flex` / `inl
 ### Recipe 배치 규칙
 
 - `src/recipes/*.ts` — 공통 recipe. 기본은 웹 대상. Lynx에서도 그대로 쓸 수 있는 단순 recipe(예: ActionButton)는 Lynx preset에서 재사용.
-- `src/recipes/lynx/*.ts` — Lynx 전용 recipe. 웹 recipe의 layout 트릭이 Lynx에서 깨지는 컴포넌트(예: TagGroup)를 `defineLynxSlotRecipe`로 재작성.
+- `src/recipes/lynx/*.ts` — Lynx 전용 recipe. 웹 recipe의 inline flow 트릭·pseudo element·`vertical-align` 등이 Lynx에서 깨지는 컴포넌트를 `defineLynxSlotRecipe`로 재작성.
 - `src/recipes-lynx.ts` — Lynx preset이 포함할 recipe 목록. 공통 recipe를 재사용할지 Lynx 전용을 쓸지 여기서 결정.
 
 ### Lynx recipe 타입 제약
