@@ -197,3 +197,133 @@ export const Nested: Story = {
     chromatic: { modes: VIEWPORT_MODES },
   },
 };
+
+// Playground for margin `auto` — exercises static, responsive, and multi-breakpoint
+// combinations to verify the `var() fallback` pattern at runtime.
+const AutoParent = ({
+  label,
+  description,
+  children,
+  minHeight,
+  display,
+}: {
+  label: string;
+  description: string;
+  children: React.ReactNode;
+  minHeight?: string;
+  display?: "flex";
+}) => (
+  <Box bg="palette.gray50" p="x4" borderRadius="r2" mb="x3">
+    <Box color="palette.gray800" mb="x1" style={{ fontSize: 14, fontWeight: 600 }}>
+      {label}
+    </Box>
+    <Box color="palette.gray600" mb="x3" style={{ fontSize: 12 }}>
+      {description}
+    </Box>
+    <Box
+      p="x3"
+      borderRadius="r1"
+      borderWidth={1}
+      borderColor="palette.yellow700"
+      bg="palette.yellow100"
+      minHeight={minHeight}
+      display={display}
+    >
+      {children}
+    </Box>
+  </Box>
+);
+
+type AutoBoxProps = React.ComponentProps<typeof Box> & { label: string };
+const AutoBox = ({ label, ...props }: AutoBoxProps) => (
+  <Box
+    {...props}
+    bg="palette.blue600"
+    color="palette.staticWhite"
+    p="x3"
+    borderRadius="r1"
+    width="200px"
+    style={{ fontSize: 12, fontFamily: "monospace", textAlign: "center" }}
+  >
+    {label}
+  </Box>
+);
+
+export const MarginAutoPlayground: Story = {
+  render: () => (
+    <Box p="x4" bg="palette.gray25">
+      <Box mb="x4" color="palette.gray800" style={{ fontSize: 16, fontWeight: 700 }}>
+        Margin auto playground — resize the viewport
+      </Box>
+
+      <AutoParent label="1. mx='auto' — static centering" description="Centered at every viewport.">
+        <AutoBox mx="auto" label='mx="auto"' />
+      </AutoParent>
+
+      <AutoParent label="2. ml='auto' — push to right" description="Flush right at every viewport.">
+        <AutoBox ml="auto" label='ml="auto"' />
+      </AutoParent>
+
+      <AutoParent
+        label="3. mx={{ base: 'auto', md: 0 }}"
+        description="Centered below 768px, flush left from md up."
+      >
+        <AutoBox mx={{ base: "auto", md: 0 }} label="base: auto · md: 0" />
+      </AutoParent>
+
+      <AutoParent
+        label="4. mx={{ base: 0, md: 'auto' }}"
+        description="Flush left below 768px, centered from md up."
+      >
+        <AutoBox mx={{ base: 0, md: "auto" }} label="base: 0 · md: auto" />
+      </AutoParent>
+
+      <AutoParent
+        label="5. mx={{ base: 'auto', md: '16px' }}"
+        description="Auto and a dimension mixed across breakpoints."
+      >
+        <AutoBox mx={{ base: "auto", md: "16px" }} label="base: auto · md: 16px" />
+      </AutoParent>
+
+      <AutoParent
+        label="6. ml={{ base: 'auto', md: 0 }} — asymmetric"
+        description="Only left margin responds; right stays at 0."
+      >
+        <AutoBox ml={{ base: "auto", md: 0 }} label="base: ml=auto · md: ml=0" />
+      </AutoParent>
+
+      <AutoParent
+        label="7. mx={{ base: 0, sm: '8px', md: 'auto', lg: '16px' }}"
+        description="Four values across four breakpoints, auto in the middle."
+      >
+        <AutoBox
+          mx={{ base: 0, sm: "8px", md: "auto", lg: "16px" }}
+          label="base:0 · sm:8 · md:auto · lg:16"
+        />
+      </AutoParent>
+
+      <AutoParent
+        label="8. ml='auto' + bleedRight='x5' — cross-direction"
+        description="Auto margin on one axis, bleed on the other. Directions disjoint, both apply."
+      >
+        <AutoBox ml="auto" bleedRight="x5" label='ml="auto" · bleedRight="x5"' />
+      </AutoParent>
+
+      <AutoParent
+        label="9. my='auto' inside a tall flex parent"
+        description="Vertical centering via flex + auto."
+        minHeight="200px"
+        display="flex"
+      >
+        <AutoBox my="auto" label='my="auto"' />
+      </AutoParent>
+
+      <AutoParent label="10. no margin (default)" description="Baseline regression check.">
+        <AutoBox label="default" />
+      </AutoParent>
+    </Box>
+  ),
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
+};
