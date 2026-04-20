@@ -108,7 +108,7 @@ const AccordionImpl = forwardRef<HTMLDivElement, AccordionImplProps>(
 
         const triggers = Array.from(
           event.currentTarget.querySelectorAll<HTMLElement>(
-            `[${DATA_ACCORDION_TRIGGER}]:not([disabled])`,
+            `[${DATA_ACCORDION_TRIGGER}]:not([data-disabled])`,
           ),
         );
 
@@ -233,12 +233,13 @@ export interface AccordionTriggerProps
  */
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   (props, ref) => {
-    const { triggerId } = useAccordionItemContext();
+    const { triggerId, disabled } = useAccordionItemContext();
     return (
       <Collapsible.Trigger
         {...props}
         ref={ref}
         id={triggerId}
+        disabled={disabled}
         {...{ [DATA_ACCORDION_TRIGGER]: "" }}
       />
     );
