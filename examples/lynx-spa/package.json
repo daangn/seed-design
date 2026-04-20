@@ -14,6 +14,7 @@
   "dependencies": {
     "@karrotmarket/lynx-monochrome-icon": "^1.4.0",
     "@karrotmarket/lynx-multicolor-icon": "^1.6.0",
+    "@lynx-js/lynx-ui-sheet": "^3.130.1",
     "@lynx-js/react": "^0.117.0",
     "@seed-design/lynx-css": "workspace:*",
     "@seed-design/lynx-react": "workspace:*",

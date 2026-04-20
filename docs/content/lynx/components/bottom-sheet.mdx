@@ -1,0 +1,115 @@
+---
+title: Bottom Sheet
+description: 화면 하단에서 올라오는 시트 컴포넌트로, 드래그·snap·dismiss 상호작용을 제공합니다.
+---
+
+## Installation
+
+{/* TODO: dev 브랜치 머지 시 @alpha 태그와 --baseUrl 옵션 제거 */}
+```package-install
+npx @seed-design/cli@alpha add ui:bottom-sheet --baseUrl https://lynx.seed-design.pages.dev
+```
+
+`@seed-design/lynx-react`의 `BottomSheet`는 [`@lynx-js/lynx-ui-sheet`](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-sheet)를 래핑합니다. 드래그·스프링·snap·presence 로직은 lynx-ui-sheet가 담당하고, SEED는 공개 API와 recipe 슬롯 스타일만 제공합니다. 따라서 `@lynx-js/lynx-ui-sheet`가 peerDependency로 설치되어 있어야 합니다.
+
+## Usage
+
+```tsx
+import {
+  BottomSheetBackdrop,
+  BottomSheetBody,
+  BottomSheetContent,
+  BottomSheetDescription,
+  BottomSheetFooter,
+  BottomSheetHandle,
+  BottomSheetHeader,
+  BottomSheetRoot,
+  BottomSheetTitle,
+  BottomSheetTrigger,
+} from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <BottomSheetRoot snapPoints={["fit", "80%"]}>
+      <BottomSheetTrigger>
+        <text>시트 열기</text>
+      </BottomSheetTrigger>
+      <BottomSheetBackdrop />
+      <BottomSheetContent>
+        <BottomSheetHandle />
+        <BottomSheetHeader>
+          <BottomSheetTitle>제목</BottomSheetTitle>
+          <BottomSheetDescription>부가 설명</BottomSheetDescription>
+        </BottomSheetHeader>
+        <BottomSheetBody>
+          <text>본문 콘텐츠</text>
+        </BottomSheetBody>
+        <BottomSheetFooter>
+          <text>하단 액션 영역</text>
+        </BottomSheetFooter>
+      </BottomSheetContent>
+    </BottomSheetRoot>
+  );
+}
+```
+
+### Imperative 제어
+
+`BottomSheetRoot`에 `ref`를 전달하면 `open`, `close`, `snapTo`, `expand`, `collapse` 메서드를 호출할 수 있습니다.
+
+```tsx
+import { useRef } from "@lynx-js/react";
+import { BottomSheetRoot } from "@seed-design/lynx-react";
+import type { SheetRootRef } from "@lynx-js/lynx-ui-sheet";
+
+export function App() {
+  const ref = useRef<SheetRootRef>(null);
+
+  return (
+    <BottomSheetRoot ref={ref} snapPoints={["fit", "80%"]}>
+      {/* ... */}
+    </BottomSheetRoot>
+  );
+}
+```
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/BottomSheet/BottomSheet.tsx" name="BottomSheetRootProps" />
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `BottomSheet`는 React `BottomSheet`와 다음과 같은 차이가 있습니다.
+
+- **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
+- **렌더링 요소**: HTML `<div>` 대신 네이티브 `<view>`/`<text>` 요소를 렌더링합니다.
+- **내부 엔진**: Radix `Drawer` 대신 `@lynx-js/lynx-ui-sheet`를 래핑합니다.
+</Callout>
+
+| 항목 | 웹 | Lynx |
+|---|---|---|
+| 상태 prop | `open`/`defaultOpen`/`onOpenChange` | 동일 (내부에서 lynx-ui-sheet의 `show`/`defaultShow`/`onShowChange`로 매핑) |
+| 마운트 제어 | `lazyMount`, `unmountOnExit` | **미지원** — `forceMount`로 대체 |
+| `BottomSheetPositioner` | 존재 | **없음** (`SheetView`가 자동 처리) |
+| `BottomSheetCloseButton` | 존재 | **미포함** — Tier B (SVG 지원 후 추가 예정) |
+| `snapPoints` | 없음 | 지원 (`(number \| string)[]`, 기본값 `["fit"]`) |
+| `BottomSheetTrigger`의 `asChild` | 지원 | **미지원** (기본 `<view>`로만 렌더링) |
+| imperative ref API | — | `SheetRootRef.{open, close, snapTo, expand, collapse}` |
+
+## Lynx 미지원 기능
+
+현재 Lynx 플랫폼 제약으로 다음 기능이 지원되지 않습니다.
+
+### Lynx SVG 지원 후 추가 예정
+
+| 기능 | 웹 대응 | 설명 |
+|------|---------|------|
+| `BottomSheetCloseButton` | `BottomSheet.CloseButton` | X 아이콘 SVG 필요 |
+
+### 마운트 수명주기
+
+| 기능 | 웹 대응 | 대체 방법 |
+|------|---------|------|
+| `lazyMount` | `BottomSheet.Root` prop | `forceMount={false}` (기본값) — 기본적으로 열릴 때만 마운트 |
+| `unmountOnExit` | `BottomSheet.Root` prop | `forceMount`로 제어 — lynx-ui-sheet의 presence 상태 머신이 자연스럽게 언마운트 처리 |

@@ -1,4 +1,26 @@
 export { ActionButton, type ActionButtonProps } from "./components/ActionButton";
+export {
+  BottomSheetBackdrop,
+  type BottomSheetBackdropProps,
+  BottomSheetBody,
+  type BottomSheetBodyProps,
+  BottomSheetContent,
+  type BottomSheetContentProps,
+  BottomSheetDescription,
+  type BottomSheetDescriptionProps,
+  BottomSheetFooter,
+  type BottomSheetFooterProps,
+  BottomSheetHandle,
+  type BottomSheetHandleProps,
+  BottomSheetHeader,
+  type BottomSheetHeaderProps,
+  BottomSheetRoot,
+  type BottomSheetRootProps,
+  BottomSheetTitle,
+  type BottomSheetTitleProps,
+  BottomSheetTrigger,
+  type BottomSheetTriggerProps,
+} from "./components/BottomSheet";
 export { ProgressCircle, type ProgressCircleProps } from "./components/ProgressCircle";
 export {
   TagGroupRoot,

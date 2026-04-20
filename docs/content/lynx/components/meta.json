@@ -1,4 +1,4 @@
 {
   "title": "Components",
-  "pages": ["action-button", "progress-circle", "tag-group"]
+  "pages": ["action-button", "bottom-sheet", "progress-circle", "tag-group"]
 }

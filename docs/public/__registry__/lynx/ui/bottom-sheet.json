@@ -1,0 +1,14 @@
+{
+  "id": "bottom-sheet",
+  "snippets": [
+    {
+      "path": "bottom-sheet.tsx",
+      "content": "/**\n * @file ui:bottom-sheet\n * @requires @seed-design/lynx-react@~0.1.0-alpha.0\n * @requires @seed-design/lynx-css@~0.1.0-alpha.0\n * @requires @lynx-js/lynx-ui-sheet@^3.130.1\n **/\n\nexport {\n  BottomSheetBackdrop as Backdrop,\n  type BottomSheetBackdropProps as BackdropProps,\n  BottomSheetBody as Body,\n  type BottomSheetBodyProps as BodyProps,\n  BottomSheetContent as Content,\n  type BottomSheetContentProps as ContentProps,\n  BottomSheetDescription as Description,\n  type BottomSheetDescriptionProps as DescriptionProps,\n  BottomSheetFooter as Footer,\n  type BottomSheetFooterProps as FooterProps,\n  BottomSheetHandle as Handle,\n  type BottomSheetHandleProps as HandleProps,\n  BottomSheetHeader as Header,\n  type BottomSheetHeaderProps as HeaderProps,\n  BottomSheetRoot as Root,\n  type BottomSheetRootProps as RootProps,\n  BottomSheetTitle as Title,\n  type BottomSheetTitleProps as TitleProps,\n  BottomSheetTrigger as Trigger,\n  type BottomSheetTriggerProps as TriggerProps,\n} from \"@seed-design/lynx-react\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": "~0.1.0-alpha.0",
+        "@seed-design/lynx-css": "~0.1.0-alpha.0",
+        "@lynx-js/lynx-ui-sheet": "^3.130.1"
+      }
+    }
+  ]
+}
