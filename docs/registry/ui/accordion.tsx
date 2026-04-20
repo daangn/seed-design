@@ -27,13 +27,15 @@ export interface AccordionTriggerProps extends Omit<SeedAccordion.TriggerProps, 
  */
 export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   ({ children, prefix, ...props }, ref) => (
-    <SeedAccordion.Trigger ref={ref} {...props}>
-      {prefix && <SeedAccordion.Prefix>{prefix}</SeedAccordion.Prefix>}
-      <SeedAccordion.Body>{children}</SeedAccordion.Body>
-      <SeedAccordion.SuffixIcon>
-        <IconChevronDownSmallLine />
-      </SeedAccordion.SuffixIcon>
-    </SeedAccordion.Trigger>
+    <SeedAccordion.Header>
+      <SeedAccordion.Trigger ref={ref} {...props}>
+        {prefix && <SeedAccordion.Prefix>{prefix}</SeedAccordion.Prefix>}
+        <SeedAccordion.Body>{children}</SeedAccordion.Body>
+        <SeedAccordion.SuffixIcon>
+          <IconChevronDownSmallLine />
+        </SeedAccordion.SuffixIcon>
+      </SeedAccordion.Trigger>
+    </SeedAccordion.Header>
   ),
 );
 AccordionTrigger.displayName = "Accordion.Trigger";
