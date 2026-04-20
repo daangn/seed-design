@@ -36,6 +36,7 @@ export const Primitive = {
   a: createPrimitive("a"),
   p: createPrimitive("p"),
   h2: createPrimitive("h2"),
+  h3: createPrimitive("h3"),
   ul: createPrimitive("ul"),
   li: createPrimitive("li"),
   svg: createPrimitive("svg"),

@@ -170,16 +170,21 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>((pro
     [value, open, disabled, triggerId],
   );
 
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      if (nextOpen !== open) api.toggle(value);
+    },
+    [open, api, value],
+  );
+
   return (
     <AccordionItemProvider value={itemContext}>
       <Collapsible.Root
+        {...rest}
         open={open}
-        onOpenChange={(nextOpen) => {
-          if (nextOpen !== open) api.toggle(value);
-        }}
+        onOpenChange={handleOpenChange}
         disabled={disabled}
         ref={ref}
-        {...rest}
       />
     </AccordionItemProvider>
   );
