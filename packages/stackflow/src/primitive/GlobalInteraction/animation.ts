@@ -7,6 +7,13 @@
 
 import type { TransitionTargets, TransitionStyle } from "./dom";
 import { setTransform, setOpacity } from "./dom";
+import {
+  BEHIND_OFFSET_PERCENT,
+  BEHIND_PARALLAX,
+  OPACITY_FADE_MULTIPLIER,
+  TITLE_OFFSET_PERCENT,
+  TITLE_TRANSLATE_RATIO,
+} from "./constants";
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -22,11 +29,6 @@ const FADE_IN_ENTER_EASING = "ease-out";
 const FADE_IN_ENTER_DURATION = 300;
 const FADE_IN_EXIT_EASING = "ease-in";
 const FADE_IN_EXIT_DURATION = 150;
-
-const BEHIND_OFFSET_PERCENT = -30;
-const BEHIND_PARALLAX = 0.3;
-const TITLE_TRANSLATE_RATIO = 0.15;
-const OPACITY_FADE_MULTIPLIER = 3;
 
 const MIN_SWIPE_DURATION = 150;
 const MAX_SWIPE_DURATION = 500;
@@ -110,7 +112,7 @@ const IOS_ONSCREEN: IosPositions = {
   behindLayer: `translate3d(${BEHIND_OFFSET_PERCENT}%, 0, 0)`,
   dim: "1",
   topTitle: { opacity: "1", transform: "translate3d(0, 0, 0)" },
-  behindTitle: { opacity: "0", transform: "translate3d(-25%, 0, 0)" },
+  behindTitle: { opacity: "0", transform: `translate3d(${-TITLE_OFFSET_PERCENT}%, 0, 0)` },
   topIconOpacity: "1",
   behindIconOpacity: "0",
   appBarPseudo: "translate3d(0, 0, 0)",
@@ -120,7 +122,7 @@ const IOS_OFFSCREEN: IosPositions = {
   topLayer: "translate3d(100%, 0, 0)",
   behindLayer: "translate3d(0, 0, 0)",
   dim: "0",
-  topTitle: { opacity: "0", transform: "translate3d(25%, 0, 0)" },
+  topTitle: { opacity: "0", transform: `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)` },
   behindTitle: { opacity: "1", transform: "translate3d(0, 0, 0)" },
   topIconOpacity: "0",
   behindIconOpacity: "1",
@@ -186,11 +188,11 @@ function iosAnimatePush(t: TransitionTargets): AnimationResult {
   setOpacity(t.topDim, "0");
   if (t.topTitle) {
     setOpacity(t.topTitle, "0");
-    setTransform(t.topTitle, "translate3d(25%, 0, 0)");
+    setTransform(t.topTitle, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
   }
   for (const icon of t.topIcons) {
     setOpacity(icon, "0");
-    setTransform(icon, "translate3d(25%, 0, 0)");
+    setTransform(icon, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
   }
 
   return iosAnimate(t, IOS_OFFSCREEN, IOS_ONSCREEN);
@@ -284,7 +286,7 @@ function animateSwipe(
 
   const currentBehind = `translate3d(calc(${BEHIND_OFFSET_PERCENT}% + ${displacement * BEHIND_PARALLAX}px), 0, 0)`;
   const currentTitleOffset = `translate3d(${displacement * TITLE_TRANSLATE_RATIO}px, 0, 0)`;
-  const currentBehindTitle = `translate3d(calc(-25% + ${displacement * TITLE_TRANSLATE_RATIO}px), 0, 0)`;
+  const currentBehindTitle = `translate3d(calc(${-TITLE_OFFSET_PERCENT}% + ${displacement * TITLE_TRANSLATE_RATIO}px), 0, 0)`;
 
   const anims: (Animation | null)[] = [
     safeAnimate(

@@ -5,12 +5,13 @@
  * source of truth for element positions between animations.
  */
 
-// ─── Constants ──────────────────────────────────────────────────────────────
-
-const BEHIND_OFFSET_PERCENT = -30;
-const BEHIND_PARALLAX = 0.3;
-const TITLE_TRANSLATE_RATIO = 0.15;
-const OPACITY_FADE_MULTIPLIER = 3;
+import {
+  BEHIND_OFFSET_PERCENT,
+  BEHIND_PARALLAX,
+  OPACITY_FADE_MULTIPLIER,
+  TITLE_OFFSET_PERCENT,
+  TITLE_TRANSLATE_RATIO,
+} from "./constants";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -136,7 +137,7 @@ export function setIdlePositions(
     // Behind layer parallax offset
     setTransform(t.behindLayer, `translate3d(${BEHIND_OFFSET_PERCENT}%, 0, 0)`);
     setOpacity(t.behindTitle, "0");
-    setTransform(t.behindTitle, "translate3d(-25%, 0, 0)");
+    setTransform(t.behindTitle, `translate3d(${-TITLE_OFFSET_PERCENT}%, 0, 0)`);
     for (const icon of t.behindIcons) setOpacity(icon, "0");
   } else {
     // Android/fadeIn: behind is at same position, hide its appBar to prevent bleed-through
@@ -161,10 +162,10 @@ export function setPostExitPositions(
   if (style === "slideFromRightIOS") {
     setTransform(t.topLayer, "translate3d(100%, 0, 0)");
     setOpacity(t.topTitle, "0");
-    setTransform(t.topTitle, "translate3d(25%, 0, 0)");
+    setTransform(t.topTitle, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
     for (const icon of t.topIcons) {
       setOpacity(icon, "0");
-      setTransform(icon, "translate3d(25%, 0, 0)");
+      setTransform(icon, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
     }
   } else if (style === "fadeFromBottomAndroid") {
     setOpacity(t.topLayer, "0");
@@ -193,7 +194,7 @@ export function applySwipeStyles(t: TransitionTargets, displacement: number, rat
     setOpacity(t.behindTitle, `${ratio}`);
     setTransform(
       t.behindTitle,
-      `translate3d(calc(-25% + ${displacement * TITLE_TRANSLATE_RATIO}px), 0, 0)`,
+      `translate3d(calc(${-TITLE_OFFSET_PERCENT}% + ${displacement * TITLE_TRANSLATE_RATIO}px), 0, 0)`,
     );
   }
   for (const icon of t.topIcons) {
