@@ -4,23 +4,18 @@ import { ensureRulesReady, normalizeLLMBody } from "./normalize-llm-body";
 
 const _ready = ensureRulesReady();
 
-function titleToSlug(name: string): string {
-  return name
-    .replace(/`/g, "")
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, "-");
-}
-
-function buildDeprecationNotice(page: LLMPage, section: Section, allPages: LLMPage[]): string {
+function buildDeprecationNotice(
+  page: LLMPage,
+  section?: Section,
+  allPages?: LLMPage[],
+): string {
   if (!page.data.deprecated) return "";
 
   let notice = `\n> **Deprecated:** ${page.data.deprecated}\n`;
 
-  if (page.data.replacement) {
-    const slug = titleToSlug(page.data.replacement);
+  if (page.data.replacement && section && allPages) {
     const replacementPage = allPages.find(
-      (p) => p.slugs[p.slugs.length - 1] === slug && !p.data.deprecated,
+      (p) => p.slugs[p.slugs.length - 1] === page.data.replacement && !p.data.deprecated,
     );
     if (replacementPage) {
       const llmsUrl = getLLMMarkdownUrl(section, replacementPage.slugs);
@@ -40,12 +35,7 @@ export async function getLLMText(
   const processed = normalizeLLMBody(await page.data.getText("processed"));
   const sourceUrl = getGitHubSourceUrl(section, page.path);
 
-  const deprecationNotice =
-    page.data.deprecated && allPages
-      ? buildDeprecationNotice(page, section, allPages)
-      : page.data.deprecated
-        ? `\n> **Deprecated:** ${page.data.deprecated}\n`
-        : "";
+  const deprecationNotice = buildDeprecationNotice(page, section, allPages);
 
   return `# ${page.data.title}
 URL: ${page.url}
@@ -62,9 +52,7 @@ export async function getLLMTextForFullCompilation(
   await _ready;
   const processed = normalizeLLMBody(await page.data.getText("processed"));
 
-  const deprecationNotice = page.data.deprecated
-    ? `\n> **Deprecated:** ${page.data.deprecated}\n`
-    : "";
+  const deprecationNotice = buildDeprecationNotice(page);
 
   return `file: ${page.path}
 

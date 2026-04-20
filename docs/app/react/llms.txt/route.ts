@@ -49,9 +49,10 @@ export async function GET() {
           const llmsUrl = new URL(`/llms/react/${slugsWithExt.join("/")}`, baseUrl);
           const displayTitle = getDisplayTitle(page, categoryPages);
           const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
-          return `- [${displayTitle}](${llmsUrl})${deprecatedLabel}`;
+          return { displayTitle, line: `- [${displayTitle}](${llmsUrl})${deprecatedLabel}` };
         })
-        .sort()
+        .sort((a, b) => a.displayTitle.localeCompare(b.displayTitle))
+        .map((x) => x.line)
         .join("\n");
       return `### ${category}
 
