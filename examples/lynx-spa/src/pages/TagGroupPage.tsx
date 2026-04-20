@@ -146,13 +146,13 @@ export function TagGroupPage() {
       <SectionHeader>Long items (toggle truncate)</SectionHeader>
       <TagGroupRoot size={size} truncate={truncate}>
         <TagGroupItem>
-          <TagGroupItemLabel>관악구 봉천동 신림동 전체 매물</TagGroupItemLabel>
+          <TagGroupItemLabel>관악구 봉천동 신림동 근처 전체 매물 목록 빠른 필터링</TagGroupItemLabel>
         </TagGroupItem>
         <TagGroupItem>
-          <TagGroupItemLabel>재거래 희망률 89퍼센트</TagGroupItemLabel>
+          <TagGroupItemLabel>재거래 희망률 89퍼센트 매너 온도 42도 인증 완료</TagGroupItemLabel>
         </TagGroupItem>
         <TagGroupItem>
-          <TagGroupItemLabel>평균 응답 시간 12분</TagGroupItemLabel>
+          <TagGroupItemLabel>평균 판매자 응답 시간 약 12분 이내 즉시 응답 가능</TagGroupItemLabel>
         </TagGroupItem>
       </TagGroupRoot>
 
