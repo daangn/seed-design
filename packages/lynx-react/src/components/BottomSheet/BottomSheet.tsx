@@ -14,6 +14,7 @@ import {
   type SheetHandleProps,
   type SheetRootProps,
   type SheetRootRef,
+  type SheetTransition,
   type SheetViewProps,
 } from "@lynx-js/lynx-ui-sheet";
 import {
@@ -37,6 +38,71 @@ type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(bottomSheet);
 
 const DEFAULT_SNAP_POINTS: Array<number | string> = ["fit"];
+
+////////////////////////////////////////////////////////////////////////////////////
+// SEED Transitions — recipe CSS가 쓰는 duration + cubic-bezier 값을
+// lynx-ui-sheet의 SheetTransition (tween + ease) 포맷으로 매핑한다.
+// ease 함수는 lynx-ui-sheet 내부의 main-thread `animate()`에서 호출되므로
+// 반드시 `"main thread"` directive로 컴파일되어야 한다.
+////////////////////////////////////////////////////////////////////////////////////
+
+function cubicBezierY(t: number, x1: number, y1: number, x2: number, y2: number): number {
+  "main thread";
+  const clamped = t < 0 ? 0 : t > 1 ? 1 : t;
+  const cx = 3 * x1;
+  const bx = 3 * (x2 - x1) - cx;
+  const ax = 1 - cx - bx;
+  let currentT = clamped;
+  for (let i = 0; i < 8; i++) {
+    const currentX = ((ax * currentT + bx) * currentT + cx) * currentT - clamped;
+    const currentDx = (3 * ax * currentT + 2 * bx) * currentT + cx;
+    if (Math.abs(currentDx) < 1e-6) break;
+    currentT = currentT - currentX / currentDx;
+  }
+  const cy = 3 * y1;
+  const by = 3 * (y2 - y1) - cy;
+  const ay = 1 - cy - by;
+  return ((ay * currentT + by) * currentT + cy) * currentT;
+}
+
+// SEED `--seed-timing-function-enter-expressive`: cubic-bezier(.03, .4, .1, 1)
+function seedEnterExpressiveEase(t: number): number {
+  "main thread";
+  return cubicBezierY(t, 0.03, 0.4, 0.1, 1);
+}
+
+// SEED `--seed-timing-function-enter`: cubic-bezier(0, 0, .15, 1)
+function seedEnterEase(t: number): number {
+  "main thread";
+  return cubicBezierY(t, 0, 0, 0.15, 1);
+}
+
+// SEED `--seed-timing-function-exit`: cubic-bezier(.35, 0, 1, 1)
+function seedExitEase(t: number): number {
+  "main thread";
+  return cubicBezierY(t, 0.35, 0, 1, 1);
+}
+
+// SEED `--seed-duration-d6`: 300ms — recipe content 기본 transition
+const SEED_SNAP_ANIMATION: SheetTransition = {
+  type: "tween",
+  duration: 0.3,
+  ease: seedEnterExpressiveEase,
+};
+
+// 첫 open: d6 + enter
+const SEED_ENTER_ANIMATION: SheetTransition = {
+  type: "tween",
+  duration: 0.3,
+  ease: seedEnterEase,
+};
+
+// close: SEED `--seed-duration-d4`: 200ms + exit
+const SEED_EXIT_ANIMATION: SheetTransition = {
+  type: "tween",
+  duration: 0.2,
+  ease: seedExitEase,
+};
 
 /**
  * Trigger가 Root의 imperative API(`open` 등)를 호출할 수 있도록 `SheetRootRef`를 공유하는 내부 컨텍스트.
@@ -207,7 +273,15 @@ export interface BottomSheetContentProps extends SheetContentProps {}
 export function BottomSheetContent(props: BottomSheetContentProps) {
   const classNames = useClassNames();
   const { className, ...rest } = props;
-  return <SheetContent className={clsx(classNames.content, className)} {...rest} />;
+  return (
+    <SheetContent
+      snapAnimation={SEED_SNAP_ANIMATION}
+      enterAnimation={SEED_ENTER_ANIMATION}
+      exitAnimation={SEED_EXIT_ANIMATION}
+      className={clsx(classNames.content, className)}
+      {...rest}
+    />
+  );
 }
 BottomSheetContent.displayName = "BottomSheetContent";
 
