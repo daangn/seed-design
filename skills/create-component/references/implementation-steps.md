@@ -1,11 +1,17 @@
 # 컴포넌트 구현 상세 가이드
 
+> **전제조건**: `references/architecture-decisions.md`의 Phase 0을 완료해야 한다. 카테고리, 패턴 참조 컴포넌트, 접근성 스펙이 확정된 상태에서 구현을 시작한다.
+
+각 Step에서 **패턴 참조 컴포넌트의 해당 파일을 먼저 읽고** 패턴을 따른다.
+
 ## Step 1: Headless (선택)
 
 **위치**: `packages/react-headless/[name]/`
 **조건**: 데이터 로직이 필요한 경우만 (단순 UI 컴포넌트는 생략)
 
 Headless 훅은 `use{Component}.ts` 파일에 `use{Component}` 형태로 작성한다. 훅은 `data-pressed`, `data-disabled` 같은 data 속성과 이벤트 핸들러(`onPointerDown`, `onClick` 등)를 `rootProps` 객체로 반환한다.
+
+**카테고리 C/D에서 새 headless를 만들 때**: Phase 0에서 정리한 ARIA APG 패턴과 키보드 인터랙션 스펙을 이 단계에서 구현한다. `references/external-references.md`의 접근성 체크리스트를 따른다. 외부 라이브러리(Base UI, Radix)의 동일 컴포넌트 구현도 참조하여 인터페이스 설계를 검증한다.
 
 ## Step 2: Definition (Rootage)
 
@@ -22,7 +28,9 @@ Headless 훅은 `use{Component}.ts` 파일에 `use{Component}` 형태로 작성�
 
 Recipe 파일에서 `../vars/component/`의 생성된 토큰을 import하고, `defineRecipe` 또는 `defineSlotRecipe`로 스타일을 정의한다. 어떤 함수를 사용할지, 슬롯 구조, 전환 시 주의사항은 `packages/qvism-preset/AGENTS.md`에 명시되어 있다.
 
-**주의**: hover 대신 active 상태 사용 (모바일 우선)
+**추가 참조**: `references/recipe-patterns.md` — token 경로 컨벤션, pseudo 선택자, 아이콘 헬퍼, focus ring, 애니메이션 패턴
+
+**주의**: hover 대신 engaged 상태 사용 (모바일 우선)
 
 ## Step 4: React 컴포넌트
 
@@ -31,6 +39,8 @@ Recipe 파일에서 `../vars/component/`의 생성된 토큰을 import하고, `d
 **컨벤션**: 구현 전 `packages/react/AGENTS.md`를 읽고 해당 패키지의 컨벤션을 확인한다.
 
 Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 상세는 `packages/react/AGENTS.md`에 명시되어 있다.
+
+**추가 참조**: `references/react-patterns.md` — 카테고리별 유틸리티 선택 (createSlotRecipeContext, createWithStateProps, splitMultipleVariantsProps), Form/Field 통합, namespace 패턴
 
 ## Step 5: Registry UI (Snippet 레이어)
 

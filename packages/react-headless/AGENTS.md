@@ -11,7 +11,7 @@
 
 ## 코드 작성 컨벤션
 
-- **스타일 로직 금지**: CSS나 스타일 관련 코드 없어야 함
+- **스타일 로직 금지**: CSS나 className 관련 코드 없어야 함. 단, `visuallyHidden` 등 접근성을 위한 인라인 스타일은 예외.
 - `data-*` 속성으로 상태 표현 (data-checked, data-disabled 등)
 - `useControllableState`로 controlled/uncontrolled 지원
 - `forwardRef` 필수
