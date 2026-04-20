@@ -18,6 +18,7 @@ const useAccordionItemStateProps = () => {
   return {
     stateProps: {
       "data-disabled": dataAttr(ctx.disabled),
+      "data-open": dataAttr(ctx.open),
     } as React.HTMLAttributes<HTMLElement>,
   };
 };
