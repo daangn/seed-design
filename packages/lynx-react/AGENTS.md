@@ -127,4 +127,29 @@ export interface ComponentProps
 
 - 컴포넌트: `src/components/<ComponentName>/<ComponentName>.tsx` + `index.ts`
 - 유틸리티: `src/utils/<util-name>.ts`
-- 빌드: `tsc`로 `lib/`에 출력
+- 테스트: `src/<...>/__tests__/<file>.test.{ts,tsx}`
+- 빌드: `tsc`로 `lib/`에 출력 (테스트 파일은 `tsconfig.json`의 `exclude`로 제외)
+
+## 테스트
+
+lynx-react는 vitest + ReactLynx Testing Library를 사용한다 (다른 패키지의 bun:test와 다름).
+
+실행:
+
+```bash
+bun run test              # 패키지 내부
+bun lynx-react:test       # 루트에서
+```
+
+훅 테스트는 `@lynx-js/react/testing-library`의 `renderHook` / `act`를 쓴다.
+
+```ts
+import { act, renderHook } from "@lynx-js/react/testing-library";
+import { describe, expect, it } from "vitest";
+
+it("updates value", () => {
+  const { result } = renderHook(() => useSomeHook());
+  act(() => result.current.setValue(42));
+  expect(result.current.value).toBe(42);
+});
+```
