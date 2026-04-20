@@ -2,6 +2,7 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { forwardRef } from "react";
+import { appBarAnatomy } from "./anatomy";
 import { useAppBar, type UseAppBarProps } from "./useAppBar";
 import { AppBarProvider, useAppBarContext } from "./useAppBarContext";
 
@@ -48,5 +49,7 @@ export interface AppBarMainProps extends PrimitiveProps, React.HTMLAttributes<HT
 export const AppBarMain = forwardRef<HTMLDivElement, AppBarMainProps>((props, ref) => {
   const { stateProps } = useAppBarContext();
 
-  return <Primitive.div ref={ref} data-part="appBarMain" {...mergeProps(stateProps, props)} />;
+  return (
+    <Primitive.div ref={ref} data-part={appBarAnatomy.main} {...mergeProps(stateProps, props)} />
+  );
 });
