@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Fragment } from "@lynx-js/react";
 import clsx from "clsx";
 import { tagGroup, type TagGroupVariantProps } from "@seed-design/lynx-css/recipes/tag-group";
 import {
@@ -46,13 +45,31 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
         className={clsx(classes.root, className)}
         {...nativeProps}
       >
-        {visibleChildren.map((child, index) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: separator fragments are stable in source order
-          <Fragment key={index}>
-            {index > 0 && <text className={classes.separator}>{separator}</text>}
-            {child}
-          </Fragment>
-        ))}
+        {visibleChildren.map((child, index) => {
+          if (index === 0) {
+            // biome-ignore lint/suspicious/noArrayIndexKey: first-item slot is stable in source order
+            return <view key={index}>{child}</view>;
+          }
+          // Lynx에서는 <text> separator가 개별 flex item으로 취급되기 때문에
+          // wrap이 발동하면 separator가 이전 row 끝에 남게 된다. separator와
+          // 뒤따르는 item을 하나의 flex-row wrapper로 묶어 같은 wrap 단위로
+          // 이동시킨다.
+          return (
+            <view
+              // biome-ignore lint/suspicious/noArrayIndexKey: child slots are stable in source order
+              key={index}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                flexShrink: 0,
+              }}
+            >
+              <text className={classes.separator}>{separator}</text>
+              {child}
+            </view>
+          );
+        })}
       </view>
     </PropsProvider>
   );
