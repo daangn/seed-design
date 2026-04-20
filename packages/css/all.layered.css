@@ -908,13 +908,13 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
@@ -1018,7 +1018,7 @@
     position: absolute;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger--variant_inline:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       left: var(--seed-dimension-x1_5);
       right: var(--seed-dimension-x1_5);
@@ -1026,7 +1026,7 @@
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger--variant_inline:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       left: var(--seed-dimension-x1_5);
       right: var(--seed-dimension-x1_5);
@@ -1170,13 +1170,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -1205,13 +1205,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -1240,13 +1240,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralWeak:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -1275,13 +1275,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_criticalSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-critical-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-critical-solid-pressed);
     }
@@ -1313,13 +1313,13 @@
     --range-color: var(--seed-color-bg-brand-solid);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandOutline:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -1352,13 +1352,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralOutline:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -1390,13 +1390,13 @@
     background: #fff0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_ghost:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_ghost:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -3411,13 +3411,13 @@
     transform: translateX(-50%);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-bottom-sheet-handle__root:is(:hover, [data-hover]) {
       background-color: var(--seed-color-palette-gray-500);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-bottom-sheet-handle__root:is(:active, [data-active]) {
       background-color: var(--seed-color-palette-gray-500);
     }
@@ -3548,13 +3548,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_neutral:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -3570,13 +3570,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_informative:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
@@ -3592,13 +3592,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_positive:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
@@ -3614,13 +3614,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_warning:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
@@ -3636,13 +3636,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_critical:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
@@ -3658,13 +3658,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_magic:is(button, a):is(:hover, [data-hover]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }
@@ -3768,13 +3768,13 @@
     border-width: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -3793,13 +3793,13 @@
     color: var(--seed-color-fg-disabled);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -3831,13 +3831,13 @@
     background: var(--seed-color-bg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -3851,13 +3851,13 @@
     background: var(--seed-color-bg-brand-solid);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -3867,13 +3867,13 @@
     color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
       background: var(--seed-color-palette-gray-200);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
       background: var(--seed-color-palette-gray-200);
     }
@@ -3883,13 +3883,13 @@
     color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
       background: var(--seed-color-palette-carrot-200);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
       background: var(--seed-color-palette-carrot-200);
     }
@@ -3992,25 +3992,25 @@
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_solid:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-weak-alpha-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_solid:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-weak-alpha-pressed);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -4038,13 +4038,13 @@
     --seed-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineStrong:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineStrong:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -4055,13 +4055,13 @@
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -4089,13 +4089,13 @@
     --seed-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineWeak:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineWeak:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -4106,13 +4106,13 @@
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -4290,25 +4290,25 @@
     color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -4336,25 +4336,25 @@
     border-color: #0000;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -4380,25 +4380,25 @@
     color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_brandSolid:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_brandSolid:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -4527,13 +4527,13 @@
     --range-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -4559,13 +4559,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-layer-floating-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
       background: var(--seed-color-bg-layer-floating-pressed);
     }
@@ -5240,13 +5240,13 @@
     overflow: hidden;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-floating-action-button__root:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-floating-action-button__root:is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -5751,13 +5751,13 @@
     background-color: var(--seed-color-bg-disabled);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
@@ -6047,7 +6047,7 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -6056,7 +6056,7 @@
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -6110,13 +6110,13 @@
     background-color: var(--seed-color-bg-brand-weak);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-brand-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-brand-weak-pressed);
     }
@@ -6363,13 +6363,13 @@
     display: flex;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-menu-sheet__closeButton:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-menu-sheet__closeButton:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -6443,13 +6443,13 @@
     display: flex;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-menu-sheet-item__root:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-menu-sheet-item__root:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -6718,13 +6718,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -6740,13 +6740,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -6762,13 +6762,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
@@ -6784,13 +6784,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-informative-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-informative-solid-pressed);
     }
@@ -6806,13 +6806,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
@@ -6828,13 +6828,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-positive-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-positive-solid-pressed);
     }
@@ -6850,13 +6850,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
@@ -6872,13 +6872,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-black-alpha-900);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-warning-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-warning-solid-pressed);
     }
@@ -6894,13 +6894,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
@@ -6916,13 +6916,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-critical-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-critical-solid-pressed);
     }
@@ -6938,13 +6938,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:hover, [data-hover]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }
@@ -7099,13 +7099,13 @@
     position: relative;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
@@ -7147,13 +7147,13 @@
     background-color: var(--seed-color-bg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -7167,13 +7167,13 @@
     background-color: var(--seed-color-bg-brand-solid);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -7250,13 +7250,13 @@
     --seed-count-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -7270,13 +7270,13 @@
     --seed-count-color: var(--seed-color-fg-brand);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -7441,28 +7441,28 @@
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-palette-gray-100);
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
       background-color: var(--seed-color-palette-gray-100);
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
@@ -7491,13 +7491,13 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
@@ -7637,13 +7637,13 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       color: var(--seed-color-fg-neutral-subtle);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       color: var(--seed-color-fg-neutral-subtle);
     }
@@ -9343,13 +9343,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -9364,13 +9364,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -9403,13 +9403,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -9424,13 +9424,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }

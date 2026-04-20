@@ -101,13 +101,13 @@
     display: flex;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-menu-sheet__closeButton:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-menu-sheet__closeButton:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
