@@ -15,6 +15,7 @@ import { IconCalendarFill } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
+import { CHROMATIC_PARAMETERS, createStoryWithParameters } from "@/stories/utils/parameters";
 
 const AccordionDemo = (props: React.ComponentProps<typeof AccordionRoot>) => (
   <Accordion {...props} style={{ width: 360 }}>
@@ -66,10 +67,10 @@ const CommonStoryTemplate: Story = {
 
 export const LightTheme = CommonStoryTemplate;
 
-export const DarkTheme: Story = {
+export const DarkTheme = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { theme: "dark" },
-};
+});
 
 const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof AccordionRoot>) => (
   <Accordion
@@ -116,17 +117,17 @@ const OpenStoryTemplate: Story = {
   ),
 };
 
-export const OpenLightTheme: Story = {
+export const OpenLightTheme = createStoryWithParameters({
   ...OpenStoryTemplate,
   parameters: {
-    chromatic: { delay: 500, pauseAnimationAtEnd: true },
+    chromatic: { ...CHROMATIC_PARAMETERS.chromatic, delay: 500 },
   },
-};
+});
 
-export const OpenDarkTheme: Story = {
+export const OpenDarkTheme = createStoryWithParameters({
   ...OpenStoryTemplate,
   parameters: {
     theme: "dark",
-    chromatic: { delay: 500, pauseAnimationAtEnd: true },
+    chromatic: { ...CHROMATIC_PARAMETERS.chromatic, delay: 500 },
   },
-};
+});
