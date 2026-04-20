@@ -216,8 +216,17 @@ export interface BottomSheetPositionerProps extends SheetViewProps {}
  * `SheetView`는 `mounted || forceMount` 조건으로 자식을 gating하므로 시트가 처음
  * 열리기 전까지는 SheetBackdrop/SheetContent가 마운트되지 않아 motion value
  * 초기화 레이스를 피할 수 있다. Trigger는 이 컴포넌트 밖에 두어야 탭 가능하다.
+ *
+ * recipe의 `positioner` slot className을 자동 적용해 `position: fixed` + 전체
+ * 뷰포트 커버 레이아웃을 보장한다. 적용 안 하면 overlay가 자식 크기로
+ * 쪼그라들어 backdrop이 일부만 덮이는 현상이 발생한다.
  */
-export const BottomSheetPositioner = SheetView;
+export function BottomSheetPositioner(props: BottomSheetPositionerProps) {
+  const classNames = useClassNames();
+  const { className, ...rest } = props;
+  return <SheetView className={clsx(classNames.positioner, className)} {...rest} />;
+}
+BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Backdrop / Content — lynx-ui-sheet 컴포넌트를 감싸서 recipe 슬롯 className 적용
