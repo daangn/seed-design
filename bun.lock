@@ -495,6 +495,26 @@
         "react-dom": ">=18.0.0",
       },
     },
+    "packages/react-headless/accordion": {
+      "name": "@seed-design/react-accordion",
+      "version": "0.1.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-collapsible": "0.1.0",
+        "@seed-design/react-primitive": "1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
     "packages/react-headless/avatar": {
       "name": "@seed-design/react-avatar",
       "version": "1.0.0",
@@ -2444,6 +2464,8 @@
     "@seed-design/qvism-preset": ["@seed-design/qvism-preset@workspace:packages/qvism-preset"],
 
     "@seed-design/react": ["@seed-design/react@workspace:packages/react"],
+
+    "@seed-design/react-accordion": ["@seed-design/react-accordion@workspace:packages/react-headless/accordion"],
 
     "@seed-design/react-avatar": ["@seed-design/react-avatar@workspace:packages/react-headless/avatar"],
 
