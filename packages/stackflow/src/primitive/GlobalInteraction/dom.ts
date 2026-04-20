@@ -5,6 +5,8 @@
  * source of truth for element positions between animations.
  */
 
+import { appBarAnatomy } from "../AppBar/anatomy";
+import { appScreenAnatomy } from "../AppScreen/anatomy";
 import {
   BEHIND_OFFSET_PERCENT,
   BEHIND_PARALLAX,
@@ -54,7 +56,7 @@ export function findTransitionTargets(stackEl: HTMLElement): TransitionTargets {
 
   let behindActivity: HTMLElement | null = null;
   if (topActivity) {
-    const all = stackEl.querySelectorAll<HTMLElement>("[data-part='activity']");
+    const all = stackEl.querySelectorAll<HTMLElement>(`[data-part='${appScreenAnatomy.activity}']`);
     const topId = topActivity.dataset["activityId"];
     let found = false;
     for (let i = all.length - 1; i >= 0; i--) {
@@ -70,16 +72,16 @@ export function findTransitionTargets(stackEl: HTMLElement): TransitionTargets {
   }
 
   return {
-    topLayer: queryParts(topActivity, "layer"),
-    topDim: queryParts(topActivity, "dim"),
-    behindLayer: queryParts(behindActivity, "layer"),
-    behindDim: queryParts(behindActivity, "dim"),
-    topTitle: queryParts(topActivity, "appBarMain"),
-    behindTitle: queryParts(behindActivity, "appBarMain"),
-    topIcons: queryAllParts(topActivity, "appBarIcon", "appBarCustom"),
-    behindIcons: queryAllParts(behindActivity, "appBarIcon", "appBarCustom"),
-    topAppBarRoot: queryParts(topActivity, "appBar"),
-    behindAppBarRoot: queryParts(behindActivity, "appBar"),
+    topLayer: queryParts(topActivity, appScreenAnatomy.layer),
+    topDim: queryParts(topActivity, appScreenAnatomy.dim),
+    behindLayer: queryParts(behindActivity, appScreenAnatomy.layer),
+    behindDim: queryParts(behindActivity, appScreenAnatomy.dim),
+    topTitle: queryParts(topActivity, appBarAnatomy.main),
+    behindTitle: queryParts(behindActivity, appBarAnatomy.main),
+    topIcons: queryAllParts(topActivity, appBarAnatomy.icon, appBarAnatomy.custom),
+    behindIcons: queryAllParts(behindActivity, appBarAnatomy.icon, appBarAnatomy.custom),
+    topAppBarRoot: queryParts(topActivity, appBarAnatomy.root),
+    behindAppBarRoot: queryParts(behindActivity, appBarAnatomy.root),
   };
 }
 
