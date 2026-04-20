@@ -1,6 +1,7 @@
 export {
   AccordionRoot,
   AccordionItem,
+  AccordionHeader,
   AccordionTrigger,
   AccordionContent,
   AccordionContentInner,
@@ -11,6 +12,7 @@ export {
   AccordionSuffixIcon,
   type AccordionRootProps,
   type AccordionItemProps,
+  type AccordionHeaderProps,
   type AccordionTriggerProps,
   type AccordionContentProps,
   type AccordionContentInnerProps,
