@@ -2,8 +2,11 @@ export const vars = {
   "themeCupertino": {
     "enabled": {
       "root": {
-        "minHeight": "44px",
+        "height": "44px",
         "paddingX": "var(--seed-dimension-x4)"
+      },
+      "main": {
+        "paddingX": "var(--seed-dimension-x1)"
       },
       "icon": {
         "size": "24px",
@@ -14,8 +17,11 @@ export const vars = {
   "themeAndroid": {
     "enabled": {
       "root": {
-        "minHeight": "56px",
+        "height": "56px",
         "paddingX": "var(--seed-dimension-x4)"
+      },
+      "left": {
+        "paddingRight": "var(--seed-dimension-x4)"
       },
       "icon": {
         "size": "24px",
@@ -66,23 +72,35 @@ export const vars = {
   "titleLayoutTitleOnly": {
     "enabled": {
       "title": {
-        "fontSize": "var(--seed-font-size-t6-static)",
+        "fontSize": "var(--seed-font-size-t6)",
         "fontWeight": "var(--seed-font-weight-bold)",
-        "lineHeight": "var(--seed-line-height-t6-static)"
+        "lineHeight": "var(--seed-line-height-t6)",
+        "maxFontSizeScale": "1.2",
+        "minFontSizeScale": "0.8",
+        "maxLineHeightScale": "1.2",
+        "minLineHeightScale": "0.8"
       }
     }
   },
   "titleLayoutWithSubtitle": {
     "enabled": {
       "title": {
-        "fontSize": "var(--seed-font-size-t5-static)",
+        "fontSize": "var(--seed-font-size-t5)",
         "fontWeight": "var(--seed-font-weight-bold)",
-        "lineHeight": "var(--seed-line-height-t5-static)"
+        "lineHeight": "var(--seed-line-height-t5)",
+        "maxFontSizeScale": "1.2",
+        "minFontSizeScale": "0.8",
+        "maxLineHeightScale": "1.2",
+        "minLineHeightScale": "0.8"
       },
       "subtitle": {
-        "fontSize": "var(--seed-font-size-t2-static)",
+        "fontSize": "var(--seed-font-size-t2)",
         "fontWeight": "var(--seed-font-weight-regular)",
-        "lineHeight": "var(--seed-line-height-t2-static)"
+        "lineHeight": "var(--seed-line-height-t2)",
+        "maxFontSizeScale": "1.2",
+        "minFontSizeScale": "0.8",
+        "maxLineHeightScale": "1.2",
+        "minLineHeightScale": "0.8"
       }
     }
   }

@@ -1665,7 +1665,7 @@
   }
 
   .seed-app-bar__left--theme_android {
-    padding-right: 16px;
+    padding-right: var(--seed-dimension-x4);
   }
 
   [data-global-transition-state="enter-active"] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:before {
@@ -1961,28 +1961,28 @@
   }
 
   .seed-app-bar-main__title--layout_titleOnly {
-    font-size: var(--seed-font-size-t6-static);
+    font-size: clamp(calc(var(--seed-font-size-t6-static) * .8), var(--seed-font-size-t6), calc(var(--seed-font-size-t6-static) * 1.2));
     font-weight: var(--seed-font-weight-bold);
-    line-height: var(--seed-line-height-t6-static);
+    line-height: clamp(calc(var(--seed-line-height-t6-static) * .8), var(--seed-line-height-t6), calc(var(--seed-line-height-t6-static) * 1.2));
   }
 
   .seed-app-bar-main__title--layout_withSubtitle {
-    font-size: var(--seed-font-size-t5-static);
+    font-size: clamp(calc(var(--seed-font-size-t5-static) * .8), var(--seed-font-size-t5), calc(var(--seed-font-size-t5-static) * 1.2));
     font-weight: var(--seed-font-weight-bold);
-    line-height: var(--seed-line-height-t5-static);
+    line-height: clamp(calc(var(--seed-line-height-t5-static) * .8), var(--seed-line-height-t5), calc(var(--seed-line-height-t5-static) * 1.2));
   }
 
   .seed-app-bar-main__subtitle--layout_withSubtitle {
-    font-size: var(--seed-font-size-t2-static);
+    font-size: clamp(calc(var(--seed-font-size-t2-static) * .8), var(--seed-font-size-t2), calc(var(--seed-font-size-t2-static) * 1.2));
     font-weight: var(--seed-font-weight-regular);
-    line-height: var(--seed-line-height-t2-static);
+    line-height: clamp(calc(var(--seed-line-height-t2-static) * .8), var(--seed-line-height-t2), calc(var(--seed-line-height-t2-static) * 1.2));
   }
 
   .seed-app-bar-main__root--theme_cupertino {
     text-align: center;
     top: var(--seed-safe-area-top);
-    padding-left: var(--centered-title-padding-x, 0);
-    padding-right: var(--centered-title-padding-x, 0);
+    padding-left: calc(var(--centered-title-padding-x, 0px) + var(--seed-dimension-x1));
+    padding-right: calc(var(--centered-title-padding-x, 0px) + var(--seed-dimension-x1));
     pointer-events: none;
     justify-content: center;
     align-items: center;

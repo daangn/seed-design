@@ -90,7 +90,7 @@
     height: var(--seed-icon-size, 24px);
 }
 .seed-app-bar__left--theme_android {
-    padding-right: 16px;
+    padding-right: var(--seed-dimension-x4);
 }
 [data-global-transition-state=enter-active] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:before {
     animation: seed-enter;
