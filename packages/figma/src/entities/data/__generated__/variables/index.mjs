@@ -1442,7 +1442,7 @@ export const FIGMA_VARIABLES = {
       "51907:0": 358
     },
     "scopes": [
-      "ALL_SCOPES"
+      "WIDTH_HEIGHT"
     ],
     "codeSyntax": {}
   },
@@ -1463,7 +1463,7 @@ export const FIGMA_VARIABLES = {
       "51907:0": 173
     },
     "scopes": [
-      "ALL_SCOPES"
+      "WIDTH_HEIGHT"
     ],
     "codeSyntax": {}
   },
@@ -1484,7 +1484,25 @@ export const FIGMA_VARIABLES = {
       "51907:0": 111.33000183105469
     },
     "scopes": [
-      "ALL_SCOPES"
+      "WIDTH_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62396:299": {
+    "name": "dimension/0",
+    "id": "VariableID:62396:299",
+    "remote": false,
+    "key": "9460c0a187a1e416bbaab9be4808b194513c9b60",
+    "variableCollectionId": "VariableCollectionId:1:174",
+    "resolvedType": "FLOAT",
+    "description": "figma에서만 사용되는 토큰입니다. ",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:4": 0
+    },
+    "scopes": [
+      "WIDTH_HEIGHT",
+      "GAP"
     ],
     "codeSyntax": {}
   },
@@ -2004,32 +2022,6 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
-  "VariableID:1:133": {
-    "name": "fg/brand-contrast",
-    "id": "VariableID:1:133",
-    "remote": false,
-    "key": "a5804c305611df8869ff5c36c4185b3b10a93775",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92927"
-      },
-      "1928:8": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92929"
-      }
-    },
-    "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
-  },
   "VariableID:1:134": {
     "name": "fg/critical",
     "id": "VariableID:1:134",
@@ -2534,7 +2526,7 @@ export const FIGMA_VARIABLES = {
       "51907:0": 26
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FONT_SIZE"
     ],
     "codeSyntax": {}
   },
@@ -2850,7 +2842,7 @@ export const FIGMA_VARIABLES = {
       "51907:0": 35
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FONT_SIZE"
     ],
     "codeSyntax": {}
   },
@@ -6370,6 +6362,23 @@ export const FIGMA_VARIABLES = {
     },
     "scopes": [
       "WIDTH_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62423:2": {
+    "name": "radius/0",
+    "id": "VariableID:62423:2",
+    "remote": false,
+    "key": "2ab62d921a6b843eabc28ca727b2344d21f12a84",
+    "variableCollectionId": "VariableCollectionId:1:174",
+    "resolvedType": "FLOAT",
+    "description": "figma에서만 사용되는 토큰입니다. ",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:4": 0
+    },
+    "scopes": [
+      "CORNER_RADIUS"
     ],
     "codeSyntax": {}
   },

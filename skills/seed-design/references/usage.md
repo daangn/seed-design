@@ -64,23 +64,7 @@ npx @seed-design/cli@latest compat -c action-button -c alert-dialog
 npx @seed-design/cli@latest compat --all
 ```
 
-### 5) Upgrade Changelog
-
-패키지의 현재 버전과 최신 버전 사이의 변경사항을 확인합니다.
-
-전체 패키지 한 번에 조회:
-
-```bash
-npx @seed-design/cli@latest upgrade --all
-```
-
-특정 패키지만 조회:
-
-```bash
-npx @seed-design/cli@latest upgrade react
-```
-
-### 6) Docs 조회
+### 5) Docs 조회
 
 컴포넌트/파운데이션에 대한 문서 링크, LLM용 텍스트 링크, 스니펫 링크를 조회합니다.
 
@@ -114,7 +98,27 @@ npx @seed-design/cli@latest docs react
 npx @seed-design/cli@latest docs react/components
 ```
 
-출력 예시:
+llms.txt 내용을 직접 가져오기 (`--raw`):
+
+```bash
+# 컴포넌트 문서 내용
+npx @seed-design/cli@latest docs react/components/action-button --raw
+
+# 전체 changelog
+npx @seed-design/cli@latest docs react/updates/changelog --raw
+
+# 특정 패키지 changelog
+npx @seed-design/cli@latest docs react/updates/changelog/react --raw
+
+# 특정 버전 이후 변경사항
+npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.9 --raw
+```
+
+`--raw` 옵션은 llms.txt 내용을 fetch하여 stdout으로 출력합니다. LLM 파이프나 스크립트에서 유용합니다. `--raw` 사용 시 쿼리가 필수입니다.
+
+docs index에 없는 깊은 경로(패키지별 changelog, 버전별 changelog 등)도 `--raw` 모드에서는 직접 URL을 구성하여 fetch합니다.
+
+출력 예시 (기본):
 
 ```text
 action-button

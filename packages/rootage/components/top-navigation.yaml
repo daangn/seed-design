@@ -8,7 +8,7 @@ data:
     slots:
       root:
         properties:
-          minHeight:
+          height:
             type: dimension
           paddingX:
             type: dimension
@@ -18,14 +18,6 @@ data:
             type: color
           strokeWidth:
             type: dimension
-      icon:
-        properties:
-          size:
-            type: dimension
-          targetSize:
-            type: dimension
-          color:
-            type: color
       title:
         properties:
           color:
@@ -36,6 +28,14 @@ data:
             type: number
           lineHeight:
             type: dimension
+          maxFontSizeScale:
+            type: number
+          minFontSizeScale:
+            type: number
+          maxLineHeightScale:
+            type: number
+          minLineHeightScale:
+            type: number
       subtitle:
         properties:
           color:
@@ -46,11 +46,27 @@ data:
             type: number
           lineHeight:
             type: dimension
+          maxFontSizeScale:
+            type: number
+          minFontSizeScale:
+            type: number
+          maxLineHeightScale:
+            type: number
+          minLineHeightScale:
+            type: number
+      icon:
+        properties:
+          size:
+            type: dimension
+          targetSize:
+            type: dimension
+          color:
+            type: color
   definitions:
     theme=cupertino:
       enabled:
         root:
-          minHeight: 44px
+          height: 44px
           paddingX: $dimension.x4
         icon:
           size: 24px
@@ -58,7 +74,7 @@ data:
     theme=android:
       enabled:
         root:
-          minHeight: 56px
+          height: 56px
           paddingX: $dimension.x4
         icon:
           size: 24px
@@ -91,16 +107,28 @@ data:
     titleLayout=titleOnly:
       enabled:
         title:
-          fontSize: $font-size.t6-static
+          fontSize: $font-size.t6
           fontWeight: $font-weight.bold
-          lineHeight: $line-height.t6-static
+          lineHeight: $line-height.t6
+          maxFontSizeScale: 1.2
+          minFontSizeScale: 0.8
+          maxLineHeightScale: 1.2
+          minLineHeightScale: 0.8
     titleLayout=withSubtitle:
       enabled:
         title:
-          fontSize: $font-size.t5-static
+          fontSize: $font-size.t5
           fontWeight: $font-weight.bold
-          lineHeight: $line-height.t5-static
+          lineHeight: $line-height.t5
+          maxFontSizeScale: 1.2
+          minFontSizeScale: 0.8
+          maxLineHeightScale: 1.2
+          minLineHeightScale: 0.8
         subtitle:
-          fontSize: $font-size.t2-static
+          fontSize: $font-size.t2
           fontWeight: $font-weight.regular
-          lineHeight: $line-height.t2-static
+          lineHeight: $line-height.t2
+          maxFontSizeScale: 1.2
+          minFontSizeScale: 0.8
+          maxLineHeightScale: 1.2
+          minLineHeightScale: 0.8
