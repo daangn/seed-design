@@ -44,6 +44,7 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
       <view
         {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
         className={clsx(classes.root, className)}
+        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         {...nativeProps}
       >
         {visibleChildren.map((child, index) => (
