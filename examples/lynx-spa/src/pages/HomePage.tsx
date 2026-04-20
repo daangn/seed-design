@@ -66,13 +66,13 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <SectionHeader>Tailwind</SectionHeader>
       <ListItem title="Tailwind Demo" onTap={() => navigate("tailwind-demo")} />
 
-      <SectionHeader>Hooks</SectionHeader>
-      <ListItem title="useControllableState" onTap={() => navigate("use-controllable-state")} />
-      <ListItem title="usePressTap" onTap={() => navigate("use-press-tap")} />
-
       <SectionHeader>Components</SectionHeader>
       <ListItem title="ActionButton" onTap={() => navigate("action-button")} />
       <ListItem title="ProgressCircle" onTap={() => navigate("progress-circle")} />
+
+      <SectionHeader>Hooks</SectionHeader>
+      <ListItem title="useControllableState" onTap={() => navigate("use-controllable-state")} />
+      <ListItem title="usePressTap" onTap={() => navigate("use-press-tap")} />
 
       <SectionHeader>Performance Comparison</SectionHeader>
       <ListItem title="Native view" onTap={() => navigate("test-native-box")} />
