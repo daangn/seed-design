@@ -14,6 +14,8 @@ import {
 import { AccordionProvider, useAccordionContext } from "./useAccordionContext";
 import { AccordionItemProvider, useAccordionItemContext } from "./useAccordionItemContext";
 
+const DATA_ACCORDION_TRIGGER = "data-accordion-trigger";
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 interface AccordionRootBaseProps
@@ -98,14 +100,15 @@ const AccordionImpl = forwardRef<HTMLDivElement, AccordionImplProps>(
         const { key } = event;
         if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(key)) return;
 
-        const target = event.target as HTMLElement;
-        if (!target.hasAttribute("data-accordion-trigger")) return;
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        if (!target.hasAttribute(DATA_ACCORDION_TRIGGER)) return;
 
         event.preventDefault();
 
         const triggers = Array.from(
           event.currentTarget.querySelectorAll<HTMLElement>(
-            "[data-accordion-trigger]:not([disabled])",
+            `[${DATA_ACCORDION_TRIGGER}]:not([disabled])`,
           ),
         );
 
@@ -231,7 +234,14 @@ export interface AccordionTriggerProps
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   (props, ref) => {
     const { triggerId } = useAccordionItemContext();
-    return <Collapsible.Trigger ref={ref} id={triggerId} data-accordion-trigger="" {...props} />;
+    return (
+      <Collapsible.Trigger
+        {...props}
+        ref={ref}
+        id={triggerId}
+        {...{ [DATA_ACCORDION_TRIGGER]: "" }}
+      />
+    );
   },
 );
 AccordionTrigger.displayName = "AccordionTrigger";
