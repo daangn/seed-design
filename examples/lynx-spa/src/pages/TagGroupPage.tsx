@@ -143,6 +143,16 @@ export function TagGroupPage() {
         </TagGroupItem>
       </TagGroupRoot>
 
+      <SectionHeader>Long items (toggle truncate)</SectionHeader>
+      <TagGroupRoot size={size} truncate={truncate}>
+        <TagGroupItem>
+          <TagGroupItemLabel>관악구 봉천동 신림동 근방 전체 매물</TagGroupItemLabel>
+        </TagGroupItem>
+        <TagGroupItem>
+          <TagGroupItemLabel>2024 하반기 최신순 · 재거래 희망률 우선 정렬</TagGroupItemLabel>
+        </TagGroupItem>
+      </TagGroupRoot>
+
       <SectionHeader>Custom separator</SectionHeader>
       <TagGroupRoot size={size} separator=" / ">
         <TagGroupItem>
