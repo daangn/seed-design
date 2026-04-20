@@ -67,7 +67,8 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="Tailwind Demo" onTap={() => navigate("tailwind-demo")} />
 
       <SectionHeader>Hooks</SectionHeader>
-      <ListItem title="useControllableState / usePressTap" onTap={() => navigate("hooks")} />
+      <ListItem title="useControllableState" onTap={() => navigate("use-controllable-state")} />
+      <ListItem title="usePressTap" onTap={() => navigate("use-press-tap")} />
 
       <SectionHeader>Components</SectionHeader>
       <ListItem title="ActionButton" onTap={() => navigate("action-button")} />

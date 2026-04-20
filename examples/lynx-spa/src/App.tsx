@@ -14,7 +14,8 @@ import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
-import { HooksPage } from "./pages/HooksPage.jsx";
+import { UseControllableStatePage } from "./pages/UseControllableStatePage.jsx";
+import { UsePressTapPage } from "./pages/UsePressTapPage.jsx";
 
 const LynxConsole = lazy(() => import("lynx-console"));
 
@@ -32,7 +33,8 @@ export type Page =
   | "test-native-box"
   | "test-tailwind-box"
   | "css-selector-test"
-  | "hooks";
+  | "use-controllable-state"
+  | "use-press-tap";
 
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
@@ -78,7 +80,8 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "test-native-box" && <TestNativeBoxPage />}
       {currentPage === "test-tailwind-box" && <TestTailwindBoxPage />}
       {currentPage === "css-selector-test" && <CSSSelectorTestPage />}
-      {currentPage === "hooks" && <HooksPage />}
+      {currentPage === "use-controllable-state" && <UseControllableStatePage />}
+      {currentPage === "use-press-tap" && <UsePressTapPage />}
       <Suspense>
         <LynxConsole theme="light" />
       </Suspense>
