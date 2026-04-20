@@ -31,7 +31,9 @@ import clsx from "clsx";
 
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 
-const { ClassNamesProvider, withContext } = createSlotRecipeContext(bottomSheet);
+type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
+
+const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
 
 const DEFAULT_SNAP_POINTS: Array<number | string> = ["fit"];
 
@@ -216,6 +218,12 @@ BottomSheetHandle.displayName = "BottomSheetHandle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Header / Body / Footer / Title / Description — 네이티브 view/text + 슬롯 className
+//
+// 주의: 네이티브 `<view>`/`<text>` 슬롯은 `withContext`를 사용하면 안 된다.
+// `withContext("view", ...)`는 `React.createElement(Component)` 형태로 컴파일되어
+// Lynx 컴파일러의 리터럴 `<view>` 정적 분석을 우회하고 `BackgroundSnapshot not found`
+// 런타임 에러를 유발한다. 반드시 리터럴 JSX로 `<view>`/`<text>`를 작성해야 한다.
+// (lynx-ui-sheet 같은 외부 컴포넌트 감싸기엔 withContext를 그대로 사용해도 안전.)
 ////////////////////////////////////////////////////////////////////////////////////
 
 interface SlotProps {
@@ -224,25 +232,58 @@ interface SlotProps {
   style?: CSSProperties;
 }
 
+function createViewSlot(slotName: keyof BottomSheetClassNames) {
+  const Slot = forwardRef<unknown, SlotProps>((props, ref) => {
+    const { children, className, style } = props;
+    const classNames = useClassNames();
+
+    return (
+      <view
+        {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
+        className={clsx(classNames[slotName], className)}
+        style={style}
+      >
+        {children}
+      </view>
+    );
+  });
+  return Slot;
+}
+
+function createTextSlot(slotName: keyof BottomSheetClassNames) {
+  const Slot = forwardRef<unknown, SlotProps>((props, ref) => {
+    const { children, className, style } = props;
+    const classNames = useClassNames();
+
+    return (
+      <text
+        {...(ref ? { ref: ref as Ref<SVGTextElement> } : {})}
+        className={clsx(classNames[slotName], className)}
+        style={style}
+      >
+        {children}
+      </text>
+    );
+  });
+  return Slot;
+}
+
 export interface BottomSheetHeaderProps extends SlotProps {}
-export const BottomSheetHeader = withContext<unknown, BottomSheetHeaderProps>("view", "header");
+export const BottomSheetHeader = createViewSlot("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
 
 export interface BottomSheetBodyProps extends SlotProps {}
-export const BottomSheetBody = withContext<unknown, BottomSheetBodyProps>("view", "body");
+export const BottomSheetBody = createViewSlot("body");
 BottomSheetBody.displayName = "BottomSheetBody";
 
 export interface BottomSheetFooterProps extends SlotProps {}
-export const BottomSheetFooter = withContext<unknown, BottomSheetFooterProps>("view", "footer");
+export const BottomSheetFooter = createViewSlot("footer");
 BottomSheetFooter.displayName = "BottomSheetFooter";
 
 export interface BottomSheetTitleProps extends SlotProps {}
-export const BottomSheetTitle = withContext<unknown, BottomSheetTitleProps>("text", "title");
+export const BottomSheetTitle = createTextSlot("title");
 BottomSheetTitle.displayName = "BottomSheetTitle";
 
 export interface BottomSheetDescriptionProps extends SlotProps {}
-export const BottomSheetDescription = withContext<unknown, BottomSheetDescriptionProps>(
-  "text",
-  "description",
-);
+export const BottomSheetDescription = createTextSlot("description");
 BottomSheetDescription.displayName = "BottomSheetDescription";

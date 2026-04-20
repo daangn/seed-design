@@ -208,8 +208,11 @@ variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 
 
 - **import 경로**: `../../utils/create-slot-recipe-context`
 - `createSlotRecipeContext(slotRecipe)` 호출 결과에서 `ClassNamesProvider`, `withContext`, `useClassNames` 등을 꺼내 사용한다.
-- 단순 슬롯은 `withContext(Component, "slotName")` 한 줄로 연결. Root에 상태(예: Trigger용 imperative ref) context를 추가해야 하면 `ClassNamesProvider`를 수동으로 중첩하고 Root 자체는 `forwardRef`로 직접 구현한다.
-- `<view>`/`<text>` 같은 네이티브 요소는 `withContext`의 첫 인자로 전달하기 어려우므로, 헬퍼(`createViewSlot(slotName)` 같은)로 감싸 `useClassNames()`를 호출해 slot className을 얹어 렌더링한다.
+- **외부 컴포넌트 슬롯** (lynx-ui 등): `withContext(Component, "slotName")` 한 줄로 연결한다.
+- **네이티브 `<view>`/`<text>` 슬롯**: `withContext`의 첫 인자로 문자열(`"view"`, `"text"`)을 넘기지 말고, 반드시 `forwardRef` 본문에 **리터럴 `<view>`/`<text>` JSX**를 작성한 헬퍼(`createViewSlot`/`createTextSlot`)를 사용한다.
+  - `withContext("view", ...)`는 `React.createElement(Component)`로 컴파일되어 Lynx 컴파일러의 `<view>` 정적 분석을 우회하고 **`BackgroundSnapshot not found: view` 런타임 에러**를 유발한다.
+  - 이는 `Primitive.view` 사용 시 발생하는 것과 동일한 BackgroundSnapshot diff 충돌이다.
+- Root에 상태(예: Trigger용 imperative ref) context를 추가해야 하면 `ClassNamesProvider`를 수동으로 중첩하고 Root 자체는 `forwardRef`로 직접 구현한다.
 
 ### 절대 금지: React 레이어에 style prop 직접 작성
 
