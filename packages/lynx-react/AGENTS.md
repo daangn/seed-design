@@ -131,7 +131,7 @@ variant props는 아래 패턴 중 하나로 처리한다. 모두 내부적으�
 | 유형 | 도구 | 대표 컴포넌트 | 비고 |
 |------|------|--------------|------|
 | 직접 `splitVariantProps` | `recipe.splitVariantProps(props)` | ActionButton | 단일 recipe, compound 아님 |
-| 복합 슬롯 | `createSlotRecipeContext` → `PropsProvider`/`ClassNamesProvider`/`withContext` | TagGroup | slot recipe + compound |
+| 복합 슬롯 | `createSlotRecipeContext` → `PropsProvider`/`ClassNamesProvider` + 직접 `useClassNames` | TagGroup | slot recipe + compound |
 | 다중 Recipe | `splitMultipleVariantsProps` | TagGroup Root | 한 컴포넌트가 여러 recipe를 동시에 받을 때 (shared variant 자동 전파) |
 | 단일 Recipe + Context | `createRecipeContext` | 미구현 | 실제 필요 시점에 포팅 (YAGNI) |
 
@@ -156,16 +156,36 @@ variant 추가/변경 시 누락 위험 + 타입 안정성 손실. 반드시 `sp
 슬롯이 여러 개인 compound 컴포넌트(TagGroup, 추후 Switch/BottomSheet 등)는 `createSlotRecipeContext`가 제공하는 두 종류 context를 목적별로 구분해 사용한다.
 
 - **`PropsProvider` / `useProps`**: Root → 하위 slot 컴포넌트에 **variant props**를 전파. 하위에서 local variant props와 merge한 뒤 recipe를 호출한다.
-- **`ClassNamesProvider` / `useClassNames` / `withContext`**: slot 컴포넌트 → 그 안의 자식 slot에 **미리 계산된 classNames 묶음**을 내려보내 자식이 매번 recipe를 재호출하지 않게 한다. `withContext("text", "label")`처럼 간단한 slot 컴포넌트를 HOC로 만들 수도 있다.
+- **`ClassNamesProvider` / `useClassNames`**: slot 컴포넌트 → 그 안의 자식 slot에 **미리 계산된 classNames 묶음**을 내려보내 자식이 매번 recipe를 재호출하지 않게 한다.
 
 ### state-driven compound 예외
 
 variant·tone 같은 정적 prop 외에 애니메이션 진행률·열림 상태 같은 runtime state까지 공유해야 하는 경우(ProgressCircle처럼), `createSlotRecipeContext`만으로는 부족하다. **custom `createContext`로 별도 state context를 만들고**, classNames context와 혼합해서 사용한다.
 
-### `withContext`의 Lynx 특이 사항
+### 리프 slot 컴포넌트는 항상 JSX로 직접 작성
 
-- `withContext`는 `"view"`/`"text"` 같은 Lynx 네이티브 element name 문자열을 받는다. `Primitive.*`는 BackgroundSnapshot 에러로 사용 금지.
-- `withContext`로 만든 slot 컴포넌트는 내부적으로 ref null 가드를 수행하므로 사용부에서 추가 가드가 필요 없다.
+classNames만 적용하는 "단순 passthrough" slot(TagGroupItemLabel 같은)이라도 **HOC 형태 `withContext`는 쓰지 않는다.** `forwardRef` + `createElement("text"/"view", …)` 조합은 Lynx runtime의 `BackgroundSnapshot not found` 에러를 유발한다(Primitive.view와 같은 실패 모드). 반드시 `React.forwardRef`로 감싸고 JSX `<text>`/`<view>`를 직접 작성한 뒤 내부에서 `useClassNames()`를 호출한다.
+
+```tsx
+// ❌ createElement HOC — BackgroundSnapshot 에러
+export const FooLabel = withContext("text", "label");
+
+// ✅ JSX forwardRef
+export const FooLabel = React.forwardRef<unknown, FooLabelProps>((props, ref) => {
+  const classes = useClassNames();
+  const { children, className, ...nativeProps } = props;
+  return (
+    <text
+      {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
+      className={clsx(classes.label, className)}
+      {...nativeProps}
+    >
+      {children}
+    </text>
+  );
+});
+FooLabel.displayName = "FooLabel";
+```
 
 ## Variant Props 처리 패턴
 

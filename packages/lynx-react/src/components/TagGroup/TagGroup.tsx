@@ -10,7 +10,7 @@ import {
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 
-const { PropsProvider, useProps, ClassNamesProvider, withContext } =
+const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
   createSlotRecipeContext(tagGroupItem);
 
 /**
@@ -96,5 +96,17 @@ export interface TagGroupItemLabelProps {
   className?: string;
 }
 
-export const TagGroupItemLabel = withContext<unknown, TagGroupItemLabelProps>("text", "label");
+export const TagGroupItemLabel = React.forwardRef<unknown, TagGroupItemLabelProps>((props, ref) => {
+  const classes = useClassNames();
+  const { children, className, ...nativeProps } = props;
+  return (
+    <text
+      {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
+      className={clsx(classes.label, className)}
+      {...nativeProps}
+    >
+      {children}
+    </text>
+  );
+});
 TagGroupItemLabel.displayName = "TagGroupItemLabel";
