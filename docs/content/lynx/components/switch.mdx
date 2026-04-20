@@ -12,6 +12,40 @@ npx @seed-design/cli@alpha add ui:switch --baseUrl https://lynx.seed-design.page
 
 ## Usage
 
+설치한 snippet은 compound 구성 요소를 한데 묶은 `Switch`와 본체만 필요할 때 쓰는 `Switchmark`를 함께 export 합니다.
+
+```tsx
+import { Switch } from "@/components/ui/switch";
+
+export function App() {
+  return <Switch label="알림 받기" defaultChecked />;
+}
+```
+
+Controlled 모드는 `checked`와 `onCheckedChange`를 함께 전달합니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { Switch } from "@/components/ui/switch";
+
+export function ControlledSwitch() {
+  const [checked, setChecked] = useState(false);
+  return <Switch label={checked ? "On" : "Off"} checked={checked} onCheckedChange={setChecked} />;
+}
+```
+
+Label 없이 본체만 쓰고 싶다면 `Switchmark`를 사용합니다.
+
+```tsx
+import { Switchmark } from "@/components/ui/switch";
+
+<Switchmark size="24" tone="brand" defaultChecked />
+```
+
+### Compound 사용 (고급)
+
+snippet이 제공하는 기본 구성으로는 부족한 경우 `@seed-design/lynx-react`의 compound component를 직접 조합합니다. 예를 들어 Control에서 Root의 `tone`/`size`를 override 하려면:
+
 ```tsx
 import {
   SwitchRoot,
@@ -20,49 +54,12 @@ import {
   SwitchLabel,
 } from "@seed-design/lynx-react";
 
-export function App() {
-  return (
-    <SwitchRoot size="32" tone="brand" defaultChecked>
-      <SwitchControl>
-        <SwitchThumb />
-      </SwitchControl>
-      <SwitchLabel>알림 받기</SwitchLabel>
-    </SwitchRoot>
-  );
-}
-```
-
-`SwitchControl`은 `tone`과 `size`를 직접 받아 Root의 기본값을 override할 수 있습니다.
-
-```tsx
 <SwitchRoot tone="brand" size="32" defaultChecked>
   <SwitchControl tone="neutral">
     <SwitchThumb />
   </SwitchControl>
   <SwitchLabel>레이블</SwitchLabel>
 </SwitchRoot>
-```
-
-Controlled 모드는 `checked`와 `onCheckedChange`를 함께 전달하여 사용합니다.
-
-```tsx
-import { useState } from "@lynx-js/react";
-import {
-  SwitchRoot,
-  SwitchControl,
-  SwitchThumb,
-} from "@seed-design/lynx-react";
-
-export function ControlledSwitch() {
-  const [checked, setChecked] = useState(false);
-  return (
-    <SwitchRoot checked={checked} onCheckedChange={setChecked}>
-      <SwitchControl>
-        <SwitchThumb />
-      </SwitchControl>
-    </SwitchRoot>
-  );
-}
 ```
 
 ## Props

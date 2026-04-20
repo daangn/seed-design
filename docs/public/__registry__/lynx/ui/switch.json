@@ -1,9 +1,12 @@
 {
   "id": "switch",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
   "snippets": [
     {
       "path": "switch.tsx",
-      "content": "/**\n * @file ui:switch\n * @requires @seed-design/lynx-react@~0.1.0-alpha.0\n * @requires @seed-design/lynx-css@~0.1.0-alpha.0\n **/\n\n/**\n * @see https://seed-design.io/lynx/components/switch\n */\nexport {\n  SwitchRoot,\n  SwitchControl,\n  SwitchThumb,\n  SwitchLabel,\n  type SwitchRootProps,\n  type SwitchControlProps,\n  type SwitchThumbProps,\n  type SwitchLabelProps,\n} from \"@seed-design/lynx-react\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "content": "/**\n * @file ui:switch\n * @requires @seed-design/lynx-react@~0.1.0-alpha.0\n * @requires @seed-design/lynx-css@~0.1.0-alpha.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport {\n  SwitchRoot,\n  SwitchControl,\n  SwitchThumb,\n  SwitchLabel,\n  type SwitchRootProps,\n} from \"@seed-design/lynx-react\";\n\nexport interface SwitchProps extends SwitchRootProps {\n  label?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/lynx/components/switch\n */\nexport const Switch = React.forwardRef<unknown, SwitchProps>(\n  ({ label, children, ...otherProps }, ref) => {\n    return (\n      <SwitchRoot ref={ref} {...otherProps}>\n        <SwitchControl>\n          <SwitchThumb />\n        </SwitchControl>\n        {label != null ? <SwitchLabel>{label}</SwitchLabel> : null}\n        {children}\n      </SwitchRoot>\n    );\n  },\n);\nSwitch.displayName = \"Switch\";\n\nexport interface SwitchmarkProps extends Omit<SwitchRootProps, \"children\"> {}\n\n/**\n * @see https://seed-design.io/lynx/components/switch\n */\nexport const Switchmark = React.forwardRef<unknown, SwitchmarkProps>((props, ref) => {\n  return (\n    <SwitchRoot ref={ref} {...props}>\n      <SwitchControl>\n        <SwitchThumb />\n      </SwitchControl>\n    </SwitchRoot>\n  );\n});\nSwitchmark.displayName = \"Switchmark\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
       "dependencies": {
         "@seed-design/lynx-react": "~0.1.0-alpha.0",
         "@seed-design/lynx-css": "~0.1.0-alpha.0"

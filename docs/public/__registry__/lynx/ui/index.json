@@ -65,7 +65,10 @@
           }
         }
       ],
-      "id": "switch"
+      "id": "switch",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
     }
   ]
 }
