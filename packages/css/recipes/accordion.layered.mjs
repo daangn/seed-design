@@ -11,6 +11,10 @@ const accordionSlotNames = [
     "seed-accordion__item"
   ],
   [
+    "header",
+    "seed-accordion__header"
+  ],
+  [
     "trigger",
     "seed-accordion__trigger"
   ],

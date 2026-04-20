@@ -8,6 +8,12 @@
     flex-direction: column;
     width: 100%;
 }
+.seed-accordion__header {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    display: flex;
+}
 .seed-accordion__trigger {
     position: relative;
     isolation: isolate;

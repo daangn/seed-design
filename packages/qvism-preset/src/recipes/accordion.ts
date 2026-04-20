@@ -14,6 +14,7 @@ const accordion = defineSlotRecipe({
   slots: [
     "root",
     "item",
+    "header",
     "trigger",
     "prefix",
     "body",
@@ -33,6 +34,12 @@ const accordion = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       width: "100%",
+    },
+    header: {
+      margin: 0,
+      padding: 0,
+      font: "inherit",
+      display: "flex",
     },
     trigger: {
       position: "relative",

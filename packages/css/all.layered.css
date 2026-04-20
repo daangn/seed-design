@@ -867,6 +867,13 @@
     display: flex;
   }
 
+  .seed-accordion__header {
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+
   .seed-accordion__trigger {
     isolation: isolate;
     cursor: pointer;
