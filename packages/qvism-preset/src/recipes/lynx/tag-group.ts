@@ -66,8 +66,10 @@ export const tagGroupItem = defineLynxSlotRecipe({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      flexShrink: 1,
-      minWidth: 0,
+      // Lynx에서는 item 자체는 shrink되지 않게 두고, 전체가 넘치면 root의
+      // flex-wrap으로 다음 줄에 배치되도록 한다. shrink을 허용하면 긴 item이
+      // 자체적으로 text-wrap되어 레이아웃이 어색해진다.
+      flexShrink: 0,
     },
     label: {},
   },
