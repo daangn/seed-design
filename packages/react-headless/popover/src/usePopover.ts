@@ -10,8 +10,6 @@ import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useMemo } from "react";
 import { usePositionedFloating, type UsePositionedFloatingProps } from "./floating";
 
-// TODO: useRole이 임의로 id를 생성하는 문제가 있음. 동작만 참고하고 role="dialog"에 맞게 aria attribute 설정을 직접 해야 함.
-
 export interface UsePopoverProps extends UsePositionedFloatingProps {
   /**
    * Whether to close the popover when clicking outside of it.
@@ -36,6 +34,19 @@ export interface UsePopoverProps extends UsePositionedFloatingProps {
    * @default 0
    */
   closeDelay?: number;
+  /**
+   * ARIA role of the floating element, which also controls the aria
+   * attributes emitted on the trigger.
+   *
+   * - `"dialog"`: trigger gets `aria-haspopup="dialog"` and `aria-expanded`;
+   *   the floating element gets `role="dialog"`.
+   * - `"tooltip"`: trigger gets `aria-describedby` while open; the floating
+   *   element gets `role="tooltip"`. Per WAI-ARIA, tooltip content must not
+   *   contain focusable children.
+   *
+   * Defaults to `"tooltip"` when `trigger` is `"hover"`, `"dialog"` otherwise.
+   */
+  role?: "dialog" | "tooltip";
 }
 
 export type UsePopoverReturn = ReturnType<typeof usePopover>;
@@ -45,6 +56,7 @@ export function usePopover({
   trigger = "click",
   openDelay,
   closeDelay,
+  role: roleProp,
   ...props
 }: UsePopoverProps = {}) {
   const {
@@ -60,7 +72,9 @@ export function usePopover({
     rects,
   } = usePositionedFloating(props);
 
-  const role = useRole(context);
+  const role = useRole(context, {
+    role: roleProp ?? (trigger === "hover" ? "tooltip" : "dialog"),
+  });
   const click = useClick(context, { enabled: trigger === "click" });
   const hover = useHover(context, {
     enabled: trigger === "hover",
@@ -100,8 +114,6 @@ export function usePopover({
       stateProps,
       anchorProps: elementProps({ ...anchorInteractions.getReferenceProps(), ...stateProps }),
       triggerProps: elementProps({
-        "aria-haspopup": "dialog",
-        "aria-expanded": open,
         ...triggerInteractions.getReferenceProps(),
         ...stateProps,
       }),
