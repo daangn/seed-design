@@ -8,6 +8,7 @@ import {
   SheetContent,
   SheetHandle,
   SheetRoot,
+  SheetView,
   type SheetBackdropProps,
   type SheetContentProps,
   type SheetHandleProps,
@@ -123,7 +124,13 @@ export const BottomSheetRoot = forwardRef<SheetRootRef, BottomSheetRootProps>(
             snapPoints={snapPoints ?? DEFAULT_SNAP_POINTS}
             {...nativeProps}
           >
-            {children}
+            {/*
+              `SheetView`는 `mounted || forceMount` 조건으로 자식을 gating한다.
+              생략하면 SheetBackdrop/SheetContent가 초기 렌더부터 마운트되어
+              sheetProgress motion value가 초기화되기 전에 `.on()`을 호출해
+              main-thread `cannot read property 'on' of null` 에러가 발생한다.
+            */}
+            <SheetView>{children}</SheetView>
           </SheetRoot>
         </ClassNamesProvider>
       </RootRefContext.Provider>
