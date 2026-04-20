@@ -6,6 +6,7 @@ import type { SwitchVariantProps } from "@seed-design/lynx-css/recipes/switch";
 import { switchmark } from "@seed-design/lynx-css/recipes/switchmark";
 import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switchmark";
 
+import { createCompoundContext } from "../../utils/create-compound-context";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useControllableState } from "../../utils/use-controllable-state";
 import { usePressTap } from "../../utils/use-press-tap";
@@ -24,47 +25,23 @@ import { usePressTap } from "../../utils/use-press-tap";
 
 type SwitchSize = NonNullable<SwitchVariantProps["size"]>;
 type SwitchTone = NonNullable<SwitchmarkVariantProps["tone"]>;
-type SwitchmarkClasses = ReturnType<typeof switchmark>;
 
-// switchmark/switch recipe의 `.d.ts`는 variant(tone, size)만 선언하지만, 런타임 recipe 함수는
-// 전달된 키를 그대로 모디파이어 클래스로 변환한다. CSS(.seed-switchmark__root--checked_true 등)는
-// 이 클래스를 소비하므로, 여기서 local alias로 타입 갭을 우회한다.
-type SwitchmarkRuntimeProps = SwitchmarkVariantProps & {
-  checked?: boolean;
-  disabled?: boolean;
-};
+// recipe .d.ts는 CSS variant만 선언하지만 런타임은 state modifier도 지원 (postcss-lynx-compat이
+// pseudo selector를 class modifier로 변환). local alias로 타입 갭 우회.
+type SwitchStyleRuntimeProps = SwitchVariantProps & { disabled?: boolean };
+type SwitchmarkRuntimeProps = SwitchmarkVariantProps & { checked?: boolean; disabled?: boolean };
 
 interface SwitchContextValue {
   checked: boolean;
   disabled: boolean;
-  pressed: boolean;
-  // SwitchLabel이 그대로 쓰는 className (disabled 모디파이어 포함)
-  labelClassName: string;
-  // SwitchControl의 기본값. Control에서 자체 props로 override 가능
-  tone: SwitchTone;
   size: SwitchSize;
+  tone: SwitchTone;
 }
 
-const SwitchContext = React.createContext<SwitchContextValue | null>(null);
+const [SwitchContext, useSwitchContext] = createCompoundContext<SwitchContextValue>("SwitchRoot");
 
-function useSwitchContext(component: string): SwitchContextValue {
-  const ctx = React.useContext(SwitchContext);
-  if (!ctx) {
-    throw new Error(`<${component}/> must be rendered inside <SwitchRoot/>.`);
-  }
-  return ctx;
-}
-
-// SwitchControl이 계산한 switchmark 클래스 번들을 SwitchThumb에 전달
-const SwitchmarkClassesContext = React.createContext<SwitchmarkClasses | null>(null);
-
-function useSwitchmarkClassesContext(component: string): SwitchmarkClasses {
-  const ctx = React.useContext(SwitchmarkClassesContext);
-  if (!ctx) {
-    throw new Error(`<${component}/> must be rendered inside <SwitchControl/>.`);
-  }
-  return ctx;
-}
+const [SwitchmarkThumbClassContext, useSwitchmarkThumbClass] =
+  createCompoundContext<string>("SwitchControl");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -78,8 +55,6 @@ export interface SwitchRootProps extends SwitchVariantProps, Omit<SwitchmarkVari
 }
 
 export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref) => {
-  const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, restProps] =
-    splitMultipleVariantsProps(props, { switch: switchStyle, switchmark });
   const {
     children,
     className,
@@ -87,8 +62,10 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     defaultChecked = false,
     disabled = false,
     onCheckedChange,
-    ...nativeProps
-  } = restProps;
+    ...restProps
+  } = props;
+  const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, nativeProps] =
+    splitMultipleVariantsProps(restProps, { switch: switchStyle, switchmark });
   const size: SwitchSize = switchVariantProps.size ?? "32";
   const tone: SwitchTone = switchmarkVariantProps.tone ?? "brand";
 
@@ -98,24 +75,23 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     onChange: onCheckedChange,
   });
 
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { pressed: _pressed, ...pressHandlers } = usePressTap({
     disabled,
     onTap: () => setChecked(!checked),
   });
 
-  const classes = switchStyle({ size });
-  const labelClassName = clsx(classes.label, disabled && "seed-switch__label--disabled_true");
+  const rootClassName = switchStyle({ size }).root;
 
   const ctx = React.useMemo<SwitchContextValue>(
-    () => ({ checked, disabled, pressed, labelClassName, tone, size }),
-    [checked, disabled, pressed, labelClassName, tone, size],
+    () => ({ checked, disabled, size, tone }),
+    [checked, disabled, size, tone],
   );
 
   return (
     <SwitchContext.Provider value={ctx}>
       <view
         {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
-        className={clsx(classes.root, className)}
+        className={clsx(rootClassName, className)}
         {...pressHandlers}
         {...nativeProps}
       >
@@ -128,7 +104,7 @@ SwitchRoot.displayName = "SwitchRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchControlProps extends SwitchmarkVariantProps {
+export interface SwitchControlProps extends Pick<SwitchmarkVariantProps, "tone" | "size"> {
   children?: React.ReactNode;
   className?: string;
 }
@@ -141,15 +117,19 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
   const tone: SwitchTone = variantProps.tone ?? ctxTone;
   const size: SwitchSize = variantProps.size ?? ctxSize;
 
-  const classes = switchmark({
-    tone,
-    size,
-    checked: checked ? true : undefined,
-    disabled: disabled ? true : undefined,
-  } as SwitchmarkRuntimeProps);
+  const classes = React.useMemo(
+    () =>
+      switchmark({
+        tone,
+        size,
+        checked: checked ? true : undefined,
+        disabled: disabled ? true : undefined,
+      } as SwitchmarkRuntimeProps),
+    [tone, size, checked, disabled],
+  );
 
   return (
-    <SwitchmarkClassesContext.Provider value={classes}>
+    <SwitchmarkThumbClassContext.Provider value={classes.thumb}>
       <view
         {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
         className={clsx(classes.root, className)}
@@ -157,7 +137,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
       >
         {children}
       </view>
-    </SwitchmarkClassesContext.Provider>
+    </SwitchmarkThumbClassContext.Provider>
   );
 });
 SwitchControl.displayName = "SwitchControl";
@@ -170,12 +150,12 @@ export interface SwitchThumbProps {
 
 export const SwitchThumb = React.forwardRef<unknown, SwitchThumbProps>((props, ref) => {
   const { className, ...nativeProps } = props;
-  const classes = useSwitchmarkClassesContext("SwitchThumb");
+  const thumbClassName = useSwitchmarkThumbClass("SwitchThumb");
 
   return (
     <view
       {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
-      className={clsx(classes.thumb, className)}
+      className={clsx(thumbClassName, className)}
       {...nativeProps}
     />
   );
@@ -191,7 +171,11 @@ export interface SwitchLabelProps {
 
 export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const { labelClassName } = useSwitchContext("SwitchLabel");
+  const { disabled, size } = useSwitchContext("SwitchLabel");
+  const labelClassName = (switchStyle as (p?: SwitchStyleRuntimeProps) => Record<string, string>)({
+    size,
+    disabled: disabled ? true : undefined,
+  }).label;
 
   return (
     <text

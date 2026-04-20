@@ -122,70 +122,57 @@ export interface ComponentProps
 - 모든 컴포넌트는 `React.forwardRef` 사용 + ref null 가드
 - 네이티브 `<view>` 요소 직접 사용 (`Primitive.view` 사용 금지 — BackgroundSnapshot 에러)
 - `displayName` 필수
-- 컴포넌트의 `React` namespace는 `react`에서 import (`import * as React from "react"`). JSX 내부에서 사용하는 Lynx 전용 primitive(`Fragment`, `createContext`, `createElement` 등)는 `@lynx-js/react`에서 import
+- `clsx`로 recipe className과 사용자 `className` 병합
+- recipe import: `@seed-design/lynx-css/recipes/<name>` (웹의 `@seed-design/css`가 아니다)
 
 ## Variant Props 처리 패턴
 
-variant props는 아래 패턴 중 하나로 처리한다. 모두 내부적으로 `splitVariantProps`를 사용해 variant props와 네이티브 props를 타입 안전하게 분리한다.
+variant props(`size`, `tone`, `variant` 등)는 반드시 아래 패턴 중 하나로 처리한다.
 
-| 유형 | 도구 | 대표 컴포넌트 | 비고 |
-|------|------|--------------|------|
-| 직접 `splitVariantProps` | `recipe.splitVariantProps(props)` | ActionButton | 단일 recipe, compound 아님 |
-| 복합 슬롯 | `createSlotRecipeContext` → `PropsProvider`/`ClassNamesProvider` + 직접 `useClassNames` | TagGroup | slot recipe + compound |
-| 다중 Recipe | `splitMultipleVariantsProps` | TagGroup Root | 한 컴포넌트가 여러 recipe를 동시에 받을 때 (shared variant 자동 전파) |
-| 단일 Recipe + Context | `createRecipeContext` | 미구현 | 실제 필요 시점에 포팅 (YAGNI) |
+| 유형 | 도구 | 예시 |
+|------|------|------|
+| 단일 recipe | `recipe.splitVariantProps(props)` | ActionButton |
+| 다중 recipe (한 컴포넌트가 두 개 이상 recipe 사용) | `splitMultipleVariantsProps(props, { a, b })` | Switch |
 
-각 유틸은 `src/utils/*` 상대 경로로 import한다. `@seed-design/react-utils` 같은 외부 패키지는 존재하지 않으며, `@seed-design/react`에서 import 금지 (웹 Primitive/토큰에 묶여 Lynx 런타임에서 동작하지 않음).
-
-### 절대 금지: variant props 수동 destructuring
+`splitMultipleVariantsProps`는 `../../utils/split-multiple-variants-props`에서 import 한다. 각 recipe의 variant bucket과 어느 recipe도 claim하지 않은 `restProps`로 분리해 준다. 공유 variant 키(예: 두 recipe 모두 `size`를 받는 경우)는 양쪽 bucket에 복제된다.
 
 ```tsx
-// ❌ 수동 destructuring
-const { variant, size, children, ...rest } = props;
-const classes = recipe({ variant, size });
-
-// ✅ splitVariantProps 경유
-const [variantProps, otherProps] = recipe.splitVariantProps(props);
-const classes = recipe(variantProps);
+const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, restProps] =
+  splitMultipleVariantsProps(props, { switch: switchStyle, switchmark });
 ```
 
-variant 추가/변경 시 누락 위험 + 타입 안정성 손실. 반드시 `splitVariantProps` 계열 유틸을 경유한다.
+### 절대 금지: variant props 수동 destructuring / 타입 캐스트
 
-## Compound Component Context 정책
-
-슬롯이 여러 개인 compound 컴포넌트(TagGroup, 추후 Switch/BottomSheet 등)는 `createSlotRecipeContext`가 제공하는 두 종류 context를 목적별로 구분해 사용한다.
-
-- **`PropsProvider` / `useProps`**: Root → 하위 slot 컴포넌트에 **variant props**를 전파. 하위에서 local variant props와 merge한 뒤 recipe를 호출한다.
-- **`ClassNamesProvider` / `useClassNames`**: slot 컴포넌트 → 그 안의 자식 slot에 **미리 계산된 classNames 묶음**을 내려보내 자식이 매번 recipe를 재호출하지 않게 한다.
-
-### state-driven compound 예외
-
-variant·tone 같은 정적 prop 외에 애니메이션 진행률·열림 상태 같은 runtime state까지 공유해야 하는 경우(ProgressCircle처럼), `createSlotRecipeContext`만으로는 부족하다. **custom `createContext`로 별도 state context를 만들고**, classNames context와 혼합해서 사용한다.
-
-### 리프 slot 컴포넌트는 항상 JSX로 직접 작성
-
-classNames만 적용하는 "단순 passthrough" slot(TagGroupItemLabel 같은)이라도 **HOC 형태 `withContext`는 쓰지 않는다.** `forwardRef` + `createElement("text"/"view", …)` 조합은 Lynx runtime의 `BackgroundSnapshot not found` 에러를 유발한다(Primitive.view와 같은 실패 모드). 반드시 `React.forwardRef`로 감싸고 JSX `<text>`/`<view>`를 직접 작성한 뒤 내부에서 `useClassNames()`를 호출한다.
+variant가 추가/변경될 때 누락 위험이 있고 타입 안전성이 깨진다.
 
 ```tsx
-// ❌ createElement HOC — BackgroundSnapshot 에러
-export const FooLabel = withContext("text", "label");
+// ❌ 함수 인자에서 variant를 직접 꺼내지 않는다
+const { size, tone, ...rest } = props;
 
-// ✅ JSX forwardRef
-export const FooLabel = React.forwardRef<unknown, FooLabelProps>((props, ref) => {
-  const classes = useClassNames();
-  const { children, className, ...nativeProps } = props;
-  return (
-    <text
-      {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
-      className={clsx(classes.label, className)}
-      {...nativeProps}
-    >
-      {children}
-    </text>
-  );
-});
-FooLabel.displayName = "FooLabel";
+// ❌ 특정 prop만 타입 캐스트로 뽑지 않는다
+const { tone, ...rest } = props as { tone?: Tone } & Rest;
 ```
+
+## Compound Component Context
+
+Compound 컴포넌트(Root + 하위 슬롯 구조)는 React Context로 상태/variant를 공유한다. `createCompoundContext` 헬퍼(`../../utils/create-compound-context`)를 사용해 Context와 strict consumer hook을 한번에 생성한다.
+
+```tsx
+import { createCompoundContext } from "../../utils/create-compound-context";
+
+const [SwitchContext, useSwitchContext] =
+  createCompoundContext<SwitchContextValue>("SwitchRoot");
+```
+
+- Root에서 `Context.Provider`로 value 감싸고, value는 `useMemo`로 안정화
+- 하위 컴포넌트는 `useSwitchContext("SwitchThumb")` 형태로 읽는다 (인자는 에러 메시지의 JSX 태그명)
+- **Context 누락 시 정책은 `throw` 통일**. 의도 명확, 오용 즉시 발견, 웹 `createSlotRecipeContext`와 일관.
+
+warn + fallback 패턴은 금지. fallback 값이 "정상 렌더링"으로 보여 버그를 감춘다.
+
+### 변형 override를 지원할 때
+
+중간 슬롯(예: `SwitchControl`)에서 variant props를 받아 Root의 기본값을 override 하고 싶으면, 그 슬롯이 자체적으로 `recipe()`를 호출해 계산한 className 번들을 두 번째 Context로 하위 슬롯(예: `SwitchThumb`)에 전달한다. Root Context에는 **기본값**만 실어 보내고, 실제 적용 className은 override 가능한 슬롯에서 계산한다.
 
 ## Variant Props 처리 패턴
 
