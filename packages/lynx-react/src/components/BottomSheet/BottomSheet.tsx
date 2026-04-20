@@ -14,6 +14,7 @@ import {
   type SheetHandleProps,
   type SheetRootProps,
   type SheetRootRef,
+  type SheetViewProps,
 } from "@lynx-js/lynx-ui-sheet";
 import {
   createContext,
@@ -124,13 +125,7 @@ export const BottomSheetRoot = forwardRef<SheetRootRef, BottomSheetRootProps>(
             snapPoints={snapPoints ?? DEFAULT_SNAP_POINTS}
             {...nativeProps}
           >
-            {/*
-              `SheetView`는 `mounted || forceMount` 조건으로 자식을 gating한다.
-              생략하면 SheetBackdrop/SheetContent가 초기 렌더부터 마운트되어
-              sheetProgress motion value가 초기화되기 전에 `.on()`을 호출해
-              main-thread `cannot read property 'on' of null` 에러가 발생한다.
-            */}
-            <SheetView>{children}</SheetView>
+            {children}
           </SheetRoot>
         </ClassNamesProvider>
       </RootRefContext.Provider>
@@ -175,6 +170,21 @@ export const BottomSheetTrigger = forwardRef<unknown, BottomSheetTriggerProps>((
   );
 });
 BottomSheetTrigger.displayName = "BottomSheetTrigger";
+
+////////////////////////////////////////////////////////////////////////////////////
+// Positioner — SheetView를 래핑해 mount gating 담당 (웹 BottomSheetPositioner에 대응)
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface BottomSheetPositionerProps extends SheetViewProps {}
+
+/**
+ * Backdrop/Content는 반드시 `BottomSheetPositioner` 안에 배치해야 한다.
+ *
+ * `SheetView`는 `mounted || forceMount` 조건으로 자식을 gating하므로 시트가 처음
+ * 열리기 전까지는 SheetBackdrop/SheetContent가 마운트되지 않아 motion value
+ * 초기화 레이스를 피할 수 있다. Trigger는 이 컴포넌트 밖에 두어야 탭 가능하다.
+ */
+export const BottomSheetPositioner = SheetView;
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Backdrop / Content — lynx-ui-sheet 컴포넌트를 감싸서 recipe 슬롯 className 적용

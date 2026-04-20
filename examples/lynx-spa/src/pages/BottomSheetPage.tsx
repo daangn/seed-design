@@ -10,6 +10,7 @@ import {
   BottomSheetFooter,
   BottomSheetHandle,
   BottomSheetHeader,
+  BottomSheetPositioner,
   BottomSheetRoot,
   BottomSheetTitle,
   BottomSheetTrigger,
@@ -40,20 +41,22 @@ export function BottomSheetPage() {
         >
           <text style={{ color: $color.fg.brandContrast }}>Trigger 탭</text>
         </BottomSheetTrigger>
-        <BottomSheetBackdrop />
-        <BottomSheetContent>
-          <BottomSheetHandle />
-          <BottomSheetHeader>
-            <BottomSheetTitle>기본 Bottom Sheet</BottomSheetTitle>
-            <BottomSheetDescription>Trigger를 탭하면 열립니다.</BottomSheetDescription>
-          </BottomSheetHeader>
-          <BottomSheetBody>
-            <text>본문에 자유로운 Lynx 엘리먼트를 배치할 수 있습니다.</text>
-          </BottomSheetBody>
-          <BottomSheetFooter>
-            <text>하단 액션 영역</text>
-          </BottomSheetFooter>
-        </BottomSheetContent>
+        <BottomSheetPositioner>
+          <BottomSheetBackdrop />
+          <BottomSheetContent>
+            <BottomSheetHandle />
+            <BottomSheetHeader>
+              <BottomSheetTitle>기본 Bottom Sheet</BottomSheetTitle>
+              <BottomSheetDescription>Trigger를 탭하면 열립니다.</BottomSheetDescription>
+            </BottomSheetHeader>
+            <BottomSheetBody>
+              <text>본문에 자유로운 Lynx 엘리먼트를 배치할 수 있습니다.</text>
+            </BottomSheetBody>
+            <BottomSheetFooter>
+              <text>하단 액션 영역</text>
+            </BottomSheetFooter>
+          </BottomSheetContent>
+        </BottomSheetPositioner>
       </BottomSheetRoot>
 
       <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Imperative ref</text>
@@ -64,16 +67,18 @@ export function BottomSheetPage() {
         <ActionButton bindtap={() => uncontrolledRef.current?.close()}>close()</ActionButton>
       </view>
       <BottomSheetRoot ref={uncontrolledRef} snapPoints={SNAP_POINTS_FIT_80}>
-        <BottomSheetBackdrop />
-        <BottomSheetContent>
-          <BottomSheetHandle />
-          <BottomSheetHeader>
-            <BottomSheetTitle>Imperative 예제</BottomSheetTitle>
-          </BottomSheetHeader>
-          <BottomSheetBody>
-            <text>위 버튼으로 snapTo/open/close를 호출합니다.</text>
-          </BottomSheetBody>
-        </BottomSheetContent>
+        <BottomSheetPositioner>
+          <BottomSheetBackdrop />
+          <BottomSheetContent>
+            <BottomSheetHandle />
+            <BottomSheetHeader>
+              <BottomSheetTitle>Imperative 예제</BottomSheetTitle>
+            </BottomSheetHeader>
+            <BottomSheetBody>
+              <text>위 버튼으로 snapTo/open/close를 호출합니다.</text>
+            </BottomSheetBody>
+          </BottomSheetContent>
+        </BottomSheetPositioner>
       </BottomSheetRoot>
 
       <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Controlled</text>
@@ -86,16 +91,18 @@ export function BottomSheetPage() {
         onOpenChange={setControlledOpen}
         snapPoints={SNAP_POINTS_FIT}
       >
-        <BottomSheetBackdrop />
-        <BottomSheetContent>
-          <BottomSheetHandle />
-          <BottomSheetHeader>
-            <BottomSheetTitle>Controlled 예제</BottomSheetTitle>
-            <BottomSheetDescription>
-              backdrop 탭 / drag-to-close 시 onOpenChange로 외부 state가 갱신됩니다.
-            </BottomSheetDescription>
-          </BottomSheetHeader>
-        </BottomSheetContent>
+        <BottomSheetPositioner>
+          <BottomSheetBackdrop />
+          <BottomSheetContent>
+            <BottomSheetHandle />
+            <BottomSheetHeader>
+              <BottomSheetTitle>Controlled 예제</BottomSheetTitle>
+              <BottomSheetDescription>
+                backdrop 탭 / drag-to-close 시 onOpenChange로 외부 state가 갱신됩니다.
+              </BottomSheetDescription>
+            </BottomSheetHeader>
+          </BottomSheetContent>
+        </BottomSheetPositioner>
       </BottomSheetRoot>
     </scroll-view>
   );

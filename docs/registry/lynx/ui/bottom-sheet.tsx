@@ -13,6 +13,8 @@ export {
   type BottomSheetHandleProps as HandleProps,
   BottomSheetHeader as Header,
   type BottomSheetHeaderProps as HeaderProps,
+  BottomSheetPositioner as Positioner,
+  type BottomSheetPositionerProps as PositionerProps,
   BottomSheetRoot as Root,
   type BottomSheetRootProps as RootProps,
   BottomSheetTitle as Title,

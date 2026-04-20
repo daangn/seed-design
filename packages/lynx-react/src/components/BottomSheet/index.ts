@@ -13,6 +13,8 @@ export {
   type BottomSheetHandleProps,
   BottomSheetHeader,
   type BottomSheetHeaderProps,
+  BottomSheetPositioner,
+  type BottomSheetPositionerProps,
   BottomSheetRoot,
   type BottomSheetRootProps,
   BottomSheetTitle,

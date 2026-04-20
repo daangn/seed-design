@@ -23,6 +23,7 @@ import {
   BottomSheetFooter,
   BottomSheetHandle,
   BottomSheetHeader,
+  BottomSheetPositioner,
   BottomSheetRoot,
   BottomSheetTitle,
   BottomSheetTrigger,
@@ -34,24 +35,28 @@ export function App() {
       <BottomSheetTrigger>
         <text>시트 열기</text>
       </BottomSheetTrigger>
-      <BottomSheetBackdrop />
-      <BottomSheetContent>
-        <BottomSheetHandle />
-        <BottomSheetHeader>
-          <BottomSheetTitle>제목</BottomSheetTitle>
-          <BottomSheetDescription>부가 설명</BottomSheetDescription>
-        </BottomSheetHeader>
-        <BottomSheetBody>
-          <text>본문 콘텐츠</text>
-        </BottomSheetBody>
-        <BottomSheetFooter>
-          <text>하단 액션 영역</text>
-        </BottomSheetFooter>
-      </BottomSheetContent>
+      <BottomSheetPositioner>
+        <BottomSheetBackdrop />
+        <BottomSheetContent>
+          <BottomSheetHandle />
+          <BottomSheetHeader>
+            <BottomSheetTitle>제목</BottomSheetTitle>
+            <BottomSheetDescription>부가 설명</BottomSheetDescription>
+          </BottomSheetHeader>
+          <BottomSheetBody>
+            <text>본문 콘텐츠</text>
+          </BottomSheetBody>
+          <BottomSheetFooter>
+            <text>하단 액션 영역</text>
+          </BottomSheetFooter>
+        </BottomSheetContent>
+      </BottomSheetPositioner>
     </BottomSheetRoot>
   );
 }
 ```
+
+`BottomSheetPositioner`는 시트가 처음 열릴 때까지 `BottomSheetBackdrop`과 `BottomSheetContent`의 마운트를 지연시킵니다. `BottomSheetTrigger`는 Positioner 밖에 두어야 탭으로 시트를 열 수 있습니다.
 
 ### Imperative 제어
 
@@ -91,7 +96,7 @@ Lynx `BottomSheet`는 React `BottomSheet`와 다음과 같은 차이가 있습�
 |---|---|---|
 | 상태 prop | `open`/`defaultOpen`/`onOpenChange` | 동일 (내부에서 lynx-ui-sheet의 `show`/`defaultShow`/`onShowChange`로 매핑) |
 | 마운트 제어 | `lazyMount`, `unmountOnExit` | **미지원** — `forceMount`로 대체 |
-| `BottomSheetPositioner` | 존재 | **없음** (`SheetView`가 자동 처리) |
+| `BottomSheetPositioner` | 존재 | 동일 (lynx-ui-sheet의 `SheetView` 래핑) — 첫 open 전까지 Backdrop/Content 마운트 지연 |
 | `BottomSheetCloseButton` | 존재 | **미포함** — Tier B (SVG 지원 후 추가 예정) |
 | `snapPoints` | 없음 | 지원 (`(number \| string)[]`, 기본값 `["fit"]`) |
 | `BottomSheetTrigger`의 `asChild` | 지원 | **미지원** (기본 `<view>`로만 렌더링) |
