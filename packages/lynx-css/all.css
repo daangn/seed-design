@@ -1338,6 +1338,7 @@
 .seed-tag-group__root {
   flex-flow: wrap;
   align-items: center;
+  width: 100%;
   display: flex;
 }
 
@@ -1346,6 +1347,7 @@
   font-weight: var(--seed-font-weight-regular);
   margin-left: var(--seed-dimension-x0_5);
   margin-right: var(--seed-dimension-x0_5);
+  flex-shrink: 0;
 }
 
 .seed-tag-group__separator--size_t2 {
@@ -1371,8 +1373,9 @@
 
 .seed-tag-group-item__root {
   flex-direction: row;
-  flex-shrink: 0;
+  flex-shrink: 1;
   align-items: center;
+  min-width: 0;
   display: flex;
 }
 
@@ -1409,6 +1412,11 @@
 
 .seed-tag-group-item__label--tone_brand {
   color: var(--seed-color-fg-brand);
+}
+
+.seed-tag-group-item__label--truncate_true {
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 @keyframes seed-enter {

@@ -10,12 +10,17 @@ export const tagGroup = defineLynxSlotRecipe({
       flexDirection: "row",
       alignItems: "center",
       flexWrap: "wrap",
+      // Lynx <view>는 기본 content-width라 parent 너비를 차지하도록 명시.
+      // 이게 없으면 flex-wrap이 "컨테이너를 초과"하는 기준 자체가 없어
+      // root가 content 크기로 늘어나버린다.
+      width: "100%",
     },
     separator: {
       color: vars.base.enabled.separator.color,
       fontWeight: vars.base.enabled.separator.fontWeight,
       marginLeft: itemVars.base.enabled.root.gap,
       marginRight: itemVars.base.enabled.root.gap,
+      flexShrink: 0,
     },
   },
   variants: {
@@ -66,10 +71,11 @@ export const tagGroupItem = defineLynxSlotRecipe({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      // Lynx에서는 item 자체는 shrink되지 않게 두고, 전체가 넘치면 root의
-      // flex-wrap으로 다음 줄에 배치되도록 한다. shrink을 허용하면 긴 item이
-      // 자체적으로 text-wrap되어 레이아웃이 어색해진다.
-      flexShrink: 0,
+      // 웹과 동일하게 shrink 허용. truncate=true일 때 item이 줄어들면서
+      // label ellipsis가 동작한다. 사용자가 특정 item을 고정하려면
+      // 컴포넌트 레이어에서 flexShrink={0} prop을 넘겨야 한다.
+      flexShrink: 1,
+      minWidth: 0,
     },
     label: {},
   },
@@ -117,10 +123,23 @@ export const tagGroupItem = defineLynxSlotRecipe({
         label: { color: itemVars.toneBrand.enabled.label.color },
       },
     },
+    truncate: {
+      true: {
+        label: {
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        },
+      },
+      false: {
+        label: {},
+      },
+    },
   },
   defaultVariants: {
     size: "t2",
     weight: "regular",
     tone: "neutralSubtle",
+    truncate: false,
   },
 });

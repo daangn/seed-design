@@ -2,13 +2,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    width: 100%
 }
 .seed-tag-group__separator {
     color: var(--seed-color-palette-gray-600);
     font-weight: var(--seed-font-weight-regular);
     margin-left: var(--seed-dimension-x0_5);
-    margin-right: var(--seed-dimension-x0_5)
+    margin-right: var(--seed-dimension-x0_5);
+    flex-shrink: 0
 }
 .seed-tag-group__separator--size_t2 {
     font-size: var(--seed-font-size-t2);

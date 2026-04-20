@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-shrink: 0
+    flex-shrink: 1;
+    min-width: 0
 }
 .seed-tag-group-item__label--size_t2 {
     font-size: var(--seed-font-size-t2);
@@ -30,4 +31,8 @@
 }
 .seed-tag-group-item__label--tone_brand {
     color: var(--seed-color-fg-brand)
+}
+.seed-tag-group-item__label--truncate_true {
+    overflow: hidden;
+    text-overflow: ellipsis
 }

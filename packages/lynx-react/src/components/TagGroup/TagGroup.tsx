@@ -65,8 +65,11 @@ TagGroupRoot.displayName = "TagGroupRoot";
  * 웹 대비 미지원 기능:
  * - flexShrink prop: CSS variable 동적 주입 제한
  * - asChild prop: Lynx Slot 미지원
+ *
+ * `truncate`는 `TagGroupRoot`의 prop이므로 Item에는 노출하지 않는다.
+ * Context로 전달받은 값이 자동으로 반영된다.
  */
-export interface TagGroupItemProps extends TagGroupItemVariantProps {
+export interface TagGroupItemProps extends Omit<TagGroupItemVariantProps, "truncate"> {
   children?: React.ReactNode;
   className?: string;
 }
