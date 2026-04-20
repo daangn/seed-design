@@ -1,6 +1,7 @@
 import {
   useClick,
   useDismiss,
+  useHover,
   useInteractions,
   useRole,
   useTransitionStatus,
@@ -17,11 +18,35 @@ export interface UsePopoverProps extends UsePositionedFloatingProps {
    * @default true
    */
   closeOnInteractOutside?: boolean;
+  /**
+   * How the popover opens. `"hover"` uses pointer enter/leave (touch included);
+   * dismiss behavior (outside press, escape) still applies in both modes.
+   * @default "click"
+   */
+  trigger?: "click" | "hover";
+  /**
+   * Delay in milliseconds before the popover opens on hover.
+   * Only applies when `trigger` is `"hover"`.
+   * @default 0
+   */
+  openDelay?: number;
+  /**
+   * Delay in milliseconds before the popover closes on hover leave.
+   * Only applies when `trigger` is `"hover"`.
+   * @default 0
+   */
+  closeDelay?: number;
 }
 
 export type UsePopoverReturn = ReturnType<typeof usePopover>;
 
-export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps = {}) {
+export function usePopover({
+  closeOnInteractOutside,
+  trigger = "click",
+  openDelay,
+  closeDelay,
+  ...props
+}: UsePopoverProps = {}) {
   const {
     open,
     onOpenChange,
@@ -36,13 +61,17 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
   } = usePositionedFloating(props);
 
   const role = useRole(context);
-  const click = useClick(context);
+  const click = useClick(context, { enabled: trigger === "click" });
+  const hover = useHover(context, {
+    enabled: trigger === "hover",
+    delay: { open: openDelay, close: closeDelay },
+  });
   const dismiss = useDismiss(context, {
     outsidePress: closeOnInteractOutside ?? true,
   });
 
   const { status } = useTransitionStatus(context);
-  const triggerInteractions = useInteractions([role, click, dismiss]);
+  const triggerInteractions = useInteractions([role, click, hover, dismiss]);
   const anchorInteractions = useInteractions([role, dismiss]);
 
   const stateProps = useMemo(
