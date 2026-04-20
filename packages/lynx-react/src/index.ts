@@ -1,4 +1,5 @@
 export { ActionButton, type ActionButtonProps } from "./components/ActionButton";
+export { BottomSheet } from "./components/BottomSheet";
 export {
   BottomSheetBackdrop,
   type BottomSheetBackdropProps,
@@ -18,6 +19,8 @@ export {
   type BottomSheetPositionerProps,
   BottomSheetRoot,
   type BottomSheetRootProps,
+  type BottomSheetRootRef,
+  type BottomSheetSlotProps,
   BottomSheetTitle,
   type BottomSheetTitleProps,
   BottomSheetTrigger,

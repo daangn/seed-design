@@ -35,7 +35,10 @@
           }
         }
       ],
-      "id": "bottom-sheet"
+      "id": "bottom-sheet",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
     },
     {
       "snippets": [

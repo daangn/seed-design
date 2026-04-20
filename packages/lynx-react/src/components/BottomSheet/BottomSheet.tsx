@@ -89,6 +89,8 @@ function useRootRef(): RefObject<SheetRootRef | null> {
 // Root
 ////////////////////////////////////////////////////////////////////////////////////
 
+export type BottomSheetRootRef = SheetRootRef;
+
 export interface BottomSheetRootProps
   extends BottomSheetVariantProps,
     Omit<SheetRootProps, "show" | "defaultShow" | "onShowChange"> {
@@ -288,14 +290,14 @@ BottomSheetHandle.displayName = "BottomSheetHandle";
 // (lynx-ui-sheet 같은 외부 컴포넌트 감싸기엔 withContext를 그대로 사용해도 안전.)
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface SlotProps {
+export interface BottomSheetSlotProps {
   children?: ReactNode;
   className?: string;
   style?: CSSProperties;
 }
 
 function createViewSlot(slotName: keyof BottomSheetClassNames) {
-  const Slot = forwardRef<unknown, SlotProps>((props, ref) => {
+  const Slot = forwardRef<unknown, BottomSheetSlotProps>((props, ref) => {
     const { children, className, style } = props;
     const classNames = useClassNames();
 
@@ -313,7 +315,7 @@ function createViewSlot(slotName: keyof BottomSheetClassNames) {
 }
 
 function createTextSlot(slotName: keyof BottomSheetClassNames) {
-  const Slot = forwardRef<unknown, SlotProps>((props, ref) => {
+  const Slot = forwardRef<unknown, BottomSheetSlotProps>((props, ref) => {
     const { children, className, style } = props;
     const classNames = useClassNames();
 
@@ -330,22 +332,22 @@ function createTextSlot(slotName: keyof BottomSheetClassNames) {
   return Slot;
 }
 
-export interface BottomSheetHeaderProps extends SlotProps {}
+export interface BottomSheetHeaderProps extends BottomSheetSlotProps {}
 export const BottomSheetHeader = createViewSlot("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
 
-export interface BottomSheetBodyProps extends SlotProps {}
+export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
 export const BottomSheetBody = createViewSlot("body");
 BottomSheetBody.displayName = "BottomSheetBody";
 
-export interface BottomSheetFooterProps extends SlotProps {}
+export interface BottomSheetFooterProps extends BottomSheetSlotProps {}
 export const BottomSheetFooter = createViewSlot("footer");
 BottomSheetFooter.displayName = "BottomSheetFooter";
 
-export interface BottomSheetTitleProps extends SlotProps {}
+export interface BottomSheetTitleProps extends BottomSheetSlotProps {}
 export const BottomSheetTitle = createTextSlot("title");
 BottomSheetTitle.displayName = "BottomSheetTitle";
 
-export interface BottomSheetDescriptionProps extends SlotProps {}
+export interface BottomSheetDescriptionProps extends BottomSheetSlotProps {}
 export const BottomSheetDescription = createTextSlot("description");
 BottomSheetDescription.displayName = "BottomSheetDescription";

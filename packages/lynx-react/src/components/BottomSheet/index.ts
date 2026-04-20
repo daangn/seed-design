@@ -17,8 +17,12 @@ export {
   type BottomSheetPositionerProps,
   BottomSheetRoot,
   type BottomSheetRootProps,
+  type BottomSheetRootRef,
+  type BottomSheetSlotProps,
   BottomSheetTitle,
   type BottomSheetTitleProps,
   BottomSheetTrigger,
   type BottomSheetTriggerProps,
 } from "./BottomSheet";
+
+export * as BottomSheet from "./BottomSheet.namespace";
