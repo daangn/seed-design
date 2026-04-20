@@ -17,20 +17,7 @@ const defaultVariant = {
   "truncate": false
 };
 
-const compoundVariants = [
-  {
-    "size": "t2",
-    "truncate": false
-  },
-  {
-    "size": "t3",
-    "truncate": false
-  },
-  {
-    "size": "t4",
-    "truncate": false
-  }
-];
+const compoundVariants = [];
 
 export const tagGroupVariantMap = {
   "size": [

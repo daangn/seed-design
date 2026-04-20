@@ -1,6 +1,14 @@
+.seed-tag-group__root {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap
+}
 .seed-tag-group__separator {
     color: var(--seed-color-palette-gray-600);
-    font-weight: var(--seed-font-weight-regular)
+    font-weight: var(--seed-font-weight-regular);
+    margin-left: var(--seed-dimension-x0_5);
+    margin-right: var(--seed-dimension-x0_5)
 }
 .seed-tag-group__separator--size_t2 {
     font-size: var(--seed-font-size-t2);
@@ -15,28 +23,7 @@
     line-height: var(--seed-line-height-t4)
 }
 .seed-tag-group__root--truncate_true {
-    display: inline-flex;
-    align-items: center;
+    flex-wrap: nowrap;
     max-width: 100%;
-    --tag-group-item-display: inline-flex;
-    --tag-group-item-overflow: hidden;
-    --tag-group-item-text-overflow: ellipsis;
-    --tag-group-item-white-space: nowrap
-}
-.seed-tag-group__root--truncate_false {
-    display: inline-block;
-    font-size: 0;
-    --tag-group-item-display: inline;
-    --tag-group-item-overflow: visible;
-    --tag-group-item-text-overflow: clip;
-    --tag-group-item-white-space: normal
-}
-.seed-tag-group__root--size_t2-truncate_false {
-    line-height: var(--seed-line-height-t2)
-}
-.seed-tag-group__root--size_t3-truncate_false {
-    line-height: var(--seed-line-height-t3)
-}
-.seed-tag-group__root--size_t4-truncate_false {
-    line-height: var(--seed-line-height-t4)
+    overflow: hidden
 }
