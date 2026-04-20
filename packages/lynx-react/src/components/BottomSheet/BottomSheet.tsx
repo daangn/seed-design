@@ -35,7 +35,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 
-const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(bottomSheet);
+const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
 
 const DEFAULT_SNAP_POINTS: Array<number | string> = ["fit"];
 
@@ -218,48 +218,44 @@ export interface BottomSheetPositionerProps extends SheetViewProps {}
  * 초기화 레이스를 피할 수 있다. Trigger는 이 컴포넌트 밖에 두어야 탭 가능하다.
  *
  * recipe의 `positioner` slot className을 자동 적용해 `position: fixed` + 전체
- * 뷰포트 커버 레이아웃을 보장한다. 적용 안 하면 overlay가 자식 크기로
- * 쪼그라들어 backdrop이 일부만 덮이는 현상이 발생한다.
+ * 뷰포트 커버 레이아웃을 보장한다.
  */
-export function BottomSheetPositioner(props: BottomSheetPositionerProps) {
-  const classNames = useClassNames();
-  const { className, ...rest } = props;
-  return <SheetView className={clsx(classNames.positioner, className)} {...rest} />;
-}
+export const BottomSheetPositioner = withContext<unknown, BottomSheetPositionerProps>(
+  SheetView,
+  "positioner",
+);
 BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Backdrop / Content — lynx-ui-sheet 컴포넌트를 감싸서 recipe 슬롯 className 적용
 //
-// SheetBackdrop/SheetContent는 forwardRef가 아니므로 `withContext`로 forwardRef
-// 래퍼를 씌우면 ref가 버려지는 데 더해 Lynx BackgroundSnapshot 시스템에 혼란을
-// 주는 정황이 있다. 여기서는 plain 함수 컴포넌트로 직접 구성한다.
+// lynx-ui-sheet의 컴포넌트는 React 함수 컴포넌트이므로 `withContext`로 래핑해도
+// `React.createElement(Component, ...)`가 정상 동작한다.
+// (반면 네이티브 `<view>`/`<text>` intrinsic은 리터럴 JSX가 아니면 Lynx 컴파일러의
+// BackgroundSnapshot 정적 분석을 우회해 런타임 에러가 발생한다 — 하단 slot 참고.)
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BottomSheetBackdropProps extends SheetBackdropProps {}
 
-export function BottomSheetBackdrop(props: BottomSheetBackdropProps) {
-  const classNames = useClassNames();
-  const { className, ...rest } = props;
-  return <SheetBackdrop className={clsx(classNames.backdrop, className)} {...rest} />;
-}
+export const BottomSheetBackdrop = withContext<unknown, BottomSheetBackdropProps>(
+  SheetBackdrop,
+  "backdrop",
+);
 BottomSheetBackdrop.displayName = "BottomSheetBackdrop";
 
 export interface BottomSheetContentProps extends SheetContentProps {}
 
-export function BottomSheetContent(props: BottomSheetContentProps) {
-  const classNames = useClassNames();
-  const { className, ...rest } = props;
-  return (
-    <SheetContent
-      snapAnimation={SEED_SNAP_ANIMATION}
-      enterAnimation={SEED_ENTER_ANIMATION}
-      exitAnimation={SEED_EXIT_ANIMATION}
-      className={clsx(classNames.content, className)}
-      {...rest}
-    />
-  );
-}
+export const BottomSheetContent = withContext<unknown, BottomSheetContentProps>(
+  SheetContent,
+  "content",
+  {
+    defaultProps: {
+      snapAnimation: SEED_SNAP_ANIMATION,
+      enterAnimation: SEED_ENTER_ANIMATION,
+      exitAnimation: SEED_EXIT_ANIMATION,
+    },
+  },
+);
 BottomSheetContent.displayName = "BottomSheetContent";
 
 ////////////////////////////////////////////////////////////////////////////////////

@@ -106,8 +106,14 @@ export function createSlotRecipeContext<
   const withContext = <T, P>(
     Component: React.ElementType<any>,
     slot?: keyof Classnames,
+    options?: {
+      defaultProps?: Partial<P>;
+    },
   ): React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>> => {
-    const StyledComponent = forwardRef<any, any>((props, ref) => {
+    const { defaultProps } = options ?? {};
+
+    const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
+      const props: any = { ...(defaultProps ?? {}), ...innerProps };
       const classNames = useClassNames();
       const slotClassName: string | undefined = slot ? classNames[slot] : undefined;
       const userClassName: string | undefined = props["className"];
