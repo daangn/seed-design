@@ -1,9 +1,8 @@
 @layer seed-components {
   .seed-tag-group-item__root {
     flex-direction: row;
-    flex-shrink: 1;
+    flex-shrink: 0;
     align-items: center;
-    min-width: 0;
     display: flex;
   }
 
@@ -40,6 +39,11 @@
 
   .seed-tag-group-item__label--tone_brand {
     color: var(--seed-color-fg-brand);
+  }
+
+  .seed-tag-group-item__root--truncate_true {
+    flex-shrink: 1;
+    min-width: 0;
   }
 
   .seed-tag-group-item__label--truncate_true {

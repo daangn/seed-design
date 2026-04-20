@@ -71,11 +71,10 @@ export const tagGroupItem = defineLynxSlotRecipe({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      // 웹과 동일하게 shrink 허용. truncate=true일 때 item이 줄어들면서
-      // label ellipsis가 동작한다. 사용자가 특정 item을 고정하려면
-      // 컴포넌트 레이어에서 flexShrink={0} prop을 넘겨야 한다.
-      flexShrink: 1,
-      minWidth: 0,
+      // 기본은 shrink 금지: item이 content-size를 유지하고, 한 줄에 안
+      // 들어가면 Root의 flex-wrap으로 다음 줄로 넘어간다. 웹의 inline
+      // line-break 동작에 대응.
+      flexShrink: 0,
     },
     label: {},
   },
@@ -125,6 +124,10 @@ export const tagGroupItem = defineLynxSlotRecipe({
     },
     truncate: {
       true: {
+        root: {
+          flexShrink: 1,
+          minWidth: 0,
+        },
         label: {
           overflow: "hidden",
           textOverflow: "ellipsis",
@@ -132,6 +135,7 @@ export const tagGroupItem = defineLynxSlotRecipe({
         },
       },
       false: {
+        root: {},
         label: {},
       },
     },
