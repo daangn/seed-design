@@ -8,8 +8,6 @@ Phase 0의 `useControllableState`, `usePressTap`에 의존.
 ## 1. Switch
 
 **React 소스**: `packages/react/src/components/Switch/Switch.tsx`
-**React headless**: `packages/react-headless/switch/src/`
-**lynx-ui 참고**: [lynx-ui-switch](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-switch/src/)
 **Lynx CSS recipes**: `switch` (root, label), `switchmark` (root, thumb)
 
 **Exports:** `SwitchRoot`, `SwitchControl`, `SwitchThumb`, `SwitchLabel`
@@ -18,31 +16,28 @@ Phase 0의 `useControllableState`, `usePressTap`에 의존.
 - switch: `size` ("16" | "24" | "32", default: "32")
 - switchmark: `tone` ("neutral" | "brand", default: "brand"), `size`
 
-**웹 headless 동작:**
-- `useSwitch()` → isChecked, isHovered, isActive, isFocused 등 상태
-- data-checked, data-hover 등 attribute → CSS [data-*] selector
-
 **Lynx 구현 포인트:**
-- **useSwitch 훅 직접 구현** (내부 `src/components/Switch/useSwitch.ts`)
-  - `useControllableState`로 checked 관리
-  - `usePressTap`으로 tap 이벤트 → toggle
-- **className variant로 상태 표현** (data-* 대신)
-  - checked → recipe에 `checked: true` 전달
-  - disabled → recipe에 `disabled: true` 전달
-- **Compound component**: Context로 상태 공유
-- `<view>` 기반 (HiddenInput 불필요 — Lynx에 form 없음)
-
-**lynx-ui-switch 참고 패턴:**
-- SwitchContext: `{ checked, disabled, active }`
-- SwitchThumb/SwitchTrack이 context 소비
-- `render()` 함수로 render props 지원
-- `usePressTap` 내부 훅
+- **별도 `useSwitch` 훅 없이 primitive 인라인 조합**. 웹 headless의 `isHovered`/`isFocused`/`isFocusVisible`/HiddenInput은 Lynx에서 의미 없으므로 제거. 남는 건 `checked`(= `useControllableState`) + `pressed`(= `usePressTap`) + `disabled`뿐.
+  ```tsx
+  const [checked, setChecked] = useControllableState({ value, defaultValue, onChange });
+  const { pressed, ...pressHandlers } = usePressTap({
+    disabled,
+    onTap: () => setChecked(!checked),
+  });
+  ```
+- **className variant로 상태 표현** (data-* 대신):
+  - checked → recipe에 `checked: true`
+  - disabled → recipe에 `disabled: true`
+  - active(pressed) → recipe에 `active: true` (recipe가 지원하는 경우)
+- **Compound component**: Context로 `{ checked, disabled, active }` 공유 → `SwitchThumb`이 위치 변경
+- `<view>` 기반, HiddenInput 불필요
 
 **미지원:**
 - HiddenInput (Lynx에 form 제출 없음)
 - focus/focus-visible 상태 (Lynx에 키보드 없음)
 
-- [ ] `src/components/Switch/useSwitch.ts`
+> `@lynx-js/lynx-ui-switch`도 거의 동일한 패턴이지만, 우리는 이미 primitive 2개를 보유하고 있고 Switch 전체 로직이 10줄 이내이므로 외부 의존 없이 직접 구현한다.
+
 - [ ] `src/components/Switch/Switch.tsx`
 - [ ] `docs/content/lynx/components/switch.mdx`
 - [ ] `examples/lynx-spa/src/pages/SwitchPage.tsx`

@@ -1,15 +1,13 @@
 # Phase 6: 스크롤/제스처 컴포넌트
 
-Lynx 스크롤 이벤트 모델에 의존하는 컴포넌트들.
-lynx-ui-common의 `useBounce`, `useRefresh`, lynx-ui-scroll-view를 핵심 참고.
+Lynx 스크롤 이벤트 모델에 의존하는 컴포넌트들. **`@lynx-js/lynx-ui-common`의 훅과 `@lynx-js/lynx-ui-scroll-view`를 차용**해 제스처/바운스 로직 재작성을 피한다.
 
 ---
 
-## 1. ScrollFog
+## 1. ScrollFog (lynx-ui-scroll-view 래핑)
 
 **React 소스**: `packages/react/src/components/ScrollFog/ScrollFog.tsx`
-**React headless**: `packages/react-headless/scrollable/src/`
-**lynx-ui 참고**: `https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-scroll-view/src/`
+**래핑 대상**: `@lynx-js/lynx-ui-scroll-view` (`ScrollViewBasic` 32 LOC, `ScrollViewWithBouncesHook` 147 LOC, `index` 236 LOC)
 **Lynx CSS recipe**: `scrollFog`
 
 **Variant Props:**
@@ -25,62 +23,54 @@ lynx-ui-common의 `useBounce`, `useRefresh`, lynx-ui-scroll-view를 핵심 참�
 - 동적 CSS variables: `--scroll-fog-size-{direction}`, `--scrollable-{direction}`
 - 스크롤 위치에 따라 `--scrollable-top`/`--scrollable-bottom`이 0 또는 1로 토글
 
-**Lynx 구현 포인트:**
-- Lynx `<scroll-view>` 이벤트로 스크롤 위치 감지
-- `onScroll` 또는 `bindscroll` 이벤트
-- scrollTop/scrollLeft 값으로 가장자리 도달 여부 계산
-- CSS variable 동적 업데이트 → `dynamicStyle()` 또는 main-thread `setStyleProperty`
-- lynx-ui-scroll-view 참고: ScrollViewBasic, ScrollViewWithBouncesHook
+**lynx-ui-scroll-view가 담당하는 것:**
+- `<scroll-view>` 이벤트 wiring (bounce 포함)
+- `useRegisteredEvents`로 스크롤 이벤트 최적화 (lynx-ui-common)
+- main-thread 스크롤 콜백
+
+**SEED가 담당하는 것:**
+- 스크롤 위치 콜백 받아서 `--scrollable-{top|bottom|left|right}` CSS variable 갱신 (`dynamicStyle()` 또는 main-thread `setStyleProperty`)
+- placement/size/sizes props → recipe `scrollFog` 슬롯 매핑
+- `hideScrollBar` variant
 
 **성능 고려:**
-- 스크롤 이벤트가 빈번하므로 main-thread 실행 권장
-- `useRegisteredEvents` (lynx-ui-common)로 이벤트 최적화
+- 스크롤 이벤트가 빈번하므로 main-thread 실행. `useRegisteredEvents`는 lynx-ui-common에서 그대로 사용.
 
-- [ ] `src/components/ScrollFog/useScrollFog.ts`
 - [ ] `src/components/ScrollFog/ScrollFog.tsx`
 - [ ] `docs/content/lynx/components/scroll-fog.mdx`
 - [ ] `examples/lynx-spa/src/pages/ScrollFogPage.tsx`
+- [ ] `packages/lynx-react/package.json` peerDependencies: `@lynx-js/lynx-ui-scroll-view`, `@lynx-js/lynx-ui-common`
 
 ---
 
-## 2. PullToRefresh
+## 2. PullToRefresh (lynx-ui-common.useRefresh 활용)
 
 **React 소스**: `packages/react/src/components/PullToRefresh/PullToRefresh.tsx`
-**React headless**: `packages/react-headless/pull-to-refresh/src/`
+**차용 대상**: `@lynx-js/lynx-ui-common` — [`useRefresh`](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-common/src/hooks/useRefresh.tsx)
 **Lynx CSS recipe**: `pullToRefresh` (3슬롯: root, indicator, content)
 
 **Exports:** `PullToRefreshRoot`, `PullToRefreshIndicator`, `PullToRefreshContent`
 
-**웹 headless 동작:**
-- `usePullToRefresh()` 훅
-- 터치 드래그로 아래로 당기면 indicator 표시
-- threshold 초과 시 onPtr 콜백
-- `displacementMultiplier`: 당김 감도
-- Indicator: render function 패턴 `(props: IndicatorRenderProps) => ReactNode`
+**lynx-ui-common.useRefresh가 담당하는 것:**
+- 터치 드래그 → pulling → triggered → refreshing → idle 상태 머신
+- `<scroll-view>` 통합 (최상단에서만 활성)
+- Main-thread 실행으로 부드러운 드래그 피드백
+- displacement multiplier, threshold 파라미터
 
-**lynx-ui-common 참고:**
-- `useRefresh`: `https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-common/src/hooks/useRefresh.ts`
-- `useBounce`: 바운스 효과와 통합
+**SEED가 담당하는 것:**
+- `PullToRefreshRoot`: `useRefresh` 훅을 내부에서 호출해 스크롤 뷰 wiring
+- `PullToRefreshIndicator`: **spinner SVG 없이 CSS 애니메이션으로 구현**
+  - 상태별 클래스(`data-state="pulling|triggered|refreshing"`)로 스타일 분기
+  - 인디케이터는 CSS `transform` + `@keyframes`로 회전/펄스 등 표현
+- `PullToRefreshContent`: 스크롤 대상 영역
 
-**Lynx 구현 포인트:**
-- **터치 이벤트 기반**: `bindtouchstart/move/end`로 드래그 감지
-- **Lynx `<scroll-view>`와 통합**: 스크롤이 맨 위일 때만 pull-to-refresh 활성화
-- **Main-thread 실행**: 부드러운 드래그 피드백을 위해 main-thread 권장
-- **Indicator render props**: 드래그 거리, 상태(pulling/refreshing/idle) 전달
-- lynx-ui-common의 useRefresh가 이미 검증된 패턴 → 참고 또는 의존
+**render props 유지:**
+- `IndicatorRenderProps: { state, pullDistance, progress }` 형태로 커스텀 렌더러 허용 (웹 API와 일치)
 
-**상태 머신:**
-```
-idle → pulling (터치 시작)
-pulling → triggered (threshold 초과)
-triggered → refreshing (onRefresh 호출)
-refreshing → idle (완료)
-```
+**미지원 / 대안:**
+- SVG 기반 spinner 기본 인디케이터 → CSS-only 애니메이션으로 대체 (Lynx 3.7 SVG 시 기본 인디케이터 교체 검토)
 
-**미지원:**
-- SVG 기반 spinner indicator (기본 indicator는 CSS로만 구현)
-
-- [ ] `src/components/PullToRefresh/usePullToRefresh.ts`
 - [ ] `src/components/PullToRefresh/PullToRefresh.tsx`
 - [ ] `docs/content/lynx/components/pull-to-refresh.mdx`
 - [ ] `examples/lynx-spa/src/pages/PullToRefreshPage.tsx`
+- [ ] `packages/lynx-react/package.json` peerDependencies: `@lynx-js/lynx-ui-common`
