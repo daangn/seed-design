@@ -23,7 +23,6 @@ import {
   useContext,
   useMemo,
   useRef,
-  type FC,
   type ReactNode,
   type Ref,
   type RefObject,
@@ -35,7 +34,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 
-const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
+const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(bottomSheet);
 
 const DEFAULT_SNAP_POINTS: Array<number | string> = ["fit"];
 
@@ -188,22 +187,28 @@ export const BottomSheetPositioner = SheetView;
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Backdrop / Content — lynx-ui-sheet 컴포넌트를 감싸서 recipe 슬롯 className 적용
+//
+// SheetBackdrop/SheetContent는 forwardRef가 아니므로 `withContext`로 forwardRef
+// 래퍼를 씌우면 ref가 버려지는 데 더해 Lynx BackgroundSnapshot 시스템에 혼란을
+// 주는 정황이 있다. 여기서는 plain 함수 컴포넌트로 직접 구성한다.
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BottomSheetBackdropProps extends SheetBackdropProps {}
 
-export const BottomSheetBackdrop = withContext<unknown, BottomSheetBackdropProps>(
-  SheetBackdrop,
-  "backdrop",
-);
+export function BottomSheetBackdrop(props: BottomSheetBackdropProps) {
+  const classNames = useClassNames();
+  const { className, ...rest } = props;
+  return <SheetBackdrop className={clsx(classNames.backdrop, className)} {...rest} />;
+}
 BottomSheetBackdrop.displayName = "BottomSheetBackdrop";
 
 export interface BottomSheetContentProps extends SheetContentProps {}
 
-export const BottomSheetContent = withContext<unknown, BottomSheetContentProps>(
-  SheetContent,
-  "content",
-);
+export function BottomSheetContent(props: BottomSheetContentProps) {
+  const classNames = useClassNames();
+  const { className, ...rest } = props;
+  return <SheetContent className={clsx(classNames.content, className)} {...rest} />;
+}
 BottomSheetContent.displayName = "BottomSheetContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -212,25 +217,18 @@ BottomSheetContent.displayName = "BottomSheetContent";
 
 export interface BottomSheetHandleProps extends SheetHandleProps {}
 
-// lynx-ui-sheet v3.130.1 기준 `SheetHandle`의 타입에는 `children`이 없지만 구현이
-// `<view {...rest}>`로 통과시키므로 touchArea 내부 뷰를 children으로 삽입할 수 있다.
-const SheetHandleWithChildren = SheetHandle as FC<SheetHandleProps & { children?: ReactNode }>;
-
 /**
  * @remarks
- * `ref`는 lynx-ui-sheet의 `SheetHandle`이 forwardRef를 사용하지 않아 현재 런타임에서 무시된다.
- * API 일관성을 위해 시그니처는 유지한다.
+ * `SheetHandle`은 forwardRef가 아니므로 ref 시그니처는 제공하지 않는다. touchArea 슬롯은
+ * `SheetHandle` JSX가 정적으로 children을 받지 않는 구조라 적용하지 않는다 (Lynx
+ * BackgroundSnapshot이 정적 slot 외의 동적 children 삽입을 허용하지 않음).
  */
-export const BottomSheetHandle = forwardRef<unknown, BottomSheetHandleProps>((props, _ref) => {
+export function BottomSheetHandle(props: BottomSheetHandleProps) {
   const { className, style, ...rest } = props;
   const classNames = bottomSheetHandle();
 
-  return (
-    <SheetHandleWithChildren className={clsx(classNames.root, className)} style={style} {...rest}>
-      <view className={classNames.touchArea} />
-    </SheetHandleWithChildren>
-  );
-});
+  return <SheetHandle className={clsx(classNames.root, className)} style={style} {...rest} />;
+}
 BottomSheetHandle.displayName = "BottomSheetHandle";
 
 ////////////////////////////////////////////////////////////////////////////////////
