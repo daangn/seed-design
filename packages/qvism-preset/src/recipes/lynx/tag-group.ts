@@ -11,8 +11,8 @@ export const tagGroup = defineLynxSlotRecipe({
       alignItems: "center",
       flexWrap: "wrap",
       // Lynx <view>는 기본 content-width라 parent 너비를 차지하도록 명시.
-      // 이게 없으면 flex-wrap이 "컨테이너를 초과"하는 기준 자체가 없어
-      // root가 content 크기로 늘어나버린다.
+      // 이게 없으면 flex-wrap이 "컨테이너 초과" 기준 자체가 없어 root가
+      // content 크기로 늘어나버린다.
       width: "100%",
     },
     separator: {
@@ -44,22 +44,9 @@ export const tagGroup = defineLynxSlotRecipe({
         },
       },
     },
-    truncate: {
-      true: {
-        root: {
-          flexWrap: "nowrap",
-          maxWidth: "100%",
-          overflow: "hidden",
-        },
-      },
-      false: {
-        root: {},
-      },
-    },
   },
   defaultVariants: {
     size: "t2",
-    truncate: false,
   },
 });
 
@@ -71,9 +58,8 @@ export const tagGroupItem = defineLynxSlotRecipe({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      // 기본은 shrink 금지: item이 content-size를 유지하고, 한 줄에 안
-      // 들어가면 Root의 flex-wrap으로 다음 줄로 넘어간다. 웹의 inline
-      // line-break 동작에 대응.
+      // Lynx는 웹 inline flow가 없어 item 단위로만 wrap된다. content-size를
+      // 유지하면서 Root의 flex-wrap으로 다음 줄에 배치되도록 shrink를 막는다.
       flexShrink: 0,
     },
     label: {},
@@ -122,28 +108,10 @@ export const tagGroupItem = defineLynxSlotRecipe({
         label: { color: itemVars.toneBrand.enabled.label.color },
       },
     },
-    truncate: {
-      true: {
-        root: {
-          flexShrink: 1,
-          minWidth: 0,
-        },
-        label: {
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-        },
-      },
-      false: {
-        root: {},
-        label: {},
-      },
-    },
   },
   defaultVariants: {
     size: "t2",
     weight: "regular",
     tone: "neutralSubtle",
-    truncate: false,
   },
 });

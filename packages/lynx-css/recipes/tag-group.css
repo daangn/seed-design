@@ -24,8 +24,3 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4)
 }
-.seed-tag-group__root--truncate_true {
-    flex-wrap: nowrap;
-    max-width: 100%;
-    overflow: hidden
-}

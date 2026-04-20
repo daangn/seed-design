@@ -16,8 +16,10 @@ const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
  * @platform Lynx
  *
  * 웹 대비 미지원 기능:
- * - flexShrink prop: CSS variable 동적 주입 제한
- * - asChild prop: Lynx Slot 미지원
+ * - `truncate` prop: Lynx flex 모델에서는 item 단위 wrap만 가능해 웹 수준의
+ *   "한 줄 유지 + label ellipsis" 조합을 재현할 수 없음
+ * - `asChild` prop: Lynx Slot 미지원
+ * - `flexShrink` prop: CSS variable 동적 주입 제한
  * - 아이콘 slot: Lynx 3.7 SVG 지원 후 검토 (Tier B)
  */
 export interface TagGroupRootProps extends TagGroupVariantProps, TagGroupItemVariantProps {
@@ -80,13 +82,10 @@ TagGroupRoot.displayName = "TagGroupRoot";
  * @platform Lynx
  *
  * 웹 대비 미지원 기능:
- * - flexShrink prop: CSS variable 동적 주입 제한
- * - asChild prop: Lynx Slot 미지원
- *
- * `truncate`는 `TagGroupRoot`의 prop이므로 Item에는 노출하지 않는다.
- * Context로 전달받은 값이 자동으로 반영된다.
+ * - `asChild` prop: Lynx Slot 미지원
+ * - `flexShrink` prop: CSS variable 동적 주입 제한
  */
-export interface TagGroupItemProps extends Omit<TagGroupItemVariantProps, "truncate"> {
+export interface TagGroupItemProps extends TagGroupItemVariantProps {
   children?: React.ReactNode;
   className?: string;
 }

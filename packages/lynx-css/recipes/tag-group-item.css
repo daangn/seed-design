@@ -31,11 +31,3 @@
 .seed-tag-group-item__label--tone_brand {
     color: var(--seed-color-fg-brand)
 }
-.seed-tag-group-item__root--truncate_true {
-    flex-shrink: 1;
-    min-width: 0
-}
-.seed-tag-group-item__label--truncate_true {
-    overflow: hidden;
-    text-overflow: ellipsis
-}

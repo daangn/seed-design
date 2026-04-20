@@ -15,8 +15,7 @@ const tagGroupItemSlotNames = [
 const defaultVariant = {
   "size": "t2",
   "weight": "regular",
-  "tone": "neutralSubtle",
-  "truncate": false
+  "tone": "neutralSubtle"
 };
 
 const compoundVariants = [];
@@ -35,10 +34,6 @@ export const tagGroupItemVariantMap = {
     "neutralSubtle",
     "neutral",
     "brand"
-  ],
-  "truncate": [
-    true,
-    false
   ]
 };
 

@@ -11,10 +11,6 @@ declare interface TagGroupItemVariant {
   * @default "neutralSubtle"
   */
   tone: "neutralSubtle" | "neutral" | "brand";
-/**
-  * @default false
-  */
-  truncate: boolean;
 }
 
 declare type TagGroupItemVariantMap = {

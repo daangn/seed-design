@@ -32,7 +32,7 @@ export function App() {
 }
 ```
 
-`TagGroupRoot`의 `size`/`weight`/`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `" · "`이고 `separator` prop으로 바꿀 수 있습니다.
+`TagGroupRoot`의 `size`·`weight`·`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `" · "`이고 `separator` prop으로 바꿀 수 있습니다.
 
 ## Props
 
@@ -60,18 +60,37 @@ export function App() {
 ## 웹 버전과의 차이
 
 <Callout type="warning">
-Lynx `TagGroup`은 React `TagGroup`과 다음과 같은 차이가 있습니다.
-
-- **렌더링 요소**: HTML `<span>` 대신 네이티브 `<view>`(컨테이너)와 `<text>`(separator, label)를 렌더링합니다.
-- **`asChild` 미지원**: Lynx에는 `Slot` 개념이 없습니다.
-- **`flexShrink` prop 미지원**: CSS variable 동적 주입 제한.
-- **아이콘 slot 없음**: Lynx 3.7 SVG 지원 후 Tier B에서 재검토합니다.
+Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 버전과 다음과 같은 차이가 있습니다.
 </Callout>
 
-## Lynx 미지원 기능
+### 렌더링 요소
 
-| 기능 | 웹 대응 | 설명 |
-|------|---------|------|
-| `flexShrink` | StyleProps | CSS variable 동적 주입 제한 |
-| `asChild` | Primitive Slot | Lynx에서 제공하지 않음 |
-| 아이콘 표시 | `<img>` / SVG | Lynx 3.7 SVG 지원 후 검토 (Tier B) |
+| 슬롯 | 웹 | Lynx |
+|------|----|------|
+| Root | `<span>` (inline) | `<view>` (flex-row, flex-wrap, width 100%) |
+| Separator | `<span>` | `<text>` |
+| Item | `<span>` (inline) | `<view>` (flex-row, flex-shrink 0) |
+| Item Label | `<span>` | `<text>` |
+
+### 레이아웃 모델 차이
+
+- **웹**: `display: inline` 기반 text flow. 컨테이너가 좁으면 마지막 item 내부 label text가 word 단위로 자연스럽게 wrap됩니다 (예: `"Ut minim laboris enim"` → `"Ut minim"` / `"laboris enim"` 두 줄로 쪼개짐).
+- **Lynx**: flex 기반 item 단위 wrap. item은 content-size를 유지하고, 한 줄에 들어가지 않으면 **item 전체가 다음 줄로** 이동합니다. item 내부 text가 item 경계를 넘어 word-break되는 동작은 재현할 수 없습니다. Lynx TagGroupRoot는 이를 자연스럽게 보이도록 **separator를 뒤따르는 item과 하나의 wrap 단위로 묶어** 다음 줄로 함께 이동시킵니다.
+
+### 미지원 prop
+
+| prop | 웹 동작 | Lynx 미지원 사유 |
+|------|---------|------------------|
+| `truncate` (Root) | 한 줄 유지 + 모든 item label의 말줄임 | Lynx flex 모델에서는 label이 item 너비에 맞춰지지 않아 웹 수준의 inline ellipsis가 동작하지 않음. 모든 item에 말줄임을 일괄 적용하는 경험이 자연스럽지 않아 제거됨 |
+| `flexShrink` (Item) | Item 축소 우선순위 제어 | CSS variable 동적 주입 제한 |
+| `asChild` (Root/Item) | Slot 기반 다형 렌더 | Lynx에서 Primitive Slot 패턴 미제공 |
+| `prefixIcon` / `suffixIcon` (Item) | 아이콘 + 라벨 | Lynx 3.7 SVG 지원 이후 Tier B에서 재검토 |
+
+### 이벤트·ref
+
+- 이벤트: Lynx는 `onClick`이 없고 `bindtap` / `main-thread:bindtap`을 사용합니다. TagGroup은 기본적으로 정적 표시라 인터랙션 prop이 노출되지는 않지만, `TagGroupItem`을 눌러야 한다면 호출부에서 직접 view 속성으로 처리하세요.
+- ref: `React.forwardRef`로 ref가 전달됩니다 (`SVGViewElement` 타입으로 캐스트됨).
+
+## Examples
+
+간단한 사용 패턴은 위 Usage 섹션을 참고하세요. 실제 렌더 예시는 `lynx-spa`의 TagGroup 페이지에서 확인할 수 있습니다.

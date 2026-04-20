@@ -65,7 +65,6 @@ function Toggle({
 
 export function TagGroupPage() {
   const [size, setSize] = useState<Size>("t2");
-  const [truncate, setTruncate] = useState(false);
 
   return (
     <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", flex: 1 }}>
@@ -78,14 +77,8 @@ export function TagGroupPage() {
         ))}
       </view>
 
-      <SectionHeader>Truncate</SectionHeader>
-      <view style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
-        <Toggle label="off" active={!truncate} onTap={() => setTruncate(false)} />
-        <Toggle label="on" active={truncate} onTap={() => setTruncate(true)} />
-      </view>
-
       <SectionHeader>Default (neutralSubtle · regular)</SectionHeader>
-      <TagGroupRoot size={size} truncate={truncate}>
+      <TagGroupRoot size={size}>
         <TagGroupItem>
           <TagGroupItemLabel>동네 인증</TagGroupItemLabel>
         </TagGroupItem>
@@ -143,8 +136,8 @@ export function TagGroupPage() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Wrap example (toggle truncate)</SectionHeader>
-      <TagGroupRoot size={size} truncate={truncate}>
+      <SectionHeader>Wrap behaviour</SectionHeader>
+      <TagGroupRoot size={size}>
         <TagGroupItem>
           <TagGroupItemLabel>관악구 봉천동</TagGroupItemLabel>
         </TagGroupItem>

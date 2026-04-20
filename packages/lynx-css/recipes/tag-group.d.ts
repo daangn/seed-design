@@ -3,10 +3,6 @@ declare interface TagGroupVariant {
   * @default "t2"
   */
   size: "t2" | "t3" | "t4";
-/**
-  * @default false
-  */
-  truncate: boolean;
 }
 
 declare type TagGroupVariantMap = {

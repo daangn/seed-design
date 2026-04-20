@@ -1444,12 +1444,6 @@
     line-height: var(--seed-line-height-t4);
   }
 
-  .seed-tag-group__root--truncate_true {
-    flex-wrap: nowrap;
-    max-width: 100%;
-    overflow: hidden;
-  }
-
   .seed-tag-group-item__root {
     flex-direction: row;
     flex-shrink: 0;
@@ -1490,15 +1484,5 @@
 
   .seed-tag-group-item__label--tone_brand {
     color: var(--seed-color-fg-brand);
-  }
-
-  .seed-tag-group-item__root--truncate_true {
-    flex-shrink: 1;
-    min-width: 0;
-  }
-
-  .seed-tag-group-item__label--truncate_true {
-    text-overflow: ellipsis;
-    overflow: hidden;
   }
 }
