@@ -1,6 +1,6 @@
 "use client";
 
-import { accordion } from "@seed-design/css/recipes/accordion";
+import { accordion, type AccordionVariantProps } from "@seed-design/css/recipes/accordion";
 import { dataAttr } from "@seed-design/dom-utils";
 import {
   Accordion as AccordionPrimitive,
@@ -26,7 +26,8 @@ const withStateProps = createWithStateProps([useAccordionItemStateProps]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export type AccordionRootProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>;
+export type AccordionRootProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root> &
+  AccordionVariantProps;
 
 export const AccordionRoot = withProvider<HTMLDivElement, AccordionRootProps>(
   AccordionPrimitive.Root,
