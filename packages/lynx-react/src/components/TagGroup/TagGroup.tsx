@@ -37,8 +37,7 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
   const { children, className, separator = " · ", ...nativeProps } = otherProps;
   const classes = tagGroup(tagGroupVariantProps);
 
-  const childArray = Array.isArray(children) ? children : [children];
-  const visibleChildren = childArray.filter((child) => child != null && child !== false);
+  const visibleChildren = React.Children.toArray(children);
 
   return (
     <PropsProvider value={tagGroupItemVariantProps}>
@@ -48,18 +47,13 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
         {...nativeProps}
       >
         {visibleChildren.map((child, index) => {
-          if (index === 0) {
-            // biome-ignore lint/suspicious/noArrayIndexKey: first-item slot is stable in source order
-            return <view key={index}>{child}</view>;
-          }
-          // Lynx에서는 <text> separator가 개별 flex item으로 취급되기 때문에
-          // wrap이 발동하면 separator가 이전 row 끝에 남게 된다. separator와
-          // 뒤따르는 item을 하나의 flex-row wrapper로 묶어 같은 wrap 단위로
-          // 이동시킨다.
+          if (index === 0) return child;
+          // Lynx <text> separator는 개별 flex item이라 wrap이 발동하면 separator가
+          // 이전 row 끝에 남는다. separator와 뒤따르는 item을 하나의 flex-row wrapper로
+          // 묶어 같은 wrap 단위로 함께 이동시킨다.
           return (
             <view
-              // biome-ignore lint/suspicious/noArrayIndexKey: child slots are stable in source order
-              key={index}
+              key={(child as React.ReactElement).key ?? index}
               style={{
                 display: "flex",
                 flexDirection: "row",
