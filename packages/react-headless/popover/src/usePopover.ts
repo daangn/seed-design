@@ -44,7 +44,7 @@ export interface UsePopoverProps extends UsePositionedFloatingProps {
    *   element gets `role="tooltip"`. Per WAI-ARIA, tooltip content must not
    *   contain focusable children.
    *
-   * Defaults to `"tooltip"` when `trigger` is `"hover"`, `"dialog"` otherwise.
+   * @default "dialog"
    */
   role?: "dialog" | "tooltip";
 }
@@ -72,9 +72,7 @@ export function usePopover({
     rects,
   } = usePositionedFloating(props);
 
-  const role = useRole(context, {
-    role: roleProp ?? (trigger === "hover" ? "tooltip" : "dialog"),
-  });
+  const role = useRole(context, { role: roleProp ?? "dialog" });
   const click = useClick(context, { enabled: trigger === "click" });
   const hover = useHover(context, {
     enabled: trigger === "hover",
