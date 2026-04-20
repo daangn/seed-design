@@ -27,6 +27,16 @@ export {
 } from "./components/BottomSheet";
 export { ProgressCircle, type ProgressCircleProps } from "./components/ProgressCircle";
 export {
+  SwitchRoot,
+  SwitchControl,
+  SwitchThumb,
+  SwitchLabel,
+  type SwitchRootProps,
+  type SwitchControlProps,
+  type SwitchThumbProps,
+  type SwitchLabelProps,
+} from "./components/Switch";
+export {
   TagGroupRoot,
   TagGroupItem,
   TagGroupItemLabel,

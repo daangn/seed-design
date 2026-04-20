@@ -1,0 +1,89 @@
+---
+title: Switch
+description: 특정 옵션이나 설정을 켜거나 끌 수 있도록 돕는 토글 컴포넌트입니다.
+---
+
+## Installation
+
+{/* TODO: dev 브랜치 머지 시 @alpha 태그와 --baseUrl 옵션 제거 */}
+```package-install
+npx @seed-design/cli@alpha add ui:switch --baseUrl https://lynx.seed-design.pages.dev
+```
+
+## Usage
+
+```tsx
+import {
+  SwitchRoot,
+  SwitchControl,
+  SwitchThumb,
+  SwitchLabel,
+} from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <SwitchRoot size="32" tone="brand" defaultChecked>
+      <SwitchControl>
+        <SwitchThumb />
+      </SwitchControl>
+      <SwitchLabel>알림 받기</SwitchLabel>
+    </SwitchRoot>
+  );
+}
+```
+
+Controlled 모드는 `checked`와 `onCheckedChange`를 함께 전달하여 사용합니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import {
+  SwitchRoot,
+  SwitchControl,
+  SwitchThumb,
+} from "@seed-design/lynx-react";
+
+export function ControlledSwitch() {
+  const [checked, setChecked] = useState(false);
+  return (
+    <SwitchRoot checked={checked} onCheckedChange={setChecked}>
+      <SwitchControl>
+        <SwitchThumb />
+      </SwitchControl>
+    </SwitchRoot>
+  );
+}
+```
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Switch/Switch.tsx" name="SwitchRootProps" />
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `Switch`는 React `Switch`와 다음과 같은 차이가 있습니다.
+
+- **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap 핸들러는 Switch 내부에서 소유합니다.
+- **렌더링 요소**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
+- **Compound 구조**: `SwitchRoot` → `SwitchControl` → `SwitchThumb` / `SwitchLabel` 구성은 동일하지만, 상태는 Context로만 공유됩니다.
+- **ref forwarding**: 모든 서브 컴포넌트는 `React.forwardRef`를 지원합니다.
+</Callout>
+
+## Lynx 미지원 기능
+
+현재 Lynx 플랫폼 제약으로 다음 기능이 지원되지 않습니다.
+
+### 런타임 모델 차이로 제외
+
+| 기능 | 웹 대응 | 설명 |
+|------|---------|------|
+| `SwitchHiddenInput` | `<input type="checkbox">` | Lynx에 HTML form 제출 모델 없음 |
+| `name` / `value` / `required` / `invalid` | form field props | Lynx에 native form 제출 모델 없음 |
+| `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
+| `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onCheckedChange`로 대체 |
+
+### 추후 CSS 지원 시 추가 예정
+
+| 기능 | 웹 대응 | 설명 |
+|------|---------|------|
+| `active` (pressed) 모디파이어 | `data-active` | `switchmark` recipe CSS에 pressed 상태가 정의되면 활성화 |

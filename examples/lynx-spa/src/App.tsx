@@ -13,6 +13,7 @@ import { TestNativeBoxPage } from "./pages/TestNativeBoxPage.jsx";
 import { TestTailwindBoxPage } from "./pages/TestTailwindBoxPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
+import { SwitchPage } from "./pages/SwitchPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
@@ -27,6 +28,7 @@ export type Page =
   | "action-button"
   | "bottom-sheet"
   | "progress-circle"
+  | "switch"
   | "tag-group"
   | "nested-vars-test"
   | "foundation-color"
@@ -76,6 +78,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "action-button" && <ActionButtonPage />}
       {currentPage === "bottom-sheet" && <BottomSheetPage />}
       {currentPage === "progress-circle" && <ProgressCirclePage />}
+      {currentPage === "switch" && <SwitchPage />}
       {currentPage === "tag-group" && <TagGroupPage />}
       {currentPage === "nested-vars-test" && <NestedVarsTestPage />}
       {currentPage === "foundation-color" && <FoundationColorPage />}
