@@ -12,7 +12,7 @@
     display: block;
     height: calc(0.5 * 100%);
     min-width: var(--seed-dimension-x4);
-    max-width: 64px;
+    max-width: 160px;
     width: auto;
     aspect-ratio: 1 / 1;
     color: var(--seed-color-palette-gray-400)

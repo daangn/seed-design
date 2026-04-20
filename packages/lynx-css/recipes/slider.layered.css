@@ -188,12 +188,12 @@
   }
 
   .seed-slider__valueIndicatorArrow.seed-slider__valueIndicatorArrow--dir_ltr {
-    left: calc(50% + (var(--thumb-offset)  - var(--indicator-label-offset)));
+    left: calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)));
     transform: translateX(-50%);
   }
 
   .seed-slider__valueIndicatorArrow.seed-slider__valueIndicatorArrow--dir_rtl {
-    right: calc(50% + (var(--thumb-offset)  - var(--indicator-label-offset)));
+    right: calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)));
     transform: translateX(50%);
   }
 

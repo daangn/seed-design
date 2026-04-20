@@ -1,4 +1,4 @@
-import { fetchDocsIndex } from "@/src/utils/fetch";
+import { fetchDocsIndex, fetchLlmsTxt, tryFetchLlmsTxt } from "@/src/utils/fetch";
 import * as p from "@clack/prompts";
 import type { CAC } from "cac";
 import { z } from "zod";
@@ -20,6 +20,7 @@ const GITHUB_SNIPPET_BASE =
 const docsOptionsSchema = z.object({
   query: z.string().optional(),
   baseUrl: z.string().optional(),
+  raw: z.boolean(),
 });
 
 function buildSnippetUrl(registryId: string, snippetPath: string): string {
@@ -232,15 +233,21 @@ export const docsCommand = (cli: CAC) => {
     .option("-u, --baseUrl <baseUrl>", `레지스트리의 기본 URL (기본값: ${BASE_URL})`, {
       default: BASE_URL,
     })
+    .option("--raw", "llms.txt 내용을 직접 가져와 출력합니다. LLM 파이프에 유용합니다.", {
+      default: false,
+    })
     .example("seed-design docs")
     .example("seed-design docs action-button")
     .example("seed-design docs react")
     .example("seed-design docs react/components")
     .example("seed-design docs react/components/action-button")
+    .example("seed-design docs react/updates/changelog --raw")
     .action(async (query, opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
-      p.intro("seed-design docs");
+      const raw = opts.raw ?? false;
+
+      if (!raw) p.intro("seed-design docs");
 
       try {
         const parsed = docsOptionsSchema.safeParse({ query, ...opts });
@@ -251,10 +258,19 @@ export const docsCommand = (cli: CAC) => {
         const { data: options } = parsed;
         const baseUrl = options.baseUrl ?? BASE_URL;
 
-        const { start, stop } = p.spinner();
-        start("문서 목록을 가져오고 있어요...");
+        if (options.raw && !options.query) {
+          throw new CliError({
+            message: "--raw 모드에서는 쿼리가 필요해요.",
+            hint: "예: `seed-design docs react/updates/changelog --raw`",
+          });
+        }
 
         const docsIndex = await (async () => {
+          if (raw) {
+            return await fetchDocsIndex({ baseUrl });
+          }
+          const { start, stop } = p.spinner();
+          start("문서 목록을 가져오고 있어요...");
           try {
             const index = await fetchDocsIndex({ baseUrl });
             stop("문서 목록을 가져왔어요.");
@@ -266,23 +282,31 @@ export const docsCommand = (cli: CAC) => {
         })();
 
         const { categories } = docsIndex;
-        let selectedItem: DocsItem;
+        let selectedItem: DocsItem | undefined;
 
-        if (options.query) {
-          const segments = parseQueryPath(options.query);
+        // In --raw mode, wrap index resolution in try-catch to allow fallback to direct URL
+        const resolveFromIndex = async (): Promise<DocsItem | undefined> => {
+          if (options.query) {
+            const segments = parseQueryPath(options.query);
 
-          // Try to resolve as path: category / section / item
-          const matchedCategory = categories.find((c) => c.id === segments[0]);
+            // Deep paths (more than category/section/item) can't be resolved from index
+            // e.g., react/updates/changelog/react/1.2.9 — skip to fallback in --raw mode
+            if (raw && segments.length > 3) {
+              return undefined;
+            }
 
-          if (matchedCategory && segments.length >= 2) {
-            const matchedSection = matchedCategory.sections.find((s) => s.id === segments[1]);
+            // Try to resolve as path: category / section / item
+            const matchedCategory = categories.find((c) => c.id === segments[0]);
 
-            if (matchedSection && segments.length >= 3) {
-              // Full path: category/section/item
-              const matchedItem = matchedSection.items.find((i) => i.id === segments[2]);
-              if (matchedItem) {
-                selectedItem = matchedItem;
-              } else {
+            if (matchedCategory && segments.length >= 2) {
+              const matchedSection = matchedCategory.sections.find((s) => s.id === segments[1]);
+
+              if (matchedSection && segments.length >= 3) {
+                // Full path: category/section/item
+                const matchedItem = matchedSection.items.find((i) => i.id === segments[2]);
+                if (matchedItem) {
+                  return matchedItem;
+                }
                 // Item not found in section — search within the section
                 const q = segments[2].toLowerCase();
                 const matched = matchedSection.items.filter(
@@ -306,15 +330,14 @@ export const docsCommand = (cli: CAC) => {
                   });
                 }
                 if (matched.length === 1) {
-                  selectedItem = matched[0];
-                } else {
-                  selectedItem = await selectItem(matched);
+                  return matched[0];
                 }
+                return await selectItem(matched);
               }
-            } else if (matchedSection) {
-              // category/section — select item within section
-              selectedItem = await selectItem(matchedSection.items);
-            } else {
+              if (matchedSection) {
+                // category/section — select item within section
+                return await selectItem(matchedSection.items);
+              }
               // category/??? — search within category
               const q = segments[1].toLowerCase();
               const matched = matchedCategory.sections.flatMap((s) =>
@@ -329,7 +352,10 @@ export const docsCommand = (cli: CAC) => {
                 const sectionIds = matchedCategory.sections.map((s) => s.id);
                 const similarSections = findSimilar(segments[1], sectionIds);
                 const allItemIds = matchedCategory.sections.flatMap((s) =>
-                  s.items.map((i) => ({ path: `${matchedCategory.id}/${s.id}/${i.id}`, id: i.id })),
+                  s.items.map((i) => ({
+                    path: `${matchedCategory.id}/${s.id}/${i.id}`,
+                    id: i.id,
+                  })),
                 );
                 const similarItems = findSimilar(
                   segments[1],
@@ -352,29 +378,27 @@ export const docsCommand = (cli: CAC) => {
                 });
               }
               if (matched.length === 1) {
-                selectedItem = matched[0].item;
-              } else {
-                const selected = await p.select({
-                  message: `${highlight(segments[1])}에 해당하는 항목을 선택해주세요`,
-                  options: matched.map(({ item, sectionLabel }) => ({
-                    label: `[${sectionLabel}] ${item.title}`,
-                    value: item,
-                    hint: item.description,
-                  })),
-                });
-                if (p.isCancel(selected)) throw new CliCancelError();
-                selectedItem = selected;
+                return matched[0].item;
               }
+              const selected = await p.select({
+                message: `${highlight(segments[1])}에 해당하는 항목을 선택해주세요`,
+                options: matched.map(({ item, sectionLabel }) => ({
+                  label: `[${sectionLabel}] ${item.title}`,
+                  value: item,
+                  hint: item.description,
+                })),
+              });
+              if (p.isCancel(selected)) throw new CliCancelError();
+              return selected;
             }
-          } else if (matchedCategory) {
-            // Single segment matching a category — drill into it
-            if (matchedCategory.sections.length === 1) {
-              selectedItem = await selectItem(matchedCategory.sections[0].items);
-            } else {
+            if (matchedCategory) {
+              // Single segment matching a category — drill into it
+              if (matchedCategory.sections.length === 1) {
+                return await selectItem(matchedCategory.sections[0].items);
+              }
               const section = await selectSection(matchedCategory.sections);
-              selectedItem = await selectItem(section.items);
+              return await selectItem(section.items);
             }
-          } else {
             // No category match — global search
             const matched = searchAllItems(categories, options.query);
 
@@ -386,22 +410,21 @@ export const docsCommand = (cli: CAC) => {
               });
             }
             if (matched.length === 1) {
-              selectedItem = matched[0].item;
-            } else {
-              const selected = await p.select({
-                message: `${highlight(options.query)}에 해당하는 항목을 선택해주세요`,
-                options: matched.map(({ item, categoryLabel, sectionLabel }) => ({
-                  label: `[${categoryLabel} > ${sectionLabel}] ${item.title}`,
-                  value: item,
-                  hint: item.description,
-                })),
-              });
-              if (p.isCancel(selected)) throw new CliCancelError();
-              selectedItem = selected;
+              return matched[0].item;
             }
+            const selected = await p.select({
+              message: `${highlight(options.query)}에 해당하는 항목을 선택해주세요`,
+              options: matched.map(({ item, categoryLabel, sectionLabel }) => ({
+                label: `[${categoryLabel} > ${sectionLabel}] ${item.title}`,
+                value: item,
+                hint: item.description,
+              })),
+            });
+            if (p.isCancel(selected)) throw new CliCancelError();
+            return selected;
           }
-        } else {
-          // Full interactive flow: category → section → item
+
+          // No query — full interactive flow: category → section → item
           const category = await selectCategory(categories);
 
           let section: DocsSection;
@@ -411,11 +434,34 @@ export const docsCommand = (cli: CAC) => {
             section = await selectSection(category.sections);
           }
 
-          selectedItem = await selectItem(section.items);
+          return await selectItem(section.items);
+        };
+
+        // In --raw mode, swallow index resolution errors and fall back to direct URL fetch
+        if (raw) {
+          try {
+            selectedItem = await resolveFromIndex();
+          } catch (error) {
+            if (isCliCancelError(error)) throw error;
+            // index miss in raw mode → will use fallback
+          }
+        } else {
+          selectedItem = await resolveFromIndex();
         }
 
-        printDocsResult(selectedItem, baseUrl);
-        p.outro("완료했어요.");
+        if (raw) {
+          let content: string;
+          if (selectedItem) {
+            const llmsUrl = `${baseUrl}/llms${selectedItem.docUrl}.txt`;
+            content = await fetchLlmsTxt({ url: llmsUrl });
+          } else {
+            content = await tryFetchLlmsTxt({ baseUrl, query: options.query! });
+          }
+          console.log(content);
+        } else {
+          printDocsResult(selectedItem!, baseUrl);
+          p.outro("완료했어요.");
+        }
 
         const duration = Date.now() - startTime;
         try {
@@ -423,8 +469,8 @@ export const docsCommand = (cli: CAC) => {
             event: "docs",
             properties: {
               query: options.query ?? null,
-              item_id: selectedItem.id,
-              has_snippet: !!(selectedItem.snippets && selectedItem.snippets.length > 0),
+              item_id: selectedItem?.id ?? options.query ?? null,
+              has_snippet: !!(selectedItem?.snippets && selectedItem.snippets.length > 0),
               duration_ms: duration,
             },
           });
@@ -435,8 +481,14 @@ export const docsCommand = (cli: CAC) => {
         }
       } catch (error) {
         if (isCliCancelError(error)) {
-          p.outro(highlight(error.message));
+          if (!raw) p.outro(highlight(error.message));
           process.exit(0);
+        }
+
+        if (raw) {
+          const msg = error instanceof Error ? error.message : String(error);
+          console.error(msg);
+          process.exit(1);
         }
 
         handleCliError(error, {

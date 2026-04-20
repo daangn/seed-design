@@ -12,10 +12,10 @@
   }
 
   .seed-image-frame-reaction-button__root:before {
-    top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
-    right: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
-    bottom: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
-    left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    right: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     position: absolute;
   }
 

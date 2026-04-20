@@ -1,5 +1,11 @@
 # @seed-design/docs-mcp
 
+## 0.5.2
+
+### Patch Changes
+
+- 41cd943: 아이콘 데이터 및 Figma Codegen 컴포넌트 핸들러를 최신 버전으로 업데이트합니다.
+
 ## 0.5.1
 
 ### Patch Changes

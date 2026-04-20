@@ -231,68 +231,6 @@ npx @seed-design/cli@latest compat --all
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
 
-## upgrade
-
-프로젝트에 설치된 `@seed-design/*` 패키지의 현재 버전과 최신 버전 사이의 변경사항(changelog)을 확인하는 명령어예요.
-
-```package-install
-npx @seed-design/cli@latest upgrade
-```
-
-### 전체 패키지 한 번에 확인
-
-`--all` 옵션을 사용하면 설치된 모든 `@seed-design/*` 패키지의 변경사항을 한 번에 확인할 수 있어요.
-
-```package-install
-npx @seed-design/cli@latest upgrade --all
-```
-
-### 특정 패키지만 확인
-
-패키지 이름을 직접 지정하면 해당 패키지의 변경사항만 확인해요.
-
-```package-install
-npx @seed-design/cli@latest upgrade react
-```
-
-`@seed-design/` 접두사를 포함한 전체 이름도 사용할 수 있어요.
-
-```package-install
-npx @seed-design/cli@latest upgrade @seed-design/css
-```
-
-### 인터랙티브 모드
-
-패키지 이름과 `--all` 옵션을 모두 생략하면, 설치된 패키지 중 하나를 인터랙티브하게 선택할 수 있어요.
-
-```sh copy
-◆  변경사항을 확인할 패키지를 선택해주세요.
-│  ● @seed-design/react (1.1.0)
-│  ○ @seed-design/css (1.2.7)
-│  ○ @seed-design/stackflow (1.1.20)
-│  ○ @seed-design/stylesheet (1.1.1)
-└
-```
-
-### Raw 모드
-
-`--raw` 옵션을 사용하면 UI 없이 순수 마크다운으로 출력돼요. LLM 파이프나 스크립트에서 활용할 수 있어요.
-
-```package-install
-npx @seed-design/cli@latest upgrade --all --raw
-```
-
-### 옵션
-
-| 옵션 | 설명 |
-|------|------|
-| `-a, --all` | 설치된 모든 `@seed-design/*` 패키지의 변경사항 확인 |
-| `--raw` | UI 없이 순수 마크다운 출력. LLM 파이프에 유용 |
-| `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
-| `-u, --baseUrl <baseUrl>` | changelog를 가져올 docs 서버 URL |
-| `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
-| `-h, --help` | 도움말 출력 |
-
 ## docs
 
 문서 링크, llms.txt 링크, 스니펫 링크를 조회하는 명령어예요.
@@ -363,10 +301,25 @@ react/component/action-buton: 문서를 찾을 수 없어요.
    - react/components/action-button
 ```
 
+### Raw 모드
+
+`--raw` 옵션을 사용하면 UI 없이 llms.txt 내용을 순수 마크다운으로 출력해요. LLM 파이프나 스크립트에서 활용할 수 있어요.
+
+```package-install
+npx @seed-design/cli@latest docs react/components/action-button --raw
+```
+
+패키지 changelog도 가져올 수 있어요.
+
+```package-install
+npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.5 --raw
+```
+
 ### 옵션
 
 | 옵션 | 설명 |
 |------|------|
+| `--raw` | UI 없이 llms.txt 내용을 순수 마크다운으로 출력 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |

@@ -52,7 +52,7 @@ bun dev
 
 ### 컴포넌트 구조
 
-- **의존성**: `motion` (framer-motion 대체)
+- **의존성**: `motion` (framer-motion의 후속 패키지, `motion/react`에서 import)
 - **스타일**: CSS Modules (`.container`, `.counter`, `.digit`, `.number`, `.comma`, `.minus`)
 - **기능**: 음수 지원, 천단위 쉼표, 그라디언트 마스크
 

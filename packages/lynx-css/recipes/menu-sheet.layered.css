@@ -1,7 +1,7 @@
 @layer seed-components {
   .seed-menu-sheet__positioner {
     --sheet-z-index: 2;
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     justify-content: center;
     align-items: flex-end;
     display: flex;
@@ -14,7 +14,7 @@
 
   .seed-menu-sheet__backdrop {
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     position: fixed;
     top: 0;
     right: 0;
@@ -23,12 +23,12 @@
   }
 
   .seed-menu-sheet__content {
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x4);
-    padding-bottom: calc(var(--seed-dimension-x4)  + env(safe-area-inset-bottom));
+    padding-bottom: calc(var(--seed-dimension-x4) + env(safe-area-inset-bottom));
     border-top-left-radius: var(--seed-radius-r5);
     border-top-right-radius: var(--seed-radius-r5);
     flex-direction: column;
