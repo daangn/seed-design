@@ -1,0 +1,6 @@
+{
+  "framework": "lynx",
+  "rsc": false,
+  "tsx": true,
+  "path": "./src/seed-design"
+}
