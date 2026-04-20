@@ -22,5 +22,6 @@
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/__tests__/**", "src/**/*.vitest.ts", "src/**/*.vitest.tsx"]
 }
