@@ -1,0 +1,16 @@
+{
+  "id": "count",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "count.tsx",
+      "content": "/**\n * @file ui:count\n * @requires @seed-design/lynx-react@~0.1.0-alpha.0\n * @requires @seed-design/lynx-css@~0.1.0-alpha.0\n **/\n\nimport { Count as SeedCount, type CountProps as SeedCountProps } from \"@seed-design/lynx-react\";\n\nexport interface CountProps extends SeedCountProps {}\n\n/**\n * @see https://seed-design.io/lynx/components/count\n */\nexport function Count(props: CountProps) {\n  return <SeedCount {...props} />;\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": "~0.1.0-alpha.0",
+        "@seed-design/lynx-css": "~0.1.0-alpha.0"
+      }
+    }
+  ]
+}

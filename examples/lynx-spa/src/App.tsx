@@ -2,6 +2,7 @@ import { Suspense, lazy, useState } from "@lynx-js/react";
 import { vars } from "@seed-design/lynx-css/vars";
 
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
+import { CountPage } from "./pages/CountPage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
 import { FoundationMonochromeIconPage } from "./pages/FoundationMonochromeIconPage.jsx";
 import { FoundationMulticolorIconPage } from "./pages/FoundationMulticolorIconPage.jsx";
@@ -23,6 +24,7 @@ export type Page =
   | "home"
   | "theming"
   | "action-button"
+  | "count"
   | "progress-circle"
   | "nested-vars-test"
   | "foundation-color"
@@ -70,6 +72,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "home" && <HomePage navigate={setCurrentPage} />}
       {currentPage === "theming" && <ThemingPage />}
       {currentPage === "action-button" && <ActionButtonPage />}
+      {currentPage === "count" && <CountPage />}
       {currentPage === "progress-circle" && <ProgressCirclePage />}
       {currentPage === "nested-vars-test" && <NestedVarsTestPage />}
       {currentPage === "foundation-color" && <FoundationColorPage />}

@@ -27,6 +27,21 @@
     {
       "snippets": [
         {
+          "path": "count.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "~0.1.0-alpha.0",
+            "@seed-design/lynx-css": "~0.1.0-alpha.0"
+          }
+        }
+      ],
+      "id": "count",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "progress-circle.tsx",
           "dependencies": {
             "@seed-design/lynx-react": "~0.1.0-alpha.0",
