@@ -46,14 +46,14 @@ function Toggle({
         paddingBottom: "6px",
         borderRadius: "8px",
         borderWidth: "1px",
-        borderColor: active ? $color.stroke.brand : $color.stroke.neutralMuted,
-        backgroundColor: active ? $color.bg.brandSolid : $color.bg.neutralMuted,
+        borderColor: active ? $color.stroke.brandSolid : $color.stroke.neutralMuted,
+        backgroundColor: active ? $color.bg.brandSolid : $color.bg.neutralWeak,
       }}
     >
       <text
         style={{
           fontSize: "13px",
-          color: active ? $color.fg.staticWhite : $color.fg.neutral,
+          color: active ? $color.fg.brandContrast : $color.fg.neutral,
           fontWeight: "bold",
         }}
       >
