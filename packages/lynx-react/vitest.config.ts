@@ -6,6 +6,9 @@ const defaultConfig = await createVitestConfig();
 export default mergeConfig(
   defaultConfig,
   defineConfig({
+    test: {
+      include: ["src/**/__tests__/**/*.test.{ts,tsx}"],
+    },
     optimizeDeps: {
       exclude: [
         "@lynx-js/react",
