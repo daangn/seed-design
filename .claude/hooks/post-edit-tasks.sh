@@ -69,7 +69,10 @@ if [[ "$FILE_PATH" == *"ecosystem/rootage/"* ]]; then
 elif [[ "$FILE_PATH" == *"ecosystem/qvism/"* ]]; then
   run_with_feedback bun --filter @seed-design/qvism-core build
   run_with_feedback bun --filter @seed-design/qvism-cli build
-  run_with_feedback bun --filter @seed-design/qvism-core test --dots
+  # test script가 있을 때만 실행
+  if grep -q '"test"' ecosystem/qvism/core/package.json 2>/dev/null; then
+    run_with_feedback bun --filter @seed-design/qvism-core test --dots
+  fi
 fi
 
 # ============================================================
