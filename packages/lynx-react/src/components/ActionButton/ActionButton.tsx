@@ -3,7 +3,7 @@ import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/act
 import * as React from "react";
 
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { usePressTap, type UsePressTapReturn } from "../../utils/use-press-tap";
+import { usePressTap, type UsePressTapReturn } from "../../hooks/use-press-tap";
 
 const { withProvider, withContext } = createSlotRecipeContext(actionButton);
 

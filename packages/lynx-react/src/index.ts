@@ -51,9 +51,9 @@ export { createCompoundContext } from "./utils/create-compound-context";
 export {
   useControllableState,
   type UseControllableStateProps,
-} from "./utils/use-controllable-state";
+} from "./hooks/use-controllable-state";
 export {
   usePressTap,
   type UsePressTapOptions,
   type UsePressTapReturn,
-} from "./utils/use-press-tap";
+} from "./hooks/use-press-tap";
