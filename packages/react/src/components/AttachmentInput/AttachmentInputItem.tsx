@@ -129,10 +129,18 @@ export interface AttachmentInputItemBadgeProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const AttachmentInputItemBadge = withContext<HTMLDivElement, AttachmentInputItemBadgeProps>(
-  Primitive.div,
-  "badge",
-);
+export const AttachmentInputItemBadge = React.forwardRef<
+  HTMLDivElement,
+  AttachmentInputItemBadgeProps
+>(({ className, children, ...props }, ref) => {
+  const classNames = useClassNames();
+
+  return (
+    <Primitive.div ref={ref} className={clsx(classNames.badge, className)} {...props}>
+      <Primitive.span className={classNames.badgeLabel}>{children}</Primitive.span>
+    </Primitive.div>
+  );
+});
 AttachmentInputItemBadge.displayName = "AttachmentInputItemBadge";
 
 ////////////////////////////////////////////////////////////////////////////////////

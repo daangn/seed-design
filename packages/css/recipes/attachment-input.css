@@ -14,8 +14,8 @@
     gap: var(--seed-dimension-x2);
     border: 1px dashed var(--seed-color-palette-gray-500);
     border-radius: var(--seed-radius-r3);
-    padding-left: var(--seed-dimension-x2);
-    padding-right: var(--seed-dimension-x2);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
     margin-left: var(--seed-attachment-input-extend-x);
     margin-right: var(--seed-attachment-input-extend-x);
     transition: border-color 0.2s;

@@ -57,7 +57,8 @@ export const vars = {
       "badge": {
         "color": "var(--seed-color-bg-overlay)",
         "height": "var(--seed-dimension-x6)",
-        "cornerRadius": "var(--seed-radius-r3)"
+        "cornerRadius": "var(--seed-radius-r3)",
+        "paddingX": "var(--seed-dimension-x1)"
       },
       "badgeLabel": {
         "color": "var(--seed-color-palette-static-white)",

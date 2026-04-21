@@ -110,6 +110,7 @@ const attachmentInputItem = defineSlotRecipe({
     "name",
     "size",
     "badge",
+    "badgeLabel",
     "backdrop",
     "actionButton",
     "removeButton",
@@ -342,9 +343,16 @@ const attachmentInputItem = defineSlotRecipe({
           justifyContent: "center",
 
           height: itemVars.typeImage.enabled.badge.height,
+          paddingLeft: itemVars.typeImage.enabled.badge.paddingX,
+          paddingRight: itemVars.typeImage.enabled.badge.paddingX,
 
           backgroundColor: itemVars.typeImage.enabled.badge.color,
           borderRadius: `0 0 ${itemVars.typeImage.enabled.badge.cornerRadius} ${itemVars.typeImage.enabled.badge.cornerRadius}`,
+        },
+        badgeLabel: {
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
 
           fontSize: itemVars.typeImage.enabled.badgeLabel.fontSize,
           lineHeight: itemVars.typeImage.enabled.badgeLabel.lineHeight,
