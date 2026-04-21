@@ -11,7 +11,7 @@ import {
 import { listItem } from "@seed-design/css/recipes/list-item";
 import * as React from "react";
 
-export interface ListProps extends SeedList.RootProps {}
+export type ListProps = SeedList.RootProps;
 
 /**
  * @see https://seed-design.io/react/components/list

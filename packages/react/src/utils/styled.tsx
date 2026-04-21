@@ -125,7 +125,7 @@ function handleGradient(gradientToken: string | undefined, direction: string | u
   return `linear-gradient(${direction}, ${colorStops})`;
 }
 
-export interface StyleProps {
+interface StylePropsBase {
   /**
    * Shorthand for `background`.
    */
@@ -305,8 +305,20 @@ export interface StyleProps {
   >;
 
   /**
+   * Negative margin on all four sides to extend the element outside its parent.
+   * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
+   */
+  bleed?: ResponsiveValue<
+    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
    * Negative x-axis margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedX?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -315,6 +327,8 @@ export interface StyleProps {
   /**
    * Negative y-axis margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedY?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -323,6 +337,8 @@ export interface StyleProps {
   /**
    * Negative top margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedTop?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -331,6 +347,8 @@ export interface StyleProps {
   /**
    * Negative right margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedRight?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -339,6 +357,8 @@ export interface StyleProps {
   /**
    * Negative bottom margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedBottom?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -347,9 +367,137 @@ export interface StyleProps {
   /**
    * Negative left margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedLeft?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
+   * Margin on all four sides.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  margin?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Shorthand for `margin`.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  m?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Horizontal margin (left + right).
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  marginX?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginX`.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  mx?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Vertical margin (top + bottom).
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  marginY?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginY`.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  my?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Top margin.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  marginTop?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginTop`.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  mt?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Right margin.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  marginRight?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginRight`.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  mr?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Bottom margin.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  marginBottom?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginBottom`.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  mb?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Left margin.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  marginLeft?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
+  >;
+
+  /**
+   * Shorthand for `marginLeft`.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
+  ml?: ResponsiveValue<
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   display?: ResponsiveValue<
@@ -416,9 +564,48 @@ export interface StyleProps {
   };
 }
 
-interface UseStyleProps extends StyleProps {
+/** Distributes `Omit` over each union branch, preserving the union structure. */
+export type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+
+type MarginKeys = Extract<
+  keyof StylePropsBase,
+  | "margin"
+  | "m"
+  | "marginX"
+  | "mx"
+  | "marginY"
+  | "my"
+  | "marginTop"
+  | "mt"
+  | "marginRight"
+  | "mr"
+  | "marginBottom"
+  | "mb"
+  | "marginLeft"
+  | "ml"
+>;
+
+type BleedKeys = Extract<
+  keyof StylePropsBase,
+  "bleed" | "bleedX" | "bleedY" | "bleedTop" | "bleedRight" | "bleedBottom" | "bleedLeft"
+>;
+
+type MarginBleedKeys = MarginKeys | BleedKeys;
+
+/**
+ * Margin and bleed props both resolve to CSS `margin-*` values, so they
+ * are mutually exclusive at the type level — pick one family, not both.
+ */
+export type StyleProps = Omit<StylePropsBase, MarginBleedKeys> &
+  (
+    | (Pick<StylePropsBase, MarginKeys> & { [K in BleedKeys]?: never })
+    | ({ [K in MarginKeys]?: never } & Pick<StylePropsBase, BleedKeys>)
+    | ({ [K in MarginKeys]?: never } & { [K in BleedKeys]?: never })
+  );
+
+type UseStyleProps = StyleProps & {
   style?: React.CSSProperties;
-}
+};
 
 export function useStyleProps<T extends UseStyleProps>(
   props: T,
@@ -466,12 +653,27 @@ export function useStyleProps<T extends UseStyleProps>(
     pr,
     pb,
     pl,
+    bleed,
     bleedX,
     bleedY,
     bleedTop,
     bleedRight,
     bleedBottom,
     bleedLeft,
+    margin,
+    m,
+    marginX,
+    mx,
+    marginY,
+    my,
+    marginTop,
+    mt,
+    marginRight,
+    mr,
+    marginBottom,
+    mb,
+    marginLeft,
+    ml,
     bottom,
     left,
     right,
@@ -577,22 +779,36 @@ export function useStyleProps<T extends UseStyleProps>(
         )),
       ...((paddingLeft ?? pl) !== undefined &&
         resolveResponsive("--seed-box-padding-left", paddingLeft ?? pl, handleDimension)),
-      ...((bleedTop ?? bleedY) !== undefined &&
-        resolveResponsive("--seed-box-bleed-top", bleedTop ?? bleedY, (v) =>
+      ...((bleedTop ?? bleedY ?? bleed) !== undefined &&
+        resolveResponsive("--seed-box-bleed-top", bleedTop ?? bleedY ?? bleed, (v) =>
           handleBleed(v, "top"),
         )),
-      ...((bleedRight ?? bleedX) !== undefined &&
-        resolveResponsive("--seed-box-bleed-right", bleedRight ?? bleedX, (v) =>
+      ...((bleedRight ?? bleedX ?? bleed) !== undefined &&
+        resolveResponsive("--seed-box-bleed-right", bleedRight ?? bleedX ?? bleed, (v) =>
           handleBleed(v, "right"),
         )),
-      ...((bleedBottom ?? bleedY) !== undefined &&
-        resolveResponsive("--seed-box-bleed-bottom", bleedBottom ?? bleedY, (v) =>
+      ...((bleedBottom ?? bleedY ?? bleed) !== undefined &&
+        resolveResponsive("--seed-box-bleed-bottom", bleedBottom ?? bleedY ?? bleed, (v) =>
           handleBleed(v, "bottom"),
         )),
-      ...((bleedLeft ?? bleedX) !== undefined &&
-        resolveResponsive("--seed-box-bleed-left", bleedLeft ?? bleedX, (v) =>
+      ...((bleedLeft ?? bleedX ?? bleed) !== undefined &&
+        resolveResponsive("--seed-box-bleed-left", bleedLeft ?? bleedX ?? bleed, (v) =>
           handleBleed(v, "left"),
         )),
+      ...((margin ?? m) !== undefined &&
+        resolveResponsive("--seed-box-margin", margin ?? m, handleDimension)),
+      ...((marginX ?? mx) !== undefined &&
+        resolveResponsive("--seed-box-margin-x", marginX ?? mx, handleDimension)),
+      ...((marginY ?? my) !== undefined &&
+        resolveResponsive("--seed-box-margin-y", marginY ?? my, handleDimension)),
+      ...((marginTop ?? mt) !== undefined &&
+        resolveResponsive("--seed-box-margin-top", marginTop ?? mt, handleDimension)),
+      ...((marginRight ?? mr) !== undefined &&
+        resolveResponsive("--seed-box-margin-right", marginRight ?? mr, handleDimension)),
+      ...((marginBottom ?? mb) !== undefined &&
+        resolveResponsive("--seed-box-margin-bottom", marginBottom ?? mb, handleDimension)),
+      ...((marginLeft ?? ml) !== undefined &&
+        resolveResponsive("--seed-box-margin-left", marginLeft ?? ml, handleDimension)),
       ...(gap !== undefined && resolveResponsive("--seed-box-gap", gap, handleDimension)),
       ...(display !== undefined && resolveResponsive("--seed-box-display", display, (v) => v)),
       ...(flexDirection !== undefined &&

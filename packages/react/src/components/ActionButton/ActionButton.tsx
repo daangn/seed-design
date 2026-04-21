@@ -23,7 +23,7 @@ export interface ActionButtonProps
   extends ActionButtonVariantProps,
     UsePendingButtonProps,
     PrimitiveProps,
-    Pick<StyleProps, "flexGrow" | "bleedX" | "bleedY">,
+    Pick<StyleProps, "flexGrow" | "bleed" | "bleedX" | "bleedY">,
     React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Color of the label and icons inside the button.
