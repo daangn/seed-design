@@ -305,6 +305,14 @@ interface StylePropsBase {
   >;
 
   /**
+   * Negative margin on all four sides to extend the element outside its parent.
+   * If set to "asPadding", it will use the padding value in the same direction.
+   */
+  bleed?: ResponsiveValue<
+    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+  >;
+
+  /**
    * Negative x-axis margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
    */
@@ -516,7 +524,7 @@ type MarginKeys = Extract<
 
 type BleedKeys = Extract<
   keyof StylePropsBase,
-  "bleedX" | "bleedY" | "bleedTop" | "bleedRight" | "bleedBottom" | "bleedLeft"
+  "bleed" | "bleedX" | "bleedY" | "bleedTop" | "bleedRight" | "bleedBottom" | "bleedLeft"
 >;
 
 type MarginBleedKeys = MarginKeys | BleedKeys;
@@ -582,6 +590,7 @@ export function useStyleProps<T extends UseStyleProps>(
     pr,
     pb,
     pl,
+    bleed,
     bleedX,
     bleedY,
     bleedTop,
@@ -707,20 +716,20 @@ export function useStyleProps<T extends UseStyleProps>(
         )),
       ...((paddingLeft ?? pl) !== undefined &&
         resolveResponsive("--seed-box-padding-left", paddingLeft ?? pl, handleDimension)),
-      ...((bleedTop ?? bleedY) !== undefined &&
-        resolveResponsive("--seed-box-bleed-top", bleedTop ?? bleedY, (v) =>
+      ...((bleedTop ?? bleedY ?? bleed) !== undefined &&
+        resolveResponsive("--seed-box-bleed-top", bleedTop ?? bleedY ?? bleed, (v) =>
           handleBleed(v, "top"),
         )),
-      ...((bleedRight ?? bleedX) !== undefined &&
-        resolveResponsive("--seed-box-bleed-right", bleedRight ?? bleedX, (v) =>
+      ...((bleedRight ?? bleedX ?? bleed) !== undefined &&
+        resolveResponsive("--seed-box-bleed-right", bleedRight ?? bleedX ?? bleed, (v) =>
           handleBleed(v, "right"),
         )),
-      ...((bleedBottom ?? bleedY) !== undefined &&
-        resolveResponsive("--seed-box-bleed-bottom", bleedBottom ?? bleedY, (v) =>
+      ...((bleedBottom ?? bleedY ?? bleed) !== undefined &&
+        resolveResponsive("--seed-box-bleed-bottom", bleedBottom ?? bleedY ?? bleed, (v) =>
           handleBleed(v, "bottom"),
         )),
-      ...((bleedLeft ?? bleedX) !== undefined &&
-        resolveResponsive("--seed-box-bleed-left", bleedLeft ?? bleedX, (v) =>
+      ...((bleedLeft ?? bleedX ?? bleed) !== undefined &&
+        resolveResponsive("--seed-box-bleed-left", bleedLeft ?? bleedX ?? bleed, (v) =>
           handleBleed(v, "left"),
         )),
       ...((margin ?? m) !== undefined &&
