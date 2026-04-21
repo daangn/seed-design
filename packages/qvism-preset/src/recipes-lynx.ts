@@ -1,6 +1,8 @@
 import actionButton from "./recipes/action-button";
 import bottomSheet from "./recipes/lynx/bottom-sheet";
 import bottomSheetHandle from "./recipes/lynx/bottom-sheet-handle";
+import switchRecipe from "./recipes/lynx/switch";
+import switchmarkRecipe from "./recipes/lynx/switchmark";
 import {
   tagGroup as lynxTagGroup,
   tagGroupItem as lynxTagGroupItem,
@@ -16,6 +18,8 @@ export const lynxRecipes = {
   actionButton,
   bottomSheet,
   bottomSheetHandle,
+  switch: switchRecipe,
+  switchmark: switchmarkRecipe,
   tagGroup: lynxTagGroup,
   tagGroupItem: lynxTagGroupItem,
 };

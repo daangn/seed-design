@@ -27,6 +27,16 @@ export {
 } from "./components/BottomSheet";
 export { ProgressCircle, type ProgressCircleProps } from "./components/ProgressCircle";
 export {
+  SwitchRoot,
+  SwitchControl,
+  SwitchThumb,
+  SwitchLabel,
+  type SwitchRootProps,
+  type SwitchControlProps,
+  type SwitchThumbProps,
+  type SwitchLabelProps,
+} from "./components/Switch";
+export {
   TagGroupRoot,
   TagGroupItem,
   TagGroupItemLabel,
@@ -38,6 +48,8 @@ export { createRecipeContext } from "./utils/create-recipe-context";
 export { createSlotRecipeContext } from "./utils/create-slot-recipe-context";
 export { dynamicStyle } from "./utils/dynamic-style";
 export { getSeedClassName } from "./get-seed-class-name";
+export { splitMultipleVariantsProps } from "./utils/split-multiple-variants-props";
+export { createCompoundContext } from "./utils/create-compound-context";
 export {
   useControllableState,
   type UseControllableStateProps,

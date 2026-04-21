@@ -70,6 +70,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="ActionButton" onTap={() => navigate("action-button")} />
       <ListItem title="BottomSheet" onTap={() => navigate("bottom-sheet")} />
       <ListItem title="ProgressCircle" onTap={() => navigate("progress-circle")} />
+      <ListItem title="Switch" onTap={() => navigate("switch")} />
       <ListItem title="TagGroup" onTap={() => navigate("tag-group")} />
 
       <SectionHeader>Hooks</SectionHeader>

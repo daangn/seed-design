@@ -23,6 +23,7 @@ export default definePreset({
   extraVariants: {
     disabled: [true],
     loading: [true],
+    checked: [true],
   },
   theme: {
     tokens,
