@@ -1,8 +1,8 @@
 .seed-switchmark__root {
-    display: block;
+    display: flex;
     position: relative;
     border-radius: var(--seed-radius-full);
-    background: var(--seed-color-palette-gray-600);
+    background-color: var(--seed-color-palette-gray-600);
     margin: var(--switchmark-margin-top, 0) 0;
     transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing);
 }
@@ -15,22 +15,22 @@
     transform: scale(0.8);
 }
 .seed-switchmark__root--tone_neutral.seed-switchmark__root--checked_true {
-    background: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-inverted);
 }
 .seed-switchmark__root--tone_neutral.seed-switchmark__root--disabled_true[data-checked] {
-    background: var(--seed-color-palette-gray-600);
+    background-color: var(--seed-color-palette-gray-600);
 }
 .seed-switchmark__thumb--tone_neutral {
-    background: var(--seed-color-fg-neutral-inverted);
+    background-color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-switchmark__thumb--tone_neutral.seed-switchmark__thumb--disabled_true {
-    background: var(--seed-color-palette-static-black-alpha-700);
+    background-color: var(--seed-color-palette-static-black-alpha-700);
 }
 .seed-switchmark__root--tone_brand.seed-switchmark__root--checked_true {
-    background: var(--seed-color-bg-brand-solid);
+    background-color: var(--seed-color-bg-brand-solid);
 }
 .seed-switchmark__thumb--tone_brand {
-    background: var(--seed-color-palette-static-white);
+    background-color: var(--seed-color-palette-static-white);
 }
 .seed-switchmark__root--size_16 {
     min-width: 26px;

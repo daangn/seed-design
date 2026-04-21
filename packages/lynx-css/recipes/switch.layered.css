@@ -2,7 +2,7 @@
   .seed-switch__root {
     justify-content: space-between;
     align-items: flex-start;
-    display: inline-flex;
+    display: flex;
     position: relative;
   }
 

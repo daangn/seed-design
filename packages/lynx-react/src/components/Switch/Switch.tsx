@@ -175,7 +175,7 @@ export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, r
   const labelClassName = (switchStyle as (p?: SwitchStyleRuntimeProps) => Record<string, string>)({
     size,
     disabled: disabled ? true : undefined,
-  }).label;
+  })["label"];
 
   return (
     <text
