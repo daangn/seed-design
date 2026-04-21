@@ -4,7 +4,7 @@ Lynx 플랫폼용 SEED Design 컴포넌트 구현 로드맵.
 
 ## 구현 전략
 
-- **Primitive는 직접 구현**: `useControllableState`, `usePressTap` 같은 원자 훅은 `@seed-design/lynx-react/src/utils/`에 우리가 직접 유지한다. 다른 패키지 의존 없이 Lynx 런타임 API(`useState`, `useMainThreadRef`, `main-thread:bindtouch*` 등)만 사용.
+- **Primitive는 직접 구현**: `useControllableState`, `usePressTap` 같은 원자 훅은 `@seed-design/lynx-react/src/hooks/`에 우리가 직접 유지한다. 다른 패키지 의존 없이 Lynx 런타임 API(`useState`, `useMainThreadRef`, `main-thread:bindtouch*` 등)만 사용.
 - **복잡한 컴포넌트는 `@lynx-js/lynx-ui-*` 래핑**: Sheet·Dialog·Popover처럼 스프링 물리, 프레즌스 상태 머신, 플로팅 포지셔닝 등 내부 로직이 수백~천 줄 단위인 컴포넌트는 [lynx-ui](https://github.com/lynx-family/lynx-ui)의 headless 패키지를 래핑한다. SEED는 디자인 토큰/레시피/컴포넌트 API만 입힌다.
 - **아이콘(SVG) 의존 기능은 Omit 또는 Tier B**: Lynx 3.7 SVG 지원 전까지는 spinner·closeButton·checkmark 등을 타입에서 제외하거나 해당 컴포넌트를 Tier B에 둔다.
 

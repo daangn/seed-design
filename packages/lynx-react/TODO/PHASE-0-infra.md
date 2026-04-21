@@ -20,7 +20,7 @@ bun add @lynx-js/lynx-ui-common
 
 ### 2. useControllableState 구현
 
-**파일**: `src/utils/use-controllable-state.ts`
+**파일**: `src/hooks/use-controllable-state.ts`
 
 @lynx-js/lynx-ui-common에 없으므로 직접 구현. lynx-ui-switch의 인라인 패턴을 참고.
 
@@ -52,7 +52,7 @@ const setValue = (nextValue: T) => {
 
 ### 3. usePressTap 구현
 
-**파일**: `src/utils/use-press-tap.ts`
+**파일**: `src/hooks/use-press-tap.ts`
 
 bindtap, bindtouchstart, bindtouchend, bindtouchcancel 이벤트를 관리하는 훅.
 
@@ -86,7 +86,6 @@ function usePressTap(props: UsePressTapProps): UsePressTapReturn
 ### 4. 기존 유틸 확인
 
 이미 존재하는 유틸:
-- `src/utils/dynamic-style.ts` - CSS variable 동적 주입
 - `src/get-seed-class-name.ts` - 테마 클래스명 생성
 
 ## 구현 시 공통 컨벤션 리마인더
@@ -101,7 +100,11 @@ function usePressTap(props: UsePressTapProps): UsePressTapReturn
 ## 산출물 체크리스트
 
 - [ ] `package.json`에 `@lynx-js/lynx-ui-common` 추가
-- [ ] `src/utils/use-controllable-state.ts` 구현
-- [ ] `src/utils/use-press-tap.ts` 구현
+- [ ] `src/hooks/use-controllable-state.ts` 구현
+- [ ] `src/hooks/use-press-tap.ts` 구현
 - [ ] `docs/content/lynx/hooks/use-controllable-state.mdx` 문서
 - [ ] `docs/content/lynx/hooks/use-press-tap.mdx` 문서
+
+## 후속 과제 (별도 PR)
+
+- **`@seed-design/lynx-primitive` 의 `Primitive.view` / `Primitive.text` / `Primitive.image` 재구현**: 현재 `<Comp>` 변수 태그 기반이라 Lynx 에서 BackgroundSnapshot 에러. intrinsic tag 별 분기로 리터럴 JSX 를 갖도록 재작성하면 packages/react 와 Primitive API parity 회복 가능. 현재 lynx-react 어디에서도 import 하지 않으므로 blocking 아님.
