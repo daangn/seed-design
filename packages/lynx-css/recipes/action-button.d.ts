@@ -11,7 +11,8 @@ declare interface ActionButtonVariant {
   * @default "withText"
   */
   layout: "withText" | "iconOnly";
-}
+  disabled?: boolean;
+  loading?: boolean;}
 
 declare type ActionButtonVariantMap = {
   [key in keyof ActionButtonVariant]: Array<ActionButtonVariant[key]>;
@@ -19,11 +20,13 @@ declare type ActionButtonVariantMap = {
 
 export declare type ActionButtonVariantProps = Partial<ActionButtonVariant>;
 
+export declare type ActionButtonSlotName = "root" | "text";
+
 export declare const actionButtonVariantMap: ActionButtonVariantMap;
 
 export declare const actionButton: ((
   props?: ActionButtonVariantProps,
-) => string) & {
+) => Record<ActionButtonSlotName, string>) & {
   splitVariantProps: <T extends ActionButtonVariantProps>(
     props: T,
   ) => [ActionButtonVariantProps, Omit<T, keyof ActionButtonVariantProps>];
