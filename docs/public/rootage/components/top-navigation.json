@@ -347,7 +347,7 @@
                 },
                 "minFontSizeScale": {
                   "type": "number",
-                  "value": 0.8
+                  "value": 1
                 },
                 "maxLineHeightScale": {
                   "type": "number",
@@ -355,7 +355,7 @@
                 },
                 "minLineHeightScale": {
                   "type": "number",
-                  "value": 0.8
+                  "value": 1
                 }
               }
             }
@@ -391,7 +391,7 @@
                 },
                 "minFontSizeScale": {
                   "type": "number",
-                  "value": 0.8
+                  "value": 1
                 },
                 "maxLineHeightScale": {
                   "type": "number",
@@ -399,7 +399,7 @@
                 },
                 "minLineHeightScale": {
                   "type": "number",
-                  "value": 0.8
+                  "value": 1
                 }
               },
               "subtitle": {
@@ -421,7 +421,7 @@
                 },
                 "minFontSizeScale": {
                   "type": "number",
-                  "value": 0.8
+                  "value": 1
                 },
                 "maxLineHeightScale": {
                   "type": "number",
@@ -429,7 +429,7 @@
                 },
                 "minLineHeightScale": {
                   "type": "number",
-                  "value": 0.8
+                  "value": 1
                 }
               }
             }

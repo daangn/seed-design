@@ -111,9 +111,9 @@ data:
           fontWeight: $font-weight.bold
           lineHeight: $line-height.t6
           maxFontSizeScale: 1.2
-          minFontSizeScale: 0.8
+          minFontSizeScale: 1
           maxLineHeightScale: 1.2
-          minLineHeightScale: 0.8
+          minLineHeightScale: 1
     titleLayout=withSubtitle:
       enabled:
         title:
@@ -121,14 +121,14 @@ data:
           fontWeight: $font-weight.bold
           lineHeight: $line-height.t5
           maxFontSizeScale: 1.2
-          minFontSizeScale: 0.8
+          minFontSizeScale: 1
           maxLineHeightScale: 1.2
-          minLineHeightScale: 0.8
+          minLineHeightScale: 1
         subtitle:
           fontSize: $font-size.t2
           fontWeight: $font-weight.regular
           lineHeight: $line-height.t2
           maxFontSizeScale: 1.2
-          minFontSizeScale: 0.8
+          minFontSizeScale: 1
           maxLineHeightScale: 1.2
-          minLineHeightScale: 0.8
+          minLineHeightScale: 1

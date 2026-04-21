@@ -70,9 +70,9 @@ export declare const vars: {
         "fontWeight": "var(--seed-font-weight-bold)",
         "lineHeight": "var(--seed-line-height-t6)",
         "maxFontSizeScale": "1.2",
-        "minFontSizeScale": "0.8",
+        "minFontSizeScale": "1",
         "maxLineHeightScale": "1.2",
-        "minLineHeightScale": "0.8"
+        "minLineHeightScale": "1"
       }
     }
   },
@@ -83,18 +83,18 @@ export declare const vars: {
         "fontWeight": "var(--seed-font-weight-bold)",
         "lineHeight": "var(--seed-line-height-t5)",
         "maxFontSizeScale": "1.2",
-        "minFontSizeScale": "0.8",
+        "minFontSizeScale": "1",
         "maxLineHeightScale": "1.2",
-        "minLineHeightScale": "0.8"
+        "minLineHeightScale": "1"
       },
       "subtitle": {
         "fontSize": "var(--seed-font-size-t2)",
         "fontWeight": "var(--seed-font-weight-regular)",
         "lineHeight": "var(--seed-line-height-t2)",
         "maxFontSizeScale": "1.2",
-        "minFontSizeScale": "0.8",
+        "minFontSizeScale": "1",
         "maxLineHeightScale": "1.2",
-        "minLineHeightScale": "0.8"
+        "minLineHeightScale": "1"
       }
     }
   }
