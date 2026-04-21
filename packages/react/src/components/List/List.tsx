@@ -18,9 +18,9 @@ const withStateProps = createWithStateProps([
   { useContext: useSwitchContext, strict: false },
 ]);
 
-export interface ListRootProps extends VStackProps {
+export type ListRootProps = VStackProps & {
   itemBorderRadius?: StyleProps["borderRadius"];
-}
+};
 
 export const ListRoot = forwardRef<HTMLUListElement, ListRootProps>(
   ({ as = "ul", style, itemBorderRadius, ...props }, ref) => {
