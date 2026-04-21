@@ -56,26 +56,37 @@ Lynx 컴파일러는 JSX 의 intrinsic 태그(`<view>`, `<text>`, `<image>` 등)
 
 #### 조건을 만족하는 안전한 패턴
 
-- **리터럴 `<view>` / `<text>` JSX 를 `forwardRef` 본문에 직접 작성** — lynx-ui 의 모든 slot 이 쓰는 방식.
-- **helper 내부에 리터럴 JSX 작성**: `createSlotRecipeContext` 가 제공하는 `withViewContext`, `withTextContext`. helper 호출자는 `withViewContext("header")` 한 줄로 안전 패턴을 얻는다.
+- **리터럴 `<view>` / `<text>` JSX 를 `forwardRef` 본문에 직접 작성** — lynx-ui 의 모든 slot 이 쓰는 방식. 이 `forwardRef` 를 생성하는 factory 를 같은 컴포넌트 파일 안에 두는 것도 OK (예: BottomSheet 의 `createViewSlot` / `createTextSlot`).
 - **React 함수 컴포넌트를 `withContext` 에 넘기기**: `withContext(SheetBackdrop, "backdrop")` — Component 인자가 함수 컴포넌트이고 그 컴포넌트 본문에 리터럴 `<view>` / `<text>` 가 있는 경우. intrinsic string 을 인자로 넘기는 것만 금지.
 
 #### 허용 / 금지 요약
 
 | 패턴 | 리터럴 `<view>` 소스에? | 결과 |
 |---|---|---|
-| `forwardRef((p, ref) => <view ...>...</view>)` | ✅ | 표준 |
-| `withViewContext("slot")` / `withTextContext("slot")` | ✅ (helper 내부) | 표준 |
-| `withContext(SheetBackdrop, "backdrop")` | ✅ (SheetBackdrop 내부) | ship 실증 |
+| `forwardRef((p, ref) => <view ...>...</view>)` (컴포넌트 파일 안) | ✅ | 표준 |
+| 같은 컴포넌트 파일 안의 factory (예: BottomSheet `createViewSlot`) | ✅ | 표준 |
+| `withContext(SheetBackdrop, "backdrop")` | ✅ (SheetBackdrop 파일 안에 리터럴 `<view>`) | ship 실증 |
 | `withContext("view", "header")` | ❌ createElement 에 string | PR #1489 실패 재현 |
+| **공통 유틸 파일의 factory (예: createSlotRecipeContext 안의 `withViewContext`)** | ❌ 리터럴 `<view>` 가 **다른 파일**에 있음 | **PR #1503 spike 에서 실패 재현** |
 | `Primitive.view` (현재 SEED 구현) | ❌ `<Comp>` 변수 태그 | 사용 금지 |
 | `const Tag = "view"; <Tag />` | ❌ | 금지 |
+
+#### ⚠️ 파일-경계 제약 (2026-04-22 PR #1503 spike 로 확인)
+
+리터럴 `<view>` / `<text>` JSX 는 **그 native element 가 최종 렌더되는 컴포넌트 파일과 동일한 파일 안**에 있어야 한다. 공통 유틸 파일(`create-slot-recipe-context.tsx` 등) 에 factory 를 선언해 그 반환값을 컴포넌트에서 export 하는 패턴은 **Lynx 에서 동작하지 않는다** — factory 의 `forwardRef` 본문에 리터럴 `<view>` 가 있어도 Lynx 컴파일러의 정적 분석은 파일 단위로 작동해 해당 native tag 를 컴포넌트 파일의 렌더 트리에 등록하지 못한다.
+
+실증 근거:
+- `createViewSlot(slotName)` (BottomSheet.tsx **안**의 factory) → ✅ ship 되어 작동 중
+- `withViewContext(slotName)` (create-slot-recipe-context.tsx **안**의 구조 동일 factory) → ❌ `BackgroundSnapshot not found: view` 런타임 에러 (PR #1503 spike)
+- 두 factory 의 구조는 완전히 동일, 차이점은 선언 파일 위치뿐.
+
+함의: 여러 컴포넌트가 유사한 native slot 패턴을 공유하려 해도 **공통 helper 로 뽑을 수 없다**. 각 컴포넌트 파일에서 리터럴 JSX 를 (필요하면 파일-내 factory 로) 직접 작성해야 한다. 이는 lynx-ui 가 13 개 compound 패키지에서 helper 없이 slot 을 각자 작성하는 이유와 일치한다.
 
 #### 근본 원인 (엔진 레벨)
 
 `lynx/core/renderer/dom/element_property.cc:33` 의 `ConvertStringTagToEnumTag()` 가 tag 를 enum 으로 변환하고 실패하면 `ELEMENT_EMPTY` 를 반환한다. 리터럴 JSX 는 컴파일 타임에 enum 으로 최적화되지만 runtime 변수 경로는 enum 매핑이 제때 해소되지 않아 native element 가 등록되지 않는다.
 
-"BackgroundSnapshot" 용어는 공개 엔진 소스에 매치 0 건 — SEED 팀이 실제 관찰한 런타임 에러 메시지이며 공식 문서화는 없다. 본 제약은 **PR #1489 의 실패 재현 + 현재 ship 된 안전 패턴**으로만 검증된다.
+"BackgroundSnapshot" 용어는 공개 엔진 소스에 매치 0 건 — SEED 팀이 실제 관찰한 런타임 에러 메시지이며 공식 문서화는 없다. 본 제약은 **PR #1489 (intrinsic string) + PR #1503 (다른 파일의 helper) 의 실패 재현**과 현재 ship 된 안전 패턴으로만 검증된다.
 
 ### 애니메이션 패턴
 
@@ -235,11 +246,9 @@ variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 
 복합 컴포넌트(슬롯이 여러 개인 경우)는 `createSlotRecipeContext`를 사용한다.
 
 - **import 경로**: `../../utils/create-slot-recipe-context`
-- `createSlotRecipeContext(slotRecipe)` 호출 결과에서 `ClassNamesProvider`, `withContext`, `withViewContext`, `withTextContext`, `useClassNames` 등을 꺼내 사용한다.
+- `createSlotRecipeContext(slotRecipe)` 호출 결과에서 `ClassNamesProvider`, `withContext`, `useClassNames` 등을 꺼내 사용한다.
 - **외부 컴포넌트 슬롯** (lynx-ui 등): `withContext(Component, "slotName")` 한 줄로 연결한다.
-- **네이티브 `<view>` 슬롯**: `withViewContext("slotName")` 한 줄.
-- **네이티브 `<text>` 슬롯**: `withTextContext("slotName")` 한 줄.
-  - `withViewContext` / `withTextContext` 는 helper 내부의 `forwardRef` 본문에 **리터럴 `<view>` / `<text>` JSX** 를 작성해 Lynx 컴파일러의 정적 분석을 통과시킨다. intrinsic string (`"view"` / `"text"`) 을 `withContext` 에 직접 넘기는 패턴은 금지 — "Native tag literal JSX constraint" 섹션 참조.
+- **네이티브 `<view>` / `<text>` 슬롯**: `withContext` 를 사용할 수 없다. 컴포넌트 파일 안에 `forwardRef` 본문에 **리터럴 `<view>` / `<text>` JSX** 를 직접 작성해야 한다. 같은 recipe 의 여러 slot 을 위해서는 **컴포넌트와 동일한 파일 안에** factory (예: `createViewSlot`) 를 두고 반복 호출한다. factory 를 `createSlotRecipeContext` 같은 공통 유틸 파일에 두면 Lynx 컴파일러의 파일-스코프 정적 분석을 통과하지 못해 `BackgroundSnapshot not found: view` 에러를 일으킨다 (PR #1503 spike 로 확인 — 자세한 내용: "Native tag literal JSX constraint" 섹션).
 - Root에 상태(예: Trigger용 imperative ref) context를 추가해야 하면 `ClassNamesProvider`를 수동으로 중첩하고 Root 자체는 `forwardRef`로 직접 구현한다.
 
 ### 절대 금지: React 레이어에 style prop 직접 작성
