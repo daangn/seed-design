@@ -121,8 +121,6 @@ export function clearAllStyles(t: TransitionTargets) {
     ...t.behindIcons,
   ];
   for (const el of all) clearStyles(el);
-  t.topAppBarRoot?.style.removeProperty("--swipe-back-displacement");
-  t.behindAppBarRoot?.style.removeProperty("--swipe-back-displacement");
 }
 
 /**
@@ -205,8 +203,5 @@ export function applySwipeStyles(t: TransitionTargets, displacement: number, rat
   }
   for (const icon of t.behindIcons) {
     setOpacity(icon, `${ratio}`);
-  }
-  if (t.topAppBarRoot) {
-    t.topAppBarRoot.style.setProperty("--swipe-back-displacement", `${displacement}px`);
   }
 }

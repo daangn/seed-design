@@ -15,6 +15,7 @@ import {
   animateTransition,
   animateSwipeComplete,
   animateSwipeCancel,
+  scrubAppBarBackground,
 } from "./animation";
 
 export type SwipeBackState = "idle" | "swiping" | "canceling" | "completing";
@@ -78,6 +79,10 @@ export function useGlobalInteraction() {
   // Running WAAPI animations — for cancellation on new transitions
   const runningAnimsRef = useRef<Animation[]>([]);
 
+  // Current scrub animation on topAppBarRoot::before (drives app-bar background
+  // during swipe gesture). Retained across touchmoves to replace in place.
+  const pseudoScrubAnimRef = useRef<Animation | null>(null);
+
   /** Update swipe-back-state attribute on the stack DOM element. */
   const setSwipeBackState = useCallback((state: SwipeBackState) => {
     swipeBackStateRef.current = state;
@@ -104,6 +109,8 @@ export function useGlobalInteraction() {
         }
         cancelAll(runningAnimsRef.current);
         runningAnimsRef.current = [];
+        pseudoScrubAnimRef.current?.cancel();
+        pseudoScrubAnimRef.current = null;
 
         swipeBackContextRef.current = {
           x0,
@@ -141,6 +148,11 @@ export function useGlobalInteraction() {
         const targets = cachedTargetsRef.current;
         if (targets) {
           applySwipeStyles(targets, displacement, displacementRatio);
+          pseudoScrubAnimRef.current = scrubAppBarBackground(
+            targets.topAppBarRoot,
+            `translate3d(${displacement}px, 0, 0)`,
+            pseudoScrubAnimRef.current,
+          );
         }
 
         onSwipeMove?.({ displacement, displacementRatio });
@@ -163,6 +175,8 @@ export function useGlobalInteraction() {
 
         // Clear inline styles from swiping — WAAPI will take over from current position
         clearAllStyles(targets);
+        pseudoScrubAnimRef.current?.cancel();
+        pseudoScrubAnimRef.current = null;
 
         if (swiped) {
           setSwipeBackState("completing");
@@ -210,6 +224,8 @@ export function useGlobalInteraction() {
     const reset = useCallback(() => {
       cancelAll(runningAnimsRef.current);
       runningAnimsRef.current = [];
+      pseudoScrubAnimRef.current?.cancel();
+      pseudoScrubAnimRef.current = null;
       if (cachedTargetsRef.current) {
         clearAllStyles(cachedTargetsRef.current);
       }

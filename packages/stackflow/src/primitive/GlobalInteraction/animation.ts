@@ -57,6 +57,28 @@ function safePseudoAnimate(
   }
 }
 
+/**
+ * Snap the `::before` transform to a concrete value during an interactive
+ * gesture (e.g. swipe-back). Reuses a single Animation by swapping its
+ * keyframes each call — recreating on every touchmove would cancel-then-
+ * recreate and cause a visible flicker.
+ */
+export function scrubAppBarBackground(
+  el: HTMLElement | null,
+  transform: string,
+  prev: Animation | null,
+): Animation | null {
+  if (prev && prev.effect instanceof KeyframeEffect) {
+    try {
+      prev.effect.setKeyframes([{ transform }]);
+      return prev;
+    } catch {
+      prev.cancel();
+    }
+  }
+  return safePseudoAnimate(el, [{ transform }], { duration: 1, fill: "forwards" });
+}
+
 export function cancelAll(animations: (Animation | null)[]) {
   for (const a of animations) {
     try {
