@@ -37,7 +37,7 @@ data:
         root:
           height: 120px
           gap: $dimension.x2
-          paddingX: $dimension.x2
+          paddingX: $dimension.x4
           cornerRadius: $radius.r3
           strokeWidth: 1px
           strokeColor: $color.palette.gray-500

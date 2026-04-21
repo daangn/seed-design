@@ -189,8 +189,15 @@
     align-items: center;
     justify-content: center;
     height: var(--seed-dimension-x6);
+    padding-left: var(--seed-dimension-x1);
+    padding-right: var(--seed-dimension-x1);
     background-color: var(--seed-color-bg-overlay);
     border-radius: 0 0 var(--seed-radius-r3) var(--seed-radius-r3);
+}
+.seed-attachment-input-item__badgeLabel--type_image {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2);
     font-weight: var(--seed-font-weight-medium);
