@@ -63,31 +63,24 @@ export async function getRootageMetadata(componentId: string) {
 
   return {
     deprecated: Boolean(deprecatedField?.value),
-    deprecatedMessage: typeof deprecatedField?.value === "string" ? deprecatedField.value : null,
   };
 }
 
 export async function getComponentStatus(
   params: { slug?: string[] },
-  pageData?: { deprecated?: string },
-) {
+  pageData?: { deprecated?: boolean },
+): Promise<{ deprecated: boolean }> {
   if (pageData?.deprecated) {
-    return {
-      deprecated: true,
-      deprecatedMessage: pageData.deprecated,
-    };
+    return { deprecated: true };
   }
 
   const componentId = params.slug?.[1];
   if (componentId && params.slug?.[0] === "components") {
     const metadata = await getRootageMetadata(componentId);
     if (metadata?.deprecated) {
-      return {
-        deprecated: true,
-        deprecatedMessage: metadata.deprecatedMessage,
-      };
+      return { deprecated: true };
     }
   }
 
-  return { deprecated: false, deprecatedMessage: null };
+  return { deprecated: false };
 }
