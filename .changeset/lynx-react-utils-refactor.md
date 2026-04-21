@@ -2,13 +2,17 @@
 "@seed-design/lynx-react": minor
 ---
 
-`@seed-design/lynx-react` 내부 구조 정리
+`@seed-design/lynx-react` 내부 구조 정리 + 런타임 버그 수정
 
 **Public API 변경 (Breaking)**
 
 - `createRecipeContext` export 제거 — 내부 실사용 0건. 단일 slot 컴포넌트 포팅 시 필요하면 재도입.
 - `createCompoundContext` export 제거 — Switch 단독 사용이라 inline `React.createContext + null-check throw` 패턴으로 교체. lynx-ui 의 13 개 compound 패키지가 동일 inline 패턴.
 - `dynamicStyle` export + `./dynamic-style` subpath export 제거 — 모노레포 전체에서 실사용 0건. Skeleton / Scrollable 로드맵 컴포넌트 도입 시점에 CSS 변수 주입 방식 재검토.
+
+**런타임 버그 수정**
+
+- `ActionButton` 이 `withProvider("view", "root")` / `withContext("text", "text")` 로 intrinsic string 을 인자로 넘기고 있어 `BackgroundSnapshot not found: view` 런타임 에러를 유발하던 **기존 버그** 수정. `ActionButtonRoot` / `ActionButtonTextSlot` 을 파일-내 `forwardRef` + 리터럴 `<view>` / `<text>` JSX 로 재작성. PR #1489 가 BottomSheet 에만 적용한 fix 를 ActionButton 에도 동일하게 적용.
 
 **내부 정리**
 
