@@ -44,9 +44,7 @@ export {
   type TagGroupItemProps,
   type TagGroupItemLabelProps,
 } from "./components/TagGroup";
-export { createRecipeContext } from "./utils/create-recipe-context";
 export { createSlotRecipeContext } from "./utils/create-slot-recipe-context";
-export { dynamicStyle } from "./utils/dynamic-style";
 export { getSeedClassName } from "./get-seed-class-name";
 export { splitMultipleVariantsProps } from "./utils/split-multiple-variants-props";
 export { createCompoundContext } from "./utils/create-compound-context";

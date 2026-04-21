@@ -33,7 +33,7 @@ Phase 0(`useControllableState`, `usePressTap`)이 완료됐고, ActionButton·Pr
 |---|---|---|
 | 1 | **TagGroup** | Context + separator 주입 |
 | 2 | **Badge** | 정적 variant, 2슬롯 display |
-| 3 | **Skeleton** | 정적 variant + `dynamicStyle(height/width)` |
+| 3 | **Skeleton** | 정적 variant + 인라인 `style` (CSS var 주입 방식은 도입 시점에 재검토) |
 | 4 | **MannerTemp** | Context + webp `<image>` |
 | 5 | **Switch** | `useControllableState` + `usePressTap` 인라인. 별도 `useSwitch` 불필요 (hover/focus/form 없음) |
 | 6 | **SegmentedControl** | `useControllableState` + CSS indicator |

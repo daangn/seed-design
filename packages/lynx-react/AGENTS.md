@@ -6,19 +6,6 @@ Lynx 플랫폼용 스타일드 React 컴포넌트 패키지. `@seed-design/react
 
 ## Lynx 런타임 주의사항
 
-### style prop은 string으로 전달
-
-Lynx는 style object를 빌드 타임에 정적 CSS로 컴파일한다. 동적 CSS custom property 값을 설정하려면 **string literal**로 전달해야 한다.
-
-```tsx
-// ❌ 동적 값 무시됨
-<view style={{ "--seed-box-background": value }} />
-
-// ✅ dynamicStyle() 유틸 사용
-import { dynamicStyle } from "../../utils/dynamic-style";
-<view style={dynamicStyle({ "--seed-box-background": value })} />
-```
-
 ### children은 nativeProps와 분리
 
 `{...nativeProps}`로 spread하면 `children`이 포함되어 Lynx의 `commitPatchUpdate`에서 circular reference 에러 발생. 항상 children을 별도로 추출해서 JSX children으로 전달한다.
@@ -181,7 +168,6 @@ variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 
 | 유형 | 도구 | Lynx 예시 |
 |------|------|----------|
 | 직접 splitVariantProps | `recipe.splitVariantProps(props)` | ActionButton, ProgressCircle |
-| 단일 슬롯 | `createRecipeContext` → `withContext` | (추후 포팅 예정 — 별도 PR) |
 | 복합 슬롯 | `createSlotRecipeContext` → `withContext` | BottomSheet |
 | 다중 Recipe | `splitMultipleVariantsProps` | (추후 포팅 예정 — 별도 PR) |
 
@@ -203,7 +189,7 @@ variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 
 
 ### 절대 금지: React 레이어에 style prop 직접 작성
 
-스타일은 반드시 recipe를 통해 className으로 적용한다. `style` prop 직접 작성은 `dynamicStyle()` 유틸을 경유할 때만 허용된다 (CSS custom property 동적 주입 케이스).
+스타일은 반드시 recipe를 통해 className으로 적용한다. `style` prop 직접 작성은 금지.
 
 ## 파일 작성 컨벤션
 

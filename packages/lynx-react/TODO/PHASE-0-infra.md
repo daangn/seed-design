@@ -95,7 +95,6 @@ function usePressTap(props: UsePressTapProps): UsePressTapReturn
 
 - **ref null guard**: `...(ref ? { ref } : {})` - Lynx applyRef가 null에서 에러
 - **children 분리**: `const { children, ...nativeProps } = restProps` - circular reference 방지
-- **dynamicStyle()**: CSS variable 동적 주입 시 반드시 사용
 - **네이티브 `<view>` 직접 사용**: Primitive.view 사용 금지 (BackgroundSnapshot 에러)
 - **displayName 필수**: `Component.displayName = "ComponentName"`
 

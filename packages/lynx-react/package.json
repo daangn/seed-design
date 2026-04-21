@@ -15,10 +15,6 @@
       "types": "./lib/index.d.ts",
       "import": "./lib/index.js"
     },
-    "./dynamic-style": {
-      "types": "./lib/utils/dynamic-style.d.ts",
-      "import": "./lib/utils/dynamic-style.js"
-    },
     "./package.json": "./package.json"
   },
   "files": [
