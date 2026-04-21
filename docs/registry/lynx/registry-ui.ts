@@ -27,5 +27,17 @@ export const registryUI: Registry = {
         },
       ],
     },
+    {
+      id: "tag-group",
+      snippets: [
+        {
+          path: "tag-group.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "~0.1.0-alpha.0",
+            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+          },
+        },
+      ],
+    },
   ],
 };

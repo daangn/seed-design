@@ -1642,6 +1642,19 @@
               "docUrl": "/lynx/foundation/layout/styling"
             },
             {
+              "id": "tag-group",
+              "title": "Tag Group",
+              "description": "텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
+              "docUrl": "/lynx/components/tag-group",
+              "snippetKey": "ui:tag-group",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "tag-group.tsx"
+                }
+              ]
+            },
+            {
               "id": "theming",
               "title": "Theming",
               "description": "Lynx 환경에서 SEED Design의 테마 시스템을 활용하는 방법을 알아봅니다.",

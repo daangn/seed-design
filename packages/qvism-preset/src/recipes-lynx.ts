@@ -1,4 +1,8 @@
 import actionButton from "./recipes/action-button";
+import {
+  tagGroup as lynxTagGroup,
+  tagGroupItem as lynxTagGroupItem,
+} from "./recipes/lynx/tag-group";
 
 /**
  * Recipes used by the Lynx preset build.
@@ -8,4 +12,6 @@ import actionButton from "./recipes/action-button";
  */
 export const lynxRecipes = {
   actionButton,
+  tagGroup: lynxTagGroup,
+  tagGroupItem: lynxTagGroupItem,
 };
