@@ -25,11 +25,11 @@ export const CHROMATIC_PARAMETERS = {
   },
 };
 
-export function createStoryWithParameters<T>(
-  story: StoryObj<T> & {
+export function createStoryWithParameters<S extends StoryObj<unknown>>(
+  story: S & {
     parameters?: Parameters & { theme?: "light" | "dark"; fontScale?: FontScales };
   },
-): StoryObj<T> {
+): S {
   return {
     ...story,
     parameters: {
