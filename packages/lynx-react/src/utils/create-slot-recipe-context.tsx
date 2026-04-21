@@ -1,6 +1,12 @@
 import { createContext, forwardRef, useContext } from "@lynx-js/react";
 import clsx from "clsx";
 
+export interface NativeSlotProps {
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
 type SlotRecipe<
   Props extends Record<string, string | boolean | undefined>,
   Classnames extends Record<string, string>,
@@ -131,6 +137,48 @@ export function createSlotRecipeContext<
     return StyledComponent as any;
   };
 
+  const withViewContext = (slot: keyof Classnames) => {
+    const Slot = forwardRef<unknown, NativeSlotProps>((props, ref) => {
+      const { children, className, style, ...rest } = props as NativeSlotProps &
+        Record<string, unknown>;
+      const classNames = useClassNames();
+      const slotClassName: string | undefined = classNames[slot];
+      return (
+        <view
+          {...(ref ? { ref: ref as any } : {})}
+          {...rest}
+          className={clsx(slotClassName, className)}
+          style={style}
+        >
+          {children}
+        </view>
+      );
+    });
+    Slot.displayName = `SlotView(${String(slot)})`;
+    return Slot;
+  };
+
+  const withTextContext = (slot: keyof Classnames) => {
+    const Slot = forwardRef<unknown, NativeSlotProps>((props, ref) => {
+      const { children, className, style, ...rest } = props as NativeSlotProps &
+        Record<string, unknown>;
+      const classNames = useClassNames();
+      const slotClassName: string | undefined = classNames[slot];
+      return (
+        <text
+          {...(ref ? { ref: ref as any } : {})}
+          {...rest}
+          className={clsx(slotClassName, className)}
+          style={style}
+        >
+          {children}
+        </text>
+      );
+    });
+    Slot.displayName = `SlotText(${String(slot)})`;
+    return Slot;
+  };
+
   return {
     ClassNamesProvider,
     PropsProvider,
@@ -139,5 +187,7 @@ export function createSlotRecipeContext<
     withRootProvider,
     withProvider,
     withContext,
+    withViewContext,
+    withTextContext,
   };
 }

@@ -33,9 +33,8 @@ import clsx from "clsx";
 
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 
-type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
-
-const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
+const { ClassNamesProvider, withContext, withViewContext, withTextContext } =
+  createSlotRecipeContext(bottomSheet);
 
 const DEFAULT_SNAP_POINTS: Array<number | string> = ["fit"];
 
@@ -283,11 +282,12 @@ BottomSheetHandle.displayName = "BottomSheetHandle";
 ////////////////////////////////////////////////////////////////////////////////////
 // Header / Body / Footer / Title / Description — 네이티브 view/text + 슬롯 className
 //
-// 주의: 네이티브 `<view>`/`<text>` 슬롯은 `withContext`를 사용하면 안 된다.
-// `withContext("view", ...)`는 `React.createElement(Component)` 형태로 컴파일되어
-// Lynx 컴파일러의 리터럴 `<view>` 정적 분석을 우회하고 `BackgroundSnapshot not found`
-// 런타임 에러를 유발한다. 반드시 리터럴 JSX로 `<view>`/`<text>`를 작성해야 한다.
-// (lynx-ui-sheet 같은 외부 컴포넌트 감싸기엔 withContext를 그대로 사용해도 안전.)
+// `createSlotRecipeContext` 가 제공하는 `withViewContext` / `withTextContext` 헬퍼는
+// forwardRef 본문에 **리터럴 `<view>` / `<text>` JSX** 를 작성하므로 Lynx 컴파일러의
+// 정적 분석을 통과한다. intrinsic string (`"view"`) 을 `withContext` 에 넘기는
+// 패턴은 `React.createElement("view", ...)` 로 컴파일되어
+// `BackgroundSnapshot not found: view` 런타임 에러를 일으키므로 금지
+// (자세한 내용은 AGENTS.md 의 "Native tag literal JSX constraint" 섹션 참조).
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BottomSheetSlotProps {
@@ -296,58 +296,22 @@ export interface BottomSheetSlotProps {
   style?: CSSProperties;
 }
 
-function createViewSlot(slotName: keyof BottomSheetClassNames) {
-  const Slot = forwardRef<unknown, BottomSheetSlotProps>((props, ref) => {
-    const { children, className, style } = props;
-    const classNames = useClassNames();
-
-    return (
-      <view
-        {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
-        className={clsx(classNames[slotName], className)}
-        style={style}
-      >
-        {children}
-      </view>
-    );
-  });
-  return Slot;
-}
-
-function createTextSlot(slotName: keyof BottomSheetClassNames) {
-  const Slot = forwardRef<unknown, BottomSheetSlotProps>((props, ref) => {
-    const { children, className, style } = props;
-    const classNames = useClassNames();
-
-    return (
-      <text
-        {...(ref ? { ref: ref as Ref<SVGTextElement> } : {})}
-        className={clsx(classNames[slotName], className)}
-        style={style}
-      >
-        {children}
-      </text>
-    );
-  });
-  return Slot;
-}
-
 export interface BottomSheetHeaderProps extends BottomSheetSlotProps {}
-export const BottomSheetHeader = createViewSlot("header");
+export const BottomSheetHeader = withViewContext("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
 
 export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
-export const BottomSheetBody = createViewSlot("body");
+export const BottomSheetBody = withViewContext("body");
 BottomSheetBody.displayName = "BottomSheetBody";
 
 export interface BottomSheetFooterProps extends BottomSheetSlotProps {}
-export const BottomSheetFooter = createViewSlot("footer");
+export const BottomSheetFooter = withViewContext("footer");
 BottomSheetFooter.displayName = "BottomSheetFooter";
 
 export interface BottomSheetTitleProps extends BottomSheetSlotProps {}
-export const BottomSheetTitle = createTextSlot("title");
+export const BottomSheetTitle = withTextContext("title");
 BottomSheetTitle.displayName = "BottomSheetTitle";
 
 export interface BottomSheetDescriptionProps extends BottomSheetSlotProps {}
-export const BottomSheetDescription = createTextSlot("description");
+export const BottomSheetDescription = withTextContext("description");
 BottomSheetDescription.displayName = "BottomSheetDescription";
