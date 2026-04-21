@@ -41,7 +41,9 @@ Label 없이 본체만 쓰고 싶다면 `Switchmark`를 사용합니다.
 ```tsx
 import { Switchmark } from "@/components/ui/switch";
 
-<Switchmark size="24" tone="brand" defaultChecked />
+export function App() {
+  return <Switchmark size="24" tone="brand" defaultChecked />;
+}
 ```
 
 ### Compound 사용 (고급)

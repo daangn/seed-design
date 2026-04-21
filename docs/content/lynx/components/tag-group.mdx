@@ -92,7 +92,3 @@ Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 �
 
 - 이벤트: Lynx는 `onClick`이 없고 `bindtap` / `main-thread:bindtap`을 사용합니다. TagGroup은 기본적으로 정적 표시라 인터랙션 prop이 노출되지는 않지만, `TagGroupItem`을 눌러야 한다면 호출부에서 직접 view 속성으로 처리하세요.
 - ref: `React.forwardRef`로 ref가 전달됩니다 (`SVGViewElement` 타입으로 캐스트됨).
-
-## Examples
-
-간단한 사용 패턴은 위 Usage 섹션을 참고하세요. 실제 렌더 예시는 `lynx-spa`의 TagGroup 페이지에서 확인할 수 있습니다.
