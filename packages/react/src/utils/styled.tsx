@@ -307,6 +307,8 @@ interface StylePropsBase {
   /**
    * Negative margin on all four sides to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleed?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -315,6 +317,8 @@ interface StylePropsBase {
   /**
    * Negative x-axis margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedX?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -323,6 +327,8 @@ interface StylePropsBase {
   /**
    * Negative y-axis margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedY?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -331,6 +337,8 @@ interface StylePropsBase {
   /**
    * Negative top margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedTop?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -339,6 +347,8 @@ interface StylePropsBase {
   /**
    * Negative right margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedRight?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -347,6 +357,8 @@ interface StylePropsBase {
   /**
    * Negative bottom margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedBottom?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -355,83 +367,134 @@ interface StylePropsBase {
   /**
    * Negative left margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   *
+   * Cannot be combined with any `margin*` prop.
    */
   bleedLeft?: ResponsiveValue<
     "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
   >;
 
+  /**
+   * Margin on all four sides.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
   margin?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `margin`.
+   *
+   * Cannot be combined with any `bleed*` prop.
    */
   m?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
+  /**
+   * Horizontal margin (left + right).
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
   marginX?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginX`.
+   *
+   * Cannot be combined with any `bleed*` prop.
    */
   mx?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
+  /**
+   * Vertical margin (top + bottom).
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
   marginY?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginY`.
+   *
+   * Cannot be combined with any `bleed*` prop.
    */
   my?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
+  /**
+   * Top margin.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
   marginTop?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginTop`.
+   *
+   * Cannot be combined with any `bleed*` prop.
    */
   mt?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
+  /**
+   * Right margin.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
   marginRight?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginRight`.
+   *
+   * Cannot be combined with any `bleed*` prop.
    */
   mr?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
+  /**
+   * Bottom margin.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
   marginBottom?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginBottom`.
+   *
+   * Cannot be combined with any `bleed*` prop.
    */
   mb?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
+  /**
+   * Left margin.
+   *
+   * Cannot be combined with any `bleed*` prop.
+   */
   marginLeft?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
   >;
 
   /**
    * Shorthand for `marginLeft`.
+   *
+   * Cannot be combined with any `bleed*` prop.
    */
   ml?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "auto" | (string & {})
