@@ -198,12 +198,10 @@
 
   .seed-attachment-input-item__badge--type_image {
     height: var(--seed-dimension-x6);
+    padding-left: var(--seed-dimension-x1);
+    padding-right: var(--seed-dimension-x1);
     background-color: var(--seed-color-bg-overlay);
     border-radius: 0 0 var(--seed-radius-r3) var(--seed-radius-r3);
-    font-size: var(--seed-font-size-t2);
-    line-height: var(--seed-line-height-t2);
-    font-weight: var(--seed-font-weight-medium);
-    color: var(--seed-color-palette-static-white);
     justify-content: center;
     align-items: center;
     display: flex;
@@ -211,6 +209,16 @@
     bottom: 0;
     left: 0;
     right: 0;
+  }
+
+  .seed-attachment-input-item__badgeLabel--type_image {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--seed-font-size-t2);
+    line-height: var(--seed-line-height-t2);
+    font-weight: var(--seed-font-weight-medium);
+    color: var(--seed-color-palette-static-white);
+    overflow: hidden;
   }
 
   .seed-attachment-input-item__backdrop--type_image {

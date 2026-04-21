@@ -112,6 +112,9 @@
             },
             "cornerRadius": {
               "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
             }
           }
         },
@@ -328,6 +331,10 @@
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r3"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
                 }
               },
               "badgeLabel": {

@@ -72,6 +72,8 @@ data:
             type: dimension
           cornerRadius:
             type: dimension
+          paddingX:
+            type: dimension
       badgeLabel:
         properties:
           color:
@@ -132,6 +134,7 @@ data:
           color: $color.bg.overlay
           height: $dimension.x6
           cornerRadius: $radius.r3
+          paddingX: $dimension.x1
         badgeLabel:
           color: $color.palette.static-white
           fontSize: $font-size.t2

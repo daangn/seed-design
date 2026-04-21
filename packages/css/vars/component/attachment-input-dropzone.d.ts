@@ -5,7 +5,7 @@ export declare const vars: {
       "root": {
         "height": "120px",
         "gap": "var(--seed-dimension-x2)",
-        "paddingX": "var(--seed-dimension-x2)",
+        "paddingX": "var(--seed-dimension-x4)",
         "cornerRadius": "var(--seed-radius-r3)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-palette-gray-500)"
