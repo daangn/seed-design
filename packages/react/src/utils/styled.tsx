@@ -496,40 +496,41 @@ interface StylePropsBase {
 /** Distributes `Omit` over each union branch, preserving the union structure. */
 export type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 
-type MarginTopKeys = "margin" | "m" | "marginY" | "my" | "marginTop" | "mt";
-type MarginRightKeys = "margin" | "m" | "marginX" | "mx" | "marginRight" | "mr";
-type MarginBottomKeys = "margin" | "m" | "marginY" | "my" | "marginBottom" | "mb";
-type MarginLeftKeys = "margin" | "m" | "marginX" | "mx" | "marginLeft" | "ml";
+type MarginKeys = Extract<
+  keyof StylePropsBase,
+  | "margin"
+  | "m"
+  | "marginX"
+  | "mx"
+  | "marginY"
+  | "my"
+  | "marginTop"
+  | "mt"
+  | "marginRight"
+  | "mr"
+  | "marginBottom"
+  | "mb"
+  | "marginLeft"
+  | "ml"
+>;
 
-type BleedTopKeys = "bleedY" | "bleedTop";
-type BleedRightKeys = "bleedX" | "bleedRight";
-type BleedBottomKeys = "bleedY" | "bleedBottom";
-type BleedLeftKeys = "bleedX" | "bleedLeft";
+type BleedKeys = Extract<
+  keyof StylePropsBase,
+  "bleedX" | "bleedY" | "bleedTop" | "bleedRight" | "bleedBottom" | "bleedLeft"
+>;
 
-type DirectionExclusion<MKeys extends keyof StylePropsBase, BKeys extends keyof StylePropsBase> =
-  | (Pick<StylePropsBase, MKeys> & { [K in BKeys]?: never })
-  | ({ [K in MKeys]?: never } & Pick<StylePropsBase, BKeys>)
-  | ({ [K in MKeys]?: never } & { [K in BKeys]?: never });
-
-type MarginBleedKeys =
-  | MarginTopKeys
-  | MarginRightKeys
-  | MarginBottomKeys
-  | MarginLeftKeys
-  | BleedTopKeys
-  | BleedRightKeys
-  | BleedBottomKeys
-  | BleedLeftKeys;
+type MarginBleedKeys = MarginKeys | BleedKeys;
 
 /**
- * Margin and bleed props are mutually exclusive per CSS direction
- * (e.g. `marginTop` conflicts with `bleedY`/`bleedTop`, but not `bleedX`).
+ * Margin and bleed props both resolve to CSS `margin-*` values, so they
+ * are mutually exclusive at the type level — pick one family, not both.
  */
 export type StyleProps = Omit<StylePropsBase, MarginBleedKeys> &
-  DirectionExclusion<MarginTopKeys, BleedTopKeys> &
-  DirectionExclusion<MarginRightKeys, BleedRightKeys> &
-  DirectionExclusion<MarginBottomKeys, BleedBottomKeys> &
-  DirectionExclusion<MarginLeftKeys, BleedLeftKeys>;
+  (
+    | (Pick<StylePropsBase, MarginKeys> & { [K in BleedKeys]?: never })
+    | ({ [K in MarginKeys]?: never } & Pick<StylePropsBase, BleedKeys>)
+    | ({ [K in MarginKeys]?: never } & { [K in BleedKeys]?: never })
+  );
 
 type UseStyleProps = StyleProps & {
   style?: React.CSSProperties;

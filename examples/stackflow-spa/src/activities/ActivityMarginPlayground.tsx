@@ -201,46 +201,7 @@ const ActivityMarginPlayground: StaticActivityComponentType<"ActivityMarginPlayg
             </Case>
           </Section>
 
-          {/* 5. Cross-direction margin + bleed */}
-          <Section title="Cross-direction margin + bleed">
-            <Case
-              label="mt='x4' + bleedX='asPadding'"
-              description="Vertical margin + horizontal bleed. Different directions, both apply."
-            >
-              <Box p="x5">
-                <DemoBox mt="x4" bleedX="asPadding" label="mt=x4 · bleedX=asPadding" />
-              </Box>
-            </Case>
-            <Case
-              label="mx='auto' + bleedY='asPadding'"
-              description="Horizontal auto + vertical bleed."
-            >
-              <Box p="x5">
-                <DemoBox mx="auto" bleedY="asPadding" label="mx=auto · bleedY=asPadding" />
-              </Box>
-            </Case>
-            <Case
-              label="ml='auto' + bleedRight='x5'"
-              description="Left auto-push + right bleed. Fully disjoint."
-            >
-              <DemoBox ml="auto" bleedRight="x5" label='ml="auto" · bleedRight="x5"' />
-            </Case>
-            <Case
-              label="marginTop='x4' + marginBottom='x4' + bleedX='asPadding'"
-              description="All four directions covered, margin and bleed on separate axes."
-            >
-              <Box p="x5">
-                <DemoBox
-                  marginTop="x4"
-                  marginBottom="x4"
-                  bleedX="asPadding"
-                  label="mt+mb margin · bleedX asPadding"
-                />
-              </Box>
-            </Case>
-          </Section>
-
-          {/* 6. Baseline */}
+          {/* 5. Baseline */}
           <Section title="Baseline">
             <Case label="No margin/bleed (default)" description="Regression check.">
               <DemoBox label="default" />
