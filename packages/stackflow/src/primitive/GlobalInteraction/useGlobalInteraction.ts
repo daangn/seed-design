@@ -2,6 +2,7 @@ import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { useTopActivity } from "../private/useTopActivity";
 import {
+  type TransitionStyle,
   type TransitionTargets,
   findTransitionTargets,
   readTransitionStyle,
@@ -83,6 +84,11 @@ export function useGlobalInteraction() {
   // during swipe gesture). Retained across touchmoves to replace in place.
   const pseudoScrubAnimRef = useRef<Animation | null>(null);
 
+  // Transition style of the top activity at swipe start. Non-iOS styles
+  // (fadeFromBottomAndroid / fadeIn) do not track finger displacement —
+  // their exit is driven by stackflow's normal exit-active lifecycle.
+  const swipeStyleRef = useRef<TransitionStyle | null>(null);
+
   /** Update swipe-back-state attribute on the stack DOM element. */
   const setSwipeBackState = useCallback((state: SwipeBackState) => {
     swipeBackStateRef.current = state;
@@ -120,9 +126,10 @@ export function useGlobalInteraction() {
           velocity: 0,
         };
 
-        // Cache target elements once per gesture
+        // Cache target elements and transition style once per gesture
         if (stackRef.current) {
           cachedTargetsRef.current = findTransitionTargets(stackRef.current);
+          swipeStyleRef.current = readTransitionStyle(stackRef.current);
         }
 
         setSwipeBackState("swiping");
@@ -144,9 +151,10 @@ export function useGlobalInteraction() {
           velocity,
         };
 
-        // Direct inline style on each element — no CSS variable cascade
+        // Only iOS slide tracks finger displacement; other styles stay put
+        // and let stackflow's own exit transition play on pop.
         const targets = cachedTargetsRef.current;
-        if (targets) {
+        if (targets && swipeStyleRef.current === "slideFromRightIOS") {
           applySwipeStyles(targets, displacement, displacementRatio);
           pseudoScrubAnimRef.current = scrubAppBarBackground(
             targets.topAppBarRoot,
@@ -168,6 +176,16 @@ export function useGlobalInteraction() {
 
         const targets = cachedTargetsRef.current;
         if (!targets) {
+          setSwipeBackState("idle");
+          onSwipeEnd?.({ swiped });
+          return;
+        }
+
+        // Non-iOS styles do not track finger motion — let stackflow's normal
+        // exit-active lifecycle drive the pop animation when `swiped` is true.
+        if (swipeStyleRef.current !== "slideFromRightIOS") {
+          cachedTargetsRef.current = null;
+          swipeStyleRef.current = null;
           setSwipeBackState("idle");
           onSwipeEnd?.({ swiped });
           return;
@@ -195,6 +213,7 @@ export function useGlobalInteraction() {
             cancelAll(animations);
             runningAnimsRef.current = [];
             cachedTargetsRef.current = null;
+            swipeStyleRef.current = null;
             setSwipeBackState("idle");
           });
         } else {
@@ -212,6 +231,7 @@ export function useGlobalInteraction() {
             cancelAll(animations);
             runningAnimsRef.current = [];
             cachedTargetsRef.current = null;
+            swipeStyleRef.current = null;
             setSwipeBackState("idle");
           });
         }
@@ -230,6 +250,7 @@ export function useGlobalInteraction() {
         clearAllStyles(cachedTargetsRef.current);
       }
       cachedTargetsRef.current = null;
+      swipeStyleRef.current = null;
       swipeBackContextRef.current = {
         x0: 0,
         t0: 0,
