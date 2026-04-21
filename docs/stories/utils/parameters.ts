@@ -1,4 +1,4 @@
-import type { Parameters, StoryObj } from "@storybook/nextjs";
+import type { Parameters } from "@storybook/nextjs";
 import { breakpointNames } from "@seed-design/css/breakpoints";
 
 export const FONT_SCALE_MAP = {
@@ -25,7 +25,7 @@ export const CHROMATIC_PARAMETERS = {
   },
 };
 
-export function createStoryWithParameters<S extends StoryObj<unknown>>(
+export function createStoryWithParameters<S extends { parameters?: Parameters }>(
   story: S & {
     parameters?: Parameters & { theme?: "light" | "dark"; fontScale?: FontScales };
   },
