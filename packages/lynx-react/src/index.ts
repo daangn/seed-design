@@ -1,4 +1,30 @@
 export { ActionButton, type ActionButtonProps } from "./components/ActionButton";
+export { BottomSheet } from "./components/BottomSheet";
+export {
+  BottomSheetBackdrop,
+  type BottomSheetBackdropProps,
+  BottomSheetBody,
+  type BottomSheetBodyProps,
+  BottomSheetContent,
+  type BottomSheetContentProps,
+  BottomSheetDescription,
+  type BottomSheetDescriptionProps,
+  BottomSheetFooter,
+  type BottomSheetFooterProps,
+  BottomSheetHandle,
+  type BottomSheetHandleProps,
+  BottomSheetHeader,
+  type BottomSheetHeaderProps,
+  BottomSheetPositioner,
+  type BottomSheetPositionerProps,
+  BottomSheetRoot,
+  type BottomSheetRootProps,
+  type BottomSheetRootRef,
+  BottomSheetTitle,
+  type BottomSheetTitleProps,
+  BottomSheetTrigger,
+  type BottomSheetTriggerProps,
+} from "./components/BottomSheet";
 export { ProgressCircle, type ProgressCircleProps } from "./components/ProgressCircle";
 export {
   TagGroupRoot,
@@ -9,10 +35,7 @@ export {
   type TagGroupItemLabelProps,
 } from "./components/TagGroup";
 export { createRecipeContext } from "./utils/create-recipe-context";
-export {
-  createSlotRecipeContext,
-  type NativeSlotProps,
-} from "./utils/create-slot-recipe-context";
+export { createSlotRecipeContext } from "./utils/create-slot-recipe-context";
 export { dynamicStyle } from "./utils/dynamic-style";
 export { getSeedClassName } from "./get-seed-class-name";
 export {

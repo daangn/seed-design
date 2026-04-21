@@ -191,12 +191,12 @@ FooLabel.displayName = "FooLabel";
 
 variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 모두 내부적으로 `splitVariantProps`를 사용하여 variant props와 네이티브 속성을 타입 안전하게 분리한다.
 
-| 유형 | 도구 | 대표 예시 |
+| 유형 | 도구 | Lynx 예시 |
 |------|------|----------|
 | 직접 splitVariantProps | `recipe.splitVariantProps(props)` | ActionButton, ProgressCircle |
-| 단일 슬롯 | `createRecipeContext` → `withContext` | (유틸 제공, 소비자 컴포넌트는 후속 PR에서 도입) |
-| 복합 슬롯 | `createSlotRecipeContext` → `withContext` / `withViewContext` / `withTextContext` | compound 컴포넌트 전반 |
-| 다중 Recipe | `splitMultipleVariantsProps` | (유틸 제공, 소비자 컴포넌트는 후속 PR에서 도입) |
+| 단일 슬롯 | `createRecipeContext` → `withContext` | (추후 포팅 예정 — 별도 PR) |
+| 복합 슬롯 | `createSlotRecipeContext` → `withContext` | BottomSheet |
+| 다중 Recipe | `splitMultipleVariantsProps` | (추후 포팅 예정 — 별도 PR) |
 
 ### 절대 금지: variant props 수동 destructuring
 
@@ -207,12 +207,12 @@ variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 
 복합 컴포넌트(슬롯이 여러 개인 경우)는 `createSlotRecipeContext`를 사용한다.
 
 - **import 경로**: `../../utils/create-slot-recipe-context`
-- `createSlotRecipeContext(slotRecipe)` 호출 결과에서 `ClassNamesProvider`, `withContext`, `withViewContext`, `withTextContext`, `useClassNames` 등을 꺼내 사용한다.
-- **외부 컴포넌트 슬롯** (lynx-ui 등 React 함수 컴포넌트): `withContext(Component, "slotName")` 한 줄로 연결한다.
-- **네이티브 `<view>` 슬롯**: `withViewContext("slotName")`. 반드시 리터럴 JSX로 `<view>`를 emit해 Lynx 컴파일러의 `BackgroundSnapshot` 정적 분석을 통과해야 한다.
-- **네이티브 `<text>` 슬롯**: `withTextContext("slotName")`.
-- **`withContext`의 intrinsic 문자열 인자 금지**: `withContext("view", ...)`는 `React.createElement("view", ...)`로 컴파일되어 위 정적 분석을 우회하고 `BackgroundSnapshot not found` 런타임 에러를 유발한다. 네이티브 슬롯은 반드시 `withViewContext`/`withTextContext`를 쓴다.
-- Root에 추가 context(예: Trigger용 imperative ref)가 필요하면 `ClassNamesProvider`를 수동으로 중첩하고 Root 자체는 `forwardRef`로 직접 구현한다.
+- `createSlotRecipeContext(slotRecipe)` 호출 결과에서 `ClassNamesProvider`, `withContext`, `useClassNames` 등을 꺼내 사용한다.
+- **외부 컴포넌트 슬롯** (lynx-ui 등): `withContext(Component, "slotName")` 한 줄로 연결한다.
+- **네이티브 `<view>`/`<text>` 슬롯**: `withContext`의 첫 인자로 문자열(`"view"`, `"text"`)을 넘기지 말고, 반드시 `forwardRef` 본문에 **리터럴 `<view>`/`<text>` JSX**를 작성한 헬퍼(`createViewSlot`/`createTextSlot`)를 사용한다.
+  - `withContext("view", ...)`는 `React.createElement(Component)`로 컴파일되어 Lynx 컴파일러의 `<view>` 정적 분석을 우회하고 **`BackgroundSnapshot not found: view` 런타임 에러**를 유발한다.
+  - 이는 `Primitive.view` 사용 시 발생하는 것과 동일한 BackgroundSnapshot diff 충돌이다.
+- Root에 상태(예: Trigger용 imperative ref) context를 추가해야 하면 `ClassNamesProvider`를 수동으로 중첩하고 Root 자체는 `forwardRef`로 직접 구현한다.
 
 ### 절대 금지: React 레이어에 style prop 직접 작성
 

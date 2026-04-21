@@ -16,6 +16,19 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "bottom-sheet",
+      snippets: [
+        {
+          path: "bottom-sheet.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "~0.1.0-alpha.0",
+            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            "@lynx-js/lynx-ui-sheet": "^3.130.1",
+          },
+        },
+      ],
+    },
+    {
       id: "progress-circle",
       snippets: [
         {

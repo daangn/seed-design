@@ -1599,6 +1599,19 @@
               ]
             },
             {
+              "id": "bottom-sheet",
+              "title": "Bottom Sheet",
+              "description": "화면 하단에서 올라오는 시트 컴포넌트로, 드래그·snap·dismiss 상호작용을 제공합니다.",
+              "docUrl": "/lynx/components/bottom-sheet",
+              "snippetKey": "ui:bottom-sheet",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "bottom-sheet.tsx"
+                }
+              ]
+            },
+            {
               "id": "cli",
               "title": "CLI",
               "description": "Lynx 프로젝트에서 SEED Design CLI를 사용하는 방법을 안내해요.",
