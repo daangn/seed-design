@@ -53,6 +53,7 @@ export const bottomSheetVariantMap = {
     "center"
   ],
   "skipAnimation": [
+    true,
     false
   ]
 };

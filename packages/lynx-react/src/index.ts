@@ -20,7 +20,6 @@ export {
   BottomSheetRoot,
   type BottomSheetRootProps,
   type BottomSheetRootRef,
-  type BottomSheetSlotProps,
   BottomSheetTitle,
   type BottomSheetTitleProps,
   BottomSheetTrigger,
@@ -36,10 +35,7 @@ export {
   type TagGroupItemLabelProps,
 } from "./components/TagGroup";
 export { createRecipeContext } from "./utils/create-recipe-context";
-export {
-  createSlotRecipeContext,
-  type NativeSlotProps,
-} from "./utils/create-slot-recipe-context";
+export { createSlotRecipeContext } from "./utils/create-slot-recipe-context";
 export { dynamicStyle } from "./utils/dynamic-style";
 export { getSeedClassName } from "./get-seed-class-name";
 export {

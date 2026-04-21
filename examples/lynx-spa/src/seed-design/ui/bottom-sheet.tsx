@@ -83,11 +83,12 @@ export const BottomSheetContent = (props: BottomSheetContentProps) => {
 
 export interface BottomSheetBodyProps extends SeedBottomSheetBodyProps {}
 
-export const BottomSheetBody = SeedBottomSheet.Body;
+export const BottomSheetBody: (props: BottomSheetBodyProps) => ReactNode = SeedBottomSheet.Body;
 
 export interface BottomSheetFooterProps extends SeedBottomSheetFooterProps {}
 
-export const BottomSheetFooter = SeedBottomSheet.Footer;
+export const BottomSheetFooter: (props: BottomSheetFooterProps) => ReactNode =
+  SeedBottomSheet.Footer;
 
 /**
  * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.

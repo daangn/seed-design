@@ -18,7 +18,6 @@ export {
   BottomSheetRoot,
   type BottomSheetRootProps,
   type BottomSheetRootRef,
-  type BottomSheetSlotProps,
   BottomSheetTitle,
   type BottomSheetTitleProps,
   BottomSheetTrigger,

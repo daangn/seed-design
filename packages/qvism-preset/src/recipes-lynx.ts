@@ -1,4 +1,6 @@
 import actionButton from "./recipes/action-button";
+import bottomSheet from "./recipes/lynx/bottom-sheet";
+import bottomSheetHandle from "./recipes/lynx/bottom-sheet-handle";
 import {
   tagGroup as lynxTagGroup,
   tagGroupItem as lynxTagGroupItem,
@@ -12,6 +14,8 @@ import {
  */
 export const lynxRecipes = {
   actionButton,
+  bottomSheet,
+  bottomSheetHandle,
   tagGroup: lynxTagGroup,
   tagGroupItem: lynxTagGroupItem,
 };
