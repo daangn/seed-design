@@ -47,7 +47,6 @@ export {
 export { createSlotRecipeContext } from "./utils/create-slot-recipe-context";
 export { getSeedClassName } from "./get-seed-class-name";
 export { splitMultipleVariantsProps } from "./utils/split-multiple-variants-props";
-export { createCompoundContext } from "./utils/create-compound-context";
 export {
   useControllableState,
   type UseControllableStateProps,

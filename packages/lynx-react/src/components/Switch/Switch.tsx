@@ -6,7 +6,6 @@ import type { SwitchVariantProps } from "@seed-design/lynx-css/recipes/switch";
 import { switchmark } from "@seed-design/lynx-css/recipes/switchmark";
 import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switchmark";
 
-import { createCompoundContext } from "../../utils/create-compound-context";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useControllableState } from "../../hooks/use-controllable-state";
 import { usePressTap } from "../../hooks/use-press-tap";
@@ -38,10 +37,25 @@ interface SwitchContextValue {
   tone: SwitchTone;
 }
 
-const [SwitchContext, useSwitchContext] = createCompoundContext<SwitchContextValue>("SwitchRoot");
+const SwitchContext = React.createContext<SwitchContextValue | null>(null);
 
-const [SwitchmarkThumbClassContext, useSwitchmarkThumbClass] =
-  createCompoundContext<string>("SwitchControl");
+function useSwitchContext(consumer: string): SwitchContextValue {
+  const ctx = React.useContext(SwitchContext);
+  if (!ctx) {
+    throw new Error(`<${consumer}/> must be rendered inside <SwitchRoot/>.`);
+  }
+  return ctx;
+}
+
+const SwitchmarkThumbClassContext = React.createContext<string | null>(null);
+
+function useSwitchmarkThumbClass(consumer: string): string {
+  const ctx = React.useContext(SwitchmarkThumbClassContext);
+  if (!ctx) {
+    throw new Error(`<${consumer}/> must be rendered inside <SwitchControl/>.`);
+  }
+  return ctx;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 

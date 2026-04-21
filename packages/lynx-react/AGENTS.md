@@ -142,20 +142,41 @@ const { tone, ...rest } = props as { tone?: Tone } & Rest;
 
 ## Compound Component Context
 
-Compound 컴포넌트(Root + 하위 슬롯 구조)는 React Context로 상태/variant를 공유한다. `createCompoundContext` 헬퍼(`../../utils/create-compound-context`)를 사용해 Context와 strict consumer hook을 한번에 생성한다.
+Compound 컴포넌트(Root + 하위 슬롯 구조)가 **런타임 상태**(예: `checked`, `disabled`)를 하위에 전파할 때는 React 기본 `createContext`를 **inline으로** 사용한다. lynx-ui의 13개 compound 패키지(switch / checkbox / dialog / radio-group / sheet / popover 등)가 전부 이 패턴을 쓴다. 별도 helper(`createCompoundContext` 등)는 두지 않는다.
+
+역할 구분:
+
+- **`createSlotRecipeContext`**: recipe 호출 결과 **className 맵**을 자동 주입. "스타일" 전용.
+- **inline `React.createContext<T | null>(null)`**: 임의의 **런타임 값/상태**(boolean, 계산된 문자열, ref 등)를 하위 slot에 전파. "스타일 아닌 것" 전용.
+
+두 Context를 한 컴포넌트에서 같이 쓰는 경우가 흔하다(예: Switch).
+
+### 표준 패턴
 
 ```tsx
-import { createCompoundContext } from "../../utils/create-compound-context";
+import * as React from "react";
 
-const [SwitchContext, useSwitchContext] =
-  createCompoundContext<SwitchContextValue>("SwitchRoot");
+interface SwitchContextValue {
+  checked: boolean;
+  disabled: boolean;
+  size: SwitchSize;
+  tone: SwitchTone;
+}
+
+const SwitchContext = React.createContext<SwitchContextValue | null>(null);
+
+function useSwitchContext(consumer: string): SwitchContextValue {
+  const ctx = React.useContext(SwitchContext);
+  if (!ctx) {
+    throw new Error(`<${consumer}/> must be rendered inside <SwitchRoot/>.`);
+  }
+  return ctx;
+}
 ```
 
-- Root에서 `Context.Provider`로 value 감싸고, value는 `useMemo`로 안정화
-- 하위 컴포넌트는 `useSwitchContext("SwitchThumb")` 형태로 읽는다 (인자는 에러 메시지의 JSX 태그명)
-- **Context 누락 시 정책은 `throw` 통일**. 의도 명확, 오용 즉시 발견, 웹 `createSlotRecipeContext`와 일관.
-
-warn + fallback 패턴은 금지. fallback 값이 "정상 렌더링"으로 보여 버그를 감춘다.
+- Root에서 `<SwitchContext.Provider value={useMemo(...)}>` 로 감싼다. value는 `useMemo`로 안정화해서 불필요한 리렌더를 막는다.
+- 하위 slot은 `useSwitchContext("SwitchThumb")` 로 읽고, 인자는 에러 메시지에 사용될 JSX 태그명이다.
+- **Context 누락 시 정책은 throw 통일**. warn + fallback은 금지 — fallback 값이 "정상 렌더링"처럼 보여 버그를 감춘다(웹 SEED의 `createSlotRecipeContext`와 일관).
 
 ### 변형 override를 지원할 때
 
