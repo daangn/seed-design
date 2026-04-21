@@ -123,6 +123,37 @@ export interface ComponentProps
 - 네이티브 `<view>` 요소 직접 사용 (`Primitive.view` 사용 금지 — BackgroundSnapshot 에러)
 - `displayName` 필수
 
+## Variant Props 처리 패턴
+
+variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 모두 내부적으로 `splitVariantProps`를 사용하여 variant props와 네이티브 속성을 타입 안전하게 분리한다.
+
+| 유형 | 도구 | 대표 예시 |
+|------|------|----------|
+| 직접 splitVariantProps | `recipe.splitVariantProps(props)` | ActionButton, ProgressCircle |
+| 단일 슬롯 | `createRecipeContext` → `withContext` | (추후 포팅 예정 — 별도 PR) |
+| 복합 슬롯 | `createSlotRecipeContext` → `withContext` / `withViewContext` / `withTextContext` | compound 컴포넌트 전반 |
+| 다중 Recipe | `splitMultipleVariantsProps` | (추후 포팅 예정 — 별도 PR) |
+
+### 절대 금지: variant props 수동 destructuring
+
+`({ variant, size, ...rest })` 형태로 variant를 함수 인자에서 직접 꺼내거나, `recipe({ variant, size })` 형태로 직접 전달하면 안 된다. variant가 추가/변경될 때 누락 위험이 있고, 타입 안전성이 보장되지 않는다.
+
+### SlotRecipe 사용 패턴
+
+복합 컴포넌트(슬롯이 여러 개인 경우)는 `createSlotRecipeContext`를 사용한다.
+
+- **import 경로**: `../../utils/create-slot-recipe-context`
+- `createSlotRecipeContext(slotRecipe)` 호출 결과에서 `ClassNamesProvider`, `withContext`, `withViewContext`, `withTextContext`, `useClassNames` 등을 꺼내 사용한다.
+- **외부 컴포넌트 슬롯** (lynx-ui 등 React 함수 컴포넌트): `withContext(Component, "slotName")` 한 줄로 연결한다.
+- **네이티브 `<view>` 슬롯**: `withViewContext("slotName")`. 반드시 리터럴 JSX로 `<view>`를 emit해 Lynx 컴파일러의 `BackgroundSnapshot` 정적 분석을 통과해야 한다.
+- **네이티브 `<text>` 슬롯**: `withTextContext("slotName")`.
+- **`withContext`의 intrinsic 문자열 인자 금지**: `withContext("view", ...)`는 `React.createElement("view", ...)`로 컴파일되어 위 정적 분석을 우회하고 `BackgroundSnapshot not found` 런타임 에러를 유발한다. 네이티브 슬롯은 반드시 `withViewContext`/`withTextContext`를 쓴다.
+- Root에 추가 context(예: Trigger용 imperative ref)가 필요하면 `ClassNamesProvider`를 수동으로 중첩하고 Root 자체는 `forwardRef`로 직접 구현한다.
+
+### 절대 금지: React 레이어에 style prop 직접 작성
+
+스타일은 반드시 recipe를 통해 className으로 적용한다. `style` prop 직접 작성은 `dynamicStyle()` 유틸을 경유할 때만 허용된다 (CSS custom property 동적 주입 케이스).
+
 ## 파일 작성 컨벤션
 
 - 컴포넌트: `src/components/<ComponentName>/<ComponentName>.tsx` + `index.ts`
