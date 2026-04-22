@@ -74,31 +74,20 @@ export function ActionButtonPage() {
           gap: '8px',
         }}
       >
-        <ActionButton variant="brandSolid">
-          <ActionButton.PrefixIcon>
-            <IconPlusFill />
-          </ActionButton.PrefixIcon>
+        <ActionButton variant="brandSolid" prefixIcon={<IconPlusFill />}>
           Prefix Icon
         </ActionButton>
-        <ActionButton variant="neutralSolid">
+        <ActionButton variant="neutralSolid" suffixIcon={<IconChevronDownFill />}>
           Suffix Icon
-          <ActionButton.SuffixIcon>
-            <IconChevronDownFill />
-          </ActionButton.SuffixIcon>
         </ActionButton>
-        <ActionButton variant="brandOutline">
-          <ActionButton.PrefixIcon>
-            <IconPlusFill />
-          </ActionButton.PrefixIcon>
+        <ActionButton
+          variant="brandOutline"
+          prefixIcon={<IconPlusFill />}
+          suffixIcon={<IconChevronDownFill />}
+        >
           Both
-          <ActionButton.SuffixIcon>
-            <IconChevronDownFill />
-          </ActionButton.SuffixIcon>
         </ActionButton>
-        <ActionButton variant="brandSolid" disabled>
-          <ActionButton.PrefixIcon>
-            <IconPlusFill />
-          </ActionButton.PrefixIcon>
+        <ActionButton variant="brandSolid" disabled prefixIcon={<IconPlusFill />}>
           Disabled
         </ActionButton>
       </view>

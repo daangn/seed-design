@@ -29,10 +29,7 @@
  * recipe token 경로가 컴포넌트마다 조금씩 다르므로(variant/size/layout 조합 여부 등)
  * 이 유틸은 "vars + path" 조합만 제공하고, 각 컴포넌트가 자기 path 를 만들어 호출한다.
  */
-export function resolveRecipeToken<V extends Record<string, unknown>>(
-  vars: V,
-  path: readonly string[],
-): string | undefined {
+export function resolveRecipeToken(vars: unknown, path: readonly string[]): string | undefined {
   let cursor: unknown = vars;
   for (const key of path) {
     if (cursor == null || typeof cursor !== "object") return undefined;

@@ -1,52 +1,51 @@
 import { runOnMainThread, useEffect, useMainThreadRef } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
-import type { RefObject } from "react";
+import type { DependencyList, RefObject } from "react";
+
+type IconElement = MainThread.Element & {
+  getComputedStyleProperty?: (name: string) => string;
+  getComputedCssProperty?: (name: string) => string;
+};
+
+// Lynx `<image>` 의 `tint-color` attribute 는 concrete color(hex/rgb) 만 받는다. CSS
+// `color: var(--seed-color-...)` 를 slot 에 걸면 `getComputedStyleProperty("color")` 가
+// resolved hex 를 돌려주므로 main-thread 에서 한번 읽어 `tint-color` 로 mirror 한다.
+function syncTintColor(ref: RefObject<IconElement>) {
+  "main thread";
+
+  const el = ref.current;
+  if (!el) return;
+
+  let color: string | undefined;
+  if (typeof el.getComputedStyleProperty === "function") {
+    color = el.getComputedStyleProperty("color");
+  } else if (typeof el.getComputedCssProperty === "function") {
+    color = el.getComputedCssProperty("color");
+  }
+
+  if (color) {
+    el.setAttribute("tint-color", color);
+  }
+}
 
 /**
- * Lynx `<image>` 는 `<color>` 를 tint 로 blend 할 때 `tint-color` attribute 에
- * **concrete color(hex/rgb)** 만 받는다. CSS `color: var(--seed-color-...)` 를
- * slot 에 지정하면 Lynx 엔진이 var() 를 resolve 해 `getComputedStyleProperty("color")`
- * 호출 시 resolved hex 를 돌려주므로, 이 훅이 main-thread 로 건너가 그 값을 읽어
- * `setAttribute("tint-color", hex)` 로 mirror 한다.
- *
- * `depKey` 로 variant/state 가 바뀌는 시점을 알려주면 re-sync 한다.
+ * Lynx `<image>` 의 tint color 를 recipe 의 CSS `color` 로부터 main-thread 에서 읽어
+ * `tint-color` attribute 로 mirror. `deps` 가 바뀌면 재동기화.
  *
  * ```tsx
- * const { ref } = useIconColor(JSON.stringify(variantProps));
+ * const { ref } = useIconColor([variant, disabled, loading]);
  * return cloneElement(iconChild, { ref });
  * ```
  */
-export function useIconColor(depKey?: string | null): {
+export function useIconColor(deps: DependencyList): {
   ref: RefObject<MainThread.Element>;
 } {
-  const ref = useMainThreadRef<MainThread.Element>(null);
+  const ref = useMainThreadRef<IconElement>(null);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: deps 는 caller 가 책임.
   useEffect(() => {
-    function sync(r: RefObject<MainThread.Element>) {
-      "main thread";
-
-      const el = r.current as
-        | (MainThread.Element & {
-            getComputedStyleProperty?: (name: string) => string;
-            getComputedCssProperty?: (name: string) => string;
-          })
-        | null;
-      if (!el) return;
-
-      let color: string | undefined;
-      if (typeof el.getComputedStyleProperty === "function") {
-        color = el.getComputedStyleProperty("color");
-      } else if (typeof el.getComputedCssProperty === "function") {
-        color = el.getComputedCssProperty("color");
-      }
-
-      if (color) {
-        el.setAttribute("tint-color", color);
-      }
-    }
-
-    runOnMainThread(sync)(ref);
-  }, [depKey]);
+    runOnMainThread(syncTintColor)(ref);
+  }, deps);
 
   return { ref };
 }
