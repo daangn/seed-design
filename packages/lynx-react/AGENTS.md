@@ -82,11 +82,11 @@ Lynx 컴파일러는 JSX 의 intrinsic 태그(`<view>`, `<text>`, `<image>` 등)
 
 함의: 여러 컴포넌트가 유사한 native slot 패턴을 공유하려 해도 **공통 helper 로 뽑을 수 없다**. 각 컴포넌트 파일에서 리터럴 JSX 를 (필요하면 파일-내 factory 로) 직접 작성해야 한다. 이는 lynx-ui 가 13 개 compound 패키지에서 helper 없이 slot 을 각자 작성하는 이유와 일치한다.
 
-#### 근본 원인 (엔진 레벨)
+#### 근본 원인 (ReactLynx 런타임)
 
-`lynx/core/renderer/dom/element_property.cc:33` 의 `ConvertStringTagToEnumTag()` 가 tag 를 enum 으로 변환하고 실패하면 `ELEMENT_EMPTY` 를 반환한다. 리터럴 JSX 는 컴파일 타임에 enum 으로 최적화되지만 runtime 변수 경로는 enum 매핑이 제때 해소되지 않아 native element 가 등록되지 않는다.
+에러는 `@lynx-js/react/runtime/lib/backgroundSnapshot.js:28` 에서 `snapshotManager.values: Map<type, snapshot_def>` 레지스트리 lookup 이 실패하면 즉시 throw 된다. 이 Map 은 `@lynx-js/react-rsbuild-plugin` 이 JSX transform 시 **파일 단위로** 리터럴 intrinsic 태그를 스캔하며 `createSnapshot(...)` 호출을 주입해 빌드 타임에 채운다 — 공통 유틸 파일 안의 helper 가 반환하는 컴포넌트는 컴포넌트 파일의 registry 에 포함되지 않아 runtime throw. **끄거나 우회하는 공식 플래그는 없다** (`createSnapshot` 은 public export 이지만 수동 호출은 internal semantics 의존이라 권장 안 됨). 엔진 C++ (`lynx/core/renderer/dom/element_property.cc:33` 의 `ConvertStringTagToEnumTag()`) 는 런타임 레지스트리 lookup 이 성공한 뒤의 후속 단계다.
 
-"BackgroundSnapshot" 용어는 공개 엔진 소스에 매치 0 건 — SEED 팀이 실제 관찰한 런타임 에러 메시지이며 공식 문서화는 없다. 본 제약은 **PR #1489 (intrinsic string) + PR #1503 (다른 파일의 helper) 의 실패 재현**과 현재 ship 된 안전 패턴으로만 검증된다.
+"BackgroundSnapshot" 은 lynxjs.org 에 공식 문서화되지 않은 ReactLynx 런타임 내부 용어다. 본 제약은 **PR #1489 (intrinsic string) + PR #1503 (다른 파일의 helper) 의 실패 재현**과 현재 ship 된 안전 패턴으로만 검증된다.
 
 ### 애니메이션 패턴
 
