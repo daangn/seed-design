@@ -4,10 +4,15 @@ import clsx from "clsx";
 import * as React from "react";
 import { cloneElement, isValidElement, type ReactElement } from "react";
 
+import { usePressTap, type UsePressTapReturn } from "../../hooks/use-press-tap";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { usePressTap, type UsePressTapReturn } from "../../utils/use-press-tap";
 
-const { withProvider, withContext, useClassNames } = createSlotRecipeContext(actionButton);
+// Root/TextSlot 은 `withProvider("view", ...)` / `withContext("text", ...)` 를 사용하지 않는다.
+// intrinsic string 인자는 `React.createElement("view", ...)` 로 컴파일되어 Lynx 컴파일러의
+// 리터럴 JSX 정적 분석을 우회하고 `BackgroundSnapshot not found: view` 런타임 에러를 유발한다.
+// 대신 아래처럼 이 파일 안에 `forwardRef` + 리터럴 `<view>` / `<text>` JSX 를 직접 작성한다.
+// (자세한 내용: `packages/lynx-react/AGENTS.md` 의 "Native tag literal JSX constraint" 섹션)
+const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(actionButton);
 
 // recipe .d.ts 는 CSS variant 만 선언하지만 런타임은 state modifier도 지원
 // (postcss-lynx-compat 이 pseudo selector 를 class modifier 로 변환).
@@ -28,15 +33,49 @@ type ActionButtonRootOwnProps = {
   "main-thread:bindtap"?: UsePressTapReturn["main-thread:bindtap"];
 };
 
-const ActionButtonRoot = withProvider<
+const ActionButtonRoot = React.forwardRef<
   unknown,
   ActionButtonRuntimeVariantProps & ActionButtonRootOwnProps
->("view", "root", { defaultProps: { layout: "withText" } });
+>((innerProps, ref) => {
+  const props = { layout: "withText" as const, ...innerProps };
+  const [variantProps, otherProps] = actionButton.splitVariantProps(props);
+  const classNames = actionButton(variantProps);
+  const {
+    className: userClassName,
+    children,
+    ...rest
+  } = otherProps as ActionButtonRootOwnProps & Record<string, unknown>;
+  return (
+    <ClassNamesProvider value={classNames}>
+      <view
+        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...rest}
+        className={clsx(classNames.root, userClassName)}
+      >
+        {children as React.ReactNode}
+      </view>
+    </ClassNamesProvider>
+  );
+});
+ActionButtonRoot.displayName = "ActionButtonRoot";
 
-const ActionButtonTextSlot = withContext<
+const ActionButtonTextSlot = React.forwardRef<
   unknown,
   { children?: React.ReactNode; className?: string }
->("text", "text");
+>((props, ref) => {
+  const { children, className: userClassName, ...rest } = props;
+  const classNames = useClassNames();
+  return (
+    <text
+      {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
+      {...rest}
+      className={clsx(classNames.text, userClassName)}
+    >
+      {children}
+    </text>
+  );
+});
+ActionButtonTextSlot.displayName = "ActionButtonTextSlot";
 
 /**
  * @platform Lynx
@@ -49,12 +88,13 @@ const ActionButtonTextSlot = withContext<
  * `tint-color` 가 attribute 로 덮이지 않는다.
  *
  * ```tsx
- * import { IconPlusFill } from "@karrotmarket/lynx-monochrome-icon";
+ * import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
+ * import IconChevronDownFill from "@karrotmarket/lynx-monochrome-icon/IconChevronDownFill";
  *
  * <ActionButton variant="brandSolid">
  *   <ActionButton.PrefixIcon><IconPlusFill /></ActionButton.PrefixIcon>
  *   라벨
- *   <ActionButton.SuffixIcon><IconChevronDown /></ActionButton.SuffixIcon>
+ *   <ActionButton.SuffixIcon><IconChevronDownFill /></ActionButton.SuffixIcon>
  * </ActionButton>
  * ```
  */
@@ -64,20 +104,20 @@ interface ActionButtonIconSlotProps {
 
 const ActionButtonPrefixIcon = ({ children }: ActionButtonIconSlotProps) => {
   if (!isValidElement(children)) return null;
-  const { prefixIcon } = useClassNames();
+  const classNames = useClassNames();
   const childProps = children.props as { className?: string };
   return cloneElement(children, {
-    className: clsx(prefixIcon, childProps.className),
+    className: clsx(classNames.prefixIcon, childProps.className),
   });
 };
 ActionButtonPrefixIcon.displayName = "ActionButton.PrefixIcon";
 
 const ActionButtonSuffixIcon = ({ children }: ActionButtonIconSlotProps) => {
   if (!isValidElement(children)) return null;
-  const { suffixIcon } = useClassNames();
+  const classNames = useClassNames();
   const childProps = children.props as { className?: string };
   return cloneElement(children, {
-    className: clsx(suffixIcon, childProps.className),
+    className: clsx(classNames.suffixIcon, childProps.className),
   });
 };
 ActionButtonSuffixIcon.displayName = "ActionButton.SuffixIcon";

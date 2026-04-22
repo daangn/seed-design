@@ -6,19 +6,6 @@ Lynx 플랫폼용 스타일드 React 컴포넌트 패키지. `@seed-design/react
 
 ## Lynx 런타임 주의사항
 
-### style prop은 string으로 전달
-
-Lynx는 style object를 빌드 타임에 정적 CSS로 컴파일한다. 동적 CSS custom property 값을 설정하려면 **string literal**로 전달해야 한다.
-
-```tsx
-// ❌ 동적 값 무시됨
-<view style={{ "--seed-box-background": value }} />
-
-// ✅ dynamicStyle() 유틸 사용
-import { dynamicStyle } from "../../utils/dynamic-style";
-<view style={dynamicStyle({ "--seed-box-background": value })} />
-```
-
 ### children은 nativeProps와 분리
 
 `{...nativeProps}`로 spread하면 `children`이 포함되어 Lynx의 `commitPatchUpdate`에서 circular reference 에러 발생. 항상 children을 별도로 추출해서 JSX children으로 전달한다.
@@ -44,17 +31,62 @@ const mergedProps = {
 
 Lynx는 CSS `inherit` 키워드를 지원하지 않는다. CSS variable을 `inherit`로 초기화하는 패턴(웹의 `.seed-text`)은 Lynx에서 동작하지 않으므로, 스타일을 요소에 직접 적용해야 한다.
 
-### Primitive.view 사용 시 BackgroundSnapshot 에러
+### Primitive.view 사용 금지
 
-`@seed-design/lynx-primitive`의 `Primitive.view`는 내부적으로 `forwardRef`로 한 번 더 감싸는데, 이 추가 컴포넌트 레이어가 Lynx 런타임의 `BackgroundSnapshot` diff 알고리즘과 충돌하여 `BackgroundSnapshot not found: view` 에러를 발생시킬 수 있다. 스타일드 컴포넌트에서는 네이티브 `<view>` 요소를 직접 사용하고, `asChild` 패턴이 필요하면 `Slot`을 직접 import해서 조건부 렌더링한다.
+`@seed-design/lynx-primitive`의 현재 `Primitive.view` 구현은 `<Comp>` 변수 태그로 렌더하기 때문에 파일 소스에 **리터럴 `<view>` JSX 가 존재하지 않는다**. 이는 Lynx 컴파일러의 intrinsic tag 정적 분석을 우회해 `BackgroundSnapshot not found: view` 런타임 에러를 유발한다. 스타일드 컴포넌트에서는 네이티브 `<view>` 요소를 직접 사용하고, `asChild` 패턴이 필요하면 `Slot`을 직접 import해서 조건부 렌더링한다.
 
 ```tsx
-// ❌ BackgroundSnapshot 에러 발생 가능
+// ❌ 금지 — Primitive.view 내부가 <Comp> 변수 태그를 사용
 <Primitive.view ref={ref} className={className}>{children}</Primitive.view>
 
 // ✅ 네이티브 <view> 직접 사용
 <view {...(ref ? { ref } : {})} className={className}>{children}</view>
 ```
+
+자세한 허용/금지 패턴은 아래 "Native tag literal JSX constraint" 섹션 참조.
+
+### Native tag literal JSX constraint
+
+Lynx 컴파일러는 JSX 의 intrinsic 태그(`<view>`, `<text>`, `<image>` 등)를 **컴파일 타임에 리터럴 JSX** 로 만나야 native element 로 등록한다. 조건이 깨지면 runtime 에 `BackgroundSnapshot not found: view` 에러가 난다.
+
+#### 조건을 깨는 패턴 (금지)
+
+- **intrinsic tag 를 runtime 변수로 전달**: `React.createElement("view", ...)` 또는 `const Tag = "view"; <Tag />`. 대표 실패 케이스는 `withContext("view", "header")` 가 `React.createElement(Component, ...)` where `Component === "view"` 로 컴파일되어 **PR #1489 에서 실제 재현 + revert 된 사례**.
+- **소스에 리터럴 intrinsic 태그가 없는 JSX**: `@seed-design/lynx-primitive` 의 현재 `Primitive.view` 구현이 `<Comp>` 변수 태그만 사용 — 사용 금지.
+
+#### 조건을 만족하는 안전한 패턴
+
+- **리터럴 `<view>` / `<text>` JSX 를 `forwardRef` 본문에 직접 작성** — lynx-ui 의 모든 slot 이 쓰는 방식. 이 `forwardRef` 를 생성하는 factory 를 같은 컴포넌트 파일 안에 두는 것도 OK (예: BottomSheet 의 `createViewSlot` / `createTextSlot`).
+- **React 함수 컴포넌트를 `withContext` 에 넘기기**: `withContext(SheetBackdrop, "backdrop")` — Component 인자가 함수 컴포넌트이고 그 컴포넌트 본문에 리터럴 `<view>` / `<text>` 가 있는 경우. intrinsic string 을 인자로 넘기는 것만 금지.
+
+#### 허용 / 금지 요약
+
+| 패턴 | 리터럴 `<view>` 소스에? | 결과 |
+|---|---|---|
+| `forwardRef((p, ref) => <view ...>...</view>)` (컴포넌트 파일 안) | ✅ | 표준 |
+| 같은 컴포넌트 파일 안의 factory (예: BottomSheet `createViewSlot`) | ✅ | 표준 |
+| `withContext(SheetBackdrop, "backdrop")` | ✅ (SheetBackdrop 파일 안에 리터럴 `<view>`) | ship 실증 |
+| `withContext("view", "header")` | ❌ createElement 에 string | PR #1489 실패 재현 |
+| **공통 유틸 파일의 factory (예: createSlotRecipeContext 안의 `withViewContext`)** | ❌ 리터럴 `<view>` 가 **다른 파일**에 있음 | **PR #1503 spike 에서 실패 재현** |
+| `Primitive.view` (현재 SEED 구현) | ❌ `<Comp>` 변수 태그 | 사용 금지 |
+| `const Tag = "view"; <Tag />` | ❌ | 금지 |
+
+#### ⚠️ 파일-경계 제약 (2026-04-22 PR #1503 spike 로 확인)
+
+리터럴 `<view>` / `<text>` JSX 는 **그 native element 가 최종 렌더되는 컴포넌트 파일과 동일한 파일 안**에 있어야 한다. 공통 유틸 파일(`create-slot-recipe-context.tsx` 등) 에 factory 를 선언해 그 반환값을 컴포넌트에서 export 하는 패턴은 **Lynx 에서 동작하지 않는다** — factory 의 `forwardRef` 본문에 리터럴 `<view>` 가 있어도 Lynx 컴파일러의 정적 분석은 파일 단위로 작동해 해당 native tag 를 컴포넌트 파일의 렌더 트리에 등록하지 못한다.
+
+실증 근거:
+- `createViewSlot(slotName)` (BottomSheet.tsx **안**의 factory) → ✅ ship 되어 작동 중
+- `withViewContext(slotName)` (create-slot-recipe-context.tsx **안**의 구조 동일 factory) → ❌ `BackgroundSnapshot not found: view` 런타임 에러 (PR #1503 spike)
+- 두 factory 의 구조는 완전히 동일, 차이점은 선언 파일 위치뿐.
+
+함의: 여러 컴포넌트가 유사한 native slot 패턴을 공유하려 해도 **공통 helper 로 뽑을 수 없다**. 각 컴포넌트 파일에서 리터럴 JSX 를 (필요하면 파일-내 factory 로) 직접 작성해야 한다. 이는 lynx-ui 가 13 개 compound 패키지에서 helper 없이 slot 을 각자 작성하는 이유와 일치한다.
+
+#### 근본 원인 (ReactLynx 런타임)
+
+에러는 `@lynx-js/react/runtime/lib/backgroundSnapshot.js:28` 에서 `snapshotManager.values: Map<type, snapshot_def>` 레지스트리 lookup 이 실패하면 즉시 throw 된다. 이 Map 은 `@lynx-js/react-rsbuild-plugin` 이 JSX transform 시 **파일 단위로** 리터럴 intrinsic 태그를 스캔하며 `createSnapshot(...)` 호출을 주입해 빌드 타임에 채운다 — 공통 유틸 파일 안의 helper 가 반환하는 컴포넌트는 컴포넌트 파일의 registry 에 포함되지 않아 runtime throw. **끄거나 우회하는 공식 플래그는 없다** (`createSnapshot` 은 public export 이지만 수동 호출은 internal semantics 의존이라 권장 안 됨). 엔진 C++ (`lynx/core/renderer/dom/element_property.cc:33` 의 `ConvertStringTagToEnumTag()`) 는 런타임 레지스트리 lookup 이 성공한 뒤의 후속 단계다.
+
+"BackgroundSnapshot" 은 lynxjs.org 에 공식 문서화되지 않은 ReactLynx 런타임 내부 용어다. 본 제약은 **PR #1489 (intrinsic string) + PR #1503 (다른 파일의 helper) 의 실패 재현**과 현재 ship 된 안전 패턴으로만 검증된다.
 
 ### 애니메이션 패턴
 
@@ -155,20 +187,41 @@ const { tone, ...rest } = props as { tone?: Tone } & Rest;
 
 ## Compound Component Context
 
-Compound 컴포넌트(Root + 하위 슬롯 구조)는 React Context로 상태/variant를 공유한다. `createCompoundContext` 헬퍼(`../../utils/create-compound-context`)를 사용해 Context와 strict consumer hook을 한번에 생성한다.
+Compound 컴포넌트(Root + 하위 슬롯 구조)가 **런타임 상태**(예: `checked`, `disabled`)를 하위에 전파할 때는 React 기본 `createContext`를 **inline으로** 사용한다. lynx-ui의 13개 compound 패키지(switch / checkbox / dialog / radio-group / sheet / popover 등)가 전부 이 패턴을 쓴다. 별도 helper(`createCompoundContext` 등)는 두지 않는다.
+
+역할 구분:
+
+- **`createSlotRecipeContext`**: recipe 호출 결과 **className 맵**을 자동 주입. "스타일" 전용.
+- **inline `React.createContext<T | null>(null)`**: 임의의 **런타임 값/상태**(boolean, 계산된 문자열, ref 등)를 하위 slot에 전파. "스타일 아닌 것" 전용.
+
+두 Context를 한 컴포넌트에서 같이 쓰는 경우가 흔하다(예: Switch).
+
+### 표준 패턴
 
 ```tsx
-import { createCompoundContext } from "../../utils/create-compound-context";
+import * as React from "react";
 
-const [SwitchContext, useSwitchContext] =
-  createCompoundContext<SwitchContextValue>("SwitchRoot");
+interface SwitchContextValue {
+  checked: boolean;
+  disabled: boolean;
+  size: SwitchSize;
+  tone: SwitchTone;
+}
+
+const SwitchContext = React.createContext<SwitchContextValue | null>(null);
+
+function useSwitchContext(consumer: string): SwitchContextValue {
+  const ctx = React.useContext(SwitchContext);
+  if (!ctx) {
+    throw new Error(`<${consumer}/> must be rendered inside <SwitchRoot/>.`);
+  }
+  return ctx;
+}
 ```
 
-- Root에서 `Context.Provider`로 value 감싸고, value는 `useMemo`로 안정화
-- 하위 컴포넌트는 `useSwitchContext("SwitchThumb")` 형태로 읽는다 (인자는 에러 메시지의 JSX 태그명)
-- **Context 누락 시 정책은 `throw` 통일**. 의도 명확, 오용 즉시 발견, 웹 `createSlotRecipeContext`와 일관.
-
-warn + fallback 패턴은 금지. fallback 값이 "정상 렌더링"으로 보여 버그를 감춘다.
+- Root에서 `<SwitchContext.Provider value={useMemo(...)}>` 로 감싼다. value는 `useMemo`로 안정화해서 불필요한 리렌더를 막는다.
+- 하위 slot은 `useSwitchContext("SwitchThumb")` 로 읽고, 인자는 에러 메시지에 사용될 JSX 태그명이다.
+- **Context 누락 시 정책은 throw 통일**. warn + fallback은 금지 — fallback 값이 "정상 렌더링"처럼 보여 버그를 감춘다(웹 SEED의 `createSlotRecipeContext`와 일관).
 
 ### 변형 override를 지원할 때
 
@@ -181,7 +234,6 @@ variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 
 | 유형 | 도구 | Lynx 예시 |
 |------|------|----------|
 | 직접 splitVariantProps | `recipe.splitVariantProps(props)` | ActionButton, ProgressCircle |
-| 단일 슬롯 | `createRecipeContext` → `withContext` | (추후 포팅 예정 — 별도 PR) |
 | 복합 슬롯 | `createSlotRecipeContext` → `withContext` | BottomSheet |
 | 다중 Recipe | `splitMultipleVariantsProps` | (추후 포팅 예정 — 별도 PR) |
 
@@ -196,19 +248,18 @@ variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 
 - **import 경로**: `../../utils/create-slot-recipe-context`
 - `createSlotRecipeContext(slotRecipe)` 호출 결과에서 `ClassNamesProvider`, `withContext`, `useClassNames` 등을 꺼내 사용한다.
 - **외부 컴포넌트 슬롯** (lynx-ui 등): `withContext(Component, "slotName")` 한 줄로 연결한다.
-- **네이티브 `<view>`/`<text>` 슬롯**: `withContext`의 첫 인자로 문자열(`"view"`, `"text"`)을 넘기지 말고, 반드시 `forwardRef` 본문에 **리터럴 `<view>`/`<text>` JSX**를 작성한 헬퍼(`createViewSlot`/`createTextSlot`)를 사용한다.
-  - `withContext("view", ...)`는 `React.createElement(Component)`로 컴파일되어 Lynx 컴파일러의 `<view>` 정적 분석을 우회하고 **`BackgroundSnapshot not found: view` 런타임 에러**를 유발한다.
-  - 이는 `Primitive.view` 사용 시 발생하는 것과 동일한 BackgroundSnapshot diff 충돌이다.
+- **네이티브 `<view>` / `<text>` 슬롯**: `withContext` 를 사용할 수 없다. 컴포넌트 파일 안에 `forwardRef` 본문에 **리터럴 `<view>` / `<text>` JSX** 를 직접 작성해야 한다. 같은 recipe 의 여러 slot 을 위해서는 **컴포넌트와 동일한 파일 안에** factory (예: `createViewSlot`) 를 두고 반복 호출한다. factory 를 `createSlotRecipeContext` 같은 공통 유틸 파일에 두면 Lynx 컴파일러의 파일-스코프 정적 분석을 통과하지 못해 `BackgroundSnapshot not found: view` 에러를 일으킨다 (PR #1503 spike 로 확인 — 자세한 내용: "Native tag literal JSX constraint" 섹션).
 - Root에 상태(예: Trigger용 imperative ref) context를 추가해야 하면 `ClassNamesProvider`를 수동으로 중첩하고 Root 자체는 `forwardRef`로 직접 구현한다.
 
 ### 절대 금지: React 레이어에 style prop 직접 작성
 
-스타일은 반드시 recipe를 통해 className으로 적용한다. `style` prop 직접 작성은 `dynamicStyle()` 유틸을 경유할 때만 허용된다 (CSS custom property 동적 주입 케이스).
+스타일은 반드시 recipe를 통해 className으로 적용한다. `style` prop 직접 작성은 금지.
 
 ## 파일 작성 컨벤션
 
 - 컴포넌트: `src/components/<ComponentName>/<ComponentName>.tsx` + `index.ts`
-- 유틸리티: `src/utils/<util-name>.ts`
+- 훅: `src/hooks/<use-name>.ts` (`useState` / `useEffect` / `useContext` 등 React API 를 직접 호출하는 파일)
+- 유틸리티: `src/utils/<util-name>.ts` (순수 함수 / 팩토리. React 훅은 `src/hooks/` 로 분리)
 - 테스트: `src/<...>/__tests__/<file>.test.{ts,tsx}`
 - 빌드: `tsc`로 `lib/`에 출력 (테스트 파일은 `tsconfig.json`의 `exclude`로 제외)
 

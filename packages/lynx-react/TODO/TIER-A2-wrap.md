@@ -194,7 +194,7 @@
 - main-thread 스크롤 콜백
 
 **SEED가 담당하는 것:**
-- 스크롤 위치 콜백 받아서 `--scrollable-{top|bottom|left|right}` CSS variable 갱신 (`dynamicStyle()` 또는 main-thread `setStyleProperty`)
+- 스크롤 위치 콜백 받아서 `--scrollable-{top|bottom|left|right}` CSS variable 갱신 (main-thread `setStyleProperty`)
 - placement/size/sizes props → recipe `scrollFog` 슬롯 매핑
 - `hideScrollBar` variant
 
