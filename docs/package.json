@@ -94,6 +94,7 @@
     "concurrently": "^9.2.1",
     "figma-api": "^2.1.2-beta",
     "flat-cache": "^6.1.19",
+    "gray-matter": "^4.0.3",
     "mdast-util-mdx-jsx": "^3.2.0",
     "postcss": "^8.5.3",
     "storybook": "^10.1.10",
