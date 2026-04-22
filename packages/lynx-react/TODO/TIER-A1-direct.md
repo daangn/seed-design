@@ -68,7 +68,7 @@
 - `tone`: "neutral" | "magic", default: "neutral"
 
 **Lynx 구현 포인트:**
-- `height`, `width` 인라인 스타일 지원 → `dynamicStyle()` 사용
+- `height`, `width` 인라인 스타일 지원 → 인라인 `style` prop (CSS var 주입 방식은 도입 시점에 재검토)
 - Skeleton 애니메이션이 CSS로 정의되어 있으면 Lynx에서도 동작할 수 있음 (확인 필요)
 
 - [ ] `src/components/Skeleton/Skeleton.tsx`
