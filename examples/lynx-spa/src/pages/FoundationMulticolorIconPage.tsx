@@ -75,7 +75,7 @@ import IconWrench from "@karrotmarket/lynx-multicolor-icon/IconWrench";
 const { $color } = vars;
 
 interface IconEntry {
-  component: (props: { size?: number }) => React.JSX.Element;
+  component: React.ComponentType<{ size?: number; className?: string }>;
   name: string;
 }
 

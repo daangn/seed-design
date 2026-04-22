@@ -1,0 +1,24 @@
+/*
+ * Icon Color POC styles
+ *
+ * POC B — CSS property로 tint-color 직접 지정
+ * POC C — useIconColor 훅과 함께 쓰이는 variant별 color 클래스
+ */
+
+/* POC B: CSS property로서의 tint-color */
+.poc-b-icon {
+  tint-color: var(--seed-color-palette-static-white);
+}
+
+/* POC C: CSS color — 훅이 getComputedStyleProperty로 읽어 tint-color에 복사 */
+.poc-c-icon--brandSolid {
+  color: var(--seed-color-palette-static-white);
+}
+
+.poc-c-icon--criticalSolid {
+  color: var(--seed-color-fg-critical);
+}
+
+.poc-c-icon--neutralWeak {
+  color: var(--seed-color-fg-neutral);
+}

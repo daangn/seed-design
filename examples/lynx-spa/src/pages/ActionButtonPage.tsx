@@ -1,3 +1,6 @@
+import IconChevronDownFill from '@karrotmarket/lynx-monochrome-icon/IconChevronDownFill';
+import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
+
 import { ActionButton } from '@seed-design/lynx-react';
 
 export function ActionButtonPage() {
@@ -57,6 +60,46 @@ export function ActionButtonPage() {
         </ActionButton>
         <ActionButton variant="neutralOutline" disabled>
           Disabled Outline
+        </ActionButton>
+      </view>
+
+      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
+        Prefix / Suffix Icon
+      </text>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
+        }}
+      >
+        <ActionButton variant="brandSolid">
+          <ActionButton.PrefixIcon>
+            <IconPlusFill />
+          </ActionButton.PrefixIcon>
+          Prefix Icon
+        </ActionButton>
+        <ActionButton variant="neutralSolid">
+          Suffix Icon
+          <ActionButton.SuffixIcon>
+            <IconChevronDownFill />
+          </ActionButton.SuffixIcon>
+        </ActionButton>
+        <ActionButton variant="brandOutline">
+          <ActionButton.PrefixIcon>
+            <IconPlusFill />
+          </ActionButton.PrefixIcon>
+          Both
+          <ActionButton.SuffixIcon>
+            <IconChevronDownFill />
+          </ActionButton.SuffixIcon>
+        </ActionButton>
+        <ActionButton variant="brandSolid" disabled>
+          <ActionButton.PrefixIcon>
+            <IconPlusFill />
+          </ActionButton.PrefixIcon>
+          Disabled
         </ActionButton>
       </view>
     </scroll-view>

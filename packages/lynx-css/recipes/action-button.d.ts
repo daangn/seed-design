@@ -11,8 +11,7 @@ declare interface ActionButtonVariant {
   * @default "withText"
   */
   layout: "withText" | "iconOnly";
-  disabled?: boolean;
-  loading?: boolean;}
+}
 
 declare type ActionButtonVariantMap = {
   [key in keyof ActionButtonVariant]: Array<ActionButtonVariant[key]>;
@@ -20,7 +19,7 @@ declare type ActionButtonVariantMap = {
 
 export declare type ActionButtonVariantProps = Partial<ActionButtonVariant>;
 
-export declare type ActionButtonSlotName = "root" | "text";
+export declare type ActionButtonSlotName = "root" | "text" | "prefixIcon" | "suffixIcon";
 
 export declare const actionButtonVariantMap: ActionButtonVariantMap;
 
