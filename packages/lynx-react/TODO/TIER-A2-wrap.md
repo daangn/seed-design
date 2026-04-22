@@ -3,7 +3,7 @@
 복잡한 제스처·스프링 물리·프레즌스 상태 머신·플로팅 포지셔닝 로직을 [lynx-ui](https://github.com/lynx-family/lynx-ui)에서 가져온다. SEED는 컴포넌트 API와 스타일만 담당.
 
 **공통 규칙:**
-- `packages/lynx-react/package.json`의 `peerDependencies`에 사용하는 `@lynx-js/lynx-ui-*` 패키지를 등록한다.
+- `packages/lynx-react/package.json`의 `dependencies`에 사용하는 `@lynx-js/lynx-ui-*` 패키지를 등록한다.
 - 컴포넌트 JSDoc에 `@platform Lynx`로 내부적으로 어떤 lynx-ui 패키지를 감싸는지 명시한다.
 - SEED 공개 API는 웹(`@seed-design/react`)과 이름을 일치시킨다. **lynx-ui API 누출 금지.**
 
@@ -49,7 +49,7 @@
 - [ ] `src/components/BottomSheet/BottomSheet.tsx`
 - [ ] `docs/content/lynx/components/bottom-sheet.mdx`
 - [ ] `examples/lynx-spa/src/pages/BottomSheetPage.tsx`
-- [ ] `packages/lynx-react/package.json` peerDependencies: `@lynx-js/lynx-ui-sheet`
+- [ ] `packages/lynx-react/package.json` dependencies: `@lynx-js/lynx-ui-sheet`
 
 ---
 
@@ -80,7 +80,7 @@
 - [ ] `src/components/Dialog/Dialog.tsx`
 - [ ] `docs/content/lynx/components/dialog.mdx`
 - [ ] `examples/lynx-spa/src/pages/DialogPage.tsx`
-- [ ] `packages/lynx-react/package.json` peerDependencies: `@lynx-js/lynx-ui-dialog`
+- [ ] `packages/lynx-react/package.json` dependencies: `@lynx-js/lynx-ui-dialog`
 
 ---
 
@@ -131,7 +131,7 @@
 - [ ] `src/components/HelpBubble/HelpBubble.tsx`
 - [ ] `docs/content/lynx/components/help-bubble.mdx`
 - [ ] `examples/lynx-spa/src/pages/HelpBubblePage.tsx`
-- [ ] `packages/lynx-react/package.json` peerDependencies: `@lynx-js/lynx-ui-popover`
+- [ ] `packages/lynx-react/package.json` dependencies: `@lynx-js/lynx-ui-popover`
 
 ---
 
@@ -165,7 +165,7 @@
 - [ ] `src/components/PullToRefresh/PullToRefresh.tsx`
 - [ ] `docs/content/lynx/components/pull-to-refresh.mdx`
 - [ ] `examples/lynx-spa/src/pages/PullToRefreshPage.tsx`
-- [ ] `packages/lynx-react/package.json` peerDependencies: `@lynx-js/lynx-ui-common`
+- [ ] `packages/lynx-react/package.json` dependencies: `@lynx-js/lynx-ui-common`
 
 ---
 
@@ -204,4 +204,4 @@
 - [ ] `src/components/ScrollFog/ScrollFog.tsx`
 - [ ] `docs/content/lynx/components/scroll-fog.mdx`
 - [ ] `examples/lynx-spa/src/pages/ScrollFogPage.tsx`
-- [ ] `packages/lynx-react/package.json` peerDependencies: `@lynx-js/lynx-ui-scroll-view`, `@lynx-js/lynx-ui-common`
+- [ ] `packages/lynx-react/package.json` dependencies: `@lynx-js/lynx-ui-scroll-view`, `@lynx-js/lynx-ui-common`

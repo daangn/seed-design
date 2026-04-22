@@ -105,7 +105,7 @@ Phase 0(`useControllableState`, `usePressTap`)이 완료됐고, ActionButton·Pr
 
 Tier A2에 해당하면:
 
-- `packages/lynx-react/package.json`의 `peerDependencies`에 사용하는 `@lynx-js/lynx-ui-*` 패키지를 등록한다.
+- `packages/lynx-react/package.json`의 `dependencies`에 사용하는 `@lynx-js/lynx-ui-*` 패키지를 등록한다.
 - 컴포넌트 JSDoc에 `@platform Lynx`로 내부적으로 어떤 lynx-ui 패키지를 감싸는지 명시한다.
 - SEED 공개 API는 웹(`@seed-design/react`)과 이름을 일치시킨다. 내부 lynx-ui API 누출 금지.
 
